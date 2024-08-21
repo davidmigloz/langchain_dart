@@ -84,7 +84,7 @@ class AssistantToolsFileSearchFileSearch
     /// and 5 for gpt-3.5-turbo. This number should be between 1 and 50 inclusive.
     ///
     /// Note that the file search tool may output fewer than `max_num_results` results. See the [file search
-    /// tool documentation](/docs/assistants/tools/file-search/number-of-chunks-returned) for more information.
+    /// tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/number-of-chunks-returned) for more information.
     @JsonKey(name: 'max_num_results', includeIfNull: false) int? maxNumResults,
   }) = _AssistantToolsFileSearchFileSearch;
 

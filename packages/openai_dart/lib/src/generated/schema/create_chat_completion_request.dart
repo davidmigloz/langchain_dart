@@ -55,13 +55,16 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     @Default(0.0)
     double? presencePenalty,
 
-    /// An object specifying the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+    /// An object specifying the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4o mini](https://platform.openai.com/docs/models/gpt-4o-mini), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+    ///
+    /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees the model will match your supplied JSON schema. Learn more in the [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
     ///
     /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
     ///
     /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+    /// Any of: [ResponseFormatText], [ResponseFormatJsonObject], [ResponseFormatJsonSchema]
     @JsonKey(name: 'response_format', includeIfNull: false)
-    ChatCompletionResponseFormat? responseFormat,
+    ResponseFormat? responseFormat,
 
     /// This feature is in Beta.
     /// If specified, our system will make a best effort to sample deterministically, such that repeated requests with the same `seed` and parameters should return the same result.
@@ -274,6 +277,8 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
 
 /// Available completion models. Mind that the list may not be exhaustive nor up-to-date.
 enum ChatCompletionModels {
+  @JsonValue('chatgpt-4o-latest')
+  chatgpt4oLatest,
   @JsonValue('gpt-4')
   gpt4,
   @JsonValue('gpt-4-32k')
@@ -376,46 +381,6 @@ class _ChatCompletionModelConverter
       ChatCompletionModelEnumeration(value: final v) =>
         _$ChatCompletionModelsEnumMap[v]!,
       ChatCompletionModelString(value: final v) => v,
-    };
-  }
-}
-
-// ==========================================
-// CLASS: ChatCompletionResponseFormat
-// ==========================================
-
-/// An object specifying the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
-///
-/// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
-///
-/// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
-@freezed
-class ChatCompletionResponseFormat with _$ChatCompletionResponseFormat {
-  const ChatCompletionResponseFormat._();
-
-  /// Factory constructor for ChatCompletionResponseFormat
-  const factory ChatCompletionResponseFormat({
-    /// Must be one of `text` or `json_object`.
-    @Default(ChatCompletionResponseFormatType.text)
-    ChatCompletionResponseFormatType type,
-  }) = _ChatCompletionResponseFormat;
-
-  /// Object construction from a JSON representation
-  factory ChatCompletionResponseFormat.fromJson(Map<String, dynamic> json) =>
-      _$ChatCompletionResponseFormatFromJson(json);
-
-  /// List of all property names of schema
-  static const List<String> propertyNames = ['type'];
-
-  /// Perform validations on the schema property values
-  String? validateSchema() {
-    return null;
-  }
-
-  /// Map representation of object (not serialized)
-  Map<String, dynamic> toMap() {
-    return {
-      'type': type,
     };
   }
 }
@@ -668,16 +633,4 @@ class _ChatCompletionFunctionCallConverter
       null => null,
     };
   }
-}
-
-// ==========================================
-// ENUM: ChatCompletionResponseFormatType
-// ==========================================
-
-/// Must be one of `text` or `json_object`.
-enum ChatCompletionResponseFormatType {
-  @JsonValue('text')
-  text,
-  @JsonValue('json_object')
-  jsonObject,
 }

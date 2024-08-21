@@ -320,7 +320,7 @@ _$CreateChatCompletionRequestImpl _$$CreateChatCompletionRequestImplFromJson(
       presencePenalty: (json['presence_penalty'] as num?)?.toDouble() ?? 0.0,
       responseFormat: json['response_format'] == null
           ? null
-          : ChatCompletionResponseFormat.fromJson(
+          : ResponseFormat.fromJson(
               json['response_format'] as Map<String, dynamic>),
       seed: (json['seed'] as num?)?.toInt(),
       serviceTier: $enumDecodeNullable(
@@ -414,6 +414,7 @@ Map<String, dynamic> _$$ChatCompletionModelEnumerationImplToJson(
     };
 
 const _$ChatCompletionModelsEnumMap = {
+  ChatCompletionModels.chatgpt4oLatest: 'chatgpt-4o-latest',
   ChatCompletionModels.gpt4: 'gpt-4',
   ChatCompletionModels.gpt432k: 'gpt-4-32k',
   ChatCompletionModels.gpt432k0314: 'gpt-4-32k-0314',
@@ -453,25 +454,6 @@ Map<String, dynamic> _$$ChatCompletionModelStringImplToJson(
       'value': instance.value,
       'runtimeType': instance.$type,
     };
-
-_$ChatCompletionResponseFormatImpl _$$ChatCompletionResponseFormatImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ChatCompletionResponseFormatImpl(
-      type: $enumDecodeNullable(
-              _$ChatCompletionResponseFormatTypeEnumMap, json['type']) ??
-          ChatCompletionResponseFormatType.text,
-    );
-
-Map<String, dynamic> _$$ChatCompletionResponseFormatImplToJson(
-        _$ChatCompletionResponseFormatImpl instance) =>
-    <String, dynamic>{
-      'type': _$ChatCompletionResponseFormatTypeEnumMap[instance.type]!,
-    };
-
-const _$ChatCompletionResponseFormatTypeEnumMap = {
-  ChatCompletionResponseFormatType.text: 'text',
-  ChatCompletionResponseFormatType.jsonObject: 'json_object',
-};
 
 _$ChatCompletionStopListStringImpl _$$ChatCompletionStopListStringImplFromJson(
         Map<String, dynamic> json) =>
@@ -611,6 +593,7 @@ _$FunctionObjectImpl _$$FunctionObjectImplFromJson(Map<String, dynamic> json) =>
       name: json['name'] as String,
       description: json['description'] as String?,
       parameters: json['parameters'] as Map<String, dynamic>?,
+      strict: json['strict'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$FunctionObjectImplToJson(
@@ -627,6 +610,34 @@ Map<String, dynamic> _$$FunctionObjectImplToJson(
 
   writeNotNull('description', instance.description);
   writeNotNull('parameters', instance.parameters);
+  writeNotNull('strict', instance.strict);
+  return val;
+}
+
+_$JsonSchemaObjectImpl _$$JsonSchemaObjectImplFromJson(
+        Map<String, dynamic> json) =>
+    _$JsonSchemaObjectImpl(
+      name: json['name'] as String,
+      description: json['description'] as String?,
+      schema: json['schema'] as Map<String, dynamic>,
+      strict: json['strict'] as bool? ?? false,
+    );
+
+Map<String, dynamic> _$$JsonSchemaObjectImplToJson(
+    _$JsonSchemaObjectImpl instance) {
+  final val = <String, dynamic>{
+    'name': instance.name,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('description', instance.description);
+  val['schema'] = instance.schema;
+  writeNotNull('strict', instance.strict);
   return val;
 }
 
@@ -808,10 +819,18 @@ _$ChatCompletionLogprobsImpl _$$ChatCompletionLogprobsImplFromJson(
     );
 
 Map<String, dynamic> _$$ChatCompletionLogprobsImplToJson(
-        _$ChatCompletionLogprobsImpl instance) =>
-    <String, dynamic>{
-      'content': instance.content?.map((e) => e.toJson()).toList(),
-    };
+    _$ChatCompletionLogprobsImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('content', instance.content?.map((e) => e.toJson()).toList());
+  return val;
+}
 
 _$ChatCompletionTokenLogprobImpl _$$ChatCompletionTokenLogprobImplFromJson(
         Map<String, dynamic> json) =>
@@ -942,16 +961,25 @@ _$ChatCompletionStreamResponseChoiceLogprobsImpl
         );
 
 Map<String, dynamic> _$$ChatCompletionStreamResponseChoiceLogprobsImplToJson(
-        _$ChatCompletionStreamResponseChoiceLogprobsImpl instance) =>
-    <String, dynamic>{
-      'content': instance.content?.map((e) => e.toJson()).toList(),
-    };
+    _$ChatCompletionStreamResponseChoiceLogprobsImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('content', instance.content?.map((e) => e.toJson()).toList());
+  return val;
+}
 
 _$ChatCompletionStreamResponseDeltaImpl
     _$$ChatCompletionStreamResponseDeltaImplFromJson(
             Map<String, dynamic> json) =>
         _$ChatCompletionStreamResponseDeltaImpl(
           content: json['content'] as String?,
+          refusal: json['refusal'] as String?,
           functionCall: json['function_call'] == null
               ? null
               : ChatCompletionStreamMessageFunctionCall.fromJson(
@@ -976,6 +1004,7 @@ Map<String, dynamic> _$$ChatCompletionStreamResponseDeltaImplToJson(
   }
 
   writeNotNull('content', instance.content);
+  writeNotNull('refusal', instance.refusal);
   writeNotNull('function_call', instance.functionCall?.toJson());
   writeNotNull(
       'tool_calls', instance.toolCalls?.map((e) => e.toJson()).toList());
@@ -2185,22 +2214,19 @@ Map<String, dynamic> _$$AssistantObjectResponseFormatEnumerationImplToJson(
     };
 
 const _$AssistantResponseFormatModeEnumMap = {
-  AssistantResponseFormatMode.none: 'none',
   AssistantResponseFormatMode.auto: 'auto',
 };
 
-_$AssistantObjectResponseFormatAssistantsResponseFormatImpl
-    _$$AssistantObjectResponseFormatAssistantsResponseFormatImplFromJson(
+_$AssistantObjectResponseFormatResponseFormatImpl
+    _$$AssistantObjectResponseFormatResponseFormatImplFromJson(
             Map<String, dynamic> json) =>
-        _$AssistantObjectResponseFormatAssistantsResponseFormatImpl(
-          AssistantsResponseFormat.fromJson(
-              json['value'] as Map<String, dynamic>),
+        _$AssistantObjectResponseFormatResponseFormatImpl(
+          ResponseFormat.fromJson(json['value'] as Map<String, dynamic>),
           $type: json['runtimeType'] as String?,
         );
 
-Map<String,
-    dynamic> _$$AssistantObjectResponseFormatAssistantsResponseFormatImplToJson(
-        _$AssistantObjectResponseFormatAssistantsResponseFormatImpl instance) =>
+Map<String, dynamic> _$$AssistantObjectResponseFormatResponseFormatImplToJson(
+        _$AssistantObjectResponseFormatResponseFormatImpl instance) =>
     <String, dynamic>{
       'value': instance.value.toJson(),
       'runtimeType': instance.$type,
@@ -2328,27 +2354,24 @@ Map<String, dynamic>
         };
 
 const _$CreateAssistantResponseFormatModeEnumMap = {
-  CreateAssistantResponseFormatMode.none: 'none',
   CreateAssistantResponseFormatMode.auto: 'auto',
 };
 
-_$CreateAssistantRequestResponseFormatAssistantsResponseFormatImpl
-    _$$CreateAssistantRequestResponseFormatAssistantsResponseFormatImplFromJson(
+_$CreateAssistantRequestResponseFormatResponseFormatImpl
+    _$$CreateAssistantRequestResponseFormatResponseFormatImplFromJson(
             Map<String, dynamic> json) =>
-        _$CreateAssistantRequestResponseFormatAssistantsResponseFormatImpl(
-          AssistantsResponseFormat.fromJson(
-              json['value'] as Map<String, dynamic>),
+        _$CreateAssistantRequestResponseFormatResponseFormatImpl(
+          ResponseFormat.fromJson(json['value'] as Map<String, dynamic>),
           $type: json['runtimeType'] as String?,
         );
 
-Map<String, dynamic>
-    _$$CreateAssistantRequestResponseFormatAssistantsResponseFormatImplToJson(
-            _$CreateAssistantRequestResponseFormatAssistantsResponseFormatImpl
-                instance) =>
-        <String, dynamic>{
-          'value': instance.value.toJson(),
-          'runtimeType': instance.$type,
-        };
+Map<String,
+    dynamic> _$$CreateAssistantRequestResponseFormatResponseFormatImplToJson(
+        _$CreateAssistantRequestResponseFormatResponseFormatImpl instance) =>
+    <String, dynamic>{
+      'value': instance.value.toJson(),
+      'runtimeType': instance.$type,
+    };
 
 _$ModifyAssistantRequestImpl _$$ModifyAssistantRequestImplFromJson(
         Map<String, dynamic> json) =>
@@ -2421,27 +2444,24 @@ Map<String, dynamic>
         };
 
 const _$ModifyAssistantResponseFormatModeEnumMap = {
-  ModifyAssistantResponseFormatMode.none: 'none',
   ModifyAssistantResponseFormatMode.auto: 'auto',
 };
 
-_$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImpl
-    _$$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImplFromJson(
+_$ModifyAssistantRequestResponseFormatResponseFormatImpl
+    _$$ModifyAssistantRequestResponseFormatResponseFormatImplFromJson(
             Map<String, dynamic> json) =>
-        _$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImpl(
-          AssistantsResponseFormat.fromJson(
-              json['value'] as Map<String, dynamic>),
+        _$ModifyAssistantRequestResponseFormatResponseFormatImpl(
+          ResponseFormat.fromJson(json['value'] as Map<String, dynamic>),
           $type: json['runtimeType'] as String?,
         );
 
-Map<String, dynamic>
-    _$$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImplToJson(
-            _$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImpl
-                instance) =>
-        <String, dynamic>{
-          'value': instance.value.toJson(),
-          'runtimeType': instance.$type,
-        };
+Map<String,
+    dynamic> _$$ModifyAssistantRequestResponseFormatResponseFormatImplToJson(
+        _$ModifyAssistantRequestResponseFormatResponseFormatImpl instance) =>
+    <String, dynamic>{
+      'value': instance.value.toJson(),
+      'runtimeType': instance.$type,
+    };
 
 _$DeleteAssistantResponseImpl _$$DeleteAssistantResponseImplFromJson(
         Map<String, dynamic> json) =>
@@ -2529,25 +2549,6 @@ Map<String, dynamic> _$$AssistantsFunctionCallOptionImplToJson(
     <String, dynamic>{
       'name': instance.name,
     };
-
-_$AssistantsResponseFormatImpl _$$AssistantsResponseFormatImplFromJson(
-        Map<String, dynamic> json) =>
-    _$AssistantsResponseFormatImpl(
-      type: $enumDecodeNullable(
-              _$AssistantsResponseFormatTypeEnumMap, json['type']) ??
-          AssistantsResponseFormatType.text,
-    );
-
-Map<String, dynamic> _$$AssistantsResponseFormatImplToJson(
-        _$AssistantsResponseFormatImpl instance) =>
-    <String, dynamic>{
-      'type': _$AssistantsResponseFormatTypeEnumMap[instance.type]!,
-    };
-
-const _$AssistantsResponseFormatTypeEnumMap = {
-  AssistantsResponseFormatType.text: 'text',
-  AssistantsResponseFormatType.jsonObject: 'json_object',
-};
 
 _$TruncationObjectImpl _$$TruncationObjectImplFromJson(
         Map<String, dynamic> json) =>
@@ -2800,26 +2801,23 @@ Map<String, dynamic> _$$RunObjectResponseFormatEnumerationImplToJson(
     };
 
 const _$RunObjectResponseFormatModeEnumMap = {
-  RunObjectResponseFormatMode.none: 'none',
   RunObjectResponseFormatMode.auto: 'auto',
 };
 
-_$RunObjectResponseFormatAssistantsResponseFormatImpl
-    _$$RunObjectResponseFormatAssistantsResponseFormatImplFromJson(
+_$RunObjectResponseFormatResponseFormatImpl
+    _$$RunObjectResponseFormatResponseFormatImplFromJson(
             Map<String, dynamic> json) =>
-        _$RunObjectResponseFormatAssistantsResponseFormatImpl(
-          AssistantsResponseFormat.fromJson(
-              json['value'] as Map<String, dynamic>),
+        _$RunObjectResponseFormatResponseFormatImpl(
+          ResponseFormat.fromJson(json['value'] as Map<String, dynamic>),
           $type: json['runtimeType'] as String?,
         );
 
-Map<String, dynamic>
-    _$$RunObjectResponseFormatAssistantsResponseFormatImplToJson(
-            _$RunObjectResponseFormatAssistantsResponseFormatImpl instance) =>
-        <String, dynamic>{
-          'value': instance.value.toJson(),
-          'runtimeType': instance.$type,
-        };
+Map<String, dynamic> _$$RunObjectResponseFormatResponseFormatImplToJson(
+        _$RunObjectResponseFormatResponseFormatImpl instance) =>
+    <String, dynamic>{
+      'value': instance.value.toJson(),
+      'runtimeType': instance.$type,
+    };
 
 _$RunSubmitToolOutputsImpl _$$RunSubmitToolOutputsImplFromJson(
         Map<String, dynamic> json) =>
@@ -3028,27 +3026,23 @@ Map<String, dynamic> _$$CreateRunRequestResponseFormatEnumerationImplToJson(
     };
 
 const _$CreateRunRequestResponseFormatModeEnumMap = {
-  CreateRunRequestResponseFormatMode.none: 'none',
   CreateRunRequestResponseFormatMode.auto: 'auto',
 };
 
-_$CreateRunRequestResponseFormatAssistantsResponseFormatImpl
-    _$$CreateRunRequestResponseFormatAssistantsResponseFormatImplFromJson(
+_$CreateRunRequestResponseFormatResponseFormatImpl
+    _$$CreateRunRequestResponseFormatResponseFormatImplFromJson(
             Map<String, dynamic> json) =>
-        _$CreateRunRequestResponseFormatAssistantsResponseFormatImpl(
-          AssistantsResponseFormat.fromJson(
-              json['value'] as Map<String, dynamic>),
+        _$CreateRunRequestResponseFormatResponseFormatImpl(
+          ResponseFormat.fromJson(json['value'] as Map<String, dynamic>),
           $type: json['runtimeType'] as String?,
         );
 
-Map<String, dynamic>
-    _$$CreateRunRequestResponseFormatAssistantsResponseFormatImplToJson(
-            _$CreateRunRequestResponseFormatAssistantsResponseFormatImpl
-                instance) =>
-        <String, dynamic>{
-          'value': instance.value.toJson(),
-          'runtimeType': instance.$type,
-        };
+Map<String, dynamic> _$$CreateRunRequestResponseFormatResponseFormatImplToJson(
+        _$CreateRunRequestResponseFormatResponseFormatImpl instance) =>
+    <String, dynamic>{
+      'value': instance.value.toJson(),
+      'runtimeType': instance.$type,
+    };
 
 _$ListRunsResponseImpl _$$ListRunsResponseImplFromJson(
         Map<String, dynamic> json) =>
@@ -3361,27 +3355,24 @@ Map<String,
     };
 
 const _$CreateThreadAndRunRequestResponseFormatModeEnumMap = {
-  CreateThreadAndRunRequestResponseFormatMode.none: 'none',
   CreateThreadAndRunRequestResponseFormatMode.auto: 'auto',
 };
 
-_$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl
-    _$$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImplFromJson(
+_$CreateThreadAndRunRequestResponseFormatResponseFormatImpl
+    _$$CreateThreadAndRunRequestResponseFormatResponseFormatImplFromJson(
             Map<String, dynamic> json) =>
-        _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl(
-          AssistantsResponseFormat.fromJson(
-              json['value'] as Map<String, dynamic>),
+        _$CreateThreadAndRunRequestResponseFormatResponseFormatImpl(
+          ResponseFormat.fromJson(json['value'] as Map<String, dynamic>),
           $type: json['runtimeType'] as String?,
         );
 
-Map<String, dynamic>
-    _$$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImplToJson(
-            _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl
-                instance) =>
-        <String, dynamic>{
-          'value': instance.value.toJson(),
-          'runtimeType': instance.$type,
-        };
+Map<String,
+    dynamic> _$$CreateThreadAndRunRequestResponseFormatResponseFormatImplToJson(
+        _$CreateThreadAndRunRequestResponseFormatResponseFormatImpl instance) =>
+    <String, dynamic>{
+      'value': instance.value.toJson(),
+      'runtimeType': instance.$type,
+    };
 
 _$ThreadObjectImpl _$$ThreadObjectImplFromJson(Map<String, dynamic> json) =>
     _$ThreadObjectImpl(
@@ -3967,34 +3958,6 @@ Map<String, dynamic> _$$MessageContentTextAnnotationsFileCitationImplToJson(
     <String, dynamic>{
       'file_id': instance.fileId,
     };
-
-_$MessageDeltaContentImageUrlObjectImpl
-    _$$MessageDeltaContentImageUrlObjectImplFromJson(
-            Map<String, dynamic> json) =>
-        _$MessageDeltaContentImageUrlObjectImpl(
-          index: (json['index'] as num?)?.toInt(),
-          type: json['type'] as String?,
-          imageUrl: json['image_url'] == null
-              ? null
-              : MessageContentImageUrl.fromJson(
-                  json['image_url'] as Map<String, dynamic>),
-        );
-
-Map<String, dynamic> _$$MessageDeltaContentImageUrlObjectImplToJson(
-    _$MessageDeltaContentImageUrlObjectImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('index', instance.index);
-  writeNotNull('type', instance.type);
-  writeNotNull('image_url', instance.imageUrl?.toJson());
-  return val;
-}
 
 _$MessageDeltaContentTextImpl _$$MessageDeltaContentTextImplFromJson(
         Map<String, dynamic> json) =>
@@ -5038,6 +5001,7 @@ _$ChatCompletionAssistantMessageImpl
                   _$ChatCompletionMessageRoleEnumMap, json['role']) ??
               ChatCompletionMessageRole.assistant,
           content: json['content'] as String?,
+          refusal: json['refusal'] as String?,
           name: json['name'] as String?,
           toolCalls: (json['tool_calls'] as List<dynamic>?)
               ?.map((e) => ChatCompletionMessageToolCall.fromJson(
@@ -5062,6 +5026,7 @@ Map<String, dynamic> _$$ChatCompletionAssistantMessageImplToJson(
   }
 
   writeNotNull('content', instance.content);
+  writeNotNull('refusal', instance.refusal);
   writeNotNull('name', instance.name);
   writeNotNull(
       'tool_calls', instance.toolCalls?.map((e) => e.toJson()).toList());
@@ -5159,6 +5124,7 @@ Map<String, dynamic> _$$ChatCompletionMessageContentPartTextImplToJson(
 const _$ChatCompletionMessageContentPartTypeEnumMap = {
   ChatCompletionMessageContentPartType.text: 'text',
   ChatCompletionMessageContentPartType.imageUrl: 'image_url',
+  ChatCompletionMessageContentPartType.refusal: 'refusal',
 };
 
 _$ChatCompletionMessageContentPartImageImpl
@@ -5178,6 +5144,24 @@ Map<String, dynamic> _$$ChatCompletionMessageContentPartImageImplToJson(
     <String, dynamic>{
       'type': _$ChatCompletionMessageContentPartTypeEnumMap[instance.type]!,
       'image_url': instance.imageUrl.toJson(),
+    };
+
+_$ChatCompletionMessageContentPartRefusalImpl
+    _$$ChatCompletionMessageContentPartRefusalImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ChatCompletionMessageContentPartRefusalImpl(
+          type: $enumDecodeNullable(
+                  _$ChatCompletionMessageContentPartTypeEnumMap,
+                  json['type']) ??
+              ChatCompletionMessageContentPartType.refusal,
+          refusal: json['refusal'] as String,
+        );
+
+Map<String, dynamic> _$$ChatCompletionMessageContentPartRefusalImplToJson(
+        _$ChatCompletionMessageContentPartRefusalImpl instance) =>
+    <String, dynamic>{
+      'type': _$ChatCompletionMessageContentPartTypeEnumMap[instance.type]!,
+      'refusal': instance.refusal,
     };
 
 _$ChatCompletionMessageImageUrlImpl
@@ -5201,6 +5185,54 @@ const _$ChatCompletionMessageImageDetailEnumMap = {
   ChatCompletionMessageImageDetail.low: 'low',
   ChatCompletionMessageImageDetail.high: 'high',
 };
+
+_$ResponseFormatTextImpl _$$ResponseFormatTextImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ResponseFormatTextImpl(
+      type: $enumDecodeNullable(_$ResponseFormatTypeEnumMap, json['type']) ??
+          ResponseFormatType.text,
+    );
+
+Map<String, dynamic> _$$ResponseFormatTextImplToJson(
+        _$ResponseFormatTextImpl instance) =>
+    <String, dynamic>{
+      'type': _$ResponseFormatTypeEnumMap[instance.type]!,
+    };
+
+const _$ResponseFormatTypeEnumMap = {
+  ResponseFormatType.text: 'text',
+  ResponseFormatType.jsonObject: 'json_object',
+  ResponseFormatType.jsonSchema: 'json_schema',
+};
+
+_$ResponseFormatJsonObjectImpl _$$ResponseFormatJsonObjectImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ResponseFormatJsonObjectImpl(
+      type: $enumDecodeNullable(_$ResponseFormatTypeEnumMap, json['type']) ??
+          ResponseFormatType.jsonObject,
+    );
+
+Map<String, dynamic> _$$ResponseFormatJsonObjectImplToJson(
+        _$ResponseFormatJsonObjectImpl instance) =>
+    <String, dynamic>{
+      'type': _$ResponseFormatTypeEnumMap[instance.type]!,
+    };
+
+_$ResponseFormatJsonSchemaImpl _$$ResponseFormatJsonSchemaImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ResponseFormatJsonSchemaImpl(
+      type: $enumDecodeNullable(_$ResponseFormatTypeEnumMap, json['type']) ??
+          ResponseFormatType.jsonSchema,
+      jsonSchema: JsonSchemaObject.fromJson(
+          json['json_schema'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$ResponseFormatJsonSchemaImplToJson(
+        _$ResponseFormatJsonSchemaImpl instance) =>
+    <String, dynamic>{
+      'type': _$ResponseFormatTypeEnumMap[instance.type]!,
+      'json_schema': instance.jsonSchema.toJson(),
+    };
 
 _$AssistantToolsCodeInterpreterImpl
     _$$AssistantToolsCodeInterpreterImplFromJson(Map<String, dynamic> json) =>
@@ -5320,6 +5352,20 @@ Map<String, dynamic> _$$MessageContentTextObjectImplToJson(
       'text': instance.text.toJson(),
     };
 
+_$MessageContentRefusalObjectImpl _$$MessageContentRefusalObjectImplFromJson(
+        Map<String, dynamic> json) =>
+    _$MessageContentRefusalObjectImpl(
+      type: json['type'] as String,
+      refusal: json['refusal'] as String,
+    );
+
+Map<String, dynamic> _$$MessageContentRefusalObjectImplToJson(
+        _$MessageContentRefusalObjectImpl instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      'refusal': instance.refusal,
+    };
+
 _$MessageDeltaContentImageFileObjectImpl
     _$$MessageDeltaContentImageFileObjectImplFromJson(
             Map<String, dynamic> json) =>
@@ -5374,6 +5420,61 @@ Map<String, dynamic> _$$MessageDeltaContentTextObjectImplToJson(
   }
 
   writeNotNull('text', instance.text?.toJson());
+  return val;
+}
+
+_$MessageDeltaContentRefusalObjectImpl
+    _$$MessageDeltaContentRefusalObjectImplFromJson(
+            Map<String, dynamic> json) =>
+        _$MessageDeltaContentRefusalObjectImpl(
+          index: (json['index'] as num).toInt(),
+          type: json['type'] as String,
+          refusal: json['refusal'] as String?,
+        );
+
+Map<String, dynamic> _$$MessageDeltaContentRefusalObjectImplToJson(
+    _$MessageDeltaContentRefusalObjectImpl instance) {
+  final val = <String, dynamic>{
+    'index': instance.index,
+    'type': instance.type,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('refusal', instance.refusal);
+  return val;
+}
+
+_$MessageDeltaContentImageUrlObjectImpl
+    _$$MessageDeltaContentImageUrlObjectImplFromJson(
+            Map<String, dynamic> json) =>
+        _$MessageDeltaContentImageUrlObjectImpl(
+          index: (json['index'] as num).toInt(),
+          type: json['type'] as String,
+          imageUrl: json['image_url'] == null
+              ? null
+              : MessageContentImageUrl.fromJson(
+                  json['image_url'] as Map<String, dynamic>),
+        );
+
+Map<String, dynamic> _$$MessageDeltaContentImageUrlObjectImplToJson(
+    _$MessageDeltaContentImageUrlObjectImpl instance) {
+  final val = <String, dynamic>{
+    'index': instance.index,
+    'type': instance.type,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('image_url', instance.imageUrl?.toJson());
   return val;
 }
 

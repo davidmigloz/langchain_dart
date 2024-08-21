@@ -4,3 +4,4 @@
 .dart_tool/
 /pubspec.lock
 .vscode/
+.aider*

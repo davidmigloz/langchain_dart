@@ -3574,14 +3574,16 @@ mixin _$CreateChatCompletionRequest {
   @JsonKey(name: 'presence_penalty', includeIfNull: false)
   double? get presencePenalty => throw _privateConstructorUsedError;
 
-  /// An object specifying the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  /// An object specifying the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4o mini](https://platform.openai.com/docs/models/gpt-4o-mini), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  ///
+  /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees the model will match your supplied JSON schema. Learn more in the [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
   ///
   /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  /// Any of: [ResponseFormatText], [ResponseFormatJsonObject], [ResponseFormatJsonSchema]
   @JsonKey(name: 'response_format', includeIfNull: false)
-  ChatCompletionResponseFormat? get responseFormat =>
-      throw _privateConstructorUsedError;
+  ResponseFormat? get responseFormat => throw _privateConstructorUsedError;
 
   /// This feature is in Beta.
   /// If specified, our system will make a best effort to sample deterministically, such that repeated requests with the same `seed` and parameters should return the same result.
@@ -3706,7 +3708,7 @@ abstract class $CreateChatCompletionRequestCopyWith<$Res> {
       @JsonKey(name: 'presence_penalty', includeIfNull: false)
       double? presencePenalty,
       @JsonKey(name: 'response_format', includeIfNull: false)
-      ChatCompletionResponseFormat? responseFormat,
+      ResponseFormat? responseFormat,
       @JsonKey(includeIfNull: false) int? seed,
       @JsonKey(
           name: 'service_tier',
@@ -3734,7 +3736,7 @@ abstract class $CreateChatCompletionRequestCopyWith<$Res> {
       @JsonKey(includeIfNull: false) List<FunctionObject>? functions});
 
   $ChatCompletionModelCopyWith<$Res> get model;
-  $ChatCompletionResponseFormatCopyWith<$Res>? get responseFormat;
+  $ResponseFormatCopyWith<$Res>? get responseFormat;
   $ChatCompletionStopCopyWith<$Res>? get stop;
   $ChatCompletionStreamOptionsCopyWith<$Res>? get streamOptions;
   $ChatCompletionToolChoiceOptionCopyWith<$Res>? get toolChoice;
@@ -3821,7 +3823,7 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res,
       responseFormat: freezed == responseFormat
           ? _value.responseFormat
           : responseFormat // ignore: cast_nullable_to_non_nullable
-              as ChatCompletionResponseFormat?,
+              as ResponseFormat?,
       seed: freezed == seed
           ? _value.seed
           : seed // ignore: cast_nullable_to_non_nullable
@@ -3891,13 +3893,12 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res,
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $ChatCompletionResponseFormatCopyWith<$Res>? get responseFormat {
+  $ResponseFormatCopyWith<$Res>? get responseFormat {
     if (_value.responseFormat == null) {
       return null;
     }
 
-    return $ChatCompletionResponseFormatCopyWith<$Res>(_value.responseFormat!,
-        (value) {
+    return $ResponseFormatCopyWith<$Res>(_value.responseFormat!, (value) {
       return _then(_value.copyWith(responseFormat: value) as $Val);
     });
   }
@@ -3985,7 +3986,7 @@ abstract class _$$CreateChatCompletionRequestImplCopyWith<$Res>
       @JsonKey(name: 'presence_penalty', includeIfNull: false)
       double? presencePenalty,
       @JsonKey(name: 'response_format', includeIfNull: false)
-      ChatCompletionResponseFormat? responseFormat,
+      ResponseFormat? responseFormat,
       @JsonKey(includeIfNull: false) int? seed,
       @JsonKey(
           name: 'service_tier',
@@ -4015,7 +4016,7 @@ abstract class _$$CreateChatCompletionRequestImplCopyWith<$Res>
   @override
   $ChatCompletionModelCopyWith<$Res> get model;
   @override
-  $ChatCompletionResponseFormatCopyWith<$Res>? get responseFormat;
+  $ResponseFormatCopyWith<$Res>? get responseFormat;
   @override
   $ChatCompletionStopCopyWith<$Res>? get stop;
   @override
@@ -4105,7 +4106,7 @@ class __$$CreateChatCompletionRequestImplCopyWithImpl<$Res>
       responseFormat: freezed == responseFormat
           ? _value.responseFormat
           : responseFormat // ignore: cast_nullable_to_non_nullable
-              as ChatCompletionResponseFormat?,
+              as ResponseFormat?,
       seed: freezed == seed
           ? _value.seed
           : seed // ignore: cast_nullable_to_non_nullable
@@ -4282,14 +4283,17 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
   @JsonKey(name: 'presence_penalty', includeIfNull: false)
   final double? presencePenalty;
 
-  /// An object specifying the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  /// An object specifying the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4o mini](https://platform.openai.com/docs/models/gpt-4o-mini), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  ///
+  /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees the model will match your supplied JSON schema. Learn more in the [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
   ///
   /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  /// Any of: [ResponseFormatText], [ResponseFormatJsonObject], [ResponseFormatJsonSchema]
   @override
   @JsonKey(name: 'response_format', includeIfNull: false)
-  final ChatCompletionResponseFormat? responseFormat;
+  final ResponseFormat? responseFormat;
 
   /// This feature is in Beta.
   /// If specified, our system will make a best effort to sample deterministically, such that repeated requests with the same `seed` and parameters should return the same result.
@@ -4524,7 +4528,7 @@ abstract class _CreateChatCompletionRequest
       @JsonKey(name: 'presence_penalty', includeIfNull: false)
       final double? presencePenalty,
       @JsonKey(name: 'response_format', includeIfNull: false)
-      final ChatCompletionResponseFormat? responseFormat,
+      final ResponseFormat? responseFormat,
       @JsonKey(includeIfNull: false) final int? seed,
       @JsonKey(
           name: 'service_tier',
@@ -4609,14 +4613,17 @@ abstract class _CreateChatCompletionRequest
   @JsonKey(name: 'presence_penalty', includeIfNull: false)
   double? get presencePenalty;
 
-  /// An object specifying the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  /// An object specifying the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4o mini](https://platform.openai.com/docs/models/gpt-4o-mini), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  ///
+  /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees the model will match your supplied JSON schema. Learn more in the [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
   ///
   /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  /// Any of: [ResponseFormatText], [ResponseFormatJsonObject], [ResponseFormatJsonSchema]
   @override
   @JsonKey(name: 'response_format', includeIfNull: false)
-  ChatCompletionResponseFormat? get responseFormat;
+  ResponseFormat? get responseFormat;
 
   /// This feature is in Beta.
   /// If specified, our system will make a best effort to sample deterministically, such that repeated requests with the same `seed` and parameters should return the same result.
@@ -5139,177 +5146,6 @@ abstract class ChatCompletionModelString extends ChatCompletionModel {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionModelStringImplCopyWith<_$ChatCompletionModelStringImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-ChatCompletionResponseFormat _$ChatCompletionResponseFormatFromJson(
-    Map<String, dynamic> json) {
-  return _ChatCompletionResponseFormat.fromJson(json);
-}
-
-/// @nodoc
-mixin _$ChatCompletionResponseFormat {
-  /// Must be one of `text` or `json_object`.
-  ChatCompletionResponseFormatType get type =>
-      throw _privateConstructorUsedError;
-
-  /// Serializes this ChatCompletionResponseFormat to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of ChatCompletionResponseFormat
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $ChatCompletionResponseFormatCopyWith<ChatCompletionResponseFormat>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ChatCompletionResponseFormatCopyWith<$Res> {
-  factory $ChatCompletionResponseFormatCopyWith(
-          ChatCompletionResponseFormat value,
-          $Res Function(ChatCompletionResponseFormat) then) =
-      _$ChatCompletionResponseFormatCopyWithImpl<$Res,
-          ChatCompletionResponseFormat>;
-  @useResult
-  $Res call({ChatCompletionResponseFormatType type});
-}
-
-/// @nodoc
-class _$ChatCompletionResponseFormatCopyWithImpl<$Res,
-        $Val extends ChatCompletionResponseFormat>
-    implements $ChatCompletionResponseFormatCopyWith<$Res> {
-  _$ChatCompletionResponseFormatCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of ChatCompletionResponseFormat
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? type = null,
-  }) {
-    return _then(_value.copyWith(
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as ChatCompletionResponseFormatType,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$ChatCompletionResponseFormatImplCopyWith<$Res>
-    implements $ChatCompletionResponseFormatCopyWith<$Res> {
-  factory _$$ChatCompletionResponseFormatImplCopyWith(
-          _$ChatCompletionResponseFormatImpl value,
-          $Res Function(_$ChatCompletionResponseFormatImpl) then) =
-      __$$ChatCompletionResponseFormatImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({ChatCompletionResponseFormatType type});
-}
-
-/// @nodoc
-class __$$ChatCompletionResponseFormatImplCopyWithImpl<$Res>
-    extends _$ChatCompletionResponseFormatCopyWithImpl<$Res,
-        _$ChatCompletionResponseFormatImpl>
-    implements _$$ChatCompletionResponseFormatImplCopyWith<$Res> {
-  __$$ChatCompletionResponseFormatImplCopyWithImpl(
-      _$ChatCompletionResponseFormatImpl _value,
-      $Res Function(_$ChatCompletionResponseFormatImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of ChatCompletionResponseFormat
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? type = null,
-  }) {
-    return _then(_$ChatCompletionResponseFormatImpl(
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as ChatCompletionResponseFormatType,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$ChatCompletionResponseFormatImpl extends _ChatCompletionResponseFormat {
-  const _$ChatCompletionResponseFormatImpl(
-      {this.type = ChatCompletionResponseFormatType.text})
-      : super._();
-
-  factory _$ChatCompletionResponseFormatImpl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$ChatCompletionResponseFormatImplFromJson(json);
-
-  /// Must be one of `text` or `json_object`.
-  @override
-  @JsonKey()
-  final ChatCompletionResponseFormatType type;
-
-  @override
-  String toString() {
-    return 'ChatCompletionResponseFormat(type: $type)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ChatCompletionResponseFormatImpl &&
-            (identical(other.type, type) || other.type == type));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, type);
-
-  /// Create a copy of ChatCompletionResponseFormat
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ChatCompletionResponseFormatImplCopyWith<
-          _$ChatCompletionResponseFormatImpl>
-      get copyWith => __$$ChatCompletionResponseFormatImplCopyWithImpl<
-          _$ChatCompletionResponseFormatImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$ChatCompletionResponseFormatImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _ChatCompletionResponseFormat
-    extends ChatCompletionResponseFormat {
-  const factory _ChatCompletionResponseFormat(
-          {final ChatCompletionResponseFormatType type}) =
-      _$ChatCompletionResponseFormatImpl;
-  const _ChatCompletionResponseFormat._() : super._();
-
-  factory _ChatCompletionResponseFormat.fromJson(Map<String, dynamic> json) =
-      _$ChatCompletionResponseFormatImpl.fromJson;
-
-  /// Must be one of `text` or `json_object`.
-  @override
-  ChatCompletionResponseFormatType get type;
-
-  /// Create a copy of ChatCompletionResponseFormat
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ChatCompletionResponseFormatImplCopyWith<
-          _$ChatCompletionResponseFormatImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -7075,7 +6911,8 @@ FunctionObject _$FunctionObjectFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$FunctionObject {
-  /// The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64.
+  /// The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a
+  /// maximum length of 64.
   String get name => throw _privateConstructorUsedError;
 
   /// A description of what the function does, used by the model to choose when and how to call the function.
@@ -7087,6 +6924,13 @@ mixin _$FunctionObject {
   /// Omitting `parameters` defines a function with an empty parameter list.
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get parameters => throw _privateConstructorUsedError;
+
+  /// Whether to enable strict schema adherence when generating the function call. If set to true, the model will
+  /// follow the exact schema defined in the `parameters` field. Only a subset of JSON Schema is supported when
+  /// `strict` is `true`. Learn more about Structured Outputs in the
+  /// [function calling guide](docs/guides/function-calling).
+  @JsonKey(includeIfNull: false)
+  bool? get strict => throw _privateConstructorUsedError;
 
   /// Serializes this FunctionObject to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -7107,7 +6951,8 @@ abstract class $FunctionObjectCopyWith<$Res> {
   $Res call(
       {String name,
       @JsonKey(includeIfNull: false) String? description,
-      @JsonKey(includeIfNull: false) Map<String, dynamic>? parameters});
+      @JsonKey(includeIfNull: false) Map<String, dynamic>? parameters,
+      @JsonKey(includeIfNull: false) bool? strict});
 }
 
 /// @nodoc
@@ -7128,6 +6973,7 @@ class _$FunctionObjectCopyWithImpl<$Res, $Val extends FunctionObject>
     Object? name = null,
     Object? description = freezed,
     Object? parameters = freezed,
+    Object? strict = freezed,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -7142,6 +6988,10 @@ class _$FunctionObjectCopyWithImpl<$Res, $Val extends FunctionObject>
           ? _value.parameters
           : parameters // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>?,
+      strict: freezed == strict
+          ? _value.strict
+          : strict // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 }
@@ -7157,7 +7007,8 @@ abstract class _$$FunctionObjectImplCopyWith<$Res>
   $Res call(
       {String name,
       @JsonKey(includeIfNull: false) String? description,
-      @JsonKey(includeIfNull: false) Map<String, dynamic>? parameters});
+      @JsonKey(includeIfNull: false) Map<String, dynamic>? parameters,
+      @JsonKey(includeIfNull: false) bool? strict});
 }
 
 /// @nodoc
@@ -7176,6 +7027,7 @@ class __$$FunctionObjectImplCopyWithImpl<$Res>
     Object? name = null,
     Object? description = freezed,
     Object? parameters = freezed,
+    Object? strict = freezed,
   }) {
     return _then(_$FunctionObjectImpl(
       name: null == name
@@ -7190,6 +7042,10 @@ class __$$FunctionObjectImplCopyWithImpl<$Res>
           ? _value._parameters
           : parameters // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>?,
+      strict: freezed == strict
+          ? _value.strict
+          : strict // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -7200,14 +7056,16 @@ class _$FunctionObjectImpl extends _FunctionObject {
   const _$FunctionObjectImpl(
       {required this.name,
       @JsonKey(includeIfNull: false) this.description,
-      @JsonKey(includeIfNull: false) final Map<String, dynamic>? parameters})
+      @JsonKey(includeIfNull: false) final Map<String, dynamic>? parameters,
+      @JsonKey(includeIfNull: false) this.strict = false})
       : _parameters = parameters,
         super._();
 
   factory _$FunctionObjectImpl.fromJson(Map<String, dynamic> json) =>
       _$$FunctionObjectImplFromJson(json);
 
-  /// The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64.
+  /// The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a
+  /// maximum length of 64.
   @override
   final String name;
 
@@ -7234,9 +7092,17 @@ class _$FunctionObjectImpl extends _FunctionObject {
     return EqualUnmodifiableMapView(value);
   }
 
+  /// Whether to enable strict schema adherence when generating the function call. If set to true, the model will
+  /// follow the exact schema defined in the `parameters` field. Only a subset of JSON Schema is supported when
+  /// `strict` is `true`. Learn more about Structured Outputs in the
+  /// [function calling guide](docs/guides/function-calling).
+  @override
+  @JsonKey(includeIfNull: false)
+  final bool? strict;
+
   @override
   String toString() {
-    return 'FunctionObject(name: $name, description: $description, parameters: $parameters)';
+    return 'FunctionObject(name: $name, description: $description, parameters: $parameters, strict: $strict)';
   }
 
   @override
@@ -7248,13 +7114,14 @@ class _$FunctionObjectImpl extends _FunctionObject {
             (identical(other.description, description) ||
                 other.description == description) &&
             const DeepCollectionEquality()
-                .equals(other._parameters, _parameters));
+                .equals(other._parameters, _parameters) &&
+            (identical(other.strict, strict) || other.strict == strict));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, name, description,
-      const DeepCollectionEquality().hash(_parameters));
+      const DeepCollectionEquality().hash(_parameters), strict);
 
   /// Create a copy of FunctionObject
   /// with the given fields replaced by the non-null parameter values.
@@ -7275,16 +7142,18 @@ class _$FunctionObjectImpl extends _FunctionObject {
 
 abstract class _FunctionObject extends FunctionObject {
   const factory _FunctionObject(
-      {required final String name,
-      @JsonKey(includeIfNull: false) final String? description,
-      @JsonKey(includeIfNull: false)
-      final Map<String, dynamic>? parameters}) = _$FunctionObjectImpl;
+          {required final String name,
+          @JsonKey(includeIfNull: false) final String? description,
+          @JsonKey(includeIfNull: false) final Map<String, dynamic>? parameters,
+          @JsonKey(includeIfNull: false) final bool? strict}) =
+      _$FunctionObjectImpl;
   const _FunctionObject._() : super._();
 
   factory _FunctionObject.fromJson(Map<String, dynamic> json) =
       _$FunctionObjectImpl.fromJson;
 
-  /// The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64.
+  /// The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a
+  /// maximum length of 64.
   @override
   String get name;
 
@@ -7300,11 +7169,288 @@ abstract class _FunctionObject extends FunctionObject {
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get parameters;
 
+  /// Whether to enable strict schema adherence when generating the function call. If set to true, the model will
+  /// follow the exact schema defined in the `parameters` field. Only a subset of JSON Schema is supported when
+  /// `strict` is `true`. Learn more about Structured Outputs in the
+  /// [function calling guide](docs/guides/function-calling).
+  @override
+  @JsonKey(includeIfNull: false)
+  bool? get strict;
+
   /// Create a copy of FunctionObject
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FunctionObjectImplCopyWith<_$FunctionObjectImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+JsonSchemaObject _$JsonSchemaObjectFromJson(Map<String, dynamic> json) {
+  return _JsonSchemaObject.fromJson(json);
+}
+
+/// @nodoc
+mixin _$JsonSchemaObject {
+  /// The name of the response format. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum
+  /// length of 64.
+  String get name => throw _privateConstructorUsedError;
+
+  /// A description of what the response format is for, used by the model to determine how to respond in the
+  /// format.
+  @JsonKey(includeIfNull: false)
+  String? get description => throw _privateConstructorUsedError;
+
+  /// The schema for the response format, described as a JSON Schema object.
+  Map<String, dynamic> get schema => throw _privateConstructorUsedError;
+
+  /// Whether to enable strict schema adherence when generating the output. If set to true, the model will always
+  /// follow the exact schema defined in the `schema` field. Only a subset of JSON Schema is supported when
+  /// `strict` is `true`. To learn more, read the
+  /// [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
+  @JsonKey(includeIfNull: false)
+  bool? get strict => throw _privateConstructorUsedError;
+
+  /// Serializes this JsonSchemaObject to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of JsonSchemaObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $JsonSchemaObjectCopyWith<JsonSchemaObject> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $JsonSchemaObjectCopyWith<$Res> {
+  factory $JsonSchemaObjectCopyWith(
+          JsonSchemaObject value, $Res Function(JsonSchemaObject) then) =
+      _$JsonSchemaObjectCopyWithImpl<$Res, JsonSchemaObject>;
+  @useResult
+  $Res call(
+      {String name,
+      @JsonKey(includeIfNull: false) String? description,
+      Map<String, dynamic> schema,
+      @JsonKey(includeIfNull: false) bool? strict});
+}
+
+/// @nodoc
+class _$JsonSchemaObjectCopyWithImpl<$Res, $Val extends JsonSchemaObject>
+    implements $JsonSchemaObjectCopyWith<$Res> {
+  _$JsonSchemaObjectCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of JsonSchemaObject
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = null,
+    Object? description = freezed,
+    Object? schema = null,
+    Object? strict = freezed,
+  }) {
+    return _then(_value.copyWith(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      schema: null == schema
+          ? _value.schema
+          : schema // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
+      strict: freezed == strict
+          ? _value.strict
+          : strict // ignore: cast_nullable_to_non_nullable
+              as bool?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$JsonSchemaObjectImplCopyWith<$Res>
+    implements $JsonSchemaObjectCopyWith<$Res> {
+  factory _$$JsonSchemaObjectImplCopyWith(_$JsonSchemaObjectImpl value,
+          $Res Function(_$JsonSchemaObjectImpl) then) =
+      __$$JsonSchemaObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String name,
+      @JsonKey(includeIfNull: false) String? description,
+      Map<String, dynamic> schema,
+      @JsonKey(includeIfNull: false) bool? strict});
+}
+
+/// @nodoc
+class __$$JsonSchemaObjectImplCopyWithImpl<$Res>
+    extends _$JsonSchemaObjectCopyWithImpl<$Res, _$JsonSchemaObjectImpl>
+    implements _$$JsonSchemaObjectImplCopyWith<$Res> {
+  __$$JsonSchemaObjectImplCopyWithImpl(_$JsonSchemaObjectImpl _value,
+      $Res Function(_$JsonSchemaObjectImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of JsonSchemaObject
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = null,
+    Object? description = freezed,
+    Object? schema = null,
+    Object? strict = freezed,
+  }) {
+    return _then(_$JsonSchemaObjectImpl(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      schema: null == schema
+          ? _value._schema
+          : schema // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
+      strict: freezed == strict
+          ? _value.strict
+          : strict // ignore: cast_nullable_to_non_nullable
+              as bool?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$JsonSchemaObjectImpl extends _JsonSchemaObject {
+  const _$JsonSchemaObjectImpl(
+      {required this.name,
+      @JsonKey(includeIfNull: false) this.description,
+      required final Map<String, dynamic> schema,
+      @JsonKey(includeIfNull: false) this.strict = false})
+      : _schema = schema,
+        super._();
+
+  factory _$JsonSchemaObjectImpl.fromJson(Map<String, dynamic> json) =>
+      _$$JsonSchemaObjectImplFromJson(json);
+
+  /// The name of the response format. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum
+  /// length of 64.
+  @override
+  final String name;
+
+  /// A description of what the response format is for, used by the model to determine how to respond in the
+  /// format.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? description;
+
+  /// The schema for the response format, described as a JSON Schema object.
+  final Map<String, dynamic> _schema;
+
+  /// The schema for the response format, described as a JSON Schema object.
+  @override
+  Map<String, dynamic> get schema {
+    if (_schema is EqualUnmodifiableMapView) return _schema;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_schema);
+  }
+
+  /// Whether to enable strict schema adherence when generating the output. If set to true, the model will always
+  /// follow the exact schema defined in the `schema` field. Only a subset of JSON Schema is supported when
+  /// `strict` is `true`. To learn more, read the
+  /// [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
+  @override
+  @JsonKey(includeIfNull: false)
+  final bool? strict;
+
+  @override
+  String toString() {
+    return 'JsonSchemaObject(name: $name, description: $description, schema: $schema, strict: $strict)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$JsonSchemaObjectImpl &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            const DeepCollectionEquality().equals(other._schema, _schema) &&
+            (identical(other.strict, strict) || other.strict == strict));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, name, description,
+      const DeepCollectionEquality().hash(_schema), strict);
+
+  /// Create a copy of JsonSchemaObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$JsonSchemaObjectImplCopyWith<_$JsonSchemaObjectImpl> get copyWith =>
+      __$$JsonSchemaObjectImplCopyWithImpl<_$JsonSchemaObjectImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$JsonSchemaObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _JsonSchemaObject extends JsonSchemaObject {
+  const factory _JsonSchemaObject(
+          {required final String name,
+          @JsonKey(includeIfNull: false) final String? description,
+          required final Map<String, dynamic> schema,
+          @JsonKey(includeIfNull: false) final bool? strict}) =
+      _$JsonSchemaObjectImpl;
+  const _JsonSchemaObject._() : super._();
+
+  factory _JsonSchemaObject.fromJson(Map<String, dynamic> json) =
+      _$JsonSchemaObjectImpl.fromJson;
+
+  /// The name of the response format. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum
+  /// length of 64.
+  @override
+  String get name;
+
+  /// A description of what the response format is for, used by the model to determine how to respond in the
+  /// format.
+  @override
+  @JsonKey(includeIfNull: false)
+  String? get description;
+
+  /// The schema for the response format, described as a JSON Schema object.
+  @override
+  Map<String, dynamic> get schema;
+
+  /// Whether to enable strict schema adherence when generating the output. If set to true, the model will always
+  /// follow the exact schema defined in the `schema` field. Only a subset of JSON Schema is supported when
+  /// `strict` is `true`. To learn more, read the
+  /// [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
+  @override
+  @JsonKey(includeIfNull: false)
+  bool? get strict;
+
+  /// Create a copy of JsonSchemaObject
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$JsonSchemaObjectImplCopyWith<_$JsonSchemaObjectImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -8891,6 +9037,7 @@ ChatCompletionLogprobs _$ChatCompletionLogprobsFromJson(
 /// @nodoc
 mixin _$ChatCompletionLogprobs {
   /// A list of message content tokens with log probability information.
+  @JsonKey(includeIfNull: false)
   List<ChatCompletionTokenLogprob>? get content =>
       throw _privateConstructorUsedError;
 
@@ -8910,7 +9057,9 @@ abstract class $ChatCompletionLogprobsCopyWith<$Res> {
           $Res Function(ChatCompletionLogprobs) then) =
       _$ChatCompletionLogprobsCopyWithImpl<$Res, ChatCompletionLogprobs>;
   @useResult
-  $Res call({List<ChatCompletionTokenLogprob>? content});
+  $Res call(
+      {@JsonKey(includeIfNull: false)
+      List<ChatCompletionTokenLogprob>? content});
 }
 
 /// @nodoc
@@ -8949,7 +9098,9 @@ abstract class _$$ChatCompletionLogprobsImplCopyWith<$Res>
       __$$ChatCompletionLogprobsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<ChatCompletionTokenLogprob>? content});
+  $Res call(
+      {@JsonKey(includeIfNull: false)
+      List<ChatCompletionTokenLogprob>? content});
 }
 
 /// @nodoc
@@ -8982,7 +9133,8 @@ class __$$ChatCompletionLogprobsImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ChatCompletionLogprobsImpl extends _ChatCompletionLogprobs {
   const _$ChatCompletionLogprobsImpl(
-      {required final List<ChatCompletionTokenLogprob>? content})
+      {@JsonKey(includeIfNull: false)
+      final List<ChatCompletionTokenLogprob>? content})
       : _content = content,
         super._();
 
@@ -8994,6 +9146,7 @@ class _$ChatCompletionLogprobsImpl extends _ChatCompletionLogprobs {
 
   /// A list of message content tokens with log probability information.
   @override
+  @JsonKey(includeIfNull: false)
   List<ChatCompletionTokenLogprob>? get content {
     final value = _content;
     if (value == null) return null;
@@ -9039,7 +9192,8 @@ class _$ChatCompletionLogprobsImpl extends _ChatCompletionLogprobs {
 
 abstract class _ChatCompletionLogprobs extends ChatCompletionLogprobs {
   const factory _ChatCompletionLogprobs(
-          {required final List<ChatCompletionTokenLogprob>? content}) =
+          {@JsonKey(includeIfNull: false)
+          final List<ChatCompletionTokenLogprob>? content}) =
       _$ChatCompletionLogprobsImpl;
   const _ChatCompletionLogprobs._() : super._();
 
@@ -9048,6 +9202,7 @@ abstract class _ChatCompletionLogprobs extends ChatCompletionLogprobs {
 
   /// A list of message content tokens with log probability information.
   @override
+  @JsonKey(includeIfNull: false)
   List<ChatCompletionTokenLogprob>? get content;
 
   /// Create a copy of ChatCompletionLogprobs
@@ -10361,6 +10516,7 @@ ChatCompletionStreamResponseChoiceLogprobs
 /// @nodoc
 mixin _$ChatCompletionStreamResponseChoiceLogprobs {
   /// A list of message content tokens with log probability information.
+  @JsonKey(includeIfNull: false)
   List<ChatCompletionTokenLogprob>? get content =>
       throw _privateConstructorUsedError;
 
@@ -10383,7 +10539,9 @@ abstract class $ChatCompletionStreamResponseChoiceLogprobsCopyWith<$Res> {
       _$ChatCompletionStreamResponseChoiceLogprobsCopyWithImpl<$Res,
           ChatCompletionStreamResponseChoiceLogprobs>;
   @useResult
-  $Res call({List<ChatCompletionTokenLogprob>? content});
+  $Res call(
+      {@JsonKey(includeIfNull: false)
+      List<ChatCompletionTokenLogprob>? content});
 }
 
 /// @nodoc
@@ -10424,7 +10582,9 @@ abstract class _$$ChatCompletionStreamResponseChoiceLogprobsImplCopyWith<$Res>
       __$$ChatCompletionStreamResponseChoiceLogprobsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<ChatCompletionTokenLogprob>? content});
+  $Res call(
+      {@JsonKey(includeIfNull: false)
+      List<ChatCompletionTokenLogprob>? content});
 }
 
 /// @nodoc
@@ -10458,7 +10618,8 @@ class __$$ChatCompletionStreamResponseChoiceLogprobsImplCopyWithImpl<$Res>
 class _$ChatCompletionStreamResponseChoiceLogprobsImpl
     extends _ChatCompletionStreamResponseChoiceLogprobs {
   const _$ChatCompletionStreamResponseChoiceLogprobsImpl(
-      {required final List<ChatCompletionTokenLogprob>? content})
+      {@JsonKey(includeIfNull: false)
+      final List<ChatCompletionTokenLogprob>? content})
       : _content = content,
         super._();
 
@@ -10471,6 +10632,7 @@ class _$ChatCompletionStreamResponseChoiceLogprobsImpl
 
   /// A list of message content tokens with log probability information.
   @override
+  @JsonKey(includeIfNull: false)
   List<ChatCompletionTokenLogprob>? get content {
     final value = _content;
     if (value == null) return null;
@@ -10520,7 +10682,8 @@ class _$ChatCompletionStreamResponseChoiceLogprobsImpl
 abstract class _ChatCompletionStreamResponseChoiceLogprobs
     extends ChatCompletionStreamResponseChoiceLogprobs {
   const factory _ChatCompletionStreamResponseChoiceLogprobs(
-          {required final List<ChatCompletionTokenLogprob>? content}) =
+          {@JsonKey(includeIfNull: false)
+          final List<ChatCompletionTokenLogprob>? content}) =
       _$ChatCompletionStreamResponseChoiceLogprobsImpl;
   const _ChatCompletionStreamResponseChoiceLogprobs._() : super._();
 
@@ -10530,6 +10693,7 @@ abstract class _ChatCompletionStreamResponseChoiceLogprobs
 
   /// A list of message content tokens with log probability information.
   @override
+  @JsonKey(includeIfNull: false)
   List<ChatCompletionTokenLogprob>? get content;
 
   /// Create a copy of ChatCompletionStreamResponseChoiceLogprobs
@@ -10551,6 +10715,10 @@ mixin _$ChatCompletionStreamResponseDelta {
   /// The contents of the chunk message.
   @JsonKey(includeIfNull: false)
   String? get content => throw _privateConstructorUsedError;
+
+  /// The refusal message generated by the model.
+  @JsonKey(includeIfNull: false)
+  String? get refusal => throw _privateConstructorUsedError;
 
   /// The name and arguments of a function that should be called, as generated by the model.
   @JsonKey(name: 'function_call', includeIfNull: false)
@@ -10587,6 +10755,7 @@ abstract class $ChatCompletionStreamResponseDeltaCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(includeIfNull: false) String? content,
+      @JsonKey(includeIfNull: false) String? refusal,
       @JsonKey(name: 'function_call', includeIfNull: false)
       ChatCompletionStreamMessageFunctionCall? functionCall,
       @JsonKey(name: 'tool_calls', includeIfNull: false)
@@ -10616,6 +10785,7 @@ class _$ChatCompletionStreamResponseDeltaCopyWithImpl<$Res,
   @override
   $Res call({
     Object? content = freezed,
+    Object? refusal = freezed,
     Object? functionCall = freezed,
     Object? toolCalls = freezed,
     Object? role = freezed,
@@ -10624,6 +10794,10 @@ class _$ChatCompletionStreamResponseDeltaCopyWithImpl<$Res,
       content: freezed == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
+              as String?,
+      refusal: freezed == refusal
+          ? _value.refusal
+          : refusal // ignore: cast_nullable_to_non_nullable
               as String?,
       functionCall: freezed == functionCall
           ? _value.functionCall
@@ -10667,6 +10841,7 @@ abstract class _$$ChatCompletionStreamResponseDeltaImplCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(includeIfNull: false) String? content,
+      @JsonKey(includeIfNull: false) String? refusal,
       @JsonKey(name: 'function_call', includeIfNull: false)
       ChatCompletionStreamMessageFunctionCall? functionCall,
       @JsonKey(name: 'tool_calls', includeIfNull: false)
@@ -10696,6 +10871,7 @@ class __$$ChatCompletionStreamResponseDeltaImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? content = freezed,
+    Object? refusal = freezed,
     Object? functionCall = freezed,
     Object? toolCalls = freezed,
     Object? role = freezed,
@@ -10704,6 +10880,10 @@ class __$$ChatCompletionStreamResponseDeltaImplCopyWithImpl<$Res>
       content: freezed == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
+              as String?,
+      refusal: freezed == refusal
+          ? _value.refusal
+          : refusal // ignore: cast_nullable_to_non_nullable
               as String?,
       functionCall: freezed == functionCall
           ? _value.functionCall
@@ -10727,6 +10907,7 @@ class _$ChatCompletionStreamResponseDeltaImpl
     extends _ChatCompletionStreamResponseDelta {
   const _$ChatCompletionStreamResponseDeltaImpl(
       {@JsonKey(includeIfNull: false) this.content,
+      @JsonKey(includeIfNull: false) this.refusal,
       @JsonKey(name: 'function_call', includeIfNull: false) this.functionCall,
       @JsonKey(name: 'tool_calls', includeIfNull: false)
       final List<ChatCompletionStreamMessageToolCallChunk>? toolCalls,
@@ -10745,6 +10926,11 @@ class _$ChatCompletionStreamResponseDeltaImpl
   @override
   @JsonKey(includeIfNull: false)
   final String? content;
+
+  /// The refusal message generated by the model.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? refusal;
 
   /// The name and arguments of a function that should be called, as generated by the model.
   @override
@@ -10773,7 +10959,7 @@ class _$ChatCompletionStreamResponseDeltaImpl
 
   @override
   String toString() {
-    return 'ChatCompletionStreamResponseDelta(content: $content, functionCall: $functionCall, toolCalls: $toolCalls, role: $role)';
+    return 'ChatCompletionStreamResponseDelta(content: $content, refusal: $refusal, functionCall: $functionCall, toolCalls: $toolCalls, role: $role)';
   }
 
   @override
@@ -10782,6 +10968,7 @@ class _$ChatCompletionStreamResponseDeltaImpl
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionStreamResponseDeltaImpl &&
             (identical(other.content, content) || other.content == content) &&
+            (identical(other.refusal, refusal) || other.refusal == refusal) &&
             (identical(other.functionCall, functionCall) ||
                 other.functionCall == functionCall) &&
             const DeepCollectionEquality()
@@ -10791,7 +10978,7 @@ class _$ChatCompletionStreamResponseDeltaImpl
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, content, functionCall,
+  int get hashCode => Object.hash(runtimeType, content, refusal, functionCall,
       const DeepCollectionEquality().hash(_toolCalls), role);
 
   /// Create a copy of ChatCompletionStreamResponseDelta
@@ -10816,6 +11003,7 @@ abstract class _ChatCompletionStreamResponseDelta
     extends ChatCompletionStreamResponseDelta {
   const factory _ChatCompletionStreamResponseDelta(
           {@JsonKey(includeIfNull: false) final String? content,
+          @JsonKey(includeIfNull: false) final String? refusal,
           @JsonKey(name: 'function_call', includeIfNull: false)
           final ChatCompletionStreamMessageFunctionCall? functionCall,
           @JsonKey(name: 'tool_calls', includeIfNull: false)
@@ -10835,6 +11023,11 @@ abstract class _ChatCompletionStreamResponseDelta
   @override
   @JsonKey(includeIfNull: false)
   String? get content;
+
+  /// The refusal message generated by the model.
+  @override
+  @JsonKey(includeIfNull: false)
+  String? get refusal;
 
   /// The name and arguments of a function that should be called, as generated by the model.
   @override
@@ -23311,9 +23504,10 @@ mixin _$AssistantObject {
   @JsonKey(name: 'top_p', includeIfNull: false)
   double? get topP => throw _privateConstructorUsedError;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// Specifies the format that the model must output. Compatible with
+  /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
   /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
-  /// since `gpt-4o-mini-1106`.
+  /// since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
   /// the model will match your supplied JSON schema. Learn more in the
@@ -23706,9 +23900,10 @@ class _$AssistantObjectImpl extends _AssistantObject {
   @JsonKey(name: 'top_p', includeIfNull: false)
   final double? topP;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// Specifies the format that the model must output. Compatible with
+  /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
   /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
-  /// since `gpt-4o-mini-1106`.
+  /// since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
   /// the model will match your supplied JSON schema. Learn more in the
@@ -23877,9 +24072,10 @@ abstract class _AssistantObject extends AssistantObject {
   @JsonKey(name: 'top_p', includeIfNull: false)
   double? get topP;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// Specifies the format that the model must output. Compatible with
+  /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
   /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
-  /// since `gpt-4o-mini-1106`.
+  /// since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
   /// the model will match your supplied JSON schema. Learn more in the
@@ -23909,11 +24105,10 @@ abstract class _AssistantObject extends AssistantObject {
 AssistantObjectResponseFormat _$AssistantObjectResponseFormatFromJson(
     Map<String, dynamic> json) {
   switch (json['runtimeType']) {
-    case 'enumeration':
+    case 'mode':
       return AssistantObjectResponseFormatEnumeration.fromJson(json);
-    case 'assistantsResponseFormat':
-      return AssistantObjectResponseFormatAssistantsResponseFormat.fromJson(
-          json);
+    case 'responseFormat':
+      return AssistantObjectResponseFormatResponseFormat.fromJson(json);
 
     default:
       throw CheckedFromJsonException(
@@ -23929,49 +24124,43 @@ mixin _$AssistantObjectResponseFormat {
   Object get value => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(AssistantResponseFormatMode value) enumeration,
-    required TResult Function(AssistantsResponseFormat value)
-        assistantsResponseFormat,
+    required TResult Function(AssistantResponseFormatMode value) mode,
+    required TResult Function(ResponseFormat value) responseFormat,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(AssistantResponseFormatMode value)? enumeration,
-    TResult? Function(AssistantsResponseFormat value)? assistantsResponseFormat,
+    TResult? Function(AssistantResponseFormatMode value)? mode,
+    TResult? Function(ResponseFormat value)? responseFormat,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(AssistantResponseFormatMode value)? enumeration,
-    TResult Function(AssistantsResponseFormat value)? assistantsResponseFormat,
+    TResult Function(AssistantResponseFormatMode value)? mode,
+    TResult Function(ResponseFormat value)? responseFormat,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(AssistantObjectResponseFormatEnumeration value)
-        enumeration,
-    required TResult Function(
-            AssistantObjectResponseFormatAssistantsResponseFormat value)
-        assistantsResponseFormat,
+        mode,
+    required TResult Function(AssistantObjectResponseFormatResponseFormat value)
+        responseFormat,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(AssistantObjectResponseFormatEnumeration value)?
-        enumeration,
-    TResult? Function(
-            AssistantObjectResponseFormatAssistantsResponseFormat value)?
-        assistantsResponseFormat,
+    TResult? Function(AssistantObjectResponseFormatEnumeration value)? mode,
+    TResult? Function(AssistantObjectResponseFormatResponseFormat value)?
+        responseFormat,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(AssistantObjectResponseFormatEnumeration value)?
-        enumeration,
-    TResult Function(
-            AssistantObjectResponseFormatAssistantsResponseFormat value)?
-        assistantsResponseFormat,
+    TResult Function(AssistantObjectResponseFormatEnumeration value)? mode,
+    TResult Function(AssistantObjectResponseFormatResponseFormat value)?
+        responseFormat,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -24046,7 +24235,7 @@ class _$AssistantObjectResponseFormatEnumerationImpl
     extends AssistantObjectResponseFormatEnumeration {
   const _$AssistantObjectResponseFormatEnumerationImpl(this.value,
       {final String? $type})
-      : $type = $type ?? 'enumeration',
+      : $type = $type ?? 'mode',
         super._();
 
   factory _$AssistantObjectResponseFormatEnumerationImpl.fromJson(
@@ -24061,7 +24250,7 @@ class _$AssistantObjectResponseFormatEnumerationImpl
 
   @override
   String toString() {
-    return 'AssistantObjectResponseFormat.enumeration(value: $value)';
+    return 'AssistantObjectResponseFormat.mode(value: $value)';
   }
 
   @override
@@ -24090,31 +24279,30 @@ class _$AssistantObjectResponseFormatEnumerationImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(AssistantResponseFormatMode value) enumeration,
-    required TResult Function(AssistantsResponseFormat value)
-        assistantsResponseFormat,
+    required TResult Function(AssistantResponseFormatMode value) mode,
+    required TResult Function(ResponseFormat value) responseFormat,
   }) {
-    return enumeration(value);
+    return mode(value);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(AssistantResponseFormatMode value)? enumeration,
-    TResult? Function(AssistantsResponseFormat value)? assistantsResponseFormat,
+    TResult? Function(AssistantResponseFormatMode value)? mode,
+    TResult? Function(ResponseFormat value)? responseFormat,
   }) {
-    return enumeration?.call(value);
+    return mode?.call(value);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(AssistantResponseFormatMode value)? enumeration,
-    TResult Function(AssistantsResponseFormat value)? assistantsResponseFormat,
+    TResult Function(AssistantResponseFormatMode value)? mode,
+    TResult Function(ResponseFormat value)? responseFormat,
     required TResult orElse(),
   }) {
-    if (enumeration != null) {
-      return enumeration(value);
+    if (mode != null) {
+      return mode(value);
     }
     return orElse();
   }
@@ -24123,38 +24311,33 @@ class _$AssistantObjectResponseFormatEnumerationImpl
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(AssistantObjectResponseFormatEnumeration value)
-        enumeration,
-    required TResult Function(
-            AssistantObjectResponseFormatAssistantsResponseFormat value)
-        assistantsResponseFormat,
+        mode,
+    required TResult Function(AssistantObjectResponseFormatResponseFormat value)
+        responseFormat,
   }) {
-    return enumeration(this);
+    return mode(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(AssistantObjectResponseFormatEnumeration value)?
-        enumeration,
-    TResult? Function(
-            AssistantObjectResponseFormatAssistantsResponseFormat value)?
-        assistantsResponseFormat,
+    TResult? Function(AssistantObjectResponseFormatEnumeration value)? mode,
+    TResult? Function(AssistantObjectResponseFormatResponseFormat value)?
+        responseFormat,
   }) {
-    return enumeration?.call(this);
+    return mode?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(AssistantObjectResponseFormatEnumeration value)?
-        enumeration,
-    TResult Function(
-            AssistantObjectResponseFormatAssistantsResponseFormat value)?
-        assistantsResponseFormat,
+    TResult Function(AssistantObjectResponseFormatEnumeration value)? mode,
+    TResult Function(AssistantObjectResponseFormatResponseFormat value)?
+        responseFormat,
     required TResult orElse(),
   }) {
-    if (enumeration != null) {
-      return enumeration(this);
+    if (mode != null) {
+      return mode(this);
     }
     return orElse();
   }
@@ -24190,33 +24373,28 @@ abstract class AssistantObjectResponseFormatEnumeration
 }
 
 /// @nodoc
-abstract class _$$AssistantObjectResponseFormatAssistantsResponseFormatImplCopyWith<
+abstract class _$$AssistantObjectResponseFormatResponseFormatImplCopyWith<
     $Res> {
-  factory _$$AssistantObjectResponseFormatAssistantsResponseFormatImplCopyWith(
-          _$AssistantObjectResponseFormatAssistantsResponseFormatImpl value,
-          $Res Function(
-                  _$AssistantObjectResponseFormatAssistantsResponseFormatImpl)
+  factory _$$AssistantObjectResponseFormatResponseFormatImplCopyWith(
+          _$AssistantObjectResponseFormatResponseFormatImpl value,
+          $Res Function(_$AssistantObjectResponseFormatResponseFormatImpl)
               then) =
-      __$$AssistantObjectResponseFormatAssistantsResponseFormatImplCopyWithImpl<
-          $Res>;
+      __$$AssistantObjectResponseFormatResponseFormatImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({AssistantsResponseFormat value});
+  $Res call({ResponseFormat value});
 
-  $AssistantsResponseFormatCopyWith<$Res> get value;
+  $ResponseFormatCopyWith<$Res> get value;
 }
 
 /// @nodoc
-class __$$AssistantObjectResponseFormatAssistantsResponseFormatImplCopyWithImpl<
-        $Res>
+class __$$AssistantObjectResponseFormatResponseFormatImplCopyWithImpl<$Res>
     extends _$AssistantObjectResponseFormatCopyWithImpl<$Res,
-        _$AssistantObjectResponseFormatAssistantsResponseFormatImpl>
+        _$AssistantObjectResponseFormatResponseFormatImpl>
     implements
-        _$$AssistantObjectResponseFormatAssistantsResponseFormatImplCopyWith<
-            $Res> {
-  __$$AssistantObjectResponseFormatAssistantsResponseFormatImplCopyWithImpl(
-      _$AssistantObjectResponseFormatAssistantsResponseFormatImpl _value,
-      $Res Function(_$AssistantObjectResponseFormatAssistantsResponseFormatImpl)
-          _then)
+        _$$AssistantObjectResponseFormatResponseFormatImplCopyWith<$Res> {
+  __$$AssistantObjectResponseFormatResponseFormatImplCopyWithImpl(
+      _$AssistantObjectResponseFormatResponseFormatImpl _value,
+      $Res Function(_$AssistantObjectResponseFormatResponseFormatImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of AssistantObjectResponseFormat
@@ -24226,11 +24404,11 @@ class __$$AssistantObjectResponseFormatAssistantsResponseFormatImplCopyWithImpl<
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$AssistantObjectResponseFormatAssistantsResponseFormatImpl(
+    return _then(_$AssistantObjectResponseFormatResponseFormatImpl(
       null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
-              as AssistantsResponseFormat,
+              as ResponseFormat,
     ));
   }
 
@@ -24238,8 +24416,8 @@ class __$$AssistantObjectResponseFormatAssistantsResponseFormatImplCopyWithImpl<
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $AssistantsResponseFormatCopyWith<$Res> get value {
-    return $AssistantsResponseFormatCopyWith<$Res>(_value.value, (value) {
+  $ResponseFormatCopyWith<$Res> get value {
+    return $ResponseFormatCopyWith<$Res>(_value.value, (value) {
       return _then(_value.copyWith(value: value));
     });
   }
@@ -24247,35 +24425,33 @@ class __$$AssistantObjectResponseFormatAssistantsResponseFormatImplCopyWithImpl<
 
 /// @nodoc
 @JsonSerializable()
-class _$AssistantObjectResponseFormatAssistantsResponseFormatImpl
-    extends AssistantObjectResponseFormatAssistantsResponseFormat {
-  const _$AssistantObjectResponseFormatAssistantsResponseFormatImpl(this.value,
+class _$AssistantObjectResponseFormatResponseFormatImpl
+    extends AssistantObjectResponseFormatResponseFormat {
+  const _$AssistantObjectResponseFormatResponseFormatImpl(this.value,
       {final String? $type})
-      : $type = $type ?? 'assistantsResponseFormat',
+      : $type = $type ?? 'responseFormat',
         super._();
 
-  factory _$AssistantObjectResponseFormatAssistantsResponseFormatImpl.fromJson(
+  factory _$AssistantObjectResponseFormatResponseFormatImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$AssistantObjectResponseFormatAssistantsResponseFormatImplFromJson(
-          json);
+      _$$AssistantObjectResponseFormatResponseFormatImplFromJson(json);
 
   @override
-  final AssistantsResponseFormat value;
+  final ResponseFormat value;
 
   @JsonKey(name: 'runtimeType')
   final String $type;
 
   @override
   String toString() {
-    return 'AssistantObjectResponseFormat.assistantsResponseFormat(value: $value)';
+    return 'AssistantObjectResponseFormat.responseFormat(value: $value)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other
-                is _$AssistantObjectResponseFormatAssistantsResponseFormatImpl &&
+            other is _$AssistantObjectResponseFormatResponseFormatImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
@@ -24288,41 +24464,40 @@ class _$AssistantObjectResponseFormatAssistantsResponseFormatImpl
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$AssistantObjectResponseFormatAssistantsResponseFormatImplCopyWith<
-          _$AssistantObjectResponseFormatAssistantsResponseFormatImpl>
+  _$$AssistantObjectResponseFormatResponseFormatImplCopyWith<
+          _$AssistantObjectResponseFormatResponseFormatImpl>
       get copyWith =>
-          __$$AssistantObjectResponseFormatAssistantsResponseFormatImplCopyWithImpl<
-                  _$AssistantObjectResponseFormatAssistantsResponseFormatImpl>(
+          __$$AssistantObjectResponseFormatResponseFormatImplCopyWithImpl<
+                  _$AssistantObjectResponseFormatResponseFormatImpl>(
               this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(AssistantResponseFormatMode value) enumeration,
-    required TResult Function(AssistantsResponseFormat value)
-        assistantsResponseFormat,
+    required TResult Function(AssistantResponseFormatMode value) mode,
+    required TResult Function(ResponseFormat value) responseFormat,
   }) {
-    return assistantsResponseFormat(value);
+    return responseFormat(value);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(AssistantResponseFormatMode value)? enumeration,
-    TResult? Function(AssistantsResponseFormat value)? assistantsResponseFormat,
+    TResult? Function(AssistantResponseFormatMode value)? mode,
+    TResult? Function(ResponseFormat value)? responseFormat,
   }) {
-    return assistantsResponseFormat?.call(value);
+    return responseFormat?.call(value);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(AssistantResponseFormatMode value)? enumeration,
-    TResult Function(AssistantsResponseFormat value)? assistantsResponseFormat,
+    TResult Function(AssistantResponseFormatMode value)? mode,
+    TResult Function(ResponseFormat value)? responseFormat,
     required TResult orElse(),
   }) {
-    if (assistantsResponseFormat != null) {
-      return assistantsResponseFormat(value);
+    if (responseFormat != null) {
+      return responseFormat(value);
     }
     return orElse();
   }
@@ -24331,69 +24506,64 @@ class _$AssistantObjectResponseFormatAssistantsResponseFormatImpl
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(AssistantObjectResponseFormatEnumeration value)
-        enumeration,
-    required TResult Function(
-            AssistantObjectResponseFormatAssistantsResponseFormat value)
-        assistantsResponseFormat,
+        mode,
+    required TResult Function(AssistantObjectResponseFormatResponseFormat value)
+        responseFormat,
   }) {
-    return assistantsResponseFormat(this);
+    return responseFormat(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(AssistantObjectResponseFormatEnumeration value)?
-        enumeration,
-    TResult? Function(
-            AssistantObjectResponseFormatAssistantsResponseFormat value)?
-        assistantsResponseFormat,
+    TResult? Function(AssistantObjectResponseFormatEnumeration value)? mode,
+    TResult? Function(AssistantObjectResponseFormatResponseFormat value)?
+        responseFormat,
   }) {
-    return assistantsResponseFormat?.call(this);
+    return responseFormat?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(AssistantObjectResponseFormatEnumeration value)?
-        enumeration,
-    TResult Function(
-            AssistantObjectResponseFormatAssistantsResponseFormat value)?
-        assistantsResponseFormat,
+    TResult Function(AssistantObjectResponseFormatEnumeration value)? mode,
+    TResult Function(AssistantObjectResponseFormatResponseFormat value)?
+        responseFormat,
     required TResult orElse(),
   }) {
-    if (assistantsResponseFormat != null) {
-      return assistantsResponseFormat(this);
+    if (responseFormat != null) {
+      return responseFormat(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$AssistantObjectResponseFormatAssistantsResponseFormatImplToJson(
+    return _$$AssistantObjectResponseFormatResponseFormatImplToJson(
       this,
     );
   }
 }
 
-abstract class AssistantObjectResponseFormatAssistantsResponseFormat
+abstract class AssistantObjectResponseFormatResponseFormat
     extends AssistantObjectResponseFormat {
-  const factory AssistantObjectResponseFormatAssistantsResponseFormat(
-          final AssistantsResponseFormat value) =
-      _$AssistantObjectResponseFormatAssistantsResponseFormatImpl;
-  const AssistantObjectResponseFormatAssistantsResponseFormat._() : super._();
+  const factory AssistantObjectResponseFormatResponseFormat(
+          final ResponseFormat value) =
+      _$AssistantObjectResponseFormatResponseFormatImpl;
+  const AssistantObjectResponseFormatResponseFormat._() : super._();
 
-  factory AssistantObjectResponseFormatAssistantsResponseFormat.fromJson(
+  factory AssistantObjectResponseFormatResponseFormat.fromJson(
           Map<String, dynamic> json) =
-      _$AssistantObjectResponseFormatAssistantsResponseFormatImpl.fromJson;
+      _$AssistantObjectResponseFormatResponseFormatImpl.fromJson;
 
   @override
-  AssistantsResponseFormat get value;
+  ResponseFormat get value;
 
   /// Create a copy of AssistantObjectResponseFormat
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AssistantObjectResponseFormatAssistantsResponseFormatImplCopyWith<
-          _$AssistantObjectResponseFormatAssistantsResponseFormatImpl>
+  _$$AssistantObjectResponseFormatResponseFormatImplCopyWith<
+          _$AssistantObjectResponseFormatResponseFormatImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -24447,9 +24617,10 @@ mixin _$CreateAssistantRequest {
   @JsonKey(name: 'top_p', includeIfNull: false)
   double? get topP => throw _privateConstructorUsedError;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// Specifies the format that the model must output. Compatible with
+  /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
   /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
-  /// since `gpt-4o-mini-1106`.
+  /// since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
   /// the model will match your supplied JSON schema. Learn more in the
@@ -24813,9 +24984,10 @@ class _$CreateAssistantRequestImpl extends _CreateAssistantRequest {
   @JsonKey(name: 'top_p', includeIfNull: false)
   final double? topP;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// Specifies the format that the model must output. Compatible with
+  /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
   /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
-  /// since `gpt-4o-mini-1106`.
+  /// since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
   /// the model will match your supplied JSON schema. Learn more in the
@@ -24966,9 +25138,10 @@ abstract class _CreateAssistantRequest extends CreateAssistantRequest {
   @JsonKey(name: 'top_p', includeIfNull: false)
   double? get topP;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// Specifies the format that the model must output. Compatible with
+  /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
   /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
-  /// since `gpt-4o-mini-1106`.
+  /// since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
   /// the model will match your supplied JSON schema. Learn more in the
@@ -25409,9 +25582,8 @@ CreateAssistantRequestResponseFormat
   switch (json['runtimeType']) {
     case 'mode':
       return CreateAssistantRequestResponseFormatEnumeration.fromJson(json);
-    case 'format':
-      return CreateAssistantRequestResponseFormatAssistantsResponseFormat
-          .fromJson(json);
+    case 'responseFormat':
+      return CreateAssistantRequestResponseFormatResponseFormat.fromJson(json);
 
     default:
       throw CheckedFromJsonException(
@@ -25428,19 +25600,19 @@ mixin _$CreateAssistantRequestResponseFormat {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(CreateAssistantResponseFormatMode value) mode,
-    required TResult Function(AssistantsResponseFormat value) format,
+    required TResult Function(ResponseFormat value) responseFormat,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(CreateAssistantResponseFormatMode value)? mode,
-    TResult? Function(AssistantsResponseFormat value)? format,
+    TResult? Function(ResponseFormat value)? responseFormat,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(CreateAssistantResponseFormatMode value)? mode,
-    TResult Function(AssistantsResponseFormat value)? format,
+    TResult Function(ResponseFormat value)? responseFormat,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -25450,26 +25622,24 @@ mixin _$CreateAssistantRequestResponseFormat {
             CreateAssistantRequestResponseFormatEnumeration value)
         mode,
     required TResult Function(
-            CreateAssistantRequestResponseFormatAssistantsResponseFormat value)
-        format,
+            CreateAssistantRequestResponseFormatResponseFormat value)
+        responseFormat,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(CreateAssistantRequestResponseFormatEnumeration value)?
         mode,
-    TResult? Function(
-            CreateAssistantRequestResponseFormatAssistantsResponseFormat value)?
-        format,
+    TResult? Function(CreateAssistantRequestResponseFormatResponseFormat value)?
+        responseFormat,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(CreateAssistantRequestResponseFormatEnumeration value)?
         mode,
-    TResult Function(
-            CreateAssistantRequestResponseFormatAssistantsResponseFormat value)?
-        format,
+    TResult Function(CreateAssistantRequestResponseFormatResponseFormat value)?
+        responseFormat,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -25594,7 +25764,7 @@ class _$CreateAssistantRequestResponseFormatEnumerationImpl
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(CreateAssistantResponseFormatMode value) mode,
-    required TResult Function(AssistantsResponseFormat value) format,
+    required TResult Function(ResponseFormat value) responseFormat,
   }) {
     return mode(value);
   }
@@ -25603,7 +25773,7 @@ class _$CreateAssistantRequestResponseFormatEnumerationImpl
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(CreateAssistantResponseFormatMode value)? mode,
-    TResult? Function(AssistantsResponseFormat value)? format,
+    TResult? Function(ResponseFormat value)? responseFormat,
   }) {
     return mode?.call(value);
   }
@@ -25612,7 +25782,7 @@ class _$CreateAssistantRequestResponseFormatEnumerationImpl
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(CreateAssistantResponseFormatMode value)? mode,
-    TResult Function(AssistantsResponseFormat value)? format,
+    TResult Function(ResponseFormat value)? responseFormat,
     required TResult orElse(),
   }) {
     if (mode != null) {
@@ -25628,8 +25798,8 @@ class _$CreateAssistantRequestResponseFormatEnumerationImpl
             CreateAssistantRequestResponseFormatEnumeration value)
         mode,
     required TResult Function(
-            CreateAssistantRequestResponseFormatAssistantsResponseFormat value)
-        format,
+            CreateAssistantRequestResponseFormatResponseFormat value)
+        responseFormat,
   }) {
     return mode(this);
   }
@@ -25639,9 +25809,8 @@ class _$CreateAssistantRequestResponseFormatEnumerationImpl
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(CreateAssistantRequestResponseFormatEnumeration value)?
         mode,
-    TResult? Function(
-            CreateAssistantRequestResponseFormatAssistantsResponseFormat value)?
-        format,
+    TResult? Function(CreateAssistantRequestResponseFormatResponseFormat value)?
+        responseFormat,
   }) {
     return mode?.call(this);
   }
@@ -25651,9 +25820,8 @@ class _$CreateAssistantRequestResponseFormatEnumerationImpl
   TResult maybeMap<TResult extends Object?>({
     TResult Function(CreateAssistantRequestResponseFormatEnumeration value)?
         mode,
-    TResult Function(
-            CreateAssistantRequestResponseFormatAssistantsResponseFormat value)?
-        format,
+    TResult Function(CreateAssistantRequestResponseFormatResponseFormat value)?
+        responseFormat,
     required TResult orElse(),
   }) {
     if (mode != null) {
@@ -25693,33 +25861,32 @@ abstract class CreateAssistantRequestResponseFormatEnumeration
 }
 
 /// @nodoc
-abstract class _$$CreateAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWith<
+abstract class _$$CreateAssistantRequestResponseFormatResponseFormatImplCopyWith<
     $Res> {
-  factory _$$CreateAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWith(
-          _$CreateAssistantRequestResponseFormatAssistantsResponseFormatImpl value,
+  factory _$$CreateAssistantRequestResponseFormatResponseFormatImplCopyWith(
+          _$CreateAssistantRequestResponseFormatResponseFormatImpl value,
           $Res Function(
-                  _$CreateAssistantRequestResponseFormatAssistantsResponseFormatImpl)
+                  _$CreateAssistantRequestResponseFormatResponseFormatImpl)
               then) =
-      __$$CreateAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWithImpl<
+      __$$CreateAssistantRequestResponseFormatResponseFormatImplCopyWithImpl<
           $Res>;
   @useResult
-  $Res call({AssistantsResponseFormat value});
+  $Res call({ResponseFormat value});
 
-  $AssistantsResponseFormatCopyWith<$Res> get value;
+  $ResponseFormatCopyWith<$Res> get value;
 }
 
 /// @nodoc
-class __$$CreateAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWithImpl<
+class __$$CreateAssistantRequestResponseFormatResponseFormatImplCopyWithImpl<
         $Res>
     extends _$CreateAssistantRequestResponseFormatCopyWithImpl<$Res,
-        _$CreateAssistantRequestResponseFormatAssistantsResponseFormatImpl>
+        _$CreateAssistantRequestResponseFormatResponseFormatImpl>
     implements
-        _$$CreateAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWith<
+        _$$CreateAssistantRequestResponseFormatResponseFormatImplCopyWith<
             $Res> {
-  __$$CreateAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWithImpl(
-      _$CreateAssistantRequestResponseFormatAssistantsResponseFormatImpl _value,
-      $Res Function(
-              _$CreateAssistantRequestResponseFormatAssistantsResponseFormatImpl)
+  __$$CreateAssistantRequestResponseFormatResponseFormatImplCopyWithImpl(
+      _$CreateAssistantRequestResponseFormatResponseFormatImpl _value,
+      $Res Function(_$CreateAssistantRequestResponseFormatResponseFormatImpl)
           _then)
       : super(_value, _then);
 
@@ -25730,12 +25897,11 @@ class __$$CreateAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWi
   $Res call({
     Object? value = null,
   }) {
-    return _then(
-        _$CreateAssistantRequestResponseFormatAssistantsResponseFormatImpl(
+    return _then(_$CreateAssistantRequestResponseFormatResponseFormatImpl(
       null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
-              as AssistantsResponseFormat,
+              as ResponseFormat,
     ));
   }
 
@@ -25743,8 +25909,8 @@ class __$$CreateAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWi
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $AssistantsResponseFormatCopyWith<$Res> get value {
-    return $AssistantsResponseFormatCopyWith<$Res>(_value.value, (value) {
+  $ResponseFormatCopyWith<$Res> get value {
+    return $ResponseFormatCopyWith<$Res>(_value.value, (value) {
       return _then(_value.copyWith(value: value));
     });
   }
@@ -25752,36 +25918,33 @@ class __$$CreateAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWi
 
 /// @nodoc
 @JsonSerializable()
-class _$CreateAssistantRequestResponseFormatAssistantsResponseFormatImpl
-    extends CreateAssistantRequestResponseFormatAssistantsResponseFormat {
-  const _$CreateAssistantRequestResponseFormatAssistantsResponseFormatImpl(
-      this.value,
+class _$CreateAssistantRequestResponseFormatResponseFormatImpl
+    extends CreateAssistantRequestResponseFormatResponseFormat {
+  const _$CreateAssistantRequestResponseFormatResponseFormatImpl(this.value,
       {final String? $type})
-      : $type = $type ?? 'format',
+      : $type = $type ?? 'responseFormat',
         super._();
 
-  factory _$CreateAssistantRequestResponseFormatAssistantsResponseFormatImpl.fromJson(
+  factory _$CreateAssistantRequestResponseFormatResponseFormatImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$CreateAssistantRequestResponseFormatAssistantsResponseFormatImplFromJson(
-          json);
+      _$$CreateAssistantRequestResponseFormatResponseFormatImplFromJson(json);
 
   @override
-  final AssistantsResponseFormat value;
+  final ResponseFormat value;
 
   @JsonKey(name: 'runtimeType')
   final String $type;
 
   @override
   String toString() {
-    return 'CreateAssistantRequestResponseFormat.format(value: $value)';
+    return 'CreateAssistantRequestResponseFormat.responseFormat(value: $value)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other
-                is _$CreateAssistantRequestResponseFormatAssistantsResponseFormatImpl &&
+            other is _$CreateAssistantRequestResponseFormatResponseFormatImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
@@ -25794,40 +25957,40 @@ class _$CreateAssistantRequestResponseFormatAssistantsResponseFormatImpl
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$CreateAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWith<
-          _$CreateAssistantRequestResponseFormatAssistantsResponseFormatImpl>
+  _$$CreateAssistantRequestResponseFormatResponseFormatImplCopyWith<
+          _$CreateAssistantRequestResponseFormatResponseFormatImpl>
       get copyWith =>
-          __$$CreateAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWithImpl<
-                  _$CreateAssistantRequestResponseFormatAssistantsResponseFormatImpl>(
+          __$$CreateAssistantRequestResponseFormatResponseFormatImplCopyWithImpl<
+                  _$CreateAssistantRequestResponseFormatResponseFormatImpl>(
               this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(CreateAssistantResponseFormatMode value) mode,
-    required TResult Function(AssistantsResponseFormat value) format,
+    required TResult Function(ResponseFormat value) responseFormat,
   }) {
-    return format(value);
+    return responseFormat(value);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(CreateAssistantResponseFormatMode value)? mode,
-    TResult? Function(AssistantsResponseFormat value)? format,
+    TResult? Function(ResponseFormat value)? responseFormat,
   }) {
-    return format?.call(value);
+    return responseFormat?.call(value);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(CreateAssistantResponseFormatMode value)? mode,
-    TResult Function(AssistantsResponseFormat value)? format,
+    TResult Function(ResponseFormat value)? responseFormat,
     required TResult orElse(),
   }) {
-    if (format != null) {
-      return format(value);
+    if (responseFormat != null) {
+      return responseFormat(value);
     }
     return orElse();
   }
@@ -25839,10 +26002,10 @@ class _$CreateAssistantRequestResponseFormatAssistantsResponseFormatImpl
             CreateAssistantRequestResponseFormatEnumeration value)
         mode,
     required TResult Function(
-            CreateAssistantRequestResponseFormatAssistantsResponseFormat value)
-        format,
+            CreateAssistantRequestResponseFormatResponseFormat value)
+        responseFormat,
   }) {
-    return format(this);
+    return responseFormat(this);
   }
 
   @override
@@ -25850,11 +26013,10 @@ class _$CreateAssistantRequestResponseFormatAssistantsResponseFormatImpl
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(CreateAssistantRequestResponseFormatEnumeration value)?
         mode,
-    TResult? Function(
-            CreateAssistantRequestResponseFormatAssistantsResponseFormat value)?
-        format,
+    TResult? Function(CreateAssistantRequestResponseFormatResponseFormat value)?
+        responseFormat,
   }) {
-    return format?.call(this);
+    return responseFormat?.call(this);
   }
 
   @override
@@ -25862,46 +26024,43 @@ class _$CreateAssistantRequestResponseFormatAssistantsResponseFormatImpl
   TResult maybeMap<TResult extends Object?>({
     TResult Function(CreateAssistantRequestResponseFormatEnumeration value)?
         mode,
-    TResult Function(
-            CreateAssistantRequestResponseFormatAssistantsResponseFormat value)?
-        format,
+    TResult Function(CreateAssistantRequestResponseFormatResponseFormat value)?
+        responseFormat,
     required TResult orElse(),
   }) {
-    if (format != null) {
-      return format(this);
+    if (responseFormat != null) {
+      return responseFormat(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$CreateAssistantRequestResponseFormatAssistantsResponseFormatImplToJson(
+    return _$$CreateAssistantRequestResponseFormatResponseFormatImplToJson(
       this,
     );
   }
 }
 
-abstract class CreateAssistantRequestResponseFormatAssistantsResponseFormat
+abstract class CreateAssistantRequestResponseFormatResponseFormat
     extends CreateAssistantRequestResponseFormat {
-  const factory CreateAssistantRequestResponseFormatAssistantsResponseFormat(
-          final AssistantsResponseFormat value) =
-      _$CreateAssistantRequestResponseFormatAssistantsResponseFormatImpl;
-  const CreateAssistantRequestResponseFormatAssistantsResponseFormat._()
-      : super._();
+  const factory CreateAssistantRequestResponseFormatResponseFormat(
+          final ResponseFormat value) =
+      _$CreateAssistantRequestResponseFormatResponseFormatImpl;
+  const CreateAssistantRequestResponseFormatResponseFormat._() : super._();
 
-  factory CreateAssistantRequestResponseFormatAssistantsResponseFormat.fromJson(
+  factory CreateAssistantRequestResponseFormatResponseFormat.fromJson(
           Map<String, dynamic> json) =
-      _$CreateAssistantRequestResponseFormatAssistantsResponseFormatImpl
-      .fromJson;
+      _$CreateAssistantRequestResponseFormatResponseFormatImpl.fromJson;
 
   @override
-  AssistantsResponseFormat get value;
+  ResponseFormat get value;
 
   /// Create a copy of CreateAssistantRequestResponseFormat
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$CreateAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWith<
-          _$CreateAssistantRequestResponseFormatAssistantsResponseFormatImpl>
+  _$$CreateAssistantRequestResponseFormatResponseFormatImplCopyWith<
+          _$CreateAssistantRequestResponseFormatResponseFormatImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -25959,9 +26118,10 @@ mixin _$ModifyAssistantRequest {
   @JsonKey(name: 'top_p', includeIfNull: false)
   double? get topP => throw _privateConstructorUsedError;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// Specifies the format that the model must output. Compatible with
+  /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
   /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
-  /// since `gpt-4o-mini-1106`.
+  /// since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
   /// the model will match your supplied JSON schema. Learn more in the
@@ -26338,9 +26498,10 @@ class _$ModifyAssistantRequestImpl extends _ModifyAssistantRequest {
   @JsonKey(name: 'top_p', includeIfNull: false)
   final double? topP;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// Specifies the format that the model must output. Compatible with
+  /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
   /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
-  /// since `gpt-4o-mini-1106`.
+  /// since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
   /// the model will match your supplied JSON schema. Learn more in the
@@ -26499,9 +26660,10 @@ abstract class _ModifyAssistantRequest extends ModifyAssistantRequest {
   @JsonKey(name: 'top_p', includeIfNull: false)
   double? get topP;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// Specifies the format that the model must output. Compatible with
+  /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
   /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
-  /// since `gpt-4o-mini-1106`.
+  /// since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
   /// the model will match your supplied JSON schema. Learn more in the
@@ -26533,9 +26695,8 @@ ModifyAssistantRequestResponseFormat
   switch (json['runtimeType']) {
     case 'mode':
       return ModifyAssistantRequestResponseFormatEnumeration.fromJson(json);
-    case 'format':
-      return ModifyAssistantRequestResponseFormatAssistantsResponseFormat
-          .fromJson(json);
+    case 'responseFormat':
+      return ModifyAssistantRequestResponseFormatResponseFormat.fromJson(json);
 
     default:
       throw CheckedFromJsonException(
@@ -26552,19 +26713,19 @@ mixin _$ModifyAssistantRequestResponseFormat {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(ModifyAssistantResponseFormatMode value) mode,
-    required TResult Function(AssistantsResponseFormat value) format,
+    required TResult Function(ResponseFormat value) responseFormat,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(ModifyAssistantResponseFormatMode value)? mode,
-    TResult? Function(AssistantsResponseFormat value)? format,
+    TResult? Function(ResponseFormat value)? responseFormat,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(ModifyAssistantResponseFormatMode value)? mode,
-    TResult Function(AssistantsResponseFormat value)? format,
+    TResult Function(ResponseFormat value)? responseFormat,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -26574,26 +26735,24 @@ mixin _$ModifyAssistantRequestResponseFormat {
             ModifyAssistantRequestResponseFormatEnumeration value)
         mode,
     required TResult Function(
-            ModifyAssistantRequestResponseFormatAssistantsResponseFormat value)
-        format,
+            ModifyAssistantRequestResponseFormatResponseFormat value)
+        responseFormat,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ModifyAssistantRequestResponseFormatEnumeration value)?
         mode,
-    TResult? Function(
-            ModifyAssistantRequestResponseFormatAssistantsResponseFormat value)?
-        format,
+    TResult? Function(ModifyAssistantRequestResponseFormatResponseFormat value)?
+        responseFormat,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ModifyAssistantRequestResponseFormatEnumeration value)?
         mode,
-    TResult Function(
-            ModifyAssistantRequestResponseFormatAssistantsResponseFormat value)?
-        format,
+    TResult Function(ModifyAssistantRequestResponseFormatResponseFormat value)?
+        responseFormat,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -26718,7 +26877,7 @@ class _$ModifyAssistantRequestResponseFormatEnumerationImpl
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(ModifyAssistantResponseFormatMode value) mode,
-    required TResult Function(AssistantsResponseFormat value) format,
+    required TResult Function(ResponseFormat value) responseFormat,
   }) {
     return mode(value);
   }
@@ -26727,7 +26886,7 @@ class _$ModifyAssistantRequestResponseFormatEnumerationImpl
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(ModifyAssistantResponseFormatMode value)? mode,
-    TResult? Function(AssistantsResponseFormat value)? format,
+    TResult? Function(ResponseFormat value)? responseFormat,
   }) {
     return mode?.call(value);
   }
@@ -26736,7 +26895,7 @@ class _$ModifyAssistantRequestResponseFormatEnumerationImpl
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(ModifyAssistantResponseFormatMode value)? mode,
-    TResult Function(AssistantsResponseFormat value)? format,
+    TResult Function(ResponseFormat value)? responseFormat,
     required TResult orElse(),
   }) {
     if (mode != null) {
@@ -26752,8 +26911,8 @@ class _$ModifyAssistantRequestResponseFormatEnumerationImpl
             ModifyAssistantRequestResponseFormatEnumeration value)
         mode,
     required TResult Function(
-            ModifyAssistantRequestResponseFormatAssistantsResponseFormat value)
-        format,
+            ModifyAssistantRequestResponseFormatResponseFormat value)
+        responseFormat,
   }) {
     return mode(this);
   }
@@ -26763,9 +26922,8 @@ class _$ModifyAssistantRequestResponseFormatEnumerationImpl
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ModifyAssistantRequestResponseFormatEnumeration value)?
         mode,
-    TResult? Function(
-            ModifyAssistantRequestResponseFormatAssistantsResponseFormat value)?
-        format,
+    TResult? Function(ModifyAssistantRequestResponseFormatResponseFormat value)?
+        responseFormat,
   }) {
     return mode?.call(this);
   }
@@ -26775,9 +26933,8 @@ class _$ModifyAssistantRequestResponseFormatEnumerationImpl
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ModifyAssistantRequestResponseFormatEnumeration value)?
         mode,
-    TResult Function(
-            ModifyAssistantRequestResponseFormatAssistantsResponseFormat value)?
-        format,
+    TResult Function(ModifyAssistantRequestResponseFormatResponseFormat value)?
+        responseFormat,
     required TResult orElse(),
   }) {
     if (mode != null) {
@@ -26817,33 +26974,32 @@ abstract class ModifyAssistantRequestResponseFormatEnumeration
 }
 
 /// @nodoc
-abstract class _$$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWith<
+abstract class _$$ModifyAssistantRequestResponseFormatResponseFormatImplCopyWith<
     $Res> {
-  factory _$$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWith(
-          _$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImpl value,
+  factory _$$ModifyAssistantRequestResponseFormatResponseFormatImplCopyWith(
+          _$ModifyAssistantRequestResponseFormatResponseFormatImpl value,
           $Res Function(
-                  _$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImpl)
+                  _$ModifyAssistantRequestResponseFormatResponseFormatImpl)
               then) =
-      __$$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWithImpl<
+      __$$ModifyAssistantRequestResponseFormatResponseFormatImplCopyWithImpl<
           $Res>;
   @useResult
-  $Res call({AssistantsResponseFormat value});
+  $Res call({ResponseFormat value});
 
-  $AssistantsResponseFormatCopyWith<$Res> get value;
+  $ResponseFormatCopyWith<$Res> get value;
 }
 
 /// @nodoc
-class __$$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWithImpl<
+class __$$ModifyAssistantRequestResponseFormatResponseFormatImplCopyWithImpl<
         $Res>
     extends _$ModifyAssistantRequestResponseFormatCopyWithImpl<$Res,
-        _$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImpl>
+        _$ModifyAssistantRequestResponseFormatResponseFormatImpl>
     implements
-        _$$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWith<
+        _$$ModifyAssistantRequestResponseFormatResponseFormatImplCopyWith<
             $Res> {
-  __$$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWithImpl(
-      _$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImpl _value,
-      $Res Function(
-              _$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImpl)
+  __$$ModifyAssistantRequestResponseFormatResponseFormatImplCopyWithImpl(
+      _$ModifyAssistantRequestResponseFormatResponseFormatImpl _value,
+      $Res Function(_$ModifyAssistantRequestResponseFormatResponseFormatImpl)
           _then)
       : super(_value, _then);
 
@@ -26854,12 +27010,11 @@ class __$$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWi
   $Res call({
     Object? value = null,
   }) {
-    return _then(
-        _$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImpl(
+    return _then(_$ModifyAssistantRequestResponseFormatResponseFormatImpl(
       null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
-              as AssistantsResponseFormat,
+              as ResponseFormat,
     ));
   }
 
@@ -26867,8 +27022,8 @@ class __$$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWi
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $AssistantsResponseFormatCopyWith<$Res> get value {
-    return $AssistantsResponseFormatCopyWith<$Res>(_value.value, (value) {
+  $ResponseFormatCopyWith<$Res> get value {
+    return $ResponseFormatCopyWith<$Res>(_value.value, (value) {
       return _then(_value.copyWith(value: value));
     });
   }
@@ -26876,36 +27031,33 @@ class __$$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWi
 
 /// @nodoc
 @JsonSerializable()
-class _$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImpl
-    extends ModifyAssistantRequestResponseFormatAssistantsResponseFormat {
-  const _$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImpl(
-      this.value,
+class _$ModifyAssistantRequestResponseFormatResponseFormatImpl
+    extends ModifyAssistantRequestResponseFormatResponseFormat {
+  const _$ModifyAssistantRequestResponseFormatResponseFormatImpl(this.value,
       {final String? $type})
-      : $type = $type ?? 'format',
+      : $type = $type ?? 'responseFormat',
         super._();
 
-  factory _$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImpl.fromJson(
+  factory _$ModifyAssistantRequestResponseFormatResponseFormatImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImplFromJson(
-          json);
+      _$$ModifyAssistantRequestResponseFormatResponseFormatImplFromJson(json);
 
   @override
-  final AssistantsResponseFormat value;
+  final ResponseFormat value;
 
   @JsonKey(name: 'runtimeType')
   final String $type;
 
   @override
   String toString() {
-    return 'ModifyAssistantRequestResponseFormat.format(value: $value)';
+    return 'ModifyAssistantRequestResponseFormat.responseFormat(value: $value)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other
-                is _$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImpl &&
+            other is _$ModifyAssistantRequestResponseFormatResponseFormatImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
@@ -26918,40 +27070,40 @@ class _$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImpl
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWith<
-          _$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImpl>
+  _$$ModifyAssistantRequestResponseFormatResponseFormatImplCopyWith<
+          _$ModifyAssistantRequestResponseFormatResponseFormatImpl>
       get copyWith =>
-          __$$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWithImpl<
-                  _$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImpl>(
+          __$$ModifyAssistantRequestResponseFormatResponseFormatImplCopyWithImpl<
+                  _$ModifyAssistantRequestResponseFormatResponseFormatImpl>(
               this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(ModifyAssistantResponseFormatMode value) mode,
-    required TResult Function(AssistantsResponseFormat value) format,
+    required TResult Function(ResponseFormat value) responseFormat,
   }) {
-    return format(value);
+    return responseFormat(value);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(ModifyAssistantResponseFormatMode value)? mode,
-    TResult? Function(AssistantsResponseFormat value)? format,
+    TResult? Function(ResponseFormat value)? responseFormat,
   }) {
-    return format?.call(value);
+    return responseFormat?.call(value);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(ModifyAssistantResponseFormatMode value)? mode,
-    TResult Function(AssistantsResponseFormat value)? format,
+    TResult Function(ResponseFormat value)? responseFormat,
     required TResult orElse(),
   }) {
-    if (format != null) {
-      return format(value);
+    if (responseFormat != null) {
+      return responseFormat(value);
     }
     return orElse();
   }
@@ -26963,10 +27115,10 @@ class _$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImpl
             ModifyAssistantRequestResponseFormatEnumeration value)
         mode,
     required TResult Function(
-            ModifyAssistantRequestResponseFormatAssistantsResponseFormat value)
-        format,
+            ModifyAssistantRequestResponseFormatResponseFormat value)
+        responseFormat,
   }) {
-    return format(this);
+    return responseFormat(this);
   }
 
   @override
@@ -26974,11 +27126,10 @@ class _$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImpl
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ModifyAssistantRequestResponseFormatEnumeration value)?
         mode,
-    TResult? Function(
-            ModifyAssistantRequestResponseFormatAssistantsResponseFormat value)?
-        format,
+    TResult? Function(ModifyAssistantRequestResponseFormatResponseFormat value)?
+        responseFormat,
   }) {
-    return format?.call(this);
+    return responseFormat?.call(this);
   }
 
   @override
@@ -26986,46 +27137,43 @@ class _$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImpl
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ModifyAssistantRequestResponseFormatEnumeration value)?
         mode,
-    TResult Function(
-            ModifyAssistantRequestResponseFormatAssistantsResponseFormat value)?
-        format,
+    TResult Function(ModifyAssistantRequestResponseFormatResponseFormat value)?
+        responseFormat,
     required TResult orElse(),
   }) {
-    if (format != null) {
-      return format(this);
+    if (responseFormat != null) {
+      return responseFormat(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImplToJson(
+    return _$$ModifyAssistantRequestResponseFormatResponseFormatImplToJson(
       this,
     );
   }
 }
 
-abstract class ModifyAssistantRequestResponseFormatAssistantsResponseFormat
+abstract class ModifyAssistantRequestResponseFormatResponseFormat
     extends ModifyAssistantRequestResponseFormat {
-  const factory ModifyAssistantRequestResponseFormatAssistantsResponseFormat(
-          final AssistantsResponseFormat value) =
-      _$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImpl;
-  const ModifyAssistantRequestResponseFormatAssistantsResponseFormat._()
-      : super._();
+  const factory ModifyAssistantRequestResponseFormatResponseFormat(
+          final ResponseFormat value) =
+      _$ModifyAssistantRequestResponseFormatResponseFormatImpl;
+  const ModifyAssistantRequestResponseFormatResponseFormat._() : super._();
 
-  factory ModifyAssistantRequestResponseFormatAssistantsResponseFormat.fromJson(
+  factory ModifyAssistantRequestResponseFormatResponseFormat.fromJson(
           Map<String, dynamic> json) =
-      _$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImpl
-      .fromJson;
+      _$ModifyAssistantRequestResponseFormatResponseFormatImpl.fromJson;
 
   @override
-  AssistantsResponseFormat get value;
+  ResponseFormat get value;
 
   /// Create a copy of ModifyAssistantRequestResponseFormat
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWith<
-          _$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImpl>
+  _$$ModifyAssistantRequestResponseFormatResponseFormatImplCopyWith<
+          _$ModifyAssistantRequestResponseFormatResponseFormatImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -27908,170 +28056,6 @@ abstract class _AssistantsFunctionCallOption
       get copyWith => throw _privateConstructorUsedError;
 }
 
-AssistantsResponseFormat _$AssistantsResponseFormatFromJson(
-    Map<String, dynamic> json) {
-  return _AssistantsResponseFormat.fromJson(json);
-}
-
-/// @nodoc
-mixin _$AssistantsResponseFormat {
-  /// Must be one of `text` or `json_object`.
-  AssistantsResponseFormatType get type => throw _privateConstructorUsedError;
-
-  /// Serializes this AssistantsResponseFormat to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of AssistantsResponseFormat
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $AssistantsResponseFormatCopyWith<AssistantsResponseFormat> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $AssistantsResponseFormatCopyWith<$Res> {
-  factory $AssistantsResponseFormatCopyWith(AssistantsResponseFormat value,
-          $Res Function(AssistantsResponseFormat) then) =
-      _$AssistantsResponseFormatCopyWithImpl<$Res, AssistantsResponseFormat>;
-  @useResult
-  $Res call({AssistantsResponseFormatType type});
-}
-
-/// @nodoc
-class _$AssistantsResponseFormatCopyWithImpl<$Res,
-        $Val extends AssistantsResponseFormat>
-    implements $AssistantsResponseFormatCopyWith<$Res> {
-  _$AssistantsResponseFormatCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of AssistantsResponseFormat
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? type = null,
-  }) {
-    return _then(_value.copyWith(
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as AssistantsResponseFormatType,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$AssistantsResponseFormatImplCopyWith<$Res>
-    implements $AssistantsResponseFormatCopyWith<$Res> {
-  factory _$$AssistantsResponseFormatImplCopyWith(
-          _$AssistantsResponseFormatImpl value,
-          $Res Function(_$AssistantsResponseFormatImpl) then) =
-      __$$AssistantsResponseFormatImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({AssistantsResponseFormatType type});
-}
-
-/// @nodoc
-class __$$AssistantsResponseFormatImplCopyWithImpl<$Res>
-    extends _$AssistantsResponseFormatCopyWithImpl<$Res,
-        _$AssistantsResponseFormatImpl>
-    implements _$$AssistantsResponseFormatImplCopyWith<$Res> {
-  __$$AssistantsResponseFormatImplCopyWithImpl(
-      _$AssistantsResponseFormatImpl _value,
-      $Res Function(_$AssistantsResponseFormatImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of AssistantsResponseFormat
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? type = null,
-  }) {
-    return _then(_$AssistantsResponseFormatImpl(
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as AssistantsResponseFormatType,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$AssistantsResponseFormatImpl extends _AssistantsResponseFormat {
-  const _$AssistantsResponseFormatImpl(
-      {this.type = AssistantsResponseFormatType.text})
-      : super._();
-
-  factory _$AssistantsResponseFormatImpl.fromJson(Map<String, dynamic> json) =>
-      _$$AssistantsResponseFormatImplFromJson(json);
-
-  /// Must be one of `text` or `json_object`.
-  @override
-  @JsonKey()
-  final AssistantsResponseFormatType type;
-
-  @override
-  String toString() {
-    return 'AssistantsResponseFormat(type: $type)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$AssistantsResponseFormatImpl &&
-            (identical(other.type, type) || other.type == type));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, type);
-
-  /// Create a copy of AssistantsResponseFormat
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$AssistantsResponseFormatImplCopyWith<_$AssistantsResponseFormatImpl>
-      get copyWith => __$$AssistantsResponseFormatImplCopyWithImpl<
-          _$AssistantsResponseFormatImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$AssistantsResponseFormatImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _AssistantsResponseFormat extends AssistantsResponseFormat {
-  const factory _AssistantsResponseFormat(
-          {final AssistantsResponseFormatType type}) =
-      _$AssistantsResponseFormatImpl;
-  const _AssistantsResponseFormat._() : super._();
-
-  factory _AssistantsResponseFormat.fromJson(Map<String, dynamic> json) =
-      _$AssistantsResponseFormatImpl.fromJson;
-
-  /// Must be one of `text` or `json_object`.
-  @override
-  AssistantsResponseFormatType get type;
-
-  /// Create a copy of AssistantsResponseFormat
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AssistantsResponseFormatImplCopyWith<_$AssistantsResponseFormatImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
 TruncationObject _$TruncationObjectFromJson(Map<String, dynamic> json) {
   return _TruncationObject.fromJson(json);
 }
@@ -28374,9 +28358,10 @@ mixin _$RunObject {
   @JsonKey(name: 'parallel_tool_calls')
   bool? get parallelToolCalls => throw _privateConstructorUsedError;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// Specifies the format that the model must output. Compatible with
+  /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
   /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
-  /// since `gpt-4o-mini-1106`.
+  /// since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
   /// the model will match your supplied JSON schema. Learn more in the
@@ -29109,9 +29094,10 @@ class _$RunObjectImpl extends _RunObject {
   @JsonKey(name: 'parallel_tool_calls')
   final bool? parallelToolCalls;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// Specifies the format that the model must output. Compatible with
+  /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
   /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
-  /// since `gpt-4o-mini-1106`.
+  /// since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
   /// the model will match your supplied JSON schema. Learn more in the
@@ -29410,9 +29396,10 @@ abstract class _RunObject extends RunObject {
   @JsonKey(name: 'parallel_tool_calls')
   bool? get parallelToolCalls;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// Specifies the format that the model must output. Compatible with
+  /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
   /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
-  /// since `gpt-4o-mini-1106`.
+  /// since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
   /// the model will match your supplied JSON schema. Learn more in the
@@ -30466,8 +30453,8 @@ RunObjectResponseFormat _$RunObjectResponseFormatFromJson(
   switch (json['runtimeType']) {
     case 'mode':
       return RunObjectResponseFormatEnumeration.fromJson(json);
-    case 'format':
-      return RunObjectResponseFormatAssistantsResponseFormat.fromJson(json);
+    case 'responseFormat':
+      return RunObjectResponseFormatResponseFormat.fromJson(json);
 
     default:
       throw CheckedFromJsonException(
@@ -30484,42 +30471,41 @@ mixin _$RunObjectResponseFormat {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(RunObjectResponseFormatMode value) mode,
-    required TResult Function(AssistantsResponseFormat value) format,
+    required TResult Function(ResponseFormat value) responseFormat,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(RunObjectResponseFormatMode value)? mode,
-    TResult? Function(AssistantsResponseFormat value)? format,
+    TResult? Function(ResponseFormat value)? responseFormat,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(RunObjectResponseFormatMode value)? mode,
-    TResult Function(AssistantsResponseFormat value)? format,
+    TResult Function(ResponseFormat value)? responseFormat,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(RunObjectResponseFormatEnumeration value) mode,
-    required TResult Function(
-            RunObjectResponseFormatAssistantsResponseFormat value)
-        format,
+    required TResult Function(RunObjectResponseFormatResponseFormat value)
+        responseFormat,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(RunObjectResponseFormatEnumeration value)? mode,
-    TResult? Function(RunObjectResponseFormatAssistantsResponseFormat value)?
-        format,
+    TResult? Function(RunObjectResponseFormatResponseFormat value)?
+        responseFormat,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(RunObjectResponseFormatEnumeration value)? mode,
-    TResult Function(RunObjectResponseFormatAssistantsResponseFormat value)?
-        format,
+    TResult Function(RunObjectResponseFormatResponseFormat value)?
+        responseFormat,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -30636,7 +30622,7 @@ class _$RunObjectResponseFormatEnumerationImpl
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(RunObjectResponseFormatMode value) mode,
-    required TResult Function(AssistantsResponseFormat value) format,
+    required TResult Function(ResponseFormat value) responseFormat,
   }) {
     return mode(value);
   }
@@ -30645,7 +30631,7 @@ class _$RunObjectResponseFormatEnumerationImpl
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(RunObjectResponseFormatMode value)? mode,
-    TResult? Function(AssistantsResponseFormat value)? format,
+    TResult? Function(ResponseFormat value)? responseFormat,
   }) {
     return mode?.call(value);
   }
@@ -30654,7 +30640,7 @@ class _$RunObjectResponseFormatEnumerationImpl
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(RunObjectResponseFormatMode value)? mode,
-    TResult Function(AssistantsResponseFormat value)? format,
+    TResult Function(ResponseFormat value)? responseFormat,
     required TResult orElse(),
   }) {
     if (mode != null) {
@@ -30667,9 +30653,8 @@ class _$RunObjectResponseFormatEnumerationImpl
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(RunObjectResponseFormatEnumeration value) mode,
-    required TResult Function(
-            RunObjectResponseFormatAssistantsResponseFormat value)
-        format,
+    required TResult Function(RunObjectResponseFormatResponseFormat value)
+        responseFormat,
   }) {
     return mode(this);
   }
@@ -30678,8 +30663,8 @@ class _$RunObjectResponseFormatEnumerationImpl
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(RunObjectResponseFormatEnumeration value)? mode,
-    TResult? Function(RunObjectResponseFormatAssistantsResponseFormat value)?
-        format,
+    TResult? Function(RunObjectResponseFormatResponseFormat value)?
+        responseFormat,
   }) {
     return mode?.call(this);
   }
@@ -30688,8 +30673,8 @@ class _$RunObjectResponseFormatEnumerationImpl
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(RunObjectResponseFormatEnumeration value)? mode,
-    TResult Function(RunObjectResponseFormatAssistantsResponseFormat value)?
-        format,
+    TResult Function(RunObjectResponseFormatResponseFormat value)?
+        responseFormat,
     required TResult orElse(),
   }) {
     if (mode != null) {
@@ -30729,29 +30714,25 @@ abstract class RunObjectResponseFormatEnumeration
 }
 
 /// @nodoc
-abstract class _$$RunObjectResponseFormatAssistantsResponseFormatImplCopyWith<
-    $Res> {
-  factory _$$RunObjectResponseFormatAssistantsResponseFormatImplCopyWith(
-          _$RunObjectResponseFormatAssistantsResponseFormatImpl value,
-          $Res Function(_$RunObjectResponseFormatAssistantsResponseFormatImpl)
-              then) =
-      __$$RunObjectResponseFormatAssistantsResponseFormatImplCopyWithImpl<$Res>;
+abstract class _$$RunObjectResponseFormatResponseFormatImplCopyWith<$Res> {
+  factory _$$RunObjectResponseFormatResponseFormatImplCopyWith(
+          _$RunObjectResponseFormatResponseFormatImpl value,
+          $Res Function(_$RunObjectResponseFormatResponseFormatImpl) then) =
+      __$$RunObjectResponseFormatResponseFormatImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({AssistantsResponseFormat value});
+  $Res call({ResponseFormat value});
 
-  $AssistantsResponseFormatCopyWith<$Res> get value;
+  $ResponseFormatCopyWith<$Res> get value;
 }
 
 /// @nodoc
-class __$$RunObjectResponseFormatAssistantsResponseFormatImplCopyWithImpl<$Res>
+class __$$RunObjectResponseFormatResponseFormatImplCopyWithImpl<$Res>
     extends _$RunObjectResponseFormatCopyWithImpl<$Res,
-        _$RunObjectResponseFormatAssistantsResponseFormatImpl>
-    implements
-        _$$RunObjectResponseFormatAssistantsResponseFormatImplCopyWith<$Res> {
-  __$$RunObjectResponseFormatAssistantsResponseFormatImplCopyWithImpl(
-      _$RunObjectResponseFormatAssistantsResponseFormatImpl _value,
-      $Res Function(_$RunObjectResponseFormatAssistantsResponseFormatImpl)
-          _then)
+        _$RunObjectResponseFormatResponseFormatImpl>
+    implements _$$RunObjectResponseFormatResponseFormatImplCopyWith<$Res> {
+  __$$RunObjectResponseFormatResponseFormatImplCopyWithImpl(
+      _$RunObjectResponseFormatResponseFormatImpl _value,
+      $Res Function(_$RunObjectResponseFormatResponseFormatImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of RunObjectResponseFormat
@@ -30761,11 +30742,11 @@ class __$$RunObjectResponseFormatAssistantsResponseFormatImplCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$RunObjectResponseFormatAssistantsResponseFormatImpl(
+    return _then(_$RunObjectResponseFormatResponseFormatImpl(
       null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
-              as AssistantsResponseFormat,
+              as ResponseFormat,
     ));
   }
 
@@ -30773,8 +30754,8 @@ class __$$RunObjectResponseFormatAssistantsResponseFormatImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $AssistantsResponseFormatCopyWith<$Res> get value {
-    return $AssistantsResponseFormatCopyWith<$Res>(_value.value, (value) {
+  $ResponseFormatCopyWith<$Res> get value {
+    return $ResponseFormatCopyWith<$Res>(_value.value, (value) {
       return _then(_value.copyWith(value: value));
     });
   }
@@ -30782,33 +30763,33 @@ class __$$RunObjectResponseFormatAssistantsResponseFormatImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$RunObjectResponseFormatAssistantsResponseFormatImpl
-    extends RunObjectResponseFormatAssistantsResponseFormat {
-  const _$RunObjectResponseFormatAssistantsResponseFormatImpl(this.value,
+class _$RunObjectResponseFormatResponseFormatImpl
+    extends RunObjectResponseFormatResponseFormat {
+  const _$RunObjectResponseFormatResponseFormatImpl(this.value,
       {final String? $type})
-      : $type = $type ?? 'format',
+      : $type = $type ?? 'responseFormat',
         super._();
 
-  factory _$RunObjectResponseFormatAssistantsResponseFormatImpl.fromJson(
+  factory _$RunObjectResponseFormatResponseFormatImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$RunObjectResponseFormatAssistantsResponseFormatImplFromJson(json);
+      _$$RunObjectResponseFormatResponseFormatImplFromJson(json);
 
   @override
-  final AssistantsResponseFormat value;
+  final ResponseFormat value;
 
   @JsonKey(name: 'runtimeType')
   final String $type;
 
   @override
   String toString() {
-    return 'RunObjectResponseFormat.format(value: $value)';
+    return 'RunObjectResponseFormat.responseFormat(value: $value)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$RunObjectResponseFormatAssistantsResponseFormatImpl &&
+            other is _$RunObjectResponseFormatResponseFormatImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
@@ -30821,40 +30802,38 @@ class _$RunObjectResponseFormatAssistantsResponseFormatImpl
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$RunObjectResponseFormatAssistantsResponseFormatImplCopyWith<
-          _$RunObjectResponseFormatAssistantsResponseFormatImpl>
-      get copyWith =>
-          __$$RunObjectResponseFormatAssistantsResponseFormatImplCopyWithImpl<
-                  _$RunObjectResponseFormatAssistantsResponseFormatImpl>(
-              this, _$identity);
+  _$$RunObjectResponseFormatResponseFormatImplCopyWith<
+          _$RunObjectResponseFormatResponseFormatImpl>
+      get copyWith => __$$RunObjectResponseFormatResponseFormatImplCopyWithImpl<
+          _$RunObjectResponseFormatResponseFormatImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(RunObjectResponseFormatMode value) mode,
-    required TResult Function(AssistantsResponseFormat value) format,
+    required TResult Function(ResponseFormat value) responseFormat,
   }) {
-    return format(value);
+    return responseFormat(value);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(RunObjectResponseFormatMode value)? mode,
-    TResult? Function(AssistantsResponseFormat value)? format,
+    TResult? Function(ResponseFormat value)? responseFormat,
   }) {
-    return format?.call(value);
+    return responseFormat?.call(value);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(RunObjectResponseFormatMode value)? mode,
-    TResult Function(AssistantsResponseFormat value)? format,
+    TResult Function(ResponseFormat value)? responseFormat,
     required TResult orElse(),
   }) {
-    if (format != null) {
-      return format(value);
+    if (responseFormat != null) {
+      return responseFormat(value);
     }
     return orElse();
   }
@@ -30863,64 +30842,62 @@ class _$RunObjectResponseFormatAssistantsResponseFormatImpl
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(RunObjectResponseFormatEnumeration value) mode,
-    required TResult Function(
-            RunObjectResponseFormatAssistantsResponseFormat value)
-        format,
+    required TResult Function(RunObjectResponseFormatResponseFormat value)
+        responseFormat,
   }) {
-    return format(this);
+    return responseFormat(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(RunObjectResponseFormatEnumeration value)? mode,
-    TResult? Function(RunObjectResponseFormatAssistantsResponseFormat value)?
-        format,
+    TResult? Function(RunObjectResponseFormatResponseFormat value)?
+        responseFormat,
   }) {
-    return format?.call(this);
+    return responseFormat?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(RunObjectResponseFormatEnumeration value)? mode,
-    TResult Function(RunObjectResponseFormatAssistantsResponseFormat value)?
-        format,
+    TResult Function(RunObjectResponseFormatResponseFormat value)?
+        responseFormat,
     required TResult orElse(),
   }) {
-    if (format != null) {
-      return format(this);
+    if (responseFormat != null) {
+      return responseFormat(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$RunObjectResponseFormatAssistantsResponseFormatImplToJson(
+    return _$$RunObjectResponseFormatResponseFormatImplToJson(
       this,
     );
   }
 }
 
-abstract class RunObjectResponseFormatAssistantsResponseFormat
+abstract class RunObjectResponseFormatResponseFormat
     extends RunObjectResponseFormat {
-  const factory RunObjectResponseFormatAssistantsResponseFormat(
-          final AssistantsResponseFormat value) =
-      _$RunObjectResponseFormatAssistantsResponseFormatImpl;
-  const RunObjectResponseFormatAssistantsResponseFormat._() : super._();
+  const factory RunObjectResponseFormatResponseFormat(
+      final ResponseFormat value) = _$RunObjectResponseFormatResponseFormatImpl;
+  const RunObjectResponseFormatResponseFormat._() : super._();
 
-  factory RunObjectResponseFormatAssistantsResponseFormat.fromJson(
+  factory RunObjectResponseFormatResponseFormat.fromJson(
           Map<String, dynamic> json) =
-      _$RunObjectResponseFormatAssistantsResponseFormatImpl.fromJson;
+      _$RunObjectResponseFormatResponseFormatImpl.fromJson;
 
   @override
-  AssistantsResponseFormat get value;
+  ResponseFormat get value;
 
   /// Create a copy of RunObjectResponseFormat
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$RunObjectResponseFormatAssistantsResponseFormatImplCopyWith<
-          _$RunObjectResponseFormatAssistantsResponseFormatImpl>
+  _$$RunObjectResponseFormatResponseFormatImplCopyWith<
+          _$RunObjectResponseFormatResponseFormatImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -31403,9 +31380,10 @@ mixin _$CreateRunRequest {
   @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
   bool? get parallelToolCalls => throw _privateConstructorUsedError;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// Specifies the format that the model must output. Compatible with
+  /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
   /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
-  /// since `gpt-4o-mini-1106`.
+  /// since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
   /// the model will match your supplied JSON schema. Learn more in the
@@ -31940,9 +31918,10 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
   @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
   final bool? parallelToolCalls;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// Specifies the format that the model must output. Compatible with
+  /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
   /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
-  /// since `gpt-4o-mini-1106`.
+  /// since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
   /// the model will match your supplied JSON schema. Learn more in the
@@ -32163,9 +32142,10 @@ abstract class _CreateRunRequest extends CreateRunRequest {
   @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
   bool? get parallelToolCalls;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// Specifies the format that the model must output. Compatible with
+  /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
   /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
-  /// since `gpt-4o-mini-1106`.
+  /// since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
   /// the model will match your supplied JSON schema. Learn more in the
@@ -33097,9 +33077,8 @@ CreateRunRequestResponseFormat _$CreateRunRequestResponseFormatFromJson(
   switch (json['runtimeType']) {
     case 'mode':
       return CreateRunRequestResponseFormatEnumeration.fromJson(json);
-    case 'format':
-      return CreateRunRequestResponseFormatAssistantsResponseFormat.fromJson(
-          json);
+    case 'responseFormat':
+      return CreateRunRequestResponseFormatResponseFormat.fromJson(json);
 
     default:
       throw CheckedFromJsonException(
@@ -33116,19 +33095,19 @@ mixin _$CreateRunRequestResponseFormat {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(CreateRunRequestResponseFormatMode value) mode,
-    required TResult Function(AssistantsResponseFormat value) format,
+    required TResult Function(ResponseFormat value) responseFormat,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(CreateRunRequestResponseFormatMode value)? mode,
-    TResult? Function(AssistantsResponseFormat value)? format,
+    TResult? Function(ResponseFormat value)? responseFormat,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(CreateRunRequestResponseFormatMode value)? mode,
-    TResult Function(AssistantsResponseFormat value)? format,
+    TResult Function(ResponseFormat value)? responseFormat,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -33137,24 +33116,22 @@ mixin _$CreateRunRequestResponseFormat {
     required TResult Function(CreateRunRequestResponseFormatEnumeration value)
         mode,
     required TResult Function(
-            CreateRunRequestResponseFormatAssistantsResponseFormat value)
-        format,
+            CreateRunRequestResponseFormatResponseFormat value)
+        responseFormat,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(CreateRunRequestResponseFormatEnumeration value)? mode,
-    TResult? Function(
-            CreateRunRequestResponseFormatAssistantsResponseFormat value)?
-        format,
+    TResult? Function(CreateRunRequestResponseFormatResponseFormat value)?
+        responseFormat,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(CreateRunRequestResponseFormatEnumeration value)? mode,
-    TResult Function(
-            CreateRunRequestResponseFormatAssistantsResponseFormat value)?
-        format,
+    TResult Function(CreateRunRequestResponseFormatResponseFormat value)?
+        responseFormat,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -33275,7 +33252,7 @@ class _$CreateRunRequestResponseFormatEnumerationImpl
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(CreateRunRequestResponseFormatMode value) mode,
-    required TResult Function(AssistantsResponseFormat value) format,
+    required TResult Function(ResponseFormat value) responseFormat,
   }) {
     return mode(value);
   }
@@ -33284,7 +33261,7 @@ class _$CreateRunRequestResponseFormatEnumerationImpl
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(CreateRunRequestResponseFormatMode value)? mode,
-    TResult? Function(AssistantsResponseFormat value)? format,
+    TResult? Function(ResponseFormat value)? responseFormat,
   }) {
     return mode?.call(value);
   }
@@ -33293,7 +33270,7 @@ class _$CreateRunRequestResponseFormatEnumerationImpl
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(CreateRunRequestResponseFormatMode value)? mode,
-    TResult Function(AssistantsResponseFormat value)? format,
+    TResult Function(ResponseFormat value)? responseFormat,
     required TResult orElse(),
   }) {
     if (mode != null) {
@@ -33308,8 +33285,8 @@ class _$CreateRunRequestResponseFormatEnumerationImpl
     required TResult Function(CreateRunRequestResponseFormatEnumeration value)
         mode,
     required TResult Function(
-            CreateRunRequestResponseFormatAssistantsResponseFormat value)
-        format,
+            CreateRunRequestResponseFormatResponseFormat value)
+        responseFormat,
   }) {
     return mode(this);
   }
@@ -33318,9 +33295,8 @@ class _$CreateRunRequestResponseFormatEnumerationImpl
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(CreateRunRequestResponseFormatEnumeration value)? mode,
-    TResult? Function(
-            CreateRunRequestResponseFormatAssistantsResponseFormat value)?
-        format,
+    TResult? Function(CreateRunRequestResponseFormatResponseFormat value)?
+        responseFormat,
   }) {
     return mode?.call(this);
   }
@@ -33329,9 +33305,8 @@ class _$CreateRunRequestResponseFormatEnumerationImpl
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(CreateRunRequestResponseFormatEnumeration value)? mode,
-    TResult Function(
-            CreateRunRequestResponseFormatAssistantsResponseFormat value)?
-        format,
+    TResult Function(CreateRunRequestResponseFormatResponseFormat value)?
+        responseFormat,
     required TResult orElse(),
   }) {
     if (mode != null) {
@@ -33371,34 +33346,28 @@ abstract class CreateRunRequestResponseFormatEnumeration
 }
 
 /// @nodoc
-abstract class _$$CreateRunRequestResponseFormatAssistantsResponseFormatImplCopyWith<
+abstract class _$$CreateRunRequestResponseFormatResponseFormatImplCopyWith<
     $Res> {
-  factory _$$CreateRunRequestResponseFormatAssistantsResponseFormatImplCopyWith(
-          _$CreateRunRequestResponseFormatAssistantsResponseFormatImpl value,
-          $Res Function(
-                  _$CreateRunRequestResponseFormatAssistantsResponseFormatImpl)
+  factory _$$CreateRunRequestResponseFormatResponseFormatImplCopyWith(
+          _$CreateRunRequestResponseFormatResponseFormatImpl value,
+          $Res Function(_$CreateRunRequestResponseFormatResponseFormatImpl)
               then) =
-      __$$CreateRunRequestResponseFormatAssistantsResponseFormatImplCopyWithImpl<
-          $Res>;
+      __$$CreateRunRequestResponseFormatResponseFormatImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({AssistantsResponseFormat value});
+  $Res call({ResponseFormat value});
 
-  $AssistantsResponseFormatCopyWith<$Res> get value;
+  $ResponseFormatCopyWith<$Res> get value;
 }
 
 /// @nodoc
-class __$$CreateRunRequestResponseFormatAssistantsResponseFormatImplCopyWithImpl<
-        $Res>
+class __$$CreateRunRequestResponseFormatResponseFormatImplCopyWithImpl<$Res>
     extends _$CreateRunRequestResponseFormatCopyWithImpl<$Res,
-        _$CreateRunRequestResponseFormatAssistantsResponseFormatImpl>
+        _$CreateRunRequestResponseFormatResponseFormatImpl>
     implements
-        _$$CreateRunRequestResponseFormatAssistantsResponseFormatImplCopyWith<
-            $Res> {
-  __$$CreateRunRequestResponseFormatAssistantsResponseFormatImplCopyWithImpl(
-      _$CreateRunRequestResponseFormatAssistantsResponseFormatImpl _value,
-      $Res Function(
-              _$CreateRunRequestResponseFormatAssistantsResponseFormatImpl)
-          _then)
+        _$$CreateRunRequestResponseFormatResponseFormatImplCopyWith<$Res> {
+  __$$CreateRunRequestResponseFormatResponseFormatImplCopyWithImpl(
+      _$CreateRunRequestResponseFormatResponseFormatImpl _value,
+      $Res Function(_$CreateRunRequestResponseFormatResponseFormatImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of CreateRunRequestResponseFormat
@@ -33408,11 +33377,11 @@ class __$$CreateRunRequestResponseFormatAssistantsResponseFormatImplCopyWithImpl
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$CreateRunRequestResponseFormatAssistantsResponseFormatImpl(
+    return _then(_$CreateRunRequestResponseFormatResponseFormatImpl(
       null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
-              as AssistantsResponseFormat,
+              as ResponseFormat,
     ));
   }
 
@@ -33420,8 +33389,8 @@ class __$$CreateRunRequestResponseFormatAssistantsResponseFormatImplCopyWithImpl
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $AssistantsResponseFormatCopyWith<$Res> get value {
-    return $AssistantsResponseFormatCopyWith<$Res>(_value.value, (value) {
+  $ResponseFormatCopyWith<$Res> get value {
+    return $ResponseFormatCopyWith<$Res>(_value.value, (value) {
       return _then(_value.copyWith(value: value));
     });
   }
@@ -33429,35 +33398,33 @@ class __$$CreateRunRequestResponseFormatAssistantsResponseFormatImplCopyWithImpl
 
 /// @nodoc
 @JsonSerializable()
-class _$CreateRunRequestResponseFormatAssistantsResponseFormatImpl
-    extends CreateRunRequestResponseFormatAssistantsResponseFormat {
-  const _$CreateRunRequestResponseFormatAssistantsResponseFormatImpl(this.value,
+class _$CreateRunRequestResponseFormatResponseFormatImpl
+    extends CreateRunRequestResponseFormatResponseFormat {
+  const _$CreateRunRequestResponseFormatResponseFormatImpl(this.value,
       {final String? $type})
-      : $type = $type ?? 'format',
+      : $type = $type ?? 'responseFormat',
         super._();
 
-  factory _$CreateRunRequestResponseFormatAssistantsResponseFormatImpl.fromJson(
+  factory _$CreateRunRequestResponseFormatResponseFormatImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$CreateRunRequestResponseFormatAssistantsResponseFormatImplFromJson(
-          json);
+      _$$CreateRunRequestResponseFormatResponseFormatImplFromJson(json);
 
   @override
-  final AssistantsResponseFormat value;
+  final ResponseFormat value;
 
   @JsonKey(name: 'runtimeType')
   final String $type;
 
   @override
   String toString() {
-    return 'CreateRunRequestResponseFormat.format(value: $value)';
+    return 'CreateRunRequestResponseFormat.responseFormat(value: $value)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other
-                is _$CreateRunRequestResponseFormatAssistantsResponseFormatImpl &&
+            other is _$CreateRunRequestResponseFormatResponseFormatImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
@@ -33470,40 +33437,40 @@ class _$CreateRunRequestResponseFormatAssistantsResponseFormatImpl
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$CreateRunRequestResponseFormatAssistantsResponseFormatImplCopyWith<
-          _$CreateRunRequestResponseFormatAssistantsResponseFormatImpl>
+  _$$CreateRunRequestResponseFormatResponseFormatImplCopyWith<
+          _$CreateRunRequestResponseFormatResponseFormatImpl>
       get copyWith =>
-          __$$CreateRunRequestResponseFormatAssistantsResponseFormatImplCopyWithImpl<
-                  _$CreateRunRequestResponseFormatAssistantsResponseFormatImpl>(
+          __$$CreateRunRequestResponseFormatResponseFormatImplCopyWithImpl<
+                  _$CreateRunRequestResponseFormatResponseFormatImpl>(
               this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(CreateRunRequestResponseFormatMode value) mode,
-    required TResult Function(AssistantsResponseFormat value) format,
+    required TResult Function(ResponseFormat value) responseFormat,
   }) {
-    return format(value);
+    return responseFormat(value);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(CreateRunRequestResponseFormatMode value)? mode,
-    TResult? Function(AssistantsResponseFormat value)? format,
+    TResult? Function(ResponseFormat value)? responseFormat,
   }) {
-    return format?.call(value);
+    return responseFormat?.call(value);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(CreateRunRequestResponseFormatMode value)? mode,
-    TResult Function(AssistantsResponseFormat value)? format,
+    TResult Function(ResponseFormat value)? responseFormat,
     required TResult orElse(),
   }) {
-    if (format != null) {
-      return format(value);
+    if (responseFormat != null) {
+      return responseFormat(value);
     }
     return orElse();
   }
@@ -33514,65 +33481,63 @@ class _$CreateRunRequestResponseFormatAssistantsResponseFormatImpl
     required TResult Function(CreateRunRequestResponseFormatEnumeration value)
         mode,
     required TResult Function(
-            CreateRunRequestResponseFormatAssistantsResponseFormat value)
-        format,
+            CreateRunRequestResponseFormatResponseFormat value)
+        responseFormat,
   }) {
-    return format(this);
+    return responseFormat(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(CreateRunRequestResponseFormatEnumeration value)? mode,
-    TResult? Function(
-            CreateRunRequestResponseFormatAssistantsResponseFormat value)?
-        format,
+    TResult? Function(CreateRunRequestResponseFormatResponseFormat value)?
+        responseFormat,
   }) {
-    return format?.call(this);
+    return responseFormat?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(CreateRunRequestResponseFormatEnumeration value)? mode,
-    TResult Function(
-            CreateRunRequestResponseFormatAssistantsResponseFormat value)?
-        format,
+    TResult Function(CreateRunRequestResponseFormatResponseFormat value)?
+        responseFormat,
     required TResult orElse(),
   }) {
-    if (format != null) {
-      return format(this);
+    if (responseFormat != null) {
+      return responseFormat(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$CreateRunRequestResponseFormatAssistantsResponseFormatImplToJson(
+    return _$$CreateRunRequestResponseFormatResponseFormatImplToJson(
       this,
     );
   }
 }
 
-abstract class CreateRunRequestResponseFormatAssistantsResponseFormat
+abstract class CreateRunRequestResponseFormatResponseFormat
     extends CreateRunRequestResponseFormat {
-  const factory CreateRunRequestResponseFormatAssistantsResponseFormat(
-          final AssistantsResponseFormat value) =
-      _$CreateRunRequestResponseFormatAssistantsResponseFormatImpl;
-  const CreateRunRequestResponseFormatAssistantsResponseFormat._() : super._();
+  const factory CreateRunRequestResponseFormatResponseFormat(
+          final ResponseFormat value) =
+      _$CreateRunRequestResponseFormatResponseFormatImpl;
+  const CreateRunRequestResponseFormatResponseFormat._() : super._();
 
-  factory CreateRunRequestResponseFormatAssistantsResponseFormat.fromJson(
+  factory CreateRunRequestResponseFormatResponseFormat.fromJson(
           Map<String, dynamic> json) =
-      _$CreateRunRequestResponseFormatAssistantsResponseFormatImpl.fromJson;
+      _$CreateRunRequestResponseFormatResponseFormatImpl.fromJson;
 
   @override
-  AssistantsResponseFormat get value;
+  ResponseFormat get value;
 
   /// Create a copy of CreateRunRequestResponseFormat
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$CreateRunRequestResponseFormatAssistantsResponseFormatImplCopyWith<
-          _$CreateRunRequestResponseFormatAssistantsResponseFormatImpl>
+  _$$CreateRunRequestResponseFormatResponseFormatImplCopyWith<
+          _$CreateRunRequestResponseFormatResponseFormatImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -34926,9 +34891,10 @@ mixin _$CreateThreadAndRunRequest {
   @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
   bool? get parallelToolCalls => throw _privateConstructorUsedError;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// Specifies the format that the model must output. Compatible with
+  /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
   /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
-  /// since `gpt-4o-mini-1106`.
+  /// since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
   /// the model will match your supplied JSON schema. Learn more in the
@@ -35484,9 +35450,10 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
   @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
   final bool? parallelToolCalls;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// Specifies the format that the model must output. Compatible with
+  /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
   /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
-  /// since `gpt-4o-mini-1106`.
+  /// since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
   /// the model will match your supplied JSON schema. Learn more in the
@@ -35705,9 +35672,10 @@ abstract class _CreateThreadAndRunRequest extends CreateThreadAndRunRequest {
   @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
   bool? get parallelToolCalls;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// Specifies the format that the model must output. Compatible with
+  /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
   /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
-  /// since `gpt-4o-mini-1106`.
+  /// since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
   /// the model will match your supplied JSON schema. Learn more in the
@@ -36662,9 +36630,9 @@ CreateThreadAndRunRequestResponseFormat
   switch (json['runtimeType']) {
     case 'mode':
       return CreateThreadAndRunRequestResponseFormatEnumeration.fromJson(json);
-    case 'format':
-      return CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat
-          .fromJson(json);
+    case 'responseFormat':
+      return CreateThreadAndRunRequestResponseFormatResponseFormat.fromJson(
+          json);
 
     default:
       throw CheckedFromJsonException(
@@ -36682,19 +36650,19 @@ mixin _$CreateThreadAndRunRequestResponseFormat {
   TResult when<TResult extends Object?>({
     required TResult Function(CreateThreadAndRunRequestResponseFormatMode value)
         mode,
-    required TResult Function(AssistantsResponseFormat value) format,
+    required TResult Function(ResponseFormat value) responseFormat,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(CreateThreadAndRunRequestResponseFormatMode value)? mode,
-    TResult? Function(AssistantsResponseFormat value)? format,
+    TResult? Function(ResponseFormat value)? responseFormat,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(CreateThreadAndRunRequestResponseFormatMode value)? mode,
-    TResult Function(AssistantsResponseFormat value)? format,
+    TResult Function(ResponseFormat value)? responseFormat,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -36704,9 +36672,8 @@ mixin _$CreateThreadAndRunRequestResponseFormat {
             CreateThreadAndRunRequestResponseFormatEnumeration value)
         mode,
     required TResult Function(
-            CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat
-                value)
-        format,
+            CreateThreadAndRunRequestResponseFormatResponseFormat value)
+        responseFormat,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -36714,9 +36681,8 @@ mixin _$CreateThreadAndRunRequestResponseFormat {
     TResult? Function(CreateThreadAndRunRequestResponseFormatEnumeration value)?
         mode,
     TResult? Function(
-            CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat
-                value)?
-        format,
+            CreateThreadAndRunRequestResponseFormatResponseFormat value)?
+        responseFormat,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -36724,9 +36690,8 @@ mixin _$CreateThreadAndRunRequestResponseFormat {
     TResult Function(CreateThreadAndRunRequestResponseFormatEnumeration value)?
         mode,
     TResult Function(
-            CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat
-                value)?
-        format,
+            CreateThreadAndRunRequestResponseFormatResponseFormat value)?
+        responseFormat,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -36857,7 +36822,7 @@ class _$CreateThreadAndRunRequestResponseFormatEnumerationImpl
   TResult when<TResult extends Object?>({
     required TResult Function(CreateThreadAndRunRequestResponseFormatMode value)
         mode,
-    required TResult Function(AssistantsResponseFormat value) format,
+    required TResult Function(ResponseFormat value) responseFormat,
   }) {
     return mode(value);
   }
@@ -36866,7 +36831,7 @@ class _$CreateThreadAndRunRequestResponseFormatEnumerationImpl
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(CreateThreadAndRunRequestResponseFormatMode value)? mode,
-    TResult? Function(AssistantsResponseFormat value)? format,
+    TResult? Function(ResponseFormat value)? responseFormat,
   }) {
     return mode?.call(value);
   }
@@ -36875,7 +36840,7 @@ class _$CreateThreadAndRunRequestResponseFormatEnumerationImpl
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(CreateThreadAndRunRequestResponseFormatMode value)? mode,
-    TResult Function(AssistantsResponseFormat value)? format,
+    TResult Function(ResponseFormat value)? responseFormat,
     required TResult orElse(),
   }) {
     if (mode != null) {
@@ -36891,9 +36856,8 @@ class _$CreateThreadAndRunRequestResponseFormatEnumerationImpl
             CreateThreadAndRunRequestResponseFormatEnumeration value)
         mode,
     required TResult Function(
-            CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat
-                value)
-        format,
+            CreateThreadAndRunRequestResponseFormatResponseFormat value)
+        responseFormat,
   }) {
     return mode(this);
   }
@@ -36904,9 +36868,8 @@ class _$CreateThreadAndRunRequestResponseFormatEnumerationImpl
     TResult? Function(CreateThreadAndRunRequestResponseFormatEnumeration value)?
         mode,
     TResult? Function(
-            CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat
-                value)?
-        format,
+            CreateThreadAndRunRequestResponseFormatResponseFormat value)?
+        responseFormat,
   }) {
     return mode?.call(this);
   }
@@ -36917,9 +36880,8 @@ class _$CreateThreadAndRunRequestResponseFormatEnumerationImpl
     TResult Function(CreateThreadAndRunRequestResponseFormatEnumeration value)?
         mode,
     TResult Function(
-            CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat
-                value)?
-        format,
+            CreateThreadAndRunRequestResponseFormatResponseFormat value)?
+        responseFormat,
     required TResult orElse(),
   }) {
     if (mode != null) {
@@ -36959,35 +36921,32 @@ abstract class CreateThreadAndRunRequestResponseFormatEnumeration
 }
 
 /// @nodoc
-abstract class _$$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImplCopyWith<
+abstract class _$$CreateThreadAndRunRequestResponseFormatResponseFormatImplCopyWith<
     $Res> {
-  factory _$$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImplCopyWith(
-          _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl
-              value,
+  factory _$$CreateThreadAndRunRequestResponseFormatResponseFormatImplCopyWith(
+          _$CreateThreadAndRunRequestResponseFormatResponseFormatImpl value,
           $Res Function(
-                  _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl)
+                  _$CreateThreadAndRunRequestResponseFormatResponseFormatImpl)
               then) =
-      __$$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImplCopyWithImpl<
+      __$$CreateThreadAndRunRequestResponseFormatResponseFormatImplCopyWithImpl<
           $Res>;
   @useResult
-  $Res call({AssistantsResponseFormat value});
+  $Res call({ResponseFormat value});
 
-  $AssistantsResponseFormatCopyWith<$Res> get value;
+  $ResponseFormatCopyWith<$Res> get value;
 }
 
 /// @nodoc
-class __$$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImplCopyWithImpl<
+class __$$CreateThreadAndRunRequestResponseFormatResponseFormatImplCopyWithImpl<
         $Res>
     extends _$CreateThreadAndRunRequestResponseFormatCopyWithImpl<$Res,
-        _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl>
+        _$CreateThreadAndRunRequestResponseFormatResponseFormatImpl>
     implements
-        _$$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImplCopyWith<
+        _$$CreateThreadAndRunRequestResponseFormatResponseFormatImplCopyWith<
             $Res> {
-  __$$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImplCopyWithImpl(
-      _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl
-          _value,
-      $Res Function(
-              _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl)
+  __$$CreateThreadAndRunRequestResponseFormatResponseFormatImplCopyWithImpl(
+      _$CreateThreadAndRunRequestResponseFormatResponseFormatImpl _value,
+      $Res Function(_$CreateThreadAndRunRequestResponseFormatResponseFormatImpl)
           _then)
       : super(_value, _then);
 
@@ -36998,12 +36957,11 @@ class __$$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImplCop
   $Res call({
     Object? value = null,
   }) {
-    return _then(
-        _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl(
+    return _then(_$CreateThreadAndRunRequestResponseFormatResponseFormatImpl(
       null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
-              as AssistantsResponseFormat,
+              as ResponseFormat,
     ));
   }
 
@@ -37011,8 +36969,8 @@ class __$$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImplCop
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $AssistantsResponseFormatCopyWith<$Res> get value {
-    return $AssistantsResponseFormatCopyWith<$Res>(_value.value, (value) {
+  $ResponseFormatCopyWith<$Res> get value {
+    return $ResponseFormatCopyWith<$Res>(_value.value, (value) {
       return _then(_value.copyWith(value: value));
     });
   }
@@ -37020,28 +36978,27 @@ class __$$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImplCop
 
 /// @nodoc
 @JsonSerializable()
-class _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl
-    extends CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat {
-  const _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl(
-      this.value,
+class _$CreateThreadAndRunRequestResponseFormatResponseFormatImpl
+    extends CreateThreadAndRunRequestResponseFormatResponseFormat {
+  const _$CreateThreadAndRunRequestResponseFormatResponseFormatImpl(this.value,
       {final String? $type})
-      : $type = $type ?? 'format',
+      : $type = $type ?? 'responseFormat',
         super._();
 
-  factory _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl.fromJson(
+  factory _$CreateThreadAndRunRequestResponseFormatResponseFormatImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImplFromJson(
+      _$$CreateThreadAndRunRequestResponseFormatResponseFormatImplFromJson(
           json);
 
   @override
-  final AssistantsResponseFormat value;
+  final ResponseFormat value;
 
   @JsonKey(name: 'runtimeType')
   final String $type;
 
   @override
   String toString() {
-    return 'CreateThreadAndRunRequestResponseFormat.format(value: $value)';
+    return 'CreateThreadAndRunRequestResponseFormat.responseFormat(value: $value)';
   }
 
   @override
@@ -37049,7 +37006,7 @@ class _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other
-                is _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl &&
+                is _$CreateThreadAndRunRequestResponseFormatResponseFormatImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
@@ -37062,11 +37019,11 @@ class _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImplCopyWith<
-          _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl>
+  _$$CreateThreadAndRunRequestResponseFormatResponseFormatImplCopyWith<
+          _$CreateThreadAndRunRequestResponseFormatResponseFormatImpl>
       get copyWith =>
-          __$$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImplCopyWithImpl<
-                  _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl>(
+          __$$CreateThreadAndRunRequestResponseFormatResponseFormatImplCopyWithImpl<
+                  _$CreateThreadAndRunRequestResponseFormatResponseFormatImpl>(
               this, _$identity);
 
   @override
@@ -37074,29 +37031,29 @@ class _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl
   TResult when<TResult extends Object?>({
     required TResult Function(CreateThreadAndRunRequestResponseFormatMode value)
         mode,
-    required TResult Function(AssistantsResponseFormat value) format,
+    required TResult Function(ResponseFormat value) responseFormat,
   }) {
-    return format(value);
+    return responseFormat(value);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(CreateThreadAndRunRequestResponseFormatMode value)? mode,
-    TResult? Function(AssistantsResponseFormat value)? format,
+    TResult? Function(ResponseFormat value)? responseFormat,
   }) {
-    return format?.call(value);
+    return responseFormat?.call(value);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(CreateThreadAndRunRequestResponseFormatMode value)? mode,
-    TResult Function(AssistantsResponseFormat value)? format,
+    TResult Function(ResponseFormat value)? responseFormat,
     required TResult orElse(),
   }) {
-    if (format != null) {
-      return format(value);
+    if (responseFormat != null) {
+      return responseFormat(value);
     }
     return orElse();
   }
@@ -37108,11 +37065,10 @@ class _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl
             CreateThreadAndRunRequestResponseFormatEnumeration value)
         mode,
     required TResult Function(
-            CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat
-                value)
-        format,
+            CreateThreadAndRunRequestResponseFormatResponseFormat value)
+        responseFormat,
   }) {
-    return format(this);
+    return responseFormat(this);
   }
 
   @override
@@ -37121,11 +37077,10 @@ class _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl
     TResult? Function(CreateThreadAndRunRequestResponseFormatEnumeration value)?
         mode,
     TResult? Function(
-            CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat
-                value)?
-        format,
+            CreateThreadAndRunRequestResponseFormatResponseFormat value)?
+        responseFormat,
   }) {
-    return format?.call(this);
+    return responseFormat?.call(this);
   }
 
   @override
@@ -37134,46 +37089,43 @@ class _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl
     TResult Function(CreateThreadAndRunRequestResponseFormatEnumeration value)?
         mode,
     TResult Function(
-            CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat
-                value)?
-        format,
+            CreateThreadAndRunRequestResponseFormatResponseFormat value)?
+        responseFormat,
     required TResult orElse(),
   }) {
-    if (format != null) {
-      return format(this);
+    if (responseFormat != null) {
+      return responseFormat(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImplToJson(
+    return _$$CreateThreadAndRunRequestResponseFormatResponseFormatImplToJson(
       this,
     );
   }
 }
 
-abstract class CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat
+abstract class CreateThreadAndRunRequestResponseFormatResponseFormat
     extends CreateThreadAndRunRequestResponseFormat {
-  const factory CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat(
-          final AssistantsResponseFormat value) =
-      _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl;
-  const CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat._()
-      : super._();
+  const factory CreateThreadAndRunRequestResponseFormatResponseFormat(
+          final ResponseFormat value) =
+      _$CreateThreadAndRunRequestResponseFormatResponseFormatImpl;
+  const CreateThreadAndRunRequestResponseFormatResponseFormat._() : super._();
 
-  factory CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat.fromJson(
+  factory CreateThreadAndRunRequestResponseFormatResponseFormat.fromJson(
           Map<String, dynamic> json) =
-      _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl
-      .fromJson;
+      _$CreateThreadAndRunRequestResponseFormatResponseFormatImpl.fromJson;
 
   @override
-  AssistantsResponseFormat get value;
+  ResponseFormat get value;
 
   /// Create a copy of CreateThreadAndRunRequestResponseFormat
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImplCopyWith<
-          _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl>
+  _$$CreateThreadAndRunRequestResponseFormatResponseFormatImplCopyWith<
+          _$CreateThreadAndRunRequestResponseFormatResponseFormatImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -43221,263 +43173,6 @@ abstract class _MessageContentTextAnnotationsFileCitation
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MessageContentTextAnnotationsFileCitationImplCopyWith<
           _$MessageContentTextAnnotationsFileCitationImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-MessageDeltaContentImageUrlObject _$MessageDeltaContentImageUrlObjectFromJson(
-    Map<String, dynamic> json) {
-  return _MessageDeltaContentImageUrlObject.fromJson(json);
-}
-
-/// @nodoc
-mixin _$MessageDeltaContentImageUrlObject {
-  /// The index of the content part in the message.
-  @JsonKey(includeIfNull: false)
-  int? get index => throw _privateConstructorUsedError;
-
-  /// Always `image_url`.
-  @JsonKey(includeIfNull: false)
-  String? get type => throw _privateConstructorUsedError;
-
-  /// The image URL part of a message.
-  @JsonKey(name: 'image_url', includeIfNull: false)
-  MessageContentImageUrl? get imageUrl => throw _privateConstructorUsedError;
-
-  /// Serializes this MessageDeltaContentImageUrlObject to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of MessageDeltaContentImageUrlObject
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $MessageDeltaContentImageUrlObjectCopyWith<MessageDeltaContentImageUrlObject>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $MessageDeltaContentImageUrlObjectCopyWith<$Res> {
-  factory $MessageDeltaContentImageUrlObjectCopyWith(
-          MessageDeltaContentImageUrlObject value,
-          $Res Function(MessageDeltaContentImageUrlObject) then) =
-      _$MessageDeltaContentImageUrlObjectCopyWithImpl<$Res,
-          MessageDeltaContentImageUrlObject>;
-  @useResult
-  $Res call(
-      {@JsonKey(includeIfNull: false) int? index,
-      @JsonKey(includeIfNull: false) String? type,
-      @JsonKey(name: 'image_url', includeIfNull: false)
-      MessageContentImageUrl? imageUrl});
-
-  $MessageContentImageUrlCopyWith<$Res>? get imageUrl;
-}
-
-/// @nodoc
-class _$MessageDeltaContentImageUrlObjectCopyWithImpl<$Res,
-        $Val extends MessageDeltaContentImageUrlObject>
-    implements $MessageDeltaContentImageUrlObjectCopyWith<$Res> {
-  _$MessageDeltaContentImageUrlObjectCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of MessageDeltaContentImageUrlObject
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? index = freezed,
-    Object? type = freezed,
-    Object? imageUrl = freezed,
-  }) {
-    return _then(_value.copyWith(
-      index: freezed == index
-          ? _value.index
-          : index // ignore: cast_nullable_to_non_nullable
-              as int?,
-      type: freezed == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String?,
-      imageUrl: freezed == imageUrl
-          ? _value.imageUrl
-          : imageUrl // ignore: cast_nullable_to_non_nullable
-              as MessageContentImageUrl?,
-    ) as $Val);
-  }
-
-  /// Create a copy of MessageDeltaContentImageUrlObject
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $MessageContentImageUrlCopyWith<$Res>? get imageUrl {
-    if (_value.imageUrl == null) {
-      return null;
-    }
-
-    return $MessageContentImageUrlCopyWith<$Res>(_value.imageUrl!, (value) {
-      return _then(_value.copyWith(imageUrl: value) as $Val);
-    });
-  }
-}
-
-/// @nodoc
-abstract class _$$MessageDeltaContentImageUrlObjectImplCopyWith<$Res>
-    implements $MessageDeltaContentImageUrlObjectCopyWith<$Res> {
-  factory _$$MessageDeltaContentImageUrlObjectImplCopyWith(
-          _$MessageDeltaContentImageUrlObjectImpl value,
-          $Res Function(_$MessageDeltaContentImageUrlObjectImpl) then) =
-      __$$MessageDeltaContentImageUrlObjectImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {@JsonKey(includeIfNull: false) int? index,
-      @JsonKey(includeIfNull: false) String? type,
-      @JsonKey(name: 'image_url', includeIfNull: false)
-      MessageContentImageUrl? imageUrl});
-
-  @override
-  $MessageContentImageUrlCopyWith<$Res>? get imageUrl;
-}
-
-/// @nodoc
-class __$$MessageDeltaContentImageUrlObjectImplCopyWithImpl<$Res>
-    extends _$MessageDeltaContentImageUrlObjectCopyWithImpl<$Res,
-        _$MessageDeltaContentImageUrlObjectImpl>
-    implements _$$MessageDeltaContentImageUrlObjectImplCopyWith<$Res> {
-  __$$MessageDeltaContentImageUrlObjectImplCopyWithImpl(
-      _$MessageDeltaContentImageUrlObjectImpl _value,
-      $Res Function(_$MessageDeltaContentImageUrlObjectImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of MessageDeltaContentImageUrlObject
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? index = freezed,
-    Object? type = freezed,
-    Object? imageUrl = freezed,
-  }) {
-    return _then(_$MessageDeltaContentImageUrlObjectImpl(
-      index: freezed == index
-          ? _value.index
-          : index // ignore: cast_nullable_to_non_nullable
-              as int?,
-      type: freezed == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String?,
-      imageUrl: freezed == imageUrl
-          ? _value.imageUrl
-          : imageUrl // ignore: cast_nullable_to_non_nullable
-              as MessageContentImageUrl?,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$MessageDeltaContentImageUrlObjectImpl
-    extends _MessageDeltaContentImageUrlObject {
-  const _$MessageDeltaContentImageUrlObjectImpl(
-      {@JsonKey(includeIfNull: false) this.index,
-      @JsonKey(includeIfNull: false) this.type,
-      @JsonKey(name: 'image_url', includeIfNull: false) this.imageUrl})
-      : super._();
-
-  factory _$MessageDeltaContentImageUrlObjectImpl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$MessageDeltaContentImageUrlObjectImplFromJson(json);
-
-  /// The index of the content part in the message.
-  @override
-  @JsonKey(includeIfNull: false)
-  final int? index;
-
-  /// Always `image_url`.
-  @override
-  @JsonKey(includeIfNull: false)
-  final String? type;
-
-  /// The image URL part of a message.
-  @override
-  @JsonKey(name: 'image_url', includeIfNull: false)
-  final MessageContentImageUrl? imageUrl;
-
-  @override
-  String toString() {
-    return 'MessageDeltaContentImageUrlObject(index: $index, type: $type, imageUrl: $imageUrl)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$MessageDeltaContentImageUrlObjectImpl &&
-            (identical(other.index, index) || other.index == index) &&
-            (identical(other.type, type) || other.type == type) &&
-            (identical(other.imageUrl, imageUrl) ||
-                other.imageUrl == imageUrl));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, index, type, imageUrl);
-
-  /// Create a copy of MessageDeltaContentImageUrlObject
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$MessageDeltaContentImageUrlObjectImplCopyWith<
-          _$MessageDeltaContentImageUrlObjectImpl>
-      get copyWith => __$$MessageDeltaContentImageUrlObjectImplCopyWithImpl<
-          _$MessageDeltaContentImageUrlObjectImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$MessageDeltaContentImageUrlObjectImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _MessageDeltaContentImageUrlObject
-    extends MessageDeltaContentImageUrlObject {
-  const factory _MessageDeltaContentImageUrlObject(
-          {@JsonKey(includeIfNull: false) final int? index,
-          @JsonKey(includeIfNull: false) final String? type,
-          @JsonKey(name: 'image_url', includeIfNull: false)
-          final MessageContentImageUrl? imageUrl}) =
-      _$MessageDeltaContentImageUrlObjectImpl;
-  const _MessageDeltaContentImageUrlObject._() : super._();
-
-  factory _MessageDeltaContentImageUrlObject.fromJson(
-          Map<String, dynamic> json) =
-      _$MessageDeltaContentImageUrlObjectImpl.fromJson;
-
-  /// The index of the content part in the message.
-  @override
-  @JsonKey(includeIfNull: false)
-  int? get index;
-
-  /// Always `image_url`.
-  @override
-  @JsonKey(includeIfNull: false)
-  String? get type;
-
-  /// The image URL part of a message.
-  @override
-  @JsonKey(name: 'image_url', includeIfNull: false)
-  MessageContentImageUrl? get imageUrl;
-
-  /// Create a copy of MessageDeltaContentImageUrlObject
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$MessageDeltaContentImageUrlObjectImplCopyWith<
-          _$MessageDeltaContentImageUrlObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -53634,6 +53329,7 @@ mixin _$ChatCompletionMessage {
     required TResult Function(
             ChatCompletionMessageRole role,
             @JsonKey(includeIfNull: false) String? content,
+            @JsonKey(includeIfNull: false) String? refusal,
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
@@ -53662,6 +53358,7 @@ mixin _$ChatCompletionMessage {
     TResult? Function(
             ChatCompletionMessageRole role,
             @JsonKey(includeIfNull: false) String? content,
+            @JsonKey(includeIfNull: false) String? refusal,
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
@@ -53690,6 +53387,7 @@ mixin _$ChatCompletionMessage {
     TResult Function(
             ChatCompletionMessageRole role,
             @JsonKey(includeIfNull: false) String? content,
+            @JsonKey(includeIfNull: false) String? refusal,
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
@@ -53901,6 +53599,7 @@ class _$ChatCompletionSystemMessageImpl extends ChatCompletionSystemMessage {
     required TResult Function(
             ChatCompletionMessageRole role,
             @JsonKey(includeIfNull: false) String? content,
+            @JsonKey(includeIfNull: false) String? refusal,
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
@@ -53932,6 +53631,7 @@ class _$ChatCompletionSystemMessageImpl extends ChatCompletionSystemMessage {
     TResult? Function(
             ChatCompletionMessageRole role,
             @JsonKey(includeIfNull: false) String? content,
+            @JsonKey(includeIfNull: false) String? refusal,
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
@@ -53963,6 +53663,7 @@ class _$ChatCompletionSystemMessageImpl extends ChatCompletionSystemMessage {
     TResult Function(
             ChatCompletionMessageRole role,
             @JsonKey(includeIfNull: false) String? content,
+            @JsonKey(includeIfNull: false) String? refusal,
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
@@ -54197,6 +53898,7 @@ class _$ChatCompletionUserMessageImpl extends ChatCompletionUserMessage {
     required TResult Function(
             ChatCompletionMessageRole role,
             @JsonKey(includeIfNull: false) String? content,
+            @JsonKey(includeIfNull: false) String? refusal,
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
@@ -54228,6 +53930,7 @@ class _$ChatCompletionUserMessageImpl extends ChatCompletionUserMessage {
     TResult? Function(
             ChatCompletionMessageRole role,
             @JsonKey(includeIfNull: false) String? content,
+            @JsonKey(includeIfNull: false) String? refusal,
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
@@ -54259,6 +53962,7 @@ class _$ChatCompletionUserMessageImpl extends ChatCompletionUserMessage {
     TResult Function(
             ChatCompletionMessageRole role,
             @JsonKey(includeIfNull: false) String? content,
+            @JsonKey(includeIfNull: false) String? refusal,
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
@@ -54372,6 +54076,7 @@ abstract class _$$ChatCompletionAssistantMessageImplCopyWith<$Res>
   $Res call(
       {ChatCompletionMessageRole role,
       @JsonKey(includeIfNull: false) String? content,
+      @JsonKey(includeIfNull: false) String? refusal,
       @JsonKey(includeIfNull: false) String? name,
       @JsonKey(name: 'tool_calls', includeIfNull: false)
       List<ChatCompletionMessageToolCall>? toolCalls,
@@ -54398,6 +54103,7 @@ class __$$ChatCompletionAssistantMessageImplCopyWithImpl<$Res>
   $Res call({
     Object? role = null,
     Object? content = freezed,
+    Object? refusal = freezed,
     Object? name = freezed,
     Object? toolCalls = freezed,
     Object? functionCall = freezed,
@@ -54410,6 +54116,10 @@ class __$$ChatCompletionAssistantMessageImplCopyWithImpl<$Res>
       content: freezed == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
+              as String?,
+      refusal: freezed == refusal
+          ? _value.refusal
+          : refusal // ignore: cast_nullable_to_non_nullable
               as String?,
       name: freezed == name
           ? _value.name
@@ -54449,6 +54159,7 @@ class _$ChatCompletionAssistantMessageImpl
   const _$ChatCompletionAssistantMessageImpl(
       {this.role = ChatCompletionMessageRole.assistant,
       @JsonKey(includeIfNull: false) this.content,
+      @JsonKey(includeIfNull: false) this.refusal,
       @JsonKey(includeIfNull: false) this.name,
       @JsonKey(name: 'tool_calls', includeIfNull: false)
       final List<ChatCompletionMessageToolCall>? toolCalls,
@@ -54469,6 +54180,11 @@ class _$ChatCompletionAssistantMessageImpl
   @override
   @JsonKey(includeIfNull: false)
   final String? content;
+
+  /// The refusal message by the assistant.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? refusal;
 
   /// An optional name for the participant. Provides the model information to differentiate between participants of the same role.
   @override
@@ -54496,7 +54212,7 @@ class _$ChatCompletionAssistantMessageImpl
 
   @override
   String toString() {
-    return 'ChatCompletionMessage.assistant(role: $role, content: $content, name: $name, toolCalls: $toolCalls, functionCall: $functionCall)';
+    return 'ChatCompletionMessage.assistant(role: $role, content: $content, refusal: $refusal, name: $name, toolCalls: $toolCalls, functionCall: $functionCall)';
   }
 
   @override
@@ -54506,6 +54222,7 @@ class _$ChatCompletionAssistantMessageImpl
             other is _$ChatCompletionAssistantMessageImpl &&
             (identical(other.role, role) || other.role == role) &&
             (identical(other.content, content) || other.content == content) &&
+            (identical(other.refusal, refusal) || other.refusal == refusal) &&
             (identical(other.name, name) || other.name == name) &&
             const DeepCollectionEquality()
                 .equals(other._toolCalls, _toolCalls) &&
@@ -54515,7 +54232,7 @@ class _$ChatCompletionAssistantMessageImpl
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, role, content, name,
+  int get hashCode => Object.hash(runtimeType, role, content, refusal, name,
       const DeepCollectionEquality().hash(_toolCalls), functionCall);
 
   /// Create a copy of ChatCompletionMessage
@@ -54543,6 +54260,7 @@ class _$ChatCompletionAssistantMessageImpl
     required TResult Function(
             ChatCompletionMessageRole role,
             @JsonKey(includeIfNull: false) String? content,
+            @JsonKey(includeIfNull: false) String? refusal,
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
@@ -54556,7 +54274,7 @@ class _$ChatCompletionAssistantMessageImpl
             ChatCompletionMessageRole role, String? content, String name)
         function,
   }) {
-    return assistant(role, content, name, toolCalls, functionCall);
+    return assistant(role, content, refusal, name, toolCalls, functionCall);
   }
 
   @override
@@ -54574,6 +54292,7 @@ class _$ChatCompletionAssistantMessageImpl
     TResult? Function(
             ChatCompletionMessageRole role,
             @JsonKey(includeIfNull: false) String? content,
+            @JsonKey(includeIfNull: false) String? refusal,
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
@@ -54587,7 +54306,8 @@ class _$ChatCompletionAssistantMessageImpl
             ChatCompletionMessageRole role, String? content, String name)?
         function,
   }) {
-    return assistant?.call(role, content, name, toolCalls, functionCall);
+    return assistant?.call(
+        role, content, refusal, name, toolCalls, functionCall);
   }
 
   @override
@@ -54605,6 +54325,7 @@ class _$ChatCompletionAssistantMessageImpl
     TResult Function(
             ChatCompletionMessageRole role,
             @JsonKey(includeIfNull: false) String? content,
+            @JsonKey(includeIfNull: false) String? refusal,
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
@@ -54620,7 +54341,7 @@ class _$ChatCompletionAssistantMessageImpl
     required TResult orElse(),
   }) {
     if (assistant != null) {
-      return assistant(role, content, name, toolCalls, functionCall);
+      return assistant(role, content, refusal, name, toolCalls, functionCall);
     }
     return orElse();
   }
@@ -54677,6 +54398,7 @@ abstract class ChatCompletionAssistantMessage extends ChatCompletionMessage {
   const factory ChatCompletionAssistantMessage(
           {final ChatCompletionMessageRole role,
           @JsonKey(includeIfNull: false) final String? content,
+          @JsonKey(includeIfNull: false) final String? refusal,
           @JsonKey(includeIfNull: false) final String? name,
           @JsonKey(name: 'tool_calls', includeIfNull: false)
           final List<ChatCompletionMessageToolCall>? toolCalls,
@@ -54696,6 +54418,10 @@ abstract class ChatCompletionAssistantMessage extends ChatCompletionMessage {
   @override
   @JsonKey(includeIfNull: false)
   String? get content;
+
+  /// The refusal message by the assistant.
+  @JsonKey(includeIfNull: false)
+  String? get refusal;
 
   /// An optional name for the participant. Provides the model information to differentiate between participants of the same role.
   @JsonKey(includeIfNull: false)
@@ -54839,6 +54565,7 @@ class _$ChatCompletionToolMessageImpl extends ChatCompletionToolMessage {
     required TResult Function(
             ChatCompletionMessageRole role,
             @JsonKey(includeIfNull: false) String? content,
+            @JsonKey(includeIfNull: false) String? refusal,
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
@@ -54870,6 +54597,7 @@ class _$ChatCompletionToolMessageImpl extends ChatCompletionToolMessage {
     TResult? Function(
             ChatCompletionMessageRole role,
             @JsonKey(includeIfNull: false) String? content,
+            @JsonKey(includeIfNull: false) String? refusal,
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
@@ -54901,6 +54629,7 @@ class _$ChatCompletionToolMessageImpl extends ChatCompletionToolMessage {
     TResult Function(
             ChatCompletionMessageRole role,
             @JsonKey(includeIfNull: false) String? content,
+            @JsonKey(includeIfNull: false) String? refusal,
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
@@ -55119,6 +54848,7 @@ class _$ChatCompletionFunctionMessageImpl
     required TResult Function(
             ChatCompletionMessageRole role,
             @JsonKey(includeIfNull: false) String? content,
+            @JsonKey(includeIfNull: false) String? refusal,
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
@@ -55150,6 +54880,7 @@ class _$ChatCompletionFunctionMessageImpl
     TResult? Function(
             ChatCompletionMessageRole role,
             @JsonKey(includeIfNull: false) String? content,
+            @JsonKey(includeIfNull: false) String? refusal,
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
@@ -55181,6 +54912,7 @@ class _$ChatCompletionFunctionMessageImpl
     TResult Function(
             ChatCompletionMessageRole role,
             @JsonKey(includeIfNull: false) String? content,
+            @JsonKey(includeIfNull: false) String? refusal,
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
@@ -55733,8 +55465,10 @@ ChatCompletionMessageContentPart _$ChatCompletionMessageContentPartFromJson(
   switch (json['type']) {
     case 'text':
       return ChatCompletionMessageContentPartText.fromJson(json);
-    case 'image_url':
+    case 'image':
       return ChatCompletionMessageContentPartImage.fromJson(json);
+    case 'refusal':
+      return ChatCompletionMessageContentPartRefusal.fromJson(json);
 
     default:
       throw CheckedFromJsonException(
@@ -55758,6 +55492,9 @@ mixin _$ChatCompletionMessageContentPart {
     required TResult Function(ChatCompletionMessageContentPartType type,
             @JsonKey(name: 'image_url') ChatCompletionMessageImageUrl imageUrl)
         image,
+    required TResult Function(
+            ChatCompletionMessageContentPartType type, String refusal)
+        refusal,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -55767,6 +55504,9 @@ mixin _$ChatCompletionMessageContentPart {
     TResult? Function(ChatCompletionMessageContentPartType type,
             @JsonKey(name: 'image_url') ChatCompletionMessageImageUrl imageUrl)?
         image,
+    TResult? Function(
+            ChatCompletionMessageContentPartType type, String refusal)?
+        refusal,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -55776,6 +55516,8 @@ mixin _$ChatCompletionMessageContentPart {
     TResult Function(ChatCompletionMessageContentPartType type,
             @JsonKey(name: 'image_url') ChatCompletionMessageImageUrl imageUrl)?
         image,
+    TResult Function(ChatCompletionMessageContentPartType type, String refusal)?
+        refusal,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -55784,18 +55526,22 @@ mixin _$ChatCompletionMessageContentPart {
     required TResult Function(ChatCompletionMessageContentPartText value) text,
     required TResult Function(ChatCompletionMessageContentPartImage value)
         image,
+    required TResult Function(ChatCompletionMessageContentPartRefusal value)
+        refusal,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ChatCompletionMessageContentPartText value)? text,
     TResult? Function(ChatCompletionMessageContentPartImage value)? image,
+    TResult? Function(ChatCompletionMessageContentPartRefusal value)? refusal,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ChatCompletionMessageContentPartText value)? text,
     TResult Function(ChatCompletionMessageContentPartImage value)? image,
+    TResult Function(ChatCompletionMessageContentPartRefusal value)? refusal,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -55950,6 +55696,9 @@ class _$ChatCompletionMessageContentPartTextImpl
     required TResult Function(ChatCompletionMessageContentPartType type,
             @JsonKey(name: 'image_url') ChatCompletionMessageImageUrl imageUrl)
         image,
+    required TResult Function(
+            ChatCompletionMessageContentPartType type, String refusal)
+        refusal,
   }) {
     return text(type, this.text);
   }
@@ -55962,6 +55711,9 @@ class _$ChatCompletionMessageContentPartTextImpl
     TResult? Function(ChatCompletionMessageContentPartType type,
             @JsonKey(name: 'image_url') ChatCompletionMessageImageUrl imageUrl)?
         image,
+    TResult? Function(
+            ChatCompletionMessageContentPartType type, String refusal)?
+        refusal,
   }) {
     return text?.call(type, this.text);
   }
@@ -55974,6 +55726,8 @@ class _$ChatCompletionMessageContentPartTextImpl
     TResult Function(ChatCompletionMessageContentPartType type,
             @JsonKey(name: 'image_url') ChatCompletionMessageImageUrl imageUrl)?
         image,
+    TResult Function(ChatCompletionMessageContentPartType type, String refusal)?
+        refusal,
     required TResult orElse(),
   }) {
     if (text != null) {
@@ -55988,6 +55742,8 @@ class _$ChatCompletionMessageContentPartTextImpl
     required TResult Function(ChatCompletionMessageContentPartText value) text,
     required TResult Function(ChatCompletionMessageContentPartImage value)
         image,
+    required TResult Function(ChatCompletionMessageContentPartRefusal value)
+        refusal,
   }) {
     return text(this);
   }
@@ -55997,6 +55753,7 @@ class _$ChatCompletionMessageContentPartTextImpl
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ChatCompletionMessageContentPartText value)? text,
     TResult? Function(ChatCompletionMessageContentPartImage value)? image,
+    TResult? Function(ChatCompletionMessageContentPartRefusal value)? refusal,
   }) {
     return text?.call(this);
   }
@@ -56006,6 +55763,7 @@ class _$ChatCompletionMessageContentPartTextImpl
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ChatCompletionMessageContentPartText value)? text,
     TResult Function(ChatCompletionMessageContentPartImage value)? image,
+    TResult Function(ChatCompletionMessageContentPartRefusal value)? refusal,
     required TResult orElse(),
   }) {
     if (text != null) {
@@ -56168,6 +55926,9 @@ class _$ChatCompletionMessageContentPartImageImpl
     required TResult Function(ChatCompletionMessageContentPartType type,
             @JsonKey(name: 'image_url') ChatCompletionMessageImageUrl imageUrl)
         image,
+    required TResult Function(
+            ChatCompletionMessageContentPartType type, String refusal)
+        refusal,
   }) {
     return image(type, imageUrl);
   }
@@ -56180,6 +55941,9 @@ class _$ChatCompletionMessageContentPartImageImpl
     TResult? Function(ChatCompletionMessageContentPartType type,
             @JsonKey(name: 'image_url') ChatCompletionMessageImageUrl imageUrl)?
         image,
+    TResult? Function(
+            ChatCompletionMessageContentPartType type, String refusal)?
+        refusal,
   }) {
     return image?.call(type, imageUrl);
   }
@@ -56192,6 +55956,8 @@ class _$ChatCompletionMessageContentPartImageImpl
     TResult Function(ChatCompletionMessageContentPartType type,
             @JsonKey(name: 'image_url') ChatCompletionMessageImageUrl imageUrl)?
         image,
+    TResult Function(ChatCompletionMessageContentPartType type, String refusal)?
+        refusal,
     required TResult orElse(),
   }) {
     if (image != null) {
@@ -56206,6 +55972,8 @@ class _$ChatCompletionMessageContentPartImageImpl
     required TResult Function(ChatCompletionMessageContentPartText value) text,
     required TResult Function(ChatCompletionMessageContentPartImage value)
         image,
+    required TResult Function(ChatCompletionMessageContentPartRefusal value)
+        refusal,
   }) {
     return image(this);
   }
@@ -56215,6 +55983,7 @@ class _$ChatCompletionMessageContentPartImageImpl
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ChatCompletionMessageContentPartText value)? text,
     TResult? Function(ChatCompletionMessageContentPartImage value)? image,
+    TResult? Function(ChatCompletionMessageContentPartRefusal value)? refusal,
   }) {
     return image?.call(this);
   }
@@ -56224,6 +55993,7 @@ class _$ChatCompletionMessageContentPartImageImpl
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ChatCompletionMessageContentPartText value)? text,
     TResult Function(ChatCompletionMessageContentPartImage value)? image,
+    TResult Function(ChatCompletionMessageContentPartRefusal value)? refusal,
     required TResult orElse(),
   }) {
     if (image != null) {
@@ -56267,6 +56037,221 @@ abstract class ChatCompletionMessageContentPartImage
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionMessageContentPartImageImplCopyWith<
           _$ChatCompletionMessageContentPartImageImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ChatCompletionMessageContentPartRefusalImplCopyWith<$Res>
+    implements $ChatCompletionMessageContentPartCopyWith<$Res> {
+  factory _$$ChatCompletionMessageContentPartRefusalImplCopyWith(
+          _$ChatCompletionMessageContentPartRefusalImpl value,
+          $Res Function(_$ChatCompletionMessageContentPartRefusalImpl) then) =
+      __$$ChatCompletionMessageContentPartRefusalImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({ChatCompletionMessageContentPartType type, String refusal});
+}
+
+/// @nodoc
+class __$$ChatCompletionMessageContentPartRefusalImplCopyWithImpl<$Res>
+    extends _$ChatCompletionMessageContentPartCopyWithImpl<$Res,
+        _$ChatCompletionMessageContentPartRefusalImpl>
+    implements _$$ChatCompletionMessageContentPartRefusalImplCopyWith<$Res> {
+  __$$ChatCompletionMessageContentPartRefusalImplCopyWithImpl(
+      _$ChatCompletionMessageContentPartRefusalImpl _value,
+      $Res Function(_$ChatCompletionMessageContentPartRefusalImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ChatCompletionMessageContentPart
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? refusal = null,
+  }) {
+    return _then(_$ChatCompletionMessageContentPartRefusalImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionMessageContentPartType,
+      refusal: null == refusal
+          ? _value.refusal
+          : refusal // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ChatCompletionMessageContentPartRefusalImpl
+    extends ChatCompletionMessageContentPartRefusal {
+  const _$ChatCompletionMessageContentPartRefusalImpl(
+      {this.type = ChatCompletionMessageContentPartType.refusal,
+      required this.refusal})
+      : super._();
+
+  factory _$ChatCompletionMessageContentPartRefusalImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$ChatCompletionMessageContentPartRefusalImplFromJson(json);
+
+  /// The type of the content part, in this case `refusal`.
+  @override
+  @JsonKey()
+  final ChatCompletionMessageContentPartType type;
+
+  /// The refusal message generated by the model.
+  @override
+  final String refusal;
+
+  @override
+  String toString() {
+    return 'ChatCompletionMessageContentPart.refusal(type: $type, refusal: $refusal)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ChatCompletionMessageContentPartRefusalImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.refusal, refusal) || other.refusal == refusal));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, refusal);
+
+  /// Create a copy of ChatCompletionMessageContentPart
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ChatCompletionMessageContentPartRefusalImplCopyWith<
+          _$ChatCompletionMessageContentPartRefusalImpl>
+      get copyWith =>
+          __$$ChatCompletionMessageContentPartRefusalImplCopyWithImpl<
+              _$ChatCompletionMessageContentPartRefusalImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            ChatCompletionMessageContentPartType type, String text)
+        text,
+    required TResult Function(ChatCompletionMessageContentPartType type,
+            @JsonKey(name: 'image_url') ChatCompletionMessageImageUrl imageUrl)
+        image,
+    required TResult Function(
+            ChatCompletionMessageContentPartType type, String refusal)
+        refusal,
+  }) {
+    return refusal(type, this.refusal);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(ChatCompletionMessageContentPartType type, String text)?
+        text,
+    TResult? Function(ChatCompletionMessageContentPartType type,
+            @JsonKey(name: 'image_url') ChatCompletionMessageImageUrl imageUrl)?
+        image,
+    TResult? Function(
+            ChatCompletionMessageContentPartType type, String refusal)?
+        refusal,
+  }) {
+    return refusal?.call(type, this.refusal);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(ChatCompletionMessageContentPartType type, String text)?
+        text,
+    TResult Function(ChatCompletionMessageContentPartType type,
+            @JsonKey(name: 'image_url') ChatCompletionMessageImageUrl imageUrl)?
+        image,
+    TResult Function(ChatCompletionMessageContentPartType type, String refusal)?
+        refusal,
+    required TResult orElse(),
+  }) {
+    if (refusal != null) {
+      return refusal(type, this.refusal);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ChatCompletionMessageContentPartText value) text,
+    required TResult Function(ChatCompletionMessageContentPartImage value)
+        image,
+    required TResult Function(ChatCompletionMessageContentPartRefusal value)
+        refusal,
+  }) {
+    return refusal(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ChatCompletionMessageContentPartText value)? text,
+    TResult? Function(ChatCompletionMessageContentPartImage value)? image,
+    TResult? Function(ChatCompletionMessageContentPartRefusal value)? refusal,
+  }) {
+    return refusal?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ChatCompletionMessageContentPartText value)? text,
+    TResult Function(ChatCompletionMessageContentPartImage value)? image,
+    TResult Function(ChatCompletionMessageContentPartRefusal value)? refusal,
+    required TResult orElse(),
+  }) {
+    if (refusal != null) {
+      return refusal(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ChatCompletionMessageContentPartRefusalImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class ChatCompletionMessageContentPartRefusal
+    extends ChatCompletionMessageContentPart {
+  const factory ChatCompletionMessageContentPartRefusal(
+          {final ChatCompletionMessageContentPartType type,
+          required final String refusal}) =
+      _$ChatCompletionMessageContentPartRefusalImpl;
+  const ChatCompletionMessageContentPartRefusal._() : super._();
+
+  factory ChatCompletionMessageContentPartRefusal.fromJson(
+          Map<String, dynamic> json) =
+      _$ChatCompletionMessageContentPartRefusalImpl.fromJson;
+
+  /// The type of the content part, in this case `refusal`.
+  @override
+  ChatCompletionMessageContentPartType get type;
+
+  /// The refusal message generated by the model.
+  String get refusal;
+
+  /// Create a copy of ChatCompletionMessageContentPart
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ChatCompletionMessageContentPartRefusalImplCopyWith<
+          _$ChatCompletionMessageContentPartRefusalImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -56462,6 +56447,692 @@ abstract class _ChatCompletionMessageImageUrl
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionMessageImageUrlImplCopyWith<
           _$ChatCompletionMessageImageUrlImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+ResponseFormat _$ResponseFormatFromJson(Map<String, dynamic> json) {
+  switch (json['type']) {
+    case 'text':
+      return ResponseFormatText.fromJson(json);
+    case 'json_object':
+      return ResponseFormatJsonObject.fromJson(json);
+    case 'json_schema':
+      return ResponseFormatJsonSchema.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(json, 'type', 'ResponseFormat',
+          'Invalid union type "${json['type']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$ResponseFormat {
+  /// The type of response format being defined.
+  ResponseFormatType get type => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(ResponseFormatType type) text,
+    required TResult Function(ResponseFormatType type) jsonObject,
+    required TResult Function(ResponseFormatType type,
+            @JsonKey(name: 'json_schema') JsonSchemaObject jsonSchema)
+        jsonSchema,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(ResponseFormatType type)? text,
+    TResult? Function(ResponseFormatType type)? jsonObject,
+    TResult? Function(ResponseFormatType type,
+            @JsonKey(name: 'json_schema') JsonSchemaObject jsonSchema)?
+        jsonSchema,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(ResponseFormatType type)? text,
+    TResult Function(ResponseFormatType type)? jsonObject,
+    TResult Function(ResponseFormatType type,
+            @JsonKey(name: 'json_schema') JsonSchemaObject jsonSchema)?
+        jsonSchema,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ResponseFormatText value) text,
+    required TResult Function(ResponseFormatJsonObject value) jsonObject,
+    required TResult Function(ResponseFormatJsonSchema value) jsonSchema,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ResponseFormatText value)? text,
+    TResult? Function(ResponseFormatJsonObject value)? jsonObject,
+    TResult? Function(ResponseFormatJsonSchema value)? jsonSchema,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ResponseFormatText value)? text,
+    TResult Function(ResponseFormatJsonObject value)? jsonObject,
+    TResult Function(ResponseFormatJsonSchema value)? jsonSchema,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+
+  /// Serializes this ResponseFormat to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of ResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $ResponseFormatCopyWith<ResponseFormat> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ResponseFormatCopyWith<$Res> {
+  factory $ResponseFormatCopyWith(
+          ResponseFormat value, $Res Function(ResponseFormat) then) =
+      _$ResponseFormatCopyWithImpl<$Res, ResponseFormat>;
+  @useResult
+  $Res call({ResponseFormatType type});
+}
+
+/// @nodoc
+class _$ResponseFormatCopyWithImpl<$Res, $Val extends ResponseFormat>
+    implements $ResponseFormatCopyWith<$Res> {
+  _$ResponseFormatCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of ResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+  }) {
+    return _then(_value.copyWith(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as ResponseFormatType,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ResponseFormatTextImplCopyWith<$Res>
+    implements $ResponseFormatCopyWith<$Res> {
+  factory _$$ResponseFormatTextImplCopyWith(_$ResponseFormatTextImpl value,
+          $Res Function(_$ResponseFormatTextImpl) then) =
+      __$$ResponseFormatTextImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({ResponseFormatType type});
+}
+
+/// @nodoc
+class __$$ResponseFormatTextImplCopyWithImpl<$Res>
+    extends _$ResponseFormatCopyWithImpl<$Res, _$ResponseFormatTextImpl>
+    implements _$$ResponseFormatTextImplCopyWith<$Res> {
+  __$$ResponseFormatTextImplCopyWithImpl(_$ResponseFormatTextImpl _value,
+      $Res Function(_$ResponseFormatTextImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+  }) {
+    return _then(_$ResponseFormatTextImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as ResponseFormatType,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ResponseFormatTextImpl extends ResponseFormatText {
+  const _$ResponseFormatTextImpl({this.type = ResponseFormatType.text})
+      : super._();
+
+  factory _$ResponseFormatTextImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ResponseFormatTextImplFromJson(json);
+
+  /// The type of response format being defined.
+  @override
+  @JsonKey()
+  final ResponseFormatType type;
+
+  @override
+  String toString() {
+    return 'ResponseFormat.text(type: $type)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ResponseFormatTextImpl &&
+            (identical(other.type, type) || other.type == type));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, type);
+
+  /// Create a copy of ResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ResponseFormatTextImplCopyWith<_$ResponseFormatTextImpl> get copyWith =>
+      __$$ResponseFormatTextImplCopyWithImpl<_$ResponseFormatTextImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(ResponseFormatType type) text,
+    required TResult Function(ResponseFormatType type) jsonObject,
+    required TResult Function(ResponseFormatType type,
+            @JsonKey(name: 'json_schema') JsonSchemaObject jsonSchema)
+        jsonSchema,
+  }) {
+    return text(type);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(ResponseFormatType type)? text,
+    TResult? Function(ResponseFormatType type)? jsonObject,
+    TResult? Function(ResponseFormatType type,
+            @JsonKey(name: 'json_schema') JsonSchemaObject jsonSchema)?
+        jsonSchema,
+  }) {
+    return text?.call(type);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(ResponseFormatType type)? text,
+    TResult Function(ResponseFormatType type)? jsonObject,
+    TResult Function(ResponseFormatType type,
+            @JsonKey(name: 'json_schema') JsonSchemaObject jsonSchema)?
+        jsonSchema,
+    required TResult orElse(),
+  }) {
+    if (text != null) {
+      return text(type);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ResponseFormatText value) text,
+    required TResult Function(ResponseFormatJsonObject value) jsonObject,
+    required TResult Function(ResponseFormatJsonSchema value) jsonSchema,
+  }) {
+    return text(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ResponseFormatText value)? text,
+    TResult? Function(ResponseFormatJsonObject value)? jsonObject,
+    TResult? Function(ResponseFormatJsonSchema value)? jsonSchema,
+  }) {
+    return text?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ResponseFormatText value)? text,
+    TResult Function(ResponseFormatJsonObject value)? jsonObject,
+    TResult Function(ResponseFormatJsonSchema value)? jsonSchema,
+    required TResult orElse(),
+  }) {
+    if (text != null) {
+      return text(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ResponseFormatTextImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class ResponseFormatText extends ResponseFormat {
+  const factory ResponseFormatText({final ResponseFormatType type}) =
+      _$ResponseFormatTextImpl;
+  const ResponseFormatText._() : super._();
+
+  factory ResponseFormatText.fromJson(Map<String, dynamic> json) =
+      _$ResponseFormatTextImpl.fromJson;
+
+  /// The type of response format being defined.
+  @override
+  ResponseFormatType get type;
+
+  /// Create a copy of ResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ResponseFormatTextImplCopyWith<_$ResponseFormatTextImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ResponseFormatJsonObjectImplCopyWith<$Res>
+    implements $ResponseFormatCopyWith<$Res> {
+  factory _$$ResponseFormatJsonObjectImplCopyWith(
+          _$ResponseFormatJsonObjectImpl value,
+          $Res Function(_$ResponseFormatJsonObjectImpl) then) =
+      __$$ResponseFormatJsonObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({ResponseFormatType type});
+}
+
+/// @nodoc
+class __$$ResponseFormatJsonObjectImplCopyWithImpl<$Res>
+    extends _$ResponseFormatCopyWithImpl<$Res, _$ResponseFormatJsonObjectImpl>
+    implements _$$ResponseFormatJsonObjectImplCopyWith<$Res> {
+  __$$ResponseFormatJsonObjectImplCopyWithImpl(
+      _$ResponseFormatJsonObjectImpl _value,
+      $Res Function(_$ResponseFormatJsonObjectImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+  }) {
+    return _then(_$ResponseFormatJsonObjectImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as ResponseFormatType,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ResponseFormatJsonObjectImpl extends ResponseFormatJsonObject {
+  const _$ResponseFormatJsonObjectImpl(
+      {this.type = ResponseFormatType.jsonObject})
+      : super._();
+
+  factory _$ResponseFormatJsonObjectImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ResponseFormatJsonObjectImplFromJson(json);
+
+  /// The type of response format being defined.
+  @override
+  @JsonKey()
+  final ResponseFormatType type;
+
+  @override
+  String toString() {
+    return 'ResponseFormat.jsonObject(type: $type)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ResponseFormatJsonObjectImpl &&
+            (identical(other.type, type) || other.type == type));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, type);
+
+  /// Create a copy of ResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ResponseFormatJsonObjectImplCopyWith<_$ResponseFormatJsonObjectImpl>
+      get copyWith => __$$ResponseFormatJsonObjectImplCopyWithImpl<
+          _$ResponseFormatJsonObjectImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(ResponseFormatType type) text,
+    required TResult Function(ResponseFormatType type) jsonObject,
+    required TResult Function(ResponseFormatType type,
+            @JsonKey(name: 'json_schema') JsonSchemaObject jsonSchema)
+        jsonSchema,
+  }) {
+    return jsonObject(type);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(ResponseFormatType type)? text,
+    TResult? Function(ResponseFormatType type)? jsonObject,
+    TResult? Function(ResponseFormatType type,
+            @JsonKey(name: 'json_schema') JsonSchemaObject jsonSchema)?
+        jsonSchema,
+  }) {
+    return jsonObject?.call(type);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(ResponseFormatType type)? text,
+    TResult Function(ResponseFormatType type)? jsonObject,
+    TResult Function(ResponseFormatType type,
+            @JsonKey(name: 'json_schema') JsonSchemaObject jsonSchema)?
+        jsonSchema,
+    required TResult orElse(),
+  }) {
+    if (jsonObject != null) {
+      return jsonObject(type);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ResponseFormatText value) text,
+    required TResult Function(ResponseFormatJsonObject value) jsonObject,
+    required TResult Function(ResponseFormatJsonSchema value) jsonSchema,
+  }) {
+    return jsonObject(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ResponseFormatText value)? text,
+    TResult? Function(ResponseFormatJsonObject value)? jsonObject,
+    TResult? Function(ResponseFormatJsonSchema value)? jsonSchema,
+  }) {
+    return jsonObject?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ResponseFormatText value)? text,
+    TResult Function(ResponseFormatJsonObject value)? jsonObject,
+    TResult Function(ResponseFormatJsonSchema value)? jsonSchema,
+    required TResult orElse(),
+  }) {
+    if (jsonObject != null) {
+      return jsonObject(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ResponseFormatJsonObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class ResponseFormatJsonObject extends ResponseFormat {
+  const factory ResponseFormatJsonObject({final ResponseFormatType type}) =
+      _$ResponseFormatJsonObjectImpl;
+  const ResponseFormatJsonObject._() : super._();
+
+  factory ResponseFormatJsonObject.fromJson(Map<String, dynamic> json) =
+      _$ResponseFormatJsonObjectImpl.fromJson;
+
+  /// The type of response format being defined.
+  @override
+  ResponseFormatType get type;
+
+  /// Create a copy of ResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ResponseFormatJsonObjectImplCopyWith<_$ResponseFormatJsonObjectImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ResponseFormatJsonSchemaImplCopyWith<$Res>
+    implements $ResponseFormatCopyWith<$Res> {
+  factory _$$ResponseFormatJsonSchemaImplCopyWith(
+          _$ResponseFormatJsonSchemaImpl value,
+          $Res Function(_$ResponseFormatJsonSchemaImpl) then) =
+      __$$ResponseFormatJsonSchemaImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {ResponseFormatType type,
+      @JsonKey(name: 'json_schema') JsonSchemaObject jsonSchema});
+
+  $JsonSchemaObjectCopyWith<$Res> get jsonSchema;
+}
+
+/// @nodoc
+class __$$ResponseFormatJsonSchemaImplCopyWithImpl<$Res>
+    extends _$ResponseFormatCopyWithImpl<$Res, _$ResponseFormatJsonSchemaImpl>
+    implements _$$ResponseFormatJsonSchemaImplCopyWith<$Res> {
+  __$$ResponseFormatJsonSchemaImplCopyWithImpl(
+      _$ResponseFormatJsonSchemaImpl _value,
+      $Res Function(_$ResponseFormatJsonSchemaImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? jsonSchema = null,
+  }) {
+    return _then(_$ResponseFormatJsonSchemaImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as ResponseFormatType,
+      jsonSchema: null == jsonSchema
+          ? _value.jsonSchema
+          : jsonSchema // ignore: cast_nullable_to_non_nullable
+              as JsonSchemaObject,
+    ));
+  }
+
+  /// Create a copy of ResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $JsonSchemaObjectCopyWith<$Res> get jsonSchema {
+    return $JsonSchemaObjectCopyWith<$Res>(_value.jsonSchema, (value) {
+      return _then(_value.copyWith(jsonSchema: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ResponseFormatJsonSchemaImpl extends ResponseFormatJsonSchema {
+  const _$ResponseFormatJsonSchemaImpl(
+      {this.type = ResponseFormatType.jsonSchema,
+      @JsonKey(name: 'json_schema') required this.jsonSchema})
+      : super._();
+
+  factory _$ResponseFormatJsonSchemaImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ResponseFormatJsonSchemaImplFromJson(json);
+
+  /// The type of response format being defined.
+  @override
+  @JsonKey()
+  final ResponseFormatType type;
+
+  /// A JSON Schema object.
+  @override
+  @JsonKey(name: 'json_schema')
+  final JsonSchemaObject jsonSchema;
+
+  @override
+  String toString() {
+    return 'ResponseFormat.jsonSchema(type: $type, jsonSchema: $jsonSchema)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ResponseFormatJsonSchemaImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.jsonSchema, jsonSchema) ||
+                other.jsonSchema == jsonSchema));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, jsonSchema);
+
+  /// Create a copy of ResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ResponseFormatJsonSchemaImplCopyWith<_$ResponseFormatJsonSchemaImpl>
+      get copyWith => __$$ResponseFormatJsonSchemaImplCopyWithImpl<
+          _$ResponseFormatJsonSchemaImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(ResponseFormatType type) text,
+    required TResult Function(ResponseFormatType type) jsonObject,
+    required TResult Function(ResponseFormatType type,
+            @JsonKey(name: 'json_schema') JsonSchemaObject jsonSchema)
+        jsonSchema,
+  }) {
+    return jsonSchema(type, this.jsonSchema);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(ResponseFormatType type)? text,
+    TResult? Function(ResponseFormatType type)? jsonObject,
+    TResult? Function(ResponseFormatType type,
+            @JsonKey(name: 'json_schema') JsonSchemaObject jsonSchema)?
+        jsonSchema,
+  }) {
+    return jsonSchema?.call(type, this.jsonSchema);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(ResponseFormatType type)? text,
+    TResult Function(ResponseFormatType type)? jsonObject,
+    TResult Function(ResponseFormatType type,
+            @JsonKey(name: 'json_schema') JsonSchemaObject jsonSchema)?
+        jsonSchema,
+    required TResult orElse(),
+  }) {
+    if (jsonSchema != null) {
+      return jsonSchema(type, this.jsonSchema);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ResponseFormatText value) text,
+    required TResult Function(ResponseFormatJsonObject value) jsonObject,
+    required TResult Function(ResponseFormatJsonSchema value) jsonSchema,
+  }) {
+    return jsonSchema(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ResponseFormatText value)? text,
+    TResult? Function(ResponseFormatJsonObject value)? jsonObject,
+    TResult? Function(ResponseFormatJsonSchema value)? jsonSchema,
+  }) {
+    return jsonSchema?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ResponseFormatText value)? text,
+    TResult Function(ResponseFormatJsonObject value)? jsonObject,
+    TResult Function(ResponseFormatJsonSchema value)? jsonSchema,
+    required TResult orElse(),
+  }) {
+    if (jsonSchema != null) {
+      return jsonSchema(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ResponseFormatJsonSchemaImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class ResponseFormatJsonSchema extends ResponseFormat {
+  const factory ResponseFormatJsonSchema(
+          {final ResponseFormatType type,
+          @JsonKey(name: 'json_schema')
+          required final JsonSchemaObject jsonSchema}) =
+      _$ResponseFormatJsonSchemaImpl;
+  const ResponseFormatJsonSchema._() : super._();
+
+  factory ResponseFormatJsonSchema.fromJson(Map<String, dynamic> json) =
+      _$ResponseFormatJsonSchemaImpl.fromJson;
+
+  /// The type of response format being defined.
+  @override
+  ResponseFormatType get type;
+
+  /// A JSON Schema object.
+  @JsonKey(name: 'json_schema')
+  JsonSchemaObject get jsonSchema;
+
+  /// Create a copy of ResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ResponseFormatJsonSchemaImplCopyWith<_$ResponseFormatJsonSchemaImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -57229,7 +57900,7 @@ mixin _$AssistantToolsFileSearchFileSearch {
   /// and 5 for gpt-3.5-turbo. This number should be between 1 and 50 inclusive.
   ///
   /// Note that the file search tool may output fewer than `max_num_results` results. See the [file search
-  /// tool documentation](/docs/assistants/tools/file-search/number-of-chunks-returned) for more information.
+  /// tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/number-of-chunks-returned) for more information.
   @JsonKey(name: 'max_num_results', includeIfNull: false)
   int? get maxNumResults => throw _privateConstructorUsedError;
 
@@ -57341,7 +58012,7 @@ class _$AssistantToolsFileSearchFileSearchImpl
   /// and 5 for gpt-3.5-turbo. This number should be between 1 and 50 inclusive.
   ///
   /// Note that the file search tool may output fewer than `max_num_results` results. See the [file search
-  /// tool documentation](/docs/assistants/tools/file-search/number-of-chunks-returned) for more information.
+  /// tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/number-of-chunks-returned) for more information.
   @override
   @JsonKey(name: 'max_num_results', includeIfNull: false)
   final int? maxNumResults;
@@ -57397,7 +58068,7 @@ abstract class _AssistantToolsFileSearchFileSearch
   /// and 5 for gpt-3.5-turbo. This number should be between 1 and 50 inclusive.
   ///
   /// Note that the file search tool may output fewer than `max_num_results` results. See the [file search
-  /// tool documentation](/docs/assistants/tools/file-search/number-of-chunks-returned) for more information.
+  /// tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/number-of-chunks-returned) for more information.
   @override
   @JsonKey(name: 'max_num_results', includeIfNull: false)
   int? get maxNumResults;
@@ -57419,6 +58090,8 @@ MessageContent _$MessageContentFromJson(Map<String, dynamic> json) {
       return MessageContentImageUrlObject.fromJson(json);
     case 'text':
       return MessageContentTextObject.fromJson(json);
+    case 'refusal':
+      return MessageContentRefusalObject.fromJson(json);
 
     default:
       throw CheckedFromJsonException(json, 'type', 'MessageContent',
@@ -57439,6 +58112,7 @@ mixin _$MessageContent {
             @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl)
         imageUrl,
     required TResult Function(String type, MessageContentText text) text,
+    required TResult Function(String type, String refusal) refusal,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -57450,6 +58124,7 @@ mixin _$MessageContent {
             @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl)?
         imageUrl,
     TResult? Function(String type, MessageContentText text)? text,
+    TResult? Function(String type, String refusal)? refusal,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -57461,6 +58136,7 @@ mixin _$MessageContent {
             @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl)?
         imageUrl,
     TResult Function(String type, MessageContentText text)? text,
+    TResult Function(String type, String refusal)? refusal,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -57469,6 +58145,7 @@ mixin _$MessageContent {
     required TResult Function(MessageContentImageFileObject value) imageFile,
     required TResult Function(MessageContentImageUrlObject value) imageUrl,
     required TResult Function(MessageContentTextObject value) text,
+    required TResult Function(MessageContentRefusalObject value) refusal,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -57476,6 +58153,7 @@ mixin _$MessageContent {
     TResult? Function(MessageContentImageFileObject value)? imageFile,
     TResult? Function(MessageContentImageUrlObject value)? imageUrl,
     TResult? Function(MessageContentTextObject value)? text,
+    TResult? Function(MessageContentRefusalObject value)? refusal,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -57483,6 +58161,7 @@ mixin _$MessageContent {
     TResult Function(MessageContentImageFileObject value)? imageFile,
     TResult Function(MessageContentImageUrlObject value)? imageUrl,
     TResult Function(MessageContentTextObject value)? text,
+    TResult Function(MessageContentRefusalObject value)? refusal,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -57651,6 +58330,7 @@ class _$MessageContentImageFileObjectImpl
             @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl)
         imageUrl,
     required TResult Function(String type, MessageContentText text) text,
+    required TResult Function(String type, String refusal) refusal,
   }) {
     return imageFile(type, this.imageFile);
   }
@@ -57665,6 +58345,7 @@ class _$MessageContentImageFileObjectImpl
             @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl)?
         imageUrl,
     TResult? Function(String type, MessageContentText text)? text,
+    TResult? Function(String type, String refusal)? refusal,
   }) {
     return imageFile?.call(type, this.imageFile);
   }
@@ -57679,6 +58360,7 @@ class _$MessageContentImageFileObjectImpl
             @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl)?
         imageUrl,
     TResult Function(String type, MessageContentText text)? text,
+    TResult Function(String type, String refusal)? refusal,
     required TResult orElse(),
   }) {
     if (imageFile != null) {
@@ -57693,6 +58375,7 @@ class _$MessageContentImageFileObjectImpl
     required TResult Function(MessageContentImageFileObject value) imageFile,
     required TResult Function(MessageContentImageUrlObject value) imageUrl,
     required TResult Function(MessageContentTextObject value) text,
+    required TResult Function(MessageContentRefusalObject value) refusal,
   }) {
     return imageFile(this);
   }
@@ -57703,6 +58386,7 @@ class _$MessageContentImageFileObjectImpl
     TResult? Function(MessageContentImageFileObject value)? imageFile,
     TResult? Function(MessageContentImageUrlObject value)? imageUrl,
     TResult? Function(MessageContentTextObject value)? text,
+    TResult? Function(MessageContentRefusalObject value)? refusal,
   }) {
     return imageFile?.call(this);
   }
@@ -57713,6 +58397,7 @@ class _$MessageContentImageFileObjectImpl
     TResult Function(MessageContentImageFileObject value)? imageFile,
     TResult Function(MessageContentImageUrlObject value)? imageUrl,
     TResult Function(MessageContentTextObject value)? text,
+    TResult Function(MessageContentRefusalObject value)? refusal,
     required TResult orElse(),
   }) {
     if (imageFile != null) {
@@ -57875,6 +58560,7 @@ class _$MessageContentImageUrlObjectImpl extends MessageContentImageUrlObject {
             @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl)
         imageUrl,
     required TResult Function(String type, MessageContentText text) text,
+    required TResult Function(String type, String refusal) refusal,
   }) {
     return imageUrl(type, this.imageUrl);
   }
@@ -57889,6 +58575,7 @@ class _$MessageContentImageUrlObjectImpl extends MessageContentImageUrlObject {
             @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl)?
         imageUrl,
     TResult? Function(String type, MessageContentText text)? text,
+    TResult? Function(String type, String refusal)? refusal,
   }) {
     return imageUrl?.call(type, this.imageUrl);
   }
@@ -57903,6 +58590,7 @@ class _$MessageContentImageUrlObjectImpl extends MessageContentImageUrlObject {
             @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl)?
         imageUrl,
     TResult Function(String type, MessageContentText text)? text,
+    TResult Function(String type, String refusal)? refusal,
     required TResult orElse(),
   }) {
     if (imageUrl != null) {
@@ -57917,6 +58605,7 @@ class _$MessageContentImageUrlObjectImpl extends MessageContentImageUrlObject {
     required TResult Function(MessageContentImageFileObject value) imageFile,
     required TResult Function(MessageContentImageUrlObject value) imageUrl,
     required TResult Function(MessageContentTextObject value) text,
+    required TResult Function(MessageContentRefusalObject value) refusal,
   }) {
     return imageUrl(this);
   }
@@ -57927,6 +58616,7 @@ class _$MessageContentImageUrlObjectImpl extends MessageContentImageUrlObject {
     TResult? Function(MessageContentImageFileObject value)? imageFile,
     TResult? Function(MessageContentImageUrlObject value)? imageUrl,
     TResult? Function(MessageContentTextObject value)? text,
+    TResult? Function(MessageContentRefusalObject value)? refusal,
   }) {
     return imageUrl?.call(this);
   }
@@ -57937,6 +58627,7 @@ class _$MessageContentImageUrlObjectImpl extends MessageContentImageUrlObject {
     TResult Function(MessageContentImageFileObject value)? imageFile,
     TResult Function(MessageContentImageUrlObject value)? imageUrl,
     TResult Function(MessageContentTextObject value)? text,
+    TResult Function(MessageContentRefusalObject value)? refusal,
     required TResult orElse(),
   }) {
     if (imageUrl != null) {
@@ -58090,6 +58781,7 @@ class _$MessageContentTextObjectImpl extends MessageContentTextObject {
             @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl)
         imageUrl,
     required TResult Function(String type, MessageContentText text) text,
+    required TResult Function(String type, String refusal) refusal,
   }) {
     return text(type, this.text);
   }
@@ -58104,6 +58796,7 @@ class _$MessageContentTextObjectImpl extends MessageContentTextObject {
             @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl)?
         imageUrl,
     TResult? Function(String type, MessageContentText text)? text,
+    TResult? Function(String type, String refusal)? refusal,
   }) {
     return text?.call(type, this.text);
   }
@@ -58118,6 +58811,7 @@ class _$MessageContentTextObjectImpl extends MessageContentTextObject {
             @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl)?
         imageUrl,
     TResult Function(String type, MessageContentText text)? text,
+    TResult Function(String type, String refusal)? refusal,
     required TResult orElse(),
   }) {
     if (text != null) {
@@ -58132,6 +58826,7 @@ class _$MessageContentTextObjectImpl extends MessageContentTextObject {
     required TResult Function(MessageContentImageFileObject value) imageFile,
     required TResult Function(MessageContentImageUrlObject value) imageUrl,
     required TResult Function(MessageContentTextObject value) text,
+    required TResult Function(MessageContentRefusalObject value) refusal,
   }) {
     return text(this);
   }
@@ -58142,6 +58837,7 @@ class _$MessageContentTextObjectImpl extends MessageContentTextObject {
     TResult? Function(MessageContentImageFileObject value)? imageFile,
     TResult? Function(MessageContentImageUrlObject value)? imageUrl,
     TResult? Function(MessageContentTextObject value)? text,
+    TResult? Function(MessageContentRefusalObject value)? refusal,
   }) {
     return text?.call(this);
   }
@@ -58152,6 +58848,7 @@ class _$MessageContentTextObjectImpl extends MessageContentTextObject {
     TResult Function(MessageContentImageFileObject value)? imageFile,
     TResult Function(MessageContentImageUrlObject value)? imageUrl,
     TResult Function(MessageContentTextObject value)? text,
+    TResult Function(MessageContentRefusalObject value)? refusal,
     required TResult orElse(),
   }) {
     if (text != null) {
@@ -58192,12 +58889,223 @@ abstract class MessageContentTextObject extends MessageContent {
       get copyWith => throw _privateConstructorUsedError;
 }
 
+/// @nodoc
+abstract class _$$MessageContentRefusalObjectImplCopyWith<$Res>
+    implements $MessageContentCopyWith<$Res> {
+  factory _$$MessageContentRefusalObjectImplCopyWith(
+          _$MessageContentRefusalObjectImpl value,
+          $Res Function(_$MessageContentRefusalObjectImpl) then) =
+      __$$MessageContentRefusalObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String type, String refusal});
+}
+
+/// @nodoc
+class __$$MessageContentRefusalObjectImplCopyWithImpl<$Res>
+    extends _$MessageContentCopyWithImpl<$Res,
+        _$MessageContentRefusalObjectImpl>
+    implements _$$MessageContentRefusalObjectImplCopyWith<$Res> {
+  __$$MessageContentRefusalObjectImplCopyWithImpl(
+      _$MessageContentRefusalObjectImpl _value,
+      $Res Function(_$MessageContentRefusalObjectImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of MessageContent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? refusal = null,
+  }) {
+    return _then(_$MessageContentRefusalObjectImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      refusal: null == refusal
+          ? _value.refusal
+          : refusal // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MessageContentRefusalObjectImpl extends MessageContentRefusalObject {
+  const _$MessageContentRefusalObjectImpl(
+      {required this.type, required this.refusal})
+      : super._();
+
+  factory _$MessageContentRefusalObjectImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$MessageContentRefusalObjectImplFromJson(json);
+
+  /// Always `refusal`.
+  @override
+  final String type;
+
+  /// No Description
+  @override
+  final String refusal;
+
+  @override
+  String toString() {
+    return 'MessageContent.refusal(type: $type, refusal: $refusal)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MessageContentRefusalObjectImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.refusal, refusal) || other.refusal == refusal));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, refusal);
+
+  /// Create a copy of MessageContent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessageContentRefusalObjectImplCopyWith<_$MessageContentRefusalObjectImpl>
+      get copyWith => __$$MessageContentRefusalObjectImplCopyWithImpl<
+          _$MessageContentRefusalObjectImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String type,
+            @JsonKey(name: 'image_file') MessageContentImageFile imageFile)
+        imageFile,
+    required TResult Function(String type,
+            @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl)
+        imageUrl,
+    required TResult Function(String type, MessageContentText text) text,
+    required TResult Function(String type, String refusal) refusal,
+  }) {
+    return refusal(type, this.refusal);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String type,
+            @JsonKey(name: 'image_file') MessageContentImageFile imageFile)?
+        imageFile,
+    TResult? Function(String type,
+            @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl)?
+        imageUrl,
+    TResult? Function(String type, MessageContentText text)? text,
+    TResult? Function(String type, String refusal)? refusal,
+  }) {
+    return refusal?.call(type, this.refusal);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String type,
+            @JsonKey(name: 'image_file') MessageContentImageFile imageFile)?
+        imageFile,
+    TResult Function(String type,
+            @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl)?
+        imageUrl,
+    TResult Function(String type, MessageContentText text)? text,
+    TResult Function(String type, String refusal)? refusal,
+    required TResult orElse(),
+  }) {
+    if (refusal != null) {
+      return refusal(type, this.refusal);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(MessageContentImageFileObject value) imageFile,
+    required TResult Function(MessageContentImageUrlObject value) imageUrl,
+    required TResult Function(MessageContentTextObject value) text,
+    required TResult Function(MessageContentRefusalObject value) refusal,
+  }) {
+    return refusal(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(MessageContentImageFileObject value)? imageFile,
+    TResult? Function(MessageContentImageUrlObject value)? imageUrl,
+    TResult? Function(MessageContentTextObject value)? text,
+    TResult? Function(MessageContentRefusalObject value)? refusal,
+  }) {
+    return refusal?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(MessageContentImageFileObject value)? imageFile,
+    TResult Function(MessageContentImageUrlObject value)? imageUrl,
+    TResult Function(MessageContentTextObject value)? text,
+    TResult Function(MessageContentRefusalObject value)? refusal,
+    required TResult orElse(),
+  }) {
+    if (refusal != null) {
+      return refusal(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MessageContentRefusalObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class MessageContentRefusalObject extends MessageContent {
+  const factory MessageContentRefusalObject(
+      {required final String type,
+      required final String refusal}) = _$MessageContentRefusalObjectImpl;
+  const MessageContentRefusalObject._() : super._();
+
+  factory MessageContentRefusalObject.fromJson(Map<String, dynamic> json) =
+      _$MessageContentRefusalObjectImpl.fromJson;
+
+  /// Always `refusal`.
+  @override
+  String get type;
+
+  /// No Description
+  String get refusal;
+
+  /// Create a copy of MessageContent
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$MessageContentRefusalObjectImplCopyWith<_$MessageContentRefusalObjectImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
 MessageDeltaContent _$MessageDeltaContentFromJson(Map<String, dynamic> json) {
   switch (json['type']) {
     case 'image_file':
       return MessageDeltaContentImageFileObject.fromJson(json);
     case 'text':
       return MessageDeltaContentTextObject.fromJson(json);
+    case 'refusal':
+      return MessageDeltaContentRefusalObject.fromJson(json);
+    case 'image_url':
+      return MessageDeltaContentImageUrlObject.fromJson(json);
 
     default:
       throw CheckedFromJsonException(json, 'type', 'MessageDeltaContent',
@@ -58223,6 +59131,15 @@ mixin _$MessageDeltaContent {
     required TResult Function(int index, String type,
             @JsonKey(includeIfNull: false) MessageDeltaContentText? text)
         text,
+    required TResult Function(int index, String type,
+            @JsonKey(includeIfNull: false) String? refusal)
+        refusal,
+    required TResult Function(
+            int index,
+            String type,
+            @JsonKey(name: 'image_url', includeIfNull: false)
+            MessageContentImageUrl? imageUrl)
+        imageUrl,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -58236,6 +59153,15 @@ mixin _$MessageDeltaContent {
     TResult? Function(int index, String type,
             @JsonKey(includeIfNull: false) MessageDeltaContentText? text)?
         text,
+    TResult? Function(int index, String type,
+            @JsonKey(includeIfNull: false) String? refusal)?
+        refusal,
+    TResult? Function(
+            int index,
+            String type,
+            @JsonKey(name: 'image_url', includeIfNull: false)
+            MessageContentImageUrl? imageUrl)?
+        imageUrl,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -58249,6 +59175,15 @@ mixin _$MessageDeltaContent {
     TResult Function(int index, String type,
             @JsonKey(includeIfNull: false) MessageDeltaContentText? text)?
         text,
+    TResult Function(int index, String type,
+            @JsonKey(includeIfNull: false) String? refusal)?
+        refusal,
+    TResult Function(
+            int index,
+            String type,
+            @JsonKey(name: 'image_url', includeIfNull: false)
+            MessageContentImageUrl? imageUrl)?
+        imageUrl,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -58257,18 +59192,24 @@ mixin _$MessageDeltaContent {
     required TResult Function(MessageDeltaContentImageFileObject value)
         imageFile,
     required TResult Function(MessageDeltaContentTextObject value) text,
+    required TResult Function(MessageDeltaContentRefusalObject value) refusal,
+    required TResult Function(MessageDeltaContentImageUrlObject value) imageUrl,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(MessageDeltaContentImageFileObject value)? imageFile,
     TResult? Function(MessageDeltaContentTextObject value)? text,
+    TResult? Function(MessageDeltaContentRefusalObject value)? refusal,
+    TResult? Function(MessageDeltaContentImageUrlObject value)? imageUrl,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(MessageDeltaContentImageFileObject value)? imageFile,
     TResult Function(MessageDeltaContentTextObject value)? text,
+    TResult Function(MessageDeltaContentRefusalObject value)? refusal,
+    TResult Function(MessageDeltaContentImageUrlObject value)? imageUrl,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -58460,6 +59401,15 @@ class _$MessageDeltaContentImageFileObjectImpl
     required TResult Function(int index, String type,
             @JsonKey(includeIfNull: false) MessageDeltaContentText? text)
         text,
+    required TResult Function(int index, String type,
+            @JsonKey(includeIfNull: false) String? refusal)
+        refusal,
+    required TResult Function(
+            int index,
+            String type,
+            @JsonKey(name: 'image_url', includeIfNull: false)
+            MessageContentImageUrl? imageUrl)
+        imageUrl,
   }) {
     return imageFile(index, type, this.imageFile);
   }
@@ -58476,6 +59426,15 @@ class _$MessageDeltaContentImageFileObjectImpl
     TResult? Function(int index, String type,
             @JsonKey(includeIfNull: false) MessageDeltaContentText? text)?
         text,
+    TResult? Function(int index, String type,
+            @JsonKey(includeIfNull: false) String? refusal)?
+        refusal,
+    TResult? Function(
+            int index,
+            String type,
+            @JsonKey(name: 'image_url', includeIfNull: false)
+            MessageContentImageUrl? imageUrl)?
+        imageUrl,
   }) {
     return imageFile?.call(index, type, this.imageFile);
   }
@@ -58492,6 +59451,15 @@ class _$MessageDeltaContentImageFileObjectImpl
     TResult Function(int index, String type,
             @JsonKey(includeIfNull: false) MessageDeltaContentText? text)?
         text,
+    TResult Function(int index, String type,
+            @JsonKey(includeIfNull: false) String? refusal)?
+        refusal,
+    TResult Function(
+            int index,
+            String type,
+            @JsonKey(name: 'image_url', includeIfNull: false)
+            MessageContentImageUrl? imageUrl)?
+        imageUrl,
     required TResult orElse(),
   }) {
     if (imageFile != null) {
@@ -58506,6 +59474,8 @@ class _$MessageDeltaContentImageFileObjectImpl
     required TResult Function(MessageDeltaContentImageFileObject value)
         imageFile,
     required TResult Function(MessageDeltaContentTextObject value) text,
+    required TResult Function(MessageDeltaContentRefusalObject value) refusal,
+    required TResult Function(MessageDeltaContentImageUrlObject value) imageUrl,
   }) {
     return imageFile(this);
   }
@@ -58515,6 +59485,8 @@ class _$MessageDeltaContentImageFileObjectImpl
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(MessageDeltaContentImageFileObject value)? imageFile,
     TResult? Function(MessageDeltaContentTextObject value)? text,
+    TResult? Function(MessageDeltaContentRefusalObject value)? refusal,
+    TResult? Function(MessageDeltaContentImageUrlObject value)? imageUrl,
   }) {
     return imageFile?.call(this);
   }
@@ -58524,6 +59496,8 @@ class _$MessageDeltaContentImageFileObjectImpl
   TResult maybeMap<TResult extends Object?>({
     TResult Function(MessageDeltaContentImageFileObject value)? imageFile,
     TResult Function(MessageDeltaContentTextObject value)? text,
+    TResult Function(MessageDeltaContentRefusalObject value)? refusal,
+    TResult Function(MessageDeltaContentImageUrlObject value)? imageUrl,
     required TResult orElse(),
   }) {
     if (imageFile != null) {
@@ -58709,6 +59683,15 @@ class _$MessageDeltaContentTextObjectImpl
     required TResult Function(int index, String type,
             @JsonKey(includeIfNull: false) MessageDeltaContentText? text)
         text,
+    required TResult Function(int index, String type,
+            @JsonKey(includeIfNull: false) String? refusal)
+        refusal,
+    required TResult Function(
+            int index,
+            String type,
+            @JsonKey(name: 'image_url', includeIfNull: false)
+            MessageContentImageUrl? imageUrl)
+        imageUrl,
   }) {
     return text(index, type, this.text);
   }
@@ -58725,6 +59708,15 @@ class _$MessageDeltaContentTextObjectImpl
     TResult? Function(int index, String type,
             @JsonKey(includeIfNull: false) MessageDeltaContentText? text)?
         text,
+    TResult? Function(int index, String type,
+            @JsonKey(includeIfNull: false) String? refusal)?
+        refusal,
+    TResult? Function(
+            int index,
+            String type,
+            @JsonKey(name: 'image_url', includeIfNull: false)
+            MessageContentImageUrl? imageUrl)?
+        imageUrl,
   }) {
     return text?.call(index, type, this.text);
   }
@@ -58741,6 +59733,15 @@ class _$MessageDeltaContentTextObjectImpl
     TResult Function(int index, String type,
             @JsonKey(includeIfNull: false) MessageDeltaContentText? text)?
         text,
+    TResult Function(int index, String type,
+            @JsonKey(includeIfNull: false) String? refusal)?
+        refusal,
+    TResult Function(
+            int index,
+            String type,
+            @JsonKey(name: 'image_url', includeIfNull: false)
+            MessageContentImageUrl? imageUrl)?
+        imageUrl,
     required TResult orElse(),
   }) {
     if (text != null) {
@@ -58755,6 +59756,8 @@ class _$MessageDeltaContentTextObjectImpl
     required TResult Function(MessageDeltaContentImageFileObject value)
         imageFile,
     required TResult Function(MessageDeltaContentTextObject value) text,
+    required TResult Function(MessageDeltaContentRefusalObject value) refusal,
+    required TResult Function(MessageDeltaContentImageUrlObject value) imageUrl,
   }) {
     return text(this);
   }
@@ -58764,6 +59767,8 @@ class _$MessageDeltaContentTextObjectImpl
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(MessageDeltaContentImageFileObject value)? imageFile,
     TResult? Function(MessageDeltaContentTextObject value)? text,
+    TResult? Function(MessageDeltaContentRefusalObject value)? refusal,
+    TResult? Function(MessageDeltaContentImageUrlObject value)? imageUrl,
   }) {
     return text?.call(this);
   }
@@ -58773,6 +59778,8 @@ class _$MessageDeltaContentTextObjectImpl
   TResult maybeMap<TResult extends Object?>({
     TResult Function(MessageDeltaContentImageFileObject value)? imageFile,
     TResult Function(MessageDeltaContentTextObject value)? text,
+    TResult Function(MessageDeltaContentRefusalObject value)? refusal,
+    TResult Function(MessageDeltaContentImageUrlObject value)? imageUrl,
     required TResult orElse(),
   }) {
     if (text != null) {
@@ -58818,6 +59825,552 @@ abstract class MessageDeltaContentTextObject extends MessageDeltaContent {
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MessageDeltaContentTextObjectImplCopyWith<
           _$MessageDeltaContentTextObjectImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$MessageDeltaContentRefusalObjectImplCopyWith<$Res>
+    implements $MessageDeltaContentCopyWith<$Res> {
+  factory _$$MessageDeltaContentRefusalObjectImplCopyWith(
+          _$MessageDeltaContentRefusalObjectImpl value,
+          $Res Function(_$MessageDeltaContentRefusalObjectImpl) then) =
+      __$$MessageDeltaContentRefusalObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int index, String type, @JsonKey(includeIfNull: false) String? refusal});
+}
+
+/// @nodoc
+class __$$MessageDeltaContentRefusalObjectImplCopyWithImpl<$Res>
+    extends _$MessageDeltaContentCopyWithImpl<$Res,
+        _$MessageDeltaContentRefusalObjectImpl>
+    implements _$$MessageDeltaContentRefusalObjectImplCopyWith<$Res> {
+  __$$MessageDeltaContentRefusalObjectImplCopyWithImpl(
+      _$MessageDeltaContentRefusalObjectImpl _value,
+      $Res Function(_$MessageDeltaContentRefusalObjectImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of MessageDeltaContent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? index = null,
+    Object? type = null,
+    Object? refusal = freezed,
+  }) {
+    return _then(_$MessageDeltaContentRefusalObjectImpl(
+      index: null == index
+          ? _value.index
+          : index // ignore: cast_nullable_to_non_nullable
+              as int,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      refusal: freezed == refusal
+          ? _value.refusal
+          : refusal // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MessageDeltaContentRefusalObjectImpl
+    extends MessageDeltaContentRefusalObject {
+  const _$MessageDeltaContentRefusalObjectImpl(
+      {required this.index,
+      required this.type,
+      @JsonKey(includeIfNull: false) this.refusal})
+      : super._();
+
+  factory _$MessageDeltaContentRefusalObjectImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$MessageDeltaContentRefusalObjectImplFromJson(json);
+
+  /// The index of the refusal part in the message.
+  @override
+  final int index;
+
+  /// Always `refusal`.
+  @override
+  final String type;
+
+  /// The refusal content generated by the assistant.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? refusal;
+
+  @override
+  String toString() {
+    return 'MessageDeltaContent.refusal(index: $index, type: $type, refusal: $refusal)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MessageDeltaContentRefusalObjectImpl &&
+            (identical(other.index, index) || other.index == index) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.refusal, refusal) || other.refusal == refusal));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, index, type, refusal);
+
+  /// Create a copy of MessageDeltaContent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessageDeltaContentRefusalObjectImplCopyWith<
+          _$MessageDeltaContentRefusalObjectImpl>
+      get copyWith => __$$MessageDeltaContentRefusalObjectImplCopyWithImpl<
+          _$MessageDeltaContentRefusalObjectImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            int index,
+            String type,
+            @JsonKey(name: 'image_file', includeIfNull: false)
+            MessageContentImageFile? imageFile)
+        imageFile,
+    required TResult Function(int index, String type,
+            @JsonKey(includeIfNull: false) MessageDeltaContentText? text)
+        text,
+    required TResult Function(int index, String type,
+            @JsonKey(includeIfNull: false) String? refusal)
+        refusal,
+    required TResult Function(
+            int index,
+            String type,
+            @JsonKey(name: 'image_url', includeIfNull: false)
+            MessageContentImageUrl? imageUrl)
+        imageUrl,
+  }) {
+    return refusal(index, type, this.refusal);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            int index,
+            String type,
+            @JsonKey(name: 'image_file', includeIfNull: false)
+            MessageContentImageFile? imageFile)?
+        imageFile,
+    TResult? Function(int index, String type,
+            @JsonKey(includeIfNull: false) MessageDeltaContentText? text)?
+        text,
+    TResult? Function(int index, String type,
+            @JsonKey(includeIfNull: false) String? refusal)?
+        refusal,
+    TResult? Function(
+            int index,
+            String type,
+            @JsonKey(name: 'image_url', includeIfNull: false)
+            MessageContentImageUrl? imageUrl)?
+        imageUrl,
+  }) {
+    return refusal?.call(index, type, this.refusal);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            int index,
+            String type,
+            @JsonKey(name: 'image_file', includeIfNull: false)
+            MessageContentImageFile? imageFile)?
+        imageFile,
+    TResult Function(int index, String type,
+            @JsonKey(includeIfNull: false) MessageDeltaContentText? text)?
+        text,
+    TResult Function(int index, String type,
+            @JsonKey(includeIfNull: false) String? refusal)?
+        refusal,
+    TResult Function(
+            int index,
+            String type,
+            @JsonKey(name: 'image_url', includeIfNull: false)
+            MessageContentImageUrl? imageUrl)?
+        imageUrl,
+    required TResult orElse(),
+  }) {
+    if (refusal != null) {
+      return refusal(index, type, this.refusal);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(MessageDeltaContentImageFileObject value)
+        imageFile,
+    required TResult Function(MessageDeltaContentTextObject value) text,
+    required TResult Function(MessageDeltaContentRefusalObject value) refusal,
+    required TResult Function(MessageDeltaContentImageUrlObject value) imageUrl,
+  }) {
+    return refusal(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(MessageDeltaContentImageFileObject value)? imageFile,
+    TResult? Function(MessageDeltaContentTextObject value)? text,
+    TResult? Function(MessageDeltaContentRefusalObject value)? refusal,
+    TResult? Function(MessageDeltaContentImageUrlObject value)? imageUrl,
+  }) {
+    return refusal?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(MessageDeltaContentImageFileObject value)? imageFile,
+    TResult Function(MessageDeltaContentTextObject value)? text,
+    TResult Function(MessageDeltaContentRefusalObject value)? refusal,
+    TResult Function(MessageDeltaContentImageUrlObject value)? imageUrl,
+    required TResult orElse(),
+  }) {
+    if (refusal != null) {
+      return refusal(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MessageDeltaContentRefusalObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class MessageDeltaContentRefusalObject extends MessageDeltaContent {
+  const factory MessageDeltaContentRefusalObject(
+          {required final int index,
+          required final String type,
+          @JsonKey(includeIfNull: false) final String? refusal}) =
+      _$MessageDeltaContentRefusalObjectImpl;
+  const MessageDeltaContentRefusalObject._() : super._();
+
+  factory MessageDeltaContentRefusalObject.fromJson(Map<String, dynamic> json) =
+      _$MessageDeltaContentRefusalObjectImpl.fromJson;
+
+  /// The index of the refusal part in the message.
+  @override
+  int get index;
+
+  /// Always `refusal`.
+  @override
+  String get type;
+
+  /// The refusal content generated by the assistant.
+  @JsonKey(includeIfNull: false)
+  String? get refusal;
+
+  /// Create a copy of MessageDeltaContent
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$MessageDeltaContentRefusalObjectImplCopyWith<
+          _$MessageDeltaContentRefusalObjectImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$MessageDeltaContentImageUrlObjectImplCopyWith<$Res>
+    implements $MessageDeltaContentCopyWith<$Res> {
+  factory _$$MessageDeltaContentImageUrlObjectImplCopyWith(
+          _$MessageDeltaContentImageUrlObjectImpl value,
+          $Res Function(_$MessageDeltaContentImageUrlObjectImpl) then) =
+      __$$MessageDeltaContentImageUrlObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int index,
+      String type,
+      @JsonKey(name: 'image_url', includeIfNull: false)
+      MessageContentImageUrl? imageUrl});
+
+  $MessageContentImageUrlCopyWith<$Res>? get imageUrl;
+}
+
+/// @nodoc
+class __$$MessageDeltaContentImageUrlObjectImplCopyWithImpl<$Res>
+    extends _$MessageDeltaContentCopyWithImpl<$Res,
+        _$MessageDeltaContentImageUrlObjectImpl>
+    implements _$$MessageDeltaContentImageUrlObjectImplCopyWith<$Res> {
+  __$$MessageDeltaContentImageUrlObjectImplCopyWithImpl(
+      _$MessageDeltaContentImageUrlObjectImpl _value,
+      $Res Function(_$MessageDeltaContentImageUrlObjectImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of MessageDeltaContent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? index = null,
+    Object? type = null,
+    Object? imageUrl = freezed,
+  }) {
+    return _then(_$MessageDeltaContentImageUrlObjectImpl(
+      index: null == index
+          ? _value.index
+          : index // ignore: cast_nullable_to_non_nullable
+              as int,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      imageUrl: freezed == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as MessageContentImageUrl?,
+    ));
+  }
+
+  /// Create a copy of MessageDeltaContent
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $MessageContentImageUrlCopyWith<$Res>? get imageUrl {
+    if (_value.imageUrl == null) {
+      return null;
+    }
+
+    return $MessageContentImageUrlCopyWith<$Res>(_value.imageUrl!, (value) {
+      return _then(_value.copyWith(imageUrl: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MessageDeltaContentImageUrlObjectImpl
+    extends MessageDeltaContentImageUrlObject {
+  const _$MessageDeltaContentImageUrlObjectImpl(
+      {required this.index,
+      required this.type,
+      @JsonKey(name: 'image_url', includeIfNull: false) this.imageUrl})
+      : super._();
+
+  factory _$MessageDeltaContentImageUrlObjectImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$MessageDeltaContentImageUrlObjectImplFromJson(json);
+
+  /// The index of the content part in the message.
+  @override
+  final int index;
+
+  /// Always `image_url`.
+  @override
+  final String type;
+
+  /// The image URL part of a message.
+  @override
+  @JsonKey(name: 'image_url', includeIfNull: false)
+  final MessageContentImageUrl? imageUrl;
+
+  @override
+  String toString() {
+    return 'MessageDeltaContent.imageUrl(index: $index, type: $type, imageUrl: $imageUrl)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MessageDeltaContentImageUrlObjectImpl &&
+            (identical(other.index, index) || other.index == index) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, index, type, imageUrl);
+
+  /// Create a copy of MessageDeltaContent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessageDeltaContentImageUrlObjectImplCopyWith<
+          _$MessageDeltaContentImageUrlObjectImpl>
+      get copyWith => __$$MessageDeltaContentImageUrlObjectImplCopyWithImpl<
+          _$MessageDeltaContentImageUrlObjectImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            int index,
+            String type,
+            @JsonKey(name: 'image_file', includeIfNull: false)
+            MessageContentImageFile? imageFile)
+        imageFile,
+    required TResult Function(int index, String type,
+            @JsonKey(includeIfNull: false) MessageDeltaContentText? text)
+        text,
+    required TResult Function(int index, String type,
+            @JsonKey(includeIfNull: false) String? refusal)
+        refusal,
+    required TResult Function(
+            int index,
+            String type,
+            @JsonKey(name: 'image_url', includeIfNull: false)
+            MessageContentImageUrl? imageUrl)
+        imageUrl,
+  }) {
+    return imageUrl(index, type, this.imageUrl);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            int index,
+            String type,
+            @JsonKey(name: 'image_file', includeIfNull: false)
+            MessageContentImageFile? imageFile)?
+        imageFile,
+    TResult? Function(int index, String type,
+            @JsonKey(includeIfNull: false) MessageDeltaContentText? text)?
+        text,
+    TResult? Function(int index, String type,
+            @JsonKey(includeIfNull: false) String? refusal)?
+        refusal,
+    TResult? Function(
+            int index,
+            String type,
+            @JsonKey(name: 'image_url', includeIfNull: false)
+            MessageContentImageUrl? imageUrl)?
+        imageUrl,
+  }) {
+    return imageUrl?.call(index, type, this.imageUrl);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            int index,
+            String type,
+            @JsonKey(name: 'image_file', includeIfNull: false)
+            MessageContentImageFile? imageFile)?
+        imageFile,
+    TResult Function(int index, String type,
+            @JsonKey(includeIfNull: false) MessageDeltaContentText? text)?
+        text,
+    TResult Function(int index, String type,
+            @JsonKey(includeIfNull: false) String? refusal)?
+        refusal,
+    TResult Function(
+            int index,
+            String type,
+            @JsonKey(name: 'image_url', includeIfNull: false)
+            MessageContentImageUrl? imageUrl)?
+        imageUrl,
+    required TResult orElse(),
+  }) {
+    if (imageUrl != null) {
+      return imageUrl(index, type, this.imageUrl);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(MessageDeltaContentImageFileObject value)
+        imageFile,
+    required TResult Function(MessageDeltaContentTextObject value) text,
+    required TResult Function(MessageDeltaContentRefusalObject value) refusal,
+    required TResult Function(MessageDeltaContentImageUrlObject value) imageUrl,
+  }) {
+    return imageUrl(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(MessageDeltaContentImageFileObject value)? imageFile,
+    TResult? Function(MessageDeltaContentTextObject value)? text,
+    TResult? Function(MessageDeltaContentRefusalObject value)? refusal,
+    TResult? Function(MessageDeltaContentImageUrlObject value)? imageUrl,
+  }) {
+    return imageUrl?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(MessageDeltaContentImageFileObject value)? imageFile,
+    TResult Function(MessageDeltaContentTextObject value)? text,
+    TResult Function(MessageDeltaContentRefusalObject value)? refusal,
+    TResult Function(MessageDeltaContentImageUrlObject value)? imageUrl,
+    required TResult orElse(),
+  }) {
+    if (imageUrl != null) {
+      return imageUrl(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MessageDeltaContentImageUrlObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class MessageDeltaContentImageUrlObject extends MessageDeltaContent {
+  const factory MessageDeltaContentImageUrlObject(
+          {required final int index,
+          required final String type,
+          @JsonKey(name: 'image_url', includeIfNull: false)
+          final MessageContentImageUrl? imageUrl}) =
+      _$MessageDeltaContentImageUrlObjectImpl;
+  const MessageDeltaContentImageUrlObject._() : super._();
+
+  factory MessageDeltaContentImageUrlObject.fromJson(
+          Map<String, dynamic> json) =
+      _$MessageDeltaContentImageUrlObjectImpl.fromJson;
+
+  /// The index of the content part in the message.
+  @override
+  int get index;
+
+  /// Always `image_url`.
+  @override
+  String get type;
+
+  /// The image URL part of a message.
+  @JsonKey(name: 'image_url', includeIfNull: false)
+  MessageContentImageUrl? get imageUrl;
+
+  /// Create a copy of MessageDeltaContent
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$MessageDeltaContentImageUrlObjectImplCopyWith<
+          _$MessageDeltaContentImageUrlObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 

@@ -165,7 +165,7 @@ await for (final res in stream) {
 // 789
 ```
 
-**Multi-modal prompt:**
+**Multi-modal prompt:** ([docs](https://platform.openai.com/docs/guides/vision))
 
 ```dart
 final res = await client.createChatCompletion(
@@ -198,7 +198,7 @@ print(res.choices.first.message.content);
 // The fruit in the image is an apple.
 ```
 
-**JSON mode:**
+**JSON mode:** ([docs](https://platform.openai.com/docs/guides/structured-outputs/json-mode))
 
 ```dart
 final res = await client.createChatCompletion(
@@ -227,7 +227,52 @@ final res = await client.createChatCompletion(
 // { "names": ["John", "Mary", "Peter"] }
 ```
 
-**Tools:**
+**Structured output: ([docs](https://platform.openai.com/docs/guides/structured-outputs))**
+
+```dart
+final res = await client.createChatCompletion(
+  request: CreateChatCompletionRequest(
+    model: ChatCompletionModel.model(
+      ChatCompletionModels.gpt4oMini,
+    ),
+    messages: [
+      ChatCompletionMessage.system(
+        content:
+            'You are a helpful assistant. That extracts names from text.',
+      ),
+      ChatCompletionMessage.user(
+        content: ChatCompletionUserMessageContent.string(
+          'John, Mary, and Peter.',
+        ),
+      ),
+    ],
+    temperature: 0,
+    responseFormat: ResponseFormat.jsonSchema(
+      jsonSchema: JsonSchemaObject(
+        name: 'Names',
+        description: 'A list of names',
+        strict: true,
+        schema: {
+          'type': 'object',
+          'properties': {
+            'names': {
+              'type': 'array',
+              'items': {
+                'type': 'string',
+              },
+            },
+          },
+          'additionalProperties': false,
+          'required': ['names'],
+        },
+      ),
+    ),
+  ),
+);
+// {"names":["John","Mary","Peter"]}
+```
+
+**Tools:** ([docs](https://platform.openai.com/docs/guides/function-calling))
 
 ```dart
 const function = FunctionObject(
