@@ -209,6 +209,7 @@ extension CreateChatCompletionResponseMapper on CreateChatCompletionResponse {
         'model': model,
         'created': created,
         'system_fingerprint': systemFingerprint,
+        'logprobs': choice.logprobs?.toMap(),
       },
       usage: _mapUsage(usage),
     );
