@@ -145,7 +145,7 @@ class ChatPromptValue implements PromptValue {
                     return message.concat(otherMessage);
                   }
                 })
-                .whereNotNull()
+                .nonNulls
                 .toList(growable: false),
           ),
       };
