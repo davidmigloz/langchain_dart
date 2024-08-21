@@ -83,11 +83,9 @@ final chain = promptTemplate.pipe(chat).pipe(StringOutputParser());
 
 final stream = chain.stream({'max_num': '9'});
 await stream.forEach(print);
-// 1
-// 2
-// 3
-// ..
-// 9
+// 123
+// 456
+// 789
 ```
 
 ### Multimodal support
@@ -120,12 +118,13 @@ print(res.output.content);
 
 ### Tool calling
 
-`ChatOllama` now offers support for native tool calling. This enables a model to answer a given prompt using tool(s) it knows about, making it possible for models to perform more complex tasks or interact with the outside world. It follows the standard [LangChain.dart tools API](/modules/model_io/models/chat_models/how_to/tools.md), so you can use it in the same way as you would with other providers that support tool-calling (e.g. `ChatOpenAI`, `ChatAnthropic`, etc.).
+`ChatOllama` offers support for native tool calling. This enables a model to answer a given prompt using tool(s) it knows about, making it possible for models to perform more complex tasks or interact with the outside world. It follows the standard [LangChain.dart tools API](/modules/model_io/models/chat_models/how_to/tools.md), so you can use it in the same way as you would with other providers that support tool-calling (e.g. `ChatOpenAI`, `ChatAnthropic`, etc.).
 
 **Notes:**
 - Tool calling requires [Ollama 0.3.0](https://github.com/ollama/ollama/releases/tag/v0.3.0) or newer.
 - Streaming tool calls is not supported at the moment.
-- Not all models support tool calls. Check the Ollama catalogue for models that have the `Tools` tag (e.g. [`llama3.1`](https://ollama.com/library/llama3.1)).
+- Not all models support tool calls. Check the Ollama catalogue for models that have the `Tools` tag (e.g. [`llama3.1`](https://ollama.com/library/llama3.1) or [`llama3-groq-tool-use`](https://ollama.com/library/llama3-groq-tool-use)).
+- At the moment, small models like `llama3.1` [cannot reliably maintain a conversation alongside tool calling definitions](https://llama.meta.com/docs/model-cards-and-prompt-formats/llama3_1/#llama-3.1-instruct). They can be used for zero-shot tool calling, but for multi-turn conversations it's recommended to use larger models like `llama3.1:70b` or `llama3.1:405b`.
 
 ```dart
 const tool = ToolSpec(
@@ -420,7 +419,7 @@ We can easily create a fully local RAG pipeline using `OllamaEmbeddings` and `Ch
 ```dart
 // 1. Create a vector store and add documents to it
 final vectorStore = MemoryVectorStore(
-  embeddings: OllamaEmbeddings(model: 'llama3.1'),
+  embeddings: OllamaEmbeddings(model: 'jina/jina-embeddings-v2-small-en'),
 );
 await vectorStore.addDocuments(
   documents: [
