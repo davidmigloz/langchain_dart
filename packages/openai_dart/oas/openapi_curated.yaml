@@ -2233,7 +2233,7 @@ components:
       properties:
         name:
           type: string
-          description: | 
+          description: |
             The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a 
             maximum length of 64.
         description:
@@ -2246,11 +2246,11 @@ components:
           type: boolean
           nullable: true
           default: false
-          description: | 
+          description: |
             Whether to enable strict schema adherence when generating the function call. If set to true, the model will 
             follow the exact schema defined in the `parameters` field. Only a subset of JSON Schema is supported when 
             `strict` is `true`. Learn more about Structured Outputs in the 
-            [function calling guide](docs/guides/function-calling).
+            [function calling guide](](https://platform.openai.com/docs/guides/function-calling).
       required:
         - name
     FunctionParameters:
@@ -2311,12 +2311,12 @@ components:
       properties:
         name:
           type: string
-          description: | 
+          description: |
             The name of the response format. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum 
             length of 64.
         description:
           type: string
-          description: | 
+          description: |
             A description of what the response format is for, used by the model to determine how to respond in the 
             format.
         schema:
@@ -2328,7 +2328,7 @@ components:
           type: boolean
           nullable: true
           default: false
-          description: | 
+          description: |
             Whether to enable strict schema adherence when generating the output. If set to true, the model will always 
             follow the exact schema defined in the `schema` field. Only a subset of JSON Schema is supported when 
             `strict` is `true`. To learn more, read the 
@@ -2485,12 +2485,12 @@ components:
           items:
             $ref: "#/components/schemas/ChatCompletionTokenLogprob"
           nullable: true
-      refusal:
-        description: A list of message refusal tokens with log probability information.
-        type: array
-        items:
-          $ref: "#/components/schemas/ChatCompletionTokenLogprob"
-        nullable: true
+        refusal:
+          description: A list of message refusal tokens with log probability information.
+          type: array
+          items:
+            $ref: "#/components/schemas/ChatCompletionTokenLogprob"
+          nullable: true
     ChatCompletionTokenLogprob:
       type: object
       description: Log probability information for a token.
