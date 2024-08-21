@@ -22,6 +22,14 @@ abstract class ChatModelOptions extends LanguageModelOptions {
 
   /// Controls which (if any) tool is called by the model.
   final ChatToolChoice? toolChoice;
+
+  @override
+  ChatModelOptions copyWith({
+    final String? model,
+    final List<ToolSpec>? tools,
+    final ChatToolChoice? toolChoice,
+    final int? concurrencyLimit,
+  });
 }
 
 /// {@template chat_result}

@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:langchain_core/chat_models.dart';
+import 'package:langchain_core/tools.dart';
 import 'package:meta/meta.dart';
 
 import '../../../langchain_ollama.dart';
@@ -247,6 +248,8 @@ class ChatOllamaOptions extends ChatModelOptions {
     final bool? useMmap,
     final bool? useMlock,
     final int? numThread,
+    final List<ToolSpec>? tools,
+    final ChatToolChoice? toolChoice,
     final int? concurrencyLimit,
   }) {
     return ChatOllamaOptions(
@@ -283,6 +286,8 @@ class ChatOllamaOptions extends ChatModelOptions {
       useMmap: useMmap ?? this.useMmap,
       useMlock: useMlock ?? this.useMlock,
       numThread: numThread ?? this.numThread,
+      tools: tools ?? this.tools,
+      toolChoice: toolChoice ?? this.toolChoice,
       concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
     );
   }

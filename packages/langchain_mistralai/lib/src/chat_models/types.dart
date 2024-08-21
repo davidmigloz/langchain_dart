@@ -1,4 +1,5 @@
 import 'package:langchain_core/chat_models.dart';
+import 'package:langchain_core/tools.dart';
 import 'package:meta/meta.dart';
 
 /// {@template chat_mistral_ai_options}
@@ -54,6 +55,8 @@ class ChatMistralAIOptions extends ChatModelOptions {
     final int? maxTokens,
     final bool? safePrompt,
     final int? randomSeed,
+    final List<ToolSpec>? tools,
+    final ChatToolChoice? toolChoice,
     final int? concurrencyLimit,
   }) {
     return ChatMistralAIOptions(
