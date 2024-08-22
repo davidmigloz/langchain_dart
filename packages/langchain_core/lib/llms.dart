@@ -1,4 +1,4 @@
 /// Contains core abstractions related to LLMs.
-library llms;
+library;
 
 export 'src/llms/llms.dart';

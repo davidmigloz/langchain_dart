@@ -17,7 +17,7 @@ import 'package:langchain_core/documents.dart';
 /// and [eol].
 ///
 /// The fields are added to the page content in the following format:
-/// ```
+/// ```txt
 /// {field1Name}: {field1Value}
 /// {field2Name}: {field2Value}
 /// ...
@@ -56,7 +56,6 @@ class CsvLoader extends BaseDocumentLoader {
   /// the page content of the document.
   ///
   /// If not provided, all row fields are extracted.
-  /// ```
   final List<String>? fields;
 
   /// Optional field to override the field names from the CSV file.

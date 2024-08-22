@@ -1,4 +1,4 @@
 /// Contains core utilities.
-library utils;
+library;
 
 export 'src/utils/utils.dart';

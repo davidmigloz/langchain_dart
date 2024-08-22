@@ -1,4 +1,4 @@
 /// Contains core abstractions related to runnables.
-library runnables;
+library;
 
 export 'src/runnables/runnables.dart';

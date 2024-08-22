@@ -1,5 +1,5 @@
 /// Dart Client for the Google AI API (Gemini Pro, Gemini Pro Vision, embeddings, etc.).
-library googleai_dart;
+library;
 
 export 'src/client.dart';
 export 'src/generated/client.dart' show GoogleAIClientException;
