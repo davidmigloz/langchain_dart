@@ -1,4 +1,4 @@
 /// Contains core abstractions related to LangChain.
-library langchain;
+library;
 
 export 'src/langchain/langchain.dart';

@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs
 @JS('chrome')
-library chrome;
+library;
 
 import 'package:js/js.dart';
 

@@ -90,7 +90,7 @@ class StringPromptValue implements PromptValue {
 ///
 /// When [toString] is called, it returns the string representation of the
 /// messages using the following format:
-/// ```
+/// ```txt
 /// System: <system message>
 /// Human: <human message>
 /// AI: <AI message>

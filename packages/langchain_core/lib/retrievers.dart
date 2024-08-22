@@ -1,4 +1,4 @@
 /// Contains core abstractions related to retrievers.
-library retrievers;
+library;
 
 export 'src/retrievers/retrievers.dart';
