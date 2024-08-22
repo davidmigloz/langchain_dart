@@ -5,6 +5,7 @@
 [![langchain](https://img.shields.io/pub/v/langchain.svg)](https://pub.dev/packages/langchain)
 [![](https://dcbadge.vercel.app/api/server/x4qbhqecVR?style=flat)](https://discord.gg/x4qbhqecVR)
 [![MIT](https://img.shields.io/badge/license-MIT-purple.svg)](https://github.com/davidmigloz/langchain_dart/blob/main/LICENSE)
+[![Code Assist AI](https://img.shields.io/badge/AI-Code%20Assist-EB9FDA)](https://app.commanddash.io/agent?github=https://github.com/davidmigloz/langchain_dart)
 
 Build LLM-powered Dart/Flutter applications.
 
@@ -221,6 +222,7 @@ print(res);
 ## Documentation
 
 - [LangChain.dart documentation](https://langchaindart.dev)
+- [Code Assist AI](https://app.commanddash.io/agent?github=https://github.com/davidmigloz/langchain_dart) (Chatbot for LangChain.dart documentation)
 - [Sample apps](https://github.com/davidmigloz/langchain_dart/tree/main/examples)
 - [LangChain.dart blog](https://blog.langchaindart.dev)
 - [Project board](https://github.com/users/davidmigloz/projects/2/views/1)
