@@ -24,7 +24,6 @@ void main() {
       final llm = ChatOpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const ChatOpenAIOptions(
-          model: 'gpt-4-turbo',
           temperature: 0,
         ),
       );
@@ -46,7 +45,6 @@ void main() {
       final llm = ChatOpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const ChatOpenAIOptions(
-          model: 'gpt-4-turbo',
           temperature: 0,
         ),
       );
@@ -135,7 +133,6 @@ void main() {
     final model = ChatOpenAI(
       apiKey: openaiApiKey,
       defaultOptions: const ChatOpenAIOptions(
-        model: 'gpt-4-turbo',
         temperature: 0,
       ),
     ).bind(ChatOpenAIOptions(tools: [tool]));
