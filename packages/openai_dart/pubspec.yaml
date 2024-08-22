@@ -1,6 +1,6 @@
 name: openai_dart
 description: Dart client for the OpenAI API. Supports completions (GPT-3.5 Turbo), chat (GPT-4o, etc.), embeddings (Embedding v3), images (DALL·E 3), assistants v2 (threads, runs, vector stores, etc.) batch, fine-tuning, etc.
-version: 0.4.0
+version: 0.4.1
 repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/openai_dart
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues?q=label:p:openai_dart
 homepage: https://github.com/davidmigloz/langchain_dart
