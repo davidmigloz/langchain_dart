@@ -1,4 +1,4 @@
 /// Contains core abstractions related to chains.
-library chains;
+library;
 
 export 'src/chains/chains.dart';

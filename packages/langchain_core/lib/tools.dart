@@ -1,4 +1,4 @@
 /// Contains core abstractions related to tools.
-library tools;
+library;
 
 export 'src/tools/tools.dart';
