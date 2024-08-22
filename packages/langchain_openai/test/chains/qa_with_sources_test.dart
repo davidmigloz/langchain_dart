@@ -125,7 +125,6 @@ Question: {question}
       final chatModel = ChatOpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const ChatOpenAIOptions(
-          model: 'gpt-4o-mini',
           temperature: 0,
         ),
       );
