@@ -208,7 +208,6 @@ void main() {
 
     test('Test countTokens messages', () async {
       final models = [
-        'gpt-3.5-turbo-16k-0613',
         'gpt-4-0314',
         'gpt-4-0613',
       ];
@@ -328,7 +327,7 @@ void main() {
       final llm = ChatOpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const ChatOpenAIOptions(
-          model: 'gpt-4-turbo',
+          model: defaultModel,
           temperature: 0,
           seed: 12345,
         ),
@@ -455,7 +454,7 @@ void main() {
       final chatModel = ChatOpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const ChatOpenAIOptions(
-          model: 'gpt-4-turbo',
+          model: defaultModel,
         ),
       );
 
@@ -482,7 +481,7 @@ void main() {
       final chatModel = ChatOpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const ChatOpenAIOptions(
-          model: 'gpt-4-turbo',
+          model: defaultModel,
         ),
       );
 
