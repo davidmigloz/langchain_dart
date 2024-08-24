@@ -12,45 +12,39 @@ import 'types.dart';
 /// Creates a [CreateChatCompletionRequest] from the given input.
 CreateChatCompletionRequest createChatCompletionRequest(
   final List<ChatMessage> messages, {
-  required final ChatOpenAIOptions? options,
-  required final ChatOpenAIOptions defaultOptions,
+  required final ChatOpenAIOptions options,
   final bool stream = false,
 }) {
   final messagesDtos = messages.toChatCompletionMessages();
-  final toolsDtos =
-      (options?.tools ?? defaultOptions.tools)?.toChatCompletionTool();
-  final toolChoice = (options?.toolChoice ?? defaultOptions.toolChoice)
-      ?.toChatCompletionToolChoice();
+  final toolsDtos = options.tools?.toChatCompletionTool();
+  final toolChoice = options.toolChoice?.toChatCompletionToolChoice();
   final responseFormatDto =
-      (options?.responseFormat ?? defaultOptions.responseFormat)
-          ?.toChatCompletionResponseFormat();
-  final serviceTierDto = (options?.serviceTier ?? defaultOptions.serviceTier)
-      .toCreateChatCompletionRequestServiceTier();
+      options.responseFormat?.toChatCompletionResponseFormat();
+  final serviceTierDto =
+      options.serviceTier.toCreateChatCompletionRequestServiceTier();
 
   return CreateChatCompletionRequest(
     model: ChatCompletionModel.modelId(
-      options?.model ?? defaultOptions.model ?? ChatOpenAI.defaultModel,
+      options.model ?? ChatOpenAI.defaultModel,
     ),
     messages: messagesDtos,
     tools: toolsDtos,
     toolChoice: toolChoice,
-    frequencyPenalty:
-        options?.frequencyPenalty ?? defaultOptions.frequencyPenalty,
-    logitBias: options?.logitBias ?? defaultOptions.logitBias,
-    maxTokens: options?.maxTokens ?? defaultOptions.maxTokens,
-    n: options?.n ?? defaultOptions.n,
-    presencePenalty: options?.presencePenalty ?? defaultOptions.presencePenalty,
+    frequencyPenalty: options.frequencyPenalty,
+    logitBias: options.logitBias,
+    maxTokens: options.maxTokens,
+    n: options.n,
+    presencePenalty: options.presencePenalty,
     responseFormat: responseFormatDto,
-    seed: options?.seed ?? defaultOptions.seed,
-    stop: (options?.stop ?? defaultOptions.stop) != null
-        ? ChatCompletionStop.listString(options?.stop ?? defaultOptions.stop!)
+    seed: options.seed,
+    stop: options.stop != null
+        ? ChatCompletionStop.listString(options.stop!)
         : null,
-    temperature: options?.temperature ?? defaultOptions.temperature,
-    topP: options?.topP ?? defaultOptions.topP,
-    parallelToolCalls:
-        options?.parallelToolCalls ?? defaultOptions.parallelToolCalls,
+    temperature: options.temperature,
+    topP: options.topP,
+    parallelToolCalls: options.parallelToolCalls,
     serviceTier: serviceTierDto,
-    user: options?.user ?? defaultOptions.user,
+    user: options.user,
     streamOptions:
         stream ? const ChatCompletionStreamOptions(includeUsage: true) : null,
   );

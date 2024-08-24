@@ -2,7 +2,7 @@ import '../chat_models/types.dart';
 import '../runnables/types.dart';
 
 sealed class RunnableEvent<RunInput extends Object?,
-CallOptions extends RunnableOptions, RunOutput extends Object?> {
+    CallOptions extends RunnableOptions, RunOutput extends Object?> {
   const RunnableEvent({
     required this.id,
     required this.input,
@@ -16,7 +16,6 @@ CallOptions extends RunnableOptions, RunOutput extends Object?> {
   final RunOutput output;
 }
 
-
 class OnChatModelStartEvent
     extends RunnableEvent<List<ChatMessage>, ChatModelOptions, ChatResult?> {
   const OnChatModelStartEvent({
@@ -24,6 +23,14 @@ class OnChatModelStartEvent
     required super.input,
     required super.options,
   }) : super(output: null);
+
+  @override
+  String toString() => '''
+OnChatModelStartEvent(
+  id: $id,
+  input: $input,
+  options: $options,
+)''';
 }
 
 class OnChatModelEndEvent
@@ -34,6 +41,15 @@ class OnChatModelEndEvent
     required super.options,
     required super.output,
   });
+
+  @override
+  String toString() => '''
+OnChatModelEndEvent(
+  id: $id,
+  input: $input,
+  options: $options,
+  output: $output,
+)''';
 }
 
 class OnChatModelStreamEvent
@@ -44,4 +60,13 @@ class OnChatModelStreamEvent
     required super.options,
     required super.output,
   });
+
+  @override
+  String toString() => '''
+OnChatModelStreamEvent(
+  id: $id,
+  input: $input,
+  options: $options,
+  output: $output,
+)''';
 }

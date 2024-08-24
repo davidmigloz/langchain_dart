@@ -1,5 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'package:langchain_core/chat_models.dart';
+import 'package:langchain_core/events.dart';
 import 'package:langchain_core/prompts.dart';
 import 'package:langchain_tiktoken/langchain_tiktoken.dart';
 import 'package:openai_dart/openai_dart.dart';
@@ -246,35 +247,78 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   Future<ChatResult> invoke(
     final PromptValue input, {
     final ChatOpenAIOptions? options,
+    final RunnableEventListener? eventListener,
   }) async {
-    final completion = await _client.createChatCompletion(
-      request: createChatCompletionRequest(
-        input.toChatMessages(),
-        options: options,
-        defaultOptions: defaultOptions,
+    final finalInput = input.toChatMessages();
+    final finalOption = defaultOptions.merge(options);
+
+    await eventListener?.emit(
+      OnChatModelStartEvent(
+        id: modelType,
+        input: finalInput,
+        options: finalOption,
       ),
     );
-    return completion.toChatResult(completion.id ?? _uuid.v4());
+
+    final completion = await _client.createChatCompletion(
+      request: createChatCompletionRequest(
+        finalInput,
+        options: finalOption,
+      ),
+    );
+    final result = completion.toChatResult(completion.id ?? _uuid.v4());
+
+    await eventListener?.emit(
+      OnChatModelEndEvent(
+        id: modelType,
+        input: finalInput,
+        options: finalOption,
+        output: result,
+      ),
+    );
+
+    return result;
   }
 
   @override
   Stream<ChatResult> stream(
     final PromptValue input, {
     final ChatOpenAIOptions? options,
-  }) {
-    return _client
+    final RunnableEventListener? eventListener,
+  }) async* {
+    final finalInput = input.toChatMessages();
+    final finalOption = defaultOptions.merge(options);
+
+    await eventListener?.emit(
+      OnChatModelStartEvent(
+        id: modelType,
+        input: finalInput,
+        options: finalOption,
+      ),
+    );
+
+    yield* _client
         .createChatCompletionStream(
-          request: createChatCompletionRequest(
-            input.toChatMessages(),
-            options: options,
-            defaultOptions: defaultOptions,
-            stream: true,
-          ),
-        )
-        .map(
-          (final completion) =>
-              completion.toChatResult(completion.id ?? _uuid.v4()),
-        );
+      request: createChatCompletionRequest(
+        finalInput,
+        options: finalOption,
+        stream: true,
+      ),
+    )
+        .map((completion) {
+      final result = completion.toChatResult(completion.id ?? _uuid.v4());
+
+      eventListener?.emit(
+        OnChatModelStreamEvent(
+          id: modelType,
+          input: finalInput,
+          options: finalOption,
+          output: result,
+        ),
+      );
+
+      return result;
+    });
   }
 
   /// Tokenizes the given prompt using tiktoken with the encoding used by the
