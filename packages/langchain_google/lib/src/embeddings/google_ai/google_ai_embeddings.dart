@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart' show IterableNullableExtension;
 import 'package:google_generative_ai/google_generative_ai.dart'
     show Content, EmbedContentRequest, GenerativeModel, TaskType;
 import 'package:http/http.dart' as http;
@@ -175,7 +174,7 @@ class GoogleGenerativeAIEmbeddings implements Embeddings {
         );
         return data.embeddings
             .map((final p) => p.values)
-            .whereNotNull()
+            .nonNulls
             .toList(growable: false);
       }),
     );

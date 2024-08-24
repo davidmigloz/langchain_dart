@@ -379,3 +379,25 @@ enum ChatOpenAIServiceTier {
   /// uptime SLA and no latency guarantee.
   vDefault,
 }
+
+/// {@template openai_refusal_exception}
+/// Exception thrown when OpenAI Structured Outputs API returns a refusal.
+///
+/// When using OpenAI's Structured Outputs API with user-generated input, the
+/// model may occasionally refuse to fulfill the request for safety reasons.
+///
+/// See here for more on refusals:
+/// https://platform.openai.com/docs/guides/structured-outputs/refusals
+/// {@endtemplate}
+class OpenAIRefusalException implements Exception {
+  /// {@macro openai_refusal_exception}
+  const OpenAIRefusalException(this.message);
+
+  /// The refusal message.
+  final String message;
+
+  @override
+  String toString() {
+    return 'OpenAIRefusalException: $message';
+  }
+}

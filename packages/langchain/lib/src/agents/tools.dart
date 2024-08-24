@@ -1,4 +1,3 @@
-// ignore_for_file: deprecated_member_use_from_same_package
 import 'package:langchain_core/agents.dart';
 import 'package:langchain_core/chains.dart';
 import 'package:langchain_core/chat_models.dart';
@@ -8,8 +7,6 @@ import 'package:langchain_core/output_parsers.dart';
 import 'package:langchain_core/prompts.dart';
 import 'package:langchain_core/tools.dart';
 
-import '../chat_models/chat_models.dart';
-
 const _systemChatMessagePromptTemplate = SystemChatMessagePromptTemplate(
   prompt: PromptTemplate(
     inputVariables: {},
@@ -17,20 +14,16 @@ const _systemChatMessagePromptTemplate = SystemChatMessagePromptTemplate(
   ),
 );
 
-/// {@template openai_tools_agent}
-/// > Note: This class is deprecated. Use `ToolsAgent` (from the `langchain`
-/// > package instead). It works with the same API as this class, but can be
-/// > used with any provider that supports tool calling.
-/// > You can run `dart fix --apply` to automatically update your code.
-///
-/// An Agent driven by OpenAI's Tools powered API.
+/// {@template tools_agent}
+/// An agent powered by the tool calling API.
 ///
 /// Example:
 /// ```dart
-/// final llm = ChatOpenAI(
-///   apiKey: openaiApiKey,
-///   model: 'gpt-4-turbo',
-///   temperature: 0,
+/// final llm = ChatOllama(
+///   defaultOptions: ChatOllamaOptions(
+///     model: 'llama3-groq-tool-use',
+///     temperature: 0,
+///   ),
 /// );
 /// final tools = [CalculatorTool()];
 /// final agent = ToolsAgent.fromLLMAndTools(llm: llm, tools: tools);
@@ -38,14 +31,19 @@ const _systemChatMessagePromptTemplate = SystemChatMessagePromptTemplate(
 /// final res = await executor.run('What is 40 raised to the 0.43 power? ');
 /// ```
 ///
+/// You can use any chat model that supports tools, like `ChatOpenAI`,
+/// `ChatOllama`, `ChatAnthropic`, `ChatFirebaseVertexAI`, etc. Check the
+/// [documentation](https://langchaindart.dev/#/modules/model_io/models/chat_models/how_to/tools)
+/// for a complete list.
+///
 /// You can easily add memory to the agent using the memory parameter from the
-/// [OpenAIToolsAgent.fromLLMAndTools] constructor. Make sure you enable
+/// [ToolsAgent.fromLLMAndTools] constructor. Make sure you enable
 /// [BaseChatMemory.returnMessages] on your memory, as the agent works with
 /// [ChatMessage]s. The default prompt template already takes care of adding
 /// the history to the prompt. For example:
 /// ```dart
 /// final memory = ConversationBufferMemory(returnMessages: true);
-/// final agent = OpenAIToolsAgent.fromLLMAndTools(
+/// final agent = ToolsAgent.fromLLMAndTools(
 ///   llm: llm,
 ///   tools: tools,
 ///   memory: memory,
@@ -71,18 +69,16 @@ const _systemChatMessagePromptTemplate = SystemChatMessagePromptTemplate(
 /// ]);
 /// ```
 ///
-/// You can use [OpenAIToolsAgent.createPrompt] to build the prompt
+/// You can use [ToolsAgent.createPrompt] to build the prompt
 /// template if you only need to customize the system message or add some
 /// extra messages.
 /// {@endtemplate}
-@Deprecated('Use ToolsAgent instead')
-class OpenAIToolsAgent extends BaseSingleActionAgent {
-  /// {@macro openai_functions_agent}
-  @Deprecated('Use ToolsAgent instead')
-  OpenAIToolsAgent({
+class ToolsAgent extends BaseSingleActionAgent {
+  /// {@macro tools_agent}
+  ToolsAgent({
     required this.llmChain,
     required super.tools,
-  })  : _parser = const OpenAIToolsAgentOutputParser(),
+  })  : _parser = const ToolsAgentOutputParser(),
         assert(
           llmChain.memory != null ||
               llmChain.prompt.inputVariables
@@ -106,10 +102,10 @@ class OpenAIToolsAgent extends BaseSingleActionAgent {
   ///
   /// The memory must have [BaseChatMemory.returnMessages] set to true for
   /// the agent to work properly.
-  final LLMChain<ChatOpenAI, ChatOpenAIOptions, BaseChatMemory> llmChain;
+  final LLMChain<BaseChatModel, ChatModelOptions, BaseChatMemory> llmChain;
 
   /// Parser to use to parse the output of the LLM.
-  final OpenAIToolsAgentOutputParser _parser;
+  final ToolsAgentOutputParser _parser;
 
   /// The key for the input to the agent.
   static const agentInputKey = 'input';
@@ -117,30 +113,40 @@ class OpenAIToolsAgent extends BaseSingleActionAgent {
   @override
   Set<String> get inputKeys => {agentInputKey};
 
-  /// Construct an [OpenAIToolsAgent] from an [llm] and [tools].
+  /// Construct an [ToolsAgent] from an [llm] and [tools].
   ///
   /// - [llm] - The model to use for the agent.
-  /// - [tools] - The tools the agent has access to.
+  /// - [tools] - The tools the agent has access to. You can omit this field if
+  ///   you have already configured the tools in the [llm].
   /// - [memory] - The memory to use for the agent.
   /// - [systemChatMessage] message to use as the system message that will be
   ///   the first in the prompt. Default: "You are a helpful AI assistant".
   /// - [extraPromptMessages] prompt messages that will be placed between the
   ///   system message and the input from the agent.
-  @Deprecated('Use ToolsAgent.fromLLMAndTools() instead')
-  factory OpenAIToolsAgent.fromLLMAndTools({
-    required final ChatOpenAI llm,
-    required final List<Tool> tools,
+  factory ToolsAgent.fromLLMAndTools({
+    required final BaseChatModel llm,
+    final List<Tool>? tools,
     final BaseChatMemory? memory,
     final SystemChatMessagePromptTemplate systemChatMessage =
         _systemChatMessagePromptTemplate,
     final List<ChatMessagePromptTemplate>? extraPromptMessages,
   }) {
-    return OpenAIToolsAgent(
+    assert(
+      tools != null || llm.defaultOptions.tools != null,
+      'Tools must be provided or configured in the llm',
+    );
+    assert(
+      tools != null || llm.defaultOptions.tools!.every((tool) => tool is Tool),
+      'All elements in `tools` must be of type `Tool` or its subclasses',
+    );
+
+    final actualTools = tools ?? llm.defaultOptions.tools!.cast<Tool>();
+
+    return ToolsAgent(
       llmChain: LLMChain(
         llm: llm,
-        llmOptions: ChatOpenAIOptions(
-          model: llm.defaultOptions.model,
-          tools: tools,
+        llmOptions: llm.defaultOptions.copyWith(
+          tools: actualTools,
         ),
         prompt: createPrompt(
           systemChatMessage: systemChatMessage,
@@ -149,7 +155,7 @@ class OpenAIToolsAgent extends BaseSingleActionAgent {
         ),
         memory: memory,
       ),
-      tools: tools,
+      tools: actualTools,
     );
   }
 
@@ -217,7 +223,7 @@ class OpenAIToolsAgent extends BaseSingleActionAgent {
   }
 
   @override
-  String get agentType => 'openai-tools';
+  String get agentType => 'tool-agent';
 
   /// Creates prompt for this agent.
   ///
@@ -249,23 +255,16 @@ class OpenAIToolsAgent extends BaseSingleActionAgent {
   }
 }
 
-/// {@template openai_tools_agent_output_parser}
-/// > Note: This class is deprecated. Use `ToolsAgentOutputParser` (from the
-/// > `langchain` package instead). It is equivalent to this class, but
-/// > prepared to work with the `ToolsAgent`.
-/// > You can run `dart fix --apply` to automatically update your code.
-///
-/// Parser for [OpenAIToolsAgent].
+/// {@template tools_agent_output_parser}
+/// Parser for [ToolsAgent].
 ///
 /// It parses the output of the LLM and returns the corresponding
 /// [BaseAgentAction] to be executed.
 /// {@endtemplate}
-@Deprecated('Use ToolsAgentOutputParser instead')
-class OpenAIToolsAgentOutputParser extends BaseOutputParser<ChatResult,
+class ToolsAgentOutputParser extends BaseOutputParser<ChatResult,
     OutputParserOptions, List<BaseAgentAction>> {
-  /// {@macro openai_tools_agent_output_parser}
-  @Deprecated('Use ToolsAgentOutputParser instead')
-  const OpenAIToolsAgentOutputParser()
+  /// {@macro tools_agent_output_parser}
+  const ToolsAgentOutputParser()
       : super(defaultOptions: const OutputParserOptions());
 
   @override
@@ -281,7 +280,6 @@ class OpenAIToolsAgentOutputParser extends BaseOutputParser<ChatResult,
     final AIChatMessage message,
   ) async {
     final toolCalls = message.toolCalls;
-
     if (toolCalls.isNotEmpty) {
       return toolCalls.map((final toolCall) {
         return AgentAction(

@@ -816,6 +816,10 @@ _$ChatCompletionLogprobsImpl _$$ChatCompletionLogprobsImplFromJson(
           ?.map((e) =>
               ChatCompletionTokenLogprob.fromJson(e as Map<String, dynamic>))
           .toList(),
+      refusal: (json['refusal'] as List<dynamic>?)
+          ?.map((e) =>
+              ChatCompletionTokenLogprob.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$$ChatCompletionLogprobsImplToJson(
@@ -829,6 +833,7 @@ Map<String, dynamic> _$$ChatCompletionLogprobsImplToJson(
   }
 
   writeNotNull('content', instance.content?.map((e) => e.toJson()).toList());
+  writeNotNull('refusal', instance.refusal?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -958,6 +963,10 @@ _$ChatCompletionStreamResponseChoiceLogprobsImpl
               ?.map((e) => ChatCompletionTokenLogprob.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
+          refusal: (json['refusal'] as List<dynamic>?)
+              ?.map((e) => ChatCompletionTokenLogprob.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
         );
 
 Map<String, dynamic> _$$ChatCompletionStreamResponseChoiceLogprobsImplToJson(
@@ -971,6 +980,7 @@ Map<String, dynamic> _$$ChatCompletionStreamResponseChoiceLogprobsImplToJson(
   }
 
   writeNotNull('content', instance.content?.map((e) => e.toJson()).toList());
+  writeNotNull('refusal', instance.refusal?.map((e) => e.toJson()).toList());
   return val;
 }
 

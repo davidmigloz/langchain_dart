@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 
 import '../../language_models.dart';
 import '../prompts/types.dart';
+import '../tools/base.dart';
 import 'base.dart';
 import 'types.dart';
 
@@ -85,6 +86,8 @@ class FakeChatModelOptions extends ChatModelOptions {
   const FakeChatModelOptions({
     super.model,
     this.metadata,
+    super.tools,
+    super.toolChoice,
     super.concurrencyLimit,
   });
 
@@ -95,11 +98,15 @@ class FakeChatModelOptions extends ChatModelOptions {
   FakeChatModelOptions copyWith({
     final String? model,
     final Map<String, dynamic>? metadata,
+    final List<ToolSpec>? tools,
+    final ChatToolChoice? toolChoice,
     final int? concurrencyLimit,
   }) {
     return FakeChatModelOptions(
       model: model ?? this.model,
       metadata: metadata ?? this.metadata,
+      tools: tools ?? this.tools,
+      toolChoice: toolChoice ?? this.toolChoice,
       concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
     );
   }
@@ -223,6 +230,8 @@ class FakeEchoChatModelOptions extends ChatModelOptions {
     super.model,
     this.metadata,
     this.throwRandomError = false,
+    super.tools,
+    super.toolChoice,
     super.concurrencyLimit,
   });
 
@@ -237,12 +246,16 @@ class FakeEchoChatModelOptions extends ChatModelOptions {
     final String? model,
     final Map<String, dynamic>? metadata,
     final bool? throwRandomError,
+    final List<ToolSpec>? tools,
+    final ChatToolChoice? toolChoice,
     final int? concurrencyLimit,
   }) {
     return FakeEchoChatModelOptions(
       model: model ?? this.model,
       metadata: metadata ?? this.metadata,
       throwRandomError: throwRandomError ?? this.throwRandomError,
+      tools: tools ?? this.tools,
+      toolChoice: toolChoice ?? this.toolChoice,
       concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
     );
   }

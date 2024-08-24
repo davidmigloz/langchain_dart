@@ -1,5 +1,5 @@
 /// Dart Client for the Anthropic API (Claude 3.5 Sonnet, Opus, Haiku, etc.).
-library anthropic_sdk_dart;
+library;
 
 export 'src/client.dart';
 export 'src/extensions.dart';

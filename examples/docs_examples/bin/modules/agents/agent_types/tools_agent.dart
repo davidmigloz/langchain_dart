@@ -3,33 +3,34 @@ import 'dart:io';
 
 import 'package:langchain/langchain.dart';
 import 'package:langchain_community/langchain_community.dart';
+import 'package:langchain_ollama/langchain_ollama.dart';
 import 'package:langchain_openai/langchain_openai.dart';
 
 void main() async {
-  await _openAIToolsAgent();
-  await _openAIToolsAgentCustomToolsMemory();
-  await _openAIToolsAgentLCEL();
+  await _toolsAgent();
+  await _toolsAgentCustomToolsMemory();
+  await _toolsAgentLCEL();
 }
 
-Future<void> _openAIToolsAgent() async {
-  final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
-  final llm = ChatOpenAI(
-    apiKey: openaiApiKey,
-    defaultOptions: const ChatOpenAIOptions(
-      model: 'gpt-4-turbo',
+Future<void> _toolsAgent() async {
+  final llm = ChatOllama(
+    defaultOptions: const ChatOllamaOptions(
+      model: 'llama3.1',
       temperature: 0,
     ),
   );
   final tool = CalculatorTool();
-  final agent = OpenAIToolsAgent.fromLLMAndTools(llm: llm, tools: [tool]);
+  final agent = ToolsAgent.fromLLMAndTools(llm: llm, tools: [tool]);
   final executor = AgentExecutor(agent: agent);
-  final res = await executor.run('What is 40 raised to the 0.43 power? ');
-  print(res); // -> '40 raised to the power of 0.43 is approximately 4.8852'
+  final res = await executor.run(
+    'What is 40 raised to the power of 0.43? '
+    'Return the result with 3 decimals.',
+  );
+  print(res);
+  // The result is: 4.885
 }
 
-Future<void> _openAIToolsAgentCustomToolsMemory() async {
-  final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
-
+Future<void> _toolsAgentCustomToolsMemory() async {
   final tool = Tool.fromFunction<SearchInput, String>(
     name: 'search',
     description: 'Tool for searching the web.',
@@ -41,7 +42,7 @@ Future<void> _openAIToolsAgentCustomToolsMemory() async {
           'description': 'The query to search for',
         },
         'n': {
-          'type': 'number',
+          'type': 'integer',
           'description': 'The number of results to return',
         },
       },
@@ -51,13 +52,15 @@ Future<void> _openAIToolsAgentCustomToolsMemory() async {
     getInputFromJson: SearchInput.fromJson,
   );
 
-  final llm = ChatOpenAI(
-    apiKey: openaiApiKey,
-    defaultOptions: const ChatOpenAIOptions(temperature: 0),
+  final llm = ChatOllama(
+    defaultOptions: const ChatOllamaOptions(
+      model: 'llama3-groq-tool-use',
+      temperature: 0,
+    ),
   );
 
   final memory = ConversationBufferMemory(returnMessages: true);
-  final agent = OpenAIToolsAgent.fromLLMAndTools(
+  final agent = ToolsAgent.fromLLMAndTools(
     llm: llm,
     tools: [tool],
     memory: memory,
@@ -66,7 +69,7 @@ Future<void> _openAIToolsAgentCustomToolsMemory() async {
   final executor = AgentExecutor(agent: agent);
 
   final res1 = await executor.run(
-    'Search for cats. Return only 3 results.',
+    'Search for cat names. Return only 3 results.',
   );
   print(res1);
   // Here are 3 search results for "cats":
@@ -92,11 +95,16 @@ class SearchInput {
 }
 
 String callYourSearchFunction(final SearchInput input) {
-  return 'Results:\n${List<String>.generate(input.n, (final i) => 'Result ${i + 1}').join('\n')}';
+  final n = input.n;
+  final res = List<String>.generate(
+    n,
+    (i) => 'Result ${i + 1}: ${String.fromCharCode(65 + i) * 3}',
+  );
+  return 'Results:\n${res.join('\n')}';
 }
 
-Future<void> _openAIToolsAgentLCEL() async {
-  final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
+Future<void> _toolsAgentLCEL() async {
+  final openAiKey = Platform.environment['OPENAI_API_KEY'];
 
   final prompt = ChatPromptTemplate.fromTemplates(const [
     (ChatMessageType.system, 'You are a helpful assistant'),
@@ -107,18 +115,19 @@ Future<void> _openAIToolsAgentLCEL() async {
   final tool = CalculatorTool();
 
   final model = ChatOpenAI(
-    apiKey: openaiApiKey,
+    apiKey: openAiKey,
     defaultOptions: ChatOpenAIOptions(
+      model: 'gpt-4o-mini',
       temperature: 0,
       tools: [tool],
     ),
   );
 
-  const outputParser = OpenAIToolsAgentOutputParser();
+  const outputParser = ToolsAgentOutputParser();
 
   List<ChatMessage> buildScratchpad(final List<AgentStep> intermediateSteps) {
     return intermediateSteps
-        .map((final s) {
+        .map((s) {
           return s.action.messageLog +
               [
                 ChatMessage.tool(
@@ -127,13 +136,13 @@ Future<void> _openAIToolsAgentLCEL() async {
                 ),
               ];
         })
-        .expand((final m) => m)
+        .expand((m) => m)
         .toList(growable: false);
   }
 
   final agent = Agent.fromRunnable(
     Runnable.mapInput(
-      (final AgentPlanInput planInput) => <String, dynamic>{
+      (AgentPlanInput planInput) => <String, dynamic>{
         'input': planInput.inputs['input'],
         'agent_scratchpad': buildScratchpad(planInput.intermediateSteps),
       },
@@ -143,8 +152,9 @@ Future<void> _openAIToolsAgentLCEL() async {
   final executor = AgentExecutor(agent: agent);
 
   final res = await executor.invoke({
-    'input': 'What is 40 raised to the 0.43 power?',
+    'input': 'What is 40 raised to the power of 0.43? '
+        'Return the result with 3 decimals.',
   });
   print(res['output']);
-  // 40 raised to the power of 0.43 is approximately 4.88524.
+  // The result of 40 raised to the power of 0.43 is approximately 4.885.
 }
