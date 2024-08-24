@@ -303,6 +303,19 @@ abstract class Runnable<RunInput extends Object?,
     );
   }
 
+  /// Retries a runnable if it failes
+  ///
+  /// This method create a [RunnableRetry] instance, if the current [Runnable] failes
+  /// during invocation, it will be retried based on [RetryOptions]. By default the runnable
+  /// will be retried 3 times with exponential delay between each retry.
+  /// But this retry logic can be overridden using [RetryOptions]
+  ///
+  /// [RetryOptions] takes, optional parameters like
+  ///  - `maxRetries` - max attemps to retry the runnable
+  ///  - `addJitter` - whether to add jitter to delay
+  ///  - `retryIf` - evaluator function to check whether to retry based on Exception
+  ///  - `delayDurations` - list of durations to wait between each attempt
+  ///
   RunnableRetry<RunInput, RunOutput> withRetry(RetryOptions options) {
     return RunnableRetry<RunInput, RunOutput>(
       runnable: this,

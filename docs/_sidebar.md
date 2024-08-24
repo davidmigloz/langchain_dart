@@ -13,6 +13,7 @@
     - [Function: Run custom logic](/expression_language/primitives/function.md)
     - [Binding: Configuring runnables](/expression_language/primitives/binding.md)
     - [Router: Routing inputs](/expression_language/primitives/router.md)
+    - [Retry: Retry Runnable](/expression_language/primitives/retry.md)
   - [Streaming](/expression_language/streaming.md)
   - [Fallbacks](/expression_language/fallbacks.md)
   - Cookbook
