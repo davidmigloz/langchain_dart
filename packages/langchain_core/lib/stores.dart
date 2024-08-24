@@ -1,4 +1,4 @@
 /// Contains core abstractions related to stores.
-library stores;
+library;
 
 export 'src/stores/stores.dart';

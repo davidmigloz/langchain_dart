@@ -1,4 +1,10 @@
-📣 Check out the [#announcements](https://discord.com/channels/1123158322812555295/1123250594644242534) channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details.
+📣 Check out the [releases page](https://github.com/davidmigloz/langchain_dart/releases) or the [#announcements](https://discord.com/channels/1123158322812555295/1123250594644242534) channel on the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details.
+
+---
+
+## 0.3.1
+
+ - **FEAT**: Deprecate OpenAIToolsAgent in favour of ToolsAgent ([#532](https://github.com/davidmigloz/langchain_dart/issues/532)). ([68d8011a](https://github.com/davidmigloz/langchain_dart/commit/68d8011a9aa09368875ba0434839d12623ba2bab))
 
 ## 0.3.0
 

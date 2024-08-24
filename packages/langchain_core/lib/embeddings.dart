@@ -1,4 +1,4 @@
 /// Contains core abstractions related to embeddings.
-library embeddings;
+library;
 
 export 'src/embeddings/embeddings.dart';

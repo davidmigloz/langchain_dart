@@ -348,7 +348,7 @@ Future<void> _flights() async {
 Future<void> _rag() async {
   // 1. Create a vector store and add documents to it
   final vectorStore = MemoryVectorStore(
-    embeddings: OllamaEmbeddings(model: 'llama3.1'),
+    embeddings: OllamaEmbeddings(model: 'jina/jina-embeddings-v2-small-en'),
   );
   await vectorStore.addDocuments(
     documents: [

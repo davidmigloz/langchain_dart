@@ -17,6 +17,12 @@ abstract class LanguageModelOptions extends BaseLangChainOptions {
   /// ID of the language model to use.
   /// Check the provider's documentation for available models.
   final String? model;
+
+  @override
+  LanguageModelOptions copyWith({
+    final String? model,
+    final int? concurrencyLimit,
+  });
 }
 
 /// {@template language_model}
