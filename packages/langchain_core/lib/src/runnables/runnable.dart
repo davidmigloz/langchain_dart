@@ -293,7 +293,7 @@ abstract class Runnable<RunInput extends Object?,
   /// fallbacks fail. The result of the first successful runnable is returned,
   /// or an error is thrown if all runnables fail.
   ///
-  /// - [fallbacks]: A list of [Runnable] instances to be used as fallbacks.
+  /// - [fallbacks] - A list of [Runnable] instances to be used as fallbacks.
   RunnableWithFallback<RunInput, RunOutput> withFallbacks(
     List<Runnable<RunInput, RunnableOptions, RunOutput>> fallbacks,
   ) {
@@ -303,24 +303,35 @@ abstract class Runnable<RunInput extends Object?,
     );
   }
 
-  /// Retries a runnable if it failes
+  /// Adds retry logic to an existing runnable.
   ///
-  /// This method create a [RunnableRetry] instance, if the current [Runnable] failes
-  /// during invocation, it will be retried based on [RetryOptions]. By default the runnable
-  /// will be retried 3 times with exponential delay between each retry.
-  /// But this retry logic can be overridden using [RetryOptions]
+  /// This method create a [RunnableRetry] instance, if the current [Runnable]
+  /// throws an exception during invocation, it will be retried based on the
+  /// configuration provided. By default the runnable will be retried 3 times
+  /// with exponential delay between each retry.
   ///
-  /// [RetryOptions] takes, optional parameters like
-  ///  - `maxRetries` - max attemps to retry the runnable
-  ///  - `addJitter` - whether to add jitter to delay
-  ///  - `retryIf` - evaluator function to check whether to retry based on Exception
-  ///  - `delayDurations` - list of durations to wait between each attempt
-  ///
-  RunnableRetry<RunInput, RunOutput> withRetry(RetryOptions options) {
+  ///  - [maxRetries] - max attempts to retry the runnable.
+  ///  - [retryIf] - evaluator function to check whether to retry based the
+  ///    exception thrown.
+  ///  - [delayDurations] - by default runnable will be retried based on an
+  ///    exponential backoff strategy with base delay as 1 second. But you can
+  ///    override this behavior by providing an optional list of [Duration]s.
+  ///  - [addJitter] - whether to add jitter to the delay.
+  RunnableRetry<RunInput, RunOutput> withRetry({
+    final int maxRetries = 3,
+    final FutureOr<bool> Function(Object e)? retryIf,
+    final List<Duration?>? delayDurations,
+    final bool addJitter = false,
+  }) {
     return RunnableRetry<RunInput, RunOutput>(
       runnable: this,
       defaultOptions: defaultOptions,
-      retryOptions: options,
+      retryOptions: RetryOptions(
+        maxRetries: maxRetries,
+        retryIf: retryIf,
+        delayDurations: delayDurations,
+        addJitter: addJitter,
+      ),
     );
   }
 

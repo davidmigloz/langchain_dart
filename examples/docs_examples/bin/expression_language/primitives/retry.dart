@@ -15,12 +15,12 @@ Future<void> _modelWithRetry() async {
   final model = ChatOpenAI(apiKey: openaiApiKey);
   final input = PromptValue.string('Explain why sky is blue in 2 lines');
 
-  final modelWithRetry = model.withRetry(RetryOptions());
+  final modelWithRetry = model.withRetry();
   final res = await modelWithRetry.invoke(input);
   print(res);
   /*
   ChatResult{
-  id: chatcmpl-9zmFYnu19Pd6ss3zVFHlKN71DILtx, 
+  id: chatcmpl-9zmFYnu19Pd6ss3zVFHlKN71DILtx,
   output: AIChatMessage{
   content: The sky appears blue due to Rayleigh scattering, where shorter wavelengths of sunlight (blue light) are scattered more than longer wavelengths (red light) by the molecules in the Earth's atmosphere. This scattering effect is most prominent when the sun is high in the sky.,
   toolCalls: [],
@@ -28,10 +28,10 @@ Future<void> _modelWithRetry() async {
   finishReason: FinishReason.stop,
   metadata: {model: gpt-4o-mini-2024-07-18, created: 1724510508, system_fingerprint: fp_48196bc67a},
   usage: LanguageModelUsage{
-  promptTokens: 16, 
-  promptBillableCharacters: null, 
-  responseTokens: 52, 
-  responseBillableCharacters: null, 
+  promptTokens: 16,
+  promptBillableCharacters: null,
+  responseTokens: 52,
+  responseBillableCharacters: null,
   totalTokens: 68}
 ,
   streaming: false
@@ -47,8 +47,7 @@ Future<void> _chainWithRetry() async {
     apiKey: openaiApiKey,
     defaultOptions: const ChatOpenAIOptions(model: 'gpt-4o'),
   );
-  final modelWithRetry = model.withRetry(RetryOptions());
-  final chain = promptTemplate.pipe(modelWithRetry);
+  final chain = promptTemplate.pipe(model).withRetry();
 
   final res = await chain.batch(
     [
@@ -59,7 +58,7 @@ Future<void> _chainWithRetry() async {
   print(res);
   /*
   [ChatResult{
-  id: chatcmpl-9zmjiMfHP2WP3PhM6YXdoHXS02ZAm, 
+  id: chatcmpl-9zmjiMfHP2WP3PhM6YXdoHXS02ZAm,
   output: AIChatMessage{
   content: Sure, here's a bear-themed joke for you:
 
@@ -71,15 +70,15 @@ Because he was afraid he might get spotted—he couldn’t bear the tension! �
   finishReason: FinishReason.stop,
   metadata: {model: gpt-4o-2024-05-13, created: 1724512378, system_fingerprint: fp_3aa7262c27},
   usage: LanguageModelUsage{
-  promptTokens: 13, 
-  promptBillableCharacters: null, 
-  responseTokens: 41, 
-  responseBillableCharacters: null, 
+  promptTokens: 13,
+  promptBillableCharacters: null,
+  responseTokens: 41,
+  responseBillableCharacters: null,
   totalTokens: 54}
 ,
   streaming: false
 }, ChatResult{
-  id: chatcmpl-9zmji1gxCZ4yR3UtX7Af4TBrRhPP1, 
+  id: chatcmpl-9zmji1gxCZ4yR3UtX7Af4TBrRhPP1,
   output: AIChatMessage{
   content: Sure, here's one for you:
 
@@ -91,10 +90,10 @@ Because it wanted to keep an eye on the mouse! 🐱🖱️,
   finishReason: FinishReason.stop,
   metadata: {model: gpt-4o-2024-05-13, created: 1724512378, system_fingerprint: fp_c9aa9c0491},
   usage: LanguageModelUsage{
-  promptTokens: 13, 
-  promptBillableCharacters: null, 
-  responseTokens: 34, 
-  responseBillableCharacters: null, 
+  promptTokens: 13,
+  promptBillableCharacters: null,
+  responseTokens: 34,
+  responseBillableCharacters: null,
   totalTokens: 47}
 ,
   streaming: false
@@ -110,10 +109,8 @@ Future<void> _withRetryOptions() async {
     defaultOptions: const ChatOpenAIOptions(model: 'fake-model'),
   );
   final modelWithRetry = model.withRetry(
-    RetryOptions(
-      maxRetries: 3,
-      addJitter: true,
-    ),
+    maxRetries: 3,
+    addJitter: true,
   );
   final res = await modelWithRetry.invoke(input);
   print(res);
@@ -146,15 +143,13 @@ Future<void> _withDelayDurations() async {
     defaultOptions: const ChatOpenAIOptions(model: 'fake-model'),
   );
   final modelWithRetry = model.withRetry(
-    RetryOptions(
-      maxRetries: 3,
-      addJitter: false,
-      delayDurations: [
-        const Duration(seconds: 1),
-        const Duration(seconds: 2),
-        const Duration(seconds: 3),
-      ],
-    ),
+    maxRetries: 3,
+    addJitter: false,
+    delayDurations: const [
+      Duration(seconds: 1),
+      Duration(seconds: 2),
+      Duration(seconds: 3),
+    ],
   );
   final res = await modelWithRetry.invoke(input);
   print(res);
