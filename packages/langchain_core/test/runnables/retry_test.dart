@@ -1,7 +1,6 @@
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/prompts.dart';
 import 'package:langchain_core/runnables.dart';
-import 'package:langchain_core/src/utils/retry_client.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -83,12 +82,6 @@ void main() {
         error = e.toString();
       }
       expect(error, 'Exception: Random error');
-    });
-
-    test('Test default retry options', () {
-      final retryOptions = RetryOptions();
-      expect(retryOptions.maxRetries, 3);
-      expect(retryOptions.addJitter, false);
     });
   });
 }

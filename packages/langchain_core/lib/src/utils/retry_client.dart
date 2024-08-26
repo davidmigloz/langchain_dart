@@ -7,12 +7,11 @@ import 'dart:math';
 class RetryOptions {
   /// {@macro retry_options}
   RetryOptions({
-    int? maxRetries,
-    bool? addJitter,
+    required this.maxRetries,
+    required this.addJitter,
     this.retryIf,
     this.delayDurations,
-  })  : maxRetries = maxRetries ?? 3,
-        addJitter = addJitter ?? false;
+  });
 
   /// The maximum number of attempts to retry.
   final int maxRetries;
