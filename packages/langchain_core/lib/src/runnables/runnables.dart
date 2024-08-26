@@ -5,6 +5,7 @@ export 'input_map.dart';
 export 'input_stream_map.dart';
 export 'map.dart';
 export 'passthrough.dart';
+export 'retry.dart';
 export 'router.dart';
 export 'runnable.dart';
 export 'runnable_ext.dart';
