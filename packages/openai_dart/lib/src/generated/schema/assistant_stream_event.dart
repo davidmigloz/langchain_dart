@@ -61,7 +61,7 @@ sealed class AssistantStreamEvent with _$AssistantStreamEvent {
   // UNION: RunStepStreamEvent
   // ------------------------------------------
 
-  /// Occurs when a new [run step](https://platform.openai.com/docs/api-reference/runs/step-object) changes state.
+  /// Occurs when a new [run step](https://platform.openai.com/docs/api-reference/run-steps/step-object) changes state.
   const factory AssistantStreamEvent.runStepStreamEvent({
     /// The type of the event.
     required EventType event,
@@ -74,7 +74,7 @@ sealed class AssistantStreamEvent with _$AssistantStreamEvent {
   // UNION: RunStepStreamDeltaEvent
   // ------------------------------------------
 
-  /// Occurs when a new [run step](https://platform.openai.com/docs/api-reference/runs/step-object) changes state.
+  /// Occurs when a new [run step](https://platform.openai.com/docs/api-reference/run-steps/step-object) changes state.
   const factory AssistantStreamEvent.runStepStreamDeltaEvent({
     /// The type of the event.
     required EventType event,

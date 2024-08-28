@@ -1175,11 +1175,14 @@ class OpenAIClient {
   ///
   /// `threadId`: The ID of the thread to run.
   ///
+  /// `include`: A list of additional fields to include in the response. Currently the only supported value is  `step_details.tool_calls[*].file_search.results[*].content` to fetch the file search result content.  See the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/customizing-file-search-settings)  for more information.
+  ///
   /// `request`: Request object for the Create run endpoint.
   ///
   /// `POST` `https://api.openai.com/v1/threads/{thread_id}/runs`
   Future<RunObject> createThreadRun({
     required String threadId,
+    String? include,
     required CreateRunRequest request,
   }) async {
     final r = await makeRequest(
@@ -1190,6 +1193,9 @@ class OpenAIClient {
       requestType: 'application/json',
       responseType: 'application/json',
       body: request,
+      queryParams: {
+        if (include != null) 'include': include,
+      },
     );
     return RunObject.fromJson(_jsonDecode(r));
   }
@@ -1324,6 +1330,8 @@ class OpenAIClient {
   ///
   /// `before`: A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list.
   ///
+  /// `include`: A list of additional fields to include in the response. Currently the only supported value is  `step_details.tool_calls[*].file_search.results[*].content` to fetch the file search result content.  See the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/customizing-file-search-settings)  for more information.
+  ///
   /// `GET` `https://api.openai.com/v1/threads/{thread_id}/runs/{run_id}/steps`
   Future<ListRunStepsResponse> listThreadRunSteps({
     required String threadId,
@@ -1332,6 +1340,7 @@ class OpenAIClient {
     String order = 'desc',
     String? after,
     String? before,
+    String? include,
   }) async {
     final r = await makeRequest(
       baseUrl: 'https://api.openai.com/v1',
@@ -1345,6 +1354,7 @@ class OpenAIClient {
         'order': order,
         if (after != null) 'after': after,
         if (before != null) 'before': before,
+        if (include != null) 'include': include,
       },
     );
     return ListRunStepsResponse.fromJson(_jsonDecode(r));
@@ -1362,11 +1372,14 @@ class OpenAIClient {
   ///
   /// `stepId`: The ID of the run step to retrieve.
   ///
+  /// `include`: A list of additional fields to include in the response. Currently the only supported value is  `step_details.tool_calls[*].file_search.results[*].content` to fetch the file search result content.  See the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/customizing-file-search-settings)  for more information.
+  ///
   /// `GET` `https://api.openai.com/v1/threads/{thread_id}/runs/{run_id}/steps/{step_id}`
   Future<RunStepObject> getThreadRunStep({
     required String threadId,
     required String runId,
     required String stepId,
+    String? include,
   }) async {
     final r = await makeRequest(
       baseUrl: 'https://api.openai.com/v1',
@@ -1375,6 +1388,9 @@ class OpenAIClient {
       isMultipart: false,
       requestType: '',
       responseType: 'application/json',
+      queryParams: {
+        if (include != null) 'include': include,
+      },
     );
     return RunStepObject.fromJson(_jsonDecode(r));
   }

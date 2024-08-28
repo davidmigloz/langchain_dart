@@ -27762,6 +27762,222 @@ abstract class _ListAssistantsResponse extends ListAssistantsResponse {
       get copyWith => throw _privateConstructorUsedError;
 }
 
+FileSearchRankingOptions _$FileSearchRankingOptionsFromJson(
+    Map<String, dynamic> json) {
+  return _FileSearchRankingOptions.fromJson(json);
+}
+
+/// @nodoc
+mixin _$FileSearchRankingOptions {
+  /// The ranker to use for the file search. If not specified will use the `auto` ranker.
+  @JsonKey(
+      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  FileSearchRanker? get ranker => throw _privateConstructorUsedError;
+
+  /// The score threshold for the file search. All values must be a floating point number between 0 and 1.
+  @JsonKey(name: 'score_threshold', includeIfNull: false)
+  double? get scoreThreshold => throw _privateConstructorUsedError;
+
+  /// Serializes this FileSearchRankingOptions to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of FileSearchRankingOptions
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $FileSearchRankingOptionsCopyWith<FileSearchRankingOptions> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $FileSearchRankingOptionsCopyWith<$Res> {
+  factory $FileSearchRankingOptionsCopyWith(FileSearchRankingOptions value,
+          $Res Function(FileSearchRankingOptions) then) =
+      _$FileSearchRankingOptionsCopyWithImpl<$Res, FileSearchRankingOptions>;
+  @useResult
+  $Res call(
+      {@JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      FileSearchRanker? ranker,
+      @JsonKey(name: 'score_threshold', includeIfNull: false)
+      double? scoreThreshold});
+}
+
+/// @nodoc
+class _$FileSearchRankingOptionsCopyWithImpl<$Res,
+        $Val extends FileSearchRankingOptions>
+    implements $FileSearchRankingOptionsCopyWith<$Res> {
+  _$FileSearchRankingOptionsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of FileSearchRankingOptions
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? ranker = freezed,
+    Object? scoreThreshold = freezed,
+  }) {
+    return _then(_value.copyWith(
+      ranker: freezed == ranker
+          ? _value.ranker
+          : ranker // ignore: cast_nullable_to_non_nullable
+              as FileSearchRanker?,
+      scoreThreshold: freezed == scoreThreshold
+          ? _value.scoreThreshold
+          : scoreThreshold // ignore: cast_nullable_to_non_nullable
+              as double?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$FileSearchRankingOptionsImplCopyWith<$Res>
+    implements $FileSearchRankingOptionsCopyWith<$Res> {
+  factory _$$FileSearchRankingOptionsImplCopyWith(
+          _$FileSearchRankingOptionsImpl value,
+          $Res Function(_$FileSearchRankingOptionsImpl) then) =
+      __$$FileSearchRankingOptionsImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      FileSearchRanker? ranker,
+      @JsonKey(name: 'score_threshold', includeIfNull: false)
+      double? scoreThreshold});
+}
+
+/// @nodoc
+class __$$FileSearchRankingOptionsImplCopyWithImpl<$Res>
+    extends _$FileSearchRankingOptionsCopyWithImpl<$Res,
+        _$FileSearchRankingOptionsImpl>
+    implements _$$FileSearchRankingOptionsImplCopyWith<$Res> {
+  __$$FileSearchRankingOptionsImplCopyWithImpl(
+      _$FileSearchRankingOptionsImpl _value,
+      $Res Function(_$FileSearchRankingOptionsImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of FileSearchRankingOptions
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? ranker = freezed,
+    Object? scoreThreshold = freezed,
+  }) {
+    return _then(_$FileSearchRankingOptionsImpl(
+      ranker: freezed == ranker
+          ? _value.ranker
+          : ranker // ignore: cast_nullable_to_non_nullable
+              as FileSearchRanker?,
+      scoreThreshold: freezed == scoreThreshold
+          ? _value.scoreThreshold
+          : scoreThreshold // ignore: cast_nullable_to_non_nullable
+              as double?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$FileSearchRankingOptionsImpl extends _FileSearchRankingOptions {
+  const _$FileSearchRankingOptionsImpl(
+      {@JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      this.ranker,
+      @JsonKey(name: 'score_threshold', includeIfNull: false)
+      this.scoreThreshold})
+      : super._();
+
+  factory _$FileSearchRankingOptionsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$FileSearchRankingOptionsImplFromJson(json);
+
+  /// The ranker to use for the file search. If not specified will use the `auto` ranker.
+  @override
+  @JsonKey(
+      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  final FileSearchRanker? ranker;
+
+  /// The score threshold for the file search. All values must be a floating point number between 0 and 1.
+  @override
+  @JsonKey(name: 'score_threshold', includeIfNull: false)
+  final double? scoreThreshold;
+
+  @override
+  String toString() {
+    return 'FileSearchRankingOptions(ranker: $ranker, scoreThreshold: $scoreThreshold)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FileSearchRankingOptionsImpl &&
+            (identical(other.ranker, ranker) || other.ranker == ranker) &&
+            (identical(other.scoreThreshold, scoreThreshold) ||
+                other.scoreThreshold == scoreThreshold));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, ranker, scoreThreshold);
+
+  /// Create a copy of FileSearchRankingOptions
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FileSearchRankingOptionsImplCopyWith<_$FileSearchRankingOptionsImpl>
+      get copyWith => __$$FileSearchRankingOptionsImplCopyWithImpl<
+          _$FileSearchRankingOptionsImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$FileSearchRankingOptionsImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _FileSearchRankingOptions extends FileSearchRankingOptions {
+  const factory _FileSearchRankingOptions(
+      {@JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      final FileSearchRanker? ranker,
+      @JsonKey(name: 'score_threshold', includeIfNull: false)
+      final double? scoreThreshold}) = _$FileSearchRankingOptionsImpl;
+  const _FileSearchRankingOptions._() : super._();
+
+  factory _FileSearchRankingOptions.fromJson(Map<String, dynamic> json) =
+      _$FileSearchRankingOptionsImpl.fromJson;
+
+  /// The ranker to use for the file search. If not specified will use the `auto` ranker.
+  @override
+  @JsonKey(
+      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  FileSearchRanker? get ranker;
+
+  /// The score threshold for the file search. All values must be a floating point number between 0 and 1.
+  @override
+  @JsonKey(name: 'score_threshold', includeIfNull: false)
+  double? get scoreThreshold;
+
+  /// Create a copy of FileSearchRankingOptions
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$FileSearchRankingOptionsImplCopyWith<_$FileSearchRankingOptionsImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
 AssistantsNamedToolChoice _$AssistantsNamedToolChoiceFromJson(
     Map<String, dynamic> json) {
   return _AssistantsNamedToolChoice.fromJson(json);
@@ -46412,6 +46628,975 @@ abstract class _RunStepDeltaStepDetailsToolCallsCodeOutputImage
       get copyWith => throw _privateConstructorUsedError;
 }
 
+RunStepDetailsToolCallsFileSearch _$RunStepDetailsToolCallsFileSearchFromJson(
+    Map<String, dynamic> json) {
+  return _RunStepDetailsToolCallsFileSearch.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RunStepDetailsToolCallsFileSearch {
+  /// The ranking options for the file search.
+  @JsonKey(name: 'ranking_options', includeIfNull: false)
+  RunStepDetailsToolCallsFileSearchRankingOptionsObject? get rankingOptions =>
+      throw _privateConstructorUsedError;
+
+  /// The results of the file search.
+  @JsonKey(includeIfNull: false)
+  List<RunStepDetailsToolCallsFileSearchResultObject>? get results =>
+      throw _privateConstructorUsedError;
+
+  /// Serializes this RunStepDetailsToolCallsFileSearch to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of RunStepDetailsToolCallsFileSearch
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $RunStepDetailsToolCallsFileSearchCopyWith<RunStepDetailsToolCallsFileSearch>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RunStepDetailsToolCallsFileSearchCopyWith<$Res> {
+  factory $RunStepDetailsToolCallsFileSearchCopyWith(
+          RunStepDetailsToolCallsFileSearch value,
+          $Res Function(RunStepDetailsToolCallsFileSearch) then) =
+      _$RunStepDetailsToolCallsFileSearchCopyWithImpl<$Res,
+          RunStepDetailsToolCallsFileSearch>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'ranking_options', includeIfNull: false)
+      RunStepDetailsToolCallsFileSearchRankingOptionsObject? rankingOptions,
+      @JsonKey(includeIfNull: false)
+      List<RunStepDetailsToolCallsFileSearchResultObject>? results});
+
+  $RunStepDetailsToolCallsFileSearchRankingOptionsObjectCopyWith<$Res>?
+      get rankingOptions;
+}
+
+/// @nodoc
+class _$RunStepDetailsToolCallsFileSearchCopyWithImpl<$Res,
+        $Val extends RunStepDetailsToolCallsFileSearch>
+    implements $RunStepDetailsToolCallsFileSearchCopyWith<$Res> {
+  _$RunStepDetailsToolCallsFileSearchCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of RunStepDetailsToolCallsFileSearch
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? rankingOptions = freezed,
+    Object? results = freezed,
+  }) {
+    return _then(_value.copyWith(
+      rankingOptions: freezed == rankingOptions
+          ? _value.rankingOptions
+          : rankingOptions // ignore: cast_nullable_to_non_nullable
+              as RunStepDetailsToolCallsFileSearchRankingOptionsObject?,
+      results: freezed == results
+          ? _value.results
+          : results // ignore: cast_nullable_to_non_nullable
+              as List<RunStepDetailsToolCallsFileSearchResultObject>?,
+    ) as $Val);
+  }
+
+  /// Create a copy of RunStepDetailsToolCallsFileSearch
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $RunStepDetailsToolCallsFileSearchRankingOptionsObjectCopyWith<$Res>?
+      get rankingOptions {
+    if (_value.rankingOptions == null) {
+      return null;
+    }
+
+    return $RunStepDetailsToolCallsFileSearchRankingOptionsObjectCopyWith<$Res>(
+        _value.rankingOptions!, (value) {
+      return _then(_value.copyWith(rankingOptions: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$RunStepDetailsToolCallsFileSearchImplCopyWith<$Res>
+    implements $RunStepDetailsToolCallsFileSearchCopyWith<$Res> {
+  factory _$$RunStepDetailsToolCallsFileSearchImplCopyWith(
+          _$RunStepDetailsToolCallsFileSearchImpl value,
+          $Res Function(_$RunStepDetailsToolCallsFileSearchImpl) then) =
+      __$$RunStepDetailsToolCallsFileSearchImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'ranking_options', includeIfNull: false)
+      RunStepDetailsToolCallsFileSearchRankingOptionsObject? rankingOptions,
+      @JsonKey(includeIfNull: false)
+      List<RunStepDetailsToolCallsFileSearchResultObject>? results});
+
+  @override
+  $RunStepDetailsToolCallsFileSearchRankingOptionsObjectCopyWith<$Res>?
+      get rankingOptions;
+}
+
+/// @nodoc
+class __$$RunStepDetailsToolCallsFileSearchImplCopyWithImpl<$Res>
+    extends _$RunStepDetailsToolCallsFileSearchCopyWithImpl<$Res,
+        _$RunStepDetailsToolCallsFileSearchImpl>
+    implements _$$RunStepDetailsToolCallsFileSearchImplCopyWith<$Res> {
+  __$$RunStepDetailsToolCallsFileSearchImplCopyWithImpl(
+      _$RunStepDetailsToolCallsFileSearchImpl _value,
+      $Res Function(_$RunStepDetailsToolCallsFileSearchImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of RunStepDetailsToolCallsFileSearch
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? rankingOptions = freezed,
+    Object? results = freezed,
+  }) {
+    return _then(_$RunStepDetailsToolCallsFileSearchImpl(
+      rankingOptions: freezed == rankingOptions
+          ? _value.rankingOptions
+          : rankingOptions // ignore: cast_nullable_to_non_nullable
+              as RunStepDetailsToolCallsFileSearchRankingOptionsObject?,
+      results: freezed == results
+          ? _value._results
+          : results // ignore: cast_nullable_to_non_nullable
+              as List<RunStepDetailsToolCallsFileSearchResultObject>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunStepDetailsToolCallsFileSearchImpl
+    extends _RunStepDetailsToolCallsFileSearch {
+  const _$RunStepDetailsToolCallsFileSearchImpl(
+      {@JsonKey(name: 'ranking_options', includeIfNull: false)
+      this.rankingOptions,
+      @JsonKey(includeIfNull: false)
+      final List<RunStepDetailsToolCallsFileSearchResultObject>? results})
+      : _results = results,
+        super._();
+
+  factory _$RunStepDetailsToolCallsFileSearchImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$RunStepDetailsToolCallsFileSearchImplFromJson(json);
+
+  /// The ranking options for the file search.
+  @override
+  @JsonKey(name: 'ranking_options', includeIfNull: false)
+  final RunStepDetailsToolCallsFileSearchRankingOptionsObject? rankingOptions;
+
+  /// The results of the file search.
+  final List<RunStepDetailsToolCallsFileSearchResultObject>? _results;
+
+  /// The results of the file search.
+  @override
+  @JsonKey(includeIfNull: false)
+  List<RunStepDetailsToolCallsFileSearchResultObject>? get results {
+    final value = _results;
+    if (value == null) return null;
+    if (_results is EqualUnmodifiableListView) return _results;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  String toString() {
+    return 'RunStepDetailsToolCallsFileSearch(rankingOptions: $rankingOptions, results: $results)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunStepDetailsToolCallsFileSearchImpl &&
+            (identical(other.rankingOptions, rankingOptions) ||
+                other.rankingOptions == rankingOptions) &&
+            const DeepCollectionEquality().equals(other._results, _results));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, rankingOptions,
+      const DeepCollectionEquality().hash(_results));
+
+  /// Create a copy of RunStepDetailsToolCallsFileSearch
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunStepDetailsToolCallsFileSearchImplCopyWith<
+          _$RunStepDetailsToolCallsFileSearchImpl>
+      get copyWith => __$$RunStepDetailsToolCallsFileSearchImplCopyWithImpl<
+          _$RunStepDetailsToolCallsFileSearchImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunStepDetailsToolCallsFileSearchImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RunStepDetailsToolCallsFileSearch
+    extends RunStepDetailsToolCallsFileSearch {
+  const factory _RunStepDetailsToolCallsFileSearch(
+          {@JsonKey(name: 'ranking_options', includeIfNull: false)
+          final RunStepDetailsToolCallsFileSearchRankingOptionsObject?
+              rankingOptions,
+          @JsonKey(includeIfNull: false)
+          final List<RunStepDetailsToolCallsFileSearchResultObject>? results}) =
+      _$RunStepDetailsToolCallsFileSearchImpl;
+  const _RunStepDetailsToolCallsFileSearch._() : super._();
+
+  factory _RunStepDetailsToolCallsFileSearch.fromJson(
+          Map<String, dynamic> json) =
+      _$RunStepDetailsToolCallsFileSearchImpl.fromJson;
+
+  /// The ranking options for the file search.
+  @override
+  @JsonKey(name: 'ranking_options', includeIfNull: false)
+  RunStepDetailsToolCallsFileSearchRankingOptionsObject? get rankingOptions;
+
+  /// The results of the file search.
+  @override
+  @JsonKey(includeIfNull: false)
+  List<RunStepDetailsToolCallsFileSearchResultObject>? get results;
+
+  /// Create a copy of RunStepDetailsToolCallsFileSearch
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$RunStepDetailsToolCallsFileSearchImplCopyWith<
+          _$RunStepDetailsToolCallsFileSearchImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+RunStepDetailsToolCallsFileSearchRankingOptionsObject
+    _$RunStepDetailsToolCallsFileSearchRankingOptionsObjectFromJson(
+        Map<String, dynamic> json) {
+  return _RunStepDetailsToolCallsFileSearchRankingOptionsObject.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RunStepDetailsToolCallsFileSearchRankingOptionsObject {
+  /// The ranker to use for the file search. If not specified will use the `auto` ranker.
+  FileSearchRanker get ranker => throw _privateConstructorUsedError;
+
+  /// The score threshold for the file search. All values must be a floating point number between 0 and 1.
+  @JsonKey(name: 'score_threshold')
+  double get scoreThreshold => throw _privateConstructorUsedError;
+
+  /// Serializes this RunStepDetailsToolCallsFileSearchRankingOptionsObject to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of RunStepDetailsToolCallsFileSearchRankingOptionsObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $RunStepDetailsToolCallsFileSearchRankingOptionsObjectCopyWith<
+          RunStepDetailsToolCallsFileSearchRankingOptionsObject>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RunStepDetailsToolCallsFileSearchRankingOptionsObjectCopyWith<
+    $Res> {
+  factory $RunStepDetailsToolCallsFileSearchRankingOptionsObjectCopyWith(
+          RunStepDetailsToolCallsFileSearchRankingOptionsObject value,
+          $Res Function(RunStepDetailsToolCallsFileSearchRankingOptionsObject)
+              then) =
+      _$RunStepDetailsToolCallsFileSearchRankingOptionsObjectCopyWithImpl<$Res,
+          RunStepDetailsToolCallsFileSearchRankingOptionsObject>;
+  @useResult
+  $Res call(
+      {FileSearchRanker ranker,
+      @JsonKey(name: 'score_threshold') double scoreThreshold});
+}
+
+/// @nodoc
+class _$RunStepDetailsToolCallsFileSearchRankingOptionsObjectCopyWithImpl<$Res,
+        $Val extends RunStepDetailsToolCallsFileSearchRankingOptionsObject>
+    implements
+        $RunStepDetailsToolCallsFileSearchRankingOptionsObjectCopyWith<$Res> {
+  _$RunStepDetailsToolCallsFileSearchRankingOptionsObjectCopyWithImpl(
+      this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of RunStepDetailsToolCallsFileSearchRankingOptionsObject
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? ranker = null,
+    Object? scoreThreshold = null,
+  }) {
+    return _then(_value.copyWith(
+      ranker: null == ranker
+          ? _value.ranker
+          : ranker // ignore: cast_nullable_to_non_nullable
+              as FileSearchRanker,
+      scoreThreshold: null == scoreThreshold
+          ? _value.scoreThreshold
+          : scoreThreshold // ignore: cast_nullable_to_non_nullable
+              as double,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImplCopyWith<
+        $Res>
+    implements
+        $RunStepDetailsToolCallsFileSearchRankingOptionsObjectCopyWith<$Res> {
+  factory _$$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImplCopyWith(
+          _$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImpl value,
+          $Res Function(
+                  _$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImpl)
+              then) =
+      __$$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImplCopyWithImpl<
+          $Res>;
+  @override
+  @useResult
+  $Res call(
+      {FileSearchRanker ranker,
+      @JsonKey(name: 'score_threshold') double scoreThreshold});
+}
+
+/// @nodoc
+class __$$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImplCopyWithImpl<
+        $Res>
+    extends _$RunStepDetailsToolCallsFileSearchRankingOptionsObjectCopyWithImpl<
+        $Res, _$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImpl>
+    implements
+        _$$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImplCopyWith<
+            $Res> {
+  __$$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImplCopyWithImpl(
+      _$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImpl _value,
+      $Res Function(_$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImpl)
+          _then)
+      : super(_value, _then);
+
+  /// Create a copy of RunStepDetailsToolCallsFileSearchRankingOptionsObject
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? ranker = null,
+    Object? scoreThreshold = null,
+  }) {
+    return _then(_$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImpl(
+      ranker: null == ranker
+          ? _value.ranker
+          : ranker // ignore: cast_nullable_to_non_nullable
+              as FileSearchRanker,
+      scoreThreshold: null == scoreThreshold
+          ? _value.scoreThreshold
+          : scoreThreshold // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImpl
+    extends _RunStepDetailsToolCallsFileSearchRankingOptionsObject {
+  const _$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImpl(
+      {required this.ranker,
+      @JsonKey(name: 'score_threshold') required this.scoreThreshold})
+      : super._();
+
+  factory _$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImplFromJson(
+          json);
+
+  /// The ranker to use for the file search. If not specified will use the `auto` ranker.
+  @override
+  final FileSearchRanker ranker;
+
+  /// The score threshold for the file search. All values must be a floating point number between 0 and 1.
+  @override
+  @JsonKey(name: 'score_threshold')
+  final double scoreThreshold;
+
+  @override
+  String toString() {
+    return 'RunStepDetailsToolCallsFileSearchRankingOptionsObject(ranker: $ranker, scoreThreshold: $scoreThreshold)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other
+                is _$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImpl &&
+            (identical(other.ranker, ranker) || other.ranker == ranker) &&
+            (identical(other.scoreThreshold, scoreThreshold) ||
+                other.scoreThreshold == scoreThreshold));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, ranker, scoreThreshold);
+
+  /// Create a copy of RunStepDetailsToolCallsFileSearchRankingOptionsObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImplCopyWith<
+          _$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImpl>
+      get copyWith =>
+          __$$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImplCopyWithImpl<
+                  _$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImpl>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RunStepDetailsToolCallsFileSearchRankingOptionsObject
+    extends RunStepDetailsToolCallsFileSearchRankingOptionsObject {
+  const factory _RunStepDetailsToolCallsFileSearchRankingOptionsObject(
+          {required final FileSearchRanker ranker,
+          @JsonKey(name: 'score_threshold')
+          required final double scoreThreshold}) =
+      _$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImpl;
+  const _RunStepDetailsToolCallsFileSearchRankingOptionsObject._() : super._();
+
+  factory _RunStepDetailsToolCallsFileSearchRankingOptionsObject.fromJson(
+          Map<String, dynamic> json) =
+      _$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImpl.fromJson;
+
+  /// The ranker to use for the file search. If not specified will use the `auto` ranker.
+  @override
+  FileSearchRanker get ranker;
+
+  /// The score threshold for the file search. All values must be a floating point number between 0 and 1.
+  @override
+  @JsonKey(name: 'score_threshold')
+  double get scoreThreshold;
+
+  /// Create a copy of RunStepDetailsToolCallsFileSearchRankingOptionsObject
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImplCopyWith<
+          _$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+RunStepDetailsToolCallsFileSearchResultObject
+    _$RunStepDetailsToolCallsFileSearchResultObjectFromJson(
+        Map<String, dynamic> json) {
+  return _RunStepDetailsToolCallsFileSearchResultObject.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RunStepDetailsToolCallsFileSearchResultObject {
+  /// The ID of the file that result was found in.
+  @JsonKey(name: 'file_id')
+  String get fileId => throw _privateConstructorUsedError;
+
+  /// The name of the file that result was found in.
+  @JsonKey(name: 'file_name')
+  String get fileName => throw _privateConstructorUsedError;
+
+  /// The score of the result. All values must be a floating point number between 0 and 1.
+  double get score => throw _privateConstructorUsedError;
+
+  /// The content of the result that was found. The content is only included if requested via the include
+  /// query parameter.
+  @JsonKey(includeIfNull: false)
+  List<RunStepDetailsToolCallsFileSearchResultContent>? get content =>
+      throw _privateConstructorUsedError;
+
+  /// Serializes this RunStepDetailsToolCallsFileSearchResultObject to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of RunStepDetailsToolCallsFileSearchResultObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $RunStepDetailsToolCallsFileSearchResultObjectCopyWith<
+          RunStepDetailsToolCallsFileSearchResultObject>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RunStepDetailsToolCallsFileSearchResultObjectCopyWith<$Res> {
+  factory $RunStepDetailsToolCallsFileSearchResultObjectCopyWith(
+          RunStepDetailsToolCallsFileSearchResultObject value,
+          $Res Function(RunStepDetailsToolCallsFileSearchResultObject) then) =
+      _$RunStepDetailsToolCallsFileSearchResultObjectCopyWithImpl<$Res,
+          RunStepDetailsToolCallsFileSearchResultObject>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'file_id') String fileId,
+      @JsonKey(name: 'file_name') String fileName,
+      double score,
+      @JsonKey(includeIfNull: false)
+      List<RunStepDetailsToolCallsFileSearchResultContent>? content});
+}
+
+/// @nodoc
+class _$RunStepDetailsToolCallsFileSearchResultObjectCopyWithImpl<$Res,
+        $Val extends RunStepDetailsToolCallsFileSearchResultObject>
+    implements $RunStepDetailsToolCallsFileSearchResultObjectCopyWith<$Res> {
+  _$RunStepDetailsToolCallsFileSearchResultObjectCopyWithImpl(
+      this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of RunStepDetailsToolCallsFileSearchResultObject
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fileId = null,
+    Object? fileName = null,
+    Object? score = null,
+    Object? content = freezed,
+  }) {
+    return _then(_value.copyWith(
+      fileId: null == fileId
+          ? _value.fileId
+          : fileId // ignore: cast_nullable_to_non_nullable
+              as String,
+      fileName: null == fileName
+          ? _value.fileName
+          : fileName // ignore: cast_nullable_to_non_nullable
+              as String,
+      score: null == score
+          ? _value.score
+          : score // ignore: cast_nullable_to_non_nullable
+              as double,
+      content: freezed == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
+              as List<RunStepDetailsToolCallsFileSearchResultContent>?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RunStepDetailsToolCallsFileSearchResultObjectImplCopyWith<
+        $Res>
+    implements $RunStepDetailsToolCallsFileSearchResultObjectCopyWith<$Res> {
+  factory _$$RunStepDetailsToolCallsFileSearchResultObjectImplCopyWith(
+          _$RunStepDetailsToolCallsFileSearchResultObjectImpl value,
+          $Res Function(_$RunStepDetailsToolCallsFileSearchResultObjectImpl)
+              then) =
+      __$$RunStepDetailsToolCallsFileSearchResultObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'file_id') String fileId,
+      @JsonKey(name: 'file_name') String fileName,
+      double score,
+      @JsonKey(includeIfNull: false)
+      List<RunStepDetailsToolCallsFileSearchResultContent>? content});
+}
+
+/// @nodoc
+class __$$RunStepDetailsToolCallsFileSearchResultObjectImplCopyWithImpl<$Res>
+    extends _$RunStepDetailsToolCallsFileSearchResultObjectCopyWithImpl<$Res,
+        _$RunStepDetailsToolCallsFileSearchResultObjectImpl>
+    implements
+        _$$RunStepDetailsToolCallsFileSearchResultObjectImplCopyWith<$Res> {
+  __$$RunStepDetailsToolCallsFileSearchResultObjectImplCopyWithImpl(
+      _$RunStepDetailsToolCallsFileSearchResultObjectImpl _value,
+      $Res Function(_$RunStepDetailsToolCallsFileSearchResultObjectImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of RunStepDetailsToolCallsFileSearchResultObject
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fileId = null,
+    Object? fileName = null,
+    Object? score = null,
+    Object? content = freezed,
+  }) {
+    return _then(_$RunStepDetailsToolCallsFileSearchResultObjectImpl(
+      fileId: null == fileId
+          ? _value.fileId
+          : fileId // ignore: cast_nullable_to_non_nullable
+              as String,
+      fileName: null == fileName
+          ? _value.fileName
+          : fileName // ignore: cast_nullable_to_non_nullable
+              as String,
+      score: null == score
+          ? _value.score
+          : score // ignore: cast_nullable_to_non_nullable
+              as double,
+      content: freezed == content
+          ? _value._content
+          : content // ignore: cast_nullable_to_non_nullable
+              as List<RunStepDetailsToolCallsFileSearchResultContent>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunStepDetailsToolCallsFileSearchResultObjectImpl
+    extends _RunStepDetailsToolCallsFileSearchResultObject {
+  const _$RunStepDetailsToolCallsFileSearchResultObjectImpl(
+      {@JsonKey(name: 'file_id') required this.fileId,
+      @JsonKey(name: 'file_name') required this.fileName,
+      required this.score,
+      @JsonKey(includeIfNull: false)
+      final List<RunStepDetailsToolCallsFileSearchResultContent>? content})
+      : _content = content,
+        super._();
+
+  factory _$RunStepDetailsToolCallsFileSearchResultObjectImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$RunStepDetailsToolCallsFileSearchResultObjectImplFromJson(json);
+
+  /// The ID of the file that result was found in.
+  @override
+  @JsonKey(name: 'file_id')
+  final String fileId;
+
+  /// The name of the file that result was found in.
+  @override
+  @JsonKey(name: 'file_name')
+  final String fileName;
+
+  /// The score of the result. All values must be a floating point number between 0 and 1.
+  @override
+  final double score;
+
+  /// The content of the result that was found. The content is only included if requested via the include
+  /// query parameter.
+  final List<RunStepDetailsToolCallsFileSearchResultContent>? _content;
+
+  /// The content of the result that was found. The content is only included if requested via the include
+  /// query parameter.
+  @override
+  @JsonKey(includeIfNull: false)
+  List<RunStepDetailsToolCallsFileSearchResultContent>? get content {
+    final value = _content;
+    if (value == null) return null;
+    if (_content is EqualUnmodifiableListView) return _content;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  String toString() {
+    return 'RunStepDetailsToolCallsFileSearchResultObject(fileId: $fileId, fileName: $fileName, score: $score, content: $content)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunStepDetailsToolCallsFileSearchResultObjectImpl &&
+            (identical(other.fileId, fileId) || other.fileId == fileId) &&
+            (identical(other.fileName, fileName) ||
+                other.fileName == fileName) &&
+            (identical(other.score, score) || other.score == score) &&
+            const DeepCollectionEquality().equals(other._content, _content));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, fileId, fileName, score,
+      const DeepCollectionEquality().hash(_content));
+
+  /// Create a copy of RunStepDetailsToolCallsFileSearchResultObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunStepDetailsToolCallsFileSearchResultObjectImplCopyWith<
+          _$RunStepDetailsToolCallsFileSearchResultObjectImpl>
+      get copyWith =>
+          __$$RunStepDetailsToolCallsFileSearchResultObjectImplCopyWithImpl<
+                  _$RunStepDetailsToolCallsFileSearchResultObjectImpl>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunStepDetailsToolCallsFileSearchResultObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RunStepDetailsToolCallsFileSearchResultObject
+    extends RunStepDetailsToolCallsFileSearchResultObject {
+  const factory _RunStepDetailsToolCallsFileSearchResultObject(
+      {@JsonKey(name: 'file_id') required final String fileId,
+      @JsonKey(name: 'file_name') required final String fileName,
+      required final double score,
+      @JsonKey(includeIfNull: false)
+      final List<RunStepDetailsToolCallsFileSearchResultContent>?
+          content}) = _$RunStepDetailsToolCallsFileSearchResultObjectImpl;
+  const _RunStepDetailsToolCallsFileSearchResultObject._() : super._();
+
+  factory _RunStepDetailsToolCallsFileSearchResultObject.fromJson(
+          Map<String, dynamic> json) =
+      _$RunStepDetailsToolCallsFileSearchResultObjectImpl.fromJson;
+
+  /// The ID of the file that result was found in.
+  @override
+  @JsonKey(name: 'file_id')
+  String get fileId;
+
+  /// The name of the file that result was found in.
+  @override
+  @JsonKey(name: 'file_name')
+  String get fileName;
+
+  /// The score of the result. All values must be a floating point number between 0 and 1.
+  @override
+  double get score;
+
+  /// The content of the result that was found. The content is only included if requested via the include
+  /// query parameter.
+  @override
+  @JsonKey(includeIfNull: false)
+  List<RunStepDetailsToolCallsFileSearchResultContent>? get content;
+
+  /// Create a copy of RunStepDetailsToolCallsFileSearchResultObject
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$RunStepDetailsToolCallsFileSearchResultObjectImplCopyWith<
+          _$RunStepDetailsToolCallsFileSearchResultObjectImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+RunStepDetailsToolCallsFileSearchResultContent
+    _$RunStepDetailsToolCallsFileSearchResultContentFromJson(
+        Map<String, dynamic> json) {
+  return _RunStepDetailsToolCallsFileSearchResultContent.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RunStepDetailsToolCallsFileSearchResultContent {
+  /// The type of the content.
+  String get type => throw _privateConstructorUsedError;
+
+  /// The text content of the file.
+  @JsonKey(includeIfNull: false)
+  String? get text => throw _privateConstructorUsedError;
+
+  /// Serializes this RunStepDetailsToolCallsFileSearchResultContent to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of RunStepDetailsToolCallsFileSearchResultContent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $RunStepDetailsToolCallsFileSearchResultContentCopyWith<
+          RunStepDetailsToolCallsFileSearchResultContent>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RunStepDetailsToolCallsFileSearchResultContentCopyWith<$Res> {
+  factory $RunStepDetailsToolCallsFileSearchResultContentCopyWith(
+          RunStepDetailsToolCallsFileSearchResultContent value,
+          $Res Function(RunStepDetailsToolCallsFileSearchResultContent) then) =
+      _$RunStepDetailsToolCallsFileSearchResultContentCopyWithImpl<$Res,
+          RunStepDetailsToolCallsFileSearchResultContent>;
+  @useResult
+  $Res call({String type, @JsonKey(includeIfNull: false) String? text});
+}
+
+/// @nodoc
+class _$RunStepDetailsToolCallsFileSearchResultContentCopyWithImpl<$Res,
+        $Val extends RunStepDetailsToolCallsFileSearchResultContent>
+    implements $RunStepDetailsToolCallsFileSearchResultContentCopyWith<$Res> {
+  _$RunStepDetailsToolCallsFileSearchResultContentCopyWithImpl(
+      this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of RunStepDetailsToolCallsFileSearchResultContent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? text = freezed,
+  }) {
+    return _then(_value.copyWith(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      text: freezed == text
+          ? _value.text
+          : text // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RunStepDetailsToolCallsFileSearchResultContentImplCopyWith<
+        $Res>
+    implements $RunStepDetailsToolCallsFileSearchResultContentCopyWith<$Res> {
+  factory _$$RunStepDetailsToolCallsFileSearchResultContentImplCopyWith(
+          _$RunStepDetailsToolCallsFileSearchResultContentImpl value,
+          $Res Function(_$RunStepDetailsToolCallsFileSearchResultContentImpl)
+              then) =
+      __$$RunStepDetailsToolCallsFileSearchResultContentImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String type, @JsonKey(includeIfNull: false) String? text});
+}
+
+/// @nodoc
+class __$$RunStepDetailsToolCallsFileSearchResultContentImplCopyWithImpl<$Res>
+    extends _$RunStepDetailsToolCallsFileSearchResultContentCopyWithImpl<$Res,
+        _$RunStepDetailsToolCallsFileSearchResultContentImpl>
+    implements
+        _$$RunStepDetailsToolCallsFileSearchResultContentImplCopyWith<$Res> {
+  __$$RunStepDetailsToolCallsFileSearchResultContentImplCopyWithImpl(
+      _$RunStepDetailsToolCallsFileSearchResultContentImpl _value,
+      $Res Function(_$RunStepDetailsToolCallsFileSearchResultContentImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of RunStepDetailsToolCallsFileSearchResultContent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? text = freezed,
+  }) {
+    return _then(_$RunStepDetailsToolCallsFileSearchResultContentImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      text: freezed == text
+          ? _value.text
+          : text // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunStepDetailsToolCallsFileSearchResultContentImpl
+    extends _RunStepDetailsToolCallsFileSearchResultContent {
+  const _$RunStepDetailsToolCallsFileSearchResultContentImpl(
+      {this.type = 'text', @JsonKey(includeIfNull: false) this.text})
+      : super._();
+
+  factory _$RunStepDetailsToolCallsFileSearchResultContentImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$RunStepDetailsToolCallsFileSearchResultContentImplFromJson(json);
+
+  /// The type of the content.
+  @override
+  @JsonKey()
+  final String type;
+
+  /// The text content of the file.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? text;
+
+  @override
+  String toString() {
+    return 'RunStepDetailsToolCallsFileSearchResultContent(type: $type, text: $text)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunStepDetailsToolCallsFileSearchResultContentImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.text, text) || other.text == text));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, text);
+
+  /// Create a copy of RunStepDetailsToolCallsFileSearchResultContent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunStepDetailsToolCallsFileSearchResultContentImplCopyWith<
+          _$RunStepDetailsToolCallsFileSearchResultContentImpl>
+      get copyWith =>
+          __$$RunStepDetailsToolCallsFileSearchResultContentImplCopyWithImpl<
+                  _$RunStepDetailsToolCallsFileSearchResultContentImpl>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunStepDetailsToolCallsFileSearchResultContentImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RunStepDetailsToolCallsFileSearchResultContent
+    extends RunStepDetailsToolCallsFileSearchResultContent {
+  const factory _RunStepDetailsToolCallsFileSearchResultContent(
+          {final String type,
+          @JsonKey(includeIfNull: false) final String? text}) =
+      _$RunStepDetailsToolCallsFileSearchResultContentImpl;
+  const _RunStepDetailsToolCallsFileSearchResultContent._() : super._();
+
+  factory _RunStepDetailsToolCallsFileSearchResultContent.fromJson(
+          Map<String, dynamic> json) =
+      _$RunStepDetailsToolCallsFileSearchResultContentImpl.fromJson;
+
+  /// The type of the content.
+  @override
+  String get type;
+
+  /// The text content of the file.
+  @override
+  @JsonKey(includeIfNull: false)
+  String? get text;
+
+  /// Create a copy of RunStepDetailsToolCallsFileSearchResultContent
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$RunStepDetailsToolCallsFileSearchResultContentImplCopyWith<
+          _$RunStepDetailsToolCallsFileSearchResultContentImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
 RunStepCompletionUsage _$RunStepCompletionUsageFromJson(
     Map<String, dynamic> json) {
   return _RunStepCompletionUsage.fromJson(json);
@@ -57987,10 +59172,19 @@ mixin _$AssistantToolsFileSearchFileSearch {
   /// The maximum number of results the file search tool should output. The default is 20 for `gpt-4*` models
   /// and 5 for gpt-3.5-turbo. This number should be between 1 and 50 inclusive.
   ///
-  /// Note that the file search tool may output fewer than `max_num_results` results. See the [file search
-  /// tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/number-of-chunks-returned) for more information.
+  /// Note that the file search tool may output fewer than `max_num_results` results. See the
+  /// [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/customizing-file-search-settings)
+  /// for more information.
   @JsonKey(name: 'max_num_results', includeIfNull: false)
   int? get maxNumResults => throw _privateConstructorUsedError;
+
+  /// The ranking options for the file search.
+  ///
+  /// See the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/customizing-file-search-settings)
+  /// for more information.
+  @JsonKey(name: 'ranking_options', includeIfNull: false)
+  FileSearchRankingOptions? get rankingOptions =>
+      throw _privateConstructorUsedError;
 
   /// Serializes this AssistantToolsFileSearchFileSearch to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -58013,7 +59207,11 @@ abstract class $AssistantToolsFileSearchFileSearchCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: 'max_num_results', includeIfNull: false)
-      int? maxNumResults});
+      int? maxNumResults,
+      @JsonKey(name: 'ranking_options', includeIfNull: false)
+      FileSearchRankingOptions? rankingOptions});
+
+  $FileSearchRankingOptionsCopyWith<$Res>? get rankingOptions;
 }
 
 /// @nodoc
@@ -58033,13 +59231,33 @@ class _$AssistantToolsFileSearchFileSearchCopyWithImpl<$Res,
   @override
   $Res call({
     Object? maxNumResults = freezed,
+    Object? rankingOptions = freezed,
   }) {
     return _then(_value.copyWith(
       maxNumResults: freezed == maxNumResults
           ? _value.maxNumResults
           : maxNumResults // ignore: cast_nullable_to_non_nullable
               as int?,
+      rankingOptions: freezed == rankingOptions
+          ? _value.rankingOptions
+          : rankingOptions // ignore: cast_nullable_to_non_nullable
+              as FileSearchRankingOptions?,
     ) as $Val);
+  }
+
+  /// Create a copy of AssistantToolsFileSearchFileSearch
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $FileSearchRankingOptionsCopyWith<$Res>? get rankingOptions {
+    if (_value.rankingOptions == null) {
+      return null;
+    }
+
+    return $FileSearchRankingOptionsCopyWith<$Res>(_value.rankingOptions!,
+        (value) {
+      return _then(_value.copyWith(rankingOptions: value) as $Val);
+    });
   }
 }
 
@@ -58054,7 +59272,12 @@ abstract class _$$AssistantToolsFileSearchFileSearchImplCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(name: 'max_num_results', includeIfNull: false)
-      int? maxNumResults});
+      int? maxNumResults,
+      @JsonKey(name: 'ranking_options', includeIfNull: false)
+      FileSearchRankingOptions? rankingOptions});
+
+  @override
+  $FileSearchRankingOptionsCopyWith<$Res>? get rankingOptions;
 }
 
 /// @nodoc
@@ -58073,12 +59296,17 @@ class __$$AssistantToolsFileSearchFileSearchImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? maxNumResults = freezed,
+    Object? rankingOptions = freezed,
   }) {
     return _then(_$AssistantToolsFileSearchFileSearchImpl(
       maxNumResults: freezed == maxNumResults
           ? _value.maxNumResults
           : maxNumResults // ignore: cast_nullable_to_non_nullable
               as int?,
+      rankingOptions: freezed == rankingOptions
+          ? _value.rankingOptions
+          : rankingOptions // ignore: cast_nullable_to_non_nullable
+              as FileSearchRankingOptions?,
     ));
   }
 }
@@ -58089,7 +59317,9 @@ class _$AssistantToolsFileSearchFileSearchImpl
     extends _AssistantToolsFileSearchFileSearch {
   const _$AssistantToolsFileSearchFileSearchImpl(
       {@JsonKey(name: 'max_num_results', includeIfNull: false)
-      this.maxNumResults})
+      this.maxNumResults,
+      @JsonKey(name: 'ranking_options', includeIfNull: false)
+      this.rankingOptions})
       : super._();
 
   factory _$AssistantToolsFileSearchFileSearchImpl.fromJson(
@@ -58099,15 +59329,24 @@ class _$AssistantToolsFileSearchFileSearchImpl
   /// The maximum number of results the file search tool should output. The default is 20 for `gpt-4*` models
   /// and 5 for gpt-3.5-turbo. This number should be between 1 and 50 inclusive.
   ///
-  /// Note that the file search tool may output fewer than `max_num_results` results. See the [file search
-  /// tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/number-of-chunks-returned) for more information.
+  /// Note that the file search tool may output fewer than `max_num_results` results. See the
+  /// [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/customizing-file-search-settings)
+  /// for more information.
   @override
   @JsonKey(name: 'max_num_results', includeIfNull: false)
   final int? maxNumResults;
 
+  /// The ranking options for the file search.
+  ///
+  /// See the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/customizing-file-search-settings)
+  /// for more information.
+  @override
+  @JsonKey(name: 'ranking_options', includeIfNull: false)
+  final FileSearchRankingOptions? rankingOptions;
+
   @override
   String toString() {
-    return 'AssistantToolsFileSearchFileSearch(maxNumResults: $maxNumResults)';
+    return 'AssistantToolsFileSearchFileSearch(maxNumResults: $maxNumResults, rankingOptions: $rankingOptions)';
   }
 
   @override
@@ -58116,12 +59355,14 @@ class _$AssistantToolsFileSearchFileSearchImpl
         (other.runtimeType == runtimeType &&
             other is _$AssistantToolsFileSearchFileSearchImpl &&
             (identical(other.maxNumResults, maxNumResults) ||
-                other.maxNumResults == maxNumResults));
+                other.maxNumResults == maxNumResults) &&
+            (identical(other.rankingOptions, rankingOptions) ||
+                other.rankingOptions == rankingOptions));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, maxNumResults);
+  int get hashCode => Object.hash(runtimeType, maxNumResults, rankingOptions);
 
   /// Create a copy of AssistantToolsFileSearchFileSearch
   /// with the given fields replaced by the non-null parameter values.
@@ -58144,8 +59385,11 @@ class _$AssistantToolsFileSearchFileSearchImpl
 abstract class _AssistantToolsFileSearchFileSearch
     extends AssistantToolsFileSearchFileSearch {
   const factory _AssistantToolsFileSearchFileSearch(
-      {@JsonKey(name: 'max_num_results', includeIfNull: false)
-      final int? maxNumResults}) = _$AssistantToolsFileSearchFileSearchImpl;
+          {@JsonKey(name: 'max_num_results', includeIfNull: false)
+          final int? maxNumResults,
+          @JsonKey(name: 'ranking_options', includeIfNull: false)
+          final FileSearchRankingOptions? rankingOptions}) =
+      _$AssistantToolsFileSearchFileSearchImpl;
   const _AssistantToolsFileSearchFileSearch._() : super._();
 
   factory _AssistantToolsFileSearchFileSearch.fromJson(
@@ -58155,11 +59399,20 @@ abstract class _AssistantToolsFileSearchFileSearch
   /// The maximum number of results the file search tool should output. The default is 20 for `gpt-4*` models
   /// and 5 for gpt-3.5-turbo. This number should be between 1 and 50 inclusive.
   ///
-  /// Note that the file search tool may output fewer than `max_num_results` results. See the [file search
-  /// tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/number-of-chunks-returned) for more information.
+  /// Note that the file search tool may output fewer than `max_num_results` results. See the
+  /// [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/customizing-file-search-settings)
+  /// for more information.
   @override
   @JsonKey(name: 'max_num_results', includeIfNull: false)
   int? get maxNumResults;
+
+  /// The ranking options for the file search.
+  ///
+  /// See the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/customizing-file-search-settings)
+  /// for more information.
+  @override
+  @JsonKey(name: 'ranking_options', includeIfNull: false)
+  FileSearchRankingOptions? get rankingOptions;
 
   /// Create a copy of AssistantToolsFileSearchFileSearch
   /// with the given fields replaced by the non-null parameter values.
@@ -63844,8 +65097,11 @@ mixin _$RunStepDetailsToolCalls {
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)
         codeInterpreter,
-    required TResult Function(String id, String type,
-            @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)
+    required TResult Function(
+            String id,
+            String type,
+            @JsonKey(name: 'file_search')
+            RunStepDetailsToolCallsFileSearch fileSearch)
         fileSearch,
     required TResult Function(
             String id, String type, RunStepDetailsToolCallsFunction function)
@@ -63860,8 +65116,11 @@ mixin _$RunStepDetailsToolCalls {
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
         codeInterpreter,
-    TResult? Function(String id, String type,
-            @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
+    TResult? Function(
+            String id,
+            String type,
+            @JsonKey(name: 'file_search')
+            RunStepDetailsToolCallsFileSearch fileSearch)?
         fileSearch,
     TResult? Function(
             String id, String type, RunStepDetailsToolCallsFunction function)?
@@ -63876,8 +65135,11 @@ mixin _$RunStepDetailsToolCalls {
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
         codeInterpreter,
-    TResult Function(String id, String type,
-            @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
+    TResult Function(
+            String id,
+            String type,
+            @JsonKey(name: 'file_search')
+            RunStepDetailsToolCallsFileSearch fileSearch)?
         fileSearch,
     TResult Function(
             String id, String type, RunStepDetailsToolCallsFunction function)?
@@ -64096,8 +65358,11 @@ class _$RunStepDetailsToolCallsCodeObjectImpl
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)
         codeInterpreter,
-    required TResult Function(String id, String type,
-            @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)
+    required TResult Function(
+            String id,
+            String type,
+            @JsonKey(name: 'file_search')
+            RunStepDetailsToolCallsFileSearch fileSearch)
         fileSearch,
     required TResult Function(
             String id, String type, RunStepDetailsToolCallsFunction function)
@@ -64115,8 +65380,11 @@ class _$RunStepDetailsToolCallsCodeObjectImpl
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
         codeInterpreter,
-    TResult? Function(String id, String type,
-            @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
+    TResult? Function(
+            String id,
+            String type,
+            @JsonKey(name: 'file_search')
+            RunStepDetailsToolCallsFileSearch fileSearch)?
         fileSearch,
     TResult? Function(
             String id, String type, RunStepDetailsToolCallsFunction function)?
@@ -64134,8 +65402,11 @@ class _$RunStepDetailsToolCallsCodeObjectImpl
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
         codeInterpreter,
-    TResult Function(String id, String type,
-            @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
+    TResult Function(
+            String id,
+            String type,
+            @JsonKey(name: 'file_search')
+            RunStepDetailsToolCallsFileSearch fileSearch)?
         fileSearch,
     TResult Function(
             String id, String type, RunStepDetailsToolCallsFunction function)?
@@ -64241,7 +65512,10 @@ abstract class _$$RunStepDetailsToolCallsFileSearchObjectImplCopyWith<$Res>
   $Res call(
       {String id,
       String type,
-      @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch});
+      @JsonKey(name: 'file_search')
+      RunStepDetailsToolCallsFileSearch fileSearch});
+
+  $RunStepDetailsToolCallsFileSearchCopyWith<$Res> get fileSearch;
 }
 
 /// @nodoc
@@ -64273,10 +65547,21 @@ class __$$RunStepDetailsToolCallsFileSearchObjectImplCopyWithImpl<$Res>
           : type // ignore: cast_nullable_to_non_nullable
               as String,
       fileSearch: null == fileSearch
-          ? _value._fileSearch
+          ? _value.fileSearch
           : fileSearch // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>,
+              as RunStepDetailsToolCallsFileSearch,
     ));
+  }
+
+  /// Create a copy of RunStepDetailsToolCalls
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $RunStepDetailsToolCallsFileSearchCopyWith<$Res> get fileSearch {
+    return $RunStepDetailsToolCallsFileSearchCopyWith<$Res>(_value.fileSearch,
+        (value) {
+      return _then(_value.copyWith(fileSearch: value));
+    });
   }
 }
 
@@ -64287,10 +65572,8 @@ class _$RunStepDetailsToolCallsFileSearchObjectImpl
   const _$RunStepDetailsToolCallsFileSearchObjectImpl(
       {required this.id,
       required this.type,
-      @JsonKey(name: 'file_search')
-      required final Map<String, dynamic> fileSearch})
-      : _fileSearch = fileSearch,
-        super._();
+      @JsonKey(name: 'file_search') required this.fileSearch})
+      : super._();
 
   factory _$RunStepDetailsToolCallsFileSearchObjectImpl.fromJson(
           Map<String, dynamic> json) =>
@@ -64304,17 +65587,10 @@ class _$RunStepDetailsToolCallsFileSearchObjectImpl
   @override
   final String type;
 
-  /// For now, this is always going to be an empty object.
-  final Map<String, dynamic> _fileSearch;
-
-  /// For now, this is always going to be an empty object.
+  /// The definition of the file search that was called.
   @override
   @JsonKey(name: 'file_search')
-  Map<String, dynamic> get fileSearch {
-    if (_fileSearch is EqualUnmodifiableMapView) return _fileSearch;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_fileSearch);
-  }
+  final RunStepDetailsToolCallsFileSearch fileSearch;
 
   @override
   String toString() {
@@ -64328,14 +65604,13 @@ class _$RunStepDetailsToolCallsFileSearchObjectImpl
             other is _$RunStepDetailsToolCallsFileSearchObjectImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.type, type) || other.type == type) &&
-            const DeepCollectionEquality()
-                .equals(other._fileSearch, _fileSearch));
+            (identical(other.fileSearch, fileSearch) ||
+                other.fileSearch == fileSearch));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, type, const DeepCollectionEquality().hash(_fileSearch));
+  int get hashCode => Object.hash(runtimeType, id, type, fileSearch);
 
   /// Create a copy of RunStepDetailsToolCalls
   /// with the given fields replaced by the non-null parameter values.
@@ -64357,8 +65632,11 @@ class _$RunStepDetailsToolCallsFileSearchObjectImpl
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)
         codeInterpreter,
-    required TResult Function(String id, String type,
-            @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)
+    required TResult Function(
+            String id,
+            String type,
+            @JsonKey(name: 'file_search')
+            RunStepDetailsToolCallsFileSearch fileSearch)
         fileSearch,
     required TResult Function(
             String id, String type, RunStepDetailsToolCallsFunction function)
@@ -64376,8 +65654,11 @@ class _$RunStepDetailsToolCallsFileSearchObjectImpl
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
         codeInterpreter,
-    TResult? Function(String id, String type,
-            @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
+    TResult? Function(
+            String id,
+            String type,
+            @JsonKey(name: 'file_search')
+            RunStepDetailsToolCallsFileSearch fileSearch)?
         fileSearch,
     TResult? Function(
             String id, String type, RunStepDetailsToolCallsFunction function)?
@@ -64395,8 +65676,11 @@ class _$RunStepDetailsToolCallsFileSearchObjectImpl
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
         codeInterpreter,
-    TResult Function(String id, String type,
-            @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
+    TResult Function(
+            String id,
+            String type,
+            @JsonKey(name: 'file_search')
+            RunStepDetailsToolCallsFileSearch fileSearch)?
         fileSearch,
     TResult Function(
             String id, String type, RunStepDetailsToolCallsFunction function)?
@@ -64461,7 +65745,7 @@ abstract class RunStepDetailsToolCallsFileSearchObject
           {required final String id,
           required final String type,
           @JsonKey(name: 'file_search')
-          required final Map<String, dynamic> fileSearch}) =
+          required final RunStepDetailsToolCallsFileSearch fileSearch}) =
       _$RunStepDetailsToolCallsFileSearchObjectImpl;
   const RunStepDetailsToolCallsFileSearchObject._() : super._();
 
@@ -64477,9 +65761,9 @@ abstract class RunStepDetailsToolCallsFileSearchObject
   @override
   String get type;
 
-  /// For now, this is always going to be an empty object.
+  /// The definition of the file search that was called.
   @JsonKey(name: 'file_search')
-  Map<String, dynamic> get fileSearch;
+  RunStepDetailsToolCallsFileSearch get fileSearch;
 
   /// Create a copy of RunStepDetailsToolCalls
   /// with the given fields replaced by the non-null parameter values.
@@ -64614,8 +65898,11 @@ class _$RunStepDetailsToolCallsFunctionObjectImpl
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)
         codeInterpreter,
-    required TResult Function(String id, String type,
-            @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)
+    required TResult Function(
+            String id,
+            String type,
+            @JsonKey(name: 'file_search')
+            RunStepDetailsToolCallsFileSearch fileSearch)
         fileSearch,
     required TResult Function(
             String id, String type, RunStepDetailsToolCallsFunction function)
@@ -64633,8 +65920,11 @@ class _$RunStepDetailsToolCallsFunctionObjectImpl
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
         codeInterpreter,
-    TResult? Function(String id, String type,
-            @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
+    TResult? Function(
+            String id,
+            String type,
+            @JsonKey(name: 'file_search')
+            RunStepDetailsToolCallsFileSearch fileSearch)?
         fileSearch,
     TResult? Function(
             String id, String type, RunStepDetailsToolCallsFunction function)?
@@ -64652,8 +65942,11 @@ class _$RunStepDetailsToolCallsFunctionObjectImpl
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
         codeInterpreter,
-    TResult Function(String id, String type,
-            @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
+    TResult Function(
+            String id,
+            String type,
+            @JsonKey(name: 'file_search')
+            RunStepDetailsToolCallsFileSearch fileSearch)?
         fileSearch,
     TResult Function(
             String id, String type, RunStepDetailsToolCallsFunction function)?
