@@ -83,9 +83,17 @@ class AssistantToolsFileSearchFileSearch
     /// The maximum number of results the file search tool should output. The default is 20 for `gpt-4*` models
     /// and 5 for gpt-3.5-turbo. This number should be between 1 and 50 inclusive.
     ///
-    /// Note that the file search tool may output fewer than `max_num_results` results. See the [file search
-    /// tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/number-of-chunks-returned) for more information.
+    /// Note that the file search tool may output fewer than `max_num_results` results. See the
+    /// [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/customizing-file-search-settings)
+    /// for more information.
     @JsonKey(name: 'max_num_results', includeIfNull: false) int? maxNumResults,
+
+    /// The ranking options for the file search.
+    ///
+    /// See the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/customizing-file-search-settings)
+    /// for more information.
+    @JsonKey(name: 'ranking_options', includeIfNull: false)
+    FileSearchRankingOptions? rankingOptions,
   }) = _AssistantToolsFileSearchFileSearch;
 
   /// Object construction from a JSON representation
@@ -94,7 +102,10 @@ class AssistantToolsFileSearchFileSearch
       _$AssistantToolsFileSearchFileSearchFromJson(json);
 
   /// List of all property names of schema
-  static const List<String> propertyNames = ['max_num_results'];
+  static const List<String> propertyNames = [
+    'max_num_results',
+    'ranking_options'
+  ];
 
   /// Validation constants
   static const maxNumResultsMinValue = 1;
@@ -115,6 +126,7 @@ class AssistantToolsFileSearchFileSearch
   Map<String, dynamic> toMap() {
     return {
       'max_num_results': maxNumResults,
+      'ranking_options': rankingOptions,
     };
   }
 }

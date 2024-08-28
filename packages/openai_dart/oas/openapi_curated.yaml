@@ -796,6 +796,16 @@ paths:
           schema:
             type: string
           description: The ID of the thread to run.
+        - name: include
+          in: query
+          description: &include_param_description |
+            A list of additional fields to include in the response. Currently the only supported value is 
+            `step_details.tool_calls[*].file_search.results[*].content` to fetch the file search result content.
+            
+            See the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/customizing-file-search-settings) 
+            for more information.
+          schema:
+            type: string
       requestBody:
         required: true
         content:
@@ -968,6 +978,11 @@ paths:
           description: *pagination_before_param_description
           schema:
             type: string
+        - name: include
+          in: query
+          description: *include_param_description
+          schema:
+            type: string
       responses:
         "200":
           description: OK
@@ -1000,6 +1015,11 @@ paths:
           schema:
             type: string
           description: The ID of the run step to retrieve.
+        - name: include
+          in: query
+          description: *include_param_description
+          schema:
+            type: string
       responses:
         "200":
           description: OK
@@ -3879,10 +3899,32 @@ components:
                 The maximum number of results the file search tool should output. The default is 20 for `gpt-4*` models 
                 and 5 for gpt-3.5-turbo. This number should be between 1 and 50 inclusive.
                 
-                Note that the file search tool may output fewer than `max_num_results` results. See the [file search 
-                tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/number-of-chunks-returned) for more information.
+                Note that the file search tool may output fewer than `max_num_results` results. See the 
+                [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/customizing-file-search-settings) 
+                for more information.
+            ranking_options:
+              $ref: "#/components/schemas/FileSearchRankingOptions"
       required:
         - type
+    FileSearchRankingOptions:
+      type: object
+      description: |
+        The ranking options for the file search.
+        
+        See the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/customizing-file-search-settings) 
+        for more information.
+      properties:
+        ranker:
+          $ref: "#/components/schemas/FileSearchRanker"
+        score_threshold:
+          type: number
+          description: The score threshold for the file search. All values must be a floating point number between 0 and 1.
+          minimum: 0
+          maximum: 1
+    FileSearchRanker:
+      type: string
+      description: The ranker to use for the file search. If not specified will use the `auto` ranker.
+      enum: [ "auto", "default_2024_08_21" ]
     AssistantToolsFunction:
       type: object
       description: Function tool
@@ -5653,13 +5695,74 @@ components:
           type: string
           description: The type of tool call. This is always going to be `file_search` for this type of tool call.
         file_search:
-          type: object
-          description: For now, this is always going to be an empty object.
-          additionalProperties: true
+          $ref: "#/components/schemas/RunStepDetailsToolCallsFileSearch"
       required:
         - id
         - type
         - file_search
+    RunStepDetailsToolCallsFileSearch:
+      type: object
+      description: The definition of the file search that was called.
+      properties:
+        ranking_options:
+          $ref: "#/components/schemas/RunStepDetailsToolCallsFileSearchRankingOptionsObject"
+        results:
+          type: array
+          description: The results of the file search.
+          items:
+            $ref: "#/components/schemas/RunStepDetailsToolCallsFileSearchResultObject"
+    RunStepDetailsToolCallsFileSearchRankingOptionsObject:
+      type: object
+      description: The ranking options for the file search.
+      properties:
+        ranker:
+          $ref: "#/components/schemas/FileSearchRanker"
+        score_threshold:
+          type: number
+          description: | 
+            The score threshold for the file search. All values must be a floating point number between 0 and 1.
+          minimum: 0
+          maximum: 1
+      required:
+        - ranker
+        - score_threshold
+    RunStepDetailsToolCallsFileSearchResultObject:
+      type: object
+      description: A result instance of the file search.
+      properties:
+        file_id:
+          type: string
+          description: The ID of the file that result was found in.
+        file_name:
+          type: string
+          description: The name of the file that result was found in.
+        score:
+          type: number
+          description: The score of the result. All values must be a floating point number between 0 and 1.
+          minimum: 0
+          maximum: 1
+        content:
+          type: array
+          description: | 
+            The content of the result that was found. The content is only included if requested via the include 
+            query parameter.
+          items:
+            $ref: "#/components/schemas/RunStepDetailsToolCallsFileSearchResultContent"
+      required:
+        - file_id
+        - file_name
+        - score
+    RunStepDetailsToolCallsFileSearchResultContent:
+      type: object
+      description: The content of the result that was found.
+      properties:
+        type:
+          type: string
+          description: The type of the content.
+          default: text
+        text:
+          type: string
+          description: The text content of the file.
     RunStepDeltaStepDetailsToolCallsFileSearchObject:
       type: object
       description: File search tool call
@@ -6298,7 +6401,7 @@ components:
         - data
     RunStepStreamEvent:
       type: object
-      description: Occurs when a new [run step](https://platform.openai.com/docs/api-reference/runs/step-object) changes state.
+      description: Occurs when a new [run step](https://platform.openai.com/docs/api-reference/run-steps/step-object) changes state.
       properties:
         event:
           $ref: "#/components/schemas/EventType"
@@ -6309,7 +6412,7 @@ components:
         - data
     RunStepStreamDeltaEvent:
       type: object
-      description: Occurs when a new [run step](https://platform.openai.com/docs/api-reference/runs/step-object) changes state.
+      description: Occurs when a new [run step](https://platform.openai.com/docs/api-reference/run-steps/step-object) changes state.
       properties:
         event:
           $ref: "#/components/schemas/EventType"

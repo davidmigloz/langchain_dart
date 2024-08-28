@@ -2516,6 +2516,34 @@ Map<String, dynamic> _$$ListAssistantsResponseImplToJson(
       'has_more': instance.hasMore,
     };
 
+_$FileSearchRankingOptionsImpl _$$FileSearchRankingOptionsImplFromJson(
+        Map<String, dynamic> json) =>
+    _$FileSearchRankingOptionsImpl(
+      ranker: $enumDecodeNullable(_$FileSearchRankerEnumMap, json['ranker'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      scoreThreshold: (json['score_threshold'] as num?)?.toDouble(),
+    );
+
+Map<String, dynamic> _$$FileSearchRankingOptionsImplToJson(
+    _$FileSearchRankingOptionsImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ranker', _$FileSearchRankerEnumMap[instance.ranker]);
+  writeNotNull('score_threshold', instance.scoreThreshold);
+  return val;
+}
+
+const _$FileSearchRankerEnumMap = {
+  FileSearchRanker.auto: 'auto',
+  FileSearchRanker.default20240821: 'default_2024_08_21',
+};
+
 _$AssistantsNamedToolChoiceImpl _$$AssistantsNamedToolChoiceImplFromJson(
         Map<String, dynamic> json) =>
     _$AssistantsNamedToolChoiceImpl(
@@ -4280,6 +4308,109 @@ Map<String, dynamic>
   return val;
 }
 
+_$RunStepDetailsToolCallsFileSearchImpl
+    _$$RunStepDetailsToolCallsFileSearchImplFromJson(
+            Map<String, dynamic> json) =>
+        _$RunStepDetailsToolCallsFileSearchImpl(
+          rankingOptions: json['ranking_options'] == null
+              ? null
+              : RunStepDetailsToolCallsFileSearchRankingOptionsObject.fromJson(
+                  json['ranking_options'] as Map<String, dynamic>),
+          results: (json['results'] as List<dynamic>?)
+              ?.map((e) =>
+                  RunStepDetailsToolCallsFileSearchResultObject.fromJson(
+                      e as Map<String, dynamic>))
+              .toList(),
+        );
+
+Map<String, dynamic> _$$RunStepDetailsToolCallsFileSearchImplToJson(
+    _$RunStepDetailsToolCallsFileSearchImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ranking_options', instance.rankingOptions?.toJson());
+  writeNotNull('results', instance.results?.map((e) => e.toJson()).toList());
+  return val;
+}
+
+_$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImpl
+    _$$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImplFromJson(
+            Map<String, dynamic> json) =>
+        _$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImpl(
+          ranker: $enumDecode(_$FileSearchRankerEnumMap, json['ranker']),
+          scoreThreshold: (json['score_threshold'] as num).toDouble(),
+        );
+
+Map<String,
+    dynamic> _$$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImplToJson(
+        _$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImpl instance) =>
+    <String, dynamic>{
+      'ranker': _$FileSearchRankerEnumMap[instance.ranker]!,
+      'score_threshold': instance.scoreThreshold,
+    };
+
+_$RunStepDetailsToolCallsFileSearchResultObjectImpl
+    _$$RunStepDetailsToolCallsFileSearchResultObjectImplFromJson(
+            Map<String, dynamic> json) =>
+        _$RunStepDetailsToolCallsFileSearchResultObjectImpl(
+          fileId: json['file_id'] as String,
+          fileName: json['file_name'] as String,
+          score: (json['score'] as num).toDouble(),
+          content: (json['content'] as List<dynamic>?)
+              ?.map((e) =>
+                  RunStepDetailsToolCallsFileSearchResultContent.fromJson(
+                      e as Map<String, dynamic>))
+              .toList(),
+        );
+
+Map<String, dynamic> _$$RunStepDetailsToolCallsFileSearchResultObjectImplToJson(
+    _$RunStepDetailsToolCallsFileSearchResultObjectImpl instance) {
+  final val = <String, dynamic>{
+    'file_id': instance.fileId,
+    'file_name': instance.fileName,
+    'score': instance.score,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('content', instance.content?.map((e) => e.toJson()).toList());
+  return val;
+}
+
+_$RunStepDetailsToolCallsFileSearchResultContentImpl
+    _$$RunStepDetailsToolCallsFileSearchResultContentImplFromJson(
+            Map<String, dynamic> json) =>
+        _$RunStepDetailsToolCallsFileSearchResultContentImpl(
+          type: json['type'] as String? ?? 'text',
+          text: json['text'] as String?,
+        );
+
+Map<String, dynamic>
+    _$$RunStepDetailsToolCallsFileSearchResultContentImplToJson(
+        _$RunStepDetailsToolCallsFileSearchResultContentImpl instance) {
+  final val = <String, dynamic>{
+    'type': instance.type,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('text', instance.text);
+  return val;
+}
+
 _$RunStepCompletionUsageImpl _$$RunStepCompletionUsageImplFromJson(
         Map<String, dynamic> json) =>
     _$RunStepCompletionUsageImpl(
@@ -5302,6 +5433,10 @@ _$AssistantToolsFileSearchFileSearchImpl
             Map<String, dynamic> json) =>
         _$AssistantToolsFileSearchFileSearchImpl(
           maxNumResults: (json['max_num_results'] as num?)?.toInt(),
+          rankingOptions: json['ranking_options'] == null
+              ? null
+              : FileSearchRankingOptions.fromJson(
+                  json['ranking_options'] as Map<String, dynamic>),
         );
 
 Map<String, dynamic> _$$AssistantToolsFileSearchFileSearchImplToJson(
@@ -5315,6 +5450,7 @@ Map<String, dynamic> _$$AssistantToolsFileSearchFileSearchImplToJson(
   }
 
   writeNotNull('max_num_results', instance.maxNumResults);
+  writeNotNull('ranking_options', instance.rankingOptions?.toJson());
   return val;
 }
 
@@ -5754,7 +5890,8 @@ _$RunStepDetailsToolCallsFileSearchObjectImpl
         _$RunStepDetailsToolCallsFileSearchObjectImpl(
           id: json['id'] as String,
           type: json['type'] as String,
-          fileSearch: json['file_search'] as Map<String, dynamic>,
+          fileSearch: RunStepDetailsToolCallsFileSearch.fromJson(
+              json['file_search'] as Map<String, dynamic>),
         );
 
 Map<String, dynamic> _$$RunStepDetailsToolCallsFileSearchObjectImplToJson(
@@ -5762,7 +5899,7 @@ Map<String, dynamic> _$$RunStepDetailsToolCallsFileSearchObjectImplToJson(
     <String, dynamic>{
       'id': instance.id,
       'type': instance.type,
-      'file_search': instance.fileSearch,
+      'file_search': instance.fileSearch.toJson(),
     };
 
 _$RunStepDetailsToolCallsFunctionObjectImpl
