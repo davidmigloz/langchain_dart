@@ -20,7 +20,7 @@ Unofficial Dart client for [OpenAI](https://platform.openai.com/docs/api-referen
 
 **Supported endpoints:**
 
-- Chat (with tools and streaming support)
+- Chat (with structured outputs, tools and streaming support)
 - Completions (legacy)
 - Embeddings
 - Fine-tuning
@@ -28,7 +28,7 @@ Unofficial Dart client for [OpenAI](https://platform.openai.com/docs/api-referen
 - Images
 - Models
 - Moderations
-- Assistants v2 (with tools and streaming support) `beta`
+- Assistants v2 (with structured outputs, tools and streaming support) `beta`
   * Threads 
   * Messages 
   * Runs
@@ -97,14 +97,14 @@ final client = OpenAIClient(
 
 Given a list of messages comprising a conversation, the model will return a response.
 
-Related guide: [Chat Completions](https://platform.openai.com/docs/guides/text-generation)
+Related guide: [Chat Completions](https://platform.openai.com/docs/guides/chat-completions)
 
 **Create chat completion:**
 
 ```dart
 final res = await client.createChatCompletion(
   request: CreateChatCompletionRequest(
-    model: ChatCompletionModel.modelId('gpt-4'),
+    model: ChatCompletionModel.modelId('gpt-4o'),
     messages: [
       ChatCompletionMessage.system(
         content: 'You are a helpful assistant.',
@@ -121,28 +121,28 @@ print(res.choices.first.message.content);
 ```
 
 `ChatCompletionModel` is a sealed class that offers two ways to specify the model:
-- `ChatCompletionModel.modelId('model-id')`: the model ID as string (e.g. `'gpt-4'` or your fine-tuned model ID).
-- `ChatCompletionModel.model(ChatCompletionModels.gpt4)`: a value from `ChatCompletionModels` enum which lists all of the available models.
+- `ChatCompletionModel.modelId('model-id')`: the model ID as string (e.g. `'gpt-4o'` or your fine-tuned model ID).
+- `ChatCompletionModel.model(ChatCompletionModels.gpt4o)`: a value from `ChatCompletionModels` enum which lists all of the available models.
 
 `ChatCompletionMessage` is a sealed class that supports the following message types:
 - `ChatCompletionMessage.system()`: a system message.
 - `ChatCompletionMessage.user()`: a user message.
 - `ChatCompletionMessage.assistant()`: an assistant message.
 - `ChatCompletionMessage.tool()`: a tool message.
-- `ChatCompletionMessage.function()`: a function message.
+- `ChatCompletionMessage.function()`: a function message (deprecated in favor of tools).
 
 `ChatCompletionMessage.user()` takes a `ChatCompletionUserMessageContent` object that supports the following content types:
 - `ChatCompletionUserMessageContent.string('content')`: string content.
 - `ChatCompletionUserMessageContent.parts([...])`: multi-modal content (check the 'Multi-modal prompt' section below).
   * `ChatCompletionMessageContentPart.text('content')`: text content.
-  * `ChatCompletionMessageContentPart.image(imageUrl: ...)`: image content.
+  * `ChatCompletionMessageContentPart.image(...)`: image content (URL or base64-encoded image).
 
 **Stream chat completion:**
 
 ```dart
 final stream = client.createChatCompletionStream(
   request: CreateChatCompletionRequest(
-    model: ChatCompletionModel.modelId('gpt-4-turbo'),
+    model: ChatCompletionModel.modelId('gpt-4o'),
     messages: [
       ChatCompletionMessage.system(
         content:
@@ -166,6 +166,8 @@ await for (final res in stream) {
 ```
 
 **Multi-modal prompt:** ([docs](https://platform.openai.com/docs/guides/vision))
+
+You can either provide the image URL:
 
 ```dart
 final res = await client.createChatCompletion(
@@ -198,36 +200,30 @@ print(res.choices.first.message.content);
 // The fruit in the image is an apple.
 ```
 
-**JSON mode:** ([docs](https://platform.openai.com/docs/guides/structured-outputs/json-mode))
-
+Or provide the base64-encoded image:
 ```dart
-final res = await client.createChatCompletion(
-  request: CreateChatCompletionRequest(
-    model: ChatCompletionModel.model(
-      ChatCompletionModels.gpt41106Preview,
-    ),
-    messages: [
-      ChatCompletionMessage.system(
-        content:
-          'You are a helpful assistant. That extracts names from text '
-          'and returns them in a JSON array.',
+//...
+ChatCompletionMessage.user(
+  content: ChatCompletionUserMessageContent.parts(
+    [
+      ChatCompletionMessageContentPart.text(
+        text: 'What fruit is this?',
       ),
-      ChatCompletionMessage.user(
-        content: ChatCompletionUserMessageContent.string(
-          'John, Mary, and Peter.',
+      ChatCompletionMessageContentPart.image(
+        imageUrl: ChatCompletionMessageImageUrl(
+          url: '/9j/4AAQSkZJRgABAQAAAQABAAD/2wB...P3s/XHQ8cE/nmiupbL0+fz/r/MjnSbsr69/Rdu1j//2Q==',
+          detail: ChatCompletionMessageImageDetail.high,
         ),
       ),
     ],
-    temperature: 0,
-    responseFormat: ChatCompletionResponseFormat(
-      type: ChatCompletionResponseFormatType.jsonObject,
-    ),
   ),
-);
-// { "names": ["John", "Mary", "Peter"] }
+),
+//...
 ```
 
 **Structured output: ([docs](https://platform.openai.com/docs/guides/structured-outputs))**
+
+Structured Outputs is a feature that ensures the model will always generate responses that adhere to your supplied JSON Schema.
 
 ```dart
 final res = await client.createChatCompletion(
@@ -237,8 +233,7 @@ final res = await client.createChatCompletion(
     ),
     messages: [
       ChatCompletionMessage.system(
-        content:
-            'You are a helpful assistant. That extracts names from text.',
+        content: 'You are a helpful assistant. That extracts names from text.',
       ),
       ChatCompletionMessage.user(
         content: ChatCompletionUserMessageContent.string(
@@ -272,7 +267,40 @@ final res = await client.createChatCompletion(
 // {"names":["John","Mary","Peter"]}
 ```
 
+**JSON mode:** ([docs](https://platform.openai.com/docs/guides/structured-outputs/json-mode))
+
+> JSON mode is a more basic version of the Structured Outputs feature. While JSON mode ensures that model output is valid JSON, Structured Outputs reliably matches the model's output to the schema you specify. It us recommended to use Structured Outputs if it is supported for your use case.
+
+```dart
+final res = await client.createChatCompletion(
+  request: CreateChatCompletionRequest(
+    model: ChatCompletionModel.model(
+      ChatCompletionModels.gpt41106Preview,
+    ),
+    messages: [
+      ChatCompletionMessage.system(
+        content:
+          'You are a helpful assistant. That extracts names from text '
+          'and returns them in a JSON array.',
+      ),
+      ChatCompletionMessage.user(
+        content: ChatCompletionUserMessageContent.string(
+          'John, Mary, and Peter.',
+        ),
+      ),
+    ],
+    temperature: 0,
+    responseFormat: ChatCompletionResponseFormat(
+      type: ChatCompletionResponseFormatType.jsonObject,
+    ),
+  ),
+);
+// { "names": ["John", "Mary", "Peter"] }
+```
+
 **Tools:** ([docs](https://platform.openai.com/docs/guides/function-calling))
+
+Tool calling allows you to connect models to external tools and systems.
 
 ```dart
 const function = FunctionObject(
@@ -301,7 +329,7 @@ const tool = ChatCompletionTool(
 
 final res1 = await client.createChatCompletion(
   request: CreateChatCompletionRequest(
-    model: const ChatCompletionModel.model(
+    model: ChatCompletionModel.model(
       ChatCompletionModels.gpt4oMini,
     ),
     messages: [
@@ -352,6 +380,8 @@ final res2 = await client.createChatCompletion(
 final answer = res2.choices.first.message.content;
 // The weather in Boston right now is sunny with a temperature of 22°C
 ```
+
+You can enable Structured Outputs for your tools by setting `strict: true` in your `FunctionObject` definition. Structured Outputs ensures that the arguments generated by the model for a tool call exactly match the JSON Schema you provided in the tool definition.
 
 **Function calling:** (deprecated in favor of tools)
 
@@ -813,7 +843,7 @@ final res = await client.createThreadMessage(
       ),
       MessageContent.imageUrl(
         imageUrl: MessageContentImageUrl(
-          url: 'https://example.com/image.jpg',
+          url: 'https://example.com/image.jpg', // or base64-encoded image
         ),
       ),
     ]),
@@ -863,6 +893,42 @@ final res = await client.createThreadRun(
   request: CreateRunRequest(
     assistantId: assistantId,
     instructions: 'Please address the user as Jane Doe. The user has a premium account.',
+  ),
+);
+```
+
+You can also use Structured Outputs to ensure that the model-generated responses adhere to a specific JSON schema:
+
+```dart
+
+final res = await client.createThreadRun(
+  threadId: threadId,
+  request: CreateRunRequest(
+    assistantId: assistantId,
+    instructions: 'You are a helpful assistant that extracts names from text.',
+    model: CreateRunRequestModel.modelId('gpt-4o'),
+    responseFormat: CreateRunRequestResponseFormat.responseFormat(
+        ResponseFormat.jsonSchema(
+          jsonSchema: JsonSchemaObject(
+            name: 'Names',
+            description: 'A list of names',
+            strict: true,
+            schema: {
+              'type': 'object',
+              'properties': {
+                'names': {
+                  'type': 'array',
+                  'items': {
+                    'type': 'string',
+                  },
+                },
+              },
+              'additionalProperties': false,
+              'required': ['names'],
+            },
+          ),
+        )
+    )
   ),
 );
 ```
