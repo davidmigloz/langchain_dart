@@ -1,0 +1,15 @@
+targets:
+  $default:
+    builders:
+      objectbox_generator:generator:
+        enabled: true
+        generate_for:
+          - lib/src/vector_stores/objectbox/**.dart
+      source_gen:combining_builder:
+        options:
+          ignore_for_file:
+            - type=lint
+            - subtype=lint
+        generate_for:
+          exclude:
+            - lib/src/vector_stores/objectbox/**.dart
