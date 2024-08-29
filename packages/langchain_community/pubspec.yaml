@@ -28,8 +28,10 @@ dependencies:
   objectbox: ^4.0.1
   tavily_dart: ^0.1.0
   uuid: ^4.4.2
+  drift: ^2.20.0
 
 dev_dependencies:
+  drift_dev: ^2.20.1
   build_runner: ^2.4.11
   langchain_openai: ^0.7.0
   objectbox_generator: ^4.0.1

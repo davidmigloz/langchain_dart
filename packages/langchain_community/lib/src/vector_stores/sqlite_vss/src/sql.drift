@@ -1,0 +1,68 @@
+CREATE TABLE files (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    path TEXT NOT NULL,
+    content TEXT
+);
+
+CREATE TABLE file_embeddings (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    file_id INTEGER NOT NULL,
+    chunk_id INTEGER NOT NULL,
+    [start] INTEGER,
+    [end] INTEGER
+);
+
+-- CREATE VIRTUAL TABLE chunks using vec0(
+--     id INTEGER PRIMARY KEY AUTOINCREMENT,
+--     embedding float[768]
+-- );
+
+getFiles:
+SELECT * FROM files;
+
+getFileById:
+SELECT * FROM files
+WHERE id = :id;
+
+getFileByPath:
+SELECT * FROM files
+WHERE path = :path;
+
+insertFile:
+INSERT INTO files (path, content) VALUES (:path, :content)
+RETURNING *;
+
+deleteFileById:
+DELETE FROM files
+WHERE id = :id;
+
+getFileEmbeddingsByFileId:
+SELECT * FROM file_embeddings
+WHERE file_id = :fileId;
+
+deleteFileEmbeddingByFileId:
+DELETE FROM file_embeddings
+WHERE file_id = :id;
+
+-- insertChunk(:embedding AS BLOB):
+-- INSERT INTO chunks (embedding) VALUES (:embedding);
+
+getLastId:
+SELECT last_insert_rowid();
+
+insertFileEmbedding:
+INSERT INTO file_embeddings (file_id, chunk_id, [start], [end])
+VALUES (:fileId, :chunkId, :start, :end);
+
+searchEmbeddings(:embedding AS BLOB):
+SELECT 
+    files.id as fileId,
+    files.path,
+    file_embeddings.start,
+    file_embeddings.end,
+    CAST(chunks.distance AS REAL) as distance,
+    files.content
+FROM chunks 
+LEFT JOIN file_embeddings ON file_embeddings.chunk_id = chunks.id 
+LEFT JOIN files ON files.id = file_embeddings.file_id 
+WHERE embedding MATCH :embedding AND k = 20;
