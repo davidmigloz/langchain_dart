@@ -138,7 +138,6 @@ class GoogleGenerativeAIEmbeddings implements Embeddings {
 
   /// The number of dimensions the resulting output embeddings should have.
   /// Only supported in `text-embedding-004` and later models.
-  /// TODO https://github.com/google-gemini/generative-ai-dart/pull/149
   int? dimensions;
 
   /// The maximum number of documents to embed in a single request.
@@ -168,7 +167,7 @@ class GoogleGenerativeAIEmbeddings implements Embeddings {
               Content.text(doc.pageContent),
               taskType: TaskType.retrievalDocument,
               title: doc.metadata[docTitleKey],
-              // outputDimensionality: dimensions, TODO
+              outputDimensionality: dimensions,
             );
           }).toList(growable: false),
         );
@@ -187,7 +186,7 @@ class GoogleGenerativeAIEmbeddings implements Embeddings {
     final data = await _googleAiClient.embedContent(
       Content.text(query),
       taskType: TaskType.retrievalQuery,
-      // outputDimensionality: dimensions, TODO
+      outputDimensionality: dimensions,
     );
     return data.embedding.values;
   }
