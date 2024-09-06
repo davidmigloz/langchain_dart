@@ -16,7 +16,7 @@ Unofficial Dart client for [OpenAI](https://platform.openai.com/docs/api-referen
 - Custom base URL, headers and query params support (e.g. HTTP proxies)
 - Custom HTTP client support (e.g. SOCKS5 proxies or advanced use cases)
 - Partial Azure OpenAI API support
-- It can be used to consume OpenAI-compatible APIs like [TogetherAI](https://www.together.ai/), [Anyscale](https://www.anyscale.com/), [OpenRouter](https://openrouter.ai), [One API](https://github.com/songquanpeng/one-api), [Groq](https://groq.com/), [Llamafile](https://llamafile.ai/), [GPT4All](https://gpt4all.io/), [FastChat](https://github.com/lm-sys/FastChat), etc.
+- It can be used to consume OpenAI-compatible APIs like [GitHub Models](https://github.com/marketplace/models), [TogetherAI](https://www.together.ai/), [Anyscale](https://www.anyscale.com/), [OpenRouter](https://openrouter.ai), [One API](https://github.com/songquanpeng/one-api), [Groq](https://groq.com/), [Llamafile](https://llamafile.ai/), [GPT4All](https://gpt4all.io/), [FastChat](https://github.com/lm-sys/FastChat), etc.
 
 **Supported endpoints:**
 
@@ -900,7 +900,6 @@ final res = await client.createThreadRun(
 You can also use Structured Outputs to ensure that the model-generated responses adhere to a specific JSON schema:
 
 ```dart
-
 final res = await client.createThreadRun(
   threadId: threadId,
   request: CreateRunRequest(
@@ -1198,21 +1197,21 @@ final client = OpenAIClient(
 
 This client can be used to consume APIs that are compatible with the OpenAI API spec.
 
+[GitHub Models](https://github.com/marketplace/models):
+
+```dart
+final client = OpenAIClient(
+  baseUrl: 'https://models.inference.ai.azure.com',
+  headers: { 'api-key': 'YOUR_GITHUB_TOKEN' },
+);
+```
+
 [TogetherAI](https://www.together.ai/):
 
 ```dart
 final client = OpenAIClient(
   baseUrl: 'https://api.together.xyz/v1',
   headers: { 'api-key': 'YOUR_TOGETHER_AI_API_KEY' },
-);
-```
-
-[Anyscale](https://www.anyscale.com/):
-
-```dart
-final client = OpenAIClient(
-  baseUrl: 'https://api.endpoints.anyscale.com/v1',
-  headers: { 'api-key': 'YOUR_ANYSCALE_API_KEY' },
 );
 ```
 
