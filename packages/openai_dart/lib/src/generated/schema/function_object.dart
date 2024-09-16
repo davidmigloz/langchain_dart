@@ -15,7 +15,8 @@ class FunctionObject with _$FunctionObject {
 
   /// Factory constructor for FunctionObject
   const factory FunctionObject({
-    /// The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64.
+    /// The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a
+    /// maximum length of 64.
     required String name,
 
     /// A description of what the function does, used by the model to choose when and how to call the function.
@@ -25,6 +26,12 @@ class FunctionObject with _$FunctionObject {
     ///
     /// Omitting `parameters` defines a function with an empty parameter list.
     @JsonKey(includeIfNull: false) FunctionParameters? parameters,
+
+    /// Whether to enable strict schema adherence when generating the function call. If set to true, the model will
+    /// follow the exact schema defined in the `parameters` field. Only a subset of JSON Schema is supported when
+    /// `strict` is `true`. Learn more about Structured Outputs in the
+    /// [function calling guide](](https://platform.openai.com/docs/guides/function-calling).
+    @JsonKey(includeIfNull: false) @Default(false) bool? strict,
   }) = _FunctionObject;
 
   /// Object construction from a JSON representation
@@ -35,7 +42,8 @@ class FunctionObject with _$FunctionObject {
   static const List<String> propertyNames = [
     'name',
     'description',
-    'parameters'
+    'parameters',
+    'strict'
   ];
 
   /// Perform validations on the schema property values
@@ -49,6 +57,7 @@ class FunctionObject with _$FunctionObject {
       'name': name,
       'description': description,
       'parameters': parameters,
+      'strict': strict,
     };
   }
 }

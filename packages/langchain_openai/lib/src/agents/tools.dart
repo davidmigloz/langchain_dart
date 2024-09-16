@@ -1,3 +1,4 @@
+// ignore_for_file: deprecated_member_use_from_same_package
 import 'package:langchain_core/agents.dart';
 import 'package:langchain_core/chains.dart';
 import 'package:langchain_core/chat_models.dart';
@@ -17,6 +18,11 @@ const _systemChatMessagePromptTemplate = SystemChatMessagePromptTemplate(
 );
 
 /// {@template openai_tools_agent}
+/// > Note: This class is deprecated. Use `ToolsAgent` (from the `langchain`
+/// > package instead). It works with the same API as this class, but can be
+/// > used with any provider that supports tool calling.
+/// > You can run `dart fix --apply` to automatically update your code.
+///
 /// An Agent driven by OpenAI's Tools powered API.
 ///
 /// Example:
@@ -27,7 +33,7 @@ const _systemChatMessagePromptTemplate = SystemChatMessagePromptTemplate(
 ///   temperature: 0,
 /// );
 /// final tools = [CalculatorTool()];
-/// final agent = OpenAIToolsAgent.fromLLMAndTools(llm: llm, tools: tools);
+/// final agent = ToolsAgent.fromLLMAndTools(llm: llm, tools: tools);
 /// final executor = AgentExecutor(agent: agent);
 /// final res = await executor.run('What is 40 raised to the 0.43 power? ');
 /// ```
@@ -69,8 +75,10 @@ const _systemChatMessagePromptTemplate = SystemChatMessagePromptTemplate(
 /// template if you only need to customize the system message or add some
 /// extra messages.
 /// {@endtemplate}
+@Deprecated('Use ToolsAgent instead')
 class OpenAIToolsAgent extends BaseSingleActionAgent {
   /// {@macro openai_functions_agent}
+  @Deprecated('Use ToolsAgent instead')
   OpenAIToolsAgent({
     required this.llmChain,
     required super.tools,
@@ -118,6 +126,7 @@ class OpenAIToolsAgent extends BaseSingleActionAgent {
   ///   the first in the prompt. Default: "You are a helpful AI assistant".
   /// - [extraPromptMessages] prompt messages that will be placed between the
   ///   system message and the input from the agent.
+  @Deprecated('Use ToolsAgent.fromLLMAndTools() instead')
   factory OpenAIToolsAgent.fromLLMAndTools({
     required final ChatOpenAI llm,
     required final List<Tool> tools,
@@ -241,14 +250,21 @@ class OpenAIToolsAgent extends BaseSingleActionAgent {
 }
 
 /// {@template openai_tools_agent_output_parser}
+/// > Note: This class is deprecated. Use `ToolsAgentOutputParser` (from the
+/// > `langchain` package instead). It is equivalent to this class, but
+/// > prepared to work with the `ToolsAgent`.
+/// > You can run `dart fix --apply` to automatically update your code.
+///
 /// Parser for [OpenAIToolsAgent].
 ///
 /// It parses the output of the LLM and returns the corresponding
 /// [BaseAgentAction] to be executed.
 /// {@endtemplate}
+@Deprecated('Use ToolsAgentOutputParser instead')
 class OpenAIToolsAgentOutputParser extends BaseOutputParser<ChatResult,
     OutputParserOptions, List<BaseAgentAction>> {
   /// {@macro openai_tools_agent_output_parser}
+  @Deprecated('Use ToolsAgentOutputParser instead')
   const OpenAIToolsAgentOutputParser()
       : super(defaultOptions: const OutputParserOptions());
 

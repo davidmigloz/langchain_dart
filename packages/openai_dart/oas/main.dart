@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_print
 import 'dart:io';
 
 import 'package:openapi_spec/openapi_spec.dart';
@@ -18,10 +19,12 @@ void main() async {
       enabled: true,
     ),
   );
-  await Process.run(
+  final res = await Process.run(
     'dart',
     ['run', 'build_runner', 'build', 'lib', '--delete-conflicting-outputs'],
   );
+  print(res.stdout);
+  print(res.stderr);
 }
 
 String? _onSchemaName(final String schemaName) => switch (schemaName) {
@@ -46,11 +49,15 @@ String? _onSchemaUnionFactoryName(
       'ChatCompletionMessageContentParts' => 'parts',
       'ChatCompletionMessageContentPartText' => 'text',
       'ChatCompletionMessageContentPartImage' => 'image',
+      'ChatCompletionMessageContentPartRefusal' => 'refusal',
       'ChatCompletionToolChoiceOptionEnumeration' => 'mode',
       'ChatCompletionToolChoiceOptionChatCompletionNamedToolChoice' => 'tool',
       'ChatCompletionFunctionCallEnumeration' => 'mode',
       'ChatCompletionFunctionCallChatCompletionFunctionCallOption' =>
         'function',
+      'ResponseFormatText' => 'text',
+      'ResponseFormatJsonObject' => 'jsonObject',
+      'ResponseFormatJsonSchema' => 'jsonSchema',
       // Completion
       'CompletionModelEnumeration' => 'model',
       'CompletionModelString' => 'modelId',
@@ -77,6 +84,7 @@ String? _onSchemaUnionFactoryName(
       // Assistant
       'AssistantModelEnumeration' => 'model',
       'AssistantModelString' => 'modelId',
+      'AssistantObjectResponseFormatEnumeration' => 'mode',
       'CreateAssistantRequestResponseFormatAssistantsResponseFormat' =>
         'format',
       'CreateAssistantRequestResponseFormatEnumeration' => 'mode',
@@ -98,7 +106,10 @@ String? _onSchemaUnionFactoryName(
       'MessageContentTextAnnotationsFileCitationObject' => 'fileCitation',
       'MessageContentTextAnnotationsFilePathObject' => 'filePath',
       'MessageContentTextObject' => 'text',
+      'MessageContentRefusalObject' => 'refusal',
       'MessageDeltaContentImageFileObject' => 'imageFile',
+      'MessageDeltaContentRefusalObject' => 'refusal',
+      'MessageDeltaContentImageUrlObject' => 'imageUrl',
       'MessageDeltaContentTextAnnotationsFileCitationObject' => 'fileCitation',
       'MessageDeltaContentTextAnnotationsFilePathObject' => 'filePath',
       'MessageDeltaContentTextObject' => 'text',

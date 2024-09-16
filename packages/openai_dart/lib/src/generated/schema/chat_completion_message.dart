@@ -59,6 +59,9 @@ sealed class ChatCompletionMessage with _$ChatCompletionMessage {
     /// The contents of the assistant message. Required unless `tool_calls` or `function_call` is specified.
     @JsonKey(includeIfNull: false) String? content,
 
+    /// The refusal message by the assistant.
+    @JsonKey(includeIfNull: false) String? refusal,
+
     /// An optional name for the participant. Provides the model information to differentiate between participants of the same role.
     @JsonKey(includeIfNull: false) String? name,
 
@@ -140,7 +143,7 @@ sealed class ChatCompletionUserMessageContent
     List<ChatCompletionMessageContentPart> value,
   ) = ChatCompletionMessageContentParts;
 
-  /// The text contents of the message.
+  /// The text contents of the user message.
   const factory ChatCompletionUserMessageContent.string(
     String value,
   ) = ChatCompletionUserMessageContentString;

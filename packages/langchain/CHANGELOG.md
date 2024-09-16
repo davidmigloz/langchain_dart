@@ -1,4 +1,12 @@
-📣 Check out the [#announcements](https://discord.com/channels/1123158322812555295/1123250594644242534) channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details.
+📣 Check out the [releases page](https://github.com/davidmigloz/langchain_dart/releases) or the [#announcements](https://discord.com/channels/1123158322812555295/1123250594644242534) channel on the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details.
+
+---
+
+## 0.7.5
+
+ - **FEAT**: Add ToolsAgent for models with tool-calling support ([#530](https://github.com/davidmigloz/langchain_dart/issues/530)). ([f3ee5b44](https://github.com/davidmigloz/langchain_dart/commit/f3ee5b44c4ffa378343ec4ee1e08d8e594a6cb36))
+ - **FEAT**: Deprecate OpenAIToolsAgent in favour of ToolsAgent ([#532](https://github.com/davidmigloz/langchain_dart/issues/532)). ([68d8011a](https://github.com/davidmigloz/langchain_dart/commit/68d8011a9aa09368875ba0434839d12623ba2bab))
+ - **DOCS**: Add Code Assist AI in README and documentation ([#538](https://github.com/davidmigloz/langchain_dart/issues/538)). ([e752464c](https://github.com/davidmigloz/langchain_dart/commit/e752464c0d2fc7e0ccc878933b0ef934c9527567))
 
 ## 0.7.4
 

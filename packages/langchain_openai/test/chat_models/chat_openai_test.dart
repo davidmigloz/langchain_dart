@@ -208,7 +208,6 @@ void main() {
 
     test('Test countTokens messages', () async {
       final models = [
-        'gpt-3.5-turbo-16k-0613',
         'gpt-4-0314',
         'gpt-4-0613',
       ];
@@ -328,7 +327,7 @@ void main() {
       final llm = ChatOpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const ChatOpenAIOptions(
-          model: 'gpt-4-turbo',
+          model: defaultModel,
           temperature: 0,
           seed: 12345,
         ),
@@ -357,11 +356,68 @@ void main() {
       final llm = ChatOpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const ChatOpenAIOptions(
-          model: 'gpt-4-1106-preview',
+          model: defaultModel,
           temperature: 0,
           seed: 9999,
-          responseFormat: ChatOpenAIResponseFormat(
-            type: ChatOpenAIResponseFormatType.jsonObject,
+          responseFormat: ChatOpenAIResponseFormat.jsonObject,
+        ),
+      );
+
+      final res = await llm.invoke(prompt);
+      final outputMsg = res.output;
+      final outputJson = json.decode(outputMsg.content) as Map<String, dynamic>;
+      expect(outputJson['companies'], isNotNull);
+      final companies = outputJson['companies'] as List<dynamic>;
+      expect(companies, hasLength(2));
+      final firstCompany = companies.first as Map<String, dynamic>;
+      expect(firstCompany['name'], 'Google');
+      expect(firstCompany['origin'], 'USA');
+      final secondCompany = companies.last as Map<String, dynamic>;
+      expect(secondCompany['name'], 'Deepmind');
+      expect(secondCompany['origin'], 'UK');
+    });
+
+    test('Test Structured Output', () async {
+      final prompt = PromptValue.chat([
+        ChatMessage.system(
+          'Extract the data of any companies mentioned in the '
+          'following statement. Return a JSON list.',
+        ),
+        ChatMessage.humanText(
+          'Google was founded in the USA, while Deepmind was founded in the UK',
+        ),
+      ]);
+      final llm = ChatOpenAI(
+        apiKey: openaiApiKey,
+        defaultOptions: ChatOpenAIOptions(
+          model: defaultModel,
+          temperature: 0,
+          seed: 9999,
+          responseFormat: ChatOpenAIResponseFormat.jsonSchema(
+            const ChatOpenAIJsonSchema(
+              name: 'Companies',
+              description: 'A list of companies',
+              strict: true,
+              schema: {
+                'type': 'object',
+                'properties': {
+                  'companies': {
+                    'type': 'array',
+                    'items': {
+                      'type': 'object',
+                      'properties': {
+                        'name': {'type': 'string'},
+                        'origin': {'type': 'string'},
+                      },
+                      'additionalProperties': false,
+                      'required': ['name', 'origin'],
+                    },
+                  },
+                },
+                'additionalProperties': false,
+                'required': ['companies'],
+              },
+            ),
           ),
         ),
       );
@@ -398,7 +454,7 @@ void main() {
       final chatModel = ChatOpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const ChatOpenAIOptions(
-          model: 'gpt-4-turbo',
+          model: defaultModel,
         ),
       );
 
@@ -425,7 +481,7 @@ void main() {
       final chatModel = ChatOpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const ChatOpenAIOptions(
-          model: 'gpt-4-turbo',
+          model: defaultModel,
         ),
       );
 

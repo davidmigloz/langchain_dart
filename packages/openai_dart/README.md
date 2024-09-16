@@ -16,11 +16,11 @@ Unofficial Dart client for [OpenAI](https://platform.openai.com/docs/api-referen
 - Custom base URL, headers and query params support (e.g. HTTP proxies)
 - Custom HTTP client support (e.g. SOCKS5 proxies or advanced use cases)
 - Partial Azure OpenAI API support
-- It can be used to consume OpenAI-compatible APIs like [TogetherAI](https://www.together.ai/), [Anyscale](https://www.anyscale.com/), [OpenRouter](https://openrouter.ai), [One API](https://github.com/songquanpeng/one-api), [Groq](https://groq.com/), [Llamafile](https://llamafile.ai/), [GPT4All](https://gpt4all.io/), [FastChat](https://github.com/lm-sys/FastChat), etc.
+- It can be used to consume OpenAI-compatible APIs like [GitHub Models](https://github.com/marketplace/models), [TogetherAI](https://www.together.ai/), [Anyscale](https://www.anyscale.com/), [OpenRouter](https://openrouter.ai), [One API](https://github.com/songquanpeng/one-api), [Groq](https://groq.com/), [Llamafile](https://llamafile.ai/), [GPT4All](https://gpt4all.io/), [FastChat](https://github.com/lm-sys/FastChat), etc.
 
 **Supported endpoints:**
 
-- Chat (with tools and streaming support)
+- Chat (with structured outputs, tools and streaming support)
 - Completions (legacy)
 - Embeddings
 - Fine-tuning
@@ -28,7 +28,7 @@ Unofficial Dart client for [OpenAI](https://platform.openai.com/docs/api-referen
 - Images
 - Models
 - Moderations
-- Assistants v2 (with tools and streaming support) `beta`
+- Assistants v2 (with structured outputs, tools and streaming support) `beta`
   * Threads 
   * Messages 
   * Runs
@@ -97,14 +97,14 @@ final client = OpenAIClient(
 
 Given a list of messages comprising a conversation, the model will return a response.
 
-Related guide: [Chat Completions](https://platform.openai.com/docs/guides/text-generation)
+Related guide: [Chat Completions](https://platform.openai.com/docs/guides/chat-completions)
 
 **Create chat completion:**
 
 ```dart
 final res = await client.createChatCompletion(
   request: CreateChatCompletionRequest(
-    model: ChatCompletionModel.modelId('gpt-4'),
+    model: ChatCompletionModel.modelId('gpt-4o'),
     messages: [
       ChatCompletionMessage.system(
         content: 'You are a helpful assistant.',
@@ -121,28 +121,28 @@ print(res.choices.first.message.content);
 ```
 
 `ChatCompletionModel` is a sealed class that offers two ways to specify the model:
-- `ChatCompletionModel.modelId('model-id')`: the model ID as string (e.g. `'gpt-4'` or your fine-tuned model ID).
-- `ChatCompletionModel.model(ChatCompletionModels.gpt4)`: a value from `ChatCompletionModels` enum which lists all of the available models.
+- `ChatCompletionModel.modelId('model-id')`: the model ID as string (e.g. `'gpt-4o'` or your fine-tuned model ID).
+- `ChatCompletionModel.model(ChatCompletionModels.gpt4o)`: a value from `ChatCompletionModels` enum which lists all of the available models.
 
 `ChatCompletionMessage` is a sealed class that supports the following message types:
 - `ChatCompletionMessage.system()`: a system message.
 - `ChatCompletionMessage.user()`: a user message.
 - `ChatCompletionMessage.assistant()`: an assistant message.
 - `ChatCompletionMessage.tool()`: a tool message.
-- `ChatCompletionMessage.function()`: a function message.
+- `ChatCompletionMessage.function()`: a function message (deprecated in favor of tools).
 
 `ChatCompletionMessage.user()` takes a `ChatCompletionUserMessageContent` object that supports the following content types:
 - `ChatCompletionUserMessageContent.string('content')`: string content.
 - `ChatCompletionUserMessageContent.parts([...])`: multi-modal content (check the 'Multi-modal prompt' section below).
   * `ChatCompletionMessageContentPart.text('content')`: text content.
-  * `ChatCompletionMessageContentPart.image(imageUrl: ...)`: image content.
+  * `ChatCompletionMessageContentPart.image(...)`: image content (URL or base64-encoded image).
 
 **Stream chat completion:**
 
 ```dart
 final stream = client.createChatCompletionStream(
   request: CreateChatCompletionRequest(
-    model: ChatCompletionModel.modelId('gpt-4-turbo'),
+    model: ChatCompletionModel.modelId('gpt-4o'),
     messages: [
       ChatCompletionMessage.system(
         content:
@@ -165,7 +165,9 @@ await for (final res in stream) {
 // 789
 ```
 
-**Multi-modal prompt:**
+**Multi-modal prompt:** ([docs](https://platform.openai.com/docs/guides/vision))
+
+You can either provide the image URL:
 
 ```dart
 final res = await client.createChatCompletion(
@@ -198,7 +200,76 @@ print(res.choices.first.message.content);
 // The fruit in the image is an apple.
 ```
 
-**JSON mode:**
+Or provide the base64-encoded image:
+```dart
+//...
+ChatCompletionMessage.user(
+  content: ChatCompletionUserMessageContent.parts(
+    [
+      ChatCompletionMessageContentPart.text(
+        text: 'What fruit is this?',
+      ),
+      ChatCompletionMessageContentPart.image(
+        imageUrl: ChatCompletionMessageImageUrl(
+          url: '/9j/4AAQSkZJRgABAQAAAQABAAD/2wB...P3s/XHQ8cE/nmiupbL0+fz/r/MjnSbsr69/Rdu1j//2Q==',
+          detail: ChatCompletionMessageImageDetail.high,
+        ),
+      ),
+    ],
+  ),
+),
+//...
+```
+
+**Structured output: ([docs](https://platform.openai.com/docs/guides/structured-outputs))**
+
+Structured Outputs is a feature that ensures the model will always generate responses that adhere to your supplied JSON Schema.
+
+```dart
+final res = await client.createChatCompletion(
+  request: CreateChatCompletionRequest(
+    model: ChatCompletionModel.model(
+      ChatCompletionModels.gpt4oMini,
+    ),
+    messages: [
+      ChatCompletionMessage.system(
+        content: 'You are a helpful assistant. That extracts names from text.',
+      ),
+      ChatCompletionMessage.user(
+        content: ChatCompletionUserMessageContent.string(
+          'John, Mary, and Peter.',
+        ),
+      ),
+    ],
+    temperature: 0,
+    responseFormat: ResponseFormat.jsonSchema(
+      jsonSchema: JsonSchemaObject(
+        name: 'Names',
+        description: 'A list of names',
+        strict: true,
+        schema: {
+          'type': 'object',
+          'properties': {
+            'names': {
+              'type': 'array',
+              'items': {
+                'type': 'string',
+              },
+            },
+          },
+          'additionalProperties': false,
+          'required': ['names'],
+        },
+      ),
+    ),
+  ),
+);
+// {"names":["John","Mary","Peter"]}
+```
+
+**JSON mode:** ([docs](https://platform.openai.com/docs/guides/structured-outputs/json-mode))
+
+> JSON mode is a more basic version of the Structured Outputs feature. While JSON mode ensures that model output is valid JSON, Structured Outputs reliably matches the model's output to the schema you specify. It us recommended to use Structured Outputs if it is supported for your use case.
 
 ```dart
 final res = await client.createChatCompletion(
@@ -227,7 +298,9 @@ final res = await client.createChatCompletion(
 // { "names": ["John", "Mary", "Peter"] }
 ```
 
-**Tools:**
+**Tools:** ([docs](https://platform.openai.com/docs/guides/function-calling))
+
+Tool calling allows you to connect models to external tools and systems.
 
 ```dart
 const function = FunctionObject(
@@ -256,7 +329,7 @@ const tool = ChatCompletionTool(
 
 final res1 = await client.createChatCompletion(
   request: CreateChatCompletionRequest(
-    model: const ChatCompletionModel.model(
+    model: ChatCompletionModel.model(
       ChatCompletionModels.gpt4oMini,
     ),
     messages: [
@@ -307,6 +380,8 @@ final res2 = await client.createChatCompletion(
 final answer = res2.choices.first.message.content;
 // The weather in Boston right now is sunny with a temperature of 22°C
 ```
+
+You can enable Structured Outputs for your tools by setting `strict: true` in your `FunctionObject` definition. Structured Outputs ensures that the arguments generated by the model for a tool call exactly match the JSON Schema you provided in the tool definition.
 
 **Function calling:** (deprecated in favor of tools)
 
@@ -768,7 +843,7 @@ final res = await client.createThreadMessage(
       ),
       MessageContent.imageUrl(
         imageUrl: MessageContentImageUrl(
-          url: 'https://example.com/image.jpg',
+          url: 'https://example.com/image.jpg', // or base64-encoded image
         ),
       ),
     ]),
@@ -818,6 +893,41 @@ final res = await client.createThreadRun(
   request: CreateRunRequest(
     assistantId: assistantId,
     instructions: 'Please address the user as Jane Doe. The user has a premium account.',
+  ),
+);
+```
+
+You can also use Structured Outputs to ensure that the model-generated responses adhere to a specific JSON schema:
+
+```dart
+final res = await client.createThreadRun(
+  threadId: threadId,
+  request: CreateRunRequest(
+    assistantId: assistantId,
+    instructions: 'You are a helpful assistant that extracts names from text.',
+    model: CreateRunRequestModel.modelId('gpt-4o'),
+    responseFormat: CreateRunRequestResponseFormat.responseFormat(
+        ResponseFormat.jsonSchema(
+          jsonSchema: JsonSchemaObject(
+            name: 'Names',
+            description: 'A list of names',
+            strict: true,
+            schema: {
+              'type': 'object',
+              'properties': {
+                'names': {
+                  'type': 'array',
+                  'items': {
+                    'type': 'string',
+                  },
+                },
+              },
+              'additionalProperties': false,
+              'required': ['names'],
+            },
+          ),
+        )
+    )
   ),
 );
 ```
@@ -1087,21 +1197,21 @@ final client = OpenAIClient(
 
 This client can be used to consume APIs that are compatible with the OpenAI API spec.
 
+[GitHub Models](https://github.com/marketplace/models):
+
+```dart
+final client = OpenAIClient(
+  baseUrl: 'https://models.inference.ai.azure.com',
+  headers: { 'api-key': 'YOUR_GITHUB_TOKEN' },
+);
+```
+
 [TogetherAI](https://www.together.ai/):
 
 ```dart
 final client = OpenAIClient(
   baseUrl: 'https://api.together.xyz/v1',
   headers: { 'api-key': 'YOUR_TOGETHER_AI_API_KEY' },
-);
-```
-
-[Anyscale](https://www.anyscale.com/):
-
-```dart
-final client = OpenAIClient(
-  baseUrl: 'https://api.endpoints.anyscale.com/v1',
-  headers: { 'api-key': 'YOUR_ANYSCALE_API_KEY' },
 );
 ```
 

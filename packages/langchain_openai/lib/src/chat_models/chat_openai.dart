@@ -248,9 +248,10 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     final ChatOpenAIOptions? options,
   }) async {
     final completion = await _client.createChatCompletion(
-      request: _createChatCompletionRequest(
+      request: createChatCompletionRequest(
         input.toChatMessages(),
         options: options,
+        defaultOptions: defaultOptions,
       ),
     );
     return completion.toChatResult(completion.id ?? _uuid.v4());
@@ -263,9 +264,10 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   }) {
     return _client
         .createChatCompletionStream(
-          request: _createChatCompletionRequest(
+          request: createChatCompletionRequest(
             input.toChatMessages(),
             options: options,
+            defaultOptions: defaultOptions,
             stream: true,
           ),
         )
@@ -273,53 +275,6 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
           (final completion) =>
               completion.toChatResult(completion.id ?? _uuid.v4()),
         );
-  }
-
-  /// Creates a [CreateChatCompletionRequest] from the given input.
-  CreateChatCompletionRequest _createChatCompletionRequest(
-    final List<ChatMessage> messages, {
-    final ChatOpenAIOptions? options,
-    final bool stream = false,
-  }) {
-    final messagesDtos = messages.toChatCompletionMessages();
-    final toolsDtos =
-        (options?.tools ?? defaultOptions.tools)?.toChatCompletionTool();
-    final toolChoice = (options?.toolChoice ?? defaultOptions.toolChoice)
-        ?.toChatCompletionToolChoice();
-    final responseFormatDto =
-        (options?.responseFormat ?? defaultOptions.responseFormat)
-            ?.toChatCompletionResponseFormat();
-    final serviceTierDto = (options?.serviceTier ?? defaultOptions.serviceTier)
-        .toCreateChatCompletionRequestServiceTier();
-
-    return CreateChatCompletionRequest(
-      model: ChatCompletionModel.modelId(
-        options?.model ?? defaultOptions.model ?? defaultModel,
-      ),
-      messages: messagesDtos,
-      tools: toolsDtos,
-      toolChoice: toolChoice,
-      frequencyPenalty:
-          options?.frequencyPenalty ?? defaultOptions.frequencyPenalty,
-      logitBias: options?.logitBias ?? defaultOptions.logitBias,
-      maxTokens: options?.maxTokens ?? defaultOptions.maxTokens,
-      n: options?.n ?? defaultOptions.n,
-      presencePenalty:
-          options?.presencePenalty ?? defaultOptions.presencePenalty,
-      responseFormat: responseFormatDto,
-      seed: options?.seed ?? defaultOptions.seed,
-      stop: (options?.stop ?? defaultOptions.stop) != null
-          ? ChatCompletionStop.listString(options?.stop ?? defaultOptions.stop!)
-          : null,
-      temperature: options?.temperature ?? defaultOptions.temperature,
-      topP: options?.topP ?? defaultOptions.topP,
-      parallelToolCalls:
-          options?.parallelToolCalls ?? defaultOptions.parallelToolCalls,
-      serviceTier: serviceTierDto,
-      user: options?.user ?? defaultOptions.user,
-      streamOptions:
-          stream ? const ChatCompletionStreamOptions(includeUsage: true) : null,
-    );
   }
 
   /// Tokenizes the given prompt using tiktoken with the encoding used by the

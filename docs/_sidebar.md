@@ -1,3 +1,4 @@
+- [![Code Assist AI](https://img.shields.io/badge/AI-Code%20Assist-EB9FDA)](https://app.commanddash.io/agent?github=https://github.com/davidmigloz/langchain_dart)
 - [Get started](README.md)
   - [Installation](/get_started/installation.md)
   - [Quickstart](/get_started/quickstart.md)
@@ -13,6 +14,7 @@
     - [Function: Run custom logic](/expression_language/primitives/function.md)
     - [Binding: Configuring runnables](/expression_language/primitives/binding.md)
     - [Router: Routing inputs](/expression_language/primitives/router.md)
+    - [Retry: Retrying runnables](/expression_language/primitives/retry.md)
   - [Streaming](/expression_language/streaming.md)
   - [Fallbacks](/expression_language/fallbacks.md)
   - Cookbook
@@ -121,7 +123,7 @@
   - [Memory](/modules/memory/memory.md)
   - [Agents](/modules/agents/agents.md)
     - [Agent types](/modules/agents/agent_types/agent_types.md)
-      - [OpenAI functions](/modules/agents/agent_types/openai_tools_agent.md)
+      - [Tools Agent](/modules/agents/agent_types/tools_agent.md)
     - [Tools](/modules/agents/tools/tools.md)
       - [Calculator](/modules/agents/tools/calculator.md)
       - [DALL-E Image Generator](/modules/agents/tools/openai_dall_e.md)

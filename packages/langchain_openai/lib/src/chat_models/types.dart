@@ -7,6 +7,7 @@ import 'package:meta/meta.dart';
 /// Options to pass into the OpenAI Chat Model.
 ///
 /// Available [ChatOpenAIOptions.model]s:
+/// - `chatgpt-4o-latest`
 /// - `gpt-4`
 /// - `gpt-4-32k`
 /// - `gpt-4-32k-0314`
@@ -21,10 +22,16 @@ import 'package:meta/meta.dart';
 /// - `gpt-4-vision-preview`
 /// - `gpt-4o`
 /// - `gpt-4o-2024-05-13`
+/// - `gpt-4o-2024-08-06`
 /// - `gpt-4o-mini`
 /// - `gpt-4o-mini-2024-07-18`
 /// - `gpt-3.5-turbo`
 /// - `gpt-3.5-turbo-16k`
+/// - `gpt-3.5-turbo-16k-0613`
+/// - `gpt-3.5-turbo-0125`
+/// - `gpt-3.5-turbo-0301`
+/// - `gpt-3.5-turbo-0613`
+/// - `gpt-3.5-turbo-1106`
 ///
 /// Mind that the list may be outdated.
 /// See https://platform.openai.com/docs/models for the latest list.
@@ -255,24 +262,111 @@ class ChatOpenAIOptions extends ChatModelOptions {
 /// {@template chat_openai_response_format}
 /// An object specifying the format that the model must output.
 /// {@endtemplate}
-class ChatOpenAIResponseFormat {
-  /// {@macro chat_openai_response_format}
-  const ChatOpenAIResponseFormat({
-    required this.type,
-  });
+sealed class ChatOpenAIResponseFormat {
+  const ChatOpenAIResponseFormat();
 
-  /// The format type.
-  final ChatOpenAIResponseFormatType type;
+  /// The model will respond with text.
+  static const text = ChatOpenAIResponseFormatText();
+
+  /// The model will respond with a valid JSON object.
+  static const jsonObject = ChatOpenAIResponseFormatJsonObject();
+
+  /// The model will respond with a valid JSON object that adheres to the
+  /// specified schema.
+  factory ChatOpenAIResponseFormat.jsonSchema(
+    final ChatOpenAIJsonSchema jsonSchema,
+  ) =>
+      ChatOpenAIResponseFormatJsonSchema(jsonSchema: jsonSchema);
 }
 
-/// Types of response formats.
-enum ChatOpenAIResponseFormatType {
-  /// Standard text mode.
-  text,
+/// {@template chat_openai_response_format_text}
+/// The model will respond with text.
+/// {@endtemplate}
+class ChatOpenAIResponseFormatText extends ChatOpenAIResponseFormat {
+  /// {@macro chat_openai_response_format_text}
+  const ChatOpenAIResponseFormatText();
+}
 
-  /// [ChatOpenAIResponseFormatType.jsonObject] enables JSON mode, which
-  /// guarantees the message the model generates is valid JSON.
-  jsonObject,
+/// {@template chat_openai_response_format_json_object}
+/// The model will respond with a valid JSON object.
+/// {@endtemplate}
+class ChatOpenAIResponseFormatJsonObject extends ChatOpenAIResponseFormat {
+  /// {@macro chat_openai_response_format_json_object}
+  const ChatOpenAIResponseFormatJsonObject();
+}
+
+/// {@template chat_openai_response_format_json_schema}
+/// The model will respond with a valid JSON object that adheres to the
+/// specified schema.
+/// {@endtemplate}
+@immutable
+class ChatOpenAIResponseFormatJsonSchema extends ChatOpenAIResponseFormat {
+  /// {@macro chat_openai_response_format_json_schema}
+  const ChatOpenAIResponseFormatJsonSchema({
+    required this.jsonSchema,
+  });
+
+  /// The JSON schema that the model must adhere to.
+  final ChatOpenAIJsonSchema jsonSchema;
+
+  @override
+  bool operator ==(covariant ChatOpenAIResponseFormatJsonSchema other) {
+    return identical(this, other) ||
+        runtimeType == other.runtimeType && jsonSchema == other.jsonSchema;
+  }
+
+  @override
+  int get hashCode => jsonSchema.hashCode;
+}
+
+/// {@template chat_openai_json_schema}
+/// Specifies the schema for the response format.
+/// {@endtemplate}
+@immutable
+class ChatOpenAIJsonSchema {
+  /// {@macro chat_openai_json_schema}
+  const ChatOpenAIJsonSchema({
+    required this.name,
+    required this.schema,
+    this.description,
+    this.strict = false,
+  });
+
+  /// The name of the response format. Must be a-z, A-Z, 0-9, or contain
+  /// underscores and dashes, with a maximum length of 64.
+  final String name;
+
+  /// A description of what the response format is for, used by the model to
+  /// determine how to respond in the format.
+  final String? description;
+
+  /// The schema for the response format, described as a JSON Schema object.
+  final Map<String, dynamic> schema;
+
+  /// Whether to enable strict schema adherence when generating the output.
+  /// If set to true, the model will always follow the exact schema defined in
+  /// the `schema` field. Only a subset of JSON Schema is supported when
+  /// `strict` is `true`. To learn more, read the
+  /// [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
+  final bool strict;
+
+  @override
+  bool operator ==(covariant ChatOpenAIJsonSchema other) {
+    return identical(this, other) ||
+        runtimeType == other.runtimeType &&
+            name == other.name &&
+            description == other.description &&
+            const MapEquality<String, dynamic>().equals(schema, other.schema) &&
+            strict == other.strict;
+  }
+
+  @override
+  int get hashCode {
+    return name.hashCode ^
+        description.hashCode ^
+        const MapEquality<String, dynamic>().hash(schema) ^
+        strict.hashCode;
+  }
 }
 
 /// Specifies the latency tier to use for processing the request.
@@ -284,4 +378,26 @@ enum ChatOpenAIServiceTier {
   /// The request will be processed using the default service tier with a lower
   /// uptime SLA and no latency guarantee.
   vDefault,
+}
+
+/// {@template openai_refusal_exception}
+/// Exception thrown when OpenAI Structured Outputs API returns a refusal.
+///
+/// When using OpenAI's Structured Outputs API with user-generated input, the
+/// model may occasionally refuse to fulfill the request for safety reasons.
+///
+/// See here for more on refusals:
+/// https://platform.openai.com/docs/guides/structured-outputs/refusals
+/// {@endtemplate}
+class OpenAIRefusalException implements Exception {
+  /// {@macro openai_refusal_exception}
+  const OpenAIRefusalException(this.message);
+
+  /// The refusal message.
+  final String message;
+
+  @override
+  String toString() {
+    return 'OpenAIRefusalException: $message';
+  }
 }

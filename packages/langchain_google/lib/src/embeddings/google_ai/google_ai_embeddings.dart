@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart' show IterableNullableExtension;
 import 'package:google_generative_ai/google_generative_ai.dart'
     show Content, EmbedContentRequest, GenerativeModel, TaskType;
 import 'package:http/http.dart' as http;
@@ -139,7 +138,6 @@ class GoogleGenerativeAIEmbeddings implements Embeddings {
 
   /// The number of dimensions the resulting output embeddings should have.
   /// Only supported in `text-embedding-004` and later models.
-  /// TODO https://github.com/google-gemini/generative-ai-dart/pull/149
   int? dimensions;
 
   /// The maximum number of documents to embed in a single request.
@@ -169,13 +167,13 @@ class GoogleGenerativeAIEmbeddings implements Embeddings {
               Content.text(doc.pageContent),
               taskType: TaskType.retrievalDocument,
               title: doc.metadata[docTitleKey],
-              // outputDimensionality: dimensions, TODO
+              outputDimensionality: dimensions,
             );
           }).toList(growable: false),
         );
         return data.embeddings
             .map((final p) => p.values)
-            .whereNotNull()
+            .nonNulls
             .toList(growable: false);
       }),
     );
@@ -188,7 +186,7 @@ class GoogleGenerativeAIEmbeddings implements Embeddings {
     final data = await _googleAiClient.embedContent(
       Content.text(query),
       taskType: TaskType.retrievalQuery,
-      // outputDimensionality: dimensions, TODO
+      outputDimensionality: dimensions,
     );
     return data.embedding.values;
   }
