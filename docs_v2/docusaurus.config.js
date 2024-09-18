@@ -73,10 +73,9 @@ const config = {
         },
         items: [
           {
-            type: 'docSidebar',
-            sidebarId: 'tutorialSidebar',
+            to: '/docs/integrations',
             position: 'left',
-            label: 'Tutorial',
+            label: 'Integrations',
           },
           {to: '/blog', label: 'Blog', position: 'left'},
           {
@@ -130,7 +129,7 @@ const config = {
       prism: {
         theme: prismThemes.vsLight,
         darkTheme: prismThemes.vsDark,
-        additionalLanguages: ['yaml','dart'],
+        additionalLanguages: ['yaml','dart','bash'],
       },
     }),
 };
