@@ -135,6 +135,37 @@ void main() async {
       );
       expect(res2.length, 0);
     });
+
+    test('Test delete where', () async {
+      await vectorStore.addDocuments(
+        documents: [
+          const Document(
+            id: '9999',
+            pageContent: 'This document will be deleted',
+            metadata: {'cat': 'xxx'},
+          ),
+        ],
+      );
+      final res1 = await vectorStore.similaritySearch(
+        query: 'Deleted doc',
+        config: ObjectBoxSimilaritySearch(
+          filterCondition: ObjectBoxDocumentProps.metadata.contains('xxx'),
+        ),
+      );
+      expect(res1.length, 1);
+      expect(res1.first.id, '9999');
+
+      await vectorStore.deleteWhere(
+        ObjectBoxDocumentProps.metadata.contains('xxx'),
+      );
+      final res2 = await vectorStore.similaritySearch(
+        query: 'Deleted doc',
+        config: ObjectBoxSimilaritySearch(
+          filterCondition: ObjectBoxDocumentProps.metadata.contains('xxx'),
+        ),
+      );
+      expect(res2.length, 0);
+    });
   });
 
   group('ObjectBoxSimilaritySearch', () {
