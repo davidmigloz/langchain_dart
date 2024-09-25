@@ -37,7 +37,7 @@ CreateChatCompletionRequest createChatCompletionRequest(
     frequencyPenalty:
         options?.frequencyPenalty ?? defaultOptions.frequencyPenalty,
     logitBias: options?.logitBias ?? defaultOptions.logitBias,
-    maxTokens: options?.maxTokens ?? defaultOptions.maxTokens,
+    maxCompletionTokens: options?.maxTokens ?? defaultOptions.maxTokens,
     n: options?.n ?? defaultOptions.n,
     presencePenalty: options?.presencePenalty ?? defaultOptions.presencePenalty,
     responseFormat: responseFormatDto,
