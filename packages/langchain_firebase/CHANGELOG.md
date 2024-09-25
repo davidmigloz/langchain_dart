@@ -2,6 +2,10 @@
 
 ---
 
+## 0.2.1+2
+
+ - **DOCS**: Update Google's models in documentation ([#551](https://github.com/davidmigloz/langchain_dart/issues/551)). ([1da543f7](https://github.com/davidmigloz/langchain_dart/commit/1da543f7ab90eb39b599a6fdd0cc52e2cbc1460d))
+
 ## 0.2.1+1
 
  - Update a dependency to the latest release.
