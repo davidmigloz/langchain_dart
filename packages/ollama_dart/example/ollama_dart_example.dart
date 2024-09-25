@@ -70,7 +70,7 @@ Future<void> _generateCompletionStream(final OllamaClient client) async {
 Future<void> _generateChatCompletion(final OllamaClient client) async {
   final generated = await client.generateChatCompletion(
     request: const GenerateChatCompletionRequest(
-      model: 'llama3.1',
+      model: 'llama3.2',
       messages: [
         Message(
           role: MessageRole.system,
@@ -95,7 +95,7 @@ Future<void> _generateChatCompletionWithHistory(
 ) async {
   final generated = await client.generateChatCompletion(
     request: const GenerateChatCompletionRequest(
-      model: 'llama3.1',
+      model: 'llama3.2',
       messages: [
         Message(
           role: MessageRole.user,
@@ -118,7 +118,7 @@ Future<void> _generateChatCompletionWithHistory(
 Future<void> _generateChatCompletionStream(final OllamaClient client) async {
   final stream = client.generateChatCompletionStream(
     request: const GenerateChatCompletionRequest(
-      model: 'llama3.1',
+      model: 'llama3.2',
       messages: [
         Message(
           role: MessageRole.system,
@@ -168,7 +168,7 @@ Future<void> _generateChatToolCalling(final OllamaClient client) async {
 
   final res1 = await client.generateChatCompletion(
     request: const GenerateChatCompletionRequest(
-      model: 'llama3.1',
+      model: 'llama3.2',
       messages: [userMsg],
       tools: [tool],
       keepAlive: 1,
@@ -196,7 +196,7 @@ Future<void> _generateChatToolCalling(final OllamaClient client) async {
   // Submit the response of the tool call to the model
   final res2 = await client.generateChatCompletion(
     request: GenerateChatCompletionRequest(
-      model: 'llama3.1',
+      model: 'llama3.2',
       messages: [
         userMsg,
         res1.message,

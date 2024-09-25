@@ -9,7 +9,7 @@ You can use any chat model that supports tool calling, like `ChatOpenAI`, `ChatO
 
 ## Usage
 
-In the following example, we use `ChatOllama` with the `llama3.1` model and a calculator tool (included in `langchain_community`) to calculate the result of a mathematical expression.
+In the following example, we use `ChatOllama` with the `llama3.2` model and a calculator tool (included in `langchain_community`) to calculate the result of a mathematical expression.
 
 ```dart
 import 'package:langchain/langchain.dart';
@@ -20,7 +20,7 @@ import 'package:langchain_ollama/langchain_ollama.dart';
 
 final llm = ChatOllama(
   defaultOptions: ChatOllamaOptions(
-    model: 'llama3.1',
+    model: 'llama3.2',
     temperature: 0,
   ),
 );

@@ -20,7 +20,7 @@ import 'types.dart';
 /// Vector store for the [ObjectBox](https://objectbox.io/) on-device database.
 ///
 /// ```dart
-/// final embeddings = OllamaEmbeddings(model: 'llama3.1');
+/// final embeddings = OllamaEmbeddings(model: 'llama3.2');
 /// final vectorStore = ObjectBoxVectorStore(embeddings: embeddings);
 /// ```
 ///

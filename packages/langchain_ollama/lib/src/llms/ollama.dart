@@ -20,7 +20,7 @@ import 'types.dart';
 /// ```dart
 /// final llm = Ollama(
 ///   defaultOption: const OllamaOptions(
-///     model: 'llama3.1',
+///     model: 'llama3.2',
 ///     temperature: 1,
 ///   ),
 /// );
@@ -49,7 +49,7 @@ import 'types.dart';
 /// ```dart
 /// final llm = Ollama(
 ///   defaultOptions: const OllamaOptions(
-///     model: 'llama3.1',
+///     model: 'llama3.2',
 ///     temperature: 0,
 ///     format: 'json',
 ///   ),
@@ -83,7 +83,7 @@ import 'types.dart';
 /// final prompt1 = PromptTemplate.fromTemplate('How are you {name}?');
 /// final prompt2 = PromptTemplate.fromTemplate('How old are you {name}?');
 /// final chain = Runnable.fromMap({
-///   'q1': prompt1 | llm.bind(const OllamaOptions(model: 'llama3.1')) | outputParser,
+///   'q1': prompt1 | llm.bind(const OllamaOptions(model: 'llama3.2')) | outputParser,
 ///   'q2': prompt2| llm.bind(const OllamaOptions(model: 'mistral')) | outputParser,
 /// });
 /// final res = await chain.invoke({'name': 'David'});
@@ -93,7 +93,7 @@ import 'types.dart';
 ///
 /// 1. Download and install [Ollama](https://ollama.ai)
 /// 2. Fetch a model via `ollama pull <model family>`
-///   * e.g., for `Llama-7b`: `ollama pull llama3.1`
+///   * e.g., for `Llama-7b`: `ollama pull llama3.2`
 ///
 /// ### Advance
 ///
@@ -178,7 +178,7 @@ class Ollama extends BaseLLM<OllamaOptions> {
   String get modelType => 'ollama';
 
   /// The default model to use unless another is specified.
-  static const defaultModel = 'llama3.1';
+  static const defaultModel = 'llama3.2';
 
   @override
   Future<LLMResult> invoke(

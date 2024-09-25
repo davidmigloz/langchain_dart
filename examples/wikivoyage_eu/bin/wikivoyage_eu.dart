@@ -51,7 +51,7 @@ Do not provide any other suggestion if the question is not about Europe.
 
   final model = ChatOllama(
     defaultOptions: const ChatOllamaOptions(
-      model: 'llama3.1',
+      model: 'llama3.2',
     ),
   );
   const outputParser = StringOutputParser<ChatResult>();

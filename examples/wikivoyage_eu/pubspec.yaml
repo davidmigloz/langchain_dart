@@ -1,5 +1,5 @@
 name: wikivoyage_eu
-description: Wikivoyage EU chatbot using llama3.1 and ObjectBox.
+description: Wikivoyage EU chatbot using llama3.2 and ObjectBox.
 version: 1.0.0
 publish_to: none
 
