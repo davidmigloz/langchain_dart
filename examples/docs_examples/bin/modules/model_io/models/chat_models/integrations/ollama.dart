@@ -27,7 +27,7 @@ Future<void> _chatOllama() async {
 
   final chatModel = ChatOllama(
     defaultOptions: const ChatOllamaOptions(
-      model: 'llama3.1',
+      model: 'llama3.2',
       temperature: 0,
     ),
   );
@@ -54,7 +54,7 @@ Future<void> _chatOllamaStreaming() async {
   ]);
   final chat = ChatOllama(
     defaultOptions: const ChatOllamaOptions(
-      model: 'llama3.1',
+      model: 'llama3.2',
       temperature: 0,
     ),
   );
@@ -109,7 +109,7 @@ Future<void> _chatOllamaToolCalling() async {
 
   final chatModel = ChatOllama(
     defaultOptions: const ChatOllamaOptions(
-      model: 'llama3.1',
+      model: 'llama3.2',
       temperature: 0,
       tools: [tool],
     ),
@@ -143,7 +143,7 @@ Future<void> _chatOllamaJsonMode() async {
   ]);
   final chat = ChatOllama(
     defaultOptions: const ChatOllamaOptions(
-      model: 'llama3.1',
+      model: 'llama3.2',
       temperature: 0,
       format: OllamaResponseFormat.json,
     ),
@@ -197,7 +197,7 @@ Future<void> _extraction() async {
 
   final model = ChatOllama(
     defaultOptions: ChatOllamaOptions(
-      model: 'llama3.1',
+      model: 'llama3.2',
       temperature: 0,
       tools: const [tool],
       toolChoice: ChatToolChoice.forced(name: tool.name),
@@ -300,7 +300,7 @@ Future<void> _flights() async {
 
   final chatModel = ChatOllama(
     defaultOptions: const ChatOllamaOptions(
-      model: 'llama3.1',
+      model: 'llama3.2',
       temperature: 0,
       tools: [getFlightTimesTool],
     ),
@@ -370,7 +370,7 @@ Future<void> _rag() async {
 
   // 3. Define the model to use and the vector store retriever
   final chatModel = ChatOllama(
-    defaultOptions: const ChatOllamaOptions(model: 'llama3.1'),
+    defaultOptions: const ChatOllamaOptions(model: 'llama3.2'),
   );
   final retriever = vectorStore.asRetriever(
     defaultOptions: const VectorStoreRetrieverOptions(

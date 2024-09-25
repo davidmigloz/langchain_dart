@@ -153,7 +153,7 @@ Tool calling allows a model to respond to a given prompt by generating output th
 **Notes:** 
 - Tool calling requires Ollama 0.2.8 or newer.
 - Streaming tool calls is not supported at the moment.
-- Not all models support tool calls. Check the Ollama catalogue for models that have the `Tools` tag (e.g. [`llama3.1`](https://ollama.com/library/llama3.1)). 
+- Not all models support tool calls. Check the Ollama catalogue for models that have the `Tools` tag (e.g. [`llama3.2`](https://ollama.com/library/llama3.2)). 
 
 ```dart
 const tool = Tool(
@@ -185,7 +185,7 @@ const userMsg = Message(
 
 final res1 = await client.generateChatCompletion(
   request: GenerateChatCompletionRequest(
-    model: 'llama3.1',
+    model: 'llama3.2',
     messages: [userMsg],
     tools: [tool],
   ),
@@ -211,7 +211,7 @@ const toolResult = '{"location": "Barcelona, ES", "temperature": 20, "unit": "ce
 // Submit the response of the tool call to the model
 final res2 = await client.generateChatCompletion(
   request: GenerateChatCompletionRequest(
-    model: 'llama3.1',
+    model: 'llama3.2',
     messages: [
       userMsg,
       res1.message,

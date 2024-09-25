@@ -9,7 +9,7 @@ void main(final List<String> arguments) async {
 
 Future<void> _runnableRouter() async {
   final chatModel = ChatOllama(
-    defaultOptions: const ChatOllamaOptions(model: 'llama3.1'),
+    defaultOptions: const ChatOllamaOptions(model: 'llama3.2'),
   );
 
   final classificationChain = PromptTemplate.fromTemplate('''
@@ -114,7 +114,7 @@ Here is a question:
 ''';
 
   final embeddings = OllamaEmbeddings(
-    model: 'llama3.1',
+    model: 'llama3.2',
   );
   final promptTemplates = [physicsTemplate, historyTemplate];
   final promptEmbeddings = await embeddings.embedDocuments(
@@ -132,7 +132,7 @@ Here is a question:
         return PromptTemplate.fromTemplate(promptTemplates[mostSimilarIndex]);
       }) |
       ChatOllama(
-        defaultOptions: const ChatOllamaOptions(model: 'llama3.1'),
+        defaultOptions: const ChatOllamaOptions(model: 'llama3.2'),
       ) |
       const StringOutputParser();
 
