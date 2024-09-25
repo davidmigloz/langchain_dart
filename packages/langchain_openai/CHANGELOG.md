@@ -2,6 +2,11 @@
 
 ---
 
+## 0.7.2
+
+ - **FEAT**: Add OpenAI o1-preview and o1-mini to model catalog ([#555](https://github.com/davidmigloz/langchain_dart/issues/555)). ([9ceb5ff9](https://github.com/davidmigloz/langchain_dart/commit/9ceb5ff9029cf1ae1967a32189f88c7a8215248e))
+ - **REFACTOR**: Migrate ChatOpenAI to maxCompletionTokens ([#557](https://github.com/davidmigloz/langchain_dart/issues/557)). ([08057a5b](https://github.com/davidmigloz/langchain_dart/commit/08057a5b6e08ee2633c6be6144be1619e902bbc5))
+
 ## 0.7.1
 
  - **FEAT**: Add support for Structured Outputs in ChatOpenAI ([#526](https://github.com/davidmigloz/langchain_dart/issues/526)). ([c5387b5d](https://github.com/davidmigloz/langchain_dart/commit/c5387b5dd87fe2aac511c4eca2d4a497065db61f))
