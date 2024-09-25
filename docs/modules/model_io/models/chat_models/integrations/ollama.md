@@ -12,13 +12,13 @@ Follow [these instructions](https://github.com/jmorganca/ollama) to set up and r
 
 1. Download and install [Ollama](https://ollama.ai)
 2. Fetch a model via `ollama pull <model family>`
-  * e.g., for Llama 3: `ollama pull llama3.1`
+  * e.g., for Llama 3: `ollama pull llama3.2`
 3. Instantiate the `ChatOllama` class with the downloaded model.
 
 ```dart
 final chatModel = ChatOllama(
   defaultOptions: ChatOllamaOptions(
-    model: 'llama3.1',
+    model: 'llama3.2',
   ),
 );
 ```
@@ -33,7 +33,7 @@ By default, `ChatOllama` uses 'http://localhost:11434/api' as base URL (default 
 final chatModel = ChatOllama(
   defaultOptions: ChatOllamaOptions(
     baseUrl: 'https://your-remote-server-where-ollama-is-running.com',
-    model: 'llama3.1',
+    model: 'llama3.2',
   ),
 );
 ```
@@ -48,7 +48,7 @@ final promptTemplate = ChatPromptTemplate.fromTemplates([
 
 final chatModel = ChatOllama(
   defaultOptions: ChatOllamaOptions(
-    model: 'llama3.1',
+    model: 'llama3.2',
     temperature: 0,
   ),
 );
@@ -75,7 +75,7 @@ final promptTemplate = ChatPromptTemplate.fromTemplates([
 ]);
 final chat = ChatOllama(
   defaultOptions: ChatOllamaOptions(
-    model: 'llama3.1',
+    model: 'llama3.2',
     temperature: 0,
   ),
 );
@@ -123,8 +123,8 @@ print(res.output.content);
 **Notes:**
 - Tool calling requires [Ollama 0.3.0](https://github.com/ollama/ollama/releases/tag/v0.3.0) or newer.
 - Streaming tool calls is not supported at the moment.
-- Not all models support tool calls. Check the Ollama catalogue for models that have the `Tools` tag (e.g. [`llama3.1`](https://ollama.com/library/llama3.1) or [`llama3-groq-tool-use`](https://ollama.com/library/llama3-groq-tool-use)).
-- At the moment, small models like `llama3.1` [cannot reliably maintain a conversation alongside tool calling definitions](https://llama.meta.com/docs/model-cards-and-prompt-formats/llama3_1/#llama-3.1-instruct). They can be used for zero-shot tool calling, but for multi-turn conversations it's recommended to use larger models like `llama3.1:70b` or `llama3.1:405b`.
+- Not all models support tool calls. Check the Ollama catalogue for models that have the `Tools` tag (e.g. [`llama3.2`](https://ollama.com/library/llama3.2) or [`llama3-groq-tool-use`](https://ollama.com/library/llama3-groq-tool-use)).
+- At the moment, small models like `llama3.2` [cannot reliably maintain a conversation alongside tool calling definitions](https://llama.meta.com/docs/model-cards-and-prompt-formats/llama3_1/#llama-3.1-instruct). They can be used for zero-shot tool calling, but for multi-turn conversations it's recommended to use larger models like `llama3.2:70b` or `llama3.2:405b`.
 
 ```dart
 const tool = ToolSpec(
@@ -144,7 +144,7 @@ const tool = ToolSpec(
 
 final chatModel = ChatOllama(
   defaultOptions: ChatOllamaOptions(
-    model: 'llama3.1',
+    model: 'llama3.2',
     temperature: 0,
     tools: [tool],
   ),
@@ -173,7 +173,7 @@ If you want to customize how the model should respond to tool calls, you can use
 ```dart
 final chatModel = ChatOllama(
   defaultOptions: ChatOllamaOptions(
-    model: 'llama3.1',
+    model: 'llama3.2',
     temperature: 0,
     tools: [tool],
     toolChoice: ChatToolChoice.forced(name: 'get_current_weather'),
@@ -194,7 +194,7 @@ final promptTemplate = ChatPromptTemplate.fromTemplates(const [
 ]);
 final chat = ChatOllama(
   defaultOptions: ChatOllamaOptions(
-    model: 'llama3.1',
+    model: 'llama3.2',
     temperature: 0,
     format: OllamaResponseFormat.json,
   ),
@@ -284,7 +284,7 @@ const getFlightTimesTool = ToolSpec(
 
 final chatModel = ChatOllama(
   defaultOptions: const ChatOllamaOptions(
-    model: 'llama3.1',
+    model: 'llama3.2',
     temperature: 0,
     tools: [getFlightTimesTool],
   ),
@@ -370,7 +370,7 @@ const tool = ToolSpec(
 final model = ChatOllama(
   defaultOptions: ChatOllamaOptions(
     options: ChatOllamaOptions(
-      model: 'llama3.1',
+      model: 'llama3.2',
       temperature: 0,
     ),
     tools: [tool],
@@ -436,7 +436,7 @@ final promptTemplate = ChatPromptTemplate.fromTemplates([
 
 // 3. Define the model to use and the vector store retriever
 final chatModel = ChatOllama(
-  defaultOptions: ChatOllamaOptions(model: 'llama3.1'),
+  defaultOptions: ChatOllamaOptions(model: 'llama3.2'),
 );
 final retriever = vectorStore.asRetriever(
   defaultOptions: VectorStoreRetrieverOptions(

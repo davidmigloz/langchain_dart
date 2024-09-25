@@ -213,7 +213,7 @@ Sources:
 
 // 6. Define the model to use and the vector store retriever
 final chatModel = ChatOllama(
-  defaultOptions: ChatOllamaOptions(model: 'llama3.1'),
+  defaultOptions: ChatOllamaOptions(model: 'llama3.2'),
 );
 final retriever = vectorStore.asRetriever();
 

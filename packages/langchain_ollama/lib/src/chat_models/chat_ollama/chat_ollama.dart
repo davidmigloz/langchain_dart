@@ -34,7 +34,7 @@ import 'types.dart';
 ///
 /// 1. Download and install [Ollama](https://ollama.ai)
 /// 2. Fetch a model via `ollama pull <model family>`
-///   * e.g., for Llama 3: `ollama pull llama3.1`
+///   * e.g., for Llama 3: `ollama pull llama3.2`
 ///
 /// ### Ollama base URL
 ///
@@ -55,7 +55,7 @@ import 'types.dart';
 /// ```dart
 /// final chatModel = ChatOllama(
 ///   defaultOptions: const ChatOllamaOptions(
-///     model: 'llama3.1',
+///     model: 'llama3.2',
 ///     temperature: 0,
 ///     format: 'json',
 ///   ),
@@ -87,7 +87,7 @@ import 'types.dart';
 /// final prompt1 = PromptTemplate.fromTemplate('How are you {name}?');
 /// final prompt2 = PromptTemplate.fromTemplate('How old are you {name}?');
 /// final chain = Runnable.fromMap({
-///   'q1': prompt1 | chatModel.bind(const ChatOllamaOptions(model: 'llama3.1')) | outputParser,
+///   'q1': prompt1 | chatModel.bind(const ChatOllamaOptions(model: 'llama3.2')) | outputParser,
 ///   'q2': prompt2| chatModel.bind(const ChatOllamaOptions(model: 'mistral')) | outputParser,
 /// });
 /// final res = await chain.invoke({'name': 'David'});
@@ -176,7 +176,7 @@ class ChatOllama extends BaseChatModel<ChatOllamaOptions> {
   String get modelType => 'chat-ollama';
 
   /// The default model to use unless another is specified.
-  static const defaultModel = 'llama3.1';
+  static const defaultModel = 'llama3.2';
 
   @override
   Future<ChatResult> invoke(

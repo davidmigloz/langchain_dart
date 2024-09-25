@@ -21,7 +21,7 @@ enum Provider {
   ),
   ollama(
     name: 'Ollama',
-    defaultModel: 'llama3.1',
+    defaultModel: 'llama3.2',
     defaultBaseUrl: 'http://localhost:11434/api',
     isRemote: false,
   );

@@ -16,7 +16,7 @@ Follow [these instructions](https://github.com/jmorganca/ollama) to set up and r
 
 1. Download and install [Ollama](https://ollama.ai)
 2. Fetch a model via `ollama pull <model family>`
-  * e.g., for Llama 3: `ollama pull llama3.1`
+  * e.g., for Llama 3: `ollama pull llama3.2`
 
 ## Usage
 
@@ -26,7 +26,7 @@ final prompt = PromptTemplate.fromTemplate(
 );
 final llm = Ollama(
   defaultOptions: OllamaOptions(
-    model: 'llama3.1',
+    model: 'llama3.2',
   ),
 );
 final chain = prompt | llm | StringOutputParser();
@@ -43,7 +43,7 @@ final promptTemplate = PromptTemplate.fromTemplate(
 );
 final llm = Ollama(
   defaultOptions: OllamaOptions(
-    model: 'llama3.1',
+    model: 'llama3.2',
   ),
 );
 final chain = promptTemplate | llm | StringOutputParser();
