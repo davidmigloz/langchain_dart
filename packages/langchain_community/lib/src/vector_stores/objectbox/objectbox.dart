@@ -26,7 +26,7 @@ import 'types.dart';
 ///
 /// This vector stores creates a [Store] with an [ObjectBoxDocument] entity
 /// that persists LangChain [Document]s along with their embeddings. If you
-/// need more control over the entity, you can use the
+/// need more control over the entity or the storeo, you can use the
 /// [BaseObjectBoxVectorStore] class instead.
 ///
 /// See documentation for more details:
