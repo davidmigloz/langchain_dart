@@ -35,21 +35,22 @@ import 'types.dart';
 ///   * text / image / audio -> text model
 ///   * Max input token: 1048576
 ///   * Max output tokens: 8192
-/// - `gemini-1.5-pro`: text / image -> text model
+/// - `gemini-1.5-pro`:
 ///   * text / image / audio -> text model
-///   * Max input token: 1048576
+///   * Max input token: 2097152
 ///   * Max output tokens: 8192
-/// - `gemini-pro-vision`:
-///   * text / image -> text model
-///   * Max input token: 12288
-///   * Max output tokens: 4096
 /// - `gemini-1.0-pro` (or `gemini-pro`):
 ///   * text -> text model
-///   * Max input token: 30720
-///   * Max output tokens: 2048
+///   * Max input token: 32760
+///   * Max output tokens: 8192
+/// - `aqa`:
+///   * text -> text model
+///   * Max input token: 7168
+///   * Max output tokens: 1024
 ///
 /// Mind that this list may not be up-to-date.
-/// Refer to the [documentation](https://ai.google.dev/models) for the updated list.
+/// Refer to the [documentation](https://ai.google.dev/gemini-api/docs/models/gemini)
+/// for the updated list.
 ///
 /// #### Tuned models
 ///
