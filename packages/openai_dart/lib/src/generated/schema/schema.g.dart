@@ -439,6 +439,10 @@ const _$ChatCompletionModelsEnumMap = {
   ChatCompletionModels.gpt35Turbo0301: 'gpt-3.5-turbo-0301',
   ChatCompletionModels.gpt35Turbo0613: 'gpt-3.5-turbo-0613',
   ChatCompletionModels.gpt35Turbo1106: 'gpt-3.5-turbo-1106',
+  ChatCompletionModels.o1Mini: 'o1-mini',
+  ChatCompletionModels.o1Mini20240912: 'o1-mini-2024-09-12',
+  ChatCompletionModels.o1Preview: 'o1-preview',
+  ChatCompletionModels.o1Preview20240912: 'o1-preview-2024-09-12',
 };
 
 _$ChatCompletionModelStringImpl _$$ChatCompletionModelStringImplFromJson(
@@ -2306,6 +2310,7 @@ Map<String, dynamic> _$$AssistantModelEnumerationImplToJson(
     };
 
 const _$AssistantModelsEnumMap = {
+  AssistantModels.chatgpt4oLatest: 'chatgpt-4o-latest',
   AssistantModels.gpt4: 'gpt-4',
   AssistantModels.gpt432k: 'gpt-4-32k',
   AssistantModels.gpt432k0314: 'gpt-4-32k-0314',
@@ -2330,6 +2335,10 @@ const _$AssistantModelsEnumMap = {
   AssistantModels.gpt35Turbo0301: 'gpt-3.5-turbo-0301',
   AssistantModels.gpt35Turbo0613: 'gpt-3.5-turbo-0613',
   AssistantModels.gpt35Turbo1106: 'gpt-3.5-turbo-1106',
+  AssistantModels.o1Mini: 'o1-mini',
+  AssistantModels.o1Mini20240912: 'o1-mini-2024-09-12',
+  AssistantModels.o1Preview: 'o1-preview',
+  AssistantModels.o1Preview20240912: 'o1-preview-2024-09-12',
 };
 
 _$AssistantModelStringImpl _$$AssistantModelStringImplFromJson(
@@ -2969,6 +2978,7 @@ Map<String, dynamic> _$$CreateRunRequestModelEnumerationImplToJson(
     };
 
 const _$RunModelsEnumMap = {
+  RunModels.chatgpt4oLatest: 'chatgpt-4o-latest',
   RunModels.gpt4: 'gpt-4',
   RunModels.gpt432k: 'gpt-4-32k',
   RunModels.gpt432k0314: 'gpt-4-32k-0314',
@@ -2993,6 +3003,10 @@ const _$RunModelsEnumMap = {
   RunModels.gpt35Turbo0301: 'gpt-3.5-turbo-0301',
   RunModels.gpt35Turbo0613: 'gpt-3.5-turbo-0613',
   RunModels.gpt35Turbo1106: 'gpt-3.5-turbo-1106',
+  RunModels.o1Mini: 'o1-mini',
+  RunModels.o1Mini20240912: 'o1-mini-2024-09-12',
+  RunModels.o1Preview: 'o1-preview',
+  RunModels.o1Preview20240912: 'o1-preview-2024-09-12',
 };
 
 _$CreateRunRequestModelStringImpl _$$CreateRunRequestModelStringImplFromJson(
@@ -3292,6 +3306,7 @@ Map<String, dynamic> _$$ThreadAndRunModelEnumerationImplToJson(
     };
 
 const _$ThreadAndRunModelsEnumMap = {
+  ThreadAndRunModels.chatgpt4oLatest: 'chatgpt-4o-latest',
   ThreadAndRunModels.gpt4: 'gpt-4',
   ThreadAndRunModels.gpt432k: 'gpt-4-32k',
   ThreadAndRunModels.gpt432k0314: 'gpt-4-32k-0314',
@@ -3316,6 +3331,10 @@ const _$ThreadAndRunModelsEnumMap = {
   ThreadAndRunModels.gpt35Turbo0301: 'gpt-3.5-turbo-0301',
   ThreadAndRunModels.gpt35Turbo0613: 'gpt-3.5-turbo-0613',
   ThreadAndRunModels.gpt35Turbo1106: 'gpt-3.5-turbo-1106',
+  ThreadAndRunModels.o1Mini: 'o1-mini',
+  ThreadAndRunModels.o1Mini20240912: 'o1-mini-2024-09-12',
+  ThreadAndRunModels.o1Preview: 'o1-preview',
+  ThreadAndRunModels.o1Preview20240912: 'o1-preview-2024-09-12',
 };
 
 _$ThreadAndRunModelStringImpl _$$ThreadAndRunModelStringImplFromJson(

@@ -190,6 +190,8 @@ class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
 
 /// Available models. Mind that the list may not be exhaustive nor up-to-date.
 enum ThreadAndRunModels {
+  @JsonValue('chatgpt-4o-latest')
+  chatgpt4oLatest,
   @JsonValue('gpt-4')
   gpt4,
   @JsonValue('gpt-4-32k')
@@ -220,6 +222,8 @@ enum ThreadAndRunModels {
   gpt4o20240513,
   @JsonValue('gpt-4o-2024-08-06')
   gpt4o20240806,
+  @JsonValue('gpt-4o-2024-08-06')
+  gpt4o20240806,
   @JsonValue('gpt-4o-mini')
   gpt4oMini,
   @JsonValue('gpt-4o-mini-2024-07-18')
@@ -238,6 +242,14 @@ enum ThreadAndRunModels {
   gpt35Turbo0613,
   @JsonValue('gpt-3.5-turbo-1106')
   gpt35Turbo1106,
+  @JsonValue('o1-mini')
+  o1Mini,
+  @JsonValue('o1-mini-2024-09-12')
+  o1Mini20240912,
+  @JsonValue('o1-preview')
+  o1Preview,
+  @JsonValue('o1-preview-2024-09-12')
+  o1Preview20240912,
 }
 
 // ==========================================
