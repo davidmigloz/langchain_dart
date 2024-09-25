@@ -2,6 +2,11 @@
 
 ---
 
+## 0.3.2
+
+ - **FEAT**: Add support for deleteWhere in ObjectBoxVectorStore ([#552](https://github.com/davidmigloz/langchain_dart/issues/552)). ([90918bba](https://github.com/davidmigloz/langchain_dart/commit/90918bbac411ccfe4823ae195de6a50a46575573))
+ - **REFACTOR**: Add stubs for ObjectBox on web platform ([#553](https://github.com/davidmigloz/langchain_dart/issues/553)). ([41caed92](https://github.com/davidmigloz/langchain_dart/commit/41caed924bf24382567758be4590d5ddff31e839))
+
 ## 0.3.1
 
  - **FEAT**: Deprecate OpenAIToolsAgent in favour of ToolsAgent ([#532](https://github.com/davidmigloz/langchain_dart/issues/532)). ([68d8011a](https://github.com/davidmigloz/langchain_dart/commit/68d8011a9aa09368875ba0434839d12623ba2bab))

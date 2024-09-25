@@ -2,6 +2,12 @@
 
 ---
 
+## 0.4.2
+
+ - **FEAT**: Add OpenAI o1-preview and o1-mini to model catalog ([#555](https://github.com/davidmigloz/langchain_dart/issues/555)). ([9ceb5ff9](https://github.com/davidmigloz/langchain_dart/commit/9ceb5ff9029cf1ae1967a32189f88c7a8215248e))
+ - **FEAT**: Add support for maxCompletionTokens and reasoningTokens in openai_dart ([#556](https://github.com/davidmigloz/langchain_dart/issues/556)). ([37d75b61](https://github.com/davidmigloz/langchain_dart/commit/37d75b612b0f42bbf8d092bdd81c554278716582))
+ - **FEAT**: Option to include file search results in assistants API ([#543](https://github.com/davidmigloz/langchain_dart/issues/543)). ([e916ad3c](https://github.com/davidmigloz/langchain_dart/commit/e916ad3c0c4e322319cedac8b06b5908f1c31935))
+
 ## 0.4.1
 
  - **FEAT**: Add support for Structured Outputs ([#525](https://github.com/davidmigloz/langchain_dart/issues/525)). ([c7574077](https://github.com/davidmigloz/langchain_dart/commit/c7574077195acfc96e9ca9d526cc050788c23c1d))

@@ -2,6 +2,10 @@
 
 ---
 
+## 0.2.3+1
+
+ - Update a dependency to the latest release.
+
 ## 0.2.3
 
  - **FEAT**: Add copyWith method to all RunnableOptions subclasses ([#531](https://github.com/davidmigloz/langchain_dart/issues/531)). ([42c8d480](https://github.com/davidmigloz/langchain_dart/commit/42c8d480041e7ca331e4928c46536037c06dbff0))
