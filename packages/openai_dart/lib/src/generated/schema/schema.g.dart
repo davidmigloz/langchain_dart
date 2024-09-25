@@ -316,6 +316,7 @@ _$CreateChatCompletionRequestImpl _$$CreateChatCompletionRequestImplFromJson(
       logprobs: json['logprobs'] as bool?,
       topLogprobs: (json['top_logprobs'] as num?)?.toInt(),
       maxTokens: (json['max_tokens'] as num?)?.toInt(),
+      maxCompletionTokens: (json['max_completion_tokens'] as num?)?.toInt(),
       n: (json['n'] as num?)?.toInt() ?? 1,
       presencePenalty: (json['presence_penalty'] as num?)?.toDouble() ?? 0.0,
       responseFormat: json['response_format'] == null
@@ -366,6 +367,7 @@ Map<String, dynamic> _$$CreateChatCompletionRequestImplToJson(
   writeNotNull('logprobs', instance.logprobs);
   writeNotNull('top_logprobs', instance.topLogprobs);
   writeNotNull('max_tokens', instance.maxTokens);
+  writeNotNull('max_completion_tokens', instance.maxCompletionTokens);
   writeNotNull('n', instance.n);
   writeNotNull('presence_penalty', instance.presencePenalty);
   writeNotNull('response_format', instance.responseFormat?.toJson());
@@ -1102,15 +1104,50 @@ _$CompletionUsageImpl _$$CompletionUsageImplFromJson(
       completionTokens: (json['completion_tokens'] as num?)?.toInt(),
       promptTokens: (json['prompt_tokens'] as num).toInt(),
       totalTokens: (json['total_tokens'] as num).toInt(),
+      completionTokensDetails: json['completion_tokens_details'] == null
+          ? null
+          : CompletionTokensDetails.fromJson(
+              json['completion_tokens_details'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$CompletionUsageImplToJson(
-        _$CompletionUsageImpl instance) =>
-    <String, dynamic>{
-      'completion_tokens': instance.completionTokens,
-      'prompt_tokens': instance.promptTokens,
-      'total_tokens': instance.totalTokens,
-    };
+    _$CompletionUsageImpl instance) {
+  final val = <String, dynamic>{
+    'completion_tokens': instance.completionTokens,
+    'prompt_tokens': instance.promptTokens,
+    'total_tokens': instance.totalTokens,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'completion_tokens_details', instance.completionTokensDetails?.toJson());
+  return val;
+}
+
+_$CompletionTokensDetailsImpl _$$CompletionTokensDetailsImplFromJson(
+        Map<String, dynamic> json) =>
+    _$CompletionTokensDetailsImpl(
+      reasoningTokens: (json['reasoning_tokens'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$$CompletionTokensDetailsImplToJson(
+    _$CompletionTokensDetailsImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('reasoning_tokens', instance.reasoningTokens);
+  return val;
+}
 
 _$CreateEmbeddingRequestImpl _$$CreateEmbeddingRequestImplFromJson(
         Map<String, dynamic> json) =>
@@ -2530,7 +2567,7 @@ _$FileSearchRankingOptionsImpl _$$FileSearchRankingOptionsImplFromJson(
     _$FileSearchRankingOptionsImpl(
       ranker: $enumDecodeNullable(_$FileSearchRankerEnumMap, json['ranker'],
           unknownValue: JsonKey.nullForUndefinedEnumValue),
-      scoreThreshold: (json['score_threshold'] as num?)?.toDouble(),
+      scoreThreshold: (json['score_threshold'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$$FileSearchRankingOptionsImplToJson(
@@ -2544,7 +2581,7 @@ Map<String, dynamic> _$$FileSearchRankingOptionsImplToJson(
   }
 
   writeNotNull('ranker', _$FileSearchRankerEnumMap[instance.ranker]);
-  writeNotNull('score_threshold', instance.scoreThreshold);
+  val['score_threshold'] = instance.scoreThreshold;
   return val;
 }
 

@@ -37,7 +37,7 @@ class CreateFineTuningJobRequest with _$CreateFineTuningJobRequest {
     @JsonKey(includeIfNull: false)
     FineTuningJobHyperparameters? hyperparameters,
 
-    /// A string of up to 18 characters that will be added to your fine-tuned model name.
+    /// A string of up to 64 characters that will be added to your fine-tuned model name.
     ///
     /// For example, a `suffix` of "custom-model-name" would produce a model name like `ft:gpt-4o-mini:openai:custom-model-name:7p4lURel`.
     @JsonKey(includeIfNull: false) String? suffix,
@@ -80,7 +80,7 @@ class CreateFineTuningJobRequest with _$CreateFineTuningJobRequest {
 
   /// Validation constants
   static const suffixMinLengthValue = 1;
-  static const suffixMaxLengthValue = 40;
+  static const suffixMaxLengthValue = 64;
   static const seedMinValue = 0;
   static const seedMaxValue = 2147483647;
 
