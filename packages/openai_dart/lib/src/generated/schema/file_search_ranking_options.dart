@@ -8,7 +8,8 @@ part of open_a_i_schema;
 // CLASS: FileSearchRankingOptions
 // ==========================================
 
-/// The ranking options for the file search.
+/// The ranking options for the file search. If not specified, the file search tool will use the `auto` ranker and
+/// a score_threshold of 0.
 ///
 /// See the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/customizing-file-search-settings)
 /// for more information.
@@ -26,8 +27,7 @@ class FileSearchRankingOptions with _$FileSearchRankingOptions {
     FileSearchRanker? ranker,
 
     /// The score threshold for the file search. All values must be a floating point number between 0 and 1.
-    @JsonKey(name: 'score_threshold', includeIfNull: false)
-    double? scoreThreshold,
+    @JsonKey(name: 'score_threshold') required double scoreThreshold,
   }) = _FileSearchRankingOptions;
 
   /// Object construction from a JSON representation
@@ -43,10 +43,10 @@ class FileSearchRankingOptions with _$FileSearchRankingOptions {
 
   /// Perform validations on the schema property values
   String? validateSchema() {
-    if (scoreThreshold != null && scoreThreshold! < scoreThresholdMinValue) {
+    if (scoreThreshold < scoreThresholdMinValue) {
       return "The value of 'scoreThreshold' cannot be < $scoreThresholdMinValue";
     }
-    if (scoreThreshold != null && scoreThreshold! > scoreThresholdMaxValue) {
+    if (scoreThreshold > scoreThresholdMaxValue) {
       return "The value of 'scoreThreshold' cannot be > $scoreThresholdMaxValue";
     }
     return null;

@@ -115,12 +115,16 @@ void main() {
             content: ChatCompletionUserMessageContent.string('Tell me a joke'),
           ),
         ],
-        maxTokens: 2,
+        maxCompletionTokens: 2,
       );
       final res = await client.createChatCompletion(request: request);
       expect(res.choices, isNotEmpty);
       expect(
         res.choices.first.finishReason,
+        ChatCompletionFinishReason.length,
+      );
+      expect(
+        res.usage?.completionTokensDetails?.reasoningTokens,
         ChatCompletionFinishReason.length,
       );
     });
@@ -138,7 +142,7 @@ void main() {
             content: ChatCompletionUserMessageContent.string('Tell me a joke'),
           ),
         ],
-        maxTokens: 2,
+        maxCompletionTokens: 2,
         presencePenalty: 0.6,
         frequencyPenalty: 0.6,
         logitBias: {'50256': -100},
