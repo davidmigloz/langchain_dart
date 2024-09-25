@@ -262,21 +262,21 @@ packages:
       path: "../../langchain"
       relative: true
     source: path
-    version: "0.7.5"
+    version: "0.7.6"
   langchain_core:
     dependency: "direct overridden"
     description:
       path: "../../langchain_core"
       relative: true
     source: path
-    version: "0.3.5"
+    version: "0.3.6"
   langchain_firebase:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "0.2.1+1"
+    version: "0.2.1+2"
   leak_tracker:
     dependency: transitive
     description:
