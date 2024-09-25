@@ -7,7 +7,7 @@ void main() {
   group('Ollama Generate Completions API tests',
       skip: Platform.environment.containsKey('CI'), () {
     late OllamaClient client;
-    const defaultModel = 'llama3.1';
+    const defaultModel = 'llama3.2';
     const visionModel = 'llava';
 
     setUp(() async {

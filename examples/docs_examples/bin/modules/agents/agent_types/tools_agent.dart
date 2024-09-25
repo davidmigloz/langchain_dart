@@ -15,7 +15,7 @@ void main() async {
 Future<void> _toolsAgent() async {
   final llm = ChatOllama(
     defaultOptions: const ChatOllamaOptions(
-      model: 'llama3.1',
+      model: 'llama3.2',
       temperature: 0,
     ),
   );
