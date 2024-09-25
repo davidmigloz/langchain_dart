@@ -65,11 +65,11 @@ class AssistantObject with _$AssistantObject {
     /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
     /// since `gpt-3.5-turbo-1106`.
     ///
-    /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
+    /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures
     /// the model will match your supplied JSON schema. Learn more in the
     /// [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
     ///
-    /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates
+    /// Setting to `{ "type": "json_object" }` enables JSON mode, which ensures the message the model generates
     /// is valid JSON.
     ///
     /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a
@@ -191,11 +191,11 @@ enum AssistantResponseFormatMode {
 /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
 /// since `gpt-3.5-turbo-1106`.
 ///
-/// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
+/// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures
 /// the model will match your supplied JSON schema. Learn more in the
 /// [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
 ///
-/// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates
+/// Setting to `{ "type": "json_object" }` enables JSON mode, which ensures the message the model generates
 /// is valid JSON.
 ///
 /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a

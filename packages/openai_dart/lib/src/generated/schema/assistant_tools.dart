@@ -88,7 +88,8 @@ class AssistantToolsFileSearchFileSearch
     /// for more information.
     @JsonKey(name: 'max_num_results', includeIfNull: false) int? maxNumResults,
 
-    /// The ranking options for the file search.
+    /// The ranking options for the file search. If not specified, the file search tool will use the `auto` ranker and
+    /// a score_threshold of 0.
     ///
     /// See the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/customizing-file-search-settings)
     /// for more information.
