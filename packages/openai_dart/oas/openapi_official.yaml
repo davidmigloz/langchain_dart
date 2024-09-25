@@ -37,6 +37,8 @@ tags:
     description: List and describe the various models available in the API.
   - name: Moderations
     description: Given a input text, outputs if the model classifies it as potentially harmful.
+  - name: Audit Logs
+    description: List user actions and configuration changes within this organization.
 paths:
   # Note: When adding an endpoint, make sure you also add it in the `groups` section, in the end of this file,
   # under the appropriate group
@@ -177,7 +179,9 @@ paths:
                                 {"type": "text", "text": "What's in this image?"},
                                 {
                                     "type": "image_url",
-                                    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
+                                    "image_url": {
+                                        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
+                                    }
                                 },
                             ],
                         }
@@ -201,9 +205,10 @@ paths:
                           { type: "text", text: "What's in this image?" },
                           {
                             type: "image_url",
-                            image_url:
-                              "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
-                          },
+                            image_url: {
+                              "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
+                            },
+                          }
                         ],
                       },
                     ],
@@ -2766,7 +2771,7 @@ paths:
           response: &moderation_example |
             {
               "id": "modr-XXXXX",
-              "model": "text-moderation-005",
+              "model": "text-moderation-007",
               "results": [
                 {
                   "flagged": true,
@@ -7254,6 +7259,1439 @@ paths:
               }
             }
 
+  # Organization
+  # Audit Logs List
+  /organization/audit_logs:
+    get:
+      summary: List user actions and configuration changes within this organization.
+      operationId: list-audit-logs
+      tags:
+        - Audit Logs
+      parameters:
+        - name: effective_at
+          in: query
+          description: Return only events whose `effective_at` (Unix seconds) is in this range.
+          required: false
+          schema:
+            type: object
+            properties:
+              gt:
+                type: integer
+                description: Return only events whose `effective_at` (Unix seconds) is greater than this value.
+              gte:
+                type: integer
+                description: Return only events whose `effective_at` (Unix seconds) is greater than or equal to this value.
+              lt:
+                type: integer
+                description: Return only events whose `effective_at` (Unix seconds) is less than this value.
+              lte:
+                type: integer
+                description: Return only events whose `effective_at` (Unix seconds) is less than or equal to this value.
+        - name: project_ids[]
+          in: query
+          description: Return only events for these projects.
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: event_types[]
+          in: query
+          description: Return only events with a `type` in one of these values. For example, `project.created`. For all options, see the documentation for the [audit log object](/docs/api-reference/audit-logs/object).
+          required: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/AuditLogEventType"
+        - name: actor_ids[]
+          in: query
+          description: Return only events performed by these actors. Can be a user ID, a service account ID, or an api key tracking ID.
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: actor_emails[]
+          in: query
+          description: Return only events performed by users with these emails.
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: resource_ids[]
+          in: query
+          description: Return only events performed on these targets. For example, a project ID updated.
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: limit
+          in: query
+          description: *pagination_limit_param_description
+          required: false
+          schema:
+            type: integer
+            default: 20
+        - name: after
+          in: query
+          description: *pagination_after_param_description
+          schema:
+            type: string
+        - name: before
+          in: query
+          description: *pagination_before_param_description
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Audit logs listed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListAuditLogsResponse"
+      x-oaiMeta:
+        name: List audit logs
+        group: audit-logs
+        returns: A list of paginated [Audit Log](/docs/api-reference/audit-logs/object) objects.
+        examples:
+          request:
+            curl: |
+              curl https://api.openai.com/v1/organization/audit_logs \
+              -H "Authorization: Bearer $OPENAI_ADMIN_KEY" \
+              -H "Content-Type: application/json" \
+          response: |
+            {
+                "object": "list",
+                "data": [
+                    {
+                        "id": "audit_log-xxx_yyyymmdd",
+                        "type": "project.archived",
+                        "effective_at": 1722461446,
+                        "actor": {
+                            "type": "api_key",
+                            "api_key": {
+                                "type": "user",
+                                "user": {
+                                    "id": "user-xxx",
+                                    "email": "user@example.com"
+                                }
+                            }
+                        },
+                        "project.archived": {
+                            "id": "proj_abc"
+                        },
+                    },
+                    {
+                        "id": "audit_log-yyy__20240101",
+                        "type": "api_key.updated",
+                        "effective_at": 1720804190,
+                        "actor": {
+                            "type": "session",
+                            "session": {
+                                "user": {
+                                    "id": "user-xxx",
+                                    "email": "user@example.com"
+                                },
+                                "ip_address": "127.0.0.1",
+                                "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+                            }
+                        },
+                        "api_key.updated": {
+                            "id": "key_xxxx",
+                            "data": {
+                                "scopes": ["resource_2.operation_2"]
+                            }
+                        },
+                    }
+                ],
+                "first_id": "audit_log-xxx__20240101",
+                "last_id": "audit_log_yyy__20240101",
+                "has_more": true
+            }
+  /organization/invites:
+    get:
+      summary: Returns a list of invites in the organization.
+      operationId: list-invites
+      tags:
+        - Invites
+      parameters:
+        - name: limit
+          in: query
+          description: *pagination_limit_param_description
+          required: false
+          schema:
+            type: integer
+            default: 20
+        - name: after
+          in: query
+          description: *pagination_after_param_description
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Invites listed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InviteListResponse'
+      x-oaiMeta:
+        name: List invites
+        group: administration
+        returns: A list of [Invite](/docs/api-reference/invite/object) objects.
+        examples:
+          request:
+            curl: |
+              curl https://api.openai.com/v1/organization/invites?after=invite-abc&limit=20 \
+                -H "Authorization: Bearer $OPENAI_ADMIN_KEY" \
+                -H "Content-Type: application/json"
+          response:
+            content: |
+              {
+                "object": "list",
+                "data": [
+                  {
+                    "object": "organization.invite",
+                    "id": "invite-abc",
+                    "email": "user@example.com",
+                    "role": "owner",
+                    "status": "accepted",
+                    "invited_at": 1711471533,
+                    "expires_at": 1711471533,
+                    "accepted_at": 1711471533
+                  }
+                ],
+                "first_id": "invite-abc",
+                "last_id": "invite-abc",
+                "has_more": false
+              }
+
+    post:
+      summary: Create an invite for a user to the organization. The invite must be accepted by the user before they have access to the organization.
+      operationId: inviteUser
+      tags:
+        - Invites
+      requestBody:
+        description: The invite request payload.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InviteRequest'
+      responses:
+        "200":
+          description: User invited successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invite'
+      x-oaiMeta:
+        name: Create invite
+        group: administration
+        returns: The created [Invite](/docs/api-reference/invite/object) object.
+        examples:
+          request:
+            curl: |
+              curl -X POST https://api.openai.com/v1/organization/invites \
+                -H "Authorization: Bearer $OPENAI_ADMIN_KEY" \
+                -H "Content-Type: application/json" \
+                -d '{
+                    "email": "user@example.com",
+                    "role": "owner"
+                }'
+          response:
+            content: |
+              {
+                  "object": "organization.invite",
+                  "id": "invite-abc",
+                  "email": "user@example.com",
+                  "role": "owner",
+                  "invited_at": 1711471533,
+                  "expires_at": 1711471533,
+                  "accepted_at": null
+              }
+
+  /organization/invites/{invite_id}:
+    get:
+      summary: Retrieves an invite.
+      operationId: retrieve-invite
+      tags:
+        - Invites
+      parameters:
+        - in: path
+          name: invite_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the invite to retrieve.
+      responses:
+        "200":
+          description: Invite retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invite'
+      x-oaiMeta:
+        name: Retrieve invite
+        group: administration
+        returns: The [Invite](/docs/api-reference/invite/object) object matching the specified ID.
+        examples:
+          request:
+            curl: |
+              curl https://api.openai.com/v1/organization/invites/invite-abc \
+                -H "Authorization: Bearer $OPENAI_ADMIN_KEY" \
+                -H "Content-Type: application/json"
+          response:
+            content: |
+              {
+                  "object": "organization.invite",
+                  "id": "invite-abc",
+                  "email": "user@example.com",
+                  "role": "owner",
+                  "status": "accepted",
+                  "invited_at": 1711471533,
+                  "expires_at": 1711471533,
+                  "accepted_at": 1711471533
+              }
+    delete:
+      summary: Delete an invite. If the invite has already been accepted, it cannot be deleted.
+      operationId: delete-invite
+      tags:
+        - Invites
+      parameters:
+        - in: path
+          name: invite_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the invite to delete.
+      responses:
+        "200":
+          description: Invite deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InviteDeleteResponse'
+      x-oaiMeta:
+        name: Delete invite
+        group: administration
+        returns: Confirmation that the invite has been deleted
+        examples:
+          request:
+            curl: |
+              curl -X DELETE https://api.openai.com/v1/organization/invites/invite-abc \
+                -H "Authorization: Bearer $OPENAI_ADMIN_KEY" \
+                -H "Content-Type: application/json"
+          response:
+            content: |
+              {
+                  "object": "organization.invite.deleted",
+                  "id": "invite-abc",
+                  "deleted": true
+              }    
+
+  /organization/users:
+    get:
+      summary: Lists all of the users in the organization.
+      operationId: list-users
+      tags:
+        - Users
+      parameters:
+        - name: limit
+          in: query
+          description: *pagination_limit_param_description
+          required: false
+          schema:
+            type: integer
+            default: 20
+        - name: after
+          in: query
+          description: *pagination_after_param_description
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Users listed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserListResponse'
+      x-oaiMeta:
+        name: List users
+        group: administration
+        returns: A list of [User](/docs/api-reference/users/object) objects.
+        examples:
+          request:
+            curl: |
+              curl https://api.openai.com/v1/organization/users?after=user_abc&limit=20 \
+                -H "Authorization: Bearer $OPENAI_ADMIN_KEY" \
+                -H "Content-Type: application/json"
+          response:
+            content: |
+              {
+                  "object": "list",
+                  "data": [
+                      {
+                          "object": "organization.user",
+                          "id": "user_abc",
+                          "name": "First Last",
+                          "email": "user@example.com",
+                          "role": "owner",
+                          "added_at": 1711471533
+                      }
+                  ],
+                  "first_id": "user-abc",
+                  "last_id": "user-xyz",
+                  "has_more": false
+              }
+
+  /organization/users/{user_id}:
+    get:
+      summary: Retrieves a user by their identifier.
+      operationId: retrieve-user
+      tags:
+        - Users
+      parameters:
+        - name: user_id
+          in: path
+          description: The ID of the user.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: User retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      x-oaiMeta:
+        name: Retrieve user
+        group: administration
+        returns: The [User](/docs/api-reference/users/object) object matching the specified ID.
+        examples:
+          request:
+            curl: |
+              curl https://api.openai.com/v1/organization/users/user_abc \
+                -H "Authorization: Bearer $OPENAI_ADMIN_KEY" \
+                -H "Content-Type: application/json"
+          response:
+            content: |
+              {
+                  "object": "organization.user",
+                  "id": "user_abc",
+                  "name": "First Last",
+                  "email": "user@example.com",
+                  "role": "owner",
+                  "added_at": 1711471533
+              }
+
+    post:
+      summary: Modifies a user's role in the organization.
+      operationId: modify-user
+      tags:
+        - Users
+      requestBody:
+        description: The new user role to modify. This must be one of `owner` or `member`.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRoleUpdateRequest'
+      responses:
+        "200":
+          description: User role updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      x-oaiMeta:
+        name: Modify user
+        group: administration
+        returns: The updated [User](/docs/api-reference/users/object) object.
+        examples:
+          request:
+            curl: |
+              curl -X POST https://api.openai.com/v1/organization/users/user_abc \
+                -H "Authorization: Bearer $OPENAI_ADMIN_KEY" \
+                -H "Content-Type: application/json" \
+                -d '{
+                    "role": "owner"
+                }'
+          response:
+            content: |
+              {
+                  "object": "organization.user",
+                  "id": "user_abc",
+                  "name": "First Last",
+                  "email": "user@example.com",
+                  "role": "owner",
+                  "added_at": 1711471533
+              }
+
+    delete:
+      summary: Deletes a user from the organization.
+      operationId: delete-user
+      tags:
+        - Users
+      parameters:
+        - name: user_id
+          in: path
+          description: The ID of the user.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: User deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDeleteResponse'
+      x-oaiMeta:
+        name: Delete user
+        group: administration
+        returns: Confirmation of the deleted user
+        examples:
+          request:
+            curl: |
+              curl -X DELETE https://api.openai.com/v1/organization/users/user_abc \
+                -H "Authorization: Bearer $OPENAI_ADMIN_KEY" \
+                -H "Content-Type: application/json"
+          response:
+            content: |
+              {
+                  "object": "organization.user.deleted",
+                  "id": "user_abc",
+                  "deleted": true
+              }
+  /organization/projects:
+    get:
+      summary: Returns a list of projects.
+      operationId: list-projects
+      tags:
+        - Projects
+      parameters:
+        - name: limit
+          in: query
+          description: *pagination_limit_param_description
+          required: false
+          schema:
+            type: integer
+            default: 20
+        - name: after
+          in: query
+          description: *pagination_after_param_description
+          required: false
+          schema:
+            type: string
+        - name: include_archived
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: If `true` returns all projects including those that have been `archived`. Archived projects are not included by default.
+      responses:
+        "200":
+          description: Projects listed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectListResponse'
+      x-oaiMeta:
+        name: List projects
+        group: administration
+        returns: A list of [Project](/docs/api-reference/projects/object) objects.
+        examples:
+          request:
+            curl: |
+              curl https://api.openai.com/v1/organization/projects?after=proj_abc&limit=20&include_archived=false \
+                -H "Authorization: Bearer $OPENAI_ADMIN_KEY" \
+                -H "Content-Type: application/json"
+          response:
+            content: |
+              {
+                  "object": "list",
+                  "data": [
+                      {
+                          "id": "proj_abc",
+                          "object": "organization.project",
+                          "name": "Project example",
+                          "created_at": 1711471533,
+                          "archived_at": null,
+                          "status": "active"
+                      }
+                  ],
+                  "first_id": "proj-abc",
+                  "last_id": "proj-xyz",
+                  "has_more": false
+              }
+
+    post:
+      summary: Create a new project in the organization. Projects can be created and archived, but cannot be deleted.
+      operationId: create-project
+      tags:
+        - Projects
+      requestBody:
+        description: The project create request payload.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectCreateRequest'
+      responses:
+        "200":
+          description: Project created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+      x-oaiMeta:
+        name: Create project
+        group: administration
+        returns: The created [Project](/docs/api-reference/projects/object) object.
+        examples:
+          request:
+            curl: |
+              curl -X POST https://api.openai.com/v1/organization/projects \
+                -H "Authorization: Bearer $OPENAI_ADMIN_KEY" \
+                -H "Content-Type: application/json" \
+                -d '{
+                    "name": "Project ABC",
+                    "app_use_case": "Your project use case here",
+                    "business_website": "https://example.com"
+                }'
+          response:
+            content: |
+              {
+                  "id": "proj_abc",
+                  "object": "organization.project",
+                  "name": "Project ABC",
+                  "created_at": 1711471533,
+                  "archived_at": null,
+                  "status": "active",
+                  "app_use_case": "Your project use case here",
+                  "business_website": "https://example.com"
+              }
+
+  /organization/projects/{project_id}:
+    get:
+      summary: Retrieves a project.
+      operationId: retrieve-project
+      tags:
+        - Projects
+      parameters:
+        - name: project_id
+          in: path
+          description: The ID of the project.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Project retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+      x-oaiMeta:
+        name: Retrieve project
+        group: administration
+        description: Retrieve a project.
+        returns: The [Project](/docs/api-reference/projects/object) object matching the specified ID.
+        examples:
+          request:
+            curl: |
+              curl https://api.openai.com/v1/organization/projects/proj_abc \
+                -H "Authorization: Bearer $OPENAI_ADMIN_KEY" \
+                -H "Content-Type: application/json"
+          response:
+            content: |
+              {
+                  "id": "proj_abc",
+                  "object": "organization.project",
+                  "name": "Project example",
+                  "created_at": 1711471533,
+                  "archived_at": null,
+                  "status": "active"
+              }
+
+    post:
+      summary: Modifies a project in the organization.
+      operationId: modify-project
+      tags:
+        - Projects
+      requestBody:
+        description: The project update request payload.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectUpdateRequest'
+      responses:
+        "200":
+          description: Project updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        "400":
+          description: Error response when updating the default project.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-oaiMeta:
+        name: Modify project
+        group: administration
+        returns: The updated [Project](/docs/api-reference/projects/object) object.
+        examples:
+          request:
+            curl: |
+              curl -X POST https://api.openai.com/v1/organization/projects/proj_abc \
+                -H "Authorization: Bearer $OPENAI_ADMIN_KEY" \
+                -H "Content-Type: application/json" \
+                -d '{
+                    "name": "Project DEF",
+                    "app_use_case": "Your project use case here",
+                    "business_website": "https://example.com"
+                }'
+
+  /organization/projects/{project_id}/archive:
+    post:
+      summary: Archives a project in the organization. Archived projects cannot be used or updated.
+      operationId: archive-project
+      tags:
+        - Projects
+      parameters:
+        - name: project_id
+          in: path
+          description: The ID of the project.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Project archived successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+      x-oaiMeta:
+        name: Archive project
+        group: administration
+        returns: The archived [Project](/docs/api-reference/projects/object) object.
+        examples:
+          request:
+            curl: |
+              curl -X POST https://api.openai.com/v1/organization/projects/proj_abc/archive \
+                -H "Authorization: Bearer $OPENAI_ADMIN_KEY" \
+                -H "Content-Type: application/json"
+          response:
+            content: |
+              {
+                  "id": "proj_abc",
+                  "object": "organization.project",
+                  "name": "Project DEF",
+                  "created_at": 1711471533,
+                  "archived_at": 1711471533,
+                  "status": "archived"
+              }
+  
+
+  /organization/projects/{project_id}/users:
+    get:
+      summary: Returns a list of users in the project.
+      operationId: list-project-users
+      tags:
+        - Projects
+      parameters:
+        - name: project_id
+          in: path
+          description: The ID of the project.
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: *pagination_limit_param_description
+          required: false
+          schema:
+            type: integer
+            default: 20
+        - name: after
+          in: query
+          description: *pagination_after_param_description
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Project users listed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectUserListResponse'
+        "400":
+          description: Error response when project is archived.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-oaiMeta:
+        name: List project users
+        group: administration
+        returns: A list of [ProjectUser](/docs/api-reference/project-users/object) objects.
+        examples:
+          request:
+            curl: |
+              curl https://api.openai.com/v1/organization/projects/proj_abc/users?after=user_abc&limit=20 \
+                -H "Authorization: Bearer $OPENAI_ADMIN_KEY" \
+                -H "Content-Type: application/json"
+          response:
+            content: |
+              {
+                  "object": "list",
+                  "data": [
+                      {
+                          "object": "organization.project.user",
+                          "id": "user_abc",
+                          "name": "First Last",
+                          "email": "user@example.com",
+                          "role": "owner",
+                          "added_at": 1711471533
+                      }
+                  ],
+                  "first_id": "user-abc",
+                  "last_id": "user-xyz",
+                  "has_more": false
+              }
+          error_response:
+            content: |
+              {
+                  "code": 400,
+                  "message": "Project {name} is archived"
+              }
+
+    post:
+      summary: Adds a user to the project. Users must already be members of the organization to be added to a project.
+      operationId: create-project-user
+      parameters:
+        - name: project_id
+          in: path
+          description: The ID of the project.
+          required: true
+          schema:
+            type: string
+      tags:
+        - Projects
+      requestBody:
+        description: The project user create request payload.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectUserCreateRequest'
+      responses:
+        "200":
+          description: User added to project successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectUser'
+        "400":
+          description: Error response for various conditions.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-oaiMeta:
+        name: Create project user
+        group: administration
+        returns: The created [ProjectUser](/docs/api-reference/project-users/object) object.
+        examples:
+          request:
+            curl: |
+              curl -X POST https://api.openai.com/v1/organization/projects/proj_abc/users \
+                -H "Authorization: Bearer $OPENAI_ADMIN_KEY" \
+                -H "Content-Type: application/json" \
+                -d '{
+                    "user_id": "user_abc",
+                    "role": "member"
+                }'
+          response:
+            content: |
+              {
+                  "object": "organization.project.user",
+                  "id": "user_abc",
+                  "email": "user@example.com",
+                  "role": "owner",
+                  "added_at": 1711471533
+              }
+          error_response:
+            content: |
+              {
+                  "code": 400,
+                  "message": "Project {name} is archived"
+              }
+
+  /organization/projects/{project_id}/users/{user_id}:
+    get:
+      summary: Retrieves a user in the project.
+      operationId: retrieve-project-user
+      tags:
+        - Projects
+      parameters:
+        - name: project_id
+          in: path
+          description: The ID of the project.
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          description: The ID of the user.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Project user retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectUser'
+      x-oaiMeta:
+        name: Retrieve project user
+        group: administration
+        returns: The [ProjectUser](/docs/api-reference/project-users/object) object matching the specified ID.
+        examples:
+          request:
+            curl: |
+              curl https://api.openai.com/v1/organization/projects/proj_abc/users/user_abc \
+                -H "Authorization: Bearer $OPENAI_ADMIN_KEY" \
+                -H "Content-Type: application/json"
+          response:
+            content: |
+              {
+                  "object": "organization.project.user",
+                  "id": "user_abc",
+                  "name": "First Last",
+                  "email": "user@example.com",
+                  "role": "owner",
+                  "added_at": 1711471533
+              }
+
+    post:
+      summary: Modifies a user's role in the project.
+      operationId: modify-project-user
+      tags:
+        - Projects
+      requestBody:
+        description: The project user update request payload.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectUserUpdateRequest'
+      responses:
+        "200":
+          description: Project user's role updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectUser'
+        "400":
+          description: Error response for various conditions.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-oaiMeta:
+        name: Modify project user
+        group: administration
+        returns: The updated [ProjectUser](/docs/api-reference/project-users/object) object.
+        examples:
+          request:
+            curl: |
+              curl -X POST https://api.openai.com/v1/organization/projects/proj_abc/users/user_abc \
+                -H "Authorization: Bearer $OPENAI_ADMIN_KEY" \
+                -H "Content-Type: application/json" \
+                -d '{
+                    "role": "owner"
+                }'
+          response:
+            content: |
+              {
+                  "object": "organization.project.user",
+                  "id": "user_abc",
+                  "name": "First Last",
+                  "email": "user@example.com",
+                  "role": "owner",
+                  "added_at": 1711471533
+              }
+
+    delete:
+      summary: Deletes a user from the project.
+      operationId: delete-project-user
+      tags:
+        - Projects
+      parameters:
+        - name: project_id
+          in: path
+          description: The ID of the project.
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          description: The ID of the user.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Project user deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectUserDeleteResponse'
+        "400":
+          description: Error response for various conditions.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-oaiMeta:
+        name: Delete project user
+        group: administration
+        returns: Confirmation that project has been deleted or an error in case of an archived project, which has no users
+        examples:
+          request:
+            curl: |
+              curl -X DELETE https://api.openai.com/v1/organization/projects/proj_abc/users/user_abc \
+                -H "Authorization: Bearer $OPENAI_ADMIN_KEY" \
+                -H "Content-Type: application/json"
+          response:
+            content: |
+              {
+                  "object": "organization.project.user.deleted",
+                  "id": "user_abc",
+                  "deleted": true
+              }
+
+  /organization/projects/{project_id}/service_accounts:
+    get:
+      summary: Returns a list of service accounts in the project.
+      operationId: list-project-service-accounts
+      tags:
+        - Projects
+      parameters:
+        - name: project_id
+          in: path
+          description: The ID of the project.
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: *pagination_limit_param_description
+          required: false
+          schema:
+            type: integer
+            default: 20
+        - name: after
+          in: query
+          description: *pagination_after_param_description
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Project service accounts listed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectServiceAccountListResponse'
+        "400":
+          description: Error response when project is archived.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-oaiMeta:
+        name: List project service accounts
+        group: administration
+        returns: A list of [ProjectServiceAccount](/docs/api-reference/project-service-accounts/object) objects.
+        examples:
+          request:
+            curl: |
+              curl https://api.openai.com/v1/organization/projects/proj_abc/service_accounts?after=custom_id&limit=20 \
+                -H "Authorization: Bearer $OPENAI_ADMIN_KEY" \
+                -H "Content-Type: application/json"
+          response:
+            content: |
+              {
+                  "object": "list",
+                  "data": [
+                      {
+                          "object": "organization.project.service_account",
+                          "id": "svc_acct_abc",
+                          "name": "Service Account",
+                          "role": "owner",
+                          "created_at": 1711471533
+                      }
+                  ],
+                  "first_id": "svc_acct_abc",
+                  "last_id": "svc_acct_xyz",
+                  "has_more": false
+              }
+
+    post:
+      summary: Creates a new service account in the project. This also returns an unredacted API key for the service account.
+      operationId: create-project-service-account
+      tags:
+        - Projects
+      parameters:
+        - name: project_id
+          in: path
+          description: The ID of the project.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: The project service account create request payload.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectServiceAccountCreateRequest'
+      responses:
+        "200":
+          description: Project service account created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectServiceAccountCreateResponse'
+        "400":
+          description: Error response when project is archived.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-oaiMeta:
+        name: Create project service account
+        group: administration
+        returns: The created [ProjectServiceAccount](/docs/api-reference/project-service-accounts/object) object.
+        examples:
+          request:
+            curl: |
+              curl -X POST https://api.openai.com/v1/organization/projects/proj_abc/service_accounts \
+                -H "Authorization: Bearer $OPENAI_ADMIN_KEY" \
+                -H "Content-Type: application/json" \
+                -d '{
+                    "name": "Production App"
+                }'
+          response:
+            content: |
+              {
+                  "object": "organization.project.service_account",
+                  "id": "svc_acct_abc",
+                  "name": "Production App",
+                  "role": "member",
+                  "created_at": 1711471533,
+                  "api_key": {
+                      "object": "organization.project.service_account.api_key",
+                      "value": "sk-abcdefghijklmnop123",
+                      "name": "Secret Key",
+                      "created_at": 1711471533,
+                      "id": "key_abc"
+                  }
+              }
+
+  /organization/projects/{project_id}/service_accounts/{service_account_id}:
+    get:
+      summary: Retrieves a service account in the project.
+      operationId: retrieve-project-service-account
+      tags:
+        - Projects
+      parameters:
+        - name: project_id
+          in: path
+          description: The ID of the project.
+          required: true
+          schema:
+            type: string
+        - name: service_account_id
+          in: path
+          description: The ID of the service account.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Project service account retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectServiceAccount'
+      x-oaiMeta:
+        name: Retrieve project service account
+        group: administration
+        returns: The [ProjectServiceAccount](/docs/api-reference/project-service-accounts/object) object matching the specified ID.
+        examples:
+          request:
+            curl: |
+              curl https://api.openai.com/v1/organization/projects/proj_abc/service_accounts/svc_acct_abc \
+                -H "Authorization: Bearer $OPENAI_ADMIN_KEY" \
+                -H "Content-Type: application/json"
+          response:
+            content: |
+              {
+                  "object": "organization.project.service_account",
+                  "id": "svc_acct_abc",
+                  "name": "Service Account",
+                  "role": "owner",
+                  "created_at": 1711471533
+              }
+
+    delete:
+      summary: Deletes a service account from the project.
+      operationId: delete-project-service-account
+      tags:
+        - Projects
+      parameters:
+        - name: project_id
+          in: path
+          description: The ID of the project.
+          required: true
+          schema:
+            type: string
+        - name: service_account_id
+          in: path
+          description: The ID of the service account.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Project service account deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectServiceAccountDeleteResponse'
+      x-oaiMeta:
+        name: Delete project service account
+        group: administration
+        returns: Confirmation of service account being deleted, or an error in case of an archived project, which has no service accounts
+        examples:
+          request:
+            curl: |
+              curl -X DELETE https://api.openai.com/v1/organization/projects/proj_abc/service_accounts/svc_acct_abc \
+                -H "Authorization: Bearer $OPENAI_ADMIN_KEY" \
+                -H "Content-Type: application/json"
+          response:
+            content: |
+              {
+                  "object": "organization.project.service_account.deleted",
+                  "id": "svc_acct_abc",
+                  "deleted": true
+              }
+
+  /organization/projects/{project_id}/api_keys:
+    get:
+      summary: Returns a list of API keys in the project.
+      operationId: list-project-api-keys
+      tags:
+        - Projects
+      parameters:
+        - name: project_id
+          in: path
+          description: The ID of the project.
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: *pagination_limit_param_description
+          required: false
+          schema:
+            type: integer
+            default: 20
+        - name: after
+          in: query
+          description: *pagination_after_param_description
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Project API keys listed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectApiKeyListResponse'
+
+      x-oaiMeta:
+        name: List project API keys
+        group: administration
+        returns: A list of [ProjectApiKey](/docs/api-reference/project-api-keys/object) objects.
+        examples:
+          request:
+            curl: |
+              curl https://api.openai.com/v1/organization/projects/proj_abc/api_keys?after=key_abc&limit=20 \
+                -H "Authorization: Bearer $OPENAI_ADMIN_KEY" \
+                -H "Content-Type: application/json"
+          response:
+            content: |
+              {
+                  "object": "list",
+                  "data": [
+                      {
+                          "object": "organization.project.api_key",
+                          "redacted_value": "sk-abc...def",
+                          "name": "My API Key",
+                          "created_at": 1711471533,
+                          "id": "key_abc",
+                          "owner": {
+                              "type": "user",
+                              "user": {
+                                  "object": "organization.project.user",
+                                  "id": "user_abc",
+                                  "name": "First Last",
+                                  "email": "user@example.com",
+                                  "role": "owner",
+                                  "added_at": 1711471533
+                              }
+                          }
+                      }
+                  ],
+                  "first_id": "key_abc",
+                  "last_id": "key_xyz",
+                  "has_more": false
+              }
+          error_response:
+            content: |
+              {
+                  "code": 400,
+                  "message": "Project {name} is archived"
+              }
+
+  /organization/projects/{project_id}/api_keys/{key_id}:
+    get:
+      summary: Retrieves an API key in the project.
+      operationId: retrieve-project-api-key
+      tags:
+        - Projects
+      parameters:
+        - name: project_id
+          in: path
+          description: The ID of the project.
+          required: true
+          schema:
+            type: string
+        - name: key_id
+          in: path
+          description: The ID of the API key.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Project API key retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectApiKey'
+      x-oaiMeta:
+        name: Retrieve project API key
+        group: administration
+        returns: The [ProjectApiKey](/docs/api-reference/project-api-keys/object) object matching the specified ID.
+        examples:
+          request:
+            curl: |
+              curl https://api.openai.com/v1/organization/projects/proj_abc/api_keys/key_abc \
+                -H "Authorization: Bearer $OPENAI_ADMIN_KEY" \
+                -H "Content-Type: application/json"
+          response:
+            content: |
+              {
+                  "object": "organization.project.api_key",
+                  "redacted_value": "sk-abc...def",
+                  "name": "My API Key",
+                  "created_at": 1711471533,
+                  "id": "key_abc",
+                  "owner": {
+                      "type": "user",
+                      "user": {
+                          "object": "organization.project.user",
+                          "id": "user_abc",
+                          "name": "First Last",
+                          "email": "user@example.com",
+                          "role": "owner",
+                          "added_at": 1711471533
+                      }
+                  }
+              }
+
+    delete:
+      summary: Deletes an API key from the project.
+      operationId: delete-project-api-key
+      tags:
+        - Projects
+      parameters:
+        - name: project_id
+          in: path
+          description: The ID of the project.
+          required: true
+          schema:
+            type: string
+        - name: key_id
+          in: path
+          description: The ID of the API key.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Project API key deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectApiKeyDeleteResponse'
+        "400":
+          description: Error response for various conditions.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-oaiMeta:
+        name: Delete project API key
+        group: administration
+        returns: Confirmation of the key's deletion or an error if the key belonged to a service account
+        examples:
+          request:
+            curl: |
+              curl -X DELETE https://api.openai.com/v1/organization/projects/proj_abc/api_keys/key_abc \
+                -H "Authorization: Bearer $OPENAI_ADMIN_KEY" \
+                -H "Content-Type: application/json"
+          response:
+            content: |
+              {
+                  "object": "organization.project.api_key.deleted",
+                  "id": "key_abc",
+                  "deleted": true
+              }
+          error_response:
+            content: |
+              {
+                  "code": 400,
+                  "message": "API keys cannot be deleted for service accounts, please delete the service account"
+              }      
+
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -8197,7 +9635,12 @@ components:
             - type: string
               enum:
                 [
+                  "o1-preview",
+                  "o1-preview-2024-09-12",
+                  "o1-mini",
+                  "o1-mini-2024-09-12",
                   "gpt-4o",
+                  "gpt-4o-2024-08-06",
                   "gpt-4o-2024-05-13",
                   "gpt-4o-2024-08-06",
                   "chatgpt-4o-latest",
@@ -14052,6 +15495,1053 @@ components:
         - object
         - data
         - has_more
+
+    AuditLogActorServiceAccount:
+      type: object
+      description: The service account that performed the audit logged action.
+      properties:
+        id:
+          type: string
+          description: The service account id.
+
+    AuditLogActorUser:
+      type: object
+      description: The user who performed the audit logged action.
+      properties:
+        id:
+          type: string
+          description: The user id.
+        email:
+          type: string
+          description: The user email.
+
+    AuditLogActorApiKey:
+      type: object
+      description: The API Key used to perform the audit logged action.
+      properties:
+        id:
+          type: string
+          description: The tracking id of the API key.
+        type:
+          type: string
+          description: The type of API key. Can be either `user` or `service_account`.
+          enum: [ "user", "service_account" ]
+        user:
+          $ref: "#/components/schemas/AuditLogActorUser"
+        service_account:
+          $ref: "#/components/schemas/AuditLogActorServiceAccount"
+
+    AuditLogActorSession:
+      type: object
+      description: The session in which the audit logged action was performed.
+      properties:
+        user:
+          $ref: "#/components/schemas/AuditLogActorUser"
+        ip_address:
+          type: string
+          description: The IP address from which the action was performed.
+
+    AuditLogActor:
+      type: object
+      description: The actor who performed the audit logged action.
+      properties:
+        type:
+          type: string
+          description: The type of actor. Is either `session` or `api_key`.
+          enum: [ "session", "api_key" ]
+        session:
+          type: object
+          $ref: "#/components/schemas/AuditLogActorSession"
+        api_key:
+          type: object
+          $ref: "#/components/schemas/AuditLogActorApiKey"
+
+
+    AuditLogEventType:
+      type: string
+      description: The event type.
+      x-oaiExpandable: true
+      enum:
+        - api_key.created
+        - api_key.updated
+        - api_key.deleted
+        - invite.sent
+        - invite.accepted
+        - invite.deleted
+        - login.succeeded
+        - login.failed
+        - logout.succeeded
+        - logout.failed
+        - organization.updated
+        - project.created
+        - project.updated
+        - project.archived
+        - service_account.created
+        - service_account.updated
+        - service_account.deleted
+        - user.added
+        - user.updated
+        - user.deleted
+
+    AuditLog:
+      type: object
+      description: A log of a user action or configuration change within this organization.
+      properties:
+        id:
+          type: string
+          description: The ID of this log.
+        type:
+          $ref: "#/components/schemas/AuditLogEventType"
+
+        effective_at:
+          type: integer
+          description: The Unix timestamp (in seconds) of the event.
+        project:
+          type: object
+          description: The project that the action was scoped to. Absent for actions not scoped to projects.
+          properties:
+            id:
+              type: string
+              description: The project ID.
+            name:
+              type: string
+              description: The project title.
+        actor:
+          $ref: "#/components/schemas/AuditLogActor"
+        api_key.created:
+          type: object
+          description: The details for events with this `type`.
+          properties:
+            id:
+              type: string
+              description: The tracking ID of the API key.
+            data:
+              type: object
+              description: The payload used to create the API key.
+              properties:
+                scopes:
+                  type: array
+                  items:
+                    type: string
+                  description: A list of scopes allowed for the API key, e.g. `["api.model.request"]`
+        api_key.updated:
+          type: object
+          description: The details for events with this `type`.
+          properties:
+            id:
+              type: string
+              description: The tracking ID of the API key.
+            changes_requested:
+              type: object
+              description: The payload used to update the API key.
+              properties:
+                scopes:
+                  type: array
+                  items:
+                    type: string
+                  description: A list of scopes allowed for the API key, e.g. `["api.model.request"]`
+        api_key.deleted:
+          type: object
+          description: The details for events with this `type`.
+          properties:
+            id:
+              type: string
+              description: The tracking ID of the API key.
+        invite.sent:
+          type: object
+          description: The details for events with this `type`.
+          properties:
+            id:
+              type: string
+              description: The ID of the invite.
+            data:
+              type: object
+              description: The payload used to create the invite.
+              properties:
+                email:
+                  type: string
+                  description: The email invited to the organization.
+                role:
+                  type: string
+                  description: The role the email was invited to be. Is either `owner` or `member`.
+        invite.accepted:
+          type: object
+          description: The details for events with this `type`.
+          properties:
+            id:
+              type: string
+              description: The ID of the invite.
+        invite.deleted:
+          type: object
+          description: The details for events with this `type`.
+          properties:
+            id:
+              type: string
+              description: The ID of the invite.
+        login.failed:
+          type: object
+          description: The details for events with this `type`.
+          properties:
+            error_code:
+              type: string
+              description: The error code of the failure.
+            error_message:
+              type: string
+              description: The error message of the failure.
+        logout.failed:
+          type: object
+          description: The details for events with this `type`.
+          properties:
+            error_code:
+              type: string
+              description: The error code of the failure.
+            error_message:
+              type: string
+              description: The error message of the failure.
+        organization.updated:
+          type: object
+          description: The details for events with this `type`.
+          properties:
+            id:
+              type: string
+              description: The organization ID.
+            changes_requested:
+              type: object
+              description: The payload used to update the organization settings.
+              properties:
+                title:
+                  type: string
+                  description: The organization title.
+                description:
+                  type: string
+                  description: The organization description.
+                name:
+                  type: string
+                  description: The organization name.
+                settings:
+                  type: object
+                  properties:
+                    threads_ui_visibility:
+                      type: string
+                      description: Visibility of the threads page which shows messages created with the Assistants API and Playground. One of `ANY_ROLE`, `OWNERS`, or `NONE`.
+                    usage_dashboard_visibility:
+                      type: string
+                      description: Visibility of the usage dashboard which shows activity and costs for your organization. One of `ANY_ROLE` or `OWNERS`.
+        project.created:
+          type: object
+          description: The details for events with this `type`.
+          properties:
+            id:
+              type: string
+              description: The project ID.
+            data:
+              type: object
+              description: The payload used to create the project.
+              properties:
+                name:
+                  type: string
+                  description: The project name.
+                title:
+                  type: string
+                  description: The title of the project as seen on the dashboard.
+        project.updated:
+          type: object
+          description: The details for events with this `type`.
+          properties:
+            id:
+              type: string
+              description: The project ID.
+            changes_requested:
+              type: object
+              description: The payload used to update the project.
+              properties:
+                title:
+                  type: string
+                  description: The title of the project as seen on the dashboard.
+        project.archived:
+          type: object
+          description: The details for events with this `type`.
+          properties:
+            id:
+              type: string
+              description: The project ID.
+        service_account.created:
+          type: object
+          description: The details for events with this `type`.
+          properties:
+            id:
+              type: string
+              description: The service account ID.
+            data:
+              type: object
+              description: The payload used to create the service account.
+              properties:
+                role:
+                  type: string
+                  description: The role of the service account. Is either `owner` or `member`.
+        service_account.updated:
+          type: object
+          description: The details for events with this `type`.
+          properties:
+            id:
+              type: string
+              description: The service account ID.
+            changes_requested:
+              type: object
+              description: The payload used to updated the service account.
+              properties:
+                role:
+                  type: string
+                  description: The role of the service account. Is either `owner` or `member`.
+        service_account.deleted:
+          type: object
+          description: The details for events with this `type`.
+          properties:
+            id:
+              type: string
+              description: The service account ID.
+        user.added:
+          type: object
+          description: The details for events with this `type`.
+          properties:
+            id:
+              type: string
+              description: The user ID.
+            data:
+              type: object
+              description: The payload used to add the user to the project.
+              properties:
+                role:
+                  type: string
+                  description: The role of the user. Is either `owner` or `member`.
+        user.updated:
+          type: object
+          description: The details for events with this `type`.
+          properties:
+            id:
+              type: string
+              description: The project ID.
+            changes_requested:
+              type: object
+              description: The payload used to update the user.
+              properties:
+                role:
+                  type: string
+                  description: The role of the user. Is either `owner` or `member`.
+        user.deleted:
+          type: object
+          description: The details for events with this `type`.
+          properties:
+            id:
+              type: string
+              description: The user ID.
+      required:
+        - id
+        - type
+        - effective_at
+        - actor
+      x-oaiMeta:
+        name: The audit log object
+        example: |
+          {
+              "id": "req_xxx_20240101",
+              "type": "api_key.created",
+              "effective_at": 1720804090,
+              "actor": {
+                  "type": "session",
+                  "session": {
+                      "user": {
+                          "id": "user-xxx",
+                          "email": "user@example.com"
+                      },
+                      "ip_address": "127.0.0.1",
+                      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+                  }
+              },
+              "api_key.created": {
+                  "id": "key_xxxx",
+                  "data": {
+                      "scopes": ["resource.operation"]
+                  }
+              }
+          }
+
+    ListAuditLogsResponse:
+      type: object
+      properties:
+        object:
+          type: string
+          enum: [ list ]
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/AuditLog"
+        first_id:
+          type: string
+          example: "audit_log-defb456h8dks"
+        last_id:
+          type: string
+          example: "audit_log-hnbkd8s93s"
+        has_more:
+          type: boolean
+
+      required:
+        - object
+        - data
+        - first_id
+        - last_id
+        - has_more
+
+    Invite:
+      type: object
+      description: Represents an individual `invite` to the organization.
+      properties:
+        object:
+          type: string
+          enum: [ organization.invite ]
+          description: The object type, which is always `organization.invite`
+        id:
+          type: string
+          description: The identifier, which can be referenced in API endpoints
+        email:
+          type: string
+          description: The email address of the individual to whom the invite was sent
+        role:
+          type: string
+          enum: [ owner, reader ]
+          description: "`owner` or `reader`"
+        status:
+          type: string
+          enum: [ accepted, expired, pending ]
+          description: "`accepted`,`expired`, or `pending`"
+        invited_at:
+          type: integer
+          description: The Unix timestamp (in seconds) of when the invite was sent.
+        expires_at:
+          type: integer
+          description: The Unix timestamp (in seconds) of when the invite expires.
+        accepted_at:
+          type: integer
+          description: The Unix timestamp (in seconds) of when the invite was accepted.
+
+      required:
+        - object
+        - id
+        - email
+        - role
+        - status
+        - invited_at
+        - expires_at
+      x-oaiMeta:
+        name: The invite object
+        example: |
+          {
+            "object": "organization.invite",
+            "id": "invite-abc",
+            "email": "user@example.com",
+            "role": "owner",
+            "status": "accepted",
+            "invited_at": 1711471533,
+            "expires_at": 1711471533,
+            "accepted_at": 1711471533
+          }
+
+    InviteListResponse:
+      type: object
+      properties:
+        object:
+          type: string
+          enum: [ list ]
+          description: The object type, which is always `list`
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Invite'
+        first_id:
+          type: string
+          description: The first `invite_id` in the retrieved `list`
+        last_id:
+          type: string
+          description: The last `invite_id` in the retrieved `list`
+        has_more:
+          type: boolean
+          description: The `has_more` property is used for pagination to indicate there are additional results.
+      required:
+        - object
+        - data
+
+    InviteRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          description: "Send an email to this address"
+        role:
+          type: string
+          enum: [ reader, owner ]
+          description: "`owner` or `reader`"
+      required:
+        - email
+        - role
+
+    InviteDeleteResponse:
+      type: object
+      properties:
+        object:
+          type: string
+          enum: [ organization.invite.deleted ]
+          description: The object type, which is always `organization.invite.deleted`
+        id:
+          type: string
+        deleted:
+          type: boolean
+      required:
+        - object
+        - id
+        - deleted
+
+    User:
+      type: object
+      description: Represents an individual `user` within an organization.
+      properties:
+        object:
+          type: string
+          enum: [ organization.user ]
+          description: The object type, which is always `organization.user`
+        id:
+          type: string
+          description: The identifier, which can be referenced in API endpoints
+        name:
+          type: string
+          description: The name of the user
+        email:
+          type: string
+          description: The email address of the user
+        role:
+          type: string
+          enum: [ owner, reader ]
+          description: "`owner` or `reader`"
+        added_at:
+          type: integer
+          description: The Unix timestamp (in seconds) of when the user was added.
+      required:
+        - object
+        - id
+        - name
+        - email
+        - role
+        - added_at
+      x-oaiMeta:
+        name: The user object
+        example: |
+          {
+              "object": "organization.user",
+              "id": "user_abc",
+              "name": "First Last",
+              "email": "user@example.com",
+              "role": "owner",
+              "added_at": 1711471533
+          }
+
+    UserListResponse:
+      type: object
+      properties:
+        object:
+          type: string
+          enum: [ list ]
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        first_id:
+          type: string
+        last_id:
+          type: string
+        has_more:
+          type: boolean
+      required:
+        - object
+        - data
+        - first_id
+        - last_id
+        - has_more
+
+    UserRoleUpdateRequest:
+      type: object
+      properties:
+        role:
+          type: string
+          enum: [ owner,reader ]
+          description: "`owner` or `reader`"
+      required:
+        - role
+
+    UserDeleteResponse:
+      type: object
+      properties:
+        object:
+          type: string
+          enum: [ organization.user.deleted ]
+        id:
+          type: string
+        deleted:
+          type: boolean
+      required:
+        - object
+        - id
+        - deleted
+
+    Project:
+      type: object
+      description: Represents an individual project.
+      properties:
+        id:
+          type: string
+          description: The identifier, which can be referenced in API endpoints
+        object:
+          type: string
+          enum: [ organization.project ]
+          description: The object type, which is always `organization.project`
+        name:
+          type: string
+          description: The name of the project. This appears in reporting.
+        created_at:
+          type: integer
+          description: The Unix timestamp (in seconds) of when the project was created.
+        archived_at:
+          type: integer
+          nullable: true
+          description: The Unix timestamp (in seconds) of when the project was archived or `null`.
+        status:
+          type: string
+          enum: [ active, archived ]
+          description: "`active` or `archived`"
+        app_use_case:
+          type: string
+          description: A description of your business, project, or use case. [Why we need this information](https://help.openai.com/en/articles/9824607-api-platform-verifications).
+        business_website:
+          type: string
+          description: Your business URL, or if you don't have one yet, a URL to your LinkedIn or other social media. [Why we need this information](https://help.openai.com/en/articles/9824607-api-platform-verifications).
+      required:
+        - id
+        - object
+        - name
+        - created_at
+        - status
+      x-oaiMeta:
+        name: The project object
+        example: |
+          {
+              "id": "proj_abc",
+              "object": "organization.project",
+              "name": "Project example",
+              "created_at": 1711471533,
+              "archived_at": null,
+              "status": "active",
+              "app_use_case": "Your project use case here",
+              "business_website": "https://example.com"
+          }
+
+    ProjectListResponse:
+      type: object
+      properties:
+        object:
+          type: string
+          enum: [ list ]
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Project'
+        first_id:
+          type: string
+        last_id:
+          type: string
+        has_more:
+          type: boolean
+      required:
+        - object
+        - data
+        - first_id
+        - last_id
+        - has_more
+
+    ProjectCreateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The friendly name of the project, this name appears in reports.
+        app_use_case:
+          type: string
+          description: A description of your business, project, or use case. [Why we need this information](https://help.openai.com/en/articles/9824607-api-platform-verifications).
+        business_website:
+          type: string
+          description: Your business URL, or if you don't have one yet, a URL to your LinkedIn or other social media. [Why we need this information](https://help.openai.com/en/articles/9824607-api-platform-verifications).
+      required:
+        - name
+
+    ProjectUpdateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The updated name of the project, this name appears in reports.
+        app_use_case:
+          type: string
+          description: A description of your business, project, or use case. [Why we need this information](https://help.openai.com/en/articles/9824607-api-platform-verifications).
+        business_website:
+          type: string
+          description: Your business URL, or if you don't have one yet, a URL to your LinkedIn or other social media. [Why we need this information](https://help.openai.com/en/articles/9824607-api-platform-verifications).
+      required:
+        - name
+
+    DefaultProjectErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+      required:
+        - code
+        - message
+
+    ProjectUser:
+      type: object
+      description: Represents an individual user in a project.
+      properties:
+        object:
+          type: string
+          enum: [ organization.project.user ]
+          description: The object type, which is always `organization.project.user`
+        id:
+          type: string
+          description: The identifier, which can be referenced in API endpoints
+        name:
+          type: string
+          description: The name of the user
+        email:
+          type: string
+          description: The email address of the user
+        role:
+          type: string
+          enum: [ owner, member ]
+          description: "`owner` or `member`"
+        added_at:
+          type: integer
+          description: The Unix timestamp (in seconds) of when the project was added.
+
+      required:
+        - object
+        - id
+        - name
+        - email
+        - role
+        - added_at
+      x-oaiMeta:
+        name: The project user object
+        example: |
+          {
+              "object": "organization.project.user",
+              "id": "user_abc",
+              "name": "First Last",
+              "email": "user@example.com",
+              "role": "owner",
+              "added_at": 1711471533
+          }
+
+    ProjectUserListResponse:
+      type: object
+      properties:
+        object:
+          type: string
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectUser'
+        first_id:
+          type: string
+        last_id:
+          type: string
+        has_more:
+          type: boolean
+      required:
+        - object
+        - data
+        - first_id
+        - last_id
+        - has_more
+
+    ProjectUserCreateRequest:
+      type: object
+      properties:
+        user_id:
+          type: string
+          description: The ID of the user.
+        role:
+          type: string
+          enum: [ owner, member ]
+          description: "`owner` or `member`"
+      required:
+        - user_id
+        - role
+
+    ProjectUserUpdateRequest:
+      type: object
+      properties:
+        role:
+          type: string
+          enum: [ owner, member ]
+          description: "`owner` or `member`"
+      required:
+        - role
+
+    ProjectUserDeleteResponse:
+      type: object
+      properties:
+        object:
+          type: string
+          enum: [ organization.project.user.deleted ]
+        id:
+          type: string
+        deleted:
+          type: boolean
+      required:
+        - object
+        - id
+        - deleted
+
+    ProjectServiceAccount:
+      type: object
+      description: Represents an individual service account in a project.
+      properties:
+        object:
+          type: string
+          enum: [ organization.project.service_account ]
+          description: The object type, which is always `organization.project.service_account`
+        id:
+          type: string
+          description: The identifier, which can be referenced in API endpoints
+        name:
+          type: string
+          description: The name of the service account
+        role:
+          type: string
+          enum: [ owner, member ]
+          description: "`owner` or `member`"
+        created_at:
+          type: integer
+          description: The Unix timestamp (in seconds) of when the service account was created
+      required:
+        - object
+        - id
+        - name
+        - role
+        - created_at
+      x-oaiMeta:
+        name: The project service account object
+        example: |
+          {
+              "object": "organization.project.service_account",
+              "id": "svc_acct_abc",
+              "name": "Service Account",
+              "role": "owner",
+              "created_at": 1711471533
+          }
+
+    ProjectServiceAccountListResponse:
+      type: object
+      properties:
+        object:
+          type: string
+          enum: [ list ]
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectServiceAccount'
+        first_id:
+          type: string
+        last_id:
+          type: string
+        has_more:
+          type: boolean
+      required:
+        - object
+        - data
+        - first_id
+        - last_id
+        - has_more
+
+    ProjectServiceAccountCreateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the service account being created.
+      required:
+        - name
+
+    ProjectServiceAccountCreateResponse:
+      type: object
+      properties:
+        object:
+          type: string
+          enum: [ organization.project.service_account ]
+        id:
+          type: string
+        name:
+          type: string
+        role:
+          type: string
+          enum: [ member ]
+          description: Service accounts can only have one role of type `member`
+        created_at:
+          type: integer
+        api_key:
+          $ref: '#/components/schemas/ProjectServiceAccountApiKey'
+      required:
+        - object
+        - id
+        - name
+        - role
+        - created_at
+        - api_key
+
+    ProjectServiceAccountApiKey:
+      type: object
+      properties:
+        object:
+          type: string
+          enum: [ organization.project.service_account.api_key ]
+          description: The object type, which is always `organization.project.service_account.api_key`
+
+        value:
+          type: string
+        name:
+          type: string
+        created_at:
+          type: integer
+        id:
+          type: string
+      required:
+        - object
+        - value
+        - name
+        - created_at
+        - id
+
+    ProjectServiceAccountDeleteResponse:
+      type: object
+      properties:
+        object:
+          type: string
+          enum: [ organization.project.service_account.deleted ]
+        id:
+          type: string
+        deleted:
+          type: boolean
+      required:
+        - object
+        - id
+        - deleted
+
+    ProjectApiKey:
+      type: object
+      description: Represents an individual API key in a project.
+      properties:
+        object:
+          type: string
+          enum: [ organization.project.api_key ]
+          description: The object type, which is always `organization.project.api_key`
+        redacted_value:
+          type: string
+          description: The redacted value of the API key
+        name:
+          type: string
+          description: The name of the API key
+        created_at:
+          type: integer
+          description: The Unix timestamp (in seconds) of when the API key was created
+        id:
+          type: string
+          description: The identifier, which can be referenced in API endpoints
+        owner:
+          type: object
+          properties:
+            type:
+              type: string
+              enum: [ user, service_account ]
+              description: "`user` or `service_account`"
+            user:
+              $ref: '#/components/schemas/ProjectUser'
+            service_account:
+              $ref: '#/components/schemas/ProjectServiceAccount'
+      required:
+        - object
+        - redacted_value
+        - name
+        - created_at
+        - id
+        - owner
+      x-oaiMeta:
+        name: The project API key object
+        example: |
+          {
+              "object": "organization.project.api_key",
+              "redacted_value": "sk-abc...def",
+              "name": "My API Key",
+              "created_at": 1711471533,
+              "id": "key_abc",
+              "owner": {
+                  "type": "user",
+                  "user": {
+                      "object": "organization.project.user",
+                      "id": "user_abc",
+                      "name": "First Last",
+                      "email": "user@example.com",
+                      "role": "owner",
+                      "created_at": 1711471533
+                  }
+              }
+          }
+
+    ProjectApiKeyListResponse:
+      type: object
+      properties:
+        object:
+          type: string
+          enum: [ list ]
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectApiKey'
+        first_id:
+          type: string
+        last_id:
+          type: string
+        has_more:
+          type: boolean
+      required:
+        - object
+        - data
+        - first_id
+        - last_id
+        - has_more
+
+    ProjectApiKeyDeleteResponse:
+      type: object
+      properties:
+        object:
+          type: string
+          enum: [ organization.project.api_key.deleted ]
+        id:
+          type: string
+        deleted:
+          type: boolean
+      required:
+        - object
+        - id
+        - deleted
 
 security:
   - ApiKeyAuth: [ ]
