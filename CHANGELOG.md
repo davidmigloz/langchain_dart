@@ -18,7 +18,7 @@ Packages with other changes:
 - [`langchain_core` - `v0.3.6`](#langchain_core---v036)
 - [`langchain_community` - `v0.3.2`](#langchain_community---v032)
 - [`langchain_firebase` - `v0.2.1+2`](#langchain_firebase---v0212)
-- [`langchain_google` - `v0.6.3`](#langchain_google---v063)
+- [`langchain_google` - `v0.6.3+1`](#langchain_google---v0631)
 - [`langchain_ollama` - `v0.3.2`](#langchain_ollama---v032)
 - [`langchain_openai` - `v0.7.2`](#langchain_openai---v072)
 - [`ollama_dart` - `v0.2.2`](#ollama_dart---v022)
@@ -38,6 +38,7 @@ Packages with dependency updates only:
 - `langchain_anthropic` - `v0.1.1+2`
 - `langchain_chroma` - `v0.2.1+3`
 - `langchain_mistralai` - `v0.2.3+1`
+- `vertex_ai` - `v0.1.0+2`
 
 ---
 
@@ -58,7 +59,7 @@ Packages with dependency updates only:
 
 - **DOCS**: Update Google's models in documentation ([#551](https://github.com/davidmigloz/langchain_dart/issues/551)). ([1da543f7](https://github.com/davidmigloz/langchain_dart/commit/1da543f7ab90eb39b599a6fdd0cc52e2cbc1460d))
 
-#### `langchain_google` - `v0.6.3`
+#### `langchain_google` - `v0.6.3+1`
 
 - **FEAT**: Add support for reduced output dimensionality in GoogleGenerativeAIEmbeddings ([#544](https://github.com/davidmigloz/langchain_dart/issues/544)). ([d5880704](https://github.com/davidmigloz/langchain_dart/commit/d5880704c492889144738acffd49674b91e63981))
 - **DOCS**: Update Google's models in documentation ([#551](https://github.com/davidmigloz/langchain_dart/issues/551)). ([1da543f7](https://github.com/davidmigloz/langchain_dart/commit/1da543f7ab90eb39b599a6fdd0cc52e2cbc1460d))

@@ -10,4 +10,4 @@ dependencies:
   gcloud: ^0.8.13
   googleapis_auth: ^1.6.0
   http: ^1.2.2
-  vertex_ai: ^0.1.0+1
+  vertex_ai: ^0.1.0+2
