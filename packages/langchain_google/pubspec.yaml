@@ -28,6 +28,9 @@ dependencies:
   meta: ^1.11.0
   uuid: ^4.4.2
   vertex_ai: ^0.1.0+2
+  firebase_core: ^3.6.0
 
 dev_dependencies:
-  test: ^1.25.8
+  test: ^1.25.2
+  langchain: ^0.7.6
+  fake_cloud_firestore: ^3.0.3
