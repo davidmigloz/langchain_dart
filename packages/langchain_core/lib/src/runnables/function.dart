@@ -89,7 +89,7 @@ class RunnableFunction<RunInput extends Object, RunOutput extends Object>
     final RunnableOptions? options,
   }) async {
     if (_invokeFunc != null) {
-      return _invokeFunc(input, options);
+      return _invokeFunc!(input, options);
     } else {
       return stream(input, options: options).first;
     }
@@ -113,7 +113,7 @@ class RunnableFunction<RunInput extends Object, RunOutput extends Object>
     final RunnableOptions? options,
   }) async* {
     if (_streamFunc != null) {
-      yield* _streamFunc(inputStream, options);
+      yield* _streamFunc!(inputStream, options);
     } else {
       yield* inputStream.asyncMap((final input) async {
         return invoke(input, options: options);

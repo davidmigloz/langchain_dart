@@ -12,13 +12,13 @@ import 'types.dart';
 /// {@template tool_spec}
 /// The specification of a LangChain tool without the actual implementation.
 /// {@endtemplate}
+@immutable
 class ToolSpec {
   /// {@macro tool_spec}
   const ToolSpec({
     required this.name,
     required this.description,
     required this.inputJsonSchema,
-    this.strict = false,
   });
 
   /// The unique name of the tool that clearly communicates its purpose.
@@ -51,31 +51,18 @@ class ToolSpec {
   /// ```
   final Map<String, dynamic> inputJsonSchema;
 
-  /// Whether to enable strict schema adherence when generating the tool call.
-  /// If set to true, the model will follow the exact schema defined in the
-  /// [inputJsonSchema] field.
-  ///
-  /// This is only supported by some providers (e.g. OpenAI). Mind that when
-  /// enabled, only a subset of JSON Schema may be supported. Check out the
-  /// provider's tool calling documentation for more information.
-  final bool strict;
-
   @override
   bool operator ==(covariant final ToolSpec other) {
     final mapEquals = const DeepCollectionEquality().equals;
     return identical(this, other) ||
         name == other.name &&
             description == other.description &&
-            mapEquals(inputJsonSchema, other.inputJsonSchema) &&
-            strict == other.strict;
+            mapEquals(inputJsonSchema, other.inputJsonSchema);
   }
 
   @override
   int get hashCode =>
-      name.hashCode ^
-      description.hashCode ^
-      inputJsonSchema.hashCode ^
-      strict.hashCode;
+      name.hashCode ^ description.hashCode ^ inputJsonSchema.hashCode;
 
   @override
   String toString() {
@@ -84,19 +71,8 @@ ToolSpec{
   name: $name,
   description: $description,
   inputJsonSchema: $inputJsonSchema,
-  strict: $strict,
 }
 ''';
-  }
-
-  /// Converts the tool spec to a JSON-serializable map.
-  Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'description': description,
-      'inputJsonSchema': inputJsonSchema,
-      'strict': strict,
-    };
   }
 }
 
@@ -118,7 +94,6 @@ abstract base class Tool<Input extends Object, Options extends ToolOptions,
     required this.name,
     required this.description,
     required this.inputJsonSchema,
-    this.strict = false,
     this.returnDirect = false,
     this.handleToolError,
     final Options? defaultOptions,
@@ -135,9 +110,6 @@ abstract base class Tool<Input extends Object, Options extends ToolOptions,
   @override
   final Map<String, dynamic> inputJsonSchema;
 
-  @override
-  final bool strict;
-
   /// Whether to return the tool's output directly.
   /// Setting this to true means that after the tool is called,
   /// the AgentExecutor will stop looping.
@@ -152,9 +124,7 @@ abstract base class Tool<Input extends Object, Options extends ToolOptions,
   ///   purpose.
   /// - [description] is used to tell the model how/when/why to use the tool.
   ///   You can provide few-shot examples as a part of the description.
-  /// - [inputJsonSchema] is the schema to parse and validate tool's input.
-  /// - [strict] whether to enable strict schema adherence when generating the
-  ///   tool call (only supported by some providers).
+  /// - [inputJsonSchema] is the schema to parse and validate tool's input
   /// - [func] is the function that will be called when the tool is run.
   ///   arguments.
   /// - [getInputFromJson] is a function that parses the input JSON to the
@@ -170,7 +140,6 @@ abstract base class Tool<Input extends Object, Options extends ToolOptions,
     required final String name,
     required final String description,
     required final Map<String, dynamic> inputJsonSchema,
-    final bool strict = false,
     required final FutureOr<Output> Function(Input input) func,
     Input Function(Map<String, dynamic> json)? getInputFromJson,
     final bool returnDirect = false,
@@ -180,7 +149,6 @@ abstract base class Tool<Input extends Object, Options extends ToolOptions,
       name: name,
       description: description,
       inputJsonSchema: inputJsonSchema,
-      strict: strict,
       function: func,
       getInputFromJson: getInputFromJson ?? (json) => json['input'] as Input,
       returnDirect: returnDirect,
@@ -241,26 +209,12 @@ abstract base class Tool<Input extends Object, Options extends ToolOptions,
     return identical(this, other) ||
         name == other.name &&
             description == other.description &&
-            mapEquals(inputJsonSchema, other.inputJsonSchema) &&
-            strict == other.strict;
+            mapEquals(inputJsonSchema, other.inputJsonSchema);
   }
 
   @override
   int get hashCode =>
-      name.hashCode ^
-      description.hashCode ^
-      inputJsonSchema.hashCode ^
-      strict.hashCode;
-
-  @override
-  Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'description': description,
-      'inputJsonSchema': inputJsonSchema,
-      'strict': strict,
-    };
-  }
+      name.hashCode ^ description.hashCode ^ inputJsonSchema.hashCode;
 }
 
 /// {@template tool_func}
@@ -274,7 +228,6 @@ final class _ToolFunc<Input extends Object, Output extends Object>
     required super.name,
     required super.description,
     required super.inputJsonSchema,
-    required super.strict,
     required FutureOr<Output> Function(Input input) function,
     required Input Function(Map<String, dynamic> json) getInputFromJson,
     super.returnDirect = false,

@@ -66,31 +66,31 @@ print(res);
 ## Available models
 
 The following models are available:
-- `gemini-1.5-flash`:
+- `gemini-1.0-pro`
+  * text -> text model
+  * Max input token: 30720
+  * Max output tokens: 2048
+- `gemini-1.0-pro-vision`:
+  * text / image -> text model
+  * Max input token: 12288
+  * Max output tokens: 4096
+- `gemini-1.5-pro-preview-0514`:
   * text / image / audio -> text model
   * Max input token: 1048576
   * Max output tokens: 8192
-- `gemini-1.5-pro`:
+- `gemini-1.5-flash-preview-0514`:
   * text / image / audio -> text model
-  * Max input token: 2097152
-  * Max output tokens: 8192
-- `gemini-1.0-pro-vision`:
-  * text / image -> text model
-  * Max input token: 16384
-  * Max output tokens: 2048
-- `gemini-1.0-pro`
-  * text -> text model
-  * Max input token: 32760
+  * Max input token: 1048576
   * Max output tokens: 8192
       
-Mind that this list may not be up-to-date. Refer to the [documentation](https://cloud.google.com/vertex-ai/generative-ai/docs/learn/models) for the updated list.
+Mind that this list may not be up-to-date. Refer to the [documentation](https://firebase.google.com/docs/vertex-ai/gemini-models) for the updated list.
 
 ## Multimodal support
 
 ```dart
 final chatModel = ChatFirebaseVertexAI(
   defaultOptions: ChatFirebaseVertexAIOptions(
-    model: 'gemini-1.5-pro',
+    model: 'gemini-1.5-pro-preview-0514',
   ),
 );
 final res = await chatModel.invoke(
@@ -122,7 +122,7 @@ final promptTemplate = ChatPromptTemplate.fromTemplates(const [
 
 final chatModel = ChatFirebaseVertexAI(
   defaultOptions: ChatFirebaseVertexAIOptions(
-    model: 'gemini-1.5-pro',
+    model: 'gemini-1.5-pro-preview-0514',
   ),
 );
 
@@ -140,7 +140,7 @@ await stream.forEach(print);
 
 `ChatGoogleGenerativeAI` supports tool calling.
 
-Check the [docs](https://langchaindart.dev/#/modules/model_io/models/chat_models/how_to/tools) for more information on how to use tools.
+Check the [docs](https://langchaindart.com/#/modules/model_io/models/chat_models/how_to/tools) for more information on how to use tools.
 
 Example:
 ```dart
@@ -160,7 +160,7 @@ const tool = ToolSpec(
 );
 final chatModel = ChatFirebaseVertexAI(
   defaultOptions: ChatFirebaseVertexAIOptions(
-    model: 'gemini-1.5-pro',
+    model: 'gemini-1.5-pro-preview-0514',
     temperature: 0,
     tools: [tool],
   ),

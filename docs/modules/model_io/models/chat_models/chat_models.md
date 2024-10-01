@@ -93,5 +93,5 @@ print(chatRes1.generations);
 print(chatRes1.usage?.totalTokens);
 // -> 36
 print(chatRes1.modelOutput);
-// -> {id: chatcmpl-7QHTjpTCELFuGbxRaazFqvYtepXOc, created: 2023-06-11 17:41:11.000, model: gpt-4o-mini}
+// -> {id: chatcmpl-7QHTjpTCELFuGbxRaazFqvYtepXOc, created: 2023-06-11 17:41:11.000, model: gpt-3.5-turbo}
 ```

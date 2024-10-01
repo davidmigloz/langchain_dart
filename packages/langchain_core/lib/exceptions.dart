@@ -1,4 +1,4 @@
 /// Contains core abstractions related to exceptions.
-library;
+library exceptions;
 
 export 'src/exceptions/exceptions.dart';

@@ -42,9 +42,8 @@ sealed class RunStepDetailsToolCalls with _$RunStepDetailsToolCalls {
     /// The type of tool call. This is always going to be `file_search` for this type of tool call.
     required String type,
 
-    /// The definition of the file search that was called.
-    @JsonKey(name: 'file_search')
-    required RunStepDetailsToolCallsFileSearch fileSearch,
+    /// For now, this is always going to be an empty object.
+    @JsonKey(name: 'file_search') required Map<String, dynamic> fileSearch,
   }) = RunStepDetailsToolCallsFileSearchObject;
 
   // ------------------------------------------

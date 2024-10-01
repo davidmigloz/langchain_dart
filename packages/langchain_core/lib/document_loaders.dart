@@ -1,4 +1,4 @@
 /// Contains core abstractions related to document loaders.
-library;
+library document_loaders;
 
 export 'src/document_loaders/document_loaders.dart';

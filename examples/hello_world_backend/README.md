@@ -7,7 +7,7 @@ It exposes a REST API that given a list of topics, generates a sonnet about them
 
 The HTTP server is implemented using [package:shelf](https://pub.dev/packages/shelf).
 
-You can find all the details in the [LangChain.dart 101: what can you build with it?](https://blog.langchaindart.dev/langchain-dart-101-what-can-you-build-with-it-%EF%B8%8F-99a92ccaec5f)
+You can find all the details in the [LangChain.dart 101: what can you build with it?](https://blog.langchaindart.com/langchain-dart-101-what-can-you-build-with-it-%EF%B8%8F-99a92ccaec5f)
 blog post.
 
 ![Hello world backend](hello_world_backend.gif)

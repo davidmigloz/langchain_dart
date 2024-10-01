@@ -1,4 +1,3 @@
-// ignore_for_file: avoid_print
 import 'dart:io';
 
 import 'package:openapi_spec/openapi_spec.dart';
@@ -19,12 +18,10 @@ void main() async {
       enabled: true,
     ),
   );
-  final res = await Process.run(
+  await Process.run(
     'dart',
     ['run', 'build_runner', 'build', 'lib', '--delete-conflicting-outputs'],
   );
-  print(res.stdout);
-  print(res.stderr);
 }
 
 String? _onSchemaName(final String schemaName) => switch (schemaName) {
@@ -49,15 +46,11 @@ String? _onSchemaUnionFactoryName(
       'ChatCompletionMessageContentParts' => 'parts',
       'ChatCompletionMessageContentPartText' => 'text',
       'ChatCompletionMessageContentPartImage' => 'image',
-      'ChatCompletionMessageContentPartRefusal' => 'refusal',
       'ChatCompletionToolChoiceOptionEnumeration' => 'mode',
       'ChatCompletionToolChoiceOptionChatCompletionNamedToolChoice' => 'tool',
       'ChatCompletionFunctionCallEnumeration' => 'mode',
       'ChatCompletionFunctionCallChatCompletionFunctionCallOption' =>
         'function',
-      'ResponseFormatText' => 'text',
-      'ResponseFormatJsonObject' => 'jsonObject',
-      'ResponseFormatJsonSchema' => 'jsonSchema',
       // Completion
       'CompletionModelEnumeration' => 'model',
       'CompletionModelString' => 'modelId',
@@ -84,59 +77,53 @@ String? _onSchemaUnionFactoryName(
       // Assistant
       'AssistantModelEnumeration' => 'model',
       'AssistantModelString' => 'modelId',
-      'AssistantObjectResponseFormatEnumeration' => 'mode',
-      'CreateAssistantRequestResponseFormatAssistantsResponseFormat' =>
-        'format',
-      'CreateAssistantRequestResponseFormatEnumeration' => 'mode',
-      'CreateMessageRequestContentListMessageContent' => 'parts',
-      'CreateMessageRequestContentString' => 'text',
-      'CreateRunRequestModelEnumeration' => 'model',
-      'CreateRunRequestModelString' => 'modelId',
-      'CreateRunRequestResponseFormatAssistantsResponseFormat' => 'format',
-      'CreateRunRequestResponseFormatEnumeration' => 'mode',
-      'CreateRunRequestToolChoiceAssistantsNamedToolChoice' => 'tool',
-      'CreateRunRequestToolChoiceEnumeration' => 'mode',
-      'CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat' =>
-        'format',
-      'CreateThreadAndRunRequestResponseFormatEnumeration' => 'mode',
-      'CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoice' => 'tool',
-      'CreateThreadAndRunRequestToolChoiceEnumeration' => 'mode',
       'MessageContentImageFileObject' => 'imageFile',
+      'MessageDeltaContentImageFileObject' => 'imageFile',
+      'MessageContentTextObject' => 'text',
+      'MessageDeltaContentTextObject' => 'text',
       'MessageContentImageUrlObject' => 'imageUrl',
       'MessageContentTextAnnotationsFileCitationObject' => 'fileCitation',
-      'MessageContentTextAnnotationsFilePathObject' => 'filePath',
-      'MessageContentTextObject' => 'text',
-      'MessageContentRefusalObject' => 'refusal',
-      'MessageDeltaContentImageFileObject' => 'imageFile',
-      'MessageDeltaContentRefusalObject' => 'refusal',
-      'MessageDeltaContentImageUrlObject' => 'imageUrl',
       'MessageDeltaContentTextAnnotationsFileCitationObject' => 'fileCitation',
+      'MessageContentTextAnnotationsFilePathObject' => 'filePath',
       'MessageDeltaContentTextAnnotationsFilePathObject' => 'filePath',
-      'MessageDeltaContentTextObject' => 'text',
-      'ModifyAssistantRequestResponseFormatAssistantsResponseFormat' =>
-        'format',
-      'ModifyAssistantRequestResponseFormatEnumeration' => 'mode',
       'RunModelEnumeration' => 'model',
       'RunModelString' => 'modelId',
-      'RunObjectResponseFormatAssistantsResponseFormat' => 'format',
-      'RunObjectResponseFormatEnumeration' => 'mode',
-      'RunObjectToolChoiceAssistantsNamedToolChoice' => 'tool',
-      'RunObjectToolChoiceEnumeration' => 'mode',
-      'RunStepDeltaStepDetailsMessageCreationObject' => 'messageCreation',
-      'RunStepDeltaStepDetailsToolCallsCodeObject' => 'codeInterpreter',
-      'RunStepDeltaStepDetailsToolCallsCodeOutputImageObject' => 'image',
-      'RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject' => 'logs',
-      'RunStepDeltaStepDetailsToolCallsFileSearchObject' => 'fileSearch',
-      'RunStepDeltaStepDetailsToolCallsFunctionObject' => 'function',
-      'RunStepDeltaStepDetailsToolCallsObject' => 'toolCalls',
-      'RunStepDetailsMessageCreationObject' => 'messageCreation',
-      'RunStepDetailsToolCallsCodeObject' => 'codeInterpreter',
-      'RunStepDetailsToolCallsCodeOutputImageObject' => 'image',
-      'RunStepDetailsToolCallsCodeOutputLogsObject' => 'logs',
-      'RunStepDetailsToolCallsFileSearchObject' => 'fileSearch',
-      'RunStepDetailsToolCallsFunctionObject' => 'function',
-      'RunStepDetailsToolCallsObject' => 'toolCalls',
       'ThreadAndRunModelEnumeration' => 'model',
       'ThreadAndRunModelString' => 'modelId',
+      'RunStepDetailsToolCallsCodeObject' => 'codeInterpreter',
+      'RunStepDeltaStepDetailsToolCallsCodeObject' => 'codeInterpreter',
+      'RunStepDetailsToolCallsFileSearchObject' => 'fileSearch',
+      'RunStepDeltaStepDetailsToolCallsFileSearchObject' => 'fileSearch',
+      'RunStepDetailsToolCallsFunctionObject' => 'function',
+      'RunStepDeltaStepDetailsToolCallsFunctionObject' => 'function',
+      'RunStepDetailsToolCallsCodeOutputLogsObject' => 'logs',
+      'RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject' => 'logs',
+      'RunStepDetailsToolCallsCodeOutputImageObject' => 'image',
+      'RunStepDeltaStepDetailsToolCallsCodeOutputImageObject' => 'image',
+      'RunStepDetailsMessageCreationObject' => 'messageCreation',
+      'RunStepDeltaStepDetailsMessageCreationObject' => 'messageCreation',
+      'RunStepDetailsToolCallsObject' => 'toolCalls',
+      'RunStepDeltaStepDetailsToolCallsObject' => 'toolCalls',
+      'CreateRunRequestResponseFormatEnumeration' => 'mode',
+      'CreateThreadAndRunRequestResponseFormatEnumeration' => 'mode',
+      'RunObjectResponseFormatEnumeration' => 'mode',
+      'CreateAssistantRequestResponseFormatEnumeration' => 'mode',
+      'ModifyAssistantRequestResponseFormatEnumeration' => 'mode',
+      'CreateRunRequestResponseFormatAssistantsResponseFormat' => 'format',
+      'CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat' =>
+        'format',
+      'RunObjectResponseFormatAssistantsResponseFormat' => 'format',
+      'CreateAssistantRequestResponseFormatAssistantsResponseFormat' =>
+        'format',
+      'ModifyAssistantRequestResponseFormatAssistantsResponseFormat' =>
+        'format',
+      'CreateRunRequestToolChoiceEnumeration' => 'mode',
+      'CreateThreadAndRunRequestToolChoiceEnumeration' => 'mode',
+      'RunObjectToolChoiceEnumeration' => 'mode',
+      'CreateRunRequestToolChoiceAssistantsNamedToolChoice' => 'tool',
+      'CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoice' => 'tool',
+      'RunObjectToolChoiceAssistantsNamedToolChoice' => 'tool',
+      'CreateMessageRequestContentString' => 'text',
+      'CreateMessageRequestContentListMessageContent' => 'parts',
       _ => null,
     };

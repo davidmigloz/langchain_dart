@@ -120,7 +120,7 @@ print(res2);
 //   },
 //   finishReason: FinishReason.stop,
 //   metadata: {
-//     model: gpt-4o-mini,
+//     model: gpt-3.5-turbo-0125,
 //     created: 1714327251,
 //     system_fingerprint: fp_3b956da36b
 //   },

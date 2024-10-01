@@ -357,27 +357,6 @@ class OllamaClient {
   }
 
   // ------------------------------------------
-  // METHOD: getVersion
-  // ------------------------------------------
-
-  /// Returns the version of the Ollama server.
-  ///
-  /// This endpoint returns the version of the Ollama server.
-  ///
-  /// `GET` `http://localhost:11434/api/version`
-  Future<VersionResponse> getVersion() async {
-    final r = await makeRequest(
-      baseUrl: 'http://localhost:11434/api',
-      path: '/version',
-      method: HttpMethod.get,
-      isMultipart: false,
-      requestType: '',
-      responseType: 'application/json',
-    );
-    return VersionResponse.fromJson(_jsonDecode(r));
-  }
-
-  // ------------------------------------------
   // METHOD: generateCompletion
   // ------------------------------------------
 
@@ -499,25 +478,6 @@ class OllamaClient {
   }
 
   // ------------------------------------------
-  // METHOD: listRunningModels
-  // ------------------------------------------
-
-  /// List models that are running.
-  ///
-  /// `GET` `http://localhost:11434/api/ps`
-  Future<ProcessResponse> listRunningModels() async {
-    final r = await makeRequest(
-      baseUrl: 'http://localhost:11434/api',
-      path: '/ps',
-      method: HttpMethod.get,
-      isMultipart: false,
-      requestType: '',
-      responseType: 'application/json',
-    );
-    return ProcessResponse.fromJson(_jsonDecode(r));
-  }
-
-  // ------------------------------------------
   // METHOD: showModelInfo
   // ------------------------------------------
 
@@ -607,7 +567,7 @@ class OllamaClient {
       method: HttpMethod.post,
       isMultipart: false,
       requestType: 'application/json',
-      responseType: 'application/x-ndjson',
+      responseType: 'application/json',
       body: request,
     );
     return PullModelResponse.fromJson(_jsonDecode(r));
@@ -633,7 +593,7 @@ class OllamaClient {
       method: HttpMethod.post,
       isMultipart: false,
       requestType: 'application/json',
-      responseType: 'application/x-ndjson',
+      responseType: 'application/json',
       body: request,
     );
     return PushModelResponse.fromJson(_jsonDecode(r));
@@ -645,23 +605,26 @@ class OllamaClient {
 
   /// Create a blob from a file. Returns the server file path.
   ///
-  /// `digest`: the SHA256 digest of the blob
+  /// `name`: the SHA256 digest of the blob
   ///
   /// `request`: No description
   ///
   /// `POST` `http://localhost:11434/api/blobs/{digest}`
   Future<void> createBlob({
-    required String digest,
+    required String name,
     String? request,
   }) async {
     final _ = await makeRequest(
       baseUrl: 'http://localhost:11434/api',
-      path: '/blobs/$digest',
+      path: '/blobs/{digest}',
       method: HttpMethod.post,
       isMultipart: false,
       requestType: 'application/octet-stream',
       responseType: '',
       body: request,
+      queryParams: {
+        'name': name,
+      },
     );
   }
 
@@ -669,23 +632,24 @@ class OllamaClient {
   // METHOD: checkBlob
   // ------------------------------------------
 
-  /// Ensures that the file blob used for a FROM or ADAPTER field exists on the server.
+  /// Check to see if a blob exists on the Ollama server which is useful when creating models.
   ///
-  /// This is checking your Ollama server and not Ollama.ai.
-  ///
-  /// `digest`: the SHA256 digest of the blob
+  /// `name`: the SHA256 digest of the blob
   ///
   /// `HEAD` `http://localhost:11434/api/blobs/{digest}`
   Future<void> checkBlob({
-    required String digest,
+    required String name,
   }) async {
     final _ = await makeRequest(
       baseUrl: 'http://localhost:11434/api',
-      path: '/blobs/$digest',
+      path: '/blobs/{digest}',
       method: HttpMethod.head,
       isMultipart: false,
       requestType: '',
       responseType: '',
+      queryParams: {
+        'name': name,
+      },
     );
   }
 }

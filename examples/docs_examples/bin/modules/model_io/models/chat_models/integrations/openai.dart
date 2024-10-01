@@ -131,7 +131,9 @@ Future<void> _chatOpenAIJsonMode() async {
     defaultOptions: const ChatOpenAIOptions(
       model: 'gpt-4-turbo',
       temperature: 0,
-      responseFormat: ChatOpenAIResponseFormat.jsonObject,
+      responseFormat: ChatOpenAIResponseFormat(
+        type: ChatOpenAIResponseFormatType.jsonObject,
+      ),
     ),
   );
   final chain = llm.pipe(JsonOutputParser());

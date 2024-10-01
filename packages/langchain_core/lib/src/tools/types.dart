@@ -6,9 +6,7 @@ import '../langchain/types.dart';
 /// {@endtemplate}
 class ToolOptions extends BaseLangChainOptions {
   /// {@macro tool_options}
-  const ToolOptions({
-    super.concurrencyLimit,
-  });
+  const ToolOptions();
 }
 
 /// {@template tool_exception}

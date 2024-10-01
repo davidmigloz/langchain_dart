@@ -1,43 +1,6 @@
-📣 Check out the [releases page](https://github.com/davidmigloz/langchain_dart/releases) or the [#announcements](https://discord.com/channels/1123158322812555295/1123250594644242534) channel on the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details.
-
----
-
-## 0.7.6
-
- - **FEAT**: Add retry support for Runnables ([#540](https://github.com/davidmigloz/langchain_dart/issues/540)). ([1099725d](https://github.com/davidmigloz/langchain_dart/commit/1099725d88de4103381edad533209a9a098bdb7f))
-
-## 0.7.5
-
- - **FEAT**: Add ToolsAgent for models with tool-calling support ([#530](https://github.com/davidmigloz/langchain_dart/issues/530)). ([f3ee5b44](https://github.com/davidmigloz/langchain_dart/commit/f3ee5b44c4ffa378343ec4ee1e08d8e594a6cb36))
- - **FEAT**: Deprecate OpenAIToolsAgent in favour of ToolsAgent ([#532](https://github.com/davidmigloz/langchain_dart/issues/532)). ([68d8011a](https://github.com/davidmigloz/langchain_dart/commit/68d8011a9aa09368875ba0434839d12623ba2bab))
- - **DOCS**: Add Code Assist AI in README and documentation ([#538](https://github.com/davidmigloz/langchain_dart/issues/538)). ([e752464c](https://github.com/davidmigloz/langchain_dart/commit/e752464c0d2fc7e0ccc878933b0ef934c9527567))
-
-## 0.7.4
-
- - **FEAT**: Add Fallback support for Runnables ([#501](https://github.com/davidmigloz/langchain_dart/issues/501)). ([5887858d](https://github.com/davidmigloz/langchain_dart/commit/5887858d667d43c49978291ea98a92cab0069971))
- - **FEAT**: Implement additive options merging for cascade bind calls ([#500](https://github.com/davidmigloz/langchain_dart/issues/500)). ([8691eb21](https://github.com/davidmigloz/langchain_dart/commit/8691eb21d5d2ffbf853997cbc0eaa29a56c6ca43))
- - **REFACTOR**: Remove default model from the language model options ([#498](https://github.com/davidmigloz/langchain_dart/issues/498)). ([44363e43](https://github.com/davidmigloz/langchain_dart/commit/44363e435778282ed27bc1b2771cf8b25abc7560))
- - **REFACTOR**: Depend on exact versions for internal 1st party dependencies ([#484](https://github.com/davidmigloz/langchain_dart/issues/484)). ([244e5e8f](https://github.com/davidmigloz/langchain_dart/commit/244e5e8f30e0d9a642fe01a804cc0de5e807e13d))
- - **DOCS**: Update README.md with Ollama tool call support. ([e016b0bd](https://github.com/davidmigloz/langchain_dart/commit/e016b0bd02065971faab2a3a48be625ff33a08cf))
-
-## 0.7.3
-
-> Note: Anthropic integration (`ChatAnthropic`) is now available in the new [`langchain_anthropic`](https://pub.dev/packages/langchain_anthropic) package.
-
-- **FEAT**: Add support for TavilySearchResultsTool and TavilyAnswerTool ([#467](https://github.com/davidmigloz/langchain_dart/issues/467)). ([a9f35755](https://github.com/davidmigloz/langchain_dart/commit/a9f35755dfac9d257efb251c4a6c5948673c2f6c))
-- **DOCS**: Document existing integrations in README.md. ([cc4246c8](https://github.com/davidmigloz/langchain_dart/commit/cc4246c8ab907de2c82843bff145edfffe32d302))
-
-## 0.7.2
-
-> Note: ObjectBox Vector DB integration (`ObjectBoxVectorStore`) is now available in the [`langchain_community`](https://pub.dev/packages/langchain_community) package.
-
- - **FEAT**: Add support for ObjectBoxVectorStore ([#438](https://github.com/davidmigloz/langchain_dart/issues/438)). ([81e167a6](https://github.com/davidmigloz/langchain_dart/commit/81e167a6888fff9f8db381caaef6ee788acef3a8))
-   + Check out the [ObjectBoxVectorStore documentation](https://langchaindart.dev/#/modules/retrieval/vector_stores/integrations/objectbox?id=objectbox) 
- - **REFACTOR**: Migrate to langchaindart.dev domain ([#434](https://github.com/davidmigloz/langchain_dart/issues/434)). ([358f79d6](https://github.com/davidmigloz/langchain_dart/commit/358f79d6e0bae2ecd657aeed2eae7fad16d97c18))
-
 ## 0.7.1
 
-> Note: VertexAI for Firebase (`ChatFirebaseVertexAI`) is now available in the new [`langchain_firebase`](https://pub.dev/packages/langchain_firebase) package.
+> Note: VertexAI for Firebase (`ChatFirebaseVertexAI`) is available in the new [`langchain_firebase`](https://pub.dev/packages/langchain_firebase) package.
 
  - **DOCS**: Add docs for ChatFirebaseVertexAI ([#422](https://github.com/davidmigloz/langchain_dart/issues/422)). ([8d0786bc](https://github.com/davidmigloz/langchain_dart/commit/8d0786bc6228ce86de962d30e9c2cc9728a08f3f))
  - **DOCS**: Update ChatOllama docs ([#417](https://github.com/davidmigloz/langchain_dart/issues/417)). ([9d30b1a1](https://github.com/davidmigloz/langchain_dart/commit/9d30b1a1c811d73cfa27110b8c3c10b10da1801e))
@@ -190,7 +153,7 @@
 
 ## 0.0.13
 
-> Check out the [LangChain Expression Language documentation](https://langchaindart.dev/#/expression_language/interface) for more details
+> Check out the [LangChain Expression Language documentation](https://langchaindart.com/#/expression_language/interface) for more details
 
  - **FEAT**: Add support for JsonOutputFunctionsParser ([#165](https://github.com/davidmigloz/langchain_dart/issues/165)). ([66c8e644](https://github.com/davidmigloz/langchain_dart/commit/66c8e64410d1dbf8b75e5734cb0cbb0e43dc0615))
  - **FEAT**: Add support for StringOutputParser ([#164](https://github.com/davidmigloz/langchain_dart/issues/164)). ([ee29e99a](https://github.com/davidmigloz/langchain_dart/commit/ee29e99a410c3cc6a7ae263fea1cde283f904edf))
@@ -311,7 +274,7 @@
  - Initial public release. 
 
 Check out the announcement post for all the details: 
-https://blog.langchaindart.dev/introducing-langchain-dart-6b1d34fc41ef
+https://blog.langchaindart.com/introducing-langchain-dart-6b1d34fc41ef
 
 ## 0.0.1-dev.7
 
@@ -359,7 +322,7 @@ https://blog.langchaindart.dev/introducing-langchain-dart-6b1d34fc41ef
 - Add support for LLMs - `BaseLLM` class (#14).
 - Add support for Chat models - `BaseChatModel` class (#10).
 - Add support for prompt templates - `PromptTemplate` class (#7).
-- Publish LangChain.dart documentation on http://langchaindart.dev.
+- Publish LangChain.dart documentation on http://langchaindart.com.
 
 ## 0.0.1-dev.1
 

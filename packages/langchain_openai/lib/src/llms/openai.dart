@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:http/http.dart' as http;
 import 'package:langchain_core/llms.dart';
 import 'package:langchain_core/prompts.dart';
@@ -188,9 +186,8 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
     super.defaultOptions = const OpenAIOptions(
-      model: defaultModel,
-      maxTokens: defaultMaxTokens,
-      concurrencyLimit: defaultConcurrencyLimit,
+      model: 'gpt-3.5-turbo-instruct',
+      maxTokens: 256,
     ),
     this.encoding,
   }) : _client = OpenAIClient(
@@ -231,15 +228,6 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
   @override
   String get modelType => 'openai';
 
-  /// The default model to use unless another is specified.
-  static const defaultModel = 'gpt-3.5-turbo-instruct';
-
-  /// The default max tokens to use unless another is specified.
-  static const defaultMaxTokens = 256;
-
-  /// The default concurrency limit to use unless another is specified.
-  static const defaultConcurrencyLimit = 20;
-
   @override
   Future<LLMResult> invoke(
     final PromptValue input, {
@@ -271,8 +259,7 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
 
     // Otherwise, we can batch the calls to the API
     final finalOptions = options?.first ?? defaultOptions;
-    final concurrencyLimit =
-        min(finalOptions.concurrencyLimit, defaultConcurrencyLimit);
+    final concurrencyLimit = finalOptions.concurrencyLimit;
 
     var index = 0;
     final results = <LLMResult>[];
@@ -315,7 +302,7 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
   }) {
     return CreateCompletionRequest(
       model: CompletionModel.modelId(
-        options?.model ?? defaultOptions.model ?? defaultModel,
+        options?.model ?? defaultOptions.model ?? throwNullModelError(),
       ),
       prompt: CompletionPrompt.listString(prompts),
       bestOf: options?.bestOf ?? defaultOptions.bestOf,
@@ -323,8 +310,7 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
           options?.frequencyPenalty ?? defaultOptions.frequencyPenalty,
       logitBias: options?.logitBias ?? defaultOptions.logitBias,
       logprobs: options?.logprobs ?? defaultOptions.logprobs,
-      maxTokens:
-          options?.maxTokens ?? defaultOptions.maxTokens ?? defaultMaxTokens,
+      maxTokens: options?.maxTokens ?? defaultOptions.maxTokens,
       n: options?.n ?? defaultOptions.n,
       presencePenalty:
           options?.presencePenalty ?? defaultOptions.presencePenalty,
@@ -354,12 +340,12 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
     final encoding = this.encoding != null
         ? getEncoding(this.encoding!)
         : encodingForModel(
-            options?.model ?? defaultOptions.model ?? defaultModel,
+            options?.model ?? defaultOptions.model ?? throwNullModelError(),
           );
     return encoding.encode(promptValue.toString());
   }
 
-  @override
+  /// Closes the client and cleans up any resources associated with it.
   void close() {
     _client.endSession();
   }

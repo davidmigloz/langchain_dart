@@ -33,7 +33,7 @@ print(res);
 //   },
 //   finishReason: FinishReason.stop,
 //   metadata: {
-//     model: gpt-4o-mini,
+//     model: gpt-3.5-turbo-0125,
 //     created: 1714835666,
 //     system_fingerprint: fp_3b956da36b
 //   },
@@ -74,7 +74,7 @@ print(res);
 //   },
 //   finishReason: FinishReason.stop,
 //   metadata: {
-//     model: gpt-4o-mini,
+//     model: gpt-3.5-turbo-0125,
 //     created: 1714835734,
 //     system_fingerprint: fp_a450710239
 //   },
@@ -144,7 +144,7 @@ print(res);
 //   },
 //   finishReason: FinishReason.stop,
 //   metadata: {
-//     model: gpt-4o-mini,
+//     model: gpt-3.5-turbo-0125,
 //     created: 1714835806,
 //     system_fingerprint: fp_3b956da36b
 //   },

@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs
 import 'dart:convert';
 
+import 'package:collection/collection.dart';
 import 'package:google_generative_ai/google_generative_ai.dart' as g;
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/language_models.dart';
@@ -95,7 +96,7 @@ extension GenerateContentResponseMapper on g.GenerateContentResponse {
                 _ => throw AssertionError('Unknown part type: $p'),
               },
             )
-            .nonNulls
+            .whereNotNull()
             .join('\n'),
         toolCalls: candidate.content.parts
             .whereType<g.FunctionCall>()
@@ -197,17 +198,14 @@ extension ChatToolListMapper on List<ToolSpec> {
           (tool) => g.FunctionDeclaration(
             tool.name,
             tool.description,
-            tool.inputJsonSchema.toSchema(),
+            _mapJsonSchemaToSchema(tool.inputJsonSchema),
           ),
         ).toList(growable: false),
       ),
     ];
   }
-}
 
-extension SchemaMapper on Map<String, dynamic> {
-  g.Schema toSchema() {
-    final jsonSchema = this;
+  g.Schema _mapJsonSchemaToSchema(final Map<String, dynamic> jsonSchema) {
     final type = jsonSchema['type'] as String;
     final description = jsonSchema['description'] as String?;
     final nullable = jsonSchema['nullable'] as bool?;
@@ -250,7 +248,7 @@ extension SchemaMapper on Map<String, dynamic> {
         );
       case 'array':
         if (items != null) {
-          final itemsSchema = items.toSchema();
+          final itemsSchema = _mapJsonSchemaToSchema(items);
           return g.Schema.array(
             items: itemsSchema,
             description: description,
@@ -261,10 +259,7 @@ extension SchemaMapper on Map<String, dynamic> {
       case 'object':
         if (properties != null) {
           final propertiesSchema = properties.map(
-            (key, value) => MapEntry(
-              key,
-              (value as Map<String, dynamic>).toSchema(),
-            ),
+            (key, value) => MapEntry(key, _mapJsonSchemaToSchema(value)),
           );
           return g.Schema.object(
             properties: propertiesSchema,
@@ -291,11 +286,6 @@ extension ChatToolChoiceMapper on ChatToolChoice {
       ChatToolChoiceAuto _ => g.ToolConfig(
           functionCallingConfig: g.FunctionCallingConfig(
             mode: g.FunctionCallingMode.auto,
-          ),
-        ),
-      ChatToolChoiceRequired() => g.ToolConfig(
-          functionCallingConfig: g.FunctionCallingConfig(
-            mode: g.FunctionCallingMode.any,
           ),
         ),
       final ChatToolChoiceForced t => g.ToolConfig(

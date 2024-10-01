@@ -8,7 +8,7 @@ void main() {
   group('OllamaEmbeddings tests', skip: Platform.environment.containsKey('CI'),
       () {
     late OllamaEmbeddings embeddings;
-    const defaultModel = 'llama3.2';
+    const defaultModel = 'llama3:latest';
 
     setUp(() async {
       embeddings = OllamaEmbeddings(

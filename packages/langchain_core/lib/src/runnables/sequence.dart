@@ -129,7 +129,7 @@ class RunnableSequence<RunInput extends Object?, RunOutput extends Object?>
   Stream<RunOutput> streamFromInputStream(
     final Stream<RunInput> inputStream, {
     final RunnableOptions? options,
-  }) async* {
+  }) {
     Stream<Object?> nextStepStream;
     try {
       nextStepStream = first.streamFromInputStream(
@@ -152,7 +152,7 @@ class RunnableSequence<RunInput extends Object?, RunOutput extends Object?>
     }
 
     try {
-      yield* last.streamFromInputStream(
+      return last.streamFromInputStream(
         nextStepStream,
         options: last.getCompatibleOptions(options),
       );
@@ -204,12 +204,5 @@ ${runnable.runtimeType} runnable expects an input type of $expectedInputType, bu
 Please ensure that the output of the previous runnable in the sequence matches the expected input type of the current runnable. 
     ''';
     throw ArgumentError(errorMessage);
-  }
-
-  @override
-  void close() {
-    for (final step in steps) {
-      step.close();
-    }
   }
 }

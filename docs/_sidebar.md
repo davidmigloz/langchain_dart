@@ -1,4 +1,3 @@
-- [![Code Assist AI](https://img.shields.io/badge/AI-Code%20Assist-EB9FDA)](https://app.commanddash.io/agent?github=https://github.com/davidmigloz/langchain_dart)
 - [Get started](README.md)
   - [Installation](/get_started/installation.md)
   - [Quickstart](/get_started/quickstart.md)
@@ -14,9 +13,7 @@
     - [Function: Run custom logic](/expression_language/primitives/function.md)
     - [Binding: Configuring runnables](/expression_language/primitives/binding.md)
     - [Router: Routing inputs](/expression_language/primitives/router.md)
-    - [Retry: Retrying runnables](/expression_language/primitives/retry.md)
   - [Streaming](/expression_language/streaming.md)
-  - [Fallbacks](/expression_language/fallbacks.md)
   - Cookbook
     - [Prompt + LLM](/expression_language/cookbook/prompt_llm_parser.md)
     - [Multiple chains](/expression_language/cookbook/multiple_chains.md)
@@ -59,7 +56,6 @@
           - [Tool calling](/modules/model_io/models/chat_models/how_to/tools.md)
           - [LLMChain](/modules/model_io/models/chat_models/how_to/llm_chain.md)
         - Integrations
-          - [Anthropic](/modules/model_io/models/chat_models/integrations/anthropic.md) 
           - [OpenAI](/modules/model_io/models/chat_models/integrations/openai.md)
           - [Firebase Vertex AI](/modules/model_io/models/chat_models/integrations/firebase_vertex_ai.md)
           - [GCP Vertex AI](/modules/model_io/models/chat_models/integrations/gcp_vertex_ai.md)
@@ -98,7 +94,6 @@
     - [Vector stores](/modules/retrieval/vector_stores/vector_stores.md)
       - Integrations
         - [Memory](/modules/retrieval/vector_stores/integrations/memory.md)
-        - [ObjectBox](/modules/retrieval/vector_stores/integrations/objectbox.md)
         - [Chroma](/modules/retrieval/vector_stores/integrations/chroma.md)
         - [Pinecone](/modules/retrieval/vector_stores/integrations/pinecone.md)
         - [Supabase](/modules/retrieval/vector_stores/integrations/supabase.md)
@@ -123,7 +118,7 @@
   - [Memory](/modules/memory/memory.md)
   - [Agents](/modules/agents/agents.md)
     - [Agent types](/modules/agents/agent_types/agent_types.md)
-      - [Tools Agent](/modules/agents/agent_types/tools_agent.md)
+      - [OpenAI functions](/modules/agents/agent_types/openai_tools_agent.md)
     - [Tools](/modules/agents/tools/tools.md)
       - [Calculator](/modules/agents/tools/calculator.md)
       - [DALL-E Image Generator](/modules/agents/tools/openai_dall_e.md)

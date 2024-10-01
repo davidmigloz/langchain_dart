@@ -1,4 +1,4 @@
 /// Contains core abstractions related to output parsers.
-library;
+library output_parsers;
 
 export 'src/output_parsers/output_parsers.dart';

@@ -37,18 +37,13 @@ class CreateRunRequest with _$CreateRunRequest {
     /// Override the tools the assistant can use for this run. This is useful for modifying the behavior on a per-run basis.
     @JsonKey(includeIfNull: false) List<AssistantTools>? tools,
 
-    /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
-    /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-    /// can be a maxium of 512 characters long.
+    /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
     @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
 
-    /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random,
-    /// while lower values like 0.2 will make it more focused and deterministic.
+    /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
     @JsonKey(includeIfNull: false) @Default(1.0) double? temperature,
 
-    /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results
-    /// of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability
-    /// mass are considered.
+    /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
     ///
     /// We generally recommend altering this or temperature but not both.
     @JsonKey(name: 'top_p', includeIfNull: false) @Default(1.0) double? topP,
@@ -74,28 +69,11 @@ class CreateRunRequest with _$CreateRunRequest {
     @JsonKey(name: 'tool_choice', includeIfNull: false)
     CreateRunRequestToolChoice? toolChoice,
 
-    /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
-    /// during tool use.
-    @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
-    bool? parallelToolCalls,
-
-    /// Specifies the format that the model must output. Compatible with
-    /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
-    /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
-    /// since `gpt-3.5-turbo-1106`.
+    /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
     ///
-    /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures
-    /// the model will match your supplied JSON schema. Learn more in the
-    /// [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
+    /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
     ///
-    /// Setting to `{ "type": "json_object" }` enables JSON mode, which ensures the message the model generates
-    /// is valid JSON.
-    ///
-    /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a
-    /// system or user message. Without this, the model may generate an unending stream of whitespace until the
-    /// generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note
-    /// that the message content may be partially cut off if `finish_reason="length"`, which indicates the
-    /// generation exceeded `max_tokens` or the conversation exceeded the max context length.
+    /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
     @_CreateRunRequestResponseFormatConverter()
     @JsonKey(name: 'response_format', includeIfNull: false)
     CreateRunRequestResponseFormat? responseFormat,
@@ -123,7 +101,6 @@ class CreateRunRequest with _$CreateRunRequest {
     'max_completion_tokens',
     'truncation_strategy',
     'tool_choice',
-    'parallel_tool_calls',
     'response_format',
     'stream'
   ];
@@ -178,7 +155,6 @@ class CreateRunRequest with _$CreateRunRequest {
       'max_completion_tokens': maxCompletionTokens,
       'truncation_strategy': truncationStrategy,
       'tool_choice': toolChoice,
-      'parallel_tool_calls': parallelToolCalls,
       'response_format': responseFormat,
       'stream': stream,
     };
@@ -191,8 +167,6 @@ class CreateRunRequest with _$CreateRunRequest {
 
 /// Available models. Mind that the list may not be exhaustive nor up-to-date.
 enum RunModels {
-  @JsonValue('chatgpt-4o-latest')
-  chatgpt4oLatest,
   @JsonValue('gpt-4')
   gpt4,
   @JsonValue('gpt-4-32k')
@@ -221,12 +195,6 @@ enum RunModels {
   gpt4o,
   @JsonValue('gpt-4o-2024-05-13')
   gpt4o20240513,
-  @JsonValue('gpt-4o-2024-08-06')
-  gpt4o20240806,
-  @JsonValue('gpt-4o-mini')
-  gpt4oMini,
-  @JsonValue('gpt-4o-mini-2024-07-18')
-  gpt4oMini20240718,
   @JsonValue('gpt-3.5-turbo')
   gpt35Turbo,
   @JsonValue('gpt-3.5-turbo-16k')
@@ -241,14 +209,6 @@ enum RunModels {
   gpt35Turbo0613,
   @JsonValue('gpt-3.5-turbo-1106')
   gpt35Turbo1106,
-  @JsonValue('o1-mini')
-  o1Mini,
-  @JsonValue('o1-mini-2024-09-12')
-  o1Mini20240912,
-  @JsonValue('o1-preview')
-  o1Preview,
-  @JsonValue('o1-preview-2024-09-12')
-  o1Preview20240912,
 }
 
 // ==========================================
@@ -261,12 +221,12 @@ sealed class CreateRunRequestModel with _$CreateRunRequestModel {
   const CreateRunRequestModel._();
 
   /// Available models. Mind that the list may not be exhaustive nor up-to-date.
-  const factory CreateRunRequestModel.model(
+  const factory CreateRunRequestModel.enumeration(
     RunModels value,
   ) = CreateRunRequestModelEnumeration;
 
   /// The ID of the model to use for this request.
-  const factory CreateRunRequestModel.modelId(
+  const factory CreateRunRequestModel.string(
     String value,
   ) = CreateRunRequestModelString;
 
@@ -401,6 +361,8 @@ class _CreateRunRequestToolChoiceConverter
 
 /// `auto` is the default value
 enum CreateRunRequestResponseFormatMode {
+  @JsonValue('none')
+  none,
   @JsonValue('auto')
   auto,
 }
@@ -409,23 +371,11 @@ enum CreateRunRequestResponseFormatMode {
 // CLASS: CreateRunRequestResponseFormat
 // ==========================================
 
-/// Specifies the format that the model must output. Compatible with
-/// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
-/// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
-/// since `gpt-3.5-turbo-1106`.
+/// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
 ///
-/// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures
-/// the model will match your supplied JSON schema. Learn more in the
-/// [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
+/// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
 ///
-/// Setting to `{ "type": "json_object" }` enables JSON mode, which ensures the message the model generates
-/// is valid JSON.
-///
-/// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a
-/// system or user message. Without this, the model may generate an unending stream of whitespace until the
-/// generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note
-/// that the message content may be partially cut off if `finish_reason="length"`, which indicates the
-/// generation exceeded `max_tokens` or the conversation exceeded the max context length.
+/// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
 @freezed
 sealed class CreateRunRequestResponseFormat
     with _$CreateRunRequestResponseFormat {
@@ -437,9 +387,9 @@ sealed class CreateRunRequestResponseFormat
   ) = CreateRunRequestResponseFormatEnumeration;
 
   /// No Description
-  const factory CreateRunRequestResponseFormat.responseFormat(
-    ResponseFormat value,
-  ) = CreateRunRequestResponseFormatResponseFormat;
+  const factory CreateRunRequestResponseFormat.format(
+    AssistantsResponseFormat value,
+  ) = CreateRunRequestResponseFormatAssistantsResponseFormat;
 
   /// Object construction from a JSON representation
   factory CreateRunRequestResponseFormat.fromJson(Map<String, dynamic> json) =>
@@ -468,8 +418,8 @@ class _CreateRunRequestResponseFormatConverter
     }
     if (data is Map<String, dynamic>) {
       try {
-        return CreateRunRequestResponseFormatResponseFormat(
-          ResponseFormat.fromJson(data),
+        return CreateRunRequestResponseFormatAssistantsResponseFormat(
+          AssistantsResponseFormat.fromJson(data),
         );
       } catch (e) {}
     }
@@ -483,7 +433,7 @@ class _CreateRunRequestResponseFormatConverter
     return switch (data) {
       CreateRunRequestResponseFormatEnumeration(value: final v) =>
         _$CreateRunRequestResponseFormatModeEnumMap[v]!,
-      CreateRunRequestResponseFormatResponseFormat(value: final v) =>
+      CreateRunRequestResponseFormatAssistantsResponseFormat(value: final v) =>
         v.toJson(),
       null => null,
     };

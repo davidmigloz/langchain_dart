@@ -7,7 +7,6 @@ import 'package:langchain_openai/langchain_openai.dart';
 void main(final List<String> arguments) async {
   await _openRouter();
   await _openRouterStreaming();
-  await _openRouterStreamingTools();
 }
 
 Future<void> _openRouter() async {
@@ -66,57 +65,4 @@ Future<void> _openRouterStreaming() async {
   await stream.forEach(print);
   // 123
   // 456789
-}
-
-Future<void> _openRouterStreamingTools() async {
-  final openRouterApiKey = Platform.environment['OPEN_ROUTER_API_KEY'];
-
-  const tool = ToolSpec(
-    name: 'joke',
-    description: 'A joke',
-    inputJsonSchema: {
-      'type': 'object',
-      'properties': {
-        'setup': {
-          'type': 'string',
-          'description': 'The setup for the joke',
-        },
-        'punchline': {
-          'type': 'string',
-          'description': 'The punchline to the joke',
-        },
-      },
-      'required': ['location', 'punchline'],
-    },
-  );
-  final promptTemplate = ChatPromptTemplate.fromTemplate(
-    'tell me a long joke about {foo}',
-  );
-  final chat = ChatOpenAI(
-    apiKey: openRouterApiKey,
-    baseUrl: 'https://openrouter.ai/api/v1',
-    defaultOptions: ChatOpenAIOptions(
-      model: 'gpt-4o',
-      tools: const [tool],
-      toolChoice: ChatToolChoice.forced(name: 'joke'),
-    ),
-  );
-  final outputParser = ToolsOutputParser();
-
-  final chain = promptTemplate.pipe(chat).pipe(outputParser);
-
-  final stream = chain.stream({'foo': 'bears'});
-  await for (final chunk in stream) {
-    final args = chunk.first.arguments;
-    print(args);
-  }
-  // {}
-  // {setup: }
-  // {setup: Why don't}
-  // {setup: Why don't bears}
-  // {setup: Why don't bears like fast food}
-  // {setup: Why don't bears like fast food?, punchline: }
-  // {setup: Why don't bears like fast food?, punchline: Because}
-  // {setup: Why don't bears like fast food?, punchline: Because they can't}
-  // {setup: Why don't bears like fast food?, punchline: Because they can't catch it!}
 }

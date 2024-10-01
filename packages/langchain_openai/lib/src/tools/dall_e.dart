@@ -34,7 +34,7 @@ export 'package:openai_dart/openai_dart.dart'
 ///     ),
 ///   ),
 /// ];
-/// final agent = ToolsAgent.fromLLMAndTools(
+/// final agent = OpenAIToolsAgent.fromLLMAndTools(
 ///   llm: llm,
 ///   tools: tools,
 /// );
@@ -111,7 +111,7 @@ final class OpenAIDallETool extends StringTool<OpenAIDallEToolOptions> {
     }
   }
 
-  @override
+  /// Closes the client and cleans up any resources associated with it.
   void close() {
     _client.endSession();
   }

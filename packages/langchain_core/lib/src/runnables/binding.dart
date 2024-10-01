@@ -60,9 +60,7 @@ class RunnableBinding<RunInput extends Object?,
     final RunInput input, {
     final CallOptions? options,
   }) async {
-    final finalOptions =
-        options?.merge(this.options) as CallOptions? ?? this.options;
-    return bound.invoke(input, options: finalOptions);
+    return bound.invoke(input, options: options ?? this.options);
   }
 
   @override
@@ -71,10 +69,5 @@ class RunnableBinding<RunInput extends Object?,
       input,
       options: options ?? this.options,
     );
-  }
-
-  @override
-  void close() {
-    bound.close();
   }
 }

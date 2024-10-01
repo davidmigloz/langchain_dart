@@ -24,19 +24,10 @@ class CreateChatCompletionStreamResponse
     required List<ChatCompletionStreamResponseChoice> choices,
 
     /// The Unix timestamp (in seconds) of when the chat completion was created. Each chunk has the same timestamp.
-    @JsonKey(includeIfNull: false) int? created,
+    required int created,
 
     /// The model to generate the completion.
     @JsonKey(includeIfNull: false) String? model,
-
-    /// The service tier used for processing the request. This field is only included if the `service_tier` parameter
-    /// is specified in the request.
-    @JsonKey(
-      name: 'service_tier',
-      includeIfNull: false,
-      unknownEnumValue: JsonKey.nullForUndefinedEnumValue,
-    )
-    ServiceTier? serviceTier,
 
     /// This fingerprint represents the backend configuration that the model runs with.
     ///
@@ -45,7 +36,7 @@ class CreateChatCompletionStreamResponse
     String? systemFingerprint,
 
     /// The object type, which is always `chat.completion.chunk`.
-    @JsonKey(includeIfNull: false) String? object,
+    required String object,
 
     /// Usage statistics for the completion request.
     @JsonKey(includeIfNull: false) CompletionUsage? usage,
@@ -62,7 +53,6 @@ class CreateChatCompletionStreamResponse
     'choices',
     'created',
     'model',
-    'service_tier',
     'system_fingerprint',
     'object',
     'usage'
@@ -80,7 +70,6 @@ class CreateChatCompletionStreamResponse
       'choices': choices,
       'created': created,
       'model': model,
-      'service_tier': serviceTier,
       'system_fingerprint': systemFingerprint,
       'object': object,
       'usage': usage,

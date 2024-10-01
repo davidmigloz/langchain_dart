@@ -1,10 +1,10 @@
 import 'package:collection/collection.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_vertexai/firebase_vertexai.dart';
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/prompts.dart';
+import 'package:langchain_core/tools.dart';
 import 'package:uuid/uuid.dart';
 
 import 'mappers.dart';
@@ -36,25 +36,25 @@ import 'types.dart';
 /// ### Available models
 ///
 /// The following models are available:
-/// - `gemini-1.5-flash`:
+/// - `gemini-1.0-pro`
+///   * text -> text model
+///   * Max input token: 30720
+///   * Max output tokens: 2048
+/// - `gemini-1.0-pro-vision`:
+///   * text / image -> text model
+///   * Max input token: 12288
+///   * Max output tokens: 4096
+/// - `gemini-1.5-pro-preview-0514`:
 ///   * text / image / audio -> text model
 ///   * Max input token: 1048576
 ///   * Max output tokens: 8192
-/// - `gemini-1.5-pro`:
+/// - `gemini-1.5-flash-preview-0514`:
 ///   * text / image / audio -> text model
-///   * Max input token: 2097152
-///   * Max output tokens: 8192
-/// - `gemini-1.0-pro-vision`:
-///   * text / image -> text model
-///   * Max input token: 16384
-///   * Max output tokens: 2048
-/// - `gemini-1.0-pro`
-///   * text -> text model
-///   * Max input token: 32760
+///   * Max input token: 1048576
 ///   * Max output tokens: 8192
 ///
 /// Mind that this list may not be up-to-date.
-/// Refer to the [documentation](https://cloud.google.com/vertex-ai/generative-ai/docs/learn/models)
+/// Refer to the [documentation](https://firebase.google.com/docs/vertex-ai/gemini-models)
 /// for the updated list.
 ///
 /// ### Call options
@@ -111,7 +111,7 @@ import 'types.dart';
 ///
 /// [ChatFirebaseVertexAI] supports tool calling.
 ///
-/// Check the [docs](https://langchaindart.dev/#/modules/model_io/models/chat_models/how_to/tools)
+/// Check the [docs](https://langchaindart.com/#/modules/model_io/models/chat_models/how_to/tools)
 /// for more information on how to use tools.
 ///
 /// Example:
@@ -132,7 +132,7 @@ import 'types.dart';
 /// );
 /// final chatModel = ChatFirebaseVertexAI(
 ///   defaultOptions: ChatFirebaseVertexAIOptions(
-///     model: 'gemini-1.5-pro',
+///     model: 'gemini-1.5-pro-preview-0514',
 ///     temperature: 0,
 ///     tools: [tool],
 ///   ),
@@ -154,11 +154,10 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
   /// - [ChatFirebaseVertexAI.location]
   ChatFirebaseVertexAI({
     super.defaultOptions = const ChatFirebaseVertexAIOptions(
-      model: defaultModel,
+      model: 'gemini-1.0-pro',
     ),
     this.app,
     this.appCheck,
-    this.auth,
     this.options,
     this.location,
   }) : _currentModel = defaultOptions.model ?? '' {
@@ -173,9 +172,6 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
   /// The optional [FirebaseAppCheck] to use to protect the project from abuse.
   final FirebaseAppCheck? appCheck;
 
-  /// The optional [FirebaseAuth] to use for authentication.
-  final FirebaseAuth? auth;
-
   /// Configuration parameters for sending requests to Firebase.
   final RequestOptions? options;
 
@@ -188,17 +184,20 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
   /// A UUID generator.
   late final Uuid _uuid = const Uuid();
 
+  @override
+  String get modelType => 'chat-firebase-vertex-ai';
+
   /// The current model set in [_firebaseClient];
   String _currentModel;
 
   /// The current system instruction set in [_firebaseClient];
   String? _currentSystemInstruction;
 
-  @override
-  String get modelType => 'chat-firebase-vertex-ai';
+  /// The current tools set in [_firebaseClient];
+  List<ToolSpec>? _currentTools;
 
-  /// The default model to use unless another is specified.
-  static const defaultModel = 'gemini-1.5-flash';
+  /// The current tool choice set in [_firebaseClient];
+  ChatToolChoice? _currentToolChoice;
 
   @override
   Future<ChatResult> invoke(
@@ -206,14 +205,12 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
     final ChatFirebaseVertexAIOptions? options,
   }) async {
     final id = _uuid.v4();
-    final (model, prompt, safetySettings, generationConfig, tools, toolConfig) =
+    final (model, prompt, safetySettings, generationConfig) =
         _generateCompletionRequest(input.toChatMessages(), options: options);
     final completion = await _firebaseClient.generateContent(
       prompt,
       safetySettings: safetySettings,
       generationConfig: generationConfig,
-      tools: tools,
-      toolConfig: toolConfig,
     );
     return completion.toChatResult(id, model);
   }
@@ -224,15 +221,13 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
     final ChatFirebaseVertexAIOptions? options,
   }) {
     final id = _uuid.v4();
-    final (model, prompt, safetySettings, generationConfig, tools, toolConfig) =
+    final (model, prompt, safetySettings, generationConfig) =
         _generateCompletionRequest(input.toChatMessages(), options: options);
     return _firebaseClient
         .generateContentStream(
           prompt,
           safetySettings: safetySettings,
           generationConfig: generationConfig,
-          tools: tools,
-          toolConfig: toolConfig,
         )
         .map((final completion) => completion.toChatResult(id, model));
   }
@@ -243,8 +238,6 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
     Iterable<Content> prompt,
     List<SafetySetting>? safetySettings,
     GenerationConfig? generationConfig,
-    List<Tool>? tools,
-    ToolConfig? toolConfig,
   ) _generateCompletionRequest(
     final List<ChatMessage> messages, {
     final ChatFirebaseVertexAIOptions? options,
@@ -266,15 +259,7 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
         temperature: options?.temperature ?? defaultOptions.temperature,
         topP: options?.topP ?? defaultOptions.topP,
         topK: options?.topK ?? defaultOptions.topK,
-        responseMimeType:
-            options?.responseMimeType ?? defaultOptions.responseMimeType,
-        // responseSchema not supported yet
-        // responseSchema:
-        // (options?.responseSchema ?? defaultOptions.responseSchema)
-        //     ?.toSchema(),
       ),
-      (options?.tools ?? defaultOptions.tools)?.toToolList(),
-      (options?.toolChoice ?? defaultOptions.toolChoice)?.toToolConfig(),
     );
   }
 
@@ -303,6 +288,8 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
   GenerativeModel _createFirebaseClient(
     final String model, {
     final String? systemInstruction,
+    final List<ToolSpec>? tools,
+    final ChatToolChoice? toolChoice,
   }) {
     return FirebaseVertexAI.instanceFor(
       app: app,
@@ -313,6 +300,8 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
       model: model,
       systemInstruction:
           systemInstruction != null ? Content.system(systemInstruction) : null,
+      tools: tools?.toToolList(),
+      toolConfig: toolChoice?.toToolConfig(),
     );
   }
 
@@ -320,10 +309,14 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
   void _recreateFirebaseClient(
     final String model,
     final String? systemInstruction,
+    final List<ToolSpec>? tools,
+    final ChatToolChoice? toolChoice,
   ) {
     _firebaseClient = _createFirebaseClient(
       model,
       systemInstruction: systemInstruction,
+      tools: tools,
+      toolChoice: toolChoice,
     );
   }
 
@@ -332,11 +325,15 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
     final List<ChatMessage> messages,
     final ChatFirebaseVertexAIOptions? options,
   ) {
-    final model = options?.model ?? defaultOptions.model ?? defaultModel;
+    final model =
+        options?.model ?? defaultOptions.model ?? throwNullModelError();
 
     final systemInstruction = messages.firstOrNull is SystemChatMessage
         ? messages.firstOrNull?.contentAsString
         : null;
+
+    final tools = options?.tools ?? defaultOptions.tools;
+    final toolChoice = options?.toolChoice ?? defaultOptions.toolChoice;
 
     bool recreate = false;
     if (model != _currentModel) {
@@ -347,9 +344,17 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
       _currentSystemInstruction = systemInstruction;
       recreate = true;
     }
+    if (!const ListEquality<ToolSpec>().equals(tools, _currentTools)) {
+      _currentTools = tools;
+      recreate = true;
+    }
+    if (toolChoice != _currentToolChoice) {
+      _currentToolChoice = toolChoice;
+      recreate = true;
+    }
 
     if (recreate) {
-      _recreateFirebaseClient(model, systemInstruction);
+      _recreateFirebaseClient(model, systemInstruction, tools, toolChoice);
     }
   }
 }

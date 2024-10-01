@@ -59,9 +59,6 @@ sealed class ChatCompletionMessage with _$ChatCompletionMessage {
     /// The contents of the assistant message. Required unless `tool_calls` or `function_call` is specified.
     @JsonKey(includeIfNull: false) String? content,
 
-    /// The refusal message by the assistant.
-    @JsonKey(includeIfNull: false) String? refusal,
-
     /// An optional name for the participant. Provides the model information to differentiate between participants of the same role.
     @JsonKey(includeIfNull: false) String? name,
 
@@ -138,12 +135,12 @@ sealed class ChatCompletionUserMessageContent
     with _$ChatCompletionUserMessageContent {
   const ChatCompletionUserMessageContent._();
 
-  /// An array of content parts with a defined type, each can be of type `text` or `image_url` when passing in images. You can pass multiple images by adding multiple `image_url` content parts. Image input is only supported when using the `gpt-4o` model.
+  /// An array of content parts with a defined type, each can be of type `text` or `image_url` when passing in images. You can pass multiple images by adding multiple `image_url` content parts. Image input is only supported when using the `gpt-4-vision-preview` model.
   const factory ChatCompletionUserMessageContent.parts(
     List<ChatCompletionMessageContentPart> value,
   ) = ChatCompletionMessageContentParts;
 
-  /// The text contents of the user message.
+  /// The text contents of the message.
   const factory ChatCompletionUserMessageContent.string(
     String value,
   ) = ChatCompletionUserMessageContentString;
@@ -161,11 +158,9 @@ class _ChatCompletionUserMessageContentConverter
 
   @override
   ChatCompletionUserMessageContent fromJson(Object? data) {
-    if (data is List && data.every((item) => item is Map)) {
-      return ChatCompletionMessageContentParts(data
-          .map((i) => ChatCompletionMessageContentPart.fromJson(
-              i as Map<String, dynamic>))
-          .toList(growable: false));
+    if (data is List &&
+        data.every((item) => item is ChatCompletionMessageContentPart)) {
+      return ChatCompletionMessageContentParts(data.cast());
     }
     if (data is String) {
       return ChatCompletionUserMessageContentString(data);

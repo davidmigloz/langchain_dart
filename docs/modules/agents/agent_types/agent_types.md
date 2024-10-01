@@ -8,7 +8,7 @@ response to the user. Here are the agents available in LangChain.
 
 ### OpenAI Functions
 
-Certain OpenAI models (like `gpt-3.5-turbo` and `gpt-4`) have been
+Certain OpenAI models (like gpt-3.5-turbo-0613 and gpt-4-0613) have been
 explicitly fine-tuned to detect when a function should to be called and respond
 with the inputs that should be passed to the function. The OpenAI Functions
 Agent is designed to work with these models.

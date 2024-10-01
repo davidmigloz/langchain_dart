@@ -347,7 +347,7 @@ class _CompletionPromptConverter
 
   @override
   CompletionPrompt fromJson(Object? data) {
-    if (data is List && data.every((item) => item is List)) {
+    if (data is List && data.every((item) => item is List<int>)) {
       return CompletionPromptListListInt(data.cast());
     }
     if (data is List && data.every((item) => item is int)) {

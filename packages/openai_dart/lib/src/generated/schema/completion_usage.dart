@@ -23,10 +23,6 @@ class CompletionUsage with _$CompletionUsage {
 
     /// Total number of tokens used in the request (prompt + completion).
     @JsonKey(name: 'total_tokens') required int totalTokens,
-
-    /// Breakdown of tokens used in a completion.
-    @JsonKey(name: 'completion_tokens_details', includeIfNull: false)
-    CompletionTokensDetails? completionTokensDetails,
   }) = _CompletionUsage;
 
   /// Object construction from a JSON representation
@@ -37,8 +33,7 @@ class CompletionUsage with _$CompletionUsage {
   static const List<String> propertyNames = [
     'completion_tokens',
     'prompt_tokens',
-    'total_tokens',
-    'completion_tokens_details'
+    'total_tokens'
   ];
 
   /// Perform validations on the schema property values
@@ -52,7 +47,6 @@ class CompletionUsage with _$CompletionUsage {
       'completion_tokens': completionTokens,
       'prompt_tokens': promptTokens,
       'total_tokens': totalTokens,
-      'completion_tokens_details': completionTokensDetails,
     };
   }
 }

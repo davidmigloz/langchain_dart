@@ -23,10 +23,6 @@ class Message with _$Message {
 
     /// (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
     @JsonKey(includeIfNull: false) List<String>? images,
-
-    /// A list of tools the model wants to call.
-    @JsonKey(name: 'tool_calls', includeIfNull: false)
-    List<ToolCall>? toolCalls,
   }) = _Message;
 
   /// Object construction from a JSON representation
@@ -34,12 +30,7 @@ class Message with _$Message {
       _$MessageFromJson(json);
 
   /// List of all property names of schema
-  static const List<String> propertyNames = [
-    'role',
-    'content',
-    'images',
-    'tool_calls'
-  ];
+  static const List<String> propertyNames = ['role', 'content', 'images'];
 
   /// Perform validations on the schema property values
   String? validateSchema() {
@@ -52,7 +43,6 @@ class Message with _$Message {
       'role': role,
       'content': content,
       'images': images,
-      'tool_calls': toolCalls,
     };
   }
 }
@@ -69,6 +59,4 @@ enum MessageRole {
   user,
   @JsonValue('assistant')
   assistant,
-  @JsonValue('tool')
-  tool,
 }

@@ -1,4 +1,4 @@
 /// Contains core abstractions related to prompts.
-library;
+library prompts;
 
 export 'src/prompts/prompts.dart';

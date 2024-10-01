@@ -49,7 +49,7 @@ print(chunks.first);
 //   },
 //   finishReason: FinishReason.unspecified,
 //   metadata: {
-//     model: gpt-4o-mini,
+//     model: gpt-3.5-turbo-0125,
 //     created: 1714143945,
 //     system_fingerprint: fp_3b956da36b
 //   },
@@ -71,7 +71,7 @@ print(result);
 //   },
 //   finishReason: FinishReason.unspecified,
 //   metadata: {
-//     model: gpt-4o-mini,
+//     model: gpt-3.5-turbo-0125,
 //     created: 1714143945,
 //     system_fingerprint: fp_3b956da36b
 //   },
@@ -124,7 +124,9 @@ Let’s see such a parser in action to understand what this means.
 final model = ChatOpenAI(
   apiKey: openAiApiKey,
   defaultOptions: const ChatOpenAIOptions(
-    responseFormat: ChatOpenAIResponseFormat.jsonObject,
+    responseFormat: ChatOpenAIResponseFormat(
+      type: ChatOpenAIResponseFormatType.jsonObject,
+    ),
   ),
 );
 final parser = JsonOutputParser<ChatResult>();

@@ -155,7 +155,7 @@ class _ChatWidgetState extends State<ChatWidget> {
 
     _model = ChatFirebaseVertexAI(
       defaultOptions: ChatFirebaseVertexAIOptions(
-        model: 'gemini-1.5-pro',
+        model: 'gemini-1.5-pro-preview-0514',
         tools: [exchangeRateTool],
       ),
       // location: 'us-central1',
@@ -580,7 +580,7 @@ class MessageWidget extends StatelessWidget {
             decoration: BoxDecoration(
               color: isFromUser
                   ? Theme.of(context).colorScheme.primaryContainer
-                  : Theme.of(context).colorScheme.surfaceContainerHighest,
+                  : Theme.of(context).colorScheme.surfaceVariant,
               borderRadius: BorderRadius.circular(18),
             ),
             padding: const EdgeInsets.symmetric(

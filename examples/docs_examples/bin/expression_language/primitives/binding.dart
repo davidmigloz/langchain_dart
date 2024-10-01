@@ -63,7 +63,7 @@ Future<void> _differentModels() async {
         chatModel.bind(const ChatOpenAIOptions(model: 'gpt-4-turbo')) |
         outputParser,
     'q2': prompt2 |
-        chatModel.bind(const ChatOpenAIOptions(model: 'gpt-4o-mini')) |
+        chatModel.bind(const ChatOpenAIOptions(model: 'gpt-3.5-turbo')) |
         outputParser,
   });
   final res = await chain.invoke({'name': 'David'});

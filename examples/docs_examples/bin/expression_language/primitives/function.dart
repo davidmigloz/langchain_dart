@@ -73,7 +73,7 @@ Future<void> _function() async {
   //   },
   //   finishReason: FinishReason.stop,
   //   metadata: {
-  //     model: gpt-4o-mini,
+  //     model: gpt-3.5-turbo-0125,
   //     created: 1714463309,
   //     system_fingerprint: fp_3b956da36b
   //   },
@@ -116,7 +116,7 @@ Future<void> _function() async {
   //   },
   //   finishReason: FinishReason.unspecified,
   //   metadata: {
-  //     model: gpt-4o-mini,
+  //     model: gpt-3.5-turbo-0125,
   //     created: 1714463766,
   //     system_fingerprint: fp_3b956da36b
   //   },
@@ -135,7 +135,7 @@ Future<void> _function() async {
   //   },
   //   finishReason: FinishReason.unspecified,
   //   metadata: {
-  //     model: gpt-4o-mini,
+  //     model: gpt-3.5-turbo-0125,
   //     created: 1714463766,
   //     system_fingerprint: fp_3b956da36b
   //   },
@@ -154,7 +154,7 @@ Future<void> _function() async {
   //   },
   //   finishReason: FinishReason.unspecified,
   //   metadata: {
-  //     model: gpt-4o-mini,
+  //     model: gpt-3.5-turbo-0125,
   //     created: 1714463766,
   //     system_fingerprint: fp_3b956da36b
   //   },

@@ -135,7 +135,7 @@ class EmbeddingsByteStoreEncoder
   @override
   String encodeKey(final String key) {
     final keyHash = sha1.convert(utf8.encode(key)).toString();
-    return uuid.v5(Namespace.URL, keyHash);
+    return uuid.v5(Uuid.NAMESPACE_URL, keyHash);
   }
 
   @override

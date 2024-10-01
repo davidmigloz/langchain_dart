@@ -1,4 +1,4 @@
 /// Contains core abstractions related to documents.
-library;
+library documents;
 
 export 'src/documents/documents.dart';

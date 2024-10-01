@@ -23,9 +23,6 @@ class GenerateCompletionRequest with _$GenerateCompletionRequest {
     /// The prompt to generate a response.
     required String prompt,
 
-    /// The text that comes after the inserted text.
-    @JsonKey(includeIfNull: false) String? suffix,
-
     /// (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
     @JsonKey(includeIfNull: false) List<String>? images,
 
@@ -77,7 +74,6 @@ class GenerateCompletionRequest with _$GenerateCompletionRequest {
   static const List<String> propertyNames = [
     'model',
     'prompt',
-    'suffix',
     'images',
     'system',
     'template',
@@ -99,7 +95,6 @@ class GenerateCompletionRequest with _$GenerateCompletionRequest {
     return {
       'model': model,
       'prompt': prompt,
-      'suffix': suffix,
       'images': images,
       'system': system,
       'template': template,

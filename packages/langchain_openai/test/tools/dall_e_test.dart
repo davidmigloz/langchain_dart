@@ -4,7 +4,7 @@ library; // Uses dart:io
 
 import 'dart:io';
 
-import 'package:langchain/langchain.dart' show AgentExecutor, ToolsAgent;
+import 'package:langchain/langchain.dart' show AgentExecutor;
 import 'package:langchain_community/langchain_community.dart';
 import 'package:langchain_core/tools.dart';
 import 'package:langchain_openai/langchain_openai.dart';
@@ -62,7 +62,7 @@ void main() {
         ),
       ];
 
-      final agent = ToolsAgent.fromLLMAndTools(
+      final agent = OpenAIToolsAgent.fromLLMAndTools(
         llm: llm,
         tools: tools,
       );

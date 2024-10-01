@@ -1,6 +1,6 @@
 import 'types.dart';
 
-/// Extensions on `List<ChatMessage>`.
+/// Extensions on [List<ChatMessage>].
 extension ChatMessagesX on List<ChatMessage> {
   /// This function is to get a string representation of the chat messages
   /// based on the message content and role.

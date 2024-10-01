@@ -1,4 +1,4 @@
-# melos_managed_dependency_overrides: chromadb,langchain,langchain_community,langchain_core,langchain_openai,openai_dart,tavily_dart
+# melos_managed_dependency_overrides: chromadb,langchain_openai,openai_dart,langchain_core,langchain_community,langchain
 dependency_overrides:
   chromadb:
     path: ../chromadb
@@ -12,5 +12,3 @@ dependency_overrides:
     path: ../langchain_openai
   openai_dart:
     path: ../openai_dart
-  tavily_dart:
-    path: ../tavily_dart

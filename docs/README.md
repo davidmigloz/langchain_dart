@@ -38,7 +38,7 @@ LCEL is a declarative way to compose chains. LCEL was designed from day 1 to sup
 
 - [Overview](/expression_language/expression_language): LCEL and its benefits
 - [Interface](/expression_language/interface): The standard interface for LCEL objects
-- [Cookbook](https://langchaindart.dev/#/expression_language/cookbook/prompt_llm_parser): Example code for accomplishing common tasks
+- [Cookbook](https://langchaindart.com/#/expression_language/cookbook/prompt_llm_parser): Example code for accomplishing common tasks
 
 ## Modules
 

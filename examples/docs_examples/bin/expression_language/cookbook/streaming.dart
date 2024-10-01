@@ -33,7 +33,7 @@ Future<void> _languageModels() async {
   //   },
   //   finishReason: FinishReason.unspecified,
   //   metadata: {
-  //     model: gpt-4o-mini,
+  //     model: gpt-3.5-turbo-0125,
   //     created: 1714143945,
   //     system_fingerprint: fp_3b956da36b
   //   },
@@ -49,7 +49,7 @@ Future<void> _languageModels() async {
   //   },
   //   finishReason: FinishReason.unspecified,
   //   metadata: {
-  //     model: gpt-4o-mini,
+  //     model: gpt-3.5-turbo-0125,
   //     created: 1714143945,
   //     system_fingerprint: fp_3b956da36b
   //   },
@@ -79,7 +79,9 @@ Future<void> _inputStreams() async {
   final model = ChatOpenAI(
     apiKey: openAiApiKey,
     defaultOptions: const ChatOpenAIOptions(
-      responseFormat: ChatOpenAIResponseFormat.jsonObject,
+      responseFormat: ChatOpenAIResponseFormat(
+        type: ChatOpenAIResponseFormatType.jsonObject,
+      ),
     ),
   );
   final parser = JsonOutputParser<ChatResult>();
@@ -123,7 +125,9 @@ Future<void> _inputStreamMapper() async {
   final model = ChatOpenAI(
     apiKey: openAiApiKey,
     defaultOptions: const ChatOpenAIOptions(
-      responseFormat: ChatOpenAIResponseFormat.jsonObject,
+      responseFormat: ChatOpenAIResponseFormat(
+        type: ChatOpenAIResponseFormatType.jsonObject,
+      ),
     ),
   );
   final parser = JsonOutputParser<ChatResult>();

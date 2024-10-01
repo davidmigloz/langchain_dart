@@ -1,4 +1,4 @@
 /// Contains core abstractions related to language models.
-library;
+library language_models;
 
 export 'src/language_models/language_models.dart';

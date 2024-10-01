@@ -7,14 +7,14 @@ void main() {
   group('Ollama Models API tests', skip: Platform.environment.containsKey('CI'),
       () {
     late OllamaClient client;
-    const defaultModel = 'gemma2';
+    const defaultModel = 'llama3:latest';
 
     setUp(() async {
       client = OllamaClient();
       // Check that the model exists
       final res = await client.listModels();
       expect(
-        res.models?.firstWhere((final m) => m.model!.startsWith(defaultModel)),
+        res.models?.firstWhere((final m) => m.model == defaultModel),
         isNotNull,
       );
     });
@@ -62,26 +62,7 @@ void main() {
 
     test('Test list models', () async {
       final res = await client.listModels();
-      expect(
-        res.models?.any((final m) => m.model!.startsWith(defaultModel)),
-        isTrue,
-      );
-    });
-
-    test('Test list running models', () async {
-      await client.generateCompletion(
-        request: const GenerateCompletionRequest(
-          model: defaultModel,
-          prompt: 'You are a llama',
-          options: RequestOptions(numPredict: 1),
-        ),
-      );
-
-      final res = await client.listRunningModels();
-      expect(
-        res.models?.any((final m) => m.model!.startsWith(defaultModel)),
-        isTrue,
-      );
+      expect(res.models?.any((final m) => m.model == defaultModel), isTrue);
     });
 
     test('Test show model info', () async {
@@ -90,17 +71,7 @@ void main() {
       );
       expect(res.license, isNotEmpty);
       expect(res.modelfile, isNotEmpty);
-      expect(res.parameters, isNotEmpty);
       expect(res.template, isNotEmpty);
-      expect(res.details?.format, isNotEmpty);
-      expect(res.details?.family, isNotEmpty);
-      expect(res.details?.families, isNotEmpty);
-      expect(res.details?.parameterSize, isNotEmpty);
-      expect(res.details?.quantizationLevel, isNotEmpty);
-      expect(res.modelInfo?.generalArchitecture, isNotEmpty);
-      expect(res.modelInfo?.generalFileType, greaterThan(0));
-      expect(res.modelInfo?.generalParameterCount, greaterThan(0));
-      expect(res.modelInfo?.generalQuantizationVersion, greaterThan(0));
     });
 
     test('Test copy model', () async {
@@ -158,7 +129,7 @@ void main() {
         request: const PushModelRequest(model: 'mattw/pygmalion:latest'),
       );
 
-      expect(res.status, equals('success'));
+      expect(res.status, PushModelStatus.success);
     });
 
     test('Test push model stream', skip: true, () async {
@@ -167,25 +138,25 @@ void main() {
       );
 
       int count = 0;
-      String? lastStatus;
+      PushModelStatus? lastStatus;
       await for (final res in stream) {
         lastStatus = res.status;
         count++;
       }
       expect(count, greaterThan(1));
-      expect(lastStatus, equals('success'));
+      expect(lastStatus, equals(PushModelStatus.success));
     });
 
     test('Test check blob', skip: true, () async {
       await client.checkBlob(
-        digest:
+        name:
             'sha256:29fdb92e57cf0827ded04ae6461b5931d01fa595843f55d36f5b275a52087dd2',
       );
     });
 
     test('Test create blob', skip: true, () async {
       await client.createBlob(
-        digest:
+        name:
             'sha256:29fdb92e57cf0827ded04ae6461b5931d01fa595843f55d36f5b275a52087dd2',
         request: 'file contents',
       );

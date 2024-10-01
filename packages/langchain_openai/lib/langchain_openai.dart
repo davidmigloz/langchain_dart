@@ -1,4 +1,4 @@
-/// LangChain.dart integration module for OpenAI (GPT-4o, Embeddings, DALL·E, etc.).
+/// LangChain.dart integration module for OpenAI (GPT-3, GPT-4, Functions, etc.).
 library;
 
 export 'package:openai_dart/openai_dart.dart' show OpenAIClientException;

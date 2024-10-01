@@ -25,10 +25,8 @@ import 'types.dart';
 /// - [Completions API docs](https://platform.openai.com/docs/api-reference/chat)
 ///
 /// You can also use this wrapper to consume OpenAI-compatible APIs like
-/// [TogetherAI](https://www.together.ai/), [Anyscale](https://www.anyscale.com/),
-/// [OpenRouter](https://openrouter.ai), [One API](https://github.com/songquanpeng/one-api),
-/// [Groq](https://groq.com/), [Llamafile](https://llamafile.ai/),
-/// [GPT4All](https://gpt4all.io/), [FastChat](https://github.com/lm-sys/FastChat), etc.
+/// [Anyscale](https://www.anyscale.com), [Together AI](https://www.together.ai),
+/// [OpenRouter](https://openrouter.ai), [One API](https://github.com/songquanpeng/one-api), etc.
 ///
 /// ### Call options
 ///
@@ -76,7 +74,7 @@ import 'types.dart';
 /// final prompt2 = PromptTemplate.fromTemplate('How old are you {name}?');
 /// final chain = Runnable.fromMap({
 ///   'q1': prompt1 | chatModel.bind(const ChatOpenAIOptions(model: 'gpt-4')) | outputParser,
-///   'q2': prompt2| chatModel.bind(const ChatOpenAIOptions(model: 'gpt-4o-mini')) | outputParser,
+///   'q2': prompt2| chatModel.bind(const ChatOpenAIOptions(model: 'gpt-3.5-turbo')) | outputParser,
 /// });
 /// final res = await chain.invoke({'name': 'David'});
 /// ```
@@ -174,7 +172,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   ///   [OpenAI dashboard](https://platform.openai.com/account/api-keys).
   /// - `organization`: your OpenAI organization ID (if applicable).
   /// - [ChatOpenAI.encoding]
-  /// - [ChatOpenAI.defaultOptions]
+  /// - [OpenAI.defaultOptions]
   ///
   /// Advance configuration options:
   /// - `baseUrl`: the base URL to use. Defaults to OpenAI's API URL. You can
@@ -194,13 +192,12 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
     super.defaultOptions = const ChatOpenAIOptions(
-      model: defaultModel,
+      model: 'gpt-3.5-turbo',
     ),
     this.encoding,
   }) : _client = OpenAIClient(
           apiKey: apiKey ?? '',
           organization: organization,
-          beta: null,
           baseUrl: baseUrl,
           headers: headers,
           queryParams: queryParams,
@@ -239,19 +236,15 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   @override
   String get modelType => 'openai-chat';
 
-  /// The default model to use unless another is specified.
-  static const defaultModel = 'gpt-4o-mini';
-
   @override
   Future<ChatResult> invoke(
     final PromptValue input, {
     final ChatOpenAIOptions? options,
   }) async {
     final completion = await _client.createChatCompletion(
-      request: createChatCompletionRequest(
+      request: _createChatCompletionRequest(
         input.toChatMessages(),
         options: options,
-        defaultOptions: defaultOptions,
       ),
     );
     return completion.toChatResult(completion.id ?? _uuid.v4());
@@ -264,10 +257,9 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   }) {
     return _client
         .createChatCompletionStream(
-          request: createChatCompletionRequest(
+          request: _createChatCompletionRequest(
             input.toChatMessages(),
             options: options,
-            defaultOptions: defaultOptions,
             stream: true,
           ),
         )
@@ -275,6 +267,48 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
           (final completion) =>
               completion.toChatResult(completion.id ?? _uuid.v4()),
         );
+  }
+
+  /// Creates a [CreateChatCompletionRequest] from the given input.
+  CreateChatCompletionRequest _createChatCompletionRequest(
+    final List<ChatMessage> messages, {
+    final ChatOpenAIOptions? options,
+    final bool stream = false,
+  }) {
+    final messagesDtos = messages.toChatCompletionMessages();
+    final toolsDtos = options?.tools?.toChatCompletionTool() ??
+        defaultOptions.tools?.toChatCompletionTool();
+    final toolChoice = options?.toolChoice?.toChatCompletionToolChoice() ??
+        defaultOptions.toolChoice?.toChatCompletionToolChoice();
+    final responseFormat =
+        options?.responseFormat ?? defaultOptions.responseFormat;
+    final responseFormatDto = responseFormat?.toChatCompletionResponseFormat();
+
+    return CreateChatCompletionRequest(
+      model: ChatCompletionModel.modelId(
+        options?.model ?? defaultOptions.model ?? throwNullModelError(),
+      ),
+      messages: messagesDtos,
+      tools: toolsDtos,
+      toolChoice: toolChoice,
+      frequencyPenalty:
+          options?.frequencyPenalty ?? defaultOptions.frequencyPenalty,
+      logitBias: options?.logitBias ?? defaultOptions.logitBias,
+      maxTokens: options?.maxTokens ?? defaultOptions.maxTokens,
+      n: options?.n ?? defaultOptions.n,
+      presencePenalty:
+          options?.presencePenalty ?? defaultOptions.presencePenalty,
+      responseFormat: responseFormatDto,
+      seed: options?.seed ?? defaultOptions.seed,
+      stop: (options?.stop ?? defaultOptions.stop) != null
+          ? ChatCompletionStop.listString(options?.stop ?? defaultOptions.stop!)
+          : null,
+      temperature: options?.temperature ?? defaultOptions.temperature,
+      topP: options?.topP ?? defaultOptions.topP,
+      user: options?.user ?? defaultOptions.user,
+      streamOptions:
+          stream ? const ChatCompletionStreamOptions(includeUsage: true) : null,
+    );
   }
 
   /// Tokenizes the given prompt using tiktoken with the encoding used by the
@@ -295,7 +329,8 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     final PromptValue promptValue, {
     final ChatOpenAIOptions? options,
   }) async {
-    final model = options?.model ?? defaultOptions.model ?? defaultModel;
+    final model =
+        options?.model ?? defaultOptions.model ?? throwNullModelError();
     final tiktoken = _getTiktoken();
     final messages = promptValue.toChatMessages();
 
@@ -304,6 +339,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     final int tokensPerName;
 
     switch (model) {
+      case 'gpt-3.5-turbo-0613':
       case 'gpt-3.5-turbo-16k-0613':
       case 'gpt-4-0314':
       case 'gpt-4-32k-0314':
@@ -317,8 +353,8 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
         // If there's a name, the role is omitted
         tokensPerName = -1;
       default:
-        if (model.startsWith('gpt-4o-mini') || model.startsWith('gpt-4')) {
-          // Returning num tokens assuming gpt-4
+        if (model.startsWith('gpt-3.5-turbo') || model.startsWith('gpt-4')) {
+          // Returning num tokens assuming gpt-3.5-turbo-0613
           tokensPerMessage = 3;
           tokensPerName = 1;
         } else {
@@ -363,7 +399,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
         : getEncoding('cl100k_base');
   }
 
-  @override
+  /// Closes the client and cleans up any resources associated with it.
   void close() {
     _client.endSession();
   }

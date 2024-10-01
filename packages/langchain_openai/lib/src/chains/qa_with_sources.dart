@@ -12,7 +12,7 @@ import 'qa_with_structure.dart';
 /// ```dart
 /// final llm = ChatOpenAI(
 ///   apiKey: openaiApiKey,
-///   model: 'gpt-4o-mini',
+///   model: 'gpt-3.5-turbo-0613',
 ///   temperature: 0,
 /// );
 /// final qaChain = OpenAIQAWithSourcesChain(llm: llm);

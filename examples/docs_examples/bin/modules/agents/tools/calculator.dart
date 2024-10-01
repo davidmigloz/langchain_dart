@@ -15,7 +15,7 @@ void main() async {
     ),
   );
   final tool = CalculatorTool();
-  final agent = ToolsAgent.fromLLMAndTools(llm: llm, tools: [tool]);
+  final agent = OpenAIToolsAgent.fromLLMAndTools(llm: llm, tools: [tool]);
   final executor = AgentExecutor(agent: agent);
   final res = await executor.run('What is 40 raised to the 0.43 power? ');
   print(res); // -> '40 raised to the power of 0.43 is approximately 4.8852'

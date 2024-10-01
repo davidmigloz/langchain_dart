@@ -31,26 +31,25 @@ import 'types.dart';
 /// ### Available models
 ///
 /// The following models are available:
-/// - `gemini-1.5-flash`:
+/// - `gemini-1.0-pro` (or `gemini-pro`):
+///   * text -> text model
+///   * Max input token: 30720
+///   * Max output tokens: 2048
+/// - `gemini-pro-vision`:
+///   * text / image -> text model
+///   * Max input token: 12288
+///   * Max output tokens: 4096
+/// - `gemini-1.5-pro-latest`: text / image -> text model
 ///   * text / image / audio -> text model
 ///   * Max input token: 1048576
 ///   * Max output tokens: 8192
-/// - `gemini-1.5-pro`:
+/// - `gemini-1.5-flash-latest`:
 ///   * text / image / audio -> text model
-///   * Max input token: 2097152
+///   * Max input token: 1048576
 ///   * Max output tokens: 8192
-/// - `gemini-1.0-pro` (or `gemini-pro`):
-///   * text -> text model
-///   * Max input token: 32760
-///   * Max output tokens: 8192
-/// - `aqa`:
-///   * text -> text model
-///   * Max input token: 7168
-///   * Max output tokens: 1024
 ///
 /// Mind that this list may not be up-to-date.
-/// Refer to the [documentation](https://ai.google.dev/gemini-api/docs/models/gemini)
-/// for the updated list.
+/// Refer to the [documentation](https://ai.google.dev/models) for the updated list.
 ///
 /// #### Tuned models
 ///
@@ -119,7 +118,7 @@ import 'types.dart';
 ///
 /// [ChatGoogleGenerativeAI] supports tool calling.
 ///
-/// Check the [docs](https://langchaindart.dev/#/modules/model_io/models/chat_models/how_to/tools)
+/// Check the [docs](https://langchaindart.com/#/modules/model_io/models/chat_models/how_to/tools)
 /// for more information on how to use tools.
 ///
 /// Example:
@@ -212,7 +211,7 @@ class ChatGoogleGenerativeAI
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
     super.defaultOptions = const ChatGoogleGenerativeAIOptions(
-      model: defaultModel,
+      model: 'gemini-pro',
     ),
   })  : _currentModel = defaultOptions.model ?? '',
         _httpClient = createDefaultHttpClient(
@@ -248,17 +247,14 @@ class ChatGoogleGenerativeAI
   /// Get the API key.
   String get apiKey => _httpClient.headers['x-goog-api-key'] ?? '';
 
+  @override
+  String get modelType => 'chat-google-generative-ai';
+
   /// The current model set in [_googleAiClient];
   String _currentModel;
 
   /// The current system instruction set in [_googleAiClient];
   String? _currentSystemInstruction;
-
-  @override
-  String get modelType => 'chat-google-generative-ai';
-
-  /// The default model to use unless another is specified.
-  static const defaultModel = 'gemini-1.5-flash';
 
   @override
   Future<ChatResult> invoke(
@@ -326,11 +322,6 @@ class ChatGoogleGenerativeAI
         temperature: options?.temperature ?? defaultOptions.temperature,
         topP: options?.topP ?? defaultOptions.topP,
         topK: options?.topK ?? defaultOptions.topK,
-        responseMimeType:
-            options?.responseMimeType ?? defaultOptions.responseMimeType,
-        responseSchema:
-            (options?.responseSchema ?? defaultOptions.responseSchema)
-                ?.toSchema(),
       ),
       (options?.tools ?? defaultOptions.tools)?.toToolList(),
       (options?.toolChoice ?? defaultOptions.toolChoice)?.toToolConfig(),
@@ -358,7 +349,7 @@ class ChatGoogleGenerativeAI
     return tokens.totalTokens;
   }
 
-  @override
+  /// Closes the client and cleans up any resources associated with it.
   void close() {
     _httpClient.close();
   }
@@ -393,7 +384,8 @@ class ChatGoogleGenerativeAI
     final List<ChatMessage> messages,
     final ChatGoogleGenerativeAIOptions? options,
   ) {
-    final model = options?.model ?? defaultOptions.model ?? defaultModel;
+    final model =
+        options?.model ?? defaultOptions.model ?? throwNullModelError();
 
     final systemInstruction = messages.firstOrNull is SystemChatMessage
         ? messages.firstOrNull?.contentAsString

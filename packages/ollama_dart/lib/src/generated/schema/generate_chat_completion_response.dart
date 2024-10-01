@@ -16,18 +16,18 @@ class GenerateChatCompletionResponse with _$GenerateChatCompletionResponse {
   /// Factory constructor for GenerateChatCompletionResponse
   const factory GenerateChatCompletionResponse({
     /// A message in the chat endpoint
-    required Message message,
+    @JsonKey(includeIfNull: false) Message? message,
 
     /// The model name.
     ///
     /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
-    required String model,
+    @JsonKey(includeIfNull: false) String? model,
 
     /// Date on which a model was created.
-    @JsonKey(name: 'created_at') required String createdAt,
+    @JsonKey(name: 'created_at', includeIfNull: false) String? createdAt,
 
     /// Whether the response has completed.
-    required bool done,
+    @JsonKey(includeIfNull: false) bool? done,
 
     /// Reason why the model is done generating a response.
     @JsonKey(

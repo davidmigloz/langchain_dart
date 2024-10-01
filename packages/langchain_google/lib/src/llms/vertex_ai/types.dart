@@ -1,19 +1,13 @@
-import 'package:collection/collection.dart';
 import 'package:langchain_core/llms.dart';
-import 'package:meta/meta.dart';
 
 /// {@template vertex_ai_options}
 /// Options to pass into the Vertex AI LLM.
-///
-/// You can find a list of available models here:
-/// https://cloud.google.com/vertex-ai/docs/generative-ai/learn/models
 /// {@endtemplate}
-@immutable
 class VertexAIOptions extends LLMOptions {
   /// {@macro vertex_ai_options}
   const VertexAIOptions({
-    this.publisher,
-    super.model,
+    this.publisher = 'google',
+    this.model = 'text-bison',
     this.maxOutputTokens,
     this.temperature,
     this.topP,
@@ -27,6 +21,17 @@ class VertexAIOptions extends LLMOptions {
   ///
   /// Use `google` for first-party models.
   final String? publisher;
+
+  /// The text model to use.
+  ///
+  /// To use the latest model version, specify the model name without a version
+  /// number (e.g. `text-bison`).
+  /// To use a stable model version, specify the model version number
+  /// (e.g. `text-bison@001`).
+  ///
+  /// You can find a list of available models here:
+  /// https://cloud.google.com/vertex-ai/docs/generative-ai/learn/models
+  final String? model;
 
   /// Maximum number of tokens that can be generated in the response. A token
   /// is approximately four characters. 100 tokens correspond to roughly
@@ -93,7 +98,8 @@ class VertexAIOptions extends LLMOptions {
   /// Range: `[1–8]`
   final int? candidateCount;
 
-  @override
+  /// Creates a copy of this [VertexAIOptions] object with the given fields
+  /// replaced with the new values.
   VertexAIOptions copyWith({
     final String? publisher,
     final String? model,
@@ -103,7 +109,6 @@ class VertexAIOptions extends LLMOptions {
     final int? topK,
     final List<String>? stopSequences,
     final int? candidateCount,
-    final int? concurrencyLimit,
   }) {
     return VertexAIOptions(
       publisher: publisher ?? this.publisher,
@@ -114,49 +119,6 @@ class VertexAIOptions extends LLMOptions {
       topK: topK ?? this.topK,
       stopSequences: stopSequences ?? this.stopSequences,
       candidateCount: candidateCount ?? this.candidateCount,
-      concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
     );
-  }
-
-  @override
-  VertexAIOptions merge(covariant final VertexAIOptions? other) {
-    return copyWith(
-      publisher: other?.publisher,
-      model: other?.model,
-      maxOutputTokens: other?.maxOutputTokens,
-      temperature: other?.temperature,
-      topP: other?.topP,
-      topK: other?.topK,
-      stopSequences: other?.stopSequences,
-      candidateCount: other?.candidateCount,
-      concurrencyLimit: other?.concurrencyLimit,
-    );
-  }
-
-  @override
-  bool operator ==(covariant final VertexAIOptions other) {
-    return publisher == other.publisher &&
-        model == other.model &&
-        maxOutputTokens == other.maxOutputTokens &&
-        temperature == other.temperature &&
-        topP == other.topP &&
-        topK == other.topK &&
-        const ListEquality<String>()
-            .equals(stopSequences, other.stopSequences) &&
-        candidateCount == other.candidateCount &&
-        concurrencyLimit == other.concurrencyLimit;
-  }
-
-  @override
-  int get hashCode {
-    return publisher.hashCode ^
-        model.hashCode ^
-        maxOutputTokens.hashCode ^
-        temperature.hashCode ^
-        topP.hashCode ^
-        topK.hashCode ^
-        const ListEquality<String>().hash(stopSequences) ^
-        candidateCount.hashCode ^
-        concurrencyLimit.hashCode;
   }
 }

@@ -8,8 +8,6 @@ import 'package:test/test.dart';
 
 // https://platform.openai.com/docs/assistants/overview
 void main() {
-  const defaultModel = 'gpt-4o';
-
   group('OpenAI Assistants API tests',
       timeout: const Timeout(Duration(minutes: 5)), () {
     late OpenAIClient client;
@@ -25,13 +23,14 @@ void main() {
     });
 
     Future<String> createAssistant() async {
+      const model = 'gpt-4';
       const name = 'Math Tutor';
       const description = 'Help students with math homework';
       const instructions =
           'You are a personal math tutor. Write and run code to answer math questions.';
       final res = await client.createAssistant(
         request: const CreateAssistantRequest(
-          model: AssistantModel.modelId(defaultModel),
+          model: AssistantModel.modelId(model),
           name: name,
           description: description,
           instructions: instructions,
@@ -43,7 +42,7 @@ void main() {
       expect(res.createdAt, greaterThan(0));
       expect(res.name, name);
       expect(res.description, description);
-      expect(res.model, startsWith(defaultModel));
+      expect(res.model, model);
       expect(res.instructions, instructions);
       expect(res.tools, hasLength(1));
       final tool = res.tools.first;
@@ -115,7 +114,6 @@ void main() {
           assistantId: assistantId,
           instructions:
               'Please address the user as Jane Doe. The user has a premium account.',
-          model: const CreateRunRequestModel.modelId(defaultModel),
         ),
       );
       expect(res.id, isNotNull);
@@ -131,7 +129,7 @@ void main() {
       expect(res.cancelledAt, isNull);
       expect(res.failedAt, isNull);
       expect(res.completedAt, isNull);
-      expect(res.model, startsWith(defaultModel));
+      expect(res.model, startsWith('gpt-4'));
       expect(res.instructions, isNotEmpty);
       expect(res.tools, hasLength(1));
       expect(res.metadata, isEmpty);

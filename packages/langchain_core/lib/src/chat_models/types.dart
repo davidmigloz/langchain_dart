@@ -7,14 +7,12 @@ import '../tools/base.dart';
 /// {@template chat_model_options}
 /// Generation options to pass into the Chat Model.
 /// {@endtemplate}
-@immutable
-abstract class ChatModelOptions extends LanguageModelOptions {
+class ChatModelOptions extends LanguageModelOptions {
   /// {@macro chat_model_options}
   const ChatModelOptions({
-    super.model,
+    super.concurrencyLimit,
     this.tools,
     this.toolChoice,
-    super.concurrencyLimit,
   });
 
   /// A list of tools the model may call.
@@ -22,14 +20,6 @@ abstract class ChatModelOptions extends LanguageModelOptions {
 
   /// Controls which (if any) tool is called by the model.
   final ChatToolChoice? toolChoice;
-
-  @override
-  ChatModelOptions copyWith({
-    final String? model,
-    final List<ToolSpec>? tools,
-    final ChatToolChoice? toolChoice,
-    final int? concurrencyLimit,
-  });
 }
 
 /// {@template chat_result}
@@ -54,7 +44,7 @@ class ChatResult extends LanguageModelResult<AIChatMessage> {
     final LanguageModelResult<AIChatMessage> other,
   ) {
     return ChatResult(
-      id: other.id.isNotEmpty ? other.id : id,
+      id: other.id,
       output: output.concat(other.output),
       finishReason: finishReason != FinishReason.unspecified &&
               other.finishReason == FinishReason.unspecified
@@ -433,8 +423,6 @@ class AIChatMessageToolCall {
   });
 
   /// The id of the tool to call.
-  ///
-  /// This is used to match up the tool results later.
   final String id;
 
   /// The name of the tool to call.
@@ -728,7 +716,7 @@ class ChatMessageContentImage extends ChatMessageContent {
 
   /// Depending on the model, this can be either:
   /// - The base64 encoded image data
-  /// - A URL of the image (only supported by some providers)
+  /// - A URL of the image.
   final String data;
 
   /// The IANA standard MIME type of the source data.
@@ -830,11 +818,8 @@ sealed class ChatToolChoice {
   /// The model does not call a tool, and responds to the end-user.
   static const none = ChatToolChoiceNone();
 
-  /// The model can pick between responding to the end-user or calling a tool.
+  /// The model can pick between an end-user or calling a tool.
   static const auto = ChatToolChoiceAuto();
-
-  /// The model must call at least one tool, but doesn’t force a particular tool.
-  static const required = ChatToolChoiceRequired();
 
   /// The model is forced to to call the specified tool.
   factory ChatToolChoice.forced({required final String name}) =>
@@ -850,19 +835,11 @@ final class ChatToolChoiceNone extends ChatToolChoice {
 }
 
 /// {@template chat_tool_choice_auto}
-/// The model can pick between responding to the end-user or calling a tool.
+/// The model can pick between an end-user or calling a tool.
 /// {@endtemplate}
 final class ChatToolChoiceAuto extends ChatToolChoice {
   /// {@macro chat_tool_choice_auto}
   const ChatToolChoiceAuto();
-}
-
-/// {@template chat_tool_choice_required}
-/// The model must call at least one tool, but doesn’t force a particular tool.
-/// {@endtemplate}
-final class ChatToolChoiceRequired extends ChatToolChoice {
-  /// {@macro chat_tool_choice_none}
-  const ChatToolChoiceRequired();
 }
 
 /// {@template chat_tool_choice_forced}

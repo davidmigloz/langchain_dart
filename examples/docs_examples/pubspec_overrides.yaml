@@ -1,13 +1,9 @@
-# melos_managed_dependency_overrides: anthropic_sdk_dart,chromadb,langchain,langchain_anthropic,langchain_chroma,langchain_community,langchain_core,langchain_google,langchain_mistralai,langchain_ollama,langchain_openai,mistralai_dart,ollama_dart,openai_dart,tavily_dart,vertex_ai
+# melos_managed_dependency_overrides: chromadb,langchain,langchain_chroma,langchain_google,langchain_mistralai,langchain_ollama,langchain_openai,mistralai_dart,ollama_dart,openai_dart,vertex_ai,langchain_core,langchain_community
 dependency_overrides:
-  anthropic_sdk_dart:
-    path: ../../packages/anthropic_sdk_dart
   chromadb:
     path: ../../packages/chromadb
   langchain:
     path: ../../packages/langchain
-  langchain_anthropic:
-    path: ../../packages/langchain_anthropic
   langchain_chroma:
     path: ../../packages/langchain_chroma
   langchain_community:
@@ -28,7 +24,5 @@ dependency_overrides:
     path: ../../packages/ollama_dart
   openai_dart:
     path: ../../packages/openai_dart
-  tavily_dart:
-    path: ../../packages/tavily_dart
   vertex_ai:
     path: ../../packages/vertex_ai

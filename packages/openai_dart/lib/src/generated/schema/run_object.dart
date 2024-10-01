@@ -68,9 +68,7 @@ class RunObject with _$RunObject {
     /// The list of tools that the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run.
     required List<AssistantTools> tools,
 
-    /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
-    /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-    /// can be a maxium of 512 characters long.
+    /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
     required Map<String, dynamic>? metadata,
 
     /// Usage statistics related to the run. This value will be `null` if the run is not in a terminal state (i.e. `in_progress`, `queued`, etc.).
@@ -101,27 +99,11 @@ class RunObject with _$RunObject {
     @JsonKey(name: 'tool_choice')
     required RunObjectToolChoice? toolChoice,
 
-    /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
-    /// during tool use.
-    @JsonKey(name: 'parallel_tool_calls') required bool? parallelToolCalls,
-
-    /// Specifies the format that the model must output. Compatible with
-    /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
-    /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
-    /// since `gpt-3.5-turbo-1106`.
+    /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
     ///
-    /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures
-    /// the model will match your supplied JSON schema. Learn more in the
-    /// [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
+    /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
     ///
-    /// Setting to `{ "type": "json_object" }` enables JSON mode, which ensures the message the model generates
-    /// is valid JSON.
-    ///
-    /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a
-    /// system or user message. Without this, the model may generate an unending stream of whitespace until the
-    /// generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note
-    /// that the message content may be partially cut off if `finish_reason="length"`, which indicates the
-    /// generation exceeded `max_tokens` or the conversation exceeded the max context length.
+    /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
     @_RunObjectResponseFormatConverter()
     @JsonKey(name: 'response_format')
     required RunObjectResponseFormat responseFormat,
@@ -158,7 +140,6 @@ class RunObject with _$RunObject {
     'max_completion_tokens',
     'truncation_strategy',
     'tool_choice',
-    'parallel_tool_calls',
     'response_format'
   ];
 
@@ -206,7 +187,6 @@ class RunObject with _$RunObject {
       'max_completion_tokens': maxCompletionTokens,
       'truncation_strategy': truncationStrategy,
       'tool_choice': toolChoice,
-      'parallel_tool_calls': parallelToolCalls,
       'response_format': responseFormat,
     };
   }
@@ -452,6 +432,8 @@ class _RunObjectToolChoiceConverter
 
 /// `auto` is the default value
 enum RunObjectResponseFormatMode {
+  @JsonValue('none')
+  none,
   @JsonValue('auto')
   auto,
 }
@@ -460,23 +442,11 @@ enum RunObjectResponseFormatMode {
 // CLASS: RunObjectResponseFormat
 // ==========================================
 
-/// Specifies the format that the model must output. Compatible with
-/// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
-/// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
-/// since `gpt-3.5-turbo-1106`.
+/// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
 ///
-/// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures
-/// the model will match your supplied JSON schema. Learn more in the
-/// [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
+/// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
 ///
-/// Setting to `{ "type": "json_object" }` enables JSON mode, which ensures the message the model generates
-/// is valid JSON.
-///
-/// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a
-/// system or user message. Without this, the model may generate an unending stream of whitespace until the
-/// generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note
-/// that the message content may be partially cut off if `finish_reason="length"`, which indicates the
-/// generation exceeded `max_tokens` or the conversation exceeded the max context length.
+/// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
 @freezed
 sealed class RunObjectResponseFormat with _$RunObjectResponseFormat {
   const RunObjectResponseFormat._();
@@ -487,9 +457,9 @@ sealed class RunObjectResponseFormat with _$RunObjectResponseFormat {
   ) = RunObjectResponseFormatEnumeration;
 
   /// No Description
-  const factory RunObjectResponseFormat.responseFormat(
-    ResponseFormat value,
-  ) = RunObjectResponseFormatResponseFormat;
+  const factory RunObjectResponseFormat.format(
+    AssistantsResponseFormat value,
+  ) = RunObjectResponseFormatAssistantsResponseFormat;
 
   /// Object construction from a JSON representation
   factory RunObjectResponseFormat.fromJson(Map<String, dynamic> json) =>
@@ -513,8 +483,8 @@ class _RunObjectResponseFormatConverter
     }
     if (data is Map<String, dynamic>) {
       try {
-        return RunObjectResponseFormatResponseFormat(
-          ResponseFormat.fromJson(data),
+        return RunObjectResponseFormatAssistantsResponseFormat(
+          AssistantsResponseFormat.fromJson(data),
         );
       } catch (e) {}
     }
@@ -528,7 +498,8 @@ class _RunObjectResponseFormatConverter
     return switch (data) {
       RunObjectResponseFormatEnumeration(value: final v) =>
         _$RunObjectResponseFormatModeEnumMap[v]!,
-      RunObjectResponseFormatResponseFormat(value: final v) => v.toJson(),
+      RunObjectResponseFormatAssistantsResponseFormat(value: final v) =>
+        v.toJson(),
     };
   }
 }

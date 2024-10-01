@@ -108,11 +108,4 @@ class RunnableMap<RunInput extends Object>
       }),
     ).asBroadcastStream();
   }
-
-  @override
-  void close() {
-    for (final step in steps.values) {
-      step.close();
-    }
-  }
 }

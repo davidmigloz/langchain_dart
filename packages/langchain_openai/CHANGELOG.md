@@ -1,45 +1,3 @@
-📣 Check out the [releases page](https://github.com/davidmigloz/langchain_dart/releases) or the [#announcements](https://discord.com/channels/1123158322812555295/1123250594644242534) channel on the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details.
-
----
-
-## 0.7.2
-
- - **FEAT**: Add OpenAI o1-preview and o1-mini to model catalog ([#555](https://github.com/davidmigloz/langchain_dart/issues/555)). ([9ceb5ff9](https://github.com/davidmigloz/langchain_dart/commit/9ceb5ff9029cf1ae1967a32189f88c7a8215248e))
- - **REFACTOR**: Migrate ChatOpenAI to maxCompletionTokens ([#557](https://github.com/davidmigloz/langchain_dart/issues/557)). ([08057a5b](https://github.com/davidmigloz/langchain_dart/commit/08057a5b6e08ee2633c6be6144be1619e902bbc5))
-
-## 0.7.1
-
- - **FEAT**: Add support for Structured Outputs in ChatOpenAI ([#526](https://github.com/davidmigloz/langchain_dart/issues/526)). ([c5387b5d](https://github.com/davidmigloz/langchain_dart/commit/c5387b5dd87fe2aac511c4eca2d4a497065db61f))
- - **FEAT**: Handle refusal in OpenAI's Structured Outputs API ([#533](https://github.com/davidmigloz/langchain_dart/issues/533)). ([f4c4ed99](https://github.com/davidmigloz/langchain_dart/commit/f4c4ed9902177560f13fa9f44b07f0a49c3fdf0a))
- - **FEAT**: Include logprobs in result metadata from ChatOpenAI ([#535](https://github.com/davidmigloz/langchain_dart/issues/535)). ([1834b3ad](https://github.com/davidmigloz/langchain_dart/commit/1834b3adb210b7d190a7e0574a304f069813486b))
- - **FEAT**: Add chatgpt-4o-latest to model catalog ([#527](https://github.com/davidmigloz/langchain_dart/issues/527)). ([ec82c760](https://github.com/davidmigloz/langchain_dart/commit/ec82c760582eed123d6e5d3287c24f82ac251df7))
- - **FEAT**: Add gpt-4o-2024-08-06 to model catalog ([#522](https://github.com/davidmigloz/langchain_dart/issues/522)). ([563200e0](https://github.com/davidmigloz/langchain_dart/commit/563200e0bb9d021d9cb3e46e7a77d96cf3860b1c))
- - **FEAT**: Deprecate OpenAIToolsAgent in favour of ToolsAgent ([#532](https://github.com/davidmigloz/langchain_dart/issues/532)). ([68d8011a](https://github.com/davidmigloz/langchain_dart/commit/68d8011a9aa09368875ba0434839d12623ba2bab))
- - **REFACTOR**: Don't send OpenAI-Beta header in ChatOpenAI ([#511](https://github.com/davidmigloz/langchain_dart/issues/511)). ([0e532bab](https://github.com/davidmigloz/langchain_dart/commit/0e532bab84483bf9d77a0d745f1a591eea2ff7c8))
-
-## 0.7.0
-
- - **BREAKING** **FEAT**: Update ChatOpenAI default model to gpt-4o-mini ([#507](https://github.com/davidmigloz/langchain_dart/issues/507)). ([c7b8ce91](https://github.com/davidmigloz/langchain_dart/commit/c7b8ce91ac5b4dbe6bed563fae124a9f5ad76a84))
- - **FEAT**: Add support for disabling parallel tool calls in ChatOpenAI ([#493](https://github.com/davidmigloz/langchain_dart/issues/493)). ([c46d676d](https://github.com/davidmigloz/langchain_dart/commit/c46d676dee836f1d17e0d1fd61a8f1f0ba5c2881))
- - **FEAT**: Add GPT-4o-mini to model catalog ([#497](https://github.com/davidmigloz/langchain_dart/issues/497)). ([faa23aee](https://github.com/davidmigloz/langchain_dart/commit/faa23aeeecfb64dc7d018e642952e41cc7f9eeaf))
- - **FEAT**: Add support for service tier in ChatOpenAI ([#495](https://github.com/davidmigloz/langchain_dart/issues/495)). ([af79a4ff](https://github.com/davidmigloz/langchain_dart/commit/af79a4ffcadb207bfc704365462edebfca1ed6c7))
- - **FEAT**: Implement additive options merging for cascade bind calls ([#500](https://github.com/davidmigloz/langchain_dart/issues/500)). ([8691eb21](https://github.com/davidmigloz/langchain_dart/commit/8691eb21d5d2ffbf853997cbc0eaa29a56c6ca43))
- - **REFACTOR**: Remove default model from the language model options ([#498](https://github.com/davidmigloz/langchain_dart/issues/498)). ([44363e43](https://github.com/davidmigloz/langchain_dart/commit/44363e435778282ed27bc1b2771cf8b25abc7560))
- - **REFACTOR**: Depend on exact versions for internal 1st party dependencies ([#484](https://github.com/davidmigloz/langchain_dart/issues/484)). ([244e5e8f](https://github.com/davidmigloz/langchain_dart/commit/244e5e8f30e0d9a642fe01a804cc0de5e807e13d))
-
-## 0.6.3
-
- - **FEAT**: Add support for ChatToolChoiceRequired ([#474](https://github.com/davidmigloz/langchain_dart/issues/474)). ([bf324f36](https://github.com/davidmigloz/langchain_dart/commit/bf324f36f645c53458d5891f8285991cd50f2649))
-
-## 0.6.2
-
- - **FEAT**: Add Runnable.close() to close any resources associated with it ([#439](https://github.com/davidmigloz/langchain_dart/issues/439)). ([4e08cced](https://github.com/davidmigloz/langchain_dart/commit/4e08cceda964921178061e9721618a1505198ff5))
- - **DOCS**: Document tool calling with OpenRouter ([#437](https://github.com/davidmigloz/langchain_dart/issues/437)). ([47986592](https://github.com/davidmigloz/langchain_dart/commit/47986592a674322fe2f69aff7166a3e594756ace))
-
-## 0.6.1+1
-
- - Update a dependency to the latest release.
-
 ## 0.6.1
 
  - **FEAT**: Add GPT-4o to model catalog ([#420](https://github.com/davidmigloz/langchain_dart/issues/420)). ([96214307](https://github.com/davidmigloz/langchain_dart/commit/96214307ec8ae045dade687d4c623bd4dc1be896))
@@ -115,7 +73,7 @@
 
 ## 0.3.2
 
- - **FEAT**: Support OpenRouter API in ChatOpenAI wrapper ([#292](https://github.com/davidmigloz/langchain_dart/issues/292)). ([c6e7e5be](https://github.com/davidmigloz/langchain_dart/commit/c6e7e5beeb03c32a93b062aab874cae3da0a52d9)) ([docs](https://langchaindart.dev/#/modules/model_io/models/chat_models/integrations/open_router))
+ - **FEAT**: Support OpenRouter API in ChatOpenAI wrapper ([#292](https://github.com/davidmigloz/langchain_dart/issues/292)). ([c6e7e5be](https://github.com/davidmigloz/langchain_dart/commit/c6e7e5beeb03c32a93b062aab874cae3da0a52d9)) ([docs](https://langchaindart.com/#/modules/model_io/models/chat_models/integrations/open_router))
  - **REFACTOR**: Make all LLM options fields nullable and add copyWith ([#284](https://github.com/davidmigloz/langchain_dart/issues/284)). ([57eceb9b](https://github.com/davidmigloz/langchain_dart/commit/57eceb9b47da42cf19f64ddd88bfbd2c9676fd5e))
  - **REFACTOR**: Migrate tokenizer to langchain_tiktoken package ([#285](https://github.com/davidmigloz/langchain_dart/issues/285)). ([6a3b6466](https://github.com/davidmigloz/langchain_dart/commit/6a3b6466e3e4cfddda2f506adbf2eb563814d02f))
  - **FEAT**: Update internal dependencies ([#291](https://github.com/davidmigloz/langchain_dart/issues/291)). ([69621cc6](https://github.com/davidmigloz/langchain_dart/commit/69621cc61659980d046518ee20ce055e806cba1f))
@@ -295,7 +253,7 @@
 - Initial public release.
 
 Check out the announcement post for all the details:
-https://blog.langchaindart.dev/introducing-langchain-dart-6b1d34fc41ef
+https://blog.langchaindart.com/introducing-langchain-dart-6b1d34fc41ef
 
 ## 0.0.1-dev.7
 

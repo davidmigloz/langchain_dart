@@ -179,7 +179,7 @@ class _EmbeddingInputConverter
 
   @override
   EmbeddingInput fromJson(Object? data) {
-    if (data is List && data.every((item) => item is List)) {
+    if (data is List && data.every((item) => item is List<int>)) {
       return EmbeddingInputListListInt(data.cast());
     }
     if (data is List && data.every((item) => item is int)) {

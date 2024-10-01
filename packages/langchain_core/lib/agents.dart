@@ -1,4 +1,4 @@
 /// Contains core abstractions related to agents.
-library;
+library agents;
 
 export 'src/agents/agents.dart';

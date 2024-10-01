@@ -1,4 +1,4 @@
 /// Contains core abstractions related to memory.
-library;
+library memory;
 
 export 'src/memory/memory.dart';

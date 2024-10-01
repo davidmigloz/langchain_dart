@@ -13,7 +13,6 @@ _$GenerateCompletionRequestImpl _$$GenerateCompletionRequestImplFromJson(
     _$GenerateCompletionRequestImpl(
       model: json['model'] as String,
       prompt: json['prompt'] as String,
-      suffix: json['suffix'] as String?,
       images:
           (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
       system: json['system'] as String?,
@@ -43,7 +42,6 @@ Map<String, dynamic> _$$GenerateCompletionRequestImplToJson(
     }
   }
 
-  writeNotNull('suffix', instance.suffix);
   writeNotNull('images', instance.images);
   writeNotNull('system', instance.system);
   writeNotNull('template', instance.template);
@@ -67,7 +65,6 @@ _$RequestOptionsImpl _$$RequestOptionsImplFromJson(Map<String, dynamic> json) =>
       numPredict: json['num_predict'] as int?,
       topK: json['top_k'] as int?,
       topP: (json['top_p'] as num?)?.toDouble(),
-      minP: (json['min_p'] as num?)?.toDouble(),
       tfsZ: (json['tfs_z'] as num?)?.toDouble(),
       typicalP: (json['typical_p'] as num?)?.toDouble(),
       repeatLastN: json['repeat_last_n'] as int?,
@@ -109,7 +106,6 @@ Map<String, dynamic> _$$RequestOptionsImplToJson(
   writeNotNull('num_predict', instance.numPredict);
   writeNotNull('top_k', instance.topK);
   writeNotNull('top_p', instance.topP);
-  writeNotNull('min_p', instance.minP);
   writeNotNull('tfs_z', instance.tfsZ);
   writeNotNull('typical_p', instance.typicalP);
   writeNotNull('repeat_last_n', instance.repeatLastN);
@@ -134,26 +130,6 @@ Map<String, dynamic> _$$RequestOptionsImplToJson(
   writeNotNull('use_mmap', instance.useMmap);
   writeNotNull('use_mlock', instance.useMlock);
   writeNotNull('num_thread', instance.numThread);
-  return val;
-}
-
-_$VersionResponseImpl _$$VersionResponseImplFromJson(
-        Map<String, dynamic> json) =>
-    _$VersionResponseImpl(
-      version: json['version'] as String?,
-    );
-
-Map<String, dynamic> _$$VersionResponseImplToJson(
-    _$VersionResponseImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('version', instance.version);
   return val;
 }
 
@@ -213,9 +189,6 @@ _$GenerateChatCompletionRequestImpl
                   json['options'] as Map<String, dynamic>),
           stream: json['stream'] as bool? ?? false,
           keepAlive: json['keep_alive'] as int?,
-          tools: (json['tools'] as List<dynamic>?)
-              ?.map((e) => Tool.fromJson(e as Map<String, dynamic>))
-              .toList(),
         );
 
 Map<String, dynamic> _$$GenerateChatCompletionRequestImplToJson(
@@ -235,17 +208,18 @@ Map<String, dynamic> _$$GenerateChatCompletionRequestImplToJson(
   writeNotNull('options', instance.options?.toJson());
   val['stream'] = instance.stream;
   writeNotNull('keep_alive', instance.keepAlive);
-  writeNotNull('tools', instance.tools?.map((e) => e.toJson()).toList());
   return val;
 }
 
 _$GenerateChatCompletionResponseImpl
     _$$GenerateChatCompletionResponseImplFromJson(Map<String, dynamic> json) =>
         _$GenerateChatCompletionResponseImpl(
-          message: Message.fromJson(json['message'] as Map<String, dynamic>),
-          model: json['model'] as String,
-          createdAt: json['created_at'] as String,
-          done: json['done'] as bool,
+          message: json['message'] == null
+              ? null
+              : Message.fromJson(json['message'] as Map<String, dynamic>),
+          model: json['model'] as String?,
+          createdAt: json['created_at'] as String?,
+          done: json['done'] as bool?,
           doneReason: $enumDecodeNullable(
               _$DoneReasonEnumMap, json['done_reason'],
               unknownValue: JsonKey.nullForUndefinedEnumValue),
@@ -259,12 +233,7 @@ _$GenerateChatCompletionResponseImpl
 
 Map<String, dynamic> _$$GenerateChatCompletionResponseImplToJson(
     _$GenerateChatCompletionResponseImpl instance) {
-  final val = <String, dynamic>{
-    'message': instance.message.toJson(),
-    'model': instance.model,
-    'created_at': instance.createdAt,
-    'done': instance.done,
-  };
+  final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -272,6 +241,10 @@ Map<String, dynamic> _$$GenerateChatCompletionResponseImplToJson(
     }
   }
 
+  writeNotNull('message', instance.message?.toJson());
+  writeNotNull('model', instance.model);
+  writeNotNull('created_at', instance.createdAt);
+  writeNotNull('done', instance.done);
   writeNotNull('done_reason', _$DoneReasonEnumMap[instance.doneReason]);
   writeNotNull('total_duration', instance.totalDuration);
   writeNotNull('load_duration', instance.loadDuration);
@@ -294,9 +267,6 @@ _$MessageImpl _$$MessageImplFromJson(Map<String, dynamic> json) =>
       content: json['content'] as String,
       images:
           (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
-      toolCalls: (json['tool_calls'] as List<dynamic>?)
-          ?.map((e) => ToolCall.fromJson(e as Map<String, dynamic>))
-          .toList(),
     );
 
 Map<String, dynamic> _$$MessageImplToJson(_$MessageImpl instance) {
@@ -312,8 +282,6 @@ Map<String, dynamic> _$$MessageImplToJson(_$MessageImpl instance) {
   }
 
   writeNotNull('images', instance.images);
-  writeNotNull(
-      'tool_calls', instance.toolCalls?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -321,83 +289,7 @@ const _$MessageRoleEnumMap = {
   MessageRole.system: 'system',
   MessageRole.user: 'user',
   MessageRole.assistant: 'assistant',
-  MessageRole.tool: 'tool',
 };
-
-_$ToolImpl _$$ToolImplFromJson(Map<String, dynamic> json) => _$ToolImpl(
-      type: $enumDecodeNullable(_$ToolTypeEnumMap, json['type']) ??
-          ToolType.function,
-      function: json['function'] == null
-          ? null
-          : ToolFunction.fromJson(json['function'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$$ToolImplToJson(_$ToolImpl instance) {
-  final val = <String, dynamic>{
-    'type': _$ToolTypeEnumMap[instance.type]!,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('function', instance.function?.toJson());
-  return val;
-}
-
-const _$ToolTypeEnumMap = {
-  ToolType.function: 'function',
-};
-
-_$ToolFunctionImpl _$$ToolFunctionImplFromJson(Map<String, dynamic> json) =>
-    _$ToolFunctionImpl(
-      name: json['name'] as String,
-      description: json['description'] as String,
-      parameters: json['parameters'] as Map<String, dynamic>,
-    );
-
-Map<String, dynamic> _$$ToolFunctionImplToJson(_$ToolFunctionImpl instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-      'description': instance.description,
-      'parameters': instance.parameters,
-    };
-
-_$ToolCallImpl _$$ToolCallImplFromJson(Map<String, dynamic> json) =>
-    _$ToolCallImpl(
-      function: json['function'] == null
-          ? null
-          : ToolCallFunction.fromJson(json['function'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$$ToolCallImplToJson(_$ToolCallImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('function', instance.function?.toJson());
-  return val;
-}
-
-_$ToolCallFunctionImpl _$$ToolCallFunctionImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ToolCallFunctionImpl(
-      name: json['name'] as String,
-      arguments: json['arguments'] as Map<String, dynamic>,
-    );
-
-Map<String, dynamic> _$$ToolCallFunctionImplToJson(
-        _$ToolCallFunctionImpl instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-      'arguments': instance.arguments,
-    };
 
 _$GenerateEmbeddingRequestImpl _$$GenerateEmbeddingRequestImplFromJson(
         Map<String, dynamic> json) =>
@@ -584,85 +476,6 @@ Map<String, dynamic> _$$ModelDetailsImplToJson(_$ModelDetailsImpl instance) {
   return val;
 }
 
-_$ModelInformationImpl _$$ModelInformationImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ModelInformationImpl(
-      generalArchitecture: json['general.architecture'] as String?,
-      generalFileType: json['general.file_type'] as int?,
-      generalParameterCount: json['general.parameter_count'] as int?,
-      generalQuantizationVersion: json['general.quantization_version'] as int?,
-    );
-
-Map<String, dynamic> _$$ModelInformationImplToJson(
-    _$ModelInformationImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('general.architecture', instance.generalArchitecture);
-  writeNotNull('general.file_type', instance.generalFileType);
-  writeNotNull('general.parameter_count', instance.generalParameterCount);
-  writeNotNull(
-      'general.quantization_version', instance.generalQuantizationVersion);
-  return val;
-}
-
-_$ProcessResponseImpl _$$ProcessResponseImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ProcessResponseImpl(
-      models: (json['models'] as List<dynamic>?)
-          ?.map((e) => ProcessModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-
-Map<String, dynamic> _$$ProcessResponseImplToJson(
-    _$ProcessResponseImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('models', instance.models?.map((e) => e.toJson()).toList());
-  return val;
-}
-
-_$ProcessModelImpl _$$ProcessModelImplFromJson(Map<String, dynamic> json) =>
-    _$ProcessModelImpl(
-      model: json['model'] as String?,
-      size: json['size'] as int?,
-      digest: json['digest'] as String?,
-      details: json['details'] == null
-          ? null
-          : ModelDetails.fromJson(json['details'] as Map<String, dynamic>),
-      expiresAt: json['expires_at'] as String?,
-      sizeVram: json['size_vram'] as int?,
-    );
-
-Map<String, dynamic> _$$ProcessModelImplToJson(_$ProcessModelImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('model', instance.model);
-  writeNotNull('size', instance.size);
-  writeNotNull('digest', instance.digest);
-  writeNotNull('details', instance.details?.toJson());
-  writeNotNull('expires_at', instance.expiresAt);
-  writeNotNull('size_vram', instance.sizeVram);
-  return val;
-}
-
 _$ModelInfoRequestImpl _$$ModelInfoRequestImplFromJson(
         Map<String, dynamic> json) =>
     _$ModelInfoRequestImpl(
@@ -685,10 +498,6 @@ _$ModelInfoImpl _$$ModelInfoImplFromJson(Map<String, dynamic> json) =>
       details: json['details'] == null
           ? null
           : ModelDetails.fromJson(json['details'] as Map<String, dynamic>),
-      modelInfo: json['model_info'] == null
-          ? null
-          : ModelInformation.fromJson(
-              json['model_info'] as Map<String, dynamic>),
       messages: (json['messages'] as List<dynamic>?)
           ?.map((e) => Message.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -709,7 +518,6 @@ Map<String, dynamic> _$$ModelInfoImplToJson(_$ModelInfoImpl instance) {
   writeNotNull('template', instance.template);
   writeNotNull('system', instance.system);
   writeNotNull('details', instance.details?.toJson());
-  writeNotNull('model_info', instance.modelInfo?.toJson());
   writeNotNull('messages', instance.messages?.map((e) => e.toJson()).toList());
   return val;
 }
@@ -837,7 +645,8 @@ Map<String, dynamic> _$$PushModelRequestImplToJson(
 _$PushModelResponseImpl _$$PushModelResponseImplFromJson(
         Map<String, dynamic> json) =>
     _$PushModelResponseImpl(
-      status: json['status'] as String?,
+      status: $enumDecodeNullable(_$PushModelStatusEnumMap, json['status'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
       digest: json['digest'] as String?,
       total: json['total'] as int?,
       completed: json['completed'] as int?,
@@ -853,9 +662,16 @@ Map<String, dynamic> _$$PushModelResponseImplToJson(
     }
   }
 
-  writeNotNull('status', instance.status);
+  writeNotNull('status', _$PushModelStatusEnumMap[instance.status]);
   writeNotNull('digest', instance.digest);
   writeNotNull('total', instance.total);
   writeNotNull('completed', instance.completed);
   return val;
 }
+
+const _$PushModelStatusEnumMap = {
+  PushModelStatus.retrievingManifest: 'retrieving manifest',
+  PushModelStatus.startingUpload: 'starting upload',
+  PushModelStatus.pushingManifest: 'pushing manifest',
+  PushModelStatus.success: 'success',
+};

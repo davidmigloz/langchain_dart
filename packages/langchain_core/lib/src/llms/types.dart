@@ -3,13 +3,12 @@ import 'package:meta/meta.dart';
 import '../language_models/types.dart';
 
 /// {@template llm_options}
-/// Options to pass into the LLM.
+/// Generation options to pass into the LLM.
 /// {@endtemplate}
 @immutable
-abstract class LLMOptions extends LanguageModelOptions {
+class LLMOptions extends LanguageModelOptions {
   /// {@macro llm_options}
   const LLMOptions({
-    super.model,
     super.concurrencyLimit,
   });
 }

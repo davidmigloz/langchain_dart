@@ -96,7 +96,7 @@ Future<void> _runnableInterfaceBatchOptions() async {
       {'topic': 'cats'},
     ],
     options: [
-      const ChatOpenAIOptions(model: 'gpt-4o-mini', temperature: 0.5),
+      const ChatOpenAIOptions(model: 'gpt-3.5-turbo', temperature: 0.5),
       const ChatOpenAIOptions(model: 'gpt-4', temperature: 0.7),
     ],
   );

@@ -14,7 +14,7 @@ import 'package:test/test.dart';
 void main() {
   group('ChatOpenAI tests', () {
     final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
-    const defaultModel = 'gpt-4o-mini';
+    const defaultModel = 'gpt-3.5-turbo';
 
     test('Test ChatOpenAI parameters', () async {
       final chat = ChatOpenAI(
@@ -118,36 +118,36 @@ void main() {
       expect(res.content, isNotEmpty);
     });
 
-    const getCurrentWeatherTool = ToolSpec(
-      name: 'get_current_weather',
-      description: 'Get the current weather in a given location',
-      inputJsonSchema: {
-        'type': 'object',
-        'properties': {
-          'location': {
-            'type': 'string',
-            'description': 'The city and state, e.g. San Francisco, CA',
-          },
-          'unit': {
-            'type': 'string',
-            'description': 'The unit of temperature to return',
-            'enum': ['celsius', 'fahrenheit'],
-          },
-        },
-        'required': ['location'],
-      },
-    );
-
     test('Test ChatOpenAI tool calling',
         timeout: const Timeout(Duration(minutes: 1)), () async {
       final chat = ChatOpenAI(apiKey: openaiApiKey);
+
+      const tool = ToolSpec(
+        name: 'get_current_weather',
+        description: 'Get the current weather in a given location',
+        inputJsonSchema: {
+          'type': 'object',
+          'properties': {
+            'location': {
+              'type': 'string',
+              'description': 'The city and state, e.g. San Francisco, CA',
+            },
+            'unit': {
+              'type': 'string',
+              'description': 'The unit of temperature to return',
+              'enum': ['celsius', 'fahrenheit'],
+            },
+          },
+          'required': ['location'],
+        },
+      );
 
       final humanMessage = ChatMessage.humanText(
         'What’s the weather like in Boston right now?',
       );
       final res1 = await chat.invoke(
         PromptValue.chat([humanMessage]),
-        options: const ChatOpenAIOptions(tools: [getCurrentWeatherTool]),
+        options: const ChatOpenAIOptions(tools: [tool]),
       );
 
       final aiMessage1 = res1.output;
@@ -156,7 +156,7 @@ void main() {
       expect(aiMessage1.toolCalls, isNotEmpty);
       final toolCall = aiMessage1.toolCalls.first;
 
-      expect(toolCall.name, getCurrentWeatherTool.name);
+      expect(toolCall.name, tool.name);
       expect(toolCall.arguments.containsKey('location'), isTrue);
       expect(toolCall.arguments['location'], contains('Boston'));
 
@@ -172,7 +172,7 @@ void main() {
 
       final res2 = await chat.invoke(
         PromptValue.chat([humanMessage, aiMessage1, functionMessage]),
-        options: const ChatOpenAIOptions(tools: [getCurrentWeatherTool]),
+        options: const ChatOpenAIOptions(tools: [tool]),
       );
 
       final aiMessage2 = res2.output;
@@ -208,6 +208,9 @@ void main() {
 
     test('Test countTokens messages', () async {
       final models = [
+        'gpt-3.5-turbo-0301',
+        'gpt-3.5-turbo-0613',
+        'gpt-3.5-turbo-16k-0613',
         'gpt-4-0314',
         'gpt-4-0613',
       ];
@@ -267,26 +270,26 @@ void main() {
       expect(result.usage.totalTokens, greaterThan(0));
     });
 
-    const jokeTool = ToolSpec(
-      name: 'joke',
-      description: 'A joke',
-      inputJsonSchema: {
-        'type': 'object',
-        'properties': {
-          'setup': {
-            'type': 'string',
-            'description': 'The setup for the joke',
-          },
-          'punchline': {
-            'type': 'string',
-            'description': 'The punchline to the joke',
-          },
-        },
-        'required': ['location', 'punchline'],
-      },
-    );
-
     test('Test ChatOpenAI streaming with functions', () async {
+      const tool = ToolSpec(
+        name: 'joke',
+        description: 'A joke',
+        inputJsonSchema: {
+          'type': 'object',
+          'properties': {
+            'setup': {
+              'type': 'string',
+              'description': 'The setup for the joke',
+            },
+            'punchline': {
+              'type': 'string',
+              'description': 'The punchline to the joke',
+            },
+          },
+          'required': ['location', 'punchline'],
+        },
+      );
+
       final promptTemplate = ChatPromptTemplate.fromTemplate(
         'tell me a long joke about {foo}',
       );
@@ -298,7 +301,7 @@ void main() {
         ),
       ).bind(
         ChatOpenAIOptions(
-          tools: const [jokeTool],
+          tools: const [tool],
           toolChoice: ChatToolChoice.forced(name: 'joke'),
         ),
       );
@@ -327,7 +330,7 @@ void main() {
       final llm = ChatOpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const ChatOpenAIOptions(
-          model: defaultModel,
+          model: 'gpt-4-turbo',
           temperature: 0,
           seed: 12345,
         ),
@@ -356,68 +359,11 @@ void main() {
       final llm = ChatOpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const ChatOpenAIOptions(
-          model: defaultModel,
+          model: 'gpt-4-1106-preview',
           temperature: 0,
           seed: 9999,
-          responseFormat: ChatOpenAIResponseFormat.jsonObject,
-        ),
-      );
-
-      final res = await llm.invoke(prompt);
-      final outputMsg = res.output;
-      final outputJson = json.decode(outputMsg.content) as Map<String, dynamic>;
-      expect(outputJson['companies'], isNotNull);
-      final companies = outputJson['companies'] as List<dynamic>;
-      expect(companies, hasLength(2));
-      final firstCompany = companies.first as Map<String, dynamic>;
-      expect(firstCompany['name'], 'Google');
-      expect(firstCompany['origin'], 'USA');
-      final secondCompany = companies.last as Map<String, dynamic>;
-      expect(secondCompany['name'], 'Deepmind');
-      expect(secondCompany['origin'], 'UK');
-    });
-
-    test('Test Structured Output', () async {
-      final prompt = PromptValue.chat([
-        ChatMessage.system(
-          'Extract the data of any companies mentioned in the '
-          'following statement. Return a JSON list.',
-        ),
-        ChatMessage.humanText(
-          'Google was founded in the USA, while Deepmind was founded in the UK',
-        ),
-      ]);
-      final llm = ChatOpenAI(
-        apiKey: openaiApiKey,
-        defaultOptions: ChatOpenAIOptions(
-          model: defaultModel,
-          temperature: 0,
-          seed: 9999,
-          responseFormat: ChatOpenAIResponseFormat.jsonSchema(
-            const ChatOpenAIJsonSchema(
-              name: 'Companies',
-              description: 'A list of companies',
-              strict: true,
-              schema: {
-                'type': 'object',
-                'properties': {
-                  'companies': {
-                    'type': 'array',
-                    'items': {
-                      'type': 'object',
-                      'properties': {
-                        'name': {'type': 'string'},
-                        'origin': {'type': 'string'},
-                      },
-                      'additionalProperties': false,
-                      'required': ['name', 'origin'],
-                    },
-                  },
-                },
-                'additionalProperties': false,
-                'required': ['companies'],
-              },
-            ),
+          responseFormat: ChatOpenAIResponseFormat(
+            type: ChatOpenAIResponseFormatType.jsonObject,
           ),
         ),
       );
@@ -454,7 +400,7 @@ void main() {
       final chatModel = ChatOpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const ChatOpenAIOptions(
-          model: defaultModel,
+          model: 'gpt-4-turbo',
         ),
       );
 
@@ -481,70 +427,12 @@ void main() {
       final chatModel = ChatOpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const ChatOpenAIOptions(
-          model: defaultModel,
+          model: 'gpt-4-turbo',
         ),
       );
 
       final res = await chatModel.invoke(prompt);
       expect(res.output.content.toLowerCase(), contains('apple'));
-    });
-
-    test('Test additive bind calls', () async {
-      final chatModel = ChatOpenAI(
-        apiKey: openaiApiKey,
-        defaultOptions: const ChatOpenAIOptions(
-          model: defaultModel,
-          temperature: 0,
-        ),
-      );
-
-      final chatModelWithTools = chatModel.bind(
-        const ChatOpenAIOptions(
-          tools: [getCurrentWeatherTool, jokeTool],
-        ),
-      );
-
-      final res1 = await chatModelWithTools.invoke(
-        PromptValue.string(
-          'Tell me the weather in Barcelona, Spain and a joke about bears',
-        ),
-      );
-      expect(
-        res1.output.toolCalls.map((tc) => tc.name).toSet(),
-        {getCurrentWeatherTool.name, jokeTool.name},
-      );
-
-      final chatModelForceWeatherTool = chatModelWithTools.bind(
-        ChatOpenAIOptions(
-          toolChoice: ChatToolChoice.forced(name: getCurrentWeatherTool.name),
-        ),
-      );
-
-      final res2 = await chatModelForceWeatherTool.invoke(
-        PromptValue.string(
-          'Tell me the weather in Barcelona, Spain and a joke about bears',
-        ),
-      );
-      expect(
-        res2.output.toolCalls.map((tc) => tc.name).toSet(),
-        {getCurrentWeatherTool.name},
-      );
-
-      final chatModelForceJokeTool = chatModelWithTools.bind(
-        ChatOpenAIOptions(
-          toolChoice: ChatToolChoice.forced(name: jokeTool.name),
-        ),
-      );
-
-      final res3 = await chatModelForceJokeTool.invoke(
-        PromptValue.string(
-          'Tell me the weather in Barcelona, Spain and a joke about bears',
-        ),
-      );
-      expect(
-        res3.output.toolCalls.map((tc) => tc.name).toSet(),
-        {jokeTool.name},
-      );
     });
   });
 }

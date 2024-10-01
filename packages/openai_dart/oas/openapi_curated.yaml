@@ -4,7 +4,7 @@ openapi: 3.0.0
 info:
   title: OpenAI API
   description: The OpenAI REST API. Please see https://platform.openai.com/docs/api-reference for more details.
-  version: "2.3.0"
+  version: "2.0.0"
   termsOfService: https://openai.com/policies/terms-of-use
   contact:
     name: OpenAI Support
@@ -310,7 +310,7 @@ paths:
           schema:
             type: string
             # ideally this will be an actual ID, so this will always work from browser
-            example: gpt-4o-mini
+            example: gpt-3.5-turbo
           description: The ID of the model to use for this request
       responses:
         "200":
@@ -330,7 +330,7 @@ paths:
           required: true
           schema:
             type: string
-            example: ft:gpt-4o-mini:acemeco:suffix:abc123
+            example: ft:gpt-3.5-turbo:acemeco:suffix:abc123
           description: The model to delete
       responses:
         "200":
@@ -796,16 +796,6 @@ paths:
           schema:
             type: string
           description: The ID of the thread to run.
-        - name: include
-          in: query
-          description: &include_param_description |
-            A list of additional fields to include in the response. Currently the only supported value is 
-            `step_details.tool_calls[*].file_search.results[*].content` to fetch the file search result content.
-            
-            See the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/customizing-file-search-settings) 
-            for more information.
-          schema:
-            type: string
       requestBody:
         required: true
         content:
@@ -978,11 +968,6 @@ paths:
           description: *pagination_before_param_description
           schema:
             type: string
-        - name: include
-          in: query
-          description: *include_param_description
-          schema:
-            type: string
       responses:
         "200":
           description: OK
@@ -1015,11 +1000,6 @@ paths:
           schema:
             type: string
           description: The ID of the run step to retrieve.
-        - name: include
-          in: query
-          description: *include_param_description
-          schema:
-            type: string
       responses:
         "200":
           description: OK
@@ -1047,7 +1027,7 @@ paths:
           schema:
             type: string
             default: desc
-            enum: [ "asc", "desc" ]
+            enum: ["asc", "desc"]
         - name: after
           in: query
           description: *pagination_after_param_description
@@ -1173,7 +1153,7 @@ paths:
           schema:
             type: string
             default: desc
-            enum: [ "asc", "desc" ]
+            enum: ["asc", "desc"]
         - name: after
           in: query
           description: *pagination_after_param_description
@@ -1189,7 +1169,7 @@ paths:
           description: "Filter by file status. One of `in_progress`, `completed`, `failed`, `cancelled`."
           schema:
             type: string
-            enum: [ "in_progress", "completed", "failed", "cancelled" ]
+            enum: ["in_progress", "completed", "failed", "cancelled"]
       responses:
         "200":
           description: OK
@@ -1391,7 +1371,7 @@ paths:
           schema:
             type: string
             default: desc
-            enum: [ "asc", "desc" ]
+            enum: ["asc", "desc"]
         - name: after
           in: query
           description: *pagination_after_param_description
@@ -1407,7 +1387,7 @@ paths:
           description: "Filter by file status. One of `in_progress`, `completed`, `failed`, `cancelled`."
           schema:
             type: string
-            enum: [ "in_progress", "completed", "failed", "cancelled" ]
+            enum: ["in_progress", "completed", "failed", "cancelled"]
       responses:
         "200":
           description: OK
@@ -1485,7 +1465,7 @@ paths:
       operationId: cancelBatch
       tags:
         - Batch
-      summary: Cancels an in-progress batch. The batch will be in status `cancelling` for up to 10 minutes, before changing to `cancelled`, where it will have partial results (if any) available in the output file.
+      summary: Cancels an in-progress batch.
       parameters:
         - in: path
           name: batch_id
@@ -1815,10 +1795,8 @@ components:
       properties:
         model:
           title: ChatCompletionModel
-          description: |
-            ID of the model to use. See the [model endpoint compatibility](https://platform.openai.com/docs/models/model-endpoint-compatibility) 
-            table for details on which models work with the Chat API.
-          example: "gpt-4o"
+          description: ID of the model to use. See the [model endpoint compatibility](https://platform.openai.com/docs/models/model-endpoint-compatibility) table for details on which models work with the Chat API.
+          example: "gpt-4-turbo"
           anyOf:
             - type: string
               description: The ID of the model to use for this request.
@@ -1828,7 +1806,6 @@ components:
                 Available completion models. Mind that the list may not be exhaustive nor up-to-date.
               enum:
                 [
-                  "chatgpt-4o-latest",
                   "gpt-4",
                   "gpt-4-32k",
                   "gpt-4-32k-0314",
@@ -1843,9 +1820,6 @@ components:
                   "gpt-4-vision-preview",
                   "gpt-4o",
                   "gpt-4o-2024-05-13",
-                  "gpt-4o-2024-08-06",
-                  "gpt-4o-mini",
-                  "gpt-4o-mini-2024-07-18",
                   "gpt-3.5-turbo",
                   "gpt-3.5-turbo-16k",
                   "gpt-3.5-turbo-16k-0613",
@@ -1853,15 +1827,9 @@ components:
                   "gpt-3.5-turbo-0301",
                   "gpt-3.5-turbo-0613",
                   "gpt-3.5-turbo-1106",
-                  "o1-mini",
-                  "o1-mini-2024-09-12",
-                  "o1-preview",
-                  "o1-preview-2024-09-12",
                 ]
         messages:
-          description: |
-            A list of messages comprising the conversation so far. 
-            [Example Python code](https://cookbook.openai.com/examples/how_to_format_inputs_to_chatgpt_models).
+          description: A list of messages comprising the conversation so far. [Example Python code](https://cookbook.openai.com/examples/how_to_format_inputs_to_chatgpt_models).
           type: array
           minItems: 1
           items:
@@ -1882,39 +1850,22 @@ components:
           description: |
             Modify the likelihood of specified tokens appearing in the completion.
 
-            Accepts a JSON object that maps tokens (specified by their token ID in the tokenizer) to an associated bias 
-            value from -100 to 100. Mathematically, the bias is added to the logits generated by the model prior to 
-            sampling. The exact effect will vary per model, but values between -1 and 1 should decrease or increase 
-            likelihood of selection; values like -100 or 100 should result in a ban or exclusive selection of the 
-            relevant token.
+            Accepts a JSON object that maps tokens (specified by their token ID in the tokenizer) to an associated bias value from -100 to 100. Mathematically, the bias is added to the logits generated by the model prior to sampling. The exact effect will vary per model, but values between -1 and 1 should decrease or increase likelihood of selection; values like -100 or 100 should result in a ban or exclusive selection of the relevant token.
         logprobs:
-          description: | 
-            Whether to return log probabilities of the output tokens or not. If true, returns the log probabilities of 
-            each output token returned in the `content` of `message`.
+          description: Whether to return log probabilities of the output tokens or not. If true, returns the log probabilities of each output token returned in the `content` of `message`.
           type: boolean
           nullable: true
         top_logprobs:
-          description: | 
-            An integer between 0 and 20 specifying the number of most likely tokens to return at each token position, 
-            each with an associated log probability. `logprobs` must be set to `true` if this parameter is used.
+          description: An integer between 0 and 20 specifying the number of most likely tokens to return at each token position, each with an associated log probability. `logprobs` must be set to `true` if this parameter is used.
           type: integer
           minimum: 0
           maximum: 20
           nullable: true
         max_tokens:
           description: |
-            The maximum number of [tokens](https://platform.openai.com/tokenizer) that can be generated in the chat 
-            completion. This value can be used to control [costs](https://openai.com/api/pricing/) for text generated 
-            via API.
-            
-            This value is now deprecated in favor of `max_completion_tokens`, and is not compatible with 
-            [o1 series models](https://platform.openai.com/docs/guides/reasoning).
-          type: integer
-          nullable: true
-        max_completion_tokens:
-          description: |
-            An upper bound for the number of tokens that can be generated for a completion, including visible output 
-            tokens and [reasoning tokens](https://platform.openai.com/docs/guides/reasoning).
+            The maximum number of [tokens](https://platform.openai.com/tokenizer) that can be generated in the chat completion.
+
+            The total length of input tokens and generated tokens is limited by the model's context length. [Example Python code](https://cookbook.openai.com/examples/how_to_count_tokens_with_tiktoken) for counting tokens.
           type: integer
           nullable: true
         n:
@@ -1924,9 +1875,7 @@ components:
           default: 1
           example: 1
           nullable: true
-          description: | 
-            How many chat completion choices to generate for each input message. Note that you will be charged based on 
-            the number of generated tokens across all of the choices. Keep `n` as `1` to minimize costs.
+          description: How many chat completion choices to generate for each input message. Note that you will be charged based on the number of generated tokens across all of the choices. Keep `n` as `1` to minimize costs.
         presence_penalty:
           type: number
           default: 0
@@ -1935,7 +1884,21 @@ components:
           nullable: true
           description: *completions_presence_penalty_description
         response_format:
-          $ref: "#/components/schemas/ResponseFormat"
+          title: ChatCompletionResponseFormat
+          type: object
+          description: |
+            An object specifying the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+
+            Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+
+            **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+          properties:
+            type:
+              type: string
+              enum: [ "text", "json_object" ]
+              example: "json_object"
+              default: "text"
+              description: Must be one of `text` or `json_object`.
         seed:
           type: integer
           # minimum: -9223372036854775808 # The value can't be represented exactly in JavaScript
@@ -1943,27 +1906,8 @@ components:
           nullable: true
           description: |
             This feature is in Beta. 
-            If specified, our system will make a best effort to sample deterministically, such that repeated requests 
-            with the same `seed` and parameters should return the same result.
-            Determinism is not guaranteed, and you should refer to the `system_fingerprint` response parameter to 
-            monitor changes in the backend.
-        service_tier:
-          description: |
-            Specifies the latency tier to use for processing the request. This parameter is relevant for customers 
-            subscribed to the scale tier service:
-              - If set to 'auto', and the Project is Scale tier enabled, the system will utilize scale tier credits 
-                until they are exhausted. 
-              - If set to 'auto', and the Project is not Scale tier enabled, the request will be processed using the 
-                default service tier with a lower uptime SLA and no latency guarantee.
-              - If set to 'default', the request will be processed using the default service tier with a lower uptime 
-                SLA and no latency guarantee.
-              - When not set, the default behavior is 'auto'.
-            
-              When this parameter is set, the response body will include the `service_tier` utilized.
-          type: string
-          enum: [ "auto", "default" ]
-          nullable: true
-          default: null
+            If specified, our system will make a best effort to sample deterministically, such that repeated requests with the same `seed` and parameters should return the same result.
+            Determinism is not guaranteed, and you should refer to the `system_fingerprint` response parameter to monitor changes in the backend.
         stop:
           title: ChatCompletionStop
           description: |
@@ -1981,10 +1925,8 @@ components:
                 type: string
         stream:
           description: >
-            If set, partial message deltas will be sent, like in ChatGPT. Tokens will be sent as data-only 
-            [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format)
-            as they become available, with the stream terminated by a `data: [DONE]` message. 
-            [Example Python code](https://cookbook.openai.com/examples/how_to_stream_completions).
+            If set, partial message deltas will be sent, like in ChatGPT. Tokens will be sent as data-only [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format)
+            as they become available, with the stream terminated by a `data: [DONE]` message. [Example Python code](https://cookbook.openai.com/examples/how_to_stream_completions).
           type: boolean
           nullable: true
           default: false
@@ -2008,10 +1950,9 @@ components:
           description: *completions_top_p_description
         tools:
           type: array
-          description: |
+          description: >
             A list of tools the model may call. Currently, only functions are supported as a tool.
-            Use this to provide a list of functions the model may generate JSON inputs for. A max of 128 functions are 
-            supported.
+            Use this to provide a list of functions the model may generate JSON inputs for. A max of 128 functions are supported.
           items:
             $ref: "#/components/schemas/ChatCompletionTool"
         tool_choice:
@@ -2021,9 +1962,8 @@ components:
             `none` means the model will not call any tool and instead generates a message.
             `auto` means the model can pick between generating a message or calling one or more tools.
             `required` means the model must call one or more tools.
-            Specifying a particular tool via `{"type": "function", "function": {"name": "my_function"}}` forces the 
-            model to call that tool.
-            
+            Specifying a particular tool via `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+    
             `none` is the default when no tools are present. `auto` is the default if tools are present.
           oneOf:
             - type: string
@@ -2032,15 +1972,8 @@ components:
                 `none` means the model will not call any tool and instead generates a message.
                 `auto` means the model can pick between generating a message or calling one or more tools.
                 `required` means the model must call one or more tools.
-              enum: [ none, auto, required ]
+              enum: [none, auto, required]
             - $ref: "#/components/schemas/ChatCompletionNamedToolChoice"
-        parallel_tool_calls: &parallel_tool_calls
-          description: |
-            Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling) 
-            during tool use.
-          type: boolean
-          default: null
-          nullable: true
         user: *end_user_param_configuration
         function_call:
           title: ChatCompletionFunctionCall
@@ -2051,8 +1984,7 @@ components:
             Controls which (if any) function is called by the model.
             `none` means the model will not call a function and instead generates a message.
             `auto` means the model can pick between generating a message or calling a function.
-            Specifying a particular function via [ChatCompletionFunctionCallOption] forces the model to call that 
-            function.
+            Specifying a particular function via [ChatCompletionFunctionCallOption] forces the model to call that function.
             
             `none` is the default when no functions are present. `auto` is the default if functions are present.
           oneOf:
@@ -2113,12 +2045,13 @@ components:
           default: user
           description: The role of the messages author, in this case `user`.
         content:
+          # TODO extract to ChatCompletionMessageContent once generator bug fixed
           description: The contents of the user message.
           oneOf:
             - type: string
-              description: The text contents of the user message.
+              description: The text contents of the message.
             - type: array
-              description: An array of content parts with a defined type, each can be of type `text` or `image_url` when passing in images. You can pass multiple images by adding multiple `image_url` content parts. Image input is only supported when using the `gpt-4o` model.
+              description: An array of content parts with a defined type, each can be of type `text` or `image_url` when passing in images. You can pass multiple images by adding multiple `image_url` content parts. Image input is only supported when using the `gpt-4-vision-preview` model.
               items:
                 $ref: "#/components/schemas/ChatCompletionMessageContentPart"
               minItems: 1
@@ -2140,10 +2073,6 @@ components:
           type: string
           description: |
             The contents of the assistant message. Required unless `tool_calls` or `function_call` is specified.
-        refusal:
-          nullable: true
-          type: string
-          description: The refusal message by the assistant.
         name:
           type: string
           description: An optional name for the participant. Provides the model information to differentiate between participants of the same role.
@@ -2195,12 +2124,11 @@ components:
       oneOf:
         - $ref: "#/components/schemas/ChatCompletionMessageContentPartText"
         - $ref: "#/components/schemas/ChatCompletionMessageContentPartImage"
-        - $ref: "#/components/schemas/ChatCompletionMessageContentPartRefusal"
       discriminator:
         propertyName: type
     ChatCompletionMessageContentPartText:
       type: object
-      description: A text content part of a message.
+      description: A text content part of a user message.
       properties:
         type:
           $ref: "#/components/schemas/ChatCompletionMessageContentPartType"
@@ -2213,7 +2141,7 @@ components:
         - text
     ChatCompletionMessageContentPartImage:
       type: object
-      description: An image content part of a user message.
+      title: Image content part
       properties:
         type:
           $ref: "#/components/schemas/ChatCompletionMessageContentPartType"
@@ -2238,25 +2166,9 @@ components:
             - url
       required:
         - image_url
-    ChatCompletionMessageContentPartRefusal:
-      type: object
-      description: A refusal content part of a message.
-      properties:
-        type:
-          $ref: "#/components/schemas/ChatCompletionMessageContentPartType"
-          default: refusal
-          description: The type of the content part, in this case `refusal`.
-        refusal:
-          type: string
-          description: The refusal message generated by the model.
-      required:
-        - refusal
     ChatCompletionMessageContentPartType:
       type: string
-      enum:
-        - text
-        - image_url
-        - refusal
+      enum: [ "text", "image_url" ]
       description: The type of the content part.
     ChatCompletionMessageRole:
       type: string
@@ -2290,120 +2202,18 @@ components:
       properties:
         name:
           type: string
-          description: |
-            The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a 
-            maximum length of 64.
+          description: The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64.
         description:
           type: string
-          description: |
-            A description of what the function does, used by the model to choose when and how to call the function.
+          description: A description of what the function does, used by the model to choose when and how to call the function.
         parameters:
           $ref: "#/components/schemas/FunctionParameters"
-        strict:
-          type: boolean
-          nullable: true
-          default: false
-          description: |
-            Whether to enable strict schema adherence when generating the function call. If set to true, the model will 
-            follow the exact schema defined in the `parameters` field. Only a subset of JSON Schema is supported when 
-            `strict` is `true`. Learn more about Structured Outputs in the 
-            [function calling guide](](https://platform.openai.com/docs/guides/function-calling).
       required:
         - name
     FunctionParameters:
       type: object
-      description: "The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format. \n\nOmitting `parameters` defines a function with an empty parameter list."
+      description: "The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/text-generation/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format. \n\nOmitting `parameters` defines a function with an empty parameter list."
       additionalProperties: true
-    ResponseFormat:
-      type: object
-      description: |
-        An object specifying the format that the model must output. Compatible with 
-        [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), 
-        [GPT-4o mini](https://platform.openai.com/docs/models/gpt-4o-mini), 
-        [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer 
-        than `gpt-3.5-turbo-1106`.
-
-        Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures the model 
-        will match your supplied JSON schema. 
-        Learn more in the [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
-
-        Setting to `{ "type": "json_object" }` enables JSON mode, which ensures the message the model generates is 
-        valid JSON.
-
-        **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system 
-        or user message. Without this, the model may generate an unending stream of whitespace until the generation 
-        reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message 
-        content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded 
-        `max_tokens` or the conversation exceeded the max context length.
-      oneOf:
-        - $ref: "#/components/schemas/ResponseFormatText"
-        - $ref: "#/components/schemas/ResponseFormatJsonObject"
-        - $ref: "#/components/schemas/ResponseFormatJsonSchema"
-      discriminator:
-        propertyName: type
-    ResponseFormatType:
-      type: string
-      enum:
-        - text
-        - json_object
-        - json_schema
-      description: The type of response format being defined.
-    ResponseFormatText:
-      type: object
-      description: "The model should respond with plain text."
-      properties:
-        type:
-          $ref: "#/components/schemas/ResponseFormatType"
-          default: "text"
-    ResponseFormatJsonObject:
-      type: object
-      description: "The model should respond with a JSON object."
-      properties:
-        type:
-          $ref: "#/components/schemas/ResponseFormatType"
-          default: "json_object"
-    ResponseFormatJsonSchema:
-      type: object
-      description: "The model should respond with a JSON object that adheres to the specified schema."
-      properties:
-        type:
-          $ref: "#/components/schemas/ResponseFormatType"
-          default: "json_schema"
-        json_schema:
-          $ref: "#/components/schemas/JsonSchemaObject"
-      required:
-        - json_schema
-    JsonSchemaObject:
-      type: object
-      description: "A JSON Schema object."
-      properties:
-        name:
-          type: string
-          description: |
-            The name of the response format. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum 
-            length of 64.
-        description:
-          type: string
-          description: |
-            A description of what the response format is for, used by the model to determine how to respond in the 
-            format.
-        schema:
-          type: object
-          description: |
-            The schema for the response format, described as a JSON Schema object.
-          additionalProperties: true
-        strict:
-          type: boolean
-          nullable: true
-          default: false
-          description: |
-            Whether to enable strict schema adherence when generating the output. If set to true, the model will always 
-            follow the exact schema defined in the `schema` field. Only a subset of JSON Schema is supported when 
-            `strict` is `true`. To learn more, read the 
-            [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
-      required:
-        - name
-        - schema
     ChatCompletionTool:
       type: object
       description: A tool the model may use.
@@ -2480,8 +2290,6 @@ components:
         model:
           type: string
           description: The model used for the chat completion.
-        service_tier:
-          $ref: "#/components/schemas/ServiceTier"
         system_fingerprint:
           type: string
           description: |
@@ -2534,14 +2342,6 @@ components:
           "content_filter",
           "function_call",
         ]
-    ServiceTier:
-      description: |
-        The service tier used for processing the request. This field is only included if the `service_tier` parameter 
-        is specified in the request.
-      type: string
-      enum: [ "scale", "default" ]
-      example: "scale"
-      nullable: true
     ChatCompletionLogprobs: &chat_completion_response_logprobs
       description: Log probability information for the choice.
       type: object
@@ -2553,12 +2353,8 @@ components:
           items:
             $ref: "#/components/schemas/ChatCompletionTokenLogprob"
           nullable: true
-        refusal:
-          description: A list of message refusal tokens with log probability information.
-          type: array
-          items:
-            $ref: "#/components/schemas/ChatCompletionTokenLogprob"
-          nullable: true
+      required:
+        - content
     ChatCompletionTokenLogprob:
       type: object
       description: Log probability information for a token.
@@ -2616,8 +2412,6 @@ components:
         model:
           type: string
           description: The model to generate the completion.
-        service_tier:
-          $ref: "#/components/schemas/ServiceTier"
         system_fingerprint:
           type: string
           description: |
@@ -2632,10 +2426,10 @@ components:
           $ref: "#/components/schemas/CompletionUsage"
       required:
         - choices
-        # - created # Made nullable to support FastChat API which doesn't return this field with some models
+        - created
         # - id # Made nullable to support OpenRouter API which doesn't return this field with some models
         # - model # Made nullable to support TogetherAI API which doesn't return this field with some models
-        # - object # Made nullable to support FastChat API which doesn't return this field with some models
+        - object
     ChatCompletionStreamResponseChoice:
       type: object
       description: A choice the model generated for the input prompt.
@@ -2660,10 +2454,6 @@ components:
         content:
           type: string
           description: The contents of the chunk message.
-          nullable: true
-        refusal:
-          type: string
-          description: The refusal message generated by the model.
           nullable: true
         function_call:
           $ref: "#/components/schemas/ChatCompletionStreamMessageFunctionCall"
@@ -2714,19 +2504,10 @@ components:
         total_tokens:
           type: integer
           description: Total number of tokens used in the request (prompt + completion).
-        completion_tokens_details:
-          $ref: "#/components/schemas/CompletionTokensDetails"
       required:
         - prompt_tokens
         - completion_tokens
         - total_tokens
-    CompletionTokensDetails:
-      type: object
-      description: Breakdown of tokens used in a completion.
-      properties:
-        reasoning_tokens:
-          type: integer
-          description: Tokens generated by the model for reasoning.
     CreateEmbeddingRequest:
       type: object
       description: Request object for the Create embedding endpoint.
@@ -2872,7 +2653,7 @@ components:
           description: |
             The name of the model to fine-tune. You can select one of the
             [supported models](https://platform.openai.com/docs/guides/fine-tuning/what-models-can-be-fine-tuned).
-          example: "gpt-4o-mini"
+          example: "gpt-3.5-turbo"
           anyOf:
             - type: string
               description: The ID of the model to use for this request.
@@ -2880,20 +2661,15 @@ components:
               title: FineTuningModels
               description: |
                 Available fine-tuning models. Mind that the list may not be exhaustive nor up-to-date.
-              enum: [ "babbage-002", "davinci-002", "gpt-3.5-turbo", "gpt-4o-mini" ]
+              enum: [ "babbage-002", "davinci-002", "gpt-3.5-turbo" ]
         training_file:
           description: |
             The ID of an uploaded file that contains training data.
 
             See [upload file](https://platform.openai.com/docs/api-reference/files/create) for how to upload a file.
 
-            Your dataset must be formatted as a JSONL file. Additionally, you must upload your file with the purpose 
-            `fine-tune`.
+            Your dataset must be formatted as a JSONL file. Additionally, you must upload your file with the purpose `fine-tune`.
 
-            The contents of the file should differ depending on if the model uses the 
-            [chat](https://platform.openai.com/docs/api-reference/fine-tuning/chat-input) or 
-            [completions](https://platform.openai.com/docs/api-reference/fine-tuning/completions-input) format.
-            
             See the [fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning) for more details.
           type: string
           example: "file-abc123"
@@ -2901,12 +2677,12 @@ components:
           $ref: "#/components/schemas/FineTuningJobHyperparameters"
         suffix:
           description: |
-            A string of up to 64 characters that will be added to your fine-tuned model name.
+            A string of up to 18 characters that will be added to your fine-tuned model name.
 
-            For example, a `suffix` of "custom-model-name" would produce a model name like `ft:gpt-4o-mini:openai:custom-model-name:7p4lURel`.
+            For example, a `suffix` of "custom-model-name" would produce a model name like `ft:gpt-3.5-turbo:openai:custom-model-name:7p4lURel`.
           type: string
           minLength: 1
-          maxLength: 64
+          maxLength: 40
           default: null
           nullable: true
         validation_file:
@@ -3032,7 +2808,7 @@ components:
           type: string
           description: |
             The type of integration to enable. Currently, only "wandb" (Weights and Biases) is supported.
-          enum: [ "wandb" ]
+          enum: ["wandb"]
         wandb:
           id: FineTuningIntegrationWandB
           type: object
@@ -3105,10 +2881,8 @@ components:
         n_epochs:
           title: FineTuningNEpochs
           description: |
-            The number of epochs to train the model for. An epoch refers to one full cycle through the training dataset.
-            
-            "auto" decides the optimal number of epochs based on the size of the dataset. If setting the number 
-            manually, we support any number between 1 and 50 epochs.
+            The number of epochs to train the model for. An epoch refers to one
+            full cycle through the training dataset.
           oneOf:
             - type: string
               title: FineTuningNEpochsOptions
@@ -3169,7 +2943,7 @@ components:
         object:
           type: string
           description: The object type, which is always "list".
-          enum: [ list ]
+          enum: [list]
         first_id:
           type: string
           description: The ID of the first checkpoint in the list.
@@ -3262,7 +3036,7 @@ components:
         object:
           type: string
           description: The object type, which is always "fine_tuning.job.checkpoint".
-          enum: [ fine_tuning.job.checkpoint ]
+          enum: [fine_tuning.job.checkpoint]
       required:
         - created_at
         - fine_tuning_job_id
@@ -3622,8 +3396,7 @@ components:
           nullable: true
         tools:
           description: &assistant_tools_param_description |
-            A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of 
-            types `code_interpreter`, `file_search`, or `function`.
+            A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `file_search`, or `function`.
           default: [ ]
           type: array
           maxItems: 128
@@ -3633,16 +3406,13 @@ components:
           $ref: "#/components/schemas/ToolResources"
         metadata:
           description: &metadata_description |
-            Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional 
-            information about the object in a structured format. Keys can be a maximum of 64 characters long and values 
-            can be a maxium of 512 characters long.
+            Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
           type: object
           additionalProperties: true
           nullable: true
         temperature:
           description: &run_temperature_description |
-            What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, 
-            while lower values like 0.2 will make it more focused and deterministic.
+            What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
           type: number
           minimum: 0
           maximum: 2
@@ -3657,38 +3427,23 @@ components:
           example: 1
           nullable: true
           description: &run_top_p_description |
-            An alternative to sampling with temperature, called nucleus sampling, where the model considers the results 
-            of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability 
-            mass are considered.
+            An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
 
             We generally recommend altering this or temperature but not both.
         response_format:
-          description: &assistant_response_format |
-            Specifies the format that the model must output. Compatible with 
-            [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), 
-            [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models 
-            since `gpt-3.5-turbo-1106`.
+          description: |
+            Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
             
-            Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures 
-            the model will match your supplied JSON schema. Learn more in the 
-            [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
+            Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
             
-            Setting to `{ "type": "json_object" }` enables JSON mode, which ensures the message the model generates 
-            is valid JSON.
-            
-            **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a 
-            system or user message. Without this, the model may generate an unending stream of whitespace until the 
-            generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note 
-            that the message content may be partially cut off if `finish_reason="length"`, which indicates the 
-            generation exceeded `max_tokens` or the conversation exceeded the max context length.
+            **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
           oneOf:
             - type: string
               title: AssistantResponseFormatMode
               description: >
                 `auto` is the default value
-              enum: [ auto ]
-              default: auto
-            - $ref: "#/components/schemas/ResponseFormat"
+              enum: [none, auto]
+            - $ref: "#/components/schemas/AssistantsResponseFormat"
       required:
         - id
         - object
@@ -3717,7 +3472,6 @@ components:
                 Available assistant models. Mind that the list may not be exhaustive nor up-to-date.
               enum:
                 [
-                  "chatgpt-4o-latest",
                   "gpt-4",
                   "gpt-4-32k",
                   "gpt-4-32k-0314",
@@ -3732,9 +3486,6 @@ components:
                   "gpt-4-vision-preview",
                   "gpt-4o",
                   "gpt-4o-2024-05-13",
-                  "gpt-4o-2024-08-06",
-                  "gpt-4o-mini",
-                  "gpt-4o-mini-2024-07-18",
                   "gpt-3.5-turbo",
                   "gpt-3.5-turbo-16k",
                   "gpt-3.5-turbo-16k-0613",
@@ -3742,10 +3493,6 @@ components:
                   "gpt-3.5-turbo-0301",
                   "gpt-3.5-turbo-0613",
                   "gpt-3.5-turbo-1106",
-                  "o1-mini",
-                  "o1-mini-2024-09-12",
-                  "o1-preview",
-                  "o1-preview-2024-09-12",
                 ]
         name:
           description: *assistant_name_param_description
@@ -3777,7 +3524,8 @@ components:
           additionalProperties: true
           nullable: true
         temperature:
-          description: *run_temperature_description
+          description: &run_temperature_description |
+            What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
           type: number
           minimum: 0
           maximum: 2
@@ -3791,17 +3539,24 @@ components:
           default: 1
           example: 1
           nullable: true
-          description: *run_top_p_description
+          description: &run_top_p_description |
+            An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+
+            We generally recommend altering this or temperature but not both.
         response_format:
-          description: *assistant_response_format
+          description: |
+            Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
+            
+            Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+            
+            **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
           oneOf:
             - type: string
               title: CreateAssistantResponseFormatMode
               description: >
                 `auto` is the default value
-              enum: [ auto ]
-              default: auto
-            - $ref: "#/components/schemas/ResponseFormat"
+              enum: [none, auto]
+            - $ref: "#/components/schemas/AssistantsResponseFormat"
       required:
         - model
     ModifyAssistantRequest:
@@ -3864,17 +3619,24 @@ components:
           default: 1
           example: 1
           nullable: true
-          description: *run_top_p_description
+          description: &run_top_p_description |
+            An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+
+            We generally recommend altering this or temperature but not both.
         response_format:
-          description: *assistant_response_format
+          description: |
+            Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
+            
+            Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+            
+            **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
           oneOf:
             - type: string
               title: ModifyAssistantResponseFormatMode
               description: >
                 `auto` is the default value
-              enum: [ auto ]
-              default: auto
-            - $ref: "#/components/schemas/ResponseFormat"
+              enum: [none, auto]
+            - $ref: "#/components/schemas/AssistantsResponseFormat"
     DeleteAssistantResponse:
       type: object
       description: Represents a deleted response returned by the Delete assistant endpoint.
@@ -3948,48 +3710,7 @@ components:
         type:
           type: string
           description: "The type of tool being defined: `file_search`"
-          default: file_search
-        file_search:
-          type: object
-          description: Overrides for the file search tool.
-          properties:
-            max_num_results:
-              type: integer
-              minimum: 1
-              maximum: 50
-              description: |
-                The maximum number of results the file search tool should output. The default is 20 for `gpt-4*` models 
-                and 5 for gpt-3.5-turbo. This number should be between 1 and 50 inclusive.
-                
-                Note that the file search tool may output fewer than `max_num_results` results. See the 
-                [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/customizing-file-search-settings) 
-                for more information.
-            ranking_options:
-              $ref: "#/components/schemas/FileSearchRankingOptions"
-      required:
-        - type
-    FileSearchRankingOptions:
-      type: object
-      description: |
-        The ranking options for the file search. If not specified, the file search tool will use the `auto` ranker and 
-        a score_threshold of 0.
-        
-        See the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/customizing-file-search-settings) 
-        for more information.
-      properties:
-        ranker:
-          $ref: "#/components/schemas/FileSearchRanker"
-        score_threshold:
-          type: number
-          description: The score threshold for the file search. All values must be a floating point number between 0 and 1.
-          minimum: 0
-          maximum: 1
-      required:
-        - score_threshold
-    FileSearchRanker:
-      type: string
-      description: The ranker to use for the file search. If not specified will use the `auto` ranker.
-      enum: [ "auto", "default_2024_08_21" ]
+          default: "file_search"
     AssistantToolsFunction:
       type: object
       description: Function tool
@@ -4009,7 +3730,7 @@ components:
         type:
           type: string
           title: AssistantsToolType
-          enum: [ "function", "code_interpreter", "file_search" ]
+          enum: ["function", "code_interpreter", "file_search"]
           description: The type of the tool. If type is `function`, the function name must be set
         function:
           $ref: "#/components/schemas/AssistantsFunctionCallOption"
@@ -4023,6 +3744,18 @@ components:
           description: The name of the function to call.
       required:
         - name
+    AssistantsResponseFormat:
+      type: object
+      description: |
+        An object describing the expected output of the model. If `json_object` only `function` type `tools` are allowed to be passed to the Run. If `text` the model can return text or any value needed.
+      properties:
+        type:
+          type: string
+          title: AssistantsResponseFormatType
+          enum: ["text", "json_object"]
+          example: "json_object"
+          default: "text"
+          description: Must be one of `text` or `json_object`.
     TruncationObject:
       type: object
       description: Controls for how a thread will be truncated prior to the run. Use this to control the intial context window of the run.
@@ -4031,7 +3764,7 @@ components:
           type: string
           name: TruncationStrategy
           description: The truncation strategy to use for the thread. The default is `auto`. If set to `last_messages`, the thread will be truncated to the n most recent messages in the thread. When set to `auto`, messages in the middle of the thread will be dropped to fit the context length of the model, `max_prompt_tokens`.
-          enum: [ "auto", "last_messages" ]
+          enum: ["auto", "last_messages"]
         last_messages:
           type: integer
           description: The number of most recent messages from the thread when constructing the context for the run.
@@ -4109,7 +3842,7 @@ components:
             code:
               type: string
               description: One of `server_error`, `rate_limit_exceeded`, or `invalid_prompt`.
-              enum: [ "server_error", "rate_limit_exceeded", "invalid_prompt" ]
+              enum: ["server_error", "rate_limit_exceeded", "invalid_prompt"]
             message:
               type: string
               description: A human-readable description of the error.
@@ -4144,7 +3877,7 @@ components:
             reason:
               description: The reason why the run is incomplete. This will point to which specific token limit was reached over the course of the run.
               type: string
-              enum: [ "max_completion_tokens", "max_prompt_tokens" ]
+              enum: ["max_completion_tokens", "max_prompt_tokens"]
         model:
           description: The model that the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run.
           type: string
@@ -4203,19 +3936,22 @@ components:
                 `none` means the model will not call any tools and instead generates a message.
                 `auto` means the model can pick between generating a message or calling one or more tools.
                 `required` means the model must call one or more tools before responding to the user.
-              enum: [ none, auto, required ]
+              enum: [none, auto, required]
             - $ref: "#/components/schemas/AssistantsNamedToolChoice"
-        parallel_tool_calls: *parallel_tool_calls
         response_format:
-          description: *assistant_response_format
+          description: |
+            Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
+    
+            Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+    
+            **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
           oneOf:
             - type: string
               title: RunObjectResponseFormatMode
               description: >
                 `auto` is the default value
-              enum: [ auto ]
-              default: auto
-            - $ref: "#/components/schemas/ResponseFormat"
+              enum: [none, auto]
+            - $ref: "#/components/schemas/AssistantsResponseFormat"
       required:
         - id
         - object
@@ -4240,7 +3976,6 @@ components:
         - max_completion_tokens
         - truncation_strategy
         - tool_choice
-        - parallel_tool_calls
         - response_format
     RunCompletionUsage:
       type: object
@@ -4281,7 +4016,6 @@ components:
                 Available models. Mind that the list may not be exhaustive nor up-to-date.
               enum:
                 [
-                  "chatgpt-4o-latest",
                   "gpt-4",
                   "gpt-4-32k",
                   "gpt-4-32k-0314",
@@ -4296,9 +4030,6 @@ components:
                   "gpt-4-vision-preview",
                   "gpt-4o",
                   "gpt-4o-2024-05-13",
-                  "gpt-4o-2024-08-06",
-                  "gpt-4o-mini",
-                  "gpt-4o-mini-2024-07-18",
                   "gpt-3.5-turbo",
                   "gpt-3.5-turbo-16k",
                   "gpt-3.5-turbo-16k-0613",
@@ -4306,10 +4037,6 @@ components:
                   "gpt-3.5-turbo-0301",
                   "gpt-3.5-turbo-0613",
                   "gpt-3.5-turbo-1106",
-                  "o1-mini",
-                  "o1-mini-2024-09-12",
-                  "o1-preview",
-                  "o1-preview-2024-09-12",
                 ]
         instructions:
           description: Overrides the [instructions](https://platform.openai.com/docs/api-reference/assistants/createAssistant) of the assistant. This is useful for modifying the behavior on a per-run basis.
@@ -4352,7 +4079,10 @@ components:
           default: 1
           example: 1
           nullable: true
-          description: *run_top_p_description
+          description: &run_top_p_description |
+            An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+
+            We generally recommend altering this or temperature but not both.
         max_prompt_tokens:
           type: integer
           nullable: true
@@ -4383,19 +4113,22 @@ components:
                 `none` means the model will not call any tools and instead generates a message.
                 `auto` means the model can pick between generating a message or calling one or more tools.
                 `required` means the model must call one or more tools before responding to the user.
-              enum: [ none, auto, required ]
+              enum: [none, auto, required]
             - $ref: "#/components/schemas/AssistantsNamedToolChoice"
-        parallel_tool_calls: *parallel_tool_calls
         response_format:
-          description: *assistant_response_format
+          description: |
+            Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
+            
+            Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+            
+            **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
           oneOf:
             - type: string
               title: CreateRunRequestResponseFormatMode
               description: >
                 `auto` is the default value
-              enum: [ auto ]
-              default: auto
-            - $ref: "#/components/schemas/ResponseFormat"
+              enum: [none, auto]
+            - $ref: "#/components/schemas/AssistantsResponseFormat"
         stream:
           type: boolean
           nullable: true
@@ -4524,7 +4257,6 @@ components:
                 Available models. Mind that the list may not be exhaustive nor up-to-date.
               enum:
                 [
-                  "chatgpt-4o-latest",
                   "gpt-4",
                   "gpt-4-32k",
                   "gpt-4-32k-0314",
@@ -4539,9 +4271,6 @@ components:
                   "gpt-4-vision-preview",
                   "gpt-4o",
                   "gpt-4o-2024-05-13",
-                  "gpt-4o-2024-08-06",
-                  "gpt-4o-mini",
-                  "gpt-4o-mini-2024-07-18",
                   "gpt-3.5-turbo",
                   "gpt-3.5-turbo-16k",
                   "gpt-3.5-turbo-16k-0613",
@@ -4549,10 +4278,6 @@ components:
                   "gpt-3.5-turbo-0301",
                   "gpt-3.5-turbo-0613",
                   "gpt-3.5-turbo-1106",
-                  "o1-mini",
-                  "o1-mini-2024-09-12",
-                  "o1-preview",
-                  "o1-preview-2024-09-12",
                 ]
         instructions:
           description: Override the default system message of the assistant. This is useful for modifying the behavior on a per-run basis.
@@ -4618,19 +4343,22 @@ components:
                 `none` means the model will not call any tools and instead generates a message.
                 `auto` means the model can pick between generating a message or calling one or more tools.
                 `required` means the model must call one or more tools before responding to the user.
-              enum: [ none, auto, required ]
+              enum: [none, auto, required]
             - $ref: "#/components/schemas/AssistantsNamedToolChoice"
-        parallel_tool_calls: *parallel_tool_calls
         response_format:
-          description: *assistant_response_format
+          description: |
+            Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
+            
+            Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+            
+            **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
           oneOf:
             - type: string
               title: CreateThreadAndRunRequestResponseFormatMode
               description: >
                 `auto` is the default value
-              enum: [ auto ]
-              default: auto
-            - $ref: "#/components/schemas/ResponseFormat"
+              enum: [none, auto]
+            - $ref: "#/components/schemas/AssistantsResponseFormat"
         stream:
           type: boolean
           nullable: true
@@ -4708,7 +4436,7 @@ components:
               type: array
               description: |
                 A list of [file](https://platform.openai.com/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.
-              default: [ ]
+              default: []
               maxItems: 20
               items:
                 type: string
@@ -4742,8 +4470,6 @@ components:
           maxItems: 10000
           items:
             type: string
-        chunking_strategy:
-          $ref: "#/components/schemas/ChunkingStrategyRequestParam"
         metadata:
           type: object
           description: |
@@ -4818,7 +4544,7 @@ components:
           description: The status of the message, which can be either `in_progress`, `incomplete`, or `completed`.
           type: string
           nullable: true
-          enum: [ "in_progress", "incomplete", "completed" ]
+          enum: ["in_progress", "incomplete", "completed"]
         incomplete_details:
           id: MessageIncompleteDetails
           type: object
@@ -4915,7 +4641,7 @@ components:
         object:
           description: The object type, which is always `thread.message.delta`.
           type: string
-          enum: [ "thread.message.delta" ]
+          enum: ["thread.message.delta"]
         delta:
           $ref: "#/components/schemas/MessageDelta"
       required:
@@ -4940,7 +4666,6 @@ components:
         - $ref: "#/components/schemas/MessageContentImageFileObject"
         - $ref: "#/components/schemas/MessageContentImageUrlObject"
         - $ref: "#/components/schemas/MessageContentTextObject"
-        - $ref: "#/components/schemas/MessageContentRefusalObject"
       discriminator:
         propertyName: type
     MessageDeltaContent:
@@ -4949,8 +4674,6 @@ components:
       oneOf:
         - $ref: "#/components/schemas/MessageDeltaContentImageFileObject"
         - $ref: "#/components/schemas/MessageDeltaContentTextObject"
-        - $ref: "#/components/schemas/MessageDeltaContentRefusalObject"
-        - $ref: "#/components/schemas/MessageDeltaContentImageUrlObject"
       discriminator:
         propertyName: type
     CreateMessageRequest:
@@ -5162,8 +4885,12 @@ components:
         file_id:
           description: The ID of the specific File the citation is from.
           type: string
+        quote:
+          description: The specific quote in the file.
+          type: string
       required:
         - file_id
+        - quote
     MessageContentTextAnnotationsFilePathObject:
       type: object
       description: A URL for the file that's generated when the assistant used the `code_interpreter` tool to generate a file.
@@ -5195,20 +4922,6 @@ components:
         - file_path
         - start_index
         - end_index
-    MessageContentRefusalObject:
-      type: object
-      description: The refusal content generated by the assistant.
-      properties:
-        type:
-          description: Always `refusal`.
-          type: string
-          default: refusal
-        refusal:
-          type: string
-          nullable: false
-      required:
-        - type
-        - refusal
     MessageDeltaContentImageFileObject:
       type: object
       description: References an image [File](https://platform.openai.com/docs/api-reference/files) in the content of a message.
@@ -5248,9 +4961,6 @@ components:
           type: string
         image_url:
           $ref: "#/components/schemas/MessageContentImageUrl"
-      required:
-        - index
-        - type
     MessageDeltaContentTextObject:
       type: object
       description: The text content that is part of a message.
@@ -5349,23 +5059,6 @@ components:
         end_index:
           type: integer
           minimum: 0
-      required:
-        - index
-        - type
-    MessageDeltaContentRefusalObject:
-      type: object
-      description: The refusal content that is part of a message.
-      properties:
-        index:
-          type: integer
-          description: The index of the refusal part in the message.
-        type:
-          type: string
-          description: Always `refusal`.
-          default: refusal
-        refusal:
-          type: string
-          description: The refusal content generated by the assistant.
       required:
         - index
         - type
@@ -5473,7 +5166,7 @@ components:
         object:
           description: The object type, which is always `thread.run.step.delta`.
           type: string
-          enum: [ "thread.run.step.delta" ]
+          enum: ["thread.run.step.delta"]
         delta:
           $ref: "#/components/schemas/RunStepDelta"
       required:
@@ -5770,74 +5463,13 @@ components:
           type: string
           description: The type of tool call. This is always going to be `file_search` for this type of tool call.
         file_search:
-          $ref: "#/components/schemas/RunStepDetailsToolCallsFileSearch"
+          type: object
+          description: For now, this is always going to be an empty object.
+          additionalProperties: true
       required:
         - id
         - type
         - file_search
-    RunStepDetailsToolCallsFileSearch:
-      type: object
-      description: The definition of the file search that was called.
-      properties:
-        ranking_options:
-          $ref: "#/components/schemas/RunStepDetailsToolCallsFileSearchRankingOptionsObject"
-        results:
-          type: array
-          description: The results of the file search.
-          items:
-            $ref: "#/components/schemas/RunStepDetailsToolCallsFileSearchResultObject"
-    RunStepDetailsToolCallsFileSearchRankingOptionsObject:
-      type: object
-      description: The ranking options for the file search.
-      properties:
-        ranker:
-          $ref: "#/components/schemas/FileSearchRanker"
-        score_threshold:
-          type: number
-          description: |
-            The score threshold for the file search. All values must be a floating point number between 0 and 1.
-          minimum: 0
-          maximum: 1
-      required:
-        - ranker
-        - score_threshold
-    RunStepDetailsToolCallsFileSearchResultObject:
-      type: object
-      description: A result instance of the file search.
-      properties:
-        file_id:
-          type: string
-          description: The ID of the file that result was found in.
-        file_name:
-          type: string
-          description: The name of the file that result was found in.
-        score:
-          type: number
-          description: The score of the result. All values must be a floating point number between 0 and 1.
-          minimum: 0
-          maximum: 1
-        content:
-          type: array
-          description: |
-            The content of the result that was found. The content is only included if requested via the include 
-            query parameter.
-          items:
-            $ref: "#/components/schemas/RunStepDetailsToolCallsFileSearchResultContent"
-      required:
-        - file_id
-        - file_name
-        - score
-    RunStepDetailsToolCallsFileSearchResultContent:
-      type: object
-      description: The content of the result that was found.
-      properties:
-        type:
-          type: string
-          description: The type of the content.
-          default: text
-        text:
-          type: string
-          description: The text content of the file.
     RunStepDeltaStepDetailsToolCallsFileSearchObject:
       type: object
       description: File search tool call
@@ -5948,7 +5580,7 @@ components:
         anchor:
           description: "Anchor timestamp after which the expiration policy applies. Supported anchors: `last_active_at`."
           type: string
-          enum: [ "last_active_at" ]
+          enum: ["last_active_at"]
         days:
           description: The number of days after the anchor time that the vector store will expire.
           type: integer
@@ -6007,7 +5639,7 @@ components:
           description: The status of the vector store, which can be either `expired`, `in_progress`, or `completed`. A status of `completed` indicates that the vector store is ready for use.
           type: string
           name: VectorStoreStatus
-          enum: [ "expired", "in_progress", "completed" ]
+          enum: ["expired", "in_progress", "completed"]
         expires_after:
           $ref: "#/components/schemas/VectorStoreExpirationAfter"
         expires_at:
@@ -6037,23 +5669,23 @@ components:
       description: Request object for the Create assistant file endpoint.
       additionalProperties: false
       properties:
-        name:
-          description: The name of the vector store.
-          type: string
         file_ids:
           description: A list of [File](https://platform.openai.com/docs/api-reference/files) IDs that the vector store should use. Useful for tools like `file_search` that can access files.
           type: array
           maxItems: 500
           items:
             type: string
+        name:
+          description: The name of the vector store.
+          type: string
         expires_after:
           $ref: "#/components/schemas/VectorStoreExpirationAfter"
-        chunking_strategy:
-          $ref: "#/components/schemas/ChunkingStrategyRequestParam"
         metadata:
           description: *metadata_description
           type: object
           nullable: true
+      required:
+        - name
     UpdateVectorStoreRequest:
       type: object
       description: Request object for the Update vector store endpoint.
@@ -6142,7 +5774,7 @@ components:
           description: The status of the vector store file, which can be either `in_progress`, `completed`, `cancelled`, or `failed`. The status `completed` indicates that the vector store file is ready for use.
           type: string
           title: VectorStoreFileStatus
-          enum: [ "in_progress", "completed", "cancelled", "failed" ]
+          enum: ["in_progress", "completed", "cancelled", "failed"]
         last_error:
           id: VectorStoreFileLastError
           type: object
@@ -6154,9 +5786,10 @@ components:
               description: One of `server_error` or `rate_limit_exceeded`.
               enum:
                 [
-                  "server_error",
-                  "unsupported_file",
-                  "invalid_file",
+                  "internal_error",
+                  "file_not_found",
+                  "parsing_error",
+                  "unhandled_mime_type",
                 ]
             message:
               type: string
@@ -6164,8 +5797,6 @@ components:
           required:
             - code
             - message
-        chunking_strategy:
-          $ref: "#/components/schemas/ChunkingStrategyResponseParam"
       required:
         - id
         - object
@@ -6174,97 +5805,6 @@ components:
         - vector_store_id
         - status
         - last_error
-    ChunkingStrategyRequestParam:
-      type: object
-      description: The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.
-      oneOf:
-        - $ref: "#/components/schemas/AutoChunkingStrategyRequestParam"
-        - $ref: "#/components/schemas/StaticChunkingStrategyRequestParam"
-      discriminator:
-        propertyName: type
-    AutoChunkingStrategyRequestParam:
-      type: object
-      description: |
-        Auto Chunking Strategy, the default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` 
-        and `chunk_overlap_tokens` of `400`.
-      additionalProperties: false
-      properties:
-        type:
-          type: string
-          description: Always `auto`.
-          default: auto
-      required:
-        - type
-    StaticChunkingStrategyRequestParam:
-      type: object
-      description: Static chunking strategy
-      additionalProperties: false
-      properties:
-        type:
-          type: string
-          description: Always `static`.
-          default: static
-        static:
-          $ref: "#/components/schemas/StaticChunkingStrategy"
-      required:
-        - type
-        - static
-    StaticChunkingStrategy:
-      type: object
-      description: Static chunking strategy
-      additionalProperties: false
-      properties:
-        max_chunk_size_tokens:
-          type: integer
-          minimum: 100
-          maximum: 4096
-          description: |
-            The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the 
-            maximum value is `4096`.
-        chunk_overlap_tokens:
-          type: integer
-          description: |
-            The number of tokens that overlap between chunks. The default value is `400`.
-            
-            Note that the overlap must not exceed half of `max_chunk_size_tokens`.
-      required:
-        - max_chunk_size_tokens
-        - chunk_overlap_tokens
-    ChunkingStrategyResponseParam:
-      type: object
-      description: The chunking strategy used to chunk the file(s).
-      oneOf:
-        - $ref: "#/components/schemas/StaticChunkingStrategyResponseParam"
-        - $ref: "#/components/schemas/OtherChunkingStrategyResponseParam"
-      discriminator:
-        propertyName: type
-    OtherChunkingStrategyResponseParam:
-      type: object
-      description: |
-        Other Chunking Strategy. This is returned when the chunking strategy is unknown. Typically, this is because 
-        the file was indexed before the `chunking_strategy` concept was introduced in the API.
-      additionalProperties: false
-      properties:
-        type:
-          type: string
-          description: Always `other`.
-          default: other
-      required:
-        - type
-    StaticChunkingStrategyResponseParam:
-      type: object
-      description: Static Chunking Strategy.
-      additionalProperties: false
-      properties:
-        type:
-          type: string
-          description: Always `static`.
-          default: static
-        static:
-          $ref: "#/components/schemas/StaticChunkingStrategy"
-      required:
-        - type
-        - static
     CreateVectorStoreFileRequest:
       type: object
       description: Request object for the Create vector store file endpoint.
@@ -6272,8 +5812,6 @@ components:
         file_id:
           description: A [File](https://platform.openai.com/docs/api-reference/files) ID that the vector store should use. Useful for tools like `file_search` that can access files.
           type: string
-        chunking_strategy:
-          $ref: "#/components/schemas/ChunkingStrategyRequestParam"
       required:
         - file_id
     ListVectorStoreFilesResponse:
@@ -6343,7 +5881,7 @@ components:
         status:
           description: The status of the vector store files batch, which can be either `in_progress`, `completed`, `cancelled` or `failed`.
           type: string
-          enum: [ "in_progress", "completed", "cancelled", "failed" ]
+          enum: ["in_progress", "completed", "cancelled", "failed"]
         file_counts:
           type: object
           description: The number of files per status.
@@ -6387,8 +5925,6 @@ components:
           maxItems: 500
           items:
             type: string
-        chunking_strategy:
-          $ref: "#/components/schemas/ChunkingStrategyRequestParam"
       required:
         - file_ids
     AssistantStreamEvent:
@@ -6476,7 +6012,7 @@ components:
         - data
     RunStepStreamEvent:
       type: object
-      description: Occurs when a new [run step](https://platform.openai.com/docs/api-reference/run-steps/step-object) changes state.
+      description: Occurs when a new [run step](https://platform.openai.com/docs/api-reference/runs/step-object) changes state.
       properties:
         event:
           $ref: "#/components/schemas/EventType"
@@ -6487,7 +6023,7 @@ components:
         - data
     RunStepStreamDeltaEvent:
       type: object
-      description: Occurs when a new [run step](https://platform.openai.com/docs/api-reference/run-steps/step-object) changes state.
+      description: Occurs when a new [run step](https://platform.openai.com/docs/api-reference/runs/step-object) changes state.
       properties:
         event:
           $ref: "#/components/schemas/EventType"
@@ -6581,7 +6117,7 @@ components:
             
             See [upload file](https://platform.openai.com/docs/api-reference/files/create) for how to upload a file.
             
-            Your input file must be formatted as a [JSONL file](https://platform.openai.com/docs/api-reference/batch/request-input), and must be uploaded with the purpose `batch`. The file can contain up to 50,000 requests, and can be up to 100 MB in size.
+            Your input file must be formatted as a JSONL file, and must be uploaded with the purpose `batch`.
         endpoint:
           $ref: "#/components/schemas/BatchEndpoint"
         completion_window:
@@ -6594,16 +6130,11 @@ components:
           nullable: true
     BatchEndpoint:
       type: string
-      enum:
-        [
-          "/v1/chat/completions",
-          "/v1/embeddings",
-          "/v1/completions",
-        ]
+      enum: ["/v1/chat/completions", "/v1/embeddings", "/v1/completions"]
       description: The endpoint to be used for all requests in the batch. Currently `/v1/chat/completions`, `/v1/embeddings`, and `/v1/completions` are supported. Note that `/v1/embeddings` batches are also restricted to a maximum of 50,000 embedding inputs across all requests in the batch.
     BatchCompletionWindow:
       type: string
-      enum: [ "24h" ]
+      enum: ["24h"]
       description: The time frame within which the batch should be processed. Currently only `24h` is supported.
     Batch:
       type: object
@@ -6613,7 +6144,7 @@ components:
           type: string
         object:
           type: string
-          enum: [ batch ]
+          enum: [batch]
           description: The object type, which is always `batch`.
         endpoint:
           $ref: "#/components/schemas/BatchEndpoint"
@@ -6733,7 +6264,7 @@ components:
             description: A developer-provided per-request id that will be used to match outputs to inputs. Must be unique for each request in a batch.
           method:
             type: string
-            enum: [ "POST" ]
+            enum: ["POST"]
             description: The HTTP method to be used for the request. Currently only `POST` is supported.
           url:
             type: string
@@ -6798,7 +6329,7 @@ components:
         object:
           type: string
           description: The object type, which is always `list`.
-          enum: [ list ]
+          enum: [list]
       required:
         - object
         - data

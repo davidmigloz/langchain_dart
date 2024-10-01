@@ -1,4 +1,3 @@
-// ignore_for_file: deprecated_member_use_from_same_package
 @TestOn('vm')
 library; // Uses dart:io
 
@@ -24,6 +23,7 @@ void main() {
       final llm = ChatOpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const ChatOpenAIOptions(
+          model: 'gpt-4-turbo',
           temperature: 0,
         ),
       );
@@ -45,6 +45,7 @@ void main() {
       final llm = ChatOpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const ChatOpenAIOptions(
+          model: 'gpt-4-turbo',
           temperature: 0,
         ),
       );
@@ -133,6 +134,7 @@ void main() {
     final model = ChatOpenAI(
       apiKey: openaiApiKey,
       defaultOptions: const ChatOpenAIOptions(
+        model: 'gpt-4-turbo',
         temperature: 0,
       ),
     ).bind(ChatOpenAIOptions(tools: [tool]));

@@ -1,10 +1,11 @@
 name: langchain_anthropic
-description: Anthropic module for LangChain.dart (Claude 3.5 Sonnet, Opus, Haiku, Instant, etc.).
-version: 0.1.1+2
+description: Anthropic module for LangChain.dart.
+version: 0.0.1-dev.1
 repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/langchain_anthropic
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues?q=label:p:langchain_anthropic
 homepage: https://github.com/davidmigloz/langchain_dart
-documentation: https://langchaindart.dev
+documentation: https://langchaindart.com
+publish_to: none # Remove when the package is ready to be published
 
 topics:
   - ai
@@ -13,16 +14,4 @@ topics:
   - langchain
 
 environment:
-  sdk: ">=3.4.0 <4.0.0"
-
-dependencies:
-  anthropic_sdk_dart: ^0.1.0
-  collection: ^1.18.0
-  http: ^1.2.2
-  langchain_core: 0.3.6
-  langchain_tiktoken: ^1.0.1
-  meta: ^1.11.0
-  rxdart: ">=0.27.7 <0.29.0"
-
-dev_dependencies:
-  test: ^1.25.8
+  sdk: ">=3.0.0 <4.0.0"

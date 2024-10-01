@@ -1,30 +1,28 @@
 import 'package:langchain_core/chat_models.dart';
-import 'package:langchain_core/tools.dart';
-import 'package:meta/meta.dart';
 
 /// {@template chat_google_generative_ai_options}
 /// Options to pass into the Google Generative AI Chat Model.
-///
-/// You can find a list of available models [here](https://ai.google.dev/models).
 /// {@endtemplate}
-@immutable
 class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
   /// {@macro chat_google_generative_ai_options}
   const ChatGoogleGenerativeAIOptions({
-    super.model,
+    this.model = 'gemini-pro',
     this.topP,
     this.topK,
     this.candidateCount,
     this.maxOutputTokens,
     this.temperature,
     this.stopSequences,
-    this.responseMimeType,
-    this.responseSchema,
     this.safetySettings,
     super.tools,
     super.toolChoice,
     super.concurrencyLimit,
   });
+
+  /// The LLM to use.
+  ///
+  /// You can find a list of available models here: https://ai.google.dev/models
+  final String? model;
 
   /// The maximum cumulative probability of tokens to consider when sampling.
   /// The model uses combined Top-k and nucleus sampling. Tokens are sorted
@@ -70,39 +68,6 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
   /// The stop sequence will not be included as part of the response.
   final List<String>? stopSequences;
 
-  /// Output response mimetype of the generated candidate text.
-  ///
-  /// Supported mimetype:
-  /// - `text/plain`: (default) Text output.
-  /// - `application/json`: JSON response in the candidates.
-  final String? responseMimeType;
-
-  /// Output response schema of the generated candidate text.
-  /// Following the [JSON Schema specification](https://json-schema.org).
-  ///
-  /// - Note: This only applies when the specified ``responseMIMEType`` supports
-  ///   a schema; currently this is limited to `application/json`.
-  ///
-  /// Example:
-  /// ```json
-  /// {
-  ///   'type': 'object',
-  ///   'properties': {
-  ///     'answer': {
-  ///       'type': 'string',
-  ///       'description': 'The answer to the question being asked',
-  ///     },
-  ///     'sources': {
-  ///       'type': 'array',
-  ///       'items': {'type': 'string'},
-  ///       'description': 'The sources used to answer the question',
-  ///     },
-  ///   },
-  ///   'required': ['answer', 'sources'],
-  /// },
-  /// ```
-  final Map<String, dynamic>? responseSchema;
-
   /// A list of unique [ChatGoogleGenerativeAISafetySetting] instances for blocking
   /// unsafe content.
   ///
@@ -115,7 +80,8 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
   /// the default safety setting for that category.
   final List<ChatGoogleGenerativeAISafetySetting>? safetySettings;
 
-  @override
+  /// Creates a copy of this [ChatGoogleGenerativeAIOptions] object with the given fields
+  /// replaced with the new values.
   ChatGoogleGenerativeAIOptions copyWith({
     final String? model,
     final double? topP,
@@ -125,9 +91,6 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
     final double? temperature,
     final List<String>? stopSequences,
     final List<ChatGoogleGenerativeAISafetySetting>? safetySettings,
-    final List<ToolSpec>? tools,
-    final ChatToolChoice? toolChoice,
-    final int? concurrencyLimit,
   }) {
     return ChatGoogleGenerativeAIOptions(
       model: model ?? this.model,
@@ -138,59 +101,7 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
       temperature: temperature ?? this.temperature,
       stopSequences: stopSequences ?? this.stopSequences,
       safetySettings: safetySettings ?? this.safetySettings,
-      tools: tools ?? this.tools,
-      toolChoice: toolChoice ?? this.toolChoice,
-      concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
     );
-  }
-
-  @override
-  ChatGoogleGenerativeAIOptions merge(
-    covariant final ChatGoogleGenerativeAIOptions? other,
-  ) {
-    return copyWith(
-      model: other?.model,
-      topP: other?.topP,
-      topK: other?.topK,
-      candidateCount: other?.candidateCount,
-      maxOutputTokens: other?.maxOutputTokens,
-      temperature: other?.temperature,
-      stopSequences: other?.stopSequences,
-      safetySettings: other?.safetySettings,
-      tools: other?.tools,
-      toolChoice: other?.toolChoice,
-      concurrencyLimit: other?.concurrencyLimit,
-    );
-  }
-
-  @override
-  bool operator ==(covariant final ChatGoogleGenerativeAIOptions other) {
-    return model == other.model &&
-        topP == other.topP &&
-        topK == other.topK &&
-        candidateCount == other.candidateCount &&
-        maxOutputTokens == other.maxOutputTokens &&
-        temperature == other.temperature &&
-        stopSequences == other.stopSequences &&
-        safetySettings == other.safetySettings &&
-        tools == other.tools &&
-        toolChoice == other.toolChoice &&
-        concurrencyLimit == other.concurrencyLimit;
-  }
-
-  @override
-  int get hashCode {
-    return model.hashCode ^
-        topP.hashCode ^
-        topK.hashCode ^
-        candidateCount.hashCode ^
-        maxOutputTokens.hashCode ^
-        temperature.hashCode ^
-        stopSequences.hashCode ^
-        safetySettings.hashCode ^
-        tools.hashCode ^
-        toolChoice.hashCode ^
-        concurrencyLimit.hashCode;
   }
 }
 

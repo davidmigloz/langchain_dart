@@ -156,7 +156,7 @@ class ChatMistralAI extends BaseChatModel<ChatMistralAIOptions> {
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
     super.defaultOptions = const ChatMistralAIOptions(
-      model: defaultModel,
+      model: 'mistral-small',
     ),
     this.encoding = 'cl100k_base',
   }) : _client = MistralAIClient(
@@ -178,9 +178,6 @@ class ChatMistralAI extends BaseChatModel<ChatMistralAIOptions> {
 
   @override
   String get modelType => 'chat-mistralai';
-
-  /// The default model to use unless another is specified.
-  static const defaultModel = 'mistral-small';
 
   @override
   Future<ChatResult> invoke(
@@ -219,7 +216,7 @@ class ChatMistralAI extends BaseChatModel<ChatMistralAIOptions> {
   }) {
     return ChatCompletionRequest(
       model: ChatCompletionModel.modelId(
-        options?.model ?? defaultOptions.model ?? defaultModel,
+        options?.model ?? defaultOptions.model ?? throwNullModelError(),
       ),
       messages: messages.toChatCompletionMessages(),
       temperature: options?.temperature ?? defaultOptions.temperature,
@@ -251,7 +248,7 @@ class ChatMistralAI extends BaseChatModel<ChatMistralAIOptions> {
     return encoding.encode(promptValue.toString());
   }
 
-  @override
+  /// Closes the client and cleans up any resources associated with it.
   void close() {
     _client.endSession();
   }

@@ -15,24 +15,17 @@ class CreateVectorStoreRequest with _$CreateVectorStoreRequest {
 
   /// Factory constructor for CreateVectorStoreRequest
   const factory CreateVectorStoreRequest({
-    /// The name of the vector store.
-    @JsonKey(includeIfNull: false) String? name,
-
     /// A list of [File](https://platform.openai.com/docs/api-reference/files) IDs that the vector store should use. Useful for tools like `file_search` that can access files.
     @JsonKey(name: 'file_ids', includeIfNull: false) List<String>? fileIds,
+
+    /// The name of the vector store.
+    required String name,
 
     /// The expiration policy for a vector store.
     @JsonKey(name: 'expires_after', includeIfNull: false)
     VectorStoreExpirationAfter? expiresAfter,
 
-    /// The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.
-    /// Any of: [AutoChunkingStrategyRequestParam], [StaticChunkingStrategyRequestParam]
-    @JsonKey(name: 'chunking_strategy', includeIfNull: false)
-    ChunkingStrategyRequestParam? chunkingStrategy,
-
-    /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
-    /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-    /// can be a maxium of 512 characters long.
+    /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
     @JsonKey(includeIfNull: false) dynamic metadata,
   }) = _CreateVectorStoreRequest;
 
@@ -42,10 +35,9 @@ class CreateVectorStoreRequest with _$CreateVectorStoreRequest {
 
   /// List of all property names of schema
   static const List<String> propertyNames = [
-    'name',
     'file_ids',
+    'name',
     'expires_after',
-    'chunking_strategy',
     'metadata'
   ];
 
@@ -57,10 +49,9 @@ class CreateVectorStoreRequest with _$CreateVectorStoreRequest {
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
     return {
-      'name': name,
       'file_ids': fileIds,
+      'name': name,
       'expires_after': expiresAfter,
-      'chunking_strategy': chunkingStrategy,
       'metadata': metadata,
     };
   }

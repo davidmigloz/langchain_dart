@@ -14,7 +14,7 @@ import 'package:test/test.dart';
 
 void main() {
   group('ChatGoogleGenerativeAI tests', () {
-    const defaultModel = 'gemini-1.5-pro';
+    const defaultModel = 'gemini-1.5-pro-latest';
 
     late ChatGoogleGenerativeAI chatModel;
 
@@ -73,7 +73,7 @@ void main() {
       expect(res.output.content, isNotEmpty);
     });
 
-    test('Text-and-image input', () async {
+    test('Text-and-image input with gemini-pro-vision', () async {
       final res = await chatModel.invoke(
         PromptValue.chat([
           ChatMessage.human(
@@ -89,6 +89,9 @@ void main() {
             ]),
           ),
         ]),
+        options: const ChatGoogleGenerativeAIOptions(
+          model: 'gemini-pro-vision',
+        ),
       );
 
       expect(res.output.content.toLowerCase(), contains('apple'));
@@ -119,8 +122,7 @@ void main() {
         ),
       );
       expect(res.output.content.length, lessThan(20));
-      // It seems the gemini-1.5 doesn't return length reason anymore
-      // expect(res.finishReason, FinishReason.length);
+      expect(res.finishReason, FinishReason.length);
     });
 
     test('Test Multi-turn conversations with gemini-pro', () async {
@@ -175,7 +177,7 @@ void main() {
           'properties': {
             'location': {
               'type': 'string',
-              'description': 'The city and country, e.g. San Francisco, US',
+              'description': 'The city and state, e.g. San Francisco, CA',
             },
             'unit': {
               'type': 'string',
@@ -194,7 +196,7 @@ void main() {
       );
 
       final humanMessage = ChatMessage.humanText(
-        'What’s the weather like in Boston, US and Madrid, Spain in Celsius?',
+        'What’s the weather like in Boston and Madrid right now in celsius?',
       );
       final res1 = await model.invoke(PromptValue.chat([humanMessage]));
 

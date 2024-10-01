@@ -134,11 +134,11 @@ extension GenerateContentResponseMapper on f.GenerateContentResponse {
             .toList(growable: false),
         'finish_message': candidate.finishMessage,
       },
-      usage: LanguageModelUsage(
-        promptTokens: usageMetadata?.promptTokenCount,
-        responseTokens: usageMetadata?.candidatesTokenCount,
-        totalTokens: usageMetadata?.totalTokenCount,
-      ),
+      usage: const LanguageModelUsage(
+          // promptTokens: usageMetadata?.promptTokenCount, // not yet supported
+          // responseTokens: usageMetadata?.candidatesTokenCount,
+          // totalTokens: usageMetadata?.totalTokenCount,
+          ),
     );
   }
 
@@ -197,17 +197,14 @@ extension ChatToolListMapper on List<ToolSpec> {
           (tool) => f.FunctionDeclaration(
             tool.name,
             tool.description,
-            tool.inputJsonSchema.toSchema(),
+            _mapJsonSchemaToSchema(tool.inputJsonSchema),
           ),
         ).toList(growable: false),
       ),
     ];
   }
-}
 
-extension SchemaMapper on Map<String, dynamic> {
-  f.Schema toSchema() {
-    final jsonSchema = this;
+  f.Schema _mapJsonSchemaToSchema(final Map<String, dynamic> jsonSchema) {
     final type = jsonSchema['type'] as String;
     final description = jsonSchema['description'] as String?;
     final nullable = jsonSchema['nullable'] as bool?;
@@ -220,38 +217,45 @@ extension SchemaMapper on Map<String, dynamic> {
     switch (type) {
       case 'string':
         if (enumValues != null) {
-          return f.Schema.enumString(
+          return f.Schema(
+            f.SchemaType.string,
             enumValues: enumValues,
             description: description,
             nullable: nullable,
+            format: 'enum',
           );
         } else {
-          return f.Schema.string(
+          return f.Schema(
+            f.SchemaType.string,
             description: description,
             nullable: nullable,
           );
         }
       case 'number':
-        return f.Schema.number(
+        return f.Schema(
+          f.SchemaType.number,
           description: description,
           nullable: nullable,
           format: format,
         );
       case 'integer':
-        return f.Schema.integer(
+        return f.Schema(
+          f.SchemaType.integer,
           description: description,
           nullable: nullable,
           format: format,
         );
       case 'boolean':
-        return f.Schema.boolean(
+        return f.Schema(
+          f.SchemaType.boolean,
           description: description,
           nullable: nullable,
         );
       case 'array':
         if (items != null) {
-          final itemsSchema = items.toSchema();
-          return f.Schema.array(
+          final itemsSchema = _mapJsonSchemaToSchema(items);
+          return f.Schema(
+            f.SchemaType.array,
             description: description,
             nullable: nullable,
             items: itemsSchema,
@@ -261,12 +265,10 @@ extension SchemaMapper on Map<String, dynamic> {
       case 'object':
         if (properties != null) {
           final propertiesSchema = properties.map(
-            (key, value) => MapEntry(
-              key,
-              (value as Map<String, dynamic>).toSchema(),
-            ),
+            (key, value) => MapEntry(key, _mapJsonSchemaToSchema(value)),
           );
-          return f.Schema.object(
+          return f.Schema(
+            f.SchemaType.object,
             properties: propertiesSchema,
             requiredProperties: requiredProperties,
             description: description,
@@ -291,11 +293,6 @@ extension ChatToolChoiceMapper on ChatToolChoice {
       ChatToolChoiceAuto _ => f.ToolConfig(
           functionCallingConfig: f.FunctionCallingConfig(
             mode: f.FunctionCallingMode.auto,
-          ),
-        ),
-      ChatToolChoiceRequired() => f.ToolConfig(
-          functionCallingConfig: f.FunctionCallingConfig(
-            mode: f.FunctionCallingMode.any,
           ),
         ),
       final ChatToolChoiceForced t => f.ToolConfig(

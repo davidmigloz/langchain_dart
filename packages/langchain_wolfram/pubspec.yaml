@@ -4,7 +4,7 @@ version: 0.0.1-dev.1
 repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/langchain_wolfram
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues?q=label:p:langchain_wolfram
 homepage: https://github.com/davidmigloz/langchain_dart
-documentation: https://langchaindart.dev
+documentation: https://langchaindart.com
 publish_to: none # Remove when the package is ready to be published
 
 topics:
@@ -14,4 +14,4 @@ topics:
   - langchain
 
 environment:
-  sdk: ">=3.4.0 <4.0.0"
+  sdk: ">=3.0.0 <4.0.0"

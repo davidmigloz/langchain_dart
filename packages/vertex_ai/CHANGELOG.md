@@ -1,15 +1,3 @@
-📣 Check out the [releases page](https://github.com/davidmigloz/langchain_dart/releases) or the [#announcements](https://discord.com/channels/1123158322812555295/1123250594644242534) channel on the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details.
-
----
-
-## 0.1.0+2
-
- - Update a dependency to the latest release.
-
-## 0.1.0+1
-
- - Update a dependency to the latest release.
-
 ## 0.1.0
 
  - **REFACTOR**: Minor changes ([#363](https://github.com/davidmigloz/langchain_dart/issues/363)). ([ffe539c1](https://github.com/davidmigloz/langchain_dart/commit/ffe539c13f92cce5f564107430163b44be1dfd96))

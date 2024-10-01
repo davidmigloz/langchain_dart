@@ -36,11 +36,6 @@ class VectorStoreFileObject with _$VectorStoreFileObject {
     /// The last error associated with this vector store file. Will be `null` if there are no errors.
     @JsonKey(name: 'last_error')
     required VectorStoreFileObjectLastError? lastError,
-
-    /// The chunking strategy used to chunk the file(s).
-    /// Any of: [StaticChunkingStrategyResponseParam], [OtherChunkingStrategyResponseParam]
-    @JsonKey(name: 'chunking_strategy', includeIfNull: false)
-    ChunkingStrategyResponseParam? chunkingStrategy,
   }) = _VectorStoreFileObject;
 
   /// Object construction from a JSON representation
@@ -55,8 +50,7 @@ class VectorStoreFileObject with _$VectorStoreFileObject {
     'created_at',
     'vector_store_id',
     'status',
-    'last_error',
-    'chunking_strategy'
+    'last_error'
   ];
 
   /// Perform validations on the schema property values
@@ -74,7 +68,6 @@ class VectorStoreFileObject with _$VectorStoreFileObject {
       'vector_store_id': vectorStoreId,
       'status': status,
       'last_error': lastError,
-      'chunking_strategy': chunkingStrategy,
     };
   }
 }
@@ -140,10 +133,12 @@ class VectorStoreFileObjectLastError with _$VectorStoreFileObjectLastError {
 
 /// One of `server_error` or `rate_limit_exceeded`.
 enum VectorStoreFileObjectLastErrorCode {
-  @JsonValue('server_error')
-  serverError,
-  @JsonValue('unsupported_file')
-  unsupportedFile,
-  @JsonValue('invalid_file')
-  invalidFile,
+  @JsonValue('internal_error')
+  internalError,
+  @JsonValue('file_not_found')
+  fileNotFound,
+  @JsonValue('parsing_error')
+  parsingError,
+  @JsonValue('unhandled_mime_type')
+  unhandledMimeType,
 }

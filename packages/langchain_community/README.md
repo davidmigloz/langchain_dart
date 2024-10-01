@@ -27,10 +27,6 @@ The most popular third-party integrations have their own packages (e.g. [langcha
   * `WebBaseLoader`: for web pages.
 - Tools:
   * `CalculatorTool`: to calculate math expressions. 
-  * `TavilySearchResultsTool`: returns a list of results for a query using the [Tavily](https://tavily.com) search engine.
-  * `TavilyAnswerTool`: returns an answer for a query using the [Tavily](https://tavily.com) search engine.
-- Vector stores:
-  * `ObjectBoxVectorStore`: [ObjectBox](https://objectbox.io/) on-device vector database. 
 
 Check out the [API reference](https://pub.dev/documentation/langchain_community/latest) for more details.
 

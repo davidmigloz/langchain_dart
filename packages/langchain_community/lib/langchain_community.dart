@@ -3,4 +3,3 @@ library;
 
 export 'src/document_loaders/document_loaders.dart';
 export 'src/tools/tools.dart';
-export 'src/vector_stores/vector_stores.dart';

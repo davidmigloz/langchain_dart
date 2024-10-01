@@ -23,12 +23,7 @@ class CreateFineTuningJobRequest with _$CreateFineTuningJobRequest {
     ///
     /// See [upload file](https://platform.openai.com/docs/api-reference/files/create) for how to upload a file.
     ///
-    /// Your dataset must be formatted as a JSONL file. Additionally, you must upload your file with the purpose
-    /// `fine-tune`.
-    ///
-    /// The contents of the file should differ depending on if the model uses the
-    /// [chat](https://platform.openai.com/docs/api-reference/fine-tuning/chat-input) or
-    /// [completions](https://platform.openai.com/docs/api-reference/fine-tuning/completions-input) format.
+    /// Your dataset must be formatted as a JSONL file. Additionally, you must upload your file with the purpose `fine-tune`.
     ///
     /// See the [fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning) for more details.
     @JsonKey(name: 'training_file') required String trainingFile,
@@ -37,9 +32,9 @@ class CreateFineTuningJobRequest with _$CreateFineTuningJobRequest {
     @JsonKey(includeIfNull: false)
     FineTuningJobHyperparameters? hyperparameters,
 
-    /// A string of up to 64 characters that will be added to your fine-tuned model name.
+    /// A string of up to 18 characters that will be added to your fine-tuned model name.
     ///
-    /// For example, a `suffix` of "custom-model-name" would produce a model name like `ft:gpt-4o-mini:openai:custom-model-name:7p4lURel`.
+    /// For example, a `suffix` of "custom-model-name" would produce a model name like `ft:gpt-3.5-turbo:openai:custom-model-name:7p4lURel`.
     @JsonKey(includeIfNull: false) String? suffix,
 
     /// The ID of an uploaded file that contains validation data.
@@ -80,7 +75,7 @@ class CreateFineTuningJobRequest with _$CreateFineTuningJobRequest {
 
   /// Validation constants
   static const suffixMinLengthValue = 1;
-  static const suffixMaxLengthValue = 64;
+  static const suffixMaxLengthValue = 40;
   static const seedMinValue = 0;
   static const seedMaxValue = 2147483647;
 
@@ -127,8 +122,6 @@ enum FineTuningModels {
   davinci002,
   @JsonValue('gpt-3.5-turbo')
   gpt35Turbo,
-  @JsonValue('gpt-4o-mini')
-  gpt4oMini,
 }
 
 // ==========================================

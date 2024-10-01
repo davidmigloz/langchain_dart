@@ -7,11 +7,11 @@ import 'types.dart';
 /// Fake LLM for testing.
 /// You can pass in a list of responses to return in order when called.
 /// {@endtemplate}
-class FakeLLM extends SimpleLLM<FakeLLMOptions> {
+class FakeLLM extends SimpleLLM {
   /// {@macro fake_list_llm}
   FakeLLM({
     required this.responses,
-  }) : super(defaultOptions: const FakeLLMOptions());
+  }) : super(defaultOptions: const LLMOptions());
 
   /// Responses to return in order when called.
   final List<String> responses;
@@ -60,35 +60,13 @@ class FakeLLM extends SimpleLLM<FakeLLMOptions> {
   }
 }
 
-/// {@template fake_llm_options}
-/// Fake LLM options for testing.
-/// {@endtemplate}
-class FakeLLMOptions extends LLMOptions {
-  /// {@macro fake_llm_options}
-  const FakeLLMOptions({
-    super.model,
-    super.concurrencyLimit,
-  });
-
-  @override
-  FakeLLMOptions copyWith({
-    final String? model,
-    final int? concurrencyLimit,
-  }) {
-    return FakeLLMOptions(
-      model: model ?? this.model,
-      concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
-    );
-  }
-}
-
 /// {@template fake_echo_llm}
 /// Fake LLM for testing.
 /// It just returns the prompt or streams it char by char.
 /// {@endtemplate}
-class FakeEchoLLM extends BaseLLM<FakeLLMOptions> {
+class FakeEchoLLM extends BaseLLM {
   /// {@macro fake_echo_llm}
-  const FakeEchoLLM() : super(defaultOptions: const FakeLLMOptions());
+  const FakeEchoLLM() : super(defaultOptions: const LLMOptions());
 
   @override
   String get modelType => 'fake-echo';
@@ -144,11 +122,11 @@ class FakeEchoLLM extends BaseLLM<FakeLLMOptions> {
 /// Fake LLM for testing.
 /// It returns the string returned by the [handler] function.
 /// {@endtemplate}
-class FakeHandlerLLM extends SimpleLLM<FakeLLMOptions> {
+class FakeHandlerLLM extends SimpleLLM {
   /// {@macro fake_handler_llm}
   FakeHandlerLLM({
     required this.handler,
-  }) : super(defaultOptions: const FakeLLMOptions());
+  }) : super(defaultOptions: const LLMOptions());
 
   /// Function called to generate the response.
   final String Function(

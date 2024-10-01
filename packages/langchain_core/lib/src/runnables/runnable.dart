@@ -2,13 +2,11 @@ import 'dart:async';
 
 import '../../utils.dart';
 import 'binding.dart';
-import 'fallbacks.dart';
 import 'function.dart';
 import 'input_map.dart';
 import 'input_stream_map.dart';
 import 'map.dart';
 import 'passthrough.dart';
-import 'retry.dart';
 import 'router.dart';
 import 'sequence.dart';
 import 'types.dart';
@@ -284,72 +282,11 @@ abstract class Runnable<RunInput extends Object?,
     );
   }
 
-  /// Adds fallback runnables to be invoked if the primary runnable fails.
-  ///
-  /// This method creates a [RunnableWithFallback] instance that wraps the
-  /// current [Runnable]. If the initial invocation of the current [Runnable]
-  /// fails, the [fallbacks] runnables are attempted in the order they are
-  /// provided. This process continues until a runnable succeeds or all
-  /// fallbacks fail. The result of the first successful runnable is returned,
-  /// or an error is thrown if all runnables fail.
-  ///
-  /// - [fallbacks] - A list of [Runnable] instances to be used as fallbacks.
-  RunnableWithFallback<RunInput, RunOutput> withFallbacks(
-    List<Runnable<RunInput, RunnableOptions, RunOutput>> fallbacks,
-  ) {
-    return RunnableWithFallback<RunInput, RunOutput>(
-      mainRunnable: this,
-      fallbacks: fallbacks,
-    );
-  }
-
-  /// Adds retry logic to an existing runnable.
-  ///
-  /// This method create a [RunnableRetry] instance, if the current [Runnable]
-  /// throws an exception during invocation, it will be retried based on the
-  /// configuration provided. By default the runnable will be retried 3 times
-  /// with exponential delay between each retry.
-  ///
-  ///  - [maxRetries] - max attempts to retry the runnable.
-  ///  - [retryIf] - evaluator function to check whether to retry based the
-  ///    exception thrown.
-  ///  - [delayDurations] - by default runnable will be retried based on an
-  ///    exponential backoff strategy with base delay as 1 second. But you can
-  ///    override this behavior by providing an optional list of [Duration]s.
-  ///  - [addJitter] - whether to add jitter to the delay.
-  RunnableRetry<RunInput, RunOutput> withRetry({
-    final int maxRetries = 3,
-    final FutureOr<bool> Function(Object e)? retryIf,
-    final List<Duration?>? delayDurations,
-    final bool addJitter = false,
-  }) {
-    return RunnableRetry<RunInput, RunOutput>(
-      runnable: this,
-      defaultOptions: defaultOptions,
-      retryOptions: RetryOptions(
-        maxRetries: maxRetries,
-        retryIf: retryIf,
-        delayDurations: delayDurations,
-        addJitter: addJitter,
-      ),
-    );
-  }
-
   /// Returns the given [options] if they are compatible with the [Runnable],
   /// otherwise returns `null`.
   CallOptions? getCompatibleOptions(
     final RunnableOptions? options,
   ) {
     return options is CallOptions ? options : null;
-  }
-
-  /// Cleans up any resources associated with it the [Runnable].
-  ///
-  /// For example, if the [Runnable] uses a http client internally, it closes
-  /// it. If there is no resource to clean up, this method does nothing.
-  ///
-  /// Don't try to call the [Runnable] after calling this method.
-  void close() {
-    // Override this method if the Runnable needs to clean up resources
   }
 }

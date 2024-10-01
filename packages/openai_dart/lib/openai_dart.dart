@@ -1,4 +1,4 @@
-/// Dart client for the OpenAI API. Supports chat (GPT-4o, etc.), completions, embeddings, images (DALL·E 3), assistants (threads, runs, vector stores, etc.), batch, fine-tuning, etc.
+/// Dart Client for the OpenAI API (completions, chat, embeddings, etc.).
 library;
 
 export 'src/client.dart';

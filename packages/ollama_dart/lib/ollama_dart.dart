@@ -1,5 +1,5 @@
 /// Dart Client for the Ollama API (run Llama 3, Code Llama, and other models locally).
-library;
+library ollama_dart;
 
 export 'src/client.dart';
 export 'src/generated/client.dart' show OllamaClientException;

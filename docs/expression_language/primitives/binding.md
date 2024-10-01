@@ -57,7 +57,7 @@ final chain = Runnable.fromMap({
   chatModel.bind(ChatOpenAIOptions(model: 'gpt-4-turbo')) |
   outputParser,
   'q2': prompt2 |
-  chatModel.bind(ChatOpenAIOptions(model: 'gpt-4o-mini')) |
+  chatModel.bind(ChatOpenAIOptions(model: 'gpt-3.5-turbo')) |
   outputParser,
 });
 

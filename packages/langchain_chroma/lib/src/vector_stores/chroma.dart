@@ -42,7 +42,7 @@ import 'types.dart';
 /// If you are interacting with Chroma server from a web browser,
 /// you may need to configure the CORS policy. You can do this by
 /// passing the following environment variable:
-/// ```sh
+/// ```
 /// docker run -p 8000:8000 -e 'CHROMA_SERVER_CORS_ALLOW_ORIGINS=["*"]' chromadb/chroma
 /// ```
 /// The previous command will allow all origins to access the Chroma server

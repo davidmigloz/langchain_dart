@@ -123,8 +123,8 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
     final String location = 'us-central1',
     final String? rootUrl,
     super.defaultOptions = const VertexAIOptions(
-      publisher: defaultPublisher,
-      model: defaultModel,
+      publisher: 'google',
+      model: 'text-bison',
     ),
   }) : client = VertexAIGenAIClient(
           httpClient: httpClient,
@@ -145,24 +145,21 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
   @override
   String get modelType => 'vertex-ai';
 
-  /// The default publisher to use unless another is specified.
-  static const defaultPublisher = 'google';
-
-  /// The default model to use unless another is specified.
-  static const defaultModel = 'text-bison';
-
   @override
   Future<LLMResult> invoke(
     final PromptValue input, {
     final VertexAIOptions? options,
   }) async {
     final id = _uuid.v4();
-    final publisher =
-        options?.publisher ?? defaultOptions.publisher ?? defaultPublisher;
-    final model = options?.model ?? defaultOptions.model ?? defaultModel;
+    final model =
+        options?.model ?? defaultOptions.model ?? throwNullModelError();
     final result = await client.text.predict(
       prompt: input.toString(),
-      publisher: publisher,
+      publisher: options?.publisher ??
+          ArgumentError.checkNotNull(
+            defaultOptions.publisher,
+            'VertexAIOptions.publisher',
+          ),
       model: model,
       parameters: VertexAITextModelRequestParams(
         maxOutputTokens:
@@ -194,12 +191,15 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
     final PromptValue promptValue, {
     final VertexAIOptions? options,
   }) async {
-    final publisher =
-        options?.publisher ?? defaultOptions.publisher ?? defaultPublisher;
-    final model = options?.model ?? defaultOptions.model ?? defaultModel;
+    final model =
+        options?.model ?? defaultOptions.model ?? throwNullModelError();
     final res = await client.text.countTokens(
       prompt: promptValue.toString(),
-      publisher: publisher,
+      publisher: options?.publisher ??
+          ArgumentError.checkNotNull(
+            defaultOptions.publisher,
+            'VertexAIOptions.publisher',
+          ),
       model: model,
     );
     return res.totalTokens;
