@@ -49,6 +49,7 @@ command:
       json_annotation: ^4.9.0
       json_path: ^0.7.4
       langchain_tiktoken: ^1.0.1
+      logging: ^1.2.0
       math_expressions: ^2.6.0
       meta: ^1.11.0
       objectbox: ^4.0.1

@@ -2,13 +2,15 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:openai_realtime_dart/src/web_socket/web_socket.dart';
-import 'package:web_socket_channel/io.dart';
+import 'package:logging/logging.dart';
 import 'package:web_socket_channel/status.dart' as status;
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 import 'event_handler.dart';
 import 'utils.dart';
+import 'web_socket/web_socket.dart';
+
+final _log = Logger('openai_realtime_dart.api');
 
 /// Thin wrapper over [WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket)
 /// to handle the communication with OpenAI Realtime API.
@@ -45,20 +47,10 @@ class RealtimeAPI extends RealtimeEventHandler {
 
   WebSocketChannel? _ws;
   String _model = '';
-  bool _isConnected = false;
-  bool _isFirstRestart = false;
-  bool _isFollowingRestart = false;
+  StreamSubscription<dynamic>? _logSubscription;
 
   /// Tells us whether or not the WebSocket is connected.
-  bool isConnected() => _ws != null && _isConnected;
-
-  /// Writes WebSocket logs to console.
-  void log(String message) {
-    if (debug) {
-      final date = DateTime.now().toIso8601String();
-      print('[WebSocket/$date] $message');
-    }
-  }
+  bool isConnected() => _ws != null;
 
   /// Connects to Realtime API Websocket Server.
   Future<bool> connect({
@@ -68,6 +60,8 @@ class RealtimeAPI extends RealtimeEventHandler {
       throw Exception('Already connected');
     }
 
+    _configLogger();
+
     _model = model;
     final uri = Uri.parse('$url?model=$_model');
 
@@ -76,61 +70,58 @@ class RealtimeAPI extends RealtimeEventHandler {
 
       // Wait for the connection to be established
       await _ws!.ready;
-      _isConnected = true;
 
-      log('Connected to "$url"');
+      _log.info('Connected to "$url"');
 
       _ws!.stream.listen(
         (data) {
-          _isFirstRestart = false;
           final message = json.decode(data) as Map<String, dynamic>;
           receive(message['type'], message);
         },
         onError: (dynamic error) {
-          log('Error: $error');
+          _log.severe('Error', error);
           dispatch('close', {'error': true});
-          _handleLostConnection();
         },
         onDone: () {
-          log('Disconnected from "$url"');
+          _log.info('Disconnected from "$url"');
           dispatch('close', {'error': false});
         },
       );
 
       return true;
     } catch (e) {
-      log('Could not connect to "$url": $e');
-      return _handleLostConnection();
+      _log.severe('Could not connect to "$url"', e);
+      return false;
     }
   }
 
-  /// Handles lost WebSocket connection and attempts reconnection.
-  Future<bool> _handleLostConnection() async {
-    log('Attempting to reconnect');
-    if (_isFirstRestart && !_isFollowingRestart) {
-      _isFollowingRestart = true;
-      await Future<void>.delayed(const Duration(seconds: 3));
-      _isFollowingRestart = false;
-      return connect(model: _model);
-    } else {
-      _isFirstRestart = true;
-      return connect(model: _model);
+  void _configLogger() {
+    if (debug) {
+      final logger = Logger('openai_realtime_dart');
+      _logSubscription = logger.onRecord.listen((record) {
+        if (record.level >= Level.INFO) {
+          print(
+            '[${record.loggerName}/${record.time.toIso8601String()}]: '
+            '${record.message} ${record.error ?? ""}',
+          );
+        }
+      });
     }
   }
 
   /// Disconnects from Realtime API server.
   Future<void> disconnect() async {
     if (_ws != null) {
-      await _ws!.sink.close(status.goingAway);
+      await _ws!.sink.close(status.normalClosure);
       _ws = null;
     }
-    _isConnected = false;
+    await _logSubscription?.cancel();
   }
 
   /// Receives an event from WebSocket and dispatches as
   /// "server.{eventName}" and "server.*" events.
   void receive(String eventName, Map<String, dynamic> event) {
-    log('received: $eventName $event');
+    _log.info('received: $eventName $event');
     dispatch('server.$eventName', event);
     dispatch('server.*', event);
   }
@@ -150,7 +141,7 @@ class RealtimeAPI extends RealtimeEventHandler {
 
     dispatch('client.$eventName', event);
     dispatch('client.*', event);
-    log('sent: $eventName $event');
+    _log.info('sent: $eventName $event');
 
     _ws!.sink.add(json.encode(event));
   }

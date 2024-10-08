@@ -38,7 +38,7 @@ void main() {
       expect(event, isNotNull);
       expect(event?['error'], isNotNull);
       final error = event?['error'] as Map<String, dynamic>?;
-      expect(error?['message'], contains('Incorrect API key provided'));
+      expect(error?['message'], contains('Missing bearer'));
     });
 
     test('Should instantiate the RealtimeAPI', () {

@@ -331,6 +331,24 @@ client.on('realtime.event', (event ) {
 });
 ```
 
+## Logging
+
+This package uses the [logging](https://pub.dev/packages/logging) package to log messages. 
+
+In debug mode, records with `Level.INFO` and above are printed to the console.
+
+### Listen to all logs
+
+```dart
+import 'package:logging/logging.dart';
+
+final logger = Logger('openai_realtime_dart');
+logger.level = Level.ALL; // custom log level filtering, default is Level.INFO
+logger.onRecord.listen((record) {
+  print('${record.level.name}: ${record.time}: ${record.message}');
+});
+```
+
 ## Acknowledgements
 
 This package is based on the [OpenAI Realtime API Reference Client](https://github.com/openai/openai-realtime-api-beta).
