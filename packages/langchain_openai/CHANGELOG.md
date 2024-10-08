@@ -2,6 +2,10 @@
 
 ---
 
+## 0.7.2+1
+
+ - Update a dependency to the latest release.
+
 ## 0.7.2
 
  - **FEAT**: Add OpenAI o1-preview and o1-mini to model catalog ([#555](https://github.com/davidmigloz/langchain_dart/issues/555)). ([9ceb5ff9](https://github.com/davidmigloz/langchain_dart/commit/9ceb5ff9029cf1ae1967a32189f88c7a8215248e))

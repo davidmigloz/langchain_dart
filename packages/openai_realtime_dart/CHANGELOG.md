@@ -2,6 +2,10 @@
 
 ---
 
+## 0.0.1
+
+ - **FEAT**: Implement openai_realtime_dart, a Dart client for OpenAI Realtime API ([#562](https://github.com/davidmigloz/langchain_dart/issues/562)). ([9f7406f7](https://github.com/davidmigloz/langchain_dart/commit/9f7406f7014624bf5086c60fb902bff70224ee15))
+
 ## 0.0.1-dev.1
 
 - Bootstrap project

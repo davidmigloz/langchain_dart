@@ -167,7 +167,7 @@ packages:
       path: "../../packages/langchain"
       relative: true
     source: path
-    version: "0.7.6"
+    version: "0.7.7"
   langchain_community:
     dependency: "direct main"
     description:

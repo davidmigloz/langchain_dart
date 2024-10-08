@@ -2,6 +2,44 @@
 
 📣 Check out the [releases page](https://github.com/davidmigloz/langchain_dart/releases) or the [#announcements](https://discord.com/channels/1123158322812555295/1123250594644242534) channel on the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details.
 
+## 2024-10-08
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+New packages:
+
+ - [`openai_realtime_dart` - `v0.0.1`](#openai_realtime_dart---v001)
+
+Packages with other changes:
+
+ - [`langchain` - `v0.7.7`](#langchain---v077)
+ - [`langchain_google` - `v0.6.4`](#langchain_google---v064)
+ - [`openai_dart` - `v0.4.2+1`](#openai_dart---v0421)
+
+---
+
+#### `langchain` - `v0.7.7`
+
+ - **REFACTOR**: Update deprecated UUID constant ([#558](https://github.com/davidmigloz/langchain_dart/issues/558)). ([8d9f14b4](https://github.com/davidmigloz/langchain_dart/commit/8d9f14b4c394f4652727eadf5849355cd9fa2f19))
+
+#### `langchain_google` - `v0.6.4`
+
+ - **FEAT**: Add support for code execution in ChatGoogleGenerativeAI ([#564](https://github.com/davidmigloz/langchain_dart/issues/564)). ([020bc096](https://github.com/davidmigloz/langchain_dart/commit/020bc096e2bb83bd372d0568a111481df188a7f2))
+
+#### `openai_realtime_dart` - `v0.0.1`
+
+ - **FEAT**: Implement openai_realtime_dart, a Dart client for OpenAI Realtime API ([#562](https://github.com/davidmigloz/langchain_dart/issues/562)). ([9f7406f7](https://github.com/davidmigloz/langchain_dart/commit/9f7406f7014624bf5086c60fb902bff70224ee15))
+
+#### `openai_dart` - `v0.4.2+1`
+
+ - **DOCS**: Add note about the new [openai_realtime_dart](https://pub.dev/packages/openai_realtime_dart) client. ([44672f0a](https://github.com/davidmigloz/langchain_dart/commit/44672f0a453a1b2e1b31bc5ef400f4c8ac7a4e76))
+
 ## 2024-09-25
 
 ### Changes

@@ -2,6 +2,10 @@
 
 ---
 
+## 0.6.4
+
+ - **FEAT**: Add support for code execution in ChatGoogleGenerativeAI ([#564](https://github.com/davidmigloz/langchain_dart/issues/564)). ([020bc096](https://github.com/davidmigloz/langchain_dart/commit/020bc096e2bb83bd372d0568a111481df188a7f2))
+
 ## 0.6.3+1
 
  - **FEAT**: Add support for reduced output dimensionality in GoogleGenerativeAIEmbeddings ([#544](https://github.com/davidmigloz/langchain_dart/issues/544)). ([d5880704](https://github.com/davidmigloz/langchain_dart/commit/d5880704c492889144738acffd49674b91e63981))

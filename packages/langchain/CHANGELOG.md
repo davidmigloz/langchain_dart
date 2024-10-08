@@ -2,6 +2,10 @@
 
 ---
 
+## 0.7.7
+
+ - **REFACTOR**: Update deprecated UUID constant ([#558](https://github.com/davidmigloz/langchain_dart/issues/558)). ([8d9f14b4](https://github.com/davidmigloz/langchain_dart/commit/8d9f14b4c394f4652727eadf5849355cd9fa2f19))
+
 ## 0.7.6
 
  - **FEAT**: Add retry support for Runnables ([#540](https://github.com/davidmigloz/langchain_dart/issues/540)). ([1099725d](https://github.com/davidmigloz/langchain_dart/commit/1099725d88de4103381edad533209a9a098bdb7f))

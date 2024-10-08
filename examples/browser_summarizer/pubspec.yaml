@@ -13,9 +13,9 @@ dependencies:
   flutter_bloc: ^8.1.6
   flutter_markdown: ^0.7.3
   js: ^0.7.1
-  langchain: ^0.7.6
+  langchain: ^0.7.7
   langchain_community: 0.3.2
-  langchain_openai: ^0.7.2
+  langchain_openai: ^0.7.2+1
   shared_preferences: ^2.3.0
 
 flutter:
