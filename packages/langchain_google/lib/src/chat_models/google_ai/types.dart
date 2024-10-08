@@ -21,6 +21,7 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
     this.responseMimeType,
     this.responseSchema,
     this.safetySettings,
+    this.enableCodeExecution,
     super.tools,
     super.toolChoice,
     super.concurrencyLimit,
@@ -115,6 +116,12 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
   /// the default safety setting for that category.
   final List<ChatGoogleGenerativeAISafetySetting>? safetySettings;
 
+  /// When code execution is enabled the model may generate code and run it in the
+  /// process of generating a response to the prompt. When this happens the code
+  /// that was executed and it's output will be included in the response metadata
+  /// as `metadata['executable_code']` and `metadata['code_execution_result']`.
+  final bool? enableCodeExecution;
+
   @override
   ChatGoogleGenerativeAIOptions copyWith({
     final String? model,
@@ -125,6 +132,7 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
     final double? temperature,
     final List<String>? stopSequences,
     final List<ChatGoogleGenerativeAISafetySetting>? safetySettings,
+    final bool? enableCodeExecution,
     final List<ToolSpec>? tools,
     final ChatToolChoice? toolChoice,
     final int? concurrencyLimit,
@@ -138,6 +146,7 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
       temperature: temperature ?? this.temperature,
       stopSequences: stopSequences ?? this.stopSequences,
       safetySettings: safetySettings ?? this.safetySettings,
+      enableCodeExecution: enableCodeExecution ?? this.enableCodeExecution,
       tools: tools ?? this.tools,
       toolChoice: toolChoice ?? this.toolChoice,
       concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
@@ -157,6 +166,7 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
       temperature: other?.temperature,
       stopSequences: other?.stopSequences,
       safetySettings: other?.safetySettings,
+      enableCodeExecution: other?.enableCodeExecution,
       tools: other?.tools,
       toolChoice: other?.toolChoice,
       concurrencyLimit: other?.concurrencyLimit,
@@ -173,6 +183,7 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
         temperature == other.temperature &&
         stopSequences == other.stopSequences &&
         safetySettings == other.safetySettings &&
+        enableCodeExecution == other.enableCodeExecution &&
         tools == other.tools &&
         toolChoice == other.toolChoice &&
         concurrencyLimit == other.concurrencyLimit;
@@ -188,6 +199,7 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
         temperature.hashCode ^
         stopSequences.hashCode ^
         safetySettings.hashCode ^
+        enableCodeExecution.hashCode ^
         tools.hashCode ^
         toolChoice.hashCode ^
         concurrencyLimit.hashCode;

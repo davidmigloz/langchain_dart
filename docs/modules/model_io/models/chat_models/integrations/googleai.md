@@ -147,3 +147,32 @@ final res = await model.invoke(
   PromptValue.string('What’s the weather like in Boston and Madrid right now in celsius?'),
 );
 ```
+
+## Code execution
+
+`ChatGoogleGenerativeAI` supports [code execution](https://ai.google.dev/gemini-api/docs/code-execution?lang=python#billing), just set `enableCodeExecution` to `true` in the options.
+
+```dart
+final chatModel = ChatGoogleGenerativeAI(
+  apiKey: apiKey,
+  defaultOptions: ChatGoogleGenerativeAIOptions(
+    model: 'gemini-1.5-flash',
+    enableCodeExecution: true,
+  ),
+);
+final res = await chatModel.invoke(
+  PromptValue.string(
+    'Calculate the fibonacci sequence up to 10 terms. '
+        'Return only the last term without explanations.',
+  ),
+);
+
+final text = res.output.content;
+print(text); // 34
+
+final executableCode = res.metadata['executable_code'] as String;
+print(executableCode);
+
+final codeExecutionResult = res.metadata['code_execution_result'] as Map<String, dynamic>;
+print(codeExecutionResult);
+```
