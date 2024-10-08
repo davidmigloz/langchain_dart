@@ -332,7 +332,11 @@ class ChatGoogleGenerativeAI
             (options?.responseSchema ?? defaultOptions.responseSchema)
                 ?.toSchema(),
       ),
-      (options?.tools ?? defaultOptions.tools)?.toToolList(),
+      (options?.tools ?? defaultOptions.tools).toToolList(
+        enableCodeExecution: options?.enableCodeExecution ??
+            defaultOptions.enableCodeExecution ??
+            false,
+      ),
       (options?.toolChoice ?? defaultOptions.toolChoice)?.toToolConfig(),
     );
   }
