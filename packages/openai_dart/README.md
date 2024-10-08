@@ -7,6 +7,8 @@
 
 Unofficial Dart client for [OpenAI](https://platform.openai.com/docs/api-reference) API.
 
+> Note: If you are looking for a client for the [Realtime API](https://platform.openai.com/docs/guides/realtime), please check the [openai_realtime_dart](https://pub.dev/packages/openai_realtime_dart) package.
+
 ## Features
 
 - Generated from the official OpenAI [OpenAPI specification](https://github.com/openai/openai-openapi)
