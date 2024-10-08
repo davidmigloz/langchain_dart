@@ -15,12 +15,11 @@ environment:
   sdk: ">=3.4.0 <4.0.0"
 
 dependencies:
-  web_socket_channel: ^2.4.0
   http: ^1.2.2
   json_annotation: ^4.9.0
+  web_socket_channel: ^3.0.1
 
 dev_dependencies:
   test: ^1.25.8
   json_serializable: ^6.8.0
   build_runner: ^2.4.11
-  mockito: ^5.4.4

@@ -2,6 +2,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:openai_realtime_dart/src/web_socket/web_socket.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/status.dart' as status;
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -71,13 +72,7 @@ class RealtimeAPI extends RealtimeEventHandler {
     final uri = Uri.parse('$url?model=$_model');
 
     try {
-      _ws = IOWebSocketChannel.connect(
-        uri,
-        headers: {
-          'Authorization': 'Bearer $apiKey',
-          'OpenAI-Beta': 'realtime=v1',
-        },
-      );
+      _ws = connectWebSocket(uri, apiKey);
 
       // Wait for the connection to be established
       await _ws!.ready;
