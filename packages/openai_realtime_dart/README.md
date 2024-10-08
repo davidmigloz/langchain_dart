@@ -112,7 +112,7 @@ client.sendUserMessageContent([
 ]);
 // or (empty audio)
 client.sendUserMessageContent([
-  {'type': 'input_audio', 'audio': Int16List(0)},
+  {'type': 'input_audio', 'audio': Uint8List(0)},
 ]);
 ```
 
@@ -121,11 +121,11 @@ client.sendUserMessageContent([
 To send streaming audio, use the `.appendInputAudio()` method. If you're in `turn_detection: 'disabled'` mode, then you need to use `.createResponse()` to tell the model to respond.
 
 ```dart
-// Send user audio, must be Int16List
+// Send user audio, must be Uint8List
 // Default audio format is pcm16 with sample rate of 24,000 Hz
 // This populates 1s of noise in 0.1s chunks
 for (var i = 0; i < 10; i++) {
-  final data = Int16List(2400);
+  final data = Uint8List(2400);
   for (var n = 0; n < 2400; n++) {
     final value = (Random().nextDouble() * 2 - 1) * 0x8000;
     data[n] = value.toInt();
@@ -295,7 +295,7 @@ client.on('conversation.updated', (event) {
   }
   if (delta != null) {
     // Only one of the following will be populated for any given event
-    // delta['audio'] -> Int16Array, audio added
+    // delta['audio'] -> Uint8List, audio added
     // delta['transcript'] -> string, transcript added
     // delta['arguments'] -> string, function arguments added
   }
