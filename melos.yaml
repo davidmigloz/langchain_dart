@@ -59,7 +59,7 @@ command:
       shelf: ^1.4.2
       shelf_router: ^1.1.4
       supabase: ^2.2.7
-      uuid: ^4.4.2
+      uuid: ^4.5.1
       web_socket_channel: ^3.0.1
     dev_dependencies:
       build_runner: ^2.4.11

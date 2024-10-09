@@ -21,7 +21,7 @@ dependencies:
   langchain_core: 0.3.6
   meta: ^1.11.0
   pinecone: ^0.7.2
-  uuid: ^4.4.2
+  uuid: ^4.5.1
 
 dev_dependencies:
   test: ^1.25.8

@@ -91,7 +91,7 @@ void main() async {
     const uuid = Uuid();
     const key = 'key';
     final keyHash = sha1.convert(utf8.encode(key)).toString();
-    final expectedEncodedKey = uuid.v5(Uuid.NAMESPACE_URL, keyHash);
+    final expectedEncodedKey = uuid.v5(Namespace.url.value, keyHash);
     final value = [0.1, 0.2, 0.3];
     final expectedEncodedValue =
         Uint8List.fromList(utf8.encode(json.encode(value)));
