@@ -5,7 +5,9 @@
 [![](https://dcbadge.vercel.app/api/server/x4qbhqecVR?style=flat)](https://discord.gg/x4qbhqecVR)
 [![MIT](https://img.shields.io/badge/license-MIT-purple.svg)](https://github.com/davidmigloz/langchain_dart/blob/main/LICENSE)
 
-Unofficial Dart client for the [OpenAI Realtime API](https://platform.openai.com/docs/guides/realtime).
+Unofficial Dart client for the [OpenAI Realtime API](https://platform.openai.com/docs/guides/realtime), a stateful, event-based API that communicates over a WebSocket.
+
+> Note: If you are looking for a client for the [REST OpenAI API](https://platform.openai.com/docs/api-reference), please check the [openai_dart](https://pub.dev/packages/openai_dart) package.
 
 ## Table of contents
 

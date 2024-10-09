@@ -1,4 +1,4 @@
-/// Dart client for the OpenAI Realtime API.
+/// Dart client for the OpenAI Realtime API (beta), a stateful, event-based API that communicates over a WebSocket.
 library;
 
 export 'src/api.dart';
