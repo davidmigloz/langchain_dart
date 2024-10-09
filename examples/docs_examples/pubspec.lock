@@ -237,7 +237,7 @@ packages:
       path: "../../packages/langchain"
       relative: true
     source: path
-    version: "0.7.7"
+    version: "0.7.7+1"
   langchain_anthropic:
     dependency: "direct main"
     description:
@@ -251,14 +251,14 @@ packages:
       path: "../../packages/langchain_chroma"
       relative: true
     source: path
-    version: "0.2.1+3"
+    version: "0.2.1+4"
   langchain_community:
     dependency: "direct main"
     description:
       path: "../../packages/langchain_community"
       relative: true
     source: path
-    version: "0.3.2"
+    version: "0.3.2+1"
   langchain_core:
     dependency: "direct overridden"
     description:
@@ -272,7 +272,7 @@ packages:
       path: "../../packages/langchain_google"
       relative: true
     source: path
-    version: "0.6.4"
+    version: "0.6.4+1"
   langchain_mistralai:
     dependency: "direct main"
     description:
@@ -286,14 +286,14 @@ packages:
       path: "../../packages/langchain_ollama"
       relative: true
     source: path
-    version: "0.3.2"
+    version: "0.3.2+1"
   langchain_openai:
     dependency: "direct main"
     description:
       path: "../../packages/langchain_openai"
       relative: true
     source: path
-    version: "0.7.2+1"
+    version: "0.7.2+2"
   langchain_tiktoken:
     dependency: transitive
     description:

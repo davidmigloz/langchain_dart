@@ -167,14 +167,14 @@ packages:
       path: "../../packages/langchain"
       relative: true
     source: path
-    version: "0.7.7"
+    version: "0.7.7+1"
   langchain_community:
     dependency: "direct main"
     description:
       path: "../../packages/langchain_community"
       relative: true
     source: path
-    version: "0.3.2"
+    version: "0.3.2+1"
   langchain_core:
     dependency: "direct overridden"
     description:
@@ -188,7 +188,7 @@ packages:
       path: "../../packages/langchain_ollama"
       relative: true
     source: path
-    version: "0.3.2"
+    version: "0.3.2+1"
   langchain_tiktoken:
     dependency: transitive
     description:

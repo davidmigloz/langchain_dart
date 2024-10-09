@@ -2,6 +2,67 @@
 
 📣 Check out the [releases page](https://github.com/davidmigloz/langchain_dart/releases) or the [#announcements](https://discord.com/channels/1123158322812555295/1123250594644242534) channel on the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details.
 
+## 2024-10-09
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`langchain` - `v0.7.7+1`](#langchain---v0771)
+ - [`langchain_chroma` - `v0.2.1+4`](#langchain_chroma---v0214)
+ - [`langchain_community` - `v0.3.2+1`](#langchain_community---v0321)
+ - [`langchain_firebase` - `v0.2.1+3`](#langchain_firebase---v0213)
+ - [`langchain_google` - `v0.6.4+1`](#langchain_google---v0641)
+ - [`langchain_ollama` - `v0.3.2+1`](#langchain_ollama---v0321)
+ - [`langchain_openai` - `v0.7.2+2`](#langchain_openai---v0722)
+ - [`langchain_pinecone` - `v0.1.0+10`](#langchain_pinecone---v01010)
+ - [`openai_realtime_dart` - `v0.0.1+1`](#openai_realtime_dart---v0011)
+
+---
+
+#### `langchain` - `v0.7.7+1`
+
+ - **FIX**: UUID 'Namespace' can't be assigned to the parameter type 'String?' ([#566](https://github.com/davidmigloz/langchain_dart/issues/566)). ([1e93a595](https://github.com/davidmigloz/langchain_dart/commit/1e93a595f2f166da2cae3f7cfcdbb28892abf9b5))
+
+#### `langchain_chroma` - `v0.2.1+4`
+
+ - **FIX**: UUID 'Namespace' can't be assigned to the parameter type 'String?' ([#566](https://github.com/davidmigloz/langchain_dart/issues/566)). ([1e93a595](https://github.com/davidmigloz/langchain_dart/commit/1e93a595f2f166da2cae3f7cfcdbb28892abf9b5))
+
+#### `langchain_community` - `v0.3.2+1`
+
+ - **FIX**: UUID 'Namespace' can't be assigned to the parameter type 'String?' ([#566](https://github.com/davidmigloz/langchain_dart/issues/566)). ([1e93a595](https://github.com/davidmigloz/langchain_dart/commit/1e93a595f2f166da2cae3f7cfcdbb28892abf9b5))
+
+#### `langchain_firebase` - `v0.2.1+3`
+
+ - **FIX**: UUID 'Namespace' can't be assigned to the parameter type 'String?' ([#566](https://github.com/davidmigloz/langchain_dart/issues/566)). ([1e93a595](https://github.com/davidmigloz/langchain_dart/commit/1e93a595f2f166da2cae3f7cfcdbb28892abf9b5))
+
+#### `langchain_google` - `v0.6.4+1`
+
+ - **FIX**: UUID 'Namespace' can't be assigned to the parameter type 'String?' ([#566](https://github.com/davidmigloz/langchain_dart/issues/566)). ([1e93a595](https://github.com/davidmigloz/langchain_dart/commit/1e93a595f2f166da2cae3f7cfcdbb28892abf9b5))
+
+#### `langchain_ollama` - `v0.3.2+1`
+
+ - **FIX**: UUID 'Namespace' can't be assigned to the parameter type 'String?' ([#566](https://github.com/davidmigloz/langchain_dart/issues/566)). ([1e93a595](https://github.com/davidmigloz/langchain_dart/commit/1e93a595f2f166da2cae3f7cfcdbb28892abf9b5))
+
+#### `langchain_openai` - `v0.7.2+2`
+
+ - **FIX**: UUID 'Namespace' can't be assigned to the parameter type 'String?' ([#566](https://github.com/davidmigloz/langchain_dart/issues/566)). ([1e93a595](https://github.com/davidmigloz/langchain_dart/commit/1e93a595f2f166da2cae3f7cfcdbb28892abf9b5))
+
+#### `langchain_pinecone` - `v0.1.0+10`
+
+ - **FIX**: UUID 'Namespace' can't be assigned to the parameter type 'String?' ([#566](https://github.com/davidmigloz/langchain_dart/issues/566)). ([1e93a595](https://github.com/davidmigloz/langchain_dart/commit/1e93a595f2f166da2cae3f7cfcdbb28892abf9b5))
+
+#### `openai_realtime_dart` - `v0.0.1+1`
+
+ - **DOCS**: Add note about the openai_dart client. ([26de8d97](https://github.com/davidmigloz/langchain_dart/commit/26de8d974fcd27fec857b93cc309e76860777dea))
+
+
 ## 2024-10-08
 
 ### Changes

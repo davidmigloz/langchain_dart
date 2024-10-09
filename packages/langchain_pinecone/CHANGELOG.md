@@ -2,6 +2,10 @@
 
 ---
 
+## 0.1.0+10
+
+ - **FIX**: UUID 'Namespace' can't be assigned to the parameter type 'String?' ([#566](https://github.com/davidmigloz/langchain_dart/issues/566)). ([1e93a595](https://github.com/davidmigloz/langchain_dart/commit/1e93a595f2f166da2cae3f7cfcdbb28892abf9b5))
+
 ## 0.1.0+9
 
  - Update a dependency to the latest release.

@@ -1,6 +1,6 @@
 name: langchain_community
 description: LangChain.dart third-party integrations that don't have a dedicated package.
-version: 0.3.2
+version: 0.3.2+1
 repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/langchain_community
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues?q=label:p:langchain_community
 homepage: https://github.com/davidmigloz/langchain_dart
@@ -31,7 +31,7 @@ dependencies:
 
 dev_dependencies:
   build_runner: ^2.4.11
-  langchain_openai: ^0.7.2+1
+  langchain_openai: ^0.7.2+2
   objectbox_generator: ^4.0.1
   test: ^1.25.8
 
