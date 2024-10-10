@@ -20,8 +20,10 @@ import 'src/database.dart';
 class SQLiteVEC extends VectorStore {
   /// Drift sqlite instance
   late final Database db;
+
   /// Table name
   final String table;
+
   /// Database file path or `:memory:` for in-memory database
   final String dbFile;
 
