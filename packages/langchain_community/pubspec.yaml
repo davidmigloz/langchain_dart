@@ -36,6 +36,7 @@ dev_dependencies:
   langchain_openai: ^0.7.0
   objectbox_generator: ^4.0.1
   test: ^1.25.8
+  archive: ^3.1.2
 
 objectbox:
   output_dir: src/vector_stores/objectbox
