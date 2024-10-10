@@ -1,7 +1,8 @@
 CREATE TABLE files (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     path TEXT NOT NULL,
-    content TEXT
+    content TEXT,
+    metadata TEXT -- Deviated from flutter_sqlite_document_search to adhere more to langchain
 );
 
 CREATE TABLE file_embeddings (
@@ -29,7 +30,7 @@ SELECT * FROM files
 WHERE path = :path;
 
 insertFile:
-INSERT INTO files (path, content) VALUES (:path, :content)
+INSERT INTO files (path, content, metadata) VALUES (:path, :content, :metadata);
 RETURNING *;
 
 deleteFileById:
@@ -61,7 +62,8 @@ SELECT
     file_embeddings.start,
     file_embeddings.end,
     CAST(chunks.distance AS REAL) as distance,
-    files.content
+    files.content,
+    files.metadata
 FROM chunks 
 LEFT JOIN file_embeddings ON file_embeddings.chunk_id = chunks.id 
 LEFT JOIN files ON files.id = file_embeddings.file_id 

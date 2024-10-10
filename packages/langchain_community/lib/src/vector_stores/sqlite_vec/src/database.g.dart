@@ -30,8 +30,15 @@ class Files extends Table with TableInfo<Files, File> {
       type: DriftSqlType.string,
       requiredDuringInsert: false,
       $customConstraints: '');
+  static const VerificationMeta _metadataMeta =
+      const VerificationMeta('metadata');
+  late final GeneratedColumn<String> metadata = GeneratedColumn<String>(
+      'metadata', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
   @override
-  List<GeneratedColumn> get $columns => [id, path, content];
+  List<GeneratedColumn> get $columns => [id, path, content, metadata];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -55,6 +62,10 @@ class Files extends Table with TableInfo<Files, File> {
       context.handle(_contentMeta,
           content.isAcceptableOrUnknown(data['content']!, _contentMeta));
     }
+    if (data.containsKey('metadata')) {
+      context.handle(_metadataMeta,
+          metadata.isAcceptableOrUnknown(data['metadata']!, _metadataMeta));
+    }
     return context;
   }
 
@@ -70,6 +81,8 @@ class Files extends Table with TableInfo<Files, File> {
           .read(DriftSqlType.string, data['${effectivePrefix}path'])!,
       content: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}content']),
+      metadata: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}metadata']),
     );
   }
 
@@ -86,7 +99,9 @@ class File extends DataClass implements Insertable<File> {
   final int id;
   final String path;
   final String? content;
-  const File({required this.id, required this.path, this.content});
+  final String? metadata;
+  const File(
+      {required this.id, required this.path, this.content, this.metadata});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -94,6 +109,9 @@ class File extends DataClass implements Insertable<File> {
     map['path'] = Variable<String>(path);
     if (!nullToAbsent || content != null) {
       map['content'] = Variable<String>(content);
+    }
+    if (!nullToAbsent || metadata != null) {
+      map['metadata'] = Variable<String>(metadata);
     }
     return map;
   }
@@ -105,6 +123,9 @@ class File extends DataClass implements Insertable<File> {
       content: content == null && nullToAbsent
           ? const Value.absent()
           : Value(content),
+      metadata: metadata == null && nullToAbsent
+          ? const Value.absent()
+          : Value(metadata),
     );
   }
 
@@ -115,6 +136,7 @@ class File extends DataClass implements Insertable<File> {
       id: serializer.fromJson<int>(json['id']),
       path: serializer.fromJson<String>(json['path']),
       content: serializer.fromJson<String?>(json['content']),
+      metadata: serializer.fromJson<String?>(json['metadata']),
     );
   }
   @override
@@ -124,23 +146,27 @@ class File extends DataClass implements Insertable<File> {
       'id': serializer.toJson<int>(id),
       'path': serializer.toJson<String>(path),
       'content': serializer.toJson<String?>(content),
+      'metadata': serializer.toJson<String?>(metadata),
     };
   }
 
   File copyWith(
           {int? id,
           String? path,
-          Value<String?> content = const Value.absent()}) =>
+          Value<String?> content = const Value.absent(),
+          Value<String?> metadata = const Value.absent()}) =>
       File(
         id: id ?? this.id,
         path: path ?? this.path,
         content: content.present ? content.value : this.content,
+        metadata: metadata.present ? metadata.value : this.metadata,
       );
   File copyWithCompanion(FilesCompanion data) {
     return File(
       id: data.id.present ? data.id.value : this.id,
       path: data.path.present ? data.path.value : this.path,
       content: data.content.present ? data.content.value : this.content,
+      metadata: data.metadata.present ? data.metadata.value : this.metadata,
     );
   }
 
@@ -149,54 +175,65 @@ class File extends DataClass implements Insertable<File> {
     return (StringBuffer('File(')
           ..write('id: $id, ')
           ..write('path: $path, ')
-          ..write('content: $content')
+          ..write('content: $content, ')
+          ..write('metadata: $metadata')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, path, content);
+  int get hashCode => Object.hash(id, path, content, metadata);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is File &&
           other.id == this.id &&
           other.path == this.path &&
-          other.content == this.content);
+          other.content == this.content &&
+          other.metadata == this.metadata);
 }
 
 class FilesCompanion extends UpdateCompanion<File> {
   final Value<int> id;
   final Value<String> path;
   final Value<String?> content;
+  final Value<String?> metadata;
   const FilesCompanion({
     this.id = const Value.absent(),
     this.path = const Value.absent(),
     this.content = const Value.absent(),
+    this.metadata = const Value.absent(),
   });
   FilesCompanion.insert({
     this.id = const Value.absent(),
     required String path,
     this.content = const Value.absent(),
+    this.metadata = const Value.absent(),
   }) : path = Value(path);
   static Insertable<File> custom({
     Expression<int>? id,
     Expression<String>? path,
     Expression<String>? content,
+    Expression<String>? metadata,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (path != null) 'path': path,
       if (content != null) 'content': content,
+      if (metadata != null) 'metadata': metadata,
     });
   }
 
   FilesCompanion copyWith(
-      {Value<int>? id, Value<String>? path, Value<String?>? content}) {
+      {Value<int>? id,
+      Value<String>? path,
+      Value<String?>? content,
+      Value<String?>? metadata}) {
     return FilesCompanion(
       id: id ?? this.id,
       path: path ?? this.path,
       content: content ?? this.content,
+      metadata: metadata ?? this.metadata,
     );
   }
 
@@ -212,6 +249,9 @@ class FilesCompanion extends UpdateCompanion<File> {
     if (content.present) {
       map['content'] = Variable<String>(content.value);
     }
+    if (metadata.present) {
+      map['metadata'] = Variable<String>(metadata.value);
+    }
     return map;
   }
 
@@ -220,7 +260,8 @@ class FilesCompanion extends UpdateCompanion<File> {
     return (StringBuffer('FilesCompanion(')
           ..write('id: $id, ')
           ..write('path: $path, ')
-          ..write('content: $content')
+          ..write('content: $content, ')
+          ..write('metadata: $metadata')
           ..write(')'))
         .toString();
   }
@@ -552,12 +593,16 @@ abstract class _$Database extends GeneratedDatabase {
     }).asyncMap(files.mapFromRow);
   }
 
-  Future<List<File>> insertFile(String path, String? content) {
-    return customWriteReturning(
-            'INSERT INTO files (path, content) VALUES (?1, ?2) RETURNING *',
-            variables: [Variable<String>(path), Variable<String>(content)],
-            updates: {files})
-        .then((rows) => Future.wait(rows.map(files.mapFromRow)));
+  Future<int> insertFile(String path, String? content, String? metadata) {
+    return customInsert(
+      'INSERT INTO files (path, content, metadata) VALUES (?1, ?2, ?3)',
+      variables: [
+        Variable<String>(path),
+        Variable<String>(content),
+        Variable<String>(metadata)
+      ],
+      updates: {files},
+    );
   }
 
   Future<int> deleteFileById(int id) {
@@ -610,7 +655,7 @@ abstract class _$Database extends GeneratedDatabase {
 
   Selectable<SearchEmbeddingsResult> searchEmbeddings(Uint8List embedding) {
     return customSelect(
-        'SELECT files.id AS fileId, files.path, file_embeddings.start, file_embeddings."end", CAST(chunks.distance AS REAL) AS distance, files.content FROM chunks LEFT JOIN file_embeddings ON file_embeddings.chunk_id = chunks.id LEFT JOIN files ON files.id = file_embeddings.file_id WHERE embedding MATCH ?1 AND k = 20',
+        'SELECT files.id AS fileId, files.path, file_embeddings.start, file_embeddings."end", CAST(chunks.distance AS REAL) AS distance, files.content, files.metadata FROM chunks LEFT JOIN file_embeddings ON file_embeddings.chunk_id = chunks.id LEFT JOIN files ON files.id = file_embeddings.file_id WHERE embedding MATCH ?1 AND k = 20',
         variables: [
           Variable<Uint8List>(embedding)
         ],
@@ -624,6 +669,7 @@ abstract class _$Database extends GeneratedDatabase {
           end: row.readNullable<int>('end'),
           distance: row.read<double>('distance'),
           content: row.readNullable<String>('content'),
+          metadata: row.readNullable<String>('metadata'),
         ));
   }
 
@@ -638,11 +684,13 @@ typedef $FilesCreateCompanionBuilder = FilesCompanion Function({
   Value<int> id,
   required String path,
   Value<String?> content,
+  Value<String?> metadata,
 });
 typedef $FilesUpdateCompanionBuilder = FilesCompanion Function({
   Value<int> id,
   Value<String> path,
   Value<String?> content,
+  Value<String?> metadata,
 });
 
 class $FilesFilterComposer extends FilterComposer<_$Database, Files> {
@@ -661,6 +709,11 @@ class $FilesFilterComposer extends FilterComposer<_$Database, Files> {
       column: $state.table.content,
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get metadata => $state.composableBuilder(
+      column: $state.table.metadata,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
 }
 
 class $FilesOrderingComposer extends OrderingComposer<_$Database, Files> {
@@ -677,6 +730,11 @@ class $FilesOrderingComposer extends OrderingComposer<_$Database, Files> {
 
   ColumnOrderings<String> get content => $state.composableBuilder(
       column: $state.table.content,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get metadata => $state.composableBuilder(
+      column: $state.table.metadata,
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
@@ -702,21 +760,25 @@ class $FilesTableManager extends RootTableManager<
             Value<int> id = const Value.absent(),
             Value<String> path = const Value.absent(),
             Value<String?> content = const Value.absent(),
+            Value<String?> metadata = const Value.absent(),
           }) =>
               FilesCompanion(
             id: id,
             path: path,
             content: content,
+            metadata: metadata,
           ),
           createCompanionCallback: ({
             Value<int> id = const Value.absent(),
             required String path,
             Value<String?> content = const Value.absent(),
+            Value<String?> metadata = const Value.absent(),
           }) =>
               FilesCompanion.insert(
             id: id,
             path: path,
             content: content,
+            metadata: metadata,
           ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
@@ -892,6 +954,7 @@ class SearchEmbeddingsResult {
   final int? end;
   final double distance;
   final String? content;
+  final String? metadata;
   SearchEmbeddingsResult({
     this.fileId,
     this.path,
@@ -899,5 +962,6 @@ class SearchEmbeddingsResult {
     this.end,
     required this.distance,
     this.content,
+    this.metadata,
   });
 }

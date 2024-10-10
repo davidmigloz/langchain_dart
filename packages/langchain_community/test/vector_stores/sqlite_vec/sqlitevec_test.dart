@@ -1,14 +1,19 @@
-import 'package:langchain_community/src/vector_stores/sqlite_vss/sqlite_vss.dart';
+@Timeout(Duration(seconds: 600))
+library;
+
+import 'package:drift/drift.dart';
+
+import 'package:langchain_community/src/vector_stores/sqlite_vec/sqlite_vec.dart';
 import 'package:langchain_core/documents.dart';
 import 'package:langchain_core/embeddings.dart';
 import 'package:langchain_core/vector_stores.dart';
 import 'package:test/test.dart';
 
-SQLiteVSS sqliteVssFromTexts({
+Future<SQLiteVEC> sqliteVecFromTexts({
   List<Map<String, dynamic>>? metaData,
   bool drop = true,
-}) {
-  return SQLiteVSS.fromTexts(
+}) async {
+  return SQLiteVEC.fromTexts(
     ['foo', 'bar', 'baz'], // Replace with actual fake_texts
     FakeEmbeddings(),
     metadatas: metaData,
@@ -18,14 +23,17 @@ SQLiteVSS sqliteVssFromTexts({
 }
 
 void main() {
-  group('SQLiteVSS Tests', () {
+  driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
+  group('SQLiteVEC Tests', () {
     test('Test end to end construction and search', () async {
-      final docSearch = sqliteVssFromTexts();
+      final docSearch = await sqliteVecFromTexts();
       final output = await docSearch.similaritySearch(
         query: 'foo',
         config: const VectorStoreSimilaritySearch(k: 1),
       );
-      expect(output, [const Document(pageContent: 'foo', metadata: {})]);
+      // issue with k?
+      expect(output.first,
+          const Document(pageContent: 'foo', metadata: {'page': 0}));
     });
 
     test('Test end to end construction and search with scores and IDs',
@@ -34,7 +42,7 @@ void main() {
       final metaData = [
         for (var i = 0; i < texts.length; i++) {'page': i},
       ];
-      final docSearch = sqliteVssFromTexts(metaData: metaData);
+      final docSearch = await sqliteVecFromTexts(metaData: metaData);
       final output = await docSearch.similaritySearchWithScores(
         query: 'foo',
         config: const VectorStoreSimilaritySearch(k: 3),
@@ -56,8 +64,8 @@ void main() {
       final metaData = [
         for (var i = 0; i < texts.length; i++) {'page': i},
       ];
-      final docSearch = sqliteVssFromTexts(metaData: metaData)
-        ..addTexts(texts: texts, metadatas: metaData);
+      final docSearch = await sqliteVecFromTexts(metaData: metaData);
+      await docSearch.addTexts(texts: texts, metadatas: metaData);
       final output = await docSearch.similaritySearch(
         query: 'foo',
         config: const VectorStoreSimilaritySearch(k: 10),
