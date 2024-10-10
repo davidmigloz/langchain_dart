@@ -120,6 +120,15 @@ class Database extends _$Database {
     );
   }
 
+  /// Delete chunks from the database.
+  /// [ids] is a list of chunk ids to delete.
+  Future<void> deleteChunks(List<int> ids) async {
+    await customStatement(
+      'DELETE FROM chunks WHERE id IN (:ids)',
+      [ids],
+    );
+  }
+
   /// Return a [DatabaseConnection] for the given database file.
   static DatabaseConnection createConnection(String dbFile) {
     return DatabaseConnection(impl.connect(dbFile));

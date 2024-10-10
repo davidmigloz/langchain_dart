@@ -111,23 +111,13 @@ class SQLiteVEC extends VectorStore {
     required List<List<double>> vectors,
     required List<Document> documents,
   }) async {
-    // Ensure all vectors have the correct dimension
-    // for (final vector in vectors) {
-    //   if (vector.length != db.embeddingDimension) {
-    //     throw ArgumentError(
-    //       'Embedding dimension mismatch: Expected ${db.embeddingDimension}, got ${vector.length}',
-    //     );
-    //   }
-    // }
-
     final ids = await db.addVectors(vectors: vectors, documents: documents);
     return ids.map((id) => id.toString()).toList();
   }
 
   @override
   Future<void> delete({required List<String> ids}) {
-    // TODO: implement delete
-    throw UnimplementedError();
+    return db.deleteChunks(ids.map(int.parse).toList());
   }
 
   @override
