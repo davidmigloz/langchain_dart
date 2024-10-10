@@ -12,7 +12,7 @@ First, let’s create a chain that will identify incoming questions as being abo
 
 ```dart
 final chatModel = ChatOllama(
-  defaultOptions: ChatOllamaOptions(model: 'llama3.1'),
+  defaultOptions: ChatOllamaOptions(model: 'llama3.2'),
 );
 
 final classificationChain = PromptTemplate.fromTemplate('''
@@ -131,7 +131,7 @@ Here is a question:
 {query}
 ''';
 
-final embeddings = OllamaEmbeddings(model: 'llama3.1');
+final embeddings = OllamaEmbeddings(model: 'llama3.2');
 final promptTemplates = [physicsTemplate, historyTemplate];
 final promptEmbeddings = await embeddings.embedDocuments(
   promptTemplates.map((final pt) => Document(pageContent: pt)).toList(),
@@ -146,7 +146,7 @@ final chain = Runnable.fromMap<String>({'query': Runnable.passthrough()}) |
       return PromptTemplate.fromTemplate(promptTemplates[mostSimilarIndex]);
     }) |
     ChatOllama(
-      defaultOptions: const ChatOllamaOptions(model: 'llama3.1'),
+      defaultOptions: const ChatOllamaOptions(model: 'llama3.2'),
     ) |
     StringOutputParser();
 

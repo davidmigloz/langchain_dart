@@ -1,6 +1,277 @@
 # Change Log
 
-Check out the #announcements channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details about each release.
+📣 Check out the [releases page](https://github.com/davidmigloz/langchain_dart/releases) or the [#announcements](https://discord.com/channels/1123158322812555295/1123250594644242534) channel on the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details.
+
+## 2024-10-09
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`langchain` - `v0.7.7+1`](#langchain---v0771)
+ - [`langchain_chroma` - `v0.2.1+4`](#langchain_chroma---v0214)
+ - [`langchain_community` - `v0.3.2+1`](#langchain_community---v0321)
+ - [`langchain_firebase` - `v0.2.1+3`](#langchain_firebase---v0213)
+ - [`langchain_google` - `v0.6.4+1`](#langchain_google---v0641)
+ - [`langchain_ollama` - `v0.3.2+1`](#langchain_ollama---v0321)
+ - [`langchain_openai` - `v0.7.2+2`](#langchain_openai---v0722)
+ - [`langchain_pinecone` - `v0.1.0+10`](#langchain_pinecone---v01010)
+ - [`openai_realtime_dart` - `v0.0.1+1`](#openai_realtime_dart---v0011)
+
+---
+
+#### `langchain` - `v0.7.7+1`
+
+ - **FIX**: UUID 'Namespace' can't be assigned to the parameter type 'String?' ([#566](https://github.com/davidmigloz/langchain_dart/issues/566)). ([1e93a595](https://github.com/davidmigloz/langchain_dart/commit/1e93a595f2f166da2cae3f7cfcdbb28892abf9b5))
+
+#### `langchain_chroma` - `v0.2.1+4`
+
+ - **FIX**: UUID 'Namespace' can't be assigned to the parameter type 'String?' ([#566](https://github.com/davidmigloz/langchain_dart/issues/566)). ([1e93a595](https://github.com/davidmigloz/langchain_dart/commit/1e93a595f2f166da2cae3f7cfcdbb28892abf9b5))
+
+#### `langchain_community` - `v0.3.2+1`
+
+ - **FIX**: UUID 'Namespace' can't be assigned to the parameter type 'String?' ([#566](https://github.com/davidmigloz/langchain_dart/issues/566)). ([1e93a595](https://github.com/davidmigloz/langchain_dart/commit/1e93a595f2f166da2cae3f7cfcdbb28892abf9b5))
+
+#### `langchain_firebase` - `v0.2.1+3`
+
+ - **FIX**: UUID 'Namespace' can't be assigned to the parameter type 'String?' ([#566](https://github.com/davidmigloz/langchain_dart/issues/566)). ([1e93a595](https://github.com/davidmigloz/langchain_dart/commit/1e93a595f2f166da2cae3f7cfcdbb28892abf9b5))
+
+#### `langchain_google` - `v0.6.4+1`
+
+ - **FIX**: UUID 'Namespace' can't be assigned to the parameter type 'String?' ([#566](https://github.com/davidmigloz/langchain_dart/issues/566)). ([1e93a595](https://github.com/davidmigloz/langchain_dart/commit/1e93a595f2f166da2cae3f7cfcdbb28892abf9b5))
+
+#### `langchain_ollama` - `v0.3.2+1`
+
+ - **FIX**: UUID 'Namespace' can't be assigned to the parameter type 'String?' ([#566](https://github.com/davidmigloz/langchain_dart/issues/566)). ([1e93a595](https://github.com/davidmigloz/langchain_dart/commit/1e93a595f2f166da2cae3f7cfcdbb28892abf9b5))
+
+#### `langchain_openai` - `v0.7.2+2`
+
+ - **FIX**: UUID 'Namespace' can't be assigned to the parameter type 'String?' ([#566](https://github.com/davidmigloz/langchain_dart/issues/566)). ([1e93a595](https://github.com/davidmigloz/langchain_dart/commit/1e93a595f2f166da2cae3f7cfcdbb28892abf9b5))
+
+#### `langchain_pinecone` - `v0.1.0+10`
+
+ - **FIX**: UUID 'Namespace' can't be assigned to the parameter type 'String?' ([#566](https://github.com/davidmigloz/langchain_dart/issues/566)). ([1e93a595](https://github.com/davidmigloz/langchain_dart/commit/1e93a595f2f166da2cae3f7cfcdbb28892abf9b5))
+
+#### `openai_realtime_dart` - `v0.0.1+1`
+
+ - **DOCS**: Add note about the openai_dart client. ([26de8d97](https://github.com/davidmigloz/langchain_dart/commit/26de8d974fcd27fec857b93cc309e76860777dea))
+
+
+## 2024-10-08
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+New packages:
+
+ - [`openai_realtime_dart` - `v0.0.1`](#openai_realtime_dart---v001)
+
+Packages with other changes:
+
+ - [`langchain` - `v0.7.7`](#langchain---v077)
+ - [`langchain_google` - `v0.6.4`](#langchain_google---v064)
+ - [`openai_dart` - `v0.4.2+1`](#openai_dart---v0421)
+
+---
+
+#### `langchain` - `v0.7.7`
+
+ - **REFACTOR**: Update deprecated UUID constant ([#558](https://github.com/davidmigloz/langchain_dart/issues/558)). ([8d9f14b4](https://github.com/davidmigloz/langchain_dart/commit/8d9f14b4c394f4652727eadf5849355cd9fa2f19))
+
+#### `langchain_google` - `v0.6.4`
+
+ - **FEAT**: Add support for code execution in ChatGoogleGenerativeAI ([#564](https://github.com/davidmigloz/langchain_dart/issues/564)). ([020bc096](https://github.com/davidmigloz/langchain_dart/commit/020bc096e2bb83bd372d0568a111481df188a7f2))
+
+#### `openai_realtime_dart` - `v0.0.1`
+
+ - **FEAT**: Implement openai_realtime_dart, a Dart client for OpenAI Realtime API ([#562](https://github.com/davidmigloz/langchain_dart/issues/562)). ([9f7406f7](https://github.com/davidmigloz/langchain_dart/commit/9f7406f7014624bf5086c60fb902bff70224ee15))
+
+#### `openai_dart` - `v0.4.2+1`
+
+ - **DOCS**: Add note about the new [openai_realtime_dart](https://pub.dev/packages/openai_realtime_dart) client. ([44672f0a](https://github.com/davidmigloz/langchain_dart/commit/44672f0a453a1b2e1b31bc5ef400f4c8ac7a4e76))
+
+## 2024-09-25
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+- There are no breaking changes in this release.
+
+Packages with other changes:
+
+- [`langchain` - `v0.7.6`](#langchain---v076)
+- [`langchain_core` - `v0.3.6`](#langchain_core---v036)
+- [`langchain_community` - `v0.3.2`](#langchain_community---v032)
+- [`langchain_firebase` - `v0.2.1+2`](#langchain_firebase---v0212)
+- [`langchain_google` - `v0.6.3+1`](#langchain_google---v0631)
+- [`langchain_ollama` - `v0.3.2`](#langchain_ollama---v032)
+- [`langchain_openai` - `v0.7.2`](#langchain_openai---v072)
+- [`ollama_dart` - `v0.2.2`](#ollama_dart---v022)
+- [`openai_dart` - `v0.4.2`](#openai_dart---v042)
+- [`langchain_supabase` - `v0.1.1+3`](#langchain_supabase---v0113)
+- [`langchain_pinecone` - `v0.1.0+9`](#langchain_pinecone---v0109)
+- [`langchain_anthropic` - `v0.1.1+2`](#langchain_anthropic---v0112)
+- [`langchain_chroma` - `v0.2.1+3`](#langchain_chroma---v0213)
+- [`langchain_mistralai` - `v0.2.3+1`](#langchain_mistralai---v0231)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+- `langchain_supabase` - `v0.1.1+3`
+- `langchain_pinecone` - `v0.1.0+9`
+- `langchain_anthropic` - `v0.1.1+2`
+- `langchain_chroma` - `v0.2.1+3`
+- `langchain_mistralai` - `v0.2.3+1`
+- `vertex_ai` - `v0.1.0+2`
+
+---
+
+#### `langchain` - `v0.7.6`
+
+- **FEAT**: Add retry support for Runnables ([#540](https://github.com/davidmigloz/langchain_dart/issues/540)). ([1099725d](https://github.com/davidmigloz/langchain_dart/commit/1099725d88de4103381edad533209a9a098bdb7f))
+
+#### `langchain_core` - `v0.3.6`
+
+- **FEAT**: Add retry support for Runnables ([#540](https://github.com/davidmigloz/langchain_dart/issues/540)). ([1099725d](https://github.com/davidmigloz/langchain_dart/commit/1099725d88de4103381edad533209a9a098bdb7f))
+
+#### `langchain_community` - `v0.3.2`
+
+- **FEAT**: Add support for deleteWhere in ObjectBoxVectorStore ([#552](https://github.com/davidmigloz/langchain_dart/issues/552)). ([90918bba](https://github.com/davidmigloz/langchain_dart/commit/90918bbac411ccfe4823ae195de6a50a46575573))
+- **REFACTOR**: Add stubs for ObjectBox on web platform ([#553](https://github.com/davidmigloz/langchain_dart/issues/553)). ([41caed92](https://github.com/davidmigloz/langchain_dart/commit/41caed924bf24382567758be4590d5ddff31e839))
+
+#### `langchain_firebase` - `v0.2.1+2`
+
+- **DOCS**: Update Google's models in documentation ([#551](https://github.com/davidmigloz/langchain_dart/issues/551)). ([1da543f7](https://github.com/davidmigloz/langchain_dart/commit/1da543f7ab90eb39b599a6fdd0cc52e2cbc1460d))
+
+#### `langchain_google` - `v0.6.3+1`
+
+- **FEAT**: Add support for reduced output dimensionality in GoogleGenerativeAIEmbeddings ([#544](https://github.com/davidmigloz/langchain_dart/issues/544)). ([d5880704](https://github.com/davidmigloz/langchain_dart/commit/d5880704c492889144738acffd49674b91e63981))
+- **DOCS**: Update Google's models in documentation ([#551](https://github.com/davidmigloz/langchain_dart/issues/551)). ([1da543f7](https://github.com/davidmigloz/langchain_dart/commit/1da543f7ab90eb39b599a6fdd0cc52e2cbc1460d))
+
+#### `langchain_ollama` - `v0.3.2`
+
+- **FEAT**: Update Ollama default model to llama-3.2 ([#554](https://github.com/davidmigloz/langchain_dart/issues/554)). ([f42ed0f0](https://github.com/davidmigloz/langchain_dart/commit/f42ed0f04136021b30556787cfdea13a14ca5768))
+
+#### `langchain_openai` - `v0.7.2`
+
+- **FEAT**: Add OpenAI o1-preview and o1-mini to model catalog ([#555](https://github.com/davidmigloz/langchain_dart/issues/555)). ([9ceb5ff9](https://github.com/davidmigloz/langchain_dart/commit/9ceb5ff9029cf1ae1967a32189f88c7a8215248e))
+- **REFACTOR**: Migrate ChatOpenAI to maxCompletionTokens ([#557](https://github.com/davidmigloz/langchain_dart/issues/557)). ([08057a5b](https://github.com/davidmigloz/langchain_dart/commit/08057a5b6e08ee2633c6be6144be1619e902bbc5))
+
+#### `ollama_dart` - `v0.2.2`
+
+- **FEAT**: Update Ollama default model to llama-3.2 ([#554](https://github.com/davidmigloz/langchain_dart/issues/554)). ([f42ed0f0](https://github.com/davidmigloz/langchain_dart/commit/f42ed0f04136021b30556787cfdea13a14ca5768))
+
+#### `openai_dart` - `v0.4.2`
+
+- **FEAT**: Add OpenAI o1-preview and o1-mini to model catalog ([#555](https://github.com/davidmigloz/langchain_dart/issues/555)). ([9ceb5ff9](https://github.com/davidmigloz/langchain_dart/commit/9ceb5ff9029cf1ae1967a32189f88c7a8215248e))
+- **FEAT**: Add support for maxCompletionTokens and reasoningTokens in openai_dart ([#556](https://github.com/davidmigloz/langchain_dart/issues/556)). ([37d75b61](https://github.com/davidmigloz/langchain_dart/commit/37d75b612b0f42bbf8d092bdd81c554278716582))
+- **FEAT**: Option to include file search results in assistants API ([#543](https://github.com/davidmigloz/langchain_dart/issues/543)). ([e916ad3c](https://github.com/davidmigloz/langchain_dart/commit/e916ad3c0c4e322319cedac8b06b5908f1c31935))
+
+
+## 2024-08-22
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`langchain` - `v0.7.5`](#langchain---v075)
+ - [`langchain_core` - `v0.3.5`](#langchain_core---v035)
+ - [`langchain_community` - `v0.3.1`](#langchain_community---v031)
+ - [`langchain_openai` - `v0.7.1`](#langchain_openai---v071)
+ - [`langchain_ollama` - `v0.3.1`](#langchain_ollama---v031)
+ - [`langchain_google` - `v0.6.2`](#langchain_google---v062)
+ - [`langchain_mistralai` - `v0.2.3`](#langchain_mistralai---v023)
+ - [`ollama_dart` - `v0.2.1`](#ollama_dart---v021)
+ - [`openai_dart` - `v0.4.1`](#openai_dart---v041)
+ - [`langchain_firebase` - `v0.2.1+1`](#langchain_firebase---v0211)
+ - [`langchain_supabase` - `v0.1.1+2`](#langchain_supabase---v0112)
+ - [`langchain_pinecone` - `v0.1.0+8`](#langchain_pinecone---v0108)
+ - [`langchain_anthropic` - `v0.1.1+1`](#langchain_anthropic---v0111)
+ - [`langchain_chroma` - `v0.2.1+2`](#langchain_chroma---v0212)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `langchain_firebase` - `v0.2.1+1`
+ - `langchain_supabase` - `v0.1.1+2`
+ - `langchain_pinecone` - `v0.1.0+8`
+ - `langchain_anthropic` - `v0.1.1+1`
+ - `langchain_chroma` - `v0.2.1+2`
+
+---
+
+#### `langchain` - `v0.7.5`
+
+ - **FEAT**: Add ToolsAgent for models with tool-calling support ([#530](https://github.com/davidmigloz/langchain_dart/issues/530)). ([f3ee5b44](https://github.com/davidmigloz/langchain_dart/commit/f3ee5b44c4ffa378343ec4ee1e08d8e594a6cb36))
+ - **FEAT**: Deprecate OpenAIToolsAgent in favour of ToolsAgent ([#532](https://github.com/davidmigloz/langchain_dart/issues/532)). ([68d8011a](https://github.com/davidmigloz/langchain_dart/commit/68d8011a9aa09368875ba0434839d12623ba2bab))
+ - **DOCS**: Add Code Assist AI in README and documentation ([#538](https://github.com/davidmigloz/langchain_dart/issues/538)). ([e752464c](https://github.com/davidmigloz/langchain_dart/commit/e752464c0d2fc7e0ccc878933b0ef934c9527567))
+
+#### `langchain_core` - `v0.3.5`
+
+ - **FEAT**: Add copyWith method to all RunnableOptions subclasses ([#531](https://github.com/davidmigloz/langchain_dart/issues/531)). ([42c8d480](https://github.com/davidmigloz/langchain_dart/commit/42c8d480041e7ca331e4928c46536037c06dbff0))
+ - **FEAT**: Support OpenAI's strict mode for tool calling in ChatOpenAI ([#536](https://github.com/davidmigloz/langchain_dart/issues/536)). ([71623f49](https://github.com/davidmigloz/langchain_dart/commit/71623f490289e63252165167305e00038d800be1))
+ - **FEAT**: Deprecate OpenAIToolsAgent in favour of ToolsAgent ([#532](https://github.com/davidmigloz/langchain_dart/issues/532)). ([68d8011a](https://github.com/davidmigloz/langchain_dart/commit/68d8011a9aa09368875ba0434839d12623ba2bab))
+
+#### `langchain_community` - `v0.3.1`
+
+ - **FEAT**: Deprecate OpenAIToolsAgent in favour of ToolsAgent ([#532](https://github.com/davidmigloz/langchain_dart/issues/532)). ([68d8011a](https://github.com/davidmigloz/langchain_dart/commit/68d8011a9aa09368875ba0434839d12623ba2bab))
+
+#### `langchain_openai` - `v0.7.1`
+
+ - **FEAT**: Add support for Structured Outputs in ChatOpenAI ([#526](https://github.com/davidmigloz/langchain_dart/issues/526)). ([c5387b5d](https://github.com/davidmigloz/langchain_dart/commit/c5387b5dd87fe2aac511c4eca2d4a497065db61f))
+ - **FEAT**: Handle refusal in OpenAI's Structured Outputs API ([#533](https://github.com/davidmigloz/langchain_dart/issues/533)). ([f4c4ed99](https://github.com/davidmigloz/langchain_dart/commit/f4c4ed9902177560f13fa9f44b07f0a49c3fdf0a))
+ - **FEAT**: Include logprobs in result metadata from ChatOpenAI ([#535](https://github.com/davidmigloz/langchain_dart/issues/535)). ([1834b3ad](https://github.com/davidmigloz/langchain_dart/commit/1834b3adb210b7d190a7e0574a304f069813486b))
+ - **FEAT**: Add chatgpt-4o-latest to model catalog ([#527](https://github.com/davidmigloz/langchain_dart/issues/527)). ([ec82c760](https://github.com/davidmigloz/langchain_dart/commit/ec82c760582eed123d6e5d3287c24f82ac251df7))
+ - **FEAT**: Add gpt-4o-2024-08-06 to model catalog ([#522](https://github.com/davidmigloz/langchain_dart/issues/522)). ([563200e0](https://github.com/davidmigloz/langchain_dart/commit/563200e0bb9d021d9cb3e46e7a77d96cf3860b1c))
+ - **FEAT**: Deprecate OpenAIToolsAgent in favour of ToolsAgent ([#532](https://github.com/davidmigloz/langchain_dart/issues/532)). ([68d8011a](https://github.com/davidmigloz/langchain_dart/commit/68d8011a9aa09368875ba0434839d12623ba2bab))
+ - **REFACTOR**: Don't send OpenAI-Beta header in ChatOpenAI ([#511](https://github.com/davidmigloz/langchain_dart/issues/511)). ([0e532bab](https://github.com/davidmigloz/langchain_dart/commit/0e532bab84483bf9d77a0d745f1a591eea2ff7c8))
+
+#### `langchain_ollama` - `v0.3.1`
+
+ - **FEAT**: Add support for min_p in Ollama ([#512](https://github.com/davidmigloz/langchain_dart/issues/512)). ([e40d54b2](https://github.com/davidmigloz/langchain_dart/commit/e40d54b2e729d8fb6bf14bb4ea97820121bc85c7))
+ - **FEAT**: Add copyWith method to all RunnableOptions subclasses ([#531](https://github.com/davidmigloz/langchain_dart/issues/531)). ([42c8d480](https://github.com/davidmigloz/langchain_dart/commit/42c8d480041e7ca331e4928c46536037c06dbff0))
+
+#### `langchain_google` - `v0.6.2`
+
+ - **FEAT**: Add copyWith method to all RunnableOptions subclasses ([#531](https://github.com/davidmigloz/langchain_dart/issues/531)). ([42c8d480](https://github.com/davidmigloz/langchain_dart/commit/42c8d480041e7ca331e4928c46536037c06dbff0))
+
+#### `langchain_mistralai` - `v0.2.3`
+
+ - **FEAT**: Add copyWith method to all RunnableOptions subclasses ([#531](https://github.com/davidmigloz/langchain_dart/issues/531)). ([42c8d480](https://github.com/davidmigloz/langchain_dart/commit/42c8d480041e7ca331e4928c46536037c06dbff0))
+
+#### `openai_dart` - `v0.4.1`
+
+ - **FEAT**: Add support for Structured Outputs ([#525](https://github.com/davidmigloz/langchain_dart/issues/525)). ([c7574077](https://github.com/davidmigloz/langchain_dart/commit/c7574077195acfc96e9ca9d526cc050788c23c1d))
+ - **FEAT**: Add log probabilities for refusal tokens ([#534](https://github.com/davidmigloz/langchain_dart/issues/534)). ([8470a24c](https://github.com/davidmigloz/langchain_dart/commit/8470a24cc42042e20ffffa4b67bc831e03efbc6c))
+ - **FEAT**: Add gpt-4o-2024-08-06 to model catalog ([#522](https://github.com/davidmigloz/langchain_dart/issues/522)). ([563200e0](https://github.com/davidmigloz/langchain_dart/commit/563200e0bb9d021d9cb3e46e7a77d96cf3860b1c))
+ - **FEAT**: Add chatgpt-4o-latest to model catalog ([#527](https://github.com/davidmigloz/langchain_dart/issues/527)). ([ec82c760](https://github.com/davidmigloz/langchain_dart/commit/ec82c760582eed123d6e5d3287c24f82ac251df7))
+
+#### `ollama_dart` - `v0.2.1`
+
+ - **FEAT**: Add support for min_p in Ollama ([#512](https://github.com/davidmigloz/langchain_dart/issues/512)). ([e40d54b2](https://github.com/davidmigloz/langchain_dart/commit/e40d54b2e729d8fb6bf14bb4ea97820121bc85c7))
+
 
 ## 2024-07-26
 

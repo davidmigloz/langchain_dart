@@ -49,8 +49,7 @@ void main() {
       expect(res[1].length, 768);
     });
 
-    // TODO https://github.com/google-gemini/generative-ai-dart/pull/149
-    test('Test shortening embeddings', skip: true, () async {
+    test('Test shortening embeddings', () async {
       embeddings.dimensions = 256;
       final res = await embeddings.embedQuery('Hello world');
       expect(res.length, 256);

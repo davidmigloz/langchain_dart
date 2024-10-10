@@ -1,0 +1,26 @@
+name: Deploy docs_v2 on PR
+
+on:
+  pull_request:
+    paths:
+      - 'docs_v2/**'
+
+permissions:
+  checks: write
+  contents: read
+  pull-requests: write
+
+jobs:
+  build_and_preview:
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
+      - run: npm ci && npm run build
+        working-directory: docs_v2
+      - uses: FirebaseExtended/action-hosting-deploy@0cbcac4740c2bfb00d632f0b863b57713124eb5a
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_LANGCHAIN_DART }}
+          projectId: langchain-dart
+          entryPoint: docs_v2

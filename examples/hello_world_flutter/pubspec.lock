@@ -130,18 +130,18 @@ packages:
     dependency: transitive
     description:
       name: gcloud
-      sha256: e9501083036d5f94027ce5afddd8ddae9b04121cf2fc6036b2cdd5663b52fca7
+      sha256: b8fbff52ff1cfdb2bb3c53eb039c0ee3745618632969b60ec25d55b31fbb36dd
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.12"
+    version: "0.8.13"
   google_generative_ai:
     dependency: transitive
     description:
       name: google_generative_ai
-      sha256: e2f4c0ac13f0898f670ce5ac0dc4501ebe09b96f9d59163724380d9aa82065be
+      sha256: "81dae159c89e4d9bdc46955b6f4ee5ae0a291f9e8f990d76f43944e0d6041d4f"
       url: "https://pub.dev"
     source: hosted
-    version: "0.4.4"
+    version: "0.4.6"
   google_identity_services_web:
     dependency: transitive
     description:
@@ -154,10 +154,10 @@ packages:
     dependency: transitive
     description:
       name: googleapis
-      sha256: "8a8c311723162af077ca73f94b823b97ff68770d966e29614d20baca9fdb490a"
+      sha256: "864f222aed3f2ff00b816c675edf00a39e2aaf373d728d8abec30b37bee1a81c"
       url: "https://pub.dev"
     source: hosted
-    version: "12.0.0"
+    version: "13.2.0"
   googleapis_auth:
     dependency: transitive
     description:
@@ -196,42 +196,42 @@ packages:
       path: "../../packages/langchain"
       relative: true
     source: path
-    version: "0.7.4"
+    version: "0.7.7+1"
   langchain_core:
     dependency: "direct overridden"
     description:
       path: "../../packages/langchain_core"
       relative: true
     source: path
-    version: "0.3.4"
+    version: "0.3.6"
   langchain_google:
     dependency: "direct main"
     description:
       path: "../../packages/langchain_google"
       relative: true
     source: path
-    version: "0.6.1"
+    version: "0.6.4+1"
   langchain_mistralai:
     dependency: "direct main"
     description:
       path: "../../packages/langchain_mistralai"
       relative: true
     source: path
-    version: "0.2.2"
+    version: "0.2.3+1"
   langchain_ollama:
     dependency: "direct main"
     description:
       path: "../../packages/langchain_ollama"
       relative: true
     source: path
-    version: "0.3.0"
+    version: "0.3.2+1"
   langchain_openai:
     dependency: "direct main"
     description:
       path: "../../packages/langchain_openai"
       relative: true
     source: path
-    version: "0.7.0"
+    version: "0.7.2+2"
   langchain_tiktoken:
     dependency: transitive
     description:
@@ -285,14 +285,14 @@ packages:
       path: "../../packages/ollama_dart"
       relative: true
     source: path
-    version: "0.2.0"
+    version: "0.2.2"
   openai_dart:
     dependency: "direct overridden"
     description:
       path: "../../packages/openai_dart"
       relative: true
     source: path
-    version: "0.4.0"
+    version: "0.4.2+1"
   path:
     dependency: transitive
     description:
@@ -374,10 +374,10 @@ packages:
     dependency: transitive
     description:
       name: uuid
-      sha256: "83d37c7ad7aaf9aa8e275490669535c8080377cfa7a7004c24dfac53afffaa90"
+      sha256: a5be9ef6618a7ac1e964353ef476418026db906c4facdedaa299b7a2e71690ff
       url: "https://pub.dev"
     source: hosted
-    version: "4.4.2"
+    version: "4.5.1"
   vector_math:
     dependency: transitive
     description:
@@ -392,7 +392,7 @@ packages:
       path: "../../packages/vertex_ai"
       relative: true
     source: path
-    version: "0.1.0+1"
+    version: "0.1.0+2"
   web:
     dependency: transitive
     description:

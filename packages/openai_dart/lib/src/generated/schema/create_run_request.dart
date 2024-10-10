@@ -84,11 +84,11 @@ class CreateRunRequest with _$CreateRunRequest {
     /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
     /// since `gpt-3.5-turbo-1106`.
     ///
-    /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
+    /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures
     /// the model will match your supplied JSON schema. Learn more in the
     /// [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
     ///
-    /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates
+    /// Setting to `{ "type": "json_object" }` enables JSON mode, which ensures the message the model generates
     /// is valid JSON.
     ///
     /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a
@@ -191,6 +191,8 @@ class CreateRunRequest with _$CreateRunRequest {
 
 /// Available models. Mind that the list may not be exhaustive nor up-to-date.
 enum RunModels {
+  @JsonValue('chatgpt-4o-latest')
+  chatgpt4oLatest,
   @JsonValue('gpt-4')
   gpt4,
   @JsonValue('gpt-4-32k')
@@ -239,6 +241,14 @@ enum RunModels {
   gpt35Turbo0613,
   @JsonValue('gpt-3.5-turbo-1106')
   gpt35Turbo1106,
+  @JsonValue('o1-mini')
+  o1Mini,
+  @JsonValue('o1-mini-2024-09-12')
+  o1Mini20240912,
+  @JsonValue('o1-preview')
+  o1Preview,
+  @JsonValue('o1-preview-2024-09-12')
+  o1Preview20240912,
 }
 
 // ==========================================
@@ -404,11 +414,11 @@ enum CreateRunRequestResponseFormatMode {
 /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
 /// since `gpt-3.5-turbo-1106`.
 ///
-/// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
+/// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures
 /// the model will match your supplied JSON schema. Learn more in the
 /// [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
 ///
-/// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates
+/// Setting to `{ "type": "json_object" }` enables JSON mode, which ensures the message the model generates
 /// is valid JSON.
 ///
 /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a

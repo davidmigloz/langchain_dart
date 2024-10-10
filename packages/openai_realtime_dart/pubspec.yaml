@@ -1,0 +1,26 @@
+name: openai_realtime_dart
+description: Dart client for the OpenAI Realtime API (beta), a stateful, event-based API that communicates over a WebSocket.
+version: 0.0.1+1
+repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/openai_realtime_dart
+issue_tracker: https://github.com/davidmigloz/langchain_dart/issues?q=label:p:openai_realtime_dart
+homepage: https://github.com/davidmigloz/langchain_dart
+documentation: https://langchaindart.dev
+
+topics:
+  - ai
+  - llms
+  - openai
+
+environment:
+  sdk: ">=3.4.0 <4.0.0"
+
+dependencies:
+  http: ^1.2.2
+  json_annotation: ^4.9.0
+  logging: ^1.2.0
+  web_socket_channel: ^3.0.1
+
+dev_dependencies:
+  test: ^1.25.8
+  json_serializable: ^6.8.0
+  build_runner: ^2.4.11

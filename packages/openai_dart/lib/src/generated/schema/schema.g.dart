@@ -316,6 +316,7 @@ _$CreateChatCompletionRequestImpl _$$CreateChatCompletionRequestImplFromJson(
       logprobs: json['logprobs'] as bool?,
       topLogprobs: (json['top_logprobs'] as num?)?.toInt(),
       maxTokens: (json['max_tokens'] as num?)?.toInt(),
+      maxCompletionTokens: (json['max_completion_tokens'] as num?)?.toInt(),
       n: (json['n'] as num?)?.toInt() ?? 1,
       presencePenalty: (json['presence_penalty'] as num?)?.toDouble() ?? 0.0,
       responseFormat: json['response_format'] == null
@@ -366,6 +367,7 @@ Map<String, dynamic> _$$CreateChatCompletionRequestImplToJson(
   writeNotNull('logprobs', instance.logprobs);
   writeNotNull('top_logprobs', instance.topLogprobs);
   writeNotNull('max_tokens', instance.maxTokens);
+  writeNotNull('max_completion_tokens', instance.maxCompletionTokens);
   writeNotNull('n', instance.n);
   writeNotNull('presence_penalty', instance.presencePenalty);
   writeNotNull('response_format', instance.responseFormat?.toJson());
@@ -439,6 +441,10 @@ const _$ChatCompletionModelsEnumMap = {
   ChatCompletionModels.gpt35Turbo0301: 'gpt-3.5-turbo-0301',
   ChatCompletionModels.gpt35Turbo0613: 'gpt-3.5-turbo-0613',
   ChatCompletionModels.gpt35Turbo1106: 'gpt-3.5-turbo-1106',
+  ChatCompletionModels.o1Mini: 'o1-mini',
+  ChatCompletionModels.o1Mini20240912: 'o1-mini-2024-09-12',
+  ChatCompletionModels.o1Preview: 'o1-preview',
+  ChatCompletionModels.o1Preview20240912: 'o1-preview-2024-09-12',
 };
 
 _$ChatCompletionModelStringImpl _$$ChatCompletionModelStringImplFromJson(
@@ -1098,15 +1104,50 @@ _$CompletionUsageImpl _$$CompletionUsageImplFromJson(
       completionTokens: (json['completion_tokens'] as num?)?.toInt(),
       promptTokens: (json['prompt_tokens'] as num).toInt(),
       totalTokens: (json['total_tokens'] as num).toInt(),
+      completionTokensDetails: json['completion_tokens_details'] == null
+          ? null
+          : CompletionTokensDetails.fromJson(
+              json['completion_tokens_details'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$CompletionUsageImplToJson(
-        _$CompletionUsageImpl instance) =>
-    <String, dynamic>{
-      'completion_tokens': instance.completionTokens,
-      'prompt_tokens': instance.promptTokens,
-      'total_tokens': instance.totalTokens,
-    };
+    _$CompletionUsageImpl instance) {
+  final val = <String, dynamic>{
+    'completion_tokens': instance.completionTokens,
+    'prompt_tokens': instance.promptTokens,
+    'total_tokens': instance.totalTokens,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'completion_tokens_details', instance.completionTokensDetails?.toJson());
+  return val;
+}
+
+_$CompletionTokensDetailsImpl _$$CompletionTokensDetailsImplFromJson(
+        Map<String, dynamic> json) =>
+    _$CompletionTokensDetailsImpl(
+      reasoningTokens: (json['reasoning_tokens'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$$CompletionTokensDetailsImplToJson(
+    _$CompletionTokensDetailsImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('reasoning_tokens', instance.reasoningTokens);
+  return val;
+}
 
 _$CreateEmbeddingRequestImpl _$$CreateEmbeddingRequestImplFromJson(
         Map<String, dynamic> json) =>
@@ -2306,6 +2347,7 @@ Map<String, dynamic> _$$AssistantModelEnumerationImplToJson(
     };
 
 const _$AssistantModelsEnumMap = {
+  AssistantModels.chatgpt4oLatest: 'chatgpt-4o-latest',
   AssistantModels.gpt4: 'gpt-4',
   AssistantModels.gpt432k: 'gpt-4-32k',
   AssistantModels.gpt432k0314: 'gpt-4-32k-0314',
@@ -2330,6 +2372,10 @@ const _$AssistantModelsEnumMap = {
   AssistantModels.gpt35Turbo0301: 'gpt-3.5-turbo-0301',
   AssistantModels.gpt35Turbo0613: 'gpt-3.5-turbo-0613',
   AssistantModels.gpt35Turbo1106: 'gpt-3.5-turbo-1106',
+  AssistantModels.o1Mini: 'o1-mini',
+  AssistantModels.o1Mini20240912: 'o1-mini-2024-09-12',
+  AssistantModels.o1Preview: 'o1-preview',
+  AssistantModels.o1Preview20240912: 'o1-preview-2024-09-12',
 };
 
 _$AssistantModelStringImpl _$$AssistantModelStringImplFromJson(
@@ -2515,6 +2561,34 @@ Map<String, dynamic> _$$ListAssistantsResponseImplToJson(
       'last_id': instance.lastId,
       'has_more': instance.hasMore,
     };
+
+_$FileSearchRankingOptionsImpl _$$FileSearchRankingOptionsImplFromJson(
+        Map<String, dynamic> json) =>
+    _$FileSearchRankingOptionsImpl(
+      ranker: $enumDecodeNullable(_$FileSearchRankerEnumMap, json['ranker'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      scoreThreshold: (json['score_threshold'] as num).toDouble(),
+    );
+
+Map<String, dynamic> _$$FileSearchRankingOptionsImplToJson(
+    _$FileSearchRankingOptionsImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ranker', _$FileSearchRankerEnumMap[instance.ranker]);
+  val['score_threshold'] = instance.scoreThreshold;
+  return val;
+}
+
+const _$FileSearchRankerEnumMap = {
+  FileSearchRanker.auto: 'auto',
+  FileSearchRanker.default20240821: 'default_2024_08_21',
+};
 
 _$AssistantsNamedToolChoiceImpl _$$AssistantsNamedToolChoiceImplFromJson(
         Map<String, dynamic> json) =>
@@ -2941,6 +3015,7 @@ Map<String, dynamic> _$$CreateRunRequestModelEnumerationImplToJson(
     };
 
 const _$RunModelsEnumMap = {
+  RunModels.chatgpt4oLatest: 'chatgpt-4o-latest',
   RunModels.gpt4: 'gpt-4',
   RunModels.gpt432k: 'gpt-4-32k',
   RunModels.gpt432k0314: 'gpt-4-32k-0314',
@@ -2965,6 +3040,10 @@ const _$RunModelsEnumMap = {
   RunModels.gpt35Turbo0301: 'gpt-3.5-turbo-0301',
   RunModels.gpt35Turbo0613: 'gpt-3.5-turbo-0613',
   RunModels.gpt35Turbo1106: 'gpt-3.5-turbo-1106',
+  RunModels.o1Mini: 'o1-mini',
+  RunModels.o1Mini20240912: 'o1-mini-2024-09-12',
+  RunModels.o1Preview: 'o1-preview',
+  RunModels.o1Preview20240912: 'o1-preview-2024-09-12',
 };
 
 _$CreateRunRequestModelStringImpl _$$CreateRunRequestModelStringImplFromJson(
@@ -3264,6 +3343,7 @@ Map<String, dynamic> _$$ThreadAndRunModelEnumerationImplToJson(
     };
 
 const _$ThreadAndRunModelsEnumMap = {
+  ThreadAndRunModels.chatgpt4oLatest: 'chatgpt-4o-latest',
   ThreadAndRunModels.gpt4: 'gpt-4',
   ThreadAndRunModels.gpt432k: 'gpt-4-32k',
   ThreadAndRunModels.gpt432k0314: 'gpt-4-32k-0314',
@@ -3288,6 +3368,10 @@ const _$ThreadAndRunModelsEnumMap = {
   ThreadAndRunModels.gpt35Turbo0301: 'gpt-3.5-turbo-0301',
   ThreadAndRunModels.gpt35Turbo0613: 'gpt-3.5-turbo-0613',
   ThreadAndRunModels.gpt35Turbo1106: 'gpt-3.5-turbo-1106',
+  ThreadAndRunModels.o1Mini: 'o1-mini',
+  ThreadAndRunModels.o1Mini20240912: 'o1-mini-2024-09-12',
+  ThreadAndRunModels.o1Preview: 'o1-preview',
+  ThreadAndRunModels.o1Preview20240912: 'o1-preview-2024-09-12',
 };
 
 _$ThreadAndRunModelStringImpl _$$ThreadAndRunModelStringImplFromJson(
@@ -4277,6 +4361,109 @@ Map<String, dynamic>
   }
 
   writeNotNull('file_id', instance.fileId);
+  return val;
+}
+
+_$RunStepDetailsToolCallsFileSearchImpl
+    _$$RunStepDetailsToolCallsFileSearchImplFromJson(
+            Map<String, dynamic> json) =>
+        _$RunStepDetailsToolCallsFileSearchImpl(
+          rankingOptions: json['ranking_options'] == null
+              ? null
+              : RunStepDetailsToolCallsFileSearchRankingOptionsObject.fromJson(
+                  json['ranking_options'] as Map<String, dynamic>),
+          results: (json['results'] as List<dynamic>?)
+              ?.map((e) =>
+                  RunStepDetailsToolCallsFileSearchResultObject.fromJson(
+                      e as Map<String, dynamic>))
+              .toList(),
+        );
+
+Map<String, dynamic> _$$RunStepDetailsToolCallsFileSearchImplToJson(
+    _$RunStepDetailsToolCallsFileSearchImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ranking_options', instance.rankingOptions?.toJson());
+  writeNotNull('results', instance.results?.map((e) => e.toJson()).toList());
+  return val;
+}
+
+_$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImpl
+    _$$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImplFromJson(
+            Map<String, dynamic> json) =>
+        _$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImpl(
+          ranker: $enumDecode(_$FileSearchRankerEnumMap, json['ranker']),
+          scoreThreshold: (json['score_threshold'] as num).toDouble(),
+        );
+
+Map<String,
+    dynamic> _$$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImplToJson(
+        _$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImpl instance) =>
+    <String, dynamic>{
+      'ranker': _$FileSearchRankerEnumMap[instance.ranker]!,
+      'score_threshold': instance.scoreThreshold,
+    };
+
+_$RunStepDetailsToolCallsFileSearchResultObjectImpl
+    _$$RunStepDetailsToolCallsFileSearchResultObjectImplFromJson(
+            Map<String, dynamic> json) =>
+        _$RunStepDetailsToolCallsFileSearchResultObjectImpl(
+          fileId: json['file_id'] as String,
+          fileName: json['file_name'] as String,
+          score: (json['score'] as num).toDouble(),
+          content: (json['content'] as List<dynamic>?)
+              ?.map((e) =>
+                  RunStepDetailsToolCallsFileSearchResultContent.fromJson(
+                      e as Map<String, dynamic>))
+              .toList(),
+        );
+
+Map<String, dynamic> _$$RunStepDetailsToolCallsFileSearchResultObjectImplToJson(
+    _$RunStepDetailsToolCallsFileSearchResultObjectImpl instance) {
+  final val = <String, dynamic>{
+    'file_id': instance.fileId,
+    'file_name': instance.fileName,
+    'score': instance.score,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('content', instance.content?.map((e) => e.toJson()).toList());
+  return val;
+}
+
+_$RunStepDetailsToolCallsFileSearchResultContentImpl
+    _$$RunStepDetailsToolCallsFileSearchResultContentImplFromJson(
+            Map<String, dynamic> json) =>
+        _$RunStepDetailsToolCallsFileSearchResultContentImpl(
+          type: json['type'] as String? ?? 'text',
+          text: json['text'] as String?,
+        );
+
+Map<String, dynamic>
+    _$$RunStepDetailsToolCallsFileSearchResultContentImplToJson(
+        _$RunStepDetailsToolCallsFileSearchResultContentImpl instance) {
+  final val = <String, dynamic>{
+    'type': instance.type,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('text', instance.text);
   return val;
 }
 
@@ -5302,6 +5489,10 @@ _$AssistantToolsFileSearchFileSearchImpl
             Map<String, dynamic> json) =>
         _$AssistantToolsFileSearchFileSearchImpl(
           maxNumResults: (json['max_num_results'] as num?)?.toInt(),
+          rankingOptions: json['ranking_options'] == null
+              ? null
+              : FileSearchRankingOptions.fromJson(
+                  json['ranking_options'] as Map<String, dynamic>),
         );
 
 Map<String, dynamic> _$$AssistantToolsFileSearchFileSearchImplToJson(
@@ -5315,6 +5506,7 @@ Map<String, dynamic> _$$AssistantToolsFileSearchFileSearchImplToJson(
   }
 
   writeNotNull('max_num_results', instance.maxNumResults);
+  writeNotNull('ranking_options', instance.rankingOptions?.toJson());
   return val;
 }
 
@@ -5754,7 +5946,8 @@ _$RunStepDetailsToolCallsFileSearchObjectImpl
         _$RunStepDetailsToolCallsFileSearchObjectImpl(
           id: json['id'] as String,
           type: json['type'] as String,
-          fileSearch: json['file_search'] as Map<String, dynamic>,
+          fileSearch: RunStepDetailsToolCallsFileSearch.fromJson(
+              json['file_search'] as Map<String, dynamic>),
         );
 
 Map<String, dynamic> _$$RunStepDetailsToolCallsFileSearchObjectImplToJson(
@@ -5762,7 +5955,7 @@ Map<String, dynamic> _$$RunStepDetailsToolCallsFileSearchObjectImplToJson(
     <String, dynamic>{
       'id': instance.id,
       'type': instance.type,
-      'file_search': instance.fileSearch,
+      'file_search': instance.fileSearch.toJson(),
     };
 
 _$RunStepDetailsToolCallsFunctionObjectImpl

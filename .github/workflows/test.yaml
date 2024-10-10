@@ -4,6 +4,9 @@ on:
   # pull_request_target is dangerous! Review external PRs code before approving to run the workflow
   # We need this to be able to access the secrets required by the workflow
   pull_request_target:
+    paths-ignore:
+      - 'docs/**'
+      - 'docs_v2/**'
   workflow_dispatch:
 
 # Cancel currently running workflow when a new one is triggered
@@ -19,7 +22,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+        uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
         with:
           ref: "${{ github.event.pull_request.base.sha }}" # Required for pull_request_target
           fetch-depth: 0
@@ -38,7 +41,7 @@ jobs:
         run: flutter pub cache clean
 
       - name: Install Melos
-        uses: bluefireteam/melos-action@6085791af7036f6366c9a4b9d55105c0ef9c6388
+        uses: bluefireteam/melos-action@c7dcb921b23cc520cace360b95d02b37bf09cdaa
         with:
           run-bootstrap: false
 

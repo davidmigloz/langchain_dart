@@ -14,7 +14,7 @@ command:
     branch: main
     changelogs:
       - path: CHANGELOG.md
-        description: "Check out the #announcements channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details about each release."
+        description: "📣 Check out the [releases page](https://github.com/davidmigloz/langchain_dart/releases) or the [#announcements](https://discord.com/channels/1123158322812555295/1123250594644242534) channel on the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details."
         packageFilters:
           no-private: true
   bootstrap:
@@ -40,15 +40,16 @@ command:
       flutter_bloc: ^8.1.6
       flutter_markdown: ^0.7.3
       freezed_annotation: ^2.4.2
-      gcloud: ^0.8.12
-      google_generative_ai: 0.4.4
-      googleapis: ^12.0.0
+      gcloud: ^0.8.13
+      google_generative_ai: ^0.4.6
+      googleapis: ^13.0.0
       googleapis_auth: ^1.6.0
       http: ^1.2.2
       js: ^0.7.1
       json_annotation: ^4.9.0
       json_path: ^0.7.4
       langchain_tiktoken: ^1.0.1
+      logging: ^1.2.0
       math_expressions: ^2.6.0
       meta: ^1.11.0
       objectbox: ^4.0.1
@@ -58,7 +59,8 @@ command:
       shelf: ^1.4.2
       shelf_router: ^1.1.4
       supabase: ^2.2.7
-      uuid: ^4.4.2
+      uuid: ^4.5.1
+      web_socket_channel: ^3.0.1
     dev_dependencies:
       build_runner: ^2.4.11
       freezed: ^2.5.7

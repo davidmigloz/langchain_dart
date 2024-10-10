@@ -1,4 +1,4 @@
 /// Contains core abstractions related to chat models.
-library chat_models;
+library;
 
 export 'src/chat_models/chat_models.dart';

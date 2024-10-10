@@ -1,4 +1,29 @@
-📣 Check out the [#announcements](https://discord.com/channels/1123158322812555295/1123250594644242534) channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details.
+📣 Check out the [releases page](https://github.com/davidmigloz/langchain_dart/releases) or the [#announcements](https://discord.com/channels/1123158322812555295/1123250594644242534) channel on the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details.
+
+---
+
+## 0.7.2+2
+
+ - **FIX**: UUID 'Namespace' can't be assigned to the parameter type 'String?' ([#566](https://github.com/davidmigloz/langchain_dart/issues/566)). ([1e93a595](https://github.com/davidmigloz/langchain_dart/commit/1e93a595f2f166da2cae3f7cfcdbb28892abf9b5))
+
+## 0.7.2+1
+
+ - Update a dependency to the latest release.
+
+## 0.7.2
+
+ - **FEAT**: Add OpenAI o1-preview and o1-mini to model catalog ([#555](https://github.com/davidmigloz/langchain_dart/issues/555)). ([9ceb5ff9](https://github.com/davidmigloz/langchain_dart/commit/9ceb5ff9029cf1ae1967a32189f88c7a8215248e))
+ - **REFACTOR**: Migrate ChatOpenAI to maxCompletionTokens ([#557](https://github.com/davidmigloz/langchain_dart/issues/557)). ([08057a5b](https://github.com/davidmigloz/langchain_dart/commit/08057a5b6e08ee2633c6be6144be1619e902bbc5))
+
+## 0.7.1
+
+ - **FEAT**: Add support for Structured Outputs in ChatOpenAI ([#526](https://github.com/davidmigloz/langchain_dart/issues/526)). ([c5387b5d](https://github.com/davidmigloz/langchain_dart/commit/c5387b5dd87fe2aac511c4eca2d4a497065db61f))
+ - **FEAT**: Handle refusal in OpenAI's Structured Outputs API ([#533](https://github.com/davidmigloz/langchain_dart/issues/533)). ([f4c4ed99](https://github.com/davidmigloz/langchain_dart/commit/f4c4ed9902177560f13fa9f44b07f0a49c3fdf0a))
+ - **FEAT**: Include logprobs in result metadata from ChatOpenAI ([#535](https://github.com/davidmigloz/langchain_dart/issues/535)). ([1834b3ad](https://github.com/davidmigloz/langchain_dart/commit/1834b3adb210b7d190a7e0574a304f069813486b))
+ - **FEAT**: Add chatgpt-4o-latest to model catalog ([#527](https://github.com/davidmigloz/langchain_dart/issues/527)). ([ec82c760](https://github.com/davidmigloz/langchain_dart/commit/ec82c760582eed123d6e5d3287c24f82ac251df7))
+ - **FEAT**: Add gpt-4o-2024-08-06 to model catalog ([#522](https://github.com/davidmigloz/langchain_dart/issues/522)). ([563200e0](https://github.com/davidmigloz/langchain_dart/commit/563200e0bb9d021d9cb3e46e7a77d96cf3860b1c))
+ - **FEAT**: Deprecate OpenAIToolsAgent in favour of ToolsAgent ([#532](https://github.com/davidmigloz/langchain_dart/issues/532)). ([68d8011a](https://github.com/davidmigloz/langchain_dart/commit/68d8011a9aa09368875ba0434839d12623ba2bab))
+ - **REFACTOR**: Don't send OpenAI-Beta header in ChatOpenAI ([#511](https://github.com/davidmigloz/langchain_dart/issues/511)). ([0e532bab](https://github.com/davidmigloz/langchain_dart/commit/0e532bab84483bf9d77a0d745f1a591eea2ff7c8))
 
 ## 0.7.0
 

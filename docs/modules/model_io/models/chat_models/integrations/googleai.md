@@ -11,20 +11,20 @@ The following models are available:
   * text / image / audio -> text model
   * Max input token: 1048576
   * Max output tokens: 8192
-- `gemini-1.5-pro`: text / image -> text model
+- `gemini-1.5-pro`:
   * text / image / audio -> text model
-  * Max input token: 1048576
+  * Max input token: 2097152
   * Max output tokens: 8192
-- `gemini-pro-vision`:
-  * text / image -> text model
-  * Max input token: 12288
-  * Max output tokens: 4096
 - `gemini-1.0-pro` (or `gemini-pro`):
   * text -> text model
-  * Max input token: 30720
-  * Max output tokens: 2048
+  * Max input token: 32760
+  * Max output tokens: 8192
+- `aqa`:
+  * text -> text model
+  * Max input token: 7168
+  * Max output tokens: 1024
 
-Mind that this list may not be up-to-date. Refer to the [documentation](https://ai.google.dev/models) for the updated list.
+Mind that this list may not be up-to-date. Refer to the [documentation](https://ai.google.dev/gemini-api/docs/models/gemini) for the updated list.
 
 ## Usage
 
@@ -146,4 +146,33 @@ final chatModel = ChatGoogleGenerativeAI(
 final res = await model.invoke(
   PromptValue.string('What’s the weather like in Boston and Madrid right now in celsius?'),
 );
+```
+
+## Code execution
+
+`ChatGoogleGenerativeAI` supports [code execution](https://ai.google.dev/gemini-api/docs/code-execution?lang=python#billing), just set `enableCodeExecution` to `true` in the options.
+
+```dart
+final chatModel = ChatGoogleGenerativeAI(
+  apiKey: apiKey,
+  defaultOptions: ChatGoogleGenerativeAIOptions(
+    model: 'gemini-1.5-flash',
+    enableCodeExecution: true,
+  ),
+);
+final res = await chatModel.invoke(
+  PromptValue.string(
+    'Calculate the fibonacci sequence up to 10 terms. '
+        'Return only the last term without explanations.',
+  ),
+);
+
+final text = res.output.content;
+print(text); // 34
+
+final executableCode = res.metadata['executable_code'] as String;
+print(executableCode);
+
+final codeExecutionResult = res.metadata['code_execution_result'] as Map<String, dynamic>;
+print(codeExecutionResult);
 ```
