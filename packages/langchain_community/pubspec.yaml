@@ -28,12 +28,18 @@ dependencies:
   objectbox: ^4.0.1
   tavily_dart: ^0.1.0
   uuid: ^4.5.1
+  drift: ^2.20.0
 
+  path: any
+  sqlite3: any
 dev_dependencies:
+  drift_dev: ^2.20.1
   build_runner: ^2.4.11
   langchain_openai: ^0.7.2+2
   objectbox_generator: ^4.0.1
   test: ^1.25.8
+  archive: ^3.1.2
 
+  path: any
 objectbox:
   output_dir: src/vector_stores/objectbox
