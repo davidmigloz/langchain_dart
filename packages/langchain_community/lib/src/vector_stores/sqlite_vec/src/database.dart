@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:drift/drift.dart';
-import 'package:drift/native.dart';
 import 'package:langchain_core/documents.dart';
 import 'package:langchain_core/embeddings.dart';
 import 'package:langchain_core/vector_stores.dart';
@@ -12,14 +11,22 @@ import 'connection/connection.dart' as impl;
 part 'database.g.dart';
 
 @DriftDatabase(include: {'sql.drift'})
+
+/// Database class for storing embeddings in SQLite.
 class Database extends _$Database {
+  /// Create a new database instance.
   Database(this.textEmbedder, this.embeddingDimension, {this.dbFile = 'app.v5'})
       : super(impl.connect(dbFile));
   // Database(this.textEmbedder, this.embeddingDimension)
   //     : super(impl.connect('app.v5'));
 
+  /// Create a new database instance for testing.
   final Embeddings textEmbedder;
+
+  /// The dimension of the embeddings.
   final int embeddingDimension;
+
+  /// The database file path or `:memory:` for in-memory database.
   final String dbFile;
 
   @override
@@ -32,8 +39,8 @@ class Database extends _$Database {
 
           /// Get embedding dimension from chunks
           final schemaQueryRow = await customSelect(
-                  "SELECT sql FROM sqlite_master WHERE name = 'chunks';")
-              .getSingleOrNull();
+            "SELECT sql FROM sqlite_master WHERE name = 'chunks';",
+          ).getSingleOrNull();
           final createStmnt = schemaQueryRow?.read<String>('sql');
 
           final size = createStmnt?.split('float[').last.split(']').first;
@@ -59,6 +66,7 @@ class Database extends _$Database {
         },
       );
 
+  /// Add a chunk to the database.
   Future<int> addChunk(
     String text, {
     String? title,
@@ -73,6 +81,7 @@ class Database extends _$Database {
     return getLastId().getSingle();
   }
 
+  /// Search chunks in the database.
   Future<Selectable<SearchEmbeddingsResult>> searchChunks(
     String query, {
     String? title,
@@ -83,23 +92,27 @@ class Database extends _$Database {
     return searchEmbeddings(_serializeFloat32(result));
   }
 
+  /// Search chunks in the database.
   Future<List<(Document, double)>> similaritySearchByVectorWithScores({
     required List<double> embedding,
     VectorStoreSimilaritySearch config = const VectorStoreSimilaritySearch(),
   }) async {
-    // TODO: implement similaritySearchByVectorWithScores
     final embeddingResults =
-        await this.searchEmbeddings(_serializeFloat32(embedding)).get();
+        await searchEmbeddings(_serializeFloat32(embedding)).get();
     return embeddingResults
-        .map((e) => (
-              Document(
-                  pageContent: e.content ?? '',
-                  metadata: jsonDecode(e.metadata ?? '{}')),
-              e.distance
-            ))
+        .map(
+          (e) => (
+            Document(
+              pageContent: e.content ?? '',
+              metadata: jsonDecode(e.metadata ?? '{}'),
+            ),
+            e.distance
+          ),
+        )
         .toList();
   }
 
+  /// Delete a chunk from the database.
   Future<void> deleteChunk(int id) async {
     await customStatement(
       'DELETE FROM chunks WHERE id = :id',
@@ -112,13 +125,15 @@ class Database extends _$Database {
     return DatabaseConnection(impl.connect(dbFile));
   }
 
+  /// Add a list of documents to the database.
   Future<List<int>> addVectors({
     required List<List<double>> vectors,
     required List<Document> documents,
   }) async {
     if (vectors.length != documents.length) {
       throw ArgumentError(
-          'The number of vectors must match the number of documents.');
+        'The number of vectors must match the number of documents.',
+      );
     }
 
     final List<int> addedIds = [];
@@ -147,7 +162,7 @@ Uint8List _serializeFloat32(List<double> vector) {
   return byteData.buffer.asUint8List();
 }
 
-// Split long text into chunks for embedding
+/// Split long text into chunks for embedding
 Iterable<(String, int, int)> chunkText(String text) sync* {
   final regex = RegExp(r'((?:[^\n][\n]?)+)');
   final matches = regex.allMatches(text);

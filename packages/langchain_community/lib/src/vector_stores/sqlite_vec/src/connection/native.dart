@@ -6,6 +6,7 @@ import 'package:drift/native.dart';
 import 'package:path/path.dart' as p;
 import 'package:sqlite3/sqlite3.dart';
 
+/// Obtains a database connection for running drift in a pure Dart environment.
 Future<File> databaseFile(String name) async {
   // Replace with a suitable path for non-Flutter environments
   final appDir = Directory.current.path; // Use the current directory
@@ -32,11 +33,13 @@ QueryExecutor connect(String name) {
   if (name == ':memory:') {
     return NativeDatabase.memory();
   }
-  return DatabaseConnection.delayed(Future(() async {
-    return NativeDatabase.createBackgroundConnection(
-      await databaseFile(name),
-    );
-  }));
+  return DatabaseConnection.delayed(
+    Future(() async {
+      return NativeDatabase.createBackgroundConnection(
+        await databaseFile(name),
+      );
+    }),
+  );
 }
 
 DynamicLibrary _loadLibrary(String name) {
@@ -49,7 +52,8 @@ DynamicLibrary _loadLibrary(String name) {
   }
   if (Platform.isWindows) {
     return DynamicLibrary.open(
-        p.join(Directory.current.path, 'extensions', '$name.dll'));
+      p.join(Directory.current.path, 'extensions', '$name.dll'),
+    );
   }
   throw UnsupportedError('Unknown platform: ${Platform.operatingSystem}');
 }

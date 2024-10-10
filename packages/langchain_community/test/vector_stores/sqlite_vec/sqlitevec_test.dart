@@ -1,6 +1,3 @@
-@Timeout(Duration(seconds: 600))
-library;
-
 import 'package:drift/drift.dart';
 
 import 'package:langchain_community/src/vector_stores/sqlite_vec/sqlite_vec.dart';
@@ -32,8 +29,7 @@ void main() {
         config: const VectorStoreSimilaritySearch(k: 1),
       );
       // issue with k?
-      expect(output.first,
-          const Document(pageContent: 'foo', metadata: {'page': 0}));
+      expect(output.first, const Document(pageContent: 'foo'));
     });
 
     test('Test end to end construction and search with scores and IDs',

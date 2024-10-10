@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:archive/archive_io.dart';
 import 'package:http/http.dart';
+import 'package:langchain_community/dart_utils/debugging.dart';
 import 'package:path/path.dart' as p;
 
 typedef SqliteVersion = ({String version, String year});
@@ -11,13 +12,16 @@ const SqliteVersion minimum = (version: '3290000', year: '2019');
 
 Future<void> main(List<String> args) async {
   if (args.contains('version')) {
-    print(latest.version);
+    kDebugPrint(latest.version);
     exit(0);
   }
 
   await _downloadAndCompile('latest', latest, force: args.contains('--force'));
-  await _downloadAndCompile('minimum', minimum,
-      force: args.contains('--force'));
+  await _downloadAndCompile(
+    'minimum',
+    minimum,
+    force: args.contains('--force'),
+  );
 }
 
 extension on SqliteVersion {
@@ -28,8 +32,11 @@ extension on SqliteVersion {
       'https://www.sqlite.org/$year/sqlite-dll-win-x64-$version.zip';
 }
 
-Future<void> _downloadAndCompile(String name, SqliteVersion version,
-    {bool force = false}) async {
+Future<void> _downloadAndCompile(
+  String name,
+  SqliteVersion version, {
+  bool force = false,
+}) async {
   final driftDirectory = p.dirname(p.dirname(Platform.script.toFilePath()));
   final target = p.join(driftDirectory, '.dart_tool', 'sqlite3', name);
   final versionFile = File(p.join(target, 'version'));
@@ -39,14 +46,14 @@ Future<void> _downloadAndCompile(String name, SqliteVersion version,
       versionFile.readAsStringSync() != version.version;
 
   if (!needsDownload) {
-    print(
+    kDebugPrint(
       'Not downloading sqlite3 $name as it has already been downloaded. Use '
       '--force to re-compile it.',
     );
     exit(0);
   }
 
-  print('Downloading and compiling sqlite3 $name (${version.version})');
+  kDebugPrint('Downloading and compiling sqlite3 $name (${version.version})');
   final targetDirectory = Directory(target);
 
   if (!targetDirectory.existsSync()) {
@@ -66,8 +73,9 @@ Future<void> _downloadAndCompile(String name, SqliteVersion version,
     final client = Client();
     final response = await client.send(Request('GET', Uri.parse(windowsUri)));
     if (response.statusCode != 200) {
-      print(
-          'Could not download $windowsUri, status code ${response.statusCode}');
+      kDebugPrint(
+        'Could not download $windowsUri, status code ${response.statusCode}',
+      );
       exit(1);
     }
     await response.stream.pipe(File(sqlite3Zip).openWrite());
@@ -80,7 +88,7 @@ Future<void> _downloadAndCompile(String name, SqliteVersion version,
         final outputStream = OutputFileStream(p.join(target, 'sqlite3.dll'));
 
         file.writeContent(outputStream);
-        outputStream.close();
+        await outputStream.close();
       }
     }
 
@@ -88,8 +96,10 @@ Future<void> _downloadAndCompile(String name, SqliteVersion version,
     exit(0);
   }
 
-  await _run('curl ${version.autoconfUrl} --output sqlite.tar.gz',
-      workingDirectory: temporaryDirPath);
+  await _run(
+    'curl ${version.autoconfUrl} --output sqlite.tar.gz',
+    workingDirectory: temporaryDirPath,
+  );
   await _run('tar zxvf sqlite.tar.gz', workingDirectory: temporaryDirPath);
 
   final sqlitePath =
@@ -111,7 +121,7 @@ Future<void> _downloadAndCompile(String name, SqliteVersion version,
 }
 
 Future<void> _run(String command, {String? workingDirectory}) async {
-  print('Running $command');
+  kDebugPrint('Running $command');
 
   final proc = await Process.start(
     'sh',

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:langchain_core/embeddings.dart';
 import 'package:langchain_core/documents.dart';
+import 'package:langchain_core/embeddings.dart';
 import 'package:langchain_core/vector_stores.dart';
 
 import 'src/database.dart';
@@ -18,8 +18,11 @@ import 'src/database.dart';
 /// // ... (rest of the example code)
 /// ```
 class SQLiteVEC extends VectorStore {
+  /// Drift sqlite instance
   late final Database db;
+  /// Table name
   final String table;
+  /// Database file path or `:memory:` for in-memory database
   final String dbFile;
 
   SQLiteVEC._internal({
@@ -29,6 +32,7 @@ class SQLiteVEC extends VectorStore {
     required this.db,
   });
 
+  /// Create a new SQLiteVEC instance.
   static Future<SQLiteVEC> create({
     required Embeddings embeddings,
     required String table,
