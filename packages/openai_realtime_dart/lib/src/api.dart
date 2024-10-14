@@ -121,7 +121,7 @@ class RealtimeAPI extends RealtimeEventHandler {
   /// Receives an event from WebSocket and dispatches as
   /// "server.{eventName}" and "server.*" events.
   void receive(String eventName, Map<String, dynamic> event) {
-    _log.info('received: $eventName $event');
+    _logEvent(eventName, event, fromClient: false);
     dispatch('server.$eventName', event);
     dispatch('server.*', event);
   }
@@ -141,8 +141,20 @@ class RealtimeAPI extends RealtimeEventHandler {
 
     dispatch('client.$eventName', event);
     dispatch('client.*', event);
-    _log.info('sent: $eventName $event');
+    _logEvent(eventName, event, fromClient: true);
 
     _ws!.sink.add(json.encode(event));
+  }
+
+  void _logEvent(
+    String name,
+    Map<String, dynamic> event, {
+    required bool fromClient,
+  }) {
+    final eventString = event.toString();
+    final eventLength = eventString.length;
+    final eventFormatted =
+        eventString.substring(0, eventLength > 200 ? 200 : eventLength);
+    _log.info('${fromClient ? 'sent' : 'received'}: $name $eventFormatted');
   }
 }
