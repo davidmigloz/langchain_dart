@@ -2,6 +2,10 @@
 
 ---
 
+## 0.4.2+2
+
+ - **DOCS**: Fix typo in openai_dart. ([e7ddd558](https://github.com/davidmigloz/langchain_dart/commit/e7ddd558da643e3cc59581b8b0e69473c7cb9779))
+
 ## 0.4.2+1
 
  - **DOCS**: Add note about the new [openai_realtime_dart](https://pub.dev/packages/openai_realtime_dart) client. ([44672f0a](https://github.com/davidmigloz/langchain_dart/commit/44672f0a453a1b2e1b31bc5ef400f4c8ac7a4e76))
