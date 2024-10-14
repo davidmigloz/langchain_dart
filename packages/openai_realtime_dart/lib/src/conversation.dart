@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
+
 import 'utils.dart';
 
 /// Stores a client-side cache of the current conversation and performs event
@@ -36,16 +37,15 @@ class RealtimeConversation {
   final Map<
       String,
       FutureOr<Map<String, dynamic>> Function(
-        Map<String, dynamic>? event, [
-        dynamic args,
-      ])> _eventProcessors = {};
+          Map<String, dynamic>? event, [
+          dynamic args,
+          ])> _eventProcessors = {};
 
   /// Default frequency for audio.
   final int defaultFrequency = 24000; // 24,000 Hz
 
   void _initializeEventProcessors() {
-    _eventProcessors['conversation.item.created'] = (
-      Map<String, dynamic>? event, [
+    _eventProcessors['conversation.item.created'] = (Map<String, dynamic>? event, [
       dynamic args,
     ]) {
       final item = event?['item'];
@@ -64,13 +64,13 @@ class RealtimeConversation {
       final formatted = newItem['formatted'] as Map<String, dynamic>;
       if (queuedSpeechItems.containsKey(newItemId)) {
         final queuedSpeechItem =
-            queuedSpeechItems[newItemId] as Map<String, dynamic>;
+        queuedSpeechItems[newItemId] as Map<String, dynamic>;
         formatted['audio'] = queuedSpeechItem['audio'];
         queuedSpeechItems.remove(newItemId);
       }
       // Populate formatted text if it comes out on creation
       final newItemContent =
-          (newItem['content'] as List<dynamic>?)?.cast<Map<String, dynamic>>();
+      (newItem['content'] as List<dynamic>?)?.cast<Map<String, dynamic>>();
       if (newItemContent != null) {
         final textContent = newItemContent
             .where((c) => ['text', 'input_text'].contains(c['type'] as String));
@@ -81,7 +81,7 @@ class RealtimeConversation {
       // If we have a transcript item, can pre-populate transcript
       if (queuedTranscriptItems.containsKey(newItem['id'])) {
         final queuedTranscriptItem =
-            queuedTranscriptItems[newItemId] as Map<String, dynamic>;
+        queuedTranscriptItems[newItemId] as Map<String, dynamic>;
         formatted['transcript'] = queuedTranscriptItem['transcript'];
         queuedTranscriptItems.remove(newItem['id']);
       }
@@ -110,8 +110,7 @@ class RealtimeConversation {
       return {'item': newItem, 'delta': null};
     };
 
-    _eventProcessors['conversation.item.truncated'] = (
-      Map<String, dynamic>? event, [
+    _eventProcessors['conversation.item.truncated'] = (Map<String, dynamic>? event, [
       dynamic args,
     ]) {
       final itemId = event?['item_id'];
@@ -128,8 +127,7 @@ class RealtimeConversation {
       return {'item': item, 'delta': null};
     };
 
-    _eventProcessors['conversation.item.deleted'] = (
-      Map<String, dynamic>? event, [
+    _eventProcessors['conversation.item.deleted'] = (Map<String, dynamic>? event, [
       dynamic args,
     ]) {
       final itemId = event?['item_id'];
@@ -143,8 +141,7 @@ class RealtimeConversation {
     };
 
     _eventProcessors['conversation.item.input_audio_transcription.completed'] =
-        (
-      Map<String, dynamic>? event, [
+        (Map<String, dynamic>? event, [
       dynamic args,
     ]) {
       final itemId = event?['item_id'];
@@ -160,7 +157,10 @@ class RealtimeConversation {
         queuedTranscriptItems[itemId] = {'transcript': formattedTranscript};
         return {'item': null, 'delta': null};
       } else {
-        final itemContent = item['content'] as List<Map<String, dynamic>>;
+        print('Library: ${item}');
+        final List<dynamic> dynamicContent = item['content'] as List<dynamic>;
+        final List<Map<String, dynamic>> itemContent = dynamicContent.map((e) => Map<String, dynamic>.from(e)).toList();
+
         final formatted = item['formatted'] as Map<String, dynamic>;
         itemContent[contentIndex]['transcript'] = transcript;
         formatted['transcript'] = formattedTranscript;
@@ -171,8 +171,7 @@ class RealtimeConversation {
       }
     };
 
-    _eventProcessors['input_audio_buffer.speech_started'] = (
-      Map<String, dynamic>? event, [
+    _eventProcessors['input_audio_buffer.speech_started'] = (Map<String, dynamic>? event, [
       dynamic args,
     ]) {
       final itemId = event?['item_id'];
@@ -181,8 +180,7 @@ class RealtimeConversation {
       return {'item': null, 'delta': null};
     };
 
-    _eventProcessors['input_audio_buffer.speech_stopped'] = (
-      Map<String, dynamic>? event, [
+    _eventProcessors['input_audio_buffer.speech_stopped'] = (Map<String, dynamic>? event, [
       dynamic args,
     ]) {
       final itemId = event?['item_id'];
@@ -200,8 +198,7 @@ class RealtimeConversation {
       return {'item': null, 'delta': null};
     };
 
-    _eventProcessors['response.created'] = (
-      Map<String, dynamic>? event, [
+    _eventProcessors['response.created'] = (Map<String, dynamic>? event, [
       dynamic args,
     ]) {
       final response = event?['response'] as Map<String, dynamic>?;
@@ -213,8 +210,7 @@ class RealtimeConversation {
       return {'item': null, 'delta': null};
     };
 
-    _eventProcessors['response.output_item.added'] = (
-      Map<String, dynamic>? event, [
+    _eventProcessors['response.output_item.added'] = (Map<String, dynamic>? event, [
       dynamic args,
     ]) {
       final responseId = event?['response_id'];
@@ -230,8 +226,7 @@ class RealtimeConversation {
       return {'item': null, 'delta': null};
     };
 
-    _eventProcessors['response.output_item.done'] = (
-      Map<String, dynamic>? event, [
+    _eventProcessors['response.output_item.done'] = (Map<String, dynamic>? event, [
       dynamic args,
     ]) {
       final item = event?['item'] as Map<String, dynamic>?;
@@ -249,8 +244,7 @@ class RealtimeConversation {
       return {'item': foundItem, 'delta': null};
     };
 
-    _eventProcessors['response.content_part.added'] = (
-      Map<String, dynamic>? event, [
+    _eventProcessors['response.content_part.added'] = (Map<String, dynamic>? event, [
       dynamic args,
     ]) {
       final itemId = event?['item_id'];
@@ -265,8 +259,7 @@ class RealtimeConversation {
       return {'item': item, 'delta': null};
     };
 
-    _eventProcessors['response.audio_transcript.delta'] = (
-      Map<String, dynamic>? event, [
+    _eventProcessors['response.audio_transcript.delta'] = (Map<String, dynamic>? event, [
       dynamic args,
     ]) {
       final itemId = event?['item_id'];
@@ -279,7 +272,7 @@ class RealtimeConversation {
         );
       }
       final itemContent =
-          (item['content'] as List<dynamic>).cast<Map<String, dynamic>>();
+      (item['content'] as List<dynamic>).cast<Map<String, dynamic>>();
       final itemTranscript = itemContent[contentIndex]['transcript'] as String;
       final formatted = item['formatted'] as Map<String, dynamic>;
       final formattedTranscript = formatted['transcript'] as String;
@@ -291,8 +284,7 @@ class RealtimeConversation {
       };
     };
 
-    _eventProcessors['response.audio.delta'] = (
-      Map<String, dynamic>? event, [
+    _eventProcessors['response.audio.delta'] = (Map<String, dynamic>? event, [
       dynamic args,
     ]) {
       final itemId = event?['item_id'];
@@ -315,8 +307,7 @@ class RealtimeConversation {
       };
     };
 
-    _eventProcessors['response.text.delta'] = (
-      Map<String, dynamic>? event, [
+    _eventProcessors['response.text.delta'] = (Map<String, dynamic>? event, [
       dynamic args,
     ]) {
       final itemId = event?['item_id'];
@@ -326,7 +317,10 @@ class RealtimeConversation {
       if (item == null) {
         throw Exception('response.text.delta: Item "$itemId" not found');
       }
-      final itemContent = item['content'] as List<Map<String, dynamic>>;
+      final List<dynamic> dynamicContent = item['content'] as List<dynamic>;
+      final List<Map<String, dynamic>> itemContent = dynamicContent.map((e) => Map<String, dynamic>.from(e)).toList();
+
+      // final itemContent = item['content'] as List<Map<String, dynamic>>;
       final itemText = itemContent[contentIndex]['text'] as String;
       final formatted = item['formatted'] as Map<String, dynamic>;
       final formattedText = formatted['text'] as String;
@@ -338,8 +332,7 @@ class RealtimeConversation {
       };
     };
 
-    _eventProcessors['response.function_call_arguments.delta'] = (
-      Map<String, dynamic>? event, [
+    _eventProcessors['response.function_call_arguments.delta'] = (Map<String, dynamic>? event, [
       dynamic args,
     ]) {
       final itemId = event?['item_id'];
@@ -381,8 +374,7 @@ class RealtimeConversation {
   }
 
   /// Process an event from the WebSocket server and compose items.
-  FutureOr<Map<String, dynamic>> processEvent(
-    Map<String, dynamic>? event, [
+  FutureOr<Map<String, dynamic>> processEvent(Map<String, dynamic>? event, [
     dynamic args,
   ]) {
     if (event?['event_id'] == null) {

@@ -26,12 +26,13 @@ class RealtimeClient extends RealtimeEventHandler {
     final String? apiKey,
     final bool debug = false,
     final bool dangerouslyAllowAPIKeyInBrowser = true,
-  })  : realtime = RealtimeAPI(
-          url: url,
-          apiKey: apiKey,
-          debug: debug,
-          dangerouslyAllowAPIKeyInBrowser: dangerouslyAllowAPIKeyInBrowser,
-        ),
+  })
+      : realtime = RealtimeAPI(
+    url: url,
+    apiKey: apiKey,
+    debug: debug,
+    dangerouslyAllowAPIKeyInBrowser: dangerouslyAllowAPIKeyInBrowser,
+  ),
         conversation = RealtimeConversation() {
     _resetConfig();
     _addApiEventHandlers();
@@ -75,34 +76,30 @@ class RealtimeClient extends RealtimeEventHandler {
   }
 
   void _addApiEventHandlers() {
-    realtime
-      ..on('client.*', (event) {
-        dispatch('realtime.event', {
-          'time': DateTime.now().toIso8601String(),
-          'source': 'client',
-          'event': event,
-        });
-      })
-      ..on('server.*', (event) {
-        dispatch('realtime.event', {
-          'time': DateTime.now().toIso8601String(),
-          'source': 'server',
-          'event': event,
-        });
-      })
-      ..on('server.session.created', (_) => sessionCreated = true);
+    realtime..on('client.*', (event) {
+      dispatch('realtime.event', {
+        'time': DateTime.now().toIso8601String(),
+        'source': 'client',
+        'event': event,
+      });
+    })..on('server.*', (event) {
+      dispatch('realtime.event', {
+        'time': DateTime.now().toIso8601String(),
+        'source': 'server',
+        'event': event,
+      });
+    })..on('server.session.created', (_) => sessionCreated = true);
 
-    Future<Map<String, dynamic>> handler(
-      Map<String, dynamic>? event, [
+    Future<Map<String, dynamic>> handler(Map<String, dynamic>? event, [
       dynamic args,
     ]) async {
       return conversation.processEvent(event, args);
     }
 
     Future<Map<String, dynamic>> handlerWithDispatch(
-      Map<String, dynamic>? event, [
-      dynamic args,
-    ]) async {
+        Map<String, dynamic>? event, [
+          dynamic args,
+        ]) async {
       final result = await handler(event, args);
       if (result['item'] != null) {
         dispatch('conversation.updated', result);
@@ -110,62 +107,62 @@ class RealtimeClient extends RealtimeEventHandler {
       return result;
     }
 
-    realtime
-      ..on('server.response.created', handler)
-      ..on('server.response.output_item.added', handler)
-      ..on('server.response.content_part.added', handler)
-      ..on('server.input_audio_buffer.speech_started', (event) async {
-        await handler(event);
-        dispatch('conversation.interrupted', null);
-      })
-      ..on(
-        'server.input_audio_buffer.speech_stopped',
-        (event) async => handler(event, inputAudioBuffer),
-      )
-      ..on('server.conversation.item.created', (event) async {
-        final result = await handlerWithDispatch(event);
-        final item = result['item'] as Map<String, dynamic>?;
-        dispatch('conversation.item.appended', {'item': item});
-        if (item?['status'] == 'completed') {
-          dispatch('conversation.item.completed', {'item': item});
-        }
-      })
-      ..on('server.conversation.item.truncated', handlerWithDispatch)
-      ..on('server.conversation.item.deleted', handlerWithDispatch)
-      ..on(
-        'server.conversation.item.input_audio_transcription.completed',
-        handlerWithDispatch,
-      )
-      ..on('server.response.audio_transcript.delta', handlerWithDispatch)
-      ..on('server.response.audio.delta', handlerWithDispatch)
-      ..on('server.response.text.delta', handlerWithDispatch)
-      ..on(
-        'server.response.function_call_arguments.delta',
-        handlerWithDispatch,
-      )
-      ..on('server.response.output_item.done', (event) async {
-        final result = await handlerWithDispatch(event);
-        final item = result['item'] as Map<String, dynamic>?;
-        if (item?['status'] == 'completed') {
-          dispatch('conversation.item.completed', {'item': item});
-        }
-        final formatted = item?['formatted'] as Map<String, dynamic>?;
-        if (formatted?['tool'] != null) {
-          await _callTool(formatted!['tool']);
-        }
-      });
+    realtime..on('server.response.created', handler)..on(
+        'server.response.output_item.added', handler)..on(
+        'server.response.content_part.added', handler)..on(
+        'server.input_audio_buffer.speech_started', (event) async {
+      await handler(event);
+      dispatch('conversation.interrupted', null);
+    })..on(
+      'server.input_audio_buffer.speech_stopped',
+          (event) async => handler(event, inputAudioBuffer),
+    )..on('server.conversation.item.created', (event) async {
+      final result = await handlerWithDispatch(event);
+      final item = result['item'] as Map<String, dynamic>?;
+      dispatch('conversation.item.appended', {'item': item});
+      if (item?['status'] == 'completed') {
+        dispatch('conversation.item.completed', {'item': item});
+      }
+    })..on('server.conversation.item.truncated', handlerWithDispatch)..on(
+        'server.conversation.item.deleted', handlerWithDispatch)..on(
+      'server.conversation.item.input_audio_transcription.completed',
+      handlerWithDispatch,
+    )..on('server.response.audio_transcript.delta', handlerWithDispatch)..on(
+        'server.response.audio.delta', handlerWithDispatch)..on(
+        'server.response.text.delta', handlerWithDispatch)..on(
+      'server.response.function_call_arguments.delta',
+      handlerWithDispatch,
+    )..on('server.response.output_item.done', (event) async {
+      print('server.response.output_item.done: $event');
+      final result = await handlerWithDispatch(event);
+      final item = result['item'] as Map<String, dynamic>?;
+      if (item?['status'] == 'completed') {
+        dispatch('conversation.item.completed', {'item': item});
+      }
+      final formatted = item?['formatted'] as Map<String, dynamic>?;
+      if (formatted?['tool'] != null) {
+        await _callTool(formatted!['tool']);
+      }
+    });
   }
 
   Future<void> _callTool(Map<String, dynamic> tool) async {
+    print('_callTool $tool');
     try {
-      final jsonArguments = tool['arguments'] as Map<String, dynamic>;
+      print('_callTool arguments: ${tool['arguments']} ${tool['arguments']
+          .runtimeType}');
+      final jsonArguments = jsonDecode(tool['arguments']) as Map<String,
+          dynamic>;
+      print('_callTool jsonArguments: $jsonArguments');
       final toolConfig = tools[tool['name']] as Map<String, dynamic>?;
+      print('_callTool toolConfig: $toolConfig');
       if (toolConfig == null) {
         throw Exception('Tool "${tool['name']}" has not been added');
       }
       final handler = toolConfig['handler'] as FutureOr<Map<String, dynamic>>
-          Function(Map<String, dynamic>);
+      Function(Map<String, dynamic>);
       final result = await handler(jsonArguments);
+      print('_callTool Tool "${tool['name']}" result: $result');
       realtime.send('conversation.item.create', {
         'item': {
           'type': 'function_call_output',
@@ -174,6 +171,7 @@ class RealtimeClient extends RealtimeEventHandler {
         },
       });
     } catch (e) {
+      print(e);
       realtime.send('conversation.item.create', {
         'item': {
           'type': 'function_call_output',
@@ -234,15 +232,13 @@ class RealtimeClient extends RealtimeEventHandler {
   /// Gets the active turn detection mode.
   String? getTurnDetectionType() {
     final turnDetection =
-        sessionConfig['turn_detection'] as Map<String, dynamic>?;
+    sessionConfig['turn_detection'] as Map<String, dynamic>?;
     return turnDetection?['type'];
   }
 
   /// Add a tool and handler.
-  Map<String, dynamic> addTool(
-    Map<String, dynamic> definition,
-    FutureOr<Map<String, dynamic>> Function(Map<String, dynamic>) handler,
-  ) {
+  Map<String, dynamic> addTool(Map<String, dynamic> definition,
+      FutureOr<Map<String, dynamic>> Function(Map<String, dynamic>) handler,) {
     if (definition['name'] == null) {
       throw Exception('Missing tool name in definition');
     }
@@ -250,7 +246,7 @@ class RealtimeClient extends RealtimeEventHandler {
     if (tools.containsKey(name)) {
       throw Exception(
         'Tool "$name" already added. '
-        'Please use .removeTool("$name") before trying to add again.',
+            'Please use .removeTool("$name") before trying to add again.',
       );
     }
     tools[name] = {'definition': definition, 'handler': handler};
@@ -324,11 +320,12 @@ class RealtimeClient extends RealtimeEventHandler {
         return definition;
       }),
       ...this.tools.values.map(
-            (tool) => {
-              'type': 'function',
-              ...(tool as Map<String, dynamic>)['definition'],
-            },
-          ),
+            (tool) =>
+        {
+          'type': 'function',
+          ...(tool as Map<String, dynamic>)['definition'],
+        },
+      ),
     ];
 
     final session = Map<String, dynamic>.from(sessionConfig);
@@ -419,7 +416,7 @@ class RealtimeClient extends RealtimeEventHandler {
         'item_id': id,
         'content_index': audioIndex,
         'audio_end_ms':
-            (sampleCount / conversation.defaultFrequency * 1000).floor(),
+        (sampleCount / conversation.defaultFrequency * 1000).floor(),
       });
       return {'item': item};
     }
