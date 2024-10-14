@@ -1,10 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:logging/logging.dart';
+
 import 'api.dart';
 import 'conversation.dart';
 import 'event_handler.dart';
 import 'utils.dart';
+
+final _log = Logger('openai_realtime_dart.api');
 
 /// Dart client for the OpenAI Realtime API.
 /// Enables rapid application development with a simplified control flow.
@@ -144,7 +148,6 @@ class RealtimeClient extends RealtimeEventHandler {
         handlerWithDispatch,
       )
       ..on('server.response.output_item.done', (event) async {
-        print('server.response.output_item.done: $event');
         final result = await handlerWithDispatch(event);
         final item = result['item'] as Map<String, dynamic>?;
         if (item?['status'] == 'completed') {
@@ -152,37 +155,40 @@ class RealtimeClient extends RealtimeEventHandler {
         }
         final formatted = item?['formatted'] as Map<String, dynamic>?;
         if (formatted?['tool'] != null) {
-          await _callTool(formatted!['tool']);
+          unawaited(_callTool(formatted!['tool']));
         }
       });
   }
 
   Future<void> _callTool(Map<String, dynamic> tool) async {
-    print('_callTool $tool');
     try {
-      print(
-          '_callTool arguments: ${tool['arguments']} ${tool['arguments'].runtimeType}');
+      final name = tool['name'] as String;
+      final arguments = tool['arguments'] as String? ?? '{}';
       final jsonArguments =
-          jsonDecode(tool['arguments']) as Map<String, dynamic>;
-      print('_callTool jsonArguments: $jsonArguments');
+          jsonDecode(arguments) as Map<String, dynamic>? ?? const {};
+
       final toolConfig = tools[tool['name']] as Map<String, dynamic>?;
-      print('_callTool toolConfig: $toolConfig');
       if (toolConfig == null) {
         throw Exception('Tool "${tool['name']}" has not been added');
       }
+
+      _log.info('Calling tool "$name" with arguments:\n$arguments');
+
       final handler = toolConfig['handler'] as FutureOr<Map<String, dynamic>>
           Function(Map<String, dynamic>);
       final result = await handler(jsonArguments);
-      print('_callTool Tool "${tool['name']}" result: $result');
+
+      _log.fine('Result of calling "$name" tool:\n$result');
+
       realtime.send('conversation.item.create', {
         'item': {
           'type': 'function_call_output',
           'call_id': tool['call_id'],
-          'output': result,
+          'output': jsonEncode(result),
         },
       });
     } catch (e) {
-      print(e);
+      _log.severe('Error calling tool "${tool['name']}":\n$e');
       realtime.send('conversation.item.create', {
         'item': {
           'type': 'function_call_output',
@@ -419,8 +425,9 @@ class RealtimeClient extends RealtimeEventHandler {
       }
       realtime.send('response.cancel');
 
-      final content = item['content'] as List<Map<String, dynamic>>;
-      final audioIndex = content.indexWhere((c) => c['type'] == 'audio');
+      final content =
+          (item['content'] as List<dynamic>?)?.cast<Map<String, dynamic>>();
+      final audioIndex = content?.indexWhere((c) => c['type'] == 'audio') ?? -1;
       if (audioIndex == -1) {
         throw Exception('Could not find audio on item to cancel');
       }

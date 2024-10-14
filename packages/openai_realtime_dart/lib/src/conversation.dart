@@ -161,13 +161,11 @@ class RealtimeConversation {
         queuedTranscriptItems[itemId] = {'transcript': formattedTranscript};
         return {'item': null, 'delta': null};
       } else {
-        print('Library: ${item}');
-        final List<dynamic> dynamicContent = item['content'] as List<dynamic>;
-        final List<Map<String, dynamic>> itemContent =
-            dynamicContent.map((e) => Map<String, dynamic>.from(e)).toList();
+        final itemContent =
+            (item['content'] as List<dynamic>?)?.cast<Map<String, dynamic>>();
 
         final formatted = item['formatted'] as Map<String, dynamic>;
-        itemContent[contentIndex]['transcript'] = transcript;
+        itemContent?[contentIndex]['transcript'] = transcript;
         formatted['transcript'] = formattedTranscript;
         return {
           'item': item,
@@ -331,15 +329,12 @@ class RealtimeConversation {
       if (item == null) {
         throw Exception('response.text.delta: Item "$itemId" not found');
       }
-      final List<dynamic> dynamicContent = item['content'] as List<dynamic>;
-      final List<Map<String, dynamic>> itemContent =
-          dynamicContent.map((e) => Map<String, dynamic>.from(e)).toList();
-
-      // final itemContent = item['content'] as List<Map<String, dynamic>>;
-      final itemText = itemContent[contentIndex]['text'] as String;
+      final itemContent =
+          (item['content'] as List<dynamic>?)?.cast<Map<String, dynamic>>();
+      final itemText = itemContent?[contentIndex]['text'] as String? ?? '';
       final formatted = item['formatted'] as Map<String, dynamic>;
       final formattedText = formatted['text'] as String;
-      itemContent[contentIndex]['text'] = itemText + delta;
+      itemContent?[contentIndex]['text'] = itemText + delta;
       formatted['text'] = formattedText + delta;
       return {
         'item': item,
