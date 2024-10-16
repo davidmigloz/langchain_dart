@@ -449,6 +449,11 @@ components:
         - $ref: "#/components/schemas/ToolResultBlock"
       discriminator:
         propertyName: type
+        mapping:
+          text: "#/components/schemas/TextBlock"
+          image: "#/components/schemas/ImageBlock"
+          tool_use: "#/components/schemas/ToolUseBlock"
+          tool_result: "#/components/schemas/ToolResultBlock"
     TextBlock:
       type: object
       description: A block of text content.
@@ -610,6 +615,14 @@ components:
         - $ref: "#/components/schemas/PingEvent"
       discriminator:
         propertyName: type
+        mapping: 
+            message_start: "#/components/schemas/MessageStartEvent"
+            message_delta: "#/components/schemas/MessageDeltaEvent"
+            message_stop: "#/components/schemas/MessageStopEvent"
+            content_block_start: "#/components/schemas/ContentBlockStartEvent"
+            content_block_delta: "#/components/schemas/ContentBlockDeltaEvent"
+            content_block_stop: "#/components/schemas/ContentBlockStopEvent"
+            ping: "#/components/schemas/PingEvent"
     MessageStreamEventType:
       type: string
       description: The type of a streaming event.
@@ -725,6 +738,9 @@ components:
         - $ref: "#/components/schemas/InputJsonBlockDelta"
       discriminator:
         propertyName: type
+        mapping:
+          text_delta: "#/components/schemas/TextBlockDelta"
+          input_json_delta: "#/components/schemas/InputJsonBlockDelta"
     TextBlockDelta:
       type: object
       description: A delta in a streaming text block.
