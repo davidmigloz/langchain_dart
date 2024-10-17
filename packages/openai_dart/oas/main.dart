@@ -81,6 +81,8 @@ String? _onSchemaUnionFactoryName(
       // Moderations
       'ModerationModelEnumeration' => 'model',
       'ModerationModelString' => 'modelId',
+      'ModerationInputObjectImageUrl' => 'imageUrl',
+      'ModerationInputObjectText' => 'text',
       // Assistant
       'AssistantModelEnumeration' => 'model',
       'AssistantModelString' => 'modelId',

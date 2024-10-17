@@ -698,7 +698,7 @@ print(res.deleted);
 
 ### Moderations
 
-Given an input text, outputs if the model classifies it as violating OpenAI's content policy.
+The moderations endpoint is a tool you can use to check whether text or images are potentially harmful. Once harmful content is identified, developers can take corrective action like filtering content or intervening with user accounts creating offending content. The moderation endpoint is free to use.
 
 Related guide: [Moderations](https://platform.openai.com/docs/guides/moderation)
 
@@ -707,23 +707,48 @@ Related guide: [Moderations](https://platform.openai.com/docs/guides/moderation)
 ```dart
 final res = await client.createModeration(
   request: CreateModerationRequest(
-    model: ModerationModel.modelId('text-moderation-latest'),
+    model: ModerationModel.model(ModerationModels.omniModerationLatest),
     input: ModerationInput.string('I want to kill them.'),
   ),
 );
 print(res.results.first.categories.violence);
 // true
 print(res.results.first.categoryScores.violence);
-// 0.9925811290740967
+// 0.9533573696456176
 ```
 
 `ModerationModel` is a sealed class that offers two ways to specify the model:
 - `ModerationModel.modelId('model-id')`: the model ID as string.
-- `ModerationModel.model(ModerationModels.textModerationLatest)`: a value from `ModerationModels` enum which lists all of the available models.
+- `ModerationModel.model(ModerationModels.omniModerationLatest)`: a value from `ModerationModels` enum which lists all the available models.
 
 `ModerationInput` is a sealed class that offers four ways to specify the embedding input:
 - `ModerationInput.string('input')`: the input as string.
 - `ModerationInput.listString(['input'])`: batch of string inputs.
+- `ModerationInput.listModerationInputObject([ModerationInputObject.imageUrl(...), ModerationInputObject.text(...)])`: batch of multi-modal inputs.
+
+**Create multi-modal moderation:**
+
+```dart
+final res = await client.createModeration(
+  request: CreateModerationRequest(
+    model: ModerationModel.model(ModerationModels.omniModerationLatest),
+    input: ModerationInput.listModerationInputObject(
+      [
+        ModerationInputObject.imageUrl(
+          imageUrl: ModerationInputObjectImageUrlImageUrl(
+            url: 'https://upload.wikimedia.org/wikipedia/commons/9/92/95apple.jpeg',
+          ),
+        ),
+        ModerationInputObject.text(
+          text: 'I want to kill the apple.',
+        ),
+      ],
+    ),
+  ),
+);
+print(res.results.first.categories.violence);
+// true
+```
 
 ### Assistants (beta)
 

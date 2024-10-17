@@ -24,6 +24,10 @@ class Moderation with _$Moderation {
     /// A list of the categories along with their scores as predicted by model.
     @JsonKey(name: 'category_scores')
     required ModerationCategoriesScores categoryScores,
+
+    /// A list of the categories along with the input type(s) that the score applies to.
+    @JsonKey(name: 'category_applied_input_types')
+    required ModerationCategoriesAppliedInputTypes categoryAppliedInputTypes,
   }) = _Moderation;
 
   /// Object construction from a JSON representation
@@ -34,7 +38,8 @@ class Moderation with _$Moderation {
   static const List<String> propertyNames = [
     'flagged',
     'categories',
-    'category_scores'
+    'category_scores',
+    'category_applied_input_types'
   ];
 
   /// Perform validations on the schema property values
@@ -48,6 +53,7 @@ class Moderation with _$Moderation {
       'flagged': flagged,
       'categories': categories,
       'category_scores': categoryScores,
+      'category_applied_input_types': categoryAppliedInputTypes,
     };
   }
 }

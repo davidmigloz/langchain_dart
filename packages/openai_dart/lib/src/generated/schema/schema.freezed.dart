@@ -21428,14 +21428,15 @@ CreateModerationRequest _$CreateModerationRequestFromJson(
 
 /// @nodoc
 mixin _$CreateModerationRequest {
-  /// Two content moderations models are available: `text-moderation-stable` and `text-moderation-latest`.
-  ///
-  /// The default is `text-moderation-latest` which will be automatically upgraded over time. This ensures you are always using our most accurate model. If you use `text-moderation-stable`, we will provide advanced notice before updating the model. Accuracy of `text-moderation-stable` may be slightly lower than for `text-moderation-latest`.
+  /// The content moderation model you would like to use. Learn more in
+  /// [the moderation guide](https://platform.openai.com/docs/guides/moderation), and learn about
+  /// available models [here](https://platform.openai.com//docs/models/moderation).
   @_ModerationModelConverter()
   @JsonKey(includeIfNull: false)
   ModerationModel? get model => throw _privateConstructorUsedError;
 
-  /// The input text to classify
+  /// Input (or inputs) to classify. Can be a single string, an array of strings, or
+  /// an array of multi-modal input objects similar to other models.
   @_ModerationInputConverter()
   ModerationInput get input => throw _privateConstructorUsedError;
 
@@ -21579,22 +21580,23 @@ class _$CreateModerationRequestImpl extends _CreateModerationRequest {
   const _$CreateModerationRequestImpl(
       {@_ModerationModelConverter()
       @JsonKey(includeIfNull: false)
-      this.model = const ModerationModelString('text-moderation-latest'),
+      this.model = const ModerationModelString('omni-moderation-latest'),
       @_ModerationInputConverter() required this.input})
       : super._();
 
   factory _$CreateModerationRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$CreateModerationRequestImplFromJson(json);
 
-  /// Two content moderations models are available: `text-moderation-stable` and `text-moderation-latest`.
-  ///
-  /// The default is `text-moderation-latest` which will be automatically upgraded over time. This ensures you are always using our most accurate model. If you use `text-moderation-stable`, we will provide advanced notice before updating the model. Accuracy of `text-moderation-stable` may be slightly lower than for `text-moderation-latest`.
+  /// The content moderation model you would like to use. Learn more in
+  /// [the moderation guide](https://platform.openai.com/docs/guides/moderation), and learn about
+  /// available models [here](https://platform.openai.com//docs/models/moderation).
   @override
   @_ModerationModelConverter()
   @JsonKey(includeIfNull: false)
   final ModerationModel? model;
 
-  /// The input text to classify
+  /// Input (or inputs) to classify. Can be a single string, an array of strings, or
+  /// an array of multi-modal input objects similar to other models.
   @override
   @_ModerationInputConverter()
   final ModerationInput input;
@@ -21646,15 +21648,16 @@ abstract class _CreateModerationRequest extends CreateModerationRequest {
   factory _CreateModerationRequest.fromJson(Map<String, dynamic> json) =
       _$CreateModerationRequestImpl.fromJson;
 
-  /// Two content moderations models are available: `text-moderation-stable` and `text-moderation-latest`.
-  ///
-  /// The default is `text-moderation-latest` which will be automatically upgraded over time. This ensures you are always using our most accurate model. If you use `text-moderation-stable`, we will provide advanced notice before updating the model. Accuracy of `text-moderation-stable` may be slightly lower than for `text-moderation-latest`.
+  /// The content moderation model you would like to use. Learn more in
+  /// [the moderation guide](https://platform.openai.com/docs/guides/moderation), and learn about
+  /// available models [here](https://platform.openai.com//docs/models/moderation).
   @override
   @_ModerationModelConverter()
   @JsonKey(includeIfNull: false)
   ModerationModel? get model;
 
-  /// The input text to classify
+  /// Input (or inputs) to classify. Can be a single string, an array of strings, or
+  /// an array of multi-modal input objects similar to other models.
   @override
   @_ModerationInputConverter()
   ModerationInput get input;
@@ -22080,6 +22083,8 @@ abstract class ModerationModelString extends ModerationModel {
 
 ModerationInput _$ModerationInputFromJson(Map<String, dynamic> json) {
   switch (json['runtimeType']) {
+    case 'listModerationInputObject':
+      return ModerationInputListModerationInputObject.fromJson(json);
     case 'listString':
       return ModerationInputListString.fromJson(json);
     case 'string':
@@ -22096,18 +22101,24 @@ mixin _$ModerationInput {
   Object get value => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(List<ModerationInputObject> value)
+        listModerationInputObject,
     required TResult Function(List<String> value) listString,
     required TResult Function(String value) string,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(List<ModerationInputObject> value)?
+        listModerationInputObject,
     TResult? Function(List<String> value)? listString,
     TResult? Function(String value)? string,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(List<ModerationInputObject> value)?
+        listModerationInputObject,
     TResult Function(List<String> value)? listString,
     TResult Function(String value)? string,
     required TResult orElse(),
@@ -22115,18 +22126,24 @@ mixin _$ModerationInput {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(ModerationInputListModerationInputObject value)
+        listModerationInputObject,
     required TResult Function(ModerationInputListString value) listString,
     required TResult Function(ModerationInputString value) string,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ModerationInputListModerationInputObject value)?
+        listModerationInputObject,
     TResult? Function(ModerationInputListString value)? listString,
     TResult? Function(ModerationInputString value)? string,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(ModerationInputListModerationInputObject value)?
+        listModerationInputObject,
     TResult Function(ModerationInputListString value)? listString,
     TResult Function(ModerationInputString value)? string,
     required TResult orElse(),
@@ -22156,6 +22173,201 @@ class _$ModerationInputCopyWithImpl<$Res, $Val extends ModerationInput>
 
   /// Create a copy of ModerationInput
   /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+abstract class _$$ModerationInputListModerationInputObjectImplCopyWith<$Res> {
+  factory _$$ModerationInputListModerationInputObjectImplCopyWith(
+          _$ModerationInputListModerationInputObjectImpl value,
+          $Res Function(_$ModerationInputListModerationInputObjectImpl) then) =
+      __$$ModerationInputListModerationInputObjectImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<ModerationInputObject> value});
+}
+
+/// @nodoc
+class __$$ModerationInputListModerationInputObjectImplCopyWithImpl<$Res>
+    extends _$ModerationInputCopyWithImpl<$Res,
+        _$ModerationInputListModerationInputObjectImpl>
+    implements _$$ModerationInputListModerationInputObjectImplCopyWith<$Res> {
+  __$$ModerationInputListModerationInputObjectImplCopyWithImpl(
+      _$ModerationInputListModerationInputObjectImpl _value,
+      $Res Function(_$ModerationInputListModerationInputObjectImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ModerationInput
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = null,
+  }) {
+    return _then(_$ModerationInputListModerationInputObjectImpl(
+      null == value
+          ? _value._value
+          : value // ignore: cast_nullable_to_non_nullable
+              as List<ModerationInputObject>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ModerationInputListModerationInputObjectImpl
+    extends ModerationInputListModerationInputObject {
+  const _$ModerationInputListModerationInputObjectImpl(
+      final List<ModerationInputObject> value,
+      {final String? $type})
+      : _value = value,
+        $type = $type ?? 'listModerationInputObject',
+        super._();
+
+  factory _$ModerationInputListModerationInputObjectImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$ModerationInputListModerationInputObjectImplFromJson(json);
+
+  final List<ModerationInputObject> _value;
+  @override
+  List<ModerationInputObject> get value {
+    if (_value is EqualUnmodifiableListView) return _value;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_value);
+  }
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'ModerationInput.listModerationInputObject(value: $value)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ModerationInputListModerationInputObjectImpl &&
+            const DeepCollectionEquality().equals(other._value, _value));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_value));
+
+  /// Create a copy of ModerationInput
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ModerationInputListModerationInputObjectImplCopyWith<
+          _$ModerationInputListModerationInputObjectImpl>
+      get copyWith =>
+          __$$ModerationInputListModerationInputObjectImplCopyWithImpl<
+              _$ModerationInputListModerationInputObjectImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(List<ModerationInputObject> value)
+        listModerationInputObject,
+    required TResult Function(List<String> value) listString,
+    required TResult Function(String value) string,
+  }) {
+    return listModerationInputObject(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(List<ModerationInputObject> value)?
+        listModerationInputObject,
+    TResult? Function(List<String> value)? listString,
+    TResult? Function(String value)? string,
+  }) {
+    return listModerationInputObject?.call(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(List<ModerationInputObject> value)?
+        listModerationInputObject,
+    TResult Function(List<String> value)? listString,
+    TResult Function(String value)? string,
+    required TResult orElse(),
+  }) {
+    if (listModerationInputObject != null) {
+      return listModerationInputObject(value);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ModerationInputListModerationInputObject value)
+        listModerationInputObject,
+    required TResult Function(ModerationInputListString value) listString,
+    required TResult Function(ModerationInputString value) string,
+  }) {
+    return listModerationInputObject(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ModerationInputListModerationInputObject value)?
+        listModerationInputObject,
+    TResult? Function(ModerationInputListString value)? listString,
+    TResult? Function(ModerationInputString value)? string,
+  }) {
+    return listModerationInputObject?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ModerationInputListModerationInputObject value)?
+        listModerationInputObject,
+    TResult Function(ModerationInputListString value)? listString,
+    TResult Function(ModerationInputString value)? string,
+    required TResult orElse(),
+  }) {
+    if (listModerationInputObject != null) {
+      return listModerationInputObject(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ModerationInputListModerationInputObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class ModerationInputListModerationInputObject
+    extends ModerationInput {
+  const factory ModerationInputListModerationInputObject(
+          final List<ModerationInputObject> value) =
+      _$ModerationInputListModerationInputObjectImpl;
+  const ModerationInputListModerationInputObject._() : super._();
+
+  factory ModerationInputListModerationInputObject.fromJson(
+          Map<String, dynamic> json) =
+      _$ModerationInputListModerationInputObjectImpl.fromJson;
+
+  @override
+  List<ModerationInputObject> get value;
+
+  /// Create a copy of ModerationInput
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ModerationInputListModerationInputObjectImplCopyWith<
+          _$ModerationInputListModerationInputObjectImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -22246,6 +22458,8 @@ class _$ModerationInputListStringImpl extends ModerationInputListString {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(List<ModerationInputObject> value)
+        listModerationInputObject,
     required TResult Function(List<String> value) listString,
     required TResult Function(String value) string,
   }) {
@@ -22255,6 +22469,8 @@ class _$ModerationInputListStringImpl extends ModerationInputListString {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(List<ModerationInputObject> value)?
+        listModerationInputObject,
     TResult? Function(List<String> value)? listString,
     TResult? Function(String value)? string,
   }) {
@@ -22264,6 +22480,8 @@ class _$ModerationInputListStringImpl extends ModerationInputListString {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(List<ModerationInputObject> value)?
+        listModerationInputObject,
     TResult Function(List<String> value)? listString,
     TResult Function(String value)? string,
     required TResult orElse(),
@@ -22277,6 +22495,8 @@ class _$ModerationInputListStringImpl extends ModerationInputListString {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(ModerationInputListModerationInputObject value)
+        listModerationInputObject,
     required TResult Function(ModerationInputListString value) listString,
     required TResult Function(ModerationInputString value) string,
   }) {
@@ -22286,6 +22506,8 @@ class _$ModerationInputListStringImpl extends ModerationInputListString {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ModerationInputListModerationInputObject value)?
+        listModerationInputObject,
     TResult? Function(ModerationInputListString value)? listString,
     TResult? Function(ModerationInputString value)? string,
   }) {
@@ -22295,6 +22517,8 @@ class _$ModerationInputListStringImpl extends ModerationInputListString {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(ModerationInputListModerationInputObject value)?
+        listModerationInputObject,
     TResult Function(ModerationInputListString value)? listString,
     TResult Function(ModerationInputString value)? string,
     required TResult orElse(),
@@ -22410,6 +22634,8 @@ class _$ModerationInputStringImpl extends ModerationInputString {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(List<ModerationInputObject> value)
+        listModerationInputObject,
     required TResult Function(List<String> value) listString,
     required TResult Function(String value) string,
   }) {
@@ -22419,6 +22645,8 @@ class _$ModerationInputStringImpl extends ModerationInputString {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(List<ModerationInputObject> value)?
+        listModerationInputObject,
     TResult? Function(List<String> value)? listString,
     TResult? Function(String value)? string,
   }) {
@@ -22428,6 +22656,8 @@ class _$ModerationInputStringImpl extends ModerationInputString {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(List<ModerationInputObject> value)?
+        listModerationInputObject,
     TResult Function(List<String> value)? listString,
     TResult Function(String value)? string,
     required TResult orElse(),
@@ -22441,6 +22671,8 @@ class _$ModerationInputStringImpl extends ModerationInputString {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(ModerationInputListModerationInputObject value)
+        listModerationInputObject,
     required TResult Function(ModerationInputListString value) listString,
     required TResult Function(ModerationInputString value) string,
   }) {
@@ -22450,6 +22682,8 @@ class _$ModerationInputStringImpl extends ModerationInputString {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ModerationInputListModerationInputObject value)?
+        listModerationInputObject,
     TResult? Function(ModerationInputListString value)? listString,
     TResult? Function(ModerationInputString value)? string,
   }) {
@@ -22459,6 +22693,8 @@ class _$ModerationInputStringImpl extends ModerationInputString {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(ModerationInputListModerationInputObject value)?
+        listModerationInputObject,
     TResult Function(ModerationInputListString value)? listString,
     TResult Function(ModerationInputString value)? string,
     required TResult orElse(),
@@ -22732,6 +22968,11 @@ mixin _$Moderation {
   ModerationCategoriesScores get categoryScores =>
       throw _privateConstructorUsedError;
 
+  /// A list of the categories along with the input type(s) that the score applies to.
+  @JsonKey(name: 'category_applied_input_types')
+  ModerationCategoriesAppliedInputTypes get categoryAppliedInputTypes =>
+      throw _privateConstructorUsedError;
+
   /// Serializes this Moderation to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
@@ -22752,10 +22993,14 @@ abstract class $ModerationCopyWith<$Res> {
       {bool flagged,
       ModerationCategories categories,
       @JsonKey(name: 'category_scores')
-      ModerationCategoriesScores categoryScores});
+      ModerationCategoriesScores categoryScores,
+      @JsonKey(name: 'category_applied_input_types')
+      ModerationCategoriesAppliedInputTypes categoryAppliedInputTypes});
 
   $ModerationCategoriesCopyWith<$Res> get categories;
   $ModerationCategoriesScoresCopyWith<$Res> get categoryScores;
+  $ModerationCategoriesAppliedInputTypesCopyWith<$Res>
+      get categoryAppliedInputTypes;
 }
 
 /// @nodoc
@@ -22776,6 +23021,7 @@ class _$ModerationCopyWithImpl<$Res, $Val extends Moderation>
     Object? flagged = null,
     Object? categories = null,
     Object? categoryScores = null,
+    Object? categoryAppliedInputTypes = null,
   }) {
     return _then(_value.copyWith(
       flagged: null == flagged
@@ -22790,6 +23036,10 @@ class _$ModerationCopyWithImpl<$Res, $Val extends Moderation>
           ? _value.categoryScores
           : categoryScores // ignore: cast_nullable_to_non_nullable
               as ModerationCategoriesScores,
+      categoryAppliedInputTypes: null == categoryAppliedInputTypes
+          ? _value.categoryAppliedInputTypes
+          : categoryAppliedInputTypes // ignore: cast_nullable_to_non_nullable
+              as ModerationCategoriesAppliedInputTypes,
     ) as $Val);
   }
 
@@ -22813,6 +23063,18 @@ class _$ModerationCopyWithImpl<$Res, $Val extends Moderation>
       return _then(_value.copyWith(categoryScores: value) as $Val);
     });
   }
+
+  /// Create a copy of Moderation
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ModerationCategoriesAppliedInputTypesCopyWith<$Res>
+      get categoryAppliedInputTypes {
+    return $ModerationCategoriesAppliedInputTypesCopyWith<$Res>(
+        _value.categoryAppliedInputTypes, (value) {
+      return _then(_value.copyWith(categoryAppliedInputTypes: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -22827,12 +23089,17 @@ abstract class _$$ModerationImplCopyWith<$Res>
       {bool flagged,
       ModerationCategories categories,
       @JsonKey(name: 'category_scores')
-      ModerationCategoriesScores categoryScores});
+      ModerationCategoriesScores categoryScores,
+      @JsonKey(name: 'category_applied_input_types')
+      ModerationCategoriesAppliedInputTypes categoryAppliedInputTypes});
 
   @override
   $ModerationCategoriesCopyWith<$Res> get categories;
   @override
   $ModerationCategoriesScoresCopyWith<$Res> get categoryScores;
+  @override
+  $ModerationCategoriesAppliedInputTypesCopyWith<$Res>
+      get categoryAppliedInputTypes;
 }
 
 /// @nodoc
@@ -22851,6 +23118,7 @@ class __$$ModerationImplCopyWithImpl<$Res>
     Object? flagged = null,
     Object? categories = null,
     Object? categoryScores = null,
+    Object? categoryAppliedInputTypes = null,
   }) {
     return _then(_$ModerationImpl(
       flagged: null == flagged
@@ -22865,6 +23133,10 @@ class __$$ModerationImplCopyWithImpl<$Res>
           ? _value.categoryScores
           : categoryScores // ignore: cast_nullable_to_non_nullable
               as ModerationCategoriesScores,
+      categoryAppliedInputTypes: null == categoryAppliedInputTypes
+          ? _value.categoryAppliedInputTypes
+          : categoryAppliedInputTypes // ignore: cast_nullable_to_non_nullable
+              as ModerationCategoriesAppliedInputTypes,
     ));
   }
 }
@@ -22875,7 +23147,9 @@ class _$ModerationImpl extends _Moderation {
   const _$ModerationImpl(
       {required this.flagged,
       required this.categories,
-      @JsonKey(name: 'category_scores') required this.categoryScores})
+      @JsonKey(name: 'category_scores') required this.categoryScores,
+      @JsonKey(name: 'category_applied_input_types')
+      required this.categoryAppliedInputTypes})
       : super._();
 
   factory _$ModerationImpl.fromJson(Map<String, dynamic> json) =>
@@ -22894,9 +23168,14 @@ class _$ModerationImpl extends _Moderation {
   @JsonKey(name: 'category_scores')
   final ModerationCategoriesScores categoryScores;
 
+  /// A list of the categories along with the input type(s) that the score applies to.
+  @override
+  @JsonKey(name: 'category_applied_input_types')
+  final ModerationCategoriesAppliedInputTypes categoryAppliedInputTypes;
+
   @override
   String toString() {
-    return 'Moderation(flagged: $flagged, categories: $categories, categoryScores: $categoryScores)';
+    return 'Moderation(flagged: $flagged, categories: $categories, categoryScores: $categoryScores, categoryAppliedInputTypes: $categoryAppliedInputTypes)';
   }
 
   @override
@@ -22908,13 +23187,16 @@ class _$ModerationImpl extends _Moderation {
             (identical(other.categories, categories) ||
                 other.categories == categories) &&
             (identical(other.categoryScores, categoryScores) ||
-                other.categoryScores == categoryScores));
+                other.categoryScores == categoryScores) &&
+            (identical(other.categoryAppliedInputTypes,
+                    categoryAppliedInputTypes) ||
+                other.categoryAppliedInputTypes == categoryAppliedInputTypes));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, flagged, categories, categoryScores);
+  int get hashCode => Object.hash(runtimeType, flagged, categories,
+      categoryScores, categoryAppliedInputTypes);
 
   /// Create a copy of Moderation
   /// with the given fields replaced by the non-null parameter values.
@@ -22934,11 +23216,13 @@ class _$ModerationImpl extends _Moderation {
 
 abstract class _Moderation extends Moderation {
   const factory _Moderation(
-          {required final bool flagged,
-          required final ModerationCategories categories,
-          @JsonKey(name: 'category_scores')
-          required final ModerationCategoriesScores categoryScores}) =
-      _$ModerationImpl;
+      {required final bool flagged,
+      required final ModerationCategories categories,
+      @JsonKey(name: 'category_scores')
+      required final ModerationCategoriesScores categoryScores,
+      @JsonKey(name: 'category_applied_input_types')
+      required final ModerationCategoriesAppliedInputTypes
+          categoryAppliedInputTypes}) = _$ModerationImpl;
   const _Moderation._() : super._();
 
   factory _Moderation.fromJson(Map<String, dynamic> json) =
@@ -22956,6 +23240,11 @@ abstract class _Moderation extends Moderation {
   @override
   @JsonKey(name: 'category_scores')
   ModerationCategoriesScores get categoryScores;
+
+  /// A list of the categories along with the input type(s) that the score applies to.
+  @override
+  @JsonKey(name: 'category_applied_input_types')
+  ModerationCategoriesAppliedInputTypes get categoryAppliedInputTypes;
 
   /// Create a copy of Moderation
   /// with the given fields replaced by the non-null parameter values.
@@ -22984,6 +23273,13 @@ mixin _$ModerationCategories {
   /// Harassment content that also includes violence or serious harm towards any target.
   @JsonKey(name: 'harassment/threatening')
   bool get harassmentThreatening => throw _privateConstructorUsedError;
+
+  /// Content that includes instructions or advice that facilitate the planning or execution of wrongdoing, or that gives advice or instruction on how to commit illicit acts. For example, "how to shoplift" would fit this category.
+  bool get illicit => throw _privateConstructorUsedError;
+
+  /// Content that includes instructions or advice that facilitate the planning or execution of wrongdoing that also includes violence, or that gives advice or instruction on the procurement of any weapon.
+  @JsonKey(name: 'illicit/violent')
+  bool get illicitViolent => throw _privateConstructorUsedError;
 
   /// Content that promotes, encourages, or depicts acts of self-harm, such as suicide, cutting, and eating disorders.
   @JsonKey(name: 'self-harm')
@@ -23032,6 +23328,8 @@ abstract class $ModerationCategoriesCopyWith<$Res> {
       @JsonKey(name: 'hate/threatening') bool hateThreatening,
       bool harassment,
       @JsonKey(name: 'harassment/threatening') bool harassmentThreatening,
+      bool illicit,
+      @JsonKey(name: 'illicit/violent') bool illicitViolent,
       @JsonKey(name: 'self-harm') bool selfHarm,
       @JsonKey(name: 'self-harm/intent') bool selfHarmIntent,
       @JsonKey(name: 'self-harm/instructions') bool selfHarmInstructions,
@@ -23061,6 +23359,8 @@ class _$ModerationCategoriesCopyWithImpl<$Res,
     Object? hateThreatening = null,
     Object? harassment = null,
     Object? harassmentThreatening = null,
+    Object? illicit = null,
+    Object? illicitViolent = null,
     Object? selfHarm = null,
     Object? selfHarmIntent = null,
     Object? selfHarmInstructions = null,
@@ -23085,6 +23385,14 @@ class _$ModerationCategoriesCopyWithImpl<$Res,
       harassmentThreatening: null == harassmentThreatening
           ? _value.harassmentThreatening
           : harassmentThreatening // ignore: cast_nullable_to_non_nullable
+              as bool,
+      illicit: null == illicit
+          ? _value.illicit
+          : illicit // ignore: cast_nullable_to_non_nullable
+              as bool,
+      illicitViolent: null == illicitViolent
+          ? _value.illicitViolent
+          : illicitViolent // ignore: cast_nullable_to_non_nullable
               as bool,
       selfHarm: null == selfHarm
           ? _value.selfHarm
@@ -23131,6 +23439,8 @@ abstract class _$$ModerationCategoriesImplCopyWith<$Res>
       @JsonKey(name: 'hate/threatening') bool hateThreatening,
       bool harassment,
       @JsonKey(name: 'harassment/threatening') bool harassmentThreatening,
+      bool illicit,
+      @JsonKey(name: 'illicit/violent') bool illicitViolent,
       @JsonKey(name: 'self-harm') bool selfHarm,
       @JsonKey(name: 'self-harm/intent') bool selfHarmIntent,
       @JsonKey(name: 'self-harm/instructions') bool selfHarmInstructions,
@@ -23157,6 +23467,8 @@ class __$$ModerationCategoriesImplCopyWithImpl<$Res>
     Object? hateThreatening = null,
     Object? harassment = null,
     Object? harassmentThreatening = null,
+    Object? illicit = null,
+    Object? illicitViolent = null,
     Object? selfHarm = null,
     Object? selfHarmIntent = null,
     Object? selfHarmInstructions = null,
@@ -23181,6 +23493,14 @@ class __$$ModerationCategoriesImplCopyWithImpl<$Res>
       harassmentThreatening: null == harassmentThreatening
           ? _value.harassmentThreatening
           : harassmentThreatening // ignore: cast_nullable_to_non_nullable
+              as bool,
+      illicit: null == illicit
+          ? _value.illicit
+          : illicit // ignore: cast_nullable_to_non_nullable
+              as bool,
+      illicitViolent: null == illicitViolent
+          ? _value.illicitViolent
+          : illicitViolent // ignore: cast_nullable_to_non_nullable
               as bool,
       selfHarm: null == selfHarm
           ? _value.selfHarm
@@ -23223,6 +23543,8 @@ class _$ModerationCategoriesImpl extends _ModerationCategories {
       required this.harassment,
       @JsonKey(name: 'harassment/threatening')
       required this.harassmentThreatening,
+      required this.illicit,
+      @JsonKey(name: 'illicit/violent') required this.illicitViolent,
       @JsonKey(name: 'self-harm') required this.selfHarm,
       @JsonKey(name: 'self-harm/intent') required this.selfHarmIntent,
       @JsonKey(name: 'self-harm/instructions')
@@ -23253,6 +23575,15 @@ class _$ModerationCategoriesImpl extends _ModerationCategories {
   @override
   @JsonKey(name: 'harassment/threatening')
   final bool harassmentThreatening;
+
+  /// Content that includes instructions or advice that facilitate the planning or execution of wrongdoing, or that gives advice or instruction on how to commit illicit acts. For example, "how to shoplift" would fit this category.
+  @override
+  final bool illicit;
+
+  /// Content that includes instructions or advice that facilitate the planning or execution of wrongdoing that also includes violence, or that gives advice or instruction on the procurement of any weapon.
+  @override
+  @JsonKey(name: 'illicit/violent')
+  final bool illicitViolent;
 
   /// Content that promotes, encourages, or depicts acts of self-harm, such as suicide, cutting, and eating disorders.
   @override
@@ -23289,7 +23620,7 @@ class _$ModerationCategoriesImpl extends _ModerationCategories {
 
   @override
   String toString() {
-    return 'ModerationCategories(hate: $hate, hateThreatening: $hateThreatening, harassment: $harassment, harassmentThreatening: $harassmentThreatening, selfHarm: $selfHarm, selfHarmIntent: $selfHarmIntent, selfHarmInstructions: $selfHarmInstructions, sexual: $sexual, sexualMinors: $sexualMinors, violence: $violence, violenceGraphic: $violenceGraphic)';
+    return 'ModerationCategories(hate: $hate, hateThreatening: $hateThreatening, harassment: $harassment, harassmentThreatening: $harassmentThreatening, illicit: $illicit, illicitViolent: $illicitViolent, selfHarm: $selfHarm, selfHarmIntent: $selfHarmIntent, selfHarmInstructions: $selfHarmInstructions, sexual: $sexual, sexualMinors: $sexualMinors, violence: $violence, violenceGraphic: $violenceGraphic)';
   }
 
   @override
@@ -23304,6 +23635,9 @@ class _$ModerationCategoriesImpl extends _ModerationCategories {
                 other.harassment == harassment) &&
             (identical(other.harassmentThreatening, harassmentThreatening) ||
                 other.harassmentThreatening == harassmentThreatening) &&
+            (identical(other.illicit, illicit) || other.illicit == illicit) &&
+            (identical(other.illicitViolent, illicitViolent) ||
+                other.illicitViolent == illicitViolent) &&
             (identical(other.selfHarm, selfHarm) ||
                 other.selfHarm == selfHarm) &&
             (identical(other.selfHarmIntent, selfHarmIntent) ||
@@ -23327,6 +23661,8 @@ class _$ModerationCategoriesImpl extends _ModerationCategories {
       hateThreatening,
       harassment,
       harassmentThreatening,
+      illicit,
+      illicitViolent,
       selfHarm,
       selfHarmIntent,
       selfHarmInstructions,
@@ -23360,6 +23696,8 @@ abstract class _ModerationCategories extends ModerationCategories {
       required final bool harassment,
       @JsonKey(name: 'harassment/threatening')
       required final bool harassmentThreatening,
+      required final bool illicit,
+      @JsonKey(name: 'illicit/violent') required final bool illicitViolent,
       @JsonKey(name: 'self-harm') required final bool selfHarm,
       @JsonKey(name: 'self-harm/intent') required final bool selfHarmIntent,
       @JsonKey(name: 'self-harm/instructions')
@@ -23391,6 +23729,15 @@ abstract class _ModerationCategories extends ModerationCategories {
   @override
   @JsonKey(name: 'harassment/threatening')
   bool get harassmentThreatening;
+
+  /// Content that includes instructions or advice that facilitate the planning or execution of wrongdoing, or that gives advice or instruction on how to commit illicit acts. For example, "how to shoplift" would fit this category.
+  @override
+  bool get illicit;
+
+  /// Content that includes instructions or advice that facilitate the planning or execution of wrongdoing that also includes violence, or that gives advice or instruction on the procurement of any weapon.
+  @override
+  @JsonKey(name: 'illicit/violent')
+  bool get illicitViolent;
 
   /// Content that promotes, encourages, or depicts acts of self-harm, such as suicide, cutting, and eating disorders.
   @override
@@ -23454,6 +23801,13 @@ mixin _$ModerationCategoriesScores {
   @JsonKey(name: 'harassment/threatening')
   double get harassmentThreatening => throw _privateConstructorUsedError;
 
+  /// The score for the category 'illicit'.
+  double get illicit => throw _privateConstructorUsedError;
+
+  /// The score for the category 'illicit/violent'.
+  @JsonKey(name: 'illicit/violent')
+  double get illicitViolent => throw _privateConstructorUsedError;
+
   /// The score for the category 'self-harm'.
   @JsonKey(name: 'self-harm')
   double get selfHarm => throw _privateConstructorUsedError;
@@ -23502,6 +23856,8 @@ abstract class $ModerationCategoriesScoresCopyWith<$Res> {
       @JsonKey(name: 'hate/threatening') double hateThreatening,
       double harassment,
       @JsonKey(name: 'harassment/threatening') double harassmentThreatening,
+      double illicit,
+      @JsonKey(name: 'illicit/violent') double illicitViolent,
       @JsonKey(name: 'self-harm') double selfHarm,
       @JsonKey(name: 'self-harm/intent') double selfHarmIntent,
       @JsonKey(name: 'self-harm/instructions') double selfHarmInstructions,
@@ -23531,6 +23887,8 @@ class _$ModerationCategoriesScoresCopyWithImpl<$Res,
     Object? hateThreatening = null,
     Object? harassment = null,
     Object? harassmentThreatening = null,
+    Object? illicit = null,
+    Object? illicitViolent = null,
     Object? selfHarm = null,
     Object? selfHarmIntent = null,
     Object? selfHarmInstructions = null,
@@ -23555,6 +23913,14 @@ class _$ModerationCategoriesScoresCopyWithImpl<$Res,
       harassmentThreatening: null == harassmentThreatening
           ? _value.harassmentThreatening
           : harassmentThreatening // ignore: cast_nullable_to_non_nullable
+              as double,
+      illicit: null == illicit
+          ? _value.illicit
+          : illicit // ignore: cast_nullable_to_non_nullable
+              as double,
+      illicitViolent: null == illicitViolent
+          ? _value.illicitViolent
+          : illicitViolent // ignore: cast_nullable_to_non_nullable
               as double,
       selfHarm: null == selfHarm
           ? _value.selfHarm
@@ -23602,6 +23968,8 @@ abstract class _$$ModerationCategoriesScoresImplCopyWith<$Res>
       @JsonKey(name: 'hate/threatening') double hateThreatening,
       double harassment,
       @JsonKey(name: 'harassment/threatening') double harassmentThreatening,
+      double illicit,
+      @JsonKey(name: 'illicit/violent') double illicitViolent,
       @JsonKey(name: 'self-harm') double selfHarm,
       @JsonKey(name: 'self-harm/intent') double selfHarmIntent,
       @JsonKey(name: 'self-harm/instructions') double selfHarmInstructions,
@@ -23630,6 +23998,8 @@ class __$$ModerationCategoriesScoresImplCopyWithImpl<$Res>
     Object? hateThreatening = null,
     Object? harassment = null,
     Object? harassmentThreatening = null,
+    Object? illicit = null,
+    Object? illicitViolent = null,
     Object? selfHarm = null,
     Object? selfHarmIntent = null,
     Object? selfHarmInstructions = null,
@@ -23654,6 +24024,14 @@ class __$$ModerationCategoriesScoresImplCopyWithImpl<$Res>
       harassmentThreatening: null == harassmentThreatening
           ? _value.harassmentThreatening
           : harassmentThreatening // ignore: cast_nullable_to_non_nullable
+              as double,
+      illicit: null == illicit
+          ? _value.illicit
+          : illicit // ignore: cast_nullable_to_non_nullable
+              as double,
+      illicitViolent: null == illicitViolent
+          ? _value.illicitViolent
+          : illicitViolent // ignore: cast_nullable_to_non_nullable
               as double,
       selfHarm: null == selfHarm
           ? _value.selfHarm
@@ -23696,6 +24074,8 @@ class _$ModerationCategoriesScoresImpl extends _ModerationCategoriesScores {
       required this.harassment,
       @JsonKey(name: 'harassment/threatening')
       required this.harassmentThreatening,
+      required this.illicit,
+      @JsonKey(name: 'illicit/violent') required this.illicitViolent,
       @JsonKey(name: 'self-harm') required this.selfHarm,
       @JsonKey(name: 'self-harm/intent') required this.selfHarmIntent,
       @JsonKey(name: 'self-harm/instructions')
@@ -23727,6 +24107,15 @@ class _$ModerationCategoriesScoresImpl extends _ModerationCategoriesScores {
   @override
   @JsonKey(name: 'harassment/threatening')
   final double harassmentThreatening;
+
+  /// The score for the category 'illicit'.
+  @override
+  final double illicit;
+
+  /// The score for the category 'illicit/violent'.
+  @override
+  @JsonKey(name: 'illicit/violent')
+  final double illicitViolent;
 
   /// The score for the category 'self-harm'.
   @override
@@ -23763,7 +24152,7 @@ class _$ModerationCategoriesScoresImpl extends _ModerationCategoriesScores {
 
   @override
   String toString() {
-    return 'ModerationCategoriesScores(hate: $hate, hateThreatening: $hateThreatening, harassment: $harassment, harassmentThreatening: $harassmentThreatening, selfHarm: $selfHarm, selfHarmIntent: $selfHarmIntent, selfHarmInstructions: $selfHarmInstructions, sexual: $sexual, sexualMinors: $sexualMinors, violence: $violence, violenceGraphic: $violenceGraphic)';
+    return 'ModerationCategoriesScores(hate: $hate, hateThreatening: $hateThreatening, harassment: $harassment, harassmentThreatening: $harassmentThreatening, illicit: $illicit, illicitViolent: $illicitViolent, selfHarm: $selfHarm, selfHarmIntent: $selfHarmIntent, selfHarmInstructions: $selfHarmInstructions, sexual: $sexual, sexualMinors: $sexualMinors, violence: $violence, violenceGraphic: $violenceGraphic)';
   }
 
   @override
@@ -23778,6 +24167,9 @@ class _$ModerationCategoriesScoresImpl extends _ModerationCategoriesScores {
                 other.harassment == harassment) &&
             (identical(other.harassmentThreatening, harassmentThreatening) ||
                 other.harassmentThreatening == harassmentThreatening) &&
+            (identical(other.illicit, illicit) || other.illicit == illicit) &&
+            (identical(other.illicitViolent, illicitViolent) ||
+                other.illicitViolent == illicitViolent) &&
             (identical(other.selfHarm, selfHarm) ||
                 other.selfHarm == selfHarm) &&
             (identical(other.selfHarmIntent, selfHarmIntent) ||
@@ -23801,6 +24193,8 @@ class _$ModerationCategoriesScoresImpl extends _ModerationCategoriesScores {
       hateThreatening,
       harassment,
       harassmentThreatening,
+      illicit,
+      illicitViolent,
       selfHarm,
       selfHarmIntent,
       selfHarmInstructions,
@@ -23833,6 +24227,8 @@ abstract class _ModerationCategoriesScores extends ModerationCategoriesScores {
       required final double harassment,
       @JsonKey(name: 'harassment/threatening')
       required final double harassmentThreatening,
+      required final double illicit,
+      @JsonKey(name: 'illicit/violent') required final double illicitViolent,
       @JsonKey(name: 'self-harm') required final double selfHarm,
       @JsonKey(name: 'self-harm/intent') required final double selfHarmIntent,
       @JsonKey(name: 'self-harm/instructions')
@@ -23865,6 +24261,15 @@ abstract class _ModerationCategoriesScores extends ModerationCategoriesScores {
   @override
   @JsonKey(name: 'harassment/threatening')
   double get harassmentThreatening;
+
+  /// The score for the category 'illicit'.
+  @override
+  double get illicit;
+
+  /// The score for the category 'illicit/violent'.
+  @override
+  @JsonKey(name: 'illicit/violent')
+  double get illicitViolent;
 
   /// The score for the category 'self-harm'.
   @override
@@ -23904,6 +24309,660 @@ abstract class _ModerationCategoriesScores extends ModerationCategoriesScores {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ModerationCategoriesScoresImplCopyWith<_$ModerationCategoriesScoresImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+ModerationCategoriesAppliedInputTypes
+    _$ModerationCategoriesAppliedInputTypesFromJson(Map<String, dynamic> json) {
+  return _ModerationCategoriesAppliedInputTypes.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ModerationCategoriesAppliedInputTypes {
+  /// The applied input type(s) for the category 'hate'.
+  List<String> get hate => throw _privateConstructorUsedError;
+
+  /// The applied input type(s) for the category 'hate/threatening'.
+  @JsonKey(name: 'hate/threatening')
+  List<String> get hateThreatening => throw _privateConstructorUsedError;
+
+  /// The applied input type(s) for the category 'harassment'.
+  List<String> get harassment => throw _privateConstructorUsedError;
+
+  /// The applied input type(s) for the category 'harassment/threatening'.
+  @JsonKey(name: 'harassment/threatening')
+  List<String> get harassmentThreatening => throw _privateConstructorUsedError;
+
+  /// The applied input type(s) for the category 'illicit'.
+  List<String> get illicit => throw _privateConstructorUsedError;
+
+  /// The applied input type(s) for the category 'illicit/violent'.
+  @JsonKey(name: 'illicit/violent')
+  List<String> get illicitViolent => throw _privateConstructorUsedError;
+
+  /// The applied input type(s) for the category 'self-harm'.
+  @JsonKey(name: 'self-harm')
+  List<String> get selfHarm => throw _privateConstructorUsedError;
+
+  /// The applied input type(s) for the category 'self-harm/intent'.
+  @JsonKey(name: 'self-harm/intent')
+  List<String> get selfHarmIntent => throw _privateConstructorUsedError;
+
+  /// The applied input type(s) for the category 'self-harm/instructions'.
+  @JsonKey(name: 'self-harm/instructions')
+  List<String> get selfHarmInstructions => throw _privateConstructorUsedError;
+
+  /// The applied input type(s) for the category 'sexual'.
+  List<String> get sexual => throw _privateConstructorUsedError;
+
+  /// The applied input type(s) for the category 'sexual/minors'.
+  @JsonKey(name: 'sexual/minors')
+  List<String> get sexualMinors => throw _privateConstructorUsedError;
+
+  /// The applied input type(s) for the category 'violence'.
+  List<String> get violence => throw _privateConstructorUsedError;
+
+  /// The applied input type(s) for the category 'violence/graphic'.
+  @JsonKey(name: 'violence/graphic')
+  List<String> get violenceGraphic => throw _privateConstructorUsedError;
+
+  /// Serializes this ModerationCategoriesAppliedInputTypes to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of ModerationCategoriesAppliedInputTypes
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $ModerationCategoriesAppliedInputTypesCopyWith<
+          ModerationCategoriesAppliedInputTypes>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ModerationCategoriesAppliedInputTypesCopyWith<$Res> {
+  factory $ModerationCategoriesAppliedInputTypesCopyWith(
+          ModerationCategoriesAppliedInputTypes value,
+          $Res Function(ModerationCategoriesAppliedInputTypes) then) =
+      _$ModerationCategoriesAppliedInputTypesCopyWithImpl<$Res,
+          ModerationCategoriesAppliedInputTypes>;
+  @useResult
+  $Res call(
+      {List<String> hate,
+      @JsonKey(name: 'hate/threatening') List<String> hateThreatening,
+      List<String> harassment,
+      @JsonKey(name: 'harassment/threatening')
+      List<String> harassmentThreatening,
+      List<String> illicit,
+      @JsonKey(name: 'illicit/violent') List<String> illicitViolent,
+      @JsonKey(name: 'self-harm') List<String> selfHarm,
+      @JsonKey(name: 'self-harm/intent') List<String> selfHarmIntent,
+      @JsonKey(name: 'self-harm/instructions')
+      List<String> selfHarmInstructions,
+      List<String> sexual,
+      @JsonKey(name: 'sexual/minors') List<String> sexualMinors,
+      List<String> violence,
+      @JsonKey(name: 'violence/graphic') List<String> violenceGraphic});
+}
+
+/// @nodoc
+class _$ModerationCategoriesAppliedInputTypesCopyWithImpl<$Res,
+        $Val extends ModerationCategoriesAppliedInputTypes>
+    implements $ModerationCategoriesAppliedInputTypesCopyWith<$Res> {
+  _$ModerationCategoriesAppliedInputTypesCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of ModerationCategoriesAppliedInputTypes
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? hate = null,
+    Object? hateThreatening = null,
+    Object? harassment = null,
+    Object? harassmentThreatening = null,
+    Object? illicit = null,
+    Object? illicitViolent = null,
+    Object? selfHarm = null,
+    Object? selfHarmIntent = null,
+    Object? selfHarmInstructions = null,
+    Object? sexual = null,
+    Object? sexualMinors = null,
+    Object? violence = null,
+    Object? violenceGraphic = null,
+  }) {
+    return _then(_value.copyWith(
+      hate: null == hate
+          ? _value.hate
+          : hate // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      hateThreatening: null == hateThreatening
+          ? _value.hateThreatening
+          : hateThreatening // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      harassment: null == harassment
+          ? _value.harassment
+          : harassment // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      harassmentThreatening: null == harassmentThreatening
+          ? _value.harassmentThreatening
+          : harassmentThreatening // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      illicit: null == illicit
+          ? _value.illicit
+          : illicit // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      illicitViolent: null == illicitViolent
+          ? _value.illicitViolent
+          : illicitViolent // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      selfHarm: null == selfHarm
+          ? _value.selfHarm
+          : selfHarm // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      selfHarmIntent: null == selfHarmIntent
+          ? _value.selfHarmIntent
+          : selfHarmIntent // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      selfHarmInstructions: null == selfHarmInstructions
+          ? _value.selfHarmInstructions
+          : selfHarmInstructions // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      sexual: null == sexual
+          ? _value.sexual
+          : sexual // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      sexualMinors: null == sexualMinors
+          ? _value.sexualMinors
+          : sexualMinors // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      violence: null == violence
+          ? _value.violence
+          : violence // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      violenceGraphic: null == violenceGraphic
+          ? _value.violenceGraphic
+          : violenceGraphic // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ModerationCategoriesAppliedInputTypesImplCopyWith<$Res>
+    implements $ModerationCategoriesAppliedInputTypesCopyWith<$Res> {
+  factory _$$ModerationCategoriesAppliedInputTypesImplCopyWith(
+          _$ModerationCategoriesAppliedInputTypesImpl value,
+          $Res Function(_$ModerationCategoriesAppliedInputTypesImpl) then) =
+      __$$ModerationCategoriesAppliedInputTypesImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {List<String> hate,
+      @JsonKey(name: 'hate/threatening') List<String> hateThreatening,
+      List<String> harassment,
+      @JsonKey(name: 'harassment/threatening')
+      List<String> harassmentThreatening,
+      List<String> illicit,
+      @JsonKey(name: 'illicit/violent') List<String> illicitViolent,
+      @JsonKey(name: 'self-harm') List<String> selfHarm,
+      @JsonKey(name: 'self-harm/intent') List<String> selfHarmIntent,
+      @JsonKey(name: 'self-harm/instructions')
+      List<String> selfHarmInstructions,
+      List<String> sexual,
+      @JsonKey(name: 'sexual/minors') List<String> sexualMinors,
+      List<String> violence,
+      @JsonKey(name: 'violence/graphic') List<String> violenceGraphic});
+}
+
+/// @nodoc
+class __$$ModerationCategoriesAppliedInputTypesImplCopyWithImpl<$Res>
+    extends _$ModerationCategoriesAppliedInputTypesCopyWithImpl<$Res,
+        _$ModerationCategoriesAppliedInputTypesImpl>
+    implements _$$ModerationCategoriesAppliedInputTypesImplCopyWith<$Res> {
+  __$$ModerationCategoriesAppliedInputTypesImplCopyWithImpl(
+      _$ModerationCategoriesAppliedInputTypesImpl _value,
+      $Res Function(_$ModerationCategoriesAppliedInputTypesImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ModerationCategoriesAppliedInputTypes
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? hate = null,
+    Object? hateThreatening = null,
+    Object? harassment = null,
+    Object? harassmentThreatening = null,
+    Object? illicit = null,
+    Object? illicitViolent = null,
+    Object? selfHarm = null,
+    Object? selfHarmIntent = null,
+    Object? selfHarmInstructions = null,
+    Object? sexual = null,
+    Object? sexualMinors = null,
+    Object? violence = null,
+    Object? violenceGraphic = null,
+  }) {
+    return _then(_$ModerationCategoriesAppliedInputTypesImpl(
+      hate: null == hate
+          ? _value._hate
+          : hate // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      hateThreatening: null == hateThreatening
+          ? _value._hateThreatening
+          : hateThreatening // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      harassment: null == harassment
+          ? _value._harassment
+          : harassment // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      harassmentThreatening: null == harassmentThreatening
+          ? _value._harassmentThreatening
+          : harassmentThreatening // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      illicit: null == illicit
+          ? _value._illicit
+          : illicit // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      illicitViolent: null == illicitViolent
+          ? _value._illicitViolent
+          : illicitViolent // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      selfHarm: null == selfHarm
+          ? _value._selfHarm
+          : selfHarm // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      selfHarmIntent: null == selfHarmIntent
+          ? _value._selfHarmIntent
+          : selfHarmIntent // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      selfHarmInstructions: null == selfHarmInstructions
+          ? _value._selfHarmInstructions
+          : selfHarmInstructions // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      sexual: null == sexual
+          ? _value._sexual
+          : sexual // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      sexualMinors: null == sexualMinors
+          ? _value._sexualMinors
+          : sexualMinors // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      violence: null == violence
+          ? _value._violence
+          : violence // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      violenceGraphic: null == violenceGraphic
+          ? _value._violenceGraphic
+          : violenceGraphic // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ModerationCategoriesAppliedInputTypesImpl
+    extends _ModerationCategoriesAppliedInputTypes {
+  const _$ModerationCategoriesAppliedInputTypesImpl(
+      {required final List<String> hate,
+      @JsonKey(name: 'hate/threatening')
+      required final List<String> hateThreatening,
+      required final List<String> harassment,
+      @JsonKey(name: 'harassment/threatening')
+      required final List<String> harassmentThreatening,
+      required final List<String> illicit,
+      @JsonKey(name: 'illicit/violent')
+      required final List<String> illicitViolent,
+      @JsonKey(name: 'self-harm') required final List<String> selfHarm,
+      @JsonKey(name: 'self-harm/intent')
+      required final List<String> selfHarmIntent,
+      @JsonKey(name: 'self-harm/instructions')
+      required final List<String> selfHarmInstructions,
+      required final List<String> sexual,
+      @JsonKey(name: 'sexual/minors') required final List<String> sexualMinors,
+      required final List<String> violence,
+      @JsonKey(name: 'violence/graphic')
+      required final List<String> violenceGraphic})
+      : _hate = hate,
+        _hateThreatening = hateThreatening,
+        _harassment = harassment,
+        _harassmentThreatening = harassmentThreatening,
+        _illicit = illicit,
+        _illicitViolent = illicitViolent,
+        _selfHarm = selfHarm,
+        _selfHarmIntent = selfHarmIntent,
+        _selfHarmInstructions = selfHarmInstructions,
+        _sexual = sexual,
+        _sexualMinors = sexualMinors,
+        _violence = violence,
+        _violenceGraphic = violenceGraphic,
+        super._();
+
+  factory _$ModerationCategoriesAppliedInputTypesImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$ModerationCategoriesAppliedInputTypesImplFromJson(json);
+
+  /// The applied input type(s) for the category 'hate'.
+  final List<String> _hate;
+
+  /// The applied input type(s) for the category 'hate'.
+  @override
+  List<String> get hate {
+    if (_hate is EqualUnmodifiableListView) return _hate;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_hate);
+  }
+
+  /// The applied input type(s) for the category 'hate/threatening'.
+  final List<String> _hateThreatening;
+
+  /// The applied input type(s) for the category 'hate/threatening'.
+  @override
+  @JsonKey(name: 'hate/threatening')
+  List<String> get hateThreatening {
+    if (_hateThreatening is EqualUnmodifiableListView) return _hateThreatening;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_hateThreatening);
+  }
+
+  /// The applied input type(s) for the category 'harassment'.
+  final List<String> _harassment;
+
+  /// The applied input type(s) for the category 'harassment'.
+  @override
+  List<String> get harassment {
+    if (_harassment is EqualUnmodifiableListView) return _harassment;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_harassment);
+  }
+
+  /// The applied input type(s) for the category 'harassment/threatening'.
+  final List<String> _harassmentThreatening;
+
+  /// The applied input type(s) for the category 'harassment/threatening'.
+  @override
+  @JsonKey(name: 'harassment/threatening')
+  List<String> get harassmentThreatening {
+    if (_harassmentThreatening is EqualUnmodifiableListView)
+      return _harassmentThreatening;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_harassmentThreatening);
+  }
+
+  /// The applied input type(s) for the category 'illicit'.
+  final List<String> _illicit;
+
+  /// The applied input type(s) for the category 'illicit'.
+  @override
+  List<String> get illicit {
+    if (_illicit is EqualUnmodifiableListView) return _illicit;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_illicit);
+  }
+
+  /// The applied input type(s) for the category 'illicit/violent'.
+  final List<String> _illicitViolent;
+
+  /// The applied input type(s) for the category 'illicit/violent'.
+  @override
+  @JsonKey(name: 'illicit/violent')
+  List<String> get illicitViolent {
+    if (_illicitViolent is EqualUnmodifiableListView) return _illicitViolent;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_illicitViolent);
+  }
+
+  /// The applied input type(s) for the category 'self-harm'.
+  final List<String> _selfHarm;
+
+  /// The applied input type(s) for the category 'self-harm'.
+  @override
+  @JsonKey(name: 'self-harm')
+  List<String> get selfHarm {
+    if (_selfHarm is EqualUnmodifiableListView) return _selfHarm;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_selfHarm);
+  }
+
+  /// The applied input type(s) for the category 'self-harm/intent'.
+  final List<String> _selfHarmIntent;
+
+  /// The applied input type(s) for the category 'self-harm/intent'.
+  @override
+  @JsonKey(name: 'self-harm/intent')
+  List<String> get selfHarmIntent {
+    if (_selfHarmIntent is EqualUnmodifiableListView) return _selfHarmIntent;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_selfHarmIntent);
+  }
+
+  /// The applied input type(s) for the category 'self-harm/instructions'.
+  final List<String> _selfHarmInstructions;
+
+  /// The applied input type(s) for the category 'self-harm/instructions'.
+  @override
+  @JsonKey(name: 'self-harm/instructions')
+  List<String> get selfHarmInstructions {
+    if (_selfHarmInstructions is EqualUnmodifiableListView)
+      return _selfHarmInstructions;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_selfHarmInstructions);
+  }
+
+  /// The applied input type(s) for the category 'sexual'.
+  final List<String> _sexual;
+
+  /// The applied input type(s) for the category 'sexual'.
+  @override
+  List<String> get sexual {
+    if (_sexual is EqualUnmodifiableListView) return _sexual;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_sexual);
+  }
+
+  /// The applied input type(s) for the category 'sexual/minors'.
+  final List<String> _sexualMinors;
+
+  /// The applied input type(s) for the category 'sexual/minors'.
+  @override
+  @JsonKey(name: 'sexual/minors')
+  List<String> get sexualMinors {
+    if (_sexualMinors is EqualUnmodifiableListView) return _sexualMinors;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_sexualMinors);
+  }
+
+  /// The applied input type(s) for the category 'violence'.
+  final List<String> _violence;
+
+  /// The applied input type(s) for the category 'violence'.
+  @override
+  List<String> get violence {
+    if (_violence is EqualUnmodifiableListView) return _violence;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_violence);
+  }
+
+  /// The applied input type(s) for the category 'violence/graphic'.
+  final List<String> _violenceGraphic;
+
+  /// The applied input type(s) for the category 'violence/graphic'.
+  @override
+  @JsonKey(name: 'violence/graphic')
+  List<String> get violenceGraphic {
+    if (_violenceGraphic is EqualUnmodifiableListView) return _violenceGraphic;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_violenceGraphic);
+  }
+
+  @override
+  String toString() {
+    return 'ModerationCategoriesAppliedInputTypes(hate: $hate, hateThreatening: $hateThreatening, harassment: $harassment, harassmentThreatening: $harassmentThreatening, illicit: $illicit, illicitViolent: $illicitViolent, selfHarm: $selfHarm, selfHarmIntent: $selfHarmIntent, selfHarmInstructions: $selfHarmInstructions, sexual: $sexual, sexualMinors: $sexualMinors, violence: $violence, violenceGraphic: $violenceGraphic)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ModerationCategoriesAppliedInputTypesImpl &&
+            const DeepCollectionEquality().equals(other._hate, _hate) &&
+            const DeepCollectionEquality()
+                .equals(other._hateThreatening, _hateThreatening) &&
+            const DeepCollectionEquality()
+                .equals(other._harassment, _harassment) &&
+            const DeepCollectionEquality()
+                .equals(other._harassmentThreatening, _harassmentThreatening) &&
+            const DeepCollectionEquality().equals(other._illicit, _illicit) &&
+            const DeepCollectionEquality()
+                .equals(other._illicitViolent, _illicitViolent) &&
+            const DeepCollectionEquality().equals(other._selfHarm, _selfHarm) &&
+            const DeepCollectionEquality()
+                .equals(other._selfHarmIntent, _selfHarmIntent) &&
+            const DeepCollectionEquality()
+                .equals(other._selfHarmInstructions, _selfHarmInstructions) &&
+            const DeepCollectionEquality().equals(other._sexual, _sexual) &&
+            const DeepCollectionEquality()
+                .equals(other._sexualMinors, _sexualMinors) &&
+            const DeepCollectionEquality().equals(other._violence, _violence) &&
+            const DeepCollectionEquality()
+                .equals(other._violenceGraphic, _violenceGraphic));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_hate),
+      const DeepCollectionEquality().hash(_hateThreatening),
+      const DeepCollectionEquality().hash(_harassment),
+      const DeepCollectionEquality().hash(_harassmentThreatening),
+      const DeepCollectionEquality().hash(_illicit),
+      const DeepCollectionEquality().hash(_illicitViolent),
+      const DeepCollectionEquality().hash(_selfHarm),
+      const DeepCollectionEquality().hash(_selfHarmIntent),
+      const DeepCollectionEquality().hash(_selfHarmInstructions),
+      const DeepCollectionEquality().hash(_sexual),
+      const DeepCollectionEquality().hash(_sexualMinors),
+      const DeepCollectionEquality().hash(_violence),
+      const DeepCollectionEquality().hash(_violenceGraphic));
+
+  /// Create a copy of ModerationCategoriesAppliedInputTypes
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ModerationCategoriesAppliedInputTypesImplCopyWith<
+          _$ModerationCategoriesAppliedInputTypesImpl>
+      get copyWith => __$$ModerationCategoriesAppliedInputTypesImplCopyWithImpl<
+          _$ModerationCategoriesAppliedInputTypesImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ModerationCategoriesAppliedInputTypesImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ModerationCategoriesAppliedInputTypes
+    extends ModerationCategoriesAppliedInputTypes {
+  const factory _ModerationCategoriesAppliedInputTypes(
+      {required final List<String> hate,
+      @JsonKey(name: 'hate/threatening')
+      required final List<String> hateThreatening,
+      required final List<String> harassment,
+      @JsonKey(name: 'harassment/threatening')
+      required final List<String> harassmentThreatening,
+      required final List<String> illicit,
+      @JsonKey(name: 'illicit/violent')
+      required final List<String> illicitViolent,
+      @JsonKey(name: 'self-harm') required final List<String> selfHarm,
+      @JsonKey(name: 'self-harm/intent')
+      required final List<String> selfHarmIntent,
+      @JsonKey(name: 'self-harm/instructions')
+      required final List<String> selfHarmInstructions,
+      required final List<String> sexual,
+      @JsonKey(name: 'sexual/minors') required final List<String> sexualMinors,
+      required final List<String> violence,
+      @JsonKey(name: 'violence/graphic')
+      required final List<String>
+          violenceGraphic}) = _$ModerationCategoriesAppliedInputTypesImpl;
+  const _ModerationCategoriesAppliedInputTypes._() : super._();
+
+  factory _ModerationCategoriesAppliedInputTypes.fromJson(
+          Map<String, dynamic> json) =
+      _$ModerationCategoriesAppliedInputTypesImpl.fromJson;
+
+  /// The applied input type(s) for the category 'hate'.
+  @override
+  List<String> get hate;
+
+  /// The applied input type(s) for the category 'hate/threatening'.
+  @override
+  @JsonKey(name: 'hate/threatening')
+  List<String> get hateThreatening;
+
+  /// The applied input type(s) for the category 'harassment'.
+  @override
+  List<String> get harassment;
+
+  /// The applied input type(s) for the category 'harassment/threatening'.
+  @override
+  @JsonKey(name: 'harassment/threatening')
+  List<String> get harassmentThreatening;
+
+  /// The applied input type(s) for the category 'illicit'.
+  @override
+  List<String> get illicit;
+
+  /// The applied input type(s) for the category 'illicit/violent'.
+  @override
+  @JsonKey(name: 'illicit/violent')
+  List<String> get illicitViolent;
+
+  /// The applied input type(s) for the category 'self-harm'.
+  @override
+  @JsonKey(name: 'self-harm')
+  List<String> get selfHarm;
+
+  /// The applied input type(s) for the category 'self-harm/intent'.
+  @override
+  @JsonKey(name: 'self-harm/intent')
+  List<String> get selfHarmIntent;
+
+  /// The applied input type(s) for the category 'self-harm/instructions'.
+  @override
+  @JsonKey(name: 'self-harm/instructions')
+  List<String> get selfHarmInstructions;
+
+  /// The applied input type(s) for the category 'sexual'.
+  @override
+  List<String> get sexual;
+
+  /// The applied input type(s) for the category 'sexual/minors'.
+  @override
+  @JsonKey(name: 'sexual/minors')
+  List<String> get sexualMinors;
+
+  /// The applied input type(s) for the category 'violence'.
+  @override
+  List<String> get violence;
+
+  /// The applied input type(s) for the category 'violence/graphic'.
+  @override
+  @JsonKey(name: 'violence/graphic')
+  List<String> get violenceGraphic;
+
+  /// Create a copy of ModerationCategoriesAppliedInputTypes
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ModerationCategoriesAppliedInputTypesImplCopyWith<
+          _$ModerationCategoriesAppliedInputTypesImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -58772,6 +59831,708 @@ abstract class ResponseFormatJsonSchema extends ResponseFormat {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ResponseFormatJsonSchemaImplCopyWith<_$ResponseFormatJsonSchemaImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+ModerationInputObject _$ModerationInputObjectFromJson(
+    Map<String, dynamic> json) {
+  switch (json['type']) {
+    case 'image_url':
+      return ModerationInputObjectImageUrl.fromJson(json);
+    case 'text':
+      return ModerationInputObjectText.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(json, 'type', 'ModerationInputObject',
+          'Invalid union type "${json['type']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$ModerationInputObject {
+  /// The type of the input object.
+  ModerationInputObjectType get type => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            ModerationInputObjectType type,
+            @JsonKey(name: 'image_url')
+            ModerationInputObjectImageUrlImageUrl imageUrl)
+        imageUrl,
+    required TResult Function(ModerationInputObjectType type, String text) text,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            ModerationInputObjectType type,
+            @JsonKey(name: 'image_url')
+            ModerationInputObjectImageUrlImageUrl imageUrl)?
+        imageUrl,
+    TResult? Function(ModerationInputObjectType type, String text)? text,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            ModerationInputObjectType type,
+            @JsonKey(name: 'image_url')
+            ModerationInputObjectImageUrlImageUrl imageUrl)?
+        imageUrl,
+    TResult Function(ModerationInputObjectType type, String text)? text,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ModerationInputObjectImageUrl value) imageUrl,
+    required TResult Function(ModerationInputObjectText value) text,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ModerationInputObjectImageUrl value)? imageUrl,
+    TResult? Function(ModerationInputObjectText value)? text,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ModerationInputObjectImageUrl value)? imageUrl,
+    TResult Function(ModerationInputObjectText value)? text,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+
+  /// Serializes this ModerationInputObject to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of ModerationInputObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $ModerationInputObjectCopyWith<ModerationInputObject> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ModerationInputObjectCopyWith<$Res> {
+  factory $ModerationInputObjectCopyWith(ModerationInputObject value,
+          $Res Function(ModerationInputObject) then) =
+      _$ModerationInputObjectCopyWithImpl<$Res, ModerationInputObject>;
+  @useResult
+  $Res call({ModerationInputObjectType type});
+}
+
+/// @nodoc
+class _$ModerationInputObjectCopyWithImpl<$Res,
+        $Val extends ModerationInputObject>
+    implements $ModerationInputObjectCopyWith<$Res> {
+  _$ModerationInputObjectCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of ModerationInputObject
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+  }) {
+    return _then(_value.copyWith(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as ModerationInputObjectType,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ModerationInputObjectImageUrlImplCopyWith<$Res>
+    implements $ModerationInputObjectCopyWith<$Res> {
+  factory _$$ModerationInputObjectImageUrlImplCopyWith(
+          _$ModerationInputObjectImageUrlImpl value,
+          $Res Function(_$ModerationInputObjectImageUrlImpl) then) =
+      __$$ModerationInputObjectImageUrlImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {ModerationInputObjectType type,
+      @JsonKey(name: 'image_url')
+      ModerationInputObjectImageUrlImageUrl imageUrl});
+
+  $ModerationInputObjectImageUrlImageUrlCopyWith<$Res> get imageUrl;
+}
+
+/// @nodoc
+class __$$ModerationInputObjectImageUrlImplCopyWithImpl<$Res>
+    extends _$ModerationInputObjectCopyWithImpl<$Res,
+        _$ModerationInputObjectImageUrlImpl>
+    implements _$$ModerationInputObjectImageUrlImplCopyWith<$Res> {
+  __$$ModerationInputObjectImageUrlImplCopyWithImpl(
+      _$ModerationInputObjectImageUrlImpl _value,
+      $Res Function(_$ModerationInputObjectImageUrlImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ModerationInputObject
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? imageUrl = null,
+  }) {
+    return _then(_$ModerationInputObjectImageUrlImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as ModerationInputObjectType,
+      imageUrl: null == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as ModerationInputObjectImageUrlImageUrl,
+    ));
+  }
+
+  /// Create a copy of ModerationInputObject
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ModerationInputObjectImageUrlImageUrlCopyWith<$Res> get imageUrl {
+    return $ModerationInputObjectImageUrlImageUrlCopyWith<$Res>(_value.imageUrl,
+        (value) {
+      return _then(_value.copyWith(imageUrl: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ModerationInputObjectImageUrlImpl
+    extends ModerationInputObjectImageUrl {
+  const _$ModerationInputObjectImageUrlImpl(
+      {this.type = ModerationInputObjectType.imageUrl,
+      @JsonKey(name: 'image_url') required this.imageUrl})
+      : super._();
+
+  factory _$ModerationInputObjectImageUrlImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$ModerationInputObjectImageUrlImplFromJson(json);
+
+  /// The type of the input object.
+  @override
+  @JsonKey()
+  final ModerationInputObjectType type;
+
+  /// Contains either an image URL or a data URL for a base64 encoded image.
+  @override
+  @JsonKey(name: 'image_url')
+  final ModerationInputObjectImageUrlImageUrl imageUrl;
+
+  @override
+  String toString() {
+    return 'ModerationInputObject.imageUrl(type: $type, imageUrl: $imageUrl)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ModerationInputObjectImageUrlImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, imageUrl);
+
+  /// Create a copy of ModerationInputObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ModerationInputObjectImageUrlImplCopyWith<
+          _$ModerationInputObjectImageUrlImpl>
+      get copyWith => __$$ModerationInputObjectImageUrlImplCopyWithImpl<
+          _$ModerationInputObjectImageUrlImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            ModerationInputObjectType type,
+            @JsonKey(name: 'image_url')
+            ModerationInputObjectImageUrlImageUrl imageUrl)
+        imageUrl,
+    required TResult Function(ModerationInputObjectType type, String text) text,
+  }) {
+    return imageUrl(type, this.imageUrl);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            ModerationInputObjectType type,
+            @JsonKey(name: 'image_url')
+            ModerationInputObjectImageUrlImageUrl imageUrl)?
+        imageUrl,
+    TResult? Function(ModerationInputObjectType type, String text)? text,
+  }) {
+    return imageUrl?.call(type, this.imageUrl);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            ModerationInputObjectType type,
+            @JsonKey(name: 'image_url')
+            ModerationInputObjectImageUrlImageUrl imageUrl)?
+        imageUrl,
+    TResult Function(ModerationInputObjectType type, String text)? text,
+    required TResult orElse(),
+  }) {
+    if (imageUrl != null) {
+      return imageUrl(type, this.imageUrl);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ModerationInputObjectImageUrl value) imageUrl,
+    required TResult Function(ModerationInputObjectText value) text,
+  }) {
+    return imageUrl(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ModerationInputObjectImageUrl value)? imageUrl,
+    TResult? Function(ModerationInputObjectText value)? text,
+  }) {
+    return imageUrl?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ModerationInputObjectImageUrl value)? imageUrl,
+    TResult Function(ModerationInputObjectText value)? text,
+    required TResult orElse(),
+  }) {
+    if (imageUrl != null) {
+      return imageUrl(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ModerationInputObjectImageUrlImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class ModerationInputObjectImageUrl extends ModerationInputObject {
+  const factory ModerationInputObjectImageUrl(
+          {final ModerationInputObjectType type,
+          @JsonKey(name: 'image_url')
+          required final ModerationInputObjectImageUrlImageUrl imageUrl}) =
+      _$ModerationInputObjectImageUrlImpl;
+  const ModerationInputObjectImageUrl._() : super._();
+
+  factory ModerationInputObjectImageUrl.fromJson(Map<String, dynamic> json) =
+      _$ModerationInputObjectImageUrlImpl.fromJson;
+
+  /// The type of the input object.
+  @override
+  ModerationInputObjectType get type;
+
+  /// Contains either an image URL or a data URL for a base64 encoded image.
+  @JsonKey(name: 'image_url')
+  ModerationInputObjectImageUrlImageUrl get imageUrl;
+
+  /// Create a copy of ModerationInputObject
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ModerationInputObjectImageUrlImplCopyWith<
+          _$ModerationInputObjectImageUrlImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ModerationInputObjectTextImplCopyWith<$Res>
+    implements $ModerationInputObjectCopyWith<$Res> {
+  factory _$$ModerationInputObjectTextImplCopyWith(
+          _$ModerationInputObjectTextImpl value,
+          $Res Function(_$ModerationInputObjectTextImpl) then) =
+      __$$ModerationInputObjectTextImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({ModerationInputObjectType type, String text});
+}
+
+/// @nodoc
+class __$$ModerationInputObjectTextImplCopyWithImpl<$Res>
+    extends _$ModerationInputObjectCopyWithImpl<$Res,
+        _$ModerationInputObjectTextImpl>
+    implements _$$ModerationInputObjectTextImplCopyWith<$Res> {
+  __$$ModerationInputObjectTextImplCopyWithImpl(
+      _$ModerationInputObjectTextImpl _value,
+      $Res Function(_$ModerationInputObjectTextImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ModerationInputObject
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? text = null,
+  }) {
+    return _then(_$ModerationInputObjectTextImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as ModerationInputObjectType,
+      text: null == text
+          ? _value.text
+          : text // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ModerationInputObjectTextImpl extends ModerationInputObjectText {
+  const _$ModerationInputObjectTextImpl(
+      {this.type = ModerationInputObjectType.text, required this.text})
+      : super._();
+
+  factory _$ModerationInputObjectTextImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ModerationInputObjectTextImplFromJson(json);
+
+  /// The type of the input object.
+  @override
+  @JsonKey()
+  final ModerationInputObjectType type;
+
+  /// A string of text to classify.
+  @override
+  final String text;
+
+  @override
+  String toString() {
+    return 'ModerationInputObject.text(type: $type, text: $text)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ModerationInputObjectTextImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.text, text) || other.text == text));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, text);
+
+  /// Create a copy of ModerationInputObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ModerationInputObjectTextImplCopyWith<_$ModerationInputObjectTextImpl>
+      get copyWith => __$$ModerationInputObjectTextImplCopyWithImpl<
+          _$ModerationInputObjectTextImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            ModerationInputObjectType type,
+            @JsonKey(name: 'image_url')
+            ModerationInputObjectImageUrlImageUrl imageUrl)
+        imageUrl,
+    required TResult Function(ModerationInputObjectType type, String text) text,
+  }) {
+    return text(type, this.text);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            ModerationInputObjectType type,
+            @JsonKey(name: 'image_url')
+            ModerationInputObjectImageUrlImageUrl imageUrl)?
+        imageUrl,
+    TResult? Function(ModerationInputObjectType type, String text)? text,
+  }) {
+    return text?.call(type, this.text);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            ModerationInputObjectType type,
+            @JsonKey(name: 'image_url')
+            ModerationInputObjectImageUrlImageUrl imageUrl)?
+        imageUrl,
+    TResult Function(ModerationInputObjectType type, String text)? text,
+    required TResult orElse(),
+  }) {
+    if (text != null) {
+      return text(type, this.text);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ModerationInputObjectImageUrl value) imageUrl,
+    required TResult Function(ModerationInputObjectText value) text,
+  }) {
+    return text(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ModerationInputObjectImageUrl value)? imageUrl,
+    TResult? Function(ModerationInputObjectText value)? text,
+  }) {
+    return text?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ModerationInputObjectImageUrl value)? imageUrl,
+    TResult Function(ModerationInputObjectText value)? text,
+    required TResult orElse(),
+  }) {
+    if (text != null) {
+      return text(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ModerationInputObjectTextImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class ModerationInputObjectText extends ModerationInputObject {
+  const factory ModerationInputObjectText(
+      {final ModerationInputObjectType type,
+      required final String text}) = _$ModerationInputObjectTextImpl;
+  const ModerationInputObjectText._() : super._();
+
+  factory ModerationInputObjectText.fromJson(Map<String, dynamic> json) =
+      _$ModerationInputObjectTextImpl.fromJson;
+
+  /// The type of the input object.
+  @override
+  ModerationInputObjectType get type;
+
+  /// A string of text to classify.
+  String get text;
+
+  /// Create a copy of ModerationInputObject
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ModerationInputObjectTextImplCopyWith<_$ModerationInputObjectTextImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+ModerationInputObjectImageUrlImageUrl
+    _$ModerationInputObjectImageUrlImageUrlFromJson(Map<String, dynamic> json) {
+  return _ModerationInputObjectImageUrlImageUrl.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ModerationInputObjectImageUrlImageUrl {
+  /// Either a URL of the image or the base64 encoded image data.
+  String get url => throw _privateConstructorUsedError;
+
+  /// Serializes this ModerationInputObjectImageUrlImageUrl to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of ModerationInputObjectImageUrlImageUrl
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $ModerationInputObjectImageUrlImageUrlCopyWith<
+          ModerationInputObjectImageUrlImageUrl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ModerationInputObjectImageUrlImageUrlCopyWith<$Res> {
+  factory $ModerationInputObjectImageUrlImageUrlCopyWith(
+          ModerationInputObjectImageUrlImageUrl value,
+          $Res Function(ModerationInputObjectImageUrlImageUrl) then) =
+      _$ModerationInputObjectImageUrlImageUrlCopyWithImpl<$Res,
+          ModerationInputObjectImageUrlImageUrl>;
+  @useResult
+  $Res call({String url});
+}
+
+/// @nodoc
+class _$ModerationInputObjectImageUrlImageUrlCopyWithImpl<$Res,
+        $Val extends ModerationInputObjectImageUrlImageUrl>
+    implements $ModerationInputObjectImageUrlImageUrlCopyWith<$Res> {
+  _$ModerationInputObjectImageUrlImageUrlCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of ModerationInputObjectImageUrlImageUrl
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? url = null,
+  }) {
+    return _then(_value.copyWith(
+      url: null == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ModerationInputObjectImageUrlImageUrlImplCopyWith<$Res>
+    implements $ModerationInputObjectImageUrlImageUrlCopyWith<$Res> {
+  factory _$$ModerationInputObjectImageUrlImageUrlImplCopyWith(
+          _$ModerationInputObjectImageUrlImageUrlImpl value,
+          $Res Function(_$ModerationInputObjectImageUrlImageUrlImpl) then) =
+      __$$ModerationInputObjectImageUrlImageUrlImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String url});
+}
+
+/// @nodoc
+class __$$ModerationInputObjectImageUrlImageUrlImplCopyWithImpl<$Res>
+    extends _$ModerationInputObjectImageUrlImageUrlCopyWithImpl<$Res,
+        _$ModerationInputObjectImageUrlImageUrlImpl>
+    implements _$$ModerationInputObjectImageUrlImageUrlImplCopyWith<$Res> {
+  __$$ModerationInputObjectImageUrlImageUrlImplCopyWithImpl(
+      _$ModerationInputObjectImageUrlImageUrlImpl _value,
+      $Res Function(_$ModerationInputObjectImageUrlImageUrlImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ModerationInputObjectImageUrlImageUrl
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? url = null,
+  }) {
+    return _then(_$ModerationInputObjectImageUrlImageUrlImpl(
+      url: null == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ModerationInputObjectImageUrlImageUrlImpl
+    extends _ModerationInputObjectImageUrlImageUrl {
+  const _$ModerationInputObjectImageUrlImageUrlImpl({required this.url})
+      : super._();
+
+  factory _$ModerationInputObjectImageUrlImageUrlImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$ModerationInputObjectImageUrlImageUrlImplFromJson(json);
+
+  /// Either a URL of the image or the base64 encoded image data.
+  @override
+  final String url;
+
+  @override
+  String toString() {
+    return 'ModerationInputObjectImageUrlImageUrl(url: $url)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ModerationInputObjectImageUrlImageUrlImpl &&
+            (identical(other.url, url) || other.url == url));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, url);
+
+  /// Create a copy of ModerationInputObjectImageUrlImageUrl
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ModerationInputObjectImageUrlImageUrlImplCopyWith<
+          _$ModerationInputObjectImageUrlImageUrlImpl>
+      get copyWith => __$$ModerationInputObjectImageUrlImageUrlImplCopyWithImpl<
+          _$ModerationInputObjectImageUrlImageUrlImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ModerationInputObjectImageUrlImageUrlImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ModerationInputObjectImageUrlImageUrl
+    extends ModerationInputObjectImageUrlImageUrl {
+  const factory _ModerationInputObjectImageUrlImageUrl(
+          {required final String url}) =
+      _$ModerationInputObjectImageUrlImageUrlImpl;
+  const _ModerationInputObjectImageUrlImageUrl._() : super._();
+
+  factory _ModerationInputObjectImageUrlImageUrl.fromJson(
+          Map<String, dynamic> json) =
+      _$ModerationInputObjectImageUrlImageUrlImpl.fromJson;
+
+  /// Either a URL of the image or the base64 encoded image data.
+  @override
+  String get url;
+
+  /// Create a copy of ModerationInputObjectImageUrlImageUrl
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ModerationInputObjectImageUrlImageUrlImplCopyWith<
+          _$ModerationInputObjectImageUrlImageUrlImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
