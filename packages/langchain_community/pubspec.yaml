@@ -35,7 +35,7 @@ dependencies:
 dev_dependencies:
   drift_dev: ^2.20.1
   build_runner: ^2.4.11
-  langchain_openai: ^0.7.2+2
+  langchain_openai: ^0.7.2+3
   objectbox_generator: ^4.0.1
   test: ^1.25.8
   archive: ^3.1.2

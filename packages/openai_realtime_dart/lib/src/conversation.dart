@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
+
 import 'utils.dart';
 
 /// Stores a client-side cache of the current conversation and performs event
@@ -160,9 +161,11 @@ class RealtimeConversation {
         queuedTranscriptItems[itemId] = {'transcript': formattedTranscript};
         return {'item': null, 'delta': null};
       } else {
-        final itemContent = item['content'] as List<Map<String, dynamic>>;
+        final itemContent =
+            (item['content'] as List<dynamic>?)?.cast<Map<String, dynamic>>();
+
         final formatted = item['formatted'] as Map<String, dynamic>;
-        itemContent[contentIndex]['transcript'] = transcript;
+        itemContent?[contentIndex]['transcript'] = transcript;
         formatted['transcript'] = formattedTranscript;
         return {
           'item': item,
@@ -326,11 +329,12 @@ class RealtimeConversation {
       if (item == null) {
         throw Exception('response.text.delta: Item "$itemId" not found');
       }
-      final itemContent = item['content'] as List<Map<String, dynamic>>;
-      final itemText = itemContent[contentIndex]['text'] as String;
+      final itemContent =
+          (item['content'] as List<dynamic>?)?.cast<Map<String, dynamic>>();
+      final itemText = itemContent?[contentIndex]['text'] as String? ?? '';
       final formatted = item['formatted'] as Map<String, dynamic>;
       final formattedText = formatted['text'] as String;
-      itemContent[contentIndex]['text'] = itemText + delta;
+      itemContent?[contentIndex]['text'] = itemText + delta;
       formatted['text'] = formattedText + delta;
       return {
         'item': item,

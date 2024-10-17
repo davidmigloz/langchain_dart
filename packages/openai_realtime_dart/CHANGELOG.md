@@ -2,6 +2,10 @@
 
 ---
 
+## 0.0.1+2
+
+ - **FIX**: Tool calling not working ([#572](https://github.com/davidmigloz/langchain_dart/issues/572)). ([f6b14919](https://github.com/davidmigloz/langchain_dart/commit/f6b14919463353a3d1a8eb2f1b8eb83c45340fa1))
+
 ## 0.0.1+1
 
  - **DOCS**: Add note about the openai_dart client. ([26de8d97](https://github.com/davidmigloz/langchain_dart/commit/26de8d974fcd27fec857b93cc309e76860777dea))

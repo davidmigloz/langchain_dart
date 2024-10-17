@@ -2,6 +2,39 @@
 
 📣 Check out the [releases page](https://github.com/davidmigloz/langchain_dart/releases) or the [#announcements](https://discord.com/channels/1123158322812555295/1123250594644242534) channel on the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details.
 
+## 2024-10-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`openai_dart` - `v0.4.2+2`](#openai_dart---v0422)
+ - [`openai_realtime_dart` - `v0.0.1+2`](#openai_realtime_dart---v0012)
+ - [`langchain_openai` - `v0.7.2+3`](#langchain_openai---v0723)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `langchain_openai` - `v0.7.2+3`
+
+---
+
+#### `openai_realtime_dart` - `v0.0.1+2`
+
+ - **FIX**: Tool calling not working in openai_realtime_dart ([#572](https://github.com/davidmigloz/langchain_dart/issues/572)). ([f6b14919](https://github.com/davidmigloz/langchain_dart/commit/f6b14919463353a3d1a8eb2f1b8eb83c45340fa1))
+
+#### `openai_dart` - `v0.4.2+2`
+
+ - **DOCS**: Fix typo in openai_dart. ([e7ddd558](https://github.com/davidmigloz/langchain_dart/commit/e7ddd558da643e3cc59581b8b0e69473c7cb9779))
+
+
 ## 2024-10-09
 
 ### Changes
