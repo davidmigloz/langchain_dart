@@ -30,6 +30,7 @@ command:
       cross_file: ^0.3.4+2
       crypto: ^3.0.3
       csv: ^6.0.0
+      drift: ^2.21.0
       equatable: ^2.0.5
       fetch_client: ^1.1.2
       firebase_app_check: ^0.3.0
@@ -53,16 +54,20 @@ command:
       math_expressions: ^2.6.0
       meta: ^1.11.0
       objectbox: ^4.0.1
+      path: ^1.9.0
       pinecone: ^0.7.2
       rxdart: ">=0.27.7 <0.29.0"
       shared_preferences: ^2.3.0
       shelf: ^1.4.2
       shelf_router: ^1.1.4
+      sqlite3: ^2.4.6
       supabase: ^2.2.7
       uuid: ^4.5.1
       web_socket_channel: ^3.0.1
     dev_dependencies:
+      archive: ^3.6.1
       build_runner: ^2.4.11
+      drift_dev: ^2.21.0
       freezed: ^2.5.7
       json_serializable: ^6.8.0
       objectbox_generator: ^4.0.1
