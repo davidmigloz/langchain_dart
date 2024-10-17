@@ -43,6 +43,22 @@ sealed class ChatCompletionMessageContentPart
   }) = ChatCompletionMessageContentPartImage;
 
   // ------------------------------------------
+  // UNION: ChatCompletionMessageContentPartAudio
+  // ------------------------------------------
+
+  /// An audio content part of a user message.
+  /// Learn about [audio inputs](https://platform.openai.com/docs/guides/audio).
+  const factory ChatCompletionMessageContentPart.audio({
+    /// The type of the content part. Always `input_audio`.
+    @Default(ChatCompletionMessageContentPartType.inputAudio)
+    ChatCompletionMessageContentPartType type,
+
+    /// The audio input.
+    @JsonKey(name: 'input_audio')
+    required ChatCompletionMessageInputAudio inputAudio,
+  }) = ChatCompletionMessageContentPartAudio;
+
+  // ------------------------------------------
   // UNION: ChatCompletionMessageContentPartRefusal
   // ------------------------------------------
 
@@ -71,6 +87,8 @@ enum ChatCompletionMessageContentPartEnumType {
   text,
   @JsonValue('image_url')
   imageUrl,
+  @JsonValue('input_audio')
+  inputAudio,
   @JsonValue('refusal')
   refusal,
 }
@@ -127,4 +145,55 @@ enum ChatCompletionMessageImageDetail {
   low,
   @JsonValue('high')
   high,
+}
+
+// ==========================================
+// CLASS: ChatCompletionMessageInputAudio
+// ==========================================
+
+/// The audio input.
+@freezed
+class ChatCompletionMessageInputAudio with _$ChatCompletionMessageInputAudio {
+  const ChatCompletionMessageInputAudio._();
+
+  /// Factory constructor for ChatCompletionMessageInputAudio
+  const factory ChatCompletionMessageInputAudio({
+    /// Base64 encoded audio data.
+    required String data,
+
+    /// The format of the encoded audio data. Currently supports "wav" and "mp3".
+    required ChatCompletionMessageInputAudioFormat format,
+  }) = _ChatCompletionMessageInputAudio;
+
+  /// Object construction from a JSON representation
+  factory ChatCompletionMessageInputAudio.fromJson(Map<String, dynamic> json) =>
+      _$ChatCompletionMessageInputAudioFromJson(json);
+
+  /// List of all property names of schema
+  static const List<String> propertyNames = ['data', 'format'];
+
+  /// Perform validations on the schema property values
+  String? validateSchema() {
+    return null;
+  }
+
+  /// Map representation of object (not serialized)
+  Map<String, dynamic> toMap() {
+    return {
+      'data': data,
+      'format': format,
+    };
+  }
+}
+
+// ==========================================
+// ENUM: ChatCompletionMessageInputAudioFormat
+// ==========================================
+
+/// The format of the encoded audio data. Currently supports "wav" and "mp3".
+enum ChatCompletionMessageInputAudioFormat {
+  @JsonValue('wav')
+  wav,
+  @JsonValue('mp3')
+  mp3,
 }

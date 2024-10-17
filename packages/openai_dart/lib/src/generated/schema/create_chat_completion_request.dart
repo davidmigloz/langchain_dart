@@ -19,11 +19,15 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     /// table for details on which models work with the Chat API.
     @_ChatCompletionModelConverter() required ChatCompletionModel model,
 
-    /// A list of messages comprising the conversation so far.
-    /// [Example Python code](https://cookbook.openai.com/examples/how_to_format_inputs_to_chatgpt_models).
+    /// A list of messages comprising the conversation so far. Depending on the [model](https://platform.openai.com/docs/models) you use,
+    /// different message types (modalities) are supported,
+    /// like [text](https://platform.openai.com/docs/guides/text-generation),
+    /// [images](https://platform.openai.com/docs/guides/vision),
+    /// and [audio](https://platform.openai.com/docs/guides/audio).
     required List<ChatCompletionMessage> messages,
 
-    /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
+    /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the
+    /// text so far, decreasing the model's likelihood to repeat the same line verbatim.
     ///
     /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
     @JsonKey(name: 'frequency_penalty', includeIfNull: false)
@@ -64,6 +68,13 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     /// How many chat completion choices to generate for each input message. Note that you will be charged based on
     /// the number of generated tokens across all of the choices. Keep `n` as `1` to minimize costs.
     @JsonKey(includeIfNull: false) @Default(1) int? n,
+
+    /// A list of modalities that the model may use to generate the completion.
+    @JsonKey(includeIfNull: false) List<ChatCompletionModality>? modalities,
+
+    /// Parameters for audio output. Required when audio output is requested with `modalities: ["audio"]`.
+    /// [Learn more](https://platform.openai.com/docs/guides/audio).
+    @JsonKey(includeIfNull: false) ChatCompletionAudioOptions? audio,
 
     /// Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
     ///
@@ -200,6 +211,8 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     'max_tokens',
     'max_completion_tokens',
     'n',
+    'modalities',
+    'audio',
     'presence_penalty',
     'response_format',
     'seed',
@@ -291,6 +304,8 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
       'max_tokens': maxTokens,
       'max_completion_tokens': maxCompletionTokens,
       'n': n,
+      'modalities': modalities,
+      'audio': audio,
       'presence_penalty': presencePenalty,
       'response_format': responseFormat,
       'seed': seed,
@@ -348,10 +363,18 @@ enum ChatCompletionModels {
   gpt4o20240513,
   @JsonValue('gpt-4o-2024-08-06')
   gpt4o20240806,
+  @JsonValue('gpt-4o-audio-preview')
+  gpt4oAudioPreview,
+  @JsonValue('gpt-4o-audio-preview-2024-10-01')
+  gpt4oAudioPreview20241001,
   @JsonValue('gpt-4o-mini')
   gpt4oMini,
   @JsonValue('gpt-4o-mini-2024-07-18')
   gpt4oMini20240718,
+  @JsonValue('gpt-4o-realtime-preview')
+  gpt4oRealtimePreview,
+  @JsonValue('gpt-4o-realtime-preview-2024-10-01')
+  gpt4oRealtimePreview20241001,
   @JsonValue('gpt-3.5-turbo')
   gpt35Turbo,
   @JsonValue('gpt-3.5-turbo-16k')

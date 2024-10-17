@@ -15,30 +15,37 @@ class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
 
   /// Factory constructor for CreateThreadAndRunRequest
   const factory CreateThreadAndRunRequest({
-    /// The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) to use to execute this run.
+    /// The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) to use to execute this
+    /// run.
     @JsonKey(name: 'assistant_id') required String assistantId,
 
     /// If no thread is provided, an empty thread will be created.
     @JsonKey(includeIfNull: false) CreateThreadRequest? thread,
 
-    /// The ID of the [Model](https://platform.openai.com/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used.
+    /// The ID of the [Model](https://platform.openai.com/docs/api-reference/models) to be used to execute this run.
+    /// If a value is provided here, it will override the model associated with the assistant. If not, the model
+    /// associated with the assistant will be used.
     @_ThreadAndRunModelConverter()
     @JsonKey(includeIfNull: false)
     ThreadAndRunModel? model,
 
-    /// Override the default system message of the assistant. This is useful for modifying the behavior on a per-run basis.
+    /// Override the default system message of the assistant. This is useful for modifying the behavior on a per-run
+    /// basis.
     @JsonKey(includeIfNull: false) String? instructions,
 
-    /// Override the tools the assistant can use for this run. This is useful for modifying the behavior on a per-run basis.
+    /// Override the tools the assistant can use for this run. This is useful for modifying the behavior on a
+    /// per-run basis.
     @JsonKey(includeIfNull: false) List<AssistantTools>? tools,
 
-    /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+    /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific
+    /// to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the
+    /// `file_search` tool requires a list of vector store IDs.
     @JsonKey(name: 'tool_resources', includeIfNull: false)
     ToolResources? toolResources,
 
     /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
     /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-    /// can be a maxium of 512 characters long.
+    /// can be a maximum of 512 characters long.
     @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
 
     /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random,
@@ -52,11 +59,17 @@ class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
     /// We generally recommend altering this or temperature but not both.
     @JsonKey(name: 'top_p', includeIfNull: false) @Default(1.0) double? topP,
 
-    /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
+    /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best
+    /// effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run
+    /// exceeds the number of prompt tokens specified, the run will end with status `incomplete`. See
+    /// `incomplete_details` for more info.
     @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
     int? maxPromptTokens,
 
-    /// The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
+    /// The maximum number of completion tokens that may be used over the course of the run. The run will make a
+    /// best effort to use only the number of completion tokens specified, across multiple turns of the run. If the
+    /// run exceeds the number of completion tokens specified, the run will end with status `incomplete`. See
+    /// `incomplete_details` for more info.
     @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
     int? maxCompletionTokens,
 
@@ -66,9 +79,11 @@ class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
 
     /// Controls which (if any) tool is called by the model.
     /// `none` means the model will not call any tools and instead generates a message.
-    /// `auto` is the default value and means the model can pick between generating a message or calling one or more tools.
+    /// `auto` is the default value and means the model can pick between generating a message or calling one or more
+    ///  tools.
     /// `required` means the model must call one or more tools before responding to the user.
-    /// Specifying a particular tool like `{"type": "file_search"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+    /// Specifying a particular tool like `{"type": "file_search"}` or
+    /// `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
     @_CreateThreadAndRunRequestToolChoiceConverter()
     @JsonKey(name: 'tool_choice', includeIfNull: false)
     CreateThreadAndRunRequestToolChoice? toolChoice,
@@ -99,7 +114,8 @@ class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
     @JsonKey(name: 'response_format', includeIfNull: false)
     CreateThreadAndRunRequestResponseFormat? responseFormat,
 
-    /// If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.
+    /// If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when
+    /// the Run enters a terminal state with a `data: [DONE]` message.
     @JsonKey(includeIfNull: false) bool? stream,
   }) = _CreateThreadAndRunRequest;
 
@@ -254,7 +270,9 @@ enum ThreadAndRunModels {
 // CLASS: ThreadAndRunModel
 // ==========================================
 
-/// The ID of the [Model](https://platform.openai.com/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used.
+/// The ID of the [Model](https://platform.openai.com/docs/api-reference/models) to be used to execute this run.
+/// If a value is provided here, it will override the model associated with the assistant. If not, the model
+/// associated with the assistant will be used.
 @freezed
 sealed class ThreadAndRunModel with _$ThreadAndRunModel {
   const ThreadAndRunModel._();
@@ -330,9 +348,11 @@ enum CreateThreadAndRunRequestToolChoiceMode {
 
 /// Controls which (if any) tool is called by the model.
 /// `none` means the model will not call any tools and instead generates a message.
-/// `auto` is the default value and means the model can pick between generating a message or calling one or more tools.
+/// `auto` is the default value and means the model can pick between generating a message or calling one or more
+///  tools.
 /// `required` means the model must call one or more tools before responding to the user.
-/// Specifying a particular tool like `{"type": "file_search"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+/// Specifying a particular tool like `{"type": "file_search"}` or
+/// `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
 @freezed
 sealed class CreateThreadAndRunRequestToolChoice
     with _$CreateThreadAndRunRequestToolChoice {

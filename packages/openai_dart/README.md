@@ -22,7 +22,7 @@ Unofficial Dart client for [OpenAI](https://platform.openai.com/docs/api-referen
 
 **Supported endpoints:**
 
-- Chat (with structured outputs, tools and streaming support)
+- Chat (with text, image, audio, structured outputs, tools and streaming support)
 - Completions (legacy)
 - Embeddings
 - Fine-tuning
@@ -221,6 +221,80 @@ ChatCompletionMessage.user(
   ),
 ),
 //...
+```
+
+In addition to generating text and images, some models enable you to generate a spoken audio response to a prompt:
+
+```dart
+final res = await client.createChatCompletion(
+  request: CreateChatCompletionRequest(
+    model: ChatCompletionModel.model(
+      ChatCompletionModels.gpt4oAudioPreview,
+    ),
+    modalities: [
+      ChatCompletionModality.text,
+      ChatCompletionModality.audio,
+    ],
+    audio: ChatCompletionAudioOptions(
+      voice: ChatCompletionAudioVoice.alloy,
+      format: ChatCompletionAudioFormat.wav,
+    ),
+    messages: [
+      ChatCompletionMessage.user(
+        content: ChatCompletionUserMessageContent.string(
+          'Is a golden retriever a good family dog?',
+        ),
+      ),
+    ],
+  ), 
+);
+final choice = res.choices.first;
+final audio = choice.message.audio;
+print(audio?.id);
+print(audio?.expiresAt);
+print(audio?.transcript);
+print(audio?.data);
+```
+
+And to use audio inputs to prompt the model:
+
+```dart
+final res = await client.createChatCompletion(
+  request: CreateChatCompletionRequest(
+    model: ChatCompletionModel.model(
+      ChatCompletionModels.gpt4oAudioPreview,
+    ),
+    modalities: [
+      ChatCompletionModality.text,
+      ChatCompletionModality.audio,
+    ],
+    audio: ChatCompletionAudioOptions(
+      voice: ChatCompletionAudioVoice.alloy,
+      format: ChatCompletionAudioFormat.wav,
+    ),
+    messages: [
+      ChatCompletionMessage.user(
+        content: ChatCompletionUserMessageContent.parts([
+          ChatCompletionMessageContentPart.text(
+            text: 'Do what the recording says',
+          ),
+          ChatCompletionMessageContentPart.audio(
+            inputAudio: ChatCompletionMessageInputAudio(
+              data: 'UklGRoYZAQBXQVZFZm10I...//X//v8FAOj/GAD+/7z/',
+              format: ChatCompletionMessageInputAudioFormat.wav,
+            ),
+          ),
+        ]),
+      ),
+    ],
+  );
+);
+final choice = res.choices.first;
+final audio = choice.message.audio;
+print(audio?.id);
+print(audio?.expiresAt);
+print(audio?.transcript);
+print(audio?.data);
 ```
 
 **Structured output: ([docs](https://platform.openai.com/docs/guides/structured-outputs))**

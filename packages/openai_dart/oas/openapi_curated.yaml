@@ -1583,7 +1583,8 @@ components:
           maximum: 2
           nullable: true
           description: &completions_frequency_penalty_description |
-            Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
+            Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the 
+            text so far, decreasing the model's likelihood to repeat the same line verbatim.
 
             [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
         logit_bias: &completions_logit_bias
@@ -1818,7 +1819,7 @@ components:
           description: |
             ID of the model to use. See the [model endpoint compatibility](https://platform.openai.com/docs/models/model-endpoint-compatibility) 
             table for details on which models work with the Chat API.
-          example: "gpt-4o"
+          example: gpt-4o
           anyOf:
             - type: string
               description: The ID of the model to use for this request.
@@ -1827,41 +1828,46 @@ components:
               description: |
                 Available completion models. Mind that the list may not be exhaustive nor up-to-date.
               enum:
-                [
-                  "chatgpt-4o-latest",
-                  "gpt-4",
-                  "gpt-4-32k",
-                  "gpt-4-32k-0314",
-                  "gpt-4-32k-0613",
-                  "gpt-4-0125-preview",
-                  "gpt-4-0314",
-                  "gpt-4-0613",
-                  "gpt-4-1106-preview",
-                  "gpt-4-turbo",
-                  "gpt-4-turbo-2024-04-09",
-                  "gpt-4-turbo-preview",
-                  "gpt-4-vision-preview",
-                  "gpt-4o",
-                  "gpt-4o-2024-05-13",
-                  "gpt-4o-2024-08-06",
-                  "gpt-4o-mini",
-                  "gpt-4o-mini-2024-07-18",
-                  "gpt-3.5-turbo",
-                  "gpt-3.5-turbo-16k",
-                  "gpt-3.5-turbo-16k-0613",
-                  "gpt-3.5-turbo-0125",
-                  "gpt-3.5-turbo-0301",
-                  "gpt-3.5-turbo-0613",
-                  "gpt-3.5-turbo-1106",
-                  "o1-mini",
-                  "o1-mini-2024-09-12",
-                  "o1-preview",
-                  "o1-preview-2024-09-12",
-                ]
+                - chatgpt-4o-latest
+                - gpt-4
+                - gpt-4-32k
+                - gpt-4-32k-0314
+                - gpt-4-32k-0613
+                - gpt-4-0125-preview
+                - gpt-4-0314
+                - gpt-4-0613
+                - gpt-4-1106-preview
+                - gpt-4-turbo
+                - gpt-4-turbo-2024-04-09
+                - gpt-4-turbo-preview
+                - gpt-4-vision-preview
+                - gpt-4o
+                - gpt-4o-2024-05-13
+                - gpt-4o-2024-08-06
+                - gpt-4o-audio-preview
+                - gpt-4o-audio-preview-2024-10-01
+                - gpt-4o-mini
+                - gpt-4o-mini-2024-07-18
+                - gpt-4o-realtime-preview
+                - gpt-4o-realtime-preview-2024-10-01
+                - gpt-3.5-turbo
+                - gpt-3.5-turbo-16k
+                - gpt-3.5-turbo-16k-0613
+                - gpt-3.5-turbo-0125
+                - gpt-3.5-turbo-0301
+                - gpt-3.5-turbo-0613
+                - gpt-3.5-turbo-1106
+                - o1-mini
+                - o1-mini-2024-09-12
+                - o1-preview
+                - o1-preview-2024-09-12
         messages:
           description: |
-            A list of messages comprising the conversation so far. 
-            [Example Python code](https://cookbook.openai.com/examples/how_to_format_inputs_to_chatgpt_models).
+            A list of messages comprising the conversation so far. Depending on the [model](https://platform.openai.com/docs/models) you use, 
+            different message types (modalities) are supported, 
+            like [text](https://platform.openai.com/docs/guides/text-generation), 
+            [images](https://platform.openai.com/docs/guides/vision), 
+            and [audio](https://platform.openai.com/docs/guides/audio).
           type: array
           minItems: 1
           items:
@@ -1927,6 +1933,15 @@ components:
           description: |
             How many chat completion choices to generate for each input message. Note that you will be charged based on 
             the number of generated tokens across all of the choices. Keep `n` as `1` to minimize costs.
+        modalities:
+          type: array
+          description: |
+            A list of modalities that the model may use to generate the completion.
+          nullable: true
+          items:
+            $ref: "#/components/schemas/ChatCompletionModality"
+        audio:
+          $ref: "#/components/schemas/ChatCompletionAudioOptions"
         presence_penalty:
           type: number
           default: 0
@@ -2118,7 +2133,10 @@ components:
             - type: string
               description: The text contents of the user message.
             - type: array
-              description: An array of content parts with a defined type, each can be of type `text` or `image_url` when passing in images. You can pass multiple images by adding multiple `image_url` content parts. Image input is only supported when using the `gpt-4o` model.
+              description: | 
+                An array of content parts with a defined type. Supported options differ based on the 
+                [model](https://platform.openai.com/docs/models) 
+                being used to generate the response. Can contain text, image, or audio inputs.
               items:
                 $ref: "#/components/schemas/ChatCompletionMessageContentPart"
               minItems: 1
@@ -2154,6 +2172,32 @@ components:
           $ref: "#/components/schemas/ChatCompletionMessageFunctionCall"
           deprecated: true
           description: "Deprecated and replaced by `tool_calls`. The name and arguments of a function that should be called, as generated by the model."
+        audio:
+          type: object
+          description: |
+            If the audio output modality is requested, this object contains data about the audio response from the model. 
+            [Learn more](https://platform.openai.com/docs/guides/audio).
+          properties:
+            id:
+              type: string
+              description: Unique identifier for this audio response.
+            expires_at:
+              type: integer
+              description: |
+                The Unix timestamp (in seconds) for when this audio response will no longer be accessible on the server 
+                for use in multi-turn conversations.
+            data:
+              type: string
+              description: |
+                Base64 encoded audio bytes generated by the model, in the format specified in the request.
+            transcript:
+              type: string
+              description: Transcript of the audio generated by the model.
+          required:
+            - id
+            - expires_at
+            - data
+            - transcript
     ChatCompletionToolMessage:
       type: object
       description: A tool message in a chat conversation.
@@ -2195,6 +2239,7 @@ components:
       oneOf:
         - $ref: "#/components/schemas/ChatCompletionMessageContentPartText"
         - $ref: "#/components/schemas/ChatCompletionMessageContentPartImage"
+        - $ref: "#/components/schemas/ChatCompletionMessageContentPartAudio"
         - $ref: "#/components/schemas/ChatCompletionMessageContentPartRefusal"
       discriminator:
         propertyName: type
@@ -2238,6 +2283,36 @@ components:
             - url
       required:
         - image_url
+    ChatCompletionMessageContentPartAudio:
+      type: object
+      description: | 
+        An audio content part of a user message.
+        Learn about [audio inputs](https://platform.openai.com/docs/guides/audio).
+      properties:
+        type:
+          $ref: "#/components/schemas/ChatCompletionMessageContentPartType"
+          default: input_audio
+          description: The type of the content part. Always `input_audio`.
+        input_audio:
+          type: object
+          title: ChatCompletionMessageInputAudio
+          description: The audio input.
+          properties:
+            data:
+              type: string
+              description: Base64 encoded audio data.
+            format:
+              type: string
+              enum:
+                - wav
+                - mp3
+              description: |
+                The format of the encoded audio data. Currently supports "wav" and "mp3".
+          required:
+            - data
+            - format
+      required:
+        - input_audio
     ChatCompletionMessageContentPartRefusal:
       type: object
       description: A refusal content part of a message.
@@ -2256,6 +2331,7 @@ components:
       enum:
         - text
         - image_url
+        - input_audio
         - refusal
       description: The type of the content part.
     ChatCompletionMessageRole:
@@ -2453,6 +2529,52 @@ components:
         - id
         - type
         - function
+    ChatCompletionModality:
+      type: string
+      description: |
+        Output types that you would like the model to generate for this request.
+
+        Most models are capable of generating text, which is the default:
+        `["text"]`
+
+        The `gpt-4o-audio-preview` model can also be used to [generate audio](https://platform.openai.com/docs/guides/audio). 
+        To request that this model generate both text and audio responses, you can use:
+        `["text", "audio"]`
+      enum: [ "text", "audio" ]
+    ChatCompletionAudioOptions:
+      type: object
+      description: |
+        Parameters for audio output. Required when audio output is requested with `modalities: ["audio"]`. 
+        [Learn more](https://platform.openai.com/docs/guides/audio).
+      required:
+        - voice
+        - format
+      properties:
+        voice:
+          $ref: "#/components/schemas/ChatCompletionAudioVoice"
+        format:
+          $ref: "#/components/schemas/ChatCompletionAudioFormat"
+    ChatCompletionAudioVoice:
+        type: string
+        description: |
+          Specifies the voice type. Supported voices are `alloy`, `echo`, `fable`, `onyx`, `nova`, and `shimmer`.
+        enum:
+            - alloy
+            - echo
+            - fable
+            - onyx
+            - nova
+            - shimmer
+    ChatCompletionAudioFormat:
+      type: string
+      description: |
+        Specifies the output audio format. Must be one of `wav`, `mp3`, `flac`, `opus`, or `pcm16`.
+      enum:
+          - wav
+          - mp3
+          - flac
+          - opus
+          - pcm16
     ChatCompletionStreamOptions:
       description: |
         Options for streaming response. Only set this when you set `stream: true`.
@@ -3802,7 +3924,7 @@ components:
           description: &metadata_description |
             Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional 
             information about the object in a structured format. Keys can be a maximum of 64 characters long and values 
-            can be a maxium of 512 characters long.
+            can be a maximum of 512 characters long.
           type: object
           additionalProperties: true
           nullable: true
@@ -4673,14 +4795,19 @@ components:
       additionalProperties: false
       properties:
         assistant_id:
-          description: The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) to use to execute this run.
+          description: | 
+            The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) to use to execute this 
+            run.
           type: string
         thread:
           $ref: "#/components/schemas/CreateThreadRequest"
           description: If no thread is provided, an empty thread will be created.
         model:
           title: ThreadAndRunModel
-          description: The ID of the [Model](https://platform.openai.com/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used.
+          description: | 
+            The ID of the [Model](https://platform.openai.com/docs/api-reference/models) to be used to execute this run. 
+            If a value is provided here, it will override the model associated with the assistant. If not, the model 
+            associated with the assistant will be used.
           example: "gpt-4-turbo"
           anyOf:
             - type: string
@@ -4722,11 +4849,15 @@ components:
                   "o1-preview-2024-09-12",
                 ]
         instructions:
-          description: Override the default system message of the assistant. This is useful for modifying the behavior on a per-run basis.
+          description: | 
+            Override the default system message of the assistant. This is useful for modifying the behavior on a per-run 
+            basis.
           type: string
           nullable: true
         tools:
-          description: Override the tools the assistant can use for this run. This is useful for modifying the behavior on a per-run basis.
+          description: | 
+            Override the tools the assistant can use for this run. This is useful for modifying the behavior on a 
+            per-run basis.
           nullable: true
           type: array
           maxItems: 20
@@ -4759,13 +4890,19 @@ components:
           type: integer
           nullable: true
           description: |
-            The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
+            The maximum number of prompt tokens that may be used over the course of the run. The run will make a best 
+            effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run 
+            exceeds the number of prompt tokens specified, the run will end with status `incomplete`. See 
+            `incomplete_details` for more info.
           minimum: 256
         max_completion_tokens:
           type: integer
           nullable: true
           description: |
-            The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
+            The maximum number of completion tokens that may be used over the course of the run. The run will make a 
+            best effort to use only the number of completion tokens specified, across multiple turns of the run. If the 
+            run exceeds the number of completion tokens specified, the run will end with status `incomplete`. See 
+            `incomplete_details` for more info.
           minimum: 256
         truncation_strategy:
           $ref: "#/components/schemas/TruncationObject"
@@ -4774,9 +4911,11 @@ components:
           description: |
             Controls which (if any) tool is called by the model.
             `none` means the model will not call any tools and instead generates a message.
-            `auto` is the default value and means the model can pick between generating a message or calling one or more tools.
+            `auto` is the default value and means the model can pick between generating a message or calling one or more 
+             tools.
             `required` means the model must call one or more tools before responding to the user.
-            Specifying a particular tool like `{"type": "file_search"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+            Specifying a particular tool like `{"type": "file_search"}` or 
+            `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
           nullable: true
           oneOf:
             - type: string
@@ -4802,7 +4941,8 @@ components:
           type: boolean
           nullable: true
           description: |
-            If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.
+            If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when 
+            the Run enters a terminal state with a `data: [DONE]` message.
       required:
         - assistant_id
     ThreadObject:
@@ -4838,7 +4978,8 @@ components:
       additionalProperties: false
       properties:
         messages:
-          description: A list of [messages](https://platform.openai.com/docs/api-reference/messages) to start the thread with.
+          description: | 
+            A list of [messages](https://platform.openai.com/docs/api-reference/messages) to start the thread with.
           type: array
           items:
             $ref: "#/components/schemas/CreateMessageRequest"
@@ -4864,7 +5005,9 @@ components:
     ToolResources:
       type: object
       description: |
-        A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+        A set of resources that are made available to the assistant's tools in this thread. The resources are specific 
+        to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the 
+        `file_search` tool requires a list of vector store IDs.
       nullable: true
       properties:
         code_interpreter:
@@ -4874,7 +5017,8 @@ components:
             file_ids:
               type: array
               description: |
-                A list of [file](https://platform.openai.com/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.
+                A list of [file](https://platform.openai.com/docs/api-reference/files) IDs made available to the 
+                `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.
               default: [ ]
               maxItems: 20
               items:
@@ -4886,26 +5030,31 @@ components:
             vector_store_ids:
               type: array
               description: |
-                The [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) attached to this thread. There can be a maximum of 1 vector store attached to the thread.
+                The [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) attached to 
+                this thread. There can be a maximum of 1 vector store attached to the thread.
               maxItems: 1
               items:
                 type: string
             vector_stores:
               type: array
               description: |
-                A helper to create a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) with file_ids and attach it to this thread. There can be a maximum of 1 vector store attached to the thread.
+                A helper to create a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) 
+                with file_ids and attach it to this thread. There can be a maximum of 1 vector store attached to the 
+                thread.
               maxItems: 1
               items:
                 $ref: "#/components/schemas/ToolResourcesFileSearchVectorStore"
     ToolResourcesFileSearchVectorStore:
       type: object
       description: |
-        A helper to create a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) with file_ids and attach it to this thread.
+        A helper to create a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) with 
+        file_ids and attach it to this thread.
       properties:
         file_ids:
           type: array
           description: |
-            A list of [file](https://platform.openai.com/docs/api-reference/files) IDs to add to the vector store. There can be a maximum of 10000 files in a vector store.
+            A list of [file](https://platform.openai.com/docs/api-reference/files) IDs to add to the vector store. 
+            There can be a maximum of 10000 files in a vector store.
           maxItems: 10000
           items:
             type: string
@@ -4914,7 +5063,9 @@ components:
         metadata:
           type: object
           description: |
-            Set of 16 key-value pairs that can be attached to a vector store. This can be useful for storing additional information about the vector store in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+            Set of 16 key-value pairs that can be attached to a vector store. This can be useful for storing additional 
+            information about the vector store in a structured format. Keys can be a maximum of 64 characters long and 
+            values can be a maximum of 512 characters long.
     DeleteThreadResponse:
       type: object
       properties:
@@ -6499,7 +6650,7 @@ components:
           description: The identifier, which can be referenced in API endpoints.
           type: string
         object:
-          description: The object type, which is always `vector_store.file_batch`.
+          description: The object type, which is always `vector_store.files_batch`
           type: string
         created_at:
           description: The Unix timestamp (in seconds) for when the vector store files batch was created.

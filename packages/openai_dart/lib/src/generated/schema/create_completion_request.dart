@@ -33,7 +33,8 @@ class CreateCompletionRequest with _$CreateCompletionRequest {
     /// Echo back the prompt in addition to the completion
     @JsonKey(includeIfNull: false) @Default(false) bool? echo,
 
-    /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
+    /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the
+    /// text so far, decreasing the model's likelihood to repeat the same line verbatim.
     ///
     /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
     @JsonKey(name: 'frequency_penalty', includeIfNull: false)

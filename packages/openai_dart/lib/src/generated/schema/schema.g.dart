@@ -318,6 +318,13 @@ _$CreateChatCompletionRequestImpl _$$CreateChatCompletionRequestImplFromJson(
       maxTokens: (json['max_tokens'] as num?)?.toInt(),
       maxCompletionTokens: (json['max_completion_tokens'] as num?)?.toInt(),
       n: (json['n'] as num?)?.toInt() ?? 1,
+      modalities: (json['modalities'] as List<dynamic>?)
+          ?.map((e) => $enumDecode(_$ChatCompletionModalityEnumMap, e))
+          .toList(),
+      audio: json['audio'] == null
+          ? null
+          : ChatCompletionAudioOptions.fromJson(
+              json['audio'] as Map<String, dynamic>),
       presencePenalty: (json['presence_penalty'] as num?)?.toDouble() ?? 0.0,
       responseFormat: json['response_format'] == null
           ? null
@@ -369,6 +376,12 @@ Map<String, dynamic> _$$CreateChatCompletionRequestImplToJson(
   writeNotNull('max_tokens', instance.maxTokens);
   writeNotNull('max_completion_tokens', instance.maxCompletionTokens);
   writeNotNull('n', instance.n);
+  writeNotNull(
+      'modalities',
+      instance.modalities
+          ?.map((e) => _$ChatCompletionModalityEnumMap[e]!)
+          .toList());
+  writeNotNull('audio', instance.audio?.toJson());
   writeNotNull('presence_penalty', instance.presencePenalty);
   writeNotNull('response_format', instance.responseFormat?.toJson());
   writeNotNull('seed', instance.seed);
@@ -395,6 +408,11 @@ Map<String, dynamic> _$$CreateChatCompletionRequestImplToJson(
       'functions', instance.functions?.map((e) => e.toJson()).toList());
   return val;
 }
+
+const _$ChatCompletionModalityEnumMap = {
+  ChatCompletionModality.text: 'text',
+  ChatCompletionModality.audio: 'audio',
+};
 
 const _$CreateChatCompletionRequestServiceTierEnumMap = {
   CreateChatCompletionRequestServiceTier.auto: 'auto',
@@ -432,8 +450,14 @@ const _$ChatCompletionModelsEnumMap = {
   ChatCompletionModels.gpt4o: 'gpt-4o',
   ChatCompletionModels.gpt4o20240513: 'gpt-4o-2024-05-13',
   ChatCompletionModels.gpt4o20240806: 'gpt-4o-2024-08-06',
+  ChatCompletionModels.gpt4oAudioPreview: 'gpt-4o-audio-preview',
+  ChatCompletionModels.gpt4oAudioPreview20241001:
+      'gpt-4o-audio-preview-2024-10-01',
   ChatCompletionModels.gpt4oMini: 'gpt-4o-mini',
   ChatCompletionModels.gpt4oMini20240718: 'gpt-4o-mini-2024-07-18',
+  ChatCompletionModels.gpt4oRealtimePreview: 'gpt-4o-realtime-preview',
+  ChatCompletionModels.gpt4oRealtimePreview20241001:
+      'gpt-4o-realtime-preview-2024-10-01',
   ChatCompletionModels.gpt35Turbo: 'gpt-3.5-turbo',
   ChatCompletionModels.gpt35Turbo16k: 'gpt-3.5-turbo-16k',
   ChatCompletionModels.gpt35Turbo16k0613: 'gpt-3.5-turbo-16k-0613',
@@ -706,6 +730,37 @@ Map<String, dynamic> _$$ChatCompletionMessageToolCallImplToJson(
 
 const _$ChatCompletionMessageToolCallTypeEnumMap = {
   ChatCompletionMessageToolCallType.function: 'function',
+};
+
+_$ChatCompletionAudioOptionsImpl _$$ChatCompletionAudioOptionsImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ChatCompletionAudioOptionsImpl(
+      voice: $enumDecode(_$ChatCompletionAudioVoiceEnumMap, json['voice']),
+      format: $enumDecode(_$ChatCompletionAudioFormatEnumMap, json['format']),
+    );
+
+Map<String, dynamic> _$$ChatCompletionAudioOptionsImplToJson(
+        _$ChatCompletionAudioOptionsImpl instance) =>
+    <String, dynamic>{
+      'voice': _$ChatCompletionAudioVoiceEnumMap[instance.voice]!,
+      'format': _$ChatCompletionAudioFormatEnumMap[instance.format]!,
+    };
+
+const _$ChatCompletionAudioVoiceEnumMap = {
+  ChatCompletionAudioVoice.alloy: 'alloy',
+  ChatCompletionAudioVoice.echo: 'echo',
+  ChatCompletionAudioVoice.fable: 'fable',
+  ChatCompletionAudioVoice.onyx: 'onyx',
+  ChatCompletionAudioVoice.nova: 'nova',
+  ChatCompletionAudioVoice.shimmer: 'shimmer',
+};
+
+const _$ChatCompletionAudioFormatEnumMap = {
+  ChatCompletionAudioFormat.wav: 'wav',
+  ChatCompletionAudioFormat.mp3: 'mp3',
+  ChatCompletionAudioFormat.flac: 'flac',
+  ChatCompletionAudioFormat.opus: 'opus',
+  ChatCompletionAudioFormat.pcm16: 'pcm16',
 };
 
 _$ChatCompletionStreamOptionsImpl _$$ChatCompletionStreamOptionsImplFromJson(
@@ -5304,6 +5359,10 @@ _$ChatCompletionAssistantMessageImpl
               ? null
               : ChatCompletionMessageFunctionCall.fromJson(
                   json['function_call'] as Map<String, dynamic>),
+          audio: json['audio'] == null
+              ? null
+              : ChatCompletionAssistantMessageAudio.fromJson(
+                  json['audio'] as Map<String, dynamic>),
         );
 
 Map<String, dynamic> _$$ChatCompletionAssistantMessageImplToJson(
@@ -5324,6 +5383,7 @@ Map<String, dynamic> _$$ChatCompletionAssistantMessageImplToJson(
   writeNotNull(
       'tool_calls', instance.toolCalls?.map((e) => e.toJson()).toList());
   writeNotNull('function_call', instance.functionCall?.toJson());
+  writeNotNull('audio', instance.audio?.toJson());
   return val;
 }
 
@@ -5396,6 +5456,25 @@ Map<String, dynamic> _$$ChatCompletionUserMessageContentStringImplToJson(
       'runtimeType': instance.$type,
     };
 
+_$ChatCompletionAssistantMessageAudioImpl
+    _$$ChatCompletionAssistantMessageAudioImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ChatCompletionAssistantMessageAudioImpl(
+          id: json['id'] as String,
+          expiresAt: (json['expires_at'] as num).toInt(),
+          data: json['data'] as String,
+          transcript: json['transcript'] as String,
+        );
+
+Map<String, dynamic> _$$ChatCompletionAssistantMessageAudioImplToJson(
+        _$ChatCompletionAssistantMessageAudioImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'expires_at': instance.expiresAt,
+      'data': instance.data,
+      'transcript': instance.transcript,
+    };
+
 _$ChatCompletionMessageContentPartTextImpl
     _$$ChatCompletionMessageContentPartTextImplFromJson(
             Map<String, dynamic> json) =>
@@ -5417,6 +5496,7 @@ Map<String, dynamic> _$$ChatCompletionMessageContentPartTextImplToJson(
 const _$ChatCompletionMessageContentPartTypeEnumMap = {
   ChatCompletionMessageContentPartType.text: 'text',
   ChatCompletionMessageContentPartType.imageUrl: 'image_url',
+  ChatCompletionMessageContentPartType.inputAudio: 'input_audio',
   ChatCompletionMessageContentPartType.refusal: 'refusal',
 };
 
@@ -5437,6 +5517,25 @@ Map<String, dynamic> _$$ChatCompletionMessageContentPartImageImplToJson(
     <String, dynamic>{
       'type': _$ChatCompletionMessageContentPartTypeEnumMap[instance.type]!,
       'image_url': instance.imageUrl.toJson(),
+    };
+
+_$ChatCompletionMessageContentPartAudioImpl
+    _$$ChatCompletionMessageContentPartAudioImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ChatCompletionMessageContentPartAudioImpl(
+          type: $enumDecodeNullable(
+                  _$ChatCompletionMessageContentPartTypeEnumMap,
+                  json['type']) ??
+              ChatCompletionMessageContentPartType.inputAudio,
+          inputAudio: ChatCompletionMessageInputAudio.fromJson(
+              json['input_audio'] as Map<String, dynamic>),
+        );
+
+Map<String, dynamic> _$$ChatCompletionMessageContentPartAudioImplToJson(
+        _$ChatCompletionMessageContentPartAudioImpl instance) =>
+    <String, dynamic>{
+      'type': _$ChatCompletionMessageContentPartTypeEnumMap[instance.type]!,
+      'input_audio': instance.inputAudio.toJson(),
     };
 
 _$ChatCompletionMessageContentPartRefusalImpl
@@ -5477,6 +5576,27 @@ const _$ChatCompletionMessageImageDetailEnumMap = {
   ChatCompletionMessageImageDetail.auto: 'auto',
   ChatCompletionMessageImageDetail.low: 'low',
   ChatCompletionMessageImageDetail.high: 'high',
+};
+
+_$ChatCompletionMessageInputAudioImpl
+    _$$ChatCompletionMessageInputAudioImplFromJson(Map<String, dynamic> json) =>
+        _$ChatCompletionMessageInputAudioImpl(
+          data: json['data'] as String,
+          format: $enumDecode(
+              _$ChatCompletionMessageInputAudioFormatEnumMap, json['format']),
+        );
+
+Map<String, dynamic> _$$ChatCompletionMessageInputAudioImplToJson(
+        _$ChatCompletionMessageInputAudioImpl instance) =>
+    <String, dynamic>{
+      'data': instance.data,
+      'format':
+          _$ChatCompletionMessageInputAudioFormatEnumMap[instance.format]!,
+    };
+
+const _$ChatCompletionMessageInputAudioFormatEnumMap = {
+  ChatCompletionMessageInputAudioFormat.wav: 'wav',
+  ChatCompletionMessageInputAudioFormat.mp3: 'mp3',
 };
 
 _$ResponseFormatTextImpl _$$ResponseFormatTextImplFromJson(

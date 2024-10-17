@@ -14,6 +14,8 @@ enum ChatCompletionMessageContentPartType {
   text,
   @JsonValue('image_url')
   imageUrl,
+  @JsonValue('input_audio')
+  inputAudio,
   @JsonValue('refusal')
   refusal,
 }

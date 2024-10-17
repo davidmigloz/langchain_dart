@@ -43,7 +43,8 @@ mixin _$CreateCompletionRequest {
   @JsonKey(includeIfNull: false)
   bool? get echo => throw _privateConstructorUsedError;
 
-  /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
+  /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the
+  /// text so far, decreasing the model's likelihood to repeat the same line verbatim.
   ///
   /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
   @JsonKey(name: 'frequency_penalty', includeIfNull: false)
@@ -549,7 +550,8 @@ class _$CreateCompletionRequestImpl extends _CreateCompletionRequest {
   @JsonKey(includeIfNull: false)
   final bool? echo;
 
-  /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
+  /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the
+  /// text so far, decreasing the model's likelihood to repeat the same line verbatim.
   ///
   /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
   @override
@@ -790,7 +792,8 @@ abstract class _CreateCompletionRequest extends CreateCompletionRequest {
   @JsonKey(includeIfNull: false)
   bool? get echo;
 
-  /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
+  /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the
+  /// text so far, decreasing the model's likelihood to repeat the same line verbatim.
   ///
   /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
   @override
@@ -3535,12 +3538,16 @@ mixin _$CreateChatCompletionRequest {
   @_ChatCompletionModelConverter()
   ChatCompletionModel get model => throw _privateConstructorUsedError;
 
-  /// A list of messages comprising the conversation so far.
-  /// [Example Python code](https://cookbook.openai.com/examples/how_to_format_inputs_to_chatgpt_models).
+  /// A list of messages comprising the conversation so far. Depending on the [model](https://platform.openai.com/docs/models) you use,
+  /// different message types (modalities) are supported,
+  /// like [text](https://platform.openai.com/docs/guides/text-generation),
+  /// [images](https://platform.openai.com/docs/guides/vision),
+  /// and [audio](https://platform.openai.com/docs/guides/audio).
   List<ChatCompletionMessage> get messages =>
       throw _privateConstructorUsedError;
 
-  /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
+  /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the
+  /// text so far, decreasing the model's likelihood to repeat the same line verbatim.
   ///
   /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
   @JsonKey(name: 'frequency_penalty', includeIfNull: false)
@@ -3584,6 +3591,16 @@ mixin _$CreateChatCompletionRequest {
   /// the number of generated tokens across all of the choices. Keep `n` as `1` to minimize costs.
   @JsonKey(includeIfNull: false)
   int? get n => throw _privateConstructorUsedError;
+
+  /// A list of modalities that the model may use to generate the completion.
+  @JsonKey(includeIfNull: false)
+  List<ChatCompletionModality>? get modalities =>
+      throw _privateConstructorUsedError;
+
+  /// Parameters for audio output. Required when audio output is requested with `modalities: ["audio"]`.
+  /// [Learn more](https://platform.openai.com/docs/guides/audio).
+  @JsonKey(includeIfNull: false)
+  ChatCompletionAudioOptions? get audio => throw _privateConstructorUsedError;
 
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
   ///
@@ -3744,6 +3761,8 @@ abstract class $CreateChatCompletionRequestCopyWith<$Res> {
       @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
       int? maxCompletionTokens,
       @JsonKey(includeIfNull: false) int? n,
+      @JsonKey(includeIfNull: false) List<ChatCompletionModality>? modalities,
+      @JsonKey(includeIfNull: false) ChatCompletionAudioOptions? audio,
       @JsonKey(name: 'presence_penalty', includeIfNull: false)
       double? presencePenalty,
       @JsonKey(name: 'response_format', includeIfNull: false)
@@ -3775,6 +3794,7 @@ abstract class $CreateChatCompletionRequestCopyWith<$Res> {
       @JsonKey(includeIfNull: false) List<FunctionObject>? functions});
 
   $ChatCompletionModelCopyWith<$Res> get model;
+  $ChatCompletionAudioOptionsCopyWith<$Res>? get audio;
   $ResponseFormatCopyWith<$Res>? get responseFormat;
   $ChatCompletionStopCopyWith<$Res>? get stop;
   $ChatCompletionStreamOptionsCopyWith<$Res>? get streamOptions;
@@ -3807,6 +3827,8 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res,
     Object? maxTokens = freezed,
     Object? maxCompletionTokens = freezed,
     Object? n = freezed,
+    Object? modalities = freezed,
+    Object? audio = freezed,
     Object? presencePenalty = freezed,
     Object? responseFormat = freezed,
     Object? seed = freezed,
@@ -3860,6 +3882,14 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res,
           ? _value.n
           : n // ignore: cast_nullable_to_non_nullable
               as int?,
+      modalities: freezed == modalities
+          ? _value.modalities
+          : modalities // ignore: cast_nullable_to_non_nullable
+              as List<ChatCompletionModality>?,
+      audio: freezed == audio
+          ? _value.audio
+          : audio // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionAudioOptions?,
       presencePenalty: freezed == presencePenalty
           ? _value.presencePenalty
           : presencePenalty // ignore: cast_nullable_to_non_nullable
@@ -3930,6 +3960,20 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res,
   $ChatCompletionModelCopyWith<$Res> get model {
     return $ChatCompletionModelCopyWith<$Res>(_value.model, (value) {
       return _then(_value.copyWith(model: value) as $Val);
+    });
+  }
+
+  /// Create a copy of CreateChatCompletionRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ChatCompletionAudioOptionsCopyWith<$Res>? get audio {
+    if (_value.audio == null) {
+      return null;
+    }
+
+    return $ChatCompletionAudioOptionsCopyWith<$Res>(_value.audio!, (value) {
+      return _then(_value.copyWith(audio: value) as $Val);
     });
   }
 
@@ -4029,6 +4073,8 @@ abstract class _$$CreateChatCompletionRequestImplCopyWith<$Res>
       @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
       int? maxCompletionTokens,
       @JsonKey(includeIfNull: false) int? n,
+      @JsonKey(includeIfNull: false) List<ChatCompletionModality>? modalities,
+      @JsonKey(includeIfNull: false) ChatCompletionAudioOptions? audio,
       @JsonKey(name: 'presence_penalty', includeIfNull: false)
       double? presencePenalty,
       @JsonKey(name: 'response_format', includeIfNull: false)
@@ -4061,6 +4107,8 @@ abstract class _$$CreateChatCompletionRequestImplCopyWith<$Res>
 
   @override
   $ChatCompletionModelCopyWith<$Res> get model;
+  @override
+  $ChatCompletionAudioOptionsCopyWith<$Res>? get audio;
   @override
   $ResponseFormatCopyWith<$Res>? get responseFormat;
   @override
@@ -4097,6 +4145,8 @@ class __$$CreateChatCompletionRequestImplCopyWithImpl<$Res>
     Object? maxTokens = freezed,
     Object? maxCompletionTokens = freezed,
     Object? n = freezed,
+    Object? modalities = freezed,
+    Object? audio = freezed,
     Object? presencePenalty = freezed,
     Object? responseFormat = freezed,
     Object? seed = freezed,
@@ -4150,6 +4200,14 @@ class __$$CreateChatCompletionRequestImplCopyWithImpl<$Res>
           ? _value.n
           : n // ignore: cast_nullable_to_non_nullable
               as int?,
+      modalities: freezed == modalities
+          ? _value._modalities
+          : modalities // ignore: cast_nullable_to_non_nullable
+              as List<ChatCompletionModality>?,
+      audio: freezed == audio
+          ? _value.audio
+          : audio // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionAudioOptions?,
       presencePenalty: freezed == presencePenalty
           ? _value.presencePenalty
           : presencePenalty // ignore: cast_nullable_to_non_nullable
@@ -4230,6 +4288,9 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
       @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
       this.maxCompletionTokens,
       @JsonKey(includeIfNull: false) this.n = 1,
+      @JsonKey(includeIfNull: false)
+      final List<ChatCompletionModality>? modalities,
+      @JsonKey(includeIfNull: false) this.audio,
       @JsonKey(name: 'presence_penalty', includeIfNull: false)
       this.presencePenalty = 0.0,
       @JsonKey(name: 'response_format', includeIfNull: false)
@@ -4258,6 +4319,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
       @JsonKey(includeIfNull: false) final List<FunctionObject>? functions})
       : _messages = messages,
         _logitBias = logitBias,
+        _modalities = modalities,
         _tools = tools,
         _functions = functions,
         super._();
@@ -4272,12 +4334,18 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
   @_ChatCompletionModelConverter()
   final ChatCompletionModel model;
 
-  /// A list of messages comprising the conversation so far.
-  /// [Example Python code](https://cookbook.openai.com/examples/how_to_format_inputs_to_chatgpt_models).
+  /// A list of messages comprising the conversation so far. Depending on the [model](https://platform.openai.com/docs/models) you use,
+  /// different message types (modalities) are supported,
+  /// like [text](https://platform.openai.com/docs/guides/text-generation),
+  /// [images](https://platform.openai.com/docs/guides/vision),
+  /// and [audio](https://platform.openai.com/docs/guides/audio).
   final List<ChatCompletionMessage> _messages;
 
-  /// A list of messages comprising the conversation so far.
-  /// [Example Python code](https://cookbook.openai.com/examples/how_to_format_inputs_to_chatgpt_models).
+  /// A list of messages comprising the conversation so far. Depending on the [model](https://platform.openai.com/docs/models) you use,
+  /// different message types (modalities) are supported,
+  /// like [text](https://platform.openai.com/docs/guides/text-generation),
+  /// [images](https://platform.openai.com/docs/guides/vision),
+  /// and [audio](https://platform.openai.com/docs/guides/audio).
   @override
   List<ChatCompletionMessage> get messages {
     if (_messages is EqualUnmodifiableListView) return _messages;
@@ -4285,7 +4353,8 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
     return EqualUnmodifiableListView(_messages);
   }
 
-  /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
+  /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the
+  /// text so far, decreasing the model's likelihood to repeat the same line verbatim.
   ///
   /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
   @override
@@ -4351,6 +4420,26 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
   @override
   @JsonKey(includeIfNull: false)
   final int? n;
+
+  /// A list of modalities that the model may use to generate the completion.
+  final List<ChatCompletionModality>? _modalities;
+
+  /// A list of modalities that the model may use to generate the completion.
+  @override
+  @JsonKey(includeIfNull: false)
+  List<ChatCompletionModality>? get modalities {
+    final value = _modalities;
+    if (value == null) return null;
+    if (_modalities is EqualUnmodifiableListView) return _modalities;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  /// Parameters for audio output. Required when audio output is requested with `modalities: ["audio"]`.
+  /// [Learn more](https://platform.openai.com/docs/guides/audio).
+  @override
+  @JsonKey(includeIfNull: false)
+  final ChatCompletionAudioOptions? audio;
 
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
   ///
@@ -4515,7 +4604,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
 
   @override
   String toString() {
-    return 'CreateChatCompletionRequest(model: $model, messages: $messages, frequencyPenalty: $frequencyPenalty, logitBias: $logitBias, logprobs: $logprobs, topLogprobs: $topLogprobs, maxTokens: $maxTokens, maxCompletionTokens: $maxCompletionTokens, n: $n, presencePenalty: $presencePenalty, responseFormat: $responseFormat, seed: $seed, serviceTier: $serviceTier, stop: $stop, stream: $stream, streamOptions: $streamOptions, temperature: $temperature, topP: $topP, tools: $tools, toolChoice: $toolChoice, parallelToolCalls: $parallelToolCalls, user: $user, functionCall: $functionCall, functions: $functions)';
+    return 'CreateChatCompletionRequest(model: $model, messages: $messages, frequencyPenalty: $frequencyPenalty, logitBias: $logitBias, logprobs: $logprobs, topLogprobs: $topLogprobs, maxTokens: $maxTokens, maxCompletionTokens: $maxCompletionTokens, n: $n, modalities: $modalities, audio: $audio, presencePenalty: $presencePenalty, responseFormat: $responseFormat, seed: $seed, serviceTier: $serviceTier, stop: $stop, stream: $stream, streamOptions: $streamOptions, temperature: $temperature, topP: $topP, tools: $tools, toolChoice: $toolChoice, parallelToolCalls: $parallelToolCalls, user: $user, functionCall: $functionCall, functions: $functions)';
   }
 
   @override
@@ -4538,6 +4627,9 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
             (identical(other.maxCompletionTokens, maxCompletionTokens) ||
                 other.maxCompletionTokens == maxCompletionTokens) &&
             (identical(other.n, n) || other.n == n) &&
+            const DeepCollectionEquality()
+                .equals(other._modalities, _modalities) &&
+            (identical(other.audio, audio) || other.audio == audio) &&
             (identical(other.presencePenalty, presencePenalty) ||
                 other.presencePenalty == presencePenalty) &&
             (identical(other.responseFormat, responseFormat) ||
@@ -4577,6 +4669,8 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
         maxTokens,
         maxCompletionTokens,
         n,
+        const DeepCollectionEquality().hash(_modalities),
+        audio,
         presencePenalty,
         responseFormat,
         seed,
@@ -4628,6 +4722,9 @@ abstract class _CreateChatCompletionRequest
       @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
       final int? maxCompletionTokens,
       @JsonKey(includeIfNull: false) final int? n,
+      @JsonKey(includeIfNull: false)
+      final List<ChatCompletionModality>? modalities,
+      @JsonKey(includeIfNull: false) final ChatCompletionAudioOptions? audio,
       @JsonKey(name: 'presence_penalty', includeIfNull: false)
       final double? presencePenalty,
       @JsonKey(name: 'response_format', includeIfNull: false)
@@ -4670,12 +4767,16 @@ abstract class _CreateChatCompletionRequest
   @_ChatCompletionModelConverter()
   ChatCompletionModel get model;
 
-  /// A list of messages comprising the conversation so far.
-  /// [Example Python code](https://cookbook.openai.com/examples/how_to_format_inputs_to_chatgpt_models).
+  /// A list of messages comprising the conversation so far. Depending on the [model](https://platform.openai.com/docs/models) you use,
+  /// different message types (modalities) are supported,
+  /// like [text](https://platform.openai.com/docs/guides/text-generation),
+  /// [images](https://platform.openai.com/docs/guides/vision),
+  /// and [audio](https://platform.openai.com/docs/guides/audio).
   @override
   List<ChatCompletionMessage> get messages;
 
-  /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
+  /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the
+  /// text so far, decreasing the model's likelihood to repeat the same line verbatim.
   ///
   /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
   @override
@@ -4726,6 +4827,17 @@ abstract class _CreateChatCompletionRequest
   @override
   @JsonKey(includeIfNull: false)
   int? get n;
+
+  /// A list of modalities that the model may use to generate the completion.
+  @override
+  @JsonKey(includeIfNull: false)
+  List<ChatCompletionModality>? get modalities;
+
+  /// Parameters for audio output. Required when audio output is requested with `modalities: ["audio"]`.
+  /// [Learn more](https://platform.openai.com/docs/guides/audio).
+  @override
+  @JsonKey(includeIfNull: false)
+  ChatCompletionAudioOptions? get audio;
 
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
   ///
@@ -8244,6 +8356,194 @@ abstract class _ChatCompletionMessageToolCall
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionMessageToolCallImplCopyWith<
           _$ChatCompletionMessageToolCallImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+ChatCompletionAudioOptions _$ChatCompletionAudioOptionsFromJson(
+    Map<String, dynamic> json) {
+  return _ChatCompletionAudioOptions.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ChatCompletionAudioOptions {
+  /// Specifies the voice type. Supported voices are `alloy`, `echo`, `fable`, `onyx`, `nova`, and `shimmer`.
+  ChatCompletionAudioVoice get voice => throw _privateConstructorUsedError;
+
+  /// Specifies the output audio format. Must be one of `wav`, `mp3`, `flac`, `opus`, or `pcm16`.
+  ChatCompletionAudioFormat get format => throw _privateConstructorUsedError;
+
+  /// Serializes this ChatCompletionAudioOptions to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of ChatCompletionAudioOptions
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $ChatCompletionAudioOptionsCopyWith<ChatCompletionAudioOptions>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ChatCompletionAudioOptionsCopyWith<$Res> {
+  factory $ChatCompletionAudioOptionsCopyWith(ChatCompletionAudioOptions value,
+          $Res Function(ChatCompletionAudioOptions) then) =
+      _$ChatCompletionAudioOptionsCopyWithImpl<$Res,
+          ChatCompletionAudioOptions>;
+  @useResult
+  $Res call({ChatCompletionAudioVoice voice, ChatCompletionAudioFormat format});
+}
+
+/// @nodoc
+class _$ChatCompletionAudioOptionsCopyWithImpl<$Res,
+        $Val extends ChatCompletionAudioOptions>
+    implements $ChatCompletionAudioOptionsCopyWith<$Res> {
+  _$ChatCompletionAudioOptionsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of ChatCompletionAudioOptions
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? voice = null,
+    Object? format = null,
+  }) {
+    return _then(_value.copyWith(
+      voice: null == voice
+          ? _value.voice
+          : voice // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionAudioVoice,
+      format: null == format
+          ? _value.format
+          : format // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionAudioFormat,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ChatCompletionAudioOptionsImplCopyWith<$Res>
+    implements $ChatCompletionAudioOptionsCopyWith<$Res> {
+  factory _$$ChatCompletionAudioOptionsImplCopyWith(
+          _$ChatCompletionAudioOptionsImpl value,
+          $Res Function(_$ChatCompletionAudioOptionsImpl) then) =
+      __$$ChatCompletionAudioOptionsImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({ChatCompletionAudioVoice voice, ChatCompletionAudioFormat format});
+}
+
+/// @nodoc
+class __$$ChatCompletionAudioOptionsImplCopyWithImpl<$Res>
+    extends _$ChatCompletionAudioOptionsCopyWithImpl<$Res,
+        _$ChatCompletionAudioOptionsImpl>
+    implements _$$ChatCompletionAudioOptionsImplCopyWith<$Res> {
+  __$$ChatCompletionAudioOptionsImplCopyWithImpl(
+      _$ChatCompletionAudioOptionsImpl _value,
+      $Res Function(_$ChatCompletionAudioOptionsImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ChatCompletionAudioOptions
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? voice = null,
+    Object? format = null,
+  }) {
+    return _then(_$ChatCompletionAudioOptionsImpl(
+      voice: null == voice
+          ? _value.voice
+          : voice // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionAudioVoice,
+      format: null == format
+          ? _value.format
+          : format // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionAudioFormat,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ChatCompletionAudioOptionsImpl extends _ChatCompletionAudioOptions {
+  const _$ChatCompletionAudioOptionsImpl(
+      {required this.voice, required this.format})
+      : super._();
+
+  factory _$ChatCompletionAudioOptionsImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$ChatCompletionAudioOptionsImplFromJson(json);
+
+  /// Specifies the voice type. Supported voices are `alloy`, `echo`, `fable`, `onyx`, `nova`, and `shimmer`.
+  @override
+  final ChatCompletionAudioVoice voice;
+
+  /// Specifies the output audio format. Must be one of `wav`, `mp3`, `flac`, `opus`, or `pcm16`.
+  @override
+  final ChatCompletionAudioFormat format;
+
+  @override
+  String toString() {
+    return 'ChatCompletionAudioOptions(voice: $voice, format: $format)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ChatCompletionAudioOptionsImpl &&
+            (identical(other.voice, voice) || other.voice == voice) &&
+            (identical(other.format, format) || other.format == format));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, voice, format);
+
+  /// Create a copy of ChatCompletionAudioOptions
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ChatCompletionAudioOptionsImplCopyWith<_$ChatCompletionAudioOptionsImpl>
+      get copyWith => __$$ChatCompletionAudioOptionsImplCopyWithImpl<
+          _$ChatCompletionAudioOptionsImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ChatCompletionAudioOptionsImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ChatCompletionAudioOptions extends ChatCompletionAudioOptions {
+  const factory _ChatCompletionAudioOptions(
+          {required final ChatCompletionAudioVoice voice,
+          required final ChatCompletionAudioFormat format}) =
+      _$ChatCompletionAudioOptionsImpl;
+  const _ChatCompletionAudioOptions._() : super._();
+
+  factory _ChatCompletionAudioOptions.fromJson(Map<String, dynamic> json) =
+      _$ChatCompletionAudioOptionsImpl.fromJson;
+
+  /// Specifies the voice type. Supported voices are `alloy`, `echo`, `fable`, `onyx`, `nova`, and `shimmer`.
+  @override
+  ChatCompletionAudioVoice get voice;
+
+  /// Specifies the output audio format. Must be one of `wav`, `mp3`, `flac`, `opus`, or `pcm16`.
+  @override
+  ChatCompletionAudioFormat get format;
+
+  /// Create a copy of ChatCompletionAudioOptions
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ChatCompletionAudioOptionsImplCopyWith<_$ChatCompletionAudioOptionsImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -24998,13 +25298,15 @@ mixin _$AssistantObject {
   /// types `code_interpreter`, `file_search`, or `function`.
   List<AssistantTools> get tools => throw _privateConstructorUsedError;
 
-  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific
+  /// to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the
+  /// `file_search` tool requires a list of vector store IDs.
   @JsonKey(name: 'tool_resources', includeIfNull: false)
   ToolResources? get toolResources => throw _privateConstructorUsedError;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
 
   /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random,
@@ -25379,19 +25681,21 @@ class _$AssistantObjectImpl extends _AssistantObject {
     return EqualUnmodifiableListView(_tools);
   }
 
-  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific
+  /// to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the
+  /// `file_search` tool requires a list of vector store IDs.
   @override
   @JsonKey(name: 'tool_resources', includeIfNull: false)
   final ToolResources? toolResources;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   final Map<String, dynamic>? _metadata;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @override
   Map<String, dynamic>? get metadata {
     final value = _metadata;
@@ -25562,14 +25866,16 @@ abstract class _AssistantObject extends AssistantObject {
   @override
   List<AssistantTools> get tools;
 
-  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific
+  /// to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the
+  /// `file_search` tool requires a list of vector store IDs.
   @override
   @JsonKey(name: 'tool_resources', includeIfNull: false)
   ToolResources? get toolResources;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @override
   Map<String, dynamic>? get metadata;
 
@@ -26110,13 +26416,15 @@ mixin _$CreateAssistantRequest {
   /// types `code_interpreter`, `file_search`, or `function`.
   List<AssistantTools> get tools => throw _privateConstructorUsedError;
 
-  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific
+  /// to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the
+  /// `file_search` tool requires a list of vector store IDs.
   @JsonKey(name: 'tool_resources', includeIfNull: false)
   ToolResources? get toolResources => throw _privateConstructorUsedError;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
 
@@ -26462,19 +26770,21 @@ class _$CreateAssistantRequestImpl extends _CreateAssistantRequest {
     return EqualUnmodifiableListView(_tools);
   }
 
-  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific
+  /// to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the
+  /// `file_search` tool requires a list of vector store IDs.
   @override
   @JsonKey(name: 'tool_resources', includeIfNull: false)
   final ToolResources? toolResources;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   final Map<String, dynamic>? _metadata;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata {
@@ -26627,14 +26937,16 @@ abstract class _CreateAssistantRequest extends CreateAssistantRequest {
   @override
   List<AssistantTools> get tools;
 
-  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific
+  /// to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the
+  /// `file_search` tool requires a list of vector store IDs.
   @override
   @JsonKey(name: 'tool_resources', includeIfNull: false)
   ToolResources? get toolResources;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata;
@@ -27611,13 +27923,15 @@ mixin _$ModifyAssistantRequest {
   @JsonKey(name: 'file_ids')
   List<String> get fileIds => throw _privateConstructorUsedError;
 
-  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific
+  /// to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the
+  /// `file_search` tool requires a list of vector store IDs.
   @JsonKey(name: 'tool_resources', includeIfNull: false)
   ToolResources? get toolResources => throw _privateConstructorUsedError;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
 
@@ -27976,19 +28290,21 @@ class _$ModifyAssistantRequestImpl extends _ModifyAssistantRequest {
     return EqualUnmodifiableListView(_fileIds);
   }
 
-  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific
+  /// to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the
+  /// `file_search` tool requires a list of vector store IDs.
   @override
   @JsonKey(name: 'tool_resources', includeIfNull: false)
   final ToolResources? toolResources;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   final Map<String, dynamic>? _metadata;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata {
@@ -28149,14 +28465,16 @@ abstract class _ModifyAssistantRequest extends ModifyAssistantRequest {
   @JsonKey(name: 'file_ids')
   List<String> get fileIds;
 
-  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific
+  /// to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the
+  /// `file_search` tool requires a list of vector store IDs.
   @override
   @JsonKey(name: 'tool_resources', includeIfNull: false)
   ToolResources? get toolResources;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata;
@@ -30046,7 +30364,7 @@ mixin _$RunObject {
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
 
   /// Usage statistics related to the run. This value will be `null` if the run is not in a terminal state (i.e. `in_progress`, `queued`, etc.).
@@ -30763,12 +31081,12 @@ class _$RunObjectImpl extends _RunObject {
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   final Map<String, dynamic>? _metadata;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @override
   Map<String, dynamic>? get metadata {
     final value = _metadata;
@@ -31076,7 +31394,7 @@ abstract class _RunObject extends RunObject {
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @override
   Map<String, dynamic>? get metadata;
 
@@ -33064,7 +33382,7 @@ mixin _$CreateRunRequest {
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
 
@@ -33585,12 +33903,12 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   final Map<String, dynamic>? _metadata;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata {
@@ -33820,7 +34138,7 @@ abstract class _CreateRunRequest extends CreateRunRequest {
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata;
@@ -35560,7 +35878,7 @@ ModifyRunRequest _$ModifyRunRequestFromJson(Map<String, dynamic> json) {
 mixin _$ModifyRunRequest {
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
 
@@ -35657,12 +35975,12 @@ class _$ModifyRunRequestImpl extends _ModifyRunRequest {
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   final Map<String, dynamic>? _metadata;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata {
@@ -35719,7 +36037,7 @@ abstract class _ModifyRunRequest extends ModifyRunRequest {
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata;
@@ -36548,7 +36866,8 @@ CreateThreadAndRunRequest _$CreateThreadAndRunRequestFromJson(
 
 /// @nodoc
 mixin _$CreateThreadAndRunRequest {
-  /// The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) to use to execute this run.
+  /// The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) to use to execute this
+  /// run.
   @JsonKey(name: 'assistant_id')
   String get assistantId => throw _privateConstructorUsedError;
 
@@ -36556,26 +36875,32 @@ mixin _$CreateThreadAndRunRequest {
   @JsonKey(includeIfNull: false)
   CreateThreadRequest? get thread => throw _privateConstructorUsedError;
 
-  /// The ID of the [Model](https://platform.openai.com/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used.
+  /// The ID of the [Model](https://platform.openai.com/docs/api-reference/models) to be used to execute this run.
+  /// If a value is provided here, it will override the model associated with the assistant. If not, the model
+  /// associated with the assistant will be used.
   @_ThreadAndRunModelConverter()
   @JsonKey(includeIfNull: false)
   ThreadAndRunModel? get model => throw _privateConstructorUsedError;
 
-  /// Override the default system message of the assistant. This is useful for modifying the behavior on a per-run basis.
+  /// Override the default system message of the assistant. This is useful for modifying the behavior on a per-run
+  /// basis.
   @JsonKey(includeIfNull: false)
   String? get instructions => throw _privateConstructorUsedError;
 
-  /// Override the tools the assistant can use for this run. This is useful for modifying the behavior on a per-run basis.
+  /// Override the tools the assistant can use for this run. This is useful for modifying the behavior on a
+  /// per-run basis.
   @JsonKey(includeIfNull: false)
   List<AssistantTools>? get tools => throw _privateConstructorUsedError;
 
-  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific
+  /// to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the
+  /// `file_search` tool requires a list of vector store IDs.
   @JsonKey(name: 'tool_resources', includeIfNull: false)
   ToolResources? get toolResources => throw _privateConstructorUsedError;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
 
@@ -36592,11 +36917,17 @@ mixin _$CreateThreadAndRunRequest {
   @JsonKey(name: 'top_p', includeIfNull: false)
   double? get topP => throw _privateConstructorUsedError;
 
-  /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
+  /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best
+  /// effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run
+  /// exceeds the number of prompt tokens specified, the run will end with status `incomplete`. See
+  /// `incomplete_details` for more info.
   @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
   int? get maxPromptTokens => throw _privateConstructorUsedError;
 
-  /// The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
+  /// The maximum number of completion tokens that may be used over the course of the run. The run will make a
+  /// best effort to use only the number of completion tokens specified, across multiple turns of the run. If the
+  /// run exceeds the number of completion tokens specified, the run will end with status `incomplete`. See
+  /// `incomplete_details` for more info.
   @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
   int? get maxCompletionTokens => throw _privateConstructorUsedError;
 
@@ -36607,9 +36938,11 @@ mixin _$CreateThreadAndRunRequest {
 
   /// Controls which (if any) tool is called by the model.
   /// `none` means the model will not call any tools and instead generates a message.
-  /// `auto` is the default value and means the model can pick between generating a message or calling one or more tools.
+  /// `auto` is the default value and means the model can pick between generating a message or calling one or more
+  ///  tools.
   /// `required` means the model must call one or more tools before responding to the user.
-  /// Specifying a particular tool like `{"type": "file_search"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+  /// Specifying a particular tool like `{"type": "file_search"}` or
+  /// `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
   @_CreateThreadAndRunRequestToolChoiceConverter()
   @JsonKey(name: 'tool_choice', includeIfNull: false)
   CreateThreadAndRunRequestToolChoice? get toolChoice =>
@@ -36642,7 +36975,8 @@ mixin _$CreateThreadAndRunRequest {
   CreateThreadAndRunRequestResponseFormat? get responseFormat =>
       throw _privateConstructorUsedError;
 
-  /// If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.
+  /// If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when
+  /// the Run enters a terminal state with a `data: [DONE]` message.
   @JsonKey(includeIfNull: false)
   bool? get stream => throw _privateConstructorUsedError;
 
@@ -37075,7 +37409,8 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
   factory _$CreateThreadAndRunRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$CreateThreadAndRunRequestImplFromJson(json);
 
-  /// The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) to use to execute this run.
+  /// The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) to use to execute this
+  /// run.
   @override
   @JsonKey(name: 'assistant_id')
   final String assistantId;
@@ -37085,21 +37420,26 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
   @JsonKey(includeIfNull: false)
   final CreateThreadRequest? thread;
 
-  /// The ID of the [Model](https://platform.openai.com/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used.
+  /// The ID of the [Model](https://platform.openai.com/docs/api-reference/models) to be used to execute this run.
+  /// If a value is provided here, it will override the model associated with the assistant. If not, the model
+  /// associated with the assistant will be used.
   @override
   @_ThreadAndRunModelConverter()
   @JsonKey(includeIfNull: false)
   final ThreadAndRunModel? model;
 
-  /// Override the default system message of the assistant. This is useful for modifying the behavior on a per-run basis.
+  /// Override the default system message of the assistant. This is useful for modifying the behavior on a per-run
+  /// basis.
   @override
   @JsonKey(includeIfNull: false)
   final String? instructions;
 
-  /// Override the tools the assistant can use for this run. This is useful for modifying the behavior on a per-run basis.
+  /// Override the tools the assistant can use for this run. This is useful for modifying the behavior on a
+  /// per-run basis.
   final List<AssistantTools>? _tools;
 
-  /// Override the tools the assistant can use for this run. This is useful for modifying the behavior on a per-run basis.
+  /// Override the tools the assistant can use for this run. This is useful for modifying the behavior on a
+  /// per-run basis.
   @override
   @JsonKey(includeIfNull: false)
   List<AssistantTools>? get tools {
@@ -37110,19 +37450,21 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
     return EqualUnmodifiableListView(value);
   }
 
-  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific
+  /// to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the
+  /// `file_search` tool requires a list of vector store IDs.
   @override
   @JsonKey(name: 'tool_resources', includeIfNull: false)
   final ToolResources? toolResources;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   final Map<String, dynamic>? _metadata;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata {
@@ -37148,12 +37490,18 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
   @JsonKey(name: 'top_p', includeIfNull: false)
   final double? topP;
 
-  /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
+  /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best
+  /// effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run
+  /// exceeds the number of prompt tokens specified, the run will end with status `incomplete`. See
+  /// `incomplete_details` for more info.
   @override
   @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
   final int? maxPromptTokens;
 
-  /// The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
+  /// The maximum number of completion tokens that may be used over the course of the run. The run will make a
+  /// best effort to use only the number of completion tokens specified, across multiple turns of the run. If the
+  /// run exceeds the number of completion tokens specified, the run will end with status `incomplete`. See
+  /// `incomplete_details` for more info.
   @override
   @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
   final int? maxCompletionTokens;
@@ -37165,9 +37513,11 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
 
   /// Controls which (if any) tool is called by the model.
   /// `none` means the model will not call any tools and instead generates a message.
-  /// `auto` is the default value and means the model can pick between generating a message or calling one or more tools.
+  /// `auto` is the default value and means the model can pick between generating a message or calling one or more
+  ///  tools.
   /// `required` means the model must call one or more tools before responding to the user.
-  /// Specifying a particular tool like `{"type": "file_search"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+  /// Specifying a particular tool like `{"type": "file_search"}` or
+  /// `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
   @override
   @_CreateThreadAndRunRequestToolChoiceConverter()
   @JsonKey(name: 'tool_choice', includeIfNull: false)
@@ -37201,7 +37551,8 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
   @JsonKey(name: 'response_format', includeIfNull: false)
   final CreateThreadAndRunRequestResponseFormat? responseFormat;
 
-  /// If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.
+  /// If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when
+  /// the Run enters a terminal state with a `data: [DONE]` message.
   @override
   @JsonKey(includeIfNull: false)
   final bool? stream;
@@ -37317,7 +37668,8 @@ abstract class _CreateThreadAndRunRequest extends CreateThreadAndRunRequest {
   factory _CreateThreadAndRunRequest.fromJson(Map<String, dynamic> json) =
       _$CreateThreadAndRunRequestImpl.fromJson;
 
-  /// The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) to use to execute this run.
+  /// The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) to use to execute this
+  /// run.
   @override
   @JsonKey(name: 'assistant_id')
   String get assistantId;
@@ -37327,30 +37679,36 @@ abstract class _CreateThreadAndRunRequest extends CreateThreadAndRunRequest {
   @JsonKey(includeIfNull: false)
   CreateThreadRequest? get thread;
 
-  /// The ID of the [Model](https://platform.openai.com/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used.
+  /// The ID of the [Model](https://platform.openai.com/docs/api-reference/models) to be used to execute this run.
+  /// If a value is provided here, it will override the model associated with the assistant. If not, the model
+  /// associated with the assistant will be used.
   @override
   @_ThreadAndRunModelConverter()
   @JsonKey(includeIfNull: false)
   ThreadAndRunModel? get model;
 
-  /// Override the default system message of the assistant. This is useful for modifying the behavior on a per-run basis.
+  /// Override the default system message of the assistant. This is useful for modifying the behavior on a per-run
+  /// basis.
   @override
   @JsonKey(includeIfNull: false)
   String? get instructions;
 
-  /// Override the tools the assistant can use for this run. This is useful for modifying the behavior on a per-run basis.
+  /// Override the tools the assistant can use for this run. This is useful for modifying the behavior on a
+  /// per-run basis.
   @override
   @JsonKey(includeIfNull: false)
   List<AssistantTools>? get tools;
 
-  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific
+  /// to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the
+  /// `file_search` tool requires a list of vector store IDs.
   @override
   @JsonKey(name: 'tool_resources', includeIfNull: false)
   ToolResources? get toolResources;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata;
@@ -37370,12 +37728,18 @@ abstract class _CreateThreadAndRunRequest extends CreateThreadAndRunRequest {
   @JsonKey(name: 'top_p', includeIfNull: false)
   double? get topP;
 
-  /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
+  /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best
+  /// effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run
+  /// exceeds the number of prompt tokens specified, the run will end with status `incomplete`. See
+  /// `incomplete_details` for more info.
   @override
   @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
   int? get maxPromptTokens;
 
-  /// The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
+  /// The maximum number of completion tokens that may be used over the course of the run. The run will make a
+  /// best effort to use only the number of completion tokens specified, across multiple turns of the run. If the
+  /// run exceeds the number of completion tokens specified, the run will end with status `incomplete`. See
+  /// `incomplete_details` for more info.
   @override
   @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
   int? get maxCompletionTokens;
@@ -37387,9 +37751,11 @@ abstract class _CreateThreadAndRunRequest extends CreateThreadAndRunRequest {
 
   /// Controls which (if any) tool is called by the model.
   /// `none` means the model will not call any tools and instead generates a message.
-  /// `auto` is the default value and means the model can pick between generating a message or calling one or more tools.
+  /// `auto` is the default value and means the model can pick between generating a message or calling one or more
+  ///  tools.
   /// `required` means the model must call one or more tools before responding to the user.
-  /// Specifying a particular tool like `{"type": "file_search"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+  /// Specifying a particular tool like `{"type": "file_search"}` or
+  /// `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
   @override
   @_CreateThreadAndRunRequestToolChoiceConverter()
   @JsonKey(name: 'tool_choice', includeIfNull: false)
@@ -37423,7 +37789,8 @@ abstract class _CreateThreadAndRunRequest extends CreateThreadAndRunRequest {
   @JsonKey(name: 'response_format', includeIfNull: false)
   CreateThreadAndRunRequestResponseFormat? get responseFormat;
 
-  /// If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.
+  /// If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when
+  /// the Run enters a terminal state with a `data: [DONE]` message.
   @override
   @JsonKey(includeIfNull: false)
   bool? get stream;
@@ -38874,13 +39241,15 @@ mixin _$ThreadObject {
   @JsonKey(name: 'created_at')
   int get createdAt => throw _privateConstructorUsedError;
 
-  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific
+  /// to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the
+  /// `file_search` tool requires a list of vector store IDs.
   @JsonKey(name: 'tool_resources')
   ToolResources? get toolResources => throw _privateConstructorUsedError;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
 
   /// Serializes this ThreadObject to a JSON map.
@@ -39060,19 +39429,21 @@ class _$ThreadObjectImpl extends _ThreadObject {
   @JsonKey(name: 'created_at')
   final int createdAt;
 
-  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific
+  /// to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the
+  /// `file_search` tool requires a list of vector store IDs.
   @override
   @JsonKey(name: 'tool_resources')
   final ToolResources? toolResources;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   final Map<String, dynamic>? _metadata;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @override
   Map<String, dynamic>? get metadata {
     final value = _metadata;
@@ -39148,14 +39519,16 @@ abstract class _ThreadObject extends ThreadObject {
   @JsonKey(name: 'created_at')
   int get createdAt;
 
-  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific
+  /// to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the
+  /// `file_search` tool requires a list of vector store IDs.
   @override
   @JsonKey(name: 'tool_resources')
   ToolResources? get toolResources;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @override
   Map<String, dynamic>? get metadata;
 
@@ -39178,13 +39551,15 @@ mixin _$CreateThreadRequest {
   List<CreateMessageRequest>? get messages =>
       throw _privateConstructorUsedError;
 
-  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific
+  /// to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the
+  /// `file_search` tool requires a list of vector store IDs.
   @JsonKey(name: 'tool_resources', includeIfNull: false)
   ToolResources? get toolResources => throw _privateConstructorUsedError;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
 
@@ -39344,19 +39719,21 @@ class _$CreateThreadRequestImpl extends _CreateThreadRequest {
     return EqualUnmodifiableListView(value);
   }
 
-  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific
+  /// to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the
+  /// `file_search` tool requires a list of vector store IDs.
   @override
   @JsonKey(name: 'tool_resources', includeIfNull: false)
   final ToolResources? toolResources;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   final Map<String, dynamic>? _metadata;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata {
@@ -39426,14 +39803,16 @@ abstract class _CreateThreadRequest extends CreateThreadRequest {
   @JsonKey(includeIfNull: false)
   List<CreateMessageRequest>? get messages;
 
-  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific
+  /// to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the
+  /// `file_search` tool requires a list of vector store IDs.
   @override
   @JsonKey(name: 'tool_resources', includeIfNull: false)
   ToolResources? get toolResources;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata;
@@ -39452,13 +39831,15 @@ ModifyThreadRequest _$ModifyThreadRequestFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ModifyThreadRequest {
-  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific
+  /// to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the
+  /// `file_search` tool requires a list of vector store IDs.
   @JsonKey(name: 'tool_resources', includeIfNull: false)
   ToolResources? get toolResources => throw _privateConstructorUsedError;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
 
@@ -39590,19 +39971,21 @@ class _$ModifyThreadRequestImpl extends _ModifyThreadRequest {
   factory _$ModifyThreadRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$ModifyThreadRequestImplFromJson(json);
 
-  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific
+  /// to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the
+  /// `file_search` tool requires a list of vector store IDs.
   @override
   @JsonKey(name: 'tool_resources', includeIfNull: false)
   final ToolResources? toolResources;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   final Map<String, dynamic>? _metadata;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata {
@@ -39661,14 +40044,16 @@ abstract class _ModifyThreadRequest extends ModifyThreadRequest {
   factory _ModifyThreadRequest.fromJson(Map<String, dynamic> json) =
       _$ModifyThreadRequestImpl.fromJson;
 
-  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific
+  /// to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the
+  /// `file_search` tool requires a list of vector store IDs.
   @override
   @JsonKey(name: 'tool_resources', includeIfNull: false)
   ToolResources? get toolResources;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata;
@@ -39925,7 +40310,8 @@ ToolResourcesCodeInterpreter _$ToolResourcesCodeInterpreterFromJson(
 
 /// @nodoc
 mixin _$ToolResourcesCodeInterpreter {
-  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.
+  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs made available to the
+  /// `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.
   @JsonKey(name: 'file_ids')
   List<String> get fileIds => throw _privateConstructorUsedError;
 
@@ -40027,10 +40413,12 @@ class _$ToolResourcesCodeInterpreterImpl extends _ToolResourcesCodeInterpreter {
           Map<String, dynamic> json) =>
       _$$ToolResourcesCodeInterpreterImplFromJson(json);
 
-  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.
+  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs made available to the
+  /// `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.
   final List<String> _fileIds;
 
-  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.
+  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs made available to the
+  /// `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.
   @override
   @JsonKey(name: 'file_ids')
   List<String> get fileIds {
@@ -40085,7 +40473,8 @@ abstract class _ToolResourcesCodeInterpreter
   factory _ToolResourcesCodeInterpreter.fromJson(Map<String, dynamic> json) =
       _$ToolResourcesCodeInterpreterImpl.fromJson;
 
-  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.
+  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs made available to the
+  /// `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.
   @override
   @JsonKey(name: 'file_ids')
   List<String> get fileIds;
@@ -40106,11 +40495,14 @@ ToolResourcesFileSearch _$ToolResourcesFileSearchFromJson(
 
 /// @nodoc
 mixin _$ToolResourcesFileSearch {
-  /// The [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) attached to this thread. There can be a maximum of 1 vector store attached to the thread.
+  /// The [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) attached to
+  /// this thread. There can be a maximum of 1 vector store attached to the thread.
   @JsonKey(name: 'vector_store_ids', includeIfNull: false)
   List<String>? get vectorStoreIds => throw _privateConstructorUsedError;
 
-  /// A helper to create a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) with file_ids and attach it to this thread. There can be a maximum of 1 vector store attached to the thread.
+  /// A helper to create a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object)
+  /// with file_ids and attach it to this thread. There can be a maximum of 1 vector store attached to the
+  /// thread.
   @JsonKey(name: 'vector_stores', includeIfNull: false)
   List<ToolResourcesFileSearchVectorStore>? get vectorStores =>
       throw _privateConstructorUsedError;
@@ -40232,10 +40624,12 @@ class _$ToolResourcesFileSearchImpl extends _ToolResourcesFileSearch {
   factory _$ToolResourcesFileSearchImpl.fromJson(Map<String, dynamic> json) =>
       _$$ToolResourcesFileSearchImplFromJson(json);
 
-  /// The [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) attached to this thread. There can be a maximum of 1 vector store attached to the thread.
+  /// The [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) attached to
+  /// this thread. There can be a maximum of 1 vector store attached to the thread.
   final List<String>? _vectorStoreIds;
 
-  /// The [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) attached to this thread. There can be a maximum of 1 vector store attached to the thread.
+  /// The [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) attached to
+  /// this thread. There can be a maximum of 1 vector store attached to the thread.
   @override
   @JsonKey(name: 'vector_store_ids', includeIfNull: false)
   List<String>? get vectorStoreIds {
@@ -40246,10 +40640,14 @@ class _$ToolResourcesFileSearchImpl extends _ToolResourcesFileSearch {
     return EqualUnmodifiableListView(value);
   }
 
-  /// A helper to create a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) with file_ids and attach it to this thread. There can be a maximum of 1 vector store attached to the thread.
+  /// A helper to create a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object)
+  /// with file_ids and attach it to this thread. There can be a maximum of 1 vector store attached to the
+  /// thread.
   final List<ToolResourcesFileSearchVectorStore>? _vectorStores;
 
-  /// A helper to create a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) with file_ids and attach it to this thread. There can be a maximum of 1 vector store attached to the thread.
+  /// A helper to create a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object)
+  /// with file_ids and attach it to this thread. There can be a maximum of 1 vector store attached to the
+  /// thread.
   @override
   @JsonKey(name: 'vector_stores', includeIfNull: false)
   List<ToolResourcesFileSearchVectorStore>? get vectorStores {
@@ -40312,12 +40710,15 @@ abstract class _ToolResourcesFileSearch extends ToolResourcesFileSearch {
   factory _ToolResourcesFileSearch.fromJson(Map<String, dynamic> json) =
       _$ToolResourcesFileSearchImpl.fromJson;
 
-  /// The [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) attached to this thread. There can be a maximum of 1 vector store attached to the thread.
+  /// The [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) attached to
+  /// this thread. There can be a maximum of 1 vector store attached to the thread.
   @override
   @JsonKey(name: 'vector_store_ids', includeIfNull: false)
   List<String>? get vectorStoreIds;
 
-  /// A helper to create a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) with file_ids and attach it to this thread. There can be a maximum of 1 vector store attached to the thread.
+  /// A helper to create a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object)
+  /// with file_ids and attach it to this thread. There can be a maximum of 1 vector store attached to the
+  /// thread.
   @override
   @JsonKey(name: 'vector_stores', includeIfNull: false)
   List<ToolResourcesFileSearchVectorStore>? get vectorStores;
@@ -40337,7 +40738,8 @@ ToolResourcesFileSearchVectorStore _$ToolResourcesFileSearchVectorStoreFromJson(
 
 /// @nodoc
 mixin _$ToolResourcesFileSearchVectorStore {
-  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs to add to the vector store. There can be a maximum of 10000 files in a vector store.
+  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs to add to the vector store.
+  /// There can be a maximum of 10000 files in a vector store.
   @JsonKey(name: 'file_ids', includeIfNull: false)
   List<String>? get fileIds => throw _privateConstructorUsedError;
 
@@ -40347,7 +40749,9 @@ mixin _$ToolResourcesFileSearchVectorStore {
   ChunkingStrategyRequestParam? get chunkingStrategy =>
       throw _privateConstructorUsedError;
 
-  /// Set of 16 key-value pairs that can be attached to a vector store. This can be useful for storing additional information about the vector store in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to a vector store. This can be useful for storing additional
+  /// information about the vector store in a structured format. Keys can be a maximum of 64 characters long and
+  /// values can be a maximum of 512 characters long.
   @JsonKey(includeIfNull: false)
   dynamic get metadata => throw _privateConstructorUsedError;
 
@@ -40503,10 +40907,12 @@ class _$ToolResourcesFileSearchVectorStoreImpl
           Map<String, dynamic> json) =>
       _$$ToolResourcesFileSearchVectorStoreImplFromJson(json);
 
-  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs to add to the vector store. There can be a maximum of 10000 files in a vector store.
+  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs to add to the vector store.
+  /// There can be a maximum of 10000 files in a vector store.
   final List<String>? _fileIds;
 
-  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs to add to the vector store. There can be a maximum of 10000 files in a vector store.
+  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs to add to the vector store.
+  /// There can be a maximum of 10000 files in a vector store.
   @override
   @JsonKey(name: 'file_ids', includeIfNull: false)
   List<String>? get fileIds {
@@ -40523,7 +40929,9 @@ class _$ToolResourcesFileSearchVectorStoreImpl
   @JsonKey(name: 'chunking_strategy', includeIfNull: false)
   final ChunkingStrategyRequestParam? chunkingStrategy;
 
-  /// Set of 16 key-value pairs that can be attached to a vector store. This can be useful for storing additional information about the vector store in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to a vector store. This can be useful for storing additional
+  /// information about the vector store in a structured format. Keys can be a maximum of 64 characters long and
+  /// values can be a maximum of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
   final dynamic metadata;
@@ -40585,7 +40993,8 @@ abstract class _ToolResourcesFileSearchVectorStore
           Map<String, dynamic> json) =
       _$ToolResourcesFileSearchVectorStoreImpl.fromJson;
 
-  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs to add to the vector store. There can be a maximum of 10000 files in a vector store.
+  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs to add to the vector store.
+  /// There can be a maximum of 10000 files in a vector store.
   @override
   @JsonKey(name: 'file_ids', includeIfNull: false)
   List<String>? get fileIds;
@@ -40596,7 +41005,9 @@ abstract class _ToolResourcesFileSearchVectorStore
   @JsonKey(name: 'chunking_strategy', includeIfNull: false)
   ChunkingStrategyRequestParam? get chunkingStrategy;
 
-  /// Set of 16 key-value pairs that can be attached to a vector store. This can be useful for storing additional information about the vector store in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to a vector store. This can be useful for storing additional
+  /// information about the vector store in a structured format. Keys can be a maximum of 64 characters long and
+  /// values can be a maximum of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
   dynamic get metadata;
@@ -41155,7 +41566,7 @@ mixin _$MessageObject {
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
 
   /// Serializes this MessageObject to a JSON map.
@@ -41525,12 +41936,12 @@ class _$MessageObjectImpl extends _MessageObject {
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   final Map<String, dynamic>? _metadata;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @override
   Map<String, dynamic>? get metadata {
     final value = _metadata;
@@ -41693,7 +42104,7 @@ abstract class _MessageObject extends MessageObject {
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @override
   Map<String, dynamic>? get metadata;
 
@@ -42533,7 +42944,7 @@ mixin _$CreateMessageRequest {
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
 
@@ -42713,12 +43124,12 @@ class _$CreateMessageRequestImpl extends _CreateMessageRequest {
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   final Map<String, dynamic>? _metadata;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata {
@@ -42802,7 +43213,7 @@ abstract class _CreateMessageRequest extends CreateMessageRequest {
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata;
@@ -43282,7 +43693,7 @@ ModifyMessageRequest _$ModifyMessageRequestFromJson(Map<String, dynamic> json) {
 mixin _$ModifyMessageRequest {
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
 
@@ -43380,12 +43791,12 @@ class _$ModifyMessageRequestImpl extends _ModifyMessageRequest {
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   final Map<String, dynamic>? _metadata;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata {
@@ -43443,7 +43854,7 @@ abstract class _ModifyMessageRequest extends ModifyMessageRequest {
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata;
@@ -45393,7 +45804,7 @@ mixin _$RunStepObject {
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
 
   /// Usage statistics related to the run step. This value will be `null` while the run step's status is `in_progress`.
@@ -45805,12 +46216,12 @@ class _$RunStepObjectImpl extends _RunStepObject {
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   final Map<String, dynamic>? _metadata;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @override
   Map<String, dynamic>? get metadata {
     final value = _metadata;
@@ -45990,7 +46401,7 @@ abstract class _RunStepObject extends RunStepObject {
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @override
   Map<String, dynamic>? get metadata;
 
@@ -49486,7 +49897,7 @@ mixin _$VectorStoreObject {
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   dynamic get metadata => throw _privateConstructorUsedError;
 
   /// Serializes this VectorStoreObject to a JSON map.
@@ -49795,7 +50206,7 @@ class _$VectorStoreObjectImpl extends _VectorStoreObject {
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @override
   final dynamic metadata;
 
@@ -49929,7 +50340,7 @@ abstract class _VectorStoreObject extends VectorStoreObject {
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @override
   dynamic get metadata;
 
@@ -50248,7 +50659,7 @@ mixin _$CreateVectorStoreRequest {
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @JsonKey(includeIfNull: false)
   dynamic get metadata => throw _privateConstructorUsedError;
 
@@ -50477,7 +50888,7 @@ class _$CreateVectorStoreRequestImpl extends _CreateVectorStoreRequest {
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
   final dynamic metadata;
@@ -50567,7 +50978,7 @@ abstract class _CreateVectorStoreRequest extends CreateVectorStoreRequest {
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
   dynamic get metadata;
@@ -50598,7 +51009,7 @@ mixin _$UpdateVectorStoreRequest {
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @JsonKey(includeIfNull: false)
   dynamic get metadata => throw _privateConstructorUsedError;
 
@@ -50758,7 +51169,7 @@ class _$UpdateVectorStoreRequestImpl extends _UpdateVectorStoreRequest {
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
   final dynamic metadata;
@@ -50825,7 +51236,7 @@ abstract class _UpdateVectorStoreRequest extends UpdateVectorStoreRequest {
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
   dynamic get metadata;
@@ -52901,7 +53312,7 @@ mixin _$VectorStoreFileBatchObject {
   /// The identifier, which can be referenced in API endpoints.
   String get id => throw _privateConstructorUsedError;
 
-  /// The object type, which is always `vector_store.file_batch`.
+  /// The object type, which is always `vector_store.files_batch`
   String get object => throw _privateConstructorUsedError;
 
   /// The Unix timestamp (in seconds) for when the vector store files batch was created.
@@ -53106,7 +53517,7 @@ class _$VectorStoreFileBatchObjectImpl extends _VectorStoreFileBatchObject {
   @override
   final String id;
 
-  /// The object type, which is always `vector_store.file_batch`.
+  /// The object type, which is always `vector_store.files_batch`
   @override
   final String object;
 
@@ -53191,7 +53602,7 @@ abstract class _VectorStoreFileBatchObject extends VectorStoreFileBatchObject {
   @override
   String get id;
 
-  /// The object type, which is always `vector_store.file_batch`.
+  /// The object type, which is always `vector_store.files_batch`
   @override
   String get object;
 
@@ -54331,7 +54742,7 @@ mixin _$Batch {
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @JsonKey(includeIfNull: false)
   dynamic get metadata => throw _privateConstructorUsedError;
 
@@ -54806,7 +55217,7 @@ class _$BatchImpl extends _Batch {
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
   final dynamic metadata;
@@ -55028,7 +55439,7 @@ abstract class _Batch extends Batch {
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
   /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-  /// can be a maxium of 512 characters long.
+  /// can be a maximum of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
   dynamic get metadata;
@@ -56032,7 +56443,9 @@ mixin _$ChatCompletionMessage {
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
-            ChatCompletionMessageFunctionCall? functionCall)
+            ChatCompletionMessageFunctionCall? functionCall,
+            @JsonKey(includeIfNull: false)
+            ChatCompletionAssistantMessageAudio? audio)
         assistant,
     required TResult Function(ChatCompletionMessageRole role, String content,
             @JsonKey(name: 'tool_call_id') String toolCallId)
@@ -56061,7 +56474,9 @@ mixin _$ChatCompletionMessage {
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
-            ChatCompletionMessageFunctionCall? functionCall)?
+            ChatCompletionMessageFunctionCall? functionCall,
+            @JsonKey(includeIfNull: false)
+            ChatCompletionAssistantMessageAudio? audio)?
         assistant,
     TResult? Function(ChatCompletionMessageRole role, String content,
             @JsonKey(name: 'tool_call_id') String toolCallId)?
@@ -56090,7 +56505,9 @@ mixin _$ChatCompletionMessage {
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
-            ChatCompletionMessageFunctionCall? functionCall)?
+            ChatCompletionMessageFunctionCall? functionCall,
+            @JsonKey(includeIfNull: false)
+            ChatCompletionAssistantMessageAudio? audio)?
         assistant,
     TResult Function(ChatCompletionMessageRole role, String content,
             @JsonKey(name: 'tool_call_id') String toolCallId)?
@@ -56302,7 +56719,9 @@ class _$ChatCompletionSystemMessageImpl extends ChatCompletionSystemMessage {
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
-            ChatCompletionMessageFunctionCall? functionCall)
+            ChatCompletionMessageFunctionCall? functionCall,
+            @JsonKey(includeIfNull: false)
+            ChatCompletionAssistantMessageAudio? audio)
         assistant,
     required TResult Function(ChatCompletionMessageRole role, String content,
             @JsonKey(name: 'tool_call_id') String toolCallId)
@@ -56334,7 +56753,9 @@ class _$ChatCompletionSystemMessageImpl extends ChatCompletionSystemMessage {
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
-            ChatCompletionMessageFunctionCall? functionCall)?
+            ChatCompletionMessageFunctionCall? functionCall,
+            @JsonKey(includeIfNull: false)
+            ChatCompletionAssistantMessageAudio? audio)?
         assistant,
     TResult? Function(ChatCompletionMessageRole role, String content,
             @JsonKey(name: 'tool_call_id') String toolCallId)?
@@ -56366,7 +56787,9 @@ class _$ChatCompletionSystemMessageImpl extends ChatCompletionSystemMessage {
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
-            ChatCompletionMessageFunctionCall? functionCall)?
+            ChatCompletionMessageFunctionCall? functionCall,
+            @JsonKey(includeIfNull: false)
+            ChatCompletionAssistantMessageAudio? audio)?
         assistant,
     TResult Function(ChatCompletionMessageRole role, String content,
             @JsonKey(name: 'tool_call_id') String toolCallId)?
@@ -56601,7 +57024,9 @@ class _$ChatCompletionUserMessageImpl extends ChatCompletionUserMessage {
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
-            ChatCompletionMessageFunctionCall? functionCall)
+            ChatCompletionMessageFunctionCall? functionCall,
+            @JsonKey(includeIfNull: false)
+            ChatCompletionAssistantMessageAudio? audio)
         assistant,
     required TResult Function(ChatCompletionMessageRole role, String content,
             @JsonKey(name: 'tool_call_id') String toolCallId)
@@ -56633,7 +57058,9 @@ class _$ChatCompletionUserMessageImpl extends ChatCompletionUserMessage {
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
-            ChatCompletionMessageFunctionCall? functionCall)?
+            ChatCompletionMessageFunctionCall? functionCall,
+            @JsonKey(includeIfNull: false)
+            ChatCompletionAssistantMessageAudio? audio)?
         assistant,
     TResult? Function(ChatCompletionMessageRole role, String content,
             @JsonKey(name: 'tool_call_id') String toolCallId)?
@@ -56665,7 +57092,9 @@ class _$ChatCompletionUserMessageImpl extends ChatCompletionUserMessage {
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
-            ChatCompletionMessageFunctionCall? functionCall)?
+            ChatCompletionMessageFunctionCall? functionCall,
+            @JsonKey(includeIfNull: false)
+            ChatCompletionAssistantMessageAudio? audio)?
         assistant,
     TResult Function(ChatCompletionMessageRole role, String content,
             @JsonKey(name: 'tool_call_id') String toolCallId)?
@@ -56779,9 +57208,12 @@ abstract class _$$ChatCompletionAssistantMessageImplCopyWith<$Res>
       @JsonKey(name: 'tool_calls', includeIfNull: false)
       List<ChatCompletionMessageToolCall>? toolCalls,
       @JsonKey(name: 'function_call', includeIfNull: false)
-      ChatCompletionMessageFunctionCall? functionCall});
+      ChatCompletionMessageFunctionCall? functionCall,
+      @JsonKey(includeIfNull: false)
+      ChatCompletionAssistantMessageAudio? audio});
 
   $ChatCompletionMessageFunctionCallCopyWith<$Res>? get functionCall;
+  $ChatCompletionAssistantMessageAudioCopyWith<$Res>? get audio;
 }
 
 /// @nodoc
@@ -56805,6 +57237,7 @@ class __$$ChatCompletionAssistantMessageImplCopyWithImpl<$Res>
     Object? name = freezed,
     Object? toolCalls = freezed,
     Object? functionCall = freezed,
+    Object? audio = freezed,
   }) {
     return _then(_$ChatCompletionAssistantMessageImpl(
       role: null == role
@@ -56831,6 +57264,10 @@ class __$$ChatCompletionAssistantMessageImplCopyWithImpl<$Res>
           ? _value.functionCall
           : functionCall // ignore: cast_nullable_to_non_nullable
               as ChatCompletionMessageFunctionCall?,
+      audio: freezed == audio
+          ? _value.audio
+          : audio // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionAssistantMessageAudio?,
     ));
   }
 
@@ -56848,6 +57285,21 @@ class __$$ChatCompletionAssistantMessageImplCopyWithImpl<$Res>
       return _then(_value.copyWith(functionCall: value));
     });
   }
+
+  /// Create a copy of ChatCompletionMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ChatCompletionAssistantMessageAudioCopyWith<$Res>? get audio {
+    if (_value.audio == null) {
+      return null;
+    }
+
+    return $ChatCompletionAssistantMessageAudioCopyWith<$Res>(_value.audio!,
+        (value) {
+      return _then(_value.copyWith(audio: value));
+    });
+  }
 }
 
 /// @nodoc
@@ -56861,7 +57313,8 @@ class _$ChatCompletionAssistantMessageImpl
       @JsonKey(includeIfNull: false) this.name,
       @JsonKey(name: 'tool_calls', includeIfNull: false)
       final List<ChatCompletionMessageToolCall>? toolCalls,
-      @JsonKey(name: 'function_call', includeIfNull: false) this.functionCall})
+      @JsonKey(name: 'function_call', includeIfNull: false) this.functionCall,
+      @JsonKey(includeIfNull: false) this.audio})
       : _toolCalls = toolCalls,
         super._();
 
@@ -56908,9 +57361,15 @@ class _$ChatCompletionAssistantMessageImpl
   @JsonKey(name: 'function_call', includeIfNull: false)
   final ChatCompletionMessageFunctionCall? functionCall;
 
+  /// If the audio output modality is requested, this object contains data about the audio response from the model.
+  /// [Learn more](https://platform.openai.com/docs/guides/audio).
+  @override
+  @JsonKey(includeIfNull: false)
+  final ChatCompletionAssistantMessageAudio? audio;
+
   @override
   String toString() {
-    return 'ChatCompletionMessage.assistant(role: $role, content: $content, refusal: $refusal, name: $name, toolCalls: $toolCalls, functionCall: $functionCall)';
+    return 'ChatCompletionMessage.assistant(role: $role, content: $content, refusal: $refusal, name: $name, toolCalls: $toolCalls, functionCall: $functionCall, audio: $audio)';
   }
 
   @override
@@ -56925,13 +57384,14 @@ class _$ChatCompletionAssistantMessageImpl
             const DeepCollectionEquality()
                 .equals(other._toolCalls, _toolCalls) &&
             (identical(other.functionCall, functionCall) ||
-                other.functionCall == functionCall));
+                other.functionCall == functionCall) &&
+            (identical(other.audio, audio) || other.audio == audio));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, role, content, refusal, name,
-      const DeepCollectionEquality().hash(_toolCalls), functionCall);
+      const DeepCollectionEquality().hash(_toolCalls), functionCall, audio);
 
   /// Create a copy of ChatCompletionMessage
   /// with the given fields replaced by the non-null parameter values.
@@ -56963,7 +57423,9 @@ class _$ChatCompletionAssistantMessageImpl
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
-            ChatCompletionMessageFunctionCall? functionCall)
+            ChatCompletionMessageFunctionCall? functionCall,
+            @JsonKey(includeIfNull: false)
+            ChatCompletionAssistantMessageAudio? audio)
         assistant,
     required TResult Function(ChatCompletionMessageRole role, String content,
             @JsonKey(name: 'tool_call_id') String toolCallId)
@@ -56972,7 +57434,8 @@ class _$ChatCompletionAssistantMessageImpl
             ChatCompletionMessageRole role, String? content, String name)
         function,
   }) {
-    return assistant(role, content, refusal, name, toolCalls, functionCall);
+    return assistant(
+        role, content, refusal, name, toolCalls, functionCall, audio);
   }
 
   @override
@@ -56995,7 +57458,9 @@ class _$ChatCompletionAssistantMessageImpl
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
-            ChatCompletionMessageFunctionCall? functionCall)?
+            ChatCompletionMessageFunctionCall? functionCall,
+            @JsonKey(includeIfNull: false)
+            ChatCompletionAssistantMessageAudio? audio)?
         assistant,
     TResult? Function(ChatCompletionMessageRole role, String content,
             @JsonKey(name: 'tool_call_id') String toolCallId)?
@@ -57005,7 +57470,7 @@ class _$ChatCompletionAssistantMessageImpl
         function,
   }) {
     return assistant?.call(
-        role, content, refusal, name, toolCalls, functionCall);
+        role, content, refusal, name, toolCalls, functionCall, audio);
   }
 
   @override
@@ -57028,7 +57493,9 @@ class _$ChatCompletionAssistantMessageImpl
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
-            ChatCompletionMessageFunctionCall? functionCall)?
+            ChatCompletionMessageFunctionCall? functionCall,
+            @JsonKey(includeIfNull: false)
+            ChatCompletionAssistantMessageAudio? audio)?
         assistant,
     TResult Function(ChatCompletionMessageRole role, String content,
             @JsonKey(name: 'tool_call_id') String toolCallId)?
@@ -57039,7 +57506,8 @@ class _$ChatCompletionAssistantMessageImpl
     required TResult orElse(),
   }) {
     if (assistant != null) {
-      return assistant(role, content, refusal, name, toolCalls, functionCall);
+      return assistant(
+          role, content, refusal, name, toolCalls, functionCall, audio);
     }
     return orElse();
   }
@@ -57101,7 +57569,9 @@ abstract class ChatCompletionAssistantMessage extends ChatCompletionMessage {
           @JsonKey(name: 'tool_calls', includeIfNull: false)
           final List<ChatCompletionMessageToolCall>? toolCalls,
           @JsonKey(name: 'function_call', includeIfNull: false)
-          final ChatCompletionMessageFunctionCall? functionCall}) =
+          final ChatCompletionMessageFunctionCall? functionCall,
+          @JsonKey(includeIfNull: false)
+          final ChatCompletionAssistantMessageAudio? audio}) =
       _$ChatCompletionAssistantMessageImpl;
   const ChatCompletionAssistantMessage._() : super._();
 
@@ -57132,6 +57602,11 @@ abstract class ChatCompletionAssistantMessage extends ChatCompletionMessage {
   /// Deprecated and replaced by `tool_calls`. The name and arguments of a function that should be called, as generated by the model.
   @JsonKey(name: 'function_call', includeIfNull: false)
   ChatCompletionMessageFunctionCall? get functionCall;
+
+  /// If the audio output modality is requested, this object contains data about the audio response from the model.
+  /// [Learn more](https://platform.openai.com/docs/guides/audio).
+  @JsonKey(includeIfNull: false)
+  ChatCompletionAssistantMessageAudio? get audio;
 
   /// Create a copy of ChatCompletionMessage
   /// with the given fields replaced by the non-null parameter values.
@@ -57268,7 +57743,9 @@ class _$ChatCompletionToolMessageImpl extends ChatCompletionToolMessage {
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
-            ChatCompletionMessageFunctionCall? functionCall)
+            ChatCompletionMessageFunctionCall? functionCall,
+            @JsonKey(includeIfNull: false)
+            ChatCompletionAssistantMessageAudio? audio)
         assistant,
     required TResult Function(ChatCompletionMessageRole role, String content,
             @JsonKey(name: 'tool_call_id') String toolCallId)
@@ -57300,7 +57777,9 @@ class _$ChatCompletionToolMessageImpl extends ChatCompletionToolMessage {
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
-            ChatCompletionMessageFunctionCall? functionCall)?
+            ChatCompletionMessageFunctionCall? functionCall,
+            @JsonKey(includeIfNull: false)
+            ChatCompletionAssistantMessageAudio? audio)?
         assistant,
     TResult? Function(ChatCompletionMessageRole role, String content,
             @JsonKey(name: 'tool_call_id') String toolCallId)?
@@ -57332,7 +57811,9 @@ class _$ChatCompletionToolMessageImpl extends ChatCompletionToolMessage {
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
-            ChatCompletionMessageFunctionCall? functionCall)?
+            ChatCompletionMessageFunctionCall? functionCall,
+            @JsonKey(includeIfNull: false)
+            ChatCompletionAssistantMessageAudio? audio)?
         assistant,
     TResult Function(ChatCompletionMessageRole role, String content,
             @JsonKey(name: 'tool_call_id') String toolCallId)?
@@ -57551,7 +58032,9 @@ class _$ChatCompletionFunctionMessageImpl
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
-            ChatCompletionMessageFunctionCall? functionCall)
+            ChatCompletionMessageFunctionCall? functionCall,
+            @JsonKey(includeIfNull: false)
+            ChatCompletionAssistantMessageAudio? audio)
         assistant,
     required TResult Function(ChatCompletionMessageRole role, String content,
             @JsonKey(name: 'tool_call_id') String toolCallId)
@@ -57583,7 +58066,9 @@ class _$ChatCompletionFunctionMessageImpl
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
-            ChatCompletionMessageFunctionCall? functionCall)?
+            ChatCompletionMessageFunctionCall? functionCall,
+            @JsonKey(includeIfNull: false)
+            ChatCompletionAssistantMessageAudio? audio)?
         assistant,
     TResult? Function(ChatCompletionMessageRole role, String content,
             @JsonKey(name: 'tool_call_id') String toolCallId)?
@@ -57615,7 +58100,9 @@ class _$ChatCompletionFunctionMessageImpl
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
-            ChatCompletionMessageFunctionCall? functionCall)?
+            ChatCompletionMessageFunctionCall? functionCall,
+            @JsonKey(includeIfNull: false)
+            ChatCompletionAssistantMessageAudio? audio)?
         assistant,
     TResult Function(ChatCompletionMessageRole role, String content,
             @JsonKey(name: 'tool_call_id') String toolCallId)?
@@ -58158,6 +58645,266 @@ abstract class ChatCompletionUserMessageContentString
       get copyWith => throw _privateConstructorUsedError;
 }
 
+ChatCompletionAssistantMessageAudio
+    _$ChatCompletionAssistantMessageAudioFromJson(Map<String, dynamic> json) {
+  return _ChatCompletionAssistantMessageAudio.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ChatCompletionAssistantMessageAudio {
+  /// Unique identifier for this audio response.
+  String get id => throw _privateConstructorUsedError;
+
+  /// The Unix timestamp (in seconds) for when this audio response will no longer be accessible on the server
+  /// for use in multi-turn conversations.
+  @JsonKey(name: 'expires_at')
+  int get expiresAt => throw _privateConstructorUsedError;
+
+  /// Base64 encoded audio bytes generated by the model, in the format specified in the request.
+  String get data => throw _privateConstructorUsedError;
+
+  /// Transcript of the audio generated by the model.
+  String get transcript => throw _privateConstructorUsedError;
+
+  /// Serializes this ChatCompletionAssistantMessageAudio to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of ChatCompletionAssistantMessageAudio
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $ChatCompletionAssistantMessageAudioCopyWith<
+          ChatCompletionAssistantMessageAudio>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ChatCompletionAssistantMessageAudioCopyWith<$Res> {
+  factory $ChatCompletionAssistantMessageAudioCopyWith(
+          ChatCompletionAssistantMessageAudio value,
+          $Res Function(ChatCompletionAssistantMessageAudio) then) =
+      _$ChatCompletionAssistantMessageAudioCopyWithImpl<$Res,
+          ChatCompletionAssistantMessageAudio>;
+  @useResult
+  $Res call(
+      {String id,
+      @JsonKey(name: 'expires_at') int expiresAt,
+      String data,
+      String transcript});
+}
+
+/// @nodoc
+class _$ChatCompletionAssistantMessageAudioCopyWithImpl<$Res,
+        $Val extends ChatCompletionAssistantMessageAudio>
+    implements $ChatCompletionAssistantMessageAudioCopyWith<$Res> {
+  _$ChatCompletionAssistantMessageAudioCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of ChatCompletionAssistantMessageAudio
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? expiresAt = null,
+    Object? data = null,
+    Object? transcript = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      expiresAt: null == expiresAt
+          ? _value.expiresAt
+          : expiresAt // ignore: cast_nullable_to_non_nullable
+              as int,
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as String,
+      transcript: null == transcript
+          ? _value.transcript
+          : transcript // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ChatCompletionAssistantMessageAudioImplCopyWith<$Res>
+    implements $ChatCompletionAssistantMessageAudioCopyWith<$Res> {
+  factory _$$ChatCompletionAssistantMessageAudioImplCopyWith(
+          _$ChatCompletionAssistantMessageAudioImpl value,
+          $Res Function(_$ChatCompletionAssistantMessageAudioImpl) then) =
+      __$$ChatCompletionAssistantMessageAudioImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String id,
+      @JsonKey(name: 'expires_at') int expiresAt,
+      String data,
+      String transcript});
+}
+
+/// @nodoc
+class __$$ChatCompletionAssistantMessageAudioImplCopyWithImpl<$Res>
+    extends _$ChatCompletionAssistantMessageAudioCopyWithImpl<$Res,
+        _$ChatCompletionAssistantMessageAudioImpl>
+    implements _$$ChatCompletionAssistantMessageAudioImplCopyWith<$Res> {
+  __$$ChatCompletionAssistantMessageAudioImplCopyWithImpl(
+      _$ChatCompletionAssistantMessageAudioImpl _value,
+      $Res Function(_$ChatCompletionAssistantMessageAudioImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ChatCompletionAssistantMessageAudio
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? expiresAt = null,
+    Object? data = null,
+    Object? transcript = null,
+  }) {
+    return _then(_$ChatCompletionAssistantMessageAudioImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      expiresAt: null == expiresAt
+          ? _value.expiresAt
+          : expiresAt // ignore: cast_nullable_to_non_nullable
+              as int,
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as String,
+      transcript: null == transcript
+          ? _value.transcript
+          : transcript // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ChatCompletionAssistantMessageAudioImpl
+    extends _ChatCompletionAssistantMessageAudio {
+  const _$ChatCompletionAssistantMessageAudioImpl(
+      {required this.id,
+      @JsonKey(name: 'expires_at') required this.expiresAt,
+      required this.data,
+      required this.transcript})
+      : super._();
+
+  factory _$ChatCompletionAssistantMessageAudioImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$ChatCompletionAssistantMessageAudioImplFromJson(json);
+
+  /// Unique identifier for this audio response.
+  @override
+  final String id;
+
+  /// The Unix timestamp (in seconds) for when this audio response will no longer be accessible on the server
+  /// for use in multi-turn conversations.
+  @override
+  @JsonKey(name: 'expires_at')
+  final int expiresAt;
+
+  /// Base64 encoded audio bytes generated by the model, in the format specified in the request.
+  @override
+  final String data;
+
+  /// Transcript of the audio generated by the model.
+  @override
+  final String transcript;
+
+  @override
+  String toString() {
+    return 'ChatCompletionAssistantMessageAudio(id: $id, expiresAt: $expiresAt, data: $data, transcript: $transcript)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ChatCompletionAssistantMessageAudioImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.expiresAt, expiresAt) ||
+                other.expiresAt == expiresAt) &&
+            (identical(other.data, data) || other.data == data) &&
+            (identical(other.transcript, transcript) ||
+                other.transcript == transcript));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, expiresAt, data, transcript);
+
+  /// Create a copy of ChatCompletionAssistantMessageAudio
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ChatCompletionAssistantMessageAudioImplCopyWith<
+          _$ChatCompletionAssistantMessageAudioImpl>
+      get copyWith => __$$ChatCompletionAssistantMessageAudioImplCopyWithImpl<
+          _$ChatCompletionAssistantMessageAudioImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ChatCompletionAssistantMessageAudioImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ChatCompletionAssistantMessageAudio
+    extends ChatCompletionAssistantMessageAudio {
+  const factory _ChatCompletionAssistantMessageAudio(
+          {required final String id,
+          @JsonKey(name: 'expires_at') required final int expiresAt,
+          required final String data,
+          required final String transcript}) =
+      _$ChatCompletionAssistantMessageAudioImpl;
+  const _ChatCompletionAssistantMessageAudio._() : super._();
+
+  factory _ChatCompletionAssistantMessageAudio.fromJson(
+          Map<String, dynamic> json) =
+      _$ChatCompletionAssistantMessageAudioImpl.fromJson;
+
+  /// Unique identifier for this audio response.
+  @override
+  String get id;
+
+  /// The Unix timestamp (in seconds) for when this audio response will no longer be accessible on the server
+  /// for use in multi-turn conversations.
+  @override
+  @JsonKey(name: 'expires_at')
+  int get expiresAt;
+
+  /// Base64 encoded audio bytes generated by the model, in the format specified in the request.
+  @override
+  String get data;
+
+  /// Transcript of the audio generated by the model.
+  @override
+  String get transcript;
+
+  /// Create a copy of ChatCompletionAssistantMessageAudio
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ChatCompletionAssistantMessageAudioImplCopyWith<
+          _$ChatCompletionAssistantMessageAudioImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
 ChatCompletionMessageContentPart _$ChatCompletionMessageContentPartFromJson(
     Map<String, dynamic> json) {
   switch (json['type']) {
@@ -58165,6 +58912,8 @@ ChatCompletionMessageContentPart _$ChatCompletionMessageContentPartFromJson(
       return ChatCompletionMessageContentPartText.fromJson(json);
     case 'image':
       return ChatCompletionMessageContentPartImage.fromJson(json);
+    case 'audio':
+      return ChatCompletionMessageContentPartAudio.fromJson(json);
     case 'refusal':
       return ChatCompletionMessageContentPartRefusal.fromJson(json);
 
@@ -58191,6 +58940,11 @@ mixin _$ChatCompletionMessageContentPart {
             @JsonKey(name: 'image_url') ChatCompletionMessageImageUrl imageUrl)
         image,
     required TResult Function(
+            ChatCompletionMessageContentPartType type,
+            @JsonKey(name: 'input_audio')
+            ChatCompletionMessageInputAudio inputAudio)
+        audio,
+    required TResult Function(
             ChatCompletionMessageContentPartType type, String refusal)
         refusal,
   }) =>
@@ -58203,6 +58957,11 @@ mixin _$ChatCompletionMessageContentPart {
             @JsonKey(name: 'image_url') ChatCompletionMessageImageUrl imageUrl)?
         image,
     TResult? Function(
+            ChatCompletionMessageContentPartType type,
+            @JsonKey(name: 'input_audio')
+            ChatCompletionMessageInputAudio inputAudio)?
+        audio,
+    TResult? Function(
             ChatCompletionMessageContentPartType type, String refusal)?
         refusal,
   }) =>
@@ -58214,6 +58973,11 @@ mixin _$ChatCompletionMessageContentPart {
     TResult Function(ChatCompletionMessageContentPartType type,
             @JsonKey(name: 'image_url') ChatCompletionMessageImageUrl imageUrl)?
         image,
+    TResult Function(
+            ChatCompletionMessageContentPartType type,
+            @JsonKey(name: 'input_audio')
+            ChatCompletionMessageInputAudio inputAudio)?
+        audio,
     TResult Function(ChatCompletionMessageContentPartType type, String refusal)?
         refusal,
     required TResult orElse(),
@@ -58224,6 +58988,8 @@ mixin _$ChatCompletionMessageContentPart {
     required TResult Function(ChatCompletionMessageContentPartText value) text,
     required TResult Function(ChatCompletionMessageContentPartImage value)
         image,
+    required TResult Function(ChatCompletionMessageContentPartAudio value)
+        audio,
     required TResult Function(ChatCompletionMessageContentPartRefusal value)
         refusal,
   }) =>
@@ -58232,6 +58998,7 @@ mixin _$ChatCompletionMessageContentPart {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ChatCompletionMessageContentPartText value)? text,
     TResult? Function(ChatCompletionMessageContentPartImage value)? image,
+    TResult? Function(ChatCompletionMessageContentPartAudio value)? audio,
     TResult? Function(ChatCompletionMessageContentPartRefusal value)? refusal,
   }) =>
       throw _privateConstructorUsedError;
@@ -58239,6 +59006,7 @@ mixin _$ChatCompletionMessageContentPart {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ChatCompletionMessageContentPartText value)? text,
     TResult Function(ChatCompletionMessageContentPartImage value)? image,
+    TResult Function(ChatCompletionMessageContentPartAudio value)? audio,
     TResult Function(ChatCompletionMessageContentPartRefusal value)? refusal,
     required TResult orElse(),
   }) =>
@@ -58395,6 +59163,11 @@ class _$ChatCompletionMessageContentPartTextImpl
             @JsonKey(name: 'image_url') ChatCompletionMessageImageUrl imageUrl)
         image,
     required TResult Function(
+            ChatCompletionMessageContentPartType type,
+            @JsonKey(name: 'input_audio')
+            ChatCompletionMessageInputAudio inputAudio)
+        audio,
+    required TResult Function(
             ChatCompletionMessageContentPartType type, String refusal)
         refusal,
   }) {
@@ -58410,6 +59183,11 @@ class _$ChatCompletionMessageContentPartTextImpl
             @JsonKey(name: 'image_url') ChatCompletionMessageImageUrl imageUrl)?
         image,
     TResult? Function(
+            ChatCompletionMessageContentPartType type,
+            @JsonKey(name: 'input_audio')
+            ChatCompletionMessageInputAudio inputAudio)?
+        audio,
+    TResult? Function(
             ChatCompletionMessageContentPartType type, String refusal)?
         refusal,
   }) {
@@ -58424,6 +59202,11 @@ class _$ChatCompletionMessageContentPartTextImpl
     TResult Function(ChatCompletionMessageContentPartType type,
             @JsonKey(name: 'image_url') ChatCompletionMessageImageUrl imageUrl)?
         image,
+    TResult Function(
+            ChatCompletionMessageContentPartType type,
+            @JsonKey(name: 'input_audio')
+            ChatCompletionMessageInputAudio inputAudio)?
+        audio,
     TResult Function(ChatCompletionMessageContentPartType type, String refusal)?
         refusal,
     required TResult orElse(),
@@ -58440,6 +59223,8 @@ class _$ChatCompletionMessageContentPartTextImpl
     required TResult Function(ChatCompletionMessageContentPartText value) text,
     required TResult Function(ChatCompletionMessageContentPartImage value)
         image,
+    required TResult Function(ChatCompletionMessageContentPartAudio value)
+        audio,
     required TResult Function(ChatCompletionMessageContentPartRefusal value)
         refusal,
   }) {
@@ -58451,6 +59236,7 @@ class _$ChatCompletionMessageContentPartTextImpl
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ChatCompletionMessageContentPartText value)? text,
     TResult? Function(ChatCompletionMessageContentPartImage value)? image,
+    TResult? Function(ChatCompletionMessageContentPartAudio value)? audio,
     TResult? Function(ChatCompletionMessageContentPartRefusal value)? refusal,
   }) {
     return text?.call(this);
@@ -58461,6 +59247,7 @@ class _$ChatCompletionMessageContentPartTextImpl
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ChatCompletionMessageContentPartText value)? text,
     TResult Function(ChatCompletionMessageContentPartImage value)? image,
+    TResult Function(ChatCompletionMessageContentPartAudio value)? audio,
     TResult Function(ChatCompletionMessageContentPartRefusal value)? refusal,
     required TResult orElse(),
   }) {
@@ -58625,6 +59412,11 @@ class _$ChatCompletionMessageContentPartImageImpl
             @JsonKey(name: 'image_url') ChatCompletionMessageImageUrl imageUrl)
         image,
     required TResult Function(
+            ChatCompletionMessageContentPartType type,
+            @JsonKey(name: 'input_audio')
+            ChatCompletionMessageInputAudio inputAudio)
+        audio,
+    required TResult Function(
             ChatCompletionMessageContentPartType type, String refusal)
         refusal,
   }) {
@@ -58640,6 +59432,11 @@ class _$ChatCompletionMessageContentPartImageImpl
             @JsonKey(name: 'image_url') ChatCompletionMessageImageUrl imageUrl)?
         image,
     TResult? Function(
+            ChatCompletionMessageContentPartType type,
+            @JsonKey(name: 'input_audio')
+            ChatCompletionMessageInputAudio inputAudio)?
+        audio,
+    TResult? Function(
             ChatCompletionMessageContentPartType type, String refusal)?
         refusal,
   }) {
@@ -58654,6 +59451,11 @@ class _$ChatCompletionMessageContentPartImageImpl
     TResult Function(ChatCompletionMessageContentPartType type,
             @JsonKey(name: 'image_url') ChatCompletionMessageImageUrl imageUrl)?
         image,
+    TResult Function(
+            ChatCompletionMessageContentPartType type,
+            @JsonKey(name: 'input_audio')
+            ChatCompletionMessageInputAudio inputAudio)?
+        audio,
     TResult Function(ChatCompletionMessageContentPartType type, String refusal)?
         refusal,
     required TResult orElse(),
@@ -58670,6 +59472,8 @@ class _$ChatCompletionMessageContentPartImageImpl
     required TResult Function(ChatCompletionMessageContentPartText value) text,
     required TResult Function(ChatCompletionMessageContentPartImage value)
         image,
+    required TResult Function(ChatCompletionMessageContentPartAudio value)
+        audio,
     required TResult Function(ChatCompletionMessageContentPartRefusal value)
         refusal,
   }) {
@@ -58681,6 +59485,7 @@ class _$ChatCompletionMessageContentPartImageImpl
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ChatCompletionMessageContentPartText value)? text,
     TResult? Function(ChatCompletionMessageContentPartImage value)? image,
+    TResult? Function(ChatCompletionMessageContentPartAudio value)? audio,
     TResult? Function(ChatCompletionMessageContentPartRefusal value)? refusal,
   }) {
     return image?.call(this);
@@ -58691,6 +59496,7 @@ class _$ChatCompletionMessageContentPartImageImpl
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ChatCompletionMessageContentPartText value)? text,
     TResult Function(ChatCompletionMessageContentPartImage value)? image,
+    TResult Function(ChatCompletionMessageContentPartAudio value)? audio,
     TResult Function(ChatCompletionMessageContentPartRefusal value)? refusal,
     required TResult orElse(),
   }) {
@@ -58735,6 +59541,259 @@ abstract class ChatCompletionMessageContentPartImage
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionMessageContentPartImageImplCopyWith<
           _$ChatCompletionMessageContentPartImageImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ChatCompletionMessageContentPartAudioImplCopyWith<$Res>
+    implements $ChatCompletionMessageContentPartCopyWith<$Res> {
+  factory _$$ChatCompletionMessageContentPartAudioImplCopyWith(
+          _$ChatCompletionMessageContentPartAudioImpl value,
+          $Res Function(_$ChatCompletionMessageContentPartAudioImpl) then) =
+      __$$ChatCompletionMessageContentPartAudioImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {ChatCompletionMessageContentPartType type,
+      @JsonKey(name: 'input_audio')
+      ChatCompletionMessageInputAudio inputAudio});
+
+  $ChatCompletionMessageInputAudioCopyWith<$Res> get inputAudio;
+}
+
+/// @nodoc
+class __$$ChatCompletionMessageContentPartAudioImplCopyWithImpl<$Res>
+    extends _$ChatCompletionMessageContentPartCopyWithImpl<$Res,
+        _$ChatCompletionMessageContentPartAudioImpl>
+    implements _$$ChatCompletionMessageContentPartAudioImplCopyWith<$Res> {
+  __$$ChatCompletionMessageContentPartAudioImplCopyWithImpl(
+      _$ChatCompletionMessageContentPartAudioImpl _value,
+      $Res Function(_$ChatCompletionMessageContentPartAudioImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ChatCompletionMessageContentPart
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? inputAudio = null,
+  }) {
+    return _then(_$ChatCompletionMessageContentPartAudioImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionMessageContentPartType,
+      inputAudio: null == inputAudio
+          ? _value.inputAudio
+          : inputAudio // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionMessageInputAudio,
+    ));
+  }
+
+  /// Create a copy of ChatCompletionMessageContentPart
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ChatCompletionMessageInputAudioCopyWith<$Res> get inputAudio {
+    return $ChatCompletionMessageInputAudioCopyWith<$Res>(_value.inputAudio,
+        (value) {
+      return _then(_value.copyWith(inputAudio: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ChatCompletionMessageContentPartAudioImpl
+    extends ChatCompletionMessageContentPartAudio {
+  const _$ChatCompletionMessageContentPartAudioImpl(
+      {this.type = ChatCompletionMessageContentPartType.inputAudio,
+      @JsonKey(name: 'input_audio') required this.inputAudio})
+      : super._();
+
+  factory _$ChatCompletionMessageContentPartAudioImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$ChatCompletionMessageContentPartAudioImplFromJson(json);
+
+  /// The type of the content part. Always `input_audio`.
+  @override
+  @JsonKey()
+  final ChatCompletionMessageContentPartType type;
+
+  /// The audio input.
+  @override
+  @JsonKey(name: 'input_audio')
+  final ChatCompletionMessageInputAudio inputAudio;
+
+  @override
+  String toString() {
+    return 'ChatCompletionMessageContentPart.audio(type: $type, inputAudio: $inputAudio)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ChatCompletionMessageContentPartAudioImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.inputAudio, inputAudio) ||
+                other.inputAudio == inputAudio));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, inputAudio);
+
+  /// Create a copy of ChatCompletionMessageContentPart
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ChatCompletionMessageContentPartAudioImplCopyWith<
+          _$ChatCompletionMessageContentPartAudioImpl>
+      get copyWith => __$$ChatCompletionMessageContentPartAudioImplCopyWithImpl<
+          _$ChatCompletionMessageContentPartAudioImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            ChatCompletionMessageContentPartType type, String text)
+        text,
+    required TResult Function(ChatCompletionMessageContentPartType type,
+            @JsonKey(name: 'image_url') ChatCompletionMessageImageUrl imageUrl)
+        image,
+    required TResult Function(
+            ChatCompletionMessageContentPartType type,
+            @JsonKey(name: 'input_audio')
+            ChatCompletionMessageInputAudio inputAudio)
+        audio,
+    required TResult Function(
+            ChatCompletionMessageContentPartType type, String refusal)
+        refusal,
+  }) {
+    return audio(type, inputAudio);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(ChatCompletionMessageContentPartType type, String text)?
+        text,
+    TResult? Function(ChatCompletionMessageContentPartType type,
+            @JsonKey(name: 'image_url') ChatCompletionMessageImageUrl imageUrl)?
+        image,
+    TResult? Function(
+            ChatCompletionMessageContentPartType type,
+            @JsonKey(name: 'input_audio')
+            ChatCompletionMessageInputAudio inputAudio)?
+        audio,
+    TResult? Function(
+            ChatCompletionMessageContentPartType type, String refusal)?
+        refusal,
+  }) {
+    return audio?.call(type, inputAudio);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(ChatCompletionMessageContentPartType type, String text)?
+        text,
+    TResult Function(ChatCompletionMessageContentPartType type,
+            @JsonKey(name: 'image_url') ChatCompletionMessageImageUrl imageUrl)?
+        image,
+    TResult Function(
+            ChatCompletionMessageContentPartType type,
+            @JsonKey(name: 'input_audio')
+            ChatCompletionMessageInputAudio inputAudio)?
+        audio,
+    TResult Function(ChatCompletionMessageContentPartType type, String refusal)?
+        refusal,
+    required TResult orElse(),
+  }) {
+    if (audio != null) {
+      return audio(type, inputAudio);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ChatCompletionMessageContentPartText value) text,
+    required TResult Function(ChatCompletionMessageContentPartImage value)
+        image,
+    required TResult Function(ChatCompletionMessageContentPartAudio value)
+        audio,
+    required TResult Function(ChatCompletionMessageContentPartRefusal value)
+        refusal,
+  }) {
+    return audio(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ChatCompletionMessageContentPartText value)? text,
+    TResult? Function(ChatCompletionMessageContentPartImage value)? image,
+    TResult? Function(ChatCompletionMessageContentPartAudio value)? audio,
+    TResult? Function(ChatCompletionMessageContentPartRefusal value)? refusal,
+  }) {
+    return audio?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ChatCompletionMessageContentPartText value)? text,
+    TResult Function(ChatCompletionMessageContentPartImage value)? image,
+    TResult Function(ChatCompletionMessageContentPartAudio value)? audio,
+    TResult Function(ChatCompletionMessageContentPartRefusal value)? refusal,
+    required TResult orElse(),
+  }) {
+    if (audio != null) {
+      return audio(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ChatCompletionMessageContentPartAudioImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class ChatCompletionMessageContentPartAudio
+    extends ChatCompletionMessageContentPart {
+  const factory ChatCompletionMessageContentPartAudio(
+          {final ChatCompletionMessageContentPartType type,
+          @JsonKey(name: 'input_audio')
+          required final ChatCompletionMessageInputAudio inputAudio}) =
+      _$ChatCompletionMessageContentPartAudioImpl;
+  const ChatCompletionMessageContentPartAudio._() : super._();
+
+  factory ChatCompletionMessageContentPartAudio.fromJson(
+          Map<String, dynamic> json) =
+      _$ChatCompletionMessageContentPartAudioImpl.fromJson;
+
+  /// The type of the content part. Always `input_audio`.
+  @override
+  ChatCompletionMessageContentPartType get type;
+
+  /// The audio input.
+  @JsonKey(name: 'input_audio')
+  ChatCompletionMessageInputAudio get inputAudio;
+
+  /// Create a copy of ChatCompletionMessageContentPart
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ChatCompletionMessageContentPartAudioImplCopyWith<
+          _$ChatCompletionMessageContentPartAudioImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -58842,6 +59901,11 @@ class _$ChatCompletionMessageContentPartRefusalImpl
             @JsonKey(name: 'image_url') ChatCompletionMessageImageUrl imageUrl)
         image,
     required TResult Function(
+            ChatCompletionMessageContentPartType type,
+            @JsonKey(name: 'input_audio')
+            ChatCompletionMessageInputAudio inputAudio)
+        audio,
+    required TResult Function(
             ChatCompletionMessageContentPartType type, String refusal)
         refusal,
   }) {
@@ -58857,6 +59921,11 @@ class _$ChatCompletionMessageContentPartRefusalImpl
             @JsonKey(name: 'image_url') ChatCompletionMessageImageUrl imageUrl)?
         image,
     TResult? Function(
+            ChatCompletionMessageContentPartType type,
+            @JsonKey(name: 'input_audio')
+            ChatCompletionMessageInputAudio inputAudio)?
+        audio,
+    TResult? Function(
             ChatCompletionMessageContentPartType type, String refusal)?
         refusal,
   }) {
@@ -58871,6 +59940,11 @@ class _$ChatCompletionMessageContentPartRefusalImpl
     TResult Function(ChatCompletionMessageContentPartType type,
             @JsonKey(name: 'image_url') ChatCompletionMessageImageUrl imageUrl)?
         image,
+    TResult Function(
+            ChatCompletionMessageContentPartType type,
+            @JsonKey(name: 'input_audio')
+            ChatCompletionMessageInputAudio inputAudio)?
+        audio,
     TResult Function(ChatCompletionMessageContentPartType type, String refusal)?
         refusal,
     required TResult orElse(),
@@ -58887,6 +59961,8 @@ class _$ChatCompletionMessageContentPartRefusalImpl
     required TResult Function(ChatCompletionMessageContentPartText value) text,
     required TResult Function(ChatCompletionMessageContentPartImage value)
         image,
+    required TResult Function(ChatCompletionMessageContentPartAudio value)
+        audio,
     required TResult Function(ChatCompletionMessageContentPartRefusal value)
         refusal,
   }) {
@@ -58898,6 +59974,7 @@ class _$ChatCompletionMessageContentPartRefusalImpl
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ChatCompletionMessageContentPartText value)? text,
     TResult? Function(ChatCompletionMessageContentPartImage value)? image,
+    TResult? Function(ChatCompletionMessageContentPartAudio value)? audio,
     TResult? Function(ChatCompletionMessageContentPartRefusal value)? refusal,
   }) {
     return refusal?.call(this);
@@ -58908,6 +59985,7 @@ class _$ChatCompletionMessageContentPartRefusalImpl
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ChatCompletionMessageContentPartText value)? text,
     TResult Function(ChatCompletionMessageContentPartImage value)? image,
+    TResult Function(ChatCompletionMessageContentPartAudio value)? audio,
     TResult Function(ChatCompletionMessageContentPartRefusal value)? refusal,
     required TResult orElse(),
   }) {
@@ -59145,6 +60223,200 @@ abstract class _ChatCompletionMessageImageUrl
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionMessageImageUrlImplCopyWith<
           _$ChatCompletionMessageImageUrlImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+ChatCompletionMessageInputAudio _$ChatCompletionMessageInputAudioFromJson(
+    Map<String, dynamic> json) {
+  return _ChatCompletionMessageInputAudio.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ChatCompletionMessageInputAudio {
+  /// Base64 encoded audio data.
+  String get data => throw _privateConstructorUsedError;
+
+  /// The format of the encoded audio data. Currently supports "wav" and "mp3".
+  ChatCompletionMessageInputAudioFormat get format =>
+      throw _privateConstructorUsedError;
+
+  /// Serializes this ChatCompletionMessageInputAudio to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of ChatCompletionMessageInputAudio
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $ChatCompletionMessageInputAudioCopyWith<ChatCompletionMessageInputAudio>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ChatCompletionMessageInputAudioCopyWith<$Res> {
+  factory $ChatCompletionMessageInputAudioCopyWith(
+          ChatCompletionMessageInputAudio value,
+          $Res Function(ChatCompletionMessageInputAudio) then) =
+      _$ChatCompletionMessageInputAudioCopyWithImpl<$Res,
+          ChatCompletionMessageInputAudio>;
+  @useResult
+  $Res call({String data, ChatCompletionMessageInputAudioFormat format});
+}
+
+/// @nodoc
+class _$ChatCompletionMessageInputAudioCopyWithImpl<$Res,
+        $Val extends ChatCompletionMessageInputAudio>
+    implements $ChatCompletionMessageInputAudioCopyWith<$Res> {
+  _$ChatCompletionMessageInputAudioCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of ChatCompletionMessageInputAudio
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? data = null,
+    Object? format = null,
+  }) {
+    return _then(_value.copyWith(
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as String,
+      format: null == format
+          ? _value.format
+          : format // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionMessageInputAudioFormat,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ChatCompletionMessageInputAudioImplCopyWith<$Res>
+    implements $ChatCompletionMessageInputAudioCopyWith<$Res> {
+  factory _$$ChatCompletionMessageInputAudioImplCopyWith(
+          _$ChatCompletionMessageInputAudioImpl value,
+          $Res Function(_$ChatCompletionMessageInputAudioImpl) then) =
+      __$$ChatCompletionMessageInputAudioImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String data, ChatCompletionMessageInputAudioFormat format});
+}
+
+/// @nodoc
+class __$$ChatCompletionMessageInputAudioImplCopyWithImpl<$Res>
+    extends _$ChatCompletionMessageInputAudioCopyWithImpl<$Res,
+        _$ChatCompletionMessageInputAudioImpl>
+    implements _$$ChatCompletionMessageInputAudioImplCopyWith<$Res> {
+  __$$ChatCompletionMessageInputAudioImplCopyWithImpl(
+      _$ChatCompletionMessageInputAudioImpl _value,
+      $Res Function(_$ChatCompletionMessageInputAudioImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ChatCompletionMessageInputAudio
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? data = null,
+    Object? format = null,
+  }) {
+    return _then(_$ChatCompletionMessageInputAudioImpl(
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as String,
+      format: null == format
+          ? _value.format
+          : format // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionMessageInputAudioFormat,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ChatCompletionMessageInputAudioImpl
+    extends _ChatCompletionMessageInputAudio {
+  const _$ChatCompletionMessageInputAudioImpl(
+      {required this.data, required this.format})
+      : super._();
+
+  factory _$ChatCompletionMessageInputAudioImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$ChatCompletionMessageInputAudioImplFromJson(json);
+
+  /// Base64 encoded audio data.
+  @override
+  final String data;
+
+  /// The format of the encoded audio data. Currently supports "wav" and "mp3".
+  @override
+  final ChatCompletionMessageInputAudioFormat format;
+
+  @override
+  String toString() {
+    return 'ChatCompletionMessageInputAudio(data: $data, format: $format)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ChatCompletionMessageInputAudioImpl &&
+            (identical(other.data, data) || other.data == data) &&
+            (identical(other.format, format) || other.format == format));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, data, format);
+
+  /// Create a copy of ChatCompletionMessageInputAudio
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ChatCompletionMessageInputAudioImplCopyWith<
+          _$ChatCompletionMessageInputAudioImpl>
+      get copyWith => __$$ChatCompletionMessageInputAudioImplCopyWithImpl<
+          _$ChatCompletionMessageInputAudioImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ChatCompletionMessageInputAudioImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ChatCompletionMessageInputAudio
+    extends ChatCompletionMessageInputAudio {
+  const factory _ChatCompletionMessageInputAudio(
+          {required final String data,
+          required final ChatCompletionMessageInputAudioFormat format}) =
+      _$ChatCompletionMessageInputAudioImpl;
+  const _ChatCompletionMessageInputAudio._() : super._();
+
+  factory _ChatCompletionMessageInputAudio.fromJson(Map<String, dynamic> json) =
+      _$ChatCompletionMessageInputAudioImpl.fromJson;
+
+  /// Base64 encoded audio data.
+  @override
+  String get data;
+
+  /// The format of the encoded audio data. Currently supports "wav" and "mp3".
+  @override
+  ChatCompletionMessageInputAudioFormat get format;
+
+  /// Create a copy of ChatCompletionMessageInputAudio
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ChatCompletionMessageInputAudioImplCopyWith<
+          _$ChatCompletionMessageInputAudioImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
