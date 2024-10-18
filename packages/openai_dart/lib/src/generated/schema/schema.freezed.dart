@@ -3546,6 +3546,17 @@ mixin _$CreateChatCompletionRequest {
   List<ChatCompletionMessage> get messages =>
       throw _privateConstructorUsedError;
 
+  /// Whether or not to store the output of this chat completion request for use in our
+  /// [model distillation](https://platform.openai.com/docs/guides/distillation)
+  /// or [evals](https://platform.openai.com/docs/guides/evals) products.
+  @JsonKey(includeIfNull: false)
+  bool? get store => throw _privateConstructorUsedError;
+
+  /// Developer-defined tags and values used for filtering completions
+  /// in the [dashboard](https://platform.openai.com/chat-completions).
+  @JsonKey(includeIfNull: false)
+  Map<String, String>? get metadata => throw _privateConstructorUsedError;
+
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the
   /// text so far, decreasing the model's likelihood to repeat the same line verbatim.
   ///
@@ -3751,6 +3762,8 @@ abstract class $CreateChatCompletionRequestCopyWith<$Res> {
   $Res call(
       {@_ChatCompletionModelConverter() ChatCompletionModel model,
       List<ChatCompletionMessage> messages,
+      @JsonKey(includeIfNull: false) bool? store,
+      @JsonKey(includeIfNull: false) Map<String, String>? metadata,
       @JsonKey(name: 'frequency_penalty', includeIfNull: false)
       double? frequencyPenalty,
       @JsonKey(name: 'logit_bias', includeIfNull: false)
@@ -3820,6 +3833,8 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res,
   $Res call({
     Object? model = null,
     Object? messages = null,
+    Object? store = freezed,
+    Object? metadata = freezed,
     Object? frequencyPenalty = freezed,
     Object? logitBias = freezed,
     Object? logprobs = freezed,
@@ -3854,6 +3869,14 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res,
           ? _value.messages
           : messages // ignore: cast_nullable_to_non_nullable
               as List<ChatCompletionMessage>,
+      store: freezed == store
+          ? _value.store
+          : store // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      metadata: freezed == metadata
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>?,
       frequencyPenalty: freezed == frequencyPenalty
           ? _value.frequencyPenalty
           : frequencyPenalty // ignore: cast_nullable_to_non_nullable
@@ -4063,6 +4086,8 @@ abstract class _$$CreateChatCompletionRequestImplCopyWith<$Res>
   $Res call(
       {@_ChatCompletionModelConverter() ChatCompletionModel model,
       List<ChatCompletionMessage> messages,
+      @JsonKey(includeIfNull: false) bool? store,
+      @JsonKey(includeIfNull: false) Map<String, String>? metadata,
       @JsonKey(name: 'frequency_penalty', includeIfNull: false)
       double? frequencyPenalty,
       @JsonKey(name: 'logit_bias', includeIfNull: false)
@@ -4138,6 +4163,8 @@ class __$$CreateChatCompletionRequestImplCopyWithImpl<$Res>
   $Res call({
     Object? model = null,
     Object? messages = null,
+    Object? store = freezed,
+    Object? metadata = freezed,
     Object? frequencyPenalty = freezed,
     Object? logitBias = freezed,
     Object? logprobs = freezed,
@@ -4172,6 +4199,14 @@ class __$$CreateChatCompletionRequestImplCopyWithImpl<$Res>
           ? _value._messages
           : messages // ignore: cast_nullable_to_non_nullable
               as List<ChatCompletionMessage>,
+      store: freezed == store
+          ? _value.store
+          : store // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      metadata: freezed == metadata
+          ? _value._metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>?,
       frequencyPenalty: freezed == frequencyPenalty
           ? _value.frequencyPenalty
           : frequencyPenalty // ignore: cast_nullable_to_non_nullable
@@ -4278,6 +4313,8 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
   const _$CreateChatCompletionRequestImpl(
       {@_ChatCompletionModelConverter() required this.model,
       required final List<ChatCompletionMessage> messages,
+      @JsonKey(includeIfNull: false) this.store = false,
+      @JsonKey(includeIfNull: false) final Map<String, String>? metadata,
       @JsonKey(name: 'frequency_penalty', includeIfNull: false)
       this.frequencyPenalty = 0.0,
       @JsonKey(name: 'logit_bias', includeIfNull: false)
@@ -4318,6 +4355,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
       this.functionCall,
       @JsonKey(includeIfNull: false) final List<FunctionObject>? functions})
       : _messages = messages,
+        _metadata = metadata,
         _logitBias = logitBias,
         _modalities = modalities,
         _tools = tools,
@@ -4351,6 +4389,29 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
     if (_messages is EqualUnmodifiableListView) return _messages;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_messages);
+  }
+
+  /// Whether or not to store the output of this chat completion request for use in our
+  /// [model distillation](https://platform.openai.com/docs/guides/distillation)
+  /// or [evals](https://platform.openai.com/docs/guides/evals) products.
+  @override
+  @JsonKey(includeIfNull: false)
+  final bool? store;
+
+  /// Developer-defined tags and values used for filtering completions
+  /// in the [dashboard](https://platform.openai.com/chat-completions).
+  final Map<String, String>? _metadata;
+
+  /// Developer-defined tags and values used for filtering completions
+  /// in the [dashboard](https://platform.openai.com/chat-completions).
+  @override
+  @JsonKey(includeIfNull: false)
+  Map<String, String>? get metadata {
+    final value = _metadata;
+    if (value == null) return null;
+    if (_metadata is EqualUnmodifiableMapView) return _metadata;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
   }
 
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the
@@ -4604,7 +4665,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
 
   @override
   String toString() {
-    return 'CreateChatCompletionRequest(model: $model, messages: $messages, frequencyPenalty: $frequencyPenalty, logitBias: $logitBias, logprobs: $logprobs, topLogprobs: $topLogprobs, maxTokens: $maxTokens, maxCompletionTokens: $maxCompletionTokens, n: $n, modalities: $modalities, audio: $audio, presencePenalty: $presencePenalty, responseFormat: $responseFormat, seed: $seed, serviceTier: $serviceTier, stop: $stop, stream: $stream, streamOptions: $streamOptions, temperature: $temperature, topP: $topP, tools: $tools, toolChoice: $toolChoice, parallelToolCalls: $parallelToolCalls, user: $user, functionCall: $functionCall, functions: $functions)';
+    return 'CreateChatCompletionRequest(model: $model, messages: $messages, store: $store, metadata: $metadata, frequencyPenalty: $frequencyPenalty, logitBias: $logitBias, logprobs: $logprobs, topLogprobs: $topLogprobs, maxTokens: $maxTokens, maxCompletionTokens: $maxCompletionTokens, n: $n, modalities: $modalities, audio: $audio, presencePenalty: $presencePenalty, responseFormat: $responseFormat, seed: $seed, serviceTier: $serviceTier, stop: $stop, stream: $stream, streamOptions: $streamOptions, temperature: $temperature, topP: $topP, tools: $tools, toolChoice: $toolChoice, parallelToolCalls: $parallelToolCalls, user: $user, functionCall: $functionCall, functions: $functions)';
   }
 
   @override
@@ -4614,6 +4675,8 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
             other is _$CreateChatCompletionRequestImpl &&
             (identical(other.model, model) || other.model == model) &&
             const DeepCollectionEquality().equals(other._messages, _messages) &&
+            (identical(other.store, store) || other.store == store) &&
+            const DeepCollectionEquality().equals(other._metadata, _metadata) &&
             (identical(other.frequencyPenalty, frequencyPenalty) ||
                 other.frequencyPenalty == frequencyPenalty) &&
             const DeepCollectionEquality()
@@ -4662,6 +4725,8 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
         runtimeType,
         model,
         const DeepCollectionEquality().hash(_messages),
+        store,
+        const DeepCollectionEquality().hash(_metadata),
         frequencyPenalty,
         const DeepCollectionEquality().hash(_logitBias),
         logprobs,
@@ -4711,6 +4776,8 @@ abstract class _CreateChatCompletionRequest
       {@_ChatCompletionModelConverter()
       required final ChatCompletionModel model,
       required final List<ChatCompletionMessage> messages,
+      @JsonKey(includeIfNull: false) final bool? store,
+      @JsonKey(includeIfNull: false) final Map<String, String>? metadata,
       @JsonKey(name: 'frequency_penalty', includeIfNull: false)
       final double? frequencyPenalty,
       @JsonKey(name: 'logit_bias', includeIfNull: false)
@@ -4774,6 +4841,19 @@ abstract class _CreateChatCompletionRequest
   /// and [audio](https://platform.openai.com/docs/guides/audio).
   @override
   List<ChatCompletionMessage> get messages;
+
+  /// Whether or not to store the output of this chat completion request for use in our
+  /// [model distillation](https://platform.openai.com/docs/guides/distillation)
+  /// or [evals](https://platform.openai.com/docs/guides/evals) products.
+  @override
+  @JsonKey(includeIfNull: false)
+  bool? get store;
+
+  /// Developer-defined tags and values used for filtering completions
+  /// in the [dashboard](https://platform.openai.com/chat-completions).
+  @override
+  @JsonKey(includeIfNull: false)
+  Map<String, String>? get metadata;
 
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the
   /// text so far, decreasing the model's likelihood to repeat the same line verbatim.

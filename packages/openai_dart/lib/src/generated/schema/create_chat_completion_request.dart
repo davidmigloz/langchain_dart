@@ -26,6 +26,15 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     /// and [audio](https://platform.openai.com/docs/guides/audio).
     required List<ChatCompletionMessage> messages,
 
+    /// Whether or not to store the output of this chat completion request for use in our
+    /// [model distillation](https://platform.openai.com/docs/guides/distillation)
+    /// or [evals](https://platform.openai.com/docs/guides/evals) products.
+    @JsonKey(includeIfNull: false) @Default(false) bool? store,
+
+    /// Developer-defined tags and values used for filtering completions
+    /// in the [dashboard](https://platform.openai.com/chat-completions).
+    @JsonKey(includeIfNull: false) Map<String, String>? metadata,
+
     /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the
     /// text so far, decreasing the model's likelihood to repeat the same line verbatim.
     ///
@@ -204,6 +213,8 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
   static const List<String> propertyNames = [
     'model',
     'messages',
+    'store',
+    'metadata',
     'frequency_penalty',
     'logit_bias',
     'logprobs',
@@ -297,6 +308,8 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     return {
       'model': model,
       'messages': messages,
+      'store': store,
+      'metadata': metadata,
       'frequency_penalty': frequencyPenalty,
       'logit_bias': logitBias,
       'logprobs': logprobs,
