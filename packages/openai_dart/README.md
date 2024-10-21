@@ -870,7 +870,7 @@ Build assistants that can call models and use tools to perform tasks.
 ```dart
 final res = await client.createAssistant(
   request: CreateAssistantRequest(
-    model: CreateAssistantRequestModel.string('gpt-4'),
+    model: AssistantModel.modelId('gpt-4'),
     name: 'Math Tutor',
     description: 'Help students with math homework',
     instructions: 'You are a personal math tutor. Write and run code to answer math questions.',
@@ -953,7 +953,7 @@ Related guide: [Assistants](https://platform.openai.com/docs/assistants/overview
 final res = await client.createThreadMessage(
   threadId: threadId,
   request: CreateMessageRequest(
-    role: CreateMessageRequestRole.user,
+    role: MessageRole.user,
     content: CreateMessageRequestContent.text(
       'I need to solve the equation `3x + 11 = 14`. Can you help me?',
     ),
@@ -967,7 +967,7 @@ If you need to send multi-modal content, you can use the `CreateMessageRequestCo
 final res = await client.createThreadMessage(
   threadId: threadId,
   request: CreateMessageRequest(
-    role: CreateMessageRequestRole.user,
+    role: MessageRole.user,
     content: CreateMessageRequestContent.parts([
       MessageContent.text(
         text: MessageContentText(
