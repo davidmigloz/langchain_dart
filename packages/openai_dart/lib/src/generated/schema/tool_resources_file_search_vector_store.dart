@@ -8,7 +8,8 @@ part of open_a_i_schema;
 // CLASS: ToolResourcesFileSearchVectorStore
 // ==========================================
 
-/// A helper to create a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) with file_ids and attach it to this thread.
+/// A helper to create a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) with
+/// file_ids and attach it to this thread.
 @freezed
 class ToolResourcesFileSearchVectorStore
     with _$ToolResourcesFileSearchVectorStore {
@@ -16,7 +17,8 @@ class ToolResourcesFileSearchVectorStore
 
   /// Factory constructor for ToolResourcesFileSearchVectorStore
   const factory ToolResourcesFileSearchVectorStore({
-    /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs to add to the vector store. There can be a maximum of 10000 files in a vector store.
+    /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs to add to the vector store.
+    /// There can be a maximum of 10000 files in a vector store.
     @JsonKey(name: 'file_ids', includeIfNull: false) List<String>? fileIds,
 
     /// The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.
@@ -24,7 +26,9 @@ class ToolResourcesFileSearchVectorStore
     @JsonKey(name: 'chunking_strategy', includeIfNull: false)
     ChunkingStrategyRequestParam? chunkingStrategy,
 
-    /// Set of 16 key-value pairs that can be attached to a vector store. This can be useful for storing additional information about the vector store in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+    /// Set of 16 key-value pairs that can be attached to a vector store. This can be useful for storing additional
+    /// information about the vector store in a structured format. Keys can be a maximum of 64 characters long and
+    /// values can be a maximum of 512 characters long.
     @JsonKey(includeIfNull: false) dynamic metadata,
   }) = _ToolResourcesFileSearchVectorStore;
 

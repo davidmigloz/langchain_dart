@@ -8,7 +8,9 @@ part of open_a_i_schema;
 // CLASS: ToolResources
 // ==========================================
 
-/// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+/// A set of resources that are made available to the assistant's tools in this thread. The resources are specific
+/// to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the
+/// `file_search` tool requires a list of vector store IDs.
 @freezed
 class ToolResources with _$ToolResources {
   const ToolResources._();
@@ -56,7 +58,8 @@ class ToolResourcesCodeInterpreter with _$ToolResourcesCodeInterpreter {
 
   /// Factory constructor for ToolResourcesCodeInterpreter
   const factory ToolResourcesCodeInterpreter({
-    /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.
+    /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs made available to the
+    /// `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.
     @JsonKey(name: 'file_ids') @Default([]) List<String> fileIds,
   }) = _ToolResourcesCodeInterpreter;
 
@@ -91,11 +94,14 @@ class ToolResourcesFileSearch with _$ToolResourcesFileSearch {
 
   /// Factory constructor for ToolResourcesFileSearch
   const factory ToolResourcesFileSearch({
-    /// The [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) attached to this thread. There can be a maximum of 1 vector store attached to the thread.
+    /// The [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) attached to
+    /// this thread. There can be a maximum of 1 vector store attached to the thread.
     @JsonKey(name: 'vector_store_ids', includeIfNull: false)
     List<String>? vectorStoreIds,
 
-    /// A helper to create a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) with file_ids and attach it to this thread. There can be a maximum of 1 vector store attached to the thread.
+    /// A helper to create a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object)
+    /// with file_ids and attach it to this thread. There can be a maximum of 1 vector store attached to the
+    /// thread.
     @JsonKey(name: 'vector_stores', includeIfNull: false)
     List<ToolResourcesFileSearchVectorStore>? vectorStores,
   }) = _ToolResourcesFileSearch;

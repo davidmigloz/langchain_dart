@@ -49,6 +49,7 @@ String? _onSchemaUnionFactoryName(
       'ChatCompletionMessageContentParts' => 'parts',
       'ChatCompletionMessageContentPartText' => 'text',
       'ChatCompletionMessageContentPartImage' => 'image',
+      'ChatCompletionMessageContentPartAudio' => 'audio',
       'ChatCompletionMessageContentPartRefusal' => 'refusal',
       'ChatCompletionToolChoiceOptionEnumeration' => 'mode',
       'ChatCompletionToolChoiceOptionChatCompletionNamedToolChoice' => 'tool',
