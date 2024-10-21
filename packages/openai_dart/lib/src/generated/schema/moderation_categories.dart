@@ -28,6 +28,12 @@ class ModerationCategories with _$ModerationCategories {
     @JsonKey(name: 'harassment/threatening')
     required bool harassmentThreatening,
 
+    /// Content that includes instructions or advice that facilitate the planning or execution of wrongdoing, or that gives advice or instruction on how to commit illicit acts. For example, "how to shoplift" would fit this category.
+    required bool illicit,
+
+    /// Content that includes instructions or advice that facilitate the planning or execution of wrongdoing that also includes violence, or that gives advice or instruction on the procurement of any weapon.
+    @JsonKey(name: 'illicit/violent') required bool illicitViolent,
+
     /// Content that promotes, encourages, or depicts acts of self-harm, such as suicide, cutting, and eating disorders.
     @JsonKey(name: 'self-harm') required bool selfHarm,
 
@@ -60,6 +66,8 @@ class ModerationCategories with _$ModerationCategories {
     'hate/threatening',
     'harassment',
     'harassment/threatening',
+    'illicit',
+    'illicit/violent',
     'self-harm',
     'self-harm/intent',
     'self-harm/instructions',
@@ -81,6 +89,8 @@ class ModerationCategories with _$ModerationCategories {
       'hate/threatening': hateThreatening,
       'harassment': harassment,
       'harassment/threatening': harassmentThreatening,
+      'illicit': illicit,
+      'illicit/violent': illicitViolent,
       'self-harm': selfHarm,
       'self-harm/intent': selfHarmIntent,
       'self-harm/instructions': selfHarmInstructions,

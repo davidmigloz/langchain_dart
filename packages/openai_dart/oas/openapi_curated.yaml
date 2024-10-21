@@ -34,7 +34,7 @@ tags:
   - name: Models
     description: List and describe the various models available in the API.
   - name: Moderations
-    description: Given a input text, outputs if the model classifies it as potentially harmful.
+    description: Given text and/or image inputs, classifies if those inputs are potentially harmful.
 
 paths:
   /chat/completions:
@@ -1888,13 +1888,13 @@ components:
             likelihood of selection; values like -100 or 100 should result in a ban or exclusive selection of the 
             relevant token.
         logprobs:
-          description: | 
+          description: |
             Whether to return log probabilities of the output tokens or not. If true, returns the log probabilities of 
             each output token returned in the `content` of `message`.
           type: boolean
           nullable: true
         top_logprobs:
-          description: | 
+          description: |
             An integer between 0 and 20 specifying the number of most likely tokens to return at each token position, 
             each with an associated log probability. `logprobs` must be set to `true` if this parameter is used.
           type: integer
@@ -1924,7 +1924,7 @@ components:
           default: 1
           example: 1
           nullable: true
-          description: | 
+          description: |
             How many chat completion choices to generate for each input message. Note that you will be charged based on 
             the number of generated tokens across all of the choices. Keep `n` as `1` to minimize costs.
         presence_penalty:
@@ -3424,11 +3424,11 @@ components:
         model:
           title: ModerationModel
           description: |
-            Two content moderations models are available: `text-moderation-stable` and `text-moderation-latest`.
-
-            The default is `text-moderation-latest` which will be automatically upgraded over time. This ensures you are always using our most accurate model. If you use `text-moderation-stable`, we will provide advanced notice before updating the model. Accuracy of `text-moderation-stable` may be slightly lower than for `text-moderation-latest`.
-          default: "text-moderation-latest"
-          example: "text-moderation-stable"
+            The content moderation model you would like to use. Learn more in
+            [the moderation guide](https://platform.openai.com/docs/guides/moderation), and learn about
+            available models [here](https://platform.openai.com//docs/models/moderation).
+          default: "omni-moderation-latest"
+          example: "omni-moderation-2024-09-26"
           anyOf:
             - type: string
               description: The ID of the model to use for this request.
@@ -3436,23 +3436,75 @@ components:
               title: ModerationModels
               description: |
                 Available moderation models. Mind that the list may not be exhaustive nor up-to-date.
-              enum: [ "text-moderation-latest", "text-moderation-stable" ]
+              enum: [ "omni-moderation-latest", "omni-moderation-2024-09-26", "text-moderation-latest", "text-moderation-stable" ]
         input:
           title: ModerationInput
-          description: The input text to classify
+          description: |
+            Input (or inputs) to classify. Can be a single string, an array of strings, or
+            an array of multi-modal input objects similar to other models.
           oneOf:
             - type: string
-              description: A string input.
+              description: A string of text to classify for moderation.
               default: ""
               example: "I want to kill them."
             - type: array
-              description: A list of string inputs.
+              description: An array of strings to classify for moderation.
               items:
                 type: string
                 default: ""
                 example: "I want to kill them."
+            - type: array
+              description: An array of multi-modal inputs to the moderation model.
+              items:
+                $ref: "#/components/schemas/ModerationInputObject"
       required:
         - input
+    ModerationInputObject:
+      type: object
+      description: |
+        Multi-modal inputs to the moderation model.
+      oneOf:
+        - $ref: "#/components/schemas/ModerationInputObjectImageUrl"
+        - $ref: "#/components/schemas/ModerationInputObjectText"
+      discriminator:
+        propertyName: type
+    ModerationInputObjectType:
+      type: string
+      description: The type of the input object.
+      enum: [ "image_url", "text" ]
+    ModerationInputObjectImageUrl:
+      type: object
+      description: An object describing an image to classify.
+      properties:
+        type:
+          $ref: "#/components/schemas/ModerationInputObjectType"
+          default: "image_url"
+        image_url:
+          type: object
+          description: Contains either an image URL or a data URL for a base64 encoded image.
+          properties:
+            url:
+              type: string
+              description: Either a URL of the image or the base64 encoded image data.
+              format: uri
+              example: "https://example.com/image.jpg"
+          required:
+            - url
+      required:
+        - image_url
+    ModerationInputObjectText:
+      type: object
+      description: An object describing text to classify.
+      properties:
+        type:
+          $ref: "#/components/schemas/ModerationInputObjectType"
+          default: "text"
+        text:
+          description: A string of text to classify.
+          type: string
+          example: "I want to kill them"
+      required:
+        - text
     CreateModerationResponse:
       type: object
       description: Represents if a given text input is potentially harmful.
@@ -3483,10 +3535,13 @@ components:
           $ref: "#/components/schemas/ModerationCategories"
         category_scores:
           $ref: "#/components/schemas/ModerationCategoriesScores"
+        category_applied_input_types:
+          $ref: "#/components/schemas/ModerationCategoriesAppliedInputTypes"
       required:
         - flagged
         - categories
         - category_scores
+        - category_applied_input_types
     ModerationCategories:
       type: object
       description: A list of the categories, and whether they are flagged or not.
@@ -3503,6 +3558,12 @@ components:
         harassment/threatening:
           type: boolean
           description: Harassment content that also includes violence or serious harm towards any target.
+        illicit:
+          type: boolean
+          description: Content that includes instructions or advice that facilitate the planning or execution of wrongdoing, or that gives advice or instruction on how to commit illicit acts. For example, "how to shoplift" would fit this category.
+        illicit/violent:
+          type: boolean
+          description: Content that includes instructions or advice that facilitate the planning or execution of wrongdoing that also includes violence, or that gives advice or instruction on the procurement of any weapon.
         self-harm:
           type: boolean
           description: Content that promotes, encourages, or depicts acts of self-harm, such as suicide, cutting, and eating disorders.
@@ -3529,6 +3590,8 @@ components:
         - hate/threatening
         - harassment
         - harassment/threatening
+        - illicit
+        - illicit/violent
         - self-harm
         - self-harm/intent
         - self-harm/instructions
@@ -3552,6 +3615,12 @@ components:
         harassment/threatening:
           type: number
           description: The score for the category 'harassment/threatening'.
+        illicit:
+          type: number
+          description: The score for the category 'illicit'.
+        illicit/violent:
+          type: number
+          description: The score for the category 'illicit/violent'.
         self-harm:
           type: number
           description: The score for the category 'self-harm'.
@@ -3578,6 +3647,104 @@ components:
         - hate/threatening
         - harassment
         - harassment/threatening
+        - illicit
+        - illicit/violent
+        - self-harm
+        - self-harm/intent
+        - self-harm/instructions
+        - sexual
+        - sexual/minors
+        - violence
+        - violence/graphic
+    ModerationCategoriesAppliedInputTypes:
+      type: object
+      description: A list of the categories along with the input type(s) that the score applies to.
+      properties:
+        hate:
+          type: array
+          description: The applied input type(s) for the category 'hate'.
+          items:
+            type: string
+            enum: [ "text" ]
+        hate/threatening:
+          type: array
+          description: The applied input type(s) for the category 'hate/threatening'.
+          items:
+            type: string
+            enum: [ "text" ]
+        harassment:
+          type: array
+          description: The applied input type(s) for the category 'harassment'.
+          items:
+            type: string
+            enum: [ "text" ]
+        harassment/threatening:
+          type: array
+          description: The applied input type(s) for the category 'harassment/threatening'.
+          items:
+            type: string
+            enum: [ "text" ]
+        illicit:
+          type: array
+          description: The applied input type(s) for the category 'illicit'.
+          items:
+            type: string
+            enum: [ "text" ]
+        illicit/violent:
+          type: array
+          description: The applied input type(s) for the category 'illicit/violent'.
+          items:
+            type: string
+            enum: [ "text" ]
+        self-harm:
+          type: array
+          description: The applied input type(s) for the category 'self-harm'.
+          items:
+            type: string
+            enum: [ "text", "image" ]
+        self-harm/intent:
+          type: array
+          description: The applied input type(s) for the category 'self-harm/intent'.
+          items:
+            type: string
+            enum: [ "text", "image" ]
+        self-harm/instructions:
+          type: array
+          description: The applied input type(s) for the category 'self-harm/instructions'.
+          items:
+            type: string
+            enum: [ "text", "image" ]
+        sexual:
+          type: array
+          description: The applied input type(s) for the category 'sexual'.
+          items:
+            type: string
+            enum: [ "text", "image" ]
+        sexual/minors:
+          type: array
+          description: The applied input type(s) for the category 'sexual/minors'.
+          items:
+            type: string
+            enum: [ "text" ]
+        violence:
+          type: array
+          description: The applied input type(s) for the category 'violence'.
+          items:
+            type: string
+            enum: [ "text", "image" ]
+        violence/graphic:
+          type: array
+          description: The applied input type(s) for the category 'violence/graphic'.
+          items:
+            type: string
+            enum: [ "text", "image" ]
+      required:
+        - hate
+        - hate/threatening
+        - harassment
+        - harassment/threatening
+        - illicit
+        - illicit/violent
         - self-harm
         - self-harm/intent
         - self-harm/instructions

@@ -2011,7 +2011,7 @@ _$CreateModerationRequestImpl _$$CreateModerationRequestImplFromJson(
         Map<String, dynamic> json) =>
     _$CreateModerationRequestImpl(
       model: json['model'] == null
-          ? const ModerationModelString('text-moderation-latest')
+          ? const ModerationModelString('omni-moderation-latest')
           : const _ModerationModelConverter().fromJson(json['model']),
       input: const _ModerationInputConverter().fromJson(json['input']),
     );
@@ -2047,6 +2047,8 @@ Map<String, dynamic> _$$ModerationModelEnumerationImplToJson(
     };
 
 const _$ModerationModelsEnumMap = {
+  ModerationModels.omniModerationLatest: 'omni-moderation-latest',
+  ModerationModels.omniModeration20240926: 'omni-moderation-2024-09-26',
   ModerationModels.textModerationLatest: 'text-moderation-latest',
   ModerationModels.textModerationStable: 'text-moderation-stable',
 };
@@ -2062,6 +2064,24 @@ Map<String, dynamic> _$$ModerationModelStringImplToJson(
         _$ModerationModelStringImpl instance) =>
     <String, dynamic>{
       'value': instance.value,
+      'runtimeType': instance.$type,
+    };
+
+_$ModerationInputListModerationInputObjectImpl
+    _$$ModerationInputListModerationInputObjectImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ModerationInputListModerationInputObjectImpl(
+          (json['value'] as List<dynamic>)
+              .map((e) =>
+                  ModerationInputObject.fromJson(e as Map<String, dynamic>))
+              .toList(),
+          $type: json['runtimeType'] as String?,
+        );
+
+Map<String, dynamic> _$$ModerationInputListModerationInputObjectImplToJson(
+        _$ModerationInputListModerationInputObjectImpl instance) =>
+    <String, dynamic>{
+      'value': instance.value.map((e) => e.toJson()).toList(),
       'runtimeType': instance.$type,
     };
 
@@ -2118,6 +2138,8 @@ _$ModerationImpl _$$ModerationImplFromJson(Map<String, dynamic> json) =>
           json['categories'] as Map<String, dynamic>),
       categoryScores: ModerationCategoriesScores.fromJson(
           json['category_scores'] as Map<String, dynamic>),
+      categoryAppliedInputTypes: ModerationCategoriesAppliedInputTypes.fromJson(
+          json['category_applied_input_types'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$ModerationImplToJson(_$ModerationImpl instance) =>
@@ -2125,6 +2147,8 @@ Map<String, dynamic> _$$ModerationImplToJson(_$ModerationImpl instance) =>
       'flagged': instance.flagged,
       'categories': instance.categories.toJson(),
       'category_scores': instance.categoryScores.toJson(),
+      'category_applied_input_types':
+          instance.categoryAppliedInputTypes.toJson(),
     };
 
 _$ModerationCategoriesImpl _$$ModerationCategoriesImplFromJson(
@@ -2134,6 +2158,8 @@ _$ModerationCategoriesImpl _$$ModerationCategoriesImplFromJson(
       hateThreatening: json['hate/threatening'] as bool,
       harassment: json['harassment'] as bool,
       harassmentThreatening: json['harassment/threatening'] as bool,
+      illicit: json['illicit'] as bool,
+      illicitViolent: json['illicit/violent'] as bool,
       selfHarm: json['self-harm'] as bool,
       selfHarmIntent: json['self-harm/intent'] as bool,
       selfHarmInstructions: json['self-harm/instructions'] as bool,
@@ -2150,6 +2176,8 @@ Map<String, dynamic> _$$ModerationCategoriesImplToJson(
       'hate/threatening': instance.hateThreatening,
       'harassment': instance.harassment,
       'harassment/threatening': instance.harassmentThreatening,
+      'illicit': instance.illicit,
+      'illicit/violent': instance.illicitViolent,
       'self-harm': instance.selfHarm,
       'self-harm/intent': instance.selfHarmIntent,
       'self-harm/instructions': instance.selfHarmInstructions,
@@ -2166,6 +2194,8 @@ _$ModerationCategoriesScoresImpl _$$ModerationCategoriesScoresImplFromJson(
       hateThreatening: (json['hate/threatening'] as num).toDouble(),
       harassment: (json['harassment'] as num).toDouble(),
       harassmentThreatening: (json['harassment/threatening'] as num).toDouble(),
+      illicit: (json['illicit'] as num).toDouble(),
+      illicitViolent: (json['illicit/violent'] as num).toDouble(),
       selfHarm: (json['self-harm'] as num).toDouble(),
       selfHarmIntent: (json['self-harm/intent'] as num).toDouble(),
       selfHarmInstructions: (json['self-harm/instructions'] as num).toDouble(),
@@ -2182,6 +2212,72 @@ Map<String, dynamic> _$$ModerationCategoriesScoresImplToJson(
       'hate/threatening': instance.hateThreatening,
       'harassment': instance.harassment,
       'harassment/threatening': instance.harassmentThreatening,
+      'illicit': instance.illicit,
+      'illicit/violent': instance.illicitViolent,
+      'self-harm': instance.selfHarm,
+      'self-harm/intent': instance.selfHarmIntent,
+      'self-harm/instructions': instance.selfHarmInstructions,
+      'sexual': instance.sexual,
+      'sexual/minors': instance.sexualMinors,
+      'violence': instance.violence,
+      'violence/graphic': instance.violenceGraphic,
+    };
+
+_$ModerationCategoriesAppliedInputTypesImpl
+    _$$ModerationCategoriesAppliedInputTypesImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ModerationCategoriesAppliedInputTypesImpl(
+          hate:
+              (json['hate'] as List<dynamic>).map((e) => e as String).toList(),
+          hateThreatening: (json['hate/threatening'] as List<dynamic>)
+              .map((e) => e as String)
+              .toList(),
+          harassment: (json['harassment'] as List<dynamic>)
+              .map((e) => e as String)
+              .toList(),
+          harassmentThreatening:
+              (json['harassment/threatening'] as List<dynamic>)
+                  .map((e) => e as String)
+                  .toList(),
+          illicit: (json['illicit'] as List<dynamic>)
+              .map((e) => e as String)
+              .toList(),
+          illicitViolent: (json['illicit/violent'] as List<dynamic>)
+              .map((e) => e as String)
+              .toList(),
+          selfHarm: (json['self-harm'] as List<dynamic>)
+              .map((e) => e as String)
+              .toList(),
+          selfHarmIntent: (json['self-harm/intent'] as List<dynamic>)
+              .map((e) => e as String)
+              .toList(),
+          selfHarmInstructions:
+              (json['self-harm/instructions'] as List<dynamic>)
+                  .map((e) => e as String)
+                  .toList(),
+          sexual: (json['sexual'] as List<dynamic>)
+              .map((e) => e as String)
+              .toList(),
+          sexualMinors: (json['sexual/minors'] as List<dynamic>)
+              .map((e) => e as String)
+              .toList(),
+          violence: (json['violence'] as List<dynamic>)
+              .map((e) => e as String)
+              .toList(),
+          violenceGraphic: (json['violence/graphic'] as List<dynamic>)
+              .map((e) => e as String)
+              .toList(),
+        );
+
+Map<String, dynamic> _$$ModerationCategoriesAppliedInputTypesImplToJson(
+        _$ModerationCategoriesAppliedInputTypesImpl instance) =>
+    <String, dynamic>{
+      'hate': instance.hate,
+      'hate/threatening': instance.hateThreatening,
+      'harassment': instance.harassment,
+      'harassment/threatening': instance.harassmentThreatening,
+      'illicit': instance.illicit,
+      'illicit/violent': instance.illicitViolent,
       'self-harm': instance.selfHarm,
       'self-harm/intent': instance.selfHarmIntent,
       'self-harm/instructions': instance.selfHarmInstructions,
@@ -5429,6 +5525,57 @@ Map<String, dynamic> _$$ResponseFormatJsonSchemaImplToJson(
     <String, dynamic>{
       'type': _$ResponseFormatTypeEnumMap[instance.type]!,
       'json_schema': instance.jsonSchema.toJson(),
+    };
+
+_$ModerationInputObjectImageUrlImpl
+    _$$ModerationInputObjectImageUrlImplFromJson(Map<String, dynamic> json) =>
+        _$ModerationInputObjectImageUrlImpl(
+          type: $enumDecodeNullable(
+                  _$ModerationInputObjectTypeEnumMap, json['type']) ??
+              ModerationInputObjectType.imageUrl,
+          imageUrl: ModerationInputObjectImageUrlImageUrl.fromJson(
+              json['image_url'] as Map<String, dynamic>),
+        );
+
+Map<String, dynamic> _$$ModerationInputObjectImageUrlImplToJson(
+        _$ModerationInputObjectImageUrlImpl instance) =>
+    <String, dynamic>{
+      'type': _$ModerationInputObjectTypeEnumMap[instance.type]!,
+      'image_url': instance.imageUrl.toJson(),
+    };
+
+const _$ModerationInputObjectTypeEnumMap = {
+  ModerationInputObjectType.imageUrl: 'image_url',
+  ModerationInputObjectType.text: 'text',
+};
+
+_$ModerationInputObjectTextImpl _$$ModerationInputObjectTextImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ModerationInputObjectTextImpl(
+      type: $enumDecodeNullable(
+              _$ModerationInputObjectTypeEnumMap, json['type']) ??
+          ModerationInputObjectType.text,
+      text: json['text'] as String,
+    );
+
+Map<String, dynamic> _$$ModerationInputObjectTextImplToJson(
+        _$ModerationInputObjectTextImpl instance) =>
+    <String, dynamic>{
+      'type': _$ModerationInputObjectTypeEnumMap[instance.type]!,
+      'text': instance.text,
+    };
+
+_$ModerationInputObjectImageUrlImageUrlImpl
+    _$$ModerationInputObjectImageUrlImageUrlImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ModerationInputObjectImageUrlImageUrlImpl(
+          url: json['url'] as String,
+        );
+
+Map<String, dynamic> _$$ModerationInputObjectImageUrlImageUrlImplToJson(
+        _$ModerationInputObjectImageUrlImageUrlImpl instance) =>
+    <String, dynamic>{
+      'url': instance.url,
     };
 
 _$AssistantToolsCodeInterpreterImpl

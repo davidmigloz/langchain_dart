@@ -86,6 +86,7 @@ Future<void> _models(final OpenAIClient client) async {
 Future<void> _moderations(final OpenAIClient client) async {
   final res = await client.createModeration(
     request: const CreateModerationRequest(
+      model: ModerationModel.model(ModerationModels.omniModerationLatest),
       input: ModerationInput.string('I want to kill them.'),
     ),
   );
