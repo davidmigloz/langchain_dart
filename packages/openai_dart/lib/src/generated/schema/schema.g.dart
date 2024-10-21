@@ -309,6 +309,10 @@ _$CreateChatCompletionRequestImpl _$$CreateChatCompletionRequestImplFromJson(
       messages: (json['messages'] as List<dynamic>)
           .map((e) => ChatCompletionMessage.fromJson(e as Map<String, dynamic>))
           .toList(),
+      store: json['store'] as bool? ?? false,
+      metadata: (json['metadata'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, e as String),
+      ),
       frequencyPenalty: (json['frequency_penalty'] as num?)?.toDouble() ?? 0.0,
       logitBias: (json['logit_bias'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, (e as num).toInt()),
@@ -369,6 +373,8 @@ Map<String, dynamic> _$$CreateChatCompletionRequestImplToJson(
     }
   }
 
+  writeNotNull('store', instance.store);
+  writeNotNull('metadata', instance.metadata);
   writeNotNull('frequency_penalty', instance.frequencyPenalty);
   writeNotNull('logit_bias', instance.logitBias);
   writeNotNull('logprobs', instance.logprobs);
