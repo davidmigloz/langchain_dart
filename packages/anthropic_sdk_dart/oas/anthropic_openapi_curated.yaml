@@ -57,7 +57,7 @@ components:
 
             See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
             details and options.
-          example: "claude-3-5-sonnet-20240620"
+          example: "claude-3-5-sonnet-20241022"
           anyOf:
             - type: string
               description: The ID of the model to use for this request.
@@ -66,12 +66,15 @@ components:
               description: |
                 Available models. Mind that the list may not be exhaustive nor up-to-date.
               enum:
+                - claude-3-5-sonnet-latest
+                - claude-3-5-sonnet-20241022
                 - claude-3-5-sonnet-20240620
-                - claude-3-haiku-20240307
+                - claude-3-opus-latest
                 - claude-3-opus-20240229
                 - claude-3-sonnet-20240229
-                - claude-2.0
+                - claude-3-haiku-20240307
                 - claude-2.1
+                - claude-2.0
                 - claude-instant-1.2
         messages:
           type: array
@@ -615,7 +618,7 @@ components:
         - $ref: "#/components/schemas/PingEvent"
       discriminator:
         propertyName: type
-        mapping: 
+        mapping:
             message_start: "#/components/schemas/MessageStartEvent"
             message_delta: "#/components/schemas/MessageDeltaEvent"
             message_stop: "#/components/schemas/MessageStopEvent"

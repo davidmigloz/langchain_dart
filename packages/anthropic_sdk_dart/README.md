@@ -58,7 +58,7 @@ Send a structured list of input messages with text and/or image content, and the
 ```dart
 final res = await client.createMessage(
   request: CreateMessageRequest(
-    model: Model.model(Models.claude35Sonnet20240620),
+    model: Model.model(Models.claude35Sonnet20241022),
     maxTokens: 1024,
     messages: [
       Message(
@@ -74,7 +74,7 @@ print(res.content.text);
 
 `Model` is a sealed class that offers two ways to specify the model:
 - `Model.modelId('model-id')`: the model ID as string (e.g. `'claude-instant-1.2'`).
-- `Model.model(Models.claude35Sonnet20240620)`: a value from `Models` enum which lists all the available models.
+- `Model.model(Models.claude35Sonnet20241022)`: a value from `Models` enum which lists all the available models.
 
 Mind that this list may not be up-to-date. Refer to the [documentation](https://docs.anthropic.com/en/docs/models-overview) for the updated list.
 
@@ -83,7 +83,7 @@ Mind that this list may not be up-to-date. Refer to the [documentation](https://
 ```dart
 final stream = client.createMessageStream(
   request: CreateMessageRequest(
-    model: Model.model(Models.claude35Sonnet20240620),
+    model: Model.model(Models.claude35Sonnet20241022),
     maxTokens: 1024,
     messages: [
       Message(
@@ -158,7 +158,7 @@ const tool = Tool(
 Then we can use the tool in the message request:
 ```dart
 final request1 = CreateMessageRequest(
-  model: Model.model(Models.claude35Sonnet20240620),
+  model: Model.model(Models.claude35Sonnet20241022),
   messages: [
     Message(
       role: MessageRole.user,
@@ -188,7 +188,7 @@ final toolResult = _getCurrentWeather(
 );
 
 final request2 = CreateMessageRequest(
-  model: Model.model(Models.claude35Sonnet20240620),
+  model: Model.model(Models.claude35Sonnet20241022),
   messages: [
     Message(
       role: MessageRole.user,
