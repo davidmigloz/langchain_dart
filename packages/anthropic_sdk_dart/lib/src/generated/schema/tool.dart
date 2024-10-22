@@ -52,7 +52,7 @@ sealed class Tool with _$Tool {
     /// The name of the tool.
     @Default('computer') String name,
 
-    /// No Description
+    /// The cache control settings.
     @JsonKey(name: 'cache_control', includeIfNull: false)
     CacheControlEphemeral? cacheControl,
 
@@ -78,7 +78,7 @@ sealed class Tool with _$Tool {
     /// The name of the tool.
     @Default('str_replace_editor') String name,
 
-    /// No Description
+    /// The cache control settings.
     @JsonKey(name: 'cache_control', includeIfNull: false)
     CacheControlEphemeral? cacheControl,
   }) = ToolTextEditor;
@@ -95,7 +95,7 @@ sealed class Tool with _$Tool {
     /// The name of the tool.
     @Default('bash') String name,
 
-    /// No Description
+    /// The cache control settings.
     @JsonKey(name: 'cache_control', includeIfNull: false)
     CacheControlEphemeral? cacheControl,
   }) = ToolBash;

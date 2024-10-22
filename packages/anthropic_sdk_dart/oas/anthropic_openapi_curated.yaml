@@ -249,6 +249,13 @@ components:
             A system prompt is a way of providing context and instructions to Claude, such
             as specifying a particular goal or role. See our
             [guide to system prompts](https://docs.anthropic.com/en/docs/system-prompts).
+          oneOf:
+            - type: string
+              description: A single text block.
+            - type: array
+              description: An array of content blocks.
+              items:
+                $ref: "#/components/schemas/Block"
         temperature:
           type: number
           description: |
@@ -559,15 +566,6 @@ components:
           default: bash
         cache_control:
           $ref: "#/components/schemas/CacheControlEphemeral"
-    CacheControlEphemeral:
-      type: object
-      properties:
-        type:
-          enum:
-            - ephemeral
-          type: string
-      required:
-        - type
     Block:
       description: A block of content in a message.
       oneOf:
@@ -593,6 +591,8 @@ components:
           type: string
           description: The type of content block.
           default: text
+        cache_control:
+          $ref: "#/components/schemas/CacheControlEphemeral"
       required:
         - text
     ImageBlock:
@@ -605,6 +605,8 @@ components:
           type: string
           description: The type of content block.
           default: image
+        cache_control:
+          $ref: "#/components/schemas/CacheControlEphemeral"
       required:
         - source
     ImageBlockSource:
@@ -653,6 +655,8 @@ components:
           type: string
           description: The type of content block.
           default: tool_use
+        cache_control:
+          $ref: "#/components/schemas/CacheControlEphemeral"
       required:
         - id
         - name
@@ -683,9 +687,20 @@ components:
           type: string
           description: The type of content block.
           default: tool_result
+        cache_control:
+          $ref: "#/components/schemas/CacheControlEphemeral"
       required:
         - tool_use_id
         - content
+    CacheControlEphemeral:
+      type: object
+      description: The cache control settings.
+      properties:
+        type:
+          enum:
+            - ephemeral
+          type: string
+          default: ephemeral
     StopReason:
       type: string
       description: |
@@ -728,6 +743,12 @@ components:
         output_tokens:
           type: integer
           description: The number of output tokens which were used.
+        cache_creation_input_tokens:
+          type: integer
+          description: The number of input tokens read from the cache.
+        cache_read_input_tokens:
+          type: integer
+          description: The number of input tokens used to create the cache entry.
       required:
         - input_tokens
         - output_tokens

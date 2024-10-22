@@ -284,6 +284,45 @@ const request = CreateMessageRequest(
 final res = await client.createMessage(request: request);
 ```
 
+### Prompt caching
+
+Prompt caching is a powerful feature that optimizes your API usage by allowing resuming from specific prefixes in your prompts. This approach significantly reduces processing time and costs for repetitive tasks or prompts with consistent elements.
+
+Refer to the [official documentation](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching) for more information.
+
+Example:
+```dart
+final request = CreateMessageRequest(
+  model: Model.model(Models.claude35Sonnet20241022),
+  system: CreateMessageRequestSystem.blocks([
+    Block.text(
+      text:
+          'You are an AI assistant tasked with analyzing literary works. '
+          'Your goal is to provide insightful commentary on themes, characters, and writing style.',
+    ),
+    Block.text(
+      cacheControl: CacheControlEphemeral(),
+      text: '<The whole text of the book>',
+    ),
+  ]),
+  messages: [
+    Message(
+      role: MessageRole.user,
+      content: MessageContent.text("What's the theme of the work?"),
+    ),
+  ],
+  maxTokens: 1024,
+);
+
+final res1 = await client.createMessage(request: request);
+print(res1.usage?.cacheCreationInputTokens); // 5054
+print(res1.usage?.cacheReadInputTokens); // 0
+
+final res2 = await client.createMessage(request: request);
+print(res2.usage?.cacheCreationInputTokens); // 0
+print(res2.usage?.cacheReadInputTokens); // 5054
+```
+
 ### Message Batches
 
 The Message Batches API is a powerful, cost-effective way to asynchronously process large volumes of Messages requests. This approach is well-suited to tasks that do not require immediate responses, reducing costs by 50% while increasing throughput.
