@@ -337,10 +337,10 @@ packages:
     dependency: transitive
     description:
       name: objectbox
-      sha256: "70ff2a7538f6f8bb56136734d574f5bdc1cf29c50cd7207a14ea0c641ecb88ca"
+      sha256: ea823f4bf1d0a636e7aa50b43daabb64dd0fbd80b85a033016ccc1bc4f76f432
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.1"
+    version: "4.0.3"
   ollama_dart:
     dependency: "direct overridden"
     description:
