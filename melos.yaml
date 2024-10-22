@@ -52,7 +52,7 @@ command:
       logging: ^1.2.0
       math_expressions: ^2.6.0
       meta: ^1.11.0
-      objectbox: ^4.0.1
+      objectbox: ^4.0.3
       pinecone: ^0.7.2
       rxdart: ">=0.27.7 <0.29.0"
       shared_preferences: ^2.3.0
