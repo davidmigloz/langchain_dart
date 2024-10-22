@@ -17,6 +17,7 @@ Unofficial Dart client for [Anthropic](https://docs.anthropic.com/en/api) API (a
 **Supported endpoints:**
 
 - Messages (with tools and streaming support)
+- Message Batches
 
 ## Table of contents
 
@@ -24,6 +25,7 @@ Unofficial Dart client for [Anthropic](https://docs.anthropic.com/en/api) API (a
   * [Authentication](#authentication)
   * [Messages](#messages)
   * [Tool use](#tool-use)
+  * [Message Batches](#message-batches)
 - [Advance Usage](#advance-usage)
   * [Default HTTP client](#default-http-client)
   * [Custom HTTP client](#custom-http-client)
@@ -240,6 +242,69 @@ await for (final res in stream) {
   );
 }
 // {"location": "Boston, MA", "unit": "fahrenheit"}
+```
+
+### Message Batches
+
+The Message Batches API is a powerful, cost-effective way to asynchronously process large volumes of Messages requests. This approach is well-suited to tasks that do not require immediate responses, reducing costs by 50% while increasing throughput.
+
+Refer to the [official documentation](https://docs.anthropic.com/en/docs/build-with-claude/message-batches) for more information.
+
+**Prepare and create your batch:**
+
+```dart
+const batchRequest = CreateMessageBatchRequest(
+  requests: [
+    BatchMessageRequest(
+      customId: 'request1',
+      params: CreateMessageRequest(
+        model: Model.model(Models.claudeInstant12),
+        temperature: 0,
+        maxTokens: 1024,
+        messages: [
+          Message(
+            role: MessageRole.user,
+            content: MessageContent.text(
+                'List the numbers from 1 to 9 in order.'),
+          ),
+        ],
+      ),
+    ),
+    BatchMessageRequest(
+      customId: 'request2',
+      params: CreateMessageRequest(
+        model: Model.model(Models.claudeInstant12),
+        temperature: 0,
+        maxTokens: 1024,
+        messages: [
+          Message(
+            role: MessageRole.user,
+            content: MessageContent.text(
+                'List the numbers from 10 to 19 in order.'),
+          ),
+        ],
+      ),
+    ),
+  ],
+);
+var batch = await client.createMessageBatch(request: batchRequest);
+print(batch.id);
+```
+
+**Tracking your batch:**
+
+```dart
+do {
+  await Future<void>.delayed(const Duration(seconds: 5));
+  batch = await client.retrieveMessageBatch(id: batch.id);
+} while (batch.processingStatus == MessageBatchProcessingStatus.inProgress);
+```
+
+**Retrieving batch results:**
+
+```dart
+batch = await client.retrieveMessageBatch(id: batch.id);
+print(batch.resultsUrl);
 ```
 
 ## Advance Usage

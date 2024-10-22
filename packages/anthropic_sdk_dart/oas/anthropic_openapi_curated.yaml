@@ -38,6 +38,51 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Message"
+  /messages/batches:
+    post:
+      operationId: createMessageBatch
+      tags:
+        - Messages
+      summary: Create a Message Batch
+      description: Send a batch of Message creation requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateMessageBatchRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageBatch"
+  /messages/batches/{id}:
+    get:
+      operationId: retrieveMessageBatch
+      tags:
+        - Messages
+      summary: Retrieve a Message Batch
+      description: |
+        This endpoint is idempotent and can be used to poll for Message Batch
+        completion. To access the results of a Message Batch, make a request to the
+        `results_url` field in the response.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the message batch to retrieve.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageBatch"
+
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -522,7 +567,7 @@ components:
           example: get_weather
         input:
           type: object
-          description: An object containing the input being passed to the tool, conforming to the tool’s `input_schema`.
+          description: An object containing the input being passed to the tool, conforming to the tool's `input_schema`.
           additionalProperties: true
         type:
           type: string
@@ -605,6 +650,98 @@ components:
       required:
         - input_tokens
         - output_tokens
+    CreateMessageBatchRequest:
+      type: object
+      description: The request parameters for creating a message batch.
+      properties:
+        requests:
+          type: array
+          description: List of requests for prompt completion. Each is an individual request to create a Message.
+          items:
+            $ref: "#/components/schemas/BatchMessageRequest"
+      required:
+        - requests
+    BatchMessageRequest:
+      type: object
+      description: An individual message request within a batch.
+      properties:
+        custom_id:
+          type: string
+          description: |
+            Developer-provided ID created for each request in a Message Batch. Useful for
+            matching results to requests, as results may be given out of request order.
+
+            Must be unique for each request within the Message Batch.
+        params:
+          $ref: "#/components/schemas/CreateMessageRequest"
+      required:
+        - custom_id
+        - params
+    MessageBatch:
+      type: object
+      description: A batch of message requests.
+      properties:
+        id:
+          type: string
+          description: Unique object identifier for the message batch.
+        created_at:
+          type: string
+          format: date-time
+          description: RFC 3339 datetime string representing the time at which the Message Batch was created.
+        expires_at:
+          type: string
+          format: date-time
+          description: RFC 3339 datetime string representing the time at which the Message Batch will expire and end processing, which is 24 hours after creation.
+        processing_status:
+          type: string
+          enum:
+            - in_progress
+            - canceling
+            - ended
+          description: Processing status of the Message Batch.
+        request_counts:
+          $ref: "#/components/schemas/MessageBatchRequestCounts"
+        results_url:
+          type: string
+          nullable: true
+          description: URL to a `.jsonl` file containing the results of the Message Batch requests. Specified only once processing ends.
+        type:
+          type: string
+          enum:
+            - message_batch
+          description: Object type. For Message Batches, this is always `"message_batch"`.
+      required:
+        - id
+        - created_at
+        - expires_at
+        - processing_status
+        - request_counts
+        - type
+    MessageBatchRequestCounts:
+      type: object
+      description: Tallies requests within the Message Batch, categorized by their status.
+      properties:
+        processing:
+          type: integer
+          description: Number of requests in the Message Batch that are processing.
+        succeeded:
+          type: integer
+          description: Number of requests in the Message Batch that have completed successfully.
+        errored:
+          type: integer
+          description: Number of requests in the Message Batch that encountered an error.
+        canceled:
+          type: integer
+          description: Number of requests in the Message Batch that have been canceled.
+        expired:
+          type: integer
+          description: Number of requests in the Message Batch that have expired.
+      required:
+        - processing
+        - succeeded
+        - errored
+        - canceled
+        - expired
     MessageStreamEvent:
       type: object
       description: A event in a streaming conversation.

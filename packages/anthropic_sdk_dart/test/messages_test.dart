@@ -313,5 +313,67 @@ void main() {
       expect(input['location'], contains('Boston'));
       expect(input['unit'], 'celsius');
     });
+
+    test('Test createMessageBatch API',
+        skip: true, timeout: const Timeout(Duration(minutes: 5)), () async {
+      const batchRequest = CreateMessageBatchRequest(
+        requests: [
+          BatchMessageRequest(
+            customId: 'request1',
+            params: CreateMessageRequest(
+              model: Model.model(Models.claudeInstant12),
+              temperature: 0,
+              maxTokens: 1024,
+              system:
+                  'You are a helpful assistant that replies only with numbers in order without any spaces, commas or additional explanations.',
+              messages: [
+                Message(
+                  role: MessageRole.user,
+                  content: MessageContent.text(
+                    'List the numbers from 1 to 9 in order.',
+                  ),
+                ),
+              ],
+            ),
+          ),
+          BatchMessageRequest(
+            customId: 'request2',
+            params: CreateMessageRequest(
+              model: Model.model(Models.claudeInstant12),
+              temperature: 0,
+              maxTokens: 1024,
+              system:
+                  'You are a helpful assistant that replies only with numbers in order without any spaces, commas or additional explanations.',
+              messages: [
+                Message(
+                  role: MessageRole.user,
+                  content: MessageContent.text(
+                    'List the numbers from 10 to 19 in order.',
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+
+      var batch = await client.createMessageBatch(request: batchRequest);
+      expect(batch.id, isNotEmpty);
+      expect(batch.createdAt, isNotEmpty);
+      expect(batch.expiresAt, isNotEmpty);
+      expect(batch.processingStatus, MessageBatchProcessingStatus.inProgress);
+      expect(batch.requestCounts.processing, 2);
+      expect(batch.type, MessageBatchType.messageBatch);
+
+      do {
+        await Future<void>.delayed(const Duration(seconds: 5));
+        batch = await client.retrieveMessageBatch(id: batch.id);
+      } while (
+          batch.processingStatus == MessageBatchProcessingStatus.inProgress);
+
+      batch = await client.retrieveMessageBatch(id: batch.id);
+      expect(batch.processingStatus, MessageBatchProcessingStatus.ended);
+      expect(batch.resultsUrl, isNotEmpty);
+    });
   });
 }

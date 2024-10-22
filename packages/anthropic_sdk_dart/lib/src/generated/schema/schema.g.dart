@@ -284,6 +284,99 @@ Map<String, dynamic> _$$UsageImplToJson(_$UsageImpl instance) =>
       'output_tokens': instance.outputTokens,
     };
 
+_$CreateMessageBatchRequestImpl _$$CreateMessageBatchRequestImplFromJson(
+        Map<String, dynamic> json) =>
+    _$CreateMessageBatchRequestImpl(
+      requests: (json['requests'] as List<dynamic>)
+          .map((e) => BatchMessageRequest.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$CreateMessageBatchRequestImplToJson(
+        _$CreateMessageBatchRequestImpl instance) =>
+    <String, dynamic>{
+      'requests': instance.requests.map((e) => e.toJson()).toList(),
+    };
+
+_$BatchMessageRequestImpl _$$BatchMessageRequestImplFromJson(
+        Map<String, dynamic> json) =>
+    _$BatchMessageRequestImpl(
+      customId: json['custom_id'] as String,
+      params:
+          CreateMessageRequest.fromJson(json['params'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$BatchMessageRequestImplToJson(
+        _$BatchMessageRequestImpl instance) =>
+    <String, dynamic>{
+      'custom_id': instance.customId,
+      'params': instance.params.toJson(),
+    };
+
+_$MessageBatchImpl _$$MessageBatchImplFromJson(Map<String, dynamic> json) =>
+    _$MessageBatchImpl(
+      id: json['id'] as String,
+      createdAt: json['created_at'] as String,
+      expiresAt: json['expires_at'] as String,
+      processingStatus: $enumDecode(
+          _$MessageBatchProcessingStatusEnumMap, json['processing_status']),
+      requestCounts: MessageBatchRequestCounts.fromJson(
+          json['request_counts'] as Map<String, dynamic>),
+      resultsUrl: json['results_url'] as String?,
+      type: $enumDecode(_$MessageBatchTypeEnumMap, json['type']),
+    );
+
+Map<String, dynamic> _$$MessageBatchImplToJson(_$MessageBatchImpl instance) {
+  final val = <String, dynamic>{
+    'id': instance.id,
+    'created_at': instance.createdAt,
+    'expires_at': instance.expiresAt,
+    'processing_status':
+        _$MessageBatchProcessingStatusEnumMap[instance.processingStatus]!,
+    'request_counts': instance.requestCounts.toJson(),
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('results_url', instance.resultsUrl);
+  val['type'] = _$MessageBatchTypeEnumMap[instance.type]!;
+  return val;
+}
+
+const _$MessageBatchProcessingStatusEnumMap = {
+  MessageBatchProcessingStatus.inProgress: 'in_progress',
+  MessageBatchProcessingStatus.canceling: 'canceling',
+  MessageBatchProcessingStatus.ended: 'ended',
+};
+
+const _$MessageBatchTypeEnumMap = {
+  MessageBatchType.messageBatch: 'message_batch',
+};
+
+_$MessageBatchRequestCountsImpl _$$MessageBatchRequestCountsImplFromJson(
+        Map<String, dynamic> json) =>
+    _$MessageBatchRequestCountsImpl(
+      processing: (json['processing'] as num).toInt(),
+      succeeded: (json['succeeded'] as num).toInt(),
+      errored: (json['errored'] as num).toInt(),
+      canceled: (json['canceled'] as num).toInt(),
+      expired: (json['expired'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$$MessageBatchRequestCountsImplToJson(
+        _$MessageBatchRequestCountsImpl instance) =>
+    <String, dynamic>{
+      'processing': instance.processing,
+      'succeeded': instance.succeeded,
+      'errored': instance.errored,
+      'canceled': instance.canceled,
+      'expired': instance.expired,
+    };
+
 _$MessageDeltaImpl _$$MessageDeltaImplFromJson(Map<String, dynamic> json) =>
     _$MessageDeltaImpl(
       stopReason: $enumDecodeNullable(_$StopReasonEnumMap, json['stop_reason'],

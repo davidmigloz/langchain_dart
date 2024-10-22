@@ -392,4 +392,63 @@ class AnthropicClient {
     );
     return Message.fromJson(_jsonDecode(r));
   }
+
+  // ------------------------------------------
+  // METHOD: createMessageBatch
+  // ------------------------------------------
+
+  /// Create a Message Batch
+  ///
+  /// Send a batch of Message creation requests.
+  ///
+  /// `request`: The request parameters for creating a message batch.
+  ///
+  /// `POST` `https://api.anthropic.com/v1/messages/batches`
+  Future<MessageBatch> createMessageBatch({
+    required CreateMessageBatchRequest request,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.anthropic.com/v1',
+      path: '/messages/batches',
+      method: HttpMethod.post,
+      isMultipart: false,
+      requestType: 'application/json',
+      responseType: 'application/json',
+      body: request,
+      headerParams: {
+        if (apiKey.isNotEmpty) 'x-api-key': apiKey,
+      },
+    );
+    return MessageBatch.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: retrieveMessageBatch
+  // ------------------------------------------
+
+  /// Retrieve a Message Batch
+  ///
+  /// This endpoint is idempotent and can be used to poll for Message Batch
+  /// completion. To access the results of a Message Batch, make a request to the
+  /// `results_url` field in the response.
+  ///
+  /// `id`: The ID of the message batch to retrieve.
+  ///
+  /// `GET` `https://api.anthropic.com/v1/messages/batches/{id}`
+  Future<MessageBatch> retrieveMessageBatch({
+    required String id,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.anthropic.com/v1',
+      path: '/messages/batches/$id',
+      method: HttpMethod.get,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+      headerParams: {
+        if (apiKey.isNotEmpty) 'x-api-key': apiKey,
+      },
+    );
+    return MessageBatch.fromJson(_jsonDecode(r));
+  }
 }
