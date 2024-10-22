@@ -51,10 +51,7 @@ void main() {
           contains('123456789'),
         );
         expect(res.role, MessageRole.assistant);
-        expect(
-          res.model?.replaceAll(RegExp(r'[-.]'), ''),
-          model.name.toLowerCase(),
-        );
+        expect(res.model, isNotEmpty);
         expect(res.stopReason, StopReason.endTurn);
         expect(res.stopSequence, isNull);
         expect(res.type, 'message');
@@ -177,7 +174,7 @@ void main() {
 
     test('Test tool use', () async {
       final request1 = CreateMessageRequest(
-        model: const Model.model(Models.claude35Sonnet20240620),
+        model: const Model.model(Models.claude35Sonnet20241022),
         messages: [
           const Message(
             role: MessageRole.user,
@@ -212,7 +209,7 @@ void main() {
       });
 
       final request2 = CreateMessageRequest(
-        model: const Model.model(Models.claude35Sonnet20240620),
+        model: const Model.model(Models.claude35Sonnet20241022),
         messages: [
           const Message(
             role: MessageRole.user,
@@ -246,7 +243,7 @@ void main() {
     test('Test tool use streaming',
         timeout: const Timeout(Duration(minutes: 5)), () async {
       final request1 = CreateMessageRequest(
-        model: const Model.model(Models.claude35Sonnet20240620),
+        model: const Model.model(Models.claude35Sonnet20241022),
         messages: [
           const Message(
             role: MessageRole.user,
@@ -274,7 +271,7 @@ void main() {
             expect(v.message.role, MessageRole.assistant);
             expect(
               v.message.model?.replaceAll(RegExp(r'[-.]'), ''),
-              Models.claude35Sonnet20240620.name.toLowerCase(),
+              Models.claude35Sonnet20241022.name.toLowerCase(),
             );
             expect(v.message.stopReason, isNull);
             expect(v.message.stopSequence, isNull);

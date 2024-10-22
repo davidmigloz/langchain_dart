@@ -75,12 +75,15 @@ Map<String, dynamic> _$$ModelCatalogImplToJson(_$ModelCatalogImpl instance) =>
     };
 
 const _$ModelsEnumMap = {
+  Models.claude35SonnetLatest: 'claude-3-5-sonnet-latest',
+  Models.claude35Sonnet20241022: 'claude-3-5-sonnet-20241022',
   Models.claude35Sonnet20240620: 'claude-3-5-sonnet-20240620',
-  Models.claude3Haiku20240307: 'claude-3-haiku-20240307',
+  Models.claude3OpusLatest: 'claude-3-opus-latest',
   Models.claude3Opus20240229: 'claude-3-opus-20240229',
   Models.claude3Sonnet20240229: 'claude-3-sonnet-20240229',
-  Models.claude20: 'claude-2.0',
+  Models.claude3Haiku20240307: 'claude-3-haiku-20240307',
   Models.claude21: 'claude-2.1',
+  Models.claude20: 'claude-2.0',
   Models.claudeInstant12: 'claude-instant-1.2',
 };
 
