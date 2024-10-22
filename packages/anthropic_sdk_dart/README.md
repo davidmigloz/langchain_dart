@@ -106,6 +106,7 @@ await for (final res in stream) {
     },
     contentBlockStop: (ContentBlockStopEvent e) {},
     ping: (PingEvent e) {},
+    error: (ErrorEvent v) {},
   );
 }
 // Hello! It's nice to meet you. How are you doing today?
@@ -136,7 +137,7 @@ Map<String, dynamic> _getCurrentWeather(
 
 To do that, we need to provide the definition of the tool:
 ```dart
-const tool = Tool(
+const tool = Tool.custom(
   name: 'get_current_weather',
   description: 'Get the current weather in a given location',
   inputSchema: {
@@ -239,9 +240,48 @@ await for (final res in stream) {
     },
     contentBlockStop: (ContentBlockStopEvent v) {},
     ping: (PingEvent v) {},
+    error: (ErrorEvent v) {},
   );
 }
 // {"location": "Boston, MA", "unit": "fahrenheit"}
+```
+
+### Computer use
+
+Claude 3.5 Sonnet model is capable of interacting with tools that can manipulate a computer desktop environment.
+
+Refer to the [official documentation](https://docs.anthropic.com/en/docs/build-with-claude/computer-use) for more information.
+
+Anthropic-defined tools:
+- `computer`: a tool that uses a mouse and keyboard to interact with a computer, and take screenshots.
+- `text_editor`: a tool for viewing, creating and editing files.
+- `bash`: a tool for running commands in a bash shell.
+
+Example:
+```dart
+const request = CreateMessageRequest(
+  model: Model.model(Models.claude35Sonnet20241022),
+  messages: [
+    Message(
+      role: MessageRole.user,
+      content: MessageContent.text(
+        'Save a picture of a cat to my desktop. '
+        'After each step, take a screenshot and carefully evaluate if you '
+            'have achieved the right outcome. Explicitly show your thinking: '
+            '"I have evaluated step X..." If not correct, try again. '
+            'Only when you confirm a step was executed correctly should '
+            'you move on to the next one.',
+      ),
+    ),
+  ],
+  tools: [
+    Tool.computerUse(displayWidthPx: 1024, displayHeightPx: 768),
+    Tool.textEditor(),
+    Tool.bash(),
+  ],
+  maxTokens: 1024,
+);
+final res = await client.createMessage(request: request);
 ```
 
 ### Message Batches

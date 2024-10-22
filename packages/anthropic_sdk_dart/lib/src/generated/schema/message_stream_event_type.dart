@@ -24,4 +24,6 @@ enum MessageStreamEventType {
   contentBlockStop,
   @JsonValue('ping')
   ping,
+  @JsonValue('error')
+  error,
 }

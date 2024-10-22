@@ -1965,13 +1965,17 @@ mixin _$ToolChoice {
   /// any available tool, or decide by itself.
   ///
   /// - `auto`: allows Claude to decide whether to call any provided tools or not. This is the default value.
-  /// - `any`: tells Claude that it must use one of the provided tools, but doesn’t force a particular tool.
+  /// - `any`: tells Claude that it must use one of the provided tools, but doesn't force a particular tool.
   /// - `tool`: allows us to force Claude to always use a particular tool specified in the `name` field.
   ToolChoiceType get type => throw _privateConstructorUsedError;
 
   /// The name of the tool to use.
   @JsonKey(includeIfNull: false)
   String? get name => throw _privateConstructorUsedError;
+
+  /// Whether to disable parallel tool use.
+  @JsonKey(name: 'disable_parallel_tool_use', includeIfNull: false)
+  bool? get disableParallelToolUse => throw _privateConstructorUsedError;
 
   /// Serializes this ToolChoice to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1989,7 +1993,11 @@ abstract class $ToolChoiceCopyWith<$Res> {
           ToolChoice value, $Res Function(ToolChoice) then) =
       _$ToolChoiceCopyWithImpl<$Res, ToolChoice>;
   @useResult
-  $Res call({ToolChoiceType type, @JsonKey(includeIfNull: false) String? name});
+  $Res call(
+      {ToolChoiceType type,
+      @JsonKey(includeIfNull: false) String? name,
+      @JsonKey(name: 'disable_parallel_tool_use', includeIfNull: false)
+      bool? disableParallelToolUse});
 }
 
 /// @nodoc
@@ -2009,6 +2017,7 @@ class _$ToolChoiceCopyWithImpl<$Res, $Val extends ToolChoice>
   $Res call({
     Object? type = null,
     Object? name = freezed,
+    Object? disableParallelToolUse = freezed,
   }) {
     return _then(_value.copyWith(
       type: null == type
@@ -2019,6 +2028,10 @@ class _$ToolChoiceCopyWithImpl<$Res, $Val extends ToolChoice>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
+      disableParallelToolUse: freezed == disableParallelToolUse
+          ? _value.disableParallelToolUse
+          : disableParallelToolUse // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 }
@@ -2031,7 +2044,11 @@ abstract class _$$ToolChoiceImplCopyWith<$Res>
       __$$ToolChoiceImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({ToolChoiceType type, @JsonKey(includeIfNull: false) String? name});
+  $Res call(
+      {ToolChoiceType type,
+      @JsonKey(includeIfNull: false) String? name,
+      @JsonKey(name: 'disable_parallel_tool_use', includeIfNull: false)
+      bool? disableParallelToolUse});
 }
 
 /// @nodoc
@@ -2049,6 +2066,7 @@ class __$$ToolChoiceImplCopyWithImpl<$Res>
   $Res call({
     Object? type = null,
     Object? name = freezed,
+    Object? disableParallelToolUse = freezed,
   }) {
     return _then(_$ToolChoiceImpl(
       type: null == type
@@ -2059,6 +2077,10 @@ class __$$ToolChoiceImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
+      disableParallelToolUse: freezed == disableParallelToolUse
+          ? _value.disableParallelToolUse
+          : disableParallelToolUse // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -2067,7 +2089,10 @@ class __$$ToolChoiceImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ToolChoiceImpl extends _ToolChoice {
   const _$ToolChoiceImpl(
-      {required this.type, @JsonKey(includeIfNull: false) this.name})
+      {required this.type,
+      @JsonKey(includeIfNull: false) this.name,
+      @JsonKey(name: 'disable_parallel_tool_use', includeIfNull: false)
+      this.disableParallelToolUse})
       : super._();
 
   factory _$ToolChoiceImpl.fromJson(Map<String, dynamic> json) =>
@@ -2077,7 +2102,7 @@ class _$ToolChoiceImpl extends _ToolChoice {
   /// any available tool, or decide by itself.
   ///
   /// - `auto`: allows Claude to decide whether to call any provided tools or not. This is the default value.
-  /// - `any`: tells Claude that it must use one of the provided tools, but doesn’t force a particular tool.
+  /// - `any`: tells Claude that it must use one of the provided tools, but doesn't force a particular tool.
   /// - `tool`: allows us to force Claude to always use a particular tool specified in the `name` field.
   @override
   final ToolChoiceType type;
@@ -2087,9 +2112,14 @@ class _$ToolChoiceImpl extends _ToolChoice {
   @JsonKey(includeIfNull: false)
   final String? name;
 
+  /// Whether to disable parallel tool use.
+  @override
+  @JsonKey(name: 'disable_parallel_tool_use', includeIfNull: false)
+  final bool? disableParallelToolUse;
+
   @override
   String toString() {
-    return 'ToolChoice(type: $type, name: $name)';
+    return 'ToolChoice(type: $type, name: $name, disableParallelToolUse: $disableParallelToolUse)';
   }
 
   @override
@@ -2098,12 +2128,15 @@ class _$ToolChoiceImpl extends _ToolChoice {
         (other.runtimeType == runtimeType &&
             other is _$ToolChoiceImpl &&
             (identical(other.type, type) || other.type == type) &&
-            (identical(other.name, name) || other.name == name));
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.disableParallelToolUse, disableParallelToolUse) ||
+                other.disableParallelToolUse == disableParallelToolUse));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, type, name);
+  int get hashCode =>
+      Object.hash(runtimeType, type, name, disableParallelToolUse);
 
   /// Create a copy of ToolChoice
   /// with the given fields replaced by the non-null parameter values.
@@ -2124,7 +2157,9 @@ class _$ToolChoiceImpl extends _ToolChoice {
 abstract class _ToolChoice extends ToolChoice {
   const factory _ToolChoice(
       {required final ToolChoiceType type,
-      @JsonKey(includeIfNull: false) final String? name}) = _$ToolChoiceImpl;
+      @JsonKey(includeIfNull: false) final String? name,
+      @JsonKey(name: 'disable_parallel_tool_use', includeIfNull: false)
+      final bool? disableParallelToolUse}) = _$ToolChoiceImpl;
   const _ToolChoice._() : super._();
 
   factory _ToolChoice.fromJson(Map<String, dynamic> json) =
@@ -2134,7 +2169,7 @@ abstract class _ToolChoice extends ToolChoice {
   /// any available tool, or decide by itself.
   ///
   /// - `auto`: allows Claude to decide whether to call any provided tools or not. This is the default value.
-  /// - `any`: tells Claude that it must use one of the provided tools, but doesn’t force a particular tool.
+  /// - `any`: tells Claude that it must use one of the provided tools, but doesn't force a particular tool.
   /// - `tool`: allows us to force Claude to always use a particular tool specified in the `name` field.
   @override
   ToolChoiceType get type;
@@ -2143,6 +2178,11 @@ abstract class _ToolChoice extends ToolChoice {
   @override
   @JsonKey(includeIfNull: false)
   String? get name;
+
+  /// Whether to disable parallel tool use.
+  @override
+  @JsonKey(name: 'disable_parallel_tool_use', includeIfNull: false)
+  bool? get disableParallelToolUse;
 
   /// Create a copy of ToolChoice
   /// with the given fields replaced by the non-null parameter values.
@@ -2182,6 +2222,7 @@ mixin _$Message {
   /// - `"end_turn"`: the model reached a natural stopping point
   /// - `"max_tokens"`: we exceeded the requested `max_tokens` or the model's maximum
   /// - `"stop_sequence"`: one of your provided custom `stop_sequences` was generated
+  /// - `"tool_use"`: the model invoked one or more tools
   ///
   /// In non-streaming mode this value is always non-null. In streaming mode, it is
   /// null in the `message_start` event and non-null otherwise.
@@ -2473,6 +2514,7 @@ class _$MessageImpl extends _Message {
   /// - `"end_turn"`: the model reached a natural stopping point
   /// - `"max_tokens"`: we exceeded the requested `max_tokens` or the model's maximum
   /// - `"stop_sequence"`: one of your provided custom `stop_sequences` was generated
+  /// - `"tool_use"`: the model invoked one or more tools
   ///
   /// In non-streaming mode this value is always non-null. In streaming mode, it is
   /// null in the `message_start` event and non-null otherwise.
@@ -2604,6 +2646,7 @@ abstract class _Message extends Message {
   /// - `"end_turn"`: the model reached a natural stopping point
   /// - `"max_tokens"`: we exceeded the requested `max_tokens` or the model's maximum
   /// - `"stop_sequence"`: one of your provided custom `stop_sequences` was generated
+  /// - `"tool_use"`: the model invoked one or more tools
   ///
   /// In non-streaming mode this value is always non-null. In streaming mode, it is
   /// null in the `message_start` event and non-null otherwise.
@@ -3068,255 +3111,164 @@ abstract class MessageContentText extends MessageContent {
       throw _privateConstructorUsedError;
 }
 
-Tool _$ToolFromJson(Map<String, dynamic> json) {
-  return _Tool.fromJson(json);
+CacheControlEphemeral _$CacheControlEphemeralFromJson(
+    Map<String, dynamic> json) {
+  return _CacheControlEphemeral.fromJson(json);
 }
 
 /// @nodoc
-mixin _$Tool {
-  /// The name of the tool. Must match the regex `^[a-zA-Z0-9_-]{1,64}$`.
-  String get name => throw _privateConstructorUsedError;
-
-  /// Description of what this tool does.
+mixin _$CacheControlEphemeral {
   ///
-  /// Tool descriptions should be as detailed as possible. The more information that
-  /// the model has about what the tool is and how to use it, the better it will
-  /// perform. You can use natural language descriptions to reinforce important
-  /// aspects of the tool input JSON schema.
-  @JsonKey(includeIfNull: false)
-  String? get description => throw _privateConstructorUsedError;
+  CacheControlEphemeralType get type => throw _privateConstructorUsedError;
 
-  /// [JSON schema](https://json-schema.org/) for this tool's input.
-  ///
-  /// This defines the shape of the `input` that your tool accepts and that the model
-  /// will produce.
-  @JsonKey(name: 'input_schema')
-  Map<String, dynamic> get inputSchema => throw _privateConstructorUsedError;
-
-  /// Serializes this Tool to a JSON map.
+  /// Serializes this CacheControlEphemeral to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of Tool
+  /// Create a copy of CacheControlEphemeral
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $ToolCopyWith<Tool> get copyWith => throw _privateConstructorUsedError;
+  $CacheControlEphemeralCopyWith<CacheControlEphemeral> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ToolCopyWith<$Res> {
-  factory $ToolCopyWith(Tool value, $Res Function(Tool) then) =
-      _$ToolCopyWithImpl<$Res, Tool>;
+abstract class $CacheControlEphemeralCopyWith<$Res> {
+  factory $CacheControlEphemeralCopyWith(CacheControlEphemeral value,
+          $Res Function(CacheControlEphemeral) then) =
+      _$CacheControlEphemeralCopyWithImpl<$Res, CacheControlEphemeral>;
   @useResult
-  $Res call(
-      {String name,
-      @JsonKey(includeIfNull: false) String? description,
-      @JsonKey(name: 'input_schema') Map<String, dynamic> inputSchema});
+  $Res call({CacheControlEphemeralType type});
 }
 
 /// @nodoc
-class _$ToolCopyWithImpl<$Res, $Val extends Tool>
-    implements $ToolCopyWith<$Res> {
-  _$ToolCopyWithImpl(this._value, this._then);
+class _$CacheControlEphemeralCopyWithImpl<$Res,
+        $Val extends CacheControlEphemeral>
+    implements $CacheControlEphemeralCopyWith<$Res> {
+  _$CacheControlEphemeralCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of Tool
+  /// Create a copy of CacheControlEphemeral
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
-    Object? description = freezed,
-    Object? inputSchema = null,
+    Object? type = null,
   }) {
     return _then(_value.copyWith(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: freezed == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String?,
-      inputSchema: null == inputSchema
-          ? _value.inputSchema
-          : inputSchema // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as CacheControlEphemeralType,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$ToolImplCopyWith<$Res> implements $ToolCopyWith<$Res> {
-  factory _$$ToolImplCopyWith(
-          _$ToolImpl value, $Res Function(_$ToolImpl) then) =
-      __$$ToolImplCopyWithImpl<$Res>;
+abstract class _$$CacheControlEphemeralImplCopyWith<$Res>
+    implements $CacheControlEphemeralCopyWith<$Res> {
+  factory _$$CacheControlEphemeralImplCopyWith(
+          _$CacheControlEphemeralImpl value,
+          $Res Function(_$CacheControlEphemeralImpl) then) =
+      __$$CacheControlEphemeralImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String name,
-      @JsonKey(includeIfNull: false) String? description,
-      @JsonKey(name: 'input_schema') Map<String, dynamic> inputSchema});
+  $Res call({CacheControlEphemeralType type});
 }
 
 /// @nodoc
-class __$$ToolImplCopyWithImpl<$Res>
-    extends _$ToolCopyWithImpl<$Res, _$ToolImpl>
-    implements _$$ToolImplCopyWith<$Res> {
-  __$$ToolImplCopyWithImpl(_$ToolImpl _value, $Res Function(_$ToolImpl) _then)
+class __$$CacheControlEphemeralImplCopyWithImpl<$Res>
+    extends _$CacheControlEphemeralCopyWithImpl<$Res,
+        _$CacheControlEphemeralImpl>
+    implements _$$CacheControlEphemeralImplCopyWith<$Res> {
+  __$$CacheControlEphemeralImplCopyWithImpl(_$CacheControlEphemeralImpl _value,
+      $Res Function(_$CacheControlEphemeralImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of Tool
+  /// Create a copy of CacheControlEphemeral
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
-    Object? description = freezed,
-    Object? inputSchema = null,
+    Object? type = null,
   }) {
-    return _then(_$ToolImpl(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: freezed == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String?,
-      inputSchema: null == inputSchema
-          ? _value._inputSchema
-          : inputSchema // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>,
+    return _then(_$CacheControlEphemeralImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as CacheControlEphemeralType,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$ToolImpl extends _Tool {
-  const _$ToolImpl(
-      {required this.name,
-      @JsonKey(includeIfNull: false) this.description,
-      @JsonKey(name: 'input_schema')
-      required final Map<String, dynamic> inputSchema})
-      : _inputSchema = inputSchema,
-        super._();
+class _$CacheControlEphemeralImpl extends _CacheControlEphemeral {
+  const _$CacheControlEphemeralImpl({required this.type}) : super._();
 
-  factory _$ToolImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ToolImplFromJson(json);
+  factory _$CacheControlEphemeralImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CacheControlEphemeralImplFromJson(json);
 
-  /// The name of the tool. Must match the regex `^[a-zA-Z0-9_-]{1,64}$`.
-  @override
-  final String name;
-
-  /// Description of what this tool does.
   ///
-  /// Tool descriptions should be as detailed as possible. The more information that
-  /// the model has about what the tool is and how to use it, the better it will
-  /// perform. You can use natural language descriptions to reinforce important
-  /// aspects of the tool input JSON schema.
   @override
-  @JsonKey(includeIfNull: false)
-  final String? description;
-
-  /// [JSON schema](https://json-schema.org/) for this tool's input.
-  ///
-  /// This defines the shape of the `input` that your tool accepts and that the model
-  /// will produce.
-  final Map<String, dynamic> _inputSchema;
-
-  /// [JSON schema](https://json-schema.org/) for this tool's input.
-  ///
-  /// This defines the shape of the `input` that your tool accepts and that the model
-  /// will produce.
-  @override
-  @JsonKey(name: 'input_schema')
-  Map<String, dynamic> get inputSchema {
-    if (_inputSchema is EqualUnmodifiableMapView) return _inputSchema;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_inputSchema);
-  }
+  final CacheControlEphemeralType type;
 
   @override
   String toString() {
-    return 'Tool(name: $name, description: $description, inputSchema: $inputSchema)';
+    return 'CacheControlEphemeral(type: $type)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ToolImpl &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.description, description) ||
-                other.description == description) &&
-            const DeepCollectionEquality()
-                .equals(other._inputSchema, _inputSchema));
+            other is _$CacheControlEphemeralImpl &&
+            (identical(other.type, type) || other.type == type));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, name, description,
-      const DeepCollectionEquality().hash(_inputSchema));
+  int get hashCode => Object.hash(runtimeType, type);
 
-  /// Create a copy of Tool
+  /// Create a copy of CacheControlEphemeral
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$ToolImplCopyWith<_$ToolImpl> get copyWith =>
-      __$$ToolImplCopyWithImpl<_$ToolImpl>(this, _$identity);
+  _$$CacheControlEphemeralImplCopyWith<_$CacheControlEphemeralImpl>
+      get copyWith => __$$CacheControlEphemeralImplCopyWithImpl<
+          _$CacheControlEphemeralImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ToolImplToJson(
+    return _$$CacheControlEphemeralImplToJson(
       this,
     );
   }
 }
 
-abstract class _Tool extends Tool {
-  const factory _Tool(
-      {required final String name,
-      @JsonKey(includeIfNull: false) final String? description,
-      @JsonKey(name: 'input_schema')
-      required final Map<String, dynamic> inputSchema}) = _$ToolImpl;
-  const _Tool._() : super._();
+abstract class _CacheControlEphemeral extends CacheControlEphemeral {
+  const factory _CacheControlEphemeral(
+          {required final CacheControlEphemeralType type}) =
+      _$CacheControlEphemeralImpl;
+  const _CacheControlEphemeral._() : super._();
 
-  factory _Tool.fromJson(Map<String, dynamic> json) = _$ToolImpl.fromJson;
+  factory _CacheControlEphemeral.fromJson(Map<String, dynamic> json) =
+      _$CacheControlEphemeralImpl.fromJson;
 
-  /// The name of the tool. Must match the regex `^[a-zA-Z0-9_-]{1,64}$`.
-  @override
-  String get name;
-
-  /// Description of what this tool does.
   ///
-  /// Tool descriptions should be as detailed as possible. The more information that
-  /// the model has about what the tool is and how to use it, the better it will
-  /// perform. You can use natural language descriptions to reinforce important
-  /// aspects of the tool input JSON schema.
   @override
-  @JsonKey(includeIfNull: false)
-  String? get description;
+  CacheControlEphemeralType get type;
 
-  /// [JSON schema](https://json-schema.org/) for this tool's input.
-  ///
-  /// This defines the shape of the `input` that your tool accepts and that the model
-  /// will produce.
-  @override
-  @JsonKey(name: 'input_schema')
-  Map<String, dynamic> get inputSchema;
-
-  /// Create a copy of Tool
+  /// Create a copy of CacheControlEphemeral
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ToolImplCopyWith<_$ToolImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$CacheControlEphemeralImplCopyWith<_$CacheControlEphemeralImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 ImageBlockSource _$ImageBlockSourceFromJson(Map<String, dynamic> json) {
@@ -4744,6 +4696,7 @@ mixin _$MessageDelta {
   /// - `"end_turn"`: the model reached a natural stopping point
   /// - `"max_tokens"`: we exceeded the requested `max_tokens` or the model's maximum
   /// - `"stop_sequence"`: one of your provided custom `stop_sequences` was generated
+  /// - `"tool_use"`: the model invoked one or more tools
   ///
   /// In non-streaming mode this value is always non-null. In streaming mode, it is
   /// null in the `message_start` event and non-null otherwise.
@@ -4886,6 +4839,7 @@ class _$MessageDeltaImpl extends _MessageDelta {
   /// - `"end_turn"`: the model reached a natural stopping point
   /// - `"max_tokens"`: we exceeded the requested `max_tokens` or the model's maximum
   /// - `"stop_sequence"`: one of your provided custom `stop_sequences` was generated
+  /// - `"tool_use"`: the model invoked one or more tools
   ///
   /// In non-streaming mode this value is always non-null. In streaming mode, it is
   /// null in the `message_start` event and non-null otherwise.
@@ -4961,6 +4915,7 @@ abstract class _MessageDelta extends MessageDelta {
   /// - `"end_turn"`: the model reached a natural stopping point
   /// - `"max_tokens"`: we exceeded the requested `max_tokens` or the model's maximum
   /// - `"stop_sequence"`: one of your provided custom `stop_sequences` was generated
+  /// - `"tool_use"`: the model invoked one or more tools
   ///
   /// In non-streaming mode this value is always non-null. In streaming mode, it is
   /// null in the `message_start` event and non-null otherwise.
@@ -5146,6 +5101,1690 @@ abstract class _MessageDeltaUsage extends MessageDeltaUsage {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MessageDeltaUsageImplCopyWith<_$MessageDeltaUsageImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+Error _$ErrorFromJson(Map<String, dynamic> json) {
+  return _Error.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Error {
+  /// The type of error.
+  String get type => throw _privateConstructorUsedError;
+
+  /// A human-readable error message.
+  String get message => throw _privateConstructorUsedError;
+
+  /// Serializes this Error to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of Error
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $ErrorCopyWith<Error> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ErrorCopyWith<$Res> {
+  factory $ErrorCopyWith(Error value, $Res Function(Error) then) =
+      _$ErrorCopyWithImpl<$Res, Error>;
+  @useResult
+  $Res call({String type, String message});
+}
+
+/// @nodoc
+class _$ErrorCopyWithImpl<$Res, $Val extends Error>
+    implements $ErrorCopyWith<$Res> {
+  _$ErrorCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of Error
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? message = null,
+  }) {
+    return _then(_value.copyWith(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ErrorImplCopyWith<$Res> implements $ErrorCopyWith<$Res> {
+  factory _$$ErrorImplCopyWith(
+          _$ErrorImpl value, $Res Function(_$ErrorImpl) then) =
+      __$$ErrorImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String type, String message});
+}
+
+/// @nodoc
+class __$$ErrorImplCopyWithImpl<$Res>
+    extends _$ErrorCopyWithImpl<$Res, _$ErrorImpl>
+    implements _$$ErrorImplCopyWith<$Res> {
+  __$$ErrorImplCopyWithImpl(
+      _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of Error
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? message = null,
+  }) {
+    return _then(_$ErrorImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ErrorImpl extends _Error {
+  const _$ErrorImpl({required this.type, required this.message}) : super._();
+
+  factory _$ErrorImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ErrorImplFromJson(json);
+
+  /// The type of error.
+  @override
+  final String type;
+
+  /// A human-readable error message.
+  @override
+  final String message;
+
+  @override
+  String toString() {
+    return 'Error(type: $type, message: $message)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ErrorImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.message, message) || other.message == message));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, message);
+
+  /// Create a copy of Error
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
+      __$$ErrorImplCopyWithImpl<_$ErrorImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ErrorImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Error extends Error {
+  const factory _Error(
+      {required final String type,
+      required final String message}) = _$ErrorImpl;
+  const _Error._() : super._();
+
+  factory _Error.fromJson(Map<String, dynamic> json) = _$ErrorImpl.fromJson;
+
+  /// The type of error.
+  @override
+  String get type;
+
+  /// A human-readable error message.
+  @override
+  String get message;
+
+  /// Create a copy of Error
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+Tool _$ToolFromJson(Map<String, dynamic> json) {
+  switch (json['type']) {
+    case 'custom':
+      return ToolCustom.fromJson(json);
+    case 'computer_use':
+      return ToolComputerUse.fromJson(json);
+    case 'text_editor':
+      return ToolTextEditor.fromJson(json);
+    case 'bash':
+      return ToolBash.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(
+          json, 'type', 'Tool', 'Invalid union type "${json['type']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$Tool {
+  /// The type of tool.
+  @JsonKey(includeIfNull: false)
+  String? get type => throw _privateConstructorUsedError;
+
+  /// The name of the tool. Must match the regex `^[a-zA-Z0-9_-]{1,64}$`.
+  String get name => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            @JsonKey(includeIfNull: false) String? type,
+            String name,
+            @JsonKey(includeIfNull: false) String? description,
+            @JsonKey(name: 'input_schema') Map<String, dynamic> inputSchema)
+        custom,
+    required TResult Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl,
+            @JsonKey(name: 'display_width_px') int displayWidthPx,
+            @JsonKey(name: 'display_height_px') int displayHeightPx,
+            @JsonKey(name: 'display_number', includeIfNull: false)
+            int? displayNumber)
+        computerUse,
+    required TResult Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl)
+        textEditor,
+    required TResult Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl)
+        bash,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            @JsonKey(includeIfNull: false) String? type,
+            String name,
+            @JsonKey(includeIfNull: false) String? description,
+            @JsonKey(name: 'input_schema') Map<String, dynamic> inputSchema)?
+        custom,
+    TResult? Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl,
+            @JsonKey(name: 'display_width_px') int displayWidthPx,
+            @JsonKey(name: 'display_height_px') int displayHeightPx,
+            @JsonKey(name: 'display_number', includeIfNull: false)
+            int? displayNumber)?
+        computerUse,
+    TResult? Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl)?
+        textEditor,
+    TResult? Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl)?
+        bash,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            @JsonKey(includeIfNull: false) String? type,
+            String name,
+            @JsonKey(includeIfNull: false) String? description,
+            @JsonKey(name: 'input_schema') Map<String, dynamic> inputSchema)?
+        custom,
+    TResult Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl,
+            @JsonKey(name: 'display_width_px') int displayWidthPx,
+            @JsonKey(name: 'display_height_px') int displayHeightPx,
+            @JsonKey(name: 'display_number', includeIfNull: false)
+            int? displayNumber)?
+        computerUse,
+    TResult Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl)?
+        textEditor,
+    TResult Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl)?
+        bash,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ToolCustom value) custom,
+    required TResult Function(ToolComputerUse value) computerUse,
+    required TResult Function(ToolTextEditor value) textEditor,
+    required TResult Function(ToolBash value) bash,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ToolCustom value)? custom,
+    TResult? Function(ToolComputerUse value)? computerUse,
+    TResult? Function(ToolTextEditor value)? textEditor,
+    TResult? Function(ToolBash value)? bash,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ToolCustom value)? custom,
+    TResult Function(ToolComputerUse value)? computerUse,
+    TResult Function(ToolTextEditor value)? textEditor,
+    TResult Function(ToolBash value)? bash,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+
+  /// Serializes this Tool to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of Tool
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $ToolCopyWith<Tool> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ToolCopyWith<$Res> {
+  factory $ToolCopyWith(Tool value, $Res Function(Tool) then) =
+      _$ToolCopyWithImpl<$Res, Tool>;
+  @useResult
+  $Res call({@JsonKey(includeIfNull: false) String type, String name});
+}
+
+/// @nodoc
+class _$ToolCopyWithImpl<$Res, $Val extends Tool>
+    implements $ToolCopyWith<$Res> {
+  _$ToolCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of Tool
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? name = null,
+  }) {
+    return _then(_value.copyWith(
+      type: null == type
+          ? _value.type!
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ToolCustomImplCopyWith<$Res> implements $ToolCopyWith<$Res> {
+  factory _$$ToolCustomImplCopyWith(
+          _$ToolCustomImpl value, $Res Function(_$ToolCustomImpl) then) =
+      __$$ToolCustomImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(includeIfNull: false) String? type,
+      String name,
+      @JsonKey(includeIfNull: false) String? description,
+      @JsonKey(name: 'input_schema') Map<String, dynamic> inputSchema});
+}
+
+/// @nodoc
+class __$$ToolCustomImplCopyWithImpl<$Res>
+    extends _$ToolCopyWithImpl<$Res, _$ToolCustomImpl>
+    implements _$$ToolCustomImplCopyWith<$Res> {
+  __$$ToolCustomImplCopyWithImpl(
+      _$ToolCustomImpl _value, $Res Function(_$ToolCustomImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of Tool
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = freezed,
+    Object? name = null,
+    Object? description = freezed,
+    Object? inputSchema = null,
+  }) {
+    return _then(_$ToolCustomImpl(
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String?,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      inputSchema: null == inputSchema
+          ? _value._inputSchema
+          : inputSchema // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ToolCustomImpl extends ToolCustom {
+  const _$ToolCustomImpl(
+      {@JsonKey(includeIfNull: false) this.type,
+      required this.name,
+      @JsonKey(includeIfNull: false) this.description,
+      @JsonKey(name: 'input_schema')
+      required final Map<String, dynamic> inputSchema})
+      : _inputSchema = inputSchema,
+        super._();
+
+  factory _$ToolCustomImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ToolCustomImplFromJson(json);
+
+  /// The type of tool.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? type;
+
+  /// The name of the tool. Must match the regex `^[a-zA-Z0-9_-]{1,64}$`.
+  @override
+  final String name;
+
+  /// Description of what this tool does.
+  ///
+  /// Tool descriptions should be as detailed as possible. The more information that
+  /// the model has about what the tool is and how to use it, the better it will
+  /// perform. You can use natural language descriptions to reinforce important
+  /// aspects of the tool input JSON schema.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? description;
+
+  /// [JSON schema](https://json-schema.org/) for this tool's input.
+  ///
+  /// This defines the shape of the `input` that your tool accepts and that the model
+  /// will produce.
+  final Map<String, dynamic> _inputSchema;
+
+  /// [JSON schema](https://json-schema.org/) for this tool's input.
+  ///
+  /// This defines the shape of the `input` that your tool accepts and that the model
+  /// will produce.
+  @override
+  @JsonKey(name: 'input_schema')
+  Map<String, dynamic> get inputSchema {
+    if (_inputSchema is EqualUnmodifiableMapView) return _inputSchema;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_inputSchema);
+  }
+
+  @override
+  String toString() {
+    return 'Tool.custom(type: $type, name: $name, description: $description, inputSchema: $inputSchema)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ToolCustomImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            const DeepCollectionEquality()
+                .equals(other._inputSchema, _inputSchema));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, name, description,
+      const DeepCollectionEquality().hash(_inputSchema));
+
+  /// Create a copy of Tool
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ToolCustomImplCopyWith<_$ToolCustomImpl> get copyWith =>
+      __$$ToolCustomImplCopyWithImpl<_$ToolCustomImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            @JsonKey(includeIfNull: false) String? type,
+            String name,
+            @JsonKey(includeIfNull: false) String? description,
+            @JsonKey(name: 'input_schema') Map<String, dynamic> inputSchema)
+        custom,
+    required TResult Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl,
+            @JsonKey(name: 'display_width_px') int displayWidthPx,
+            @JsonKey(name: 'display_height_px') int displayHeightPx,
+            @JsonKey(name: 'display_number', includeIfNull: false)
+            int? displayNumber)
+        computerUse,
+    required TResult Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl)
+        textEditor,
+    required TResult Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl)
+        bash,
+  }) {
+    return custom(type, name, description, inputSchema);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            @JsonKey(includeIfNull: false) String? type,
+            String name,
+            @JsonKey(includeIfNull: false) String? description,
+            @JsonKey(name: 'input_schema') Map<String, dynamic> inputSchema)?
+        custom,
+    TResult? Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl,
+            @JsonKey(name: 'display_width_px') int displayWidthPx,
+            @JsonKey(name: 'display_height_px') int displayHeightPx,
+            @JsonKey(name: 'display_number', includeIfNull: false)
+            int? displayNumber)?
+        computerUse,
+    TResult? Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl)?
+        textEditor,
+    TResult? Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl)?
+        bash,
+  }) {
+    return custom?.call(type, name, description, inputSchema);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            @JsonKey(includeIfNull: false) String? type,
+            String name,
+            @JsonKey(includeIfNull: false) String? description,
+            @JsonKey(name: 'input_schema') Map<String, dynamic> inputSchema)?
+        custom,
+    TResult Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl,
+            @JsonKey(name: 'display_width_px') int displayWidthPx,
+            @JsonKey(name: 'display_height_px') int displayHeightPx,
+            @JsonKey(name: 'display_number', includeIfNull: false)
+            int? displayNumber)?
+        computerUse,
+    TResult Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl)?
+        textEditor,
+    TResult Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl)?
+        bash,
+    required TResult orElse(),
+  }) {
+    if (custom != null) {
+      return custom(type, name, description, inputSchema);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ToolCustom value) custom,
+    required TResult Function(ToolComputerUse value) computerUse,
+    required TResult Function(ToolTextEditor value) textEditor,
+    required TResult Function(ToolBash value) bash,
+  }) {
+    return custom(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ToolCustom value)? custom,
+    TResult? Function(ToolComputerUse value)? computerUse,
+    TResult? Function(ToolTextEditor value)? textEditor,
+    TResult? Function(ToolBash value)? bash,
+  }) {
+    return custom?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ToolCustom value)? custom,
+    TResult Function(ToolComputerUse value)? computerUse,
+    TResult Function(ToolTextEditor value)? textEditor,
+    TResult Function(ToolBash value)? bash,
+    required TResult orElse(),
+  }) {
+    if (custom != null) {
+      return custom(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ToolCustomImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class ToolCustom extends Tool {
+  const factory ToolCustom(
+      {@JsonKey(includeIfNull: false) final String? type,
+      required final String name,
+      @JsonKey(includeIfNull: false) final String? description,
+      @JsonKey(name: 'input_schema')
+      required final Map<String, dynamic> inputSchema}) = _$ToolCustomImpl;
+  const ToolCustom._() : super._();
+
+  factory ToolCustom.fromJson(Map<String, dynamic> json) =
+      _$ToolCustomImpl.fromJson;
+
+  /// The type of tool.
+  @override
+  @JsonKey(includeIfNull: false)
+  String? get type;
+
+  /// The name of the tool. Must match the regex `^[a-zA-Z0-9_-]{1,64}$`.
+  @override
+  String get name;
+
+  /// Description of what this tool does.
+  ///
+  /// Tool descriptions should be as detailed as possible. The more information that
+  /// the model has about what the tool is and how to use it, the better it will
+  /// perform. You can use natural language descriptions to reinforce important
+  /// aspects of the tool input JSON schema.
+  @JsonKey(includeIfNull: false)
+  String? get description;
+
+  /// [JSON schema](https://json-schema.org/) for this tool's input.
+  ///
+  /// This defines the shape of the `input` that your tool accepts and that the model
+  /// will produce.
+  @JsonKey(name: 'input_schema')
+  Map<String, dynamic> get inputSchema;
+
+  /// Create a copy of Tool
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ToolCustomImplCopyWith<_$ToolCustomImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ToolComputerUseImplCopyWith<$Res>
+    implements $ToolCopyWith<$Res> {
+  factory _$$ToolComputerUseImplCopyWith(_$ToolComputerUseImpl value,
+          $Res Function(_$ToolComputerUseImpl) then) =
+      __$$ToolComputerUseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String type,
+      String name,
+      @JsonKey(name: 'cache_control', includeIfNull: false)
+      CacheControlEphemeral? cacheControl,
+      @JsonKey(name: 'display_width_px') int displayWidthPx,
+      @JsonKey(name: 'display_height_px') int displayHeightPx,
+      @JsonKey(name: 'display_number', includeIfNull: false)
+      int? displayNumber});
+
+  $CacheControlEphemeralCopyWith<$Res>? get cacheControl;
+}
+
+/// @nodoc
+class __$$ToolComputerUseImplCopyWithImpl<$Res>
+    extends _$ToolCopyWithImpl<$Res, _$ToolComputerUseImpl>
+    implements _$$ToolComputerUseImplCopyWith<$Res> {
+  __$$ToolComputerUseImplCopyWithImpl(
+      _$ToolComputerUseImpl _value, $Res Function(_$ToolComputerUseImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of Tool
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? name = null,
+    Object? cacheControl = freezed,
+    Object? displayWidthPx = null,
+    Object? displayHeightPx = null,
+    Object? displayNumber = freezed,
+  }) {
+    return _then(_$ToolComputerUseImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      cacheControl: freezed == cacheControl
+          ? _value.cacheControl
+          : cacheControl // ignore: cast_nullable_to_non_nullable
+              as CacheControlEphemeral?,
+      displayWidthPx: null == displayWidthPx
+          ? _value.displayWidthPx
+          : displayWidthPx // ignore: cast_nullable_to_non_nullable
+              as int,
+      displayHeightPx: null == displayHeightPx
+          ? _value.displayHeightPx
+          : displayHeightPx // ignore: cast_nullable_to_non_nullable
+              as int,
+      displayNumber: freezed == displayNumber
+          ? _value.displayNumber
+          : displayNumber // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+
+  /// Create a copy of Tool
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $CacheControlEphemeralCopyWith<$Res>? get cacheControl {
+    if (_value.cacheControl == null) {
+      return null;
+    }
+
+    return $CacheControlEphemeralCopyWith<$Res>(_value.cacheControl!, (value) {
+      return _then(_value.copyWith(cacheControl: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ToolComputerUseImpl extends ToolComputerUse {
+  const _$ToolComputerUseImpl(
+      {this.type = 'computer_20241022',
+      this.name = 'computer',
+      @JsonKey(name: 'cache_control', includeIfNull: false) this.cacheControl,
+      @JsonKey(name: 'display_width_px') required this.displayWidthPx,
+      @JsonKey(name: 'display_height_px') required this.displayHeightPx,
+      @JsonKey(name: 'display_number', includeIfNull: false)
+      this.displayNumber})
+      : super._();
+
+  factory _$ToolComputerUseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ToolComputerUseImplFromJson(json);
+
+  /// The type of tool.
+  @override
+  @JsonKey()
+  final String type;
+
+  /// The name of the tool.
+  @override
+  @JsonKey()
+  final String name;
+
+  /// No Description
+  @override
+  @JsonKey(name: 'cache_control', includeIfNull: false)
+  final CacheControlEphemeral? cacheControl;
+
+  /// The width of the display in pixels.
+  @override
+  @JsonKey(name: 'display_width_px')
+  final int displayWidthPx;
+
+  /// The height of the display in pixels.
+  @override
+  @JsonKey(name: 'display_height_px')
+  final int displayHeightPx;
+
+  /// The number of the display to use.
+  @override
+  @JsonKey(name: 'display_number', includeIfNull: false)
+  final int? displayNumber;
+
+  @override
+  String toString() {
+    return 'Tool.computerUse(type: $type, name: $name, cacheControl: $cacheControl, displayWidthPx: $displayWidthPx, displayHeightPx: $displayHeightPx, displayNumber: $displayNumber)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ToolComputerUseImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.cacheControl, cacheControl) ||
+                other.cacheControl == cacheControl) &&
+            (identical(other.displayWidthPx, displayWidthPx) ||
+                other.displayWidthPx == displayWidthPx) &&
+            (identical(other.displayHeightPx, displayHeightPx) ||
+                other.displayHeightPx == displayHeightPx) &&
+            (identical(other.displayNumber, displayNumber) ||
+                other.displayNumber == displayNumber));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, name, cacheControl,
+      displayWidthPx, displayHeightPx, displayNumber);
+
+  /// Create a copy of Tool
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ToolComputerUseImplCopyWith<_$ToolComputerUseImpl> get copyWith =>
+      __$$ToolComputerUseImplCopyWithImpl<_$ToolComputerUseImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            @JsonKey(includeIfNull: false) String? type,
+            String name,
+            @JsonKey(includeIfNull: false) String? description,
+            @JsonKey(name: 'input_schema') Map<String, dynamic> inputSchema)
+        custom,
+    required TResult Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl,
+            @JsonKey(name: 'display_width_px') int displayWidthPx,
+            @JsonKey(name: 'display_height_px') int displayHeightPx,
+            @JsonKey(name: 'display_number', includeIfNull: false)
+            int? displayNumber)
+        computerUse,
+    required TResult Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl)
+        textEditor,
+    required TResult Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl)
+        bash,
+  }) {
+    return computerUse(type, name, cacheControl, displayWidthPx,
+        displayHeightPx, displayNumber);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            @JsonKey(includeIfNull: false) String? type,
+            String name,
+            @JsonKey(includeIfNull: false) String? description,
+            @JsonKey(name: 'input_schema') Map<String, dynamic> inputSchema)?
+        custom,
+    TResult? Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl,
+            @JsonKey(name: 'display_width_px') int displayWidthPx,
+            @JsonKey(name: 'display_height_px') int displayHeightPx,
+            @JsonKey(name: 'display_number', includeIfNull: false)
+            int? displayNumber)?
+        computerUse,
+    TResult? Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl)?
+        textEditor,
+    TResult? Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl)?
+        bash,
+  }) {
+    return computerUse?.call(type, name, cacheControl, displayWidthPx,
+        displayHeightPx, displayNumber);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            @JsonKey(includeIfNull: false) String? type,
+            String name,
+            @JsonKey(includeIfNull: false) String? description,
+            @JsonKey(name: 'input_schema') Map<String, dynamic> inputSchema)?
+        custom,
+    TResult Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl,
+            @JsonKey(name: 'display_width_px') int displayWidthPx,
+            @JsonKey(name: 'display_height_px') int displayHeightPx,
+            @JsonKey(name: 'display_number', includeIfNull: false)
+            int? displayNumber)?
+        computerUse,
+    TResult Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl)?
+        textEditor,
+    TResult Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl)?
+        bash,
+    required TResult orElse(),
+  }) {
+    if (computerUse != null) {
+      return computerUse(type, name, cacheControl, displayWidthPx,
+          displayHeightPx, displayNumber);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ToolCustom value) custom,
+    required TResult Function(ToolComputerUse value) computerUse,
+    required TResult Function(ToolTextEditor value) textEditor,
+    required TResult Function(ToolBash value) bash,
+  }) {
+    return computerUse(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ToolCustom value)? custom,
+    TResult? Function(ToolComputerUse value)? computerUse,
+    TResult? Function(ToolTextEditor value)? textEditor,
+    TResult? Function(ToolBash value)? bash,
+  }) {
+    return computerUse?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ToolCustom value)? custom,
+    TResult Function(ToolComputerUse value)? computerUse,
+    TResult Function(ToolTextEditor value)? textEditor,
+    TResult Function(ToolBash value)? bash,
+    required TResult orElse(),
+  }) {
+    if (computerUse != null) {
+      return computerUse(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ToolComputerUseImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class ToolComputerUse extends Tool {
+  const factory ToolComputerUse(
+      {final String type,
+      final String name,
+      @JsonKey(name: 'cache_control', includeIfNull: false)
+      final CacheControlEphemeral? cacheControl,
+      @JsonKey(name: 'display_width_px') required final int displayWidthPx,
+      @JsonKey(name: 'display_height_px') required final int displayHeightPx,
+      @JsonKey(name: 'display_number', includeIfNull: false)
+      final int? displayNumber}) = _$ToolComputerUseImpl;
+  const ToolComputerUse._() : super._();
+
+  factory ToolComputerUse.fromJson(Map<String, dynamic> json) =
+      _$ToolComputerUseImpl.fromJson;
+
+  /// The type of tool.
+  @override
+  String get type;
+
+  /// The name of the tool.
+  @override
+  String get name;
+
+  /// No Description
+  @JsonKey(name: 'cache_control', includeIfNull: false)
+  CacheControlEphemeral? get cacheControl;
+
+  /// The width of the display in pixels.
+  @JsonKey(name: 'display_width_px')
+  int get displayWidthPx;
+
+  /// The height of the display in pixels.
+  @JsonKey(name: 'display_height_px')
+  int get displayHeightPx;
+
+  /// The number of the display to use.
+  @JsonKey(name: 'display_number', includeIfNull: false)
+  int? get displayNumber;
+
+  /// Create a copy of Tool
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ToolComputerUseImplCopyWith<_$ToolComputerUseImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ToolTextEditorImplCopyWith<$Res>
+    implements $ToolCopyWith<$Res> {
+  factory _$$ToolTextEditorImplCopyWith(_$ToolTextEditorImpl value,
+          $Res Function(_$ToolTextEditorImpl) then) =
+      __$$ToolTextEditorImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String type,
+      String name,
+      @JsonKey(name: 'cache_control', includeIfNull: false)
+      CacheControlEphemeral? cacheControl});
+
+  $CacheControlEphemeralCopyWith<$Res>? get cacheControl;
+}
+
+/// @nodoc
+class __$$ToolTextEditorImplCopyWithImpl<$Res>
+    extends _$ToolCopyWithImpl<$Res, _$ToolTextEditorImpl>
+    implements _$$ToolTextEditorImplCopyWith<$Res> {
+  __$$ToolTextEditorImplCopyWithImpl(
+      _$ToolTextEditorImpl _value, $Res Function(_$ToolTextEditorImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of Tool
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? name = null,
+    Object? cacheControl = freezed,
+  }) {
+    return _then(_$ToolTextEditorImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      cacheControl: freezed == cacheControl
+          ? _value.cacheControl
+          : cacheControl // ignore: cast_nullable_to_non_nullable
+              as CacheControlEphemeral?,
+    ));
+  }
+
+  /// Create a copy of Tool
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $CacheControlEphemeralCopyWith<$Res>? get cacheControl {
+    if (_value.cacheControl == null) {
+      return null;
+    }
+
+    return $CacheControlEphemeralCopyWith<$Res>(_value.cacheControl!, (value) {
+      return _then(_value.copyWith(cacheControl: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ToolTextEditorImpl extends ToolTextEditor {
+  const _$ToolTextEditorImpl(
+      {this.type = 'text_editor_20241022',
+      this.name = 'str_replace_editor',
+      @JsonKey(name: 'cache_control', includeIfNull: false) this.cacheControl})
+      : super._();
+
+  factory _$ToolTextEditorImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ToolTextEditorImplFromJson(json);
+
+  /// The type of tool.
+  @override
+  @JsonKey()
+  final String type;
+
+  /// The name of the tool.
+  @override
+  @JsonKey()
+  final String name;
+
+  /// No Description
+  @override
+  @JsonKey(name: 'cache_control', includeIfNull: false)
+  final CacheControlEphemeral? cacheControl;
+
+  @override
+  String toString() {
+    return 'Tool.textEditor(type: $type, name: $name, cacheControl: $cacheControl)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ToolTextEditorImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.cacheControl, cacheControl) ||
+                other.cacheControl == cacheControl));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, name, cacheControl);
+
+  /// Create a copy of Tool
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ToolTextEditorImplCopyWith<_$ToolTextEditorImpl> get copyWith =>
+      __$$ToolTextEditorImplCopyWithImpl<_$ToolTextEditorImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            @JsonKey(includeIfNull: false) String? type,
+            String name,
+            @JsonKey(includeIfNull: false) String? description,
+            @JsonKey(name: 'input_schema') Map<String, dynamic> inputSchema)
+        custom,
+    required TResult Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl,
+            @JsonKey(name: 'display_width_px') int displayWidthPx,
+            @JsonKey(name: 'display_height_px') int displayHeightPx,
+            @JsonKey(name: 'display_number', includeIfNull: false)
+            int? displayNumber)
+        computerUse,
+    required TResult Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl)
+        textEditor,
+    required TResult Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl)
+        bash,
+  }) {
+    return textEditor(type, name, cacheControl);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            @JsonKey(includeIfNull: false) String? type,
+            String name,
+            @JsonKey(includeIfNull: false) String? description,
+            @JsonKey(name: 'input_schema') Map<String, dynamic> inputSchema)?
+        custom,
+    TResult? Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl,
+            @JsonKey(name: 'display_width_px') int displayWidthPx,
+            @JsonKey(name: 'display_height_px') int displayHeightPx,
+            @JsonKey(name: 'display_number', includeIfNull: false)
+            int? displayNumber)?
+        computerUse,
+    TResult? Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl)?
+        textEditor,
+    TResult? Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl)?
+        bash,
+  }) {
+    return textEditor?.call(type, name, cacheControl);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            @JsonKey(includeIfNull: false) String? type,
+            String name,
+            @JsonKey(includeIfNull: false) String? description,
+            @JsonKey(name: 'input_schema') Map<String, dynamic> inputSchema)?
+        custom,
+    TResult Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl,
+            @JsonKey(name: 'display_width_px') int displayWidthPx,
+            @JsonKey(name: 'display_height_px') int displayHeightPx,
+            @JsonKey(name: 'display_number', includeIfNull: false)
+            int? displayNumber)?
+        computerUse,
+    TResult Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl)?
+        textEditor,
+    TResult Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl)?
+        bash,
+    required TResult orElse(),
+  }) {
+    if (textEditor != null) {
+      return textEditor(type, name, cacheControl);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ToolCustom value) custom,
+    required TResult Function(ToolComputerUse value) computerUse,
+    required TResult Function(ToolTextEditor value) textEditor,
+    required TResult Function(ToolBash value) bash,
+  }) {
+    return textEditor(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ToolCustom value)? custom,
+    TResult? Function(ToolComputerUse value)? computerUse,
+    TResult? Function(ToolTextEditor value)? textEditor,
+    TResult? Function(ToolBash value)? bash,
+  }) {
+    return textEditor?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ToolCustom value)? custom,
+    TResult Function(ToolComputerUse value)? computerUse,
+    TResult Function(ToolTextEditor value)? textEditor,
+    TResult Function(ToolBash value)? bash,
+    required TResult orElse(),
+  }) {
+    if (textEditor != null) {
+      return textEditor(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ToolTextEditorImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class ToolTextEditor extends Tool {
+  const factory ToolTextEditor(
+      {final String type,
+      final String name,
+      @JsonKey(name: 'cache_control', includeIfNull: false)
+      final CacheControlEphemeral? cacheControl}) = _$ToolTextEditorImpl;
+  const ToolTextEditor._() : super._();
+
+  factory ToolTextEditor.fromJson(Map<String, dynamic> json) =
+      _$ToolTextEditorImpl.fromJson;
+
+  /// The type of tool.
+  @override
+  String get type;
+
+  /// The name of the tool.
+  @override
+  String get name;
+
+  /// No Description
+  @JsonKey(name: 'cache_control', includeIfNull: false)
+  CacheControlEphemeral? get cacheControl;
+
+  /// Create a copy of Tool
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ToolTextEditorImplCopyWith<_$ToolTextEditorImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ToolBashImplCopyWith<$Res> implements $ToolCopyWith<$Res> {
+  factory _$$ToolBashImplCopyWith(
+          _$ToolBashImpl value, $Res Function(_$ToolBashImpl) then) =
+      __$$ToolBashImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String type,
+      String name,
+      @JsonKey(name: 'cache_control', includeIfNull: false)
+      CacheControlEphemeral? cacheControl});
+
+  $CacheControlEphemeralCopyWith<$Res>? get cacheControl;
+}
+
+/// @nodoc
+class __$$ToolBashImplCopyWithImpl<$Res>
+    extends _$ToolCopyWithImpl<$Res, _$ToolBashImpl>
+    implements _$$ToolBashImplCopyWith<$Res> {
+  __$$ToolBashImplCopyWithImpl(
+      _$ToolBashImpl _value, $Res Function(_$ToolBashImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of Tool
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? name = null,
+    Object? cacheControl = freezed,
+  }) {
+    return _then(_$ToolBashImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      cacheControl: freezed == cacheControl
+          ? _value.cacheControl
+          : cacheControl // ignore: cast_nullable_to_non_nullable
+              as CacheControlEphemeral?,
+    ));
+  }
+
+  /// Create a copy of Tool
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $CacheControlEphemeralCopyWith<$Res>? get cacheControl {
+    if (_value.cacheControl == null) {
+      return null;
+    }
+
+    return $CacheControlEphemeralCopyWith<$Res>(_value.cacheControl!, (value) {
+      return _then(_value.copyWith(cacheControl: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ToolBashImpl extends ToolBash {
+  const _$ToolBashImpl(
+      {this.type = 'bash_20241022',
+      this.name = 'bash',
+      @JsonKey(name: 'cache_control', includeIfNull: false) this.cacheControl})
+      : super._();
+
+  factory _$ToolBashImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ToolBashImplFromJson(json);
+
+  /// The type of tool.
+  @override
+  @JsonKey()
+  final String type;
+
+  /// The name of the tool.
+  @override
+  @JsonKey()
+  final String name;
+
+  /// No Description
+  @override
+  @JsonKey(name: 'cache_control', includeIfNull: false)
+  final CacheControlEphemeral? cacheControl;
+
+  @override
+  String toString() {
+    return 'Tool.bash(type: $type, name: $name, cacheControl: $cacheControl)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ToolBashImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.cacheControl, cacheControl) ||
+                other.cacheControl == cacheControl));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, name, cacheControl);
+
+  /// Create a copy of Tool
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ToolBashImplCopyWith<_$ToolBashImpl> get copyWith =>
+      __$$ToolBashImplCopyWithImpl<_$ToolBashImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            @JsonKey(includeIfNull: false) String? type,
+            String name,
+            @JsonKey(includeIfNull: false) String? description,
+            @JsonKey(name: 'input_schema') Map<String, dynamic> inputSchema)
+        custom,
+    required TResult Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl,
+            @JsonKey(name: 'display_width_px') int displayWidthPx,
+            @JsonKey(name: 'display_height_px') int displayHeightPx,
+            @JsonKey(name: 'display_number', includeIfNull: false)
+            int? displayNumber)
+        computerUse,
+    required TResult Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl)
+        textEditor,
+    required TResult Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl)
+        bash,
+  }) {
+    return bash(type, name, cacheControl);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            @JsonKey(includeIfNull: false) String? type,
+            String name,
+            @JsonKey(includeIfNull: false) String? description,
+            @JsonKey(name: 'input_schema') Map<String, dynamic> inputSchema)?
+        custom,
+    TResult? Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl,
+            @JsonKey(name: 'display_width_px') int displayWidthPx,
+            @JsonKey(name: 'display_height_px') int displayHeightPx,
+            @JsonKey(name: 'display_number', includeIfNull: false)
+            int? displayNumber)?
+        computerUse,
+    TResult? Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl)?
+        textEditor,
+    TResult? Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl)?
+        bash,
+  }) {
+    return bash?.call(type, name, cacheControl);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            @JsonKey(includeIfNull: false) String? type,
+            String name,
+            @JsonKey(includeIfNull: false) String? description,
+            @JsonKey(name: 'input_schema') Map<String, dynamic> inputSchema)?
+        custom,
+    TResult Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl,
+            @JsonKey(name: 'display_width_px') int displayWidthPx,
+            @JsonKey(name: 'display_height_px') int displayHeightPx,
+            @JsonKey(name: 'display_number', includeIfNull: false)
+            int? displayNumber)?
+        computerUse,
+    TResult Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl)?
+        textEditor,
+    TResult Function(
+            String type,
+            String name,
+            @JsonKey(name: 'cache_control', includeIfNull: false)
+            CacheControlEphemeral? cacheControl)?
+        bash,
+    required TResult orElse(),
+  }) {
+    if (bash != null) {
+      return bash(type, name, cacheControl);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ToolCustom value) custom,
+    required TResult Function(ToolComputerUse value) computerUse,
+    required TResult Function(ToolTextEditor value) textEditor,
+    required TResult Function(ToolBash value) bash,
+  }) {
+    return bash(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ToolCustom value)? custom,
+    TResult? Function(ToolComputerUse value)? computerUse,
+    TResult? Function(ToolTextEditor value)? textEditor,
+    TResult? Function(ToolBash value)? bash,
+  }) {
+    return bash?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ToolCustom value)? custom,
+    TResult Function(ToolComputerUse value)? computerUse,
+    TResult Function(ToolTextEditor value)? textEditor,
+    TResult Function(ToolBash value)? bash,
+    required TResult orElse(),
+  }) {
+    if (bash != null) {
+      return bash(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ToolBashImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class ToolBash extends Tool {
+  const factory ToolBash(
+      {final String type,
+      final String name,
+      @JsonKey(name: 'cache_control', includeIfNull: false)
+      final CacheControlEphemeral? cacheControl}) = _$ToolBashImpl;
+  const ToolBash._() : super._();
+
+  factory ToolBash.fromJson(Map<String, dynamic> json) =
+      _$ToolBashImpl.fromJson;
+
+  /// The type of tool.
+  @override
+  String get type;
+
+  /// The name of the tool.
+  @override
+  String get name;
+
+  /// No Description
+  @JsonKey(name: 'cache_control', includeIfNull: false)
+  CacheControlEphemeral? get cacheControl;
+
+  /// Create a copy of Tool
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ToolBashImplCopyWith<_$ToolBashImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -6687,6 +8326,8 @@ MessageStreamEvent _$MessageStreamEventFromJson(Map<String, dynamic> json) {
       return ContentBlockStopEvent.fromJson(json);
     case 'ping':
       return PingEvent.fromJson(json);
+    case 'error':
+      return ErrorEvent.fromJson(json);
 
     default:
       throw CheckedFromJsonException(json, 'type', 'MessageStreamEvent',
@@ -6717,6 +8358,7 @@ mixin _$MessageStreamEvent {
     required TResult Function(int index, MessageStreamEventType type)
         contentBlockStop,
     required TResult Function(MessageStreamEventType type) ping,
+    required TResult Function(MessageStreamEventType type, Error error) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -6734,6 +8376,7 @@ mixin _$MessageStreamEvent {
         contentBlockDelta,
     TResult? Function(int index, MessageStreamEventType type)? contentBlockStop,
     TResult? Function(MessageStreamEventType type)? ping,
+    TResult? Function(MessageStreamEventType type, Error error)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -6751,6 +8394,7 @@ mixin _$MessageStreamEvent {
         contentBlockDelta,
     TResult Function(int index, MessageStreamEventType type)? contentBlockStop,
     TResult Function(MessageStreamEventType type)? ping,
+    TResult Function(MessageStreamEventType type, Error error)? error,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -6763,6 +8407,7 @@ mixin _$MessageStreamEvent {
     required TResult Function(ContentBlockDeltaEvent value) contentBlockDelta,
     required TResult Function(ContentBlockStopEvent value) contentBlockStop,
     required TResult Function(PingEvent value) ping,
+    required TResult Function(ErrorEvent value) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -6774,6 +8419,7 @@ mixin _$MessageStreamEvent {
     TResult? Function(ContentBlockDeltaEvent value)? contentBlockDelta,
     TResult? Function(ContentBlockStopEvent value)? contentBlockStop,
     TResult? Function(PingEvent value)? ping,
+    TResult? Function(ErrorEvent value)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -6785,6 +8431,7 @@ mixin _$MessageStreamEvent {
     TResult Function(ContentBlockDeltaEvent value)? contentBlockDelta,
     TResult Function(ContentBlockStopEvent value)? contentBlockStop,
     TResult Function(PingEvent value)? ping,
+    TResult Function(ErrorEvent value)? error,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -6950,6 +8597,7 @@ class _$MessageStartEventImpl extends MessageStartEvent {
     required TResult Function(int index, MessageStreamEventType type)
         contentBlockStop,
     required TResult Function(MessageStreamEventType type) ping,
+    required TResult Function(MessageStreamEventType type, Error error) error,
   }) {
     return messageStart(message, type);
   }
@@ -6970,6 +8618,7 @@ class _$MessageStartEventImpl extends MessageStartEvent {
         contentBlockDelta,
     TResult? Function(int index, MessageStreamEventType type)? contentBlockStop,
     TResult? Function(MessageStreamEventType type)? ping,
+    TResult? Function(MessageStreamEventType type, Error error)? error,
   }) {
     return messageStart?.call(message, type);
   }
@@ -6990,6 +8639,7 @@ class _$MessageStartEventImpl extends MessageStartEvent {
         contentBlockDelta,
     TResult Function(int index, MessageStreamEventType type)? contentBlockStop,
     TResult Function(MessageStreamEventType type)? ping,
+    TResult Function(MessageStreamEventType type, Error error)? error,
     required TResult orElse(),
   }) {
     if (messageStart != null) {
@@ -7008,6 +8658,7 @@ class _$MessageStartEventImpl extends MessageStartEvent {
     required TResult Function(ContentBlockDeltaEvent value) contentBlockDelta,
     required TResult Function(ContentBlockStopEvent value) contentBlockStop,
     required TResult Function(PingEvent value) ping,
+    required TResult Function(ErrorEvent value) error,
   }) {
     return messageStart(this);
   }
@@ -7022,6 +8673,7 @@ class _$MessageStartEventImpl extends MessageStartEvent {
     TResult? Function(ContentBlockDeltaEvent value)? contentBlockDelta,
     TResult? Function(ContentBlockStopEvent value)? contentBlockStop,
     TResult? Function(PingEvent value)? ping,
+    TResult? Function(ErrorEvent value)? error,
   }) {
     return messageStart?.call(this);
   }
@@ -7036,6 +8688,7 @@ class _$MessageStartEventImpl extends MessageStartEvent {
     TResult Function(ContentBlockDeltaEvent value)? contentBlockDelta,
     TResult Function(ContentBlockStopEvent value)? contentBlockStop,
     TResult Function(PingEvent value)? ping,
+    TResult Function(ErrorEvent value)? error,
     required TResult orElse(),
   }) {
     if (messageStart != null) {
@@ -7228,6 +8881,7 @@ class _$MessageDeltaEventImpl extends MessageDeltaEvent {
     required TResult Function(int index, MessageStreamEventType type)
         contentBlockStop,
     required TResult Function(MessageStreamEventType type) ping,
+    required TResult Function(MessageStreamEventType type, Error error) error,
   }) {
     return messageDelta(delta, type, usage);
   }
@@ -7248,6 +8902,7 @@ class _$MessageDeltaEventImpl extends MessageDeltaEvent {
         contentBlockDelta,
     TResult? Function(int index, MessageStreamEventType type)? contentBlockStop,
     TResult? Function(MessageStreamEventType type)? ping,
+    TResult? Function(MessageStreamEventType type, Error error)? error,
   }) {
     return messageDelta?.call(delta, type, usage);
   }
@@ -7268,6 +8923,7 @@ class _$MessageDeltaEventImpl extends MessageDeltaEvent {
         contentBlockDelta,
     TResult Function(int index, MessageStreamEventType type)? contentBlockStop,
     TResult Function(MessageStreamEventType type)? ping,
+    TResult Function(MessageStreamEventType type, Error error)? error,
     required TResult orElse(),
   }) {
     if (messageDelta != null) {
@@ -7286,6 +8942,7 @@ class _$MessageDeltaEventImpl extends MessageDeltaEvent {
     required TResult Function(ContentBlockDeltaEvent value) contentBlockDelta,
     required TResult Function(ContentBlockStopEvent value) contentBlockStop,
     required TResult Function(PingEvent value) ping,
+    required TResult Function(ErrorEvent value) error,
   }) {
     return messageDelta(this);
   }
@@ -7300,6 +8957,7 @@ class _$MessageDeltaEventImpl extends MessageDeltaEvent {
     TResult? Function(ContentBlockDeltaEvent value)? contentBlockDelta,
     TResult? Function(ContentBlockStopEvent value)? contentBlockStop,
     TResult? Function(PingEvent value)? ping,
+    TResult? Function(ErrorEvent value)? error,
   }) {
     return messageDelta?.call(this);
   }
@@ -7314,6 +8972,7 @@ class _$MessageDeltaEventImpl extends MessageDeltaEvent {
     TResult Function(ContentBlockDeltaEvent value)? contentBlockDelta,
     TResult Function(ContentBlockStopEvent value)? contentBlockStop,
     TResult Function(PingEvent value)? ping,
+    TResult Function(ErrorEvent value)? error,
     required TResult orElse(),
   }) {
     if (messageDelta != null) {
@@ -7462,6 +9121,7 @@ class _$MessageStopEventImpl extends MessageStopEvent {
     required TResult Function(int index, MessageStreamEventType type)
         contentBlockStop,
     required TResult Function(MessageStreamEventType type) ping,
+    required TResult Function(MessageStreamEventType type, Error error) error,
   }) {
     return messageStop(type);
   }
@@ -7482,6 +9142,7 @@ class _$MessageStopEventImpl extends MessageStopEvent {
         contentBlockDelta,
     TResult? Function(int index, MessageStreamEventType type)? contentBlockStop,
     TResult? Function(MessageStreamEventType type)? ping,
+    TResult? Function(MessageStreamEventType type, Error error)? error,
   }) {
     return messageStop?.call(type);
   }
@@ -7502,6 +9163,7 @@ class _$MessageStopEventImpl extends MessageStopEvent {
         contentBlockDelta,
     TResult Function(int index, MessageStreamEventType type)? contentBlockStop,
     TResult Function(MessageStreamEventType type)? ping,
+    TResult Function(MessageStreamEventType type, Error error)? error,
     required TResult orElse(),
   }) {
     if (messageStop != null) {
@@ -7520,6 +9182,7 @@ class _$MessageStopEventImpl extends MessageStopEvent {
     required TResult Function(ContentBlockDeltaEvent value) contentBlockDelta,
     required TResult Function(ContentBlockStopEvent value) contentBlockStop,
     required TResult Function(PingEvent value) ping,
+    required TResult Function(ErrorEvent value) error,
   }) {
     return messageStop(this);
   }
@@ -7534,6 +9197,7 @@ class _$MessageStopEventImpl extends MessageStopEvent {
     TResult? Function(ContentBlockDeltaEvent value)? contentBlockDelta,
     TResult? Function(ContentBlockStopEvent value)? contentBlockStop,
     TResult? Function(PingEvent value)? ping,
+    TResult? Function(ErrorEvent value)? error,
   }) {
     return messageStop?.call(this);
   }
@@ -7548,6 +9212,7 @@ class _$MessageStopEventImpl extends MessageStopEvent {
     TResult Function(ContentBlockDeltaEvent value)? contentBlockDelta,
     TResult Function(ContentBlockStopEvent value)? contentBlockStop,
     TResult Function(PingEvent value)? ping,
+    TResult Function(ErrorEvent value)? error,
     required TResult orElse(),
   }) {
     if (messageStop != null) {
@@ -7721,6 +9386,7 @@ class _$ContentBlockStartEventImpl extends ContentBlockStartEvent {
     required TResult Function(int index, MessageStreamEventType type)
         contentBlockStop,
     required TResult Function(MessageStreamEventType type) ping,
+    required TResult Function(MessageStreamEventType type, Error error) error,
   }) {
     return contentBlockStart(contentBlock, index, type);
   }
@@ -7741,6 +9407,7 @@ class _$ContentBlockStartEventImpl extends ContentBlockStartEvent {
         contentBlockDelta,
     TResult? Function(int index, MessageStreamEventType type)? contentBlockStop,
     TResult? Function(MessageStreamEventType type)? ping,
+    TResult? Function(MessageStreamEventType type, Error error)? error,
   }) {
     return contentBlockStart?.call(contentBlock, index, type);
   }
@@ -7761,6 +9428,7 @@ class _$ContentBlockStartEventImpl extends ContentBlockStartEvent {
         contentBlockDelta,
     TResult Function(int index, MessageStreamEventType type)? contentBlockStop,
     TResult Function(MessageStreamEventType type)? ping,
+    TResult Function(MessageStreamEventType type, Error error)? error,
     required TResult orElse(),
   }) {
     if (contentBlockStart != null) {
@@ -7779,6 +9447,7 @@ class _$ContentBlockStartEventImpl extends ContentBlockStartEvent {
     required TResult Function(ContentBlockDeltaEvent value) contentBlockDelta,
     required TResult Function(ContentBlockStopEvent value) contentBlockStop,
     required TResult Function(PingEvent value) ping,
+    required TResult Function(ErrorEvent value) error,
   }) {
     return contentBlockStart(this);
   }
@@ -7793,6 +9462,7 @@ class _$ContentBlockStartEventImpl extends ContentBlockStartEvent {
     TResult? Function(ContentBlockDeltaEvent value)? contentBlockDelta,
     TResult? Function(ContentBlockStopEvent value)? contentBlockStop,
     TResult? Function(PingEvent value)? ping,
+    TResult? Function(ErrorEvent value)? error,
   }) {
     return contentBlockStart?.call(this);
   }
@@ -7807,6 +9477,7 @@ class _$ContentBlockStartEventImpl extends ContentBlockStartEvent {
     TResult Function(ContentBlockDeltaEvent value)? contentBlockDelta,
     TResult Function(ContentBlockStopEvent value)? contentBlockStop,
     TResult Function(PingEvent value)? ping,
+    TResult Function(ErrorEvent value)? error,
     required TResult orElse(),
   }) {
     if (contentBlockStart != null) {
@@ -7984,6 +9655,7 @@ class _$ContentBlockDeltaEventImpl extends ContentBlockDeltaEvent {
     required TResult Function(int index, MessageStreamEventType type)
         contentBlockStop,
     required TResult Function(MessageStreamEventType type) ping,
+    required TResult Function(MessageStreamEventType type, Error error) error,
   }) {
     return contentBlockDelta(delta, index, type);
   }
@@ -8004,6 +9676,7 @@ class _$ContentBlockDeltaEventImpl extends ContentBlockDeltaEvent {
         contentBlockDelta,
     TResult? Function(int index, MessageStreamEventType type)? contentBlockStop,
     TResult? Function(MessageStreamEventType type)? ping,
+    TResult? Function(MessageStreamEventType type, Error error)? error,
   }) {
     return contentBlockDelta?.call(delta, index, type);
   }
@@ -8024,6 +9697,7 @@ class _$ContentBlockDeltaEventImpl extends ContentBlockDeltaEvent {
         contentBlockDelta,
     TResult Function(int index, MessageStreamEventType type)? contentBlockStop,
     TResult Function(MessageStreamEventType type)? ping,
+    TResult Function(MessageStreamEventType type, Error error)? error,
     required TResult orElse(),
   }) {
     if (contentBlockDelta != null) {
@@ -8042,6 +9716,7 @@ class _$ContentBlockDeltaEventImpl extends ContentBlockDeltaEvent {
     required TResult Function(ContentBlockDeltaEvent value) contentBlockDelta,
     required TResult Function(ContentBlockStopEvent value) contentBlockStop,
     required TResult Function(PingEvent value) ping,
+    required TResult Function(ErrorEvent value) error,
   }) {
     return contentBlockDelta(this);
   }
@@ -8056,6 +9731,7 @@ class _$ContentBlockDeltaEventImpl extends ContentBlockDeltaEvent {
     TResult? Function(ContentBlockDeltaEvent value)? contentBlockDelta,
     TResult? Function(ContentBlockStopEvent value)? contentBlockStop,
     TResult? Function(PingEvent value)? ping,
+    TResult? Function(ErrorEvent value)? error,
   }) {
     return contentBlockDelta?.call(this);
   }
@@ -8070,6 +9746,7 @@ class _$ContentBlockDeltaEventImpl extends ContentBlockDeltaEvent {
     TResult Function(ContentBlockDeltaEvent value)? contentBlockDelta,
     TResult Function(ContentBlockStopEvent value)? contentBlockStop,
     TResult Function(PingEvent value)? ping,
+    TResult Function(ErrorEvent value)? error,
     required TResult orElse(),
   }) {
     if (contentBlockDelta != null) {
@@ -8221,6 +9898,7 @@ class _$ContentBlockStopEventImpl extends ContentBlockStopEvent {
     required TResult Function(int index, MessageStreamEventType type)
         contentBlockStop,
     required TResult Function(MessageStreamEventType type) ping,
+    required TResult Function(MessageStreamEventType type, Error error) error,
   }) {
     return contentBlockStop(index, type);
   }
@@ -8241,6 +9919,7 @@ class _$ContentBlockStopEventImpl extends ContentBlockStopEvent {
         contentBlockDelta,
     TResult? Function(int index, MessageStreamEventType type)? contentBlockStop,
     TResult? Function(MessageStreamEventType type)? ping,
+    TResult? Function(MessageStreamEventType type, Error error)? error,
   }) {
     return contentBlockStop?.call(index, type);
   }
@@ -8261,6 +9940,7 @@ class _$ContentBlockStopEventImpl extends ContentBlockStopEvent {
         contentBlockDelta,
     TResult Function(int index, MessageStreamEventType type)? contentBlockStop,
     TResult Function(MessageStreamEventType type)? ping,
+    TResult Function(MessageStreamEventType type, Error error)? error,
     required TResult orElse(),
   }) {
     if (contentBlockStop != null) {
@@ -8279,6 +9959,7 @@ class _$ContentBlockStopEventImpl extends ContentBlockStopEvent {
     required TResult Function(ContentBlockDeltaEvent value) contentBlockDelta,
     required TResult Function(ContentBlockStopEvent value) contentBlockStop,
     required TResult Function(PingEvent value) ping,
+    required TResult Function(ErrorEvent value) error,
   }) {
     return contentBlockStop(this);
   }
@@ -8293,6 +9974,7 @@ class _$ContentBlockStopEventImpl extends ContentBlockStopEvent {
     TResult? Function(ContentBlockDeltaEvent value)? contentBlockDelta,
     TResult? Function(ContentBlockStopEvent value)? contentBlockStop,
     TResult? Function(PingEvent value)? ping,
+    TResult? Function(ErrorEvent value)? error,
   }) {
     return contentBlockStop?.call(this);
   }
@@ -8307,6 +9989,7 @@ class _$ContentBlockStopEventImpl extends ContentBlockStopEvent {
     TResult Function(ContentBlockDeltaEvent value)? contentBlockDelta,
     TResult Function(ContentBlockStopEvent value)? contentBlockStop,
     TResult Function(PingEvent value)? ping,
+    TResult Function(ErrorEvent value)? error,
     required TResult orElse(),
   }) {
     if (contentBlockStop != null) {
@@ -8440,6 +10123,7 @@ class _$PingEventImpl extends PingEvent {
     required TResult Function(int index, MessageStreamEventType type)
         contentBlockStop,
     required TResult Function(MessageStreamEventType type) ping,
+    required TResult Function(MessageStreamEventType type, Error error) error,
   }) {
     return ping(type);
   }
@@ -8460,6 +10144,7 @@ class _$PingEventImpl extends PingEvent {
         contentBlockDelta,
     TResult? Function(int index, MessageStreamEventType type)? contentBlockStop,
     TResult? Function(MessageStreamEventType type)? ping,
+    TResult? Function(MessageStreamEventType type, Error error)? error,
   }) {
     return ping?.call(type);
   }
@@ -8480,6 +10165,7 @@ class _$PingEventImpl extends PingEvent {
         contentBlockDelta,
     TResult Function(int index, MessageStreamEventType type)? contentBlockStop,
     TResult Function(MessageStreamEventType type)? ping,
+    TResult Function(MessageStreamEventType type, Error error)? error,
     required TResult orElse(),
   }) {
     if (ping != null) {
@@ -8498,6 +10184,7 @@ class _$PingEventImpl extends PingEvent {
     required TResult Function(ContentBlockDeltaEvent value) contentBlockDelta,
     required TResult Function(ContentBlockStopEvent value) contentBlockStop,
     required TResult Function(PingEvent value) ping,
+    required TResult Function(ErrorEvent value) error,
   }) {
     return ping(this);
   }
@@ -8512,6 +10199,7 @@ class _$PingEventImpl extends PingEvent {
     TResult? Function(ContentBlockDeltaEvent value)? contentBlockDelta,
     TResult? Function(ContentBlockStopEvent value)? contentBlockStop,
     TResult? Function(PingEvent value)? ping,
+    TResult? Function(ErrorEvent value)? error,
   }) {
     return ping?.call(this);
   }
@@ -8526,6 +10214,7 @@ class _$PingEventImpl extends PingEvent {
     TResult Function(ContentBlockDeltaEvent value)? contentBlockDelta,
     TResult Function(ContentBlockStopEvent value)? contentBlockStop,
     TResult Function(PingEvent value)? ping,
+    TResult Function(ErrorEvent value)? error,
     required TResult orElse(),
   }) {
     if (ping != null) {
@@ -8559,6 +10248,252 @@ abstract class PingEvent extends MessageStreamEvent {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PingEventImplCopyWith<_$PingEventImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ErrorEventImplCopyWith<$Res>
+    implements $MessageStreamEventCopyWith<$Res> {
+  factory _$$ErrorEventImplCopyWith(
+          _$ErrorEventImpl value, $Res Function(_$ErrorEventImpl) then) =
+      __$$ErrorEventImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({MessageStreamEventType type, Error error});
+
+  $ErrorCopyWith<$Res> get error;
+}
+
+/// @nodoc
+class __$$ErrorEventImplCopyWithImpl<$Res>
+    extends _$MessageStreamEventCopyWithImpl<$Res, _$ErrorEventImpl>
+    implements _$$ErrorEventImplCopyWith<$Res> {
+  __$$ErrorEventImplCopyWithImpl(
+      _$ErrorEventImpl _value, $Res Function(_$ErrorEventImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of MessageStreamEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? error = null,
+  }) {
+    return _then(_$ErrorEventImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as MessageStreamEventType,
+      error: null == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as Error,
+    ));
+  }
+
+  /// Create a copy of MessageStreamEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ErrorCopyWith<$Res> get error {
+    return $ErrorCopyWith<$Res>(_value.error, (value) {
+      return _then(_value.copyWith(error: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ErrorEventImpl extends ErrorEvent {
+  const _$ErrorEventImpl({required this.type, required this.error}) : super._();
+
+  factory _$ErrorEventImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ErrorEventImplFromJson(json);
+
+  /// The type of a streaming event.
+  @override
+  final MessageStreamEventType type;
+
+  /// An error object.
+  @override
+  final Error error;
+
+  @override
+  String toString() {
+    return 'MessageStreamEvent.error(type: $type, error: $error)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ErrorEventImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.error, error) || other.error == error));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, error);
+
+  /// Create a copy of MessageStreamEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ErrorEventImplCopyWith<_$ErrorEventImpl> get copyWith =>
+      __$$ErrorEventImplCopyWithImpl<_$ErrorEventImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(Message message, MessageStreamEventType type)
+        messageStart,
+    required TResult Function(MessageDelta delta, MessageStreamEventType type,
+            MessageDeltaUsage usage)
+        messageDelta,
+    required TResult Function(MessageStreamEventType type) messageStop,
+    required TResult Function(
+            @JsonKey(name: 'content_block') Block contentBlock,
+            int index,
+            MessageStreamEventType type)
+        contentBlockStart,
+    required TResult Function(
+            BlockDelta delta, int index, MessageStreamEventType type)
+        contentBlockDelta,
+    required TResult Function(int index, MessageStreamEventType type)
+        contentBlockStop,
+    required TResult Function(MessageStreamEventType type) ping,
+    required TResult Function(MessageStreamEventType type, Error error) error,
+  }) {
+    return error(type, this.error);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Message message, MessageStreamEventType type)?
+        messageStart,
+    TResult? Function(MessageDelta delta, MessageStreamEventType type,
+            MessageDeltaUsage usage)?
+        messageDelta,
+    TResult? Function(MessageStreamEventType type)? messageStop,
+    TResult? Function(@JsonKey(name: 'content_block') Block contentBlock,
+            int index, MessageStreamEventType type)?
+        contentBlockStart,
+    TResult? Function(BlockDelta delta, int index, MessageStreamEventType type)?
+        contentBlockDelta,
+    TResult? Function(int index, MessageStreamEventType type)? contentBlockStop,
+    TResult? Function(MessageStreamEventType type)? ping,
+    TResult? Function(MessageStreamEventType type, Error error)? error,
+  }) {
+    return error?.call(type, this.error);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Message message, MessageStreamEventType type)?
+        messageStart,
+    TResult Function(MessageDelta delta, MessageStreamEventType type,
+            MessageDeltaUsage usage)?
+        messageDelta,
+    TResult Function(MessageStreamEventType type)? messageStop,
+    TResult Function(@JsonKey(name: 'content_block') Block contentBlock,
+            int index, MessageStreamEventType type)?
+        contentBlockStart,
+    TResult Function(BlockDelta delta, int index, MessageStreamEventType type)?
+        contentBlockDelta,
+    TResult Function(int index, MessageStreamEventType type)? contentBlockStop,
+    TResult Function(MessageStreamEventType type)? ping,
+    TResult Function(MessageStreamEventType type, Error error)? error,
+    required TResult orElse(),
+  }) {
+    if (error != null) {
+      return error(type, this.error);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(MessageStartEvent value) messageStart,
+    required TResult Function(MessageDeltaEvent value) messageDelta,
+    required TResult Function(MessageStopEvent value) messageStop,
+    required TResult Function(ContentBlockStartEvent value) contentBlockStart,
+    required TResult Function(ContentBlockDeltaEvent value) contentBlockDelta,
+    required TResult Function(ContentBlockStopEvent value) contentBlockStop,
+    required TResult Function(PingEvent value) ping,
+    required TResult Function(ErrorEvent value) error,
+  }) {
+    return error(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(MessageStartEvent value)? messageStart,
+    TResult? Function(MessageDeltaEvent value)? messageDelta,
+    TResult? Function(MessageStopEvent value)? messageStop,
+    TResult? Function(ContentBlockStartEvent value)? contentBlockStart,
+    TResult? Function(ContentBlockDeltaEvent value)? contentBlockDelta,
+    TResult? Function(ContentBlockStopEvent value)? contentBlockStop,
+    TResult? Function(PingEvent value)? ping,
+    TResult? Function(ErrorEvent value)? error,
+  }) {
+    return error?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(MessageStartEvent value)? messageStart,
+    TResult Function(MessageDeltaEvent value)? messageDelta,
+    TResult Function(MessageStopEvent value)? messageStop,
+    TResult Function(ContentBlockStartEvent value)? contentBlockStart,
+    TResult Function(ContentBlockDeltaEvent value)? contentBlockDelta,
+    TResult Function(ContentBlockStopEvent value)? contentBlockStop,
+    TResult Function(PingEvent value)? ping,
+    TResult Function(ErrorEvent value)? error,
+    required TResult orElse(),
+  }) {
+    if (error != null) {
+      return error(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ErrorEventImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class ErrorEvent extends MessageStreamEvent {
+  const factory ErrorEvent(
+      {required final MessageStreamEventType type,
+      required final Error error}) = _$ErrorEventImpl;
+  const ErrorEvent._() : super._();
+
+  factory ErrorEvent.fromJson(Map<String, dynamic> json) =
+      _$ErrorEventImpl.fromJson;
+
+  /// The type of a streaming event.
+  @override
+  MessageStreamEventType get type;
+
+  /// An error object.
+  Error get error;
+
+  /// Create a copy of MessageStreamEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ErrorEventImplCopyWith<_$ErrorEventImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

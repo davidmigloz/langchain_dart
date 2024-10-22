@@ -123,6 +123,7 @@ _$ToolChoiceImpl _$$ToolChoiceImplFromJson(Map<String, dynamic> json) =>
     _$ToolChoiceImpl(
       type: $enumDecode(_$ToolChoiceTypeEnumMap, json['type']),
       name: json['name'] as String?,
+      disableParallelToolUse: json['disable_parallel_tool_use'] as bool?,
     );
 
 Map<String, dynamic> _$$ToolChoiceImplToJson(_$ToolChoiceImpl instance) {
@@ -137,6 +138,7 @@ Map<String, dynamic> _$$ToolChoiceImplToJson(_$ToolChoiceImpl instance) {
   }
 
   writeNotNull('name', instance.name);
+  writeNotNull('disable_parallel_tool_use', instance.disableParallelToolUse);
   return val;
 }
 
@@ -223,27 +225,21 @@ Map<String, dynamic> _$$MessageContentTextImplToJson(
       'runtimeType': instance.$type,
     };
 
-_$ToolImpl _$$ToolImplFromJson(Map<String, dynamic> json) => _$ToolImpl(
-      name: json['name'] as String,
-      description: json['description'] as String?,
-      inputSchema: json['input_schema'] as Map<String, dynamic>,
+_$CacheControlEphemeralImpl _$$CacheControlEphemeralImplFromJson(
+        Map<String, dynamic> json) =>
+    _$CacheControlEphemeralImpl(
+      type: $enumDecode(_$CacheControlEphemeralTypeEnumMap, json['type']),
     );
 
-Map<String, dynamic> _$$ToolImplToJson(_$ToolImpl instance) {
-  final val = <String, dynamic>{
-    'name': instance.name,
-  };
+Map<String, dynamic> _$$CacheControlEphemeralImplToJson(
+        _$CacheControlEphemeralImpl instance) =>
+    <String, dynamic>{
+      'type': _$CacheControlEphemeralTypeEnumMap[instance.type]!,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('description', instance.description);
-  val['input_schema'] = instance.inputSchema;
-  return val;
-}
+const _$CacheControlEphemeralTypeEnumMap = {
+  CacheControlEphemeralType.ephemeral: 'ephemeral',
+};
 
 _$ImageBlockSourceImpl _$$ImageBlockSourceImplFromJson(
         Map<String, dynamic> json) =>
@@ -410,6 +406,128 @@ Map<String, dynamic> _$$MessageDeltaUsageImplToJson(
       'output_tokens': instance.outputTokens,
     };
 
+_$ErrorImpl _$$ErrorImplFromJson(Map<String, dynamic> json) => _$ErrorImpl(
+      type: json['type'] as String,
+      message: json['message'] as String,
+    );
+
+Map<String, dynamic> _$$ErrorImplToJson(_$ErrorImpl instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      'message': instance.message,
+    };
+
+_$ToolCustomImpl _$$ToolCustomImplFromJson(Map<String, dynamic> json) =>
+    _$ToolCustomImpl(
+      type: json['type'] as String?,
+      name: json['name'] as String,
+      description: json['description'] as String?,
+      inputSchema: json['input_schema'] as Map<String, dynamic>,
+    );
+
+Map<String, dynamic> _$$ToolCustomImplToJson(_$ToolCustomImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('type', instance.type);
+  val['name'] = instance.name;
+  writeNotNull('description', instance.description);
+  val['input_schema'] = instance.inputSchema;
+  return val;
+}
+
+_$ToolComputerUseImpl _$$ToolComputerUseImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ToolComputerUseImpl(
+      type: json['type'] as String? ?? 'computer_20241022',
+      name: json['name'] as String? ?? 'computer',
+      cacheControl: json['cache_control'] == null
+          ? null
+          : CacheControlEphemeral.fromJson(
+              json['cache_control'] as Map<String, dynamic>),
+      displayWidthPx: (json['display_width_px'] as num).toInt(),
+      displayHeightPx: (json['display_height_px'] as num).toInt(),
+      displayNumber: (json['display_number'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$$ToolComputerUseImplToJson(
+    _$ToolComputerUseImpl instance) {
+  final val = <String, dynamic>{
+    'type': instance.type,
+    'name': instance.name,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('cache_control', instance.cacheControl?.toJson());
+  val['display_width_px'] = instance.displayWidthPx;
+  val['display_height_px'] = instance.displayHeightPx;
+  writeNotNull('display_number', instance.displayNumber);
+  return val;
+}
+
+_$ToolTextEditorImpl _$$ToolTextEditorImplFromJson(Map<String, dynamic> json) =>
+    _$ToolTextEditorImpl(
+      type: json['type'] as String? ?? 'text_editor_20241022',
+      name: json['name'] as String? ?? 'str_replace_editor',
+      cacheControl: json['cache_control'] == null
+          ? null
+          : CacheControlEphemeral.fromJson(
+              json['cache_control'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$ToolTextEditorImplToJson(
+    _$ToolTextEditorImpl instance) {
+  final val = <String, dynamic>{
+    'type': instance.type,
+    'name': instance.name,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('cache_control', instance.cacheControl?.toJson());
+  return val;
+}
+
+_$ToolBashImpl _$$ToolBashImplFromJson(Map<String, dynamic> json) =>
+    _$ToolBashImpl(
+      type: json['type'] as String? ?? 'bash_20241022',
+      name: json['name'] as String? ?? 'bash',
+      cacheControl: json['cache_control'] == null
+          ? null
+          : CacheControlEphemeral.fromJson(
+              json['cache_control'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$ToolBashImplToJson(_$ToolBashImpl instance) {
+  final val = <String, dynamic>{
+    'type': instance.type,
+    'name': instance.name,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('cache_control', instance.cacheControl?.toJson());
+  return val;
+}
+
 _$TextBlockImpl _$$TextBlockImplFromJson(Map<String, dynamic> json) =>
     _$TextBlockImpl(
       text: json['text'] as String,
@@ -531,6 +649,7 @@ const _$MessageStreamEventTypeEnumMap = {
   MessageStreamEventType.contentBlockDelta: 'content_block_delta',
   MessageStreamEventType.contentBlockStop: 'content_block_stop',
   MessageStreamEventType.ping: 'ping',
+  MessageStreamEventType.error: 'error',
 };
 
 _$MessageDeltaEventImpl _$$MessageDeltaEventImplFromJson(
@@ -616,6 +735,18 @@ _$PingEventImpl _$$PingEventImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$PingEventImplToJson(_$PingEventImpl instance) =>
     <String, dynamic>{
       'type': _$MessageStreamEventTypeEnumMap[instance.type]!,
+    };
+
+_$ErrorEventImpl _$$ErrorEventImplFromJson(Map<String, dynamic> json) =>
+    _$ErrorEventImpl(
+      type: $enumDecode(_$MessageStreamEventTypeEnumMap, json['type']),
+      error: Error.fromJson(json['error'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$ErrorEventImplToJson(_$ErrorEventImpl instance) =>
+    <String, dynamic>{
+      'type': _$MessageStreamEventTypeEnumMap[instance.type]!,
+      'error': instance.error.toJson(),
     };
 
 _$TextBlockDeltaImpl _$$TextBlockDeltaImplFromJson(Map<String, dynamic> json) =>

@@ -38,7 +38,9 @@ class AnthropicClient extends g.AnthropicClient {
           baseUrl: baseUrl,
           headers: {
             'anthropic-version': '2023-06-01',
-            'anthropic-beta': 'message-batches-2024-09-24',
+            'anthropic-beta': 'message-batches-2024-09-24,'
+                'prompt-caching-2024-07-31,'
+                'computer-use-2024-10-22',
             ...?headers,
           },
           queryParams: queryParams ?? const {},

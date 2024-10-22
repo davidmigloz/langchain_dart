@@ -56,5 +56,6 @@ String? _onSchemaUnionFactoryName(
       'ContentBlockDeltaEvent' => 'contentBlockDelta',
       'ContentBlockStopEvent' => 'contentBlockStop',
       'PingEvent' => 'ping',
+      'ErrorEvent' => 'error',
       _ => null,
     };
