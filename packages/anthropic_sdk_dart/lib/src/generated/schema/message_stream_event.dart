@@ -120,6 +120,19 @@ sealed class MessageStreamEvent with _$MessageStreamEvent {
     required MessageStreamEventType type,
   }) = PingEvent;
 
+  // ------------------------------------------
+  // UNION: ErrorEvent
+  // ------------------------------------------
+
+  /// An error event in a streaming conversation.
+  const factory MessageStreamEvent.error({
+    /// The type of a streaming event.
+    required MessageStreamEventType type,
+
+    /// An error object.
+    required Error error,
+  }) = ErrorEvent;
+
   /// Object construction from a JSON representation
   factory MessageStreamEvent.fromJson(Map<String, dynamic> json) =>
       _$MessageStreamEventFromJson(json);

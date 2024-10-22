@@ -214,6 +214,7 @@ class MessageStreamEventTransformer
             final a.ContentBlockStopEvent e => _mapContentBlockStopEvent(e),
             final a.MessageStopEvent e => _mapMessageStopEvent(e),
             a.PingEvent() => null,
+            a.ErrorEvent() => null,
           },
         )
         .whereNotNull();
@@ -381,7 +382,7 @@ extension ToolSpecListMapper on List<ToolSpec> {
   }
 
   a.Tool _mapTool(final ToolSpec tool) {
-    return a.Tool(
+    return a.Tool.custom(
       name: tool.name,
       description: tool.description,
       inputSchema: tool.inputJsonSchema,

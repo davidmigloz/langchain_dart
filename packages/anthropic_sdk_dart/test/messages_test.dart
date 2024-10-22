@@ -129,6 +129,9 @@ void main() {
           ping: (PingEvent v) {
             expect(res.type, MessageStreamEventType.ping);
           },
+          error: (ErrorEvent v) {
+            expect(res.type, MessageStreamEventType.error);
+          },
         );
       }
       expect(text, contains('123456789'));
@@ -152,7 +155,7 @@ void main() {
       expect(res.stopReason, StopReason.maxTokens);
     });
 
-    const tool = Tool(
+    const tool = Tool.custom(
       name: 'get_current_weather',
       description: 'Get the current weather in a given location',
       inputSchema: {
@@ -240,7 +243,7 @@ void main() {
       expect(aiMessage2.content.text, contains('22'));
     });
 
-    test('Test tool use streaming',
+    test('Test streaming tool use ',
         timeout: const Timeout(Duration(minutes: 5)), () async {
       final request1 = CreateMessageRequest(
         model: const Model.model(Models.claude35Sonnet20241022),
@@ -306,6 +309,9 @@ void main() {
           },
           ping: (PingEvent v) {
             expect(res.type, MessageStreamEventType.ping);
+          },
+          error: (ErrorEvent v) {
+            expect(res.type, MessageStreamEventType.error);
           },
         );
       }
@@ -374,6 +380,41 @@ void main() {
       batch = await client.retrieveMessageBatch(id: batch.id);
       expect(batch.processingStatus, MessageBatchProcessingStatus.ended);
       expect(batch.resultsUrl, isNotEmpty);
+    });
+
+    test('Test computer tool use', () async {
+      const request = CreateMessageRequest(
+        model: Model.model(Models.claude35Sonnet20241022),
+        messages: [
+          Message(
+            role: MessageRole.user,
+            content: MessageContent.text(
+              'Save a picture of a cat to my desktop. '
+              'After each step, take a screenshot and carefully evaluate if you '
+              'have achieved the right outcome. Explicitly show your thinking: '
+              '"I have evaluated step X..." If not correct, try again. '
+              'Only when you confirm a step was executed correctly should '
+              'you move on to the next one.',
+            ),
+          ),
+        ],
+        tools: [
+          Tool.computerUse(displayWidthPx: 1024, displayHeightPx: 768),
+          Tool.textEditor(),
+          Tool.bash(),
+        ],
+        maxTokens: 1024,
+      );
+      final aiMessage = await client.createMessage(request: request);
+      expect(aiMessage.role, MessageRole.assistant);
+
+      final toolUse = aiMessage.content.blocks
+          .firstWhere((block) => block is ToolUseBlock) as ToolUseBlock;
+
+      expect(toolUse.name, 'computer');
+      expect(toolUse.input, isNotEmpty);
+      expect(toolUse.input.containsKey('action'), isTrue);
+      expect(toolUse.input['action'], 'screenshot');
     });
   });
 }
