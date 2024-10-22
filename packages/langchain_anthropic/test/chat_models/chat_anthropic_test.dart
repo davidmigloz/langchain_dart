@@ -15,7 +15,7 @@ import 'package:test/test.dart';
 
 void main() {
   group('ChatAnthropic tests', () {
-    const defaultModel = 'claude-3-5-sonnet-20240620';
+    const defaultModel = 'claude-3-5-sonnet-20241022';
 
     late ChatAnthropic chatModel;
 
@@ -34,7 +34,7 @@ void main() {
 
     test('Test Text-only input with different models', () async {
       final models = [
-        'claude-3-5-sonnet-20240620',
+        'claude-3-5-sonnet-20241022',
         'claude-3-haiku-20240307',
         'claude-3-opus-20240229',
         'claude-3-sonnet-20240229',
