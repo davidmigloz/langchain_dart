@@ -38,7 +38,8 @@ a.CreateMessageRequest createMessageRequest(
         defaultOptions.maxTokens ??
         ChatAnthropic.defaultMaxTokens,
     stopSequences: options?.stopSequences ?? defaultOptions.stopSequences,
-    system: systemMsg,
+    system:
+        systemMsg != null ? a.CreateMessageRequestSystem.text(systemMsg) : null,
     temperature: options?.temperature ?? defaultOptions.temperature,
     topK: options?.topK ?? defaultOptions.topK,
     topP: options?.topP ?? defaultOptions.topP,

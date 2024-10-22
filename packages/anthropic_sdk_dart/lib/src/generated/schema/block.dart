@@ -24,6 +24,10 @@ sealed class Block with _$Block {
 
     /// The type of content block.
     @Default('text') String type,
+
+    /// The cache control settings.
+    @JsonKey(name: 'cache_control', includeIfNull: false)
+    CacheControlEphemeral? cacheControl,
   }) = TextBlock;
 
   // ------------------------------------------
@@ -37,6 +41,10 @@ sealed class Block with _$Block {
 
     /// The type of content block.
     @Default('image') String type,
+
+    /// The cache control settings.
+    @JsonKey(name: 'cache_control', includeIfNull: false)
+    CacheControlEphemeral? cacheControl,
   }) = ImageBlock;
 
   // ------------------------------------------
@@ -57,6 +65,10 @@ sealed class Block with _$Block {
 
     /// The type of content block.
     @Default('tool_use') String type,
+
+    /// The cache control settings.
+    @JsonKey(name: 'cache_control', includeIfNull: false)
+    CacheControlEphemeral? cacheControl,
   }) = ToolUseBlock;
 
   // ------------------------------------------
@@ -78,6 +90,10 @@ sealed class Block with _$Block {
 
     /// The type of content block.
     @Default('tool_result') String type,
+
+    /// The cache control settings.
+    @JsonKey(name: 'cache_control', includeIfNull: false)
+    CacheControlEphemeral? cacheControl,
   }) = ToolResultBlock;
 
   /// Object construction from a JSON representation

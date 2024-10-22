@@ -8,7 +8,7 @@ part of anthropic_schema;
 // CLASS: CacheControlEphemeral
 // ==========================================
 
-/// No Description
+/// The cache control settings.
 @freezed
 class CacheControlEphemeral with _$CacheControlEphemeral {
   const CacheControlEphemeral._();
@@ -16,7 +16,8 @@ class CacheControlEphemeral with _$CacheControlEphemeral {
   /// Factory constructor for CacheControlEphemeral
   const factory CacheControlEphemeral({
     ///
-    required CacheControlEphemeralType type,
+    @Default(CacheControlEphemeralType.ephemeral)
+    CacheControlEphemeralType type,
   }) = _CacheControlEphemeral;
 
   /// Object construction from a JSON representation

@@ -140,7 +140,9 @@ class CreateMessageRequest with _$CreateMessageRequest {
     /// A system prompt is a way of providing context and instructions to Claude, such
     /// as specifying a particular goal or role. See our
     /// [guide to system prompts](https://docs.anthropic.com/en/docs/system-prompts).
-    @JsonKey(includeIfNull: false) String? system,
+    @_CreateMessageRequestSystemConverter()
+    @JsonKey(includeIfNull: false)
+    CreateMessageRequestSystem? system,
 
     /// Amount of randomness injected into the response.
     ///
@@ -381,6 +383,67 @@ class _ModelConverter implements JsonConverter<Model, Object?> {
     return switch (data) {
       ModelCatalog(value: final v) => _$ModelsEnumMap[v]!,
       ModelId(value: final v) => v,
+    };
+  }
+}
+
+// ==========================================
+// CLASS: CreateMessageRequestSystem
+// ==========================================
+
+/// System prompt.
+///
+/// A system prompt is a way of providing context and instructions to Claude, such
+/// as specifying a particular goal or role. See our
+/// [guide to system prompts](https://docs.anthropic.com/en/docs/system-prompts).
+@freezed
+sealed class CreateMessageRequestSystem with _$CreateMessageRequestSystem {
+  const CreateMessageRequestSystem._();
+
+  /// An array of content blocks.
+  const factory CreateMessageRequestSystem.blocks(
+    List<Block> value,
+  ) = SystemMessageContentBlocks;
+
+  /// A single text block.
+  const factory CreateMessageRequestSystem.text(
+    String value,
+  ) = SystemMessageContentText;
+
+  /// Object construction from a JSON representation
+  factory CreateMessageRequestSystem.fromJson(Map<String, dynamic> json) =>
+      _$CreateMessageRequestSystemFromJson(json);
+}
+
+/// Custom JSON converter for [CreateMessageRequestSystem]
+class _CreateMessageRequestSystemConverter
+    implements JsonConverter<CreateMessageRequestSystem?, Object?> {
+  const _CreateMessageRequestSystemConverter();
+
+  @override
+  CreateMessageRequestSystem? fromJson(Object? data) {
+    if (data == null) {
+      return null;
+    }
+    if (data is List && data.every((item) => item is Map)) {
+      return SystemMessageContentBlocks(data
+          .map((i) => Block.fromJson(i as Map<String, dynamic>))
+          .toList(growable: false));
+    }
+    if (data is String) {
+      return SystemMessageContentText(data);
+    }
+    throw Exception(
+      'Unexpected value for CreateMessageRequestSystem: $data',
+    );
+  }
+
+  @override
+  Object? toJson(CreateMessageRequestSystem? data) {
+    return switch (data) {
+      SystemMessageContentBlocks(value: final v) => v,
+      SystemMessageContentText(value: final v) => v,
+      null => null,
     };
   }
 }
