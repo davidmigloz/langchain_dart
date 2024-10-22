@@ -52,7 +52,7 @@ sealed class Block with _$Block {
     /// The name of the tool being used.
     required String name,
 
-    /// An object containing the input being passed to the tool, conforming to the tool’s `input_schema`.
+    /// An object containing the input being passed to the tool, conforming to the tool's `input_schema`.
     required Map<String, dynamic> input,
 
     /// The type of content block.

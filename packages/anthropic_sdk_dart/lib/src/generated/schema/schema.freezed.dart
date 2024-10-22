@@ -3724,6 +3724,1013 @@ abstract class _Usage extends Usage {
       throw _privateConstructorUsedError;
 }
 
+CreateMessageBatchRequest _$CreateMessageBatchRequestFromJson(
+    Map<String, dynamic> json) {
+  return _CreateMessageBatchRequest.fromJson(json);
+}
+
+/// @nodoc
+mixin _$CreateMessageBatchRequest {
+  /// List of requests for prompt completion. Each is an individual request to create a Message.
+  List<BatchMessageRequest> get requests => throw _privateConstructorUsedError;
+
+  /// Serializes this CreateMessageBatchRequest to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of CreateMessageBatchRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $CreateMessageBatchRequestCopyWith<CreateMessageBatchRequest> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CreateMessageBatchRequestCopyWith<$Res> {
+  factory $CreateMessageBatchRequestCopyWith(CreateMessageBatchRequest value,
+          $Res Function(CreateMessageBatchRequest) then) =
+      _$CreateMessageBatchRequestCopyWithImpl<$Res, CreateMessageBatchRequest>;
+  @useResult
+  $Res call({List<BatchMessageRequest> requests});
+}
+
+/// @nodoc
+class _$CreateMessageBatchRequestCopyWithImpl<$Res,
+        $Val extends CreateMessageBatchRequest>
+    implements $CreateMessageBatchRequestCopyWith<$Res> {
+  _$CreateMessageBatchRequestCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of CreateMessageBatchRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? requests = null,
+  }) {
+    return _then(_value.copyWith(
+      requests: null == requests
+          ? _value.requests
+          : requests // ignore: cast_nullable_to_non_nullable
+              as List<BatchMessageRequest>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$CreateMessageBatchRequestImplCopyWith<$Res>
+    implements $CreateMessageBatchRequestCopyWith<$Res> {
+  factory _$$CreateMessageBatchRequestImplCopyWith(
+          _$CreateMessageBatchRequestImpl value,
+          $Res Function(_$CreateMessageBatchRequestImpl) then) =
+      __$$CreateMessageBatchRequestImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({List<BatchMessageRequest> requests});
+}
+
+/// @nodoc
+class __$$CreateMessageBatchRequestImplCopyWithImpl<$Res>
+    extends _$CreateMessageBatchRequestCopyWithImpl<$Res,
+        _$CreateMessageBatchRequestImpl>
+    implements _$$CreateMessageBatchRequestImplCopyWith<$Res> {
+  __$$CreateMessageBatchRequestImplCopyWithImpl(
+      _$CreateMessageBatchRequestImpl _value,
+      $Res Function(_$CreateMessageBatchRequestImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of CreateMessageBatchRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? requests = null,
+  }) {
+    return _then(_$CreateMessageBatchRequestImpl(
+      requests: null == requests
+          ? _value._requests
+          : requests // ignore: cast_nullable_to_non_nullable
+              as List<BatchMessageRequest>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CreateMessageBatchRequestImpl extends _CreateMessageBatchRequest {
+  const _$CreateMessageBatchRequestImpl(
+      {required final List<BatchMessageRequest> requests})
+      : _requests = requests,
+        super._();
+
+  factory _$CreateMessageBatchRequestImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CreateMessageBatchRequestImplFromJson(json);
+
+  /// List of requests for prompt completion. Each is an individual request to create a Message.
+  final List<BatchMessageRequest> _requests;
+
+  /// List of requests for prompt completion. Each is an individual request to create a Message.
+  @override
+  List<BatchMessageRequest> get requests {
+    if (_requests is EqualUnmodifiableListView) return _requests;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_requests);
+  }
+
+  @override
+  String toString() {
+    return 'CreateMessageBatchRequest(requests: $requests)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CreateMessageBatchRequestImpl &&
+            const DeepCollectionEquality().equals(other._requests, _requests));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_requests));
+
+  /// Create a copy of CreateMessageBatchRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CreateMessageBatchRequestImplCopyWith<_$CreateMessageBatchRequestImpl>
+      get copyWith => __$$CreateMessageBatchRequestImplCopyWithImpl<
+          _$CreateMessageBatchRequestImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CreateMessageBatchRequestImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _CreateMessageBatchRequest extends CreateMessageBatchRequest {
+  const factory _CreateMessageBatchRequest(
+          {required final List<BatchMessageRequest> requests}) =
+      _$CreateMessageBatchRequestImpl;
+  const _CreateMessageBatchRequest._() : super._();
+
+  factory _CreateMessageBatchRequest.fromJson(Map<String, dynamic> json) =
+      _$CreateMessageBatchRequestImpl.fromJson;
+
+  /// List of requests for prompt completion. Each is an individual request to create a Message.
+  @override
+  List<BatchMessageRequest> get requests;
+
+  /// Create a copy of CreateMessageBatchRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$CreateMessageBatchRequestImplCopyWith<_$CreateMessageBatchRequestImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+BatchMessageRequest _$BatchMessageRequestFromJson(Map<String, dynamic> json) {
+  return _BatchMessageRequest.fromJson(json);
+}
+
+/// @nodoc
+mixin _$BatchMessageRequest {
+  /// Developer-provided ID created for each request in a Message Batch. Useful for
+  /// matching results to requests, as results may be given out of request order.
+  ///
+  /// Must be unique for each request within the Message Batch.
+  @JsonKey(name: 'custom_id')
+  String get customId => throw _privateConstructorUsedError;
+
+  /// The request parameters for creating a message.
+  CreateMessageRequest get params => throw _privateConstructorUsedError;
+
+  /// Serializes this BatchMessageRequest to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of BatchMessageRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $BatchMessageRequestCopyWith<BatchMessageRequest> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $BatchMessageRequestCopyWith<$Res> {
+  factory $BatchMessageRequestCopyWith(
+          BatchMessageRequest value, $Res Function(BatchMessageRequest) then) =
+      _$BatchMessageRequestCopyWithImpl<$Res, BatchMessageRequest>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'custom_id') String customId,
+      CreateMessageRequest params});
+
+  $CreateMessageRequestCopyWith<$Res> get params;
+}
+
+/// @nodoc
+class _$BatchMessageRequestCopyWithImpl<$Res, $Val extends BatchMessageRequest>
+    implements $BatchMessageRequestCopyWith<$Res> {
+  _$BatchMessageRequestCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of BatchMessageRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? customId = null,
+    Object? params = null,
+  }) {
+    return _then(_value.copyWith(
+      customId: null == customId
+          ? _value.customId
+          : customId // ignore: cast_nullable_to_non_nullable
+              as String,
+      params: null == params
+          ? _value.params
+          : params // ignore: cast_nullable_to_non_nullable
+              as CreateMessageRequest,
+    ) as $Val);
+  }
+
+  /// Create a copy of BatchMessageRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $CreateMessageRequestCopyWith<$Res> get params {
+    return $CreateMessageRequestCopyWith<$Res>(_value.params, (value) {
+      return _then(_value.copyWith(params: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$BatchMessageRequestImplCopyWith<$Res>
+    implements $BatchMessageRequestCopyWith<$Res> {
+  factory _$$BatchMessageRequestImplCopyWith(_$BatchMessageRequestImpl value,
+          $Res Function(_$BatchMessageRequestImpl) then) =
+      __$$BatchMessageRequestImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'custom_id') String customId,
+      CreateMessageRequest params});
+
+  @override
+  $CreateMessageRequestCopyWith<$Res> get params;
+}
+
+/// @nodoc
+class __$$BatchMessageRequestImplCopyWithImpl<$Res>
+    extends _$BatchMessageRequestCopyWithImpl<$Res, _$BatchMessageRequestImpl>
+    implements _$$BatchMessageRequestImplCopyWith<$Res> {
+  __$$BatchMessageRequestImplCopyWithImpl(_$BatchMessageRequestImpl _value,
+      $Res Function(_$BatchMessageRequestImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of BatchMessageRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? customId = null,
+    Object? params = null,
+  }) {
+    return _then(_$BatchMessageRequestImpl(
+      customId: null == customId
+          ? _value.customId
+          : customId // ignore: cast_nullable_to_non_nullable
+              as String,
+      params: null == params
+          ? _value.params
+          : params // ignore: cast_nullable_to_non_nullable
+              as CreateMessageRequest,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$BatchMessageRequestImpl extends _BatchMessageRequest {
+  const _$BatchMessageRequestImpl(
+      {@JsonKey(name: 'custom_id') required this.customId,
+      required this.params})
+      : super._();
+
+  factory _$BatchMessageRequestImpl.fromJson(Map<String, dynamic> json) =>
+      _$$BatchMessageRequestImplFromJson(json);
+
+  /// Developer-provided ID created for each request in a Message Batch. Useful for
+  /// matching results to requests, as results may be given out of request order.
+  ///
+  /// Must be unique for each request within the Message Batch.
+  @override
+  @JsonKey(name: 'custom_id')
+  final String customId;
+
+  /// The request parameters for creating a message.
+  @override
+  final CreateMessageRequest params;
+
+  @override
+  String toString() {
+    return 'BatchMessageRequest(customId: $customId, params: $params)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$BatchMessageRequestImpl &&
+            (identical(other.customId, customId) ||
+                other.customId == customId) &&
+            (identical(other.params, params) || other.params == params));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, customId, params);
+
+  /// Create a copy of BatchMessageRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$BatchMessageRequestImplCopyWith<_$BatchMessageRequestImpl> get copyWith =>
+      __$$BatchMessageRequestImplCopyWithImpl<_$BatchMessageRequestImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$BatchMessageRequestImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _BatchMessageRequest extends BatchMessageRequest {
+  const factory _BatchMessageRequest(
+      {@JsonKey(name: 'custom_id') required final String customId,
+      required final CreateMessageRequest params}) = _$BatchMessageRequestImpl;
+  const _BatchMessageRequest._() : super._();
+
+  factory _BatchMessageRequest.fromJson(Map<String, dynamic> json) =
+      _$BatchMessageRequestImpl.fromJson;
+
+  /// Developer-provided ID created for each request in a Message Batch. Useful for
+  /// matching results to requests, as results may be given out of request order.
+  ///
+  /// Must be unique for each request within the Message Batch.
+  @override
+  @JsonKey(name: 'custom_id')
+  String get customId;
+
+  /// The request parameters for creating a message.
+  @override
+  CreateMessageRequest get params;
+
+  /// Create a copy of BatchMessageRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$BatchMessageRequestImplCopyWith<_$BatchMessageRequestImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+MessageBatch _$MessageBatchFromJson(Map<String, dynamic> json) {
+  return _MessageBatch.fromJson(json);
+}
+
+/// @nodoc
+mixin _$MessageBatch {
+  /// Unique object identifier for the message batch.
+  String get id => throw _privateConstructorUsedError;
+
+  /// RFC 3339 datetime string representing the time at which the Message Batch was created.
+  @JsonKey(name: 'created_at')
+  String get createdAt => throw _privateConstructorUsedError;
+
+  /// RFC 3339 datetime string representing the time at which the Message Batch will expire and end processing, which is 24 hours after creation.
+  @JsonKey(name: 'expires_at')
+  String get expiresAt => throw _privateConstructorUsedError;
+
+  /// Processing status of the Message Batch.
+  @JsonKey(name: 'processing_status')
+  MessageBatchProcessingStatus get processingStatus =>
+      throw _privateConstructorUsedError;
+
+  /// Tallies requests within the Message Batch, categorized by their status.
+  @JsonKey(name: 'request_counts')
+  MessageBatchRequestCounts get requestCounts =>
+      throw _privateConstructorUsedError;
+
+  /// URL to a `.jsonl` file containing the results of the Message Batch requests. Specified only once processing ends.
+  @JsonKey(name: 'results_url', includeIfNull: false)
+  String? get resultsUrl => throw _privateConstructorUsedError;
+
+  /// Object type. For Message Batches, this is always `"message_batch"`.
+  MessageBatchType get type => throw _privateConstructorUsedError;
+
+  /// Serializes this MessageBatch to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of MessageBatch
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $MessageBatchCopyWith<MessageBatch> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MessageBatchCopyWith<$Res> {
+  factory $MessageBatchCopyWith(
+          MessageBatch value, $Res Function(MessageBatch) then) =
+      _$MessageBatchCopyWithImpl<$Res, MessageBatch>;
+  @useResult
+  $Res call(
+      {String id,
+      @JsonKey(name: 'created_at') String createdAt,
+      @JsonKey(name: 'expires_at') String expiresAt,
+      @JsonKey(name: 'processing_status')
+      MessageBatchProcessingStatus processingStatus,
+      @JsonKey(name: 'request_counts') MessageBatchRequestCounts requestCounts,
+      @JsonKey(name: 'results_url', includeIfNull: false) String? resultsUrl,
+      MessageBatchType type});
+
+  $MessageBatchRequestCountsCopyWith<$Res> get requestCounts;
+}
+
+/// @nodoc
+class _$MessageBatchCopyWithImpl<$Res, $Val extends MessageBatch>
+    implements $MessageBatchCopyWith<$Res> {
+  _$MessageBatchCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of MessageBatch
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? createdAt = null,
+    Object? expiresAt = null,
+    Object? processingStatus = null,
+    Object? requestCounts = null,
+    Object? resultsUrl = freezed,
+    Object? type = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as String,
+      expiresAt: null == expiresAt
+          ? _value.expiresAt
+          : expiresAt // ignore: cast_nullable_to_non_nullable
+              as String,
+      processingStatus: null == processingStatus
+          ? _value.processingStatus
+          : processingStatus // ignore: cast_nullable_to_non_nullable
+              as MessageBatchProcessingStatus,
+      requestCounts: null == requestCounts
+          ? _value.requestCounts
+          : requestCounts // ignore: cast_nullable_to_non_nullable
+              as MessageBatchRequestCounts,
+      resultsUrl: freezed == resultsUrl
+          ? _value.resultsUrl
+          : resultsUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as MessageBatchType,
+    ) as $Val);
+  }
+
+  /// Create a copy of MessageBatch
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $MessageBatchRequestCountsCopyWith<$Res> get requestCounts {
+    return $MessageBatchRequestCountsCopyWith<$Res>(_value.requestCounts,
+        (value) {
+      return _then(_value.copyWith(requestCounts: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$MessageBatchImplCopyWith<$Res>
+    implements $MessageBatchCopyWith<$Res> {
+  factory _$$MessageBatchImplCopyWith(
+          _$MessageBatchImpl value, $Res Function(_$MessageBatchImpl) then) =
+      __$$MessageBatchImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String id,
+      @JsonKey(name: 'created_at') String createdAt,
+      @JsonKey(name: 'expires_at') String expiresAt,
+      @JsonKey(name: 'processing_status')
+      MessageBatchProcessingStatus processingStatus,
+      @JsonKey(name: 'request_counts') MessageBatchRequestCounts requestCounts,
+      @JsonKey(name: 'results_url', includeIfNull: false) String? resultsUrl,
+      MessageBatchType type});
+
+  @override
+  $MessageBatchRequestCountsCopyWith<$Res> get requestCounts;
+}
+
+/// @nodoc
+class __$$MessageBatchImplCopyWithImpl<$Res>
+    extends _$MessageBatchCopyWithImpl<$Res, _$MessageBatchImpl>
+    implements _$$MessageBatchImplCopyWith<$Res> {
+  __$$MessageBatchImplCopyWithImpl(
+      _$MessageBatchImpl _value, $Res Function(_$MessageBatchImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of MessageBatch
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? createdAt = null,
+    Object? expiresAt = null,
+    Object? processingStatus = null,
+    Object? requestCounts = null,
+    Object? resultsUrl = freezed,
+    Object? type = null,
+  }) {
+    return _then(_$MessageBatchImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as String,
+      expiresAt: null == expiresAt
+          ? _value.expiresAt
+          : expiresAt // ignore: cast_nullable_to_non_nullable
+              as String,
+      processingStatus: null == processingStatus
+          ? _value.processingStatus
+          : processingStatus // ignore: cast_nullable_to_non_nullable
+              as MessageBatchProcessingStatus,
+      requestCounts: null == requestCounts
+          ? _value.requestCounts
+          : requestCounts // ignore: cast_nullable_to_non_nullable
+              as MessageBatchRequestCounts,
+      resultsUrl: freezed == resultsUrl
+          ? _value.resultsUrl
+          : resultsUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as MessageBatchType,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MessageBatchImpl extends _MessageBatch {
+  const _$MessageBatchImpl(
+      {required this.id,
+      @JsonKey(name: 'created_at') required this.createdAt,
+      @JsonKey(name: 'expires_at') required this.expiresAt,
+      @JsonKey(name: 'processing_status') required this.processingStatus,
+      @JsonKey(name: 'request_counts') required this.requestCounts,
+      @JsonKey(name: 'results_url', includeIfNull: false) this.resultsUrl,
+      required this.type})
+      : super._();
+
+  factory _$MessageBatchImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MessageBatchImplFromJson(json);
+
+  /// Unique object identifier for the message batch.
+  @override
+  final String id;
+
+  /// RFC 3339 datetime string representing the time at which the Message Batch was created.
+  @override
+  @JsonKey(name: 'created_at')
+  final String createdAt;
+
+  /// RFC 3339 datetime string representing the time at which the Message Batch will expire and end processing, which is 24 hours after creation.
+  @override
+  @JsonKey(name: 'expires_at')
+  final String expiresAt;
+
+  /// Processing status of the Message Batch.
+  @override
+  @JsonKey(name: 'processing_status')
+  final MessageBatchProcessingStatus processingStatus;
+
+  /// Tallies requests within the Message Batch, categorized by their status.
+  @override
+  @JsonKey(name: 'request_counts')
+  final MessageBatchRequestCounts requestCounts;
+
+  /// URL to a `.jsonl` file containing the results of the Message Batch requests. Specified only once processing ends.
+  @override
+  @JsonKey(name: 'results_url', includeIfNull: false)
+  final String? resultsUrl;
+
+  /// Object type. For Message Batches, this is always `"message_batch"`.
+  @override
+  final MessageBatchType type;
+
+  @override
+  String toString() {
+    return 'MessageBatch(id: $id, createdAt: $createdAt, expiresAt: $expiresAt, processingStatus: $processingStatus, requestCounts: $requestCounts, resultsUrl: $resultsUrl, type: $type)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MessageBatchImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.expiresAt, expiresAt) ||
+                other.expiresAt == expiresAt) &&
+            (identical(other.processingStatus, processingStatus) ||
+                other.processingStatus == processingStatus) &&
+            (identical(other.requestCounts, requestCounts) ||
+                other.requestCounts == requestCounts) &&
+            (identical(other.resultsUrl, resultsUrl) ||
+                other.resultsUrl == resultsUrl) &&
+            (identical(other.type, type) || other.type == type));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, createdAt, expiresAt,
+      processingStatus, requestCounts, resultsUrl, type);
+
+  /// Create a copy of MessageBatch
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessageBatchImplCopyWith<_$MessageBatchImpl> get copyWith =>
+      __$$MessageBatchImplCopyWithImpl<_$MessageBatchImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MessageBatchImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _MessageBatch extends MessageBatch {
+  const factory _MessageBatch(
+      {required final String id,
+      @JsonKey(name: 'created_at') required final String createdAt,
+      @JsonKey(name: 'expires_at') required final String expiresAt,
+      @JsonKey(name: 'processing_status')
+      required final MessageBatchProcessingStatus processingStatus,
+      @JsonKey(name: 'request_counts')
+      required final MessageBatchRequestCounts requestCounts,
+      @JsonKey(name: 'results_url', includeIfNull: false)
+      final String? resultsUrl,
+      required final MessageBatchType type}) = _$MessageBatchImpl;
+  const _MessageBatch._() : super._();
+
+  factory _MessageBatch.fromJson(Map<String, dynamic> json) =
+      _$MessageBatchImpl.fromJson;
+
+  /// Unique object identifier for the message batch.
+  @override
+  String get id;
+
+  /// RFC 3339 datetime string representing the time at which the Message Batch was created.
+  @override
+  @JsonKey(name: 'created_at')
+  String get createdAt;
+
+  /// RFC 3339 datetime string representing the time at which the Message Batch will expire and end processing, which is 24 hours after creation.
+  @override
+  @JsonKey(name: 'expires_at')
+  String get expiresAt;
+
+  /// Processing status of the Message Batch.
+  @override
+  @JsonKey(name: 'processing_status')
+  MessageBatchProcessingStatus get processingStatus;
+
+  /// Tallies requests within the Message Batch, categorized by their status.
+  @override
+  @JsonKey(name: 'request_counts')
+  MessageBatchRequestCounts get requestCounts;
+
+  /// URL to a `.jsonl` file containing the results of the Message Batch requests. Specified only once processing ends.
+  @override
+  @JsonKey(name: 'results_url', includeIfNull: false)
+  String? get resultsUrl;
+
+  /// Object type. For Message Batches, this is always `"message_batch"`.
+  @override
+  MessageBatchType get type;
+
+  /// Create a copy of MessageBatch
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$MessageBatchImplCopyWith<_$MessageBatchImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+MessageBatchRequestCounts _$MessageBatchRequestCountsFromJson(
+    Map<String, dynamic> json) {
+  return _MessageBatchRequestCounts.fromJson(json);
+}
+
+/// @nodoc
+mixin _$MessageBatchRequestCounts {
+  /// Number of requests in the Message Batch that are processing.
+  int get processing => throw _privateConstructorUsedError;
+
+  /// Number of requests in the Message Batch that have completed successfully.
+  int get succeeded => throw _privateConstructorUsedError;
+
+  /// Number of requests in the Message Batch that encountered an error.
+  int get errored => throw _privateConstructorUsedError;
+
+  /// Number of requests in the Message Batch that have been canceled.
+  int get canceled => throw _privateConstructorUsedError;
+
+  /// Number of requests in the Message Batch that have expired.
+  int get expired => throw _privateConstructorUsedError;
+
+  /// Serializes this MessageBatchRequestCounts to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of MessageBatchRequestCounts
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $MessageBatchRequestCountsCopyWith<MessageBatchRequestCounts> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MessageBatchRequestCountsCopyWith<$Res> {
+  factory $MessageBatchRequestCountsCopyWith(MessageBatchRequestCounts value,
+          $Res Function(MessageBatchRequestCounts) then) =
+      _$MessageBatchRequestCountsCopyWithImpl<$Res, MessageBatchRequestCounts>;
+  @useResult
+  $Res call(
+      {int processing, int succeeded, int errored, int canceled, int expired});
+}
+
+/// @nodoc
+class _$MessageBatchRequestCountsCopyWithImpl<$Res,
+        $Val extends MessageBatchRequestCounts>
+    implements $MessageBatchRequestCountsCopyWith<$Res> {
+  _$MessageBatchRequestCountsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of MessageBatchRequestCounts
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? processing = null,
+    Object? succeeded = null,
+    Object? errored = null,
+    Object? canceled = null,
+    Object? expired = null,
+  }) {
+    return _then(_value.copyWith(
+      processing: null == processing
+          ? _value.processing
+          : processing // ignore: cast_nullable_to_non_nullable
+              as int,
+      succeeded: null == succeeded
+          ? _value.succeeded
+          : succeeded // ignore: cast_nullable_to_non_nullable
+              as int,
+      errored: null == errored
+          ? _value.errored
+          : errored // ignore: cast_nullable_to_non_nullable
+              as int,
+      canceled: null == canceled
+          ? _value.canceled
+          : canceled // ignore: cast_nullable_to_non_nullable
+              as int,
+      expired: null == expired
+          ? _value.expired
+          : expired // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$MessageBatchRequestCountsImplCopyWith<$Res>
+    implements $MessageBatchRequestCountsCopyWith<$Res> {
+  factory _$$MessageBatchRequestCountsImplCopyWith(
+          _$MessageBatchRequestCountsImpl value,
+          $Res Function(_$MessageBatchRequestCountsImpl) then) =
+      __$$MessageBatchRequestCountsImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int processing, int succeeded, int errored, int canceled, int expired});
+}
+
+/// @nodoc
+class __$$MessageBatchRequestCountsImplCopyWithImpl<$Res>
+    extends _$MessageBatchRequestCountsCopyWithImpl<$Res,
+        _$MessageBatchRequestCountsImpl>
+    implements _$$MessageBatchRequestCountsImplCopyWith<$Res> {
+  __$$MessageBatchRequestCountsImplCopyWithImpl(
+      _$MessageBatchRequestCountsImpl _value,
+      $Res Function(_$MessageBatchRequestCountsImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of MessageBatchRequestCounts
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? processing = null,
+    Object? succeeded = null,
+    Object? errored = null,
+    Object? canceled = null,
+    Object? expired = null,
+  }) {
+    return _then(_$MessageBatchRequestCountsImpl(
+      processing: null == processing
+          ? _value.processing
+          : processing // ignore: cast_nullable_to_non_nullable
+              as int,
+      succeeded: null == succeeded
+          ? _value.succeeded
+          : succeeded // ignore: cast_nullable_to_non_nullable
+              as int,
+      errored: null == errored
+          ? _value.errored
+          : errored // ignore: cast_nullable_to_non_nullable
+              as int,
+      canceled: null == canceled
+          ? _value.canceled
+          : canceled // ignore: cast_nullable_to_non_nullable
+              as int,
+      expired: null == expired
+          ? _value.expired
+          : expired // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MessageBatchRequestCountsImpl extends _MessageBatchRequestCounts {
+  const _$MessageBatchRequestCountsImpl(
+      {required this.processing,
+      required this.succeeded,
+      required this.errored,
+      required this.canceled,
+      required this.expired})
+      : super._();
+
+  factory _$MessageBatchRequestCountsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MessageBatchRequestCountsImplFromJson(json);
+
+  /// Number of requests in the Message Batch that are processing.
+  @override
+  final int processing;
+
+  /// Number of requests in the Message Batch that have completed successfully.
+  @override
+  final int succeeded;
+
+  /// Number of requests in the Message Batch that encountered an error.
+  @override
+  final int errored;
+
+  /// Number of requests in the Message Batch that have been canceled.
+  @override
+  final int canceled;
+
+  /// Number of requests in the Message Batch that have expired.
+  @override
+  final int expired;
+
+  @override
+  String toString() {
+    return 'MessageBatchRequestCounts(processing: $processing, succeeded: $succeeded, errored: $errored, canceled: $canceled, expired: $expired)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MessageBatchRequestCountsImpl &&
+            (identical(other.processing, processing) ||
+                other.processing == processing) &&
+            (identical(other.succeeded, succeeded) ||
+                other.succeeded == succeeded) &&
+            (identical(other.errored, errored) || other.errored == errored) &&
+            (identical(other.canceled, canceled) ||
+                other.canceled == canceled) &&
+            (identical(other.expired, expired) || other.expired == expired));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, processing, succeeded, errored, canceled, expired);
+
+  /// Create a copy of MessageBatchRequestCounts
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessageBatchRequestCountsImplCopyWith<_$MessageBatchRequestCountsImpl>
+      get copyWith => __$$MessageBatchRequestCountsImplCopyWithImpl<
+          _$MessageBatchRequestCountsImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MessageBatchRequestCountsImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _MessageBatchRequestCounts extends MessageBatchRequestCounts {
+  const factory _MessageBatchRequestCounts(
+      {required final int processing,
+      required final int succeeded,
+      required final int errored,
+      required final int canceled,
+      required final int expired}) = _$MessageBatchRequestCountsImpl;
+  const _MessageBatchRequestCounts._() : super._();
+
+  factory _MessageBatchRequestCounts.fromJson(Map<String, dynamic> json) =
+      _$MessageBatchRequestCountsImpl.fromJson;
+
+  /// Number of requests in the Message Batch that are processing.
+  @override
+  int get processing;
+
+  /// Number of requests in the Message Batch that have completed successfully.
+  @override
+  int get succeeded;
+
+  /// Number of requests in the Message Batch that encountered an error.
+  @override
+  int get errored;
+
+  /// Number of requests in the Message Batch that have been canceled.
+  @override
+  int get canceled;
+
+  /// Number of requests in the Message Batch that have expired.
+  @override
+  int get expired;
+
+  /// Create a copy of MessageBatchRequestCounts
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$MessageBatchRequestCountsImplCopyWith<_$MessageBatchRequestCountsImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
 MessageDelta _$MessageDeltaFromJson(Map<String, dynamic> json) {
   return _MessageDelta.fromJson(json);
 }
@@ -4781,10 +5788,10 @@ class _$ToolUseBlockImpl extends ToolUseBlock {
   @override
   final String name;
 
-  /// An object containing the input being passed to the tool, conforming to the tool’s `input_schema`.
+  /// An object containing the input being passed to the tool, conforming to the tool's `input_schema`.
   final Map<String, dynamic> _input;
 
-  /// An object containing the input being passed to the tool, conforming to the tool’s `input_schema`.
+  /// An object containing the input being passed to the tool, conforming to the tool's `input_schema`.
   @override
   Map<String, dynamic> get input {
     if (_input is EqualUnmodifiableMapView) return _input;
@@ -4947,7 +5954,7 @@ abstract class ToolUseBlock extends Block {
   /// The name of the tool being used.
   String get name;
 
-  /// An object containing the input being passed to the tool, conforming to the tool’s `input_schema`.
+  /// An object containing the input being passed to the tool, conforming to the tool's `input_schema`.
   Map<String, dynamic> get input;
 
   /// The type of content block.
