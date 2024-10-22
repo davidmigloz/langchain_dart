@@ -18,7 +18,7 @@ Unofficial Dart client for [OpenAI](https://platform.openai.com/docs/api-referen
 - Custom base URL, headers and query params support (e.g. HTTP proxies)
 - Custom HTTP client support (e.g. SOCKS5 proxies or advanced use cases)
 - Partial Azure OpenAI API support
-- It can be used to consume OpenAI-compatible APIs like [GitHub Models](https://github.com/marketplace/models), [TogetherAI](https://www.together.ai/), [Anyscale](https://www.anyscale.com/), [OpenRouter](https://openrouter.ai), [One API](https://github.com/songquanpeng/one-api), [Groq](https://groq.com/), [Llamafile](https://llamafile.ai/), [GPT4All](https://gpt4all.io/), [FastChat](https://github.com/lm-sys/FastChat), etc.
+- It can be used to consume OpenAI-compatible APIs like [OpenRouter](https://openrouter.ai), [xAI](https://docs.x.ai/), [Groq](https://groq.com/),[GitHub Models](https://github.com/marketplace/models), [TogetherAI](https://www.together.ai/), [Anyscale](https://www.anyscale.com/), [One API](https://github.com/songquanpeng/one-api), [Llamafile](https://llamafile.ai/), [GPT4All](https://gpt4all.io/), [FastChat](https://github.com/lm-sys/FastChat), etc.
 
 **Supported endpoints:**
 
@@ -1333,6 +1333,33 @@ final client = OpenAIClient(
 
 This client can be used to consume APIs that are compatible with the OpenAI API spec.
 
+[OpenRouter](https://openrouter.ai):
+
+```dart
+final client = OpenAIClient(
+  baseUrl: 'https://openrouter.ai/api/v1',
+  headers: { 'api-key': 'YOUR_OPEN_ROUTER_API_KEY' },
+);
+```
+
+[xAI](https://docs.x.ai/):
+
+```dart
+final client = OpenAIClient(
+  baseUrl: 'https://api.x.ai/v1',
+  headers: { 'api-key': 'YOUR_XAI_API_KEY' },
+);
+```
+
+[Groq](https://groq.com/):
+
+```dart
+final client = OpenAIClient(
+  baseUrl: 'https://api.groq.com/openai/v1',
+  headers: { 'api-key': 'YOUR_GROQ_API_KEY' },
+);
+```
+
 [GitHub Models](https://github.com/marketplace/models):
 
 ```dart
@@ -1351,12 +1378,36 @@ final client = OpenAIClient(
 );
 ```
 
-[OpenRouter](https://openrouter.ai):
+[Anyscale](https://www.anyscale.com/):
 
 ```dart
 final client = OpenAIClient(
-  baseUrl: 'https://openrouter.ai/api/v1',
-  headers: { 'api-key': 'YOUR_OPEN_ROUTER_API_KEY' },
+  baseUrl: '<Anyscale_Service_URL>',
+  headers: { 'api-key': 'YOUR_ANYSCALE_API_KEY' },
+);
+```
+
+[Llamafile](https://llamafile.ai/):
+
+```dart
+final client = OpenAIClient(
+  baseUrl: 'http://localhost:8080/v1',
+);
+```
+
+[GPT4All](https://gpt4all.io/):
+
+```dart
+final client = OpenAIClient(
+  baseUrl: 'http://localhost:4891/v1',
+);
+```
+
+[FastChat](https://github.com/lm-sys/FastChat):
+
+```dart
+final client = OpenAIClient(
+  baseUrl: 'http://localhost:8000/v1/',
 );
 ```
 
