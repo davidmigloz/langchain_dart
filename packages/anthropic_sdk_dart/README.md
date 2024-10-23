@@ -25,6 +25,8 @@ Unofficial Dart client for [Anthropic](https://docs.anthropic.com/en/api) API (a
   * [Authentication](#authentication)
   * [Messages](#messages)
   * [Tool use](#tool-use)
+  * [Computer use](#computer-use)
+  * [Prompt caching](#prompt-caching)
   * [Message Batches](#message-batches)
 - [Advance Usage](#advance-usage)
   * [Default HTTP client](#default-http-client)
