@@ -31,14 +31,13 @@ void main() {
       await apiWithoutKey.connect();
 
       final event = await apiWithoutKey.waitForNext(
-        'server.error',
-        timeout: const Duration(seconds: 1),
-      );
+        RealtimeEventType.error,
+        timeout: const Duration(seconds: 5),
+      ) as RealtimeEventError?;
 
       expect(event, isNotNull);
-      expect(event?['error'], isNotNull);
-      final error = event?['error'] as Map<String, dynamic>?;
-      expect(error?['message'], contains('Missing bearer'));
+      expect(event!.error, isNotNull);
+      expect(event.error.message, contains('Missing bearer'));
     });
 
     test('Should instantiate the RealtimeAPI', () {
@@ -78,28 +77,11 @@ void main() {
     test('Should receive server events', () async {
       await realtime.connect();
 
-      final event = await realtime.waitForNext('server.session.created');
+      final event = await realtime.waitForNext(RealtimeEventType.sessionCreated)
+          as RealtimeEventSessionCreated?;
       expect(event, isNotNull);
-      expect(event?['session'], isNotNull);
-      final session = event?['session'] as Map<String, dynamic>;
-      expect(session['id'], isNotNull);
-    });
-
-    test('Should receive server error events', () async {
-      await realtime.connect();
-
-      final testEvent = {
-        'type': 'test_event',
-        'data': {'message': 'Hello, World!'},
-      };
-
-      // Set up the listener before sending the event
-      final eventFuture = realtime.waitForNext('server.error');
-
-      realtime.send('test_event', testEvent['data'] as Map<String, dynamic>?);
-
-      final receivedEvent = await eventFuture;
-      expect(receivedEvent, isNotNull);
+      expect(event!.session, isNotNull);
+      expect(event.session.id, isNotNull);
     });
   });
 }

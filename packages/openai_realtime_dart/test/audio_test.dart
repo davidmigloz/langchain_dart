@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_checks
+
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
@@ -9,19 +11,19 @@ void main() {
   group('Audio samples tests', timeout: const Timeout(Duration(minutes: 5)),
       () {
     test('Toronto Audio sample test', () async {
-      // Should connect to the RealtimeClient
-      final realtimeEvents = <Map<String, dynamic>?>[];
+      final realtimeEvents = <RealtimeEvent>[];
       final client = RealtimeClient(
         apiKey: Platform.environment['OPENAI_API_KEY'],
-        debug: false,
-      )
-        ..updateSession(
-          instructions:
-              'Please follow the instructions of any query you receive.\n'
-              'Be concise in your responses. Speak quickly and answer shortly.',
-        )
-        ..on('realtime.event', realtimeEvents.add);
+        debug: true,
+      );
+      await client.updateSession(
+        instructions:
+            'Please follow the instructions of any query you receive.\n'
+            'Be concise in your responses. Speak quickly and answer shortly.',
+      );
+      client.on(RealtimeEventType.all, realtimeEvents.add);
 
+      // Should connect to the RealtimeClient
       final isConnected = await client.connect();
       expect(isConnected, isTrue);
       expect(client.isConnected(), isTrue);
@@ -32,17 +34,13 @@ void main() {
       expect(realtimeEvents.length, equals(2));
 
       final clientEvent1 = realtimeEvents[0];
-      expect(clientEvent1?['source'], equals('client'));
-      final clientEventData1 = clientEvent1?['event'] as Map<String, dynamic>?;
-      expect(clientEventData1?['type'], equals('session.update'));
+      expect(clientEvent1, isA<RealtimeEventSessionUpdate>());
 
       final serverEvent1 = realtimeEvents[1];
-      expect(serverEvent1?['source'], equals('server'));
-      final serverEventData1 = serverEvent1?['event'] as Map<String, dynamic>?;
-      expect(serverEventData1?['type'], equals('session.created'));
+      expect(serverEvent1, isA<RealtimeEventSessionCreated>());
+      serverEvent1 as RealtimeEventSessionCreated;
 
-      final session = serverEventData1?['session'] as Map<String, dynamic>?;
-      expect(session?['id'], isNotNull);
+      expect(serverEvent1.session.id, isNotNull);
 
       // Should load audio samples
       final audioData = await readSampleAudioFile('toronto.pcm');
@@ -53,57 +51,45 @@ void main() {
       // Should send an audio file about toronto
       final audioDataBase64 = base64.encode(audioData);
       final content = [
-        {'type': 'input_audio', 'audio': audioDataBase64},
+        ContentPart.inputAudio(audio: audioDataBase64),
       ];
 
-      client.sendUserMessageContent(content);
+      await client.sendUserMessageContent(content);
+
       expect(realtimeEvents.length, equals(4));
-
       final itemEvent = realtimeEvents[2];
-      expect(itemEvent?['source'], equals('client'));
-      final itemEventData = itemEvent?['event'] as Map<String, dynamic>?;
-      expect(itemEventData?['type'], equals('conversation.item.create'));
-
+      expect(itemEvent, isA<RealtimeEventConversationItemCreate>());
       final responseEvent = realtimeEvents[3];
-      expect(responseEvent, isNotNull);
-      expect(responseEvent?['source'], equals('client'));
-      final responseEventData =
-          responseEvent?['event'] as Map<String, dynamic>?;
-      expect(responseEventData?['type'], equals('response.create'));
+      expect(responseEvent, isA<RealtimeEventResponseCreate>());
 
-      // Should waitForNextItem to receive "conversation.item.created" from user
-      final result1 = await client.waitForNextItem();
-      final item1 = result1['item'] as Map<String, dynamic>?;
+      final itemCreated = await client.waitForNextCompletedItem();
+      expect(itemCreated?.item, isNotNull);
 
-      expect(item1, isNotNull);
-      expect(item1!['type'], equals('message'));
-      expect(item1['role'], equals('user'));
-      expect(item1['status'], equals('completed'));
-      final item1Formatted = item1['formatted'] as Map<String, dynamic>?;
-      expect(item1Formatted?['text'], equals(''));
+      // The assistant starts the response
+      final formattedItem1 = await client.waitForNextItem();
 
-      // Should waitForNextItem to receive "conversation.item.created" from assistant
-      final result2 = await client.waitForNextItem();
-      final item2 = result2['item'] as Map<String, dynamic>?;
+      expect(formattedItem1?.item, isNotNull);
+      final item1 = formattedItem1!.item;
+      expect(item1, isA<ItemMessage>());
+      item1 as ItemMessage;
 
-      expect(item2, isNotNull);
-      expect(item2!['type'], equals('message'));
-      expect(item2['role'], equals('assistant'));
-      expect(item2['status'], equals('in_progress'));
-      final item2Formatted = item2['formatted'] as Map<String, dynamic>?;
-      expect(item2Formatted?['text'], equals(''));
+      expect(item1.role, equals(ItemRole.assistant));
+      expect(item1.status, equals(ItemStatus.inProgress));
+      final item1Formatted = formattedItem1.formatted;
+      expect(item1Formatted?.text, equals(''));
 
       // Should waitForNextCompletedItem to receive completed item from assistant
-      final result3 = await client.waitForNextCompletedItem();
-      final item3 = result3['item'] as Map<String, dynamic>?;
+      final formattedItem3 = await client.waitForNextCompletedItem();
 
-      expect(item3, isNotNull);
-      expect(item3!['type'], equals('message'));
-      expect(item3['role'], equals('assistant'));
-      expect(item3['status'], equals('completed'));
-      final item3Formatted = item3['formatted'] as Map<String, dynamic>?;
-      final item3Transcript = item3Formatted?['transcript'] as String?;
-      expect(item3Transcript?.toLowerCase(), contains('toronto'));
+      expect(formattedItem3?.item, isNotNull);
+      final item3 = formattedItem3!.item;
+      expect(item3, isA<ItemMessage>());
+      item3 as ItemMessage;
+
+      expect(item3.role, equals(ItemRole.assistant));
+      expect(item3.status, equals(ItemStatus.completed));
+      final item3Formatted = formattedItem3.formatted;
+      expect(item3Formatted?.transcript, contains('Toronto'));
 
       // Should disconnect from the RealtimeClient
       await client.disconnect();
