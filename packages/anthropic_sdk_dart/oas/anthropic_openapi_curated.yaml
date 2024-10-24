@@ -866,6 +866,7 @@ components:
             content_block_delta: "#/components/schemas/ContentBlockDeltaEvent"
             content_block_stop: "#/components/schemas/ContentBlockStopEvent"
             ping: "#/components/schemas/PingEvent"
+            error: "#/components/schemas/ErrorEvent"
     MessageStreamEventType:
       type: string
       description: The type of a streaming event.
