@@ -15,7 +15,7 @@ jobs:
     if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - run: npm ci && npm run build
         working-directory: docs_v2
       - uses: FirebaseExtended/action-hosting-deploy@0cbcac4740c2bfb00d632f0b863b57713124eb5a
