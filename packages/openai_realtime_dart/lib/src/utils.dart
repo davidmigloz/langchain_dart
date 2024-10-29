@@ -10,7 +10,7 @@ class RealtimeUtils {
     return result;
   }
 
-  static String generateId(String prefix, {int length = 21}) {
+  static String generateId({String prefix = 'evt_', int length = 21}) {
     const chars = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
     final random = Random();
     final str = List.generate(

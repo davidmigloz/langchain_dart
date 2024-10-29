@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:openapi_spec/openapi_spec.dart';
 
-/// Generates Chroma API client Dart code from the OpenAPI spec.
+/// Generates OpenAI API client Dart code from the OpenAPI spec.
 /// Official spec: https://github.com/openai/openai-openapi/blob/master/openapi.yaml
 void main() async {
   final spec = OpenApi.fromFile(source: 'oas/openapi_curated.yaml');

@@ -7,6 +7,7 @@ import 'package:web_socket_channel/status.dart' as status;
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 import 'event_handler.dart';
+import 'schema/generated/schema/schema.dart';
 import 'utils.dart';
 import 'web_socket/web_socket.dart';
 
@@ -76,15 +77,27 @@ class RealtimeAPI extends RealtimeEventHandler {
       _ws!.stream.listen(
         (data) {
           final message = json.decode(data) as Map<String, dynamic>;
-          receive(message['type'], message);
+          receive(message);
         },
         onError: (dynamic error) {
           _log.severe('Error', error);
-          dispatch('close', {'error': true});
+          dispatch(
+            RealtimeEventType.close,
+            RealtimeEvent.close(
+              eventId: RealtimeUtils.generateId(),
+              error: true,
+            ),
+          );
         },
         onDone: () {
           _log.info('Disconnected from "$url"');
-          dispatch('close', {'error': false});
+          dispatch(
+            RealtimeEventType.close,
+            RealtimeEvent.close(
+              eventId: RealtimeUtils.generateId(),
+              error: false,
+            ),
+          );
         },
       );
 
@@ -119,42 +132,69 @@ class RealtimeAPI extends RealtimeEventHandler {
   }
 
   /// Receives an event from WebSocket and dispatches as
-  /// "server.{eventName}" and "server.*" events.
-  void receive(String eventName, Map<String, dynamic> event) {
-    _logEvent(eventName, event, fromClient: false);
-    dispatch('server.$eventName', event);
-    dispatch('server.*', event);
+  /// "[RealtimeEventType]" and "[RealtimeEventType.serverAll]" events.
+  Future<void> receive(Map<String, dynamic> eventData) async {
+    final event = RealtimeEvent.fromJson(eventData);
+    _logEvent(event, fromClient: false);
+    await dispatch(event.type, event);
+    await dispatch(RealtimeEventType.serverAll, event);
+    await dispatch(RealtimeEventType.all, event);
   }
 
-  /// Sends an event to WebSocket and dispatches as "client.{eventName}"
-  /// and "client.*" events.
-  void send(String eventName, [Map<String, dynamic>? data]) {
+  /// Sends an event to WebSocket and dispatches as "[RealtimeEventType]"
+  /// and "[RealtimeEventType.clientAll]" events.
+  Future<void> send(RealtimeEvent event) async {
     if (!isConnected()) {
       throw Exception('RealtimeAPI is not connected');
     }
 
-    final event = {
-      'event_id': RealtimeUtils.generateId('evt_'),
-      'type': eventName,
-      ...?data,
-    };
+    final finalEvent = event.copyWith(
+      eventId: RealtimeUtils.generateId(),
+    );
 
-    dispatch('client.$eventName', event);
-    dispatch('client.*', event);
-    _logEvent(eventName, event, fromClient: true);
+    _logEvent(finalEvent, fromClient: true);
+    await dispatch(finalEvent.type, finalEvent);
+    await dispatch(RealtimeEventType.clientAll, finalEvent);
+    await dispatch(RealtimeEventType.all, finalEvent);
 
-    _ws!.sink.add(json.encode(event));
+    final data = json.encode(finalEvent.toJson());
+    _ws!.sink.add(data);
   }
 
   void _logEvent(
-    String name,
-    Map<String, dynamic> event, {
+    RealtimeEvent event, {
     required bool fromClient,
   }) {
-    final eventString = event.toString();
-    final eventLength = eventString.length;
-    final eventFormatted =
-        eventString.substring(0, eventLength > 200 ? 200 : eventLength);
-    _log.info('${fromClient ? 'sent' : 'received'}: $name $eventFormatted');
+    if (!debug) {
+      return;
+    }
+
+    final eventJson = event.toJson();
+
+    // Recursive function to replace "audio" property content
+    void replaceAudioProperty(dynamic json) {
+      if (json is Map<String, dynamic>) {
+        json.forEach((key, value) {
+          if (key == 'audio' ||
+              (key == 'delta' && json['type'] == 'response.audio.delta')) {
+            json[key] = 'base64-encoded-audio';
+          } else {
+            replaceAudioProperty(value);
+          }
+        });
+      } else if (json is List) {
+        for (var i = 0; i < json.length; i++) {
+          replaceAudioProperty(json[i]);
+        }
+      }
+    }
+
+    // Replace "audio" property content in the event JSON
+    replaceAudioProperty(eventJson);
+
+    final eventString = jsonEncode(eventJson);
+    _log.info(
+      '${fromClient ? 'sent' : 'received'}: ${event.type.name} $eventString',
+    );
   }
 }

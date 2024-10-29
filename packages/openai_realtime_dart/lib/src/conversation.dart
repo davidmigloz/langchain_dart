@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'schema/schema.dart';
 import 'utils.dart';
 
 /// Stores a client-side cache of the current conversation and performs event
@@ -13,31 +14,25 @@ class RealtimeConversation {
   }
 
   /// Map of item ids to items.
-  final Map<String, dynamic> itemLookup = {};
-
-  /// List of items in the conversation.
-  final List<dynamic> items = [];
+  final Map<String, FormattedItem> items = {};
 
   /// Map of response ids to responses.
-  final Map<String, dynamic> responseLookup = {};
-
-  /// List of responses in the conversation.
-  final List<dynamic> responses = [];
+  final Map<String, Response> responses = {};
 
   /// Map of queued speech items.
-  final Map<String, dynamic> queuedSpeechItems = {};
+  final Map<String, ItemSpeech> queuedSpeechItems = {};
 
   /// Map of queued transcript items.
-  final Map<String, dynamic> queuedTranscriptItems = {};
+  final Map<String, ItemTranscript> queuedTranscriptItems = {};
 
   /// Queued input audio.
   Uint8List? queuedInputAudio;
 
   /// Event processors for conversation events.
   final Map<
-      String,
-      FutureOr<Map<String, dynamic>> Function(
-        Map<String, dynamic>? event, [
+      RealtimeEventType,
+      FutureOr<EventHandlerResult> Function(
+        RealtimeEvent event, [
         dynamic args,
       ])> _eventProcessors = {};
 
@@ -45,333 +40,469 @@ class RealtimeConversation {
   final int defaultFrequency = 24000; // 24,000 Hz
 
   void _initializeEventProcessors() {
-    _eventProcessors['conversation.item.created'] = (
-      Map<String, dynamic>? event, [
+    _eventProcessors[RealtimeEventType.conversationItemCreated] = (
+      RealtimeEvent e, [
       dynamic args,
     ]) {
-      final item = event?['item'];
-      final newItem = Map<String, dynamic>.from(item);
-      if (!itemLookup.containsKey(newItem['id'])) {
-        itemLookup[newItem['id']] = newItem;
-        items.add(newItem);
+      final event = e as RealtimeEventConversationItemCreated;
+      final item = event.item;
+      var newItem = FormattedItem(
+        item: item,
+        formatted: FormattedProperty(
+          audio: Uint8List(0),
+          text: '',
+          transcript: '',
+        ),
+      );
+
+      if (!items.containsKey(item.id)) {
+        items[item.id] = newItem;
+      } else {
+        newItem = items[item.id]!;
       }
-      newItem['formatted'] = {
-        'audio': Uint8List(0),
-        'text': '',
-        'transcript': '',
-      };
+
       // If we have a speech item, can populate audio
-      final newItemId = newItem['id'] as String;
-      final formatted = newItem['formatted'] as Map<String, dynamic>;
-      if (queuedSpeechItems.containsKey(newItemId)) {
-        final queuedSpeechItem =
-            queuedSpeechItems[newItemId] as Map<String, dynamic>;
-        formatted['audio'] = queuedSpeechItem['audio'];
-        queuedSpeechItems.remove(newItemId);
+      if (queuedSpeechItems.containsKey(item.id)) {
+        newItem = newItem.copyWith(
+          formatted: newItem.formatted!.copyWith(
+            audio: queuedSpeechItems[item.id]!.audio!,
+          ),
+        );
+        queuedSpeechItems.remove(item.id);
       }
+
       // Populate formatted text if it comes out on creation
-      final newItemContent =
-          (newItem['content'] as List<dynamic>?)?.cast<Map<String, dynamic>>();
-      if (newItemContent != null) {
-        final textContent = newItemContent
-            .where((c) => ['text', 'input_text'].contains(c['type'] as String));
-        for (final content in textContent) {
-          formatted['text'] = '${formatted['text']}${content['text']}';
-        }
+      if (item is ItemMessage && item.content.isNotEmpty) {
+        final textContent = item.content
+            .where(
+              (c) => c is ContentPartText || c is ContentPartInputText,
+            )
+            .toList(growable: false);
+        newItem = newItem.copyWith(
+          formatted: newItem.formatted!.copyWith(
+            text: textContent
+                .map(
+                  (c) => c.mapOrNull(
+                    inputText: (c) => c.text,
+                    text: (c) => c.text,
+                  ),
+                )
+                .join(),
+          ),
+        );
       }
+
       // If we have a transcript item, can pre-populate transcript
-      if (queuedTranscriptItems.containsKey(newItem['id'])) {
-        final queuedTranscriptItem =
-            queuedTranscriptItems[newItemId] as Map<String, dynamic>;
-        formatted['transcript'] = queuedTranscriptItem['transcript'];
-        queuedTranscriptItems.remove(newItem['id']);
+      if (queuedTranscriptItems.containsKey(item.id)) {
+        newItem = newItem.copyWith(
+          formatted: newItem.formatted!.copyWith(
+            transcript: queuedTranscriptItems[item.id]!.transcript,
+          ),
+        );
+        queuedTranscriptItems.remove(item.id);
       }
-      if (newItem['type'] == 'message') {
-        if (newItem['role'] == 'user') {
-          newItem['status'] = 'completed';
+
+      if (item is ItemMessage) {
+        if (item.role == ItemRole.user) {
           if (queuedInputAudio != null) {
-            formatted['audio'] = queuedInputAudio;
+            newItem = newItem.copyWith(
+              formatted: newItem.formatted!.copyWith(audio: queuedInputAudio!),
+            );
             queuedInputAudio = null;
           }
+          newItem = newItem.copyWith(
+            item: item.copyWith(status: ItemStatus.completed),
+          );
         } else {
-          newItem['status'] = 'in_progress';
+          newItem = newItem.copyWith(
+            item: item.copyWith(status: ItemStatus.inProgress),
+          );
         }
-      } else if (newItem['type'] == 'function_call') {
-        formatted['tool'] = {
-          'type': 'function',
-          'name': newItem['name'],
-          'call_id': newItem['call_id'],
-          'arguments': '',
-        };
-        newItem['status'] = 'in_progress';
-      } else if (newItem['type'] == 'function_call_output') {
-        newItem['status'] = 'completed';
-        formatted['output'] = newItem['output'];
+      } else if (item is ItemFunctionCall) {
+        newItem = newItem.copyWith(
+          item: item.copyWith(status: ItemStatus.inProgress),
+          formatted: newItem.formatted!.copyWith(
+            tool: FormattedTool(
+              type: ToolType.function,
+              name: item.name,
+              callId: item.callId,
+              arguments: item.arguments,
+            ),
+          ),
+        );
+      } else if (item is ItemFunctionCallOutput) {
+        newItem = newItem.copyWith(
+          item: item.copyWith(status: ItemStatus.completed),
+          formatted: newItem.formatted!.copyWith(output: item.output),
+        );
       }
-      return {'item': newItem, 'delta': null};
+
+      items[item.id] = newItem;
+      return EventHandlerResult(item: newItem);
     };
 
-    _eventProcessors['conversation.item.truncated'] = (
-      Map<String, dynamic>? event, [
+    _eventProcessors[RealtimeEventType.conversationItemTruncated] = (
+      RealtimeEvent e, [
       dynamic args,
     ]) {
-      final itemId = event?['item_id'];
-      final audioEndMs = event?['audio_end_ms'] as int;
-      final item = itemLookup[itemId] as Map<String, dynamic>?;
-      if (item == null) {
-        throw Exception('item.truncated: Item "$itemId" not found');
+      final event = e as RealtimeEventConversationItemTruncated;
+      var foundItem = items[event.itemId];
+      if (foundItem == null) {
+        throw Exception('item.truncated: Item "${event.itemId}" not found');
       }
-      final formatted = item['formatted'] as Map<String, dynamic>;
-      final endIndex = audioEndMs * defaultFrequency ~/ 1000;
-      formatted['transcript'] = '';
-      formatted['audio'] =
-          (formatted['audio'] as Uint8List).sublist(0, endIndex);
-      return {'item': item, 'delta': null};
+      final endIndex = event.audioEndMs * defaultFrequency ~/ 1000;
+      foundItem = foundItem.copyWith(
+        formatted: foundItem.formatted!.copyWith(
+          transcript: '',
+          audio: foundItem.formatted!.audio.sublist(0, endIndex),
+        ),
+      );
+
+      items[event.itemId] = foundItem;
+      return EventHandlerResult(item: foundItem);
     };
 
-    _eventProcessors['conversation.item.deleted'] = (
-      Map<String, dynamic>? event, [
+    _eventProcessors[RealtimeEventType.conversationItemDeleted] = (
+      RealtimeEvent e, [
       dynamic args,
     ]) {
-      final itemId = event?['item_id'];
-      final item = itemLookup[itemId];
-      if (item == null) {
-        throw Exception('item.deleted: Item "$itemId" not found');
+      final event = e as RealtimeEventConversationItemDeleted;
+      final foundItem = items[event.itemId];
+      if (foundItem == null) {
+        throw Exception('item.deleted: Item "${event.itemId}" not found');
       }
-      itemLookup.remove(itemId);
-      items.remove(item);
-      return {'item': item, 'delta': null};
+      items.remove(event.itemId);
+      return EventHandlerResult(item: foundItem);
     };
 
-    _eventProcessors['conversation.item.input_audio_transcription.completed'] =
-        (
-      Map<String, dynamic>? event, [
+    _eventProcessors[
+        RealtimeEventType.conversationItemInputAudioTranscriptionCompleted] = (
+      RealtimeEvent e, [
       dynamic args,
     ]) {
-      final itemId = event?['item_id'];
-      final contentIndex = event?['content_index'];
-      final transcript = event?['transcript'];
-      final item = itemLookup[itemId] as Map<String, dynamic>?;
+      final event =
+          e as RealtimeEventConversationItemInputAudioTranscriptionCompleted;
+      var foundItem = items[event.itemId];
       // We use a single space to represent an empty transcript for .formatted values
       // Otherwise it looks like no transcript provided
-      final formattedTranscript = transcript ?? ' ';
-      if (item == null) {
+      final formattedTranscript =
+          event.transcript.isEmpty ? ' ' : event.transcript;
+
+      if (foundItem == null) {
         // We can receive transcripts in VAD mode before item.created
         // This happens specifically when audio is empty
-        queuedTranscriptItems[itemId] = {'transcript': formattedTranscript};
-        return {'item': null, 'delta': null};
-      } else {
-        final itemContent =
-            (item['content'] as List<dynamic>?)?.cast<Map<String, dynamic>>();
-
-        final formatted = item['formatted'] as Map<String, dynamic>;
-        itemContent?[contentIndex]['transcript'] = transcript;
-        formatted['transcript'] = formattedTranscript;
-        return {
-          'item': item,
-          'delta': {'transcript': transcript},
-        };
+        queuedTranscriptItems[event.itemId] = ItemTranscript(
+          transcript: formattedTranscript,
+        );
+        return const EventHandlerResult();
       }
+
+      final item = foundItem.item;
+      if (item is ItemMessage) {
+        final content = [...item.content];
+        final contentPart = event.contentIndex < content.length
+            ? content[event.contentIndex]
+            : null;
+        if (contentPart is ContentPartInputAudio) {
+          content[event.contentIndex] = contentPart.copyWith(
+            transcript: event.transcript,
+          );
+        } else if (contentPart is ContentPartAudio) {
+          content[event.contentIndex] = contentPart.copyWith(
+            transcript: event.transcript,
+          );
+        }
+        foundItem = foundItem.copyWith(
+          item: item.copyWith(content: content),
+        );
+      }
+
+      foundItem = foundItem.copyWith(
+        formatted:
+            foundItem.formatted!.copyWith(transcript: formattedTranscript),
+      );
+
+      items[event.itemId] = foundItem;
+      return EventHandlerResult(
+        item: foundItem,
+        delta: Delta(transcript: event.transcript),
+      );
     };
 
-    _eventProcessors['input_audio_buffer.speech_started'] = (
-      Map<String, dynamic>? event, [
+    _eventProcessors[RealtimeEventType.inputAudioBufferSpeechStarted] = (
+      RealtimeEvent e, [
       dynamic args,
     ]) {
-      final itemId = event?['item_id'];
-      final audioStartMs = event?['audio_start_ms'];
-      queuedSpeechItems[itemId] = {'audio_start_ms': audioStartMs};
-      return {'item': null, 'delta': null};
+      final event = e as RealtimeEventInputAudioBufferSpeechStarted;
+      queuedSpeechItems[event.itemId] = ItemSpeech(
+        audioStartMs: event.audioStartMs,
+      );
+      return const EventHandlerResult();
     };
 
-    _eventProcessors['input_audio_buffer.speech_stopped'] = (
-      Map<String, dynamic>? event, [
+    _eventProcessors[RealtimeEventType.inputAudioBufferSpeechStopped] = (
+      RealtimeEvent e, [
       dynamic args,
     ]) {
-      final itemId = event?['item_id'];
-      final audioEndMs = event?['audio_end_ms'];
-      final speech = queuedSpeechItems[itemId] as Map<String, dynamic>;
-      speech['audio_end_ms'] = audioEndMs;
+      final event = e as RealtimeEventInputAudioBufferSpeechStopped;
+
+      if (!queuedSpeechItems.containsKey(event.itemId)) {
+        queuedSpeechItems[event.itemId] = ItemSpeech(
+          audioStartMs: event.audioEndMs,
+        );
+      }
+
+      final speech = queuedSpeechItems[event.itemId];
+      if (speech == null) return const EventHandlerResult();
+
+      queuedSpeechItems[event.itemId] = speech.copyWith(
+        audioEndMs: event.audioEndMs,
+      );
+
       if (args != null) {
         final inputAudioBuffer = args as Uint8List;
-        final speechAudioStartMs = speech['audio_start_ms'] as int;
-        final speechAudioEndMs = speech['audio_end_ms'] as int;
-        final startIndex = speechAudioStartMs * defaultFrequency ~/ 1000;
-        final endIndex = speechAudioEndMs * defaultFrequency ~/ 1000;
-        speech['audio'] = inputAudioBuffer.sublist(startIndex, endIndex);
-      }
-      return {'item': null, 'delta': null};
-    };
-
-    _eventProcessors['response.created'] = (
-      Map<String, dynamic>? event, [
-      dynamic args,
-    ]) {
-      final response = event?['response'] as Map<String, dynamic>?;
-      final responseId = response?['id'] as String? ?? '';
-      if (!responseLookup.containsKey(responseId)) {
-        responseLookup[responseId] = response;
-        responses.add(response);
-      }
-      return {'item': null, 'delta': null};
-    };
-
-    _eventProcessors['response.output_item.added'] = (
-      Map<String, dynamic>? event, [
-      dynamic args,
-    ]) {
-      final responseId = event?['response_id'];
-      final item = event?['item'] as Map<String, dynamic>?;
-      final itemId = item?['id'] as String? ?? '';
-      final response = responseLookup[responseId] as Map<String, dynamic>?;
-      if (response == null) {
-        throw Exception(
-          'response.output_item.added: Response "$responseId" not found',
+        final startIndex = speech.audioStartMs * defaultFrequency ~/ 1000;
+        final endIndex = event.audioEndMs * defaultFrequency ~/ 1000;
+        queuedSpeechItems[event.itemId] = speech.copyWith(
+          audio: inputAudioBuffer.sublist(startIndex, endIndex),
         );
       }
-      (response['output'] as List<dynamic>).add(itemId);
-      return {'item': null, 'delta': null};
+      return const EventHandlerResult();
     };
 
-    _eventProcessors['response.output_item.done'] = (
-      Map<String, dynamic>? event, [
+    _eventProcessors[RealtimeEventType.responseCreated] = (
+      RealtimeEvent e, [
       dynamic args,
     ]) {
-      final item = event?['item'] as Map<String, dynamic>?;
-      if (item == null) {
-        throw Exception('response.output_item.done: Missing "item"');
+      final event = e as RealtimeEventResponseCreated;
+      final response = event.response;
+      if (!responses.containsKey(response.id)) {
+        responses[response.id] = response;
       }
-      final itemId = item['id'] as String;
-      final foundItem = itemLookup[itemId] as Map<String, dynamic>?;
+      return const EventHandlerResult();
+    };
+
+    _eventProcessors[RealtimeEventType.responseOutputItemAdded] = (
+      RealtimeEvent e, [
+      dynamic args,
+    ]) {
+      final event = e as RealtimeEventResponseOutputItemAdded;
+      var foundResponse = responses[event.responseId];
+      if (foundResponse == null) {
+        throw Exception(
+          'response.output_item.added: Response "${event.responseId}" not found',
+        );
+      }
+      final output = [...foundResponse.output, event.item];
+      foundResponse = foundResponse.copyWith(output: output);
+      responses[event.responseId] = foundResponse;
+      return const EventHandlerResult();
+    };
+
+    _eventProcessors[RealtimeEventType.responseOutputItemDone] = (
+      RealtimeEvent e, [
+      dynamic args,
+    ]) {
+      final event = e as RealtimeEventResponseOutputItemDone;
+      var foundItem = items[event.item.id];
       if (foundItem == null) {
         throw Exception(
-          'response.output_item.done: Item "${item['id']}" not found',
+          'response.output_item.done: Item "${event.item.id}" not found',
         );
       }
-      foundItem['status'] = item['status'];
-      return {'item': foundItem, 'delta': null};
-    };
-
-    _eventProcessors['response.content_part.added'] = (
-      Map<String, dynamic>? event, [
-      dynamic args,
-    ]) {
-      final itemId = event?['item_id'];
-      final part = event?['part'];
-      final item = itemLookup[itemId] as Map<String, dynamic>?;
-      if (item == null) {
-        throw Exception(
-          'response.content_part.added: Item "$itemId" not found',
-        );
-      }
-      (item['content'] as List<dynamic>).add(part);
-      return {'item': item, 'delta': null};
-    };
-
-    _eventProcessors['response.audio_transcript.delta'] = (
-      Map<String, dynamic>? event, [
-      dynamic args,
-    ]) {
-      final itemId = event?['item_id'];
-      final contentIndex = event?['content_index'];
-      final delta = event?['delta'];
-      final item = itemLookup[itemId] as Map<String, dynamic>?;
-      if (item == null) {
-        throw Exception(
-          'response.audio_transcript.delta: Item "$itemId" not found',
-        );
-      }
-      final itemContent =
-          (item['content'] as List<dynamic>).cast<Map<String, dynamic>>();
-      final itemTranscript = itemContent[contentIndex]['transcript'] as String;
-      final formatted = item['formatted'] as Map<String, dynamic>;
-      final formattedTranscript = formatted['transcript'] as String;
-      itemContent[contentIndex]['transcript'] = itemTranscript + delta;
-      formatted['transcript'] = formattedTranscript + delta;
-      return {
-        'item': item,
-        'delta': {'transcript': delta},
-      };
-    };
-
-    _eventProcessors['response.audio.delta'] = (
-      Map<String, dynamic>? event, [
-      dynamic args,
-    ]) {
-      final itemId = event?['item_id'];
-      final delta = event?['delta'];
-      final item = itemLookup[itemId] as Map<String, dynamic>?;
-      if (item == null) {
-        throw Exception('response.audio.delta: Item "$itemId" not found');
-      }
-      // This never gets rendered, we care about the file data instead
-      // item.content[content_index].audio += delta;
-      final arrayBuffer = base64.decode(delta);
-      final formatted = item['formatted'] as Map<String, dynamic>;
-      formatted['audio'] = RealtimeUtils.mergeUint8Lists(
-        formatted['audio'],
-        arrayBuffer,
+      foundItem = foundItem.copyWith(
+        item: foundItem.item.copyWith(
+          status: e.item.status,
+        ),
       );
-      return {
-        'item': item,
-        'delta': {'audio': arrayBuffer},
-      };
+
+      items[event.item.id] = foundItem;
+      return EventHandlerResult(item: foundItem);
     };
 
-    _eventProcessors['response.text.delta'] = (
-      Map<String, dynamic>? event, [
+    _eventProcessors[RealtimeEventType.responseContentPartAdded] = (
+      RealtimeEvent e, [
       dynamic args,
     ]) {
-      final itemId = event?['item_id'];
-      final contentIndex = event?['content_index'];
-      final delta = event?['delta'];
-      final item = itemLookup[itemId] as Map<String, dynamic>?;
-      if (item == null) {
-        throw Exception('response.text.delta: Item "$itemId" not found');
-      }
-      final itemContent =
-          (item['content'] as List<dynamic>?)?.cast<Map<String, dynamic>>();
-      final itemText = itemContent?[contentIndex]['text'] as String? ?? '';
-      final formatted = item['formatted'] as Map<String, dynamic>;
-      final formattedText = formatted['text'] as String;
-      itemContent?[contentIndex]['text'] = itemText + delta;
-      formatted['text'] = formattedText + delta;
-      return {
-        'item': item,
-        'delta': {'text': delta},
-      };
-    };
-
-    _eventProcessors['response.function_call_arguments.delta'] = (
-      Map<String, dynamic>? event, [
-      dynamic args,
-    ]) {
-      final itemId = event?['item_id'];
-      final delta = event?['delta'];
-      final item = itemLookup[itemId] as Map<String, dynamic>?;
-      if (item == null) {
+      final event = e as RealtimeEventResponseContentPartAdded;
+      var foundItem = items[event.itemId];
+      if (foundItem == null) {
         throw Exception(
-          'response.function_call_arguments.delta: Item "$itemId" not found',
+          'response.content_part.added: Item "${event.itemId}" not found',
         );
       }
-      final arguments = item['arguments'] as String;
-      final formatted = item['formatted'] as Map<String, dynamic>;
-      final formattedTool = formatted['tool'] as Map<String, dynamic>;
-      final formattedToolArguments = formattedTool['arguments'] as String;
-      item['arguments'] = arguments + delta;
-      formattedTool['arguments'] = formattedToolArguments + delta;
-      return {
-        'item': item,
-        'delta': {'arguments': delta},
-      };
+      final item = foundItem.item;
+      if (item is ItemMessage) {
+        final content = [...item.content, event.part];
+        foundItem = foundItem.copyWith(
+          item: item.copyWith(content: content),
+        );
+      }
+
+      items[event.itemId] = foundItem;
+      return EventHandlerResult(item: foundItem);
+    };
+
+    _eventProcessors[RealtimeEventType.responseAudioTranscriptDelta] = (
+      RealtimeEvent e, [
+      dynamic args,
+    ]) {
+      final event = e as RealtimeEventResponseAudioTranscriptDelta;
+      var foundItem = items[event.itemId];
+      if (foundItem == null) {
+        throw Exception(
+          'response.audio_transcript.delta: Item "${event.itemId}" not found',
+        );
+      }
+
+      final item = foundItem.item;
+      if (item is ItemMessage) {
+        final content = [...item.content];
+        final contentPart = event.contentIndex < content.length
+            ? content[event.contentIndex]
+            : null;
+        if (contentPart is ContentPartInputAudio) {
+          content[event.contentIndex] = contentPart.copyWith(
+            transcript: (contentPart.transcript ?? '') + event.delta,
+          );
+        } else if (contentPart is ContentPartAudio) {
+          content[event.contentIndex] = contentPart.copyWith(
+            transcript: (contentPart.transcript ?? '') + event.delta,
+          );
+        }
+        foundItem = foundItem.copyWith(
+          item: item.copyWith(content: content),
+        );
+      }
+
+      foundItem = foundItem.copyWith(
+        formatted: foundItem.formatted!.copyWith(
+          transcript: foundItem.formatted!.transcript + event.delta,
+        ),
+      );
+
+      items[event.itemId] = foundItem;
+      return EventHandlerResult(
+        item: foundItem,
+        delta: Delta(transcript: event.delta),
+      );
+    };
+
+    _eventProcessors[RealtimeEventType.responseAudioDelta] = (
+      RealtimeEvent e, [
+      dynamic args,
+    ]) {
+      final event = e as RealtimeEventResponseAudioDelta;
+      var foundItem = items[event.itemId];
+      if (foundItem == null) {
+        throw Exception(
+          'response.audio.delta: Item "${event.itemId}" not found',
+        );
+      }
+      final arrayBuffer = base64.decode(event.delta);
+      foundItem = foundItem.copyWith(
+        formatted: foundItem.formatted!.copyWith(
+          audio: RealtimeUtils.mergeUint8Lists(
+            foundItem.formatted!.audio,
+            arrayBuffer,
+          ),
+        ),
+      );
+
+      items[event.itemId] = foundItem;
+      return EventHandlerResult(
+        item: foundItem,
+        delta: Delta(audio: arrayBuffer),
+      );
+    };
+
+    _eventProcessors[RealtimeEventType.responseTextDelta] = (
+      RealtimeEvent e, [
+      dynamic args,
+    ]) {
+      final event = e as RealtimeEventResponseTextDelta;
+      var foundItem = items[event.itemId];
+      if (foundItem == null) {
+        throw Exception(
+          'response.text.delta: Item "${event.itemId}" not found',
+        );
+      }
+
+      if (foundItem.item is ItemMessage) {
+        final messageItem = foundItem.item as ItemMessage;
+        final content = [...messageItem.content];
+        final contentPart = event.contentIndex < content.length
+            ? content[event.contentIndex]
+            : null;
+        if (contentPart is ContentPartInputText) {
+          content[event.contentIndex] = contentPart.copyWith(
+            text: contentPart.text + event.delta,
+          );
+        } else if (contentPart is ContentPartText) {
+          content[event.contentIndex] = contentPart.copyWith(
+            text: contentPart.text + event.delta,
+          );
+        }
+        foundItem = foundItem.copyWith(
+          item: messageItem.copyWith(content: content),
+        );
+      }
+
+      foundItem = foundItem.copyWith(
+        formatted: foundItem.formatted!.copyWith(
+          text: foundItem.formatted!.text + event.delta,
+        ),
+      );
+
+      items[event.itemId] = foundItem;
+      return EventHandlerResult(
+        item: foundItem,
+        delta: Delta(text: event.delta),
+      );
+    };
+
+    _eventProcessors[RealtimeEventType.responseFunctionCallArgumentsDelta] = (
+      RealtimeEvent e, [
+      dynamic args,
+    ]) {
+      final event = e as RealtimeEventResponseFunctionCallArgumentsDelta;
+      var foundItem = items[event.itemId];
+      if (foundItem == null) {
+        throw Exception(
+          'response.function_call_arguments.delta: Item "${event.itemId}" not found',
+        );
+      }
+
+      final item = foundItem.item;
+      if (item is ItemFunctionCall) {
+        foundItem = foundItem.copyWith(
+          item: item.copyWith(
+            arguments: item.arguments + event.delta,
+          ),
+        );
+      }
+
+      if (foundItem.formatted?.tool != null) {
+        foundItem = foundItem.copyWith(
+          formatted: foundItem.formatted!.copyWith(
+            tool: foundItem.formatted!.tool!.copyWith(
+              arguments: foundItem.formatted!.tool!.arguments + event.delta,
+            ),
+          ),
+        );
+      }
+
+      items[event.itemId] = foundItem;
+      return EventHandlerResult(
+        item: foundItem,
+        delta: Delta(arguments: event.delta),
+      );
     };
   }
 
-  /// * Clears the conversation history and resets to default.
+  /// Clears the conversation history and resets to default.
   void clear() {
-    itemLookup.clear();
     items.clear();
-    responseLookup.clear();
     responses.clear();
     queuedSpeechItems.clear();
     queuedTranscriptItems.clear();
@@ -385,21 +516,14 @@ class RealtimeConversation {
   }
 
   /// Process an event from the WebSocket server and compose items.
-  FutureOr<Map<String, dynamic>> processEvent(
-    Map<String, dynamic>? event, [
+  FutureOr<EventHandlerResult> processEvent(
+    RealtimeEvent event, [
     dynamic args,
   ]) {
-    if (event?['event_id'] == null) {
-      throw Exception('Missing "event_id" on event');
-    }
-    if (event?['type'] == null) {
-      throw Exception('Missing "type" on event');
-    }
-
-    final eventProcessor = _eventProcessors[event?['type']];
+    final eventProcessor = _eventProcessors[event.type];
     if (eventProcessor == null) {
       throw Exception(
-        'Missing conversation event processor for "${event?['type']}"',
+        'Missing conversation event processor for "${event.type}"',
       );
     }
 
@@ -407,12 +531,12 @@ class RealtimeConversation {
   }
 
   /// Retrieves a item by id.
-  dynamic getItem(String id) {
-    return itemLookup[id];
+  FormattedItem? getItem(String id) {
+    return items[id];
   }
 
   /// Retrieves all items in the conversation.
-  List<dynamic> getItems() {
-    return List.from(items);
+  List<FormattedItem> getItems() {
+    return List.from(items.values);
   }
 }
