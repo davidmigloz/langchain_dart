@@ -2,6 +2,61 @@
 
 📣 Check out the [releases page](https://github.com/davidmigloz/langchain_dart/releases) or the [#announcements](https://discord.com/channels/1123158322812555295/1123250594644242534) channel on the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details.
 
+## 2024-10-29
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - [`anthropic_sdk_dart` - `v0.2.0`](#anthropic_sdk_dart---v020)
+ - [`langchain_anthropic` - `v0.2.0`](#langchain_anthropic---v020)
+
+Packages with other changes:
+
+ - [`langchain_community` - `v0.3.2+2`](#langchain_community---v0322)
+ - [`openai_dart` - `v0.4.3`](#openai_dart---v043)
+ - [`openai_realtime_dart` - `v0.0.2`](#openai_realtime_dart---v002)
+ - [`langchain_openai` - `v0.7.2+4`](#langchain_openai---v0724)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `langchain_openai` - `v0.7.2+4`
+
+---
+
+#### `langchain_anthropic` - `v0.2.0`
+
+ - **FEAT**: Update ChatAnthropic default model to claude-3-5-sonnet-20241022 ([#584](https://github.com/davidmigloz/langchain_dart/issues/584)). ([4f0d9cfb](https://github.com/davidmigloz/langchain_dart/commit/4f0d9cfb0a71c567d1b37842cd44dac1f7308001))
+
+#### `langchain_community` - `v0.3.2+2`
+
+ - **FIX**: Update ObjectBox SDK to v4.0.3 to fix StorageException in iOS ([#581](https://github.com/davidmigloz/langchain_dart/issues/581)). ([943811a5](https://github.com/davidmigloz/langchain_dart/commit/943811a5d5ab1c7ef3e83db0c45082a0d4d1fc4a))
+
+#### `anthropic_sdk_dart` - `v0.2.0`
+
+- **FEAT**: Add support for Message Batches in anthropic_sdk_dart ([#585](https://github.com/davidmigloz/langchain_dart/issues/585)). ([a41270a0](https://github.com/davidmigloz/langchain_dart/commit/a41270a06135112afce0fa4da985c92e2282ba08))
+- **FEAT**: Add claude-3-5-sonnet-20241022 to model catalog in anthropic_sdk_dart ([#583](https://github.com/davidmigloz/langchain_dart/issues/583)). ([0cc59e13](https://github.com/davidmigloz/langchain_dart/commit/0cc59e137b69b19c31eeefdad28e5cf757abe8d3))
+- **BREAKING** **FEAT**: Add support for prompt caching in anthropic_sdk_dart ([#587](https://github.com/davidmigloz/langchain_dart/issues/587)). ([79dabaa5](https://github.com/davidmigloz/langchain_dart/commit/79dabaa509fd37188999a2ee7282b8b334cce322))
+- **BREAKING** **FEAT**: Add computer use support in anthropic_sdk_dart ([#586](https://github.com/davidmigloz/langchain_dart/issues/586)). ([36c4a3e3](https://github.com/davidmigloz/langchain_dart/commit/36c4a3e39728398e885fe229c60aed33e645fa9a))
+- **DOCS**: Update anthropic_sdk_dart readme. ([78b7bccf](https://github.com/davidmigloz/langchain_dart/commit/78b7bccf277b147a230f9ec5eea61965baab0323))
+- 
+#### `openai_dart` - `v0.4.3`
+
+ - **FEAT**: Add support for audio in chat completions in openai_dart ([#577](https://github.com/davidmigloz/langchain_dart/issues/577)). ([0fb058cd](https://github.com/davidmigloz/langchain_dart/commit/0fb058cd9215c83b0ec5a10c84b125bb44845bf5))
+ - **FEAT**: Add support for storing outputs for model distillation and metadata in openai_dart ([#578](https://github.com/davidmigloz/langchain_dart/issues/578)). ([c9b8bdf4](https://github.com/davidmigloz/langchain_dart/commit/c9b8bdf425b809a5b94a314173b57a43cc3fbc88))
+ - **FEAT**: Support multi-modal moderations in openai_dart ([#576](https://github.com/davidmigloz/langchain_dart/issues/576)). ([45b9f423](https://github.com/davidmigloz/langchain_dart/commit/45b9f423a0aef2a1f8cad4ddac73a6a7d8cd89d2))
+ - **FIX**: submitThreadToolOutputsToRunStream not returning any events ([#574](https://github.com/davidmigloz/langchain_dart/issues/574)). ([00803ac7](https://github.com/davidmigloz/langchain_dart/commit/00803ac7aedabcbca4c75e3918a4cb441f9e7b84))
+ - **DOCS**: Add xAI to list of OpenAI-compatible APIs in openai_dart ([#582](https://github.com/davidmigloz/langchain_dart/issues/582)). ([017cb74f](https://github.com/davidmigloz/langchain_dart/commit/017cb74fc0ca3510d07f9f02c1efade8d37aecac))
+ - **DOCS**: Fix openai_dart assistants API outdated documentation ([#579](https://github.com/davidmigloz/langchain_dart/issues/579)). ([624c4128](https://github.com/davidmigloz/langchain_dart/commit/624c41287a65904db5c91d19c4305bf377b6b339))
+
+#### `openai_realtime_dart` - `v0.0.2`
+
+- **FEAT**: Make openai_realtime_dart client to strong-typed ([#590](https://github.com/davidmigloz/langchain_dart/issues/590)). ([d84e88bf](https://github.com/davidmigloz/langchain_dart/commit/d84e88bf04956df2ab6a4606aa812ae4f3b6cd31))
+
 ## 2024-10-14
 
 ### Changes

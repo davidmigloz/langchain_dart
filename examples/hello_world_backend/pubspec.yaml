@@ -8,6 +8,6 @@ environment:
 
 dependencies:
   langchain: ^0.7.7+1
-  langchain_openai: ^0.7.2+3
+  langchain_openai: ^0.7.2+4
   shelf: ^1.4.2
   shelf_router: ^1.1.4

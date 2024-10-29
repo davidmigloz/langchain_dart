@@ -2,9 +2,18 @@
 
 ---
 
+## 0.4.3
+
+ - **FEAT**: Add support for audio in chat completions ([#577](https://github.com/davidmigloz/langchain_dart/issues/577)). ([0fb058cd](https://github.com/davidmigloz/langchain_dart/commit/0fb058cd9215c83b0ec5a10c84b125bb44845bf5))
+ - **FEAT**: Add support for storing outputs for model distillation and metadata ([#578](https://github.com/davidmigloz/langchain_dart/issues/578)). ([c9b8bdf4](https://github.com/davidmigloz/langchain_dart/commit/c9b8bdf425b809a5b94a314173b57a43cc3fbc88))
+ - **FEAT**: Support multi-modal moderations ([#576](https://github.com/davidmigloz/langchain_dart/issues/576)). ([45b9f423](https://github.com/davidmigloz/langchain_dart/commit/45b9f423a0aef2a1f8cad4ddac73a6a7d8cd89d2))
+ - **FIX**: submitThreadToolOutputsToRunStream not returning any events ([#574](https://github.com/davidmigloz/langchain_dart/issues/574)). ([00803ac7](https://github.com/davidmigloz/langchain_dart/commit/00803ac7aedabcbca4c75e3918a4cb441f9e7b84))
+ - **DOCS**: Add xAI to list of OpenAI-compatible APIs ([#582](https://github.com/davidmigloz/langchain_dart/issues/582)). ([017cb74f](https://github.com/davidmigloz/langchain_dart/commit/017cb74fc0ca3510d07f9f02c1efade8d37aecac))
+ - **DOCS**: Fix assistants API outdated documentation ([#579](https://github.com/davidmigloz/langchain_dart/issues/579)). ([624c4128](https://github.com/davidmigloz/langchain_dart/commit/624c41287a65904db5c91d19c4305bf377b6b339))
+
 ## 0.4.2+2
 
- - **DOCS**: Fix typo in openai_dart. ([e7ddd558](https://github.com/davidmigloz/langchain_dart/commit/e7ddd558da643e3cc59581b8b0e69473c7cb9779))
+ - **DOCS**: Fix typo. ([e7ddd558](https://github.com/davidmigloz/langchain_dart/commit/e7ddd558da643e3cc59581b8b0e69473c7cb9779))
 
 ## 0.4.2+1
 
@@ -13,7 +22,7 @@
 ## 0.4.2
 
  - **FEAT**: Add OpenAI o1-preview and o1-mini to model catalog ([#555](https://github.com/davidmigloz/langchain_dart/issues/555)). ([9ceb5ff9](https://github.com/davidmigloz/langchain_dart/commit/9ceb5ff9029cf1ae1967a32189f88c7a8215248e))
- - **FEAT**: Add support for maxCompletionTokens and reasoningTokens in openai_dart ([#556](https://github.com/davidmigloz/langchain_dart/issues/556)). ([37d75b61](https://github.com/davidmigloz/langchain_dart/commit/37d75b612b0f42bbf8d092bdd81c554278716582))
+ - **FEAT**: Add support for maxCompletionTokens and reasoningTokens ([#556](https://github.com/davidmigloz/langchain_dart/issues/556)). ([37d75b61](https://github.com/davidmigloz/langchain_dart/commit/37d75b612b0f42bbf8d092bdd81c554278716582))
  - **FEAT**: Option to include file search results in assistants API ([#543](https://github.com/davidmigloz/langchain_dart/issues/543)). ([e916ad3c](https://github.com/davidmigloz/langchain_dart/commit/e916ad3c0c4e322319cedac8b06b5908f1c31935))
 
 ## 0.4.1
@@ -25,12 +34,12 @@
 
 ## 0.4.0
 
- - **FEAT**: Add support for disabling parallel tool calls in openai_dart ([#492](https://github.com/davidmigloz/langchain_dart/issues/492)). ([a91e0719](https://github.com/davidmigloz/langchain_dart/commit/a91e07196278ae4da5917d52395f3c246fc35bf2))
+ - **FEAT**: Add support for disabling parallel tool calls ([#492](https://github.com/davidmigloz/langchain_dart/issues/492)). ([a91e0719](https://github.com/davidmigloz/langchain_dart/commit/a91e07196278ae4da5917d52395f3c246fc35bf2))
  - **FEAT**: Add GPT-4o-mini to model catalog ([#497](https://github.com/davidmigloz/langchain_dart/issues/497)). ([faa23aee](https://github.com/davidmigloz/langchain_dart/commit/faa23aeeecfb64dc7d018e642952e41cc7f9eeaf))
- - **FEAT**: Support chunking strategy in file_search tool in openai_dart ([#496](https://github.com/davidmigloz/langchain_dart/issues/496)). ([cfa974a9](https://github.com/davidmigloz/langchain_dart/commit/cfa974a9e2fc4b79e5b66765b22d76710575d5bc))
- - **FEAT**: Add support for overrides in the file search tool in openai_dart ([#491](https://github.com/davidmigloz/langchain_dart/issues/491)). ([89605638](https://github.com/davidmigloz/langchain_dart/commit/89605638c465be37c2738258d840c21d32fe9554))
- - **FEAT**: Allow to customize OpenAI-Beta header in openai_dart ([#502](https://github.com/davidmigloz/langchain_dart/issues/502)). ([5fed8dbb](https://github.com/davidmigloz/langchain_dart/commit/5fed8dbb8205ba7925ca59d6f07a4f5e052b52b1))
- - **FEAT**: Add support for service tier in openai_dart ([#494](https://github.com/davidmigloz/langchain_dart/issues/494)). ([0838e4b9](https://github.com/davidmigloz/langchain_dart/commit/0838e4b9f5bb25e29fbc163a0ff5cf3e64409d40))
+ - **FEAT**: Support chunking strategy in file_search tool ([#496](https://github.com/davidmigloz/langchain_dart/issues/496)). ([cfa974a9](https://github.com/davidmigloz/langchain_dart/commit/cfa974a9e2fc4b79e5b66765b22d76710575d5bc))
+ - **FEAT**: Add support for overrides in the file search tool ([#491](https://github.com/davidmigloz/langchain_dart/issues/491)). ([89605638](https://github.com/davidmigloz/langchain_dart/commit/89605638c465be37c2738258d840c21d32fe9554))
+ - **FEAT**: Allow to customize OpenAI-Beta header ([#502](https://github.com/davidmigloz/langchain_dart/issues/502)). ([5fed8dbb](https://github.com/davidmigloz/langchain_dart/commit/5fed8dbb8205ba7925ca59d6f07a4f5e052b52b1))
+ - **FEAT**: Add support for service tier ([#494](https://github.com/davidmigloz/langchain_dart/issues/494)). ([0838e4b9](https://github.com/davidmigloz/langchain_dart/commit/0838e4b9f5bb25e29fbc163a0ff5cf3e64409d40))
 
 ## 0.3.3+1
 

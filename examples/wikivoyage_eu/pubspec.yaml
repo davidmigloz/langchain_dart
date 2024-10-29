@@ -9,4 +9,4 @@ environment:
 dependencies:
   langchain: ^0.7.7+1
   langchain_ollama: ^0.3.2+1
-  langchain_community: 0.3.2+1
+  langchain_community: 0.3.2+2
