@@ -98,7 +98,6 @@ In this package, there are three primitives for interfacing with the Realtime AP
   - Exists on client instance as `client.realtime`
   - Thin wrapper over [WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket)
   - Use this for connecting to the API, authenticating, and sending items
-  - There is **no item validation**, you will have to rely on the API specification directly
   - Dispatches events according to the `RealtimeEventType` enum
 3. [`RealtimeConversation`](./lib/src/conversation.dart)
   - Exists on client instance as `client.conversation`
