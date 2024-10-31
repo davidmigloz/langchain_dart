@@ -754,11 +754,13 @@ Map<String, dynamic> _$$ChatCompletionAudioOptionsImplToJson(
 
 const _$ChatCompletionAudioVoiceEnumMap = {
   ChatCompletionAudioVoice.alloy: 'alloy',
+  ChatCompletionAudioVoice.ash: 'ash',
+  ChatCompletionAudioVoice.ballad: 'ballad',
+  ChatCompletionAudioVoice.coral: 'coral',
   ChatCompletionAudioVoice.echo: 'echo',
-  ChatCompletionAudioVoice.fable: 'fable',
-  ChatCompletionAudioVoice.onyx: 'onyx',
-  ChatCompletionAudioVoice.nova: 'nova',
+  ChatCompletionAudioVoice.sage: 'sage',
   ChatCompletionAudioVoice.shimmer: 'shimmer',
+  ChatCompletionAudioVoice.verse: 'verse',
 };
 
 const _$ChatCompletionAudioFormatEnumMap = {

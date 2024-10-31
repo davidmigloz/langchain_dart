@@ -16,7 +16,8 @@ class ChatCompletionAudioOptions with _$ChatCompletionAudioOptions {
 
   /// Factory constructor for ChatCompletionAudioOptions
   const factory ChatCompletionAudioOptions({
-    /// Specifies the voice type. Supported voices are `alloy`, `echo`, `fable`, `onyx`, `nova`, and `shimmer`.
+    /// The voice the model uses to respond. Supported voices are `alloy`,
+    /// `ash`, `ballad`, `coral`, `echo`, `sage`, `shimmer`, and `verse`.
     required ChatCompletionAudioVoice voice,
 
     /// Specifies the output audio format. Must be one of `wav`, `mp3`, `flac`, `opus`, or `pcm16`.

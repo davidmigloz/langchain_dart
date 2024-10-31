@@ -8,18 +8,23 @@ part of open_a_i_schema;
 // ENUM: ChatCompletionAudioVoice
 // ==========================================
 
-/// Specifies the voice type. Supported voices are `alloy`, `echo`, `fable`, `onyx`, `nova`, and `shimmer`.
+/// The voice the model uses to respond. Supported voices are `alloy`,
+/// `ash`, `ballad`, `coral`, `echo`, `sage`, `shimmer`, and `verse`.
 enum ChatCompletionAudioVoice {
   @JsonValue('alloy')
   alloy,
+  @JsonValue('ash')
+  ash,
+  @JsonValue('ballad')
+  ballad,
+  @JsonValue('coral')
+  coral,
   @JsonValue('echo')
   echo,
-  @JsonValue('fable')
-  fable,
-  @JsonValue('onyx')
-  onyx,
-  @JsonValue('nova')
-  nova,
+  @JsonValue('sage')
+  sage,
   @JsonValue('shimmer')
   shimmer,
+  @JsonValue('verse')
+  verse,
 }

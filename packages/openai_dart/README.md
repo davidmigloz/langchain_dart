@@ -167,7 +167,7 @@ await for (final res in stream) {
 // 789
 ```
 
-**Multi-modal prompt:** ([docs](https://platform.openai.com/docs/guides/vision))
+**Multi-modal prompt (text/image/audio):**
 
 You can either provide the image URL:
 
@@ -222,6 +222,8 @@ ChatCompletionMessage.user(
 ),
 //...
 ```
+
+Check the [Vision](https://platform.openai.com/docs/guides/vision) guide for more information.
 
 In addition to generating text and images, some models enable you to generate a spoken audio response to a prompt:
 
@@ -296,6 +298,8 @@ print(audio?.expiresAt);
 print(audio?.transcript);
 print(audio?.data);
 ```
+
+Check the [Audio generation](https://platform.openai.com/docs/guides/audio) guide for more information.
 
 **Structured output: ([docs](https://platform.openai.com/docs/guides/structured-outputs))**
 
