@@ -2,6 +2,11 @@
 
 ---
 
+## 0.0.3
+
+ - **FEAT**: Add five new voice types in openai_realtime_dart and minor improvements ([#593](https://github.com/davidmigloz/langchain_dart/issues/593)). ([6d0c8d3f](https://github.com/davidmigloz/langchain_dart/commit/6d0c8d3fceaab9d3eac7c5265b1e8b50deef9cc4))
+ - **DOCS**: Update openai_realtime_dart README.md. ([7e9e1393](https://github.com/davidmigloz/langchain_dart/commit/7e9e139315b31308817fc71439feceb705d06ec2))
+
 ## 0.0.2
 
  - **FEAT**: Make openai_realtime_dart client to strong-typed ([#590](https://github.com/davidmigloz/langchain_dart/issues/590)). ([d84e88bf](https://github.com/davidmigloz/langchain_dart/commit/d84e88bf04956df2ab6a4606aa812ae4f3b6cd31))

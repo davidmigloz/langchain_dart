@@ -2,6 +2,10 @@
 
 ---
 
+## 0.4.4
+
+ - **FEAT**: Add five new voice types to Chat Completions API in openai_dart ([#594](https://github.com/davidmigloz/langchain_dart/issues/594)). ([543f2977](https://github.com/davidmigloz/langchain_dart/commit/543f2977ea1e6dd6e49fa4a2ae9a084ae525003e))
+
 ## 0.4.3
 
  - **FEAT**: Add support for audio in chat completions ([#577](https://github.com/davidmigloz/langchain_dart/issues/577)). ([0fb058cd](https://github.com/davidmigloz/langchain_dart/commit/0fb058cd9215c83b0ec5a10c84b125bb44845bf5))

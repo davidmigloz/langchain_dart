@@ -2,6 +2,40 @@
 
 📣 Check out the [releases page](https://github.com/davidmigloz/langchain_dart/releases) or the [#announcements](https://discord.com/channels/1123158322812555295/1123250594644242534) channel on the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details.
 
+## 2024-10-31
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`openai_dart` - `v0.4.4`](#openai_dart---v044)
+ - [`openai_realtime_dart` - `v0.0.3`](#openai_realtime_dart---v003)
+ - [`langchain_openai` - `v0.7.2+5`](#langchain_openai---v0725)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `langchain_openai` - `v0.7.2+5`
+
+---
+
+#### `openai_dart` - `v0.4.4`
+
+ - **FEAT**: Add five new voice types to Chat Completions API in openai_dart ([#594](https://github.com/davidmigloz/langchain_dart/issues/594)). ([543f2977](https://github.com/davidmigloz/langchain_dart/commit/543f2977ea1e6dd6e49fa4a2ae9a084ae525003e))
+
+#### `openai_realtime_dart` - `v0.0.3`
+
+ - **FEAT**: Add five new voice types in openai_realtime_dart and minor improvements ([#593](https://github.com/davidmigloz/langchain_dart/issues/593)). ([6d0c8d3f](https://github.com/davidmigloz/langchain_dart/commit/6d0c8d3fceaab9d3eac7c5265b1e8b50deef9cc4))
+ - **DOCS**: Update openai_realtime_dart README.md. ([7e9e1393](https://github.com/davidmigloz/langchain_dart/commit/7e9e139315b31308817fc71439feceb705d06ec2))
+
+
 ## 2024-10-29
 
 ### Changes

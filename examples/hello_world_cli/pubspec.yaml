@@ -8,4 +8,4 @@ environment:
 
 dependencies:
   langchain: ^0.7.7+1
-  langchain_openai: ^0.7.2+4
+  langchain_openai: ^0.7.2+5
