@@ -17,7 +17,12 @@ sealed class RealtimeEvent with _$RealtimeEvent {
   // UNION: RealtimeEventConversationItemCreate
   // ------------------------------------------
 
-  /// Send this event when adding an item to the conversation.
+  /// Add a new Item to the Conversation's context, including messages, function calls, and function call
+  /// responses. This event can be used both to populate a "history" of the conversation and to add new
+  /// items mid-stream, but has the current limitation that it cannot populate assistant audio messages.
+  ///
+  /// If successful, the server will respond with a `conversation.item.created` event, otherwise an `error`
+  /// event will be sent.
 
   @FreezedUnionValue('conversation.item.create')
   const factory RealtimeEvent.conversationItemCreate({
@@ -27,7 +32,10 @@ sealed class RealtimeEvent with _$RealtimeEvent {
     /// The type of the event.
     @Default(RealtimeEventType.conversationItemCreate) RealtimeEventType type,
 
-    /// The ID of the preceding item after which the new item will be inserted.
+    /// The ID of the preceding item after which the new item will be inserted. If not set, the new item
+    /// will be appended to the end of the conversation. If set, it allows an item to be inserted
+    /// mid-conversation. If the ID cannot be found, an error will be returned and the item will not be
+    /// added.
     @JsonKey(name: 'previous_item_id', includeIfNull: false)
     String? previousItemId,
 
@@ -40,7 +48,9 @@ sealed class RealtimeEvent with _$RealtimeEvent {
   // UNION: RealtimeEventConversationItemDelete
   // ------------------------------------------
 
-  /// Send this event when you want to remove any item from the conversation history.
+  /// Send this event when you want to remove any item from the conversation history. The server will
+  /// respond with a `conversation.item.deleted` event, unless the item does not exist in the conversation
+  /// history, in which case the server will respond with an error.
 
   @FreezedUnionValue('conversation.item.delete')
   const factory RealtimeEvent.conversationItemDelete({
@@ -58,7 +68,15 @@ sealed class RealtimeEvent with _$RealtimeEvent {
   // UNION: RealtimeEventConversationItemTruncate
   // ------------------------------------------
 
-  /// Send this event when you want to truncate a previous assistant message’s audio.
+  /// Send this event to truncate a previous assistant message's audio. The server will produce audio faster
+  /// than realtime, so this event is useful when the user interrupts to truncate audio that has already
+  /// been sent to the client but not yet played. This will synchronize the server's understanding of the
+  /// audio with the client's playback.
+  ///
+  /// Truncating audio will delete the server-side text transcript to ensure there is not text in the
+  /// context that hasn't been heard by the user.
+  ///
+  /// If successful, the server will respond with a `conversation.item.truncated` event.
 
   @FreezedUnionValue('conversation.item.truncate')
   const factory RealtimeEvent.conversationItemTruncate({
@@ -68,13 +86,14 @@ sealed class RealtimeEvent with _$RealtimeEvent {
     /// The type of the event.
     @Default(RealtimeEventType.conversationItemTruncate) RealtimeEventType type,
 
-    /// The ID of the assistant message item to truncate.
+    /// The ID of the assistant message item to truncate. Only assistant message items can be truncated.
     @JsonKey(name: 'item_id') required String itemId,
 
-    /// The index of the content part to truncate.
+    /// The index of the content part to truncate. Set this to 0.
     @JsonKey(name: 'content_index') required int contentIndex,
 
-    /// Inclusive duration up to which audio is truncated, in milliseconds.
+    /// Inclusive duration up to which audio is truncated, in milliseconds. If the audio_end_ms is greater
+    /// than the actual audio duration, the server will respond with an error.
     @JsonKey(name: 'audio_end_ms') required int audioEndMs,
   }) = RealtimeEventConversationItemTruncate;
 
@@ -82,7 +101,14 @@ sealed class RealtimeEvent with _$RealtimeEvent {
   // UNION: RealtimeEventInputAudioBufferAppend
   // ------------------------------------------
 
-  /// Send this event to append audio bytes to the input audio buffer.
+  /// Send this event to append audio bytes to the input audio buffer. The audio buffer is temporary storage
+  /// you can write to and later commit. In Server VAD mode, the audio buffer is used to detect speech and
+  /// the server will decide when to commit. When Server VAD is disabled, you must commit the audio buffer
+  /// manually.
+  ///
+  /// The client may choose how much audio to place in each event up to a maximum of 15 MiB, for example
+  /// streaming smaller chunks from the client may allow the VAD to be more responsive. Unlike made other
+  /// client events, the server will not send a confirmation response to this event.
 
   @FreezedUnionValue('input_audio_buffer.append')
   const factory RealtimeEvent.inputAudioBufferAppend({
@@ -92,7 +118,8 @@ sealed class RealtimeEvent with _$RealtimeEvent {
     /// The type of the event.
     @Default(RealtimeEventType.inputAudioBufferAppend) RealtimeEventType type,
 
-    /// Base64-encoded audio bytes.
+    /// Base64-encoded audio bytes. This must be in the format specified by the `input_audio_format` field
+    /// in the session configuration.
     required String audio,
   }) = RealtimeEventInputAudioBufferAppend;
 
@@ -100,7 +127,8 @@ sealed class RealtimeEvent with _$RealtimeEvent {
   // UNION: RealtimeEventInputAudioBufferClear
   // ------------------------------------------
 
-  /// Send this event to clear the audio bytes in the buffer.
+  /// Send this event to clear the audio bytes in the buffer. The server will respond with an
+  /// `input_audio_buffer.cleared` event.
 
   @FreezedUnionValue('input_audio_buffer.clear')
   const factory RealtimeEvent.inputAudioBufferClear({
@@ -115,7 +143,14 @@ sealed class RealtimeEvent with _$RealtimeEvent {
   // UNION: RealtimeEventInputAudioBufferCommit
   // ------------------------------------------
 
-  /// Send this event to commit audio bytes to a user message.
+  /// Send this event to commit the user input audio buffer, which will create a new user message item in
+  /// the conversation. This event will produce an error if the input audio buffer is empty. When in Server
+  /// VAD mode, the client does not need to send this event, the server will commit the audio buffer
+  /// automatically.
+  ///
+  /// Committing the input audio buffer will trigger input audio transcription (if enabled in session
+  /// configuration), but it will not create a response from the model. The server will respond with an
+  /// `input_audio_buffer.committed` event.
 
   @FreezedUnionValue('input_audio_buffer.commit')
   const factory RealtimeEvent.inputAudioBufferCommit({
@@ -130,7 +165,8 @@ sealed class RealtimeEvent with _$RealtimeEvent {
   // UNION: RealtimeEventResponseCancel
   // ------------------------------------------
 
-  /// Send this event to cancel an in-progress response.
+  /// Send this event to cancel an in-progress response. The server will respond with a `response.cancelled`
+  /// event or an error if there is no response to cancel.
 
   @FreezedUnionValue('response.cancel')
   const factory RealtimeEvent.responseCancel({
@@ -145,7 +181,17 @@ sealed class RealtimeEvent with _$RealtimeEvent {
   // UNION: RealtimeEventResponseCreate
   // ------------------------------------------
 
-  /// Send this event to trigger a response generation.
+  /// This event instructs the server to create a Response, which means triggering model inference. When in
+  /// Server VAD mode, the server will create Responses automatically.
+  ///
+  /// A Response will include at least one Item, and may have two, in which case the second will be a
+  /// function call. These Items will be appended to the conversation history.
+  ///
+  /// The server will respond with a `response.created` event, events for Items and content created, and
+  /// finally a `response.done` event to indicate the Response is complete.
+  ///
+  /// The `response.create` event includes inference configuration like `instructions`, and `temperature`.
+  /// These fields will override the Session's configuration for this Response only.
 
   @FreezedUnionValue('response.create')
   const factory RealtimeEvent.responseCreate({
@@ -163,7 +209,11 @@ sealed class RealtimeEvent with _$RealtimeEvent {
   // UNION: RealtimeEventSessionUpdate
   // ------------------------------------------
 
-  /// Send this event to update the session’s default configuration.
+  /// Send this event to update the session's default configuration. The client may send this event at any
+  /// time to update the session configuration, and any field may be updated at any time, except for
+  /// "voice". The server will respond with a `session.updated` event that shows the full effective
+  /// configuration. Only fields that are present are updated, thus the correct way to clear a field like
+  /// "instructions" is to pass an empty string.
 
   @FreezedUnionValue('session.update')
   const factory RealtimeEvent.sessionUpdate({
@@ -199,7 +249,12 @@ sealed class RealtimeEvent with _$RealtimeEvent {
   // UNION: RealtimeEventConversationItemCreated
   // ------------------------------------------
 
-  /// Returned when a conversation item is created.
+  /// Returned when a conversation item is created. There are several scenarios that produce this event:
+  ///   - The server is generating a Response, which if successful will produce either one or two Items, which will
+  ///     be of type `message` (role `assistant`) or type `function_call`.
+  ///   - The input audio buffer has been committed, either by the client or the server (in `server_vad` mode). The
+  ///     server will take the content of the input audio buffer and add it to a new user message Item.
+  ///   - The client has sent a `conversation.item.create` event to add a new Item to the Conversation.
 
   @FreezedUnionValue('conversation.item.created')
   const factory RealtimeEvent.conversationItemCreated({
@@ -209,7 +264,8 @@ sealed class RealtimeEvent with _$RealtimeEvent {
     /// The type of the event.
     @Default(RealtimeEventType.conversationItemCreated) RealtimeEventType type,
 
-    /// The ID of the preceding item.
+    /// The ID of the preceding item in the Conversation context, allows the client to understand the
+    /// order of the conversation.
     @JsonKey(name: 'previous_item_id') required String? previousItemId,
 
     /// The item to add to the conversation.
@@ -221,7 +277,9 @@ sealed class RealtimeEvent with _$RealtimeEvent {
   // UNION: RealtimeEventConversationItemDeleted
   // ------------------------------------------
 
-  /// Returned when an item in the conversation is deleted.
+  /// Returned when an item in the conversation is deleted by the client with a `conversation.item.delete`
+  /// event. This event is used to synchronize the server's understanding of the conversation history with
+  /// the client's view.
 
   @FreezedUnionValue('conversation.item.deleted')
   const factory RealtimeEvent.conversationItemDeleted({
@@ -239,7 +297,14 @@ sealed class RealtimeEvent with _$RealtimeEvent {
   // UNION: RealtimeEventConversationItemInputAudioTranscriptionCompleted
   // ------------------------------------------
 
-  /// Returned when input audio transcription is enabled and a transcription succeeds.
+  /// This event is the output of audio transcription for user audio written to the user audio buffer.
+  /// Transcription begins when the input audio buffer is committed by the client or server (in `server_vad`
+  /// mode). Transcription runs asynchronously with Response creation, so this event may come before or
+  /// after the Response events.
+  ///
+  /// Realtime API models accept audio natively, and thus input transcription is a separate process run on a
+  /// separate ASR (Automatic Speech Recognition) model, currently always `whisper-1`. Thus the transcript
+  /// may diverge somewhat from the model's interpretation, and should be treated as a rough guide.
 
   @FreezedUnionValue('conversation.item.input_audio_transcription.completed')
   const factory RealtimeEvent.conversationItemInputAudioTranscriptionCompleted({
@@ -250,7 +315,7 @@ sealed class RealtimeEvent with _$RealtimeEvent {
     @Default(RealtimeEventType.conversationItemInputAudioTranscriptionCompleted)
     RealtimeEventType type,
 
-    /// The ID of the user message item.
+    /// The ID of the user message item containing the audio.
     @JsonKey(name: 'item_id') required String itemId,
 
     /// The index of the content part containing the audio.
@@ -264,7 +329,9 @@ sealed class RealtimeEvent with _$RealtimeEvent {
   // UNION: RealtimeEventConversationItemInputAudioTranscriptionFailed
   // ------------------------------------------
 
-  /// Returned when input audio transcription is configured, and a transcription request for a user message failed.
+  /// Returned when input audio transcription is configured, and a transcription request for a user message
+  /// failed. These events are separate from other `error` events so that the client can identify the
+  /// related Item.
 
   @FreezedUnionValue('conversation.item.input_audio_transcription.failed')
   const factory RealtimeEvent.conversationItemInputAudioTranscriptionFailed({
@@ -289,7 +356,12 @@ sealed class RealtimeEvent with _$RealtimeEvent {
   // UNION: RealtimeEventConversationItemTruncated
   // ------------------------------------------
 
-  /// Returned when an earlier assistant audio message item is truncated by the client.
+  /// Returned when an earlier assistant audio message item is truncated by the client with a
+  /// `conversation.item.truncate` event. This event is used to synchronize the server's understanding of
+  /// the audio with the client's playback.
+  ///
+  /// This action will truncate the audio and remove the server-side text transcript to ensure there is no
+  /// text in the context that hasn't been heard by the user.
 
   @FreezedUnionValue('conversation.item.truncated')
   const factory RealtimeEvent.conversationItemTruncated({
@@ -314,7 +386,9 @@ sealed class RealtimeEvent with _$RealtimeEvent {
   // UNION: RealtimeEventError
   // ------------------------------------------
 
-  /// Returned when an error occurs.
+  /// Returned when an error occurs, which could be a client problem or a server problem. Most errors are
+  /// recoverable and the session will stay open, we recommend to implementors to monitor and log error
+  /// messages by default.
 
   @FreezedUnionValue('error')
   const factory RealtimeEvent.error({
@@ -332,7 +406,7 @@ sealed class RealtimeEvent with _$RealtimeEvent {
   // UNION: RealtimeEventInputAudioBufferCleared
   // ------------------------------------------
 
-  /// Returned when the input audio buffer is cleared by the client.
+  /// Returned when the input audio buffer is cleared by the client with a `input_audio_buffer.clear` event.
 
   @FreezedUnionValue('input_audio_buffer.cleared')
   const factory RealtimeEvent.inputAudioBufferCleared({
@@ -347,7 +421,9 @@ sealed class RealtimeEvent with _$RealtimeEvent {
   // UNION: RealtimeEventInputAudioBufferCommitted
   // ------------------------------------------
 
-  /// Returned when an input audio buffer is committed, either by the client or automatically in server VAD mode.
+  /// Returned when an input audio buffer is committed, either by the client or automatically in server VAD
+  /// mode. The `item_id` property is the ID of the user message item that will be created, thus a
+  /// `conversation.item.created` event will also be sent to the client.
 
   @FreezedUnionValue('input_audio_buffer.committed')
   const factory RealtimeEvent.inputAudioBufferCommitted({
@@ -369,7 +445,13 @@ sealed class RealtimeEvent with _$RealtimeEvent {
   // UNION: RealtimeEventInputAudioBufferSpeechStarted
   // ------------------------------------------
 
-  /// Returned in server turn detection mode when speech is detected.
+  /// Sent by the server when in `server_vad` mode to indicate that speech has been detected in the audio
+  /// buffer. This can happen any time audio is added to the buffer (unless speech is already detected). The
+  /// client may want to use this event to interrupt audio playback or provide visual feedback to the user.
+  /// The client should expect to receive a `input_audio_buffer.speech_stopped` event when speech stops. The
+  /// `item_id` property is the ID of the user message item that will be created when speech stops and will
+  /// also be included in the `input_audio_buffer.speech_stopped` event (unless the client manually commits
+  /// the audio buffer during VAD activation).
 
   @FreezedUnionValue('input_audio_buffer.speech_started')
   const factory RealtimeEvent.inputAudioBufferSpeechStarted({
@@ -380,7 +462,9 @@ sealed class RealtimeEvent with _$RealtimeEvent {
     @Default(RealtimeEventType.inputAudioBufferSpeechStarted)
     RealtimeEventType type,
 
-    /// Milliseconds since the session started when speech was detected.
+    /// Milliseconds from the start of all audio written to the buffer during the session when speech was
+    /// first detected. This will correspond to the beginning of audio sent to the model, and thus
+    /// includes the `prefix_padding_ms` configured in the Session.
     @JsonKey(name: 'audio_start_ms') required int audioStartMs,
 
     /// The ID of the user message item that will be created when speech stops.
@@ -391,7 +475,9 @@ sealed class RealtimeEvent with _$RealtimeEvent {
   // UNION: RealtimeEventInputAudioBufferSpeechStopped
   // ------------------------------------------
 
-  /// Returned in server turn detection mode when speech stops.
+  /// Returned in `server_vad` mode when the server detects the end of speech in the audio buffer. The
+  /// server will also send an `conversation.item.created` event with the user message item that is created
+  /// from the audio buffer.
 
   @FreezedUnionValue('input_audio_buffer.speech_stopped')
   const factory RealtimeEvent.inputAudioBufferSpeechStopped({
@@ -402,7 +488,9 @@ sealed class RealtimeEvent with _$RealtimeEvent {
     @Default(RealtimeEventType.inputAudioBufferSpeechStopped)
     RealtimeEventType type,
 
-    /// Milliseconds since the session started when speech stopped.
+    /// Milliseconds since the session started when speech stopped. This will correspond to the end of
+    /// audio sent to the model, and thus includes the `min_silence_duration_ms` configured in the
+    /// Session.
     @JsonKey(name: 'audio_end_ms') required int audioEndMs,
 
     /// The ID of the user message item that will be created.
@@ -413,7 +501,9 @@ sealed class RealtimeEvent with _$RealtimeEvent {
   // UNION: RealtimeEventRateLimitsUpdated
   // ------------------------------------------
 
-  /// Emitted after every "response.done" event to indicate the updated rate limits.
+  /// Emitted at the beginning of a Response to indicate the updated rate limits. When a Response is created
+  /// some tokens will be "reserved" for the output tokens, the rate limits shown here reflect that
+  /// reservation, which is then adjusted accordingly once the Response is completed.
 
   @FreezedUnionValue('rate_limits.updated')
   const factory RealtimeEvent.rateLimitsUpdated({
@@ -612,7 +702,8 @@ sealed class RealtimeEvent with _$RealtimeEvent {
   // UNION: RealtimeEventResponseCreated
   // ------------------------------------------
 
-  /// Returned when a new Response is created. The first event of response creation, where the response is in an initial state of "in_progress".
+  /// Returned when a new Response is created. The first event of response creation, where the response is
+  /// in an initial state of `in_progress`.
 
   @FreezedUnionValue('response.created')
   const factory RealtimeEvent.responseCreated({
@@ -630,7 +721,9 @@ sealed class RealtimeEvent with _$RealtimeEvent {
   // UNION: RealtimeEventResponseDone
   // ------------------------------------------
 
-  /// Returned when a Response is done streaming. Always emitted, no matter the final state.
+  /// Returned when a Response is done streaming. Always emitted, no matter the final state. The Response
+  /// object included in the `response.done` event will include all output Items in the Response but will
+  /// omit the raw audio data.
 
   @FreezedUnionValue('response.done')
   const factory RealtimeEvent.responseDone({
@@ -710,7 +803,7 @@ sealed class RealtimeEvent with _$RealtimeEvent {
   // UNION: RealtimeEventResponseOutputItemAdded
   // ------------------------------------------
 
-  /// Returned when a new Item is created during response generation.
+  /// Returned when a new Item is created during Response generation.
 
   @FreezedUnionValue('response.output_item.added')
   const factory RealtimeEvent.responseOutputItemAdded({
@@ -720,10 +813,10 @@ sealed class RealtimeEvent with _$RealtimeEvent {
     /// The type of the event.
     @Default(RealtimeEventType.responseOutputItemAdded) RealtimeEventType type,
 
-    /// The ID of the response to which the item belongs.
+    /// The ID of the Response to which the item belongs.
     @JsonKey(name: 'response_id') required String responseId,
 
-    /// The index of the output item in the response.
+    /// The index of the output item in the Response.
     @JsonKey(name: 'output_index') required int outputIndex,
 
     /// The item to add to the conversation.
@@ -745,10 +838,10 @@ sealed class RealtimeEvent with _$RealtimeEvent {
     /// The type of the event.
     @Default(RealtimeEventType.responseOutputItemDone) RealtimeEventType type,
 
-    /// The ID of the response to which the item belongs.
+    /// The ID of the Response to which the item belongs.
     @JsonKey(name: 'response_id') required String responseId,
 
-    /// The index of the output item in the response.
+    /// The index of the output item in the Response.
     @JsonKey(name: 'output_index') required int outputIndex,
 
     /// The item to add to the conversation.
@@ -820,7 +913,8 @@ sealed class RealtimeEvent with _$RealtimeEvent {
   // UNION: RealtimeEventSessionCreated
   // ------------------------------------------
 
-  /// Returned when a session is created. Emitted automatically when a new connection is established.
+  /// Returned when a Session is created. Emitted automatically when a new connection is established as the
+  /// first server event. This event will contain the default Session configuration.
 
   @FreezedUnionValue('session.created')
   const factory RealtimeEvent.sessionCreated({
@@ -838,7 +932,7 @@ sealed class RealtimeEvent with _$RealtimeEvent {
   // UNION: RealtimeEventSessionUpdated
   // ------------------------------------------
 
-  /// Returned when a session is updated.
+  /// Returned when a session is updated with a `session.update` event, unless there is an error.
 
   @FreezedUnionValue('session.updated')
   const factory RealtimeEvent.sessionUpdated({

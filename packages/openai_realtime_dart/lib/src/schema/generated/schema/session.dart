@@ -60,7 +60,9 @@ class Session with _$Session {
     @JsonKey(name: 'input_audio_transcription', includeIfNull: false)
     InputAudioTranscriptionConfig? inputAudioTranscription,
 
-    /// Configuration for turn detection.
+    /// Configuration for turn detection. Can be set to `null` to turn off. Server
+    /// VAD means that the model will detect the start and end of speech based on
+    /// audio volume and respond at the end of user speech.
     @JsonKey(name: 'turn_detection', includeIfNull: false)
     TurnDetection? turnDetection,
 

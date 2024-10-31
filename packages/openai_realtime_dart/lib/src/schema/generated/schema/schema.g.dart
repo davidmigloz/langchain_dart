@@ -236,8 +236,13 @@ const _$ModalityEnumMap = {
 
 const _$VoiceEnumMap = {
   Voice.alloy: 'alloy',
+  Voice.ash: 'ash',
+  Voice.ballad: 'ballad',
+  Voice.coral: 'coral',
   Voice.echo: 'echo',
+  Voice.sage: 'sage',
   Voice.shimmer: 'shimmer',
+  Voice.verse: 'verse',
 };
 
 const _$AudioFormatEnumMap = {
@@ -320,6 +325,10 @@ _$UsageImpl _$$UsageImplFromJson(Map<String, dynamic> json) => _$UsageImpl(
           ? null
           : UsageInputTokenDetails.fromJson(
               json['input_token_details'] as Map<String, dynamic>),
+      outputTokenDetails: json['output_token_details'] == null
+          ? null
+          : UsageOutputTokenDetails.fromJson(
+              json['output_token_details'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$UsageImplToJson(_$UsageImpl instance) {
@@ -335,6 +344,7 @@ Map<String, dynamic> _$$UsageImplToJson(_$UsageImpl instance) {
   writeNotNull('input_tokens', instance.inputTokens);
   writeNotNull('output_tokens', instance.outputTokens);
   writeNotNull('input_token_details', instance.inputTokenDetails?.toJson());
+  writeNotNull('output_token_details', instance.outputTokenDetails?.toJson());
   return val;
 }
 
@@ -357,6 +367,28 @@ Map<String, dynamic> _$$UsageInputTokenDetailsImplToJson(
   }
 
   writeNotNull('cached_tokens', instance.cachedTokens);
+  writeNotNull('text_tokens', instance.textTokens);
+  writeNotNull('audio_tokens', instance.audioTokens);
+  return val;
+}
+
+_$UsageOutputTokenDetailsImpl _$$UsageOutputTokenDetailsImplFromJson(
+        Map<String, dynamic> json) =>
+    _$UsageOutputTokenDetailsImpl(
+      textTokens: (json['text_tokens'] as num?)?.toInt(),
+      audioTokens: (json['audio_tokens'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$$UsageOutputTokenDetailsImplToJson(
+    _$UsageOutputTokenDetailsImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
   writeNotNull('text_tokens', instance.textTokens);
   writeNotNull('audio_tokens', instance.audioTokens);
   return val;
@@ -1075,6 +1107,48 @@ Map<String, dynamic> _$$ItemFunctionCallOutputImplToJson(
   return val;
 }
 
+_$ResponseStatusDetailsCancelledImpl
+    _$$ResponseStatusDetailsCancelledImplFromJson(Map<String, dynamic> json) =>
+        _$ResponseStatusDetailsCancelledImpl(
+          type:
+              $enumDecodeNullable(_$ResponseStatusTypeEnumMap, json['type']) ??
+                  ResponseStatusType.cancelled,
+          reason: $enumDecodeNullable(
+              _$ResponseStatusIncompleteReasonEnumMap, json['reason'],
+              unknownValue: JsonKey.nullForUndefinedEnumValue),
+        );
+
+Map<String, dynamic> _$$ResponseStatusDetailsCancelledImplToJson(
+    _$ResponseStatusDetailsCancelledImpl instance) {
+  final val = <String, dynamic>{
+    'type': _$ResponseStatusTypeEnumMap[instance.type]!,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'reason', _$ResponseStatusIncompleteReasonEnumMap[instance.reason]);
+  return val;
+}
+
+const _$ResponseStatusTypeEnumMap = {
+  ResponseStatusType.cancelled: 'cancelled',
+  ResponseStatusType.incomplete: 'incomplete',
+  ResponseStatusType.failed: 'failed',
+};
+
+const _$ResponseStatusIncompleteReasonEnumMap = {
+  ResponseStatusIncompleteReason.turnDetected: 'turn_detected',
+  ResponseStatusIncompleteReason.clientCancelled: 'client_cancelled',
+  ResponseStatusIncompleteReason.interruption: 'interruption',
+  ResponseStatusIncompleteReason.maxOutputTokens: 'max_output_tokens',
+  ResponseStatusIncompleteReason.contentFilter: 'content_filter',
+};
+
 _$ResponseStatusDetailsIncompleteImpl
     _$$ResponseStatusDetailsIncompleteImplFromJson(Map<String, dynamic> json) =>
         _$ResponseStatusDetailsIncompleteImpl(
@@ -1102,17 +1176,6 @@ Map<String, dynamic> _$$ResponseStatusDetailsIncompleteImplToJson(
       'reason', _$ResponseStatusIncompleteReasonEnumMap[instance.reason]);
   return val;
 }
-
-const _$ResponseStatusTypeEnumMap = {
-  ResponseStatusType.incomplete: 'incomplete',
-  ResponseStatusType.failed: 'failed',
-};
-
-const _$ResponseStatusIncompleteReasonEnumMap = {
-  ResponseStatusIncompleteReason.interruption: 'interruption',
-  ResponseStatusIncompleteReason.maxOutputTokens: 'max_output_tokens',
-  ResponseStatusIncompleteReason.contentFilter: 'content_filter',
-};
 
 _$ResponseStatusDetailsFailedImpl _$$ResponseStatusDetailsFailedImplFromJson(
         Map<String, dynamic> json) =>

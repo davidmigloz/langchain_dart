@@ -12,8 +12,18 @@ part of openai_realtime_schema;
 enum Voice {
   @JsonValue('alloy')
   alloy,
+  @JsonValue('ash')
+  ash,
+  @JsonValue('ballad')
+  ballad,
+  @JsonValue('coral')
+  coral,
   @JsonValue('echo')
   echo,
+  @JsonValue('sage')
+  sage,
   @JsonValue('shimmer')
   shimmer,
+  @JsonValue('verse')
+  verse,
 }

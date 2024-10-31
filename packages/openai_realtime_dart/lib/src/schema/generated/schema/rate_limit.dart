@@ -15,7 +15,7 @@ class RateLimit with _$RateLimit {
 
   /// Factory constructor for RateLimit
   const factory RateLimit({
-    /// The name of the rate limit.
+    /// The name of the rate limit (`requests`, `tokens`).
     required RateLimitName name,
 
     /// The maximum allowed value for the rate limit.

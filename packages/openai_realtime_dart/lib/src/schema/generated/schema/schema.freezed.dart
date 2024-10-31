@@ -20,13 +20,15 @@ ToolDefinition _$ToolDefinitionFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ToolDefinition {
-  /// The type of the tool (currently only `function` is supported).
+  /// The type of the tool, i.e. `function`.
   ToolType get type => throw _privateConstructorUsedError;
 
   /// The name of the function.
   String get name => throw _privateConstructorUsedError;
 
-  /// The description of the function.
+  /// The description of the function, including guidance on when and how
+  /// to call it, and guidance about what to tell the user when calling
+  /// (if anything).
   @JsonKey(includeIfNull: false)
   String? get description => throw _privateConstructorUsedError;
 
@@ -165,7 +167,7 @@ class _$ToolDefinitionImpl extends _ToolDefinition {
   factory _$ToolDefinitionImpl.fromJson(Map<String, dynamic> json) =>
       _$$ToolDefinitionImplFromJson(json);
 
-  /// The type of the tool (currently only `function` is supported).
+  /// The type of the tool, i.e. `function`.
   @override
   @JsonKey()
   final ToolType type;
@@ -174,7 +176,9 @@ class _$ToolDefinitionImpl extends _ToolDefinition {
   @override
   final String name;
 
-  /// The description of the function.
+  /// The description of the function, including guidance on when and how
+  /// to call it, and guidance about what to tell the user when calling
+  /// (if anything).
   @override
   @JsonKey(includeIfNull: false)
   final String? description;
@@ -236,7 +240,7 @@ abstract class _ToolDefinition extends ToolDefinition {
   factory _ToolDefinition.fromJson(Map<String, dynamic> json) =
       _$ToolDefinitionImpl.fromJson;
 
-  /// The type of the tool (currently only `function` is supported).
+  /// The type of the tool, i.e. `function`.
   @override
   ToolType get type;
 
@@ -244,7 +248,9 @@ abstract class _ToolDefinition extends ToolDefinition {
   @override
   String get name;
 
-  /// The description of the function.
+  /// The description of the function, including guidance on when and how
+  /// to call it, and guidance about what to tell the user when calling
+  /// (if anything).
   @override
   @JsonKey(includeIfNull: false)
   String? get description;
@@ -454,7 +460,8 @@ mixin _$InputAudioTranscriptionConfig {
   @JsonKey(includeIfNull: false)
   bool? get enabled => throw _privateConstructorUsedError;
 
-  /// The model used for transcription.
+  /// The model to use for transcription, `whisper-1` is the only currently
+  /// supported model.
   @JsonKey(includeIfNull: false)
   String? get model => throw _privateConstructorUsedError;
 
@@ -576,7 +583,8 @@ class _$InputAudioTranscriptionConfigImpl
   @JsonKey(includeIfNull: false)
   final bool? enabled;
 
-  /// The model used for transcription.
+  /// The model to use for transcription, `whisper-1` is the only currently
+  /// supported model.
   @override
   @JsonKey(includeIfNull: false)
   final String? model;
@@ -633,7 +641,8 @@ abstract class _InputAudioTranscriptionConfig
   @JsonKey(includeIfNull: false)
   bool? get enabled;
 
-  /// The model used for transcription.
+  /// The model to use for transcription, `whisper-1` is the only currently
+  /// supported model.
   @override
   @JsonKey(includeIfNull: false)
   String? get model;
@@ -653,18 +662,23 @@ TurnDetection _$TurnDetectionFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$TurnDetection {
-  /// The type of turn detection ("server_vad" or "none").
+  /// Type of turn detection, only `server_vad` is currently supported.
   TurnDetectionType get type => throw _privateConstructorUsedError;
 
-  /// Activation threshold for VAD.
+  /// Activation threshold for VAD (0.0 to 1.0), this defaults to 0.5. A
+  /// higher threshold will require louder audio to activate the model, and
+  /// thus might perform better in noisy environments.
   @JsonKey(includeIfNull: false)
   double? get threshold => throw _privateConstructorUsedError;
 
-  /// Audio included before speech starts (in milliseconds).
+  /// Amount of audio to include before the VAD detected speech (in
+  /// milliseconds). Defaults to 300ms.
   @JsonKey(name: 'prefix_padding_ms', includeIfNull: false)
   int? get prefixPaddingMs => throw _privateConstructorUsedError;
 
-  /// Duration of silence to detect speech stop (in milliseconds).
+  /// Duration of silence to detect speech stop (in milliseconds). Defaults
+  /// to 500ms. With shorter values the model will respond more quickly,
+  /// but may jump in on short pauses from the user.
   @JsonKey(name: 'silence_duration_ms', includeIfNull: false)
   int? get silenceDurationMs => throw _privateConstructorUsedError;
 
@@ -805,21 +819,26 @@ class _$TurnDetectionImpl extends _TurnDetection {
   factory _$TurnDetectionImpl.fromJson(Map<String, dynamic> json) =>
       _$$TurnDetectionImplFromJson(json);
 
-  /// The type of turn detection ("server_vad" or "none").
+  /// Type of turn detection, only `server_vad` is currently supported.
   @override
   final TurnDetectionType type;
 
-  /// Activation threshold for VAD.
+  /// Activation threshold for VAD (0.0 to 1.0), this defaults to 0.5. A
+  /// higher threshold will require louder audio to activate the model, and
+  /// thus might perform better in noisy environments.
   @override
   @JsonKey(includeIfNull: false)
   final double? threshold;
 
-  /// Audio included before speech starts (in milliseconds).
+  /// Amount of audio to include before the VAD detected speech (in
+  /// milliseconds). Defaults to 300ms.
   @override
   @JsonKey(name: 'prefix_padding_ms', includeIfNull: false)
   final int? prefixPaddingMs;
 
-  /// Duration of silence to detect speech stop (in milliseconds).
+  /// Duration of silence to detect speech stop (in milliseconds). Defaults
+  /// to 500ms. With shorter values the model will respond more quickly,
+  /// but may jump in on short pauses from the user.
   @override
   @JsonKey(name: 'silence_duration_ms', includeIfNull: false)
   final int? silenceDurationMs;
@@ -877,21 +896,26 @@ abstract class _TurnDetection extends TurnDetection {
   factory _TurnDetection.fromJson(Map<String, dynamic> json) =
       _$TurnDetectionImpl.fromJson;
 
-  /// The type of turn detection ("server_vad" or "none").
+  /// Type of turn detection, only `server_vad` is currently supported.
   @override
   TurnDetectionType get type;
 
-  /// Activation threshold for VAD.
+  /// Activation threshold for VAD (0.0 to 1.0), this defaults to 0.5. A
+  /// higher threshold will require louder audio to activate the model, and
+  /// thus might perform better in noisy environments.
   @override
   @JsonKey(includeIfNull: false)
   double? get threshold;
 
-  /// Audio included before speech starts (in milliseconds).
+  /// Amount of audio to include before the VAD detected speech (in
+  /// milliseconds). Defaults to 300ms.
   @override
   @JsonKey(name: 'prefix_padding_ms', includeIfNull: false)
   int? get prefixPaddingMs;
 
-  /// Duration of silence to detect speech stop (in milliseconds).
+  /// Duration of silence to detect speech stop (in milliseconds). Defaults
+  /// to 500ms. With shorter values the model will respond more quickly,
+  /// but may jump in on short pauses from the user.
   @override
   @JsonKey(name: 'silence_duration_ms', includeIfNull: false)
   int? get silenceDurationMs;
@@ -910,7 +934,7 @@ RateLimit _$RateLimitFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$RateLimit {
-  /// The name of the rate limit.
+  /// The name of the rate limit (`requests`, `tokens`).
   RateLimitName get name => throw _privateConstructorUsedError;
 
   /// The maximum allowed value for the rate limit.
@@ -1053,7 +1077,7 @@ class _$RateLimitImpl extends _RateLimit {
   factory _$RateLimitImpl.fromJson(Map<String, dynamic> json) =>
       _$$RateLimitImplFromJson(json);
 
-  /// The name of the rate limit.
+  /// The name of the rate limit (`requests`, `tokens`).
   @override
   final RateLimitName name;
 
@@ -1121,7 +1145,7 @@ abstract class _RateLimit extends RateLimit {
   factory _RateLimit.fromJson(Map<String, dynamic> json) =
       _$RateLimitImpl.fromJson;
 
-  /// The name of the rate limit.
+  /// The name of the rate limit (`requests`, `tokens`).
   @override
   RateLimitName get name;
 
@@ -1162,7 +1186,7 @@ mixin _$Response {
   ResponseStatus get status => throw _privateConstructorUsedError;
 
   /// Additional details about the status.
-  /// Any of: [ResponseStatusDetailsIncomplete], [ResponseStatusDetailsFailed]
+  /// Any of: [ResponseStatusDetailsCancelled], [ResponseStatusDetailsIncomplete], [ResponseStatusDetailsFailed]
   @JsonKey(name: 'status_details', includeIfNull: false)
   ResponseStatusDetails? get statusDetails =>
       throw _privateConstructorUsedError;
@@ -1170,7 +1194,9 @@ mixin _$Response {
   /// The list of output items generated by the response.
   List<Item> get output => throw _privateConstructorUsedError;
 
-  /// Usage statistics for the response
+  /// Usage statistics for the Response, this will correspond to billing. A Realtime API session will
+  /// maintain a conversation context and append new Items to the Conversation, thus output from
+  /// previous turns (text and audio tokens) will become the input for later turns.
   @JsonKey(includeIfNull: false)
   Usage? get usage => throw _privateConstructorUsedError;
 
@@ -1383,7 +1409,7 @@ class _$ResponseImpl extends _Response {
   final ResponseStatus status;
 
   /// Additional details about the status.
-  /// Any of: [ResponseStatusDetailsIncomplete], [ResponseStatusDetailsFailed]
+  /// Any of: [ResponseStatusDetailsCancelled], [ResponseStatusDetailsIncomplete], [ResponseStatusDetailsFailed]
   @override
   @JsonKey(name: 'status_details', includeIfNull: false)
   final ResponseStatusDetails? statusDetails;
@@ -1399,7 +1425,9 @@ class _$ResponseImpl extends _Response {
     return EqualUnmodifiableListView(_output);
   }
 
-  /// Usage statistics for the response
+  /// Usage statistics for the Response, this will correspond to billing. A Realtime API session will
+  /// maintain a conversation context and append new Items to the Conversation, thus output from
+  /// previous turns (text and audio tokens) will become the input for later turns.
   @override
   @JsonKey(includeIfNull: false)
   final Usage? usage;
@@ -1471,7 +1499,7 @@ abstract class _Response extends Response {
   ResponseStatus get status;
 
   /// Additional details about the status.
-  /// Any of: [ResponseStatusDetailsIncomplete], [ResponseStatusDetailsFailed]
+  /// Any of: [ResponseStatusDetailsCancelled], [ResponseStatusDetailsIncomplete], [ResponseStatusDetailsFailed]
   @override
   @JsonKey(name: 'status_details', includeIfNull: false)
   ResponseStatusDetails? get statusDetails;
@@ -1480,7 +1508,9 @@ abstract class _Response extends Response {
   @override
   List<Item> get output;
 
-  /// Usage statistics for the response
+  /// Usage statistics for the Response, this will correspond to billing. A Realtime API session will
+  /// maintain a conversation context and append new Items to the Conversation, thus output from
+  /// previous turns (text and audio tokens) will become the input for later turns.
   @override
   @JsonKey(includeIfNull: false)
   Usage? get usage;
@@ -2908,21 +2938,26 @@ Usage _$UsageFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Usage {
-  /// The total number of tokens used.
+  /// The total number of tokens in the Response including input and output text and audio tokens.
   @JsonKey(name: 'total_tokens', includeIfNull: false)
   int? get totalTokens => throw _privateConstructorUsedError;
 
-  /// The number of input tokens used.
+  /// The number of input tokens used in the Response, including text and audio tokens.
   @JsonKey(name: 'input_tokens', includeIfNull: false)
   int? get inputTokens => throw _privateConstructorUsedError;
 
-  /// The number of output tokens used.
+  /// The number of output tokens sent in the Response, including text and audio tokens.
   @JsonKey(name: 'output_tokens', includeIfNull: false)
   int? get outputTokens => throw _privateConstructorUsedError;
 
-  /// Details about the input tokens used.
+  /// Details about the input tokens used in the Response.
   @JsonKey(name: 'input_token_details', includeIfNull: false)
   UsageInputTokenDetails? get inputTokenDetails =>
+      throw _privateConstructorUsedError;
+
+  /// Details about the output tokens used in the Response.
+  @JsonKey(name: 'output_token_details', includeIfNull: false)
+  UsageOutputTokenDetails? get outputTokenDetails =>
       throw _privateConstructorUsedError;
 
   /// Serializes this Usage to a JSON map.
@@ -2944,9 +2979,12 @@ abstract class $UsageCopyWith<$Res> {
       @JsonKey(name: 'input_tokens', includeIfNull: false) int? inputTokens,
       @JsonKey(name: 'output_tokens', includeIfNull: false) int? outputTokens,
       @JsonKey(name: 'input_token_details', includeIfNull: false)
-      UsageInputTokenDetails? inputTokenDetails});
+      UsageInputTokenDetails? inputTokenDetails,
+      @JsonKey(name: 'output_token_details', includeIfNull: false)
+      UsageOutputTokenDetails? outputTokenDetails});
 
   $UsageInputTokenDetailsCopyWith<$Res>? get inputTokenDetails;
+  $UsageOutputTokenDetailsCopyWith<$Res>? get outputTokenDetails;
 }
 
 /// @nodoc
@@ -2968,6 +3006,7 @@ class _$UsageCopyWithImpl<$Res, $Val extends Usage>
     Object? inputTokens = freezed,
     Object? outputTokens = freezed,
     Object? inputTokenDetails = freezed,
+    Object? outputTokenDetails = freezed,
   }) {
     return _then(_value.copyWith(
       totalTokens: freezed == totalTokens
@@ -2986,6 +3025,10 @@ class _$UsageCopyWithImpl<$Res, $Val extends Usage>
           ? _value.inputTokenDetails
           : inputTokenDetails // ignore: cast_nullable_to_non_nullable
               as UsageInputTokenDetails?,
+      outputTokenDetails: freezed == outputTokenDetails
+          ? _value.outputTokenDetails
+          : outputTokenDetails // ignore: cast_nullable_to_non_nullable
+              as UsageOutputTokenDetails?,
     ) as $Val);
   }
 
@@ -3003,6 +3046,21 @@ class _$UsageCopyWithImpl<$Res, $Val extends Usage>
       return _then(_value.copyWith(inputTokenDetails: value) as $Val);
     });
   }
+
+  /// Create a copy of Usage
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $UsageOutputTokenDetailsCopyWith<$Res>? get outputTokenDetails {
+    if (_value.outputTokenDetails == null) {
+      return null;
+    }
+
+    return $UsageOutputTokenDetailsCopyWith<$Res>(_value.outputTokenDetails!,
+        (value) {
+      return _then(_value.copyWith(outputTokenDetails: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -3017,10 +3075,14 @@ abstract class _$$UsageImplCopyWith<$Res> implements $UsageCopyWith<$Res> {
       @JsonKey(name: 'input_tokens', includeIfNull: false) int? inputTokens,
       @JsonKey(name: 'output_tokens', includeIfNull: false) int? outputTokens,
       @JsonKey(name: 'input_token_details', includeIfNull: false)
-      UsageInputTokenDetails? inputTokenDetails});
+      UsageInputTokenDetails? inputTokenDetails,
+      @JsonKey(name: 'output_token_details', includeIfNull: false)
+      UsageOutputTokenDetails? outputTokenDetails});
 
   @override
   $UsageInputTokenDetailsCopyWith<$Res>? get inputTokenDetails;
+  @override
+  $UsageOutputTokenDetailsCopyWith<$Res>? get outputTokenDetails;
 }
 
 /// @nodoc
@@ -3040,6 +3102,7 @@ class __$$UsageImplCopyWithImpl<$Res>
     Object? inputTokens = freezed,
     Object? outputTokens = freezed,
     Object? inputTokenDetails = freezed,
+    Object? outputTokenDetails = freezed,
   }) {
     return _then(_$UsageImpl(
       totalTokens: freezed == totalTokens
@@ -3058,6 +3121,10 @@ class __$$UsageImplCopyWithImpl<$Res>
           ? _value.inputTokenDetails
           : inputTokenDetails // ignore: cast_nullable_to_non_nullable
               as UsageInputTokenDetails?,
+      outputTokenDetails: freezed == outputTokenDetails
+          ? _value.outputTokenDetails
+          : outputTokenDetails // ignore: cast_nullable_to_non_nullable
+              as UsageOutputTokenDetails?,
     ));
   }
 }
@@ -3070,35 +3137,42 @@ class _$UsageImpl extends _Usage {
       @JsonKey(name: 'input_tokens', includeIfNull: false) this.inputTokens,
       @JsonKey(name: 'output_tokens', includeIfNull: false) this.outputTokens,
       @JsonKey(name: 'input_token_details', includeIfNull: false)
-      this.inputTokenDetails})
+      this.inputTokenDetails,
+      @JsonKey(name: 'output_token_details', includeIfNull: false)
+      this.outputTokenDetails})
       : super._();
 
   factory _$UsageImpl.fromJson(Map<String, dynamic> json) =>
       _$$UsageImplFromJson(json);
 
-  /// The total number of tokens used.
+  /// The total number of tokens in the Response including input and output text and audio tokens.
   @override
   @JsonKey(name: 'total_tokens', includeIfNull: false)
   final int? totalTokens;
 
-  /// The number of input tokens used.
+  /// The number of input tokens used in the Response, including text and audio tokens.
   @override
   @JsonKey(name: 'input_tokens', includeIfNull: false)
   final int? inputTokens;
 
-  /// The number of output tokens used.
+  /// The number of output tokens sent in the Response, including text and audio tokens.
   @override
   @JsonKey(name: 'output_tokens', includeIfNull: false)
   final int? outputTokens;
 
-  /// Details about the input tokens used.
+  /// Details about the input tokens used in the Response.
   @override
   @JsonKey(name: 'input_token_details', includeIfNull: false)
   final UsageInputTokenDetails? inputTokenDetails;
 
+  /// Details about the output tokens used in the Response.
+  @override
+  @JsonKey(name: 'output_token_details', includeIfNull: false)
+  final UsageOutputTokenDetails? outputTokenDetails;
+
   @override
   String toString() {
-    return 'Usage(totalTokens: $totalTokens, inputTokens: $inputTokens, outputTokens: $outputTokens, inputTokenDetails: $inputTokenDetails)';
+    return 'Usage(totalTokens: $totalTokens, inputTokens: $inputTokens, outputTokens: $outputTokens, inputTokenDetails: $inputTokenDetails, outputTokenDetails: $outputTokenDetails)';
   }
 
   @override
@@ -3113,13 +3187,15 @@ class _$UsageImpl extends _Usage {
             (identical(other.outputTokens, outputTokens) ||
                 other.outputTokens == outputTokens) &&
             (identical(other.inputTokenDetails, inputTokenDetails) ||
-                other.inputTokenDetails == inputTokenDetails));
+                other.inputTokenDetails == inputTokenDetails) &&
+            (identical(other.outputTokenDetails, outputTokenDetails) ||
+                other.outputTokenDetails == outputTokenDetails));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, totalTokens, inputTokens, outputTokens, inputTokenDetails);
+  int get hashCode => Object.hash(runtimeType, totalTokens, inputTokens,
+      outputTokens, inputTokenDetails, outputTokenDetails);
 
   /// Create a copy of Usage
   /// with the given fields replaced by the non-null parameter values.
@@ -3146,30 +3222,37 @@ abstract class _Usage extends Usage {
       @JsonKey(name: 'output_tokens', includeIfNull: false)
       final int? outputTokens,
       @JsonKey(name: 'input_token_details', includeIfNull: false)
-      final UsageInputTokenDetails? inputTokenDetails}) = _$UsageImpl;
+      final UsageInputTokenDetails? inputTokenDetails,
+      @JsonKey(name: 'output_token_details', includeIfNull: false)
+      final UsageOutputTokenDetails? outputTokenDetails}) = _$UsageImpl;
   const _Usage._() : super._();
 
   factory _Usage.fromJson(Map<String, dynamic> json) = _$UsageImpl.fromJson;
 
-  /// The total number of tokens used.
+  /// The total number of tokens in the Response including input and output text and audio tokens.
   @override
   @JsonKey(name: 'total_tokens', includeIfNull: false)
   int? get totalTokens;
 
-  /// The number of input tokens used.
+  /// The number of input tokens used in the Response, including text and audio tokens.
   @override
   @JsonKey(name: 'input_tokens', includeIfNull: false)
   int? get inputTokens;
 
-  /// The number of output tokens used.
+  /// The number of output tokens sent in the Response, including text and audio tokens.
   @override
   @JsonKey(name: 'output_tokens', includeIfNull: false)
   int? get outputTokens;
 
-  /// Details about the input tokens used.
+  /// Details about the input tokens used in the Response.
   @override
   @JsonKey(name: 'input_token_details', includeIfNull: false)
   UsageInputTokenDetails? get inputTokenDetails;
+
+  /// Details about the output tokens used in the Response.
+  @override
+  @JsonKey(name: 'output_token_details', includeIfNull: false)
+  UsageOutputTokenDetails? get outputTokenDetails;
 
   /// Create a copy of Usage
   /// with the given fields replaced by the non-null parameter values.
@@ -3186,15 +3269,15 @@ UsageInputTokenDetails _$UsageInputTokenDetailsFromJson(
 
 /// @nodoc
 mixin _$UsageInputTokenDetails {
-  /// The number of cached tokens used.
+  /// The number of cached tokens used in the Response.
   @JsonKey(name: 'cached_tokens', includeIfNull: false)
   int? get cachedTokens => throw _privateConstructorUsedError;
 
-  /// The number of text tokens used.
+  /// The number of text tokens used in the Response.
   @JsonKey(name: 'text_tokens', includeIfNull: false)
   int? get textTokens => throw _privateConstructorUsedError;
 
-  /// The number of audio tokens used.
+  /// The number of audio tokens used in the Response.
   @JsonKey(name: 'audio_tokens', includeIfNull: false)
   int? get audioTokens => throw _privateConstructorUsedError;
 
@@ -3320,17 +3403,17 @@ class _$UsageInputTokenDetailsImpl extends _UsageInputTokenDetails {
   factory _$UsageInputTokenDetailsImpl.fromJson(Map<String, dynamic> json) =>
       _$$UsageInputTokenDetailsImplFromJson(json);
 
-  /// The number of cached tokens used.
+  /// The number of cached tokens used in the Response.
   @override
   @JsonKey(name: 'cached_tokens', includeIfNull: false)
   final int? cachedTokens;
 
-  /// The number of text tokens used.
+  /// The number of text tokens used in the Response.
   @override
   @JsonKey(name: 'text_tokens', includeIfNull: false)
   final int? textTokens;
 
-  /// The number of audio tokens used.
+  /// The number of audio tokens used in the Response.
   @override
   @JsonKey(name: 'audio_tokens', includeIfNull: false)
   final int? audioTokens;
@@ -3387,17 +3470,17 @@ abstract class _UsageInputTokenDetails extends UsageInputTokenDetails {
   factory _UsageInputTokenDetails.fromJson(Map<String, dynamic> json) =
       _$UsageInputTokenDetailsImpl.fromJson;
 
-  /// The number of cached tokens used.
+  /// The number of cached tokens used in the Response.
   @override
   @JsonKey(name: 'cached_tokens', includeIfNull: false)
   int? get cachedTokens;
 
-  /// The number of text tokens used.
+  /// The number of text tokens used in the Response.
   @override
   @JsonKey(name: 'text_tokens', includeIfNull: false)
   int? get textTokens;
 
-  /// The number of audio tokens used.
+  /// The number of audio tokens used in the Response.
   @override
   @JsonKey(name: 'audio_tokens', includeIfNull: false)
   int? get audioTokens;
@@ -3407,6 +3490,206 @@ abstract class _UsageInputTokenDetails extends UsageInputTokenDetails {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UsageInputTokenDetailsImplCopyWith<_$UsageInputTokenDetailsImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+UsageOutputTokenDetails _$UsageOutputTokenDetailsFromJson(
+    Map<String, dynamic> json) {
+  return _UsageOutputTokenDetails.fromJson(json);
+}
+
+/// @nodoc
+mixin _$UsageOutputTokenDetails {
+  /// The number of text tokens used in the Response.
+  @JsonKey(name: 'text_tokens', includeIfNull: false)
+  int? get textTokens => throw _privateConstructorUsedError;
+
+  /// The number of audio tokens used in the Response.
+  @JsonKey(name: 'audio_tokens', includeIfNull: false)
+  int? get audioTokens => throw _privateConstructorUsedError;
+
+  /// Serializes this UsageOutputTokenDetails to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of UsageOutputTokenDetails
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $UsageOutputTokenDetailsCopyWith<UsageOutputTokenDetails> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $UsageOutputTokenDetailsCopyWith<$Res> {
+  factory $UsageOutputTokenDetailsCopyWith(UsageOutputTokenDetails value,
+          $Res Function(UsageOutputTokenDetails) then) =
+      _$UsageOutputTokenDetailsCopyWithImpl<$Res, UsageOutputTokenDetails>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'text_tokens', includeIfNull: false) int? textTokens,
+      @JsonKey(name: 'audio_tokens', includeIfNull: false) int? audioTokens});
+}
+
+/// @nodoc
+class _$UsageOutputTokenDetailsCopyWithImpl<$Res,
+        $Val extends UsageOutputTokenDetails>
+    implements $UsageOutputTokenDetailsCopyWith<$Res> {
+  _$UsageOutputTokenDetailsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of UsageOutputTokenDetails
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? textTokens = freezed,
+    Object? audioTokens = freezed,
+  }) {
+    return _then(_value.copyWith(
+      textTokens: freezed == textTokens
+          ? _value.textTokens
+          : textTokens // ignore: cast_nullable_to_non_nullable
+              as int?,
+      audioTokens: freezed == audioTokens
+          ? _value.audioTokens
+          : audioTokens // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$UsageOutputTokenDetailsImplCopyWith<$Res>
+    implements $UsageOutputTokenDetailsCopyWith<$Res> {
+  factory _$$UsageOutputTokenDetailsImplCopyWith(
+          _$UsageOutputTokenDetailsImpl value,
+          $Res Function(_$UsageOutputTokenDetailsImpl) then) =
+      __$$UsageOutputTokenDetailsImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'text_tokens', includeIfNull: false) int? textTokens,
+      @JsonKey(name: 'audio_tokens', includeIfNull: false) int? audioTokens});
+}
+
+/// @nodoc
+class __$$UsageOutputTokenDetailsImplCopyWithImpl<$Res>
+    extends _$UsageOutputTokenDetailsCopyWithImpl<$Res,
+        _$UsageOutputTokenDetailsImpl>
+    implements _$$UsageOutputTokenDetailsImplCopyWith<$Res> {
+  __$$UsageOutputTokenDetailsImplCopyWithImpl(
+      _$UsageOutputTokenDetailsImpl _value,
+      $Res Function(_$UsageOutputTokenDetailsImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of UsageOutputTokenDetails
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? textTokens = freezed,
+    Object? audioTokens = freezed,
+  }) {
+    return _then(_$UsageOutputTokenDetailsImpl(
+      textTokens: freezed == textTokens
+          ? _value.textTokens
+          : textTokens // ignore: cast_nullable_to_non_nullable
+              as int?,
+      audioTokens: freezed == audioTokens
+          ? _value.audioTokens
+          : audioTokens // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$UsageOutputTokenDetailsImpl extends _UsageOutputTokenDetails {
+  const _$UsageOutputTokenDetailsImpl(
+      {@JsonKey(name: 'text_tokens', includeIfNull: false) this.textTokens,
+      @JsonKey(name: 'audio_tokens', includeIfNull: false) this.audioTokens})
+      : super._();
+
+  factory _$UsageOutputTokenDetailsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UsageOutputTokenDetailsImplFromJson(json);
+
+  /// The number of text tokens used in the Response.
+  @override
+  @JsonKey(name: 'text_tokens', includeIfNull: false)
+  final int? textTokens;
+
+  /// The number of audio tokens used in the Response.
+  @override
+  @JsonKey(name: 'audio_tokens', includeIfNull: false)
+  final int? audioTokens;
+
+  @override
+  String toString() {
+    return 'UsageOutputTokenDetails(textTokens: $textTokens, audioTokens: $audioTokens)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$UsageOutputTokenDetailsImpl &&
+            (identical(other.textTokens, textTokens) ||
+                other.textTokens == textTokens) &&
+            (identical(other.audioTokens, audioTokens) ||
+                other.audioTokens == audioTokens));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, textTokens, audioTokens);
+
+  /// Create a copy of UsageOutputTokenDetails
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UsageOutputTokenDetailsImplCopyWith<_$UsageOutputTokenDetailsImpl>
+      get copyWith => __$$UsageOutputTokenDetailsImplCopyWithImpl<
+          _$UsageOutputTokenDetailsImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$UsageOutputTokenDetailsImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _UsageOutputTokenDetails extends UsageOutputTokenDetails {
+  const factory _UsageOutputTokenDetails(
+      {@JsonKey(name: 'text_tokens', includeIfNull: false)
+      final int? textTokens,
+      @JsonKey(name: 'audio_tokens', includeIfNull: false)
+      final int? audioTokens}) = _$UsageOutputTokenDetailsImpl;
+  const _UsageOutputTokenDetails._() : super._();
+
+  factory _UsageOutputTokenDetails.fromJson(Map<String, dynamic> json) =
+      _$UsageOutputTokenDetailsImpl.fromJson;
+
+  /// The number of text tokens used in the Response.
+  @override
+  @JsonKey(name: 'text_tokens', includeIfNull: false)
+  int? get textTokens;
+
+  /// The number of audio tokens used in the Response.
+  @override
+  @JsonKey(name: 'audio_tokens', includeIfNull: false)
+  int? get audioTokens;
+
+  /// Create a copy of UsageOutputTokenDetails
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$UsageOutputTokenDetailsImplCopyWith<_$UsageOutputTokenDetailsImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -3463,7 +3746,9 @@ mixin _$Session {
   InputAudioTranscriptionConfig? get inputAudioTranscription =>
       throw _privateConstructorUsedError;
 
-  /// Configuration for turn detection.
+  /// Configuration for turn detection. Can be set to `null` to turn off. Server
+  /// VAD means that the model will detect the start and end of speech based on
+  /// audio volume and respond at the end of user speech.
   @JsonKey(name: 'turn_detection', includeIfNull: false)
   TurnDetection? get turnDetection => throw _privateConstructorUsedError;
 
@@ -3947,7 +4232,9 @@ class _$SessionImpl extends _Session {
   @JsonKey(name: 'input_audio_transcription', includeIfNull: false)
   final InputAudioTranscriptionConfig? inputAudioTranscription;
 
-  /// Configuration for turn detection.
+  /// Configuration for turn detection. Can be set to `null` to turn off. Server
+  /// VAD means that the model will detect the start and end of speech based on
+  /// audio volume and respond at the end of user speech.
   @override
   @JsonKey(name: 'turn_detection', includeIfNull: false)
   final TurnDetection? turnDetection;
@@ -4153,7 +4440,9 @@ abstract class _Session extends Session {
   @JsonKey(name: 'input_audio_transcription', includeIfNull: false)
   InputAudioTranscriptionConfig? get inputAudioTranscription;
 
-  /// Configuration for turn detection.
+  /// Configuration for turn detection. Can be set to `null` to turn off. Server
+  /// VAD means that the model will detect the start and end of speech based on
+  /// audio volume and respond at the end of user speech.
   @override
   @JsonKey(name: 'turn_detection', includeIfNull: false)
   TurnDetection? get turnDetection;
@@ -5073,37 +5362,54 @@ mixin _$SessionConfig {
   @JsonKey(includeIfNull: false)
   List<Modality>? get modalities => throw _privateConstructorUsedError;
 
-  /// The default system instructions prepended to model calls.
+  /// The default system instructions (i.e. system message) prepended to model
+  /// calls. This field allows the client to guide the model on desired
+  /// responses. The model can be instructed on response content and format,
+  /// (e.g. "be extremely succinct", "act friendly", "here are examples of good
+  /// responses") and on audio behavior (e.g. "talk quickly", "inject emotion
+  /// into your voice", "laugh frequently"). The instructions are not guaranteed
+  /// to be followed by the model, but they provide guidance to the model on the
+  /// desired behavior.
+  ///
+  /// Note that the server sets default instructions which will be used if this
+  /// field is not set and are visible in the `session.created` event at the
+  /// start of the session.
   @JsonKey(includeIfNull: false)
   String? get instructions => throw _privateConstructorUsedError;
 
-  /// The voice the model uses to respond - one of `alloy`, `echo`,
-  /// or  `shimmer`. Cannot be changed once the model has responded
-  /// with audio  at least once.
+  /// The voice the model uses to respond. Supported voices are `alloy`, `ash`,
+  /// `ballad`, `coral`, `echo`, `sage`, `shimmer`, and `verse`. Cannot be
+  /// changed once the model has responded with audio at least once.
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   Voice? get voice => throw _privateConstructorUsedError;
 
-  /// The format of input audio. Options are "pcm16", "g711_ulaw", or "g711_alaw".
+  /// The format of input audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.
   @JsonKey(
       name: 'input_audio_format',
       includeIfNull: false,
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   AudioFormat? get inputAudioFormat => throw _privateConstructorUsedError;
 
-  /// The format of output audio. Options are "pcm16", "g711_ulaw", or "g711_alaw".
+  /// The format of output audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.
   @JsonKey(
       name: 'output_audio_format',
       includeIfNull: false,
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   AudioFormat? get outputAudioFormat => throw _privateConstructorUsedError;
 
-  /// Configuration for input audio transcription. Can be set to null to turn off.
+  /// Configuration for input audio transcription, defaults to off and can be
+  /// set to `null` to turn off once on. Input audio transcription is not native
+  /// to the model, since the model consumes audio directly. Transcription runs
+  /// asynchronously through Whisper and should be treated as rough guidance
+  /// rather than the representation understood by the model.
   @JsonKey(name: 'input_audio_transcription', includeIfNull: false)
   InputAudioTranscriptionConfig? get inputAudioTranscription =>
       throw _privateConstructorUsedError;
 
-  /// Configuration for turn detection.
+  /// Configuration for turn detection. Can be set to `null` to turn off. Server
+  /// VAD means that the model will detect the start and end of speech based on
+  /// audio volume and respond at the end of user speech.
   @JsonKey(name: 'turn_detection', includeIfNull: false)
   TurnDetection? get turnDetection => throw _privateConstructorUsedError;
 
@@ -5111,16 +5417,20 @@ mixin _$SessionConfig {
   @JsonKey(includeIfNull: false)
   List<ToolDefinition>? get tools => throw _privateConstructorUsedError;
 
-  /// How the model chooses tools.
+  /// How the model chooses tools. Options are `auto`, `none`, `required`, or
+  /// specify a function.
   @_SessionConfigToolChoiceConverter()
   @JsonKey(name: 'tool_choice', includeIfNull: false)
   SessionConfigToolChoice? get toolChoice => throw _privateConstructorUsedError;
 
-  /// Sampling temperature for the model.
+  /// Sampling temperature for the model, limited to [0.6, 1.2]. Defaults to 0.8.
   @JsonKey(includeIfNull: false)
   double? get temperature => throw _privateConstructorUsedError;
 
-  /// Maximum number of output tokens for a single assistant response, inclusive of tool calls. Defaults to "inf".
+  /// Maximum number of output tokens for a single assistant response,
+  /// inclusive of tool calls. Provide an integer between 1 and 4096 to
+  /// limit output tokens, or `inf` for the maximum available tokens for a
+  /// given model. Defaults to `inf`.
   @_SessionConfigMaxResponseOutputTokensConverter()
   @JsonKey(name: 'max_response_output_tokens', includeIfNull: false)
   SessionConfigMaxResponseOutputTokens? get maxResponseOutputTokens =>
@@ -5489,20 +5799,31 @@ class _$SessionConfigImpl extends _SessionConfig {
     return EqualUnmodifiableListView(value);
   }
 
-  /// The default system instructions prepended to model calls.
+  /// The default system instructions (i.e. system message) prepended to model
+  /// calls. This field allows the client to guide the model on desired
+  /// responses. The model can be instructed on response content and format,
+  /// (e.g. "be extremely succinct", "act friendly", "here are examples of good
+  /// responses") and on audio behavior (e.g. "talk quickly", "inject emotion
+  /// into your voice", "laugh frequently"). The instructions are not guaranteed
+  /// to be followed by the model, but they provide guidance to the model on the
+  /// desired behavior.
+  ///
+  /// Note that the server sets default instructions which will be used if this
+  /// field is not set and are visible in the `session.created` event at the
+  /// start of the session.
   @override
   @JsonKey(includeIfNull: false)
   final String? instructions;
 
-  /// The voice the model uses to respond - one of `alloy`, `echo`,
-  /// or  `shimmer`. Cannot be changed once the model has responded
-  /// with audio  at least once.
+  /// The voice the model uses to respond. Supported voices are `alloy`, `ash`,
+  /// `ballad`, `coral`, `echo`, `sage`, `shimmer`, and `verse`. Cannot be
+  /// changed once the model has responded with audio at least once.
   @override
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   final Voice? voice;
 
-  /// The format of input audio. Options are "pcm16", "g711_ulaw", or "g711_alaw".
+  /// The format of input audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.
   @override
   @JsonKey(
       name: 'input_audio_format',
@@ -5510,7 +5831,7 @@ class _$SessionConfigImpl extends _SessionConfig {
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   final AudioFormat? inputAudioFormat;
 
-  /// The format of output audio. Options are "pcm16", "g711_ulaw", or "g711_alaw".
+  /// The format of output audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.
   @override
   @JsonKey(
       name: 'output_audio_format',
@@ -5518,12 +5839,18 @@ class _$SessionConfigImpl extends _SessionConfig {
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   final AudioFormat? outputAudioFormat;
 
-  /// Configuration for input audio transcription. Can be set to null to turn off.
+  /// Configuration for input audio transcription, defaults to off and can be
+  /// set to `null` to turn off once on. Input audio transcription is not native
+  /// to the model, since the model consumes audio directly. Transcription runs
+  /// asynchronously through Whisper and should be treated as rough guidance
+  /// rather than the representation understood by the model.
   @override
   @JsonKey(name: 'input_audio_transcription', includeIfNull: false)
   final InputAudioTranscriptionConfig? inputAudioTranscription;
 
-  /// Configuration for turn detection.
+  /// Configuration for turn detection. Can be set to `null` to turn off. Server
+  /// VAD means that the model will detect the start and end of speech based on
+  /// audio volume and respond at the end of user speech.
   @override
   @JsonKey(name: 'turn_detection', includeIfNull: false)
   final TurnDetection? turnDetection;
@@ -5542,18 +5869,22 @@ class _$SessionConfigImpl extends _SessionConfig {
     return EqualUnmodifiableListView(value);
   }
 
-  /// How the model chooses tools.
+  /// How the model chooses tools. Options are `auto`, `none`, `required`, or
+  /// specify a function.
   @override
   @_SessionConfigToolChoiceConverter()
   @JsonKey(name: 'tool_choice', includeIfNull: false)
   final SessionConfigToolChoice? toolChoice;
 
-  /// Sampling temperature for the model.
+  /// Sampling temperature for the model, limited to [0.6, 1.2]. Defaults to 0.8.
   @override
   @JsonKey(includeIfNull: false)
   final double? temperature;
 
-  /// Maximum number of output tokens for a single assistant response, inclusive of tool calls. Defaults to "inf".
+  /// Maximum number of output tokens for a single assistant response,
+  /// inclusive of tool calls. Provide an integer between 1 and 4096 to
+  /// limit output tokens, or `inf` for the maximum available tokens for a
+  /// given model. Defaults to `inf`.
   @override
   @_SessionConfigMaxResponseOutputTokensConverter()
   @JsonKey(name: 'max_response_output_tokens', includeIfNull: false)
@@ -5666,20 +5997,31 @@ abstract class _SessionConfig extends SessionConfig {
   @JsonKey(includeIfNull: false)
   List<Modality>? get modalities;
 
-  /// The default system instructions prepended to model calls.
+  /// The default system instructions (i.e. system message) prepended to model
+  /// calls. This field allows the client to guide the model on desired
+  /// responses. The model can be instructed on response content and format,
+  /// (e.g. "be extremely succinct", "act friendly", "here are examples of good
+  /// responses") and on audio behavior (e.g. "talk quickly", "inject emotion
+  /// into your voice", "laugh frequently"). The instructions are not guaranteed
+  /// to be followed by the model, but they provide guidance to the model on the
+  /// desired behavior.
+  ///
+  /// Note that the server sets default instructions which will be used if this
+  /// field is not set and are visible in the `session.created` event at the
+  /// start of the session.
   @override
   @JsonKey(includeIfNull: false)
   String? get instructions;
 
-  /// The voice the model uses to respond - one of `alloy`, `echo`,
-  /// or  `shimmer`. Cannot be changed once the model has responded
-  /// with audio  at least once.
+  /// The voice the model uses to respond. Supported voices are `alloy`, `ash`,
+  /// `ballad`, `coral`, `echo`, `sage`, `shimmer`, and `verse`. Cannot be
+  /// changed once the model has responded with audio at least once.
   @override
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   Voice? get voice;
 
-  /// The format of input audio. Options are "pcm16", "g711_ulaw", or "g711_alaw".
+  /// The format of input audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.
   @override
   @JsonKey(
       name: 'input_audio_format',
@@ -5687,7 +6029,7 @@ abstract class _SessionConfig extends SessionConfig {
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   AudioFormat? get inputAudioFormat;
 
-  /// The format of output audio. Options are "pcm16", "g711_ulaw", or "g711_alaw".
+  /// The format of output audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.
   @override
   @JsonKey(
       name: 'output_audio_format',
@@ -5695,12 +6037,18 @@ abstract class _SessionConfig extends SessionConfig {
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   AudioFormat? get outputAudioFormat;
 
-  /// Configuration for input audio transcription. Can be set to null to turn off.
+  /// Configuration for input audio transcription, defaults to off and can be
+  /// set to `null` to turn off once on. Input audio transcription is not native
+  /// to the model, since the model consumes audio directly. Transcription runs
+  /// asynchronously through Whisper and should be treated as rough guidance
+  /// rather than the representation understood by the model.
   @override
   @JsonKey(name: 'input_audio_transcription', includeIfNull: false)
   InputAudioTranscriptionConfig? get inputAudioTranscription;
 
-  /// Configuration for turn detection.
+  /// Configuration for turn detection. Can be set to `null` to turn off. Server
+  /// VAD means that the model will detect the start and end of speech based on
+  /// audio volume and respond at the end of user speech.
   @override
   @JsonKey(name: 'turn_detection', includeIfNull: false)
   TurnDetection? get turnDetection;
@@ -5710,18 +6058,22 @@ abstract class _SessionConfig extends SessionConfig {
   @JsonKey(includeIfNull: false)
   List<ToolDefinition>? get tools;
 
-  /// How the model chooses tools.
+  /// How the model chooses tools. Options are `auto`, `none`, `required`, or
+  /// specify a function.
   @override
   @_SessionConfigToolChoiceConverter()
   @JsonKey(name: 'tool_choice', includeIfNull: false)
   SessionConfigToolChoice? get toolChoice;
 
-  /// Sampling temperature for the model.
+  /// Sampling temperature for the model, limited to [0.6, 1.2]. Defaults to 0.8.
   @override
   @JsonKey(includeIfNull: false)
   double? get temperature;
 
-  /// Maximum number of output tokens for a single assistant response, inclusive of tool calls. Defaults to "inf".
+  /// Maximum number of output tokens for a single assistant response,
+  /// inclusive of tool calls. Provide an integer between 1 and 4096 to
+  /// limit output tokens, or `inf` for the maximum available tokens for a
+  /// given model. Defaults to `inf`.
   @override
   @_SessionConfigMaxResponseOutputTokensConverter()
   @JsonKey(name: 'max_response_output_tokens', includeIfNull: false)
@@ -10075,7 +10427,8 @@ Item _$ItemFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Item {
-  /// The unique ID of the item.
+  /// The unique ID of the item, this can be generated by the client to help manage server-side context,
+  /// but is not required because the server will generate one if not provided.
   String get id => throw _privateConstructorUsedError;
 
   /// The object type, must be "realtime.item".
@@ -10086,7 +10439,8 @@ mixin _$Item {
   /// The type of the item.
   ItemType get type => throw _privateConstructorUsedError;
 
-  /// The status of the item.
+  /// The status of the item. These have no effect on the conversation, but are accepted for consistency
+  /// with the `conversation.item.created` event.
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   ItemStatus? get status => throw _privateConstructorUsedError;
@@ -10407,7 +10761,8 @@ class _$ItemMessageImpl extends ItemMessage {
   factory _$ItemMessageImpl.fromJson(Map<String, dynamic> json) =>
       _$$ItemMessageImplFromJson(json);
 
-  /// The unique ID of the item.
+  /// The unique ID of the item, this can be generated by the client to help manage server-side context,
+  /// but is not required because the server will generate one if not provided.
   @override
   final String id;
 
@@ -10422,7 +10777,8 @@ class _$ItemMessageImpl extends ItemMessage {
   @JsonKey()
   final ItemType type;
 
-  /// The status of the item.
+  /// The status of the item. These have no effect on the conversation, but are accepted for consistency
+  /// with the `conversation.item.created` event.
   @override
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
@@ -10432,10 +10788,14 @@ class _$ItemMessageImpl extends ItemMessage {
   @override
   final ItemRole role;
 
-  /// The content of the message.
+  /// The content of the message. Message items with a role of `system` support only `input_text` content,
+  /// message items of role `user` support `input_text` and `input_audio` content, and message items of role
+  /// `assistant` support `text` content.
   final List<ContentPart> _content;
 
-  /// The content of the message.
+  /// The content of the message. Message items with a role of `system` support only `input_text` content,
+  /// message items of role `user` support `input_text` and `input_audio` content, and message items of role
+  /// `assistant` support `text` content.
   @override
   List<ContentPart> get content {
     if (_content is EqualUnmodifiableListView) return _content;
@@ -10680,7 +11040,8 @@ abstract class ItemMessage extends Item {
   factory ItemMessage.fromJson(Map<String, dynamic> json) =
       _$ItemMessageImpl.fromJson;
 
-  /// The unique ID of the item.
+  /// The unique ID of the item, this can be generated by the client to help manage server-side context,
+  /// but is not required because the server will generate one if not provided.
   @override
   String get id;
 
@@ -10694,7 +11055,8 @@ abstract class ItemMessage extends Item {
   @override
   ItemType get type;
 
-  /// The status of the item.
+  /// The status of the item. These have no effect on the conversation, but are accepted for consistency
+  /// with the `conversation.item.created` event.
   @override
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
@@ -10703,7 +11065,9 @@ abstract class ItemMessage extends Item {
   /// The role of the message sender.
   ItemRole get role;
 
-  /// The content of the message.
+  /// The content of the message. Message items with a role of `system` support only `input_text` content,
+  /// message items of role `user` support `input_text` and `input_audio` content, and message items of role
+  /// `assistant` support `text` content.
   List<ContentPart> get content;
 
   /// Create a copy of Item
@@ -10808,7 +11172,8 @@ class _$ItemFunctionCallImpl extends ItemFunctionCall {
   factory _$ItemFunctionCallImpl.fromJson(Map<String, dynamic> json) =>
       _$$ItemFunctionCallImplFromJson(json);
 
-  /// The unique ID of the item.
+  /// The unique ID of the item, this can be generated by the client to help manage server-side context,
+  /// but is not required because the server will generate one if not provided.
   @override
   final String id;
 
@@ -10822,13 +11187,16 @@ class _$ItemFunctionCallImpl extends ItemFunctionCall {
   @JsonKey()
   final ItemType type;
 
-  /// The status of the item.
+  /// The status of the item. These have no effect on the conversation, but are accepted for consistency
+  /// with the `conversation.item.created` event.
   @override
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   final ItemStatus? status;
 
-  /// The ID of the function call.
+  /// The ID of the function call (for `function_call` and `function_call_output` items). If passed on a
+  /// `function_call_output` item, the server will check that a `function_call` item with the same ID
+  /// exists in the conversation history.
   @override
   @JsonKey(name: 'call_id')
   final String callId;
@@ -11080,7 +11448,8 @@ abstract class ItemFunctionCall extends Item {
   factory ItemFunctionCall.fromJson(Map<String, dynamic> json) =
       _$ItemFunctionCallImpl.fromJson;
 
-  /// The unique ID of the item.
+  /// The unique ID of the item, this can be generated by the client to help manage server-side context,
+  /// but is not required because the server will generate one if not provided.
   @override
   String get id;
 
@@ -11092,13 +11461,16 @@ abstract class ItemFunctionCall extends Item {
   @override
   ItemType get type;
 
-  /// The status of the item.
+  /// The status of the item. These have no effect on the conversation, but are accepted for consistency
+  /// with the `conversation.item.created` event.
   @override
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   ItemStatus? get status;
 
-  /// The ID of the function call.
+  /// The ID of the function call (for `function_call` and `function_call_output` items). If passed on a
+  /// `function_call_output` item, the server will check that a `function_call` item with the same ID
+  /// exists in the conversation history.
   @JsonKey(name: 'call_id')
   String get callId;
 
@@ -11211,7 +11583,8 @@ class _$ItemFunctionCallOutputImpl extends ItemFunctionCallOutput {
   factory _$ItemFunctionCallOutputImpl.fromJson(Map<String, dynamic> json) =>
       _$$ItemFunctionCallOutputImplFromJson(json);
 
-  /// The unique ID of the item.
+  /// The unique ID of the item, this can be generated by the client to help manage server-side context,
+  /// but is not required because the server will generate one if not provided.
   @override
   final String id;
 
@@ -11226,7 +11599,8 @@ class _$ItemFunctionCallOutputImpl extends ItemFunctionCallOutput {
   @JsonKey()
   final ItemType type;
 
-  /// The status of the item.
+  /// The status of the item. These have no effect on the conversation, but are accepted for consistency
+  /// with the `conversation.item.created` event.
   @override
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
@@ -11479,7 +11853,8 @@ abstract class ItemFunctionCallOutput extends Item {
   factory ItemFunctionCallOutput.fromJson(Map<String, dynamic> json) =
       _$ItemFunctionCallOutputImpl.fromJson;
 
-  /// The unique ID of the item.
+  /// The unique ID of the item, this can be generated by the client to help manage server-side context,
+  /// but is not required because the server will generate one if not provided.
   @override
   String get id;
 
@@ -11493,7 +11868,8 @@ abstract class ItemFunctionCallOutput extends Item {
   @override
   ItemType get type;
 
-  /// The status of the item.
+  /// The status of the item. These have no effect on the conversation, but are accepted for consistency
+  /// with the `conversation.item.created` event.
   @override
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
@@ -11517,6 +11893,8 @@ abstract class ItemFunctionCallOutput extends Item {
 ResponseStatusDetails _$ResponseStatusDetailsFromJson(
     Map<String, dynamic> json) {
   switch (json['type']) {
+    case 'cancelled':
+      return ResponseStatusDetailsCancelled.fromJson(json);
     case 'incomplete':
       return ResponseStatusDetailsIncomplete.fromJson(json);
     case 'failed':
@@ -11530,10 +11908,17 @@ ResponseStatusDetails _$ResponseStatusDetailsFromJson(
 
 /// @nodoc
 mixin _$ResponseStatusDetails {
-  /// The type of the status.
+  /// The type of error that caused the response to fail.
   ResponseStatusType get type => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(
+            ResponseStatusType type,
+            @JsonKey(
+                includeIfNull: false,
+                unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+            ResponseStatusIncompleteReason? reason)
+        cancelled,
     required TResult Function(
             ResponseStatusType type,
             @JsonKey(
@@ -11554,6 +11939,13 @@ mixin _$ResponseStatusDetails {
                 includeIfNull: false,
                 unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
             ResponseStatusIncompleteReason? reason)?
+        cancelled,
+    TResult? Function(
+            ResponseStatusType type,
+            @JsonKey(
+                includeIfNull: false,
+                unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+            ResponseStatusIncompleteReason? reason)?
         incomplete,
     TResult? Function(ResponseStatusType type,
             @JsonKey(includeIfNull: false) APIError? error)?
@@ -11562,6 +11954,13 @@ mixin _$ResponseStatusDetails {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            ResponseStatusType type,
+            @JsonKey(
+                includeIfNull: false,
+                unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+            ResponseStatusIncompleteReason? reason)?
+        cancelled,
     TResult Function(
             ResponseStatusType type,
             @JsonKey(
@@ -11577,18 +11976,21 @@ mixin _$ResponseStatusDetails {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(ResponseStatusDetailsCancelled value) cancelled,
     required TResult Function(ResponseStatusDetailsIncomplete value) incomplete,
     required TResult Function(ResponseStatusDetailsFailed value) failed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ResponseStatusDetailsCancelled value)? cancelled,
     TResult? Function(ResponseStatusDetailsIncomplete value)? incomplete,
     TResult? Function(ResponseStatusDetailsFailed value)? failed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(ResponseStatusDetailsCancelled value)? cancelled,
     TResult Function(ResponseStatusDetailsIncomplete value)? incomplete,
     TResult Function(ResponseStatusDetailsFailed value)? failed,
     required TResult orElse(),
@@ -11639,6 +12041,264 @@ class _$ResponseStatusDetailsCopyWithImpl<$Res,
               as ResponseStatusType,
     ) as $Val);
   }
+}
+
+/// @nodoc
+abstract class _$$ResponseStatusDetailsCancelledImplCopyWith<$Res>
+    implements $ResponseStatusDetailsCopyWith<$Res> {
+  factory _$$ResponseStatusDetailsCancelledImplCopyWith(
+          _$ResponseStatusDetailsCancelledImpl value,
+          $Res Function(_$ResponseStatusDetailsCancelledImpl) then) =
+      __$$ResponseStatusDetailsCancelledImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {ResponseStatusType type,
+      @JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ResponseStatusIncompleteReason? reason});
+}
+
+/// @nodoc
+class __$$ResponseStatusDetailsCancelledImplCopyWithImpl<$Res>
+    extends _$ResponseStatusDetailsCopyWithImpl<$Res,
+        _$ResponseStatusDetailsCancelledImpl>
+    implements _$$ResponseStatusDetailsCancelledImplCopyWith<$Res> {
+  __$$ResponseStatusDetailsCancelledImplCopyWithImpl(
+      _$ResponseStatusDetailsCancelledImpl _value,
+      $Res Function(_$ResponseStatusDetailsCancelledImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ResponseStatusDetails
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? reason = freezed,
+  }) {
+    return _then(_$ResponseStatusDetailsCancelledImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as ResponseStatusType,
+      reason: freezed == reason
+          ? _value.reason
+          : reason // ignore: cast_nullable_to_non_nullable
+              as ResponseStatusIncompleteReason?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ResponseStatusDetailsCancelledImpl
+    extends ResponseStatusDetailsCancelled {
+  const _$ResponseStatusDetailsCancelledImpl(
+      {this.type = ResponseStatusType.cancelled,
+      @JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      this.reason})
+      : super._();
+
+  factory _$ResponseStatusDetailsCancelledImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$ResponseStatusDetailsCancelledImplFromJson(json);
+
+  /// The type of error that caused the response to fail.
+  @override
+  @JsonKey()
+  final ResponseStatusType type;
+
+  /// The reason the Response did not complete. For a `cancelled` Response, one of `turn_detected`
+  /// (the server VAD detected a new start of speech) or `client_cancelled` (the client sent a
+  /// cancel event). For an `incomplete` Response, one of `max_output_tokens` or `content_filter`
+  /// (the server-side safety filter activated and cut off the response).
+  @override
+  @JsonKey(
+      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  final ResponseStatusIncompleteReason? reason;
+
+  @override
+  String toString() {
+    return 'ResponseStatusDetails.cancelled(type: $type, reason: $reason)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ResponseStatusDetailsCancelledImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.reason, reason) || other.reason == reason));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, reason);
+
+  /// Create a copy of ResponseStatusDetails
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ResponseStatusDetailsCancelledImplCopyWith<
+          _$ResponseStatusDetailsCancelledImpl>
+      get copyWith => __$$ResponseStatusDetailsCancelledImplCopyWithImpl<
+          _$ResponseStatusDetailsCancelledImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            ResponseStatusType type,
+            @JsonKey(
+                includeIfNull: false,
+                unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+            ResponseStatusIncompleteReason? reason)
+        cancelled,
+    required TResult Function(
+            ResponseStatusType type,
+            @JsonKey(
+                includeIfNull: false,
+                unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+            ResponseStatusIncompleteReason? reason)
+        incomplete,
+    required TResult Function(ResponseStatusType type,
+            @JsonKey(includeIfNull: false) APIError? error)
+        failed,
+  }) {
+    return cancelled(type, reason);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            ResponseStatusType type,
+            @JsonKey(
+                includeIfNull: false,
+                unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+            ResponseStatusIncompleteReason? reason)?
+        cancelled,
+    TResult? Function(
+            ResponseStatusType type,
+            @JsonKey(
+                includeIfNull: false,
+                unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+            ResponseStatusIncompleteReason? reason)?
+        incomplete,
+    TResult? Function(ResponseStatusType type,
+            @JsonKey(includeIfNull: false) APIError? error)?
+        failed,
+  }) {
+    return cancelled?.call(type, reason);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            ResponseStatusType type,
+            @JsonKey(
+                includeIfNull: false,
+                unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+            ResponseStatusIncompleteReason? reason)?
+        cancelled,
+    TResult Function(
+            ResponseStatusType type,
+            @JsonKey(
+                includeIfNull: false,
+                unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+            ResponseStatusIncompleteReason? reason)?
+        incomplete,
+    TResult Function(ResponseStatusType type,
+            @JsonKey(includeIfNull: false) APIError? error)?
+        failed,
+    required TResult orElse(),
+  }) {
+    if (cancelled != null) {
+      return cancelled(type, reason);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ResponseStatusDetailsCancelled value) cancelled,
+    required TResult Function(ResponseStatusDetailsIncomplete value) incomplete,
+    required TResult Function(ResponseStatusDetailsFailed value) failed,
+  }) {
+    return cancelled(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ResponseStatusDetailsCancelled value)? cancelled,
+    TResult? Function(ResponseStatusDetailsIncomplete value)? incomplete,
+    TResult? Function(ResponseStatusDetailsFailed value)? failed,
+  }) {
+    return cancelled?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ResponseStatusDetailsCancelled value)? cancelled,
+    TResult Function(ResponseStatusDetailsIncomplete value)? incomplete,
+    TResult Function(ResponseStatusDetailsFailed value)? failed,
+    required TResult orElse(),
+  }) {
+    if (cancelled != null) {
+      return cancelled(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ResponseStatusDetailsCancelledImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class ResponseStatusDetailsCancelled extends ResponseStatusDetails {
+  const factory ResponseStatusDetailsCancelled(
+          {final ResponseStatusType type,
+          @JsonKey(
+              includeIfNull: false,
+              unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+          final ResponseStatusIncompleteReason? reason}) =
+      _$ResponseStatusDetailsCancelledImpl;
+  const ResponseStatusDetailsCancelled._() : super._();
+
+  factory ResponseStatusDetailsCancelled.fromJson(Map<String, dynamic> json) =
+      _$ResponseStatusDetailsCancelledImpl.fromJson;
+
+  /// The type of error that caused the response to fail.
+  @override
+  ResponseStatusType get type;
+
+  /// The reason the Response did not complete. For a `cancelled` Response, one of `turn_detected`
+  /// (the server VAD detected a new start of speech) or `client_cancelled` (the client sent a
+  /// cancel event). For an `incomplete` Response, one of `max_output_tokens` or `content_filter`
+  /// (the server-side safety filter activated and cut off the response).
+  @JsonKey(
+      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ResponseStatusIncompleteReason? get reason;
+
+  /// Create a copy of ResponseStatusDetails
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ResponseStatusDetailsCancelledImplCopyWith<
+          _$ResponseStatusDetailsCancelledImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -11705,12 +12365,15 @@ class _$ResponseStatusDetailsIncompleteImpl
           Map<String, dynamic> json) =>
       _$$ResponseStatusDetailsIncompleteImplFromJson(json);
 
-  /// The type of the status.
+  /// The type of error that caused the response to fail.
   @override
   @JsonKey()
   final ResponseStatusType type;
 
-  /// The reason the response is incomplete.
+  /// The reason the Response did not complete. For a `cancelled` Response, one of `turn_detected`
+  /// (the server VAD detected a new start of speech) or `client_cancelled` (the client sent a
+  /// cancel event). For an `incomplete` Response, one of `max_output_tokens` or `content_filter`
+  /// (the server-side safety filter activated and cut off the response).
   @override
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
@@ -11753,6 +12416,13 @@ class _$ResponseStatusDetailsIncompleteImpl
                 includeIfNull: false,
                 unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
             ResponseStatusIncompleteReason? reason)
+        cancelled,
+    required TResult Function(
+            ResponseStatusType type,
+            @JsonKey(
+                includeIfNull: false,
+                unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+            ResponseStatusIncompleteReason? reason)
         incomplete,
     required TResult Function(ResponseStatusType type,
             @JsonKey(includeIfNull: false) APIError? error)
@@ -11764,6 +12434,13 @@ class _$ResponseStatusDetailsIncompleteImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            ResponseStatusType type,
+            @JsonKey(
+                includeIfNull: false,
+                unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+            ResponseStatusIncompleteReason? reason)?
+        cancelled,
     TResult? Function(
             ResponseStatusType type,
             @JsonKey(
@@ -11787,6 +12464,13 @@ class _$ResponseStatusDetailsIncompleteImpl
                 includeIfNull: false,
                 unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
             ResponseStatusIncompleteReason? reason)?
+        cancelled,
+    TResult Function(
+            ResponseStatusType type,
+            @JsonKey(
+                includeIfNull: false,
+                unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+            ResponseStatusIncompleteReason? reason)?
         incomplete,
     TResult Function(ResponseStatusType type,
             @JsonKey(includeIfNull: false) APIError? error)?
@@ -11802,6 +12486,7 @@ class _$ResponseStatusDetailsIncompleteImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(ResponseStatusDetailsCancelled value) cancelled,
     required TResult Function(ResponseStatusDetailsIncomplete value) incomplete,
     required TResult Function(ResponseStatusDetailsFailed value) failed,
   }) {
@@ -11811,6 +12496,7 @@ class _$ResponseStatusDetailsIncompleteImpl
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ResponseStatusDetailsCancelled value)? cancelled,
     TResult? Function(ResponseStatusDetailsIncomplete value)? incomplete,
     TResult? Function(ResponseStatusDetailsFailed value)? failed,
   }) {
@@ -11820,6 +12506,7 @@ class _$ResponseStatusDetailsIncompleteImpl
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(ResponseStatusDetailsCancelled value)? cancelled,
     TResult Function(ResponseStatusDetailsIncomplete value)? incomplete,
     TResult Function(ResponseStatusDetailsFailed value)? failed,
     required TResult orElse(),
@@ -11851,11 +12538,14 @@ abstract class ResponseStatusDetailsIncomplete extends ResponseStatusDetails {
   factory ResponseStatusDetailsIncomplete.fromJson(Map<String, dynamic> json) =
       _$ResponseStatusDetailsIncompleteImpl.fromJson;
 
-  /// The type of the status.
+  /// The type of error that caused the response to fail.
   @override
   ResponseStatusType get type;
 
-  /// The reason the response is incomplete.
+  /// The reason the Response did not complete. For a `cancelled` Response, one of `turn_detected`
+  /// (the server VAD detected a new start of speech) or `client_cancelled` (the client sent a
+  /// cancel event). For an `incomplete` Response, one of `max_output_tokens` or `content_filter`
+  /// (the server-side safety filter activated and cut off the response).
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   ResponseStatusIncompleteReason? get reason;
@@ -11942,7 +12632,7 @@ class _$ResponseStatusDetailsFailedImpl extends ResponseStatusDetailsFailed {
           Map<String, dynamic> json) =>
       _$$ResponseStatusDetailsFailedImplFromJson(json);
 
-  /// The type of the status.
+  /// The type of error that caused the response to fail.
   @override
   @JsonKey()
   final ResponseStatusType type;
@@ -11988,6 +12678,13 @@ class _$ResponseStatusDetailsFailedImpl extends ResponseStatusDetailsFailed {
                 includeIfNull: false,
                 unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
             ResponseStatusIncompleteReason? reason)
+        cancelled,
+    required TResult Function(
+            ResponseStatusType type,
+            @JsonKey(
+                includeIfNull: false,
+                unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+            ResponseStatusIncompleteReason? reason)
         incomplete,
     required TResult Function(ResponseStatusType type,
             @JsonKey(includeIfNull: false) APIError? error)
@@ -11999,6 +12696,13 @@ class _$ResponseStatusDetailsFailedImpl extends ResponseStatusDetailsFailed {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            ResponseStatusType type,
+            @JsonKey(
+                includeIfNull: false,
+                unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+            ResponseStatusIncompleteReason? reason)?
+        cancelled,
     TResult? Function(
             ResponseStatusType type,
             @JsonKey(
@@ -12022,6 +12726,13 @@ class _$ResponseStatusDetailsFailedImpl extends ResponseStatusDetailsFailed {
                 includeIfNull: false,
                 unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
             ResponseStatusIncompleteReason? reason)?
+        cancelled,
+    TResult Function(
+            ResponseStatusType type,
+            @JsonKey(
+                includeIfNull: false,
+                unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+            ResponseStatusIncompleteReason? reason)?
         incomplete,
     TResult Function(ResponseStatusType type,
             @JsonKey(includeIfNull: false) APIError? error)?
@@ -12037,6 +12748,7 @@ class _$ResponseStatusDetailsFailedImpl extends ResponseStatusDetailsFailed {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(ResponseStatusDetailsCancelled value) cancelled,
     required TResult Function(ResponseStatusDetailsIncomplete value) incomplete,
     required TResult Function(ResponseStatusDetailsFailed value) failed,
   }) {
@@ -12046,6 +12758,7 @@ class _$ResponseStatusDetailsFailedImpl extends ResponseStatusDetailsFailed {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ResponseStatusDetailsCancelled value)? cancelled,
     TResult? Function(ResponseStatusDetailsIncomplete value)? incomplete,
     TResult? Function(ResponseStatusDetailsFailed value)? failed,
   }) {
@@ -12055,6 +12768,7 @@ class _$ResponseStatusDetailsFailedImpl extends ResponseStatusDetailsFailed {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(ResponseStatusDetailsCancelled value)? cancelled,
     TResult Function(ResponseStatusDetailsIncomplete value)? incomplete,
     TResult Function(ResponseStatusDetailsFailed value)? failed,
     required TResult orElse(),
@@ -12083,7 +12797,7 @@ abstract class ResponseStatusDetailsFailed extends ResponseStatusDetails {
   factory ResponseStatusDetailsFailed.fromJson(Map<String, dynamic> json) =
       _$ResponseStatusDetailsFailedImpl.fromJson;
 
-  /// The type of the status.
+  /// The type of error that caused the response to fail.
   @override
   ResponseStatusType get type;
 
@@ -13310,7 +14024,10 @@ class _$RealtimeEventConversationItemCreateImpl
   @JsonKey()
   final RealtimeEventType type;
 
-  /// The ID of the preceding item after which the new item will be inserted.
+  /// The ID of the preceding item after which the new item will be inserted. If not set, the new item
+  /// will be appended to the end of the conversation. If set, it allows an item to be inserted
+  /// mid-conversation. If the ID cannot be found, an error will be returned and the item will not be
+  /// added.
   @override
   @JsonKey(name: 'previous_item_id', includeIfNull: false)
   final String? previousItemId;
@@ -14364,7 +15081,10 @@ abstract class RealtimeEventConversationItemCreate extends RealtimeEvent {
   @override
   RealtimeEventType get type;
 
-  /// The ID of the preceding item after which the new item will be inserted.
+  /// The ID of the preceding item after which the new item will be inserted. If not set, the new item
+  /// will be appended to the end of the conversation. If set, it allows an item to be inserted
+  /// mid-conversation. If the ID cannot be found, an error will be returned and the item will not be
+  /// added.
   @JsonKey(name: 'previous_item_id', includeIfNull: false)
   String? get previousItemId;
 
@@ -15603,17 +16323,18 @@ class _$RealtimeEventConversationItemTruncateImpl
   @JsonKey()
   final RealtimeEventType type;
 
-  /// The ID of the assistant message item to truncate.
+  /// The ID of the assistant message item to truncate. Only assistant message items can be truncated.
   @override
   @JsonKey(name: 'item_id')
   final String itemId;
 
-  /// The index of the content part to truncate.
+  /// The index of the content part to truncate. Set this to 0.
   @override
   @JsonKey(name: 'content_index')
   final int contentIndex;
 
-  /// Inclusive duration up to which audio is truncated, in milliseconds.
+  /// Inclusive duration up to which audio is truncated, in milliseconds. If the audio_end_ms is greater
+  /// than the actual audio duration, the server will respond with an error.
   @override
   @JsonKey(name: 'audio_end_ms')
   final int audioEndMs;
@@ -16668,15 +17389,16 @@ abstract class RealtimeEventConversationItemTruncate extends RealtimeEvent {
   @override
   RealtimeEventType get type;
 
-  /// The ID of the assistant message item to truncate.
+  /// The ID of the assistant message item to truncate. Only assistant message items can be truncated.
   @JsonKey(name: 'item_id')
   String get itemId;
 
-  /// The index of the content part to truncate.
+  /// The index of the content part to truncate. Set this to 0.
   @JsonKey(name: 'content_index')
   int get contentIndex;
 
-  /// Inclusive duration up to which audio is truncated, in milliseconds.
+  /// Inclusive duration up to which audio is truncated, in milliseconds. If the audio_end_ms is greater
+  /// than the actual audio duration, the server will respond with an error.
   @JsonKey(name: 'audio_end_ms')
   int get audioEndMs;
 
@@ -16764,7 +17486,8 @@ class _$RealtimeEventInputAudioBufferAppendImpl
   @JsonKey()
   final RealtimeEventType type;
 
-  /// Base64-encoded audio bytes.
+  /// Base64-encoded audio bytes. This must be in the format specified by the `input_audio_format` field
+  /// in the session configuration.
   @override
   final String audio;
 
@@ -17807,7 +18530,8 @@ abstract class RealtimeEventInputAudioBufferAppend extends RealtimeEvent {
   @override
   RealtimeEventType get type;
 
-  /// Base64-encoded audio bytes.
+  /// Base64-encoded audio bytes. This must be in the format specified by the `input_audio_format` field
+  /// in the session configuration.
   String get audio;
 
   /// Create a copy of RealtimeEvent
@@ -24673,7 +25397,8 @@ class _$RealtimeEventConversationItemCreatedImpl
   @JsonKey()
   final RealtimeEventType type;
 
-  /// The ID of the preceding item.
+  /// The ID of the preceding item in the Conversation context, allows the client to understand the
+  /// order of the conversation.
   @override
   @JsonKey(name: 'previous_item_id')
   final String? previousItemId;
@@ -25726,7 +26451,8 @@ abstract class RealtimeEventConversationItemCreated extends RealtimeEvent {
   @override
   RealtimeEventType get type;
 
-  /// The ID of the preceding item.
+  /// The ID of the preceding item in the Conversation context, allows the client to understand the
+  /// order of the conversation.
   @JsonKey(name: 'previous_item_id')
   String? get previousItemId;
 
@@ -26977,7 +27703,7 @@ class _$RealtimeEventConversationItemInputAudioTranscriptionCompletedImpl
   @JsonKey()
   final RealtimeEventType type;
 
-  /// The ID of the user message item.
+  /// The ID of the user message item containing the audio.
   @override
   @JsonKey(name: 'item_id')
   final String itemId;
@@ -28047,7 +28773,7 @@ abstract class RealtimeEventConversationItemInputAudioTranscriptionCompleted
   @override
   RealtimeEventType get type;
 
-  /// The ID of the user message item.
+  /// The ID of the user message item containing the audio.
   @JsonKey(name: 'item_id')
   String get itemId;
 
@@ -33930,7 +34656,9 @@ class _$RealtimeEventInputAudioBufferSpeechStartedImpl
   @JsonKey()
   final RealtimeEventType type;
 
-  /// Milliseconds since the session started when speech was detected.
+  /// Milliseconds from the start of all audio written to the buffer during the session when speech was
+  /// first detected. This will correspond to the beginning of audio sent to the model, and thus
+  /// includes the `prefix_padding_ms` configured in the Session.
   @override
   @JsonKey(name: 'audio_start_ms')
   final int audioStartMs;
@@ -34988,7 +35716,9 @@ abstract class RealtimeEventInputAudioBufferSpeechStarted
   @override
   RealtimeEventType get type;
 
-  /// Milliseconds since the session started when speech was detected.
+  /// Milliseconds from the start of all audio written to the buffer during the session when speech was
+  /// first detected. This will correspond to the beginning of audio sent to the model, and thus
+  /// includes the `prefix_padding_ms` configured in the Session.
   @JsonKey(name: 'audio_start_ms')
   int get audioStartMs;
 
@@ -35088,7 +35818,9 @@ class _$RealtimeEventInputAudioBufferSpeechStoppedImpl
   @JsonKey()
   final RealtimeEventType type;
 
-  /// Milliseconds since the session started when speech stopped.
+  /// Milliseconds since the session started when speech stopped. This will correspond to the end of
+  /// audio sent to the model, and thus includes the `min_silence_duration_ms` configured in the
+  /// Session.
   @override
   @JsonKey(name: 'audio_end_ms')
   final int audioEndMs;
@@ -36146,7 +36878,9 @@ abstract class RealtimeEventInputAudioBufferSpeechStopped
   @override
   RealtimeEventType get type;
 
-  /// Milliseconds since the session started when speech stopped.
+  /// Milliseconds since the session started when speech stopped. This will correspond to the end of
+  /// audio sent to the model, and thus includes the `min_silence_duration_ms` configured in the
+  /// Session.
   @JsonKey(name: 'audio_end_ms')
   int get audioEndMs;
 
@@ -49388,12 +50122,12 @@ class _$RealtimeEventResponseOutputItemAddedImpl
   @JsonKey()
   final RealtimeEventType type;
 
-  /// The ID of the response to which the item belongs.
+  /// The ID of the Response to which the item belongs.
   @override
   @JsonKey(name: 'response_id')
   final String responseId;
 
-  /// The index of the output item in the response.
+  /// The index of the output item in the Response.
   @override
   @JsonKey(name: 'output_index')
   final int outputIndex;
@@ -50452,11 +51186,11 @@ abstract class RealtimeEventResponseOutputItemAdded extends RealtimeEvent {
   @override
   RealtimeEventType get type;
 
-  /// The ID of the response to which the item belongs.
+  /// The ID of the Response to which the item belongs.
   @JsonKey(name: 'response_id')
   String get responseId;
 
-  /// The index of the output item in the response.
+  /// The index of the output item in the Response.
   @JsonKey(name: 'output_index')
   int get outputIndex;
 
@@ -50574,12 +51308,12 @@ class _$RealtimeEventResponseOutputItemDoneImpl
   @JsonKey()
   final RealtimeEventType type;
 
-  /// The ID of the response to which the item belongs.
+  /// The ID of the Response to which the item belongs.
   @override
   @JsonKey(name: 'response_id')
   final String responseId;
 
-  /// The index of the output item in the response.
+  /// The index of the output item in the Response.
   @override
   @JsonKey(name: 'output_index')
   final int outputIndex;
@@ -51637,11 +52371,11 @@ abstract class RealtimeEventResponseOutputItemDone extends RealtimeEvent {
   @override
   RealtimeEventType get type;
 
-  /// The ID of the response to which the item belongs.
+  /// The ID of the Response to which the item belongs.
   @JsonKey(name: 'response_id')
   String get responseId;
 
-  /// The index of the output item in the response.
+  /// The index of the output item in the Response.
   @JsonKey(name: 'output_index')
   int get outputIndex;
 
