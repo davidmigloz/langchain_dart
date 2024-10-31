@@ -8446,7 +8446,8 @@ ChatCompletionAudioOptions _$ChatCompletionAudioOptionsFromJson(
 
 /// @nodoc
 mixin _$ChatCompletionAudioOptions {
-  /// Specifies the voice type. Supported voices are `alloy`, `echo`, `fable`, `onyx`, `nova`, and `shimmer`.
+  /// The voice the model uses to respond. Supported voices are `alloy`,
+  /// `ash`, `ballad`, `coral`, `echo`, `sage`, `shimmer`, and `verse`.
   ChatCompletionAudioVoice get voice => throw _privateConstructorUsedError;
 
   /// Specifies the output audio format. Must be one of `wav`, `mp3`, `flac`, `opus`, or `pcm16`.
@@ -8558,7 +8559,8 @@ class _$ChatCompletionAudioOptionsImpl extends _ChatCompletionAudioOptions {
           Map<String, dynamic> json) =>
       _$$ChatCompletionAudioOptionsImplFromJson(json);
 
-  /// Specifies the voice type. Supported voices are `alloy`, `echo`, `fable`, `onyx`, `nova`, and `shimmer`.
+  /// The voice the model uses to respond. Supported voices are `alloy`,
+  /// `ash`, `ballad`, `coral`, `echo`, `sage`, `shimmer`, and `verse`.
   @override
   final ChatCompletionAudioVoice voice;
 
@@ -8611,7 +8613,8 @@ abstract class _ChatCompletionAudioOptions extends ChatCompletionAudioOptions {
   factory _ChatCompletionAudioOptions.fromJson(Map<String, dynamic> json) =
       _$ChatCompletionAudioOptionsImpl.fromJson;
 
-  /// Specifies the voice type. Supported voices are `alloy`, `echo`, `fable`, `onyx`, `nova`, and `shimmer`.
+  /// The voice the model uses to respond. Supported voices are `alloy`,
+  /// `ash`, `ballad`, `coral`, `echo`, `sage`, `shimmer`, and `verse`.
   @override
   ChatCompletionAudioVoice get voice;
 
