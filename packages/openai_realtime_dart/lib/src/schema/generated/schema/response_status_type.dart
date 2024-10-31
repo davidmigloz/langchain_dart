@@ -8,8 +8,10 @@ part of openai_realtime_schema;
 // ENUM: ResponseStatusType
 // ==========================================
 
-/// The type of the status.
+/// The type of error that caused the response to fail.
 enum ResponseStatusType {
+  @JsonValue('cancelled')
+  cancelled,
   @JsonValue('incomplete')
   incomplete,
   @JsonValue('failed')

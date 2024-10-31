@@ -18,7 +18,8 @@ class InputAudioTranscriptionConfig with _$InputAudioTranscriptionConfig {
     /// Whether input audio transcription is enabled.
     @JsonKey(includeIfNull: false) bool? enabled,
 
-    /// The model used for transcription.
+    /// The model to use for transcription, `whisper-1` is the only currently
+    /// supported model.
     @JsonKey(includeIfNull: false) String? model,
   }) = _InputAudioTranscriptionConfig;
 

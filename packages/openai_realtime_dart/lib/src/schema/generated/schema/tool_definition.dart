@@ -15,13 +15,15 @@ class ToolDefinition with _$ToolDefinition {
 
   /// Factory constructor for ToolDefinition
   const factory ToolDefinition({
-    /// The type of the tool (currently only `function` is supported).
+    /// The type of the tool, i.e. `function`.
     @Default(ToolType.function) ToolType type,
 
     /// The name of the function.
     required String name,
 
-    /// The description of the function.
+    /// The description of the function, including guidance on when and how
+    /// to call it, and guidance about what to tell the user when calling
+    /// (if anything).
     @JsonKey(includeIfNull: false) String? description,
 
     /// Parameters of the function in JSON Schema.
