@@ -15,3 +15,6 @@ topics:
 
 environment:
   sdk: ">=3.4.0 <4.0.0"
+dependencies:
+  huggingface_client: ^1.5.0
+  langchain_core: ^0.3.6
