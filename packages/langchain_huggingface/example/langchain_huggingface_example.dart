@@ -12,7 +12,7 @@ void main() async {
 
 /// The most basic building block of LangChain is calling an LLM on some input.
 Future<void> _example1() async {
-  final huggingFace = HuggingfaceInference(
+  final huggingFace = HuggingfaceInference.call(
     model: 'gpt2',
     apiKey: '...Hugging-face-api-key',
   );

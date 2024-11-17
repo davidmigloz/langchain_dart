@@ -2,20 +2,30 @@ import 'package:huggingface_client/huggingface_client.dart';
 import 'package:langchain_core/llms.dart';
 import 'package:langchain_core/src/prompts/types.dart';
 import 'package:meta/meta.dart';
+import '../../langchain_huggingface.dart';
 import 'mappers.dart';
 import 'types.dart';
 
 @immutable
 class HuggingfaceInference extends BaseLLM<HuggingFaceOptions> {
-  HuggingfaceInference({
+  const HuggingfaceInference._({
     required this.model,
     required this.apiKey,
+    required this.apiClient,
     super.defaultOptions = const HuggingFaceOptions(),
-  }) : _apiClient = InferenceApi(_getclient(apiKey));
-  final InferenceApi _apiClient;
+  });
+  final InferenceApi apiClient;
   final String apiKey;
   final String model;
-
+  factory HuggingfaceInference.call({
+    required String apiKey,
+    required String model,
+  }) {
+    final apiClient = InferenceApi(HuggingFaceClient.getInferenceClient(
+        apiKey, HuggingFaceClient.inferenceBasePath));
+    return HuggingfaceInference._(
+        model: model, apiKey: apiKey, apiClient: apiClient);
+  }
   @override
   Future<LLMResult> invoke(PromptValue input,
       {HuggingFaceOptions? options}) async {
@@ -32,15 +42,11 @@ class HuggingfaceInference extends BaseLLM<HuggingFaceOptions> {
         options: InferenceOptions(
             useCache: options?.useCache ?? true,
             waitForModel: options?.waitForModel ?? false));
-    final result = await _apiClient.queryNLPTextGeneration(
+    final result = await apiClient.queryNLPTextGeneration(
         taskParameters: parameters, model: model);
 
     return result![0]!.toLLMResult();
   }
-
-  static InferenceApiClient _getclient(String apikey) =>
-      HuggingFaceClient.getInferenceClient(
-          apikey, HuggingFaceClient.inferenceBasePath);
 
   @override
   String get modelType => 'llm';
