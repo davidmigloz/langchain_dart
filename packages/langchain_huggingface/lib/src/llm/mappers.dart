@@ -13,3 +13,15 @@ extension HuggingFaceResponseMapper on ApiResponseNLPTextGeneration {
         usage: const LanguageModelUsage());
   }
 }
+
+extension HuggingFaceStreamResponseMapper on TextGenerationStreamResponse {
+  //map to
+  LLMResult toLLMResult() {
+    return LLMResult(
+        id: id.toString(),
+        output: text,
+        finishReason: FinishReason.unspecified,
+        metadata: {},
+        usage: const LanguageModelUsage());
+  }
+}

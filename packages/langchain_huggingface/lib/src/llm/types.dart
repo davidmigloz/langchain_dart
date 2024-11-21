@@ -93,32 +93,3 @@ class HuggingFaceOptions extends LLMOptions {
     );
   }
 }
-
-//inputs*	string	
-// parameters	object	
-//         adapter_id	string	Lora adapter id
-//         best_of	integer	Generate best_of sequences and return the one if the highest token logprobs.
-//         decoder_input_details	boolean	Whether to return decoder input token logprobs and ids.
-//         details	boolean	Whether to return generation details.
-//         do_sample	boolean	Activate logits sampling.
-//         frequency_penalty	number	The parameter for frequency penalty. 1.0 means no penalty Penalize new tokens based on their existing frequency in the text so far, decreasing the model’s likelihood to repeat the same line verbatim.
-//         grammar	unknown	One of the following:
-//                  (#1)	object	
-//                         type*	enum	Possible values: json.
-//                         value*	unknown	A string that represents a JSON Schema. JSON Schema is a declarative language that allows to annotate JSON documents with types and descriptions.
-//                  (#2)	object	
-//                         type*	enum	Possible values: regex.
-//                         value*	string	
-//         max_new_tokens	integer	Maximum number of tokens to generate.
-//         repetition_penalty	number	The parameter for repetition penalty. 1.0 means no penalty. See this paper for more details.
-//         return_full_text	boolean	Whether to prepend the prompt to the generated text
-//         seed	integer	Random sampling seed.
-//         stop	string[]	Stop generating tokens if a member of stop is generated.
-//         temperature	number	The value used to module the logits distribution.
-//         top_k	integer	The number of highest probability vocabulary tokens to keep for top-k-filtering.
-//         top_n_tokens	integer	The number of highest probability vocabulary tokens to keep for top-n-filtering.
-//         top_p	number	Top-p value for nucleus sampling.
-//         truncate	integer	Truncate inputs tokens to the given size.
-//         typical_p	number	Typical Decoding mass See Typical Decoding for Natural Language Generation for more information.
-//         watermark	boolean	Watermarking with A Watermark for Large Language Models.
-// stream

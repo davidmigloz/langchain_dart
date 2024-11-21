@@ -49,6 +49,26 @@ class HuggingfaceInference extends BaseLLM<HuggingFaceOptions> {
   }
 
   @override
+  Stream<LLMResult> stream(PromptValue input, {HuggingFaceOptions? options}) {
+    final query = ApiQueryNLPTextGeneration(
+        inputs: input.toString(),
+        temperature: options?.temperature ?? 1.0,
+        topK: options?.topK ?? 0,
+        topP: options?.topP ?? 0.0,
+        maxTime: options?.maxTime ?? -1.0,
+        returnFullText: options?.returnFullText ?? true,
+        repetitionPenalty: options?.repetitionPenalty ?? -1,
+        doSample: options?.doSample ?? true,
+        maxNewTokens: options?.maxNewTokens ?? -1,
+        options: InferenceOptions(
+            useCache: options?.useCache ?? true,
+            waitForModel: options?.waitForModel ?? false));
+    final stream = apiClient.textStreamGeneration(query: query, model: model);
+
+    return stream.map((response) => response.toLLMResult());
+  }
+
+  @override
   String get modelType => 'llm';
   @override
   Future<List<int>> tokenize(PromptValue promptValue,
