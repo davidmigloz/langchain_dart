@@ -233,28 +233,28 @@ packages:
       path: "../../packages/langchain"
       relative: true
     source: path
-    version: "0.7.5"
+    version: "0.7.7+1"
   langchain_community:
     dependency: "direct main"
     description:
       path: "../../packages/langchain_community"
       relative: true
     source: path
-    version: "0.3.1"
+    version: "0.3.2+1"
   langchain_core:
     dependency: "direct overridden"
     description:
       path: "../../packages/langchain_core"
       relative: true
     source: path
-    version: "0.3.5"
+    version: "0.3.6"
   langchain_openai:
     dependency: "direct main"
     description:
       path: "../../packages/langchain_openai"
       relative: true
     source: path
-    version: "0.7.1"
+    version: "0.7.2+3"
   langchain_tiktoken:
     dependency: transitive
     description:
@@ -315,17 +315,17 @@ packages:
     dependency: transitive
     description:
       name: objectbox
-      sha256: "70ff2a7538f6f8bb56136734d574f5bdc1cf29c50cd7207a14ea0c641ecb88ca"
+      sha256: ea823f4bf1d0a636e7aa50b43daabb64dd0fbd80b85a033016ccc1bc4f76f432
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.1"
+    version: "4.0.3"
   openai_dart:
     dependency: "direct overridden"
     description:
       path: "../../packages/openai_dart"
       relative: true
     source: path
-    version: "0.4.1"
+    version: "0.4.2+2"
   path:
     dependency: transitive
     description:
@@ -518,10 +518,10 @@ packages:
     dependency: transitive
     description:
       name: uuid
-      sha256: "83d37c7ad7aaf9aa8e275490669535c8080377cfa7a7004c24dfac53afffaa90"
+      sha256: a5be9ef6618a7ac1e964353ef476418026db906c4facdedaa299b7a2e71690ff
       url: "https://pub.dev"
     source: hosted
-    version: "4.4.2"
+    version: "4.5.1"
   vector_math:
     dependency: transitive
     description:

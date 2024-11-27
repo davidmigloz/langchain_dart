@@ -87,7 +87,7 @@ import 'types.dart';
 /// final prompt1 = PromptTemplate.fromTemplate('How are you {name}?');
 /// final prompt2 = PromptTemplate.fromTemplate('How old are you {name}?');
 /// final chain = Runnable.fromMap({
-///   'q1': prompt1 | chatModel.bind(const ChatAnthropicOptions(model: 'claude-3-5-sonnet-20240620)) | outputParser,
+///   'q1': prompt1 | chatModel.bind(const ChatAnthropicOptions(model: 'claude-3-5-sonnet-20241022)) | outputParser,
 ///   'q2': prompt2 | chatModel.bind(const ChatAnthropicOptions(model: 'claude-3-sonnet-20240229)) | outputParser,
 /// });
 /// final res = await chain.invoke({'name': 'David'});
@@ -179,7 +179,7 @@ class ChatAnthropic extends BaseChatModel<ChatAnthropicOptions> {
   String get modelType => 'anthropic-chat';
 
   /// The default model to use unless another is specified.
-  static const defaultModel = 'claude-3-5-sonnet-20240620';
+  static const defaultModel = 'claude-3-5-sonnet-20241022';
 
   /// The default max tokens to use unless another is specified.
   static const defaultMaxTokens = 1024;

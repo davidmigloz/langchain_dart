@@ -7,12 +7,16 @@ Wrapper around [Anthropic Messages API](https://docs.anthropic.com/en/api/messag
 The Anthropic API uses API keys for authentication. Visit your [API Keys](https://console.anthropic.com/settings/keys) page to retrieve the API key you'll use in your requests.
 
 The following models are available:
+- `claude-3-5-sonnet-latest`
+- `claude-3-5-sonnet-20241022`
 - `claude-3-5-sonnet-20240620`
-- `claude-3-haiku-20240307`
+- `claude-3-opus-latest`
 - `claude-3-opus-20240229`
 - `claude-3-sonnet-20240229`
-- `claude-2.0`
+- `claude-3-haiku-20240307`
 - `claude-2.1`
+- `claude-2.0`
+- `claude-instant-1.2`
 
 Mind that the list may not be up-to-date. See https://docs.anthropic.com/en/docs/about-claude/models for the updated list.
 
@@ -24,7 +28,7 @@ final apiKey = Platform.environment['ANTHROPIC_API_KEY'];
 final chatModel = ChatAnthropic(
   apiKey: apiKey,
   defaultOptions: ChatAnthropicOptions(
-    model: 'claude-3-5-sonnet-20240620',
+    model: 'claude-3-5-sonnet-20241022',
     temperature: 0,
   ),
 );
@@ -53,7 +57,7 @@ final apiKey = Platform.environment['ANTHROPIC_API_KEY'];
 final chatModel = ChatAnthropic(
   apiKey: apiKey,
   defaultOptions: ChatAnthropicOptions(
-    model: 'claude-3-5-sonnet-20240620',
+    model: 'claude-3-5-sonnet-20241022',
     temperature: 0,
   ),
 );
@@ -91,7 +95,7 @@ final promptTemplate = ChatPromptTemplate.fromTemplates([
 final chatModel = ChatAnthropic(
   apiKey: apiKey,
   defaultOptions: ChatAnthropicOptions(
-    model: 'claude-3-5-sonnet-20240620',
+    model: 'claude-3-5-sonnet-20241022',
     temperature: 0,
   ),
 );
@@ -133,7 +137,7 @@ const tool = ToolSpec(
 final chatModel = ChatAnthropic(
   apiKey: apiKey,
   defaultOptions: ChatAnthropicOptions(
-    model: 'claude-3-5-sonnet-20240620',
+    model: 'claude-3-5-sonnet-20241022',
     temperature: 0,
     tools: [tool],
   ),

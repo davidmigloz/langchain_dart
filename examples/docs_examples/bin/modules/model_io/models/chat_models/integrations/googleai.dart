@@ -9,6 +9,7 @@ void main(final List<String> arguments) async {
   await _chatGoogleGenerativeAI();
   await _chatGoogleGenerativeAIMultiModal();
   await _chatOpenAIStreaming();
+  await _codeExecution();
 }
 
 Future<void> _chatGoogleGenerativeAI() async {
@@ -104,4 +105,30 @@ Future<void> _chatOpenAIStreaming() async {
   // 222324252627282930
 
   chatModel.close();
+}
+
+Future<void> _codeExecution() async {
+  final apiKey = Platform.environment['GOOGLEAI_API_KEY'];
+
+  final chatModel = ChatGoogleGenerativeAI(
+    apiKey: apiKey,
+    defaultOptions: const ChatGoogleGenerativeAIOptions(
+      model: 'gemini-1.5-flash',
+      enableCodeExecution: true,
+    ),
+  );
+
+  final res = await chatModel.invoke(
+    PromptValue.string(
+      'Calculate the fibonacci sequence up to 10 terms. '
+      'Return only the last term without explanations.',
+    ),
+  );
+  final text = res.output.content;
+  print(text); // 34
+  final executableCode = res.metadata['executable_code'] as String;
+  print(executableCode);
+  final codeExecutionResult =
+      res.metadata['code_execution_result'] as Map<String, dynamic>;
+  print(codeExecutionResult);
 }

@@ -15,17 +15,18 @@ class CreateModerationRequest with _$CreateModerationRequest {
 
   /// Factory constructor for CreateModerationRequest
   const factory CreateModerationRequest({
-    /// Two content moderations models are available: `text-moderation-stable` and `text-moderation-latest`.
-    ///
-    /// The default is `text-moderation-latest` which will be automatically upgraded over time. This ensures you are always using our most accurate model. If you use `text-moderation-stable`, we will provide advanced notice before updating the model. Accuracy of `text-moderation-stable` may be slightly lower than for `text-moderation-latest`.
+    /// The content moderation model you would like to use. Learn more in
+    /// [the moderation guide](https://platform.openai.com/docs/guides/moderation), and learn about
+    /// available models [here](https://platform.openai.com//docs/models/moderation).
     @_ModerationModelConverter()
     @JsonKey(includeIfNull: false)
     @Default(
-      ModerationModelString('text-moderation-latest'),
+      ModerationModelString('omni-moderation-latest'),
     )
     ModerationModel? model,
 
-    /// The input text to classify
+    /// Input (or inputs) to classify. Can be a single string, an array of strings, or
+    /// an array of multi-modal input objects similar to other models.
     @_ModerationInputConverter() required ModerationInput input,
   }) = _CreateModerationRequest;
 
@@ -56,6 +57,10 @@ class CreateModerationRequest with _$CreateModerationRequest {
 
 /// Available moderation models. Mind that the list may not be exhaustive nor up-to-date.
 enum ModerationModels {
+  @JsonValue('omni-moderation-latest')
+  omniModerationLatest,
+  @JsonValue('omni-moderation-2024-09-26')
+  omniModeration20240926,
   @JsonValue('text-moderation-latest')
   textModerationLatest,
   @JsonValue('text-moderation-stable')
@@ -66,9 +71,9 @@ enum ModerationModels {
 // CLASS: ModerationModel
 // ==========================================
 
-/// Two content moderations models are available: `text-moderation-stable` and `text-moderation-latest`.
-///
-/// The default is `text-moderation-latest` which will be automatically upgraded over time. This ensures you are always using our most accurate model. If you use `text-moderation-stable`, we will provide advanced notice before updating the model. Accuracy of `text-moderation-stable` may be slightly lower than for `text-moderation-latest`.
+/// The content moderation model you would like to use. Learn more in
+/// [the moderation guide](https://platform.openai.com/docs/guides/moderation), and learn about
+/// available models [here](https://platform.openai.com//docs/models/moderation).
 @freezed
 sealed class ModerationModel with _$ModerationModel {
   const ModerationModel._();
@@ -108,7 +113,7 @@ class _ModerationModelConverter
     if (data is String) {
       return ModerationModelString(data);
     }
-    return ModerationModelString('text-moderation-latest');
+    return ModerationModelString('omni-moderation-latest');
   }
 
   @override
@@ -126,17 +131,23 @@ class _ModerationModelConverter
 // CLASS: ModerationInput
 // ==========================================
 
-/// The input text to classify
+/// Input (or inputs) to classify. Can be a single string, an array of strings, or
+/// an array of multi-modal input objects similar to other models.
 @freezed
 sealed class ModerationInput with _$ModerationInput {
   const ModerationInput._();
 
-  /// A list of string inputs.
+  /// An array of multi-modal inputs to the moderation model.
+  const factory ModerationInput.listModerationInputObject(
+    List<ModerationInputObject> value,
+  ) = ModerationInputListModerationInputObject;
+
+  /// An array of strings to classify for moderation.
   const factory ModerationInput.listString(
     List<String> value,
   ) = ModerationInputListString;
 
-  /// A string input.
+  /// A string of text to classify for moderation.
   const factory ModerationInput.string(
     String value,
   ) = ModerationInputString;
@@ -153,6 +164,11 @@ class _ModerationInputConverter
 
   @override
   ModerationInput fromJson(Object? data) {
+    if (data is List && data.every((item) => item is Map)) {
+      return ModerationInputListModerationInputObject(data
+          .map((i) => ModerationInputObject.fromJson(i as Map<String, dynamic>))
+          .toList(growable: false));
+    }
     if (data is List && data.every((item) => item is String)) {
       return ModerationInputListString(data.cast());
     }
@@ -167,6 +183,7 @@ class _ModerationInputConverter
   @override
   Object? toJson(ModerationInput data) {
     return switch (data) {
+      ModerationInputListModerationInputObject(value: final v) => v,
       ModerationInputListString(value: final v) => v,
       ModerationInputString(value: final v) => v,
     };

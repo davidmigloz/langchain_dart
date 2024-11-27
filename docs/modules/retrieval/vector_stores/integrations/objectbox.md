@@ -119,6 +119,14 @@ To delete documents, you can use the `delete` method passing the ids of the docu
 await vectorStore.delete(ids: ['9999']);
 ```
 
+You can also use `deleteWhere` to delete documents based on a condition.
+
+```dart
+await vectorStore.deleteWhere(
+  ObjectBoxDocumentProps.metadata.contains('cat'),
+);
+```
+
 ## Example: Building a Fully Local RAG App with ObjectBox and Ollama
 
 This example demonstrates how to build a fully local RAG (Retrieval-Augmented Generation) app using ObjectBox and Ollama. The app retrieves blog posts, splits them into chunks, and stores them in an ObjectBox vector store. It then uses the stored information to generate responses to user questions.
@@ -205,7 +213,7 @@ Sources:
 
 // 6. Define the model to use and the vector store retriever
 final chatModel = ChatOllama(
-  defaultOptions: ChatOllamaOptions(model: 'llama3.1'),
+  defaultOptions: ChatOllamaOptions(model: 'llama3.2'),
 );
 final retriever = vectorStore.asRetriever();
 
@@ -250,7 +258,7 @@ Check out the [Wikivoyage EU example](https://github.com/davidmigloz/langchain_d
 
 ### BaseObjectBoxVectorStore
 
-If you need more control over the entity (e.g. if you need to persist custom fields), you can use the `BaseObjectBoxVectorStore` class instead of `ObjectBoxVectorStore`.
+If you need more control over the entity (e.g. if you are using ObjectBox to store other entities, or if you need to customize the Document entity class.), you can use the `BaseObjectBoxVectorStore` class instead of `ObjectBoxVectorStore`.
 
 `BaseObjectBoxVectorStore` requires the following parameters:
 - `embeddings`: The embeddings model to use.
@@ -260,4 +268,79 @@ If you need more control over the entity (e.g. if you need to persist custom fie
 - `getIdProperty`: A function that returns the ID property of the entity.
 - `getEmbeddingProperty`: A function that returns the embedding property of the entity.
 
-You can check how `ObjectBoxVectorStore` is implemented to see how to use `BaseObjectBoxVectorStore`.
+Here is an example of how to use this class:
+
+First, you can define our own Document entity class instead of using the one provided by the [ObjectBoxVectorStore]. In this way, you can customize the entity to your needs. You will need to define the mapping logic between the entity and the LangChain [Document] model.
+
+```dart
+@Entity()
+class MyDocumentEntity {
+  MyDocumentEntity({
+    required this.id,
+    required this.content,
+    required this.metadata,
+    required this.embedding,
+  });
+  @Id()
+  int internalId = 0;
+  @Unique(onConflict: ConflictStrategy.replace)
+  String id;
+  String content;
+  String metadata;
+  @HnswIndex(
+    dimensions: 768,
+    distanceType: VectorDistanceType.cosine,
+  )
+  @Property(type: PropertyType.floatVector)
+  List<double> embedding;
+  factory MyDocumentEntity.fromModel(
+    Document doc, List<double> embedding,
+  ) => MyDocumentEntity(
+        id: doc.id ?? '',
+        content: doc.pageContent,
+        metadata: jsonEncode(doc.metadata),
+        embedding: embedding,
+      );
+  Document toModel() => Document(
+        id: id,
+        pageContent: content,
+        metadata: jsonDecode(metadata),
+      );
+}
+```
+
+After defining the entity class, you will need to run the ObjectBox generator:
+
+```sh
+dart run build_runner build --delete-conflicting-outputs
+```
+
+Then, you just need to create your custom vector store class that extends [BaseObjectBoxVectorStore] and wire everything up:
+
+```dart
+class MyCustomVectorStore extends BaseObjectBoxVectorStore<MyDocumentEntity> {
+  MyCustomVectorStore({
+    required super.embeddings,
+    required Store store,
+  }) : super(
+          box: store.box<MyDocumentEntity>(),
+          createEntity: (
+            String id,
+            String content,
+            String metadata,
+            List<double> embedding,
+          ) =>
+              MyDocumentEntity(
+            id: id,
+            content: content,
+            metadata: metadata,
+            embedding: embedding,
+          ),
+          createDocument: (MyDocumentEntity docDto) => docDto.toModel(),
+          getIdProperty: () => MyDocumentEntity_.id,
+          getEmbeddingProperty: () => MyDocumentEntity_.embedding,
+        );
+}
+```
+
+Now you can use the [MyCustomVectorStore] class to store and search documents.

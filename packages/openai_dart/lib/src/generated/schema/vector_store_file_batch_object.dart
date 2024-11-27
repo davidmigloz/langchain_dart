@@ -18,7 +18,7 @@ class VectorStoreFileBatchObject with _$VectorStoreFileBatchObject {
     /// The identifier, which can be referenced in API endpoints.
     required String id,
 
-    /// The object type, which is always `vector_store.file_batch`.
+    /// The object type, which is always `vector_store.files_batch`
     required String object,
 
     /// The Unix timestamp (in seconds) for when the vector store files batch was created.

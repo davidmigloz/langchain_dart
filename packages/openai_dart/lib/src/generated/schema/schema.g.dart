@@ -309,6 +309,10 @@ _$CreateChatCompletionRequestImpl _$$CreateChatCompletionRequestImplFromJson(
       messages: (json['messages'] as List<dynamic>)
           .map((e) => ChatCompletionMessage.fromJson(e as Map<String, dynamic>))
           .toList(),
+      store: json['store'] as bool? ?? false,
+      metadata: (json['metadata'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, e as String),
+      ),
       frequencyPenalty: (json['frequency_penalty'] as num?)?.toDouble() ?? 0.0,
       logitBias: (json['logit_bias'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, (e as num).toInt()),
@@ -316,7 +320,15 @@ _$CreateChatCompletionRequestImpl _$$CreateChatCompletionRequestImplFromJson(
       logprobs: json['logprobs'] as bool?,
       topLogprobs: (json['top_logprobs'] as num?)?.toInt(),
       maxTokens: (json['max_tokens'] as num?)?.toInt(),
+      maxCompletionTokens: (json['max_completion_tokens'] as num?)?.toInt(),
       n: (json['n'] as num?)?.toInt() ?? 1,
+      modalities: (json['modalities'] as List<dynamic>?)
+          ?.map((e) => $enumDecode(_$ChatCompletionModalityEnumMap, e))
+          .toList(),
+      audio: json['audio'] == null
+          ? null
+          : ChatCompletionAudioOptions.fromJson(
+              json['audio'] as Map<String, dynamic>),
       presencePenalty: (json['presence_penalty'] as num?)?.toDouble() ?? 0.0,
       responseFormat: json['response_format'] == null
           ? null
@@ -361,12 +373,21 @@ Map<String, dynamic> _$$CreateChatCompletionRequestImplToJson(
     }
   }
 
+  writeNotNull('store', instance.store);
+  writeNotNull('metadata', instance.metadata);
   writeNotNull('frequency_penalty', instance.frequencyPenalty);
   writeNotNull('logit_bias', instance.logitBias);
   writeNotNull('logprobs', instance.logprobs);
   writeNotNull('top_logprobs', instance.topLogprobs);
   writeNotNull('max_tokens', instance.maxTokens);
+  writeNotNull('max_completion_tokens', instance.maxCompletionTokens);
   writeNotNull('n', instance.n);
+  writeNotNull(
+      'modalities',
+      instance.modalities
+          ?.map((e) => _$ChatCompletionModalityEnumMap[e]!)
+          .toList());
+  writeNotNull('audio', instance.audio?.toJson());
   writeNotNull('presence_penalty', instance.presencePenalty);
   writeNotNull('response_format', instance.responseFormat?.toJson());
   writeNotNull('seed', instance.seed);
@@ -393,6 +414,11 @@ Map<String, dynamic> _$$CreateChatCompletionRequestImplToJson(
       'functions', instance.functions?.map((e) => e.toJson()).toList());
   return val;
 }
+
+const _$ChatCompletionModalityEnumMap = {
+  ChatCompletionModality.text: 'text',
+  ChatCompletionModality.audio: 'audio',
+};
 
 const _$CreateChatCompletionRequestServiceTierEnumMap = {
   CreateChatCompletionRequestServiceTier.auto: 'auto',
@@ -430,8 +456,14 @@ const _$ChatCompletionModelsEnumMap = {
   ChatCompletionModels.gpt4o: 'gpt-4o',
   ChatCompletionModels.gpt4o20240513: 'gpt-4o-2024-05-13',
   ChatCompletionModels.gpt4o20240806: 'gpt-4o-2024-08-06',
+  ChatCompletionModels.gpt4oAudioPreview: 'gpt-4o-audio-preview',
+  ChatCompletionModels.gpt4oAudioPreview20241001:
+      'gpt-4o-audio-preview-2024-10-01',
   ChatCompletionModels.gpt4oMini: 'gpt-4o-mini',
   ChatCompletionModels.gpt4oMini20240718: 'gpt-4o-mini-2024-07-18',
+  ChatCompletionModels.gpt4oRealtimePreview: 'gpt-4o-realtime-preview',
+  ChatCompletionModels.gpt4oRealtimePreview20241001:
+      'gpt-4o-realtime-preview-2024-10-01',
   ChatCompletionModels.gpt35Turbo: 'gpt-3.5-turbo',
   ChatCompletionModels.gpt35Turbo16k: 'gpt-3.5-turbo-16k',
   ChatCompletionModels.gpt35Turbo16k0613: 'gpt-3.5-turbo-16k-0613',
@@ -439,6 +471,10 @@ const _$ChatCompletionModelsEnumMap = {
   ChatCompletionModels.gpt35Turbo0301: 'gpt-3.5-turbo-0301',
   ChatCompletionModels.gpt35Turbo0613: 'gpt-3.5-turbo-0613',
   ChatCompletionModels.gpt35Turbo1106: 'gpt-3.5-turbo-1106',
+  ChatCompletionModels.o1Mini: 'o1-mini',
+  ChatCompletionModels.o1Mini20240912: 'o1-mini-2024-09-12',
+  ChatCompletionModels.o1Preview: 'o1-preview',
+  ChatCompletionModels.o1Preview20240912: 'o1-preview-2024-09-12',
 };
 
 _$ChatCompletionModelStringImpl _$$ChatCompletionModelStringImplFromJson(
@@ -700,6 +736,39 @@ Map<String, dynamic> _$$ChatCompletionMessageToolCallImplToJson(
 
 const _$ChatCompletionMessageToolCallTypeEnumMap = {
   ChatCompletionMessageToolCallType.function: 'function',
+};
+
+_$ChatCompletionAudioOptionsImpl _$$ChatCompletionAudioOptionsImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ChatCompletionAudioOptionsImpl(
+      voice: $enumDecode(_$ChatCompletionAudioVoiceEnumMap, json['voice']),
+      format: $enumDecode(_$ChatCompletionAudioFormatEnumMap, json['format']),
+    );
+
+Map<String, dynamic> _$$ChatCompletionAudioOptionsImplToJson(
+        _$ChatCompletionAudioOptionsImpl instance) =>
+    <String, dynamic>{
+      'voice': _$ChatCompletionAudioVoiceEnumMap[instance.voice]!,
+      'format': _$ChatCompletionAudioFormatEnumMap[instance.format]!,
+    };
+
+const _$ChatCompletionAudioVoiceEnumMap = {
+  ChatCompletionAudioVoice.alloy: 'alloy',
+  ChatCompletionAudioVoice.ash: 'ash',
+  ChatCompletionAudioVoice.ballad: 'ballad',
+  ChatCompletionAudioVoice.coral: 'coral',
+  ChatCompletionAudioVoice.echo: 'echo',
+  ChatCompletionAudioVoice.sage: 'sage',
+  ChatCompletionAudioVoice.shimmer: 'shimmer',
+  ChatCompletionAudioVoice.verse: 'verse',
+};
+
+const _$ChatCompletionAudioFormatEnumMap = {
+  ChatCompletionAudioFormat.wav: 'wav',
+  ChatCompletionAudioFormat.mp3: 'mp3',
+  ChatCompletionAudioFormat.flac: 'flac',
+  ChatCompletionAudioFormat.opus: 'opus',
+  ChatCompletionAudioFormat.pcm16: 'pcm16',
 };
 
 _$ChatCompletionStreamOptionsImpl _$$ChatCompletionStreamOptionsImplFromJson(
@@ -1098,15 +1167,50 @@ _$CompletionUsageImpl _$$CompletionUsageImplFromJson(
       completionTokens: (json['completion_tokens'] as num?)?.toInt(),
       promptTokens: (json['prompt_tokens'] as num).toInt(),
       totalTokens: (json['total_tokens'] as num).toInt(),
+      completionTokensDetails: json['completion_tokens_details'] == null
+          ? null
+          : CompletionTokensDetails.fromJson(
+              json['completion_tokens_details'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$CompletionUsageImplToJson(
-        _$CompletionUsageImpl instance) =>
-    <String, dynamic>{
-      'completion_tokens': instance.completionTokens,
-      'prompt_tokens': instance.promptTokens,
-      'total_tokens': instance.totalTokens,
-    };
+    _$CompletionUsageImpl instance) {
+  final val = <String, dynamic>{
+    'completion_tokens': instance.completionTokens,
+    'prompt_tokens': instance.promptTokens,
+    'total_tokens': instance.totalTokens,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'completion_tokens_details', instance.completionTokensDetails?.toJson());
+  return val;
+}
+
+_$CompletionTokensDetailsImpl _$$CompletionTokensDetailsImplFromJson(
+        Map<String, dynamic> json) =>
+    _$CompletionTokensDetailsImpl(
+      reasoningTokens: (json['reasoning_tokens'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$$CompletionTokensDetailsImplToJson(
+    _$CompletionTokensDetailsImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('reasoning_tokens', instance.reasoningTokens);
+  return val;
+}
 
 _$CreateEmbeddingRequestImpl _$$CreateEmbeddingRequestImplFromJson(
         Map<String, dynamic> json) =>
@@ -1970,7 +2074,7 @@ _$CreateModerationRequestImpl _$$CreateModerationRequestImplFromJson(
         Map<String, dynamic> json) =>
     _$CreateModerationRequestImpl(
       model: json['model'] == null
-          ? const ModerationModelString('text-moderation-latest')
+          ? const ModerationModelString('omni-moderation-latest')
           : const _ModerationModelConverter().fromJson(json['model']),
       input: const _ModerationInputConverter().fromJson(json['input']),
     );
@@ -2006,6 +2110,8 @@ Map<String, dynamic> _$$ModerationModelEnumerationImplToJson(
     };
 
 const _$ModerationModelsEnumMap = {
+  ModerationModels.omniModerationLatest: 'omni-moderation-latest',
+  ModerationModels.omniModeration20240926: 'omni-moderation-2024-09-26',
   ModerationModels.textModerationLatest: 'text-moderation-latest',
   ModerationModels.textModerationStable: 'text-moderation-stable',
 };
@@ -2021,6 +2127,24 @@ Map<String, dynamic> _$$ModerationModelStringImplToJson(
         _$ModerationModelStringImpl instance) =>
     <String, dynamic>{
       'value': instance.value,
+      'runtimeType': instance.$type,
+    };
+
+_$ModerationInputListModerationInputObjectImpl
+    _$$ModerationInputListModerationInputObjectImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ModerationInputListModerationInputObjectImpl(
+          (json['value'] as List<dynamic>)
+              .map((e) =>
+                  ModerationInputObject.fromJson(e as Map<String, dynamic>))
+              .toList(),
+          $type: json['runtimeType'] as String?,
+        );
+
+Map<String, dynamic> _$$ModerationInputListModerationInputObjectImplToJson(
+        _$ModerationInputListModerationInputObjectImpl instance) =>
+    <String, dynamic>{
+      'value': instance.value.map((e) => e.toJson()).toList(),
       'runtimeType': instance.$type,
     };
 
@@ -2077,6 +2201,8 @@ _$ModerationImpl _$$ModerationImplFromJson(Map<String, dynamic> json) =>
           json['categories'] as Map<String, dynamic>),
       categoryScores: ModerationCategoriesScores.fromJson(
           json['category_scores'] as Map<String, dynamic>),
+      categoryAppliedInputTypes: ModerationCategoriesAppliedInputTypes.fromJson(
+          json['category_applied_input_types'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$ModerationImplToJson(_$ModerationImpl instance) =>
@@ -2084,6 +2210,8 @@ Map<String, dynamic> _$$ModerationImplToJson(_$ModerationImpl instance) =>
       'flagged': instance.flagged,
       'categories': instance.categories.toJson(),
       'category_scores': instance.categoryScores.toJson(),
+      'category_applied_input_types':
+          instance.categoryAppliedInputTypes.toJson(),
     };
 
 _$ModerationCategoriesImpl _$$ModerationCategoriesImplFromJson(
@@ -2093,6 +2221,8 @@ _$ModerationCategoriesImpl _$$ModerationCategoriesImplFromJson(
       hateThreatening: json['hate/threatening'] as bool,
       harassment: json['harassment'] as bool,
       harassmentThreatening: json['harassment/threatening'] as bool,
+      illicit: json['illicit'] as bool,
+      illicitViolent: json['illicit/violent'] as bool,
       selfHarm: json['self-harm'] as bool,
       selfHarmIntent: json['self-harm/intent'] as bool,
       selfHarmInstructions: json['self-harm/instructions'] as bool,
@@ -2109,6 +2239,8 @@ Map<String, dynamic> _$$ModerationCategoriesImplToJson(
       'hate/threatening': instance.hateThreatening,
       'harassment': instance.harassment,
       'harassment/threatening': instance.harassmentThreatening,
+      'illicit': instance.illicit,
+      'illicit/violent': instance.illicitViolent,
       'self-harm': instance.selfHarm,
       'self-harm/intent': instance.selfHarmIntent,
       'self-harm/instructions': instance.selfHarmInstructions,
@@ -2125,6 +2257,8 @@ _$ModerationCategoriesScoresImpl _$$ModerationCategoriesScoresImplFromJson(
       hateThreatening: (json['hate/threatening'] as num).toDouble(),
       harassment: (json['harassment'] as num).toDouble(),
       harassmentThreatening: (json['harassment/threatening'] as num).toDouble(),
+      illicit: (json['illicit'] as num).toDouble(),
+      illicitViolent: (json['illicit/violent'] as num).toDouble(),
       selfHarm: (json['self-harm'] as num).toDouble(),
       selfHarmIntent: (json['self-harm/intent'] as num).toDouble(),
       selfHarmInstructions: (json['self-harm/instructions'] as num).toDouble(),
@@ -2141,6 +2275,72 @@ Map<String, dynamic> _$$ModerationCategoriesScoresImplToJson(
       'hate/threatening': instance.hateThreatening,
       'harassment': instance.harassment,
       'harassment/threatening': instance.harassmentThreatening,
+      'illicit': instance.illicit,
+      'illicit/violent': instance.illicitViolent,
+      'self-harm': instance.selfHarm,
+      'self-harm/intent': instance.selfHarmIntent,
+      'self-harm/instructions': instance.selfHarmInstructions,
+      'sexual': instance.sexual,
+      'sexual/minors': instance.sexualMinors,
+      'violence': instance.violence,
+      'violence/graphic': instance.violenceGraphic,
+    };
+
+_$ModerationCategoriesAppliedInputTypesImpl
+    _$$ModerationCategoriesAppliedInputTypesImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ModerationCategoriesAppliedInputTypesImpl(
+          hate:
+              (json['hate'] as List<dynamic>).map((e) => e as String).toList(),
+          hateThreatening: (json['hate/threatening'] as List<dynamic>)
+              .map((e) => e as String)
+              .toList(),
+          harassment: (json['harassment'] as List<dynamic>)
+              .map((e) => e as String)
+              .toList(),
+          harassmentThreatening:
+              (json['harassment/threatening'] as List<dynamic>)
+                  .map((e) => e as String)
+                  .toList(),
+          illicit: (json['illicit'] as List<dynamic>)
+              .map((e) => e as String)
+              .toList(),
+          illicitViolent: (json['illicit/violent'] as List<dynamic>)
+              .map((e) => e as String)
+              .toList(),
+          selfHarm: (json['self-harm'] as List<dynamic>)
+              .map((e) => e as String)
+              .toList(),
+          selfHarmIntent: (json['self-harm/intent'] as List<dynamic>)
+              .map((e) => e as String)
+              .toList(),
+          selfHarmInstructions:
+              (json['self-harm/instructions'] as List<dynamic>)
+                  .map((e) => e as String)
+                  .toList(),
+          sexual: (json['sexual'] as List<dynamic>)
+              .map((e) => e as String)
+              .toList(),
+          sexualMinors: (json['sexual/minors'] as List<dynamic>)
+              .map((e) => e as String)
+              .toList(),
+          violence: (json['violence'] as List<dynamic>)
+              .map((e) => e as String)
+              .toList(),
+          violenceGraphic: (json['violence/graphic'] as List<dynamic>)
+              .map((e) => e as String)
+              .toList(),
+        );
+
+Map<String, dynamic> _$$ModerationCategoriesAppliedInputTypesImplToJson(
+        _$ModerationCategoriesAppliedInputTypesImpl instance) =>
+    <String, dynamic>{
+      'hate': instance.hate,
+      'hate/threatening': instance.hateThreatening,
+      'harassment': instance.harassment,
+      'harassment/threatening': instance.harassmentThreatening,
+      'illicit': instance.illicit,
+      'illicit/violent': instance.illicitViolent,
       'self-harm': instance.selfHarm,
       'self-harm/intent': instance.selfHarmIntent,
       'self-harm/instructions': instance.selfHarmInstructions,
@@ -2306,6 +2506,7 @@ Map<String, dynamic> _$$AssistantModelEnumerationImplToJson(
     };
 
 const _$AssistantModelsEnumMap = {
+  AssistantModels.chatgpt4oLatest: 'chatgpt-4o-latest',
   AssistantModels.gpt4: 'gpt-4',
   AssistantModels.gpt432k: 'gpt-4-32k',
   AssistantModels.gpt432k0314: 'gpt-4-32k-0314',
@@ -2330,6 +2531,10 @@ const _$AssistantModelsEnumMap = {
   AssistantModels.gpt35Turbo0301: 'gpt-3.5-turbo-0301',
   AssistantModels.gpt35Turbo0613: 'gpt-3.5-turbo-0613',
   AssistantModels.gpt35Turbo1106: 'gpt-3.5-turbo-1106',
+  AssistantModels.o1Mini: 'o1-mini',
+  AssistantModels.o1Mini20240912: 'o1-mini-2024-09-12',
+  AssistantModels.o1Preview: 'o1-preview',
+  AssistantModels.o1Preview20240912: 'o1-preview-2024-09-12',
 };
 
 _$AssistantModelStringImpl _$$AssistantModelStringImplFromJson(
@@ -2521,7 +2726,7 @@ _$FileSearchRankingOptionsImpl _$$FileSearchRankingOptionsImplFromJson(
     _$FileSearchRankingOptionsImpl(
       ranker: $enumDecodeNullable(_$FileSearchRankerEnumMap, json['ranker'],
           unknownValue: JsonKey.nullForUndefinedEnumValue),
-      scoreThreshold: (json['score_threshold'] as num?)?.toDouble(),
+      scoreThreshold: (json['score_threshold'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$$FileSearchRankingOptionsImplToJson(
@@ -2535,7 +2740,7 @@ Map<String, dynamic> _$$FileSearchRankingOptionsImplToJson(
   }
 
   writeNotNull('ranker', _$FileSearchRankerEnumMap[instance.ranker]);
-  writeNotNull('score_threshold', instance.scoreThreshold);
+  val['score_threshold'] = instance.scoreThreshold;
   return val;
 }
 
@@ -2969,6 +3174,7 @@ Map<String, dynamic> _$$CreateRunRequestModelEnumerationImplToJson(
     };
 
 const _$RunModelsEnumMap = {
+  RunModels.chatgpt4oLatest: 'chatgpt-4o-latest',
   RunModels.gpt4: 'gpt-4',
   RunModels.gpt432k: 'gpt-4-32k',
   RunModels.gpt432k0314: 'gpt-4-32k-0314',
@@ -2993,6 +3199,10 @@ const _$RunModelsEnumMap = {
   RunModels.gpt35Turbo0301: 'gpt-3.5-turbo-0301',
   RunModels.gpt35Turbo0613: 'gpt-3.5-turbo-0613',
   RunModels.gpt35Turbo1106: 'gpt-3.5-turbo-1106',
+  RunModels.o1Mini: 'o1-mini',
+  RunModels.o1Mini20240912: 'o1-mini-2024-09-12',
+  RunModels.o1Preview: 'o1-preview',
+  RunModels.o1Preview20240912: 'o1-preview-2024-09-12',
 };
 
 _$CreateRunRequestModelStringImpl _$$CreateRunRequestModelStringImplFromJson(
@@ -3292,6 +3502,7 @@ Map<String, dynamic> _$$ThreadAndRunModelEnumerationImplToJson(
     };
 
 const _$ThreadAndRunModelsEnumMap = {
+  ThreadAndRunModels.chatgpt4oLatest: 'chatgpt-4o-latest',
   ThreadAndRunModels.gpt4: 'gpt-4',
   ThreadAndRunModels.gpt432k: 'gpt-4-32k',
   ThreadAndRunModels.gpt432k0314: 'gpt-4-32k-0314',
@@ -3316,6 +3527,10 @@ const _$ThreadAndRunModelsEnumMap = {
   ThreadAndRunModels.gpt35Turbo0301: 'gpt-3.5-turbo-0301',
   ThreadAndRunModels.gpt35Turbo0613: 'gpt-3.5-turbo-0613',
   ThreadAndRunModels.gpt35Turbo1106: 'gpt-3.5-turbo-1106',
+  ThreadAndRunModels.o1Mini: 'o1-mini',
+  ThreadAndRunModels.o1Mini20240912: 'o1-mini-2024-09-12',
+  ThreadAndRunModels.o1Preview: 'o1-preview',
+  ThreadAndRunModels.o1Preview20240912: 'o1-preview-2024-09-12',
 };
 
 _$ThreadAndRunModelStringImpl _$$ThreadAndRunModelStringImplFromJson(
@@ -5152,6 +5367,10 @@ _$ChatCompletionAssistantMessageImpl
               ? null
               : ChatCompletionMessageFunctionCall.fromJson(
                   json['function_call'] as Map<String, dynamic>),
+          audio: json['audio'] == null
+              ? null
+              : ChatCompletionAssistantMessageAudio.fromJson(
+                  json['audio'] as Map<String, dynamic>),
         );
 
 Map<String, dynamic> _$$ChatCompletionAssistantMessageImplToJson(
@@ -5172,6 +5391,7 @@ Map<String, dynamic> _$$ChatCompletionAssistantMessageImplToJson(
   writeNotNull(
       'tool_calls', instance.toolCalls?.map((e) => e.toJson()).toList());
   writeNotNull('function_call', instance.functionCall?.toJson());
+  writeNotNull('audio', instance.audio?.toJson());
   return val;
 }
 
@@ -5244,6 +5464,25 @@ Map<String, dynamic> _$$ChatCompletionUserMessageContentStringImplToJson(
       'runtimeType': instance.$type,
     };
 
+_$ChatCompletionAssistantMessageAudioImpl
+    _$$ChatCompletionAssistantMessageAudioImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ChatCompletionAssistantMessageAudioImpl(
+          id: json['id'] as String,
+          expiresAt: (json['expires_at'] as num).toInt(),
+          data: json['data'] as String,
+          transcript: json['transcript'] as String,
+        );
+
+Map<String, dynamic> _$$ChatCompletionAssistantMessageAudioImplToJson(
+        _$ChatCompletionAssistantMessageAudioImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'expires_at': instance.expiresAt,
+      'data': instance.data,
+      'transcript': instance.transcript,
+    };
+
 _$ChatCompletionMessageContentPartTextImpl
     _$$ChatCompletionMessageContentPartTextImplFromJson(
             Map<String, dynamic> json) =>
@@ -5265,6 +5504,7 @@ Map<String, dynamic> _$$ChatCompletionMessageContentPartTextImplToJson(
 const _$ChatCompletionMessageContentPartTypeEnumMap = {
   ChatCompletionMessageContentPartType.text: 'text',
   ChatCompletionMessageContentPartType.imageUrl: 'image_url',
+  ChatCompletionMessageContentPartType.inputAudio: 'input_audio',
   ChatCompletionMessageContentPartType.refusal: 'refusal',
 };
 
@@ -5285,6 +5525,25 @@ Map<String, dynamic> _$$ChatCompletionMessageContentPartImageImplToJson(
     <String, dynamic>{
       'type': _$ChatCompletionMessageContentPartTypeEnumMap[instance.type]!,
       'image_url': instance.imageUrl.toJson(),
+    };
+
+_$ChatCompletionMessageContentPartAudioImpl
+    _$$ChatCompletionMessageContentPartAudioImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ChatCompletionMessageContentPartAudioImpl(
+          type: $enumDecodeNullable(
+                  _$ChatCompletionMessageContentPartTypeEnumMap,
+                  json['type']) ??
+              ChatCompletionMessageContentPartType.inputAudio,
+          inputAudio: ChatCompletionMessageInputAudio.fromJson(
+              json['input_audio'] as Map<String, dynamic>),
+        );
+
+Map<String, dynamic> _$$ChatCompletionMessageContentPartAudioImplToJson(
+        _$ChatCompletionMessageContentPartAudioImpl instance) =>
+    <String, dynamic>{
+      'type': _$ChatCompletionMessageContentPartTypeEnumMap[instance.type]!,
+      'input_audio': instance.inputAudio.toJson(),
     };
 
 _$ChatCompletionMessageContentPartRefusalImpl
@@ -5325,6 +5584,27 @@ const _$ChatCompletionMessageImageDetailEnumMap = {
   ChatCompletionMessageImageDetail.auto: 'auto',
   ChatCompletionMessageImageDetail.low: 'low',
   ChatCompletionMessageImageDetail.high: 'high',
+};
+
+_$ChatCompletionMessageInputAudioImpl
+    _$$ChatCompletionMessageInputAudioImplFromJson(Map<String, dynamic> json) =>
+        _$ChatCompletionMessageInputAudioImpl(
+          data: json['data'] as String,
+          format: $enumDecode(
+              _$ChatCompletionMessageInputAudioFormatEnumMap, json['format']),
+        );
+
+Map<String, dynamic> _$$ChatCompletionMessageInputAudioImplToJson(
+        _$ChatCompletionMessageInputAudioImpl instance) =>
+    <String, dynamic>{
+      'data': instance.data,
+      'format':
+          _$ChatCompletionMessageInputAudioFormatEnumMap[instance.format]!,
+    };
+
+const _$ChatCompletionMessageInputAudioFormatEnumMap = {
+  ChatCompletionMessageInputAudioFormat.wav: 'wav',
+  ChatCompletionMessageInputAudioFormat.mp3: 'mp3',
 };
 
 _$ResponseFormatTextImpl _$$ResponseFormatTextImplFromJson(
@@ -5373,6 +5653,57 @@ Map<String, dynamic> _$$ResponseFormatJsonSchemaImplToJson(
     <String, dynamic>{
       'type': _$ResponseFormatTypeEnumMap[instance.type]!,
       'json_schema': instance.jsonSchema.toJson(),
+    };
+
+_$ModerationInputObjectImageUrlImpl
+    _$$ModerationInputObjectImageUrlImplFromJson(Map<String, dynamic> json) =>
+        _$ModerationInputObjectImageUrlImpl(
+          type: $enumDecodeNullable(
+                  _$ModerationInputObjectTypeEnumMap, json['type']) ??
+              ModerationInputObjectType.imageUrl,
+          imageUrl: ModerationInputObjectImageUrlImageUrl.fromJson(
+              json['image_url'] as Map<String, dynamic>),
+        );
+
+Map<String, dynamic> _$$ModerationInputObjectImageUrlImplToJson(
+        _$ModerationInputObjectImageUrlImpl instance) =>
+    <String, dynamic>{
+      'type': _$ModerationInputObjectTypeEnumMap[instance.type]!,
+      'image_url': instance.imageUrl.toJson(),
+    };
+
+const _$ModerationInputObjectTypeEnumMap = {
+  ModerationInputObjectType.imageUrl: 'image_url',
+  ModerationInputObjectType.text: 'text',
+};
+
+_$ModerationInputObjectTextImpl _$$ModerationInputObjectTextImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ModerationInputObjectTextImpl(
+      type: $enumDecodeNullable(
+              _$ModerationInputObjectTypeEnumMap, json['type']) ??
+          ModerationInputObjectType.text,
+      text: json['text'] as String,
+    );
+
+Map<String, dynamic> _$$ModerationInputObjectTextImplToJson(
+        _$ModerationInputObjectTextImpl instance) =>
+    <String, dynamic>{
+      'type': _$ModerationInputObjectTypeEnumMap[instance.type]!,
+      'text': instance.text,
+    };
+
+_$ModerationInputObjectImageUrlImageUrlImpl
+    _$$ModerationInputObjectImageUrlImageUrlImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ModerationInputObjectImageUrlImageUrlImpl(
+          url: json['url'] as String,
+        );
+
+Map<String, dynamic> _$$ModerationInputObjectImageUrlImageUrlImplToJson(
+        _$ModerationInputObjectImageUrlImageUrlImpl instance) =>
+    <String, dynamic>{
+      'url': instance.url,
     };
 
 _$AssistantToolsCodeInterpreterImpl

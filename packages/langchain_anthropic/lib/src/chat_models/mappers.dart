@@ -38,7 +38,8 @@ a.CreateMessageRequest createMessageRequest(
         defaultOptions.maxTokens ??
         ChatAnthropic.defaultMaxTokens,
     stopSequences: options?.stopSequences ?? defaultOptions.stopSequences,
-    system: systemMsg,
+    system:
+        systemMsg != null ? a.CreateMessageRequestSystem.text(systemMsg) : null,
     temperature: options?.temperature ?? defaultOptions.temperature,
     topK: options?.topK ?? defaultOptions.topK,
     topP: options?.topP ?? defaultOptions.topP,
@@ -214,6 +215,7 @@ class MessageStreamEventTransformer
             final a.ContentBlockStopEvent e => _mapContentBlockStopEvent(e),
             final a.MessageStopEvent e => _mapMessageStopEvent(e),
             a.PingEvent() => null,
+            a.ErrorEvent() => null,
           },
         )
         .whereNotNull();
@@ -381,7 +383,7 @@ extension ToolSpecListMapper on List<ToolSpec> {
   }
 
   a.Tool _mapTool(final ToolSpec tool) {
-    return a.Tool(
+    return a.Tool.custom(
       name: tool.name,
       description: tool.description,
       inputSchema: tool.inputJsonSchema,

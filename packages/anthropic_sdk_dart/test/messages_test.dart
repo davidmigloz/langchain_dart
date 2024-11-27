@@ -32,9 +32,10 @@ void main() {
             model: Model.model(model),
             temperature: 0,
             maxTokens: 1024,
-            system:
-                'You are a helpful assistant that replies only with numbers '
-                'in order without any spaces, commas or additional explanations.',
+            system: const CreateMessageRequestSystem.text(
+              'You are a helpful assistant that replies only with numbers '
+              'in order without any spaces, commas or additional explanations.',
+            ),
             messages: const [
               Message(
                 role: MessageRole.user,
@@ -51,10 +52,7 @@ void main() {
           contains('123456789'),
         );
         expect(res.role, MessageRole.assistant);
-        expect(
-          res.model?.replaceAll(RegExp(r'[-.]'), ''),
-          model.name.toLowerCase(),
-        );
+        expect(res.model, isNotEmpty);
         expect(res.stopReason, StopReason.endTurn);
         expect(res.stopSequence, isNull);
         expect(res.type, 'message');
@@ -73,8 +71,10 @@ void main() {
           model: Model.model(Models.claudeInstant12),
           temperature: 0,
           maxTokens: 1024,
-          system: 'You are a helpful assistant that replies only with numbers '
-              'in order without any spaces, commas or additional explanations.',
+          system: CreateMessageRequestSystem.text(
+            'You are a helpful assistant that replies only with numbers '
+            'in order without any spaces, commas or additional explanations.',
+          ),
           messages: [
             Message(
               role: MessageRole.user,
@@ -132,6 +132,9 @@ void main() {
           ping: (PingEvent v) {
             expect(res.type, MessageStreamEventType.ping);
           },
+          error: (ErrorEvent v) {
+            expect(res.type, MessageStreamEventType.error);
+          },
         );
       }
       expect(text, contains('123456789'));
@@ -155,7 +158,7 @@ void main() {
       expect(res.stopReason, StopReason.maxTokens);
     });
 
-    const tool = Tool(
+    const tool = Tool.custom(
       name: 'get_current_weather',
       description: 'Get the current weather in a given location',
       inputSchema: {
@@ -177,7 +180,7 @@ void main() {
 
     test('Test tool use', () async {
       final request1 = CreateMessageRequest(
-        model: const Model.model(Models.claude35Sonnet20240620),
+        model: const Model.model(Models.claude35Sonnet20241022),
         messages: [
           const Message(
             role: MessageRole.user,
@@ -212,7 +215,7 @@ void main() {
       });
 
       final request2 = CreateMessageRequest(
-        model: const Model.model(Models.claude35Sonnet20240620),
+        model: const Model.model(Models.claude35Sonnet20241022),
         messages: [
           const Message(
             role: MessageRole.user,
@@ -243,10 +246,10 @@ void main() {
       expect(aiMessage2.content.text, contains('22'));
     });
 
-    test('Test tool use streaming',
+    test('Test streaming tool use ',
         timeout: const Timeout(Duration(minutes: 5)), () async {
       final request1 = CreateMessageRequest(
-        model: const Model.model(Models.claude35Sonnet20240620),
+        model: const Model.model(Models.claude35Sonnet20241022),
         messages: [
           const Message(
             role: MessageRole.user,
@@ -274,7 +277,7 @@ void main() {
             expect(v.message.role, MessageRole.assistant);
             expect(
               v.message.model?.replaceAll(RegExp(r'[-.]'), ''),
-              Models.claude35Sonnet20240620.name.toLowerCase(),
+              Models.claude35Sonnet20241022.name.toLowerCase(),
             );
             expect(v.message.stopReason, isNull);
             expect(v.message.stopSequence, isNull);
@@ -310,11 +313,145 @@ void main() {
           ping: (PingEvent v) {
             expect(res.type, MessageStreamEventType.ping);
           },
+          error: (ErrorEvent v) {
+            expect(res.type, MessageStreamEventType.error);
+          },
         );
       }
       final input = json.decode(inputJson) as Map<String, dynamic>;
       expect(input['location'], contains('Boston'));
       expect(input['unit'], 'celsius');
+    });
+
+    test('Test createMessageBatch API',
+        skip: true, timeout: const Timeout(Duration(minutes: 5)), () async {
+      const batchRequest = CreateMessageBatchRequest(
+        requests: [
+          BatchMessageRequest(
+            customId: 'request1',
+            params: CreateMessageRequest(
+              model: Model.model(Models.claudeInstant12),
+              temperature: 0,
+              maxTokens: 1024,
+              system: CreateMessageRequestSystem.text(
+                'You are a helpful assistant that replies only with numbers in order without any spaces, commas or additional explanations.',
+              ),
+              messages: [
+                Message(
+                  role: MessageRole.user,
+                  content: MessageContent.text(
+                    'List the numbers from 1 to 9 in order.',
+                  ),
+                ),
+              ],
+            ),
+          ),
+          BatchMessageRequest(
+            customId: 'request2',
+            params: CreateMessageRequest(
+              model: Model.model(Models.claudeInstant12),
+              temperature: 0,
+              maxTokens: 1024,
+              system: CreateMessageRequestSystem.text(
+                'You are a helpful assistant that replies only with numbers in order without any spaces, commas or additional explanations.',
+              ),
+              messages: [
+                Message(
+                  role: MessageRole.user,
+                  content: MessageContent.text(
+                    'List the numbers from 10 to 19 in order.',
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+
+      var batch = await client.createMessageBatch(request: batchRequest);
+      expect(batch.id, isNotEmpty);
+      expect(batch.createdAt, isNotEmpty);
+      expect(batch.expiresAt, isNotEmpty);
+      expect(batch.processingStatus, MessageBatchProcessingStatus.inProgress);
+      expect(batch.requestCounts.processing, 2);
+      expect(batch.type, MessageBatchType.messageBatch);
+
+      do {
+        await Future<void>.delayed(const Duration(seconds: 5));
+        batch = await client.retrieveMessageBatch(id: batch.id);
+      } while (
+          batch.processingStatus == MessageBatchProcessingStatus.inProgress);
+
+      batch = await client.retrieveMessageBatch(id: batch.id);
+      expect(batch.processingStatus, MessageBatchProcessingStatus.ended);
+      expect(batch.resultsUrl, isNotEmpty);
+    });
+
+    test('Test computer tool use', () async {
+      const request = CreateMessageRequest(
+        model: Model.model(Models.claude35Sonnet20241022),
+        messages: [
+          Message(
+            role: MessageRole.user,
+            content: MessageContent.text(
+              'Save a picture of a cat to my desktop. '
+              'After each step, take a screenshot and carefully evaluate if you '
+              'have achieved the right outcome. Explicitly show your thinking: '
+              '"I have evaluated step X..." If not correct, try again. '
+              'Only when you confirm a step was executed correctly should '
+              'you move on to the next one.',
+            ),
+          ),
+        ],
+        tools: [
+          Tool.computerUse(displayWidthPx: 1024, displayHeightPx: 768),
+          Tool.textEditor(),
+          Tool.bash(),
+        ],
+        maxTokens: 1024,
+      );
+      final aiMessage = await client.createMessage(request: request);
+      expect(aiMessage.role, MessageRole.assistant);
+
+      final toolUse = aiMessage.content.blocks
+          .firstWhere((block) => block is ToolUseBlock) as ToolUseBlock;
+
+      expect(toolUse.name, 'computer');
+      expect(toolUse.input, isNotEmpty);
+      expect(toolUse.input.containsKey('action'), isTrue);
+      expect(toolUse.input['action'], 'screenshot');
+    });
+
+    test('Test Prompt caching', () async {
+      final work = await File('./test/assets/shakespeare.txt').readAsString();
+      final request = CreateMessageRequest(
+        model: const Model.model(Models.claude35Sonnet20241022),
+        system: CreateMessageRequestSystem.blocks([
+          const Block.text(
+            text:
+                'You are an AI assistant tasked with analyzing literary works. '
+                'Your goal is to provide insightful commentary on themes, characters, and writing style.',
+          ),
+          Block.text(
+            cacheControl: const CacheControlEphemeral(),
+            text: work,
+          ),
+        ]),
+        messages: [
+          const Message(
+            role: MessageRole.user,
+            content: MessageContent.text("What's the theme of the work?"),
+          ),
+        ],
+        maxTokens: 1024,
+      );
+      final res1 = await client.createMessage(request: request);
+      expect(res1.usage?.cacheCreationInputTokens, greaterThan(0));
+      expect(res1.usage?.cacheReadInputTokens, 0);
+
+      final res2 = await client.createMessage(request: request);
+      expect(res2.usage?.cacheCreationInputTokens, 0);
+      expect(res2.usage?.cacheReadInputTokens, greaterThan(0));
     });
   });
 }

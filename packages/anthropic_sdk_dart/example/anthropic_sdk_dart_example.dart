@@ -59,6 +59,7 @@ Future<void> _createMessageStream(final AnthropicClient client) async {
       },
       contentBlockStop: (ContentBlockStopEvent e) {},
       ping: (PingEvent e) {},
+      error: (ErrorEvent e) {},
     );
   }
   // Hello! It's nice to meet you. How are you doing today?
@@ -161,6 +162,7 @@ Future<void> _toolUseStreaming(final AnthropicClient client) async {
       },
       contentBlockStop: (ContentBlockStopEvent v) {},
       ping: (PingEvent v) {},
+      error: (ErrorEvent v) {},
     );
   }
   // {"location": "Boston, MA", "unit": "fahrenheit"}
@@ -179,7 +181,7 @@ Map<String, dynamic> _getCurrentWeather(
   };
 }
 
-const tool = Tool(
+const tool = Tool.custom(
   name: 'get_current_weather',
   description: 'Get the current weather in a given location',
   inputSchema: {

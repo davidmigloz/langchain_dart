@@ -24,6 +24,10 @@ sealed class Block with _$Block {
 
     /// The type of content block.
     @Default('text') String type,
+
+    /// The cache control settings.
+    @JsonKey(name: 'cache_control', includeIfNull: false)
+    CacheControlEphemeral? cacheControl,
   }) = TextBlock;
 
   // ------------------------------------------
@@ -37,6 +41,10 @@ sealed class Block with _$Block {
 
     /// The type of content block.
     @Default('image') String type,
+
+    /// The cache control settings.
+    @JsonKey(name: 'cache_control', includeIfNull: false)
+    CacheControlEphemeral? cacheControl,
   }) = ImageBlock;
 
   // ------------------------------------------
@@ -52,11 +60,15 @@ sealed class Block with _$Block {
     /// The name of the tool being used.
     required String name,
 
-    /// An object containing the input being passed to the tool, conforming to the tool’s `input_schema`.
+    /// An object containing the input being passed to the tool, conforming to the tool's `input_schema`.
     required Map<String, dynamic> input,
 
     /// The type of content block.
     @Default('tool_use') String type,
+
+    /// The cache control settings.
+    @JsonKey(name: 'cache_control', includeIfNull: false)
+    CacheControlEphemeral? cacheControl,
   }) = ToolUseBlock;
 
   // ------------------------------------------
@@ -78,6 +90,10 @@ sealed class Block with _$Block {
 
     /// The type of content block.
     @Default('tool_result') String type,
+
+    /// The cache control settings.
+    @JsonKey(name: 'cache_control', includeIfNull: false)
+    CacheControlEphemeral? cacheControl,
   }) = ToolResultBlock;
 
   /// Object construction from a JSON representation

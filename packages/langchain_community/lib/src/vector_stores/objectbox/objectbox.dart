@@ -20,13 +20,13 @@ import 'types.dart';
 /// Vector store for the [ObjectBox](https://objectbox.io/) on-device database.
 ///
 /// ```dart
-/// final embeddings = OllamaEmbeddings(model: 'llama3.1');
+/// final embeddings = OllamaEmbeddings(model: 'llama3.2');
 /// final vectorStore = ObjectBoxVectorStore(embeddings: embeddings);
 /// ```
 ///
 /// This vector stores creates a [Store] with an [ObjectBoxDocument] entity
 /// that persists LangChain [Document]s along with their embeddings. If you
-/// need more control over the entity, you can use the
+/// need more control over the entity or the storeo, you can use the
 /// [BaseObjectBoxVectorStore] class instead.
 ///
 /// See documentation for more details:

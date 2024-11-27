@@ -33,6 +33,8 @@ String? _onSchemaName(final String schemaName) => switch (schemaName) {
       'MessageContentListBlock' => 'MessageContentBlocks',
       'ToolResultBlockContentListBlock' => 'ToolResultBlockContentBlocks',
       'ToolResultBlockContentString' => 'ToolResultBlockContentText',
+      'CreateMessageRequestSystemString' => 'SystemMessageContentText',
+      'CreateMessageRequestSystemListBlock' => 'SystemMessageContentBlocks',
       _ => schemaName,
     };
 
@@ -45,6 +47,8 @@ String? _onSchemaUnionFactoryName(
       'ModelId' => 'modelId',
       'MessageContentText' => 'text',
       'MessageContentBlocks' => 'blocks',
+      'SystemMessageContentText' => 'text',
+      'SystemMessageContentBlocks' => 'blocks',
       'ToolResultBlockContentBlocks' => 'blocks',
       'ToolResultBlockContentText' => 'text',
       'TextBlockDelta' => 'textDelta',
@@ -56,5 +60,6 @@ String? _onSchemaUnionFactoryName(
       'ContentBlockDeltaEvent' => 'contentBlockDelta',
       'ContentBlockStopEvent' => 'contentBlockStop',
       'PingEvent' => 'ping',
+      'ErrorEvent' => 'error',
       _ => null,
     };

@@ -2,6 +2,31 @@
 
 ---
 
+## 0.7.2+5
+
+ - Update a dependency to the latest release.
+
+## 0.7.2+4
+
+ - Update a dependency to the latest release.
+
+## 0.7.2+3
+
+ - Update a dependency to the latest release.
+
+## 0.7.2+2
+
+ - **FIX**: UUID 'Namespace' can't be assigned to the parameter type 'String?' ([#566](https://github.com/davidmigloz/langchain_dart/issues/566)). ([1e93a595](https://github.com/davidmigloz/langchain_dart/commit/1e93a595f2f166da2cae3f7cfcdbb28892abf9b5))
+
+## 0.7.2+1
+
+ - Update a dependency to the latest release.
+
+## 0.7.2
+
+ - **FEAT**: Add OpenAI o1-preview and o1-mini to model catalog ([#555](https://github.com/davidmigloz/langchain_dart/issues/555)). ([9ceb5ff9](https://github.com/davidmigloz/langchain_dart/commit/9ceb5ff9029cf1ae1967a32189f88c7a8215248e))
+ - **REFACTOR**: Migrate ChatOpenAI to maxCompletionTokens ([#557](https://github.com/davidmigloz/langchain_dart/issues/557)). ([08057a5b](https://github.com/davidmigloz/langchain_dart/commit/08057a5b6e08ee2633c6be6144be1619e902bbc5))
+
 ## 0.7.1
 
  - **FEAT**: Add support for Structured Outputs in ChatOpenAI ([#526](https://github.com/davidmigloz/langchain_dart/issues/526)). ([c5387b5d](https://github.com/davidmigloz/langchain_dart/commit/c5387b5dd87fe2aac511c4eca2d4a497065db61f))

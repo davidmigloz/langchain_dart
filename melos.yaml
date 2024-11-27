@@ -41,7 +41,7 @@ command:
       flutter_markdown: ^0.7.3
       freezed_annotation: ^2.4.2
       gcloud: ^0.8.13
-      google_generative_ai: 0.4.4
+      google_generative_ai: ^0.4.6
       googleapis: ^13.0.0
       googleapis_auth: ^1.6.0
       http: ^1.2.2
@@ -49,16 +49,18 @@ command:
       json_annotation: ^4.9.0
       json_path: ^0.7.4
       langchain_tiktoken: ^1.0.1
+      logging: ^1.2.0
       math_expressions: ^2.6.0
       meta: ^1.11.0
-      objectbox: ^4.0.1
+      objectbox: ^4.0.3
       pinecone: ^0.7.2
       rxdart: ">=0.27.7 <0.29.0"
       shared_preferences: ^2.3.0
       shelf: ^1.4.2
       shelf_router: ^1.1.4
       supabase: ^2.2.7
-      uuid: ^4.4.2
+      uuid: ^4.5.1
+      web_socket_channel: ^3.0.1
     dev_dependencies:
       build_runner: ^2.4.11
       freezed: ^2.5.7

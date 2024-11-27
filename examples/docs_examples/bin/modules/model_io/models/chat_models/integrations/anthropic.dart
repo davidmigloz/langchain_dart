@@ -17,7 +17,7 @@ Future<void> _invokeModel() async {
   final chatModel = ChatAnthropic(
     apiKey: apiKey,
     defaultOptions: const ChatAnthropicOptions(
-      model: 'claude-3-5-sonnet-20240620',
+      model: 'claude-3-5-sonnet-20241022',
       temperature: 0,
     ),
   );
@@ -49,7 +49,7 @@ Future<void> _multiModal() async {
   final chatModel = ChatAnthropic(
     apiKey: apiKey,
     defaultOptions: const ChatAnthropicOptions(
-      model: 'claude-3-5-sonnet-20240620',
+      model: 'claude-3-5-sonnet-20241022',
       temperature: 0,
     ),
   );
@@ -89,7 +89,7 @@ Future<void> _streaming() async {
   final chatModel = ChatAnthropic(
     apiKey: apiKey,
     defaultOptions: const ChatAnthropicOptions(
-      model: 'claude-3-5-sonnet-20240620',
+      model: 'claude-3-5-sonnet-20241022',
       temperature: 0,
     ),
   );

@@ -248,5 +248,21 @@ void main() {
       expect(aiMessage2.content, contains('22'));
       expect(aiMessage2.content, contains('25'));
     });
+
+    test('Test code execution', () async {
+      final res = await chatModel.invoke(
+        PromptValue.string(
+          'Calculate the fibonacci sequence up to 10 terms and output the last one.',
+        ),
+        options: const ChatGoogleGenerativeAIOptions(
+          model: 'gemini-1.5-flash',
+          enableCodeExecution: true,
+        ),
+      );
+      final text = res.output.content;
+      expect(text, contains('34'));
+      expect(res.metadata['executable_code'], isNotNull);
+      expect(res.metadata['code_execution_result'], isNotNull);
+    });
   });
 }

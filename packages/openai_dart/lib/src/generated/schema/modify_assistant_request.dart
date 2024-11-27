@@ -34,13 +34,15 @@ class ModifyAssistantRequest with _$ModifyAssistantRequest {
     /// A list of [File](https://platform.openai.com/docs/api-reference/files) IDs attached to this assistant. There can be a maximum of 20 files attached to the assistant. Files are ordered by their creation date in ascending order. If a file was previosuly attached to the list but does not show up in the list, it will be deleted from the assistant.
     @JsonKey(name: 'file_ids') @Default([]) List<String> fileIds,
 
-    /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+    /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific
+    /// to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the
+    /// `file_search` tool requires a list of vector store IDs.
     @JsonKey(name: 'tool_resources', includeIfNull: false)
     ToolResources? toolResources,
 
     /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
     /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-    /// can be a maxium of 512 characters long.
+    /// can be a maximum of 512 characters long.
     @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
 
     /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random,
@@ -59,11 +61,11 @@ class ModifyAssistantRequest with _$ModifyAssistantRequest {
     /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
     /// since `gpt-3.5-turbo-1106`.
     ///
-    /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
+    /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures
     /// the model will match your supplied JSON schema. Learn more in the
     /// [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
     ///
-    /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates
+    /// Setting to `{ "type": "json_object" }` enables JSON mode, which ensures the message the model generates
     /// is valid JSON.
     ///
     /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a
@@ -171,11 +173,11 @@ enum ModifyAssistantResponseFormatMode {
 /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
 /// since `gpt-3.5-turbo-1106`.
 ///
-/// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
+/// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures
 /// the model will match your supplied JSON schema. Learn more in the
 /// [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
 ///
-/// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates
+/// Setting to `{ "type": "json_object" }` enables JSON mode, which ensures the message the model generates
 /// is valid JSON.
 ///
 /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a

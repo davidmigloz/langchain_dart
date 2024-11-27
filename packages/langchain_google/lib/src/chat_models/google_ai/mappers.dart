@@ -92,6 +92,8 @@ extension GenerateContentResponseMapper on g.GenerateContentResponse {
                 final g.DataPart p => base64Encode(p.bytes),
                 final g.FilePart p => p.uri.toString(),
                 g.FunctionResponse() || g.FunctionCall() => '',
+                g.ExecutableCode() => '',
+                g.CodeExecutionResult() => '',
                 _ => throw AssertionError('Unknown part type: $p'),
               },
             )
@@ -133,6 +135,14 @@ extension GenerateContentResponseMapper on g.GenerateContentResponse {
             )
             .toList(growable: false),
         'finish_message': candidate.finishMessage,
+        'executable_code': candidate.content.parts
+            .whereType<g.ExecutableCode>()
+            .map((code) => code.toJson())
+            .toList(growable: false),
+        'code_execution_result': candidate.content.parts
+            .whereType<g.CodeExecutionResult>()
+            .map((result) => result.toJson())
+            .toList(growable: false),
       },
       usage: LanguageModelUsage(
         promptTokens: usageMetadata?.promptTokenCount,
@@ -189,17 +199,24 @@ extension SafetySettingsMapper on List<ChatGoogleGenerativeAISafetySetting> {
   }
 }
 
-extension ChatToolListMapper on List<ToolSpec> {
-  List<g.Tool> toToolList() {
+extension ChatToolListMapper on List<ToolSpec>? {
+  List<g.Tool>? toToolList({required final bool enableCodeExecution}) {
+    if (this == null && !enableCodeExecution) {
+      return null;
+    }
+
     return [
       g.Tool(
-        functionDeclarations: map(
-          (tool) => g.FunctionDeclaration(
-            tool.name,
-            tool.description,
-            tool.inputJsonSchema.toSchema(),
-          ),
-        ).toList(growable: false),
+        functionDeclarations: this
+            ?.map(
+              (tool) => g.FunctionDeclaration(
+                tool.name,
+                tool.description,
+                tool.inputJsonSchema.toSchema(),
+              ),
+            )
+            .toList(growable: false),
+        codeExecution: enableCodeExecution ? g.CodeExecution() : null,
       ),
     ];
   }

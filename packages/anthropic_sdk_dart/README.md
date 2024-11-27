@@ -17,6 +17,7 @@ Unofficial Dart client for [Anthropic](https://docs.anthropic.com/en/api) API (a
 **Supported endpoints:**
 
 - Messages (with tools and streaming support)
+- Message Batches
 
 ## Table of contents
 
@@ -24,6 +25,9 @@ Unofficial Dart client for [Anthropic](https://docs.anthropic.com/en/api) API (a
   * [Authentication](#authentication)
   * [Messages](#messages)
   * [Tool use](#tool-use)
+  * [Computer use](#computer-use)
+  * [Prompt caching](#prompt-caching)
+  * [Message Batches](#message-batches)
 - [Advance Usage](#advance-usage)
   * [Default HTTP client](#default-http-client)
   * [Custom HTTP client](#custom-http-client)
@@ -58,7 +62,7 @@ Send a structured list of input messages with text and/or image content, and the
 ```dart
 final res = await client.createMessage(
   request: CreateMessageRequest(
-    model: Model.model(Models.claude35Sonnet20240620),
+    model: Model.model(Models.claude35Sonnet20241022),
     maxTokens: 1024,
     messages: [
       Message(
@@ -74,7 +78,7 @@ print(res.content.text);
 
 `Model` is a sealed class that offers two ways to specify the model:
 - `Model.modelId('model-id')`: the model ID as string (e.g. `'claude-instant-1.2'`).
-- `Model.model(Models.claude35Sonnet20240620)`: a value from `Models` enum which lists all the available models.
+- `Model.model(Models.claude35Sonnet20241022)`: a value from `Models` enum which lists all the available models.
 
 Mind that this list may not be up-to-date. Refer to the [documentation](https://docs.anthropic.com/en/docs/models-overview) for the updated list.
 
@@ -83,7 +87,7 @@ Mind that this list may not be up-to-date. Refer to the [documentation](https://
 ```dart
 final stream = client.createMessageStream(
   request: CreateMessageRequest(
-    model: Model.model(Models.claude35Sonnet20240620),
+    model: Model.model(Models.claude35Sonnet20241022),
     maxTokens: 1024,
     messages: [
       Message(
@@ -104,6 +108,7 @@ await for (final res in stream) {
     },
     contentBlockStop: (ContentBlockStopEvent e) {},
     ping: (PingEvent e) {},
+    error: (ErrorEvent v) {},
   );
 }
 // Hello! It's nice to meet you. How are you doing today?
@@ -134,7 +139,7 @@ Map<String, dynamic> _getCurrentWeather(
 
 To do that, we need to provide the definition of the tool:
 ```dart
-const tool = Tool(
+const tool = Tool.custom(
   name: 'get_current_weather',
   description: 'Get the current weather in a given location',
   inputSchema: {
@@ -158,7 +163,7 @@ const tool = Tool(
 Then we can use the tool in the message request:
 ```dart
 final request1 = CreateMessageRequest(
-  model: Model.model(Models.claude35Sonnet20240620),
+  model: Model.model(Models.claude35Sonnet20241022),
   messages: [
     Message(
       role: MessageRole.user,
@@ -188,7 +193,7 @@ final toolResult = _getCurrentWeather(
 );
 
 final request2 = CreateMessageRequest(
-  model: Model.model(Models.claude35Sonnet20240620),
+  model: Model.model(Models.claude35Sonnet20241022),
   messages: [
     Message(
       role: MessageRole.user,
@@ -237,9 +242,150 @@ await for (final res in stream) {
     },
     contentBlockStop: (ContentBlockStopEvent v) {},
     ping: (PingEvent v) {},
+    error: (ErrorEvent v) {},
   );
 }
 // {"location": "Boston, MA", "unit": "fahrenheit"}
+```
+
+### Computer use
+
+Claude 3.5 Sonnet model is capable of interacting with tools that can manipulate a computer desktop environment.
+
+Refer to the [official documentation](https://docs.anthropic.com/en/docs/build-with-claude/computer-use) for more information.
+
+Anthropic-defined tools:
+- `computer`: a tool that uses a mouse and keyboard to interact with a computer, and take screenshots.
+- `text_editor`: a tool for viewing, creating and editing files.
+- `bash`: a tool for running commands in a bash shell.
+
+Example:
+```dart
+const request = CreateMessageRequest(
+  model: Model.model(Models.claude35Sonnet20241022),
+  messages: [
+    Message(
+      role: MessageRole.user,
+      content: MessageContent.text(
+        'Save a picture of a cat to my desktop. '
+        'After each step, take a screenshot and carefully evaluate if you '
+            'have achieved the right outcome. Explicitly show your thinking: '
+            '"I have evaluated step X..." If not correct, try again. '
+            'Only when you confirm a step was executed correctly should '
+            'you move on to the next one.',
+      ),
+    ),
+  ],
+  tools: [
+    Tool.computerUse(displayWidthPx: 1024, displayHeightPx: 768),
+    Tool.textEditor(),
+    Tool.bash(),
+  ],
+  maxTokens: 1024,
+);
+final res = await client.createMessage(request: request);
+```
+
+### Prompt caching
+
+Prompt caching is a powerful feature that optimizes your API usage by allowing resuming from specific prefixes in your prompts. This approach significantly reduces processing time and costs for repetitive tasks or prompts with consistent elements.
+
+Refer to the [official documentation](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching) for more information.
+
+Example:
+```dart
+final request = CreateMessageRequest(
+  model: Model.model(Models.claude35Sonnet20241022),
+  system: CreateMessageRequestSystem.blocks([
+    Block.text(
+      text:
+          'You are an AI assistant tasked with analyzing literary works. '
+          'Your goal is to provide insightful commentary on themes, characters, and writing style.',
+    ),
+    Block.text(
+      cacheControl: CacheControlEphemeral(),
+      text: '<The whole text of the book>',
+    ),
+  ]),
+  messages: [
+    Message(
+      role: MessageRole.user,
+      content: MessageContent.text("What's the theme of the work?"),
+    ),
+  ],
+  maxTokens: 1024,
+);
+
+final res1 = await client.createMessage(request: request);
+print(res1.usage?.cacheCreationInputTokens); // 5054
+print(res1.usage?.cacheReadInputTokens); // 0
+
+final res2 = await client.createMessage(request: request);
+print(res2.usage?.cacheCreationInputTokens); // 0
+print(res2.usage?.cacheReadInputTokens); // 5054
+```
+
+### Message Batches
+
+The Message Batches API is a powerful, cost-effective way to asynchronously process large volumes of Messages requests. This approach is well-suited to tasks that do not require immediate responses, reducing costs by 50% while increasing throughput.
+
+Refer to the [official documentation](https://docs.anthropic.com/en/docs/build-with-claude/message-batches) for more information.
+
+**Prepare and create your batch:**
+
+```dart
+const batchRequest = CreateMessageBatchRequest(
+  requests: [
+    BatchMessageRequest(
+      customId: 'request1',
+      params: CreateMessageRequest(
+        model: Model.model(Models.claudeInstant12),
+        temperature: 0,
+        maxTokens: 1024,
+        messages: [
+          Message(
+            role: MessageRole.user,
+            content: MessageContent.text(
+                'List the numbers from 1 to 9 in order.'),
+          ),
+        ],
+      ),
+    ),
+    BatchMessageRequest(
+      customId: 'request2',
+      params: CreateMessageRequest(
+        model: Model.model(Models.claudeInstant12),
+        temperature: 0,
+        maxTokens: 1024,
+        messages: [
+          Message(
+            role: MessageRole.user,
+            content: MessageContent.text(
+                'List the numbers from 10 to 19 in order.'),
+          ),
+        ],
+      ),
+    ),
+  ],
+);
+var batch = await client.createMessageBatch(request: batchRequest);
+print(batch.id);
+```
+
+**Tracking your batch:**
+
+```dart
+do {
+  await Future<void>.delayed(const Duration(seconds: 5));
+  batch = await client.retrieveMessageBatch(id: batch.id);
+} while (batch.processingStatus == MessageBatchProcessingStatus.inProgress);
+```
+
+**Retrieving batch results:**
+
+```dart
+batch = await client.retrieveMessageBatch(id: batch.id);
+print(batch.resultsUrl);
 ```
 
 ## Advance Usage

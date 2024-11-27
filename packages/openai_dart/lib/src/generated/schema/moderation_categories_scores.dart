@@ -28,6 +28,12 @@ class ModerationCategoriesScores with _$ModerationCategoriesScores {
     @JsonKey(name: 'harassment/threatening')
     required double harassmentThreatening,
 
+    /// The score for the category 'illicit'.
+    required double illicit,
+
+    /// The score for the category 'illicit/violent'.
+    @JsonKey(name: 'illicit/violent') required double illicitViolent,
+
     /// The score for the category 'self-harm'.
     @JsonKey(name: 'self-harm') required double selfHarm,
 
@@ -61,6 +67,8 @@ class ModerationCategoriesScores with _$ModerationCategoriesScores {
     'hate/threatening',
     'harassment',
     'harassment/threatening',
+    'illicit',
+    'illicit/violent',
     'self-harm',
     'self-harm/intent',
     'self-harm/instructions',
@@ -82,6 +90,8 @@ class ModerationCategoriesScores with _$ModerationCategoriesScores {
       'hate/threatening': hateThreatening,
       'harassment': harassment,
       'harassment/threatening': harassmentThreatening,
+      'illicit': illicit,
+      'illicit/violent': illicitViolent,
       'self-harm': selfHarm,
       'self-harm/intent': selfHarmIntent,
       'self-harm/instructions': selfHarmInstructions,

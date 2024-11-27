@@ -31,13 +31,26 @@ class Usage with _$Usage {
 
     /// The number of output tokens which were used.
     @JsonKey(name: 'output_tokens') required int outputTokens,
+
+    /// The number of input tokens read from the cache.
+    @JsonKey(name: 'cache_creation_input_tokens', includeIfNull: false)
+    int? cacheCreationInputTokens,
+
+    /// The number of input tokens used to create the cache entry.
+    @JsonKey(name: 'cache_read_input_tokens', includeIfNull: false)
+    int? cacheReadInputTokens,
   }) = _Usage;
 
   /// Object construction from a JSON representation
   factory Usage.fromJson(Map<String, dynamic> json) => _$UsageFromJson(json);
 
   /// List of all property names of schema
-  static const List<String> propertyNames = ['input_tokens', 'output_tokens'];
+  static const List<String> propertyNames = [
+    'input_tokens',
+    'output_tokens',
+    'cache_creation_input_tokens',
+    'cache_read_input_tokens'
+  ];
 
   /// Perform validations on the schema property values
   String? validateSchema() {
@@ -49,6 +62,8 @@ class Usage with _$Usage {
     return {
       'input_tokens': inputTokens,
       'output_tokens': outputTokens,
+      'cache_creation_input_tokens': cacheCreationInputTokens,
+      'cache_read_input_tokens': cacheReadInputTokens,
     };
   }
 }

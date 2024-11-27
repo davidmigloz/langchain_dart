@@ -2,6 +2,14 @@
 
 ---
 
+## 0.2.0
+
+ - **FEAT**: Update ChatAnthropic default model to claude-3-5-sonnet-20241022 ([#584](https://github.com/davidmigloz/langchain_dart/issues/584)). ([4f0d9cfb](https://github.com/davidmigloz/langchain_dart/commit/4f0d9cfb0a71c567d1b37842cd44dac1f7308001))
+
+## 0.1.1+2
+
+ - Update a dependency to the latest release.
+
 ## 0.1.1+1
 
  - Update a dependency to the latest release.

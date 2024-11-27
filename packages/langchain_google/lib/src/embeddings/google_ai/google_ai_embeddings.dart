@@ -24,8 +24,6 @@ import '../../utils/https_client/http_client.dart';
 ///
 /// - `text-embedding-004`
 ///   * Dimensions: 768 (with support for reduced dimensionality)
-/// - `embedding-001`
-///   * Dimensions: 768
 ///
 /// The previous list of models may not be exhaustive or up-to-date. Check out
 /// the [Google AI documentation](https://ai.google.dev/models/gemini)

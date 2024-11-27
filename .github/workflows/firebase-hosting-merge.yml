@@ -1,0 +1,21 @@
+name: Deploy docs_v2
+
+on:
+  push:
+    branches:
+      - main
+      
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - run: npm ci && npm run build
+        working-directory: docs_v2
+      - uses: FirebaseExtended/action-hosting-deploy@0cbcac4740c2bfb00d632f0b863b57713124eb5a
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_LANGCHAIN_DART }}
+          channelId: live
+          projectId: langchain-dart
+          entryPoint: docs_v2

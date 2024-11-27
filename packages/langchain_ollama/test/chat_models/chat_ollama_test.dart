@@ -13,7 +13,7 @@ import 'package:test/test.dart';
 void main() {
   group('ChatOllama tests', skip: Platform.environment.containsKey('CI'), () {
     late ChatOllama chatModel;
-    const defaultModel = 'llama3.1';
+    const defaultModel = 'llama3.2';
     const visionModel = 'llava:latest';
 
     setUp(() async {

@@ -70,7 +70,7 @@ class RunObject with _$RunObject {
 
     /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
     /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
-    /// can be a maxium of 512 characters long.
+    /// can be a maximum of 512 characters long.
     required Map<String, dynamic>? metadata,
 
     /// Usage statistics related to the run. This value will be `null` if the run is not in a terminal state (i.e. `in_progress`, `queued`, etc.).
@@ -110,11 +110,11 @@ class RunObject with _$RunObject {
     /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
     /// since `gpt-3.5-turbo-1106`.
     ///
-    /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
+    /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures
     /// the model will match your supplied JSON schema. Learn more in the
     /// [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
     ///
-    /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates
+    /// Setting to `{ "type": "json_object" }` enables JSON mode, which ensures the message the model generates
     /// is valid JSON.
     ///
     /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a
@@ -465,11 +465,11 @@ enum RunObjectResponseFormatMode {
 /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
 /// since `gpt-3.5-turbo-1106`.
 ///
-/// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
+/// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures
 /// the model will match your supplied JSON schema. Learn more in the
 /// [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
 ///
-/// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates
+/// Setting to `{ "type": "json_object" }` enables JSON mode, which ensures the message the model generates
 /// is valid JSON.
 ///
 /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a
