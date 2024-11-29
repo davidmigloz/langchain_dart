@@ -22,10 +22,10 @@ class ListVectorStoresResponse with _$ListVectorStoresResponse {
     required List<VectorStoreObject> data,
 
     /// The ID of the first assistant file in the list.
-    @JsonKey(name: 'first_id') required String? firstId,
+    @JsonKey(name: 'first_id', includeIfNull: false) String? firstId,
 
     /// The ID of the last assistant file in the list.
-    @JsonKey(name: 'last_id') required String? lastId,
+    @JsonKey(name: 'last_id', includeIfNull: false) String? lastId,
 
     /// Whether there are more assistant files available.
     @JsonKey(name: 'has_more') required bool hasMore,

@@ -2706,20 +2706,29 @@ _$ListAssistantsResponseImpl _$$ListAssistantsResponseImplFromJson(
       data: (json['data'] as List<dynamic>)
           .map((e) => AssistantObject.fromJson(e as Map<String, dynamic>))
           .toList(),
-      firstId: json['first_id'] as String,
-      lastId: json['last_id'] as String,
+      firstId: json['first_id'] as String?,
+      lastId: json['last_id'] as String?,
       hasMore: json['has_more'] as bool,
     );
 
 Map<String, dynamic> _$$ListAssistantsResponseImplToJson(
-        _$ListAssistantsResponseImpl instance) =>
-    <String, dynamic>{
-      'object': instance.object,
-      'data': instance.data.map((e) => e.toJson()).toList(),
-      'first_id': instance.firstId,
-      'last_id': instance.lastId,
-      'has_more': instance.hasMore,
-    };
+    _$ListAssistantsResponseImpl instance) {
+  final val = <String, dynamic>{
+    'object': instance.object,
+    'data': instance.data.map((e) => e.toJson()).toList(),
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('first_id', instance.firstId);
+  writeNotNull('last_id', instance.lastId);
+  val['has_more'] = instance.hasMore;
+  return val;
+}
 
 _$FileSearchRankingOptionsImpl _$$FileSearchRankingOptionsImplFromJson(
         Map<String, dynamic> json) =>
@@ -3299,20 +3308,29 @@ _$ListRunsResponseImpl _$$ListRunsResponseImplFromJson(
       data: (json['data'] as List<dynamic>)
           .map((e) => RunObject.fromJson(e as Map<String, dynamic>))
           .toList(),
-      firstId: json['first_id'] as String,
-      lastId: json['last_id'] as String,
+      firstId: json['first_id'] as String?,
+      lastId: json['last_id'] as String?,
       hasMore: json['has_more'] as bool,
     );
 
 Map<String, dynamic> _$$ListRunsResponseImplToJson(
-        _$ListRunsResponseImpl instance) =>
-    <String, dynamic>{
-      'object': instance.object,
-      'data': instance.data.map((e) => e.toJson()).toList(),
-      'first_id': instance.firstId,
-      'last_id': instance.lastId,
-      'has_more': instance.hasMore,
-    };
+    _$ListRunsResponseImpl instance) {
+  final val = <String, dynamic>{
+    'object': instance.object,
+    'data': instance.data.map((e) => e.toJson()).toList(),
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('first_id', instance.firstId);
+  writeNotNull('last_id', instance.lastId);
+  val['has_more'] = instance.hasMore;
+  return val;
+}
 
 _$ModifyRunRequestImpl _$$ModifyRunRequestImplFromJson(
         Map<String, dynamic> json) =>
@@ -3832,20 +3850,29 @@ _$ListThreadsResponseImpl _$$ListThreadsResponseImplFromJson(
       data: (json['data'] as List<dynamic>)
           .map((e) => ThreadObject.fromJson(e as Map<String, dynamic>))
           .toList(),
-      firstId: json['first_id'] as String,
-      lastId: json['last_id'] as String,
+      firstId: json['first_id'] as String?,
+      lastId: json['last_id'] as String?,
       hasMore: json['has_more'] as bool,
     );
 
 Map<String, dynamic> _$$ListThreadsResponseImplToJson(
-        _$ListThreadsResponseImpl instance) =>
-    <String, dynamic>{
-      'object': instance.object,
-      'data': instance.data.map((e) => e.toJson()).toList(),
-      'first_id': instance.firstId,
-      'last_id': instance.lastId,
-      'has_more': instance.hasMore,
-    };
+    _$ListThreadsResponseImpl instance) {
+  final val = <String, dynamic>{
+    'object': instance.object,
+    'data': instance.data.map((e) => e.toJson()).toList(),
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('first_id', instance.firstId);
+  writeNotNull('last_id', instance.lastId);
+  val['has_more'] = instance.hasMore;
+  return val;
+}
 
 _$MessageObjectImpl _$$MessageObjectImplFromJson(Map<String, dynamic> json) =>
     _$MessageObjectImpl(
@@ -4105,20 +4132,29 @@ _$ListMessagesResponseImpl _$$ListMessagesResponseImplFromJson(
       data: (json['data'] as List<dynamic>)
           .map((e) => MessageObject.fromJson(e as Map<String, dynamic>))
           .toList(),
-      firstId: json['first_id'] as String,
-      lastId: json['last_id'] as String,
+      firstId: json['first_id'] as String?,
+      lastId: json['last_id'] as String?,
       hasMore: json['has_more'] as bool,
     );
 
 Map<String, dynamic> _$$ListMessagesResponseImplToJson(
-        _$ListMessagesResponseImpl instance) =>
-    <String, dynamic>{
-      'object': instance.object,
-      'data': instance.data.map((e) => e.toJson()).toList(),
-      'first_id': instance.firstId,
-      'last_id': instance.lastId,
-      'has_more': instance.hasMore,
-    };
+    _$ListMessagesResponseImpl instance) {
+  final val = <String, dynamic>{
+    'object': instance.object,
+    'data': instance.data.map((e) => e.toJson()).toList(),
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('first_id', instance.firstId);
+  writeNotNull('last_id', instance.lastId);
+  val['has_more'] = instance.hasMore;
+  return val;
+}
 
 _$MessageContentImageFileImpl _$$MessageContentImageFileImplFromJson(
         Map<String, dynamic> json) =>
@@ -4393,20 +4429,29 @@ _$ListRunStepsResponseImpl _$$ListRunStepsResponseImplFromJson(
       data: (json['data'] as List<dynamic>)
           .map((e) => RunStepObject.fromJson(e as Map<String, dynamic>))
           .toList(),
-      firstId: json['first_id'] as String,
-      lastId: json['last_id'] as String,
+      firstId: json['first_id'] as String?,
+      lastId: json['last_id'] as String?,
       hasMore: json['has_more'] as bool,
     );
 
 Map<String, dynamic> _$$ListRunStepsResponseImplToJson(
-        _$ListRunStepsResponseImpl instance) =>
-    <String, dynamic>{
-      'object': instance.object,
-      'data': instance.data.map((e) => e.toJson()).toList(),
-      'first_id': instance.firstId,
-      'last_id': instance.lastId,
-      'has_more': instance.hasMore,
-    };
+    _$ListRunStepsResponseImpl instance) {
+  final val = <String, dynamic>{
+    'object': instance.object,
+    'data': instance.data.map((e) => e.toJson()).toList(),
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('first_id', instance.firstId);
+  writeNotNull('last_id', instance.lastId);
+  val['has_more'] = instance.hasMore;
+  return val;
+}
 
 _$RunStepDetailsMessageCreationImpl
     _$$RunStepDetailsMessageCreationImplFromJson(Map<String, dynamic> json) =>
@@ -4808,14 +4853,23 @@ _$ListVectorStoresResponseImpl _$$ListVectorStoresResponseImplFromJson(
     );
 
 Map<String, dynamic> _$$ListVectorStoresResponseImplToJson(
-        _$ListVectorStoresResponseImpl instance) =>
-    <String, dynamic>{
-      'object': instance.object,
-      'data': instance.data.map((e) => e.toJson()).toList(),
-      'first_id': instance.firstId,
-      'last_id': instance.lastId,
-      'has_more': instance.hasMore,
-    };
+    _$ListVectorStoresResponseImpl instance) {
+  final val = <String, dynamic>{
+    'object': instance.object,
+    'data': instance.data.map((e) => e.toJson()).toList(),
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('first_id', instance.firstId);
+  writeNotNull('last_id', instance.lastId);
+  val['has_more'] = instance.hasMore;
+  return val;
+}
 
 _$DeleteVectorStoreResponseImpl _$$DeleteVectorStoreResponseImplFromJson(
         Map<String, dynamic> json) =>
@@ -4949,20 +5003,29 @@ _$ListVectorStoreFilesResponseImpl _$$ListVectorStoreFilesResponseImplFromJson(
       data: (json['data'] as List<dynamic>)
           .map((e) => VectorStoreFileObject.fromJson(e as Map<String, dynamic>))
           .toList(),
-      firstId: json['first_id'] as String,
-      lastId: json['last_id'] as String,
+      firstId: json['first_id'] as String?,
+      lastId: json['last_id'] as String?,
       hasMore: json['has_more'] as bool,
     );
 
 Map<String, dynamic> _$$ListVectorStoreFilesResponseImplToJson(
-        _$ListVectorStoreFilesResponseImpl instance) =>
-    <String, dynamic>{
-      'object': instance.object,
-      'data': instance.data.map((e) => e.toJson()).toList(),
-      'first_id': instance.firstId,
-      'last_id': instance.lastId,
-      'has_more': instance.hasMore,
-    };
+    _$ListVectorStoreFilesResponseImpl instance) {
+  final val = <String, dynamic>{
+    'object': instance.object,
+    'data': instance.data.map((e) => e.toJson()).toList(),
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('first_id', instance.firstId);
+  writeNotNull('last_id', instance.lastId);
+  val['has_more'] = instance.hasMore;
+  return val;
+}
 
 _$DeleteVectorStoreFileResponseImpl
     _$$DeleteVectorStoreFileResponseImplFromJson(Map<String, dynamic> json) =>

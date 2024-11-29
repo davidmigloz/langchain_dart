@@ -29318,12 +29318,12 @@ mixin _$ListAssistantsResponse {
   List<AssistantObject> get data => throw _privateConstructorUsedError;
 
   /// The ID of the first assistant in the list.
-  @JsonKey(name: 'first_id')
-  String get firstId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'first_id', includeIfNull: false)
+  String? get firstId => throw _privateConstructorUsedError;
 
   /// The ID of the last assistant in the list.
-  @JsonKey(name: 'last_id')
-  String get lastId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'last_id', includeIfNull: false)
+  String? get lastId => throw _privateConstructorUsedError;
 
   /// Whether there are more assistants to retrieve.
   @JsonKey(name: 'has_more')
@@ -29348,8 +29348,8 @@ abstract class $ListAssistantsResponseCopyWith<$Res> {
   $Res call(
       {String object,
       List<AssistantObject> data,
-      @JsonKey(name: 'first_id') String firstId,
-      @JsonKey(name: 'last_id') String lastId,
+      @JsonKey(name: 'first_id', includeIfNull: false) String? firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) String? lastId,
       @JsonKey(name: 'has_more') bool hasMore});
 }
 
@@ -29371,8 +29371,8 @@ class _$ListAssistantsResponseCopyWithImpl<$Res,
   $Res call({
     Object? object = null,
     Object? data = null,
-    Object? firstId = null,
-    Object? lastId = null,
+    Object? firstId = freezed,
+    Object? lastId = freezed,
     Object? hasMore = null,
   }) {
     return _then(_value.copyWith(
@@ -29384,14 +29384,14 @@ class _$ListAssistantsResponseCopyWithImpl<$Res,
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as List<AssistantObject>,
-      firstId: null == firstId
+      firstId: freezed == firstId
           ? _value.firstId
           : firstId // ignore: cast_nullable_to_non_nullable
-              as String,
-      lastId: null == lastId
+              as String?,
+      lastId: freezed == lastId
           ? _value.lastId
           : lastId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       hasMore: null == hasMore
           ? _value.hasMore
           : hasMore // ignore: cast_nullable_to_non_nullable
@@ -29412,8 +29412,8 @@ abstract class _$$ListAssistantsResponseImplCopyWith<$Res>
   $Res call(
       {String object,
       List<AssistantObject> data,
-      @JsonKey(name: 'first_id') String firstId,
-      @JsonKey(name: 'last_id') String lastId,
+      @JsonKey(name: 'first_id', includeIfNull: false) String? firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) String? lastId,
       @JsonKey(name: 'has_more') bool hasMore});
 }
 
@@ -29434,8 +29434,8 @@ class __$$ListAssistantsResponseImplCopyWithImpl<$Res>
   $Res call({
     Object? object = null,
     Object? data = null,
-    Object? firstId = null,
-    Object? lastId = null,
+    Object? firstId = freezed,
+    Object? lastId = freezed,
     Object? hasMore = null,
   }) {
     return _then(_$ListAssistantsResponseImpl(
@@ -29447,14 +29447,14 @@ class __$$ListAssistantsResponseImplCopyWithImpl<$Res>
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
               as List<AssistantObject>,
-      firstId: null == firstId
+      firstId: freezed == firstId
           ? _value.firstId
           : firstId // ignore: cast_nullable_to_non_nullable
-              as String,
-      lastId: null == lastId
+              as String?,
+      lastId: freezed == lastId
           ? _value.lastId
           : lastId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       hasMore: null == hasMore
           ? _value.hasMore
           : hasMore // ignore: cast_nullable_to_non_nullable
@@ -29469,8 +29469,8 @@ class _$ListAssistantsResponseImpl extends _ListAssistantsResponse {
   const _$ListAssistantsResponseImpl(
       {required this.object,
       required final List<AssistantObject> data,
-      @JsonKey(name: 'first_id') required this.firstId,
-      @JsonKey(name: 'last_id') required this.lastId,
+      @JsonKey(name: 'first_id', includeIfNull: false) this.firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) this.lastId,
       @JsonKey(name: 'has_more') required this.hasMore})
       : _data = data,
         super._();
@@ -29495,13 +29495,13 @@ class _$ListAssistantsResponseImpl extends _ListAssistantsResponse {
 
   /// The ID of the first assistant in the list.
   @override
-  @JsonKey(name: 'first_id')
-  final String firstId;
+  @JsonKey(name: 'first_id', includeIfNull: false)
+  final String? firstId;
 
   /// The ID of the last assistant in the list.
   @override
-  @JsonKey(name: 'last_id')
-  final String lastId;
+  @JsonKey(name: 'last_id', includeIfNull: false)
+  final String? lastId;
 
   /// Whether there are more assistants to retrieve.
   @override
@@ -29549,12 +29549,12 @@ class _$ListAssistantsResponseImpl extends _ListAssistantsResponse {
 
 abstract class _ListAssistantsResponse extends ListAssistantsResponse {
   const factory _ListAssistantsResponse(
-          {required final String object,
-          required final List<AssistantObject> data,
-          @JsonKey(name: 'first_id') required final String firstId,
-          @JsonKey(name: 'last_id') required final String lastId,
-          @JsonKey(name: 'has_more') required final bool hasMore}) =
-      _$ListAssistantsResponseImpl;
+      {required final String object,
+      required final List<AssistantObject> data,
+      @JsonKey(name: 'first_id', includeIfNull: false) final String? firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) final String? lastId,
+      @JsonKey(name: 'has_more')
+      required final bool hasMore}) = _$ListAssistantsResponseImpl;
   const _ListAssistantsResponse._() : super._();
 
   factory _ListAssistantsResponse.fromJson(Map<String, dynamic> json) =
@@ -29570,13 +29570,13 @@ abstract class _ListAssistantsResponse extends ListAssistantsResponse {
 
   /// The ID of the first assistant in the list.
   @override
-  @JsonKey(name: 'first_id')
-  String get firstId;
+  @JsonKey(name: 'first_id', includeIfNull: false)
+  String? get firstId;
 
   /// The ID of the last assistant in the list.
   @override
-  @JsonKey(name: 'last_id')
-  String get lastId;
+  @JsonKey(name: 'last_id', includeIfNull: false)
+  String? get lastId;
 
   /// Whether there are more assistants to retrieve.
   @override
@@ -35684,12 +35684,12 @@ mixin _$ListRunsResponse {
   List<RunObject> get data => throw _privateConstructorUsedError;
 
   /// The ID of the first run in the list.
-  @JsonKey(name: 'first_id')
-  String get firstId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'first_id', includeIfNull: false)
+  String? get firstId => throw _privateConstructorUsedError;
 
   /// The ID of the last run in the list.
-  @JsonKey(name: 'last_id')
-  String get lastId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'last_id', includeIfNull: false)
+  String? get lastId => throw _privateConstructorUsedError;
 
   /// Whether there are more runs to retrieve.
   @JsonKey(name: 'has_more')
@@ -35714,8 +35714,8 @@ abstract class $ListRunsResponseCopyWith<$Res> {
   $Res call(
       {String object,
       List<RunObject> data,
-      @JsonKey(name: 'first_id') String firstId,
-      @JsonKey(name: 'last_id') String lastId,
+      @JsonKey(name: 'first_id', includeIfNull: false) String? firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) String? lastId,
       @JsonKey(name: 'has_more') bool hasMore});
 }
 
@@ -35736,8 +35736,8 @@ class _$ListRunsResponseCopyWithImpl<$Res, $Val extends ListRunsResponse>
   $Res call({
     Object? object = null,
     Object? data = null,
-    Object? firstId = null,
-    Object? lastId = null,
+    Object? firstId = freezed,
+    Object? lastId = freezed,
     Object? hasMore = null,
   }) {
     return _then(_value.copyWith(
@@ -35749,14 +35749,14 @@ class _$ListRunsResponseCopyWithImpl<$Res, $Val extends ListRunsResponse>
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as List<RunObject>,
-      firstId: null == firstId
+      firstId: freezed == firstId
           ? _value.firstId
           : firstId // ignore: cast_nullable_to_non_nullable
-              as String,
-      lastId: null == lastId
+              as String?,
+      lastId: freezed == lastId
           ? _value.lastId
           : lastId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       hasMore: null == hasMore
           ? _value.hasMore
           : hasMore // ignore: cast_nullable_to_non_nullable
@@ -35776,8 +35776,8 @@ abstract class _$$ListRunsResponseImplCopyWith<$Res>
   $Res call(
       {String object,
       List<RunObject> data,
-      @JsonKey(name: 'first_id') String firstId,
-      @JsonKey(name: 'last_id') String lastId,
+      @JsonKey(name: 'first_id', includeIfNull: false) String? firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) String? lastId,
       @JsonKey(name: 'has_more') bool hasMore});
 }
 
@@ -35796,8 +35796,8 @@ class __$$ListRunsResponseImplCopyWithImpl<$Res>
   $Res call({
     Object? object = null,
     Object? data = null,
-    Object? firstId = null,
-    Object? lastId = null,
+    Object? firstId = freezed,
+    Object? lastId = freezed,
     Object? hasMore = null,
   }) {
     return _then(_$ListRunsResponseImpl(
@@ -35809,14 +35809,14 @@ class __$$ListRunsResponseImplCopyWithImpl<$Res>
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
               as List<RunObject>,
-      firstId: null == firstId
+      firstId: freezed == firstId
           ? _value.firstId
           : firstId // ignore: cast_nullable_to_non_nullable
-              as String,
-      lastId: null == lastId
+              as String?,
+      lastId: freezed == lastId
           ? _value.lastId
           : lastId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       hasMore: null == hasMore
           ? _value.hasMore
           : hasMore // ignore: cast_nullable_to_non_nullable
@@ -35831,8 +35831,8 @@ class _$ListRunsResponseImpl extends _ListRunsResponse {
   const _$ListRunsResponseImpl(
       {required this.object,
       required final List<RunObject> data,
-      @JsonKey(name: 'first_id') required this.firstId,
-      @JsonKey(name: 'last_id') required this.lastId,
+      @JsonKey(name: 'first_id', includeIfNull: false) this.firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) this.lastId,
       @JsonKey(name: 'has_more') required this.hasMore})
       : _data = data,
         super._();
@@ -35857,13 +35857,13 @@ class _$ListRunsResponseImpl extends _ListRunsResponse {
 
   /// The ID of the first run in the list.
   @override
-  @JsonKey(name: 'first_id')
-  final String firstId;
+  @JsonKey(name: 'first_id', includeIfNull: false)
+  final String? firstId;
 
   /// The ID of the last run in the list.
   @override
-  @JsonKey(name: 'last_id')
-  final String lastId;
+  @JsonKey(name: 'last_id', includeIfNull: false)
+  final String? lastId;
 
   /// Whether there are more runs to retrieve.
   @override
@@ -35911,12 +35911,12 @@ class _$ListRunsResponseImpl extends _ListRunsResponse {
 
 abstract class _ListRunsResponse extends ListRunsResponse {
   const factory _ListRunsResponse(
-          {required final String object,
-          required final List<RunObject> data,
-          @JsonKey(name: 'first_id') required final String firstId,
-          @JsonKey(name: 'last_id') required final String lastId,
-          @JsonKey(name: 'has_more') required final bool hasMore}) =
-      _$ListRunsResponseImpl;
+      {required final String object,
+      required final List<RunObject> data,
+      @JsonKey(name: 'first_id', includeIfNull: false) final String? firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) final String? lastId,
+      @JsonKey(name: 'has_more')
+      required final bool hasMore}) = _$ListRunsResponseImpl;
   const _ListRunsResponse._() : super._();
 
   factory _ListRunsResponse.fromJson(Map<String, dynamic> json) =
@@ -35932,13 +35932,13 @@ abstract class _ListRunsResponse extends ListRunsResponse {
 
   /// The ID of the first run in the list.
   @override
-  @JsonKey(name: 'first_id')
-  String get firstId;
+  @JsonKey(name: 'first_id', includeIfNull: false)
+  String? get firstId;
 
   /// The ID of the last run in the list.
   @override
-  @JsonKey(name: 'last_id')
-  String get lastId;
+  @JsonKey(name: 'last_id', includeIfNull: false)
+  String? get lastId;
 
   /// Whether there are more runs to retrieve.
   @override
@@ -41323,12 +41323,12 @@ mixin _$ListThreadsResponse {
   List<ThreadObject> get data => throw _privateConstructorUsedError;
 
   /// The ID of the first thread in the list.
-  @JsonKey(name: 'first_id')
-  String get firstId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'first_id', includeIfNull: false)
+  String? get firstId => throw _privateConstructorUsedError;
 
   /// The ID of the last thread in the list.
-  @JsonKey(name: 'last_id')
-  String get lastId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'last_id', includeIfNull: false)
+  String? get lastId => throw _privateConstructorUsedError;
 
   /// Whether there are more threads to retrieve.
   @JsonKey(name: 'has_more')
@@ -41353,8 +41353,8 @@ abstract class $ListThreadsResponseCopyWith<$Res> {
   $Res call(
       {String object,
       List<ThreadObject> data,
-      @JsonKey(name: 'first_id') String firstId,
-      @JsonKey(name: 'last_id') String lastId,
+      @JsonKey(name: 'first_id', includeIfNull: false) String? firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) String? lastId,
       @JsonKey(name: 'has_more') bool hasMore});
 }
 
@@ -41375,8 +41375,8 @@ class _$ListThreadsResponseCopyWithImpl<$Res, $Val extends ListThreadsResponse>
   $Res call({
     Object? object = null,
     Object? data = null,
-    Object? firstId = null,
-    Object? lastId = null,
+    Object? firstId = freezed,
+    Object? lastId = freezed,
     Object? hasMore = null,
   }) {
     return _then(_value.copyWith(
@@ -41388,14 +41388,14 @@ class _$ListThreadsResponseCopyWithImpl<$Res, $Val extends ListThreadsResponse>
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as List<ThreadObject>,
-      firstId: null == firstId
+      firstId: freezed == firstId
           ? _value.firstId
           : firstId // ignore: cast_nullable_to_non_nullable
-              as String,
-      lastId: null == lastId
+              as String?,
+      lastId: freezed == lastId
           ? _value.lastId
           : lastId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       hasMore: null == hasMore
           ? _value.hasMore
           : hasMore // ignore: cast_nullable_to_non_nullable
@@ -41415,8 +41415,8 @@ abstract class _$$ListThreadsResponseImplCopyWith<$Res>
   $Res call(
       {String object,
       List<ThreadObject> data,
-      @JsonKey(name: 'first_id') String firstId,
-      @JsonKey(name: 'last_id') String lastId,
+      @JsonKey(name: 'first_id', includeIfNull: false) String? firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) String? lastId,
       @JsonKey(name: 'has_more') bool hasMore});
 }
 
@@ -41435,8 +41435,8 @@ class __$$ListThreadsResponseImplCopyWithImpl<$Res>
   $Res call({
     Object? object = null,
     Object? data = null,
-    Object? firstId = null,
-    Object? lastId = null,
+    Object? firstId = freezed,
+    Object? lastId = freezed,
     Object? hasMore = null,
   }) {
     return _then(_$ListThreadsResponseImpl(
@@ -41448,14 +41448,14 @@ class __$$ListThreadsResponseImplCopyWithImpl<$Res>
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
               as List<ThreadObject>,
-      firstId: null == firstId
+      firstId: freezed == firstId
           ? _value.firstId
           : firstId // ignore: cast_nullable_to_non_nullable
-              as String,
-      lastId: null == lastId
+              as String?,
+      lastId: freezed == lastId
           ? _value.lastId
           : lastId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       hasMore: null == hasMore
           ? _value.hasMore
           : hasMore // ignore: cast_nullable_to_non_nullable
@@ -41470,8 +41470,8 @@ class _$ListThreadsResponseImpl extends _ListThreadsResponse {
   const _$ListThreadsResponseImpl(
       {required this.object,
       required final List<ThreadObject> data,
-      @JsonKey(name: 'first_id') required this.firstId,
-      @JsonKey(name: 'last_id') required this.lastId,
+      @JsonKey(name: 'first_id', includeIfNull: false) this.firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) this.lastId,
       @JsonKey(name: 'has_more') required this.hasMore})
       : _data = data,
         super._();
@@ -41496,13 +41496,13 @@ class _$ListThreadsResponseImpl extends _ListThreadsResponse {
 
   /// The ID of the first thread in the list.
   @override
-  @JsonKey(name: 'first_id')
-  final String firstId;
+  @JsonKey(name: 'first_id', includeIfNull: false)
+  final String? firstId;
 
   /// The ID of the last thread in the list.
   @override
-  @JsonKey(name: 'last_id')
-  final String lastId;
+  @JsonKey(name: 'last_id', includeIfNull: false)
+  final String? lastId;
 
   /// Whether there are more threads to retrieve.
   @override
@@ -41550,12 +41550,12 @@ class _$ListThreadsResponseImpl extends _ListThreadsResponse {
 
 abstract class _ListThreadsResponse extends ListThreadsResponse {
   const factory _ListThreadsResponse(
-          {required final String object,
-          required final List<ThreadObject> data,
-          @JsonKey(name: 'first_id') required final String firstId,
-          @JsonKey(name: 'last_id') required final String lastId,
-          @JsonKey(name: 'has_more') required final bool hasMore}) =
-      _$ListThreadsResponseImpl;
+      {required final String object,
+      required final List<ThreadObject> data,
+      @JsonKey(name: 'first_id', includeIfNull: false) final String? firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) final String? lastId,
+      @JsonKey(name: 'has_more')
+      required final bool hasMore}) = _$ListThreadsResponseImpl;
   const _ListThreadsResponse._() : super._();
 
   factory _ListThreadsResponse.fromJson(Map<String, dynamic> json) =
@@ -41571,13 +41571,13 @@ abstract class _ListThreadsResponse extends ListThreadsResponse {
 
   /// The ID of the first thread in the list.
   @override
-  @JsonKey(name: 'first_id')
-  String get firstId;
+  @JsonKey(name: 'first_id', includeIfNull: false)
+  String? get firstId;
 
   /// The ID of the last thread in the list.
   @override
-  @JsonKey(name: 'last_id')
-  String get lastId;
+  @JsonKey(name: 'last_id', includeIfNull: false)
+  String? get lastId;
 
   /// Whether there are more threads to retrieve.
   @override
@@ -44171,12 +44171,12 @@ mixin _$ListMessagesResponse {
   List<MessageObject> get data => throw _privateConstructorUsedError;
 
   /// The ID of the first message in the list.
-  @JsonKey(name: 'first_id')
-  String get firstId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'first_id', includeIfNull: false)
+  String? get firstId => throw _privateConstructorUsedError;
 
   /// The ID of the last message in the list.
-  @JsonKey(name: 'last_id')
-  String get lastId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'last_id', includeIfNull: false)
+  String? get lastId => throw _privateConstructorUsedError;
 
   /// Whether there are more messages to retrieve.
   @JsonKey(name: 'has_more')
@@ -44201,8 +44201,8 @@ abstract class $ListMessagesResponseCopyWith<$Res> {
   $Res call(
       {String object,
       List<MessageObject> data,
-      @JsonKey(name: 'first_id') String firstId,
-      @JsonKey(name: 'last_id') String lastId,
+      @JsonKey(name: 'first_id', includeIfNull: false) String? firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) String? lastId,
       @JsonKey(name: 'has_more') bool hasMore});
 }
 
@@ -44224,8 +44224,8 @@ class _$ListMessagesResponseCopyWithImpl<$Res,
   $Res call({
     Object? object = null,
     Object? data = null,
-    Object? firstId = null,
-    Object? lastId = null,
+    Object? firstId = freezed,
+    Object? lastId = freezed,
     Object? hasMore = null,
   }) {
     return _then(_value.copyWith(
@@ -44237,14 +44237,14 @@ class _$ListMessagesResponseCopyWithImpl<$Res,
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as List<MessageObject>,
-      firstId: null == firstId
+      firstId: freezed == firstId
           ? _value.firstId
           : firstId // ignore: cast_nullable_to_non_nullable
-              as String,
-      lastId: null == lastId
+              as String?,
+      lastId: freezed == lastId
           ? _value.lastId
           : lastId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       hasMore: null == hasMore
           ? _value.hasMore
           : hasMore // ignore: cast_nullable_to_non_nullable
@@ -44264,8 +44264,8 @@ abstract class _$$ListMessagesResponseImplCopyWith<$Res>
   $Res call(
       {String object,
       List<MessageObject> data,
-      @JsonKey(name: 'first_id') String firstId,
-      @JsonKey(name: 'last_id') String lastId,
+      @JsonKey(name: 'first_id', includeIfNull: false) String? firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) String? lastId,
       @JsonKey(name: 'has_more') bool hasMore});
 }
 
@@ -44284,8 +44284,8 @@ class __$$ListMessagesResponseImplCopyWithImpl<$Res>
   $Res call({
     Object? object = null,
     Object? data = null,
-    Object? firstId = null,
-    Object? lastId = null,
+    Object? firstId = freezed,
+    Object? lastId = freezed,
     Object? hasMore = null,
   }) {
     return _then(_$ListMessagesResponseImpl(
@@ -44297,14 +44297,14 @@ class __$$ListMessagesResponseImplCopyWithImpl<$Res>
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
               as List<MessageObject>,
-      firstId: null == firstId
+      firstId: freezed == firstId
           ? _value.firstId
           : firstId // ignore: cast_nullable_to_non_nullable
-              as String,
-      lastId: null == lastId
+              as String?,
+      lastId: freezed == lastId
           ? _value.lastId
           : lastId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       hasMore: null == hasMore
           ? _value.hasMore
           : hasMore // ignore: cast_nullable_to_non_nullable
@@ -44319,8 +44319,8 @@ class _$ListMessagesResponseImpl extends _ListMessagesResponse {
   const _$ListMessagesResponseImpl(
       {required this.object,
       required final List<MessageObject> data,
-      @JsonKey(name: 'first_id') required this.firstId,
-      @JsonKey(name: 'last_id') required this.lastId,
+      @JsonKey(name: 'first_id', includeIfNull: false) this.firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) this.lastId,
       @JsonKey(name: 'has_more') required this.hasMore})
       : _data = data,
         super._();
@@ -44345,13 +44345,13 @@ class _$ListMessagesResponseImpl extends _ListMessagesResponse {
 
   /// The ID of the first message in the list.
   @override
-  @JsonKey(name: 'first_id')
-  final String firstId;
+  @JsonKey(name: 'first_id', includeIfNull: false)
+  final String? firstId;
 
   /// The ID of the last message in the list.
   @override
-  @JsonKey(name: 'last_id')
-  final String lastId;
+  @JsonKey(name: 'last_id', includeIfNull: false)
+  final String? lastId;
 
   /// Whether there are more messages to retrieve.
   @override
@@ -44400,12 +44400,12 @@ class _$ListMessagesResponseImpl extends _ListMessagesResponse {
 
 abstract class _ListMessagesResponse extends ListMessagesResponse {
   const factory _ListMessagesResponse(
-          {required final String object,
-          required final List<MessageObject> data,
-          @JsonKey(name: 'first_id') required final String firstId,
-          @JsonKey(name: 'last_id') required final String lastId,
-          @JsonKey(name: 'has_more') required final bool hasMore}) =
-      _$ListMessagesResponseImpl;
+      {required final String object,
+      required final List<MessageObject> data,
+      @JsonKey(name: 'first_id', includeIfNull: false) final String? firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) final String? lastId,
+      @JsonKey(name: 'has_more')
+      required final bool hasMore}) = _$ListMessagesResponseImpl;
   const _ListMessagesResponse._() : super._();
 
   factory _ListMessagesResponse.fromJson(Map<String, dynamic> json) =
@@ -44421,13 +44421,13 @@ abstract class _ListMessagesResponse extends ListMessagesResponse {
 
   /// The ID of the first message in the list.
   @override
-  @JsonKey(name: 'first_id')
-  String get firstId;
+  @JsonKey(name: 'first_id', includeIfNull: false)
+  String? get firstId;
 
   /// The ID of the last message in the list.
   @override
-  @JsonKey(name: 'last_id')
-  String get lastId;
+  @JsonKey(name: 'last_id', includeIfNull: false)
+  String? get lastId;
 
   /// Whether there are more messages to retrieve.
   @override
@@ -47097,12 +47097,12 @@ mixin _$ListRunStepsResponse {
   List<RunStepObject> get data => throw _privateConstructorUsedError;
 
   /// The ID of the first run step in the list.
-  @JsonKey(name: 'first_id')
-  String get firstId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'first_id', includeIfNull: false)
+  String? get firstId => throw _privateConstructorUsedError;
 
   /// The ID of the last run step in the list.
-  @JsonKey(name: 'last_id')
-  String get lastId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'last_id', includeIfNull: false)
+  String? get lastId => throw _privateConstructorUsedError;
 
   /// Whether there are more run steps to retrieve.
   @JsonKey(name: 'has_more')
@@ -47127,8 +47127,8 @@ abstract class $ListRunStepsResponseCopyWith<$Res> {
   $Res call(
       {String object,
       List<RunStepObject> data,
-      @JsonKey(name: 'first_id') String firstId,
-      @JsonKey(name: 'last_id') String lastId,
+      @JsonKey(name: 'first_id', includeIfNull: false) String? firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) String? lastId,
       @JsonKey(name: 'has_more') bool hasMore});
 }
 
@@ -47150,8 +47150,8 @@ class _$ListRunStepsResponseCopyWithImpl<$Res,
   $Res call({
     Object? object = null,
     Object? data = null,
-    Object? firstId = null,
-    Object? lastId = null,
+    Object? firstId = freezed,
+    Object? lastId = freezed,
     Object? hasMore = null,
   }) {
     return _then(_value.copyWith(
@@ -47163,14 +47163,14 @@ class _$ListRunStepsResponseCopyWithImpl<$Res,
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as List<RunStepObject>,
-      firstId: null == firstId
+      firstId: freezed == firstId
           ? _value.firstId
           : firstId // ignore: cast_nullable_to_non_nullable
-              as String,
-      lastId: null == lastId
+              as String?,
+      lastId: freezed == lastId
           ? _value.lastId
           : lastId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       hasMore: null == hasMore
           ? _value.hasMore
           : hasMore // ignore: cast_nullable_to_non_nullable
@@ -47190,8 +47190,8 @@ abstract class _$$ListRunStepsResponseImplCopyWith<$Res>
   $Res call(
       {String object,
       List<RunStepObject> data,
-      @JsonKey(name: 'first_id') String firstId,
-      @JsonKey(name: 'last_id') String lastId,
+      @JsonKey(name: 'first_id', includeIfNull: false) String? firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) String? lastId,
       @JsonKey(name: 'has_more') bool hasMore});
 }
 
@@ -47210,8 +47210,8 @@ class __$$ListRunStepsResponseImplCopyWithImpl<$Res>
   $Res call({
     Object? object = null,
     Object? data = null,
-    Object? firstId = null,
-    Object? lastId = null,
+    Object? firstId = freezed,
+    Object? lastId = freezed,
     Object? hasMore = null,
   }) {
     return _then(_$ListRunStepsResponseImpl(
@@ -47223,14 +47223,14 @@ class __$$ListRunStepsResponseImplCopyWithImpl<$Res>
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
               as List<RunStepObject>,
-      firstId: null == firstId
+      firstId: freezed == firstId
           ? _value.firstId
           : firstId // ignore: cast_nullable_to_non_nullable
-              as String,
-      lastId: null == lastId
+              as String?,
+      lastId: freezed == lastId
           ? _value.lastId
           : lastId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       hasMore: null == hasMore
           ? _value.hasMore
           : hasMore // ignore: cast_nullable_to_non_nullable
@@ -47245,8 +47245,8 @@ class _$ListRunStepsResponseImpl extends _ListRunStepsResponse {
   const _$ListRunStepsResponseImpl(
       {required this.object,
       required final List<RunStepObject> data,
-      @JsonKey(name: 'first_id') required this.firstId,
-      @JsonKey(name: 'last_id') required this.lastId,
+      @JsonKey(name: 'first_id', includeIfNull: false) this.firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) this.lastId,
       @JsonKey(name: 'has_more') required this.hasMore})
       : _data = data,
         super._();
@@ -47271,13 +47271,13 @@ class _$ListRunStepsResponseImpl extends _ListRunStepsResponse {
 
   /// The ID of the first run step in the list.
   @override
-  @JsonKey(name: 'first_id')
-  final String firstId;
+  @JsonKey(name: 'first_id', includeIfNull: false)
+  final String? firstId;
 
   /// The ID of the last run step in the list.
   @override
-  @JsonKey(name: 'last_id')
-  final String lastId;
+  @JsonKey(name: 'last_id', includeIfNull: false)
+  final String? lastId;
 
   /// Whether there are more run steps to retrieve.
   @override
@@ -47326,12 +47326,12 @@ class _$ListRunStepsResponseImpl extends _ListRunStepsResponse {
 
 abstract class _ListRunStepsResponse extends ListRunStepsResponse {
   const factory _ListRunStepsResponse(
-          {required final String object,
-          required final List<RunStepObject> data,
-          @JsonKey(name: 'first_id') required final String firstId,
-          @JsonKey(name: 'last_id') required final String lastId,
-          @JsonKey(name: 'has_more') required final bool hasMore}) =
-      _$ListRunStepsResponseImpl;
+      {required final String object,
+      required final List<RunStepObject> data,
+      @JsonKey(name: 'first_id', includeIfNull: false) final String? firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) final String? lastId,
+      @JsonKey(name: 'has_more')
+      required final bool hasMore}) = _$ListRunStepsResponseImpl;
   const _ListRunStepsResponse._() : super._();
 
   factory _ListRunStepsResponse.fromJson(Map<String, dynamic> json) =
@@ -47347,13 +47347,13 @@ abstract class _ListRunStepsResponse extends ListRunStepsResponse {
 
   /// The ID of the first run step in the list.
   @override
-  @JsonKey(name: 'first_id')
-  String get firstId;
+  @JsonKey(name: 'first_id', includeIfNull: false)
+  String? get firstId;
 
   /// The ID of the last run step in the list.
   @override
-  @JsonKey(name: 'last_id')
-  String get lastId;
+  @JsonKey(name: 'last_id', includeIfNull: false)
+  String? get lastId;
 
   /// Whether there are more run steps to retrieve.
   @override
@@ -51346,11 +51346,11 @@ mixin _$ListVectorStoresResponse {
   List<VectorStoreObject> get data => throw _privateConstructorUsedError;
 
   /// The ID of the first assistant file in the list.
-  @JsonKey(name: 'first_id')
+  @JsonKey(name: 'first_id', includeIfNull: false)
   String? get firstId => throw _privateConstructorUsedError;
 
   /// The ID of the last assistant file in the list.
-  @JsonKey(name: 'last_id')
+  @JsonKey(name: 'last_id', includeIfNull: false)
   String? get lastId => throw _privateConstructorUsedError;
 
   /// Whether there are more assistant files available.
@@ -51376,8 +51376,8 @@ abstract class $ListVectorStoresResponseCopyWith<$Res> {
   $Res call(
       {String object,
       List<VectorStoreObject> data,
-      @JsonKey(name: 'first_id') String? firstId,
-      @JsonKey(name: 'last_id') String? lastId,
+      @JsonKey(name: 'first_id', includeIfNull: false) String? firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) String? lastId,
       @JsonKey(name: 'has_more') bool hasMore});
 }
 
@@ -51440,8 +51440,8 @@ abstract class _$$ListVectorStoresResponseImplCopyWith<$Res>
   $Res call(
       {String object,
       List<VectorStoreObject> data,
-      @JsonKey(name: 'first_id') String? firstId,
-      @JsonKey(name: 'last_id') String? lastId,
+      @JsonKey(name: 'first_id', includeIfNull: false) String? firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) String? lastId,
       @JsonKey(name: 'has_more') bool hasMore});
 }
 
@@ -51497,8 +51497,8 @@ class _$ListVectorStoresResponseImpl extends _ListVectorStoresResponse {
   const _$ListVectorStoresResponseImpl(
       {required this.object,
       required final List<VectorStoreObject> data,
-      @JsonKey(name: 'first_id') required this.firstId,
-      @JsonKey(name: 'last_id') required this.lastId,
+      @JsonKey(name: 'first_id', includeIfNull: false) this.firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) this.lastId,
       @JsonKey(name: 'has_more') required this.hasMore})
       : _data = data,
         super._();
@@ -51523,12 +51523,12 @@ class _$ListVectorStoresResponseImpl extends _ListVectorStoresResponse {
 
   /// The ID of the first assistant file in the list.
   @override
-  @JsonKey(name: 'first_id')
+  @JsonKey(name: 'first_id', includeIfNull: false)
   final String? firstId;
 
   /// The ID of the last assistant file in the list.
   @override
-  @JsonKey(name: 'last_id')
+  @JsonKey(name: 'last_id', includeIfNull: false)
   final String? lastId;
 
   /// Whether there are more assistant files available.
@@ -51577,12 +51577,12 @@ class _$ListVectorStoresResponseImpl extends _ListVectorStoresResponse {
 
 abstract class _ListVectorStoresResponse extends ListVectorStoresResponse {
   const factory _ListVectorStoresResponse(
-          {required final String object,
-          required final List<VectorStoreObject> data,
-          @JsonKey(name: 'first_id') required final String? firstId,
-          @JsonKey(name: 'last_id') required final String? lastId,
-          @JsonKey(name: 'has_more') required final bool hasMore}) =
-      _$ListVectorStoresResponseImpl;
+      {required final String object,
+      required final List<VectorStoreObject> data,
+      @JsonKey(name: 'first_id', includeIfNull: false) final String? firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) final String? lastId,
+      @JsonKey(name: 'has_more')
+      required final bool hasMore}) = _$ListVectorStoresResponseImpl;
   const _ListVectorStoresResponse._() : super._();
 
   factory _ListVectorStoresResponse.fromJson(Map<String, dynamic> json) =
@@ -51598,12 +51598,12 @@ abstract class _ListVectorStoresResponse extends ListVectorStoresResponse {
 
   /// The ID of the first assistant file in the list.
   @override
-  @JsonKey(name: 'first_id')
+  @JsonKey(name: 'first_id', includeIfNull: false)
   String? get firstId;
 
   /// The ID of the last assistant file in the list.
   @override
-  @JsonKey(name: 'last_id')
+  @JsonKey(name: 'last_id', includeIfNull: false)
   String? get lastId;
 
   /// Whether there are more assistant files available.
@@ -52891,12 +52891,12 @@ mixin _$ListVectorStoreFilesResponse {
   List<VectorStoreFileObject> get data => throw _privateConstructorUsedError;
 
   /// The ID of the first message file in the list.
-  @JsonKey(name: 'first_id')
-  String get firstId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'first_id', includeIfNull: false)
+  String? get firstId => throw _privateConstructorUsedError;
 
   /// The ID of the last message file in the list.
-  @JsonKey(name: 'last_id')
-  String get lastId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'last_id', includeIfNull: false)
+  String? get lastId => throw _privateConstructorUsedError;
 
   /// Whether there are more message files available.
   @JsonKey(name: 'has_more')
@@ -52923,8 +52923,8 @@ abstract class $ListVectorStoreFilesResponseCopyWith<$Res> {
   $Res call(
       {String object,
       List<VectorStoreFileObject> data,
-      @JsonKey(name: 'first_id') String firstId,
-      @JsonKey(name: 'last_id') String lastId,
+      @JsonKey(name: 'first_id', includeIfNull: false) String? firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) String? lastId,
       @JsonKey(name: 'has_more') bool hasMore});
 }
 
@@ -52946,8 +52946,8 @@ class _$ListVectorStoreFilesResponseCopyWithImpl<$Res,
   $Res call({
     Object? object = null,
     Object? data = null,
-    Object? firstId = null,
-    Object? lastId = null,
+    Object? firstId = freezed,
+    Object? lastId = freezed,
     Object? hasMore = null,
   }) {
     return _then(_value.copyWith(
@@ -52959,14 +52959,14 @@ class _$ListVectorStoreFilesResponseCopyWithImpl<$Res,
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as List<VectorStoreFileObject>,
-      firstId: null == firstId
+      firstId: freezed == firstId
           ? _value.firstId
           : firstId // ignore: cast_nullable_to_non_nullable
-              as String,
-      lastId: null == lastId
+              as String?,
+      lastId: freezed == lastId
           ? _value.lastId
           : lastId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       hasMore: null == hasMore
           ? _value.hasMore
           : hasMore // ignore: cast_nullable_to_non_nullable
@@ -52987,8 +52987,8 @@ abstract class _$$ListVectorStoreFilesResponseImplCopyWith<$Res>
   $Res call(
       {String object,
       List<VectorStoreFileObject> data,
-      @JsonKey(name: 'first_id') String firstId,
-      @JsonKey(name: 'last_id') String lastId,
+      @JsonKey(name: 'first_id', includeIfNull: false) String? firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) String? lastId,
       @JsonKey(name: 'has_more') bool hasMore});
 }
 
@@ -53009,8 +53009,8 @@ class __$$ListVectorStoreFilesResponseImplCopyWithImpl<$Res>
   $Res call({
     Object? object = null,
     Object? data = null,
-    Object? firstId = null,
-    Object? lastId = null,
+    Object? firstId = freezed,
+    Object? lastId = freezed,
     Object? hasMore = null,
   }) {
     return _then(_$ListVectorStoreFilesResponseImpl(
@@ -53022,14 +53022,14 @@ class __$$ListVectorStoreFilesResponseImplCopyWithImpl<$Res>
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
               as List<VectorStoreFileObject>,
-      firstId: null == firstId
+      firstId: freezed == firstId
           ? _value.firstId
           : firstId // ignore: cast_nullable_to_non_nullable
-              as String,
-      lastId: null == lastId
+              as String?,
+      lastId: freezed == lastId
           ? _value.lastId
           : lastId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       hasMore: null == hasMore
           ? _value.hasMore
           : hasMore // ignore: cast_nullable_to_non_nullable
@@ -53044,8 +53044,8 @@ class _$ListVectorStoreFilesResponseImpl extends _ListVectorStoreFilesResponse {
   const _$ListVectorStoreFilesResponseImpl(
       {required this.object,
       required final List<VectorStoreFileObject> data,
-      @JsonKey(name: 'first_id') required this.firstId,
-      @JsonKey(name: 'last_id') required this.lastId,
+      @JsonKey(name: 'first_id', includeIfNull: false) this.firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) this.lastId,
       @JsonKey(name: 'has_more') required this.hasMore})
       : _data = data,
         super._();
@@ -53071,13 +53071,13 @@ class _$ListVectorStoreFilesResponseImpl extends _ListVectorStoreFilesResponse {
 
   /// The ID of the first message file in the list.
   @override
-  @JsonKey(name: 'first_id')
-  final String firstId;
+  @JsonKey(name: 'first_id', includeIfNull: false)
+  final String? firstId;
 
   /// The ID of the last message file in the list.
   @override
-  @JsonKey(name: 'last_id')
-  final String lastId;
+  @JsonKey(name: 'last_id', includeIfNull: false)
+  final String? lastId;
 
   /// Whether there are more message files available.
   @override
@@ -53127,12 +53127,12 @@ class _$ListVectorStoreFilesResponseImpl extends _ListVectorStoreFilesResponse {
 abstract class _ListVectorStoreFilesResponse
     extends ListVectorStoreFilesResponse {
   const factory _ListVectorStoreFilesResponse(
-          {required final String object,
-          required final List<VectorStoreFileObject> data,
-          @JsonKey(name: 'first_id') required final String firstId,
-          @JsonKey(name: 'last_id') required final String lastId,
-          @JsonKey(name: 'has_more') required final bool hasMore}) =
-      _$ListVectorStoreFilesResponseImpl;
+      {required final String object,
+      required final List<VectorStoreFileObject> data,
+      @JsonKey(name: 'first_id', includeIfNull: false) final String? firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) final String? lastId,
+      @JsonKey(name: 'has_more')
+      required final bool hasMore}) = _$ListVectorStoreFilesResponseImpl;
   const _ListVectorStoreFilesResponse._() : super._();
 
   factory _ListVectorStoreFilesResponse.fromJson(Map<String, dynamic> json) =
@@ -53148,13 +53148,13 @@ abstract class _ListVectorStoreFilesResponse
 
   /// The ID of the first message file in the list.
   @override
-  @JsonKey(name: 'first_id')
-  String get firstId;
+  @JsonKey(name: 'first_id', includeIfNull: false)
+  String? get firstId;
 
   /// The ID of the last message file in the list.
   @override
-  @JsonKey(name: 'last_id')
-  String get lastId;
+  @JsonKey(name: 'last_id', includeIfNull: false)
+  String? get lastId;
 
   /// Whether there are more message files available.
   @override
