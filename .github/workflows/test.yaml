@@ -28,7 +28,7 @@ jobs:
           fetch-depth: 0
 
       - name: Install Flutter
-        uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
+        uses: subosito/flutter-action@74af56c5ed2697ba4621264652728e8d217e53d3
         with:
           channel: 'stable'
 
@@ -41,7 +41,7 @@ jobs:
         run: flutter pub cache clean
 
       - name: Install Melos
-        uses: bluefireteam/melos-action@68b03fa391f4242e956f7e39e9ee27c096b901e4
+        uses: bluefireteam/melos-action@b7f0b37c25d61616d8eda5d1b0fcf4b17e4e3b09
         with:
           run-bootstrap: false
 
