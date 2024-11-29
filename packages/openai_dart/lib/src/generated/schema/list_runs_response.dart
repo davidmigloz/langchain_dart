@@ -22,10 +22,10 @@ class ListRunsResponse with _$ListRunsResponse {
     required List<RunObject> data,
 
     /// The ID of the first run in the list.
-    @JsonKey(name: 'first_id') required String firstId,
+    @JsonKey(name: 'first_id', includeIfNull: false) String? firstId,
 
     /// The ID of the last run in the list.
-    @JsonKey(name: 'last_id') required String lastId,
+    @JsonKey(name: 'last_id', includeIfNull: false) String? lastId,
 
     /// Whether there are more runs to retrieve.
     @JsonKey(name: 'has_more') required bool hasMore,

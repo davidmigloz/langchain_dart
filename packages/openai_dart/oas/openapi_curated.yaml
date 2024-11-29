@@ -4229,8 +4229,6 @@ components:
       required:
         - object
         - data
-        - first_id
-        - last_id
         - has_more
     AssistantTools:
       type: object
@@ -4739,8 +4737,6 @@ components:
       required:
         - object
         - data
-        - first_id
-        - last_id
         - has_more
     ModifyRunRequest:
       type: object
@@ -5130,8 +5126,6 @@ components:
       required:
         - object
         - data
-        - first_id
-        - last_id
         - has_more
     MessageObject:
       type: object
@@ -5378,8 +5372,6 @@ components:
       required:
         - object
         - data
-        - first_id
-        - last_id
         - has_more
     MessageContentImageFileObject:
       type: object
@@ -5863,8 +5855,6 @@ components:
       required:
         - object
         - data
-        - first_id
-        - last_id
         - has_more
     RunStepDetailsMessageCreationObject:
       type: object
@@ -6436,8 +6426,6 @@ components:
       required:
         - object
         - data
-        - first_id
-        - last_id
         - has_more
     DeleteVectorStoreResponse:
       type: object
@@ -6641,8 +6629,6 @@ components:
       required:
         - object
         - data
-        - first_id
-        - last_id
         - has_more
     DeleteVectorStoreFileResponse:
       type: object
