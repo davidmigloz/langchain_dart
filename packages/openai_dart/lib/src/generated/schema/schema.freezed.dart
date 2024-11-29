@@ -4313,7 +4313,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
   const _$CreateChatCompletionRequestImpl(
       {@_ChatCompletionModelConverter() required this.model,
       required final List<ChatCompletionMessage> messages,
-      @JsonKey(includeIfNull: false) this.store = false,
+      @JsonKey(includeIfNull: false) this.store,
       @JsonKey(includeIfNull: false) final Map<String, String>? metadata,
       @JsonKey(name: 'frequency_penalty', includeIfNull: false)
       this.frequencyPenalty = 0.0,
