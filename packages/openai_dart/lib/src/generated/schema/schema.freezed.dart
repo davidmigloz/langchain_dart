@@ -21,7 +21,9 @@ CreateCompletionRequest _$CreateCompletionRequestFromJson(
 
 /// @nodoc
 mixin _$CreateCompletionRequest {
-  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
+  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list)
+  /// API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models) for
+  /// descriptions of them.
   @_CompletionModelConverter()
   CompletionModel get model => throw _privateConstructorUsedError;
 
@@ -524,7 +526,9 @@ class _$CreateCompletionRequestImpl extends _CreateCompletionRequest {
   factory _$CreateCompletionRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$CreateCompletionRequestImplFromJson(json);
 
-  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
+  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list)
+  /// API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models) for
+  /// descriptions of them.
   @override
   @_CompletionModelConverter()
   final CompletionModel model;
@@ -766,7 +770,9 @@ abstract class _CreateCompletionRequest extends CreateCompletionRequest {
   factory _CreateCompletionRequest.fromJson(Map<String, dynamic> json) =
       _$CreateCompletionRequestImpl.fromJson;
 
-  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
+  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list)
+  /// API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models) for
+  /// descriptions of them.
   @override
   @_CompletionModelConverter()
   CompletionModel get model;
@@ -3620,9 +3626,9 @@ mixin _$CreateChatCompletionRequest {
   double? get presencePenalty => throw _privateConstructorUsedError;
 
   /// An object specifying the format that the model must output. Compatible with
-  /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
-  /// [GPT-4o mini](https://platform.openai.com/docs/models/gpt-4o-mini),
-  /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer
+  /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
+  /// [GPT-4o mini](https://platform.openai.com/docs/models#gpt-4o-mini),
+  /// [GPT-4 Turbo](https://platform.openai.com/docs/models#gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer
   /// than `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures the model
@@ -4510,9 +4516,9 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
   final double? presencePenalty;
 
   /// An object specifying the format that the model must output. Compatible with
-  /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
-  /// [GPT-4o mini](https://platform.openai.com/docs/models/gpt-4o-mini),
-  /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer
+  /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
+  /// [GPT-4o mini](https://platform.openai.com/docs/models#gpt-4o-mini),
+  /// [GPT-4 Turbo](https://platform.openai.com/docs/models#gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer
   /// than `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures the model
@@ -4927,9 +4933,9 @@ abstract class _CreateChatCompletionRequest
   double? get presencePenalty;
 
   /// An object specifying the format that the model must output. Compatible with
-  /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
-  /// [GPT-4o mini](https://platform.openai.com/docs/models/gpt-4o-mini),
-  /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer
+  /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
+  /// [GPT-4o mini](https://platform.openai.com/docs/models#gpt-4o-mini),
+  /// [GPT-4 Turbo](https://platform.openai.com/docs/models#gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer
   /// than `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures the model
@@ -12641,7 +12647,9 @@ CreateEmbeddingRequest _$CreateEmbeddingRequestFromJson(
 
 /// @nodoc
 mixin _$CreateEmbeddingRequest {
-  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
+  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list)
+  /// API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models) for
+  /// descriptions of them.
   @_EmbeddingModelConverter()
   EmbeddingModel get model => throw _privateConstructorUsedError;
 
@@ -12839,7 +12847,9 @@ class _$CreateEmbeddingRequestImpl extends _CreateEmbeddingRequest {
   factory _$CreateEmbeddingRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$CreateEmbeddingRequestImplFromJson(json);
 
-  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
+  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list)
+  /// API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models) for
+  /// descriptions of them.
   @override
   @_EmbeddingModelConverter()
   final EmbeddingModel model;
@@ -12919,7 +12929,9 @@ abstract class _CreateEmbeddingRequest extends CreateEmbeddingRequest {
   factory _CreateEmbeddingRequest.fromJson(Map<String, dynamic> json) =
       _$CreateEmbeddingRequestImpl.fromJson;
 
-  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
+  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list)
+  /// API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models) for
+  /// descriptions of them.
   @override
   @_EmbeddingModelConverter()
   EmbeddingModel get model;
@@ -25371,7 +25383,9 @@ mixin _$AssistantObject {
   /// The description of the assistant. The maximum length is 512 characters.
   String? get description => throw _privateConstructorUsedError;
 
-  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
+  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list)
+  /// API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models) for
+  /// descriptions of them.
   String get model => throw _privateConstructorUsedError;
 
   /// The system instructions that the assistant uses. The maximum length is 256,000 characters.
@@ -25406,7 +25420,7 @@ mixin _$AssistantObject {
   double? get topP => throw _privateConstructorUsedError;
 
   /// Specifies the format that the model must output. Compatible with
-  /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
   /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
   /// since `gpt-3.5-turbo-1106`.
   ///
@@ -25743,7 +25757,9 @@ class _$AssistantObjectImpl extends _AssistantObject {
   @override
   final String? description;
 
-  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
+  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list)
+  /// API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models) for
+  /// descriptions of them.
   @override
   final String model;
 
@@ -25804,7 +25820,7 @@ class _$AssistantObjectImpl extends _AssistantObject {
   final double? topP;
 
   /// Specifies the format that the model must output. Compatible with
-  /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
   /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
   /// since `gpt-3.5-turbo-1106`.
   ///
@@ -25936,7 +25952,9 @@ abstract class _AssistantObject extends AssistantObject {
   @override
   String? get description;
 
-  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
+  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list)
+  /// API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models) for
+  /// descriptions of them.
   @override
   String get model;
 
@@ -25978,7 +25996,7 @@ abstract class _AssistantObject extends AssistantObject {
   double? get topP;
 
   /// Specifies the format that the model must output. Compatible with
-  /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
   /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
   /// since `gpt-3.5-turbo-1106`.
   ///
@@ -26479,7 +26497,9 @@ CreateAssistantRequest _$CreateAssistantRequestFromJson(
 
 /// @nodoc
 mixin _$CreateAssistantRequest {
-  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
+  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list)
+  /// API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models) for
+  /// descriptions of them.
   @_AssistantModelConverter()
   AssistantModel get model => throw _privateConstructorUsedError;
 
@@ -26525,7 +26545,7 @@ mixin _$CreateAssistantRequest {
   double? get topP => throw _privateConstructorUsedError;
 
   /// Specifies the format that the model must output. Compatible with
-  /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
   /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
   /// since `gpt-3.5-turbo-1106`.
   ///
@@ -26819,7 +26839,9 @@ class _$CreateAssistantRequestImpl extends _CreateAssistantRequest {
   factory _$CreateAssistantRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$CreateAssistantRequestImplFromJson(json);
 
-  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
+  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list)
+  /// API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models) for
+  /// descriptions of them.
   @override
   @_AssistantModelConverter()
   final AssistantModel model;
@@ -26894,7 +26916,7 @@ class _$CreateAssistantRequestImpl extends _CreateAssistantRequest {
   final double? topP;
 
   /// Specifies the format that the model must output. Compatible with
-  /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
   /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
   /// since `gpt-3.5-turbo-1106`.
   ///
@@ -26995,7 +27017,9 @@ abstract class _CreateAssistantRequest extends CreateAssistantRequest {
   factory _CreateAssistantRequest.fromJson(Map<String, dynamic> json) =
       _$CreateAssistantRequestImpl.fromJson;
 
-  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
+  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list)
+  /// API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models) for
+  /// descriptions of them.
   @override
   @_AssistantModelConverter()
   AssistantModel get model;
@@ -27050,7 +27074,7 @@ abstract class _CreateAssistantRequest extends CreateAssistantRequest {
   double? get topP;
 
   /// Specifies the format that the model must output. Compatible with
-  /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
   /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
   /// since `gpt-3.5-turbo-1106`.
   ///
@@ -27982,7 +28006,9 @@ ModifyAssistantRequest _$ModifyAssistantRequestFromJson(
 
 /// @nodoc
 mixin _$ModifyAssistantRequest {
-  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
+  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list)
+  /// API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models) for
+  /// descriptions of them.
   @JsonKey(includeIfNull: false)
   String? get model => throw _privateConstructorUsedError;
 
@@ -28032,7 +28058,7 @@ mixin _$ModifyAssistantRequest {
   double? get topP => throw _privateConstructorUsedError;
 
   /// Specifies the format that the model must output. Compatible with
-  /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
   /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
   /// since `gpt-3.5-turbo-1106`.
   ///
@@ -28327,7 +28353,9 @@ class _$ModifyAssistantRequestImpl extends _ModifyAssistantRequest {
   factory _$ModifyAssistantRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$ModifyAssistantRequestImplFromJson(json);
 
-  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
+  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list)
+  /// API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models) for
+  /// descriptions of them.
   @override
   @JsonKey(includeIfNull: false)
   final String? model;
@@ -28414,7 +28442,7 @@ class _$ModifyAssistantRequestImpl extends _ModifyAssistantRequest {
   final double? topP;
 
   /// Specifies the format that the model must output. Compatible with
-  /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
   /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
   /// since `gpt-3.5-turbo-1106`.
   ///
@@ -28518,7 +28546,9 @@ abstract class _ModifyAssistantRequest extends ModifyAssistantRequest {
   factory _ModifyAssistantRequest.fromJson(Map<String, dynamic> json) =
       _$ModifyAssistantRequestImpl.fromJson;
 
-  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
+  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list)
+  /// API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models) for
+  /// descriptions of them.
   @override
   @JsonKey(includeIfNull: false)
   String? get model;
@@ -28578,7 +28608,7 @@ abstract class _ModifyAssistantRequest extends ModifyAssistantRequest {
   double? get topP;
 
   /// Specifies the format that the model must output. Compatible with
-  /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
   /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
   /// since `gpt-3.5-turbo-1106`.
   ///
@@ -30489,7 +30519,7 @@ mixin _$RunObject {
   bool? get parallelToolCalls => throw _privateConstructorUsedError;
 
   /// Specifies the format that the model must output. Compatible with
-  /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
   /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
   /// since `gpt-3.5-turbo-1106`.
   ///
@@ -31225,7 +31255,7 @@ class _$RunObjectImpl extends _RunObject {
   final bool? parallelToolCalls;
 
   /// Specifies the format that the model must output. Compatible with
-  /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
   /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
   /// since `gpt-3.5-turbo-1106`.
   ///
@@ -31527,7 +31557,7 @@ abstract class _RunObject extends RunObject {
   bool? get parallelToolCalls;
 
   /// Specifies the format that the model must output. Compatible with
-  /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
   /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
   /// since `gpt-3.5-turbo-1106`.
   ///
@@ -33511,7 +33541,7 @@ mixin _$CreateRunRequest {
   bool? get parallelToolCalls => throw _privateConstructorUsedError;
 
   /// Specifies the format that the model must output. Compatible with
-  /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
   /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
   /// since `gpt-3.5-turbo-1106`.
   ///
@@ -34049,7 +34079,7 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
   final bool? parallelToolCalls;
 
   /// Specifies the format that the model must output. Compatible with
-  /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
   /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
   /// since `gpt-3.5-turbo-1106`.
   ///
@@ -34273,7 +34303,7 @@ abstract class _CreateRunRequest extends CreateRunRequest {
   bool? get parallelToolCalls;
 
   /// Specifies the format that the model must output. Compatible with
-  /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
   /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
   /// since `gpt-3.5-turbo-1106`.
   ///
@@ -37037,7 +37067,7 @@ mixin _$CreateThreadAndRunRequest {
   bool? get parallelToolCalls => throw _privateConstructorUsedError;
 
   /// Specifies the format that the model must output. Compatible with
-  /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
   /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
   /// since `gpt-3.5-turbo-1106`.
   ///
@@ -37613,7 +37643,7 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
   final bool? parallelToolCalls;
 
   /// Specifies the format that the model must output. Compatible with
-  /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
   /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
   /// since `gpt-3.5-turbo-1106`.
   ///
@@ -37851,7 +37881,7 @@ abstract class _CreateThreadAndRunRequest extends CreateThreadAndRunRequest {
   bool? get parallelToolCalls;
 
   /// Specifies the format that the model must output. Compatible with
-  /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
   /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
   /// since `gpt-3.5-turbo-1106`.
   ///
@@ -54477,7 +54507,8 @@ mixin _$CreateBatchRequest {
   ///
   /// See [upload file](https://platform.openai.com/docs/api-reference/files/create) for how to upload a file.
   ///
-  /// Your input file must be formatted as a [JSONL file](https://platform.openai.com/docs/api-reference/batch/request-input), and must be uploaded with the purpose `batch`. The file can contain up to 50,000 requests, and can be up to 100 MB in size.
+  /// Your input file must be formatted as a [JSONL file](https://platform.openai.com/docs/api-reference/batch/request-input),
+  /// and must be uploaded with the purpose `batch`. The file can contain up to 50,000 requests, and can be up to 200 MB in size.
   @JsonKey(name: 'input_file_id')
   String get inputFileId => throw _privateConstructorUsedError;
 
@@ -54631,7 +54662,8 @@ class _$CreateBatchRequestImpl extends _CreateBatchRequest {
   ///
   /// See [upload file](https://platform.openai.com/docs/api-reference/files/create) for how to upload a file.
   ///
-  /// Your input file must be formatted as a [JSONL file](https://platform.openai.com/docs/api-reference/batch/request-input), and must be uploaded with the purpose `batch`. The file can contain up to 50,000 requests, and can be up to 100 MB in size.
+  /// Your input file must be formatted as a [JSONL file](https://platform.openai.com/docs/api-reference/batch/request-input),
+  /// and must be uploaded with the purpose `batch`. The file can contain up to 50,000 requests, and can be up to 200 MB in size.
   @override
   @JsonKey(name: 'input_file_id')
   final String inputFileId;
@@ -54717,7 +54749,8 @@ abstract class _CreateBatchRequest extends CreateBatchRequest {
   ///
   /// See [upload file](https://platform.openai.com/docs/api-reference/files/create) for how to upload a file.
   ///
-  /// Your input file must be formatted as a [JSONL file](https://platform.openai.com/docs/api-reference/batch/request-input), and must be uploaded with the purpose `batch`. The file can contain up to 50,000 requests, and can be up to 100 MB in size.
+  /// Your input file must be formatted as a [JSONL file](https://platform.openai.com/docs/api-reference/batch/request-input),
+  /// and must be uploaded with the purpose `batch`. The file can contain up to 50,000 requests, and can be up to 200 MB in size.
   @override
   @JsonKey(name: 'input_file_id')
   String get inputFileId;
@@ -60124,7 +60157,8 @@ mixin _$ChatCompletionMessageImageUrl {
   /// Either a URL of the image or the base64 encoded image data.
   String get url => throw _privateConstructorUsedError;
 
-  /// Specifies the detail level of the image. Learn more in the [Vision guide](https://platform.openai.com/docs/guides/vision/low-or-high-fidelity-image-understanding).
+  /// Specifies the detail level of the image. Learn more in the
+  /// [Vision guide](https://platform.openai.com/docs/guides/vision#low-or-high-fidelity-image-understanding).
   ChatCompletionMessageImageDetail get detail =>
       throw _privateConstructorUsedError;
 
@@ -60240,7 +60274,8 @@ class _$ChatCompletionMessageImageUrlImpl
   @override
   final String url;
 
-  /// Specifies the detail level of the image. Learn more in the [Vision guide](https://platform.openai.com/docs/guides/vision/low-or-high-fidelity-image-understanding).
+  /// Specifies the detail level of the image. Learn more in the
+  /// [Vision guide](https://platform.openai.com/docs/guides/vision#low-or-high-fidelity-image-understanding).
   @override
   @JsonKey()
   final ChatCompletionMessageImageDetail detail;
@@ -60296,7 +60331,8 @@ abstract class _ChatCompletionMessageImageUrl
   @override
   String get url;
 
-  /// Specifies the detail level of the image. Learn more in the [Vision guide](https://platform.openai.com/docs/guides/vision/low-or-high-fidelity-image-understanding).
+  /// Specifies the detail level of the image. Learn more in the
+  /// [Vision guide](https://platform.openai.com/docs/guides/vision#low-or-high-fidelity-image-understanding).
   @override
   ChatCompletionMessageImageDetail get detail;
 
@@ -62655,7 +62691,7 @@ mixin _$AssistantToolsFileSearchFileSearch {
   /// and 5 for gpt-3.5-turbo. This number should be between 1 and 50 inclusive.
   ///
   /// Note that the file search tool may output fewer than `max_num_results` results. See the
-  /// [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/customizing-file-search-settings)
+  /// [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search#customizing-file-search-settings)
   /// for more information.
   @JsonKey(name: 'max_num_results', includeIfNull: false)
   int? get maxNumResults => throw _privateConstructorUsedError;
@@ -62663,7 +62699,7 @@ mixin _$AssistantToolsFileSearchFileSearch {
   /// The ranking options for the file search. If not specified, the file search tool will use the `auto` ranker and
   /// a score_threshold of 0.
   ///
-  /// See the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/customizing-file-search-settings)
+  /// See the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search#customizing-file-search-settings)
   /// for more information.
   @JsonKey(name: 'ranking_options', includeIfNull: false)
   FileSearchRankingOptions? get rankingOptions =>
@@ -62813,7 +62849,7 @@ class _$AssistantToolsFileSearchFileSearchImpl
   /// and 5 for gpt-3.5-turbo. This number should be between 1 and 50 inclusive.
   ///
   /// Note that the file search tool may output fewer than `max_num_results` results. See the
-  /// [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/customizing-file-search-settings)
+  /// [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search#customizing-file-search-settings)
   /// for more information.
   @override
   @JsonKey(name: 'max_num_results', includeIfNull: false)
@@ -62822,7 +62858,7 @@ class _$AssistantToolsFileSearchFileSearchImpl
   /// The ranking options for the file search. If not specified, the file search tool will use the `auto` ranker and
   /// a score_threshold of 0.
   ///
-  /// See the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/customizing-file-search-settings)
+  /// See the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search#customizing-file-search-settings)
   /// for more information.
   @override
   @JsonKey(name: 'ranking_options', includeIfNull: false)
@@ -62884,7 +62920,7 @@ abstract class _AssistantToolsFileSearchFileSearch
   /// and 5 for gpt-3.5-turbo. This number should be between 1 and 50 inclusive.
   ///
   /// Note that the file search tool may output fewer than `max_num_results` results. See the
-  /// [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/customizing-file-search-settings)
+  /// [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search#customizing-file-search-settings)
   /// for more information.
   @override
   @JsonKey(name: 'max_num_results', includeIfNull: false)
@@ -62893,7 +62929,7 @@ abstract class _AssistantToolsFileSearchFileSearch
   /// The ranking options for the file search. If not specified, the file search tool will use the `auto` ranker and
   /// a score_threshold of 0.
   ///
-  /// See the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/customizing-file-search-settings)
+  /// See the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search#customizing-file-search-settings)
   /// for more information.
   @override
   @JsonKey(name: 'ranking_options', includeIfNull: false)
