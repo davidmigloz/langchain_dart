@@ -461,6 +461,7 @@ const _$ChatCompletionModelsEnumMap = {
   ChatCompletionModels.gpt4o: 'gpt-4o',
   ChatCompletionModels.gpt4o20240513: 'gpt-4o-2024-05-13',
   ChatCompletionModels.gpt4o20240806: 'gpt-4o-2024-08-06',
+  ChatCompletionModels.gpt4o20241120: 'gpt-4o-2024-11-20',
   ChatCompletionModels.gpt4oAudioPreview: 'gpt-4o-audio-preview',
   ChatCompletionModels.gpt4oAudioPreview20241001:
       'gpt-4o-audio-preview-2024-10-01',
@@ -2569,7 +2570,6 @@ Map<String, dynamic> _$$AssistantModelEnumerationImplToJson(
     };
 
 const _$AssistantModelsEnumMap = {
-  AssistantModels.chatgpt4oLatest: 'chatgpt-4o-latest',
   AssistantModels.gpt4: 'gpt-4',
   AssistantModels.gpt432k: 'gpt-4-32k',
   AssistantModels.gpt432k0314: 'gpt-4-32k-0314',
@@ -2585,19 +2585,15 @@ const _$AssistantModelsEnumMap = {
   AssistantModels.gpt4o: 'gpt-4o',
   AssistantModels.gpt4o20240513: 'gpt-4o-2024-05-13',
   AssistantModels.gpt4o20240806: 'gpt-4o-2024-08-06',
+  AssistantModels.gpt4o20241120: 'gpt-4o-2024-11-20',
   AssistantModels.gpt4oMini: 'gpt-4o-mini',
   AssistantModels.gpt4oMini20240718: 'gpt-4o-mini-2024-07-18',
   AssistantModels.gpt35Turbo: 'gpt-3.5-turbo',
   AssistantModels.gpt35Turbo16k: 'gpt-3.5-turbo-16k',
   AssistantModels.gpt35Turbo16k0613: 'gpt-3.5-turbo-16k-0613',
   AssistantModels.gpt35Turbo0125: 'gpt-3.5-turbo-0125',
-  AssistantModels.gpt35Turbo0301: 'gpt-3.5-turbo-0301',
   AssistantModels.gpt35Turbo0613: 'gpt-3.5-turbo-0613',
   AssistantModels.gpt35Turbo1106: 'gpt-3.5-turbo-1106',
-  AssistantModels.o1Mini: 'o1-mini',
-  AssistantModels.o1Mini20240912: 'o1-mini-2024-09-12',
-  AssistantModels.o1Preview: 'o1-preview',
-  AssistantModels.o1Preview20240912: 'o1-preview-2024-09-12',
 };
 
 _$AssistantModelStringImpl _$$AssistantModelStringImplFromJson(
@@ -3246,7 +3242,6 @@ Map<String, dynamic> _$$CreateRunRequestModelEnumerationImplToJson(
     };
 
 const _$RunModelsEnumMap = {
-  RunModels.chatgpt4oLatest: 'chatgpt-4o-latest',
   RunModels.gpt4: 'gpt-4',
   RunModels.gpt432k: 'gpt-4-32k',
   RunModels.gpt432k0314: 'gpt-4-32k-0314',
@@ -3262,19 +3257,15 @@ const _$RunModelsEnumMap = {
   RunModels.gpt4o: 'gpt-4o',
   RunModels.gpt4o20240513: 'gpt-4o-2024-05-13',
   RunModels.gpt4o20240806: 'gpt-4o-2024-08-06',
+  RunModels.gpt4o20241120: 'gpt-4o-2024-11-20',
   RunModels.gpt4oMini: 'gpt-4o-mini',
   RunModels.gpt4oMini20240718: 'gpt-4o-mini-2024-07-18',
   RunModels.gpt35Turbo: 'gpt-3.5-turbo',
   RunModels.gpt35Turbo16k: 'gpt-3.5-turbo-16k',
   RunModels.gpt35Turbo16k0613: 'gpt-3.5-turbo-16k-0613',
   RunModels.gpt35Turbo0125: 'gpt-3.5-turbo-0125',
-  RunModels.gpt35Turbo0301: 'gpt-3.5-turbo-0301',
   RunModels.gpt35Turbo0613: 'gpt-3.5-turbo-0613',
   RunModels.gpt35Turbo1106: 'gpt-3.5-turbo-1106',
-  RunModels.o1Mini: 'o1-mini',
-  RunModels.o1Mini20240912: 'o1-mini-2024-09-12',
-  RunModels.o1Preview: 'o1-preview',
-  RunModels.o1Preview20240912: 'o1-preview-2024-09-12',
 };
 
 _$CreateRunRequestModelStringImpl _$$CreateRunRequestModelStringImplFromJson(
@@ -3583,7 +3574,6 @@ Map<String, dynamic> _$$ThreadAndRunModelEnumerationImplToJson(
     };
 
 const _$ThreadAndRunModelsEnumMap = {
-  ThreadAndRunModels.chatgpt4oLatest: 'chatgpt-4o-latest',
   ThreadAndRunModels.gpt4: 'gpt-4',
   ThreadAndRunModels.gpt432k: 'gpt-4-32k',
   ThreadAndRunModels.gpt432k0314: 'gpt-4-32k-0314',
@@ -3599,19 +3589,15 @@ const _$ThreadAndRunModelsEnumMap = {
   ThreadAndRunModels.gpt4o: 'gpt-4o',
   ThreadAndRunModels.gpt4o20240513: 'gpt-4o-2024-05-13',
   ThreadAndRunModels.gpt4o20240806: 'gpt-4o-2024-08-06',
+  ThreadAndRunModels.gpt4o20241120: 'gpt-4o-2024-11-20',
   ThreadAndRunModels.gpt4oMini: 'gpt-4o-mini',
   ThreadAndRunModels.gpt4oMini20240718: 'gpt-4o-mini-2024-07-18',
   ThreadAndRunModels.gpt35Turbo: 'gpt-3.5-turbo',
   ThreadAndRunModels.gpt35Turbo16k: 'gpt-3.5-turbo-16k',
   ThreadAndRunModels.gpt35Turbo16k0613: 'gpt-3.5-turbo-16k-0613',
   ThreadAndRunModels.gpt35Turbo0125: 'gpt-3.5-turbo-0125',
-  ThreadAndRunModels.gpt35Turbo0301: 'gpt-3.5-turbo-0301',
   ThreadAndRunModels.gpt35Turbo0613: 'gpt-3.5-turbo-0613',
   ThreadAndRunModels.gpt35Turbo1106: 'gpt-3.5-turbo-1106',
-  ThreadAndRunModels.o1Mini: 'o1-mini',
-  ThreadAndRunModels.o1Mini20240912: 'o1-mini-2024-09-12',
-  ThreadAndRunModels.o1Preview: 'o1-preview',
-  ThreadAndRunModels.o1Preview20240912: 'o1-preview-2024-09-12',
 };
 
 _$ThreadAndRunModelStringImpl _$$ThreadAndRunModelStringImplFromJson(
