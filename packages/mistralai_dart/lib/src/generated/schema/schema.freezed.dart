@@ -59,8 +59,12 @@ mixin _$ChatCompletionRequest {
   @JsonKey(name: 'random_seed', includeIfNull: false)
   int? get randomSeed => throw _privateConstructorUsedError;
 
+  /// Serializes this ChatCompletionRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatCompletionRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChatCompletionRequestCopyWith<ChatCompletionRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -95,6 +99,8 @@ class _$ChatCompletionRequestCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChatCompletionRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -143,6 +149,8 @@ class _$ChatCompletionRequestCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of ChatCompletionRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ChatCompletionModelCopyWith<$Res> get model {
@@ -184,6 +192,8 @@ class __$$ChatCompletionRequestImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionRequestImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -328,7 +338,7 @@ class _$ChatCompletionRequestImpl extends _ChatCompletionRequest {
                 other.randomSeed == randomSeed));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -341,7 +351,9 @@ class _$ChatCompletionRequestImpl extends _ChatCompletionRequest {
       safePrompt,
       randomSeed);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionRequestImplCopyWith<_$ChatCompletionRequestImpl>
@@ -374,53 +386,55 @@ abstract class _ChatCompletionRequest extends ChatCompletionRequest {
   factory _ChatCompletionRequest.fromJson(Map<String, dynamic> json) =
       _$ChatCompletionRequestImpl.fromJson;
 
-  @override
-
   /// ID of the model to use. You can use the [List Available Models](https://docs.mistral.ai/api#operation/listModels) API to see all of your available models, or see our [Model overview](https://docs.mistral.ai/models) for model descriptions.
+  @override
   @_ChatCompletionModelConverter()
   ChatCompletionModel get model;
-  @override
 
   /// The prompt(s) to generate completions for, encoded as a list of dict with role and content. The first prompt role should be `user` or `system`.
-  List<ChatCompletionMessage> get messages;
   @override
+  List<ChatCompletionMessage> get messages;
 
   /// What sampling temperature to use, between 0.0 and 1.0. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
   ///
   /// We generally recommend altering this or `top_p` but not both.
+  @override
   @JsonKey(includeIfNull: false)
   double? get temperature;
-  @override
 
   /// Nucleus sampling, where the model considers the results of the tokens with `top_p` probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
   ///
   /// We generally recommend altering this or `temperature` but not both.
+  @override
   @JsonKey(name: 'top_p', includeIfNull: false)
   double? get topP;
-  @override
 
   /// The maximum number of tokens to generate in the completion.
   ///
   /// The token count of your prompt plus `max_tokens` cannot exceed the model's context length.
+  @override
   @JsonKey(name: 'max_tokens', includeIfNull: false)
   int? get maxTokens;
-  @override
 
   /// Whether to stream back partial progress. If set, tokens will be sent as data-only server-sent events as they become available, with the stream terminated by a data: [DONE] message. Otherwise, the server will hold the request open until the timeout or until completion, with the response containing the full result as JSON.
+  @override
   @JsonKey(includeIfNull: false)
   bool? get stream;
-  @override
 
   /// Whether to inject a safety prompt before all conversations.
+  @override
   @JsonKey(name: 'safe_prompt', includeIfNull: false)
   bool? get safePrompt;
-  @override
 
   /// The seed to use for random sampling. If set, different calls will generate deterministic results.
+  @override
   @JsonKey(name: 'random_seed', includeIfNull: false)
   int? get randomSeed;
+
+  /// Create a copy of ChatCompletionRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionRequestImplCopyWith<_$ChatCompletionRequestImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -479,6 +493,8 @@ mixin _$ChatCompletionModel {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this ChatCompletionModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
@@ -498,6 +514,9 @@ class _$ChatCompletionModelCopyWithImpl<$Res, $Val extends ChatCompletionModel>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of ChatCompletionModel
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -520,6 +539,8 @@ class __$$ChatCompletionModelEnumerationImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionModelEnumerationImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -565,11 +586,13 @@ class _$ChatCompletionModelEnumerationImpl
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionModelEnumerationImplCopyWith<
@@ -657,7 +680,10 @@ abstract class ChatCompletionModelEnumeration extends ChatCompletionModel {
 
   @override
   ChatCompletionModels get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatCompletionModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionModelEnumerationImplCopyWith<
           _$ChatCompletionModelEnumerationImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -683,6 +709,8 @@ class __$$ChatCompletionModelStringImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionModelStringImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -726,11 +754,13 @@ class _$ChatCompletionModelStringImpl extends ChatCompletionModelString {
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionModelStringImplCopyWith<_$ChatCompletionModelStringImpl>
@@ -817,7 +847,10 @@ abstract class ChatCompletionModelString extends ChatCompletionModel {
 
   @override
   String get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatCompletionModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionModelStringImplCopyWith<_$ChatCompletionModelStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -848,8 +881,12 @@ mixin _$ChatCompletionResponse {
   /// The usage statistics for this completion.
   ChatCompletionUsage get usage => throw _privateConstructorUsedError;
 
+  /// Serializes this ChatCompletionResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatCompletionResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChatCompletionResponseCopyWith<ChatCompletionResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -882,6 +919,8 @@ class _$ChatCompletionResponseCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChatCompletionResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -920,6 +959,8 @@ class _$ChatCompletionResponseCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of ChatCompletionResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ChatCompletionUsageCopyWith<$Res> get usage {
@@ -960,6 +1001,8 @@ class __$$ChatCompletionResponseImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1064,12 +1107,14 @@ class _$ChatCompletionResponseImpl extends _ChatCompletionResponse {
             (identical(other.usage, usage) || other.usage == usage));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, object, created, model,
       const DeepCollectionEquality().hash(_choices), usage);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionResponseImplCopyWith<_$ChatCompletionResponseImpl>
@@ -1097,32 +1142,34 @@ abstract class _ChatCompletionResponse extends ChatCompletionResponse {
   factory _ChatCompletionResponse.fromJson(Map<String, dynamic> json) =
       _$ChatCompletionResponseImpl.fromJson;
 
-  @override
-
   /// The unique identifier for this completion.
-  String get id;
   @override
+  String get id;
 
   /// The object type, which is always `chat.completion`.
-  String get object;
   @override
+  String get object;
 
   /// The timestamp of when this completion was created.
-  int get created;
   @override
+  int get created;
 
   /// The model used for this completion.
-  String get model;
   @override
+  String get model;
 
   /// The list of choices for this completion.
-  List<ChatCompletionResponseChoicesInner> get choices;
   @override
+  List<ChatCompletionResponseChoicesInner> get choices;
 
   /// The usage statistics for this completion.
-  ChatCompletionUsage get usage;
   @override
-  @JsonKey(ignore: true)
+  ChatCompletionUsage get usage;
+
+  /// Create a copy of ChatCompletionResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionResponseImplCopyWith<_$ChatCompletionResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -1146,8 +1193,12 @@ mixin _$ChatCompletionResponseChoicesInner {
   ChatCompletionFinishReason get finishReason =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this ChatCompletionResponseChoicesInner to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatCompletionResponseChoicesInner
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChatCompletionResponseChoicesInnerCopyWith<
           ChatCompletionResponseChoicesInner>
       get copyWith => throw _privateConstructorUsedError;
@@ -1180,6 +1231,8 @@ class _$ChatCompletionResponseChoicesInnerCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChatCompletionResponseChoicesInner
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1203,6 +1256,8 @@ class _$ChatCompletionResponseChoicesInnerCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of ChatCompletionResponseChoicesInner
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ChatCompletionMessageCopyWith<$Res>? get message {
@@ -1244,6 +1299,8 @@ class __$$ChatCompletionResponseChoicesInnerImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionResponseChoicesInnerImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionResponseChoicesInner
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1312,11 +1369,13 @@ class _$ChatCompletionResponseChoicesInnerImpl
                 other.finishReason == finishReason));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, index, message, finishReason);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionResponseChoicesInner
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionResponseChoicesInnerImplCopyWith<
@@ -1346,22 +1405,24 @@ abstract class _ChatCompletionResponseChoicesInner
           Map<String, dynamic> json) =
       _$ChatCompletionResponseChoicesInnerImpl.fromJson;
 
-  @override
-
   /// The index of this choice.
-  int get index;
   @override
+  int get index;
 
   /// A message in a chat conversation.
+  @override
   @JsonKey(includeIfNull: false)
   ChatCompletionMessage? get message;
-  @override
 
   /// The reason the model stopped generating tokens.
+  @override
   @JsonKey(name: 'finish_reason')
   ChatCompletionFinishReason get finishReason;
+
+  /// Create a copy of ChatCompletionResponseChoicesInner
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionResponseChoicesInnerImplCopyWith<
           _$ChatCompletionResponseChoicesInnerImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -1380,8 +1441,12 @@ mixin _$ChatCompletionMessage {
   /// The message content.
   String get content => throw _privateConstructorUsedError;
 
+  /// Serializes this ChatCompletionMessage to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatCompletionMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChatCompletionMessageCopyWith<ChatCompletionMessage> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1406,6 +1471,8 @@ class _$ChatCompletionMessageCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChatCompletionMessage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1446,6 +1513,8 @@ class __$$ChatCompletionMessageImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionMessageImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionMessage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1496,11 +1565,13 @@ class _$ChatCompletionMessageImpl extends _ChatCompletionMessage {
             (identical(other.content, content) || other.content == content));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, role, content);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionMessageImplCopyWith<_$ChatCompletionMessageImpl>
@@ -1524,16 +1595,18 @@ abstract class _ChatCompletionMessage extends ChatCompletionMessage {
   factory _ChatCompletionMessage.fromJson(Map<String, dynamic> json) =
       _$ChatCompletionMessageImpl.fromJson;
 
-  @override
-
   /// The role of the message.
-  ChatCompletionMessageRole get role;
   @override
+  ChatCompletionMessageRole get role;
 
   /// The message content.
-  String get content;
   @override
-  @JsonKey(ignore: true)
+  String get content;
+
+  /// Create a copy of ChatCompletionMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionMessageImplCopyWith<_$ChatCompletionMessageImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -1556,8 +1629,12 @@ mixin _$ChatCompletionUsage {
   @JsonKey(name: 'total_tokens')
   int get totalTokens => throw _privateConstructorUsedError;
 
+  /// Serializes this ChatCompletionUsage to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatCompletionUsage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChatCompletionUsageCopyWith<ChatCompletionUsage> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1584,6 +1661,8 @@ class _$ChatCompletionUsageCopyWithImpl<$Res, $Val extends ChatCompletionUsage>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChatCompletionUsage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1630,6 +1709,8 @@ class __$$ChatCompletionUsageImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionUsageImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionUsage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1699,12 +1780,14 @@ class _$ChatCompletionUsageImpl extends _ChatCompletionUsage {
                 other.totalTokens == totalTokens));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, promptTokens, completionTokens, totalTokens);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionUsage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionUsageImplCopyWith<_$ChatCompletionUsageImpl> get copyWith =>
@@ -1730,23 +1813,25 @@ abstract class _ChatCompletionUsage extends ChatCompletionUsage {
   factory _ChatCompletionUsage.fromJson(Map<String, dynamic> json) =
       _$ChatCompletionUsageImpl.fromJson;
 
-  @override
-
   /// The number of tokens in the prompt.
+  @override
   @JsonKey(name: 'prompt_tokens')
   int get promptTokens;
-  @override
 
   /// The number of tokens in the completion.
+  @override
   @JsonKey(name: 'completion_tokens')
   int get completionTokens;
-  @override
 
   /// The total number of tokens generated.
+  @override
   @JsonKey(name: 'total_tokens')
   int get totalTokens;
+
+  /// Create a copy of ChatCompletionUsage
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionUsageImplCopyWith<_$ChatCompletionUsageImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1776,8 +1861,12 @@ mixin _$ChatCompletionStreamResponse {
   List<ChatCompletionStreamResponseChoicesInner> get choices =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this ChatCompletionStreamResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatCompletionStreamResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChatCompletionStreamResponseCopyWith<ChatCompletionStreamResponse>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -1809,6 +1898,8 @@ class _$ChatCompletionStreamResponseCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChatCompletionStreamResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1870,6 +1961,8 @@ class __$$ChatCompletionStreamResponseImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionStreamResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionStreamResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1966,12 +2059,14 @@ class _$ChatCompletionStreamResponseImpl extends _ChatCompletionStreamResponse {
             const DeepCollectionEquality().equals(other._choices, _choices));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, object, created, model,
       const DeepCollectionEquality().hash(_choices));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionStreamResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionStreamResponseImplCopyWith<
@@ -2001,30 +2096,32 @@ abstract class _ChatCompletionStreamResponse
   factory _ChatCompletionStreamResponse.fromJson(Map<String, dynamic> json) =
       _$ChatCompletionStreamResponseImpl.fromJson;
 
-  @override
-
   /// The unique identifier for this completion.
-  String get id;
   @override
+  String get id;
 
   /// The object type, which is always `chat.completion.chunk`.
+  @override
   @JsonKey(includeIfNull: false)
   String? get object;
-  @override
 
   /// The timestamp of when this completion was created.
+  @override
   @JsonKey(includeIfNull: false)
   int? get created;
-  @override
 
   /// The model used for this completion.
-  String get model;
   @override
+  String get model;
 
   /// The list of choices for this completion.
-  List<ChatCompletionStreamResponseChoicesInner> get choices;
   @override
-  @JsonKey(ignore: true)
+  List<ChatCompletionStreamResponseChoicesInner> get choices;
+
+  /// Create a copy of ChatCompletionStreamResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionStreamResponseImplCopyWith<
           _$ChatCompletionStreamResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -2052,8 +2149,12 @@ mixin _$ChatCompletionStreamResponseChoicesInner {
   ChatCompletionFinishReason? get finishReason =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this ChatCompletionStreamResponseChoicesInner to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatCompletionStreamResponseChoicesInner
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChatCompletionStreamResponseChoicesInnerCopyWith<
           ChatCompletionStreamResponseChoicesInner>
       get copyWith => throw _privateConstructorUsedError;
@@ -2091,6 +2192,8 @@ class _$ChatCompletionStreamResponseChoicesInnerCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChatCompletionStreamResponseChoicesInner
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2114,6 +2217,8 @@ class _$ChatCompletionStreamResponseChoicesInnerCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of ChatCompletionStreamResponseChoicesInner
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ChatCompletionStreamDeltaCopyWith<$Res> get delta {
@@ -2155,6 +2260,8 @@ class __$$ChatCompletionStreamResponseChoicesInnerImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionStreamResponseChoicesInnerImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionStreamResponseChoicesInner
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2229,11 +2336,13 @@ class _$ChatCompletionStreamResponseChoicesInnerImpl
                 other.finishReason == finishReason));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, index, delta, finishReason);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionStreamResponseChoicesInner
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionStreamResponseChoicesInnerImplCopyWith<
@@ -2267,24 +2376,26 @@ abstract class _ChatCompletionStreamResponseChoicesInner
           Map<String, dynamic> json) =
       _$ChatCompletionStreamResponseChoicesInnerImpl.fromJson;
 
-  @override
-
   /// The index of this choice.
-  int get index;
   @override
+  int get index;
 
   /// A chat completion delta generated by streamed model responses.
-  ChatCompletionStreamDelta get delta;
   @override
+  ChatCompletionStreamDelta get delta;
 
   /// The reason the model stopped generating tokens.
+  @override
   @JsonKey(
       name: 'finish_reason',
       includeIfNull: false,
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   ChatCompletionFinishReason? get finishReason;
+
+  /// Create a copy of ChatCompletionStreamResponseChoicesInner
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionStreamResponseChoicesInnerImplCopyWith<
           _$ChatCompletionStreamResponseChoicesInnerImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -2306,8 +2417,12 @@ mixin _$ChatCompletionStreamDelta {
   @JsonKey(includeIfNull: false)
   String? get content => throw _privateConstructorUsedError;
 
+  /// Serializes this ChatCompletionStreamDelta to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatCompletionStreamDelta
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChatCompletionStreamDeltaCopyWith<ChatCompletionStreamDelta> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2337,6 +2452,8 @@ class _$ChatCompletionStreamDeltaCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChatCompletionStreamDelta
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2383,6 +2500,8 @@ class __$$ChatCompletionStreamDeltaImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionStreamDeltaImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionStreamDelta
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2441,11 +2560,13 @@ class _$ChatCompletionStreamDeltaImpl extends _ChatCompletionStreamDelta {
             (identical(other.content, content) || other.content == content));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, role, content);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionStreamDelta
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionStreamDeltaImplCopyWith<_$ChatCompletionStreamDeltaImpl>
@@ -2473,19 +2594,21 @@ abstract class _ChatCompletionStreamDelta extends ChatCompletionStreamDelta {
   factory _ChatCompletionStreamDelta.fromJson(Map<String, dynamic> json) =
       _$ChatCompletionStreamDeltaImpl.fromJson;
 
-  @override
-
   /// The role of the message.
+  @override
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   ChatCompletionMessageRole? get role;
-  @override
 
   /// The message content.
+  @override
   @JsonKey(includeIfNull: false)
   String? get content;
+
+  /// Create a copy of ChatCompletionStreamDelta
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionStreamDeltaImplCopyWith<_$ChatCompletionStreamDeltaImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -2508,8 +2631,12 @@ mixin _$EmbeddingRequest {
   EmbeddingEncodingFormat get encodingFormat =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this EmbeddingRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of EmbeddingRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $EmbeddingRequestCopyWith<EmbeddingRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2539,6 +2666,8 @@ class _$EmbeddingRequestCopyWithImpl<$Res, $Val extends EmbeddingRequest>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of EmbeddingRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2562,6 +2691,8 @@ class _$EmbeddingRequestCopyWithImpl<$Res, $Val extends EmbeddingRequest>
     ) as $Val);
   }
 
+  /// Create a copy of EmbeddingRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $EmbeddingModelCopyWith<$Res> get model {
@@ -2597,6 +2728,8 @@ class __$$EmbeddingRequestImplCopyWithImpl<$Res>
       $Res Function(_$EmbeddingRequestImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of EmbeddingRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2672,12 +2805,14 @@ class _$EmbeddingRequestImpl extends _EmbeddingRequest {
                 other.encodingFormat == encodingFormat));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, model,
       const DeepCollectionEquality().hash(_input), encodingFormat);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of EmbeddingRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EmbeddingRequestImplCopyWith<_$EmbeddingRequestImpl> get copyWith =>
@@ -2703,22 +2838,24 @@ abstract class _EmbeddingRequest extends EmbeddingRequest {
   factory _EmbeddingRequest.fromJson(Map<String, dynamic> json) =
       _$EmbeddingRequestImpl.fromJson;
 
-  @override
-
   /// ID of the model to use. You can use the [List Available Models](https://docs.mistral.ai/api#operation/listModels) API to see all of your available models, or see our [Model overview](https://docs.mistral.ai/models) for model descriptions.
+  @override
   @_EmbeddingModelConverter()
   EmbeddingModel get model;
-  @override
 
   /// The list of strings to embed.
-  List<String> get input;
   @override
+  List<String> get input;
 
   /// The format of the output data.
+  @override
   @JsonKey(name: 'encoding_format')
   EmbeddingEncodingFormat get encodingFormat;
+
+  /// Create a copy of EmbeddingRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EmbeddingRequestImplCopyWith<_$EmbeddingRequestImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2777,6 +2914,8 @@ mixin _$EmbeddingModel {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this EmbeddingModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
@@ -2796,6 +2935,9 @@ class _$EmbeddingModelCopyWithImpl<$Res, $Val extends EmbeddingModel>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of EmbeddingModel
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -2817,6 +2959,8 @@ class __$$EmbeddingModelEnumerationImplCopyWithImpl<$Res>
       $Res Function(_$EmbeddingModelEnumerationImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of EmbeddingModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2860,11 +3004,13 @@ class _$EmbeddingModelEnumerationImpl extends EmbeddingModelEnumeration {
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of EmbeddingModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EmbeddingModelEnumerationImplCopyWith<_$EmbeddingModelEnumerationImpl>
@@ -2951,7 +3097,10 @@ abstract class EmbeddingModelEnumeration extends EmbeddingModel {
 
   @override
   EmbeddingModels get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of EmbeddingModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EmbeddingModelEnumerationImplCopyWith<_$EmbeddingModelEnumerationImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -2973,6 +3122,8 @@ class __$$EmbeddingModelStringImplCopyWithImpl<$Res>
       $Res Function(_$EmbeddingModelStringImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of EmbeddingModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3016,11 +3167,13 @@ class _$EmbeddingModelStringImpl extends EmbeddingModelString {
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of EmbeddingModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EmbeddingModelStringImplCopyWith<_$EmbeddingModelStringImpl>
@@ -3108,7 +3261,10 @@ abstract class EmbeddingModelString extends EmbeddingModel {
 
   @override
   String get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of EmbeddingModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EmbeddingModelStringImplCopyWith<_$EmbeddingModelStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -3134,8 +3290,12 @@ mixin _$EmbeddingResponse {
   /// The usage statistics for this embedding.
   EmbeddingUsage get usage => throw _privateConstructorUsedError;
 
+  /// Serializes this EmbeddingResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of EmbeddingResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $EmbeddingResponseCopyWith<EmbeddingResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3166,6 +3326,8 @@ class _$EmbeddingResponseCopyWithImpl<$Res, $Val extends EmbeddingResponse>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of EmbeddingResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3199,6 +3361,8 @@ class _$EmbeddingResponseCopyWithImpl<$Res, $Val extends EmbeddingResponse>
     ) as $Val);
   }
 
+  /// Create a copy of EmbeddingResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $EmbeddingUsageCopyWith<$Res> get usage {
@@ -3235,6 +3399,8 @@ class __$$EmbeddingResponseImplCopyWithImpl<$Res>
       $Res Function(_$EmbeddingResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of EmbeddingResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3328,12 +3494,14 @@ class _$EmbeddingResponseImpl extends _EmbeddingResponse {
             (identical(other.usage, usage) || other.usage == usage));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, object,
       const DeepCollectionEquality().hash(_data), model, usage);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of EmbeddingResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EmbeddingResponseImplCopyWith<_$EmbeddingResponseImpl> get copyWith =>
@@ -3360,28 +3528,30 @@ abstract class _EmbeddingResponse extends EmbeddingResponse {
   factory _EmbeddingResponse.fromJson(Map<String, dynamic> json) =
       _$EmbeddingResponseImpl.fromJson;
 
-  @override
-
   /// The unique identifier for this embedding response.
-  String get id;
   @override
+  String get id;
 
   /// The object type, which is always `list`.
-  String get object;
   @override
+  String get object;
 
   /// The list of embeddings.
-  List<Embedding> get data;
   @override
+  List<Embedding> get data;
 
   /// The model used for this embedding.
-  String get model;
   @override
+  String get model;
 
   /// The usage statistics for this embedding.
-  EmbeddingUsage get usage;
   @override
-  @JsonKey(ignore: true)
+  EmbeddingUsage get usage;
+
+  /// Create a copy of EmbeddingResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EmbeddingResponseImplCopyWith<_$EmbeddingResponseImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3400,8 +3570,12 @@ mixin _$EmbeddingUsage {
   @JsonKey(name: 'total_tokens')
   int get totalTokens => throw _privateConstructorUsedError;
 
+  /// Serializes this EmbeddingUsage to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of EmbeddingUsage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $EmbeddingUsageCopyWith<EmbeddingUsage> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3427,6 +3601,8 @@ class _$EmbeddingUsageCopyWithImpl<$Res, $Val extends EmbeddingUsage>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of EmbeddingUsage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3467,6 +3643,8 @@ class __$$EmbeddingUsageImplCopyWithImpl<$Res>
       _$EmbeddingUsageImpl _value, $Res Function(_$EmbeddingUsageImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of EmbeddingUsage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3523,11 +3701,13 @@ class _$EmbeddingUsageImpl extends _EmbeddingUsage {
                 other.totalTokens == totalTokens));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, promptTokens, totalTokens);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of EmbeddingUsage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EmbeddingUsageImplCopyWith<_$EmbeddingUsageImpl> get copyWith =>
@@ -3552,18 +3732,20 @@ abstract class _EmbeddingUsage extends EmbeddingUsage {
   factory _EmbeddingUsage.fromJson(Map<String, dynamic> json) =
       _$EmbeddingUsageImpl.fromJson;
 
-  @override
-
   /// The number of tokens in the prompt.
+  @override
   @JsonKey(name: 'prompt_tokens')
   int get promptTokens;
-  @override
 
   /// The total number of tokens generated.
+  @override
   @JsonKey(name: 'total_tokens')
   int get totalTokens;
+
+  /// Create a copy of EmbeddingUsage
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EmbeddingUsageImplCopyWith<_$EmbeddingUsageImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3583,8 +3765,12 @@ mixin _$Embedding {
   /// The index of this embedding.
   int get index => throw _privateConstructorUsedError;
 
+  /// Serializes this Embedding to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Embedding
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $EmbeddingCopyWith<Embedding> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3607,6 +3793,8 @@ class _$EmbeddingCopyWithImpl<$Res, $Val extends Embedding>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Embedding
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3650,6 +3838,8 @@ class __$$EmbeddingImplCopyWithImpl<$Res>
       _$EmbeddingImpl _value, $Res Function(_$EmbeddingImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Embedding
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3722,12 +3912,14 @@ class _$EmbeddingImpl extends _Embedding {
             (identical(other.index, index) || other.index == index));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, object,
       const DeepCollectionEquality().hash(_embedding), index);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Embedding
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EmbeddingImplCopyWith<_$EmbeddingImpl> get copyWith =>
@@ -3751,20 +3943,22 @@ abstract class _Embedding extends Embedding {
   factory _Embedding.fromJson(Map<String, dynamic> json) =
       _$EmbeddingImpl.fromJson;
 
-  @override
-
   /// The object type, which is always `embedding`.
-  String get object;
   @override
+  String get object;
 
   /// The embedding vector.
-  List<double> get embedding;
   @override
+  List<double> get embedding;
 
   /// The index of this embedding.
-  int get index;
   @override
-  @JsonKey(ignore: true)
+  int get index;
+
+  /// Create a copy of Embedding
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EmbeddingImplCopyWith<_$EmbeddingImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3781,8 +3975,12 @@ mixin _$ModelList {
   /// The list of models.
   List<Model> get data => throw _privateConstructorUsedError;
 
+  /// Serializes this ModelList to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ModelList
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ModelListCopyWith<ModelList> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3805,6 +4003,8 @@ class _$ModelListCopyWithImpl<$Res, $Val extends ModelList>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ModelList
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3843,6 +4043,8 @@ class __$$ModelListImplCopyWithImpl<$Res>
       _$ModelListImpl _value, $Res Function(_$ModelListImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ModelList
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3901,12 +4103,14 @@ class _$ModelListImpl extends _ModelList {
             const DeepCollectionEquality().equals(other._data, _data));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, object, const DeepCollectionEquality().hash(_data));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ModelList
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ModelListImplCopyWith<_$ModelListImpl> get copyWith =>
@@ -3929,16 +4133,18 @@ abstract class _ModelList extends ModelList {
   factory _ModelList.fromJson(Map<String, dynamic> json) =
       _$ModelListImpl.fromJson;
 
-  @override
-
   /// The object type, which is always `list`.
-  String get object;
   @override
+  String get object;
 
   /// The list of models.
-  List<Model> get data;
   @override
-  @JsonKey(ignore: true)
+  List<Model> get data;
+
+  /// Create a copy of ModelList
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ModelListImplCopyWith<_$ModelListImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3962,8 +4168,12 @@ mixin _$Model {
   @JsonKey(name: 'owned_by')
   String get ownedBy => throw _privateConstructorUsedError;
 
+  /// Serializes this Model to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Model
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ModelCopyWith<Model> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -3989,6 +4199,8 @@ class _$ModelCopyWithImpl<$Res, $Val extends Model>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Model
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -4040,6 +4252,8 @@ class __$$ModelImplCopyWithImpl<$Res>
       _$ModelImpl _value, $Res Function(_$ModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Model
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -4115,11 +4329,13 @@ class _$ModelImpl extends _Model {
             (identical(other.ownedBy, ownedBy) || other.ownedBy == ownedBy));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, object, created, ownedBy);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Model
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ModelImplCopyWith<_$ModelImpl> get copyWith =>
@@ -4143,25 +4359,27 @@ abstract class _Model extends Model {
 
   factory _Model.fromJson(Map<String, dynamic> json) = _$ModelImpl.fromJson;
 
-  @override
-
   /// The unique identifier for this model.
-  String get id;
   @override
+  String get id;
 
   /// The object type, which is always `model`.
-  String get object;
   @override
+  String get object;
 
   /// The timestamp of when this model was created.
-  int get created;
   @override
+  int get created;
 
   /// The organization who owns this model.
+  @override
   @JsonKey(name: 'owned_by')
   String get ownedBy;
+
+  /// Create a copy of Model
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ModelImplCopyWith<_$ModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

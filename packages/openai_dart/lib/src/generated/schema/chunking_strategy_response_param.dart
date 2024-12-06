@@ -19,6 +19,8 @@ sealed class ChunkingStrategyResponseParam
   // ------------------------------------------
 
   /// Static Chunking Strategy.
+
+  @FreezedUnionValue('static')
   const factory ChunkingStrategyResponseParam.static({
     /// Always `static`.
     required String type,
@@ -33,6 +35,8 @@ sealed class ChunkingStrategyResponseParam
 
   /// Other Chunking Strategy. This is returned when the chunking strategy is unknown. Typically, this is because
   /// the file was indexed before the `chunking_strategy` concept was introduced in the API.
+
+  @FreezedUnionValue('other')
   const factory ChunkingStrategyResponseParam.other({
     /// Always `other`.
     required String type,

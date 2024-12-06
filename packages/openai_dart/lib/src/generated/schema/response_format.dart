@@ -35,6 +35,8 @@ sealed class ResponseFormat with _$ResponseFormat {
   // ------------------------------------------
 
   /// The model should respond with plain text.
+
+  @FreezedUnionValue('text')
   const factory ResponseFormat.text({
     /// The type of response format being defined.
     @Default(ResponseFormatType.text) ResponseFormatType type,
@@ -45,6 +47,8 @@ sealed class ResponseFormat with _$ResponseFormat {
   // ------------------------------------------
 
   /// The model should respond with a JSON object.
+
+  @FreezedUnionValue('json_object')
   const factory ResponseFormat.jsonObject({
     /// The type of response format being defined.
     @Default(ResponseFormatType.jsonObject) ResponseFormatType type,
@@ -55,6 +59,8 @@ sealed class ResponseFormat with _$ResponseFormat {
   // ------------------------------------------
 
   /// The model should respond with a JSON object that adheres to the specified schema.
+
+  @FreezedUnionValue('json_schema')
   const factory ResponseFormat.jsonSchema({
     /// The type of response format being defined.
     @Default(ResponseFormatType.jsonSchema) ResponseFormatType type,

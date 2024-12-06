@@ -18,6 +18,8 @@ sealed class BlockDelta with _$BlockDelta {
   // ------------------------------------------
 
   /// A delta in a streaming text block.
+
+  @FreezedUnionValue('text_delta')
   const factory BlockDelta.textDelta({
     /// The text delta.
     required String text,
@@ -31,6 +33,8 @@ sealed class BlockDelta with _$BlockDelta {
   // ------------------------------------------
 
   /// A delta in a streaming input JSON.
+
+  @FreezedUnionValue('input_json_delta')
   const factory BlockDelta.inputJsonDelta({
     /// The partial JSON delta.
     @JsonKey(name: 'partial_json', includeIfNull: false) String? partialJson,

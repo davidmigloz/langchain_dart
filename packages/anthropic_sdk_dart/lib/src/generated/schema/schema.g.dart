@@ -86,7 +86,6 @@ const _$ModelsEnumMap = {
   Models.claude3Haiku20240307: 'claude-3-haiku-20240307',
   Models.claude21: 'claude-2.1',
   Models.claude20: 'claude-2.0',
-  Models.claudeInstant12: 'claude-instant-1.2',
 };
 
 _$ModelIdImpl _$$ModelIdImplFromJson(Map<String, dynamic> json) =>

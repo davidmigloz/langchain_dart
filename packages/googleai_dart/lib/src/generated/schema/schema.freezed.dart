@@ -25,8 +25,12 @@ mixin _$BatchEmbedContentsResponse {
   @JsonKey(includeIfNull: false)
   List<ContentEmbedding>? get embeddings => throw _privateConstructorUsedError;
 
+  /// Serializes this BatchEmbedContentsResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of BatchEmbedContentsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $BatchEmbedContentsResponseCopyWith<BatchEmbedContentsResponse>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -53,6 +57,8 @@ class _$BatchEmbedContentsResponseCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of BatchEmbedContentsResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -90,6 +96,8 @@ class __$$BatchEmbedContentsResponseImplCopyWithImpl<$Res>
       $Res Function(_$BatchEmbedContentsResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of BatchEmbedContentsResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -144,12 +152,14 @@ class _$BatchEmbedContentsResponseImpl extends _BatchEmbedContentsResponse {
                 .equals(other._embeddings, _embeddings));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, const DeepCollectionEquality().hash(_embeddings));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BatchEmbedContentsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$BatchEmbedContentsResponseImplCopyWith<_$BatchEmbedContentsResponseImpl>
@@ -174,13 +184,15 @@ abstract class _BatchEmbedContentsResponse extends BatchEmbedContentsResponse {
   factory _BatchEmbedContentsResponse.fromJson(Map<String, dynamic> json) =
       _$BatchEmbedContentsResponseImpl.fromJson;
 
-  @override
-
   /// Output only. The embeddings for each request, in the same order as provided in the batch request.
+  @override
   @JsonKey(includeIfNull: false)
   List<ContentEmbedding>? get embeddings;
+
+  /// Create a copy of BatchEmbedContentsResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BatchEmbedContentsResponseImplCopyWith<_$BatchEmbedContentsResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -216,8 +228,12 @@ mixin _$Candidate {
   @JsonKey(includeIfNull: false)
   List<SafetyRating>? get safetyRatings => throw _privateConstructorUsedError;
 
+  /// Serializes this Candidate to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Candidate
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CandidateCopyWith<Candidate> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -252,6 +268,8 @@ class _$CandidateCopyWithImpl<$Res, $Val extends Candidate>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Candidate
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -290,6 +308,8 @@ class _$CandidateCopyWithImpl<$Res, $Val extends Candidate>
     ) as $Val);
   }
 
+  /// Create a copy of Candidate
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ContentCopyWith<$Res>? get content {
@@ -302,6 +322,8 @@ class _$CandidateCopyWithImpl<$Res, $Val extends Candidate>
     });
   }
 
+  /// Create a copy of Candidate
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $CitationMetadataCopyWith<$Res>? get citationMetadata {
@@ -348,6 +370,8 @@ class __$$CandidateImplCopyWithImpl<$Res>
       _$CandidateImpl _value, $Res Function(_$CandidateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Candidate
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -468,7 +492,7 @@ class _$CandidateImpl extends _Candidate {
                 .equals(other._safetyRatings, _safetyRatings));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -479,7 +503,9 @@ class _$CandidateImpl extends _Candidate {
       tokenCount,
       const DeepCollectionEquality().hash(_safetyRatings));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Candidate
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CandidateImplCopyWith<_$CandidateImpl> get copyWith =>
@@ -510,39 +536,41 @@ abstract class _Candidate extends Candidate {
   factory _Candidate.fromJson(Map<String, dynamic> json) =
       _$CandidateImpl.fromJson;
 
-  @override
-
   /// Output only. Generated content returned from the model.
+  @override
   @JsonKey(includeIfNull: false)
   Content? get content;
-  @override
 
   /// Optional. Output only. The reason why the model stopped generating tokens. If empty, the model has not stopped generating the tokens.
+  @override
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   CandidateFinishReason? get finishReason;
-  @override
 
   /// Output only. Citation information for model-generated candidate. This field may be populated with recitation information for any text included in the `content`. These are passages that are "recited" from copyrighted material in the foundational LLM's training data.
+  @override
   @JsonKey(includeIfNull: false)
   CitationMetadata? get citationMetadata;
-  @override
 
   /// Output only. Index of the candidate in the list of candidates.
+  @override
   @JsonKey(includeIfNull: false)
   int? get index;
-  @override
 
   /// Output only. Token count for this candidate.
+  @override
   @JsonKey(includeIfNull: false)
   int? get tokenCount;
-  @override
 
   /// List of ratings for the safety of a response candidate. There is at most one rating per category.
+  @override
   @JsonKey(includeIfNull: false)
   List<SafetyRating>? get safetyRatings;
+
+  /// Create a copy of Candidate
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CandidateImplCopyWith<_$CandidateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -574,8 +602,12 @@ mixin _$CreateTunedModelMetadata {
   @JsonKey(includeIfNull: false)
   double? get completedPercent => throw _privateConstructorUsedError;
 
+  /// Serializes this CreateTunedModelMetadata to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateTunedModelMetadata
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CreateTunedModelMetadataCopyWith<CreateTunedModelMetadata> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -605,6 +637,8 @@ class _$CreateTunedModelMetadataCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CreateTunedModelMetadata
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -666,6 +700,8 @@ class __$$CreateTunedModelMetadataImplCopyWithImpl<$Res>
       $Res Function(_$CreateTunedModelMetadataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateTunedModelMetadata
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -771,7 +807,7 @@ class _$CreateTunedModelMetadataImpl extends _CreateTunedModelMetadata {
                 other.completedPercent == completedPercent));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -781,7 +817,9 @@ class _$CreateTunedModelMetadataImpl extends _CreateTunedModelMetadata {
       const DeepCollectionEquality().hash(_snapshots),
       completedPercent);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateTunedModelMetadata
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateTunedModelMetadataImplCopyWith<_$CreateTunedModelMetadataImpl>
@@ -809,33 +847,35 @@ abstract class _CreateTunedModelMetadata extends CreateTunedModelMetadata {
   factory _CreateTunedModelMetadata.fromJson(Map<String, dynamic> json) =
       _$CreateTunedModelMetadataImpl.fromJson;
 
-  @override
-
   /// The total number of tuning steps.
+  @override
   @JsonKey(includeIfNull: false)
   int? get totalSteps;
-  @override
 
   /// Name of the tuned model associated with the tuning operation.
+  @override
   @JsonKey(includeIfNull: false)
   String? get tunedModel;
-  @override
 
   /// The number of steps completed.
+  @override
   @JsonKey(includeIfNull: false)
   int? get completedSteps;
-  @override
 
   /// Metrics collected during tuning.
+  @override
   @JsonKey(includeIfNull: false)
   List<TuningSnapshot>? get snapshots;
-  @override
 
   /// The completed percentage for the tuning operation.
+  @override
   @JsonKey(includeIfNull: false)
   double? get completedPercent;
+
+  /// Create a copy of CreateTunedModelMetadata
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateTunedModelMetadataImplCopyWith<_$CreateTunedModelMetadataImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -851,8 +891,12 @@ mixin _$BatchEmbedContentsRequest {
   @JsonKey(includeIfNull: false)
   List<EmbedContentRequest>? get requests => throw _privateConstructorUsedError;
 
+  /// Serializes this BatchEmbedContentsRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of BatchEmbedContentsRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $BatchEmbedContentsRequestCopyWith<BatchEmbedContentsRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -878,6 +922,8 @@ class _$BatchEmbedContentsRequestCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of BatchEmbedContentsRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -915,6 +961,8 @@ class __$$BatchEmbedContentsRequestImplCopyWithImpl<$Res>
       $Res Function(_$BatchEmbedContentsRequestImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of BatchEmbedContentsRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -968,12 +1016,14 @@ class _$BatchEmbedContentsRequestImpl extends _BatchEmbedContentsRequest {
             const DeepCollectionEquality().equals(other._requests, _requests));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_requests));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BatchEmbedContentsRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$BatchEmbedContentsRequestImplCopyWith<_$BatchEmbedContentsRequestImpl>
@@ -998,13 +1048,15 @@ abstract class _BatchEmbedContentsRequest extends BatchEmbedContentsRequest {
   factory _BatchEmbedContentsRequest.fromJson(Map<String, dynamic> json) =
       _$BatchEmbedContentsRequestImpl.fromJson;
 
-  @override
-
   /// Required. Embed requests for the batch. The model in each of these requests must match the model specified `BatchEmbedContentsRequest.model`.
+  @override
   @JsonKey(includeIfNull: false)
   List<EmbedContentRequest>? get requests;
+
+  /// Create a copy of BatchEmbedContentsRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BatchEmbedContentsRequestImplCopyWith<_$BatchEmbedContentsRequestImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -1030,8 +1082,12 @@ mixin _$SafetyRating {
   @JsonKey(includeIfNull: false)
   bool? get blocked => throw _privateConstructorUsedError;
 
+  /// Serializes this SafetyRating to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SafetyRating
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SafetyRatingCopyWith<SafetyRating> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1064,6 +1120,8 @@ class _$SafetyRatingCopyWithImpl<$Res, $Val extends SafetyRating>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SafetyRating
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1116,6 +1174,8 @@ class __$$SafetyRatingImplCopyWithImpl<$Res>
       _$SafetyRatingImpl _value, $Res Function(_$SafetyRatingImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SafetyRating
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1192,11 +1252,13 @@ class _$SafetyRatingImpl extends _SafetyRating {
             (identical(other.blocked, blocked) || other.blocked == blocked));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, category, probability, blocked);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SafetyRating
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SafetyRatingImplCopyWith<_$SafetyRatingImpl> get copyWith =>
@@ -1226,25 +1288,27 @@ abstract class _SafetyRating extends SafetyRating {
   factory _SafetyRating.fromJson(Map<String, dynamic> json) =
       _$SafetyRatingImpl.fromJson;
 
-  @override
-
   /// Required. The category for this rating.
+  @override
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   SafetyRatingCategory? get category;
-  @override
 
   /// Required. The probability of harm for this content.
+  @override
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   SafetyRatingProbability? get probability;
-  @override
 
   /// Was this content blocked because of this rating?
+  @override
   @JsonKey(includeIfNull: false)
   bool? get blocked;
+
+  /// Create a copy of SafetyRating
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SafetyRatingImplCopyWith<_$SafetyRatingImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1263,8 +1327,12 @@ mixin _$Part {
   @JsonKey(includeIfNull: false)
   String? get text => throw _privateConstructorUsedError;
 
+  /// Serializes this Part to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Part
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PartCopyWith<Part> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -1290,6 +1358,8 @@ class _$PartCopyWithImpl<$Res, $Val extends Part>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Part
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1308,6 +1378,8 @@ class _$PartCopyWithImpl<$Res, $Val extends Part>
     ) as $Val);
   }
 
+  /// Create a copy of Part
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $BlobCopyWith<$Res>? get inlineData {
@@ -1343,6 +1415,8 @@ class __$$PartImplCopyWithImpl<$Res>
   __$$PartImplCopyWithImpl(_$PartImpl _value, $Res Function(_$PartImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Part
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1398,11 +1472,13 @@ class _$PartImpl extends _Part {
             (identical(other.text, text) || other.text == text));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, inlineData, text);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Part
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PartImplCopyWith<_$PartImpl> get copyWith =>
@@ -1424,18 +1500,20 @@ abstract class _Part extends Part {
 
   factory _Part.fromJson(Map<String, dynamic> json) = _$PartImpl.fromJson;
 
-  @override
-
   /// Inline media bytes.
+  @override
   @JsonKey(includeIfNull: false)
   Blob? get inlineData;
-  @override
 
   /// Inline text.
+  @override
   @JsonKey(includeIfNull: false)
   String? get text;
+
+  /// Create a copy of Part
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PartImplCopyWith<_$PartImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1466,8 +1544,12 @@ mixin _$Operation {
   @JsonKey(includeIfNull: false)
   Status? get error => throw _privateConstructorUsedError;
 
+  /// Serializes this Operation to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Operation
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $OperationCopyWith<Operation> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1497,6 +1579,8 @@ class _$OperationCopyWithImpl<$Res, $Val extends Operation>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Operation
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1530,6 +1614,8 @@ class _$OperationCopyWithImpl<$Res, $Val extends Operation>
     ) as $Val);
   }
 
+  /// Create a copy of Operation
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $StatusCopyWith<$Res>? get error {
@@ -1570,6 +1656,8 @@ class __$$OperationImplCopyWithImpl<$Res>
       _$OperationImpl _value, $Res Function(_$OperationImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Operation
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1680,7 +1768,7 @@ class _$OperationImpl extends _Operation {
             (identical(other.error, error) || other.error == error));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -1690,7 +1778,9 @@ class _$OperationImpl extends _Operation {
       const DeepCollectionEquality().hash(_metadata),
       error);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Operation
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$OperationImplCopyWith<_$OperationImpl> get copyWith =>
@@ -1716,33 +1806,35 @@ abstract class _Operation extends Operation {
   factory _Operation.fromJson(Map<String, dynamic> json) =
       _$OperationImpl.fromJson;
 
-  @override
-
   /// The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`.
+  @override
   @JsonKey(includeIfNull: false)
   String? get name;
-  @override
 
   /// The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`.
+  @override
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get response;
-  @override
 
   /// If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available.
+  @override
   @JsonKey(includeIfNull: false)
   bool? get done;
-  @override
 
   /// Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any.
+  @override
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata;
-  @override
 
   /// The error result of the operation in case of failure or cancellation.
+  @override
   @JsonKey(includeIfNull: false)
   Status? get error;
+
+  /// Create a copy of Operation
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$OperationImplCopyWith<_$OperationImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1765,8 +1857,12 @@ mixin _$Status {
   @JsonKey(includeIfNull: false)
   List<Map<String, dynamic>>? get details => throw _privateConstructorUsedError;
 
+  /// Serializes this Status to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Status
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $StatusCopyWith<Status> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -1791,6 +1887,8 @@ class _$StatusCopyWithImpl<$Res, $Val extends Status>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Status
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1836,6 +1934,8 @@ class __$$StatusImplCopyWithImpl<$Res>
       _$StatusImpl _value, $Res Function(_$StatusImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Status
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1912,12 +2012,14 @@ class _$StatusImpl extends _Status {
             const DeepCollectionEquality().equals(other._details, _details));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, code, message,
       const DeepCollectionEquality().hash(_details));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Status
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$StatusImplCopyWith<_$StatusImpl> get copyWith =>
@@ -1941,23 +2043,25 @@ abstract class _Status extends Status {
 
   factory _Status.fromJson(Map<String, dynamic> json) = _$StatusImpl.fromJson;
 
-  @override
-
   /// The status code, which should be an enum value of google.rpc.Code.
+  @override
   @JsonKey(includeIfNull: false)
   int? get code;
-  @override
 
   /// A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client.
+  @override
   @JsonKey(includeIfNull: false)
   String? get message;
-  @override
 
   /// A list of messages that carry the error details. There is a common set of message types for APIs to use.
+  @override
   @JsonKey(includeIfNull: false)
   List<Map<String, dynamic>>? get details;
+
+  /// Create a copy of Status
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$StatusImplCopyWith<_$StatusImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1973,8 +2077,12 @@ mixin _$CitationMetadata {
   List<CitationSource>? get citationSources =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this CitationMetadata to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CitationMetadata
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CitationMetadataCopyWith<CitationMetadata> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1999,6 +2107,8 @@ class _$CitationMetadataCopyWithImpl<$Res, $Val extends CitationMetadata>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CitationMetadata
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2033,6 +2143,8 @@ class __$$CitationMetadataImplCopyWithImpl<$Res>
       $Res Function(_$CitationMetadataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CitationMetadata
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2087,12 +2199,14 @@ class _$CitationMetadataImpl extends _CitationMetadata {
                 .equals(other._citationSources, _citationSources));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, const DeepCollectionEquality().hash(_citationSources));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CitationMetadata
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CitationMetadataImplCopyWith<_$CitationMetadataImpl> get copyWith =>
@@ -2116,13 +2230,15 @@ abstract class _CitationMetadata extends CitationMetadata {
   factory _CitationMetadata.fromJson(Map<String, dynamic> json) =
       _$CitationMetadataImpl.fromJson;
 
-  @override
-
   /// Citations to sources for a specific response.
+  @override
   @JsonKey(includeIfNull: false)
   List<CitationSource>? get citationSources;
+
+  /// Create a copy of CitationMetadata
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CitationMetadataImplCopyWith<_$CitationMetadataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2143,8 +2259,12 @@ mixin _$SafetySetting {
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   SafetySettingThreshold? get threshold => throw _privateConstructorUsedError;
 
+  /// Serializes this SafetySetting to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SafetySetting
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SafetySettingCopyWith<SafetySetting> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2176,6 +2296,8 @@ class _$SafetySettingCopyWithImpl<$Res, $Val extends SafetySetting>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SafetySetting
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2222,6 +2344,8 @@ class __$$SafetySettingImplCopyWithImpl<$Res>
       _$SafetySettingImpl _value, $Res Function(_$SafetySettingImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SafetySetting
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2286,11 +2410,13 @@ class _$SafetySettingImpl extends _SafetySetting {
                 other.threshold == threshold));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, category, threshold);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SafetySetting
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SafetySettingImplCopyWith<_$SafetySettingImpl> get copyWith =>
@@ -2319,20 +2445,22 @@ abstract class _SafetySetting extends SafetySetting {
   factory _SafetySetting.fromJson(Map<String, dynamic> json) =
       _$SafetySettingImpl.fromJson;
 
-  @override
-
   /// Required. The category for this setting.
+  @override
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   SafetySettingCategory? get category;
-  @override
 
   /// Required. Controls the probability threshold at which harm is blocked.
+  @override
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   SafetySettingThreshold? get threshold;
+
+  /// Create a copy of SafetySetting
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SafetySettingImplCopyWith<_$SafetySettingImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2359,8 +2487,12 @@ mixin _$CitationSource {
   @JsonKey(includeIfNull: false)
   int? get startIndex => throw _privateConstructorUsedError;
 
+  /// Serializes this CitationSource to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CitationSource
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CitationSourceCopyWith<CitationSource> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2388,6 +2520,8 @@ class _$CitationSourceCopyWithImpl<$Res, $Val extends CitationSource>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CitationSource
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2440,6 +2574,8 @@ class __$$CitationSourceImplCopyWithImpl<$Res>
       _$CitationSourceImpl _value, $Res Function(_$CitationSourceImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CitationSource
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2520,12 +2656,14 @@ class _$CitationSourceImpl extends _CitationSource {
                 other.startIndex == startIndex));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, license, uri, endIndex, startIndex);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CitationSource
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CitationSourceImplCopyWith<_$CitationSourceImpl> get copyWith =>
@@ -2552,28 +2690,30 @@ abstract class _CitationSource extends CitationSource {
   factory _CitationSource.fromJson(Map<String, dynamic> json) =
       _$CitationSourceImpl.fromJson;
 
-  @override
-
   /// Optional. License for the GitHub project that is attributed as a source for segment. License info is required for code citations.
+  @override
   @JsonKey(includeIfNull: false)
   String? get license;
-  @override
 
   /// Optional. URI that is attributed as a source for a portion of the text.
+  @override
   @JsonKey(includeIfNull: false)
   String? get uri;
-  @override
 
   /// Optional. End of the attributed segment, exclusive.
+  @override
   @JsonKey(includeIfNull: false)
   int? get endIndex;
-  @override
 
   /// Optional. Start of segment of the response that is attributed to this source. Index indicates the start of the segment, measured in bytes.
+  @override
   @JsonKey(includeIfNull: false)
   int? get startIndex;
+
+  /// Create a copy of CitationSource
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CitationSourceImplCopyWith<_$CitationSourceImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2608,8 +2748,12 @@ mixin _$GenerationConfig {
   @JsonKey(includeIfNull: false)
   int? get maxOutputTokens => throw _privateConstructorUsedError;
 
+  /// Serializes this GenerationConfig to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of GenerationConfig
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $GenerationConfigCopyWith<GenerationConfig> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2639,6 +2783,8 @@ class _$GenerationConfigCopyWithImpl<$Res, $Val extends GenerationConfig>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of GenerationConfig
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2703,6 +2849,8 @@ class __$$GenerationConfigImplCopyWithImpl<$Res>
       $Res Function(_$GenerationConfigImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of GenerationConfig
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2819,7 +2967,7 @@ class _$GenerationConfigImpl extends _GenerationConfig {
                 other.maxOutputTokens == maxOutputTokens));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -2830,7 +2978,9 @@ class _$GenerationConfigImpl extends _GenerationConfig {
       candidateCount,
       maxOutputTokens);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of GenerationConfig
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GenerationConfigImplCopyWith<_$GenerationConfigImpl> get copyWith =>
@@ -2859,38 +3009,40 @@ abstract class _GenerationConfig extends GenerationConfig {
   factory _GenerationConfig.fromJson(Map<String, dynamic> json) =
       _$GenerationConfigImpl.fromJson;
 
-  @override
-
   /// Optional. Controls the randomness of the output. Note: The default value varies by model, see the `Model.temperature` attribute of the `Model` returned from the `getModel` function. Values can range from [0.0, infinity).
+  @override
   @JsonKey(includeIfNull: false)
   double? get temperature;
-  @override
 
   /// Optional. The set of character sequences (up to 5) that will stop output generation. If specified, the API will stop at the first appearance of a stop sequence. The stop sequence will not be included as part of the response.
+  @override
   @JsonKey(includeIfNull: false)
   List<String>? get stopSequences;
-  @override
 
   /// Optional. The maximum number of tokens to consider when sampling. The model uses combined Top-k and nucleus sampling. Top-k sampling considers the set of `top_k` most probable tokens. Note: The default value varies by model, see the `Model.top_k` attribute of the `Model` returned from the `getModel` function.
+  @override
   @JsonKey(includeIfNull: false)
   int? get topK;
-  @override
 
   /// Optional. The maximum cumulative probability of tokens to consider when sampling. The model uses combined Top-k and nucleus sampling. Tokens are sorted based on their assigned probabilities so that only the most likely tokens are considered. Top-k sampling directly limits the maximum number of tokens to consider, while Nucleus sampling limits number of tokens based on the cumulative probability. Note: The default value varies by model, see the `Model.top_p` attribute of the `Model` returned from the `getModel` function.
+  @override
   @JsonKey(includeIfNull: false)
   double? get topP;
-  @override
 
   /// Optional. Number of generated responses to return. Currently, this value can only be set to 1. If unset, this will default to 1.
+  @override
   @JsonKey(includeIfNull: false)
   int? get candidateCount;
-  @override
 
   /// Optional. The maximum number of tokens to include in a candidate. Note: The default value varies by model, see the `Model.output_token_limit` attribute of the `Model` returned from the `getModel` function.
+  @override
   @JsonKey(includeIfNull: false)
   int? get maxOutputTokens;
+
+  /// Create a copy of GenerationConfig
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GenerationConfigImplCopyWith<_$GenerationConfigImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2905,8 +3057,12 @@ mixin _$CountTokensRequest {
   @JsonKey(includeIfNull: false)
   List<Content>? get contents => throw _privateConstructorUsedError;
 
+  /// Serializes this CountTokensRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CountTokensRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CountTokensRequestCopyWith<CountTokensRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2930,6 +3086,8 @@ class _$CountTokensRequestCopyWithImpl<$Res, $Val extends CountTokensRequest>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CountTokensRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2963,6 +3121,8 @@ class __$$CountTokensRequestImplCopyWithImpl<$Res>
       $Res Function(_$CountTokensRequestImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CountTokensRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3015,12 +3175,14 @@ class _$CountTokensRequestImpl extends _CountTokensRequest {
             const DeepCollectionEquality().equals(other._contents, _contents));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_contents));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CountTokensRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CountTokensRequestImplCopyWith<_$CountTokensRequestImpl> get copyWith =>
@@ -3044,13 +3206,15 @@ abstract class _CountTokensRequest extends CountTokensRequest {
   factory _CountTokensRequest.fromJson(Map<String, dynamic> json) =
       _$CountTokensRequestImpl.fromJson;
 
-  @override
-
   /// Required. The input given to the model as a prompt.
+  @override
   @JsonKey(includeIfNull: false)
   List<Content>? get contents;
+
+  /// Create a copy of CountTokensRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CountTokensRequestImplCopyWith<_$CountTokensRequestImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3077,8 +3241,12 @@ mixin _$TuningSnapshot {
   @JsonKey(includeIfNull: false)
   double? get meanLoss => throw _privateConstructorUsedError;
 
+  /// Serializes this TuningSnapshot to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TuningSnapshot
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TuningSnapshotCopyWith<TuningSnapshot> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3106,6 +3274,8 @@ class _$TuningSnapshotCopyWithImpl<$Res, $Val extends TuningSnapshot>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TuningSnapshot
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3158,6 +3328,8 @@ class __$$TuningSnapshotImplCopyWithImpl<$Res>
       _$TuningSnapshotImpl _value, $Res Function(_$TuningSnapshotImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TuningSnapshot
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3238,12 +3410,14 @@ class _$TuningSnapshotImpl extends _TuningSnapshot {
                 other.meanLoss == meanLoss));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, step, computeTime, epoch, meanLoss);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TuningSnapshot
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TuningSnapshotImplCopyWith<_$TuningSnapshotImpl> get copyWith =>
@@ -3270,28 +3444,30 @@ abstract class _TuningSnapshot extends TuningSnapshot {
   factory _TuningSnapshot.fromJson(Map<String, dynamic> json) =
       _$TuningSnapshotImpl.fromJson;
 
-  @override
-
   /// Output only. The tuning step.
+  @override
   @JsonKey(includeIfNull: false)
   int? get step;
-  @override
 
   /// Output only. The timestamp when this metric was computed.
+  @override
   @JsonKey(includeIfNull: false)
   String? get computeTime;
-  @override
 
   /// Output only. The epoch this step was part of.
+  @override
   @JsonKey(includeIfNull: false)
   int? get epoch;
-  @override
 
   /// Output only. The mean loss of the training examples for this step.
+  @override
   @JsonKey(includeIfNull: false)
   double? get meanLoss;
+
+  /// Create a copy of TuningSnapshot
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TuningSnapshotImplCopyWith<_$TuningSnapshotImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3310,8 +3486,12 @@ mixin _$Blob {
   @JsonKey(includeIfNull: false)
   String? get data => throw _privateConstructorUsedError;
 
+  /// Serializes this Blob to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Blob
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $BlobCopyWith<Blob> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -3335,6 +3515,8 @@ class _$BlobCopyWithImpl<$Res, $Val extends Blob>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Blob
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3373,6 +3555,8 @@ class __$$BlobImplCopyWithImpl<$Res>
   __$$BlobImplCopyWithImpl(_$BlobImpl _value, $Res Function(_$BlobImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Blob
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3428,11 +3612,13 @@ class _$BlobImpl extends _Blob {
             (identical(other.data, data) || other.data == data));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, mimeType, data);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Blob
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$BlobImplCopyWith<_$BlobImpl> get copyWith =>
@@ -3454,18 +3640,20 @@ abstract class _Blob extends Blob {
 
   factory _Blob.fromJson(Map<String, dynamic> json) = _$BlobImpl.fromJson;
 
-  @override
-
   /// The IANA standard MIME type of the source data. Accepted types include: "image/png", "image/jpeg", "image/heic", "image/heif", "image/webp".
+  @override
   @JsonKey(includeIfNull: false)
   String? get mimeType;
-  @override
 
   /// Raw bytes for media formats.
+  @override
   @JsonKey(includeIfNull: false)
   String? get data;
+
+  /// Create a copy of Blob
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BlobImplCopyWith<_$BlobImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3484,8 +3672,12 @@ mixin _$ListModelsResponse {
   @JsonKey(includeIfNull: false)
   String? get nextPageToken => throw _privateConstructorUsedError;
 
+  /// Serializes this ListModelsResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ListModelsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ListModelsResponseCopyWith<ListModelsResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3511,6 +3703,8 @@ class _$ListModelsResponseCopyWithImpl<$Res, $Val extends ListModelsResponse>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ListModelsResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3551,6 +3745,8 @@ class __$$ListModelsResponseImplCopyWithImpl<$Res>
       $Res Function(_$ListModelsResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ListModelsResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3616,12 +3812,14 @@ class _$ListModelsResponseImpl extends _ListModelsResponse {
                 other.nextPageToken == nextPageToken));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, const DeepCollectionEquality().hash(_models), nextPageToken);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ListModelsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ListModelsResponseImplCopyWith<_$ListModelsResponseImpl> get copyWith =>
@@ -3646,18 +3844,20 @@ abstract class _ListModelsResponse extends ListModelsResponse {
   factory _ListModelsResponse.fromJson(Map<String, dynamic> json) =
       _$ListModelsResponseImpl.fromJson;
 
-  @override
-
   /// The returned Models.
+  @override
   @JsonKey(includeIfNull: false)
   List<Model>? get models;
-  @override
 
   /// A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no more pages.
+  @override
   @JsonKey(includeIfNull: false)
   String? get nextPageToken;
+
+  /// Create a copy of ListModelsResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ListModelsResponseImplCopyWith<_$ListModelsResponseImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3672,8 +3872,12 @@ mixin _$ContentEmbedding {
   @JsonKey(includeIfNull: false)
   List<double>? get values => throw _privateConstructorUsedError;
 
+  /// Serializes this ContentEmbedding to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ContentEmbedding
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ContentEmbeddingCopyWith<ContentEmbedding> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3697,6 +3901,8 @@ class _$ContentEmbeddingCopyWithImpl<$Res, $Val extends ContentEmbedding>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ContentEmbedding
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3730,6 +3936,8 @@ class __$$ContentEmbeddingImplCopyWithImpl<$Res>
       $Res Function(_$ContentEmbeddingImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ContentEmbedding
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3782,12 +3990,14 @@ class _$ContentEmbeddingImpl extends _ContentEmbedding {
             const DeepCollectionEquality().equals(other._values, _values));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_values));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ContentEmbedding
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ContentEmbeddingImplCopyWith<_$ContentEmbeddingImpl> get copyWith =>
@@ -3811,13 +4021,15 @@ abstract class _ContentEmbedding extends ContentEmbedding {
   factory _ContentEmbedding.fromJson(Map<String, dynamic> json) =
       _$ContentEmbeddingImpl.fromJson;
 
-  @override
-
   /// The embedding values.
+  @override
   @JsonKey(includeIfNull: false)
   List<double>? get values;
+
+  /// Create a copy of ContentEmbedding
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ContentEmbeddingImplCopyWith<_$ContentEmbeddingImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3838,8 +4050,12 @@ mixin _$PromptFeedback {
   PromptFeedbackBlockReason? get blockReason =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this PromptFeedback to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of PromptFeedback
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PromptFeedbackCopyWith<PromptFeedback> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3868,6 +4084,8 @@ class _$PromptFeedbackCopyWithImpl<$Res, $Val extends PromptFeedback>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of PromptFeedback
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3911,6 +4129,8 @@ class __$$PromptFeedbackImplCopyWithImpl<$Res>
       _$PromptFeedbackImpl _value, $Res Function(_$PromptFeedbackImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PromptFeedback
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3981,12 +4201,14 @@ class _$PromptFeedbackImpl extends _PromptFeedback {
                 other.blockReason == blockReason));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType,
       const DeepCollectionEquality().hash(_safetyRatings), blockReason);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PromptFeedback
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PromptFeedbackImplCopyWith<_$PromptFeedbackImpl> get copyWith =>
@@ -4013,19 +4235,21 @@ abstract class _PromptFeedback extends PromptFeedback {
   factory _PromptFeedback.fromJson(Map<String, dynamic> json) =
       _$PromptFeedbackImpl.fromJson;
 
-  @override
-
   /// Ratings for safety of the prompt. There is at most one rating per category.
+  @override
   @JsonKey(includeIfNull: false)
   List<SafetyRating>? get safetyRatings;
-  @override
 
   /// Optional. If set, the prompt was blocked and no candidates are returned. Rephrase your prompt.
+  @override
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   PromptFeedbackBlockReason? get blockReason;
+
+  /// Create a copy of PromptFeedback
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PromptFeedbackImplCopyWith<_$PromptFeedbackImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -4058,8 +4282,12 @@ mixin _$EmbedContentRequest {
   @JsonKey(includeIfNull: false)
   int? get outputDimensionality => throw _privateConstructorUsedError;
 
+  /// Serializes this EmbedContentRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of EmbedContentRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $EmbedContentRequestCopyWith<EmbedContentRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -4093,6 +4321,8 @@ class _$EmbedContentRequestCopyWithImpl<$Res, $Val extends EmbedContentRequest>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of EmbedContentRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -4126,6 +4356,8 @@ class _$EmbedContentRequestCopyWithImpl<$Res, $Val extends EmbedContentRequest>
     ) as $Val);
   }
 
+  /// Create a copy of EmbedContentRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ContentCopyWith<$Res>? get content {
@@ -4169,6 +4401,8 @@ class __$$EmbedContentRequestImplCopyWithImpl<$Res>
       $Res Function(_$EmbedContentRequestImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of EmbedContentRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -4265,12 +4499,14 @@ class _$EmbedContentRequestImpl extends _EmbedContentRequest {
                 other.outputDimensionality == outputDimensionality));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, title, content, taskType, model, outputDimensionality);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of EmbedContentRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EmbedContentRequestImplCopyWith<_$EmbedContentRequestImpl> get copyWith =>
@@ -4301,34 +4537,36 @@ abstract class _EmbedContentRequest extends EmbedContentRequest {
   factory _EmbedContentRequest.fromJson(Map<String, dynamic> json) =
       _$EmbedContentRequestImpl.fromJson;
 
-  @override
-
   /// Optional. An optional title for the text. Only applicable when TaskType is `RETRIEVAL_DOCUMENT`. Note: Specifying a `title` for `RETRIEVAL_DOCUMENT` provides better quality embeddings for retrieval.
+  @override
   @JsonKey(includeIfNull: false)
   String? get title;
-  @override
 
   /// Required. The content to embed. Only the `parts.text` fields will be counted.
+  @override
   @JsonKey(includeIfNull: false)
   Content? get content;
-  @override
 
   /// Optional. Optional task type for which the embeddings will be used. Can only be set for `models/embedding-001` or newer models.
+  @override
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   EmbedContentRequestTaskType? get taskType;
-  @override
 
   /// Required. The model's resource name. This serves as an ID for the Model to use. This name should match a model name returned by the `ListModels` method. Format: `models/{model}`
+  @override
   @JsonKey(includeIfNull: false)
   String? get model;
-  @override
 
   /// Optional. Optional reduced dimension for the output embedding. If set, excessive values in the output embedding are truncated from the end. Supported by newer models since 2024, and the earlier model (`models/embedding-001`) cannot specify this value.
+  @override
   @JsonKey(includeIfNull: false)
   int? get outputDimensionality;
+
+  /// Create a copy of EmbedContentRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EmbedContentRequestImplCopyWith<_$EmbedContentRequestImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -4348,8 +4586,12 @@ mixin _$ListOperationsResponse {
   @JsonKey(includeIfNull: false)
   String? get nextPageToken => throw _privateConstructorUsedError;
 
+  /// Serializes this ListOperationsResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ListOperationsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ListOperationsResponseCopyWith<ListOperationsResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -4376,6 +4618,8 @@ class _$ListOperationsResponseCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ListOperationsResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -4419,6 +4663,8 @@ class __$$ListOperationsResponseImplCopyWithImpl<$Res>
       $Res Function(_$ListOperationsResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ListOperationsResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -4485,12 +4731,14 @@ class _$ListOperationsResponseImpl extends _ListOperationsResponse {
                 other.nextPageToken == nextPageToken));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType,
       const DeepCollectionEquality().hash(_operations), nextPageToken);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ListOperationsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ListOperationsResponseImplCopyWith<_$ListOperationsResponseImpl>
@@ -4515,18 +4763,20 @@ abstract class _ListOperationsResponse extends ListOperationsResponse {
   factory _ListOperationsResponse.fromJson(Map<String, dynamic> json) =
       _$ListOperationsResponseImpl.fromJson;
 
-  @override
-
   /// A list of operations that matches the specified filter in the request.
+  @override
   @JsonKey(includeIfNull: false)
   List<Operation>? get operations;
-  @override
 
   /// The standard List next-page token.
+  @override
   @JsonKey(includeIfNull: false)
   String? get nextPageToken;
+
+  /// Create a copy of ListOperationsResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ListOperationsResponseImplCopyWith<_$ListOperationsResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -4537,6 +4787,7 @@ Empty _$EmptyFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Empty {
+  /// Serializes this Empty to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
@@ -4555,6 +4806,9 @@ class _$EmptyCopyWithImpl<$Res, $Val extends Empty>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of Empty
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -4571,6 +4825,9 @@ class __$$EmptyImplCopyWithImpl<$Res>
   __$$EmptyImplCopyWithImpl(
       _$EmptyImpl _value, $Res Function(_$EmptyImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of Empty
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -4592,7 +4849,7 @@ class _$EmptyImpl extends _Empty {
         (other.runtimeType == runtimeType && other is _$EmptyImpl);
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => runtimeType.hashCode;
 
@@ -4625,8 +4882,12 @@ mixin _$Content {
   @JsonKey(includeIfNull: false)
   List<Part>? get parts => throw _privateConstructorUsedError;
 
+  /// Serializes this Content to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Content
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ContentCopyWith<Content> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -4650,6 +4911,8 @@ class _$ContentCopyWithImpl<$Res, $Val extends Content>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Content
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -4689,6 +4952,8 @@ class __$$ContentImplCopyWithImpl<$Res>
       _$ContentImpl _value, $Res Function(_$ContentImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Content
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -4753,12 +5018,14 @@ class _$ContentImpl extends _Content {
             const DeepCollectionEquality().equals(other._parts, _parts));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, role, const DeepCollectionEquality().hash(_parts));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Content
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ContentImplCopyWith<_$ContentImpl> get copyWith =>
@@ -4780,18 +5047,20 @@ abstract class _Content extends Content {
 
   factory _Content.fromJson(Map<String, dynamic> json) = _$ContentImpl.fromJson;
 
-  @override
-
   /// Optional. The producer of the content. Must be either 'user' or 'model'. Useful to set for multi-turn conversations, otherwise can be left blank or unset.
+  @override
   @JsonKey(includeIfNull: false)
   String? get role;
-  @override
 
   /// Ordered `Parts` that constitute a single message. Parts may have different MIME types.
+  @override
   @JsonKey(includeIfNull: false)
   List<Part>? get parts;
+
+  /// Create a copy of Content
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ContentImplCopyWith<_$ContentImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -4803,6 +5072,7 @@ CancelOperationRequest _$CancelOperationRequestFromJson(
 
 /// @nodoc
 mixin _$CancelOperationRequest {
+  /// Serializes this CancelOperationRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
@@ -4823,6 +5093,9 @@ class _$CancelOperationRequestCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of CancelOperationRequest
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -4842,6 +5115,9 @@ class __$$CancelOperationRequestImplCopyWithImpl<$Res>
       _$CancelOperationRequestImpl _value,
       $Res Function(_$CancelOperationRequestImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of CancelOperationRequest
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -4864,7 +5140,7 @@ class _$CancelOperationRequestImpl extends _CancelOperationRequest {
             other is _$CancelOperationRequestImpl);
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => runtimeType.hashCode;
 
@@ -4894,8 +5170,12 @@ mixin _$EmbedContentResponse {
   @JsonKey(includeIfNull: false)
   ContentEmbedding? get embedding => throw _privateConstructorUsedError;
 
+  /// Serializes this EmbedContentResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of EmbedContentResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $EmbedContentResponseCopyWith<EmbedContentResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -4922,6 +5202,8 @@ class _$EmbedContentResponseCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of EmbedContentResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -4935,6 +5217,8 @@ class _$EmbedContentResponseCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of EmbedContentResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ContentEmbeddingCopyWith<$Res>? get embedding {
@@ -4970,6 +5254,8 @@ class __$$EmbedContentResponseImplCopyWithImpl<$Res>
       $Res Function(_$EmbedContentResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of EmbedContentResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -5013,11 +5299,13 @@ class _$EmbedContentResponseImpl extends _EmbedContentResponse {
                 other.embedding == embedding));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, embedding);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of EmbedContentResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EmbedContentResponseImplCopyWith<_$EmbedContentResponseImpl>
@@ -5042,13 +5330,15 @@ abstract class _EmbedContentResponse extends EmbedContentResponse {
   factory _EmbedContentResponse.fromJson(Map<String, dynamic> json) =
       _$EmbedContentResponseImpl.fromJson;
 
-  @override
-
   /// Output only. The embedding generated from the input content.
+  @override
   @JsonKey(includeIfNull: false)
   ContentEmbedding? get embedding;
+
+  /// Create a copy of EmbedContentResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EmbedContentResponseImplCopyWith<_$EmbedContentResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -5063,8 +5353,12 @@ mixin _$CountTokensResponse {
   @JsonKey(includeIfNull: false)
   int? get totalTokens => throw _privateConstructorUsedError;
 
+  /// Serializes this CountTokensResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CountTokensResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CountTokensResponseCopyWith<CountTokensResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -5088,6 +5382,8 @@ class _$CountTokensResponseCopyWithImpl<$Res, $Val extends CountTokensResponse>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CountTokensResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -5121,6 +5417,8 @@ class __$$CountTokensResponseImplCopyWithImpl<$Res>
       $Res Function(_$CountTokensResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CountTokensResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -5164,11 +5462,13 @@ class _$CountTokensResponseImpl extends _CountTokensResponse {
                 other.totalTokens == totalTokens));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, totalTokens);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CountTokensResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CountTokensResponseImplCopyWith<_$CountTokensResponseImpl> get copyWith =>
@@ -5192,13 +5492,15 @@ abstract class _CountTokensResponse extends CountTokensResponse {
   factory _CountTokensResponse.fromJson(Map<String, dynamic> json) =
       _$CountTokensResponseImpl.fromJson;
 
-  @override
-
   /// The number of tokens that the `model` tokenizes the `prompt` into. Always non-negative.
+  @override
   @JsonKey(includeIfNull: false)
   int? get totalTokens;
+
+  /// Create a copy of CountTokensResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CountTokensResponseImplCopyWith<_$CountTokensResponseImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -5218,8 +5520,12 @@ mixin _$GenerateContentResponse {
   @JsonKey(includeIfNull: false)
   List<Candidate>? get candidates => throw _privateConstructorUsedError;
 
+  /// Serializes this GenerateContentResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of GenerateContentResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $GenerateContentResponseCopyWith<GenerateContentResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -5248,6 +5554,8 @@ class _$GenerateContentResponseCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of GenerateContentResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -5266,6 +5574,8 @@ class _$GenerateContentResponseCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of GenerateContentResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $PromptFeedbackCopyWith<$Res>? get promptFeedback {
@@ -5306,6 +5616,8 @@ class __$$GenerateContentResponseImplCopyWithImpl<$Res>
       $Res Function(_$GenerateContentResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of GenerateContentResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -5372,12 +5684,14 @@ class _$GenerateContentResponseImpl extends _GenerateContentResponse {
                 .equals(other._candidates, _candidates));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, promptFeedback,
       const DeepCollectionEquality().hash(_candidates));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of GenerateContentResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GenerateContentResponseImplCopyWith<_$GenerateContentResponseImpl>
@@ -5402,18 +5716,20 @@ abstract class _GenerateContentResponse extends GenerateContentResponse {
   factory _GenerateContentResponse.fromJson(Map<String, dynamic> json) =
       _$GenerateContentResponseImpl.fromJson;
 
-  @override
-
   /// Returns the prompt's feedback related to the content filters.
+  @override
   @JsonKey(includeIfNull: false)
   PromptFeedback? get promptFeedback;
-  @override
 
   /// Candidate responses from the model.
+  @override
   @JsonKey(includeIfNull: false)
   List<Candidate>? get candidates;
+
+  /// Create a copy of GenerateContentResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GenerateContentResponseImplCopyWith<_$GenerateContentResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -5469,8 +5785,12 @@ mixin _$Model {
   List<String>? get supportedGenerationMethods =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this Model to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Model
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ModelCopyWith<Model> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -5503,6 +5823,8 @@ class _$ModelCopyWithImpl<$Res, $Val extends Model>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Model
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -5596,6 +5918,8 @@ class __$$ModelImplCopyWithImpl<$Res>
       _$ModelImpl _value, $Res Function(_$ModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Model
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -5778,7 +6102,7 @@ class _$ModelImpl extends _Model {
                 _supportedGenerationMethods));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -5794,7 +6118,9 @@ class _$ModelImpl extends _Model {
       outputTokenLimit,
       const DeepCollectionEquality().hash(_supportedGenerationMethods));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Model
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ModelImplCopyWith<_$ModelImpl> get copyWith =>
@@ -5826,63 +6152,65 @@ abstract class _Model extends Model {
 
   factory _Model.fromJson(Map<String, dynamic> json) = _$ModelImpl.fromJson;
 
-  @override
-
   /// Required. The resource name of the `Model`. Format: `models/{model}` with a `{model}` naming convention of: * "{base_model_id}-{version}" Examples: * `models/chat-bison-001`
+  @override
   @JsonKey(includeIfNull: false)
   String? get name;
-  @override
 
   /// The human-readable name of the model. E.g. "Chat Bison". The name can be up to 128 characters long and can consist of any UTF-8 characters.
+  @override
   @JsonKey(includeIfNull: false)
   String? get displayName;
-  @override
 
   /// A short description of the model.
+  @override
   @JsonKey(includeIfNull: false)
   String? get description;
-  @override
 
   /// Required. The version number of the model. This represents the major version
+  @override
   @JsonKey(includeIfNull: false)
   String? get version;
-  @override
 
   /// Required. The name of the base model, pass this to the generation request. Examples: * `chat-bison`
+  @override
   @JsonKey(includeIfNull: false)
   String? get baseModelId;
-  @override
 
   /// Controls the randomness of the output. Values can range over `[0.0,1.0]`, inclusive. A value closer to `1.0` will produce responses that are more varied, while a value closer to `0.0` will typically result in less surprising responses from the model. This value specifies default to be used by the backend while making the call to the model.
+  @override
   @JsonKey(includeIfNull: false)
   double? get temperature;
-  @override
 
   /// For Top-k sampling. Top-k sampling considers the set of `top_k` most probable tokens. This value specifies default to be used by the backend while making the call to the model.
+  @override
   @JsonKey(includeIfNull: false)
   int? get topK;
-  @override
 
   /// For Nucleus sampling. Nucleus sampling considers the smallest set of tokens whose probability sum is at least `top_p`. This value specifies default to be used by the backend while making the call to the model.
+  @override
   @JsonKey(includeIfNull: false)
   double? get topP;
-  @override
 
   /// Maximum number of input tokens allowed for this model.
+  @override
   @JsonKey(includeIfNull: false)
   int? get inputTokenLimit;
-  @override
 
   /// Maximum number of output tokens available for this model.
+  @override
   @JsonKey(includeIfNull: false)
   int? get outputTokenLimit;
-  @override
 
   /// The model's supported generation methods. The method names are defined as Pascal case strings, such as `generateMessage` which correspond to API methods.
+  @override
   @JsonKey(includeIfNull: false)
   List<String>? get supportedGenerationMethods;
+
+  /// Create a copy of Model
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ModelImplCopyWith<_$ModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -5906,8 +6234,12 @@ mixin _$GenerateContentRequest {
   @JsonKey(includeIfNull: false)
   List<SafetySetting>? get safetySettings => throw _privateConstructorUsedError;
 
+  /// Serializes this GenerateContentRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of GenerateContentRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $GenerateContentRequestCopyWith<GenerateContentRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -5937,6 +6269,8 @@ class _$GenerateContentRequestCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of GenerateContentRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -5960,6 +6294,8 @@ class _$GenerateContentRequestCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of GenerateContentRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $GenerationConfigCopyWith<$Res>? get generationConfig {
@@ -6001,6 +6337,8 @@ class __$$GenerateContentRequestImplCopyWithImpl<$Res>
       $Res Function(_$GenerateContentRequestImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of GenerateContentRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -6089,7 +6427,7 @@ class _$GenerateContentRequestImpl extends _GenerateContentRequest {
                 .equals(other._safetySettings, _safetySettings));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -6097,7 +6435,9 @@ class _$GenerateContentRequestImpl extends _GenerateContentRequest {
       const DeepCollectionEquality().hash(_contents),
       const DeepCollectionEquality().hash(_safetySettings));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of GenerateContentRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GenerateContentRequestImplCopyWith<_$GenerateContentRequestImpl>
@@ -6124,23 +6464,25 @@ abstract class _GenerateContentRequest extends GenerateContentRequest {
   factory _GenerateContentRequest.fromJson(Map<String, dynamic> json) =
       _$GenerateContentRequestImpl.fromJson;
 
-  @override
-
   /// Optional. Configuration options for model generation and outputs.
+  @override
   @JsonKey(includeIfNull: false)
   GenerationConfig? get generationConfig;
-  @override
 
   /// Required. The content of the current conversation with the model. For single-turn queries, this is a single instance. For multi-turn queries, this is a repeated field that contains conversation history + latest request.
+  @override
   @JsonKey(includeIfNull: false)
   List<Content>? get contents;
-  @override
 
   /// Optional. A list of unique `SafetySetting` instances for blocking unsafe content. This will be enforced on the `GenerateContentRequest.contents` and `GenerateContentResponse.candidates`. There should not be more than one setting for each `SafetyCategory` type. The API will block any contents and responses that fail to meet the thresholds set by these settings. This list overrides the default settings for each `SafetyCategory` specified in the safety_settings. If there is no `SafetySetting` for a given `SafetyCategory` provided in the list, the API will use the default safety setting for that category. Harm categories HARM_CATEGORY_HATE_SPEECH, HARM_CATEGORY_SEXUALLY_EXPLICIT, HARM_CATEGORY_DANGEROUS_CONTENT, HARM_CATEGORY_HARASSMENT are supported.
+  @override
   @JsonKey(includeIfNull: false)
   List<SafetySetting>? get safetySettings;
+
+  /// Create a copy of GenerateContentRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GenerateContentRequestImplCopyWith<_$GenerateContentRequestImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

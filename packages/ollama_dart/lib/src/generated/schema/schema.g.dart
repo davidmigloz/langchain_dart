@@ -18,8 +18,9 @@ _$GenerateCompletionRequestImpl _$$GenerateCompletionRequestImplFromJson(
           (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
       system: json['system'] as String?,
       template: json['template'] as String?,
-      context:
-          (json['context'] as List<dynamic>?)?.map((e) => e as int).toList(),
+      context: (json['context'] as List<dynamic>?)
+          ?.map((e) => (e as num).toInt())
+          .toList(),
       options: json['options'] == null
           ? null
           : RequestOptions.fromJson(json['options'] as Map<String, dynamic>),
@@ -27,7 +28,7 @@ _$GenerateCompletionRequestImpl _$$GenerateCompletionRequestImplFromJson(
           unknownValue: JsonKey.nullForUndefinedEnumValue),
       raw: json['raw'] as bool?,
       stream: json['stream'] as bool? ?? false,
-      keepAlive: json['keep_alive'] as int?,
+      keepAlive: (json['keep_alive'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$GenerateCompletionRequestImplToJson(
@@ -62,36 +63,36 @@ const _$ResponseFormatEnumMap = {
 
 _$RequestOptionsImpl _$$RequestOptionsImplFromJson(Map<String, dynamic> json) =>
     _$RequestOptionsImpl(
-      numKeep: json['num_keep'] as int?,
-      seed: json['seed'] as int?,
-      numPredict: json['num_predict'] as int?,
-      topK: json['top_k'] as int?,
+      numKeep: (json['num_keep'] as num?)?.toInt(),
+      seed: (json['seed'] as num?)?.toInt(),
+      numPredict: (json['num_predict'] as num?)?.toInt(),
+      topK: (json['top_k'] as num?)?.toInt(),
       topP: (json['top_p'] as num?)?.toDouble(),
       minP: (json['min_p'] as num?)?.toDouble(),
       tfsZ: (json['tfs_z'] as num?)?.toDouble(),
       typicalP: (json['typical_p'] as num?)?.toDouble(),
-      repeatLastN: json['repeat_last_n'] as int?,
+      repeatLastN: (json['repeat_last_n'] as num?)?.toInt(),
       temperature: (json['temperature'] as num?)?.toDouble(),
       repeatPenalty: (json['repeat_penalty'] as num?)?.toDouble(),
       presencePenalty: (json['presence_penalty'] as num?)?.toDouble(),
       frequencyPenalty: (json['frequency_penalty'] as num?)?.toDouble(),
-      mirostat: json['mirostat'] as int?,
+      mirostat: (json['mirostat'] as num?)?.toInt(),
       mirostatTau: (json['mirostat_tau'] as num?)?.toDouble(),
       mirostatEta: (json['mirostat_eta'] as num?)?.toDouble(),
       penalizeNewline: json['penalize_newline'] as bool?,
       stop: (json['stop'] as List<dynamic>?)?.map((e) => e as String).toList(),
       numa: json['numa'] as bool?,
-      numCtx: json['num_ctx'] as int?,
-      numBatch: json['num_batch'] as int?,
-      numGpu: json['num_gpu'] as int?,
-      mainGpu: json['main_gpu'] as int?,
+      numCtx: (json['num_ctx'] as num?)?.toInt(),
+      numBatch: (json['num_batch'] as num?)?.toInt(),
+      numGpu: (json['num_gpu'] as num?)?.toInt(),
+      mainGpu: (json['main_gpu'] as num?)?.toInt(),
       lowVram: json['low_vram'] as bool?,
       f16Kv: json['f16_kv'] as bool?,
       logitsAll: json['logits_all'] as bool?,
       vocabOnly: json['vocab_only'] as bool?,
       useMmap: json['use_mmap'] as bool?,
       useMlock: json['use_mlock'] as bool?,
-      numThread: json['num_thread'] as int?,
+      numThread: (json['num_thread'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$RequestOptionsImplToJson(
@@ -164,14 +165,15 @@ _$GenerateCompletionResponseImpl _$$GenerateCompletionResponseImplFromJson(
       createdAt: json['created_at'] as String?,
       response: json['response'] as String?,
       done: json['done'] as bool?,
-      context:
-          (json['context'] as List<dynamic>?)?.map((e) => e as int).toList(),
-      totalDuration: json['total_duration'] as int?,
-      loadDuration: json['load_duration'] as int?,
-      promptEvalCount: json['prompt_eval_count'] as int?,
-      promptEvalDuration: json['prompt_eval_duration'] as int?,
-      evalCount: json['eval_count'] as int?,
-      evalDuration: json['eval_duration'] as int?,
+      context: (json['context'] as List<dynamic>?)
+          ?.map((e) => (e as num).toInt())
+          .toList(),
+      totalDuration: (json['total_duration'] as num?)?.toInt(),
+      loadDuration: (json['load_duration'] as num?)?.toInt(),
+      promptEvalCount: (json['prompt_eval_count'] as num?)?.toInt(),
+      promptEvalDuration: (json['prompt_eval_duration'] as num?)?.toInt(),
+      evalCount: (json['eval_count'] as num?)?.toInt(),
+      evalDuration: (json['eval_duration'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$GenerateCompletionResponseImplToJson(
@@ -212,7 +214,7 @@ _$GenerateChatCompletionRequestImpl
               : RequestOptions.fromJson(
                   json['options'] as Map<String, dynamic>),
           stream: json['stream'] as bool? ?? false,
-          keepAlive: json['keep_alive'] as int?,
+          keepAlive: (json['keep_alive'] as num?)?.toInt(),
           tools: (json['tools'] as List<dynamic>?)
               ?.map((e) => Tool.fromJson(e as Map<String, dynamic>))
               .toList(),
@@ -249,12 +251,12 @@ _$GenerateChatCompletionResponseImpl
           doneReason: $enumDecodeNullable(
               _$DoneReasonEnumMap, json['done_reason'],
               unknownValue: JsonKey.nullForUndefinedEnumValue),
-          totalDuration: json['total_duration'] as int?,
-          loadDuration: json['load_duration'] as int?,
-          promptEvalCount: json['prompt_eval_count'] as int?,
-          promptEvalDuration: json['prompt_eval_duration'] as int?,
-          evalCount: json['eval_count'] as int?,
-          evalDuration: json['eval_duration'] as int?,
+          totalDuration: (json['total_duration'] as num?)?.toInt(),
+          loadDuration: (json['load_duration'] as num?)?.toInt(),
+          promptEvalCount: (json['prompt_eval_count'] as num?)?.toInt(),
+          promptEvalDuration: (json['prompt_eval_duration'] as num?)?.toInt(),
+          evalCount: (json['eval_count'] as num?)?.toInt(),
+          evalDuration: (json['eval_duration'] as num?)?.toInt(),
         );
 
 Map<String, dynamic> _$$GenerateChatCompletionResponseImplToJson(
@@ -407,7 +409,7 @@ _$GenerateEmbeddingRequestImpl _$$GenerateEmbeddingRequestImplFromJson(
       options: json['options'] == null
           ? null
           : RequestOptions.fromJson(json['options'] as Map<String, dynamic>),
-      keepAlive: json['keep_alive'] as int?,
+      keepAlive: (json['keep_alive'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$GenerateEmbeddingRequestImplToJson(
@@ -530,7 +532,7 @@ Map<String, dynamic> _$$ModelsResponseImplToJson(
 _$ModelImpl _$$ModelImplFromJson(Map<String, dynamic> json) => _$ModelImpl(
       model: json['model'] as String?,
       modifiedAt: json['modified_at'] as String?,
-      size: json['size'] as int?,
+      size: (json['size'] as num?)?.toInt(),
       digest: json['digest'] as String?,
       details: json['details'] == null
           ? null
@@ -588,9 +590,10 @@ _$ModelInformationImpl _$$ModelInformationImplFromJson(
         Map<String, dynamic> json) =>
     _$ModelInformationImpl(
       generalArchitecture: json['general.architecture'] as String?,
-      generalFileType: json['general.file_type'] as int?,
-      generalParameterCount: json['general.parameter_count'] as int?,
-      generalQuantizationVersion: json['general.quantization_version'] as int?,
+      generalFileType: (json['general.file_type'] as num?)?.toInt(),
+      generalParameterCount: (json['general.parameter_count'] as num?)?.toInt(),
+      generalQuantizationVersion:
+          (json['general.quantization_version'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$ModelInformationImplToJson(
@@ -636,13 +639,13 @@ Map<String, dynamic> _$$ProcessResponseImplToJson(
 _$ProcessModelImpl _$$ProcessModelImplFromJson(Map<String, dynamic> json) =>
     _$ProcessModelImpl(
       model: json['model'] as String?,
-      size: json['size'] as int?,
+      size: (json['size'] as num?)?.toInt(),
       digest: json['digest'] as String?,
       details: json['details'] == null
           ? null
           : ModelDetails.fromJson(json['details'] as Map<String, dynamic>),
       expiresAt: json['expires_at'] as String?,
-      sizeVram: json['size_vram'] as int?,
+      sizeVram: (json['size_vram'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$ProcessModelImplToJson(_$ProcessModelImpl instance) {
@@ -775,8 +778,8 @@ _$PullModelResponseImpl _$$PullModelResponseImplFromJson(
       status: $enumDecodeNullable(_$PullModelStatusEnumMap, json['status'],
           unknownValue: JsonKey.nullForUndefinedEnumValue),
       digest: json['digest'] as String?,
-      total: json['total'] as int?,
-      completed: json['completed'] as int?,
+      total: (json['total'] as num?)?.toInt(),
+      completed: (json['completed'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$PullModelResponseImplToJson(
@@ -839,8 +842,8 @@ _$PushModelResponseImpl _$$PushModelResponseImplFromJson(
     _$PushModelResponseImpl(
       status: json['status'] as String?,
       digest: json['digest'] as String?,
-      total: json['total'] as int?,
-      completed: json['completed'] as int?,
+      total: (json['total'] as num?)?.toInt(),
+      completed: (json['completed'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$PushModelResponseImplToJson(

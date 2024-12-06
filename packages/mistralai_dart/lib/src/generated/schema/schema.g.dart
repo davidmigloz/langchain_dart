@@ -17,10 +17,10 @@ _$ChatCompletionRequestImpl _$$ChatCompletionRequestImplFromJson(
           .toList(),
       temperature: (json['temperature'] as num?)?.toDouble() ?? 0.7,
       topP: (json['top_p'] as num?)?.toDouble() ?? 1.0,
-      maxTokens: json['max_tokens'] as int?,
+      maxTokens: (json['max_tokens'] as num?)?.toInt(),
       stream: json['stream'] as bool? ?? false,
       safePrompt: json['safe_prompt'] as bool? ?? false,
-      randomSeed: json['random_seed'] as int?,
+      randomSeed: (json['random_seed'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$ChatCompletionRequestImplToJson(
@@ -84,7 +84,7 @@ _$ChatCompletionResponseImpl _$$ChatCompletionResponseImplFromJson(
     _$ChatCompletionResponseImpl(
       id: json['id'] as String,
       object: json['object'] as String,
-      created: json['created'] as int,
+      created: (json['created'] as num).toInt(),
       model: json['model'] as String,
       choices: (json['choices'] as List<dynamic>)
           .map((e) => ChatCompletionResponseChoicesInner.fromJson(
@@ -109,7 +109,7 @@ _$ChatCompletionResponseChoicesInnerImpl
     _$$ChatCompletionResponseChoicesInnerImplFromJson(
             Map<String, dynamic> json) =>
         _$ChatCompletionResponseChoicesInnerImpl(
-          index: json['index'] as int,
+          index: (json['index'] as num).toInt(),
           message: json['message'] == null
               ? null
               : ChatCompletionMessage.fromJson(
@@ -165,9 +165,9 @@ const _$ChatCompletionMessageRoleEnumMap = {
 _$ChatCompletionUsageImpl _$$ChatCompletionUsageImplFromJson(
         Map<String, dynamic> json) =>
     _$ChatCompletionUsageImpl(
-      promptTokens: json['prompt_tokens'] as int,
-      completionTokens: json['completion_tokens'] as int,
-      totalTokens: json['total_tokens'] as int,
+      promptTokens: (json['prompt_tokens'] as num).toInt(),
+      completionTokens: (json['completion_tokens'] as num).toInt(),
+      totalTokens: (json['total_tokens'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$ChatCompletionUsageImplToJson(
@@ -183,7 +183,7 @@ _$ChatCompletionStreamResponseImpl _$$ChatCompletionStreamResponseImplFromJson(
     _$ChatCompletionStreamResponseImpl(
       id: json['id'] as String,
       object: json['object'] as String?,
-      created: json['created'] as int?,
+      created: (json['created'] as num?)?.toInt(),
       model: json['model'] as String,
       choices: (json['choices'] as List<dynamic>)
           .map((e) => ChatCompletionStreamResponseChoicesInner.fromJson(
@@ -214,7 +214,7 @@ _$ChatCompletionStreamResponseChoicesInnerImpl
     _$$ChatCompletionStreamResponseChoicesInnerImplFromJson(
             Map<String, dynamic> json) =>
         _$ChatCompletionStreamResponseChoicesInnerImpl(
-          index: json['index'] as int,
+          index: (json['index'] as num).toInt(),
           delta: ChatCompletionStreamDelta.fromJson(
               json['delta'] as Map<String, dynamic>),
           finishReason: $enumDecodeNullable(
@@ -343,8 +343,8 @@ Map<String, dynamic> _$$EmbeddingResponseImplToJson(
 
 _$EmbeddingUsageImpl _$$EmbeddingUsageImplFromJson(Map<String, dynamic> json) =>
     _$EmbeddingUsageImpl(
-      promptTokens: json['prompt_tokens'] as int,
-      totalTokens: json['total_tokens'] as int,
+      promptTokens: (json['prompt_tokens'] as num).toInt(),
+      totalTokens: (json['total_tokens'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$EmbeddingUsageImplToJson(
@@ -360,7 +360,7 @@ _$EmbeddingImpl _$$EmbeddingImplFromJson(Map<String, dynamic> json) =>
       embedding: (json['embedding'] as List<dynamic>)
           .map((e) => (e as num).toDouble())
           .toList(),
-      index: json['index'] as int,
+      index: (json['index'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$EmbeddingImplToJson(_$EmbeddingImpl instance) =>
@@ -387,7 +387,7 @@ Map<String, dynamic> _$$ModelListImplToJson(_$ModelListImpl instance) =>
 _$ModelImpl _$$ModelImplFromJson(Map<String, dynamic> json) => _$ModelImpl(
       id: json['id'] as String,
       object: json['object'] as String,
-      created: json['created'] as int,
+      created: (json['created'] as num).toInt(),
       ownedBy: json['owned_by'] as String,
     );
 

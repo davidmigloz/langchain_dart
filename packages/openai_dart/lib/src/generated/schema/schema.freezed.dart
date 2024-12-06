@@ -58993,9 +58993,9 @@ ChatCompletionMessageContentPart _$ChatCompletionMessageContentPartFromJson(
   switch (json['type']) {
     case 'text':
       return ChatCompletionMessageContentPartText.fromJson(json);
-    case 'image':
+    case 'image_url':
       return ChatCompletionMessageContentPartImage.fromJson(json);
-    case 'audio':
+    case 'input_audio':
       return ChatCompletionMessageContentPartAudio.fromJson(json);
     case 'refusal':
       return ChatCompletionMessageContentPartRefusal.fromJson(json);

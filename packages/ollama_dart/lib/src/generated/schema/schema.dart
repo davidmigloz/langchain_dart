@@ -6,6 +6,7 @@
 library ollama_schema;
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'dart:typed_data';
 
 part 'schema.g.dart';
 part 'schema.freezed.dart';
@@ -45,3 +46,17 @@ part 'pull_model_response.dart';
 part 'pull_model_status.dart';
 part 'push_model_request.dart';
 part 'push_model_response.dart';
+
+class Uint8ListConverter implements JsonConverter<Uint8List, List<int>> {
+  const Uint8ListConverter();
+
+  @override
+  Uint8List fromJson(List<int> json) {
+    return Uint8List.fromList(json);
+  }
+
+  @override
+  List<int> toJson(Uint8List object) {
+    return object.toList();
+  }
+}

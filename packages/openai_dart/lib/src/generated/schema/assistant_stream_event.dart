@@ -36,6 +36,7 @@ sealed class AssistantStreamEvent with _$AssistantStreamEvent {
   // ------------------------------------------
 
   /// Occurs when a new [thread](https://platform.openai.com/docs/api-reference/threads/object) is created.
+
   const factory AssistantStreamEvent.threadStreamEvent({
     /// The type of the event.
     required EventType event,
@@ -49,6 +50,7 @@ sealed class AssistantStreamEvent with _$AssistantStreamEvent {
   // ------------------------------------------
 
   /// Occurs when a new [run](https://platform.openai.com/docs/api-reference/runs/object) changes state.
+
   const factory AssistantStreamEvent.runStreamEvent({
     /// The type of the event.
     required EventType event,
@@ -62,6 +64,7 @@ sealed class AssistantStreamEvent with _$AssistantStreamEvent {
   // ------------------------------------------
 
   /// Occurs when a new [run step](https://platform.openai.com/docs/api-reference/run-steps/step-object) changes state.
+
   const factory AssistantStreamEvent.runStepStreamEvent({
     /// The type of the event.
     required EventType event,
@@ -75,6 +78,7 @@ sealed class AssistantStreamEvent with _$AssistantStreamEvent {
   // ------------------------------------------
 
   /// Occurs when a new [run step](https://platform.openai.com/docs/api-reference/run-steps/step-object) changes state.
+
   const factory AssistantStreamEvent.runStepStreamDeltaEvent({
     /// The type of the event.
     required EventType event,
@@ -88,6 +92,7 @@ sealed class AssistantStreamEvent with _$AssistantStreamEvent {
   // ------------------------------------------
 
   /// Occurs when a [message](https://platform.openai.com/docs/api-reference/messages/object) changes state.
+
   const factory AssistantStreamEvent.messageStreamEvent({
     /// The type of the event.
     required EventType event,
@@ -101,6 +106,7 @@ sealed class AssistantStreamEvent with _$AssistantStreamEvent {
   // ------------------------------------------
 
   /// Occurs when a [message](https://platform.openai.com/docs/api-reference/messages/object) changes state.
+
   const factory AssistantStreamEvent.messageStreamDeltaEvent({
     /// The type of the event.
     required EventType event,
@@ -114,6 +120,7 @@ sealed class AssistantStreamEvent with _$AssistantStreamEvent {
   // ------------------------------------------
 
   /// Occurs when an [error](https://platform.openai.com/docs/guides/error-codes/api-errors) occurs. This can happen due to an internal server error or a timeout.
+
   const factory AssistantStreamEvent.errorEvent({
     /// The type of the event.
     required EventType event,
@@ -127,6 +134,7 @@ sealed class AssistantStreamEvent with _$AssistantStreamEvent {
   // ------------------------------------------
 
   /// Occurs when a stream ends.
+
   const factory AssistantStreamEvent.doneEvent({
     /// The type of the event.
     required EventType event,

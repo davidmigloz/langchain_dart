@@ -18,6 +18,7 @@ sealed class Tool with _$Tool {
   // ------------------------------------------
 
   /// A custom tool the model may use.
+
   const factory Tool.custom({
     /// The type of tool.
     @JsonKey(includeIfNull: false) String? type,
@@ -45,6 +46,8 @@ sealed class Tool with _$Tool {
   // ------------------------------------------
 
   /// A tool that uses a mouse and keyboard to interact with a computer, and take screenshots.
+
+  @FreezedUnionValue('computer_20241022')
   const factory Tool.computerUse({
     /// The type of tool.
     @Default('computer_20241022') String type,
@@ -71,6 +74,8 @@ sealed class Tool with _$Tool {
   // ------------------------------------------
 
   /// A tool for viewing, creating and editing files.
+
+  @FreezedUnionValue('text_editor_20241022')
   const factory Tool.textEditor({
     /// The type of tool.
     @Default('text_editor_20241022') String type,
@@ -88,6 +93,8 @@ sealed class Tool with _$Tool {
   // ------------------------------------------
 
   /// A tool for running commands in a bash shell.
+
+  @FreezedUnionValue('bash_20241022')
   const factory Tool.bash({
     /// The type of tool.
     @Default('bash_20241022') String type,

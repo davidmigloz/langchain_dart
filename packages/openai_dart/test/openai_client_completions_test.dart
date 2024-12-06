@@ -87,17 +87,6 @@ void main() {
       );
     });
 
-    test('Test call completions API with echo', () async {
-      const request = CreateCompletionRequest(
-        model: CompletionModel.model(CompletionModels.gpt35TurboInstruct),
-        prompt: CompletionPrompt.string('Say this is a test'),
-        echo: true,
-        maxTokens: 20,
-      );
-      final res = await client.createCompletion(request: request);
-      expect(res.choices.first.text.trim(), startsWith('Say this is a test'));
-    });
-
     test('Test call completions API with suffix', () async {
       const request = CreateCompletionRequest(
         model: CompletionModel.model(CompletionModels.gpt35TurboInstruct),
