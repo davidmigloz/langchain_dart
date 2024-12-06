@@ -347,6 +347,59 @@ final res = await client.createChatCompletion(
 // {"names":["John","Mary","Peter"]}
 ```
 
+**Predicted Outputs:** ([docs](https://platform.openai.com/docs/guides/predicted-outputs))
+
+> Predicted Outputs enable you to speed up API responses from Chat Completions when many of the output tokens are known ahead of time. This is most common when you are regenerating a text or code file with minor modifications.
+
+```dart
+const codeContent = '''
+class User {
+  firstName: string = "";
+  lastName: string = "";
+  username: string = "";
+}
+
+export default User;
+''';
+
+const request = CreateChatCompletionRequest(
+  model: ChatCompletionModel.model(
+    ChatCompletionModels.gpt4o,
+  ),
+  messages: [
+    ChatCompletionMessage.user(
+      content: ChatCompletionUserMessageContent.string(
+        'Replace the username property with an email property. '
+        'Respond only with code, and with no markdown formatting.',
+      ),
+    ),
+    ChatCompletionMessage.user(
+      content: ChatCompletionUserMessageContent.string(codeContent),
+    ),
+  ],
+  prediction: PredictionContent(
+    content: PredictionContentContent.text(codeContent),
+  ),
+);
+final res1 = await client.createChatCompletion(request: request);
+final choice1 = res1.choices.first;
+print(choice1.message.content);
+// class User {
+//   firstName: string = "";
+//   lastName: string = "";
+//   email: string = "";
+// }
+// 
+// export default User;
+
+print(res1.usage?.completionTokensDetails?.acceptedPredictionTokens)
+// 18
+print(res1.usage?.completionTokensDetails?.rejectedPredictionTokens)
+// 10
+```
+
+You can either pass a single prediction content using `PredictionContentContent.text('...')` or multiple predictions using `PredictionContentContent.textParts([...])`.
+
 **JSON mode:** ([docs](https://platform.openai.com/docs/guides/structured-outputs/json-mode))
 
 > JSON mode is a more basic version of the Structured Outputs feature. While JSON mode ensures that model output is valid JSON, Structured Outputs reliably matches the model's output to the schema you specify. It us recommended to use Structured Outputs if it is supported for your use case.
