@@ -325,6 +325,10 @@ _$CreateChatCompletionRequestImpl _$$CreateChatCompletionRequestImplFromJson(
       modalities: (json['modalities'] as List<dynamic>?)
           ?.map((e) => $enumDecode(_$ChatCompletionModalityEnumMap, e))
           .toList(),
+      prediction: json['prediction'] == null
+          ? null
+          : PredictionContent.fromJson(
+              json['prediction'] as Map<String, dynamic>),
       audio: json['audio'] == null
           ? null
           : ChatCompletionAudioOptions.fromJson(
@@ -387,6 +391,7 @@ Map<String, dynamic> _$$CreateChatCompletionRequestImplToJson(
       instance.modalities
           ?.map((e) => _$ChatCompletionModalityEnumMap[e]!)
           .toList());
+  writeNotNull('prediction', instance.prediction?.toJson());
   writeNotNull('audio', instance.audio?.toJson());
   writeNotNull('presence_penalty', instance.presencePenalty);
   writeNotNull('response_format', instance.responseFormat?.toJson());
@@ -737,6 +742,56 @@ Map<String, dynamic> _$$ChatCompletionMessageToolCallImplToJson(
 const _$ChatCompletionMessageToolCallTypeEnumMap = {
   ChatCompletionMessageToolCallType.function: 'function',
 };
+
+_$PredictionContentImpl _$$PredictionContentImplFromJson(
+        Map<String, dynamic> json) =>
+    _$PredictionContentImpl(
+      type: json['type'] as String? ?? 'content',
+      content:
+          const _PredictionContentContentConverter().fromJson(json['content']),
+    );
+
+Map<String, dynamic> _$$PredictionContentImplToJson(
+        _$PredictionContentImpl instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      'content':
+          const _PredictionContentContentConverter().toJson(instance.content),
+    };
+
+_$PredictionContentContentListChatCompletionMessageContentPartTextImpl
+    _$$PredictionContentContentListChatCompletionMessageContentPartTextImplFromJson(
+            Map<String, dynamic> json) =>
+        _$PredictionContentContentListChatCompletionMessageContentPartTextImpl(
+          (json['value'] as List<dynamic>)
+              .map((e) => ChatCompletionMessageContentPartText.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+          $type: json['runtimeType'] as String?,
+        );
+
+Map<String, dynamic>
+    _$$PredictionContentContentListChatCompletionMessageContentPartTextImplToJson(
+            _$PredictionContentContentListChatCompletionMessageContentPartTextImpl
+                instance) =>
+        <String, dynamic>{
+          'value': instance.value.map((e) => e.toJson()).toList(),
+          'runtimeType': instance.$type,
+        };
+
+_$PredictionContentContentStringImpl
+    _$$PredictionContentContentStringImplFromJson(Map<String, dynamic> json) =>
+        _$PredictionContentContentStringImpl(
+          json['value'] as String,
+          $type: json['runtimeType'] as String?,
+        );
+
+Map<String, dynamic> _$$PredictionContentContentStringImplToJson(
+        _$PredictionContentContentStringImpl instance) =>
+    <String, dynamic>{
+      'value': instance.value,
+      'runtimeType': instance.$type,
+    };
 
 _$ChatCompletionAudioOptionsImpl _$$ChatCompletionAudioOptionsImplFromJson(
         Map<String, dynamic> json) =>
@@ -1195,7 +1250,12 @@ Map<String, dynamic> _$$CompletionUsageImplToJson(
 _$CompletionTokensDetailsImpl _$$CompletionTokensDetailsImplFromJson(
         Map<String, dynamic> json) =>
     _$CompletionTokensDetailsImpl(
+      acceptedPredictionTokens:
+          (json['accepted_prediction_tokens'] as num?)?.toInt(),
+      audioTokens: (json['audio_tokens'] as num?)?.toInt(),
       reasoningTokens: (json['reasoning_tokens'] as num?)?.toInt(),
+      rejectedPredictionTokens:
+          (json['rejected_prediction_tokens'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$CompletionTokensDetailsImplToJson(
@@ -1208,7 +1268,10 @@ Map<String, dynamic> _$$CompletionTokensDetailsImplToJson(
     }
   }
 
+  writeNotNull('accepted_prediction_tokens', instance.acceptedPredictionTokens);
+  writeNotNull('audio_tokens', instance.audioTokens);
   writeNotNull('reasoning_tokens', instance.reasoningTokens);
+  writeNotNull('rejected_prediction_tokens', instance.rejectedPredictionTokens);
   return val;
 }
 

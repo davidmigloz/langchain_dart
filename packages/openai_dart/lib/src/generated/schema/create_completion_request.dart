@@ -38,7 +38,7 @@ class CreateCompletionRequest with _$CreateCompletionRequest {
     /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the
     /// text so far, decreasing the model's likelihood to repeat the same line verbatim.
     ///
-    /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
+    /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation)
     @JsonKey(name: 'frequency_penalty', includeIfNull: false)
     @Default(0.0)
     double? frequencyPenalty,
@@ -70,7 +70,7 @@ class CreateCompletionRequest with _$CreateCompletionRequest {
 
     /// Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
     ///
-    /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
+    /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation)
     @JsonKey(name: 'presence_penalty', includeIfNull: false)
     @Default(0.0)
     double? presencePenalty,
@@ -107,7 +107,7 @@ class CreateCompletionRequest with _$CreateCompletionRequest {
     /// We generally recommend altering this or `temperature` but not both.
     @JsonKey(name: 'top_p', includeIfNull: false) @Default(1.0) double? topP,
 
-    /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).
+    /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#end-user-ids).
     @JsonKey(includeIfNull: false) String? user,
   }) = _CreateCompletionRequest;
 

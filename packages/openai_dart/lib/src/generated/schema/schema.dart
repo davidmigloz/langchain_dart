@@ -30,6 +30,7 @@ part 'chat_completion_named_tool_choice.dart';
 part 'chat_completion_message_tool_calls.dart';
 part 'chat_completion_message_tool_call.dart';
 part 'chat_completion_modality.dart';
+part 'prediction_content.dart';
 part 'chat_completion_audio_options.dart';
 part 'chat_completion_audio_voice.dart';
 part 'chat_completion_audio_format.dart';
