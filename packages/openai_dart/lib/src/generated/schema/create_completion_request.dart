@@ -15,7 +15,9 @@ class CreateCompletionRequest with _$CreateCompletionRequest {
 
   /// Factory constructor for CreateCompletionRequest
   const factory CreateCompletionRequest({
-    /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
+    /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list)
+    /// API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models) for
+    /// descriptions of them.
     @_CompletionModelConverter() required CompletionModel model,
 
     /// The prompt(s) to generate completions for, encoded as a string, array of strings, array of tokens, or array of token arrays.
@@ -253,7 +255,9 @@ enum CompletionModels {
 // CLASS: CompletionModel
 // ==========================================
 
-/// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
+/// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list)
+/// API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models) for
+/// descriptions of them.
 @freezed
 sealed class CompletionModel with _$CompletionModel {
   const CompletionModel._();

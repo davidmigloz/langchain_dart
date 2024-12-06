@@ -106,7 +106,7 @@ class RunObject with _$RunObject {
     @JsonKey(name: 'parallel_tool_calls') required bool? parallelToolCalls,
 
     /// Specifies the format that the model must output. Compatible with
-    /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+    /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
     /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
     /// since `gpt-3.5-turbo-1106`.
     ///
@@ -461,7 +461,7 @@ enum RunObjectResponseFormatMode {
 // ==========================================
 
 /// Specifies the format that the model must output. Compatible with
-/// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+/// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
 /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
 /// since `gpt-3.5-turbo-1106`.
 ///

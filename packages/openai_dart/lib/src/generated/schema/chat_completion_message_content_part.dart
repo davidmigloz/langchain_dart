@@ -115,7 +115,8 @@ class ChatCompletionMessageImageUrl with _$ChatCompletionMessageImageUrl {
     /// Either a URL of the image or the base64 encoded image data.
     required String url,
 
-    /// Specifies the detail level of the image. Learn more in the [Vision guide](https://platform.openai.com/docs/guides/vision/low-or-high-fidelity-image-understanding).
+    /// Specifies the detail level of the image. Learn more in the
+    /// [Vision guide](https://platform.openai.com/docs/guides/vision#low-or-high-fidelity-image-understanding).
     @Default(ChatCompletionMessageImageDetail.auto)
     ChatCompletionMessageImageDetail detail,
   }) = _ChatCompletionMessageImageUrl;
@@ -145,7 +146,8 @@ class ChatCompletionMessageImageUrl with _$ChatCompletionMessageImageUrl {
 // ENUM: ChatCompletionMessageImageDetail
 // ==========================================
 
-/// Specifies the detail level of the image. Learn more in the [Vision guide](https://platform.openai.com/docs/guides/vision/low-or-high-fidelity-image-understanding).
+/// Specifies the detail level of the image. Learn more in the
+/// [Vision guide](https://platform.openai.com/docs/guides/vision#low-or-high-fidelity-image-understanding).
 enum ChatCompletionMessageImageDetail {
   @JsonValue('auto')
   auto,

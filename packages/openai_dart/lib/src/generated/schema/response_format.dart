@@ -9,9 +9,9 @@ part of open_a_i_schema;
 // ==========================================
 
 /// An object specifying the format that the model must output. Compatible with
-/// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
-/// [GPT-4o mini](https://platform.openai.com/docs/models/gpt-4o-mini),
-/// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer
+/// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
+/// [GPT-4o mini](https://platform.openai.com/docs/models#gpt-4o-mini),
+/// [GPT-4 Turbo](https://platform.openai.com/docs/models#gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer
 /// than `gpt-3.5-turbo-1106`.
 ///
 /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures the model
