@@ -94,8 +94,10 @@ class ObjectBoxVectorStore extends BaseObjectBoxVectorStore<ObjectBoxDocument> {
           getEmbeddingProperty: () => obxg.ObjectBoxDocument_.embedding,
         );
 
-  /// The ObjectBox store.
   static Store? _store;
+
+  /// The ObjectBox store.
+  Store? get store => _store;
 
   /// Opens the ObjectBox store.
   static Store _openStore({
