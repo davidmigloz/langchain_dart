@@ -119,7 +119,7 @@ sealed class AssistantStreamEvent with _$AssistantStreamEvent {
   // UNION: ErrorEvent
   // ------------------------------------------
 
-  /// Occurs when an [error](https://platform.openai.com/docs/guides/error-codes/api-errors) occurs. This can happen due to an internal server error or a timeout.
+  /// Occurs when an [error](https://platform.openai.com/docs/guides/error-codes#api-errors) occurs. This can happen due to an internal server error or a timeout.
 
   const factory AssistantStreamEvent.errorEvent({
     /// The type of the event.

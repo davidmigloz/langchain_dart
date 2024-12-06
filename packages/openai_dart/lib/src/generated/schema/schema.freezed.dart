@@ -48,7 +48,7 @@ mixin _$CreateCompletionRequest {
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the
   /// text so far, decreasing the model's likelihood to repeat the same line verbatim.
   ///
-  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
+  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation)
   @JsonKey(name: 'frequency_penalty', includeIfNull: false)
   double? get frequencyPenalty => throw _privateConstructorUsedError;
 
@@ -80,7 +80,7 @@ mixin _$CreateCompletionRequest {
 
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
   ///
-  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
+  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation)
   @JsonKey(name: 'presence_penalty', includeIfNull: false)
   double? get presencePenalty => throw _privateConstructorUsedError;
 
@@ -122,7 +122,7 @@ mixin _$CreateCompletionRequest {
   @JsonKey(name: 'top_p', includeIfNull: false)
   double? get topP => throw _privateConstructorUsedError;
 
-  /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).
+  /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#end-user-ids).
   @JsonKey(includeIfNull: false)
   String? get user => throw _privateConstructorUsedError;
 
@@ -557,7 +557,7 @@ class _$CreateCompletionRequestImpl extends _CreateCompletionRequest {
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the
   /// text so far, decreasing the model's likelihood to repeat the same line verbatim.
   ///
-  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
+  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation)
   @override
   @JsonKey(name: 'frequency_penalty', includeIfNull: false)
   final double? frequencyPenalty;
@@ -607,7 +607,7 @@ class _$CreateCompletionRequestImpl extends _CreateCompletionRequest {
 
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
   ///
-  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
+  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation)
   @override
   @JsonKey(name: 'presence_penalty', includeIfNull: false)
   final double? presencePenalty;
@@ -656,7 +656,7 @@ class _$CreateCompletionRequestImpl extends _CreateCompletionRequest {
   @JsonKey(name: 'top_p', includeIfNull: false)
   final double? topP;
 
-  /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).
+  /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#end-user-ids).
   @override
   @JsonKey(includeIfNull: false)
   final String? user;
@@ -801,7 +801,7 @@ abstract class _CreateCompletionRequest extends CreateCompletionRequest {
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the
   /// text so far, decreasing the model's likelihood to repeat the same line verbatim.
   ///
-  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
+  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation)
   @override
   @JsonKey(name: 'frequency_penalty', includeIfNull: false)
   double? get frequencyPenalty;
@@ -838,7 +838,7 @@ abstract class _CreateCompletionRequest extends CreateCompletionRequest {
 
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
   ///
-  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
+  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation)
   @override
   @JsonKey(name: 'presence_penalty', includeIfNull: false)
   double? get presencePenalty;
@@ -887,7 +887,7 @@ abstract class _CreateCompletionRequest extends CreateCompletionRequest {
   @JsonKey(name: 'top_p', includeIfNull: false)
   double? get topP;
 
-  /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).
+  /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#end-user-ids).
   @override
   @JsonKey(includeIfNull: false)
   String? get user;
@@ -3539,7 +3539,7 @@ CreateChatCompletionRequest _$CreateChatCompletionRequestFromJson(
 
 /// @nodoc
 mixin _$CreateChatCompletionRequest {
-  /// ID of the model to use. See the [model endpoint compatibility](https://platform.openai.com/docs/models/model-endpoint-compatibility)
+  /// ID of the model to use. See the [model endpoint compatibility](https://platform.openai.com/docs/models#model-endpoint-compatibility)
   /// table for details on which models work with the Chat API.
   @_ChatCompletionModelConverter()
   ChatCompletionModel get model => throw _privateConstructorUsedError;
@@ -3566,7 +3566,7 @@ mixin _$CreateChatCompletionRequest {
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the
   /// text so far, decreasing the model's likelihood to repeat the same line verbatim.
   ///
-  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
+  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation)
   @JsonKey(name: 'frequency_penalty', includeIfNull: false)
   double? get frequencyPenalty => throw _privateConstructorUsedError;
 
@@ -3614,6 +3614,13 @@ mixin _$CreateChatCompletionRequest {
   List<ChatCompletionModality>? get modalities =>
       throw _privateConstructorUsedError;
 
+  /// Configuration for a [Predicted Output](https://platform.openai.com/docs/guides/predicted-outputs),
+  /// which can greatly improve response times when large parts of the model
+  /// response are known ahead of time. This is most common when you are
+  /// regenerating a file with only minor changes to most of the content.
+  @JsonKey(includeIfNull: false)
+  PredictionContent? get prediction => throw _privateConstructorUsedError;
+
   /// Parameters for audio output. Required when audio output is requested with `modalities: ["audio"]`.
   /// [Learn more](https://platform.openai.com/docs/guides/audio).
   @JsonKey(includeIfNull: false)
@@ -3621,7 +3628,7 @@ mixin _$CreateChatCompletionRequest {
 
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
   ///
-  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
+  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation)
   @JsonKey(name: 'presence_penalty', includeIfNull: false)
   double? get presencePenalty => throw _privateConstructorUsedError;
 
@@ -3718,12 +3725,12 @@ mixin _$CreateChatCompletionRequest {
   ChatCompletionToolChoiceOption? get toolChoice =>
       throw _privateConstructorUsedError;
 
-  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling#configuring-parallel-function-calling)
   /// during tool use.
   @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
   bool? get parallelToolCalls => throw _privateConstructorUsedError;
 
-  /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).
+  /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#end-user-ids).
   @JsonKey(includeIfNull: false)
   String? get user => throw _privateConstructorUsedError;
 
@@ -3781,6 +3788,7 @@ abstract class $CreateChatCompletionRequestCopyWith<$Res> {
       int? maxCompletionTokens,
       @JsonKey(includeIfNull: false) int? n,
       @JsonKey(includeIfNull: false) List<ChatCompletionModality>? modalities,
+      @JsonKey(includeIfNull: false) PredictionContent? prediction,
       @JsonKey(includeIfNull: false) ChatCompletionAudioOptions? audio,
       @JsonKey(name: 'presence_penalty', includeIfNull: false)
       double? presencePenalty,
@@ -3813,6 +3821,7 @@ abstract class $CreateChatCompletionRequestCopyWith<$Res> {
       @JsonKey(includeIfNull: false) List<FunctionObject>? functions});
 
   $ChatCompletionModelCopyWith<$Res> get model;
+  $PredictionContentCopyWith<$Res>? get prediction;
   $ChatCompletionAudioOptionsCopyWith<$Res>? get audio;
   $ResponseFormatCopyWith<$Res>? get responseFormat;
   $ChatCompletionStopCopyWith<$Res>? get stop;
@@ -3849,6 +3858,7 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res,
     Object? maxCompletionTokens = freezed,
     Object? n = freezed,
     Object? modalities = freezed,
+    Object? prediction = freezed,
     Object? audio = freezed,
     Object? presencePenalty = freezed,
     Object? responseFormat = freezed,
@@ -3915,6 +3925,10 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res,
           ? _value.modalities
           : modalities // ignore: cast_nullable_to_non_nullable
               as List<ChatCompletionModality>?,
+      prediction: freezed == prediction
+          ? _value.prediction
+          : prediction // ignore: cast_nullable_to_non_nullable
+              as PredictionContent?,
       audio: freezed == audio
           ? _value.audio
           : audio // ignore: cast_nullable_to_non_nullable
@@ -3989,6 +4003,20 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res,
   $ChatCompletionModelCopyWith<$Res> get model {
     return $ChatCompletionModelCopyWith<$Res>(_value.model, (value) {
       return _then(_value.copyWith(model: value) as $Val);
+    });
+  }
+
+  /// Create a copy of CreateChatCompletionRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $PredictionContentCopyWith<$Res>? get prediction {
+    if (_value.prediction == null) {
+      return null;
+    }
+
+    return $PredictionContentCopyWith<$Res>(_value.prediction!, (value) {
+      return _then(_value.copyWith(prediction: value) as $Val);
     });
   }
 
@@ -4105,6 +4133,7 @@ abstract class _$$CreateChatCompletionRequestImplCopyWith<$Res>
       int? maxCompletionTokens,
       @JsonKey(includeIfNull: false) int? n,
       @JsonKey(includeIfNull: false) List<ChatCompletionModality>? modalities,
+      @JsonKey(includeIfNull: false) PredictionContent? prediction,
       @JsonKey(includeIfNull: false) ChatCompletionAudioOptions? audio,
       @JsonKey(name: 'presence_penalty', includeIfNull: false)
       double? presencePenalty,
@@ -4138,6 +4167,8 @@ abstract class _$$CreateChatCompletionRequestImplCopyWith<$Res>
 
   @override
   $ChatCompletionModelCopyWith<$Res> get model;
+  @override
+  $PredictionContentCopyWith<$Res>? get prediction;
   @override
   $ChatCompletionAudioOptionsCopyWith<$Res>? get audio;
   @override
@@ -4179,6 +4210,7 @@ class __$$CreateChatCompletionRequestImplCopyWithImpl<$Res>
     Object? maxCompletionTokens = freezed,
     Object? n = freezed,
     Object? modalities = freezed,
+    Object? prediction = freezed,
     Object? audio = freezed,
     Object? presencePenalty = freezed,
     Object? responseFormat = freezed,
@@ -4245,6 +4277,10 @@ class __$$CreateChatCompletionRequestImplCopyWithImpl<$Res>
           ? _value._modalities
           : modalities // ignore: cast_nullable_to_non_nullable
               as List<ChatCompletionModality>?,
+      prediction: freezed == prediction
+          ? _value.prediction
+          : prediction // ignore: cast_nullable_to_non_nullable
+              as PredictionContent?,
       audio: freezed == audio
           ? _value.audio
           : audio // ignore: cast_nullable_to_non_nullable
@@ -4333,6 +4369,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
       @JsonKey(includeIfNull: false) this.n = 1,
       @JsonKey(includeIfNull: false)
       final List<ChatCompletionModality>? modalities,
+      @JsonKey(includeIfNull: false) this.prediction,
       @JsonKey(includeIfNull: false) this.audio,
       @JsonKey(name: 'presence_penalty', includeIfNull: false)
       this.presencePenalty = 0.0,
@@ -4372,7 +4409,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
           Map<String, dynamic> json) =>
       _$$CreateChatCompletionRequestImplFromJson(json);
 
-  /// ID of the model to use. See the [model endpoint compatibility](https://platform.openai.com/docs/models/model-endpoint-compatibility)
+  /// ID of the model to use. See the [model endpoint compatibility](https://platform.openai.com/docs/models#model-endpoint-compatibility)
   /// table for details on which models work with the Chat API.
   @override
   @_ChatCompletionModelConverter()
@@ -4423,7 +4460,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the
   /// text so far, decreasing the model's likelihood to repeat the same line verbatim.
   ///
-  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
+  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation)
   @override
   @JsonKey(name: 'frequency_penalty', includeIfNull: false)
   final double? frequencyPenalty;
@@ -4502,6 +4539,14 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
     return EqualUnmodifiableListView(value);
   }
 
+  /// Configuration for a [Predicted Output](https://platform.openai.com/docs/guides/predicted-outputs),
+  /// which can greatly improve response times when large parts of the model
+  /// response are known ahead of time. This is most common when you are
+  /// regenerating a file with only minor changes to most of the content.
+  @override
+  @JsonKey(includeIfNull: false)
+  final PredictionContent? prediction;
+
   /// Parameters for audio output. Required when audio output is requested with `modalities: ["audio"]`.
   /// [Learn more](https://platform.openai.com/docs/guides/audio).
   @override
@@ -4510,7 +4555,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
 
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
   ///
-  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
+  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation)
   @override
   @JsonKey(name: 'presence_penalty', includeIfNull: false)
   final double? presencePenalty;
@@ -4626,13 +4671,13 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
   @JsonKey(name: 'tool_choice', includeIfNull: false)
   final ChatCompletionToolChoiceOption? toolChoice;
 
-  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling#configuring-parallel-function-calling)
   /// during tool use.
   @override
   @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
   final bool? parallelToolCalls;
 
-  /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).
+  /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#end-user-ids).
   @override
   @JsonKey(includeIfNull: false)
   final String? user;
@@ -4671,7 +4716,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
 
   @override
   String toString() {
-    return 'CreateChatCompletionRequest(model: $model, messages: $messages, store: $store, metadata: $metadata, frequencyPenalty: $frequencyPenalty, logitBias: $logitBias, logprobs: $logprobs, topLogprobs: $topLogprobs, maxTokens: $maxTokens, maxCompletionTokens: $maxCompletionTokens, n: $n, modalities: $modalities, audio: $audio, presencePenalty: $presencePenalty, responseFormat: $responseFormat, seed: $seed, serviceTier: $serviceTier, stop: $stop, stream: $stream, streamOptions: $streamOptions, temperature: $temperature, topP: $topP, tools: $tools, toolChoice: $toolChoice, parallelToolCalls: $parallelToolCalls, user: $user, functionCall: $functionCall, functions: $functions)';
+    return 'CreateChatCompletionRequest(model: $model, messages: $messages, store: $store, metadata: $metadata, frequencyPenalty: $frequencyPenalty, logitBias: $logitBias, logprobs: $logprobs, topLogprobs: $topLogprobs, maxTokens: $maxTokens, maxCompletionTokens: $maxCompletionTokens, n: $n, modalities: $modalities, prediction: $prediction, audio: $audio, presencePenalty: $presencePenalty, responseFormat: $responseFormat, seed: $seed, serviceTier: $serviceTier, stop: $stop, stream: $stream, streamOptions: $streamOptions, temperature: $temperature, topP: $topP, tools: $tools, toolChoice: $toolChoice, parallelToolCalls: $parallelToolCalls, user: $user, functionCall: $functionCall, functions: $functions)';
   }
 
   @override
@@ -4698,6 +4743,8 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
             (identical(other.n, n) || other.n == n) &&
             const DeepCollectionEquality()
                 .equals(other._modalities, _modalities) &&
+            (identical(other.prediction, prediction) ||
+                other.prediction == prediction) &&
             (identical(other.audio, audio) || other.audio == audio) &&
             (identical(other.presencePenalty, presencePenalty) ||
                 other.presencePenalty == presencePenalty) &&
@@ -4741,6 +4788,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
         maxCompletionTokens,
         n,
         const DeepCollectionEquality().hash(_modalities),
+        prediction,
         audio,
         presencePenalty,
         responseFormat,
@@ -4797,6 +4845,7 @@ abstract class _CreateChatCompletionRequest
       @JsonKey(includeIfNull: false) final int? n,
       @JsonKey(includeIfNull: false)
       final List<ChatCompletionModality>? modalities,
+      @JsonKey(includeIfNull: false) final PredictionContent? prediction,
       @JsonKey(includeIfNull: false) final ChatCompletionAudioOptions? audio,
       @JsonKey(name: 'presence_penalty', includeIfNull: false)
       final double? presencePenalty,
@@ -4834,7 +4883,7 @@ abstract class _CreateChatCompletionRequest
   factory _CreateChatCompletionRequest.fromJson(Map<String, dynamic> json) =
       _$CreateChatCompletionRequestImpl.fromJson;
 
-  /// ID of the model to use. See the [model endpoint compatibility](https://platform.openai.com/docs/models/model-endpoint-compatibility)
+  /// ID of the model to use. See the [model endpoint compatibility](https://platform.openai.com/docs/models#model-endpoint-compatibility)
   /// table for details on which models work with the Chat API.
   @override
   @_ChatCompletionModelConverter()
@@ -4864,7 +4913,7 @@ abstract class _CreateChatCompletionRequest
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the
   /// text so far, decreasing the model's likelihood to repeat the same line verbatim.
   ///
-  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
+  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation)
   @override
   @JsonKey(name: 'frequency_penalty', includeIfNull: false)
   double? get frequencyPenalty;
@@ -4919,6 +4968,14 @@ abstract class _CreateChatCompletionRequest
   @JsonKey(includeIfNull: false)
   List<ChatCompletionModality>? get modalities;
 
+  /// Configuration for a [Predicted Output](https://platform.openai.com/docs/guides/predicted-outputs),
+  /// which can greatly improve response times when large parts of the model
+  /// response are known ahead of time. This is most common when you are
+  /// regenerating a file with only minor changes to most of the content.
+  @override
+  @JsonKey(includeIfNull: false)
+  PredictionContent? get prediction;
+
   /// Parameters for audio output. Required when audio output is requested with `modalities: ["audio"]`.
   /// [Learn more](https://platform.openai.com/docs/guides/audio).
   @override
@@ -4927,7 +4984,7 @@ abstract class _CreateChatCompletionRequest
 
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
   ///
-  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
+  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation)
   @override
   @JsonKey(name: 'presence_penalty', includeIfNull: false)
   double? get presencePenalty;
@@ -5032,13 +5089,13 @@ abstract class _CreateChatCompletionRequest
   @JsonKey(name: 'tool_choice', includeIfNull: false)
   ChatCompletionToolChoiceOption? get toolChoice;
 
-  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling#configuring-parallel-function-calling)
   /// during tool use.
   @override
   @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
   bool? get parallelToolCalls;
 
-  /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).
+  /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#end-user-ids).
   @override
   @JsonKey(includeIfNull: false)
   String? get user;
@@ -8442,6 +8499,713 @@ abstract class _ChatCompletionMessageToolCall
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionMessageToolCallImplCopyWith<
           _$ChatCompletionMessageToolCallImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+PredictionContent _$PredictionContentFromJson(Map<String, dynamic> json) {
+  return _PredictionContent.fromJson(json);
+}
+
+/// @nodoc
+mixin _$PredictionContent {
+  /// The type of the predicted content you want to provide. This type is
+  /// currently always `content`.
+  String get type => throw _privateConstructorUsedError;
+
+  /// The content that should be matched when generating a model response.
+  /// If generated tokens would match this content, the entire model response
+  /// can be returned much more quickly.
+  @_PredictionContentContentConverter()
+  PredictionContentContent get content => throw _privateConstructorUsedError;
+
+  /// Serializes this PredictionContent to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of PredictionContent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $PredictionContentCopyWith<PredictionContent> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $PredictionContentCopyWith<$Res> {
+  factory $PredictionContentCopyWith(
+          PredictionContent value, $Res Function(PredictionContent) then) =
+      _$PredictionContentCopyWithImpl<$Res, PredictionContent>;
+  @useResult
+  $Res call(
+      {String type,
+      @_PredictionContentContentConverter() PredictionContentContent content});
+
+  $PredictionContentContentCopyWith<$Res> get content;
+}
+
+/// @nodoc
+class _$PredictionContentCopyWithImpl<$Res, $Val extends PredictionContent>
+    implements $PredictionContentCopyWith<$Res> {
+  _$PredictionContentCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of PredictionContent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? content = null,
+  }) {
+    return _then(_value.copyWith(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      content: null == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
+              as PredictionContentContent,
+    ) as $Val);
+  }
+
+  /// Create a copy of PredictionContent
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $PredictionContentContentCopyWith<$Res> get content {
+    return $PredictionContentContentCopyWith<$Res>(_value.content, (value) {
+      return _then(_value.copyWith(content: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$PredictionContentImplCopyWith<$Res>
+    implements $PredictionContentCopyWith<$Res> {
+  factory _$$PredictionContentImplCopyWith(_$PredictionContentImpl value,
+          $Res Function(_$PredictionContentImpl) then) =
+      __$$PredictionContentImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String type,
+      @_PredictionContentContentConverter() PredictionContentContent content});
+
+  @override
+  $PredictionContentContentCopyWith<$Res> get content;
+}
+
+/// @nodoc
+class __$$PredictionContentImplCopyWithImpl<$Res>
+    extends _$PredictionContentCopyWithImpl<$Res, _$PredictionContentImpl>
+    implements _$$PredictionContentImplCopyWith<$Res> {
+  __$$PredictionContentImplCopyWithImpl(_$PredictionContentImpl _value,
+      $Res Function(_$PredictionContentImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of PredictionContent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? content = null,
+  }) {
+    return _then(_$PredictionContentImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      content: null == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
+              as PredictionContentContent,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$PredictionContentImpl extends _PredictionContent {
+  const _$PredictionContentImpl(
+      {this.type = 'content',
+      @_PredictionContentContentConverter() required this.content})
+      : super._();
+
+  factory _$PredictionContentImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PredictionContentImplFromJson(json);
+
+  /// The type of the predicted content you want to provide. This type is
+  /// currently always `content`.
+  @override
+  @JsonKey()
+  final String type;
+
+  /// The content that should be matched when generating a model response.
+  /// If generated tokens would match this content, the entire model response
+  /// can be returned much more quickly.
+  @override
+  @_PredictionContentContentConverter()
+  final PredictionContentContent content;
+
+  @override
+  String toString() {
+    return 'PredictionContent(type: $type, content: $content)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$PredictionContentImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.content, content) || other.content == content));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, content);
+
+  /// Create a copy of PredictionContent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$PredictionContentImplCopyWith<_$PredictionContentImpl> get copyWith =>
+      __$$PredictionContentImplCopyWithImpl<_$PredictionContentImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PredictionContentImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _PredictionContent extends PredictionContent {
+  const factory _PredictionContent(
+          {final String type,
+          @_PredictionContentContentConverter()
+          required final PredictionContentContent content}) =
+      _$PredictionContentImpl;
+  const _PredictionContent._() : super._();
+
+  factory _PredictionContent.fromJson(Map<String, dynamic> json) =
+      _$PredictionContentImpl.fromJson;
+
+  /// The type of the predicted content you want to provide. This type is
+  /// currently always `content`.
+  @override
+  String get type;
+
+  /// The content that should be matched when generating a model response.
+  /// If generated tokens would match this content, the entire model response
+  /// can be returned much more quickly.
+  @override
+  @_PredictionContentContentConverter()
+  PredictionContentContent get content;
+
+  /// Create a copy of PredictionContent
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$PredictionContentImplCopyWith<_$PredictionContentImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+PredictionContentContent _$PredictionContentContentFromJson(
+    Map<String, dynamic> json) {
+  switch (json['runtimeType']) {
+    case 'textParts':
+      return PredictionContentContentListChatCompletionMessageContentPartText
+          .fromJson(json);
+    case 'text':
+      return PredictionContentContentString.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(
+          json,
+          'runtimeType',
+          'PredictionContentContent',
+          'Invalid union type "${json['runtimeType']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$PredictionContentContent {
+  Object get value => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(List<ChatCompletionMessageContentPartText> value)
+        textParts,
+    required TResult Function(String value) text,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(List<ChatCompletionMessageContentPartText> value)?
+        textParts,
+    TResult? Function(String value)? text,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(List<ChatCompletionMessageContentPartText> value)?
+        textParts,
+    TResult Function(String value)? text,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(
+            PredictionContentContentListChatCompletionMessageContentPartText
+                value)
+        textParts,
+    required TResult Function(PredictionContentContentString value) text,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(
+            PredictionContentContentListChatCompletionMessageContentPartText
+                value)?
+        textParts,
+    TResult? Function(PredictionContentContentString value)? text,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(
+            PredictionContentContentListChatCompletionMessageContentPartText
+                value)?
+        textParts,
+    TResult Function(PredictionContentContentString value)? text,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+
+  /// Serializes this PredictionContentContent to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $PredictionContentContentCopyWith<$Res> {
+  factory $PredictionContentContentCopyWith(PredictionContentContent value,
+          $Res Function(PredictionContentContent) then) =
+      _$PredictionContentContentCopyWithImpl<$Res, PredictionContentContent>;
+}
+
+/// @nodoc
+class _$PredictionContentContentCopyWithImpl<$Res,
+        $Val extends PredictionContentContent>
+    implements $PredictionContentContentCopyWith<$Res> {
+  _$PredictionContentContentCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of PredictionContentContent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+abstract class _$$PredictionContentContentListChatCompletionMessageContentPartTextImplCopyWith<
+    $Res> {
+  factory _$$PredictionContentContentListChatCompletionMessageContentPartTextImplCopyWith(
+          _$PredictionContentContentListChatCompletionMessageContentPartTextImpl
+              value,
+          $Res Function(
+                  _$PredictionContentContentListChatCompletionMessageContentPartTextImpl)
+              then) =
+      __$$PredictionContentContentListChatCompletionMessageContentPartTextImplCopyWithImpl<
+          $Res>;
+  @useResult
+  $Res call({List<ChatCompletionMessageContentPartText> value});
+}
+
+/// @nodoc
+class __$$PredictionContentContentListChatCompletionMessageContentPartTextImplCopyWithImpl<
+        $Res>
+    extends _$PredictionContentContentCopyWithImpl<$Res,
+        _$PredictionContentContentListChatCompletionMessageContentPartTextImpl>
+    implements
+        _$$PredictionContentContentListChatCompletionMessageContentPartTextImplCopyWith<
+            $Res> {
+  __$$PredictionContentContentListChatCompletionMessageContentPartTextImplCopyWithImpl(
+      _$PredictionContentContentListChatCompletionMessageContentPartTextImpl
+          _value,
+      $Res Function(
+              _$PredictionContentContentListChatCompletionMessageContentPartTextImpl)
+          _then)
+      : super(_value, _then);
+
+  /// Create a copy of PredictionContentContent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = null,
+  }) {
+    return _then(
+        _$PredictionContentContentListChatCompletionMessageContentPartTextImpl(
+      null == value
+          ? _value._value
+          : value // ignore: cast_nullable_to_non_nullable
+              as List<ChatCompletionMessageContentPartText>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$PredictionContentContentListChatCompletionMessageContentPartTextImpl
+    extends PredictionContentContentListChatCompletionMessageContentPartText {
+  const _$PredictionContentContentListChatCompletionMessageContentPartTextImpl(
+      final List<ChatCompletionMessageContentPartText> value,
+      {final String? $type})
+      : _value = value,
+        $type = $type ?? 'textParts',
+        super._();
+
+  factory _$PredictionContentContentListChatCompletionMessageContentPartTextImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$PredictionContentContentListChatCompletionMessageContentPartTextImplFromJson(
+          json);
+
+  final List<ChatCompletionMessageContentPartText> _value;
+  @override
+  List<ChatCompletionMessageContentPartText> get value {
+    if (_value is EqualUnmodifiableListView) return _value;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_value);
+  }
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'PredictionContentContent.textParts(value: $value)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other
+                is _$PredictionContentContentListChatCompletionMessageContentPartTextImpl &&
+            const DeepCollectionEquality().equals(other._value, _value));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_value));
+
+  /// Create a copy of PredictionContentContent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$PredictionContentContentListChatCompletionMessageContentPartTextImplCopyWith<
+          _$PredictionContentContentListChatCompletionMessageContentPartTextImpl>
+      get copyWith =>
+          __$$PredictionContentContentListChatCompletionMessageContentPartTextImplCopyWithImpl<
+                  _$PredictionContentContentListChatCompletionMessageContentPartTextImpl>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(List<ChatCompletionMessageContentPartText> value)
+        textParts,
+    required TResult Function(String value) text,
+  }) {
+    return textParts(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(List<ChatCompletionMessageContentPartText> value)?
+        textParts,
+    TResult? Function(String value)? text,
+  }) {
+    return textParts?.call(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(List<ChatCompletionMessageContentPartText> value)?
+        textParts,
+    TResult Function(String value)? text,
+    required TResult orElse(),
+  }) {
+    if (textParts != null) {
+      return textParts(value);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(
+            PredictionContentContentListChatCompletionMessageContentPartText
+                value)
+        textParts,
+    required TResult Function(PredictionContentContentString value) text,
+  }) {
+    return textParts(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(
+            PredictionContentContentListChatCompletionMessageContentPartText
+                value)?
+        textParts,
+    TResult? Function(PredictionContentContentString value)? text,
+  }) {
+    return textParts?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(
+            PredictionContentContentListChatCompletionMessageContentPartText
+                value)?
+        textParts,
+    TResult Function(PredictionContentContentString value)? text,
+    required TResult orElse(),
+  }) {
+    if (textParts != null) {
+      return textParts(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PredictionContentContentListChatCompletionMessageContentPartTextImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class PredictionContentContentListChatCompletionMessageContentPartText
+    extends PredictionContentContent {
+  const factory PredictionContentContentListChatCompletionMessageContentPartText(
+          final List<ChatCompletionMessageContentPartText> value) =
+      _$PredictionContentContentListChatCompletionMessageContentPartTextImpl;
+  const PredictionContentContentListChatCompletionMessageContentPartText._()
+      : super._();
+
+  factory PredictionContentContentListChatCompletionMessageContentPartText.fromJson(
+          Map<String, dynamic> json) =
+      _$PredictionContentContentListChatCompletionMessageContentPartTextImpl
+      .fromJson;
+
+  @override
+  List<ChatCompletionMessageContentPartText> get value;
+
+  /// Create a copy of PredictionContentContent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$PredictionContentContentListChatCompletionMessageContentPartTextImplCopyWith<
+          _$PredictionContentContentListChatCompletionMessageContentPartTextImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$PredictionContentContentStringImplCopyWith<$Res> {
+  factory _$$PredictionContentContentStringImplCopyWith(
+          _$PredictionContentContentStringImpl value,
+          $Res Function(_$PredictionContentContentStringImpl) then) =
+      __$$PredictionContentContentStringImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String value});
+}
+
+/// @nodoc
+class __$$PredictionContentContentStringImplCopyWithImpl<$Res>
+    extends _$PredictionContentContentCopyWithImpl<$Res,
+        _$PredictionContentContentStringImpl>
+    implements _$$PredictionContentContentStringImplCopyWith<$Res> {
+  __$$PredictionContentContentStringImplCopyWithImpl(
+      _$PredictionContentContentStringImpl _value,
+      $Res Function(_$PredictionContentContentStringImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of PredictionContentContent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = null,
+  }) {
+    return _then(_$PredictionContentContentStringImpl(
+      null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$PredictionContentContentStringImpl
+    extends PredictionContentContentString {
+  const _$PredictionContentContentStringImpl(this.value, {final String? $type})
+      : $type = $type ?? 'text',
+        super._();
+
+  factory _$PredictionContentContentStringImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$PredictionContentContentStringImplFromJson(json);
+
+  @override
+  final String value;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'PredictionContentContent.text(value: $value)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$PredictionContentContentStringImpl &&
+            (identical(other.value, value) || other.value == value));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, value);
+
+  /// Create a copy of PredictionContentContent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$PredictionContentContentStringImplCopyWith<
+          _$PredictionContentContentStringImpl>
+      get copyWith => __$$PredictionContentContentStringImplCopyWithImpl<
+          _$PredictionContentContentStringImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(List<ChatCompletionMessageContentPartText> value)
+        textParts,
+    required TResult Function(String value) text,
+  }) {
+    return text(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(List<ChatCompletionMessageContentPartText> value)?
+        textParts,
+    TResult? Function(String value)? text,
+  }) {
+    return text?.call(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(List<ChatCompletionMessageContentPartText> value)?
+        textParts,
+    TResult Function(String value)? text,
+    required TResult orElse(),
+  }) {
+    if (text != null) {
+      return text(value);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(
+            PredictionContentContentListChatCompletionMessageContentPartText
+                value)
+        textParts,
+    required TResult Function(PredictionContentContentString value) text,
+  }) {
+    return text(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(
+            PredictionContentContentListChatCompletionMessageContentPartText
+                value)?
+        textParts,
+    TResult? Function(PredictionContentContentString value)? text,
+  }) {
+    return text?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(
+            PredictionContentContentListChatCompletionMessageContentPartText
+                value)?
+        textParts,
+    TResult Function(PredictionContentContentString value)? text,
+    required TResult orElse(),
+  }) {
+    if (text != null) {
+      return text(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PredictionContentContentStringImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class PredictionContentContentString extends PredictionContentContent {
+  const factory PredictionContentContentString(final String value) =
+      _$PredictionContentContentStringImpl;
+  const PredictionContentContentString._() : super._();
+
+  factory PredictionContentContentString.fromJson(Map<String, dynamic> json) =
+      _$PredictionContentContentStringImpl.fromJson;
+
+  @override
+  String get value;
+
+  /// Create a copy of PredictionContentContent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$PredictionContentContentStringImplCopyWith<
+          _$PredictionContentContentStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -12475,9 +13239,26 @@ CompletionTokensDetails _$CompletionTokensDetailsFromJson(
 
 /// @nodoc
 mixin _$CompletionTokensDetails {
+  /// When using Predicted Outputs, the number of tokens in the
+  /// prediction that appeared in the completion.
+  @JsonKey(name: 'accepted_prediction_tokens', includeIfNull: false)
+  int? get acceptedPredictionTokens => throw _privateConstructorUsedError;
+
+  /// Audio input tokens generated by the model.
+  @JsonKey(name: 'audio_tokens', includeIfNull: false)
+  int? get audioTokens => throw _privateConstructorUsedError;
+
   /// Tokens generated by the model for reasoning.
   @JsonKey(name: 'reasoning_tokens', includeIfNull: false)
   int? get reasoningTokens => throw _privateConstructorUsedError;
+
+  /// When using Predicted Outputs, the number of tokens in the
+  /// prediction that did not appear in the completion. However, like
+  /// reasoning tokens, these tokens are still counted in the total
+  /// completion tokens for purposes of billing, output, and context window
+  /// limits.
+  @JsonKey(name: 'rejected_prediction_tokens', includeIfNull: false)
+  int? get rejectedPredictionTokens => throw _privateConstructorUsedError;
 
   /// Serializes this CompletionTokensDetails to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -12496,8 +13277,13 @@ abstract class $CompletionTokensDetailsCopyWith<$Res> {
       _$CompletionTokensDetailsCopyWithImpl<$Res, CompletionTokensDetails>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'reasoning_tokens', includeIfNull: false)
-      int? reasoningTokens});
+      {@JsonKey(name: 'accepted_prediction_tokens', includeIfNull: false)
+      int? acceptedPredictionTokens,
+      @JsonKey(name: 'audio_tokens', includeIfNull: false) int? audioTokens,
+      @JsonKey(name: 'reasoning_tokens', includeIfNull: false)
+      int? reasoningTokens,
+      @JsonKey(name: 'rejected_prediction_tokens', includeIfNull: false)
+      int? rejectedPredictionTokens});
 }
 
 /// @nodoc
@@ -12516,12 +13302,27 @@ class _$CompletionTokensDetailsCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? acceptedPredictionTokens = freezed,
+    Object? audioTokens = freezed,
     Object? reasoningTokens = freezed,
+    Object? rejectedPredictionTokens = freezed,
   }) {
     return _then(_value.copyWith(
+      acceptedPredictionTokens: freezed == acceptedPredictionTokens
+          ? _value.acceptedPredictionTokens
+          : acceptedPredictionTokens // ignore: cast_nullable_to_non_nullable
+              as int?,
+      audioTokens: freezed == audioTokens
+          ? _value.audioTokens
+          : audioTokens // ignore: cast_nullable_to_non_nullable
+              as int?,
       reasoningTokens: freezed == reasoningTokens
           ? _value.reasoningTokens
           : reasoningTokens // ignore: cast_nullable_to_non_nullable
+              as int?,
+      rejectedPredictionTokens: freezed == rejectedPredictionTokens
+          ? _value.rejectedPredictionTokens
+          : rejectedPredictionTokens // ignore: cast_nullable_to_non_nullable
               as int?,
     ) as $Val);
   }
@@ -12537,8 +13338,13 @@ abstract class _$$CompletionTokensDetailsImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'reasoning_tokens', includeIfNull: false)
-      int? reasoningTokens});
+      {@JsonKey(name: 'accepted_prediction_tokens', includeIfNull: false)
+      int? acceptedPredictionTokens,
+      @JsonKey(name: 'audio_tokens', includeIfNull: false) int? audioTokens,
+      @JsonKey(name: 'reasoning_tokens', includeIfNull: false)
+      int? reasoningTokens,
+      @JsonKey(name: 'rejected_prediction_tokens', includeIfNull: false)
+      int? rejectedPredictionTokens});
 }
 
 /// @nodoc
@@ -12556,12 +13362,27 @@ class __$$CompletionTokensDetailsImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? acceptedPredictionTokens = freezed,
+    Object? audioTokens = freezed,
     Object? reasoningTokens = freezed,
+    Object? rejectedPredictionTokens = freezed,
   }) {
     return _then(_$CompletionTokensDetailsImpl(
+      acceptedPredictionTokens: freezed == acceptedPredictionTokens
+          ? _value.acceptedPredictionTokens
+          : acceptedPredictionTokens // ignore: cast_nullable_to_non_nullable
+              as int?,
+      audioTokens: freezed == audioTokens
+          ? _value.audioTokens
+          : audioTokens // ignore: cast_nullable_to_non_nullable
+              as int?,
       reasoningTokens: freezed == reasoningTokens
           ? _value.reasoningTokens
           : reasoningTokens // ignore: cast_nullable_to_non_nullable
+              as int?,
+      rejectedPredictionTokens: freezed == rejectedPredictionTokens
+          ? _value.rejectedPredictionTokens
+          : rejectedPredictionTokens // ignore: cast_nullable_to_non_nullable
               as int?,
     ));
   }
@@ -12571,21 +13392,46 @@ class __$$CompletionTokensDetailsImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$CompletionTokensDetailsImpl extends _CompletionTokensDetails {
   const _$CompletionTokensDetailsImpl(
-      {@JsonKey(name: 'reasoning_tokens', includeIfNull: false)
-      this.reasoningTokens})
+      {@JsonKey(name: 'accepted_prediction_tokens', includeIfNull: false)
+      this.acceptedPredictionTokens,
+      @JsonKey(name: 'audio_tokens', includeIfNull: false) this.audioTokens,
+      @JsonKey(name: 'reasoning_tokens', includeIfNull: false)
+      this.reasoningTokens,
+      @JsonKey(name: 'rejected_prediction_tokens', includeIfNull: false)
+      this.rejectedPredictionTokens})
       : super._();
 
   factory _$CompletionTokensDetailsImpl.fromJson(Map<String, dynamic> json) =>
       _$$CompletionTokensDetailsImplFromJson(json);
+
+  /// When using Predicted Outputs, the number of tokens in the
+  /// prediction that appeared in the completion.
+  @override
+  @JsonKey(name: 'accepted_prediction_tokens', includeIfNull: false)
+  final int? acceptedPredictionTokens;
+
+  /// Audio input tokens generated by the model.
+  @override
+  @JsonKey(name: 'audio_tokens', includeIfNull: false)
+  final int? audioTokens;
 
   /// Tokens generated by the model for reasoning.
   @override
   @JsonKey(name: 'reasoning_tokens', includeIfNull: false)
   final int? reasoningTokens;
 
+  /// When using Predicted Outputs, the number of tokens in the
+  /// prediction that did not appear in the completion. However, like
+  /// reasoning tokens, these tokens are still counted in the total
+  /// completion tokens for purposes of billing, output, and context window
+  /// limits.
+  @override
+  @JsonKey(name: 'rejected_prediction_tokens', includeIfNull: false)
+  final int? rejectedPredictionTokens;
+
   @override
   String toString() {
-    return 'CompletionTokensDetails(reasoningTokens: $reasoningTokens)';
+    return 'CompletionTokensDetails(acceptedPredictionTokens: $acceptedPredictionTokens, audioTokens: $audioTokens, reasoningTokens: $reasoningTokens, rejectedPredictionTokens: $rejectedPredictionTokens)';
   }
 
   @override
@@ -12593,13 +13439,22 @@ class _$CompletionTokensDetailsImpl extends _CompletionTokensDetails {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CompletionTokensDetailsImpl &&
+            (identical(
+                    other.acceptedPredictionTokens, acceptedPredictionTokens) ||
+                other.acceptedPredictionTokens == acceptedPredictionTokens) &&
+            (identical(other.audioTokens, audioTokens) ||
+                other.audioTokens == audioTokens) &&
             (identical(other.reasoningTokens, reasoningTokens) ||
-                other.reasoningTokens == reasoningTokens));
+                other.reasoningTokens == reasoningTokens) &&
+            (identical(
+                    other.rejectedPredictionTokens, rejectedPredictionTokens) ||
+                other.rejectedPredictionTokens == rejectedPredictionTokens));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, reasoningTokens);
+  int get hashCode => Object.hash(runtimeType, acceptedPredictionTokens,
+      audioTokens, reasoningTokens, rejectedPredictionTokens);
 
   /// Create a copy of CompletionTokensDetails
   /// with the given fields replaced by the non-null parameter values.
@@ -12620,17 +13475,43 @@ class _$CompletionTokensDetailsImpl extends _CompletionTokensDetails {
 
 abstract class _CompletionTokensDetails extends CompletionTokensDetails {
   const factory _CompletionTokensDetails(
-      {@JsonKey(name: 'reasoning_tokens', includeIfNull: false)
-      final int? reasoningTokens}) = _$CompletionTokensDetailsImpl;
+      {@JsonKey(name: 'accepted_prediction_tokens', includeIfNull: false)
+      final int? acceptedPredictionTokens,
+      @JsonKey(name: 'audio_tokens', includeIfNull: false)
+      final int? audioTokens,
+      @JsonKey(name: 'reasoning_tokens', includeIfNull: false)
+      final int? reasoningTokens,
+      @JsonKey(name: 'rejected_prediction_tokens', includeIfNull: false)
+      final int? rejectedPredictionTokens}) = _$CompletionTokensDetailsImpl;
   const _CompletionTokensDetails._() : super._();
 
   factory _CompletionTokensDetails.fromJson(Map<String, dynamic> json) =
       _$CompletionTokensDetailsImpl.fromJson;
 
+  /// When using Predicted Outputs, the number of tokens in the
+  /// prediction that appeared in the completion.
+  @override
+  @JsonKey(name: 'accepted_prediction_tokens', includeIfNull: false)
+  int? get acceptedPredictionTokens;
+
+  /// Audio input tokens generated by the model.
+  @override
+  @JsonKey(name: 'audio_tokens', includeIfNull: false)
+  int? get audioTokens;
+
   /// Tokens generated by the model for reasoning.
   @override
   @JsonKey(name: 'reasoning_tokens', includeIfNull: false)
   int? get reasoningTokens;
+
+  /// When using Predicted Outputs, the number of tokens in the
+  /// prediction that did not appear in the completion. However, like
+  /// reasoning tokens, these tokens are still counted in the total
+  /// completion tokens for purposes of billing, output, and context window
+  /// limits.
+  @override
+  @JsonKey(name: 'rejected_prediction_tokens', includeIfNull: false)
+  int? get rejectedPredictionTokens;
 
   /// Create a copy of CompletionTokensDetails
   /// with the given fields replaced by the non-null parameter values.
@@ -12666,7 +13547,7 @@ mixin _$CreateEmbeddingRequest {
   @JsonKey(includeIfNull: false)
   int? get dimensions => throw _privateConstructorUsedError;
 
-  /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).
+  /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#end-user-ids).
   @JsonKey(includeIfNull: false)
   String? get user => throw _privateConstructorUsedError;
 
@@ -12869,7 +13750,7 @@ class _$CreateEmbeddingRequestImpl extends _CreateEmbeddingRequest {
   @JsonKey(includeIfNull: false)
   final int? dimensions;
 
-  /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).
+  /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#end-user-ids).
   @override
   @JsonKey(includeIfNull: false)
   final String? user;
@@ -12951,7 +13832,7 @@ abstract class _CreateEmbeddingRequest extends CreateEmbeddingRequest {
   @JsonKey(includeIfNull: false)
   int? get dimensions;
 
-  /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).
+  /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#end-user-ids).
   @override
   @JsonKey(includeIfNull: false)
   String? get user;
@@ -15321,7 +16202,7 @@ CreateFineTuningJobRequest _$CreateFineTuningJobRequestFromJson(
 /// @nodoc
 mixin _$CreateFineTuningJobRequest {
   /// The name of the model to fine-tune. You can select one of the
-  /// [supported models](https://platform.openai.com/docs/guides/fine-tuning/what-models-can-be-fine-tuned).
+  /// [supported models](https://platform.openai.com/docs/guides/fine-tuning#what-models-can-be-fine-tuned).
   @_FineTuningModelConverter()
   FineTuningModel get model => throw _privateConstructorUsedError;
 
@@ -15591,7 +16472,7 @@ class _$CreateFineTuningJobRequestImpl extends _CreateFineTuningJobRequest {
       _$$CreateFineTuningJobRequestImplFromJson(json);
 
   /// The name of the model to fine-tune. You can select one of the
-  /// [supported models](https://platform.openai.com/docs/guides/fine-tuning/what-models-can-be-fine-tuned).
+  /// [supported models](https://platform.openai.com/docs/guides/fine-tuning#what-models-can-be-fine-tuned).
   @override
   @_FineTuningModelConverter()
   final FineTuningModel model;
@@ -15729,7 +16610,7 @@ abstract class _CreateFineTuningJobRequest extends CreateFineTuningJobRequest {
       _$CreateFineTuningJobRequestImpl.fromJson;
 
   /// The name of the model to fine-tune. You can select one of the
-  /// [supported models](https://platform.openai.com/docs/guides/fine-tuning/what-models-can-be-fine-tuned).
+  /// [supported models](https://platform.openai.com/docs/guides/fine-tuning#what-models-can-be-fine-tuned).
   @override
   @_FineTuningModelConverter()
   FineTuningModel get model;
@@ -19942,7 +20823,7 @@ mixin _$CreateImageRequest {
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   ImageStyle? get style => throw _privateConstructorUsedError;
 
-  /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).
+  /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#end-user-ids).
   @JsonKey(includeIfNull: false)
   String? get user => throw _privateConstructorUsedError;
 
@@ -20224,7 +21105,7 @@ class _$CreateImageRequestImpl extends _CreateImageRequest {
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   final ImageStyle? style;
 
-  /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).
+  /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#end-user-ids).
   @override
   @JsonKey(includeIfNull: false)
   final String? user;
@@ -20339,7 +21220,7 @@ abstract class _CreateImageRequest extends CreateImageRequest {
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   ImageStyle? get style;
 
-  /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).
+  /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#end-user-ids).
   @override
   @JsonKey(includeIfNull: false)
   String? get user;
@@ -25421,7 +26302,7 @@ mixin _$AssistantObject {
 
   /// Specifies the format that the model must output. Compatible with
   /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
-  /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+  /// [GPT-4 Turbo](https://platform.openai.com/docs/models#gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
   /// since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures
@@ -25821,7 +26702,7 @@ class _$AssistantObjectImpl extends _AssistantObject {
 
   /// Specifies the format that the model must output. Compatible with
   /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
-  /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+  /// [GPT-4 Turbo](https://platform.openai.com/docs/models#gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
   /// since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures
@@ -25997,7 +26878,7 @@ abstract class _AssistantObject extends AssistantObject {
 
   /// Specifies the format that the model must output. Compatible with
   /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
-  /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+  /// [GPT-4 Turbo](https://platform.openai.com/docs/models#gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
   /// since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures
@@ -26546,7 +27427,7 @@ mixin _$CreateAssistantRequest {
 
   /// Specifies the format that the model must output. Compatible with
   /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
-  /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+  /// [GPT-4 Turbo](https://platform.openai.com/docs/models#gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
   /// since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures
@@ -26917,7 +27798,7 @@ class _$CreateAssistantRequestImpl extends _CreateAssistantRequest {
 
   /// Specifies the format that the model must output. Compatible with
   /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
-  /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+  /// [GPT-4 Turbo](https://platform.openai.com/docs/models#gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
   /// since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures
@@ -27075,7 +27956,7 @@ abstract class _CreateAssistantRequest extends CreateAssistantRequest {
 
   /// Specifies the format that the model must output. Compatible with
   /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
-  /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+  /// [GPT-4 Turbo](https://platform.openai.com/docs/models#gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
   /// since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures
@@ -28059,7 +28940,7 @@ mixin _$ModifyAssistantRequest {
 
   /// Specifies the format that the model must output. Compatible with
   /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
-  /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+  /// [GPT-4 Turbo](https://platform.openai.com/docs/models#gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
   /// since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures
@@ -28443,7 +29324,7 @@ class _$ModifyAssistantRequestImpl extends _ModifyAssistantRequest {
 
   /// Specifies the format that the model must output. Compatible with
   /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
-  /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+  /// [GPT-4 Turbo](https://platform.openai.com/docs/models#gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
   /// since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures
@@ -28609,7 +29490,7 @@ abstract class _ModifyAssistantRequest extends ModifyAssistantRequest {
 
   /// Specifies the format that the model must output. Compatible with
   /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
-  /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+  /// [GPT-4 Turbo](https://platform.openai.com/docs/models#gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
   /// since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures
@@ -30513,14 +31394,14 @@ mixin _$RunObject {
   @JsonKey(name: 'tool_choice')
   RunObjectToolChoice? get toolChoice => throw _privateConstructorUsedError;
 
-  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling#configuring-parallel-function-calling)
   /// during tool use.
   @JsonKey(name: 'parallel_tool_calls')
   bool? get parallelToolCalls => throw _privateConstructorUsedError;
 
   /// Specifies the format that the model must output. Compatible with
   /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
-  /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+  /// [GPT-4 Turbo](https://platform.openai.com/docs/models#gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
   /// since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures
@@ -31248,7 +32129,7 @@ class _$RunObjectImpl extends _RunObject {
   @JsonKey(name: 'tool_choice')
   final RunObjectToolChoice? toolChoice;
 
-  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling#configuring-parallel-function-calling)
   /// during tool use.
   @override
   @JsonKey(name: 'parallel_tool_calls')
@@ -31256,7 +32137,7 @@ class _$RunObjectImpl extends _RunObject {
 
   /// Specifies the format that the model must output. Compatible with
   /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
-  /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+  /// [GPT-4 Turbo](https://platform.openai.com/docs/models#gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
   /// since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures
@@ -31550,7 +32431,7 @@ abstract class _RunObject extends RunObject {
   @JsonKey(name: 'tool_choice')
   RunObjectToolChoice? get toolChoice;
 
-  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling#configuring-parallel-function-calling)
   /// during tool use.
   @override
   @JsonKey(name: 'parallel_tool_calls')
@@ -31558,7 +32439,7 @@ abstract class _RunObject extends RunObject {
 
   /// Specifies the format that the model must output. Compatible with
   /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
-  /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+  /// [GPT-4 Turbo](https://platform.openai.com/docs/models#gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
   /// since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures
@@ -33535,14 +34416,14 @@ mixin _$CreateRunRequest {
   CreateRunRequestToolChoice? get toolChoice =>
       throw _privateConstructorUsedError;
 
-  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling#configuring-parallel-function-calling)
   /// during tool use.
   @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
   bool? get parallelToolCalls => throw _privateConstructorUsedError;
 
   /// Specifies the format that the model must output. Compatible with
   /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
-  /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+  /// [GPT-4 Turbo](https://platform.openai.com/docs/models#gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
   /// since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures
@@ -34072,7 +34953,7 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
   @JsonKey(name: 'tool_choice', includeIfNull: false)
   final CreateRunRequestToolChoice? toolChoice;
 
-  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling#configuring-parallel-function-calling)
   /// during tool use.
   @override
   @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
@@ -34080,7 +34961,7 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
 
   /// Specifies the format that the model must output. Compatible with
   /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
-  /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+  /// [GPT-4 Turbo](https://platform.openai.com/docs/models#gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
   /// since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures
@@ -34296,7 +35177,7 @@ abstract class _CreateRunRequest extends CreateRunRequest {
   @JsonKey(name: 'tool_choice', includeIfNull: false)
   CreateRunRequestToolChoice? get toolChoice;
 
-  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling#configuring-parallel-function-calling)
   /// during tool use.
   @override
   @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
@@ -34304,7 +35185,7 @@ abstract class _CreateRunRequest extends CreateRunRequest {
 
   /// Specifies the format that the model must output. Compatible with
   /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
-  /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+  /// [GPT-4 Turbo](https://platform.openai.com/docs/models#gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
   /// since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures
@@ -37061,14 +37942,14 @@ mixin _$CreateThreadAndRunRequest {
   CreateThreadAndRunRequestToolChoice? get toolChoice =>
       throw _privateConstructorUsedError;
 
-  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling#configuring-parallel-function-calling)
   /// during tool use.
   @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
   bool? get parallelToolCalls => throw _privateConstructorUsedError;
 
   /// Specifies the format that the model must output. Compatible with
   /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
-  /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+  /// [GPT-4 Turbo](https://platform.openai.com/docs/models#gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
   /// since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures
@@ -37636,7 +38517,7 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
   @JsonKey(name: 'tool_choice', includeIfNull: false)
   final CreateThreadAndRunRequestToolChoice? toolChoice;
 
-  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling#configuring-parallel-function-calling)
   /// during tool use.
   @override
   @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
@@ -37644,7 +38525,7 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
 
   /// Specifies the format that the model must output. Compatible with
   /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
-  /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+  /// [GPT-4 Turbo](https://platform.openai.com/docs/models#gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
   /// since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures
@@ -37874,7 +38755,7 @@ abstract class _CreateThreadAndRunRequest extends CreateThreadAndRunRequest {
   @JsonKey(name: 'tool_choice', includeIfNull: false)
   CreateThreadAndRunRequestToolChoice? get toolChoice;
 
-  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling#configuring-parallel-function-calling)
   /// during tool use.
   @override
   @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
@@ -37882,7 +38763,7 @@ abstract class _CreateThreadAndRunRequest extends CreateThreadAndRunRequest {
 
   /// Specifies the format that the model must output. Compatible with
   /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
-  /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+  /// [GPT-4 Turbo](https://platform.openai.com/docs/models#gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
   /// since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures

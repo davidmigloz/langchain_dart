@@ -60,7 +60,7 @@ class ModifyAssistantRequest with _$ModifyAssistantRequest {
 
     /// Specifies the format that the model must output. Compatible with
     /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
-    /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+    /// [GPT-4 Turbo](https://platform.openai.com/docs/models#gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
     /// since `gpt-3.5-turbo-1106`.
     ///
     /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures
@@ -172,7 +172,7 @@ enum ModifyAssistantResponseFormatMode {
 
 /// Specifies the format that the model must output. Compatible with
 /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
-/// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+/// [GPT-4 Turbo](https://platform.openai.com/docs/models#gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
 /// since `gpt-3.5-turbo-1106`.
 ///
 /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures

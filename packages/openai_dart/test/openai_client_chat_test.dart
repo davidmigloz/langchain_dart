@@ -610,5 +610,48 @@ void main() {
       expect(choice1.message.audio!.transcript, contains('2'));
       expect(choice1.message.audio!.data, isNotEmpty);
     });
+
+    test('Test predicted outputs feature', () async {
+      const codeContent = '''
+class User {
+  firstName: string = "";
+  lastName: string = "";
+  username: string = "";
+}
+
+export default User;''';
+      const request = CreateChatCompletionRequest(
+        model: ChatCompletionModel.model(
+          ChatCompletionModels.gpt4o,
+        ),
+        messages: [
+          ChatCompletionMessage.user(
+            content: ChatCompletionUserMessageContent.string(
+              'Replace the username property with an email property. '
+              'Respond only with code, and with no markdown formatting.',
+            ),
+          ),
+          ChatCompletionMessage.user(
+            content: ChatCompletionUserMessageContent.string(codeContent),
+          ),
+        ],
+        prediction: PredictionContent(
+          content: PredictionContentContent.text(codeContent),
+        ),
+      );
+      final res1 = await client.createChatCompletion(request: request);
+      expect(res1.choices, hasLength(1));
+      final choice1 = res1.choices.first;
+      expect(choice1.message.content, contains('email: string ='));
+      expect(choice1.message.content, isNot(contains('username: string =')));
+      expect(
+        res1.usage?.completionTokensDetails?.acceptedPredictionTokens,
+        greaterThan(0),
+      );
+      expect(
+        res1.usage?.completionTokensDetails?.rejectedPredictionTokens,
+        greaterThan(0),
+      );
+    });
   });
 }

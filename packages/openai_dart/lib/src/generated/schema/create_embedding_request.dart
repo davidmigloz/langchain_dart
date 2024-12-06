@@ -31,7 +31,7 @@ class CreateEmbeddingRequest with _$CreateEmbeddingRequest {
     /// The number of dimensions the resulting output embeddings should have. Only supported in `text-embedding-3` and later models.
     @JsonKey(includeIfNull: false) int? dimensions,
 
-    /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).
+    /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#end-user-ids).
     @JsonKey(includeIfNull: false) String? user,
   }) = _CreateEmbeddingRequest;
 
