@@ -19,6 +19,8 @@ sealed class ChatCompletionMessageContentPart
   // ------------------------------------------
 
   /// A text content part of a message.
+
+  @FreezedUnionValue('text')
   const factory ChatCompletionMessageContentPart.text({
     /// The type of the content part, in this case `text`.
     @Default(ChatCompletionMessageContentPartType.text)
@@ -33,6 +35,8 @@ sealed class ChatCompletionMessageContentPart
   // ------------------------------------------
 
   /// An image content part of a user message.
+
+  @FreezedUnionValue('image_url')
   const factory ChatCompletionMessageContentPart.image({
     /// The type of the content part, in this case `image_url`.
     @Default(ChatCompletionMessageContentPartType.imageUrl)
@@ -48,6 +52,8 @@ sealed class ChatCompletionMessageContentPart
 
   /// An audio content part of a user message.
   /// Learn about [audio inputs](https://platform.openai.com/docs/guides/audio).
+
+  @FreezedUnionValue('input_audio')
   const factory ChatCompletionMessageContentPart.audio({
     /// The type of the content part. Always `input_audio`.
     @Default(ChatCompletionMessageContentPartType.inputAudio)
@@ -63,6 +69,8 @@ sealed class ChatCompletionMessageContentPart
   // ------------------------------------------
 
   /// A refusal content part of a message.
+
+  @FreezedUnionValue('refusal')
   const factory ChatCompletionMessageContentPart.refusal({
     /// The type of the content part, in this case `refusal`.
     @Default(ChatCompletionMessageContentPartType.refusal)

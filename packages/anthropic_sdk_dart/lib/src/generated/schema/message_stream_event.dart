@@ -18,6 +18,7 @@ sealed class MessageStreamEvent with _$MessageStreamEvent {
   // ------------------------------------------
 
   /// A start event in a streaming conversation.
+
   const factory MessageStreamEvent.messageStart({
     /// A message in a chat conversation.
     required Message message,
@@ -31,6 +32,7 @@ sealed class MessageStreamEvent with _$MessageStreamEvent {
   // ------------------------------------------
 
   /// A delta event in a streaming conversation.
+
   const factory MessageStreamEvent.messageDelta({
     /// A delta in a streaming message.
     required MessageDelta delta,
@@ -58,6 +60,7 @@ sealed class MessageStreamEvent with _$MessageStreamEvent {
   // ------------------------------------------
 
   /// A stop event in a streaming conversation.
+
   const factory MessageStreamEvent.messageStop({
     /// The type of a streaming event.
     required MessageStreamEventType type,
@@ -68,6 +71,7 @@ sealed class MessageStreamEvent with _$MessageStreamEvent {
   // ------------------------------------------
 
   /// A start event in a streaming content block.
+
   const factory MessageStreamEvent.contentBlockStart({
     /// A block of content in a message.
     /// Any of: [TextBlock], [ImageBlock], [ToolUseBlock], [ToolResultBlock]
@@ -85,6 +89,7 @@ sealed class MessageStreamEvent with _$MessageStreamEvent {
   // ------------------------------------------
 
   /// A delta event in a streaming content block.
+
   const factory MessageStreamEvent.contentBlockDelta({
     /// A delta in a streaming message.
     /// Any of: [TextBlockDelta], [InputJsonBlockDelta]
@@ -102,6 +107,7 @@ sealed class MessageStreamEvent with _$MessageStreamEvent {
   // ------------------------------------------
 
   /// A stop event in a streaming content block.
+
   const factory MessageStreamEvent.contentBlockStop({
     /// The index of the content block.
     required int index,
@@ -115,6 +121,7 @@ sealed class MessageStreamEvent with _$MessageStreamEvent {
   // ------------------------------------------
 
   /// A ping event in a streaming conversation.
+
   const factory MessageStreamEvent.ping({
     /// The type of a streaming event.
     required MessageStreamEventType type,
@@ -125,6 +132,7 @@ sealed class MessageStreamEvent with _$MessageStreamEvent {
   // ------------------------------------------
 
   /// An error event in a streaming conversation.
+
   const factory MessageStreamEvent.error({
     /// The type of a streaming event.
     required MessageStreamEventType type,

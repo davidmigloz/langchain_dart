@@ -19,6 +19,7 @@ sealed class RunStepDeltaStepDetailsToolCallsCodeOutput
   // ------------------------------------------
 
   /// Text output from the Code Interpreter tool call as part of a run step.
+
   const factory RunStepDeltaStepDetailsToolCallsCodeOutput.logs({
     /// The index of the output in the outputs array.
     required int index,
@@ -35,6 +36,7 @@ sealed class RunStepDeltaStepDetailsToolCallsCodeOutput
   // ------------------------------------------
 
   /// Code interpreter image output
+
   const factory RunStepDeltaStepDetailsToolCallsCodeOutput.image({
     /// The index of the output in the outputs array.
     required int index,

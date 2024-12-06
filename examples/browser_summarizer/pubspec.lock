@@ -240,7 +240,7 @@ packages:
       path: "../../packages/langchain_community"
       relative: true
     source: path
-    version: "0.3.2+1"
+    version: "0.3.2+2"
   langchain_core:
     dependency: "direct overridden"
     description:
@@ -254,7 +254,7 @@ packages:
       path: "../../packages/langchain_openai"
       relative: true
     source: path
-    version: "0.7.2+3"
+    version: "0.7.2+5"
   langchain_tiktoken:
     dependency: transitive
     description:
@@ -325,7 +325,7 @@ packages:
       path: "../../packages/openai_dart"
       relative: true
     source: path
-    version: "0.4.2+2"
+    version: "0.4.4"
   path:
     dependency: transitive
     description:

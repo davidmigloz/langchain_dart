@@ -43,8 +43,8 @@ _$CandidateImpl _$$CandidateImplFromJson(Map<String, dynamic> json) =>
           ? null
           : CitationMetadata.fromJson(
               json['citationMetadata'] as Map<String, dynamic>),
-      index: json['index'] as int?,
-      tokenCount: json['tokenCount'] as int?,
+      index: (json['index'] as num?)?.toInt(),
+      tokenCount: (json['tokenCount'] as num?)?.toInt(),
       safetyRatings: (json['safetyRatings'] as List<dynamic>?)
           ?.map((e) => SafetyRating.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -82,9 +82,9 @@ const _$CandidateFinishReasonEnumMap = {
 _$CreateTunedModelMetadataImpl _$$CreateTunedModelMetadataImplFromJson(
         Map<String, dynamic> json) =>
     _$CreateTunedModelMetadataImpl(
-      totalSteps: json['totalSteps'] as int?,
+      totalSteps: (json['totalSteps'] as num?)?.toInt(),
       tunedModel: json['tunedModel'] as String?,
-      completedSteps: json['completedSteps'] as int?,
+      completedSteps: (json['completedSteps'] as num?)?.toInt(),
       snapshots: (json['snapshots'] as List<dynamic>?)
           ?.map((e) => TuningSnapshot.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -234,7 +234,7 @@ Map<String, dynamic> _$$OperationImplToJson(_$OperationImpl instance) {
 }
 
 _$StatusImpl _$$StatusImplFromJson(Map<String, dynamic> json) => _$StatusImpl(
-      code: json['code'] as int?,
+      code: (json['code'] as num?)?.toInt(),
       message: json['message'] as String?,
       details: (json['details'] as List<dynamic>?)
           ?.map((e) => e as Map<String, dynamic>)
@@ -333,8 +333,8 @@ _$CitationSourceImpl _$$CitationSourceImplFromJson(Map<String, dynamic> json) =>
     _$CitationSourceImpl(
       license: json['license'] as String?,
       uri: json['uri'] as String?,
-      endIndex: json['endIndex'] as int?,
-      startIndex: json['startIndex'] as int?,
+      endIndex: (json['endIndex'] as num?)?.toInt(),
+      startIndex: (json['startIndex'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$CitationSourceImplToJson(
@@ -361,10 +361,10 @@ _$GenerationConfigImpl _$$GenerationConfigImplFromJson(
       stopSequences: (json['stopSequences'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
-      topK: json['topK'] as int?,
+      topK: (json['topK'] as num?)?.toInt(),
       topP: (json['topP'] as num?)?.toDouble(),
-      candidateCount: json['candidateCount'] as int?,
-      maxOutputTokens: json['maxOutputTokens'] as int?,
+      candidateCount: (json['candidateCount'] as num?)?.toInt(),
+      maxOutputTokens: (json['maxOutputTokens'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$GenerationConfigImplToJson(
@@ -410,9 +410,9 @@ Map<String, dynamic> _$$CountTokensRequestImplToJson(
 
 _$TuningSnapshotImpl _$$TuningSnapshotImplFromJson(Map<String, dynamic> json) =>
     _$TuningSnapshotImpl(
-      step: json['step'] as int?,
+      step: (json['step'] as num?)?.toInt(),
       computeTime: json['computeTime'] as String?,
-      epoch: json['epoch'] as int?,
+      epoch: (json['epoch'] as num?)?.toInt(),
       meanLoss: (json['meanLoss'] as num?)?.toDouble(),
     );
 
@@ -542,7 +542,7 @@ _$EmbedContentRequestImpl _$$EmbedContentRequestImplFromJson(
           _$EmbedContentRequestTaskTypeEnumMap, json['taskType'],
           unknownValue: JsonKey.nullForUndefinedEnumValue),
       model: json['model'] as String?,
-      outputDimensionality: json['outputDimensionality'] as int?,
+      outputDimensionality: (json['outputDimensionality'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$EmbedContentRequestImplToJson(
@@ -661,7 +661,7 @@ Map<String, dynamic> _$$EmbedContentResponseImplToJson(
 _$CountTokensResponseImpl _$$CountTokensResponseImplFromJson(
         Map<String, dynamic> json) =>
     _$CountTokensResponseImpl(
-      totalTokens: json['totalTokens'] as int?,
+      totalTokens: (json['totalTokens'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$CountTokensResponseImplToJson(
@@ -713,10 +713,10 @@ _$ModelImpl _$$ModelImplFromJson(Map<String, dynamic> json) => _$ModelImpl(
       version: json['version'] as String?,
       baseModelId: json['baseModelId'] as String?,
       temperature: (json['temperature'] as num?)?.toDouble(),
-      topK: json['topK'] as int?,
+      topK: (json['topK'] as num?)?.toInt(),
       topP: (json['topP'] as num?)?.toDouble(),
-      inputTokenLimit: json['inputTokenLimit'] as int?,
-      outputTokenLimit: json['outputTokenLimit'] as int?,
+      inputTokenLimit: (json['inputTokenLimit'] as num?)?.toInt(),
+      outputTokenLimit: (json['outputTokenLimit'] as num?)?.toInt(),
       supportedGenerationMethods:
           (json['supportedGenerationMethods'] as List<dynamic>?)
               ?.map((e) => e as String)

@@ -1,9 +1,9 @@
+import 'dart:convert';
+
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:http/http.dart' as http;
-
 import 'package:langchain_core/document_loaders.dart';
 import 'package:langchain_core/documents.dart';
-import 'dart:convert';
 
 /// {@template web_base_loader}
 /// A document loader that loads [Document]s from web pages.

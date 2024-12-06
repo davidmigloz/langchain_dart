@@ -362,8 +362,8 @@ packages:
     dependency: "direct dev"
     description:
       path: "."
-      ref: "93230a5e346b02789f0f727da8eecea9c7bdf118"
-      resolved-ref: "93230a5e346b02789f0f727da8eecea9c7bdf118"
+      ref: c99a29b7eaad2d25e7ceb90be56e6a9a41066322
+      resolved-ref: c99a29b7eaad2d25e7ceb90be56e6a9a41066322
       url: "https://github.com/davidmigloz/openapi_spec.git"
     source: git
     version: "0.7.8"

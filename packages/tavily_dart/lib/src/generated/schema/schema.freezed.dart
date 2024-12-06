@@ -56,8 +56,12 @@ mixin _$SearchRequest {
   @JsonKey(name: 'exclude_domains', includeIfNull: false)
   List<String>? get excludeDomains => throw _privateConstructorUsedError;
 
+  /// Serializes this SearchRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SearchRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SearchRequestCopyWith<SearchRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -92,6 +96,8 @@ class _$SearchRequestCopyWithImpl<$Res, $Val extends SearchRequest>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SearchRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -176,6 +182,8 @@ class __$$SearchRequestImplCopyWithImpl<$Res>
       _$SearchRequestImpl _value, $Res Function(_$SearchRequestImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SearchRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -343,7 +351,7 @@ class _$SearchRequestImpl extends _SearchRequest {
                 .equals(other._excludeDomains, _excludeDomains));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -357,7 +365,9 @@ class _$SearchRequestImpl extends _SearchRequest {
       const DeepCollectionEquality().hash(_includeDomains),
       const DeepCollectionEquality().hash(_excludeDomains));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SearchRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SearchRequestImplCopyWith<_$SearchRequestImpl> get copyWith =>
@@ -389,52 +399,54 @@ abstract class _SearchRequest extends SearchRequest {
   factory _SearchRequest.fromJson(Map<String, dynamic> json) =
       _$SearchRequestImpl.fromJson;
 
-  @override
-
   /// Your unique API key.
+  @override
   @JsonKey(name: 'api_key')
   String get apiKey;
-  @override
 
   /// The search query string.
-  String get query;
   @override
+  String get query;
 
   /// The depth of the search. It can be 'basic' or advanced. Default is 'basic'.
+  @override
   @JsonKey(name: 'search_depth')
   SearchRequestSearchDepth get searchDepth;
-  @override
 
   /// Include a list of query related images in the response. Default is False.
+  @override
   @JsonKey(name: 'include_images')
   bool get includeImages;
-  @override
 
   /// Include answers in the search results. Default is False.
+  @override
   @JsonKey(name: 'include_answer')
   bool get includeAnswer;
-  @override
 
   /// Include raw content in the search results. Default is False.
+  @override
   @JsonKey(name: 'include_raw_content')
   bool get includeRawContent;
-  @override
 
   /// The number of maximum search results to return. Default is 5.
+  @override
   @JsonKey(name: 'max_results')
   int get maxResults;
-  @override
 
   /// A list of domains to specifically include in the search results. Default is None.
+  @override
   @JsonKey(name: 'include_domains', includeIfNull: false)
   List<String>? get includeDomains;
-  @override
 
   /// A list of domains to specifically exclude from the search results. Default is None.
+  @override
   @JsonKey(name: 'exclude_domains', includeIfNull: false)
   List<String>? get excludeDomains;
+
+  /// Create a copy of SearchRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SearchRequestImplCopyWith<_$SearchRequestImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -467,8 +479,12 @@ mixin _$SearchResponse {
   /// A list of search results.
   List<SearchResult> get results => throw _privateConstructorUsedError;
 
+  /// Serializes this SearchResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SearchResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SearchResponseCopyWith<SearchResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -499,6 +515,8 @@ class _$SearchResponseCopyWithImpl<$Res, $Val extends SearchResponse>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SearchResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -564,6 +582,8 @@ class __$$SearchResponseImplCopyWithImpl<$Res>
       _$SearchResponseImpl _value, $Res Function(_$SearchResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SearchResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -696,7 +716,7 @@ class _$SearchResponseImpl extends _SearchResponse {
             const DeepCollectionEquality().equals(other._results, _results));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -707,7 +727,9 @@ class _$SearchResponseImpl extends _SearchResponse {
       const DeepCollectionEquality().hash(_followUpQuestions),
       const DeepCollectionEquality().hash(_results));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SearchResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SearchResponseImplCopyWith<_$SearchResponseImpl> get copyWith =>
@@ -736,36 +758,38 @@ abstract class _SearchResponse extends SearchResponse {
   factory _SearchResponse.fromJson(Map<String, dynamic> json) =
       _$SearchResponseImpl.fromJson;
 
-  @override
-
   /// The answer to your search query.
+  @override
   @JsonKey(includeIfNull: false)
   String? get answer;
-  @override
 
   /// Your search query.
-  String get query;
   @override
+  String get query;
 
   /// Your search result response time.
+  @override
   @JsonKey(name: 'response_time')
   double get responseTime;
-  @override
 
   /// A list of query related image urls.
+  @override
   @JsonKey(includeIfNull: false)
   List<String>? get images;
-  @override
 
   /// A list of suggested research follow up questions related to original query.
+  @override
   @JsonKey(name: 'follow_up_questions', includeIfNull: false)
   List<String>? get followUpQuestions;
-  @override
 
   /// A list of search results.
-  List<SearchResult> get results;
   @override
-  @JsonKey(ignore: true)
+  List<SearchResult> get results;
+
+  /// Create a copy of SearchResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SearchResponseImplCopyWith<_$SearchResponseImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -792,8 +816,12 @@ mixin _$SearchResult {
   /// The relevance score of the search result.
   double get score => throw _privateConstructorUsedError;
 
+  /// Serializes this SearchResult to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SearchResult
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SearchResultCopyWith<SearchResult> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -822,6 +850,8 @@ class _$SearchResultCopyWithImpl<$Res, $Val extends SearchResult>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SearchResult
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -880,6 +910,8 @@ class __$$SearchResultImplCopyWithImpl<$Res>
       _$SearchResultImpl _value, $Res Function(_$SearchResultImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SearchResult
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -967,12 +999,14 @@ class _$SearchResultImpl extends _SearchResult {
             (identical(other.score, score) || other.score == score));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, title, url, content, rawContent, score);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SearchResult
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SearchResultImplCopyWith<_$SearchResultImpl> get copyWith =>
@@ -999,29 +1033,31 @@ abstract class _SearchResult extends SearchResult {
   factory _SearchResult.fromJson(Map<String, dynamic> json) =
       _$SearchResultImpl.fromJson;
 
-  @override
-
   /// The title of the search result url.
-  String get title;
   @override
+  String get title;
 
   /// The url of the search result.
-  String get url;
   @override
+  String get url;
 
   /// The most query related content from the scraped url.
-  String get content;
   @override
+  String get content;
 
   /// The parsed and cleaned HTML of the site. For now includes parsed text only.
+  @override
   @JsonKey(name: 'raw_content', includeIfNull: false)
   String? get rawContent;
-  @override
 
   /// The relevance score of the search result.
-  double get score;
   @override
-  @JsonKey(ignore: true)
+  double get score;
+
+  /// Create a copy of SearchResult
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SearchResultImplCopyWith<_$SearchResultImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

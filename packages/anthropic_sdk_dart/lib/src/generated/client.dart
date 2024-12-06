@@ -97,7 +97,7 @@ class AnthropicClient {
   final http.Client client;
 
   /// Authentication related variables
-  final String apiKey;
+  String apiKey;
 
   // ------------------------------------------
   // METHOD: endSession

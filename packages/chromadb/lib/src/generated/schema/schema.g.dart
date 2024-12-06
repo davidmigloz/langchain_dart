@@ -174,8 +174,8 @@ _$GetEmbeddingImpl _$$GetEmbeddingImplFromJson(Map<String, dynamic> json) =>
       where: json['where'] as Map<String, dynamic>?,
       whereDocument: json['where_document'] as Map<String, dynamic>?,
       sort: json['sort'] as String?,
-      limit: json['limit'] as int?,
-      offset: json['offset'] as int?,
+      limit: (json['limit'] as num?)?.toInt(),
+      offset: (json['offset'] as num?)?.toInt(),
       include:
           (json['include'] as List<dynamic>?)?.map((e) => e as String).toList(),
     );
@@ -261,7 +261,7 @@ _$QueryEmbeddingImpl _$$QueryEmbeddingImplFromJson(Map<String, dynamic> json) =>
           .map((e) =>
               (e as List<dynamic>).map((e) => (e as num).toDouble()).toList())
           .toList(),
-      nResults: json['n_results'] as int? ?? 10,
+      nResults: (json['n_results'] as num?)?.toInt() ?? 10,
       include:
           (json['include'] as List<dynamic>?)?.map((e) => e as String).toList(),
     );

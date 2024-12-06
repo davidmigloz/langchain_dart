@@ -495,7 +495,6 @@ components:
         data:
           type: string
           description: Raw bytes for media formats.
-          format: byte
     ListModelsResponse:
       id: ListModelsResponse
       type: object

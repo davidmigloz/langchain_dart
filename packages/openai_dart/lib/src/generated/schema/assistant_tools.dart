@@ -18,6 +18,8 @@ sealed class AssistantTools with _$AssistantTools {
   // ------------------------------------------
 
   /// Code interpreter tool
+
+  @FreezedUnionValue('code_interpreter')
   const factory AssistantTools.codeInterpreter({
     /// The type of tool being defined: `code_interpreter`
     @Default('code_interpreter') String type,
@@ -28,6 +30,8 @@ sealed class AssistantTools with _$AssistantTools {
   // ------------------------------------------
 
   /// FileSearch tool
+
+  @FreezedUnionValue('file_search')
   const factory AssistantTools.fileSearch({
     /// The type of tool being defined: `file_search`
     required String type,
@@ -42,6 +46,8 @@ sealed class AssistantTools with _$AssistantTools {
   // ------------------------------------------
 
   /// Function tool
+
+  @FreezedUnionValue('function')
   const factory AssistantTools.function({
     /// The type of tool being defined: `function`
     @Default('function') String type,

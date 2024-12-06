@@ -174,7 +174,7 @@ packages:
       path: "../../packages/langchain_community"
       relative: true
     source: path
-    version: "0.3.2+1"
+    version: "0.3.2+2"
   langchain_core:
     dependency: "direct overridden"
     description:

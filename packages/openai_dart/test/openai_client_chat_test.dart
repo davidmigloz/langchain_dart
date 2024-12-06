@@ -125,7 +125,7 @@ void main() {
       );
       expect(
         res.usage?.completionTokensDetails?.reasoningTokens,
-        ChatCompletionFinishReason.length,
+        0,
       );
     });
 

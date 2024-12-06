@@ -18,6 +18,8 @@ sealed class ChatCompletionMessage with _$ChatCompletionMessage {
   // ------------------------------------------
 
   /// A system message in a chat conversation.
+
+  @FreezedUnionValue('system')
   const factory ChatCompletionMessage.system({
     /// The role of the messages author, in this case `system`.
     @Default(ChatCompletionMessageRole.system) ChatCompletionMessageRole role,
@@ -34,6 +36,8 @@ sealed class ChatCompletionMessage with _$ChatCompletionMessage {
   // ------------------------------------------
 
   /// A user message in a chat conversation.
+
+  @FreezedUnionValue('user')
   const factory ChatCompletionMessage.user({
     /// The role of the messages author, in this case `user`.
     @Default(ChatCompletionMessageRole.user) ChatCompletionMessageRole role,
@@ -51,6 +55,8 @@ sealed class ChatCompletionMessage with _$ChatCompletionMessage {
   // ------------------------------------------
 
   /// An assistant message in a chat conversation.
+
+  @FreezedUnionValue('assistant')
   const factory ChatCompletionMessage.assistant({
     /// The role of the messages author, in this case `assistant`.
     @Default(ChatCompletionMessageRole.assistant)
@@ -83,6 +89,8 @@ sealed class ChatCompletionMessage with _$ChatCompletionMessage {
   // ------------------------------------------
 
   /// A tool message in a chat conversation.
+
+  @FreezedUnionValue('tool')
   const factory ChatCompletionMessage.tool({
     /// The role of the messages author, in this case `tool`.
     @Default(ChatCompletionMessageRole.tool) ChatCompletionMessageRole role,
@@ -99,6 +107,8 @@ sealed class ChatCompletionMessage with _$ChatCompletionMessage {
   // ------------------------------------------
 
   /// A function message in a chat conversation.
+
+  @FreezedUnionValue('function')
   const factory ChatCompletionMessage.function({
     /// The role of the messages author, in this case `function`.
     @Default(ChatCompletionMessageRole.function) ChatCompletionMessageRole role,

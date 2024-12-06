@@ -68,7 +68,7 @@ void main() {
         timeout: const Timeout(Duration(minutes: 5)), () async {
       final stream = client.createMessageStream(
         request: const CreateMessageRequest(
-          model: Model.model(Models.claudeInstant12),
+          model: Model.model(Models.claude3Haiku20240307),
           temperature: 0,
           maxTokens: 1024,
           system: CreateMessageRequestSystem.text(
@@ -94,7 +94,7 @@ void main() {
             expect(v.message.role, MessageRole.assistant);
             expect(
               v.message.model?.replaceAll(RegExp(r'[-.]'), ''),
-              Models.claudeInstant12.name.toLowerCase(),
+              Models.claude3Haiku20240307.name.toLowerCase(),
             );
             expect(v.message.stopReason, isNull);
             expect(v.message.stopSequence, isNull);
@@ -142,7 +142,7 @@ void main() {
 
     test('Test response max tokens', () async {
       const request = CreateMessageRequest(
-        model: Model.model(Models.claudeInstant12),
+        model: Model.model(Models.claude3Haiku20240307),
         maxTokens: 1,
         messages: [
           Message(
@@ -330,7 +330,7 @@ void main() {
           BatchMessageRequest(
             customId: 'request1',
             params: CreateMessageRequest(
-              model: Model.model(Models.claudeInstant12),
+              model: Model.model(Models.claude3Haiku20240307),
               temperature: 0,
               maxTokens: 1024,
               system: CreateMessageRequestSystem.text(
@@ -349,7 +349,7 @@ void main() {
           BatchMessageRequest(
             customId: 'request2',
             params: CreateMessageRequest(
-              model: Model.model(Models.claudeInstant12),
+              model: Model.model(Models.claude3Haiku20240307),
               temperature: 0,
               maxTokens: 1024,
               system: CreateMessageRequestSystem.text(
