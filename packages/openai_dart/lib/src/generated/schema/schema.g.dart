@@ -1113,19 +1113,23 @@ _$ChatCompletionStreamResponseDeltaImpl
     _$$ChatCompletionStreamResponseDeltaImplFromJson(
             Map<String, dynamic> json) =>
         _$ChatCompletionStreamResponseDeltaImpl(
+          role: $enumDecodeNullable(
+              _$ChatCompletionMessageRoleEnumMap, json['role'],
+              unknownValue: JsonKey.nullForUndefinedEnumValue),
           content: json['content'] as String?,
           refusal: json['refusal'] as String?,
-          functionCall: json['function_call'] == null
-              ? null
-              : ChatCompletionStreamMessageFunctionCall.fromJson(
-                  json['function_call'] as Map<String, dynamic>),
           toolCalls: (json['tool_calls'] as List<dynamic>?)
               ?.map((e) => ChatCompletionStreamMessageToolCallChunk.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
-          role: $enumDecodeNullable(
-              _$ChatCompletionMessageRoleEnumMap, json['role'],
-              unknownValue: JsonKey.nullForUndefinedEnumValue),
+          functionCall: json['function_call'] == null
+              ? null
+              : ChatCompletionStreamMessageFunctionCall.fromJson(
+                  json['function_call'] as Map<String, dynamic>),
+          audio: json['audio'] == null
+              ? null
+              : ChatCompletionStreamResponseDeltaAudio.fromJson(
+                  json['audio'] as Map<String, dynamic>),
         );
 
 Map<String, dynamic> _$$ChatCompletionStreamResponseDeltaImplToJson(
@@ -1138,12 +1142,13 @@ Map<String, dynamic> _$$ChatCompletionStreamResponseDeltaImplToJson(
     }
   }
 
+  writeNotNull('role', _$ChatCompletionMessageRoleEnumMap[instance.role]);
   writeNotNull('content', instance.content);
   writeNotNull('refusal', instance.refusal);
-  writeNotNull('function_call', instance.functionCall?.toJson());
   writeNotNull(
       'tool_calls', instance.toolCalls?.map((e) => e.toJson()).toList());
-  writeNotNull('role', _$ChatCompletionMessageRoleEnumMap[instance.role]);
+  writeNotNull('function_call', instance.functionCall?.toJson());
+  writeNotNull('audio', instance.audio?.toJson());
   return val;
 }
 
@@ -1154,6 +1159,33 @@ const _$ChatCompletionMessageRoleEnumMap = {
   ChatCompletionMessageRole.tool: 'tool',
   ChatCompletionMessageRole.function: 'function',
 };
+
+_$ChatCompletionStreamResponseDeltaAudioImpl
+    _$$ChatCompletionStreamResponseDeltaAudioImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ChatCompletionStreamResponseDeltaAudioImpl(
+          id: json['id'] as String?,
+          expiresAt: (json['expires_at'] as num?)?.toInt(),
+          data: json['data'] as String?,
+          transcript: json['transcript'] as String?,
+        );
+
+Map<String, dynamic> _$$ChatCompletionStreamResponseDeltaAudioImplToJson(
+    _$ChatCompletionStreamResponseDeltaAudioImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  writeNotNull('expires_at', instance.expiresAt);
+  writeNotNull('data', instance.data);
+  writeNotNull('transcript', instance.transcript);
+  return val;
+}
 
 _$ChatCompletionStreamMessageFunctionCallImpl
     _$$ChatCompletionStreamMessageFunctionCallImplFromJson(

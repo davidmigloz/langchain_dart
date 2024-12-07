@@ -299,6 +299,8 @@ print(audio?.transcript);
 print(audio?.data);
 ```
 
+Streaming responses when using audio is also supported, use `client.createChatCompletionStream(...)` instead.
+
 Check the [Audio generation](https://platform.openai.com/docs/guides/audio) guide for more information.
 
 **Structured output: ([docs](https://platform.openai.com/docs/guides/structured-outputs))**

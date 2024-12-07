@@ -570,6 +570,44 @@ void main() {
       expect(choice1.message.audio!.data, isNotEmpty);
     });
 
+    test('Test streaming audio output from model', () async {
+      const request = CreateChatCompletionRequest(
+        model: ChatCompletionModel.model(
+          ChatCompletionModels.gpt4oAudioPreview,
+        ),
+        modalities: [
+          ChatCompletionModality.text,
+          ChatCompletionModality.audio,
+        ],
+        audio: ChatCompletionAudioOptions(
+          voice: ChatCompletionAudioVoice.alloy,
+          format: ChatCompletionAudioFormat.pcm16,
+        ),
+        messages: [
+          ChatCompletionMessage.user(
+            content: ChatCompletionUserMessageContent.string(
+              'Is a golden retriever a good family dog?',
+            ),
+          ),
+        ],
+      );
+
+      var chunks = 0;
+      var transcript = '';
+      var data = '';
+      final stream = client.createChatCompletionStream(request: request);
+      await for (final res in stream) {
+        expect(res.choices, hasLength(1));
+        final choice = res.choices.first;
+        transcript += choice.delta.audio?.transcript ?? '';
+        data += choice.delta.audio?.data ?? '';
+        chunks++;
+      }
+      expect(chunks, greaterThan(1));
+      expect(transcript, contains('golden'));
+      expect(data, isNotEmpty);
+    });
+
     test('Test audio input to model', () async {
       const request = CreateChatCompletionRequest(
         model: ChatCompletionModel.model(
