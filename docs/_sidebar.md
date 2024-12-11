@@ -80,6 +80,7 @@
         - [Text](/modules/retrieval/document_loaders/how_to/text.md)
         - [JSON](/modules/retrieval/document_loaders/how_to/json.md)
         - [Web page](/modules/retrieval/document_loaders/how_to/web.md)
+        - [Directory](/modules/retrieval/document_loaders/how_to/directory.md)
     - [Document transformers](/modules/retrieval/document_transformers/document_transformers.md)
       - Text splitters
         - [Split by character](/modules/retrieval/document_transformers/text_splitters/character_text_splitter.md)
