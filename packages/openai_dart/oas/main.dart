@@ -56,7 +56,8 @@ String? _onSchemaUnionFactoryName(
       'ChatCompletionFunctionCallEnumeration' => 'mode',
       'ChatCompletionFunctionCallChatCompletionFunctionCallOption' =>
         'function',
-      'PredictionContentContentListChatCompletionMessageContentPartText' => 'textParts',
+      'PredictionContentContentListChatCompletionMessageContentPartText' =>
+        'textParts',
       'PredictionContentContentString' => 'text',
       'ResponseFormatText' => 'text',
       'ResponseFormatJsonObject' => 'jsonObject',

@@ -85,7 +85,7 @@ void main() {
           ],
         ),
       );
-      String text = '';
+      var text = '';
       await for (final res in stream) {
         res.map(
           messageStart: (v) {
@@ -268,7 +268,7 @@ void main() {
       final stream = client.createMessageStream(
         request: request1,
       );
-      String inputJson = '';
+      var inputJson = '';
       await for (final res in stream) {
         res.map(
           messageStart: (v) {

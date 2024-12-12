@@ -60,7 +60,7 @@ Future<void> _generateCompletionStream(final OllamaClient client) async {
       prompt: 'Why is the sky blue?',
     ),
   );
-  String text = '';
+  var text = '';
   await for (final res in stream) {
     text += res.response?.trim() ?? '';
   }
@@ -131,7 +131,7 @@ Future<void> _generateChatCompletionStream(final OllamaClient client) async {
       ],
     ),
   );
-  String text = '';
+  var text = '';
   await for (final res in stream) {
     text += res.message.content.trim();
   }

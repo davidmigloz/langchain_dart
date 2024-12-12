@@ -66,7 +66,7 @@ void main() {
           prompt: testPrompt,
         ),
       );
-      String text = '';
+      var text = '';
       await for (final res in stream) {
         expect(res.response, isNotNull);
         text += res.response!.trim();

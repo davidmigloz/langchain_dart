@@ -28,6 +28,7 @@ linter:
     - avoid_escaping_inner_quotes
     - avoid_field_initializers_in_const_classes
     - avoid_function_literals_in_foreach_calls
+    - avoid_futureor_void
     - avoid_implementing_value_types
     - avoid_init_to_null
     - avoid_js_rounded_ints
@@ -75,7 +76,7 @@ linter:
     - empty_constructor_bodies
     - empty_statements
     - enable_null_safety
-    - eol_at_end_of_file
+    #    - eol_at_end_of_file # Seems to be causing some perf issues (https://github.com/dart-lang/sdk/issues/55281#issuecomment-2519977056)
     - exhaustive_cases
     - file_names
     - hash_and_equals
@@ -107,6 +108,7 @@ linter:
     - noop_primitive_operations
     - null_check_on_nullable_type_parameter
     - null_closures
+    - omit_obvious_local_variable_types
     - only_throw_errors
     - overridden_fields
     - package_names
@@ -154,6 +156,7 @@ linter:
     - slash_for_doc_comments
     - sort_child_properties_last
     - sort_unnamed_constructors_first
+    #    - specify_nonobvious_local_variable_types # Disabled because it's very verbose
     - test_types_in_equals
     - throw_in_finally
     - tighten_type_of_initializing_formals
@@ -204,5 +207,6 @@ linter:
     - use_string_in_part_of_directives
     - use_super_parameters
     - use_test_throws_matchers
+    - use_truncating_division
     - valid_regexps
     - void_checks

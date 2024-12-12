@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs
 import 'dart:convert';
 
-import 'package:collection/collection.dart';
 import 'package:firebase_vertexai/firebase_vertexai.dart' as f;
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/language_models.dart';
@@ -95,7 +94,7 @@ extension GenerateContentResponseMapper on f.GenerateContentResponse {
                 _ => throw AssertionError('Unknown part type: $p'),
               },
             )
-            .whereNotNull()
+            .nonNulls
             .join('\n'),
         toolCalls: candidate.content.parts
             .whereType<f.FunctionCall>()

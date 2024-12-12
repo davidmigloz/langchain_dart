@@ -80,7 +80,7 @@ void main() {
           ),
         );
 
-        String content = '';
+        var content = '';
         int count = 0;
         await for (final res in stream) {
           content += res.output.content.replaceAll(RegExp(r'[\s\n]'), '');
