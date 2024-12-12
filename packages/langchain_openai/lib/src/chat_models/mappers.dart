@@ -218,7 +218,7 @@ extension CreateChatCompletionResponseMapper on CreateChatCompletionResponse {
   AIChatMessageToolCall _mapMessageToolCall(
     final ChatCompletionMessageToolCall tooCall,
   ) {
-    Map<String, dynamic> args = {};
+    var args = <String, dynamic>{};
     try {
       args = tooCall.function.arguments.isEmpty
           ? {}
@@ -313,7 +313,7 @@ extension CreateChatCompletionStreamResponseMapper
   AIChatMessageToolCall _mapMessageToolCall(
     final ChatCompletionStreamMessageToolCallChunk toolCall,
   ) {
-    Map<String, dynamic> args = {};
+    var args = <String, dynamic>{};
     try {
       args = json.decode(toolCall.function?.arguments ?? '');
     } catch (_) {}

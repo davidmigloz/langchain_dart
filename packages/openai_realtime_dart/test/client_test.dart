@@ -88,7 +88,7 @@ void main() {
     test('Tool calling test', timeout: const Timeout(Duration(minutes: 5)),
         () async {
       final realtimeEvents = <RealtimeEvent>[];
-      bool toolCalled = false;
+      var toolCalled = false;
       final client = RealtimeClient(
         apiKey: Platform.environment['OPENAI_API_KEY'],
         debug: true,

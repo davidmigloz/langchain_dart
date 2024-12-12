@@ -77,7 +77,7 @@ void main() {
           ],
         ),
       );
-      String text = '';
+      var text = '';
       await for (final res in stream) {
         text += res.message.content.trim();
       }

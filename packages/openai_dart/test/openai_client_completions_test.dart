@@ -135,7 +135,7 @@ void main() {
         temperature: 0,
       );
       final stream = client.createCompletionStream(request: request);
-      String text = '';
+      var text = '';
       await for (final res in stream) {
         expect(res.choices, isNotEmpty);
         text += res.choices.first.text.trim();
