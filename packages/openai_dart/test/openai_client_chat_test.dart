@@ -177,7 +177,7 @@ void main() {
         ),
       );
       final stream = client.createChatCompletionStream(request: request);
-      String text = '';
+      var text = '';
       CreateChatCompletionStreamResponse? lastResponse;
       ChatCompletionStreamResponseChoice? lastChoice;
       await for (final res in stream) {

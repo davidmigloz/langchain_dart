@@ -180,7 +180,7 @@ void main() {
 
       final stream = chain.stream({'max_num': '9'});
 
-      String content = '';
+      var content = '';
       int count = 0;
       await for (final res in stream) {
         content += res.trim();

@@ -33,7 +33,7 @@ base class LangChainException implements Exception {
 
   @override
   String toString() {
-    String output = '[$code] $message';
+    var output = '[$code] $message';
 
     if (stackTrace != null) {
       output += '\n\n$stackTrace';
