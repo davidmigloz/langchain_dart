@@ -6,9 +6,9 @@ import 'package:langchain_core/document_loaders.dart';
 import 'package:langchain_core/documents.dart';
 import 'package:path/path.dart' as path;
 
-import 'csv.dart';
-import 'json.dart';
-import 'text.dart';
+import '../csv.dart';
+import '../json.dart';
+import '../text.dart';
 
 /// {@template directory_loader}
 /// A versatile document loader that loads [Document]s from a directory.
@@ -23,6 +23,7 @@ import 'text.dart';
 /// - Build custom metadata for loaded documents
 ///
 /// ## Default Supported File Types
+///
 /// By default, the DirectoryLoader supports the following file types:
 /// - `.txt`: Text files (loaded using [TextLoader])
 ///   - Loads the entire file content as a single document
@@ -81,30 +82,30 @@ class DirectoryLoader extends BaseDocumentLoader {
     this.metadataBuilder,
   });
 
-  /// The path to the directory to load documents from
+  /// The path to the directory to load documents from.
   final String filePath;
 
-  /// Glob pattern to match files
-  /// Defaults to '*' (all files)
+  /// Glob pattern to match files.
+  /// Use '*' to match all files.
   final String glob;
 
-  /// Whether to search recursively in subdirectories
-  /// Defaults to true
+  /// Whether to search recursively in subdirectories.
   final bool recursive;
 
-  /// Patterns to exclude from loading
+  /// Patterns to exclude from loading.
   final List<String> exclude;
 
-  /// Map of file extensions to specific loaders
+  /// Map of file extensions to specific loaders.
   ///
   /// This map allows customization of how different file types are loaded:
-  /// - Keys are file extensions (including the dot, e.g., '.txt', '.json')
-  /// - Values are functions that create a [BaseDocumentLoader] for a given file path
+  /// - Keys are file extensions (including the dot, e.g., '.txt', '.json').
+  /// - Values are functions that create a [BaseDocumentLoader] for a given
+  ///   file path.
   ///
   /// If not provided, [defaultLoaderMap] will be used, which supports:
-  /// - `.txt`: TextLoader
-  /// - `.json`: JsonLoader (with root schema)
-  /// - `.csv` and `.tsv`: CsvLoader
+  /// - `.txt`: [TextLoader]
+  /// - `.json`: [JsonLoader] (with root schema)
+  /// - `.csv` and `.tsv`: [CsvLoader]
   ///
   /// Example of extending or customizing loaders:
   /// ```dart
@@ -123,38 +124,37 @@ class DirectoryLoader extends BaseDocumentLoader {
   /// );
   /// ```
   ///
-  /// If no loader is found for a file type, [TextLoader] will be used as a fallback.
+  /// If no loader is found for a file type, [TextLoader] will be used as a
+  /// fallback.
   final Map<String, BaseDocumentLoader Function(String)> loaderMap;
 
-  /// Whether to load hidden files (starting with '.')
-  /// Defaults to false
+  /// Whether to load hidden files (starting with '.').
   final bool loadHidden;
 
-  /// Maximum number of files to load
-  /// Defaults to 0 (load all files)
+  /// Maximum number of files to load.
+  /// Use 0 to load all files.
   final int sampleSize;
 
-  /// Whether to randomize the sample of files
-  /// Defaults to false
+  /// Whether to randomize the sample of files.
   final bool randomizeSample;
 
-  /// Seed for random sampling to ensure reproducibility
+  /// Seed for random sampling to ensure reproducibility.
   final int? sampleSeed;
 
-  /// Optional function to build custom metadata for each document
+  /// Optional function to build custom metadata for each document.
   final Map<String, dynamic> Function(
     File file,
     Map<String, dynamic> defaultMetadata,
   )? metadataBuilder;
 
-  /// Default loader map with common file type loaders
+  /// Default loader map with common file type loaders.
   ///
   /// Provides out-of-the-box support for:
   /// - Plain text files (`.txt`)
   /// - JSON files (`.json`) - uses root schema
   /// - CSV and TSV files (`.csv`, `.tsv`)
   ///
-  /// Can be extended or overridden when creating a [DirectoryLoader]
+  /// Can be extended or overridden when creating a [DirectoryLoader].
   static Map<String, BaseDocumentLoader Function(String)> defaultLoaderMap = {
     '.txt': TextLoader.new,
     '.json': (path) => JsonLoader(path, jpSchema: r'$'),
@@ -199,29 +199,24 @@ class DirectoryLoader extends BaseDocumentLoader {
 
     final directory = Directory(filePath);
 
-    List<File> files = directory
+    var files = directory
         .listSync(recursive: recursive)
         .whereType<File>()
-        .where(_shouldLoadFile)
-        .toList();
+        .where(_shouldLoadFile);
 
     if (sampleSize > 0) {
       if (randomizeSample) {
         final seed = sampleSeed ?? DateTime.now().millisecondsSinceEpoch;
-        files.shuffle(Random(seed));
+        files = files.toList(growable: false)..shuffle(Random(seed));
       }
-      files = files.take(sampleSize).toList();
+      files = files.take(sampleSize);
     }
 
     for (final file in files) {
       final ext = path.extension(file.path).toLowerCase();
-      final loader = (loaderMap.isNotEmpty ? loaderMap : defaultLoaderMap)
-          .entries
-          .firstWhere(
-            (entry) => entry.key == ext,
-            orElse: () => MapEntry(ext, TextLoader.new),
-          )
-          .value(file.path);
+
+      final loaders = loaderMap.isNotEmpty ? loaderMap : defaultLoaderMap;
+      final loader = loaders[ext]?.call(file.path) ?? TextLoader(file.path);
 
       final defaultMetadata = _buildDefaultMetadata(file);
       final metadata =
