@@ -1,6 +1,6 @@
 name: tavily_dart
 description: Dart Client for the Tavily API (a search engine optimized for LLMs and RAG).
-version: 0.1.0
+version: 0.1.0+1
 repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/tavily_dart
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues?q=label:p:tavily_dart
 homepage: https://github.com/davidmigloz/langchain_dart

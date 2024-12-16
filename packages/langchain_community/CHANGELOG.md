@@ -2,6 +2,14 @@
 
 ---
 
+## 0.3.3
+
+ - **FEAT**: Add support for DirectoryLoader ([#620](https://github.com/davidmigloz/langchain_dart/issues/620)). ([4730f2a3](https://github.com/davidmigloz/langchain_dart/commit/4730f2a376b152ea38e5204125209ef01f29cab9))
+ - **FEAT**: Expose internal store in ObjectBoxVectorStore ([#611](https://github.com/davidmigloz/langchain_dart/issues/611)). ([c33f2e07](https://github.com/davidmigloz/langchain_dart/commit/c33f2e07c31ddd91dae16856df3b6c8ffddc45e9))
+ - **FIX**: Chinese character support on web loader ([#600](https://github.com/davidmigloz/langchain_dart/issues/600)). ([48e64d5b](https://github.com/davidmigloz/langchain_dart/commit/48e64d5b01aa8469dbf7a973350eeac26b43df8f))
+ - **REFACTOR**: Add new lint rules and fix issues ([#621](https://github.com/davidmigloz/langchain_dart/issues/621)). ([60b10e00](https://github.com/davidmigloz/langchain_dart/commit/60b10e008acf55ebab90789ad08d2449a44b69d8))
+ - **REFACTOR**: Upgrade api clients generator version ([#610](https://github.com/davidmigloz/langchain_dart/issues/610)). ([0c8750e8](https://github.com/davidmigloz/langchain_dart/commit/0c8750e85b34764f99b6e34cc531776ffe8fba7c))
+
 ## 0.3.2+2
 
  - **FIX**: Update ObjectBox SDK to v4.0.3 to fix StorageException in iOS ([#581](https://github.com/davidmigloz/langchain_dart/issues/581)). ([943811a5](https://github.com/davidmigloz/langchain_dart/commit/943811a5d5ab1c7ef3e83db0c45082a0d4d1fc4a))

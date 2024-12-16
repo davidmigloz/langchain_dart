@@ -1,6 +1,6 @@
 name: vertex_ai
 description: GCP Vertex AI ML platform API client (PaLM, Vector Search, etc.).
-version: 0.1.0+2
+version: 0.1.0+3
 repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/vertex_ai
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues?q=label:p:vertex_ai
 homepage: https://github.com/davidmigloz/langchain_dart
