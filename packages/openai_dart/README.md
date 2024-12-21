@@ -1386,7 +1386,17 @@ final client = OpenAIClient(
 - `YOUR_RESOURCE_NAME`: This value can be found in the Keys & Endpoint section when examining your resource from the Azure portal.
 - `YOUR_DEPLOYMENT_NAME`: This value will correspond to the custom name you chose for your deployment when you deployed a model. This value can be found under Resource Management > Deployments in the Azure portal.
 - `YOUR_API_KEY`: This value can be found in the Keys & Endpoint section when examining your resource from the Azure portal.
-- `API_VERSION`: The Azure OpenAI API version to use (e.g. `2023-05-15`). Try to use the [latest version available](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cognitiveservices/data-plane/AzureOpenAI/inference), it will probably be the closest to the official OpenAI API.
+- `API_VERSION`: The Azure OpenAI API version to use (e.g. `2024-10-21`). Try to use the [latest version available](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cognitiveservices/data-plane/AzureOpenAI/inference), it will probably be the closest to the official OpenAI API.
+
+For the [Assistants API](https://learn.microsoft.com/en-us/azure/ai-services/openai/assistants-reference-threads), the `baseUrl` differs slightly:
+
+```dart
+final client = OpenAIClient(
+  baseUrl: 'https://YOUR_RESOURCE_NAME.openai.azure.com/openai',
+  headers: { 'api-key': 'YOUR_API_KEY' },
+  queryParams: { 'api-version': 'API_VERSION' },
+);
+```
 
 ### OpenAI-compatible APIs
 
