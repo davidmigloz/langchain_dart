@@ -22,10 +22,10 @@ class ListVectorStoreFilesResponse with _$ListVectorStoreFilesResponse {
     required List<VectorStoreFileObject> data,
 
     /// The ID of the first message file in the list.
-    @JsonKey(name: 'first_id') required String firstId,
+    @JsonKey(name: 'first_id', includeIfNull: false) String? firstId,
 
     /// The ID of the last message file in the list.
-    @JsonKey(name: 'last_id') required String lastId,
+    @JsonKey(name: 'last_id', includeIfNull: false) String? lastId,
 
     /// Whether there are more message files available.
     @JsonKey(name: 'has_more') required bool hasMore,

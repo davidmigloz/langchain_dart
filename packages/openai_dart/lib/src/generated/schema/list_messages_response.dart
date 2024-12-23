@@ -22,10 +22,10 @@ class ListMessagesResponse with _$ListMessagesResponse {
     required List<MessageObject> data,
 
     /// The ID of the first message in the list.
-    @JsonKey(name: 'first_id') required String firstId,
+    @JsonKey(name: 'first_id', includeIfNull: false) String? firstId,
 
     /// The ID of the last message in the list.
-    @JsonKey(name: 'last_id') required String lastId,
+    @JsonKey(name: 'last_id', includeIfNull: false) String? lastId,
 
     /// Whether there are more messages to retrieve.
     @JsonKey(name: 'has_more') required bool hasMore,

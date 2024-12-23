@@ -41,6 +41,7 @@ command:
       flutter_markdown: ^0.7.3
       freezed_annotation: ^2.4.2
       gcloud: ^0.8.13
+      glob: ^2.1.2
       google_generative_ai: ^0.4.6
       googleapis: ^13.0.0
       googleapis_auth: ^1.6.0
@@ -53,6 +54,7 @@ command:
       math_expressions: ^2.6.0
       meta: ^1.11.0
       objectbox: ^4.0.3
+      path: ^1.9.1
       pinecone: ^0.7.2
       rxdart: ">=0.27.7 <0.29.0"
       shared_preferences: ^2.3.0
@@ -69,7 +71,7 @@ command:
       openapi_spec:
         git:
           url: https://github.com/davidmigloz/openapi_spec.git
-          ref: 93230a5e346b02789f0f727da8eecea9c7bdf118
+          ref: c99a29b7eaad2d25e7ceb90be56e6a9a41066322
       test: ^1.25.8
 
 scripts:

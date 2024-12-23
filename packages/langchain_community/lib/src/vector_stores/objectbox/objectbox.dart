@@ -94,8 +94,10 @@ class ObjectBoxVectorStore extends BaseObjectBoxVectorStore<ObjectBoxDocument> {
           getEmbeddingProperty: () => obxg.ObjectBoxDocument_.embedding,
         );
 
-  /// The ObjectBox store.
   static Store? _store;
+
+  /// The ObjectBox store.
+  Store? get store => _store;
 
   /// Opens the ObjectBox store.
   static Store _openStore({
@@ -131,7 +133,7 @@ class ObjectBoxVectorStore extends BaseObjectBoxVectorStore<ObjectBoxDocument> {
 
   /// Creates a [Document] from an [ObjectBoxDocument] entity.
   static Document _createDoc(ObjectBoxDocument entity) {
-    Map<String, dynamic> metadata = const {};
+    var metadata = const <String, dynamic>{};
     try {
       metadata = jsonDecode(entity.metadata);
     } catch (_) {}

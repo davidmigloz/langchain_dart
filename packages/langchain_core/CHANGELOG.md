@@ -2,6 +2,10 @@
 
 ---
 
+## 0.3.6+1
+
+ - **REFACTOR**: Add new lint rules and fix issues ([#621](https://github.com/davidmigloz/langchain_dart/issues/621)). ([60b10e00](https://github.com/davidmigloz/langchain_dart/commit/60b10e008acf55ebab90789ad08d2449a44b69d8))
+
 ## 0.3.6
 
  - **FEAT**: Add retry support for Runnables ([#540](https://github.com/davidmigloz/langchain_dart/issues/540)). ([1099725d](https://github.com/davidmigloz/langchain_dart/commit/1099725d88de4103381edad533209a9a098bdb7f))

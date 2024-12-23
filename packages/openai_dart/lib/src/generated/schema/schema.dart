@@ -6,6 +6,7 @@
 library open_a_i_schema;
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'dart:typed_data';
 
 part 'schema.g.dart';
 part 'schema.freezed.dart';
@@ -29,6 +30,7 @@ part 'chat_completion_named_tool_choice.dart';
 part 'chat_completion_message_tool_calls.dart';
 part 'chat_completion_message_tool_call.dart';
 part 'chat_completion_modality.dart';
+part 'prediction_content.dart';
 part 'chat_completion_audio_options.dart';
 part 'chat_completion_audio_voice.dart';
 part 'chat_completion_audio_format.dart';
@@ -171,3 +173,17 @@ part 'run_step_delta_step_details_tool_calls_code_output.dart';
 part 'chunking_strategy_request_param.dart';
 part 'chunking_strategy_response_param.dart';
 part 'assistant_stream_event.dart';
+
+class Uint8ListConverter implements JsonConverter<Uint8List, List<int>> {
+  const Uint8ListConverter();
+
+  @override
+  Uint8List fromJson(List<int> json) {
+    return Uint8List.fromList(json);
+  }
+
+  @override
+  List<int> toJson(Uint8List object) {
+    return object.toList();
+  }
+}

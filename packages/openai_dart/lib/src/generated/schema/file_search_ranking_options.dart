@@ -11,7 +11,7 @@ part of open_a_i_schema;
 /// The ranking options for the file search. If not specified, the file search tool will use the `auto` ranker and
 /// a score_threshold of 0.
 ///
-/// See the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/customizing-file-search-settings)
+/// See the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search#customizing-file-search-settings)
 /// for more information.
 @freezed
 class FileSearchRankingOptions with _$FileSearchRankingOptions {

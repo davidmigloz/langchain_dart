@@ -23,9 +23,13 @@ import 'package:meta/meta.dart';
 /// - `gpt-4o`
 /// - `gpt-4o-2024-05-13`
 /// - `gpt-4o-2024-08-06`
-/// - `gpt-4o-2024-08-06`
+/// - `gpt-4o-2024-11-20`
+/// - `gpt-4o-audio-preview`
+/// - `gpt-4o-audio-preview-2024-10-01`
 /// - `gpt-4o-mini`
 /// - `gpt-4o-mini-2024-07-18`
+/// - `gpt-4o-realtime-preview`
+/// - `gpt-4o-realtime-preview-2024-10-01`
 /// - `gpt-3.5-turbo`
 /// - `gpt-3.5-turbo-16k`
 /// - `gpt-3.5-turbo-16k-0613`

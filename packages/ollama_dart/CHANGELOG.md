@@ -2,6 +2,11 @@
 
 ---
 
+## 0.2.2+1
+
+ - **REFACTOR**: Add new lint rules and fix issues ([#621](https://github.com/davidmigloz/langchain_dart/issues/621)). ([60b10e00](https://github.com/davidmigloz/langchain_dart/commit/60b10e008acf55ebab90789ad08d2449a44b69d8))
+ - **REFACTOR**: Upgrade api clients generator version ([#610](https://github.com/davidmigloz/langchain_dart/issues/610)). ([0c8750e8](https://github.com/davidmigloz/langchain_dart/commit/0c8750e85b34764f99b6e34cc531776ffe8fba7c))
+
 ## 0.2.2
 
  - **FEAT**: Update Ollama default model to llama-3.2 ([#554](https://github.com/davidmigloz/langchain_dart/issues/554)). ([f42ed0f0](https://github.com/davidmigloz/langchain_dart/commit/f42ed0f04136021b30556787cfdea13a14ca5768))

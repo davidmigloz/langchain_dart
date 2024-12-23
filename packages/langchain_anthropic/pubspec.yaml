@@ -1,6 +1,6 @@
 name: langchain_anthropic
 description: Anthropic module for LangChain.dart (Claude 3.5 Sonnet, Opus, Haiku, Instant, etc.).
-version: 0.2.0
+version: 0.2.0+1
 repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/langchain_anthropic
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues?q=label:p:langchain_anthropic
 homepage: https://github.com/davidmigloz/langchain_dart
@@ -16,10 +16,10 @@ environment:
   sdk: ">=3.4.0 <4.0.0"
 
 dependencies:
-  anthropic_sdk_dart: ^0.2.0
+  anthropic_sdk_dart: ^0.2.0+1
   collection: ^1.18.0
   http: ^1.2.2
-  langchain_core: 0.3.6
+  langchain_core: 0.3.6+1
   langchain_tiktoken: ^1.0.1
   meta: ^1.11.0
   rxdart: ">=0.27.7 <0.29.0"

@@ -141,7 +141,7 @@ void main() {
 
     final stream = promptTemplate.streamFromInputStream(inputStream);
     int count = 0;
-    PromptValue output = PromptValue.string('');
+    var output = PromptValue.string('');
     await stream.forEach((final i) {
       count++;
       output = output.concat(i);
@@ -171,7 +171,7 @@ void main() {
 
     final stream = promptTemplate.streamFromInputStream(inputStream);
     int count = 0;
-    PromptValue output = PromptValue.chat([ChatMessage.humanText('')]);
+    var output = PromptValue.chat([ChatMessage.humanText('')]);
     await stream.forEach((final i) {
       count++;
       output = output.concat(i);

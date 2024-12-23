@@ -338,7 +338,7 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
         ? messages.firstOrNull?.contentAsString
         : null;
 
-    bool recreate = false;
+    var recreate = false;
     if (model != _currentModel) {
       _currentModel = model;
       recreate = true;

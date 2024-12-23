@@ -327,8 +327,6 @@ enum Models {
   claude21,
   @JsonValue('claude-2.0')
   claude20,
-  @JsonValue('claude-instant-1.2')
-  claudeInstant12,
 }
 
 // ==========================================

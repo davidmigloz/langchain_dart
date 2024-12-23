@@ -125,7 +125,7 @@ void main() {
       );
       expect(
         res.usage?.completionTokensDetails?.reasoningTokens,
-        ChatCompletionFinishReason.length,
+        0,
       );
     });
 
@@ -177,7 +177,7 @@ void main() {
         ),
       );
       final stream = client.createChatCompletionStream(request: request);
-      String text = '';
+      var text = '';
       CreateChatCompletionStreamResponse? lastResponse;
       ChatCompletionStreamResponseChoice? lastChoice;
       await for (final res in stream) {
@@ -570,6 +570,44 @@ void main() {
       expect(choice1.message.audio!.data, isNotEmpty);
     });
 
+    test('Test streaming audio output from model', () async {
+      const request = CreateChatCompletionRequest(
+        model: ChatCompletionModel.model(
+          ChatCompletionModels.gpt4oAudioPreview,
+        ),
+        modalities: [
+          ChatCompletionModality.text,
+          ChatCompletionModality.audio,
+        ],
+        audio: ChatCompletionAudioOptions(
+          voice: ChatCompletionAudioVoice.alloy,
+          format: ChatCompletionAudioFormat.pcm16,
+        ),
+        messages: [
+          ChatCompletionMessage.user(
+            content: ChatCompletionUserMessageContent.string(
+              'Is a golden retriever a good family dog?',
+            ),
+          ),
+        ],
+      );
+
+      var chunks = 0;
+      var transcript = '';
+      var data = '';
+      final stream = client.createChatCompletionStream(request: request);
+      await for (final res in stream) {
+        expect(res.choices, hasLength(1));
+        final choice = res.choices.first;
+        transcript += choice.delta.audio?.transcript ?? '';
+        data += choice.delta.audio?.data ?? '';
+        chunks++;
+      }
+      expect(chunks, greaterThan(1));
+      expect(transcript, contains('golden'));
+      expect(data, isNotEmpty);
+    });
+
     test('Test audio input to model', () async {
       const request = CreateChatCompletionRequest(
         model: ChatCompletionModel.model(
@@ -609,6 +647,49 @@ void main() {
       expect(choice1.message.audio!.expiresAt, greaterThan(0));
       expect(choice1.message.audio!.transcript, contains('2'));
       expect(choice1.message.audio!.data, isNotEmpty);
+    });
+
+    test('Test predicted outputs feature', () async {
+      const codeContent = '''
+class User {
+  firstName: string = "";
+  lastName: string = "";
+  username: string = "";
+}
+
+export default User;''';
+      const request = CreateChatCompletionRequest(
+        model: ChatCompletionModel.model(
+          ChatCompletionModels.gpt4o,
+        ),
+        messages: [
+          ChatCompletionMessage.user(
+            content: ChatCompletionUserMessageContent.string(
+              'Replace the username property with an email property. '
+              'Respond only with code, and with no markdown formatting.',
+            ),
+          ),
+          ChatCompletionMessage.user(
+            content: ChatCompletionUserMessageContent.string(codeContent),
+          ),
+        ],
+        prediction: PredictionContent(
+          content: PredictionContentContent.text(codeContent),
+        ),
+      );
+      final res1 = await client.createChatCompletion(request: request);
+      expect(res1.choices, hasLength(1));
+      final choice1 = res1.choices.first;
+      expect(choice1.message.content, contains('email: string ='));
+      expect(choice1.message.content, isNot(contains('username: string =')));
+      expect(
+        res1.usage?.completionTokensDetails?.acceptedPredictionTokens,
+        greaterThan(0),
+      );
+      expect(
+        res1.usage?.completionTokensDetails?.rejectedPredictionTokens,
+        greaterThan(0),
+      );
     });
   });
 }

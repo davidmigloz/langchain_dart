@@ -1,6 +1,7 @@
+import 'dart:convert';
+
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:http/http.dart' as http;
-
 import 'package:langchain_core/document_loaders.dart';
 import 'package:langchain_core/documents.dart';
 
@@ -57,7 +58,7 @@ class WebBaseLoader extends BaseDocumentLoader {
 
   Future<String> _fetchUrl(final String url) async {
     final response = await http.get(Uri.parse(url), headers: requestHeaders);
-    return response.body;
+    return utf8.decode(response.bodyBytes);
   }
 
   Map<String, dynamic> _buildMetadata(

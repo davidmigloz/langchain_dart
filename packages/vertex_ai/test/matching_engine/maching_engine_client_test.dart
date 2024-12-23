@@ -32,7 +32,7 @@ void main() async {
         ),
       );
       // 2. Poll for operation completion (takes around 30min)
-      VertexAIOperation operation = res;
+      var operation = res;
       while (!operation.done) {
         print('Index creation operation not done yet...');
         await Future<void>.delayed(const Duration(seconds: 10));
@@ -51,7 +51,7 @@ void main() async {
         publicEndpointEnabled: true,
       );
       // 2. Poll for operation completion (takes around 10s)
-      VertexAIOperation operation = res;
+      var operation = res;
       while (!operation.done) {
         print('Index endpoint creation operation not done yet...');
         await Future<void>.delayed(const Duration(seconds: 10));
@@ -71,7 +71,7 @@ void main() async {
         deployedIndexDisplayName: 'test-deployed-index',
       );
       // 2. Poll for operation completion (takes around 30min)
-      VertexAIOperation operation = res;
+      var operation = res;
       while (!operation.done) {
         print('Index deployment operation not done yet...');
         await Future<void>.delayed(const Duration(seconds: 10));

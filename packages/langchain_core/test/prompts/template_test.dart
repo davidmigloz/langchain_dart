@@ -5,7 +5,7 @@ import 'package:test/test.dart';
 void main() {
   group('Template tests', () {
     test('Render renderFStringTemplate', () {
-      final List<(String, InputValues, String)> scenarios = [
+      final scenarios = <(String, InputValues, String)>[
         ('{foo}', {'foo': 'bar'}, 'bar'),
         ('pre{foo}post', {'foo': 'bar'}, 'prebarpost'),
         ('{{pre{foo}post}}', {'foo': 'bar'}, '{prebarpost}'),
@@ -26,7 +26,7 @@ void main() {
     });
 
     test('Invalid f-strings', () {
-      final List<(String, InputValues)> scenarios = [
+      final scenarios = <(String, InputValues)>[
         ('{', {}),
         ('}', {}),
         ('{foo', {}),

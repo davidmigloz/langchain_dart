@@ -88,14 +88,14 @@ class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
     @JsonKey(name: 'tool_choice', includeIfNull: false)
     CreateThreadAndRunRequestToolChoice? toolChoice,
 
-    /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+    /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling#configuring-parallel-function-calling)
     /// during tool use.
     @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
     bool? parallelToolCalls,
 
     /// Specifies the format that the model must output. Compatible with
-    /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
-    /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+    /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
+    /// [GPT-4 Turbo](https://platform.openai.com/docs/models#gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
     /// since `gpt-3.5-turbo-1106`.
     ///
     /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures
@@ -206,8 +206,6 @@ class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
 
 /// Available models. Mind that the list may not be exhaustive nor up-to-date.
 enum ThreadAndRunModels {
-  @JsonValue('chatgpt-4o-latest')
-  chatgpt4oLatest,
   @JsonValue('gpt-4')
   gpt4,
   @JsonValue('gpt-4-32k')
@@ -238,6 +236,8 @@ enum ThreadAndRunModels {
   gpt4o20240513,
   @JsonValue('gpt-4o-2024-08-06')
   gpt4o20240806,
+  @JsonValue('gpt-4o-2024-11-20')
+  gpt4o20241120,
   @JsonValue('gpt-4o-mini')
   gpt4oMini,
   @JsonValue('gpt-4o-mini-2024-07-18')
@@ -250,20 +250,10 @@ enum ThreadAndRunModels {
   gpt35Turbo16k0613,
   @JsonValue('gpt-3.5-turbo-0125')
   gpt35Turbo0125,
-  @JsonValue('gpt-3.5-turbo-0301')
-  gpt35Turbo0301,
   @JsonValue('gpt-3.5-turbo-0613')
   gpt35Turbo0613,
   @JsonValue('gpt-3.5-turbo-1106')
   gpt35Turbo1106,
-  @JsonValue('o1-mini')
-  o1Mini,
-  @JsonValue('o1-mini-2024-09-12')
-  o1Mini20240912,
-  @JsonValue('o1-preview')
-  o1Preview,
-  @JsonValue('o1-preview-2024-09-12')
-  o1Preview20240912,
 }
 
 // ==========================================
@@ -436,8 +426,8 @@ enum CreateThreadAndRunRequestResponseFormatMode {
 // ==========================================
 
 /// Specifies the format that the model must output. Compatible with
-/// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
-/// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+/// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
+/// [GPT-4 Turbo](https://platform.openai.com/docs/models#gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
 /// since `gpt-3.5-turbo-1106`.
 ///
 /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures

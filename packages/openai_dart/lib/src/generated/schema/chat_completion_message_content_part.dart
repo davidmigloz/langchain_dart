@@ -19,6 +19,8 @@ sealed class ChatCompletionMessageContentPart
   // ------------------------------------------
 
   /// A text content part of a message.
+
+  @FreezedUnionValue('text')
   const factory ChatCompletionMessageContentPart.text({
     /// The type of the content part, in this case `text`.
     @Default(ChatCompletionMessageContentPartType.text)
@@ -33,6 +35,8 @@ sealed class ChatCompletionMessageContentPart
   // ------------------------------------------
 
   /// An image content part of a user message.
+
+  @FreezedUnionValue('image_url')
   const factory ChatCompletionMessageContentPart.image({
     /// The type of the content part, in this case `image_url`.
     @Default(ChatCompletionMessageContentPartType.imageUrl)
@@ -48,6 +52,8 @@ sealed class ChatCompletionMessageContentPart
 
   /// An audio content part of a user message.
   /// Learn about [audio inputs](https://platform.openai.com/docs/guides/audio).
+
+  @FreezedUnionValue('input_audio')
   const factory ChatCompletionMessageContentPart.audio({
     /// The type of the content part. Always `input_audio`.
     @Default(ChatCompletionMessageContentPartType.inputAudio)
@@ -63,6 +69,8 @@ sealed class ChatCompletionMessageContentPart
   // ------------------------------------------
 
   /// A refusal content part of a message.
+
+  @FreezedUnionValue('refusal')
   const factory ChatCompletionMessageContentPart.refusal({
     /// The type of the content part, in this case `refusal`.
     @Default(ChatCompletionMessageContentPartType.refusal)
@@ -107,7 +115,8 @@ class ChatCompletionMessageImageUrl with _$ChatCompletionMessageImageUrl {
     /// Either a URL of the image or the base64 encoded image data.
     required String url,
 
-    /// Specifies the detail level of the image. Learn more in the [Vision guide](https://platform.openai.com/docs/guides/vision/low-or-high-fidelity-image-understanding).
+    /// Specifies the detail level of the image. Learn more in the
+    /// [Vision guide](https://platform.openai.com/docs/guides/vision#low-or-high-fidelity-image-understanding).
     @Default(ChatCompletionMessageImageDetail.auto)
     ChatCompletionMessageImageDetail detail,
   }) = _ChatCompletionMessageImageUrl;
@@ -137,7 +146,8 @@ class ChatCompletionMessageImageUrl with _$ChatCompletionMessageImageUrl {
 // ENUM: ChatCompletionMessageImageDetail
 // ==========================================
 
-/// Specifies the detail level of the image. Learn more in the [Vision guide](https://platform.openai.com/docs/guides/vision/low-or-high-fidelity-image-understanding).
+/// Specifies the detail level of the image. Learn more in the
+/// [Vision guide](https://platform.openai.com/docs/guides/vision#low-or-high-fidelity-image-understanding).
 enum ChatCompletionMessageImageDetail {
   @JsonValue('auto')
   auto,

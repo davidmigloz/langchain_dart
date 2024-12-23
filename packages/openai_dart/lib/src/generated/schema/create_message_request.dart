@@ -68,7 +68,7 @@ class CreateMessageRequest with _$CreateMessageRequest {
 sealed class CreateMessageRequestContent with _$CreateMessageRequestContent {
   const CreateMessageRequestContent._();
 
-  /// An array of content parts with a defined type, each can be of type `text` or images can be passed with `image_url` or `image_file`. Image types are only supported on [Vision-compatible models](https://platform.openai.com/docs/models/overview).
+  /// An array of content parts with a defined type, each can be of type `text` or images can be passed with `image_url` or `image_file`. Image types are only supported on [Vision-compatible models](https://platform.openai.com/docs/models).
   const factory CreateMessageRequestContent.parts(
     List<MessageContent> value,
   ) = CreateMessageRequestContentListMessageContent;

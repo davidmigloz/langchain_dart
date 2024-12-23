@@ -42,7 +42,12 @@ paths:
       operationId: createChatCompletion
       tags:
         - Chat
-      summary: Creates a model response for the given chat conversation.
+      summary: Create chat completion
+      description: |
+        Creates a model response for the given chat conversation. Learn more in the 
+        [text generation](https://platform.openai.com/docs/guides/text-generation),
+        [vision](https://platform.openai.com/docs/guides/vision), and 
+        [audio](https://platform.openai.com/docs/guides/audio) guides.
       requestBody:
         required: true
         content:
@@ -61,7 +66,8 @@ paths:
       operationId: createCompletion
       tags:
         - Completions
-      summary: Creates a completion for the provided prompt and parameters.
+      summary: Create completion
+      description: Creates a completion for the provided prompt and parameters.
       requestBody:
         required: true
         content:
@@ -80,7 +86,8 @@ paths:
       operationId: createEmbedding
       tags:
         - Embeddings
-      summary: Creates an embedding vector representing the input text.
+      summary: Create embeddings
+      description: Creates an embedding vector representing the input text.
       requestBody:
         required: true
         content:
@@ -99,10 +106,12 @@ paths:
       operationId: createFineTuningJob
       tags:
         - Fine-tuning
-      summary: |
+      summary: Create fine-tuning job
+      description: |
         Creates a fine-tuning job which begins the process of creating a new model from a given dataset.
 
-        Response includes details of the enqueued job including job status and the name of the fine-tuned models once complete.
+        Response includes details of the enqueued job including job status and the name of the fine-tuned models 
+        once complete.
 
         [Learn more about fine-tuning](https://platform.openai.com/docs/guides/fine-tuning).
       requestBody:
@@ -122,7 +131,8 @@ paths:
       operationId: listPaginatedFineTuningJobs
       tags:
         - Fine-tuning
-      summary: |
+      summary: List fine-tuning jobs
+      description: |
         List your organization's fine-tuning jobs.
       parameters:
         - name: after
@@ -150,7 +160,8 @@ paths:
       operationId: retrieveFineTuningJob
       tags:
         - Fine-tuning
-      summary: |
+      summary: Retrieve fine-tuning job
+      description: |
         Get info about a fine-tuning job.
 
         [Learn more about fine-tuning](https://platform.openai.com/docs/guides/fine-tuning).
@@ -175,7 +186,8 @@ paths:
       operationId: listFineTuningEvents
       tags:
         - Fine-tuning
-      summary: |
+      summary: List fine-tuning events
+      description: |
         Get status updates for a fine-tuning job.
       parameters:
         - in: path
@@ -211,7 +223,8 @@ paths:
       operationId: cancelFineTuningJob
       tags:
         - Fine-tuning
-      summary: |
+      summary: Cancel fine-tuning
+      description: |
         Immediately cancel a fine-tune job.
       parameters:
         - in: path
@@ -234,7 +247,8 @@ paths:
       operationId: listFineTuningJobCheckpoints
       tags:
         - Fine-tuning
-      summary: |
+      summary: List fine-tuning checkpoints
+      description: |
         List checkpoints for a fine-tuning job.
       parameters:
         - in: path
@@ -270,7 +284,8 @@ paths:
       operationId: createImage
       tags:
         - Images
-      summary: Creates an image given a prompt.
+      summary: Create image
+      description: Creates an image given a prompt.
       requestBody:
         required: true
         content:
@@ -289,7 +304,10 @@ paths:
       operationId: listModels
       tags:
         - Models
-      summary: Lists the currently available models, and provides basic information about each one such as the owner and availability.
+      summary: List models
+      description: | 
+        Lists the currently available models, and provides basic information about each one such as the owner 
+        and availability.
       responses:
         "200":
           description: OK
@@ -302,7 +320,10 @@ paths:
       operationId: retrieveModel
       tags:
         - Models
-      summary: Retrieves a model instance, providing basic information about the model such as the owner and permissioning.
+      summary: Retrieve model
+      description: | 
+        Retrieves a model instance, providing basic information about the model such as the owner 
+        and permissioning.
       parameters:
         - in: path
           name: model
@@ -323,7 +344,8 @@ paths:
       operationId: deleteModel
       tags:
         - Models
-      summary: Delete a fine-tuned model. You must have the Owner role in your organization to delete a model.
+      summary: Delete a fine-tuned model
+      description: Delete a fine-tuned model. You must have the Owner role in your organization to delete a model.
       parameters:
         - in: path
           name: model
@@ -344,7 +366,10 @@ paths:
       operationId: createModeration
       tags:
         - Moderations
-      summary: Classifies if text is potentially harmful.
+      summary: Create moderation
+      description: |
+        Classifies if text and/or image inputs are potentially harmful. Learn
+        more in the [moderation guide](https://platform.openai.com/docs/guides/moderation).
       requestBody:
         required: true
         content:
@@ -363,7 +388,8 @@ paths:
       operationId: listAssistants
       tags:
         - Assistants
-      summary: Returns a list of assistants.
+      summary: List assistants.
+      description: Returns a list of assistants.
       parameters:
         - name: limit
           in: query
@@ -390,7 +416,9 @@ paths:
         - name: before
           in: query
           description: &pagination_before_param_description |
-            A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list.
+            A cursor for use in pagination. `before` is an object ID that defines your place in the list. For
+            instance, if you make a list request and receive 100 objects, starting with obj_foo, your
+            subsequent call can include before=obj_foo in order to fetch the previous page of the list.
           schema:
             type: string
       responses:
@@ -404,7 +432,8 @@ paths:
       operationId: createAssistant
       tags:
         - Assistants
-      summary: Create an assistant with a model and instructions.
+      summary: Create assistant
+      description: Create an assistant with a model and instructions.
       requestBody:
         required: true
         content:
@@ -423,7 +452,8 @@ paths:
       operationId: getAssistant
       tags:
         - Assistants
-      summary: Retrieves an assistant.
+      summary: Retrieve assistant
+      description: Retrieves an assistant.
       parameters:
         - in: path
           name: assistant_id
@@ -442,7 +472,8 @@ paths:
       operationId: modifyAssistant
       tags:
         - Assistant
-      summary: Modifies an assistant.
+      summary: Modify assistant
+      description: Modifies an assistant.
       parameters:
         - in: path
           name: assistant_id
@@ -467,7 +498,8 @@ paths:
       operationId: deleteAssistant
       tags:
         - Assistants
-      summary: Delete an assistant.
+      summary: Delete assistant
+      description: Delete an assistant.
       parameters:
         - in: path
           name: assistant_id
@@ -487,7 +519,8 @@ paths:
       operationId: createThread
       tags:
         - Assistants
-      summary: Create a thread.
+      summary: Create thread
+      description: Create a thread.
       requestBody:
         content:
           application/json:
@@ -549,7 +582,8 @@ paths:
       operationId: deleteThread
       tags:
         - Assistants
-      summary: Delete a thread.
+      summary: Delete thread
+      description: Delete a thread.
       parameters:
         - in: path
           name: thread_id
@@ -569,7 +603,8 @@ paths:
       operationId: listThreadMessages
       tags:
         - Assistants
-      summary: Returns a list of messages for a given thread.
+      summary: List thread messages
+      description: Returns a list of messages for a given thread.
       parameters:
         - in: path
           name: thread_id
@@ -618,7 +653,8 @@ paths:
       operationId: createThreadMessage
       tags:
         - Assistants
-      summary: Create a message.
+      summary: Create message
+      description: Create a message.
       parameters:
         - in: path
           name: thread_id
@@ -644,7 +680,8 @@ paths:
       operationId: getThreadMessage
       tags:
         - Assistants
-      summary: Retrieve a message.
+      summary: Retrieve message
+      description: Retrieve a message.
       parameters:
         - in: path
           name: thread_id
@@ -669,7 +706,8 @@ paths:
       operationId: modifyThreadMessage
       tags:
         - Assistants
-      summary: Modifies a message.
+      summary: Modify message
+      description: Modifies a message.
       parameters:
         - in: path
           name: thread_id
@@ -700,7 +738,8 @@ paths:
       operationId: deleteThreadMessage
       tags:
         - Assistants
-      summary: Deletes a message.
+      summary: Delete message
+      description: Deletes a message.
       parameters:
         - in: path
           name: thread_id
@@ -726,7 +765,8 @@ paths:
       operationId: createThreadAndRun
       tags:
         - Assistants
-      summary: Create a thread and run it in one request.
+      summary: Create thread and run
+      description: Create a thread and run it in one request.
       requestBody:
         required: true
         content:
@@ -745,7 +785,8 @@ paths:
       operationId: listThreadRuns
       tags:
         - Assistants
-      summary: Returns a list of runs belonging to a thread.
+      summary: List runs
+      description: Returns a list of runs belonging to a thread.
       parameters:
         - name: thread_id
           in: path
@@ -788,7 +829,8 @@ paths:
       operationId: createThreadRun
       tags:
         - Assistants
-      summary: Create a run.
+      summary: Create run
+      description: Create a run.
       parameters:
         - in: path
           name: thread_id
@@ -802,7 +844,7 @@ paths:
             A list of additional fields to include in the response. Currently the only supported value is 
             `step_details.tool_calls[*].file_search.results[*].content` to fetch the file search result content.
             
-            See the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/customizing-file-search-settings) 
+            See the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search#customizing-file-search-settings) 
             for more information.
           schema:
             type: string
@@ -824,7 +866,8 @@ paths:
       operationId: getThreadRun
       tags:
         - Assistants
-      summary: Retrieves a run.
+      summary: Retrieve run
+      description: Retrieves a run.
       parameters:
         - in: path
           name: thread_id
@@ -849,7 +892,8 @@ paths:
       operationId: modifyThreadRun
       tags:
         - Assistants
-      summary: Modifies a run.
+      summary: Modify run
+      description: Modifies a run.
       parameters:
         - in: path
           name: thread_id
@@ -881,8 +925,11 @@ paths:
       operationId: submitThreadToolOutputsToRun
       tags:
         - Assistants
-      summary: |
-        When a run has the `status: "requires_action"` and `required_action.type` is `submit_tool_outputs`, this endpoint can be used to submit the outputs from the tool calls once they're all completed. All outputs must be submitted in a single request.
+      summary: Submit tool outputs to run
+      description: |
+        When a run has the `status: "requires_action"` and `required_action.type` is `submit_tool_outputs`, 
+        this endpoint can be used to submit the outputs from the tool calls once they're all completed. 
+        All outputs must be submitted in a single request.
       parameters:
         - in: path
           name: thread_id
@@ -914,7 +961,8 @@ paths:
       operationId: cancelThreadRun
       tags:
         - Assistants
-      summary: Cancels a run that is `in_progress`.
+      summary: Cancel a run
+      description: Cancels a run that is `in_progress`.
       parameters:
         - in: path
           name: thread_id
@@ -940,7 +988,8 @@ paths:
       operationId: listThreadRunSteps
       tags:
         - Assistants
-      summary: Returns a list of run steps belonging to a run.
+      summary: List run steps
+      description: Returns a list of run steps belonging to a run.
       parameters:
         - name: thread_id
           in: path
@@ -995,7 +1044,8 @@ paths:
       operationId: getThreadRunStep
       tags:
         - Assistants
-      summary: Retrieves a run step.
+      summary: Retrieve run step
+      description: Retrieves a run step.
       parameters:
         - in: path
           name: thread_id
@@ -1032,7 +1082,8 @@ paths:
       operationId: listVectorStores
       tags:
         - Vector Stores
-      summary: Returns a list of vector stores.
+      summary: List vector stores
+      description: Returns a list of vector stores.
       parameters:
         - name: limit
           in: query
@@ -1069,7 +1120,8 @@ paths:
       operationId: createVectorStore
       tags:
         - Vector Stores
-      summary: Create a vector store.
+      summary: Create vector store
+      description: Create a vector store.
       requestBody:
         required: true
         content:
@@ -1088,7 +1140,8 @@ paths:
       operationId: getVectorStore
       tags:
         - Vector Stores
-      summary: Retrieves a vector store.
+      summary: Retrieve vector store
+      description: Retrieves a vector store.
       parameters:
         - in: path
           name: vector_store_id
@@ -1108,6 +1161,7 @@ paths:
       tags:
         - Vector Stores
       summary: Modifies a vector store.
+      description: Modifies a vector store.
       parameters:
         - in: path
           name: vector_store_id
@@ -1132,7 +1186,8 @@ paths:
       operationId: deleteVectorStore
       tags:
         - Vector Stores
-      summary: Delete a vector store.
+      summary: Delete vector store
+      description: Delete a vector store.
       parameters:
         - in: path
           name: vector_store_id
@@ -1152,7 +1207,8 @@ paths:
       operationId: listVectorStoreFiles
       tags:
         - Vector Stores
-      summary: Returns a list of vector store files.
+      summary: List vector store files
+      description: Returns a list of vector store files.
       parameters:
         - name: vector_store_id
           in: path
@@ -1201,7 +1257,10 @@ paths:
       operationId: createVectorStoreFile
       tags:
         - Vector Stores
-      summary: Create a vector store file by attaching a [File](https://platform.openai.com/docs/api-reference/files) to a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object).
+      summary: Create vector store file
+      description: | 
+        Create a vector store file by attaching a [File](https://platform.openai.com/docs/api-reference/files) 
+        to a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object).
       parameters:
         - in: path
           name: vector_store_id
@@ -1226,8 +1285,9 @@ paths:
                 $ref: "#/components/schemas/VectorStoreFileObject"
   /vector_stores/{vector_store_id}/files/{file_id}:
     get:
-      summary: Retrieves a vector store file.
       operationId: getVectorStoreFile
+      summary: Retrieve vector store file
+      description: Retrieves a vector store file.
       tags:
         - Vector Stores
       parameters:
@@ -1253,8 +1313,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/VectorStoreFileObject"
     delete:
-      summary: Delete a vector store file. This will remove the file from the vector store but the file itself will not be deleted. To delete the file, use the [delete file](https://platform.openai.com/docs/api-reference/files/delete) endpoint.
       operationId: deleteVectorStoreFile
+      summary: Delete vector store file
+      description: |
+        Delete a vector store file. This will remove the file from the vector store but the file itself will 
+        not be deleted. To delete the file, use the [delete file](https://platform.openai.com/docs/api-reference/files/delete) 
+        endpoint.
       tags:
         - Vector Stores
       parameters:
@@ -1282,7 +1346,8 @@ paths:
       operationId: createVectorStoreFileBatch
       tags:
         - Vector Stores
-      summary: Create a vector store file batch.
+      summary: Create vector store file batch
+      description: Create a vector store file batch.
       parameters:
         - in: path
           name: vector_store_id
@@ -1310,7 +1375,8 @@ paths:
       operationId: getVectorStoreFileBatch
       tags:
         - Vector Stores
-      summary: Retrieves a vector store file batch.
+      summary: Retrieve vector store file batch
+      description: Retrieves a vector store file batch.
       parameters:
         - in: path
           name: vector_store_id
@@ -1338,7 +1404,10 @@ paths:
       operationId: cancelVectorStoreFileBatch
       tags:
         - Vector Stores
-      summary: Cancel a vector store file batch. This attempts to cancel the processing of files in this batch as soon as possible.
+      summary: Cancel vector store file batch
+      description: | 
+        Cancel a vector store file batch. This attempts to cancel the processing of files in this batch 
+        as soon as possible.
       parameters:
         - in: path
           name: vector_store_id
@@ -1361,8 +1430,9 @@ paths:
                 $ref: "#/components/schemas/VectorStoreFileBatchObject"
   /vector_stores/{vector_store_id}/file_batches/{batch_id}/files:
     get:
-      summary: Returns a list of vector store files in a batch.
       operationId: listFilesInVectorStoreBatch
+      summary: List vector store files in a batch
+      description: Returns a list of vector store files in a batch.
       tags:
         - Vector Stores
       parameters:
@@ -1417,7 +1487,8 @@ paths:
                 $ref: "#/components/schemas/ListVectorStoreFilesResponse"
   /batches:
     post:
-      summary: Creates and executes a batch from an uploaded file of requests
+      summary: Create batch
+      description: Creates and executes a batch from an uploaded file of requests
       operationId: createBatch
       tags:
         - Batch
@@ -1435,7 +1506,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Batch'
     get:
-      summary: List your organization's batches.
+      summary: List batch
+      description: List your organization's batches.
       operationId: listBatches
       tags:
         - Batch
@@ -1465,7 +1537,8 @@ paths:
       operationId: retrieveBatch
       tags:
         - Batch
-      summary: Retrieves a batch.
+      summary: Retrieve batch
+      description: Retrieves a batch.
       parameters:
         - in: path
           name: batch_id
@@ -1485,7 +1558,10 @@ paths:
       operationId: cancelBatch
       tags:
         - Batch
-      summary: Cancels an in-progress batch. The batch will be in status `cancelling` for up to 10 minutes, before changing to `cancelled`, where it will have partial results (if any) available in the output file.
+      summary: Cancel batch
+      description: |
+        Cancels an in-progress batch. The batch will be in status `cancelling` for up to 10 minutes, before changing 
+        to `cancelled`, where it will have partial results (if any) available in the output file.
       parameters:
         - in: path
           name: batch_id
@@ -1515,7 +1591,9 @@ components:
         model:
           title: CompletionModel
           description: &model_description |
-            ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
+            ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) 
+            API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models) for
+            descriptions of them.
           anyOf:
             - type: string
               description: The ID of the model to use for this request.
@@ -1586,7 +1664,7 @@ components:
             Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the 
             text so far, decreasing the model's likelihood to repeat the same line verbatim.
 
-            [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
+            [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation)
         logit_bias: &completions_logit_bias
           type: object
           default: null
@@ -1639,7 +1717,7 @@ components:
           description: &completions_presence_penalty_description |
             Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
 
-            [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
+            [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation)
         seed: &completions_seed_param
           type: integer
           # minimum: -9223372036854775808 # The value can't be represented exactly in JavaScript
@@ -1712,7 +1790,7 @@ components:
           type: string
           example: user-1234
           description: |
-            A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).
+            A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#end-user-ids).
       required:
         - model
         - prompt
@@ -1817,7 +1895,7 @@ components:
         model:
           title: ChatCompletionModel
           description: |
-            ID of the model to use. See the [model endpoint compatibility](https://platform.openai.com/docs/models/model-endpoint-compatibility) 
+            ID of the model to use. See the [model endpoint compatibility](https://platform.openai.com/docs/models#model-endpoint-compatibility) 
             table for details on which models work with the Chat API.
           example: gpt-4o
           anyOf:
@@ -1844,6 +1922,7 @@ components:
                 - gpt-4o
                 - gpt-4o-2024-05-13
                 - gpt-4o-2024-08-06
+                - gpt-4o-2024-11-20
                 - gpt-4o-audio-preview
                 - gpt-4o-audio-preview-2024-10-01
                 - gpt-4o-mini
@@ -1874,7 +1953,6 @@ components:
             $ref: "#/components/schemas/ChatCompletionMessage"
         store:
           type: boolean
-          default: false
           nullable: true
           description: |
             Whether or not to store the output of this chat completion request for use in our 
@@ -1956,6 +2034,8 @@ components:
           nullable: true
           items:
             $ref: "#/components/schemas/ChatCompletionModality"
+        prediction:
+          $ref: "#/components/schemas/PredictionContent"
         audio:
           $ref: "#/components/schemas/ChatCompletionAudioOptions"
         presence_penalty:
@@ -2067,7 +2147,7 @@ components:
             - $ref: "#/components/schemas/ChatCompletionNamedToolChoice"
         parallel_tool_calls: &parallel_tool_calls
           description: |
-            Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling) 
+            Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling#configuring-parallel-function-calling) 
             during tool use.
           type: boolean
           default: null
@@ -2292,7 +2372,9 @@ components:
             detail:
               type: string
               title: ChatCompletionMessageImageDetail
-              description: Specifies the detail level of the image. Learn more in the [Vision guide](https://platform.openai.com/docs/guides/vision/low-or-high-fidelity-image-understanding).
+              description: | 
+                Specifies the detail level of the image. Learn more in the 
+                [Vision guide](https://platform.openai.com/docs/guides/vision#low-or-high-fidelity-image-understanding).
               enum: [ "auto", "low", "high" ]
               default: "auto"
           required:
@@ -2410,9 +2492,9 @@ components:
       type: object
       description: |
         An object specifying the format that the model must output. Compatible with 
-        [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), 
-        [GPT-4o mini](https://platform.openai.com/docs/models/gpt-4o-mini), 
-        [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer 
+        [GPT-4o](https://platform.openai.com/docs/models#gpt-4o), 
+        [GPT-4o mini](https://platform.openai.com/docs/models#gpt-4o-mini), 
+        [GPT-4 Turbo](https://platform.openai.com/docs/models#gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer 
         than `gpt-3.5-turbo-1106`.
 
         Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures the model 
@@ -2557,6 +2639,40 @@ components:
         To request that this model generate both text and audio responses, you can use:
         `["text", "audio"]`
       enum: [ "text", "audio" ]
+    PredictionContent:
+      type: object
+      description: |
+        Configuration for a [Predicted Output](https://platform.openai.com/docs/guides/predicted-outputs),
+        which can greatly improve response times when large parts of the model
+        response are known ahead of time. This is most common when you are
+        regenerating a file with only minor changes to most of the content.
+      properties:
+        type:
+          type: string
+          default: content
+          description: |
+            The type of the predicted content you want to provide. This type is
+            currently always `content`.
+        content:
+          description: |
+            The content that should be matched when generating a model response.
+            If generated tokens would match this content, the entire model response
+            can be returned much more quickly.
+          oneOf:
+            - type: string
+              description: |
+                The content used for a Predicted Output. This is often the
+                text of a file you are regenerating with minor changes.
+            - type: array
+              description: >-
+                An array of content parts with a defined type. Supported options differ based on the
+                [model](https://platform.openai.com/docs/models) being used to generate the response. Can
+                contain text inputs.
+              items:
+                $ref: '#/components/schemas/ChatCompletionMessageContentPartText'
+              minItems: 1
+      required:
+        - content
     ChatCompletionAudioOptions:
       type: object
       description: |
@@ -2798,6 +2914,8 @@ components:
       type: object
       description: A chat completion delta generated by streamed model responses.
       properties:
+        role:
+          $ref: "#/components/schemas/ChatCompletionMessageRole"
         content:
           type: string
           description: The contents of the chunk message.
@@ -2806,14 +2924,33 @@ components:
           type: string
           description: The refusal message generated by the model.
           nullable: true
-        function_call:
-          $ref: "#/components/schemas/ChatCompletionStreamMessageFunctionCall"
         tool_calls:
           type: array
           items:
             $ref: "#/components/schemas/ChatCompletionStreamMessageToolCallChunk"
-        role:
-          $ref: "#/components/schemas/ChatCompletionMessageRole"
+        function_call:
+          $ref: "#/components/schemas/ChatCompletionStreamMessageFunctionCall"
+        audio:
+          type: object
+          description: |
+            If the audio output modality is requested, this object contains data about the audio response from the model. 
+            [Learn more](https://platform.openai.com/docs/guides/audio).
+          properties:
+            id:
+              type: string
+              description: Unique identifier for this audio response.
+            expires_at:
+              type: integer
+              description: |
+                The Unix timestamp (in seconds) for when this audio response will no longer be accessible on the server 
+                for use in multi-turn conversations.
+            data:
+              type: string
+              description: |
+                Base64 encoded audio bytes generated by the model, in the format specified in the request.
+            transcript:
+              type: string
+              description: Transcript of the audio generated by the model.
     ChatCompletionStreamMessageFunctionCall:
       type: object
       description: The name and arguments of a function that should be called, as generated by the model.
@@ -2865,9 +3002,25 @@ components:
       type: object
       description: Breakdown of tokens used in a completion.
       properties:
+        accepted_prediction_tokens:
+          type: integer
+          description: |
+            When using Predicted Outputs, the number of tokens in the
+            prediction that appeared in the completion.
+        audio_tokens:
+          type: integer
+          description: Audio input tokens generated by the model.
         reasoning_tokens:
           type: integer
           description: Tokens generated by the model for reasoning.
+        rejected_prediction_tokens:
+          type: integer
+          description: |
+            When using Predicted Outputs, the number of tokens in the
+            prediction that did not appear in the completion. However, like
+            reasoning tokens, these tokens are still counted in the total
+            completion tokens for purposes of billing, output, and context window
+            limits.
     CreateEmbeddingRequest:
       type: object
       description: Request object for the Create embedding endpoint.
@@ -3012,7 +3165,7 @@ components:
           title: FineTuningModel
           description: |
             The name of the model to fine-tune. You can select one of the
-            [supported models](https://platform.openai.com/docs/guides/fine-tuning/what-models-can-be-fine-tuned).
+            [supported models](https://platform.openai.com/docs/guides/fine-tuning#what-models-can-be-fine-tuned).
           example: "gpt-4o-mini"
           anyOf:
             - type: string
@@ -3973,8 +4126,8 @@ components:
         response_format:
           description: &assistant_response_format |
             Specifies the format that the model must output. Compatible with 
-            [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), 
-            [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models 
+            [GPT-4o](https://platform.openai.com/docs/models#gpt-4o), 
+            [GPT-4 Turbo](https://platform.openai.com/docs/models#gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models 
             since `gpt-3.5-turbo-1106`.
             
             Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures 
@@ -4024,37 +4177,30 @@ components:
               description: |
                 Available assistant models. Mind that the list may not be exhaustive nor up-to-date.
               enum:
-                [
-                  "chatgpt-4o-latest",
-                  "gpt-4",
-                  "gpt-4-32k",
-                  "gpt-4-32k-0314",
-                  "gpt-4-32k-0613",
-                  "gpt-4-0125-preview",
-                  "gpt-4-0314",
-                  "gpt-4-0613",
-                  "gpt-4-1106-preview",
-                  "gpt-4-turbo",
-                  "gpt-4-turbo-2024-04-09",
-                  "gpt-4-turbo-preview",
-                  "gpt-4-vision-preview",
-                  "gpt-4o",
-                  "gpt-4o-2024-05-13",
-                  "gpt-4o-2024-08-06",
-                  "gpt-4o-mini",
-                  "gpt-4o-mini-2024-07-18",
-                  "gpt-3.5-turbo",
-                  "gpt-3.5-turbo-16k",
-                  "gpt-3.5-turbo-16k-0613",
-                  "gpt-3.5-turbo-0125",
-                  "gpt-3.5-turbo-0301",
-                  "gpt-3.5-turbo-0613",
-                  "gpt-3.5-turbo-1106",
-                  "o1-mini",
-                  "o1-mini-2024-09-12",
-                  "o1-preview",
-                  "o1-preview-2024-09-12",
-                ]
+                - gpt-4
+                - gpt-4-32k
+                - gpt-4-32k-0314
+                - gpt-4-32k-0613
+                - gpt-4-0125-preview
+                - gpt-4-0314
+                - gpt-4-0613
+                - gpt-4-1106-preview
+                - gpt-4-turbo
+                - gpt-4-turbo-2024-04-09
+                - gpt-4-turbo-preview
+                - gpt-4-vision-preview
+                - gpt-4o
+                - gpt-4o-2024-05-13
+                - gpt-4o-2024-08-06
+                - gpt-4o-2024-11-20
+                - gpt-4o-mini
+                - gpt-4o-mini-2024-07-18
+                - gpt-3.5-turbo
+                - gpt-3.5-turbo-16k
+                - gpt-3.5-turbo-16k-0613
+                - gpt-3.5-turbo-0125
+                - gpt-3.5-turbo-0613
+                - gpt-3.5-turbo-1106
         name:
           description: *assistant_name_param_description
           type: string
@@ -4229,8 +4375,6 @@ components:
       required:
         - object
         - data
-        - first_id
-        - last_id
         - has_more
     AssistantTools:
       type: object
@@ -4270,7 +4414,7 @@ components:
                 and 5 for gpt-3.5-turbo. This number should be between 1 and 50 inclusive.
                 
                 Note that the file search tool may output fewer than `max_num_results` results. See the 
-                [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/customizing-file-search-settings) 
+                [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search#customizing-file-search-settings) 
                 for more information.
             ranking_options:
               $ref: "#/components/schemas/FileSearchRankingOptions"
@@ -4282,7 +4426,7 @@ components:
         The ranking options for the file search. If not specified, the file search tool will use the `auto` ranker and 
         a score_threshold of 0.
         
-        See the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/customizing-file-search-settings) 
+        See the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search#customizing-file-search-settings) 
         for more information.
       properties:
         ranker:
@@ -4588,37 +4732,30 @@ components:
               description: |
                 Available models. Mind that the list may not be exhaustive nor up-to-date.
               enum:
-                [
-                  "chatgpt-4o-latest",
-                  "gpt-4",
-                  "gpt-4-32k",
-                  "gpt-4-32k-0314",
-                  "gpt-4-32k-0613",
-                  "gpt-4-0125-preview",
-                  "gpt-4-0314",
-                  "gpt-4-0613",
-                  "gpt-4-1106-preview",
-                  "gpt-4-turbo",
-                  "gpt-4-turbo-2024-04-09",
-                  "gpt-4-turbo-preview",
-                  "gpt-4-vision-preview",
-                  "gpt-4o",
-                  "gpt-4o-2024-05-13",
-                  "gpt-4o-2024-08-06",
-                  "gpt-4o-mini",
-                  "gpt-4o-mini-2024-07-18",
-                  "gpt-3.5-turbo",
-                  "gpt-3.5-turbo-16k",
-                  "gpt-3.5-turbo-16k-0613",
-                  "gpt-3.5-turbo-0125",
-                  "gpt-3.5-turbo-0301",
-                  "gpt-3.5-turbo-0613",
-                  "gpt-3.5-turbo-1106",
-                  "o1-mini",
-                  "o1-mini-2024-09-12",
-                  "o1-preview",
-                  "o1-preview-2024-09-12",
-                ]
+                - gpt-4
+                - gpt-4-32k
+                - gpt-4-32k-0314
+                - gpt-4-32k-0613
+                - gpt-4-0125-preview
+                - gpt-4-0314
+                - gpt-4-0613
+                - gpt-4-1106-preview
+                - gpt-4-turbo
+                - gpt-4-turbo-2024-04-09
+                - gpt-4-turbo-preview
+                - gpt-4-vision-preview
+                - gpt-4o
+                - gpt-4o-2024-05-13
+                - gpt-4o-2024-08-06
+                - gpt-4o-2024-11-20
+                - gpt-4o-mini
+                - gpt-4o-mini-2024-07-18
+                - gpt-3.5-turbo
+                - gpt-3.5-turbo-16k
+                - gpt-3.5-turbo-16k-0613
+                - gpt-3.5-turbo-0125
+                - gpt-3.5-turbo-0613
+                - gpt-3.5-turbo-1106
         instructions:
           description: Overrides the [instructions](https://platform.openai.com/docs/api-reference/assistants/createAssistant) of the assistant. This is useful for modifying the behavior on a per-run basis.
           type: string
@@ -4739,8 +4876,6 @@ components:
       required:
         - object
         - data
-        - first_id
-        - last_id
         - has_more
     ModifyRunRequest:
       type: object
@@ -4836,37 +4971,30 @@ components:
               description: |
                 Available models. Mind that the list may not be exhaustive nor up-to-date.
               enum:
-                [
-                  "chatgpt-4o-latest",
-                  "gpt-4",
-                  "gpt-4-32k",
-                  "gpt-4-32k-0314",
-                  "gpt-4-32k-0613",
-                  "gpt-4-0125-preview",
-                  "gpt-4-0314",
-                  "gpt-4-0613",
-                  "gpt-4-1106-preview",
-                  "gpt-4-turbo",
-                  "gpt-4-turbo-2024-04-09",
-                  "gpt-4-turbo-preview",
-                  "gpt-4-vision-preview",
-                  "gpt-4o",
-                  "gpt-4o-2024-05-13",
-                  "gpt-4o-2024-08-06",
-                  "gpt-4o-mini",
-                  "gpt-4o-mini-2024-07-18",
-                  "gpt-3.5-turbo",
-                  "gpt-3.5-turbo-16k",
-                  "gpt-3.5-turbo-16k-0613",
-                  "gpt-3.5-turbo-0125",
-                  "gpt-3.5-turbo-0301",
-                  "gpt-3.5-turbo-0613",
-                  "gpt-3.5-turbo-1106",
-                  "o1-mini",
-                  "o1-mini-2024-09-12",
-                  "o1-preview",
-                  "o1-preview-2024-09-12",
-                ]
+                - gpt-4
+                - gpt-4-32k
+                - gpt-4-32k-0314
+                - gpt-4-32k-0613
+                - gpt-4-0125-preview
+                - gpt-4-0314
+                - gpt-4-0613
+                - gpt-4-1106-preview
+                - gpt-4-turbo
+                - gpt-4-turbo-2024-04-09
+                - gpt-4-turbo-preview
+                - gpt-4-vision-preview
+                - gpt-4o
+                - gpt-4o-2024-05-13
+                - gpt-4o-2024-08-06
+                - gpt-4o-2024-11-20
+                - gpt-4o-mini
+                - gpt-4o-mini-2024-07-18
+                - gpt-3.5-turbo
+                - gpt-3.5-turbo-16k
+                - gpt-3.5-turbo-16k-0613
+                - gpt-3.5-turbo-0125
+                - gpt-3.5-turbo-0613
+                - gpt-3.5-turbo-1106
         instructions:
           description: |
             Override the default system message of the assistant. This is useful for modifying the behavior on a per-run 
@@ -5130,8 +5258,6 @@ components:
       required:
         - object
         - data
-        - first_id
-        - last_id
         - has_more
     MessageObject:
       type: object
@@ -5308,7 +5434,7 @@ components:
               description: The text contents of the message.
             - type: array
               title: CreateMessageRequestContents
-              description: An array of content parts with a defined type, each can be of type `text` or images can be passed with `image_url` or `image_file`. Image types are only supported on [Vision-compatible models](https://platform.openai.com/docs/models/overview).
+              description: An array of content parts with a defined type, each can be of type `text` or images can be passed with `image_url` or `image_file`. Image types are only supported on [Vision-compatible models](https://platform.openai.com/docs/models).
               items:
                 $ref: "#/components/schemas/MessageContent"
               minItems: 1
@@ -5378,8 +5504,6 @@ components:
       required:
         - object
         - data
-        - first_id
-        - last_id
         - has_more
     MessageContentImageFileObject:
       type: object
@@ -5863,8 +5987,6 @@ components:
       required:
         - object
         - data
-        - first_id
-        - last_id
         - has_more
     RunStepDetailsMessageCreationObject:
       type: object
@@ -6436,8 +6558,6 @@ components:
       required:
         - object
         - data
-        - first_id
-        - last_id
         - has_more
     DeleteVectorStoreResponse:
       type: object
@@ -6641,8 +6761,6 @@ components:
       required:
         - object
         - data
-        - first_id
-        - last_id
         - has_more
     DeleteVectorStoreFileResponse:
       type: object
@@ -6865,7 +6983,7 @@ components:
       required:
         - event
         - data
-      description: Occurs when an [error](https://platform.openai.com/docs/guides/error-codes/api-errors) occurs. This can happen due to an internal server error or a timeout.
+      description: Occurs when an [error](https://platform.openai.com/docs/guides/error-codes#api-errors) occurs. This can happen due to an internal server error or a timeout.
     DoneEvent:
       type: object
       description: Occurs when a stream ends.
@@ -6918,7 +7036,8 @@ components:
             
             See [upload file](https://platform.openai.com/docs/api-reference/files/create) for how to upload a file.
             
-            Your input file must be formatted as a [JSONL file](https://platform.openai.com/docs/api-reference/batch/request-input), and must be uploaded with the purpose `batch`. The file can contain up to 50,000 requests, and can be up to 100 MB in size.
+            Your input file must be formatted as a [JSONL file](https://platform.openai.com/docs/api-reference/batch/request-input), 
+            and must be uploaded with the purpose `batch`. The file can contain up to 50,000 requests, and can be up to 200 MB in size.
         endpoint:
           $ref: "#/components/schemas/BatchEndpoint"
         completion_window:

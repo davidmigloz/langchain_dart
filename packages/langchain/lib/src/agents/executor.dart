@@ -84,7 +84,7 @@ class AgentExecutor extends BaseChain {
     final agent = this.agent;
     final tools = _internalTools;
     if (agent is BaseMultiActionAgent) {
-      for (final Tool tool in tools) {
+      for (final tool in tools) {
         if (tool.returnDirect) {
           return false;
         }

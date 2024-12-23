@@ -79,7 +79,7 @@ void main() {
           ],
         ),
       );
-      String text = '';
+      var text = '';
       ChatCompletionStreamResponse? lastResponse;
       await for (final res in stream) {
         expect(res.id, isNotEmpty);
