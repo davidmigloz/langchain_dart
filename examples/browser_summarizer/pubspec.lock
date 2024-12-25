@@ -45,10 +45,10 @@ packages:
     dependency: transitive
     description:
       name: collection
-      sha256: ee67cb0715911d28db6bf4af1026078bd6f0128b07a5f66fb2ed94ec6783c09a
+      sha256: a1ace0a119f20aabc852d165077c036cd864315bd99b7eaa10a60100341941bf
       url: "https://pub.dev"
     source: hosted
-    version: "1.18.0"
+    version: "1.19.0"
   cross_file:
     dependency: transitive
     description:
@@ -171,6 +171,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.4"
+  glob:
+    dependency: transitive
+    description:
+      name: glob
+      sha256: "0e7014b3b7d4dac1ca4d6114f82bf1782ee86745b9b42a92c9289c23d8a0ab63"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.2"
   html:
     dependency: transitive
     description:
@@ -233,28 +241,28 @@ packages:
       path: "../../packages/langchain"
       relative: true
     source: path
-    version: "0.7.7+1"
+    version: "0.7.7+2"
   langchain_community:
     dependency: "direct main"
     description:
       path: "../../packages/langchain_community"
       relative: true
     source: path
-    version: "0.3.2+1"
+    version: "0.3.3"
   langchain_core:
     dependency: "direct overridden"
     description:
       path: "../../packages/langchain_core"
       relative: true
     source: path
-    version: "0.3.6"
+    version: "0.3.6+1"
   langchain_openai:
     dependency: "direct main"
     description:
       path: "../../packages/langchain_openai"
       relative: true
     source: path
-    version: "0.7.2+3"
+    version: "0.7.3"
   langchain_tiktoken:
     dependency: transitive
     description:
@@ -325,15 +333,15 @@ packages:
       path: "../../packages/openai_dart"
       relative: true
     source: path
-    version: "0.4.2+2"
+    version: "0.4.5"
   path:
     dependency: transitive
     description:
       name: path
-      sha256: "087ce49c3f0dc39180befefc60fdb4acd8f8620e5682fe2476afd0b3688bb4af"
+      sha256: "75cca69d1490965be98c73ceaea117e8a04dd21217b37b292c9ddbec0d955bc5"
       url: "https://pub.dev"
     source: hosted
-    version: "1.9.0"
+    version: "1.9.1"
   path_provider_linux:
     dependency: transitive
     description:
@@ -466,7 +474,7 @@ packages:
     dependency: transitive
     description: flutter
     source: sdk
-    version: "0.0.99"
+    version: "0.0.0"
   source_span:
     dependency: transitive
     description:
@@ -497,7 +505,7 @@ packages:
       path: "../../packages/tavily_dart"
       relative: true
     source: path
-    version: "0.1.0"
+    version: "0.1.0+1"
   term_glyph:
     dependency: transitive
     description:

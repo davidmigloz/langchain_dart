@@ -2,6 +2,10 @@
 
 ---
 
+## 0.2.0+1
+
+ - **REFACTOR**: Add new lint rules and fix issues ([#621](https://github.com/davidmigloz/langchain_dart/issues/621)). ([60b10e00](https://github.com/davidmigloz/langchain_dart/commit/60b10e008acf55ebab90789ad08d2449a44b69d8))
+
 ## 0.2.0
 
  - **FEAT**: Update ChatAnthropic default model to claude-3-5-sonnet-20241022 ([#584](https://github.com/davidmigloz/langchain_dart/issues/584)). ([4f0d9cfb](https://github.com/davidmigloz/langchain_dart/commit/4f0d9cfb0a71c567d1b37842cd44dac1f7308001))

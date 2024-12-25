@@ -24,8 +24,8 @@ void main() {
     });
 
     test('Test create model', () async {
-      const String modelName = 'mario';
-      const String modelfile =
+      const modelName = 'mario';
+      const modelfile =
           'FROM $defaultModel\nSYSTEM You are mario from Super Mario Bros.';
 
       final res = await client.createModel(
@@ -39,8 +39,8 @@ void main() {
     });
 
     test('Test create model stream', () async {
-      const String modelName = 'mario-stream';
-      const String modelfile =
+      const modelName = 'mario-stream';
+      const modelfile =
           'FROM $defaultModel\nSYSTEM You are mario from Super Mario Bros.';
 
       final stream = client.createModelStream(

@@ -15,7 +15,9 @@ class CreateAssistantRequest with _$CreateAssistantRequest {
 
   /// Factory constructor for CreateAssistantRequest
   const factory CreateAssistantRequest({
-    /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
+    /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list)
+    /// API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models) for
+    /// descriptions of them.
     @_AssistantModelConverter() required AssistantModel model,
 
     /// The name of the assistant. The maximum length is 256 characters.
@@ -54,8 +56,8 @@ class CreateAssistantRequest with _$CreateAssistantRequest {
     @JsonKey(name: 'top_p', includeIfNull: false) @Default(1.0) double? topP,
 
     /// Specifies the format that the model must output. Compatible with
-    /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
-    /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+    /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
+    /// [GPT-4 Turbo](https://platform.openai.com/docs/models#gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
     /// since `gpt-3.5-turbo-1106`.
     ///
     /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures
@@ -155,8 +157,6 @@ class CreateAssistantRequest with _$CreateAssistantRequest {
 
 /// Available assistant models. Mind that the list may not be exhaustive nor up-to-date.
 enum AssistantModels {
-  @JsonValue('chatgpt-4o-latest')
-  chatgpt4oLatest,
   @JsonValue('gpt-4')
   gpt4,
   @JsonValue('gpt-4-32k')
@@ -187,6 +187,8 @@ enum AssistantModels {
   gpt4o20240513,
   @JsonValue('gpt-4o-2024-08-06')
   gpt4o20240806,
+  @JsonValue('gpt-4o-2024-11-20')
+  gpt4o20241120,
   @JsonValue('gpt-4o-mini')
   gpt4oMini,
   @JsonValue('gpt-4o-mini-2024-07-18')
@@ -199,27 +201,19 @@ enum AssistantModels {
   gpt35Turbo16k0613,
   @JsonValue('gpt-3.5-turbo-0125')
   gpt35Turbo0125,
-  @JsonValue('gpt-3.5-turbo-0301')
-  gpt35Turbo0301,
   @JsonValue('gpt-3.5-turbo-0613')
   gpt35Turbo0613,
   @JsonValue('gpt-3.5-turbo-1106')
   gpt35Turbo1106,
-  @JsonValue('o1-mini')
-  o1Mini,
-  @JsonValue('o1-mini-2024-09-12')
-  o1Mini20240912,
-  @JsonValue('o1-preview')
-  o1Preview,
-  @JsonValue('o1-preview-2024-09-12')
-  o1Preview20240912,
 }
 
 // ==========================================
 // CLASS: AssistantModel
 // ==========================================
 
-/// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
+/// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list)
+/// API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models) for
+/// descriptions of them.
 @freezed
 sealed class AssistantModel with _$AssistantModel {
   const AssistantModel._();
@@ -285,8 +279,8 @@ enum CreateAssistantResponseFormatMode {
 // ==========================================
 
 /// Specifies the format that the model must output. Compatible with
-/// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
-/// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+/// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
+/// [GPT-4 Turbo](https://platform.openai.com/docs/models#gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
 /// since `gpt-3.5-turbo-1106`.
 ///
 /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures

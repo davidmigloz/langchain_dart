@@ -16,7 +16,7 @@ class CreateFineTuningJobRequest with _$CreateFineTuningJobRequest {
   /// Factory constructor for CreateFineTuningJobRequest
   const factory CreateFineTuningJobRequest({
     /// The name of the model to fine-tune. You can select one of the
-    /// [supported models](https://platform.openai.com/docs/guides/fine-tuning/what-models-can-be-fine-tuned).
+    /// [supported models](https://platform.openai.com/docs/guides/fine-tuning#what-models-can-be-fine-tuned).
     @_FineTuningModelConverter() required FineTuningModel model,
 
     /// The ID of an uploaded file that contains training data.
@@ -136,7 +136,7 @@ enum FineTuningModels {
 // ==========================================
 
 /// The name of the model to fine-tune. You can select one of the
-/// [supported models](https://platform.openai.com/docs/guides/fine-tuning/what-models-can-be-fine-tuned).
+/// [supported models](https://platform.openai.com/docs/guides/fine-tuning#what-models-can-be-fine-tuned).
 @freezed
 sealed class FineTuningModel with _$FineTuningModel {
   const FineTuningModel._();

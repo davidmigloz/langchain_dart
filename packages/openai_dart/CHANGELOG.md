@@ -2,6 +2,17 @@
 
 ---
 
+## 0.4.5
+
+ - **FEAT**: Support Predicted Outputs in openai_dart ([#613](https://github.com/davidmigloz/langchain_dart/issues/613)). ([315fe0fd](https://github.com/davidmigloz/langchain_dart/commit/315fe0fd3227e2c5a1a874be7fd01e25dcd7b33c))
+ - **FEAT**: Support streaming audio responses in chat completions in openai_dart ([#615](https://github.com/davidmigloz/langchain_dart/issues/615)). ([6da756a8](https://github.com/davidmigloz/langchain_dart/commit/6da756a87be35a34048c6671f7629b553bf0699e))
+ - **FEAT**: Add gpt-4o-2024-11-20 to model catalog in openai_dart ([#614](https://github.com/davidmigloz/langchain_dart/issues/614)). ([bf333081](https://github.com/davidmigloz/langchain_dart/commit/bf33308165869792446c3897db95e6ad7a7cb519))
+ - **FIX**: Default store field to null in openai_dart to support Azure and Groq APIs ([#608](https://github.com/davidmigloz/langchain_dart/issues/608)). ([21332960](https://github.com/davidmigloz/langchain_dart/commit/21332960c2c9928873b5b2948b86af31245f9312))
+ - **FIX**: Make first_id and last_id nullable in list endpoints in openai_dart ([#607](https://github.com/davidmigloz/langchain_dart/issues/607)). ([7cfc4ddf](https://github.com/davidmigloz/langchain_dart/commit/7cfc4ddf469846624d3dd6f3f86cab54c5333395))
+ - **DOCS**: Update OpenAI endpoints descriptions ([#612](https://github.com/davidmigloz/langchain_dart/issues/612)). ([10c66888](https://github.com/davidmigloz/langchain_dart/commit/10c6688884f8bc42ddaa771996030a42125333de))
+ - **REFACTOR**: Add new lint rules and fix issues ([#621](https://github.com/davidmigloz/langchain_dart/issues/621)). ([60b10e00](https://github.com/davidmigloz/langchain_dart/commit/60b10e008acf55ebab90789ad08d2449a44b69d8))
+ - **REFACTOR**: Upgrade api clients generator version ([#610](https://github.com/davidmigloz/langchain_dart/issues/610)). ([0c8750e8](https://github.com/davidmigloz/langchain_dart/commit/0c8750e85b34764f99b6e34cc531776ffe8fba7c))
+
 ## 0.4.4
 
  - **FEAT**: Add five new voice types to Chat Completions API in openai_dart ([#594](https://github.com/davidmigloz/langchain_dart/issues/594)). ([543f2977](https://github.com/davidmigloz/langchain_dart/commit/543f2977ea1e6dd6e49fa4a2ae9a084ae525003e))

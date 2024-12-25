@@ -2,6 +2,13 @@
 
 ---
 
+## 0.0.3+1
+
+ - **REFACTOR**: Add new lint rules and fix issues ([#621](https://github.com/davidmigloz/langchain_dart/issues/621)). ([60b10e00](https://github.com/davidmigloz/langchain_dart/commit/60b10e008acf55ebab90789ad08d2449a44b69d8))
+ - **REFACTOR**: Upgrade api clients generator version ([#610](https://github.com/davidmigloz/langchain_dart/issues/610)). ([0c8750e8](https://github.com/davidmigloz/langchain_dart/commit/0c8750e85b34764f99b6e34cc531776ffe8fba7c))
+ - **DOCS**: Update openai_spec_official.yaml. ([ee2eb35b](https://github.com/davidmigloz/langchain_dart/commit/ee2eb35b983afdb504ae52d3dfca5fea11a1dadb))
+ - **DOCS**: Update README.md. ([44291a06](https://github.com/davidmigloz/langchain_dart/commit/44291a06af7ae26f0a5beadfec23f2128f5e2415))
+
 ## 0.0.3
 
  - **FEAT**: Add five new voice types in openai_realtime_dart and minor improvements ([#593](https://github.com/davidmigloz/langchain_dart/issues/593)). ([6d0c8d3f](https://github.com/davidmigloz/langchain_dart/commit/6d0c8d3fceaab9d3eac7c5265b1e8b50deef9cc4))

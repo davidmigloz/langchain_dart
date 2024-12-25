@@ -306,7 +306,7 @@ class _FakeChain extends BaseChain {
 
   @override
   Future<ChainValues> callInternal(final ChainValues inputs) async {
-    final Map<String, dynamic> outputs = {};
+    final outputs = <String, dynamic>{};
     for (final variable in outputVariables) {
       final variables = [
         for (final k in {...inputVariables, ...?memory?.memoryKeys}) inputs[k],

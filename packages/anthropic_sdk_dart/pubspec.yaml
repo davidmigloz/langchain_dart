@@ -1,6 +1,6 @@
 name: anthropic_sdk_dart
 description: Dart Client for the Anthropic API (Claude 3.5 Sonnet, Opus, Haiku, etc.).
-version: 0.2.0
+version: 0.2.0+1
 repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/anthropic_sdk_dart
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues?q=label:p:anthropic_sdk_dart
 homepage: https://github.com/davidmigloz/langchain_dart
@@ -30,5 +30,5 @@ dev_dependencies:
   openapi_spec:
     git:
       url: https://github.com/davidmigloz/openapi_spec.git
-      ref: 93230a5e346b02789f0f727da8eecea9c7bdf118
+      ref: c99a29b7eaad2d25e7ceb90be56e6a9a41066322
   test: ^1.25.8

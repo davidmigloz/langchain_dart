@@ -56,7 +56,11 @@ class Session with _$Session {
     )
     AudioFormat? outputAudioFormat,
 
-    /// Configuration for input audio transcription.
+    /// Configuration for input audio transcription, defaults to off and can be
+    /// set to `null` to turn off once on. Input audio transcription is not native
+    /// to the model, since the model consumes audio directly. Transcription runs
+    /// asynchronously through Whisper and should be treated as rough guidance
+    /// rather than the representation understood by the model.
     @JsonKey(name: 'input_audio_transcription', includeIfNull: false)
     InputAudioTranscriptionConfig? inputAudioTranscription,
 

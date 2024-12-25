@@ -1,6 +1,6 @@
 name: openai_dart
 description: Dart client for the OpenAI API. Supports chat (GPT-4o, o1, etc.), completions, embeddings, images (DALL·E 3), assistants (threads, vector stores, etc.), batch, fine-tuning, etc.
-version: 0.4.4
+version: 0.4.5
 repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/openai_dart
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues?q=label:p:openai_dart
 homepage: https://github.com/davidmigloz/langchain_dart
@@ -30,5 +30,5 @@ dev_dependencies:
   openapi_spec:
     git:
       url: https://github.com/davidmigloz/openapi_spec.git
-      ref: 93230a5e346b02789f0f727da8eecea9c7bdf118
+      ref: c99a29b7eaad2d25e7ceb90be56e6a9a41066322
   test: ^1.25.8

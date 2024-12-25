@@ -19,6 +19,7 @@ sealed class MessageDeltaContentTextAnnotations
   // ------------------------------------------
 
   /// A citation within the message that points to a specific quote from a specific File associated with the assistant or the message. Generated when the assistant uses the "retrieval" tool to search files.
+
   const factory MessageDeltaContentTextAnnotations.fileCitation({
     /// The index of the annotation in the text content part.
     required int index,
@@ -45,6 +46,7 @@ sealed class MessageDeltaContentTextAnnotations
   // ------------------------------------------
 
   /// A URL for the file that's generated when the assistant used the `code_interpreter` tool to generate a file.
+
   const factory MessageDeltaContentTextAnnotations.filePath({
     /// The index of the annotation in the text content part.
     required int index,

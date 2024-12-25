@@ -2,6 +2,10 @@
 
 ---
 
+## 0.2.3+2
+
+ - **REFACTOR**: Add new lint rules and fix issues ([#621](https://github.com/davidmigloz/langchain_dart/issues/621)). ([60b10e00](https://github.com/davidmigloz/langchain_dart/commit/60b10e008acf55ebab90789ad08d2449a44b69d8))
+
 ## 0.2.3+1
 
  - Update a dependency to the latest release.

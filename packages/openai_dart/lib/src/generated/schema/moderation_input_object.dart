@@ -18,6 +18,8 @@ sealed class ModerationInputObject with _$ModerationInputObject {
   // ------------------------------------------
 
   /// An object describing an image to classify.
+
+  @FreezedUnionValue('image_url')
   const factory ModerationInputObject.imageUrl({
     /// The type of the input object.
     @Default(ModerationInputObjectType.imageUrl) ModerationInputObjectType type,
@@ -32,6 +34,8 @@ sealed class ModerationInputObject with _$ModerationInputObject {
   // ------------------------------------------
 
   /// An object describing text to classify.
+
+  @FreezedUnionValue('text')
   const factory ModerationInputObject.text({
     /// The type of the input object.
     @Default(ModerationInputObjectType.text) ModerationInputObjectType type,

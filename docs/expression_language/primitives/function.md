@@ -4,7 +4,7 @@ As we discussed in the [Mapper: Mapping input values](/expression_language/primi
 
 The main differences between `Runnable.mapInput` and `Runnable.fromFunction` are:
 - `Runnable.fromFunction` allows you to define separate logic for invoke vs stream.
-- `Runnable.fromFunction` allows you to access the invocation options.
+- `Runnabe.mapInput` allows you to access the invocation options.
 
 ## Runnable.fromFunction
 

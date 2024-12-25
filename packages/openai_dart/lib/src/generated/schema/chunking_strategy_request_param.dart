@@ -19,6 +19,8 @@ sealed class ChunkingStrategyRequestParam with _$ChunkingStrategyRequestParam {
 
   /// Auto Chunking Strategy, the default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800`
   /// and `chunk_overlap_tokens` of `400`.
+
+  @FreezedUnionValue('auto')
   const factory ChunkingStrategyRequestParam.auto({
     /// Always `auto`.
     required String type,
@@ -29,6 +31,8 @@ sealed class ChunkingStrategyRequestParam with _$ChunkingStrategyRequestParam {
   // ------------------------------------------
 
   /// Static chunking strategy
+
+  @FreezedUnionValue('static')
   const factory ChunkingStrategyRequestParam.static({
     /// Always `static`.
     required String type,

@@ -299,6 +299,8 @@ print(audio?.transcript);
 print(audio?.data);
 ```
 
+Streaming responses when using audio is also supported, use `client.createChatCompletionStream(...)` instead.
+
 Check the [Audio generation](https://platform.openai.com/docs/guides/audio) guide for more information.
 
 **Structured output: ([docs](https://platform.openai.com/docs/guides/structured-outputs))**
@@ -346,6 +348,59 @@ final res = await client.createChatCompletion(
 );
 // {"names":["John","Mary","Peter"]}
 ```
+
+**Predicted Outputs:** ([docs](https://platform.openai.com/docs/guides/predicted-outputs))
+
+> Predicted Outputs enable you to speed up API responses from Chat Completions when many of the output tokens are known ahead of time. This is most common when you are regenerating a text or code file with minor modifications.
+
+```dart
+const codeContent = '''
+class User {
+  firstName: string = "";
+  lastName: string = "";
+  username: string = "";
+}
+
+export default User;
+''';
+
+const request = CreateChatCompletionRequest(
+  model: ChatCompletionModel.model(
+    ChatCompletionModels.gpt4o,
+  ),
+  messages: [
+    ChatCompletionMessage.user(
+      content: ChatCompletionUserMessageContent.string(
+        'Replace the username property with an email property. '
+        'Respond only with code, and with no markdown formatting.',
+      ),
+    ),
+    ChatCompletionMessage.user(
+      content: ChatCompletionUserMessageContent.string(codeContent),
+    ),
+  ],
+  prediction: PredictionContent(
+    content: PredictionContentContent.text(codeContent),
+  ),
+);
+final res1 = await client.createChatCompletion(request: request);
+final choice1 = res1.choices.first;
+print(choice1.message.content);
+// class User {
+//   firstName: string = "";
+//   lastName: string = "";
+//   email: string = "";
+// }
+// 
+// export default User;
+
+print(res1.usage?.completionTokensDetails?.acceptedPredictionTokens)
+// 18
+print(res1.usage?.completionTokensDetails?.rejectedPredictionTokens)
+// 10
+```
+
+You can either pass a single prediction content using `PredictionContentContent.text('...')` or multiple predictions using `PredictionContentContent.textParts([...])`.
 
 **JSON mode:** ([docs](https://platform.openai.com/docs/guides/structured-outputs/json-mode))
 
@@ -1331,7 +1386,17 @@ final client = OpenAIClient(
 - `YOUR_RESOURCE_NAME`: This value can be found in the Keys & Endpoint section when examining your resource from the Azure portal.
 - `YOUR_DEPLOYMENT_NAME`: This value will correspond to the custom name you chose for your deployment when you deployed a model. This value can be found under Resource Management > Deployments in the Azure portal.
 - `YOUR_API_KEY`: This value can be found in the Keys & Endpoint section when examining your resource from the Azure portal.
-- `API_VERSION`: The Azure OpenAI API version to use (e.g. `2023-05-15`). Try to use the [latest version available](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cognitiveservices/data-plane/AzureOpenAI/inference), it will probably be the closest to the official OpenAI API.
+- `API_VERSION`: The Azure OpenAI API version to use (e.g. `2024-10-21`). Try to use the [latest version available](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cognitiveservices/data-plane/AzureOpenAI/inference), it will probably be the closest to the official OpenAI API.
+
+For the [Assistants API](https://learn.microsoft.com/en-us/azure/ai-services/openai/assistants-reference-threads), the `baseUrl` differs slightly:
+
+```dart
+final client = OpenAIClient(
+  baseUrl: 'https://YOUR_RESOURCE_NAME.openai.azure.com/openai',
+  headers: { 'api-key': 'YOUR_API_KEY' },
+  queryParams: { 'api-version': 'API_VERSION' },
+);
+```
 
 ### OpenAI-compatible APIs
 

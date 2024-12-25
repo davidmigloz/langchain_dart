@@ -51,7 +51,7 @@ Future<void> _createChatCompletionStream(final MistralAIClient client) async {
       ],
     ),
   );
-  String text = '';
+  var text = '';
   await for (final res in stream) {
     text += res.choices.first.delta.content?.trim() ?? '';
   }

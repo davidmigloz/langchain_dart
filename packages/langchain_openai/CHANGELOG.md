@@ -2,6 +2,11 @@
 
 ---
 
+## 0.7.3
+
+ - **FEAT**: Add gpt-4o-2024-11-20 to model catalog in openai_dart ([#614](https://github.com/davidmigloz/langchain_dart/issues/614)). ([bf333081](https://github.com/davidmigloz/langchain_dart/commit/bf33308165869792446c3897db95e6ad7a7cb519))
+ - **REFACTOR**: Add new lint rules and fix issues ([#621](https://github.com/davidmigloz/langchain_dart/issues/621)). ([60b10e00](https://github.com/davidmigloz/langchain_dart/commit/60b10e008acf55ebab90789ad08d2449a44b69d8))
+
 ## 0.7.2+5
 
  - Update a dependency to the latest release.

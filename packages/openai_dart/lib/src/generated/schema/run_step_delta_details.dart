@@ -18,6 +18,7 @@ sealed class RunStepDeltaDetails with _$RunStepDeltaDetails {
   // ------------------------------------------
 
   /// Details of the message creation by the run step.
+
   const factory RunStepDeltaDetails.messageCreation({
     /// Always `message_creation`.
     required String type,
@@ -32,6 +33,7 @@ sealed class RunStepDeltaDetails with _$RunStepDeltaDetails {
   // ------------------------------------------
 
   /// Details of the tool call.
+
   const factory RunStepDeltaDetails.toolCalls({
     /// Always `tool_calls`.
     required String type,

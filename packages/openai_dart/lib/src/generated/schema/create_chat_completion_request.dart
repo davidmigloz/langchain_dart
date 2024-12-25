@@ -15,7 +15,7 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
 
   /// Factory constructor for CreateChatCompletionRequest
   const factory CreateChatCompletionRequest({
-    /// ID of the model to use. See the [model endpoint compatibility](https://platform.openai.com/docs/models/model-endpoint-compatibility)
+    /// ID of the model to use. See the [model endpoint compatibility](https://platform.openai.com/docs/models#model-endpoint-compatibility)
     /// table for details on which models work with the Chat API.
     @_ChatCompletionModelConverter() required ChatCompletionModel model,
 
@@ -29,7 +29,7 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     /// Whether or not to store the output of this chat completion request for use in our
     /// [model distillation](https://platform.openai.com/docs/guides/distillation)
     /// or [evals](https://platform.openai.com/docs/guides/evals) products.
-    @JsonKey(includeIfNull: false) @Default(false) bool? store,
+    @JsonKey(includeIfNull: false) bool? store,
 
     /// Developer-defined tags and values used for filtering completions
     /// in the [dashboard](https://platform.openai.com/chat-completions).
@@ -38,7 +38,7 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the
     /// text so far, decreasing the model's likelihood to repeat the same line verbatim.
     ///
-    /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
+    /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation)
     @JsonKey(name: 'frequency_penalty', includeIfNull: false)
     @Default(0.0)
     double? frequencyPenalty,
@@ -81,21 +81,27 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     /// A list of modalities that the model may use to generate the completion.
     @JsonKey(includeIfNull: false) List<ChatCompletionModality>? modalities,
 
+    /// Configuration for a [Predicted Output](https://platform.openai.com/docs/guides/predicted-outputs),
+    /// which can greatly improve response times when large parts of the model
+    /// response are known ahead of time. This is most common when you are
+    /// regenerating a file with only minor changes to most of the content.
+    @JsonKey(includeIfNull: false) PredictionContent? prediction,
+
     /// Parameters for audio output. Required when audio output is requested with `modalities: ["audio"]`.
     /// [Learn more](https://platform.openai.com/docs/guides/audio).
     @JsonKey(includeIfNull: false) ChatCompletionAudioOptions? audio,
 
     /// Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
     ///
-    /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
+    /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation)
     @JsonKey(name: 'presence_penalty', includeIfNull: false)
     @Default(0.0)
     double? presencePenalty,
 
     /// An object specifying the format that the model must output. Compatible with
-    /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
-    /// [GPT-4o mini](https://platform.openai.com/docs/models/gpt-4o-mini),
-    /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer
+    /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
+    /// [GPT-4o mini](https://platform.openai.com/docs/models#gpt-4o-mini),
+    /// [GPT-4 Turbo](https://platform.openai.com/docs/models#gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer
     /// than `gpt-3.5-turbo-1106`.
     ///
     /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures the model
@@ -178,12 +184,12 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     @JsonKey(name: 'tool_choice', includeIfNull: false)
     ChatCompletionToolChoiceOption? toolChoice,
 
-    /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+    /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling#configuring-parallel-function-calling)
     /// during tool use.
     @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
     bool? parallelToolCalls,
 
-    /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).
+    /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#end-user-ids).
     @JsonKey(includeIfNull: false) String? user,
 
     /// Deprecated in favor of `tool_choice`.
@@ -223,6 +229,7 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     'max_completion_tokens',
     'n',
     'modalities',
+    'prediction',
     'audio',
     'presence_penalty',
     'response_format',
@@ -318,6 +325,7 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
       'max_completion_tokens': maxCompletionTokens,
       'n': n,
       'modalities': modalities,
+      'prediction': prediction,
       'audio': audio,
       'presence_penalty': presencePenalty,
       'response_format': responseFormat,
@@ -376,6 +384,8 @@ enum ChatCompletionModels {
   gpt4o20240513,
   @JsonValue('gpt-4o-2024-08-06')
   gpt4o20240806,
+  @JsonValue('gpt-4o-2024-11-20')
+  gpt4o20241120,
   @JsonValue('gpt-4o-audio-preview')
   gpt4oAudioPreview,
   @JsonValue('gpt-4o-audio-preview-2024-10-01')
@@ -416,7 +426,7 @@ enum ChatCompletionModels {
 // CLASS: ChatCompletionModel
 // ==========================================
 
-/// ID of the model to use. See the [model endpoint compatibility](https://platform.openai.com/docs/models/model-endpoint-compatibility)
+/// ID of the model to use. See the [model endpoint compatibility](https://platform.openai.com/docs/models#model-endpoint-compatibility)
 /// table for details on which models work with the Chat API.
 @freezed
 sealed class ChatCompletionModel with _$ChatCompletionModel {

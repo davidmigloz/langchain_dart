@@ -5807,11 +5807,11 @@ Tool _$ToolFromJson(Map<String, dynamic> json) {
   switch (json['type']) {
     case 'custom':
       return ToolCustom.fromJson(json);
-    case 'computer_use':
+    case 'computer_20241022':
       return ToolComputerUse.fromJson(json);
-    case 'text_editor':
+    case 'text_editor_20241022':
       return ToolTextEditor.fromJson(json);
-    case 'bash':
+    case 'bash_20241022':
       return ToolBash.fromJson(json);
 
     default:
