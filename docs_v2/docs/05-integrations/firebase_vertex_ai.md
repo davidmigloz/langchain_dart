@@ -1,6 +1,6 @@
 # Vertex AI for Firebase
 
-The [Vertex AI Gemini API](https://firebase.google.com/docs/vertex-ai) gives you access to the latest generative AI models from Google: the Gemini models. If you need to call the Vertex AI Gemini API directly from your mobile or web app you can use the `ChatFirebaseVertexAI` class instead of the [`ChatVertexAI`](/modules/model_io/models/chat_models/integrations/gcp_vertex_ai.md) class which is designed to be used on the server-side. 
+The [Vertex AI Gemini API](https://firebase.google.com/docs/vertex-ai) gives you access to the latest generative AI models from Google: the Gemini models. If you need to call the Vertex AI Gemini API directly from your mobile or web app you can use the `ChatFirebaseVertexAI` class instead of the [`ChatVertexAI`](./gcp_vertex_ai.md) class which is designed to be used on the server-side. 
 
 `ChatFirebaseVertexAI` is built specifically for use with mobile and web apps, offering security options against unauthorized clients as well as integrations with other Firebase services.
 
@@ -186,5 +186,5 @@ final chatModel = ChatFirebaseVertexAI(
 
 ## Alternatives
 
-- [`ChatVertexAI`](/modules/model_io/models/chat_models/integrations/gcp_vertex_ai.md): Use this class to call the Vertex AI Gemini API from the server-side.
-- [`ChatGoogleGenerativeAI`](/modules/model_io/models/chat_models/integrations/googleai.md): Use this class to call the "Google AI" version of the Gemini API that provides free-of-charge access (within limits and where available). This API is not intended for production use but for experimentation and prototyping. After you're familiar with how a Gemini API works, migrate to the Vertex AI for Firebase, which have many additional features important for mobile and web apps, like protecting the API from abuse using Firebase App Check.
+- [`ChatVertexAI`](./gcp_vertex_ai.md): Use this class to call the Vertex AI Gemini API from the server-side.
+- [`ChatGoogleGenerativeAI`](./googleai.md): Use this class to call the "Google AI" version of the Gemini API that provides free-of-charge access (within limits and where available). This API is not intended for production use but for experimentation and prototyping. After you're familiar with how a Gemini API works, migrate to the Vertex AI for Firebase, which have many additional features important for mobile and web apps, like protecting the API from abuse using Firebase App Check.

@@ -1,17 +1,36 @@
 ---
 sidebar_position: 0
-index: auto
+sidebar_class_name: hidden
 ---
-# Integrations
 
-> If you'd like to write your own integration, see Extending Langchain.
+# Installation
 
-The following table contains the list of existing Langchain.dart integration packages. To install a specific integration, see [Installing Langchain components](/docs/04-how_to/01-installation.md)
+To get started, add LangChain.dart dependency to your project `pubspec.yaml` file:
+
+```yaml
+dependencies:
+  langchain: {version}
+```
+
+Then, run `pub get` to install the package.
+
+Using LangChain will usually require integrations with one or more model providers, data stores, tools APIs, etc.
+
+For example, if you wan to use OpenAI’s APIs, you will need to add LangChain.dart OpenAI package as well:
+
+```yaml
+dependencies:
+  langchain: {version}
+  langchain_openai: {version}
+```
+
+## Integration Packages
+
+Check out the following section for a list of available intergration packages.
 
 
-<p align="center">
-    <img src="https://raw.githubusercontent.com/davidmigloz/langchain_dart/main/docs/img/langchain_packages.png" width="500"></img>
-</p>
+```
+The following table contains the list of existing Langchain.dart integration packages. 
 
 | Package                                                             | Version                                                                                                                      | Description                                                                                                                                                                                             |
 |---------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -26,31 +45,18 @@ The following table contains the list of existing Langchain.dart integration pac
 | [langchain_pinecone](https://pub.dev/packages/langchain_pinecone)   | [![langchain_pinecone](https://img.shields.io/pub/v/langchain_pinecone.svg)](https://pub.dev/packages/langchain_pinecone)    | Pinecone vector database integration                                                                                                                                                                    |
 | [langchain_chroma](https://pub.dev/packages/langchain_chroma)       | [![langchain_chroma](https://img.shields.io/pub/v/langchain_chroma.svg)](https://pub.dev/packages/langchain_chroma)          | Chroma vector database integration                                                                                                                                                                      |
 | [langchain_supabase](https://pub.dev/packages/langchain_supabase)   | [![langchain_supabase](https://img.shields.io/pub/v/langchain_supabase.svg)](https://pub.dev/packages/langchain_supabase)    | Supabase Vector database integration                                                                                                                                                                    |
+## Documentation
 
-Functionality provided by each integration package:
+Detailed documentation for various integrations can be found in the `/docs/05-integration/` directory:
 
-| Package                                                             | LLMs | Chat models | Embeddings | Vector stores | Chains | Agents | Tools |
-|---------------------------------------------------------------------|------|-------------|------------|---------------|--------|--------|-------|
-| [langchain_community](https://pub.dev/packages/langchain_community) |      |             |            | ✔             |        |        | ✔     |
-| [langchain_openai](https://pub.dev/packages/langchain_openai)       | ✔    | ✔           | ✔          |               | ✔      | ✔      | ✔     |
-| [langchain_google](https://pub.dev/packages/langchain_google)       | ✔    | ✔           | ✔          | ✔             |        |        |       |
-| [langchain_firebase](https://pub.dev/packages/langchain_firebase)   |      | ✔           |            |               |        |        |       |
-| [langchain_ollama](https://pub.dev/packages/langchain_ollama)       | ✔    | ✔           | ✔          |               |        |        |       |
-| [langchain_mistralai](https://pub.dev/packages/langchain_mistralai) |      | ✔           | ✔          |               |        |        |       |
-| [langchain_pinecone](https://pub.dev/packages/langchain_pinecone)   |      |             |            | ✔             |        |        |       |
-| [langchain_chroma](https://pub.dev/packages/langchain_chroma)       |      |             |            | ✔             |        |        |       |
-| [langchain_supabase](https://pub.dev/packages/langchain_supabase)   |      |             |            | ✔             |        |        |       |
-
-The following packages are maintained (and used internally) by LangChain.dart, although they can also be used independently:
-
-| Package                                                           | Version                                                                                                                   | Description                                                         | 
-|-------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------|
-| [anthropic_sdk_dart](https://pub.dev/packages/anthropic_sdk_dart) | [![anthropic_sdk_dart](https://img.shields.io/pub/v/anthropic_sdk_dart.svg)](https://pub.dev/packages/anthropic_sdk_dart) | [Anthropic](https://docs.anthropic.com/en/api) API client           |
-| [chromadb](https://pub.dev/packages/chromadb)                     | [![chromadb](https://img.shields.io/pub/v/chromadb.svg)](https://pub.dev/packages/chromadb)                               | [Chroma DB](https://trychroma.com/) API client                      |
-| [googleai_dart](https://pub.dev/packages/googleai_dart)           | [![googleai_dart](https://img.shields.io/pub/v/googleai_dart.svg)](https://pub.dev/packages/googleai_dart)                | [Google AI for Developers](https://ai.google.dev/) API client       |
-| [mistralai_dart](https://pub.dev/packages/mistralai_dart)         | [![mistralai_dart](https://img.shields.io/pub/v/mistralai_dart.svg)](https://pub.dev/packages/mistralai_dart)             | [Mistral AI](https://docs.mistral.ai/api) API client                |
-| [ollama_dart](https://pub.dev/packages/ollama_dart)               | [![ollama_dart](https://img.shields.io/pub/v/ollama_dart.svg)](https://pub.dev/packages/ollama_dart)                      | [Ollama](https://ollama.ai/) API client                             |
-| [openai_dart](https://pub.dev/packages/openai_dart)               | [![openai_dart](https://img.shields.io/pub/v/openai_dart.svg)](https://pub.dev/packages/openai_dart)                      | [OpenAI](https://platform.openai.com/docs/api-reference) API client |
-| [tavily_dart](https://pub.dev/packages/tavily_dart)               | [![tavily_dart](https://img.shields.io/pub/v/tavily_dart.svg)](https://pub.dev/packages/tavily_dart)                      | [Tavily](https://tavily.com) API client                             |
-| [vertex_ai](https://pub.dev/packages/vertex_ai)                   | [![vertex_ai](https://img.shields.io/pub/v/vertex_ai.svg)](https://pub.dev/packages/vertex_ai)                            | [GCP Vertex AI](https://cloud.google.com/vertex-ai) API client      |
-
+- [Anthropic](/docs/integrations/anthropic)
+- [Anyscale](/docs/integrations/anyscale)
+- [Firebase VertexAI](/docs/integrations/firebase_vertex_ai)
+- [GCP VertexAI](/docs/integrations/gcp_vertex_ai)
+- [GoogleAI](/docs/integrations/googleai)
+- [MistralAI](/docs/integrations/mistralai)
+- [Ollama](/docs/integrations/ollama)
+- [OpenRouter](/docs/integrations/open_router)
+- [OpenAI](/docs/integrations/openai)
+- [PrEM](/docs/integrations/prem)
+- [TogetherAI](/docs/integrations/together_ai)
