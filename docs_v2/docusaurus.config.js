@@ -70,7 +70,11 @@ const config = {
             position: 'left',
             label: 'Integrations',
           },
-          {to: 'https://blog.langchaindart.dev/blog', label: 'Blog', position: 'left'},
+          {
+            href: 'https://blog.langchaindart.dev/', 
+            label: 'Blog', 
+            position: 'left'
+          },
           {
             href: 'https://github.com/davidmigloz/langchain_dart/',
             label: 'GitHub',
@@ -108,7 +112,7 @@ const config = {
             items: [
               {
                 label: 'Blog',
-                to: '/blog',
+                href: 'https://blog.langchaindart.dev',
               },
               {
                 label: 'GitHub',
