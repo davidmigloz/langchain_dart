@@ -87,7 +87,7 @@ print(res);
 
 ### Streaming
 
-OpenAI models support [streaming](/expression_language/streaming.md) the output of th model as it is generated. 
+OpenAI models support [streaming](/docs/06-lcel/05-streaming.md) the output of th model as it is generated. 
 
 ```dart
 final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
@@ -150,7 +150,7 @@ final prompt = PromptValue.chat([
 
 ### Tool calling
 
-OpenAI has a [tool calling](/modules/model_io/models/chat_models/how_to/tools.md) (we use "tool calling" and "function calling" interchangeably here) API that lets you describe tools and their arguments, and have the model return a JSON object with a tool to invoke and the inputs to that tool. tool-calling is extremely useful for building tool-using chains and agents, and for getting structured outputs from models more generally.
+OpenAI has a [tool calling](docs/04-how_to/03-tools.md) (we use "tool calling" and "function calling" interchangeably here) API that lets you describe tools and their arguments, and have the model return a JSON object with a tool to invoke and the inputs to that tool. tool-calling is extremely useful for building tool-using chains and agents, and for getting structured outputs from models more generally.
 
 
 ```dart
