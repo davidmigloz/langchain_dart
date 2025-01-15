@@ -12946,7 +12946,8 @@ mixin _$RealtimeEvent {
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -12982,7 +12983,8 @@ mixin _$RealtimeEvent {
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -13184,7 +13186,8 @@ mixin _$RealtimeEvent {
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -13220,7 +13223,8 @@ mixin _$RealtimeEvent {
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -13422,7 +13426,8 @@ mixin _$RealtimeEvent {
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -13458,7 +13463,8 @@ mixin _$RealtimeEvent {
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -14098,7 +14104,8 @@ class _$RealtimeEventConversationItemCreateImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -14134,7 +14141,8 @@ class _$RealtimeEventConversationItemCreateImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -14339,7 +14347,8 @@ class _$RealtimeEventConversationItemCreateImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -14375,7 +14384,8 @@ class _$RealtimeEventConversationItemCreateImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -14580,7 +14590,8 @@ class _$RealtimeEventConversationItemCreateImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -14616,7 +14627,8 @@ class _$RealtimeEventConversationItemCreateImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -15239,7 +15251,8 @@ class _$RealtimeEventConversationItemDeleteImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -15275,7 +15288,8 @@ class _$RealtimeEventConversationItemDeleteImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -15480,7 +15494,8 @@ class _$RealtimeEventConversationItemDeleteImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -15516,7 +15531,8 @@ class _$RealtimeEventConversationItemDeleteImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -15721,7 +15737,8 @@ class _$RealtimeEventConversationItemDeleteImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -15757,7 +15774,8 @@ class _$RealtimeEventConversationItemDeleteImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -16402,7 +16420,8 @@ class _$RealtimeEventConversationItemTruncateImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -16438,7 +16457,8 @@ class _$RealtimeEventConversationItemTruncateImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -16644,7 +16664,8 @@ class _$RealtimeEventConversationItemTruncateImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -16680,7 +16701,8 @@ class _$RealtimeEventConversationItemTruncateImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -16886,7 +16908,8 @@ class _$RealtimeEventConversationItemTruncateImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -16922,7 +16945,8 @@ class _$RealtimeEventConversationItemTruncateImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -17549,7 +17573,8 @@ class _$RealtimeEventInputAudioBufferAppendImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -17585,7 +17610,8 @@ class _$RealtimeEventInputAudioBufferAppendImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -17790,7 +17816,8 @@ class _$RealtimeEventInputAudioBufferAppendImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -17826,7 +17853,8 @@ class _$RealtimeEventInputAudioBufferAppendImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -18031,7 +18059,8 @@ class _$RealtimeEventInputAudioBufferAppendImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -18067,7 +18096,8 @@ class _$RealtimeEventInputAudioBufferAppendImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -18667,7 +18697,8 @@ class _$RealtimeEventInputAudioBufferClearImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -18703,7 +18734,8 @@ class _$RealtimeEventInputAudioBufferClearImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -18908,7 +18940,8 @@ class _$RealtimeEventInputAudioBufferClearImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -18944,7 +18977,8 @@ class _$RealtimeEventInputAudioBufferClearImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -19149,7 +19183,8 @@ class _$RealtimeEventInputAudioBufferClearImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -19185,7 +19220,8 @@ class _$RealtimeEventInputAudioBufferClearImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -19780,7 +19816,8 @@ class _$RealtimeEventInputAudioBufferCommitImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -19816,7 +19853,8 @@ class _$RealtimeEventInputAudioBufferCommitImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -20021,7 +20059,8 @@ class _$RealtimeEventInputAudioBufferCommitImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -20057,7 +20096,8 @@ class _$RealtimeEventInputAudioBufferCommitImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -20262,7 +20302,8 @@ class _$RealtimeEventInputAudioBufferCommitImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -20298,7 +20339,8 @@ class _$RealtimeEventInputAudioBufferCommitImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -20891,7 +20933,8 @@ class _$RealtimeEventResponseCancelImpl extends RealtimeEventResponseCancel {
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -20927,7 +20970,8 @@ class _$RealtimeEventResponseCancelImpl extends RealtimeEventResponseCancel {
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -21132,7 +21176,8 @@ class _$RealtimeEventResponseCancelImpl extends RealtimeEventResponseCancel {
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -21168,7 +21213,8 @@ class _$RealtimeEventResponseCancelImpl extends RealtimeEventResponseCancel {
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -21373,7 +21419,8 @@ class _$RealtimeEventResponseCancelImpl extends RealtimeEventResponseCancel {
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -21409,7 +21456,8 @@ class _$RealtimeEventResponseCancelImpl extends RealtimeEventResponseCancel {
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -22030,7 +22078,8 @@ class _$RealtimeEventResponseCreateImpl extends RealtimeEventResponseCreate {
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -22066,7 +22115,8 @@ class _$RealtimeEventResponseCreateImpl extends RealtimeEventResponseCreate {
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -22271,7 +22321,8 @@ class _$RealtimeEventResponseCreateImpl extends RealtimeEventResponseCreate {
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -22307,7 +22358,8 @@ class _$RealtimeEventResponseCreateImpl extends RealtimeEventResponseCreate {
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -22512,7 +22564,8 @@ class _$RealtimeEventResponseCreateImpl extends RealtimeEventResponseCreate {
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -22548,7 +22601,8 @@ class _$RealtimeEventResponseCreateImpl extends RealtimeEventResponseCreate {
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -23169,7 +23223,8 @@ class _$RealtimeEventSessionUpdateImpl extends RealtimeEventSessionUpdate {
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -23205,7 +23260,8 @@ class _$RealtimeEventSessionUpdateImpl extends RealtimeEventSessionUpdate {
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -23410,7 +23466,8 @@ class _$RealtimeEventSessionUpdateImpl extends RealtimeEventSessionUpdate {
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -23446,7 +23503,8 @@ class _$RealtimeEventSessionUpdateImpl extends RealtimeEventSessionUpdate {
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -23651,7 +23709,8 @@ class _$RealtimeEventSessionUpdateImpl extends RealtimeEventSessionUpdate {
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -23687,7 +23746,8 @@ class _$RealtimeEventSessionUpdateImpl extends RealtimeEventSessionUpdate {
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -24310,7 +24370,8 @@ class _$RealtimeEventConversationCreatedImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -24346,7 +24407,8 @@ class _$RealtimeEventConversationCreatedImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -24551,7 +24613,8 @@ class _$RealtimeEventConversationCreatedImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -24587,7 +24650,8 @@ class _$RealtimeEventConversationCreatedImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -24792,7 +24856,8 @@ class _$RealtimeEventConversationCreatedImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -24828,7 +24893,8 @@ class _$RealtimeEventConversationCreatedImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -25296,7 +25362,8 @@ abstract class _$$RealtimeEventConversationItemCreatedImplCopyWith<$Res>
   $Res call(
       {@JsonKey(name: 'event_id') String eventId,
       RealtimeEventType type,
-      @JsonKey(name: 'previous_item_id') String? previousItemId,
+      @JsonKey(name: 'previous_item_id', includeIfNull: false)
+      String? previousItemId,
       Item item});
 
   $ItemCopyWith<$Res> get item;
@@ -25360,7 +25427,8 @@ class _$RealtimeEventConversationItemCreatedImpl
   const _$RealtimeEventConversationItemCreatedImpl(
       {@JsonKey(name: 'event_id') required this.eventId,
       this.type = RealtimeEventType.conversationItemCreated,
-      @JsonKey(name: 'previous_item_id') required this.previousItemId,
+      @JsonKey(name: 'previous_item_id', includeIfNull: false)
+      this.previousItemId,
       required this.item})
       : super._();
 
@@ -25381,7 +25449,7 @@ class _$RealtimeEventConversationItemCreatedImpl
   /// The ID of the preceding item in the Conversation context, allows the client to understand the
   /// order of the conversation.
   @override
-  @JsonKey(name: 'previous_item_id')
+  @JsonKey(name: 'previous_item_id', includeIfNull: false)
   final String? previousItemId;
 
   /// The item to add to the conversation.
@@ -25469,7 +25537,8 @@ class _$RealtimeEventConversationItemCreatedImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -25505,7 +25574,8 @@ class _$RealtimeEventConversationItemCreatedImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -25710,7 +25780,8 @@ class _$RealtimeEventConversationItemCreatedImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -25746,7 +25817,8 @@ class _$RealtimeEventConversationItemCreatedImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -25951,7 +26023,8 @@ class _$RealtimeEventConversationItemCreatedImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -25987,7 +26060,8 @@ class _$RealtimeEventConversationItemCreatedImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -26415,7 +26489,8 @@ abstract class RealtimeEventConversationItemCreated extends RealtimeEvent {
   const factory RealtimeEventConversationItemCreated(
       {@JsonKey(name: 'event_id') required final String eventId,
       final RealtimeEventType type,
-      @JsonKey(name: 'previous_item_id') required final String? previousItemId,
+      @JsonKey(name: 'previous_item_id', includeIfNull: false)
+      final String? previousItemId,
       required final Item item}) = _$RealtimeEventConversationItemCreatedImpl;
   const RealtimeEventConversationItemCreated._() : super._();
 
@@ -26434,7 +26509,7 @@ abstract class RealtimeEventConversationItemCreated extends RealtimeEvent {
 
   /// The ID of the preceding item in the Conversation context, allows the client to understand the
   /// order of the conversation.
-  @JsonKey(name: 'previous_item_id')
+  @JsonKey(name: 'previous_item_id', includeIfNull: false)
   String? get previousItemId;
 
   /// The item to add to the conversation.
@@ -26607,7 +26682,8 @@ class _$RealtimeEventConversationItemDeletedImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -26643,7 +26719,8 @@ class _$RealtimeEventConversationItemDeletedImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -26848,7 +26925,8 @@ class _$RealtimeEventConversationItemDeletedImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -26884,7 +26962,8 @@ class _$RealtimeEventConversationItemDeletedImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -27089,7 +27168,8 @@ class _$RealtimeEventConversationItemDeletedImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -27125,7 +27205,8 @@ class _$RealtimeEventConversationItemDeletedImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -27783,7 +27864,8 @@ class _$RealtimeEventConversationItemInputAudioTranscriptionCompletedImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -27819,7 +27901,8 @@ class _$RealtimeEventConversationItemInputAudioTranscriptionCompletedImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -28025,7 +28108,8 @@ class _$RealtimeEventConversationItemInputAudioTranscriptionCompletedImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -28061,7 +28145,8 @@ class _$RealtimeEventConversationItemInputAudioTranscriptionCompletedImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -28267,7 +28352,8 @@ class _$RealtimeEventConversationItemInputAudioTranscriptionCompletedImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -28303,7 +28389,8 @@ class _$RealtimeEventConversationItemInputAudioTranscriptionCompletedImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -28984,7 +29071,8 @@ class _$RealtimeEventConversationItemInputAudioTranscriptionFailedImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -29020,7 +29108,8 @@ class _$RealtimeEventConversationItemInputAudioTranscriptionFailedImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -29226,7 +29315,8 @@ class _$RealtimeEventConversationItemInputAudioTranscriptionFailedImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -29262,7 +29352,8 @@ class _$RealtimeEventConversationItemInputAudioTranscriptionFailedImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -29468,7 +29559,8 @@ class _$RealtimeEventConversationItemInputAudioTranscriptionFailedImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -29504,7 +29596,8 @@ class _$RealtimeEventConversationItemInputAudioTranscriptionFailedImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -30161,7 +30254,8 @@ class _$RealtimeEventConversationItemTruncatedImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -30197,7 +30291,8 @@ class _$RealtimeEventConversationItemTruncatedImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -30403,7 +30498,8 @@ class _$RealtimeEventConversationItemTruncatedImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -30439,7 +30535,8 @@ class _$RealtimeEventConversationItemTruncatedImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -30645,7 +30742,8 @@ class _$RealtimeEventConversationItemTruncatedImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -30681,7 +30779,8 @@ class _$RealtimeEventConversationItemTruncatedImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -31312,7 +31411,8 @@ class _$RealtimeEventErrorImpl extends RealtimeEventError {
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -31348,7 +31448,8 @@ class _$RealtimeEventErrorImpl extends RealtimeEventError {
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -31553,7 +31654,8 @@ class _$RealtimeEventErrorImpl extends RealtimeEventError {
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -31589,7 +31691,8 @@ class _$RealtimeEventErrorImpl extends RealtimeEventError {
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -31794,7 +31897,8 @@ class _$RealtimeEventErrorImpl extends RealtimeEventError {
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -31830,7 +31934,8 @@ class _$RealtimeEventErrorImpl extends RealtimeEventError {
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -32427,7 +32532,8 @@ class _$RealtimeEventInputAudioBufferClearedImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -32463,7 +32569,8 @@ class _$RealtimeEventInputAudioBufferClearedImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -32668,7 +32775,8 @@ class _$RealtimeEventInputAudioBufferClearedImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -32704,7 +32812,8 @@ class _$RealtimeEventInputAudioBufferClearedImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -32909,7 +33018,8 @@ class _$RealtimeEventInputAudioBufferClearedImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -32945,7 +33055,8 @@ class _$RealtimeEventInputAudioBufferClearedImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -33410,7 +33521,8 @@ abstract class _$$RealtimeEventInputAudioBufferCommittedImplCopyWith<$Res>
   $Res call(
       {@JsonKey(name: 'event_id') String eventId,
       RealtimeEventType type,
-      @JsonKey(name: 'previous_item_id') String previousItemId,
+      @JsonKey(name: 'previous_item_id', includeIfNull: false)
+      String? previousItemId,
       @JsonKey(name: 'item_id') String itemId});
 }
 
@@ -33431,7 +33543,7 @@ class __$$RealtimeEventInputAudioBufferCommittedImplCopyWithImpl<$Res>
   $Res call({
     Object? eventId = null,
     Object? type = null,
-    Object? previousItemId = null,
+    Object? previousItemId = freezed,
     Object? itemId = null,
   }) {
     return _then(_$RealtimeEventInputAudioBufferCommittedImpl(
@@ -33443,10 +33555,10 @@ class __$$RealtimeEventInputAudioBufferCommittedImplCopyWithImpl<$Res>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as RealtimeEventType,
-      previousItemId: null == previousItemId
+      previousItemId: freezed == previousItemId
           ? _value.previousItemId
           : previousItemId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       itemId: null == itemId
           ? _value.itemId
           : itemId // ignore: cast_nullable_to_non_nullable
@@ -33462,7 +33574,8 @@ class _$RealtimeEventInputAudioBufferCommittedImpl
   const _$RealtimeEventInputAudioBufferCommittedImpl(
       {@JsonKey(name: 'event_id') required this.eventId,
       this.type = RealtimeEventType.inputAudioBufferCommitted,
-      @JsonKey(name: 'previous_item_id') required this.previousItemId,
+      @JsonKey(name: 'previous_item_id', includeIfNull: false)
+      this.previousItemId,
       @JsonKey(name: 'item_id') required this.itemId})
       : super._();
 
@@ -33482,8 +33595,8 @@ class _$RealtimeEventInputAudioBufferCommittedImpl
 
   /// The ID of the preceding item after which the new item will be inserted.
   @override
-  @JsonKey(name: 'previous_item_id')
-  final String previousItemId;
+  @JsonKey(name: 'previous_item_id', includeIfNull: false)
+  final String? previousItemId;
 
   /// The ID of the user message item that will be created.
   @override
@@ -33571,7 +33684,8 @@ class _$RealtimeEventInputAudioBufferCommittedImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -33607,7 +33721,8 @@ class _$RealtimeEventInputAudioBufferCommittedImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -33812,7 +33927,8 @@ class _$RealtimeEventInputAudioBufferCommittedImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -33848,7 +33964,8 @@ class _$RealtimeEventInputAudioBufferCommittedImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -34054,7 +34171,8 @@ class _$RealtimeEventInputAudioBufferCommittedImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -34090,7 +34208,8 @@ class _$RealtimeEventInputAudioBufferCommittedImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -34516,12 +34635,12 @@ class _$RealtimeEventInputAudioBufferCommittedImpl
 
 abstract class RealtimeEventInputAudioBufferCommitted extends RealtimeEvent {
   const factory RealtimeEventInputAudioBufferCommitted(
-      {@JsonKey(name: 'event_id') required final String eventId,
-      final RealtimeEventType type,
-      @JsonKey(name: 'previous_item_id') required final String previousItemId,
-      @JsonKey(name: 'item_id')
-      required final String
-          itemId}) = _$RealtimeEventInputAudioBufferCommittedImpl;
+          {@JsonKey(name: 'event_id') required final String eventId,
+          final RealtimeEventType type,
+          @JsonKey(name: 'previous_item_id', includeIfNull: false)
+          final String? previousItemId,
+          @JsonKey(name: 'item_id') required final String itemId}) =
+      _$RealtimeEventInputAudioBufferCommittedImpl;
   const RealtimeEventInputAudioBufferCommitted._() : super._();
 
   factory RealtimeEventInputAudioBufferCommitted.fromJson(
@@ -34538,8 +34657,8 @@ abstract class RealtimeEventInputAudioBufferCommitted extends RealtimeEvent {
   RealtimeEventType get type;
 
   /// The ID of the preceding item after which the new item will be inserted.
-  @JsonKey(name: 'previous_item_id')
-  String get previousItemId;
+  @JsonKey(name: 'previous_item_id', includeIfNull: false)
+  String? get previousItemId;
 
   /// The ID of the user message item that will be created.
   @JsonKey(name: 'item_id')
@@ -34731,7 +34850,8 @@ class _$RealtimeEventInputAudioBufferSpeechStartedImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -34767,7 +34887,8 @@ class _$RealtimeEventInputAudioBufferSpeechStartedImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -34972,7 +35093,8 @@ class _$RealtimeEventInputAudioBufferSpeechStartedImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -35008,7 +35130,8 @@ class _$RealtimeEventInputAudioBufferSpeechStartedImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -35214,7 +35337,8 @@ class _$RealtimeEventInputAudioBufferSpeechStartedImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -35250,7 +35374,8 @@ class _$RealtimeEventInputAudioBufferSpeechStartedImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -35893,7 +36018,8 @@ class _$RealtimeEventInputAudioBufferSpeechStoppedImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -35929,7 +36055,8 @@ class _$RealtimeEventInputAudioBufferSpeechStoppedImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -36134,7 +36261,8 @@ class _$RealtimeEventInputAudioBufferSpeechStoppedImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -36170,7 +36298,8 @@ class _$RealtimeEventInputAudioBufferSpeechStoppedImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -36376,7 +36505,8 @@ class _$RealtimeEventInputAudioBufferSpeechStoppedImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -36412,7 +36542,8 @@ class _$RealtimeEventInputAudioBufferSpeechStoppedImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -37045,7 +37176,8 @@ class _$RealtimeEventRateLimitsUpdatedImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -37081,7 +37213,8 @@ class _$RealtimeEventRateLimitsUpdatedImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -37286,7 +37419,8 @@ class _$RealtimeEventRateLimitsUpdatedImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -37322,7 +37456,8 @@ class _$RealtimeEventRateLimitsUpdatedImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -37527,7 +37662,8 @@ class _$RealtimeEventRateLimitsUpdatedImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -37563,7 +37699,8 @@ class _$RealtimeEventRateLimitsUpdatedImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -38233,7 +38370,8 @@ class _$RealtimeEventResponseAudioDeltaImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -38269,7 +38407,8 @@ class _$RealtimeEventResponseAudioDeltaImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -38475,7 +38614,8 @@ class _$RealtimeEventResponseAudioDeltaImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -38511,7 +38651,8 @@ class _$RealtimeEventResponseAudioDeltaImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -38717,7 +38858,8 @@ class _$RealtimeEventResponseAudioDeltaImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -38753,7 +38895,8 @@ class _$RealtimeEventResponseAudioDeltaImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -39429,7 +39572,8 @@ class _$RealtimeEventResponseAudioDoneImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -39465,7 +39609,8 @@ class _$RealtimeEventResponseAudioDoneImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -39671,7 +39816,8 @@ class _$RealtimeEventResponseAudioDoneImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -39707,7 +39853,8 @@ class _$RealtimeEventResponseAudioDoneImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -39913,7 +40060,8 @@ class _$RealtimeEventResponseAudioDoneImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -39949,7 +40097,8 @@ class _$RealtimeEventResponseAudioDoneImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -40636,7 +40785,8 @@ class _$RealtimeEventResponseAudioTranscriptDeltaImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -40672,7 +40822,8 @@ class _$RealtimeEventResponseAudioTranscriptDeltaImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -40878,7 +41029,8 @@ class _$RealtimeEventResponseAudioTranscriptDeltaImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -40914,7 +41066,8 @@ class _$RealtimeEventResponseAudioTranscriptDeltaImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -41120,7 +41273,8 @@ class _$RealtimeEventResponseAudioTranscriptDeltaImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -41156,7 +41310,8 @@ class _$RealtimeEventResponseAudioTranscriptDeltaImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -41848,7 +42003,8 @@ class _$RealtimeEventResponseAudioTranscriptDoneImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -41884,7 +42040,8 @@ class _$RealtimeEventResponseAudioTranscriptDoneImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -42090,7 +42247,8 @@ class _$RealtimeEventResponseAudioTranscriptDoneImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -42126,7 +42284,8 @@ class _$RealtimeEventResponseAudioTranscriptDoneImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -42332,7 +42491,8 @@ class _$RealtimeEventResponseAudioTranscriptDoneImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -42368,7 +42528,8 @@ class _$RealtimeEventResponseAudioTranscriptDoneImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -43071,7 +43232,8 @@ class _$RealtimeEventResponseContentPartAddedImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -43107,7 +43269,8 @@ class _$RealtimeEventResponseContentPartAddedImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -43313,7 +43476,8 @@ class _$RealtimeEventResponseContentPartAddedImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -43349,7 +43513,8 @@ class _$RealtimeEventResponseContentPartAddedImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -43555,7 +43720,8 @@ class _$RealtimeEventResponseContentPartAddedImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -43591,7 +43757,8 @@ class _$RealtimeEventResponseContentPartAddedImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -44295,7 +44462,8 @@ class _$RealtimeEventResponseContentPartDoneImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -44331,7 +44499,8 @@ class _$RealtimeEventResponseContentPartDoneImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -44537,7 +44706,8 @@ class _$RealtimeEventResponseContentPartDoneImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -44573,7 +44743,8 @@ class _$RealtimeEventResponseContentPartDoneImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -44779,7 +44950,8 @@ class _$RealtimeEventResponseContentPartDoneImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -44815,7 +44987,8 @@ class _$RealtimeEventResponseContentPartDoneImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -45462,7 +45635,8 @@ class _$RealtimeEventResponseCreatedImpl extends RealtimeEventResponseCreated {
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -45498,7 +45672,8 @@ class _$RealtimeEventResponseCreatedImpl extends RealtimeEventResponseCreated {
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -45703,7 +45878,8 @@ class _$RealtimeEventResponseCreatedImpl extends RealtimeEventResponseCreated {
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -45739,7 +45915,8 @@ class _$RealtimeEventResponseCreatedImpl extends RealtimeEventResponseCreated {
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -45944,7 +46121,8 @@ class _$RealtimeEventResponseCreatedImpl extends RealtimeEventResponseCreated {
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -45980,7 +46158,8 @@ class _$RealtimeEventResponseCreatedImpl extends RealtimeEventResponseCreated {
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -46600,7 +46779,8 @@ class _$RealtimeEventResponseDoneImpl extends RealtimeEventResponseDone {
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -46636,7 +46816,8 @@ class _$RealtimeEventResponseDoneImpl extends RealtimeEventResponseDone {
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -46841,7 +47022,8 @@ class _$RealtimeEventResponseDoneImpl extends RealtimeEventResponseDone {
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -46877,7 +47059,8 @@ class _$RealtimeEventResponseDoneImpl extends RealtimeEventResponseDone {
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -47082,7 +47265,8 @@ class _$RealtimeEventResponseDoneImpl extends RealtimeEventResponseDone {
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -47118,7 +47302,8 @@ class _$RealtimeEventResponseDoneImpl extends RealtimeEventResponseDone {
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -47788,7 +47973,8 @@ class _$RealtimeEventResponseFunctionCallArgumentsDeltaImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -47824,7 +48010,8 @@ class _$RealtimeEventResponseFunctionCallArgumentsDeltaImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -48030,7 +48217,8 @@ class _$RealtimeEventResponseFunctionCallArgumentsDeltaImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -48066,7 +48254,8 @@ class _$RealtimeEventResponseFunctionCallArgumentsDeltaImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -48272,7 +48461,8 @@ class _$RealtimeEventResponseFunctionCallArgumentsDeltaImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -48308,7 +48498,8 @@ class _$RealtimeEventResponseFunctionCallArgumentsDeltaImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -49003,7 +49194,8 @@ class _$RealtimeEventResponseFunctionCallArgumentsDoneImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -49039,7 +49231,8 @@ class _$RealtimeEventResponseFunctionCallArgumentsDoneImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -49245,7 +49438,8 @@ class _$RealtimeEventResponseFunctionCallArgumentsDoneImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -49281,7 +49475,8 @@ class _$RealtimeEventResponseFunctionCallArgumentsDoneImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -49487,7 +49682,8 @@ class _$RealtimeEventResponseFunctionCallArgumentsDoneImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -49523,7 +49719,8 @@ class _$RealtimeEventResponseFunctionCallArgumentsDoneImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -50200,7 +50397,8 @@ class _$RealtimeEventResponseOutputItemAddedImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -50236,7 +50434,8 @@ class _$RealtimeEventResponseOutputItemAddedImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -50442,7 +50641,8 @@ class _$RealtimeEventResponseOutputItemAddedImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -50478,7 +50678,8 @@ class _$RealtimeEventResponseOutputItemAddedImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -50684,7 +50885,8 @@ class _$RealtimeEventResponseOutputItemAddedImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -50720,7 +50922,8 @@ class _$RealtimeEventResponseOutputItemAddedImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -51386,7 +51589,8 @@ class _$RealtimeEventResponseOutputItemDoneImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -51422,7 +51626,8 @@ class _$RealtimeEventResponseOutputItemDoneImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -51627,7 +51832,8 @@ class _$RealtimeEventResponseOutputItemDoneImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -51663,7 +51869,8 @@ class _$RealtimeEventResponseOutputItemDoneImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -51869,7 +52076,8 @@ class _$RealtimeEventResponseOutputItemDoneImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -51905,7 +52113,8 @@ class _$RealtimeEventResponseOutputItemDoneImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -52585,7 +52794,8 @@ class _$RealtimeEventResponseTextDeltaImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -52621,7 +52831,8 @@ class _$RealtimeEventResponseTextDeltaImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -52827,7 +53038,8 @@ class _$RealtimeEventResponseTextDeltaImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -52863,7 +53075,8 @@ class _$RealtimeEventResponseTextDeltaImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -53069,7 +53282,8 @@ class _$RealtimeEventResponseTextDeltaImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -53105,7 +53319,8 @@ class _$RealtimeEventResponseTextDeltaImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -53793,7 +54008,8 @@ class _$RealtimeEventResponseTextDoneImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -53829,7 +54045,8 @@ class _$RealtimeEventResponseTextDoneImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -54035,7 +54252,8 @@ class _$RealtimeEventResponseTextDoneImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -54071,7 +54289,8 @@ class _$RealtimeEventResponseTextDoneImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -54277,7 +54496,8 @@ class _$RealtimeEventResponseTextDoneImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -54313,7 +54533,8 @@ class _$RealtimeEventResponseTextDoneImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -54954,7 +55175,8 @@ class _$RealtimeEventSessionCreatedImpl extends RealtimeEventSessionCreated {
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -54990,7 +55212,8 @@ class _$RealtimeEventSessionCreatedImpl extends RealtimeEventSessionCreated {
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -55195,7 +55418,8 @@ class _$RealtimeEventSessionCreatedImpl extends RealtimeEventSessionCreated {
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -55231,7 +55455,8 @@ class _$RealtimeEventSessionCreatedImpl extends RealtimeEventSessionCreated {
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -55436,7 +55661,8 @@ class _$RealtimeEventSessionCreatedImpl extends RealtimeEventSessionCreated {
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -55472,7 +55698,8 @@ class _$RealtimeEventSessionCreatedImpl extends RealtimeEventSessionCreated {
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -56091,7 +56318,8 @@ class _$RealtimeEventSessionUpdatedImpl extends RealtimeEventSessionUpdated {
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -56127,7 +56355,8 @@ class _$RealtimeEventSessionUpdatedImpl extends RealtimeEventSessionUpdated {
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -56332,7 +56561,8 @@ class _$RealtimeEventSessionUpdatedImpl extends RealtimeEventSessionUpdated {
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -56368,7 +56598,8 @@ class _$RealtimeEventSessionUpdatedImpl extends RealtimeEventSessionUpdated {
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -56573,7 +56804,8 @@ class _$RealtimeEventSessionUpdatedImpl extends RealtimeEventSessionUpdated {
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -56609,7 +56841,8 @@ class _$RealtimeEventSessionUpdatedImpl extends RealtimeEventSessionUpdated {
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -57213,7 +57446,8 @@ class _$RealtimeEventCloseImpl extends RealtimeEventClose {
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -57249,7 +57483,8 @@ class _$RealtimeEventCloseImpl extends RealtimeEventClose {
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -57454,7 +57689,8 @@ class _$RealtimeEventCloseImpl extends RealtimeEventClose {
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -57490,7 +57726,8 @@ class _$RealtimeEventCloseImpl extends RealtimeEventClose {
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -57695,7 +57932,8 @@ class _$RealtimeEventCloseImpl extends RealtimeEventClose {
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -57731,7 +57969,8 @@ class _$RealtimeEventCloseImpl extends RealtimeEventClose {
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -58328,7 +58567,8 @@ class _$RealtimeEventConversationInterruptedImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -58364,7 +58604,8 @@ class _$RealtimeEventConversationInterruptedImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -58569,7 +58810,8 @@ class _$RealtimeEventConversationInterruptedImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -58605,7 +58847,8 @@ class _$RealtimeEventConversationInterruptedImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -58810,7 +59053,8 @@ class _$RealtimeEventConversationInterruptedImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -58846,7 +59090,8 @@ class _$RealtimeEventConversationInterruptedImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -59467,7 +59712,8 @@ class _$RealtimeEventConversationUpdatedImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -59503,7 +59749,8 @@ class _$RealtimeEventConversationUpdatedImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -59708,7 +59955,8 @@ class _$RealtimeEventConversationUpdatedImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -59744,7 +59992,8 @@ class _$RealtimeEventConversationUpdatedImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -59949,7 +60198,8 @@ class _$RealtimeEventConversationUpdatedImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -59985,7 +60235,8 @@ class _$RealtimeEventConversationUpdatedImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -60609,7 +60860,8 @@ class _$RealtimeEventConversationItemAppendedImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -60645,7 +60897,8 @@ class _$RealtimeEventConversationItemAppendedImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -60850,7 +61103,8 @@ class _$RealtimeEventConversationItemAppendedImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -60886,7 +61140,8 @@ class _$RealtimeEventConversationItemAppendedImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -61091,7 +61346,8 @@ class _$RealtimeEventConversationItemAppendedImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -61127,7 +61383,8 @@ class _$RealtimeEventConversationItemAppendedImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -61753,7 +62010,8 @@ class _$RealtimeEventConversationItemCompletedImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -61789,7 +62047,8 @@ class _$RealtimeEventConversationItemCompletedImpl
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -61994,7 +62253,8 @@ class _$RealtimeEventConversationItemCompletedImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -62030,7 +62290,8 @@ class _$RealtimeEventConversationItemCompletedImpl
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -62235,7 +62496,8 @@ class _$RealtimeEventConversationItemCompletedImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -62271,7 +62533,8 @@ class _$RealtimeEventConversationItemCompletedImpl
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
@@ -62892,7 +63155,8 @@ class _$RealtimeEventGenericImpl extends RealtimeEventGeneric {
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)
         conversationItemCreated,
     required TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -62928,7 +63192,8 @@ class _$RealtimeEventGenericImpl extends RealtimeEventGeneric {
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)
         inputAudioBufferCommitted,
     required TResult Function(
@@ -63133,7 +63398,8 @@ class _$RealtimeEventGenericImpl extends RealtimeEventGeneric {
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult? Function(@JsonKey(name: 'event_id') String eventId,
@@ -63169,7 +63435,8 @@ class _$RealtimeEventGenericImpl extends RealtimeEventGeneric {
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult? Function(
@@ -63374,7 +63641,8 @@ class _$RealtimeEventGenericImpl extends RealtimeEventGeneric {
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String? previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             Item item)?
         conversationItemCreated,
     TResult Function(@JsonKey(name: 'event_id') String eventId,
@@ -63410,7 +63678,8 @@ class _$RealtimeEventGenericImpl extends RealtimeEventGeneric {
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
             RealtimeEventType type,
-            @JsonKey(name: 'previous_item_id') String previousItemId,
+            @JsonKey(name: 'previous_item_id', includeIfNull: false)
+            String? previousItemId,
             @JsonKey(name: 'item_id') String itemId)?
         inputAudioBufferCommitted,
     TResult Function(
