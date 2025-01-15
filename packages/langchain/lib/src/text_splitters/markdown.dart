@@ -34,12 +34,12 @@ class MarkdownHeaderTextSplitter {
   /// [returnEachLine]: Return each line w/ associated headers
   /// [stripHeaders]: Strip split headers from the content of the chunk
   MarkdownHeaderTextSplitter({
-    required this.headersToSplitOn,
+    required List<(String, String)> headersToSplitOn,
     this.returnEachLine = false,
     this.stripHeaders = true,
-  }) {
+  }) : headersToSplitOn = headersToSplitOn.toList() {
     // Sort headers by length in descending order
-    headersToSplitOn.sort((a, b) => b.$1.length.compareTo(a.$1.length));
+    this.headersToSplitOn.sort((a, b) => b.$1.length.compareTo(a.$1.length));
   }
 
   /// Combine lines with common metadata into chunks.
