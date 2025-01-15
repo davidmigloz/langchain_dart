@@ -31705,7 +31705,7 @@ mixin _$RunObject {
   @JsonKey(name: 'max_completion_tokens')
   int? get maxCompletionTokens => throw _privateConstructorUsedError;
 
-  /// Controls for how a thread will be truncated prior to the run. Use this to control the intial context window of the run.
+  /// Controls for how a thread will be truncated prior to the run. Use this to control the initial context window of the run.
   @JsonKey(name: 'truncation_strategy')
   TruncationObject? get truncationStrategy =>
       throw _privateConstructorUsedError;
@@ -32439,7 +32439,7 @@ class _$RunObjectImpl extends _RunObject {
   @JsonKey(name: 'max_completion_tokens')
   final int? maxCompletionTokens;
 
-  /// Controls for how a thread will be truncated prior to the run. Use this to control the intial context window of the run.
+  /// Controls for how a thread will be truncated prior to the run. Use this to control the initial context window of the run.
   @override
   @JsonKey(name: 'truncation_strategy')
   final TruncationObject? truncationStrategy;
@@ -32741,7 +32741,7 @@ abstract class _RunObject extends RunObject {
   @JsonKey(name: 'max_completion_tokens')
   int? get maxCompletionTokens;
 
-  /// Controls for how a thread will be truncated prior to the run. Use this to control the intial context window of the run.
+  /// Controls for how a thread will be truncated prior to the run. Use this to control the initial context window of the run.
   @override
   @JsonKey(name: 'truncation_strategy')
   TruncationObject? get truncationStrategy;
@@ -34726,7 +34726,7 @@ mixin _$CreateRunRequest {
   @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
   int? get maxCompletionTokens => throw _privateConstructorUsedError;
 
-  /// Controls for how a thread will be truncated prior to the run. Use this to control the intial context window of the run.
+  /// Controls for how a thread will be truncated prior to the run. Use this to control the initial context window of the run.
   @JsonKey(name: 'truncation_strategy', includeIfNull: false)
   TruncationObject? get truncationStrategy =>
       throw _privateConstructorUsedError;
@@ -35263,7 +35263,7 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
   @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
   final int? maxCompletionTokens;
 
-  /// Controls for how a thread will be truncated prior to the run. Use this to control the intial context window of the run.
+  /// Controls for how a thread will be truncated prior to the run. Use this to control the initial context window of the run.
   @override
   @JsonKey(name: 'truncation_strategy', includeIfNull: false)
   final TruncationObject? truncationStrategy;
@@ -35487,7 +35487,7 @@ abstract class _CreateRunRequest extends CreateRunRequest {
   @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
   int? get maxCompletionTokens;
 
-  /// Controls for how a thread will be truncated prior to the run. Use this to control the intial context window of the run.
+  /// Controls for how a thread will be truncated prior to the run. Use this to control the initial context window of the run.
   @override
   @JsonKey(name: 'truncation_strategy', includeIfNull: false)
   TruncationObject? get truncationStrategy;
@@ -38250,7 +38250,7 @@ mixin _$CreateThreadAndRunRequest {
   @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
   int? get maxCompletionTokens => throw _privateConstructorUsedError;
 
-  /// Controls for how a thread will be truncated prior to the run. Use this to control the intial context window of the run.
+  /// Controls for how a thread will be truncated prior to the run. Use this to control the initial context window of the run.
   @JsonKey(name: 'truncation_strategy', includeIfNull: false)
   TruncationObject? get truncationStrategy =>
       throw _privateConstructorUsedError;
@@ -38825,7 +38825,7 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
   @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
   final int? maxCompletionTokens;
 
-  /// Controls for how a thread will be truncated prior to the run. Use this to control the intial context window of the run.
+  /// Controls for how a thread will be truncated prior to the run. Use this to control the initial context window of the run.
   @override
   @JsonKey(name: 'truncation_strategy', includeIfNull: false)
   final TruncationObject? truncationStrategy;
@@ -39063,7 +39063,7 @@ abstract class _CreateThreadAndRunRequest extends CreateThreadAndRunRequest {
   @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
   int? get maxCompletionTokens;
 
-  /// Controls for how a thread will be truncated prior to the run. Use this to control the intial context window of the run.
+  /// Controls for how a thread will be truncated prior to the run. Use this to control the initial context window of the run.
   @override
   @JsonKey(name: 'truncation_strategy', includeIfNull: false)
   TruncationObject? get truncationStrategy;
