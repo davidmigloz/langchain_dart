@@ -1272,7 +1272,7 @@ Map<String, dynamic> _$$RealtimeEventConversationItemCreatedImplToJson(
     <String, dynamic>{
       'event_id': instance.eventId,
       'type': _$RealtimeEventTypeEnumMap[instance.type]!,
-      'previous_item_id': instance.previousItemId,
+      if (instance.previousItemId case final value?) 'previous_item_id': value,
       'item': instance.item.toJson(),
     };
 
@@ -1406,7 +1406,7 @@ _$RealtimeEventInputAudioBufferCommittedImpl
           eventId: json['event_id'] as String,
           type: $enumDecodeNullable(_$RealtimeEventTypeEnumMap, json['type']) ??
               RealtimeEventType.inputAudioBufferCommitted,
-          previousItemId: json['previous_item_id'] as String,
+          previousItemId: json['previous_item_id'] as String?,
           itemId: json['item_id'] as String,
         );
 
@@ -1415,7 +1415,7 @@ Map<String, dynamic> _$$RealtimeEventInputAudioBufferCommittedImplToJson(
     <String, dynamic>{
       'event_id': instance.eventId,
       'type': _$RealtimeEventTypeEnumMap[instance.type]!,
-      'previous_item_id': instance.previousItemId,
+      if (instance.previousItemId case final value?) 'previous_item_id': value,
       'item_id': instance.itemId,
     };
 
