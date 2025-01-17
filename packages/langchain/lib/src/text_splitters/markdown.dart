@@ -1,4 +1,5 @@
 import '../documents/documents.dart';
+import '../tools/printable_char.dart';
 import 'code.dart';
 import 'recursive_character.dart';
 
@@ -95,7 +96,16 @@ class MarkdownHeaderTextSplitter {
 
     for (final line in lines) {
       var strippedLine = line.trim();
-      strippedLine = strippedLine.replaceAll(RegExp(r'[^\x20-\x7E]'), '');
+
+      final buffer = StringBuffer();
+      // Iterate through each rune (Unicode code point) in the string
+      for (final rune in strippedLine.runes) {
+        // Add only printable characters to the buffer
+        if (isPrintable(rune)) {
+          buffer.writeCharCode(rune);
+        }
+      }
+      strippedLine = buffer.toString();
 
       if (!inCodeBlock) {
         if (strippedLine.startsWith('```') &&
