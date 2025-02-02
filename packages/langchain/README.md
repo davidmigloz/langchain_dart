@@ -148,12 +148,12 @@ _Note: Prefer using Chat Models over LLMs as many providers have deprecated them
 
 ### Tools
 
-| Tool                                                                              | Package                                                             | Description                                                                                |
-|-----------------------------------------------------------------------------------|---------------------------------------------------------------------|--------------------------------------------------------------------------------------------|
-| [CalculatorTool](https://langchaindart.dev/#/modules/agents/tools/calculator)     | [langchain_community](https://pub.dev/packages/langchain_community) | To calculate math expressions                                                              |
-| [OpenAIDallETool](https://langchaindart.dev/#/modules/agents/tools/openai_dall_e) | [langchain_openai](https://pub.dev/packages/langchain_openai)       | [OpenAI's DALL-E Image Generator](https://platform.openai.com/docs/api-reference/images)   | 
-| TavilyAnswerTool                                                                  | [langchain_community](https://pub.dev/packages/langchain_community) | Returns an answer for a query using the [Tavily](https://tavily.com) search engine         |
-| TavilySearchResultsTool                                                           | [langchain_community](https://pub.dev/packages/langchain_community) | Returns a list of results for a query using the [Tavily](https://tavily.com) search engine |
+| Tool                                                                                              | Package                                                             | Description                                                                                |
+|---------------------------------------------------------------------------------------------------|---------------------------------------------------------------------|--------------------------------------------------------------------------------------------|
+| [CalculatorTool](https://langchaindart.dev/#/modules/agents/tools/calculator)                     | [langchain_community](https://pub.dev/packages/langchain_community) | To calculate math expressions                                                              |
+| [OpenAIDallETool](https://langchaindart.dev/#/modules/agents/tools/openai_dall_e)                 | [langchain_openai](https://pub.dev/packages/langchain_openai)       | [OpenAI's DALL-E Image Generator](https://platform.openai.com/docs/api-reference/images)   | 
+| [TavilyAnswerTool](https://langchaindart.dev/#/modules/agents/tools/tavily_answer)                | [langchain_community](https://pub.dev/packages/langchain_community) | Returns an answer for a query using the [Tavily](https://tavily.com) search engine         |
+| [TavilySearchResultsTool](https://langchaindart.dev/#/modules/agents/tools/tavily_search_results) | [langchain_community](https://pub.dev/packages/langchain_community) | Returns a list of results for a query using the [Tavily](https://tavily.com) search engine |
 
 ## Getting started
 

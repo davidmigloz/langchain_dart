@@ -21,8 +21,8 @@ SearchRequest _$SearchRequestFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$SearchRequest {
   /// Your unique API key.
-  @JsonKey(name: 'api_key')
-  String get apiKey => throw _privateConstructorUsedError;
+  @JsonKey(name: 'api_key', includeIfNull: false)
+  String? get apiKey => throw _privateConstructorUsedError;
 
   /// The search query string.
   String get query => throw _privateConstructorUsedError;
@@ -73,7 +73,7 @@ abstract class $SearchRequestCopyWith<$Res> {
       _$SearchRequestCopyWithImpl<$Res, SearchRequest>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'api_key') String apiKey,
+      {@JsonKey(name: 'api_key', includeIfNull: false) String? apiKey,
       String query,
       @JsonKey(name: 'search_depth') SearchRequestSearchDepth searchDepth,
       @JsonKey(name: 'include_images') bool includeImages,
@@ -101,7 +101,7 @@ class _$SearchRequestCopyWithImpl<$Res, $Val extends SearchRequest>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? apiKey = null,
+    Object? apiKey = freezed,
     Object? query = null,
     Object? searchDepth = null,
     Object? includeImages = null,
@@ -112,10 +112,10 @@ class _$SearchRequestCopyWithImpl<$Res, $Val extends SearchRequest>
     Object? excludeDomains = freezed,
   }) {
     return _then(_value.copyWith(
-      apiKey: null == apiKey
+      apiKey: freezed == apiKey
           ? _value.apiKey
           : apiKey // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       query: null == query
           ? _value.query
           : query // ignore: cast_nullable_to_non_nullable
@@ -161,7 +161,7 @@ abstract class _$$SearchRequestImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'api_key') String apiKey,
+      {@JsonKey(name: 'api_key', includeIfNull: false) String? apiKey,
       String query,
       @JsonKey(name: 'search_depth') SearchRequestSearchDepth searchDepth,
       @JsonKey(name: 'include_images') bool includeImages,
@@ -187,7 +187,7 @@ class __$$SearchRequestImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? apiKey = null,
+    Object? apiKey = freezed,
     Object? query = null,
     Object? searchDepth = null,
     Object? includeImages = null,
@@ -198,10 +198,10 @@ class __$$SearchRequestImplCopyWithImpl<$Res>
     Object? excludeDomains = freezed,
   }) {
     return _then(_$SearchRequestImpl(
-      apiKey: null == apiKey
+      apiKey: freezed == apiKey
           ? _value.apiKey
           : apiKey // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       query: null == query
           ? _value.query
           : query // ignore: cast_nullable_to_non_nullable
@@ -242,7 +242,7 @@ class __$$SearchRequestImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$SearchRequestImpl extends _SearchRequest {
   const _$SearchRequestImpl(
-      {@JsonKey(name: 'api_key') required this.apiKey,
+      {@JsonKey(name: 'api_key', includeIfNull: false) this.apiKey,
       required this.query,
       @JsonKey(name: 'search_depth')
       this.searchDepth = SearchRequestSearchDepth.basic,
@@ -263,8 +263,8 @@ class _$SearchRequestImpl extends _SearchRequest {
 
   /// Your unique API key.
   @override
-  @JsonKey(name: 'api_key')
-  final String apiKey;
+  @JsonKey(name: 'api_key', includeIfNull: false)
+  final String? apiKey;
 
   /// The search query string.
   @override
@@ -383,7 +383,7 @@ class _$SearchRequestImpl extends _SearchRequest {
 
 abstract class _SearchRequest extends SearchRequest {
   const factory _SearchRequest(
-      {@JsonKey(name: 'api_key') required final String apiKey,
+      {@JsonKey(name: 'api_key', includeIfNull: false) final String? apiKey,
       required final String query,
       @JsonKey(name: 'search_depth') final SearchRequestSearchDepth searchDepth,
       @JsonKey(name: 'include_images') final bool includeImages,
@@ -401,8 +401,8 @@ abstract class _SearchRequest extends SearchRequest {
 
   /// Your unique API key.
   @override
-  @JsonKey(name: 'api_key')
-  String get apiKey;
+  @JsonKey(name: 'api_key', includeIfNull: false)
+  String? get apiKey;
 
   /// The search query string.
   @override

@@ -149,7 +149,8 @@ const sidebars = {
             id: 'integrations/tools/index',
           },
           items: [
-            'integrations/tools/tavily_search',
+            'integrations/tools/tavily_answer',
+            'integrations/tools/tavily_search_results',
           ],
         },
       ],

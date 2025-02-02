@@ -25,6 +25,7 @@ The most popular third-party integrations have their own packages (e.g. [langcha
   * `CsvLoader`: for CSV or TSV files.
   * `JsonLoader` for JSON files.
   * `WebBaseLoader`: for web pages.
+  * `DirectoryLoader`: for directories of files.
 - Tools:
   * `CalculatorTool`: to calculate math expressions. 
   * `TavilySearchResultsTool`: returns a list of results for a query using the [Tavily](https://tavily.com) search engine.
