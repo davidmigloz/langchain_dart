@@ -10,7 +10,7 @@ part of 'schema.dart';
 
 _$SearchRequestImpl _$$SearchRequestImplFromJson(Map<String, dynamic> json) =>
     _$SearchRequestImpl(
-      apiKey: json['api_key'] as String,
+      apiKey: json['api_key'] as String?,
       query: json['query'] as String,
       searchDepth: $enumDecodeNullable(
               _$SearchRequestSearchDepthEnumMap, json['search_depth']) ??
@@ -27,27 +27,18 @@ _$SearchRequestImpl _$$SearchRequestImplFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$$SearchRequestImplToJson(_$SearchRequestImpl instance) {
-  final val = <String, dynamic>{
-    'api_key': instance.apiKey,
-    'query': instance.query,
-    'search_depth': _$SearchRequestSearchDepthEnumMap[instance.searchDepth]!,
-    'include_images': instance.includeImages,
-    'include_answer': instance.includeAnswer,
-    'include_raw_content': instance.includeRawContent,
-    'max_results': instance.maxResults,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('include_domains', instance.includeDomains);
-  writeNotNull('exclude_domains', instance.excludeDomains);
-  return val;
-}
+Map<String, dynamic> _$$SearchRequestImplToJson(_$SearchRequestImpl instance) =>
+    <String, dynamic>{
+      if (instance.apiKey case final value?) 'api_key': value,
+      'query': instance.query,
+      'search_depth': _$SearchRequestSearchDepthEnumMap[instance.searchDepth]!,
+      'include_images': instance.includeImages,
+      'include_answer': instance.includeAnswer,
+      'include_raw_content': instance.includeRawContent,
+      'max_results': instance.maxResults,
+      if (instance.includeDomains case final value?) 'include_domains': value,
+      if (instance.excludeDomains case final value?) 'exclude_domains': value,
+    };
 
 const _$SearchRequestSearchDepthEnumMap = {
   SearchRequestSearchDepth.basic: 'basic',
@@ -70,23 +61,16 @@ _$SearchResponseImpl _$$SearchResponseImplFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$$SearchResponseImplToJson(
-    _$SearchResponseImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('answer', instance.answer);
-  val['query'] = instance.query;
-  val['response_time'] = instance.responseTime;
-  writeNotNull('images', instance.images);
-  writeNotNull('follow_up_questions', instance.followUpQuestions);
-  val['results'] = instance.results.map((e) => e.toJson()).toList();
-  return val;
-}
+        _$SearchResponseImpl instance) =>
+    <String, dynamic>{
+      if (instance.answer case final value?) 'answer': value,
+      'query': instance.query,
+      'response_time': instance.responseTime,
+      if (instance.images case final value?) 'images': value,
+      if (instance.followUpQuestions case final value?)
+        'follow_up_questions': value,
+      'results': instance.results.map((e) => e.toJson()).toList(),
+    };
 
 _$SearchResultImpl _$$SearchResultImplFromJson(Map<String, dynamic> json) =>
     _$SearchResultImpl(
@@ -97,20 +81,11 @@ _$SearchResultImpl _$$SearchResultImplFromJson(Map<String, dynamic> json) =>
       score: (json['score'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$$SearchResultImplToJson(_$SearchResultImpl instance) {
-  final val = <String, dynamic>{
-    'title': instance.title,
-    'url': instance.url,
-    'content': instance.content,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('raw_content', instance.rawContent);
-  val['score'] = instance.score;
-  return val;
-}
+Map<String, dynamic> _$$SearchResultImplToJson(_$SearchResultImpl instance) =>
+    <String, dynamic>{
+      'title': instance.title,
+      'url': instance.url,
+      'content': instance.content,
+      if (instance.rawContent case final value?) 'raw_content': value,
+      'score': instance.score,
+    };

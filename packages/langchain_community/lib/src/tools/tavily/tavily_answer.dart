@@ -45,7 +45,7 @@ final class TavilyAnswerTool extends StringTool<TavilyAnswerToolOptions> {
   /// - `client`: the HTTP client to use. You can set your own HTTP client if
   ///   you need further customization (e.g. to use a Socks5 proxy).
   TavilyAnswerTool({
-    required this.apiKey,
+    this.apiKey,
     final String? baseUrl,
     final Map<String, String> headers = const {},
     final Map<String, dynamic> queryParams = const {},
@@ -71,7 +71,7 @@ final class TavilyAnswerTool extends StringTool<TavilyAnswerToolOptions> {
   final TavilyClient _client;
 
   /// Your Tavily API key.
-  String apiKey;
+  String? apiKey;
 
   @override
   Future<String> invokeInternal(
