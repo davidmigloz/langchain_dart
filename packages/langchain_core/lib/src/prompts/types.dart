@@ -25,6 +25,18 @@ sealed class PromptValue {
   /// Returns a list of messages representing the prompt.
   List<ChatMessage> toChatMessages();
 
+  /// Convert the prompt value to a map.
+  Map<String, dynamic> toMap() => {};
+
+  /// Convert the prompt value from a map.
+  factory PromptValue.fromMap(Map<String, dynamic> map) =>
+      switch (map['type']) {
+        'string' => StringPromptValue.fromMap(map),
+        'chat' => ChatPromptValue.fromMap(map),
+        null => throw ArgumentError('Prompt value type is null'),
+        _ => throw ArgumentError('Unknown prompt value type ${map['type']}'),
+      };
+
   /// {@macro string_prompt_template}
   factory PromptValue.string(final String value) {
     return StringPromptValue(value);
@@ -53,6 +65,17 @@ class StringPromptValue implements PromptValue {
 
   /// String value to use as the prompt.
   final String value;
+
+  /// Convert the prompt value to a map.
+  @override
+  Map<String, dynamic> toMap() => {
+        'value': value,
+        'type': 'string',
+      };
+
+  /// Convert the prompt value from a map.
+  factory StringPromptValue.fromMap(Map<String, dynamic> map) =>
+      StringPromptValue(map['value'] as String);
 
   @override
   String toString() {
@@ -117,6 +140,21 @@ class ChatPromptValue implements PromptValue {
   List<ChatMessage> toChatMessages() {
     return messages;
   }
+
+  /// Convert the prompt value to a map.
+  @override
+  Map<String, dynamic> toMap() => {
+        'value': messages.map((message) => message.toMap()).toList(),
+        'type': 'chat',
+      };
+
+  /// Convert the prompt value from a map.
+  factory ChatPromptValue.fromMap(Map<String, dynamic> map) => ChatPromptValue(
+        (map['value'] as List<dynamic>)
+            .whereType<Map<String, dynamic>>()
+            .map(ChatMessage.fromMap)
+            .toList(),
+      );
 
   @override
   PromptValue concat(
