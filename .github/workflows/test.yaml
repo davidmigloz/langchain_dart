@@ -46,7 +46,7 @@ jobs:
           run-bootstrap: false
 
       - name: Bootstrap
-        uses: nick-invision/retry@7152eba30c6575329ac0576536151aca5a72780e
+        uses: nick-invision/retry@c97818ca39074beaea45180dba704f92496a0082
         with:
           timeout_minutes: 5
           max_attempts: 5
