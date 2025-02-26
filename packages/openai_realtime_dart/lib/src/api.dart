@@ -54,8 +54,11 @@ class RealtimeAPI extends RealtimeEventHandler {
   bool isConnected() => _ws != null;
 
   /// Connects to Realtime API Websocket Server.
+  ///
+  /// [model] specifies which model to use. You can find the list of available
+  /// models [here](https://platform.openai.com/docs/models).
   Future<bool> connect({
-    final String model = 'gpt-4o-realtime-preview-2024-10-01',
+    final String model = RealtimeUtils.defaultModel,
   }) async {
     if (isConnected()) {
       throw Exception('Already connected');
