@@ -1,6 +1,4 @@
 // ignore_for_file: avoid_web_libraries_in_flutter, public_member_api_docs
-import 'dart:js_util';
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -58,8 +56,8 @@ class PopUpScreenCubit extends Cubit<PopUpScreenState> {
   }
 
   Future<List<Document>> _getCurrentTabContent() async {
-    final tabs = await promiseToFuture<List<Tab>>(
-      query(ParameterQueryTabs(active: true, lastFocusedWindow: true)),
+    final tabs = await query(
+      ParameterQueryTabs(active: true, lastFocusedWindow: true),
     );
 
     final url = tabs.first.url.trim();
