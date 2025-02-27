@@ -16,7 +16,7 @@ void main() {
     const defaultModel = 'llama3.2';
     const visionModel = 'llava:latest';
 
-    setUp(() async {
+    setUp(()  {
       chatModel = ChatOllama(
         defaultOptions: const ChatOllamaOptions(
           model: defaultModel,
@@ -29,7 +29,7 @@ void main() {
       chatModel.close();
     });
 
-    test('Test ChatOllama parameters', () async {
+    test('Test ChatOllama parameters', ()  {
       const options = ChatOllamaOptions(
         model: 'foo',
         format: OllamaResponseFormat.json,
@@ -181,7 +181,7 @@ void main() {
       final stream = chain.stream({'max_num': '9'});
 
       var content = '';
-      int count = 0;
+      var count = 0;
       await for (final res in stream) {
         content += res.trim();
         count++;

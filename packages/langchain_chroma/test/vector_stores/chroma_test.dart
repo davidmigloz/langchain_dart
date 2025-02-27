@@ -10,7 +10,7 @@ import 'package:langchain_core/documents.dart';
 import 'package:langchain_openai/langchain_openai.dart';
 import 'package:test/test.dart';
 
-void main() async {
+void main()  {
   final openaiApiKey = Platform.environment['OPENAI_API_KEY']!;
   final embeddings = OpenAIEmbeddings(apiKey: openaiApiKey);
   final vectorStore = Chroma(embeddings: embeddings);

@@ -58,7 +58,7 @@ class RealtimeEventHandler {
   Future<RealtimeEvent?> waitForNext(
     RealtimeEventType eventName, {
     Duration? timeout,
-  }) async {
+  }) {
     final completer = Completer<RealtimeEvent?>();
 
     onNext(eventName, completer.complete);

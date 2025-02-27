@@ -158,7 +158,7 @@ List<ParsedFStringNode> parseFStringTemplate(final String template) {
     return -1;
   }
 
-  int i = 0;
+  var i = 0;
   while (i < chars.length) {
     if (chars[i] == '{' && i + 1 < chars.length && chars[i + 1] == '{') {
       nodes.add(const ParsedFStringLiteralNode(text: '{'));

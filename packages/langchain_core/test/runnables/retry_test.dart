@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_async
+
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/prompts.dart';
 import 'package:langchain_core/runnables.dart';
@@ -33,7 +35,7 @@ void main() {
       expect(res[1].output.content, 'tell me a joke about cats');
     });
 
-    test('Should retry based RetryOptions, maxRetries = 2', () async {
+    test('Should retry based RetryOptions, maxRetries = 2', ()  {
       final modelWithRetry = model.withRetry(maxRetries: 2);
       expect(
         () async => modelWithRetry.invoke(
@@ -45,7 +47,7 @@ void main() {
     });
 
     test('Should return the output after successful retry', () async {
-      int count = 0;
+      var count = 0;
       final modelWithRetry = model.pipe(
         Runnable.fromFunction(
           invoke: (input, opt) {

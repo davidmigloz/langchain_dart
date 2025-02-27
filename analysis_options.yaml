@@ -19,8 +19,8 @@ linter:
     - annotate_overrides
     - annotate_redeclares
     - avoid_bool_literals_in_conditional_expressions
-    #    - avoid_catches_without_on_clauses # blocked on https://github.com/dart-lang/linter/issues/3023
-    #    - avoid_catching_errors # blocked on https://github.com/dart-lang/linter/issues/3023
+    # - avoid_catches_without_on_clauses # blocked on https://github.com/dart-lang/linter/issues/3023
+    # - avoid_catching_errors # blocked on https://github.com/dart-lang/linter/issues/3023
     - avoid_double_and_int_checks
     - avoid_dynamic_calls
     - avoid_empty_else
@@ -36,7 +36,7 @@ linter:
     - avoid_null_checks_in_equality_operators
     - avoid_positional_boolean_parameters
     - avoid_print
-    #    - avoid_redundant_argument_values # I prefer to be explicit sometimes
+    # - avoid_redundant_argument_values # I prefer to be explicit sometimes
     - avoid_relative_lib_imports
     - avoid_renaming_method_parameters
     - avoid_return_types_on_setters
@@ -71,12 +71,12 @@ linter:
     #    - diagnostic_describe_all_properties # Disabled because it's very verbose
     - directives_ordering
     - discarded_futures
-    #    - document_ignores # Disabled because it's very verbose
+    # - document_ignores # Disabled because it's very verbose
     - empty_catches
     - empty_constructor_bodies
     - empty_statements
     - enable_null_safety
-    #    - eol_at_end_of_file # Seems to be causing some perf issues (https://github.com/dart-lang/sdk/issues/55281#issuecomment-2519977056)
+    # - eol_at_end_of_file # Seems to be causing some perf issues (https://github.com/dart-lang/sdk/issues/55281#issuecomment-2519977056)
     - exhaustive_cases
     - file_names
     - hash_and_equals
@@ -109,6 +109,7 @@ linter:
     - null_check_on_nullable_type_parameter
     - null_closures
     - omit_obvious_local_variable_types
+    # - omit_obvious_property_types # Collides with type_annotate_public_apis
     - only_throw_errors
     - overridden_fields
     - package_names
@@ -127,7 +128,7 @@ linter:
     - prefer_final_fields
     - prefer_final_in_for_each
     - prefer_final_locals
-    #    - prefer_final_parameters # Very verbose
+    # - prefer_final_parameters # Very verbose
     - prefer_for_elements_to_map_fromIterable
     - prefer_foreach
     - prefer_function_declarations_over_variables
@@ -156,7 +157,9 @@ linter:
     - slash_for_doc_comments
     - sort_child_properties_last
     - sort_unnamed_constructors_first
-    #    - specify_nonobvious_local_variable_types # Disabled because it's very verbose
+    # - specify_nonobvious_local_variable_types # Disabled because it's very verbose
+    - specify_nonobvious_property_types
+    - strict_top_level_inference
     - test_types_in_equals
     - throw_in_finally
     - tighten_type_of_initializing_formals
@@ -165,6 +168,7 @@ linter:
     - type_literal_in_constant_pattern
     - unawaited_futures
     - unintended_html_in_doc_comment
+    - unnecessary_async
     - unnecessary_await_in_return
     - unnecessary_brace_in_string_interps
     - unnecessary_breaks
@@ -188,9 +192,10 @@ linter:
     - unnecessary_string_interpolations
     - unnecessary_this
     - unnecessary_to_list_in_spreads
+    - unnecessary_underscores
     - unreachable_from_main
     - unrelated_type_equality_checks
-    - unsafe_html
+    - unsafe_variance
     - use_build_context_synchronously
     - use_colored_box
     - use_decorated_box

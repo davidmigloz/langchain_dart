@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_async
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
@@ -90,7 +92,7 @@ class RealtimeClient extends RealtimeEventHandler {
         ((e) async => dispatch(RealtimeEventType.all, e)),
       );
 
-    FutureOr<EventHandlerResult> handler(
+    Future<EventHandlerResult> handler(
       RealtimeEvent event, [
       dynamic args,
     ]) async {

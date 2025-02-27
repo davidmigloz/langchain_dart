@@ -1,4 +1,4 @@
-// ignore_for_file: use_super_parameters
+// ignore_for_file: use_super_parameters, unnecessary_async
 import 'dart:async';
 import 'dart:convert';
 
@@ -292,7 +292,7 @@ class _PairwiseTransformer
       },
       onPause: ([final resumeSignal]) => subscription.pause(resumeSignal),
       onResume: () => subscription.resume(),
-      onCancel: () async => subscription.cancel(),
+      onCancel: ()  async => subscription.cancel(),
     );
 
     return controller.stream;

@@ -2,7 +2,7 @@ import 'package:langchain_core/documents.dart';
 import 'package:langchain_core/embeddings.dart';
 import 'package:test/test.dart';
 
-void main() async {
+void main()  {
   group('FakeEmbeddings tests', () {
     test('embedQuery: should return an embedding with correct size', () async {
       final embeddings = FakeEmbeddings();

@@ -47,7 +47,7 @@ class RealtimeAPI extends RealtimeEventHandler {
   final bool dangerouslyAllowAPIKeyInBrowser;
 
   WebSocketChannel? _ws;
-  String _model = '';
+  var _model = '';
   StreamSubscription<dynamic>? _logSubscription;
 
   /// Tells us whether or not the WebSocket is connected.

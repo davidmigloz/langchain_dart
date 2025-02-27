@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_async
+
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/output_parsers.dart';
 import 'package:langchain_core/prompts.dart';
@@ -62,7 +64,7 @@ void main() {
       expect(res.first.output.content, 'fallback response');
     });
 
-    test('Should throw error if none of runnable returned output', () async {
+    test('Should throw error if none of runnable returned output', () {
       final brokenModel1 = model.bind(
         const FakeEchoChatModelOptions(throwRandomError: true),
       );

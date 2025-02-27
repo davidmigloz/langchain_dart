@@ -42,7 +42,7 @@ class VectorStoreMemory implements BaseMemory {
   final bool returnDocs;
 
   /// Default key for [memoryKey].
-  static const String defaultMemoryKey = 'memory';
+  static const defaultMemoryKey = 'memory';
 
   @override
   Set<String> get memoryKeys => {memoryKey};

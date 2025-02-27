@@ -67,14 +67,14 @@ class JsonOutputParser<ParserInput extends Object?> extends BaseOutputParser<
 
   final StringOutputParser<ParserInput> _stringOutputParser;
 
-  String _lastInputStr = '';
+  var _lastInputStr = '';
   Map<String, dynamic> _lastOutputMap = {};
 
   @override
   Future<Map<String, dynamic>> invoke(
     final ParserInput input, {
     final OutputParserOptions? options,
-  }) async {
+  })  {
     return _parseInvoke(input, options: options);
   }
 
