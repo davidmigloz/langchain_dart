@@ -239,7 +239,7 @@ class ChatGoogleGenerativeAI
   late GenerativeModel _googleAiClient;
 
   /// A UUID generator.
-  late final Uuid _uuid = const Uuid();
+  late final _uuid = const Uuid();
 
   /// Set or replace the API key.
   set apiKey(final String value) =>
@@ -345,7 +345,7 @@ class ChatGoogleGenerativeAI
   Future<List<int>> tokenize(
     final PromptValue promptValue, {
     final ChatGoogleGenerativeAIOptions? options,
-  }) async {
+  })  {
     throw UnsupportedError(
       'Google AI does not expose a tokenizer, only counting tokens is supported.',
     );

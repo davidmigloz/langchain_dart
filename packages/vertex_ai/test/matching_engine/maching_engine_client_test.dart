@@ -167,7 +167,7 @@ void main() async {
   });
 }
 
-Future<AuthClient> _getAuthenticatedClient() async {
+Future<AuthClient> _getAuthenticatedClient()  {
   final serviceAccountCredentials = ServiceAccountCredentials.fromJson(
     json.decode(Platform.environment['VERTEX_AI_SERVICE_ACCOUNT']!),
   );
@@ -177,7 +177,7 @@ Future<AuthClient> _getAuthenticatedClient() async {
   );
 }
 
-const _queryVector = [
+const List<double> _queryVector = [
   -0.0024800552055239677,
   0.011974085122346878,
   0.027945270761847496,

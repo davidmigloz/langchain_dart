@@ -37,7 +37,7 @@ class RealtimeConversation {
       ])> _eventProcessors = {};
 
   /// Default frequency for audio.
-  final int defaultFrequency = 24000; // 24,000 Hz
+  final defaultFrequency = 24000; // 24,000 Hz
 
   void _initializeEventProcessors() {
     _eventProcessors[RealtimeEventType.conversationItemCreated] = (

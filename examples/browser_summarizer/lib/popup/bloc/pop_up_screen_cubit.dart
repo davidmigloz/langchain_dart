@@ -67,7 +67,7 @@ class PopUpScreenCubit extends Cubit<PopUpScreenState> {
     return loader.load();
   }
 
-  Future<String> _generateSummary(final List<Document> docs) async {
+  Future<String> _generateSummary(final List<Document> docs) {
     const textSplitter = RecursiveCharacterTextSplitter(chunkSize: 5000);
     final List<Document> docsChunks = textSplitter.splitDocuments(docs);
 

@@ -85,11 +85,11 @@ scripts:
 
   format:
     description: Format Dart files
-    run: melos exec -- "dart format --fix ."
+    run: melos exec -- "dart fix --apply"
 
   format:diff:
     description: Format Flutter files
-    run: melos exec --fail-fast -- "dart format --fix --set-exit-if-changed ."
+    run: melos exec --fail-fast -- "dart format --set-exit-if-changed ."
     packageFilters:
       diff: origin/main...HEAD
 

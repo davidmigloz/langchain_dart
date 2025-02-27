@@ -17,7 +17,7 @@ void main() {
       );
     });
 
-    tearDown(() async {
+    tearDown(()  {
       client.endSession();
     });
 

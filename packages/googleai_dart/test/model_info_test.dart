@@ -10,7 +10,7 @@ void main() {
   group('Google AI model info API tests', () {
     late GoogleAIClient client;
 
-    setUp(() async {
+    setUp(() {
       client = GoogleAIClient(
         apiKey: Platform.environment['GOOGLEAI_API_KEY'],
       );

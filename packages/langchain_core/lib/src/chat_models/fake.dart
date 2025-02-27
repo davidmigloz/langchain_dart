@@ -20,7 +20,7 @@ class FakeChatModel extends BaseChatModel<FakeChatModelOptions> {
   /// Responses to return in order when called.
   final List<String> responses;
 
-  int _i = 0;
+  var _i = 0;
 
   @override
   String get modelType => 'fake-chat-model';

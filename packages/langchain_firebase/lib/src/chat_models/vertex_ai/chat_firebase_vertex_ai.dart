@@ -186,7 +186,7 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
   late GenerativeModel _firebaseClient;
 
   /// A UUID generator.
-  late final Uuid _uuid = const Uuid();
+  late final _uuid = const Uuid();
 
   /// The current model set in [_firebaseClient];
   String _currentModel;
@@ -282,7 +282,7 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
   Future<List<int>> tokenize(
     final PromptValue promptValue, {
     final ChatFirebaseVertexAIOptions? options,
-  }) async {
+  })  {
     throw UnsupportedError(
       'Google AI does not expose a tokenizer, only counting tokens is supported.',
     );

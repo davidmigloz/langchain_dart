@@ -18,7 +18,7 @@ void main() {
 
     late ChatGoogleGenerativeAI chatModel;
 
-    setUp(() async {
+    setUp(()  {
       chatModel = ChatGoogleGenerativeAI(
         apiKey: Platform.environment['GOOGLEAI_API_KEY'],
         defaultOptions: const ChatGoogleGenerativeAIOptions(
@@ -156,7 +156,7 @@ void main() {
       );
 
       var content = '';
-      int count = 0;
+      var count = 0;
       await for (final res in stream) {
         content += res.output.content;
         count++;

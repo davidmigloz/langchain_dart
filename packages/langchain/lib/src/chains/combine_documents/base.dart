@@ -30,10 +30,10 @@ abstract class BaseCombineDocumentsChain extends BaseChain {
   final String outputKey;
 
   /// Default [inputKey] value.
-  static const String defaultInputKey = 'input_documents';
+  static const defaultInputKey = 'input_documents';
 
   /// Default [outputKey] value.
-  static const String defaultOutputKey = 'output';
+  static const defaultOutputKey = 'output';
 
   /// Prompt variable to use for the page content.
   static const pageContentPromptVar = 'page_content';
@@ -45,7 +45,7 @@ abstract class BaseCombineDocumentsChain extends BaseChain {
   Set<String> get outputKeys => {outputKey};
 
   @override
-  Future<ChainValues> callInternal(final ChainValues inputs) async {
+  Future<ChainValues> callInternal(final ChainValues inputs) {
     final docs = inputs[inputKey] as List<Document>;
     final otherInputKeys = inputs.keys.toSet().difference({inputKey});
     final otherInputs = {

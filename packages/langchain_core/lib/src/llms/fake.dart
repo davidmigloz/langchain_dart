@@ -16,7 +16,7 @@ class FakeLLM extends SimpleLLM<FakeLLMOptions> {
   /// Responses to return in order when called.
   final List<String> responses;
 
-  int _i = 0;
+  var _i = 0;
 
   @override
   String get modelType => 'fake-list';
@@ -157,7 +157,7 @@ class FakeHandlerLLM extends SimpleLLM<FakeLLMOptions> {
     int callCount,
   ) handler;
 
-  int _callCount = 0;
+  var _callCount = 0;
 
   @override
   String get modelType => 'fake-handler';
