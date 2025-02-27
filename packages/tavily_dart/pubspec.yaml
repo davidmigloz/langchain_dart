@@ -6,6 +6,9 @@ issue_tracker: https://github.com/davidmigloz/langchain_dart/issues?q=label:p:ta
 homepage: https://github.com/davidmigloz/langchain_dart
 documentation: https://langchaindart.dev
 
+funding:
+  - https://github.com/sponsors/davidmigloz
+
 topics:
   - ai
   - llms
