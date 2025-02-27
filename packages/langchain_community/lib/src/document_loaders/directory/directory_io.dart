@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:math';
+import 'package:cross_file/cross_file.dart' show XFile;
 import 'package:glob/glob.dart';
 import 'package:langchain_core/document_loaders.dart';
 import 'package:langchain_core/documents.dart';
@@ -143,7 +144,7 @@ class DirectoryLoader extends BaseDocumentLoader {
 
   /// Optional function to build custom metadata for each document.
   final Map<String, dynamic> Function(
-    File file,
+    XFile file,
     Map<String, dynamic> defaultMetadata,
   )? metadataBuilder;
 
@@ -181,13 +182,13 @@ class DirectoryLoader extends BaseDocumentLoader {
     return true;
   }
 
-  Map<String, dynamic> _buildDefaultMetadata(File file) {
+  Future<Map<String, dynamic>> _buildDefaultMetadata(XFile file) async {
     return {
       'source': file.path,
       'name': path.basename(file.path),
       'extension': path.extension(file.path),
-      'size': file.lengthSync(),
-      'lastModified': file.lastModifiedSync().millisecondsSinceEpoch,
+      'size': await file.length(),
+      'lastModified': (await file.lastModified()).millisecondsSinceEpoch,
     };
   }
 
@@ -202,7 +203,8 @@ class DirectoryLoader extends BaseDocumentLoader {
     var files = directory
         .listSync(recursive: recursive)
         .whereType<File>()
-        .where(_shouldLoadFile);
+        .where(_shouldLoadFile)
+        .map((e) => XFile(e.path));
 
     if (sampleSize > 0) {
       if (randomizeSample) {
@@ -218,7 +220,7 @@ class DirectoryLoader extends BaseDocumentLoader {
       final loaders = loaderMap.isNotEmpty ? loaderMap : defaultLoaderMap;
       final loader = loaders[ext]?.call(file.path) ?? TextLoader(file.path);
 
-      final defaultMetadata = _buildDefaultMetadata(file);
+      final defaultMetadata = await _buildDefaultMetadata(file);
       final metadata =
           metadataBuilder?.call(file, defaultMetadata) ?? defaultMetadata;
 
