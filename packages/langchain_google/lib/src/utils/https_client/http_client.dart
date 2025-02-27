@@ -1,9 +1,5 @@
 import 'package:http/http.dart' as http;
 
-export 'http_client_stub.dart'
-    if (dart.library.io) 'http_client_io.dart'
-    if (dart.library.js_interop) 'http_client_html.dart';
-
 /// {@template custom_http_client}
 /// Custom HTTP client that wraps the base HTTP client and allows to override
 /// the base URL, headers, and query parameters.
