@@ -35,7 +35,7 @@ command:
       firebase_app_check: ^0.3.0
       firebase_auth: ^5.1.0
       firebase_core: ^3.3.0
-      firebase_vertexai: ^0.2.2
+      firebase_vertexai: ^1.4.0
       flat_buffers: ^23.5.26
       flutter_bloc: ^8.1.6
       flutter_markdown: ^0.7.3
