@@ -91,6 +91,21 @@ sealed class ChatMessage {
   /// {@macro chat_message}
   const ChatMessage();
 
+  /// Converts this ChatMessage to a map along with a type hint for deserialization.
+  Map<String, dynamic> toMap() => {};
+
+  /// Converts a map to a [ChatMessage]. Requires at least a type hint.
+  factory ChatMessage.fromMap(Map<String, dynamic> map) =>
+      switch (map['type']) {
+        'system' => SystemChatMessage.fromMap(map),
+        'human' => HumanChatMessage.fromMap(map),
+        'ai' => AIChatMessage.fromMap(map),
+        'tool' => ToolChatMessage.fromMap(map),
+        'custom' => CustomChatMessage.fromMap(map),
+        null => throw ArgumentError('Type is required'),
+        _ => throw UnimplementedError('Unknown type: ${map['type']}'),
+      };
+
   /// Type of message that is a system message.
   factory ChatMessage.system(final String content) =>
       SystemChatMessage(content: content);
@@ -169,6 +184,18 @@ class SystemChatMessage extends ChatMessage {
     required this.content,
   });
 
+  /// Converts a map to a [SystemChatMessage].
+  factory SystemChatMessage.fromMap(Map<String, dynamic> map) =>
+      SystemChatMessage(content: map['content'] as String);
+
+  /// Converts this ChatMessage to a map along with a type hint for deserialization.
+  @override
+  Map<String, dynamic> toMap() => {
+        ...super.toMap(),
+        'content': content,
+        'type': 'system',
+      };
+
   /// The content of the message.
   final String content;
 
@@ -208,6 +235,18 @@ class HumanChatMessage extends ChatMessage {
   const HumanChatMessage({
     required this.content,
   });
+
+  /// Converts a map to a [HumanChatMessage].
+  factory HumanChatMessage.fromMap(Map<String, dynamic> map) =>
+      HumanChatMessage(content: ChatMessageContent.fromMap(map['content']));
+
+  /// Converts this ChatMessage to a map along with a type hint for deserialization.
+  @override
+  Map<String, dynamic> toMap() => {
+        ...super.toMap(),
+        'content': content.toMap(),
+        'type': 'human',
+      };
 
   /// The content of the message.
   final ChatMessageContent content;
@@ -301,6 +340,23 @@ class AIChatMessage extends ChatMessage {
     required this.content,
     this.toolCalls = const [],
   });
+
+  /// Converts a map to a [AIChatMessage].
+  factory AIChatMessage.fromMap(Map<String, dynamic> map) => AIChatMessage(
+        content: map['content'] as String,
+        toolCalls: (map['toolCalls'] as List<Map<String, dynamic>>)
+            .map(AIChatMessageToolCall.fromMap)
+            .toList(),
+      );
+
+  /// Converts this ChatMessage to a map along with a type hint for deserialization.
+  @override
+  Map<String, dynamic> toMap() => {
+        ...super.toMap(),
+        'content': content,
+        'toolCalls': toolCalls.map((t) => t.toMap()).toList(),
+        'type': 'ai',
+      };
 
   /// The content of the message.
   final String content;
@@ -422,6 +478,15 @@ class AIChatMessageToolCall {
     };
   }
 
+  /// Converts a map to a [AIChatMessageToolCall].
+  factory AIChatMessageToolCall.fromMap(Map<String, dynamic> map) =>
+      AIChatMessageToolCall(
+        id: map['id'] as String,
+        name: map['name'] as String,
+        argumentsRaw: map['argumentsRaw'] as String,
+        arguments: (map['arguments'] as Map<String, dynamic>?) ?? {},
+      );
+
   @override
   bool operator ==(covariant final AIChatMessageToolCall other) {
     final mapEquals = const DeepCollectionEquality().equals;
@@ -458,6 +523,21 @@ class ToolChatMessage extends ChatMessage {
     required this.toolCallId,
     required this.content,
   });
+
+  /// Converts a map to a [ToolChatMessage].
+  factory ToolChatMessage.fromMap(Map<String, dynamic> map) => ToolChatMessage(
+        toolCallId: map['toolCallId'] as String,
+        content: map['content'] as String,
+      );
+
+  /// Converts this ChatMessage to a map along with a type hint for deserialization.
+  @override
+  Map<String, dynamic> toMap() => {
+        ...super.toMap(),
+        'content': content,
+        'toolCallId': toolCallId,
+        'type': 'tool',
+      };
 
   /// The id of the tool that was called.
   final String toolCallId;
@@ -508,6 +588,22 @@ class CustomChatMessage extends ChatMessage {
     required this.content,
     required this.role,
   });
+
+  /// Converts a map to a [CustomChatMessage].
+  factory CustomChatMessage.fromMap(Map<String, dynamic> map) =>
+      CustomChatMessage(
+        content: map['content'] as String,
+        role: map['role'] as String,
+      );
+
+  /// Converts this ChatMessage to a map along with a type hint for deserialization.
+  @override
+  Map<String, dynamic> toMap() => {
+        ...super.toMap(),
+        'content': content,
+        'role': role,
+        'type': 'custom',
+      };
 
   /// The content of the message.
   final String content;
@@ -565,6 +661,18 @@ enum ChatMessageRole {
 sealed class ChatMessageContent {
   const ChatMessageContent();
 
+  /// Converts this ChatMessageContent to a map
+  Map<String, dynamic> toMap() => {};
+
+  factory ChatMessageContent.fromMap(Map<String, dynamic> map) =>
+      switch (map['type']) {
+        'text' => ChatMessageContentText.fromMap(map),
+        'image' => ChatMessageContentImage.fromMap(map),
+        'multi_modal' => ChatMessageContentMultiModal.fromMap(map),
+        null => throw ArgumentError('Type is required'),
+        _ => throw UnimplementedError('Unknown type: ${map['type']}'),
+      };
+
   /// The content of a message that is text.
   factory ChatMessageContent.text(final String text) =>
       ChatMessageContentText(text: text);
@@ -605,6 +713,19 @@ class ChatMessageContentText extends ChatMessageContent {
 
   /// The text content.
   final String text;
+
+  /// Converts a map to a [ChatMessageContentText].
+  factory ChatMessageContentText.fromMap(Map<String, dynamic> map) =>
+      ChatMessageContentText(text: map['content'] as String);
+
+  @override
+
+  /// Converts this ChatMessageContent to a map along with a type hint for deserialization.
+  Map<String, dynamic> toMap() => {
+        ...super.toMap(),
+        'type': 'text',
+        'content': text,
+      };
 
   @override
   bool operator ==(covariant final ChatMessageContentText other) =>
@@ -652,6 +773,27 @@ class ChatMessageContentImage extends ChatMessageContent {
   /// Specifies the detail level of the image.
   final ChatMessageContentImageDetail detail;
 
+  /// Converts a map to a [ChatMessageContentImage].
+  factory ChatMessageContentImage.fromMap(Map<String, dynamic> map) =>
+      ChatMessageContentImage(
+        data: map['data'] as String,
+        mimeType: map['mimeType'] as String?,
+        detail: ChatMessageContentImageDetail.values.firstWhere(
+          (i) => map['detail'] == i.name,
+          orElse: () => ChatMessageContentImageDetail.auto,
+        ),
+      );
+
+  /// Converts this ChatMessageContent to a map along with a type hint for deserialization.
+  @override
+  Map<String, dynamic> toMap() => {
+        ...super.toMap(),
+        'type': 'image',
+        'data': data,
+        'mimeType': mimeType,
+        'detail': detail.name,
+      };
+
   @override
   bool operator ==(covariant final ChatMessageContentImage other) =>
       identical(this, other) ||
@@ -683,6 +825,22 @@ class ChatMessageContentMultiModal extends ChatMessageContent {
           !parts.any((final p) => p is ChatMessageContentMultiModal),
           'Multi-modal messages cannot contain other multi-modal messages.',
         );
+
+  /// Converts a map to a [ChatMessageContentMultiModal].
+  factory ChatMessageContentMultiModal.fromMap(Map<String, dynamic> map) =>
+      ChatMessageContentMultiModal(
+        parts: (map['parts'] as List<Map<String, dynamic>>)
+            .map(ChatMessageContent.fromMap)
+            .toList(),
+      );
+
+  /// Converts [ChatMessageContentMultiModal] to a map along with a type hint for deserialization.
+  @override
+  Map<String, dynamic> toMap() => {
+        ...super.toMap(),
+        'type': 'multi_modal',
+        'parts': parts.map((p) => p.toMap()).toList(),
+      };
 
   /// The parts of the multi-modal message.
   final List<ChatMessageContent> parts;
