@@ -60,7 +60,7 @@ void main() {
     });
 
     test('Should handle multiple connections and disconnections', () async {
-      for (int i = 0; i < 3; i++) {
+      for (var i = 0; i < 3; i++) {
         final isConnected = await realtime.connect();
         expect(isConnected, isTrue, reason: 'Connection $i failed');
         expect(realtime.isConnected(), isTrue, reason: 'Connection $i failed');

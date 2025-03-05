@@ -24,7 +24,7 @@ class LocalFileStore implements BaseStore<String, Uint8List> {
   final String rootPath;
 
   @override
-  Future<List<Uint8List?>> get(final List<String> keys) async {
+  Future<List<Uint8List?>> get(final List<String> keys) {
     return Future.wait(
       keys.map(
         (final key) async {

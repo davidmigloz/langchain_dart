@@ -86,7 +86,7 @@ void main() {
     });
 
     test('Test assert is raised when memory keys and input keys overlap',
-        () async {
+        () {
       const memory = SimpleMemory(memories: {'zab': 'rab', 'foo': 'rab'});
       final chain1 = _FakeChain(
         inputVariables: {'foo'},
@@ -155,7 +155,7 @@ void main() {
       expect(output, equals(expectedOutput));
     });
 
-    test('Test error is raised when input keys are missing', () async {
+    test('Test error is raised when input keys are missing', ()  {
       final chain1 = _FakeChain(
         inputVariables: {'foo'},
         outputVariables: {'bar'},
@@ -173,7 +173,7 @@ void main() {
       );
     });
 
-    test('Test error is raised when bad outputs are specified', () async {
+    test('Test error is raised when bad outputs are specified', ()  {
       final chain1 = _FakeChain(
         inputVariables: {'foo'},
         outputVariables: {'bar'},
@@ -211,7 +211,7 @@ void main() {
       expect(output, equals(expectedOutput));
     });
 
-    test('Test error is raised when input variables are overlapping', () async {
+    test('Test error is raised when input variables are overlapping', ()  {
       final chain1 = _FakeChain(
         inputVariables: {'foo'},
         outputVariables: {'bar', 'test'},
@@ -247,7 +247,7 @@ void main() {
     });
 
     test('Test error raised if multiple input variables are expected',
-        () async {
+        ()  {
       final chain1 = _FakeChain(
         inputVariables: {'foo'},
         outputVariables: {'bar'},
@@ -263,7 +263,7 @@ void main() {
     });
 
     test('Test error raised if multiple output variables are expected',
-        () async {
+        ()  {
       final chain1 = _FakeChain(
         inputVariables: {'foo'},
         outputVariables: {'bar', 'grok'},

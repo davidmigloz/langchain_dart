@@ -356,7 +356,7 @@ void main() {
       );
       final stream = client.createChatCompletionStream(request: request1);
 
-      int count = 0;
+      var count = 0;
       await for (final res in stream) {
         expect(res.id, isNotEmpty);
         expect(res.created, greaterThan(0));

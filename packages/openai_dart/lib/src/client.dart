@@ -1,12 +1,12 @@
-// ignore_for_file: use_super_parameters
+// ignore_for_file: use_super_parameters, unnecessary_async
 import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:http/retry.dart' show RetryClient;
 
 import 'generated/client.dart' as g;
 import 'generated/schema/schema.dart';
-import 'http_client/http_client.dart';
 
 /// Client for OpenAI API.
 ///
@@ -29,6 +29,7 @@ class OpenAIClient extends g.OpenAIClient {
   /// - `queryParams`: global query parameters to send with every request. You
   ///   can use this to set custom query parameters (e.g. Azure OpenAI API
   ///   required to attach a `version` query parameter to every request).
+  /// - `retries`: the number of retries to attempt if a request fails.
   /// - `client`: the HTTP client to use. You can set your own HTTP client if
   ///   you need further customization (e.g. to use a Socks5 proxy).
   OpenAIClient({
@@ -38,6 +39,7 @@ class OpenAIClient extends g.OpenAIClient {
     final String? baseUrl,
     final Map<String, String>? headers,
     final Map<String, dynamic>? queryParams,
+    final int retries = 3,
     final http.Client? client,
   }) : super(
           bearerToken: apiKey ?? '',
@@ -48,7 +50,7 @@ class OpenAIClient extends g.OpenAIClient {
             ...?headers,
           },
           queryParams: queryParams ?? const {},
-          client: client ?? createDefaultHttpClient(),
+          client: client ?? RetryClient(http.Client(), retries: retries),
         );
 
   /// Set or replace the API key.
@@ -186,11 +188,6 @@ class OpenAIClient extends g.OpenAIClient {
       body: request.copyWith(stream: true),
     );
     yield* r.stream.transform(const _OpenAIAssistantStreamTransformer());
-  }
-
-  @override
-  Future<http.BaseRequest> onRequest(final http.BaseRequest request) {
-    return onRequestHandler(request);
   }
 }
 

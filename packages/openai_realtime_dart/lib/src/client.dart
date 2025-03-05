@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_async
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
@@ -90,7 +92,7 @@ class RealtimeClient extends RealtimeEventHandler {
         ((e) async => dispatch(RealtimeEventType.all, e)),
       );
 
-    FutureOr<EventHandlerResult> handler(
+    Future<EventHandlerResult> handler(
       RealtimeEvent event, [
       dynamic args,
     ]) async {
@@ -245,11 +247,16 @@ class RealtimeClient extends RealtimeEventHandler {
 
   /// Connects to the Realtime WebSocket API.
   /// Updates session config and conversation config.
-  Future<bool> connect() async {
+  ///
+  /// [model] specifies which model to use. You can find the list of available
+  /// models [here](https://platform.openai.com/docs/models).
+  Future<bool> connect({
+    final String model = RealtimeUtils.defaultModel,
+  }) async {
     if (isConnected()) {
       throw Exception('Already connected, use .disconnect() first');
     }
-    final connected = await realtime.connect();
+    final connected = await realtime.connect(model: model);
     if (connected) {
       await updateSession();
     }

@@ -1,7 +1,10 @@
+// ignore_for_file: unnecessary_async
+
 @TestOn('vm')
 @Timeout(Duration(minutes: 50))
 library; // Uses dart:io
 
+import 'dart:async';
 import 'dart:io';
 
 import 'package:langchain/langchain.dart';
@@ -18,7 +21,7 @@ void main() {
 
   group('ChatToolsAgent using Ollama tests',
       skip: Platform.environment.containsKey('CI'), () {
-    setUp(() async {
+    setUp(() {
       llm = ChatOllama(
         defaultOptions: ChatOllamaOptions(
           model: defaultOllamaModel,
@@ -37,9 +40,9 @@ void main() {
       await testMemory(llm, returnMessages: true);
     });
 
-    test('Test ToolsAgent with string memory throws error', () async {
+    test('Test ToolsAgent with string memory throws error', () {
       expect(
-        () async => testMemory(llm, returnMessages: false),
+        ()  async => testMemory(llm, returnMessages: false),
         throwsA(isA<AssertionError>()),
       );
     });
@@ -55,7 +58,7 @@ void main() {
   });
 
   group('ChatToolsAgent using OpenAi tests', () {
-    setUp(() async {
+    setUp(() {
       final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
       llm = ChatOpenAI(
         apiKey: openaiApiKey,
@@ -74,9 +77,9 @@ void main() {
       await testMemory(llm, returnMessages: true);
     });
 
-    test('Test ToolsAgent with string memory throws error', () async {
+    test('Test ToolsAgent with string memory throws error', () {
       expect(
-        () async => testMemory(llm, returnMessages: false),
+        ()  async => testMemory(llm, returnMessages: false),
         throwsA(isA<AssertionError>()),
       );
     });
@@ -197,7 +200,7 @@ class _SearchInput {
   int get hashCode => query.hashCode ^ n.hashCode;
 }
 
-final searchTool = Tool.fromFunction<_SearchInput, String>(
+final Tool<Object, ToolOptions, Object> searchTool = Tool.fromFunction<_SearchInput, String>(
   name: 'search',
   description: 'Tool for searching the web.',
   inputJsonSchema: const {
@@ -214,7 +217,7 @@ final searchTool = Tool.fromFunction<_SearchInput, String>(
     },
     'required': ['query'],
   },
-  func: (final _SearchInput toolInput) async {
+  func: (final _SearchInput toolInput) {
     final n = toolInput.n;
     final res = List<String>.generate(
       n,

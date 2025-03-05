@@ -1,3 +1,5 @@
+// ignore_for_file: unsafe_variance
+
 import 'dart:convert';
 
 import 'package:langchain_core/documents.dart';
@@ -151,7 +153,7 @@ class BaseObjectBoxVectorStore<T> extends VectorStore {
   final QueryHnswProperty<T> Function() _getEmbeddingProperty;
 
   /// UUID generator.
-  final Uuid _uuid = const Uuid();
+  final _uuid = const Uuid();
 
   @override
   Future<List<String>> addVectors({

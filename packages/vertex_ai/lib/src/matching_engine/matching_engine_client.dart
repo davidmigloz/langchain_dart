@@ -97,7 +97,7 @@ class VertexAIMatchingEngineClient {
   final AiplatformApi _vertexAiApi;
 
   /// Scope required for Vertex AI API calls.
-  static const cloudPlatformScope = AiplatformApi.cloudPlatformScope;
+  static const String cloudPlatformScope = AiplatformApi.cloudPlatformScope;
 
   /// Indexes API client.
   VertexAIIndexesApi get indexes => VertexAIIndexesApi(

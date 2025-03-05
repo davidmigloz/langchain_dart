@@ -172,7 +172,7 @@ class Ollama extends BaseLLM<OllamaOptions> {
   String encoding;
 
   /// A UUID generator.
-  late final Uuid _uuid = const Uuid();
+  late final _uuid = const Uuid();
 
   @override
   String get modelType => 'ollama';

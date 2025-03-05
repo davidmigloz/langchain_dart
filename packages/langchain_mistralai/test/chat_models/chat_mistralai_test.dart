@@ -14,7 +14,7 @@ void main() {
   group('ChatMistralAI tests', () {
     late ChatMistralAI chatModel;
 
-    setUp(() async {
+    setUp(()  {
       chatModel = ChatMistralAI(
         apiKey: Platform.environment['MISTRAL_API_KEY'],
       );
@@ -24,7 +24,7 @@ void main() {
       chatModel.close();
     });
 
-    test('Test ChatMistralAI parameters', () async {
+    test('Test ChatMistralAI parameters', ()  {
       const options = ChatMistralAIOptions(
         model: 'foo',
         temperature: 0.1,
@@ -119,7 +119,7 @@ void main() {
       final stream = chain.stream({'max_num': '9'});
 
       var content = '';
-      int count = 0;
+      var count = 0;
       await for (final res in stream) {
         content += res.trim();
         count++;

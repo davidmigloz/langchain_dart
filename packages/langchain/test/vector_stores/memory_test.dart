@@ -156,7 +156,7 @@ void main() {
       }
     });
 
-    test('Test toMap and fromMap', () async {
+    test('Test toMap and fromMap', ()  {
       const embeddings = _FakeEmbeddings();
       final store = MemoryVectorStore(
         embeddings: embeddings,
@@ -231,7 +231,7 @@ class _FakeEmbeddings implements Embeddings {
   }
 }
 
-final _helloVector = [
+final List<double> _helloVector = [
   -0.02502486,
   -0.019432934,
   -0.027708454,
@@ -1769,7 +1769,7 @@ final _helloVector = [
   -0.0050565284,
   -0.006120713,
 ];
-final _hiVector = [
+final List<double> _hiVector = [
   -0.035099167,
   -0.020636523,
   -0.015421565,
@@ -3307,7 +3307,7 @@ final _hiVector = [
   -0.000933471,
   0.004673102,
 ];
-final _byeVector = [
+final List<double> _byeVector = [
   -0.0084679825,
   -0.018047791,
   0.0074078683,
@@ -4845,7 +4845,7 @@ final _byeVector = [
   0.007129912,
   -0.025584942,
 ];
-final _whatsThisVector = [
+final List<double> _whatsThisVector = [
   -0.01297786,
   -0.0028681739,
   0.010790355,
@@ -6383,7 +6383,7 @@ final _whatsThisVector = [
   -0.014369301,
   -0.01910555,
 ];
-final _chaoVector = [
+final List<double> _chaoVector = [
   0.014674897,
   -0.012181209,
   0.013539028,

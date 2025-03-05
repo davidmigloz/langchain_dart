@@ -9,14 +9,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  equatable: ^2.0.5
-  flutter_bloc: ^8.1.6
-  flutter_markdown: ^0.7.3
-  js: ^0.7.1
+  chrome_extension: ^0.4.0
+  equatable: ^2.0.7
+  flutter_bloc: ^9.0.0
+  flutter_markdown: ^0.7.6
   langchain: ^0.7.7+2
   langchain_community: 0.3.3
   langchain_openai: ^0.7.3
-  shared_preferences: ^2.3.0
+  shared_preferences: ^2.5.0
 
 flutter:
   uses-material-design: true

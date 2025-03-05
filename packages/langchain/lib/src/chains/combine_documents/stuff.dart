@@ -65,10 +65,10 @@ class StuffDocumentsChain extends BaseCombineDocumentsChain {
   String llmChainStuffedDocumentPromptVar;
 
   /// Default [inputKey] value.
-  static const defaultInputKey = BaseCombineDocumentsChain.defaultInputKey;
+  static const String defaultInputKey = BaseCombineDocumentsChain.defaultInputKey;
 
   /// Default [outputKey] value.
-  static const defaultOutputKey = BaseCombineDocumentsChain.defaultOutputKey;
+  static const String defaultOutputKey = BaseCombineDocumentsChain.defaultOutputKey;
 
   /// Default [documentPrompt] value.
   static const defaultDocumentPrompt = PromptTemplate(
@@ -83,7 +83,7 @@ class StuffDocumentsChain extends BaseCombineDocumentsChain {
   static const defaultLlmChainStuffedDocumentPromptVar = 'context';
 
   /// Prompt variable to use for the page content.
-  static const pageContentPromptVar =
+  static const String pageContentPromptVar =
       BaseCombineDocumentsChain.pageContentPromptVar;
 
   @override

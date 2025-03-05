@@ -1,4 +1,4 @@
-name: "🚀 Feature request"
+name: "🚀 Feature Request"
 description: Suggest a new feature for LangChain.dart.
 labels: ["t:enhancement"]
 body:
@@ -7,10 +7,15 @@ body:
     validations:
       required: true
     attributes:
-      label: Feature request
+      label: Feature Request
       description: >
-        A clear and concise description of the feature proposal. Please provide links to any 
-        relevant GitHub repos, papers, or other resources if relevant.
+        A clear and concise description of the feature proposal.
+
+        **Please be as detailed as possible and include:**
+        - **Detailed Description:** What exactly should this feature do?
+        - **Use Cases:**  How would you or others use this feature? Real-world examples are very helpful.
+        - **Example Code Snippets (if applicable):**  Show what the API could look like or how it might be used in code.
+        - **Related Resources:** Links to relevant GitHub repos, papers, other libraries, or documentation that inspired this feature.
 
   - type: textarea
     id: motivation
@@ -19,9 +24,12 @@ body:
     attributes:
       label: Motivation
       description: >
-        Please outline the motivation for the proposal. Is your feature request related to a 
-        problem? e.g., I'm always frustrated when [...]. If this is related to another GitHub 
-        issue, please link here too.
+        Please outline the motivation for the proposal.
+
+        **Focus on the problem this feature solves and its impact:**
+        - **Problem:** What problem does this feature address? Be specific and explain the current pain points.
+        - **Benefits:** What are the positive outcomes of implementing this feature? How will it improve LangChain.dart for users?
+        - **Related Issues/Discussions (if any):** Link to existing GitHub issues, discussions, or external conversations that are relevant.
 
   - type: textarea
     id: contribution
@@ -30,5 +38,5 @@ body:
     attributes:
       label: Your contribution
       description: >
-        Is there any way that you could help, e.g. by submitting a PR? Make sure to read the 
+        Is there any way that you could help, e.g. by submitting a PR? Make sure to read the
         [CONTRIBUTING guide](https://github.com/davidmigloz/langchain_dart/blob/main/CONTRIBUTING.md)
