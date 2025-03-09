@@ -51,6 +51,7 @@ abstract class TextSplitter extends BaseDocumentTransformer {
       final text = entry.value;
       final chunks = splitText(text);
       var index = -1;
+      var previousChunkLen = 0;
       return chunks.map((final chunk) {
         String? id = ids?[textIndex];
         if (id != null && id.isEmpty) {
@@ -58,8 +59,10 @@ abstract class TextSplitter extends BaseDocumentTransformer {
         }
         final metadata = {...meta[textIndex]};
         if (addStartIndex) {
-          index = text.indexOf(chunk, index + 1);
+          final offset = index + previousChunkLen - chunkOverlap;
+          index = text.indexOf(chunk, offset > 0 ? offset : 0);
           metadata['start_index'] = index;
+          previousChunkLen = chunk.length;
         }
         return Document(id: id, pageContent: chunk, metadata: metadata);
       });
@@ -95,35 +98,15 @@ abstract class TextSplitter extends BaseDocumentTransformer {
   ) {
     final separatorLen = lengthFunction(separator);
 
-    bool exceedsChunkSize(
-      final int len,
-      final int total,
-      final List<String> currentDoc,
-      final String separator,
-    ) {
-      return total + len + (currentDoc.isNotEmpty ? separatorLen : 0) >
-          chunkSize;
-    }
-
-    bool shouldTrim(
-      final int len,
-      final int total,
-      final List<String> currentDoc,
-      final String separator,
-    ) {
-      return total > chunkOverlap ||
-          (exceedsChunkSize(len, total, currentDoc, separator) && total > 0);
-    }
-
     final docs = <String>[];
     var currentDoc = <String>[];
     var total = 0;
 
-    // Loop through each 'split' and build up 'docs' list
     for (final d in splits) {
       final len = lengthFunction(d);
 
-      if (exceedsChunkSize(len, total, currentDoc, separator)) {
+      if (total + len + (currentDoc.isNotEmpty ? separatorLen : 0) >
+          chunkSize) {
         if (total > chunkSize) {
           // TODO Log warning:
           // 'Created a chunk of size $total,
@@ -137,7 +120,10 @@ abstract class TextSplitter extends BaseDocumentTransformer {
           // Keep on popping if:
           // - we have a larger chunk than in the chunk overlap
           // - or if we still have any chunks and the length is long
-          while (shouldTrim(len, total, currentDoc, separator)) {
+          while (total > chunkOverlap ||
+              (total + len + (currentDoc.isNotEmpty ? separatorLen : 0) >
+                      chunkSize &&
+                  total > 0)) {
             total -= lengthFunction(currentDoc[0]) +
                 (currentDoc.length > 1 ? separatorLen : 0);
             currentDoc = currentDoc.sublist(1);
@@ -151,7 +137,7 @@ abstract class TextSplitter extends BaseDocumentTransformer {
 
     final doc = _joinDocs(currentDoc, separator: separator);
     if (doc != null) {
-      return docs..add(doc);
+      docs.add(doc);
     }
 
     return docs;
