@@ -5391,7 +5391,7 @@ mixin _$SessionConfig {
   /// Configuration for turn detection. Can be set to `null` to turn off. Server
   /// VAD means that the model will detect the start and end of speech based on
   /// audio volume and respond at the end of user speech.
-  @JsonKey(name: 'turn_detection', includeIfNull: false)
+  @JsonKey(name: 'turn_detection', includeIfNull: true)
   TurnDetection? get turnDetection => throw _privateConstructorUsedError;
 
   /// Tools (functions) available to the model.
@@ -5452,7 +5452,7 @@ abstract class $SessionConfigCopyWith<$Res> {
       AudioFormat? outputAudioFormat,
       @JsonKey(name: 'input_audio_transcription', includeIfNull: false)
       InputAudioTranscriptionConfig? inputAudioTranscription,
-      @JsonKey(name: 'turn_detection', includeIfNull: false)
+      @JsonKey(name: 'turn_detection', includeIfNull: true)
       TurnDetection? turnDetection,
       @JsonKey(includeIfNull: false) List<ToolDefinition>? tools,
       @_SessionConfigToolChoiceConverter()
@@ -5632,7 +5632,7 @@ abstract class _$$SessionConfigImplCopyWith<$Res>
       AudioFormat? outputAudioFormat,
       @JsonKey(name: 'input_audio_transcription', includeIfNull: false)
       InputAudioTranscriptionConfig? inputAudioTranscription,
-      @JsonKey(name: 'turn_detection', includeIfNull: false)
+      @JsonKey(name: 'turn_detection', includeIfNull: true)
       TurnDetection? turnDetection,
       @JsonKey(includeIfNull: false) List<ToolDefinition>? tools,
       @_SessionConfigToolChoiceConverter()
@@ -5750,7 +5750,7 @@ class _$SessionConfigImpl extends _SessionConfig {
       this.outputAudioFormat,
       @JsonKey(name: 'input_audio_transcription', includeIfNull: false)
       this.inputAudioTranscription,
-      @JsonKey(name: 'turn_detection', includeIfNull: false) this.turnDetection,
+      @JsonKey(name: 'turn_detection', includeIfNull: true) this.turnDetection,
       @JsonKey(includeIfNull: false) final List<ToolDefinition>? tools,
       @_SessionConfigToolChoiceConverter()
       @JsonKey(name: 'tool_choice', includeIfNull: false)
@@ -5833,7 +5833,7 @@ class _$SessionConfigImpl extends _SessionConfig {
   /// VAD means that the model will detect the start and end of speech based on
   /// audio volume and respond at the end of user speech.
   @override
-  @JsonKey(name: 'turn_detection', includeIfNull: false)
+  @JsonKey(name: 'turn_detection', includeIfNull: true)
   final TurnDetection? turnDetection;
 
   /// Tools (functions) available to the model.
@@ -5957,7 +5957,7 @@ abstract class _SessionConfig extends SessionConfig {
       final AudioFormat? outputAudioFormat,
       @JsonKey(name: 'input_audio_transcription', includeIfNull: false)
       final InputAudioTranscriptionConfig? inputAudioTranscription,
-      @JsonKey(name: 'turn_detection', includeIfNull: false)
+      @JsonKey(name: 'turn_detection', includeIfNull: true)
       final TurnDetection? turnDetection,
       @JsonKey(includeIfNull: false) final List<ToolDefinition>? tools,
       @_SessionConfigToolChoiceConverter()
@@ -6031,7 +6031,7 @@ abstract class _SessionConfig extends SessionConfig {
   /// VAD means that the model will detect the start and end of speech based on
   /// audio volume and respond at the end of user speech.
   @override
-  @JsonKey(name: 'turn_detection', includeIfNull: false)
+  @JsonKey(name: 'turn_detection', includeIfNull: true)
   TurnDetection? get turnDetection;
 
   /// Tools (functions) available to the model.
