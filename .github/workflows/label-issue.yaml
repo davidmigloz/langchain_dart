@@ -15,13 +15,11 @@ jobs:
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
-            const issueBody = context.payload.issue.body;
-            const packageMatch = issueBody.match(/Package:\s*(.+)\r?\n/);
-
-            if (packageMatch) {
-              const packageValue = packageMatch[1].trim();
-              const labelName = `p:${packageValue}`;
-
+            const body = context.payload.issue.body;
+            // Capture text after "### Package" on the next line
+            const match = body.match(/### Package\s*\n+([^\n]+)/);
+            if (match) {
+              const labelName = \`p:\${match[1].trim()}\`;
               await github.issues.addLabels({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
