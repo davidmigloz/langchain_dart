@@ -326,6 +326,19 @@ class RealtimeClient extends RealtimeEventHandler {
     return true;
   }
 
+  /// A sentinel value for turn detection to indicate that the turn detection
+  /// should not be updated.
+  /// That is because `null` is a valid value to disable turn detection, and in dart we
+  /// can't tell if the value is `null` or not provided.
+  /// As reference, in the javascript implementation, `undefined` is used for that:
+  /// https://github.com/openai/openai-realtime-api-beta//blob/main/lib/client.js#L507-L508
+  static const _turnDetectionSentinelValue = TurnDetection(
+    type: TurnDetectionType.serverVad,
+    threshold: -1,
+    prefixPaddingMs: -1,
+    silenceDurationMs: -1,
+  );
+
   /// Updates session configuration.
   /// If the client is not yet connected, will save details and instantiate
   /// upon connection.
@@ -336,14 +349,7 @@ class RealtimeClient extends RealtimeEventHandler {
     AudioFormat? inputAudioFormat,
     AudioFormat? outputAudioFormat,
     InputAudioTranscriptionConfig? inputAudioTranscription,
-    // The default value is an ugly workaround to detect when TurnDetection
-    // is not set, as passing `null` means that turn detection should be disabled
-    TurnDetection? turnDetection = const TurnDetection(
-      type: TurnDetectionType.serverVad,
-      threshold: -1,
-      prefixPaddingMs: -1,
-      silenceDurationMs: -1,
-    ),
+    TurnDetection? turnDetection = _turnDetectionSentinelValue,
     List<ToolDefinition>? tools,
     SessionConfigToolChoice? toolChoice,
     double? temperature,
@@ -355,16 +361,6 @@ class RealtimeClient extends RealtimeEventHandler {
       ...this.tools.values.map((tool) => tool.$1),
     ];
 
-    TurnDetection? actualTurnDetection;
-    if ((turnDetection?.threshold ?? -1) < 0 &&
-        (turnDetection?.prefixPaddingMs ?? -1) < 0 &&
-        (turnDetection?.silenceDurationMs ?? -1) < 0) {
-      // This is the default value case, so we should use the existing value
-      actualTurnDetection = sessionConfig.turnDetection;
-    } else {
-      actualTurnDetection = turnDetection;
-    }
-
     sessionConfig = sessionConfig.copyWith(
       modalities: modalities ?? sessionConfig.modalities,
       instructions: instructions ?? sessionConfig.instructions,
@@ -373,7 +369,9 @@ class RealtimeClient extends RealtimeEventHandler {
       outputAudioFormat: outputAudioFormat ?? sessionConfig.outputAudioFormat,
       inputAudioTranscription:
           inputAudioTranscription ?? sessionConfig.inputAudioTranscription,
-      turnDetection: actualTurnDetection,
+      turnDetection: turnDetection == _turnDetectionSentinelValue
+          ? sessionConfig.turnDetection
+          : turnDetection,
       tools: useTools,
       toolChoice: toolChoice ?? sessionConfig.toolChoice,
       temperature: temperature ?? sessionConfig.temperature,
