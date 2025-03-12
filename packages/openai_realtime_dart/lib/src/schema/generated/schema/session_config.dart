@@ -68,8 +68,7 @@ class SessionConfig with _$SessionConfig {
     /// Configuration for turn detection. Can be set to `null` to turn off. Server
     /// VAD means that the model will detect the start and end of speech based on
     /// audio volume and respond at the end of user speech.
-    @JsonKey(name: 'turn_detection', includeIfNull: true)
-    TurnDetection? turnDetection,
+    @JsonKey(name: 'turn_detection') required TurnDetection? turnDetection,
 
     /// Tools (functions) available to the model.
     @JsonKey(includeIfNull: false) List<ToolDefinition>? tools,

@@ -336,7 +336,14 @@ class RealtimeClient extends RealtimeEventHandler {
     AudioFormat? inputAudioFormat,
     AudioFormat? outputAudioFormat,
     InputAudioTranscriptionConfig? inputAudioTranscription,
-    TurnDetection? turnDetection,
+    // The default value is an ugly workaround to detect when TurnDetection
+    // is not set, as passing `null` means that turn detection should be disabled
+    TurnDetection? turnDetection = const TurnDetection(
+      type: TurnDetectionType.serverVad,
+      threshold: -1,
+      prefixPaddingMs: -1,
+      silenceDurationMs: -1,
+    ),
     List<ToolDefinition>? tools,
     SessionConfigToolChoice? toolChoice,
     double? temperature,
@@ -348,6 +355,16 @@ class RealtimeClient extends RealtimeEventHandler {
       ...this.tools.values.map((tool) => tool.$1),
     ];
 
+    TurnDetection? actualTurnDetection;
+    if ((turnDetection?.threshold ?? -1) < 0 &&
+        (turnDetection?.prefixPaddingMs ?? -1) < 0 &&
+        (turnDetection?.silenceDurationMs ?? -1) < 0) {
+      // This is the default value case, so we should use the existing value
+      actualTurnDetection = sessionConfig.turnDetection;
+    } else {
+      actualTurnDetection = turnDetection;
+    }
+
     sessionConfig = sessionConfig.copyWith(
       modalities: modalities ?? sessionConfig.modalities,
       instructions: instructions ?? sessionConfig.instructions,
@@ -356,7 +373,7 @@ class RealtimeClient extends RealtimeEventHandler {
       outputAudioFormat: outputAudioFormat ?? sessionConfig.outputAudioFormat,
       inputAudioTranscription:
           inputAudioTranscription ?? sessionConfig.inputAudioTranscription,
-      turnDetection: turnDetection ?? sessionConfig.turnDetection,
+      turnDetection: actualTurnDetection,
       tools: useTools,
       toolChoice: toolChoice ?? sessionConfig.toolChoice,
       temperature: temperature ?? sessionConfig.temperature,
