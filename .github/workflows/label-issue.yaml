@@ -2,7 +2,11 @@ name: Label Issues
 
 on:
   issues:
-    types: [opened]
+    types:
+      - opened
+
+permissions:
+  issues: write
 
 jobs:
   label_issue:
@@ -12,19 +16,14 @@ jobs:
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
-            const issueBody = context.payload.issue.body;
-            const packageMatch = issueBody.match(/Package:\s*(.+)\r?\n/);
-
-            if (packageMatch) {
-              const packageValue = packageMatch[1].trim();
-              const labelName = `p:${packageValue}`;
-
-              await github.issues.addLabels({
+            const body = context.payload.issue.body;
+            const match = body.match(/### Package\s*\n+([^\n]+)/);
+            if (match) {
+              const labelName = `p:${match[1].trim()}`;
+              await github.rest.issues.addLabels({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: context.payload.issue.number,
                 labels: [labelName]
               });
             }
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
