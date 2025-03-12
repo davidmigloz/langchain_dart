@@ -56,13 +56,13 @@ body:
     attributes:
       label: Reproduction
       description: |
-        Please provide a **minimal, reproducible code sample** that clearly demonstrates the bug.
+        Please provide a **minimal, reproducible code sample** that clearly demonstrates the bug.  
 
-        **Include:**
-        - **Minimal Code:** The shortest possible code snippet to trigger the bug.  Focus on isolating the issue.
-        - **Steps to reproduce:**  Number the exact steps needed to run the code and see the bug.
-        - **Error Messages/Stack Traces:** Copy and paste any error messages or full stack traces. Use code blocks for formatting.
-        - **Input Data (if applicable):** If the bug depends on specific input data (e.g., a specific prompt or document), include a minimal example of that data as well.
+        **Include:**  
+        - **Minimal Code:** The shortest possible code snippet to trigger the bug.  Focus on isolating the issue.  
+        - **Steps to reproduce:**  Number the exact steps needed to run the code and see the bug.  
+        - **Error Messages/Stack Traces:** Copy and paste any error messages or full stack traces. Use code blocks for formatting.  
+        - **Input Data (if applicable):** If the bug depends on specific input data (e.g., a specific prompt or document), include a minimal example of that data as well.  
 
       placeholder: |
         Steps to reproduce the behavior:
@@ -91,3 +91,13 @@ body:
     attributes:
       label: Expected behavior
       description: A clear and concise description of what you would expect to happen if the bug was not present.
+
+  - type: textarea
+    id: contribution
+    validations:
+      required: true
+    attributes:
+      label: Your contribution
+      description: >
+        Is there any way that you could help, e.g. by submitting a PR or helping to test the fix?
+        You can find more information in our [CONTRIBUTING guide](https://github.com/davidmigloz/langchain_dart/blob/main/CONTRIBUTING.md)
