@@ -4,7 +4,9 @@ on:
   push:
     branches:
       - main
-      
+    paths:
+      - 'docs_v2/**'
+
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
