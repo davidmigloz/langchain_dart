@@ -326,6 +326,19 @@ class RealtimeClient extends RealtimeEventHandler {
     return true;
   }
 
+  /// A sentinel value for turn detection to indicate that the turn detection
+  /// should not be updated.
+  /// That is because `null` is a valid value to disable turn detection, and in dart we
+  /// can't tell if the value is `null` or not provided.
+  /// As reference, in the javascript implementation, `undefined` is used for that:
+  /// https://github.com/openai/openai-realtime-api-beta//blob/main/lib/client.js#L507-L508
+  static const _turnDetectionSentinelValue = TurnDetection(
+    type: TurnDetectionType.serverVad,
+    threshold: -1,
+    prefixPaddingMs: -1,
+    silenceDurationMs: -1,
+  );
+
   /// Updates session configuration.
   /// If the client is not yet connected, will save details and instantiate
   /// upon connection.
@@ -336,7 +349,7 @@ class RealtimeClient extends RealtimeEventHandler {
     AudioFormat? inputAudioFormat,
     AudioFormat? outputAudioFormat,
     InputAudioTranscriptionConfig? inputAudioTranscription,
-    TurnDetection? turnDetection,
+    TurnDetection? turnDetection = _turnDetectionSentinelValue,
     List<ToolDefinition>? tools,
     SessionConfigToolChoice? toolChoice,
     double? temperature,
@@ -356,7 +369,9 @@ class RealtimeClient extends RealtimeEventHandler {
       outputAudioFormat: outputAudioFormat ?? sessionConfig.outputAudioFormat,
       inputAudioTranscription:
           inputAudioTranscription ?? sessionConfig.inputAudioTranscription,
-      turnDetection: turnDetection ?? sessionConfig.turnDetection,
+      turnDetection: turnDetection == _turnDetectionSentinelValue
+          ? sessionConfig.turnDetection
+          : turnDetection,
       tools: useTools,
       toolChoice: toolChoice ?? sessionConfig.toolChoice,
       temperature: temperature ?? sessionConfig.temperature,
