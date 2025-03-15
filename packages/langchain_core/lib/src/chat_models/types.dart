@@ -345,6 +345,7 @@ class AIChatMessage extends ChatMessage {
   factory AIChatMessage.fromMap(Map<String, dynamic> map) => AIChatMessage(
         content: map['content'] as String,
         toolCalls: (map['toolCalls'] as List<dynamic>)
+            .map((i) => i as Map<String, dynamic>)
             .map(AIChatMessageToolCall.fromMap)
             .toList(),
       );
