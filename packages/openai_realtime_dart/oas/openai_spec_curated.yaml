@@ -665,6 +665,7 @@ components:
         turn_detection:
           $ref: "#/components/schemas/TurnDetection"
           nullable: true
+          default: null
         tools:
           type: array
           description: Tools (functions) available to the model.
@@ -699,6 +700,8 @@ components:
             - type: string
               description: Use inf for the maximum available tokens for a given model.
               default: inf
+      required:
+        - turn_detection
     Conversation:
       type: object
       description: The conversation resource.

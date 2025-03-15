@@ -512,8 +512,7 @@ Map<String, dynamic> _$$SessionConfigImplToJson(_$SessionConfigImpl instance) =>
         'output_audio_format': value,
       if (instance.inputAudioTranscription?.toJson() case final value?)
         'input_audio_transcription': value,
-      if (instance.turnDetection?.toJson() case final value?)
-        'turn_detection': value,
+      'turn_detection': instance.turnDetection?.toJson(),
       if (instance.tools?.map((e) => e.toJson()).toList() case final value?)
         'tools': value,
       if (const _SessionConfigToolChoiceConverter().toJson(instance.toolChoice)
