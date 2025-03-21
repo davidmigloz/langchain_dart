@@ -88,7 +88,7 @@ class RunObject with _$RunObject {
     /// The maximum number of completion tokens specified to have been used over the course of the run.
     @JsonKey(name: 'max_completion_tokens') required int? maxCompletionTokens,
 
-    /// Controls for how a thread will be truncated prior to the run. Use this to control the intial context window of the run.
+    /// Controls for how a thread will be truncated prior to the run. Use this to control the initial context window of the run.
     @JsonKey(name: 'truncation_strategy')
     required TruncationObject? truncationStrategy,
 

@@ -87,10 +87,10 @@ class RetrievalQAChain extends BaseChain {
   final String combineDocumentsChainInputKey;
 
   /// Default input key for the query.
-  static const String defaultInputKey = 'query';
+  static const defaultInputKey = 'query';
 
   /// Default output key for the output of the chain.
-  static const String defaultOutputKey = 'result';
+  static const defaultOutputKey = 'result';
 
   /// Output key to use for returning the source documents.
   static const sourceDocumentsOutputKey = 'source_documents';

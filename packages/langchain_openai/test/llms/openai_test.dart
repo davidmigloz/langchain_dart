@@ -15,7 +15,7 @@ void main() {
 
     late OpenAI llm;
 
-    setUp(() async {
+    setUp(()  {
       llm = OpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const OpenAIOptions(
@@ -28,7 +28,7 @@ void main() {
       llm.close();
     });
 
-    test('Test OpenAI parameters', () async {
+    test('Test OpenAI parameters', ()  {
       final llm = OpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const OpenAIOptions(
@@ -127,7 +127,7 @@ void main() {
       final stream = chain.stream({'max_num': '9'});
 
       LLMResult? result;
-      int count = 0;
+      var count = 0;
       await for (final res in stream) {
         result = result?.concat(res) ?? res;
         count++;
@@ -170,7 +170,7 @@ void main() {
       );
 
       expect(res.length, count);
-      for (int i = 0; i < count; i++) {
+      for (var i = 0; i < count; i++) {
         expect(res[i].id.endsWith(':${i % (count ~/ 2)}'), isTrue);
         expect(res[i].output.contains('$i'), isTrue);
       }
@@ -192,7 +192,7 @@ void main() {
       final res = await llm.batch(prompts, options: options);
 
       expect(res.length, count);
-      for (int i = 0; i < count; i++) {
+      for (var i = 0; i < count; i++) {
         expect(res[i].id.endsWith(':0'), isTrue);
         expect(res[i].output.contains('$i'), isTrue);
       }

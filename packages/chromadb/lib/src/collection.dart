@@ -191,7 +191,7 @@ class Collection {
       Include.metadatas,
       Include.documents,
     ],
-  }) async {
+  }) {
     return _api.get(
       collectionId: id,
       request: GetEmbedding(
@@ -221,7 +221,7 @@ class Collection {
       Include.metadatas,
       Include.documents,
     ],
-  }) async {
+  }) {
     return _api.get(
       collectionId: id,
       request: GetEmbedding(
@@ -247,7 +247,7 @@ class Collection {
     final List<String>? ids,
     final Map<String, dynamic>? where,
     final Map<String, dynamic>? whereDocument,
-  }) async {
+  }) {
     return _api.delete(
       collectionId: id,
       request: DeleteEmbedding(

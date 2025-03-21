@@ -1,3 +1,5 @@
+// ignore_for_file: unsafe_variance
+
 import 'dart:async';
 
 import 'runnable.dart';
@@ -115,7 +117,7 @@ class RunnableFunction<RunInput extends Object, RunOutput extends Object>
     if (_streamFunc != null) {
       yield* _streamFunc(inputStream, options);
     } else {
-      yield* inputStream.asyncMap((final input) async {
+      yield* inputStream.asyncMap((final input) {
         return invoke(input, options: options);
       });
     }

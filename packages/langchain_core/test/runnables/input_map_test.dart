@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_async
+
 import 'package:langchain_core/runnables.dart';
 import 'package:test/test.dart';
 

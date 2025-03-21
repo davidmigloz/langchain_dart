@@ -665,6 +665,7 @@ components:
         turn_detection:
           $ref: "#/components/schemas/TurnDetection"
           nullable: true
+          default: null
         tools:
           type: array
           description: Tools (functions) available to the model.
@@ -699,6 +700,8 @@ components:
             - type: string
               description: Use inf for the maximum available tokens for a given model.
               default: inf
+      required:
+        - turn_detection
     Conversation:
       type: object
       description: The conversation resource.
@@ -1227,7 +1230,6 @@ components:
           $ref: "#/components/schemas/Item"
       required:
         - event_id
-        - previous_item_id
         - item
     RealtimeEventConversationItemDeleted:
       type: object
@@ -1396,7 +1398,6 @@ components:
           description: The ID of the user message item that will be created.
       required:
         - event_id
-        - previous_item_id
         - item_id
     RealtimeEventInputAudioBufferSpeechStarted:
       type: object

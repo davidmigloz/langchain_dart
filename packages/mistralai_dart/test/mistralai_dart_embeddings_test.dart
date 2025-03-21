@@ -10,7 +10,7 @@ void main() {
   group('Mistral AI Embeddings API tests', () {
     late MistralAIClient client;
 
-    setUp(() async {
+    setUp(() {
       client = MistralAIClient(
         apiKey: Platform.environment['MISTRAL_API_KEY'],
       );

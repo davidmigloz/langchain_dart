@@ -1,7 +1,7 @@
 # Browser summarizer
 
 This sample app demonstrates how to build a Flutter-based Chrome extension that 
-summarizes the content of a webpage using OpenAI's GPT-3.5 Turbo model.
+summarizes the content of a webpage using OpenAI's GPT-4o mini model.
 
 ![Browser summarizer](browser-summarizer.gif)
 
@@ -10,7 +10,7 @@ summarizes the content of a webpage using OpenAI's GPT-3.5 Turbo model.
 **Building the project:**
 
 ```bash
-flutter build web --web-renderer html --csp
+flutter build web --csp --no-web-resources-cdn
 ```
 
 **Installing the extension:**

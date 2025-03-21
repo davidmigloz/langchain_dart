@@ -228,9 +228,9 @@ abstract class SummarizeChain {
 
   /// Default input key for the summarization chain where to place the
   /// documents to summarize.
-  static const defaultInputKey = BaseCombineDocumentsChain.defaultInputKey;
+  static const String defaultInputKey = BaseCombineDocumentsChain.defaultInputKey;
 
   /// Default output key for the summarization chain where to place the
   /// summary.
-  static const defaultOutputKey = BaseCombineDocumentsChain.defaultOutputKey;
+  static const String defaultOutputKey = BaseCombineDocumentsChain.defaultOutputKey;
 }

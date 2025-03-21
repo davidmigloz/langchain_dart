@@ -1,3 +1,5 @@
+// ignore_for_file: unsafe_variance
+
 import 'dart:async';
 
 import '../utils/reduce.dart';

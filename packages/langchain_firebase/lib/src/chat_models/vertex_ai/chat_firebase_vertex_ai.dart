@@ -150,7 +150,6 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
   /// Firebase configuration options:
   /// - [ChatFirebaseVertexAI.app]
   /// - [ChatFirebaseVertexAI.appCheck]
-  /// - [ChatFirebaseVertexAI.options]
   /// - [ChatFirebaseVertexAI.location]
   ChatFirebaseVertexAI({
     super.defaultOptions = const ChatFirebaseVertexAIOptions(
@@ -159,7 +158,6 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
     this.app,
     this.appCheck,
     this.auth,
-    this.options,
     this.location,
   }) : _currentModel = defaultOptions.model ?? '' {
     _firebaseClient = _createFirebaseClient(
@@ -176,9 +174,6 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
   /// The optional [FirebaseAuth] to use for authentication.
   final FirebaseAuth? auth;
 
-  /// Configuration parameters for sending requests to Firebase.
-  final RequestOptions? options;
-
   /// The service location for the [FirebaseVertexAI] instance.
   final String? location;
 
@@ -186,7 +181,7 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
   late GenerativeModel _firebaseClient;
 
   /// A UUID generator.
-  late final Uuid _uuid = const Uuid();
+  late final _uuid = const Uuid();
 
   /// The current model set in [_firebaseClient];
   String _currentModel;
@@ -268,10 +263,9 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
         topK: options?.topK ?? defaultOptions.topK,
         responseMimeType:
             options?.responseMimeType ?? defaultOptions.responseMimeType,
-        // responseSchema not supported yet
-        // responseSchema:
-        // (options?.responseSchema ?? defaultOptions.responseSchema)
-        //     ?.toSchema(),
+        responseSchema:
+        (options?.responseSchema ?? defaultOptions.responseSchema)
+            ?.toSchema(),
       ),
       (options?.tools ?? defaultOptions.tools)?.toToolList(),
       (options?.toolChoice ?? defaultOptions.toolChoice)?.toToolConfig(),
@@ -282,7 +276,7 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
   Future<List<int>> tokenize(
     final PromptValue promptValue, {
     final ChatFirebaseVertexAIOptions? options,
-  }) async {
+  })  {
     throw UnsupportedError(
       'Google AI does not expose a tokenizer, only counting tokens is supported.',
     );
@@ -307,7 +301,6 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
     return FirebaseVertexAI.instanceFor(
       app: app,
       appCheck: appCheck,
-      options: options,
       location: location,
     ).generativeModel(
       model: model,

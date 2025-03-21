@@ -266,7 +266,8 @@ sealed class RealtimeEvent with _$RealtimeEvent {
 
     /// The ID of the preceding item in the Conversation context, allows the client to understand the
     /// order of the conversation.
-    @JsonKey(name: 'previous_item_id') required String? previousItemId,
+    @JsonKey(name: 'previous_item_id', includeIfNull: false)
+    String? previousItemId,
 
     /// The item to add to the conversation.
     /// Any of: [ItemMessage], [ItemFunctionCall], [ItemFunctionCallOutput]
@@ -435,7 +436,8 @@ sealed class RealtimeEvent with _$RealtimeEvent {
     RealtimeEventType type,
 
     /// The ID of the preceding item after which the new item will be inserted.
-    @JsonKey(name: 'previous_item_id') required String previousItemId,
+    @JsonKey(name: 'previous_item_id', includeIfNull: false)
+    String? previousItemId,
 
     /// The ID of the user message item that will be created.
     @JsonKey(name: 'item_id') required String itemId,

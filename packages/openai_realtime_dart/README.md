@@ -60,6 +60,9 @@ client.on(RealtimeEventType.conversationUpdated, (event) {
 // Connect to Realtime API
 await client.connect();
 
+// You can optionally specify a custom model
+// await client.connect(model: 'gpt-4o-mini-realtime-preview');
+
 // Send a item and triggers a generation
 await client.sendUserMessageContent([
   const ContentPart.inputText(text: 'How are you?'),

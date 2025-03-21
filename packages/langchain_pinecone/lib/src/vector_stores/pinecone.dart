@@ -109,7 +109,7 @@ class Pinecone extends VectorStore {
   final PineconeClient _client;
 
   /// A UUID generator.
-  late final Uuid _uuid = const Uuid();
+  late final _uuid = const Uuid();
 
   /// The Pinecone index.
   Index? _index;

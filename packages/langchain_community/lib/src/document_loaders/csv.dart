@@ -132,7 +132,7 @@ class CsvLoader extends BaseDocumentLoader {
           'You have specified more field names than fields',
         );
 
-        for (int i = 0; i < row.length; i++) {
+        for (var i = 0; i < row.length; i++) {
           final field = row[i] as String;
           if (field == sourceField || (fields?.contains(field) ?? true)) {
             final fieldName =

@@ -36,7 +36,7 @@ Future<void> _streaming() async {
 
   final stream = chain.stream({'topic': 'bears'});
 
-  int count = 0;
+  var count = 0;
   await for (final res in stream) {
     print('$count: $res');
     count++;

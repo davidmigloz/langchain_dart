@@ -3,10 +3,10 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:http/retry.dart' show RetryClient;
 
 import 'generated/client.dart' as g;
 import 'generated/schema/schema.dart';
-import 'http_client/http_client.dart';
 
 /// Client for Anthropic API.
 ///
@@ -25,6 +25,7 @@ class AnthropicClient extends g.AnthropicClient {
   ///   this to set custom headers, or to override the default headers.
   /// - `queryParams`: global query parameters to send with every request. You
   ///   can use this to set custom query parameters.
+  /// - `retries`: the number of retries to attempt if a request fails.
   /// - `client`: the HTTP client to use. You can set your own HTTP client if
   ///   you need further customization (e.g. to use a Socks5 proxy).
   AnthropicClient({
@@ -32,6 +33,7 @@ class AnthropicClient extends g.AnthropicClient {
     final String? baseUrl,
     final Map<String, String>? headers,
     final Map<String, dynamic>? queryParams,
+    final int retries = 3,
     final http.Client? client,
   }) : super(
           apiKey: apiKey ?? '',
@@ -44,7 +46,7 @@ class AnthropicClient extends g.AnthropicClient {
             ...?headers,
           },
           queryParams: queryParams ?? const {},
-          client: client ?? createDefaultHttpClient(),
+    client: client ?? RetryClient(http.Client(), retries: retries),
         );
 
   // ------------------------------------------
@@ -84,11 +86,6 @@ class AnthropicClient extends g.AnthropicClient {
         return MessageStreamEvent.fromJson(j);
       },
     );
-  }
-
-  @override
-  Future<http.BaseRequest> onRequest(final http.BaseRequest request) {
-    return onRequestHandler(request);
   }
 }
 

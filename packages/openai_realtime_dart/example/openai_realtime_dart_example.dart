@@ -28,6 +28,8 @@ Future<void> main() async {
   });
 
   // Connect to Realtime API
+  // You can specify a custom model if needed
+  // await client.connect(model: 'gpt-4o-mini-realtime-preview');
   await client.connect();
 
   // Send a item and triggers a generation

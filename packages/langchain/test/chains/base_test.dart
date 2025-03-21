@@ -1,4 +1,6 @@
-// ignore_for_file: unused_element
+// ignore_for_file: unused_element, unnecessary_async
+import 'dart:async';
+
 import 'package:langchain/langchain.dart';
 import 'package:test/test.dart';
 
@@ -23,10 +25,10 @@ void main() {
     });
 
     test('Test base chain input logic - explicit input keys - invalid input',
-        () async {
+        () {
       final chain = _FakeChain(inputVariables: {'input'});
       expect(
-        () => chain.call({'inputInvalid': 'test'}),
+        () async => chain.call({'inputInvalid': 'test'}),
         throwsA(isA<ArgumentError>()),
       );
     });
@@ -38,10 +40,10 @@ void main() {
     });
 
     test('Test base chain input logic - explicit output keys - invalid output',
-        () async {
+        () {
       final chain = _FakeChain(outputVariables: {'outputOther'});
       expect(
-        () => chain.call({'input': 'test'}),
+        () async => chain.call({'input': 'test'}),
         throwsA(isA<ArgumentError>()),
       );
     });

@@ -1,28 +1,34 @@
 // ignore_for_file: public_member_api_docs
-@JS('chrome')
-library;
+import 'package:chrome_extension/tabs.dart';
 
-import 'package:js/js.dart';
+/// Query Chrome tabs based on given parameters
+Future<List<Tab>> query(final ParameterQueryTabs parameterQueryTabs) async {
+  final chromeTabs = await chrome.tabs.query(
+    QueryInfo(
+      active: parameterQueryTabs.active,
+      lastFocusedWindow: parameterQueryTabs.lastFocusedWindow,
+    ),
+  );
 
-@JS('tabs.query')
-external Future<List<Tab>> query(final ParameterQueryTabs parameterQueryTabs);
-
-@JS()
-class Tab {
-  external String get url;
-
-  external factory Tab(final String url);
+  return chromeTabs
+      .map((chromeTab) => Tab(chromeTab.url ?? ''))
+      .toList(growable: false);
 }
 
-@JS()
-@anonymous
+/// Chrome tab representation in Dart
+class Tab {
+  final String url;
+
+  Tab(this.url);
+}
+
+/// Parameters for querying tabs
 class ParameterQueryTabs {
-  external factory ParameterQueryTabs({
-    final bool active,
-    final bool lastFocusedWindow,
+  final bool active;
+  final bool lastFocusedWindow;
+
+  ParameterQueryTabs({
+    required this.active,
+    required this.lastFocusedWindow,
   });
-
-  external bool get active;
-
-  external bool get lastFocusedWindow;
 }

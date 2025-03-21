@@ -250,10 +250,10 @@ class VertexAIMatchingEngine extends VectorStore {
   String? _deployedIndexId;
 
   /// A UUID generator.
-  final Uuid _uuid = const Uuid();
+  final _uuid = const Uuid();
 
   /// Scopes required for Vertex AI and Cloud Storage API calls.
-  static const cloudPlatformScopes = [
+  static const List<String> cloudPlatformScopes = [
     VertexAIGenAIClient.cloudPlatformScope,
     ...Storage.SCOPES,
   ];

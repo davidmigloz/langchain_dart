@@ -31,7 +31,7 @@ class RecursiveCharacterTextSplitter extends TextSplitter {
     // Get appropriate separator to use
     String separator = separators.last;
     List<String> newSeparators = [];
-    for (int i = 0; i < separators.length; i++) {
+    for (var i = 0; i < separators.length; i++) {
       final s = separators[i];
       if (s == '') {
         separator = s;

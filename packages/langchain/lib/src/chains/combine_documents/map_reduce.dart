@@ -80,7 +80,7 @@ class MapReduceDocumentsChain extends BaseCombineDocumentsChain {
       BaseCombineDocumentsChain.defaultOutputKey;
 
   /// Default value for [mapLlmChainDocumentPromptVar].
-  static const String defaultLlmChainDocumentPromptVar = 'context';
+  static const defaultLlmChainDocumentPromptVar = 'context';
 
   /// Output key for the chain's intermediate steps output.
   static const intermediateStepsOutputKey = 'intermediate_steps';
