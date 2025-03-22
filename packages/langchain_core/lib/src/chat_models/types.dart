@@ -347,7 +347,7 @@ class AIChatMessage extends ChatMessage {
         toolCalls: (map['toolCalls'] as List<dynamic>)
             .map((i) => i as Map<String, dynamic>)
             .map(AIChatMessageToolCall.fromMap)
-            .toList(),
+            .toList(growable: false),
       );
 
   /// Converts this ChatMessage to a map along with a type hint for deserialization.
@@ -355,7 +355,7 @@ class AIChatMessage extends ChatMessage {
   Map<String, dynamic> toMap() => {
         ...super.toMap(),
         'content': content,
-        'toolCalls': toolCalls.map((t) => t.toMap()).toList(),
+        'toolCalls': toolCalls.map((t) => t.toMap()).toList(growable: false),
         'type': 'ai',
       };
 
@@ -798,7 +798,9 @@ class ChatMessageContentImage extends ChatMessageContent {
   @override
   bool operator ==(covariant final ChatMessageContentImage other) =>
       identical(this, other) ||
-      data == other.data && data == other.data && detail == other.detail;
+      data == other.data &&
+          mimeType == other.mimeType &&
+          detail == other.detail;
 
   @override
   int get hashCode => data.hashCode ^ mimeType.hashCode ^ detail.hashCode;
@@ -830,9 +832,10 @@ class ChatMessageContentMultiModal extends ChatMessageContent {
   /// Converts a map to a [ChatMessageContentMultiModal].
   factory ChatMessageContentMultiModal.fromMap(Map<String, dynamic> map) =>
       ChatMessageContentMultiModal(
-        parts: (map['parts'] as List<Map<String, dynamic>>)
+        parts: (map['parts'] as List<dynamic>)
+            .whereType<Map<String, dynamic>>()
             .map(ChatMessageContent.fromMap)
-            .toList(),
+            .toList(growable: false),
       );
 
   /// Converts [ChatMessageContentMultiModal] to a map along with a type hint for deserialization.
@@ -840,7 +843,7 @@ class ChatMessageContentMultiModal extends ChatMessageContent {
   Map<String, dynamic> toMap() => {
         ...super.toMap(),
         'type': 'multi_modal',
-        'parts': parts.map((p) => p.toMap()).toList(),
+        'parts': parts.map((p) => p.toMap()).toList(growable: false),
       };
 
   /// The parts of the multi-modal message.
@@ -887,12 +890,26 @@ sealed class ChatToolChoice {
   /// The model can pick between responding to the end-user or calling a tool.
   static const auto = ChatToolChoiceAuto();
 
-  /// The model must call at least one tool, but doesn’t force a particular tool.
+  /// The model must call at least one tool, but doesn't force a particular tool.
   static const required = ChatToolChoiceRequired();
 
   /// The model is forced to to call the specified tool.
   factory ChatToolChoice.forced({required final String name}) =>
       ChatToolChoiceForced(name: name);
+
+  /// Converts this ChatToolChoice to a map along with a type hint for deserialization.
+  Map<String, dynamic> toMap() => {};
+
+  /// Converts a map to a [ChatToolChoice]. Requires at least a type hint.
+  factory ChatToolChoice.fromMap(Map<String, dynamic> map) =>
+      switch (map['type']) {
+        'none' => ChatToolChoiceNone.fromMap(map),
+        'auto' => ChatToolChoiceAuto.fromMap(map),
+        'required' => ChatToolChoiceRequired.fromMap(map),
+        'forced' => ChatToolChoiceForced.fromMap(map),
+        null => throw ArgumentError('Type is required'),
+        _ => throw UnimplementedError('Unknown type: ${map['type']}'),
+      };
 }
 
 /// {@template chat_tool_choice_none}
@@ -901,6 +918,18 @@ sealed class ChatToolChoice {
 final class ChatToolChoiceNone extends ChatToolChoice {
   /// {@macro chat_tool_choice_none}
   const ChatToolChoiceNone();
+
+  /// Converts this ChatToolChoice to a map along with a type hint for deserialization.
+  @override
+  Map<String, dynamic> toMap() => {
+        ...super.toMap(),
+        'type': 'none',
+      };
+
+  /// Converts a map to a [ChatToolChoiceNone].
+  // ignore: avoid_unused_constructor_parameters
+  factory ChatToolChoiceNone.fromMap(Map<String, dynamic> map) =>
+      const ChatToolChoiceNone();
 }
 
 /// {@template chat_tool_choice_auto}
@@ -909,14 +938,38 @@ final class ChatToolChoiceNone extends ChatToolChoice {
 final class ChatToolChoiceAuto extends ChatToolChoice {
   /// {@macro chat_tool_choice_auto}
   const ChatToolChoiceAuto();
+
+  /// Converts this ChatToolChoice to a map along with a type hint for deserialization.
+  @override
+  Map<String, dynamic> toMap() => {
+        ...super.toMap(),
+        'type': 'auto',
+      };
+
+  /// Converts a map to a [ChatToolChoiceAuto].
+  // ignore: avoid_unused_constructor_parameters
+  factory ChatToolChoiceAuto.fromMap(Map<String, dynamic> map) =>
+      const ChatToolChoiceAuto();
 }
 
 /// {@template chat_tool_choice_required}
-/// The model must call at least one tool, but doesn’t force a particular tool.
+/// The model must call at least one tool, but doesn't force a particular tool.
 /// {@endtemplate}
 final class ChatToolChoiceRequired extends ChatToolChoice {
   /// {@macro chat_tool_choice_none}
   const ChatToolChoiceRequired();
+
+  /// Converts this ChatToolChoice to a map along with a type hint for deserialization.
+  @override
+  Map<String, dynamic> toMap() => {
+        ...super.toMap(),
+        'type': 'required',
+      };
+
+  /// Converts a map to a [ChatToolChoiceRequired].
+  // ignore: avoid_unused_constructor_parameters
+  factory ChatToolChoiceRequired.fromMap(Map<String, dynamic> map) =>
+      const ChatToolChoiceRequired();
 }
 
 /// {@template chat_tool_choice_forced}
@@ -931,6 +984,18 @@ final class ChatToolChoiceForced extends ChatToolChoice {
 
   /// The name of the tool to call.
   final String name;
+
+  /// Converts this ChatToolChoice to a map along with a type hint for deserialization.
+  @override
+  Map<String, dynamic> toMap() => {
+        ...super.toMap(),
+        'type': 'forced',
+        'name': name,
+      };
+
+  /// Converts a map to a [ChatToolChoiceForced].
+  factory ChatToolChoiceForced.fromMap(Map<String, dynamic> map) =>
+      ChatToolChoiceForced(name: map['name'] as String);
 
   @override
   bool operator ==(covariant final ChatToolChoiceForced other) =>
