@@ -31,7 +31,8 @@ bool isPrintable(int rune) {
   // The start is even (isPrint[i&~1]) and the end is odd (isPrint[i|1]).
   // If we find x in a range, make sure x is not in isNotPrint list.
 
-  int i, j;
+  var i = 0;
+  var j = 0;
   if (0 <= rune && rune < 1 << 16) {
     i = _bsearch(_isPrint16, rune);
     if (i >= _isPrint16.length ||
@@ -52,9 +53,9 @@ bool isPrintable(int rune) {
   if (rune >= 0x20000) {
     return true;
   }
-  rune -= 0x10000;
-  j = _bsearch(_isNotPrint32, rune);
-  return j >= _isNotPrint32.length || _isNotPrint32[j] != rune;
+  final adjustedRune = rune - 0x10000;
+  j = _bsearch(_isNotPrint32, adjustedRune);
+  return j >= _isNotPrint32.length || _isNotPrint32[j] != adjustedRune;
 }
 
 /// IsGraphic reports whether the rune is defined as a Graphic by Unicode.
@@ -71,8 +72,8 @@ bool isGraphic(int rune) {
 // bsearch returns the smallest i such that a[i] >= x.
 // If there is no such i, bsearch returns len(a).
 int _bsearch(List<int> a, int x) {
-  int i = 0;
-  int j = a.length;
+  var i = 0;
+  var j = a.length;
   while (i < j) {
     final h = i + (j - i) ~/ 2;
     if (a[h] < x) {

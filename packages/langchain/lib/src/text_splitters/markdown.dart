@@ -25,15 +25,20 @@ class MarkdownTextSplitter extends RecursiveCharacterTextSplitter {
 /// Splitting markdown files based on specified headers.
 /// {@endtemplate}
 class MarkdownHeaderTextSplitter {
+  /// Whether to return each line with associated headers
   final bool returnEachLine;
+
+  /// List of headers to split on, each as a tuple of (header prefix, metadata key)
   final List<(String, String)> headersToSplitOn;
+
+  /// Whether to strip headers from the content of chunks
   final bool stripHeaders;
 
   /// Create a new MarkdownHeaderTextSplitter.
   ///
-  /// [headersToSplitOn]: Headers we want to track
-  /// [returnEachLine]: Return each line w/ associated headers
-  /// [stripHeaders]: Strip split headers from the content of the chunk
+  /// [headersToSplitOn] Headers we want to track
+  /// [returnEachLine] Return each line w/ associated headers
+  /// [stripHeaders] Strip split headers from the content of the chunk
   MarkdownHeaderTextSplitter({
     required List<(String, String)> headersToSplitOn,
     this.returnEachLine = false,
@@ -44,26 +49,26 @@ class MarkdownHeaderTextSplitter {
   }
 
   /// Combine lines with common metadata into chunks.
-  List<Document> aggregateLinesToChunks(List<LineType> lines) {
-    final aggregatedChunks = <LineType>[];
+  List<Document> _aggregateLinesToChunks(List<_LineType> lines) {
+    final aggregatedChunks = <_LineType>[];
 
     for (final line in lines) {
       if (aggregatedChunks.isNotEmpty &&
-          mapEquals(aggregatedChunks.last.metadata, line.metadata)) {
+          _mapEquals(aggregatedChunks.last.metadata, line.metadata)) {
         // If same metadata, append content
         final old = aggregatedChunks.last;
-        aggregatedChunks.last = LineType(
+        aggregatedChunks.last = _LineType(
           metadata: old.metadata,
           content: '${old.content}  \n${line.content}',
         );
       } else if (aggregatedChunks.isNotEmpty &&
-          !mapEquals(aggregatedChunks.last.metadata, line.metadata) &&
+          !_mapEquals(aggregatedChunks.last.metadata, line.metadata) &&
           aggregatedChunks.last.metadata.length < line.metadata.length &&
           aggregatedChunks.last.content.split('\n').last.startsWith('#') &&
           !stripHeaders) {
         // Handle nested headers
         final old = aggregatedChunks.last;
-        aggregatedChunks.last = LineType(
+        aggregatedChunks.last = _LineType(
           metadata: line.metadata,
           content: '${old.content}  \n${line.content}',
         );
@@ -86,10 +91,10 @@ class MarkdownHeaderTextSplitter {
   /// Split markdown file.
   List<Document> splitText(String text) {
     final lines = text.split('\n');
-    final linesWithMetadata = <LineType>[];
+    final linesWithMetadata = <_LineType>[];
     final currentContent = <String>[];
     var currentMetadata = <String, String>{};
-    final headerStack = <HeaderType>[];
+    final headerStack = <_HeaderType>[];
     final initialMetadata = <String, String>{};
     var inCodeBlock = false;
     var openingFence = '';
@@ -140,7 +145,7 @@ class MarkdownHeaderTextSplitter {
             initialMetadata.remove(poppedHeader.name);
           }
 
-          final header = HeaderType(
+          final header = _HeaderType(
             level: currentHeaderLevel,
             name: name,
             data: strippedLine.substring(sep.length).trim(),
@@ -150,7 +155,7 @@ class MarkdownHeaderTextSplitter {
 
           if (currentContent.isNotEmpty) {
             linesWithMetadata.add(
-              LineType(
+              _LineType(
                 content: currentContent.join('\n'),
                 metadata: Map.from(currentMetadata),
               ),
@@ -172,7 +177,7 @@ class MarkdownHeaderTextSplitter {
           currentContent.add(strippedLine);
         } else if (currentContent.isNotEmpty) {
           linesWithMetadata.add(
-            LineType(
+            _LineType(
               content: currentContent.join('\n'),
               metadata: Map.from(currentMetadata),
             ),
@@ -186,7 +191,7 @@ class MarkdownHeaderTextSplitter {
 
     if (currentContent.isNotEmpty) {
       linesWithMetadata.add(
-        LineType(
+        _LineType(
           content: currentContent.join('\n'),
           metadata: currentMetadata,
         ),
@@ -202,29 +207,50 @@ class MarkdownHeaderTextSplitter {
               ),
             )
             .toList()
-        : aggregateLinesToChunks(linesWithMetadata);
+        : _aggregateLinesToChunks(linesWithMetadata);
   }
 }
 
-/// Represents a line with metadata
-class LineType {
+/// Represents a line with metadata in the markdown document
+class _LineType {
+  /// The metadata associated with this line, usually header information
   final Map<String, String> metadata;
+
+  /// The content text of this line
   final String content;
 
-  LineType({required this.metadata, required this.content});
+  /// Creates a new LineType instance
+  ///
+  /// [metadata] The metadata map associated with this line
+  /// [content] The text content of this line
+  _LineType({required this.metadata, required this.content});
 }
 
 /// Represents a header with its level and data
-class HeaderType {
+class _HeaderType {
+  /// The level of the header (1 for #, 2 for ##, etc.)
   final int level;
+
+  /// The metadata key name for this header
   final String name;
+
+  /// The content/value of the header
   final String data;
 
-  HeaderType({required this.level, required this.name, required this.data});
+  /// Creates a new HeaderType instance
+  ///
+  /// [level] The level of the header (1 for #, 2 for ##, etc.)
+  /// [name] The metadata key name for this header
+  /// [data] The content/value of the header
+  _HeaderType({required this.level, required this.name, required this.data});
 }
 
-/// Helper function to compare maps
-bool mapEquals(Map<String, String>? a, Map<String, String>? b) {
+/// Helper function to compare maps for equality
+///
+/// [a] First map to compare
+/// [b] Second map to compare
+/// Returns true if maps are equal, false otherwise
+bool _mapEquals(Map<String, String>? a, Map<String, String>? b) {
   if (a == null || b == null) return a == b;
   if (a.length != b.length) return false;
   for (final key in a.keys) {

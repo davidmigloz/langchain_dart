@@ -75,6 +75,14 @@ class RecursiveCharacterTextSplitter extends TextSplitter {
     return finalChunks;
   }
 
+  /// Returns a list of separator strings optimized for splitting text in a given programming language.
+  ///
+  /// This method provides language-specific separator patterns that allow the recursive character
+  /// splitter to more intelligently break down code by relevant structural elements
+  /// (like functions, classes, control structures) before falling back to generic whitespace separators.
+  ///
+  /// [language] The programming language to get separators for
+  /// Returns a list of separator strings, ordered from most specific to most general
   static List<String> getSeparatorsForLanguage(final CodeLanguage language) {
     return switch (language) {
       CodeLanguage.cpp => [
