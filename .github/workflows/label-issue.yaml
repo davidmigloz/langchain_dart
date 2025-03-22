@@ -1,0 +1,29 @@
+name: Label Issues
+
+on:
+  issues:
+    types:
+      - opened
+
+permissions:
+  issues: write
+
+jobs:
+  label_issue:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add label based on package field
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
+        with:
+          script: |
+            const body = context.payload.issue.body;
+            const match = body.match(/### Package\s*\n+([^\n]+)/);
+            if (match) {
+              const labelName = `p:${match[1].trim()}`;
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.issue.number,
+                labels: [labelName]
+              });
+            }

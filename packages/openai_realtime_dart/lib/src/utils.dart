@@ -3,6 +3,9 @@ import 'dart:math';
 import 'dart:typed_data';
 
 class RealtimeUtils {
+  /// Default model for OpenAI Realtime API.
+  static const defaultModel = 'gpt-4o-realtime-preview';
+
   static Uint8List mergeUint8Lists(Uint8List left, Uint8List right) {
     final result = Uint8List(left.length + right.length);
     result.setRange(0, left.length, left);

@@ -12,7 +12,7 @@ void main() {
   group('Anthropic Messages API tests', () {
     late AnthropicClient client;
 
-    setUp(() async {
+    setUp(() {
       client = AnthropicClient(
         apiKey: Platform.environment['ANTHROPIC_API_KEY'],
       );

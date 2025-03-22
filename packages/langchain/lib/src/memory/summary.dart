@@ -205,7 +205,7 @@ final class ConversationSummaryMemory<LLMType extends BaseLanguageModel>
   Future<String> _summarize(
     final List<ChatMessage> messages,
     final String currentSummary,
-  ) async {
+  ) {
     final input = messages.toBufferString(
       systemPrefix: systemPrefix,
       humanPrefix: humanPrefix,

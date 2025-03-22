@@ -21,6 +21,7 @@ class ChatFirebaseVertexAIOptions extends ChatModelOptions {
     this.temperature,
     this.stopSequences,
     this.responseMimeType,
+    this.responseSchema,
     this.safetySettings,
     super.tools,
     super.toolChoice,
@@ -77,6 +78,32 @@ class ChatFirebaseVertexAIOptions extends ChatModelOptions {
   /// - `text/plain`: (default) Text output.
   /// - `application/json`: JSON response in the candidates.
   final String? responseMimeType;
+
+  /// Output response schema of the generated candidate text.
+  /// Following the [JSON Schema specification](https://json-schema.org).
+  ///
+  /// Note: This only applies when the [responseMimeType] supports
+  /// a schema; currently this is limited to `application/json`.
+  ///
+  /// Example:
+  /// ```json
+  /// {
+  ///   'type': 'object',
+  ///   'properties': {
+  ///     'answer': {
+  ///       'type': 'string',
+  ///       'description': 'The answer to the question being asked',
+  ///     },
+  ///     'sources': {
+  ///       'type': 'array',
+  ///       'items': {'type': 'string'},
+  ///       'description': 'The sources used to answer the question',
+  ///     },
+  ///   },
+  ///   'required': ['answer', 'sources'],
+  /// }
+  /// ```
+  final Map<String, dynamic>? responseSchema;
 
   /// A list of unique [ChatFirebaseVertexAISafetySetting] instances for blocking
   /// unsafe content.

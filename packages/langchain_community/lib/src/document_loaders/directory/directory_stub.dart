@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs
 import 'dart:async';
-import 'dart:io';
+import 'package:cross_file/cross_file.dart' show XFile;
 import 'package:langchain_core/document_loaders.dart';
 import 'package:langchain_core/documents.dart';
 
@@ -30,7 +30,7 @@ class DirectoryLoader extends BaseDocumentLoader {
   final bool randomizeSample;
   final int? sampleSeed;
   final Map<String, dynamic> Function(
-    File file,
+    XFile file,
     Map<String, dynamic> defaultMetadata,
   )? metadataBuilder;
   static Map<String, BaseDocumentLoader Function(String)> defaultLoaderMap = {};

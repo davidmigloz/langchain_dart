@@ -8,7 +8,7 @@ double cosineSimilarity(final List<double> a, final List<double> b) {
   double p = 0;
   double p2 = 0;
   double q2 = 0;
-  for (int i = 0; i < a.length; i++) {
+  for (var i = 0; i < a.length; i++) {
     p += a[i] * b[i];
     p2 += a[i] * a[i];
     q2 += b[i] * b[i];

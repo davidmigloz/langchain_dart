@@ -12,7 +12,7 @@ void main() {
     late Ollama llm;
     const defaultModel = 'llama3.2';
 
-    setUp(() async {
+    setUp(()  {
       llm = Ollama(
         defaultOptions: const OllamaOptions(
           model: defaultModel,
@@ -25,7 +25,7 @@ void main() {
       llm.close();
     });
 
-    test('Test Ollama parameters', () async {
+    test('Test Ollama parameters', ()  {
       const options = OllamaOptions(
         model: 'foo',
         system: 'system prompt',
@@ -184,7 +184,7 @@ void main() {
       final stream = chain.stream({'max_num': '9'});
 
       var content = '';
-      int count = 0;
+      var count = 0;
       await for (final res in stream) {
         content += res.trim();
         count++;

@@ -6,7 +6,7 @@ import 'package:langchain/langchain.dart';
 import 'package:test/test.dart';
 import 'package:uuid/uuid.dart';
 
-void main() async {
+void main() {
   group('CacheBackedEmbeddings', () {
     late InMemoryStore<String, List<double>> store;
     late CacheBackedEmbeddings cacheBackedEmbeddings;

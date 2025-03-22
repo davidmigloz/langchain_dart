@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_async
+
 import 'dart:io';
 import 'package:langchain_community/langchain_community.dart';
 import 'package:langchain_core/documents.dart';
@@ -67,7 +69,7 @@ void main() {
       );
     });
 
-    test('Test directory loader with specific loader map', () async {
+    test('Test directory loader with specific loader map', ()  {
       const filePath = './test/document_loaders/assets';
 
       final loader = DirectoryLoader(
@@ -103,7 +105,7 @@ void main() {
       expect(loadedDocs, hasLength(2));
     });
 
-    test('Test directory loader with custom metadata builder', () async {
+    test('Test directory loader with custom metadata builder', ()  {
       const filePath = './test/document_loaders/assets';
 
       final loader = DirectoryLoader(
@@ -136,7 +138,7 @@ void main() {
       const loader = DirectoryLoader(filePath);
 
       expect(
-        () async => loader.lazyLoad().toList(),
+        ()  async => loader.lazyLoad().toList(),
         throwsA(isA<FileSystemException>()),
       );
     });

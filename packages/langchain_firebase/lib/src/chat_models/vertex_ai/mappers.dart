@@ -31,7 +31,7 @@ extension ChatMessagesMapper on List<ChatMessage> {
           if (c.data.startsWith('gs:') || c.data.startsWith('http'))
             f.FileData(c.mimeType ?? '', c.data)
           else
-            f.DataPart(c.mimeType ?? '', base64Decode(c.data)),
+            f.InlineDataPart(c.mimeType ?? '', base64Decode(c.data)),
         ],
       final ChatMessageContentMultiModal c => c.parts
           .map(
@@ -40,7 +40,7 @@ extension ChatMessagesMapper on List<ChatMessage> {
               final ChatMessageContentImage c =>
                 c.data.startsWith('gs:') || c.data.startsWith('http')
                     ? f.FileData(c.mimeType ?? '', c.data)
-                    : f.DataPart(c.mimeType ?? '', base64Decode(c.data)),
+                    : f.InlineDataPart(c.mimeType ?? '', base64Decode(c.data)),
               ChatMessageContentMultiModal() => throw UnsupportedError(
                   'Cannot have multimodal content in multimodal content',
                 ),
@@ -88,10 +88,9 @@ extension GenerateContentResponseMapper on f.GenerateContentResponse {
             .map(
               (p) => switch (p) {
                 final f.TextPart p => p.text,
-                final f.DataPart p => base64Encode(p.bytes),
-                // final f.FilePart p => p.uri.toString(),
+                final f.InlineDataPart p => base64Encode(p.bytes),
+                final f.FileData p => p.fileUri,
                 f.FunctionResponse() || f.FunctionCall() => '',
-                _ => throw AssertionError('Unknown part type: $p'),
               },
             )
             .nonNulls
@@ -121,7 +120,7 @@ extension GenerateContentResponseMapper on f.GenerateContentResponse {
               },
             )
             .toList(growable: false),
-        'citation_metadata': candidate.citationMetadata?.citationSources
+        'citation_metadata': candidate.citationMetadata?.citations
             .map(
               (s) => {
                 'start_index': s.startIndex,
@@ -145,7 +144,7 @@ extension GenerateContentResponseMapper on f.GenerateContentResponse {
     final f.FinishReason? reason,
   ) =>
       switch (reason) {
-        f.FinishReason.unspecified => FinishReason.unspecified,
+        f.FinishReason.unknown => FinishReason.unspecified,
         f.FinishReason.stop => FinishReason.stop,
         f.FinishReason.maxTokens => FinishReason.length,
         f.FinishReason.safety => FinishReason.contentFilter,
@@ -161,7 +160,7 @@ extension SafetySettingsMapper on List<ChatFirebaseVertexAISafetySetting> {
       (final setting) => f.SafetySetting(
         switch (setting.category) {
           ChatFirebaseVertexAISafetySettingCategory.unspecified =>
-            f.HarmCategory.unspecified,
+            f.HarmCategory.unknown,
           ChatFirebaseVertexAISafetySettingCategory.harassment =>
             f.HarmCategory.harassment,
           ChatFirebaseVertexAISafetySettingCategory.hateSpeech =>
@@ -173,7 +172,7 @@ extension SafetySettingsMapper on List<ChatFirebaseVertexAISafetySetting> {
         },
         switch (setting.threshold) {
           ChatFirebaseVertexAISafetySettingThreshold.unspecified =>
-            f.HarmBlockThreshold.unspecified,
+            f.HarmBlockThreshold.none,
           ChatFirebaseVertexAISafetySettingThreshold.blockLowAndAbove =>
             f.HarmBlockThreshold.low,
           ChatFirebaseVertexAISafetySettingThreshold.blockMediumAndAbove =>
@@ -191,14 +190,16 @@ extension SafetySettingsMapper on List<ChatFirebaseVertexAISafetySetting> {
 extension ChatToolListMapper on List<ToolSpec> {
   List<f.Tool> toToolList() {
     return [
-      f.Tool(
-        functionDeclarations: map(
-          (tool) => f.FunctionDeclaration(
+      f.Tool.functionDeclarations(
+        map((tool) {
+          final schema = tool.inputJsonSchema.toSchema();
+          return f.FunctionDeclaration(
             tool.name,
             tool.description,
-            tool.inputJsonSchema.toSchema(),
-          ),
-        ).toList(growable: false),
+            parameters: schema.properties ?? const {},
+            optionalParameters: schema.optionalProperties ?? const [],
+          );
+        }).toList(growable: false),
       ),
     ];
   }
@@ -267,7 +268,11 @@ extension SchemaMapper on Map<String, dynamic> {
           );
           return f.Schema.object(
             properties: propertiesSchema,
-            requiredProperties: requiredProperties,
+            optionalProperties: requiredProperties != null
+                ? propertiesSchema.keys
+                    .where((key) => !requiredProperties.contains(key))
+                    .toList(growable: false)
+                : propertiesSchema.keys.toList(growable: false),
             description: description,
             nullable: nullable,
           );
@@ -283,25 +288,16 @@ extension ChatToolChoiceMapper on ChatToolChoice {
   f.ToolConfig toToolConfig() {
     return switch (this) {
       ChatToolChoiceNone _ => f.ToolConfig(
-          functionCallingConfig: f.FunctionCallingConfig(
-            mode: f.FunctionCallingMode.none,
-          ),
+          functionCallingConfig: f.FunctionCallingConfig.none(),
         ),
       ChatToolChoiceAuto _ => f.ToolConfig(
-          functionCallingConfig: f.FunctionCallingConfig(
-            mode: f.FunctionCallingMode.auto,
-          ),
+          functionCallingConfig: f.FunctionCallingConfig.auto(),
         ),
       ChatToolChoiceRequired() => f.ToolConfig(
-          functionCallingConfig: f.FunctionCallingConfig(
-            mode: f.FunctionCallingMode.any,
-          ),
+          functionCallingConfig: f.FunctionCallingConfig.auto(),
         ),
       final ChatToolChoiceForced t => f.ToolConfig(
-          functionCallingConfig: f.FunctionCallingConfig(
-            mode: f.FunctionCallingMode.any,
-            allowedFunctionNames: {t.name},
-          ),
+          functionCallingConfig: f.FunctionCallingConfig.any({t.name}),
         ),
     };
   }

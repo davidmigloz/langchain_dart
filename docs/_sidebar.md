@@ -128,4 +128,6 @@
     - [Tools](/modules/agents/tools/tools.md)
       - [Calculator](/modules/agents/tools/calculator.md)
       - [DALL-E Image Generator](/modules/agents/tools/openai_dall_e.md)
+      - [Tavily Answer](/modules/agents/tools/tavily_answer.md)
+      - [Tavily Search Results](/modules/agents/tools/tavily_search_results.md)
     - [Toolkits](/modules/agents/toolkits/toolkits.md)

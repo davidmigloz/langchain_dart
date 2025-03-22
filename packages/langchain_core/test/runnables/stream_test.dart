@@ -140,7 +140,7 @@ void main() {
     );
 
     final stream = promptTemplate.streamFromInputStream(inputStream);
-    int count = 0;
+    var count = 0;
     var output = PromptValue.string('');
     await stream.forEach((final i) {
       count++;
@@ -170,7 +170,7 @@ void main() {
     );
 
     final stream = promptTemplate.streamFromInputStream(inputStream);
-    int count = 0;
+    var count = 0;
     var output = PromptValue.chat([ChatMessage.humanText('')]);
     await stream.forEach((final i) {
       count++;
@@ -202,7 +202,7 @@ void main() {
 
     const llm = FakeEchoLLM();
     final stream = llm.streamFromInputStream(inputStream);
-    int count = 0;
+    var count = 0;
     LLMResult? output;
     await stream.forEach((final LLMResult i) {
       count++;
@@ -229,7 +229,7 @@ void main() {
 
     const chatModel = FakeEchoChatModel();
     final stream = chatModel.streamFromInputStream(inputStream);
-    int count = 0;
+    var count = 0;
     ChatResult? output;
     await stream.forEach((final ChatResult i) {
       count++;
@@ -256,7 +256,7 @@ void main() {
 
     final tool = FakeTool();
     final stream = tool.streamFromInputStream(inputStream);
-    int count = 0;
+    var count = 0;
     String? output;
     await stream.forEach((final String i) {
       count++;
@@ -287,7 +287,7 @@ void main() {
     );
     const retriever = FakeRetriever([doc]);
     final stream = retriever.streamFromInputStream(inputStream);
-    int count = 0;
+    var count = 0;
     List<Document>? output;
     await stream.forEach((final List<Document> i) {
       count++;

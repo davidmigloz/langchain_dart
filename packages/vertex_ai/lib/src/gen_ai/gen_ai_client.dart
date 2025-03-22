@@ -95,7 +95,7 @@ class VertexAIGenAIClient {
   final AiplatformApi _vertexAiApi;
 
   /// Scope required for Vertex AI API calls.
-  static const cloudPlatformScope = AiplatformApi.cloudPlatformScope;
+  static const String cloudPlatformScope = AiplatformApi.cloudPlatformScope;
 
   /// Text model API.
   ///

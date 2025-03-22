@@ -93,7 +93,7 @@ class Supabase extends VectorStore {
   final String tableName;
 
   /// The name of the PostgreSQL function that executes the query.
-  final String postgresFunctionName = 'match_documents';
+  final postgresFunctionName = 'match_documents';
 
   @override
   Future<List<String>> addVectors({

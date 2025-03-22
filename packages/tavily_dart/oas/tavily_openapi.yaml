@@ -96,7 +96,6 @@ components:
             type: string
           description: A list of domains to specifically exclude from the search results. Default is None.
       required:
-        - api_key
         - query
     SearchResponse:
       type: object

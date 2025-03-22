@@ -31,7 +31,7 @@ final class CalculatorTool extends StringTool<ToolOptions> {
               'For example: "(x^2 + cos(y)) / 3".',
         );
 
-  final _parser = Parser();
+  final _parser = GrammarParser();
 
   @override
   Future<String> invokeInternal(

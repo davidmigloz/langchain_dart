@@ -19,7 +19,7 @@ void main() {
       final keys = keyValuePairs.map((final pair) => pair.$1).toList();
       final values = await encoderBackedStore.get(keys);
 
-      for (int i = 0; i < keyValuePairs.length; i++) {
+      for (var i = 0; i < keyValuePairs.length; i++) {
         expect(values[i], equals(keyValuePairs[i].$2));
       }
 

@@ -16,7 +16,7 @@ class SearchRequest with _$SearchRequest {
   /// Factory constructor for SearchRequest
   const factory SearchRequest({
     /// Your unique API key.
-    @JsonKey(name: 'api_key') required String apiKey,
+    @JsonKey(name: 'api_key', includeIfNull: false) String? apiKey,
 
     /// The search query string.
     required String query,

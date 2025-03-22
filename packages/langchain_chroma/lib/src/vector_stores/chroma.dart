@@ -127,7 +127,7 @@ class Chroma extends VectorStore {
   final ChromaClient _client;
 
   /// A UUID generator.
-  final Uuid _uuid = const Uuid();
+  final _uuid = const Uuid();
 
   /// The collection to use.
   Collection? _collection;

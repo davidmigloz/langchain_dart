@@ -15,7 +15,7 @@ abstract interface class BaseMemory {
   const BaseMemory();
 
   /// Default memory key.
-  static const String defaultMemoryKey = 'history';
+  static const defaultMemoryKey = 'history';
 
   /// Input keys this memory class will load dynamically to the prompt.
   Set<String> get memoryKeys;

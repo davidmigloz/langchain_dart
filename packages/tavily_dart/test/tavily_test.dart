@@ -10,7 +10,7 @@ void main() {
   group('Tavily API tests', () {
     late TavilyClient client;
 
-    setUp(() async {
+    setUp(()  {
       client = TavilyClient();
     });
 
@@ -21,7 +21,7 @@ void main() {
     test('Test call search API', () async {
       final res = await client.search(
         request: SearchRequest(
-          apiKey: Platform.environment['TAVILY_API_KEY']!,
+          apiKey: Platform.environment['TAVILY_API_KEY'],
           query: 'Should I invest in Apple right now?',
           includeAnswer: true,
           includeImages: true,
