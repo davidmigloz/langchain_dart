@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:langchain_core/documents.dart';
+import 'package:langchain_core/embeddings.dart';
 import 'package:objectbox/objectbox.dart'
     show
         Condition,
@@ -67,40 +68,26 @@ class ObjectBoxVectorStore extends BaseObjectBoxVectorStore<ObjectBoxDocument> {
   /// ObjectBox-specific options:
   /// - Check the ObjectBox's [Store] documentation for more details on the
   ///   different options.
-  ObjectBoxVectorStore({
+  ObjectBoxVectorStore._(
+    Store store, {
     required super.embeddings,
-    required final int dimensions,
-    final String? directory,
-    final int? maxDBSizeInKB,
-    final int? maxDataSizeInKB,
-    final int? fileMode,
-    final int? maxReaders,
-    final bool queriesCaseSensitiveDefault = true,
-    final String? macosApplicationGroup,
-  }) : super(
-          box: _openStore(
-            dimensions: dimensions,
-            directory: directory,
-            maxDBSizeInKB: maxDBSizeInKB,
-            maxDataSizeInKB: maxDataSizeInKB,
-            fileMode: fileMode,
-            maxReaders: maxReaders,
-            queriesCaseSensitiveDefault: queriesCaseSensitiveDefault,
-            macosApplicationGroup: macosApplicationGroup,
-          ).box<ObjectBoxDocument>(),
+  })  : _store = store,
+        super(
+          box: store.box<ObjectBoxDocument>(),
           createEntity: _createObjectBoxDocument,
           createDocument: _createDoc,
           getIdProperty: () => obxg.ObjectBoxDocument_.id,
           getEmbeddingProperty: () => obxg.ObjectBoxDocument_.embedding,
         );
 
-  static Store? _store;
+  Store? _store;
 
   /// The ObjectBox store.
   Store? get store => _store;
 
   /// Opens the ObjectBox store.
-  static Store _openStore({
+  factory ObjectBoxVectorStore.open({
+    required Embeddings embeddings,
     required final int dimensions,
     final String? directory,
     final int? maxDBSizeInKB,
@@ -110,7 +97,7 @@ class ObjectBoxVectorStore extends BaseObjectBoxVectorStore<ObjectBoxDocument> {
     final bool queriesCaseSensitiveDefault = true,
     final String? macosApplicationGroup,
   }) {
-    return _store ??= obxg.openStore(
+    final store = obxg.openStore(
       dimensions: dimensions,
       directory: directory,
       maxDBSizeInKB: maxDBSizeInKB,
@@ -120,6 +107,8 @@ class ObjectBoxVectorStore extends BaseObjectBoxVectorStore<ObjectBoxDocument> {
       queriesCaseSensitiveDefault: queriesCaseSensitiveDefault,
       macosApplicationGroup: macosApplicationGroup,
     );
+
+    return ObjectBoxVectorStore._(store, embeddings: embeddings);
   }
 
   /// Creates an [ObjectBoxDocument] entity.

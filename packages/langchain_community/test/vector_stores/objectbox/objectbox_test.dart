@@ -14,7 +14,7 @@ void main() {
     embeddings = OpenAIEmbeddings(
       apiKey: Platform.environment['OPENAI_API_KEY'],
     );
-    vectorStore = ObjectBoxVectorStore(
+    vectorStore = ObjectBoxVectorStore.open(
       embeddings: embeddings,
       dimensions: 1536,
       directory: 'test/vector_stores/objectbox',
