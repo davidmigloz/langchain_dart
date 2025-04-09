@@ -5,7 +5,7 @@ import 'package:langchain_community/langchain_community.dart';
 import 'package:langchain_ollama/langchain_ollama.dart';
 
 void main() async {
-  final vectorStore = ObjectBoxVectorStore(
+  final vectorStore = ObjectBoxVectorStore.open(
     embeddings: OllamaEmbeddings(
       model: 'jina/jina-embeddings-v2-small-en',
     ),

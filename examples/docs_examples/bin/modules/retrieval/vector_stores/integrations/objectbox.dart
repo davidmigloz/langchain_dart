@@ -10,7 +10,7 @@ void main() async {
 
 Future<void> _rag() async {
   // 1. Instantiate vector store
-  final vectorStore = ObjectBoxVectorStore(
+  final vectorStore = ObjectBoxVectorStore.open(
     embeddings: OllamaEmbeddings(model: 'jina/jina-embeddings-v2-small-en'),
     dimensions: 512,
     directory: 'bin/modules/retrieval/vector_stores/integrations',
