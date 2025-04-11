@@ -39,6 +39,9 @@ class ModelInfo with _$ModelInfo {
 
     /// The default messages for the model.
     @JsonKey(includeIfNull: false) List<Message>? messages,
+
+    /// The capabilities of the model.
+    @JsonKey(includeIfNull: false) List<String>? capabilities,
   }) = _ModelInfo;
 
   /// Object construction from a JSON representation
@@ -54,7 +57,8 @@ class ModelInfo with _$ModelInfo {
     'system',
     'details',
     'model_info',
-    'messages'
+    'messages',
+    'capabilities'
   ];
 
   /// Perform validations on the schema property values
@@ -73,6 +77,7 @@ class ModelInfo with _$ModelInfo {
       'details': details,
       'model_info': modelInfo,
       'messages': messages,
+      'capabilities': capabilities,
     };
   }
 }

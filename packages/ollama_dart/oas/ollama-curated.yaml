@@ -992,6 +992,18 @@ components:
           description: The default messages for the model.
           items:
             $ref: '#/components/schemas/Message'
+        capabilities:
+          type: array
+          nullable: true
+          description: The capabilities of the model.
+          items:
+            type: string
+            enum:
+              - completion
+              - tools
+              - insert
+              - vision
+              - embedding
     CopyModelRequest:
       description: Request class for copying a model.
       type: object

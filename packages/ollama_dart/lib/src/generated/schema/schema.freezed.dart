@@ -7144,6 +7144,10 @@ mixin _$ModelInfo {
   @JsonKey(includeIfNull: false)
   List<Message>? get messages => throw _privateConstructorUsedError;
 
+  /// The capabilities of the model.
+  @JsonKey(includeIfNull: false)
+  List<String>? get capabilities => throw _privateConstructorUsedError;
+
   /// Serializes this ModelInfo to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
@@ -7168,7 +7172,8 @@ abstract class $ModelInfoCopyWith<$Res> {
       @JsonKey(includeIfNull: false) ModelDetails? details,
       @JsonKey(name: 'model_info', includeIfNull: false)
       ModelInformation? modelInfo,
-      @JsonKey(includeIfNull: false) List<Message>? messages});
+      @JsonKey(includeIfNull: false) List<Message>? messages,
+      @JsonKey(includeIfNull: false) List<String>? capabilities});
 
   $ModelDetailsCopyWith<$Res>? get details;
   $ModelInformationCopyWith<$Res>? get modelInfo;
@@ -7197,6 +7202,7 @@ class _$ModelInfoCopyWithImpl<$Res, $Val extends ModelInfo>
     Object? details = freezed,
     Object? modelInfo = freezed,
     Object? messages = freezed,
+    Object? capabilities = freezed,
   }) {
     return _then(_value.copyWith(
       license: freezed == license
@@ -7231,6 +7237,10 @@ class _$ModelInfoCopyWithImpl<$Res, $Val extends ModelInfo>
           ? _value.messages
           : messages // ignore: cast_nullable_to_non_nullable
               as List<Message>?,
+      capabilities: freezed == capabilities
+          ? _value.capabilities
+          : capabilities // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ) as $Val);
   }
 
@@ -7280,7 +7290,8 @@ abstract class _$$ModelInfoImplCopyWith<$Res>
       @JsonKey(includeIfNull: false) ModelDetails? details,
       @JsonKey(name: 'model_info', includeIfNull: false)
       ModelInformation? modelInfo,
-      @JsonKey(includeIfNull: false) List<Message>? messages});
+      @JsonKey(includeIfNull: false) List<Message>? messages,
+      @JsonKey(includeIfNull: false) List<String>? capabilities});
 
   @override
   $ModelDetailsCopyWith<$Res>? get details;
@@ -7309,6 +7320,7 @@ class __$$ModelInfoImplCopyWithImpl<$Res>
     Object? details = freezed,
     Object? modelInfo = freezed,
     Object? messages = freezed,
+    Object? capabilities = freezed,
   }) {
     return _then(_$ModelInfoImpl(
       license: freezed == license
@@ -7343,6 +7355,10 @@ class __$$ModelInfoImplCopyWithImpl<$Res>
           ? _value._messages
           : messages // ignore: cast_nullable_to_non_nullable
               as List<Message>?,
+      capabilities: freezed == capabilities
+          ? _value._capabilities
+          : capabilities // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ));
   }
 }
@@ -7358,8 +7374,10 @@ class _$ModelInfoImpl extends _ModelInfo {
       @JsonKey(includeIfNull: false) this.system,
       @JsonKey(includeIfNull: false) this.details,
       @JsonKey(name: 'model_info', includeIfNull: false) this.modelInfo,
-      @JsonKey(includeIfNull: false) final List<Message>? messages})
+      @JsonKey(includeIfNull: false) final List<Message>? messages,
+      @JsonKey(includeIfNull: false) final List<String>? capabilities})
       : _messages = messages,
+        _capabilities = capabilities,
         super._();
 
   factory _$ModelInfoImpl.fromJson(Map<String, dynamic> json) =>
@@ -7414,9 +7432,23 @@ class _$ModelInfoImpl extends _ModelInfo {
     return EqualUnmodifiableListView(value);
   }
 
+  /// The capabilities of the model.
+  final List<String>? _capabilities;
+
+  /// The capabilities of the model.
+  @override
+  @JsonKey(includeIfNull: false)
+  List<String>? get capabilities {
+    final value = _capabilities;
+    if (value == null) return null;
+    if (_capabilities is EqualUnmodifiableListView) return _capabilities;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   String toString() {
-    return 'ModelInfo(license: $license, modelfile: $modelfile, parameters: $parameters, template: $template, system: $system, details: $details, modelInfo: $modelInfo, messages: $messages)';
+    return 'ModelInfo(license: $license, modelfile: $modelfile, parameters: $parameters, template: $template, system: $system, details: $details, modelInfo: $modelInfo, messages: $messages, capabilities: $capabilities)';
   }
 
   @override
@@ -7435,7 +7467,9 @@ class _$ModelInfoImpl extends _ModelInfo {
             (identical(other.details, details) || other.details == details) &&
             (identical(other.modelInfo, modelInfo) ||
                 other.modelInfo == modelInfo) &&
-            const DeepCollectionEquality().equals(other._messages, _messages));
+            const DeepCollectionEquality().equals(other._messages, _messages) &&
+            const DeepCollectionEquality()
+                .equals(other._capabilities, _capabilities));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -7449,7 +7483,8 @@ class _$ModelInfoImpl extends _ModelInfo {
       system,
       details,
       modelInfo,
-      const DeepCollectionEquality().hash(_messages));
+      const DeepCollectionEquality().hash(_messages),
+      const DeepCollectionEquality().hash(_capabilities));
 
   /// Create a copy of ModelInfo
   /// with the given fields replaced by the non-null parameter values.
@@ -7477,7 +7512,8 @@ abstract class _ModelInfo extends ModelInfo {
           @JsonKey(includeIfNull: false) final ModelDetails? details,
           @JsonKey(name: 'model_info', includeIfNull: false)
           final ModelInformation? modelInfo,
-          @JsonKey(includeIfNull: false) final List<Message>? messages}) =
+          @JsonKey(includeIfNull: false) final List<Message>? messages,
+          @JsonKey(includeIfNull: false) final List<String>? capabilities}) =
       _$ModelInfoImpl;
   const _ModelInfo._() : super._();
 
@@ -7523,6 +7559,11 @@ abstract class _ModelInfo extends ModelInfo {
   @override
   @JsonKey(includeIfNull: false)
   List<Message>? get messages;
+
+  /// The capabilities of the model.
+  @override
+  @JsonKey(includeIfNull: false)
+  List<String>? get capabilities;
 
   /// Create a copy of ModelInfo
   /// with the given fields replaced by the non-null parameter values.
