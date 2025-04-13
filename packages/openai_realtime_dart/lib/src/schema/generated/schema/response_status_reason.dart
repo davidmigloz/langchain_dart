@@ -5,14 +5,14 @@
 part of openai_realtime_schema;
 
 // ==========================================
-// ENUM: ResponseStatusIncompleteReason
+// ENUM: ResponseStatusReason
 // ==========================================
 
 /// The reason the Response did not complete. For a `cancelled` Response, one of `turn_detected`
 /// (the server VAD detected a new start of speech) or `client_cancelled` (the client sent a
 /// cancel event). For an `incomplete` Response, one of `max_output_tokens` or `content_filter`
 /// (the server-side safety filter activated and cut off the response).
-enum ResponseStatusIncompleteReason {
+enum ResponseStatusReason {
   @JsonValue('turn_detected')
   turnDetected,
   @JsonValue('client_cancelled')

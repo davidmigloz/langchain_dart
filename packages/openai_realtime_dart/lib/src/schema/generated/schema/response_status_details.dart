@@ -8,10 +8,34 @@ part of openai_realtime_schema;
 // CLASS: ResponseStatusDetails
 // ==========================================
 
-/// Additional details about the status.
+/// The type of error that caused the response to fail, corresponding
+/// with the `status` field (`completed`, `cancelled`, `incomplete`,
+/// `failed`).
 @Freezed(unionKey: 'type', unionValueCase: FreezedUnionCase.snake)
 sealed class ResponseStatusDetails with _$ResponseStatusDetails {
   const ResponseStatusDetails._();
+
+  // ------------------------------------------
+  // UNION: ResponseStatusDetailsCompleted
+  // ------------------------------------------
+
+  /// Details about the completed response.
+
+  @FreezedUnionValue('completed')
+  const factory ResponseStatusDetails.completed({
+    /// The type of error that caused the response to fail.
+    @Default(ResponseStatusType.completed) ResponseStatusType type,
+
+    /// The reason the Response did not complete. For a `cancelled` Response, one of `turn_detected`
+    /// (the server VAD detected a new start of speech) or `client_cancelled` (the client sent a
+    /// cancel event). For an `incomplete` Response, one of `max_output_tokens` or `content_filter`
+    /// (the server-side safety filter activated and cut off the response).
+    @JsonKey(
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue,
+    )
+    ResponseStatusReason? reason,
+  }) = ResponseStatusDetailsCompleted;
 
   // ------------------------------------------
   // UNION: ResponseStatusDetailsCancelled
@@ -32,7 +56,7 @@ sealed class ResponseStatusDetails with _$ResponseStatusDetails {
       includeIfNull: false,
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue,
     )
-    ResponseStatusIncompleteReason? reason,
+    ResponseStatusReason? reason,
   }) = ResponseStatusDetailsCancelled;
 
   // ------------------------------------------
@@ -54,7 +78,7 @@ sealed class ResponseStatusDetails with _$ResponseStatusDetails {
       includeIfNull: false,
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue,
     )
-    ResponseStatusIncompleteReason? reason,
+    ResponseStatusReason? reason,
   }) = ResponseStatusDetailsIncomplete;
 
   // ------------------------------------------
@@ -82,6 +106,8 @@ sealed class ResponseStatusDetails with _$ResponseStatusDetails {
 // ==========================================
 
 enum ResponseStatusDetailsEnumType {
+  @JsonValue('completed')
+  completed,
   @JsonValue('cancelled')
   cancelled,
   @JsonValue('incomplete')

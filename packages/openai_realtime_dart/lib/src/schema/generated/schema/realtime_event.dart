@@ -175,6 +175,10 @@ sealed class RealtimeEvent with _$RealtimeEvent {
 
     /// The type of the event.
     @Default(RealtimeEventType.responseCancel) RealtimeEventType type,
+
+    /// A specific response ID to cancel - if not provided, will cancel an
+    /// in-progress response in the default conversation.
+    @JsonKey(name: 'response_id', includeIfNull: false) String? responseId,
   }) = RealtimeEventResponseCancel;
 
   // ------------------------------------------

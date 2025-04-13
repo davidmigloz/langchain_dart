@@ -51,6 +51,26 @@ class ResponseConfig with _$ResponseConfig {
     @_ResponseConfigMaxResponseOutputTokensConverter()
     @JsonKey(name: 'max_response_output_tokens', includeIfNull: false)
     ResponseConfigMaxResponseOutputTokens? maxResponseOutputTokens,
+
+    /// Controls which conversation the response is added to. Currently supports
+    /// `auto` and `none`, with `auto` as the default value. The `auto` value
+    /// means that the contents of the response will be added to the default
+    /// conversation. Set this to `none` to create an out-of-band response which
+    /// will not add items to default conversation.
+    @_ResponseConfigConversationConverter()
+    @JsonKey(includeIfNull: false)
+    ResponseConfigConversation? conversation,
+
+    /// Set of 16 key-value pairs that can be attached to an object. This can be
+    /// useful for storing additional information about the object in a structured
+    /// format. Keys can be a maximum of 64 characters long and values can be a
+    /// maximum of 512 characters long.
+    @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
+
+    /// Input items to include in the prompt for the model. Creates a new context
+    /// for this response, without including the default conversation. Can include
+    /// references to items from the default conversation.
+    @JsonKey(includeIfNull: false) List<Item>? input,
   }) = _ResponseConfig;
 
   /// Object construction from a JSON representation
@@ -66,7 +86,10 @@ class ResponseConfig with _$ResponseConfig {
     'tools',
     'tool_choice',
     'temperature',
-    'max_response_output_tokens'
+    'max_response_output_tokens',
+    'conversation',
+    'metadata',
+    'input'
   ];
 
   /// Perform validations on the schema property values
@@ -85,6 +108,9 @@ class ResponseConfig with _$ResponseConfig {
       'tool_choice': toolChoice,
       'temperature': temperature,
       'max_response_output_tokens': maxResponseOutputTokens,
+      'conversation': conversation,
+      'metadata': metadata,
+      'input': input,
     };
   }
 }
@@ -220,6 +246,83 @@ class _ResponseConfigMaxResponseOutputTokensConverter
     return switch (data) {
       ResponseConfigMaxResponseOutputTokensInt(value: final v) => v,
       ResponseConfigMaxResponseOutputTokensString(value: final v) => v,
+      null => null,
+    };
+  }
+}
+
+// ==========================================
+// ENUM: ResponseConfigConversationEnum
+// ==========================================
+
+/// No Description
+enum ResponseConfigConversationEnum {
+  @JsonValue('auto')
+  auto,
+  @JsonValue('none')
+  none,
+}
+
+// ==========================================
+// CLASS: ResponseConfigConversation
+// ==========================================
+
+/// Controls which conversation the response is added to. Currently supports
+/// `auto` and `none`, with `auto` as the default value. The `auto` value
+/// means that the contents of the response will be added to the default
+/// conversation. Set this to `none` to create an out-of-band response which
+/// will not add items to default conversation.
+@freezed
+sealed class ResponseConfigConversation with _$ResponseConfigConversation {
+  const ResponseConfigConversation._();
+
+  /// No Description
+  const factory ResponseConfigConversation.enumeration(
+    ResponseConfigConversationEnum value,
+  ) = ResponseConfigConversationEnumeration;
+
+  /// No Description
+  const factory ResponseConfigConversation.string(
+    String value,
+  ) = ResponseConfigConversationString;
+
+  /// Object construction from a JSON representation
+  factory ResponseConfigConversation.fromJson(Map<String, dynamic> json) =>
+      _$ResponseConfigConversationFromJson(json);
+}
+
+/// Custom JSON converter for [ResponseConfigConversation]
+class _ResponseConfigConversationConverter
+    implements JsonConverter<ResponseConfigConversation?, Object?> {
+  const _ResponseConfigConversationConverter();
+
+  @override
+  ResponseConfigConversation? fromJson(Object? data) {
+    if (data == null) {
+      return null;
+    }
+    if (data is String &&
+        _$ResponseConfigConversationEnumEnumMap.values.contains(data)) {
+      return ResponseConfigConversationEnumeration(
+        _$ResponseConfigConversationEnumEnumMap.keys.elementAt(
+          _$ResponseConfigConversationEnumEnumMap.values.toList().indexOf(data),
+        ),
+      );
+    }
+    if (data is String) {
+      return ResponseConfigConversationString(data);
+    }
+    throw Exception(
+      'Unexpected value for ResponseConfigConversation: $data',
+    );
+  }
+
+  @override
+  Object? toJson(ResponseConfigConversation? data) {
+    return switch (data) {
+      ResponseConfigConversationEnumeration(value: final v) =>
+        _$ResponseConfigConversationEnumEnumMap[v]!,
+      ResponseConfigConversationString(value: final v) => v,
       null => null,
     };
   }

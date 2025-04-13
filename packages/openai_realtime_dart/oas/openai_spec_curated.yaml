@@ -60,6 +60,7 @@ components:
       enum:
         - input_text
         - input_audio
+        - item_reference
         - text
         - audio
     ObjectType:
@@ -145,6 +146,20 @@ components:
         transcript:
           type: string
           description: The transcript of the audio.
+    ContentPartItemReference:
+      type: object
+      description: A part of the item reference content.
+      properties:
+        type:
+          $ref: "#/components/schemas/ContentType"
+          description: The content type.
+          default: item_reference
+        id:
+          type: string
+          description: |
+            ID of a previous conversation item to reference (for `item_reference`
+            content types in `response.create` events). These can reference both
+            client and server created items.
     ContentPartText:
       type: object
       description: A part of the text content.
@@ -330,6 +345,12 @@ components:
             Duration of silence to detect speech stop (in milliseconds). Defaults 
             to 500ms. With shorter values the model will respond more quickly, 
             but may jump in on short pauses from the user.
+        create_response:
+          type: boolean
+          default: true
+          description: |
+            Whether or not to automatically generate a response when VAD is
+            enabled. `true` by default.
       required:
         - type
     TurnDetectionType:
@@ -390,6 +411,12 @@ components:
           items:
             $ref: "#/components/schemas/Item"
             description: An item in the response output.
+        metadata:
+          description: |
+            Developer-provided string key-value pairs associated with this response.
+          type: object
+          additionalProperties: true
+          nullable: true
         usage:
           $ref: "#/components/schemas/Usage"
       required:
@@ -406,8 +433,12 @@ components:
         - failed
         - incomplete
     ResponseStatusDetails:
-      description: Additional details about the status.
+      description: |
+        The type of error that caused the response to fail, corresponding 
+        with the `status` field (`completed`, `cancelled`, `incomplete`, 
+        `failed`).
       oneOf:
+        - $ref: "#/components/schemas/ResponseStatusDetailsCompleted"
         - $ref: "#/components/schemas/ResponseStatusDetailsCancelled"
         - $ref: "#/components/schemas/ResponseStatusDetailsIncomplete"
         - $ref: "#/components/schemas/ResponseStatusDetailsFailed"
@@ -417,9 +448,19 @@ components:
       type: string
       description: The type of error that caused the response to fail.
       enum:
+        - completed
         - cancelled
         - incomplete
         - failed
+    ResponseStatusDetailsCompleted:
+      type: object
+      description: Details about the completed response.
+      properties:
+        type:
+          $ref: "#/components/schemas/ResponseStatusType"
+          default: completed
+        reason:
+          $ref: "#/components/schemas/ResponseStatusReason"
     ResponseStatusDetailsCancelled:
       type: object
       description: Details about the cancelled response.
@@ -428,7 +469,7 @@ components:
           $ref: "#/components/schemas/ResponseStatusType"
           default: cancelled
         reason:
-          $ref: "#/components/schemas/ResponseStatusIncompleteReason"
+          $ref: "#/components/schemas/ResponseStatusReason"
     ResponseStatusDetailsIncomplete:
       type: object
       description: Details about the incomplete response.
@@ -437,8 +478,8 @@ components:
           $ref: "#/components/schemas/ResponseStatusType"
           default: incomplete
         reason:
-          $ref: "#/components/schemas/ResponseStatusIncompleteReason"
-    ResponseStatusIncompleteReason:
+          $ref: "#/components/schemas/ResponseStatusReason"
+    ResponseStatusReason:
       type: string
       description: |
         The reason the Response did not complete. For a `cancelled` Response, one of `turn_detected`
@@ -508,6 +549,37 @@ components:
             - type: string
               description: Use inf for the maximum available tokens for a given model.
               default: inf
+        conversation:
+          description: |
+            Controls which conversation the response is added to. Currently supports
+            `auto` and `none`, with `auto` as the default value. The `auto` value
+            means that the contents of the response will be added to the default
+            conversation. Set this to `none` to create an out-of-band response which 
+            will not add items to default conversation.
+          oneOf:
+            - type: string
+            - type: string
+              default: auto
+              enum:
+                - auto
+                - none
+        metadata:
+          description: |
+            Set of 16 key-value pairs that can be attached to an object. This can be
+            useful for storing additional information about the object in a structured
+            format. Keys can be a maximum of 64 characters long and values can be a
+            maximum of 512 characters long.
+          type: object
+          additionalProperties: true
+          nullable: true
+        input:
+          type: array
+          description: |
+            Input items to include in the prompt for the model. Creates a new context
+            for this response, without including the default conversation. Can include
+            references to items from the default conversation.
+          items:
+            $ref: '#/components/schemas/Item'
     Usage:
       type: object
       description: |
@@ -574,8 +646,11 @@ components:
           description: The default system instructions.
         voice:
           $ref: "#/components/schemas/Voice"
-          description: The voice the model uses to respond - one of `alloy`, `echo`, or
-            `shimmer`.
+          description: |
+            The voice the model uses to respond. Voice cannot be changed during the 
+            session once the model has responded with audio at least once. Current 
+            voice options are `alloy`, `ash`, `ballad`, `coral`, `echo` `sage`, 
+            `shimmer` and `verse`.
         input_audio_format:
           $ref: "#/components/schemas/AudioFormat"
           description: The format of input audio.
@@ -606,8 +681,11 @@ components:
           type: number
           description: Sampling temperature.
         max_response_output_tokens:
-          description: Maximum number of output tokens for a single assistant response,
-            inclusive of tool calls. Defaults to "inf".
+          description: |
+            Maximum number of output tokens for a single assistant response,
+            inclusive of tool calls. Provide an integer between 1 and 4096 to
+            limit output tokens, or `inf` for the maximum available tokens for a
+            given model. Defaults to `inf`.
           oneOf:
             - type: integer
               description: Provide an integer between 1 and 4096 to limit output tokens.
@@ -618,6 +696,21 @@ components:
       type: object
       description: Session configuration to update.
       properties:
+        client_secret:
+          type: object
+          description: Ephemeral key returned by the API.
+          properties:
+            value:
+              type: string
+              description: |
+                Ephemeral key usable in client environments to authenticate connections
+                to the Realtime API. Use this in client-side environments rather than
+                a standard API token, which should only be used server-side.
+            expires_at:
+              type: integer
+              description: |
+                Timestamp for when the token expires. Currently, all tokens expire
+                after one minute.
         modalities:
           type: array
           items:
@@ -642,9 +735,10 @@ components:
         voice:
           $ref: "#/components/schemas/Voice"
           description: |
-            The voice the model uses to respond. Supported voices are `alloy`, `ash`,
-            `ballad`, `coral`, `echo`, `sage`, `shimmer`, and `verse`. Cannot be 
-            changed once the model has responded with audio at least once.
+            The voice the model uses to respond. Voice cannot be changed during the 
+            session once the model has responded with audio at least once. Current 
+            voice options are `alloy`, `ash`, `ballad`, `coral`, `echo` `sage`, 
+            `shimmer` and `verse`.
         input_audio_format:
           $ref: "#/components/schemas/AudioFormat"
           description: |
@@ -867,16 +961,18 @@ components:
         code:
           type: string
           description: Error code, if any.
+          nullable: true
         message:
           type: string
           description: A human-readable error message.
         param:
           type: string
           description: Parameter related to the error, if any.
+          nullable: true
         event_id:
           type: string
-          description: The event_id of the client event that caused the error, if
-            applicable.
+          description: The event_id of the client event that caused the error, if applicable.
+          nullable: true
     RealtimeEvent:
       type: object
       description: A Realtime API event.
@@ -1138,6 +1234,11 @@ components:
           $ref: "#/components/schemas/RealtimeEventType"
           description: The type of the event.
           default: response.cancel
+        response_id:
+          type: string
+          description: |
+            A specific response ID to cancel - if not provided, will cancel an 
+            in-progress response in the default conversation.
       required:
         - event_id
     RealtimeEventResponseCreate:

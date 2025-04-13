@@ -14,6 +14,8 @@ enum ContentType {
   inputText,
   @JsonValue('input_audio')
   inputAudio,
+  @JsonValue('item_reference')
+  itemReference,
   @JsonValue('text')
   text,
   @JsonValue('audio')

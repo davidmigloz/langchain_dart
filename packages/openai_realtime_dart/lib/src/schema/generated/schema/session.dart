@@ -33,7 +33,10 @@ class Session with _$Session {
     /// The default system instructions.
     @JsonKey(includeIfNull: false) String? instructions,
 
-    /// The voice the model uses to respond - one of `alloy`, `echo`, or `shimmer`.
+    /// The voice the model uses to respond. Voice cannot be changed during the
+    /// session once the model has responded with audio at least once. Current
+    /// voice options are `alloy`, `ash`, `ballad`, `coral`, `echo` `sage`,
+    /// `shimmer` and `verse`.
     @JsonKey(
       includeIfNull: false,
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue,
@@ -81,7 +84,10 @@ class Session with _$Session {
     /// Sampling temperature.
     @JsonKey(includeIfNull: false) double? temperature,
 
-    /// Maximum number of output tokens for a single assistant response, inclusive of tool calls. Defaults to "inf".
+    /// Maximum number of output tokens for a single assistant response,
+    /// inclusive of tool calls. Provide an integer between 1 and 4096 to
+    /// limit output tokens, or `inf` for the maximum available tokens for a
+    /// given model. Defaults to `inf`.
     @_SessionMaxResponseOutputTokensConverter()
     @JsonKey(name: 'max_response_output_tokens', includeIfNull: false)
     SessionMaxResponseOutputTokens? maxResponseOutputTokens,
@@ -220,7 +226,10 @@ class _SessionToolChoiceConverter
 // CLASS: SessionMaxResponseOutputTokens
 // ==========================================
 
-/// Maximum number of output tokens for a single assistant response, inclusive of tool calls. Defaults to "inf".
+/// Maximum number of output tokens for a single assistant response,
+/// inclusive of tool calls. Provide an integer between 1 and 4096 to
+/// limit output tokens, or `inf` for the maximum available tokens for a
+/// given model. Defaults to `inf`.
 @freezed
 sealed class SessionMaxResponseOutputTokens
     with _$SessionMaxResponseOutputTokens {
