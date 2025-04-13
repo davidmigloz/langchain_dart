@@ -16,7 +16,8 @@ class ChatCompletionStreamResponseDelta
 
   /// Factory constructor for ChatCompletionStreamResponseDelta
   const factory ChatCompletionStreamResponseDelta({
-    /// The role of the messages author. One of `system`, `user`, `assistant`, or `tool` (`function` is deprecated).
+    /// The role of the messages author.
+    /// One of `developer`, `user`, `assistant`, or `tool` (`function` and `system` are deprecated).
     @JsonKey(
       includeIfNull: false,
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue,

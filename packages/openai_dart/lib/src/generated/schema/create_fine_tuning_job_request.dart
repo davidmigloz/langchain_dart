@@ -27,13 +27,19 @@ class CreateFineTuningJobRequest with _$CreateFineTuningJobRequest {
     /// `fine-tune`.
     ///
     /// The contents of the file should differ depending on if the model uses the
-    /// [chat](https://platform.openai.com/docs/api-reference/fine-tuning/chat-input) or
-    /// [completions](https://platform.openai.com/docs/api-reference/fine-tuning/completions-input) format.
+    /// [chat](https://platform.openai.com/docs/api-reference/fine-tuning/chat-input),
+    /// [completions](https://platform.openai.com/docs/api-reference/fine-tuning/completions-input)
+    /// format, or if the fine-tuning method uses the
+    /// [preference](https://platform.openai.com/docs/api-reference/fine-tuning/preference-input) format.
     ///
     /// See the [fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning) for more details.
     @JsonKey(name: 'training_file') required String trainingFile,
 
-    /// The hyperparameters used for the fine-tuning job. See the [fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning) for more details.
+    /// The hyperparameters used for the fine-tuning job. This value will only be returned when running
+    /// `supervised` jobs.
+    ///
+    /// This value is now deprecated in favor of `method`, and should be passed in under the `method`
+    /// parameter.
     @JsonKey(includeIfNull: false)
     FineTuningJobHyperparameters? hyperparameters,
 

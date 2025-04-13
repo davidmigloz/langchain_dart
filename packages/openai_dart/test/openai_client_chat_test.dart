@@ -31,8 +31,10 @@ void main() {
         final request = CreateChatCompletionRequest(
           model: ChatCompletionModel.model(model),
           messages: [
-            const ChatCompletionMessage.system(
-              content: 'You are a helpful assistant.',
+            const ChatCompletionMessage.developer(
+              content: ChatCompletionDeveloperMessageContent.text(
+                'You are a helpful assistant.',
+              ),
             ),
             const ChatCompletionMessage.user(
               content: ChatCompletionUserMessageContent.string('Hello!'),
@@ -76,10 +78,11 @@ void main() {
           ChatCompletionModels.gpt4oMini,
         ),
         messages: [
-          ChatCompletionMessage.system(
-            content:
-                'You are a helpful assistant that replies only with numbers '
-                'in order without any spaces or commas',
+          ChatCompletionMessage.developer(
+            content: ChatCompletionDeveloperMessageContent.text(
+              'You are a helpful assistant that replies only with numbers '
+              'in order without any spaces or commas',
+            ),
           ),
           ChatCompletionMessage.user(
             content: ChatCompletionUserMessageContent.string(
@@ -108,8 +111,10 @@ void main() {
           ChatCompletionModels.gpt4oMini,
         ),
         messages: [
-          ChatCompletionMessage.system(
-            content: 'You are a helpful assistant.',
+          ChatCompletionMessage.developer(
+            content: ChatCompletionDeveloperMessageContent.text(
+              'You are a helpful assistant.',
+            ),
           ),
           ChatCompletionMessage.user(
             content: ChatCompletionUserMessageContent.string('Tell me a joke'),
@@ -135,8 +140,10 @@ void main() {
           ChatCompletionModels.gpt4oMini,
         ),
         messages: [
-          ChatCompletionMessage.system(
-            content: 'You are a helpful assistant.',
+          ChatCompletionMessage.developer(
+            content: ChatCompletionDeveloperMessageContent.text(
+              'You are a helpful assistant.',
+            ),
           ),
           ChatCompletionMessage.user(
             content: ChatCompletionUserMessageContent.string('Tell me a joke'),
@@ -161,10 +168,11 @@ void main() {
           ChatCompletionModels.gpt4oMini,
         ),
         messages: [
-          ChatCompletionMessage.system(
-            content:
-                'You are a helpful assistant that replies only with numbers '
-                'in order without any spaces or commas',
+          ChatCompletionMessage.developer(
+            content: ChatCompletionDeveloperMessageContent.text(
+              'You are a helpful assistant that replies only with numbers '
+              'in order without any spaces or commas',
+            ),
           ),
           ChatCompletionMessage.user(
             content: ChatCompletionUserMessageContent.string(
@@ -189,7 +197,7 @@ void main() {
           expect(res.choices, hasLength(1));
           final choice = res.choices.first;
           expect(choice.index, 0);
-          text += res.choices.first.delta.content?.trim() ?? '';
+          text += res.choices.first.delta?.content?.trim() ?? '';
           lastChoice = choice;
         }
         lastResponse = res;
@@ -231,8 +239,10 @@ void main() {
           ChatCompletionModels.gpt4oMini,
         ),
         messages: [
-          const ChatCompletionMessage.system(
-            content: 'You are a helpful assistant.',
+          const ChatCompletionMessage.developer(
+            content: ChatCompletionDeveloperMessageContent.text(
+              'You are a helpful assistant.',
+            ),
           ),
           const ChatCompletionMessage.user(
             content: ChatCompletionUserMessageContent.string(
@@ -279,8 +289,10 @@ void main() {
           ChatCompletionModels.gpt4oMini,
         ),
         messages: [
-          const ChatCompletionMessage.system(
-            content: 'You are a helpful assistant.',
+          const ChatCompletionMessage.developer(
+            content: ChatCompletionDeveloperMessageContent.text(
+              'You are a helpful assistant.',
+            ),
           ),
           const ChatCompletionMessage.user(
             content: ChatCompletionUserMessageContent.string(
@@ -336,11 +348,13 @@ void main() {
         model: const ChatCompletionModel.model(
           ChatCompletionModels.gpt4oMini,
         ),
-        messages: [
-          const ChatCompletionMessage.system(
-            content: 'You are a helpful assistant.',
+        messages: const [
+          ChatCompletionMessage.developer(
+            content: ChatCompletionDeveloperMessageContent.text(
+              'You are a helpful assistant.',
+            ),
           ),
-          const ChatCompletionMessage.user(
+          ChatCompletionMessage.user(
             content: ChatCompletionUserMessageContent.string(
               'Tell me a long joke about bears',
             ),
@@ -370,20 +384,20 @@ void main() {
         expect(choice.index, 0);
         final delta = choice.delta;
         if (choice.finishReason != ChatCompletionFinishReason.stop) {
-          expect(delta.toolCalls, hasLength(1), reason: 'count: $count');
-          final toolCall = delta.toolCalls!.first;
-          expect(toolCall.function, isNotNull);
-          final function = toolCall.function!;
+          expect(delta?.toolCalls, hasLength(1), reason: 'count: $count');
+          final toolCall = delta?.toolCalls!.first;
+          expect(toolCall?.function, isNotNull);
+          final function = toolCall?.function!;
           if (count == 0) {
-            expect(toolCall.id, isNotEmpty);
+            expect(toolCall?.id, isNotEmpty);
             expect(
-              toolCall.type,
+              toolCall?.type,
               ChatCompletionStreamMessageToolCallChunkType.function,
             );
-            expect(function.name, 'joke');
+            expect(function?.name, 'joke');
           }
-          expect(toolCall.index, 0);
-          expect(function.arguments, isNotNull);
+          expect(toolCall?.index, 0);
+          expect(function?.arguments, isNotNull);
         }
         count++;
       }
@@ -396,10 +410,11 @@ void main() {
           ChatCompletionModels.gpt4oMini,
         ),
         messages: [
-          ChatCompletionMessage.system(
-            content:
-                'You are a helpful assistant that extracts names from text '
-                'and returns them in a JSON array.',
+          ChatCompletionMessage.developer(
+            content: ChatCompletionDeveloperMessageContent.text(
+              'You are a helpful assistant that extracts names from text '
+              'and returns them in a JSON array.',
+            ),
           ),
           ChatCompletionMessage.user(
             content: ChatCompletionUserMessageContent.string(
@@ -431,9 +446,10 @@ void main() {
           ChatCompletionModels.gpt4oMini,
         ),
         messages: [
-          ChatCompletionMessage.system(
-            content:
-                'You are a helpful assistant. That extracts names from text.',
+          ChatCompletionMessage.developer(
+            content: ChatCompletionDeveloperMessageContent.text(
+              'You are a helpful assistant. That extracts names from text.',
+            ),
           ),
           ChatCompletionMessage.user(
             content: ChatCompletionUserMessageContent.string(
@@ -484,8 +500,10 @@ void main() {
           ChatCompletionModels.gpt4TurboPreview,
         ),
         messages: [
-          ChatCompletionMessage.system(
-            content: 'You are a helpful assistant.',
+          ChatCompletionMessage.developer(
+            content: ChatCompletionDeveloperMessageContent.text(
+              'You are a helpful assistant.',
+            ),
           ),
           ChatCompletionMessage.user(
             content: ChatCompletionUserMessageContent.string('How are you?'),
@@ -512,8 +530,10 @@ void main() {
           ChatCompletionModels.gpt4VisionPreview,
         ),
         messages: [
-          ChatCompletionMessage.system(
-            content: 'You are a helpful assistant.',
+          ChatCompletionMessage.developer(
+            content: ChatCompletionDeveloperMessageContent.text(
+              'You are a helpful assistant.',
+            ),
           ),
           ChatCompletionMessage.user(
             content: ChatCompletionUserMessageContent.parts(
@@ -599,8 +619,8 @@ void main() {
       await for (final res in stream) {
         expect(res.choices, hasLength(1));
         final choice = res.choices.first;
-        transcript += choice.delta.audio?.transcript ?? '';
-        data += choice.delta.audio?.data ?? '';
+        transcript += choice.delta?.audio?.transcript ?? '';
+        data += choice.delta?.audio?.data ?? '';
         chunks++;
       }
       expect(chunks, greaterThan(1));

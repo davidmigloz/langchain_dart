@@ -289,6 +289,9 @@ _$CreateChatCompletionRequestImpl _$$CreateChatCompletionRequestImplFromJson(
           .map((e) => ChatCompletionMessage.fromJson(e as Map<String, dynamic>))
           .toList(),
       store: json['store'] as bool?,
+      reasoningEffort: $enumDecodeNullable(
+              _$ReasoningEffortEnumMap, json['reasoning_effort']) ??
+          ReasoningEffort.medium,
       metadata: (json['metadata'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),
@@ -349,6 +352,7 @@ Map<String, dynamic> _$$CreateChatCompletionRequestImplToJson(
       'model': const _ChatCompletionModelConverter().toJson(instance.model),
       'messages': instance.messages.map((e) => e.toJson()).toList(),
       if (instance.store case final value?) 'store': value,
+      'reasoning_effort': _$ReasoningEffortEnumMap[instance.reasoningEffort]!,
       if (instance.metadata case final value?) 'metadata': value,
       if (instance.frequencyPenalty case final value?)
         'frequency_penalty': value,
@@ -398,6 +402,12 @@ Map<String, dynamic> _$$CreateChatCompletionRequestImplToJson(
         'functions': value,
     };
 
+const _$ReasoningEffortEnumMap = {
+  ReasoningEffort.low: 'low',
+  ReasoningEffort.medium: 'medium',
+  ReasoningEffort.high: 'high',
+};
+
 const _$ChatCompletionModalityEnumMap = {
   ChatCompletionModality.text: 'text',
   ChatCompletionModality.audio: 'audio',
@@ -443,11 +453,13 @@ const _$ChatCompletionModelsEnumMap = {
   ChatCompletionModels.gpt4oAudioPreview: 'gpt-4o-audio-preview',
   ChatCompletionModels.gpt4oAudioPreview20241001:
       'gpt-4o-audio-preview-2024-10-01',
+  ChatCompletionModels.gpt4oAudioPreview20241217:
+      'gpt-4o-audio-preview-2024-12-17',
   ChatCompletionModels.gpt4oMini: 'gpt-4o-mini',
   ChatCompletionModels.gpt4oMini20240718: 'gpt-4o-mini-2024-07-18',
-  ChatCompletionModels.gpt4oRealtimePreview: 'gpt-4o-realtime-preview',
-  ChatCompletionModels.gpt4oRealtimePreview20241001:
-      'gpt-4o-realtime-preview-2024-10-01',
+  ChatCompletionModels.gpt4oMiniAudioPreview: 'gpt-4o-mini-audio-preview',
+  ChatCompletionModels.gpt4oMiniAudioPreview20241217:
+      'gpt-4o-mini-audio-preview-2024-12-17',
   ChatCompletionModels.gpt35Turbo: 'gpt-3.5-turbo',
   ChatCompletionModels.gpt35Turbo16k: 'gpt-3.5-turbo-16k',
   ChatCompletionModels.gpt35Turbo16k0613: 'gpt-3.5-turbo-16k-0613',
@@ -455,6 +467,8 @@ const _$ChatCompletionModelsEnumMap = {
   ChatCompletionModels.gpt35Turbo0301: 'gpt-3.5-turbo-0301',
   ChatCompletionModels.gpt35Turbo0613: 'gpt-3.5-turbo-0613',
   ChatCompletionModels.gpt35Turbo1106: 'gpt-3.5-turbo-1106',
+  ChatCompletionModels.o1: 'o1',
+  ChatCompletionModels.o120241217: 'o1-2024-12-17',
   ChatCompletionModels.o1Mini: 'o1-mini',
   ChatCompletionModels.o1Mini20240912: 'o1-mini-2024-09-12',
   ChatCompletionModels.o1Preview: 'o1-preview',
@@ -975,8 +989,10 @@ _$ChatCompletionStreamResponseChoiceImpl
     _$$ChatCompletionStreamResponseChoiceImplFromJson(
             Map<String, dynamic> json) =>
         _$ChatCompletionStreamResponseChoiceImpl(
-          delta: ChatCompletionStreamResponseDelta.fromJson(
-              json['delta'] as Map<String, dynamic>),
+          delta: json['delta'] == null
+              ? null
+              : ChatCompletionStreamResponseDelta.fromJson(
+                  json['delta'] as Map<String, dynamic>),
           logprobs: json['logprobs'] == null
               ? null
               : ChatCompletionStreamResponseChoiceLogprobs.fromJson(
@@ -990,10 +1006,11 @@ _$ChatCompletionStreamResponseChoiceImpl
 Map<String, dynamic> _$$ChatCompletionStreamResponseChoiceImplToJson(
         _$ChatCompletionStreamResponseChoiceImpl instance) =>
     <String, dynamic>{
-      'delta': instance.delta.toJson(),
+      if (instance.delta?.toJson() case final value?) 'delta': value,
       if (instance.logprobs?.toJson() case final value?) 'logprobs': value,
-      'finish_reason':
-          _$ChatCompletionFinishReasonEnumMap[instance.finishReason],
+      if (_$ChatCompletionFinishReasonEnumMap[instance.finishReason]
+          case final value?)
+        'finish_reason': value,
       if (instance.index case final value?) 'index': value,
     };
 
@@ -1058,10 +1075,11 @@ Map<String, dynamic> _$$ChatCompletionStreamResponseDeltaImplToJson(
     };
 
 const _$ChatCompletionMessageRoleEnumMap = {
-  ChatCompletionMessageRole.system: 'system',
+  ChatCompletionMessageRole.developer: 'developer',
   ChatCompletionMessageRole.user: 'user',
   ChatCompletionMessageRole.assistant: 'assistant',
   ChatCompletionMessageRole.tool: 'tool',
+  ChatCompletionMessageRole.system: 'system',
   ChatCompletionMessageRole.function: 'function',
 };
 
@@ -1134,8 +1152,8 @@ _$CompletionUsageImpl _$$CompletionUsageImplFromJson(
         Map<String, dynamic> json) =>
     _$CompletionUsageImpl(
       completionTokens: (json['completion_tokens'] as num?)?.toInt(),
-      promptTokens: (json['prompt_tokens'] as num).toInt(),
-      totalTokens: (json['total_tokens'] as num).toInt(),
+      promptTokens: (json['prompt_tokens'] as num?)?.toInt(),
+      totalTokens: (json['total_tokens'] as num?)?.toInt(),
       completionTokensDetails: json['completion_tokens_details'] == null
           ? null
           : CompletionTokensDetails.fromJson(
@@ -1145,9 +1163,10 @@ _$CompletionUsageImpl _$$CompletionUsageImplFromJson(
 Map<String, dynamic> _$$CompletionUsageImplToJson(
         _$CompletionUsageImpl instance) =>
     <String, dynamic>{
-      'completion_tokens': instance.completionTokens,
-      'prompt_tokens': instance.promptTokens,
-      'total_tokens': instance.totalTokens,
+      if (instance.completionTokens case final value?)
+        'completion_tokens': value,
+      if (instance.promptTokens case final value?) 'prompt_tokens': value,
+      if (instance.totalTokens case final value?) 'total_tokens': value,
       if (instance.completionTokensDetails?.toJson() case final value?)
         'completion_tokens_details': value,
     };
@@ -4847,6 +4866,26 @@ const _$ListBatchesResponseObjectEnumMap = {
   ListBatchesResponseObject.list: 'list',
 };
 
+_$ChatCompletionDeveloperMessageImpl
+    _$$ChatCompletionDeveloperMessageImplFromJson(Map<String, dynamic> json) =>
+        _$ChatCompletionDeveloperMessageImpl(
+          role: $enumDecodeNullable(
+                  _$ChatCompletionMessageRoleEnumMap, json['role']) ??
+              ChatCompletionMessageRole.developer,
+          content: const _ChatCompletionDeveloperMessageContentConverter()
+              .fromJson(json['content']),
+          name: json['name'] as String?,
+        );
+
+Map<String, dynamic> _$$ChatCompletionDeveloperMessageImplToJson(
+        _$ChatCompletionDeveloperMessageImpl instance) =>
+    <String, dynamic>{
+      'role': _$ChatCompletionMessageRoleEnumMap[instance.role]!,
+      'content': const _ChatCompletionDeveloperMessageContentConverter()
+          .toJson(instance.content),
+      if (instance.name case final value?) 'name': value,
+    };
+
 _$ChatCompletionSystemMessageImpl _$$ChatCompletionSystemMessageImplFromJson(
         Map<String, dynamic> json) =>
     _$ChatCompletionSystemMessageImpl(
@@ -4956,6 +4995,39 @@ Map<String, dynamic> _$$ChatCompletionFunctionMessageImplToJson(
       'role': _$ChatCompletionMessageRoleEnumMap[instance.role]!,
       'content': instance.content,
       'name': instance.name,
+    };
+
+_$ChatCompletionDeveloperMessageContentPartsImpl
+    _$$ChatCompletionDeveloperMessageContentPartsImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ChatCompletionDeveloperMessageContentPartsImpl(
+          (json['value'] as List<dynamic>)
+              .map((e) => ChatCompletionMessageContentPart.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+          $type: json['runtimeType'] as String?,
+        );
+
+Map<String, dynamic> _$$ChatCompletionDeveloperMessageContentPartsImplToJson(
+        _$ChatCompletionDeveloperMessageContentPartsImpl instance) =>
+    <String, dynamic>{
+      'value': instance.value.map((e) => e.toJson()).toList(),
+      'runtimeType': instance.$type,
+    };
+
+_$ChatCompletionDeveloperMessageContentStringImpl
+    _$$ChatCompletionDeveloperMessageContentStringImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ChatCompletionDeveloperMessageContentStringImpl(
+          json['value'] as String,
+          $type: json['runtimeType'] as String?,
+        );
+
+Map<String, dynamic> _$$ChatCompletionDeveloperMessageContentStringImplToJson(
+        _$ChatCompletionDeveloperMessageContentStringImpl instance) =>
+    <String, dynamic>{
+      'value': instance.value,
+      'runtimeType': instance.$type,
     };
 
 _$ChatCompletionMessageContentPartsImpl

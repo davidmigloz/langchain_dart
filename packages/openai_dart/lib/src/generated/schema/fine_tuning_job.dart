@@ -30,7 +30,11 @@ class FineTuningJob with _$FineTuningJob {
     /// The Unix timestamp (in seconds) for when the fine-tuning job was finished. The value will be null if the fine-tuning job is still running.
     @JsonKey(name: 'finished_at') required int? finishedAt,
 
-    /// The hyperparameters used for the fine-tuning job. See the [fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning) for more details.
+    /// The hyperparameters used for the fine-tuning job. This value will only be returned when running
+    /// `supervised` jobs.
+    ///
+    /// This value is now deprecated in favor of `method`, and should be passed in under the `method`
+    /// parameter.
     required FineTuningJobHyperparameters hyperparameters,
 
     /// The base model that is being fine-tuned.
