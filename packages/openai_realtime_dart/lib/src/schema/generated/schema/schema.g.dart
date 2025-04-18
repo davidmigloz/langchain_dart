@@ -71,13 +71,17 @@ const _$ContentTypeEnumMap = {
 _$InputAudioTranscriptionConfigImpl
     _$$InputAudioTranscriptionConfigImplFromJson(Map<String, dynamic> json) =>
         _$InputAudioTranscriptionConfigImpl(
+          language: json['language'] as String?,
           model: json['model'] as String?,
+          prompt: json['prompt'] as String?,
         );
 
 Map<String, dynamic> _$$InputAudioTranscriptionConfigImplToJson(
         _$InputAudioTranscriptionConfigImpl instance) =>
     <String, dynamic>{
+      if (instance.language case final value?) 'language': value,
       if (instance.model case final value?) 'model': value,
+      if (instance.prompt case final value?) 'prompt': value,
     };
 
 _$TurnDetectionImpl _$$TurnDetectionImplFromJson(Map<String, dynamic> json) =>

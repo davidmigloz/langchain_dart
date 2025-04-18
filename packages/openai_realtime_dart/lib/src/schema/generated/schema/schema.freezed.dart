@@ -653,10 +653,18 @@ InputAudioTranscriptionConfig _$InputAudioTranscriptionConfigFromJson(
 
 /// @nodoc
 mixin _$InputAudioTranscriptionConfig {
-  /// The model to use for transcription, `whisper-1` is the only currently
-  /// supported model.
+  /// The language of the audio to transcribe.
+  @JsonKey(includeIfNull: false)
+  String? get language => throw _privateConstructorUsedError;
+
+  /// The model to use for transcription. Current options are `gpt-4o-transcribe`,
+  /// `gpt-4o-mini-transcribe`, and `whisper-1`.
   @JsonKey(includeIfNull: false)
   String? get model => throw _privateConstructorUsedError;
+
+  /// An optional text to guide the model's style or continue a previous audio segment.
+  @JsonKey(includeIfNull: false)
+  String? get prompt => throw _privateConstructorUsedError;
 
   /// Serializes this InputAudioTranscriptionConfig to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -676,7 +684,10 @@ abstract class $InputAudioTranscriptionConfigCopyWith<$Res> {
       _$InputAudioTranscriptionConfigCopyWithImpl<$Res,
           InputAudioTranscriptionConfig>;
   @useResult
-  $Res call({@JsonKey(includeIfNull: false) String? model});
+  $Res call(
+      {@JsonKey(includeIfNull: false) String? language,
+      @JsonKey(includeIfNull: false) String? model,
+      @JsonKey(includeIfNull: false) String? prompt});
 }
 
 /// @nodoc
@@ -695,12 +706,22 @@ class _$InputAudioTranscriptionConfigCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? language = freezed,
     Object? model = freezed,
+    Object? prompt = freezed,
   }) {
     return _then(_value.copyWith(
+      language: freezed == language
+          ? _value.language
+          : language // ignore: cast_nullable_to_non_nullable
+              as String?,
       model: freezed == model
           ? _value.model
           : model // ignore: cast_nullable_to_non_nullable
+              as String?,
+      prompt: freezed == prompt
+          ? _value.prompt
+          : prompt // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -715,7 +736,10 @@ abstract class _$$InputAudioTranscriptionConfigImplCopyWith<$Res>
       __$$InputAudioTranscriptionConfigImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@JsonKey(includeIfNull: false) String? model});
+  $Res call(
+      {@JsonKey(includeIfNull: false) String? language,
+      @JsonKey(includeIfNull: false) String? model,
+      @JsonKey(includeIfNull: false) String? prompt});
 }
 
 /// @nodoc
@@ -733,12 +757,22 @@ class __$$InputAudioTranscriptionConfigImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? language = freezed,
     Object? model = freezed,
+    Object? prompt = freezed,
   }) {
     return _then(_$InputAudioTranscriptionConfigImpl(
+      language: freezed == language
+          ? _value.language
+          : language // ignore: cast_nullable_to_non_nullable
+              as String?,
       model: freezed == model
           ? _value.model
           : model // ignore: cast_nullable_to_non_nullable
+              as String?,
+      prompt: freezed == prompt
+          ? _value.prompt
+          : prompt // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -749,22 +783,34 @@ class __$$InputAudioTranscriptionConfigImplCopyWithImpl<$Res>
 class _$InputAudioTranscriptionConfigImpl
     extends _InputAudioTranscriptionConfig {
   const _$InputAudioTranscriptionConfigImpl(
-      {@JsonKey(includeIfNull: false) this.model})
+      {@JsonKey(includeIfNull: false) this.language,
+      @JsonKey(includeIfNull: false) this.model,
+      @JsonKey(includeIfNull: false) this.prompt})
       : super._();
 
   factory _$InputAudioTranscriptionConfigImpl.fromJson(
           Map<String, dynamic> json) =>
       _$$InputAudioTranscriptionConfigImplFromJson(json);
 
-  /// The model to use for transcription, `whisper-1` is the only currently
-  /// supported model.
+  /// The language of the audio to transcribe.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? language;
+
+  /// The model to use for transcription. Current options are `gpt-4o-transcribe`,
+  /// `gpt-4o-mini-transcribe`, and `whisper-1`.
   @override
   @JsonKey(includeIfNull: false)
   final String? model;
 
+  /// An optional text to guide the model's style or continue a previous audio segment.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? prompt;
+
   @override
   String toString() {
-    return 'InputAudioTranscriptionConfig(model: $model)';
+    return 'InputAudioTranscriptionConfig(language: $language, model: $model, prompt: $prompt)';
   }
 
   @override
@@ -772,12 +818,15 @@ class _$InputAudioTranscriptionConfigImpl
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$InputAudioTranscriptionConfigImpl &&
-            (identical(other.model, model) || other.model == model));
+            (identical(other.language, language) ||
+                other.language == language) &&
+            (identical(other.model, model) || other.model == model) &&
+            (identical(other.prompt, prompt) || other.prompt == prompt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, model);
+  int get hashCode => Object.hash(runtimeType, language, model, prompt);
 
   /// Create a copy of InputAudioTranscriptionConfig
   /// with the given fields replaced by the non-null parameter values.
@@ -800,18 +849,30 @@ class _$InputAudioTranscriptionConfigImpl
 abstract class _InputAudioTranscriptionConfig
     extends InputAudioTranscriptionConfig {
   const factory _InputAudioTranscriptionConfig(
-          {@JsonKey(includeIfNull: false) final String? model}) =
+          {@JsonKey(includeIfNull: false) final String? language,
+          @JsonKey(includeIfNull: false) final String? model,
+          @JsonKey(includeIfNull: false) final String? prompt}) =
       _$InputAudioTranscriptionConfigImpl;
   const _InputAudioTranscriptionConfig._() : super._();
 
   factory _InputAudioTranscriptionConfig.fromJson(Map<String, dynamic> json) =
       _$InputAudioTranscriptionConfigImpl.fromJson;
 
-  /// The model to use for transcription, `whisper-1` is the only currently
-  /// supported model.
+  /// The language of the audio to transcribe.
+  @override
+  @JsonKey(includeIfNull: false)
+  String? get language;
+
+  /// The model to use for transcription. Current options are `gpt-4o-transcribe`,
+  /// `gpt-4o-mini-transcribe`, and `whisper-1`.
   @override
   @JsonKey(includeIfNull: false)
   String? get model;
+
+  /// An optional text to guide the model's style or continue a previous audio segment.
+  @override
+  @JsonKey(includeIfNull: false)
+  String? get prompt;
 
   /// Create a copy of InputAudioTranscriptionConfig
   /// with the given fields replaced by the non-null parameter values.
