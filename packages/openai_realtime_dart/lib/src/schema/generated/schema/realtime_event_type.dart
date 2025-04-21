@@ -38,6 +38,8 @@ enum RealtimeEventType {
   conversationItemInputAudioTranscriptionCompleted,
   @JsonValue('conversation.item.input_audio_transcription.failed')
   conversationItemInputAudioTranscriptionFailed,
+  @JsonValue('conversation.item.input_audio_transcription.delta')
+  conversationItemInputAudioTranscriptionDelta,
   @JsonValue('conversation.item.truncated')
   conversationItemTruncated,
   @JsonValue('error')

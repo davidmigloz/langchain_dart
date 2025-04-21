@@ -358,6 +358,31 @@ sealed class RealtimeEvent with _$RealtimeEvent {
   }) = RealtimeEventConversationItemInputAudioTranscriptionFailed;
 
   // ------------------------------------------
+  // UNION: RealtimeEventConversationItemInputAudioTranscriptionDelta
+  // ------------------------------------------
+
+  /// Returned when the text value of an input audio transcription content part is updated.
+
+  @FreezedUnionValue('conversation.item.input_audio_transcription.delta')
+  const factory RealtimeEvent.conversationItemInputAudioTranscriptionDelta({
+    /// The unique ID of the server event.
+    @JsonKey(name: 'event_id') required String eventId,
+
+    /// The event type, must be `conversation.item.input_audio_transcription.delta`.
+    @Default(RealtimeEventType.conversationItemInputAudioTranscriptionDelta)
+    RealtimeEventType type,
+
+    /// The ID of the item.
+    @JsonKey(name: 'item_id') required String itemId,
+
+    /// The index of the content part in the item's content array.
+    @JsonKey(name: 'content_index', includeIfNull: false) int? contentIndex,
+
+    /// The text delta.
+    @JsonKey(includeIfNull: false) String? delta,
+  }) = RealtimeEventConversationItemInputAudioTranscriptionDelta;
+
+  // ------------------------------------------
   // UNION: RealtimeEventConversationItemTruncated
   // ------------------------------------------
 
@@ -1097,6 +1122,8 @@ enum RealtimeEventEnumType {
   conversationItemInputAudioTranscriptionCompleted,
   @JsonValue('conversation.item.input_audio_transcription.failed')
   conversationItemInputAudioTranscriptionFailed,
+  @JsonValue('conversation.item.input_audio_transcription.delta')
+  conversationItemInputAudioTranscriptionDelta,
   @JsonValue('conversation.item.truncated')
   conversationItemTruncated,
   @JsonValue('error')
