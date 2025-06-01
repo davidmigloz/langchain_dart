@@ -32,11 +32,13 @@ class RealtimeClient extends RealtimeEventHandler {
   RealtimeClient({
     final String url = 'wss://api.openai.com/v1/realtime',
     final String? apiKey,
+    final Map<String, String>? headers,
     final bool debug = false,
     final bool dangerouslyAllowAPIKeyInBrowser = true,
   })  : realtime = RealtimeAPI(
           url: url,
           apiKey: apiKey,
+          headers: headers,
           debug: debug,
           dangerouslyAllowAPIKeyInBrowser: dangerouslyAllowAPIKeyInBrowser,
         ),

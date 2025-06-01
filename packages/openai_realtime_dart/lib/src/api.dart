@@ -23,6 +23,7 @@ class RealtimeAPI extends RealtimeEventHandler {
   RealtimeAPI({
     this.url = 'wss://api.openai.com/v1/realtime',
     this.apiKey,
+    this.headers,
     this.debug = false,
     this.dangerouslyAllowAPIKeyInBrowser = true,
   }) {
@@ -39,6 +40,9 @@ class RealtimeAPI extends RealtimeEventHandler {
 
   /// The API key to authenticate with the Realtime API.
   final String? apiKey;
+
+  /// The custom headers to include in the WebSocket connection.
+  final Map<String, String>? headers;
 
   /// Whether to log debug messages.
   final bool debug;
@@ -70,7 +74,7 @@ class RealtimeAPI extends RealtimeEventHandler {
     final uri = Uri.parse('$url?model=$_model');
 
     try {
-      _ws = connectWebSocket(uri, apiKey);
+      _ws = connectWebSocket(uri, apiKey, headers);
 
       // Wait for the connection to be established
       await _ws!.ready;
