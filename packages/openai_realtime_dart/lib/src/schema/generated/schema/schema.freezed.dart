@@ -32362,17 +32362,17 @@ class _$RealtimeEventConversationItemInputAudioTranscriptionDeltaImpl
   @JsonKey(name: 'event_id')
   final String eventId;
 
-  /// The event type, must be `conversation.item.input_audio_transcription.delta`.
+  /// The type of the event.
   @override
   @JsonKey()
   final RealtimeEventType type;
 
-  /// The ID of the item.
+  /// The ID of the user message item containing the audio.
   @override
   @JsonKey(name: 'item_id')
   final String itemId;
 
-  /// The index of the content part in the item's content array.
+  /// The index of the content part containing the audio.
   @override
   @JsonKey(name: 'content_index', includeIfNull: false)
   final int? contentIndex;
@@ -32448,7 +32448,10 @@ class _$RealtimeEventConversationItemInputAudioTranscriptionDeltaImpl
             @JsonKey(name: 'event_id') String eventId, RealtimeEventType type)
         inputAudioBufferCommit,
     required TResult Function(
-            @JsonKey(name: 'event_id') String eventId, RealtimeEventType type)
+            @JsonKey(name: 'event_id') String eventId,
+            RealtimeEventType type,
+            @JsonKey(name: 'response_id', includeIfNull: false)
+            String? responseId)
         responseCancel,
     required TResult Function(
             @JsonKey(name: 'event_id') String eventId,
@@ -32700,7 +32703,10 @@ class _$RealtimeEventConversationItemInputAudioTranscriptionDeltaImpl
             @JsonKey(name: 'event_id') String eventId, RealtimeEventType type)?
         inputAudioBufferCommit,
     TResult? Function(
-            @JsonKey(name: 'event_id') String eventId, RealtimeEventType type)?
+            @JsonKey(name: 'event_id') String eventId,
+            RealtimeEventType type,
+            @JsonKey(name: 'response_id', includeIfNull: false)
+            String? responseId)?
         responseCancel,
     TResult? Function(
             @JsonKey(name: 'event_id') String eventId,
@@ -32952,7 +32958,10 @@ class _$RealtimeEventConversationItemInputAudioTranscriptionDeltaImpl
             @JsonKey(name: 'event_id') String eventId, RealtimeEventType type)?
         inputAudioBufferCommit,
     TResult Function(
-            @JsonKey(name: 'event_id') String eventId, RealtimeEventType type)?
+            @JsonKey(name: 'event_id') String eventId,
+            RealtimeEventType type,
+            @JsonKey(name: 'response_id', includeIfNull: false)
+            String? responseId)?
         responseCancel,
     TResult Function(
             @JsonKey(name: 'event_id') String eventId,
@@ -33472,15 +33481,15 @@ abstract class RealtimeEventConversationItemInputAudioTranscriptionDelta
   @JsonKey(name: 'event_id')
   String get eventId;
 
-  /// The event type, must be `conversation.item.input_audio_transcription.delta`.
+  /// The type of the event.
   @override
   RealtimeEventType get type;
 
-  /// The ID of the item.
+  /// The ID of the user message item containing the audio.
   @JsonKey(name: 'item_id')
   String get itemId;
 
-  /// The index of the content part in the item's content array.
+  /// The index of the content part containing the audio.
   @JsonKey(name: 'content_index', includeIfNull: false)
   int? get contentIndex;
 
@@ -67680,7 +67689,7 @@ class _$RealtimeEventGenericImpl extends RealtimeEventGeneric {
   final RealtimeEventType type;
 
   /// A Realtime API event.
-  /// Any of: [RealtimeEventConversationItemCreate], [RealtimeEventConversationItemDelete], [RealtimeEventConversationItemTruncate], [RealtimeEventInputAudioBufferAppend], [RealtimeEventInputAudioBufferClear], [RealtimeEventInputAudioBufferCommit], [RealtimeEventResponseCancel], [RealtimeEventResponseCreate], [RealtimeEventSessionUpdate], [RealtimeEventConversationCreated], [RealtimeEventConversationItemCreated], [RealtimeEventConversationItemDeleted], [RealtimeEventConversationItemInputAudioTranscriptionCompleted], [RealtimeEventConversationItemInputAudioTranscriptionFailed], [RealtimeEventConversationItemTruncated], [RealtimeEventError], [RealtimeEventInputAudioBufferCleared], [RealtimeEventInputAudioBufferCommitted], [RealtimeEventInputAudioBufferSpeechStarted], [RealtimeEventInputAudioBufferSpeechStopped], [RealtimeEventRateLimitsUpdated], [RealtimeEventResponseAudioDelta], [RealtimeEventResponseAudioDone], [RealtimeEventResponseAudioTranscriptDelta], [RealtimeEventResponseAudioTranscriptDone], [RealtimeEventResponseContentPartAdded], [RealtimeEventResponseContentPartDone], [RealtimeEventResponseCreated], [RealtimeEventResponseDone], [RealtimeEventResponseFunctionCallArgumentsDelta], [RealtimeEventResponseFunctionCallArgumentsDone], [RealtimeEventResponseOutputItemAdded], [RealtimeEventResponseOutputItemDone], [RealtimeEventResponseTextDelta], [RealtimeEventResponseTextDone], [RealtimeEventSessionCreated], [RealtimeEventSessionUpdated], [RealtimeEventClose], [RealtimeEventConversationInterrupted], [RealtimeEventConversationUpdated], [RealtimeEventConversationItemAppended], [RealtimeEventConversationItemCompleted], [RealtimeEventGeneric]
+  /// Any of: [RealtimeEventConversationItemCreate], [RealtimeEventConversationItemDelete], [RealtimeEventConversationItemTruncate], [RealtimeEventInputAudioBufferAppend], [RealtimeEventInputAudioBufferClear], [RealtimeEventInputAudioBufferCommit], [RealtimeEventResponseCancel], [RealtimeEventResponseCreate], [RealtimeEventSessionUpdate], [RealtimeEventConversationCreated], [RealtimeEventConversationItemCreated], [RealtimeEventConversationItemDeleted], [RealtimeEventConversationItemInputAudioTranscriptionCompleted], [RealtimeEventConversationItemInputAudioTranscriptionFailed], [RealtimeEventConversationItemInputAudioTranscriptionDelta], [RealtimeEventConversationItemTruncated], [RealtimeEventError], [RealtimeEventInputAudioBufferCleared], [RealtimeEventInputAudioBufferCommitted], [RealtimeEventInputAudioBufferSpeechStarted], [RealtimeEventInputAudioBufferSpeechStopped], [RealtimeEventRateLimitsUpdated], [RealtimeEventResponseAudioDelta], [RealtimeEventResponseAudioDone], [RealtimeEventResponseAudioTranscriptDelta], [RealtimeEventResponseAudioTranscriptDone], [RealtimeEventResponseContentPartAdded], [RealtimeEventResponseContentPartDone], [RealtimeEventResponseCreated], [RealtimeEventResponseDone], [RealtimeEventResponseFunctionCallArgumentsDelta], [RealtimeEventResponseFunctionCallArgumentsDone], [RealtimeEventResponseOutputItemAdded], [RealtimeEventResponseOutputItemDone], [RealtimeEventResponseTextDelta], [RealtimeEventResponseTextDone], [RealtimeEventSessionCreated], [RealtimeEventSessionUpdated], [RealtimeEventClose], [RealtimeEventConversationInterrupted], [RealtimeEventConversationUpdated], [RealtimeEventConversationItemAppended], [RealtimeEventConversationItemCompleted], [RealtimeEventGeneric]
   @override
   final RealtimeEvent event;
 
@@ -68771,7 +68780,7 @@ abstract class RealtimeEventGeneric extends RealtimeEvent {
   RealtimeEventType get type;
 
   /// A Realtime API event.
-  /// Any of: [RealtimeEventConversationItemCreate], [RealtimeEventConversationItemDelete], [RealtimeEventConversationItemTruncate], [RealtimeEventInputAudioBufferAppend], [RealtimeEventInputAudioBufferClear], [RealtimeEventInputAudioBufferCommit], [RealtimeEventResponseCancel], [RealtimeEventResponseCreate], [RealtimeEventSessionUpdate], [RealtimeEventConversationCreated], [RealtimeEventConversationItemCreated], [RealtimeEventConversationItemDeleted], [RealtimeEventConversationItemInputAudioTranscriptionCompleted], [RealtimeEventConversationItemInputAudioTranscriptionFailed], [RealtimeEventConversationItemTruncated], [RealtimeEventError], [RealtimeEventInputAudioBufferCleared], [RealtimeEventInputAudioBufferCommitted], [RealtimeEventInputAudioBufferSpeechStarted], [RealtimeEventInputAudioBufferSpeechStopped], [RealtimeEventRateLimitsUpdated], [RealtimeEventResponseAudioDelta], [RealtimeEventResponseAudioDone], [RealtimeEventResponseAudioTranscriptDelta], [RealtimeEventResponseAudioTranscriptDone], [RealtimeEventResponseContentPartAdded], [RealtimeEventResponseContentPartDone], [RealtimeEventResponseCreated], [RealtimeEventResponseDone], [RealtimeEventResponseFunctionCallArgumentsDelta], [RealtimeEventResponseFunctionCallArgumentsDone], [RealtimeEventResponseOutputItemAdded], [RealtimeEventResponseOutputItemDone], [RealtimeEventResponseTextDelta], [RealtimeEventResponseTextDone], [RealtimeEventSessionCreated], [RealtimeEventSessionUpdated], [RealtimeEventClose], [RealtimeEventConversationInterrupted], [RealtimeEventConversationUpdated], [RealtimeEventConversationItemAppended], [RealtimeEventConversationItemCompleted], [RealtimeEventGeneric]
+  /// Any of: [RealtimeEventConversationItemCreate], [RealtimeEventConversationItemDelete], [RealtimeEventConversationItemTruncate], [RealtimeEventInputAudioBufferAppend], [RealtimeEventInputAudioBufferClear], [RealtimeEventInputAudioBufferCommit], [RealtimeEventResponseCancel], [RealtimeEventResponseCreate], [RealtimeEventSessionUpdate], [RealtimeEventConversationCreated], [RealtimeEventConversationItemCreated], [RealtimeEventConversationItemDeleted], [RealtimeEventConversationItemInputAudioTranscriptionCompleted], [RealtimeEventConversationItemInputAudioTranscriptionFailed], [RealtimeEventConversationItemInputAudioTranscriptionDelta], [RealtimeEventConversationItemTruncated], [RealtimeEventError], [RealtimeEventInputAudioBufferCleared], [RealtimeEventInputAudioBufferCommitted], [RealtimeEventInputAudioBufferSpeechStarted], [RealtimeEventInputAudioBufferSpeechStopped], [RealtimeEventRateLimitsUpdated], [RealtimeEventResponseAudioDelta], [RealtimeEventResponseAudioDone], [RealtimeEventResponseAudioTranscriptDelta], [RealtimeEventResponseAudioTranscriptDone], [RealtimeEventResponseContentPartAdded], [RealtimeEventResponseContentPartDone], [RealtimeEventResponseCreated], [RealtimeEventResponseDone], [RealtimeEventResponseFunctionCallArgumentsDelta], [RealtimeEventResponseFunctionCallArgumentsDone], [RealtimeEventResponseOutputItemAdded], [RealtimeEventResponseOutputItemDone], [RealtimeEventResponseTextDelta], [RealtimeEventResponseTextDone], [RealtimeEventSessionCreated], [RealtimeEventSessionUpdated], [RealtimeEventClose], [RealtimeEventConversationInterrupted], [RealtimeEventConversationUpdated], [RealtimeEventConversationItemAppended], [RealtimeEventConversationItemCompleted], [RealtimeEventGeneric]
   RealtimeEvent get event;
 
   /// Create a copy of RealtimeEvent
