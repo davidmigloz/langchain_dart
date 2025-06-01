@@ -80,25 +80,29 @@ class RealtimeAPI extends RealtimeEventHandler {
       _ws!.stream.listen(
         (data) {
           final message = json.decode(data) as Map<String, dynamic>;
-          receive(message);
+          unawaited(receive(message));
         },
         onError: (dynamic error) {
           _log.severe('Error', error);
-          dispatch(
-            RealtimeEventType.close,
-            RealtimeEvent.close(
-              eventId: RealtimeUtils.generateId(),
-              error: true,
+          unawaited(
+            dispatch(
+              RealtimeEventType.close,
+              RealtimeEvent.close(
+                eventId: RealtimeUtils.generateId(),
+                error: true,
+              ),
             ),
           );
         },
         onDone: () {
           _log.info('Disconnected from "$url"');
-          dispatch(
-            RealtimeEventType.close,
-            RealtimeEvent.close(
-              eventId: RealtimeUtils.generateId(),
-              error: false,
+          unawaited(
+            dispatch(
+              RealtimeEventType.close,
+              RealtimeEvent.close(
+                eventId: RealtimeUtils.generateId(),
+                error: false,
+              ),
             ),
           );
         },

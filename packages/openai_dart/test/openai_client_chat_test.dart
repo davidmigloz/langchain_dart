@@ -387,7 +387,7 @@ void main() {
           expect(delta?.toolCalls, hasLength(1), reason: 'count: $count');
           final toolCall = delta?.toolCalls!.first;
           expect(toolCall?.function, isNotNull);
-          final function = toolCall?.function!;
+          final function = toolCall?.function;
           if (count == 0) {
             expect(toolCall?.id, isNotEmpty);
             expect(
