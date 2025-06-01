@@ -33,15 +33,25 @@ class ModelInfo with _$ModelInfo {
     /// Details about a model.
     @JsonKey(includeIfNull: false) ModelDetails? details,
 
+    /// The default messages for the model.
+    @JsonKey(includeIfNull: false) List<Message>? messages,
+
     /// Details about a model.
     @JsonKey(name: 'model_info', includeIfNull: false)
     ModelInformation? modelInfo,
 
-    /// The default messages for the model.
-    @JsonKey(includeIfNull: false) List<Message>? messages,
+    /// Projector info.
+    @JsonKey(name: 'projector_info', includeIfNull: false)
+    Map<String, dynamic>? projectorInfo,
+
+    /// The tensors of the model.
+    @JsonKey(includeIfNull: false) List<Tensor>? tensors,
 
     /// The capabilities of the model.
-    @JsonKey(includeIfNull: false) List<String>? capabilities,
+    @JsonKey(includeIfNull: false) List<Capability>? capabilities,
+
+    /// Date on which a model was created.
+    @JsonKey(name: 'modified_at', includeIfNull: false) String? modifiedAt,
   }) = _ModelInfo;
 
   /// Object construction from a JSON representation
@@ -56,9 +66,12 @@ class ModelInfo with _$ModelInfo {
     'template',
     'system',
     'details',
-    'model_info',
     'messages',
-    'capabilities'
+    'model_info',
+    'projector_info',
+    'tensors',
+    'capabilities',
+    'modified_at'
   ];
 
   /// Perform validations on the schema property values
@@ -75,9 +88,12 @@ class ModelInfo with _$ModelInfo {
       'template': template,
       'system': system,
       'details': details,
-      'model_info': modelInfo,
       'messages': messages,
+      'model_info': modelInfo,
+      'projector_info': projectorInfo,
+      'tensors': tensors,
       'capabilities': capabilities,
+      'modified_at': modifiedAt,
     };
   }
 }

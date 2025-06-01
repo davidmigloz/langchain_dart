@@ -486,6 +486,21 @@ Map<String, dynamic> _$$ModelInformationImplToJson(
         'general.quantization_version': value,
     };
 
+_$TensorImpl _$$TensorImplFromJson(Map<String, dynamic> json) => _$TensorImpl(
+      name: json['name'] as String?,
+      type: json['type'] as String?,
+      shape: (json['shape'] as List<dynamic>?)
+          ?.map((e) => (e as num).toInt())
+          .toList(),
+    );
+
+Map<String, dynamic> _$$TensorImplToJson(_$TensorImpl instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'name': value,
+      if (instance.type case final value?) 'type': value,
+      if (instance.shape case final value?) 'shape': value,
+    };
+
 _$ProcessResponseImpl _$$ProcessResponseImplFromJson(
         Map<String, dynamic> json) =>
     _$ProcessResponseImpl(
@@ -545,16 +560,21 @@ _$ModelInfoImpl _$$ModelInfoImplFromJson(Map<String, dynamic> json) =>
       details: json['details'] == null
           ? null
           : ModelDetails.fromJson(json['details'] as Map<String, dynamic>),
+      messages: (json['messages'] as List<dynamic>?)
+          ?.map((e) => Message.fromJson(e as Map<String, dynamic>))
+          .toList(),
       modelInfo: json['model_info'] == null
           ? null
           : ModelInformation.fromJson(
               json['model_info'] as Map<String, dynamic>),
-      messages: (json['messages'] as List<dynamic>?)
-          ?.map((e) => Message.fromJson(e as Map<String, dynamic>))
+      projectorInfo: json['projector_info'] as Map<String, dynamic>?,
+      tensors: (json['tensors'] as List<dynamic>?)
+          ?.map((e) => Tensor.fromJson(e as Map<String, dynamic>))
           .toList(),
       capabilities: (json['capabilities'] as List<dynamic>?)
-          ?.map((e) => e as String)
+          ?.map((e) => $enumDecode(_$CapabilityEnumMap, e))
           .toList(),
+      modifiedAt: json['modified_at'] as String?,
     );
 
 Map<String, dynamic> _$$ModelInfoImplToJson(_$ModelInfoImpl instance) =>
@@ -565,11 +585,26 @@ Map<String, dynamic> _$$ModelInfoImplToJson(_$ModelInfoImpl instance) =>
       if (instance.template case final value?) 'template': value,
       if (instance.system case final value?) 'system': value,
       if (instance.details?.toJson() case final value?) 'details': value,
-      if (instance.modelInfo?.toJson() case final value?) 'model_info': value,
       if (instance.messages?.map((e) => e.toJson()).toList() case final value?)
         'messages': value,
-      if (instance.capabilities case final value?) 'capabilities': value,
+      if (instance.modelInfo?.toJson() case final value?) 'model_info': value,
+      if (instance.projectorInfo case final value?) 'projector_info': value,
+      if (instance.tensors?.map((e) => e.toJson()).toList() case final value?)
+        'tensors': value,
+      if (instance.capabilities?.map((e) => _$CapabilityEnumMap[e]!).toList()
+          case final value?)
+        'capabilities': value,
+      if (instance.modifiedAt case final value?) 'modified_at': value,
     };
+
+const _$CapabilityEnumMap = {
+  Capability.completion: 'completion',
+  Capability.tools: 'tools',
+  Capability.insert: 'insert',
+  Capability.vision: 'vision',
+  Capability.embedding: 'embedding',
+  Capability.thinking: 'thinking',
+};
 
 _$CopyModelRequestImpl _$$CopyModelRequestImplFromJson(
         Map<String, dynamic> json) =>

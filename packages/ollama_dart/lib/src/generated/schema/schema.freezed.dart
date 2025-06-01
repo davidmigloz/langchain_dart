@@ -6437,6 +6437,232 @@ abstract class _ModelInformation extends ModelInformation {
       throw _privateConstructorUsedError;
 }
 
+Tensor _$TensorFromJson(Map<String, dynamic> json) {
+  return _Tensor.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Tensor {
+  /// The name of the tensor.
+  @JsonKey(includeIfNull: false)
+  String? get name => throw _privateConstructorUsedError;
+
+  /// The type of the tensor.
+  @JsonKey(includeIfNull: false)
+  String? get type => throw _privateConstructorUsedError;
+
+  /// The shape of the tensor.
+  @JsonKey(includeIfNull: false)
+  List<int>? get shape => throw _privateConstructorUsedError;
+
+  /// Serializes this Tensor to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of Tensor
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $TensorCopyWith<Tensor> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $TensorCopyWith<$Res> {
+  factory $TensorCopyWith(Tensor value, $Res Function(Tensor) then) =
+      _$TensorCopyWithImpl<$Res, Tensor>;
+  @useResult
+  $Res call(
+      {@JsonKey(includeIfNull: false) String? name,
+      @JsonKey(includeIfNull: false) String? type,
+      @JsonKey(includeIfNull: false) List<int>? shape});
+}
+
+/// @nodoc
+class _$TensorCopyWithImpl<$Res, $Val extends Tensor>
+    implements $TensorCopyWith<$Res> {
+  _$TensorCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of Tensor
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = freezed,
+    Object? type = freezed,
+    Object? shape = freezed,
+  }) {
+    return _then(_value.copyWith(
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String?,
+      shape: freezed == shape
+          ? _value.shape
+          : shape // ignore: cast_nullable_to_non_nullable
+              as List<int>?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$TensorImplCopyWith<$Res> implements $TensorCopyWith<$Res> {
+  factory _$$TensorImplCopyWith(
+          _$TensorImpl value, $Res Function(_$TensorImpl) then) =
+      __$$TensorImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(includeIfNull: false) String? name,
+      @JsonKey(includeIfNull: false) String? type,
+      @JsonKey(includeIfNull: false) List<int>? shape});
+}
+
+/// @nodoc
+class __$$TensorImplCopyWithImpl<$Res>
+    extends _$TensorCopyWithImpl<$Res, _$TensorImpl>
+    implements _$$TensorImplCopyWith<$Res> {
+  __$$TensorImplCopyWithImpl(
+      _$TensorImpl _value, $Res Function(_$TensorImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of Tensor
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = freezed,
+    Object? type = freezed,
+    Object? shape = freezed,
+  }) {
+    return _then(_$TensorImpl(
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String?,
+      shape: freezed == shape
+          ? _value._shape
+          : shape // ignore: cast_nullable_to_non_nullable
+              as List<int>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$TensorImpl extends _Tensor {
+  const _$TensorImpl(
+      {@JsonKey(includeIfNull: false) this.name,
+      @JsonKey(includeIfNull: false) this.type,
+      @JsonKey(includeIfNull: false) final List<int>? shape})
+      : _shape = shape,
+        super._();
+
+  factory _$TensorImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TensorImplFromJson(json);
+
+  /// The name of the tensor.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? name;
+
+  /// The type of the tensor.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? type;
+
+  /// The shape of the tensor.
+  final List<int>? _shape;
+
+  /// The shape of the tensor.
+  @override
+  @JsonKey(includeIfNull: false)
+  List<int>? get shape {
+    final value = _shape;
+    if (value == null) return null;
+    if (_shape is EqualUnmodifiableListView) return _shape;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  String toString() {
+    return 'Tensor(name: $name, type: $type, shape: $shape)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TensorImpl &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.type, type) || other.type == type) &&
+            const DeepCollectionEquality().equals(other._shape, _shape));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, name, type, const DeepCollectionEquality().hash(_shape));
+
+  /// Create a copy of Tensor
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$TensorImplCopyWith<_$TensorImpl> get copyWith =>
+      __$$TensorImplCopyWithImpl<_$TensorImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$TensorImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Tensor extends Tensor {
+  const factory _Tensor(
+      {@JsonKey(includeIfNull: false) final String? name,
+      @JsonKey(includeIfNull: false) final String? type,
+      @JsonKey(includeIfNull: false) final List<int>? shape}) = _$TensorImpl;
+  const _Tensor._() : super._();
+
+  factory _Tensor.fromJson(Map<String, dynamic> json) = _$TensorImpl.fromJson;
+
+  /// The name of the tensor.
+  @override
+  @JsonKey(includeIfNull: false)
+  String? get name;
+
+  /// The type of the tensor.
+  @override
+  @JsonKey(includeIfNull: false)
+  String? get type;
+
+  /// The shape of the tensor.
+  @override
+  @JsonKey(includeIfNull: false)
+  List<int>? get shape;
+
+  /// Create a copy of Tensor
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$TensorImplCopyWith<_$TensorImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 ProcessResponse _$ProcessResponseFromJson(Map<String, dynamic> json) {
   return _ProcessResponse.fromJson(json);
 }
@@ -7136,17 +7362,29 @@ mixin _$ModelInfo {
   @JsonKey(includeIfNull: false)
   ModelDetails? get details => throw _privateConstructorUsedError;
 
-  /// Details about a model.
-  @JsonKey(name: 'model_info', includeIfNull: false)
-  ModelInformation? get modelInfo => throw _privateConstructorUsedError;
-
   /// The default messages for the model.
   @JsonKey(includeIfNull: false)
   List<Message>? get messages => throw _privateConstructorUsedError;
 
+  /// Details about a model.
+  @JsonKey(name: 'model_info', includeIfNull: false)
+  ModelInformation? get modelInfo => throw _privateConstructorUsedError;
+
+  /// Projector info.
+  @JsonKey(name: 'projector_info', includeIfNull: false)
+  Map<String, dynamic>? get projectorInfo => throw _privateConstructorUsedError;
+
+  /// The tensors of the model.
+  @JsonKey(includeIfNull: false)
+  List<Tensor>? get tensors => throw _privateConstructorUsedError;
+
   /// The capabilities of the model.
   @JsonKey(includeIfNull: false)
-  List<String>? get capabilities => throw _privateConstructorUsedError;
+  List<Capability>? get capabilities => throw _privateConstructorUsedError;
+
+  /// Date on which a model was created.
+  @JsonKey(name: 'modified_at', includeIfNull: false)
+  String? get modifiedAt => throw _privateConstructorUsedError;
 
   /// Serializes this ModelInfo to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -7170,10 +7408,14 @@ abstract class $ModelInfoCopyWith<$Res> {
       @JsonKey(includeIfNull: false) String? template,
       @JsonKey(includeIfNull: false) String? system,
       @JsonKey(includeIfNull: false) ModelDetails? details,
+      @JsonKey(includeIfNull: false) List<Message>? messages,
       @JsonKey(name: 'model_info', includeIfNull: false)
       ModelInformation? modelInfo,
-      @JsonKey(includeIfNull: false) List<Message>? messages,
-      @JsonKey(includeIfNull: false) List<String>? capabilities});
+      @JsonKey(name: 'projector_info', includeIfNull: false)
+      Map<String, dynamic>? projectorInfo,
+      @JsonKey(includeIfNull: false) List<Tensor>? tensors,
+      @JsonKey(includeIfNull: false) List<Capability>? capabilities,
+      @JsonKey(name: 'modified_at', includeIfNull: false) String? modifiedAt});
 
   $ModelDetailsCopyWith<$Res>? get details;
   $ModelInformationCopyWith<$Res>? get modelInfo;
@@ -7200,9 +7442,12 @@ class _$ModelInfoCopyWithImpl<$Res, $Val extends ModelInfo>
     Object? template = freezed,
     Object? system = freezed,
     Object? details = freezed,
-    Object? modelInfo = freezed,
     Object? messages = freezed,
+    Object? modelInfo = freezed,
+    Object? projectorInfo = freezed,
+    Object? tensors = freezed,
     Object? capabilities = freezed,
+    Object? modifiedAt = freezed,
   }) {
     return _then(_value.copyWith(
       license: freezed == license
@@ -7229,18 +7474,30 @@ class _$ModelInfoCopyWithImpl<$Res, $Val extends ModelInfo>
           ? _value.details
           : details // ignore: cast_nullable_to_non_nullable
               as ModelDetails?,
-      modelInfo: freezed == modelInfo
-          ? _value.modelInfo
-          : modelInfo // ignore: cast_nullable_to_non_nullable
-              as ModelInformation?,
       messages: freezed == messages
           ? _value.messages
           : messages // ignore: cast_nullable_to_non_nullable
               as List<Message>?,
+      modelInfo: freezed == modelInfo
+          ? _value.modelInfo
+          : modelInfo // ignore: cast_nullable_to_non_nullable
+              as ModelInformation?,
+      projectorInfo: freezed == projectorInfo
+          ? _value.projectorInfo
+          : projectorInfo // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
+      tensors: freezed == tensors
+          ? _value.tensors
+          : tensors // ignore: cast_nullable_to_non_nullable
+              as List<Tensor>?,
       capabilities: freezed == capabilities
           ? _value.capabilities
           : capabilities // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
+              as List<Capability>?,
+      modifiedAt: freezed == modifiedAt
+          ? _value.modifiedAt
+          : modifiedAt // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -7288,10 +7545,14 @@ abstract class _$$ModelInfoImplCopyWith<$Res>
       @JsonKey(includeIfNull: false) String? template,
       @JsonKey(includeIfNull: false) String? system,
       @JsonKey(includeIfNull: false) ModelDetails? details,
+      @JsonKey(includeIfNull: false) List<Message>? messages,
       @JsonKey(name: 'model_info', includeIfNull: false)
       ModelInformation? modelInfo,
-      @JsonKey(includeIfNull: false) List<Message>? messages,
-      @JsonKey(includeIfNull: false) List<String>? capabilities});
+      @JsonKey(name: 'projector_info', includeIfNull: false)
+      Map<String, dynamic>? projectorInfo,
+      @JsonKey(includeIfNull: false) List<Tensor>? tensors,
+      @JsonKey(includeIfNull: false) List<Capability>? capabilities,
+      @JsonKey(name: 'modified_at', includeIfNull: false) String? modifiedAt});
 
   @override
   $ModelDetailsCopyWith<$Res>? get details;
@@ -7318,9 +7579,12 @@ class __$$ModelInfoImplCopyWithImpl<$Res>
     Object? template = freezed,
     Object? system = freezed,
     Object? details = freezed,
-    Object? modelInfo = freezed,
     Object? messages = freezed,
+    Object? modelInfo = freezed,
+    Object? projectorInfo = freezed,
+    Object? tensors = freezed,
     Object? capabilities = freezed,
+    Object? modifiedAt = freezed,
   }) {
     return _then(_$ModelInfoImpl(
       license: freezed == license
@@ -7347,18 +7611,30 @@ class __$$ModelInfoImplCopyWithImpl<$Res>
           ? _value.details
           : details // ignore: cast_nullable_to_non_nullable
               as ModelDetails?,
-      modelInfo: freezed == modelInfo
-          ? _value.modelInfo
-          : modelInfo // ignore: cast_nullable_to_non_nullable
-              as ModelInformation?,
       messages: freezed == messages
           ? _value._messages
           : messages // ignore: cast_nullable_to_non_nullable
               as List<Message>?,
+      modelInfo: freezed == modelInfo
+          ? _value.modelInfo
+          : modelInfo // ignore: cast_nullable_to_non_nullable
+              as ModelInformation?,
+      projectorInfo: freezed == projectorInfo
+          ? _value._projectorInfo
+          : projectorInfo // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
+      tensors: freezed == tensors
+          ? _value._tensors
+          : tensors // ignore: cast_nullable_to_non_nullable
+              as List<Tensor>?,
       capabilities: freezed == capabilities
           ? _value._capabilities
           : capabilities // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
+              as List<Capability>?,
+      modifiedAt: freezed == modifiedAt
+          ? _value.modifiedAt
+          : modifiedAt // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -7373,10 +7649,16 @@ class _$ModelInfoImpl extends _ModelInfo {
       @JsonKey(includeIfNull: false) this.template,
       @JsonKey(includeIfNull: false) this.system,
       @JsonKey(includeIfNull: false) this.details,
-      @JsonKey(name: 'model_info', includeIfNull: false) this.modelInfo,
       @JsonKey(includeIfNull: false) final List<Message>? messages,
-      @JsonKey(includeIfNull: false) final List<String>? capabilities})
+      @JsonKey(name: 'model_info', includeIfNull: false) this.modelInfo,
+      @JsonKey(name: 'projector_info', includeIfNull: false)
+      final Map<String, dynamic>? projectorInfo,
+      @JsonKey(includeIfNull: false) final List<Tensor>? tensors,
+      @JsonKey(includeIfNull: false) final List<Capability>? capabilities,
+      @JsonKey(name: 'modified_at', includeIfNull: false) this.modifiedAt})
       : _messages = messages,
+        _projectorInfo = projectorInfo,
+        _tensors = tensors,
         _capabilities = capabilities,
         super._();
 
@@ -7413,11 +7695,6 @@ class _$ModelInfoImpl extends _ModelInfo {
   @JsonKey(includeIfNull: false)
   final ModelDetails? details;
 
-  /// Details about a model.
-  @override
-  @JsonKey(name: 'model_info', includeIfNull: false)
-  final ModelInformation? modelInfo;
-
   /// The default messages for the model.
   final List<Message>? _messages;
 
@@ -7432,13 +7709,46 @@ class _$ModelInfoImpl extends _ModelInfo {
     return EqualUnmodifiableListView(value);
   }
 
+  /// Details about a model.
+  @override
+  @JsonKey(name: 'model_info', includeIfNull: false)
+  final ModelInformation? modelInfo;
+
+  /// Projector info.
+  final Map<String, dynamic>? _projectorInfo;
+
+  /// Projector info.
+  @override
+  @JsonKey(name: 'projector_info', includeIfNull: false)
+  Map<String, dynamic>? get projectorInfo {
+    final value = _projectorInfo;
+    if (value == null) return null;
+    if (_projectorInfo is EqualUnmodifiableMapView) return _projectorInfo;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
+  }
+
+  /// The tensors of the model.
+  final List<Tensor>? _tensors;
+
+  /// The tensors of the model.
+  @override
+  @JsonKey(includeIfNull: false)
+  List<Tensor>? get tensors {
+    final value = _tensors;
+    if (value == null) return null;
+    if (_tensors is EqualUnmodifiableListView) return _tensors;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   /// The capabilities of the model.
-  final List<String>? _capabilities;
+  final List<Capability>? _capabilities;
 
   /// The capabilities of the model.
   @override
   @JsonKey(includeIfNull: false)
-  List<String>? get capabilities {
+  List<Capability>? get capabilities {
     final value = _capabilities;
     if (value == null) return null;
     if (_capabilities is EqualUnmodifiableListView) return _capabilities;
@@ -7446,9 +7756,14 @@ class _$ModelInfoImpl extends _ModelInfo {
     return EqualUnmodifiableListView(value);
   }
 
+  /// Date on which a model was created.
+  @override
+  @JsonKey(name: 'modified_at', includeIfNull: false)
+  final String? modifiedAt;
+
   @override
   String toString() {
-    return 'ModelInfo(license: $license, modelfile: $modelfile, parameters: $parameters, template: $template, system: $system, details: $details, modelInfo: $modelInfo, messages: $messages, capabilities: $capabilities)';
+    return 'ModelInfo(license: $license, modelfile: $modelfile, parameters: $parameters, template: $template, system: $system, details: $details, messages: $messages, modelInfo: $modelInfo, projectorInfo: $projectorInfo, tensors: $tensors, capabilities: $capabilities, modifiedAt: $modifiedAt)';
   }
 
   @override
@@ -7465,11 +7780,16 @@ class _$ModelInfoImpl extends _ModelInfo {
                 other.template == template) &&
             (identical(other.system, system) || other.system == system) &&
             (identical(other.details, details) || other.details == details) &&
+            const DeepCollectionEquality().equals(other._messages, _messages) &&
             (identical(other.modelInfo, modelInfo) ||
                 other.modelInfo == modelInfo) &&
-            const DeepCollectionEquality().equals(other._messages, _messages) &&
             const DeepCollectionEquality()
-                .equals(other._capabilities, _capabilities));
+                .equals(other._projectorInfo, _projectorInfo) &&
+            const DeepCollectionEquality().equals(other._tensors, _tensors) &&
+            const DeepCollectionEquality()
+                .equals(other._capabilities, _capabilities) &&
+            (identical(other.modifiedAt, modifiedAt) ||
+                other.modifiedAt == modifiedAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -7482,9 +7802,12 @@ class _$ModelInfoImpl extends _ModelInfo {
       template,
       system,
       details,
-      modelInfo,
       const DeepCollectionEquality().hash(_messages),
-      const DeepCollectionEquality().hash(_capabilities));
+      modelInfo,
+      const DeepCollectionEquality().hash(_projectorInfo),
+      const DeepCollectionEquality().hash(_tensors),
+      const DeepCollectionEquality().hash(_capabilities),
+      modifiedAt);
 
   /// Create a copy of ModelInfo
   /// with the given fields replaced by the non-null parameter values.
@@ -7504,17 +7827,21 @@ class _$ModelInfoImpl extends _ModelInfo {
 
 abstract class _ModelInfo extends ModelInfo {
   const factory _ModelInfo(
-          {@JsonKey(includeIfNull: false) final String? license,
-          @JsonKey(includeIfNull: false) final String? modelfile,
-          @JsonKey(includeIfNull: false) final String? parameters,
-          @JsonKey(includeIfNull: false) final String? template,
-          @JsonKey(includeIfNull: false) final String? system,
-          @JsonKey(includeIfNull: false) final ModelDetails? details,
-          @JsonKey(name: 'model_info', includeIfNull: false)
-          final ModelInformation? modelInfo,
-          @JsonKey(includeIfNull: false) final List<Message>? messages,
-          @JsonKey(includeIfNull: false) final List<String>? capabilities}) =
-      _$ModelInfoImpl;
+      {@JsonKey(includeIfNull: false) final String? license,
+      @JsonKey(includeIfNull: false) final String? modelfile,
+      @JsonKey(includeIfNull: false) final String? parameters,
+      @JsonKey(includeIfNull: false) final String? template,
+      @JsonKey(includeIfNull: false) final String? system,
+      @JsonKey(includeIfNull: false) final ModelDetails? details,
+      @JsonKey(includeIfNull: false) final List<Message>? messages,
+      @JsonKey(name: 'model_info', includeIfNull: false)
+      final ModelInformation? modelInfo,
+      @JsonKey(name: 'projector_info', includeIfNull: false)
+      final Map<String, dynamic>? projectorInfo,
+      @JsonKey(includeIfNull: false) final List<Tensor>? tensors,
+      @JsonKey(includeIfNull: false) final List<Capability>? capabilities,
+      @JsonKey(name: 'modified_at', includeIfNull: false)
+      final String? modifiedAt}) = _$ModelInfoImpl;
   const _ModelInfo._() : super._();
 
   factory _ModelInfo.fromJson(Map<String, dynamic> json) =
@@ -7550,20 +7877,35 @@ abstract class _ModelInfo extends ModelInfo {
   @JsonKey(includeIfNull: false)
   ModelDetails? get details;
 
-  /// Details about a model.
-  @override
-  @JsonKey(name: 'model_info', includeIfNull: false)
-  ModelInformation? get modelInfo;
-
   /// The default messages for the model.
   @override
   @JsonKey(includeIfNull: false)
   List<Message>? get messages;
 
+  /// Details about a model.
+  @override
+  @JsonKey(name: 'model_info', includeIfNull: false)
+  ModelInformation? get modelInfo;
+
+  /// Projector info.
+  @override
+  @JsonKey(name: 'projector_info', includeIfNull: false)
+  Map<String, dynamic>? get projectorInfo;
+
+  /// The tensors of the model.
+  @override
+  @JsonKey(includeIfNull: false)
+  List<Tensor>? get tensors;
+
   /// The capabilities of the model.
   @override
   @JsonKey(includeIfNull: false)
-  List<String>? get capabilities;
+  List<Capability>? get capabilities;
+
+  /// Date on which a model was created.
+  @override
+  @JsonKey(name: 'modified_at', includeIfNull: false)
+  String? get modifiedAt;
 
   /// Create a copy of ModelInfo
   /// with the given fields replaced by the non-null parameter values.
