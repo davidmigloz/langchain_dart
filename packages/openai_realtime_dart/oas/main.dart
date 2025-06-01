@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:openapi_spec/openapi_spec.dart';
 
 /// Generates OpenAI Realtime Dart types from the OpenAPI spec.
-/// Official spec: https://github.com/openai/openai-openapi/blob/master/openapi.yaml
+/// Official spec: https://github.com/openai/openai-python/blob/cacd374b850407b211d1f1e7740da0cf4e4d68d1/.stats.yml
 void main() async {
   final spec = OpenApi.fromFile(source: 'oas/openai_spec_curated.yaml');
   await spec.generate(
