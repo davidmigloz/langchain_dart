@@ -12,7 +12,7 @@ void main() {
     late Ollama llm;
     const defaultModel = 'llama3.2';
 
-    setUp(()  {
+    setUp(() {
       llm = Ollama(
         defaultOptions: const OllamaOptions(
           model: defaultModel,
@@ -25,7 +25,7 @@ void main() {
       llm.close();
     });
 
-    test('Test Ollama parameters', ()  {
+    test('Test Ollama parameters', () {
       const options = OllamaOptions(
         model: 'foo',
         system: 'system prompt',

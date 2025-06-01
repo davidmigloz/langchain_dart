@@ -10,7 +10,7 @@ void main() {
   group('Tavily API tests', () {
     late TavilyClient client;
 
-    setUp(()  {
+    setUp(() {
       client = TavilyClient();
     });
 

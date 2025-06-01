@@ -15,7 +15,7 @@ void main() {
 
     late OpenAI llm;
 
-    setUp(()  {
+    setUp(() {
       llm = OpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const OpenAIOptions(
@@ -28,7 +28,7 @@ void main() {
       llm.close();
     });
 
-    test('Test OpenAI parameters', ()  {
+    test('Test OpenAI parameters', () {
       final llm = OpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const OpenAIOptions(

@@ -6,11 +6,11 @@ import 'package:langchain_openai/langchain_openai.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:test/test.dart';
 
-void main()  {
+void main() {
   late final OpenAIEmbeddings embeddings;
   late final ObjectBoxVectorStore vectorStore;
 
-  setUpAll(()  {
+  setUpAll(() {
     embeddings = OpenAIEmbeddings(
       apiKey: Platform.environment['OPENAI_API_KEY'],
     );

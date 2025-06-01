@@ -14,7 +14,7 @@ void main() {
   group('OpenRouter tests', () {
     late ChatOpenAI chatModel;
 
-    setUp(()  {
+    setUp(() {
       chatModel = ChatOpenAI(
         apiKey: Platform.environment['OPEN_ROUTER_API_KEY'],
         baseUrl: 'https://openrouter.ai/api/v1',

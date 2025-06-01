@@ -17,7 +17,7 @@ void main() async {
   const defaultModel = 'chat-bison';
 
   group('ChatVertexAI tests', () {
-    test('Test ChatVertexAI parameters', ()  {
+    test('Test ChatVertexAI parameters', () {
       final llm = ChatVertexAI(
         httpClient: authHttpClient,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,

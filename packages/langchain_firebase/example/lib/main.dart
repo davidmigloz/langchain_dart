@@ -100,8 +100,7 @@ class _ChatWidgetState extends State<ChatWidget> {
   final _scrollController = ScrollController();
   final _textController = TextEditingController();
   final _textFieldFocus = FocusNode();
-  final _generatedContent =
-      <({Image? image, String? text, bool fromUser})>[];
+  final _generatedContent = <({Image? image, String? text, bool fromUser})>[];
   var _loading = false;
 
   @override

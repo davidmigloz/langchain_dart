@@ -42,7 +42,7 @@ void main() {
 
     test('Test ToolsAgent with string memory throws error', () {
       expect(
-        ()  async => testMemory(llm, returnMessages: false),
+        () async => testMemory(llm, returnMessages: false),
         throwsA(isA<AssertionError>()),
       );
     });
@@ -79,7 +79,7 @@ void main() {
 
     test('Test ToolsAgent with string memory throws error', () {
       expect(
-        ()  async => testMemory(llm, returnMessages: false),
+        () async => testMemory(llm, returnMessages: false),
         throwsA(isA<AssertionError>()),
       );
     });
@@ -200,7 +200,8 @@ class _SearchInput {
   int get hashCode => query.hashCode ^ n.hashCode;
 }
 
-final Tool<Object, ToolOptions, Object> searchTool = Tool.fromFunction<_SearchInput, String>(
+final Tool<Object, ToolOptions, Object> searchTool =
+    Tool.fromFunction<_SearchInput, String>(
   name: 'search',
   description: 'Tool for searching the web.',
   inputJsonSchema: const {

@@ -19,7 +19,7 @@ void main() {
 
     late ChatAnthropic chatModel;
 
-    setUp(()  {
+    setUp(() {
       chatModel = ChatAnthropic(
         apiKey: Platform.environment['ANTHROPIC_API_KEY'],
         defaultOptions: const ChatAnthropicOptions(

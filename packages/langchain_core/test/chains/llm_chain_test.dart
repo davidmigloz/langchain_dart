@@ -66,7 +66,7 @@ void main() {
       expect(res, 'Hello world! again!');
     });
 
-    test('Test LLMChain throws error with less input values', ()  {
+    test('Test LLMChain throws error with less input values', () {
       final model = FakeLLM(responses: ['Hello world! again!']);
       final prompt = PromptTemplate.fromTemplate('Print {foo} {bar} {baz}');
       final chain = LLMChain(prompt: prompt, llm: model);
@@ -76,7 +76,7 @@ void main() {
       );
     });
 
-    test('Test LLMChain throws error with wrong input values', ()  {
+    test('Test LLMChain throws error with wrong input values', () {
       final model = FakeLLM(responses: ['Hello world! again!']);
       final prompt = PromptTemplate.fromTemplate('Print {foo} {bar}');
       final chain = LLMChain(prompt: prompt, llm: model);

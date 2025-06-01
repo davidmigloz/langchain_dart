@@ -16,7 +16,7 @@ Future<void> main() async {
   const defaultModel = 'text-bison';
 
   group('VertexAI tests', () {
-    test('Test VertexAI parameters', ()  {
+    test('Test VertexAI parameters', () {
       final llm = VertexAI(
         httpClient: authHttpClient,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,

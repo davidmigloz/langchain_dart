@@ -6,7 +6,7 @@ import 'package:test/test.dart';
 
 void main() {
   group('CsvLoader tests', () {
-    test('Test that a csv file can be loaded', ()  {
+    test('Test that a csv file can be loaded', () {
       const filePath = './test/document_loaders/assets/example_1.csv';
 
       const expectedDoc = Document(
@@ -25,7 +25,7 @@ void main() {
       );
     });
 
-    test('Test field names override', ()  {
+    test('Test field names override', () {
       const filePath = './test/document_loaders/assets/example_2.csv';
 
       final loader = CsvLoader(
@@ -69,7 +69,7 @@ void main() {
       );
     });
 
-    test('Test extracting field', ()  {
+    test('Test extracting field', () {
       const filePath = './test/document_loaders/assets/example_2.csv';
 
       final loader = CsvLoader(
@@ -88,7 +88,7 @@ void main() {
       );
     });
 
-    test('Test extracting field and override name', ()  {
+    test('Test extracting field and override name', () {
       const filePath = './test/document_loaders/assets/example_2.csv';
 
       final loader = CsvLoader(
@@ -108,7 +108,7 @@ void main() {
       );
     });
 
-    test('test invalid column throws exception', ()  {
+    test('test invalid column throws exception', () {
       const filePath = './test/document_loaders/assets/example_2.csv';
 
       final loader = CsvLoader(
@@ -119,7 +119,7 @@ void main() {
       expect(() async => loader.load(), throwsA(isA<AssertionError>()));
     });
 
-    test('test custom source metadata', ()  {
+    test('test custom source metadata', () {
       const filePath = './test/document_loaders/assets/example_2.csv';
 
       final loader = CsvLoader(
@@ -147,7 +147,7 @@ void main() {
       );
     });
 
-    test('Test metadata builder', ()  {
+    test('Test metadata builder', () {
       const filePath = './test/document_loaders/assets/example_2.csv';
 
       final loader = CsvLoader(
@@ -171,7 +171,7 @@ void main() {
       );
     });
 
-    test('Test TSV file', ()  {
+    test('Test TSV file', () {
       const filePath = './test/document_loaders/assets/example_2.tsv';
 
       final loader = CsvLoader(

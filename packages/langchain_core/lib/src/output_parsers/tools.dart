@@ -89,7 +89,7 @@ class ToolsOutputParser extends BaseOutputParser<ChatResult,
   Future<List<ParsedToolCall>> invoke(
     final ChatResult input, {
     final OutputParserOptions? options,
-  })  {
+  }) {
     return _parseInvoke(input, options: options);
   }
 

@@ -30,8 +30,8 @@ void main() async {
 String? _onSchemaName(final String schemaName) => switch (schemaName) {
       'ChatCompletionUserMessageContentListChatCompletionMessageContentPart' =>
         'ChatCompletionMessageContentParts',
-  'ChatCompletionDeveloperMessageContentListChatCompletionMessageContentPart' =>
-  'ChatCompletionDeveloperMessageContentParts',
+      'ChatCompletionDeveloperMessageContentListChatCompletionMessageContentPart' =>
+        'ChatCompletionDeveloperMessageContentParts',
       _ => schemaName,
     };
 

@@ -161,7 +161,7 @@ abstract class BaseChain<MemoryType extends BaseMemory>
   Future<ChainValues> callInternal(final ChainValues inputs);
 
   /// Call the chain on all inputs in the list.
-  Future<List<ChainValues>> apply(final List<ChainValues> inputs)  {
+  Future<List<ChainValues>> apply(final List<ChainValues> inputs) {
     return Future.wait(inputs.map(call));
   }
 

@@ -18,7 +18,7 @@ void main() {
 
     late ChatGoogleGenerativeAI chatModel;
 
-    setUp(()  {
+    setUp(() {
       chatModel = ChatGoogleGenerativeAI(
         apiKey: Platform.environment['GOOGLEAI_API_KEY'],
         defaultOptions: const ChatGoogleGenerativeAIOptions(

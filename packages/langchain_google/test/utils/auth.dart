@@ -5,7 +5,7 @@ import 'package:gcloud/storage.dart';
 import 'package:googleapis_auth/auth_io.dart';
 import 'package:langchain_google/langchain_google.dart';
 
-Future<AuthClient> getAuthHttpClient()  {
+Future<AuthClient> getAuthHttpClient() {
   final serviceAccountCredentials = ServiceAccountCredentials.fromJson(
     json.decode(Platform.environment['VERTEX_AI_SERVICE_ACCOUNT']!),
   );

@@ -66,7 +66,7 @@ void main() {
           },
           'required': ['query'],
         },
-        func: (final _SearchInput toolInput)  {
+        func: (final _SearchInput toolInput) {
           final n = toolInput.n;
           final res = List<String>.generate(n, (final i) => 'Result ${i + 1}');
           return 'Results:\n${res.join('\n')}';
@@ -109,7 +109,7 @@ void main() {
       await testMemory(returnMessages: true);
     });
 
-    test('Test OpenAIToolsAgent with string memory throws error', ()  {
+    test('Test OpenAIToolsAgent with string memory throws error', () {
       expect(
         () async => testMemory(returnMessages: false),
         throwsA(isA<AssertionError>()),

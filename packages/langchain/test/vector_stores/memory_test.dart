@@ -156,7 +156,7 @@ void main() {
       }
     });
 
-    test('Test toMap and fromMap', ()  {
+    test('Test toMap and fromMap', () {
       const embeddings = _FakeEmbeddings();
       final store = MemoryVectorStore(
         embeddings: embeddings,

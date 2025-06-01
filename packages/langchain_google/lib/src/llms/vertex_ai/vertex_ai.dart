@@ -137,7 +137,8 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
   final VertexAIGenAIClient client;
 
   /// Scope required for Vertex AI API calls.
-  static const String cloudPlatformScope = VertexAIGenAIClient.cloudPlatformScope;
+  static const String cloudPlatformScope =
+      VertexAIGenAIClient.cloudPlatformScope;
 
   /// A UUID generator.
   late final _uuid = const Uuid();
@@ -183,7 +184,7 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
   Future<List<int>> tokenize(
     final PromptValue promptValue, {
     final VertexAIOptions? options,
-  })  {
+  }) {
     throw UnsupportedError(
       'VertexAI does not support tokenize, only countTokens',
     );

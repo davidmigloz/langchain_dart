@@ -16,7 +16,7 @@ void main() {
     final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
     const defaultModel = 'gpt-4o-mini';
 
-    test('Test ChatOpenAI parameters', ()  {
+    test('Test ChatOpenAI parameters', () {
       final chat = ChatOpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const ChatOpenAIOptions(

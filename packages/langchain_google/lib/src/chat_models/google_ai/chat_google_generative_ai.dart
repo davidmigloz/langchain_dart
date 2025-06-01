@@ -353,7 +353,7 @@ class ChatGoogleGenerativeAI
   Future<List<int>> tokenize(
     final PromptValue promptValue, {
     final ChatGoogleGenerativeAIOptions? options,
-  })  {
+  }) {
     throw UnsupportedError(
       'Google AI does not expose a tokenizer, only counting tokens is supported.',
     );

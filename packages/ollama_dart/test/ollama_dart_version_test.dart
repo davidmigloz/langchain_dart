@@ -8,7 +8,7 @@ void main() {
       skip: Platform.environment.containsKey('CI'), () {
     late OllamaClient client;
 
-    setUp(()  {
+    setUp(() {
       client = OllamaClient();
     });
 

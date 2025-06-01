@@ -6,7 +6,7 @@ import 'package:test/test.dart';
 
 void main() {
   group('JsonLoader tests', () {
-    test('Test that a json file can be loaded', ()  {
+    test('Test that a json file can be loaded', () {
       const filePath = './test/document_loaders/assets/example_1.json';
 
       const loader = JsonLoader(
@@ -30,7 +30,7 @@ void main() {
       );
     });
 
-    test('test extracting numeric field', ()  {
+    test('test extracting numeric field', () {
       const filePath = './test/document_loaders/assets/example_2.json';
 
       const loader = JsonLoader(
@@ -50,7 +50,7 @@ void main() {
       );
     });
 
-    test('test extracting string field', ()  {
+    test('test extracting string field', () {
       const filePath = './test/document_loaders/assets/example_2.json';
 
       const loader = JsonLoader(
@@ -69,7 +69,7 @@ void main() {
       );
     });
 
-    test('test invalid jpSchema throws exception', ()  {
+    test('test invalid jpSchema throws exception', () {
       const filePath = './test/documents/loaders/assets/example_2.json';
 
       const loader = JsonLoader(
@@ -80,7 +80,7 @@ void main() {
       expect(() async => loader.load(), throwsException);
     });
 
-    test('test custom metadata', ()  {
+    test('test custom metadata', () {
       const filePath = './test/document_loaders/assets/example_2.json';
 
       final loader = JsonLoader(
