@@ -131,7 +131,8 @@ class ChatVertexAI extends BaseChatModel<ChatVertexAIOptions> {
   final VertexAIGenAIClient client;
 
   /// Scope required for Vertex AI API calls.
-  static const String cloudPlatformScope = VertexAIGenAIClient.cloudPlatformScope;
+  static const String cloudPlatformScope =
+      VertexAIGenAIClient.cloudPlatformScope;
 
   /// A UUID generator.
   late final _uuid = const Uuid();
@@ -193,7 +194,7 @@ class ChatVertexAI extends BaseChatModel<ChatVertexAIOptions> {
   Future<List<int>> tokenize(
     final PromptValue promptValue, {
     final ChatVertexAIOptions? options,
-  })  {
+  }) {
     throw UnsupportedError(
       'ChatVertexAI does not support tokenize, only countTokens',
     );

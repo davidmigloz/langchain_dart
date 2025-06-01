@@ -162,7 +162,8 @@ class VertexAIEmbeddings implements Embeddings {
   final String docTitleKey;
 
   /// Scope required for Vertex AI API calls.
-  static const String cloudPlatformScope = VertexAIGenAIClient.cloudPlatformScope;
+  static const String cloudPlatformScope =
+      VertexAIGenAIClient.cloudPlatformScope;
 
   @override
   Future<List<List<double>>> embedDocuments(

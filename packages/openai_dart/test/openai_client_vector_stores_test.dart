@@ -17,7 +17,7 @@ void main() {
       );
     });
 
-    tearDown(()  {
+    tearDown(() {
       client.endSession();
     });
 

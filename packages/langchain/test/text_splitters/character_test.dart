@@ -363,7 +363,7 @@ void main() {
       );
     });
 
-    test('Test create documents method.', ()  {
+    test('Test create documents method.', () {
       final texts = ['foo bar', 'baz'];
       const splitter = CharacterTextSplitter(
         separator: ' ',
@@ -379,7 +379,7 @@ void main() {
       expect(docs, equals(expectedDocs));
     });
 
-    test('Test create documents with metadata method.', ()  {
+    test('Test create documents with metadata method.', () {
       final texts = ['foo bar', 'baz'];
       const splitter = CharacterTextSplitter(
         separator: ' ',

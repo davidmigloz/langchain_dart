@@ -16,11 +16,11 @@ topics:
   - langchain
 
 environment:
-  sdk: ">=3.4.0 <4.0.0"
+  sdk: ">=3.6.0 <4.0.0"
 
 dependencies:
   characters: ^1.4.0
-  collection: ^1.19.0
+  collection: ^1.19.1
   crypto: ^3.0.6
   langchain_core: 0.3.6+1
   meta: ^1.16.0

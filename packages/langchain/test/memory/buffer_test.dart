@@ -128,7 +128,7 @@ void main() {
 
     test(
         'Test error is thrown if inputKey not specified when using with '
-        'multiple input values', ()  {
+        'multiple input values', () {
       final memory = ConversationBufferMemory(returnMessages: true);
 
       // expect throws exception if no input keys are selected

@@ -182,6 +182,7 @@ extension SafetySettingsMapper on List<ChatFirebaseVertexAISafetySetting> {
           ChatFirebaseVertexAISafetySettingThreshold.blockNone =>
             f.HarmBlockThreshold.none,
         },
+        f.HarmBlockMethod.unspecified,
       ),
     ).toList(growable: false);
   }

@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:collection/collection.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -264,8 +266,8 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
         responseMimeType:
             options?.responseMimeType ?? defaultOptions.responseMimeType,
         responseSchema:
-        (options?.responseSchema ?? defaultOptions.responseSchema)
-            ?.toSchema(),
+            (options?.responseSchema ?? defaultOptions.responseSchema)
+                ?.toSchema(),
       ),
       (options?.tools ?? defaultOptions.tools)?.toToolList(),
       (options?.toolChoice ?? defaultOptions.toolChoice)?.toToolConfig(),
@@ -276,7 +278,7 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
   Future<List<int>> tokenize(
     final PromptValue promptValue, {
     final ChatFirebaseVertexAIOptions? options,
-  })  {
+  }) {
     throw UnsupportedError(
       'Google AI does not expose a tokenizer, only counting tokens is supported.',
     );

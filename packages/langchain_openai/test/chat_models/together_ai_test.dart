@@ -12,7 +12,7 @@ void main() {
   group('TogetherAI tests', () {
     late ChatOpenAI chatModel;
 
-    setUp(()  {
+    setUp(() {
       chatModel = ChatOpenAI(
         apiKey: Platform.environment['TOGETHER_AI_API_KEY'],
         baseUrl: 'https://api.together.xyz/v1',

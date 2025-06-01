@@ -106,7 +106,7 @@ class QAWithSourcesOutputParser
   Future<QAWithSources> invoke(
     final ChatResult input, {
     final OutputParserOptions? options,
-  })  {
+  }) {
     return _toolsOutputParser.invoke(input, options: options).then(_parse);
   }
 

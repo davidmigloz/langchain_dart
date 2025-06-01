@@ -74,7 +74,7 @@ class JsonOutputParser<ParserInput extends Object?> extends BaseOutputParser<
   Future<Map<String, dynamic>> invoke(
     final ParserInput input, {
     final OutputParserOptions? options,
-  })  {
+  }) {
     return _parseInvoke(input, options: options);
   }
 

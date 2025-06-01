@@ -13,7 +13,7 @@ import 'package:langchain_supabase/langchain_supabase.dart';
 import 'package:supabase/supabase.dart' as sp;
 import 'package:test/test.dart';
 
-void main()  {
+void main() {
   final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
   final supabaseUrl = Platform.environment['SUPABASE_URL'];
   final supabaseApiKey = Platform.environment['SUPABASE_API_KEY'];

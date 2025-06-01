@@ -82,10 +82,12 @@ class ReduceDocumentsChain extends BaseCombineDocumentsChain {
   final int tokenMax;
 
   /// Default [inputKey] value.
-  static const String defaultInputKey = BaseCombineDocumentsChain.defaultInputKey;
+  static const String defaultInputKey =
+      BaseCombineDocumentsChain.defaultInputKey;
 
   /// Default [outputKey] value.
-  static const String defaultOutputKey = BaseCombineDocumentsChain.defaultOutputKey;
+  static const String defaultOutputKey =
+      BaseCombineDocumentsChain.defaultOutputKey;
 
   /// Default [tokenMax] value.
   static const defaultTokenMax = 3000;

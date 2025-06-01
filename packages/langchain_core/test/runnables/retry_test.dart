@@ -35,7 +35,7 @@ void main() {
       expect(res[1].output.content, 'tell me a joke about cats');
     });
 
-    test('Should retry based RetryOptions, maxRetries = 2', ()  {
+    test('Should retry based RetryOptions, maxRetries = 2', () {
       final modelWithRetry = model.withRetry(maxRetries: 2);
       expect(
         () async => modelWithRetry.invoke(

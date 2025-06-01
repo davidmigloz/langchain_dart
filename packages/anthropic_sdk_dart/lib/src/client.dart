@@ -46,7 +46,7 @@ class AnthropicClient extends g.AnthropicClient {
             ...?headers,
           },
           queryParams: queryParams ?? const {},
-    client: client ?? RetryClient(http.Client(), retries: retries),
+          client: client ?? RetryClient(http.Client(), retries: retries),
         );
 
   // ------------------------------------------

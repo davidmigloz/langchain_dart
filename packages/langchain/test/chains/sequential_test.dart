@@ -85,8 +85,7 @@ void main() {
       expect(output, equals(expectedOutput));
     });
 
-    test('Test assert is raised when memory keys and input keys overlap',
-        () {
+    test('Test assert is raised when memory keys and input keys overlap', () {
       const memory = SimpleMemory(memories: {'zab': 'rab', 'foo': 'rab'});
       final chain1 = _FakeChain(
         inputVariables: {'foo'},
@@ -155,7 +154,7 @@ void main() {
       expect(output, equals(expectedOutput));
     });
 
-    test('Test error is raised when input keys are missing', ()  {
+    test('Test error is raised when input keys are missing', () {
       final chain1 = _FakeChain(
         inputVariables: {'foo'},
         outputVariables: {'bar'},
@@ -173,7 +172,7 @@ void main() {
       );
     });
 
-    test('Test error is raised when bad outputs are specified', ()  {
+    test('Test error is raised when bad outputs are specified', () {
       final chain1 = _FakeChain(
         inputVariables: {'foo'},
         outputVariables: {'bar'},
@@ -211,7 +210,7 @@ void main() {
       expect(output, equals(expectedOutput));
     });
 
-    test('Test error is raised when input variables are overlapping', ()  {
+    test('Test error is raised when input variables are overlapping', () {
       final chain1 = _FakeChain(
         inputVariables: {'foo'},
         outputVariables: {'bar', 'test'},
@@ -246,8 +245,7 @@ void main() {
       expect(output, equals(expectedOutput));
     });
 
-    test('Test error raised if multiple input variables are expected',
-        ()  {
+    test('Test error raised if multiple input variables are expected', () {
       final chain1 = _FakeChain(
         inputVariables: {'foo'},
         outputVariables: {'bar'},
@@ -262,8 +260,7 @@ void main() {
       );
     });
 
-    test('Test error raised if multiple output variables are expected',
-        ()  {
+    test('Test error raised if multiple output variables are expected', () {
       final chain1 = _FakeChain(
         inputVariables: {'foo'},
         outputVariables: {'bar', 'grok'},

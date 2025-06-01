@@ -8,7 +8,7 @@ import 'package:langchain_openai/langchain_openai.dart';
 import 'package:langchain_pinecone/langchain_pinecone.dart';
 import 'package:test/test.dart';
 
-void main()  {
+void main() {
   group('Pinecone tests', timeout: const Timeout(Duration(minutes: 1)), () {
     final openaiApiKey = Platform.environment['OPENAI_API_KEY']!;
     final pineconeApiKey = Platform.environment['PINECONE_API_KEY']!;

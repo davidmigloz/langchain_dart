@@ -11,7 +11,7 @@ void main() {
   group('MistralAIEmbeddings tests', () {
     late MistralAIEmbeddings embeddings;
 
-    setUp(()  {
+    setUp(() {
       embeddings = MistralAIEmbeddings(
         apiKey: Platform.environment['MISTRAL_API_KEY'],
       );

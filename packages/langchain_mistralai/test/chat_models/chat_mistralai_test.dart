@@ -14,7 +14,7 @@ void main() {
   group('ChatMistralAI tests', () {
     late ChatMistralAI chatModel;
 
-    setUp(()  {
+    setUp(() {
       chatModel = ChatMistralAI(
         apiKey: Platform.environment['MISTRAL_API_KEY'],
       );
@@ -24,7 +24,7 @@ void main() {
       chatModel.close();
     });
 
-    test('Test ChatMistralAI parameters', ()  {
+    test('Test ChatMistralAI parameters', () {
       const options = ChatMistralAIOptions(
         model: 'foo',
         temperature: 0.1,

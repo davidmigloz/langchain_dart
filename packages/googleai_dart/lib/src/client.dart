@@ -42,7 +42,7 @@ class GoogleAIClient extends g.GoogleAIClient {
             'key': apiKey,
             ...?queryParams,
           },
-    client: client ?? RetryClient(http.Client(), retries: retries),
+          client: client ?? RetryClient(http.Client(), retries: retries),
         );
 
   /// Set or replace the API key.

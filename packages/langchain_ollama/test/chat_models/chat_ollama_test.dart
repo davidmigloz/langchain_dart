@@ -16,7 +16,7 @@ void main() {
     const defaultModel = 'llama3.2';
     const visionModel = 'llava:latest';
 
-    setUp(()  {
+    setUp(() {
       chatModel = ChatOllama(
         defaultOptions: const ChatOllamaOptions(
           model: defaultModel,
@@ -29,7 +29,7 @@ void main() {
       chatModel.close();
     });
 
-    test('Test ChatOllama parameters', ()  {
+    test('Test ChatOllama parameters', () {
       const options = ChatOllamaOptions(
         model: 'foo',
         format: OllamaResponseFormat.json,

@@ -15,7 +15,7 @@ void main() {
   group('GitHub Models tests', () {
     late ChatOpenAI chatModel;
 
-    setUp(()  {
+    setUp(() {
       chatModel = ChatOpenAI(
         apiKey: Platform.environment['GITHUB_TOKEN'],
         baseUrl: 'https://models.inference.ai.azure.com',
