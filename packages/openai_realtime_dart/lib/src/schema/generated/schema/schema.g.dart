@@ -45,6 +45,29 @@ Map<String, dynamic> _$$ToolChoiceForcedImplToJson(
       'name': instance.name,
     };
 
+_$ContentPartItemReferenceImpl _$$ContentPartItemReferenceImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ContentPartItemReferenceImpl(
+      type: $enumDecodeNullable(_$ContentTypeEnumMap, json['type']) ??
+          ContentType.itemReference,
+      id: json['id'] as String?,
+    );
+
+Map<String, dynamic> _$$ContentPartItemReferenceImplToJson(
+        _$ContentPartItemReferenceImpl instance) =>
+    <String, dynamic>{
+      'type': _$ContentTypeEnumMap[instance.type]!,
+      if (instance.id case final value?) 'id': value,
+    };
+
+const _$ContentTypeEnumMap = {
+  ContentType.inputText: 'input_text',
+  ContentType.inputAudio: 'input_audio',
+  ContentType.itemReference: 'item_reference',
+  ContentType.text: 'text',
+  ContentType.audio: 'audio',
+};
+
 _$InputAudioTranscriptionConfigImpl
     _$$InputAudioTranscriptionConfigImplFromJson(Map<String, dynamic> json) =>
         _$InputAudioTranscriptionConfigImpl(
@@ -63,6 +86,7 @@ _$TurnDetectionImpl _$$TurnDetectionImplFromJson(Map<String, dynamic> json) =>
       threshold: (json['threshold'] as num?)?.toDouble(),
       prefixPaddingMs: (json['prefix_padding_ms'] as num?)?.toInt(),
       silenceDurationMs: (json['silence_duration_ms'] as num?)?.toInt(),
+      createResponse: json['create_response'] as bool? ?? true,
     );
 
 Map<String, dynamic> _$$TurnDetectionImplToJson(_$TurnDetectionImpl instance) =>
@@ -73,6 +97,7 @@ Map<String, dynamic> _$$TurnDetectionImplToJson(_$TurnDetectionImpl instance) =>
         'prefix_padding_ms': value,
       if (instance.silenceDurationMs case final value?)
         'silence_duration_ms': value,
+      'create_response': instance.createResponse,
     };
 
 const _$TurnDetectionTypeEnumMap = {
@@ -115,6 +140,7 @@ _$ResponseImpl _$$ResponseImplFromJson(Map<String, dynamic> json) =>
       output: (json['output'] as List<dynamic>)
           .map((e) => Item.fromJson(e as Map<String, dynamic>))
           .toList(),
+      metadata: json['metadata'] as Map<String, dynamic>?,
       usage: json['usage'] == null
           ? null
           : Usage.fromJson(json['usage'] as Map<String, dynamic>),
@@ -128,6 +154,7 @@ Map<String, dynamic> _$$ResponseImplToJson(_$ResponseImpl instance) =>
       if (instance.statusDetails?.toJson() case final value?)
         'status_details': value,
       'output': instance.output.map((e) => e.toJson()).toList(),
+      if (instance.metadata case final value?) 'metadata': value,
       if (instance.usage?.toJson() case final value?) 'usage': value,
     };
 
@@ -166,6 +193,12 @@ _$ResponseConfigImpl _$$ResponseConfigImplFromJson(Map<String, dynamic> json) =>
       maxResponseOutputTokens:
           const _ResponseConfigMaxResponseOutputTokensConverter()
               .fromJson(json['max_response_output_tokens']),
+      conversation: const _ResponseConfigConversationConverter()
+          .fromJson(json['conversation']),
+      metadata: json['metadata'] as Map<String, dynamic>?,
+      input: (json['input'] as List<dynamic>?)
+          ?.map((e) => Item.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$$ResponseConfigImplToJson(
@@ -188,6 +221,13 @@ Map<String, dynamic> _$$ResponseConfigImplToJson(
               .toJson(instance.maxResponseOutputTokens)
           case final value?)
         'max_response_output_tokens': value,
+      if (const _ResponseConfigConversationConverter()
+              .toJson(instance.conversation)
+          case final value?)
+        'conversation': value,
+      if (instance.metadata case final value?) 'metadata': value,
+      if (instance.input?.map((e) => e.toJson()).toList() case final value?)
+        'input': value,
     };
 
 const _$ModalityEnumMap = {
@@ -273,6 +313,41 @@ _$ResponseConfigMaxResponseOutputTokensStringImpl
 
 Map<String, dynamic> _$$ResponseConfigMaxResponseOutputTokensStringImplToJson(
         _$ResponseConfigMaxResponseOutputTokensStringImpl instance) =>
+    <String, dynamic>{
+      'value': instance.value,
+      'runtimeType': instance.$type,
+    };
+
+_$ResponseConfigConversationEnumerationImpl
+    _$$ResponseConfigConversationEnumerationImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ResponseConfigConversationEnumerationImpl(
+          $enumDecode(_$ResponseConfigConversationEnumEnumMap, json['value']),
+          $type: json['runtimeType'] as String?,
+        );
+
+Map<String, dynamic> _$$ResponseConfigConversationEnumerationImplToJson(
+        _$ResponseConfigConversationEnumerationImpl instance) =>
+    <String, dynamic>{
+      'value': _$ResponseConfigConversationEnumEnumMap[instance.value]!,
+      'runtimeType': instance.$type,
+    };
+
+const _$ResponseConfigConversationEnumEnumMap = {
+  ResponseConfigConversationEnum.auto: 'auto',
+  ResponseConfigConversationEnum.none: 'none',
+};
+
+_$ResponseConfigConversationStringImpl
+    _$$ResponseConfigConversationStringImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ResponseConfigConversationStringImpl(
+          json['value'] as String,
+          $type: json['runtimeType'] as String?,
+        );
+
+Map<String, dynamic> _$$ResponseConfigConversationStringImplToJson(
+        _$ResponseConfigConversationStringImpl instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
@@ -468,6 +543,10 @@ Map<String, dynamic> _$$SessionMaxResponseOutputTokensStringImplToJson(
 
 _$SessionConfigImpl _$$SessionConfigImplFromJson(Map<String, dynamic> json) =>
     _$SessionConfigImpl(
+      clientSecret: json['client_secret'] == null
+          ? null
+          : SessionConfigClientSecret.fromJson(
+              json['client_secret'] as Map<String, dynamic>),
       modalities: (json['modalities'] as List<dynamic>?)
           ?.map((e) => $enumDecode(_$ModalityEnumMap, e))
           .toList(),
@@ -501,6 +580,8 @@ _$SessionConfigImpl _$$SessionConfigImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$SessionConfigImplToJson(_$SessionConfigImpl instance) =>
     <String, dynamic>{
+      if (instance.clientSecret?.toJson() case final value?)
+        'client_secret': value,
       if (instance.modalities?.map((e) => _$ModalityEnumMap[e]!).toList()
           case final value?)
         'modalities': value,
@@ -523,6 +604,20 @@ Map<String, dynamic> _$$SessionConfigImplToJson(_$SessionConfigImpl instance) =>
               .toJson(instance.maxResponseOutputTokens)
           case final value?)
         'max_response_output_tokens': value,
+    };
+
+_$SessionConfigClientSecretImpl _$$SessionConfigClientSecretImplFromJson(
+        Map<String, dynamic> json) =>
+    _$SessionConfigClientSecretImpl(
+      value: json['value'] as String?,
+      expiresAt: (json['expires_at'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$$SessionConfigClientSecretImplToJson(
+        _$SessionConfigClientSecretImpl instance) =>
+    <String, dynamic>{
+      if (instance.value case final value?) 'value': value,
+      if (instance.expiresAt case final value?) 'expires_at': value,
     };
 
 _$SessionConfigToolChoiceEnumerationImpl
@@ -791,13 +886,6 @@ Map<String, dynamic> _$$ContentPartInputTextImplToJson(
       'text': instance.text,
     };
 
-const _$ContentTypeEnumMap = {
-  ContentType.inputText: 'input_text',
-  ContentType.inputAudio: 'input_audio',
-  ContentType.text: 'text',
-  ContentType.audio: 'audio',
-};
-
 _$ContentPartInputAudioImpl _$$ContentPartInputAudioImplFromJson(
         Map<String, dynamic> json) =>
     _$ContentPartInputAudioImpl(
@@ -947,6 +1035,40 @@ Map<String, dynamic> _$$ItemFunctionCallOutputImplToJson(
       'output': instance.output,
     };
 
+_$ResponseStatusDetailsCompletedImpl
+    _$$ResponseStatusDetailsCompletedImplFromJson(Map<String, dynamic> json) =>
+        _$ResponseStatusDetailsCompletedImpl(
+          type:
+              $enumDecodeNullable(_$ResponseStatusTypeEnumMap, json['type']) ??
+                  ResponseStatusType.completed,
+          reason: $enumDecodeNullable(
+              _$ResponseStatusReasonEnumMap, json['reason'],
+              unknownValue: JsonKey.nullForUndefinedEnumValue),
+        );
+
+Map<String, dynamic> _$$ResponseStatusDetailsCompletedImplToJson(
+        _$ResponseStatusDetailsCompletedImpl instance) =>
+    <String, dynamic>{
+      'type': _$ResponseStatusTypeEnumMap[instance.type]!,
+      if (_$ResponseStatusReasonEnumMap[instance.reason] case final value?)
+        'reason': value,
+    };
+
+const _$ResponseStatusTypeEnumMap = {
+  ResponseStatusType.completed: 'completed',
+  ResponseStatusType.cancelled: 'cancelled',
+  ResponseStatusType.incomplete: 'incomplete',
+  ResponseStatusType.failed: 'failed',
+};
+
+const _$ResponseStatusReasonEnumMap = {
+  ResponseStatusReason.turnDetected: 'turn_detected',
+  ResponseStatusReason.clientCancelled: 'client_cancelled',
+  ResponseStatusReason.interruption: 'interruption',
+  ResponseStatusReason.maxOutputTokens: 'max_output_tokens',
+  ResponseStatusReason.contentFilter: 'content_filter',
+};
+
 _$ResponseStatusDetailsCancelledImpl
     _$$ResponseStatusDetailsCancelledImplFromJson(Map<String, dynamic> json) =>
         _$ResponseStatusDetailsCancelledImpl(
@@ -954,7 +1076,7 @@ _$ResponseStatusDetailsCancelledImpl
               $enumDecodeNullable(_$ResponseStatusTypeEnumMap, json['type']) ??
                   ResponseStatusType.cancelled,
           reason: $enumDecodeNullable(
-              _$ResponseStatusIncompleteReasonEnumMap, json['reason'],
+              _$ResponseStatusReasonEnumMap, json['reason'],
               unknownValue: JsonKey.nullForUndefinedEnumValue),
         );
 
@@ -962,24 +1084,9 @@ Map<String, dynamic> _$$ResponseStatusDetailsCancelledImplToJson(
         _$ResponseStatusDetailsCancelledImpl instance) =>
     <String, dynamic>{
       'type': _$ResponseStatusTypeEnumMap[instance.type]!,
-      if (_$ResponseStatusIncompleteReasonEnumMap[instance.reason]
-          case final value?)
+      if (_$ResponseStatusReasonEnumMap[instance.reason] case final value?)
         'reason': value,
     };
-
-const _$ResponseStatusTypeEnumMap = {
-  ResponseStatusType.cancelled: 'cancelled',
-  ResponseStatusType.incomplete: 'incomplete',
-  ResponseStatusType.failed: 'failed',
-};
-
-const _$ResponseStatusIncompleteReasonEnumMap = {
-  ResponseStatusIncompleteReason.turnDetected: 'turn_detected',
-  ResponseStatusIncompleteReason.clientCancelled: 'client_cancelled',
-  ResponseStatusIncompleteReason.interruption: 'interruption',
-  ResponseStatusIncompleteReason.maxOutputTokens: 'max_output_tokens',
-  ResponseStatusIncompleteReason.contentFilter: 'content_filter',
-};
 
 _$ResponseStatusDetailsIncompleteImpl
     _$$ResponseStatusDetailsIncompleteImplFromJson(Map<String, dynamic> json) =>
@@ -988,7 +1095,7 @@ _$ResponseStatusDetailsIncompleteImpl
               $enumDecodeNullable(_$ResponseStatusTypeEnumMap, json['type']) ??
                   ResponseStatusType.incomplete,
           reason: $enumDecodeNullable(
-              _$ResponseStatusIncompleteReasonEnumMap, json['reason'],
+              _$ResponseStatusReasonEnumMap, json['reason'],
               unknownValue: JsonKey.nullForUndefinedEnumValue),
         );
 
@@ -996,8 +1103,7 @@ Map<String, dynamic> _$$ResponseStatusDetailsIncompleteImplToJson(
         _$ResponseStatusDetailsIncompleteImpl instance) =>
     <String, dynamic>{
       'type': _$ResponseStatusTypeEnumMap[instance.type]!,
-      if (_$ResponseStatusIncompleteReasonEnumMap[instance.reason]
-          case final value?)
+      if (_$ResponseStatusReasonEnumMap[instance.reason] case final value?)
         'reason': value,
     };
 
@@ -1191,6 +1297,7 @@ _$RealtimeEventResponseCancelImpl _$$RealtimeEventResponseCancelImplFromJson(
       eventId: json['event_id'] as String,
       type: $enumDecodeNullable(_$RealtimeEventTypeEnumMap, json['type']) ??
           RealtimeEventType.responseCancel,
+      responseId: json['response_id'] as String?,
     );
 
 Map<String, dynamic> _$$RealtimeEventResponseCancelImplToJson(
@@ -1198,6 +1305,7 @@ Map<String, dynamic> _$$RealtimeEventResponseCancelImplToJson(
     <String, dynamic>{
       'event_id': instance.eventId,
       'type': _$RealtimeEventTypeEnumMap[instance.type]!,
+      if (instance.responseId case final value?) 'response_id': value,
     };
 
 _$RealtimeEventResponseCreateImpl _$$RealtimeEventResponseCreateImplFromJson(

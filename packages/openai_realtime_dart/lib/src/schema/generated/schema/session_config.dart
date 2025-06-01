@@ -15,6 +15,10 @@ class SessionConfig with _$SessionConfig {
 
   /// Factory constructor for SessionConfig
   const factory SessionConfig({
+    /// Ephemeral key returned by the API.
+    @JsonKey(name: 'client_secret', includeIfNull: false)
+    SessionConfigClientSecret? clientSecret,
+
     /// The set of modalities the model can respond with. To disable audio, set this to ["text"].
     @JsonKey(includeIfNull: false) List<Modality>? modalities,
 
@@ -32,9 +36,10 @@ class SessionConfig with _$SessionConfig {
     /// start of the session.
     @JsonKey(includeIfNull: false) String? instructions,
 
-    /// The voice the model uses to respond. Supported voices are `alloy`, `ash`,
-    /// `ballad`, `coral`, `echo`, `sage`, `shimmer`, and `verse`. Cannot be
-    /// changed once the model has responded with audio at least once.
+    /// The voice the model uses to respond. Voice cannot be changed during the
+    /// session once the model has responded with audio at least once. Current
+    /// voice options are `alloy`, `ash`, `ballad`, `coral`, `echo` `sage`,
+    /// `shimmer` and `verse`.
     @JsonKey(
       includeIfNull: false,
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue,
@@ -97,6 +102,7 @@ class SessionConfig with _$SessionConfig {
 
   /// List of all property names of schema
   static const List<String> propertyNames = [
+    'client_secret',
     'modalities',
     'instructions',
     'voice',
@@ -118,6 +124,7 @@ class SessionConfig with _$SessionConfig {
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
     return {
+      'client_secret': clientSecret,
       'modalities': modalities,
       'instructions': instructions,
       'voice': voice,
@@ -129,6 +136,48 @@ class SessionConfig with _$SessionConfig {
       'tool_choice': toolChoice,
       'temperature': temperature,
       'max_response_output_tokens': maxResponseOutputTokens,
+    };
+  }
+}
+
+// ==========================================
+// CLASS: SessionConfigClientSecret
+// ==========================================
+
+/// Ephemeral key returned by the API.
+@freezed
+class SessionConfigClientSecret with _$SessionConfigClientSecret {
+  const SessionConfigClientSecret._();
+
+  /// Factory constructor for SessionConfigClientSecret
+  const factory SessionConfigClientSecret({
+    /// Ephemeral key usable in client environments to authenticate connections
+    /// to the Realtime API. Use this in client-side environments rather than
+    /// a standard API token, which should only be used server-side.
+    @JsonKey(includeIfNull: false) String? value,
+
+    /// Timestamp for when the token expires. Currently, all tokens expire
+    /// after one minute.
+    @JsonKey(name: 'expires_at', includeIfNull: false) int? expiresAt,
+  }) = _SessionConfigClientSecret;
+
+  /// Object construction from a JSON representation
+  factory SessionConfigClientSecret.fromJson(Map<String, dynamic> json) =>
+      _$SessionConfigClientSecretFromJson(json);
+
+  /// List of all property names of schema
+  static const List<String> propertyNames = ['value', 'expires_at'];
+
+  /// Perform validations on the schema property values
+  String? validateSchema() {
+    return null;
+  }
+
+  /// Map representation of object (not serialized)
+  Map<String, dynamic> toMap() {
+    return {
+      'value': value,
+      'expires_at': expiresAt,
     };
   }
 }
