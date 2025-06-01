@@ -653,16 +653,20 @@ InputAudioTranscriptionConfig _$InputAudioTranscriptionConfigFromJson(
 
 /// @nodoc
 mixin _$InputAudioTranscriptionConfig {
-  /// The language of the audio to transcribe.
-  @JsonKey(includeIfNull: false)
-  String? get language => throw _privateConstructorUsedError;
-
-  /// The model to use for transcription. Current options are `gpt-4o-transcribe`,
-  /// `gpt-4o-mini-transcribe`, and `whisper-1`.
+  /// The model to use for transcription, current options are `gpt-4o-transcribe`, `gpt-4o-mini-transcribe`, and `whisper-1`.
   @JsonKey(includeIfNull: false)
   String? get model => throw _privateConstructorUsedError;
 
-  /// An optional text to guide the model's style or continue a previous audio segment.
+  /// The language of the input audio. Supplying the input language in
+  /// [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) (e.g. `en`) format
+  /// will improve accuracy and latency.
+  @JsonKey(includeIfNull: false)
+  String? get language => throw _privateConstructorUsedError;
+
+  /// An optional text to guide the model's style or continue a previous audio
+  /// segment.
+  /// For `whisper-1`, the [prompt is a list of keywords](https://platform.openai.com/docs/guides/speech-to-text#prompting).
+  /// For `gpt-4o-transcribe` models, the prompt is a free text string, for example "expect words related to technology".
   @JsonKey(includeIfNull: false)
   String? get prompt => throw _privateConstructorUsedError;
 
@@ -685,8 +689,8 @@ abstract class $InputAudioTranscriptionConfigCopyWith<$Res> {
           InputAudioTranscriptionConfig>;
   @useResult
   $Res call(
-      {@JsonKey(includeIfNull: false) String? language,
-      @JsonKey(includeIfNull: false) String? model,
+      {@JsonKey(includeIfNull: false) String? model,
+      @JsonKey(includeIfNull: false) String? language,
       @JsonKey(includeIfNull: false) String? prompt});
 }
 
@@ -706,18 +710,18 @@ class _$InputAudioTranscriptionConfigCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? language = freezed,
     Object? model = freezed,
+    Object? language = freezed,
     Object? prompt = freezed,
   }) {
     return _then(_value.copyWith(
-      language: freezed == language
-          ? _value.language
-          : language // ignore: cast_nullable_to_non_nullable
-              as String?,
       model: freezed == model
           ? _value.model
           : model // ignore: cast_nullable_to_non_nullable
+              as String?,
+      language: freezed == language
+          ? _value.language
+          : language // ignore: cast_nullable_to_non_nullable
               as String?,
       prompt: freezed == prompt
           ? _value.prompt
@@ -737,8 +741,8 @@ abstract class _$$InputAudioTranscriptionConfigImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(includeIfNull: false) String? language,
-      @JsonKey(includeIfNull: false) String? model,
+      {@JsonKey(includeIfNull: false) String? model,
+      @JsonKey(includeIfNull: false) String? language,
       @JsonKey(includeIfNull: false) String? prompt});
 }
 
@@ -757,18 +761,18 @@ class __$$InputAudioTranscriptionConfigImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? language = freezed,
     Object? model = freezed,
+    Object? language = freezed,
     Object? prompt = freezed,
   }) {
     return _then(_$InputAudioTranscriptionConfigImpl(
-      language: freezed == language
-          ? _value.language
-          : language // ignore: cast_nullable_to_non_nullable
-              as String?,
       model: freezed == model
           ? _value.model
           : model // ignore: cast_nullable_to_non_nullable
+              as String?,
+      language: freezed == language
+          ? _value.language
+          : language // ignore: cast_nullable_to_non_nullable
               as String?,
       prompt: freezed == prompt
           ? _value.prompt
@@ -783,8 +787,8 @@ class __$$InputAudioTranscriptionConfigImplCopyWithImpl<$Res>
 class _$InputAudioTranscriptionConfigImpl
     extends _InputAudioTranscriptionConfig {
   const _$InputAudioTranscriptionConfigImpl(
-      {@JsonKey(includeIfNull: false) this.language,
-      @JsonKey(includeIfNull: false) this.model,
+      {@JsonKey(includeIfNull: false) this.model,
+      @JsonKey(includeIfNull: false) this.language,
       @JsonKey(includeIfNull: false) this.prompt})
       : super._();
 
@@ -792,25 +796,29 @@ class _$InputAudioTranscriptionConfigImpl
           Map<String, dynamic> json) =>
       _$$InputAudioTranscriptionConfigImplFromJson(json);
 
-  /// The language of the audio to transcribe.
-  @override
-  @JsonKey(includeIfNull: false)
-  final String? language;
-
-  /// The model to use for transcription. Current options are `gpt-4o-transcribe`,
-  /// `gpt-4o-mini-transcribe`, and `whisper-1`.
+  /// The model to use for transcription, current options are `gpt-4o-transcribe`, `gpt-4o-mini-transcribe`, and `whisper-1`.
   @override
   @JsonKey(includeIfNull: false)
   final String? model;
 
-  /// An optional text to guide the model's style or continue a previous audio segment.
+  /// The language of the input audio. Supplying the input language in
+  /// [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) (e.g. `en`) format
+  /// will improve accuracy and latency.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? language;
+
+  /// An optional text to guide the model's style or continue a previous audio
+  /// segment.
+  /// For `whisper-1`, the [prompt is a list of keywords](https://platform.openai.com/docs/guides/speech-to-text#prompting).
+  /// For `gpt-4o-transcribe` models, the prompt is a free text string, for example "expect words related to technology".
   @override
   @JsonKey(includeIfNull: false)
   final String? prompt;
 
   @override
   String toString() {
-    return 'InputAudioTranscriptionConfig(language: $language, model: $model, prompt: $prompt)';
+    return 'InputAudioTranscriptionConfig(model: $model, language: $language, prompt: $prompt)';
   }
 
   @override
@@ -818,15 +826,15 @@ class _$InputAudioTranscriptionConfigImpl
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$InputAudioTranscriptionConfigImpl &&
+            (identical(other.model, model) || other.model == model) &&
             (identical(other.language, language) ||
                 other.language == language) &&
-            (identical(other.model, model) || other.model == model) &&
             (identical(other.prompt, prompt) || other.prompt == prompt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, language, model, prompt);
+  int get hashCode => Object.hash(runtimeType, model, language, prompt);
 
   /// Create a copy of InputAudioTranscriptionConfig
   /// with the given fields replaced by the non-null parameter values.
@@ -849,8 +857,8 @@ class _$InputAudioTranscriptionConfigImpl
 abstract class _InputAudioTranscriptionConfig
     extends InputAudioTranscriptionConfig {
   const factory _InputAudioTranscriptionConfig(
-          {@JsonKey(includeIfNull: false) final String? language,
-          @JsonKey(includeIfNull: false) final String? model,
+          {@JsonKey(includeIfNull: false) final String? model,
+          @JsonKey(includeIfNull: false) final String? language,
           @JsonKey(includeIfNull: false) final String? prompt}) =
       _$InputAudioTranscriptionConfigImpl;
   const _InputAudioTranscriptionConfig._() : super._();
@@ -858,18 +866,22 @@ abstract class _InputAudioTranscriptionConfig
   factory _InputAudioTranscriptionConfig.fromJson(Map<String, dynamic> json) =
       _$InputAudioTranscriptionConfigImpl.fromJson;
 
-  /// The language of the audio to transcribe.
-  @override
-  @JsonKey(includeIfNull: false)
-  String? get language;
-
-  /// The model to use for transcription. Current options are `gpt-4o-transcribe`,
-  /// `gpt-4o-mini-transcribe`, and `whisper-1`.
+  /// The model to use for transcription, current options are `gpt-4o-transcribe`, `gpt-4o-mini-transcribe`, and `whisper-1`.
   @override
   @JsonKey(includeIfNull: false)
   String? get model;
 
-  /// An optional text to guide the model's style or continue a previous audio segment.
+  /// The language of the input audio. Supplying the input language in
+  /// [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) (e.g. `en`) format
+  /// will improve accuracy and latency.
+  @override
+  @JsonKey(includeIfNull: false)
+  String? get language;
+
+  /// An optional text to guide the model's style or continue a previous audio
+  /// segment.
+  /// For `whisper-1`, the [prompt is a list of keywords](https://platform.openai.com/docs/guides/speech-to-text#prompting).
+  /// For `gpt-4o-transcribe` models, the prompt is a free text string, for example "expect words related to technology".
   @override
   @JsonKey(includeIfNull: false)
   String? get prompt;
@@ -4659,11 +4671,13 @@ mixin _$Session {
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   AudioFormat? get outputAudioFormat => throw _privateConstructorUsedError;
 
-  /// Configuration for input audio transcription, defaults to off and can be
-  /// set to `null` to turn off once on. Input audio transcription is not native
-  /// to the model, since the model consumes audio directly. Transcription runs
-  /// asynchronously through Whisper and should be treated as rough guidance
-  /// rather than the representation understood by the model.
+  /// Configuration for input audio transcription, defaults to off and can be  set to `null` to turn off
+  /// once on. Input audio transcription is not native to the model, since the model consumes audio
+  /// directly. Transcription runs  asynchronously through [the /audio/transcriptions
+  /// endpoint](https://platform.openai.com/docs/api-reference/audio/createTranscription) and should be
+  /// treated as guidance of input audio content rather than precisely what the model heard. The client
+  /// can optionally set the language and prompt for transcription, these offer additional guidance to
+  /// the transcription service.
   @JsonKey(name: 'input_audio_transcription', includeIfNull: false)
   InputAudioTranscriptionConfig? get inputAudioTranscription =>
       throw _privateConstructorUsedError;
@@ -5155,11 +5169,13 @@ class _$SessionImpl extends _Session {
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   final AudioFormat? outputAudioFormat;
 
-  /// Configuration for input audio transcription, defaults to off and can be
-  /// set to `null` to turn off once on. Input audio transcription is not native
-  /// to the model, since the model consumes audio directly. Transcription runs
-  /// asynchronously through Whisper and should be treated as rough guidance
-  /// rather than the representation understood by the model.
+  /// Configuration for input audio transcription, defaults to off and can be  set to `null` to turn off
+  /// once on. Input audio transcription is not native to the model, since the model consumes audio
+  /// directly. Transcription runs  asynchronously through [the /audio/transcriptions
+  /// endpoint](https://platform.openai.com/docs/api-reference/audio/createTranscription) and should be
+  /// treated as guidance of input audio content rather than precisely what the model heard. The client
+  /// can optionally set the language and prompt for transcription, these offer additional guidance to
+  /// the transcription service.
   @override
   @JsonKey(name: 'input_audio_transcription', includeIfNull: false)
   final InputAudioTranscriptionConfig? inputAudioTranscription;
@@ -5373,11 +5389,13 @@ abstract class _Session extends Session {
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   AudioFormat? get outputAudioFormat;
 
-  /// Configuration for input audio transcription, defaults to off and can be
-  /// set to `null` to turn off once on. Input audio transcription is not native
-  /// to the model, since the model consumes audio directly. Transcription runs
-  /// asynchronously through Whisper and should be treated as rough guidance
-  /// rather than the representation understood by the model.
+  /// Configuration for input audio transcription, defaults to off and can be  set to `null` to turn off
+  /// once on. Input audio transcription is not native to the model, since the model consumes audio
+  /// directly. Transcription runs  asynchronously through [the /audio/transcriptions
+  /// endpoint](https://platform.openai.com/docs/api-reference/audio/createTranscription) and should be
+  /// treated as guidance of input audio content rather than precisely what the model heard. The client
+  /// can optionally set the language and prompt for transcription, these offer additional guidance to
+  /// the transcription service.
   @override
   @JsonKey(name: 'input_audio_transcription', includeIfNull: false)
   InputAudioTranscriptionConfig? get inputAudioTranscription;
@@ -6349,11 +6367,13 @@ mixin _$SessionConfig {
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   AudioFormat? get outputAudioFormat => throw _privateConstructorUsedError;
 
-  /// Configuration for input audio transcription, defaults to off and can be
-  /// set to `null` to turn off once on. Input audio transcription is not native
-  /// to the model, since the model consumes audio directly. Transcription runs
-  /// asynchronously through Whisper and should be treated as rough guidance
-  /// rather than the representation understood by the model.
+  /// Configuration for input audio transcription, defaults to off and can be  set to `null` to turn off
+  /// once on. Input audio transcription is not native to the model, since the model consumes audio
+  /// directly. Transcription runs  asynchronously through [the /audio/transcriptions
+  /// endpoint](https://platform.openai.com/docs/api-reference/audio/createTranscription) and should be
+  /// treated as guidance of input audio content rather than precisely what the model heard. The client
+  /// can optionally set the language and prompt for transcription, these offer additional guidance to
+  /// the transcription service.
   @JsonKey(name: 'input_audio_transcription', includeIfNull: false)
   InputAudioTranscriptionConfig? get inputAudioTranscription =>
       throw _privateConstructorUsedError;
@@ -6827,11 +6847,13 @@ class _$SessionConfigImpl extends _SessionConfig {
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   final AudioFormat? outputAudioFormat;
 
-  /// Configuration for input audio transcription, defaults to off and can be
-  /// set to `null` to turn off once on. Input audio transcription is not native
-  /// to the model, since the model consumes audio directly. Transcription runs
-  /// asynchronously through Whisper and should be treated as rough guidance
-  /// rather than the representation understood by the model.
+  /// Configuration for input audio transcription, defaults to off and can be  set to `null` to turn off
+  /// once on. Input audio transcription is not native to the model, since the model consumes audio
+  /// directly. Transcription runs  asynchronously through [the /audio/transcriptions
+  /// endpoint](https://platform.openai.com/docs/api-reference/audio/createTranscription) and should be
+  /// treated as guidance of input audio content rather than precisely what the model heard. The client
+  /// can optionally set the language and prompt for transcription, these offer additional guidance to
+  /// the transcription service.
   @override
   @JsonKey(name: 'input_audio_transcription', includeIfNull: false)
   final InputAudioTranscriptionConfig? inputAudioTranscription;
@@ -7036,11 +7058,13 @@ abstract class _SessionConfig extends SessionConfig {
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   AudioFormat? get outputAudioFormat;
 
-  /// Configuration for input audio transcription, defaults to off and can be
-  /// set to `null` to turn off once on. Input audio transcription is not native
-  /// to the model, since the model consumes audio directly. Transcription runs
-  /// asynchronously through Whisper and should be treated as rough guidance
-  /// rather than the representation understood by the model.
+  /// Configuration for input audio transcription, defaults to off and can be  set to `null` to turn off
+  /// once on. Input audio transcription is not native to the model, since the model consumes audio
+  /// directly. Transcription runs  asynchronously through [the /audio/transcriptions
+  /// endpoint](https://platform.openai.com/docs/api-reference/audio/createTranscription) and should be
+  /// treated as guidance of input audio content rather than precisely what the model heard. The client
+  /// can optionally set the language and prompt for transcription, these offer additional guidance to
+  /// the transcription service.
   @override
   @JsonKey(name: 'input_audio_transcription', includeIfNull: false)
   InputAudioTranscriptionConfig? get inputAudioTranscription;
