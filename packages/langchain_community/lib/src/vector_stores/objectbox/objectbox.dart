@@ -22,7 +22,7 @@ import 'types.dart';
 ///
 /// ```dart
 /// final embeddings = OllamaEmbeddings(model: 'llama3.2');
-/// final vectorStore = ObjectBoxVectorStore(embeddings: embeddings);
+/// final vectorStore = ObjectBoxVectorStore.open(embeddings: embeddings);
 /// ```
 ///
 /// This vector stores creates a [Store] with an [ObjectBoxDocument] entity
@@ -47,7 +47,7 @@ import 'types.dart';
 ///
 /// For example:
 /// ```dart
-/// final vectorStore = ObjectBoxVectorStore(...);
+/// final vectorStore = ObjectBoxVectorStore.open(...);
 /// final res = await vectorStore.similaritySearch(
 ///   query: 'What should I feed my cat?',
 ///   config: ObjectBoxSimilaritySearch(
@@ -59,15 +59,6 @@ import 'types.dart';
 /// );
 /// ```
 class ObjectBoxVectorStore extends BaseObjectBoxVectorStore<ObjectBoxDocument> {
-  /// Creates an [ObjectBoxVectorStore] instance.
-  ///
-  /// Main configuration options:
-  /// - [embeddings]  The embeddings model to use.
-  /// - [dimensions]  The number of dimensions of the embeddings (vector size).
-  ///
-  /// ObjectBox-specific options:
-  /// - Check the ObjectBox's [Store] documentation for more details on the
-  ///   different options.
   ObjectBoxVectorStore._(
     Store store, {
     required super.embeddings,
@@ -85,7 +76,15 @@ class ObjectBoxVectorStore extends BaseObjectBoxVectorStore<ObjectBoxDocument> {
   /// The ObjectBox store.
   Store? get store => _store;
 
-  /// Opens the ObjectBox store.
+  /// Creates an [ObjectBoxVectorStore] instance and opens the ObjectBox store.
+  ///
+  /// Main configuration options:
+  /// - [embeddings]  The embeddings model to use.
+  /// - [dimensions]  The number of dimensions of the embeddings (vector size).
+  ///
+  /// ObjectBox-specific options:
+  /// - Check the ObjectBox's [Store] documentation for more details on the
+  ///   different options.
   factory ObjectBoxVectorStore.open({
     required Embeddings embeddings,
     required final int dimensions,

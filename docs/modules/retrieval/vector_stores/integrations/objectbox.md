@@ -44,7 +44,7 @@ dependencies:
 
 ```dart
 final embeddings = OllamaEmbeddings(model: 'jina/jina-embeddings-v2-small-en');
-final vectorStore = ObjectBoxVectorStore(
+final vectorStore = ObjectBoxVectorStore.open(
   embeddings: embeddings,
   dimensions: 512,
 );
@@ -55,7 +55,7 @@ The dimensions parameter specifies the number of dimensions of the embeddings. I
 The `ObjectBoxVectorStore` constructor allows you to customize the ObjectBox store that is created under the hood. For example, you can change the directory where the database is stored:
 
 ```dart
-final vectorStore = ObjectBoxVectorStore(
+final vectorStore = ObjectBoxVectorStore.open(
   embeddings: embeddings,
   dimensions: 512,
   directory: 'path/to/db',
@@ -159,7 +159,7 @@ Before running the example, make sure you have the following:
 
 ```dart
 // 1. Instantiate vector store
-final vectorStore = ObjectBoxVectorStore(
+final vectorStore = ObjectBoxVectorStore.open(
   embeddings: OllamaEmbeddings(model: 'jina/jina-embeddings-v2-small-en'),
   dimensions: 512,
 );
