@@ -1,18 +1,12 @@
-// ignore_for_file: public_member_api_docs, avoid_unused_constructor_parameters
+// ignore_for_file: public_member_api_docs, avoid_unused_constructor_parameters, unused_element
+import 'package:langchain_core/embeddings.dart' show Embeddings;
+
 import 'base_objectbox_stub.dart';
 
 // This is a stub class
 class ObjectBoxVectorStore extends BaseObjectBoxVectorStore<ObjectBoxDocument> {
-  ObjectBoxVectorStore({
+  ObjectBoxVectorStore._({
     required super.embeddings,
-    required int dimensions,
-    final String? directory,
-    final int? maxDBSizeInKB,
-    final int? maxDataSizeInKB,
-    final int? fileMode,
-    final int? maxReaders,
-    final bool queriesCaseSensitiveDefault = true,
-    final String? macosApplicationGroup,
   }) : super(
           box: null,
           createEntity: null,
@@ -20,6 +14,20 @@ class ObjectBoxVectorStore extends BaseObjectBoxVectorStore<ObjectBoxDocument> {
           getIdProperty: null,
           getEmbeddingProperty: null,
         );
+
+  factory ObjectBoxVectorStore.open({
+    required Embeddings embeddings,
+    required final int dimensions,
+    final String? directory,
+    final int? maxDBSizeInKB,
+    final int? maxDataSizeInKB,
+    final int? fileMode,
+    final int? maxReaders,
+    final bool queriesCaseSensitiveDefault = true,
+    final String? macosApplicationGroup,
+  }) {
+    throw UnsupportedError('ObjectBox is not supported on web platform.');
+  }
 
   void close() {
     throw UnsupportedError('ObjectBox is not supported on web platform.');
