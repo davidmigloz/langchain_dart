@@ -1161,6 +1161,8 @@ const _$RealtimeEventTypeEnumMap = {
       'conversation.item.input_audio_transcription.completed',
   RealtimeEventType.conversationItemInputAudioTranscriptionFailed:
       'conversation.item.input_audio_transcription.failed',
+  RealtimeEventType.conversationItemInputAudioTranscriptionDelta:
+      'conversation.item.input_audio_transcription.delta',
   RealtimeEventType.conversationItemTruncated: 'conversation.item.truncated',
   RealtimeEventType.error: 'error',
   RealtimeEventType.inputAudioBufferCleared: 'input_audio_buffer.cleared',
@@ -1449,6 +1451,30 @@ Map<String, dynamic>
           'item_id': instance.itemId,
           'content_index': instance.contentIndex,
           'error': instance.error.toJson(),
+        };
+
+_$RealtimeEventConversationItemInputAudioTranscriptionDeltaImpl
+    _$$RealtimeEventConversationItemInputAudioTranscriptionDeltaImplFromJson(
+            Map<String, dynamic> json) =>
+        _$RealtimeEventConversationItemInputAudioTranscriptionDeltaImpl(
+          eventId: json['event_id'] as String,
+          type: $enumDecodeNullable(_$RealtimeEventTypeEnumMap, json['type']) ??
+              RealtimeEventType.conversationItemInputAudioTranscriptionDelta,
+          itemId: json['item_id'] as String,
+          contentIndex: (json['content_index'] as num?)?.toInt(),
+          delta: json['delta'] as String?,
+        );
+
+Map<String, dynamic>
+    _$$RealtimeEventConversationItemInputAudioTranscriptionDeltaImplToJson(
+            _$RealtimeEventConversationItemInputAudioTranscriptionDeltaImpl
+                instance) =>
+        <String, dynamic>{
+          'event_id': instance.eventId,
+          'type': _$RealtimeEventTypeEnumMap[instance.type]!,
+          'item_id': instance.itemId,
+          if (instance.contentIndex case final value?) 'content_index': value,
+          if (instance.delta case final value?) 'delta': value,
         };
 
 _$RealtimeEventConversationItemTruncatedImpl

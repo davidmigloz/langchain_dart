@@ -358,6 +358,31 @@ sealed class RealtimeEvent with _$RealtimeEvent {
   }) = RealtimeEventConversationItemInputAudioTranscriptionFailed;
 
   // ------------------------------------------
+  // UNION: RealtimeEventConversationItemInputAudioTranscriptionDelta
+  // ------------------------------------------
+
+  /// Returned when the text value of an input audio transcription content part is updated.
+
+  @FreezedUnionValue('conversation.item.input_audio_transcription.delta')
+  const factory RealtimeEvent.conversationItemInputAudioTranscriptionDelta({
+    /// The unique ID of the server event.
+    @JsonKey(name: 'event_id') required String eventId,
+
+    /// The type of the event.
+    @Default(RealtimeEventType.conversationItemInputAudioTranscriptionDelta)
+    RealtimeEventType type,
+
+    /// The ID of the user message item containing the audio.
+    @JsonKey(name: 'item_id') required String itemId,
+
+    /// The index of the content part containing the audio.
+    @JsonKey(name: 'content_index', includeIfNull: false) int? contentIndex,
+
+    /// The text delta.
+    @JsonKey(includeIfNull: false) String? delta,
+  }) = RealtimeEventConversationItemInputAudioTranscriptionDelta;
+
+  // ------------------------------------------
   // UNION: RealtimeEventConversationItemTruncated
   // ------------------------------------------
 
@@ -1055,7 +1080,7 @@ sealed class RealtimeEvent with _$RealtimeEvent {
     @Default(RealtimeEventType.realtimeEvent) RealtimeEventType type,
 
     /// A Realtime API event.
-    /// Any of: [RealtimeEventConversationItemCreate], [RealtimeEventConversationItemDelete], [RealtimeEventConversationItemTruncate], [RealtimeEventInputAudioBufferAppend], [RealtimeEventInputAudioBufferClear], [RealtimeEventInputAudioBufferCommit], [RealtimeEventResponseCancel], [RealtimeEventResponseCreate], [RealtimeEventSessionUpdate], [RealtimeEventConversationCreated], [RealtimeEventConversationItemCreated], [RealtimeEventConversationItemDeleted], [RealtimeEventConversationItemInputAudioTranscriptionCompleted], [RealtimeEventConversationItemInputAudioTranscriptionFailed], [RealtimeEventConversationItemTruncated], [RealtimeEventError], [RealtimeEventInputAudioBufferCleared], [RealtimeEventInputAudioBufferCommitted], [RealtimeEventInputAudioBufferSpeechStarted], [RealtimeEventInputAudioBufferSpeechStopped], [RealtimeEventRateLimitsUpdated], [RealtimeEventResponseAudioDelta], [RealtimeEventResponseAudioDone], [RealtimeEventResponseAudioTranscriptDelta], [RealtimeEventResponseAudioTranscriptDone], [RealtimeEventResponseContentPartAdded], [RealtimeEventResponseContentPartDone], [RealtimeEventResponseCreated], [RealtimeEventResponseDone], [RealtimeEventResponseFunctionCallArgumentsDelta], [RealtimeEventResponseFunctionCallArgumentsDone], [RealtimeEventResponseOutputItemAdded], [RealtimeEventResponseOutputItemDone], [RealtimeEventResponseTextDelta], [RealtimeEventResponseTextDone], [RealtimeEventSessionCreated], [RealtimeEventSessionUpdated], [RealtimeEventClose], [RealtimeEventConversationInterrupted], [RealtimeEventConversationUpdated], [RealtimeEventConversationItemAppended], [RealtimeEventConversationItemCompleted], [RealtimeEventGeneric]
+    /// Any of: [RealtimeEventConversationItemCreate], [RealtimeEventConversationItemDelete], [RealtimeEventConversationItemTruncate], [RealtimeEventInputAudioBufferAppend], [RealtimeEventInputAudioBufferClear], [RealtimeEventInputAudioBufferCommit], [RealtimeEventResponseCancel], [RealtimeEventResponseCreate], [RealtimeEventSessionUpdate], [RealtimeEventConversationCreated], [RealtimeEventConversationItemCreated], [RealtimeEventConversationItemDeleted], [RealtimeEventConversationItemInputAudioTranscriptionCompleted], [RealtimeEventConversationItemInputAudioTranscriptionFailed], [RealtimeEventConversationItemInputAudioTranscriptionDelta], [RealtimeEventConversationItemTruncated], [RealtimeEventError], [RealtimeEventInputAudioBufferCleared], [RealtimeEventInputAudioBufferCommitted], [RealtimeEventInputAudioBufferSpeechStarted], [RealtimeEventInputAudioBufferSpeechStopped], [RealtimeEventRateLimitsUpdated], [RealtimeEventResponseAudioDelta], [RealtimeEventResponseAudioDone], [RealtimeEventResponseAudioTranscriptDelta], [RealtimeEventResponseAudioTranscriptDone], [RealtimeEventResponseContentPartAdded], [RealtimeEventResponseContentPartDone], [RealtimeEventResponseCreated], [RealtimeEventResponseDone], [RealtimeEventResponseFunctionCallArgumentsDelta], [RealtimeEventResponseFunctionCallArgumentsDone], [RealtimeEventResponseOutputItemAdded], [RealtimeEventResponseOutputItemDone], [RealtimeEventResponseTextDelta], [RealtimeEventResponseTextDone], [RealtimeEventSessionCreated], [RealtimeEventSessionUpdated], [RealtimeEventClose], [RealtimeEventConversationInterrupted], [RealtimeEventConversationUpdated], [RealtimeEventConversationItemAppended], [RealtimeEventConversationItemCompleted], [RealtimeEventGeneric]
     required RealtimeEvent event,
   }) = RealtimeEventGeneric;
 
@@ -1097,6 +1122,8 @@ enum RealtimeEventEnumType {
   conversationItemInputAudioTranscriptionCompleted,
   @JsonValue('conversation.item.input_audio_transcription.failed')
   conversationItemInputAudioTranscriptionFailed,
+  @JsonValue('conversation.item.input_audio_transcription.delta')
+  conversationItemInputAudioTranscriptionDelta,
   @JsonValue('conversation.item.truncated')
   conversationItemTruncated,
   @JsonValue('error')
