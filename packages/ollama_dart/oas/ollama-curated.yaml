@@ -907,6 +907,32 @@ components:
           type: integer
           nullable: true
           description: The number of parameters in the model.
+    Tensor:
+      type: object
+      description: Metadata for a given tensor.
+      properties:
+        name:
+          type: string
+          description: The name of the tensor.
+        type:
+          type: string
+          description: The type of the tensor.
+        shape:
+          type: array
+          items:
+            type: integer
+            format: int64
+          description: The shape of the tensor.
+    Capability:
+      type: string
+      description: Capability of a model.
+      enum:
+        - completion
+        - tools
+        - insert
+        - vision
+        - embedding
+        - thinking
     ProcessResponse:
       type: object
       description: Response class for the list running models endpoint.
@@ -984,14 +1010,35 @@ components:
           description: The system prompt for the model.
         details:
           $ref: '#/components/schemas/ModelDetails'
-        model_info:
-          $ref: '#/components/schemas/ModelInformation'
         messages:
           type: array
           nullable: true
           description: The default messages for the model.
           items:
             $ref: '#/components/schemas/Message'
+        model_info:
+          $ref: '#/components/schemas/ModelInformation'
+        projector_info:
+          type: object
+          description: Projector info.
+          additionalProperties: true
+        tensors:
+          type: array
+          nullable: true
+          description: The tensors of the model.
+          items:
+              $ref: '#/components/schemas/Tensor'
+        capabilities:
+          type: array
+          nullable: true
+          description: The capabilities of the model.
+          items:
+            $ref: '#/components/schemas/Capability'
+        modified_at:
+          type: string
+          format: date-time
+          description: Date on which a model was created.
+          example: 2023-08-04T19:22:45.499127Z
     CopyModelRequest:
       description: Request class for copying a model.
       type: object

@@ -35,6 +35,8 @@ part 'models_response.dart';
 part 'model.dart';
 part 'model_details.dart';
 part 'model_information.dart';
+part 'tensor.dart';
+part 'capability.dart';
 part 'process_response.dart';
 part 'process_model.dart';
 part 'model_info_request.dart';

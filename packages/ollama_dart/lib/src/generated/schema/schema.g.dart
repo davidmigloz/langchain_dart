@@ -32,30 +32,22 @@ _$GenerateCompletionRequestImpl _$$GenerateCompletionRequestImplFromJson(
     );
 
 Map<String, dynamic> _$$GenerateCompletionRequestImplToJson(
-    _$GenerateCompletionRequestImpl instance) {
-  final val = <String, dynamic>{
-    'model': instance.model,
-    'prompt': instance.prompt,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('suffix', instance.suffix);
-  writeNotNull('images', instance.images);
-  writeNotNull('system', instance.system);
-  writeNotNull('template', instance.template);
-  writeNotNull('context', instance.context);
-  writeNotNull('options', instance.options?.toJson());
-  writeNotNull('format', _$ResponseFormatEnumMap[instance.format]);
-  writeNotNull('raw', instance.raw);
-  val['stream'] = instance.stream;
-  writeNotNull('keep_alive', instance.keepAlive);
-  return val;
-}
+        _$GenerateCompletionRequestImpl instance) =>
+    <String, dynamic>{
+      'model': instance.model,
+      'prompt': instance.prompt,
+      if (instance.suffix case final value?) 'suffix': value,
+      if (instance.images case final value?) 'images': value,
+      if (instance.system case final value?) 'system': value,
+      if (instance.template case final value?) 'template': value,
+      if (instance.context case final value?) 'context': value,
+      if (instance.options?.toJson() case final value?) 'options': value,
+      if (_$ResponseFormatEnumMap[instance.format] case final value?)
+        'format': value,
+      if (instance.raw case final value?) 'raw': value,
+      'stream': instance.stream,
+      if (instance.keepAlive case final value?) 'keep_alive': value,
+    };
 
 const _$ResponseFormatEnumMap = {
   ResponseFormat.json: 'json',
@@ -96,47 +88,40 @@ _$RequestOptionsImpl _$$RequestOptionsImplFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$$RequestOptionsImplToJson(
-    _$RequestOptionsImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('num_keep', instance.numKeep);
-  writeNotNull('seed', instance.seed);
-  writeNotNull('num_predict', instance.numPredict);
-  writeNotNull('top_k', instance.topK);
-  writeNotNull('top_p', instance.topP);
-  writeNotNull('min_p', instance.minP);
-  writeNotNull('tfs_z', instance.tfsZ);
-  writeNotNull('typical_p', instance.typicalP);
-  writeNotNull('repeat_last_n', instance.repeatLastN);
-  writeNotNull('temperature', instance.temperature);
-  writeNotNull('repeat_penalty', instance.repeatPenalty);
-  writeNotNull('presence_penalty', instance.presencePenalty);
-  writeNotNull('frequency_penalty', instance.frequencyPenalty);
-  writeNotNull('mirostat', instance.mirostat);
-  writeNotNull('mirostat_tau', instance.mirostatTau);
-  writeNotNull('mirostat_eta', instance.mirostatEta);
-  writeNotNull('penalize_newline', instance.penalizeNewline);
-  writeNotNull('stop', instance.stop);
-  writeNotNull('numa', instance.numa);
-  writeNotNull('num_ctx', instance.numCtx);
-  writeNotNull('num_batch', instance.numBatch);
-  writeNotNull('num_gpu', instance.numGpu);
-  writeNotNull('main_gpu', instance.mainGpu);
-  writeNotNull('low_vram', instance.lowVram);
-  writeNotNull('f16_kv', instance.f16Kv);
-  writeNotNull('logits_all', instance.logitsAll);
-  writeNotNull('vocab_only', instance.vocabOnly);
-  writeNotNull('use_mmap', instance.useMmap);
-  writeNotNull('use_mlock', instance.useMlock);
-  writeNotNull('num_thread', instance.numThread);
-  return val;
-}
+        _$RequestOptionsImpl instance) =>
+    <String, dynamic>{
+      if (instance.numKeep case final value?) 'num_keep': value,
+      if (instance.seed case final value?) 'seed': value,
+      if (instance.numPredict case final value?) 'num_predict': value,
+      if (instance.topK case final value?) 'top_k': value,
+      if (instance.topP case final value?) 'top_p': value,
+      if (instance.minP case final value?) 'min_p': value,
+      if (instance.tfsZ case final value?) 'tfs_z': value,
+      if (instance.typicalP case final value?) 'typical_p': value,
+      if (instance.repeatLastN case final value?) 'repeat_last_n': value,
+      if (instance.temperature case final value?) 'temperature': value,
+      if (instance.repeatPenalty case final value?) 'repeat_penalty': value,
+      if (instance.presencePenalty case final value?) 'presence_penalty': value,
+      if (instance.frequencyPenalty case final value?)
+        'frequency_penalty': value,
+      if (instance.mirostat case final value?) 'mirostat': value,
+      if (instance.mirostatTau case final value?) 'mirostat_tau': value,
+      if (instance.mirostatEta case final value?) 'mirostat_eta': value,
+      if (instance.penalizeNewline case final value?) 'penalize_newline': value,
+      if (instance.stop case final value?) 'stop': value,
+      if (instance.numa case final value?) 'numa': value,
+      if (instance.numCtx case final value?) 'num_ctx': value,
+      if (instance.numBatch case final value?) 'num_batch': value,
+      if (instance.numGpu case final value?) 'num_gpu': value,
+      if (instance.mainGpu case final value?) 'main_gpu': value,
+      if (instance.lowVram case final value?) 'low_vram': value,
+      if (instance.f16Kv case final value?) 'f16_kv': value,
+      if (instance.logitsAll case final value?) 'logits_all': value,
+      if (instance.vocabOnly case final value?) 'vocab_only': value,
+      if (instance.useMmap case final value?) 'use_mmap': value,
+      if (instance.useMlock case final value?) 'use_mlock': value,
+      if (instance.numThread case final value?) 'num_thread': value,
+    };
 
 _$VersionResponseImpl _$$VersionResponseImplFromJson(
         Map<String, dynamic> json) =>
@@ -145,18 +130,10 @@ _$VersionResponseImpl _$$VersionResponseImplFromJson(
     );
 
 Map<String, dynamic> _$$VersionResponseImplToJson(
-    _$VersionResponseImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('version', instance.version);
-  return val;
-}
+        _$VersionResponseImpl instance) =>
+    <String, dynamic>{
+      if (instance.version case final value?) 'version': value,
+    };
 
 _$GenerateCompletionResponseImpl _$$GenerateCompletionResponseImplFromJson(
         Map<String, dynamic> json) =>
@@ -177,28 +154,22 @@ _$GenerateCompletionResponseImpl _$$GenerateCompletionResponseImplFromJson(
     );
 
 Map<String, dynamic> _$$GenerateCompletionResponseImplToJson(
-    _$GenerateCompletionResponseImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('model', instance.model);
-  writeNotNull('created_at', instance.createdAt);
-  writeNotNull('response', instance.response);
-  writeNotNull('done', instance.done);
-  writeNotNull('context', instance.context);
-  writeNotNull('total_duration', instance.totalDuration);
-  writeNotNull('load_duration', instance.loadDuration);
-  writeNotNull('prompt_eval_count', instance.promptEvalCount);
-  writeNotNull('prompt_eval_duration', instance.promptEvalDuration);
-  writeNotNull('eval_count', instance.evalCount);
-  writeNotNull('eval_duration', instance.evalDuration);
-  return val;
-}
+        _$GenerateCompletionResponseImpl instance) =>
+    <String, dynamic>{
+      if (instance.model case final value?) 'model': value,
+      if (instance.createdAt case final value?) 'created_at': value,
+      if (instance.response case final value?) 'response': value,
+      if (instance.done case final value?) 'done': value,
+      if (instance.context case final value?) 'context': value,
+      if (instance.totalDuration case final value?) 'total_duration': value,
+      if (instance.loadDuration case final value?) 'load_duration': value,
+      if (instance.promptEvalCount case final value?)
+        'prompt_eval_count': value,
+      if (instance.promptEvalDuration case final value?)
+        'prompt_eval_duration': value,
+      if (instance.evalCount case final value?) 'eval_count': value,
+      if (instance.evalDuration case final value?) 'eval_duration': value,
+    };
 
 _$GenerateChatCompletionRequestImpl
     _$$GenerateChatCompletionRequestImplFromJson(Map<String, dynamic> json) =>
@@ -221,25 +192,18 @@ _$GenerateChatCompletionRequestImpl
         );
 
 Map<String, dynamic> _$$GenerateChatCompletionRequestImplToJson(
-    _$GenerateChatCompletionRequestImpl instance) {
-  final val = <String, dynamic>{
-    'model': instance.model,
-    'messages': instance.messages.map((e) => e.toJson()).toList(),
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('format', _$ResponseFormatEnumMap[instance.format]);
-  writeNotNull('options', instance.options?.toJson());
-  val['stream'] = instance.stream;
-  writeNotNull('keep_alive', instance.keepAlive);
-  writeNotNull('tools', instance.tools?.map((e) => e.toJson()).toList());
-  return val;
-}
+        _$GenerateChatCompletionRequestImpl instance) =>
+    <String, dynamic>{
+      'model': instance.model,
+      'messages': instance.messages.map((e) => e.toJson()).toList(),
+      if (_$ResponseFormatEnumMap[instance.format] case final value?)
+        'format': value,
+      if (instance.options?.toJson() case final value?) 'options': value,
+      'stream': instance.stream,
+      if (instance.keepAlive case final value?) 'keep_alive': value,
+      if (instance.tools?.map((e) => e.toJson()).toList() case final value?)
+        'tools': value,
+    };
 
 _$GenerateChatCompletionResponseImpl
     _$$GenerateChatCompletionResponseImplFromJson(Map<String, dynamic> json) =>
@@ -260,29 +224,23 @@ _$GenerateChatCompletionResponseImpl
         );
 
 Map<String, dynamic> _$$GenerateChatCompletionResponseImplToJson(
-    _$GenerateChatCompletionResponseImpl instance) {
-  final val = <String, dynamic>{
-    'message': instance.message.toJson(),
-    'model': instance.model,
-    'created_at': instance.createdAt,
-    'done': instance.done,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('done_reason', _$DoneReasonEnumMap[instance.doneReason]);
-  writeNotNull('total_duration', instance.totalDuration);
-  writeNotNull('load_duration', instance.loadDuration);
-  writeNotNull('prompt_eval_count', instance.promptEvalCount);
-  writeNotNull('prompt_eval_duration', instance.promptEvalDuration);
-  writeNotNull('eval_count', instance.evalCount);
-  writeNotNull('eval_duration', instance.evalDuration);
-  return val;
-}
+        _$GenerateChatCompletionResponseImpl instance) =>
+    <String, dynamic>{
+      'message': instance.message.toJson(),
+      'model': instance.model,
+      'created_at': instance.createdAt,
+      'done': instance.done,
+      if (_$DoneReasonEnumMap[instance.doneReason] case final value?)
+        'done_reason': value,
+      if (instance.totalDuration case final value?) 'total_duration': value,
+      if (instance.loadDuration case final value?) 'load_duration': value,
+      if (instance.promptEvalCount case final value?)
+        'prompt_eval_count': value,
+      if (instance.promptEvalDuration case final value?)
+        'prompt_eval_duration': value,
+      if (instance.evalCount case final value?) 'eval_count': value,
+      if (instance.evalDuration case final value?) 'eval_duration': value,
+    };
 
 const _$DoneReasonEnumMap = {
   DoneReason.stop: 'stop',
@@ -301,23 +259,14 @@ _$MessageImpl _$$MessageImplFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$$MessageImplToJson(_$MessageImpl instance) {
-  final val = <String, dynamic>{
-    'role': _$MessageRoleEnumMap[instance.role]!,
-    'content': instance.content,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('images', instance.images);
-  writeNotNull(
-      'tool_calls', instance.toolCalls?.map((e) => e.toJson()).toList());
-  return val;
-}
+Map<String, dynamic> _$$MessageImplToJson(_$MessageImpl instance) =>
+    <String, dynamic>{
+      'role': _$MessageRoleEnumMap[instance.role]!,
+      'content': instance.content,
+      if (instance.images case final value?) 'images': value,
+      if (instance.toolCalls?.map((e) => e.toJson()).toList() case final value?)
+        'tool_calls': value,
+    };
 
 const _$MessageRoleEnumMap = {
   MessageRole.system: 'system',
@@ -334,20 +283,11 @@ _$ToolImpl _$$ToolImplFromJson(Map<String, dynamic> json) => _$ToolImpl(
           : ToolFunction.fromJson(json['function'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$ToolImplToJson(_$ToolImpl instance) {
-  final val = <String, dynamic>{
-    'type': _$ToolTypeEnumMap[instance.type]!,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('function', instance.function?.toJson());
-  return val;
-}
+Map<String, dynamic> _$$ToolImplToJson(_$ToolImpl instance) =>
+    <String, dynamic>{
+      'type': _$ToolTypeEnumMap[instance.type]!,
+      if (instance.function?.toJson() case final value?) 'function': value,
+    };
 
 const _$ToolTypeEnumMap = {
   ToolType.function: 'function',
@@ -374,18 +314,10 @@ _$ToolCallImpl _$$ToolCallImplFromJson(Map<String, dynamic> json) =>
           : ToolCallFunction.fromJson(json['function'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$ToolCallImplToJson(_$ToolCallImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('function', instance.function?.toJson());
-  return val;
-}
+Map<String, dynamic> _$$ToolCallImplToJson(_$ToolCallImpl instance) =>
+    <String, dynamic>{
+      if (instance.function?.toJson() case final value?) 'function': value,
+    };
 
 _$ToolCallFunctionImpl _$$ToolCallFunctionImplFromJson(
         Map<String, dynamic> json) =>
@@ -413,22 +345,13 @@ _$GenerateEmbeddingRequestImpl _$$GenerateEmbeddingRequestImplFromJson(
     );
 
 Map<String, dynamic> _$$GenerateEmbeddingRequestImplToJson(
-    _$GenerateEmbeddingRequestImpl instance) {
-  final val = <String, dynamic>{
-    'model': instance.model,
-    'prompt': instance.prompt,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('options', instance.options?.toJson());
-  writeNotNull('keep_alive', instance.keepAlive);
-  return val;
-}
+        _$GenerateEmbeddingRequestImpl instance) =>
+    <String, dynamic>{
+      'model': instance.model,
+      'prompt': instance.prompt,
+      if (instance.options?.toJson() case final value?) 'options': value,
+      if (instance.keepAlive case final value?) 'keep_alive': value,
+    };
 
 _$GenerateEmbeddingResponseImpl _$$GenerateEmbeddingResponseImplFromJson(
         Map<String, dynamic> json) =>
@@ -439,18 +362,10 @@ _$GenerateEmbeddingResponseImpl _$$GenerateEmbeddingResponseImplFromJson(
     );
 
 Map<String, dynamic> _$$GenerateEmbeddingResponseImplToJson(
-    _$GenerateEmbeddingResponseImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('embedding', instance.embedding);
-  return val;
-}
+        _$GenerateEmbeddingResponseImpl instance) =>
+    <String, dynamic>{
+      if (instance.embedding case final value?) 'embedding': value,
+    };
 
 _$CreateModelRequestImpl _$$CreateModelRequestImplFromJson(
         Map<String, dynamic> json) =>
@@ -463,23 +378,14 @@ _$CreateModelRequestImpl _$$CreateModelRequestImplFromJson(
     );
 
 Map<String, dynamic> _$$CreateModelRequestImplToJson(
-    _$CreateModelRequestImpl instance) {
-  final val = <String, dynamic>{
-    'model': instance.model,
-    'modelfile': instance.modelfile,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('path', instance.path);
-  writeNotNull('quantize', instance.quantize);
-  val['stream'] = instance.stream;
-  return val;
-}
+        _$CreateModelRequestImpl instance) =>
+    <String, dynamic>{
+      'model': instance.model,
+      'modelfile': instance.modelfile,
+      if (instance.path case final value?) 'path': value,
+      if (instance.quantize case final value?) 'quantize': value,
+      'stream': instance.stream,
+    };
 
 _$CreateModelResponseImpl _$$CreateModelResponseImplFromJson(
         Map<String, dynamic> json) =>
@@ -489,18 +395,11 @@ _$CreateModelResponseImpl _$$CreateModelResponseImplFromJson(
     );
 
 Map<String, dynamic> _$$CreateModelResponseImplToJson(
-    _$CreateModelResponseImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('status', _$CreateModelStatusEnumMap[instance.status]);
-  return val;
-}
+        _$CreateModelResponseImpl instance) =>
+    <String, dynamic>{
+      if (_$CreateModelStatusEnumMap[instance.status] case final value?)
+        'status': value,
+    };
 
 const _$CreateModelStatusEnumMap = {
   CreateModelStatus.creatingSystemLayer: 'creating system layer',
@@ -516,18 +415,11 @@ _$ModelsResponseImpl _$$ModelsResponseImplFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$$ModelsResponseImplToJson(
-    _$ModelsResponseImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('models', instance.models?.map((e) => e.toJson()).toList());
-  return val;
-}
+        _$ModelsResponseImpl instance) =>
+    <String, dynamic>{
+      if (instance.models?.map((e) => e.toJson()).toList() case final value?)
+        'models': value,
+    };
 
 _$ModelImpl _$$ModelImplFromJson(Map<String, dynamic> json) => _$ModelImpl(
       model: json['model'] as String?,
@@ -539,22 +431,14 @@ _$ModelImpl _$$ModelImplFromJson(Map<String, dynamic> json) => _$ModelImpl(
           : ModelDetails.fromJson(json['details'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$ModelImplToJson(_$ModelImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('model', instance.model);
-  writeNotNull('modified_at', instance.modifiedAt);
-  writeNotNull('size', instance.size);
-  writeNotNull('digest', instance.digest);
-  writeNotNull('details', instance.details?.toJson());
-  return val;
-}
+Map<String, dynamic> _$$ModelImplToJson(_$ModelImpl instance) =>
+    <String, dynamic>{
+      if (instance.model case final value?) 'model': value,
+      if (instance.modifiedAt case final value?) 'modified_at': value,
+      if (instance.size case final value?) 'size': value,
+      if (instance.digest case final value?) 'digest': value,
+      if (instance.details?.toJson() case final value?) 'details': value,
+    };
 
 _$ModelDetailsImpl _$$ModelDetailsImplFromJson(Map<String, dynamic> json) =>
     _$ModelDetailsImpl(
@@ -568,23 +452,16 @@ _$ModelDetailsImpl _$$ModelDetailsImplFromJson(Map<String, dynamic> json) =>
       quantizationLevel: json['quantization_level'] as String?,
     );
 
-Map<String, dynamic> _$$ModelDetailsImplToJson(_$ModelDetailsImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('parent_model', instance.parentModel);
-  writeNotNull('format', instance.format);
-  writeNotNull('family', instance.family);
-  writeNotNull('families', instance.families);
-  writeNotNull('parameter_size', instance.parameterSize);
-  writeNotNull('quantization_level', instance.quantizationLevel);
-  return val;
-}
+Map<String, dynamic> _$$ModelDetailsImplToJson(_$ModelDetailsImpl instance) =>
+    <String, dynamic>{
+      if (instance.parentModel case final value?) 'parent_model': value,
+      if (instance.format case final value?) 'format': value,
+      if (instance.family case final value?) 'family': value,
+      if (instance.families case final value?) 'families': value,
+      if (instance.parameterSize case final value?) 'parameter_size': value,
+      if (instance.quantizationLevel case final value?)
+        'quantization_level': value,
+    };
 
 _$ModelInformationImpl _$$ModelInformationImplFromJson(
         Map<String, dynamic> json) =>
@@ -597,22 +474,32 @@ _$ModelInformationImpl _$$ModelInformationImplFromJson(
     );
 
 Map<String, dynamic> _$$ModelInformationImplToJson(
-    _$ModelInformationImpl instance) {
-  final val = <String, dynamic>{};
+        _$ModelInformationImpl instance) =>
+    <String, dynamic>{
+      if (instance.generalArchitecture case final value?)
+        'general.architecture': value,
+      if (instance.generalFileType case final value?)
+        'general.file_type': value,
+      if (instance.generalParameterCount case final value?)
+        'general.parameter_count': value,
+      if (instance.generalQuantizationVersion case final value?)
+        'general.quantization_version': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
+_$TensorImpl _$$TensorImplFromJson(Map<String, dynamic> json) => _$TensorImpl(
+      name: json['name'] as String?,
+      type: json['type'] as String?,
+      shape: (json['shape'] as List<dynamic>?)
+          ?.map((e) => (e as num).toInt())
+          .toList(),
+    );
 
-  writeNotNull('general.architecture', instance.generalArchitecture);
-  writeNotNull('general.file_type', instance.generalFileType);
-  writeNotNull('general.parameter_count', instance.generalParameterCount);
-  writeNotNull(
-      'general.quantization_version', instance.generalQuantizationVersion);
-  return val;
-}
+Map<String, dynamic> _$$TensorImplToJson(_$TensorImpl instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'name': value,
+      if (instance.type case final value?) 'type': value,
+      if (instance.shape case final value?) 'shape': value,
+    };
 
 _$ProcessResponseImpl _$$ProcessResponseImplFromJson(
         Map<String, dynamic> json) =>
@@ -623,18 +510,11 @@ _$ProcessResponseImpl _$$ProcessResponseImplFromJson(
     );
 
 Map<String, dynamic> _$$ProcessResponseImplToJson(
-    _$ProcessResponseImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('models', instance.models?.map((e) => e.toJson()).toList());
-  return val;
-}
+        _$ProcessResponseImpl instance) =>
+    <String, dynamic>{
+      if (instance.models?.map((e) => e.toJson()).toList() case final value?)
+        'models': value,
+    };
 
 _$ProcessModelImpl _$$ProcessModelImplFromJson(Map<String, dynamic> json) =>
     _$ProcessModelImpl(
@@ -648,23 +528,15 @@ _$ProcessModelImpl _$$ProcessModelImplFromJson(Map<String, dynamic> json) =>
       sizeVram: (json['size_vram'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$$ProcessModelImplToJson(_$ProcessModelImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('model', instance.model);
-  writeNotNull('size', instance.size);
-  writeNotNull('digest', instance.digest);
-  writeNotNull('details', instance.details?.toJson());
-  writeNotNull('expires_at', instance.expiresAt);
-  writeNotNull('size_vram', instance.sizeVram);
-  return val;
-}
+Map<String, dynamic> _$$ProcessModelImplToJson(_$ProcessModelImpl instance) =>
+    <String, dynamic>{
+      if (instance.model case final value?) 'model': value,
+      if (instance.size case final value?) 'size': value,
+      if (instance.digest case final value?) 'digest': value,
+      if (instance.details?.toJson() case final value?) 'details': value,
+      if (instance.expiresAt case final value?) 'expires_at': value,
+      if (instance.sizeVram case final value?) 'size_vram': value,
+    };
 
 _$ModelInfoRequestImpl _$$ModelInfoRequestImplFromJson(
         Map<String, dynamic> json) =>
@@ -688,34 +560,51 @@ _$ModelInfoImpl _$$ModelInfoImplFromJson(Map<String, dynamic> json) =>
       details: json['details'] == null
           ? null
           : ModelDetails.fromJson(json['details'] as Map<String, dynamic>),
+      messages: (json['messages'] as List<dynamic>?)
+          ?.map((e) => Message.fromJson(e as Map<String, dynamic>))
+          .toList(),
       modelInfo: json['model_info'] == null
           ? null
           : ModelInformation.fromJson(
               json['model_info'] as Map<String, dynamic>),
-      messages: (json['messages'] as List<dynamic>?)
-          ?.map((e) => Message.fromJson(e as Map<String, dynamic>))
+      projectorInfo: json['projector_info'] as Map<String, dynamic>?,
+      tensors: (json['tensors'] as List<dynamic>?)
+          ?.map((e) => Tensor.fromJson(e as Map<String, dynamic>))
           .toList(),
+      capabilities: (json['capabilities'] as List<dynamic>?)
+          ?.map((e) => $enumDecode(_$CapabilityEnumMap, e))
+          .toList(),
+      modifiedAt: json['modified_at'] as String?,
     );
 
-Map<String, dynamic> _$$ModelInfoImplToJson(_$ModelInfoImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$$ModelInfoImplToJson(_$ModelInfoImpl instance) =>
+    <String, dynamic>{
+      if (instance.license case final value?) 'license': value,
+      if (instance.modelfile case final value?) 'modelfile': value,
+      if (instance.parameters case final value?) 'parameters': value,
+      if (instance.template case final value?) 'template': value,
+      if (instance.system case final value?) 'system': value,
+      if (instance.details?.toJson() case final value?) 'details': value,
+      if (instance.messages?.map((e) => e.toJson()).toList() case final value?)
+        'messages': value,
+      if (instance.modelInfo?.toJson() case final value?) 'model_info': value,
+      if (instance.projectorInfo case final value?) 'projector_info': value,
+      if (instance.tensors?.map((e) => e.toJson()).toList() case final value?)
+        'tensors': value,
+      if (instance.capabilities?.map((e) => _$CapabilityEnumMap[e]!).toList()
+          case final value?)
+        'capabilities': value,
+      if (instance.modifiedAt case final value?) 'modified_at': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('license', instance.license);
-  writeNotNull('modelfile', instance.modelfile);
-  writeNotNull('parameters', instance.parameters);
-  writeNotNull('template', instance.template);
-  writeNotNull('system', instance.system);
-  writeNotNull('details', instance.details?.toJson());
-  writeNotNull('model_info', instance.modelInfo?.toJson());
-  writeNotNull('messages', instance.messages?.map((e) => e.toJson()).toList());
-  return val;
-}
+const _$CapabilityEnumMap = {
+  Capability.completion: 'completion',
+  Capability.tools: 'tools',
+  Capability.insert: 'insert',
+  Capability.vision: 'vision',
+  Capability.embedding: 'embedding',
+  Capability.thinking: 'thinking',
+};
 
 _$CopyModelRequestImpl _$$CopyModelRequestImplFromJson(
         Map<String, dynamic> json) =>
@@ -754,23 +643,14 @@ _$PullModelRequestImpl _$$PullModelRequestImplFromJson(
     );
 
 Map<String, dynamic> _$$PullModelRequestImplToJson(
-    _$PullModelRequestImpl instance) {
-  final val = <String, dynamic>{
-    'model': instance.model,
-    'insecure': instance.insecure,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('username', instance.username);
-  writeNotNull('password', instance.password);
-  val['stream'] = instance.stream;
-  return val;
-}
+        _$PullModelRequestImpl instance) =>
+    <String, dynamic>{
+      'model': instance.model,
+      'insecure': instance.insecure,
+      if (instance.username case final value?) 'username': value,
+      if (instance.password case final value?) 'password': value,
+      'stream': instance.stream,
+    };
 
 _$PullModelResponseImpl _$$PullModelResponseImplFromJson(
         Map<String, dynamic> json) =>
@@ -783,21 +663,14 @@ _$PullModelResponseImpl _$$PullModelResponseImplFromJson(
     );
 
 Map<String, dynamic> _$$PullModelResponseImplToJson(
-    _$PullModelResponseImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('status', _$PullModelStatusEnumMap[instance.status]);
-  writeNotNull('digest', instance.digest);
-  writeNotNull('total', instance.total);
-  writeNotNull('completed', instance.completed);
-  return val;
-}
+        _$PullModelResponseImpl instance) =>
+    <String, dynamic>{
+      if (_$PullModelStatusEnumMap[instance.status] case final value?)
+        'status': value,
+      if (instance.digest case final value?) 'digest': value,
+      if (instance.total case final value?) 'total': value,
+      if (instance.completed case final value?) 'completed': value,
+    };
 
 const _$PullModelStatusEnumMap = {
   PullModelStatus.pullingManifest: 'pulling manifest',
@@ -819,23 +692,14 @@ _$PushModelRequestImpl _$$PushModelRequestImplFromJson(
     );
 
 Map<String, dynamic> _$$PushModelRequestImplToJson(
-    _$PushModelRequestImpl instance) {
-  final val = <String, dynamic>{
-    'model': instance.model,
-    'insecure': instance.insecure,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('username', instance.username);
-  writeNotNull('password', instance.password);
-  val['stream'] = instance.stream;
-  return val;
-}
+        _$PushModelRequestImpl instance) =>
+    <String, dynamic>{
+      'model': instance.model,
+      'insecure': instance.insecure,
+      if (instance.username case final value?) 'username': value,
+      if (instance.password case final value?) 'password': value,
+      'stream': instance.stream,
+    };
 
 _$PushModelResponseImpl _$$PushModelResponseImplFromJson(
         Map<String, dynamic> json) =>
@@ -847,18 +711,10 @@ _$PushModelResponseImpl _$$PushModelResponseImplFromJson(
     );
 
 Map<String, dynamic> _$$PushModelResponseImplToJson(
-    _$PushModelResponseImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('status', instance.status);
-  writeNotNull('digest', instance.digest);
-  writeNotNull('total', instance.total);
-  writeNotNull('completed', instance.completed);
-  return val;
-}
+        _$PushModelResponseImpl instance) =>
+    <String, dynamic>{
+      if (instance.status case final value?) 'status': value,
+      if (instance.digest case final value?) 'digest': value,
+      if (instance.total case final value?) 'total': value,
+      if (instance.completed case final value?) 'completed': value,
+    };
