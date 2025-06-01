@@ -8,7 +8,11 @@ part of open_a_i_schema;
 // CLASS: FineTuningJobHyperparameters
 // ==========================================
 
-/// The hyperparameters used for the fine-tuning job. See the [fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning) for more details.
+/// The hyperparameters used for the fine-tuning job. This value will only be returned when running
+/// `supervised` jobs.
+///
+/// This value is now deprecated in favor of `method`, and should be passed in under the `method`
+/// parameter.
 @freezed
 class FineTuningJobHyperparameters with _$FineTuningJobHyperparameters {
   const FineTuningJobHyperparameters._();

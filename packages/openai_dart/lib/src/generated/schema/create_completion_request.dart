@@ -35,10 +35,9 @@ class CreateCompletionRequest with _$CreateCompletionRequest {
     /// Echo back the prompt in addition to the completion
     @JsonKey(includeIfNull: false) @Default(false) bool? echo,
 
-    /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the
-    /// text so far, decreasing the model's likelihood to repeat the same line verbatim.
-    ///
-    /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation)
+    /// Number between -2.0 and 2.0. Positive values penalize new tokens based on
+    /// their existing frequency in the text so far, decreasing the model's
+    /// likelihood to repeat the same line verbatim.
     @JsonKey(name: 'frequency_penalty', includeIfNull: false)
     @Default(0.0)
     double? frequencyPenalty,
@@ -68,9 +67,9 @@ class CreateCompletionRequest with _$CreateCompletionRequest {
     /// **Note:** Because this parameter generates many completions, it can quickly consume your token quota. Use carefully and ensure that you have reasonable settings for `max_tokens` and `stop`.
     @JsonKey(includeIfNull: false) @Default(1) int? n,
 
-    /// Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
-    ///
-    /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation)
+    /// Number between -2.0 and 2.0. Positive values penalize new tokens based on
+    /// whether they appear in the text so far, increasing the model's likelihood
+    /// to talk about new topics.
     @JsonKey(name: 'presence_penalty', includeIfNull: false)
     @Default(0.0)
     double? presencePenalty,
@@ -102,7 +101,10 @@ class CreateCompletionRequest with _$CreateCompletionRequest {
     /// We generally recommend altering this or `top_p` but not both.
     @JsonKey(includeIfNull: false) @Default(1.0) double? temperature,
 
-    /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+    /// An alternative to sampling with temperature, called nucleus sampling,
+    /// where the model considers the results of the tokens with top_p probability
+    /// mass. So 0.1 means only the tokens comprising the top 10% probability mass
+    /// are considered.
     ///
     /// We generally recommend altering this or `temperature` but not both.
     @JsonKey(name: 'top_p', includeIfNull: false) @Default(1.0) double? topP,

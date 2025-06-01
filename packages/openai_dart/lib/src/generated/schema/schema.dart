@@ -23,6 +23,7 @@ part 'chat_completion_message_function_call.dart';
 part 'chat_completion_function_call_option.dart';
 part 'function_object.dart';
 part 'function_parameters.dart';
+part 'reasoning_effort.dart';
 part 'response_format_type.dart';
 part 'json_schema_object.dart';
 part 'chat_completion_tool.dart';

@@ -14,10 +14,34 @@ sealed class ChatCompletionMessage with _$ChatCompletionMessage {
   const ChatCompletionMessage._();
 
   // ------------------------------------------
+  // UNION: ChatCompletionDeveloperMessage
+  // ------------------------------------------
+
+  /// Developer-provided instructions that the model should follow, regardless of
+  /// messages sent by the user. With o1 models and newer, `developer` messages
+  /// replace the previous `system` messages.
+
+  @FreezedUnionValue('developer')
+  const factory ChatCompletionMessage.developer({
+    /// The role of the messages author, in this case `developer`.
+    @Default(ChatCompletionMessageRole.developer)
+    ChatCompletionMessageRole role,
+
+    /// The contents of the developer message.
+    @_ChatCompletionDeveloperMessageContentConverter()
+    required ChatCompletionDeveloperMessageContent content,
+
+    /// An optional name for the participant. Provides the model information to differentiate between participants of the same role.
+    @JsonKey(includeIfNull: false) String? name,
+  }) = ChatCompletionDeveloperMessage;
+
+  // ------------------------------------------
   // UNION: ChatCompletionSystemMessage
   // ------------------------------------------
 
-  /// A system message in a chat conversation.
+  /// Developer-provided instructions that the model should follow, regardless of
+  /// messages sent by the user. With o1 models and newer, use `developer` messages
+  /// for this purpose instead.
 
   @FreezedUnionValue('system')
   const factory ChatCompletionMessage.system({
@@ -35,7 +59,8 @@ sealed class ChatCompletionMessage with _$ChatCompletionMessage {
   // UNION: ChatCompletionUserMessage
   // ------------------------------------------
 
-  /// A user message in a chat conversation.
+  /// Messages sent by an end user, containing prompts or additional context
+  /// information.
 
   @FreezedUnionValue('user')
   const factory ChatCompletionMessage.user({
@@ -130,6 +155,8 @@ sealed class ChatCompletionMessage with _$ChatCompletionMessage {
 // ==========================================
 
 enum ChatCompletionMessageEnumType {
+  @JsonValue('developer')
+  developer,
   @JsonValue('system')
   system,
   @JsonValue('user')
@@ -140,6 +167,62 @@ enum ChatCompletionMessageEnumType {
   tool,
   @JsonValue('function')
   function,
+}
+
+// ==========================================
+// CLASS: ChatCompletionDeveloperMessageContent
+// ==========================================
+
+/// The contents of the developer message.
+@freezed
+sealed class ChatCompletionDeveloperMessageContent
+    with _$ChatCompletionDeveloperMessageContent {
+  const ChatCompletionDeveloperMessageContent._();
+
+  /// An array of content parts with a defined type. For developer messages, only type `text` is supported.
+  const factory ChatCompletionDeveloperMessageContent.parts(
+    List<ChatCompletionMessageContentPart> value,
+  ) = ChatCompletionDeveloperMessageContentParts;
+
+  /// The text contents of the developer message.
+  const factory ChatCompletionDeveloperMessageContent.text(
+    String value,
+  ) = ChatCompletionDeveloperMessageContentString;
+
+  /// Object construction from a JSON representation
+  factory ChatCompletionDeveloperMessageContent.fromJson(
+          Map<String, dynamic> json) =>
+      _$ChatCompletionDeveloperMessageContentFromJson(json);
+}
+
+/// Custom JSON converter for [ChatCompletionDeveloperMessageContent]
+class _ChatCompletionDeveloperMessageContentConverter
+    implements JsonConverter<ChatCompletionDeveloperMessageContent, Object?> {
+  const _ChatCompletionDeveloperMessageContentConverter();
+
+  @override
+  ChatCompletionDeveloperMessageContent fromJson(Object? data) {
+    if (data is List && data.every((item) => item is Map)) {
+      return ChatCompletionDeveloperMessageContentParts(data
+          .map((i) => ChatCompletionMessageContentPart.fromJson(
+              i as Map<String, dynamic>))
+          .toList(growable: false));
+    }
+    if (data is String) {
+      return ChatCompletionDeveloperMessageContentString(data);
+    }
+    throw Exception(
+      'Unexpected value for ChatCompletionDeveloperMessageContent: $data',
+    );
+  }
+
+  @override
+  Object? toJson(ChatCompletionDeveloperMessageContent data) {
+    return switch (data) {
+      ChatCompletionDeveloperMessageContentParts(value: final v) => v,
+      ChatCompletionDeveloperMessageContentString(value: final v) => v,
+    };
+  }
 }
 
 // ==========================================

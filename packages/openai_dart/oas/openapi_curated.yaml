@@ -48,6 +48,12 @@ paths:
         [text generation](https://platform.openai.com/docs/guides/text-generation),
         [vision](https://platform.openai.com/docs/guides/vision), and 
         [audio](https://platform.openai.com/docs/guides/audio) guides.
+        
+        Parameter support can differ depending on the model used to generate the
+        response, particularly for newer reasoning models. Parameters that are only
+        supported for reasoning models are noted below. For the current state of 
+        unsupported parameters in reasoning models, 
+        [refer to the reasoning guide](https://platform.openai.com/docs/guides/reasoning).
       requestBody:
         required: true
         content:
@@ -305,7 +311,7 @@ paths:
       tags:
         - Models
       summary: List models
-      description: | 
+      description: |
         Lists the currently available models, and provides basic information about each one such as the owner 
         and availability.
       responses:
@@ -321,7 +327,7 @@ paths:
       tags:
         - Models
       summary: Retrieve model
-      description: | 
+      description: |
         Retrieves a model instance, providing basic information about the model such as the owner 
         and permissioning.
       parameters:
@@ -1258,7 +1264,7 @@ paths:
       tags:
         - Vector Stores
       summary: Create vector store file
-      description: | 
+      description: |
         Create a vector store file by attaching a [File](https://platform.openai.com/docs/api-reference/files) 
         to a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object).
       parameters:
@@ -1405,7 +1411,7 @@ paths:
       tags:
         - Vector Stores
       summary: Cancel vector store file batch
-      description: | 
+      description: |
         Cancel a vector store file batch. This attempts to cancel the processing of files in this batch 
         as soon as possible.
       parameters:
@@ -1661,10 +1667,9 @@ components:
           maximum: 2
           nullable: true
           description: &completions_frequency_penalty_description |
-            Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the 
-            text so far, decreasing the model's likelihood to repeat the same line verbatim.
-
-            [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation)
+            Number between -2.0 and 2.0. Positive values penalize new tokens based on
+            their existing frequency in the text so far, decreasing the model's
+            likelihood to repeat the same line verbatim.
         logit_bias: &completions_logit_bias
           type: object
           default: null
@@ -1715,9 +1720,9 @@ components:
           maximum: 2
           nullable: true
           description: &completions_presence_penalty_description |
-            Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
-
-            [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation)
+            Number between -2.0 and 2.0. Positive values penalize new tokens based on
+            whether they appear in the text so far, increasing the model's likelihood
+            to talk about new topics.
         seed: &completions_seed_param
           type: integer
           # minimum: -9223372036854775808 # The value can't be represented exactly in JavaScript
@@ -1783,7 +1788,10 @@ components:
           example: 1
           nullable: true
           description: &completions_top_p_description |
-            An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+            An alternative to sampling with temperature, called nucleus sampling,
+            where the model considers the results of the tokens with top_p probability
+            mass. So 0.1 means only the tokens comprising the top 10% probability mass
+            are considered.
 
             We generally recommend altering this or `temperature` but not both.
         user: &end_user_param_configuration
@@ -1925,10 +1933,11 @@ components:
                 - gpt-4o-2024-11-20
                 - gpt-4o-audio-preview
                 - gpt-4o-audio-preview-2024-10-01
+                - gpt-4o-audio-preview-2024-12-17
                 - gpt-4o-mini
                 - gpt-4o-mini-2024-07-18
-                - gpt-4o-realtime-preview
-                - gpt-4o-realtime-preview-2024-10-01
+                - gpt-4o-mini-audio-preview
+                - gpt-4o-mini-audio-preview-2024-12-17
                 - gpt-3.5-turbo
                 - gpt-3.5-turbo-16k
                 - gpt-3.5-turbo-16k-0613
@@ -1936,6 +1945,8 @@ components:
                 - gpt-3.5-turbo-0301
                 - gpt-3.5-turbo-0613
                 - gpt-3.5-turbo-1106
+                - o1
+                - o1-2024-12-17
                 - o1-mini
                 - o1-mini-2024-09-12
                 - o1-preview
@@ -1955,9 +1966,11 @@ components:
           type: boolean
           nullable: true
           description: |
-            Whether or not to store the output of this chat completion request for use in our 
-            [model distillation](https://platform.openai.com/docs/guides/distillation) 
-            or [evals](https://platform.openai.com/docs/guides/evals) products.
+            Whether or not to store the output of this chat completion request for 
+            use in our [model distillation](https://platform.openai.com/docs/guides/distillation) or
+            [evals](https://platform.openai.com/docs/guides/evals) products.
+        reasoning_effort:
+          $ref: "#/components/schemas/ReasoningEffort"
         metadata:
           type: object
           nullable: true
@@ -1980,35 +1993,36 @@ components:
           additionalProperties:
             type: integer
           description: |
-            Modify the likelihood of specified tokens appearing in the completion.
-
-            Accepts a JSON object that maps tokens (specified by their token ID in the tokenizer) to an associated bias 
-            value from -100 to 100. Mathematically, the bias is added to the logits generated by the model prior to 
-            sampling. The exact effect will vary per model, but values between -1 and 1 should decrease or increase 
-            likelihood of selection; values like -100 or 100 should result in a ban or exclusive selection of the 
-            relevant token.
+            Accepts a JSON object that maps tokens (specified by their token ID in the
+            tokenizer) to an associated bias value from -100 to 100. Mathematically,
+            the bias is added to the logits generated by the model prior to sampling.
+            The exact effect will vary per model, but values between -1 and 1 should
+            decrease or increase likelihood of selection; values like -100 or 100
+            should result in a ban or exclusive selection of the relevant token.
         logprobs:
           description: |
-            Whether to return log probabilities of the output tokens or not. If true, returns the log probabilities of 
-            each output token returned in the `content` of `message`.
+            Whether to return log probabilities of the output tokens or not. If true,
+            returns the log probabilities of each output token returned in the
+            `content` of `message`.
           type: boolean
           nullable: true
         top_logprobs:
           description: |
-            An integer between 0 and 20 specifying the number of most likely tokens to return at each token position, 
-            each with an associated log probability. `logprobs` must be set to `true` if this parameter is used.
+            An integer between 0 and 20 specifying the number of most likely tokens to
+            return at each token position, each with an associated log probability.
+            `logprobs` must be set to `true` if this parameter is used.
           type: integer
           minimum: 0
           maximum: 20
           nullable: true
         max_tokens:
           description: |
-            The maximum number of [tokens](https://platform.openai.com/tokenizer) that can be generated in the chat 
-            completion. This value can be used to control [costs](https://openai.com/api/pricing/) for text generated 
-            via API.
+            The maximum number of [tokens](https://platform.openai.com/tokenizer) that can be generated in the
+            chat completion. This value can be used to control
+            [costs](https://openai.com/api/pricing/) for text generated via API.
             
-            This value is now deprecated in favor of `max_completion_tokens`, and is not compatible with 
-            [o1 series models](https://platform.openai.com/docs/guides/reasoning).
+            This value is now deprecated in favor of `max_completion_tokens`, and is
+            not compatible with [o1 series models](https://platform.openai.com/docs/guides/reasoning).
           type: integer
           nullable: true
         max_completion_tokens:
@@ -2160,12 +2174,18 @@ components:
             Deprecated in favor of `tool_choice`.
             
             Controls which (if any) function is called by the model.
-            `none` means the model will not call a function and instead generates a message.
-            `auto` means the model can pick between generating a message or calling a function.
-            Specifying a particular function via [ChatCompletionFunctionCallOption] forces the model to call that 
+            
+            `none` means the model will not call a function and instead generates a
+            message.
+            
+            `auto` means the model can pick between generating a message or calling a
             function.
             
-            `none` is the default when no functions are present. `auto` is the default if functions are present.
+            Specifying a particular function via `{"name": "my_function"}` forces the
+            model to call that function.
+            
+            `none` is the default when no functions are present. `auto` is the default
+            if functions are present.
           oneOf:
             - type: string
               title: ChatCompletionFunctionCallMode
@@ -2192,6 +2212,7 @@ components:
       type: object
       description: A message in a chat conversation.
       oneOf:
+        - $ref: "#/components/schemas/ChatCompletionDeveloperMessage"
         - $ref: "#/components/schemas/ChatCompletionSystemMessage"
         - $ref: "#/components/schemas/ChatCompletionUserMessage"
         - $ref: "#/components/schemas/ChatCompletionAssistantMessage"
@@ -2199,9 +2220,42 @@ components:
         - $ref: "#/components/schemas/ChatCompletionFunctionMessage"
       discriminator:
         propertyName: role
+    ChatCompletionDeveloperMessage:
+      type: object
+      description: |
+        Developer-provided instructions that the model should follow, regardless of
+        messages sent by the user. With o1 models and newer, `developer` messages
+        replace the previous `system` messages.
+      properties:
+        role:
+          $ref: "#/components/schemas/ChatCompletionMessageRole"
+          default: developer
+          description: The role of the messages author, in this case `developer`.
+        content:
+          description: The contents of the developer message.
+          oneOf:
+            - type: string
+              description: The text contents of the developer message.
+            - type: array
+              description: >-
+                An array of content parts with a defined type. For developer messages, only type `text` is
+                supported.
+              items:
+                $ref: "#/components/schemas/ChatCompletionMessageContentPart"
+              minItems: 1
+        name:
+          type: string
+          description: >-
+            An optional name for the participant. Provides the model information to differentiate between
+            participants of the same role.
+      required:
+        - content
     ChatCompletionSystemMessage:
       type: object
-      description: A system message in a chat conversation.
+      description: |
+        Developer-provided instructions that the model should follow, regardless of
+        messages sent by the user. With o1 models and newer, use `developer` messages
+        for this purpose instead.
       properties:
         role:
           $ref: "#/components/schemas/ChatCompletionMessageRole"
@@ -2217,7 +2271,9 @@ components:
         - content
     ChatCompletionUserMessage:
       type: object
-      description: A user message in a chat conversation.
+      description: |
+        Messages sent by an end user, containing prompts or additional context
+        information.
       properties:
         role:
           $ref: "#/components/schemas/ChatCompletionMessageRole"
@@ -2372,7 +2428,7 @@ components:
             detail:
               type: string
               title: ChatCompletionMessageImageDetail
-              description: | 
+              description: |
                 Specifies the detail level of the image. Learn more in the 
                 [Vision guide](https://platform.openai.com/docs/guides/vision#low-or-high-fidelity-image-understanding).
               enum: [ "auto", "low", "high" ]
@@ -2434,8 +2490,10 @@ components:
       description: The type of the content part.
     ChatCompletionMessageRole:
       type: string
-      description: The role of the messages author. One of `system`, `user`, `assistant`, or `tool` (`function` is deprecated).
-      enum: [ "system", "user", "assistant", "tool", "function" ]
+      description: |
+        The role of the messages author. 
+        One of `developer`, `user`, `assistant`, or `tool` (`function` and `system` are deprecated).
+      enum: [ "developer", "user", "assistant", "tool", "system", "function" ]
     ChatCompletionMessageFunctionCall:
       type: object
       description: The name and arguments of a function that should be called, as generated by the model.
@@ -2488,26 +2546,39 @@ components:
       type: object
       description: "The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format. \n\nOmitting `parameters` defines a function with an empty parameter list."
       additionalProperties: true
+    ReasoningEffort:
+      type: string
+      enum:
+        - low
+        - medium
+        - high
+      default: medium
+      description: |
+        **o1 models only** 
+
+        Constrains effort on reasoning for 
+        [reasoning models](https://platform.openai.com/docs/guides/reasoning).
+        Currently supported values are `low`, `medium`, and `high`. Reducing
+        reasoning effort can result in faster responses and fewer tokens used
+        on reasoning in a response.
     ResponseFormat:
       type: object
       description: |
-        An object specifying the format that the model must output. Compatible with 
-        [GPT-4o](https://platform.openai.com/docs/models#gpt-4o), 
-        [GPT-4o mini](https://platform.openai.com/docs/models#gpt-4o-mini), 
-        [GPT-4 Turbo](https://platform.openai.com/docs/models#gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer 
-        than `gpt-3.5-turbo-1106`.
-
-        Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures the model 
-        will match your supplied JSON schema. 
-        Learn more in the [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
-
-        Setting to `{ "type": "json_object" }` enables JSON mode, which ensures the message the model generates is 
-        valid JSON.
-
-        **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system 
-        or user message. Without this, the model may generate an unending stream of whitespace until the generation 
-        reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message 
-        content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded 
+        An object specifying the format that the model must output.
+        
+        Setting to `{ "type": "json_schema", "json_schema": {...} }` enables
+        Structured Outputs which ensures the model will match your supplied JSON
+        schema. Learn more in the [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
+        
+        Setting to `{ "type": "json_object" }` enables JSON mode, which ensures
+        the message the model generates is valid JSON.
+        
+        **Important:** when using JSON mode, you **must** also instruct the model
+        to produce JSON yourself via a system or user message. Without this, the
+        model may generate an unending stream of whitespace until the generation
+        reaches the token limit, resulting in a long-running and seemingly "stuck"
+        request. Also note that the message content may be partially cut off if
+        `finish_reason="length"`, which indicates the generation exceeded
         `max_tokens` or the conversation exceeded the max context length.
       oneOf:
         - $ref: "#/components/schemas/ResponseFormatText"
@@ -2896,17 +2967,12 @@ components:
     ChatCompletionStreamResponseChoice:
       type: object
       description: A choice the model generated for the input prompt.
-      required:
-        - delta
-        - finish_reason
-        # - index # Made nullable to support OpenRouter API which doesn't return this field
       properties:
         delta:
           $ref: "#/components/schemas/ChatCompletionStreamResponseDelta"
         logprobs: *chat_completion_response_logprobs
         finish_reason:
           $ref: "#/components/schemas/ChatCompletionFinishReason"
-          nullable: true
         index:
           type: integer
           description: The index of the choice in the list of choices.
@@ -2994,10 +3060,6 @@ components:
           description: Total number of tokens used in the request (prompt + completion).
         completion_tokens_details:
           $ref: "#/components/schemas/CompletionTokensDetails"
-      required:
-        - prompt_tokens
-        - completion_tokens
-        - total_tokens
     CompletionTokensDetails:
       type: object
       description: Breakdown of tokens used in a completion.
@@ -3184,15 +3246,18 @@ components:
             Your dataset must be formatted as a JSONL file. Additionally, you must upload your file with the purpose 
             `fine-tune`.
 
-            The contents of the file should differ depending on if the model uses the 
-            [chat](https://platform.openai.com/docs/api-reference/fine-tuning/chat-input) or 
-            [completions](https://platform.openai.com/docs/api-reference/fine-tuning/completions-input) format.
+            The contents of the file should differ depending on if the model uses the
+            [chat](https://platform.openai.com/docs/api-reference/fine-tuning/chat-input),
+            [completions](https://platform.openai.com/docs/api-reference/fine-tuning/completions-input)
+            format, or if the fine-tuning method uses the
+            [preference](https://platform.openai.com/docs/api-reference/fine-tuning/preference-input) format.
             
             See the [fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning) for more details.
           type: string
           example: "file-abc123"
         hyperparameters:
           $ref: "#/components/schemas/FineTuningJobHyperparameters"
+          deprecated: true
         suffix:
           description: |
             A string of up to 64 characters that will be added to your fine-tuned model name.
@@ -3394,7 +3459,12 @@ components:
         - param
     FineTuningJobHyperparameters:
       type: object
-      description: The hyperparameters used for the fine-tuning job. See the [fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning) for more details.
+      description: |
+        The hyperparameters used for the fine-tuning job. This value will only be returned when running
+        `supervised` jobs.
+
+        This value is now deprecated in favor of `method`, and should be passed in under the `method`
+        parameter.
       properties:
         n_epochs:
           title: FineTuningNEpochs
