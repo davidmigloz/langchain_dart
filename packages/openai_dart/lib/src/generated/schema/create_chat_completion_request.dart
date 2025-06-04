@@ -38,9 +38,9 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     /// Currently supported values are `low`, `medium`, and `high`. Reducing
     /// reasoning effort can result in faster responses and fewer tokens used
     /// on reasoning in a response.
-    @JsonKey(name: 'reasoning_effort')
-    @Default(ReasoningEffort.medium)
-    ReasoningEffort reasoningEffort,
+    @JsonKey(name: 'reasoning_effort', includeIfNull: false)
+    @Default(null)
+    ReasoningEffort? reasoningEffort,
 
     /// Developer-defined tags and values used for filtering completions
     /// in the [dashboard](https://platform.openai.com/chat-completions).

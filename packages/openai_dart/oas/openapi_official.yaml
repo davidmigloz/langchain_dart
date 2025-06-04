@@ -13288,6 +13288,7 @@ components:
             [evals](https://platform.openai.com/docs/guides/evals) products.
         reasoning_effort:
           type: string
+          nullable: true
           enum:
             - low
             - medium

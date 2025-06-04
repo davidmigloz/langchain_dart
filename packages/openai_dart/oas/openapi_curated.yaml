@@ -2548,6 +2548,7 @@ components:
       additionalProperties: true
     ReasoningEffort:
       type: string
+      nullable: true
       enum:
         - low
         - medium

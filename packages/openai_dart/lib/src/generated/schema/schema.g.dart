@@ -291,7 +291,7 @@ _$CreateChatCompletionRequestImpl _$$CreateChatCompletionRequestImplFromJson(
       store: json['store'] as bool?,
       reasoningEffort: $enumDecodeNullable(
               _$ReasoningEffortEnumMap, json['reasoning_effort']) ??
-          ReasoningEffort.medium,
+          null,
       metadata: (json['metadata'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),
@@ -352,7 +352,8 @@ Map<String, dynamic> _$$CreateChatCompletionRequestImplToJson(
       'model': const _ChatCompletionModelConverter().toJson(instance.model),
       'messages': instance.messages.map((e) => e.toJson()).toList(),
       if (instance.store case final value?) 'store': value,
-      'reasoning_effort': _$ReasoningEffortEnumMap[instance.reasoningEffort]!,
+      if (_$ReasoningEffortEnumMap[instance.reasoningEffort] case final value?)
+        'reasoning_effort': value,
       if (instance.metadata case final value?) 'metadata': value,
       if (instance.frequencyPenalty case final value?)
         'frequency_penalty': value,
