@@ -118,6 +118,8 @@ enum ImageModels {
   dallE2,
   @JsonValue('dall-e-3')
   dallE3,
+  @JsonValue('gpt-image-1')
+  gptImage1,
 }
 
 // ==========================================
