@@ -37,12 +37,10 @@ jobs:
           flutter config --no-analytics
           dart --disable-analytics
 
-      - name: Clear pub cache
-        run: flutter pub cache clean
-
       - name: Install Melos
         uses: bluefireteam/melos-action@b7f0b37c25d61616d8eda5d1b0fcf4b17e4e3b09
         with:
+          melos-version: '7.0.0-dev.9'
           run-bootstrap: false
 
       - name: Bootstrap

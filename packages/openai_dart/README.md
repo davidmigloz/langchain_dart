@@ -175,7 +175,7 @@ You can either provide the image URL:
 final res = await client.createChatCompletion(
   request: CreateChatCompletionRequest(
     model: ChatCompletionModel.model(
-      ChatCompletionModels.gpt4VisionPreview,
+      ChatCompletionModels.gpt4o,
     ),
     messages: [
       ChatCompletionMessage.system(
@@ -553,6 +553,12 @@ final stream = client.createChatCompletionStream(
 );
 ```
 
+**List stored completions:**
+
+```dart
+final res = await client.listChatCompletions();
+```
+
 **Function calling:** (deprecated in favor of tools)
 
 ```dart
@@ -823,15 +829,11 @@ Related guide: [Image generation](https://platform.openai.com/docs/guides/images
 ```dart
 final res = await client.createImage(
   request: CreateImageRequest(
-    model: CreateImageRequestModel.model(ImageModels.dallE3),
+    model: CreateImageRequestModel.model(ImageModels.gptImage1),
     prompt: 'A cute baby sea otter',
-    quality: ImageQuality.hd,
-    size: ImageSize.v1024x1792,
-    style: ImageStyle.natural,
   ),
 );
-print(res.data.first.url);
-// https://oaidalleapiprodscus.blob.core.windows.net/private/...
+print(res.data.first.b64Json);
 ```
 
 ### Models

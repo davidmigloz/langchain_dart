@@ -53,7 +53,6 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     /// their existing frequency in the text so far, decreasing the model's
     /// likelihood to repeat the same line verbatim.
     @JsonKey(name: 'frequency_penalty', includeIfNull: false)
-    @Default(0.0)
     double? frequencyPenalty,
 
     /// Accepts a JSON object that maps tokens (specified by their token ID in the
@@ -90,7 +89,7 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
 
     /// How many chat completion choices to generate for each input message. Note that you will be charged based on
     /// the number of generated tokens across all of the choices. Keep `n` as `1` to minimize costs.
-    @JsonKey(includeIfNull: false) @Default(1) int? n,
+    @JsonKey(includeIfNull: false) int? n,
 
     /// A list of modalities that the model may use to generate the completion.
     @JsonKey(includeIfNull: false) List<ChatCompletionModality>? modalities,
@@ -109,8 +108,11 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     /// whether they appear in the text so far, increasing the model's likelihood
     /// to talk about new topics.
     @JsonKey(name: 'presence_penalty', includeIfNull: false)
-    @Default(0.0)
     double? presencePenalty,
+
+    /// This tool searches the web for relevant results to use in a response.
+    @JsonKey(name: 'web_search_options', includeIfNull: false)
+    WebSearchOptions? webSearchOptions,
 
     /// An object specifying the format that the model must output.
     ///
@@ -140,10 +142,10 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     @JsonKey(includeIfNull: false) int? seed,
 
     /// Specifies the latency tier to use for processing the request. This parameter is relevant for customers
-    /// subscribed to the scale tier service:
-    ///   - If set to 'auto', and the Project is Scale tier enabled, the system will utilize scale tier credits
+    /// subscribed to the Flex Processing service:
+    ///   - If set to 'auto', and the Project is Flex Processing enabled, the system will utilize flex credits
     ///     until they are exhausted.
-    ///   - If set to 'auto', and the Project is not Scale tier enabled, the request will be processed using the
+    ///   - If set to 'auto', and the Project is not Flex Processing enabled, the request will be processed using the
     ///     default service tier with a lower uptime SLA and no latency guarantee.
     ///   - If set to 'default', the request will be processed using the default service tier with a lower uptime
     ///     SLA and no latency guarantee.
@@ -172,7 +174,7 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
     ///
     /// We generally recommend altering this or `top_p` but not both.
-    @JsonKey(includeIfNull: false) @Default(1.0) double? temperature,
+    @JsonKey(includeIfNull: false) double? temperature,
 
     /// An alternative to sampling with temperature, called nucleus sampling,
     /// where the model considers the results of the tokens with top_p probability
@@ -180,7 +182,7 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     /// are considered.
     ///
     /// We generally recommend altering this or `temperature` but not both.
-    @JsonKey(name: 'top_p', includeIfNull: false) @Default(1.0) double? topP,
+    @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
 
     /// A list of tools the model may call. Currently, only functions are supported as a tool.
     /// Use this to provide a list of functions the model may generate JSON inputs for. A max of 128 functions are
@@ -254,6 +256,7 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     'prediction',
     'audio',
     'presence_penalty',
+    'web_search_options',
     'response_format',
     'seed',
     'service_tier',
@@ -271,21 +274,16 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
   ];
 
   /// Validation constants
-  static const frequencyPenaltyDefaultValue = 0.0;
   static const frequencyPenaltyMinValue = -2.0;
   static const frequencyPenaltyMaxValue = 2.0;
   static const topLogprobsMinValue = 0;
   static const topLogprobsMaxValue = 20;
-  static const nDefaultValue = 1;
   static const nMinValue = 1;
   static const nMaxValue = 128;
-  static const presencePenaltyDefaultValue = 0.0;
   static const presencePenaltyMinValue = -2.0;
   static const presencePenaltyMaxValue = 2.0;
-  static const temperatureDefaultValue = 1.0;
   static const temperatureMinValue = 0.0;
   static const temperatureMaxValue = 2.0;
-  static const topPDefaultValue = 1.0;
   static const topPMinValue = 0.0;
   static const topPMaxValue = 1.0;
 
@@ -351,6 +349,7 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
       'prediction': prediction,
       'audio': audio,
       'presence_penalty': presencePenalty,
+      'web_search_options': webSearchOptions,
       'response_format': responseFormat,
       'seed': seed,
       'service_tier': serviceTier,
@@ -549,10 +548,10 @@ class _ChatCompletionModelConverter
 // ==========================================
 
 /// Specifies the latency tier to use for processing the request. This parameter is relevant for customers
-/// subscribed to the scale tier service:
-///   - If set to 'auto', and the Project is Scale tier enabled, the system will utilize scale tier credits
+/// subscribed to the Flex Processing service:
+///   - If set to 'auto', and the Project is Flex Processing enabled, the system will utilize flex credits
 ///     until they are exhausted.
-///   - If set to 'auto', and the Project is not Scale tier enabled, the request will be processed using the
+///   - If set to 'auto', and the Project is not Flex Processing enabled, the request will be processed using the
 ///     default service tier with a lower uptime SLA and no latency guarantee.
 ///   - If set to 'default', the request will be processed using the default service tier with a lower uptime
 ///     SLA and no latency guarantee.
@@ -564,6 +563,8 @@ enum CreateChatCompletionRequestServiceTier {
   auto,
   @JsonValue('default')
   vDefault,
+  @JsonValue('flex')
+  flex,
 }
 
 // ==========================================

@@ -15,14 +15,14 @@ _$CreateCompletionRequestImpl _$$CreateCompletionRequestImplFromJson(
       prompt: const _CompletionPromptConverter().fromJson(json['prompt']),
       bestOf: (json['best_of'] as num?)?.toInt(),
       echo: json['echo'] as bool? ?? false,
-      frequencyPenalty: (json['frequency_penalty'] as num?)?.toDouble() ?? 0.0,
+      frequencyPenalty: (json['frequency_penalty'] as num?)?.toDouble(),
       logitBias: (json['logit_bias'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, (e as num).toInt()),
       ),
       logprobs: (json['logprobs'] as num?)?.toInt(),
       maxTokens: (json['max_tokens'] as num?)?.toInt() ?? 16,
-      n: (json['n'] as num?)?.toInt() ?? 1,
-      presencePenalty: (json['presence_penalty'] as num?)?.toDouble() ?? 0.0,
+      n: (json['n'] as num?)?.toInt(),
+      presencePenalty: (json['presence_penalty'] as num?)?.toDouble(),
       seed: (json['seed'] as num?)?.toInt(),
       stop: const _CompletionStopConverter().fromJson(json['stop']),
       stream: json['stream'] as bool? ?? false,
@@ -31,8 +31,8 @@ _$CreateCompletionRequestImpl _$$CreateCompletionRequestImplFromJson(
           : ChatCompletionStreamOptions.fromJson(
               json['stream_options'] as Map<String, dynamic>),
       suffix: json['suffix'] as String?,
-      temperature: (json['temperature'] as num?)?.toDouble() ?? 1.0,
-      topP: (json['top_p'] as num?)?.toDouble() ?? 1.0,
+      temperature: (json['temperature'] as num?)?.toDouble(),
+      topP: (json['top_p'] as num?)?.toDouble(),
       user: json['user'] as String?,
     );
 
@@ -295,7 +295,7 @@ _$CreateChatCompletionRequestImpl _$$CreateChatCompletionRequestImplFromJson(
       metadata: (json['metadata'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),
-      frequencyPenalty: (json['frequency_penalty'] as num?)?.toDouble() ?? 0.0,
+      frequencyPenalty: (json['frequency_penalty'] as num?)?.toDouble(),
       logitBias: (json['logit_bias'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, (e as num).toInt()),
       ),
@@ -303,7 +303,7 @@ _$CreateChatCompletionRequestImpl _$$CreateChatCompletionRequestImplFromJson(
       topLogprobs: (json['top_logprobs'] as num?)?.toInt(),
       maxTokens: (json['max_tokens'] as num?)?.toInt(),
       maxCompletionTokens: (json['max_completion_tokens'] as num?)?.toInt(),
-      n: (json['n'] as num?)?.toInt() ?? 1,
+      n: (json['n'] as num?)?.toInt(),
       modalities: (json['modalities'] as List<dynamic>?)
           ?.map((e) => $enumDecode(_$ChatCompletionModalityEnumMap, e))
           .toList(),
@@ -315,7 +315,11 @@ _$CreateChatCompletionRequestImpl _$$CreateChatCompletionRequestImplFromJson(
           ? null
           : ChatCompletionAudioOptions.fromJson(
               json['audio'] as Map<String, dynamic>),
-      presencePenalty: (json['presence_penalty'] as num?)?.toDouble() ?? 0.0,
+      presencePenalty: (json['presence_penalty'] as num?)?.toDouble(),
+      webSearchOptions: json['web_search_options'] == null
+          ? null
+          : WebSearchOptions.fromJson(
+              json['web_search_options'] as Map<String, dynamic>),
       responseFormat: json['response_format'] == null
           ? null
           : ResponseFormat.fromJson(
@@ -330,8 +334,8 @@ _$CreateChatCompletionRequestImpl _$$CreateChatCompletionRequestImplFromJson(
           ? null
           : ChatCompletionStreamOptions.fromJson(
               json['stream_options'] as Map<String, dynamic>),
-      temperature: (json['temperature'] as num?)?.toDouble() ?? 1.0,
-      topP: (json['top_p'] as num?)?.toDouble() ?? 1.0,
+      temperature: (json['temperature'] as num?)?.toDouble(),
+      topP: (json['top_p'] as num?)?.toDouble(),
       tools: (json['tools'] as List<dynamic>?)
           ?.map((e) => ChatCompletionTool.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -372,6 +376,8 @@ Map<String, dynamic> _$$CreateChatCompletionRequestImplToJson(
       if (instance.prediction?.toJson() case final value?) 'prediction': value,
       if (instance.audio?.toJson() case final value?) 'audio': value,
       if (instance.presencePenalty case final value?) 'presence_penalty': value,
+      if (instance.webSearchOptions?.toJson() case final value?)
+        'web_search_options': value,
       if (instance.responseFormat?.toJson() case final value?)
         'response_format': value,
       if (instance.seed case final value?) 'seed': value,
@@ -417,6 +423,7 @@ const _$ChatCompletionModalityEnumMap = {
 const _$CreateChatCompletionRequestServiceTierEnumMap = {
   CreateChatCompletionRequestServiceTier.auto: 'auto',
   CreateChatCompletionRequestServiceTier.vDefault: 'default',
+  CreateChatCompletionRequestServiceTier.flex: 'flex',
 };
 
 _$ChatCompletionModelEnumerationImpl
@@ -740,6 +747,41 @@ const _$ChatCompletionMessageToolCallTypeEnumMap = {
   ChatCompletionMessageToolCallType.function: 'function',
 };
 
+_$AnnotationImpl _$$AnnotationImplFromJson(Map<String, dynamic> json) =>
+    _$AnnotationImpl(
+      type: $enumDecode(_$AnnotationTypeEnumMap, json['type']),
+      urlCitation: AnnotationUrlCitation.fromJson(
+          json['url_citation'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$AnnotationImplToJson(_$AnnotationImpl instance) =>
+    <String, dynamic>{
+      'type': _$AnnotationTypeEnumMap[instance.type]!,
+      'url_citation': instance.urlCitation.toJson(),
+    };
+
+const _$AnnotationTypeEnumMap = {
+  AnnotationType.urlCitation: 'url_citation',
+};
+
+_$AnnotationUrlCitationImpl _$$AnnotationUrlCitationImplFromJson(
+        Map<String, dynamic> json) =>
+    _$AnnotationUrlCitationImpl(
+      endIndex: (json['end_index'] as num?)?.toInt(),
+      startIndex: (json['start_index'] as num?)?.toInt(),
+      url: json['url'] as String?,
+      title: json['title'] as String?,
+    );
+
+Map<String, dynamic> _$$AnnotationUrlCitationImplToJson(
+        _$AnnotationUrlCitationImpl instance) =>
+    <String, dynamic>{
+      if (instance.endIndex case final value?) 'end_index': value,
+      if (instance.startIndex case final value?) 'start_index': value,
+      if (instance.url case final value?) 'url': value,
+      if (instance.title case final value?) 'title': value,
+    };
+
 _$PredictionContentImpl _$$PredictionContentImplFromJson(
         Map<String, dynamic> json) =>
     _$PredictionContentImpl(
@@ -871,8 +913,9 @@ Map<String, dynamic> _$$CreateChatCompletionResponseImplToJson(
     };
 
 const _$ServiceTierEnumMap = {
-  ServiceTier.scale: 'scale',
+  ServiceTier.auto: 'auto',
   ServiceTier.vDefault: 'default',
+  ServiceTier.flex: 'flex',
 };
 
 _$ChatCompletionResponseChoiceImpl _$$ChatCompletionResponseChoiceImplFromJson(
@@ -1168,6 +1211,33 @@ Map<String, dynamic> _$$ChatCompletionStreamMessageToolCallChunkImplToJson(
 
 const _$ChatCompletionStreamMessageToolCallChunkTypeEnumMap = {
   ChatCompletionStreamMessageToolCallChunkType.function: 'function',
+};
+
+_$ChatCompletionListImpl _$$ChatCompletionListImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ChatCompletionListImpl(
+      object: $enumDecode(_$ChatCompletionListObjectEnumMap, json['object']),
+      data: (json['data'] as List<dynamic>)
+          .map((e) =>
+              CreateChatCompletionResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      firstId: json['first_id'] as String?,
+      lastId: json['last_id'] as String?,
+      hasMore: json['has_more'] as bool,
+    );
+
+Map<String, dynamic> _$$ChatCompletionListImplToJson(
+        _$ChatCompletionListImpl instance) =>
+    <String, dynamic>{
+      'object': _$ChatCompletionListObjectEnumMap[instance.object]!,
+      'data': instance.data.map((e) => e.toJson()).toList(),
+      if (instance.firstId case final value?) 'first_id': value,
+      if (instance.lastId case final value?) 'last_id': value,
+      'has_more': instance.hasMore,
+    };
+
+const _$ChatCompletionListObjectEnumMap = {
+  ChatCompletionListObject.list: 'list',
 };
 
 _$CompletionUsageImpl _$$CompletionUsageImplFromJson(
@@ -1825,22 +1895,27 @@ _$CreateImageRequestImpl _$$CreateImageRequestImplFromJson(
         Map<String, dynamic> json) =>
     _$CreateImageRequestImpl(
       prompt: json['prompt'] as String,
-      model: json['model'] == null
-          ? const CreateImageRequestModelString('dall-e-2')
-          : const _CreateImageRequestModelConverter().fromJson(json['model']),
-      n: (json['n'] as num?)?.toInt() ?? 1,
-      quality: $enumDecodeNullable(_$ImageQualityEnumMap, json['quality']) ??
-          ImageQuality.standard,
+      model: const _CreateImageRequestModelConverter().fromJson(json['model']),
+      n: (json['n'] as num?)?.toInt(),
+      quality: $enumDecodeNullable(_$ImageQualityEnumMap, json['quality'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
       responseFormat: $enumDecodeNullable(
-              _$ImageResponseFormatEnumMap, json['response_format'],
-              unknownValue: JsonKey.nullForUndefinedEnumValue) ??
-          ImageResponseFormat.url,
+          _$ImageResponseFormatEnumMap, json['response_format'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      outputFormat: $enumDecodeNullable(
+          _$ImageOutputFormatEnumMap, json['output_format'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      outputCompression: (json['output_compression'] as num?)?.toInt(),
       size: $enumDecodeNullable(_$ImageSizeEnumMap, json['size'],
-              unknownValue: JsonKey.nullForUndefinedEnumValue) ??
-          ImageSize.v1024x1024,
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      moderation: $enumDecodeNullable(
+          _$ImageModerationEnumMap, json['moderation'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      background: $enumDecodeNullable(
+          _$ImageBackgroundEnumMap, json['background'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
       style: $enumDecodeNullable(_$ImageStyleEnumMap, json['style'],
-              unknownValue: JsonKey.nullForUndefinedEnumValue) ??
-          ImageStyle.vivid,
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
       user: json['user'] as String?,
     );
 
@@ -1852,11 +1927,20 @@ Map<String, dynamic> _$$CreateImageRequestImplToJson(
           case final value?)
         'model': value,
       if (instance.n case final value?) 'n': value,
-      'quality': _$ImageQualityEnumMap[instance.quality]!,
+      if (_$ImageQualityEnumMap[instance.quality] case final value?)
+        'quality': value,
       if (_$ImageResponseFormatEnumMap[instance.responseFormat]
           case final value?)
         'response_format': value,
+      if (_$ImageOutputFormatEnumMap[instance.outputFormat] case final value?)
+        'output_format': value,
+      if (instance.outputCompression case final value?)
+        'output_compression': value,
       if (_$ImageSizeEnumMap[instance.size] case final value?) 'size': value,
+      if (_$ImageModerationEnumMap[instance.moderation] case final value?)
+        'moderation': value,
+      if (_$ImageBackgroundEnumMap[instance.background] case final value?)
+        'background': value,
       if (_$ImageStyleEnumMap[instance.style] case final value?) 'style': value,
       if (instance.user case final value?) 'user': value,
     };
@@ -1864,6 +1948,10 @@ Map<String, dynamic> _$$CreateImageRequestImplToJson(
 const _$ImageQualityEnumMap = {
   ImageQuality.standard: 'standard',
   ImageQuality.hd: 'hd',
+  ImageQuality.low: 'low',
+  ImageQuality.medium: 'medium',
+  ImageQuality.high: 'high',
+  ImageQuality.auto: 'auto',
 };
 
 const _$ImageResponseFormatEnumMap = {
@@ -1871,12 +1959,32 @@ const _$ImageResponseFormatEnumMap = {
   ImageResponseFormat.b64Json: 'b64_json',
 };
 
+const _$ImageOutputFormatEnumMap = {
+  ImageOutputFormat.png: 'png',
+  ImageOutputFormat.jpeg: 'jpeg',
+  ImageOutputFormat.webp: 'webp',
+};
+
 const _$ImageSizeEnumMap = {
+  ImageSize.auto: 'auto',
+  ImageSize.v1024x1024: '1024x1024',
+  ImageSize.v1536x1024: '1536x1024',
+  ImageSize.v1024x1536: '1024x1536',
   ImageSize.v256x256: '256x256',
   ImageSize.v512x512: '512x512',
-  ImageSize.v1024x1024: '1024x1024',
   ImageSize.v1792x1024: '1792x1024',
   ImageSize.v1024x1792: '1024x1792',
+};
+
+const _$ImageModerationEnumMap = {
+  ImageModeration.low: 'low',
+  ImageModeration.auto: 'auto',
+};
+
+const _$ImageBackgroundEnumMap = {
+  ImageBackground.transparent: 'transparent',
+  ImageBackground.opaque: 'opaque',
+  ImageBackground.auto: 'auto',
 };
 
 const _$ImageStyleEnumMap = {
@@ -3079,7 +3187,6 @@ const _$RunModelsEnumMap = {
   RunModels.gpt35Turbo1106: 'gpt-3.5-turbo-1106',
   RunModels.gpt35Turbo0125: 'gpt-3.5-turbo-0125',
   RunModels.gpt35Turbo16k0613: 'gpt-3.5-turbo-16k-0613',
-  RunModels.gpt35Turbo1106: 'gpt-3.5-turbo-1106',
 };
 
 _$CreateRunRequestModelStringImpl _$$CreateRunRequestModelStringImplFromJson(
@@ -4926,6 +5033,71 @@ const _$ListBatchesResponseObjectEnumMap = {
   ListBatchesResponseObject.list: 'list',
 };
 
+_$WebSearchOptionsImpl _$$WebSearchOptionsImplFromJson(
+        Map<String, dynamic> json) =>
+    _$WebSearchOptionsImpl(
+      userLocation: json['user_location'] == null
+          ? null
+          : WebSearchOptionsUserLocation.fromJson(
+              json['user_location'] as Map<String, dynamic>),
+      searchContextSize: $enumDecodeNullable(
+              _$WebSearchContextSizeEnumMap, json['search_context_size']) ??
+          WebSearchContextSize.medium,
+    );
+
+Map<String, dynamic> _$$WebSearchOptionsImplToJson(
+        _$WebSearchOptionsImpl instance) =>
+    <String, dynamic>{
+      if (instance.userLocation?.toJson() case final value?)
+        'user_location': value,
+      'search_context_size':
+          _$WebSearchContextSizeEnumMap[instance.searchContextSize]!,
+    };
+
+const _$WebSearchContextSizeEnumMap = {
+  WebSearchContextSize.low: 'low',
+  WebSearchContextSize.medium: 'medium',
+  WebSearchContextSize.high: 'high',
+};
+
+_$WebSearchOptionsUserLocationImpl _$$WebSearchOptionsUserLocationImplFromJson(
+        Map<String, dynamic> json) =>
+    _$WebSearchOptionsUserLocationImpl(
+      type:
+          $enumDecode(_$WebSearchOptionsUserLocationTypeEnumMap, json['type']),
+      approximate: WebSearchLocation.fromJson(
+          json['approximate'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$WebSearchOptionsUserLocationImplToJson(
+        _$WebSearchOptionsUserLocationImpl instance) =>
+    <String, dynamic>{
+      'type': _$WebSearchOptionsUserLocationTypeEnumMap[instance.type]!,
+      'approximate': instance.approximate.toJson(),
+    };
+
+const _$WebSearchOptionsUserLocationTypeEnumMap = {
+  WebSearchOptionsUserLocationType.approximate: 'approximate',
+};
+
+_$WebSearchLocationImpl _$$WebSearchLocationImplFromJson(
+        Map<String, dynamic> json) =>
+    _$WebSearchLocationImpl(
+      country: json['country'] as String?,
+      region: json['region'] as String?,
+      city: json['city'] as String?,
+      timezone: json['timezone'] as String?,
+    );
+
+Map<String, dynamic> _$$WebSearchLocationImplToJson(
+        _$WebSearchLocationImpl instance) =>
+    <String, dynamic>{
+      if (instance.country case final value?) 'country': value,
+      if (instance.region case final value?) 'region': value,
+      if (instance.city case final value?) 'city': value,
+      if (instance.timezone case final value?) 'timezone': value,
+    };
+
 _$ChatCompletionDeveloperMessageImpl
     _$$ChatCompletionDeveloperMessageImplFromJson(Map<String, dynamic> json) =>
         _$ChatCompletionDeveloperMessageImpl(
@@ -4997,6 +5169,9 @@ _$ChatCompletionAssistantMessageImpl
               ?.map((e) => ChatCompletionMessageToolCall.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
+          annotations: (json['annotations'] as List<dynamic>?)
+              ?.map((e) => Annotation.fromJson(e as Map<String, dynamic>))
+              .toList(),
           functionCall: json['function_call'] == null
               ? null
               : ChatCompletionMessageFunctionCall.fromJson(
@@ -5016,6 +5191,9 @@ Map<String, dynamic> _$$ChatCompletionAssistantMessageImplToJson(
       if (instance.name case final value?) 'name': value,
       if (instance.toolCalls?.map((e) => e.toJson()).toList() case final value?)
         'tool_calls': value,
+      if (instance.annotations?.map((e) => e.toJson()).toList()
+          case final value?)
+        'annotations': value,
       if (instance.functionCall?.toJson() case final value?)
         'function_call': value,
       if (instance.audio?.toJson() case final value?) 'audio': value,

@@ -263,8 +263,6 @@ enum RunModels {
   gpt35Turbo0125,
   @JsonValue('gpt-3.5-turbo-16k-0613')
   gpt35Turbo16k0613,
-  @JsonValue('gpt-3.5-turbo-1106')
-  gpt35Turbo1106,
 }
 
 // ==========================================

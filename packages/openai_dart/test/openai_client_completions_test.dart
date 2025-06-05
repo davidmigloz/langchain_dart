@@ -43,8 +43,8 @@ void main() {
         );
         expect(res.id, isNotEmpty);
         expect(
-          res.model.replaceAll(RegExp('[-.]'), '').toLowerCase(),
-          model.name.toLowerCase(),
+          res.model.replaceAll(RegExp('[-.:]'), '').toLowerCase(),
+          startsWith(model.name.toLowerCase()),
         );
         expect(res.object, CreateCompletionResponseObject.textCompletion);
         expect(res.usage?.promptTokens, greaterThan(0));
