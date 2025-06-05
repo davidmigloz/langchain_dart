@@ -1,8 +1,0 @@
-# melos_managed_dependency_overrides: langchain,langchain_core,ollama_dart
-dependency_overrides:
-  langchain:
-    path: ../langchain
-  langchain_core:
-    path: ../langchain_core
-  ollama_dart:
-    path: ../ollama_dart

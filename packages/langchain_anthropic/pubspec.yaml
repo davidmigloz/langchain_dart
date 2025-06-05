@@ -17,6 +17,7 @@ topics:
 
 environment:
   sdk: ">=3.6.0 <4.0.0"
+resolution: workspace
 
 dependencies:
   anthropic_sdk_dart: ^0.2.0+1

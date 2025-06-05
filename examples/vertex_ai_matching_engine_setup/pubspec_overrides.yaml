@@ -1,4 +1,0 @@
-# melos_managed_dependency_overrides: vertex_ai
-dependency_overrides:
-  vertex_ai:
-    path: ../../packages/vertex_ai
