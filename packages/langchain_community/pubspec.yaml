@@ -17,6 +17,7 @@ topics:
 
 environment:
   sdk: ">=3.6.0 <4.0.0"
+resolution: workspace
 
 dependencies:
   beautiful_soup_dart: ^0.3.0
