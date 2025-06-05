@@ -506,21 +506,21 @@ class _$CreateCompletionRequestImpl extends _CreateCompletionRequest {
       @JsonKey(name: 'best_of', includeIfNull: false) this.bestOf,
       @JsonKey(includeIfNull: false) this.echo = false,
       @JsonKey(name: 'frequency_penalty', includeIfNull: false)
-      this.frequencyPenalty = 0.0,
+      this.frequencyPenalty,
       @JsonKey(name: 'logit_bias', includeIfNull: false)
       final Map<String, int>? logitBias,
       @JsonKey(includeIfNull: false) this.logprobs,
       @JsonKey(name: 'max_tokens', includeIfNull: false) this.maxTokens = 16,
-      @JsonKey(includeIfNull: false) this.n = 1,
+      @JsonKey(includeIfNull: false) this.n,
       @JsonKey(name: 'presence_penalty', includeIfNull: false)
-      this.presencePenalty = 0.0,
+      this.presencePenalty,
       @JsonKey(includeIfNull: false) this.seed,
       @_CompletionStopConverter() @JsonKey(includeIfNull: false) this.stop,
       @JsonKey(includeIfNull: false) this.stream = false,
       @JsonKey(name: 'stream_options', includeIfNull: false) this.streamOptions,
       @JsonKey(includeIfNull: false) this.suffix,
-      @JsonKey(includeIfNull: false) this.temperature = 1.0,
-      @JsonKey(name: 'top_p', includeIfNull: false) this.topP = 1.0,
+      @JsonKey(includeIfNull: false) this.temperature,
+      @JsonKey(name: 'top_p', includeIfNull: false) this.topP,
       @JsonKey(includeIfNull: false) this.user})
       : _logitBias = logitBias,
         super._();
@@ -3651,6 +3651,10 @@ mixin _$CreateChatCompletionRequest {
   @JsonKey(name: 'presence_penalty', includeIfNull: false)
   double? get presencePenalty => throw _privateConstructorUsedError;
 
+  /// This tool searches the web for relevant results to use in a response.
+  @JsonKey(name: 'web_search_options', includeIfNull: false)
+  WebSearchOptions? get webSearchOptions => throw _privateConstructorUsedError;
+
   /// An object specifying the format that the model must output.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables
@@ -3680,10 +3684,10 @@ mixin _$CreateChatCompletionRequest {
   int? get seed => throw _privateConstructorUsedError;
 
   /// Specifies the latency tier to use for processing the request. This parameter is relevant for customers
-  /// subscribed to the scale tier service:
-  ///   - If set to 'auto', and the Project is Scale tier enabled, the system will utilize scale tier credits
+  /// subscribed to the Flex Processing service:
+  ///   - If set to 'auto', and the Project is Flex Processing enabled, the system will utilize flex credits
   ///     until they are exhausted.
-  ///   - If set to 'auto', and the Project is not Scale tier enabled, the request will be processed using the
+  ///   - If set to 'auto', and the Project is not Flex Processing enabled, the request will be processed using the
   ///     default service tier with a lower uptime SLA and no latency guarantee.
   ///   - If set to 'default', the request will be processed using the default service tier with a lower uptime
   ///     SLA and no latency guarantee.
@@ -3823,6 +3827,8 @@ abstract class $CreateChatCompletionRequestCopyWith<$Res> {
       @JsonKey(includeIfNull: false) ChatCompletionAudioOptions? audio,
       @JsonKey(name: 'presence_penalty', includeIfNull: false)
       double? presencePenalty,
+      @JsonKey(name: 'web_search_options', includeIfNull: false)
+      WebSearchOptions? webSearchOptions,
       @JsonKey(name: 'response_format', includeIfNull: false)
       ResponseFormat? responseFormat,
       @JsonKey(includeIfNull: false) int? seed,
@@ -3854,6 +3860,7 @@ abstract class $CreateChatCompletionRequestCopyWith<$Res> {
   $ChatCompletionModelCopyWith<$Res> get model;
   $PredictionContentCopyWith<$Res>? get prediction;
   $ChatCompletionAudioOptionsCopyWith<$Res>? get audio;
+  $WebSearchOptionsCopyWith<$Res>? get webSearchOptions;
   $ResponseFormatCopyWith<$Res>? get responseFormat;
   $ChatCompletionStopCopyWith<$Res>? get stop;
   $ChatCompletionStreamOptionsCopyWith<$Res>? get streamOptions;
@@ -3893,6 +3900,7 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res,
     Object? prediction = freezed,
     Object? audio = freezed,
     Object? presencePenalty = freezed,
+    Object? webSearchOptions = freezed,
     Object? responseFormat = freezed,
     Object? seed = freezed,
     Object? serviceTier = freezed,
@@ -3973,6 +3981,10 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res,
           ? _value.presencePenalty
           : presencePenalty // ignore: cast_nullable_to_non_nullable
               as double?,
+      webSearchOptions: freezed == webSearchOptions
+          ? _value.webSearchOptions
+          : webSearchOptions // ignore: cast_nullable_to_non_nullable
+              as WebSearchOptions?,
       responseFormat: freezed == responseFormat
           ? _value.responseFormat
           : responseFormat // ignore: cast_nullable_to_non_nullable
@@ -4067,6 +4079,20 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res,
 
     return $ChatCompletionAudioOptionsCopyWith<$Res>(_value.audio!, (value) {
       return _then(_value.copyWith(audio: value) as $Val);
+    });
+  }
+
+  /// Create a copy of CreateChatCompletionRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $WebSearchOptionsCopyWith<$Res>? get webSearchOptions {
+    if (_value.webSearchOptions == null) {
+      return null;
+    }
+
+    return $WebSearchOptionsCopyWith<$Res>(_value.webSearchOptions!, (value) {
+      return _then(_value.copyWith(webSearchOptions: value) as $Val);
     });
   }
 
@@ -4178,6 +4204,8 @@ abstract class _$$CreateChatCompletionRequestImplCopyWith<$Res>
       @JsonKey(includeIfNull: false) ChatCompletionAudioOptions? audio,
       @JsonKey(name: 'presence_penalty', includeIfNull: false)
       double? presencePenalty,
+      @JsonKey(name: 'web_search_options', includeIfNull: false)
+      WebSearchOptions? webSearchOptions,
       @JsonKey(name: 'response_format', includeIfNull: false)
       ResponseFormat? responseFormat,
       @JsonKey(includeIfNull: false) int? seed,
@@ -4212,6 +4240,8 @@ abstract class _$$CreateChatCompletionRequestImplCopyWith<$Res>
   $PredictionContentCopyWith<$Res>? get prediction;
   @override
   $ChatCompletionAudioOptionsCopyWith<$Res>? get audio;
+  @override
+  $WebSearchOptionsCopyWith<$Res>? get webSearchOptions;
   @override
   $ResponseFormatCopyWith<$Res>? get responseFormat;
   @override
@@ -4255,6 +4285,7 @@ class __$$CreateChatCompletionRequestImplCopyWithImpl<$Res>
     Object? prediction = freezed,
     Object? audio = freezed,
     Object? presencePenalty = freezed,
+    Object? webSearchOptions = freezed,
     Object? responseFormat = freezed,
     Object? seed = freezed,
     Object? serviceTier = freezed,
@@ -4335,6 +4366,10 @@ class __$$CreateChatCompletionRequestImplCopyWithImpl<$Res>
           ? _value.presencePenalty
           : presencePenalty // ignore: cast_nullable_to_non_nullable
               as double?,
+      webSearchOptions: freezed == webSearchOptions
+          ? _value.webSearchOptions
+          : webSearchOptions // ignore: cast_nullable_to_non_nullable
+              as WebSearchOptions?,
       responseFormat: freezed == responseFormat
           ? _value.responseFormat
           : responseFormat // ignore: cast_nullable_to_non_nullable
@@ -4409,7 +4444,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
       this.reasoningEffort,
       @JsonKey(includeIfNull: false) final Map<String, String>? metadata,
       @JsonKey(name: 'frequency_penalty', includeIfNull: false)
-      this.frequencyPenalty = 0.0,
+      this.frequencyPenalty,
       @JsonKey(name: 'logit_bias', includeIfNull: false)
       final Map<String, int>? logitBias,
       @JsonKey(includeIfNull: false) this.logprobs,
@@ -4417,13 +4452,15 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
       @JsonKey(name: 'max_tokens', includeIfNull: false) this.maxTokens,
       @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
       this.maxCompletionTokens,
-      @JsonKey(includeIfNull: false) this.n = 1,
+      @JsonKey(includeIfNull: false) this.n,
       @JsonKey(includeIfNull: false)
       final List<ChatCompletionModality>? modalities,
       @JsonKey(includeIfNull: false) this.prediction,
       @JsonKey(includeIfNull: false) this.audio,
       @JsonKey(name: 'presence_penalty', includeIfNull: false)
-      this.presencePenalty = 0.0,
+      this.presencePenalty,
+      @JsonKey(name: 'web_search_options', includeIfNull: false)
+      this.webSearchOptions,
       @JsonKey(name: 'response_format', includeIfNull: false)
       this.responseFormat,
       @JsonKey(includeIfNull: false) this.seed,
@@ -4435,8 +4472,8 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
       @_ChatCompletionStopConverter() @JsonKey(includeIfNull: false) this.stop,
       @JsonKey(includeIfNull: false) this.stream = false,
       @JsonKey(name: 'stream_options', includeIfNull: false) this.streamOptions,
-      @JsonKey(includeIfNull: false) this.temperature = 1.0,
-      @JsonKey(name: 'top_p', includeIfNull: false) this.topP = 1.0,
+      @JsonKey(includeIfNull: false) this.temperature,
+      @JsonKey(name: 'top_p', includeIfNull: false) this.topP,
       @JsonKey(includeIfNull: false) final List<ChatCompletionTool>? tools,
       @_ChatCompletionToolChoiceOptionConverter()
       @JsonKey(name: 'tool_choice', includeIfNull: false)
@@ -4624,6 +4661,11 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
   @JsonKey(name: 'presence_penalty', includeIfNull: false)
   final double? presencePenalty;
 
+  /// This tool searches the web for relevant results to use in a response.
+  @override
+  @JsonKey(name: 'web_search_options', includeIfNull: false)
+  final WebSearchOptions? webSearchOptions;
+
   /// An object specifying the format that the model must output.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables
@@ -4655,10 +4697,10 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
   final int? seed;
 
   /// Specifies the latency tier to use for processing the request. This parameter is relevant for customers
-  /// subscribed to the scale tier service:
-  ///   - If set to 'auto', and the Project is Scale tier enabled, the system will utilize scale tier credits
+  /// subscribed to the Flex Processing service:
+  ///   - If set to 'auto', and the Project is Flex Processing enabled, the system will utilize flex credits
   ///     until they are exhausted.
-  ///   - If set to 'auto', and the Project is not Scale tier enabled, the request will be processed using the
+  ///   - If set to 'auto', and the Project is not Flex Processing enabled, the request will be processed using the
   ///     default service tier with a lower uptime SLA and no latency guarantee.
   ///   - If set to 'default', the request will be processed using the default service tier with a lower uptime
   ///     SLA and no latency guarantee.
@@ -4787,7 +4829,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
 
   @override
   String toString() {
-    return 'CreateChatCompletionRequest(model: $model, messages: $messages, store: $store, reasoningEffort: $reasoningEffort, metadata: $metadata, frequencyPenalty: $frequencyPenalty, logitBias: $logitBias, logprobs: $logprobs, topLogprobs: $topLogprobs, maxTokens: $maxTokens, maxCompletionTokens: $maxCompletionTokens, n: $n, modalities: $modalities, prediction: $prediction, audio: $audio, presencePenalty: $presencePenalty, responseFormat: $responseFormat, seed: $seed, serviceTier: $serviceTier, stop: $stop, stream: $stream, streamOptions: $streamOptions, temperature: $temperature, topP: $topP, tools: $tools, toolChoice: $toolChoice, parallelToolCalls: $parallelToolCalls, user: $user, functionCall: $functionCall, functions: $functions)';
+    return 'CreateChatCompletionRequest(model: $model, messages: $messages, store: $store, reasoningEffort: $reasoningEffort, metadata: $metadata, frequencyPenalty: $frequencyPenalty, logitBias: $logitBias, logprobs: $logprobs, topLogprobs: $topLogprobs, maxTokens: $maxTokens, maxCompletionTokens: $maxCompletionTokens, n: $n, modalities: $modalities, prediction: $prediction, audio: $audio, presencePenalty: $presencePenalty, webSearchOptions: $webSearchOptions, responseFormat: $responseFormat, seed: $seed, serviceTier: $serviceTier, stop: $stop, stream: $stream, streamOptions: $streamOptions, temperature: $temperature, topP: $topP, tools: $tools, toolChoice: $toolChoice, parallelToolCalls: $parallelToolCalls, user: $user, functionCall: $functionCall, functions: $functions)';
   }
 
   @override
@@ -4821,6 +4863,8 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
             (identical(other.audio, audio) || other.audio == audio) &&
             (identical(other.presencePenalty, presencePenalty) ||
                 other.presencePenalty == presencePenalty) &&
+            (identical(other.webSearchOptions, webSearchOptions) ||
+                other.webSearchOptions == webSearchOptions) &&
             (identical(other.responseFormat, responseFormat) ||
                 other.responseFormat == responseFormat) &&
             (identical(other.seed, seed) || other.seed == seed) &&
@@ -4865,6 +4909,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
         prediction,
         audio,
         presencePenalty,
+        webSearchOptions,
         responseFormat,
         seed,
         serviceTier,
@@ -4928,6 +4973,8 @@ abstract class _CreateChatCompletionRequest
       @JsonKey(includeIfNull: false) final ChatCompletionAudioOptions? audio,
       @JsonKey(name: 'presence_penalty', includeIfNull: false)
       final double? presencePenalty,
+      @JsonKey(name: 'web_search_options', includeIfNull: false)
+      final WebSearchOptions? webSearchOptions,
       @JsonKey(name: 'response_format', includeIfNull: false)
       final ResponseFormat? responseFormat,
       @JsonKey(includeIfNull: false) final int? seed,
@@ -5082,6 +5129,11 @@ abstract class _CreateChatCompletionRequest
   @JsonKey(name: 'presence_penalty', includeIfNull: false)
   double? get presencePenalty;
 
+  /// This tool searches the web for relevant results to use in a response.
+  @override
+  @JsonKey(name: 'web_search_options', includeIfNull: false)
+  WebSearchOptions? get webSearchOptions;
+
   /// An object specifying the format that the model must output.
   ///
   /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables
@@ -5113,10 +5165,10 @@ abstract class _CreateChatCompletionRequest
   int? get seed;
 
   /// Specifies the latency tier to use for processing the request. This parameter is relevant for customers
-  /// subscribed to the scale tier service:
-  ///   - If set to 'auto', and the Project is Scale tier enabled, the system will utilize scale tier credits
+  /// subscribed to the Flex Processing service:
+  ///   - If set to 'auto', and the Project is Flex Processing enabled, the system will utilize flex credits
   ///     until they are exhausted.
-  ///   - If set to 'auto', and the Project is not Scale tier enabled, the request will be processed using the
+  ///   - If set to 'auto', and the Project is not Flex Processing enabled, the request will be processed using the
   ///     default service tier with a lower uptime SLA and no latency guarantee.
   ///   - If set to 'default', the request will be processed using the default service tier with a lower uptime
   ///     SLA and no latency guarantee.
@@ -8599,6 +8651,467 @@ abstract class _ChatCompletionMessageToolCall
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionMessageToolCallImplCopyWith<
           _$ChatCompletionMessageToolCallImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+Annotation _$AnnotationFromJson(Map<String, dynamic> json) {
+  return _Annotation.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Annotation {
+  /// The type of the URL citation. Always `url_citation`.
+  AnnotationType get type => throw _privateConstructorUsedError;
+
+  /// A URL citation when using web search.
+  @JsonKey(name: 'url_citation')
+  AnnotationUrlCitation get urlCitation => throw _privateConstructorUsedError;
+
+  /// Serializes this Annotation to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of Annotation
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $AnnotationCopyWith<Annotation> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $AnnotationCopyWith<$Res> {
+  factory $AnnotationCopyWith(
+          Annotation value, $Res Function(Annotation) then) =
+      _$AnnotationCopyWithImpl<$Res, Annotation>;
+  @useResult
+  $Res call(
+      {AnnotationType type,
+      @JsonKey(name: 'url_citation') AnnotationUrlCitation urlCitation});
+
+  $AnnotationUrlCitationCopyWith<$Res> get urlCitation;
+}
+
+/// @nodoc
+class _$AnnotationCopyWithImpl<$Res, $Val extends Annotation>
+    implements $AnnotationCopyWith<$Res> {
+  _$AnnotationCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of Annotation
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? urlCitation = null,
+  }) {
+    return _then(_value.copyWith(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as AnnotationType,
+      urlCitation: null == urlCitation
+          ? _value.urlCitation
+          : urlCitation // ignore: cast_nullable_to_non_nullable
+              as AnnotationUrlCitation,
+    ) as $Val);
+  }
+
+  /// Create a copy of Annotation
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $AnnotationUrlCitationCopyWith<$Res> get urlCitation {
+    return $AnnotationUrlCitationCopyWith<$Res>(_value.urlCitation, (value) {
+      return _then(_value.copyWith(urlCitation: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$AnnotationImplCopyWith<$Res>
+    implements $AnnotationCopyWith<$Res> {
+  factory _$$AnnotationImplCopyWith(
+          _$AnnotationImpl value, $Res Function(_$AnnotationImpl) then) =
+      __$$AnnotationImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {AnnotationType type,
+      @JsonKey(name: 'url_citation') AnnotationUrlCitation urlCitation});
+
+  @override
+  $AnnotationUrlCitationCopyWith<$Res> get urlCitation;
+}
+
+/// @nodoc
+class __$$AnnotationImplCopyWithImpl<$Res>
+    extends _$AnnotationCopyWithImpl<$Res, _$AnnotationImpl>
+    implements _$$AnnotationImplCopyWith<$Res> {
+  __$$AnnotationImplCopyWithImpl(
+      _$AnnotationImpl _value, $Res Function(_$AnnotationImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of Annotation
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? urlCitation = null,
+  }) {
+    return _then(_$AnnotationImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as AnnotationType,
+      urlCitation: null == urlCitation
+          ? _value.urlCitation
+          : urlCitation // ignore: cast_nullable_to_non_nullable
+              as AnnotationUrlCitation,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$AnnotationImpl extends _Annotation {
+  const _$AnnotationImpl(
+      {required this.type,
+      @JsonKey(name: 'url_citation') required this.urlCitation})
+      : super._();
+
+  factory _$AnnotationImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AnnotationImplFromJson(json);
+
+  /// The type of the URL citation. Always `url_citation`.
+  @override
+  final AnnotationType type;
+
+  /// A URL citation when using web search.
+  @override
+  @JsonKey(name: 'url_citation')
+  final AnnotationUrlCitation urlCitation;
+
+  @override
+  String toString() {
+    return 'Annotation(type: $type, urlCitation: $urlCitation)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AnnotationImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.urlCitation, urlCitation) ||
+                other.urlCitation == urlCitation));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, urlCitation);
+
+  /// Create a copy of Annotation
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$AnnotationImplCopyWith<_$AnnotationImpl> get copyWith =>
+      __$$AnnotationImplCopyWithImpl<_$AnnotationImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$AnnotationImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Annotation extends Annotation {
+  const factory _Annotation(
+      {required final AnnotationType type,
+      @JsonKey(name: 'url_citation')
+      required final AnnotationUrlCitation urlCitation}) = _$AnnotationImpl;
+  const _Annotation._() : super._();
+
+  factory _Annotation.fromJson(Map<String, dynamic> json) =
+      _$AnnotationImpl.fromJson;
+
+  /// The type of the URL citation. Always `url_citation`.
+  @override
+  AnnotationType get type;
+
+  /// A URL citation when using web search.
+  @override
+  @JsonKey(name: 'url_citation')
+  AnnotationUrlCitation get urlCitation;
+
+  /// Create a copy of Annotation
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$AnnotationImplCopyWith<_$AnnotationImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+AnnotationUrlCitation _$AnnotationUrlCitationFromJson(
+    Map<String, dynamic> json) {
+  return _AnnotationUrlCitation.fromJson(json);
+}
+
+/// @nodoc
+mixin _$AnnotationUrlCitation {
+  /// The index of the last character of the URL citation in the message.
+  @JsonKey(name: 'end_index', includeIfNull: false)
+  int? get endIndex => throw _privateConstructorUsedError;
+
+  /// The index of the first character of the URL citation in the message.
+  @JsonKey(name: 'start_index', includeIfNull: false)
+  int? get startIndex => throw _privateConstructorUsedError;
+
+  /// The URL of the web resource.
+  @JsonKey(includeIfNull: false)
+  String? get url => throw _privateConstructorUsedError;
+
+  /// The title of the web resource.
+  @JsonKey(includeIfNull: false)
+  String? get title => throw _privateConstructorUsedError;
+
+  /// Serializes this AnnotationUrlCitation to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of AnnotationUrlCitation
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $AnnotationUrlCitationCopyWith<AnnotationUrlCitation> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $AnnotationUrlCitationCopyWith<$Res> {
+  factory $AnnotationUrlCitationCopyWith(AnnotationUrlCitation value,
+          $Res Function(AnnotationUrlCitation) then) =
+      _$AnnotationUrlCitationCopyWithImpl<$Res, AnnotationUrlCitation>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'end_index', includeIfNull: false) int? endIndex,
+      @JsonKey(name: 'start_index', includeIfNull: false) int? startIndex,
+      @JsonKey(includeIfNull: false) String? url,
+      @JsonKey(includeIfNull: false) String? title});
+}
+
+/// @nodoc
+class _$AnnotationUrlCitationCopyWithImpl<$Res,
+        $Val extends AnnotationUrlCitation>
+    implements $AnnotationUrlCitationCopyWith<$Res> {
+  _$AnnotationUrlCitationCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of AnnotationUrlCitation
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? endIndex = freezed,
+    Object? startIndex = freezed,
+    Object? url = freezed,
+    Object? title = freezed,
+  }) {
+    return _then(_value.copyWith(
+      endIndex: freezed == endIndex
+          ? _value.endIndex
+          : endIndex // ignore: cast_nullable_to_non_nullable
+              as int?,
+      startIndex: freezed == startIndex
+          ? _value.startIndex
+          : startIndex // ignore: cast_nullable_to_non_nullable
+              as int?,
+      url: freezed == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String?,
+      title: freezed == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$AnnotationUrlCitationImplCopyWith<$Res>
+    implements $AnnotationUrlCitationCopyWith<$Res> {
+  factory _$$AnnotationUrlCitationImplCopyWith(
+          _$AnnotationUrlCitationImpl value,
+          $Res Function(_$AnnotationUrlCitationImpl) then) =
+      __$$AnnotationUrlCitationImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'end_index', includeIfNull: false) int? endIndex,
+      @JsonKey(name: 'start_index', includeIfNull: false) int? startIndex,
+      @JsonKey(includeIfNull: false) String? url,
+      @JsonKey(includeIfNull: false) String? title});
+}
+
+/// @nodoc
+class __$$AnnotationUrlCitationImplCopyWithImpl<$Res>
+    extends _$AnnotationUrlCitationCopyWithImpl<$Res,
+        _$AnnotationUrlCitationImpl>
+    implements _$$AnnotationUrlCitationImplCopyWith<$Res> {
+  __$$AnnotationUrlCitationImplCopyWithImpl(_$AnnotationUrlCitationImpl _value,
+      $Res Function(_$AnnotationUrlCitationImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of AnnotationUrlCitation
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? endIndex = freezed,
+    Object? startIndex = freezed,
+    Object? url = freezed,
+    Object? title = freezed,
+  }) {
+    return _then(_$AnnotationUrlCitationImpl(
+      endIndex: freezed == endIndex
+          ? _value.endIndex
+          : endIndex // ignore: cast_nullable_to_non_nullable
+              as int?,
+      startIndex: freezed == startIndex
+          ? _value.startIndex
+          : startIndex // ignore: cast_nullable_to_non_nullable
+              as int?,
+      url: freezed == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String?,
+      title: freezed == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$AnnotationUrlCitationImpl extends _AnnotationUrlCitation {
+  const _$AnnotationUrlCitationImpl(
+      {@JsonKey(name: 'end_index', includeIfNull: false) this.endIndex,
+      @JsonKey(name: 'start_index', includeIfNull: false) this.startIndex,
+      @JsonKey(includeIfNull: false) this.url,
+      @JsonKey(includeIfNull: false) this.title})
+      : super._();
+
+  factory _$AnnotationUrlCitationImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AnnotationUrlCitationImplFromJson(json);
+
+  /// The index of the last character of the URL citation in the message.
+  @override
+  @JsonKey(name: 'end_index', includeIfNull: false)
+  final int? endIndex;
+
+  /// The index of the first character of the URL citation in the message.
+  @override
+  @JsonKey(name: 'start_index', includeIfNull: false)
+  final int? startIndex;
+
+  /// The URL of the web resource.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? url;
+
+  /// The title of the web resource.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? title;
+
+  @override
+  String toString() {
+    return 'AnnotationUrlCitation(endIndex: $endIndex, startIndex: $startIndex, url: $url, title: $title)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AnnotationUrlCitationImpl &&
+            (identical(other.endIndex, endIndex) ||
+                other.endIndex == endIndex) &&
+            (identical(other.startIndex, startIndex) ||
+                other.startIndex == startIndex) &&
+            (identical(other.url, url) || other.url == url) &&
+            (identical(other.title, title) || other.title == title));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, endIndex, startIndex, url, title);
+
+  /// Create a copy of AnnotationUrlCitation
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$AnnotationUrlCitationImplCopyWith<_$AnnotationUrlCitationImpl>
+      get copyWith => __$$AnnotationUrlCitationImplCopyWithImpl<
+          _$AnnotationUrlCitationImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$AnnotationUrlCitationImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _AnnotationUrlCitation extends AnnotationUrlCitation {
+  const factory _AnnotationUrlCitation(
+      {@JsonKey(name: 'end_index', includeIfNull: false) final int? endIndex,
+      @JsonKey(name: 'start_index', includeIfNull: false) final int? startIndex,
+      @JsonKey(includeIfNull: false) final String? url,
+      @JsonKey(includeIfNull: false)
+      final String? title}) = _$AnnotationUrlCitationImpl;
+  const _AnnotationUrlCitation._() : super._();
+
+  factory _AnnotationUrlCitation.fromJson(Map<String, dynamic> json) =
+      _$AnnotationUrlCitationImpl.fromJson;
+
+  /// The index of the last character of the URL citation in the message.
+  @override
+  @JsonKey(name: 'end_index', includeIfNull: false)
+  int? get endIndex;
+
+  /// The index of the first character of the URL citation in the message.
+  @override
+  @JsonKey(name: 'start_index', includeIfNull: false)
+  int? get startIndex;
+
+  /// The URL of the web resource.
+  @override
+  @JsonKey(includeIfNull: false)
+  String? get url;
+
+  /// The title of the web resource.
+  @override
+  @JsonKey(includeIfNull: false)
+  String? get title;
+
+  /// Create a copy of AnnotationUrlCitation
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$AnnotationUrlCitationImplCopyWith<_$AnnotationUrlCitationImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -13392,6 +13905,289 @@ abstract class _ChatCompletionStreamMessageToolCallChunk
   _$$ChatCompletionStreamMessageToolCallChunkImplCopyWith<
           _$ChatCompletionStreamMessageToolCallChunkImpl>
       get copyWith => throw _privateConstructorUsedError;
+}
+
+ChatCompletionList _$ChatCompletionListFromJson(Map<String, dynamic> json) {
+  return _ChatCompletionList.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ChatCompletionList {
+  /// The object type, which is always `list`.
+  ChatCompletionListObject get object => throw _privateConstructorUsedError;
+
+  /// The list of chat completions.
+  List<CreateChatCompletionResponse> get data =>
+      throw _privateConstructorUsedError;
+
+  /// The identifier of the first chat completion in the list.
+  @JsonKey(name: 'first_id', includeIfNull: false)
+  String? get firstId => throw _privateConstructorUsedError;
+
+  /// The identifier of the last chat completion in the list.
+  @JsonKey(name: 'last_id', includeIfNull: false)
+  String? get lastId => throw _privateConstructorUsedError;
+
+  /// Whether there are more chat completions available.
+  @JsonKey(name: 'has_more')
+  bool get hasMore => throw _privateConstructorUsedError;
+
+  /// Serializes this ChatCompletionList to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of ChatCompletionList
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $ChatCompletionListCopyWith<ChatCompletionList> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ChatCompletionListCopyWith<$Res> {
+  factory $ChatCompletionListCopyWith(
+          ChatCompletionList value, $Res Function(ChatCompletionList) then) =
+      _$ChatCompletionListCopyWithImpl<$Res, ChatCompletionList>;
+  @useResult
+  $Res call(
+      {ChatCompletionListObject object,
+      List<CreateChatCompletionResponse> data,
+      @JsonKey(name: 'first_id', includeIfNull: false) String? firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) String? lastId,
+      @JsonKey(name: 'has_more') bool hasMore});
+}
+
+/// @nodoc
+class _$ChatCompletionListCopyWithImpl<$Res, $Val extends ChatCompletionList>
+    implements $ChatCompletionListCopyWith<$Res> {
+  _$ChatCompletionListCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of ChatCompletionList
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? object = null,
+    Object? data = null,
+    Object? firstId = freezed,
+    Object? lastId = freezed,
+    Object? hasMore = null,
+  }) {
+    return _then(_value.copyWith(
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionListObject,
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<CreateChatCompletionResponse>,
+      firstId: freezed == firstId
+          ? _value.firstId
+          : firstId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lastId: freezed == lastId
+          ? _value.lastId
+          : lastId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      hasMore: null == hasMore
+          ? _value.hasMore
+          : hasMore // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ChatCompletionListImplCopyWith<$Res>
+    implements $ChatCompletionListCopyWith<$Res> {
+  factory _$$ChatCompletionListImplCopyWith(_$ChatCompletionListImpl value,
+          $Res Function(_$ChatCompletionListImpl) then) =
+      __$$ChatCompletionListImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {ChatCompletionListObject object,
+      List<CreateChatCompletionResponse> data,
+      @JsonKey(name: 'first_id', includeIfNull: false) String? firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) String? lastId,
+      @JsonKey(name: 'has_more') bool hasMore});
+}
+
+/// @nodoc
+class __$$ChatCompletionListImplCopyWithImpl<$Res>
+    extends _$ChatCompletionListCopyWithImpl<$Res, _$ChatCompletionListImpl>
+    implements _$$ChatCompletionListImplCopyWith<$Res> {
+  __$$ChatCompletionListImplCopyWithImpl(_$ChatCompletionListImpl _value,
+      $Res Function(_$ChatCompletionListImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ChatCompletionList
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? object = null,
+    Object? data = null,
+    Object? firstId = freezed,
+    Object? lastId = freezed,
+    Object? hasMore = null,
+  }) {
+    return _then(_$ChatCompletionListImpl(
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionListObject,
+      data: null == data
+          ? _value._data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<CreateChatCompletionResponse>,
+      firstId: freezed == firstId
+          ? _value.firstId
+          : firstId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lastId: freezed == lastId
+          ? _value.lastId
+          : lastId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      hasMore: null == hasMore
+          ? _value.hasMore
+          : hasMore // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ChatCompletionListImpl extends _ChatCompletionList {
+  const _$ChatCompletionListImpl(
+      {required this.object,
+      required final List<CreateChatCompletionResponse> data,
+      @JsonKey(name: 'first_id', includeIfNull: false) this.firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) this.lastId,
+      @JsonKey(name: 'has_more') required this.hasMore})
+      : _data = data,
+        super._();
+
+  factory _$ChatCompletionListImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ChatCompletionListImplFromJson(json);
+
+  /// The object type, which is always `list`.
+  @override
+  final ChatCompletionListObject object;
+
+  /// The list of chat completions.
+  final List<CreateChatCompletionResponse> _data;
+
+  /// The list of chat completions.
+  @override
+  List<CreateChatCompletionResponse> get data {
+    if (_data is EqualUnmodifiableListView) return _data;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_data);
+  }
+
+  /// The identifier of the first chat completion in the list.
+  @override
+  @JsonKey(name: 'first_id', includeIfNull: false)
+  final String? firstId;
+
+  /// The identifier of the last chat completion in the list.
+  @override
+  @JsonKey(name: 'last_id', includeIfNull: false)
+  final String? lastId;
+
+  /// Whether there are more chat completions available.
+  @override
+  @JsonKey(name: 'has_more')
+  final bool hasMore;
+
+  @override
+  String toString() {
+    return 'ChatCompletionList(object: $object, data: $data, firstId: $firstId, lastId: $lastId, hasMore: $hasMore)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ChatCompletionListImpl &&
+            (identical(other.object, object) || other.object == object) &&
+            const DeepCollectionEquality().equals(other._data, _data) &&
+            (identical(other.firstId, firstId) || other.firstId == firstId) &&
+            (identical(other.lastId, lastId) || other.lastId == lastId) &&
+            (identical(other.hasMore, hasMore) || other.hasMore == hasMore));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, object,
+      const DeepCollectionEquality().hash(_data), firstId, lastId, hasMore);
+
+  /// Create a copy of ChatCompletionList
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ChatCompletionListImplCopyWith<_$ChatCompletionListImpl> get copyWith =>
+      __$$ChatCompletionListImplCopyWithImpl<_$ChatCompletionListImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ChatCompletionListImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ChatCompletionList extends ChatCompletionList {
+  const factory _ChatCompletionList(
+      {required final ChatCompletionListObject object,
+      required final List<CreateChatCompletionResponse> data,
+      @JsonKey(name: 'first_id', includeIfNull: false) final String? firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) final String? lastId,
+      @JsonKey(name: 'has_more')
+      required final bool hasMore}) = _$ChatCompletionListImpl;
+  const _ChatCompletionList._() : super._();
+
+  factory _ChatCompletionList.fromJson(Map<String, dynamic> json) =
+      _$ChatCompletionListImpl.fromJson;
+
+  /// The object type, which is always `list`.
+  @override
+  ChatCompletionListObject get object;
+
+  /// The list of chat completions.
+  @override
+  List<CreateChatCompletionResponse> get data;
+
+  /// The identifier of the first chat completion in the list.
+  @override
+  @JsonKey(name: 'first_id', includeIfNull: false)
+  String? get firstId;
+
+  /// The identifier of the last chat completion in the list.
+  @override
+  @JsonKey(name: 'last_id', includeIfNull: false)
+  String? get lastId;
+
+  /// Whether there are more chat completions available.
+  @override
+  @JsonKey(name: 'has_more')
+  bool get hasMore;
+
+  /// Create a copy of ChatCompletionList
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ChatCompletionListImplCopyWith<_$ChatCompletionListImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 CompletionUsage _$CompletionUsageFromJson(Map<String, dynamic> json) {
@@ -21273,7 +22069,7 @@ mixin _$CreateImageRequest {
   /// A text description of the desired image(s). The maximum length is 1000 characters for `dall-e-2` and 4000 characters for `dall-e-3`.
   String get prompt => throw _privateConstructorUsedError;
 
-  /// The model to use for image generation.
+  /// The model to use for image generation. One of `dall-e-2`, `dall-e-3`, or `gpt-image-1`. Defaults to `dall-e-2` unless a parameter specific to `gpt-image-1` is used.
   @_CreateImageRequestModelConverter()
   @JsonKey(includeIfNull: false)
   CreateImageRequestModel? get model => throw _privateConstructorUsedError;
@@ -21282,22 +22078,56 @@ mixin _$CreateImageRequest {
   @JsonKey(includeIfNull: false)
   int? get n => throw _privateConstructorUsedError;
 
-  /// The quality of the image that will be generated. `hd` creates images with finer details and greater consistency across the image. This param is only supported for `dall-e-3`.
-  ImageQuality get quality => throw _privateConstructorUsedError;
+  /// The quality of the image that will be generated.
+  ///
+  /// - `auto` (default value) will automatically select the best quality for the given model.
+  /// - `high`, `medium` and `low` are supported for `gpt-image-1`.
+  /// - `hd` and `standard` are supported for `dall-e-3`.
+  /// - `standard` is the only option for `dall-e-2`.
+  @JsonKey(
+      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ImageQuality? get quality => throw _privateConstructorUsedError;
 
-  /// The format in which the generated images are returned. Must be one of `url` or `b64_json`. URLs are only valid for 60 minutes after the image has been generated.
+  /// The format in which generated images with `dall-e-2` and `dall-e-3` are returned. Must be one of `url` or `b64_json`. URLs are only valid for 60 minutes after the image has been generated. This parameter isn't supported for `gpt-image-1` which will always return base64-encoded images.
   @JsonKey(
       name: 'response_format',
       includeIfNull: false,
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   ImageResponseFormat? get responseFormat => throw _privateConstructorUsedError;
 
-  /// The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024` for `dall-e-2`. Must be one of `1024x1024`, `1792x1024`, or `1024x1792` for `dall-e-3` models.
+  /// The format in which the generated images are returned. This parameter is only supported for `gpt-image-1`. Must be one of `png`, `jpeg`, or `webp`.
+  @JsonKey(
+      name: 'output_format',
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ImageOutputFormat? get outputFormat => throw _privateConstructorUsedError;
+
+  /// The compression level (0-100%) for the generated images. This parameter is only supported for `gpt-image-1` with the `webp` or `jpeg` output formats, and defaults to 100.
+  @JsonKey(name: 'output_compression', includeIfNull: false)
+  int? get outputCompression => throw _privateConstructorUsedError;
+
+  /// The size of the generated images. Must be one of `1024x1024`, `1536x1024` (landscape), `1024x1536` (portrait), or `auto` (default value) for `gpt-image-1`, one of `256x256`, `512x512`, or `1024x1024` for `dall-e-2`, and one of `1024x1024`, `1792x1024`, or `1024x1792` for `dall-e-3`.
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   ImageSize? get size => throw _privateConstructorUsedError;
 
-  /// The style of the generated images. Must be one of `vivid` or `natural`. Vivid causes the model to lean towards generating hyper-real and dramatic images. Natural causes the model to produce more natural, less hyper-real looking images. This param is only supported for `dall-e-3`.
+  /// Control the content-moderation level for images generated by `gpt-image-1`. Must be either `low` for less restrictive filtering or `auto` (default value).
+  @JsonKey(
+      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ImageModeration? get moderation => throw _privateConstructorUsedError;
+
+  /// Allows to set transparency for the background of the generated image(s).
+  /// This parameter is only supported for `gpt-image-1`. Must be one of
+  /// `transparent`, `opaque` or `auto` (default value). When `auto` is used, the
+  /// model will automatically determine the best background for the image.
+  ///
+  /// If `transparent`, the output format needs to support transparency, so it
+  /// should be set to either `png` (default value) or `webp`.
+  @JsonKey(
+      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ImageBackground? get background => throw _privateConstructorUsedError;
+
+  /// The style of the generated images. This parameter is only supported for `dall-e-3`. Must be one of `vivid` or `natural`. Vivid causes the model to lean towards generating hyper-real and dramatic images. Natural causes the model to produce more natural, less hyper-real looking images.
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   ImageStyle? get style => throw _privateConstructorUsedError;
@@ -21328,16 +22158,34 @@ abstract class $CreateImageRequestCopyWith<$Res> {
       @JsonKey(includeIfNull: false)
       CreateImageRequestModel? model,
       @JsonKey(includeIfNull: false) int? n,
-      ImageQuality quality,
+      @JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ImageQuality? quality,
       @JsonKey(
           name: 'response_format',
           includeIfNull: false,
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       ImageResponseFormat? responseFormat,
       @JsonKey(
+          name: 'output_format',
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ImageOutputFormat? outputFormat,
+      @JsonKey(name: 'output_compression', includeIfNull: false)
+      int? outputCompression,
+      @JsonKey(
           includeIfNull: false,
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       ImageSize? size,
+      @JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ImageModeration? moderation,
+      @JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ImageBackground? background,
       @JsonKey(
           includeIfNull: false,
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
@@ -21365,9 +22213,13 @@ class _$CreateImageRequestCopyWithImpl<$Res, $Val extends CreateImageRequest>
     Object? prompt = null,
     Object? model = freezed,
     Object? n = freezed,
-    Object? quality = null,
+    Object? quality = freezed,
     Object? responseFormat = freezed,
+    Object? outputFormat = freezed,
+    Object? outputCompression = freezed,
     Object? size = freezed,
+    Object? moderation = freezed,
+    Object? background = freezed,
     Object? style = freezed,
     Object? user = freezed,
   }) {
@@ -21384,18 +22236,34 @@ class _$CreateImageRequestCopyWithImpl<$Res, $Val extends CreateImageRequest>
           ? _value.n
           : n // ignore: cast_nullable_to_non_nullable
               as int?,
-      quality: null == quality
+      quality: freezed == quality
           ? _value.quality
           : quality // ignore: cast_nullable_to_non_nullable
-              as ImageQuality,
+              as ImageQuality?,
       responseFormat: freezed == responseFormat
           ? _value.responseFormat
           : responseFormat // ignore: cast_nullable_to_non_nullable
               as ImageResponseFormat?,
+      outputFormat: freezed == outputFormat
+          ? _value.outputFormat
+          : outputFormat // ignore: cast_nullable_to_non_nullable
+              as ImageOutputFormat?,
+      outputCompression: freezed == outputCompression
+          ? _value.outputCompression
+          : outputCompression // ignore: cast_nullable_to_non_nullable
+              as int?,
       size: freezed == size
           ? _value.size
           : size // ignore: cast_nullable_to_non_nullable
               as ImageSize?,
+      moderation: freezed == moderation
+          ? _value.moderation
+          : moderation // ignore: cast_nullable_to_non_nullable
+              as ImageModeration?,
+      background: freezed == background
+          ? _value.background
+          : background // ignore: cast_nullable_to_non_nullable
+              as ImageBackground?,
       style: freezed == style
           ? _value.style
           : style // ignore: cast_nullable_to_non_nullable
@@ -21436,16 +22304,34 @@ abstract class _$$CreateImageRequestImplCopyWith<$Res>
       @JsonKey(includeIfNull: false)
       CreateImageRequestModel? model,
       @JsonKey(includeIfNull: false) int? n,
-      ImageQuality quality,
+      @JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ImageQuality? quality,
       @JsonKey(
           name: 'response_format',
           includeIfNull: false,
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       ImageResponseFormat? responseFormat,
       @JsonKey(
+          name: 'output_format',
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ImageOutputFormat? outputFormat,
+      @JsonKey(name: 'output_compression', includeIfNull: false)
+      int? outputCompression,
+      @JsonKey(
           includeIfNull: false,
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       ImageSize? size,
+      @JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ImageModeration? moderation,
+      @JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ImageBackground? background,
       @JsonKey(
           includeIfNull: false,
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
@@ -21472,9 +22358,13 @@ class __$$CreateImageRequestImplCopyWithImpl<$Res>
     Object? prompt = null,
     Object? model = freezed,
     Object? n = freezed,
-    Object? quality = null,
+    Object? quality = freezed,
     Object? responseFormat = freezed,
+    Object? outputFormat = freezed,
+    Object? outputCompression = freezed,
     Object? size = freezed,
+    Object? moderation = freezed,
+    Object? background = freezed,
     Object? style = freezed,
     Object? user = freezed,
   }) {
@@ -21491,18 +22381,34 @@ class __$$CreateImageRequestImplCopyWithImpl<$Res>
           ? _value.n
           : n // ignore: cast_nullable_to_non_nullable
               as int?,
-      quality: null == quality
+      quality: freezed == quality
           ? _value.quality
           : quality // ignore: cast_nullable_to_non_nullable
-              as ImageQuality,
+              as ImageQuality?,
       responseFormat: freezed == responseFormat
           ? _value.responseFormat
           : responseFormat // ignore: cast_nullable_to_non_nullable
               as ImageResponseFormat?,
+      outputFormat: freezed == outputFormat
+          ? _value.outputFormat
+          : outputFormat // ignore: cast_nullable_to_non_nullable
+              as ImageOutputFormat?,
+      outputCompression: freezed == outputCompression
+          ? _value.outputCompression
+          : outputCompression // ignore: cast_nullable_to_non_nullable
+              as int?,
       size: freezed == size
           ? _value.size
           : size // ignore: cast_nullable_to_non_nullable
               as ImageSize?,
+      moderation: freezed == moderation
+          ? _value.moderation
+          : moderation // ignore: cast_nullable_to_non_nullable
+              as ImageModeration?,
+      background: freezed == background
+          ? _value.background
+          : background // ignore: cast_nullable_to_non_nullable
+              as ImageBackground?,
       style: freezed == style
           ? _value.style
           : style // ignore: cast_nullable_to_non_nullable
@@ -21522,22 +22428,40 @@ class _$CreateImageRequestImpl extends _CreateImageRequest {
       {required this.prompt,
       @_CreateImageRequestModelConverter()
       @JsonKey(includeIfNull: false)
-      this.model = const CreateImageRequestModelString('dall-e-2'),
-      @JsonKey(includeIfNull: false) this.n = 1,
-      this.quality = ImageQuality.standard,
+      this.model,
+      @JsonKey(includeIfNull: false) this.n,
+      @JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      this.quality,
       @JsonKey(
           name: 'response_format',
           includeIfNull: false,
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-      this.responseFormat = ImageResponseFormat.url,
+      this.responseFormat,
+      @JsonKey(
+          name: 'output_format',
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      this.outputFormat,
+      @JsonKey(name: 'output_compression', includeIfNull: false)
+      this.outputCompression,
       @JsonKey(
           includeIfNull: false,
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-      this.size = ImageSize.v1024x1024,
+      this.size,
       @JsonKey(
           includeIfNull: false,
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-      this.style = ImageStyle.vivid,
+      this.moderation,
+      @JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      this.background,
+      @JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      this.style,
       @JsonKey(includeIfNull: false) this.user})
       : super._();
 
@@ -21548,7 +22472,7 @@ class _$CreateImageRequestImpl extends _CreateImageRequest {
   @override
   final String prompt;
 
-  /// The model to use for image generation.
+  /// The model to use for image generation. One of `dall-e-2`, `dall-e-3`, or `gpt-image-1`. Defaults to `dall-e-2` unless a parameter specific to `gpt-image-1` is used.
   @override
   @_CreateImageRequestModelConverter()
   @JsonKey(includeIfNull: false)
@@ -21559,12 +22483,18 @@ class _$CreateImageRequestImpl extends _CreateImageRequest {
   @JsonKey(includeIfNull: false)
   final int? n;
 
-  /// The quality of the image that will be generated. `hd` creates images with finer details and greater consistency across the image. This param is only supported for `dall-e-3`.
+  /// The quality of the image that will be generated.
+  ///
+  /// - `auto` (default value) will automatically select the best quality for the given model.
+  /// - `high`, `medium` and `low` are supported for `gpt-image-1`.
+  /// - `hd` and `standard` are supported for `dall-e-3`.
+  /// - `standard` is the only option for `dall-e-2`.
   @override
-  @JsonKey()
-  final ImageQuality quality;
+  @JsonKey(
+      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  final ImageQuality? quality;
 
-  /// The format in which the generated images are returned. Must be one of `url` or `b64_json`. URLs are only valid for 60 minutes after the image has been generated.
+  /// The format in which generated images with `dall-e-2` and `dall-e-3` are returned. Must be one of `url` or `b64_json`. URLs are only valid for 60 minutes after the image has been generated. This parameter isn't supported for `gpt-image-1` which will always return base64-encoded images.
   @override
   @JsonKey(
       name: 'response_format',
@@ -21572,13 +22502,44 @@ class _$CreateImageRequestImpl extends _CreateImageRequest {
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   final ImageResponseFormat? responseFormat;
 
-  /// The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024` for `dall-e-2`. Must be one of `1024x1024`, `1792x1024`, or `1024x1792` for `dall-e-3` models.
+  /// The format in which the generated images are returned. This parameter is only supported for `gpt-image-1`. Must be one of `png`, `jpeg`, or `webp`.
+  @override
+  @JsonKey(
+      name: 'output_format',
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  final ImageOutputFormat? outputFormat;
+
+  /// The compression level (0-100%) for the generated images. This parameter is only supported for `gpt-image-1` with the `webp` or `jpeg` output formats, and defaults to 100.
+  @override
+  @JsonKey(name: 'output_compression', includeIfNull: false)
+  final int? outputCompression;
+
+  /// The size of the generated images. Must be one of `1024x1024`, `1536x1024` (landscape), `1024x1536` (portrait), or `auto` (default value) for `gpt-image-1`, one of `256x256`, `512x512`, or `1024x1024` for `dall-e-2`, and one of `1024x1024`, `1792x1024`, or `1024x1792` for `dall-e-3`.
   @override
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   final ImageSize? size;
 
-  /// The style of the generated images. Must be one of `vivid` or `natural`. Vivid causes the model to lean towards generating hyper-real and dramatic images. Natural causes the model to produce more natural, less hyper-real looking images. This param is only supported for `dall-e-3`.
+  /// Control the content-moderation level for images generated by `gpt-image-1`. Must be either `low` for less restrictive filtering or `auto` (default value).
+  @override
+  @JsonKey(
+      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  final ImageModeration? moderation;
+
+  /// Allows to set transparency for the background of the generated image(s).
+  /// This parameter is only supported for `gpt-image-1`. Must be one of
+  /// `transparent`, `opaque` or `auto` (default value). When `auto` is used, the
+  /// model will automatically determine the best background for the image.
+  ///
+  /// If `transparent`, the output format needs to support transparency, so it
+  /// should be set to either `png` (default value) or `webp`.
+  @override
+  @JsonKey(
+      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  final ImageBackground? background;
+
+  /// The style of the generated images. This parameter is only supported for `dall-e-3`. Must be one of `vivid` or `natural`. Vivid causes the model to lean towards generating hyper-real and dramatic images. Natural causes the model to produce more natural, less hyper-real looking images.
   @override
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
@@ -21591,7 +22552,7 @@ class _$CreateImageRequestImpl extends _CreateImageRequest {
 
   @override
   String toString() {
-    return 'CreateImageRequest(prompt: $prompt, model: $model, n: $n, quality: $quality, responseFormat: $responseFormat, size: $size, style: $style, user: $user)';
+    return 'CreateImageRequest(prompt: $prompt, model: $model, n: $n, quality: $quality, responseFormat: $responseFormat, outputFormat: $outputFormat, outputCompression: $outputCompression, size: $size, moderation: $moderation, background: $background, style: $style, user: $user)';
   }
 
   @override
@@ -21605,15 +22566,35 @@ class _$CreateImageRequestImpl extends _CreateImageRequest {
             (identical(other.quality, quality) || other.quality == quality) &&
             (identical(other.responseFormat, responseFormat) ||
                 other.responseFormat == responseFormat) &&
+            (identical(other.outputFormat, outputFormat) ||
+                other.outputFormat == outputFormat) &&
+            (identical(other.outputCompression, outputCompression) ||
+                other.outputCompression == outputCompression) &&
             (identical(other.size, size) || other.size == size) &&
+            (identical(other.moderation, moderation) ||
+                other.moderation == moderation) &&
+            (identical(other.background, background) ||
+                other.background == background) &&
             (identical(other.style, style) || other.style == style) &&
             (identical(other.user, user) || other.user == user));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, prompt, model, n, quality,
-      responseFormat, size, style, user);
+  int get hashCode => Object.hash(
+      runtimeType,
+      prompt,
+      model,
+      n,
+      quality,
+      responseFormat,
+      outputFormat,
+      outputCompression,
+      size,
+      moderation,
+      background,
+      style,
+      user);
 
   /// Create a copy of CreateImageRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -21639,16 +22620,34 @@ abstract class _CreateImageRequest extends CreateImageRequest {
           @JsonKey(includeIfNull: false)
           final CreateImageRequestModel? model,
           @JsonKey(includeIfNull: false) final int? n,
-          final ImageQuality quality,
+          @JsonKey(
+              includeIfNull: false,
+              unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+          final ImageQuality? quality,
           @JsonKey(
               name: 'response_format',
               includeIfNull: false,
               unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
           final ImageResponseFormat? responseFormat,
           @JsonKey(
+              name: 'output_format',
+              includeIfNull: false,
+              unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+          final ImageOutputFormat? outputFormat,
+          @JsonKey(name: 'output_compression', includeIfNull: false)
+          final int? outputCompression,
+          @JsonKey(
               includeIfNull: false,
               unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
           final ImageSize? size,
+          @JsonKey(
+              includeIfNull: false,
+              unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+          final ImageModeration? moderation,
+          @JsonKey(
+              includeIfNull: false,
+              unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+          final ImageBackground? background,
           @JsonKey(
               includeIfNull: false,
               unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
@@ -21664,7 +22663,7 @@ abstract class _CreateImageRequest extends CreateImageRequest {
   @override
   String get prompt;
 
-  /// The model to use for image generation.
+  /// The model to use for image generation. One of `dall-e-2`, `dall-e-3`, or `gpt-image-1`. Defaults to `dall-e-2` unless a parameter specific to `gpt-image-1` is used.
   @override
   @_CreateImageRequestModelConverter()
   @JsonKey(includeIfNull: false)
@@ -21675,11 +22674,18 @@ abstract class _CreateImageRequest extends CreateImageRequest {
   @JsonKey(includeIfNull: false)
   int? get n;
 
-  /// The quality of the image that will be generated. `hd` creates images with finer details and greater consistency across the image. This param is only supported for `dall-e-3`.
+  /// The quality of the image that will be generated.
+  ///
+  /// - `auto` (default value) will automatically select the best quality for the given model.
+  /// - `high`, `medium` and `low` are supported for `gpt-image-1`.
+  /// - `hd` and `standard` are supported for `dall-e-3`.
+  /// - `standard` is the only option for `dall-e-2`.
   @override
-  ImageQuality get quality;
+  @JsonKey(
+      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ImageQuality? get quality;
 
-  /// The format in which the generated images are returned. Must be one of `url` or `b64_json`. URLs are only valid for 60 minutes after the image has been generated.
+  /// The format in which generated images with `dall-e-2` and `dall-e-3` are returned. Must be one of `url` or `b64_json`. URLs are only valid for 60 minutes after the image has been generated. This parameter isn't supported for `gpt-image-1` which will always return base64-encoded images.
   @override
   @JsonKey(
       name: 'response_format',
@@ -21687,13 +22693,44 @@ abstract class _CreateImageRequest extends CreateImageRequest {
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   ImageResponseFormat? get responseFormat;
 
-  /// The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024` for `dall-e-2`. Must be one of `1024x1024`, `1792x1024`, or `1024x1792` for `dall-e-3` models.
+  /// The format in which the generated images are returned. This parameter is only supported for `gpt-image-1`. Must be one of `png`, `jpeg`, or `webp`.
+  @override
+  @JsonKey(
+      name: 'output_format',
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ImageOutputFormat? get outputFormat;
+
+  /// The compression level (0-100%) for the generated images. This parameter is only supported for `gpt-image-1` with the `webp` or `jpeg` output formats, and defaults to 100.
+  @override
+  @JsonKey(name: 'output_compression', includeIfNull: false)
+  int? get outputCompression;
+
+  /// The size of the generated images. Must be one of `1024x1024`, `1536x1024` (landscape), `1024x1536` (portrait), or `auto` (default value) for `gpt-image-1`, one of `256x256`, `512x512`, or `1024x1024` for `dall-e-2`, and one of `1024x1024`, `1792x1024`, or `1024x1792` for `dall-e-3`.
   @override
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   ImageSize? get size;
 
-  /// The style of the generated images. Must be one of `vivid` or `natural`. Vivid causes the model to lean towards generating hyper-real and dramatic images. Natural causes the model to produce more natural, less hyper-real looking images. This param is only supported for `dall-e-3`.
+  /// Control the content-moderation level for images generated by `gpt-image-1`. Must be either `low` for less restrictive filtering or `auto` (default value).
+  @override
+  @JsonKey(
+      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ImageModeration? get moderation;
+
+  /// Allows to set transparency for the background of the generated image(s).
+  /// This parameter is only supported for `gpt-image-1`. Must be one of
+  /// `transparent`, `opaque` or `auto` (default value). When `auto` is used, the
+  /// model will automatically determine the best background for the image.
+  ///
+  /// If `transparent`, the output format needs to support transparency, so it
+  /// should be set to either `png` (default value) or `webp`.
+  @override
+  @JsonKey(
+      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ImageBackground? get background;
+
+  /// The style of the generated images. This parameter is only supported for `dall-e-3`. Must be one of `vivid` or `natural`. Vivid causes the model to lean towards generating hyper-real and dramatic images. Natural causes the model to produce more natural, less hyper-real looking images.
   @override
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
@@ -57873,6 +58910,693 @@ abstract class _ListBatchesResponse extends ListBatchesResponse {
       throw _privateConstructorUsedError;
 }
 
+WebSearchOptions _$WebSearchOptionsFromJson(Map<String, dynamic> json) {
+  return _WebSearchOptions.fromJson(json);
+}
+
+/// @nodoc
+mixin _$WebSearchOptions {
+  /// Approximate location parameters for the search.
+  @JsonKey(name: 'user_location', includeIfNull: false)
+  WebSearchOptionsUserLocation? get userLocation =>
+      throw _privateConstructorUsedError;
+
+  /// High level guidance for the amount of context window space to use for the
+  /// search. One of `low`, `medium`, or `high`. `medium` is the default.
+  @JsonKey(name: 'search_context_size')
+  WebSearchContextSize get searchContextSize =>
+      throw _privateConstructorUsedError;
+
+  /// Serializes this WebSearchOptions to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of WebSearchOptions
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $WebSearchOptionsCopyWith<WebSearchOptions> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $WebSearchOptionsCopyWith<$Res> {
+  factory $WebSearchOptionsCopyWith(
+          WebSearchOptions value, $Res Function(WebSearchOptions) then) =
+      _$WebSearchOptionsCopyWithImpl<$Res, WebSearchOptions>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'user_location', includeIfNull: false)
+      WebSearchOptionsUserLocation? userLocation,
+      @JsonKey(name: 'search_context_size')
+      WebSearchContextSize searchContextSize});
+
+  $WebSearchOptionsUserLocationCopyWith<$Res>? get userLocation;
+}
+
+/// @nodoc
+class _$WebSearchOptionsCopyWithImpl<$Res, $Val extends WebSearchOptions>
+    implements $WebSearchOptionsCopyWith<$Res> {
+  _$WebSearchOptionsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of WebSearchOptions
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? userLocation = freezed,
+    Object? searchContextSize = null,
+  }) {
+    return _then(_value.copyWith(
+      userLocation: freezed == userLocation
+          ? _value.userLocation
+          : userLocation // ignore: cast_nullable_to_non_nullable
+              as WebSearchOptionsUserLocation?,
+      searchContextSize: null == searchContextSize
+          ? _value.searchContextSize
+          : searchContextSize // ignore: cast_nullable_to_non_nullable
+              as WebSearchContextSize,
+    ) as $Val);
+  }
+
+  /// Create a copy of WebSearchOptions
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $WebSearchOptionsUserLocationCopyWith<$Res>? get userLocation {
+    if (_value.userLocation == null) {
+      return null;
+    }
+
+    return $WebSearchOptionsUserLocationCopyWith<$Res>(_value.userLocation!,
+        (value) {
+      return _then(_value.copyWith(userLocation: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$WebSearchOptionsImplCopyWith<$Res>
+    implements $WebSearchOptionsCopyWith<$Res> {
+  factory _$$WebSearchOptionsImplCopyWith(_$WebSearchOptionsImpl value,
+          $Res Function(_$WebSearchOptionsImpl) then) =
+      __$$WebSearchOptionsImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'user_location', includeIfNull: false)
+      WebSearchOptionsUserLocation? userLocation,
+      @JsonKey(name: 'search_context_size')
+      WebSearchContextSize searchContextSize});
+
+  @override
+  $WebSearchOptionsUserLocationCopyWith<$Res>? get userLocation;
+}
+
+/// @nodoc
+class __$$WebSearchOptionsImplCopyWithImpl<$Res>
+    extends _$WebSearchOptionsCopyWithImpl<$Res, _$WebSearchOptionsImpl>
+    implements _$$WebSearchOptionsImplCopyWith<$Res> {
+  __$$WebSearchOptionsImplCopyWithImpl(_$WebSearchOptionsImpl _value,
+      $Res Function(_$WebSearchOptionsImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of WebSearchOptions
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? userLocation = freezed,
+    Object? searchContextSize = null,
+  }) {
+    return _then(_$WebSearchOptionsImpl(
+      userLocation: freezed == userLocation
+          ? _value.userLocation
+          : userLocation // ignore: cast_nullable_to_non_nullable
+              as WebSearchOptionsUserLocation?,
+      searchContextSize: null == searchContextSize
+          ? _value.searchContextSize
+          : searchContextSize // ignore: cast_nullable_to_non_nullable
+              as WebSearchContextSize,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$WebSearchOptionsImpl extends _WebSearchOptions {
+  const _$WebSearchOptionsImpl(
+      {@JsonKey(name: 'user_location', includeIfNull: false) this.userLocation,
+      @JsonKey(name: 'search_context_size')
+      this.searchContextSize = WebSearchContextSize.medium})
+      : super._();
+
+  factory _$WebSearchOptionsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$WebSearchOptionsImplFromJson(json);
+
+  /// Approximate location parameters for the search.
+  @override
+  @JsonKey(name: 'user_location', includeIfNull: false)
+  final WebSearchOptionsUserLocation? userLocation;
+
+  /// High level guidance for the amount of context window space to use for the
+  /// search. One of `low`, `medium`, or `high`. `medium` is the default.
+  @override
+  @JsonKey(name: 'search_context_size')
+  final WebSearchContextSize searchContextSize;
+
+  @override
+  String toString() {
+    return 'WebSearchOptions(userLocation: $userLocation, searchContextSize: $searchContextSize)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$WebSearchOptionsImpl &&
+            (identical(other.userLocation, userLocation) ||
+                other.userLocation == userLocation) &&
+            (identical(other.searchContextSize, searchContextSize) ||
+                other.searchContextSize == searchContextSize));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, userLocation, searchContextSize);
+
+  /// Create a copy of WebSearchOptions
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$WebSearchOptionsImplCopyWith<_$WebSearchOptionsImpl> get copyWith =>
+      __$$WebSearchOptionsImplCopyWithImpl<_$WebSearchOptionsImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$WebSearchOptionsImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _WebSearchOptions extends WebSearchOptions {
+  const factory _WebSearchOptions(
+      {@JsonKey(name: 'user_location', includeIfNull: false)
+      final WebSearchOptionsUserLocation? userLocation,
+      @JsonKey(name: 'search_context_size')
+      final WebSearchContextSize searchContextSize}) = _$WebSearchOptionsImpl;
+  const _WebSearchOptions._() : super._();
+
+  factory _WebSearchOptions.fromJson(Map<String, dynamic> json) =
+      _$WebSearchOptionsImpl.fromJson;
+
+  /// Approximate location parameters for the search.
+  @override
+  @JsonKey(name: 'user_location', includeIfNull: false)
+  WebSearchOptionsUserLocation? get userLocation;
+
+  /// High level guidance for the amount of context window space to use for the
+  /// search. One of `low`, `medium`, or `high`. `medium` is the default.
+  @override
+  @JsonKey(name: 'search_context_size')
+  WebSearchContextSize get searchContextSize;
+
+  /// Create a copy of WebSearchOptions
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$WebSearchOptionsImplCopyWith<_$WebSearchOptionsImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+WebSearchOptionsUserLocation _$WebSearchOptionsUserLocationFromJson(
+    Map<String, dynamic> json) {
+  return _WebSearchOptionsUserLocation.fromJson(json);
+}
+
+/// @nodoc
+mixin _$WebSearchOptionsUserLocation {
+  /// The type of location approximation. Always `approximate`.
+  WebSearchOptionsUserLocationType get type =>
+      throw _privateConstructorUsedError;
+
+  /// Approximate location parameters for the search.
+  WebSearchLocation get approximate => throw _privateConstructorUsedError;
+
+  /// Serializes this WebSearchOptionsUserLocation to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of WebSearchOptionsUserLocation
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $WebSearchOptionsUserLocationCopyWith<WebSearchOptionsUserLocation>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $WebSearchOptionsUserLocationCopyWith<$Res> {
+  factory $WebSearchOptionsUserLocationCopyWith(
+          WebSearchOptionsUserLocation value,
+          $Res Function(WebSearchOptionsUserLocation) then) =
+      _$WebSearchOptionsUserLocationCopyWithImpl<$Res,
+          WebSearchOptionsUserLocation>;
+  @useResult
+  $Res call(
+      {WebSearchOptionsUserLocationType type, WebSearchLocation approximate});
+
+  $WebSearchLocationCopyWith<$Res> get approximate;
+}
+
+/// @nodoc
+class _$WebSearchOptionsUserLocationCopyWithImpl<$Res,
+        $Val extends WebSearchOptionsUserLocation>
+    implements $WebSearchOptionsUserLocationCopyWith<$Res> {
+  _$WebSearchOptionsUserLocationCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of WebSearchOptionsUserLocation
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? approximate = null,
+  }) {
+    return _then(_value.copyWith(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as WebSearchOptionsUserLocationType,
+      approximate: null == approximate
+          ? _value.approximate
+          : approximate // ignore: cast_nullable_to_non_nullable
+              as WebSearchLocation,
+    ) as $Val);
+  }
+
+  /// Create a copy of WebSearchOptionsUserLocation
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $WebSearchLocationCopyWith<$Res> get approximate {
+    return $WebSearchLocationCopyWith<$Res>(_value.approximate, (value) {
+      return _then(_value.copyWith(approximate: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$WebSearchOptionsUserLocationImplCopyWith<$Res>
+    implements $WebSearchOptionsUserLocationCopyWith<$Res> {
+  factory _$$WebSearchOptionsUserLocationImplCopyWith(
+          _$WebSearchOptionsUserLocationImpl value,
+          $Res Function(_$WebSearchOptionsUserLocationImpl) then) =
+      __$$WebSearchOptionsUserLocationImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {WebSearchOptionsUserLocationType type, WebSearchLocation approximate});
+
+  @override
+  $WebSearchLocationCopyWith<$Res> get approximate;
+}
+
+/// @nodoc
+class __$$WebSearchOptionsUserLocationImplCopyWithImpl<$Res>
+    extends _$WebSearchOptionsUserLocationCopyWithImpl<$Res,
+        _$WebSearchOptionsUserLocationImpl>
+    implements _$$WebSearchOptionsUserLocationImplCopyWith<$Res> {
+  __$$WebSearchOptionsUserLocationImplCopyWithImpl(
+      _$WebSearchOptionsUserLocationImpl _value,
+      $Res Function(_$WebSearchOptionsUserLocationImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of WebSearchOptionsUserLocation
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? approximate = null,
+  }) {
+    return _then(_$WebSearchOptionsUserLocationImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as WebSearchOptionsUserLocationType,
+      approximate: null == approximate
+          ? _value.approximate
+          : approximate // ignore: cast_nullable_to_non_nullable
+              as WebSearchLocation,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$WebSearchOptionsUserLocationImpl extends _WebSearchOptionsUserLocation {
+  const _$WebSearchOptionsUserLocationImpl(
+      {required this.type, required this.approximate})
+      : super._();
+
+  factory _$WebSearchOptionsUserLocationImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$WebSearchOptionsUserLocationImplFromJson(json);
+
+  /// The type of location approximation. Always `approximate`.
+  @override
+  final WebSearchOptionsUserLocationType type;
+
+  /// Approximate location parameters for the search.
+  @override
+  final WebSearchLocation approximate;
+
+  @override
+  String toString() {
+    return 'WebSearchOptionsUserLocation(type: $type, approximate: $approximate)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$WebSearchOptionsUserLocationImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.approximate, approximate) ||
+                other.approximate == approximate));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, approximate);
+
+  /// Create a copy of WebSearchOptionsUserLocation
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$WebSearchOptionsUserLocationImplCopyWith<
+          _$WebSearchOptionsUserLocationImpl>
+      get copyWith => __$$WebSearchOptionsUserLocationImplCopyWithImpl<
+          _$WebSearchOptionsUserLocationImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$WebSearchOptionsUserLocationImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _WebSearchOptionsUserLocation
+    extends WebSearchOptionsUserLocation {
+  const factory _WebSearchOptionsUserLocation(
+          {required final WebSearchOptionsUserLocationType type,
+          required final WebSearchLocation approximate}) =
+      _$WebSearchOptionsUserLocationImpl;
+  const _WebSearchOptionsUserLocation._() : super._();
+
+  factory _WebSearchOptionsUserLocation.fromJson(Map<String, dynamic> json) =
+      _$WebSearchOptionsUserLocationImpl.fromJson;
+
+  /// The type of location approximation. Always `approximate`.
+  @override
+  WebSearchOptionsUserLocationType get type;
+
+  /// Approximate location parameters for the search.
+  @override
+  WebSearchLocation get approximate;
+
+  /// Create a copy of WebSearchOptionsUserLocation
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$WebSearchOptionsUserLocationImplCopyWith<
+          _$WebSearchOptionsUserLocationImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+WebSearchLocation _$WebSearchLocationFromJson(Map<String, dynamic> json) {
+  return _WebSearchLocation.fromJson(json);
+}
+
+/// @nodoc
+mixin _$WebSearchLocation {
+  /// The two-letter [ISO country code](https://en.wikipedia.org/wiki/ISO_3166-1) of the user, e.g. `US`.
+  @JsonKey(includeIfNull: false)
+  String? get country => throw _privateConstructorUsedError;
+
+  /// Free text input for the region of the user, e.g. `California`.
+  @JsonKey(includeIfNull: false)
+  String? get region => throw _privateConstructorUsedError;
+
+  /// Free text input for the city of the user, e.g. `San Francisco`.
+  @JsonKey(includeIfNull: false)
+  String? get city => throw _privateConstructorUsedError;
+
+  /// The [IANA timezone](https://timeapi.io/documentation/iana-timezones) of the user, e.g. `America/Los_Angeles`.
+  @JsonKey(includeIfNull: false)
+  String? get timezone => throw _privateConstructorUsedError;
+
+  /// Serializes this WebSearchLocation to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of WebSearchLocation
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $WebSearchLocationCopyWith<WebSearchLocation> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $WebSearchLocationCopyWith<$Res> {
+  factory $WebSearchLocationCopyWith(
+          WebSearchLocation value, $Res Function(WebSearchLocation) then) =
+      _$WebSearchLocationCopyWithImpl<$Res, WebSearchLocation>;
+  @useResult
+  $Res call(
+      {@JsonKey(includeIfNull: false) String? country,
+      @JsonKey(includeIfNull: false) String? region,
+      @JsonKey(includeIfNull: false) String? city,
+      @JsonKey(includeIfNull: false) String? timezone});
+}
+
+/// @nodoc
+class _$WebSearchLocationCopyWithImpl<$Res, $Val extends WebSearchLocation>
+    implements $WebSearchLocationCopyWith<$Res> {
+  _$WebSearchLocationCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of WebSearchLocation
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? country = freezed,
+    Object? region = freezed,
+    Object? city = freezed,
+    Object? timezone = freezed,
+  }) {
+    return _then(_value.copyWith(
+      country: freezed == country
+          ? _value.country
+          : country // ignore: cast_nullable_to_non_nullable
+              as String?,
+      region: freezed == region
+          ? _value.region
+          : region // ignore: cast_nullable_to_non_nullable
+              as String?,
+      city: freezed == city
+          ? _value.city
+          : city // ignore: cast_nullable_to_non_nullable
+              as String?,
+      timezone: freezed == timezone
+          ? _value.timezone
+          : timezone // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$WebSearchLocationImplCopyWith<$Res>
+    implements $WebSearchLocationCopyWith<$Res> {
+  factory _$$WebSearchLocationImplCopyWith(_$WebSearchLocationImpl value,
+          $Res Function(_$WebSearchLocationImpl) then) =
+      __$$WebSearchLocationImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(includeIfNull: false) String? country,
+      @JsonKey(includeIfNull: false) String? region,
+      @JsonKey(includeIfNull: false) String? city,
+      @JsonKey(includeIfNull: false) String? timezone});
+}
+
+/// @nodoc
+class __$$WebSearchLocationImplCopyWithImpl<$Res>
+    extends _$WebSearchLocationCopyWithImpl<$Res, _$WebSearchLocationImpl>
+    implements _$$WebSearchLocationImplCopyWith<$Res> {
+  __$$WebSearchLocationImplCopyWithImpl(_$WebSearchLocationImpl _value,
+      $Res Function(_$WebSearchLocationImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of WebSearchLocation
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? country = freezed,
+    Object? region = freezed,
+    Object? city = freezed,
+    Object? timezone = freezed,
+  }) {
+    return _then(_$WebSearchLocationImpl(
+      country: freezed == country
+          ? _value.country
+          : country // ignore: cast_nullable_to_non_nullable
+              as String?,
+      region: freezed == region
+          ? _value.region
+          : region // ignore: cast_nullable_to_non_nullable
+              as String?,
+      city: freezed == city
+          ? _value.city
+          : city // ignore: cast_nullable_to_non_nullable
+              as String?,
+      timezone: freezed == timezone
+          ? _value.timezone
+          : timezone // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$WebSearchLocationImpl extends _WebSearchLocation {
+  const _$WebSearchLocationImpl(
+      {@JsonKey(includeIfNull: false) this.country,
+      @JsonKey(includeIfNull: false) this.region,
+      @JsonKey(includeIfNull: false) this.city,
+      @JsonKey(includeIfNull: false) this.timezone})
+      : super._();
+
+  factory _$WebSearchLocationImpl.fromJson(Map<String, dynamic> json) =>
+      _$$WebSearchLocationImplFromJson(json);
+
+  /// The two-letter [ISO country code](https://en.wikipedia.org/wiki/ISO_3166-1) of the user, e.g. `US`.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? country;
+
+  /// Free text input for the region of the user, e.g. `California`.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? region;
+
+  /// Free text input for the city of the user, e.g. `San Francisco`.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? city;
+
+  /// The [IANA timezone](https://timeapi.io/documentation/iana-timezones) of the user, e.g. `America/Los_Angeles`.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? timezone;
+
+  @override
+  String toString() {
+    return 'WebSearchLocation(country: $country, region: $region, city: $city, timezone: $timezone)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$WebSearchLocationImpl &&
+            (identical(other.country, country) || other.country == country) &&
+            (identical(other.region, region) || other.region == region) &&
+            (identical(other.city, city) || other.city == city) &&
+            (identical(other.timezone, timezone) ||
+                other.timezone == timezone));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, country, region, city, timezone);
+
+  /// Create a copy of WebSearchLocation
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$WebSearchLocationImplCopyWith<_$WebSearchLocationImpl> get copyWith =>
+      __$$WebSearchLocationImplCopyWithImpl<_$WebSearchLocationImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$WebSearchLocationImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _WebSearchLocation extends WebSearchLocation {
+  const factory _WebSearchLocation(
+          {@JsonKey(includeIfNull: false) final String? country,
+          @JsonKey(includeIfNull: false) final String? region,
+          @JsonKey(includeIfNull: false) final String? city,
+          @JsonKey(includeIfNull: false) final String? timezone}) =
+      _$WebSearchLocationImpl;
+  const _WebSearchLocation._() : super._();
+
+  factory _WebSearchLocation.fromJson(Map<String, dynamic> json) =
+      _$WebSearchLocationImpl.fromJson;
+
+  /// The two-letter [ISO country code](https://en.wikipedia.org/wiki/ISO_3166-1) of the user, e.g. `US`.
+  @override
+  @JsonKey(includeIfNull: false)
+  String? get country;
+
+  /// Free text input for the region of the user, e.g. `California`.
+  @override
+  @JsonKey(includeIfNull: false)
+  String? get region;
+
+  /// Free text input for the city of the user, e.g. `San Francisco`.
+  @override
+  @JsonKey(includeIfNull: false)
+  String? get city;
+
+  /// The [IANA timezone](https://timeapi.io/documentation/iana-timezones) of the user, e.g. `America/Los_Angeles`.
+  @override
+  @JsonKey(includeIfNull: false)
+  String? get timezone;
+
+  /// Create a copy of WebSearchLocation
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$WebSearchLocationImplCopyWith<_$WebSearchLocationImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 ChatCompletionMessage _$ChatCompletionMessageFromJson(
     Map<String, dynamic> json) {
   switch (json['role']) {
@@ -57927,6 +59651,7 @@ mixin _$ChatCompletionMessage {
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
+            @JsonKey(includeIfNull: false) List<Annotation>? annotations,
             @JsonKey(name: 'function_call', includeIfNull: false)
             ChatCompletionMessageFunctionCall? functionCall,
             @JsonKey(includeIfNull: false)
@@ -57964,6 +59689,7 @@ mixin _$ChatCompletionMessage {
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
+            @JsonKey(includeIfNull: false) List<Annotation>? annotations,
             @JsonKey(name: 'function_call', includeIfNull: false)
             ChatCompletionMessageFunctionCall? functionCall,
             @JsonKey(includeIfNull: false)
@@ -58001,6 +59727,7 @@ mixin _$ChatCompletionMessage {
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
+            @JsonKey(includeIfNull: false) List<Annotation>? annotations,
             @JsonKey(name: 'function_call', includeIfNull: false)
             ChatCompletionMessageFunctionCall? functionCall,
             @JsonKey(includeIfNull: false)
@@ -58241,6 +59968,7 @@ class _$ChatCompletionDeveloperMessageImpl
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
+            @JsonKey(includeIfNull: false) List<Annotation>? annotations,
             @JsonKey(name: 'function_call', includeIfNull: false)
             ChatCompletionMessageFunctionCall? functionCall,
             @JsonKey(includeIfNull: false)
@@ -58281,6 +60009,7 @@ class _$ChatCompletionDeveloperMessageImpl
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
+            @JsonKey(includeIfNull: false) List<Annotation>? annotations,
             @JsonKey(name: 'function_call', includeIfNull: false)
             ChatCompletionMessageFunctionCall? functionCall,
             @JsonKey(includeIfNull: false)
@@ -58321,6 +60050,7 @@ class _$ChatCompletionDeveloperMessageImpl
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
+            @JsonKey(includeIfNull: false) List<Annotation>? annotations,
             @JsonKey(name: 'function_call', includeIfNull: false)
             ChatCompletionMessageFunctionCall? functionCall,
             @JsonKey(includeIfNull: false)
@@ -58556,6 +60286,7 @@ class _$ChatCompletionSystemMessageImpl extends ChatCompletionSystemMessage {
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
+            @JsonKey(includeIfNull: false) List<Annotation>? annotations,
             @JsonKey(name: 'function_call', includeIfNull: false)
             ChatCompletionMessageFunctionCall? functionCall,
             @JsonKey(includeIfNull: false)
@@ -58596,6 +60327,7 @@ class _$ChatCompletionSystemMessageImpl extends ChatCompletionSystemMessage {
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
+            @JsonKey(includeIfNull: false) List<Annotation>? annotations,
             @JsonKey(name: 'function_call', includeIfNull: false)
             ChatCompletionMessageFunctionCall? functionCall,
             @JsonKey(includeIfNull: false)
@@ -58636,6 +60368,7 @@ class _$ChatCompletionSystemMessageImpl extends ChatCompletionSystemMessage {
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
+            @JsonKey(includeIfNull: false) List<Annotation>? annotations,
             @JsonKey(name: 'function_call', includeIfNull: false)
             ChatCompletionMessageFunctionCall? functionCall,
             @JsonKey(includeIfNull: false)
@@ -58882,6 +60615,7 @@ class _$ChatCompletionUserMessageImpl extends ChatCompletionUserMessage {
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
+            @JsonKey(includeIfNull: false) List<Annotation>? annotations,
             @JsonKey(name: 'function_call', includeIfNull: false)
             ChatCompletionMessageFunctionCall? functionCall,
             @JsonKey(includeIfNull: false)
@@ -58922,6 +60656,7 @@ class _$ChatCompletionUserMessageImpl extends ChatCompletionUserMessage {
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
+            @JsonKey(includeIfNull: false) List<Annotation>? annotations,
             @JsonKey(name: 'function_call', includeIfNull: false)
             ChatCompletionMessageFunctionCall? functionCall,
             @JsonKey(includeIfNull: false)
@@ -58962,6 +60697,7 @@ class _$ChatCompletionUserMessageImpl extends ChatCompletionUserMessage {
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
+            @JsonKey(includeIfNull: false) List<Annotation>? annotations,
             @JsonKey(name: 'function_call', includeIfNull: false)
             ChatCompletionMessageFunctionCall? functionCall,
             @JsonKey(includeIfNull: false)
@@ -59081,6 +60817,7 @@ abstract class _$$ChatCompletionAssistantMessageImplCopyWith<$Res>
       @JsonKey(includeIfNull: false) String? name,
       @JsonKey(name: 'tool_calls', includeIfNull: false)
       List<ChatCompletionMessageToolCall>? toolCalls,
+      @JsonKey(includeIfNull: false) List<Annotation>? annotations,
       @JsonKey(name: 'function_call', includeIfNull: false)
       ChatCompletionMessageFunctionCall? functionCall,
       @JsonKey(includeIfNull: false)
@@ -59110,6 +60847,7 @@ class __$$ChatCompletionAssistantMessageImplCopyWithImpl<$Res>
     Object? refusal = freezed,
     Object? name = freezed,
     Object? toolCalls = freezed,
+    Object? annotations = freezed,
     Object? functionCall = freezed,
     Object? audio = freezed,
   }) {
@@ -59134,6 +60872,10 @@ class __$$ChatCompletionAssistantMessageImplCopyWithImpl<$Res>
           ? _value._toolCalls
           : toolCalls // ignore: cast_nullable_to_non_nullable
               as List<ChatCompletionMessageToolCall>?,
+      annotations: freezed == annotations
+          ? _value._annotations
+          : annotations // ignore: cast_nullable_to_non_nullable
+              as List<Annotation>?,
       functionCall: freezed == functionCall
           ? _value.functionCall
           : functionCall // ignore: cast_nullable_to_non_nullable
@@ -59187,9 +60929,11 @@ class _$ChatCompletionAssistantMessageImpl
       @JsonKey(includeIfNull: false) this.name,
       @JsonKey(name: 'tool_calls', includeIfNull: false)
       final List<ChatCompletionMessageToolCall>? toolCalls,
+      @JsonKey(includeIfNull: false) final List<Annotation>? annotations,
       @JsonKey(name: 'function_call', includeIfNull: false) this.functionCall,
       @JsonKey(includeIfNull: false) this.audio})
       : _toolCalls = toolCalls,
+        _annotations = annotations,
         super._();
 
   factory _$ChatCompletionAssistantMessageImpl.fromJson(
@@ -59230,6 +60974,22 @@ class _$ChatCompletionAssistantMessageImpl
     return EqualUnmodifiableListView(value);
   }
 
+  /// Annotations for the message, when applicable, as when using the
+  /// [web search tool](https://platform.openai.com/docs/guides/tools-web-search?api-mode=chat).
+  final List<Annotation>? _annotations;
+
+  /// Annotations for the message, when applicable, as when using the
+  /// [web search tool](https://platform.openai.com/docs/guides/tools-web-search?api-mode=chat).
+  @override
+  @JsonKey(includeIfNull: false)
+  List<Annotation>? get annotations {
+    final value = _annotations;
+    if (value == null) return null;
+    if (_annotations is EqualUnmodifiableListView) return _annotations;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   /// Deprecated and replaced by `tool_calls`. The name and arguments of a function that should be called, as generated by the model.
   @override
   @JsonKey(name: 'function_call', includeIfNull: false)
@@ -59243,7 +61003,7 @@ class _$ChatCompletionAssistantMessageImpl
 
   @override
   String toString() {
-    return 'ChatCompletionMessage.assistant(role: $role, content: $content, refusal: $refusal, name: $name, toolCalls: $toolCalls, functionCall: $functionCall, audio: $audio)';
+    return 'ChatCompletionMessage.assistant(role: $role, content: $content, refusal: $refusal, name: $name, toolCalls: $toolCalls, annotations: $annotations, functionCall: $functionCall, audio: $audio)';
   }
 
   @override
@@ -59257,6 +61017,8 @@ class _$ChatCompletionAssistantMessageImpl
             (identical(other.name, name) || other.name == name) &&
             const DeepCollectionEquality()
                 .equals(other._toolCalls, _toolCalls) &&
+            const DeepCollectionEquality()
+                .equals(other._annotations, _annotations) &&
             (identical(other.functionCall, functionCall) ||
                 other.functionCall == functionCall) &&
             (identical(other.audio, audio) || other.audio == audio));
@@ -59264,8 +61026,16 @@ class _$ChatCompletionAssistantMessageImpl
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, role, content, refusal, name,
-      const DeepCollectionEquality().hash(_toolCalls), functionCall, audio);
+  int get hashCode => Object.hash(
+      runtimeType,
+      role,
+      content,
+      refusal,
+      name,
+      const DeepCollectionEquality().hash(_toolCalls),
+      const DeepCollectionEquality().hash(_annotations),
+      functionCall,
+      audio);
 
   /// Create a copy of ChatCompletionMessage
   /// with the given fields replaced by the non-null parameter values.
@@ -59302,6 +61072,7 @@ class _$ChatCompletionAssistantMessageImpl
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
+            @JsonKey(includeIfNull: false) List<Annotation>? annotations,
             @JsonKey(name: 'function_call', includeIfNull: false)
             ChatCompletionMessageFunctionCall? functionCall,
             @JsonKey(includeIfNull: false)
@@ -59314,8 +61085,8 @@ class _$ChatCompletionAssistantMessageImpl
             ChatCompletionMessageRole role, String? content, String name)
         function,
   }) {
-    return assistant(
-        role, content, refusal, name, toolCalls, functionCall, audio);
+    return assistant(role, content, refusal, name, toolCalls, annotations,
+        functionCall, audio);
   }
 
   @override
@@ -59343,6 +61114,7 @@ class _$ChatCompletionAssistantMessageImpl
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
+            @JsonKey(includeIfNull: false) List<Annotation>? annotations,
             @JsonKey(name: 'function_call', includeIfNull: false)
             ChatCompletionMessageFunctionCall? functionCall,
             @JsonKey(includeIfNull: false)
@@ -59355,8 +61127,8 @@ class _$ChatCompletionAssistantMessageImpl
             ChatCompletionMessageRole role, String? content, String name)?
         function,
   }) {
-    return assistant?.call(
-        role, content, refusal, name, toolCalls, functionCall, audio);
+    return assistant?.call(role, content, refusal, name, toolCalls, annotations,
+        functionCall, audio);
   }
 
   @override
@@ -59384,6 +61156,7 @@ class _$ChatCompletionAssistantMessageImpl
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
+            @JsonKey(includeIfNull: false) List<Annotation>? annotations,
             @JsonKey(name: 'function_call', includeIfNull: false)
             ChatCompletionMessageFunctionCall? functionCall,
             @JsonKey(includeIfNull: false)
@@ -59398,8 +61171,8 @@ class _$ChatCompletionAssistantMessageImpl
     required TResult orElse(),
   }) {
     if (assistant != null) {
-      return assistant(
-          role, content, refusal, name, toolCalls, functionCall, audio);
+      return assistant(role, content, refusal, name, toolCalls, annotations,
+          functionCall, audio);
     }
     return orElse();
   }
@@ -59463,6 +61236,7 @@ abstract class ChatCompletionAssistantMessage extends ChatCompletionMessage {
           @JsonKey(includeIfNull: false) final String? name,
           @JsonKey(name: 'tool_calls', includeIfNull: false)
           final List<ChatCompletionMessageToolCall>? toolCalls,
+          @JsonKey(includeIfNull: false) final List<Annotation>? annotations,
           @JsonKey(name: 'function_call', includeIfNull: false)
           final ChatCompletionMessageFunctionCall? functionCall,
           @JsonKey(includeIfNull: false)
@@ -59493,6 +61267,11 @@ abstract class ChatCompletionAssistantMessage extends ChatCompletionMessage {
   /// No Description
   @JsonKey(name: 'tool_calls', includeIfNull: false)
   List<ChatCompletionMessageToolCall>? get toolCalls;
+
+  /// Annotations for the message, when applicable, as when using the
+  /// [web search tool](https://platform.openai.com/docs/guides/tools-web-search?api-mode=chat).
+  @JsonKey(includeIfNull: false)
+  List<Annotation>? get annotations;
 
   /// Deprecated and replaced by `tool_calls`. The name and arguments of a function that should be called, as generated by the model.
   @JsonKey(name: 'function_call', includeIfNull: false)
@@ -59643,6 +61422,7 @@ class _$ChatCompletionToolMessageImpl extends ChatCompletionToolMessage {
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
+            @JsonKey(includeIfNull: false) List<Annotation>? annotations,
             @JsonKey(name: 'function_call', includeIfNull: false)
             ChatCompletionMessageFunctionCall? functionCall,
             @JsonKey(includeIfNull: false)
@@ -59683,6 +61463,7 @@ class _$ChatCompletionToolMessageImpl extends ChatCompletionToolMessage {
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
+            @JsonKey(includeIfNull: false) List<Annotation>? annotations,
             @JsonKey(name: 'function_call', includeIfNull: false)
             ChatCompletionMessageFunctionCall? functionCall,
             @JsonKey(includeIfNull: false)
@@ -59723,6 +61504,7 @@ class _$ChatCompletionToolMessageImpl extends ChatCompletionToolMessage {
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
+            @JsonKey(includeIfNull: false) List<Annotation>? annotations,
             @JsonKey(name: 'function_call', includeIfNull: false)
             ChatCompletionMessageFunctionCall? functionCall,
             @JsonKey(includeIfNull: false)
@@ -59953,6 +61735,7 @@ class _$ChatCompletionFunctionMessageImpl
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
+            @JsonKey(includeIfNull: false) List<Annotation>? annotations,
             @JsonKey(name: 'function_call', includeIfNull: false)
             ChatCompletionMessageFunctionCall? functionCall,
             @JsonKey(includeIfNull: false)
@@ -59993,6 +61776,7 @@ class _$ChatCompletionFunctionMessageImpl
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
+            @JsonKey(includeIfNull: false) List<Annotation>? annotations,
             @JsonKey(name: 'function_call', includeIfNull: false)
             ChatCompletionMessageFunctionCall? functionCall,
             @JsonKey(includeIfNull: false)
@@ -60033,6 +61817,7 @@ class _$ChatCompletionFunctionMessageImpl
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
+            @JsonKey(includeIfNull: false) List<Annotation>? annotations,
             @JsonKey(name: 'function_call', includeIfNull: false)
             ChatCompletionMessageFunctionCall? functionCall,
             @JsonKey(includeIfNull: false)

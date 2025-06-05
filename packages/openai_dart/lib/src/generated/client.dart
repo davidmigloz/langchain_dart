@@ -366,6 +366,51 @@ class OpenAIClient {
   }
 
   // ------------------------------------------
+  // METHOD: listChatCompletions
+  // ------------------------------------------
+
+  /// List chat completions
+  ///
+  /// List stored Chat Completions. Only Chat Completions that have been stored
+  /// with the `store` parameter set to `true` will be returned.
+  ///
+  /// `model`: The model used to generate the Chat Completions.
+  ///
+  /// `metadata`: A list of metadata keys to filter the Chat Completions by. Example: `metadata[key1]=value1&metadata[key2]=value2`
+  ///
+  /// `after`: Identifier for the last chat completion from the previous pagination request.
+  ///
+  /// `limit`: Number of Chat Completions to retrieve.
+  ///
+  /// `order`: Sort order for Chat Completions by timestamp. Use `asc` for ascending order or `desc` for descending order. Defaults to `asc`.
+  ///
+  /// `GET` `https://api.openai.com/v1/chat/completions`
+  Future<ChatCompletionList> listChatCompletions({
+    String? model,
+    ChatCompletionMetadata? metadata,
+    String? after,
+    int limit = 20,
+    String order = 'asc',
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/chat/completions',
+      method: HttpMethod.get,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+      queryParams: {
+        if (model != null) 'model': model,
+        if (metadata != null) 'metadata': metadata,
+        if (after != null) 'after': after,
+        'limit': limit,
+        'order': order,
+      },
+    );
+    return ChatCompletionList.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
   // METHOD: createChatCompletion
   // ------------------------------------------
 

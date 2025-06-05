@@ -38,6 +38,59 @@ tags:
 
 paths:
   /chat/completions:
+    get:
+      operationId: listChatCompletions
+      tags:
+        - Chat
+      summary: List chat completions
+      description: |
+        List stored Chat Completions. Only Chat Completions that have been stored
+        with the `store` parameter set to `true` will be returned.
+      parameters:
+        - name: model
+          in: query
+          description: The model used to generate the Chat Completions.
+          required: false
+          schema:
+            type: string
+        - name: metadata
+          in: query
+          description: |
+            A list of metadata keys to filter the Chat Completions by. Example:
+            `metadata[key1]=value1&metadata[key2]=value2`
+          required: false
+          schema:
+            $ref: "#/components/schemas/ChatCompletionMetadata"
+        - name: after
+          in: query
+          description: Identifier for the last chat completion from the previous pagination request.
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Number of Chat Completions to retrieve.
+          required: false
+          schema:
+            type: integer
+            default: 20
+        - name: order
+          in: query
+          description: >-
+            Sort order for Chat Completions by timestamp. Use `asc` for ascending order or `desc` for
+            descending order. Defaults to `asc`.
+          required: false
+          schema:
+            type: string
+            enum: [ asc, desc ]
+            default: asc
+      responses:
+        "200":
+          description: A list of Chat Completions
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChatCompletionList"
     post:
       operationId: createChatCompletion
       tags:
@@ -1662,7 +1715,8 @@ components:
             Echo back the prompt in addition to the completion
         frequency_penalty:
           type: number
-          default: 0
+          # default: 0 # Some models don't support this
+          default: null
           minimum: -2
           maximum: 2
           nullable: true
@@ -1706,7 +1760,8 @@ components:
           type: integer
           minimum: 1
           maximum: 128
-          default: 1
+          # default: 1 # Some models don't support this
+          default: null
           example: 1
           nullable: true
           description: &completions_completions_description |
@@ -1715,7 +1770,8 @@ components:
             **Note:** Because this parameter generates many completions, it can quickly consume your token quota. Use carefully and ensure that you have reasonable settings for `max_tokens` and `stop`.
         presence_penalty:
           type: number
-          default: 0
+          # default: 0 # Some models don't support this
+          default: null
           minimum: -2
           maximum: 2
           nullable: true
@@ -1773,7 +1829,8 @@ components:
           type: number
           minimum: 0
           maximum: 2
-          default: 1
+          # default: 1 # Some models don't support this
+          default: null
           example: 1
           nullable: true
           description: &completions_temperature_description |
@@ -1784,7 +1841,8 @@ components:
           type: number
           minimum: 0
           maximum: 1
-          default: 1
+          # default: 1 # Some models don't support this
+          default: null
           example: 1
           nullable: true
           description: &completions_top_p_description |
@@ -1999,7 +2057,8 @@ components:
             type: string
         frequency_penalty:
           type: number
-          default: 0
+          # default: 0 # Some models don't support this
+          default: null
           minimum: -2
           maximum: 2
           nullable: true
@@ -2053,7 +2112,8 @@ components:
           type: integer
           minimum: 1
           maximum: 128
-          default: 1
+          # default: 1 # Some models don't support this
+          default: null
           example: 1
           nullable: true
           description: |
@@ -2072,11 +2132,14 @@ components:
           $ref: "#/components/schemas/ChatCompletionAudioOptions"
         presence_penalty:
           type: number
-          default: 0
+          # default: 0 # Some models don't support this
+          default: null
           minimum: -2
           maximum: 2
           nullable: true
           description: *completions_presence_penalty_description
+        web_search_options:
+          $ref: "#/components/schemas/WebSearchOptions"
         response_format:
           $ref: "#/components/schemas/ResponseFormat"
         seed:
@@ -2093,18 +2156,18 @@ components:
         service_tier:
           description: |
             Specifies the latency tier to use for processing the request. This parameter is relevant for customers 
-            subscribed to the scale tier service:
-              - If set to 'auto', and the Project is Scale tier enabled, the system will utilize scale tier credits 
-                until they are exhausted. 
-              - If set to 'auto', and the Project is not Scale tier enabled, the request will be processed using the 
+            subscribed to the Flex Processing service:
+              - If set to 'auto', and the Project is Flex Processing enabled, the system will utilize flex credits
+                until they are exhausted.
+              - If set to 'auto', and the Project is not Flex Processing enabled, the request will be processed using the
                 default service tier with a lower uptime SLA and no latency guarantee.
-              - If set to 'default', the request will be processed using the default service tier with a lower uptime 
+              - If set to 'default', the request will be processed using the default service tier with a lower uptime
                 SLA and no latency guarantee.
               - When not set, the default behavior is 'auto'.
             
               When this parameter is set, the response body will include the `service_tier` utilized.
           type: string
-          enum: [ "auto", "default" ]
+          enum: [ "auto", "default", "flex" ]
           nullable: true
           default: null
         stop:
@@ -2137,7 +2200,8 @@ components:
           type: number
           minimum: 0
           maximum: 2
-          default: 1
+          # default: 1 # Some models don't support this
+          default: null
           example: 1
           nullable: true
           description: *completions_temperature_description
@@ -2145,7 +2209,8 @@ components:
           type: number
           minimum: 0
           maximum: 1
-          default: 1
+          # default: 1 # Some models don't support this
+          default: null
           example: 1
           nullable: true
           description: *completions_top_p_description
@@ -2338,6 +2403,13 @@ components:
         tool_calls:
           $ref: "#/components/schemas/ChatCompletionMessageToolCalls"
           description: The tools that should be called, as generated by the model.
+        annotations:
+          type: array
+          description: |
+            Annotations for the message, when applicable, as when using the
+            [web search tool](https://platform.openai.com/docs/guides/tools-web-search?api-mode=chat).
+          items:
+            $ref: "#/components/schemas/Annotation"
         function_call:
           $ref: "#/components/schemas/ChatCompletionMessageFunctionCall"
           deprecated: true
@@ -2730,6 +2802,35 @@ components:
         To request that this model generate both text and audio responses, you can use:
         `["text", "audio"]`
       enum: [ "text", "audio" ]
+    Annotation:
+      type: object
+      description: |
+        A URL citation when using web search.
+      required:
+        - type
+        - url_citation
+      properties:
+        type:
+          type: string
+          description: The type of the URL citation. Always `url_citation`.
+          enum:
+            - url_citation
+        url_citation:
+          type: object
+          description: A URL citation when using web search.
+          properties:
+            end_index:
+              type: integer
+              description: The index of the last character of the URL citation in the message.
+            start_index:
+              type: integer
+              description: The index of the first character of the URL citation in the message.
+            url:
+              type: string
+              description: The URL of the web resource.
+            title:
+              type: string
+              description: The title of the web resource.
     PredictionContent:
       type: object
       description: |
@@ -2884,11 +2985,11 @@ components:
         ]
     ServiceTier:
       description: |
-        The service tier used for processing the request. This field is only included if the `service_tier` parameter 
+        The service tier used for processing the request. This field is only included if the `service_tier` parameter
         is specified in the request.
       type: string
-      enum: [ "scale", "default" ]
-      example: "scale"
+      enum: [ "auto", "default", "flex" ]
+      example: "auto"
       nullable: true
     ChatCompletionLogprobs: &chat_completion_response_logprobs
       description: Log probability information for the choice.
@@ -3064,6 +3165,32 @@ components:
           $ref: "#/components/schemas/ChatCompletionStreamMessageFunctionCall"
       required:
         - index
+    ChatCompletionList:
+      type: object
+      description: An object representing a list of chat completions.
+      properties:
+        object:
+          type: string
+          enum: [ list ]
+          description: The object type, which is always `list`.
+        data:
+          type: array
+          description: The list of chat completions.
+          items:
+            $ref: "#/components/schemas/CreateChatCompletionResponse"
+        first_id:
+          type: string
+          description: The identifier of the first chat completion in the list.
+        last_id:
+          type: string
+          description: The identifier of the last chat completion in the list.
+        has_more:
+          type: boolean
+          description: Whether there are more chat completions available.
+      required:
+        - object
+        - data
+        - has_more
     CompletionUsage:
       type: object
       description: Usage statistics for the completion request.
@@ -3671,50 +3798,141 @@ components:
               title: ImageModels
               description: |
                 Available models for image generation. Mind that the list may not be exhaustive nor up-to-date.
-              enum: [ "dall-e-2", "dall-e-3", "gpt-image-1" ]
-          default: "dall-e-2"
+              enum:
+                - dall-e-2
+                - dall-e-3
+                - gpt-image-1
+          default: null
           example: "dall-e-3"
           nullable: true
-          description: The model to use for image generation.
+          description: >-
+            The model to use for image generation. One of `dall-e-2`, `dall-e-3`, or `gpt-image-1`. Defaults
+            to `dall-e-2` unless a parameter specific to `gpt-image-1` is used.
         n: &images_n
           type: integer
           minimum: 1
           maximum: 10
-          default: 1
+          default: null
           example: 1
           nullable: true
           description: The number of images to generate. Must be between 1 and 10. For `dall-e-3`, only `n=1` is supported.
         quality:
           title: ImageQuality
           type: string
-          enum: [ "standard", "hd" ]
-          default: "standard"
+          enum:
+            - standard
+            - hd
+            - low
+            - medium
+            - high
+            - auto
+          default: null
           example: "standard"
-          description: The quality of the image that will be generated. `hd` creates images with finer details and greater consistency across the image. This param is only supported for `dall-e-3`.
+          nullable: true
+          description: |
+            The quality of the image that will be generated. 
+            
+            - `auto` (default value) will automatically select the best quality for the given model.
+            - `high`, `medium` and `low` are supported for `gpt-image-1`.
+            - `hd` and `standard` are supported for `dall-e-3`.
+            - `standard` is the only option for `dall-e-2`.
         response_format: &images_response_format
           title: ImageResponseFormat
           type: string
-          enum: [ "url", "b64_json" ]
-          default: "url"
+          enum:
+            - url
+            - b64_json
+          default: null
           example: "url"
           nullable: true
-          description: The format in which the generated images are returned. Must be one of `url` or `b64_json`. URLs are only valid for 60 minutes after the image has been generated.
+          description: >-
+            The format in which generated images with `dall-e-2` and `dall-e-3` are returned. Must be one of
+            `url` or `b64_json`. URLs are only valid for 60 minutes after the image has been generated. This
+            parameter isn't supported for `gpt-image-1` which will always return base64-encoded images.
+        output_format:
+          title: ImageOutputFormat
+          type: string
+          enum:
+            - png
+            - jpeg
+            - webp
+          default: null
+          example: png
+          nullable: true
+          description: >-
+            The format in which the generated images are returned. This parameter is only supported for
+            `gpt-image-1`. Must be one of `png`, `jpeg`, or `webp`.
+        output_compression:
+          title: ImageOutputCompression
+          type: integer
+          default: null
+          example: 100
+          nullable: true
+          description: >-
+            The compression level (0-100%) for the generated images. This parameter is only supported for
+            `gpt-image-1` with the `webp` or `jpeg` output formats, and defaults to 100.
         size: &images_size
           title: ImageSize
           type: string
-          enum: [ "256x256", "512x512", "1024x1024", "1792x1024", "1024x1792" ]
-          default: "1024x1024"
+          enum:
+            - auto
+            - 1024x1024
+            - 1536x1024
+            - 1024x1536
+            - 256x256
+            - 512x512
+            - 1792x1024
+            - 1024x1792
+          default: null
           example: "1024x1024"
           nullable: true
-          description: The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024` for `dall-e-2`. Must be one of `1024x1024`, `1792x1024`, or `1024x1792` for `dall-e-3` models.
+          description: >-
+            The size of the generated images. Must be one of `1024x1024`, `1536x1024` (landscape), `1024x1536`
+            (portrait), or `auto` (default value) for `gpt-image-1`, one of `256x256`, `512x512`, or
+            `1024x1024` for `dall-e-2`, and one of `1024x1024`, `1792x1024`, or `1024x1792` for `dall-e-3`.
+        moderation:
+          title: ImageModeration
+          type: string
+          enum:
+            - low
+            - auto
+          default: null
+          example: low
+          nullable: true
+          description: >-
+            Control the content-moderation level for images generated by `gpt-image-1`. Must be either `low`
+            for less restrictive filtering or `auto` (default value).
+        background:
+          title: ImageBackground
+          type: string
+          enum:
+            - transparent
+            - opaque
+            - auto
+          default: null
+          example: transparent
+          nullable: true
+          description: |
+            Allows to set transparency for the background of the generated image(s). 
+            This parameter is only supported for `gpt-image-1`. Must be one of 
+            `transparent`, `opaque` or `auto` (default value). When `auto` is used, the 
+            model will automatically determine the best background for the image.
+            
+            If `transparent`, the output format needs to support transparency, so it 
+            should be set to either `png` (default value) or `webp`.
         style:
           title: ImageStyle
           type: string
-          enum: [ "vivid", "natural" ]
-          default: "vivid"
+          enum:
+            - vivid
+            - natural
+          default: null
           example: "vivid"
           nullable: true
-          description: The style of the generated images. Must be one of `vivid` or `natural`. Vivid causes the model to lean towards generating hyper-real and dramatic images. Natural causes the model to produce more natural, less hyper-real looking images. This param is only supported for `dall-e-3`.
+          description: >-
+            The style of the generated images. This parameter is only supported for `dall-e-3`. Must be one of
+            `vivid` or `natural`. Vivid causes the model to lean towards generating hyper-real and dramatic
+            images. Natural causes the model to produce more natural, less hyper-real looking images.
         user: *end_user_param_configuration
       required:
         - prompt
@@ -4870,7 +5088,6 @@ components:
                 - gpt-3.5-turbo-1106
                 - gpt-3.5-turbo-0125
                 - gpt-3.5-turbo-16k-0613
-                - gpt-3.5-turbo-1106
         instructions:
           description: Overrides the [instructions](https://platform.openai.com/docs/api-reference/assistants/createAssistant) of the assistant. This is useful for modifying the behavior on a per-run basis.
           type: string
@@ -7386,6 +7603,64 @@ components:
         - object
         - data
         - has_more
+    ChatCompletionMetadata:
+      type: object
+      description: |
+        Developer-defined tags and values used for filtering completions
+        in the [dashboard](https://platform.openai.com/chat-completions).
+      additionalProperties:
+        type: string
+    WebSearchOptions:
+      type: object
+      description: |
+        This tool searches the web for relevant results to use in a response.
+      properties:
+        user_location:
+          type: object
+          nullable: true
+          required:
+            - type
+            - approximate
+          description: |
+            Approximate location parameters for the search.
+          properties:
+            type:
+              type: string
+              enum: [ approximate ]
+              description: |
+                The type of location approximation. Always `approximate`.
+            approximate:
+              $ref: "#/components/schemas/WebSearchLocation"
+        search_context_size:
+          $ref: "#/components/schemas/WebSearchContextSize"
+    WebSearchContextSize:
+      type: string
+      description: |
+        High level guidance for the amount of context window space to use for the
+        search. One of `low`, `medium`, or `high`. `medium` is the default.
+      enum: [ low, medium, high ]
+      default: medium
+    WebSearchLocation:
+      type: object
+      title: Web search location
+      description: Approximate location parameters for the search.
+      properties:
+        country:
+          type: string
+          description: |
+            The two-letter [ISO country code](https://en.wikipedia.org/wiki/ISO_3166-1) of the user, e.g. `US`.
+        region:
+          type: string
+          description: |
+            Free text input for the region of the user, e.g. `California`.
+        city:
+          type: string
+          description: |
+            Free text input for the city of the user, e.g. `San Francisco`.
+        timezone:
+          type: string
+          description: |
+            The [IANA timezone](https://timeapi.io/documentation/iana-timezones) of the user, e.g. `America/Los_Angeles`.
 
 security:
   - ApiKeyAuth: [ ]

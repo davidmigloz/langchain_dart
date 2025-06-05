@@ -11,8 +11,10 @@ part of open_a_i_schema;
 /// The service tier used for processing the request. This field is only included if the `service_tier` parameter
 /// is specified in the request.
 enum ServiceTier {
-  @JsonValue('scale')
-  scale,
+  @JsonValue('auto')
+  auto,
   @JsonValue('default')
   vDefault,
+  @JsonValue('flex')
+  flex,
 }
