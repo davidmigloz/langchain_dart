@@ -2548,12 +2548,13 @@ components:
       additionalProperties: true
     ReasoningEffort:
       type: string
-      nullable: true
       enum:
         - low
         - medium
         - high
-      default: medium
+      # default: medium # Setting a non-null value triggers an error in non-reasoning models
+      default: null
+      nullable: true
       description: |
         **o1 models only** 
 

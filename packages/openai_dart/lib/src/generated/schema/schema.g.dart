@@ -290,8 +290,8 @@ _$CreateChatCompletionRequestImpl _$$CreateChatCompletionRequestImplFromJson(
           .toList(),
       store: json['store'] as bool?,
       reasoningEffort: $enumDecodeNullable(
-              _$ReasoningEffortEnumMap, json['reasoning_effort']) ??
-          null,
+          _$ReasoningEffortEnumMap, json['reasoning_effort'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
       metadata: (json['metadata'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),

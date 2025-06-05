@@ -3571,7 +3571,10 @@ mixin _$CreateChatCompletionRequest {
   /// Currently supported values are `low`, `medium`, and `high`. Reducing
   /// reasoning effort can result in faster responses and fewer tokens used
   /// on reasoning in a response.
-  @JsonKey(name: 'reasoning_effort', includeIfNull: false)
+  @JsonKey(
+      name: 'reasoning_effort',
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   ReasoningEffort? get reasoningEffort => throw _privateConstructorUsedError;
 
   /// Developer-defined tags and values used for filtering completions
@@ -3799,7 +3802,10 @@ abstract class $CreateChatCompletionRequestCopyWith<$Res> {
       {@_ChatCompletionModelConverter() ChatCompletionModel model,
       List<ChatCompletionMessage> messages,
       @JsonKey(includeIfNull: false) bool? store,
-      @JsonKey(name: 'reasoning_effort', includeIfNull: false)
+      @JsonKey(
+          name: 'reasoning_effort',
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       ReasoningEffort? reasoningEffort,
       @JsonKey(includeIfNull: false) Map<String, String>? metadata,
       @JsonKey(name: 'frequency_penalty', includeIfNull: false)
@@ -4151,7 +4157,10 @@ abstract class _$$CreateChatCompletionRequestImplCopyWith<$Res>
       {@_ChatCompletionModelConverter() ChatCompletionModel model,
       List<ChatCompletionMessage> messages,
       @JsonKey(includeIfNull: false) bool? store,
-      @JsonKey(name: 'reasoning_effort', includeIfNull: false)
+      @JsonKey(
+          name: 'reasoning_effort',
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       ReasoningEffort? reasoningEffort,
       @JsonKey(includeIfNull: false) Map<String, String>? metadata,
       @JsonKey(name: 'frequency_penalty', includeIfNull: false)
@@ -4393,8 +4402,11 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
       {@_ChatCompletionModelConverter() required this.model,
       required final List<ChatCompletionMessage> messages,
       @JsonKey(includeIfNull: false) this.store,
-      @JsonKey(name: 'reasoning_effort', includeIfNull: false)
-      this.reasoningEffort = null,
+      @JsonKey(
+          name: 'reasoning_effort',
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      this.reasoningEffort,
       @JsonKey(includeIfNull: false) final Map<String, String>? metadata,
       @JsonKey(name: 'frequency_penalty', includeIfNull: false)
       this.frequencyPenalty = 0.0,
@@ -4488,7 +4500,10 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
   /// reasoning effort can result in faster responses and fewer tokens used
   /// on reasoning in a response.
   @override
-  @JsonKey(name: 'reasoning_effort', includeIfNull: false)
+  @JsonKey(
+      name: 'reasoning_effort',
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   final ReasoningEffort? reasoningEffort;
 
   /// Developer-defined tags and values used for filtering completions
@@ -4890,7 +4905,10 @@ abstract class _CreateChatCompletionRequest
       required final ChatCompletionModel model,
       required final List<ChatCompletionMessage> messages,
       @JsonKey(includeIfNull: false) final bool? store,
-      @JsonKey(name: 'reasoning_effort', includeIfNull: false)
+      @JsonKey(
+          name: 'reasoning_effort',
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       final ReasoningEffort? reasoningEffort,
       @JsonKey(includeIfNull: false) final Map<String, String>? metadata,
       @JsonKey(name: 'frequency_penalty', includeIfNull: false)
@@ -4973,7 +4991,10 @@ abstract class _CreateChatCompletionRequest
   /// reasoning effort can result in faster responses and fewer tokens used
   /// on reasoning in a response.
   @override
-  @JsonKey(name: 'reasoning_effort', includeIfNull: false)
+  @JsonKey(
+      name: 'reasoning_effort',
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   ReasoningEffort? get reasoningEffort;
 
   /// Developer-defined tags and values used for filtering completions
