@@ -5098,6 +5098,130 @@ Map<String, dynamic> _$$WebSearchLocationImplToJson(
       if (instance.timezone case final value?) 'timezone': value,
     };
 
+_$CreateResponseRequestImpl _$$CreateResponseRequestImplFromJson(
+        Map<String, dynamic> json) =>
+    _$CreateResponseRequestImpl(
+      model: json['model'] as String,
+      input:
+          const _CreateResponseRequestInputConverter().fromJson(json['input']),
+      tools: (json['tools'] as List<dynamic>?)
+          ?.map((e) => e as Map<String, dynamic>)
+          .toList(),
+      metadata: json['metadata'] as Map<String, dynamic>?,
+      stream: json['stream'] as bool?,
+      temperature: (json['temperature'] as num?)?.toDouble(),
+      topP: (json['top_p'] as num?)?.toDouble(),
+    );
+
+Map<String, dynamic> _$$CreateResponseRequestImplToJson(
+        _$CreateResponseRequestImpl instance) =>
+    <String, dynamic>{
+      'model': instance.model,
+      'input':
+          const _CreateResponseRequestInputConverter().toJson(instance.input),
+      if (instance.tools case final value?) 'tools': value,
+      if (instance.metadata case final value?) 'metadata': value,
+      if (instance.stream case final value?) 'stream': value,
+      if (instance.temperature case final value?) 'temperature': value,
+      if (instance.topP case final value?) 'top_p': value,
+    };
+
+_$CreateResponseRequestInputListMapStringDynamicImpl
+    _$$CreateResponseRequestInputListMapStringDynamicImplFromJson(
+            Map<String, dynamic> json) =>
+        _$CreateResponseRequestInputListMapStringDynamicImpl(
+          (json['value'] as List<dynamic>)
+              .map((e) => e as Map<String, dynamic>)
+              .toList(),
+          $type: json['runtimeType'] as String?,
+        );
+
+Map<String, dynamic>
+    _$$CreateResponseRequestInputListMapStringDynamicImplToJson(
+            _$CreateResponseRequestInputListMapStringDynamicImpl instance) =>
+        <String, dynamic>{
+          'value': instance.value,
+          'runtimeType': instance.$type,
+        };
+
+_$CreateResponseRequestInputStringImpl
+    _$$CreateResponseRequestInputStringImplFromJson(
+            Map<String, dynamic> json) =>
+        _$CreateResponseRequestInputStringImpl(
+          json['value'] as String,
+          $type: json['runtimeType'] as String?,
+        );
+
+Map<String, dynamic> _$$CreateResponseRequestInputStringImplToJson(
+        _$CreateResponseRequestInputStringImpl instance) =>
+    <String, dynamic>{
+      'value': instance.value,
+      'runtimeType': instance.$type,
+    };
+
+_$ResponseImpl _$$ResponseImplFromJson(Map<String, dynamic> json) =>
+    _$ResponseImpl(
+      id: json['id'] as String,
+      object: json['object'] as String,
+      status: json['status'] as String,
+      createdAt: (json['created_at'] as num).toInt(),
+      output: (json['output'] as List<dynamic>)
+          .map((e) => e as Map<String, dynamic>)
+          .toList(),
+    );
+
+Map<String, dynamic> _$$ResponseImplToJson(_$ResponseImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'object': instance.object,
+      'status': instance.status,
+      'created_at': instance.createdAt,
+      'output': instance.output,
+    };
+
+_$DeleteResponseResponseImpl _$$DeleteResponseResponseImplFromJson(
+        Map<String, dynamic> json) =>
+    _$DeleteResponseResponseImpl(
+      id: json['id'] as String,
+      object:
+          $enumDecode(_$DeleteResponseResponseObjectEnumMap, json['object']),
+      deleted: json['deleted'] as bool,
+    );
+
+Map<String, dynamic> _$$DeleteResponseResponseImplToJson(
+        _$DeleteResponseResponseImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'object': _$DeleteResponseResponseObjectEnumMap[instance.object]!,
+      'deleted': instance.deleted,
+    };
+
+const _$DeleteResponseResponseObjectEnumMap = {
+  DeleteResponseResponseObject.response: 'response',
+};
+
+_$ResponseItemListImpl _$$ResponseItemListImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ResponseItemListImpl(
+      object: json['object'] as String,
+      data: (json['data'] as List<dynamic>)
+          .map((e) => e as Map<String, dynamic>)
+          .toList(),
+      firstId: json['first_id'] as String,
+      lastId: json['last_id'] as String,
+      hasMore: json['has_more'] as bool,
+    );
+
+Map<String, dynamic> _$$ResponseItemListImplToJson(
+        _$ResponseItemListImpl instance) =>
+    <String, dynamic>{
+      'object': instance.object,
+      'data': instance.data,
+      'first_id': instance.firstId,
+      'last_id': instance.lastId,
+      'has_more': instance.hasMore,
+    };
+
 _$ChatCompletionDeveloperMessageImpl
     _$$ChatCompletionDeveloperMessageImplFromJson(Map<String, dynamic> json) =>
         _$ChatCompletionDeveloperMessageImpl(

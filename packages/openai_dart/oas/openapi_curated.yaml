@@ -35,6 +35,8 @@ tags:
     description: List and describe the various models available in the API.
   - name: Moderations
     description: Given text and/or image inputs, classifies if those inputs are potentially harmful.
+  - name: Responses
+    description: Generate model responses with text or image inputs and extend capabilities with tools.
 
 paths:
   /chat/completions:
@@ -442,6 +444,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CreateModerationResponse"
+
   /assistants:
     get:
       operationId: listAssistants
@@ -1619,7 +1622,7 @@ paths:
         - Batch
       summary: Cancel batch
       description: |
-        Cancels an in-progress batch. The batch will be in status `cancelling` for up to 10 minutes, before changing 
+        Cancels an in-progress batch. The batch will be in status `cancelling` for up to 10 minutes, before changing
         to `cancelled`, where it will have partial results (if any) available in the output file.
       parameters:
         - in: path
@@ -1635,6 +1638,153 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Batch'
+
+  /responses:
+    post:
+      operationId: createResponse
+      tags:
+        - Responses
+      summary: Create response
+      description: Creates a model response.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateResponseRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+
+  /responses/{response_id}:
+    get:
+      operationId: getResponse
+      tags:
+        - Responses
+      summary: Retrieve response
+      description: Retrieves a model response.
+      parameters:
+        - in: path
+          name: response_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the response to retrieve.
+        - name: include
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          description: Additional fields to include in the response.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+    delete:
+      operationId: deleteResponse
+      tags:
+        - Responses
+      summary: Delete response
+      description: Deletes a model response.
+      parameters:
+        - in: path
+          name: response_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the response to delete.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteResponseResponse"
+
+  /responses/{response_id}/cancel:
+    post:
+      operationId: cancelResponse
+      tags:
+        - Responses
+      summary: Cancel response
+      description: Cancels a model response.
+      parameters:
+        - in: path
+          name: response_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the response to cancel.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+
+  /responses/{response_id}/input_items:
+    get:
+      operationId: listResponseInputItems
+      tags:
+        - Responses
+      summary: List input items
+      description: Returns a list of input items for a response.
+      parameters:
+        - in: path
+          name: response_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the response to retrieve input items for.
+        - name: limit
+          in: query
+          description: *pagination_limit_param_description
+          required: false
+          schema:
+            type: integer
+            default: 20
+        - name: order
+          in: query
+          description: *pagination_order_param_description
+          schema:
+            type: string
+            default: desc
+            enum: [ "asc", "desc" ]
+        - name: after
+          in: query
+          description: *pagination_after_param_description
+          schema:
+            type: string
+        - name: before
+          in: query
+          description: *pagination_before_param_description
+          schema:
+            type: string
+        - name: include
+          in: query
+          required: false
+          description: Additional fields to include in the response.
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseItemList"
 components:
 
   securitySchemes:
@@ -7661,6 +7811,116 @@ components:
           type: string
           description: |
             The [IANA timezone](https://timeapi.io/documentation/iana-timezones) of the user, e.g. `America/Los_Angeles`.
+
+    # ============================
+    # Responses API schemas
+    # ============================
+    CreateResponseRequest:
+      type: object
+      description: Request object for the Create response endpoint.
+      properties:
+        model:
+          type: string
+          description: The ID of the model to use.
+        input:
+          description: Text or items to generate a response for.
+          anyOf:
+            - type: string
+            - type: array
+              items:
+                type: object
+                additionalProperties: true
+        tools:
+          type: array
+          nullable: true
+          items:
+            type: object
+            additionalProperties: true
+        metadata:
+          type: object
+          nullable: true
+          additionalProperties: true
+        stream:
+          type: boolean
+          nullable: true
+        temperature:
+          type: number
+          nullable: true
+        top_p:
+          type: number
+          nullable: true
+      required:
+        - model
+        - input
+
+    Response:
+      type: object
+      description: Model response.
+      properties:
+        id:
+          type: string
+        object:
+          type: string
+        status:
+          type: string
+        created_at:
+          type: integer
+        output:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+      required:
+        - id
+        - object
+        - status
+        - created_at
+        - output
+
+    DeleteResponseResponse:
+      type: object
+      description: Represents a deleted response.
+      properties:
+        id:
+          type: string
+        object:
+          type: string
+          enum: [ response ]
+        deleted:
+          type: boolean
+      required:
+        - id
+        - object
+        - deleted
+
+    ResponseItemList:
+      type: object
+      description: List of input items returned by the List input items endpoint.
+      properties:
+        object:
+          type: string
+        data:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        first_id:
+          type: string
+        last_id:
+          type: string
+        has_more:
+          type: boolean
+      required:
+        - object
+        - data
+        - first_id
+        - last_id
+        - has_more
+
+    ResponseStreamEvent:
+      type: object
+      description: Represents a streamed event for a response.
+      additionalProperties: true
 
 security:
   - ApiKeyAuth: [ ]
