@@ -21,14 +21,17 @@ class Response with _$Response {
     /// No Description
     required String object,
 
-    /// No Description
-    required String status,
+    /// The status of the response.
+    required ResponseStatus status,
 
     /// No Description
     @JsonKey(name: 'created_at') required int createdAt,
 
     /// No Description
-    required List<Map<String, dynamic>> output,
+    required List<OutputItem> output,
+
+    /// Usage statistics for the response.
+    @JsonKey(includeIfNull: false) ResponseUsage? usage,
   }) = _Response;
 
   /// Object construction from a JSON representation
@@ -41,7 +44,8 @@ class Response with _$Response {
     'object',
     'status',
     'created_at',
-    'output'
+    'output',
+    'usage'
   ];
 
   /// Perform validations on the schema property values
@@ -57,6 +61,29 @@ class Response with _$Response {
       'status': status,
       'created_at': createdAt,
       'output': output,
+      'usage': usage,
     };
   }
+}
+
+// ==========================================
+// ENUM: ResponseStatus
+// ==========================================
+
+/// The status of the response.
+enum ResponseStatus {
+  @JsonValue('initial')
+  initial,
+  @JsonValue('in_progress')
+  inProgress,
+  @JsonValue('completed')
+  completed,
+  @JsonValue('failed')
+  failed,
+  @JsonValue('incomplete')
+  incomplete,
+  @JsonValue('cancelled')
+  cancelled,
+  @JsonValue('expired')
+  expired,
 }

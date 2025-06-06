@@ -3476,6 +3476,154 @@ components:
         - model
         - data
         # - usage # Made nullable to support Together AI API which doesn't return this field with some models
+
+    Includable: # Added
+      type: string
+      enum:
+        - file_search_call.results
+        - message.input_image.image_url
+        - computer_call_output.output.image_url
+      description: "Fields to include in the response."
+
+    InputContent: # Added
+      description: Actual content parts of an input item.
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/InputContentText'
+        - $ref: '#/components/schemas/InputContentImage'
+        - $ref: '#/components/schemas/InputContentAudio'
+        - $ref: '#/components/schemas/InputContentVideo'
+      discriminator:
+        propertyName: type
+        mapping:
+          text: '#/components/schemas/InputContentText'
+          image_url: '#/components/schemas/InputContentImage'
+          audio_url: '#/components/schemas/InputContentAudio'
+          video_url: '#/components/schemas/InputContentVideo'
+
+    InputContentAudio: # Added
+      description: Audio input content part.
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [audio_url] # This is an InputContentTypeUnion value. Changed from 'audio' to 'audio_url' for clarity if needed.
+          default: audio_url
+          x-stainless-const: true
+        audio_url: # Field name matches the type for clarity, or could be generic 'url' if type implies audio
+          type: object
+          properties:
+            url:
+              type: string
+              format: uri
+          required:
+            - url
+      required:
+        - type
+        - audio_url
+
+    InputContentImage: # Added
+      description: Image input content part.
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [image_url] # This is an InputContentTypeUnion value
+          default: image_url
+          x-stainless-const: true
+        image_url:
+          type: object
+          properties:
+            url:
+              type: string
+              format: uri
+            detail:
+              type: string
+              enum: [auto, low, high]
+              default: auto
+          required:
+            - url
+      required:
+        - type
+        - image_url
+
+    InputContentText: # Added
+      description: Text input content part.
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [text] # This is an InputContentTypeUnion value
+          default: text
+          x-stainless-const: true
+        text:
+          type: string
+          description: The text content.
+      required:
+        - type
+        - text
+
+    InputContentVideo: # Added
+      description: Video input content part.
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [video_url] # This is an InputContentTypeUnion value. Changed from 'video' to 'video_url' for clarity.
+          default: video_url
+          x-stainless-const: true
+        video_url: # Field name matches the type for clarity
+          type: object
+          properties:
+            url:
+              type: string
+              format: uri
+          required:
+            - url
+      required:
+        - type
+        - video_url
+
+    InputContentType: # Added (Enum for InputItem.type itself)
+      description: The type of the InputItem, e.g., a 'message' or other high-level categorizations.
+      type: string
+      enum:
+        - message # Primary type for conversation inputs
+        # Potentially other types like 'tool_result' if InputItem is used more broadly later
+
+    InputContentTypeUnion: # Added (Enum for the discriminator within InputContent parts)
+      description: The type of an individual content part within an InputItem.
+      type: string
+      enum:
+        - text
+        - image_url
+        - audio_url # Added as per official spec patterns for content parts
+        - video_url # Added as per official spec patterns for content parts
+
+    InputItem: # Definition for InputItem
+      type: object
+      description: "An input item for a response. When used in an array for `CreateResponseRequest.input`, it typically represents a message in a conversation."
+      properties:
+        id: # Optional ID for client-side tracking, not always required by API for input
+          type: string
+          nullable: true
+        type:
+          $ref: '#/components/schemas/InputContentType'
+          description: "The type of this input item, e.g., 'message'."
+        role:
+          type: string
+          enum: [user, assistant, system, developer, tool]
+          description: "The role of the entity providing this input item, relevant if type is 'message'."
+          nullable: true
+        content:
+          type: array
+          description: "An array of content parts for this input item."
+          items:
+            $ref: '#/components/schemas/InputContent'
+      required: # Type and Content are fundamental. Role is context-dependent.
+        - type
+        - content
+
     Embedding:
       type: object
       description: |
@@ -4101,6 +4249,132 @@ components:
       required:
         - created
         - data
+    InputItem:
+      description: An input item for a response.
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of the input item.
+        type:
+          $ref: '#/components/schemas/InputContentType'
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/InputContent' # Referencing a new discriminated union for content parts
+      required:
+        - id
+        - type # Type of the InputItem itself
+        - content # Array of content parts
+    InputContent: # New schema: Discriminated union for the parts within InputItem.content
+      description: Actual content parts of an input item.
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/InputContentText'
+        - $ref: '#/components/schemas/InputContentImage'
+        - $ref: '#/components/schemas/InputContentAudio'
+        - $ref: '#/components/schemas/InputContentVideo'
+      discriminator:
+        propertyName: type # This 'type' is for e.g. InputContentText.type, InputContentImage.type
+    InputContentAudio:
+      description: Audio input content.
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/OutputContentType'
+        audio:
+          type: object
+          description: The audio data.
+          properties:
+            data:
+              type: string
+              description: Base64 encoded audio data.
+              format: byte
+            format:
+              type: string
+              description: The format of the audio data.
+          required:
+            - data
+            - format
+      required:
+        - type
+        - audio
+    InputContentImage:
+      description: Image input content.
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/OutputContentType'
+        image:
+          type: object
+          description: The image data.
+          properties:
+            data:
+              type: string
+              description: Base64 encoded image data.
+              format: byte
+            format:
+              type: string
+              description: The format of the image data.
+          required:
+            - data
+            - format
+      required:
+        - type
+        - image
+    InputContentText:
+      description: Text input content.
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/OutputContentType'
+        text:
+          type: string
+          description: The text content.
+      required:
+        - type
+        - text
+    InputContentVideo:
+      description: Video input content.
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/OutputContentType'
+        video:
+          type: object
+          description: The video data.
+          properties:
+            data:
+              type: string
+              description: Base64 encoded video data.
+              format: byte
+            format:
+              type: string
+              description: The format of the video data.
+          required:
+            - data
+            - format
+      required:
+        - type
+        - video
+    InputContentType:
+      description: The type of the InputItem itself (e.g., if the item as a whole represents a text message, an image message, etc.).
+      type: string
+      enum:
+        - text
+        - image
+        - audio
+        - video
+        # This enum describes the nature of the InputItem, distinct from the 'type' field
+        # used as a discriminator within the InputContent parts.
+    InputContentTypeUnion:
+      description: The type of an individual content part within an InputItem (used as discriminator for InputContent).
+      type: string
+      enum:
+        - text
+        - image
+        - audio
+        - video
     Image:
       type: object
       description: Represents the url or the content of an image generated by the OpenAI API.
@@ -4504,6 +4778,224 @@ components:
         - sexual/minors
         - violence
         - violence/graphic
+    OutputContent:
+      description: Output content.
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/OutputContentText'
+        - $ref: '#/components/schemas/OutputContentImageFile'
+        - $ref: '#/components/schemas/OutputContentImage'
+        - $ref: '#/components/schemas/OutputContentAudio'
+        - $ref: '#/components/schemas/OutputContentVideo'
+        - $ref: '#/components/schemas/OutputContentRefusal'
+        - $ref: '#/components/schemas/OutputToolCall'
+      discriminator:
+        propertyName: type
+    OutputContentAudio:
+      description: Audio output content.
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/InputContentTypeUnion'
+        audio:
+          type: object
+          description: The audio data.
+          properties:
+            data:
+              type: string
+              description: Base64 encoded audio data.
+              format: byte
+            format:
+              type: string
+              description: The format of the audio data.
+          required:
+            - data
+            - format
+      required:
+        - type
+        - audio
+    OutputContentImage:
+      description: Image output content.
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/InputContentTypeUnion'
+        image:
+          type: object
+          description: The image data.
+          properties:
+            data:
+              type: string
+              description: Base64 encoded image data.
+              format: byte
+            format:
+              type: string
+              description: The format of the image data.
+          required:
+            - data
+            - format
+      required:
+        - type
+        - image
+    OutputContentImageFile:
+      description: Image file output content.
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/OutputContentType'
+        image_file:
+          type: object
+          description: The image file data.
+          properties:
+            file_id:
+              type: string
+              description: The ID of the image file.
+          required:
+            - file_id
+      required:
+        - type
+        - image_file
+    OutputContentRefusal:
+      description: Refusal output content.
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/OutputContentType'
+        refusal:
+          type: string
+          description: The refusal message.
+      required:
+        - type
+        - refusal
+    OutputContentText:
+      description: Text output content.
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/InputContentTypeUnion'
+        text:
+          type: string
+          description: The text content.
+        annotations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Annotation' # Reuses existing Annotation schema
+      required:
+        - type
+        - text
+    OutputContentVideo:
+      description: Video output content.
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/InputContentTypeUnion'
+        video:
+          type: object
+          description: The video data.
+          properties:
+            data:
+              type: string
+              description: Base64 encoded video data.
+              format: byte
+            format:
+              type: string
+              description: The format of the video data.
+          required:
+            - data
+            - format
+      required:
+        - type
+        - video
+    OutputType:
+      description: The type of the output item.
+      type: string
+      enum:
+        - text
+        - tool_use
+        - tool_result
+        - image
+        - audio
+        - video
+        - refusal
+        - error
+        - tool_call # Ensuring tool_call is present
+    OutputItem:
+      description: An output item from a response.
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of the output item.
+        type:
+          $ref: '#/components/schemas/OutputType'
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/OutputContent'
+        tool_use: # Corresponds to official 'tool_use'
+          type: object
+          description: Information about the tool use.
+          properties:
+            id:
+              type: string
+              description: The ID of the tool use.
+            name:
+              type: string
+              description: The name of the tool.
+            input:
+              type: object
+              description: The input to the tool.
+              additionalProperties: true
+          required:
+            - id
+            - name
+            - input
+        tool_result: # Corresponds to official 'tool_result'
+          type: object
+          description: Information about the tool result.
+          properties:
+            id: # Tool call ID this result is for
+              type: string
+              description: The ID of the tool use this result is for.
+            content:
+              type: array
+              description: The content of the tool result.
+              items:
+                $ref: '#/components/schemas/OutputContent'
+          required:
+            - id
+            - content
+      required:
+        - id
+        - type
+    OutputToolCall: # This is for the OutputContent's oneOf
+      description: A tool call.
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/OutputContentType' # Use shared enum, should resolve to 'tool_call'
+        tool_call:
+          $ref: '#/components/schemas/OutputToolCallFunction' # Pointing to a more specific structure
+      required:
+        - type
+        - tool_call
+    OutputToolCallFunction: # Specific structure for tool_call content
+      description: The function called by the tool.
+      type: object
+      properties:
+        id: # Added ID here as per official spec for stream events
+          type: string
+          description: The ID of the tool call.
+        name:
+          type: string
+          description: The name of the function.
+        arguments:
+          type: string
+          description: The arguments to the function.
+      required:
+        - id
+        - name
+        - arguments
     AssistantObject:
       type: object
       description: Represents an `assistant` that can call the model and use tools.
@@ -7828,14 +8320,15 @@ components:
             - type: string
             - type: array
               items:
-                type: object
-                additionalProperties: true
-        tools:
+                $ref: "#/components/schemas/InputItem"
+        tools: # Updated to use specific tool types
           type: array
           nullable: true
           items:
-            type: object
-            additionalProperties: true
+            oneOf:
+              - $ref: "#/components/schemas/AssistantToolsCodeInterpreter"
+              - $ref: "#/components/schemas/AssistantToolsFileSearch"
+              - $ref: "#/components/schemas/AssistantToolsFunction"
         metadata:
           type: object
           nullable: true
@@ -7863,19 +8356,56 @@ components:
           type: string
         status:
           type: string
+          description: The status of the response.
+              enum: [initial, in_progress, completed, failed, incomplete, cancelled, expired]
         created_at:
-          type: integer
+              type: integer # Official spec shows 'number', but integer is fine for Dart.
+            error: # Added from official spec
+              $ref: "#/components/schemas/ResponseError"
+            incomplete_details: # Added from official spec
+              type: object
+              nullable: true
+              properties:
+                reason:
+                  type: string
+                  enum: [max_output_tokens, content_filter] # Based on common reasons
         output:
           type: array
           items:
-            type: object
-            additionalProperties: true
+            $ref: "#/components/schemas/OutputItem"
+            parallel_tool_calls: # Added from official spec
+              type: boolean
+              default: true
+              nullable: true
+        usage:
+              $ref: "#/components/schemas/ResponseUsage"
       required:
         - id
         - object
-        - status
         - created_at
+        - error # Added
+        - incomplete_details # Added
+        - instructions # From ResponseProperties
+        - model # From ResponseProperties
+        - tools # From ResponseProperties
         - output
+        - parallel_tool_calls # Added
+        - metadata # From ModelResponseProperties
+        - tool_choice # From ResponseProperties
+        - temperature # From ModelResponseProperties
+        - top_p # From ModelResponseProperties
+        - status # Was already there
+
+    ResponseError: # Added new schema
+      type: object
+      properties:
+        code:
+          type: string
+          nullable: true
+        message:
+          type: string
+      required:
+        - message
 
     DeleteResponseResponse:
       type: object
@@ -7885,7 +8415,7 @@ components:
           type: string
         object:
           type: string
-          enum: [ response ]
+          enum: [ response.deleted ] # Corrected from 'response'
         deleted:
           type: boolean
       required:
@@ -7902,8 +8432,7 @@ components:
         data:
           type: array
           items:
-            type: object
-            additionalProperties: true
+            $ref: "#/components/schemas/InputItem" # Changed to InputItem
         first_id:
           type: string
         last_id:
@@ -7917,10 +8446,1377 @@ components:
         - last_id
         - has_more
 
+    # --- Start of ResponseStreamEvent related schemas ---
+    ResponseCreatedEvent:
+      type: object
+      description: Emitted when a response is created.
+      properties:
+        event:
+          type: string
+          description: The type of the event. Always `response.created`.
+          enum: [response.created]
+        data:
+          $ref: '#/components/schemas/Response'
+          description: The response that was created.
+      required:
+        - event
+        - data
+
+    ResponseInProgressEvent:
+      type: object
+      description: Emitted when the response is in progress.
+      properties:
+        event:
+          type: string
+          description: The type of the event. Always `response.in_progress`.
+          enum: [response.in_progress]
+        response:
+          $ref: '#/components/schemas/Response'
+          description: The response that is in progress.
+      required:
+        - event
+        - response
+
+    ResponseCompletedEvent:
+      type: object
+      description: Emitted when the model response is complete.
+      properties:
+        event:
+          type: string
+          description: The type of the event. Always `response.completed`.
+          enum: [response.completed]
+        response:
+          $ref: '#/components/schemas/Response'
+          description: Properties of the completed response.
+      required:
+        - event
+        - response
+
+    ResponseContentImageFileDeltaEvent:
+      type: object
+      description: Emitted when there is a delta for an image file content part.
+      properties:
+        event:
+          type: string
+          description: The type of the event. Always `response.content_image_file.delta`.
+          enum: [response.content_image_file.delta]
+        item_id:
+          type: string
+          description: The ID of the output item.
+        output_index:
+          type: integer
+          description: The index of the output item.
+        content_index:
+          type: integer
+          description: The index of the content part.
+        delta: # Changed from image_file to delta as per official spec pattern
+          $ref: '#/components/schemas/OutputContentImageFile'
+      required:
+        - event
+        - item_id
+        - output_index
+        - content_index
+        - delta
+
+    ResponseContentImageFileDoneEvent:
+      type: object
+      description: Emitted when an image file content part is done.
+      properties:
+        event:
+          type: string
+          description: The type of the event. Always `response.content_image_file.done`.
+          enum: [response.content_image_file.done]
+        item_id:
+          type: string
+          description: The ID of the output item.
+        output_index:
+          type: integer
+          description: The index of the output item.
+        content_index:
+          type: integer
+          description: The index of the content part.
+        image_file:
+          $ref: '#/components/schemas/OutputContentImageFile'
+      required:
+        - event
+        - item_id
+        - output_index
+        - content_index
+        - image_file
+
+    ResponseContentTextAnnotationsFileCitation:
+      type: object
+      description: A file citation annotation for response text.
+      properties:
+        file_id:
+          type: string
+          description: The ID of the file.
+        quote:
+          type: string
+          description: The specific quote from the file.
+      required:
+        - file_id
+        # quote is optional in official spec for response text annotation
+    ResponseContentTextAnnotationsFileCitationObject:
+      type: object
+      description: A file citation annotation object for response text.
+      properties:
+        type:
+          type: string
+          enum: [file_citation]
+        text:
+          type: string
+          description: The text in the content that is being cited.
+        start_index:
+          type: integer
+        end_index:
+          type: integer
+        file_citation:
+          $ref: '#/components/schemas/ResponseContentTextAnnotationsFileCitation'
+      required:
+        - type
+        - text
+        - start_index
+        - end_index
+        - file_citation
+    ResponseContentTextAnnotationsFilePath:
+      type: object
+      description: A file path annotation for response text.
+      properties:
+        file_id:
+          type: string
+          description: The ID of the file.
+      required:
+        - file_id
+    ResponseContentTextAnnotationsFilePathObject:
+      type: object
+      description: A file path annotation object for response text.
+      properties:
+        type:
+          type: string
+          enum: [file_path]
+        text:
+          type: string
+          description: The text in the content that refers to the file path.
+        start_index:
+          type: integer
+        end_index:
+          type: integer
+        file_path:
+          $ref: '#/components/schemas/ResponseContentTextAnnotationsFilePath'
+      required:
+        - type
+        - text
+        - start_index
+        - end_index
+        - file_path
+
+    ResponseFailedEvent:
+      type: object
+      description: An event that is emitted when a response fails.
+      properties:
+        event:
+          type: string
+          description: The type of the event. Always `response.failed`.
+          enum: [response.failed]
+        response:
+          $ref: '#/components/schemas/Response'
+          description: The response that failed.
+      required:
+        - event
+        - response
+
+    ResponseIncompleteEvent:
+      type: object
+      description: An event that is emitted when a response finishes as incomplete.
+      properties:
+        event:
+          type: string
+          description: The type of the event. Always `response.incomplete`.
+          enum: [response.incomplete]
+        response:
+          $ref: '#/components/schemas/Response'
+          description: The response that was incomplete.
+      required:
+        - event
+        - response
+
+    ResponseOutputItemAddedEvent:
+      type: object
+      description: Emitted when a new output item is added.
+      properties:
+        event:
+          type: string
+          description: The type of the event. Always `response.output_item.added`.
+          enum: [response.output_item.added]
+        output_index:
+          type: integer
+          description: The index of the output item that was added.
+        item:
+          $ref: '#/components/schemas/OutputItem' # Defined below
+          description: The output item that was added.
+      required:
+        - event
+        - output_index
+        - item
+
+    ResponseOutputItemDoneEvent:
+      type: object
+      description: Emitted when an output item is marked done.
+      properties:
+        event:
+          type: string
+          description: The type of the event. Always `response.output_item.done`.
+          enum: [response.output_item.done]
+        output_index:
+          type: integer
+          description: The index of the output item that was marked done.
+        item:
+          $ref: '#/components/schemas/OutputItem' # Defined below
+          description: The output item that was marked done.
+      required:
+        - event
+        - output_index
+        - item
+
+    ResponseContentPartAddedEvent:
+      type: object
+      description: Emitted when a new content part is added.
+      properties:
+        event:
+          type: string
+          description: The type of the event. Always `response.content_part.added`.
+          enum: [response.content_part.added]
+        item_id:
+          type: string
+          description: The ID of the output item that the content part was added to.
+        output_index:
+          type: integer
+          description: The index of the output item that the content part was added to.
+        content_index:
+          type: integer
+          description: The index of the content part that was added.
+        part:
+          $ref: '#/components/schemas/OutputContent' # Defined below
+          description: The content part that was added.
+      required:
+        - event
+        - item_id
+        - output_index
+        - content_index
+        - part
+
+    ResponseContentPartDoneEvent:
+      type: object
+      description: Emitted when a content part is done.
+      properties:
+        event:
+          type: string
+          description: The type of the event. Always `response.content_part.done`.
+          enum: [response.content_part.done]
+        item_id:
+          type: string
+          description: The ID of the output item that the content part was added to.
+        output_index:
+          type: integer
+          description: The index of the output item that the content part was added to.
+        content_index:
+          type: integer
+          description: The index of the content part that is done.
+        part:
+          $ref: '#/components/schemas/OutputContent' # Defined below
+          description: The content part that is done.
+      required:
+        - event
+        - item_id
+        - output_index
+        - content_index
+        - part
+
+    ResponseTextDeltaEvent:
+      type: object
+      description: Emitted when there is an additional text delta.
+      properties:
+        event:
+          type: string
+          description: The type of the event. Always `response.output_text.delta`.
+          enum: [response.output_text.delta]
+        item_id:
+          type: string
+          description: The ID of the output item that the text delta was added to.
+        output_index:
+          type: integer
+          description: The index of the output item that the text delta was added to.
+        content_index:
+          type: integer
+          description: The index of the content part that the text delta was added to.
+        delta:
+          type: string
+          description: The text delta that was added.
+      required:
+        - event
+        - item_id
+        - output_index
+        - content_index
+        - delta
+
+    ResponseTextAnnotationDeltaEvent:
+      type: object
+      description: Emitted when a text annotation is added.
+      properties:
+        event:
+          type: string
+          description: The type of the event. Always `response.output_text.annotation.added`.
+          enum: [response.output_text.annotation.added]
+        item_id:
+          type: string
+          description: The ID of the output item that the text annotation was added to.
+        output_index:
+          type: integer
+          description: The index of the output item that the text annotation was added to.
+        content_index:
+          type: integer
+          description: The index of the content part that the text annotation was added to.
+        annotation_index:
+          type: integer
+          description: The index of the annotation that was added.
+        annotation:
+          $ref: '#/components/schemas/Annotation'
+      required:
+        - event
+        - item_id
+        - output_index
+        - content_index
+        - annotation_index
+        - annotation
+
+    ResponseTextDoneEvent:
+      type: object
+      description: Emitted when text content is finalized.
+      properties:
+        event:
+          type: string
+          description: The type of the event. Always `response.output_text.done`.
+          enum: [response.output_text.done]
+        item_id:
+          type: string
+          description: The ID of the output item that the text content is finalized.
+        output_index:
+          type: integer
+          description: The index of the output item that the text content is finalized.
+        content_index:
+          type: integer
+          description: The index of the content part that the text content is finalized.
+        text:
+          type: string
+          description: The text content that is finalized.
+      required:
+        - event
+        - item_id
+        - output_index
+        - content_index
+        - text
+
+    ResponseToolCallDeltaEvent:
+      type: object
+      description: Emitted when there is a delta for a tool call.
+      properties:
+        event:
+          type: string
+          description: The type of the event. Always `response.tool_call.delta`.
+          enum: [response.tool_call.delta]
+        item_id:
+          type: string
+          description: The ID of the output item.
+        output_index:
+          type: integer
+          description: The index of the output item.
+        tool_call_index:
+          type: integer
+          description: The index of the tool call.
+        delta:
+          $ref: '#/components/schemas/OutputToolCallFunction' # Changed to OutputToolCallFunction
+      required:
+        - event
+        - item_id
+        - output_index
+        - tool_call_index
+        - delta
+
+    ResponseToolCallDoneEvent:
+      type: object
+      description: Emitted when a tool call is done.
+      properties:
+        event:
+          type: string
+          description: The type of the event. Always `response.tool_call.done`.
+          enum: [response.tool_call.done]
+        item_id:
+          type: string
+          description: The ID of the output item.
+        output_index:
+          type: integer
+          description: The index of the output item.
+        tool_call_index:
+          type: integer
+          description: The index of the tool call.
+        tool_call:
+          $ref: '#/components/schemas/OutputToolCallFunction' # Changed to OutputToolCallFunction
+      required:
+        - event
+        - item_id
+        - output_index
+        - tool_call_index
+        - tool_call
+
+    ResponseRefusalDeltaEvent:
+      type: object
+      description: Emitted when there is a partial refusal text.
+      properties:
+        event:
+          type: string
+          description: The type of the event. Always `response.refusal.delta`.
+          enum: [response.refusal.delta]
+        item_id:
+          type: string
+          description: The ID of the output item that the refusal text is added to.
+        output_index:
+          type: integer
+          description: The index of the output item that the refusal text is added to.
+        content_index:
+          type: integer
+          description: The index of the content part that the refusal text is added to.
+        delta:
+          type: string
+          description: The refusal text that is added.
+      required:
+        - event
+        - item_id
+        - output_index
+        - content_index
+        - delta
+
+    ResponseRefusalDoneEvent:
+      type: object
+      description: Emitted when refusal text is finalized.
+      properties:
+        event:
+          type: string
+          description: The type of the event. Always `response.refusal.done`.
+          enum: [response.refusal.done]
+        item_id:
+          type: string
+          description: The ID of the output item that the refusal text is finalized.
+        output_index:
+          type: integer
+          description: The index of the output item that the refusal text is finalized.
+        content_index:
+          type: integer
+          description: The index of the content part that the refusal text is finalized.
+        refusal:
+          type: string
+          description: The refusal text that is finalized.
+      required:
+        - event
+        - item_id
+        - output_index
+        - content_index
+        - refusal
+
+    ResponseFunctionCallArgumentsDeltaEvent:
+      type: object
+      description: Emitted when there is a partial function-call arguments delta.
+      properties:
+        event:
+          type: string
+          description: The type of the event. Always `response.function_call_arguments.delta`.
+          enum: [response.function_call_arguments.delta]
+        item_id:
+          type: string
+          description: The ID of the output item that the function-call arguments delta is added to.
+        output_index:
+          type: integer
+          description: The index of the output item that the function-call arguments delta is added to.
+        delta:
+          type: string
+          description: The function-call arguments delta that is added.
+      required:
+        - event
+        - item_id
+        - output_index
+        - delta
+
+    ResponseFunctionCallArgumentsDoneEvent:
+      type: object
+      description: Emitted when function-call arguments are finalized.
+      properties:
+        event:
+          type: string
+          enum: [response.function_call_arguments.done]
+        item_id:
+          type: string
+          description: The ID of the item.
+        output_index:
+          type: integer
+          description: The index of the output item.
+        arguments:
+          type: string
+          description: The function-call arguments.
+      required:
+        - event
+        - item_id
+        - output_index
+        - arguments
+
+    ResponseFileSearchCallInProgressEvent:
+      type: object
+      description: Emitted when a file search call is initiated.
+      properties:
+        event:
+          type: string
+          description: The type of the event. Always `response.file_search_call.in_progress`.
+          enum: [response.file_search_call.in_progress]
+        output_index:
+          type: integer
+          description: The index of the output item that the file search call is initiated.
+        item_id:
+          type: string
+          description: Unique ID for the output item associated with the file search call.
+      required:
+        - event
+        - output_index
+        - item_id
+
+    ResponseFileSearchCallSearchingEvent:
+      type: object
+      description: Emitted when a file search is currently searching.
+      properties:
+        event:
+          type: string
+          description: The type of the event. Always `response.file_search_call.searching`.
+          enum: [response.file_search_call.searching]
+        output_index:
+          type: integer
+          description: The index of the output item that the file search call is searching.
+        item_id:
+          type: string
+          description: Unique ID for the output item associated with the file search call.
+      required:
+        - event
+        - output_index
+        - item_id
+
+    ResponseFileSearchCallCompletedEvent:
+      type: object
+      description: Emitted when a file search call is completed (results found).
+      properties:
+        event:
+          type: string
+          description: The type of the event. Always `response.file_search_call.completed`.
+          enum: [response.file_search_call.completed]
+        output_index:
+          type: integer
+          description: The index of the output item that the file search call is completed.
+        item_id:
+          type: string
+          description: Unique ID for the output item associated with the file search call.
+      required:
+        - event
+        - output_index
+        - item_id
+
+    ResponseWebSearchCallInProgressEvent:
+      type: object
+      description: Emitted when a web search call is initiated.
+      properties:
+        event:
+          type: string
+          description: The type of the event. Always `response.web_search_call.in_progress`.
+          enum: [response.web_search_call.in_progress]
+        output_index:
+          type: integer
+          description: The index of the output item that the web search call is associated with.
+        item_id:
+          type: string
+          description: Unique ID for the output item associated with the web search call.
+      required:
+        - event
+        - output_index
+        - item_id
+
+    ResponseWebSearchCallSearchingEvent:
+      type: object
+      description: Emitted when a web search call is executing.
+      properties:
+        event:
+          type: string
+          description: The type of the event. Always `response.web_search_call.searching`.
+          enum: [response.web_search_call.searching]
+        output_index:
+          type: integer
+          description: The index of the output item that the web search call is associated with.
+        item_id:
+          type: string
+          description: Unique ID for the output item associated with the web search call.
+      required:
+        - event
+        - output_index
+        - item_id
+
+    ResponseWebSearchCallCompletedEvent:
+      type: object
+      description: Emitted when a web search call is completed.
+      properties:
+        event:
+          type: string
+          description: The type of the event. Always `response.web_search_call.completed`.
+          enum: [response.web_search_call.completed]
+        output_index:
+          type: integer
+          description: The index of the output item that the web search call is associated with.
+        item_id:
+          type: string
+          description: Unique ID for the output item associated with the web search call.
+      required:
+        - event
+        - output_index
+        - item_id
+
+    ResponseReasoningSummaryPartAddedEvent:
+      type: object
+      description: Emitted when a new reasoning summary part is added.
+      properties:
+        event:
+          type: string
+          description: The type of the event. Always `response.reasoning_summary_part.added`.
+          enum: [response.reasoning_summary_part.added]
+        item_id:
+          type: string
+          description: The ID of the item this summary part is associated with.
+        output_index:
+          type: integer
+          description: The index of the output item this summary part is associated with.
+        summary_index:
+          type: integer
+          description: The index of the summary part within the reasoning summary.
+        part:
+          type: object
+          description: The summary part that was added.
+          properties:
+            type:
+              type: string
+              description: The type of the summary part. Always `summary_text`.
+              enum: [summary_text]
+            text:
+              type: string
+              description: The text of the summary part.
+          required:
+            - type
+            - text
+      required:
+        - event
+        - item_id
+        - output_index
+        - summary_index
+        - part
+
+    ResponseReasoningSummaryTextDeltaEvent:
+      type: object
+      description: Emitted when a delta is added to a reasoning summary text.
+      properties:
+        event:
+          type: string
+          description: The type of the event. Always `response.reasoning_summary_text.delta`.
+          enum: [response.reasoning_summary_text.delta]
+        item_id:
+          type: string
+          description: The ID of the item this summary text delta is associated with.
+        output_index:
+          type: integer
+          description: The index of the output item this summary text delta is associated with.
+        summary_index:
+          type: integer
+          description: The index of the summary part within the reasoning summary.
+        delta:
+          type: string
+          description: The text delta that was added to the summary.
+      required:
+        - event
+        - item_id
+        - output_index
+        - summary_index
+        - delta
+
+    ResponseReasoningSummaryTextDoneEvent:
+      type: object
+      description: Emitted when a reasoning summary text is completed.
+      properties:
+        event:
+          type: string
+          description: The type of the event. Always `response.reasoning_summary_text.done`.
+          enum: [response.reasoning_summary_text.done]
+        item_id:
+          type: string
+          description: The ID of the item this summary text is associated with.
+        output_index:
+          type: integer
+          description: The index of the output item this summary text is associated with.
+        summary_index:
+          type: integer
+          description: The index of the summary part within the reasoning summary.
+        text:
+          type: string
+          description: The full text of the completed reasoning summary.
+      required:
+        - event
+        - item_id
+        - output_index
+        - summary_index
+        - text
+
+    ResponseReasoningSummaryPartDoneEvent:
+      type: object
+      description: Emitted when a reasoning summary part is completed.
+      properties:
+        event:
+          type: string
+          description: The type of the event. Always `response.reasoning_summary_part.done`.
+          enum: [response.reasoning_summary_part.done]
+        item_id:
+          type: string
+          description: The ID of the item this summary part is associated with.
+        output_index:
+          type: integer
+          description: The index of the output item this summary part is associated with.
+        summary_index:
+          type: integer
+          description: The index of the summary part within the reasoning summary.
+        part:
+          type: object
+          description: The completed summary part.
+          properties:
+            type:
+              type: string
+              description: The type of the summary part. Always `summary_text`.
+              enum: [summary_text]
+            text:
+              type: string
+              description: The text of the summary part.
+          required:
+            - type
+            - text
+      required:
+        - event
+        - item_id
+        - output_index
+        - summary_index
+        - part
+
+    ResponseErrorEvent:
+      type: object
+      description: Occurs when an error occurs. This can happen due to an internal server error or a timeout.
+      properties:
+        event:
+          type: string
+          enum: [error] # From official spec, aliased from AssistantStreamEvent
+        data:
+          $ref: "#/components/schemas/Error"
+      required:
+        - event
+        - data
+
+    ResponseDoneEvent:
+      type: object
+      description: Occurs when a stream ends.
+      properties:
+        event:
+          type: string
+          enum: [done] # From official spec, aliased from AssistantStreamEvent
+        data:
+          type: string
+          # Changed "[DONE]" to "DONE_MARKER" to make it a valid Dart identifier if used as enum name by generator
+          # The actual serialization to "[DONE]" needs to be handled by the generator's capabilities
+          enum: ["DONE_MARKER"]
+      required:
+        - event
+        - data
+
     ResponseStreamEvent:
       type: object
-      description: Represents a streamed event for a response.
-      additionalProperties: true
+      description: |
+        Represents an event emitted when streaming a Response.
+        This will be one of the specific event types defined above, discriminated by the `event` property.
+      oneOf:
+        - $ref: "#/components/schemas/ResponseCreatedEvent"
+        - $ref: "#/components/schemas/ResponseInProgressEvent"
+        - $ref: "#/components/schemas/ResponseCompletedEvent"
+        - $ref: "#/components/schemas/ResponseContentImageFileDeltaEvent"
+        - $ref: "#/components/schemas/ResponseContentImageFileDoneEvent"
+        - $ref: "#/components/schemas/ResponseContentPartAddedEvent"
+        - $ref: "#/components/schemas/ResponseContentPartDoneEvent"
+        - $ref: "#/components/schemas/ResponseDoneEvent"
+        - $ref: "#/components/schemas/ResponseErrorEvent"
+        - $ref: "#/components/schemas/ResponseFailedEvent"
+        - $ref: "#/components/schemas/ResponseFileSearchCallCompletedEvent"
+        - $ref: "#/components/schemas/ResponseFileSearchCallInProgressEvent"
+        - $ref: "#/components/schemas/ResponseFileSearchCallSearchingEvent"
+        - $ref: "#/components/schemas/ResponseFunctionCallArgumentsDeltaEvent"
+        - $ref: "#/components/schemas/ResponseFunctionCallArgumentsDoneEvent"
+        - $ref: "#/components/schemas/ResponseIncompleteEvent"
+        - $ref: "#/components/schemas/ResponseOutputItemAddedEvent"
+        - $ref: "#/components/schemas/ResponseOutputItemDoneEvent"
+        - $ref: "#/components/schemas/ResponseReasoningSummaryPartAddedEvent"
+        - $ref: "#/components/schemas/ResponseReasoningSummaryPartDoneEvent"
+        - $ref: "#/components/schemas/ResponseReasoningSummaryTextDeltaEvent"
+        - $ref: "#/components/schemas/ResponseReasoningSummaryTextDoneEvent"
+        - $ref: "#/components/schemas/ResponseRefusalDeltaEvent"
+        - $ref: "#/components/schemas/ResponseRefusalDoneEvent"
+        - $ref: "#/components/schemas/ResponseTextAnnotationDeltaEvent"
+        - $ref: "#/components/schemas/ResponseTextDeltaEvent"
+        - $ref: "#/components/schemas/ResponseTextDoneEvent"
+        - $ref: "#/components/schemas/ResponseToolCallDeltaEvent"
+        - $ref: "#/components/schemas/ResponseToolCallDoneEvent"
+        - $ref: "#/components/schemas/ResponseWebSearchCallCompletedEvent"
+        - $ref: "#/components/schemas/ResponseWebSearchCallInProgressEvent"
+        - $ref: "#/components/schemas/ResponseWebSearchCallSearchingEvent"
+        - $ref: "#/components/schemas/ResponseOutputItemUpdatedEvent" # Added new event
+      discriminator:
+        propertyName: event
+        mapping:
+          response.created: '#/components/schemas/ResponseCreatedEvent'
+          response.in_progress: '#/components/schemas/ResponseInProgressEvent'
+          response.completed: '#/components/schemas/ResponseCompletedEvent'
+          response.content_image_file.delta: '#/components/schemas/ResponseContentImageFileDeltaEvent'
+          response.content_image_file.done: '#/components/schemas/ResponseContentImageFileDoneEvent'
+          response.content_part.added: '#/components/schemas/ResponseContentPartAddedEvent'
+          response.content_part.done: '#/components/schemas/ResponseContentPartDoneEvent'
+          done: '#/components/schemas/ResponseDoneEvent' # Note: event name is 'done' not 'response.done'
+          error: '#/components/schemas/ResponseErrorEvent' # Note: event name is 'error'
+          response.failed: '#/components/schemas/ResponseFailedEvent'
+          response.file_search_call.completed: '#/components/schemas/ResponseFileSearchCallCompletedEvent'
+          response.file_search_call.in_progress: '#/components/schemas/ResponseFileSearchCallInProgressEvent'
+          response.file_search_call.searching: '#/components/schemas/ResponseFileSearchCallSearchingEvent'
+          response.function_call_arguments.delta: '#/components/schemas/ResponseFunctionCallArgumentsDeltaEvent'
+          response.function_call_arguments.done: '#/components/schemas/ResponseFunctionCallArgumentsDoneEvent'
+          response.incomplete: '#/components/schemas/ResponseIncompleteEvent'
+          response.output_item.added: '#/components/schemas/ResponseOutputItemAddedEvent'
+          response.output_item.done: '#/components/schemas/ResponseOutputItemDoneEvent'
+          response.output_item.updated: '#/components/schemas/ResponseOutputItemUpdatedEvent'
+          response.reasoning_summary_part.added: '#/components/schemas/ResponseReasoningSummaryPartAddedEvent'
+          response.reasoning_summary_part.done: '#/components/schemas/ResponseReasoningSummaryPartDoneEvent'
+          response.reasoning_summary_text.delta: '#/components/schemas/ResponseReasoningSummaryTextDeltaEvent'
+          response.reasoning_summary_text.done: '#/components/schemas/ResponseReasoningSummaryTextDoneEvent'
+          response.refusal.delta: '#/components/schemas/ResponseRefusalDeltaEvent'
+          response.refusal.done: '#/components/schemas/ResponseRefusalDoneEvent'
+          response.output_text.annotation.added: '#/components/schemas/ResponseTextAnnotationDeltaEvent' # Official: response.output_text.annotation.added
+          response.output_text.delta: '#/components/schemas/ResponseTextDeltaEvent' # Official: response.output_text.delta
+          response.output_text.done: '#/components/schemas/ResponseTextDoneEvent' # Official: response.output_text.done
+          response.tool_call.delta: '#/components/schemas/ResponseToolCallDeltaEvent'
+          response.tool_call.done: '#/components/schemas/ResponseToolCallDoneEvent'
+          response.web_search_call.completed: '#/components/schemas/ResponseWebSearchCallCompletedEvent'
+          response.web_search_call.in_progress: '#/components/schemas/ResponseWebSearchCallInProgressEvent'
+          response.web_search_call.searching: '#/components/schemas/ResponseWebSearchCallSearchingEvent'
+
+    ResponseOutputItemUpdatedEvent: # Added new schema for the event
+      type: object
+      description: Emitted when an output item is updated (e.g., status change not covered by 'done').
+      properties:
+        event:
+          type: string
+          description: The type of the event. Always `response.output_item.updated`.
+          enum: [response.output_item.updated]
+        output_index:
+          type: integer
+          description: The index of the output item that was updated.
+        item:
+          $ref: '#/components/schemas/OutputItem'
+          description: The output item that was updated.
+      required:
+        - event
+        - output_index
+        - item
+
+    ResponseUsage:
+      type: object
+      description: Usage statistics for the response.
+      properties:
+        input_tokens:
+          type: integer
+          description: Number of tokens in the input.
+        output_tokens:
+          type: integer
+          description: Number of tokens in the output.
+        processing_latency_ms:
+          type: integer
+          description: Processing latency in milliseconds.
+        total_latency_ms:
+          type: integer
+          description: Total latency in milliseconds.
+      required:
+        - input_tokens
+        - output_tokens
+    ModelResponseProperties:
+      type: object
+      properties:
+        metadata:
+          $ref: "#/components/schemas/Metadata"
+        temperature:
+          type: number
+          minimum: 0
+          maximum: 2
+          default: 1
+          nullable: true
+        top_p:
+          type: number
+          minimum: 0
+          maximum: 1
+          default: 1
+          nullable: true
+        user:
+          type: string
+          example: user-1234
+        service_tier:
+          $ref: "#/components/schemas/ServiceTier"
+          nullable: true
+          default: "auto"
+
+    ResponseProperties:
+      type: object
+      properties:
+        previous_response_id:
+          type: string
+          nullable: true
+        model:
+          $ref: "#/components/schemas/ModelIdsResponses"
+        reasoning:
+          $ref: "#/components/schemas/Reasoning"
+          nullable: true
+        max_output_tokens:
+          type: integer
+          nullable: true
+        instructions:
+          type: string
+          nullable: true
+        text:
+          type: object
+          properties:
+            format:
+              $ref: "#/components/schemas/TextResponseFormatConfiguration"
+        tools:
+          type: array
+          items:
+            $ref: "#/components/schemas/Tool" # Assumed to exist from Assistants
+        tool_choice:
+          oneOf: # Assumed to exist from Assistants
+            - $ref: "#/components/schemas/ToolChoiceOptions"
+            - $ref: "#/components/schemas/ToolChoiceTypes"
+            - $ref: "#/components/schemas/ToolChoiceFunction"
+        truncation:
+          type: string
+          enum: [auto, disabled]
+          nullable: true
+          default: disabled
+
+    ServiceTier:
+      type: string
+      enum: [ "auto", "default", "flex" ]
+      nullable: true
+      default: "auto"
+      description: "Specifies the latency tier to use for processing the request."
+
+    ModelIdsResponses:
+      type: string
+      description: "Model ID for responses. Example: gpt-4o. For now, allowing any string as specific enum might be extensive and managed elsewhere."
+      example: "gpt-4o"
+
+    Reasoning:
+      type: object
+      nullable: true
+      description: "Configuration options for reasoning models."
+      properties:
+        effort:
+          type: string
+          enum: [low, medium, high]
+          default: medium
+          nullable: true
+          description: "Constrains effort on reasoning."
+        summary:
+          type: string
+          enum: [auto, concise, detailed]
+          nullable: true
+          description: "A summary of the reasoning performed by the model."
+
+    TextResponseFormatConfiguration:
+      type: object
+      description: "Configuration for the text response format."
+      properties:
+        type:
+          type: string
+          enum: [text, json_object, json_schema]
+          default: text
+        # Additional properties would be needed here if type is json_schema,
+        # like 'json_schema' itself containing name, description, schema, strict.
+        # For now, keeping it minimal as per the plan.
+        # Example for json_schema (if to be expanded later):
+        # json_schema:
+        #   type: object
+        #   properties:
+        #     name:
+        #       type: string
+        #     description:
+        #       type: string
+        #     schema:
+        #       type: object # Actual JSON schema
+        #       additionalProperties: true
+        #     strict:
+        #       type: boolean
+        #       nullable: true
+        #       default: false
+      required:
+        - type
+
+    # Assuming Metadata, Tool, ToolChoiceOptions, ToolChoiceTypes, ToolChoiceFunction
+    # are already defined or will be handled if missing.
+
+    # --- OutputItem related schemas START ---
+    OutputType:
+      description: The type of the OutputItem itself.
+      type: string
+      enum:
+        - message # For assistant messages
+        - tool_use # When a tool is invoked by the assistant
+        - tool_result # The result from a tool invocation
+        # Other types from official spec if needed: error, etc.
+        # For now, focusing on primary types.
+
+    OutputContentType: # Discriminator for OutputContent parts
+      description: The type of an individual content part within an OutputItem.
+      type: string
+      enum:
+        - output_text
+        - output_image_file
+        - output_image
+        - output_audio
+        - output_video
+        - refusal
+        - tool_call
+        - error # Added error type
+
+    FileCitation: # Referenced by FileCitationAnnotation
+      type: object
+      properties:
+        file_id:
+          type: string
+          description: The ID of the specific File the citation is from.
+        quote: # Optional in official spec for some contexts
+          type: string
+          description: The specific quote in the file.
+          nullable: true
+      required:
+        - file_id
+
+    FileCitationAnnotation: # Part of Annotation oneOf
+      type: object
+      description: A citation within the message that points to a specific quote from a specific File.
+      properties:
+        type:
+          type: string
+          enum: [file_citation]
+          x-stainless-const: true
+        text:
+          type: string
+          description: The text in the message content that needs to be replaced.
+        start_index:
+          type: integer
+          minimum: 0
+        end_index:
+          type: integer
+          minimum: 0
+        file_citation:
+          $ref: '#/components/schemas/FileCitation'
+      required:
+        - type
+        - text
+        - start_index
+        - end_index
+        - file_citation
+
+    FilePath: # Referenced by FilePathAnnotation
+      type: object
+      properties:
+        file_id:
+          type: string
+          description: The ID of the file that was generated.
+      required:
+        - file_id
+
+    FilePathAnnotation: # Part of Annotation oneOf
+      type: object
+      description: A URL for the file that's generated by Code Interpreter.
+      properties:
+        type:
+          type: string
+          enum: [file_path]
+          x-stainless-const: true
+        text:
+          type: string
+          description: The text in the message content that needs to be replaced.
+        start_index:
+          type: integer
+          minimum: 0
+        end_index:
+          type: integer
+          minimum: 0
+        file_path:
+          $ref: '#/components/schemas/FilePath'
+      required:
+        - type
+        - text
+        - start_index
+        - end_index
+        - file_path
+
+    Annotation: # Top-level Annotation schema
+      type: object
+      description: An annotation associated with a content part.
+      oneOf:
+        - $ref: '#/components/schemas/FileCitationAnnotation'
+        - $ref: '#/components/schemas/FilePathAnnotation'
+      discriminator:
+        propertyName: type # This 'type' is for file_citation vs file_path
+
+    OutputContentText:
+      description: Text output content part.
+      type: object
+      properties:
+        type: # Discriminator from OutputContentType
+          type: string
+          enum: [output_text]
+          default: output_text
+          x-stainless-const: true
+        text:
+          type: string
+        annotations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Annotation'
+          nullable: true # Annotations might not always be present
+      required:
+        - type
+        - text
+
+    OutputContentImageFile:
+      description: Image file output content part.
+      type: object
+      properties:
+        type: # Discriminator from OutputContentType
+          type: string
+          enum: [output_image_file]
+          default: output_image_file
+          x-stainless-const: true
+        image_file:
+          type: object
+          properties:
+            file_id:
+              type: string
+          required:
+            - file_id
+      required:
+        - type
+        - image_file
+
+    OutputContentImage: # If direct image data is supported differently
+      description: Direct image data output content part.
+      type: object
+      properties:
+        type: # Discriminator from OutputContentType
+          type: string
+          enum: [output_image]
+          default: output_image
+          x-stainless-const: true
+        image: # Contains base64 data directly
+          type: object
+          properties:
+            data:
+              type: string
+              format: byte
+            format:
+              type: string
+          required:
+            - data
+            - format
+      required:
+        - type
+        - image
+
+    OutputContentAudio:
+      description: Audio output content part.
+      type: object
+      properties:
+        type: # Discriminator from OutputContentType
+          type: string
+          enum: [output_audio]
+          default: output_audio
+          x-stainless-const: true
+        audio:
+          type: object
+          properties:
+            data:
+              type: string
+              format: byte
+            format:
+              type: string
+          required:
+            - data
+            - format
+      required:
+        - type
+        - audio
+
+    OutputContentVideo:
+      description: Video output content part.
+      type: object
+      properties:
+        type: # Discriminator from OutputContentType
+          type: string
+          enum: [output_video]
+          default: output_video
+          x-stainless-const: true
+        video:
+          type: object
+          properties:
+            data:
+              type: string
+              format: byte
+            format:
+              type: string
+          required:
+            - data
+            - format
+      required:
+        - type
+        - video
+
+    OutputContentRefusal:
+      description: Refusal output content part.
+      type: object
+      properties:
+        type: # Discriminator from OutputContentType
+          type: string
+          enum: [refusal]
+          default: refusal
+          x-stainless-const: true
+        refusal:
+          type: string
+      required:
+        - type
+        - refusal
+
+    OutputToolCallFunction: # Structure for the 'function' part of a tool_call
+      type: object
+      properties:
+        id: # ID of the specific tool call
+          type: string
+        name:
+          type: string
+        arguments: # JSON string of arguments
+          type: string
+      required:
+        - id
+        - name
+        - arguments
+
+    OutputToolCall: # For OutputContent's oneOf, representing a tool call
+      description: A tool call requested by the model.
+      type: object
+      properties:
+        type: # Discriminator from OutputContentType, should be 'tool_call'
+          type: string
+          enum: [tool_call]
+          default: tool_call
+          x-stainless-const: true
+        tool_call: # Contains the actual tool call details
+          $ref: '#/components/schemas/OutputToolCallFunction'
+      required:
+        - type
+        - tool_call
+
+    OutputContent:
+      description: Union of all possible output content part types.
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/OutputContentText'
+        - $ref: '#/components/schemas/OutputContentImageFile'
+        - $ref: '#/components/schemas/OutputContentImage'
+        - $ref: '#/components/schemas/OutputContentAudio'
+        - $ref: '#/components/schemas/OutputContentVideo'
+        - $ref: '#/components/schemas/OutputContentRefusal'
+        - $ref: '#/components/schemas/OutputToolCall'
+        - $ref: '#/components/schemas/OutputContentError' # Added OutputContentError
+      discriminator:
+        propertyName: type # This 'type' is for e.g. OutputContentText.type, OutputContentImageFile.type
+        mapping: # Explicit mapping
+          output_text: '#/components/schemas/OutputContentText'
+          output_image_file: '#/components/schemas/OutputContentImageFile'
+          output_image: '#/components/schemas/OutputContentImage'
+          output_audio: '#/components/schemas/OutputContentAudio'
+          output_video: '#/components/schemas/OutputContentVideo'
+          refusal: '#/components/schemas/OutputContentRefusal'
+          tool_call: '#/components/schemas/OutputToolCall'
+          error: '#/components/schemas/OutputContentError' # Uncommented and OutputContentError defined
+
+    OutputContentError: # Added new schema
+      description: Error output content part.
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [error] # This 'error' should be present in OutputContentType enum
+          default: error
+          x-stainless-const: true
+        error:
+          $ref: '#/components/schemas/ResponseError' # Reusing ResponseError
+      required:
+        - type
+        - error
+
+    OutputItem:
+      description: An output item from a response.
+      type: object
+      properties:
+        id:
+          type: string
+        type: # This refers to the type of the OutputItem itself
+          $ref: '#/components/schemas/OutputType'
+        status: # Added status as per official spec for items like message, tool_call
+            type: string
+            enum: [in_progress, completed, incomplete, failed, cancelled] # Common statuses
+            nullable: true
+        role: # If type is 'message'
+            type: string
+            enum: [assistant]
+            nullable: true
+        content: # If type is 'message' or 'tool_result'
+          type: array
+          items:
+            $ref: '#/components/schemas/OutputContent'
+          nullable: true # Not present for tool_use if it only has name/input
+        # For tool_use type
+        call_id: # If type is 'tool_use' (id of the call) or 'tool_result' (linking to tool_use)
+          type: string
+          nullable: true
+        name: # If type is 'tool_use'
+          type: string
+          nullable: true
+        arguments: # If type is 'tool_use', JSON string
+          type: string
+          nullable: true
+        # For tool_result type
+        # 'content' is already defined above and would be used for tool_result output
+      required:
+        - id
+        - type
+    # --- OutputItem related schemas END ---
 
 security:
   - ApiKeyAuth: [ ]

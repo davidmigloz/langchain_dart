@@ -2042,6 +2042,29 @@ Map<String, dynamic> _$$ImagesResponseImplToJson(
       'data': instance.data.map((e) => e.toJson()).toList(),
     };
 
+_$InputItemImpl _$$InputItemImplFromJson(Map<String, dynamic> json) =>
+    _$InputItemImpl(
+      id: json['id'] as String,
+      type: $enumDecode(_$InputContentTypeEnumMap, json['type']),
+      content: (json['content'] as List<dynamic>)
+          .map((e) => UnionSchema.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$InputItemImplToJson(_$InputItemImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'type': _$InputContentTypeEnumMap[instance.type]!,
+      'content': instance.content.map((e) => e.toJson()).toList(),
+    };
+
+const _$InputContentTypeEnumMap = {
+  InputContentType.text: 'text',
+  InputContentType.image: 'image',
+  InputContentType.audio: 'audio',
+  InputContentType.video: 'video',
+};
+
 _$ImageImpl _$$ImageImplFromJson(Map<String, dynamic> json) => _$ImageImpl(
       b64Json: json['b64_json'] as String?,
       url: json['url'] as String?,
@@ -2381,6 +2404,92 @@ Map<String, dynamic> _$$ModerationCategoriesAppliedInputTypesImplToJson(
       'sexual/minors': instance.sexualMinors,
       'violence': instance.violence,
       'violence/graphic': instance.violenceGraphic,
+    };
+
+_$OutputItemImpl _$$OutputItemImplFromJson(Map<String, dynamic> json) =>
+    _$OutputItemImpl(
+      id: json['id'] as String,
+      type: $enumDecode(_$OutputTypeEnumMap, json['type']),
+      content: (json['content'] as List<dynamic>?)
+          ?.map((e) => OutputContent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      toolUse: json['tool_use'] == null
+          ? null
+          : OutputItemToolUse.fromJson(
+              json['tool_use'] as Map<String, dynamic>),
+      toolResult: json['tool_result'] == null
+          ? null
+          : OutputItemToolResult.fromJson(
+              json['tool_result'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$OutputItemImplToJson(_$OutputItemImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'type': _$OutputTypeEnumMap[instance.type]!,
+      if (instance.content?.map((e) => e.toJson()).toList() case final value?)
+        'content': value,
+      if (instance.toolUse?.toJson() case final value?) 'tool_use': value,
+      if (instance.toolResult?.toJson() case final value?) 'tool_result': value,
+    };
+
+const _$OutputTypeEnumMap = {
+  OutputType.text: 'text',
+  OutputType.toolUse: 'tool_use',
+  OutputType.toolResult: 'tool_result',
+  OutputType.image: 'image',
+  OutputType.audio: 'audio',
+  OutputType.video: 'video',
+  OutputType.refusal: 'refusal',
+  OutputType.error: 'error',
+};
+
+_$OutputItemToolUseImpl _$$OutputItemToolUseImplFromJson(
+        Map<String, dynamic> json) =>
+    _$OutputItemToolUseImpl(
+      id: json['id'] as String,
+      name: json['name'] as String,
+      input: json['input'] as Map<String, dynamic>,
+    );
+
+Map<String, dynamic> _$$OutputItemToolUseImplToJson(
+        _$OutputItemToolUseImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'input': instance.input,
+    };
+
+_$OutputItemToolResultImpl _$$OutputItemToolResultImplFromJson(
+        Map<String, dynamic> json) =>
+    _$OutputItemToolResultImpl(
+      id: json['id'] as String,
+      content: (json['content'] as List<dynamic>)
+          .map((e) => OutputContent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$OutputItemToolResultImplToJson(
+        _$OutputItemToolResultImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'content': instance.content.map((e) => e.toJson()).toList(),
+    };
+
+_$OutputToolCallFunctionImpl _$$OutputToolCallFunctionImplFromJson(
+        Map<String, dynamic> json) =>
+    _$OutputToolCallFunctionImpl(
+      id: json['id'] as String,
+      name: json['name'] as String,
+      arguments: json['arguments'] as String,
+    );
+
+Map<String, dynamic> _$$OutputToolCallFunctionImplToJson(
+        _$OutputToolCallFunctionImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'arguments': instance.arguments,
     };
 
 _$AssistantObjectImpl _$$AssistantObjectImplFromJson(
@@ -5105,7 +5214,7 @@ _$CreateResponseRequestImpl _$$CreateResponseRequestImplFromJson(
       input:
           const _CreateResponseRequestInputConverter().fromJson(json['input']),
       tools: (json['tools'] as List<dynamic>?)
-          ?.map((e) => e as Map<String, dynamic>)
+          ?.map((e) => AssistantTools.fromJson(e as Map<String, dynamic>))
           .toList(),
       metadata: json['metadata'] as Map<String, dynamic>?,
       stream: json['stream'] as bool?,
@@ -5119,30 +5228,30 @@ Map<String, dynamic> _$$CreateResponseRequestImplToJson(
       'model': instance.model,
       'input':
           const _CreateResponseRequestInputConverter().toJson(instance.input),
-      if (instance.tools case final value?) 'tools': value,
+      if (instance.tools?.map((e) => e.toJson()).toList() case final value?)
+        'tools': value,
       if (instance.metadata case final value?) 'metadata': value,
       if (instance.stream case final value?) 'stream': value,
       if (instance.temperature case final value?) 'temperature': value,
       if (instance.topP case final value?) 'top_p': value,
     };
 
-_$CreateResponseRequestInputListMapStringDynamicImpl
-    _$$CreateResponseRequestInputListMapStringDynamicImplFromJson(
+_$CreateResponseRequestInputListInputItemImpl
+    _$$CreateResponseRequestInputListInputItemImplFromJson(
             Map<String, dynamic> json) =>
-        _$CreateResponseRequestInputListMapStringDynamicImpl(
+        _$CreateResponseRequestInputListInputItemImpl(
           (json['value'] as List<dynamic>)
-              .map((e) => e as Map<String, dynamic>)
+              .map((e) => InputItem.fromJson(e as Map<String, dynamic>))
               .toList(),
           $type: json['runtimeType'] as String?,
         );
 
-Map<String, dynamic>
-    _$$CreateResponseRequestInputListMapStringDynamicImplToJson(
-            _$CreateResponseRequestInputListMapStringDynamicImpl instance) =>
-        <String, dynamic>{
-          'value': instance.value,
-          'runtimeType': instance.$type,
-        };
+Map<String, dynamic> _$$CreateResponseRequestInputListInputItemImplToJson(
+        _$CreateResponseRequestInputListInputItemImpl instance) =>
+    <String, dynamic>{
+      'value': instance.value.map((e) => e.toJson()).toList(),
+      'runtimeType': instance.$type,
+    };
 
 _$CreateResponseRequestInputStringImpl
     _$$CreateResponseRequestInputStringImplFromJson(
@@ -5163,21 +5272,35 @@ _$ResponseImpl _$$ResponseImplFromJson(Map<String, dynamic> json) =>
     _$ResponseImpl(
       id: json['id'] as String,
       object: json['object'] as String,
-      status: json['status'] as String,
+      status: $enumDecode(_$ResponseStatusEnumMap, json['status']),
       createdAt: (json['created_at'] as num).toInt(),
       output: (json['output'] as List<dynamic>)
-          .map((e) => e as Map<String, dynamic>)
+          .map((e) => OutputItem.fromJson(e as Map<String, dynamic>))
           .toList(),
+      usage: json['usage'] == null
+          ? null
+          : ResponseUsage.fromJson(json['usage'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$ResponseImplToJson(_$ResponseImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'object': instance.object,
-      'status': instance.status,
+      'status': _$ResponseStatusEnumMap[instance.status]!,
       'created_at': instance.createdAt,
-      'output': instance.output,
+      'output': instance.output.map((e) => e.toJson()).toList(),
+      if (instance.usage?.toJson() case final value?) 'usage': value,
     };
+
+const _$ResponseStatusEnumMap = {
+  ResponseStatus.initial: 'initial',
+  ResponseStatus.inProgress: 'in_progress',
+  ResponseStatus.completed: 'completed',
+  ResponseStatus.failed: 'failed',
+  ResponseStatus.incomplete: 'incomplete',
+  ResponseStatus.cancelled: 'cancelled',
+  ResponseStatus.expired: 'expired',
+};
 
 _$DeleteResponseResponseImpl _$$DeleteResponseResponseImplFromJson(
         Map<String, dynamic> json) =>
@@ -5197,7 +5320,7 @@ Map<String, dynamic> _$$DeleteResponseResponseImplToJson(
     };
 
 const _$DeleteResponseResponseObjectEnumMap = {
-  DeleteResponseResponseObject.response: 'response',
+  DeleteResponseResponseObject.responseDeleted: 'response.deleted',
 };
 
 _$ResponseItemListImpl _$$ResponseItemListImplFromJson(
@@ -5205,7 +5328,7 @@ _$ResponseItemListImpl _$$ResponseItemListImplFromJson(
     _$ResponseItemListImpl(
       object: json['object'] as String,
       data: (json['data'] as List<dynamic>)
-          .map((e) => e as Map<String, dynamic>)
+          .map((e) => InputItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       firstId: json['first_id'] as String,
       lastId: json['last_id'] as String,
@@ -5216,10 +5339,115 @@ Map<String, dynamic> _$$ResponseItemListImplToJson(
         _$ResponseItemListImpl instance) =>
     <String, dynamic>{
       'object': instance.object,
-      'data': instance.data,
+      'data': instance.data.map((e) => e.toJson()).toList(),
       'first_id': instance.firstId,
       'last_id': instance.lastId,
       'has_more': instance.hasMore,
+    };
+
+_$ResponseContentTextAnnotationsFileCitationImpl
+    _$$ResponseContentTextAnnotationsFileCitationImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ResponseContentTextAnnotationsFileCitationImpl(
+          fileId: json['file_id'] as String,
+          quote: json['quote'] as String?,
+        );
+
+Map<String, dynamic> _$$ResponseContentTextAnnotationsFileCitationImplToJson(
+        _$ResponseContentTextAnnotationsFileCitationImpl instance) =>
+    <String, dynamic>{
+      'file_id': instance.fileId,
+      if (instance.quote case final value?) 'quote': value,
+    };
+
+_$ResponseContentTextAnnotationsFileCitationObjectImpl
+    _$$ResponseContentTextAnnotationsFileCitationObjectImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ResponseContentTextAnnotationsFileCitationObjectImpl(
+          type: $enumDecode(
+              _$ResponseContentTextAnnotationsFileCitationObjectTypeEnumMap,
+              json['type']),
+          text: json['text'] as String,
+          startIndex: (json['start_index'] as num).toInt(),
+          endIndex: (json['end_index'] as num).toInt(),
+          fileCitation: ResponseContentTextAnnotationsFileCitation.fromJson(
+              json['file_citation'] as Map<String, dynamic>),
+        );
+
+Map<String, dynamic>
+    _$$ResponseContentTextAnnotationsFileCitationObjectImplToJson(
+            _$ResponseContentTextAnnotationsFileCitationObjectImpl instance) =>
+        <String, dynamic>{
+          'type': _$ResponseContentTextAnnotationsFileCitationObjectTypeEnumMap[
+              instance.type]!,
+          'text': instance.text,
+          'start_index': instance.startIndex,
+          'end_index': instance.endIndex,
+          'file_citation': instance.fileCitation.toJson(),
+        };
+
+const _$ResponseContentTextAnnotationsFileCitationObjectTypeEnumMap = {
+  ResponseContentTextAnnotationsFileCitationObjectType.fileCitation:
+      'file_citation',
+};
+
+_$ResponseContentTextAnnotationsFilePathImpl
+    _$$ResponseContentTextAnnotationsFilePathImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ResponseContentTextAnnotationsFilePathImpl(
+          fileId: json['file_id'] as String,
+        );
+
+Map<String, dynamic> _$$ResponseContentTextAnnotationsFilePathImplToJson(
+        _$ResponseContentTextAnnotationsFilePathImpl instance) =>
+    <String, dynamic>{
+      'file_id': instance.fileId,
+    };
+
+_$ResponseContentTextAnnotationsFilePathObjectImpl
+    _$$ResponseContentTextAnnotationsFilePathObjectImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ResponseContentTextAnnotationsFilePathObjectImpl(
+          type: $enumDecode(
+              _$ResponseContentTextAnnotationsFilePathObjectTypeEnumMap,
+              json['type']),
+          text: json['text'] as String,
+          startIndex: (json['start_index'] as num).toInt(),
+          endIndex: (json['end_index'] as num).toInt(),
+          filePath: ResponseContentTextAnnotationsFilePath.fromJson(
+              json['file_path'] as Map<String, dynamic>),
+        );
+
+Map<String, dynamic> _$$ResponseContentTextAnnotationsFilePathObjectImplToJson(
+        _$ResponseContentTextAnnotationsFilePathObjectImpl instance) =>
+    <String, dynamic>{
+      'type': _$ResponseContentTextAnnotationsFilePathObjectTypeEnumMap[
+          instance.type]!,
+      'text': instance.text,
+      'start_index': instance.startIndex,
+      'end_index': instance.endIndex,
+      'file_path': instance.filePath.toJson(),
+    };
+
+const _$ResponseContentTextAnnotationsFilePathObjectTypeEnumMap = {
+  ResponseContentTextAnnotationsFilePathObjectType.filePath: 'file_path',
+};
+
+_$ResponseUsageImpl _$$ResponseUsageImplFromJson(Map<String, dynamic> json) =>
+    _$ResponseUsageImpl(
+      inputTokens: (json['input_tokens'] as num).toInt(),
+      outputTokens: (json['output_tokens'] as num).toInt(),
+      processingLatencyMs: (json['processing_latency_ms'] as num?)?.toInt(),
+      totalLatencyMs: (json['total_latency_ms'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$$ResponseUsageImplToJson(_$ResponseUsageImpl instance) =>
+    <String, dynamic>{
+      'input_tokens': instance.inputTokens,
+      'output_tokens': instance.outputTokens,
+      if (instance.processingLatencyMs case final value?)
+        'processing_latency_ms': value,
+      if (instance.totalLatencyMs case final value?) 'total_latency_ms': value,
     };
 
 _$ChatCompletionDeveloperMessageImpl
@@ -5616,6 +5844,123 @@ Map<String, dynamic> _$$ResponseFormatJsonSchemaImplToJson(
       'json_schema': instance.jsonSchema.toJson(),
     };
 
+_$InputContentTextImpl _$$InputContentTextImplFromJson(
+        Map<String, dynamic> json) =>
+    _$InputContentTextImpl(
+      type: $enumDecode(_$InputContentTextTypeEnumMap, json['type']),
+      text: json['text'] as String,
+    );
+
+Map<String, dynamic> _$$InputContentTextImplToJson(
+        _$InputContentTextImpl instance) =>
+    <String, dynamic>{
+      'type': _$InputContentTextTypeEnumMap[instance.type]!,
+      'text': instance.text,
+    };
+
+const _$InputContentTextTypeEnumMap = {
+  InputContentTextType.text: 'text',
+};
+
+_$InputContentImageImpl _$$InputContentImageImplFromJson(
+        Map<String, dynamic> json) =>
+    _$InputContentImageImpl(
+      type: $enumDecode(_$InputContentImageTypeEnumMap, json['type']),
+      image: InputContentImageImage.fromJson(
+          json['image'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$InputContentImageImplToJson(
+        _$InputContentImageImpl instance) =>
+    <String, dynamic>{
+      'type': _$InputContentImageTypeEnumMap[instance.type]!,
+      'image': instance.image.toJson(),
+    };
+
+const _$InputContentImageTypeEnumMap = {
+  InputContentImageType.image: 'image',
+};
+
+_$InputContentAudioImpl _$$InputContentAudioImplFromJson(
+        Map<String, dynamic> json) =>
+    _$InputContentAudioImpl(
+      type: $enumDecode(_$InputContentAudioTypeEnumMap, json['type']),
+      audio: InputContentAudioAudio.fromJson(
+          json['audio'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$InputContentAudioImplToJson(
+        _$InputContentAudioImpl instance) =>
+    <String, dynamic>{
+      'type': _$InputContentAudioTypeEnumMap[instance.type]!,
+      'audio': instance.audio.toJson(),
+    };
+
+const _$InputContentAudioTypeEnumMap = {
+  InputContentAudioType.audio: 'audio',
+};
+
+_$InputContentVideoImpl _$$InputContentVideoImplFromJson(
+        Map<String, dynamic> json) =>
+    _$InputContentVideoImpl(
+      type: $enumDecode(_$InputContentVideoTypeEnumMap, json['type']),
+      video: InputContentVideoVideo.fromJson(
+          json['video'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$InputContentVideoImplToJson(
+        _$InputContentVideoImpl instance) =>
+    <String, dynamic>{
+      'type': _$InputContentVideoTypeEnumMap[instance.type]!,
+      'video': instance.video.toJson(),
+    };
+
+const _$InputContentVideoTypeEnumMap = {
+  InputContentVideoType.video: 'video',
+};
+
+_$InputContentImageImageImpl _$$InputContentImageImageImplFromJson(
+        Map<String, dynamic> json) =>
+    _$InputContentImageImageImpl(
+      data: const Uint8ListConverter().fromJson(json['data'] as List<int>),
+      format: json['format'] as String,
+    );
+
+Map<String, dynamic> _$$InputContentImageImageImplToJson(
+        _$InputContentImageImageImpl instance) =>
+    <String, dynamic>{
+      'data': const Uint8ListConverter().toJson(instance.data),
+      'format': instance.format,
+    };
+
+_$InputContentAudioAudioImpl _$$InputContentAudioAudioImplFromJson(
+        Map<String, dynamic> json) =>
+    _$InputContentAudioAudioImpl(
+      data: const Uint8ListConverter().fromJson(json['data'] as List<int>),
+      format: json['format'] as String,
+    );
+
+Map<String, dynamic> _$$InputContentAudioAudioImplToJson(
+        _$InputContentAudioAudioImpl instance) =>
+    <String, dynamic>{
+      'data': const Uint8ListConverter().toJson(instance.data),
+      'format': instance.format,
+    };
+
+_$InputContentVideoVideoImpl _$$InputContentVideoVideoImplFromJson(
+        Map<String, dynamic> json) =>
+    _$InputContentVideoVideoImpl(
+      data: const Uint8ListConverter().fromJson(json['data'] as List<int>),
+      format: json['format'] as String,
+    );
+
+Map<String, dynamic> _$$InputContentVideoVideoImplToJson(
+        _$InputContentVideoVideoImpl instance) =>
+    <String, dynamic>{
+      'data': const Uint8ListConverter().toJson(instance.data),
+      'format': instance.format,
+    };
+
 _$ModerationInputObjectImageUrlImpl
     _$$ModerationInputObjectImageUrlImplFromJson(Map<String, dynamic> json) =>
         _$ModerationInputObjectImageUrlImpl(
@@ -5665,6 +6010,196 @@ Map<String, dynamic> _$$ModerationInputObjectImageUrlImageUrlImplToJson(
         _$ModerationInputObjectImageUrlImageUrlImpl instance) =>
     <String, dynamic>{
       'url': instance.url,
+    };
+
+_$OutputContentTextImpl _$$OutputContentTextImplFromJson(
+        Map<String, dynamic> json) =>
+    _$OutputContentTextImpl(
+      type: $enumDecode(_$OutputContentTextTypeEnumMap, json['type']),
+      text: json['text'] as String,
+      annotations: (json['annotations'] as List<dynamic>?)
+          ?.map((e) => Annotation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$OutputContentTextImplToJson(
+        _$OutputContentTextImpl instance) =>
+    <String, dynamic>{
+      'type': _$OutputContentTextTypeEnumMap[instance.type]!,
+      'text': instance.text,
+      if (instance.annotations?.map((e) => e.toJson()).toList()
+          case final value?)
+        'annotations': value,
+    };
+
+const _$OutputContentTextTypeEnumMap = {
+  OutputContentTextType.text: 'text',
+};
+
+_$OutputContentImageFileImpl _$$OutputContentImageFileImplFromJson(
+        Map<String, dynamic> json) =>
+    _$OutputContentImageFileImpl(
+      type: $enumDecode(_$OutputContentImageFileTypeEnumMap, json['type']),
+      imageFile: OutputContentImageFileImageFile.fromJson(
+          json['image_file'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$OutputContentImageFileImplToJson(
+        _$OutputContentImageFileImpl instance) =>
+    <String, dynamic>{
+      'type': _$OutputContentImageFileTypeEnumMap[instance.type]!,
+      'image_file': instance.imageFile.toJson(),
+    };
+
+const _$OutputContentImageFileTypeEnumMap = {
+  OutputContentImageFileType.imageFile: 'image_file',
+};
+
+_$OutputContentImageImpl _$$OutputContentImageImplFromJson(
+        Map<String, dynamic> json) =>
+    _$OutputContentImageImpl(
+      type: $enumDecode(_$OutputContentImageTypeEnumMap, json['type']),
+      image: OutputContentImageImage.fromJson(
+          json['image'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$OutputContentImageImplToJson(
+        _$OutputContentImageImpl instance) =>
+    <String, dynamic>{
+      'type': _$OutputContentImageTypeEnumMap[instance.type]!,
+      'image': instance.image.toJson(),
+    };
+
+const _$OutputContentImageTypeEnumMap = {
+  OutputContentImageType.image: 'image',
+};
+
+_$OutputContentAudioImpl _$$OutputContentAudioImplFromJson(
+        Map<String, dynamic> json) =>
+    _$OutputContentAudioImpl(
+      type: $enumDecode(_$OutputContentAudioTypeEnumMap, json['type']),
+      audio: OutputContentAudioAudio.fromJson(
+          json['audio'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$OutputContentAudioImplToJson(
+        _$OutputContentAudioImpl instance) =>
+    <String, dynamic>{
+      'type': _$OutputContentAudioTypeEnumMap[instance.type]!,
+      'audio': instance.audio.toJson(),
+    };
+
+const _$OutputContentAudioTypeEnumMap = {
+  OutputContentAudioType.audio: 'audio',
+};
+
+_$OutputContentVideoImpl _$$OutputContentVideoImplFromJson(
+        Map<String, dynamic> json) =>
+    _$OutputContentVideoImpl(
+      type: $enumDecode(_$OutputContentVideoTypeEnumMap, json['type']),
+      video: OutputContentVideoVideo.fromJson(
+          json['video'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$OutputContentVideoImplToJson(
+        _$OutputContentVideoImpl instance) =>
+    <String, dynamic>{
+      'type': _$OutputContentVideoTypeEnumMap[instance.type]!,
+      'video': instance.video.toJson(),
+    };
+
+const _$OutputContentVideoTypeEnumMap = {
+  OutputContentVideoType.video: 'video',
+};
+
+_$OutputContentRefusalImpl _$$OutputContentRefusalImplFromJson(
+        Map<String, dynamic> json) =>
+    _$OutputContentRefusalImpl(
+      type: $enumDecode(_$OutputContentRefusalTypeEnumMap, json['type']),
+      refusal: json['refusal'] as String,
+    );
+
+Map<String, dynamic> _$$OutputContentRefusalImplToJson(
+        _$OutputContentRefusalImpl instance) =>
+    <String, dynamic>{
+      'type': _$OutputContentRefusalTypeEnumMap[instance.type]!,
+      'refusal': instance.refusal,
+    };
+
+const _$OutputContentRefusalTypeEnumMap = {
+  OutputContentRefusalType.refusal: 'refusal',
+};
+
+_$OutputToolCallImpl _$$OutputToolCallImplFromJson(Map<String, dynamic> json) =>
+    _$OutputToolCallImpl(
+      type: $enumDecode(_$OutputToolCallTypeEnumMap, json['type']),
+      toolCall: OutputToolCallFunction.fromJson(
+          json['tool_call'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$OutputToolCallImplToJson(
+        _$OutputToolCallImpl instance) =>
+    <String, dynamic>{
+      'type': _$OutputToolCallTypeEnumMap[instance.type]!,
+      'tool_call': instance.toolCall.toJson(),
+    };
+
+const _$OutputToolCallTypeEnumMap = {
+  OutputToolCallType.toolCall: 'tool_call',
+};
+
+_$OutputContentImageFileImageFileImpl
+    _$$OutputContentImageFileImageFileImplFromJson(Map<String, dynamic> json) =>
+        _$OutputContentImageFileImageFileImpl(
+          fileId: json['file_id'] as String,
+        );
+
+Map<String, dynamic> _$$OutputContentImageFileImageFileImplToJson(
+        _$OutputContentImageFileImageFileImpl instance) =>
+    <String, dynamic>{
+      'file_id': instance.fileId,
+    };
+
+_$OutputContentImageImageImpl _$$OutputContentImageImageImplFromJson(
+        Map<String, dynamic> json) =>
+    _$OutputContentImageImageImpl(
+      data: const Uint8ListConverter().fromJson(json['data'] as List<int>),
+      format: json['format'] as String,
+    );
+
+Map<String, dynamic> _$$OutputContentImageImageImplToJson(
+        _$OutputContentImageImageImpl instance) =>
+    <String, dynamic>{
+      'data': const Uint8ListConverter().toJson(instance.data),
+      'format': instance.format,
+    };
+
+_$OutputContentAudioAudioImpl _$$OutputContentAudioAudioImplFromJson(
+        Map<String, dynamic> json) =>
+    _$OutputContentAudioAudioImpl(
+      data: const Uint8ListConverter().fromJson(json['data'] as List<int>),
+      format: json['format'] as String,
+    );
+
+Map<String, dynamic> _$$OutputContentAudioAudioImplToJson(
+        _$OutputContentAudioAudioImpl instance) =>
+    <String, dynamic>{
+      'data': const Uint8ListConverter().toJson(instance.data),
+      'format': instance.format,
+    };
+
+_$OutputContentVideoVideoImpl _$$OutputContentVideoVideoImplFromJson(
+        Map<String, dynamic> json) =>
+    _$OutputContentVideoVideoImpl(
+      data: const Uint8ListConverter().fromJson(json['data'] as List<int>),
+      format: json['format'] as String,
+    );
+
+Map<String, dynamic> _$$OutputContentVideoVideoImplToJson(
+        _$OutputContentVideoVideoImpl instance) =>
+    <String, dynamic>{
+      'data': const Uint8ListConverter().toJson(instance.data),
+      'format': instance.format,
     };
 
 _$AssistantToolsCodeInterpreterImpl
@@ -6478,3 +7013,831 @@ Map<String, dynamic> _$$DoneEventImplToJson(_$DoneEventImpl instance) =>
       'event': _$EventTypeEnumMap[instance.event]!,
       'data': instance.data,
     };
+
+_$ResponseCreatedEventImpl _$$ResponseCreatedEventImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ResponseCreatedEventImpl(
+      event: $enumDecode(_$ResponseCreatedEventEventEnumMap, json['event']),
+      data: Response.fromJson(json['data'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$ResponseCreatedEventImplToJson(
+        _$ResponseCreatedEventImpl instance) =>
+    <String, dynamic>{
+      'event': _$ResponseCreatedEventEventEnumMap[instance.event]!,
+      'data': instance.data.toJson(),
+    };
+
+const _$ResponseCreatedEventEventEnumMap = {
+  ResponseCreatedEventEvent.responseCreated: 'response.created',
+};
+
+_$ResponseInProgressEventImpl _$$ResponseInProgressEventImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ResponseInProgressEventImpl(
+      event: $enumDecode(_$ResponseInProgressEventEventEnumMap, json['event']),
+      response: Response.fromJson(json['response'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$ResponseInProgressEventImplToJson(
+        _$ResponseInProgressEventImpl instance) =>
+    <String, dynamic>{
+      'event': _$ResponseInProgressEventEventEnumMap[instance.event]!,
+      'response': instance.response.toJson(),
+    };
+
+const _$ResponseInProgressEventEventEnumMap = {
+  ResponseInProgressEventEvent.responseInProgress: 'response.in_progress',
+};
+
+_$ResponseCompletedEventImpl _$$ResponseCompletedEventImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ResponseCompletedEventImpl(
+      event: $enumDecode(_$ResponseCompletedEventEventEnumMap, json['event']),
+      response: Response.fromJson(json['response'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$ResponseCompletedEventImplToJson(
+        _$ResponseCompletedEventImpl instance) =>
+    <String, dynamic>{
+      'event': _$ResponseCompletedEventEventEnumMap[instance.event]!,
+      'response': instance.response.toJson(),
+    };
+
+const _$ResponseCompletedEventEventEnumMap = {
+  ResponseCompletedEventEvent.responseCompleted: 'response.completed',
+};
+
+_$ResponseContentImageFileDeltaEventImpl
+    _$$ResponseContentImageFileDeltaEventImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ResponseContentImageFileDeltaEventImpl(
+          event: $enumDecode(
+              _$ResponseContentImageFileDeltaEventEventEnumMap, json['event']),
+          itemId: json['item_id'] as String,
+          outputIndex: (json['output_index'] as num).toInt(),
+          contentIndex: (json['content_index'] as num).toInt(),
+          delta: OutputContentImageFile.fromJson(
+              json['delta'] as Map<String, dynamic>),
+        );
+
+Map<String, dynamic> _$$ResponseContentImageFileDeltaEventImplToJson(
+        _$ResponseContentImageFileDeltaEventImpl instance) =>
+    <String, dynamic>{
+      'event':
+          _$ResponseContentImageFileDeltaEventEventEnumMap[instance.event]!,
+      'item_id': instance.itemId,
+      'output_index': instance.outputIndex,
+      'content_index': instance.contentIndex,
+      'delta': instance.delta.toJson(),
+    };
+
+const _$ResponseContentImageFileDeltaEventEventEnumMap = {
+  ResponseContentImageFileDeltaEventEvent.responseContentImageFileDelta:
+      'response.content_image_file.delta',
+};
+
+_$ResponseContentImageFileDoneEventImpl
+    _$$ResponseContentImageFileDoneEventImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ResponseContentImageFileDoneEventImpl(
+          event: $enumDecode(
+              _$ResponseContentImageFileDoneEventEventEnumMap, json['event']),
+          itemId: json['item_id'] as String,
+          outputIndex: (json['output_index'] as num).toInt(),
+          contentIndex: (json['content_index'] as num).toInt(),
+          imageFile: OutputContentImageFile.fromJson(
+              json['image_file'] as Map<String, dynamic>),
+        );
+
+Map<String, dynamic> _$$ResponseContentImageFileDoneEventImplToJson(
+        _$ResponseContentImageFileDoneEventImpl instance) =>
+    <String, dynamic>{
+      'event': _$ResponseContentImageFileDoneEventEventEnumMap[instance.event]!,
+      'item_id': instance.itemId,
+      'output_index': instance.outputIndex,
+      'content_index': instance.contentIndex,
+      'image_file': instance.imageFile.toJson(),
+    };
+
+const _$ResponseContentImageFileDoneEventEventEnumMap = {
+  ResponseContentImageFileDoneEventEvent.responseContentImageFileDone:
+      'response.content_image_file.done',
+};
+
+_$ResponseContentPartAddedEventImpl
+    _$$ResponseContentPartAddedEventImplFromJson(Map<String, dynamic> json) =>
+        _$ResponseContentPartAddedEventImpl(
+          event: $enumDecode(
+              _$ResponseContentPartAddedEventEventEnumMap, json['event']),
+          itemId: json['item_id'] as String,
+          outputIndex: (json['output_index'] as num).toInt(),
+          contentIndex: (json['content_index'] as num).toInt(),
+          part: OutputContent.fromJson(json['part'] as Map<String, dynamic>),
+        );
+
+Map<String, dynamic> _$$ResponseContentPartAddedEventImplToJson(
+        _$ResponseContentPartAddedEventImpl instance) =>
+    <String, dynamic>{
+      'event': _$ResponseContentPartAddedEventEventEnumMap[instance.event]!,
+      'item_id': instance.itemId,
+      'output_index': instance.outputIndex,
+      'content_index': instance.contentIndex,
+      'part': instance.part.toJson(),
+    };
+
+const _$ResponseContentPartAddedEventEventEnumMap = {
+  ResponseContentPartAddedEventEvent.responseContentPartAdded:
+      'response.content_part.added',
+};
+
+_$ResponseContentPartDoneEventImpl _$$ResponseContentPartDoneEventImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ResponseContentPartDoneEventImpl(
+      event: $enumDecode(
+          _$ResponseContentPartDoneEventEventEnumMap, json['event']),
+      itemId: json['item_id'] as String,
+      outputIndex: (json['output_index'] as num).toInt(),
+      contentIndex: (json['content_index'] as num).toInt(),
+      part: OutputContent.fromJson(json['part'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$ResponseContentPartDoneEventImplToJson(
+        _$ResponseContentPartDoneEventImpl instance) =>
+    <String, dynamic>{
+      'event': _$ResponseContentPartDoneEventEventEnumMap[instance.event]!,
+      'item_id': instance.itemId,
+      'output_index': instance.outputIndex,
+      'content_index': instance.contentIndex,
+      'part': instance.part.toJson(),
+    };
+
+const _$ResponseContentPartDoneEventEventEnumMap = {
+  ResponseContentPartDoneEventEvent.responseContentPartDone:
+      'response.content_part.done',
+};
+
+_$ResponseDoneEventImpl _$$ResponseDoneEventImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ResponseDoneEventImpl(
+      event: $enumDecode(_$ResponseDoneEventEventEnumMap, json['event']),
+      data: $enumDecode(_$ResponseDoneEventDataEnumMap, json['data']),
+    );
+
+Map<String, dynamic> _$$ResponseDoneEventImplToJson(
+        _$ResponseDoneEventImpl instance) =>
+    <String, dynamic>{
+      'event': _$ResponseDoneEventEventEnumMap[instance.event]!,
+      'data': _$ResponseDoneEventDataEnumMap[instance.data]!,
+    };
+
+const _$ResponseDoneEventEventEnumMap = {
+  ResponseDoneEventEvent.done: 'done',
+};
+
+const _$ResponseDoneEventDataEnumMap = {
+  ResponseDoneEventData.doneMarker: 'DONE_MARKER',
+};
+
+_$ResponseErrorEventImpl _$$ResponseErrorEventImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ResponseErrorEventImpl(
+      event: $enumDecode(_$ResponseErrorEventEventEnumMap, json['event']),
+      data: Error.fromJson(json['data'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$ResponseErrorEventImplToJson(
+        _$ResponseErrorEventImpl instance) =>
+    <String, dynamic>{
+      'event': _$ResponseErrorEventEventEnumMap[instance.event]!,
+      'data': instance.data.toJson(),
+    };
+
+const _$ResponseErrorEventEventEnumMap = {
+  ResponseErrorEventEvent.error: 'error',
+};
+
+_$ResponseFailedEventImpl _$$ResponseFailedEventImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ResponseFailedEventImpl(
+      event: $enumDecode(_$ResponseFailedEventEventEnumMap, json['event']),
+      response: Response.fromJson(json['response'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$ResponseFailedEventImplToJson(
+        _$ResponseFailedEventImpl instance) =>
+    <String, dynamic>{
+      'event': _$ResponseFailedEventEventEnumMap[instance.event]!,
+      'response': instance.response.toJson(),
+    };
+
+const _$ResponseFailedEventEventEnumMap = {
+  ResponseFailedEventEvent.responseFailed: 'response.failed',
+};
+
+_$ResponseFileSearchCallCompletedEventImpl
+    _$$ResponseFileSearchCallCompletedEventImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ResponseFileSearchCallCompletedEventImpl(
+          event: $enumDecode(_$ResponseFileSearchCallCompletedEventEventEnumMap,
+              json['event']),
+          outputIndex: (json['output_index'] as num).toInt(),
+          itemId: json['item_id'] as String,
+        );
+
+Map<String, dynamic> _$$ResponseFileSearchCallCompletedEventImplToJson(
+        _$ResponseFileSearchCallCompletedEventImpl instance) =>
+    <String, dynamic>{
+      'event':
+          _$ResponseFileSearchCallCompletedEventEventEnumMap[instance.event]!,
+      'output_index': instance.outputIndex,
+      'item_id': instance.itemId,
+    };
+
+const _$ResponseFileSearchCallCompletedEventEventEnumMap = {
+  ResponseFileSearchCallCompletedEventEvent.responseFileSearchCallCompleted:
+      'response.file_search_call.completed',
+};
+
+_$ResponseFileSearchCallInProgressEventImpl
+    _$$ResponseFileSearchCallInProgressEventImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ResponseFileSearchCallInProgressEventImpl(
+          event: $enumDecode(
+              _$ResponseFileSearchCallInProgressEventEventEnumMap,
+              json['event']),
+          outputIndex: (json['output_index'] as num).toInt(),
+          itemId: json['item_id'] as String,
+        );
+
+Map<String, dynamic> _$$ResponseFileSearchCallInProgressEventImplToJson(
+        _$ResponseFileSearchCallInProgressEventImpl instance) =>
+    <String, dynamic>{
+      'event':
+          _$ResponseFileSearchCallInProgressEventEventEnumMap[instance.event]!,
+      'output_index': instance.outputIndex,
+      'item_id': instance.itemId,
+    };
+
+const _$ResponseFileSearchCallInProgressEventEventEnumMap = {
+  ResponseFileSearchCallInProgressEventEvent.responseFileSearchCallInProgress:
+      'response.file_search_call.in_progress',
+};
+
+_$ResponseFileSearchCallSearchingEventImpl
+    _$$ResponseFileSearchCallSearchingEventImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ResponseFileSearchCallSearchingEventImpl(
+          event: $enumDecode(_$ResponseFileSearchCallSearchingEventEventEnumMap,
+              json['event']),
+          outputIndex: (json['output_index'] as num).toInt(),
+          itemId: json['item_id'] as String,
+        );
+
+Map<String, dynamic> _$$ResponseFileSearchCallSearchingEventImplToJson(
+        _$ResponseFileSearchCallSearchingEventImpl instance) =>
+    <String, dynamic>{
+      'event':
+          _$ResponseFileSearchCallSearchingEventEventEnumMap[instance.event]!,
+      'output_index': instance.outputIndex,
+      'item_id': instance.itemId,
+    };
+
+const _$ResponseFileSearchCallSearchingEventEventEnumMap = {
+  ResponseFileSearchCallSearchingEventEvent.responseFileSearchCallSearching:
+      'response.file_search_call.searching',
+};
+
+_$ResponseFunctionCallArgumentsDeltaEventImpl
+    _$$ResponseFunctionCallArgumentsDeltaEventImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ResponseFunctionCallArgumentsDeltaEventImpl(
+          event: $enumDecode(
+              _$ResponseFunctionCallArgumentsDeltaEventEventEnumMap,
+              json['event']),
+          itemId: json['item_id'] as String,
+          outputIndex: (json['output_index'] as num).toInt(),
+          delta: json['delta'] as String,
+        );
+
+Map<String, dynamic> _$$ResponseFunctionCallArgumentsDeltaEventImplToJson(
+        _$ResponseFunctionCallArgumentsDeltaEventImpl instance) =>
+    <String, dynamic>{
+      'event': _$ResponseFunctionCallArgumentsDeltaEventEventEnumMap[
+          instance.event]!,
+      'item_id': instance.itemId,
+      'output_index': instance.outputIndex,
+      'delta': instance.delta,
+    };
+
+const _$ResponseFunctionCallArgumentsDeltaEventEventEnumMap = {
+  ResponseFunctionCallArgumentsDeltaEventEvent
+          .responseFunctionCallArgumentsDelta:
+      'response.function_call_arguments.delta',
+};
+
+_$ResponseFunctionCallArgumentsDoneEventImpl
+    _$$ResponseFunctionCallArgumentsDoneEventImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ResponseFunctionCallArgumentsDoneEventImpl(
+          event: $enumDecode(
+              _$ResponseFunctionCallArgumentsDoneEventEventEnumMap,
+              json['event']),
+          itemId: json['item_id'] as String,
+          outputIndex: (json['output_index'] as num).toInt(),
+          arguments: json['arguments'] as String,
+        );
+
+Map<String, dynamic> _$$ResponseFunctionCallArgumentsDoneEventImplToJson(
+        _$ResponseFunctionCallArgumentsDoneEventImpl instance) =>
+    <String, dynamic>{
+      'event':
+          _$ResponseFunctionCallArgumentsDoneEventEventEnumMap[instance.event]!,
+      'item_id': instance.itemId,
+      'output_index': instance.outputIndex,
+      'arguments': instance.arguments,
+    };
+
+const _$ResponseFunctionCallArgumentsDoneEventEventEnumMap = {
+  ResponseFunctionCallArgumentsDoneEventEvent.responseFunctionCallArgumentsDone:
+      'response.function_call_arguments.done',
+};
+
+_$ResponseIncompleteEventImpl _$$ResponseIncompleteEventImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ResponseIncompleteEventImpl(
+      event: $enumDecode(_$ResponseIncompleteEventEventEnumMap, json['event']),
+      response: Response.fromJson(json['response'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$ResponseIncompleteEventImplToJson(
+        _$ResponseIncompleteEventImpl instance) =>
+    <String, dynamic>{
+      'event': _$ResponseIncompleteEventEventEnumMap[instance.event]!,
+      'response': instance.response.toJson(),
+    };
+
+const _$ResponseIncompleteEventEventEnumMap = {
+  ResponseIncompleteEventEvent.responseIncomplete: 'response.incomplete',
+};
+
+_$ResponseOutputItemAddedEventImpl _$$ResponseOutputItemAddedEventImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ResponseOutputItemAddedEventImpl(
+      event: $enumDecode(
+          _$ResponseOutputItemAddedEventEventEnumMap, json['event']),
+      outputIndex: (json['output_index'] as num).toInt(),
+      item: OutputItem.fromJson(json['item'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$ResponseOutputItemAddedEventImplToJson(
+        _$ResponseOutputItemAddedEventImpl instance) =>
+    <String, dynamic>{
+      'event': _$ResponseOutputItemAddedEventEventEnumMap[instance.event]!,
+      'output_index': instance.outputIndex,
+      'item': instance.item.toJson(),
+    };
+
+const _$ResponseOutputItemAddedEventEventEnumMap = {
+  ResponseOutputItemAddedEventEvent.responseOutputItemAdded:
+      'response.output_item.added',
+};
+
+_$ResponseOutputItemDoneEventImpl _$$ResponseOutputItemDoneEventImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ResponseOutputItemDoneEventImpl(
+      event:
+          $enumDecode(_$ResponseOutputItemDoneEventEventEnumMap, json['event']),
+      outputIndex: (json['output_index'] as num).toInt(),
+      item: OutputItem.fromJson(json['item'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$ResponseOutputItemDoneEventImplToJson(
+        _$ResponseOutputItemDoneEventImpl instance) =>
+    <String, dynamic>{
+      'event': _$ResponseOutputItemDoneEventEventEnumMap[instance.event]!,
+      'output_index': instance.outputIndex,
+      'item': instance.item.toJson(),
+    };
+
+const _$ResponseOutputItemDoneEventEventEnumMap = {
+  ResponseOutputItemDoneEventEvent.responseOutputItemDone:
+      'response.output_item.done',
+};
+
+_$ResponseReasoningSummaryPartAddedEventImpl
+    _$$ResponseReasoningSummaryPartAddedEventImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ResponseReasoningSummaryPartAddedEventImpl(
+          event: $enumDecode(
+              _$ResponseReasoningSummaryPartAddedEventEventEnumMap,
+              json['event']),
+          itemId: json['item_id'] as String,
+          outputIndex: (json['output_index'] as num).toInt(),
+          summaryIndex: (json['summary_index'] as num).toInt(),
+          part: ResponseReasoningSummaryPartAddedEventPart.fromJson(
+              json['part'] as Map<String, dynamic>),
+        );
+
+Map<String, dynamic> _$$ResponseReasoningSummaryPartAddedEventImplToJson(
+        _$ResponseReasoningSummaryPartAddedEventImpl instance) =>
+    <String, dynamic>{
+      'event':
+          _$ResponseReasoningSummaryPartAddedEventEventEnumMap[instance.event]!,
+      'item_id': instance.itemId,
+      'output_index': instance.outputIndex,
+      'summary_index': instance.summaryIndex,
+      'part': instance.part.toJson(),
+    };
+
+const _$ResponseReasoningSummaryPartAddedEventEventEnumMap = {
+  ResponseReasoningSummaryPartAddedEventEvent.responseReasoningSummaryPartAdded:
+      'response.reasoning_summary_part.added',
+};
+
+_$ResponseReasoningSummaryPartDoneEventImpl
+    _$$ResponseReasoningSummaryPartDoneEventImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ResponseReasoningSummaryPartDoneEventImpl(
+          event: $enumDecode(
+              _$ResponseReasoningSummaryPartDoneEventEventEnumMap,
+              json['event']),
+          itemId: json['item_id'] as String,
+          outputIndex: (json['output_index'] as num).toInt(),
+          summaryIndex: (json['summary_index'] as num).toInt(),
+          part: ResponseReasoningSummaryPartDoneEventPart.fromJson(
+              json['part'] as Map<String, dynamic>),
+        );
+
+Map<String, dynamic> _$$ResponseReasoningSummaryPartDoneEventImplToJson(
+        _$ResponseReasoningSummaryPartDoneEventImpl instance) =>
+    <String, dynamic>{
+      'event':
+          _$ResponseReasoningSummaryPartDoneEventEventEnumMap[instance.event]!,
+      'item_id': instance.itemId,
+      'output_index': instance.outputIndex,
+      'summary_index': instance.summaryIndex,
+      'part': instance.part.toJson(),
+    };
+
+const _$ResponseReasoningSummaryPartDoneEventEventEnumMap = {
+  ResponseReasoningSummaryPartDoneEventEvent.responseReasoningSummaryPartDone:
+      'response.reasoning_summary_part.done',
+};
+
+_$ResponseReasoningSummaryTextDeltaEventImpl
+    _$$ResponseReasoningSummaryTextDeltaEventImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ResponseReasoningSummaryTextDeltaEventImpl(
+          event: $enumDecode(
+              _$ResponseReasoningSummaryTextDeltaEventEventEnumMap,
+              json['event']),
+          itemId: json['item_id'] as String,
+          outputIndex: (json['output_index'] as num).toInt(),
+          summaryIndex: (json['summary_index'] as num).toInt(),
+          delta: json['delta'] as String,
+        );
+
+Map<String, dynamic> _$$ResponseReasoningSummaryTextDeltaEventImplToJson(
+        _$ResponseReasoningSummaryTextDeltaEventImpl instance) =>
+    <String, dynamic>{
+      'event':
+          _$ResponseReasoningSummaryTextDeltaEventEventEnumMap[instance.event]!,
+      'item_id': instance.itemId,
+      'output_index': instance.outputIndex,
+      'summary_index': instance.summaryIndex,
+      'delta': instance.delta,
+    };
+
+const _$ResponseReasoningSummaryTextDeltaEventEventEnumMap = {
+  ResponseReasoningSummaryTextDeltaEventEvent.responseReasoningSummaryTextDelta:
+      'response.reasoning_summary_text.delta',
+};
+
+_$ResponseReasoningSummaryTextDoneEventImpl
+    _$$ResponseReasoningSummaryTextDoneEventImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ResponseReasoningSummaryTextDoneEventImpl(
+          event: $enumDecode(
+              _$ResponseReasoningSummaryTextDoneEventEventEnumMap,
+              json['event']),
+          itemId: json['item_id'] as String,
+          outputIndex: (json['output_index'] as num).toInt(),
+          summaryIndex: (json['summary_index'] as num).toInt(),
+          text: json['text'] as String,
+        );
+
+Map<String, dynamic> _$$ResponseReasoningSummaryTextDoneEventImplToJson(
+        _$ResponseReasoningSummaryTextDoneEventImpl instance) =>
+    <String, dynamic>{
+      'event':
+          _$ResponseReasoningSummaryTextDoneEventEventEnumMap[instance.event]!,
+      'item_id': instance.itemId,
+      'output_index': instance.outputIndex,
+      'summary_index': instance.summaryIndex,
+      'text': instance.text,
+    };
+
+const _$ResponseReasoningSummaryTextDoneEventEventEnumMap = {
+  ResponseReasoningSummaryTextDoneEventEvent.responseReasoningSummaryTextDone:
+      'response.reasoning_summary_text.done',
+};
+
+_$ResponseRefusalDeltaEventImpl _$$ResponseRefusalDeltaEventImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ResponseRefusalDeltaEventImpl(
+      event:
+          $enumDecode(_$ResponseRefusalDeltaEventEventEnumMap, json['event']),
+      itemId: json['item_id'] as String,
+      outputIndex: (json['output_index'] as num).toInt(),
+      contentIndex: (json['content_index'] as num).toInt(),
+      delta: json['delta'] as String,
+    );
+
+Map<String, dynamic> _$$ResponseRefusalDeltaEventImplToJson(
+        _$ResponseRefusalDeltaEventImpl instance) =>
+    <String, dynamic>{
+      'event': _$ResponseRefusalDeltaEventEventEnumMap[instance.event]!,
+      'item_id': instance.itemId,
+      'output_index': instance.outputIndex,
+      'content_index': instance.contentIndex,
+      'delta': instance.delta,
+    };
+
+const _$ResponseRefusalDeltaEventEventEnumMap = {
+  ResponseRefusalDeltaEventEvent.responseRefusalDelta: 'response.refusal.delta',
+};
+
+_$ResponseRefusalDoneEventImpl _$$ResponseRefusalDoneEventImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ResponseRefusalDoneEventImpl(
+      event: $enumDecode(_$ResponseRefusalDoneEventEventEnumMap, json['event']),
+      itemId: json['item_id'] as String,
+      outputIndex: (json['output_index'] as num).toInt(),
+      contentIndex: (json['content_index'] as num).toInt(),
+      refusal: json['refusal'] as String,
+    );
+
+Map<String, dynamic> _$$ResponseRefusalDoneEventImplToJson(
+        _$ResponseRefusalDoneEventImpl instance) =>
+    <String, dynamic>{
+      'event': _$ResponseRefusalDoneEventEventEnumMap[instance.event]!,
+      'item_id': instance.itemId,
+      'output_index': instance.outputIndex,
+      'content_index': instance.contentIndex,
+      'refusal': instance.refusal,
+    };
+
+const _$ResponseRefusalDoneEventEventEnumMap = {
+  ResponseRefusalDoneEventEvent.responseRefusalDone: 'response.refusal.done',
+};
+
+_$ResponseTextAnnotationDeltaEventImpl
+    _$$ResponseTextAnnotationDeltaEventImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ResponseTextAnnotationDeltaEventImpl(
+          event: $enumDecode(
+              _$ResponseTextAnnotationDeltaEventEventEnumMap, json['event']),
+          itemId: json['item_id'] as String,
+          outputIndex: (json['output_index'] as num).toInt(),
+          contentIndex: (json['content_index'] as num).toInt(),
+          annotationIndex: (json['annotation_index'] as num).toInt(),
+          annotation:
+              Annotation.fromJson(json['annotation'] as Map<String, dynamic>),
+        );
+
+Map<String, dynamic> _$$ResponseTextAnnotationDeltaEventImplToJson(
+        _$ResponseTextAnnotationDeltaEventImpl instance) =>
+    <String, dynamic>{
+      'event': _$ResponseTextAnnotationDeltaEventEventEnumMap[instance.event]!,
+      'item_id': instance.itemId,
+      'output_index': instance.outputIndex,
+      'content_index': instance.contentIndex,
+      'annotation_index': instance.annotationIndex,
+      'annotation': instance.annotation.toJson(),
+    };
+
+const _$ResponseTextAnnotationDeltaEventEventEnumMap = {
+  ResponseTextAnnotationDeltaEventEvent.responseOutputTextAnnotationAdded:
+      'response.output_text.annotation.added',
+};
+
+_$ResponseTextDeltaEventImpl _$$ResponseTextDeltaEventImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ResponseTextDeltaEventImpl(
+      event: $enumDecode(_$ResponseTextDeltaEventEventEnumMap, json['event']),
+      itemId: json['item_id'] as String,
+      outputIndex: (json['output_index'] as num).toInt(),
+      contentIndex: (json['content_index'] as num).toInt(),
+      delta: json['delta'] as String,
+    );
+
+Map<String, dynamic> _$$ResponseTextDeltaEventImplToJson(
+        _$ResponseTextDeltaEventImpl instance) =>
+    <String, dynamic>{
+      'event': _$ResponseTextDeltaEventEventEnumMap[instance.event]!,
+      'item_id': instance.itemId,
+      'output_index': instance.outputIndex,
+      'content_index': instance.contentIndex,
+      'delta': instance.delta,
+    };
+
+const _$ResponseTextDeltaEventEventEnumMap = {
+  ResponseTextDeltaEventEvent.responseOutputTextDelta:
+      'response.output_text.delta',
+};
+
+_$ResponseTextDoneEventImpl _$$ResponseTextDoneEventImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ResponseTextDoneEventImpl(
+      event: $enumDecode(_$ResponseTextDoneEventEventEnumMap, json['event']),
+      itemId: json['item_id'] as String,
+      outputIndex: (json['output_index'] as num).toInt(),
+      contentIndex: (json['content_index'] as num).toInt(),
+      text: json['text'] as String,
+    );
+
+Map<String, dynamic> _$$ResponseTextDoneEventImplToJson(
+        _$ResponseTextDoneEventImpl instance) =>
+    <String, dynamic>{
+      'event': _$ResponseTextDoneEventEventEnumMap[instance.event]!,
+      'item_id': instance.itemId,
+      'output_index': instance.outputIndex,
+      'content_index': instance.contentIndex,
+      'text': instance.text,
+    };
+
+const _$ResponseTextDoneEventEventEnumMap = {
+  ResponseTextDoneEventEvent.responseOutputTextDone:
+      'response.output_text.done',
+};
+
+_$ResponseToolCallDeltaEventImpl _$$ResponseToolCallDeltaEventImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ResponseToolCallDeltaEventImpl(
+      event:
+          $enumDecode(_$ResponseToolCallDeltaEventEventEnumMap, json['event']),
+      itemId: json['item_id'] as String,
+      outputIndex: (json['output_index'] as num).toInt(),
+      toolCallIndex: (json['tool_call_index'] as num).toInt(),
+      delta: OutputToolCallFunction.fromJson(
+          json['delta'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$ResponseToolCallDeltaEventImplToJson(
+        _$ResponseToolCallDeltaEventImpl instance) =>
+    <String, dynamic>{
+      'event': _$ResponseToolCallDeltaEventEventEnumMap[instance.event]!,
+      'item_id': instance.itemId,
+      'output_index': instance.outputIndex,
+      'tool_call_index': instance.toolCallIndex,
+      'delta': instance.delta.toJson(),
+    };
+
+const _$ResponseToolCallDeltaEventEventEnumMap = {
+  ResponseToolCallDeltaEventEvent.responseToolCallDelta:
+      'response.tool_call.delta',
+};
+
+_$ResponseToolCallDoneEventImpl _$$ResponseToolCallDoneEventImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ResponseToolCallDoneEventImpl(
+      event:
+          $enumDecode(_$ResponseToolCallDoneEventEventEnumMap, json['event']),
+      itemId: json['item_id'] as String,
+      outputIndex: (json['output_index'] as num).toInt(),
+      toolCallIndex: (json['tool_call_index'] as num).toInt(),
+      toolCall: OutputToolCallFunction.fromJson(
+          json['tool_call'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$ResponseToolCallDoneEventImplToJson(
+        _$ResponseToolCallDoneEventImpl instance) =>
+    <String, dynamic>{
+      'event': _$ResponseToolCallDoneEventEventEnumMap[instance.event]!,
+      'item_id': instance.itemId,
+      'output_index': instance.outputIndex,
+      'tool_call_index': instance.toolCallIndex,
+      'tool_call': instance.toolCall.toJson(),
+    };
+
+const _$ResponseToolCallDoneEventEventEnumMap = {
+  ResponseToolCallDoneEventEvent.responseToolCallDone:
+      'response.tool_call.done',
+};
+
+_$ResponseWebSearchCallCompletedEventImpl
+    _$$ResponseWebSearchCallCompletedEventImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ResponseWebSearchCallCompletedEventImpl(
+          event: $enumDecode(
+              _$ResponseWebSearchCallCompletedEventEventEnumMap, json['event']),
+          outputIndex: (json['output_index'] as num).toInt(),
+          itemId: json['item_id'] as String,
+        );
+
+Map<String, dynamic> _$$ResponseWebSearchCallCompletedEventImplToJson(
+        _$ResponseWebSearchCallCompletedEventImpl instance) =>
+    <String, dynamic>{
+      'event':
+          _$ResponseWebSearchCallCompletedEventEventEnumMap[instance.event]!,
+      'output_index': instance.outputIndex,
+      'item_id': instance.itemId,
+    };
+
+const _$ResponseWebSearchCallCompletedEventEventEnumMap = {
+  ResponseWebSearchCallCompletedEventEvent.responseWebSearchCallCompleted:
+      'response.web_search_call.completed',
+};
+
+_$ResponseWebSearchCallInProgressEventImpl
+    _$$ResponseWebSearchCallInProgressEventImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ResponseWebSearchCallInProgressEventImpl(
+          event: $enumDecode(_$ResponseWebSearchCallInProgressEventEventEnumMap,
+              json['event']),
+          outputIndex: (json['output_index'] as num).toInt(),
+          itemId: json['item_id'] as String,
+        );
+
+Map<String, dynamic> _$$ResponseWebSearchCallInProgressEventImplToJson(
+        _$ResponseWebSearchCallInProgressEventImpl instance) =>
+    <String, dynamic>{
+      'event':
+          _$ResponseWebSearchCallInProgressEventEventEnumMap[instance.event]!,
+      'output_index': instance.outputIndex,
+      'item_id': instance.itemId,
+    };
+
+const _$ResponseWebSearchCallInProgressEventEventEnumMap = {
+  ResponseWebSearchCallInProgressEventEvent.responseWebSearchCallInProgress:
+      'response.web_search_call.in_progress',
+};
+
+_$ResponseWebSearchCallSearchingEventImpl
+    _$$ResponseWebSearchCallSearchingEventImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ResponseWebSearchCallSearchingEventImpl(
+          event: $enumDecode(
+              _$ResponseWebSearchCallSearchingEventEventEnumMap, json['event']),
+          outputIndex: (json['output_index'] as num).toInt(),
+          itemId: json['item_id'] as String,
+        );
+
+Map<String, dynamic> _$$ResponseWebSearchCallSearchingEventImplToJson(
+        _$ResponseWebSearchCallSearchingEventImpl instance) =>
+    <String, dynamic>{
+      'event':
+          _$ResponseWebSearchCallSearchingEventEventEnumMap[instance.event]!,
+      'output_index': instance.outputIndex,
+      'item_id': instance.itemId,
+    };
+
+const _$ResponseWebSearchCallSearchingEventEventEnumMap = {
+  ResponseWebSearchCallSearchingEventEvent.responseWebSearchCallSearching:
+      'response.web_search_call.searching',
+};
+
+_$ResponseReasoningSummaryPartAddedEventPartImpl
+    _$$ResponseReasoningSummaryPartAddedEventPartImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ResponseReasoningSummaryPartAddedEventPartImpl(
+          type: $enumDecode(
+              _$ResponseReasoningSummaryPartAddedEventPartTypeEnumMap,
+              json['type']),
+          text: json['text'] as String,
+        );
+
+Map<String, dynamic> _$$ResponseReasoningSummaryPartAddedEventPartImplToJson(
+        _$ResponseReasoningSummaryPartAddedEventPartImpl instance) =>
+    <String, dynamic>{
+      'type': _$ResponseReasoningSummaryPartAddedEventPartTypeEnumMap[
+          instance.type]!,
+      'text': instance.text,
+    };
+
+const _$ResponseReasoningSummaryPartAddedEventPartTypeEnumMap = {
+  ResponseReasoningSummaryPartAddedEventPartType.summaryText: 'summary_text',
+};
+
+_$ResponseReasoningSummaryPartDoneEventPartImpl
+    _$$ResponseReasoningSummaryPartDoneEventPartImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ResponseReasoningSummaryPartDoneEventPartImpl(
+          type: $enumDecode(
+              _$ResponseReasoningSummaryPartDoneEventPartTypeEnumMap,
+              json['type']),
+          text: json['text'] as String,
+        );
+
+Map<String, dynamic> _$$ResponseReasoningSummaryPartDoneEventPartImplToJson(
+        _$ResponseReasoningSummaryPartDoneEventPartImpl instance) =>
+    <String, dynamic>{
+      'type': _$ResponseReasoningSummaryPartDoneEventPartTypeEnumMap[
+          instance.type]!,
+      'text': instance.text,
+    };
+
+const _$ResponseReasoningSummaryPartDoneEventPartTypeEnumMap = {
+  ResponseReasoningSummaryPartDoneEventPartType.summaryText: 'summary_text',
+};

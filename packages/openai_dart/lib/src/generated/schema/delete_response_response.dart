@@ -53,6 +53,6 @@ class DeleteResponseResponse with _$DeleteResponseResponse {
 
 /// No Description
 enum DeleteResponseResponseObject {
-  @JsonValue('response')
-  response,
+  @JsonValue('response.deleted')
+  responseDeleted,
 }

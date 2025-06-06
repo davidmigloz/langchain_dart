@@ -19,7 +19,7 @@ class ResponseItemList with _$ResponseItemList {
     required String object,
 
     /// No Description
-    required List<Map<String, dynamic>> data,
+    required List<InputItem> data,
 
     /// No Description
     @JsonKey(name: 'first_id') required String firstId,

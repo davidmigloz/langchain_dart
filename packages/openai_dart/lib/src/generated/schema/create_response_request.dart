@@ -23,7 +23,7 @@ class CreateResponseRequest with _$CreateResponseRequest {
     required CreateResponseRequestInput input,
 
     /// No Description
-    @JsonKey(includeIfNull: false) List<Map<String, dynamic>>? tools,
+    @JsonKey(includeIfNull: false) List<AssistantTools>? tools,
 
     /// No Description
     @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
@@ -82,9 +82,9 @@ sealed class CreateResponseRequestInput with _$CreateResponseRequestInput {
   const CreateResponseRequestInput._();
 
   /// No Description
-  const factory CreateResponseRequestInput.listMapStringDynamic(
-    List<Map<String, dynamic>> value,
-  ) = CreateResponseRequestInputListMapStringDynamic;
+  const factory CreateResponseRequestInput.listInputItem(
+    List<InputItem> value,
+  ) = CreateResponseRequestInputListInputItem;
 
   /// No Description
   const factory CreateResponseRequestInput.string(
@@ -104,8 +104,8 @@ class _CreateResponseRequestInputConverter
   @override
   CreateResponseRequestInput fromJson(Object? data) {
     if (data is List && data.every((item) => item is Map)) {
-      return CreateResponseRequestInputListMapStringDynamic(data
-          .map((i) => Map<String, dynamic>.fromJson(i as Map<String, dynamic>))
+      return CreateResponseRequestInputListInputItem(data
+          .map((i) => InputItem.fromJson(i as Map<String, dynamic>))
           .toList(growable: false));
     }
     if (data is String) {
@@ -119,7 +119,7 @@ class _CreateResponseRequestInputConverter
   @override
   Object? toJson(CreateResponseRequestInput data) {
     return switch (data) {
-      CreateResponseRequestInputListMapStringDynamic(value: final v) => v,
+      CreateResponseRequestInputListInputItem(value: final v) => v,
       CreateResponseRequestInputString(value: final v) => v,
     };
   }
