@@ -2055,4 +2055,158 @@ class OpenAIClient {
     );
     return Batch.fromJson(_jsonDecode(r));
   }
+
+  // ------------------------------------------
+  // METHOD: createResponse
+  // ------------------------------------------
+
+  /// Create response
+  ///
+  /// Creates a model response.
+  ///
+  /// `request`: Request object for the Create response endpoint.
+  ///
+  /// `POST` `https://api.openai.com/v1/responses`
+  Future<Response> createResponse({
+    required CreateResponseRequest request,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/responses',
+      method: HttpMethod.post,
+      isMultipart: false,
+      requestType: 'application/json',
+      responseType: 'application/json',
+      body: request,
+    );
+    return Response.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: getResponse
+  // ------------------------------------------
+
+  /// Retrieve response
+  ///
+  /// Retrieves a model response.
+  ///
+  /// `responseId`: The ID of the response to retrieve.
+  ///
+  /// `include`: Additional fields to include in the response.
+  ///
+  /// `GET` `https://api.openai.com/v1/responses/{response_id}`
+  Future<Response> getResponse({
+    required String responseId,
+    List<String>? include,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/responses/$responseId',
+      method: HttpMethod.get,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+      queryParams: {
+        if (include != null) 'include': include,
+      },
+    );
+    return Response.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: deleteResponse
+  // ------------------------------------------
+
+  /// Delete response
+  ///
+  /// Deletes a model response.
+  ///
+  /// `responseId`: The ID of the response to delete.
+  ///
+  /// `DELETE` `https://api.openai.com/v1/responses/{response_id}`
+  Future<DeleteResponseResponse> deleteResponse({
+    required String responseId,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/responses/$responseId',
+      method: HttpMethod.delete,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+    );
+    return DeleteResponseResponse.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: cancelResponse
+  // ------------------------------------------
+
+  /// Cancel response
+  ///
+  /// Cancels a model response.
+  ///
+  /// `responseId`: The ID of the response to cancel.
+  ///
+  /// `POST` `https://api.openai.com/v1/responses/{response_id}/cancel`
+  Future<Response> cancelResponse({
+    required String responseId,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/responses/$responseId/cancel',
+      method: HttpMethod.post,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+    );
+    return Response.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: listResponseInputItems
+  // ------------------------------------------
+
+  /// List input items
+  ///
+  /// Returns a list of input items for a response.
+  ///
+  /// `responseId`: The ID of the response to retrieve input items for.
+  ///
+  /// `limit`: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.
+  ///
+  /// `order`: Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc` for descending order.
+  ///
+  /// `after`: A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.
+  ///
+  /// `before`: A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list.
+  ///
+  /// `include`: Additional fields to include in the response.
+  ///
+  /// `GET` `https://api.openai.com/v1/responses/{response_id}/input_items`
+  Future<ResponseItemList> listResponseInputItems({
+    required String responseId,
+    int limit = 20,
+    String order = 'desc',
+    String? after,
+    String? before,
+    List<String>? include,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/responses/$responseId/input_items',
+      method: HttpMethod.get,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+      queryParams: {
+        'limit': limit,
+        'order': order,
+        if (after != null) 'after': after,
+        if (before != null) 'before': before,
+        if (include != null) 'include': include,
+      },
+    );
+    return ResponseItemList.fromJson(_jsonDecode(r));
+  }
 }
