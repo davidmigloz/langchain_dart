@@ -71,6 +71,9 @@ mixin _$GenerateCompletionRequest {
   /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
   bool get stream => throw _privateConstructorUsedError;
 
+  /// If `false` the model will generate a response directly, otherwise the model will think about the response first and then generate it.
+  bool get think => throw _privateConstructorUsedError;
+
   /// How long (in minutes) to keep the model loaded in memory.
   ///
   /// - If set to a positive duration (e.g. 20), the model will stay loaded for the provided duration.
@@ -111,6 +114,7 @@ abstract class $GenerateCompletionRequestCopyWith<$Res> {
       ResponseFormat? format,
       @JsonKey(includeIfNull: false) bool? raw,
       bool stream,
+      bool think,
       @JsonKey(name: 'keep_alive', includeIfNull: false) int? keepAlive});
 
   $RequestOptionsCopyWith<$Res>? get options;
@@ -143,6 +147,7 @@ class _$GenerateCompletionRequestCopyWithImpl<$Res,
     Object? format = freezed,
     Object? raw = freezed,
     Object? stream = null,
+    Object? think = null,
     Object? keepAlive = freezed,
   }) {
     return _then(_value.copyWith(
@@ -190,6 +195,10 @@ class _$GenerateCompletionRequestCopyWithImpl<$Res,
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
               as bool,
+      think: null == think
+          ? _value.think
+          : think // ignore: cast_nullable_to_non_nullable
+              as bool,
       keepAlive: freezed == keepAlive
           ? _value.keepAlive
           : keepAlive // ignore: cast_nullable_to_non_nullable
@@ -236,6 +245,7 @@ abstract class _$$GenerateCompletionRequestImplCopyWith<$Res>
       ResponseFormat? format,
       @JsonKey(includeIfNull: false) bool? raw,
       bool stream,
+      bool think,
       @JsonKey(name: 'keep_alive', includeIfNull: false) int? keepAlive});
 
   @override
@@ -268,6 +278,7 @@ class __$$GenerateCompletionRequestImplCopyWithImpl<$Res>
     Object? format = freezed,
     Object? raw = freezed,
     Object? stream = null,
+    Object? think = null,
     Object? keepAlive = freezed,
   }) {
     return _then(_$GenerateCompletionRequestImpl(
@@ -315,6 +326,10 @@ class __$$GenerateCompletionRequestImplCopyWithImpl<$Res>
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
               as bool,
+      think: null == think
+          ? _value.think
+          : think // ignore: cast_nullable_to_non_nullable
+              as bool,
       keepAlive: freezed == keepAlive
           ? _value.keepAlive
           : keepAlive // ignore: cast_nullable_to_non_nullable
@@ -341,6 +356,7 @@ class _$GenerateCompletionRequestImpl extends _GenerateCompletionRequest {
       this.format,
       @JsonKey(includeIfNull: false) this.raw,
       this.stream = false,
+      this.think = false,
       @JsonKey(name: 'keep_alive', includeIfNull: false) this.keepAlive})
       : _images = images,
         _context = context,
@@ -429,6 +445,11 @@ class _$GenerateCompletionRequestImpl extends _GenerateCompletionRequest {
   @JsonKey()
   final bool stream;
 
+  /// If `false` the model will generate a response directly, otherwise the model will think about the response first and then generate it.
+  @override
+  @JsonKey()
+  final bool think;
+
   /// How long (in minutes) to keep the model loaded in memory.
   ///
   /// - If set to a positive duration (e.g. 20), the model will stay loaded for the provided duration.
@@ -441,7 +462,7 @@ class _$GenerateCompletionRequestImpl extends _GenerateCompletionRequest {
 
   @override
   String toString() {
-    return 'GenerateCompletionRequest(model: $model, prompt: $prompt, suffix: $suffix, images: $images, system: $system, template: $template, context: $context, options: $options, format: $format, raw: $raw, stream: $stream, keepAlive: $keepAlive)';
+    return 'GenerateCompletionRequest(model: $model, prompt: $prompt, suffix: $suffix, images: $images, system: $system, template: $template, context: $context, options: $options, format: $format, raw: $raw, stream: $stream, think: $think, keepAlive: $keepAlive)';
   }
 
   @override
@@ -461,6 +482,7 @@ class _$GenerateCompletionRequestImpl extends _GenerateCompletionRequest {
             (identical(other.format, format) || other.format == format) &&
             (identical(other.raw, raw) || other.raw == raw) &&
             (identical(other.stream, stream) || other.stream == stream) &&
+            (identical(other.think, think) || other.think == think) &&
             (identical(other.keepAlive, keepAlive) ||
                 other.keepAlive == keepAlive));
   }
@@ -480,6 +502,7 @@ class _$GenerateCompletionRequestImpl extends _GenerateCompletionRequest {
       format,
       raw,
       stream,
+      think,
       keepAlive);
 
   /// Create a copy of GenerateCompletionRequest
@@ -515,6 +538,7 @@ abstract class _GenerateCompletionRequest extends GenerateCompletionRequest {
       final ResponseFormat? format,
       @JsonKey(includeIfNull: false) final bool? raw,
       final bool stream,
+      final bool think,
       @JsonKey(name: 'keep_alive', includeIfNull: false)
       final int? keepAlive}) = _$GenerateCompletionRequestImpl;
   const _GenerateCompletionRequest._() : super._();
@@ -582,6 +606,10 @@ abstract class _GenerateCompletionRequest extends GenerateCompletionRequest {
   /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
   @override
   bool get stream;
+
+  /// If `false` the model will generate a response directly, otherwise the model will think about the response first and then generate it.
+  @override
+  bool get think;
 
   /// How long (in minutes) to keep the model loaded in memory.
   ///
@@ -2443,6 +2471,9 @@ mixin _$GenerateChatCompletionRequest {
   /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
   bool get stream => throw _privateConstructorUsedError;
 
+  /// If `false` the model will generate a response directly, otherwise the model will think about the response first and then generate it.
+  bool get think => throw _privateConstructorUsedError;
+
   /// How long (in minutes) to keep the model loaded in memory.
   ///
   /// - If set to a positive duration (e.g. 20), the model will stay loaded for the provided duration.
@@ -2483,6 +2514,7 @@ abstract class $GenerateChatCompletionRequestCopyWith<$Res> {
       ResponseFormat? format,
       @JsonKey(includeIfNull: false) RequestOptions? options,
       bool stream,
+      bool think,
       @JsonKey(name: 'keep_alive', includeIfNull: false) int? keepAlive,
       @JsonKey(includeIfNull: false) List<Tool>? tools});
 
@@ -2510,6 +2542,7 @@ class _$GenerateChatCompletionRequestCopyWithImpl<$Res,
     Object? format = freezed,
     Object? options = freezed,
     Object? stream = null,
+    Object? think = null,
     Object? keepAlive = freezed,
     Object? tools = freezed,
   }) {
@@ -2533,6 +2566,10 @@ class _$GenerateChatCompletionRequestCopyWithImpl<$Res,
       stream: null == stream
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
+              as bool,
+      think: null == think
+          ? _value.think
+          : think // ignore: cast_nullable_to_non_nullable
               as bool,
       keepAlive: freezed == keepAlive
           ? _value.keepAlive
@@ -2578,6 +2615,7 @@ abstract class _$$GenerateChatCompletionRequestImplCopyWith<$Res>
       ResponseFormat? format,
       @JsonKey(includeIfNull: false) RequestOptions? options,
       bool stream,
+      bool think,
       @JsonKey(name: 'keep_alive', includeIfNull: false) int? keepAlive,
       @JsonKey(includeIfNull: false) List<Tool>? tools});
 
@@ -2605,6 +2643,7 @@ class __$$GenerateChatCompletionRequestImplCopyWithImpl<$Res>
     Object? format = freezed,
     Object? options = freezed,
     Object? stream = null,
+    Object? think = null,
     Object? keepAlive = freezed,
     Object? tools = freezed,
   }) {
@@ -2628,6 +2667,10 @@ class __$$GenerateChatCompletionRequestImplCopyWithImpl<$Res>
       stream: null == stream
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
+              as bool,
+      think: null == think
+          ? _value.think
+          : think // ignore: cast_nullable_to_non_nullable
               as bool,
       keepAlive: freezed == keepAlive
           ? _value.keepAlive
@@ -2654,6 +2697,7 @@ class _$GenerateChatCompletionRequestImpl
       this.format,
       @JsonKey(includeIfNull: false) this.options,
       this.stream = false,
+      this.think = false,
       @JsonKey(name: 'keep_alive', includeIfNull: false) this.keepAlive,
       @JsonKey(includeIfNull: false) final List<Tool>? tools})
       : _messages = messages,
@@ -2701,6 +2745,11 @@ class _$GenerateChatCompletionRequestImpl
   @JsonKey()
   final bool stream;
 
+  /// If `false` the model will generate a response directly, otherwise the model will think about the response first and then generate it.
+  @override
+  @JsonKey()
+  final bool think;
+
   /// How long (in minutes) to keep the model loaded in memory.
   ///
   /// - If set to a positive duration (e.g. 20), the model will stay loaded for the provided duration.
@@ -2727,7 +2776,7 @@ class _$GenerateChatCompletionRequestImpl
 
   @override
   String toString() {
-    return 'GenerateChatCompletionRequest(model: $model, messages: $messages, format: $format, options: $options, stream: $stream, keepAlive: $keepAlive, tools: $tools)';
+    return 'GenerateChatCompletionRequest(model: $model, messages: $messages, format: $format, options: $options, stream: $stream, think: $think, keepAlive: $keepAlive, tools: $tools)';
   }
 
   @override
@@ -2740,6 +2789,7 @@ class _$GenerateChatCompletionRequestImpl
             (identical(other.format, format) || other.format == format) &&
             (identical(other.options, options) || other.options == options) &&
             (identical(other.stream, stream) || other.stream == stream) &&
+            (identical(other.think, think) || other.think == think) &&
             (identical(other.keepAlive, keepAlive) ||
                 other.keepAlive == keepAlive) &&
             const DeepCollectionEquality().equals(other._tools, _tools));
@@ -2754,6 +2804,7 @@ class _$GenerateChatCompletionRequestImpl
       format,
       options,
       stream,
+      think,
       keepAlive,
       const DeepCollectionEquality().hash(_tools));
 
@@ -2786,6 +2837,7 @@ abstract class _GenerateChatCompletionRequest
       final ResponseFormat? format,
       @JsonKey(includeIfNull: false) final RequestOptions? options,
       final bool stream,
+      final bool think,
       @JsonKey(name: 'keep_alive', includeIfNull: false) final int? keepAlive,
       @JsonKey(includeIfNull: false)
       final List<Tool>? tools}) = _$GenerateChatCompletionRequestImpl;
@@ -2822,6 +2874,10 @@ abstract class _GenerateChatCompletionRequest
   /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
   @override
   bool get stream;
+
+  /// If `false` the model will generate a response directly, otherwise the model will think about the response first and then generate it.
+  @override
+  bool get think;
 
   /// How long (in minutes) to keep the model loaded in memory.
   ///
@@ -4926,6 +4982,9 @@ mixin _$CreateModelRequest {
   /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
   bool get stream => throw _privateConstructorUsedError;
 
+  /// If `false` the model will generate a response directly, otherwise the model will think about the response first and then generate it.
+  bool get think => throw _privateConstructorUsedError;
+
   /// Serializes this CreateModelRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
@@ -4947,7 +5006,8 @@ abstract class $CreateModelRequestCopyWith<$Res> {
       String modelfile,
       @JsonKey(includeIfNull: false) String? path,
       @JsonKey(includeIfNull: false) String? quantize,
-      bool stream});
+      bool stream,
+      bool think});
 }
 
 /// @nodoc
@@ -4970,6 +5030,7 @@ class _$CreateModelRequestCopyWithImpl<$Res, $Val extends CreateModelRequest>
     Object? path = freezed,
     Object? quantize = freezed,
     Object? stream = null,
+    Object? think = null,
   }) {
     return _then(_value.copyWith(
       model: null == model
@@ -4992,6 +5053,10 @@ class _$CreateModelRequestCopyWithImpl<$Res, $Val extends CreateModelRequest>
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
               as bool,
+      think: null == think
+          ? _value.think
+          : think // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -5009,7 +5074,8 @@ abstract class _$$CreateModelRequestImplCopyWith<$Res>
       String modelfile,
       @JsonKey(includeIfNull: false) String? path,
       @JsonKey(includeIfNull: false) String? quantize,
-      bool stream});
+      bool stream,
+      bool think});
 }
 
 /// @nodoc
@@ -5030,6 +5096,7 @@ class __$$CreateModelRequestImplCopyWithImpl<$Res>
     Object? path = freezed,
     Object? quantize = freezed,
     Object? stream = null,
+    Object? think = null,
   }) {
     return _then(_$CreateModelRequestImpl(
       model: null == model
@@ -5052,6 +5119,10 @@ class __$$CreateModelRequestImplCopyWithImpl<$Res>
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
               as bool,
+      think: null == think
+          ? _value.think
+          : think // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -5064,7 +5135,8 @@ class _$CreateModelRequestImpl extends _CreateModelRequest {
       required this.modelfile,
       @JsonKey(includeIfNull: false) this.path,
       @JsonKey(includeIfNull: false) this.quantize,
-      this.stream = false})
+      this.stream = false,
+      this.think = false})
       : super._();
 
   factory _$CreateModelRequestImpl.fromJson(Map<String, dynamic> json) =>
@@ -5095,9 +5167,14 @@ class _$CreateModelRequestImpl extends _CreateModelRequest {
   @JsonKey()
   final bool stream;
 
+  /// If `false` the model will generate a response directly, otherwise the model will think about the response first and then generate it.
+  @override
+  @JsonKey()
+  final bool think;
+
   @override
   String toString() {
-    return 'CreateModelRequest(model: $model, modelfile: $modelfile, path: $path, quantize: $quantize, stream: $stream)';
+    return 'CreateModelRequest(model: $model, modelfile: $modelfile, path: $path, quantize: $quantize, stream: $stream, think: $think)';
   }
 
   @override
@@ -5111,13 +5188,14 @@ class _$CreateModelRequestImpl extends _CreateModelRequest {
             (identical(other.path, path) || other.path == path) &&
             (identical(other.quantize, quantize) ||
                 other.quantize == quantize) &&
-            (identical(other.stream, stream) || other.stream == stream));
+            (identical(other.stream, stream) || other.stream == stream) &&
+            (identical(other.think, think) || other.think == think));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, model, modelfile, path, quantize, stream);
+      Object.hash(runtimeType, model, modelfile, path, quantize, stream, think);
 
   /// Create a copy of CreateModelRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -5142,7 +5220,8 @@ abstract class _CreateModelRequest extends CreateModelRequest {
       required final String modelfile,
       @JsonKey(includeIfNull: false) final String? path,
       @JsonKey(includeIfNull: false) final String? quantize,
-      final bool stream}) = _$CreateModelRequestImpl;
+      final bool stream,
+      final bool think}) = _$CreateModelRequestImpl;
   const _CreateModelRequest._() : super._();
 
   factory _CreateModelRequest.fromJson(Map<String, dynamic> json) =
@@ -5171,6 +5250,10 @@ abstract class _CreateModelRequest extends CreateModelRequest {
   /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
   @override
   bool get stream;
+
+  /// If `false` the model will generate a response directly, otherwise the model will think about the response first and then generate it.
+  @override
+  bool get think;
 
   /// Create a copy of CreateModelRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -8284,6 +8367,9 @@ mixin _$PullModelRequest {
   /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
   bool get stream => throw _privateConstructorUsedError;
 
+  /// If `false` the model will generate a response directly, otherwise the model will think about the response first and then generate it.
+  bool get think => throw _privateConstructorUsedError;
+
   /// Serializes this PullModelRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
@@ -8305,7 +8391,8 @@ abstract class $PullModelRequestCopyWith<$Res> {
       bool insecure,
       @JsonKey(includeIfNull: false) String? username,
       @JsonKey(includeIfNull: false) String? password,
-      bool stream});
+      bool stream,
+      bool think});
 }
 
 /// @nodoc
@@ -8328,6 +8415,7 @@ class _$PullModelRequestCopyWithImpl<$Res, $Val extends PullModelRequest>
     Object? username = freezed,
     Object? password = freezed,
     Object? stream = null,
+    Object? think = null,
   }) {
     return _then(_value.copyWith(
       model: null == model
@@ -8350,6 +8438,10 @@ class _$PullModelRequestCopyWithImpl<$Res, $Val extends PullModelRequest>
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
               as bool,
+      think: null == think
+          ? _value.think
+          : think // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -8367,7 +8459,8 @@ abstract class _$$PullModelRequestImplCopyWith<$Res>
       bool insecure,
       @JsonKey(includeIfNull: false) String? username,
       @JsonKey(includeIfNull: false) String? password,
-      bool stream});
+      bool stream,
+      bool think});
 }
 
 /// @nodoc
@@ -8388,6 +8481,7 @@ class __$$PullModelRequestImplCopyWithImpl<$Res>
     Object? username = freezed,
     Object? password = freezed,
     Object? stream = null,
+    Object? think = null,
   }) {
     return _then(_$PullModelRequestImpl(
       model: null == model
@@ -8410,6 +8504,10 @@ class __$$PullModelRequestImplCopyWithImpl<$Res>
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
               as bool,
+      think: null == think
+          ? _value.think
+          : think // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -8422,7 +8520,8 @@ class _$PullModelRequestImpl extends _PullModelRequest {
       this.insecure = false,
       @JsonKey(includeIfNull: false) this.username,
       @JsonKey(includeIfNull: false) this.password,
-      this.stream = false})
+      this.stream = false,
+      this.think = false})
       : super._();
 
   factory _$PullModelRequestImpl.fromJson(Map<String, dynamic> json) =>
@@ -8456,9 +8555,14 @@ class _$PullModelRequestImpl extends _PullModelRequest {
   @JsonKey()
   final bool stream;
 
+  /// If `false` the model will generate a response directly, otherwise the model will think about the response first and then generate it.
+  @override
+  @JsonKey()
+  final bool think;
+
   @override
   String toString() {
-    return 'PullModelRequest(model: $model, insecure: $insecure, username: $username, password: $password, stream: $stream)';
+    return 'PullModelRequest(model: $model, insecure: $insecure, username: $username, password: $password, stream: $stream, think: $think)';
   }
 
   @override
@@ -8473,13 +8577,14 @@ class _$PullModelRequestImpl extends _PullModelRequest {
                 other.username == username) &&
             (identical(other.password, password) ||
                 other.password == password) &&
-            (identical(other.stream, stream) || other.stream == stream));
+            (identical(other.stream, stream) || other.stream == stream) &&
+            (identical(other.think, think) || other.think == think));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, model, insecure, username, password, stream);
+  int get hashCode => Object.hash(
+      runtimeType, model, insecure, username, password, stream, think);
 
   /// Create a copy of PullModelRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -8504,7 +8609,8 @@ abstract class _PullModelRequest extends PullModelRequest {
       final bool insecure,
       @JsonKey(includeIfNull: false) final String? username,
       @JsonKey(includeIfNull: false) final String? password,
-      final bool stream}) = _$PullModelRequestImpl;
+      final bool stream,
+      final bool think}) = _$PullModelRequestImpl;
   const _PullModelRequest._() : super._();
 
   factory _PullModelRequest.fromJson(Map<String, dynamic> json) =
@@ -8535,6 +8641,10 @@ abstract class _PullModelRequest extends PullModelRequest {
   /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
   @override
   bool get stream;
+
+  /// If `false` the model will generate a response directly, otherwise the model will think about the response first and then generate it.
+  @override
+  bool get think;
 
   /// Create a copy of PullModelRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -8836,6 +8946,9 @@ mixin _$PushModelRequest {
   /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
   bool get stream => throw _privateConstructorUsedError;
 
+  /// If `false` the model will generate a response directly, otherwise the model will think about the response first and then generate it.
+  bool get think => throw _privateConstructorUsedError;
+
   /// Serializes this PushModelRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
@@ -8857,7 +8970,8 @@ abstract class $PushModelRequestCopyWith<$Res> {
       bool insecure,
       @JsonKey(includeIfNull: false) String? username,
       @JsonKey(includeIfNull: false) String? password,
-      bool stream});
+      bool stream,
+      bool think});
 }
 
 /// @nodoc
@@ -8880,6 +8994,7 @@ class _$PushModelRequestCopyWithImpl<$Res, $Val extends PushModelRequest>
     Object? username = freezed,
     Object? password = freezed,
     Object? stream = null,
+    Object? think = null,
   }) {
     return _then(_value.copyWith(
       model: null == model
@@ -8902,6 +9017,10 @@ class _$PushModelRequestCopyWithImpl<$Res, $Val extends PushModelRequest>
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
               as bool,
+      think: null == think
+          ? _value.think
+          : think // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -8919,7 +9038,8 @@ abstract class _$$PushModelRequestImplCopyWith<$Res>
       bool insecure,
       @JsonKey(includeIfNull: false) String? username,
       @JsonKey(includeIfNull: false) String? password,
-      bool stream});
+      bool stream,
+      bool think});
 }
 
 /// @nodoc
@@ -8940,6 +9060,7 @@ class __$$PushModelRequestImplCopyWithImpl<$Res>
     Object? username = freezed,
     Object? password = freezed,
     Object? stream = null,
+    Object? think = null,
   }) {
     return _then(_$PushModelRequestImpl(
       model: null == model
@@ -8962,6 +9083,10 @@ class __$$PushModelRequestImplCopyWithImpl<$Res>
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
               as bool,
+      think: null == think
+          ? _value.think
+          : think // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -8974,7 +9099,8 @@ class _$PushModelRequestImpl extends _PushModelRequest {
       this.insecure = false,
       @JsonKey(includeIfNull: false) this.username,
       @JsonKey(includeIfNull: false) this.password,
-      this.stream = false})
+      this.stream = false,
+      this.think = false})
       : super._();
 
   factory _$PushModelRequestImpl.fromJson(Map<String, dynamic> json) =>
@@ -9006,9 +9132,14 @@ class _$PushModelRequestImpl extends _PushModelRequest {
   @JsonKey()
   final bool stream;
 
+  /// If `false` the model will generate a response directly, otherwise the model will think about the response first and then generate it.
+  @override
+  @JsonKey()
+  final bool think;
+
   @override
   String toString() {
-    return 'PushModelRequest(model: $model, insecure: $insecure, username: $username, password: $password, stream: $stream)';
+    return 'PushModelRequest(model: $model, insecure: $insecure, username: $username, password: $password, stream: $stream, think: $think)';
   }
 
   @override
@@ -9023,13 +9154,14 @@ class _$PushModelRequestImpl extends _PushModelRequest {
                 other.username == username) &&
             (identical(other.password, password) ||
                 other.password == password) &&
-            (identical(other.stream, stream) || other.stream == stream));
+            (identical(other.stream, stream) || other.stream == stream) &&
+            (identical(other.think, think) || other.think == think));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, model, insecure, username, password, stream);
+  int get hashCode => Object.hash(
+      runtimeType, model, insecure, username, password, stream, think);
 
   /// Create a copy of PushModelRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -9054,7 +9186,8 @@ abstract class _PushModelRequest extends PushModelRequest {
       final bool insecure,
       @JsonKey(includeIfNull: false) final String? username,
       @JsonKey(includeIfNull: false) final String? password,
-      final bool stream}) = _$PushModelRequestImpl;
+      final bool stream,
+      final bool think}) = _$PushModelRequestImpl;
   const _PushModelRequest._() : super._();
 
   factory _PushModelRequest.fromJson(Map<String, dynamic> json) =
@@ -9083,6 +9216,10 @@ abstract class _PushModelRequest extends PushModelRequest {
   /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
   @override
   bool get stream;
+
+  /// If `false` the model will generate a response directly, otherwise the model will think about the response first and then generate it.
+  @override
+  bool get think;
 
   /// Create a copy of PushModelRequest
   /// with the given fields replaced by the non-null parameter values.

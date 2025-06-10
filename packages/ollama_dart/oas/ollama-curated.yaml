@@ -315,6 +315,11 @@ components:
           description: &stream |
             If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
           default: false
+        think:
+          type: boolean
+          description: &think |
+            If `false` the model will generate a response directly, otherwise the model will think about the response first and then generate it.
+          default: false
         keep_alive: &keep_alive
           type: integer
           nullable: true
@@ -610,6 +615,10 @@ components:
           type: boolean
           description: *stream
           default: false
+        think:
+          type: boolean
+          description: *think
+          default: false
         keep_alive: *keep_alive
         tools:
           type: array
@@ -813,6 +822,10 @@ components:
         stream:
           type: boolean
           description: *stream
+          default: false
+        think:
+          type: boolean
+          description: *think
           default: false
       required:
         - model
@@ -1089,6 +1102,10 @@ components:
           type: boolean
           description: *stream
           default: false
+        think:
+          type: boolean
+          description: *think
+          default: false
       required:
         - model
     PullModelResponse:
@@ -1151,6 +1168,10 @@ components:
         stream:
           type: boolean
           description: *stream
+          default: false
+        think:
+          type: boolean
+          description: *think
           default: false
       required:
         - model

@@ -40,6 +40,9 @@ class GenerateChatCompletionRequest with _$GenerateChatCompletionRequest {
     /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
     @Default(false) bool stream,
 
+    /// If `false` the model will generate a response directly, otherwise the model will think about the response first and then generate it.
+    @Default(false) bool think,
+
     /// How long (in minutes) to keep the model loaded in memory.
     ///
     /// - If set to a positive duration (e.g. 20), the model will stay loaded for the provided duration.
@@ -63,6 +66,7 @@ class GenerateChatCompletionRequest with _$GenerateChatCompletionRequest {
     'format',
     'options',
     'stream',
+    'think',
     'keep_alive',
     'tools'
   ];
@@ -80,6 +84,7 @@ class GenerateChatCompletionRequest with _$GenerateChatCompletionRequest {
       'format': format,
       'options': options,
       'stream': stream,
+      'think': think,
       'keep_alive': keepAlive,
       'tools': tools,
     };

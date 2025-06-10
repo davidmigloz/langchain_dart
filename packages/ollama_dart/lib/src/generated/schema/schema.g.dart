@@ -28,6 +28,7 @@ _$GenerateCompletionRequestImpl _$$GenerateCompletionRequestImplFromJson(
           unknownValue: JsonKey.nullForUndefinedEnumValue),
       raw: json['raw'] as bool?,
       stream: json['stream'] as bool? ?? false,
+      think: json['think'] as bool? ?? false,
       keepAlive: (json['keep_alive'] as num?)?.toInt(),
     );
 
@@ -46,6 +47,7 @@ Map<String, dynamic> _$$GenerateCompletionRequestImplToJson(
         'format': value,
       if (instance.raw case final value?) 'raw': value,
       'stream': instance.stream,
+      'think': instance.think,
       if (instance.keepAlive case final value?) 'keep_alive': value,
     };
 
@@ -185,6 +187,7 @@ _$GenerateChatCompletionRequestImpl
               : RequestOptions.fromJson(
                   json['options'] as Map<String, dynamic>),
           stream: json['stream'] as bool? ?? false,
+          think: json['think'] as bool? ?? false,
           keepAlive: (json['keep_alive'] as num?)?.toInt(),
           tools: (json['tools'] as List<dynamic>?)
               ?.map((e) => Tool.fromJson(e as Map<String, dynamic>))
@@ -200,6 +203,7 @@ Map<String, dynamic> _$$GenerateChatCompletionRequestImplToJson(
         'format': value,
       if (instance.options?.toJson() case final value?) 'options': value,
       'stream': instance.stream,
+      'think': instance.think,
       if (instance.keepAlive case final value?) 'keep_alive': value,
       if (instance.tools?.map((e) => e.toJson()).toList() case final value?)
         'tools': value,
@@ -375,6 +379,7 @@ _$CreateModelRequestImpl _$$CreateModelRequestImplFromJson(
       path: json['path'] as String?,
       quantize: json['quantize'] as String?,
       stream: json['stream'] as bool? ?? false,
+      think: json['think'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$CreateModelRequestImplToJson(
@@ -385,6 +390,7 @@ Map<String, dynamic> _$$CreateModelRequestImplToJson(
       if (instance.path case final value?) 'path': value,
       if (instance.quantize case final value?) 'quantize': value,
       'stream': instance.stream,
+      'think': instance.think,
     };
 
 _$CreateModelResponseImpl _$$CreateModelResponseImplFromJson(
@@ -640,6 +646,7 @@ _$PullModelRequestImpl _$$PullModelRequestImplFromJson(
       username: json['username'] as String?,
       password: json['password'] as String?,
       stream: json['stream'] as bool? ?? false,
+      think: json['think'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$PullModelRequestImplToJson(
@@ -650,6 +657,7 @@ Map<String, dynamic> _$$PullModelRequestImplToJson(
       if (instance.username case final value?) 'username': value,
       if (instance.password case final value?) 'password': value,
       'stream': instance.stream,
+      'think': instance.think,
     };
 
 _$PullModelResponseImpl _$$PullModelResponseImplFromJson(
@@ -689,6 +697,7 @@ _$PushModelRequestImpl _$$PushModelRequestImplFromJson(
       username: json['username'] as String?,
       password: json['password'] as String?,
       stream: json['stream'] as bool? ?? false,
+      think: json['think'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$PushModelRequestImplToJson(
@@ -699,6 +708,7 @@ Map<String, dynamic> _$$PushModelRequestImplToJson(
       if (instance.username case final value?) 'username': value,
       if (instance.password case final value?) 'password': value,
       'stream': instance.stream,
+      'think': instance.think,
     };
 
 _$PushModelResponseImpl _$$PushModelResponseImplFromJson(
