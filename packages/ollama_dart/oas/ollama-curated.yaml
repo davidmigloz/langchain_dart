@@ -823,10 +823,6 @@ components:
           type: boolean
           description: *stream
           default: false
-        think:
-          type: boolean
-          description: *think
-          default: false
       required:
         - model
         - modelfile
@@ -1102,10 +1098,6 @@ components:
           type: boolean
           description: *stream
           default: false
-        think:
-          type: boolean
-          description: *think
-          default: false
       required:
         - model
     PullModelResponse:
@@ -1168,10 +1160,6 @@ components:
         stream:
           type: boolean
           description: *stream
-          default: false
-        think:
-          type: boolean
-          description: *think
           default: false
       required:
         - model
