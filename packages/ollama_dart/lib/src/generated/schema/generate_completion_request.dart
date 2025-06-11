@@ -26,9 +26,6 @@ class GenerateCompletionRequest with _$GenerateCompletionRequest {
     /// The text that comes after the inserted text.
     @JsonKey(includeIfNull: false) String? suffix,
 
-    /// (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
-    @JsonKey(includeIfNull: false) List<String>? images,
-
     /// The system prompt to (overrides what is defined in the Modelfile).
     @JsonKey(includeIfNull: false) String? system,
 
@@ -38,8 +35,13 @@ class GenerateCompletionRequest with _$GenerateCompletionRequest {
     /// The context parameter returned from a previous request to [generateCompletion], this can be used to keep a short conversational memory.
     @JsonKey(includeIfNull: false) List<int>? context,
 
-    /// Additional model parameters listed in the documentation for the Modelfile such as `temperature`.
-    @JsonKey(includeIfNull: false) RequestOptions? options,
+    /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
+    @Default(false) bool stream,
+
+    /// If `true` no formatting will be applied to the prompt and no context will be returned.
+    ///
+    /// You may choose to use the `raw` parameter if you are specifying a full templated prompt in your request to the API, and are managing history yourself.
+    @JsonKey(includeIfNull: false) bool? raw,
 
     /// The format to return a response in. Currently the only accepted value is json.
     ///
@@ -52,17 +54,6 @@ class GenerateCompletionRequest with _$GenerateCompletionRequest {
     )
     ResponseFormat? format,
 
-    /// If `true` no formatting will be applied to the prompt and no context will be returned.
-    ///
-    /// You may choose to use the `raw` parameter if you are specifying a full templated prompt in your request to the API, and are managing history yourself.
-    @JsonKey(includeIfNull: false) bool? raw,
-
-    /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
-    @Default(false) bool stream,
-
-    /// If `false` the model will generate a response directly, otherwise the model will think about the response first and then generate it.
-    @Default(false) bool think,
-
     /// How long (in minutes) to keep the model loaded in memory.
     ///
     /// - If set to a positive duration (e.g. 20), the model will stay loaded for the provided duration.
@@ -70,6 +61,18 @@ class GenerateCompletionRequest with _$GenerateCompletionRequest {
     /// - If set to 0, the model will be unloaded immediately once finished.
     /// - If not set, the model will stay loaded for 5 minutes by default
     @JsonKey(name: 'keep_alive', includeIfNull: false) int? keepAlive,
+
+    /// (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
+    @JsonKey(includeIfNull: false) List<String>? images,
+
+    /// Additional model parameters listed in the documentation for the Modelfile such as `temperature`.
+    @JsonKey(includeIfNull: false) RequestOptions? options,
+
+    /// Think controls whether thinking/reasoning models will think before
+    /// responding. Needs to be a pointer so we can distinguish between false
+    /// (request that thinking _not_ be used) and unset (use the old behavior
+    /// before this option was introduced).
+    @JsonKey(includeIfNull: false) bool? think,
   }) = _GenerateCompletionRequest;
 
   /// Object construction from a JSON representation
@@ -81,16 +84,16 @@ class GenerateCompletionRequest with _$GenerateCompletionRequest {
     'model',
     'prompt',
     'suffix',
-    'images',
     'system',
     'template',
     'context',
-    'options',
-    'format',
-    'raw',
     'stream',
-    'think',
-    'keep_alive'
+    'raw',
+    'format',
+    'keep_alive',
+    'images',
+    'options',
+    'think'
   ];
 
   /// Perform validations on the schema property values
@@ -104,16 +107,16 @@ class GenerateCompletionRequest with _$GenerateCompletionRequest {
       'model': model,
       'prompt': prompt,
       'suffix': suffix,
-      'images': images,
       'system': system,
       'template': template,
       'context': context,
-      'options': options,
-      'format': format,
-      'raw': raw,
       'stream': stream,
-      'think': think,
+      'raw': raw,
+      'format': format,
       'keep_alive': keepAlive,
+      'images': images,
+      'options': options,
+      'think': think,
     };
   }
 }

@@ -33,9 +33,6 @@ class PullModelRequest with _$PullModelRequest {
 
     /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
     @Default(false) bool stream,
-
-    /// If `false` the model will generate a response directly, otherwise the model will think about the response first and then generate it.
-    @Default(false) bool think,
   }) = _PullModelRequest;
 
   /// Object construction from a JSON representation
@@ -48,8 +45,7 @@ class PullModelRequest with _$PullModelRequest {
     'insecure',
     'username',
     'password',
-    'stream',
-    'think'
+    'stream'
   ];
 
   /// Perform validations on the schema property values
@@ -65,7 +61,6 @@ class PullModelRequest with _$PullModelRequest {
       'username': username,
       'password': password,
       'stream': stream,
-      'think': think,
     };
   }
 }
