@@ -557,6 +557,10 @@ components:
           type: string
           description: The response for a given prompt with a provided model.
           example: The sky appears blue because of a phenomenon called Rayleigh scattering.
+        thinking:
+          type: string
+          description: &thinking |
+            Contains the text that was inside thinking tags in the original model output when `think` is enabled.
         done:
           type: boolean
           description: Whether the response has completed.
@@ -704,6 +708,9 @@ components:
           type: string
           description: The content of the message
           example: Why is the sky blue?
+        thinking:
+          type: string
+          description: *thinking
         images:
           type: array
           description: (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
