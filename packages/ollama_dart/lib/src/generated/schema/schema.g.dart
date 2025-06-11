@@ -14,21 +14,22 @@ _$GenerateCompletionRequestImpl _$$GenerateCompletionRequestImplFromJson(
       model: json['model'] as String,
       prompt: json['prompt'] as String,
       suffix: json['suffix'] as String?,
-      images:
-          (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
       system: json['system'] as String?,
       template: json['template'] as String?,
       context: (json['context'] as List<dynamic>?)
           ?.map((e) => (e as num).toInt())
           .toList(),
+      stream: json['stream'] as bool? ?? false,
+      raw: json['raw'] as bool?,
+      format: $enumDecodeNullable(_$ResponseFormatEnumMap, json['format'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      keepAlive: (json['keep_alive'] as num?)?.toInt(),
+      images:
+          (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
       options: json['options'] == null
           ? null
           : RequestOptions.fromJson(json['options'] as Map<String, dynamic>),
-      format: $enumDecodeNullable(_$ResponseFormatEnumMap, json['format'],
-          unknownValue: JsonKey.nullForUndefinedEnumValue),
-      raw: json['raw'] as bool?,
-      stream: json['stream'] as bool? ?? false,
-      keepAlive: (json['keep_alive'] as num?)?.toInt(),
+      think: json['think'] as bool?,
     );
 
 Map<String, dynamic> _$$GenerateCompletionRequestImplToJson(
@@ -37,16 +38,17 @@ Map<String, dynamic> _$$GenerateCompletionRequestImplToJson(
       'model': instance.model,
       'prompt': instance.prompt,
       if (instance.suffix case final value?) 'suffix': value,
-      if (instance.images case final value?) 'images': value,
       if (instance.system case final value?) 'system': value,
       if (instance.template case final value?) 'template': value,
       if (instance.context case final value?) 'context': value,
-      if (instance.options?.toJson() case final value?) 'options': value,
+      'stream': instance.stream,
+      if (instance.raw case final value?) 'raw': value,
       if (_$ResponseFormatEnumMap[instance.format] case final value?)
         'format': value,
-      if (instance.raw case final value?) 'raw': value,
-      'stream': instance.stream,
       if (instance.keepAlive case final value?) 'keep_alive': value,
+      if (instance.images case final value?) 'images': value,
+      if (instance.options?.toJson() case final value?) 'options': value,
+      if (instance.think case final value?) 'think': value,
     };
 
 const _$ResponseFormatEnumMap = {
@@ -141,6 +143,7 @@ _$GenerateCompletionResponseImpl _$$GenerateCompletionResponseImplFromJson(
       model: json['model'] as String?,
       createdAt: json['created_at'] as String?,
       response: json['response'] as String?,
+      thinking: json['thinking'] as String?,
       done: json['done'] as bool?,
       context: (json['context'] as List<dynamic>?)
           ?.map((e) => (e as num).toInt())
@@ -159,6 +162,7 @@ Map<String, dynamic> _$$GenerateCompletionResponseImplToJson(
       if (instance.model case final value?) 'model': value,
       if (instance.createdAt case final value?) 'created_at': value,
       if (instance.response case final value?) 'response': value,
+      if (instance.thinking case final value?) 'thinking': value,
       if (instance.done case final value?) 'done': value,
       if (instance.context case final value?) 'context': value,
       if (instance.totalDuration case final value?) 'total_duration': value,
@@ -178,17 +182,18 @@ _$GenerateChatCompletionRequestImpl
           messages: (json['messages'] as List<dynamic>)
               .map((e) => Message.fromJson(e as Map<String, dynamic>))
               .toList(),
+          stream: json['stream'] as bool? ?? false,
           format: $enumDecodeNullable(_$ResponseFormatEnumMap, json['format'],
               unknownValue: JsonKey.nullForUndefinedEnumValue),
-          options: json['options'] == null
-              ? null
-              : RequestOptions.fromJson(
-                  json['options'] as Map<String, dynamic>),
-          stream: json['stream'] as bool? ?? false,
           keepAlive: (json['keep_alive'] as num?)?.toInt(),
           tools: (json['tools'] as List<dynamic>?)
               ?.map((e) => Tool.fromJson(e as Map<String, dynamic>))
               .toList(),
+          options: json['options'] == null
+              ? null
+              : RequestOptions.fromJson(
+                  json['options'] as Map<String, dynamic>),
+          think: json['think'] as bool?,
         );
 
 Map<String, dynamic> _$$GenerateChatCompletionRequestImplToJson(
@@ -196,13 +201,14 @@ Map<String, dynamic> _$$GenerateChatCompletionRequestImplToJson(
     <String, dynamic>{
       'model': instance.model,
       'messages': instance.messages.map((e) => e.toJson()).toList(),
+      'stream': instance.stream,
       if (_$ResponseFormatEnumMap[instance.format] case final value?)
         'format': value,
-      if (instance.options?.toJson() case final value?) 'options': value,
-      'stream': instance.stream,
       if (instance.keepAlive case final value?) 'keep_alive': value,
       if (instance.tools?.map((e) => e.toJson()).toList() case final value?)
         'tools': value,
+      if (instance.options?.toJson() case final value?) 'options': value,
+      if (instance.think case final value?) 'think': value,
     };
 
 _$GenerateChatCompletionResponseImpl
@@ -252,6 +258,7 @@ _$MessageImpl _$$MessageImplFromJson(Map<String, dynamic> json) =>
     _$MessageImpl(
       role: $enumDecode(_$MessageRoleEnumMap, json['role']),
       content: json['content'] as String,
+      thinking: json['thinking'] as String?,
       images:
           (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
       toolCalls: (json['tool_calls'] as List<dynamic>?)
@@ -263,6 +270,7 @@ Map<String, dynamic> _$$MessageImplToJson(_$MessageImpl instance) =>
     <String, dynamic>{
       'role': _$MessageRoleEnumMap[instance.role]!,
       'content': instance.content,
+      if (instance.thinking case final value?) 'thinking': value,
       if (instance.images case final value?) 'images': value,
       if (instance.toolCalls?.map((e) => e.toJson()).toList() case final value?)
         'tool_calls': value,
