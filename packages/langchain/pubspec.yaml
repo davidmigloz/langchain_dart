@@ -1,6 +1,6 @@
 name: langchain
 description: Build powerful LLM-based Dart and Flutter applications with LangChain.dart.
-version: 0.7.7+2
+version: 0.7.8
 repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/langchain
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues
 homepage: https://github.com/davidmigloz/langchain_dart
@@ -23,12 +23,12 @@ dependencies:
   characters: ^1.4.0
   collection: ^1.19.1
   crypto: ^3.0.6
-  langchain_core: 0.3.6+1
+  langchain_core: 0.3.7
   meta: ^1.16.0
   uuid: ^4.5.1
 
 dev_dependencies:
   test: ^1.25.15
-  langchain_community: ^0.3.3
-  langchain_openai: ^0.7.3
-  langchain_ollama: ^0.3.2+2
+  langchain_community: ^0.3.4
+  langchain_openai: ^0.7.4
+  langchain_ollama: ^0.3.3

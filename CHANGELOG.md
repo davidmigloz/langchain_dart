@@ -2,6 +2,203 @@
 
 📣 Check out the [releases page](https://github.com/davidmigloz/langchain_dart/releases) or the [#announcements](https://discord.com/channels/1123158322812555295/1123250594644242534) channel on the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details.
 
+## 2025-06-12
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - [`openai_dart` - `v0.5.0`](#openai_dart---v050)
+
+Packages with other changes:
+
+ - [`anthropic_sdk_dart` - `v0.2.1`](#anthropic_sdk_dart---v021)
+ - [`chromadb` - `v0.2.1`](#chromadb---v021)
+ - [`googleai_dart` - `v0.1.1`](#googleai_dart---v011)
+ - [`langchain` - `v0.7.8`](#langchain---v078)
+ - [`langchain_anthropic` - `v0.2.1`](#langchain_anthropic---v021)
+ - [`langchain_chroma` - `v0.2.2`](#langchain_chroma---v022)
+ - [`langchain_community` - `v0.3.4`](#langchain_community---v034)
+ - [`langchain_core` - `v0.3.7`](#langchain_core---v037)
+ - [`langchain_firebase` - `v0.2.2`](#langchain_firebase---v022)
+ - [`langchain_google` - `v0.6.5`](#langchain_google---v065)
+ - [`langchain_mistralai` - `v0.2.4`](#langchain_mistralai---v024)
+ - [`langchain_ollama` - `v0.3.3`](#langchain_ollama---v033)
+ - [`langchain_openai` - `v0.7.4`](#langchain_openai---v074)
+ - [`langchain_pinecone` - `v0.1.1`](#langchain_pinecone---v011)
+ - [`langchain_supabase` - `v0.1.2`](#langchain_supabase---v012)
+ - [`langgraph` - `v0.0.1-dev.2`](#langgraph---v001-dev2)
+ - [`mistralai_dart` - `v0.0.4`](#mistralai_dart---v004)
+ - [`ollama_dart` - `v0.2.3`](#ollama_dart---v023)
+ - [`openai_realtime_dart` - `v0.0.4`](#openai_realtime_dart---v004)
+ - [`tavily_dart` - `v0.1.1`](#tavily_dart---v011)
+ - [`vertex_ai` - `v0.1.1`](#vertex_ai---v011)
+
+---
+
+#### `openai_dart` - `v0.5.0`
+
+ - **BREAKING** **FEAT**: Align OpenAI API changes ([#706](https://github.com/davidmigloz/langchain_dart/issues/706)). ([b8b04ca6](https://github.com/davidmigloz/langchain_dart/commit/b8b04ca618ffbc6f84b935a89852767479da1611))
+ - **FEAT**: Add support for web search, gpt-image-1 and list chat completions ([#716](https://github.com/davidmigloz/langchain_dart/issues/716)). ([269dea03](https://github.com/davidmigloz/langchain_dart/commit/269dea035be679c8d2fcc03f526703c76c72c5d4))
+ - **FEAT**: Update OpenAI model catalog ([#714](https://github.com/davidmigloz/langchain_dart/issues/714)). ([68df4558](https://github.com/davidmigloz/langchain_dart/commit/68df4558a01e872c73ad465f4b85f1b5c61ddd50))
+ - **FEAT**: Change the default value of 'reasoning_effort' from medium to null ([#713](https://github.com/davidmigloz/langchain_dart/issues/713)). ([f224572e](https://github.com/davidmigloz/langchain_dart/commit/f224572eff249daa1971a7f287c150ee3779a6b2))
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **REFACTOR**: Remove fetch_client dependency in favor of http v1.3.0 ([#659](https://github.com/davidmigloz/langchain_dart/issues/659)). ([0e0a685c](https://github.com/davidmigloz/langchain_dart/commit/0e0a685c376895425dbddb0f9b83758c700bb0c7))
+ - **REFACTOR**: Fix linter issues ([#708](https://github.com/davidmigloz/langchain_dart/issues/708)). ([652e7c64](https://github.com/davidmigloz/langchain_dart/commit/652e7c64776d92d309cbd708d9e477fc2ee1391c))
+ - **DOCS**: Fix TruncationObject docs typo in openai_dart. ([ee5ed4fd](https://github.com/davidmigloz/langchain_dart/commit/ee5ed4fdfdf4213ceec05d7a5a2b24cca95ae386))
+ - **DOCS**: Document Azure Assistants API base url ([#626](https://github.com/davidmigloz/langchain_dart/issues/626)). ([c3459eea](https://github.com/davidmigloz/langchain_dart/commit/c3459eea354f36a11f69145a7313b3feda7a15eb))
+
+#### `anthropic_sdk_dart` - `v0.2.1`
+
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **REFACTOR**: Remove fetch_client dependency in favor of http v1.3.0 ([#659](https://github.com/davidmigloz/langchain_dart/issues/659)). ([0e0a685c](https://github.com/davidmigloz/langchain_dart/commit/0e0a685c376895425dbddb0f9b83758c700bb0c7))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+
+#### `chromadb` - `v0.2.1`
+
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **REFACTOR**: Remove fetch_client dependency in favor of http v1.3.0 ([#659](https://github.com/davidmigloz/langchain_dart/issues/659)). ([0e0a685c](https://github.com/davidmigloz/langchain_dart/commit/0e0a685c376895425dbddb0f9b83758c700bb0c7))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+
+#### `googleai_dart` - `v0.1.1`
+
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **REFACTOR**: Remove fetch_client dependency in favor of http v1.3.0 ([#659](https://github.com/davidmigloz/langchain_dart/issues/659)). ([0e0a685c](https://github.com/davidmigloz/langchain_dart/commit/0e0a685c376895425dbddb0f9b83758c700bb0c7))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+
+#### `langchain` - `v0.7.8`
+
+ - **FEAT**: Implement Markdown text splitter ([#635](https://github.com/davidmigloz/langchain_dart/issues/635)). ([242e4be2](https://github.com/davidmigloz/langchain_dart/commit/242e4be227503f93120b209bca350ed6a055f362))
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **FEAT**: Add to/fromMap serialization to ChatMessage, PromptValue & ChatHistory ([#681](https://github.com/davidmigloz/langchain_dart/issues/681)). ([d239c7c7](https://github.com/davidmigloz/langchain_dart/commit/d239c7c7b4a1504559e475466be7f176521a0473))
+ - **FIX**: Correctly calculate start_index when using chunkOverlap in TextSplitter ([#640](https://github.com/davidmigloz/langchain_dart/issues/640)). ([71dd5ac3](https://github.com/davidmigloz/langchain_dart/commit/71dd5ac31351d0ea45989c43a250a35668cb01b6))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+ - **FIX**: Made apiKey optional for `TavilyAnswerTool` and `TavilySearchResultsTool` ([#646](https://github.com/davidmigloz/langchain_dart/issues/646)). ([5085ea4a](https://github.com/davidmigloz/langchain_dart/commit/5085ea4ad8b5cd072832e73afcbb7075a6375307))
+
+#### `langchain_anthropic` - `v0.2.1`
+
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **REFACTOR**: Remove fetch_client dependency in favor of http v1.3.0 ([#659](https://github.com/davidmigloz/langchain_dart/issues/659)). ([0e0a685c](https://github.com/davidmigloz/langchain_dart/commit/0e0a685c376895425dbddb0f9b83758c700bb0c7))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+
+#### `langchain_chroma` - `v0.2.2`
+
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **REFACTOR**: Remove fetch_client dependency in favor of http v1.3.0 ([#659](https://github.com/davidmigloz/langchain_dart/issues/659)). ([0e0a685c](https://github.com/davidmigloz/langchain_dart/commit/0e0a685c376895425dbddb0f9b83758c700bb0c7))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+
+#### `langchain_community` - `v0.3.4`
+
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **REFACTOR**: Remove fetch_client dependency in favor of http v1.3.0 ([#659](https://github.com/davidmigloz/langchain_dart/issues/659)). ([0e0a685c](https://github.com/davidmigloz/langchain_dart/commit/0e0a685c376895425dbddb0f9b83758c700bb0c7))
+ - **FIX**: Fix static instance of ObjectBoxVectorStore ([#684](https://github.com/davidmigloz/langchain_dart/issues/684)). ([719ead93](https://github.com/davidmigloz/langchain_dart/commit/719ead93c6e91d42bb8e45910ccf0da4e3e51afd))
+ - **FIX**: Fix langchain_community  WASM compatibility ([#660](https://github.com/davidmigloz/langchain_dart/issues/660)). ([0be8aae4](https://github.com/davidmigloz/langchain_dart/commit/0be8aae44950fddd9ac9538ccfa5d017e6f585a0))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+ - **FIX**: Made apiKey optional for `TavilyAnswerTool` and `TavilySearchResultsTool` ([#646](https://github.com/davidmigloz/langchain_dart/issues/646)). ([5085ea4a](https://github.com/davidmigloz/langchain_dart/commit/5085ea4ad8b5cd072832e73afcbb7075a6375307))
+
+#### `langchain_core` - `v0.3.7`
+
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **FEAT**: Add to/fromMap serialization to ChatMessage, PromptValue & ChatHistory ([#681](https://github.com/davidmigloz/langchain_dart/issues/681)). ([d239c7c7](https://github.com/davidmigloz/langchain_dart/commit/d239c7c7b4a1504559e475466be7f176521a0473))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+ - **FIX**: RunnableMap doesn't invoke multiple Runnables in parallel ([#649](https://github.com/davidmigloz/langchain_dart/issues/649)). ([fc722d85](https://github.com/davidmigloz/langchain_dart/commit/fc722d85eef6644f7593dd26c7fd55a56615595b))
+
+#### `langchain_firebase` - `v0.2.2`
+
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **REFACTOR**: Fix linter issues ([#708](https://github.com/davidmigloz/langchain_dart/issues/708)). ([652e7c64](https://github.com/davidmigloz/langchain_dart/commit/652e7c64776d92d309cbd708d9e477fc2ee1391c))
+ - **REFACTOR**: Migrate firebase_vertexai dep to 1.4.0 ([#663](https://github.com/davidmigloz/langchain_dart/issues/663)). ([4fca38c5](https://github.com/davidmigloz/langchain_dart/commit/4fca38c5599c4c5a058ece1a7d9c4e276b716432))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+
+#### `langchain_google` - `v0.6.5`
+
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **REFACTOR**: Remove fetch_client dependency in favor of http v1.3.0 ([#659](https://github.com/davidmigloz/langchain_dart/issues/659)). ([0e0a685c](https://github.com/davidmigloz/langchain_dart/commit/0e0a685c376895425dbddb0f9b83758c700bb0c7))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+
+#### `langchain_mistralai` - `v0.2.4`
+
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **REFACTOR**: Fix linter issues ([#708](https://github.com/davidmigloz/langchain_dart/issues/708)). ([652e7c64](https://github.com/davidmigloz/langchain_dart/commit/652e7c64776d92d309cbd708d9e477fc2ee1391c))
+ - **REFACTOR**: Remove fetch_client dependency in favor of http v1.3.0 ([#659](https://github.com/davidmigloz/langchain_dart/issues/659)). ([0e0a685c](https://github.com/davidmigloz/langchain_dart/commit/0e0a685c376895425dbddb0f9b83758c700bb0c7))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+ - **DOCS**: Add langchain_mistralai example ([#662](https://github.com/davidmigloz/langchain_dart/issues/662)). ([eca7a24d](https://github.com/davidmigloz/langchain_dart/commit/eca7a24d50629b9ce7d61a197bfd9acfb74a1261))
+
+#### `langchain_ollama` - `v0.3.3`
+
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **REFACTOR**: Fix linter issues ([#708](https://github.com/davidmigloz/langchain_dart/issues/708)). ([652e7c64](https://github.com/davidmigloz/langchain_dart/commit/652e7c64776d92d309cbd708d9e477fc2ee1391c))
+ - **REFACTOR**: Remove fetch_client dependency in favor of http v1.3.0 ([#659](https://github.com/davidmigloz/langchain_dart/issues/659)). ([0e0a685c](https://github.com/davidmigloz/langchain_dart/commit/0e0a685c376895425dbddb0f9b83758c700bb0c7))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+ - **DOCS**: Add langchain_ollama example ([#661](https://github.com/davidmigloz/langchain_dart/issues/661)). ([0bba6cb4](https://github.com/davidmigloz/langchain_dart/commit/0bba6cb4ebe4386ad53b1aa02836d375d5f59cbe))
+
+#### `langchain_openai` - `v0.7.4`
+
+ - **FEAT**: Update OpenAI model catalog ([#714](https://github.com/davidmigloz/langchain_dart/issues/714)). ([68df4558](https://github.com/davidmigloz/langchain_dart/commit/68df4558a01e872c73ad465f4b85f1b5c61ddd50))
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **REFACTOR**: Remove fetch_client dependency in favor of http v1.3.0 ([#659](https://github.com/davidmigloz/langchain_dart/issues/659)). ([0e0a685c](https://github.com/davidmigloz/langchain_dart/commit/0e0a685c376895425dbddb0f9b83758c700bb0c7))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+
+#### `langchain_pinecone` - `v0.1.1`
+
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **REFACTOR**: Remove fetch_client dependency in favor of http v1.3.0 ([#659](https://github.com/davidmigloz/langchain_dart/issues/659)). ([0e0a685c](https://github.com/davidmigloz/langchain_dart/commit/0e0a685c376895425dbddb0f9b83758c700bb0c7))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+
+#### `langchain_supabase` - `v0.1.2`
+
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **REFACTOR**: Remove fetch_client dependency in favor of http v1.3.0 ([#659](https://github.com/davidmigloz/langchain_dart/issues/659)). ([0e0a685c](https://github.com/davidmigloz/langchain_dart/commit/0e0a685c376895425dbddb0f9b83758c700bb0c7))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+
+#### `langgraph` - `v0.0.1-dev.2`
+
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+
+#### `mistralai_dart` - `v0.0.4`
+
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **REFACTOR**: Remove fetch_client dependency in favor of http v1.3.0 ([#659](https://github.com/davidmigloz/langchain_dart/issues/659)). ([0e0a685c](https://github.com/davidmigloz/langchain_dart/commit/0e0a685c376895425dbddb0f9b83758c700bb0c7))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+
+#### `ollama_dart` - `v0.2.3`
+
+ - **FEAT**: Add think/thinking params to ollama_dart ([#721](https://github.com/davidmigloz/langchain_dart/issues/721)). ([701d7968](https://github.com/davidmigloz/langchain_dart/commit/701d7968baaa07f5612a25d74a1d19c2c24e7077))
+ - **FEAT**: Add capabilities, projector_info, tensors and modified_at to Ollama's ModelInfo ([#690](https://github.com/davidmigloz/langchain_dart/issues/690)). ([c5e247db](https://github.com/davidmigloz/langchain_dart/commit/c5e247db6aadedaa6ec668652e416477a6c03b51))
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **REFACTOR**: Remove fetch_client dependency in favor of http v1.3.0 ([#659](https://github.com/davidmigloz/langchain_dart/issues/659)). ([0e0a685c](https://github.com/davidmigloz/langchain_dart/commit/0e0a685c376895425dbddb0f9b83758c700bb0c7))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+
+#### `openai_realtime_dart` - `v0.0.4`
+
+ - **FEAT**: Align latest OpenAI Realtime API changes ([#707](https://github.com/davidmigloz/langchain_dart/issues/707)). ([c2fc4f53](https://github.com/davidmigloz/langchain_dart/commit/c2fc4f53492726ec78639d4a9ef55dfc054c2fae))
+ - **FEAT**: Add language and prompt properties to InputAudioTranscriptionConfig ([#698](https://github.com/davidmigloz/langchain_dart/issues/698)). ([5daf6e60](https://github.com/davidmigloz/langchain_dart/commit/5daf6e603f18be7e330155d32648356ae05872bd))
+ - **FEAT**: Add RealtimeEvent for input audio transcription delta updates ([#710](https://github.com/davidmigloz/langchain_dart/issues/710)). ([0848a253](https://github.com/davidmigloz/langchain_dart/commit/0848a253c36c0ab9f7e9b2bc0db5f000c6952ef5))
+ - **FEAT**: Add support for custom headers in WebSocket connections ([#693](https://github.com/davidmigloz/langchain_dart/issues/693)). ([de81ef89](https://github.com/davidmigloz/langchain_dart/commit/de81ef89b33e54f1671ccf244fe1d088b203f76a))
+ - **FEAT**: Allow to pass a custom model in OpenAI RealtimeClient ([#654](https://github.com/davidmigloz/langchain_dart/issues/654)). ([60feae46](https://github.com/davidmigloz/langchain_dart/commit/60feae46a6dc6bcaf1779d512d0d599fdcd0e1a4))
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **FIX**: Server VAD is enabled after setting turnDetection to null ([#668](https://github.com/davidmigloz/langchain_dart/issues/668)). ([39c21ba4](https://github.com/davidmigloz/langchain_dart/commit/39c21ba4b2f40d3622ab492d1661a0a09424f393))
+ - **FIX**: previous_item_id should be nullable in openai_realtime_dart ([#639](https://github.com/davidmigloz/langchain_dart/issues/639)). ([0f84850f](https://github.com/davidmigloz/langchain_dart/commit/0f84850f822b0872ad9c2b0abf87d14e2a5b29dd))
+ - **REFACTOR**: Remove fetch_client dependency in favor of http v1.3.0 ([#659](https://github.com/davidmigloz/langchain_dart/issues/659)). ([0e0a685c](https://github.com/davidmigloz/langchain_dart/commit/0e0a685c376895425dbddb0f9b83758c700bb0c7))
+ - **REFACTOR**: Remove unused property in openai_realtime_dart ([#625](https://github.com/davidmigloz/langchain_dart/issues/625)). ([231ccab2](https://github.com/davidmigloz/langchain_dart/commit/231ccab2d3f3cef3487d214b88c4ee983a62f362))
+ - **REFACTOR**: Fix linter issues ([#708](https://github.com/davidmigloz/langchain_dart/issues/708)). ([652e7c64](https://github.com/davidmigloz/langchain_dart/commit/652e7c64776d92d309cbd708d9e477fc2ee1391c))
+
+#### `tavily_dart` - `v0.1.1`
+
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **FIX**: Made apiKey optional for `TavilyAnswerTool` and `TavilySearchResultsTool` ([#646](https://github.com/davidmigloz/langchain_dart/issues/646)). ([5085ea4a](https://github.com/davidmigloz/langchain_dart/commit/5085ea4ad8b5cd072832e73afcbb7075a6375307))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+ - **REFACTOR**: Remove fetch_client dependency in favor of http v1.3.0 ([#659](https://github.com/davidmigloz/langchain_dart/issues/659)). ([0e0a685c](https://github.com/davidmigloz/langchain_dart/commit/0e0a685c376895425dbddb0f9b83758c700bb0c7))
+
+#### `vertex_ai` - `v0.1.1`
+
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **REFACTOR**: Remove fetch_client dependency in favor of http v1.3.0 ([#659](https://github.com/davidmigloz/langchain_dart/issues/659)). ([0e0a685c](https://github.com/davidmigloz/langchain_dart/commit/0e0a685c376895425dbddb0f9b83758c700bb0c7))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+
+
 ## 2024-12-16
 
 ### Changes

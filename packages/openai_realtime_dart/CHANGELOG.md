@@ -2,6 +2,20 @@
 
 ---
 
+## 0.0.4
+
+ - **FEAT**: Align latest OpenAI Realtime API changes ([#707](https://github.com/davidmigloz/langchain_dart/issues/707)). ([c2fc4f53](https://github.com/davidmigloz/langchain_dart/commit/c2fc4f53492726ec78639d4a9ef55dfc054c2fae))
+ - **FEAT**: Add language and prompt properties to InputAudioTranscriptionConfig ([#698](https://github.com/davidmigloz/langchain_dart/issues/698)). ([5daf6e60](https://github.com/davidmigloz/langchain_dart/commit/5daf6e603f18be7e330155d32648356ae05872bd))
+ - **FEAT**: Add RealtimeEvent for input audio transcription delta updates ([#710](https://github.com/davidmigloz/langchain_dart/issues/710)). ([0848a253](https://github.com/davidmigloz/langchain_dart/commit/0848a253c36c0ab9f7e9b2bc0db5f000c6952ef5))
+ - **FEAT**: Add support for custom headers in WebSocket connections ([#693](https://github.com/davidmigloz/langchain_dart/issues/693)). ([de81ef89](https://github.com/davidmigloz/langchain_dart/commit/de81ef89b33e54f1671ccf244fe1d088b203f76a))
+ - **FEAT**: Allow to pass a custom model in OpenAI RealtimeClient ([#654](https://github.com/davidmigloz/langchain_dart/issues/654)). ([60feae46](https://github.com/davidmigloz/langchain_dart/commit/60feae46a6dc6bcaf1779d512d0d599fdcd0e1a4))
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **FIX**: Server VAD is enabled after setting turnDetection to null ([#668](https://github.com/davidmigloz/langchain_dart/issues/668)). ([39c21ba4](https://github.com/davidmigloz/langchain_dart/commit/39c21ba4b2f40d3622ab492d1661a0a09424f393))
+ - **FIX**: previous_item_id should be nullable in openai_realtime_dart ([#639](https://github.com/davidmigloz/langchain_dart/issues/639)). ([0f84850f](https://github.com/davidmigloz/langchain_dart/commit/0f84850f822b0872ad9c2b0abf87d14e2a5b29dd))
+ - **REFACTOR**: Remove fetch_client dependency in favor of http v1.3.0 ([#659](https://github.com/davidmigloz/langchain_dart/issues/659)). ([0e0a685c](https://github.com/davidmigloz/langchain_dart/commit/0e0a685c376895425dbddb0f9b83758c700bb0c7))
+ - **REFACTOR**: Remove unused property in openai_realtime_dart ([#625](https://github.com/davidmigloz/langchain_dart/issues/625)). ([231ccab2](https://github.com/davidmigloz/langchain_dart/commit/231ccab2d3f3cef3487d214b88c4ee983a62f362))
+ - **REFACTOR**: Fix linter issues ([#708](https://github.com/davidmigloz/langchain_dart/issues/708)). ([652e7c64](https://github.com/davidmigloz/langchain_dart/commit/652e7c64776d92d309cbd708d9e477fc2ee1391c))
+
 ## 0.0.3+1
 
  - **REFACTOR**: Add new lint rules and fix issues ([#621](https://github.com/davidmigloz/langchain_dart/issues/621)). ([60b10e00](https://github.com/davidmigloz/langchain_dart/commit/60b10e008acf55ebab90789ad08d2449a44b69d8))
