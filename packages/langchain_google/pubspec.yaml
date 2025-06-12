@@ -24,7 +24,7 @@ dependencies:
   collection: ^1.19.1
   gcloud: ^0.8.18
   google_generative_ai: ^0.4.7
-  googleapis: ^13.2.0
+  googleapis: ^14.0.0
   googleapis_auth: ^2.0.0
   http: ^1.4.0
   langchain_core: 0.3.7
