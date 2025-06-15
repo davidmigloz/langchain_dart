@@ -231,7 +231,22 @@ class RealtimeClient extends RealtimeEventHandler {
         ),
       );
     }
-    await createResponse();
+    ResponseConfig? responseConfig;
+    final tc = sessionConfig.toolChoice;
+    if (tc != null) {
+      tc.mapOrNull(
+        mode: (m) {
+          if (m.value == SessionConfigToolChoiceMode.required) {
+            responseConfig = const ResponseConfig(
+              toolChoice: ResponseConfigToolChoice.mode(
+                ResponseConfigToolChoiceMode.auto,
+              ),
+            );
+          }
+        },
+      );
+    }
+    await createResponse(responseConfig: responseConfig);
   }
 
   /// Tells us whether the realtime socket is connected and the session has
@@ -425,7 +440,7 @@ class RealtimeClient extends RealtimeEventHandler {
   }
 
   /// Forces a model response generation.
-  Future<bool> createResponse() async {
+  Future<bool> createResponse({ResponseConfig? responseConfig}) async {
     if (getTurnDetectionType() == null && inputAudioBuffer.isNotEmpty) {
       await realtime.send(
         RealtimeEvent.inputAudioBufferCommit(
@@ -438,6 +453,7 @@ class RealtimeClient extends RealtimeEventHandler {
     await realtime.send(
       RealtimeEvent.responseCreate(
         eventId: RealtimeUtils.generateId(),
+        response: responseConfig,
       ),
     );
     return true;
