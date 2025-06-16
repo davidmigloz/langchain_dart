@@ -28,7 +28,7 @@ dependencies:
   http: ^1.4.0
   json_path: ^0.7.6
   langchain_core: 0.3.7
-  math_expressions: ^2.7.0
+  math_expressions: ^3.0.0
   meta: ^1.16.0
   objectbox: ^4.3.0
   path: ^1.9.1
