@@ -40,5 +40,16 @@ void main() {
       expect(response.choices, isNotEmpty);
       expect(response.choices.first.message.content, isNotEmpty);
     });
+
+    test('Test call embeddings API', () async {
+      final response = await client.createEmbedding(
+        request: const CreateEmbeddingRequest(
+          model: EmbeddingModel.modelId('text-embedding-004'),
+          input: EmbeddingInput.string('Hello world'),
+        ),
+      );
+      expect(response.data, hasLength(1));
+      expect(response.data.first.embeddingVector, isNotEmpty);
+    });
   });
 }
