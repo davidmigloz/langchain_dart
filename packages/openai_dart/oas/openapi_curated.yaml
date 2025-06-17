@@ -3350,7 +3350,6 @@ components:
           description: The object type, which is always "embedding".
           enum: [ embedding ]
       required:
-        - index
         - object
         - embedding
     EmbeddingUsage:

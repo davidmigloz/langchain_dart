@@ -16607,7 +16607,8 @@ Embedding _$EmbeddingFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Embedding {
   /// The index of the embedding in the list of embeddings.
-  int get index => throw _privateConstructorUsedError;
+  @JsonKey(includeIfNull: false)
+  int? get index => throw _privateConstructorUsedError;
 
   /// The embedding vector, which is a list of floats. The length of vector depends on the model as listed in the [embedding guide](https://platform.openai.com/docs/guides/embeddings).
   @_EmbeddingVectorConverter()
@@ -16632,7 +16633,7 @@ abstract class $EmbeddingCopyWith<$Res> {
       _$EmbeddingCopyWithImpl<$Res, Embedding>;
   @useResult
   $Res call(
-      {int index,
+      {@JsonKey(includeIfNull: false) int? index,
       @_EmbeddingVectorConverter() EmbeddingVector embedding,
       EmbeddingObject object});
 
@@ -16654,15 +16655,15 @@ class _$EmbeddingCopyWithImpl<$Res, $Val extends Embedding>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? index = null,
+    Object? index = freezed,
     Object? embedding = null,
     Object? object = null,
   }) {
     return _then(_value.copyWith(
-      index: null == index
+      index: freezed == index
           ? _value.index
           : index // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       embedding: null == embedding
           ? _value.embedding
           : embedding // ignore: cast_nullable_to_non_nullable
@@ -16694,7 +16695,7 @@ abstract class _$$EmbeddingImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int index,
+      {@JsonKey(includeIfNull: false) int? index,
       @_EmbeddingVectorConverter() EmbeddingVector embedding,
       EmbeddingObject object});
 
@@ -16715,15 +16716,15 @@ class __$$EmbeddingImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? index = null,
+    Object? index = freezed,
     Object? embedding = null,
     Object? object = null,
   }) {
     return _then(_$EmbeddingImpl(
-      index: null == index
+      index: freezed == index
           ? _value.index
           : index // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       embedding: null == embedding
           ? _value.embedding
           : embedding // ignore: cast_nullable_to_non_nullable
@@ -16740,7 +16741,7 @@ class __$$EmbeddingImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$EmbeddingImpl extends _Embedding {
   const _$EmbeddingImpl(
-      {required this.index,
+      {@JsonKey(includeIfNull: false) this.index,
       @_EmbeddingVectorConverter() required this.embedding,
       required this.object})
       : super._();
@@ -16750,7 +16751,8 @@ class _$EmbeddingImpl extends _Embedding {
 
   /// The index of the embedding in the list of embeddings.
   @override
-  final int index;
+  @JsonKey(includeIfNull: false)
+  final int? index;
 
   /// The embedding vector, which is a list of floats. The length of vector depends on the model as listed in the [embedding guide](https://platform.openai.com/docs/guides/embeddings).
   @override
@@ -16799,7 +16801,7 @@ class _$EmbeddingImpl extends _Embedding {
 
 abstract class _Embedding extends Embedding {
   const factory _Embedding(
-      {required final int index,
+      {@JsonKey(includeIfNull: false) final int? index,
       @_EmbeddingVectorConverter() required final EmbeddingVector embedding,
       required final EmbeddingObject object}) = _$EmbeddingImpl;
   const _Embedding._() : super._();
@@ -16809,7 +16811,8 @@ abstract class _Embedding extends Embedding {
 
   /// The index of the embedding in the list of embeddings.
   @override
-  int get index;
+  @JsonKey(includeIfNull: false)
+  int? get index;
 
   /// The embedding vector, which is a list of floats. The length of vector depends on the model as listed in the [embedding guide](https://platform.openai.com/docs/guides/embeddings).
   @override

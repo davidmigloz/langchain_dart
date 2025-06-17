@@ -1435,14 +1435,14 @@ const _$CreateEmbeddingResponseObjectEnumMap = {
 
 _$EmbeddingImpl _$$EmbeddingImplFromJson(Map<String, dynamic> json) =>
     _$EmbeddingImpl(
-      index: (json['index'] as num).toInt(),
+      index: (json['index'] as num?)?.toInt(),
       embedding: const _EmbeddingVectorConverter().fromJson(json['embedding']),
       object: $enumDecode(_$EmbeddingObjectEnumMap, json['object']),
     );
 
 Map<String, dynamic> _$$EmbeddingImplToJson(_$EmbeddingImpl instance) =>
     <String, dynamic>{
-      'index': instance.index,
+      if (instance.index case final value?) 'index': value,
       'embedding': const _EmbeddingVectorConverter().toJson(instance.embedding),
       'object': _$EmbeddingObjectEnumMap[instance.object]!,
     };
