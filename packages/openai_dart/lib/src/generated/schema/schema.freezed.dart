@@ -13611,7 +13611,8 @@ ChatCompletionStreamMessageToolCallChunk
 /// @nodoc
 mixin _$ChatCompletionStreamMessageToolCallChunk {
   /// No Description
-  int get index => throw _privateConstructorUsedError;
+  @JsonKey(includeIfNull: false)
+  int? get index => throw _privateConstructorUsedError;
 
   /// The ID of the tool call.
   @JsonKey(includeIfNull: false)
@@ -13648,7 +13649,7 @@ abstract class $ChatCompletionStreamMessageToolCallChunkCopyWith<$Res> {
           ChatCompletionStreamMessageToolCallChunk>;
   @useResult
   $Res call(
-      {int index,
+      {@JsonKey(includeIfNull: false) int? index,
       @JsonKey(includeIfNull: false) String? id,
       @JsonKey(
           includeIfNull: false,
@@ -13677,16 +13678,16 @@ class _$ChatCompletionStreamMessageToolCallChunkCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? index = null,
+    Object? index = freezed,
     Object? id = freezed,
     Object? type = freezed,
     Object? function = freezed,
   }) {
     return _then(_value.copyWith(
-      index: null == index
+      index: freezed == index
           ? _value.index
           : index // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -13728,7 +13729,7 @@ abstract class _$$ChatCompletionStreamMessageToolCallChunkImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int index,
+      {@JsonKey(includeIfNull: false) int? index,
       @JsonKey(includeIfNull: false) String? id,
       @JsonKey(
           includeIfNull: false,
@@ -13756,16 +13757,16 @@ class __$$ChatCompletionStreamMessageToolCallChunkImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? index = null,
+    Object? index = freezed,
     Object? id = freezed,
     Object? type = freezed,
     Object? function = freezed,
   }) {
     return _then(_$ChatCompletionStreamMessageToolCallChunkImpl(
-      index: null == index
+      index: freezed == index
           ? _value.index
           : index // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -13787,7 +13788,7 @@ class __$$ChatCompletionStreamMessageToolCallChunkImplCopyWithImpl<$Res>
 class _$ChatCompletionStreamMessageToolCallChunkImpl
     extends _ChatCompletionStreamMessageToolCallChunk {
   const _$ChatCompletionStreamMessageToolCallChunkImpl(
-      {required this.index,
+      {@JsonKey(includeIfNull: false) this.index,
       @JsonKey(includeIfNull: false) this.id,
       @JsonKey(
           includeIfNull: false,
@@ -13802,7 +13803,8 @@ class _$ChatCompletionStreamMessageToolCallChunkImpl
 
   /// No Description
   @override
-  final int index;
+  @JsonKey(includeIfNull: false)
+  final int? index;
 
   /// The ID of the tool call.
   @override
@@ -13863,7 +13865,7 @@ class _$ChatCompletionStreamMessageToolCallChunkImpl
 abstract class _ChatCompletionStreamMessageToolCallChunk
     extends ChatCompletionStreamMessageToolCallChunk {
   const factory _ChatCompletionStreamMessageToolCallChunk(
-          {required final int index,
+          {@JsonKey(includeIfNull: false) final int? index,
           @JsonKey(includeIfNull: false) final String? id,
           @JsonKey(
               includeIfNull: false,
@@ -13880,7 +13882,8 @@ abstract class _ChatCompletionStreamMessageToolCallChunk
 
   /// No Description
   @override
-  int get index;
+  @JsonKey(includeIfNull: false)
+  int? get index;
 
   /// The ID of the tool call.
   @override

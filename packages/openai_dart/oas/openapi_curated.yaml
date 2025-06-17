@@ -3163,8 +3163,6 @@ components:
           description: The type of the tool. Currently, only `function` is supported.
         function:
           $ref: "#/components/schemas/ChatCompletionStreamMessageFunctionCall"
-      required:
-        - index
     ChatCompletionList:
       type: object
       description: An object representing a list of chat completions.
