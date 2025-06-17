@@ -17,7 +17,7 @@ class ChatCompletionStreamMessageToolCallChunk
   /// Factory constructor for ChatCompletionStreamMessageToolCallChunk
   const factory ChatCompletionStreamMessageToolCallChunk({
     /// No Description
-    required int index,
+    @JsonKey(includeIfNull: false) int? index,
 
     /// The ID of the tool call.
     @JsonKey(includeIfNull: false) String? id,

@@ -1186,7 +1186,7 @@ _$ChatCompletionStreamMessageToolCallChunkImpl
     _$$ChatCompletionStreamMessageToolCallChunkImplFromJson(
             Map<String, dynamic> json) =>
         _$ChatCompletionStreamMessageToolCallChunkImpl(
-          index: (json['index'] as num).toInt(),
+          index: (json['index'] as num?)?.toInt(),
           id: json['id'] as String?,
           type: $enumDecodeNullable(
               _$ChatCompletionStreamMessageToolCallChunkTypeEnumMap,
@@ -1201,7 +1201,7 @@ _$ChatCompletionStreamMessageToolCallChunkImpl
 Map<String, dynamic> _$$ChatCompletionStreamMessageToolCallChunkImplToJson(
         _$ChatCompletionStreamMessageToolCallChunkImpl instance) =>
     <String, dynamic>{
-      'index': instance.index,
+      if (instance.index case final value?) 'index': value,
       if (instance.id case final value?) 'id': value,
       if (_$ChatCompletionStreamMessageToolCallChunkTypeEnumMap[instance.type]
           case final value?)
