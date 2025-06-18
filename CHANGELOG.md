@@ -2,6 +2,40 @@
 
 📣 Check out the [releases page](https://github.com/davidmigloz/langchain_dart/releases) or the [#announcements](https://discord.com/channels/1123158322812555295/1123250594644242534) channel on the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details.
 
+## 2025-06-18
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`openai_dart` - `v0.5.1`](#openai_dart---v051)
+ - [`openai_realtime_dart` - `v0.0.4+1`](#openai_realtime_dart---v0041)
+ - [`langchain_openai` - `v0.7.4+1`](#langchain_openai---v0741)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `langchain_openai` - `v0.7.4+1`
+
+---
+
+#### `openai_dart` - `v0.5.1`
+
+ - **FEAT**: Make ToolCallChunk.index field nullable to support Gemini OpenAI-compatible API ([#733](https://github.com/davidmigloz/langchain_dart/issues/733)). ([19cb49c0](https://github.com/davidmigloz/langchain_dart/commit/19cb49c09e42204cc523fbbdd3941b3070146063))
+ - **FEAT**: Make Embedding.index field nullable to support Gemini OpenAI-compatible API ([#729](https://github.com/davidmigloz/langchain_dart/issues/729)). ([9d22f197](https://github.com/davidmigloz/langchain_dart/commit/9d22f1972d99b8b1f6dbcfcb3f7bfba2257fca5b))
+
+#### `openai_realtime_dart` - `v0.0.4+1`
+
+ - **FIX**: toolChoice required infinite loop in openai_realtime_dart ([#723](https://github.com/davidmigloz/langchain_dart/issues/723)). ([f52211cc](https://github.com/davidmigloz/langchain_dart/commit/f52211cca063d64e346a4ed023c337a351ca3e33))
+
+
 ## 2025-06-12
 
 ### Changes
@@ -3462,3 +3496,4 @@ Packages with changes:
 
  - **FIX**: OpenAIQAWithSourcesChain throws exception. ([45c6cb9d](https://github.com/davidmigloz/langchain_dart/commit/45c6cb9d32be670902dd2fe4cb92597765590d85))
  - **FEAT**: Support estimating the number of tokens for a given prompt ([#3](https://github.com/davidmigloz/langchain_dart/issues/3)). ([e22f22c8](https://github.com/davidmigloz/langchain_dart/commit/e22f22c89f188a019b96a7c0003dbd26471bebb7))
+https://github.com/davidmigloz/langchain_dart/issues/3)). ([e22f22c8](https://github.com/davidmigloz/langchain_dart/commit/e22f22c89f188a019b96a7c0003dbd26471bebb7))

@@ -2,6 +2,10 @@
 
 ---
 
+## 0.0.4+1
+
+ - **FIX**: toolChoice required infinite loop in openai_realtime_dart ([#723](https://github.com/davidmigloz/langchain_dart/issues/723)). ([f52211cc](https://github.com/davidmigloz/langchain_dart/commit/f52211cca063d64e346a4ed023c337a351ca3e33))
+
 ## 0.0.4
 
  - **FEAT**: Align latest OpenAI Realtime API changes ([#707](https://github.com/davidmigloz/langchain_dart/issues/707)). ([c2fc4f53](https://github.com/davidmigloz/langchain_dart/commit/c2fc4f53492726ec78639d4a9ef55dfc054c2fae))

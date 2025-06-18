@@ -2,6 +2,11 @@
 
 ---
 
+## 0.5.1
+
+ - **FEAT**: Make ToolCallChunk.index field nullable to support Gemini OpenAI-compatible API ([#733](https://github.com/davidmigloz/langchain_dart/issues/733)). ([19cb49c0](https://github.com/davidmigloz/langchain_dart/commit/19cb49c09e42204cc523fbbdd3941b3070146063))
+ - **FEAT**: Make Embedding.index field nullable to support Gemini OpenAI-compatible API ([#729](https://github.com/davidmigloz/langchain_dart/issues/729)). ([9d22f197](https://github.com/davidmigloz/langchain_dart/commit/9d22f1972d99b8b1f6dbcfcb3f7bfba2257fca5b))
+
 ## 0.5.0
 
  - **BREAKING** **FEAT**: Align OpenAI API changes ([#706](https://github.com/davidmigloz/langchain_dart/issues/706)). ([b8b04ca6](https://github.com/davidmigloz/langchain_dart/commit/b8b04ca618ffbc6f84b935a89852767479da1611))

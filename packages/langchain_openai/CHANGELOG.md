@@ -2,6 +2,10 @@
 
 ---
 
+## 0.7.4+1
+
+ - Update a dependency to the latest release.
+
 ## 0.7.4
 
  - **FEAT**: Update OpenAI model catalog ([#714](https://github.com/davidmigloz/langchain_dart/issues/714)). ([68df4558](https://github.com/davidmigloz/langchain_dart/commit/68df4558a01e872c73ad465f4b85f1b5c61ddd50))
