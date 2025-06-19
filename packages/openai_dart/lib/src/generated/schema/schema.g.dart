@@ -2057,7 +2057,7 @@ Map<String, dynamic> _$$ImageImplToJson(_$ImageImpl instance) =>
 
 _$ModelImpl _$$ModelImplFromJson(Map<String, dynamic> json) => _$ModelImpl(
       id: json['id'] as String,
-      created: (json['created'] as num).toInt(),
+      created: (json['created'] as num?)?.toInt(),
       object: $enumDecode(_$ModelObjectEnumMap, json['object']),
       ownedBy: json['owned_by'] as String,
     );
@@ -2065,7 +2065,7 @@ _$ModelImpl _$$ModelImplFromJson(Map<String, dynamic> json) => _$ModelImpl(
 Map<String, dynamic> _$$ModelImplToJson(_$ModelImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'created': instance.created,
+      if (instance.created case final value?) 'created': value,
       'object': _$ModelObjectEnumMap[instance.object]!,
       'owned_by': instance.ownedBy,
     };

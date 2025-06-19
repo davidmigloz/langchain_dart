@@ -19,7 +19,7 @@ class Model with _$Model {
     required String id,
 
     /// The Unix timestamp (in seconds) when the model was created.
-    required int created,
+    @JsonKey(includeIfNull: false) int? created,
 
     /// The object type, which is always "model".
     required ModelObject object,

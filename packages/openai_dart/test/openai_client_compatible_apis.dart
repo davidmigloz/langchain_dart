@@ -175,5 +175,12 @@ void main() {
       expect(response.data, hasLength(1));
       expect(response.data.first.embeddingVector, isNotEmpty);
     });
+
+    test('Test list models API', () async {
+      final response = await client.listModels();
+      expect(response.data, isNotEmpty);
+      expect(response.data.first.id, isNotEmpty);
+      expect(response.data.first.ownedBy, isNotEmpty);
+    });
   });
 }
