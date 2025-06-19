@@ -23602,7 +23602,8 @@ mixin _$Model {
   String get id => throw _privateConstructorUsedError;
 
   /// The Unix timestamp (in seconds) when the model was created.
-  int get created => throw _privateConstructorUsedError;
+  @JsonKey(includeIfNull: false)
+  int? get created => throw _privateConstructorUsedError;
 
   /// The object type, which is always "model".
   ModelObject get object => throw _privateConstructorUsedError;
@@ -23627,7 +23628,7 @@ abstract class $ModelCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
-      int created,
+      @JsonKey(includeIfNull: false) int? created,
       ModelObject object,
       @JsonKey(name: 'owned_by') String ownedBy});
 }
@@ -23648,7 +23649,7 @@ class _$ModelCopyWithImpl<$Res, $Val extends Model>
   @override
   $Res call({
     Object? id = null,
-    Object? created = null,
+    Object? created = freezed,
     Object? object = null,
     Object? ownedBy = null,
   }) {
@@ -23657,10 +23658,10 @@ class _$ModelCopyWithImpl<$Res, $Val extends Model>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      created: null == created
+      created: freezed == created
           ? _value.created
           : created // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
@@ -23682,7 +23683,7 @@ abstract class _$$ModelImplCopyWith<$Res> implements $ModelCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
-      int created,
+      @JsonKey(includeIfNull: false) int? created,
       ModelObject object,
       @JsonKey(name: 'owned_by') String ownedBy});
 }
@@ -23701,7 +23702,7 @@ class __$$ModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? created = null,
+    Object? created = freezed,
     Object? object = null,
     Object? ownedBy = null,
   }) {
@@ -23710,10 +23711,10 @@ class __$$ModelImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      created: null == created
+      created: freezed == created
           ? _value.created
           : created // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
@@ -23731,7 +23732,7 @@ class __$$ModelImplCopyWithImpl<$Res>
 class _$ModelImpl extends _Model {
   const _$ModelImpl(
       {required this.id,
-      required this.created,
+      @JsonKey(includeIfNull: false) this.created,
       required this.object,
       @JsonKey(name: 'owned_by') required this.ownedBy})
       : super._();
@@ -23745,7 +23746,8 @@ class _$ModelImpl extends _Model {
 
   /// The Unix timestamp (in seconds) when the model was created.
   @override
-  final int created;
+  @JsonKey(includeIfNull: false)
+  final int? created;
 
   /// The object type, which is always "model".
   @override
@@ -23795,7 +23797,7 @@ class _$ModelImpl extends _Model {
 abstract class _Model extends Model {
   const factory _Model(
       {required final String id,
-      required final int created,
+      @JsonKey(includeIfNull: false) final int? created,
       required final ModelObject object,
       @JsonKey(name: 'owned_by') required final String ownedBy}) = _$ModelImpl;
   const _Model._() : super._();
@@ -23808,7 +23810,8 @@ abstract class _Model extends Model {
 
   /// The Unix timestamp (in seconds) when the model was created.
   @override
-  int get created;
+  @JsonKey(includeIfNull: false)
+  int? get created;
 
   /// The object type, which is always "model".
   @override

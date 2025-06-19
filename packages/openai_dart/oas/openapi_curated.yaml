@@ -3981,7 +3981,6 @@ components:
       required:
         - id
         - object
-        - created
         - owned_by
     ListModelsResponse:
       type: object
