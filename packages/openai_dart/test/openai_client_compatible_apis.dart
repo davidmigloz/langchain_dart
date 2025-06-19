@@ -183,4 +183,25 @@ void main() {
       expect(response.data.first.ownedBy, isNotEmpty);
     });
   });
+
+  group('OpenRouter OpenAI-compatible API tests', () {
+    late OpenAIClient client;
+
+    setUp(() {
+      client = OpenAIClient(
+        apiKey: Platform.environment['OPEN_ROUTER_API_KEY'],
+        baseUrl: 'https://openrouter.ai/api/v1',
+      );
+    });
+
+    tearDown(() {
+      client.endSession();
+    });
+
+    test('Test list models API', () async {
+      final response = await client.listModels();
+      expect(response.data, isNotEmpty);
+      expect(response.data.first.id, isNotEmpty);
+    });
+  });
 }

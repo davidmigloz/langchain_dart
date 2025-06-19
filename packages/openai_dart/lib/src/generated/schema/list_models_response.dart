@@ -16,7 +16,11 @@ class ListModelsResponse with _$ListModelsResponse {
   /// Factory constructor for ListModelsResponse
   const factory ListModelsResponse({
     /// The object type, which is always "list".
-    required ListModelsResponseObject object,
+    @JsonKey(
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue,
+    )
+    ListModelsResponseObject? object,
 
     /// The list of models.
     required List<Model> data,

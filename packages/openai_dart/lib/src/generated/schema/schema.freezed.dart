@@ -23606,11 +23606,13 @@ mixin _$Model {
   int? get created => throw _privateConstructorUsedError;
 
   /// The object type, which is always "model".
-  ModelObject get object => throw _privateConstructorUsedError;
+  @JsonKey(
+      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ModelObject? get object => throw _privateConstructorUsedError;
 
   /// The organization that owns the model.
-  @JsonKey(name: 'owned_by')
-  String get ownedBy => throw _privateConstructorUsedError;
+  @JsonKey(name: 'owned_by', includeIfNull: false)
+  String? get ownedBy => throw _privateConstructorUsedError;
 
   /// Serializes this Model to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -23629,8 +23631,11 @@ abstract class $ModelCopyWith<$Res> {
   $Res call(
       {String id,
       @JsonKey(includeIfNull: false) int? created,
-      ModelObject object,
-      @JsonKey(name: 'owned_by') String ownedBy});
+      @JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ModelObject? object,
+      @JsonKey(name: 'owned_by', includeIfNull: false) String? ownedBy});
 }
 
 /// @nodoc
@@ -23650,8 +23655,8 @@ class _$ModelCopyWithImpl<$Res, $Val extends Model>
   $Res call({
     Object? id = null,
     Object? created = freezed,
-    Object? object = null,
-    Object? ownedBy = null,
+    Object? object = freezed,
+    Object? ownedBy = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -23662,14 +23667,14 @@ class _$ModelCopyWithImpl<$Res, $Val extends Model>
           ? _value.created
           : created // ignore: cast_nullable_to_non_nullable
               as int?,
-      object: null == object
+      object: freezed == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as ModelObject,
-      ownedBy: null == ownedBy
+              as ModelObject?,
+      ownedBy: freezed == ownedBy
           ? _value.ownedBy
           : ownedBy // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -23684,8 +23689,11 @@ abstract class _$$ModelImplCopyWith<$Res> implements $ModelCopyWith<$Res> {
   $Res call(
       {String id,
       @JsonKey(includeIfNull: false) int? created,
-      ModelObject object,
-      @JsonKey(name: 'owned_by') String ownedBy});
+      @JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ModelObject? object,
+      @JsonKey(name: 'owned_by', includeIfNull: false) String? ownedBy});
 }
 
 /// @nodoc
@@ -23703,8 +23711,8 @@ class __$$ModelImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? created = freezed,
-    Object? object = null,
-    Object? ownedBy = null,
+    Object? object = freezed,
+    Object? ownedBy = freezed,
   }) {
     return _then(_$ModelImpl(
       id: null == id
@@ -23715,14 +23723,14 @@ class __$$ModelImplCopyWithImpl<$Res>
           ? _value.created
           : created // ignore: cast_nullable_to_non_nullable
               as int?,
-      object: null == object
+      object: freezed == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as ModelObject,
-      ownedBy: null == ownedBy
+              as ModelObject?,
+      ownedBy: freezed == ownedBy
           ? _value.ownedBy
           : ownedBy // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -23733,8 +23741,11 @@ class _$ModelImpl extends _Model {
   const _$ModelImpl(
       {required this.id,
       @JsonKey(includeIfNull: false) this.created,
-      required this.object,
-      @JsonKey(name: 'owned_by') required this.ownedBy})
+      @JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      this.object,
+      @JsonKey(name: 'owned_by', includeIfNull: false) this.ownedBy})
       : super._();
 
   factory _$ModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -23751,12 +23762,14 @@ class _$ModelImpl extends _Model {
 
   /// The object type, which is always "model".
   @override
-  final ModelObject object;
+  @JsonKey(
+      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  final ModelObject? object;
 
   /// The organization that owns the model.
   @override
-  @JsonKey(name: 'owned_by')
-  final String ownedBy;
+  @JsonKey(name: 'owned_by', includeIfNull: false)
+  final String? ownedBy;
 
   @override
   String toString() {
@@ -23798,8 +23811,12 @@ abstract class _Model extends Model {
   const factory _Model(
       {required final String id,
       @JsonKey(includeIfNull: false) final int? created,
-      required final ModelObject object,
-      @JsonKey(name: 'owned_by') required final String ownedBy}) = _$ModelImpl;
+      @JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      final ModelObject? object,
+      @JsonKey(name: 'owned_by', includeIfNull: false)
+      final String? ownedBy}) = _$ModelImpl;
   const _Model._() : super._();
 
   factory _Model.fromJson(Map<String, dynamic> json) = _$ModelImpl.fromJson;
@@ -23815,12 +23832,14 @@ abstract class _Model extends Model {
 
   /// The object type, which is always "model".
   @override
-  ModelObject get object;
+  @JsonKey(
+      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ModelObject? get object;
 
   /// The organization that owns the model.
   @override
-  @JsonKey(name: 'owned_by')
-  String get ownedBy;
+  @JsonKey(name: 'owned_by', includeIfNull: false)
+  String? get ownedBy;
 
   /// Create a copy of Model
   /// with the given fields replaced by the non-null parameter values.
@@ -23837,7 +23856,9 @@ ListModelsResponse _$ListModelsResponseFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$ListModelsResponse {
   /// The object type, which is always "list".
-  ListModelsResponseObject get object => throw _privateConstructorUsedError;
+  @JsonKey(
+      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ListModelsResponseObject? get object => throw _privateConstructorUsedError;
 
   /// The list of models.
   List<Model> get data => throw _privateConstructorUsedError;
@@ -23858,7 +23879,12 @@ abstract class $ListModelsResponseCopyWith<$Res> {
           ListModelsResponse value, $Res Function(ListModelsResponse) then) =
       _$ListModelsResponseCopyWithImpl<$Res, ListModelsResponse>;
   @useResult
-  $Res call({ListModelsResponseObject object, List<Model> data});
+  $Res call(
+      {@JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ListModelsResponseObject? object,
+      List<Model> data});
 }
 
 /// @nodoc
@@ -23876,14 +23902,14 @@ class _$ListModelsResponseCopyWithImpl<$Res, $Val extends ListModelsResponse>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? object = null,
+    Object? object = freezed,
     Object? data = null,
   }) {
     return _then(_value.copyWith(
-      object: null == object
+      object: freezed == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as ListModelsResponseObject,
+              as ListModelsResponseObject?,
       data: null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
@@ -23900,7 +23926,12 @@ abstract class _$$ListModelsResponseImplCopyWith<$Res>
       __$$ListModelsResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({ListModelsResponseObject object, List<Model> data});
+  $Res call(
+      {@JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ListModelsResponseObject? object,
+      List<Model> data});
 }
 
 /// @nodoc
@@ -23916,14 +23947,14 @@ class __$$ListModelsResponseImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? object = null,
+    Object? object = freezed,
     Object? data = null,
   }) {
     return _then(_$ListModelsResponseImpl(
-      object: null == object
+      object: freezed == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as ListModelsResponseObject,
+              as ListModelsResponseObject?,
       data: null == data
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
@@ -23936,7 +23967,11 @@ class __$$ListModelsResponseImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ListModelsResponseImpl extends _ListModelsResponse {
   const _$ListModelsResponseImpl(
-      {required this.object, required final List<Model> data})
+      {@JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      this.object,
+      required final List<Model> data})
       : _data = data,
         super._();
 
@@ -23945,7 +23980,9 @@ class _$ListModelsResponseImpl extends _ListModelsResponse {
 
   /// The object type, which is always "list".
   @override
-  final ListModelsResponseObject object;
+  @JsonKey(
+      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  final ListModelsResponseObject? object;
 
   /// The list of models.
   final List<Model> _data;
@@ -23996,7 +24033,10 @@ class _$ListModelsResponseImpl extends _ListModelsResponse {
 
 abstract class _ListModelsResponse extends ListModelsResponse {
   const factory _ListModelsResponse(
-      {required final ListModelsResponseObject object,
+      {@JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      final ListModelsResponseObject? object,
       required final List<Model> data}) = _$ListModelsResponseImpl;
   const _ListModelsResponse._() : super._();
 
@@ -24005,7 +24045,9 @@ abstract class _ListModelsResponse extends ListModelsResponse {
 
   /// The object type, which is always "list".
   @override
-  ListModelsResponseObject get object;
+  @JsonKey(
+      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ListModelsResponseObject? get object;
 
   /// The list of models.
   @override
