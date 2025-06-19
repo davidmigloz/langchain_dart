@@ -3980,8 +3980,6 @@ components:
           description: The organization that owns the model.
       required:
         - id
-        - object
-        - owned_by
     ListModelsResponse:
       type: object
       description: Represents a list of models returned by the List models endpoint.
@@ -3996,7 +3994,6 @@ components:
           items:
             $ref: "#/components/schemas/Model"
       required:
-        - object
         - data
     DeleteModelResponse:
       type: object

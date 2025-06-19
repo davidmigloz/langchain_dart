@@ -2058,16 +2058,18 @@ Map<String, dynamic> _$$ImageImplToJson(_$ImageImpl instance) =>
 _$ModelImpl _$$ModelImplFromJson(Map<String, dynamic> json) => _$ModelImpl(
       id: json['id'] as String,
       created: (json['created'] as num?)?.toInt(),
-      object: $enumDecode(_$ModelObjectEnumMap, json['object']),
-      ownedBy: json['owned_by'] as String,
+      object: $enumDecodeNullable(_$ModelObjectEnumMap, json['object'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      ownedBy: json['owned_by'] as String?,
     );
 
 Map<String, dynamic> _$$ModelImplToJson(_$ModelImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       if (instance.created case final value?) 'created': value,
-      'object': _$ModelObjectEnumMap[instance.object]!,
-      'owned_by': instance.ownedBy,
+      if (_$ModelObjectEnumMap[instance.object] case final value?)
+        'object': value,
+      if (instance.ownedBy case final value?) 'owned_by': value,
     };
 
 const _$ModelObjectEnumMap = {
@@ -2077,7 +2079,9 @@ const _$ModelObjectEnumMap = {
 _$ListModelsResponseImpl _$$ListModelsResponseImplFromJson(
         Map<String, dynamic> json) =>
     _$ListModelsResponseImpl(
-      object: $enumDecode(_$ListModelsResponseObjectEnumMap, json['object']),
+      object: $enumDecodeNullable(
+          _$ListModelsResponseObjectEnumMap, json['object'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
       data: (json['data'] as List<dynamic>)
           .map((e) => Model.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2086,7 +2090,8 @@ _$ListModelsResponseImpl _$$ListModelsResponseImplFromJson(
 Map<String, dynamic> _$$ListModelsResponseImplToJson(
         _$ListModelsResponseImpl instance) =>
     <String, dynamic>{
-      'object': _$ListModelsResponseObjectEnumMap[instance.object]!,
+      if (_$ListModelsResponseObjectEnumMap[instance.object] case final value?)
+        'object': value,
       'data': instance.data.map((e) => e.toJson()).toList(),
     };
 

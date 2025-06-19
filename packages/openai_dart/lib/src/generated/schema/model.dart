@@ -22,10 +22,14 @@ class Model with _$Model {
     @JsonKey(includeIfNull: false) int? created,
 
     /// The object type, which is always "model".
-    required ModelObject object,
+    @JsonKey(
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue,
+    )
+    ModelObject? object,
 
     /// The organization that owns the model.
-    @JsonKey(name: 'owned_by') required String ownedBy,
+    @JsonKey(name: 'owned_by', includeIfNull: false) String? ownedBy,
   }) = _Model;
 
   /// Object construction from a JSON representation
