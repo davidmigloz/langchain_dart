@@ -2,6 +2,11 @@
 
 ---
 
+## 0.5.2
+
+ - **FEAT**: Make Model.object/owned_by  fields nullable to support OpenRouter's OpenAI-compatible API ([#736](https://github.com/davidmigloz/langchain_dart/issues/736)). ([afa98b8c](https://github.com/davidmigloz/langchain_dart/commit/afa98b8c44c612126f2f6ee32d6aecdad41663b4))
+ - **FEAT**: Make Model.created field nullable to support Google's OpenAI-compatible API ([#735](https://github.com/davidmigloz/langchain_dart/issues/735)). ([d617e49f](https://github.com/davidmigloz/langchain_dart/commit/d617e49f9d5760e2714d27d76cf699364e9cfe51))
+
 ## 0.5.1
 
  - **FEAT**: Make ToolCallChunk.index field nullable to support Gemini OpenAI-compatible API ([#733](https://github.com/davidmigloz/langchain_dart/issues/733)). ([19cb49c0](https://github.com/davidmigloz/langchain_dart/commit/19cb49c09e42204cc523fbbdd3941b3070146063))

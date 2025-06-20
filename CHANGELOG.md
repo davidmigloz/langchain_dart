@@ -2,6 +2,35 @@
 
 📣 Check out the [releases page](https://github.com/davidmigloz/langchain_dart/releases) or the [#announcements](https://discord.com/channels/1123158322812555295/1123250594644242534) channel on the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details.
 
+## 2025-06-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`openai_dart` - `v0.5.2`](#openai_dart---v052)
+ - [`langchain_openai` - `v0.7.4+2`](#langchain_openai---v0742)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `langchain_openai` - `v0.7.4+2`
+
+---
+
+#### `openai_dart` - `v0.5.2`
+
+ - **FEAT**: Make Model.object/owned_by  fields nullable to support OpenRouter's OpenAI-compatible API ([#736](https://github.com/davidmigloz/langchain_dart/issues/736)). ([afa98b8c](https://github.com/davidmigloz/langchain_dart/commit/afa98b8c44c612126f2f6ee32d6aecdad41663b4))
+ - **FEAT**: Make Model.created field nullable to support Google's OpenAI-compatible API ([#735](https://github.com/davidmigloz/langchain_dart/issues/735)). ([d617e49f](https://github.com/davidmigloz/langchain_dart/commit/d617e49f9d5760e2714d27d76cf699364e9cfe51))
+
+
 ## 2025-06-18
 
 ### Changes
@@ -3496,4 +3525,5 @@ Packages with changes:
 
  - **FIX**: OpenAIQAWithSourcesChain throws exception. ([45c6cb9d](https://github.com/davidmigloz/langchain_dart/commit/45c6cb9d32be670902dd2fe4cb92597765590d85))
  - **FEAT**: Support estimating the number of tokens for a given prompt ([#3](https://github.com/davidmigloz/langchain_dart/issues/3)). ([e22f22c8](https://github.com/davidmigloz/langchain_dart/commit/e22f22c89f188a019b96a7c0003dbd26471bebb7))
+https://github.com/davidmigloz/langchain_dart/issues/3)). ([e22f22c8](https://github.com/davidmigloz/langchain_dart/commit/e22f22c89f188a019b96a7c0003dbd26471bebb7))
 https://github.com/davidmigloz/langchain_dart/issues/3)). ([e22f22c8](https://github.com/davidmigloz/langchain_dart/commit/e22f22c89f188a019b96a7c0003dbd26471bebb7))
