@@ -1,0 +1,33 @@
+name: langchain_compat
+
+description: >
+  Compatibility abstractions for language models, chat models, and embedding models
+  for LangChain.dart. This package provides a unified interface for integrating
+  with various LLM, chat, and embedding providers.
+
+version: 1.0.0
+# repository: https://github.com/my_org/my_repo
+
+environment:
+  sdk: ^3.8.1
+
+# Core dependencies for compatibility abstractions
+dependencies:
+  async: ^2.13.0
+  collection: ^1.19.1
+  cross_file: ^0.3.4+2
+  crypto: ^3.0.6
+  meta: ^1.16.0
+  rxdart: ">=0.27.7 <0.29.0"
+  openai_dart: ^0.5.1
+  googleai_dart: ^0.1.1
+  http: ^1.1.0
+  uuid: ^4.2.2
+  langchain_tiktoken: ^1.0.1
+  google_generative_ai: ^0.4.7
+  vertex_ai: ^0.1.0
+
+dev_dependencies:
+  all_lint_rules_community: ^0.0.43
+  lints: ^6.0.0
+  test: ^1.24.0
