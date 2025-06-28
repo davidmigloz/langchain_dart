@@ -182,7 +182,13 @@ abstract base class Tool<Input extends Object, Options extends ToolOptions,
       inputJsonSchema: inputJsonSchema,
       strict: strict,
       function: func,
-      getInputFromJson: getInputFromJson ?? (json) => json['input'] as Input,
+      getInputFromJson: getInputFromJson ??
+          (json) {
+            if (json.containsKey('input')) {
+              return json['input'] as Input;
+            }
+            return json as Input;
+          },
       returnDirect: returnDirect,
       handleToolError: handleToolError,
     );
