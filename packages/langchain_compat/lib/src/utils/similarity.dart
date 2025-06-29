@@ -4,7 +4,7 @@ import 'dart:math';
 /// It ranges from -1 to 1, where 1 represents identical vectors, 0 represents
 /// orthogonal vectors, and -1 represents vectors that are diametrically
 /// opposed.
-double cosineSimilarity(final List<double> a, final List<double> b) {
+double cosineSimilarity(List<double> a, List<double> b) {
   double p = 0;
   double p2 = 0;
   double q2 = 0;
@@ -21,12 +21,12 @@ double cosineSimilarity(final List<double> a, final List<double> b) {
 /// The similarity is calculated using the provided [similarityFunction].
 /// The default similarity function is [cosineSimilarity].
 List<double> calculateSimilarity(
-  final List<double> embedding,
-  final List<List<double>> embeddings, {
-  final double Function(List<double> a, List<double> b) similarityFunction =
+  List<double> embedding,
+  List<List<double>> embeddings, {
+  double Function(List<double> a, List<double> b) similarityFunction =
       cosineSimilarity,
 }) => embeddings
-      .map((final vector) => similarityFunction(vector, embedding))
+      .map((vector) => similarityFunction(vector, embedding))
       .toList(growable: false);
 
 /// Returns a sorted list of indexes of [embeddings] that are most similar to
@@ -35,9 +35,9 @@ List<double> calculateSimilarity(
 /// The similarity is calculated using the provided [similarityFunction].
 /// The default similarity function is [cosineSimilarity].
 List<int> getIndexesMostSimilarEmbeddings(
-  final List<double> embedding,
-  final List<List<double>> embeddings, {
-  final double Function(List<double> a, List<double> b) similarityFunction =
+  List<double> embedding,
+  List<List<double>> embeddings, {
+  double Function(List<double> a, List<double> b) similarityFunction =
       cosineSimilarity,
 }) {
   final similarities = calculateSimilarity(

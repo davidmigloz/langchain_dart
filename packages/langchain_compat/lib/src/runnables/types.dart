@@ -22,7 +22,7 @@ class RunnableOptions {
   RunnableOptions merge(RunnableOptions? other) => copyWith(concurrencyLimit: other?.concurrencyLimit);
 
   @override
-  bool operator ==(covariant final RunnableOptions other) => concurrencyLimit == other.concurrencyLimit;
+  bool operator ==(covariant RunnableOptions other) => concurrencyLimit == other.concurrencyLimit;
 
   @override
   int get hashCode => concurrencyLimit.hashCode;

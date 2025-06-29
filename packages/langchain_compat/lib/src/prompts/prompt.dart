@@ -62,14 +62,14 @@ final class PromptTemplate extends BasePromptTemplate {
   /// - [partialVariables] the partial variables to use for the template.
   /// - [validateTemplate] whether to validate the template.
   factory PromptTemplate.fromTemplate(
-    final String template, {
-    final PartialValues? partialVariables,
-    final bool validateTemplate = true,
+    String template, {
+    PartialValues? partialVariables,
+    bool validateTemplate = true,
   }) {
     final t = PromptTemplate(
       inputVariables: parseFStringTemplate(template)
           .whereType<ParsedFStringVariableNode>()
-          .map((final node) => node.name)
+          .map((node) => node.name)
           .toSet()
           .difference(partialVariables?.keys.toSet() ?? {}),
       partialVariables: partialVariables,
@@ -95,12 +95,12 @@ final class PromptTemplate extends BasePromptTemplate {
   ///   examples.
   /// - [validateTemplate] whether to validate the template.
   factory PromptTemplate.fromExamples({
-    required final List<String> examples,
-    required final String suffix,
-    required final Set<String> inputVariables,
-    final String exampleSeparator = '\n\n',
-    final String prefix = '',
-    final bool validateTemplate = true,
+    required List<String> examples,
+    required String suffix,
+    required Set<String> inputVariables,
+    String exampleSeparator = '\n\n',
+    String prefix = '',
+    bool validateTemplate = true,
   }) {
     final template = [prefix, ...examples, suffix].join(exampleSeparator);
     final t = PromptTemplate(
@@ -119,9 +119,9 @@ final class PromptTemplate extends BasePromptTemplate {
   /// - [partialVariables] the partial variables to use for the template.
   /// - [validateTemplate] whether to validate the template.
   static Future<PromptTemplate> fromFile(
-    final String templateFile, {
-    final PartialValues? partialVariables,
-    final bool validateTemplate = true,
+    String templateFile, {
+    PartialValues? partialVariables,
+    bool validateTemplate = true,
   }) async {
     final file = XFile(templateFile);
     final template = await file.readAsString();
@@ -139,7 +139,7 @@ final class PromptTemplate extends BasePromptTemplate {
   String get type => 'prompt';
 
   @override
-  PromptTemplate partial(final PartialValues values) => super.partial(values) as PromptTemplate;
+  PromptTemplate partial(PartialValues values) => super.partial(values) as PromptTemplate;
 
   @override
   void validateTemplate() {
@@ -151,16 +151,16 @@ final class PromptTemplate extends BasePromptTemplate {
   }
 
   @override
-  String format([final InputValues values = const {}]) {
+  String format([InputValues values = const {}]) {
     final allValues = mergePartialAndUserVariables(values);
     return renderTemplate(template: template, inputValues: allValues);
   }
 
   @override
-  PromptValue formatPrompt(final InputValues values) => PromptValue.string(format(values));
+  PromptValue formatPrompt(InputValues values) => PromptValue.string(format(values));
 
   @override
-  bool operator ==(covariant final PromptTemplate other) {
+  bool operator ==(covariant PromptTemplate other) {
     const setEqualsInputVariables = SetEquality<String>();
     const mapEqualsPartialVariables = MapEquality<String, dynamic>();
     return identical(this, other) ||
@@ -190,9 +190,9 @@ PromptTemplate{
 
   @override
   PromptTemplate copyWith({
-    final Set<String>? inputVariables,
-    final Map<String, dynamic>? partialVariables,
-    final String? template,
+    Set<String>? inputVariables,
+    Map<String, dynamic>? partialVariables,
+    String? template,
   }) => PromptTemplate(
       inputVariables: inputVariables ?? this.inputVariables,
       partialVariables: partialVariables ?? this.partialVariables,

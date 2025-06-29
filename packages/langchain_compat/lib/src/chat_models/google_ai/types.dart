@@ -125,18 +125,18 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
 
   @override
   ChatGoogleGenerativeAIOptions copyWith({
-    final String? model,
-    final double? topP,
-    final int? topK,
-    final int? candidateCount,
-    final int? maxOutputTokens,
-    final double? temperature,
-    final List<String>? stopSequences,
-    final List<ChatGoogleGenerativeAISafetySetting>? safetySettings,
-    final bool? enableCodeExecution,
-    final List<ToolSpec>? tools,
-    final ChatToolChoice? toolChoice,
-    final int? concurrencyLimit,
+    String? model,
+    double? topP,
+    int? topK,
+    int? candidateCount,
+    int? maxOutputTokens,
+    double? temperature,
+    List<String>? stopSequences,
+    List<ChatGoogleGenerativeAISafetySetting>? safetySettings,
+    bool? enableCodeExecution,
+    List<ToolSpec>? tools,
+    ChatToolChoice? toolChoice,
+    int? concurrencyLimit,
   }) => ChatGoogleGenerativeAIOptions(
       model: model ?? this.model,
       topP: topP ?? this.topP,
@@ -154,7 +154,7 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
 
   @override
   ChatGoogleGenerativeAIOptions merge(
-    covariant final ChatGoogleGenerativeAIOptions? other,
+    covariant ChatGoogleGenerativeAIOptions? other,
   ) => copyWith(
       model: other?.model,
       topP: other?.topP,
@@ -171,7 +171,7 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
     );
 
   @override
-  bool operator ==(covariant final ChatGoogleGenerativeAIOptions other) => model == other.model &&
+  bool operator ==(covariant ChatGoogleGenerativeAIOptions other) => model == other.model &&
         topP == other.topP &&
         topK == other.topK &&
         candidateCount == other.candidateCount &&

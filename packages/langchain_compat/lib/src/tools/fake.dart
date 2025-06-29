@@ -18,8 +18,8 @@ final class FakeTool extends StringTool<ToolOptions> {
 
   @override
   Future<String> invokeInternal(
-    final String toolInput, {
-    final ToolOptions? options,
+    String toolInput, {
+    ToolOptions? options,
   }) async {
     try {
       return toolInput;

@@ -27,8 +27,8 @@ class FakeChatModel extends BaseChatModel<FakeChatModelOptions> {
 
   @override
   Future<ChatResult> invoke(
-    final PromptValue input, {
-    final FakeChatModelOptions? options,
+    PromptValue input, {
+    FakeChatModelOptions? options,
   }) async {
     final text = responses[_i++ % responses.length];
     final message = AIChatMessage(content: text);
@@ -46,12 +46,12 @@ class FakeChatModel extends BaseChatModel<FakeChatModelOptions> {
 
   @override
   Stream<ChatResult> stream(
-    final PromptValue input, {
-    final FakeChatModelOptions? options,
+    PromptValue input, {
+    FakeChatModelOptions? options,
   }) {
     final res = responses[_i++ % responses.length].split('');
     return Stream.fromIterable(res).map(
-      (final char) => ChatResult(
+      (char) => ChatResult(
         id: 'fake-chat-model',
         output: AIChatMessage(content: char),
         finishReason: FinishReason.stop,
@@ -67,12 +67,12 @@ class FakeChatModel extends BaseChatModel<FakeChatModelOptions> {
 
   @override
   Future<List<int>> tokenize(
-    final PromptValue promptValue, {
-    final ChatModelOptions? options,
+    PromptValue promptValue, {
+    ChatModelOptions? options,
   }) async => promptValue
         .toString()
         .split(' ')
-        .map((final word) => word.hashCode)
+        .map((word) => word.hashCode)
         .toList(growable: false);
 }
 
@@ -94,11 +94,11 @@ class FakeChatModelOptions extends ChatModelOptions {
 
   @override
   FakeChatModelOptions copyWith({
-    final String? model,
-    final Map<String, dynamic>? metadata,
-    final List<ToolSpec>? tools,
-    final ChatToolChoice? toolChoice,
-    final int? concurrencyLimit,
+    String? model,
+    Map<String, dynamic>? metadata,
+    List<ToolSpec>? tools,
+    ChatToolChoice? toolChoice,
+    int? concurrencyLimit,
   }) => FakeChatModelOptions(
       model: model ?? this.model,
       metadata: metadata ?? this.metadata,
@@ -108,14 +108,14 @@ class FakeChatModelOptions extends ChatModelOptions {
     );
 
   @override
-  FakeChatModelOptions merge(covariant final FakeChatModelOptions? other) => copyWith(
+  FakeChatModelOptions merge(covariant FakeChatModelOptions? other) => copyWith(
       model: other?.model,
       metadata: other?.metadata,
       concurrencyLimit: other?.concurrencyLimit,
     );
 
   @override
-  bool operator ==(covariant final FakeChatModelOptions other) => model == other.model &&
+  bool operator ==(covariant FakeChatModelOptions other) => model == other.model &&
         const MapEquality<String, dynamic>().equals(metadata, other.metadata) &&
         concurrencyLimit == other.concurrencyLimit;
 
@@ -141,8 +141,8 @@ class FakeEchoChatModel extends BaseChatModel<FakeEchoChatModelOptions> {
 
   @override
   Future<ChatResult> invoke(
-    final PromptValue input, {
-    final FakeEchoChatModelOptions? options,
+    PromptValue input, {
+    FakeEchoChatModelOptions? options,
   }) async {
     final throwError =
         options?.throwRandomError ?? defaultOptions.throwRandomError;
@@ -166,15 +166,15 @@ class FakeEchoChatModel extends BaseChatModel<FakeEchoChatModelOptions> {
 
   @override
   Stream<ChatResult> stream(
-    final PromptValue input, {
-    final FakeEchoChatModelOptions? options,
+    PromptValue input, {
+    FakeEchoChatModelOptions? options,
   }) {
     final prompt = input.toChatMessages().first.contentAsString.split('');
     final throwError =
         options?.throwRandomError ?? defaultOptions.throwRandomError;
 
     var index = 0;
-    return Stream.fromIterable(prompt).map((final char) {
+    return Stream.fromIterable(prompt).map((char) {
       if (throwError && index == prompt.length ~/ 2) {
         throw Exception('Random error');
       }
@@ -196,12 +196,12 @@ class FakeEchoChatModel extends BaseChatModel<FakeEchoChatModelOptions> {
 
   @override
   Future<List<int>> tokenize(
-    final PromptValue promptValue, {
-    final ChatModelOptions? options,
+    PromptValue promptValue, {
+    ChatModelOptions? options,
   }) async => promptValue
         .toString()
         .split(' ')
-        .map((final word) => word.hashCode)
+        .map((word) => word.hashCode)
         .toList(growable: false);
 }
 
@@ -227,12 +227,12 @@ class FakeEchoChatModelOptions extends ChatModelOptions {
 
   @override
   FakeEchoChatModelOptions copyWith({
-    final String? model,
-    final Map<String, dynamic>? metadata,
-    final bool? throwRandomError,
-    final List<ToolSpec>? tools,
-    final ChatToolChoice? toolChoice,
-    final int? concurrencyLimit,
+    String? model,
+    Map<String, dynamic>? metadata,
+    bool? throwRandomError,
+    List<ToolSpec>? tools,
+    ChatToolChoice? toolChoice,
+    int? concurrencyLimit,
   }) => FakeEchoChatModelOptions(
       model: model ?? this.model,
       metadata: metadata ?? this.metadata,
@@ -244,7 +244,7 @@ class FakeEchoChatModelOptions extends ChatModelOptions {
 
   @override
   FakeEchoChatModelOptions merge(
-    covariant final FakeEchoChatModelOptions? other,
+    covariant FakeEchoChatModelOptions? other,
   ) => copyWith(
       model: other?.model,
       metadata: other?.metadata,
@@ -253,7 +253,7 @@ class FakeEchoChatModelOptions extends ChatModelOptions {
     );
 
   @override
-  bool operator ==(covariant final FakeEchoChatModelOptions other) => model == other.model &&
+  bool operator ==(covariant FakeEchoChatModelOptions other) => model == other.model &&
         const MapEquality<String, dynamic>().equals(metadata, other.metadata) &&
         throwRandomError == other.throwRandomError &&
         concurrencyLimit == other.concurrencyLimit;

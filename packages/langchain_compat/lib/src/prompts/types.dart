@@ -28,10 +28,10 @@ sealed class PromptValue {
       };
 
   /// {@macro string_prompt_template}
-  factory PromptValue.string(final String value) => StringPromptValue(value);
+  factory PromptValue.string(String value) => StringPromptValue(value);
 
   /// {@macro chat_prompt_template}
-  factory PromptValue.chat(final List<ChatMessage> messages) => ChatPromptValue(messages);
+  factory PromptValue.chat(List<ChatMessage> messages) => ChatPromptValue(messages);
 
   /// Returns a string representing the prompt.
   @override
@@ -44,7 +44,7 @@ sealed class PromptValue {
   Map<String, dynamic> toMap() => {};
 
   /// Merges this prompt value with another by concatenating the content.
-  PromptValue concat(final PromptValue other);
+  PromptValue concat(PromptValue other);
 }
 
 /// {@template string_prompt_template}
@@ -77,7 +77,7 @@ class StringPromptValue implements PromptValue {
   List<ChatMessage> toChatMessages() => [ChatMessage.humanText(value)];
 
   @override
-  PromptValue concat(final PromptValue other) => switch (other) {
+  PromptValue concat(PromptValue other) => switch (other) {
     final StringPromptValue other => StringPromptValue(value + other.value),
     final ChatPromptValue other => ChatPromptValue([
       ChatMessage.humanText(value),
@@ -86,7 +86,7 @@ class StringPromptValue implements PromptValue {
   };
 
   @override
-  bool operator ==(covariant final StringPromptValue other) =>
+  bool operator ==(covariant StringPromptValue other) =>
       identical(this, other) ||
       runtimeType == other.runtimeType && value == other.value;
 
@@ -139,7 +139,7 @@ class ChatPromptValue implements PromptValue {
   };
 
   @override
-  PromptValue concat(final PromptValue other) => switch (other) {
+  PromptValue concat(PromptValue other) => switch (other) {
     final StringPromptValue other => ChatPromptValue([
       ...messages,
       ChatMessage.humanText(other.value),
@@ -152,7 +152,7 @@ class ChatPromptValue implements PromptValue {
               index < other.messages.length ? other.messages[index] : null,
             ),
           )
-          .map((final pair) {
+          .map((pair) {
             final (message, otherMessage) = pair;
             if (message == null) {
               return otherMessage;
@@ -168,7 +168,7 @@ class ChatPromptValue implements PromptValue {
   };
 
   @override
-  bool operator ==(covariant final ChatPromptValue other) => identical(this, other) ||
+  bool operator ==(covariant ChatPromptValue other) => identical(this, other) ||
         runtimeType == other.runtimeType &&
             const ListEquality<ChatMessage>().equals(messages, other.messages);
 

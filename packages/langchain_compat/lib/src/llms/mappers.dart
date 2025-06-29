@@ -7,7 +7,7 @@ import '../language_models/types.dart';
 import '../llms/types.dart';
 
 extension CreateCompletionResponseMapper on CreateCompletionResponse {
-  List<LLMResult> toLLMResults({final bool streaming = false}) {
+  List<LLMResult> toLLMResults({bool streaming = false}) {
     final metadata = {
       'created': created,
       'model': model,
@@ -29,7 +29,7 @@ extension CreateCompletionResponseMapper on CreateCompletionResponse {
 
     return choices
         .mapIndexed(
-          (final index, final choice) => LLMResult(
+          (index, choice) => LLMResult(
             id: '$id:$index',
             output: choice.text,
             finishReason: _mapFinishReason(choice.finishReason),
@@ -45,7 +45,7 @@ extension CreateCompletionResponseMapper on CreateCompletionResponse {
         .toList(growable: false);
   }
 
-  FinishReason _mapFinishReason(final CompletionFinishReason? reason) =>
+  FinishReason _mapFinishReason(CompletionFinishReason? reason) =>
       switch (reason) {
         CompletionFinishReason.stop => FinishReason.stop,
         CompletionFinishReason.length => FinishReason.length,
@@ -53,7 +53,7 @@ extension CreateCompletionResponseMapper on CreateCompletionResponse {
         null => FinishReason.unspecified,
       };
 
-  LanguageModelUsage _mapUsage(final CompletionUsage? usage) => LanguageModelUsage(
+  LanguageModelUsage _mapUsage(CompletionUsage? usage) => LanguageModelUsage(
       promptTokens: usage?.promptTokens,
       responseTokens: usage?.completionTokens,
       totalTokens: usage?.totalTokens,

@@ -66,7 +66,7 @@ abstract class Runnable<
   /// sequentially, passing the output of the previous [Runnable] to the next one.
   ///
   /// - [runnables] - the list of [Runnable] objects to run in sequence.
-  static Runnable fromList(final List<Runnable> runnables) => RunnableSequence.from(runnables);
+  static Runnable fromList(List<Runnable> runnables) => RunnableSequence.from(runnables);
 
   /// Creates a [RunnableMap] from a map of [Runnable] objects.
   ///
@@ -76,7 +76,7 @@ abstract class Runnable<
   /// - [steps] - the map of [Runnable] objects to run in parallel.
   static Runnable<RunInput, RunnableOptions, Map<String, dynamic>> fromMap<
     RunInput extends Object
-  >(final Map<String, Runnable<RunInput, RunnableOptions, Object>> steps) => RunnableMap<RunInput>(steps);
+  >(Map<String, Runnable<RunInput, RunnableOptions, Object>> steps) => RunnableMap<RunInput>(steps);
 
   /// Creates a [RunnableFunction] from a Dart function.
   ///
@@ -85,12 +85,12 @@ abstract class Runnable<
   /// - [function] - the function to run.
   static Runnable<RunInput, RunnableOptions, RunOutput>
   fromFunction<RunInput extends Object, RunOutput extends Object>({
-    final FutureOr<RunOutput> Function(
+    FutureOr<RunOutput> Function(
       RunInput input,
       RunnableOptions? options,
     )?
     invoke,
-    final Stream<RunOutput> Function(
+    Stream<RunOutput> Function(
       Stream<RunInput> inputStream,
       RunnableOptions? options,
     )?
@@ -108,7 +108,7 @@ abstract class Runnable<
   /// - [router] - the function that will be called to determine the runnable to use.
   static Runnable<RunInput, RunnableOptions, RunOutput>
   fromRouter<RunInput extends Object, RunOutput extends Object>(
-    final FutureOr<Runnable<RunInput, RunnableOptions, RunOutput>> Function(
+    FutureOr<Runnable<RunInput, RunnableOptions, RunOutput>> Function(
       RunInput input,
       RunnableOptions? options,
     )
@@ -130,7 +130,7 @@ abstract class Runnable<
   static Runnable<RunInput, RunnableOptions, RunOutput> mapInput<
     RunInput extends Object,
     RunOutput extends Object
-  >(final FutureOr<RunOutput> Function(RunInput input) inputMapper) => RunnableMapInput<RunInput, RunOutput>(inputMapper);
+  >(FutureOr<RunOutput> Function(RunInput input) inputMapper) => RunnableMapInput<RunInput, RunOutput>(inputMapper);
 
   /// Creates a [RunnableMapInputStream] from an asynchronous generator.
   ///
@@ -140,7 +140,7 @@ abstract class Runnable<
   /// - [inputStreamMapper] - the stream transformer to run.
   static Runnable<RunInput, RunnableOptions, RunOutput>
   mapInputStream<RunInput extends Object, RunOutput extends Object>(
-    final Stream<RunOutput> Function(Stream<RunInput> inputStream)
+    Stream<RunOutput> Function(Stream<RunInput> inputStream)
     inputStreamMapper,
   ) => RunnableMapInputStream<RunInput, RunOutput>(inputStreamMapper);
 
@@ -148,7 +148,7 @@ abstract class Runnable<
   ///
   /// - [key] - the key of the item to get from the input map.
   static Runnable<Map<String, dynamic>, RunnableOptions, RunOutput>
-  getItemFromMap<RunOutput extends Object>(final String key) => Runnable.mapInput<Map<String, dynamic>, RunOutput>(
+  getItemFromMap<RunOutput extends Object>(String key) => Runnable.mapInput<Map<String, dynamic>, RunOutput>(
       (input) => input[key],
     );
 
@@ -157,7 +157,7 @@ abstract class Runnable<
   ///
   /// - [key] - the key where to place the input in the output map.
   static Runnable<RunInput, RunnableOptions, Map<String, dynamic>>
-  getMapFromInput<RunInput extends Object>([final String key = 'input']) => Runnable.mapInput<RunInput, Map<String, dynamic>>(
+  getMapFromInput<RunInput extends Object>([String key = 'input']) => Runnable.mapInput<RunInput, Map<String, dynamic>>(
       (input) => {key: input},
     );
 
@@ -165,7 +165,7 @@ abstract class Runnable<
   ///
   /// - [input] - the input to invoke the [Runnable] on.
   /// - [options] - the options to use when invoking the [Runnable].
-  Future<RunOutput> invoke(final RunInput input, {final CallOptions? options});
+  Future<RunOutput> invoke(RunInput input, {CallOptions? options});
 
   /// Batches the invocation of the [Runnable] on the given [inputs].
   ///
@@ -182,8 +182,8 @@ abstract class Runnable<
   ///   * List with 1 element: the same options are used for all inputs.
   ///   * List with the same length as the inputs: each input gets its own options.
   Future<List<RunOutput>> batch(
-    final List<RunInput> inputs, {
-    final List<CallOptions>? options,
+    List<RunInput> inputs, {
+    List<CallOptions>? options,
   }) async {
     // By default, it just calls `.invoke` on each input con
     // Subclasses should override this method if they support batching
@@ -199,7 +199,7 @@ abstract class Runnable<
     for (final chunk in chunkList(inputs, chunkSize: concurrencyLimit)) {
       final chunkResults = await Future.wait(
         chunk.map(
-          (final input) => invoke(
+          (input) => invoke(
             input,
             options: options?.length == 1 ? options![0] : options?[index++],
           ),
@@ -215,8 +215,8 @@ abstract class Runnable<
   /// - [input] - the input to invoke the [Runnable] on.
   /// - [options] - the options to use when invoking the [Runnable].
   Stream<RunOutput> stream(
-    final RunInput input, {
-    final CallOptions? options,
+    RunInput input, {
+    CallOptions? options,
   }) async* {
     // By default, it just emits the result of calling `.invoke`
     // Subclasses should override this method if they support streaming output
@@ -228,9 +228,9 @@ abstract class Runnable<
   /// - [inputStream] - the input stream to invoke the [Runnable] on.
   /// - [options] - the options to use when invoking the [Runnable].
   Stream<RunOutput> streamFromInputStream(
-    final Stream<RunInput> inputStream, {
-    final CallOptions? options,
-  }) => inputStream.asyncExpand((final input) => stream(input, options: options));
+    Stream<RunInput> inputStream, {
+    CallOptions? options,
+  }) => inputStream.asyncExpand((input) => stream(input, options: options));
 
   /// Pipes the output of this [Runnable] into another [Runnable] using a
   /// [RunnableSequence].
@@ -242,13 +242,13 @@ abstract class Runnable<
   RunnableSequence<RunInput, NewRunOutput> pipe<
     NewRunOutput extends Object?,
     NewCallOptions extends RunnableOptions
-  >(final Runnable<RunOutput, NewCallOptions, NewRunOutput> next) => RunnableSequence<RunInput, NewRunOutput>(first: this, last: next);
+  >(Runnable<RunOutput, NewCallOptions, NewRunOutput> next) => RunnableSequence<RunInput, NewRunOutput>(first: this, last: next);
 
   /// Binds the [Runnable] to the given [options].
   ///
   /// - [options] - the [CallOptions] to bind the [Runnable] with.
   RunnableBinding<RunInput, CallOptions, RunOutput> bind(
-    final CallOptions options,
+    CallOptions options,
   ) => RunnableBinding<RunInput, CallOptions, RunOutput>(
       bound: this,
       options: options,
@@ -286,10 +286,10 @@ abstract class Runnable<
   ///    override this behavior by providing an optional list of [Duration]s.
   ///  - [addJitter] - whether to add jitter to the delay.
   RunnableRetry<RunInput, RunOutput> withRetry({
-    final int maxRetries = 3,
-    final FutureOr<bool> Function(Object e)? retryIf,
-    final List<Duration?>? delayDurations,
-    final bool addJitter = false,
+    int maxRetries = 3,
+    FutureOr<bool> Function(Object e)? retryIf,
+    List<Duration?>? delayDurations,
+    bool addJitter = false,
   }) => RunnableRetry<RunInput, RunOutput>(
       runnable: this,
       defaultOptions: defaultOptions,
@@ -303,7 +303,7 @@ abstract class Runnable<
 
   /// Returns the given [options] if they are compatible with the [Runnable],
   /// otherwise returns `null`.
-  CallOptions? getCompatibleOptions(final RunnableOptions? options) => options is CallOptions ? options : null;
+  CallOptions? getCompatibleOptions(RunnableOptions? options) => options is CallOptions ? options : null;
 
   /// Cleans up any resources associated with it the [Runnable].
   ///

@@ -61,8 +61,8 @@ class RunnableMapInputStream<RunInput extends Object, RunOutput extends Object>
   /// - [options] - not used.
   @override
   Future<RunOutput> invoke(
-    final RunInput input, {
-    final RunnableOptions? options,
+    RunInput input, {
+    RunnableOptions? options,
   }) => streamFromInputStream(Stream.value(input), options: options).first;
 
   /// Streams the [input] through the [RunnableMapInputStream].
@@ -71,8 +71,8 @@ class RunnableMapInputStream<RunInput extends Object, RunOutput extends Object>
   /// - [options] - not used.
   @override
   Stream<RunOutput> stream(
-    final RunInput input, {
-    final RunnableOptions? options,
+    RunInput input, {
+    RunnableOptions? options,
   }) => streamFromInputStream(Stream.value(input), options: options);
 
   /// Streams the [inputStream] through the [RunnableMapInputStream].
@@ -81,7 +81,7 @@ class RunnableMapInputStream<RunInput extends Object, RunOutput extends Object>
   /// - [options] - not used.
   @override
   Stream<RunOutput> streamFromInputStream(
-    final Stream<RunInput> inputStream, {
-    final RunnableOptions? options,
+    Stream<RunInput> inputStream, {
+    RunnableOptions? options,
   }) => inputStreamMapper(inputStream);
 }

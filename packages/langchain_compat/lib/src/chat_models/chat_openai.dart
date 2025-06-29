@@ -274,7 +274,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   late final _uuid = const Uuid();
 
   /// Set or replace the API key.
-  set apiKey(final String value) => _client.apiKey = value;
+  set apiKey(String value) => _client.apiKey = value;
 
   /// Get the API key.
   String get apiKey => _client.apiKey;
@@ -304,8 +304,8 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
 
   @override
   Future<ChatResult> invoke(
-    final PromptValue input, {
-    final ChatOpenAIOptions? options,
+    PromptValue input, {
+    ChatOpenAIOptions? options,
   }) async {
     final mergedOptions = _mergeOptions(options);
     final completion = await _client.createChatCompletion(
@@ -320,8 +320,8 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
 
   @override
   Stream<ChatResult> stream(
-    final PromptValue input, {
-    final ChatOpenAIOptions? options,
+    PromptValue input, {
+    ChatOpenAIOptions? options,
   }) async* {
     final mergedOptions = _mergeOptions(options);
     final stream = _client.createChatCompletionStream(
@@ -338,8 +338,8 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
 
   @override
   Future<AIChatMessage> call(
-    final List<ChatMessage> messages, {
-    final ChatOpenAIOptions? options,
+    List<ChatMessage> messages, {
+    ChatOpenAIOptions? options,
   }) async {
     final result = await invoke(PromptValue.chat(messages), options: options);
     return result.output;
@@ -352,14 +352,14 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   /// - [promptValue] The prompt to tokenize.
   @override
   Future<List<int>> tokenize(
-    final PromptValue promptValue, {
-    final ChatOpenAIOptions? options,
+    PromptValue promptValue, {
+    ChatOpenAIOptions? options,
   }) async => _getTiktoken().encode(promptValue.toString());
 
   @override
   Future<int> countTokens(
-    final PromptValue promptValue, {
-    final ChatOpenAIOptions? options,
+    PromptValue promptValue, {
+    ChatOpenAIOptions? options,
   }) async {
     final model = options?.model ?? this.model;
     final tiktoken = _getTiktoken();

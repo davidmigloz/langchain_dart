@@ -81,7 +81,7 @@ class RunnableSequence<RunInput extends Object?, RunOutput extends Object?>
   /// Creates a [RunnableSequence] from a list of [Runnable]s.
   ///
   /// - [runnables] - the [Runnable]s to create the [RunnableSequence] from.
-  static RunnableSequence from(final List<Runnable> runnables) => RunnableSequence(
+  static RunnableSequence from(List<Runnable> runnables) => RunnableSequence(
       first: runnables.first,
       middle: runnables.sublist(1, runnables.length - 1),
       last: runnables.last,
@@ -93,8 +93,8 @@ class RunnableSequence<RunInput extends Object?, RunOutput extends Object?>
   /// - [options] - the options to use when invoking the [RunnableSequence].
   @override
   Future<RunOutput> invoke(
-    final RunInput input, {
-    final RunnableOptions? options,
+    RunInput input, {
+    RunnableOptions? options,
   }) async {
     Object? nextStepInput = input;
 
@@ -113,8 +113,8 @@ class RunnableSequence<RunInput extends Object?, RunOutput extends Object?>
 
   @override
   Stream<RunOutput> stream(
-    final RunInput input, {
-    final RunnableOptions? options,
+    RunInput input, {
+    RunnableOptions? options,
   }) => streamFromInputStream(
       Stream.value(input).asBroadcastStream(),
       options: options,
@@ -122,8 +122,8 @@ class RunnableSequence<RunInput extends Object?, RunOutput extends Object?>
 
   @override
   Stream<RunOutput> streamFromInputStream(
-    final Stream<RunInput> inputStream, {
-    final RunnableOptions? options,
+    Stream<RunInput> inputStream, {
+    RunnableOptions? options,
   }) async* {
     Stream<Object?> nextStepStream;
     try {
@@ -163,7 +163,7 @@ class RunnableSequence<RunInput extends Object?, RunOutput extends Object?>
   RunnableSequence<RunInput, NewRunOutput> pipe<
     NewRunOutput extends Object?,
     NewCallOptions extends RunnableOptions
-  >(final Runnable<RunOutput, NewCallOptions, NewRunOutput> next) {
+  >(Runnable<RunOutput, NewCallOptions, NewRunOutput> next) {
     if (next is RunnableSequence<RunOutput, NewRunOutput>) {
       final nextSeq = next as RunnableSequence<RunOutput, NewRunOutput>;
       return RunnableSequence(
@@ -182,8 +182,8 @@ class RunnableSequence<RunInput extends Object?, RunOutput extends Object?>
 
   /// Provides a better error message for type errors when streaming.
   Never _throwInvalidInputTypeStream(
-    final TypeError e,
-    final Runnable runnable,
+    TypeError e,
+    Runnable runnable,
   ) {
     // TypeError: type '_BroadcastStream<X>' is not a subtype of type 'Stream<Y>' of 'inputStream'
     final pattern = RegExp(

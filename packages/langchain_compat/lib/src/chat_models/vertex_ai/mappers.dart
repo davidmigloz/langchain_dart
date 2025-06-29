@@ -40,7 +40,7 @@ extension ChatExampleMapper on ChatExample {
 }
 
 extension VertexAITextChatModelResponseMapper on VertexAITextChatModelResponse {
-  ChatResult toChatResult(final String id, final String model) {
+  ChatResult toChatResult(String id, String model) {
     final prediction = predictions.first;
     final candidate = prediction.candidates.first;
     return ChatResult(
@@ -57,7 +57,7 @@ extension VertexAITextChatModelResponseMapper on VertexAITextChatModelResponse {
   }
 
   LanguageModelUsage _mapUsage(
-    final VertexAITextChatModelResponseMetadataToken usage,
+    VertexAITextChatModelResponseMetadataToken usage,
   ) => LanguageModelUsage(
     promptTokens: usage.inputTotalTokens,
     promptBillableCharacters: usage.inputTotalBillableCharacters,

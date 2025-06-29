@@ -120,10 +120,10 @@ import '../../utils/chunk.dart';
 class VertexAIEmbeddings implements Embeddings {
   /// {@macro vertex_ai_embeddings}
   VertexAIEmbeddings({
-    required final http.Client httpClient,
-    required final String project,
-    final String location = 'us-central1',
-    final String? rootUrl,
+    required http.Client httpClient,
+    required String project,
+    String location = 'us-central1',
+    String? rootUrl,
     this.publisher = 'google',
     this.model = 'textembedding-gecko',
     this.batchSize = 5,
@@ -168,15 +168,15 @@ class VertexAIEmbeddings implements Embeddings {
 
   @override
   Future<List<List<double>>> embedDocuments(
-    final List<Document> documents,
+    List<Document> documents,
   ) async {
     final batches = chunkList(documents, chunkSize: batchSize);
 
     final embeddings = await Future.wait(
-      batches.map((final batch) async {
+      batches.map((batch) async {
         final data = await client.textEmbeddings.predict(
           content: batch
-              .map((final doc) {
+              .map((doc) {
                 final taskType = _getTaskType(
                   defaultTaskType:
                       VertexAITextEmbeddingsModelTaskType.retrievalDocument,
@@ -197,16 +197,16 @@ class VertexAIEmbeddings implements Embeddings {
           model: model,
         );
         return data.predictions
-            .map((final p) => p.values)
+            .map((p) => p.values)
             .toList(growable: false);
       }),
     );
 
-    return embeddings.expand((final e) => e).toList(growable: false);
+    return embeddings.expand((e) => e).toList(growable: false);
   }
 
   @override
-  Future<List<double>> embedQuery(final String query) async {
+  Future<List<double>> embedQuery(String query) async {
     final data = await client.textEmbeddings.predict(
       content: [
         VertexAITextEmbeddingsModelContent(
@@ -223,7 +223,7 @@ class VertexAIEmbeddings implements Embeddings {
   }
 
   VertexAITextEmbeddingsModelTaskType? _getTaskType({
-    required final VertexAITextEmbeddingsModelTaskType defaultTaskType,
+    required VertexAITextEmbeddingsModelTaskType defaultTaskType,
   }) {
     // Models released before August 2023 do not support taskType.
     // Currently 'textembedding-gecko' points to 'textembedding-gecko@001'

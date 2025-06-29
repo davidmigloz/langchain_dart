@@ -53,12 +53,12 @@ class RunnableFunction<RunInput extends Object, RunOutput extends Object>
     extends Runnable<RunInput, RunnableOptions, RunOutput> {
   /// {@macro runnable_function}
   const RunnableFunction({
-    final FutureOr<RunOutput> Function(
+    FutureOr<RunOutput> Function(
       RunInput input,
       RunnableOptions? options,
     )?
     invoke,
-    final Stream<RunOutput> Function(
+    Stream<RunOutput> Function(
       Stream<RunInput> inputStream,
       RunnableOptions? options,
     )?
@@ -88,8 +88,8 @@ class RunnableFunction<RunInput extends Object, RunOutput extends Object>
   /// - [options] - the options to use when invoking the [RunnableFunction].
   @override
   Future<RunOutput> invoke(
-    final RunInput input, {
-    final RunnableOptions? options,
+    RunInput input, {
+    RunnableOptions? options,
   }) async {
     if (_invokeFunc != null) {
       return _invokeFunc(input, options);
@@ -104,19 +104,19 @@ class RunnableFunction<RunInput extends Object, RunOutput extends Object>
   /// - [options] - the options to use when streaming the [input].
   @override
   Stream<RunOutput> stream(
-    final RunInput input, {
-    final RunnableOptions? options,
+    RunInput input, {
+    RunnableOptions? options,
   }) => streamFromInputStream(Stream.value(input), options: options);
 
   @override
   Stream<RunOutput> streamFromInputStream(
-    final Stream<RunInput> inputStream, {
-    final RunnableOptions? options,
+    Stream<RunInput> inputStream, {
+    RunnableOptions? options,
   }) async* {
     if (_streamFunc != null) {
       yield* _streamFunc(inputStream, options);
     } else {
-      yield* inputStream.asyncMap((final input) => invoke(input, options: options));
+      yield* inputStream.asyncMap((input) => invoke(input, options: options));
     }
   }
 }

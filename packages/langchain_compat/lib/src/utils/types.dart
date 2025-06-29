@@ -1,11 +1,11 @@
 import 'package:collection/collection.dart';
 
 /// Chunk a list into smaller list of a specified size.
-List<List<T>> chunkList<T>(final List<T> arr, {required final int chunkSize}) => List<List<T>>.generate(
+List<List<T>> chunkList<T>(List<T> arr, {required int chunkSize}) => List<List<T>>.generate(
         (arr.length / chunkSize).ceil(),
-        (final index) => [],
+        (index) => [],
       )
-      .mapIndexed((final chunkIndex, final chunk) {
+      .mapIndexed((chunkIndex, chunk) {
         final start = chunkIndex * chunkSize;
         final end = (start + chunkSize > arr.length)
             ? arr.length

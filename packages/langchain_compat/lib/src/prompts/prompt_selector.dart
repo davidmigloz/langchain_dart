@@ -11,7 +11,7 @@ abstract interface class BasePromptSelector {
   const BasePromptSelector();
 
   /// Get default prompt for a language model.
-  BasePromptTemplate getPrompt(final BaseLanguageModel llm);
+  BasePromptTemplate getPrompt(BaseLanguageModel llm);
 }
 
 /// {@template conditional_prompt_selector}
@@ -53,7 +53,7 @@ class ConditionalPromptSelector implements BasePromptSelector {
   final List<PromptCondition> conditionals;
 
   @override
-  BasePromptTemplate getPrompt(final BaseLanguageModel llm) {
+  BasePromptTemplate getPrompt(BaseLanguageModel llm) {
     for (final conditional in conditionals) {
       if (conditional.condition(llm)) {
         return conditional.prompt;
@@ -75,14 +75,14 @@ class PromptCondition {
   const PromptCondition({required this.condition, required this.prompt});
 
   /// A prompt for a language mode that is an LLM.
-  factory PromptCondition.isLlm(final BasePromptTemplate prompt) => PromptCondition(
-      condition: (final llm) => llm is BaseLLM,
+  factory PromptCondition.isLlm(BasePromptTemplate prompt) => PromptCondition(
+      condition: (llm) => llm is BaseLLM,
       prompt: prompt,
     );
 
   /// A prompt for a language mode that is a chat model.
-  factory PromptCondition.isChatModel(final BasePromptTemplate prompt) => PromptCondition(
-      condition: (final llm) => llm is BaseChatModel,
+  factory PromptCondition.isChatModel(BasePromptTemplate prompt) => PromptCondition(
+      condition: (llm) => llm is BaseChatModel,
       prompt: prompt,
     );
 

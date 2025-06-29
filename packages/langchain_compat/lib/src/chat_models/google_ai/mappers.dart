@@ -15,7 +15,7 @@ import '../types.dart';
 extension ChatMessagesMapper on List<ChatMessage> {
   List<g.Content> toContentList() => where((msg) => msg is! SystemChatMessage)
       .map(
-        (final message) => switch (message) {
+        (message) => switch (message) {
           SystemChatMessage() => throw AssertionError(
             'System messages should be filtered out',
           ),
@@ -27,7 +27,7 @@ extension ChatMessagesMapper on List<ChatMessage> {
       )
       .toList(growable: false);
 
-  g.Content _mapHumanChatMessage(final HumanChatMessage msg) {
+  g.Content _mapHumanChatMessage(HumanChatMessage msg) {
     final contentParts = switch (msg.content) {
       final ChatMessageContentText c => [g.TextPart(c.text)],
       final ChatMessageContentImage c => [
@@ -39,7 +39,7 @@ extension ChatMessagesMapper on List<ChatMessage> {
       final ChatMessageContentMultiModal c =>
         c.parts
             .map(
-              (final p) => switch (p) {
+              (p) => switch (p) {
                 final ChatMessageContentText c => g.TextPart(c.text),
                 final ChatMessageContentImage c =>
                   c.data.startsWith('http')
@@ -55,18 +55,18 @@ extension ChatMessagesMapper on List<ChatMessage> {
     return g.Content.multi(contentParts);
   }
 
-  g.Content _mapAIChatMessage(final AIChatMessage msg) {
+  g.Content _mapAIChatMessage(AIChatMessage msg) {
     final contentParts = [
       if (msg.content.isNotEmpty) g.TextPart(msg.content),
       if (msg.toolCalls.isNotEmpty)
         ...msg.toolCalls.map(
-          (final call) => g.FunctionCall(call.name, call.arguments),
+          (call) => g.FunctionCall(call.name, call.arguments),
         ),
     ];
     return g.Content.model(contentParts);
   }
 
-  g.Content _mapToolChatMessage(final ToolChatMessage msg) {
+  g.Content _mapToolChatMessage(ToolChatMessage msg) {
     Map<String, Object?>? response;
     try {
       response = jsonDecode(msg.content) as Map<String, Object?>;
@@ -79,12 +79,12 @@ extension ChatMessagesMapper on List<ChatMessage> {
     ]);
   }
 
-  g.Content _mapCustomChatMessage(final CustomChatMessage msg) =>
+  g.Content _mapCustomChatMessage(CustomChatMessage msg) =>
       g.Content(msg.role, [g.TextPart(msg.content)]);
 }
 
 extension GenerateContentResponseMapper on g.GenerateContentResponse {
-  ChatResult toChatResult(final String id, final String model) {
+  ChatResult toChatResult(String id, String model) {
     final candidate = candidates.first;
     return ChatResult(
       id: id,
@@ -106,7 +106,7 @@ extension GenerateContentResponseMapper on g.GenerateContentResponse {
         toolCalls: candidate.content.parts
             .whereType<g.FunctionCall>()
             .map(
-              (final call) => AIChatMessageToolCall(
+              (call) => AIChatMessageToolCall(
                 id: call.name,
                 name: call.name,
                 argumentsRaw: jsonEncode(call.args),
@@ -156,7 +156,7 @@ extension GenerateContentResponseMapper on g.GenerateContentResponse {
     );
   }
 
-  FinishReason _mapFinishReason(final g.FinishReason? reason) =>
+  FinishReason _mapFinishReason(g.FinishReason? reason) =>
       switch (reason) {
         g.FinishReason.unspecified => FinishReason.unspecified,
         g.FinishReason.stop => FinishReason.stop,
@@ -170,7 +170,7 @@ extension GenerateContentResponseMapper on g.GenerateContentResponse {
 
 extension SafetySettingsMapper on List<ChatGoogleGenerativeAISafetySetting> {
   List<g.SafetySetting> toSafetySettings() => map(
-    (final setting) => g.SafetySetting(
+    (setting) => g.SafetySetting(
       switch (setting.category) {
         ChatGoogleGenerativeAISafetySettingCategory.unspecified =>
           g.HarmCategory.unspecified,
@@ -200,7 +200,7 @@ extension SafetySettingsMapper on List<ChatGoogleGenerativeAISafetySetting> {
 }
 
 extension ChatToolListMapper on List<ToolSpec>? {
-  List<g.Tool>? toToolList({required final bool enableCodeExecution}) {
+  List<g.Tool>? toToolList({required bool enableCodeExecution}) {
     if (this == null && !enableCodeExecution) {
       return null;
     }

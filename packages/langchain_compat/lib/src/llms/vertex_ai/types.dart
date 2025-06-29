@@ -96,15 +96,15 @@ class VertexAIOptions extends LLMOptions {
 
   @override
   VertexAIOptions copyWith({
-    final String? publisher,
-    final String? model,
-    final int? maxOutputTokens,
-    final double? temperature,
-    final double? topP,
-    final int? topK,
-    final List<String>? stopSequences,
-    final int? candidateCount,
-    final int? concurrencyLimit,
+    String? publisher,
+    String? model,
+    int? maxOutputTokens,
+    double? temperature,
+    double? topP,
+    int? topK,
+    List<String>? stopSequences,
+    int? candidateCount,
+    int? concurrencyLimit,
   }) => VertexAIOptions(
       publisher: publisher ?? this.publisher,
       model: model ?? this.model,
@@ -118,7 +118,7 @@ class VertexAIOptions extends LLMOptions {
     );
 
   @override
-  VertexAIOptions merge(covariant final VertexAIOptions? other) => copyWith(
+  VertexAIOptions merge(covariant VertexAIOptions? other) => copyWith(
       publisher: other?.publisher,
       model: other?.model,
       maxOutputTokens: other?.maxOutputTokens,
@@ -131,7 +131,7 @@ class VertexAIOptions extends LLMOptions {
     );
 
   @override
-  bool operator ==(covariant final VertexAIOptions other) => publisher == other.publisher &&
+  bool operator ==(covariant VertexAIOptions other) => publisher == other.publisher &&
         model == other.model &&
         maxOutputTokens == other.maxOutputTokens &&
         temperature == other.temperature &&

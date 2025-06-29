@@ -98,11 +98,11 @@ final class ChatPromptTemplate extends BaseChatPromptTemplate {
   /// - [partialVariables] the partial variables to use for the template.
   /// - [validateTemplate] whether to validate the template.
   factory ChatPromptTemplate.fromTemplate(
-    final String template, {
-    final ChatMessageType type = ChatMessageType.human,
-    final String? customRole,
-    final PartialValues? partialVariables,
-    final bool validateTemplate = true,
+    String template, {
+    ChatMessageType type = ChatMessageType.human,
+    String? customRole,
+    PartialValues? partialVariables,
+    bool validateTemplate = true,
   }) => ChatPromptTemplate.fromTemplates(
       [(type, template)],
       customRole: customRole,
@@ -131,13 +131,13 @@ final class ChatPromptTemplate extends BaseChatPromptTemplate {
   /// - [partialVariables] the partial variables to use for the template.
   /// - [validateTemplate] whether to validate the template.
   factory ChatPromptTemplate.fromTemplates(
-    final List<(ChatMessageType, String)> messages, {
-    final String? customRole,
-    final PartialValues? partialVariables,
-    final bool validateTemplate = true,
+    List<(ChatMessageType, String)> messages, {
+    String? customRole,
+    PartialValues? partialVariables,
+    bool validateTemplate = true,
   }) {
     final chatMessagePromptTemplates = messages
-        .map((final message) {
+        .map((message) {
           final (role, template) = message;
           return switch (role) {
             ChatMessageType.human =>
@@ -188,12 +188,12 @@ final class ChatPromptTemplate extends BaseChatPromptTemplate {
   ///   * [CustomChatMessagePromptTemplate] (for custom role messages)
   /// - [validateTemplate] whether to validate the template.
   factory ChatPromptTemplate.fromPromptMessages(
-    final List<ChatMessagePromptTemplate> promptMessages, {
-    final bool validateTemplate = true,
+    List<ChatMessagePromptTemplate> promptMessages, {
+    bool validateTemplate = true,
   }) {
     final inputVariables = promptMessages
-        .map((final m) => m.inputVariables)
-        .expand((final i) => i)
+        .map((m) => m.inputVariables)
+        .expand((i) => i)
         .toSet();
     final partialVariables = {
       for (final m in promptMessages) ...?m.partialVariables,
@@ -217,11 +217,11 @@ final class ChatPromptTemplate extends BaseChatPromptTemplate {
   /// - [partialVariables] the partial variables to use for the template.
   /// - [validateTemplate] whether to validate the template.
   static Future<ChatPromptTemplate> fromTemplateFile(
-    final String templateFile, {
-    final ChatMessageType type = ChatMessageType.human,
-    final String? customRole,
-    final PartialValues? partialVariables,
-    final bool validateTemplate = true,
+    String templateFile, {
+    ChatMessageType type = ChatMessageType.human,
+    String? customRole,
+    PartialValues? partialVariables,
+    bool validateTemplate = true,
   }) async {
     final file = XFile(templateFile);
     final template = await file.readAsString();
@@ -241,10 +241,10 @@ final class ChatPromptTemplate extends BaseChatPromptTemplate {
   String get type => 'chat';
 
   @override
-  BasePromptTemplate partial(final PartialValues values) {
+  BasePromptTemplate partial(PartialValues values) {
     final newPromptMessages = promptMessages
         .map(
-          (final m) =>
+          (m) =>
               m.copyWith(prompt: m.prompt.partial(values)),
         )
         .toList(growable: false);
@@ -261,11 +261,11 @@ final class ChatPromptTemplate extends BaseChatPromptTemplate {
   }
 
   @override
-  List<ChatMessage> formatMessages([final InputValues values = const {}]) {
+  List<ChatMessage> formatMessages([InputValues values = const {}]) {
     final allValues = mergePartialAndUserVariables(values);
     return promptMessages
         .map(
-          (final m) => m.formatMessages({
+          (m) => m.formatMessages({
             for (final inputVariable in m.inputVariables)
               inputVariable: ArgumentError.checkNotNull(
                 allValues[inputVariable],
@@ -273,12 +273,12 @@ final class ChatPromptTemplate extends BaseChatPromptTemplate {
               ),
           }),
         )
-        .expand((final i) => i)
+        .expand((i) => i)
         .toList(growable: false);
   }
 
   @override
-  bool operator ==(covariant final ChatPromptTemplate other) {
+  bool operator ==(covariant ChatPromptTemplate other) {
     const setEqualsInputVariables = SetEquality<String>();
     const mapEqualsPartialVariables = MapEquality<String, dynamic>();
     const listEqualsPromptMessages = ListEquality<ChatMessagePromptTemplate>();
@@ -313,9 +313,9 @@ ChatPromptTemplate{
   /// Creates a copy of this [ChatPromptTemplate] with the given fields.
   @override
   ChatPromptTemplate copyWith({
-    final Set<String>? inputVariables,
-    final PartialValues? partialVariables,
-    final List<ChatMessagePromptTemplate>? promptMessages,
+    Set<String>? inputVariables,
+    PartialValues? partialVariables,
+    List<ChatMessagePromptTemplate>? promptMessages,
   }) => ChatPromptTemplate(
       inputVariables: inputVariables ?? this.inputVariables,
       partialVariables: partialVariables ?? this.partialVariables,
@@ -371,9 +371,9 @@ final class SystemChatMessagePromptTemplate
   /// - [partialVariables] the partial variables to use for the template.
   /// - [validateTemplate] whether to validate the template.
   factory SystemChatMessagePromptTemplate.fromTemplate(
-    final String template, {
-    final PartialValues? partialVariables,
-    final bool validateTemplate = true,
+    String template, {
+    PartialValues? partialVariables,
+    bool validateTemplate = true,
   }) => SystemChatMessagePromptTemplate(
       prompt: PromptTemplate.fromTemplate(
         template,
@@ -389,9 +389,9 @@ final class SystemChatMessagePromptTemplate
   /// - [partialVariables] the partial variables to use for the template.
   /// - [validateTemplate] whether to validate the template.
   static Future<SystemChatMessagePromptTemplate> fromTemplateFile(
-    final String templateFile, {
-    final PartialValues? partialVariables,
-    final bool validateTemplate = true,
+    String templateFile, {
+    PartialValues? partialVariables,
+    bool validateTemplate = true,
   }) async {
     final file = XFile(templateFile);
     final template = await file.readAsString();
@@ -403,7 +403,7 @@ final class SystemChatMessagePromptTemplate
   }
 
   @override
-  ChatMessage format([final InputValues values = const {}]) => ChatMessage.system(prompt.format(values));
+  ChatMessage format([InputValues values = const {}]) => ChatMessage.system(prompt.format(values));
 
   @override
   String toString() => '''
@@ -414,7 +414,7 @@ SystemChatMessagePromptTemplate{
 }''';
 
   @override
-  StringMessagePromptTemplate copyWith({final BasePromptTemplate? prompt}) => SystemChatMessagePromptTemplate(
+  StringMessagePromptTemplate copyWith({BasePromptTemplate? prompt}) => SystemChatMessagePromptTemplate(
       prompt: prompt as PromptTemplate? ?? this.prompt,
     );
 }
@@ -449,9 +449,9 @@ final class HumanChatMessagePromptTemplate extends StringMessagePromptTemplate {
   /// - [partialVariables] the partial variables to use for the template.
   /// - [validateTemplate] whether to validate the template.
   factory HumanChatMessagePromptTemplate.fromTemplate(
-    final String template, {
-    final PartialValues? partialVariables,
-    final bool validateTemplate = true,
+    String template, {
+    PartialValues? partialVariables,
+    bool validateTemplate = true,
   }) => HumanChatMessagePromptTemplate(
       prompt: PromptTemplate.fromTemplate(
         template,
@@ -467,9 +467,9 @@ final class HumanChatMessagePromptTemplate extends StringMessagePromptTemplate {
   /// - [partialVariables] the partial variables to use for the template.
   /// - [validateTemplate] whether to validate the template.
   static Future<HumanChatMessagePromptTemplate> fromTemplateFile(
-    final String templateFile, {
-    final PartialValues? partialVariables,
-    final bool validateTemplate = true,
+    String templateFile, {
+    PartialValues? partialVariables,
+    bool validateTemplate = true,
   }) async {
     final file = XFile(templateFile);
     final template = await file.readAsString();
@@ -481,7 +481,7 @@ final class HumanChatMessagePromptTemplate extends StringMessagePromptTemplate {
   }
 
   @override
-  ChatMessage format([final InputValues values = const {}]) => ChatMessage.humanText(prompt.format(values));
+  ChatMessage format([InputValues values = const {}]) => ChatMessage.humanText(prompt.format(values));
 
   @override
   String toString() => '''
@@ -492,7 +492,7 @@ HumanChatMessagePromptTemplate{
 }''';
 
   @override
-  StringMessagePromptTemplate copyWith({final BasePromptTemplate? prompt}) => HumanChatMessagePromptTemplate(
+  StringMessagePromptTemplate copyWith({BasePromptTemplate? prompt}) => HumanChatMessagePromptTemplate(
       prompt: prompt as PromptTemplate? ?? this.prompt,
     );
 }
@@ -523,9 +523,9 @@ final class AIChatMessagePromptTemplate extends StringMessagePromptTemplate {
   /// - [partialVariables] the partial variables to use for the template.
   /// - [validateTemplate] whether to validate the template.
   factory AIChatMessagePromptTemplate.fromTemplate(
-    final String template, {
-    final PartialValues? partialVariables,
-    final bool validateTemplate = true,
+    String template, {
+    PartialValues? partialVariables,
+    bool validateTemplate = true,
   }) => AIChatMessagePromptTemplate(
       prompt: PromptTemplate.fromTemplate(
         template,
@@ -541,9 +541,9 @@ final class AIChatMessagePromptTemplate extends StringMessagePromptTemplate {
   /// - [partialVariables] the partial variables to use for the template.
   /// - [validateTemplate] whether to validate the template.
   static Future<AIChatMessagePromptTemplate> fromTemplateFile(
-    final String templateFile, {
-    final PartialValues? partialVariables,
-    final bool validateTemplate = true,
+    String templateFile, {
+    PartialValues? partialVariables,
+    bool validateTemplate = true,
   }) async {
     final file = XFile(templateFile);
     final template = await file.readAsString();
@@ -555,7 +555,7 @@ final class AIChatMessagePromptTemplate extends StringMessagePromptTemplate {
   }
 
   @override
-  ChatMessage format([final InputValues values = const {}]) => ChatMessage.ai(prompt.format(values));
+  ChatMessage format([InputValues values = const {}]) => ChatMessage.ai(prompt.format(values));
 
   @override
   String toString() => '''
@@ -566,7 +566,7 @@ AIChatMessagePromptTemplate{
 }''';
 
   @override
-  StringMessagePromptTemplate copyWith({final BasePromptTemplate? prompt}) => AIChatMessagePromptTemplate(
+  StringMessagePromptTemplate copyWith({BasePromptTemplate? prompt}) => AIChatMessagePromptTemplate(
       prompt: prompt as PromptTemplate? ?? this.prompt,
     );
 }
@@ -608,10 +608,10 @@ final class CustomChatMessagePromptTemplate
   /// - [partialVariables] the partial variables to use for the template.
   /// - [validateTemplate] whether to validate the template.
   factory CustomChatMessagePromptTemplate.fromTemplate(
-    final String template, {
-    required final String role,
-    final PartialValues? partialVariables,
-    final bool validateTemplate = true,
+    String template, {
+    required String role,
+    PartialValues? partialVariables,
+    bool validateTemplate = true,
   }) => CustomChatMessagePromptTemplate(
       prompt: PromptTemplate.fromTemplate(
         template,
@@ -628,10 +628,10 @@ final class CustomChatMessagePromptTemplate
   /// - [partialVariables] the partial variables to use for the template.
   /// - [validateTemplate] whether to validate the template.
   static Future<CustomChatMessagePromptTemplate> fromTemplateFile(
-    final String templateFile, {
-    required final String role,
-    final PartialValues? partialVariables,
-    final bool validateTemplate = true,
+    String templateFile, {
+    required String role,
+    PartialValues? partialVariables,
+    bool validateTemplate = true,
   }) async {
     final file = XFile(templateFile);
     final template = await file.readAsString();
@@ -647,7 +647,7 @@ final class CustomChatMessagePromptTemplate
   final String role;
 
   @override
-  ChatMessage format([final InputValues values = const {}]) => ChatMessage.custom(prompt.format(values), role: role);
+  ChatMessage format([InputValues values = const {}]) => ChatMessage.custom(prompt.format(values), role: role);
 
   @override
   String toString() => '''
@@ -659,7 +659,7 @@ CustomChatMessagePromptTemplate{
 }''';
 
   @override
-  StringMessagePromptTemplate copyWith({final BasePromptTemplate? prompt}) => CustomChatMessagePromptTemplate(
+  StringMessagePromptTemplate copyWith({BasePromptTemplate? prompt}) => CustomChatMessagePromptTemplate(
       prompt: prompt as PromptTemplate? ?? this.prompt,
       role: role,
     );
@@ -712,7 +712,7 @@ final class MessagePlaceholder extends ChatMessagePromptTemplate {
 
   @override
   List<ChatMessage> formatMessages([
-    final Map<String, dynamic> values = const {},
+    Map<String, dynamic> values = const {},
   ]) {
     final message = values[variableName] as ChatMessage?;
     return [if (message != null) message];
@@ -728,8 +728,8 @@ MessagePlaceholder{
 
   @override
   ChatMessagePromptTemplate copyWith({
-    final BasePromptTemplate? prompt,
-    final String? variableName,
+    BasePromptTemplate? prompt,
+    String? variableName,
   }) => MessagePlaceholder(variableName: variableName ?? this.variableName);
 }
 
@@ -779,7 +779,7 @@ final class MessagesPlaceholder extends ChatMessagePromptTemplate {
 
   @override
   List<ChatMessage> formatMessages([
-    final Map<String, dynamic> values = const {},
+    Map<String, dynamic> values = const {},
   ]) => values[variableName] as List<ChatMessage>? ?? const [];
 
   @override
@@ -792,7 +792,7 @@ MessagesPlaceholder{
 
   @override
   ChatMessagePromptTemplate copyWith({
-    final BasePromptTemplate? prompt,
-    final String? variableName,
+    BasePromptTemplate? prompt,
+    String? variableName,
   }) => MessagesPlaceholder(variableName: variableName ?? this.variableName);
 }

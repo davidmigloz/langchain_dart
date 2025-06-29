@@ -17,8 +17,8 @@ class LanguageModelOptions extends BaseLangChainOptions {
 
   @override
   LanguageModelOptions copyWith({
-    final String? model,
-    final int? concurrencyLimit,
+    String? model,
+    int? concurrencyLimit,
   }) => LanguageModelOptions(
       model: model ?? this.model,
       concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
@@ -66,7 +66,7 @@ abstract class LanguageModelResult<O extends Object> {
   String get outputAsString;
 
   @override
-  bool operator ==(covariant final LanguageModelResult<O> other) =>
+  bool operator ==(covariant LanguageModelResult<O> other) =>
       identical(this, other) ||
       runtimeType == other.runtimeType &&
           id == other.id &&
@@ -89,7 +89,7 @@ abstract class LanguageModelResult<O extends Object> {
       streaming.hashCode;
 
   /// Merges this result with another by concatenating the outputs.
-  LanguageModelResult<O> concat(final LanguageModelResult<O> other);
+  LanguageModelResult<O> concat(LanguageModelResult<O> other);
 }
 
 /// {@template language_model_usage}
@@ -131,7 +131,7 @@ class LanguageModelUsage {
   final int? totalTokens;
 
   @override
-  bool operator ==(covariant final LanguageModelUsage other) =>
+  bool operator ==(covariant LanguageModelUsage other) =>
       identical(this, other) ||
       runtimeType == other.runtimeType &&
           promptTokens == other.promptTokens &&
@@ -149,7 +149,7 @@ class LanguageModelUsage {
       totalTokens.hashCode;
 
   /// Merges this usage with another by summing the values.
-  LanguageModelUsage concat(final LanguageModelUsage other) => LanguageModelUsage(
+  LanguageModelUsage concat(LanguageModelUsage other) => LanguageModelUsage(
       promptTokens: promptTokens == null && other.promptTokens == null
           ? null
           : (promptTokens ?? 0) + (other.promptTokens ?? 0),

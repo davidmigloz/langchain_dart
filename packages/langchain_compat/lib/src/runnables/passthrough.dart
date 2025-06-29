@@ -41,7 +41,7 @@ class RunnablePassthrough<RunInput extends Object>
   /// - [options] - not used.
   @override
   Future<RunInput> invoke(
-    final RunInput input, {
-    final RunnableOptions? options,
+    RunInput input, {
+    RunnableOptions? options,
   }) => Future.value(input);
 }

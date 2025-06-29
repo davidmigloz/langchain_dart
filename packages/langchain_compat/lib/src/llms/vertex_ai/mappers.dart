@@ -6,7 +6,7 @@ import '../../language_models/types.dart';
 import '../../llms/types.dart';
 
 extension VertexAITextModelResponseMapper on VertexAITextModelResponse {
-  LLMResult toLLMResult(final String id, final String model) {
+  LLMResult toLLMResult(String id, String model) {
     final prediction = predictions.first;
     return LLMResult(
       id: id,
@@ -22,7 +22,7 @@ extension VertexAITextModelResponseMapper on VertexAITextModelResponse {
   }
 
   LanguageModelUsage _mapUsage(
-    final VertexAITextModelResponseMetadataToken usage,
+    VertexAITextModelResponseMetadataToken usage,
   ) => LanguageModelUsage(
       promptTokens: usage.inputTotalTokens,
       promptBillableCharacters: usage.inputTotalBillableCharacters,

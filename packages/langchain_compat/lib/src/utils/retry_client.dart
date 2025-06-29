@@ -76,9 +76,9 @@ FutureOr<T> retryClient<T>({
 }
 
 Future<void> _delay(
-  final Duration duration,
-  final int attempt,
-  final bool addJitter,
+  Duration duration,
+  int attempt,
+  bool addJitter,
 ) async {
   final Duration delay;
   if (addJitter) {

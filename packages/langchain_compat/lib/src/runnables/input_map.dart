@@ -44,7 +44,7 @@ class RunnableMapInput<RunInput extends Object, RunOutput extends Object>
   /// - [options] - not used.
   @override
   Future<RunOutput> invoke(
-    final RunInput input, {
-    final RunnableOptions? options,
+    RunInput input, {
+    RunnableOptions? options,
   }) async => inputMapper(input);
 }

@@ -95,12 +95,12 @@ class GoogleGenerativeAIEmbeddings implements Embeddings {
   /// - `client`: the HTTP client to use. You can set your own HTTP client if
   ///   you need further customization (e.g. to use a Socks5 proxy).
   GoogleGenerativeAIEmbeddings({
-    final String? apiKey,
-    final String? baseUrl,
-    final Map<String, String>? headers,
-    final Map<String, dynamic>? queryParams,
-    final int retries = 3,
-    final http.Client? client,
+    String? apiKey,
+    String? baseUrl,
+    Map<String, String>? headers,
+    Map<String, dynamic>? queryParams,
+    int retries = 3,
+    http.Client? client,
     String model = 'text-embedding-004',
     this.dimensions,
     this.batchSize = 100,
@@ -127,7 +127,7 @@ class GoogleGenerativeAIEmbeddings implements Embeddings {
   String _model;
 
   /// Set the embeddings model to use.
-  set model(final String model) {
+  set model(String model) {
     _recreateGoogleAiClient(model);
     _model = model;
   }
@@ -146,7 +146,7 @@ class GoogleGenerativeAIEmbeddings implements Embeddings {
   String docTitleKey;
 
   /// Set or replace the API key.
-  set apiKey(final String value) =>
+  set apiKey(String value) =>
       _httpClient.headers['x-goog-api-key'] = value;
 
   /// Get the API key.
@@ -154,15 +154,15 @@ class GoogleGenerativeAIEmbeddings implements Embeddings {
 
   @override
   Future<List<List<double>>> embedDocuments(
-    final List<Document> documents,
+    List<Document> documents,
   ) async {
     final batches = chunkList(documents, chunkSize: batchSize);
 
     final embeddings = await Future.wait(
-      batches.map((final batch) async {
+      batches.map((batch) async {
         final data = await _googleAiClient.batchEmbedContents(
           batch
-              .map((final doc) => EmbedContentRequest(
+              .map((doc) => EmbedContentRequest(
                   Content.text(doc.pageContent),
                   taskType: TaskType.retrievalDocument,
                   title: doc.metadata[docTitleKey],
@@ -171,17 +171,17 @@ class GoogleGenerativeAIEmbeddings implements Embeddings {
               .toList(growable: false),
         );
         return data.embeddings
-            .map((final p) => p.values)
+            .map((p) => p.values)
             .nonNulls
             .toList(growable: false);
       }),
     );
 
-    return embeddings.expand((final e) => e).toList(growable: false);
+    return embeddings.expand((e) => e).toList(growable: false);
   }
 
   @override
-  Future<List<double>> embedQuery(final String query) async {
+  Future<List<double>> embedQuery(String query) async {
     final data = await _googleAiClient.embedContent(
       Content.text(query),
       taskType: TaskType.retrievalQuery,
@@ -197,9 +197,9 @@ class GoogleGenerativeAIEmbeddings implements Embeddings {
 
   /// Create a new [GenerativeModel] instance.
   GenerativeModel _createGoogleAiClient(
-    final String model, [
-    final String? apiKey,
-    final CustomHttpClient? httpClient,
+    String model, [
+    String? apiKey,
+    CustomHttpClient? httpClient,
   ]) => GenerativeModel(
       model: model,
       apiKey: apiKey ?? this.apiKey,
@@ -207,7 +207,7 @@ class GoogleGenerativeAIEmbeddings implements Embeddings {
     );
 
   /// Recreate the [GenerativeModel] instance.
-  void _recreateGoogleAiClient(final String model) {
+  void _recreateGoogleAiClient(String model) {
     _googleAiClient = _createGoogleAiClient(model);
   }
 }

@@ -18,8 +18,8 @@ abstract class BaseChatModel<Options extends ChatModelOptions>
 
   @override
   Stream<ChatResult> streamFromInputStream(
-    final Stream<PromptValue> inputStream, {
-    final Options? options,
+    Stream<PromptValue> inputStream, {
+    Options? options,
   }) async* {
     final input = await inputStream.toList();
     final reduced = reduce<PromptValue>(input);
@@ -36,8 +36,8 @@ abstract class BaseChatModel<Options extends ChatModelOptions>
   /// final result = await chat([ChatMessage.humanText('say hi!')]);
   /// ```
   Future<AIChatMessage> call(
-    final List<ChatMessage> messages, {
-    final Options? options,
+    List<ChatMessage> messages, {
+    Options? options,
   }) async {
     final result = await invoke(PromptValue.chat(messages), options: options);
     return result.output;
@@ -56,8 +56,8 @@ abstract class SimpleChatModel<Options extends ChatModelOptions>
 
   @override
   Future<ChatResult> invoke(
-    final PromptValue input, {
-    final Options? options,
+    PromptValue input, {
+    Options? options,
   }) async {
     final text = await callInternal(input.toChatMessages(), options: options);
     final message = AIChatMessage(content: text);
@@ -73,7 +73,7 @@ abstract class SimpleChatModel<Options extends ChatModelOptions>
   /// Method which should be implemented by subclasses to run the model.
   @visibleForOverriding
   Future<String> callInternal(
-    final List<ChatMessage> messages, {
-    final Options? options,
+    List<ChatMessage> messages, {
+    Options? options,
   });
 }

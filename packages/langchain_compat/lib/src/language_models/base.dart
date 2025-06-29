@@ -27,8 +27,8 @@ abstract class BaseLanguageModel<
   ///
   /// - [promptValue] The prompt to tokenize.
   Future<List<int>> tokenize(
-    final PromptValue promptValue, {
-    final Options? options,
+    PromptValue promptValue, {
+    Options? options,
   });
 
   /// Returns the number of tokens resulting from [tokenize] the given prompt.
@@ -46,8 +46,8 @@ abstract class BaseLanguageModel<
   /// Note: subclasses can override this method to provide a more accurate
   /// implementation.
   Future<int> countTokens(
-    final PromptValue promptValue, {
-    final Options? options,
+    PromptValue promptValue, {
+    Options? options,
   }) async {
     final tokens = await tokenize(promptValue, options: options);
     return tokens.length;

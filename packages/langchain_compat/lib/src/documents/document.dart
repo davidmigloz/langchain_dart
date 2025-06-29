@@ -13,7 +13,7 @@ class Document {
   });
 
   /// Creates a document from a map.
-  factory Document.fromMap(final Map<String, dynamic> map) => Document(
+  factory Document.fromMap(Map<String, dynamic> map) => Document(
       id: map['id'] as String?,
       pageContent: map['pageContent'] as String,
       metadata: map['metadata'] as Map<String, dynamic>,
@@ -35,9 +35,9 @@ class Document {
 
   /// Creates a copy of the document.
   Document copyWith({
-    final String? id,
-    final String? pageContent,
-    final Map<String, dynamic>? metadata,
+    String? id,
+    String? pageContent,
+    Map<String, dynamic>? metadata,
   }) => Document(
       id: id ?? this.id,
       pageContent: pageContent ?? this.pageContent,
@@ -45,7 +45,7 @@ class Document {
     );
 
   @override
-  bool operator ==(covariant final Document other) {
+  bool operator ==(covariant Document other) {
     final mapEquals = const MapEquality<String, dynamic>().equals;
     return identical(this, other) ||
         id == other.id &&
@@ -57,7 +57,7 @@ class Document {
   int get hashCode => id.hashCode ^ pageContent.hashCode ^ metadata.hashCode;
 
   /// Concatenates the current document with another document.
-  Document concat(final Document other) => Document(
+  Document concat(Document other) => Document(
       id: id ?? other.id,
       pageContent: '$pageContent${other.pageContent}',
       metadata: {...metadata, ...other.metadata},

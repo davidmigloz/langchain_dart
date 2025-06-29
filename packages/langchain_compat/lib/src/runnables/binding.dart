@@ -57,14 +57,14 @@ class RunnableBinding<
   /// - [input] - the input to invoke the [RunnableBinding] on.
   /// - [options] - the options to use when invoking the [RunnableBinding].
   @override
-  Future<RunOutput> invoke(final RunInput input, {final CallOptions? options}) {
+  Future<RunOutput> invoke(RunInput input, {CallOptions? options}) {
     final finalOptions =
         options?.merge(this.options) as CallOptions? ?? this.options;
     return bound.invoke(input, options: finalOptions);
   }
 
   @override
-  Stream<RunOutput> stream(final RunInput input, {final CallOptions? options}) => bound.stream(input, options: options ?? this.options);
+  Stream<RunOutput> stream(RunInput input, {CallOptions? options}) => bound.stream(input, options: options ?? this.options);
 
   @override
   void close() {

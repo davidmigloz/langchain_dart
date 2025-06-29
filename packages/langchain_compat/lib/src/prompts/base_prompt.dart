@@ -33,9 +33,9 @@ abstract base class BasePromptTemplate
   String get type;
 
   /// Return a partial of the prompt template.
-  BasePromptTemplate partial(final PartialValues values) {
+  BasePromptTemplate partial(PartialValues values) {
     final newInputVariables = inputVariables
-        .where((final variable) => !values.keys.contains(variable))
+        .where((variable) => !values.keys.contains(variable))
         .toSet();
     final newPartialVariables = {...?partialVariables, ...values};
     return copyWith(
@@ -60,14 +60,14 @@ abstract base class BasePromptTemplate
   /// - [input] - Any arguments to be passed to the prompt template.
   @override
   Future<PromptValue> invoke(
-    final InputValues input, {
-    final BaseLangChainOptions? options,
+    InputValues input, {
+    BaseLangChainOptions? options,
   }) => Future.value(formatPrompt(input));
 
   @override
   Stream<PromptValue> streamFromInputStream(
-    final Stream<InputValues> inputStream, {
-    final BaseLangChainOptions? options,
+    Stream<InputValues> inputStream, {
+    BaseLangChainOptions? options,
   }) async* {
     final input = await inputStream.toList();
     final reduced = input.isEmpty
@@ -79,22 +79,22 @@ abstract base class BasePromptTemplate
   /// Format the prompt given the input values and return a formatted string.
   ///
   /// - [values] - Any arguments to be passed to the prompt template.
-  String format(final InputValues values);
+  String format(InputValues values);
 
   /// Format the prompt given the input values and return a formatted prompt
   /// value.
   ///
   /// - [values] - Any arguments to be passed to the prompt template.
-  PromptValue formatPrompt(final InputValues values);
+  PromptValue formatPrompt(InputValues values);
 
   /// Merge the partial variables with the user variables.
   @protected
   Map<String, Object> mergePartialAndUserVariables(
-    final Map<String, dynamic> userVariables,
+    Map<String, dynamic> userVariables,
   ) => {...?partialVariables, ...userVariables};
 
   @override
-  bool operator ==(covariant final BasePromptTemplate other) {
+  bool operator ==(covariant BasePromptTemplate other) {
     const setEqualityInputVariables = SetEquality<String>();
     const mapEqualityPartialVariables = MapEquality<String, dynamic>();
     return identical(this, other) ||
@@ -123,7 +123,7 @@ BasePromptTemplate{
 
   /// Copy the prompt template with the given parameters.
   BasePromptTemplate copyWith({
-    final Set<String>? inputVariables,
-    final Map<String, dynamic>? partialVariables,
+    Set<String>? inputVariables,
+    Map<String, dynamic>? partialVariables,
   });
 }

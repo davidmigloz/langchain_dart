@@ -196,23 +196,23 @@ class ChatOpenAIOptions extends ChatModelOptions {
 
   @override
   ChatOpenAIOptions copyWith({
-    final String? model,
-    final double? frequencyPenalty,
-    final Map<String, int>? logitBias,
-    final int? maxTokens,
-    final int? n,
-    final double? presencePenalty,
-    final ChatOpenAIResponseFormat? responseFormat,
-    final int? seed,
-    final List<String>? stop,
-    final double? temperature,
-    final double? topP,
-    final List<ToolSpec>? tools,
-    final ChatToolChoice? toolChoice,
-    final bool? parallelToolCalls,
-    final ChatOpenAIServiceTier? serviceTier,
-    final String? user,
-    final int? concurrencyLimit,
+    String? model,
+    double? frequencyPenalty,
+    Map<String, int>? logitBias,
+    int? maxTokens,
+    int? n,
+    double? presencePenalty,
+    ChatOpenAIResponseFormat? responseFormat,
+    int? seed,
+    List<String>? stop,
+    double? temperature,
+    double? topP,
+    List<ToolSpec>? tools,
+    ChatToolChoice? toolChoice,
+    bool? parallelToolCalls,
+    ChatOpenAIServiceTier? serviceTier,
+    String? user,
+    int? concurrencyLimit,
   }) => ChatOpenAIOptions(
     model: model ?? this.model,
     frequencyPenalty: frequencyPenalty ?? this.frequencyPenalty,
@@ -234,7 +234,7 @@ class ChatOpenAIOptions extends ChatModelOptions {
   );
 
   @override
-  ChatOpenAIOptions merge(covariant final ChatOpenAIOptions? other) => copyWith(
+  ChatOpenAIOptions merge(covariant ChatOpenAIOptions? other) => copyWith(
     model: other?.model,
     frequencyPenalty: other?.frequencyPenalty,
     logitBias: other?.logitBias,
@@ -255,7 +255,7 @@ class ChatOpenAIOptions extends ChatModelOptions {
   );
 
   @override
-  bool operator ==(covariant final ChatOpenAIOptions other) =>
+  bool operator ==(covariant ChatOpenAIOptions other) =>
       identical(this, other) ||
       runtimeType == other.runtimeType &&
           model == other.model &&
@@ -306,7 +306,7 @@ sealed class ChatOpenAIResponseFormat {
   /// The model will respond with a valid JSON object that adheres to the
   /// specified schema.
   factory ChatOpenAIResponseFormat.jsonSchema(
-    final ChatOpenAIJsonSchema jsonSchema,
+    ChatOpenAIJsonSchema jsonSchema,
   ) => ChatOpenAIResponseFormatJsonSchema(jsonSchema: jsonSchema);
 
   /// The model will respond with text.
@@ -443,23 +443,23 @@ sealed class ChatMessage {
         null => throw ArgumentError('Type is required'),
         _ => throw UnimplementedError('Unknown type: [39m${map['type']}'),
       };
-  factory ChatMessage.system(final String content) =>
+  factory ChatMessage.system(String content) =>
       SystemChatMessage(content: content);
-  factory ChatMessage.human(final ChatMessageContent content) =>
+  factory ChatMessage.human(ChatMessageContent content) =>
       HumanChatMessage(content: content);
-  factory ChatMessage.humanText(final String text) =>
+  factory ChatMessage.humanText(String text) =>
       HumanChatMessage(content: ChatMessageContent.text(text));
   factory ChatMessage.ai(
-    final String content, {
-    final List<AIChatMessageToolCall> toolCalls = const [],
+    String content, {
+    List<AIChatMessageToolCall> toolCalls = const [],
   }) => AIChatMessage(content: content, toolCalls: toolCalls);
   factory ChatMessage.tool({
-    required final String toolCallId,
-    required final String content,
+    required String toolCallId,
+    required String content,
   }) => ToolChatMessage(toolCallId: toolCallId, content: content);
   factory ChatMessage.custom(
-    final String content, {
-    required final String role,
+    String content, {
+    required String role,
   }) => CustomChatMessage(content: content, role: role);
   Map<String, dynamic> toMap() => {};
   String get contentAsString => switch (this) {
@@ -470,7 +470,7 @@ sealed class ChatMessage {
       final ChatMessageContentMultiModal multiModal =>
         multiModal.parts
             .map(
-              (final p) => switch (p) {
+              (p) => switch (p) {
                 final ChatMessageContentText text => text.text,
                 final ChatMessageContentImage image => image.data,
                 ChatMessageContentMultiModal _ => '',
@@ -482,7 +482,7 @@ sealed class ChatMessage {
     final ToolChatMessage tool => tool.content,
     final CustomChatMessage custom => custom.content,
   };
-  ChatMessage concat(final ChatMessage other);
+  ChatMessage concat(ChatMessage other);
 }
 
 @immutable
@@ -499,12 +499,12 @@ class SystemChatMessage extends ChatMessage {
   final String content;
   static const defaultPrefix = 'System';
   @override
-  bool operator ==(covariant final SystemChatMessage other) =>
+  bool operator ==(covariant SystemChatMessage other) =>
       identical(this, other) || content == other.content;
   @override
   int get hashCode => content.hashCode;
   @override
-  SystemChatMessage concat(final ChatMessage other) {
+  SystemChatMessage concat(ChatMessage other) {
     if (other is! SystemChatMessage) {
       return this;
     }
@@ -533,12 +533,12 @@ class HumanChatMessage extends ChatMessage {
   final ChatMessageContent content;
   static const defaultPrefix = 'Human';
   @override
-  bool operator ==(covariant final HumanChatMessage other) =>
+  bool operator ==(covariant HumanChatMessage other) =>
       identical(this, other) || content == other.content;
   @override
   int get hashCode => content.hashCode;
   @override
-  HumanChatMessage concat(final ChatMessage other) {
+  HumanChatMessage concat(ChatMessage other) {
     if (other is! HumanChatMessage) {
       return this;
     }
@@ -624,7 +624,7 @@ class AIChatMessage extends ChatMessage {
   final List<AIChatMessageToolCall> toolCalls;
   static const defaultPrefix = 'AI';
   @override
-  bool operator ==(covariant final AIChatMessage other) {
+  bool operator ==(covariant AIChatMessage other) {
     final listEquals = const DeepCollectionEquality().equals;
     return identical(this, other) ||
         content == other.content && listEquals(toolCalls, other.toolCalls);
@@ -633,7 +633,7 @@ class AIChatMessage extends ChatMessage {
   @override
   int get hashCode => content.hashCode ^ toolCalls.hashCode;
   @override
-  AIChatMessage concat(final ChatMessage other) {
+  AIChatMessage concat(ChatMessage other) {
     if (other is! AIChatMessage) {
       return this;
     }
@@ -704,13 +704,13 @@ class ToolChatMessage extends ChatMessage {
   final String content;
   static const defaultPrefix = 'Tool';
   @override
-  bool operator ==(covariant final ToolChatMessage other) =>
+  bool operator ==(covariant ToolChatMessage other) =>
       identical(this, other) ||
       toolCallId == other.toolCallId && content == other.content;
   @override
   int get hashCode => toolCallId.hashCode ^ content.hashCode;
   @override
-  ToolChatMessage concat(final ChatMessage other) {
+  ToolChatMessage concat(ChatMessage other) {
     if (other is! ToolChatMessage) {
       return this;
     }
@@ -747,12 +747,12 @@ class CustomChatMessage extends ChatMessage {
   final String content;
   final String role;
   @override
-  bool operator ==(covariant final CustomChatMessage other) =>
+  bool operator ==(covariant CustomChatMessage other) =>
       identical(this, other) || content == other.content && role == other.role;
   @override
   int get hashCode => content.hashCode ^ role.hashCode;
   @override
-  CustomChatMessage concat(final ChatMessage other) {
+  CustomChatMessage concat(ChatMessage other) {
     if (other is! CustomChatMessage) {
       return this;
     }
@@ -781,13 +781,13 @@ sealed class ChatMessageContent {
         _ => throw UnimplementedError('Unknown type: [39m${map['type']}'),
       };
 
-  factory ChatMessageContent.text(final String text) =>
+  factory ChatMessageContent.text(String text) =>
       ChatMessageContentText(text: text);
 
   factory ChatMessageContent.image({
-    required final String data,
-    final String? mimeType,
-    final ChatMessageContentImageDetail imageDetail =
+    required String data,
+    String? mimeType,
+    ChatMessageContentImageDetail imageDetail =
         ChatMessageContentImageDetail.auto,
   }) => ChatMessageContentImage(
     data: data,
@@ -795,7 +795,7 @@ sealed class ChatMessageContent {
     detail: imageDetail,
   );
 
-  factory ChatMessageContent.multiModal(final List<ChatMessageContent> parts) =>
+  factory ChatMessageContent.multiModal(List<ChatMessageContent> parts) =>
       ChatMessageContentMultiModal(parts: parts);
 
   Map<String, dynamic> toMap() => {};
@@ -813,7 +813,7 @@ class ChatMessageContentText extends ChatMessageContent {
     'content': text,
   };
   @override
-  bool operator ==(covariant final ChatMessageContentText other) =>
+  bool operator ==(covariant ChatMessageContentText other) =>
       identical(this, other) || text == other.text;
   @override
   int get hashCode => text.hashCode;
@@ -852,7 +852,7 @@ class ChatMessageContentImage extends ChatMessageContent {
     'detail': detail.name,
   };
   @override
-  bool operator ==(covariant final ChatMessageContentImage other) =>
+  bool operator ==(covariant ChatMessageContentImage other) =>
       identical(this, other) ||
       data == other.data &&
           mimeType == other.mimeType &&
@@ -873,7 +873,7 @@ ChatMessageContentImage{
 class ChatMessageContentMultiModal extends ChatMessageContent {
   ChatMessageContentMultiModal({required this.parts})
     : assert(
-        !parts.any((final p) => p is ChatMessageContentMultiModal),
+        !parts.any((p) => p is ChatMessageContentMultiModal),
         'Multi-modal messages cannot contain other multi-modal messages.',
       );
   factory ChatMessageContentMultiModal.fromMap(Map<String, dynamic> map) =>
@@ -891,7 +891,7 @@ class ChatMessageContentMultiModal extends ChatMessageContent {
   };
   final List<ChatMessageContent> parts;
   @override
-  bool operator ==(covariant final ChatMessageContentMultiModal other) =>
+  bool operator ==(covariant ChatMessageContentMultiModal other) =>
       identical(this, other) || parts == other.parts;
   @override
   int get hashCode => parts.hashCode;
@@ -907,7 +907,7 @@ enum ChatMessageContentImageDetail { auto, low, high }
 
 sealed class ChatToolChoice {
   const ChatToolChoice();
-  factory ChatToolChoice.forced({required final String name}) =>
+  factory ChatToolChoice.forced({required String name}) =>
       ChatToolChoiceForced(name: name);
   factory ChatToolChoice.fromMap(Map<String, dynamic> map) =>
       switch (map['type']) {
@@ -959,7 +959,7 @@ final class ChatToolChoiceForced extends ChatToolChoice {
     'name': name,
   };
   @override
-  bool operator ==(covariant final ChatToolChoiceForced other) =>
+  bool operator ==(covariant ChatToolChoiceForced other) =>
       identical(this, other) ||
       runtimeType == other.runtimeType && name == other.name;
   @override
@@ -1015,7 +1015,7 @@ class AIChatMessageToolCall {
   };
 
   @override
-  bool operator ==(covariant final AIChatMessageToolCall other) {
+  bool operator ==(covariant AIChatMessageToolCall other) {
     final mapEquals = const DeepCollectionEquality().equals;
     return identical(this, other) ||
         id == other.id &&
@@ -1055,10 +1055,10 @@ abstract class ChatModelOptions extends LanguageModelOptions {
 
   @override
   ChatModelOptions copyWith({
-    final String? model,
-    final List<ToolSpec>? tools,
-    final ChatToolChoice? toolChoice,
-    final int? concurrencyLimit,
+    String? model,
+    List<ToolSpec>? tools,
+    ChatToolChoice? toolChoice,
+    int? concurrencyLimit,
   });
 }
 
@@ -1078,7 +1078,7 @@ class ChatResult extends LanguageModelResult<AIChatMessage> {
   String get outputAsString => output.content;
 
   @override
-  ChatResult concat(final LanguageModelResult<AIChatMessage> other) =>
+  ChatResult concat(LanguageModelResult<AIChatMessage> other) =>
       ChatResult(
         id: other.id.isNotEmpty ? other.id : id,
         output: output.concat(other.output),

@@ -59,8 +59,8 @@ class RunnableMap<RunInput extends Object>
   /// - [options] - the options to use when invoking the [RunnableMap].
   @override
   Future<Map<String, dynamic>> invoke(
-    final RunInput input, {
-    final RunnableOptions? options,
+    RunInput input, {
+    RunnableOptions? options,
   }) async {
     final futures = steps.entries.map((entry) async {
       final result = await entry.value.invoke(
@@ -76,14 +76,14 @@ class RunnableMap<RunInput extends Object>
 
   @override
   Stream<Map<String, dynamic>> stream(
-    final RunInput input, {
-    final RunnableOptions? options,
+    RunInput input, {
+    RunnableOptions? options,
   }) => streamFromInputStream(Stream.value(input), options: options);
 
   @override
   Stream<Map<String, dynamic>> streamFromInputStream(
-    final Stream<RunInput> inputStream, {
-    final RunnableOptions? options,
+    Stream<RunInput> inputStream, {
+    RunnableOptions? options,
   }) {
     final subject = ReplaySubject<RunInput>();
     inputStream.listen(
@@ -93,12 +93,12 @@ class RunnableMap<RunInput extends Object>
     );
 
     return StreamGroup.merge(
-      steps.entries.map((final entry) => entry.value
+      steps.entries.map((entry) => entry.value
             .streamFromInputStream(
               subject.stream,
               options: entry.value.getCompatibleOptions(options),
             )
-            .map((final output) => {entry.key: output})),
+            .map((output) => {entry.key: output})),
     ).asBroadcastStream();
   }
 

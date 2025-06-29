@@ -54,8 +54,8 @@ class RunnableRouter<RunInput extends Object, RunOutput extends Object>
 
   @override
   Future<RunOutput> invoke(
-    final RunInput input, {
-    final RunnableOptions? options,
+    RunInput input, {
+    RunnableOptions? options,
   }) async {
     final runnable = await router.call(input, options);
     return runnable.invoke(input, options: options);
@@ -63,8 +63,8 @@ class RunnableRouter<RunInput extends Object, RunOutput extends Object>
 
   @override
   Stream<RunOutput> stream(
-    final RunInput input, {
-    final RunnableOptions? options,
+    RunInput input, {
+    RunnableOptions? options,
   }) async* {
     final runnable = await router.call(input, options);
     yield* runnable.stream(input, options: options);
@@ -72,8 +72,8 @@ class RunnableRouter<RunInput extends Object, RunOutput extends Object>
 
   @override
   Stream<RunOutput> streamFromInputStream(
-    final Stream<RunInput> inputStream, {
-    final RunnableOptions? options,
+    Stream<RunInput> inputStream, {
+    RunnableOptions? options,
   }) async* {
     final input = await inputStream.toList();
     final reduced = reduce<RunInput>(input);

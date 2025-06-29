@@ -212,12 +212,12 @@ class ChatGoogleGenerativeAI
   /// - `client`: the HTTP client to use. You can set your own HTTP client if
   ///   you need further customization (e.g. to use a Socks5 proxy).
   ChatGoogleGenerativeAI({
-    final String? apiKey,
-    final String? baseUrl,
-    final Map<String, String>? headers,
-    final Map<String, dynamic>? queryParams,
-    final int retries = 3,
-    final http.Client? client,
+    String? apiKey,
+    String? baseUrl,
+    Map<String, String>? headers,
+    Map<String, dynamic>? queryParams,
+    int retries = 3,
+    http.Client? client,
   }) : _currentModel = defaultGoogleAIOptions.model ?? '',
        _httpClient = CustomHttpClient(
          baseHttpClient: client ?? RetryClient(http.Client(), retries: retries),
@@ -245,7 +245,7 @@ class ChatGoogleGenerativeAI
   late final _uuid = const Uuid();
 
   /// Set or replace the API key.
-  set apiKey(final String value) =>
+  set apiKey(String value) =>
       _httpClient.headers['x-goog-api-key'] = value;
 
   /// Get the API key.
@@ -269,8 +269,8 @@ class ChatGoogleGenerativeAI
 
   @override
   Future<ChatResult> invoke(
-    final PromptValue input, {
-    final ChatGoogleGenerativeAIOptions? options,
+    PromptValue input, {
+    ChatGoogleGenerativeAIOptions? options,
   }) async {
     final id = _uuid.v4();
     final (model, prompt, safetySettings, generationConfig, tools, toolConfig) =
@@ -287,8 +287,8 @@ class ChatGoogleGenerativeAI
 
   @override
   Stream<ChatResult> stream(
-    final PromptValue input, {
-    final ChatGoogleGenerativeAIOptions? options,
+    PromptValue input, {
+    ChatGoogleGenerativeAIOptions? options,
   }) {
     final id = _uuid.v4();
     final (model, prompt, safetySettings, generationConfig, tools, toolConfig) =
@@ -301,7 +301,7 @@ class ChatGoogleGenerativeAI
           tools: tools,
           toolConfig: toolConfig,
         )
-        .map((final completion) => completion.toChatResult(id, model));
+        .map((completion) => completion.toChatResult(id, model));
   }
 
   /// Creates a [GenerateContentRequest] from the given input.
@@ -314,8 +314,8 @@ class ChatGoogleGenerativeAI
     ToolConfig? toolConfig,
   )
   _generateCompletionRequest(
-    final List<ChatMessage> messages, {
-    final ChatGoogleGenerativeAIOptions? options,
+    List<ChatMessage> messages, {
+    ChatGoogleGenerativeAIOptions? options,
   }) {
     _updateClientIfNeeded(messages, options);
 
@@ -356,8 +356,8 @@ class ChatGoogleGenerativeAI
 
   @override
   Future<List<int>> tokenize(
-    final PromptValue promptValue, {
-    final ChatGoogleGenerativeAIOptions? options,
+    PromptValue promptValue, {
+    ChatGoogleGenerativeAIOptions? options,
   }) {
     throw UnsupportedError(
       'Google AI does not expose a tokenizer, only counting tokens is supported.',
@@ -366,8 +366,8 @@ class ChatGoogleGenerativeAI
 
   @override
   Future<int> countTokens(
-    final PromptValue promptValue, {
-    final ChatGoogleGenerativeAIOptions? options,
+    PromptValue promptValue, {
+    ChatGoogleGenerativeAIOptions? options,
   }) async {
     final messages = promptValue.toChatMessages();
     _updateClientIfNeeded(messages, options);
@@ -382,10 +382,10 @@ class ChatGoogleGenerativeAI
 
   /// Create a new [GenerativeModel] instance.
   GenerativeModel _createGoogleAiClient(
-    final String model, {
-    final String? apiKey,
-    final CustomHttpClient? httpClient,
-    final String? systemInstruction,
+    String model, {
+    String? apiKey,
+    CustomHttpClient? httpClient,
+    String? systemInstruction,
   }) => GenerativeModel(
     model: model,
     apiKey: apiKey ?? this.apiKey,
@@ -397,8 +397,8 @@ class ChatGoogleGenerativeAI
 
   /// Recreate the [GenerativeModel] instance.
   void _recreateGoogleAiClient(
-    final String model,
-    final String? systemInstruction,
+    String model,
+    String? systemInstruction,
   ) {
     _googleAiClient = _createGoogleAiClient(
       model,
@@ -408,8 +408,8 @@ class ChatGoogleGenerativeAI
 
   /// Updates the model in [_googleAiClient] if needed.
   void _updateClientIfNeeded(
-    final List<ChatMessage> messages,
-    final ChatGoogleGenerativeAIOptions? options,
+    List<ChatMessage> messages,
+    ChatGoogleGenerativeAIOptions? options,
   ) {
     final model =
         options?.model ?? defaultGoogleAIOptions.model ?? defaultModel;

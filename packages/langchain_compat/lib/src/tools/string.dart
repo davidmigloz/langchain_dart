@@ -13,7 +13,7 @@ abstract base class StringTool<Options extends ToolOptions>
   StringTool({
     required super.name,
     required super.description,
-    final String inputDescription = 'The input to the tool',
+    String inputDescription = 'The input to the tool',
     super.strict = false,
     super.returnDirect = false,
     super.handleToolError,
@@ -43,12 +43,12 @@ abstract base class StringTool<Options extends ToolOptions>
   /// - [handleToolError] is a function that handles the content of the
   ///   [ToolException] thrown by the tool.
   static StringTool fromFunction<Options extends ToolOptions>({
-    required final String name,
-    required final String description,
-    required final FutureOr<String> Function(String input) func, final String inputDescription = 'The input to the tool',
-    final bool strict = false,
-    final bool returnDirect = false,
-    final String Function(ToolException)? handleToolError,
+    required String name,
+    required String description,
+    required FutureOr<String> Function(String input) func, String inputDescription = 'The input to the tool',
+    bool strict = false,
+    bool returnDirect = false,
+    String Function(ToolException)? handleToolError,
   }) => _StringToolFunc<Options>(
       name: name,
       description: description,
@@ -62,12 +62,12 @@ abstract base class StringTool<Options extends ToolOptions>
   /// Actual implementation of [invoke] method logic with string input.
   @override
   Future<String> invokeInternal(
-    final String toolInput, {
-    final Options? options,
+    String toolInput, {
+    Options? options,
   });
 
   @override
-  String getInputFromJson(final Map<String, dynamic> json) => json['input'] as String;
+  String getInputFromJson(Map<String, dynamic> json) => json['input'] as String;
 }
 
 /// {@template string_tool_func}
@@ -90,7 +90,7 @@ final class _StringToolFunc<Options extends ToolOptions>
 
   @override
   Future<String> invokeInternal(
-    final String toolInput, {
-    final Options? options,
+    String toolInput, {
+    Options? options,
   }) async => _func(toolInput);
 }

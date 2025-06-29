@@ -24,7 +24,7 @@ abstract class BaseLLM<Options extends LLMOptions>
   /// ```dart
   /// final result = await openai('Tell me a joke.');
   /// ```
-  Future<String> call(final String prompt, {final Options? options}) async {
+  Future<String> call(String prompt, {Options? options}) async {
     final result = await invoke(PromptValue.string(prompt), options: options);
     return result.output;
   }
@@ -41,8 +41,8 @@ abstract class SimpleLLM<Options extends LLMOptions> extends BaseLLM<Options> {
 
   @override
   Future<LLMResult> invoke(
-    final PromptValue input, {
-    final Options? options,
+    PromptValue input, {
+    Options? options,
   }) async {
     final output = await callInternal(input.toString(), options: options);
     return LLMResult(
@@ -56,5 +56,5 @@ abstract class SimpleLLM<Options extends LLMOptions> extends BaseLLM<Options> {
 
   /// Method which should be implemented by subclasses to run the model.
   @visibleForOverriding
-  Future<String> callInternal(final String prompt, {final Options? options});
+  Future<String> callInternal(String prompt, {Options? options});
 }

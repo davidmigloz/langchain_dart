@@ -119,10 +119,10 @@ import 'types.dart';
 class VertexAI extends BaseLLM<VertexAIOptions> {
   /// {@macro vertex_ai}
   VertexAI({
-    required final http.Client httpClient,
-    required final String project,
-    final String location = 'us-central1',
-    final String? rootUrl,
+    required http.Client httpClient,
+    required String project,
+    String location = 'us-central1',
+    String? rootUrl,
     super.defaultOptions = const VertexAIOptions(
       publisher: defaultPublisher,
       model: defaultModel,
@@ -155,8 +155,8 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
 
   @override
   Future<LLMResult> invoke(
-    final PromptValue input, {
-    final VertexAIOptions? options,
+    PromptValue input, {
+    VertexAIOptions? options,
   }) async {
     final id = _uuid.v4();
     final publisher =
@@ -183,8 +183,8 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
 
   @override
   Future<List<int>> tokenize(
-    final PromptValue promptValue, {
-    final VertexAIOptions? options,
+    PromptValue promptValue, {
+    VertexAIOptions? options,
   }) {
     throw UnsupportedError(
       'VertexAI does not support tokenize, only countTokens',
@@ -193,8 +193,8 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
 
   @override
   Future<int> countTokens(
-    final PromptValue promptValue, {
-    final VertexAIOptions? options,
+    PromptValue promptValue, {
+    VertexAIOptions? options,
   }) async {
     final publisher =
         options?.publisher ?? defaultOptions.publisher ?? defaultPublisher;

@@ -13,7 +13,7 @@ CreateChatCompletionRequest createChatCompletionRequest(
   List<ChatMessage> messages, {
   required ChatOpenAIOptions? options,
   required ChatOpenAIOptions defaultOptions,
-  final bool stream = false,
+  bool stream = false,
 }) {
   final messagesDtos = messages.toChatCompletionMessages();
   final toolsDtos = (options?.tools ?? defaultOptions.tools)
@@ -60,7 +60,7 @@ extension ChatMessageListMapper on List<ChatMessage> {
   List<ChatCompletionMessage> toChatCompletionMessages() =>
       map(_mapMessage).toList(growable: false);
 
-  ChatCompletionMessage _mapMessage(final ChatMessage msg) => switch (msg) {
+  ChatCompletionMessage _mapMessage(ChatMessage msg) => switch (msg) {
     final SystemChatMessage msg => _mapSystemMessage(msg),
     final HumanChatMessage msg => _mapHumanMessage(msg),
     final AIChatMessage msg => _mapAIMessage(msg),
@@ -71,11 +71,11 @@ extension ChatMessageListMapper on List<ChatMessage> {
   };
 
   ChatCompletionMessage _mapSystemMessage(
-    final SystemChatMessage systemChatMessage,
+    SystemChatMessage systemChatMessage,
   ) => ChatCompletionMessage.system(content: systemChatMessage.content);
 
   ChatCompletionMessage _mapHumanMessage(
-    final HumanChatMessage humanChatMessage,
+    HumanChatMessage humanChatMessage,
   ) => ChatCompletionMessage.user(
     content: switch (humanChatMessage.content) {
       final ChatMessageContentText c => _mapMessageContentString(c),
@@ -87,11 +87,11 @@ extension ChatMessageListMapper on List<ChatMessage> {
   );
 
   ChatCompletionUserMessageContentString _mapMessageContentString(
-    final ChatMessageContentText c,
+    ChatMessageContentText c,
   ) => ChatCompletionUserMessageContentString(c.text);
 
   ChatCompletionMessageContentPartImage _mapMessageContentPartImage(
-    final ChatMessageContentImage c,
+    ChatMessageContentImage c,
   ) {
     final imageData = c.data.trim();
     final isUrl = imageData.startsWith('http');
@@ -124,11 +124,11 @@ extension ChatMessageListMapper on List<ChatMessage> {
   }
 
   ChatCompletionMessageContentParts _mapMessageContentPart(
-    final ChatMessageContentMultiModal c,
+    ChatMessageContentMultiModal c,
   ) {
     final partsList = c.parts
         .map(
-          (final part) => switch (part) {
+          (part) => switch (part) {
             final ChatMessageContentText c => [
               ChatCompletionMessageContentPartText(text: c.text),
             ],
@@ -140,12 +140,12 @@ extension ChatMessageListMapper on List<ChatMessage> {
             ).value,
           },
         )
-        .expand((final parts) => parts)
+        .expand((parts) => parts)
         .toList(growable: false);
     return ChatCompletionMessageContentParts(partsList);
   }
 
-  ChatCompletionMessage _mapAIMessage(final AIChatMessage aiChatMessage) =>
+  ChatCompletionMessage _mapAIMessage(AIChatMessage aiChatMessage) =>
       ChatCompletionMessage.assistant(
         content: aiChatMessage.content,
         toolCalls: aiChatMessage.toolCalls.isNotEmpty
@@ -156,7 +156,7 @@ extension ChatMessageListMapper on List<ChatMessage> {
       );
 
   ChatCompletionMessageToolCall _mapMessageToolCall(
-    final AIChatMessageToolCall toolCall,
+    AIChatMessageToolCall toolCall,
   ) => ChatCompletionMessageToolCall(
     id: toolCall.id,
     type: ChatCompletionMessageToolCallType.function,
@@ -167,7 +167,7 @@ extension ChatMessageListMapper on List<ChatMessage> {
   );
 
   ChatCompletionMessage _mapToolMessage(
-    final ToolChatMessage toolChatMessage,
+    ToolChatMessage toolChatMessage,
   ) => ChatCompletionMessage.tool(
     toolCallId: toolChatMessage.toolCallId,
     content: toolChatMessage.content,
@@ -175,7 +175,7 @@ extension ChatMessageListMapper on List<ChatMessage> {
 }
 
 extension CreateChatCompletionResponseMapper on CreateChatCompletionResponse {
-  ChatResult toChatResult(final String id) {
+  ChatResult toChatResult(String id) {
     final choice = choices.first;
     final msg = choice.message;
 
@@ -203,7 +203,7 @@ extension CreateChatCompletionResponseMapper on CreateChatCompletionResponse {
   }
 
   AIChatMessageToolCall _mapMessageToolCall(
-    final ChatCompletionMessageToolCall tooCall,
+    ChatCompletionMessageToolCall tooCall,
   ) {
     var args = <String, dynamic>{};
     try {
@@ -220,7 +220,7 @@ extension CreateChatCompletionResponseMapper on CreateChatCompletionResponse {
   }
 }
 
-LanguageModelUsage _mapUsage(final CompletionUsage? usage) =>
+LanguageModelUsage _mapUsage(CompletionUsage? usage) =>
     LanguageModelUsage(
       promptTokens: usage?.promptTokens,
       responseTokens: usage?.completionTokens,
@@ -231,7 +231,7 @@ extension ChatToolListMapper on List<ToolSpec> {
   List<ChatCompletionTool> toChatCompletionTool() =>
       map(_mapChatCompletionTool).toList(growable: false);
 
-  ChatCompletionTool _mapChatCompletionTool(final ToolSpec tool) =>
+  ChatCompletionTool _mapChatCompletionTool(ToolSpec tool) =>
       ChatCompletionTool(
         type: ChatCompletionToolType.function,
         function: FunctionObject(
@@ -264,7 +264,7 @@ extension ChatToolChoiceMapper on ChatToolChoice {
 
 extension CreateChatCompletionStreamResponseMapper
     on CreateChatCompletionStreamResponse {
-  ChatResult toChatResult(final String id) {
+  ChatResult toChatResult(String id) {
     final choice = choices.firstOrNull;
     final delta = choice?.delta;
 
@@ -294,7 +294,7 @@ extension CreateChatCompletionStreamResponseMapper
   }
 
   AIChatMessageToolCall _mapMessageToolCall(
-    final ChatCompletionStreamMessageToolCallChunk toolCall,
+    ChatCompletionStreamMessageToolCallChunk toolCall,
   ) {
     var args = <String, dynamic>{};
     try {
@@ -334,7 +334,7 @@ extension ChatOpenAIServiceTierX on ChatOpenAIServiceTier? {
   };
 }
 
-FinishReason _mapFinishReason(final ChatCompletionFinishReason? reason) =>
+FinishReason _mapFinishReason(ChatCompletionFinishReason? reason) =>
     switch (reason) {
       ChatCompletionFinishReason.stop => FinishReason.stop,
       ChatCompletionFinishReason.length => FinishReason.length,

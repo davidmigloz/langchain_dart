@@ -17,10 +17,10 @@ abstract class BaseDocumentTransformer
   /// - [options] - Not used.
   @override
   Future<List<Document>> invoke(
-    final List<Document> input, {
-    final BaseLangChainOptions? options,
+    List<Document> input, {
+    BaseLangChainOptions? options,
   }) => transformDocuments(input);
 
   /// Transform a list of documents.
-  Future<List<Document>> transformDocuments(final List<Document> documents);
+  Future<List<Document>> transformDocuments(List<Document> documents);
 }

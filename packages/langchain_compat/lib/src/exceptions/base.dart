@@ -6,7 +6,7 @@ import 'package:meta/meta.dart';
 @immutable
 base class LangChainException implements Exception {
   /// {@macro lang_chain_exception}
-  const LangChainException({this.message, final String? code, this.stackTrace})
+  const LangChainException({this.message, String? code, this.stackTrace})
     : code = code ?? 'exception';
 
   /// The long form message of the exception.
@@ -20,7 +20,7 @@ base class LangChainException implements Exception {
   final StackTrace? stackTrace;
 
   @override
-  bool operator ==(covariant final LangChainException other) {
+  bool operator ==(covariant LangChainException other) {
     if (identical(this, other)) return true;
     return other.hashCode == hashCode;
   }

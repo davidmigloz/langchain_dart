@@ -10,9 +10,9 @@ import 'types.dart';
 ///
 /// Throws a [TemplateValidationException] if it is not.
 void checkValidPromptTemplate({
-  required final String template,
-  required final Set<String> inputVariables,
-  required final Iterable<String>? partialVariables,
+  required String template,
+  required Set<String> inputVariables,
+  required Iterable<String>? partialVariables,
 }) {
   try {
     // Check reversed keywords
@@ -47,8 +47,8 @@ void checkValidPromptTemplate({
     }
     // Try to render
     final dummyInputs = allVariables.fold(<String, Object>{}, (
-      final acc,
-      final v,
+      acc,
+      v,
     ) {
       acc[v] = 'foo';
       return acc;
@@ -65,14 +65,14 @@ void checkValidPromptTemplate({
 ///
 /// Throws a [TemplateValidationException] if it is not.
 void checkValidChatPromptTemplate({
-  required final List<ChatMessagePromptTemplate> promptMessages,
-  required final Set<String> inputVariables,
-  required final Iterable<String>? partialVariables,
+  required List<ChatMessagePromptTemplate> promptMessages,
+  required Set<String> inputVariables,
+  required Iterable<String>? partialVariables,
 }) {
   try {
     final inputVariablesMessages = promptMessages
-        .map((final promptMessage) => promptMessage.inputVariables)
-        .expand((final element) => element)
+        .map((promptMessage) => promptMessage.inputVariables)
+        .expand((element) => element)
         .toSet();
     final inputVariablesInstance = inputVariables.toSet();
     final inputVariablesDiff = inputVariablesMessages
@@ -118,17 +118,17 @@ final class TemplateValidationException extends LangChainException {
 
 /// Renders a template with the given values.
 String renderTemplate({
-  required final String template,
-  required final InputValues inputValues,
+  required String template,
+  required InputValues inputValues,
 }) => renderFStringTemplate(template, inputValues);
 
 /// Render a template in fString format.
 String renderFStringTemplate(
-  final String template,
-  final InputValues inputValues,
+  String template,
+  InputValues inputValues,
 ) => parseFStringTemplate(template)
     .map(
-      (final node) => switch (node) {
+      (node) => switch (node) {
         ParsedFStringLiteralNode(text: final t) => t,
         ParsedFStringVariableNode(name: final n) => ArgumentError.checkNotNull(
           inputValues[n],
@@ -139,11 +139,11 @@ String renderFStringTemplate(
     .join();
 
 /// Parses a template in fString format.
-List<ParsedFStringNode> parseFStringTemplate(final String template) {
+List<ParsedFStringNode> parseFStringTemplate(String template) {
   final chars = template.split('');
   final nodes = <ParsedFStringNode>[];
 
-  int nextBracket(final String bracket, final int start) {
+  int nextBracket(String bracket, int start) {
     for (var i = start; i < chars.length; i += 1) {
       if (bracket.contains(chars[i])) {
         return i;
@@ -207,7 +207,7 @@ class ParsedFStringLiteralNode extends ParsedFStringNode {
   final String text;
 
   @override
-  bool operator ==(covariant final ParsedFStringLiteralNode other) =>
+  bool operator ==(covariant ParsedFStringLiteralNode other) =>
       identical(this, other) ||
       runtimeType == other.runtimeType && text == other.text;
 
@@ -227,7 +227,7 @@ class ParsedFStringVariableNode extends ParsedFStringNode {
   final String name;
 
   @override
-  bool operator ==(covariant final ParsedFStringVariableNode other) =>
+  bool operator ==(covariant ParsedFStringVariableNode other) =>
       identical(this, other) ||
       runtimeType == other.runtimeType && name == other.name;
 

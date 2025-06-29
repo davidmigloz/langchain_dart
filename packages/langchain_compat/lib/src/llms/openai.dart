@@ -183,12 +183,12 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
   /// - `client`: the HTTP client to use. You can set your own HTTP client if
   ///   you need further customization (e.g. to use a Socks5 proxy).
   OpenAI({
-    final String? apiKey,
-    final String? organization,
-    final String? baseUrl,
-    final Map<String, String>? headers,
-    final Map<String, dynamic>? queryParams,
-    final http.Client? client,
+    String? apiKey,
+    String? organization,
+    String? baseUrl,
+    Map<String, String>? headers,
+    Map<String, dynamic>? queryParams,
+    http.Client? client,
     OpenAIOptions? defaultOptions,
     this.encoding,
   }) : _client = OpenAIClient(
@@ -222,7 +222,7 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
   String? encoding;
 
   /// Set or replace the API key.
-  set apiKey(final String value) => _client.apiKey = value;
+  set apiKey(String value) => _client.apiKey = value;
 
   /// Get the API key.
   String get apiKey => _client.apiKey;
@@ -248,8 +248,8 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
 
   @override
   Future<LLMResult> invoke(
-    final PromptValue input, {
-    final OpenAIOptions? options,
+    PromptValue input, {
+    OpenAIOptions? options,
   }) async {
     final completion = await _client.createCompletion(
       request: _createCompletionRequest([input.toString()], options: options),
@@ -259,8 +259,8 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
 
   @override
   Future<List<LLMResult>> batch(
-    final List<PromptValue> inputs, {
-    final List<OpenAIOptions>? options,
+    List<PromptValue> inputs, {
+    List<OpenAIOptions>? options,
   }) async {
     assert(
       options == null || options.length == 1 || options.length == inputs.length,
@@ -271,7 +271,7 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
     // is the default behavior of batch
     if (options != null &&
         options.length > 1 &&
-        options.any((final element) => element != options.first)) {
+        options.any((element) => element != options.first)) {
       return super.batch(inputs, options: options);
     }
 
@@ -287,7 +287,7 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
     for (final chunk in chunkList(inputs, chunkSize: concurrencyLimit)) {
       final completion = await _client.createCompletion(
         request: _createCompletionRequest(
-          chunk.map((final input) => input.toString()).toList(growable: false),
+          chunk.map((input) => input.toString()).toList(growable: false),
           options: options?.length == 1 ? options![0] : options?[index++],
         ),
       );
@@ -299,8 +299,8 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
 
   @override
   Stream<LLMResult> stream(
-    final PromptValue input, {
-    final OpenAIOptions? options,
+    PromptValue input, {
+    OpenAIOptions? options,
   }) => _client
         .createCompletionStream(
           request: _createCompletionRequest(
@@ -310,14 +310,14 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
           ),
         )
         .map(
-          (final completion) => completion.toLLMResults(streaming: true).first,
+          (completion) => completion.toLLMResults(streaming: true).first,
         );
 
   /// Creates a [CreateCompletionRequest] from the given input.
   CreateCompletionRequest _createCompletionRequest(
-    final List<String> prompts, {
-    final OpenAIOptions? options,
-    final bool stream = false,
+    List<String> prompts, {
+    OpenAIOptions? options,
+    bool stream = false,
   }) => CreateCompletionRequest(
       model: CompletionModel.modelId(
         options?.model ?? defaultOpenAIOptions.model ?? defaultModel,
@@ -357,8 +357,8 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
   /// - [promptValue] The prompt to tokenize.
   @override
   Future<List<int>> tokenize(
-    final PromptValue promptValue, {
-    final OpenAIOptions? options,
+    PromptValue promptValue, {
+    OpenAIOptions? options,
   }) async {
     final encoding = this.encoding != null
         ? getEncoding(this.encoding!)

@@ -25,20 +25,20 @@ class FakeEmbeddings implements Embeddings {
 
   @override
   Future<List<List<double>>> embedDocuments(
-    final List<Document> documents,
+    List<Document> documents,
   ) async => documents
-        .map((final d) => _getEmbeddings(d.pageContent))
+        .map((d) => _getEmbeddings(d.pageContent))
         .toList(growable: false);
 
   @override
-  Future<List<double>> embedQuery(final String query) async => _getEmbeddings(query);
+  Future<List<double>> embedQuery(String query) async => _getEmbeddings(query);
 
-  List<double> _getEmbeddings(final String text) {
+  List<double> _getEmbeddings(String text) {
     final random = Random(deterministic ? _getSeed(text) : null);
-    return List.generate(size, (final i) => random.nextDouble());
+    return List.generate(size, (i) => random.nextDouble());
   }
 
-  int _getSeed(final String text) {
+  int _getSeed(String text) {
     final bytes = utf8.encode(text);
     final digest = sha256.convert(bytes);
     // We restrict the seed to 32 bits to avoid overflow

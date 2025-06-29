@@ -31,9 +31,9 @@ abstract base class ChatMessagePromptTemplate
   /// - [partialVariables] the partial variables to use for the template.
   /// - [validateTemplate] whether to validate the template.
   factory ChatMessagePromptTemplate.system(
-    final String template, {
-    final PartialValues? partialVariables,
-    final bool validateTemplate = true,
+    String template, {
+    PartialValues? partialVariables,
+    bool validateTemplate = true,
   }) => SystemChatMessagePromptTemplate.fromTemplate(
       template,
       partialVariables: partialVariables,
@@ -55,9 +55,9 @@ abstract base class ChatMessagePromptTemplate
   /// - [partialVariables] the partial variables to use for the template.
   /// - [validateTemplate] whether to validate the template.
   factory ChatMessagePromptTemplate.human(
-    final String template, {
-    final PartialValues? partialVariables,
-    final bool validateTemplate = true,
+    String template, {
+    PartialValues? partialVariables,
+    bool validateTemplate = true,
   }) => HumanChatMessagePromptTemplate.fromTemplate(
       template,
       partialVariables: partialVariables,
@@ -77,9 +77,9 @@ abstract base class ChatMessagePromptTemplate
   /// - [partialVariables] the partial variables to use for the template.
   /// - [validateTemplate] whether to validate the template.
   factory ChatMessagePromptTemplate.ai(
-    final String template, {
-    final PartialValues? partialVariables,
-    final bool validateTemplate = true,
+    String template, {
+    PartialValues? partialVariables,
+    bool validateTemplate = true,
   }) => AIChatMessagePromptTemplate.fromTemplate(
       template,
       partialVariables: partialVariables,
@@ -103,10 +103,10 @@ abstract base class ChatMessagePromptTemplate
   /// - [partialVariables] the partial variables to use for the template.
   /// - [validateTemplate] whether to validate the template.
   factory ChatMessagePromptTemplate.custom(
-    final String template, {
-    required final String role,
-    final PartialValues? partialVariables,
-    final bool validateTemplate = true,
+    String template, {
+    required String role,
+    PartialValues? partialVariables,
+    bool validateTemplate = true,
   }) => CustomChatMessagePromptTemplate.fromTemplate(
       template,
       role: role,
@@ -135,7 +135,7 @@ abstract base class ChatMessagePromptTemplate
   ///
   /// - [variableName] the name of the placeholder variable.
   factory ChatMessagePromptTemplate.messagePlaceholder(
-    final String variableName,
+    String variableName,
   ) => MessagePlaceholder(variableName: variableName);
 
   /// Creates a [MessagesPlaceholder], a prompt template that assumes the variable is a list of [ChatMessage].
@@ -158,7 +158,7 @@ abstract base class ChatMessagePromptTemplate
   ///
   /// - [variableName] the name of the placeholder variable.
   factory ChatMessagePromptTemplate.messagesPlaceholder(
-    final String variableName,
+    String variableName,
   ) => MessagesPlaceholder(variableName: variableName);
 
   /// The prompt template for the message.
@@ -175,17 +175,17 @@ abstract base class ChatMessagePromptTemplate
   /// - [input] - Any arguments to be passed to the prompt template.
   @override
   Future<List<ChatMessage>> invoke(
-    final InputValues input, {
-    final BaseLangChainOptions? options,
+    InputValues input, {
+    BaseLangChainOptions? options,
   }) => Future.value(formatMessages(input));
 
   /// Format the prompt with the inputs returning a list of messages.
   ///
   /// - [values] - Any arguments to be passed to the prompt template.
-  List<ChatMessage> formatMessages(final InputValues values);
+  List<ChatMessage> formatMessages(InputValues values);
 
   @override
-  bool operator ==(covariant final ChatMessagePromptTemplate other) =>
+  bool operator ==(covariant ChatMessagePromptTemplate other) =>
       identical(this, other) ||
       runtimeType == other.runtimeType && prompt == other.prompt;
 
@@ -202,7 +202,7 @@ BaseChatMessagePromptTemplate{
 
   /// Return a new [ChatMessagePromptTemplate] instance with the given
   /// values.
-  ChatMessagePromptTemplate copyWith({final BasePromptTemplate? prompt});
+  ChatMessagePromptTemplate copyWith({BasePromptTemplate? prompt});
 }
 
 /// {@template string_message_prompt_template}
@@ -212,7 +212,7 @@ BaseChatMessagePromptTemplate{
 abstract base class StringMessagePromptTemplate
     extends ChatMessagePromptTemplate {
   /// {@macro string_message_prompt_template}
-  const StringMessagePromptTemplate({required final PromptTemplate prompt})
+  const StringMessagePromptTemplate({required PromptTemplate prompt})
     : super(prompt: prompt);
 
   @override
@@ -225,15 +225,15 @@ abstract base class StringMessagePromptTemplate
   PartialValues? get partialVariables => prompt.partialVariables;
 
   @override
-  List<ChatMessage> formatMessages(final InputValues values) => [format(values)];
+  List<ChatMessage> formatMessages(InputValues values) => [format(values)];
 
   /// Format the prompt with the inputs.
   ///
   /// - [values] - Any arguments to be passed to the prompt template.
-  ChatMessage format([final InputValues values = const {}]);
+  ChatMessage format([InputValues values = const {}]);
 
   /// Return a new [StringMessagePromptTemplate] instance with the given
   /// values.
   @override
-  StringMessagePromptTemplate copyWith({final BasePromptTemplate? prompt});
+  StringMessagePromptTemplate copyWith({BasePromptTemplate? prompt});
 }

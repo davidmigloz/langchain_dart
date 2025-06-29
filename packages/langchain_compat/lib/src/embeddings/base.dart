@@ -8,8 +8,8 @@ abstract interface class Embeddings {
   const Embeddings();
 
   /// Embed search docs.
-  Future<List<List<double>>> embedDocuments(final List<Document> documents);
+  Future<List<List<double>>> embedDocuments(List<Document> documents);
 
   /// Embed query text.
-  Future<List<double>> embedQuery(final String query);
+  Future<List<double>> embedQuery(String query);
 }

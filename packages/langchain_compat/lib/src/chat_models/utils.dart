@@ -5,11 +5,11 @@ extension ChatMessagesX on List<ChatMessage> {
   /// This function is to get a string representation of the chat messages
   /// based on the message content and role.
   String toBufferString({
-    final String systemPrefix = SystemChatMessage.defaultPrefix,
-    final String humanPrefix = HumanChatMessage.defaultPrefix,
-    final String aiPrefix = AIChatMessage.defaultPrefix,
-    final String toolPrefix = ToolChatMessage.defaultPrefix,
-  }) => map((final m) => switch (m) {
+    String systemPrefix = SystemChatMessage.defaultPrefix,
+    String humanPrefix = HumanChatMessage.defaultPrefix,
+    String aiPrefix = AIChatMessage.defaultPrefix,
+    String toolPrefix = ToolChatMessage.defaultPrefix,
+  }) => map((m) => switch (m) {
         SystemChatMessage _ => '$systemPrefix: ${m.contentAsString}',
         HumanChatMessage _ => '$humanPrefix: ${m.contentAsString}',
         AIChatMessage _ =>

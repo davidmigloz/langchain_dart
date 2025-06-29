@@ -127,12 +127,12 @@ class OpenAIEmbeddings implements Embeddings {
   /// - `client`: the HTTP client to use. You can set your own HTTP client if
   ///   you need further customization (e.g. to use a Socks5 proxy).
   OpenAIEmbeddings({
-    final String? apiKey,
-    final String? organization,
-    final String baseUrl = 'https://api.openai.com/v1',
-    final Map<String, String>? headers,
-    final Map<String, dynamic>? queryParams,
-    final http.Client? client,
+    String? apiKey,
+    String? organization,
+    String baseUrl = 'https://api.openai.com/v1',
+    Map<String, String>? headers,
+    Map<String, dynamic>? queryParams,
+    http.Client? client,
     this.model = 'text-embedding-3-small',
     this.dimensions,
     this.batchSize = 512,
@@ -176,39 +176,39 @@ class OpenAIEmbeddings implements Embeddings {
   String? user;
 
   /// Set or replace the API key.
-  set apiKey(final String value) => _client.apiKey = value;
+  set apiKey(String value) => _client.apiKey = value;
 
   /// Get the API key.
   String get apiKey => _client.apiKey;
 
   @override
   Future<List<List<double>>> embedDocuments(
-    final List<Document> documents,
+    List<Document> documents,
   ) async {
     // TODO use tiktoken to chunk documents that exceed the context length of the model
     final batches = chunkList(documents, chunkSize: batchSize);
 
     final embeddings = await Future.wait(
-      batches.map((final batch) async {
+      batches.map((batch) async {
         final data = await _client.createEmbedding(
           request: CreateEmbeddingRequest(
             model: EmbeddingModel.modelId(model),
             input: EmbeddingInput.listString(
-              batch.map((final doc) => doc.pageContent).toList(growable: false),
+              batch.map((doc) => doc.pageContent).toList(growable: false),
             ),
             dimensions: dimensions,
             user: user,
           ),
         );
-        return data.data.map((final d) => d.embeddingVector);
+        return data.data.map((d) => d.embeddingVector);
       }),
     );
 
-    return embeddings.expand((final e) => e).toList(growable: false);
+    return embeddings.expand((e) => e).toList(growable: false);
   }
 
   @override
-  Future<List<double>> embedQuery(final String query) async {
+  Future<List<double>> embedQuery(String query) async {
     final data = await _client.createEmbedding(
       request: CreateEmbeddingRequest(
         model: EmbeddingModel.modelId(model),

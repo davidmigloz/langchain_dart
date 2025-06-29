@@ -61,7 +61,7 @@ class ToolSpec {
   final bool strict;
 
   @override
-  bool operator ==(covariant final ToolSpec other) {
+  bool operator ==(covariant ToolSpec other) {
     final mapEquals = const DeepCollectionEquality().equals;
     return identical(this, other) ||
         name == other.name &&
@@ -122,7 +122,7 @@ abstract base class Tool<
     this.strict = false,
     this.returnDirect = false,
     this.handleToolError,
-    final Options? defaultOptions,
+    Options? defaultOptions,
   }) : assert(name.isNotEmpty, 'Tool name cannot be empty.'),
        assert(description.isNotEmpty, 'Tool description cannot be empty.'),
        super(defaultOptions: defaultOptions ?? const ToolOptions() as Options);
@@ -229,7 +229,7 @@ abstract base class Tool<
   Input getInputFromJson(Map<String, dynamic> json);
 
   @override
-  bool operator ==(covariant final ToolSpec other) {
+  bool operator ==(covariant ToolSpec other) {
     final mapEquals = const DeepCollectionEquality().equals;
     return identical(this, other) ||
         name == other.name &&
@@ -282,11 +282,11 @@ final class _ToolFunc<Input extends Object, Output extends Object>
 
   @override
   Future<Output> invokeInternal(
-    final Input toolInput, {
-    final ToolOptions? options,
+    Input toolInput, {
+    ToolOptions? options,
   }) async => _function(toolInput);
 
   @override
-  Input getInputFromJson(final Map<String, dynamic> json) =>
+  Input getInputFromJson(Map<String, dynamic> json) =>
       _getInputFromJson(json);
 }

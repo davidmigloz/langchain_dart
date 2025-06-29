@@ -124,21 +124,21 @@ class OpenAIOptions extends LLMOptions {
 
   @override
   OpenAIOptions copyWith({
-    final String? model,
-    final int? bestOf,
-    final double? frequencyPenalty,
-    final Map<String, int>? logitBias,
-    final int? logprobs,
-    final int? maxTokens,
-    final int? n,
-    final double? presencePenalty,
-    final int? seed,
-    final List<String>? stop,
-    final String? suffix,
-    final double? temperature,
-    final double? topP,
-    final String? user,
-    final int? concurrencyLimit,
+    String? model,
+    int? bestOf,
+    double? frequencyPenalty,
+    Map<String, int>? logitBias,
+    int? logprobs,
+    int? maxTokens,
+    int? n,
+    double? presencePenalty,
+    int? seed,
+    List<String>? stop,
+    String? suffix,
+    double? temperature,
+    double? topP,
+    String? user,
+    int? concurrencyLimit,
   }) => OpenAIOptions(
       model: model ?? this.model,
       bestOf: bestOf ?? this.bestOf,
@@ -158,7 +158,7 @@ class OpenAIOptions extends LLMOptions {
     );
 
   @override
-  OpenAIOptions merge(covariant final OpenAIOptions? other) => copyWith(
+  OpenAIOptions merge(covariant OpenAIOptions? other) => copyWith(
       model: other?.model,
       bestOf: other?.bestOf,
       frequencyPenalty: other?.frequencyPenalty,
@@ -177,7 +177,7 @@ class OpenAIOptions extends LLMOptions {
     );
 
   @override
-  bool operator ==(covariant final OpenAIOptions other) => identical(this, other) ||
+  bool operator ==(covariant OpenAIOptions other) => identical(this, other) ||
         runtimeType == other.runtimeType &&
             model == other.model &&
             bestOf == other.bestOf &&
@@ -240,7 +240,7 @@ class LLMResult extends LanguageModelResult<String> {
   String get outputAsString => output;
 
   @override
-  LLMResult concat(final LanguageModelResult<String> other) => LLMResult(
+  LLMResult concat(LanguageModelResult<String> other) => LLMResult(
       id: other.id,
       output: output + other.output,
       finishReason:

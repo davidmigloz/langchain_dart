@@ -113,10 +113,10 @@ import 'mappers.dart';
 class ChatVertexAI extends BaseChatModel<ChatVertexAIOptions> {
   /// {@macro chat_vertex_ai}
   ChatVertexAI({
-    required final http.Client httpClient,
-    required final String project,
-    final String location = 'us-central1',
-    final String? rootUrl,
+    required http.Client httpClient,
+    required String project,
+    String location = 'us-central1',
+    String? rootUrl,
   }) : client = VertexAIGenAIClient(
          httpClient: httpClient,
          project: project,
@@ -152,8 +152,8 @@ class ChatVertexAI extends BaseChatModel<ChatVertexAIOptions> {
 
   @override
   Future<ChatResult> invoke(
-    final PromptValue input, {
-    final ChatVertexAIOptions? options,
+    PromptValue input, {
+    ChatVertexAIOptions? options,
   }) async {
     final id = _uuid.v4();
     String? context;
@@ -167,7 +167,7 @@ class ChatVertexAI extends BaseChatModel<ChatVertexAIOptions> {
       }
     }
     final examples = (options?.examples ?? defaultVertexAIOptions.examples)
-        ?.map((final e) => e.toVertexAIChatExample())
+        ?.map((e) => e.toVertexAIChatExample())
         .toList(growable: false);
     final publisher =
         options?.publisher ??
@@ -206,8 +206,8 @@ class ChatVertexAI extends BaseChatModel<ChatVertexAIOptions> {
 
   @override
   Future<List<int>> tokenize(
-    final PromptValue promptValue, {
-    final ChatVertexAIOptions? options,
+    PromptValue promptValue, {
+    ChatVertexAIOptions? options,
   }) {
     throw UnsupportedError(
       'ChatVertexAI does not support tokenize, only countTokens',
@@ -216,8 +216,8 @@ class ChatVertexAI extends BaseChatModel<ChatVertexAIOptions> {
 
   @override
   Future<int> countTokens(
-    final PromptValue promptValue, {
-    final ChatVertexAIOptions? options,
+    PromptValue promptValue, {
+    ChatVertexAIOptions? options,
   }) async {
     final messages = promptValue.toChatMessages();
     String? context;
@@ -231,7 +231,7 @@ class ChatVertexAI extends BaseChatModel<ChatVertexAIOptions> {
       }
     }
     final examples = (options?.examples ?? defaultVertexAIOptions.examples)
-        ?.map((final e) => e.toVertexAIChatExample())
+        ?.map((e) => e.toVertexAIChatExample())
         .toList(growable: false);
     final publisher =
         options?.publisher ??

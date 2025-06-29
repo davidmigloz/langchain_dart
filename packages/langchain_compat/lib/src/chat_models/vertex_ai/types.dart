@@ -101,18 +101,18 @@ class ChatVertexAIOptions extends ChatModelOptions {
 
   @override
   ChatVertexAIOptions copyWith({
-    final String? publisher,
-    final String? model,
-    final int? maxOutputTokens,
-    final double? temperature,
-    final double? topP,
-    final int? topK,
-    final List<String>? stopSequences,
-    final int? candidateCount,
-    final List<ChatExample>? examples,
-    final List<ToolSpec>? tools,
-    final ChatToolChoice? toolChoice,
-    final int? concurrencyLimit,
+    String? publisher,
+    String? model,
+    int? maxOutputTokens,
+    double? temperature,
+    double? topP,
+    int? topK,
+    List<String>? stopSequences,
+    int? candidateCount,
+    List<ChatExample>? examples,
+    List<ToolSpec>? tools,
+    ChatToolChoice? toolChoice,
+    int? concurrencyLimit,
   }) => ChatVertexAIOptions(
     publisher: publisher ?? this.publisher,
     model: model ?? this.model,
@@ -141,7 +141,7 @@ class ChatVertexAIOptions extends ChatModelOptions {
   );
 
   @override
-  bool operator ==(covariant final ChatVertexAIOptions other) =>
+  bool operator ==(covariant ChatVertexAIOptions other) =>
       publisher == other.publisher &&
       model == other.model &&
       maxOutputTokens == other.maxOutputTokens &&
