@@ -23,13 +23,11 @@ extension VertexAITextModelResponseMapper on VertexAITextModelResponse {
 
   LanguageModelUsage _mapUsage(
     final VertexAITextModelResponseMetadataToken usage,
-  ) {
-    return LanguageModelUsage(
+  ) => LanguageModelUsage(
       promptTokens: usage.inputTotalTokens,
       promptBillableCharacters: usage.inputTotalBillableCharacters,
       responseTokens: usage.outputTotalTokens,
       responseBillableCharacters: usage.outputTotalBillableCharacters,
       totalTokens: usage.inputTotalTokens + usage.outputTotalTokens,
     );
-  }
 }

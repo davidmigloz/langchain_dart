@@ -69,13 +69,11 @@ class FakeChatModel extends BaseChatModel<FakeChatModelOptions> {
   Future<List<int>> tokenize(
     final PromptValue promptValue, {
     final ChatModelOptions? options,
-  }) async {
-    return promptValue
+  }) async => promptValue
         .toString()
         .split(' ')
         .map((final word) => word.hashCode)
         .toList(growable: false);
-  }
 }
 
 /// {@template fake_chat_model_options}
@@ -101,38 +99,30 @@ class FakeChatModelOptions extends ChatModelOptions {
     final List<ToolSpec>? tools,
     final ChatToolChoice? toolChoice,
     final int? concurrencyLimit,
-  }) {
-    return FakeChatModelOptions(
+  }) => FakeChatModelOptions(
       model: model ?? this.model,
       metadata: metadata ?? this.metadata,
       tools: tools ?? this.tools,
       toolChoice: toolChoice ?? this.toolChoice,
       concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
     );
-  }
 
   @override
-  FakeChatModelOptions merge(covariant final FakeChatModelOptions? other) {
-    return copyWith(
+  FakeChatModelOptions merge(covariant final FakeChatModelOptions? other) => copyWith(
       model: other?.model,
       metadata: other?.metadata,
       concurrencyLimit: other?.concurrencyLimit,
     );
-  }
 
   @override
-  bool operator ==(covariant final FakeChatModelOptions other) {
-    return model == other.model &&
+  bool operator ==(covariant final FakeChatModelOptions other) => model == other.model &&
         const MapEquality<String, dynamic>().equals(metadata, other.metadata) &&
         concurrencyLimit == other.concurrencyLimit;
-  }
 
   @override
-  int get hashCode {
-    return model.hashCode ^
+  int get hashCode => model.hashCode ^
         const MapEquality<String, dynamic>().hash(metadata) ^
         concurrencyLimit.hashCode;
-  }
 }
 
 /// {@template fake_echo_chat_model}
@@ -208,13 +198,11 @@ class FakeEchoChatModel extends BaseChatModel<FakeEchoChatModelOptions> {
   Future<List<int>> tokenize(
     final PromptValue promptValue, {
     final ChatModelOptions? options,
-  }) async {
-    return promptValue
+  }) async => promptValue
         .toString()
         .split(' ')
         .map((final word) => word.hashCode)
         .toList(growable: false);
-  }
 }
 
 /// {@template fake_chat_model_options}
@@ -245,8 +233,7 @@ class FakeEchoChatModelOptions extends ChatModelOptions {
     final List<ToolSpec>? tools,
     final ChatToolChoice? toolChoice,
     final int? concurrencyLimit,
-  }) {
-    return FakeEchoChatModelOptions(
+  }) => FakeEchoChatModelOptions(
       model: model ?? this.model,
       metadata: metadata ?? this.metadata,
       throwRandomError: throwRandomError ?? this.throwRandomError,
@@ -254,33 +241,26 @@ class FakeEchoChatModelOptions extends ChatModelOptions {
       toolChoice: toolChoice ?? this.toolChoice,
       concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
     );
-  }
 
   @override
   FakeEchoChatModelOptions merge(
     covariant final FakeEchoChatModelOptions? other,
-  ) {
-    return copyWith(
+  ) => copyWith(
       model: other?.model,
       metadata: other?.metadata,
       throwRandomError: other?.throwRandomError,
       concurrencyLimit: other?.concurrencyLimit,
     );
-  }
 
   @override
-  bool operator ==(covariant final FakeEchoChatModelOptions other) {
-    return model == other.model &&
+  bool operator ==(covariant final FakeEchoChatModelOptions other) => model == other.model &&
         const MapEquality<String, dynamic>().equals(metadata, other.metadata) &&
         throwRandomError == other.throwRandomError &&
         concurrencyLimit == other.concurrencyLimit;
-  }
 
   @override
-  int get hashCode {
-    return model.hashCode ^
+  int get hashCode => model.hashCode ^
         const MapEquality<String, dynamic>().hash(metadata) ^
         throwRandomError.hashCode ^
         concurrencyLimit.hashCode;
-  }
 }

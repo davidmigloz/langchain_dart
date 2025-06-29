@@ -18,16 +18,6 @@ sealed class PromptValue {
   /// {@macro prompt_value}
   const PromptValue();
 
-  /// Returns a string representing the prompt.
-  @override
-  String toString();
-
-  /// Returns a list of messages representing the prompt.
-  List<ChatMessage> toChatMessages();
-
-  /// Convert the prompt value to a map.
-  Map<String, dynamic> toMap() => {};
-
   /// Convert the prompt value from a map.
   factory PromptValue.fromMap(Map<String, dynamic> map) =>
       switch (map['type']) {
@@ -38,14 +28,20 @@ sealed class PromptValue {
       };
 
   /// {@macro string_prompt_template}
-  factory PromptValue.string(final String value) {
-    return StringPromptValue(value);
-  }
+  factory PromptValue.string(final String value) => StringPromptValue(value);
 
   /// {@macro chat_prompt_template}
-  factory PromptValue.chat(final List<ChatMessage> messages) {
-    return ChatPromptValue(messages);
-  }
+  factory PromptValue.chat(final List<ChatMessage> messages) => ChatPromptValue(messages);
+
+  /// Returns a string representing the prompt.
+  @override
+  String toString();
+
+  /// Returns a list of messages representing the prompt.
+  List<ChatMessage> toChatMessages();
+
+  /// Convert the prompt value to a map.
+  Map<String, dynamic> toMap() => {};
 
   /// Merges this prompt value with another by concatenating the content.
   PromptValue concat(final PromptValue other);
@@ -63,6 +59,10 @@ class StringPromptValue implements PromptValue {
   /// {@macro string_prompt_template}
   const StringPromptValue(this.value);
 
+  /// Convert the prompt value from a map.
+  factory StringPromptValue.fromMap(Map<String, dynamic> map) =>
+      StringPromptValue(map['value'] as String);
+
   /// String value to use as the prompt.
   final String value;
 
@@ -70,19 +70,11 @@ class StringPromptValue implements PromptValue {
   @override
   Map<String, dynamic> toMap() => {'value': value, 'type': 'string'};
 
-  /// Convert the prompt value from a map.
-  factory StringPromptValue.fromMap(Map<String, dynamic> map) =>
-      StringPromptValue(map['value'] as String);
+  @override
+  String toString() => value;
 
   @override
-  String toString() {
-    return value;
-  }
-
-  @override
-  List<ChatMessage> toChatMessages() {
-    return [ChatMessage.humanText(value)];
-  }
+  List<ChatMessage> toChatMessages() => [ChatMessage.humanText(value)];
 
   @override
   PromptValue concat(final PromptValue other) => switch (other) {
@@ -122,26 +114,6 @@ class ChatPromptValue implements PromptValue {
   /// {@macro chat_prompt_value}
   const ChatPromptValue(this.messages);
 
-  /// List of messages to use as the prompt.
-  final List<ChatMessage> messages;
-
-  @override
-  String toString() {
-    return messages.toBufferString();
-  }
-
-  @override
-  List<ChatMessage> toChatMessages() {
-    return messages;
-  }
-
-  /// Convert the prompt value to a map.
-  @override
-  Map<String, dynamic> toMap() => {
-    'value': messages.map((message) => message.toMap()).toList(),
-    'type': 'chat',
-  };
-
   /// Convert the prompt value from a map.
   factory ChatPromptValue.fromMap(Map<String, dynamic> map) => ChatPromptValue(
     (map['value'] as List<dynamic>)
@@ -149,6 +121,22 @@ class ChatPromptValue implements PromptValue {
         .map(ChatMessage.fromMap)
         .toList(),
   );
+
+  /// List of messages to use as the prompt.
+  final List<ChatMessage> messages;
+
+  @override
+  String toString() => messages.toBufferString();
+
+  @override
+  List<ChatMessage> toChatMessages() => messages;
+
+  /// Convert the prompt value to a map.
+  @override
+  Map<String, dynamic> toMap() => {
+    'value': messages.map((message) => message.toMap()).toList(),
+    'type': 'chat',
+  };
 
   @override
   PromptValue concat(final PromptValue other) => switch (other) {
@@ -180,11 +168,9 @@ class ChatPromptValue implements PromptValue {
   };
 
   @override
-  bool operator ==(covariant final ChatPromptValue other) {
-    return identical(this, other) ||
+  bool operator ==(covariant final ChatPromptValue other) => identical(this, other) ||
         runtimeType == other.runtimeType &&
             const ListEquality<ChatMessage>().equals(messages, other.messages);
-  }
 
   @override
   int get hashCode => const ListEquality<ChatMessage>().hash(messages);

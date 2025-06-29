@@ -19,9 +19,7 @@ abstract class BaseDocumentTransformer
   Future<List<Document>> invoke(
     final List<Document> input, {
     final BaseLangChainOptions? options,
-  }) {
-    return transformDocuments(input);
-  }
+  }) => transformDocuments(input);
 
   /// Transform a list of documents.
   Future<List<Document>> transformDocuments(final List<Document> documents);

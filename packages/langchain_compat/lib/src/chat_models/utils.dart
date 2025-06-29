@@ -9,9 +9,7 @@ extension ChatMessagesX on List<ChatMessage> {
     final String humanPrefix = HumanChatMessage.defaultPrefix,
     final String aiPrefix = AIChatMessage.defaultPrefix,
     final String toolPrefix = ToolChatMessage.defaultPrefix,
-  }) {
-    return map((final m) {
-      return switch (m) {
+  }) => map((final m) => switch (m) {
         SystemChatMessage _ => '$systemPrefix: ${m.contentAsString}',
         HumanChatMessage _ => '$humanPrefix: ${m.contentAsString}',
         AIChatMessage _ =>
@@ -23,7 +21,5 @@ extension ChatMessagesX on List<ChatMessage> {
         ToolChatMessage(toolCallId: final id, content: final c) =>
           '$toolPrefix: $id=$c',
         final CustomChatMessage m => '${m.role}: ${m.contentAsString}',
-      };
-    }).join('\n');
-  }
+      }).join('\n');
 }

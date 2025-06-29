@@ -120,16 +120,13 @@ final class TemplateValidationException extends LangChainException {
 String renderTemplate({
   required final String template,
   required final InputValues inputValues,
-}) {
-  return renderFStringTemplate(template, inputValues);
-}
+}) => renderFStringTemplate(template, inputValues);
 
 /// Render a template in fString format.
 String renderFStringTemplate(
   final String template,
   final InputValues inputValues,
-) {
-  return parseFStringTemplate(template)
+) => parseFStringTemplate(template)
       .map(
         (final node) => switch (node) {
           ParsedFStringLiteralNode(text: final t) => t,
@@ -141,15 +138,14 @@ String renderFStringTemplate(
         },
       )
       .join();
-}
 
 /// Parses a template in fString format.
 List<ParsedFStringNode> parseFStringTemplate(final String template) {
   final chars = template.split('');
-  final List<ParsedFStringNode> nodes = [];
+  final nodes = <ParsedFStringNode>[];
 
   int nextBracket(final String bracket, final int start) {
-    for (int i = start; i < chars.length; i += 1) {
+    for (var i = start; i < chars.length; i += 1) {
       if (bracket.contains(chars[i])) {
         return i;
       }

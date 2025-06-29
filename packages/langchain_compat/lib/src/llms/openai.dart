@@ -5,6 +5,8 @@ import 'package:langchain_tiktoken/langchain_tiktoken.dart';
 import 'package:openai_dart/openai_dart.dart';
 
 import '../prompts/prompts.dart';
+import '../runnables/runnable.dart' show Runnable;
+import '../runnables/runnables.dart' show Runnable;
 import '../utils/utils.dart';
 import 'base.dart';
 import 'mappers.dart';
@@ -299,8 +301,7 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
   Stream<LLMResult> stream(
     final PromptValue input, {
     final OpenAIOptions? options,
-  }) {
-    return _client
+  }) => _client
         .createCompletionStream(
           request: _createCompletionRequest(
             [input.toString()],
@@ -311,15 +312,13 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
         .map(
           (final completion) => completion.toLLMResults(streaming: true).first,
         );
-  }
 
   /// Creates a [CreateCompletionRequest] from the given input.
   CreateCompletionRequest _createCompletionRequest(
     final List<String> prompts, {
     final OpenAIOptions? options,
     final bool stream = false,
-  }) {
-    return CreateCompletionRequest(
+  }) => CreateCompletionRequest(
       model: CompletionModel.modelId(
         options?.model ?? defaultOpenAIOptions.model ?? defaultModel,
       ),
@@ -350,7 +349,6 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
           ? const ChatCompletionStreamOptions(includeUsage: true)
           : null,
     );
-  }
 
   /// Tokenizes the given prompt using tiktoken with the encoding used by the
   /// [model]. If an encoding model is specified in [encoding] field, that

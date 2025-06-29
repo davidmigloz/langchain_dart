@@ -430,7 +430,6 @@ class OpenAIRefusalException implements Exception {
   String toString() => 'OpenAIRefusalException: $message';
 }
 
-// BEGIN: Copied core chat model types from langchain_core
 @immutable
 sealed class ChatMessage {
   const ChatMessage();
@@ -768,9 +767,7 @@ CustomChatMessage{
   role: $role,
 }''';
 }
-// END: Copied core chat model types
 
-// BEGIN: Copied ChatMessageContent and related types from langchain_core
 @immutable
 sealed class ChatMessageContent {
   const ChatMessageContent();
@@ -907,18 +904,16 @@ ChatMessageContentMultiModal{
 }
 
 enum ChatMessageContentImageDetail { auto, low, high }
-// END: Copied ChatMessageContent and related types
 
-// BEGIN: Copied ChatToolChoice and subclasses from langchain_core
 sealed class ChatToolChoice {
   const ChatToolChoice();
   factory ChatToolChoice.forced({required final String name}) =>
       ChatToolChoiceForced(name: name);
   factory ChatToolChoice.fromMap(Map<String, dynamic> map) =>
       switch (map['type']) {
-        'none' => ChatToolChoiceNone.fromMap(map),
-        'auto' => ChatToolChoiceAuto.fromMap(map),
-        'required' => ChatToolChoiceRequired.fromMap(map),
+        'none' => ChatToolChoiceNone.fromMap(),
+        'auto' => ChatToolChoiceAuto.fromMap(),
+        'required' => ChatToolChoiceRequired.fromMap(),
         'forced' => ChatToolChoiceForced.fromMap(map),
         null => throw ArgumentError('Type is required'),
         _ => throw UnimplementedError('Unknown type: [39m${map['type']}'),
@@ -932,24 +927,21 @@ sealed class ChatToolChoice {
 
 final class ChatToolChoiceNone extends ChatToolChoice {
   const ChatToolChoiceNone();
-  factory ChatToolChoiceNone.fromMap(Map<String, dynamic> map) =>
-      const ChatToolChoiceNone();
+  factory ChatToolChoiceNone.fromMap() => const ChatToolChoiceNone();
   @override
   Map<String, dynamic> toMap() => {...super.toMap(), 'type': 'none'};
 }
 
 final class ChatToolChoiceAuto extends ChatToolChoice {
   const ChatToolChoiceAuto();
-  factory ChatToolChoiceAuto.fromMap(Map<String, dynamic> map) =>
-      const ChatToolChoiceAuto();
+  factory ChatToolChoiceAuto.fromMap() => const ChatToolChoiceAuto();
   @override
   Map<String, dynamic> toMap() => {...super.toMap(), 'type': 'auto'};
 }
 
 final class ChatToolChoiceRequired extends ChatToolChoice {
   const ChatToolChoiceRequired();
-  factory ChatToolChoiceRequired.fromMap(Map<String, dynamic> map) =>
-      const ChatToolChoiceRequired();
+  factory ChatToolChoiceRequired.fromMap() => const ChatToolChoiceRequired();
   @override
   Map<String, dynamic> toMap() => {...super.toMap(), 'type': 'required'};
 }
@@ -973,9 +965,7 @@ final class ChatToolChoiceForced extends ChatToolChoice {
   @override
   int get hashCode => name.hashCode;
 }
-// END: Copied ChatToolChoice and subclasses
 
-// BEGIN: Copied AIChatMessageToolCall from langchain_core
 @immutable
 class AIChatMessageToolCall {
   /// {@macro ai_chat_message_tool_call}
@@ -1048,9 +1038,7 @@ AIChatMessageToolCall{
   arguments: $arguments,
 }''';
 }
-// END: Copied AIChatMessageToolCall
 
-// BEGIN: Copied ChatModelOptions from langchain_core
 abstract class ChatModelOptions extends LanguageModelOptions {
   const ChatModelOptions({
     super.model,
@@ -1073,9 +1061,7 @@ abstract class ChatModelOptions extends LanguageModelOptions {
     final int? concurrencyLimit,
   });
 }
-// END: Copied ChatModelOptions
 
-// BEGIN: Copied ChatResult from langchain_core (verbatim)
 @immutable
 class ChatResult extends LanguageModelResult<AIChatMessage> {
   /// {@macro chat_result}
@@ -1118,5 +1104,3 @@ ChatResult{
   streaming: $streaming
 }''';
 }
-
-// END: Copied ChatResult

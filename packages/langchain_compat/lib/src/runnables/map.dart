@@ -78,9 +78,7 @@ class RunnableMap<RunInput extends Object>
   Stream<Map<String, dynamic>> stream(
     final RunInput input, {
     final RunnableOptions? options,
-  }) {
-    return streamFromInputStream(Stream.value(input), options: options);
-  }
+  }) => streamFromInputStream(Stream.value(input), options: options);
 
   @override
   Stream<Map<String, dynamic>> streamFromInputStream(
@@ -95,14 +93,12 @@ class RunnableMap<RunInput extends Object>
     );
 
     return StreamGroup.merge(
-      steps.entries.map((final entry) {
-        return entry.value
+      steps.entries.map((final entry) => entry.value
             .streamFromInputStream(
               subject.stream,
               options: entry.value.getCompatibleOptions(options),
             )
-            .map((final output) => {entry.key: output});
-      }),
+            .map((final output) => {entry.key: output})),
     ).asBroadcastStream();
   }
 

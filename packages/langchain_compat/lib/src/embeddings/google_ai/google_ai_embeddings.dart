@@ -158,18 +158,16 @@ class GoogleGenerativeAIEmbeddings implements Embeddings {
   ) async {
     final batches = chunkList(documents, chunkSize: batchSize);
 
-    final List<List<List<double>>> embeddings = await Future.wait(
+    final embeddings = await Future.wait(
       batches.map((final batch) async {
         final data = await _googleAiClient.batchEmbedContents(
           batch
-              .map((final doc) {
-                return EmbedContentRequest(
+              .map((final doc) => EmbedContentRequest(
                   Content.text(doc.pageContent),
                   taskType: TaskType.retrievalDocument,
                   title: doc.metadata[docTitleKey],
                   outputDimensionality: dimensions,
-                );
-              })
+                ))
               .toList(growable: false),
         );
         return data.embeddings
@@ -202,13 +200,11 @@ class GoogleGenerativeAIEmbeddings implements Embeddings {
     final String model, [
     final String? apiKey,
     final CustomHttpClient? httpClient,
-  ]) {
-    return GenerativeModel(
+  ]) => GenerativeModel(
       model: model,
       apiKey: apiKey ?? this.apiKey,
       httpClient: httpClient ?? _httpClient,
     );
-  }
 
   /// Recreate the [GenerativeModel] instance.
   void _recreateGoogleAiClient(final String model) {

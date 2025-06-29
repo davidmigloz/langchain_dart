@@ -139,8 +139,7 @@ class OpenAIOptions extends LLMOptions {
     final double? topP,
     final String? user,
     final int? concurrencyLimit,
-  }) {
-    return OpenAIOptions(
+  }) => OpenAIOptions(
       model: model ?? this.model,
       bestOf: bestOf ?? this.bestOf,
       frequencyPenalty: frequencyPenalty ?? this.frequencyPenalty,
@@ -157,11 +156,9 @@ class OpenAIOptions extends LLMOptions {
       user: user ?? this.user,
       concurrencyLimit: concurrencyLimit ?? super.concurrencyLimit,
     );
-  }
 
   @override
-  OpenAIOptions merge(covariant final OpenAIOptions? other) {
-    return copyWith(
+  OpenAIOptions merge(covariant final OpenAIOptions? other) => copyWith(
       model: other?.model,
       bestOf: other?.bestOf,
       frequencyPenalty: other?.frequencyPenalty,
@@ -178,11 +175,9 @@ class OpenAIOptions extends LLMOptions {
       user: other?.user,
       concurrencyLimit: other?.concurrencyLimit,
     );
-  }
 
   @override
-  bool operator ==(covariant final OpenAIOptions other) {
-    return identical(this, other) ||
+  bool operator ==(covariant final OpenAIOptions other) => identical(this, other) ||
         runtimeType == other.runtimeType &&
             model == other.model &&
             bestOf == other.bestOf &&
@@ -202,11 +197,9 @@ class OpenAIOptions extends LLMOptions {
             topP == other.topP &&
             user == other.user &&
             concurrencyLimit == other.concurrencyLimit;
-  }
 
   @override
-  int get hashCode {
-    return model.hashCode ^
+  int get hashCode => model.hashCode ^
         bestOf.hashCode ^
         frequencyPenalty.hashCode ^
         const MapEquality<String, int>().hash(logitBias) ^
@@ -221,7 +214,6 @@ class OpenAIOptions extends LLMOptions {
         topP.hashCode ^
         user.hashCode ^
         concurrencyLimit.hashCode;
-  }
 }
 
 @immutable
@@ -248,8 +240,7 @@ class LLMResult extends LanguageModelResult<String> {
   String get outputAsString => output;
 
   @override
-  LLMResult concat(final LanguageModelResult<String> other) {
-    return LLMResult(
+  LLMResult concat(final LanguageModelResult<String> other) => LLMResult(
       id: other.id,
       output: output + other.output,
       finishReason:
@@ -261,11 +252,9 @@ class LLMResult extends LanguageModelResult<String> {
       usage: usage.concat(other.usage),
       streaming: other.streaming,
     );
-  }
 
   @override
-  String toString() {
-    return '''
+  String toString() => '''
 LLMResult{
   id: $id, 
   output: $output,
@@ -274,5 +263,4 @@ LLMResult{
   usage: $usage,
   streaming: $streaming
 }''';
-  }
 }

@@ -63,8 +63,7 @@ class RunnableSequence<RunInput extends Object?, RunOutput extends Object?>
   /// {@macro runnable_sequence}
   const RunnableSequence({
     required this.first,
-    this.middle = const [],
-    required this.last,
+    required this.last, this.middle = const [],
   }) : super(defaultOptions: const RunnableOptions());
 
   /// The first [Runnable] in the [RunnableSequence].
@@ -82,13 +81,11 @@ class RunnableSequence<RunInput extends Object?, RunOutput extends Object?>
   /// Creates a [RunnableSequence] from a list of [Runnable]s.
   ///
   /// - [runnables] - the [Runnable]s to create the [RunnableSequence] from.
-  static RunnableSequence from(final List<Runnable> runnables) {
-    return RunnableSequence(
+  static RunnableSequence from(final List<Runnable> runnables) => RunnableSequence(
       first: runnables.first,
       middle: runnables.sublist(1, runnables.length - 1),
       last: runnables.last,
     );
-  }
 
   /// Invokes the [RunnableSequence] on the given [input].
   ///
@@ -118,12 +115,10 @@ class RunnableSequence<RunInput extends Object?, RunOutput extends Object?>
   Stream<RunOutput> stream(
     final RunInput input, {
     final RunnableOptions? options,
-  }) {
-    return streamFromInputStream(
+  }) => streamFromInputStream(
       Stream.value(input).asBroadcastStream(),
       options: options,
     );
-  }
 
   @override
   Stream<RunOutput> streamFromInputStream(
@@ -192,7 +187,7 @@ class RunnableSequence<RunInput extends Object?, RunOutput extends Object?>
   ) {
     // TypeError: type '_BroadcastStream<X>' is not a subtype of type 'Stream<Y>' of 'inputStream'
     final pattern = RegExp(
-      r'_(As)?BroadcastStream<(?<BroadcastType>[^>]+)>.*?Stream<(?<StreamType>[^>]+)>',
+      '_(As)?BroadcastStream<(?<BroadcastType>[^>]+)>.*?Stream<(?<StreamType>[^>]+)>',
     );
     final error = e.toString();
     final match = pattern.firstMatch(error);

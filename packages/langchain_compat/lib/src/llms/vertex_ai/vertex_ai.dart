@@ -1,10 +1,10 @@
 import 'package:http/http.dart' as http;
-import 'package:langchain_compat/src/llms/base.dart';
-import 'package:langchain_compat/src/llms/types.dart';
-import 'package:langchain_compat/src/prompts/prompts.dart';
 import 'package:uuid/uuid.dart';
 import 'package:vertex_ai/vertex_ai.dart';
 
+import '../../prompts/prompts.dart';
+import '../base.dart';
+import '../types.dart';
 import 'mappers.dart';
 import 'types.dart';
 

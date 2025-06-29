@@ -26,16 +26,12 @@ class FakeEmbeddings implements Embeddings {
   @override
   Future<List<List<double>>> embedDocuments(
     final List<Document> documents,
-  ) async {
-    return documents
+  ) async => documents
         .map((final d) => _getEmbeddings(d.pageContent))
         .toList(growable: false);
-  }
 
   @override
-  Future<List<double>> embedQuery(final String query) async {
-    return _getEmbeddings(query);
-  }
+  Future<List<double>> embedQuery(final String query) async => _getEmbeddings(query);
 
   List<double> _getEmbeddings(final String text) {
     final random = Random(deterministic ? _getSeed(text) : null);

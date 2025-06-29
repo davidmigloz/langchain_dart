@@ -106,9 +106,7 @@ class RunnableFunction<RunInput extends Object, RunOutput extends Object>
   Stream<RunOutput> stream(
     final RunInput input, {
     final RunnableOptions? options,
-  }) {
-    return streamFromInputStream(Stream.value(input), options: options);
-  }
+  }) => streamFromInputStream(Stream.value(input), options: options);
 
   @override
   Stream<RunOutput> streamFromInputStream(
@@ -118,9 +116,7 @@ class RunnableFunction<RunInput extends Object, RunOutput extends Object>
     if (_streamFunc != null) {
       yield* _streamFunc(inputStream, options);
     } else {
-      yield* inputStream.asyncMap((final input) {
-        return invoke(input, options: options);
-      });
+      yield* inputStream.asyncMap((final input) => invoke(input, options: options));
     }
   }
 }

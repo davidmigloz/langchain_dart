@@ -62,19 +62,17 @@ abstract base class BasePromptTemplate
   Future<PromptValue> invoke(
     final InputValues input, {
     final BaseLangChainOptions? options,
-  }) {
-    return Future.value(formatPrompt(input));
-  }
+  }) => Future.value(formatPrompt(input));
 
   @override
   Stream<PromptValue> streamFromInputStream(
     final Stream<InputValues> inputStream, {
     final BaseLangChainOptions? options,
   }) async* {
-    final List<InputValues> input = await inputStream.toList();
-    final InputValues reduced = input.isEmpty
-        ? const {}
-        : reduce<InputValues>(input);
+    final input = await inputStream.toList();
+    final reduced = input.isEmpty
+        ? const <String, dynamic>{}
+        : reduce<InputValues>(input).cast<String, dynamic>();
     yield* stream(reduced, options: options);
   }
 
@@ -93,9 +91,7 @@ abstract base class BasePromptTemplate
   @protected
   Map<String, Object> mergePartialAndUserVariables(
     final Map<String, dynamic> userVariables,
-  ) {
-    return {...?partialVariables, ...userVariables};
-  }
+  ) => {...?partialVariables, ...userVariables};
 
   @override
   bool operator ==(covariant final BasePromptTemplate other) {
@@ -117,14 +113,13 @@ abstract base class BasePromptTemplate
   int get hashCode => inputVariables.hashCode ^ partialVariables.hashCode;
 
   @override
-  String toString() {
-    return '''
+  String toString() =>
+      '''
 BasePromptTemplate{
   inputVariables: $inputVariables, 
   partialVariables: $partialVariables,
 }
   ''';
-  }
 
   /// Copy the prompt template with the given parameters.
   BasePromptTemplate copyWith({

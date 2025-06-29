@@ -44,8 +44,7 @@ final class PromptTemplate extends BasePromptTemplate {
   /// {@macro prompt_template}
   const PromptTemplate({
     required super.inputVariables,
-    super.partialVariables,
-    required this.template,
+    required this.template, super.partialVariables,
   });
 
   /// Creates a prompt template from a string template automatically extracting the input variables.
@@ -140,9 +139,7 @@ final class PromptTemplate extends BasePromptTemplate {
   String get type => 'prompt';
 
   @override
-  PromptTemplate partial(final PartialValues values) {
-    return super.partial(values) as PromptTemplate;
-  }
+  PromptTemplate partial(final PartialValues values) => super.partial(values) as PromptTemplate;
 
   @override
   void validateTemplate() {
@@ -160,9 +157,7 @@ final class PromptTemplate extends BasePromptTemplate {
   }
 
   @override
-  PromptValue formatPrompt(final InputValues values) {
-    return PromptValue.string(format(values));
-  }
+  PromptValue formatPrompt(final InputValues values) => PromptValue.string(format(values));
 
   @override
   bool operator ==(covariant final PromptTemplate other) {
@@ -186,25 +181,21 @@ final class PromptTemplate extends BasePromptTemplate {
       inputVariables.hashCode ^ partialVariables.hashCode ^ template.hashCode;
 
   @override
-  String toString() {
-    return '''
+  String toString() => '''
 PromptTemplate{
   template: $template, 
   inputVariables: $inputVariables,
   partialVariables: $partialVariables,
 }''';
-  }
 
   @override
   PromptTemplate copyWith({
     final Set<String>? inputVariables,
     final Map<String, dynamic>? partialVariables,
     final String? template,
-  }) {
-    return PromptTemplate(
+  }) => PromptTemplate(
       inputVariables: inputVariables ?? this.inputVariables,
       partialVariables: partialVariables ?? this.partialVariables,
       template: template ?? this.template,
     );
-  }
 }

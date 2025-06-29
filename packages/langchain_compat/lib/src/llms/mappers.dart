@@ -53,11 +53,9 @@ extension CreateCompletionResponseMapper on CreateCompletionResponse {
         null => FinishReason.unspecified,
       };
 
-  LanguageModelUsage _mapUsage(final CompletionUsage? usage) {
-    return LanguageModelUsage(
+  LanguageModelUsage _mapUsage(final CompletionUsage? usage) => LanguageModelUsage(
       promptTokens: usage?.promptTokens,
       responseTokens: usage?.completionTokens,
       totalTokens: usage?.totalTokens,
     );
-  }
 }

@@ -137,8 +137,7 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
     final List<ToolSpec>? tools,
     final ChatToolChoice? toolChoice,
     final int? concurrencyLimit,
-  }) {
-    return ChatGoogleGenerativeAIOptions(
+  }) => ChatGoogleGenerativeAIOptions(
       model: model ?? this.model,
       topP: topP ?? this.topP,
       topK: topK ?? this.topK,
@@ -152,13 +151,11 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
       toolChoice: toolChoice ?? this.toolChoice,
       concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
     );
-  }
 
   @override
   ChatGoogleGenerativeAIOptions merge(
     covariant final ChatGoogleGenerativeAIOptions? other,
-  ) {
-    return copyWith(
+  ) => copyWith(
       model: other?.model,
       topP: other?.topP,
       topK: other?.topK,
@@ -172,11 +169,9 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
       toolChoice: other?.toolChoice,
       concurrencyLimit: other?.concurrencyLimit,
     );
-  }
 
   @override
-  bool operator ==(covariant final ChatGoogleGenerativeAIOptions other) {
-    return model == other.model &&
+  bool operator ==(covariant final ChatGoogleGenerativeAIOptions other) => model == other.model &&
         topP == other.topP &&
         topK == other.topK &&
         candidateCount == other.candidateCount &&
@@ -188,11 +183,9 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
         tools == other.tools &&
         toolChoice == other.toolChoice &&
         concurrencyLimit == other.concurrencyLimit;
-  }
 
   @override
-  int get hashCode {
-    return model.hashCode ^
+  int get hashCode => model.hashCode ^
         topP.hashCode ^
         topK.hashCode ^
         candidateCount.hashCode ^
@@ -204,7 +197,6 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
         tools.hashCode ^
         toolChoice.hashCode ^
         concurrencyLimit.hashCode;
-  }
 }
 
 /// {@template chat_google_generative_ai_safety_setting}

@@ -46,7 +46,5 @@ class RunnableMapInput<RunInput extends Object, RunOutput extends Object>
   Future<RunOutput> invoke(
     final RunInput input, {
     final RunnableOptions? options,
-  }) async {
-    return inputMapper(input);
-  }
+  }) async => inputMapper(input);
 }

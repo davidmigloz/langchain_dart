@@ -24,9 +24,7 @@ class FakeLLM extends SimpleLLM<FakeLLMOptions> {
   Future<String> callInternal(
     final String prompt, {
     final LLMOptions? options,
-  }) {
-    return Future<String>.value(responses[_i++ % responses.length]);
-  }
+  }) => Future<String>.value(responses[_i++ % responses.length]);
 
   @override
   Stream<LLMResult> stream(
@@ -50,13 +48,11 @@ class FakeLLM extends SimpleLLM<FakeLLMOptions> {
   Future<List<int>> tokenize(
     final PromptValue promptValue, {
     final LLMOptions? options,
-  }) async {
-    return promptValue
+  }) async => promptValue
         .toString()
         .split(' ')
         .map((final word) => word.hashCode)
         .toList(growable: false);
-  }
 }
 
 /// {@template fake_llm_options}
@@ -67,12 +63,10 @@ class FakeLLMOptions extends LLMOptions {
   const FakeLLMOptions({super.model, super.concurrencyLimit});
 
   @override
-  FakeLLMOptions copyWith({final String? model, final int? concurrencyLimit}) {
-    return FakeLLMOptions(
+  FakeLLMOptions copyWith({final String? model, final int? concurrencyLimit}) => FakeLLMOptions(
       model: model ?? this.model,
       concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
     );
-  }
 }
 
 /// {@template fake_echo_llm}
@@ -90,8 +84,7 @@ class FakeEchoLLM extends BaseLLM<FakeLLMOptions> {
   Future<LLMResult> invoke(
     final PromptValue input, {
     final LLMOptions? options,
-  }) {
-    return Future<LLMResult>.value(
+  }) => Future<LLMResult>.value(
       LLMResult(
         id: 'fake-echo',
         output: input.toString(),
@@ -100,7 +93,6 @@ class FakeEchoLLM extends BaseLLM<FakeLLMOptions> {
         usage: const LanguageModelUsage(),
       ),
     );
-  }
 
   @override
   Stream<LLMResult> stream(
@@ -124,13 +116,11 @@ class FakeEchoLLM extends BaseLLM<FakeLLMOptions> {
   Future<List<int>> tokenize(
     final PromptValue promptValue, {
     final LLMOptions? options,
-  }) async {
-    return promptValue
+  }) async => promptValue
         .toString()
         .split(' ')
         .map((final word) => word.hashCode)
         .toList(growable: false);
-  }
 }
 
 /// {@template fake_handler_llm}
@@ -155,19 +145,15 @@ class FakeHandlerLLM extends SimpleLLM<FakeLLMOptions> {
   Future<String> callInternal(
     final String prompt, {
     final LLMOptions? options,
-  }) {
-    return Future.value(handler(prompt, options, ++_callCount));
-  }
+  }) => Future.value(handler(prompt, options, ++_callCount));
 
   @override
   Future<List<int>> tokenize(
     final PromptValue promptValue, {
     final LLMOptions? options,
-  }) async {
-    return promptValue
+  }) async => promptValue
         .toString()
         .split(' ')
         .map((final word) => word.hashCode)
         .toList(growable: false);
-  }
 }

@@ -171,14 +171,42 @@ import 'types.dart';
 /// custom `http.Client`.
 class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   ChatOpenAI({
-    final String? apiKey,
-    final String? organization,
-    final String baseUrl = 'https://api.openai.com/v1',
-    final Map<String, String>? headers,
-    final Map<String, dynamic>? queryParams,
-    final http.Client? client,
+    String? apiKey,
+    String? organization,
+    String baseUrl = 'https://api.openai.com/v1',
+    Map<String, String>? headers,
+    Map<String, dynamic>? queryParams,
+    http.Client? client,
     this.encoding,
-  }) : _client = OpenAIClient(
+    String? model,
+    double? temperature,
+    int? maxTokens,
+    int? n,
+    double? topP,
+    double? frequencyPenalty,
+    double? presencePenalty,
+    ChatOpenAIResponseFormat? responseFormat,
+    int? seed,
+    List<String>? stop,
+    bool? parallelToolCalls,
+    ChatOpenAIServiceTier? serviceTier,
+    String? user,
+    int? concurrencyLimit,
+  }) : model = model ?? defaultModelName,
+       temperature = temperature ?? defaultTemperature,
+       maxTokens = maxTokens ?? defaultMaxTokens,
+       n = n ?? defaultN,
+       topP = topP ?? defaultTopP,
+       frequencyPenalty = frequencyPenalty ?? defaultFrequencyPenalty,
+       presencePenalty = presencePenalty ?? defaultPresencePenalty,
+       responseFormat = responseFormat ?? defaultResponseFormat,
+       seed = seed ?? defaultSeed,
+       stop = stop ?? defaultStop,
+       parallelToolCalls = parallelToolCalls ?? defaultParallelToolCalls,
+       serviceTier = serviceTier ?? defaultServiceTier,
+       user = user ?? defaultUser,
+       concurrencyLimit = concurrencyLimit ?? defaultConcurrencyLimit,
+       _client = OpenAIClient(
          apiKey: apiKey ?? '',
          organization: organization,
          beta: null,
@@ -187,15 +215,40 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
          queryParams: queryParams,
          client: client,
        ),
-       super(defaultOptions: ChatOpenAI.defaultOpenAIOptions);
+       super(defaultOptions: const ChatOpenAIOptions());
+  // Static const defaults (match API defaults where possible)
+  static const String defaultModelName = 'gpt-4o-mini';
+  static const double defaultTemperature = 1;
+  static const int defaultMaxTokens = 256;
+  static const int defaultN = 1;
+  static const double defaultTopP = 1;
+  static const double defaultFrequencyPenalty = 0;
+  static const double defaultPresencePenalty = 0;
+  static const ChatOpenAIResponseFormat defaultResponseFormat =
+      ChatOpenAIResponseFormat.text;
+  static const int defaultSeed = 42;
+  static const List<String> defaultStop = [];
+  static const bool defaultParallelToolCalls = true;
+  static const ChatOpenAIServiceTier defaultServiceTier =
+      ChatOpenAIServiceTier.auto;
+  static const String defaultUser = '';
+  static const int defaultConcurrencyLimit = 1;
 
-  /// The default model to use unless another is specified.
-  static const defaultModel = 'gpt-4o-mini';
-
-  /// The default options for this model.
-  static const ChatOpenAIOptions defaultOpenAIOptions = ChatOpenAIOptions(
-    model: defaultModel,
-  );
+  // Realized, non-nullable instance fields
+  final String model;
+  final double temperature;
+  final int maxTokens;
+  final int n;
+  final double topP;
+  final double frequencyPenalty;
+  final double presencePenalty;
+  final ChatOpenAIResponseFormat responseFormat;
+  final int seed;
+  final List<String> stop;
+  final bool parallelToolCalls;
+  final ChatOpenAIServiceTier serviceTier;
+  final String user;
+  final int concurrencyLimit;
 
   /// A client for interacting with OpenAI API.
   final OpenAIClient _client;
@@ -229,38 +282,68 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   @override
   String get modelType => 'openai-chat';
 
+  ChatOpenAIOptions _mergeOptions(ChatOpenAIOptions? options) =>
+      ChatOpenAIOptions(
+        model: options?.model ?? model,
+        temperature: options?.temperature ?? temperature,
+        maxTokens: options?.maxTokens ?? maxTokens,
+        n: options?.n ?? n,
+        topP: options?.topP ?? topP,
+        frequencyPenalty: options?.frequencyPenalty ?? frequencyPenalty,
+        presencePenalty: options?.presencePenalty ?? presencePenalty,
+        responseFormat: options?.responseFormat ?? responseFormat,
+        seed: options?.seed ?? seed,
+        stop: options?.stop ?? stop,
+        parallelToolCalls: options?.parallelToolCalls ?? parallelToolCalls,
+        serviceTier: options?.serviceTier ?? serviceTier,
+        user: options?.user ?? user,
+        tools: options?.tools,
+        toolChoice: options?.toolChoice,
+        concurrencyLimit: options?.concurrencyLimit ?? concurrencyLimit,
+      );
+
   @override
   Future<ChatResult> invoke(
     final PromptValue input, {
     final ChatOpenAIOptions? options,
   }) async {
+    final mergedOptions = _mergeOptions(options);
     final completion = await _client.createChatCompletion(
       request: createChatCompletionRequest(
         input.toChatMessages(),
-        options: options,
-        defaultOptions: defaultOpenAIOptions,
+        options: mergedOptions,
+        defaultOptions: mergedOptions,
       ),
     );
-    return completion.toChatResult(completion.id ?? _uuid.v4());
+    return completion.toChatResult(_uuid.v4());
   }
 
   @override
   Stream<ChatResult> stream(
     final PromptValue input, {
     final ChatOpenAIOptions? options,
-  }) => _client
-      .createChatCompletionStream(
-        request: createChatCompletionRequest(
-          input.toChatMessages(),
-          options: options,
-          defaultOptions: defaultOpenAIOptions,
-          stream: true,
-        ),
-      )
-      .map(
-        (final completion) =>
-            completion.toChatResult(completion.id ?? _uuid.v4()),
-      );
+  }) async* {
+    final mergedOptions = _mergeOptions(options);
+    final stream = _client.createChatCompletionStream(
+      request: createChatCompletionRequest(
+        input.toChatMessages(),
+        options: mergedOptions,
+        defaultOptions: mergedOptions,
+      ),
+    );
+    await for (final completion in stream) {
+      yield completion.toChatResult(_uuid.v4());
+    }
+  }
+
+  @override
+  Future<AIChatMessage> call(
+    final List<ChatMessage> messages, {
+    final ChatOpenAIOptions? options,
+  }) async {
+    final result = await invoke(PromptValue.chat(messages), options: options);
+    return result.output;
+  }
 
   /// Tokenizes the given prompt using tiktoken with the encoding used by the
   /// [model]. If an encoding model is specified in [encoding] field, that
@@ -278,13 +361,13 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     final PromptValue promptValue, {
     final ChatOpenAIOptions? options,
   }) async {
-    final model = options?.model ?? defaultOpenAIOptions.model ?? defaultModel;
+    final model = options?.model ?? this.model;
     final tiktoken = _getTiktoken();
     final messages = promptValue.toChatMessages();
 
     // Ref: https://github.com/openai/openai-cookbook/blob/main/examples/How_to_count_tokens_with_tiktoken.ipynb
-    final int tokensPerMessage;
-    final int tokensPerName;
+    var tokensPerMessage = 3;
+    var tokensPerName = 1;
 
     switch (model) {
       case 'gpt-3.5-turbo-16k-0613':
@@ -295,17 +378,13 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
         tokensPerMessage = 3;
         tokensPerName = 1;
       case 'gpt-3.5-turbo-0301':
-        // Every message follows <|start|>{role/name}\n{content}<|end|>\n
         tokensPerMessage = 4;
-        // If there's a name, the role is omitted
         tokensPerName = -1;
       default:
         if (model.startsWith('gpt-4o-mini') || model.startsWith('gpt-4')) {
-          // Returning num tokens assuming gpt-4
           tokensPerMessage = 3;
           tokensPerName = 1;
         } else {
-          // For other models we assume gpt-3.5-turbo-0613
           tokensPerMessage = 3;
           tokensPerName = 1;
         }

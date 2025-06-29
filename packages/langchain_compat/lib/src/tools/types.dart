@@ -22,6 +22,4 @@ final class ToolException extends LangChainException {
   const ToolException({super.message = ''}) : super(code: 'tool');
 }
 
-// BEGIN: Copied core tool types from langchain_core
 // (Paste all relevant class, enum, and type definitions here)
-// END: Copied core tool types

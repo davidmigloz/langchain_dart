@@ -43,7 +43,5 @@ class RunnablePassthrough<RunInput extends Object>
   Future<RunInput> invoke(
     final RunInput input, {
     final RunnableOptions? options,
-  }) {
-    return Future.value(input);
-  }
+  }) => Future.value(input);
 }

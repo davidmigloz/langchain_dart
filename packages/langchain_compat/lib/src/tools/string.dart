@@ -45,13 +45,11 @@ abstract base class StringTool<Options extends ToolOptions>
   static StringTool fromFunction<Options extends ToolOptions>({
     required final String name,
     required final String description,
-    final String inputDescription = 'The input to the tool',
+    required final FutureOr<String> Function(String input) func, final String inputDescription = 'The input to the tool',
     final bool strict = false,
-    required final FutureOr<String> Function(String input) func,
     final bool returnDirect = false,
     final String Function(ToolException)? handleToolError,
-  }) {
-    return _StringToolFunc<Options>(
+  }) => _StringToolFunc<Options>(
       name: name,
       description: description,
       inputDescription: inputDescription,
@@ -60,7 +58,6 @@ abstract base class StringTool<Options extends ToolOptions>
       returnDirect: returnDirect,
       handleToolError: handleToolError,
     );
-  }
 
   /// Actual implementation of [invoke] method logic with string input.
   @override
@@ -70,9 +67,7 @@ abstract base class StringTool<Options extends ToolOptions>
   });
 
   @override
-  String getInputFromJson(final Map<String, dynamic> json) {
-    return json['input'] as String;
-  }
+  String getInputFromJson(final Map<String, dynamic> json) => json['input'] as String;
 }
 
 /// {@template string_tool_func}
@@ -85,9 +80,7 @@ final class _StringToolFunc<Options extends ToolOptions>
   _StringToolFunc({
     required super.name,
     required super.description,
-    super.inputDescription,
-    required super.strict,
-    required FutureOr<String> Function(String) func,
+    required super.strict, required FutureOr<String> Function(String) func, super.inputDescription,
     super.returnDirect = false,
     super.handleToolError,
     super.defaultOptions,
@@ -99,7 +92,5 @@ final class _StringToolFunc<Options extends ToolOptions>
   Future<String> invokeInternal(
     final String toolInput, {
     final Options? options,
-  }) async {
-    return _func(toolInput);
-  }
+  }) async => _func(toolInput);
 }

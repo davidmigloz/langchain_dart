@@ -51,12 +51,9 @@ Type reduce<Type>(final Iterable<Type> input) {
       as Type;
 }
 
-Iterable<V> _reduceIterable<V>(final Iterable<Iterable<V>> input) {
-  return [reduce(input.expand((final e) => e).toList(growable: false))];
-}
+Iterable<V> _reduceIterable<V>(final Iterable<Iterable<V>> input) => [reduce(input.expand((final e) => e).toList(growable: false))];
 
-Map<K, V> _reduceMap<K, V>(final Iterable<Map<K, V>> input) {
-  return input.fold<Map<K, V>>({}, (final a, final b) {
+Map<K, V> _reduceMap<K, V>(final Iterable<Map<K, V>> input) => input.fold<Map<K, V>>({}, (final a, final b) {
     final keys = a.keys.toSet()..addAll(b.keys);
     return {
       for (final key in keys)
@@ -66,4 +63,3 @@ Map<K, V> _reduceMap<K, V>(final Iterable<Map<K, V>> input) {
         ]),
     };
   });
-}

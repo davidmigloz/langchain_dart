@@ -8,10 +8,16 @@ import 'package:meta/meta.dart';
 class Document {
   /// {@macro document}
   const Document({
-    this.id,
-    required this.pageContent,
+    required this.pageContent, this.id,
     this.metadata = const {},
   });
+
+  /// Creates a document from a map.
+  factory Document.fromMap(final Map<String, dynamic> map) => Document(
+      id: map['id'] as String?,
+      pageContent: map['pageContent'] as String,
+      metadata: map['metadata'] as Map<String, dynamic>,
+    );
 
   /// Optional ID for the document.
   /// It can be used to identify the document in the vector store.
@@ -23,32 +29,19 @@ class Document {
   /// The metadata of the document.
   final Map<String, dynamic> metadata;
 
-  /// Creates a document from a map.
-  factory Document.fromMap(final Map<String, dynamic> map) {
-    return Document(
-      id: map['id'] as String?,
-      pageContent: map['pageContent'] as String,
-      metadata: map['metadata'] as Map<String, dynamic>,
-    );
-  }
-
   /// Converts the document to a map.
-  Map<String, dynamic> toMap() {
-    return {'id': id, 'pageContent': pageContent, 'metadata': metadata};
-  }
+  Map<String, dynamic> toMap() => {'id': id, 'pageContent': pageContent, 'metadata': metadata};
 
   /// Creates a copy of the document.
   Document copyWith({
     final String? id,
     final String? pageContent,
     final Map<String, dynamic>? metadata,
-  }) {
-    return Document(
+  }) => Document(
       id: id ?? this.id,
       pageContent: pageContent ?? this.pageContent,
       metadata: metadata ?? this.metadata,
     );
-  }
 
   @override
   bool operator ==(covariant final Document other) {
@@ -63,19 +56,15 @@ class Document {
   int get hashCode => id.hashCode ^ pageContent.hashCode ^ metadata.hashCode;
 
   /// Concatenates the current document with another document.
-  Document concat(final Document other) {
-    return Document(
+  Document concat(final Document other) => Document(
       id: id ?? other.id,
       pageContent: '$pageContent${other.pageContent}',
       metadata: {...metadata, ...other.metadata},
     );
-  }
 
   @override
-  String toString() {
-    return 'Document{'
+  String toString() => 'Document{'
         'id: $id, '
         'pageContent: $pageContent, '
         'metadata: $metadata}';
-  }
 }

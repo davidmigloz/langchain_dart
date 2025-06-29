@@ -14,24 +14,16 @@ class RunnableOptions {
 
   /// Creates a copy of this [RunnableOptions] with the given fields replaced
   /// by the new values.
-  RunnableOptions copyWith({int? concurrencyLimit}) {
-    return RunnableOptions(
+  RunnableOptions copyWith({int? concurrencyLimit}) => RunnableOptions(
       concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
     );
-  }
 
   /// Merges this [RunnableOptions] with another [RunnableOptions].
-  RunnableOptions merge(RunnableOptions? other) {
-    return copyWith(concurrencyLimit: other?.concurrencyLimit);
-  }
+  RunnableOptions merge(RunnableOptions? other) => copyWith(concurrencyLimit: other?.concurrencyLimit);
 
   @override
-  bool operator ==(covariant final RunnableOptions other) {
-    return concurrencyLimit == other.concurrencyLimit;
-  }
+  bool operator ==(covariant final RunnableOptions other) => concurrencyLimit == other.concurrencyLimit;
 
   @override
-  int get hashCode {
-    return concurrencyLimit.hashCode;
-  }
+  int get hashCode => concurrencyLimit.hashCode;
 }

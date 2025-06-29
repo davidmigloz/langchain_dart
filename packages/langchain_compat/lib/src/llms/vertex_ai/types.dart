@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
-import 'package:langchain_compat/src/llms/types.dart';
 import 'package:meta/meta.dart';
+
+import '../types.dart';
 
 /// {@template vertex_ai_options}
 /// Options to pass into the Vertex AI LLM.
@@ -104,8 +105,7 @@ class VertexAIOptions extends LLMOptions {
     final List<String>? stopSequences,
     final int? candidateCount,
     final int? concurrencyLimit,
-  }) {
-    return VertexAIOptions(
+  }) => VertexAIOptions(
       publisher: publisher ?? this.publisher,
       model: model ?? this.model,
       maxOutputTokens: maxOutputTokens ?? this.maxOutputTokens,
@@ -116,11 +116,9 @@ class VertexAIOptions extends LLMOptions {
       candidateCount: candidateCount ?? this.candidateCount,
       concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
     );
-  }
 
   @override
-  VertexAIOptions merge(covariant final VertexAIOptions? other) {
-    return copyWith(
+  VertexAIOptions merge(covariant final VertexAIOptions? other) => copyWith(
       publisher: other?.publisher,
       model: other?.model,
       maxOutputTokens: other?.maxOutputTokens,
@@ -131,11 +129,9 @@ class VertexAIOptions extends LLMOptions {
       candidateCount: other?.candidateCount,
       concurrencyLimit: other?.concurrencyLimit,
     );
-  }
 
   @override
-  bool operator ==(covariant final VertexAIOptions other) {
-    return publisher == other.publisher &&
+  bool operator ==(covariant final VertexAIOptions other) => publisher == other.publisher &&
         model == other.model &&
         maxOutputTokens == other.maxOutputTokens &&
         temperature == other.temperature &&
@@ -147,11 +143,9 @@ class VertexAIOptions extends LLMOptions {
         ) &&
         candidateCount == other.candidateCount &&
         concurrencyLimit == other.concurrencyLimit;
-  }
 
   @override
-  int get hashCode {
-    return publisher.hashCode ^
+  int get hashCode => publisher.hashCode ^
         model.hashCode ^
         maxOutputTokens.hashCode ^
         temperature.hashCode ^
@@ -160,5 +154,4 @@ class VertexAIOptions extends LLMOptions {
         const ListEquality<String>().hash(stopSequences) ^
         candidateCount.hashCode ^
         concurrencyLimit.hashCode;
-  }
 }

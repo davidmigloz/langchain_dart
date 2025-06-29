@@ -63,9 +63,7 @@ class RunnableMapInputStream<RunInput extends Object, RunOutput extends Object>
   Future<RunOutput> invoke(
     final RunInput input, {
     final RunnableOptions? options,
-  }) {
-    return streamFromInputStream(Stream.value(input), options: options).first;
-  }
+  }) => streamFromInputStream(Stream.value(input), options: options).first;
 
   /// Streams the [input] through the [RunnableMapInputStream].
   ///
@@ -75,9 +73,7 @@ class RunnableMapInputStream<RunInput extends Object, RunOutput extends Object>
   Stream<RunOutput> stream(
     final RunInput input, {
     final RunnableOptions? options,
-  }) {
-    return streamFromInputStream(Stream.value(input), options: options);
-  }
+  }) => streamFromInputStream(Stream.value(input), options: options);
 
   /// Streams the [inputStream] through the [RunnableMapInputStream].
   ///
@@ -87,7 +83,5 @@ class RunnableMapInputStream<RunInput extends Object, RunOutput extends Object>
   Stream<RunOutput> streamFromInputStream(
     final Stream<RunInput> inputStream, {
     final RunnableOptions? options,
-  }) {
-    return inputStreamMapper(inputStream);
-  }
+  }) => inputStreamMapper(inputStream);
 }

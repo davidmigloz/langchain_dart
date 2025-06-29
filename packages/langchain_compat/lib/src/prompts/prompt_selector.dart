@@ -74,25 +74,21 @@ class PromptCondition {
   /// {@macro prompt_condition}
   const PromptCondition({required this.condition, required this.prompt});
 
+  /// A prompt for a language mode that is an LLM.
+  factory PromptCondition.isLlm(final BasePromptTemplate prompt) => PromptCondition(
+      condition: (final llm) => llm is BaseLLM,
+      prompt: prompt,
+    );
+
+  /// A prompt for a language mode that is a chat model.
+  factory PromptCondition.isChatModel(final BasePromptTemplate prompt) => PromptCondition(
+      condition: (final llm) => llm is BaseChatModel,
+      prompt: prompt,
+    );
+
   /// Condition for a prompt.
   final bool Function(BaseLanguageModel llm) condition;
 
   /// Prompt to use if the condition is met.
   final BasePromptTemplate prompt;
-
-  /// A prompt for a language mode that is an LLM.
-  factory PromptCondition.isLlm(final BasePromptTemplate prompt) {
-    return PromptCondition(
-      condition: (final BaseLanguageModel llm) => llm is BaseLLM,
-      prompt: prompt,
-    );
-  }
-
-  /// A prompt for a language mode that is a chat model.
-  factory PromptCondition.isChatModel(final BasePromptTemplate prompt) {
-    return PromptCondition(
-      condition: (final BaseLanguageModel llm) => llm is BaseChatModel,
-      prompt: prompt,
-    );
-  }
 }

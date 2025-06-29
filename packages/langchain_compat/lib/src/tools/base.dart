@@ -78,8 +78,7 @@ class ToolSpec {
       strict.hashCode;
 
   @override
-  String toString() {
-    return '''
+  String toString() => '''
 ToolSpec{
   name: $name,
   description: $description,
@@ -87,17 +86,14 @@ ToolSpec{
   strict: $strict,
 }
 ''';
-  }
 
   /// Converts the tool spec to a JSON-serializable map.
-  Map<String, dynamic> toJson() {
-    return {
+  Map<String, dynamic> toJson() => {
       'name': name,
       'description': description,
       'inputJsonSchema': inputJsonSchema,
       'strict': strict,
     };
-  }
 }
 
 /// {@template tool}
@@ -174,13 +170,11 @@ abstract base class Tool<
     required final String name,
     required final String description,
     required final Map<String, dynamic> inputJsonSchema,
-    final bool strict = false,
-    required final FutureOr<Output> Function(Input input) func,
+    required final FutureOr<Output> Function(Input input) func, final bool strict = false,
     Input Function(Map<String, dynamic> json)? getInputFromJson,
     final bool returnDirect = false,
     final Output Function(ToolException)? handleToolError,
-  }) {
-    return _ToolFunc<Input, Output>(
+  }) => _ToolFunc<Input, Output>(
       name: name,
       description: description,
       inputJsonSchema: inputJsonSchema,
@@ -190,7 +184,6 @@ abstract base class Tool<
       returnDirect: returnDirect,
       handleToolError: handleToolError,
     );
-  }
 
   /// Runs the tool.
   ///
@@ -251,14 +244,12 @@ abstract base class Tool<
       strict.hashCode;
 
   @override
-  Map<String, dynamic> toJson() {
-    return {
+  Map<String, dynamic> toJson() => {
       'name': name,
       'description': description,
       'inputJsonSchema': inputJsonSchema,
       'strict': strict,
     };
-  }
 }
 
 /// {@template tool_func}
@@ -291,12 +282,8 @@ final class _ToolFunc<Input extends Object, Output extends Object>
   Future<Output> invokeInternal(
     final Input toolInput, {
     final ToolOptions? options,
-  }) async {
-    return _function(toolInput);
-  }
+  }) async => _function(toolInput);
 
   @override
-  Input getInputFromJson(final Map<String, dynamic> json) {
-    return _getInputFromJson(json);
-  }
+  Input getInputFromJson(final Map<String, dynamic> json) => _getInputFromJson(json);
 }

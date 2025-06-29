@@ -28,7 +28,7 @@ CreateChatCompletionRequest createChatCompletionRequest(
 
   return CreateChatCompletionRequest(
     model: ChatCompletionModel.modelId(
-      options?.model ?? defaultOptions.model ?? ChatOpenAI.defaultModel,
+      options?.model ?? defaultOptions.model ?? ChatOpenAI.defaultModelName,
     ),
     messages: messagesDtos,
     tools: toolsDtos,
@@ -57,48 +57,38 @@ CreateChatCompletionRequest createChatCompletionRequest(
 }
 
 extension ChatMessageListMapper on List<ChatMessage> {
-  List<ChatCompletionMessage> toChatCompletionMessages() {
-    return map(_mapMessage).toList(growable: false);
-  }
+  List<ChatCompletionMessage> toChatCompletionMessages() =>
+      map(_mapMessage).toList(growable: false);
 
-  ChatCompletionMessage _mapMessage(final ChatMessage msg) {
-    return switch (msg) {
-      final SystemChatMessage msg => _mapSystemMessage(msg),
-      final HumanChatMessage msg => _mapHumanMessage(msg),
-      final AIChatMessage msg => _mapAIMessage(msg),
-      final ToolChatMessage msg => _mapToolMessage(msg),
-      CustomChatMessage() => throw UnsupportedError(
-        'OpenAI does not support custom messages',
-      ),
-    };
-  }
+  ChatCompletionMessage _mapMessage(final ChatMessage msg) => switch (msg) {
+    final SystemChatMessage msg => _mapSystemMessage(msg),
+    final HumanChatMessage msg => _mapHumanMessage(msg),
+    final AIChatMessage msg => _mapAIMessage(msg),
+    final ToolChatMessage msg => _mapToolMessage(msg),
+    CustomChatMessage() => throw UnsupportedError(
+      'OpenAI does not support custom messages',
+    ),
+  };
 
   ChatCompletionMessage _mapSystemMessage(
     final SystemChatMessage systemChatMessage,
-  ) {
-    return ChatCompletionMessage.system(content: systemChatMessage.content);
-  }
+  ) => ChatCompletionMessage.system(content: systemChatMessage.content);
 
   ChatCompletionMessage _mapHumanMessage(
     final HumanChatMessage humanChatMessage,
-  ) {
-    return ChatCompletionMessage.user(
-      content: switch (humanChatMessage.content) {
-        final ChatMessageContentText c => _mapMessageContentString(c),
-        final ChatMessageContentImage c =>
-          ChatCompletionUserMessageContent.parts([
-            _mapMessageContentPartImage(c),
-          ]),
-        final ChatMessageContentMultiModal c => _mapMessageContentPart(c),
-      },
-    );
-  }
+  ) => ChatCompletionMessage.user(
+    content: switch (humanChatMessage.content) {
+      final ChatMessageContentText c => _mapMessageContentString(c),
+      final ChatMessageContentImage c => ChatCompletionUserMessageContent.parts(
+        [_mapMessageContentPartImage(c)],
+      ),
+      final ChatMessageContentMultiModal c => _mapMessageContentPart(c),
+    },
+  );
 
   ChatCompletionUserMessageContentString _mapMessageContentString(
     final ChatMessageContentText c,
-  ) {
-    return ChatCompletionUserMessageContentString(c.text);
-  }
+  ) => ChatCompletionUserMessageContentString(c.text);
 
   ChatCompletionMessageContentPartImage _mapMessageContentPartImage(
     final ChatMessageContentImage c,
@@ -155,36 +145,33 @@ extension ChatMessageListMapper on List<ChatMessage> {
     return ChatCompletionMessageContentParts(partsList);
   }
 
-  ChatCompletionMessage _mapAIMessage(final AIChatMessage aiChatMessage) {
-    return ChatCompletionMessage.assistant(
-      content: aiChatMessage.content,
-      toolCalls: aiChatMessage.toolCalls.isNotEmpty
-          ? aiChatMessage.toolCalls
-                .map(_mapMessageToolCall)
-                .toList(growable: false)
-          : null,
-    );
-  }
+  ChatCompletionMessage _mapAIMessage(final AIChatMessage aiChatMessage) =>
+      ChatCompletionMessage.assistant(
+        content: aiChatMessage.content,
+        toolCalls: aiChatMessage.toolCalls.isNotEmpty
+            ? aiChatMessage.toolCalls
+                  .map(_mapMessageToolCall)
+                  .toList(growable: false)
+            : null,
+      );
 
   ChatCompletionMessageToolCall _mapMessageToolCall(
     final AIChatMessageToolCall toolCall,
-  ) {
-    return ChatCompletionMessageToolCall(
-      id: toolCall.id,
-      type: ChatCompletionMessageToolCallType.function,
-      function: ChatCompletionMessageFunctionCall(
-        name: toolCall.name,
-        arguments: json.encode(toolCall.arguments),
-      ),
-    );
-  }
+  ) => ChatCompletionMessageToolCall(
+    id: toolCall.id,
+    type: ChatCompletionMessageToolCallType.function,
+    function: ChatCompletionMessageFunctionCall(
+      name: toolCall.name,
+      arguments: json.encode(toolCall.arguments),
+    ),
+  );
 
-  ChatCompletionMessage _mapToolMessage(final ToolChatMessage toolChatMessage) {
-    return ChatCompletionMessage.tool(
-      toolCallId: toolChatMessage.toolCallId,
-      content: toolChatMessage.content,
-    );
-  }
+  ChatCompletionMessage _mapToolMessage(
+    final ToolChatMessage toolChatMessage,
+  ) => ChatCompletionMessage.tool(
+    toolCallId: toolChatMessage.toolCallId,
+    content: toolChatMessage.content,
+  );
 }
 
 extension CreateChatCompletionResponseMapper on CreateChatCompletionResponse {
@@ -233,51 +220,46 @@ extension CreateChatCompletionResponseMapper on CreateChatCompletionResponse {
   }
 }
 
-LanguageModelUsage _mapUsage(final CompletionUsage? usage) {
-  return LanguageModelUsage(
-    promptTokens: usage?.promptTokens,
-    responseTokens: usage?.completionTokens,
-    totalTokens: usage?.totalTokens,
-  );
-}
+LanguageModelUsage _mapUsage(final CompletionUsage? usage) =>
+    LanguageModelUsage(
+      promptTokens: usage?.promptTokens,
+      responseTokens: usage?.completionTokens,
+      totalTokens: usage?.totalTokens,
+    );
 
 extension ChatToolListMapper on List<ToolSpec> {
-  List<ChatCompletionTool> toChatCompletionTool() {
-    return map(_mapChatCompletionTool).toList(growable: false);
-  }
+  List<ChatCompletionTool> toChatCompletionTool() =>
+      map(_mapChatCompletionTool).toList(growable: false);
 
-  ChatCompletionTool _mapChatCompletionTool(final ToolSpec tool) {
-    return ChatCompletionTool(
-      type: ChatCompletionToolType.function,
-      function: FunctionObject(
-        name: tool.name,
-        description: tool.description,
-        parameters: tool.inputJsonSchema,
-      ),
-    );
-  }
+  ChatCompletionTool _mapChatCompletionTool(final ToolSpec tool) =>
+      ChatCompletionTool(
+        type: ChatCompletionToolType.function,
+        function: FunctionObject(
+          name: tool.name,
+          description: tool.description,
+          parameters: tool.inputJsonSchema,
+        ),
+      );
 }
 
 extension ChatToolChoiceMapper on ChatToolChoice {
-  ChatCompletionToolChoiceOption toChatCompletionToolChoice() {
-    return switch (this) {
-      ChatToolChoiceNone _ => const ChatCompletionToolChoiceOption.mode(
-        ChatCompletionToolChoiceMode.none,
+  ChatCompletionToolChoiceOption toChatCompletionToolChoice() => switch (this) {
+    ChatToolChoiceNone _ => const ChatCompletionToolChoiceOption.mode(
+      ChatCompletionToolChoiceMode.none,
+    ),
+    ChatToolChoiceAuto _ => const ChatCompletionToolChoiceOption.mode(
+      ChatCompletionToolChoiceMode.auto,
+    ),
+    ChatToolChoiceRequired() => const ChatCompletionToolChoiceOption.mode(
+      ChatCompletionToolChoiceMode.required,
+    ),
+    final ChatToolChoiceForced t => ChatCompletionToolChoiceOption.tool(
+      ChatCompletionNamedToolChoice(
+        type: ChatCompletionNamedToolChoiceType.function,
+        function: ChatCompletionFunctionCallOption(name: t.name),
       ),
-      ChatToolChoiceAuto _ => const ChatCompletionToolChoiceOption.mode(
-        ChatCompletionToolChoiceMode.auto,
-      ),
-      ChatToolChoiceRequired() => const ChatCompletionToolChoiceOption.mode(
-        ChatCompletionToolChoiceMode.required,
-      ),
-      final ChatToolChoiceForced t => ChatCompletionToolChoiceOption.tool(
-        ChatCompletionNamedToolChoice(
-          type: ChatCompletionNamedToolChoiceType.function,
-          function: ChatCompletionFunctionCallOption(name: t.name),
-        ),
-      ),
-    };
-  }
+    ),
+  };
 }
 
 extension CreateChatCompletionStreamResponseMapper
@@ -328,20 +310,18 @@ extension CreateChatCompletionStreamResponseMapper
 }
 
 extension ChatOpenAIResponseFormatMapper on ChatOpenAIResponseFormat {
-  ResponseFormat toChatCompletionResponseFormat() {
-    return switch (this) {
-      ChatOpenAIResponseFormatText() => const ResponseFormat.text(),
-      ChatOpenAIResponseFormatJsonObject() => const ResponseFormat.jsonObject(),
-      final ChatOpenAIResponseFormatJsonSchema res => ResponseFormat.jsonSchema(
-        jsonSchema: JsonSchemaObject(
-          name: res.jsonSchema.name,
-          description: res.jsonSchema.description,
-          schema: res.jsonSchema.schema,
-          strict: res.jsonSchema.strict,
-        ),
+  ResponseFormat toChatCompletionResponseFormat() => switch (this) {
+    ChatOpenAIResponseFormatText() => const ResponseFormat.text(),
+    ChatOpenAIResponseFormatJsonObject() => const ResponseFormat.jsonObject(),
+    final ChatOpenAIResponseFormatJsonSchema res => ResponseFormat.jsonSchema(
+      jsonSchema: JsonSchemaObject(
+        name: res.jsonSchema.name,
+        description: res.jsonSchema.description,
+        schema: res.jsonSchema.schema,
+        strict: res.jsonSchema.strict,
       ),
-    };
-  }
+    ),
+  };
 }
 
 extension ChatOpenAIServiceTierX on ChatOpenAIServiceTier? {

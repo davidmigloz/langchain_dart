@@ -19,12 +19,10 @@ class LanguageModelOptions extends BaseLangChainOptions {
   LanguageModelOptions copyWith({
     final String? model,
     final int? concurrencyLimit,
-  }) {
-    return LanguageModelOptions(
+  }) => LanguageModelOptions(
       model: model ?? this.model,
       concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
     );
-  }
 }
 
 /// {@template language_model}
@@ -151,8 +149,7 @@ class LanguageModelUsage {
       totalTokens.hashCode;
 
   /// Merges this usage with another by summing the values.
-  LanguageModelUsage concat(final LanguageModelUsage other) {
-    return LanguageModelUsage(
+  LanguageModelUsage concat(final LanguageModelUsage other) => LanguageModelUsage(
       promptTokens: promptTokens == null && other.promptTokens == null
           ? null
           : (promptTokens ?? 0) + (other.promptTokens ?? 0),
@@ -175,11 +172,9 @@ class LanguageModelUsage {
           ? null
           : (totalTokens ?? 0) + (other.totalTokens ?? 0),
     );
-  }
 
   @override
-  String toString() {
-    return '''
+  String toString() => '''
 LanguageModelUsage{
   promptTokens: $promptTokens, 
   promptBillableCharacters: $promptBillableCharacters, 
@@ -187,7 +182,6 @@ LanguageModelUsage{
   responseBillableCharacters: $responseBillableCharacters, 
   totalTokens: $totalTokens}
 ''';
-  }
 }
 
 /// The reason the model stopped generating tokens.
