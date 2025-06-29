@@ -101,7 +101,7 @@ final providers = <String, ProviderInfo>{
     shortName: 'cohere',
     displayName: 'Cohere',
     defaultModel: 'command-r-plus',
-    defaultBaseUrl: 'https://api.cohere.ai/v1',
+    defaultBaseUrl: 'https://api.cohere.ai/compatibility/v1',
     apiKeyEnvVar: 'COHERE_API_KEY',
   ),
   'lambda': const OpenAIProviderInfo(

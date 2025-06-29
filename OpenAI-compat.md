@@ -4,7 +4,7 @@ This document lists popular OpenAI-compatible LLM providers, their base URLs, AP
 
 | Provider               | Base URL                                                  | API Key Name         | Get API Key                                                           |
 | ---------------------- | --------------------------------------------------------- | -------------------- | --------------------------------------------------------------------- |
-| **Cohere**             | `https://api.cohere.ai/v1`                                | `COHERE_API_KEY`     | [Cohere API Keys](https://dashboard.cohere.com/api-keys)              |
+| **Cohere**             | `https://api.cohere.ai/compatibility/v1`                  | `COHERE_API_KEY`     | [Cohere API Keys](https://dashboard.cohere.com/api-keys)              |
 | **DeepSeek**           | `https://api.deepseek.com/v1`                             | `DEEPSEEK_API_KEY`   | [DeepSeek API Keys](https://deepseek.com/)                            |
 | **Fireworks AI**       | `https://api.fireworks.ai/inference/v1`                   | `FIREWORKS_API_KEY`  | [Fireworks API Keys](https://app.fireworks.ai/api-keys)               |
 | **Gemini (Google AI)** | `https://generativelanguage.googleapis.com/v1beta/openai` | `GEMINI_API_KEY`     | [Google AI Studio API Keys](https://makersuite.google.com/app/apikey) |

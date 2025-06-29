@@ -13,16 +13,14 @@ Future<void> main() async {
   for (final provider in providers.values) {
     BaseChatModel chatModel;
     try {
-      chatModel = provider.createModel();
       stdout.write('${provider.displayName}: ');
-      await for (final chunk in chatModel.stream(
-        PromptValue.string(promptText),
-      )) {
+      chatModel = provider.createModel();
+      await chatModel.stream(PromptValue.string(promptText)).forEach((chunk) {
         stdout.write(chunk.output.content);
-      }
-      print('');
+      });
+      stdout.writeln();
     } on Exception catch (e) {
-      print('${provider.displayName}: $e');
+      stdout.writeln('${provider.displayName}: $e');
       exitCode = 1;
     }
   }
