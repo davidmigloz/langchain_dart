@@ -107,7 +107,7 @@ final providers = <String, ProviderInfo>{
   'lambda': const OpenAIProviderInfo(
     shortName: 'lambda',
     displayName: 'Lambda',
-    defaultModel: 'luminous-base',
+    defaultModel: 'llama3.2-3b-instruct',
     defaultBaseUrl: 'https://api.lambda.ai/v1',
     apiKeyEnvVar: 'LAMBDA_API_KEY',
   ),
