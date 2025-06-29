@@ -65,7 +65,7 @@ final providers = <String, ProviderInfo>{
   'openrouter': const OpenAIProviderInfo(
     shortName: 'openrouter',
     displayName: 'OpenRouter',
-    defaultModel: 'openchat/openchat-3.5-0106',
+    defaultModel: 'google/gemini-2.5-flash',
     defaultBaseUrl: 'https://openrouter.ai/api/v1',
     apiKeyEnvVar: 'OPENROUTER_API_KEY',
   ),
@@ -86,7 +86,7 @@ final providers = <String, ProviderInfo>{
   'fireworks': const OpenAIProviderInfo(
     shortName: 'fireworks',
     displayName: 'Fireworks AI',
-    defaultModel: 'accounts/fireworks/models/llama-v2-7b-chat',
+    defaultModel: 'accounts/fireworks/models/llama-v3p1-70b-instruct',
     defaultBaseUrl: 'https://api.fireworks.ai/inference/v1',
     apiKeyEnvVar: 'FIREWORKS_API_KEY',
   ),
@@ -138,5 +138,12 @@ final providers = <String, ProviderInfo>{
     defaultModel: 'gemini-1.5-flash',
     defaultBaseUrl: '',
     apiKeyEnvVar: 'GEMINI_API_KEY',
+  ),
+  'deepseek': const OpenAIProviderInfo(
+    shortName: 'deepseek',
+    displayName: 'DeepSeek',
+    defaultModel: 'deepseek-chat',
+    defaultBaseUrl: 'https://api.deepseek.com/v1',
+    apiKeyEnvVar: 'DEEPSEEK_API_KEY',
   ),
 };
