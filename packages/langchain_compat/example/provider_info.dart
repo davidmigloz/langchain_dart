@@ -111,17 +111,10 @@ final providers = <String, ProviderInfo>{
     defaultBaseUrl: 'https://api.lambda.ai/v1',
     apiKeyEnvVar: 'LAMBDA_API_KEY',
   ),
-  'vercel': const OpenAIProviderInfo(
-    shortName: 'vercel',
-    displayName: 'Vercel AI Gateway',
-    defaultModel: 'gpt-3.5-turbo',
-    defaultBaseUrl: 'https://ai.vercel.com/v1',
-    apiKeyEnvVar: 'VERCEL_API_KEY',
-  ),
   'nvidia': const OpenAIProviderInfo(
     shortName: 'nvidia',
     displayName: 'NVIDIA NIM',
-    defaultModel: 'llama-2-70b-chat',
+    defaultModel: 'nvidia/nemotron-mini-4b-instruct',
     defaultBaseUrl: 'https://integrate.api.nvidia.com/v1',
     apiKeyEnvVar: 'NVIDIA_API_KEY',
   ),
@@ -138,12 +131,5 @@ final providers = <String, ProviderInfo>{
     defaultModel: 'gemini-1.5-flash',
     defaultBaseUrl: '',
     apiKeyEnvVar: 'GEMINI_API_KEY',
-  ),
-  'deepseek': const OpenAIProviderInfo(
-    shortName: 'deepseek',
-    displayName: 'DeepSeek',
-    defaultModel: 'deepseek-chat',
-    defaultBaseUrl: 'https://api.deepseek.com/v1',
-    apiKeyEnvVar: 'DEEPSEEK_API_KEY',
   ),
 };
