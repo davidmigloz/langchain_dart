@@ -5,24 +5,27 @@ import 'package:google_generative_ai/google_generative_ai.dart' as g;
 
 import '../../language_models/types.dart';
 import '../../tools/base.dart';
+import '../google_ai/types.dart'
+    show
+        ChatGoogleGenerativeAISafetySetting,
+        ChatGoogleGenerativeAISafetySettingCategory,
+        ChatGoogleGenerativeAISafetySettingThreshold;
 import '../types.dart';
 
 extension ChatMessagesMapper on List<ChatMessage> {
-  List<g.Content> toContentList() {
-    return where((msg) => msg is! SystemChatMessage)
-        .map(
-          (final message) => switch (message) {
-            SystemChatMessage() => throw AssertionError(
-              'System messages should be filtered out',
-            ),
-            final HumanChatMessage msg => _mapHumanChatMessage(msg),
-            final AIChatMessage msg => _mapAIChatMessage(msg),
-            final ToolChatMessage msg => _mapToolChatMessage(msg),
-            final CustomChatMessage msg => _mapCustomChatMessage(msg),
-          },
-        )
-        .toList(growable: false);
-  }
+  List<g.Content> toContentList() => where((msg) => msg is! SystemChatMessage)
+      .map(
+        (final message) => switch (message) {
+          SystemChatMessage() => throw AssertionError(
+            'System messages should be filtered out',
+          ),
+          final HumanChatMessage msg => _mapHumanChatMessage(msg),
+          final AIChatMessage msg => _mapAIChatMessage(msg),
+          final ToolChatMessage msg => _mapToolChatMessage(msg),
+          final CustomChatMessage msg => _mapCustomChatMessage(msg),
+        },
+      )
+      .toList(growable: false);
 
   g.Content _mapHumanChatMessage(final HumanChatMessage msg) {
     final contentParts = switch (msg.content) {
@@ -76,9 +79,8 @@ extension ChatMessagesMapper on List<ChatMessage> {
     ]);
   }
 
-  g.Content _mapCustomChatMessage(final CustomChatMessage msg) {
-    return g.Content(msg.role, [g.TextPart(msg.content)]);
-  }
+  g.Content _mapCustomChatMessage(final CustomChatMessage msg) =>
+      g.Content(msg.role, [g.TextPart(msg.content)]);
 }
 
 extension GenerateContentResponseMapper on g.GenerateContentResponse {
@@ -167,36 +169,34 @@ extension GenerateContentResponseMapper on g.GenerateContentResponse {
 }
 
 extension SafetySettingsMapper on List<ChatGoogleGenerativeAISafetySetting> {
-  List<g.SafetySetting> toSafetySettings() {
-    return map(
-      (final setting) => g.SafetySetting(
-        switch (setting.category) {
-          ChatGoogleGenerativeAISafetySettingCategory.unspecified =>
-            g.HarmCategory.unspecified,
-          ChatGoogleGenerativeAISafetySettingCategory.harassment =>
-            g.HarmCategory.harassment,
-          ChatGoogleGenerativeAISafetySettingCategory.hateSpeech =>
-            g.HarmCategory.hateSpeech,
-          ChatGoogleGenerativeAISafetySettingCategory.sexuallyExplicit =>
-            g.HarmCategory.sexuallyExplicit,
-          ChatGoogleGenerativeAISafetySettingCategory.dangerousContent =>
-            g.HarmCategory.dangerousContent,
-        },
-        switch (setting.threshold) {
-          ChatGoogleGenerativeAISafetySettingThreshold.unspecified =>
-            g.HarmBlockThreshold.unspecified,
-          ChatGoogleGenerativeAISafetySettingThreshold.blockLowAndAbove =>
-            g.HarmBlockThreshold.low,
-          ChatGoogleGenerativeAISafetySettingThreshold.blockMediumAndAbove =>
-            g.HarmBlockThreshold.medium,
-          ChatGoogleGenerativeAISafetySettingThreshold.blockOnlyHigh =>
-            g.HarmBlockThreshold.high,
-          ChatGoogleGenerativeAISafetySettingThreshold.blockNone =>
-            g.HarmBlockThreshold.none,
-        },
-      ),
-    ).toList(growable: false);
-  }
+  List<g.SafetySetting> toSafetySettings() => map(
+    (final setting) => g.SafetySetting(
+      switch (setting.category) {
+        ChatGoogleGenerativeAISafetySettingCategory.unspecified =>
+          g.HarmCategory.unspecified,
+        ChatGoogleGenerativeAISafetySettingCategory.harassment =>
+          g.HarmCategory.harassment,
+        ChatGoogleGenerativeAISafetySettingCategory.hateSpeech =>
+          g.HarmCategory.hateSpeech,
+        ChatGoogleGenerativeAISafetySettingCategory.sexuallyExplicit =>
+          g.HarmCategory.sexuallyExplicit,
+        ChatGoogleGenerativeAISafetySettingCategory.dangerousContent =>
+          g.HarmCategory.dangerousContent,
+      },
+      switch (setting.threshold) {
+        ChatGoogleGenerativeAISafetySettingThreshold.unspecified =>
+          g.HarmBlockThreshold.unspecified,
+        ChatGoogleGenerativeAISafetySettingThreshold.blockLowAndAbove =>
+          g.HarmBlockThreshold.low,
+        ChatGoogleGenerativeAISafetySettingThreshold.blockMediumAndAbove =>
+          g.HarmBlockThreshold.medium,
+        ChatGoogleGenerativeAISafetySettingThreshold.blockOnlyHigh =>
+          g.HarmBlockThreshold.high,
+        ChatGoogleGenerativeAISafetySettingThreshold.blockNone =>
+          g.HarmBlockThreshold.none,
+      },
+    ),
+  ).toList(growable: false);
 }
 
 extension ChatToolListMapper on List<ToolSpec>? {
@@ -290,29 +290,27 @@ extension SchemaMapper on Map<String, dynamic> {
 }
 
 extension ChatToolChoiceMapper on ChatToolChoice {
-  g.ToolConfig toToolConfig() {
-    return switch (this) {
-      ChatToolChoiceNone _ => g.ToolConfig(
-        functionCallingConfig: g.FunctionCallingConfig(
-          mode: g.FunctionCallingMode.none,
-        ),
+  g.ToolConfig toToolConfig() => switch (this) {
+    ChatToolChoiceNone _ => g.ToolConfig(
+      functionCallingConfig: g.FunctionCallingConfig(
+        mode: g.FunctionCallingMode.none,
       ),
-      ChatToolChoiceAuto _ => g.ToolConfig(
-        functionCallingConfig: g.FunctionCallingConfig(
-          mode: g.FunctionCallingMode.auto,
-        ),
+    ),
+    ChatToolChoiceAuto _ => g.ToolConfig(
+      functionCallingConfig: g.FunctionCallingConfig(
+        mode: g.FunctionCallingMode.auto,
       ),
-      ChatToolChoiceRequired() => g.ToolConfig(
-        functionCallingConfig: g.FunctionCallingConfig(
-          mode: g.FunctionCallingMode.any,
-        ),
+    ),
+    ChatToolChoiceRequired() => g.ToolConfig(
+      functionCallingConfig: g.FunctionCallingConfig(
+        mode: g.FunctionCallingMode.any,
       ),
-      final ChatToolChoiceForced t => g.ToolConfig(
-        functionCallingConfig: g.FunctionCallingConfig(
-          mode: g.FunctionCallingMode.any,
-          allowedFunctionNames: {t.name},
-        ),
+    ),
+    final ChatToolChoiceForced t => g.ToolConfig(
+      functionCallingConfig: g.FunctionCallingConfig(
+        mode: g.FunctionCallingMode.any,
+        allowedFunctionNames: {t.name},
       ),
-    };
-  }
+    ),
+  };
 }

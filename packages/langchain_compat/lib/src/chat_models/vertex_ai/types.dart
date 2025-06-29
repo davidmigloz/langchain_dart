@@ -113,67 +113,58 @@ class ChatVertexAIOptions extends ChatModelOptions {
     final List<ToolSpec>? tools,
     final ChatToolChoice? toolChoice,
     final int? concurrencyLimit,
-  }) {
-    return ChatVertexAIOptions(
-      publisher: publisher ?? this.publisher,
-      model: model ?? this.model,
-      maxOutputTokens: maxOutputTokens ?? this.maxOutputTokens,
-      temperature: temperature ?? this.temperature,
-      topP: topP ?? this.topP,
-      topK: topK ?? this.topK,
-      stopSequences: stopSequences ?? this.stopSequences,
-      candidateCount: candidateCount ?? this.candidateCount,
-      examples: examples ?? this.examples,
-      concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
-    );
-  }
+  }) => ChatVertexAIOptions(
+    publisher: publisher ?? this.publisher,
+    model: model ?? this.model,
+    maxOutputTokens: maxOutputTokens ?? this.maxOutputTokens,
+    temperature: temperature ?? this.temperature,
+    topP: topP ?? this.topP,
+    topK: topK ?? this.topK,
+    stopSequences: stopSequences ?? this.stopSequences,
+    candidateCount: candidateCount ?? this.candidateCount,
+    examples: examples ?? this.examples,
+    concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
+  );
 
   @override
-  ChatVertexAIOptions merge(covariant ChatVertexAIOptions? other) {
-    return copyWith(
-      publisher: other?.publisher,
-      model: other?.model,
-      maxOutputTokens: other?.maxOutputTokens,
-      temperature: other?.temperature,
-      topP: other?.topP,
-      topK: other?.topK,
-      stopSequences: other?.stopSequences,
-      candidateCount: other?.candidateCount,
-      examples: other?.examples,
-      concurrencyLimit: other?.concurrencyLimit,
-    );
-  }
+  ChatVertexAIOptions merge(covariant ChatVertexAIOptions? other) => copyWith(
+    publisher: other?.publisher,
+    model: other?.model,
+    maxOutputTokens: other?.maxOutputTokens,
+    temperature: other?.temperature,
+    topP: other?.topP,
+    topK: other?.topK,
+    stopSequences: other?.stopSequences,
+    candidateCount: other?.candidateCount,
+    examples: other?.examples,
+    concurrencyLimit: other?.concurrencyLimit,
+  );
 
   @override
-  bool operator ==(covariant final ChatVertexAIOptions other) {
-    return publisher == other.publisher &&
-        model == other.model &&
-        maxOutputTokens == other.maxOutputTokens &&
-        temperature == other.temperature &&
-        topP == other.topP &&
-        topK == other.topK &&
-        const ListEquality<String>().equals(
-          stopSequences,
-          other.stopSequences,
-        ) &&
-        candidateCount == other.candidateCount &&
-        const ListEquality<ChatExample>().equals(examples, other.examples) &&
-        concurrencyLimit == other.concurrencyLimit;
-  }
+  bool operator ==(covariant final ChatVertexAIOptions other) =>
+      publisher == other.publisher &&
+      model == other.model &&
+      maxOutputTokens == other.maxOutputTokens &&
+      temperature == other.temperature &&
+      topP == other.topP &&
+      topK == other.topK &&
+      const ListEquality<String>().equals(stopSequences, other.stopSequences) &&
+      candidateCount == other.candidateCount &&
+      const ListEquality<ChatExample>().equals(examples, other.examples) &&
+      concurrencyLimit == other.concurrencyLimit;
 
   @override
-  int get hashCode {
-    return publisher.hashCode ^
-        model.hashCode ^
-        maxOutputTokens.hashCode ^
-        temperature.hashCode ^
-        topP.hashCode ^
-        topK.hashCode ^
-        const ListEquality<String>().hash(stopSequences) ^
-        candidateCount.hashCode ^
-        const ListEquality<ChatExample>().hash(examples) ^
-        concurrencyLimit.hashCode;
-  }
+  int get hashCode =>
+      publisher.hashCode ^
+      model.hashCode ^
+      maxOutputTokens.hashCode ^
+      temperature.hashCode ^
+      topP.hashCode ^
+      topK.hashCode ^
+      const ListEquality<String>().hash(stopSequences) ^
+      candidateCount.hashCode ^
+      const ListEquality<ChatExample>().hash(examples) ^
+      concurrencyLimit.hashCode;
 }
 
 @immutable
@@ -224,6 +215,6 @@ class ChatVertexAIGenerationConfig {
 class ChatExample {
   const ChatExample({required this.input, required this.output});
 
-  final String input;
-  final String output;
+  final ChatMessage input;
+  final ChatMessage output;
 }

@@ -19,14 +19,6 @@ const ChatOpenAIOptions defaultOpenAIOptions = ChatOpenAIOptions(
   model: openAIDefaultModel,
 );
 
-const ChatGoogleGenerativeAIOptions defaultGoogleGenerativeAIOptions =
-    ChatGoogleGenerativeAIOptions(model: googleAIDefaultModel);
-
-const ChatVertexAIOptions defaultVertexAIOptions = ChatVertexAIOptions(
-  publisher: vertexAIDefaultPublisher,
-  model: vertexAIDefaultModel,
-);
-
 /// {@template chat_openai_options}
 /// Options to pass into the OpenAI Chat Model.
 ///
@@ -221,97 +213,88 @@ class ChatOpenAIOptions extends ChatModelOptions {
     final ChatOpenAIServiceTier? serviceTier,
     final String? user,
     final int? concurrencyLimit,
-  }) {
-    return ChatOpenAIOptions(
-      model: model ?? this.model,
-      frequencyPenalty: frequencyPenalty ?? this.frequencyPenalty,
-      logitBias: logitBias ?? this.logitBias,
-      maxTokens: maxTokens ?? this.maxTokens,
-      n: n ?? this.n,
-      presencePenalty: presencePenalty ?? this.presencePenalty,
-      responseFormat: responseFormat ?? this.responseFormat,
-      seed: seed ?? this.seed,
-      stop: stop ?? this.stop,
-      temperature: temperature ?? this.temperature,
-      topP: topP ?? this.topP,
-      tools: tools ?? this.tools,
-      toolChoice: toolChoice ?? this.toolChoice,
-      parallelToolCalls: parallelToolCalls ?? this.parallelToolCalls,
-      serviceTier: serviceTier ?? this.serviceTier,
-      user: user ?? this.user,
-      concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
-    );
-  }
+  }) => ChatOpenAIOptions(
+    model: model ?? this.model,
+    frequencyPenalty: frequencyPenalty ?? this.frequencyPenalty,
+    logitBias: logitBias ?? this.logitBias,
+    maxTokens: maxTokens ?? this.maxTokens,
+    n: n ?? this.n,
+    presencePenalty: presencePenalty ?? this.presencePenalty,
+    responseFormat: responseFormat ?? this.responseFormat,
+    seed: seed ?? this.seed,
+    stop: stop ?? this.stop,
+    temperature: temperature ?? this.temperature,
+    topP: topP ?? this.topP,
+    tools: tools ?? this.tools,
+    toolChoice: toolChoice ?? this.toolChoice,
+    parallelToolCalls: parallelToolCalls ?? this.parallelToolCalls,
+    serviceTier: serviceTier ?? this.serviceTier,
+    user: user ?? this.user,
+    concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
+  );
 
   @override
-  ChatOpenAIOptions merge(covariant final ChatOpenAIOptions? other) {
-    return copyWith(
-      model: other?.model,
-      frequencyPenalty: other?.frequencyPenalty,
-      logitBias: other?.logitBias,
-      maxTokens: other?.maxTokens,
-      n: other?.n,
-      presencePenalty: other?.presencePenalty,
-      responseFormat: other?.responseFormat,
-      seed: other?.seed,
-      stop: other?.stop,
-      temperature: other?.temperature,
-      topP: other?.topP,
-      tools: other?.tools,
-      toolChoice: other?.toolChoice,
-      parallelToolCalls: other?.parallelToolCalls,
-      serviceTier: other?.serviceTier,
-      user: other?.user,
-      concurrencyLimit: other?.concurrencyLimit,
-    );
-  }
+  ChatOpenAIOptions merge(covariant final ChatOpenAIOptions? other) => copyWith(
+    model: other?.model,
+    frequencyPenalty: other?.frequencyPenalty,
+    logitBias: other?.logitBias,
+    maxTokens: other?.maxTokens,
+    n: other?.n,
+    presencePenalty: other?.presencePenalty,
+    responseFormat: other?.responseFormat,
+    seed: other?.seed,
+    stop: other?.stop,
+    temperature: other?.temperature,
+    topP: other?.topP,
+    tools: other?.tools,
+    toolChoice: other?.toolChoice,
+    parallelToolCalls: other?.parallelToolCalls,
+    serviceTier: other?.serviceTier,
+    user: other?.user,
+    concurrencyLimit: other?.concurrencyLimit,
+  );
 
   @override
-  bool operator ==(covariant final ChatOpenAIOptions other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            model == other.model &&
-            frequencyPenalty == other.frequencyPenalty &&
-            const MapEquality<String, int>().equals(
-              logitBias,
-              other.logitBias,
-            ) &&
-            maxTokens == other.maxTokens &&
-            n == other.n &&
-            presencePenalty == other.presencePenalty &&
-            responseFormat == other.responseFormat &&
-            seed == other.seed &&
-            const ListEquality<String>().equals(stop, other.stop) &&
-            temperature == other.temperature &&
-            topP == other.topP &&
-            const ListEquality<ToolSpec>().equals(tools, other.tools) &&
-            toolChoice == other.toolChoice &&
-            parallelToolCalls == other.parallelToolCalls &&
-            serviceTier == other.serviceTier &&
-            user == other.user &&
-            concurrencyLimit == other.concurrencyLimit;
-  }
+  bool operator ==(covariant final ChatOpenAIOptions other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          model == other.model &&
+          frequencyPenalty == other.frequencyPenalty &&
+          const MapEquality<String, int>().equals(logitBias, other.logitBias) &&
+          maxTokens == other.maxTokens &&
+          n == other.n &&
+          presencePenalty == other.presencePenalty &&
+          responseFormat == other.responseFormat &&
+          seed == other.seed &&
+          const ListEquality<String>().equals(stop, other.stop) &&
+          temperature == other.temperature &&
+          topP == other.topP &&
+          const ListEquality<ToolSpec>().equals(tools, other.tools) &&
+          toolChoice == other.toolChoice &&
+          parallelToolCalls == other.parallelToolCalls &&
+          serviceTier == other.serviceTier &&
+          user == other.user &&
+          concurrencyLimit == other.concurrencyLimit;
 
   @override
-  int get hashCode {
-    return model.hashCode ^
-        frequencyPenalty.hashCode ^
-        const MapEquality<String, int>().hash(logitBias) ^
-        maxTokens.hashCode ^
-        n.hashCode ^
-        presencePenalty.hashCode ^
-        responseFormat.hashCode ^
-        seed.hashCode ^
-        const ListEquality<String>().hash(stop) ^
-        temperature.hashCode ^
-        topP.hashCode ^
-        const ListEquality<ToolSpec>().hash(tools) ^
-        toolChoice.hashCode ^
-        parallelToolCalls.hashCode ^
-        serviceTier.hashCode ^
-        user.hashCode ^
-        concurrencyLimit.hashCode;
-  }
+  int get hashCode =>
+      model.hashCode ^
+      frequencyPenalty.hashCode ^
+      const MapEquality<String, int>().hash(logitBias) ^
+      maxTokens.hashCode ^
+      n.hashCode ^
+      presencePenalty.hashCode ^
+      responseFormat.hashCode ^
+      seed.hashCode ^
+      const ListEquality<String>().hash(stop) ^
+      temperature.hashCode ^
+      topP.hashCode ^
+      const ListEquality<ToolSpec>().hash(tools) ^
+      toolChoice.hashCode ^
+      parallelToolCalls.hashCode ^
+      serviceTier.hashCode ^
+      user.hashCode ^
+      concurrencyLimit.hashCode;
 }
 
 /// {@template chat_openai_response_format}
@@ -320,17 +303,17 @@ class ChatOpenAIOptions extends ChatModelOptions {
 sealed class ChatOpenAIResponseFormat {
   const ChatOpenAIResponseFormat();
 
-  /// The model will respond with text.
-  static const text = ChatOpenAIResponseFormatText();
-
-  /// The model will respond with a valid JSON object.
-  static const jsonObject = ChatOpenAIResponseFormatJsonObject();
-
   /// The model will respond with a valid JSON object that adheres to the
   /// specified schema.
   factory ChatOpenAIResponseFormat.jsonSchema(
     final ChatOpenAIJsonSchema jsonSchema,
   ) => ChatOpenAIResponseFormatJsonSchema(jsonSchema: jsonSchema);
+
+  /// The model will respond with text.
+  static const text = ChatOpenAIResponseFormatText();
+
+  /// The model will respond with a valid JSON object.
+  static const jsonObject = ChatOpenAIResponseFormatJsonObject();
 }
 
 /// {@template chat_openai_response_format_text}
@@ -361,10 +344,9 @@ class ChatOpenAIResponseFormatJsonSchema extends ChatOpenAIResponseFormat {
   final ChatOpenAIJsonSchema jsonSchema;
 
   @override
-  bool operator ==(covariant ChatOpenAIResponseFormatJsonSchema other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType && jsonSchema == other.jsonSchema;
-  }
+  bool operator ==(covariant ChatOpenAIResponseFormatJsonSchema other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType && jsonSchema == other.jsonSchema;
 
   @override
   int get hashCode => jsonSchema.hashCode;
@@ -401,22 +383,20 @@ class ChatOpenAIJsonSchema {
   final bool strict;
 
   @override
-  bool operator ==(covariant ChatOpenAIJsonSchema other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            name == other.name &&
-            description == other.description &&
-            const MapEquality<String, dynamic>().equals(schema, other.schema) &&
-            strict == other.strict;
-  }
+  bool operator ==(covariant ChatOpenAIJsonSchema other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          name == other.name &&
+          description == other.description &&
+          const MapEquality<String, dynamic>().equals(schema, other.schema) &&
+          strict == other.strict;
 
   @override
-  int get hashCode {
-    return name.hashCode ^
-        description.hashCode ^
-        const MapEquality<String, dynamic>().hash(schema) ^
-        strict.hashCode;
-  }
+  int get hashCode =>
+      name.hashCode ^
+      description.hashCode ^
+      const MapEquality<String, dynamic>().hash(schema) ^
+      strict.hashCode;
 }
 
 /// Specifies the latency tier to use for processing the request.
@@ -447,16 +427,13 @@ class OpenAIRefusalException implements Exception {
   final String message;
 
   @override
-  String toString() {
-    return 'OpenAIRefusalException: $message';
-  }
+  String toString() => 'OpenAIRefusalException: $message';
 }
 
 // BEGIN: Copied core chat model types from langchain_core
 @immutable
 sealed class ChatMessage {
   const ChatMessage();
-  Map<String, dynamic> toMap() => {};
   factory ChatMessage.fromMap(Map<String, dynamic> map) =>
       switch (map['type']) {
         'system' => SystemChatMessage.fromMap(map),
@@ -485,6 +462,7 @@ sealed class ChatMessage {
     final String content, {
     required final String role,
   }) => CustomChatMessage(content: content, role: role);
+  Map<String, dynamic> toMap() => {};
   String get contentAsString => switch (this) {
     final SystemChatMessage system => system.content,
     final HumanChatMessage human => switch (human.content) {
@@ -535,12 +513,11 @@ class SystemChatMessage extends ChatMessage {
   }
 
   @override
-  String toString() {
-    return '''
+  String toString() =>
+      '''
 SystemChatMessage{
   content: $content,
 }''';
-  }
 }
 
 @immutable
@@ -620,12 +597,11 @@ class HumanChatMessage extends ChatMessage {
   }
 
   @override
-  String toString() {
-    return '''
+  String toString() =>
+      '''
 HumanChatMessage{
   content: $content,
 }''';
-  }
 }
 
 @immutable
@@ -703,13 +679,12 @@ class AIChatMessage extends ChatMessage {
   }
 
   @override
-  String toString() {
-    return '''
+  String toString() =>
+      '''
 AIChatMessage{
   content: $content,
   toolCalls: $toolCalls,
 }''';
-  }
 }
 
 @immutable
@@ -747,13 +722,12 @@ class ToolChatMessage extends ChatMessage {
   }
 
   @override
-  String toString() {
-    return '''
+  String toString() =>
+      '''
 ToolChatMessage{
   toolCallId: $toolCallId,
   content: $content,
 }''';
-  }
 }
 
 @immutable
@@ -787,13 +761,12 @@ class CustomChatMessage extends ChatMessage {
   }
 
   @override
-  String toString() {
-    return '''
+  String toString() =>
+      '''
 CustomChatMessage{
   content: $content,
   role: $role,
 }''';
-  }
 }
 // END: Copied core chat model types
 
@@ -801,8 +774,6 @@ CustomChatMessage{
 @immutable
 sealed class ChatMessageContent {
   const ChatMessageContent();
-
-  Map<String, dynamic> toMap() => {};
 
   factory ChatMessageContent.fromMap(Map<String, dynamic> map) =>
       switch (map['type']) {
@@ -829,13 +800,15 @@ sealed class ChatMessageContent {
 
   factory ChatMessageContent.multiModal(final List<ChatMessageContent> parts) =>
       ChatMessageContentMultiModal(parts: parts);
+
+  Map<String, dynamic> toMap() => {};
 }
 
 class ChatMessageContentText extends ChatMessageContent {
   const ChatMessageContentText({required this.text});
-  final String text;
   factory ChatMessageContentText.fromMap(Map<String, dynamic> map) =>
       ChatMessageContentText(text: map['content'] as String);
+  final String text;
   @override
   Map<String, dynamic> toMap() => {
     ...super.toMap(),
@@ -848,12 +821,11 @@ class ChatMessageContentText extends ChatMessageContent {
   @override
   int get hashCode => text.hashCode;
   @override
-  String toString() {
-    return '''
+  String toString() =>
+      '''
 ChatMessageContentText{
   text: $text,
 }''';
-  }
 }
 
 class ChatMessageContentImage extends ChatMessageContent {
@@ -862,9 +834,6 @@ class ChatMessageContentImage extends ChatMessageContent {
     this.mimeType,
     this.detail = ChatMessageContentImageDetail.auto,
   });
-  final String data;
-  final String? mimeType;
-  final ChatMessageContentImageDetail detail;
   factory ChatMessageContentImage.fromMap(Map<String, dynamic> map) =>
       ChatMessageContentImage(
         data: map['data'] as String,
@@ -874,6 +843,9 @@ class ChatMessageContentImage extends ChatMessageContent {
           orElse: () => ChatMessageContentImageDetail.auto,
         ),
       );
+  final String data;
+  final String? mimeType;
+  final ChatMessageContentImageDetail detail;
   @override
   Map<String, dynamic> toMap() => {
     ...super.toMap(),
@@ -891,14 +863,13 @@ class ChatMessageContentImage extends ChatMessageContent {
   @override
   int get hashCode => data.hashCode ^ mimeType.hashCode ^ detail.hashCode;
   @override
-  String toString() {
-    return '''
+  String toString() =>
+      '''
 ChatMessageContentImage{
   url: $data,
   mimeType: $mimeType,
   imageDetail: $detail,
 }''';
-  }
 }
 
 @immutable
@@ -928,12 +899,11 @@ class ChatMessageContentMultiModal extends ChatMessageContent {
   @override
   int get hashCode => parts.hashCode;
   @override
-  String toString() {
-    return '''
+  String toString() =>
+      '''
 ChatMessageContentMultiModal{
   parts: $parts,
 }''';
-  }
 }
 
 enum ChatMessageContentImageDetail { auto, low, high }
@@ -942,13 +912,8 @@ enum ChatMessageContentImageDetail { auto, low, high }
 // BEGIN: Copied ChatToolChoice and subclasses from langchain_core
 sealed class ChatToolChoice {
   const ChatToolChoice();
-
-  static const none = ChatToolChoiceNone();
-  static const auto = ChatToolChoiceAuto();
-  static const required = ChatToolChoiceRequired();
   factory ChatToolChoice.forced({required final String name}) =>
       ChatToolChoiceForced(name: name);
-  Map<String, dynamic> toMap() => {};
   factory ChatToolChoice.fromMap(Map<String, dynamic> map) =>
       switch (map['type']) {
         'none' => ChatToolChoiceNone.fromMap(map),
@@ -958,35 +923,42 @@ sealed class ChatToolChoice {
         null => throw ArgumentError('Type is required'),
         _ => throw UnimplementedError('Unknown type: [39m${map['type']}'),
       };
+
+  static const none = ChatToolChoiceNone();
+  static const auto = ChatToolChoiceAuto();
+  static const required = ChatToolChoiceRequired();
+  Map<String, dynamic> toMap() => {};
 }
 
 final class ChatToolChoiceNone extends ChatToolChoice {
   const ChatToolChoiceNone();
-  @override
-  Map<String, dynamic> toMap() => {...super.toMap(), 'type': 'none'};
   factory ChatToolChoiceNone.fromMap(Map<String, dynamic> map) =>
       const ChatToolChoiceNone();
+  @override
+  Map<String, dynamic> toMap() => {...super.toMap(), 'type': 'none'};
 }
 
 final class ChatToolChoiceAuto extends ChatToolChoice {
   const ChatToolChoiceAuto();
-  @override
-  Map<String, dynamic> toMap() => {...super.toMap(), 'type': 'auto'};
   factory ChatToolChoiceAuto.fromMap(Map<String, dynamic> map) =>
       const ChatToolChoiceAuto();
+  @override
+  Map<String, dynamic> toMap() => {...super.toMap(), 'type': 'auto'};
 }
 
 final class ChatToolChoiceRequired extends ChatToolChoice {
   const ChatToolChoiceRequired();
-  @override
-  Map<String, dynamic> toMap() => {...super.toMap(), 'type': 'required'};
   factory ChatToolChoiceRequired.fromMap(Map<String, dynamic> map) =>
       const ChatToolChoiceRequired();
+  @override
+  Map<String, dynamic> toMap() => {...super.toMap(), 'type': 'required'};
 }
 
 @immutable
 final class ChatToolChoiceForced extends ChatToolChoice {
   const ChatToolChoiceForced({required this.name});
+  factory ChatToolChoiceForced.fromMap(Map<String, dynamic> map) =>
+      ChatToolChoiceForced(name: map['name'] as String);
   final String name;
   @override
   Map<String, dynamic> toMap() => {
@@ -994,8 +966,6 @@ final class ChatToolChoiceForced extends ChatToolChoice {
     'type': 'forced',
     'name': name,
   };
-  factory ChatToolChoiceForced.fromMap(Map<String, dynamic> map) =>
-      ChatToolChoiceForced(name: map['name'] as String);
   @override
   bool operator ==(covariant final ChatToolChoiceForced other) =>
       identical(this, other) ||
@@ -1015,6 +985,15 @@ class AIChatMessageToolCall {
     required this.argumentsRaw,
     required this.arguments,
   });
+
+  /// Converts a map to a [AIChatMessageToolCall].
+  factory AIChatMessageToolCall.fromMap(Map<String, dynamic> map) =>
+      AIChatMessageToolCall(
+        id: map['id'] as String,
+        name: map['name'] as String,
+        argumentsRaw: map['argumentsRaw'] as String,
+        arguments: (map['arguments'] as Map<String, dynamic>?) ?? {},
+      );
 
   /// The id of the tool to call.
   ///
@@ -1038,23 +1017,12 @@ class AIChatMessageToolCall {
   final Map<String, dynamic> arguments;
 
   /// Converts the [AIChatMessageToolCall] to a [Map].
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'name': name,
-      'argumentsRaw': argumentsRaw,
-      'arguments': arguments,
-    };
-  }
-
-  /// Converts a map to a [AIChatMessageToolCall].
-  factory AIChatMessageToolCall.fromMap(Map<String, dynamic> map) =>
-      AIChatMessageToolCall(
-        id: map['id'] as String,
-        name: map['name'] as String,
-        argumentsRaw: map['argumentsRaw'] as String,
-        arguments: (map['arguments'] as Map<String, dynamic>?) ?? {},
-      );
+  Map<String, dynamic> toMap() => {
+    'id': id,
+    'name': name,
+    'argumentsRaw': argumentsRaw,
+    'arguments': arguments,
+  };
 
   @override
   bool operator ==(covariant final AIChatMessageToolCall other) {
@@ -1071,15 +1039,14 @@ class AIChatMessageToolCall {
       id.hashCode ^ name.hashCode ^ argumentsRaw.hashCode ^ arguments.hashCode;
 
   @override
-  String toString() {
-    return '''
+  String toString() =>
+      '''
 AIChatMessageToolCall{
   id: $id,
   name: $name,
   argumentsRaw: $argumentsRaw,
   arguments: $arguments,
 }''';
-  }
 }
 // END: Copied AIChatMessageToolCall
 
@@ -1125,24 +1092,23 @@ class ChatResult extends LanguageModelResult<AIChatMessage> {
   String get outputAsString => output.content;
 
   @override
-  ChatResult concat(final LanguageModelResult<AIChatMessage> other) {
-    return ChatResult(
-      id: other.id.isNotEmpty ? other.id : id,
-      output: output.concat(other.output),
-      finishReason:
-          finishReason != FinishReason.unspecified &&
-              other.finishReason == FinishReason.unspecified
-          ? finishReason
-          : other.finishReason,
-      metadata: {...metadata, ...other.metadata},
-      usage: usage.concat(other.usage),
-      streaming: other.streaming,
-    );
-  }
+  ChatResult concat(final LanguageModelResult<AIChatMessage> other) =>
+      ChatResult(
+        id: other.id.isNotEmpty ? other.id : id,
+        output: output.concat(other.output),
+        finishReason:
+            finishReason != FinishReason.unspecified &&
+                other.finishReason == FinishReason.unspecified
+            ? finishReason
+            : other.finishReason,
+        metadata: {...metadata, ...other.metadata},
+        usage: usage.concat(other.usage),
+        streaming: other.streaming,
+      );
 
   @override
-  String toString() {
-    return '''
+  String toString() =>
+      '''
 ChatResult{
   id: $id, 
   output: $output,
@@ -1151,283 +1117,6 @@ ChatResult{
   usage: $usage,
   streaming: $streaming
 }''';
-  }
 }
 
 // END: Copied ChatResult
-
-// Copied from langchain_google/lib/src/chat_models/google_ai/types.dart
-/// {@template chat_google_generative_ai_options}
-/// Options to pass into the Google Generative AI Chat Model.
-///
-/// You can find a list of available models [here](https://ai.google.dev/models).
-/// {@endtemplate}
-@immutable
-class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
-  /// {@macro chat_google_generative_ai_options}
-  const ChatGoogleGenerativeAIOptions({
-    super.model,
-    this.topP,
-    this.topK,
-    this.candidateCount,
-    this.maxOutputTokens,
-    this.temperature,
-    this.stopSequences,
-    this.responseMimeType,
-    this.responseSchema,
-    this.safetySettings,
-    this.enableCodeExecution,
-    super.tools,
-    super.toolChoice,
-    super.concurrencyLimit,
-  });
-
-  final double? topP;
-  final int? topK;
-  final int? candidateCount;
-  final int? maxOutputTokens;
-  final double? temperature;
-  final List<String>? stopSequences;
-  final String? responseMimeType;
-  final Map<String, dynamic>? responseSchema;
-  final List<ChatGoogleGenerativeAISafetySetting>? safetySettings;
-  final bool? enableCodeExecution;
-
-  @override
-  ChatGoogleGenerativeAIOptions copyWith({
-    final String? model,
-    final double? topP,
-    final int? topK,
-    final int? candidateCount,
-    final int? maxOutputTokens,
-    final double? temperature,
-    final List<String>? stopSequences,
-    final List<ChatGoogleGenerativeAISafetySetting>? safetySettings,
-    final bool? enableCodeExecution,
-    final List<ToolSpec>? tools,
-    final ChatToolChoice? toolChoice,
-    final int? concurrencyLimit,
-  }) {
-    return ChatGoogleGenerativeAIOptions(
-      model: model ?? this.model,
-      topP: topP ?? this.topP,
-      topK: topK ?? this.topK,
-      candidateCount: candidateCount ?? this.candidateCount,
-      maxOutputTokens: maxOutputTokens ?? this.maxOutputTokens,
-      temperature: temperature ?? this.temperature,
-      stopSequences: stopSequences ?? this.stopSequences,
-      safetySettings: safetySettings ?? this.safetySettings,
-      enableCodeExecution: enableCodeExecution ?? this.enableCodeExecution,
-      tools: tools ?? this.tools,
-      toolChoice: toolChoice ?? this.toolChoice,
-      concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
-    );
-  }
-
-  @override
-  ChatGoogleGenerativeAIOptions merge(
-    covariant final ChatGoogleGenerativeAIOptions? other,
-  ) {
-    return copyWith(
-      model: other?.model,
-      topP: other?.topP,
-      topK: other?.topK,
-      candidateCount: other?.candidateCount,
-      maxOutputTokens: other?.maxOutputTokens,
-      temperature: other?.temperature,
-      stopSequences: other?.stopSequences,
-      safetySettings: other?.safetySettings,
-      enableCodeExecution: other?.enableCodeExecution,
-      tools: other?.tools,
-      toolChoice: other?.toolChoice,
-      concurrencyLimit: other?.concurrencyLimit,
-    );
-  }
-
-  @override
-  bool operator ==(covariant final ChatGoogleGenerativeAIOptions other) {
-    return model == other.model &&
-        topP == other.topP &&
-        topK == other.topK &&
-        candidateCount == other.candidateCount &&
-        maxOutputTokens == other.maxOutputTokens &&
-        temperature == other.temperature &&
-        stopSequences == other.stopSequences &&
-        safetySettings == other.safetySettings &&
-        enableCodeExecution == other.enableCodeExecution &&
-        tools == other.tools &&
-        toolChoice == other.toolChoice &&
-        concurrencyLimit == other.concurrencyLimit;
-  }
-
-  @override
-  int get hashCode {
-    return model.hashCode ^
-        topP.hashCode ^
-        topK.hashCode ^
-        candidateCount.hashCode ^
-        maxOutputTokens.hashCode ^
-        temperature.hashCode ^
-        stopSequences.hashCode ^
-        safetySettings.hashCode ^
-        enableCodeExecution.hashCode ^
-        tools.hashCode ^
-        toolChoice.hashCode ^
-        concurrencyLimit.hashCode;
-  }
-}
-
-/// {@template chat_google_generative_ai_safety_setting}
-/// Safety setting, affecting the safety-blocking behavior.
-/// Passing a safety setting for a category changes the allowed probability that
-/// content is blocked.
-/// {@endtemplate}
-class ChatGoogleGenerativeAISafetySetting {
-  /// {@macro chat_google_generative_ai_safety_setting}
-  const ChatGoogleGenerativeAISafetySetting({
-    required this.category,
-    required this.threshold,
-  });
-
-  final ChatGoogleGenerativeAISafetySettingCategory category;
-  final ChatGoogleGenerativeAISafetySettingThreshold threshold;
-}
-
-enum ChatGoogleGenerativeAISafetySettingCategory {
-  unspecified,
-  harassment,
-  hateSpeech,
-  sexuallyExplicit,
-  dangerousContent,
-}
-
-enum ChatGoogleGenerativeAISafetySettingThreshold {
-  unspecified,
-  blockLowAndAbove,
-  blockMediumAndAbove,
-  blockOnlyHigh,
-  blockNone,
-}
-
-// Copied from langchain_google/lib/src/chat_models/vertex_ai/types.dart
-/// {@template chat_vertex_ai_options}
-/// Options to pass into the Vertex AI Chat Model.
-///
-/// You can find a list of available models here:
-/// https://cloud.google.com/vertex-ai/docs/generative-ai/learn/models
-/// {@endtemplate}
-@immutable
-class ChatVertexAIOptions extends ChatModelOptions {
-  /// {@macro chat_vertex_ai_options}
-  const ChatVertexAIOptions({
-    this.publisher,
-    super.model,
-    this.maxOutputTokens,
-    this.temperature,
-    this.topP,
-    this.topK,
-    this.stopSequences,
-    this.candidateCount,
-    this.examples,
-    super.concurrencyLimit,
-  });
-
-  final String? publisher;
-  final int? maxOutputTokens;
-  final double? temperature;
-  final double? topP;
-  final int? topK;
-  final List<String>? stopSequences;
-  final int? candidateCount;
-  final List<ChatExample>? examples;
-
-  @override
-  ChatVertexAIOptions copyWith({
-    final String? publisher,
-    final String? model,
-    final int? maxOutputTokens,
-    final double? temperature,
-    final double? topP,
-    final int? topK,
-    final List<String>? stopSequences,
-    final int? candidateCount,
-    final List<ChatExample>? examples,
-    final List<ToolSpec>? tools,
-    final ChatToolChoice? toolChoice,
-    final int? concurrencyLimit,
-  }) {
-    return ChatVertexAIOptions(
-      publisher: publisher ?? this.publisher,
-      model: model ?? this.model,
-      maxOutputTokens: maxOutputTokens ?? this.maxOutputTokens,
-      temperature: temperature ?? this.temperature,
-      topP: topP ?? this.topP,
-      topK: topK ?? this.topK,
-      stopSequences: stopSequences ?? this.stopSequences,
-      candidateCount: candidateCount ?? this.candidateCount,
-      examples: examples ?? this.examples,
-      concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
-    );
-  }
-
-  @override
-  ChatVertexAIOptions merge(covariant ChatVertexAIOptions? other) {
-    return copyWith(
-      publisher: other?.publisher,
-      model: other?.model,
-      maxOutputTokens: other?.maxOutputTokens,
-      temperature: other?.temperature,
-      topP: other?.topP,
-      topK: other?.topK,
-      stopSequences: other?.stopSequences,
-      candidateCount: other?.candidateCount,
-      examples: other?.examples,
-      concurrencyLimit: other?.concurrencyLimit,
-    );
-  }
-
-  @override
-  bool operator ==(covariant final ChatVertexAIOptions other) {
-    return publisher == other.publisher &&
-        model == other.model &&
-        maxOutputTokens == other.maxOutputTokens &&
-        temperature == other.temperature &&
-        topP == other.topP &&
-        topK == other.topK &&
-        const ListEquality<String>().equals(
-          stopSequences,
-          other.stopSequences,
-        ) &&
-        candidateCount == other.candidateCount &&
-        const ListEquality<ChatExample>().equals(examples, other.examples) &&
-        concurrencyLimit == other.concurrencyLimit;
-  }
-
-  @override
-  int get hashCode {
-    return publisher.hashCode ^
-        model.hashCode ^
-        maxOutputTokens.hashCode ^
-        temperature.hashCode ^
-        topP.hashCode ^
-        topK.hashCode ^
-        const ListEquality<String>().hash(stopSequences) ^
-        candidateCount.hashCode ^
-        const ListEquality<ChatExample>().hash(examples) ^
-        concurrencyLimit.hashCode;
-  }
-}
-
-/// {@template chat_example}
-/// An example of a conversation between the end-user and the model.
-/// {@endtemplate}
-class ChatExample {
-  /// {@macro chat_example}
-  const ChatExample({required this.input, required this.output});
-
-  /// An example of an input message from the user.
-  final ChatMessage input;
-
-  /// An example of what the model should output given the input.
-  final ChatMessage output;
-}

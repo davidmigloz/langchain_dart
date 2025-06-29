@@ -5,6 +5,7 @@ import 'package:vertex_ai/vertex_ai.dart';
 import '../../prompts/types.dart';
 import '../base.dart';
 import '../types.dart';
+import '../vertex_ai/types.dart' show ChatVertexAIOptions;
 import 'mappers.dart';
 
 /// {@template chat_vertex_ai}

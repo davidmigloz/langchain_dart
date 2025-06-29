@@ -3,42 +3,40 @@ import 'package:vertex_ai/vertex_ai.dart';
 
 import '../../language_models/types.dart';
 import '../types.dart';
+import '../vertex_ai/types.dart' show ChatExample;
 
 const _authorUser = 'USER';
 const _authorAI = 'AI';
 
 extension ChatMessageMapper on ChatMessage {
-  VertexAITextChatModelMessage toVertexAIChatMessage() {
-    return switch (this) {
-      final HumanChatMessage humanChatMessage => VertexAITextChatModelMessage(
-        author: _authorUser,
-        content: switch (humanChatMessage.content) {
-          final ChatMessageContentText c => c.text,
-          _ => throw UnsupportedError(
-            'VertexAI only support ChatMessageContentText',
-          ),
-        },
-      ),
-      final AIChatMessage aiChatMessage => VertexAITextChatModelMessage(
-        author: _authorAI,
-        content: aiChatMessage.content,
-      ),
-      final CustomChatMessage customChatMessage => VertexAITextChatModelMessage(
-        author: customChatMessage.role,
-        content: customChatMessage.content,
-      ),
-      _ => throw UnsupportedError('Unsupported ChatMessage type $this'),
-    };
-  }
+  VertexAITextChatModelMessage toVertexAIChatMessage() => switch (this) {
+    final HumanChatMessage humanChatMessage => VertexAITextChatModelMessage(
+      author: _authorUser,
+      content: switch (humanChatMessage.content) {
+        final ChatMessageContentText c => c.text,
+        _ => throw UnsupportedError(
+          'VertexAI only support ChatMessageContentText',
+        ),
+      },
+    ),
+    final AIChatMessage aiChatMessage => VertexAITextChatModelMessage(
+      author: _authorAI,
+      content: aiChatMessage.content,
+    ),
+    final CustomChatMessage customChatMessage => VertexAITextChatModelMessage(
+      author: customChatMessage.role,
+      content: customChatMessage.content,
+    ),
+    _ => throw UnsupportedError('Unsupported ChatMessage type $this'),
+  };
 }
 
 extension ChatExampleMapper on ChatExample {
-  VertexAITextChatModelExample toVertexAIChatExample() {
-    return VertexAITextChatModelExample(
-      input: input.toVertexAIChatMessage(),
-      output: output.toVertexAIChatMessage(),
-    );
-  }
+  VertexAITextChatModelExample toVertexAIChatExample() =>
+      VertexAITextChatModelExample(
+        input: input.toVertexAIChatMessage(),
+        output: output.toVertexAIChatMessage(),
+      );
 }
 
 extension VertexAITextChatModelResponseMapper on VertexAITextChatModelResponse {
@@ -60,13 +58,11 @@ extension VertexAITextChatModelResponseMapper on VertexAITextChatModelResponse {
 
   LanguageModelUsage _mapUsage(
     final VertexAITextChatModelResponseMetadataToken usage,
-  ) {
-    return LanguageModelUsage(
-      promptTokens: usage.inputTotalTokens,
-      promptBillableCharacters: usage.inputTotalBillableCharacters,
-      responseTokens: usage.outputTotalTokens,
-      responseBillableCharacters: usage.outputTotalBillableCharacters,
-      totalTokens: usage.inputTotalTokens + usage.outputTotalTokens,
-    );
-  }
+  ) => LanguageModelUsage(
+    promptTokens: usage.inputTotalTokens,
+    promptBillableCharacters: usage.inputTotalBillableCharacters,
+    responseTokens: usage.outputTotalTokens,
+    responseBillableCharacters: usage.outputTotalBillableCharacters,
+    totalTokens: usage.inputTotalTokens + usage.outputTotalTokens,
+  );
 }

@@ -1,11 +1,15 @@
 import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:googleai_dart/googleai_dart.dart' show GenerateContentRequest;
 import 'package:http/http.dart' as http;
 import 'package:http/retry.dart' show RetryClient;
 import 'package:uuid/uuid.dart';
 
 import '../../prompts/types.dart';
+import '../../runnables/runnable.dart' show Runnable;
+import '../../runnables/runnables.dart' show Runnable;
 import '../../utils/https_client/http_client.dart';
 import '../base.dart';
+import '../google_ai/types.dart' show ChatGoogleGenerativeAIOptions;
 import '../types.dart';
 import 'mappers.dart';
 
@@ -382,16 +386,14 @@ class ChatGoogleGenerativeAI
     final String? apiKey,
     final CustomHttpClient? httpClient,
     final String? systemInstruction,
-  }) {
-    return GenerativeModel(
-      model: model,
-      apiKey: apiKey ?? this.apiKey,
-      httpClient: httpClient ?? _httpClient,
-      systemInstruction: systemInstruction != null
-          ? Content.system(systemInstruction)
-          : null,
-    );
-  }
+  }) => GenerativeModel(
+    model: model,
+    apiKey: apiKey ?? this.apiKey,
+    httpClient: httpClient ?? _httpClient,
+    systemInstruction: systemInstruction != null
+        ? Content.system(systemInstruction)
+        : null,
+  );
 
   /// Recreate the [GenerativeModel] instance.
   void _recreateGoogleAiClient(
