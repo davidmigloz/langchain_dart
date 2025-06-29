@@ -70,7 +70,7 @@ extension ChatMessagesMapper on List<ChatMessage> {
     Map<String, Object?>? response;
     try {
       response = jsonDecode(msg.content) as Map<String, Object?>;
-    } catch (_) {
+    } on Exception catch (_) {
       response = {'result': msg.content};
     }
 

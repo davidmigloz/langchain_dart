@@ -44,7 +44,7 @@ class RunnableWithFallback<RunInput extends Object?, RunOutput extends Object?>
               ? options
               : runnable.getCompatibleOptions(options),
         );
-      } catch (e) {
+      } on Exception catch (e) {
         firstError ??= e;
       }
     }
@@ -74,7 +74,7 @@ class RunnableWithFallback<RunInput extends Object?, RunOutput extends Object?>
 
       try {
         return await runnable.batch(inputs, options: currentOptions);
-      } catch (e) {
+      } on Exception catch (e) {
         firstError ??= e;
       }
     }
@@ -96,7 +96,7 @@ class RunnableWithFallback<RunInput extends Object?, RunOutput extends Object?>
           yield output;
         }
         return;
-      } catch (e) {
+      } on Exception catch (e) {
         firstError ??= e;
       }
     }

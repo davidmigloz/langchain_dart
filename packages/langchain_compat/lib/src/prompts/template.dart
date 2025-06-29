@@ -56,7 +56,7 @@ void checkValidPromptTemplate({
     renderTemplate(template: template, inputValues: dummyInputs);
   } on TemplateValidationException {
     rethrow;
-  } catch (e) {
+  } on Exception catch (e) {
     throw TemplateValidationException(message: '$e');
   }
 }
@@ -102,7 +102,7 @@ void checkValidChatPromptTemplate({
     }
   } on TemplateValidationException {
     rethrow;
-  } catch (e) {
+  } on Exception catch (e) {
     throw TemplateValidationException(message: '$e');
   }
 }
@@ -127,17 +127,16 @@ String renderFStringTemplate(
   final String template,
   final InputValues inputValues,
 ) => parseFStringTemplate(template)
-      .map(
-        (final node) => switch (node) {
-          ParsedFStringLiteralNode(text: final t) => t,
-          ParsedFStringVariableNode(name: final n) =>
-            ArgumentError.checkNotNull(
-              inputValues[n],
-              'Missing value for variable ${node.name}',
-            ),
-        },
-      )
-      .join();
+    .map(
+      (final node) => switch (node) {
+        ParsedFStringLiteralNode(text: final t) => t,
+        ParsedFStringVariableNode(name: final n) => ArgumentError.checkNotNull(
+          inputValues[n],
+          'Missing value for variable ${node.name}',
+        ),
+      },
+    )
+    .join();
 
 /// Parses a template in fString format.
 List<ParsedFStringNode> parseFStringTemplate(final String template) {

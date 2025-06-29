@@ -23,7 +23,7 @@ final class FakeTool extends StringTool<ToolOptions> {
   }) async {
     try {
       return toolInput;
-    } catch (e) {
+    } on Exception catch (e) {
       return "I don't know how to do that.";
     }
   }

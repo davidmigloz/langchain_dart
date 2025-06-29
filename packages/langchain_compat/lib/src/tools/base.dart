@@ -78,7 +78,8 @@ class ToolSpec {
       strict.hashCode;
 
   @override
-  String toString() => '''
+  String toString() =>
+      '''
 ToolSpec{
   name: $name,
   description: $description,
@@ -89,11 +90,11 @@ ToolSpec{
 
   /// Converts the tool spec to a JSON-serializable map.
   Map<String, dynamic> toJson() => {
-      'name': name,
-      'description': description,
-      'inputJsonSchema': inputJsonSchema,
-      'strict': strict,
-    };
+    'name': name,
+    'description': description,
+    'inputJsonSchema': inputJsonSchema,
+    'strict': strict,
+  };
 }
 
 /// {@template tool}
@@ -167,30 +168,31 @@ abstract base class Tool<
   /// - [handleToolError] is a function that handles the content of the
   ///   [ToolException] thrown by the tool.
   static Tool fromFunction<Input extends Object, Output extends Object>({
-    required final String name,
-    required final String description,
-    required final Map<String, dynamic> inputJsonSchema,
-    required final FutureOr<Output> Function(Input input) func, final bool strict = false,
+    required String name,
+    required String description,
+    required Map<String, dynamic> inputJsonSchema,
+    required FutureOr<Output> Function(Input input) func,
+    bool strict = false,
     Input Function(Map<String, dynamic> json)? getInputFromJson,
-    final bool returnDirect = false,
-    final Output Function(ToolException)? handleToolError,
+    bool returnDirect = false,
+    Output Function(ToolException)? handleToolError,
   }) => _ToolFunc<Input, Output>(
-      name: name,
-      description: description,
-      inputJsonSchema: inputJsonSchema,
-      strict: strict,
-      function: func,
-      getInputFromJson: getInputFromJson ?? (json) => json['input'] as Input,
-      returnDirect: returnDirect,
-      handleToolError: handleToolError,
-    );
+    name: name,
+    description: description,
+    inputJsonSchema: inputJsonSchema,
+    strict: strict,
+    function: func,
+    getInputFromJson: getInputFromJson ?? (json) => json['input'] as Input,
+    returnDirect: returnDirect,
+    handleToolError: handleToolError,
+  );
 
   /// Runs the tool.
   ///
   /// - [input] is the input to the tool.
   /// - [options] is the options to pass to the tool.
   @override
-  Future<Output> invoke(final Input input, {final Options? options}) async {
+  Future<Output> invoke(Input input, {Options? options}) async {
     try {
       return invokeInternal(input, options: options);
     } on ToolException catch (e) {
@@ -199,14 +201,14 @@ abstract base class Tool<
       } else {
         rethrow;
       }
-    } catch (e) {
+    } on Exception catch (e) {
       rethrow;
     }
   }
 
   /// Actual implementation of [invoke] method logic.
   @protected
-  Future<Output> invokeInternal(final Input input, {final Options? options});
+  Future<Output> invokeInternal(Input input, {Options? options});
 
   /// Streams the tool's output for the input resulting from
   /// reducing the input stream.
@@ -215,8 +217,8 @@ abstract base class Tool<
   /// - [options] is the options to pass to the tool.
   @override
   Stream<Output> streamFromInputStream(
-    final Stream<Input> inputStream, {
-    final Options? options,
+    Stream<Input> inputStream, {
+    Options? options,
   }) async* {
     final input = await inputStream.toList();
     final reduced = reduce<Input>(input);
@@ -224,7 +226,7 @@ abstract base class Tool<
   }
 
   /// Parses the input JSON to the tool's input type.
-  Input getInputFromJson(final Map<String, dynamic> json);
+  Input getInputFromJson(Map<String, dynamic> json);
 
   @override
   bool operator ==(covariant final ToolSpec other) {
@@ -245,11 +247,11 @@ abstract base class Tool<
 
   @override
   Map<String, dynamic> toJson() => {
-      'name': name,
-      'description': description,
-      'inputJsonSchema': inputJsonSchema,
-      'strict': strict,
-    };
+    'name': name,
+    'description': description,
+    'inputJsonSchema': inputJsonSchema,
+    'strict': strict,
+  };
 }
 
 /// {@template tool_func}
@@ -285,5 +287,6 @@ final class _ToolFunc<Input extends Object, Output extends Object>
   }) async => _function(toolInput);
 
   @override
-  Input getInputFromJson(final Map<String, dynamic> json) => _getInputFromJson(json);
+  Input getInputFromJson(final Map<String, dynamic> json) =>
+      _getInputFromJson(json);
 }

@@ -57,7 +57,7 @@ FutureOr<T> retryClient<T>({
   for (var attempt = 0; attempt < options.maxRetries; attempt++) {
     try {
       return await fn();
-    } catch (e) {
+    } on Exception catch (e) {
       final isLastAttempt = attempt == options.maxRetries - 1;
       final shouldRetry = await options.retryIf?.call(e) ?? true;
 

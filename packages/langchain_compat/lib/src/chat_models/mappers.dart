@@ -10,9 +10,9 @@ import 'types.dart';
 
 /// Creates a [CreateChatCompletionRequest] from the given input.
 CreateChatCompletionRequest createChatCompletionRequest(
-  final List<ChatMessage> messages, {
-  required final ChatOpenAIOptions? options,
-  required final ChatOpenAIOptions defaultOptions,
+  List<ChatMessage> messages, {
+  required ChatOpenAIOptions? options,
+  required ChatOpenAIOptions defaultOptions,
   final bool stream = false,
 }) {
   final messagesDtos = messages.toChatCompletionMessages();
@@ -210,7 +210,7 @@ extension CreateChatCompletionResponseMapper on CreateChatCompletionResponse {
       args = tooCall.function.arguments.isEmpty
           ? {}
           : json.decode(tooCall.function.arguments);
-    } catch (_) {}
+    } on Exception catch (_) {}
     return AIChatMessageToolCall(
       id: tooCall.id,
       name: tooCall.function.name,
@@ -299,7 +299,7 @@ extension CreateChatCompletionStreamResponseMapper
     var args = <String, dynamic>{};
     try {
       args = json.decode(toolCall.function?.arguments ?? '');
-    } catch (_) {}
+    } on Exception catch (_) {}
     return AIChatMessageToolCall(
       id: toolCall.id ?? '',
       name: toolCall.function?.name ?? '',

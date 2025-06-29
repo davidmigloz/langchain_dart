@@ -15,7 +15,7 @@ Future<void> main() async {
     try {
       chatModel = provider.createModel();
     } on Exception catch (e) {
-      print('${provider.displayName}: ERROR creating model: $e');
+      print('[31m${provider.displayName}: ERROR creating model: $e[0m');
       continue;
     }
     try {
@@ -35,32 +35,8 @@ Future<void> main() async {
         }
         print('');
       }
-    } catch (e) {
-      print('${provider.displayName}: STREAM ERROR: $e');
+    } on Exception catch (e) {
+      print('[31m${provider.displayName}: STREAM ERROR: $e[0m');
     }
   }
-}
-
-Future<String> sendPrompt(
-  BaseChatModel model,
-  String promptText, {
-  ChatOpenAIOptions? options,
-}) async {
-  final prompt = PromptValue.chat([ChatMessage.humanText(promptText)]);
-  final output = await model.invoke(prompt, options: options);
-  return output.outputAsString;
-}
-
-Future<void> streamPrompt(
-  BaseChatModel model,
-  String promptText,
-  String provider,
-) async {
-  final prompt = PromptValue.chat([ChatMessage.humanText(promptText)]);
-  final stream = model.stream(prompt);
-  stdout.write('$provider (${model.modelType}): ');
-  await for (final chunk in stream) {
-    stdout.write(chunk.output.content);
-  }
-  print('');
 }
