@@ -12,6 +12,8 @@ const String googleAIDefaultModel = 'gemini-1.5-flash';
 
 /// Vertex AI defaults
 const String vertexAIDefaultPublisher = 'google';
+
+/// Vertex AI defaults
 const String vertexAIDefaultModel = 'chat-bison';
 
 /// Default options for each provider
@@ -457,10 +459,8 @@ sealed class ChatMessage {
     required String toolCallId,
     required String content,
   }) => ToolChatMessage(toolCallId: toolCallId, content: content);
-  factory ChatMessage.custom(
-    String content, {
-    required String role,
-  }) => CustomChatMessage(content: content, role: role);
+  factory ChatMessage.custom(String content, {required String role}) =>
+      CustomChatMessage(content: content, role: role);
   Map<String, dynamic> toMap() => {};
   String get contentAsString => switch (this) {
     final SystemChatMessage system => system.content,
@@ -1078,19 +1078,18 @@ class ChatResult extends LanguageModelResult<AIChatMessage> {
   String get outputAsString => output.content;
 
   @override
-  ChatResult concat(LanguageModelResult<AIChatMessage> other) =>
-      ChatResult(
-        id: other.id.isNotEmpty ? other.id : id,
-        output: output.concat(other.output),
-        finishReason:
-            finishReason != FinishReason.unspecified &&
-                other.finishReason == FinishReason.unspecified
-            ? finishReason
-            : other.finishReason,
-        metadata: {...metadata, ...other.metadata},
-        usage: usage.concat(other.usage),
-        streaming: other.streaming,
-      );
+  ChatResult concat(LanguageModelResult<AIChatMessage> other) => ChatResult(
+    id: other.id.isNotEmpty ? other.id : id,
+    output: output.concat(other.output),
+    finishReason:
+        finishReason != FinishReason.unspecified &&
+            other.finishReason == FinishReason.unspecified
+        ? finishReason
+        : other.finishReason,
+    metadata: {...metadata, ...other.metadata},
+    usage: usage.concat(other.usage),
+    streaming: other.streaming,
+  );
 
   @override
   String toString() =>

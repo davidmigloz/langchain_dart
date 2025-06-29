@@ -10,6 +10,7 @@ abstract class ProviderInfo {
     required this.defaultBaseUrl,
     required this.apiKeyEnvVar,
   });
+
   final String shortName;
   final String displayName;
   final String defaultModel;
@@ -33,6 +34,7 @@ class OpenAIProviderInfo extends ProviderInfo {
       ChatOpenAI(
         apiKey: apiKey ?? Platform.environment[apiKeyEnvVar] ?? '',
         baseUrl: baseUrl ?? defaultBaseUrl,
+        defaultOptions: ChatOpenAIOptions(model: model ?? defaultModel),
       );
 }
 
@@ -127,7 +129,7 @@ final providers = <String, ProviderInfo>{
     shortName: 'gemini-openai',
     displayName: 'Gemini (Google AI, OpenAI-compatible)',
     defaultModel: 'gemini-2.0-flash',
-    defaultBaseUrl: 'https://generativelanguage.googleapis.com/v1beta/openai/',
+    defaultBaseUrl: 'https://generativelanguage.googleapis.com/v1beta/openai',
     apiKeyEnvVar: 'GEMINI_API_KEY',
   ),
   'gemini-native': const GoogleAIProviderInfo(

@@ -146,28 +146,27 @@ class GoogleGenerativeAIEmbeddings implements Embeddings {
   String docTitleKey;
 
   /// Set or replace the API key.
-  set apiKey(String value) =>
-      _httpClient.headers['x-goog-api-key'] = value;
+  set apiKey(String value) => _httpClient.headers['x-goog-api-key'] = value;
 
   /// Get the API key.
   String get apiKey => _httpClient.headers['x-goog-api-key'] ?? '';
 
   @override
-  Future<List<List<double>>> embedDocuments(
-    List<Document> documents,
-  ) async {
+  Future<List<List<double>>> embedDocuments(List<Document> documents) async {
     final batches = chunkList(documents, chunkSize: batchSize);
 
     final embeddings = await Future.wait(
       batches.map((batch) async {
         final data = await _googleAiClient.batchEmbedContents(
           batch
-              .map((doc) => EmbedContentRequest(
+              .map(
+                (doc) => EmbedContentRequest(
                   Content.text(doc.pageContent),
                   taskType: TaskType.retrievalDocument,
                   title: doc.metadata[docTitleKey],
                   outputDimensionality: dimensions,
-                ))
+                ),
+              )
               .toList(growable: false),
         );
         return data.embeddings
@@ -201,10 +200,10 @@ class GoogleGenerativeAIEmbeddings implements Embeddings {
     String? apiKey,
     CustomHttpClient? httpClient,
   ]) => GenerativeModel(
-      model: model,
-      apiKey: apiKey ?? this.apiKey,
-      httpClient: httpClient ?? _httpClient,
-    );
+    model: model,
+    apiKey: apiKey ?? this.apiKey,
+    httpClient: httpClient ?? _httpClient,
+  );
 
   /// Recreate the [GenerativeModel] instance.
   void _recreateGoogleAiClient(String model) {

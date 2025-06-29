@@ -68,8 +68,8 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
   final double? temperature;
 
   /// The set of character sequences (up to 5) that will stop output generation.
-  /// If specified, the API will stop at the first appearance of a stop sequence.
-  /// The stop sequence will not be included as part of the response.
+  /// If specified, the API will stop at the first appearance of a stop
+  /// sequence. The stop sequence will not be included as part of the response.
   final List<String>? stopSequences;
 
   /// Output response mimetype of the generated candidate text.
@@ -105,22 +105,23 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
   /// ```
   final Map<String, dynamic>? responseSchema;
 
-  /// A list of unique [ChatGoogleGenerativeAISafetySetting] instances for blocking
-  /// unsafe content.
+  /// A list of unique [ChatGoogleGenerativeAISafetySetting] instances for
+  /// blocking unsafe content.
   ///
-  /// This will be enforced on the generated output. There should not be more than
-  /// one setting for each type. The API will block any contents and responses that
-  /// fail to meet the thresholds set by these settings.
+  /// This will be enforced on the generated output. There should not be more
+  /// than one setting for each type. The API will block any contents and
+  /// responses that fail to meet the thresholds set by these settings.
   ///
-  /// This list overrides the default settings for each category specified. If there
-  /// is no safety setting for a given category provided in the list, the API will use
-  /// the default safety setting for that category.
+  /// This list overrides the default settings for each category specified. If
+  /// there is no safety setting for a given category provided in the list, the
+  /// API will use the default safety setting for that category.
   final List<ChatGoogleGenerativeAISafetySetting>? safetySettings;
 
-  /// When code execution is enabled the model may generate code and run it in the
-  /// process of generating a response to the prompt. When this happens the code
-  /// that was executed and it's output will be included in the response metadata
-  /// as `metadata['executable_code']` and `metadata['code_execution_result']`.
+  /// When code execution is enabled the model may generate code and run it in
+  /// the process of generating a response to the prompt. When this happens the
+  /// code that was executed and it's output will be included in the response
+  /// metadata as `metadata['executable_code']` and
+  /// `metadata['code_execution_result']`.
   final bool? enableCodeExecution;
 
   @override
@@ -138,65 +139,67 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
     ChatToolChoice? toolChoice,
     int? concurrencyLimit,
   }) => ChatGoogleGenerativeAIOptions(
-      model: model ?? this.model,
-      topP: topP ?? this.topP,
-      topK: topK ?? this.topK,
-      candidateCount: candidateCount ?? this.candidateCount,
-      maxOutputTokens: maxOutputTokens ?? this.maxOutputTokens,
-      temperature: temperature ?? this.temperature,
-      stopSequences: stopSequences ?? this.stopSequences,
-      safetySettings: safetySettings ?? this.safetySettings,
-      enableCodeExecution: enableCodeExecution ?? this.enableCodeExecution,
-      tools: tools ?? this.tools,
-      toolChoice: toolChoice ?? this.toolChoice,
-      concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
-    );
+    model: model ?? this.model,
+    topP: topP ?? this.topP,
+    topK: topK ?? this.topK,
+    candidateCount: candidateCount ?? this.candidateCount,
+    maxOutputTokens: maxOutputTokens ?? this.maxOutputTokens,
+    temperature: temperature ?? this.temperature,
+    stopSequences: stopSequences ?? this.stopSequences,
+    safetySettings: safetySettings ?? this.safetySettings,
+    enableCodeExecution: enableCodeExecution ?? this.enableCodeExecution,
+    tools: tools ?? this.tools,
+    toolChoice: toolChoice ?? this.toolChoice,
+    concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
+  );
 
   @override
   ChatGoogleGenerativeAIOptions merge(
     covariant ChatGoogleGenerativeAIOptions? other,
   ) => copyWith(
-      model: other?.model,
-      topP: other?.topP,
-      topK: other?.topK,
-      candidateCount: other?.candidateCount,
-      maxOutputTokens: other?.maxOutputTokens,
-      temperature: other?.temperature,
-      stopSequences: other?.stopSequences,
-      safetySettings: other?.safetySettings,
-      enableCodeExecution: other?.enableCodeExecution,
-      tools: other?.tools,
-      toolChoice: other?.toolChoice,
-      concurrencyLimit: other?.concurrencyLimit,
-    );
+    model: other?.model,
+    topP: other?.topP,
+    topK: other?.topK,
+    candidateCount: other?.candidateCount,
+    maxOutputTokens: other?.maxOutputTokens,
+    temperature: other?.temperature,
+    stopSequences: other?.stopSequences,
+    safetySettings: other?.safetySettings,
+    enableCodeExecution: other?.enableCodeExecution,
+    tools: other?.tools,
+    toolChoice: other?.toolChoice,
+    concurrencyLimit: other?.concurrencyLimit,
+  );
 
   @override
-  bool operator ==(covariant ChatGoogleGenerativeAIOptions other) => model == other.model &&
-        topP == other.topP &&
-        topK == other.topK &&
-        candidateCount == other.candidateCount &&
-        maxOutputTokens == other.maxOutputTokens &&
-        temperature == other.temperature &&
-        stopSequences == other.stopSequences &&
-        safetySettings == other.safetySettings &&
-        enableCodeExecution == other.enableCodeExecution &&
-        tools == other.tools &&
-        toolChoice == other.toolChoice &&
-        concurrencyLimit == other.concurrencyLimit;
+  bool operator ==(covariant ChatGoogleGenerativeAIOptions other) =>
+      model == other.model &&
+      topP == other.topP &&
+      topK == other.topK &&
+      candidateCount == other.candidateCount &&
+      maxOutputTokens == other.maxOutputTokens &&
+      temperature == other.temperature &&
+      stopSequences == other.stopSequences &&
+      safetySettings == other.safetySettings &&
+      enableCodeExecution == other.enableCodeExecution &&
+      tools == other.tools &&
+      toolChoice == other.toolChoice &&
+      concurrencyLimit == other.concurrencyLimit;
 
   @override
-  int get hashCode => model.hashCode ^
-        topP.hashCode ^
-        topK.hashCode ^
-        candidateCount.hashCode ^
-        maxOutputTokens.hashCode ^
-        temperature.hashCode ^
-        stopSequences.hashCode ^
-        safetySettings.hashCode ^
-        enableCodeExecution.hashCode ^
-        tools.hashCode ^
-        toolChoice.hashCode ^
-        concurrencyLimit.hashCode;
+  int get hashCode =>
+      model.hashCode ^
+      topP.hashCode ^
+      topK.hashCode ^
+      candidateCount.hashCode ^
+      maxOutputTokens.hashCode ^
+      temperature.hashCode ^
+      stopSequences.hashCode ^
+      safetySettings.hashCode ^
+      enableCodeExecution.hashCode ^
+      tools.hashCode ^
+      toolChoice.hashCode ^
+      concurrencyLimit.hashCode;
 }
 
 /// {@template chat_google_generative_ai_safety_setting}

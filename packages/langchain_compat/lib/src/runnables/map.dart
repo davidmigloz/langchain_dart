@@ -93,12 +93,14 @@ class RunnableMap<RunInput extends Object>
     );
 
     return StreamGroup.merge(
-      steps.entries.map((entry) => entry.value
+      steps.entries.map(
+        (entry) => entry.value
             .streamFromInputStream(
               subject.stream,
               options: entry.value.getCompatibleOptions(options),
             )
-            .map((output) => {entry.key: output})),
+            .map((output) => {entry.key: output}),
+      ),
     ).asBroadcastStream();
   }
 

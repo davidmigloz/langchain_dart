@@ -156,16 +156,15 @@ extension GenerateContentResponseMapper on g.GenerateContentResponse {
     );
   }
 
-  FinishReason _mapFinishReason(g.FinishReason? reason) =>
-      switch (reason) {
-        g.FinishReason.unspecified => FinishReason.unspecified,
-        g.FinishReason.stop => FinishReason.stop,
-        g.FinishReason.maxTokens => FinishReason.length,
-        g.FinishReason.safety => FinishReason.contentFilter,
-        g.FinishReason.recitation => FinishReason.recitation,
-        g.FinishReason.other => FinishReason.unspecified,
-        null => FinishReason.unspecified,
-      };
+  FinishReason _mapFinishReason(g.FinishReason? reason) => switch (reason) {
+    g.FinishReason.unspecified => FinishReason.unspecified,
+    g.FinishReason.stop => FinishReason.stop,
+    g.FinishReason.maxTokens => FinishReason.length,
+    g.FinishReason.safety => FinishReason.contentFilter,
+    g.FinishReason.recitation => FinishReason.recitation,
+    g.FinishReason.other => FinishReason.unspecified,
+    null => FinishReason.unspecified,
+  };
 }
 
 extension SafetySettingsMapper on List<ChatGoogleGenerativeAISafetySetting> {

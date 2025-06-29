@@ -24,7 +24,8 @@ abstract base class BaseChatPromptTemplate extends BasePromptTemplate {
   String format(InputValues values) => formatPrompt(values).toString();
 
   @override
-  PromptValue formatPrompt(InputValues values) => PromptValue.chat(formatMessages(values));
+  PromptValue formatPrompt(InputValues values) =>
+      PromptValue.chat(formatMessages(values));
 
   /// Format input values into a list of messages.
   List<ChatMessage> formatMessages(InputValues values);

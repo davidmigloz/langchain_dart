@@ -40,10 +40,7 @@ abstract class SimpleLLM<Options extends LLMOptions> extends BaseLLM<Options> {
   const SimpleLLM({required super.defaultOptions});
 
   @override
-  Future<LLMResult> invoke(
-    PromptValue input, {
-    Options? options,
-  }) async {
+  Future<LLMResult> invoke(PromptValue input, {Options? options}) async {
     final output = await callInternal(input.toString(), options: options);
     return LLMResult(
       id: '1',

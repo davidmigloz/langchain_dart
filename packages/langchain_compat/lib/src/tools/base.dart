@@ -1,3 +1,4 @@
+// ignore: lines_longer_than_80_chars
 // ignore_for_file: avoid_equals_and_hash_code_on_mutable_classes, avoid_implementing_value_types, unsafe_variance
 import 'dart:async';
 
@@ -79,14 +80,12 @@ class ToolSpec {
 
   @override
   String toString() =>
-      '''
-ToolSpec{
-  name: $name,
-  description: $description,
-  inputJsonSchema: $inputJsonSchema,
-  strict: $strict,
-}
-''';
+      'ToolSpec{\n'
+      '  name: $name,\n'
+      '  description: $description,\n'
+      '  inputJsonSchema: $inputJsonSchema,\n'
+      '  strict: $strict,\n'
+      '}\n';
 
   /// Converts the tool spec to a JSON-serializable map.
   Map<String, dynamic> toJson() => {
@@ -201,7 +200,7 @@ abstract base class Tool<
       } else {
         rethrow;
       }
-    } on Exception catch (e) {
+    } on Exception catch (_) {
       rethrow;
     }
   }
@@ -287,6 +286,5 @@ final class _ToolFunc<Input extends Object, Output extends Object>
   }) async => _function(toolInput);
 
   @override
-  Input getInputFromJson(Map<String, dynamic> json) =>
-      _getInputFromJson(json);
+  Input getInputFromJson(Map<String, dynamic> json) => _getInputFromJson(json);
 }

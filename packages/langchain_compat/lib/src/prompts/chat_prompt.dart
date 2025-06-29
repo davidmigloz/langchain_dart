@@ -76,7 +76,8 @@ final class ChatPromptTemplate extends BaseChatPromptTemplate {
   /// {@macro chat_prompt_template}
   const ChatPromptTemplate({
     required super.inputVariables,
-    required this.promptMessages, super.partialVariables,
+    required this.promptMessages,
+    super.partialVariables,
   });
 
   /// Creates a chat prompt template with a single message from a string
@@ -104,11 +105,11 @@ final class ChatPromptTemplate extends BaseChatPromptTemplate {
     PartialValues? partialVariables,
     bool validateTemplate = true,
   }) => ChatPromptTemplate.fromTemplates(
-      [(type, template)],
-      customRole: customRole,
-      partialVariables: partialVariables,
-      validateTemplate: validateTemplate,
-    );
+    [(type, template)],
+    customRole: customRole,
+    partialVariables: partialVariables,
+    validateTemplate: validateTemplate,
+  );
 
   /// Creates a [ChatPromptTemplate] from a list of pairs of chat message prompt template type and template.
   ///
@@ -243,10 +244,7 @@ final class ChatPromptTemplate extends BaseChatPromptTemplate {
   @override
   BasePromptTemplate partial(PartialValues values) {
     final newPromptMessages = promptMessages
-        .map(
-          (m) =>
-              m.copyWith(prompt: m.prompt.partial(values)),
-        )
+        .map((m) => m.copyWith(prompt: m.prompt.partial(values)))
         .toList(growable: false);
     return ChatPromptTemplate.fromPromptMessages(newPromptMessages);
   }
@@ -305,7 +303,8 @@ final class ChatPromptTemplate extends BaseChatPromptTemplate {
       promptMessages.hashCode;
 
   @override
-  String toString() => '''
+  String toString() =>
+      '''
 ChatPromptTemplate{
   promptMessages: $promptMessages,
 }''';
@@ -317,10 +316,10 @@ ChatPromptTemplate{
     PartialValues? partialVariables,
     List<ChatMessagePromptTemplate>? promptMessages,
   }) => ChatPromptTemplate(
-      inputVariables: inputVariables ?? this.inputVariables,
-      partialVariables: partialVariables ?? this.partialVariables,
-      promptMessages: promptMessages ?? this.promptMessages,
-    );
+    inputVariables: inputVariables ?? this.inputVariables,
+    partialVariables: partialVariables ?? this.partialVariables,
+    promptMessages: promptMessages ?? this.promptMessages,
+  );
 }
 
 /// The type of a chat message prompt template.
@@ -375,12 +374,12 @@ final class SystemChatMessagePromptTemplate
     PartialValues? partialVariables,
     bool validateTemplate = true,
   }) => SystemChatMessagePromptTemplate(
-      prompt: PromptTemplate.fromTemplate(
-        template,
-        partialVariables: partialVariables,
-        validateTemplate: validateTemplate,
-      ),
-    );
+    prompt: PromptTemplate.fromTemplate(
+      template,
+      partialVariables: partialVariables,
+      validateTemplate: validateTemplate,
+    ),
+  );
 
   /// Load a prompt from a file.
   /// It considers the prompt a [SystemChatMessage].
@@ -403,10 +402,12 @@ final class SystemChatMessagePromptTemplate
   }
 
   @override
-  ChatMessage format([InputValues values = const {}]) => ChatMessage.system(prompt.format(values));
+  ChatMessage format([InputValues values = const {}]) =>
+      ChatMessage.system(prompt.format(values));
 
   @override
-  String toString() => '''
+  String toString() =>
+      '''
 SystemChatMessagePromptTemplate{
   prompt: $prompt,
   inputVariables: $inputVariables,
@@ -414,9 +415,10 @@ SystemChatMessagePromptTemplate{
 }''';
 
   @override
-  StringMessagePromptTemplate copyWith({BasePromptTemplate? prompt}) => SystemChatMessagePromptTemplate(
-      prompt: prompt as PromptTemplate? ?? this.prompt,
-    );
+  StringMessagePromptTemplate copyWith({BasePromptTemplate? prompt}) =>
+      SystemChatMessagePromptTemplate(
+        prompt: prompt as PromptTemplate? ?? this.prompt,
+      );
 }
 
 /// {@template human_chat_message_prompt_template}
@@ -453,12 +455,12 @@ final class HumanChatMessagePromptTemplate extends StringMessagePromptTemplate {
     PartialValues? partialVariables,
     bool validateTemplate = true,
   }) => HumanChatMessagePromptTemplate(
-      prompt: PromptTemplate.fromTemplate(
-        template,
-        partialVariables: partialVariables,
-        validateTemplate: validateTemplate,
-      ),
-    );
+    prompt: PromptTemplate.fromTemplate(
+      template,
+      partialVariables: partialVariables,
+      validateTemplate: validateTemplate,
+    ),
+  );
 
   /// Load a prompt from a file.
   /// It considers the prompt a [HumanChatMessage].
@@ -481,10 +483,12 @@ final class HumanChatMessagePromptTemplate extends StringMessagePromptTemplate {
   }
 
   @override
-  ChatMessage format([InputValues values = const {}]) => ChatMessage.humanText(prompt.format(values));
+  ChatMessage format([InputValues values = const {}]) =>
+      ChatMessage.humanText(prompt.format(values));
 
   @override
-  String toString() => '''
+  String toString() =>
+      '''
 HumanChatMessagePromptTemplate{
   prompt: $prompt,
   inputVariables: $inputVariables,
@@ -492,9 +496,10 @@ HumanChatMessagePromptTemplate{
 }''';
 
   @override
-  StringMessagePromptTemplate copyWith({BasePromptTemplate? prompt}) => HumanChatMessagePromptTemplate(
-      prompt: prompt as PromptTemplate? ?? this.prompt,
-    );
+  StringMessagePromptTemplate copyWith({BasePromptTemplate? prompt}) =>
+      HumanChatMessagePromptTemplate(
+        prompt: prompt as PromptTemplate? ?? this.prompt,
+      );
 }
 
 /// {@template ai_chat_message_prompt_template}
@@ -527,12 +532,12 @@ final class AIChatMessagePromptTemplate extends StringMessagePromptTemplate {
     PartialValues? partialVariables,
     bool validateTemplate = true,
   }) => AIChatMessagePromptTemplate(
-      prompt: PromptTemplate.fromTemplate(
-        template,
-        partialVariables: partialVariables,
-        validateTemplate: validateTemplate,
-      ),
-    );
+    prompt: PromptTemplate.fromTemplate(
+      template,
+      partialVariables: partialVariables,
+      validateTemplate: validateTemplate,
+    ),
+  );
 
   /// Load a prompt from a file.
   /// It considers the prompt a [AIChatMessage].
@@ -555,10 +560,12 @@ final class AIChatMessagePromptTemplate extends StringMessagePromptTemplate {
   }
 
   @override
-  ChatMessage format([InputValues values = const {}]) => ChatMessage.ai(prompt.format(values));
+  ChatMessage format([InputValues values = const {}]) =>
+      ChatMessage.ai(prompt.format(values));
 
   @override
-  String toString() => '''
+  String toString() =>
+      '''
 AIChatMessagePromptTemplate{
   prompt: $prompt,
   inputVariables: $inputVariables,
@@ -566,9 +573,10 @@ AIChatMessagePromptTemplate{
 }''';
 
   @override
-  StringMessagePromptTemplate copyWith({BasePromptTemplate? prompt}) => AIChatMessagePromptTemplate(
-      prompt: prompt as PromptTemplate? ?? this.prompt,
-    );
+  StringMessagePromptTemplate copyWith({BasePromptTemplate? prompt}) =>
+      AIChatMessagePromptTemplate(
+        prompt: prompt as PromptTemplate? ?? this.prompt,
+      );
 }
 
 /// {@template custom_chat_message_prompt_template}
@@ -613,13 +621,13 @@ final class CustomChatMessagePromptTemplate
     PartialValues? partialVariables,
     bool validateTemplate = true,
   }) => CustomChatMessagePromptTemplate(
-      prompt: PromptTemplate.fromTemplate(
-        template,
-        partialVariables: partialVariables,
-        validateTemplate: validateTemplate,
-      ),
-      role: role,
-    );
+    prompt: PromptTemplate.fromTemplate(
+      template,
+      partialVariables: partialVariables,
+      validateTemplate: validateTemplate,
+    ),
+    role: role,
+  );
 
   /// Load a prompt from a file.
   /// It considers the prompt a [CustomChatMessage].
@@ -647,10 +655,12 @@ final class CustomChatMessagePromptTemplate
   final String role;
 
   @override
-  ChatMessage format([InputValues values = const {}]) => ChatMessage.custom(prompt.format(values), role: role);
+  ChatMessage format([InputValues values = const {}]) =>
+      ChatMessage.custom(prompt.format(values), role: role);
 
   @override
-  String toString() => '''
+  String toString() =>
+      '''
 CustomChatMessagePromptTemplate{
   prompt: $prompt,
   role: $role,
@@ -659,10 +669,11 @@ CustomChatMessagePromptTemplate{
 }''';
 
   @override
-  StringMessagePromptTemplate copyWith({BasePromptTemplate? prompt}) => CustomChatMessagePromptTemplate(
-      prompt: prompt as PromptTemplate? ?? this.prompt,
-      role: role,
-    );
+  StringMessagePromptTemplate copyWith({BasePromptTemplate? prompt}) =>
+      CustomChatMessagePromptTemplate(
+        prompt: prompt as PromptTemplate? ?? this.prompt,
+        role: role,
+      );
 }
 
 /// {@template message_placeholder}
@@ -711,15 +722,14 @@ final class MessagePlaceholder extends ChatMessagePromptTemplate {
   PartialValues? get partialVariables => null;
 
   @override
-  List<ChatMessage> formatMessages([
-    Map<String, dynamic> values = const {},
-  ]) {
+  List<ChatMessage> formatMessages([Map<String, dynamic> values = const {}]) {
     final message = values[variableName] as ChatMessage?;
     return [if (message != null) message];
   }
 
   @override
-  String toString() => '''
+  String toString() =>
+      '''
 MessagePlaceholder{
   variableName: $variableName,
   inputVariables: $inputVariables,
@@ -778,12 +788,12 @@ final class MessagesPlaceholder extends ChatMessagePromptTemplate {
   PartialValues? get partialVariables => null;
 
   @override
-  List<ChatMessage> formatMessages([
-    Map<String, dynamic> values = const {},
-  ]) => values[variableName] as List<ChatMessage>? ?? const [];
+  List<ChatMessage> formatMessages([Map<String, dynamic> values = const {}]) =>
+      values[variableName] as List<ChatMessage>? ?? const [];
 
   @override
-  String toString() => '''
+  String toString() =>
+      '''
 MessagesPlaceholder{
   variableName: $variableName,
   inputVariables: $inputVariables,

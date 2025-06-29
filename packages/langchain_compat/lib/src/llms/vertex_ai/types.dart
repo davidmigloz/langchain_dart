@@ -106,52 +106,51 @@ class VertexAIOptions extends LLMOptions {
     int? candidateCount,
     int? concurrencyLimit,
   }) => VertexAIOptions(
-      publisher: publisher ?? this.publisher,
-      model: model ?? this.model,
-      maxOutputTokens: maxOutputTokens ?? this.maxOutputTokens,
-      temperature: temperature ?? this.temperature,
-      topP: topP ?? this.topP,
-      topK: topK ?? this.topK,
-      stopSequences: stopSequences ?? this.stopSequences,
-      candidateCount: candidateCount ?? this.candidateCount,
-      concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
-    );
+    publisher: publisher ?? this.publisher,
+    model: model ?? this.model,
+    maxOutputTokens: maxOutputTokens ?? this.maxOutputTokens,
+    temperature: temperature ?? this.temperature,
+    topP: topP ?? this.topP,
+    topK: topK ?? this.topK,
+    stopSequences: stopSequences ?? this.stopSequences,
+    candidateCount: candidateCount ?? this.candidateCount,
+    concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
+  );
 
   @override
   VertexAIOptions merge(covariant VertexAIOptions? other) => copyWith(
-      publisher: other?.publisher,
-      model: other?.model,
-      maxOutputTokens: other?.maxOutputTokens,
-      temperature: other?.temperature,
-      topP: other?.topP,
-      topK: other?.topK,
-      stopSequences: other?.stopSequences,
-      candidateCount: other?.candidateCount,
-      concurrencyLimit: other?.concurrencyLimit,
-    );
+    publisher: other?.publisher,
+    model: other?.model,
+    maxOutputTokens: other?.maxOutputTokens,
+    temperature: other?.temperature,
+    topP: other?.topP,
+    topK: other?.topK,
+    stopSequences: other?.stopSequences,
+    candidateCount: other?.candidateCount,
+    concurrencyLimit: other?.concurrencyLimit,
+  );
 
   @override
-  bool operator ==(covariant VertexAIOptions other) => publisher == other.publisher &&
-        model == other.model &&
-        maxOutputTokens == other.maxOutputTokens &&
-        temperature == other.temperature &&
-        topP == other.topP &&
-        topK == other.topK &&
-        const ListEquality<String>().equals(
-          stopSequences,
-          other.stopSequences,
-        ) &&
-        candidateCount == other.candidateCount &&
-        concurrencyLimit == other.concurrencyLimit;
+  bool operator ==(covariant VertexAIOptions other) =>
+      publisher == other.publisher &&
+      model == other.model &&
+      maxOutputTokens == other.maxOutputTokens &&
+      temperature == other.temperature &&
+      topP == other.topP &&
+      topK == other.topK &&
+      const ListEquality<String>().equals(stopSequences, other.stopSequences) &&
+      candidateCount == other.candidateCount &&
+      concurrencyLimit == other.concurrencyLimit;
 
   @override
-  int get hashCode => publisher.hashCode ^
-        model.hashCode ^
-        maxOutputTokens.hashCode ^
-        temperature.hashCode ^
-        topP.hashCode ^
-        topK.hashCode ^
-        const ListEquality<String>().hash(stopSequences) ^
-        candidateCount.hashCode ^
-        concurrencyLimit.hashCode;
+  int get hashCode =>
+      publisher.hashCode ^
+      model.hashCode ^
+      maxOutputTokens.hashCode ^
+      temperature.hashCode ^
+      topP.hashCode ^
+      topK.hashCode ^
+      const ListEquality<String>().hash(stopSequences) ^
+      candidateCount.hashCode ^
+      concurrencyLimit.hashCode;
 }

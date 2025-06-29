@@ -167,9 +167,7 @@ class VertexAIEmbeddings implements Embeddings {
       VertexAIGenAIClient.cloudPlatformScope;
 
   @override
-  Future<List<List<double>>> embedDocuments(
-    List<Document> documents,
-  ) async {
+  Future<List<List<double>>> embedDocuments(List<Document> documents) async {
     final batches = chunkList(documents, chunkSize: batchSize);
 
     final embeddings = await Future.wait(
@@ -196,9 +194,7 @@ class VertexAIEmbeddings implements Embeddings {
           publisher: publisher,
           model: model,
         );
-        return data.predictions
-            .map((p) => p.values)
-            .toList(growable: false);
+        return data.predictions.map((p) => p.values).toList(growable: false);
       }),
     );
 

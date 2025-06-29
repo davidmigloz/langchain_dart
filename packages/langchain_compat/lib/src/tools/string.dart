@@ -45,26 +45,24 @@ abstract base class StringTool<Options extends ToolOptions>
   static StringTool fromFunction<Options extends ToolOptions>({
     required String name,
     required String description,
-    required FutureOr<String> Function(String input) func, String inputDescription = 'The input to the tool',
+    required FutureOr<String> Function(String input) func,
+    String inputDescription = 'The input to the tool',
     bool strict = false,
     bool returnDirect = false,
     String Function(ToolException)? handleToolError,
   }) => _StringToolFunc<Options>(
-      name: name,
-      description: description,
-      inputDescription: inputDescription,
-      strict: strict,
-      func: func,
-      returnDirect: returnDirect,
-      handleToolError: handleToolError,
-    );
+    name: name,
+    description: description,
+    inputDescription: inputDescription,
+    strict: strict,
+    func: func,
+    returnDirect: returnDirect,
+    handleToolError: handleToolError,
+  );
 
   /// Actual implementation of [invoke] method logic with string input.
   @override
-  Future<String> invokeInternal(
-    String toolInput, {
-    Options? options,
-  });
+  Future<String> invokeInternal(String toolInput, {Options? options});
 
   @override
   String getInputFromJson(Map<String, dynamic> json) => json['input'] as String;
@@ -80,7 +78,9 @@ final class _StringToolFunc<Options extends ToolOptions>
   _StringToolFunc({
     required super.name,
     required super.description,
-    required super.strict, required FutureOr<String> Function(String) func, super.inputDescription,
+    required super.strict,
+    required FutureOr<String> Function(String) func,
+    super.inputDescription,
     super.returnDirect = false,
     super.handleToolError,
     super.defaultOptions,
@@ -89,8 +89,6 @@ final class _StringToolFunc<Options extends ToolOptions>
   final FutureOr<String> Function(String input) _func;
 
   @override
-  Future<String> invokeInternal(
-    String toolInput, {
-    Options? options,
-  }) async => _func(toolInput);
+  Future<String> invokeInternal(String toolInput, {Options? options}) async =>
+      _func(toolInput);
 }

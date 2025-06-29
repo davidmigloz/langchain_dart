@@ -24,11 +24,10 @@ class FakeEmbeddings implements Embeddings {
   final bool deterministic;
 
   @override
-  Future<List<List<double>>> embedDocuments(
-    List<Document> documents,
-  ) async => documents
-        .map((d) => _getEmbeddings(d.pageContent))
-        .toList(growable: false);
+  Future<List<List<double>>> embedDocuments(List<Document> documents) async =>
+      documents
+          .map((d) => _getEmbeddings(d.pageContent))
+          .toList(growable: false);
 
   @override
   Future<List<double>> embedQuery(String query) async => _getEmbeddings(query);

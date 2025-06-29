@@ -21,16 +21,11 @@ class FakeLLM extends SimpleLLM<FakeLLMOptions> {
   String get modelType => 'fake-list';
 
   @override
-  Future<String> callInternal(
-    String prompt, {
-    LLMOptions? options,
-  }) => Future<String>.value(responses[_i++ % responses.length]);
+  Future<String> callInternal(String prompt, {LLMOptions? options}) =>
+      Future<String>.value(responses[_i++ % responses.length]);
 
   @override
-  Stream<LLMResult> stream(
-    PromptValue input, {
-    LLMOptions? options,
-  }) {
+  Stream<LLMResult> stream(PromptValue input, {LLMOptions? options}) {
     final res = responses[_i++ % responses.length].split('');
     return Stream.fromIterable(res).map(
       (item) => LLMResult(
@@ -49,10 +44,10 @@ class FakeLLM extends SimpleLLM<FakeLLMOptions> {
     PromptValue promptValue, {
     LLMOptions? options,
   }) async => promptValue
-        .toString()
-        .split(' ')
-        .map((word) => word.hashCode)
-        .toList(growable: false);
+      .toString()
+      .split(' ')
+      .map((word) => word.hashCode)
+      .toList(growable: false);
 }
 
 /// {@template fake_llm_options}
@@ -63,10 +58,11 @@ class FakeLLMOptions extends LLMOptions {
   const FakeLLMOptions({super.model, super.concurrencyLimit});
 
   @override
-  FakeLLMOptions copyWith({String? model, int? concurrencyLimit}) => FakeLLMOptions(
-      model: model ?? this.model,
-      concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
-    );
+  FakeLLMOptions copyWith({String? model, int? concurrencyLimit}) =>
+      FakeLLMOptions(
+        model: model ?? this.model,
+        concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
+      );
 }
 
 /// {@template fake_echo_llm}
@@ -81,24 +77,19 @@ class FakeEchoLLM extends BaseLLM<FakeLLMOptions> {
   String get modelType => 'fake-echo';
 
   @override
-  Future<LLMResult> invoke(
-    PromptValue input, {
-    LLMOptions? options,
-  }) => Future<LLMResult>.value(
-      LLMResult(
-        id: 'fake-echo',
-        output: input.toString(),
-        finishReason: FinishReason.stop,
-        metadata: const {},
-        usage: const LanguageModelUsage(),
-      ),
-    );
+  Future<LLMResult> invoke(PromptValue input, {LLMOptions? options}) =>
+      Future<LLMResult>.value(
+        LLMResult(
+          id: 'fake-echo',
+          output: input.toString(),
+          finishReason: FinishReason.stop,
+          metadata: const {},
+          usage: const LanguageModelUsage(),
+        ),
+      );
 
   @override
-  Stream<LLMResult> stream(
-    PromptValue input, {
-    LLMOptions? options,
-  }) {
+  Stream<LLMResult> stream(PromptValue input, {LLMOptions? options}) {
     final promptChars = input.toString().split('');
     return Stream.fromIterable(promptChars).map(
       (item) => LLMResult(
@@ -117,10 +108,10 @@ class FakeEchoLLM extends BaseLLM<FakeLLMOptions> {
     PromptValue promptValue, {
     LLMOptions? options,
   }) async => promptValue
-        .toString()
-        .split(' ')
-        .map((word) => word.hashCode)
-        .toList(growable: false);
+      .toString()
+      .split(' ')
+      .map((word) => word.hashCode)
+      .toList(growable: false);
 }
 
 /// {@template fake_handler_llm}
@@ -142,18 +133,16 @@ class FakeHandlerLLM extends SimpleLLM<FakeLLMOptions> {
   String get modelType => 'fake-handler';
 
   @override
-  Future<String> callInternal(
-    String prompt, {
-    LLMOptions? options,
-  }) => Future.value(handler(prompt, options, ++_callCount));
+  Future<String> callInternal(String prompt, {LLMOptions? options}) =>
+      Future.value(handler(prompt, options, ++_callCount));
 
   @override
   Future<List<int>> tokenize(
     PromptValue promptValue, {
     LLMOptions? options,
   }) async => promptValue
-        .toString()
-        .split(' ')
-        .map((word) => word.hashCode)
-        .toList(growable: false);
+      .toString()
+      .split(' ')
+      .map((word) => word.hashCode)
+      .toList(growable: false);
 }

@@ -58,10 +58,12 @@ final class PipelinePromptTemplate extends BasePromptTemplate {
   }
 
   @override
-  String format(InputValues values) => finalPrompt.format(_formatPipelinePrompts(values));
+  String format(InputValues values) =>
+      finalPrompt.format(_formatPipelinePrompts(values));
 
   @override
-  PromptValue formatPrompt(InputValues values) => finalPrompt.formatPrompt(_formatPipelinePrompts(values));
+  PromptValue formatPrompt(InputValues values) =>
+      finalPrompt.formatPrompt(_formatPipelinePrompts(values));
 
   Map<String, dynamic> _formatPipelinePrompts(InputValues values) {
     final allValues = mergePartialAndUserVariables(values);
@@ -85,13 +87,11 @@ final class PipelinePromptTemplate extends BasePromptTemplate {
   Map<String, dynamic> _extractRequiredInputValues(
     Map<String, dynamic> allValues,
     Set<String> requiredValueNames,
-  ) => requiredValueNames.fold(<String, dynamic>{}, (
-      requiredValues,
-      valueName,
-    ) {
-      requiredValues[valueName] = allValues[valueName];
-      return requiredValues;
-    });
+  ) =>
+      requiredValueNames.fold(<String, dynamic>{}, (requiredValues, valueName) {
+        requiredValues[valueName] = allValues[valueName];
+        return requiredValues;
+      });
 
   @override
   PipelinePromptTemplate copyWith({
@@ -100,9 +100,9 @@ final class PipelinePromptTemplate extends BasePromptTemplate {
     Set<String>? inputVariables,
     Map<String, dynamic>? partialVariables,
   }) => PipelinePromptTemplate(
-      finalPrompt: finalPrompt ?? this.finalPrompt,
-      pipelinePrompts: pipelinePrompts ?? this.pipelinePrompts,
-    );
+    finalPrompt: finalPrompt ?? this.finalPrompt,
+    pipelinePrompts: pipelinePrompts ?? this.pipelinePrompts,
+  );
 
   @override
   String get type => 'pipeline';

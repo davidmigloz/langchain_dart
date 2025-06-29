@@ -54,8 +54,8 @@ extension CreateCompletionResponseMapper on CreateCompletionResponse {
       };
 
   LanguageModelUsage _mapUsage(CompletionUsage? usage) => LanguageModelUsage(
-      promptTokens: usage?.promptTokens,
-      responseTokens: usage?.completionTokens,
-      totalTokens: usage?.totalTokens,
-    );
+    promptTokens: usage?.promptTokens,
+    responseTokens: usage?.completionTokens,
+    totalTokens: usage?.totalTokens,
+  );
 }

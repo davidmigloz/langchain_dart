@@ -35,10 +35,10 @@ abstract base class ChatMessagePromptTemplate
     PartialValues? partialVariables,
     bool validateTemplate = true,
   }) => SystemChatMessagePromptTemplate.fromTemplate(
-      template,
-      partialVariables: partialVariables,
-      validateTemplate: validateTemplate,
-    );
+    template,
+    partialVariables: partialVariables,
+    validateTemplate: validateTemplate,
+  );
 
   /// Creates a [HumanChatMessagePromptTemplate] from a string template.
   ///
@@ -59,10 +59,10 @@ abstract base class ChatMessagePromptTemplate
     PartialValues? partialVariables,
     bool validateTemplate = true,
   }) => HumanChatMessagePromptTemplate.fromTemplate(
-      template,
-      partialVariables: partialVariables,
-      validateTemplate: validateTemplate,
-    );
+    template,
+    partialVariables: partialVariables,
+    validateTemplate: validateTemplate,
+  );
 
   /// Creates a [AIChatMessagePromptTemplate] from a string template.
   ///
@@ -81,10 +81,10 @@ abstract base class ChatMessagePromptTemplate
     PartialValues? partialVariables,
     bool validateTemplate = true,
   }) => AIChatMessagePromptTemplate.fromTemplate(
-      template,
-      partialVariables: partialVariables,
-      validateTemplate: validateTemplate,
-    );
+    template,
+    partialVariables: partialVariables,
+    validateTemplate: validateTemplate,
+  );
 
   /// Creates a [CustomChatMessagePromptTemplate] from a string template.
   ///
@@ -108,11 +108,11 @@ abstract base class ChatMessagePromptTemplate
     PartialValues? partialVariables,
     bool validateTemplate = true,
   }) => CustomChatMessagePromptTemplate.fromTemplate(
-      template,
-      role: role,
-      partialVariables: partialVariables,
-      validateTemplate: validateTemplate,
-    );
+    template,
+    role: role,
+    partialVariables: partialVariables,
+    validateTemplate: validateTemplate,
+  );
 
   /// Creates a [MessagePlaceholder], a prompt template that assumes the variable is a [ChatMessage].
   ///
@@ -134,9 +134,8 @@ abstract base class ChatMessagePromptTemplate
   /// ```
   ///
   /// - [variableName] the name of the placeholder variable.
-  factory ChatMessagePromptTemplate.messagePlaceholder(
-    String variableName,
-  ) => MessagePlaceholder(variableName: variableName);
+  factory ChatMessagePromptTemplate.messagePlaceholder(String variableName) =>
+      MessagePlaceholder(variableName: variableName);
 
   /// Creates a [MessagesPlaceholder], a prompt template that assumes the variable is a list of [ChatMessage].
   ///
@@ -157,9 +156,8 @@ abstract base class ChatMessagePromptTemplate
   /// ```
   ///
   /// - [variableName] the name of the placeholder variable.
-  factory ChatMessagePromptTemplate.messagesPlaceholder(
-    String variableName,
-  ) => MessagesPlaceholder(variableName: variableName);
+  factory ChatMessagePromptTemplate.messagesPlaceholder(String variableName) =>
+      MessagesPlaceholder(variableName: variableName);
 
   /// The prompt template for the message.
   final BasePromptTemplate prompt;
@@ -193,7 +191,8 @@ abstract base class ChatMessagePromptTemplate
   int get hashCode => prompt.hashCode;
 
   @override
-  String toString() => '''
+  String toString() =>
+      '''
 BaseChatMessagePromptTemplate{
   prompt: $prompt, 
   inputVariables: $inputVariables, 

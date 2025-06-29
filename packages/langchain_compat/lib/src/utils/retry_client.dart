@@ -75,11 +75,7 @@ FutureOr<T> retryClient<T>({
   throw StateError('Exhausted all retry attempts');
 }
 
-Future<void> _delay(
-  Duration duration,
-  int attempt,
-  bool addJitter,
-) async {
+Future<void> _delay(Duration duration, int attempt, bool addJitter) async {
   final Duration delay;
   if (addJitter) {
     final random = Random();

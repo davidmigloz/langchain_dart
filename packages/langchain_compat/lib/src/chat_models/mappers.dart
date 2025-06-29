@@ -28,7 +28,7 @@ CreateChatCompletionRequest createChatCompletionRequest(
 
   return CreateChatCompletionRequest(
     model: ChatCompletionModel.modelId(
-      options?.model ?? defaultOptions.model ?? ChatOpenAI.defaultModelName,
+      options?.model ?? defaultOptions.model ?? ChatOpenAI.defaultModel,
     ),
     messages: messagesDtos,
     tools: toolsDtos,
@@ -74,17 +74,17 @@ extension ChatMessageListMapper on List<ChatMessage> {
     SystemChatMessage systemChatMessage,
   ) => ChatCompletionMessage.system(content: systemChatMessage.content);
 
-  ChatCompletionMessage _mapHumanMessage(
-    HumanChatMessage humanChatMessage,
-  ) => ChatCompletionMessage.user(
-    content: switch (humanChatMessage.content) {
-      final ChatMessageContentText c => _mapMessageContentString(c),
-      final ChatMessageContentImage c => ChatCompletionUserMessageContent.parts(
-        [_mapMessageContentPartImage(c)],
-      ),
-      final ChatMessageContentMultiModal c => _mapMessageContentPart(c),
-    },
-  );
+  ChatCompletionMessage _mapHumanMessage(HumanChatMessage humanChatMessage) =>
+      ChatCompletionMessage.user(
+        content: switch (humanChatMessage.content) {
+          final ChatMessageContentText c => _mapMessageContentString(c),
+          final ChatMessageContentImage c =>
+            ChatCompletionUserMessageContent.parts([
+              _mapMessageContentPartImage(c),
+            ]),
+          final ChatMessageContentMultiModal c => _mapMessageContentPart(c),
+        },
+      );
 
   ChatCompletionUserMessageContentString _mapMessageContentString(
     ChatMessageContentText c,
@@ -166,12 +166,11 @@ extension ChatMessageListMapper on List<ChatMessage> {
     ),
   );
 
-  ChatCompletionMessage _mapToolMessage(
-    ToolChatMessage toolChatMessage,
-  ) => ChatCompletionMessage.tool(
-    toolCallId: toolChatMessage.toolCallId,
-    content: toolChatMessage.content,
-  );
+  ChatCompletionMessage _mapToolMessage(ToolChatMessage toolChatMessage) =>
+      ChatCompletionMessage.tool(
+        toolCallId: toolChatMessage.toolCallId,
+        content: toolChatMessage.content,
+      );
 }
 
 extension CreateChatCompletionResponseMapper on CreateChatCompletionResponse {
@@ -220,12 +219,11 @@ extension CreateChatCompletionResponseMapper on CreateChatCompletionResponse {
   }
 }
 
-LanguageModelUsage _mapUsage(CompletionUsage? usage) =>
-    LanguageModelUsage(
-      promptTokens: usage?.promptTokens,
-      responseTokens: usage?.completionTokens,
-      totalTokens: usage?.totalTokens,
-    );
+LanguageModelUsage _mapUsage(CompletionUsage? usage) => LanguageModelUsage(
+  promptTokens: usage?.promptTokens,
+  responseTokens: usage?.completionTokens,
+  totalTokens: usage?.totalTokens,
+);
 
 extension ChatToolListMapper on List<ToolSpec> {
   List<ChatCompletionTool> toChatCompletionTool() =>

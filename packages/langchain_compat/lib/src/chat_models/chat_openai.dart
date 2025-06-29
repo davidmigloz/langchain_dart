@@ -10,38 +10,46 @@ import 'base.dart';
 import 'mappers.dart';
 import 'types.dart';
 
-/// Wrapper around [OpenAI Chat API](https://platform.openai.com/docs/api-reference/chat).
+/// Wrapper around [OpenAI Chat
+/// API](https://platform.openai.com/docs/api-reference/chat).
 ///
 /// Example:
 /// ```dart
 /// final chatModel = ChatOpenAI(apiKey: '...');
 /// final messages = [
 ///   ChatMessage.system(
-///     'You are a helpful assistant that translates English to French.'),
-///   ChatMessage.humanText('I love programming.'),
+///     'You are a helpful assistant that translates English to French.',
+///   ),
+///   ChatMessage.human(
+///     'I love programming.',
+///   ),
 /// ];
 /// final prompt = PromptValue.chat(messages);
 /// final res = await llm.invoke(prompt);
 /// ```
 ///
-/// - [Completions guide](https://platform.openai.com/docs/guides/gpt/chat-completions-api)
-/// - [Completions API docs](https://platform.openai.com/docs/api-reference/chat)
+/// - [Completions
+///   guide](https://platform.openai.com/docs/guides/gpt/chat-completions-api)
+/// - [Completions API
+///   docs](https://platform.openai.com/docs/api-reference/chat)
 ///
 /// You can also use this wrapper to consume OpenAI-compatible APIs like
-/// [TogetherAI](https://www.together.ai/), [Anyscale](https://www.anyscale.com/),
-/// [OpenRouter](https://openrouter.ai), [One API](https://github.com/songquanpeng/one-api),
+/// [TogetherAI](https://www.together.ai/),
+/// [Anyscale](https://www.anyscale.com/), [OpenRouter](https://openrouter.ai),
+/// [One API](https://github.com/songquanpeng/one-api),
 /// [Groq](https://groq.com/), [Llamafile](https://llamafile.ai/),
-/// [GPT4All](https://gpt4all.io/), [FastChat](https://github.com/lm-sys/FastChat), etc.
+/// [GPT4All](https://gpt4all.io/),
+/// [FastChat](https://github.com/lm-sys/FastChat), etc.
 ///
 /// ### Call options
 ///
-/// You can configure the parameters that will be used when calling the
-/// chat completions API in several ways:
+/// You can configure the parameters that will be used when calling the chat
+/// completions API in several ways:
 ///
 /// **Default options:**
 ///
-/// Use the [defaultOptions] parameter to set the default options. These
-/// options will be used unless you override them when generating completions.
+/// Use the [defaultOptions] parameter to set the default options. These options
+/// will be used unless you override them when generating completions.
 ///
 /// ```dart
 /// final chatModel = ChatOpenAI(
@@ -78,17 +86,21 @@ import 'types.dart';
 /// final prompt1 = PromptTemplate.fromTemplate('How are you {name}?');
 /// final prompt2 = PromptTemplate.fromTemplate('How old are you {name}?');
 /// final chain = Runnable.fromMap({
-///   'q1': prompt1 | chatModel.bind(const ChatOpenAIOptions(model: 'gpt-4')) | outputParser,
-///   'q2': prompt2| chatModel.bind(const ChatOpenAIOptions(model: 'gpt-4o-mini')) | outputParser,
+///   'q1': prompt1 |
+///     chatModel.bind(const ChatOpenAIOptions(model: 'gpt-4')) |
+///     outputParser,
+///   'q2': prompt2 |
+///     chatModel.bind(const ChatOpenAIOptions(model: 'gpt-4o-mini')) |
+///     outputParser,
 /// });
 /// final res = await chain.invoke({'name': 'David'});
 /// ```
 ///
 /// ### Authentication
 ///
-/// The OpenAI API uses API keys for authentication. Visit your
-/// [API Keys](https://platform.openai.com/account/api-keys) page to retrieve
-/// the API key you'll use in your requests.
+/// The OpenAI API uses API keys for authentication. Visit your [API
+/// Keys](https://platform.openai.com/account/api-keys) page to retrieve the API
+/// key you'll use in your requests.
 ///
 /// #### Organization (optional)
 ///
@@ -107,12 +119,13 @@ import 'types.dart';
 ///
 /// #### Azure OpenAI Service
 ///
-/// OpenAI's models are also available as an [Azure service](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview).
+/// OpenAI's models are also available as an [Azure
+/// service](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview).
 ///
 /// Although the Azure OpenAI API is similar to the official OpenAI API, there
-/// are subtle differences between them. This client is intended to be used
-/// with the official OpenAI API, but most of the functionality should work
-/// with the Azure OpenAI API as well.
+/// are subtle differences between them. This client is intended to be used with
+/// the official OpenAI API, but most of the functionality should work with the
+/// Azure OpenAI API as well.
 ///
 /// If you want to use this client with the Azure OpenAI API (at your own risk),
 /// you can do so by instantiating the client as follows:
@@ -127,12 +140,14 @@ import 'types.dart';
 ///
 /// - `YOUR_RESOURCE_NAME`: This value can be found in the Keys & Endpoint
 ///    section when examining your resource from the Azure portal.
-/// - `YOUR_DEPLOYMENT_NAME`: This value will correspond to the custom name
-///    you chose for your deployment when you deployed a model. This value can be found under Resource Management > Deployments in the Azure portal.
+/// - `YOUR_DEPLOYMENT_NAME`: This value will correspond to the custom name you
+///    chose for your deployment when you deployed a model. This value can be
+///    found under Resource Management > Deployments in the Azure portal.
 /// - `YOUR_API_KEY`: This value can be found in the Keys & Endpoint section
 ///    when examining your resource from the Azure portal.
 /// - `API_VERSION`: The Azure OpenAI API version to use (e.g. `2023-05-15`).
-///    Try to use the [latest version available](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cognitiveservices/data-plane/AzureOpenAI/inference),
+///    Try to use the [latest version
+///    available](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cognitiveservices/data-plane/AzureOpenAI/inference),
 ///    it will probably be the closest to the official OpenAI API.
 ///
 /// #### Custom HTTP client
@@ -167,9 +182,28 @@ import 'types.dart';
 /// ##### SOCKS5 proxy
 ///
 /// To use a SOCKS5 proxy, you can use the
-/// [`socks5_proxy`](https://pub.dev/packages/socks5_proxy) package and a
-/// custom `http.Client`.
+/// [`socks5_proxy`](https://pub.dev/packages/socks5_proxy) package and a custom
+/// `http.Client`.
 class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
+  /// Create a new [ChatOpenAI] instance.
+  ///
+  /// Main configuration options:
+  /// - `apiKey`: your OpenAI API key. You can find your API key in the
+  ///   [OpenAI dashboard](https://platform.openai.com/account/api-keys).
+  /// - `organization`: your OpenAI organization ID (if applicable).
+  /// - [ChatOpenAI.encoding]
+  /// - [ChatOpenAI.defaultOptions]
+  ///
+  /// Advance configuration options:
+  /// - `baseUrl`: the base URL to use. Defaults to OpenAI's API URL. You can
+  ///   override this to use a different API URL, or to use a proxy.
+  /// - `headers`: global headers to send with every request. You can use
+  ///   this to set custom headers, or to override the default headers.
+  /// - `queryParams`: global query parameters to send with every request. You
+  ///   can use this to set custom query parameters (e.g. Azure OpenAI API
+  ///   required to attach a `version` query parameter to every request).
+  /// - `client`: the HTTP client to use. You can set your own HTTP client if
+  ///   you need further customization (e.g. to use a Socks5 proxy).
   ChatOpenAI({
     String? apiKey,
     String? organization,
@@ -177,36 +211,9 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     Map<String, String>? headers,
     Map<String, dynamic>? queryParams,
     http.Client? client,
+    ChatOpenAIOptions? defaultOptions,
     this.encoding,
-    String? model,
-    double? temperature,
-    int? maxTokens,
-    int? n,
-    double? topP,
-    double? frequencyPenalty,
-    double? presencePenalty,
-    ChatOpenAIResponseFormat? responseFormat,
-    int? seed,
-    List<String>? stop,
-    bool? parallelToolCalls,
-    ChatOpenAIServiceTier? serviceTier,
-    String? user,
-    int? concurrencyLimit,
-  }) : model = model ?? defaultModelName,
-       temperature = temperature ?? defaultTemperature,
-       maxTokens = maxTokens ?? defaultMaxTokens,
-       n = n ?? defaultN,
-       topP = topP ?? defaultTopP,
-       frequencyPenalty = frequencyPenalty ?? defaultFrequencyPenalty,
-       presencePenalty = presencePenalty ?? defaultPresencePenalty,
-       responseFormat = responseFormat ?? defaultResponseFormat,
-       seed = seed ?? defaultSeed,
-       stop = stop ?? defaultStop,
-       parallelToolCalls = parallelToolCalls ?? defaultParallelToolCalls,
-       serviceTier = serviceTier ?? defaultServiceTier,
-       user = user ?? defaultUser,
-       concurrencyLimit = concurrencyLimit ?? defaultConcurrencyLimit,
-       _client = OpenAIClient(
+  }) : _client = OpenAIClient(
          apiKey: apiKey ?? '',
          organization: organization,
          beta: null,
@@ -215,49 +222,19 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
          queryParams: queryParams,
          client: client,
        ),
-       super(defaultOptions: const ChatOpenAIOptions());
-  // Static const defaults (match API defaults where possible)
-  static const String defaultModelName = 'gpt-4o-mini';
-  static const double defaultTemperature = 1;
-  static const int defaultMaxTokens = 256;
-  static const int defaultN = 1;
-  static const double defaultTopP = 1;
-  static const double defaultFrequencyPenalty = 0;
-  static const double defaultPresencePenalty = 0;
-  static const ChatOpenAIResponseFormat defaultResponseFormat =
-      ChatOpenAIResponseFormat.text;
-  static const int defaultSeed = 42;
-  static const List<String> defaultStop = [];
-  static const bool defaultParallelToolCalls = true;
-  static const ChatOpenAIServiceTier defaultServiceTier =
-      ChatOpenAIServiceTier.auto;
-  static const String defaultUser = '';
-  static const int defaultConcurrencyLimit = 1;
-
-  // Realized, non-nullable instance fields
-  final String model;
-  final double temperature;
-  final int maxTokens;
-  final int n;
-  final double topP;
-  final double frequencyPenalty;
-  final double presencePenalty;
-  final ChatOpenAIResponseFormat responseFormat;
-  final int seed;
-  final List<String> stop;
-  final bool parallelToolCalls;
-  final ChatOpenAIServiceTier serviceTier;
-  final String user;
-  final int concurrencyLimit;
+       super(
+         defaultOptions:
+             defaultOptions ?? const ChatOpenAIOptions(model: defaultModel),
+       );
 
   /// A client for interacting with OpenAI API.
   final OpenAIClient _client;
 
   /// The encoding to use by tiktoken when [tokenize] is called.
   ///
-  /// By default, when [encoding] is not set, it is derived from the [model].
+  /// By default, when [encoding] is not set, it is derived from the model.
   /// However, there are some cases where you may want to use this wrapper
-  /// class with a [model] not supported by tiktoken (e.g. when using Azure
+  /// class with a model not supported by tiktoken (e.g. when using Azure
   /// embeddings or when using one of the many model providers that expose an
   /// OpenAI-like API but with different models). In those cases, tiktoken won't
   /// be able to derive the encoding to use, so you have to explicitly specify
@@ -282,71 +259,42 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   @override
   String get modelType => 'openai-chat';
 
-  ChatOpenAIOptions _mergeOptions(ChatOpenAIOptions? options) =>
-      ChatOpenAIOptions(
-        model: options?.model ?? model,
-        temperature: options?.temperature ?? temperature,
-        maxTokens: options?.maxTokens ?? maxTokens,
-        n: options?.n ?? n,
-        topP: options?.topP ?? topP,
-        frequencyPenalty: options?.frequencyPenalty ?? frequencyPenalty,
-        presencePenalty: options?.presencePenalty ?? presencePenalty,
-        responseFormat: options?.responseFormat ?? responseFormat,
-        seed: options?.seed ?? seed,
-        stop: options?.stop ?? stop,
-        parallelToolCalls: options?.parallelToolCalls ?? parallelToolCalls,
-        serviceTier: options?.serviceTier ?? serviceTier,
-        user: options?.user ?? user,
-        tools: options?.tools,
-        toolChoice: options?.toolChoice,
-        concurrencyLimit: options?.concurrencyLimit ?? concurrencyLimit,
-      );
+  /// The default model to use unless another is specified.
+  static const defaultModel = 'gpt-4o-mini';
 
   @override
   Future<ChatResult> invoke(
     PromptValue input, {
     ChatOpenAIOptions? options,
   }) async {
-    final mergedOptions = _mergeOptions(options);
     final completion = await _client.createChatCompletion(
       request: createChatCompletionRequest(
         input.toChatMessages(),
-        options: mergedOptions,
-        defaultOptions: mergedOptions,
+        options: options,
+        defaultOptions: defaultOptions,
       ),
     );
-    return completion.toChatResult(_uuid.v4());
+    return completion.toChatResult(completion.id ?? _uuid.v4());
   }
 
   @override
-  Stream<ChatResult> stream(
-    PromptValue input, {
-    ChatOpenAIOptions? options,
-  }) async* {
-    final mergedOptions = _mergeOptions(options);
-    final stream = _client.createChatCompletionStream(
-      request: createChatCompletionRequest(
-        input.toChatMessages(),
-        options: mergedOptions,
-        defaultOptions: mergedOptions,
-      ),
-    );
-    await for (final completion in stream) {
-      yield completion.toChatResult(_uuid.v4());
-    }
-  }
-
-  @override
-  Future<AIChatMessage> call(
-    List<ChatMessage> messages, {
-    ChatOpenAIOptions? options,
-  }) async {
-    final result = await invoke(PromptValue.chat(messages), options: options);
-    return result.output;
-  }
+  Stream<ChatResult> stream(PromptValue input, {ChatOpenAIOptions? options}) =>
+      _client
+          .createChatCompletionStream(
+            request: createChatCompletionRequest(
+              input.toChatMessages(),
+              options: options,
+              defaultOptions: defaultOptions,
+              stream: true,
+            ),
+          )
+          .map(
+            (completion) =>
+                completion.toChatResult(completion.id ?? _uuid.v4()),
+          );
 
   /// Tokenizes the given prompt using tiktoken with the encoding used by the
-  /// [model]. If an encoding model is specified in [encoding] field, that
+  /// model. If an encoding model is specified in [encoding] field, that
   /// encoding is used instead.
   ///
   /// - [promptValue] The prompt to tokenize.
@@ -361,13 +309,13 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     PromptValue promptValue, {
     ChatOpenAIOptions? options,
   }) async {
-    final model = options?.model ?? this.model;
+    final model = options?.model ?? defaultOptions.model ?? defaultModel;
     final tiktoken = _getTiktoken();
     final messages = promptValue.toChatMessages();
 
     // Ref: https://github.com/openai/openai-cookbook/blob/main/examples/How_to_count_tokens_with_tiktoken.ipynb
-    var tokensPerMessage = 3;
-    var tokensPerName = 1;
+    final int tokensPerMessage;
+    final int tokensPerName;
 
     switch (model) {
       case 'gpt-3.5-turbo-16k-0613':
@@ -378,13 +326,17 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
         tokensPerMessage = 3;
         tokensPerName = 1;
       case 'gpt-3.5-turbo-0301':
+        // Every message follows <|start|>{role/name}\n{content}<|end|>\n
         tokensPerMessage = 4;
+        // If there's a name, the role is omitted
         tokensPerName = -1;
       default:
         if (model.startsWith('gpt-4o-mini') || model.startsWith('gpt-4')) {
+          // Returning num tokens assuming gpt-4
           tokensPerMessage = 3;
           tokensPerName = 1;
         } else {
+          // For other models we assume gpt-3.5-turbo-0613
           tokensPerMessage = 3;
           tokensPerName = 1;
         }

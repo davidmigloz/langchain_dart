@@ -34,17 +34,18 @@ class RunnableRetry<RunInput extends Object?, RunOutput extends Object?>
   final RetryOptions retryOptions;
 
   @override
-  Future<RunOutput> invoke(RunInput input, {RunnableOptions? options}) async => retryClient(
-      options: retryOptions,
-      fn: () => runnable.invoke(input, options: options),
-    );
+  Future<RunOutput> invoke(RunInput input, {RunnableOptions? options}) async =>
+      retryClient(
+        options: retryOptions,
+        fn: () => runnable.invoke(input, options: options),
+      );
 
   @override
   Future<List<RunOutput>> batch(
     List<RunInput> inputs, {
     List<RunnableOptions>? options,
   }) async => retryClient(
-      options: retryOptions,
-      fn: () => runnable.batch(inputs, options: options),
-    );
+    options: retryOptions,
+    fn: () => runnable.batch(inputs, options: options),
+  );
 }

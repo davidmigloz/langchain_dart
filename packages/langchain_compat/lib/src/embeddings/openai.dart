@@ -182,9 +182,7 @@ class OpenAIEmbeddings implements Embeddings {
   String get apiKey => _client.apiKey;
 
   @override
-  Future<List<List<double>>> embedDocuments(
-    List<Document> documents,
-  ) async {
+  Future<List<List<double>>> embedDocuments(List<Document> documents) async {
     // TODO use tiktoken to chunk documents that exceed the context length of the model
     final batches = chunkList(documents, chunkSize: batchSize);
 

@@ -53,19 +53,13 @@ class RunnableRouter<RunInput extends Object, RunOutput extends Object>
   router;
 
   @override
-  Future<RunOutput> invoke(
-    RunInput input, {
-    RunnableOptions? options,
-  }) async {
+  Future<RunOutput> invoke(RunInput input, {RunnableOptions? options}) async {
     final runnable = await router.call(input, options);
     return runnable.invoke(input, options: options);
   }
 
   @override
-  Stream<RunOutput> stream(
-    RunInput input, {
-    RunnableOptions? options,
-  }) async* {
+  Stream<RunOutput> stream(RunInput input, {RunnableOptions? options}) async* {
     final runnable = await router.call(input, options);
     yield* runnable.stream(input, options: options);
   }

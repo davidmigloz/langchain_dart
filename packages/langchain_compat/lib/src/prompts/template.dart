@@ -46,10 +46,7 @@ void checkValidPromptTemplate({
       );
     }
     // Try to render
-    final dummyInputs = allVariables.fold(<String, Object>{}, (
-      acc,
-      v,
-    ) {
+    final dummyInputs = allVariables.fold(<String, Object>{}, (acc, v) {
       acc[v] = 'foo';
       return acc;
     });
@@ -123,20 +120,19 @@ String renderTemplate({
 }) => renderFStringTemplate(template, inputValues);
 
 /// Render a template in fString format.
-String renderFStringTemplate(
-  String template,
-  InputValues inputValues,
-) => parseFStringTemplate(template)
-    .map(
-      (node) => switch (node) {
-        ParsedFStringLiteralNode(text: final t) => t,
-        ParsedFStringVariableNode(name: final n) => ArgumentError.checkNotNull(
-          inputValues[n],
-          'Missing value for variable ${node.name}',
-        ),
-      },
-    )
-    .join();
+String renderFStringTemplate(String template, InputValues inputValues) =>
+    parseFStringTemplate(template)
+        .map(
+          (node) => switch (node) {
+            ParsedFStringLiteralNode(text: final t) => t,
+            ParsedFStringVariableNode(name: final n) =>
+              ArgumentError.checkNotNull(
+                inputValues[n],
+                'Missing value for variable ${node.name}',
+              ),
+          },
+        )
+        .join();
 
 /// Parses a template in fString format.
 List<ParsedFStringNode> parseFStringTemplate(String template) {

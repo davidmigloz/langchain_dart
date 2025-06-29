@@ -63,7 +63,8 @@ class RunnableSequence<RunInput extends Object?, RunOutput extends Object?>
   /// {@macro runnable_sequence}
   const RunnableSequence({
     required this.first,
-    required this.last, this.middle = const [],
+    required this.last,
+    this.middle = const [],
   }) : super(defaultOptions: const RunnableOptions());
 
   /// The first [Runnable] in the [RunnableSequence].
@@ -82,20 +83,17 @@ class RunnableSequence<RunInput extends Object?, RunOutput extends Object?>
   ///
   /// - [runnables] - the [Runnable]s to create the [RunnableSequence] from.
   static RunnableSequence from(List<Runnable> runnables) => RunnableSequence(
-      first: runnables.first,
-      middle: runnables.sublist(1, runnables.length - 1),
-      last: runnables.last,
-    );
+    first: runnables.first,
+    middle: runnables.sublist(1, runnables.length - 1),
+    last: runnables.last,
+  );
 
   /// Invokes the [RunnableSequence] on the given [input].
   ///
   /// - [input] - the input to invoke the [RunnableSequence] on.
   /// - [options] - the options to use when invoking the [RunnableSequence].
   @override
-  Future<RunOutput> invoke(
-    RunInput input, {
-    RunnableOptions? options,
-  }) async {
+  Future<RunOutput> invoke(RunInput input, {RunnableOptions? options}) async {
     Object? nextStepInput = input;
 
     for (final step in [first, ...middle]) {
@@ -112,13 +110,11 @@ class RunnableSequence<RunInput extends Object?, RunOutput extends Object?>
   }
 
   @override
-  Stream<RunOutput> stream(
-    RunInput input, {
-    RunnableOptions? options,
-  }) => streamFromInputStream(
-      Stream.value(input).asBroadcastStream(),
-      options: options,
-    );
+  Stream<RunOutput> stream(RunInput input, {RunnableOptions? options}) =>
+      streamFromInputStream(
+        Stream.value(input).asBroadcastStream(),
+        options: options,
+      );
 
   @override
   Stream<RunOutput> streamFromInputStream(
@@ -181,10 +177,7 @@ class RunnableSequence<RunInput extends Object?, RunOutput extends Object?>
   }
 
   /// Provides a better error message for type errors when streaming.
-  Never _throwInvalidInputTypeStream(
-    TypeError e,
-    Runnable runnable,
-  ) {
+  Never _throwInvalidInputTypeStream(TypeError e, Runnable runnable) {
     // TypeError: type '_BroadcastStream<X>' is not a subtype of type 'Stream<Y>' of 'inputStream'
     final pattern = RegExp(
       '_(As)?BroadcastStream<(?<BroadcastType>[^>]+)>.*?Stream<(?<StreamType>[^>]+)>',

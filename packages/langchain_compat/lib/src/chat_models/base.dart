@@ -55,10 +55,7 @@ abstract class SimpleChatModel<Options extends ChatModelOptions>
   const SimpleChatModel({required super.defaultOptions});
 
   @override
-  Future<ChatResult> invoke(
-    PromptValue input, {
-    Options? options,
-  }) async {
+  Future<ChatResult> invoke(PromptValue input, {Options? options}) async {
     final text = await callInternal(input.toChatMessages(), options: options);
     final message = AIChatMessage(content: text);
     return ChatResult(
@@ -72,8 +69,5 @@ abstract class SimpleChatModel<Options extends ChatModelOptions>
 
   /// Method which should be implemented by subclasses to run the model.
   @visibleForOverriding
-  Future<String> callInternal(
-    List<ChatMessage> messages, {
-    Options? options,
-  });
+  Future<String> callInternal(List<ChatMessage> messages, {Options? options});
 }

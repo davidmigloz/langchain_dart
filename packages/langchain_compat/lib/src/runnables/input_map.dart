@@ -43,8 +43,6 @@ class RunnableMapInput<RunInput extends Object, RunOutput extends Object>
   /// - [input] - the input to invoke the [RunnableMapInput] on.
   /// - [options] - not used.
   @override
-  Future<RunOutput> invoke(
-    RunInput input, {
-    RunnableOptions? options,
-  }) async => inputMapper(input);
+  Future<RunOutput> invoke(RunInput input, {RunnableOptions? options}) async =>
+      inputMapper(input);
 }

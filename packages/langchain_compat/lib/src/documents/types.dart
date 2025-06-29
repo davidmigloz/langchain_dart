@@ -8,16 +8,17 @@ import 'package:meta/meta.dart';
 class Document {
   /// {@macro document}
   const Document({
-    required this.pageContent, this.id,
+    required this.pageContent,
+    this.id,
     this.metadata = const {},
   });
 
   /// Creates a document from a map.
   factory Document.fromMap(Map<String, dynamic> map) => Document(
-      id: map['id'] as String?,
-      pageContent: map['pageContent'] as String,
-      metadata: map['metadata'] as Map<String, dynamic>,
-    );
+    id: map['id'] as String?,
+    pageContent: map['pageContent'] as String,
+    metadata: map['metadata'] as Map<String, dynamic>,
+  );
 
   /// Optional ID for the document.
   /// It can be used to identify the document in the vector store.
@@ -30,7 +31,11 @@ class Document {
   final Map<String, dynamic> metadata;
 
   /// Converts the document to a map.
-  Map<String, dynamic> toMap() => {'id': id, 'pageContent': pageContent, 'metadata': metadata};
+  Map<String, dynamic> toMap() => {
+    'id': id,
+    'pageContent': pageContent,
+    'metadata': metadata,
+  };
 
   /// Creates a copy of the document.
   Document copyWith({
@@ -38,10 +43,10 @@ class Document {
     String? pageContent,
     Map<String, dynamic>? metadata,
   }) => Document(
-      id: id ?? this.id,
-      pageContent: pageContent ?? this.pageContent,
-      metadata: metadata ?? this.metadata,
-    );
+    id: id ?? this.id,
+    pageContent: pageContent ?? this.pageContent,
+    metadata: metadata ?? this.metadata,
+  );
 
   @override
   bool operator ==(covariant Document other) {
@@ -57,14 +62,15 @@ class Document {
 
   /// Concatenates the current document with another document.
   Document concat(Document other) => Document(
-      id: id ?? other.id,
-      pageContent: '$pageContent${other.pageContent}',
-      metadata: {...metadata, ...other.metadata},
-    );
+    id: id ?? other.id,
+    pageContent: '$pageContent${other.pageContent}',
+    metadata: {...metadata, ...other.metadata},
+  );
 
   @override
-  String toString() => 'Document{'
-        'id: $id, '
-        'pageContent: $pageContent, '
-        'metadata: $metadata}';
+  String toString() =>
+      'Document{'
+      'id: $id, '
+      'pageContent: $pageContent, '
+      'metadata: $metadata}';
 }

@@ -16,13 +16,11 @@ class LanguageModelOptions extends BaseLangChainOptions {
   final String? model;
 
   @override
-  LanguageModelOptions copyWith({
-    String? model,
-    int? concurrencyLimit,
-  }) => LanguageModelOptions(
-      model: model ?? this.model,
-      concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
-    );
+  LanguageModelOptions copyWith({String? model, int? concurrencyLimit}) =>
+      LanguageModelOptions(
+        model: model ?? this.model,
+        concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
+      );
 }
 
 /// {@template language_model}
@@ -150,31 +148,32 @@ class LanguageModelUsage {
 
   /// Merges this usage with another by summing the values.
   LanguageModelUsage concat(LanguageModelUsage other) => LanguageModelUsage(
-      promptTokens: promptTokens == null && other.promptTokens == null
-          ? null
-          : (promptTokens ?? 0) + (other.promptTokens ?? 0),
-      promptBillableCharacters:
-          promptBillableCharacters == null &&
-              other.promptBillableCharacters == null
-          ? null
-          : (promptBillableCharacters ?? 0) +
-                (other.promptBillableCharacters ?? 0),
-      responseTokens: responseTokens == null && other.responseTokens == null
-          ? null
-          : (responseTokens ?? 0) + (other.responseTokens ?? 0),
-      responseBillableCharacters:
-          responseBillableCharacters == null &&
-              other.responseBillableCharacters == null
-          ? null
-          : (responseBillableCharacters ?? 0) +
-                (other.responseBillableCharacters ?? 0),
-      totalTokens: totalTokens == null && other.totalTokens == null
-          ? null
-          : (totalTokens ?? 0) + (other.totalTokens ?? 0),
-    );
+    promptTokens: promptTokens == null && other.promptTokens == null
+        ? null
+        : (promptTokens ?? 0) + (other.promptTokens ?? 0),
+    promptBillableCharacters:
+        promptBillableCharacters == null &&
+            other.promptBillableCharacters == null
+        ? null
+        : (promptBillableCharacters ?? 0) +
+              (other.promptBillableCharacters ?? 0),
+    responseTokens: responseTokens == null && other.responseTokens == null
+        ? null
+        : (responseTokens ?? 0) + (other.responseTokens ?? 0),
+    responseBillableCharacters:
+        responseBillableCharacters == null &&
+            other.responseBillableCharacters == null
+        ? null
+        : (responseBillableCharacters ?? 0) +
+              (other.responseBillableCharacters ?? 0),
+    totalTokens: totalTokens == null && other.totalTokens == null
+        ? null
+        : (totalTokens ?? 0) + (other.totalTokens ?? 0),
+  );
 
   @override
-  String toString() => '''
+  String toString() =>
+      '''
 LanguageModelUsage{
   promptTokens: $promptTokens, 
   promptBillableCharacters: $promptBillableCharacters, 

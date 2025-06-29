@@ -140,80 +140,79 @@ class OpenAIOptions extends LLMOptions {
     String? user,
     int? concurrencyLimit,
   }) => OpenAIOptions(
-      model: model ?? this.model,
-      bestOf: bestOf ?? this.bestOf,
-      frequencyPenalty: frequencyPenalty ?? this.frequencyPenalty,
-      logitBias: logitBias ?? this.logitBias,
-      logprobs: logprobs ?? this.logprobs,
-      maxTokens: maxTokens ?? this.maxTokens,
-      n: n ?? this.n,
-      presencePenalty: presencePenalty ?? this.presencePenalty,
-      seed: seed ?? this.seed,
-      stop: stop ?? this.stop,
-      suffix: suffix ?? this.suffix,
-      temperature: temperature ?? this.temperature,
-      topP: topP ?? this.topP,
-      user: user ?? this.user,
-      concurrencyLimit: concurrencyLimit ?? super.concurrencyLimit,
-    );
+    model: model ?? this.model,
+    bestOf: bestOf ?? this.bestOf,
+    frequencyPenalty: frequencyPenalty ?? this.frequencyPenalty,
+    logitBias: logitBias ?? this.logitBias,
+    logprobs: logprobs ?? this.logprobs,
+    maxTokens: maxTokens ?? this.maxTokens,
+    n: n ?? this.n,
+    presencePenalty: presencePenalty ?? this.presencePenalty,
+    seed: seed ?? this.seed,
+    stop: stop ?? this.stop,
+    suffix: suffix ?? this.suffix,
+    temperature: temperature ?? this.temperature,
+    topP: topP ?? this.topP,
+    user: user ?? this.user,
+    concurrencyLimit: concurrencyLimit ?? super.concurrencyLimit,
+  );
 
   @override
   OpenAIOptions merge(covariant OpenAIOptions? other) => copyWith(
-      model: other?.model,
-      bestOf: other?.bestOf,
-      frequencyPenalty: other?.frequencyPenalty,
-      logitBias: other?.logitBias,
-      logprobs: other?.logprobs,
-      maxTokens: other?.maxTokens,
-      n: other?.n,
-      presencePenalty: other?.presencePenalty,
-      seed: other?.seed,
-      stop: other?.stop,
-      suffix: other?.suffix,
-      temperature: other?.temperature,
-      topP: other?.topP,
-      user: other?.user,
-      concurrencyLimit: other?.concurrencyLimit,
-    );
+    model: other?.model,
+    bestOf: other?.bestOf,
+    frequencyPenalty: other?.frequencyPenalty,
+    logitBias: other?.logitBias,
+    logprobs: other?.logprobs,
+    maxTokens: other?.maxTokens,
+    n: other?.n,
+    presencePenalty: other?.presencePenalty,
+    seed: other?.seed,
+    stop: other?.stop,
+    suffix: other?.suffix,
+    temperature: other?.temperature,
+    topP: other?.topP,
+    user: other?.user,
+    concurrencyLimit: other?.concurrencyLimit,
+  );
 
   @override
-  bool operator ==(covariant OpenAIOptions other) => identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            model == other.model &&
-            bestOf == other.bestOf &&
-            frequencyPenalty == other.frequencyPenalty &&
-            const MapEquality<String, int>().equals(
-              logitBias,
-              other.logitBias,
-            ) &&
-            logprobs == other.logprobs &&
-            maxTokens == other.maxTokens &&
-            n == other.n &&
-            presencePenalty == other.presencePenalty &&
-            seed == other.seed &&
-            const ListEquality<String>().equals(stop, other.stop) &&
-            suffix == other.suffix &&
-            temperature == other.temperature &&
-            topP == other.topP &&
-            user == other.user &&
-            concurrencyLimit == other.concurrencyLimit;
+  bool operator ==(covariant OpenAIOptions other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          model == other.model &&
+          bestOf == other.bestOf &&
+          frequencyPenalty == other.frequencyPenalty &&
+          const MapEquality<String, int>().equals(logitBias, other.logitBias) &&
+          logprobs == other.logprobs &&
+          maxTokens == other.maxTokens &&
+          n == other.n &&
+          presencePenalty == other.presencePenalty &&
+          seed == other.seed &&
+          const ListEquality<String>().equals(stop, other.stop) &&
+          suffix == other.suffix &&
+          temperature == other.temperature &&
+          topP == other.topP &&
+          user == other.user &&
+          concurrencyLimit == other.concurrencyLimit;
 
   @override
-  int get hashCode => model.hashCode ^
-        bestOf.hashCode ^
-        frequencyPenalty.hashCode ^
-        const MapEquality<String, int>().hash(logitBias) ^
-        logprobs.hashCode ^
-        maxTokens.hashCode ^
-        n.hashCode ^
-        presencePenalty.hashCode ^
-        seed.hashCode ^
-        const ListEquality<String>().hash(stop) ^
-        suffix.hashCode ^
-        temperature.hashCode ^
-        topP.hashCode ^
-        user.hashCode ^
-        concurrencyLimit.hashCode;
+  int get hashCode =>
+      model.hashCode ^
+      bestOf.hashCode ^
+      frequencyPenalty.hashCode ^
+      const MapEquality<String, int>().hash(logitBias) ^
+      logprobs.hashCode ^
+      maxTokens.hashCode ^
+      n.hashCode ^
+      presencePenalty.hashCode ^
+      seed.hashCode ^
+      const ListEquality<String>().hash(stop) ^
+      suffix.hashCode ^
+      temperature.hashCode ^
+      topP.hashCode ^
+      user.hashCode ^
+      concurrencyLimit.hashCode;
 }
 
 @immutable
@@ -241,20 +240,21 @@ class LLMResult extends LanguageModelResult<String> {
 
   @override
   LLMResult concat(LanguageModelResult<String> other) => LLMResult(
-      id: other.id,
-      output: output + other.output,
-      finishReason:
-          finishReason != FinishReason.unspecified &&
-              other.finishReason == FinishReason.unspecified
-          ? finishReason
-          : other.finishReason,
-      metadata: {...metadata, ...other.metadata},
-      usage: usage.concat(other.usage),
-      streaming: other.streaming,
-    );
+    id: other.id,
+    output: output + other.output,
+    finishReason:
+        finishReason != FinishReason.unspecified &&
+            other.finishReason == FinishReason.unspecified
+        ? finishReason
+        : other.finishReason,
+    metadata: {...metadata, ...other.metadata},
+    usage: usage.concat(other.usage),
+    streaming: other.streaming,
+  );
 
   @override
-  String toString() => '''
+  String toString() =>
+      '''
 LLMResult{
   id: $id, 
   output: $output,

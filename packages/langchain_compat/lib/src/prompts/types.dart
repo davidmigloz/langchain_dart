@@ -31,7 +31,8 @@ sealed class PromptValue {
   factory PromptValue.string(String value) => StringPromptValue(value);
 
   /// {@macro chat_prompt_template}
-  factory PromptValue.chat(List<ChatMessage> messages) => ChatPromptValue(messages);
+  factory PromptValue.chat(List<ChatMessage> messages) =>
+      ChatPromptValue(messages);
 
   /// Returns a string representing the prompt.
   @override
@@ -168,9 +169,10 @@ class ChatPromptValue implements PromptValue {
   };
 
   @override
-  bool operator ==(covariant ChatPromptValue other) => identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            const ListEquality<ChatMessage>().equals(messages, other.messages);
+  bool operator ==(covariant ChatPromptValue other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          const ListEquality<ChatMessage>().equals(messages, other.messages);
 
   @override
   int get hashCode => const ListEquality<ChatMessage>().hash(messages);

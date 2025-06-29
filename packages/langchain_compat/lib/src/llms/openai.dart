@@ -247,10 +247,7 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
   static const defaultConcurrencyLimit = 20;
 
   @override
-  Future<LLMResult> invoke(
-    PromptValue input, {
-    OpenAIOptions? options,
-  }) async {
+  Future<LLMResult> invoke(PromptValue input, {OpenAIOptions? options}) async {
     final completion = await _client.createCompletion(
       request: _createCompletionRequest([input.toString()], options: options),
     );
@@ -298,20 +295,16 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
   }
 
   @override
-  Stream<LLMResult> stream(
-    PromptValue input, {
-    OpenAIOptions? options,
-  }) => _client
-        .createCompletionStream(
-          request: _createCompletionRequest(
-            [input.toString()],
-            options: options,
-            stream: true,
-          ),
-        )
-        .map(
-          (completion) => completion.toLLMResults(streaming: true).first,
-        );
+  Stream<LLMResult> stream(PromptValue input, {OpenAIOptions? options}) =>
+      _client
+          .createCompletionStream(
+            request: _createCompletionRequest(
+              [input.toString()],
+              options: options,
+              stream: true,
+            ),
+          )
+          .map((completion) => completion.toLLMResults(streaming: true).first);
 
   /// Creates a [CreateCompletionRequest] from the given input.
   CreateCompletionRequest _createCompletionRequest(
@@ -319,36 +312,34 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
     OpenAIOptions? options,
     bool stream = false,
   }) => CreateCompletionRequest(
-      model: CompletionModel.modelId(
-        options?.model ?? defaultOpenAIOptions.model ?? defaultModel,
-      ),
-      prompt: CompletionPrompt.listString(prompts),
-      bestOf: options?.bestOf ?? defaultOpenAIOptions.bestOf,
-      frequencyPenalty:
-          options?.frequencyPenalty ?? defaultOpenAIOptions.frequencyPenalty,
-      logitBias: options?.logitBias ?? defaultOpenAIOptions.logitBias,
-      logprobs: options?.logprobs ?? defaultOpenAIOptions.logprobs,
-      maxTokens:
-          options?.maxTokens ??
-          defaultOpenAIOptions.maxTokens ??
-          defaultMaxTokens,
-      n: options?.n ?? defaultOpenAIOptions.n,
-      presencePenalty:
-          options?.presencePenalty ?? defaultOpenAIOptions.presencePenalty,
-      seed: options?.seed ?? defaultOpenAIOptions.seed,
-      stop: (options?.stop ?? defaultOpenAIOptions.stop) != null
-          ? CompletionStop.listString(
-              options?.stop ?? defaultOpenAIOptions.stop!,
-            )
-          : null,
-      suffix: options?.suffix ?? defaultOpenAIOptions.suffix,
-      temperature: options?.temperature ?? defaultOpenAIOptions.temperature,
-      topP: options?.topP ?? defaultOpenAIOptions.topP,
-      user: options?.user ?? defaultOpenAIOptions.user,
-      streamOptions: stream
-          ? const ChatCompletionStreamOptions(includeUsage: true)
-          : null,
-    );
+    model: CompletionModel.modelId(
+      options?.model ?? defaultOpenAIOptions.model ?? defaultModel,
+    ),
+    prompt: CompletionPrompt.listString(prompts),
+    bestOf: options?.bestOf ?? defaultOpenAIOptions.bestOf,
+    frequencyPenalty:
+        options?.frequencyPenalty ?? defaultOpenAIOptions.frequencyPenalty,
+    logitBias: options?.logitBias ?? defaultOpenAIOptions.logitBias,
+    logprobs: options?.logprobs ?? defaultOpenAIOptions.logprobs,
+    maxTokens:
+        options?.maxTokens ??
+        defaultOpenAIOptions.maxTokens ??
+        defaultMaxTokens,
+    n: options?.n ?? defaultOpenAIOptions.n,
+    presencePenalty:
+        options?.presencePenalty ?? defaultOpenAIOptions.presencePenalty,
+    seed: options?.seed ?? defaultOpenAIOptions.seed,
+    stop: (options?.stop ?? defaultOpenAIOptions.stop) != null
+        ? CompletionStop.listString(options?.stop ?? defaultOpenAIOptions.stop!)
+        : null,
+    suffix: options?.suffix ?? defaultOpenAIOptions.suffix,
+    temperature: options?.temperature ?? defaultOpenAIOptions.temperature,
+    topP: options?.topP ?? defaultOpenAIOptions.topP,
+    user: options?.user ?? defaultOpenAIOptions.user,
+    streamOptions: stream
+        ? const ChatCompletionStreamOptions(includeUsage: true)
+        : null,
+  );
 
   /// Tokenizes the given prompt using tiktoken with the encoding used by the
   /// [model]. If an encoding model is specified in [encoding] field, that

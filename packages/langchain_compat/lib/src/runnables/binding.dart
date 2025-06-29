@@ -64,7 +64,8 @@ class RunnableBinding<
   }
 
   @override
-  Stream<RunOutput> stream(RunInput input, {CallOptions? options}) => bound.stream(input, options: options ?? this.options);
+  Stream<RunOutput> stream(RunInput input, {CallOptions? options}) =>
+      bound.stream(input, options: options ?? this.options);
 
   @override
   void close() {

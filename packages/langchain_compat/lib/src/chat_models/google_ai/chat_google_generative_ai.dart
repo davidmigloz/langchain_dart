@@ -114,8 +114,16 @@ import 'mappers.dart';
 /// final prompt1 = PromptTemplate.fromTemplate('How are you {name}?');
 /// final prompt2 = PromptTemplate.fromTemplate('How old are you {name}?');
 /// final chain = Runnable.fromMap({
-///   'q1': prompt1 | chatModel.bind(const ChatGoogleGenerativeAIOptions(model: 'gemini-pro')) | outputParser,
-///   'q2': prompt2 | chatModel.bind(const ChatGoogleGenerativeAIOptions(model: 'gemini-pro-vision')) | outputParser,
+///   'q1': prompt1 |
+///     chatModel.bind(const ChatGoogleGenerativeAIOptions(
+///       model: 'gemini-pro',
+///     )) |
+///     outputParser,
+///   'q2': prompt2 |
+///     chatModel.bind(const ChatGoogleGenerativeAIOptions(
+///       model: 'gemini-pro-vision',
+///     )) |
+///     outputParser,
 /// });
 /// final res = await chain.invoke({'name': 'David'});
 /// ```
@@ -151,7 +159,9 @@ import 'mappers.dart';
 ///   ),
 /// );
 /// final res = await model.invoke(
-///   PromptValue.string('What's the weather like in Boston and Madrid right now in celsius?'),
+///   PromptValue.string(
+///     "What's the weather like in Boston and Madrid right now in celsius?",
+///   ),
 /// );
 /// ```
 ///
@@ -245,8 +255,7 @@ class ChatGoogleGenerativeAI
   late final _uuid = const Uuid();
 
   /// Set or replace the API key.
-  set apiKey(String value) =>
-      _httpClient.headers['x-goog-api-key'] = value;
+  set apiKey(String value) => _httpClient.headers['x-goog-api-key'] = value;
 
   /// Get the API key.
   String get apiKey => _httpClient.headers['x-goog-api-key'] ?? '';
@@ -360,7 +369,8 @@ class ChatGoogleGenerativeAI
     ChatGoogleGenerativeAIOptions? options,
   }) {
     throw UnsupportedError(
-      'Google AI does not expose a tokenizer, only counting tokens is supported.',
+      'Google AI does not expose a tokenizer, only counting tokens is '
+      'supported.',
     );
   }
 
@@ -396,10 +406,7 @@ class ChatGoogleGenerativeAI
   );
 
   /// Recreate the [GenerativeModel] instance.
-  void _recreateGoogleAiClient(
-    String model,
-    String? systemInstruction,
-  ) {
+  void _recreateGoogleAiClient(String model, String? systemInstruction) {
     _googleAiClient = _createGoogleAiClient(
       model,
       systemInstruction: systemInstruction,

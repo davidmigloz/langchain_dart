@@ -53,10 +53,7 @@ class RunnableFunction<RunInput extends Object, RunOutput extends Object>
     extends Runnable<RunInput, RunnableOptions, RunOutput> {
   /// {@macro runnable_function}
   const RunnableFunction({
-    FutureOr<RunOutput> Function(
-      RunInput input,
-      RunnableOptions? options,
-    )?
+    FutureOr<RunOutput> Function(RunInput input, RunnableOptions? options)?
     invoke,
     Stream<RunOutput> Function(
       Stream<RunInput> inputStream,
@@ -87,10 +84,7 @@ class RunnableFunction<RunInput extends Object, RunOutput extends Object>
   /// - [input] - the input to invoke the [RunnableFunction] on.
   /// - [options] - the options to use when invoking the [RunnableFunction].
   @override
-  Future<RunOutput> invoke(
-    RunInput input, {
-    RunnableOptions? options,
-  }) async {
+  Future<RunOutput> invoke(RunInput input, {RunnableOptions? options}) async {
     if (_invokeFunc != null) {
       return _invokeFunc(input, options);
     } else {
@@ -103,10 +97,8 @@ class RunnableFunction<RunInput extends Object, RunOutput extends Object>
   /// - [input] - the input to stream through the [RunnableFunction].
   /// - [options] - the options to use when streaming the [input].
   @override
-  Stream<RunOutput> stream(
-    RunInput input, {
-    RunnableOptions? options,
-  }) => streamFromInputStream(Stream.value(input), options: options);
+  Stream<RunOutput> stream(RunInput input, {RunnableOptions? options}) =>
+      streamFromInputStream(Stream.value(input), options: options);
 
   @override
   Stream<RunOutput> streamFromInputStream(
