@@ -12,7 +12,8 @@ import 'base.dart';
 import 'mappers.dart';
 import 'types.dart';
 
-/// Wrapper around [OpenAI Completions API](https://platform.openai.com/docs/api-reference/completions).
+/// Wrapper around [OpenAI Completions
+/// API](https://platform.openai.com/docs/api-reference/completions).
 ///
 /// Example:
 /// ```dart
@@ -21,8 +22,10 @@ import 'types.dart';
 /// final res = await llm.invoke(prompt);
 /// ```
 ///
-/// - [Completions guide](https://platform.openai.com/docs/guides/gpt/completions-api)
-/// - [Completions API docs](https://platform.openai.com/docs/api-reference/completions)
+/// - [Completions
+///   guide](https://platform.openai.com/docs/guides/gpt/completions-api)
+/// - [Completions API
+///   docs](https://platform.openai.com/docs/api-reference/completions)
 ///
 /// ### Call options
 ///
@@ -31,8 +34,8 @@ import 'types.dart';
 ///
 /// **Default options:**
 ///
-/// Use the [defaultOptions] parameter to set the default options. These
-/// options will be used unless you override them when generating completions.
+/// Use the [defaultOptions] parameter to set the default options. These options
+/// will be used unless you override them when generating completions.
 ///
 /// ```dart
 /// final llm = OpenAI(
@@ -71,17 +74,21 @@ import 'types.dart';
 /// final prompt1 = PromptTemplate.fromTemplate('How are you {name}?');
 /// final prompt2 = PromptTemplate.fromTemplate('How old are you {name}?');
 /// final chain = Runnable.fromMap({
-///   'q1': prompt1 | llm.bind(const OpenAIOptions(model: 'gpt-3.5-turbo-instruct')) | outputParser,
-///   'q2': prompt2| llm.bind(const OpenAIOptions(model: 'text-davinci-003')) | outputParser,
+///   'q1': prompt1 |
+///     llm.bind(const OpenAIOptions(model: 'gpt-3.5-turbo-instruct')) |
+///     outputParser,
+///   'q2': prompt2 |
+///     llm.bind(const OpenAIOptions(model: 'text-davinci-003')) |
+///     outputParser,
 /// });
 /// final res = await chain.invoke({'name': 'David'});
 /// ```
 ///
 /// ### Authentication
 ///
-/// The OpenAI API uses API keys for authentication. Visit your
-/// [API Keys](https://platform.openai.com/account/api-keys) page to retrieve
-/// the API key you'll use in your requests.
+/// The OpenAI API uses API keys for authentication. Visit your [API
+/// Keys](https://platform.openai.com/account/api-keys) page to retrieve the API
+/// key you'll use in your requests.
 ///
 /// #### Organization (optional)
 ///
@@ -100,12 +107,13 @@ import 'types.dart';
 ///
 /// #### Azure OpenAI Service
 ///
-/// OpenAI's models are also available as an [Azure service](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview).
+/// OpenAI's models are also available as an [Azure
+/// service](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview).
 ///
 /// Although the Azure OpenAI API is similar to the official OpenAI API, there
-/// are subtle differences between them. This client is intended to be used
-/// with the official OpenAI API, but most of the functionality should work
-/// with the Azure OpenAI API as well.
+/// are subtle differences between them. This client is intended to be used with
+/// the official OpenAI API, but most of the functionality should work with the
+/// Azure OpenAI API as well.
 ///
 /// If you want to use this client with the Azure OpenAI API (at your own risk),
 /// you can do so by instantiating the client as follows:
@@ -120,12 +128,14 @@ import 'types.dart';
 ///
 /// - `YOUR_RESOURCE_NAME`: This value can be found in the Keys & Endpoint
 ///    section when examining your resource from the Azure portal.
-/// - `YOUR_DEPLOYMENT_NAME`: This value will correspond to the custom name
-///    you chose for your deployment when you deployed a model. This value can be found under Resource Management > Deployments in the Azure portal.
+/// - `YOUR_DEPLOYMENT_NAME`: This value will correspond to the custom name you
+///    chose for your deployment when you deployed a model. This value can be
+///    found under Resource Management > Deployments in the Azure portal.
 /// - `YOUR_API_KEY`: This value can be found in the Keys & Endpoint section
 ///    when examining your resource from the Azure portal.
 /// - `API_VERSION`: The Azure OpenAI API version to use (e.g. `2023-05-15`).
-///    Try to use the [latest version available](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cognitiveservices/data-plane/AzureOpenAI/inference),
+///    Try to use the [latest version
+///    available](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cognitiveservices/data-plane/AzureOpenAI/inference),
 ///    it will probably be the closest to the official OpenAI API.
 ///
 /// #### Custom HTTP client
@@ -160,8 +170,8 @@ import 'types.dart';
 /// ##### SOCKS5 proxy
 ///
 /// To use a SOCKS5 proxy, you can use the
-/// [`socks5_proxy`](https://pub.dev/packages/socks5_proxy) package and a
-/// custom `http.Client`.
+/// [`socks5_proxy`](https://pub.dev/packages/socks5_proxy) package and a custom
+/// `http.Client`.
 class OpenAI extends BaseLLM<OpenAIOptions> {
   /// Create a new [OpenAI] instance.
   ///
@@ -206,9 +216,9 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
 
   /// The encoding to use by tiktoken when [tokenize] is called.
   ///
-  /// By default, when [encoding] is not set, it is derived from the [model].
+  /// By default, when [encoding] is not set, it is derived from the model.
   /// However, there are some cases where you may want to use this wrapper
-  /// class with a [model] not supported by tiktoken (e.g. when using Azure
+  /// class with a model not supported by tiktoken (e.g. when using Azure
   /// embeddings or when using one of the many model providers that expose an
   /// OpenAI-like API but with different models). In those cases, tiktoken won't
   /// be able to derive the encoding to use, so you have to explicitly specify
@@ -342,7 +352,7 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
   );
 
   /// Tokenizes the given prompt using tiktoken with the encoding used by the
-  /// [model]. If an encoding model is specified in [encoding] field, that
+  /// model. If an encoding model is specified in [encoding] field, that
   /// encoding is used instead.
   ///
   /// - [promptValue] The prompt to tokenize.

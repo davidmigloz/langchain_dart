@@ -8,10 +8,13 @@ import '../prompts/types.dart';
 /// E.g.:
 /// - A list of strings will be concatenated.
 /// - A list of chat messages will be concatenated into a single chat message.
-/// - A list of language model results will be concatenated into a single language model result.
+/// - A list of language model results will be concatenated into a single
+///   language model result.
 /// - A list of documents will be concatenated into a single document.
-/// - A list of lists will be reduced to a single list containing a single reduced item.
-/// - A list of maps will be reduced to a single map containing the reduced items.
+/// - A list of lists will be reduced to a single list containing a single
+///   reduced item.
+/// - A list of maps will be reduced to a single map containing the reduced
+///   items.
 /// - If a type is not recognized, the last item in the list will be returned.
 Type reduce<Type>(Iterable<Type> input) {
   if (input.isEmpty) {

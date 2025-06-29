@@ -215,6 +215,9 @@ class OpenAIOptions extends LLMOptions {
       concurrencyLimit.hashCode;
 }
 
+/// {@template llm_options}
+/// Options for an LLM.
+/// {@endtemplate}
 @immutable
 class LLMOptions extends LanguageModelOptions {
   /// {@macro llm_options}

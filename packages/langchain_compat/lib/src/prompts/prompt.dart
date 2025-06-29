@@ -9,8 +9,9 @@ import 'types.dart';
 /// {@template prompt_template}
 /// A prompt template for a language model.
 ///
-/// A prompt template consists of a string template. It accepts a set of parameters
-/// from the user that can be used to generate a prompt for a language model.
+/// A prompt template consists of a string template. It accepts a set of
+/// parameters from the user that can be used to generate a prompt for a
+/// language model.
 ///
 /// Example:
 /// ```dart
@@ -25,10 +26,11 @@ import 'types.dart';
 /// Note: the default constructor does not validate the template. You can use
 /// [PromptTemplate.validateTemplate] to validate the template.
 ///
-/// You can also use the following convenience factory constructors to create a prompt template:
+/// You can also use the following convenience factory constructors to create a
+/// prompt template:
 ///
-/// - [PromptTemplate.fromTemplate] creates a prompt template from a string template automatically
-///   extracting the input variables.
+/// - [PromptTemplate.fromTemplate] creates a prompt template from a string
+///   template automatically extracting the input variables.
 ///
 /// ```dart
 /// final promptTemplate = PromptTemplate.fromTemplate(
@@ -36,7 +38,8 @@ import 'types.dart';
 /// );
 /// ```
 ///
-/// - [PromptTemplate.fromExamples] to create prompt templates from a list of examples.
+/// - [PromptTemplate.fromExamples] to create prompt templates from a list of
+///   examples.
 /// - [PromptTemplate.fromFile] to create a prompt template from a file.
 /// {@endtemplate}
 @immutable
@@ -48,7 +51,8 @@ final class PromptTemplate extends BasePromptTemplate {
     super.partialVariables,
   });
 
-  /// Creates a prompt template from a string template automatically extracting the input variables.
+  /// Creates a prompt template from a string template automatically extracting
+  /// the input variables.
   ///
   /// Example:
   /// ```dart

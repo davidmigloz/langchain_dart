@@ -20,11 +20,14 @@ abstract base class ChatMessagePromptTemplate
 
   /// Creates a [SystemChatMessagePromptTemplate] from a string template.
   ///
-  /// This is a convenience factory equivalent to [SystemChatMessagePromptTemplate.fromTemplate].
+  /// This is a convenience factory equivalent to
+  /// [SystemChatMessagePromptTemplate.fromTemplate].
   ///
   /// Example:
   /// ```dart
-  /// final msgTemplate = ChatMessagePromptTemplate.system("Here's some context: {context}");
+  /// final msgTemplate = ChatMessagePromptTemplate.system(
+  ///   "Here's some context: {context}",
+  /// );
   /// ```
   ///
   /// - [template] the template string.
@@ -42,7 +45,8 @@ abstract base class ChatMessagePromptTemplate
 
   /// Creates a [HumanChatMessagePromptTemplate] from a string template.
   ///
-  /// This is a convenience factory equivalent to [HumanChatMessagePromptTemplate.fromTemplate].
+  /// This is a convenience factory equivalent to
+  /// [HumanChatMessagePromptTemplate.fromTemplate].
   ///
   /// Example:
   /// ```dart
@@ -66,11 +70,14 @@ abstract base class ChatMessagePromptTemplate
 
   /// Creates a [AIChatMessagePromptTemplate] from a string template.
   ///
-  /// This is a convenience factory equivalent to [AIChatMessagePromptTemplate.fromTemplate].
+  /// This is a convenience factory equivalent to
+  /// [AIChatMessagePromptTemplate.fromTemplate].
   ///
   /// Example:
   /// ```dart
-  /// final msgTemplate = ChatMessagePromptTemplate.ai("I'm an AI. I'm {foo}. I'm {bar}.");
+  /// final msgTemplate = ChatMessagePromptTemplate.ai(
+  ///   "I'm an AI. I'm {foo}. I'm {bar}.",
+  /// );
   /// ```
   ///
   /// - [template] the template string.
@@ -88,7 +95,8 @@ abstract base class ChatMessagePromptTemplate
 
   /// Creates a [CustomChatMessagePromptTemplate] from a string template.
   ///
-  /// This is a convenience factory equivalent to [CustomChatMessagePromptTemplate.fromTemplate].
+  /// This is a convenience factory equivalent to
+  /// [CustomChatMessagePromptTemplate.fromTemplate].
   ///
   /// Example:
   /// ```dart
@@ -114,15 +122,18 @@ abstract base class ChatMessagePromptTemplate
     validateTemplate: validateTemplate,
   );
 
-  /// Creates a [MessagePlaceholder], a prompt template that assumes the variable is a [ChatMessage].
+  /// Creates a [MessagePlaceholder], a prompt template that assumes the
+  /// variable is a [ChatMessage].
   ///
   /// This is useful when you want to use a single [ChatMessage] in the prompt.
   /// For example, when you decide the type of message at runtime (e.g.
-  /// [HumanChatMessage] or [FunctionChatMessage]).
+  /// [HumanChatMessage] or FunctionChatMessage).
   ///
-  /// This is a convenience factory equivalent to [MessagePlaceholder] constructor.
+  /// This is a convenience factory equivalent to [MessagePlaceholder]
+  /// constructor.
   ///
-  /// If you need to add multiple messages, use [ChatMessagePromptTemplate.messagesPlaceholder].
+  /// If you need to add multiple messages, use
+  /// [ChatMessagePromptTemplate.messagesPlaceholder].
   ///
   /// Example:
   /// ```dart
@@ -137,14 +148,17 @@ abstract base class ChatMessagePromptTemplate
   factory ChatMessagePromptTemplate.messagePlaceholder(String variableName) =>
       MessagePlaceholder(variableName: variableName);
 
-  /// Creates a [MessagesPlaceholder], a prompt template that assumes the variable is a list of [ChatMessage].
+  /// Creates a [MessagesPlaceholder], a prompt template that assumes the
+  /// variable is a list of [ChatMessage].
   ///
   /// This is useful for when you want to use a list of messages in the prompt.
   /// For example, after retrieving them from memory.
   ///
-  /// This is a convenience factory equivalent to [MessagesPlaceholder] constructor.
+  /// This is a convenience factory equivalent to [MessagesPlaceholder]
+  /// constructor.
   ///
-  /// If you need to add a single message, use [ChatMessagePromptTemplate.messagePlaceholder].
+  /// If you need to add a single message, use
+  /// [ChatMessagePromptTemplate.messagePlaceholder].
   ///
   /// Example:
   /// ```dart

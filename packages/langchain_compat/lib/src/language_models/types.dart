@@ -60,7 +60,8 @@ abstract class LanguageModelResult<O extends Object> {
   ///
   /// This is a convenience method for getting the first output as a string:
   /// - If you are using an `LLM`, this will be the output String.
-  /// - If you are using a `ChatModel`, this will be the content of the output `ChatMessage`.
+  /// - If you are using a `ChatModel`, this will be the content of the output
+  ///   `ChatMessage`.
   String get outputAsString;
 
   @override

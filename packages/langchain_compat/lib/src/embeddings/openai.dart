@@ -13,17 +13,20 @@ import '../embeddings.dart';
 /// final res = await embeddings.embedQuery('Hello world');
 /// ```
 ///
-/// - [Embeddings guide](https://platform.openai.com/docs/guides/embeddings/limitations-risks)
-/// - [Embeddings API docs](https://platform.openai.com/docs/api-reference/embeddings)
+/// - [Embeddings
+///   guide](https://platform.openai.com/docs/guides/embeddings/limitations-risks)
+/// - [Embeddings API
+///   docs](https://platform.openai.com/docs/api-reference/embeddings)
 ///
 /// You can also use this wrapper to consume OpenAI-compatible APIs like
-/// [Anyscale](https://www.anyscale.com), [Together AI](https://www.together.ai), etc.
+/// [Anyscale](https://www.anyscale.com), [Together
+/// AI](https://www.together.ai), etc.
 ///
 /// ### Authentication
 ///
-/// The OpenAI API uses API keys for authentication. Visit your
-/// [API Keys](https://platform.openai.com/account/api-keys) page to retrieve
-/// the API key you'll use in your requests.
+/// The OpenAI API uses API keys for authentication. Visit your [API
+/// Keys](https://platform.openai.com/account/api-keys) page to retrieve the API
+/// key you'll use in your requests.
 ///
 /// #### Organization (optional)
 ///
@@ -42,12 +45,13 @@ import '../embeddings.dart';
 ///
 /// #### Azure OpenAI Service
 ///
-/// OpenAI's models are also available as an [Azure service](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview).
+/// OpenAI's models are also available as an [Azure
+/// service](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview).
 ///
 /// Although the Azure OpenAI API is similar to the official OpenAI API, there
-/// are subtle differences between them. This client is intended to be used
-/// with the official OpenAI API, but most of the functionality should work
-/// with the Azure OpenAI API as well.
+/// are subtle differences between them. This client is intended to be used with
+/// the official OpenAI API, but most of the functionality should work with the
+/// Azure OpenAI API as well.
 ///
 /// If you want to use this client with the Azure OpenAI API (at your own risk),
 /// you can do so by instantiating the client as follows:
@@ -62,12 +66,14 @@ import '../embeddings.dart';
 ///
 /// - `YOUR_RESOURCE_NAME`: This value can be found in the Keys & Endpoint
 ///    section when examining your resource from the Azure portal.
-/// - `YOUR_DEPLOYMENT_NAME`: This value will correspond to the custom name
-///    you chose for your deployment when you deployed a model. This value can be found under Resource Management > Deployments in the Azure portal.
+/// - `YOUR_DEPLOYMENT_NAME`: This value will correspond to the custom name you
+///    chose for your deployment when you deployed a model. This value can be
+///    found under Resource Management > Deployments in the Azure portal.
 /// - `YOUR_API_KEY`: This value can be found in the Keys & Endpoint section
 ///    when examining your resource from the Azure portal.
 /// - `API_VERSION`: The Azure OpenAI API version to use (e.g. `2023-05-15`).
-///    Try to use the [latest version available](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cognitiveservices/data-plane/AzureOpenAI/inference),
+///    Try to use the [latest version
+///    available](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cognitiveservices/data-plane/AzureOpenAI/inference),
 ///    it will probably be the closest to the official OpenAI API.
 ///
 /// #### Custom HTTP client
@@ -102,8 +108,8 @@ import '../embeddings.dart';
 /// ##### SOCKS5 proxy
 ///
 /// To use a SOCKS5 proxy, you can use the
-/// [`socks5_proxy`](https://pub.dev/packages/socks5_proxy) package and a
-/// custom `http.Client`.
+/// [`socks5_proxy`](https://pub.dev/packages/socks5_proxy) package and a custom
+/// `http.Client`.
 class OpenAIEmbeddings implements Embeddings {
   /// Create a new [OpenAIEmbeddings] instance.
   ///
@@ -183,7 +189,8 @@ class OpenAIEmbeddings implements Embeddings {
 
   @override
   Future<List<List<double>>> embedDocuments(List<Document> documents) async {
-    // TODO use tiktoken to chunk documents that exceed the context length of the model
+    // TODO use tiktoken to chunk documents that exceed the context length of
+    // the model
     final batches = chunkList(documents, chunkSize: batchSize);
 
     final embeddings = await Future.wait(

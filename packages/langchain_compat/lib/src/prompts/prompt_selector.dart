@@ -15,10 +15,12 @@ abstract interface class BasePromptSelector {
 }
 
 /// {@template conditional_prompt_selector}
-/// Prompt collection that goes through conditionals to select the appropriate prompt template.
+/// Prompt collection that goes through conditionals to select the appropriate
+/// prompt template.
 ///
-/// You can use this to select a prompt template based on the type of language model (LLM vs. ChatModel)
-/// or the specific model used (e.g. GPT-4 vs Gemini Pro).
+/// You can use this to select a prompt template based on the type of language
+/// model (LLM vs. ChatModel) or the specific model used (e.g. GPT-4 vs Gemini
+/// Pro).
 ///
 /// Example: Selecting a prompt based on the type of language model.
 /// ```dart
@@ -68,7 +70,8 @@ class ConditionalPromptSelector implements BasePromptSelector {
 ///
 /// The following pre-defined conditions are available:
 /// - [PromptCondition.isLlm]: checks that the language model is an LLM.
-/// - [PromptCondition.isChatModel]: checks that the language model is a chat model.
+/// - [PromptCondition.isChatModel]: checks that the language model is a chat
+///   model.
 /// {@endtemplate}
 class PromptCondition {
   /// {@macro prompt_condition}

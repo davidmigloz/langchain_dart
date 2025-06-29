@@ -63,7 +63,8 @@ abstract class Runnable<
   /// Creates a [RunnableSequence] from a list of [Runnable] objects.
   ///
   /// A [RunnableSequence] allows you to run multiple [Runnable] objects
-  /// sequentially, passing the output of the previous [Runnable] to the next one.
+  /// sequentially, passing the output of the previous [Runnable] to the next
+  /// one.
   ///
   /// - [runnables] - the list of [Runnable] objects to run in sequence.
   static Runnable fromList(List<Runnable> runnables) =>
@@ -84,7 +85,7 @@ abstract class Runnable<
   ///
   /// A [RunnableFunction] allows you to run a Dart function as part of a chain.
   ///
-  /// - [function] - the function to run.
+  /// - [invoke] - the function to run.
   static Runnable<RunInput, RunnableOptions, RunOutput>
   fromFunction<RunInput extends Object, RunOutput extends Object>({
     FutureOr<RunOutput> Function(RunInput input, RunnableOptions? options)?
@@ -98,10 +99,11 @@ abstract class Runnable<
 
   /// Creates a [RunnableRouter] from a Dart function.
   ///
-  /// A [RunnableRouter] takes the input it receives and routes it to the runnable
-  /// returned by the [router] function.
+  /// A [RunnableRouter] takes the input it receives and routes it to the
+  /// runnable returned by the [router] function.
   ///
-  /// - [router] - the function that will be called to determine the runnable to use.
+  /// - [router] - the function that will be called to determine the runnable to
+  ///   use.
   static Runnable<RunInput, RunnableOptions, RunOutput>
   fromRouter<RunInput extends Object, RunOutput extends Object>(
     FutureOr<Runnable<RunInput, RunnableOptions, RunOutput>> Function(
@@ -175,7 +177,8 @@ abstract class Runnable<
   /// - [options] - the options to use when invoking the [Runnable]. It can be:
   ///   * `null`: the default options are used.
   ///   * List with 1 element: the same options are used for all inputs.
-  ///   * List with the same length as the inputs: each input gets its own options.
+  ///   * List with the same length as the inputs: each input gets its own
+  ///     options.
   Future<List<RunOutput>> batch(
     List<RunInput> inputs, {
     List<CallOptions>? options,
@@ -228,7 +231,8 @@ abstract class Runnable<
   /// [RunnableSequence].
   ///
   /// A [RunnableSequence] allows you to run multiple [Runnable] objects
-  /// sequentially, passing the output of the previous [Runnable] to the next one.
+  /// sequentially, passing the output of the previous [Runnable] to the next
+  /// one.
   ///
   /// - [next] - the [Runnable] to pipe the output into.
   RunnableSequence<RunInput, NewRunOutput>

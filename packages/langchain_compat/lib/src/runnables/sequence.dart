@@ -35,7 +35,7 @@ import 'types.dart';
 /// sequence is returned.
 ///
 /// You can think of [RunnableSequence] as the replacement for
-/// [SequentialChain].
+/// SequentialChain.
 ///
 /// Example:
 /// ```dart
@@ -127,6 +127,7 @@ class RunnableSequence<RunInput extends Object?, RunOutput extends Object?>
         inputStream,
         options: first.getCompatibleOptions(options),
       );
+      // ignore: avoid_catching_errors
     } on TypeError catch (e) {
       _throwInvalidInputTypeStream(e, first);
     }
@@ -137,6 +138,7 @@ class RunnableSequence<RunInput extends Object?, RunOutput extends Object?>
           nextStepStream,
           options: step.getCompatibleOptions(options),
         );
+        // ignore: avoid_catching_errors
       } on TypeError catch (e) {
         _throwInvalidInputTypeStream(e, step);
       }
@@ -147,6 +149,7 @@ class RunnableSequence<RunInput extends Object?, RunOutput extends Object?>
         nextStepStream,
         options: last.getCompatibleOptions(options),
       );
+      // ignore: avoid_catching_errors
     } on TypeError catch (e) {
       _throwInvalidInputTypeStream(e, last);
     }
@@ -178,9 +181,11 @@ class RunnableSequence<RunInput extends Object?, RunOutput extends Object?>
 
   /// Provides a better error message for type errors when streaming.
   Never _throwInvalidInputTypeStream(TypeError e, Runnable runnable) {
-    // TypeError: type '_BroadcastStream<X>' is not a subtype of type 'Stream<Y>' of 'inputStream'
+    // TypeError: type '_BroadcastStream<X>' is not a subtype of type
+    // 'Stream<Y>' of 'inputStream'
     final pattern = RegExp(
-      '_(As)?BroadcastStream<(?<BroadcastType>[^>]+)>.*?Stream<(?<StreamType>[^>]+)>',
+      '_(As)?BroadcastStream<(?<BroadcastType>[^>]+)>.*?'
+      'Stream<(?<StreamType>[^>]+)>',
     );
     final error = e.toString();
     final match = pattern.firstMatch(error);

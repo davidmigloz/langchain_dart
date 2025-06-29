@@ -14,7 +14,8 @@ import 'types.dart';
 /// A prompt template for chat models.
 ///
 /// Whereas LLMs take a string as prompt, Chat models take a list of messages.
-/// [ChatPromptTemplate] uses a list of template messages to generate the final prompt.
+/// [ChatPromptTemplate] uses a list of template messages to generate the final
+/// prompt.
 ///
 /// Each template message can be:
 /// - [SystemChatMessagePromptTemplate] (for system messages)
@@ -27,9 +28,15 @@ import 'types.dart';
 /// Example:
 /// ```dart
 /// final promptTemplate = ChatPromptTemplate.fromPromptMessages([
-///   ChatMessagePromptTemplate.system("Here's some context: {context}"),
-///   ChatMessagePromptTemplate.human("Hello {foo}, I'm {bar}. Thanks for the {context}"),
-///   ChatMessagePromptTemplate.ai("I'm an AI. I'm {foo}. I'm {bar}."),
+///   ChatMessagePromptTemplate.system(
+///     "Here's some context: {context}",
+///   ),
+///   ChatMessagePromptTemplate.human(
+///     "Hello {foo}, I'm {bar}. Thanks for the {context}",
+///   ),
+///   ChatMessagePromptTemplate.ai(
+///     "I'm an AI. I'm {foo}. I'm {bar}.",
+///   ),
 /// ]);
 /// final prompt = promptTemplate.formatPrompt({
 ///     'foo': 'GPT-4',
@@ -39,25 +46,30 @@ import 'types.dart';
 /// final res = await chatModel.invoke(prompt);
 /// ```
 ///
-/// If you prompt template only contains one message, you can use the convenient factory constructor
-/// [ChatPromptTemplate.fromTemplate].
+/// If you prompt template only contains one message, you can use the convenient
+/// factory constructor [ChatPromptTemplate.fromTemplate].
 ///
 /// ```dart
-/// final promptTemplate = ChatPromptTemplate.fromTemplate("Hello {foo}, I'm {bar}. Thanks for the {context}");
+/// final promptTemplate = ChatPromptTemplate.fromTemplate(
+///   "Hello {foo}, I'm {bar}. Thanks for the {context}",
+/// );
 /// ```
 ///
-/// If your prompt template contains multiple messages, you can use the convenient factory constructor
-/// [ChatPromptTemplate.fromTemplates].
+/// If your prompt template contains multiple messages, you can use the
+/// convenient factory constructor [ChatPromptTemplate.fromTemplates].
 ///
 /// ```dart
 /// final promptTemplate = ChatPromptTemplate.fromTemplates([
-///   (ChatMessageType.system, 'You are a helpful assistant that translates {input_language} to {output_language}.'),
+///   (ChatMessageType.system,
+///     'You are a helpful assistant that translates {input_language} to '
+///     '{output_language}.',
+///   ),
 ///   (ChatMessageType.human, '{text}'),
 /// ]);
 /// ```
 ///
-/// If you need a placeholder for a single message or a list of messages,
-/// you can use [MessagePlaceholder] or [MessagesPlaceholder].
+/// If you need a placeholder for a single message or a list of messages, you
+/// can use [MessagePlaceholder] or [MessagesPlaceholder].
 ///
 /// ```dart
 /// final promptTemplate = ChatPromptTemplate.fromTemplates([
@@ -67,9 +79,11 @@ import 'types.dart';
 /// ]);
 /// ```
 ///
-/// In general, prefer using [ChatPromptTemplate.fromTemplate] and [ChatPromptTemplate.fromTemplates] to create
-/// a [ChatPromptTemplate] as the resulting code is more readable. Use the main [ChatPromptTemplate] constructor or
-/// [ChatPromptTemplate.fromPromptMessages] for advanced use cases.
+/// In general, prefer using [ChatPromptTemplate.fromTemplate] and
+/// [ChatPromptTemplate.fromTemplates] to create a [ChatPromptTemplate] as the
+/// resulting code is more readable. Use the main [ChatPromptTemplate]
+/// constructor or [ChatPromptTemplate.fromPromptMessages] for advanced use
+/// cases.
 /// {@endtemplate}
 @immutable
 final class ChatPromptTemplate extends BaseChatPromptTemplate {
@@ -94,8 +108,10 @@ final class ChatPromptTemplate extends BaseChatPromptTemplate {
   /// ```
   ///
   /// - [template] the template string.
-  /// - [type] the type of chat message prompt template ([HumanChatMessagePromptTemplate] by default).
-  /// - [customRole] the role of the message if [type] is [ChatMessageType.custom].
+  /// - [type] the type of chat message prompt template
+  ///   ([HumanChatMessagePromptTemplate] by default).
+  /// - [customRole] the role of the message if [type] is
+  ///   [ChatMessageType.custom].
   /// - [partialVariables] the partial variables to use for the template.
   /// - [validateTemplate] whether to validate the template.
   factory ChatPromptTemplate.fromTemplate(
@@ -111,12 +127,16 @@ final class ChatPromptTemplate extends BaseChatPromptTemplate {
     validateTemplate: validateTemplate,
   );
 
-  /// Creates a [ChatPromptTemplate] from a list of pairs of chat message prompt template type and template.
+  /// Creates a [ChatPromptTemplate] from a list of pairs of chat message prompt
+  /// template type and template.
   ///
   /// Example:
   /// ```dart
   /// final promptTemplate = ChatPromptTemplate.fromTemplates([
-  ///   (ChatMessageType.system, 'You are an assistant that translates {input_language} to {output_language}.'),
+  ///   (ChatMessageType.system,
+  ///     'You are an assistant that translates {input_language} to '
+  ///     '{output_language}.',
+  ///   ),
   ///   (ChatMessageType.human, '{text}'),
   /// ]);
   /// final prompt = promptTemplate.formatPrompt({
@@ -128,7 +148,8 @@ final class ChatPromptTemplate extends BaseChatPromptTemplate {
   /// ```
   ///
   /// - [messages] the list of pairs of type and templates.
-  /// - [customRole] the role of the message if [type] is [ChatMessageType.custom].
+  /// - [customRole] the role of the message if [type] is
+  ///   [ChatMessageType.custom].
   /// - [partialVariables] the partial variables to use for the template.
   /// - [validateTemplate] whether to validate the template.
   factory ChatPromptTemplate.fromTemplates(
@@ -213,8 +234,10 @@ final class ChatPromptTemplate extends BaseChatPromptTemplate {
   /// Creates a [ChatPromptTemplate] with a single message from a file.
   ///
   /// - [templateFile] the path to the file containing the prompt template.
-  /// - [type] the type of chat message prompt template ([HumanChatMessagePromptTemplate] by default).
-  /// - [customRole] the role of the message if [type] is [ChatMessageType.custom].
+  /// - [type] the type of chat message prompt template
+  ///   ([HumanChatMessagePromptTemplate] by default).
+  /// - [customRole] the role of the message if [type] is
+  ///   [ChatMessageType.custom].
   /// - [partialVariables] the partial variables to use for the template.
   /// - [validateTemplate] whether to validate the template.
   static Future<ChatPromptTemplate> fromTemplateFile(
@@ -344,7 +367,8 @@ enum ChatMessageType {
 }
 
 /// {@template system_chat_message_prompt_template}
-/// A chat message prompt template for a [SystemChatMessagePromptTemplate] ([ChatMessageType.human]).
+/// A chat message prompt template for a [SystemChatMessagePromptTemplate]
+/// ([ChatMessageType.human]).
 /// {@endtemplate}
 @immutable
 final class SystemChatMessagePromptTemplate
@@ -352,18 +376,23 @@ final class SystemChatMessagePromptTemplate
   /// {@macro system_chat_message_prompt_template}
   const SystemChatMessagePromptTemplate({required super.prompt});
 
-  /// Creates a [SystemChatMessagePromptTemplate] from a string template.
-  /// It considers the prompt a [SystemChatMessage].
+  /// Creates a [SystemChatMessagePromptTemplate] from a string template. It
+  /// considers the prompt a [SystemChatMessage].
   ///
   /// Example:
   /// ```dart
-  /// final msgTemplate = SystemChatMessagePromptTemplate.fromTemplate("Here's some context: {context}");
+  /// final msgTemplate = SystemChatMessagePromptTemplate.fromTemplate(
+  ///   "Here's some context: {context}",
+  /// );
   /// ```
   ///
-  /// Alternatively, you can use [ChatMessagePromptTemplate.system] to achieve the same result.
+  /// Alternatively, you can use [ChatMessagePromptTemplate.system] to achieve
+  /// the same result.
   ///
   /// ```dart
-  /// final msgTemplate = ChatMessagePromptTemplate.system("Here's some context: {context}");
+  /// final msgTemplate = ChatMessagePromptTemplate.system(
+  ///   "Here's some context: {context}",
+  /// );
   /// ```
   ///
   /// - [template] the template string.
@@ -422,15 +451,16 @@ SystemChatMessagePromptTemplate{
 }
 
 /// {@template human_chat_message_prompt_template}
-/// A chat message prompt template for a [HumanChatMessage] ([ChatMessageType.human]).
+/// A chat message prompt template for a [HumanChatMessage]
+/// ([ChatMessageType.human]).
 /// {@endtemplate}
 @immutable
 final class HumanChatMessagePromptTemplate extends StringMessagePromptTemplate {
   /// {@macro human_chat_message_prompt_template}
   const HumanChatMessagePromptTemplate({required super.prompt});
 
-  /// Creates a [HumanChatMessagePromptTemplate] from a string template.
-  /// It considers the prompt a [HumanChatMessage].
+  /// Creates a [HumanChatMessagePromptTemplate] from a string template. It
+  /// considers the prompt a [HumanChatMessage].
   ///
   /// Example:
   /// ```dart
@@ -439,7 +469,8 @@ final class HumanChatMessagePromptTemplate extends StringMessagePromptTemplate {
   /// );
   /// ```
   ///
-  /// Alternatively, you can use [ChatMessagePromptTemplate.human] to achieve the same result.
+  /// Alternatively, you can use [ChatMessagePromptTemplate.human] to achieve
+  /// the same result.
   ///
   /// ```dart
   /// final msgTemplate = ChatMessagePromptTemplate.human(
@@ -515,13 +546,18 @@ final class AIChatMessagePromptTemplate extends StringMessagePromptTemplate {
   ///
   /// Example:
   /// ```dart
-  /// final msgTemplate = AIChatMessagePromptTemplate.fromTemplate("I'm an AI. I'm {foo}. I'm {bar}.");
+  /// final msgTemplate = AIChatMessagePromptTemplate.fromTemplate(
+  ///   "I'm an AI. I'm {foo}. I'm {bar}.",
+  /// );
   /// ```
   ///
-  /// Alternatively, you can use [ChatMessagePromptTemplate.ai] to achieve the same result.
+  /// Alternatively, you can use [ChatMessagePromptTemplate.ai] to achieve the
+  /// same result.
   ///
   /// ```dart
-  /// final msgTemplate = ChatMessagePromptTemplate.ai("I'm an AI. I'm {foo}. I'm {bar}.");
+  /// final msgTemplate = ChatMessagePromptTemplate.ai(
+  ///   "I'm an AI. I'm {foo}. I'm {bar}.",
+  /// );
   /// ```
   ///
   /// - [template] the template string.
@@ -591,8 +627,8 @@ final class CustomChatMessagePromptTemplate
     required this.role,
   });
 
-  /// Creates a [CustomChatMessagePromptTemplate] from a string template.
-  /// It considers the prompt a [CustomChatMessage].
+  /// Creates a [CustomChatMessagePromptTemplate] from a string template. It
+  /// considers the prompt a [CustomChatMessage].
   ///
   /// Example:
   /// ```dart
@@ -602,7 +638,8 @@ final class CustomChatMessagePromptTemplate
   /// );
   /// ```
   ///
-  /// Alternatively, you can use [ChatMessagePromptTemplate.custom] to achieve the same result.
+  /// Alternatively, you can use [ChatMessagePromptTemplate.custom] to achieve
+  /// the same result.
   ///
   /// ```dart
   /// final msgTemplate = ChatMessagePromptTemplate.custom(
@@ -677,11 +714,12 @@ CustomChatMessagePromptTemplate{
 }
 
 /// {@template message_placeholder}
-/// Prompt template that assumes the variable is a [ChatMessage] ([ChatMessageType.messagePlaceholder]).
+/// Prompt template that assumes the variable is a [ChatMessage]
+/// ([ChatMessageType.messagePlaceholder]).
 ///
 /// This is useful when you want to use a single [ChatMessage] in the prompt.
 /// For example, when you decide the type of message at runtime (e.g.
-/// [HumanChatMessage] or [FunctionChatMessage]).
+/// [HumanChatMessage] or FunctionChatMessage).
 ///
 /// If you need to add multiple messages, use [MessagesPlaceholder].
 ///
@@ -694,7 +732,8 @@ CustomChatMessagePromptTemplate{
 /// ]);
 /// ```
 ///
-/// Alternatively, you can use [ChatPromptTemplate.fromTemplates] to achieve the same result.
+/// Alternatively, you can use [ChatPromptTemplate.fromTemplates] to achieve the
+/// same result.
 ///
 /// ```dart
 /// final promptTemplate = ChatPromptTemplate.fromTemplates([
@@ -744,7 +783,8 @@ MessagePlaceholder{
 }
 
 /// {@template messages_placeholder}
-/// Prompt template that assumes the variable is a list of [ChatMessage] ([ChatMessageType.messagesPlaceholder]).
+/// Prompt template that assumes the variable is a list of [ChatMessage]
+/// ([ChatMessageType.messagesPlaceholder]).
 ///
 /// This is useful for when you want to use a list of messages in the prompt.
 /// For example, after retrieving them from memory.
@@ -760,7 +800,8 @@ MessagePlaceholder{
 /// ]);
 /// ```
 ///
-/// Alternatively, you can use [ChatPromptTemplate.fromTemplates] to achieve the same result.
+/// Alternatively, you can use [ChatPromptTemplate.fromTemplates] to achieve the
+/// same result.
 ///
 /// ```dart
 /// final promptTemplate = ChatPromptTemplate.fromTemplates([

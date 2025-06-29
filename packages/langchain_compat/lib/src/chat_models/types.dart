@@ -138,7 +138,7 @@ class ChatOpenAIOptions extends ChatModelOptions {
 
   /// An object specifying the format that the model must output.
   ///
-  /// Setting to [ChatOpenAIResponseFormatType.jsonObject] enables JSON mode,
+  /// Setting to ChatOpenAIResponseFormatType.jsonObject enables JSON mode,
   /// which guarantees the message the model generates is valid JSON.
   ///
   /// Important: when using JSON mode you must still instruct the model to
@@ -346,11 +346,13 @@ class ChatOpenAIResponseFormatJsonSchema extends ChatOpenAIResponseFormat {
   final ChatOpenAIJsonSchema jsonSchema;
 
   @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
   bool operator ==(covariant ChatOpenAIResponseFormatJsonSchema other) =>
       identical(this, other) ||
       runtimeType == other.runtimeType && jsonSchema == other.jsonSchema;
 
   @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
   int get hashCode => jsonSchema.hashCode;
 }
 
@@ -385,6 +387,7 @@ class ChatOpenAIJsonSchema {
   final bool strict;
 
   @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
   bool operator ==(covariant ChatOpenAIJsonSchema other) =>
       identical(this, other) ||
       runtimeType == other.runtimeType &&
@@ -394,6 +397,7 @@ class ChatOpenAIJsonSchema {
           strict == other.strict;
 
   @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
   int get hashCode =>
       name.hashCode ^
       description.hashCode ^
@@ -432,6 +436,9 @@ class OpenAIRefusalException implements Exception {
   String toString() => 'OpenAIRefusalException: $message';
 }
 
+/// {@template chat_message}
+/// A message in a chat.
+/// {@endtemplate}
 @immutable
 sealed class ChatMessage {
   const ChatMessage();
@@ -461,7 +468,11 @@ sealed class ChatMessage {
   }) => ToolChatMessage(toolCallId: toolCallId, content: content);
   factory ChatMessage.custom(String content, {required String role}) =>
       CustomChatMessage(content: content, role: role);
+
+  /// Convert the message to a map.
   Map<String, dynamic> toMap() => {};
+
+  /// Get the content of the message as a string.
   String get contentAsString => switch (this) {
     final SystemChatMessage system => system.content,
     final HumanChatMessage human => switch (human.content) {
@@ -482,12 +493,20 @@ sealed class ChatMessage {
     final ToolChatMessage tool => tool.content,
     final CustomChatMessage custom => custom.content,
   };
+
+  /// Concatenate this message with another message.
   ChatMessage concat(ChatMessage other);
 }
 
+/// {@template system_chat_message}
+/// A system message in a chat.
+/// {@endtemplate}
 @immutable
 class SystemChatMessage extends ChatMessage {
+  /// {@macro system_chat_message}
   const SystemChatMessage({required this.content});
+
+  /// Create a system chat message from a map.
   factory SystemChatMessage.fromMap(Map<String, dynamic> map) =>
       SystemChatMessage(content: map['content'] as String);
   @override
@@ -496,7 +515,11 @@ class SystemChatMessage extends ChatMessage {
     'content': content,
     'type': 'system',
   };
+
+  /// The content of the message.
   final String content;
+
+  /// The default prefix for the message.
   static const defaultPrefix = 'System';
   @override
   bool operator ==(covariant SystemChatMessage other) =>
@@ -519,9 +542,15 @@ SystemChatMessage{
 }''';
 }
 
+/// {@template human_chat_message}
+/// A human message in a chat.
+/// {@endtemplate}
 @immutable
 class HumanChatMessage extends ChatMessage {
+  /// {@macro human_chat_message}
   const HumanChatMessage({required this.content});
+
+  /// Create a human chat message from a map.
   factory HumanChatMessage.fromMap(Map<String, dynamic> map) =>
       HumanChatMessage(content: ChatMessageContent.fromMap(map['content']));
   @override
@@ -530,7 +559,11 @@ class HumanChatMessage extends ChatMessage {
     'content': content.toMap(),
     'type': 'human',
   };
+
+  /// The content of the message.
   final ChatMessageContent content;
+
+  /// The default prefix for the message.
   static const defaultPrefix = 'Human';
   @override
   bool operator ==(covariant HumanChatMessage other) =>
@@ -603,9 +636,15 @@ HumanChatMessage{
 }''';
 }
 
+/// {@template ai_chat_message}
+/// An AI message in a chat.
+/// {@endtemplate}
 @immutable
 class AIChatMessage extends ChatMessage {
+  /// {@macro ai_chat_message}
   const AIChatMessage({required this.content, this.toolCalls = const []});
+
+  /// Create an AI chat message from a map.
   factory AIChatMessage.fromMap(Map<String, dynamic> map) => AIChatMessage(
     content: map['content'] as String,
     toolCalls: (map['toolCalls'] as List<dynamic>)
@@ -620,8 +659,14 @@ class AIChatMessage extends ChatMessage {
     'toolCalls': toolCalls.map((t) => t.toMap()).toList(growable: false),
     'type': 'ai',
   };
+
+  /// The content of the message.
   final String content;
+
+  /// The tool calls in the message.
   final List<AIChatMessageToolCall> toolCalls;
+
+  /// The default prefix for the message.
   static const defaultPrefix = 'AI';
   @override
   bool operator ==(covariant AIChatMessage other) {
@@ -686,9 +731,15 @@ AIChatMessage{
 }''';
 }
 
+/// {@template tool_chat_message}
+/// A tool message in a chat.
+/// {@endtemplate}
 @immutable
 class ToolChatMessage extends ChatMessage {
+  /// {@macro tool_chat_message}
   const ToolChatMessage({required this.toolCallId, required this.content});
+
+  /// Create a tool chat message from a map.
   factory ToolChatMessage.fromMap(Map<String, dynamic> map) => ToolChatMessage(
     toolCallId: map['toolCallId'] as String,
     content: map['content'] as String,
@@ -700,8 +751,14 @@ class ToolChatMessage extends ChatMessage {
     'toolCallId': toolCallId,
     'type': 'tool',
   };
+
+  /// The ID of the tool call.
   final String toolCallId;
+
+  /// The content of the message.
   final String content;
+
+  /// The default prefix for the message.
   static const defaultPrefix = 'Tool';
   @override
   bool operator ==(covariant ToolChatMessage other) =>
@@ -729,9 +786,15 @@ ToolChatMessage{
 }''';
 }
 
+/// {@template custom_chat_message}
+/// A custom message in a chat.
+/// {@endtemplate}
 @immutable
 class CustomChatMessage extends ChatMessage {
+  /// {@macro custom_chat_message}
   const CustomChatMessage({required this.content, required this.role});
+
+  /// Create a custom chat message from a map.
   factory CustomChatMessage.fromMap(Map<String, dynamic> map) =>
       CustomChatMessage(
         content: map['content'] as String,
@@ -744,7 +807,11 @@ class CustomChatMessage extends ChatMessage {
     'role': role,
     'type': 'custom',
   };
+
+  /// The content of the message.
   final String content;
+
+  /// The role of the message.
   final String role;
   @override
   bool operator ==(covariant CustomChatMessage other) =>
@@ -768,10 +835,15 @@ CustomChatMessage{
 }''';
 }
 
+/// {@template chat_message_content}
+/// A content of a message in a chat.
+/// {@endtemplate}
 @immutable
 sealed class ChatMessageContent {
+  /// {@macro chat_message_content}
   const ChatMessageContent();
 
+  /// Create a chat message content from a map.
   factory ChatMessageContent.fromMap(Map<String, dynamic> map) =>
       switch (map['type']) {
         'text' => ChatMessageContentText.fromMap(map),
@@ -781,9 +853,11 @@ sealed class ChatMessageContent {
         _ => throw UnimplementedError('Unknown type: [39m${map['type']}'),
       };
 
+  /// Create a text chat message content.
   factory ChatMessageContent.text(String text) =>
       ChatMessageContentText(text: text);
 
+  /// Create an image chat message content.
   factory ChatMessageContent.image({
     required String data,
     String? mimeType,
@@ -795,16 +869,26 @@ sealed class ChatMessageContent {
     detail: imageDetail,
   );
 
+  /// Create a multi-modal chat message content.
   factory ChatMessageContent.multiModal(List<ChatMessageContent> parts) =>
       ChatMessageContentMultiModal(parts: parts);
 
+  /// Convert the chat message content to a map.
   Map<String, dynamic> toMap() => {};
 }
 
+/// {@template chat_message_content_text}
+/// A text content of a message in a chat.
+/// {@endtemplate}
 class ChatMessageContentText extends ChatMessageContent {
+  /// {@macro chat_message_content_text}
   const ChatMessageContentText({required this.text});
+
+  /// Create a text chat message content from a map.
   factory ChatMessageContentText.fromMap(Map<String, dynamic> map) =>
       ChatMessageContentText(text: map['content'] as String);
+
+  /// The text of the content.
   final String text;
   @override
   Map<String, dynamic> toMap() => {
@@ -825,12 +909,18 @@ ChatMessageContentText{
 }''';
 }
 
+/// {@template chat_message_content_image}
+/// An image content of a message in a chat.
+/// {@endtemplate}
 class ChatMessageContentImage extends ChatMessageContent {
+  /// {@macro chat_message_content_image}
   const ChatMessageContentImage({
     required this.data,
     this.mimeType,
     this.detail = ChatMessageContentImageDetail.auto,
   });
+
+  /// Create an image chat message content from a map.
   factory ChatMessageContentImage.fromMap(Map<String, dynamic> map) =>
       ChatMessageContentImage(
         data: map['data'] as String,
@@ -840,8 +930,14 @@ class ChatMessageContentImage extends ChatMessageContent {
           orElse: () => ChatMessageContentImageDetail.auto,
         ),
       );
+
+  /// The data of the content.
   final String data;
+
+  /// The MIME type of the content.
   final String? mimeType;
+
+  /// The detail of the content.
   final ChatMessageContentImageDetail detail;
   @override
   Map<String, dynamic> toMap() => {
@@ -869,13 +965,19 @@ ChatMessageContentImage{
 }''';
 }
 
+/// {@template chat_message_content_multi_modal}
+/// A multi-modal content of a message in a chat.
+/// {@endtemplate}
 @immutable
 class ChatMessageContentMultiModal extends ChatMessageContent {
+  /// {@macro chat_message_content_multi_modal}
   ChatMessageContentMultiModal({required this.parts})
     : assert(
         !parts.any((p) => p is ChatMessageContentMultiModal),
         'Multi-modal messages cannot contain other multi-modal messages.',
       );
+
+  /// Create a multi-modal chat message content from a map.
   factory ChatMessageContentMultiModal.fromMap(Map<String, dynamic> map) =>
       ChatMessageContentMultiModal(
         parts: (map['parts'] as List<dynamic>)
@@ -889,6 +991,8 @@ class ChatMessageContentMultiModal extends ChatMessageContent {
     'type': 'multi_modal',
     'parts': parts.map((p) => p.toMap()).toList(growable: false),
   };
+
+  /// The parts of the content.
   final List<ChatMessageContent> parts;
   @override
   bool operator ==(covariant ChatMessageContentMultiModal other) =>
@@ -903,9 +1007,23 @@ ChatMessageContentMultiModal{
 }''';
 }
 
-enum ChatMessageContentImageDetail { auto, low, high }
+/// The detail of an image chat message content.
+enum ChatMessageContentImageDetail {
+  /// The detail is auto.
+  auto,
 
+  /// The detail is low.
+  low,
+
+  /// The detail is high.
+  high,
+}
+
+/// {@template chat_tool_choice}
+/// A tool choice in a chat.
+/// {@endtemplate}
 sealed class ChatToolChoice {
+  /// {@macro chat_tool_choice}
   const ChatToolChoice();
   factory ChatToolChoice.forced({required String name}) =>
       ChatToolChoiceForced(name: name);
@@ -919,38 +1037,77 @@ sealed class ChatToolChoice {
         _ => throw UnimplementedError('Unknown type: [39m${map['type']}'),
       };
 
+  /// A none tool choice.
   static const none = ChatToolChoiceNone();
+
+  /// An auto tool choice.
   static const auto = ChatToolChoiceAuto();
+
+  /// A required tool choice.
   static const required = ChatToolChoiceRequired();
+
+  /// Convert the tool choice to a map.
   Map<String, dynamic> toMap() => {};
 }
 
+/// {@template chat_tool_choice_none}
+/// A none tool choice in a chat.
+/// {@endtemplate}
 final class ChatToolChoiceNone extends ChatToolChoice {
+  /// {@macro chat_tool_choice_none}
   const ChatToolChoiceNone();
+
+  /// Create a none tool choice from a map.
   factory ChatToolChoiceNone.fromMap() => const ChatToolChoiceNone();
+
+  /// Convert the none tool choice to a map.
   @override
   Map<String, dynamic> toMap() => {...super.toMap(), 'type': 'none'};
 }
 
+/// {@template chat_tool_choice_auto}
+/// An auto tool choice in a chat.
+/// {@endtemplate}
 final class ChatToolChoiceAuto extends ChatToolChoice {
+  /// {@macro chat_tool_choice_auto}
   const ChatToolChoiceAuto();
+
+  /// Create an auto tool choice from a map.
   factory ChatToolChoiceAuto.fromMap() => const ChatToolChoiceAuto();
+
+  /// Convert the auto tool choice to a map.
   @override
   Map<String, dynamic> toMap() => {...super.toMap(), 'type': 'auto'};
 }
 
+/// {@template chat_tool_choice_required}
+/// A required tool choice in a chat.
+/// {@endtemplate}
 final class ChatToolChoiceRequired extends ChatToolChoice {
+  /// {@macro chat_tool_choice_required}
   const ChatToolChoiceRequired();
+
+  /// Create a required tool choice from a map.
   factory ChatToolChoiceRequired.fromMap() => const ChatToolChoiceRequired();
+
+  /// Convert the required tool choice to a map.
   @override
   Map<String, dynamic> toMap() => {...super.toMap(), 'type': 'required'};
 }
 
+/// {@template chat_tool_choice_forced}
+/// A forced tool choice in a chat.
+/// {@endtemplate}
 @immutable
 final class ChatToolChoiceForced extends ChatToolChoice {
+  /// {@macro chat_tool_choice_forced}
   const ChatToolChoiceForced({required this.name});
+
+  /// Create a forced tool choice from a map.
   factory ChatToolChoiceForced.fromMap(Map<String, dynamic> map) =>
       ChatToolChoiceForced(name: map['name'] as String);
+
+  /// The name of the tool choice.
   final String name;
   @override
   Map<String, dynamic> toMap() => {
@@ -966,6 +1123,9 @@ final class ChatToolChoiceForced extends ChatToolChoice {
   int get hashCode => name.hashCode;
 }
 
+/// {@template ai_chat_message_tool_call}
+/// A tool call in an AI message in a chat.
+/// {@endtemplate}
 @immutable
 class AIChatMessageToolCall {
   /// {@macro ai_chat_message_tool_call}
@@ -1039,7 +1199,11 @@ AIChatMessageToolCall{
 }''';
 }
 
+/// {@template chat_model_options}
+/// Options for a chat model.
+/// {@endtemplate}
 abstract class ChatModelOptions extends LanguageModelOptions {
+  /// {@macro chat_model_options}
   const ChatModelOptions({
     super.model,
     this.tools,
@@ -1062,6 +1226,9 @@ abstract class ChatModelOptions extends LanguageModelOptions {
   });
 }
 
+/// {@template chat_result}
+/// A result of a chat.
+/// {@endtemplate}
 @immutable
 class ChatResult extends LanguageModelResult<AIChatMessage> {
   /// {@macro chat_result}

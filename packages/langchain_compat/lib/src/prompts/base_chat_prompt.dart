@@ -10,7 +10,8 @@ import 'types.dart';
 /// It exposes two methods:
 /// - [format]: returns a [String] prompt given a set of input values.
 /// - [formatPrompt]: returns a [PromptValue] given a set of input values.
-/// - [formatMessages]: returns a list of [ChatMessage] given a set of input values.
+/// - [formatMessages]: returns a list of [ChatMessage] given a set of input
+///   values.
 /// {@endtemplate}
 @immutable
 abstract base class BaseChatPromptTemplate extends BasePromptTemplate {

@@ -6,14 +6,14 @@ import 'runnable.dart';
 import 'types.dart';
 
 /// {@template runnable_map_input_stream}
-/// A [RunnableMapInputStream] allows you to map the input stream to a
-/// different stream of values.
+/// A [RunnableMapInputStream] allows you to map the input stream to a different
+/// stream of values.
 ///
-/// You can create a [RunnableMapInputStream] using the [Runnable.mapInputStream]
-/// static method.
+/// You can create a [RunnableMapInputStream] using the
+/// [Runnable.mapInputStream] static method.
 ///
-/// When you call [stream] on a [RunnableMapInputStream], it will take the
-/// input stream it receives and returns the output stream returned by the given
+/// When you call [stream] on a [RunnableMapInputStream], it will take the input
+/// stream it receives and returns the output stream returned by the given
 /// [inputStreamMapper] function.
 ///
 /// Example:
@@ -27,7 +27,8 @@ import 'types.dart';
 ///   ),
 /// );
 /// final parser = JsonOutputParser<ChatResult>();
-/// final mapper = Runnable.mapInputStream((Stream<Map<String, dynamic>> inputStream) async* {
+/// final mapper = Runnable.mapInputStream(
+///   (Stream<Map<String, dynamic>> inputStream) async* {
 ///   yield await inputStream.last;
 /// });
 ///
@@ -73,7 +74,8 @@ class RunnableMapInputStream<RunInput extends Object, RunOutput extends Object>
 
   /// Streams the [inputStream] through the [RunnableMapInputStream].
   ///
-  /// - [inputStream] - the input stream to stream through the [RunnableMapInputStream].
+  /// - [inputStream] - the input stream to stream through the
+  ///   [RunnableMapInputStream].
   /// - [options] - not used.
   @override
   Stream<RunOutput> streamFromInputStream(
