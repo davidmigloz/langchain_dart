@@ -14,6 +14,7 @@ Future<void> main() async {
     BaseChatModel chatModel;
     try {
       chatModel = provider.createModel();
+      stdout.write('${provider.displayName}: ');
       await for (final chunk in chatModel.stream(
         PromptValue.string(promptText),
       )) {

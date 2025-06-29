@@ -23,8 +23,11 @@ CreateChatCompletionRequest createChatCompletionRequest(
   final responseFormatDto =
       (options?.responseFormat ?? defaultOptions.responseFormat)
           ?.toChatCompletionResponseFormat();
-  final serviceTierDto = (options?.serviceTier ?? defaultOptions.serviceTier)
-      .toCreateChatCompletionRequestServiceTier();
+
+  // Mixtral-incompatible: serviceTier is not supported by Mistral and similar
+  // providers
+  // final serviceTierDto = (options?.serviceTier ?? defaultOptions.serviceTier)
+  //     .toCreateChatCompletionRequestServiceTier();
 
   return CreateChatCompletionRequest(
     model: ChatCompletionModel.modelId(
@@ -35,7 +38,8 @@ CreateChatCompletionRequest createChatCompletionRequest(
     toolChoice: toolChoice,
     frequencyPenalty:
         options?.frequencyPenalty ?? defaultOptions.frequencyPenalty,
-    logitBias: options?.logitBias ?? defaultOptions.logitBias,
+    // Mixtral-incompatible: logitBias is not supported by Mistral and similar
+    // providers logitBias: options?.logitBias ?? defaultOptions.logitBias,
     maxCompletionTokens: options?.maxTokens ?? defaultOptions.maxTokens,
     n: options?.n ?? defaultOptions.n,
     presencePenalty: options?.presencePenalty ?? defaultOptions.presencePenalty,
@@ -48,11 +52,12 @@ CreateChatCompletionRequest createChatCompletionRequest(
     topP: options?.topP ?? defaultOptions.topP,
     parallelToolCalls:
         options?.parallelToolCalls ?? defaultOptions.parallelToolCalls,
-    serviceTier: serviceTierDto,
-    user: options?.user ?? defaultOptions.user,
-    streamOptions: stream
-        ? const ChatCompletionStreamOptions(includeUsage: true)
-        : null,
+    // Mixtral-incompatible: serviceTier is not supported by Mistral and similar
+    // providers serviceTier: serviceTierDto, Mixtral-incompatible: user is not
+    // supported by Mistral and similar providers user: options?.user ??
+    // defaultOptions.user, Mixtral-incompatible: streamOptions is not supported
+    // by Mistral and similar providers streamOptions: stream ? const
+    // ChatCompletionStreamOptions(includeUsage: true) : null,
   );
 }
 
