@@ -9,7 +9,7 @@ Future<void> main() async {
   const promptText = 'Tell me a joke about Dart programming.';
   var exitCode = 0;
 
-  for (final provider in [Provider.forInfo(ProviderInfo.ollama)]) {
+  for (final provider in [Provider.ollama]) {
     BaseChatModel? model;
     try {
       model = provider.createModel();
