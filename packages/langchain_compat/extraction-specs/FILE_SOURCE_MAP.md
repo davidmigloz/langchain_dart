@@ -98,12 +98,9 @@ This file maps each Dart file in the langchain_compat package to its original so
 
 ## src/anthropic_sdk_dart/
 
-| Compat File             | Original Source File                           |
-| ----------------------- | ---------------------------------------------- |
-| anthropic_sdk_dart.dart | anthropic_sdk_dart/lib/anthropic_sdk_dart.dart |
-| src/                    | anthropic_sdk_dart/lib/src/                    |
-| src/generated/          | anthropic_sdk_dart/lib/src/generated/          |
-| src/generated/schema/   | anthropic_sdk_dart/lib/src/generated/schema/   |
+| Compat File             | Original Source File / Purpose                                                  |
+| ----------------------- | ------------------------------------------------------------------------------- |
+| anthropic_sdk_dart.dart | Now sourced from anthropic_sdk_dart package dependency; not copied into compat. |
 
 ---
 

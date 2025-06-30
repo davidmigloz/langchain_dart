@@ -2,13 +2,13 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:anthropic_sdk_dart/anthropic_sdk_dart.dart' as a;
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:rxdart/rxdart.dart' show WhereNotNullExtension;
 
 import '../../../chat_models.dart';
 import '../../../language_models.dart';
 import '../../../tools.dart';
-import '../../anthropic_sdk_dart/anthropic_sdk_dart.dart' as a;
 
 /// Creates a [a.CreateMessageRequest] from the given input.
 a.CreateMessageRequest createMessageRequest(

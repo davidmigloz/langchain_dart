@@ -13,6 +13,7 @@ environment:
 
 # Core dependencies for compatibility abstractions
 dependencies:
+  anthropic_sdk_dart: ^0.2.1
   async: ^2.13.0
   collection: ^1.19.1
   cross_file: ^0.3.4+2
