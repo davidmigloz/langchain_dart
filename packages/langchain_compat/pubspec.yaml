@@ -22,6 +22,7 @@ dependencies:
   http: ^1.1.0
   langchain_tiktoken: ^1.0.1
   meta: ^1.16.0
+  mistralai_dart: ^0.0.4
   openai_dart: ^0.5.1
   rxdart: ">=0.27.7 <0.29.0"
   uuid: ^4.2.2

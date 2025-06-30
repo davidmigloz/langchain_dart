@@ -15,6 +15,7 @@ This file maps each Dart file in the langchain_compat package to its original so
 | llms.dart             | Compat-only: public API barrel file |
 | language_models.dart  | Compat-only: public API barrel file |
 | embeddings.dart       | Compat-only: public API barrel file |
+| tools.dart            | Compat-only: public API barrel file |
 
 ---
 
@@ -54,21 +55,55 @@ This file maps each Dart file in the langchain_compat package to its original so
 | fake.dart       | langchain_core/lib/src/embeddings/fake.dart     |
 | base.dart       | langchain_core/lib/src/embeddings/base.dart     |
 
+### src/chat_models/
+
+| Compat File      | Original Source File                                                      |
+| ---------------- | ------------------------------------------------------------------------- |
+| mappers.dart     | langchain_openai/lib/src/chat_models/mappers.dart                         |
+| types.dart       | langchain_core/lib/src/chat_models/types.dart (verbatim, formatting only) |
+| chat_openai.dart | langchain_openai/lib/src/chat_models/chat_openai.dart                     |
+| fake.dart        | langchain_core/lib/src/chat_models/fake.dart                              |
+| vertex_ai/       | langchain_google/lib/src/chat_models/vertex_ai/                           |
+| google_ai/       | langchain_google/lib/src/chat_models/google_ai/                           |
+| chat_models.dart | Compat-only: barrel file                                                  |
+| utils.dart       | langchain_core/lib/src/chat_models/utils.dart                             |
+| base.dart        | langchain_core/lib/src/chat_models/base.dart                              |
+| anthropic/       | See below                                                                 |
+
+### src/chat_models/anthropic/
+
+| Compat File         | Original Source File                                        |
+| ------------------- | ----------------------------------------------------------- |
+| chat_anthropic.dart | langchain_anthropic/lib/src/chat_models/chat_anthropic.dart |
+| mappers.dart        | langchain_anthropic/lib/src/chat_models/mappers.dart        |
+| types.dart          | langchain_anthropic/lib/src/chat_models/types.dart          |
+| chat_models.dart    | langchain_anthropic/lib/src/chat_models/chat_models.dart    |
+
+### src/chat_models/mistralai/
+| Compat File         | Original Source File                                        |
+| ------------------- | ----------------------------------------------------------- |
+| chat_mistralai.dart | langchain_mistralai/lib/src/chat_models/chat_mistralai.dart |
+| mappers.dart        | langchain_mistralai/lib/src/chat_models/mappers.dart        |
+| types.dart          | langchain_mistralai/lib/src/chat_models/types.dart          |
+| chat_models.dart    | langchain_mistralai/lib/src/chat_models/chat_models.dart    |
+
+### src/chat_models/openai/
+| Compat File      | Original Source File                                                                                                                    |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| mappers.dart     | langchain_openai/lib/src/chat_models/mappers.dart                                                                                       |
+| chat_openai.dart | langchain_openai/lib/src/chat_models/chat_openai.dart                                                                                   |
+| types.dart       | langchain_openai/lib/src/chat_models/types.dart (verbatim, formatting only, compat extension: includeUsage replaced with streamOptions) |
+
 ---
 
-## src/chat_models/
+## src/anthropic_sdk_dart/
 
-| Compat File      | Original Source File                                  |
-| ---------------- | ----------------------------------------------------- |
-| mappers.dart     | langchain_openai/lib/src/chat_models/mappers.dart     |
-| types.dart       | langchain_core/lib/src/chat_models/types.dart         |
-| chat_openai.dart | langchain_openai/lib/src/chat_models/chat_openai.dart |
-| fake.dart        | langchain_core/lib/src/chat_models/fake.dart          |
-| vertex_ai/       | langchain_google/lib/src/chat_models/vertex_ai/       |
-| google_ai/       | langchain_google/lib/src/chat_models/google_ai/       |
-| chat_models.dart | Compat-only: barrel file                              |
-| utils.dart       | langchain_core/lib/src/chat_models/utils.dart         |
-| base.dart        | langchain_core/lib/src/chat_models/base.dart          |
+| Compat File             | Original Source File                           |
+| ----------------------- | ---------------------------------------------- |
+| anthropic_sdk_dart.dart | anthropic_sdk_dart/lib/anthropic_sdk_dart.dart |
+| src/                    | anthropic_sdk_dart/lib/src/                    |
+| src/generated/          | anthropic_sdk_dart/lib/src/generated/          |
+| src/generated/schema/   | anthropic_sdk_dart/lib/src/generated/schema/   |
 
 ---
 
@@ -88,9 +123,13 @@ This file maps each Dart file in the langchain_compat package to its original so
 
 ## src/tools/
 
-| Compat File | Original Source File                    |
-| ----------- | --------------------------------------- |
-| types.dart  | langchain_core/lib/src/tools/types.dart |
+| Compat File | Original Source File                     |
+| ----------- | ---------------------------------------- |
+| types.dart  | langchain_core/lib/src/tools/types.dart  |
+| string.dart | langchain_core/lib/src/tools/string.dart |
+| fake.dart   | langchain_core/lib/src/tools/fake.dart   |
+| base.dart   | langchain_core/lib/src/tools/base.dart   |
+| tools.dart  | Compat-only: barrel file                 |
 
 ---
 
@@ -100,6 +139,17 @@ This file maps each Dart file in the langchain_compat package to its original so
 
 ---
 
+### src/embeddings/mistralai/
+| Compat File               | Original Source File                                             |
+| ------------------------- | ---------------------------------------------------------------- |
+| mistralai_embeddings.dart | langchain_mistralai/lib/src/embeddings/mistralai_embeddings.dart |
+| embeddings.dart           | langchain_mistralai/lib/src/embeddings/embeddings.dart           |
+
 **How to interpret this file:**
 - If a file is marked "Compat-only: barrel file," it is a new file for the compat layer and not a verbatim copy.
 - All other files are direct, verbatim (except for import path changes and formatting) copies from the original source listed. 
+
+| types.dart   | langchain_core/lib/src/language_models/types.dart (verbatim, formatting only)     |
+| base.dart   | langchain_core/lib/src/tools/base.dart (verbatim, formatting only)   |
+| types.dart  | langchain_core/lib/src/tools/types.dart (verbatim, formatting only)  |
+| providers.dart          | Compat-only: public API barrel file (compat logic: Cohere forcibly sets streamOptions: null in ChatOpenAIOptions) | 

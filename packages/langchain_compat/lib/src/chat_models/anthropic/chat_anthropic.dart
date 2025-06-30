@@ -6,6 +6,7 @@ import '../../../prompts.dart';
 import '../../anthropic_sdk_dart/anthropic_sdk_dart.dart' as a;
 import '../../runnables/runnable.dart' show Runnable;
 import '../../runnables/runnables.dart' show Runnable;
+import './mappers.dart';
 
 /// Wrapper around [Anthropic Messages API](https://docs.anthropic.com/en/api/messages)
 /// (aka Claude API).

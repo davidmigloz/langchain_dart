@@ -33,8 +33,6 @@ class CreateMessageBatchRequest with _$CreateMessageBatchRequest {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'requests': requests,
-    };
+    return {'requests': requests};
   }
 }

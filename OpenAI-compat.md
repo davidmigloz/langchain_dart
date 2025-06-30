@@ -4,7 +4,7 @@ This document lists popular OpenAI-compatible LLM providers, their base URLs, AP
 
 | Provider               | Base URL                                                  | API Key Name         | Default Model                                       | Get API Key                                                           |
 | ---------------------- | --------------------------------------------------------- | -------------------- | --------------------------------------------------- | --------------------------------------------------------------------- |
-| **Cohere**             | `https://api.cohere.ai/compatibility/v1`                  | `COHERE_API_KEY`     | `command-r-plus`                                    | [Cohere API Keys](https://dashboard.cohere.com/api-keys)              |
+| **Cohere**             | `https://api.cohere.ai/compatibility/v1`                  | `COHERE_API_KEY`     | `command-r-plus`                                    | [Cohere API Keys](https://dashboard.cohere.com/api-keys)              | *stream_options not supported; compat disables automatically* |
 | **Fireworks AI**       | `https://api.fireworks.ai/inference/v1`                   | `FIREWORKS_API_KEY`  | `accounts/fireworks/models/llama-v3p1-70b-instruct` | [Fireworks API Keys](https://app.fireworks.ai/api-keys)               |
 | **Gemini (Google AI)** | `https://generativelanguage.googleapis.com/v1beta/openai` | `GEMINI_API_KEY`     | `gemini-2.0-flash`                                  | [Google AI Studio API Keys](https://makersuite.google.com/app/apikey) |
 | **Groq**               | `https://api.groq.com/openai/v1`                          | `GROQ_API_KEY`       | `llama3-70b-8192`                                   | [Groq API Keys](https://console.groq.com/keys)                        |
@@ -19,4 +19,5 @@ This document lists popular OpenAI-compatible LLM providers, their base URLs, AP
 - All providers use the OpenAI-compatible `/chat/completions` endpoint and the `Authorization: Bearer <API_KEY>` header.
 - Some providers may require you to specify a model name in your request payload.
 - For Gemini, use your Google AI Studio API key and the special base URL as shown above. See the [official Gemini OpenAI compatibility docs](https://ai.google.dev/gemini-api/docs/openai) for details.
+- *Cohere does not support the `stream_options` field at all; the compat layer disables it automatically for Cohere.*
 - For a more comprehensive and up-to-date list, see [cheahjs/free-llm-api-resources](https://github.com/cheahjs/free-llm-api-resources). 

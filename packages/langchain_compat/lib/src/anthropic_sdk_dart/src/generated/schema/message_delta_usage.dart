@@ -44,8 +44,6 @@ class MessageDeltaUsage with _$MessageDeltaUsage {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'output_tokens': outputTokens,
-    };
+    return {'output_tokens': outputTokens};
   }
 }

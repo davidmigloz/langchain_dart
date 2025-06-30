@@ -49,7 +49,7 @@ class Usage with _$Usage {
     'input_tokens',
     'output_tokens',
     'cache_creation_input_tokens',
-    'cache_read_input_tokens'
+    'cache_read_input_tokens',
   ];
 
   /// Perform validations on the schema property values

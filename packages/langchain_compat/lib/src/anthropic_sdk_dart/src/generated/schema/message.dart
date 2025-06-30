@@ -86,7 +86,7 @@ class Message with _$Message {
     'stop_reason',
     'stop_sequence',
     'type',
-    'usage'
+    'usage',
   ];
 
   /// Perform validations on the schema property values
@@ -119,14 +119,10 @@ sealed class MessageContent with _$MessageContent {
   const MessageContent._();
 
   /// An array of content blocks.
-  const factory MessageContent.blocks(
-    List<Block> value,
-  ) = MessageContentBlocks;
+  const factory MessageContent.blocks(List<Block> value) = MessageContentBlocks;
 
   /// A single text block.
-  const factory MessageContent.text(
-    String value,
-  ) = MessageContentText;
+  const factory MessageContent.text(String value) = MessageContentText;
 
   /// Object construction from a JSON representation
   factory MessageContent.fromJson(Map<String, dynamic> json) =>
@@ -141,16 +137,16 @@ class _MessageContentConverter
   @override
   MessageContent fromJson(Object? data) {
     if (data is List && data.every((item) => item is Map)) {
-      return MessageContentBlocks(data
-          .map((i) => Block.fromJson(i as Map<String, dynamic>))
-          .toList(growable: false));
+      return MessageContentBlocks(
+        data
+            .map((i) => Block.fromJson(i as Map<String, dynamic>))
+            .toList(growable: false),
+      );
     }
     if (data is String) {
       return MessageContentText(data);
     }
-    throw Exception(
-      'Unexpected value for MessageContent: $data',
-    );
+    throw Exception('Unexpected value for MessageContent: $data');
   }
 
   @override

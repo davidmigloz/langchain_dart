@@ -24,7 +24,7 @@ abstract class Provider {
   BaseChatModel createModel({String? model});
 
   // Static provider instances
-  static final OpenAIProvider openai = OpenAIProvider(
+  static final openai = OpenAIProvider(
     name: 'openai',
     displayName: 'OpenAI',
     defaultModel: 'gpt-4o-mini',
@@ -33,7 +33,7 @@ abstract class Provider {
     isRemote: true,
   );
 
-  static final OpenAIProvider openrouter = OpenAIProvider(
+  static final openrouter = OpenAIProvider(
     name: 'openrouter',
     displayName: 'OpenRouter',
     defaultModel: 'google/gemini-2.5-flash',
@@ -42,7 +42,7 @@ abstract class Provider {
     isRemote: true,
   );
 
-  static final OpenAIProvider groq = OpenAIProvider(
+  static final groq = OpenAIProvider(
     name: 'groq',
     displayName: 'Groq',
     defaultModel: 'llama3-70b-8192',
@@ -51,7 +51,7 @@ abstract class Provider {
     isRemote: true,
   );
 
-  static final OpenAIProvider together = OpenAIProvider(
+  static final together = OpenAIProvider(
     name: 'together',
     displayName: 'Together AI',
     defaultModel: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
@@ -60,7 +60,7 @@ abstract class Provider {
     isRemote: true,
   );
 
-  static final OpenAIProvider fireworks = OpenAIProvider(
+  static final fireworks = OpenAIProvider(
     name: 'fireworks',
     displayName: 'Fireworks AI',
     defaultModel: 'accounts/fireworks/models/llama-v3p1-70b-instruct',
@@ -69,16 +69,16 @@ abstract class Provider {
     isRemote: true,
   );
 
-  static final OpenAIProvider mistral = OpenAIProvider(
+  static final mistral = MistralProvider(
     name: 'mistral',
     displayName: 'Mistral AI',
-    defaultModel: 'mistral-small-latest',
+    defaultModel: 'mistral-small',
     defaultBaseUrl: 'https://api.mistral.ai/v1',
     apiKeyName: 'MISTRAL_API_KEY',
     isRemote: true,
   );
 
-  static final OpenAIProvider cohere = OpenAIProvider(
+  static final cohere = OpenAIProvider(
     name: 'cohere',
     displayName: 'Cohere',
     defaultModel: 'command-r-plus',
@@ -87,7 +87,7 @@ abstract class Provider {
     isRemote: true,
   );
 
-  static final OpenAIProvider lambda = OpenAIProvider(
+  static final lambda = OpenAIProvider(
     name: 'lambda',
     displayName: 'Lambda',
     defaultModel: 'llama3.2-3b-instruct',
@@ -96,7 +96,7 @@ abstract class Provider {
     isRemote: true,
   );
 
-  static final OpenAIProvider nvidia = OpenAIProvider(
+  static final nvidia = OpenAIProvider(
     name: 'nvidia',
     displayName: 'NVIDIA NIM',
     defaultModel: 'nvidia/nemotron-mini-4b-instruct',
@@ -105,7 +105,7 @@ abstract class Provider {
     isRemote: true,
   );
 
-  static final OpenAIProvider geminiOpenAI = OpenAIProvider(
+  static final geminiOpenAI = OpenAIProvider(
     name: 'gemini-openai',
     displayName: 'Google AI (OpenAI-compatible)',
     defaultModel: 'gemini-2.0-flash',
@@ -114,7 +114,7 @@ abstract class Provider {
     isRemote: true,
   );
 
-  static final GoogleAIProvider google = GoogleAIProvider(
+  static final google = GoogleAIProvider(
     name: 'google',
     aliases: ['gemini', 'googleai', 'google-gla'],
     displayName: 'Google AI',
@@ -124,7 +124,7 @@ abstract class Provider {
     isRemote: true,
   );
 
-  static final AnthropicProvider anthropic = AnthropicProvider(
+  static final anthropic = AnthropicProvider(
     name: 'anthropic',
     aliases: ['claude'],
     displayName: 'Anthropic',
@@ -134,7 +134,7 @@ abstract class Provider {
     isRemote: true,
   );
 
-  static final OpenAIProvider ollama = OpenAIProvider(
+  static final ollama = OpenAIProvider(
     name: 'ollama',
     displayName: 'Ollama',
     defaultModel: 'gemma3n',
@@ -177,11 +177,29 @@ class OpenAIProvider extends Provider {
   });
 
   @override
-  BaseChatModel createModel({String? model}) => ChatOpenAI(
-    apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
-    baseUrl: defaultBaseUrl,
-    defaultOptions: ChatOpenAIOptions(model: model ?? defaultModel),
-  );
+  BaseChatModel createModel({String? model}) {
+    // For Cohere, forcibly disable include_usage because their
+    // OpenAI-compatible endpoint does not support it and will error if present.
+    // This is not user-overridable. For all other OpenAI-compatible providers,
+    // the default behavior is used.
+    if (name == 'cohere') {
+      return ChatOpenAI(
+        apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
+        baseUrl: defaultBaseUrl,
+        // Cohere's OpenAI-compatible endpoint does not support streamOptions.
+        // Force streamOptions to null.
+        defaultOptions: ChatOpenAIOptions(
+          model: model ?? defaultModel,
+          streamOptions: null,
+        ),
+      );
+    }
+    return ChatOpenAI(
+      apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
+      baseUrl: defaultBaseUrl,
+      defaultOptions: ChatOpenAIOptions(model: model ?? defaultModel),
+    );
+  }
 }
 
 class GoogleAIProvider extends Provider {
@@ -219,5 +237,23 @@ class AnthropicProvider extends Provider {
     apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
     baseUrl: defaultBaseUrl,
     defaultOptions: ChatAnthropicOptions(model: model ?? defaultModel),
+  );
+}
+
+class MistralProvider extends Provider {
+  MistralProvider({
+    required super.name,
+    required super.displayName,
+    required super.defaultModel,
+    required super.defaultBaseUrl,
+    required super.apiKeyName,
+    required super.isRemote,
+  });
+
+  @override
+  BaseChatModel createModel({String? model}) => ChatMistralAI(
+    apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
+    baseUrl: defaultBaseUrl,
+    defaultOptions: ChatMistralAIOptions(model: model ?? defaultModel),
   );
 }

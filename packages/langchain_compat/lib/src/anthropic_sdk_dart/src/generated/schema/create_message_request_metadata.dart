@@ -37,8 +37,6 @@ class CreateMessageRequestMetadata with _$CreateMessageRequestMetadata {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'user_id': userId,
-    };
+    return {'user_id': userId};
   }
 }

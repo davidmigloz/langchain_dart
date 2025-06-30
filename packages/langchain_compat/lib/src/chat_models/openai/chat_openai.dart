@@ -3,12 +3,12 @@ import 'package:langchain_tiktoken/langchain_tiktoken.dart';
 import 'package:openai_dart/openai_dart.dart';
 import 'package:uuid/uuid.dart';
 
-import '../prompts/types.dart';
-import '../runnables/runnable.dart' show Runnable;
-import '../runnables/runnables.dart' show Runnable;
-import 'base.dart';
-import 'mappers.dart';
-import 'types.dart';
+import '../../../chat_models.dart' hide ChatOpenAIOptions;
+import '../../../prompts.dart';
+import '../../runnables/runnable.dart' show Runnable;
+import '../../runnables/runnables.dart' show Runnable;
+import './mappers.dart';
+import './types.dart';
 
 /// Wrapper around [OpenAI Chat
 /// API](https://platform.openai.com/docs/api-reference/chat).
@@ -20,9 +20,7 @@ import 'types.dart';
 ///   ChatMessage.system(
 ///     'You are a helpful assistant that translates English to French.',
 ///   ),
-///   ChatMessage.human(
-///     'I love programming.',
-///   ),
+///   ChatMessage.humanText('I love programming.'),
 /// ];
 /// final prompt = PromptValue.chat(messages);
 /// final res = await llm.invoke(prompt);
@@ -87,11 +85,11 @@ import 'types.dart';
 /// final prompt2 = PromptTemplate.fromTemplate('How old are you {name}?');
 /// final chain = Runnable.fromMap({
 ///   'q1': prompt1 |
-///     chatModel.bind(const ChatOpenAIOptions(model: 'gpt-4')) |
-///     outputParser,
+///       chatModel.bind(const ChatOpenAIOptions(model: 'gpt-4')) |
+///       outputParser,
 ///   'q2': prompt2 |
-///     chatModel.bind(const ChatOpenAIOptions(model: 'gpt-4o-mini')) |
-///     outputParser,
+///       chatModel.bind(const ChatOpenAIOptions(model: 'gpt-4o-mini')) |
+///       outputParser,
 /// });
 /// final res = await chain.invoke({'name': 'David'});
 /// ```
@@ -207,24 +205,20 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   ChatOpenAI({
     String? apiKey,
     String? organization,
-    String? baseUrl,
+    String baseUrl = 'https://api.openai.com/v1',
     Map<String, String>? headers,
     Map<String, dynamic>? queryParams,
     http.Client? client,
-    ChatOpenAIOptions? defaultOptions,
+    super.defaultOptions = const ChatOpenAIOptions(model: defaultModel),
     this.encoding,
   }) : _client = OpenAIClient(
          apiKey: apiKey ?? '',
          organization: organization,
          beta: null,
-         baseUrl: baseUrl ?? 'https://api.openai.com/v1',
+         baseUrl: baseUrl,
          headers: headers,
          queryParams: queryParams,
          client: client,
-       ),
-       super(
-         defaultOptions:
-             defaultOptions ?? const ChatOpenAIOptions(model: defaultModel),
        );
 
   /// A client for interacting with OpenAI API.
@@ -381,5 +375,5 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   }
 
   @override
-  String get name => defaultOptions.model ?? defaultModel;
+  String get name => 'chat-openai';
 }

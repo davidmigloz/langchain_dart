@@ -39,9 +39,6 @@ class BatchMessageRequest with _$BatchMessageRequest {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'custom_id': customId,
-      'params': params,
-    };
+    return {'custom_id': customId, 'params': params};
   }
 }

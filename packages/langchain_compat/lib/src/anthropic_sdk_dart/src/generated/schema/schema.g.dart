@@ -9,36 +9,37 @@ part of 'schema.dart';
 // **************************************************************************
 
 _$CreateMessageRequestImpl _$$CreateMessageRequestImplFromJson(
-        Map<String, dynamic> json) =>
-    _$CreateMessageRequestImpl(
-      model: const _ModelConverter().fromJson(json['model']),
-      messages: (json['messages'] as List<dynamic>)
-          .map((e) => Message.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      maxTokens: (json['max_tokens'] as num).toInt(),
-      metadata: json['metadata'] == null
-          ? null
-          : CreateMessageRequestMetadata.fromJson(
-              json['metadata'] as Map<String, dynamic>),
-      stopSequences: (json['stop_sequences'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
-      system:
-          const _CreateMessageRequestSystemConverter().fromJson(json['system']),
-      temperature: (json['temperature'] as num?)?.toDouble(),
-      toolChoice: json['tool_choice'] == null
-          ? null
-          : ToolChoice.fromJson(json['tool_choice'] as Map<String, dynamic>),
-      tools: (json['tools'] as List<dynamic>?)
-          ?.map((e) => Tool.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      topK: (json['top_k'] as num?)?.toInt(),
-      topP: (json['top_p'] as num?)?.toDouble(),
-      stream: json['stream'] as bool? ?? false,
-    );
+  Map<String, dynamic> json,
+) => _$CreateMessageRequestImpl(
+  model: const _ModelConverter().fromJson(json['model']),
+  messages: (json['messages'] as List<dynamic>)
+      .map((e) => Message.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  maxTokens: (json['max_tokens'] as num).toInt(),
+  metadata: json['metadata'] == null
+      ? null
+      : CreateMessageRequestMetadata.fromJson(
+          json['metadata'] as Map<String, dynamic>,
+        ),
+  stopSequences: (json['stop_sequences'] as List<dynamic>?)
+      ?.map((e) => e as String)
+      .toList(),
+  system: const _CreateMessageRequestSystemConverter().fromJson(json['system']),
+  temperature: (json['temperature'] as num?)?.toDouble(),
+  toolChoice: json['tool_choice'] == null
+      ? null
+      : ToolChoice.fromJson(json['tool_choice'] as Map<String, dynamic>),
+  tools: (json['tools'] as List<dynamic>?)
+      ?.map((e) => Tool.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  topK: (json['top_k'] as num?)?.toInt(),
+  topP: (json['top_p'] as num?)?.toDouble(),
+  stream: json['stream'] as bool? ?? false,
+);
 
 Map<String, dynamic> _$$CreateMessageRequestImplToJson(
-    _$CreateMessageRequestImpl instance) {
+  _$CreateMessageRequestImpl instance,
+) {
   final val = <String, dynamic>{
     'model': const _ModelConverter().toJson(instance.model),
     'messages': instance.messages.map((e) => e.toJson()).toList(),
@@ -53,8 +54,10 @@ Map<String, dynamic> _$$CreateMessageRequestImplToJson(
 
   writeNotNull('metadata', instance.metadata?.toJson());
   writeNotNull('stop_sequences', instance.stopSequences);
-  writeNotNull('system',
-      const _CreateMessageRequestSystemConverter().toJson(instance.system));
+  writeNotNull(
+    'system',
+    const _CreateMessageRequestSystemConverter().toJson(instance.system),
+  );
   writeNotNull('temperature', instance.temperature);
   writeNotNull('tool_choice', instance.toolChoice?.toJson());
   writeNotNull('tools', instance.tools?.map((e) => e.toJson()).toList());
@@ -95,49 +98,42 @@ _$ModelIdImpl _$$ModelIdImplFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$$ModelIdImplToJson(_$ModelIdImpl instance) =>
-    <String, dynamic>{
-      'value': instance.value,
-      'runtimeType': instance.$type,
-    };
+    <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};
 
 _$SystemMessageContentBlocksImpl _$$SystemMessageContentBlocksImplFromJson(
-        Map<String, dynamic> json) =>
-    _$SystemMessageContentBlocksImpl(
-      (json['value'] as List<dynamic>)
-          .map((e) => Block.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      $type: json['runtimeType'] as String?,
-    );
+  Map<String, dynamic> json,
+) => _$SystemMessageContentBlocksImpl(
+  (json['value'] as List<dynamic>)
+      .map((e) => Block.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  $type: json['runtimeType'] as String?,
+);
 
 Map<String, dynamic> _$$SystemMessageContentBlocksImplToJson(
-        _$SystemMessageContentBlocksImpl instance) =>
-    <String, dynamic>{
-      'value': instance.value.map((e) => e.toJson()).toList(),
-      'runtimeType': instance.$type,
-    };
+  _$SystemMessageContentBlocksImpl instance,
+) => <String, dynamic>{
+  'value': instance.value.map((e) => e.toJson()).toList(),
+  'runtimeType': instance.$type,
+};
 
 _$SystemMessageContentTextImpl _$$SystemMessageContentTextImplFromJson(
-        Map<String, dynamic> json) =>
-    _$SystemMessageContentTextImpl(
-      json['value'] as String,
-      $type: json['runtimeType'] as String?,
-    );
+  Map<String, dynamic> json,
+) => _$SystemMessageContentTextImpl(
+  json['value'] as String,
+  $type: json['runtimeType'] as String?,
+);
 
 Map<String, dynamic> _$$SystemMessageContentTextImplToJson(
-        _$SystemMessageContentTextImpl instance) =>
-    <String, dynamic>{
-      'value': instance.value,
-      'runtimeType': instance.$type,
-    };
+  _$SystemMessageContentTextImpl instance,
+) => <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};
 
 _$CreateMessageRequestMetadataImpl _$$CreateMessageRequestMetadataImplFromJson(
-        Map<String, dynamic> json) =>
-    _$CreateMessageRequestMetadataImpl(
-      userId: json['user_id'] as String?,
-    );
+  Map<String, dynamic> json,
+) => _$CreateMessageRequestMetadataImpl(userId: json['user_id'] as String?);
 
 Map<String, dynamic> _$$CreateMessageRequestMetadataImplToJson(
-    _$CreateMessageRequestMetadataImpl instance) {
+  _$CreateMessageRequestMetadataImpl instance,
+) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -185,8 +181,11 @@ _$MessageImpl _$$MessageImplFromJson(Map<String, dynamic> json) =>
       content: const _MessageContentConverter().fromJson(json['content']),
       role: $enumDecode(_$MessageRoleEnumMap, json['role']),
       model: json['model'] as String?,
-      stopReason: $enumDecodeNullable(_$StopReasonEnumMap, json['stop_reason'],
-          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      stopReason: $enumDecodeNullable(
+        _$StopReasonEnumMap,
+        json['stop_reason'],
+        unknownValue: JsonKey.nullForUndefinedEnumValue,
+      ),
       stopSequence: json['stop_sequence'] as String?,
       type: json['type'] as String?,
       usage: json['usage'] == null
@@ -227,51 +226,50 @@ const _$StopReasonEnumMap = {
 };
 
 _$MessageContentBlocksImpl _$$MessageContentBlocksImplFromJson(
-        Map<String, dynamic> json) =>
-    _$MessageContentBlocksImpl(
-      (json['value'] as List<dynamic>)
-          .map((e) => Block.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      $type: json['runtimeType'] as String?,
-    );
+  Map<String, dynamic> json,
+) => _$MessageContentBlocksImpl(
+  (json['value'] as List<dynamic>)
+      .map((e) => Block.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  $type: json['runtimeType'] as String?,
+);
 
 Map<String, dynamic> _$$MessageContentBlocksImplToJson(
-        _$MessageContentBlocksImpl instance) =>
-    <String, dynamic>{
-      'value': instance.value.map((e) => e.toJson()).toList(),
-      'runtimeType': instance.$type,
-    };
+  _$MessageContentBlocksImpl instance,
+) => <String, dynamic>{
+  'value': instance.value.map((e) => e.toJson()).toList(),
+  'runtimeType': instance.$type,
+};
 
 _$MessageContentTextImpl _$$MessageContentTextImplFromJson(
-        Map<String, dynamic> json) =>
-    _$MessageContentTextImpl(
-      json['value'] as String,
-      $type: json['runtimeType'] as String?,
-    );
+  Map<String, dynamic> json,
+) => _$MessageContentTextImpl(
+  json['value'] as String,
+  $type: json['runtimeType'] as String?,
+);
 
 Map<String, dynamic> _$$MessageContentTextImplToJson(
-        _$MessageContentTextImpl instance) =>
-    <String, dynamic>{
-      'value': instance.value,
-      'runtimeType': instance.$type,
-    };
+  _$MessageContentTextImpl instance,
+) => <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};
 
 _$ImageBlockSourceImpl _$$ImageBlockSourceImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ImageBlockSourceImpl(
-      data: json['data'] as String,
-      mediaType:
-          $enumDecode(_$ImageBlockSourceMediaTypeEnumMap, json['media_type']),
-      type: $enumDecode(_$ImageBlockSourceTypeEnumMap, json['type']),
-    );
+  Map<String, dynamic> json,
+) => _$ImageBlockSourceImpl(
+  data: json['data'] as String,
+  mediaType: $enumDecode(
+    _$ImageBlockSourceMediaTypeEnumMap,
+    json['media_type'],
+  ),
+  type: $enumDecode(_$ImageBlockSourceTypeEnumMap, json['type']),
+);
 
 Map<String, dynamic> _$$ImageBlockSourceImplToJson(
-        _$ImageBlockSourceImpl instance) =>
-    <String, dynamic>{
-      'data': instance.data,
-      'media_type': _$ImageBlockSourceMediaTypeEnumMap[instance.mediaType]!,
-      'type': _$ImageBlockSourceTypeEnumMap[instance.type]!,
-    };
+  _$ImageBlockSourceImpl instance,
+) => <String, dynamic>{
+  'data': instance.data,
+  'media_type': _$ImageBlockSourceMediaTypeEnumMap[instance.mediaType]!,
+  'type': _$ImageBlockSourceTypeEnumMap[instance.type]!,
+};
 
 const _$ImageBlockSourceMediaTypeEnumMap = {
   ImageBlockSourceMediaType.imageJpeg: 'image/jpeg',
@@ -280,35 +278,33 @@ const _$ImageBlockSourceMediaTypeEnumMap = {
   ImageBlockSourceMediaType.imageWebp: 'image/webp',
 };
 
-const _$ImageBlockSourceTypeEnumMap = {
-  ImageBlockSourceType.base64: 'base64',
-};
+const _$ImageBlockSourceTypeEnumMap = {ImageBlockSourceType.base64: 'base64'};
 
 _$CacheControlEphemeralImpl _$$CacheControlEphemeralImplFromJson(
-        Map<String, dynamic> json) =>
-    _$CacheControlEphemeralImpl(
-      type: $enumDecodeNullable(
-              _$CacheControlEphemeralTypeEnumMap, json['type']) ??
-          CacheControlEphemeralType.ephemeral,
-    );
+  Map<String, dynamic> json,
+) => _$CacheControlEphemeralImpl(
+  type:
+      $enumDecodeNullable(_$CacheControlEphemeralTypeEnumMap, json['type']) ??
+      CacheControlEphemeralType.ephemeral,
+);
 
 Map<String, dynamic> _$$CacheControlEphemeralImplToJson(
-        _$CacheControlEphemeralImpl instance) =>
-    <String, dynamic>{
-      'type': _$CacheControlEphemeralTypeEnumMap[instance.type]!,
-    };
+  _$CacheControlEphemeralImpl instance,
+) => <String, dynamic>{
+  'type': _$CacheControlEphemeralTypeEnumMap[instance.type]!,
+};
 
 const _$CacheControlEphemeralTypeEnumMap = {
   CacheControlEphemeralType.ephemeral: 'ephemeral',
 };
 
 _$UsageImpl _$$UsageImplFromJson(Map<String, dynamic> json) => _$UsageImpl(
-      inputTokens: (json['input_tokens'] as num).toInt(),
-      outputTokens: (json['output_tokens'] as num).toInt(),
-      cacheCreationInputTokens:
-          (json['cache_creation_input_tokens'] as num?)?.toInt(),
-      cacheReadInputTokens: (json['cache_read_input_tokens'] as num?)?.toInt(),
-    );
+  inputTokens: (json['input_tokens'] as num).toInt(),
+  outputTokens: (json['output_tokens'] as num).toInt(),
+  cacheCreationInputTokens: (json['cache_creation_input_tokens'] as num?)
+      ?.toInt(),
+  cacheReadInputTokens: (json['cache_read_input_tokens'] as num?)?.toInt(),
+);
 
 Map<String, dynamic> _$$UsageImplToJson(_$UsageImpl instance) {
   final val = <String, dynamic>{
@@ -323,39 +319,40 @@ Map<String, dynamic> _$$UsageImplToJson(_$UsageImpl instance) {
   }
 
   writeNotNull(
-      'cache_creation_input_tokens', instance.cacheCreationInputTokens);
+    'cache_creation_input_tokens',
+    instance.cacheCreationInputTokens,
+  );
   writeNotNull('cache_read_input_tokens', instance.cacheReadInputTokens);
   return val;
 }
 
 _$CreateMessageBatchRequestImpl _$$CreateMessageBatchRequestImplFromJson(
-        Map<String, dynamic> json) =>
-    _$CreateMessageBatchRequestImpl(
-      requests: (json['requests'] as List<dynamic>)
-          .map((e) => BatchMessageRequest.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
+  Map<String, dynamic> json,
+) => _$CreateMessageBatchRequestImpl(
+  requests: (json['requests'] as List<dynamic>)
+      .map((e) => BatchMessageRequest.fromJson(e as Map<String, dynamic>))
+      .toList(),
+);
 
 Map<String, dynamic> _$$CreateMessageBatchRequestImplToJson(
-        _$CreateMessageBatchRequestImpl instance) =>
-    <String, dynamic>{
-      'requests': instance.requests.map((e) => e.toJson()).toList(),
-    };
+  _$CreateMessageBatchRequestImpl instance,
+) => <String, dynamic>{
+  'requests': instance.requests.map((e) => e.toJson()).toList(),
+};
 
 _$BatchMessageRequestImpl _$$BatchMessageRequestImplFromJson(
-        Map<String, dynamic> json) =>
-    _$BatchMessageRequestImpl(
-      customId: json['custom_id'] as String,
-      params:
-          CreateMessageRequest.fromJson(json['params'] as Map<String, dynamic>),
-    );
+  Map<String, dynamic> json,
+) => _$BatchMessageRequestImpl(
+  customId: json['custom_id'] as String,
+  params: CreateMessageRequest.fromJson(json['params'] as Map<String, dynamic>),
+);
 
 Map<String, dynamic> _$$BatchMessageRequestImplToJson(
-        _$BatchMessageRequestImpl instance) =>
-    <String, dynamic>{
-      'custom_id': instance.customId,
-      'params': instance.params.toJson(),
-    };
+  _$BatchMessageRequestImpl instance,
+) => <String, dynamic>{
+  'custom_id': instance.customId,
+  'params': instance.params.toJson(),
+};
 
 _$MessageBatchImpl _$$MessageBatchImplFromJson(Map<String, dynamic> json) =>
     _$MessageBatchImpl(
@@ -363,9 +360,12 @@ _$MessageBatchImpl _$$MessageBatchImplFromJson(Map<String, dynamic> json) =>
       createdAt: json['created_at'] as String,
       expiresAt: json['expires_at'] as String,
       processingStatus: $enumDecode(
-          _$MessageBatchProcessingStatusEnumMap, json['processing_status']),
+        _$MessageBatchProcessingStatusEnumMap,
+        json['processing_status'],
+      ),
       requestCounts: MessageBatchRequestCounts.fromJson(
-          json['request_counts'] as Map<String, dynamic>),
+        json['request_counts'] as Map<String, dynamic>,
+      ),
       resultsUrl: json['results_url'] as String?,
       type: $enumDecode(_$MessageBatchTypeEnumMap, json['type']),
     );
@@ -402,29 +402,32 @@ const _$MessageBatchTypeEnumMap = {
 };
 
 _$MessageBatchRequestCountsImpl _$$MessageBatchRequestCountsImplFromJson(
-        Map<String, dynamic> json) =>
-    _$MessageBatchRequestCountsImpl(
-      processing: (json['processing'] as num).toInt(),
-      succeeded: (json['succeeded'] as num).toInt(),
-      errored: (json['errored'] as num).toInt(),
-      canceled: (json['canceled'] as num).toInt(),
-      expired: (json['expired'] as num).toInt(),
-    );
+  Map<String, dynamic> json,
+) => _$MessageBatchRequestCountsImpl(
+  processing: (json['processing'] as num).toInt(),
+  succeeded: (json['succeeded'] as num).toInt(),
+  errored: (json['errored'] as num).toInt(),
+  canceled: (json['canceled'] as num).toInt(),
+  expired: (json['expired'] as num).toInt(),
+);
 
 Map<String, dynamic> _$$MessageBatchRequestCountsImplToJson(
-        _$MessageBatchRequestCountsImpl instance) =>
-    <String, dynamic>{
-      'processing': instance.processing,
-      'succeeded': instance.succeeded,
-      'errored': instance.errored,
-      'canceled': instance.canceled,
-      'expired': instance.expired,
-    };
+  _$MessageBatchRequestCountsImpl instance,
+) => <String, dynamic>{
+  'processing': instance.processing,
+  'succeeded': instance.succeeded,
+  'errored': instance.errored,
+  'canceled': instance.canceled,
+  'expired': instance.expired,
+};
 
 _$MessageDeltaImpl _$$MessageDeltaImplFromJson(Map<String, dynamic> json) =>
     _$MessageDeltaImpl(
-      stopReason: $enumDecodeNullable(_$StopReasonEnumMap, json['stop_reason'],
-          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      stopReason: $enumDecodeNullable(
+        _$StopReasonEnumMap,
+        json['stop_reason'],
+        unknownValue: JsonKey.nullForUndefinedEnumValue,
+      ),
       stopSequence: json['stop_sequence'] as String?,
     );
 
@@ -443,27 +446,22 @@ Map<String, dynamic> _$$MessageDeltaImplToJson(_$MessageDeltaImpl instance) {
 }
 
 _$MessageDeltaUsageImpl _$$MessageDeltaUsageImplFromJson(
-        Map<String, dynamic> json) =>
-    _$MessageDeltaUsageImpl(
-      outputTokens: (json['output_tokens'] as num).toInt(),
-    );
+  Map<String, dynamic> json,
+) => _$MessageDeltaUsageImpl(
+  outputTokens: (json['output_tokens'] as num).toInt(),
+);
 
 Map<String, dynamic> _$$MessageDeltaUsageImplToJson(
-        _$MessageDeltaUsageImpl instance) =>
-    <String, dynamic>{
-      'output_tokens': instance.outputTokens,
-    };
+  _$MessageDeltaUsageImpl instance,
+) => <String, dynamic>{'output_tokens': instance.outputTokens};
 
 _$ErrorImpl _$$ErrorImplFromJson(Map<String, dynamic> json) => _$ErrorImpl(
-      type: json['type'] as String,
-      message: json['message'] as String,
-    );
+  type: json['type'] as String,
+  message: json['message'] as String,
+);
 
 Map<String, dynamic> _$$ErrorImplToJson(_$ErrorImpl instance) =>
-    <String, dynamic>{
-      'type': instance.type,
-      'message': instance.message,
-    };
+    <String, dynamic>{'type': instance.type, 'message': instance.message};
 
 _$ToolCustomImpl _$$ToolCustomImplFromJson(Map<String, dynamic> json) =>
     _$ToolCustomImpl(
@@ -490,25 +488,24 @@ Map<String, dynamic> _$$ToolCustomImplToJson(_$ToolCustomImpl instance) {
 }
 
 _$ToolComputerUseImpl _$$ToolComputerUseImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ToolComputerUseImpl(
-      type: json['type'] as String? ?? 'computer_20241022',
-      name: json['name'] as String? ?? 'computer',
-      cacheControl: json['cache_control'] == null
-          ? null
-          : CacheControlEphemeral.fromJson(
-              json['cache_control'] as Map<String, dynamic>),
-      displayWidthPx: (json['display_width_px'] as num).toInt(),
-      displayHeightPx: (json['display_height_px'] as num).toInt(),
-      displayNumber: (json['display_number'] as num?)?.toInt(),
-    );
+  Map<String, dynamic> json,
+) => _$ToolComputerUseImpl(
+  type: json['type'] as String? ?? 'computer_20241022',
+  name: json['name'] as String? ?? 'computer',
+  cacheControl: json['cache_control'] == null
+      ? null
+      : CacheControlEphemeral.fromJson(
+          json['cache_control'] as Map<String, dynamic>,
+        ),
+  displayWidthPx: (json['display_width_px'] as num).toInt(),
+  displayHeightPx: (json['display_height_px'] as num).toInt(),
+  displayNumber: (json['display_number'] as num?)?.toInt(),
+);
 
 Map<String, dynamic> _$$ToolComputerUseImplToJson(
-    _$ToolComputerUseImpl instance) {
-  final val = <String, dynamic>{
-    'type': instance.type,
-    'name': instance.name,
-  };
+  _$ToolComputerUseImpl instance,
+) {
+  final val = <String, dynamic>{'type': instance.type, 'name': instance.name};
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -530,15 +527,14 @@ _$ToolTextEditorImpl _$$ToolTextEditorImplFromJson(Map<String, dynamic> json) =>
       cacheControl: json['cache_control'] == null
           ? null
           : CacheControlEphemeral.fromJson(
-              json['cache_control'] as Map<String, dynamic>),
+              json['cache_control'] as Map<String, dynamic>,
+            ),
     );
 
 Map<String, dynamic> _$$ToolTextEditorImplToJson(
-    _$ToolTextEditorImpl instance) {
-  final val = <String, dynamic>{
-    'type': instance.type,
-    'name': instance.name,
-  };
+  _$ToolTextEditorImpl instance,
+) {
+  final val = <String, dynamic>{'type': instance.type, 'name': instance.name};
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -557,14 +553,12 @@ _$ToolBashImpl _$$ToolBashImplFromJson(Map<String, dynamic> json) =>
       cacheControl: json['cache_control'] == null
           ? null
           : CacheControlEphemeral.fromJson(
-              json['cache_control'] as Map<String, dynamic>),
+              json['cache_control'] as Map<String, dynamic>,
+            ),
     );
 
 Map<String, dynamic> _$$ToolBashImplToJson(_$ToolBashImpl instance) {
-  final val = <String, dynamic>{
-    'type': instance.type,
-    'name': instance.name,
-  };
+  final val = <String, dynamic>{'type': instance.type, 'name': instance.name};
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -583,14 +577,12 @@ _$TextBlockImpl _$$TextBlockImplFromJson(Map<String, dynamic> json) =>
       cacheControl: json['cache_control'] == null
           ? null
           : CacheControlEphemeral.fromJson(
-              json['cache_control'] as Map<String, dynamic>),
+              json['cache_control'] as Map<String, dynamic>,
+            ),
     );
 
 Map<String, dynamic> _$$TextBlockImplToJson(_$TextBlockImpl instance) {
-  final val = <String, dynamic>{
-    'text': instance.text,
-    'type': instance.type,
-  };
+  final val = <String, dynamic>{'text': instance.text, 'type': instance.type};
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -609,7 +601,8 @@ _$ImageBlockImpl _$$ImageBlockImplFromJson(Map<String, dynamic> json) =>
       cacheControl: json['cache_control'] == null
           ? null
           : CacheControlEphemeral.fromJson(
-              json['cache_control'] as Map<String, dynamic>),
+              json['cache_control'] as Map<String, dynamic>,
+            ),
     );
 
 Map<String, dynamic> _$$ImageBlockImplToJson(_$ImageBlockImpl instance) {
@@ -637,7 +630,8 @@ _$ToolUseBlockImpl _$$ToolUseBlockImplFromJson(Map<String, dynamic> json) =>
       cacheControl: json['cache_control'] == null
           ? null
           : CacheControlEphemeral.fromJson(
-              json['cache_control'] as Map<String, dynamic>),
+              json['cache_control'] as Map<String, dynamic>,
+            ),
     );
 
 Map<String, dynamic> _$$ToolUseBlockImplToJson(_$ToolUseBlockImpl instance) {
@@ -659,25 +653,27 @@ Map<String, dynamic> _$$ToolUseBlockImplToJson(_$ToolUseBlockImpl instance) {
 }
 
 _$ToolResultBlockImpl _$$ToolResultBlockImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ToolResultBlockImpl(
-      toolUseId: json['tool_use_id'] as String,
-      content:
-          const _ToolResultBlockContentConverter().fromJson(json['content']),
-      isError: json['is_error'] as bool?,
-      type: json['type'] as String? ?? 'tool_result',
-      cacheControl: json['cache_control'] == null
-          ? null
-          : CacheControlEphemeral.fromJson(
-              json['cache_control'] as Map<String, dynamic>),
-    );
+  Map<String, dynamic> json,
+) => _$ToolResultBlockImpl(
+  toolUseId: json['tool_use_id'] as String,
+  content: const _ToolResultBlockContentConverter().fromJson(json['content']),
+  isError: json['is_error'] as bool?,
+  type: json['type'] as String? ?? 'tool_result',
+  cacheControl: json['cache_control'] == null
+      ? null
+      : CacheControlEphemeral.fromJson(
+          json['cache_control'] as Map<String, dynamic>,
+        ),
+);
 
 Map<String, dynamic> _$$ToolResultBlockImplToJson(
-    _$ToolResultBlockImpl instance) {
+  _$ToolResultBlockImpl instance,
+) {
   final val = <String, dynamic>{
     'tool_use_id': instance.toolUseId,
-    'content':
-        const _ToolResultBlockContentConverter().toJson(instance.content),
+    'content': const _ToolResultBlockContentConverter().toJson(
+      instance.content,
+    ),
   };
 
   void writeNotNull(String key, dynamic value) {
@@ -693,48 +689,45 @@ Map<String, dynamic> _$$ToolResultBlockImplToJson(
 }
 
 _$ToolResultBlockContentBlocksImpl _$$ToolResultBlockContentBlocksImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ToolResultBlockContentBlocksImpl(
-      (json['value'] as List<dynamic>)
-          .map((e) => Block.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      $type: json['runtimeType'] as String?,
-    );
+  Map<String, dynamic> json,
+) => _$ToolResultBlockContentBlocksImpl(
+  (json['value'] as List<dynamic>)
+      .map((e) => Block.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  $type: json['runtimeType'] as String?,
+);
 
 Map<String, dynamic> _$$ToolResultBlockContentBlocksImplToJson(
-        _$ToolResultBlockContentBlocksImpl instance) =>
-    <String, dynamic>{
-      'value': instance.value.map((e) => e.toJson()).toList(),
-      'runtimeType': instance.$type,
-    };
+  _$ToolResultBlockContentBlocksImpl instance,
+) => <String, dynamic>{
+  'value': instance.value.map((e) => e.toJson()).toList(),
+  'runtimeType': instance.$type,
+};
 
 _$ToolResultBlockContentTextImpl _$$ToolResultBlockContentTextImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ToolResultBlockContentTextImpl(
-      json['value'] as String,
-      $type: json['runtimeType'] as String?,
-    );
+  Map<String, dynamic> json,
+) => _$ToolResultBlockContentTextImpl(
+  json['value'] as String,
+  $type: json['runtimeType'] as String?,
+);
 
 Map<String, dynamic> _$$ToolResultBlockContentTextImplToJson(
-        _$ToolResultBlockContentTextImpl instance) =>
-    <String, dynamic>{
-      'value': instance.value,
-      'runtimeType': instance.$type,
-    };
+  _$ToolResultBlockContentTextImpl instance,
+) => <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};
 
 _$MessageStartEventImpl _$$MessageStartEventImplFromJson(
-        Map<String, dynamic> json) =>
-    _$MessageStartEventImpl(
-      message: Message.fromJson(json['message'] as Map<String, dynamic>),
-      type: $enumDecode(_$MessageStreamEventTypeEnumMap, json['type']),
-    );
+  Map<String, dynamic> json,
+) => _$MessageStartEventImpl(
+  message: Message.fromJson(json['message'] as Map<String, dynamic>),
+  type: $enumDecode(_$MessageStreamEventTypeEnumMap, json['type']),
+);
 
 Map<String, dynamic> _$$MessageStartEventImplToJson(
-        _$MessageStartEventImpl instance) =>
-    <String, dynamic>{
-      'message': instance.message.toJson(),
-      'type': _$MessageStreamEventTypeEnumMap[instance.type]!,
-    };
+  _$MessageStartEventImpl instance,
+) => <String, dynamic>{
+  'message': instance.message.toJson(),
+  'type': _$MessageStreamEventTypeEnumMap[instance.type]!,
+};
 
 const _$MessageStreamEventTypeEnumMap = {
   MessageStreamEventType.messageStart: 'message_start',
@@ -748,79 +741,76 @@ const _$MessageStreamEventTypeEnumMap = {
 };
 
 _$MessageDeltaEventImpl _$$MessageDeltaEventImplFromJson(
-        Map<String, dynamic> json) =>
-    _$MessageDeltaEventImpl(
-      delta: MessageDelta.fromJson(json['delta'] as Map<String, dynamic>),
-      type: $enumDecode(_$MessageStreamEventTypeEnumMap, json['type']),
-      usage: MessageDeltaUsage.fromJson(json['usage'] as Map<String, dynamic>),
-    );
+  Map<String, dynamic> json,
+) => _$MessageDeltaEventImpl(
+  delta: MessageDelta.fromJson(json['delta'] as Map<String, dynamic>),
+  type: $enumDecode(_$MessageStreamEventTypeEnumMap, json['type']),
+  usage: MessageDeltaUsage.fromJson(json['usage'] as Map<String, dynamic>),
+);
 
 Map<String, dynamic> _$$MessageDeltaEventImplToJson(
-        _$MessageDeltaEventImpl instance) =>
-    <String, dynamic>{
-      'delta': instance.delta.toJson(),
-      'type': _$MessageStreamEventTypeEnumMap[instance.type]!,
-      'usage': instance.usage.toJson(),
-    };
+  _$MessageDeltaEventImpl instance,
+) => <String, dynamic>{
+  'delta': instance.delta.toJson(),
+  'type': _$MessageStreamEventTypeEnumMap[instance.type]!,
+  'usage': instance.usage.toJson(),
+};
 
 _$MessageStopEventImpl _$$MessageStopEventImplFromJson(
-        Map<String, dynamic> json) =>
-    _$MessageStopEventImpl(
-      type: $enumDecode(_$MessageStreamEventTypeEnumMap, json['type']),
-    );
+  Map<String, dynamic> json,
+) => _$MessageStopEventImpl(
+  type: $enumDecode(_$MessageStreamEventTypeEnumMap, json['type']),
+);
 
 Map<String, dynamic> _$$MessageStopEventImplToJson(
-        _$MessageStopEventImpl instance) =>
-    <String, dynamic>{
-      'type': _$MessageStreamEventTypeEnumMap[instance.type]!,
-    };
+  _$MessageStopEventImpl instance,
+) => <String, dynamic>{'type': _$MessageStreamEventTypeEnumMap[instance.type]!};
 
 _$ContentBlockStartEventImpl _$$ContentBlockStartEventImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ContentBlockStartEventImpl(
-      contentBlock:
-          Block.fromJson(json['content_block'] as Map<String, dynamic>),
-      index: (json['index'] as num).toInt(),
-      type: $enumDecode(_$MessageStreamEventTypeEnumMap, json['type']),
-    );
+  Map<String, dynamic> json,
+) => _$ContentBlockStartEventImpl(
+  contentBlock: Block.fromJson(json['content_block'] as Map<String, dynamic>),
+  index: (json['index'] as num).toInt(),
+  type: $enumDecode(_$MessageStreamEventTypeEnumMap, json['type']),
+);
 
 Map<String, dynamic> _$$ContentBlockStartEventImplToJson(
-        _$ContentBlockStartEventImpl instance) =>
-    <String, dynamic>{
-      'content_block': instance.contentBlock.toJson(),
-      'index': instance.index,
-      'type': _$MessageStreamEventTypeEnumMap[instance.type]!,
-    };
+  _$ContentBlockStartEventImpl instance,
+) => <String, dynamic>{
+  'content_block': instance.contentBlock.toJson(),
+  'index': instance.index,
+  'type': _$MessageStreamEventTypeEnumMap[instance.type]!,
+};
 
 _$ContentBlockDeltaEventImpl _$$ContentBlockDeltaEventImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ContentBlockDeltaEventImpl(
-      delta: BlockDelta.fromJson(json['delta'] as Map<String, dynamic>),
-      index: (json['index'] as num).toInt(),
-      type: $enumDecode(_$MessageStreamEventTypeEnumMap, json['type']),
-    );
+  Map<String, dynamic> json,
+) => _$ContentBlockDeltaEventImpl(
+  delta: BlockDelta.fromJson(json['delta'] as Map<String, dynamic>),
+  index: (json['index'] as num).toInt(),
+  type: $enumDecode(_$MessageStreamEventTypeEnumMap, json['type']),
+);
 
 Map<String, dynamic> _$$ContentBlockDeltaEventImplToJson(
-        _$ContentBlockDeltaEventImpl instance) =>
-    <String, dynamic>{
-      'delta': instance.delta.toJson(),
-      'index': instance.index,
-      'type': _$MessageStreamEventTypeEnumMap[instance.type]!,
-    };
+  _$ContentBlockDeltaEventImpl instance,
+) => <String, dynamic>{
+  'delta': instance.delta.toJson(),
+  'index': instance.index,
+  'type': _$MessageStreamEventTypeEnumMap[instance.type]!,
+};
 
 _$ContentBlockStopEventImpl _$$ContentBlockStopEventImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ContentBlockStopEventImpl(
-      index: (json['index'] as num).toInt(),
-      type: $enumDecode(_$MessageStreamEventTypeEnumMap, json['type']),
-    );
+  Map<String, dynamic> json,
+) => _$ContentBlockStopEventImpl(
+  index: (json['index'] as num).toInt(),
+  type: $enumDecode(_$MessageStreamEventTypeEnumMap, json['type']),
+);
 
 Map<String, dynamic> _$$ContentBlockStopEventImplToJson(
-        _$ContentBlockStopEventImpl instance) =>
-    <String, dynamic>{
-      'index': instance.index,
-      'type': _$MessageStreamEventTypeEnumMap[instance.type]!,
-    };
+  _$ContentBlockStopEventImpl instance,
+) => <String, dynamic>{
+  'index': instance.index,
+  'type': _$MessageStreamEventTypeEnumMap[instance.type]!,
+};
 
 _$PingEventImpl _$$PingEventImplFromJson(Map<String, dynamic> json) =>
     _$PingEventImpl(
@@ -828,9 +818,7 @@ _$PingEventImpl _$$PingEventImplFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$$PingEventImplToJson(_$PingEventImpl instance) =>
-    <String, dynamic>{
-      'type': _$MessageStreamEventTypeEnumMap[instance.type]!,
-    };
+    <String, dynamic>{'type': _$MessageStreamEventTypeEnumMap[instance.type]!};
 
 _$ErrorEventImpl _$$ErrorEventImplFromJson(Map<String, dynamic> json) =>
     _$ErrorEventImpl(
@@ -851,21 +839,19 @@ _$TextBlockDeltaImpl _$$TextBlockDeltaImplFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$$TextBlockDeltaImplToJson(
-        _$TextBlockDeltaImpl instance) =>
-    <String, dynamic>{
-      'text': instance.text,
-      'type': instance.type,
-    };
+  _$TextBlockDeltaImpl instance,
+) => <String, dynamic>{'text': instance.text, 'type': instance.type};
 
 _$InputJsonBlockDeltaImpl _$$InputJsonBlockDeltaImplFromJson(
-        Map<String, dynamic> json) =>
-    _$InputJsonBlockDeltaImpl(
-      partialJson: json['partial_json'] as String?,
-      type: json['type'] as String,
-    );
+  Map<String, dynamic> json,
+) => _$InputJsonBlockDeltaImpl(
+  partialJson: json['partial_json'] as String?,
+  type: json['type'] as String,
+);
 
 Map<String, dynamic> _$$InputJsonBlockDeltaImplToJson(
-    _$InputJsonBlockDeltaImpl instance) {
+  _$InputJsonBlockDeltaImpl instance,
+) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {

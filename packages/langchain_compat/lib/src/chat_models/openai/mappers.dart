@@ -3,10 +3,29 @@ import 'dart:convert';
 
 import 'package:openai_dart/openai_dart.dart';
 
-import '../language_models/types.dart';
-import '../tools/base.dart';
-import 'chat_openai.dart';
-import 'types.dart';
+import '../../../chat_models.dart'
+    show
+        AIChatMessage,
+        AIChatMessageToolCall,
+        ChatMessage,
+        ChatMessageContentImage,
+        ChatMessageContentImageDetail,
+        ChatMessageContentMultiModal,
+        ChatMessageContentText,
+        ChatResult,
+        ChatToolChoice,
+        ChatToolChoiceAuto,
+        ChatToolChoiceForced,
+        ChatToolChoiceNone,
+        ChatToolChoiceRequired,
+        CustomChatMessage,
+        HumanChatMessage,
+        SystemChatMessage,
+        ToolChatMessage;
+import '../../../language_models.dart';
+import '../../../tools.dart';
+import './chat_openai.dart';
+import './types.dart';
 
 /// Creates a [CreateChatCompletionRequest] from the given input.
 CreateChatCompletionRequest createChatCompletionRequest(
@@ -23,11 +42,8 @@ CreateChatCompletionRequest createChatCompletionRequest(
   final responseFormatDto =
       (options?.responseFormat ?? defaultOptions.responseFormat)
           ?.toChatCompletionResponseFormat();
-
-  // Mixtral-incompatible: serviceTier is not supported by Mistral and similar
-  // providers
-  // final serviceTierDto = (options?.serviceTier ?? defaultOptions.serviceTier)
-  //     .toCreateChatCompletionRequestServiceTier();
+  final serviceTierDto = (options?.serviceTier ?? defaultOptions.serviceTier)
+      .toCreateChatCompletionRequestServiceTier();
 
   return CreateChatCompletionRequest(
     model: ChatCompletionModel.modelId(
@@ -38,8 +54,7 @@ CreateChatCompletionRequest createChatCompletionRequest(
     toolChoice: toolChoice,
     frequencyPenalty:
         options?.frequencyPenalty ?? defaultOptions.frequencyPenalty,
-    // Mixtral-incompatible: logitBias is not supported by Mistral and similar
-    // providers logitBias: options?.logitBias ?? defaultOptions.logitBias,
+    logitBias: options?.logitBias ?? defaultOptions.logitBias,
     maxCompletionTokens: options?.maxTokens ?? defaultOptions.maxTokens,
     n: options?.n ?? defaultOptions.n,
     presencePenalty: options?.presencePenalty ?? defaultOptions.presencePenalty,
@@ -52,12 +67,11 @@ CreateChatCompletionRequest createChatCompletionRequest(
     topP: options?.topP ?? defaultOptions.topP,
     parallelToolCalls:
         options?.parallelToolCalls ?? defaultOptions.parallelToolCalls,
-    // Mixtral-incompatible: serviceTier is not supported by Mistral and similar
-    // providers serviceTier: serviceTierDto, Mixtral-incompatible: user is not
-    // supported by Mistral and similar providers user: options?.user ??
-    // defaultOptions.user, Mixtral-incompatible: streamOptions is not supported
-    // by Mistral and similar providers streamOptions: stream ? const
-    // ChatCompletionStreamOptions(includeUsage: true) : null,
+    serviceTier: serviceTierDto,
+    user: options?.user ?? defaultOptions.user,
+    streamOptions: stream
+        ? (options?.streamOptions ?? defaultOptions.streamOptions)
+        : null,
   );
 }
 
@@ -210,11 +224,9 @@ extension CreateChatCompletionResponseMapper on CreateChatCompletionResponse {
     ChatCompletionMessageToolCall tooCall,
   ) {
     var args = <String, dynamic>{};
-    try {
-      args = tooCall.function.arguments.isEmpty
-          ? {}
-          : json.decode(tooCall.function.arguments);
-    } on Exception catch (_) {}
+    args = tooCall.function.arguments.isEmpty
+        ? {}
+        : json.decode(tooCall.function.arguments);
     return AIChatMessageToolCall(
       id: tooCall.id,
       name: tooCall.function.name,
@@ -299,10 +311,7 @@ extension CreateChatCompletionStreamResponseMapper
   AIChatMessageToolCall _mapMessageToolCall(
     ChatCompletionStreamMessageToolCallChunk toolCall,
   ) {
-    var args = <String, dynamic>{};
-    try {
-      args = json.decode(toolCall.function?.arguments ?? '');
-    } on Exception catch (_) {}
+    final args = json.decode(toolCall.function?.arguments ?? '');
     return AIChatMessageToolCall(
       id: toolCall.id ?? '',
       name: toolCall.function?.name ?? '',
