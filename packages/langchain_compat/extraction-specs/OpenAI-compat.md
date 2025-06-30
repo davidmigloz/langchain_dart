@@ -14,7 +14,7 @@ This document lists popular OpenAI-compatible LLM providers, their base URLs, AP
 | **OpenAI**                 | `https://api.openai.com/v1`                               | `OPENAI_API_KEY`     | `gpt-4o-mini`                                       | [OpenAI API Keys](https://platform.openai.com/api-keys)               |
 | **OpenRouter**             | `https://openrouter.ai/api/v1`                            | `OPENROUTER_API_KEY` | `google/gemini-2.5-flash`                           | [OpenRouter API Keys](https://openrouter.ai/keys)                     |
 | **Together AI**            | `https://api.together.xyz/v1`                             | `TOGETHER_API_KEY`   | `mistralai/Mixtral-8x7B-Instruct-v0.1`              | [Together API Keys](https://api.together.ai/)                         |
-| **Ollama (OpenAI-compat)** | `http://localhost:11434/v1`                               | (none)               | `gemma3n`                                           | [Ollama Docs](https://github.com/ollama/ollama/blob/main/docs/api.md) | *Local OpenAI-compatible endpoint*                            |
+| **Ollama (OpenAI-compat)** | `http://localhost:11434/v1`                               | (none)               | `llama3.1`                                          | [Ollama Docs](https://github.com/ollama/ollama/blob/main/docs/api.md) | *Local OpenAI-compatible endpoint*                            |
 
 **Notes:**
 - All providers use the OpenAI-compatible `/chat/completions` endpoint and the `Authorization: Bearer <API_KEY>` header.

@@ -3,7 +3,25 @@ import 'dart:io';
 import '../chat_models.dart';
 import 'chat_models/chat_ollama/types.dart';
 
+/// Provides a unified interface for accessing all major LLM, chat, and
+/// embedding providers in LangChain.dart via a single import. This includes
+/// OpenAI, GoogleAI, VertexAI, Anthropic, Mistral, Ollama (native and
+/// OpenAI-compatible), and more. Each provider is represented as a static field
+/// and can be selected by name or alias using [Provider.forName] or iterated
+/// via [Provider.all].
+///
+/// The compat layer ensures all providers are accessible without importing
+/// provider-specific packages. All configuration (API keys, base URLs, models)
+/// is handled via the provider interface.
 abstract class Provider {
+  /// Creates a new provider instance.
+  ///
+  /// [name]: The canonical provider name (e.g., 'openai', 'ollama').
+  /// [displayName]: Human-readable name for display. [defaultModel]: The
+  /// default model for this provider. [defaultBaseUrl]: The default API
+  /// endpoint. [apiKeyName]: The environment variable for the API key (if any).
+  /// [isRemote]: True if the provider is cloud-based, false if local.
+  /// [aliases]: Alternative names for lookup.
   const Provider({
     required this.name,
     required this.displayName,
@@ -14,17 +32,32 @@ abstract class Provider {
     this.aliases = const [],
   });
 
+  /// The canonical provider name (e.g., 'openai', 'ollama').
   final String name;
+
+  /// Alternative names for lookup (e.g., 'claude' for Anthropic).
   final List<String> aliases;
+
+  /// Human-readable name for display.
   final String displayName;
+
+  /// The default model for this provider.
   final String defaultModel;
+
+  /// The default API endpoint for this provider.
   final String defaultBaseUrl;
+
+  /// The environment variable for the API key (if any).
   final String apiKeyName;
+
+  /// True if the provider is cloud-based, false if local.
   final bool isRemote;
 
+  /// Creates a chat model instance for this provider. Optionally override the
+  /// model name.
   BaseChatModel createModel({String? model});
 
-  // Static provider instances
+  /// OpenAI provider (cloud, OpenAI API).
   static final openai = OpenAIProvider(
     name: 'openai',
     displayName: 'OpenAI',
@@ -34,6 +67,7 @@ abstract class Provider {
     isRemote: true,
   );
 
+  /// OpenRouter provider (OpenAI-compatible, multi-model cloud).
   static final openrouter = OpenAIProvider(
     name: 'openrouter',
     displayName: 'OpenRouter',
@@ -43,6 +77,7 @@ abstract class Provider {
     isRemote: true,
   );
 
+  /// Groq provider (OpenAI-compatible, cloud).
   static final groq = OpenAIProvider(
     name: 'groq',
     displayName: 'Groq',
@@ -52,6 +87,7 @@ abstract class Provider {
     isRemote: true,
   );
 
+  /// Together AI provider (OpenAI-compatible, cloud).
   static final together = OpenAIProvider(
     name: 'together',
     displayName: 'Together AI',
@@ -61,6 +97,7 @@ abstract class Provider {
     isRemote: true,
   );
 
+  /// Fireworks AI provider (OpenAI-compatible, cloud).
   static final fireworks = OpenAIProvider(
     name: 'fireworks',
     displayName: 'Fireworks AI',
@@ -70,6 +107,7 @@ abstract class Provider {
     isRemote: true,
   );
 
+  /// Mistral AI provider (OpenAI-compatible, cloud).
   static final mistral = MistralProvider(
     name: 'mistral',
     displayName: 'Mistral AI',
@@ -79,6 +117,8 @@ abstract class Provider {
     isRemote: true,
   );
 
+  /// Cohere provider (OpenAI-compatible, cloud). Note: streamOptions is
+  /// forcibly set to null for compatibility.
   static final cohere = OpenAIProvider(
     name: 'cohere',
     displayName: 'Cohere',
@@ -88,6 +128,7 @@ abstract class Provider {
     isRemote: true,
   );
 
+  /// Lambda provider (OpenAI-compatible, cloud).
   static final lambda = OpenAIProvider(
     name: 'lambda',
     displayName: 'Lambda',
@@ -97,6 +138,7 @@ abstract class Provider {
     isRemote: true,
   );
 
+  /// NVIDIA NIM provider (OpenAI-compatible, cloud).
   static final nvidia = OpenAIProvider(
     name: 'nvidia',
     displayName: 'NVIDIA NIM',
@@ -106,6 +148,7 @@ abstract class Provider {
     isRemote: true,
   );
 
+  /// Gemini (OpenAI-compatible) provider (Google AI, OpenAI API).
   static final geminiOpenAI = OpenAIProvider(
     name: 'gemini-openai',
     displayName: 'Google AI (OpenAI-compatible)',
@@ -115,6 +158,7 @@ abstract class Provider {
     isRemote: true,
   );
 
+  /// Google Gemini native provider (uses Gemini API, not OpenAI-compatible).
   static final google = GoogleAIProvider(
     name: 'google',
     aliases: ['gemini', 'googleai', 'google-gla'],
@@ -125,6 +169,7 @@ abstract class Provider {
     isRemote: true,
   );
 
+  /// Anthropic provider (Claude, native API).
   static final anthropic = AnthropicProvider(
     name: 'anthropic',
     aliases: ['claude'],
@@ -135,24 +180,31 @@ abstract class Provider {
     isRemote: true,
   );
 
+  /// Native Ollama provider (local, uses ChatOllama and /api endpoint). Default
+  /// model: gemma3n. No API key required.
   static final ollama = OllamaProvider(
     name: 'ollama',
     displayName: 'Ollama',
-    defaultModel: 'gemma3n',
+    defaultModel: 'llama3.1',
     defaultBaseUrl: 'http://localhost:11434/api',
     apiKeyName: '',
     isRemote: false,
   );
 
+  /// OpenAI-compatible Ollama provider (local, uses /v1 endpoint). Default
+  /// model: gemma3n. No API key required.
   static final ollamaOpenAI = OpenAIProvider(
     name: 'ollama-openai',
     displayName: 'Ollama (OpenAI-compatible)',
-    defaultModel: 'gemma3n',
+    defaultModel: 'llama3.1',
     defaultBaseUrl: 'http://localhost:11434/v1',
     apiKeyName: '',
     isRemote: false,
   );
 
+  /// Returns a list of all available providers (static fields above).
+  ///
+  /// Use this to iterate or display all providers in a UI.
   static List<Provider> get all => [
     openai,
     openrouter,
@@ -170,6 +222,8 @@ abstract class Provider {
     ollamaOpenAI,
   ];
 
+  /// Looks up a provider by name or alias (case-insensitive). Throws if not
+  /// found.
   static Provider forName(String name) => all.firstWhere(
     (p) =>
         p.name.toLowerCase() == name.toLowerCase() ||
@@ -177,7 +231,16 @@ abstract class Provider {
   );
 }
 
+/// Provider for OpenAI-compatible APIs (OpenAI, Groq, Together, etc.). Handles
+/// API key, base URL, and model configuration.
 class OpenAIProvider extends Provider {
+  /// Creates a new OpenAI provider instance.
+  ///
+  /// [name]: The canonical provider name (e.g., 'openai', 'groq').
+  /// [displayName]: Human-readable name for display. [defaultModel]: The
+  /// default model for this provider. [defaultBaseUrl]: The default API
+  /// endpoint. [apiKeyName]: The environment variable for the API key (if any).
+  /// [isRemote]: True if the provider is cloud-based, false if local.
   OpenAIProvider({
     required super.name,
     required super.displayName,
@@ -213,7 +276,15 @@ class OpenAIProvider extends Provider {
   }
 }
 
+/// Provider for Google Gemini native API.
 class GoogleAIProvider extends Provider {
+  /// Creates a new Google AI provider instance.
+  ///
+  /// [name]: The canonical provider name (e.g., 'google', 'gemini').
+  /// [displayName]: Human-readable name for display. [defaultModel]: The
+  /// default model for this provider. [defaultBaseUrl]: The default API
+  /// endpoint. [apiKeyName]: The environment variable for the API key (if any).
+  /// [isRemote]: True if the provider is cloud-based, false if local.
   GoogleAIProvider({
     required super.name,
     required super.aliases,
@@ -232,7 +303,15 @@ class GoogleAIProvider extends Provider {
   );
 }
 
+/// Provider for Anthropic Claude native API.
 class AnthropicProvider extends Provider {
+  /// Creates a new Anthropic provider instance.
+  ///
+  /// [name]: The canonical provider name (e.g., 'anthropic', 'claude').
+  /// [displayName]: Human-readable name for display. [defaultModel]: The
+  /// default model for this provider. [defaultBaseUrl]: The default API
+  /// endpoint. [apiKeyName]: The environment variable for the API key (if any).
+  /// [isRemote]: True if the provider is cloud-based, false if local.
   AnthropicProvider({
     required super.name,
     required super.aliases,
@@ -251,7 +330,15 @@ class AnthropicProvider extends Provider {
   );
 }
 
+/// Provider for Mistral AI (OpenAI-compatible).
 class MistralProvider extends Provider {
+  /// Creates a new Mistral provider instance.
+  ///
+  /// [name]: The canonical provider name (e.g., 'mistral', 'mistralai').
+  /// [displayName]: Human-readable name for display. [defaultModel]: The
+  /// default model for this provider. [defaultBaseUrl]: The default API
+  /// endpoint. [apiKeyName]: The environment variable for the API key (if any).
+  /// [isRemote]: True if the provider is cloud-based, false if local.
   MistralProvider({
     required super.name,
     required super.displayName,
@@ -269,7 +356,15 @@ class MistralProvider extends Provider {
   );
 }
 
+/// Provider for native Ollama API (local, not OpenAI-compatible).
 class OllamaProvider extends Provider {
+  /// Creates a new Ollama provider instance.
+  ///
+  /// [name]: The canonical provider name (e.g., 'ollama', 'ollama-openai').
+  /// [displayName]: Human-readable name for display. [defaultModel]: The
+  /// default model for this provider. [defaultBaseUrl]: The default API
+  /// endpoint. [apiKeyName]: The environment variable for the API key (if any).
+  /// [isRemote]: True if the provider is cloud-based, false if local.
   OllamaProvider({
     required super.name,
     required super.displayName,

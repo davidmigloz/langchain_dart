@@ -1,22 +1,18 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# langchain_compat
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages). 
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages). 
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+A unified compatibility layer for LangChain.dart, enabling seamless use of all major LLM, chat, and embedding providers (OpenAI, GoogleAI, VertexAI, Anthropic, Mistral, Ollama, and more) from a single package. No need to import provider-specific packages—just use `langchain_compat` for everything.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+- **Single Import:** Access all major LLM, chat, and embedding providers from one package.
+- **Unified API:** Consistent interfaces for chat, completion, and embedding models.
+- **Provider Barrels:** All types, constants, and utilities are re-exported for easy access.
+- **Self-Contained:** No need to import from `src/` directories or upstream packages.
+- **OpenAI-Compatible:** Includes all major OpenAI-compatible providers (Groq, Together, Fireworks, etc.).
+- **Native Providers:** Full support for native APIs (Anthropic, Gemini, Ollama, etc.).
+- **Local Ollama:** Supports both native and OpenAI-compatible endpoints for Ollama.
+- **Analyzer Clean:** Error-free according to `dart analyze` (except for expected warnings).
+- **Traceable:** Every file is mapped to its original source in `extraction-specs/FILE_SOURCE_MAP.md`.
 
 ## Supported Providers
 
@@ -36,8 +32,8 @@ TODO: List what your package can do. Maybe include images, gifs, or videos.
 | **Lambda**                 | llama3.2-3b-instruct                              | Text Generation, Chat, File Uploads, Tools             | OpenAI-compatible                      |
 | **NVIDIA NIM**             | nvidia/nemotron-mini-4b-instruct                  | Text Generation, Chat, File Uploads, Tools             | OpenAI-compatible                      |
 | **Anthropic**              | claude-3-5-sonnet-20241022                        | Text Generation, Chat, File Uploads, Tools             | Native Claude API                      |
-| **Ollama**                 | gemma3n                                           | Text Generation, Chat                                  | Local models only (native API)         |
-| **Ollama (OpenAI-compat)** | gemma3n                                           | Text Generation, Chat                                  | Local OpenAI-compatible endpoint       |
+| **Ollama**                 | llama3.1                                          | Text Generation, Chat                                  | Local models only (native API)         |
+| **Ollama (OpenAI-compat)** | llama3.1                                          | Text Generation, Chat                                  | Local OpenAI-compatible endpoint       |
 
 ### Provider Configuration
 
@@ -49,7 +45,7 @@ TODO: List what your package can do. Maybe include images, gifs, or videos.
 | **Gemini (OpenAI-compat)** | gemini-openai   | -                            | GEMINI_API_KEY     | [Get Gemini API Key](https://aistudio.google.com/app/apikey)                   | OpenAIProvider    |
 | **Fireworks AI**           | fireworks       | -                            | FIREWORKS_API_KEY  | [Get Fireworks API Key](https://app.fireworks.ai/keys)                         | OpenAIProvider    |
 | **Groq**                   | groq            | -                            | GROQ_API_KEY       | [Get Groq API Key](https://console.groq.com/keys)                              | OpenAIProvider    |
-| **Together AI**            | together        | -                            | TOGETHER_API_KEY   | [Get Together AI API Key](https://platform.together.ai/account/api-keys)       | OpenAIProvider    |
+| **Together AI**            | together        | -                            | TOGETHER_API_KEY   | [Get Together AI Key](https://platform.together.ai/account/api-keys)           | OpenAIProvider    |
 | **Mistral AI**             | mistral         | -                            | MISTRAL_API_KEY    | [Get Mistral API Key](https://console.mistral.ai/api-keys)                     | OpenAIProvider    |
 | **Cohere**                 | cohere          | -                            | COHERE_API_KEY     | [Get Cohere API Key](https://dashboard.cohere.com/api-keys)                    | OpenAIProvider    |
 | **Lambda**                 | lambda          | -                            | LAMBDA_API_KEY     | [Get Lambda API Key](https://platform.lambdalabs.com/api-keys)                 | OpenAIProvider    |
@@ -58,24 +54,47 @@ TODO: List what your package can do. Maybe include images, gifs, or videos.
 | **Ollama**                 | ollama          | -                            |                    | [Ollama Documentation](https://github.com/ollama/ollama/blob/main/docs/api.md) | OllamaProvider    |
 | **Ollama (OpenAI-compat)** | ollama-openai   | -                            |                    | [Ollama Documentation](https://github.com/ollama/ollama/blob/main/docs/api.md) | OpenAIProvider    |
 
-*Note: The native Ollama provider uses the /api endpoint and ChatOllama, while the OpenAI-compatible provider uses the /v1 endpoint and OpenAIProvider logic. Both default to gemma3n. Choose the provider that matches your Ollama server setup.*
+*Note: The native Ollama provider uses the /api endpoint and ChatOllama, while the OpenAI-compatible provider uses the /v1 endpoint and OpenAIProvider logic. Both default to llama3.1. Choose the provider that matches your Ollama server setup.*
 
 ## Getting started
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+Add `langchain_compat` to your `pubspec.yaml`:
+
+```yaml
+dependencies:
+  langchain_compat: ^VERSION
+```
+
+Import the package:
+
+```dart
+import 'package:langchain_compat/langchain_compat.dart';
+```
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
+Here's a minimal example that runs a chat prompt with both native and OpenAI-compatible Ollama providers:
 
 ```dart
-const like = 'sample';
+import 'package:langchain_compat/langchain_compat.dart';
+import 'package:langchain_compat/src/providers.dart';
+
+void main() async {
+  const promptText = 'Tell me a joke about Dart programming.';
+
+  for (final provider in [Provider.ollama, Provider.ollamaOpenAI]) {
+    final model = provider.createModel();
+    print('\n# [1m${provider.displayName}[0m (${provider.name}:${model.name})');
+    await for (final chunk in model.stream(PromptValue.string(promptText))) {
+      stdout.write(chunk.output.content);
+    }
+    print('');
+  }
+}
 ```
 
-## Additional information
+You can also use any other provider from `Provider.all` for a unified experience.
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+## Additional information
+- To contribute, open issues or pull requests on GitHub. Please follow the project style and compat rules.
+- For questions or support, file an issue and the maintainers will respond as soon as possible.

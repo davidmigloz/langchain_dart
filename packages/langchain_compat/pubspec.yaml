@@ -1,17 +1,15 @@
 name: langchain_compat
 
 description: >
-  Compatibility abstractions for language models, chat models, and embedding models
-  for LangChain.dart. This package provides a unified interface for integrating
-  with various LLM, chat, and embedding providers.
+  Compatibility abstractions for language models, chat models, and embedding
+  models for LangChain.dart. This package provides a unified interface for
+  integrating with various LLM, chat, and embedding providers.
 
-version: 1.0.0
-# repository: https://github.com/my_org/my_repo
+version: 0.1.0
 
 environment:
   sdk: ^3.8.1
 
-# Core dependencies for compatibility abstractions
 dependencies:
   anthropic_sdk_dart: ^0.2.1
   async: ^2.13.0

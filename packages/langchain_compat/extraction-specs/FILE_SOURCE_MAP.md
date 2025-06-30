@@ -156,4 +156,4 @@ This file maps each Dart file in the langchain_compat package to its original so
 | types.dart   | langchain_core/lib/src/language_models/types.dart (verbatim, formatting only)     |
 | base.dart   | langchain_core/lib/src/tools/base.dart (verbatim, formatting only)   |
 | types.dart  | langchain_core/lib/src/tools/types.dart (verbatim, formatting only)  |
-| providers.dart          | Compat-only: public API barrel file (compat logic: Cohere forcibly sets streamOptions: null in ChatOpenAIOptions). Includes both a native Ollama provider (OllamaProvider, using ChatOllama and /api endpoint, defaultModel: gemma3n) and an OpenAI-compatible Ollama provider (OpenAIProvider, using /v1 endpoint, defaultModel: gemma3n). | 
+| providers.dart          | Compat-only: public API barrel file (compat logic: Cohere forcibly sets streamOptions: null in ChatOpenAIOptions). Includes both a native Ollama provider (OllamaProvider, using ChatOllama and /api endpoint, defaultModel: llama3.1) and an OpenAI-compatible Ollama provider (OpenAIProvider, using /v1 endpoint, defaultModel: llama3.1). | 
