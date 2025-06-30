@@ -128,7 +128,7 @@ abstract class Provider {
     name: 'ollama',
     displayName: 'Ollama',
     defaultModel: 'gemma3n',
-    defaultBaseUrl: 'http://localhost:11434/api',
+    defaultBaseUrl: 'http://localhost:11434/v1',
     apiKeyName: '',
     isRemote: false,
   );
