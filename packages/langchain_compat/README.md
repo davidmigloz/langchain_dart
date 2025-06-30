@@ -1,18 +1,22 @@
 # langchain_compat
 
-A unified compatibility layer for LangChain.dart, enabling seamless use of all major LLM, chat, and embedding providers (OpenAI, GoogleAI, VertexAI, Anthropic, Mistral, Ollama, and more) from a single package. No need to import provider-specific packages—just use `langchain_compat` for everything.
+A unified compatibility layer for LangChain.dart, enabling seamless use of all
+major LLM, chat, and embedding providers (OpenAI, GoogleAI, VertexAI, Anthropic,
+Mistral, Ollama, and more) from a single package. No need to import
+provider-specific packages—just use `langchain_compat` for everything.
 
 ## Features
 
-- **Single Import:** Access all major LLM, chat, and embedding providers from one package.
-- **Unified API:** Consistent interfaces for chat, completion, and embedding models.
-- **Provider Barrels:** All types, constants, and utilities are re-exported for easy access.
-- **Self-Contained:** No need to import from `src/` directories or upstream packages.
-- **OpenAI-Compatible:** Includes all major OpenAI-compatible providers (Groq, Together, Fireworks, etc.).
-- **Native Providers:** Full support for native APIs (Anthropic, Gemini, Ollama, etc.).
-- **Local Ollama:** Supports both native and OpenAI-compatible endpoints for Ollama.
-- **Analyzer Clean:** Error-free according to `dart analyze` (except for expected warnings).
-- **Traceable:** Every file is mapped to its original source in `extraction-specs/FILE_SOURCE_MAP.md`.
+- **Single Import:** Access all major LLM, chat, and embedding providers from
+  one package.
+- **Unified API:** Consistent interfaces for chat, completion, and embedding
+  models.
+- **OpenAI-Compatible:** Includes all major OpenAI-compatible providers (Groq,
+  Together, Fireworks, etc.).
+- **Native Providers:** Full support for native APIs (Anthropic, Gemini, Ollama,
+  etc.).
+- **Local Ollama:** Supports both native and OpenAI-compatible endpoints for
+  Ollama.
 
 ## Supported Providers
 
@@ -54,7 +58,28 @@ A unified compatibility layer for LangChain.dart, enabling seamless use of all m
 | **Ollama**                 | ollama          | -                            |                    | [Ollama Documentation](https://github.com/ollama/ollama/blob/main/docs/api.md) | OllamaProvider    |
 | **Ollama (OpenAI-compat)** | ollama-openai   | -                            |                    | [Ollama Documentation](https://github.com/ollama/ollama/blob/main/docs/api.md) | OpenAIProvider    |
 
-*Note: The native Ollama provider uses the /api endpoint and ChatOllama, while the OpenAI-compatible provider uses the /v1 endpoint and OpenAIProvider logic. Both default to llama3.1. Choose the provider that matches your Ollama server setup.*
+### Model Availability by Provider
+
+*Model counts as of June 30, 2025.*
+
+| Provider Name | Key/ID     | # Models  | Notes                                                                                                       |
+| ------------- | ---------- | --------- | ----------------------------------------------------------------------------------------------------------- |
+| OpenAI        | openai     | 77        |                                                                                                             |
+| OpenRouter    | openrouter | 318       | Aggregator, many sources                                                                                    |
+| Groq          | groq       | 22        |                                                                                                             |
+| Together AI   | together   | 81        |                                                                                                             |
+| Fireworks AI  | fireworks  | 29        |                                                                                                             |
+| Mistral AI    | mistral    | 53        |                                                                                                             |
+| Cohere        | cohere     | 42        |                                                                                                             |
+| Lambda        | lambda     | 20        |                                                                                                             |
+| NVIDIA NIM    | nvidia     | 142       |                                                                                                             |
+| Google AI     | google     | 50        |                                                                                                             |
+| Anthropic     | anthropic  | 11        |                                                                                                             |
+| Ollama        | ollama     | 180+      | Curated Library: ~180 ready-to-pull model families<br />Extended universe: ~45K GGUF models on Hugging Face |
+| **Total**     |            | **>1000** |                                                                                                             |
+
+*Note: Model counts and details may change as APIs evolve. Some providers
+aggregate or proxy many models from other sources.*
 
 ## Getting started
 
@@ -73,7 +98,8 @@ import 'package:langchain_compat/langchain_compat.dart';
 
 ## Usage
 
-Here's a minimal example that runs a chat prompt with both native and OpenAI-compatible Ollama providers:
+Here's a minimal example that runs a chat prompt with both native and
+OpenAI-compatible Ollama providers:
 
 ```dart
 import 'package:langchain_compat/langchain_compat.dart';
@@ -93,48 +119,46 @@ void main() async {
 }
 ```
 
-You can also use any other provider from `Provider.all` for a unified experience.
+You can also use any other provider from `Provider.all` for a unified
+experience.
 
 ### Listing all models for all providers
 
-You can use `Provider.listModels()` to enumerate all available models for every provider. This works for all providers in `Provider.all`:
+You can use `Provider.listModels()` to enumerate all available models for every
+provider. This works for all providers in `Provider.all`:
 
 ```dart
-import 'package:langchain_compat/langchain_compat.dart';
 import 'package:langchain_compat/src/providers.dart';
 
 Future<void> main() async {
-  int totalProviders = 0;
-  int totalModels = 0;
+  var totalProviders = 0;
+  var totalModels = 0;
   for (final provider in Provider.all) {
     totalProviders++;
-    print('\n# ${provider.displayName} (${provider.name})');
-    try {
-      final models = await provider.listModels();
-      final modelList = models.toList();
-      totalModels += modelList.length;
-      if (modelList.isEmpty) {
-        print('  (no models found)');
-      } else {
-        for (final model in modelList) {
-          print('  - id: ${model.id}');
-          if (model.name != null && model.name != model.id) {
-            print('    name: ${model.name}');
-          }
-        }
-        print('  (${modelList.length} models)');
-      }
-    } on Exception catch (e) {
-      print('  Error: $e');
+    print('\n# [1m${provider.displayName}[0m (${provider.name})');
+    final models = await provider.listModels();
+    final modelList = models.toList();
+    totalModels += modelList.length;
+    for (final model in modelList) {
+      final kinds = model.kinds.map((k) => k.name).join(', ');
+      print(
+        '- ${provider.name}:${model.name} '
+        '${model.displayName != null ? '"${model.displayName}" ' : ''}'
+        '($kinds) ',
+      );
     }
+    print('  (${modelList.length} models)');
   }
   print('\nTotal providers: $totalProviders');
   print('Total models: $totalModels');
 }
 ```
 
-This will print all providers, their available models, and a summary count at the end.
+This will print all providers, their available models, and a summary count at
+the end.
 
 ## Additional information
-- To contribute, open issues or pull requests on GitHub. Please follow the project style and compat rules.
-- For questions or support, file an issue and the maintainers will respond as soon as possible.
+- To contribute, open issues or pull requests on GitHub. Please follow the
+  project style and compat rules.
+- For questions or support, file an issue and the maintainers will respond as
+  soon as possible.

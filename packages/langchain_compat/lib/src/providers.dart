@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:html/dom.dart' as dom;
+import 'package:html/parser.dart' as html_parser;
 import 'package:http/http.dart' as http;
-import 'package:openai_dart/openai_dart.dart';
 
 import '../chat_models.dart';
 import 'chat_models/chat_ollama/types.dart';
@@ -60,9 +61,6 @@ abstract class Provider {
   /// Creates a chat model instance for this provider. Optionally override the
   /// model name.
   BaseChatModel createModel({String? model});
-
-  /// Returns all available models for this provider.
-  Future<Iterable<ModelInfo>> listModels();
 
   /// OpenAI provider (cloud, OpenAI API).
   static final openai = OpenAIProvider(
@@ -126,7 +124,7 @@ abstract class Provider {
 
   /// Cohere provider (OpenAI-compatible, cloud). Note: streamOptions is
   /// forcibly set to null for compatibility.
-  static final cohere = OpenAIProvider(
+  static final cohere = CohereOpenAIProvider(
     name: 'cohere',
     displayName: 'Cohere',
     defaultModel: 'command-r-plus',
@@ -236,34 +234,81 @@ abstract class Provider {
         p.name.toLowerCase() == name.toLowerCase() ||
         p.aliases.any((a) => a.toLowerCase() == name.toLowerCase()),
   );
+
+  /// Returns all available models for this provider.
+  ///
+  /// May cache results for the lifetime of the provider instance.
+  Future<Iterable<ModelInfo>> listModels();
 }
 
-/// Model metadata for provider model listing. Information about a model
-/// returned by a provider.
+/// The kind of model supported by a provider.
+///
+/// Used to classify models for listing, filtering, and selection.
+/// - [chat]: Chat completion models for conversational AI
+/// - [image]: Image generation or vision models
+/// - [embedding]: Text embedding models for semantic similarity
+/// - [audio]: Audio processing models (speech-to-text, etc.)
+/// - [tts]: Text-to-speech models
+/// - [countTokens]: Count the number of tokens in a text string
+/// - [other]: Other specialized model types
+enum ModelKind {
+  /// Chat completion models for conversational AI
+  chat,
+
+  /// Image generation or vision models
+  image,
+
+  /// Text embedding models for semantic similarity
+  embedding,
+
+  /// Audio processing models (speech-to-text, etc.)
+  audio,
+
+  /// Text-to-speech models
+  tts,
+
+  /// Count the number of tokens in a text string
+  countTokens,
+
+  /// Other specialized model types
+  other,
+}
+
+/// Model metadata for provider model listing.
+///
+/// Returned by [Provider.listModels] for all providers. Contains the model id,
+/// kind, name, description, and any extra metadata.
 class ModelInfo {
   /// Creates a new [ModelInfo] instance.
-  const ModelInfo({
-    required this.id,
-    this.name,
+  ///
+  /// [name]: The unique name for the model (required). [kinds]: The set of
+  /// kinds of model (required, non-empty). [displayName]: The display name of
+  /// the model, if available. [description]: A description of the model, if
+  /// available. [extra]: Any extra metadata returned by the provider (default:
+  /// empty map).
+  ModelInfo({
+    required this.name,
+    required this.kinds,
+    this.displayName,
     this.description,
-    this.contextWindow,
-    this.extra,
-  });
+    this.extra = const {},
+  }) : assert(kinds.isNotEmpty, 'kinds must not be empty');
 
-  /// The unique identifier for the model (required).
-  final String id;
+  /// The unique name for the model (required).
+  final String name;
+
+  /// The set of kinds of model (text, embedding, rerank, etc). Must not be
+  /// empty.
+  final Set<ModelKind> kinds;
 
   /// The display name of the model, if available.
-  final String? name;
+  final String? displayName;
 
   /// A description of the model, if available.
   final String? description;
 
-  /// The maximum context window (token limit) for the model, if available.
-  final int? contextWindow;
-
   /// Any extra metadata returned by the provider.
-  final Map<String, dynamic>? extra;
+  final Map<String, dynamic> extra;
 }
 
 /// Provider for OpenAI-compatible APIs (OpenAI, Groq, Together, etc.). Handles
@@ -284,6 +329,8 @@ class OpenAIProvider extends Provider {
     required super.apiKeyName,
     required super.isRemote,
   });
+
+  List<ModelInfo>? _cachedModels;
 
   @override
   BaseChatModel createModel({String? model}) {
@@ -312,10 +359,10 @@ class OpenAIProvider extends Provider {
 
   @override
   Future<Iterable<ModelInfo>> listModels() async {
+    if (_cachedModels != null) return _cachedModels!;
     final apiKey = apiKeyName.isNotEmpty
         ? Platform.environment[apiKeyName]
         : null;
-    // Make a manual HTTP request to /models first to check the response type.
     final url = Uri.parse('$defaultBaseUrl/models');
     final headers = <String, String>{
       if (apiKeyName.isNotEmpty && apiKey != null && apiKey.isNotEmpty)
@@ -324,62 +371,65 @@ class OpenAIProvider extends Provider {
     };
     final response = await http.get(url, headers: headers);
     if (response.statusCode != 200) {
-      throw Exception('Failed to fetch models: ${response.body}');
+      throw Exception('Failed to fetch models: \\${response.body}');
     }
     final data = jsonDecode(response.body);
-    if (data is List) {
-      // TogetherAI and similar: top-level list
-      return data.map(
-        (m) => ModelInfo(
-          // ignore: avoid_dynamic_calls
-          id: m['id'] as String? ?? '',
-          // ignore: avoid_dynamic_calls
-          name: m['id'] as String?,
-          // ignore: avoid_dynamic_calls
-          description: m['object']?.toString(),
-          contextWindow: null,
-          extra: m as Map<String, dynamic>?,
-        ),
-      );
-    } else if (data is Map<String, dynamic>) {
-      // OpenAI: top-level map, use SDK for full compatibility
-      if (apiKeyName.isNotEmpty) {
-        if (apiKey == null || apiKey.isEmpty) {
-          throw Exception('Missing API key for $name');
-        }
-        final client = OpenAIClient(apiKey: apiKey, baseUrl: defaultBaseUrl);
-        final sdkResponse = await client.listModels();
-        return sdkResponse.data.map(
-          (m) => ModelInfo(
-            id: m.id,
-            name: m.id, // OpenAI doesn't provide a friendly name
-            description: m.object?.toString(),
-            contextWindow: null, // Not available in API
-            extra: m.toJson(),
-          ),
-        );
-      } else {
-        // No API key required, parse manually
-        final models = data['data'] as List?;
-        if (models == null) {
-          throw Exception('No models found in response: ${response.body}');
-        }
-        return models.map(
-          (m) => ModelInfo(
-            // ignore: avoid_dynamic_calls
-            id: m['id'] as String? ?? '',
-            // ignore: avoid_dynamic_calls
-            name: m['id'] as String?,
-            // ignore: avoid_dynamic_calls
-            description: m['object']?.toString(),
-            contextWindow: null,
-            extra: m as Map<String, dynamic>?,
-          ),
-        );
+    late final Iterable<ModelInfo> models;
+    Iterable<ModelInfo> mapModels(Iterable mList) => mList.map((m) {
+      // ignore: avoid_dynamic_calls
+      final id = m['id'] as String;
+      final kinds = <ModelKind>{};
+      // ignore: avoid_dynamic_calls
+      final object = m['object']?.toString() ?? '';
+      // Heuristics for OpenAI model kinds
+      if (id.contains('embedding')) kinds.add(ModelKind.embedding);
+      if (id.contains('tts')) kinds.add(ModelKind.tts);
+      if (id.contains('vision') ||
+          id.contains('dall-e') ||
+          id.contains('image')) {
+        kinds.add(ModelKind.image);
       }
+      if (id.contains('audio')) kinds.add(ModelKind.audio);
+      if (id.contains('count-tokens')) kinds.add(ModelKind.countTokens);
+      // Most models are chat if not otherwise classified
+      if (object == 'model' ||
+          id.contains('gpt') ||
+          id.contains('chat') ||
+          id.contains('claude') ||
+          id.contains('mixtral') ||
+          id.contains('llama') ||
+          id.contains('command') ||
+          id.contains('sonnet')) {
+        kinds.add(ModelKind.chat);
+      }
+      if (kinds.isEmpty) kinds.add(ModelKind.other);
+      assert(kinds.isNotEmpty, 'Model $id returned with empty kinds set');
+      return ModelInfo(
+        name: id,
+        kinds: kinds,
+        description: object.isNotEmpty ? object : null,
+        extra: {
+          ...m,
+          // ignore: avoid_dynamic_calls
+          if (m.containsKey('context_window'))
+            // ignore: avoid_dynamic_calls
+            'contextWindow': m['context_window'],
+        }..removeWhere((k, _) => ['id', 'object'].contains(k)),
+      );
+    });
+    if (data is List) {
+      models = mapModels(data);
+    } else if (data is Map<String, dynamic>) {
+      final modelsList = data['data'] as List?;
+      if (modelsList == null) {
+        throw Exception('No models found in response: \\${response.body}');
+      }
+      models = mapModels(modelsList);
     } else {
-      throw Exception('Unexpected models response shape: ${response.body}');
+      throw Exception('Unexpected models response shape: \\${response.body}');
     }
+    _cachedModels = models.toList();
+    return _cachedModels!;
   }
 }
 
@@ -402,6 +452,8 @@ class GoogleAIProvider extends Provider {
     required super.isRemote,
   });
 
+  List<ModelInfo>? _cachedModels;
+
   @override
   BaseChatModel createModel({String? model}) => ChatGoogleGenerativeAI(
     apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
@@ -411,6 +463,7 @@ class GoogleAIProvider extends Provider {
 
   @override
   Future<Iterable<ModelInfo>> listModels() async {
+    if (_cachedModels != null) return _cachedModels!;
     final apiKey = apiKeyName.isNotEmpty
         ? Platform.environment[apiKeyName]
         : null;
@@ -422,18 +475,55 @@ class GoogleAIProvider extends Provider {
     );
     final response = await http.get(url, headers: {'x-goog-api-key': apiKey});
     if (response.statusCode != 200) {
-      throw Exception('Failed to fetch Gemini models: ${response.body}');
+      throw Exception('Failed to fetch Gemini models: \\${response.body}');
     }
     final data = jsonDecode(response.body) as Map<String, dynamic>;
-    return (data['models'] as List).cast<Map<String, dynamic>>().map(
-      (m) => ModelInfo(
-        id: m['name'] as String? ?? '',
-        name: m['displayName'] as String?,
-        description: m['description'] as String?,
-        contextWindow: m['inputTokenLimit'] as int?,
-        extra: m,
-      ),
-    );
+    final models = (data['models'] as List).cast<Map<String, dynamic>>().map((
+      m,
+    ) {
+      final id = m['name'] as String;
+      final kinds = <ModelKind>{};
+      final desc = m['description'] as String? ?? '';
+      // Heuristics for Gemini model kinds
+      if (id.contains('embed') || desc.contains('embedding')) {
+        kinds.add(ModelKind.embedding);
+      }
+      if (id.contains('vision') ||
+          desc.contains('vision') ||
+          id.contains('image')) {
+        kinds.add(ModelKind.image);
+      }
+      if (id.contains('tts') || desc.contains('tts')) kinds.add(ModelKind.tts);
+      if (id.contains('audio') || desc.contains('audio')) {
+        kinds.add(ModelKind.audio);
+      }
+      if (id.contains('count-tokens') || desc.contains('count tokens')) {
+        kinds.add(ModelKind.countTokens);
+      } // Most Gemini models are chat if not otherwise classified
+      if (id.contains('gemini') ||
+          id.contains('chat') ||
+          desc.contains('chat')) {
+        kinds.add(ModelKind.chat);
+      }
+      if (kinds.isEmpty) kinds.add(ModelKind.other);
+      assert(kinds.isNotEmpty, 'Model $id returned with empty kinds set');
+      return ModelInfo(
+        name: id,
+        kinds: kinds,
+        displayName: m['displayName'] as String?,
+        description: desc.isNotEmpty ? desc : null,
+        extra:
+            {
+              ...m,
+              if (m.containsKey('inputTokenLimit'))
+                'contextWindow': m['inputTokenLimit'],
+            }..removeWhere(
+              (k, _) => ['name', 'displayName', 'description'].contains(k),
+            ),
+      );
+    });
+    _cachedModels = models.toList();
+    return _cachedModels!;
   }
 }
 
@@ -456,6 +546,8 @@ class AnthropicProvider extends Provider {
     required super.isRemote,
   });
 
+  List<ModelInfo>? _cachedModels;
+
   @override
   BaseChatModel createModel({String? model}) => ChatAnthropic(
     apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
@@ -463,8 +555,15 @@ class AnthropicProvider extends Provider {
     defaultOptions: ChatAnthropicOptions(model: model ?? defaultModel),
   );
 
+  /// Returns all available models for this provider from the Anthropic API.
+  ///
+  /// Calls the Anthropic models endpoint, parses the response, and returns a
+  /// complete, accurate, and richly-typed list of models, including all
+  /// relevant metadata. Results are cached for the lifetime of the provider
+  /// instance. Throws if the API call fails or the response is malformed.
   @override
   Future<Iterable<ModelInfo>> listModels() async {
+    if (_cachedModels != null) return _cachedModels!;
     final apiKey = apiKeyName.isNotEmpty
         ? Platform.environment[apiKeyName]
         : null;
@@ -472,20 +571,37 @@ class AnthropicProvider extends Provider {
       throw Exception('Missing API key for $name');
     }
     final url = Uri.parse('https://api.anthropic.com/v1/models');
-    final response = await http.get(url, headers: {'x-api-key': apiKey});
+    final response = await http.get(
+      url,
+      headers: {'x-api-key': apiKey, 'anthropic-version': '2023-06-01'},
+    );
     if (response.statusCode != 200) {
       throw Exception('Failed to fetch Anthropic models: ${response.body}');
     }
     final data = jsonDecode(response.body) as Map<String, dynamic>;
-    return (data['models'] as List).cast<Map<String, dynamic>>().map(
-      (m) => ModelInfo(
-        id: m['id'] as String? ?? '',
-        name: m['name'] as String?,
-        description: m['description'] as String?,
-        contextWindow: m['context_length'] as int?,
-        extra: m,
-      ),
-    );
+    final modelsList = data['data'] as List?;
+    if (modelsList == null) {
+      throw Exception('Anthropic API response missing "data" field.');
+    }
+    final models = modelsList.cast<Map<String, dynamic>>().map((m) {
+      final id = m['id'] as String? ?? '';
+      final displayName = m['display_name'] as String?;
+      final kind = id.startsWith('claude') ? ModelKind.chat : ModelKind.other;
+      // Only include extra fields not mapped to ModelInfo
+      final extra = <String, dynamic>{
+        if (m.containsKey('created_at')) 'createdAt': m['created_at'],
+        if (m.containsKey('type')) 'type': m['type'],
+      };
+      return ModelInfo(
+        name: id,
+        kinds: {kind},
+        displayName: displayName,
+        description: null,
+        extra: extra,
+      );
+    }).toList();
+    _cachedModels = models;
+    return _cachedModels!;
   }
 }
 
@@ -528,18 +644,58 @@ class MistralProvider extends Provider {
       headers: {'Authorization': 'Bearer $apiKey'},
     );
     if (response.statusCode != 200) {
-      throw Exception('Failed to fetch Mistral models: ${response.body}');
+      throw Exception('Failed to fetch Mistral models: \\${response.body}');
     }
     final data = jsonDecode(response.body) as Map<String, dynamic>;
-    return (data['data'] as List).cast<Map<String, dynamic>>().map(
-      (m) => ModelInfo(
-        id: m['id'] as String? ?? '',
-        name: m['name'] as String?,
-        description: m['description'] as String?,
-        contextWindow: m['context_length'] as int?,
-        extra: m,
-      ),
-    );
+    return (data['data'] as List).cast<Map<String, dynamic>>().map((m) {
+      final id = m['id'] as String? ?? '';
+      final desc = m['description'] as String? ?? '';
+      final kinds = <ModelKind>{};
+      // Embedding models
+      if (id.contains('embed') || desc.contains('embed')) {
+        kinds.add(ModelKind.embedding);
+      }
+      // Magistral: always chat unless embedding
+      if (id.contains('magistral') && !kinds.contains(ModelKind.embedding)) {
+        kinds.add(ModelKind.chat);
+      }
+      // Mistral, Mixtral, Codestral: chat unless embedding
+      if ((id.contains('mistral') ||
+              id.contains('mixtral') ||
+              id.contains('codestral')) &&
+          !id.contains('embed') &&
+          !kinds.contains(ModelKind.embedding)) {
+        kinds.add(ModelKind.chat);
+      }
+      // Moderation and OCR: treat as chat
+      if (id.contains('moderation') || id.contains('ocr')) {
+        kinds.add(ModelKind.chat);
+      }
+      // Ministral: not officially documented, mark as other
+      if (id.contains('ministral')) {
+        kinds.clear();
+        kinds.add(ModelKind.other);
+      }
+
+      // Pixtral: not officially documented, mark as other
+      if (id.contains('pixtral')) {
+        kinds.clear();
+        kinds.add(ModelKind.other);
+      }
+      if (kinds.isEmpty) kinds.add(ModelKind.other);
+      assert(kinds.isNotEmpty, 'Model $id returned with empty kinds set');
+      return ModelInfo(
+        name: id,
+        kinds: kinds,
+        displayName: m['name'] as String?,
+        description: desc.isNotEmpty ? desc : null,
+        extra: {
+          ...m,
+          if (m.containsKey('context_length'))
+            'contextWindow': m['context_length'],
+        }..removeWhere((k, _) => ['id', 'name', 'description'].contains(k)),
+      );
+    });
   }
 }
 
@@ -580,23 +736,146 @@ class OllamaProvider extends Provider {
       final nameField = m['name'];
       final id = nameField is String ? nameField : '';
       final name = nameField is String ? nameField : null;
-      if (nameField is! String) {
-        // ignore: avoid_print
-        print('Ollama model entry with non-string name: $nameField');
-      }
       final detailsField = m['details'];
       final description = detailsField is String ? detailsField : null;
-      if (detailsField != null && detailsField is! String) {
-        // ignore: avoid_print
-        print('Ollama model entry with non-string details: $detailsField');
-      }
       return ModelInfo(
-        id: id,
-        name: name,
+        name: id,
+        kinds: {ModelKind.chat},
+        displayName: name,
         description: description,
-        contextWindow: null, // Not available
-        extra: m,
+        extra: {...m}..removeWhere((k, _) => ['name', 'details'].contains(k)),
       );
     });
+  }
+}
+
+/// Provider for Cohere OpenAI-compatible API.
+class CohereOpenAIProvider extends OpenAIProvider {
+  /// Creates a new Cohere OpenAI provider instance.
+  ///
+  /// [name]: The canonical provider name (e.g., 'cohere', 'cohere-openai').
+  /// [displayName]: Human-readable name for display. [defaultModel]: The
+  /// default model for this provider. [defaultBaseUrl]: The default API
+  /// endpoint. [apiKeyName]: The environment variable for the API key (if any).
+  /// [isRemote]: True if the provider is cloud-based, false if local.
+  CohereOpenAIProvider({
+    required super.name,
+    required super.displayName,
+    required super.defaultModel,
+    required super.defaultBaseUrl,
+    required super.apiKeyName,
+    required super.isRemote,
+  });
+
+  @override
+  Future<Iterable<ModelInfo>> listModels() async {
+    if (_cachedModels != null) return _cachedModels!;
+    final url = Uri.parse('https://docs.cohere.com/docs/models');
+    final response = await http.get(url);
+    if (response.statusCode != 200) {
+      throw Exception('Failed to fetch Cohere models docs: ${response.body}');
+    }
+    final doc = html_parser.parse(response.body);
+    final models = <ModelInfo>[];
+    // Find all tables whose first header cell is 'Model Name'
+    for (final table in doc.querySelectorAll('table')) {
+      final headerCells = table.querySelectorAll('th');
+      if (headerCells.isEmpty) continue;
+      final firstHeader = headerCells.first.text.trim().toLowerCase();
+      if (firstHeader == 'model name') {
+        // Try to determine kind from headers or parse as chat/embedding/other
+        final headers = headerCells
+            .map((th) => th.text.trim().toLowerCase())
+            .toList();
+        // Parse the table, passing headers for classification
+        models.addAll(_parseCohereTableWithHeaders(table, headers));
+      }
+    }
+    if (models.isEmpty) {
+      throw Exception('No models found in Cohere docs.');
+    }
+    _cachedModels = models;
+    return models;
+  }
+
+  // Parse a Cohere model table, using headers to classify model kind
+  List<ModelInfo> _parseCohereTableWithHeaders(
+    dom.Element table,
+    List<String> headers,
+  ) {
+    final rows = table.querySelectorAll('tbody tr');
+    final result = <ModelInfo>[];
+    for (final row in rows) {
+      final cells = row.querySelectorAll('td');
+      if (cells.isEmpty) continue;
+      final id = cells[0].text.trim();
+      final description = cells.length > 1 ? cells[1].text.trim() : null;
+      final kinds = <ModelKind>{};
+      final idLower = id.toLowerCase();
+      // Heuristics based on model name
+      if (idLower.contains('embed')) {
+        kinds.add(ModelKind.embedding);
+      }
+      if (idLower.contains('command') ||
+          idLower.contains('c4ai-aya') ||
+          idLower.contains('vision')) {
+        kinds.add(ModelKind.chat);
+      }
+      if (idLower.contains('rerank')) {
+        kinds.add(ModelKind.other); // Consider ModelKind.rerank if you add it
+      }
+      // Only fall back to Modality column if name is ambiguous
+      if (kinds.isEmpty) {
+        final modalityIdx = headers.indexWhere(
+          (h) => h == 'modality' || h == 'modalities',
+        );
+        if (modalityIdx != -1 && cells.length > modalityIdx) {
+          final modality = cells[modalityIdx].text.trim().toLowerCase();
+          if (modality.contains('text') && !modality.contains('embed')) {
+            kinds.add(ModelKind.chat);
+          } else if (modality.contains('embed')) {
+            kinds.add(ModelKind.embedding);
+          } else if (modality.contains('image') ||
+              modality.contains('vision')) {
+            kinds.add(ModelKind.image);
+          } else if (modality.contains('audio')) {
+            kinds.add(ModelKind.audio);
+          } else if (modality.contains('tts')) {
+            kinds.add(ModelKind.tts);
+          } else {
+            kinds.add(ModelKind.other);
+          }
+        }
+      }
+      // Ensure kinds is never empty
+      if (kinds.isEmpty) kinds.add(ModelKind.other);
+      // Try to get context window if present
+      int? contextWindow;
+      final contextIdx = headers.indexWhere(
+        (h) => h.contains('context length'),
+      );
+      if (contextIdx != -1 && cells.length > contextIdx) {
+        final text = cells[contextIdx].text;
+        final match = RegExp(r'(\d+)k').firstMatch(text);
+        if (match != null) {
+          contextWindow = int.tryParse(match.group(1)!)! * 1000;
+        }
+      }
+      result.add(
+        ModelInfo(
+          name: id,
+          kinds: kinds,
+          displayName: id,
+          description: description,
+          extra: {
+            for (var i = 0; i < headers.length && i < cells.length; i++)
+              headers[i]: cells[i].text.trim(),
+            'description': description,
+            if (contextWindow != null) 'contextWindow': contextWindow,
+          },
+        ),
+      );
+    }
+    return result;
   }
 }

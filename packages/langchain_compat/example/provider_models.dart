@@ -8,31 +8,50 @@ Future<void> main() async {
   for (final provider in Provider.all) {
     totalProviders++;
     print('\n# ${provider.displayName} (${provider.name})');
-    try {
-      final models = await provider.listModels();
-      final modelList = models.toList();
-      totalModels += modelList.length;
-      if (modelList.isEmpty) {
-        print('  (no models found)');
-      } else {
-        for (final model in modelList) {
-          print('  - id: ${model.id}');
-          if (model.name != null && model.name != model.id) {
-            print('    name: ${model.name}');
-          }
-          if (model.description != null) {
-            print('    desc: ${model.description}');
-          }
-          if (model.contextWindow != null) {
-            print('    contextWindow: ${model.contextWindow}');
-          }
-        }
-        print('  (${modelList.length} models)');
-      }
-    } on Exception catch (e) {
-      print('  Error: $e');
+    final models = await provider.listModels();
+    final modelList = models.toList();
+    totalModels += modelList.length;
+    for (final model in modelList) {
+      final kinds = model.kinds.map((k) => k.name).join(', ');
+      print(
+        '- ${provider.name}:${model.name} '
+        '${model.displayName != null ? '"${model.displayName}" ' : ''}'
+        '($kinds) ',
+      );
+      // if (model.description != null) {
+      //   print('    ${model.description}');
+      // }
+      // if (model.extra.isNotEmpty) {
+      //   print('    extra:');
+      //   _printExtra(model.extra, indent: 6);
+      // }
     }
+    print('  (${modelList.length} models)');
   }
   print('\nTotal providers: $totalProviders');
   print('Total models: $totalModels');
+}
+
+// ignore: unused_element
+void _printExtra(Map<String, dynamic> extra, {int indent = 0}) {
+  final pad = ' ' * indent;
+  extra.forEach((key, value) {
+    if (value == null) return; // Skip null values
+    if (value is Map<String, dynamic>) {
+      print('$pad$key:');
+      _printExtra(value, indent: indent + 2);
+    } else if (value is List) {
+      print('$pad$key: [');
+      for (final item in value) {
+        if (item is Map<String, dynamic>) {
+          _printExtra(item, indent: indent + 4);
+        } else {
+          print('${' ' * (indent + 4)}$item');
+        }
+      }
+      print('$pad]');
+    } else {
+      print('$pad$key: $value');
+    }
+  });
 }
