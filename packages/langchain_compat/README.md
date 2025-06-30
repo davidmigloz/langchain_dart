@@ -84,7 +84,7 @@ void main() async {
 
   for (final provider in [Provider.ollama, Provider.ollamaOpenAI]) {
     final model = provider.createModel();
-    print('\n# [1m${provider.displayName}[0m (${provider.name}:${model.name})');
+    print('\n# 𝟏${provider.displayName}𝟎 (${provider.name}:${model.name})');
     await for (final chunk in model.stream(PromptValue.string(promptText))) {
       stdout.write(chunk.output.content);
     }
@@ -94,6 +94,46 @@ void main() async {
 ```
 
 You can also use any other provider from `Provider.all` for a unified experience.
+
+### Listing all models for all providers
+
+You can use `Provider.listModels()` to enumerate all available models for every provider. This works for all providers in `Provider.all`:
+
+```dart
+import 'package:langchain_compat/langchain_compat.dart';
+import 'package:langchain_compat/src/providers.dart';
+
+Future<void> main() async {
+  int totalProviders = 0;
+  int totalModels = 0;
+  for (final provider in Provider.all) {
+    totalProviders++;
+    print('\n# ${provider.displayName} (${provider.name})');
+    try {
+      final models = await provider.listModels();
+      final modelList = models.toList();
+      totalModels += modelList.length;
+      if (modelList.isEmpty) {
+        print('  (no models found)');
+      } else {
+        for (final model in modelList) {
+          print('  - id: ${model.id}');
+          if (model.name != null && model.name != model.id) {
+            print('    name: ${model.name}');
+          }
+        }
+        print('  (${modelList.length} models)');
+      }
+    } on Exception catch (e) {
+      print('  Error: $e');
+    }
+  }
+  print('\nTotal providers: $totalProviders');
+  print('Total models: $totalModels');
+}
+```
+
+This will print all providers, their available models, and a summary count at the end.
 
 ## Additional information
 - To contribute, open issues or pull requests on GitHub. Please follow the project style and compat rules.
