@@ -1,4 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
+
+import 'package:http/http.dart' as http;
+import 'package:openai_dart/openai_dart.dart';
 
 import '../chat_models.dart';
 import 'chat_models/chat_ollama/types.dart';
@@ -56,6 +60,9 @@ abstract class Provider {
   /// Creates a chat model instance for this provider. Optionally override the
   /// model name.
   BaseChatModel createModel({String? model});
+
+  /// Returns all available models for this provider.
+  Future<Iterable<ModelInfo>> listModels();
 
   /// OpenAI provider (cloud, OpenAI API).
   static final openai = OpenAIProvider(
@@ -231,6 +238,34 @@ abstract class Provider {
   );
 }
 
+/// Model metadata for provider model listing. Information about a model
+/// returned by a provider.
+class ModelInfo {
+  /// Creates a new [ModelInfo] instance.
+  const ModelInfo({
+    required this.id,
+    this.name,
+    this.description,
+    this.contextWindow,
+    this.extra,
+  });
+
+  /// The unique identifier for the model (required).
+  final String id;
+
+  /// The display name of the model, if available.
+  final String? name;
+
+  /// A description of the model, if available.
+  final String? description;
+
+  /// The maximum context window (token limit) for the model, if available.
+  final int? contextWindow;
+
+  /// Any extra metadata returned by the provider.
+  final Map<String, dynamic>? extra;
+}
+
 /// Provider for OpenAI-compatible APIs (OpenAI, Groq, Together, etc.). Handles
 /// API key, base URL, and model configuration.
 class OpenAIProvider extends Provider {
@@ -274,6 +309,78 @@ class OpenAIProvider extends Provider {
       defaultOptions: ChatOpenAIOptions(model: model ?? defaultModel),
     );
   }
+
+  @override
+  Future<Iterable<ModelInfo>> listModels() async {
+    final apiKey = apiKeyName.isNotEmpty
+        ? Platform.environment[apiKeyName]
+        : null;
+    // Make a manual HTTP request to /models first to check the response type.
+    final url = Uri.parse('$defaultBaseUrl/models');
+    final headers = <String, String>{
+      if (apiKeyName.isNotEmpty && apiKey != null && apiKey.isNotEmpty)
+        'Authorization': 'Bearer $apiKey',
+      'Content-Type': 'application/json',
+    };
+    final response = await http.get(url, headers: headers);
+    if (response.statusCode != 200) {
+      throw Exception('Failed to fetch models: ${response.body}');
+    }
+    final data = jsonDecode(response.body);
+    if (data is List) {
+      // TogetherAI and similar: top-level list
+      return data.map(
+        (m) => ModelInfo(
+          // ignore: avoid_dynamic_calls
+          id: m['id'] as String? ?? '',
+          // ignore: avoid_dynamic_calls
+          name: m['id'] as String?,
+          // ignore: avoid_dynamic_calls
+          description: m['object']?.toString(),
+          contextWindow: null,
+          extra: m as Map<String, dynamic>?,
+        ),
+      );
+    } else if (data is Map<String, dynamic>) {
+      // OpenAI: top-level map, use SDK for full compatibility
+      if (apiKeyName.isNotEmpty) {
+        if (apiKey == null || apiKey.isEmpty) {
+          throw Exception('Missing API key for $name');
+        }
+        final client = OpenAIClient(apiKey: apiKey, baseUrl: defaultBaseUrl);
+        final sdkResponse = await client.listModels();
+        return sdkResponse.data.map(
+          (m) => ModelInfo(
+            id: m.id,
+            name: m.id, // OpenAI doesn't provide a friendly name
+            description: m.object?.toString(),
+            contextWindow: null, // Not available in API
+            extra: m.toJson(),
+          ),
+        );
+      } else {
+        // No API key required, parse manually
+        final models = data['data'] as List?;
+        if (models == null) {
+          throw Exception('No models found in response: ${response.body}');
+        }
+        return models.map(
+          (m) => ModelInfo(
+            // ignore: avoid_dynamic_calls
+            id: m['id'] as String? ?? '',
+            // ignore: avoid_dynamic_calls
+            name: m['id'] as String?,
+            // ignore: avoid_dynamic_calls
+            description: m['object']?.toString(),
+            contextWindow: null,
+            extra: m as Map<String, dynamic>?,
+          ),
+        );
+      }
+    } else {
+      throw Exception('Unexpected models response shape: ${response.body}');
+    }
+  }
 }
 
 /// Provider for Google Gemini native API.
@@ -301,6 +408,33 @@ class GoogleAIProvider extends Provider {
     baseUrl: defaultBaseUrl,
     defaultOptions: ChatGoogleGenerativeAIOptions(model: model ?? defaultModel),
   );
+
+  @override
+  Future<Iterable<ModelInfo>> listModels() async {
+    final apiKey = apiKeyName.isNotEmpty
+        ? Platform.environment[apiKeyName]
+        : null;
+    if (apiKey == null || apiKey.isEmpty) {
+      throw Exception('Missing API key for $name');
+    }
+    final url = Uri.parse(
+      'https://generativelanguage.googleapis.com/v1beta/models',
+    );
+    final response = await http.get(url, headers: {'x-goog-api-key': apiKey});
+    if (response.statusCode != 200) {
+      throw Exception('Failed to fetch Gemini models: ${response.body}');
+    }
+    final data = jsonDecode(response.body) as Map<String, dynamic>;
+    return (data['models'] as List).cast<Map<String, dynamic>>().map(
+      (m) => ModelInfo(
+        id: m['name'] as String? ?? '',
+        name: m['displayName'] as String?,
+        description: m['description'] as String?,
+        contextWindow: m['inputTokenLimit'] as int?,
+        extra: m,
+      ),
+    );
+  }
 }
 
 /// Provider for Anthropic Claude native API.
@@ -328,6 +462,31 @@ class AnthropicProvider extends Provider {
     baseUrl: defaultBaseUrl,
     defaultOptions: ChatAnthropicOptions(model: model ?? defaultModel),
   );
+
+  @override
+  Future<Iterable<ModelInfo>> listModels() async {
+    final apiKey = apiKeyName.isNotEmpty
+        ? Platform.environment[apiKeyName]
+        : null;
+    if (apiKey == null || apiKey.isEmpty) {
+      throw Exception('Missing API key for $name');
+    }
+    final url = Uri.parse('https://api.anthropic.com/v1/models');
+    final response = await http.get(url, headers: {'x-api-key': apiKey});
+    if (response.statusCode != 200) {
+      throw Exception('Failed to fetch Anthropic models: ${response.body}');
+    }
+    final data = jsonDecode(response.body) as Map<String, dynamic>;
+    return (data['models'] as List).cast<Map<String, dynamic>>().map(
+      (m) => ModelInfo(
+        id: m['id'] as String? ?? '',
+        name: m['name'] as String?,
+        description: m['description'] as String?,
+        contextWindow: m['context_length'] as int?,
+        extra: m,
+      ),
+    );
+  }
 }
 
 /// Provider for Mistral AI (OpenAI-compatible).
@@ -354,6 +513,34 @@ class MistralProvider extends Provider {
     baseUrl: defaultBaseUrl,
     defaultOptions: ChatMistralAIOptions(model: model ?? defaultModel),
   );
+
+  @override
+  Future<Iterable<ModelInfo>> listModels() async {
+    final apiKey = apiKeyName.isNotEmpty
+        ? Platform.environment[apiKeyName]
+        : null;
+    if (apiKey == null || apiKey.isEmpty) {
+      throw Exception('Missing API key for $name');
+    }
+    final url = Uri.parse('https://api.mistral.ai/v1/models');
+    final response = await http.get(
+      url,
+      headers: {'Authorization': 'Bearer $apiKey'},
+    );
+    if (response.statusCode != 200) {
+      throw Exception('Failed to fetch Mistral models: ${response.body}');
+    }
+    final data = jsonDecode(response.body) as Map<String, dynamic>;
+    return (data['data'] as List).cast<Map<String, dynamic>>().map(
+      (m) => ModelInfo(
+        id: m['id'] as String? ?? '',
+        name: m['name'] as String?,
+        description: m['description'] as String?,
+        contextWindow: m['context_length'] as int?,
+        extra: m,
+      ),
+    );
+  }
 }
 
 /// Provider for native Ollama API (local, not OpenAI-compatible).
@@ -379,4 +566,37 @@ class OllamaProvider extends Provider {
     baseUrl: defaultBaseUrl,
     defaultOptions: ChatOllamaOptions(model: model ?? defaultModel),
   );
+
+  @override
+  Future<Iterable<ModelInfo>> listModels() async {
+    final url = Uri.parse('$defaultBaseUrl/tags');
+    final response = await http.get(url);
+    if (response.statusCode != 200) {
+      throw Exception('Failed to fetch Ollama models: ${response.body}');
+    }
+    final data = jsonDecode(response.body) as Map<String, dynamic>;
+    // Defensive: ensure 'name' is a String, fallback to '' if not.
+    return (data['models'] as List).cast<Map<String, dynamic>>().map((m) {
+      final nameField = m['name'];
+      final id = nameField is String ? nameField : '';
+      final name = nameField is String ? nameField : null;
+      if (nameField is! String) {
+        // ignore: avoid_print
+        print('Ollama model entry with non-string name: $nameField');
+      }
+      final detailsField = m['details'];
+      final description = detailsField is String ? detailsField : null;
+      if (detailsField != null && detailsField is! String) {
+        // ignore: avoid_print
+        print('Ollama model entry with non-string details: $detailsField');
+      }
+      return ModelInfo(
+        id: id,
+        name: name,
+        description: description,
+        contextWindow: null, // Not available
+        extra: m,
+      );
+    });
+  }
 }
