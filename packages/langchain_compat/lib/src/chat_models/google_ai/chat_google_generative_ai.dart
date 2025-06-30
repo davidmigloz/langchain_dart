@@ -434,7 +434,7 @@ class ChatGoogleGenerativeAI
       _recreateGoogleAiClient(model, systemInstruction);
     }
   }
-  
+
   @override
-  String get name => throw UnimplementedError();
+  String get name => _currentModel;
 }
