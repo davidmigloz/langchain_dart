@@ -116,11 +116,21 @@ abstract class Provider {
 
   static final GoogleAIProvider google = GoogleAIProvider(
     name: 'google',
-    aliases: ['gemini'],
+    aliases: ['gemini', 'googleai', 'google-gla'],
     displayName: 'Google AI',
     defaultModel: 'gemini-2.0-flash',
     defaultBaseUrl: '',
     apiKeyName: 'GEMINI_API_KEY',
+    isRemote: true,
+  );
+
+  static final AnthropicProvider anthropic = AnthropicProvider(
+    name: 'anthropic',
+    aliases: ['claude'],
+    displayName: 'Anthropic',
+    defaultModel: ChatAnthropic.defaultModel,
+    defaultBaseUrl: 'https://api.anthropic.com/v1',
+    apiKeyName: 'ANTHROPIC_API_KEY',
     isRemote: true,
   );
 
@@ -145,6 +155,7 @@ abstract class Provider {
     nvidia,
     geminiOpenAI,
     google,
+    anthropic,
     ollama,
   ];
 
@@ -189,5 +200,24 @@ class GoogleAIProvider extends Provider {
     apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
     baseUrl: defaultBaseUrl,
     defaultOptions: ChatGoogleGenerativeAIOptions(model: model ?? defaultModel),
+  );
+}
+
+class AnthropicProvider extends Provider {
+  AnthropicProvider({
+    required super.name,
+    required super.aliases,
+    required super.displayName,
+    required super.defaultModel,
+    required super.defaultBaseUrl,
+    required super.apiKeyName,
+    required super.isRemote,
+  });
+
+  @override
+  BaseChatModel createModel({String? model}) => ChatAnthropic(
+    apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
+    baseUrl: defaultBaseUrl,
+    defaultOptions: ChatAnthropicOptions(model: model ?? defaultModel),
   );
 }
