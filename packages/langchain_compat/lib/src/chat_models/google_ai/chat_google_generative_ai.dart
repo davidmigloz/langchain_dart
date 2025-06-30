@@ -228,7 +228,8 @@ class ChatGoogleGenerativeAI
     Map<String, dynamic>? queryParams,
     int retries = 3,
     http.Client? client,
-  }) : _currentModel = defaultGoogleAIOptions.model ?? '',
+    ChatGoogleGenerativeAIOptions? defaultOptions,
+  }) : _currentModel = defaultOptions?.model ?? defaultModel,
        _httpClient = CustomHttpClient(
          baseHttpClient: client ?? RetryClient(http.Client(), retries: retries),
          baseUrl: Uri.parse(
@@ -237,7 +238,11 @@ class ChatGoogleGenerativeAI
          headers: {if (apiKey != null) 'x-goog-api-key': apiKey, ...?headers},
          queryParams: queryParams ?? const {},
        ),
-       super(defaultOptions: ChatGoogleGenerativeAI.defaultGoogleAIOptions) {
+       super(
+         defaultOptions:
+             defaultOptions ??
+             const ChatGoogleGenerativeAIOptions(model: defaultModel),
+       ) {
     _googleAiClient = _createGoogleAiClient(
       _currentModel,
       apiKey: apiKey ?? '',
@@ -270,11 +275,7 @@ class ChatGoogleGenerativeAI
   String get modelType => 'chat-google-generative-ai';
 
   /// The default model to use unless another is specified.
-  static const defaultModel = 'gemini-1.5-flash';
-
-  /// The default options for this model.
-  static const ChatGoogleGenerativeAIOptions defaultGoogleAIOptions =
-      ChatGoogleGenerativeAIOptions(model: defaultModel);
+  static const defaultModel = 'gemini-2.0-flash';
 
   @override
   Future<ChatResult> invoke(
@@ -331,35 +332,31 @@ class ChatGoogleGenerativeAI
     return (
       _currentModel,
       messages.toContentList(),
-      (options?.safetySettings ?? defaultGoogleAIOptions.safetySettings)
+      (options?.safetySettings ?? defaultOptions.safetySettings)
           ?.toSafetySettings(),
       GenerationConfig(
         candidateCount:
-            options?.candidateCount ?? defaultGoogleAIOptions.candidateCount,
+            options?.candidateCount ?? defaultOptions.candidateCount,
         stopSequences:
-            options?.stopSequences ??
-            defaultGoogleAIOptions.stopSequences ??
-            const [],
+            options?.stopSequences ?? defaultOptions.stopSequences ?? const [],
         maxOutputTokens:
-            options?.maxOutputTokens ?? defaultGoogleAIOptions.maxOutputTokens,
-        temperature: options?.temperature ?? defaultGoogleAIOptions.temperature,
-        topP: options?.topP ?? defaultGoogleAIOptions.topP,
-        topK: options?.topK ?? defaultGoogleAIOptions.topK,
+            options?.maxOutputTokens ?? defaultOptions.maxOutputTokens,
+        temperature: options?.temperature ?? defaultOptions.temperature,
+        topP: options?.topP ?? defaultOptions.topP,
+        topK: options?.topK ?? defaultOptions.topK,
         responseMimeType:
-            options?.responseMimeType ??
-            defaultGoogleAIOptions.responseMimeType,
+            options?.responseMimeType ?? defaultOptions.responseMimeType,
         responseSchema:
-            (options?.responseSchema ?? defaultGoogleAIOptions.responseSchema)
+            (options?.responseSchema ?? defaultOptions.responseSchema)
                 ?.toSchema(),
       ),
-      (options?.tools ?? defaultGoogleAIOptions.tools).toToolList(
+      (options?.tools ?? defaultOptions.tools).toToolList(
         enableCodeExecution:
             options?.enableCodeExecution ??
-            defaultGoogleAIOptions.enableCodeExecution ??
+            defaultOptions.enableCodeExecution ??
             false,
       ),
-      (options?.toolChoice ?? defaultGoogleAIOptions.toolChoice)
-          ?.toToolConfig(),
+      (options?.toolChoice ?? defaultOptions.toolChoice)?.toToolConfig(),
     );
   }
 
@@ -418,8 +415,7 @@ class ChatGoogleGenerativeAI
     List<ChatMessage> messages,
     ChatGoogleGenerativeAIOptions? options,
   ) {
-    final model =
-        options?.model ?? defaultGoogleAIOptions.model ?? defaultModel;
+    final model = options?.model ?? defaultOptions.model ?? defaultModel;
 
     final systemInstruction = messages.firstOrNull is SystemChatMessage
         ? messages.firstOrNull?.contentAsString
@@ -438,4 +434,7 @@ class ChatGoogleGenerativeAI
       _recreateGoogleAiClient(model, systemInstruction);
     }
   }
+
+  @override
+  String get name => _currentModel;
 }

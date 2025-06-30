@@ -207,7 +207,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   ChatOpenAI({
     String? apiKey,
     String? organization,
-    String baseUrl = 'https://api.openai.com/v1',
+    String? baseUrl,
     Map<String, String>? headers,
     Map<String, dynamic>? queryParams,
     http.Client? client,
@@ -217,7 +217,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
          apiKey: apiKey ?? '',
          organization: organization,
          beta: null,
-         baseUrl: baseUrl,
+         baseUrl: baseUrl ?? 'https://api.openai.com/v1',
          headers: headers,
          queryParams: queryParams,
          client: client,
@@ -379,4 +379,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   void close() {
     _client.endSession();
   }
+
+  @override
+  String get name => defaultOptions.model ?? defaultModel;
 }

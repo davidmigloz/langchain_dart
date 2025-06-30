@@ -16,6 +16,9 @@ abstract class BaseChatModel<Options extends ChatModelOptions>
   /// {@macro base_chat_model}
   const BaseChatModel({required super.defaultOptions});
 
+  /// The name of the model.
+  String get name;
+
   @override
   Stream<ChatResult> streamFromInputStream(
     Stream<PromptValue> inputStream, {
