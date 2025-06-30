@@ -36,7 +36,8 @@ TODO: List what your package can do. Maybe include images, gifs, or videos.
 | **Lambda**                 | llama3.2-3b-instruct                              | Text Generation, Chat, File Uploads, Tools             | OpenAI-compatible                      |
 | **NVIDIA NIM**             | nvidia/nemotron-mini-4b-instruct                  | Text Generation, Chat, File Uploads, Tools             | OpenAI-compatible                      |
 | **Anthropic**              | claude-3-5-sonnet-20241022                        | Text Generation, Chat, File Uploads, Tools             | Native Claude API                      |
-| **Ollama**                 | gemma3n                                           | Text Generation, Chat                                  | Local models only                      |
+| **Ollama**                 | gemma3n                                           | Text Generation, Chat                                  | Local models only (native API)         |
+| **Ollama (OpenAI-compat)** | gemma3n                                           | Text Generation, Chat                                  | Local OpenAI-compatible endpoint       |
 
 ### Provider Configuration
 
@@ -54,7 +55,10 @@ TODO: List what your package can do. Maybe include images, gifs, or videos.
 | **Lambda**                 | lambda          | -                            | LAMBDA_API_KEY     | [Get Lambda API Key](https://platform.lambdalabs.com/api-keys)                 | OpenAIProvider    |
 | **NVIDIA NIM**             | nvidia          | -                            | NVIDIA_API_KEY     | [Get NVIDIA API Key](https://platform.nvidia.com/en-us/nim/api-keys/)          | OpenAIProvider    |
 | **Anthropic**              | anthropic       | claude                       | ANTHROPIC_API_KEY  | [Get Anthropic API Key](https://console.anthropic.com/settings/keys)           | AnthropicProvider |
-| **Ollama**                 | ollama          | -                            |                    | [Ollama Documentation](https://github.com/ollama/ollama/blob/main/docs/api.md) | OpenAIProvider    |
+| **Ollama**                 | ollama          | -                            |                    | [Ollama Documentation](https://github.com/ollama/ollama/blob/main/docs/api.md) | OllamaProvider    |
+| **Ollama (OpenAI-compat)** | ollama-openai   | -                            |                    | [Ollama Documentation](https://github.com/ollama/ollama/blob/main/docs/api.md) | OpenAIProvider    |
+
+*Note: The native Ollama provider uses the /api endpoint and ChatOllama, while the OpenAI-compatible provider uses the /v1 endpoint and OpenAIProvider logic. Both default to gemma3n. Choose the provider that matches your Ollama server setup.*
 
 ## Getting started
 

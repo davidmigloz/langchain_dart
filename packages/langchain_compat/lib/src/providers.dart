@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import '../chat_models.dart';
+import 'chat_models/chat_ollama/types.dart';
 
 abstract class Provider {
   const Provider({
@@ -134,9 +135,18 @@ abstract class Provider {
     isRemote: true,
   );
 
-  static final ollama = OpenAIProvider(
+  static final ollama = OllamaProvider(
     name: 'ollama',
     displayName: 'Ollama',
+    defaultModel: 'gemma3n',
+    defaultBaseUrl: 'http://localhost:11434/api',
+    apiKeyName: '',
+    isRemote: false,
+  );
+
+  static final ollamaOpenAI = OpenAIProvider(
+    name: 'ollama-openai',
+    displayName: 'Ollama (OpenAI-compatible)',
     defaultModel: 'gemma3n',
     defaultBaseUrl: 'http://localhost:11434/v1',
     apiKeyName: '',
@@ -157,6 +167,7 @@ abstract class Provider {
     google,
     anthropic,
     ollama,
+    ollamaOpenAI,
   ];
 
   static Provider forName(String name) => all.firstWhere(
@@ -255,5 +266,22 @@ class MistralProvider extends Provider {
     apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
     baseUrl: defaultBaseUrl,
     defaultOptions: ChatMistralAIOptions(model: model ?? defaultModel),
+  );
+}
+
+class OllamaProvider extends Provider {
+  OllamaProvider({
+    required super.name,
+    required super.displayName,
+    required super.defaultModel,
+    required super.defaultBaseUrl,
+    required super.apiKeyName,
+    required super.isRemote,
+  });
+
+  @override
+  BaseChatModel createModel({String? model}) => ChatOllama(
+    baseUrl: defaultBaseUrl,
+    defaultOptions: ChatOllamaOptions(model: model ?? defaultModel),
   );
 }

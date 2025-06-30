@@ -11,6 +11,7 @@
 ## Current Status (In Progress)
 
 - **Migration Ongoing:** The migration of all chat model providers and dependencies into compat is still in progress. Not all providers are fully migrated or functional yet.
+- **Ollama Providers:** Both a native Ollama provider (using ChatOllama and the /api endpoint) and an OpenAI-compatible Ollama provider (using OpenAIProvider and the /v1 endpoint) are present. Both default to the gemma3n model. Both are available in Provider.all.
 - **Analyzer Errors Remain:** The package currently has unresolved analyzer errors, mostly due to missing imports, incomplete type migration, or symbol visibility issues. Work is ongoing to resolve these.
 - **Verbatim Copying:** All relevant Dart files are being copied directly from their original sources in the upstream LangChain Dart packages. Only import paths and formatting are changed as needed to point to compat barrels or local compat files.
 - **Barrel Files:** Compat barrels are being created and updated to re-export necessary types and APIs, enabling a single-import experience for users.
