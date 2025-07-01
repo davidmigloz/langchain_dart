@@ -141,41 +141,40 @@ import './mappers.dart';
 /// [`socks5_proxy`](https://pub.dev/packages/socks5_proxy) package and a
 /// custom `http.Client`.
 class ChatAnthropic extends BaseChatModel<ChatAnthropicOptions> {
-  /// Create a new [ChatAnthropic] instance.
-  ///
-  /// Main configuration options:
-  /// - `apiKey`: your Anthropic API key. You can find your API key in the
-  ///   [Anthropic dashboard](https://console.anthropic.com/settings/keys).
-  /// - [ChatAnthropic.encoding]
-  /// - [ChatAnthropic.defaultOptions]
-  ///
-  /// Advance configuration options:
-  /// - `baseUrl`: the base URL to use. Defaults to Anthropic's API URL. You can
-  ///   override this to use a different API URL, or to use a proxy.
-  /// - `headers`: global headers to send with every request. You can use
-  ///   this to set custom headers, or to override the default headers.
-  /// - `queryParams`: global query parameters to send with every request. You
-  ///   can use this to set custom query parameters.
-  /// - `client`: the HTTP client to use. You can set your own HTTP client if
-  ///   you need further customization (e.g. to use a Socks5 proxy).
+  /// Creates a [ChatAnthropic] instance.
   ChatAnthropic({
+    String? model,
+    super.tools,
+    super.temperature,
+    ChatAnthropicOptions? defaultOptions,
     String? apiKey,
-    String baseUrl = 'https://api.anthropic.com/v1',
+    String? baseUrl,
     Map<String, String>? headers,
     Map<String, dynamic>? queryParams,
     http.Client? client,
-    super.defaultOptions = const ChatAnthropicOptions(
-      model: defaultModel,
-      maxTokens: defaultMaxTokens,
-    ),
-    this.encoding = 'cl100k_base',
-  }) : _client = a.AnthropicClient(
+  }) : _model = _validateModel(model),
+       _client = a.AnthropicClient(
          apiKey: apiKey ?? '',
          baseUrl: baseUrl,
          headers: headers,
          queryParams: queryParams,
          client: client,
+       ),
+       super(
+         model: _validateModel(model),
+         defaultOptions: defaultOptions ?? const ChatAnthropicOptions(),
        );
+
+  static String _validateModel(String? model) {
+    if (model != null && model.isEmpty) {
+      throw ArgumentError(
+        "Model cannot be empty. Pass null to use the provider's default model.",
+      );
+    }
+    return model ?? 'claude-3-5-sonnet-20241022';
+  }
+
+  final String _model;
 
   /// A client for interacting with Anthropic API.
   final a.AnthropicClient _client;
@@ -184,7 +183,7 @@ class ChatAnthropic extends BaseChatModel<ChatAnthropicOptions> {
   ///
   /// Anthropic does not provide any API to count tokens, so we use tiktoken
   /// to get an estimation of the number of tokens in a prompt.
-  String encoding;
+  String encoding = 'cl100k_base';
 
   @override
   String get modelType => 'anthropic-chat';
@@ -203,6 +202,9 @@ class ChatAnthropic extends BaseChatModel<ChatAnthropicOptions> {
     final completion = await _client.createMessage(
       request: createMessageRequest(
         input.toChatMessages(),
+        model: _model,
+        tools: tools,
+        temperature: temperature,
         options: options,
         defaultOptions: defaultOptions,
       ),
@@ -218,6 +220,9 @@ class ChatAnthropic extends BaseChatModel<ChatAnthropicOptions> {
       .createMessageStream(
         request: createMessageRequest(
           input.toChatMessages(),
+          model: _model,
+          tools: tools,
+          temperature: temperature,
           options: options,
           defaultOptions: defaultOptions,
           stream: true,
@@ -251,5 +256,5 @@ class ChatAnthropic extends BaseChatModel<ChatAnthropicOptions> {
   }
 
   @override
-  String get name => defaultOptions.model ?? defaultModel;
+  String get name => _model;
 }

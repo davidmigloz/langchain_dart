@@ -17,7 +17,6 @@ import '../language_models/types.dart';
 class OpenAIOptions extends LLMOptions {
   /// {@macro openai_options}
   const OpenAIOptions({
-    super.model,
     this.bestOf,
     this.frequencyPenalty,
     this.logitBias,
@@ -124,7 +123,6 @@ class OpenAIOptions extends LLMOptions {
 
   @override
   OpenAIOptions copyWith({
-    String? model,
     int? bestOf,
     double? frequencyPenalty,
     Map<String, int>? logitBias,
@@ -140,7 +138,6 @@ class OpenAIOptions extends LLMOptions {
     String? user,
     int? concurrencyLimit,
   }) => OpenAIOptions(
-    model: model ?? this.model,
     bestOf: bestOf ?? this.bestOf,
     frequencyPenalty: frequencyPenalty ?? this.frequencyPenalty,
     logitBias: logitBias ?? this.logitBias,
@@ -159,7 +156,6 @@ class OpenAIOptions extends LLMOptions {
 
   @override
   OpenAIOptions merge(covariant OpenAIOptions? other) => copyWith(
-    model: other?.model,
     bestOf: other?.bestOf,
     frequencyPenalty: other?.frequencyPenalty,
     logitBias: other?.logitBias,
@@ -180,7 +176,6 @@ class OpenAIOptions extends LLMOptions {
   bool operator ==(covariant OpenAIOptions other) =>
       identical(this, other) ||
       runtimeType == other.runtimeType &&
-          model == other.model &&
           bestOf == other.bestOf &&
           frequencyPenalty == other.frequencyPenalty &&
           const MapEquality<String, int>().equals(logitBias, other.logitBias) &&
@@ -198,7 +193,6 @@ class OpenAIOptions extends LLMOptions {
 
   @override
   int get hashCode =>
-      model.hashCode ^
       bestOf.hashCode ^
       frequencyPenalty.hashCode ^
       const MapEquality<String, int>().hash(logitBias) ^
@@ -221,7 +215,7 @@ class OpenAIOptions extends LLMOptions {
 @immutable
 class LLMOptions extends LanguageModelOptions {
   /// {@macro llm_options}
-  const LLMOptions({super.model, super.concurrencyLimit});
+  const LLMOptions({super.concurrencyLimit});
 }
 
 /// {@template llm_result}

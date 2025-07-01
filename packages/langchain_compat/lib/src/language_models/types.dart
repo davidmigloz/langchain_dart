@@ -9,16 +9,11 @@ import '../langchain/types.dart';
 @immutable
 class LanguageModelOptions extends BaseLangChainOptions {
   /// {@macro language_model_options}
-  const LanguageModelOptions({this.model, super.concurrencyLimit});
-
-  /// ID of the language model to use.
-  /// Check the provider's documentation for available models.
-  final String? model;
+  const LanguageModelOptions({super.concurrencyLimit});
 
   @override
-  LanguageModelOptions copyWith({String? model, int? concurrencyLimit}) =>
+  LanguageModelOptions copyWith({int? concurrencyLimit}) =>
       LanguageModelOptions(
-        model: model ?? this.model,
         concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
       );
 }

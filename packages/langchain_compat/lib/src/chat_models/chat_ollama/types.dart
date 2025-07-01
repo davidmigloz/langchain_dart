@@ -1,7 +1,6 @@
 import 'package:meta/meta.dart';
 
 import '../../../chat_models.dart';
-import '../../../tools.dart';
 
 /// {@template chat_ollama_options}
 /// Options to pass into ChatOllama.
@@ -13,7 +12,6 @@ import '../../../tools.dart';
 class ChatOllamaOptions extends ChatModelOptions {
   /// {@macro chat_ollama_options}
   const ChatOllamaOptions({
-    super.model,
     this.format,
     this.keepAlive,
     this.numKeep,
@@ -46,8 +44,6 @@ class ChatOllamaOptions extends ChatModelOptions {
     this.useMmap,
     this.useMlock,
     this.numThread,
-    super.tools,
-    super.toolChoice,
     super.concurrencyLimit,
   });
 
@@ -149,7 +145,6 @@ class ChatOllamaOptions extends ChatModelOptions {
 
   @override
   ChatOllamaOptions copyWith({
-    String? model,
     dynamic format,
     int? keepAlive,
     int? numKeep,
@@ -182,11 +177,8 @@ class ChatOllamaOptions extends ChatModelOptions {
     bool? useMmap,
     bool? useMlock,
     int? numThread,
-    List<ToolSpec>? tools,
-    dynamic toolChoice,
     int? concurrencyLimit,
   }) => ChatOllamaOptions(
-    model: model ?? this.model,
     format: format ?? this.format,
     keepAlive: keepAlive ?? this.keepAlive,
     numKeep: numKeep ?? this.numKeep,
@@ -219,8 +211,6 @@ class ChatOllamaOptions extends ChatModelOptions {
     useMmap: useMmap ?? this.useMmap,
     useMlock: useMlock ?? this.useMlock,
     numThread: numThread ?? this.numThread,
-    tools: tools ?? this.tools,
-    toolChoice: toolChoice ?? this.toolChoice,
     concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
   );
 }

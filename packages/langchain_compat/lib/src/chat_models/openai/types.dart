@@ -3,12 +3,11 @@ import 'package:meta/meta.dart';
 import 'package:openai_dart/openai_dart.dart' show ChatCompletionStreamOptions;
 
 import '../../../chat_models.dart';
-import '../../../tools.dart';
 
 /// {@template chat_openai_options}
 /// Options to pass into the OpenAI Chat Model.
 ///
-/// Available [ChatOpenAIOptions.model]s:
+/// Available models:
 /// - `gpt-4.1`
 /// - `gpt-4.1-mini`
 /// - `gpt-4.1-nano`
@@ -72,7 +71,6 @@ import '../../../tools.dart';
 class ChatOpenAIOptions extends ChatModelOptions {
   /// {@macro chat_openai_options}
   const ChatOpenAIOptions({
-    super.model,
     this.frequencyPenalty,
     this.logitBias,
     this.maxTokens,
@@ -83,8 +81,6 @@ class ChatOpenAIOptions extends ChatModelOptions {
     this.stop,
     this.temperature,
     this.topP,
-    super.tools,
-    super.toolChoice,
     this.parallelToolCalls,
     this.serviceTier,
     this.user,
@@ -196,7 +192,6 @@ class ChatOpenAIOptions extends ChatModelOptions {
 
   @override
   ChatOpenAIOptions copyWith({
-    String? model,
     double? frequencyPenalty,
     Map<String, int>? logitBias,
     int? maxTokens,
@@ -207,15 +202,12 @@ class ChatOpenAIOptions extends ChatModelOptions {
     List<String>? stop,
     double? temperature,
     double? topP,
-    List<ToolSpec>? tools,
-    ChatToolChoice? toolChoice,
     bool? parallelToolCalls,
     ChatOpenAIServiceTier? serviceTier,
     String? user,
     int? concurrencyLimit,
     ChatCompletionStreamOptions? streamOptions,
   }) => ChatOpenAIOptions(
-    model: model ?? this.model,
     frequencyPenalty: frequencyPenalty ?? this.frequencyPenalty,
     logitBias: logitBias ?? this.logitBias,
     maxTokens: maxTokens ?? this.maxTokens,
@@ -226,8 +218,6 @@ class ChatOpenAIOptions extends ChatModelOptions {
     stop: stop ?? this.stop,
     temperature: temperature ?? this.temperature,
     topP: topP ?? this.topP,
-    tools: tools ?? this.tools,
-    toolChoice: toolChoice ?? this.toolChoice,
     parallelToolCalls: parallelToolCalls ?? this.parallelToolCalls,
     serviceTier: serviceTier ?? this.serviceTier,
     user: user ?? this.user,
@@ -237,7 +227,6 @@ class ChatOpenAIOptions extends ChatModelOptions {
 
   @override
   ChatOpenAIOptions merge(covariant ChatOpenAIOptions? other) => copyWith(
-    model: other?.model,
     frequencyPenalty: other?.frequencyPenalty,
     logitBias: other?.logitBias,
     maxTokens: other?.maxTokens,
@@ -248,8 +237,6 @@ class ChatOpenAIOptions extends ChatModelOptions {
     stop: other?.stop,
     temperature: other?.temperature,
     topP: other?.topP,
-    tools: other?.tools,
-    toolChoice: other?.toolChoice,
     parallelToolCalls: other?.parallelToolCalls,
     serviceTier: other?.serviceTier,
     user: other?.user,
@@ -261,7 +248,6 @@ class ChatOpenAIOptions extends ChatModelOptions {
   bool operator ==(covariant ChatOpenAIOptions other) =>
       identical(this, other) ||
       runtimeType == other.runtimeType &&
-          model == other.model &&
           frequencyPenalty == other.frequencyPenalty &&
           const MapEquality<String, int>().equals(logitBias, other.logitBias) &&
           maxTokens == other.maxTokens &&
@@ -272,8 +258,6 @@ class ChatOpenAIOptions extends ChatModelOptions {
           const ListEquality<String>().equals(stop, other.stop) &&
           temperature == other.temperature &&
           topP == other.topP &&
-          const ListEquality<ToolSpec>().equals(tools, other.tools) &&
-          toolChoice == other.toolChoice &&
           parallelToolCalls == other.parallelToolCalls &&
           serviceTier == other.serviceTier &&
           user == other.user &&
@@ -282,7 +266,6 @@ class ChatOpenAIOptions extends ChatModelOptions {
 
   @override
   int get hashCode =>
-      model.hashCode ^
       frequencyPenalty.hashCode ^
       const MapEquality<String, int>().hash(logitBias) ^
       maxTokens.hashCode ^
@@ -293,8 +276,6 @@ class ChatOpenAIOptions extends ChatModelOptions {
       const ListEquality<String>().hash(stop) ^
       temperature.hashCode ^
       topP.hashCode ^
-      const ListEquality<ToolSpec>().hash(tools) ^
-      toolChoice.hashCode ^
       parallelToolCalls.hashCode ^
       serviceTier.hashCode ^
       user.hashCode ^

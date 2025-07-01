@@ -3,10 +3,11 @@ import 'package:langchain_tiktoken/langchain_tiktoken.dart';
 import 'package:ollama_dart/ollama_dart.dart' show OllamaClient;
 import 'package:uuid/uuid.dart';
 
-import '../../../chat_models.dart';
+import '../../../chat_models.dart' hide ChatOllamaOptions;
 import '../../../prompts.dart';
 import '../../runnables/runnable.dart' show Runnable;
 import '../../runnables/runnables.dart' show Runnable;
+import './types.dart';
 import 'mappers.dart' as ollama_mappers;
 
 export 'types.dart';
@@ -139,33 +140,38 @@ export 'types.dart';
 /// [`socks5_proxy`](https://pub.dev/packages/socks5_proxy) package and a
 /// custom `http.Client`.
 class ChatOllama extends BaseChatModel<ChatOllamaOptions> {
-  /// Create a new [ChatOllama] instance.
-  ///
-  /// Main configuration options:
-  /// - `baseUrl`: the base URL of Ollama API.
-  /// - [ChatOllama.defaultOptions]
-  ///
-  /// Advance configuration options:
-  /// - `headers`: global headers to send with every request. You can use
-  ///   this to set custom headers, or to override the default headers.
-  /// - `queryParams`: global query parameters to send with every request. You
-  ///   can use this to set custom query parameters.
-  /// - `client`: the HTTP client to use. You can set your own HTTP client if
-  ///   you need further customization (e.g. to use a Socks5 proxy).
-  /// - [ChatOllama.encoding]
+  /// Creates a [ChatOllama] instance.
   ChatOllama({
-    String baseUrl = 'http://localhost:11434/api',
+    String? model,
+    super.tools,
+    super.temperature,
+    ChatOllamaOptions? defaultOptions,
+    String? baseUrl,
     Map<String, String>? headers,
     Map<String, dynamic>? queryParams,
     http.Client? client,
-    super.defaultOptions = const ChatOllamaOptions(model: defaultModel),
-    this.encoding = 'cl100k_base',
-  }) : _client = OllamaClient(
+  }) : _model = _validateModel(model),
+       _client = OllamaClient(
          baseUrl: baseUrl,
          headers: headers,
          queryParams: queryParams,
          client: client,
+       ),
+       super(
+         model: _validateModel(model),
+         defaultOptions: defaultOptions ?? const ChatOllamaOptions(),
        );
+
+  static String _validateModel(String? model) {
+    if (model != null && model.isEmpty) {
+      throw ArgumentError(
+        "Model cannot be empty. Pass null to use the provider's default model.",
+      );
+    }
+    return model ?? 'llama3.2';
+  }
+
+  final String _model;
 
   /// A client for interacting with Ollama API.
   final OllamaClient _client;
@@ -174,7 +180,7 @@ class ChatOllama extends BaseChatModel<ChatOllamaOptions> {
   ///
   /// Ollama does not provide any API to count tokens, so we use tiktoken
   /// to get an estimation of the number of tokens in a prompt.
-  String encoding;
+  String encoding = 'cl100k_base';
 
   /// A UUID generator.
   late final _uuid = const Uuid();
@@ -183,45 +189,50 @@ class ChatOllama extends BaseChatModel<ChatOllamaOptions> {
   String get modelType => 'chat-ollama';
 
   @override
-  String get name => 'chat-ollama';
+  String get name => _model;
 
   /// The default model to use unless another is specified.
-  static const defaultModel = 'llama3.2';
+  static const defaultModel = 'llama3.1';
 
   @override
   Future<ChatResult> invoke(
     PromptValue input, {
     ChatOllamaOptions? options,
   }) async {
-    final id = _uuid.v4();
     final completion = await _client.generateChatCompletion(
       request: ollama_mappers.generateChatCompletionRequest(
         input.toChatMessages(),
+        model: _model,
         options: options,
         defaultOptions: defaultOptions,
+        tools: tools,
+        temperature: temperature,
       ),
     );
+    final id = _uuid.v4();
     return ollama_mappers.ChatResultMapper(completion).toChatResult(id);
   }
 
   @override
-  Stream<ChatResult> stream(PromptValue input, {ChatOllamaOptions? options}) {
-    final id = _uuid.v4();
-    return _client
-        .generateChatCompletionStream(
-          request: ollama_mappers.generateChatCompletionRequest(
-            input.toChatMessages(),
-            options: options,
-            defaultOptions: defaultOptions,
-            stream: true,
-          ),
-        )
-        .map(
-          (completion) => ollama_mappers.ChatResultMapper(
-            completion,
-          ).toChatResult(id, streaming: true),
-        );
-  }
+  Stream<ChatResult> stream(PromptValue input, {ChatOllamaOptions? options}) =>
+      _client
+          .generateChatCompletionStream(
+            request: ollama_mappers.generateChatCompletionRequest(
+              input.toChatMessages(),
+              model: _model,
+              options: options,
+              defaultOptions: defaultOptions,
+              tools: tools,
+              temperature: temperature,
+              stream: true,
+            ),
+          )
+          .map((completion) {
+            final id = _uuid.v4();
+            return ollama_mappers.ChatResultMapper(
+              completion,
+            ).toChatResult(id, streaming: true);
+          });
 
   /// Tokenizes the given prompt using tiktoken.
   ///

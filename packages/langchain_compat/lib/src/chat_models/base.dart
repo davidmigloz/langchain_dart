@@ -4,6 +4,7 @@ import 'package:meta/meta.dart';
 
 import '../language_models/language_models.dart';
 import '../prompts/types.dart';
+import '../tools/base.dart';
 import '../utils/reduce.dart';
 import 'types.dart';
 
@@ -14,7 +15,32 @@ import 'types.dart';
 abstract class BaseChatModel<Options extends ChatModelOptions>
     extends BaseLanguageModel<List<ChatMessage>, Options, ChatResult> {
   /// {@macro base_chat_model}
-  const BaseChatModel({required super.defaultOptions});
+  const BaseChatModel({
+    required super.defaultOptions,
+    String? model,
+    List<ToolSpec>? tools,
+    double? temperature,
+  }) : _model = model,
+       _tools = tools,
+       _temperature = temperature;
+
+  /// The model ID to use.
+  final String? _model;
+
+  /// The tools the model may call.
+  final List<ToolSpec>? _tools;
+
+  /// The temperature for the model.
+  final double? _temperature;
+
+  /// The model ID to use.
+  String? get model => _model;
+
+  /// The tools the model may call.
+  List<ToolSpec>? get tools => _tools;
+
+  /// The temperature for the model.
+  double? get temperature => _temperature;
 
   /// The name of the model.
   String get name;
@@ -55,7 +81,12 @@ abstract class BaseChatModel<Options extends ChatModelOptions>
 abstract class SimpleChatModel<Options extends ChatModelOptions>
     extends BaseChatModel<Options> {
   /// {@macro simple_chat_model}
-  const SimpleChatModel({required super.defaultOptions});
+  const SimpleChatModel({
+    required super.defaultOptions,
+    super.model,
+    super.tools,
+    super.temperature,
+  });
 
   @override
   Future<ChatResult> invoke(PromptValue input, {Options? options}) async {

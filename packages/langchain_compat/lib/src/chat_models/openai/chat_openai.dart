@@ -183,50 +183,50 @@ import './types.dart';
 /// [`socks5_proxy`](https://pub.dev/packages/socks5_proxy) package and a custom
 /// `http.Client`.
 class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
-  /// Create a new [ChatOpenAI] instance.
-  ///
-  /// Main configuration options:
-  /// - `apiKey`: your OpenAI API key. You can find your API key in the
-  ///   [OpenAI dashboard](https://platform.openai.com/account/api-keys).
-  /// - `organization`: your OpenAI organization ID (if applicable).
-  /// - [ChatOpenAI.encoding]
-  /// - [ChatOpenAI.defaultOptions]
-  ///
-  /// Advance configuration options:
-  /// - `baseUrl`: the base URL to use. Defaults to OpenAI's API URL. You can
-  ///   override this to use a different API URL, or to use a proxy.
-  /// - `headers`: global headers to send with every request. You can use
-  ///   this to set custom headers, or to override the default headers.
-  /// - `queryParams`: global query parameters to send with every request. You
-  ///   can use this to set custom query parameters (e.g. Azure OpenAI API
-  ///   required to attach a `version` query parameter to every request).
-  /// - `client`: the HTTP client to use. You can set your own HTTP client if
-  ///   you need further customization (e.g. to use a Socks5 proxy).
+  /// Creates a [ChatOpenAI] instance.
   ChatOpenAI({
+    String? model,
+    super.tools,
+    super.temperature,
+    ChatOpenAIOptions? defaultOptions,
     String? apiKey,
     String? organization,
-    String baseUrl = 'https://api.openai.com/v1',
+    String? baseUrl,
     Map<String, String>? headers,
     Map<String, dynamic>? queryParams,
     http.Client? client,
-    super.defaultOptions = const ChatOpenAIOptions(model: defaultModel),
-    this.encoding,
-  }) : _client = OpenAIClient(
+    String? encoding,
+  }) : _model = _validateModel(model),
+       _client = OpenAIClient(
          apiKey: apiKey ?? '',
          organization: organization,
-         beta: null,
          baseUrl: baseUrl,
          headers: headers,
          queryParams: queryParams,
          client: client,
+       ),
+       _encoding = encoding,
+       super(
+         model: _validateModel(model),
+         defaultOptions: defaultOptions ?? const ChatOpenAIOptions(),
        );
 
+  static String _validateModel(String? model) {
+    if (model != null && model.isEmpty) {
+      throw ArgumentError(
+        "Model cannot be empty. Pass null to use the provider's default model.",
+      );
+    }
+    return model ?? 'gpt-4o';
+  }
+
   /// A client for interacting with OpenAI API.
+  final String _model;
   final OpenAIClient _client;
 
   /// The encoding to use by tiktoken when [tokenize] is called.
   ///
-  /// By default, when [encoding] is not set, it is derived from the model.
+  /// By default, when this encoding is not set, it is derived from the model.
   /// However, there are some cases where you may want to use this wrapper
   /// class with a model not supported by tiktoken (e.g. when using Azure
   /// embeddings or when using one of the many model providers that expose an
@@ -239,7 +239,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   ///
   /// For an exhaustive list check:
   /// https://github.com/mvitlov/tiktoken/blob/master/lib/tiktoken.dart
-  String? encoding;
+  final String? _encoding;
 
   /// A UUID generator.
   late final _uuid = const Uuid();
@@ -264,6 +264,9 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     final completion = await _client.createChatCompletion(
       request: createChatCompletionRequest(
         input.toChatMessages(),
+        model: _model,
+        tools: tools,
+        temperature: temperature,
         options: options,
         defaultOptions: defaultOptions,
       ),
@@ -277,6 +280,9 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
           .createChatCompletionStream(
             request: createChatCompletionRequest(
               input.toChatMessages(),
+              model: _model,
+              tools: tools,
+              temperature: temperature,
               options: options,
               defaultOptions: defaultOptions,
               stream: true,
@@ -288,7 +294,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
           );
 
   /// Tokenizes the given prompt using tiktoken with the encoding used by the
-  /// model. If an encoding model is specified in [encoding] field, that
+  /// model. If an encoding model is specified in the constructor, that
   /// encoding is used instead.
   ///
   /// - [promptValue] The prompt to tokenize.
@@ -303,7 +309,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     PromptValue promptValue, {
     ChatOpenAIOptions? options,
   }) async {
-    final model = options?.model ?? defaultOptions.model ?? defaultModel;
+    final modelToUse = _model; // Use the model from constructor
     final tiktoken = _getTiktoken();
     final messages = promptValue.toChatMessages();
 
@@ -311,7 +317,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     final int tokensPerMessage;
     final int tokensPerName;
 
-    switch (model) {
+    switch (modelToUse) {
       case 'gpt-3.5-turbo-16k-0613':
       case 'gpt-4-0314':
       case 'gpt-4-32k-0314':
@@ -325,7 +331,8 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
         // If there's a name, the role is omitted
         tokensPerName = -1;
       default:
-        if (model.startsWith('gpt-4o-mini') || model.startsWith('gpt-4')) {
+        if (modelToUse.startsWith('gpt-4o-mini') ||
+            modelToUse.startsWith('gpt-4')) {
           // Returning num tokens assuming gpt-4
           tokensPerMessage = 3;
           tokensPerName = 1;
@@ -367,7 +374,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
 
   /// Returns the tiktoken model to use for the given model.
   Tiktoken _getTiktoken() =>
-      encoding != null ? getEncoding(encoding!) : getEncoding('cl100k_base');
+      _encoding != null ? getEncoding(_encoding) : getEncoding('cl100k_base');
 
   @override
   void close() {
@@ -375,5 +382,5 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   }
 
   @override
-  String get name => 'chat-openai';
+  String get name => _model;
 }

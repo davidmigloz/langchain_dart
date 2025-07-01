@@ -8,7 +8,7 @@ import 'package:langchain_compat/langchain_compat.dart';
 import 'dump_chat_history.dart';
 
 Future<void> main() async {
-  final chatModel = Provider.google.createModel();
+  final chatModel = Provider.google.createModel(model: 'gemini-1.5-pro');
 
   final userMessages = [
     "Hi, I'm planning a trip to Paris. Can you help?",

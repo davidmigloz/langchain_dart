@@ -8,15 +8,18 @@ import '../../tools/base.dart';
 /// Creates a [o.GenerateChatCompletionRequest] from the given input.
 o.GenerateChatCompletionRequest generateChatCompletionRequest(
   List<ChatMessage> messages, {
+  required String model,
   required ChatOllamaOptions? options,
   required ChatOllamaOptions defaultOptions,
+  List<ToolSpec>? tools,
+  double? temperature,
   bool stream = false,
 }) => o.GenerateChatCompletionRequest(
-  model: options?.model ?? defaultOptions.model ?? ChatOllama.defaultModel,
+  model: model,
   messages: messages.toMessages(),
   format: options?.format ?? defaultOptions.format,
   keepAlive: options?.keepAlive ?? defaultOptions.keepAlive,
-  tools: (options?.tools ?? defaultOptions.tools)?.toOllamaTools(),
+  tools: tools?.toOllamaTools(),
   // Ollama does not currently support toolChoice on the wire, but we pass it
   // for future compatibility.
   stream: stream,
@@ -30,7 +33,8 @@ o.GenerateChatCompletionRequest generateChatCompletionRequest(
     tfsZ: options?.tfsZ ?? defaultOptions.tfsZ,
     typicalP: options?.typicalP ?? defaultOptions.typicalP,
     repeatLastN: options?.repeatLastN ?? defaultOptions.repeatLastN,
-    temperature: options?.temperature ?? defaultOptions.temperature,
+    temperature:
+        temperature ?? options?.temperature ?? defaultOptions.temperature,
     repeatPenalty: options?.repeatPenalty ?? defaultOptions.repeatPenalty,
     presencePenalty: options?.presencePenalty ?? defaultOptions.presencePenalty,
     frequencyPenalty:

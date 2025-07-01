@@ -2,11 +2,13 @@ import 'package:http/http.dart' as http;
 import 'package:langchain_tiktoken/langchain_tiktoken.dart';
 import 'package:mistralai_dart/mistralai_dart.dart';
 
-import '../../../chat_models.dart';
+import '../../../chat_models.dart' hide ChatMistralAIOptions;
 import '../../../prompts.dart';
 import '../../runnables/runnable.dart' show Runnable;
 import '../../runnables/runnables.dart' show Runnable;
+import '../../tools/base.dart';
 import './mappers.dart';
+import './types.dart';
 
 /// Wrapper around [Mistral AI](https://docs.mistral.ai) Chat Completions API.
 ///
@@ -141,38 +143,40 @@ import './mappers.dart';
 /// [`socks5_proxy`](https://pub.dev/packages/socks5_proxy) package and a custom
 /// `http.Client`.
 class ChatMistralAI extends BaseChatModel<ChatMistralAIOptions> {
-  /// Create a new [ChatMistralAI] instance.
-  ///
-  /// Main configuration options:
-  /// - `apiKey`: your Mistral AI API key. You can find your API key in the
-  ///   [Mistral AI dashboard](https://console.mistral.ai/users).
-  /// - [ChatMistralAI.defaultOptions]
-  ///
-  /// Advance configuration options:
-  /// - `baseUrl`: the base URL to use. Defaults to Mistral AI's API URL. You
-  ///   can override this to use a different API URL, or to use a proxy.
-  /// - `headers`: global headers to send with every request. You can use this
-  ///   to set custom headers, or to override the default headers.
-  /// - `queryParams`: global query parameters to send with every request. You
-  ///   can use this to set custom query parameters.
-  /// - `client`: the HTTP client to use. You can set your own HTTP client if
-  ///   you need further customization (e.g. to use a Socks5 proxy).
-  /// - [ChatMistralAI.encoding]
+  /// Creates a [ChatMistralAI] instance.
   ChatMistralAI({
+    String? model,
+    super.tools,
+    super.temperature,
+    ChatMistralAIOptions? defaultOptions,
     String? apiKey,
-    String baseUrl = 'https://api.mistral.ai/v1',
+    String? baseUrl,
     Map<String, String>? headers,
     Map<String, dynamic>? queryParams,
     http.Client? client,
-    super.defaultOptions = const ChatMistralAIOptions(model: defaultModel),
-    this.encoding = 'cl100k_base',
-  }) : _client = MistralAIClient(
-         apiKey: apiKey,
+  }) : _model = _validateModel(model),
+       _client = MistralAIClient(
+         apiKey: apiKey ?? '',
          baseUrl: baseUrl,
          headers: headers,
          queryParams: queryParams,
          client: client,
+       ),
+       super(
+         model: _validateModel(model),
+         defaultOptions: defaultOptions ?? const ChatMistralAIOptions(),
        );
+
+  static String _validateModel(String? model) {
+    if (model != null && model.isEmpty) {
+      throw ArgumentError(
+        "Model cannot be empty. Pass null to use the provider's default model.",
+      );
+    }
+    return model ?? 'mistral-small-latest';
+  }
+
+  final String _model;
 
   /// A client for interacting with Mistral AI API.
   final MistralAIClient _client;
@@ -181,7 +185,7 @@ class ChatMistralAI extends BaseChatModel<ChatMistralAIOptions> {
   ///
   /// Mistral does not provide any API to count tokens, so we use tiktoken
   /// to get an estimation of the number of tokens in a prompt.
-  String encoding;
+  String encoding = 'cl100k_base';
 
   @override
   String get modelType => 'chat-mistralai';
@@ -190,7 +194,7 @@ class ChatMistralAI extends BaseChatModel<ChatMistralAIOptions> {
   static const defaultModel = 'mistral-small';
 
   @override
-  String get name => 'chat-mistralai';
+  String get name => _model;
 
   @override
   Future<ChatResult> invoke(
@@ -198,9 +202,13 @@ class ChatMistralAI extends BaseChatModel<ChatMistralAIOptions> {
     ChatMistralAIOptions? options,
   }) async {
     final completion = await _client.createChatCompletion(
-      request: _generateCompletionRequest(
+      request: createChatCompletionRequest(
         input.toChatMessages(),
+        model: _model,
+        tools: tools,
+        temperature: temperature,
         options: options,
+        defaultOptions: defaultOptions,
       ),
     );
     return completion.toChatResult();
@@ -212,24 +220,32 @@ class ChatMistralAI extends BaseChatModel<ChatMistralAIOptions> {
     ChatMistralAIOptions? options,
   }) => _client
       .createChatCompletionStream(
-        request: _generateCompletionRequest(
+        request: createChatCompletionRequest(
           input.toChatMessages(),
+          model: _model,
+          tools: tools,
+          temperature: temperature,
           options: options,
+          defaultOptions: defaultOptions,
+          stream: true,
         ),
       )
       .map((completion) => completion.toChatResult());
 
   /// Creates a GenerateCompletionRequest from the given input.
-  ChatCompletionRequest _generateCompletionRequest(
+  ChatCompletionRequest createChatCompletionRequest(
     List<ChatMessage> messages, {
-    bool stream = false,
+    required String model,
+    required ChatMistralAIOptions defaultOptions,
+    List<ToolSpec>? tools,
+    double? temperature,
     ChatMistralAIOptions? options,
+    bool stream = false,
   }) => ChatCompletionRequest(
-    model: ChatCompletionModel.modelId(
-      options?.model ?? defaultOptions.model ?? defaultModel,
-    ),
+    model: ChatCompletionModel.modelId(model),
     messages: messages.toChatCompletionMessages(),
-    temperature: options?.temperature ?? defaultOptions.temperature,
+    temperature:
+        temperature ?? options?.temperature ?? defaultOptions.temperature,
     topP: options?.topP ?? defaultOptions.topP,
     maxTokens: options?.maxTokens ?? defaultOptions.maxTokens,
     safePrompt: options?.safePrompt ?? defaultOptions.safePrompt,

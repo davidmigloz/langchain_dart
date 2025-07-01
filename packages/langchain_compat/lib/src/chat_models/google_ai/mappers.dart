@@ -240,11 +240,16 @@ extension SchemaMapper on Map<String, dynamic> {
     final type = jsonSchema['type'] as String;
     final description = jsonSchema['description'] as String?;
     final nullable = jsonSchema['nullable'] as bool?;
-    final enumValues = jsonSchema['enum'] as List<String>?;
+    final enumValues = (jsonSchema['enum'] as List?)?.cast<String>();
     final format = jsonSchema['format'] as String?;
-    final items = jsonSchema['items'] as Map<String, dynamic>?;
-    final properties = jsonSchema['properties'] as Map<String, dynamic>?;
-    final requiredProperties = jsonSchema['required'] as List<String>?;
+    final items = jsonSchema['items'] != null
+        ? Map<String, dynamic>.from(jsonSchema['items'] as Map)
+        : null;
+    final properties = jsonSchema['properties'] != null
+        ? Map<String, dynamic>.from(jsonSchema['properties'] as Map)
+        : null;
+    final requiredProperties = (jsonSchema['required'] as List?)
+        ?.cast<String>();
 
     switch (type) {
       case 'string':
@@ -284,8 +289,10 @@ extension SchemaMapper on Map<String, dynamic> {
       case 'object':
         if (properties != null) {
           final propertiesSchema = properties.map(
-            (key, value) =>
-                MapEntry(key, (value as Map<String, dynamic>).toSchema()),
+            (key, value) => MapEntry(
+              key,
+              Map<String, dynamic>.from(value as Map).toSchema(),
+            ),
           );
           return g.Schema.object(
             properties: propertiesSchema,

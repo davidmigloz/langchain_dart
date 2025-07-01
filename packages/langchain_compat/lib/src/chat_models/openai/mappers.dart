@@ -23,21 +23,23 @@ import '../../../chat_models.dart'
         ToolChatMessage;
 import '../../../language_models.dart';
 import '../../../tools.dart';
-import './chat_openai.dart';
 import './types.dart';
 
 /// Creates a [CreateChatCompletionRequest] from the given input.
 CreateChatCompletionRequest createChatCompletionRequest(
   List<ChatMessage> messages, {
+  required String model,
   required ChatOpenAIOptions? options,
   required ChatOpenAIOptions defaultOptions,
+  List<ToolSpec>? tools,
+  double? temperature,
   bool stream = false,
 }) {
   final messagesDtos = messages.toChatCompletionMessages();
-  final toolsDtos = (options?.tools ?? defaultOptions.tools)
-      ?.toChatCompletionTool();
-  final toolChoice = (options?.toolChoice ?? defaultOptions.toolChoice)
-      ?.toChatCompletionToolChoice();
+  final toolsDtos = tools?.toChatCompletionTool();
+  final toolChoice = (toolsDtos?.isNotEmpty ?? false)
+      ? const ChatToolChoiceAuto().toChatCompletionToolChoice()
+      : null;
   final responseFormatDto =
       (options?.responseFormat ?? defaultOptions.responseFormat)
           ?.toChatCompletionResponseFormat();
@@ -45,9 +47,7 @@ CreateChatCompletionRequest createChatCompletionRequest(
       .toCreateChatCompletionRequestServiceTier();
 
   return CreateChatCompletionRequest(
-    model: ChatCompletionModel.modelId(
-      options?.model ?? defaultOptions.model ?? ChatOpenAI.defaultModel,
-    ),
+    model: ChatCompletionModel.modelId(model),
     messages: messagesDtos,
     tools: toolsDtos,
     toolChoice: toolChoice,
@@ -62,7 +62,8 @@ CreateChatCompletionRequest createChatCompletionRequest(
     stop: (options?.stop ?? defaultOptions.stop) != null
         ? ChatCompletionStop.listString(options?.stop ?? defaultOptions.stop!)
         : null,
-    temperature: options?.temperature ?? defaultOptions.temperature,
+    temperature:
+        temperature ?? options?.temperature ?? defaultOptions.temperature,
     topP: options?.topP ?? defaultOptions.topP,
     parallelToolCalls:
         options?.parallelToolCalls ?? defaultOptions.parallelToolCalls,

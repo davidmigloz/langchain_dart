@@ -2,7 +2,6 @@ import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
 import '../../../chat_models.dart';
-import '../../../tools.dart';
 
 /// {@template chat_anthropic_options}
 /// Options to pass into the Anthropic Chat Model.
@@ -26,15 +25,12 @@ import '../../../tools.dart';
 class ChatAnthropicOptions extends ChatModelOptions {
   /// {@macro chat_anthropic_options}
   const ChatAnthropicOptions({
-    super.model,
     this.maxTokens,
     this.stopSequences,
     this.temperature,
     this.topK,
     this.topP,
     this.userId,
-    super.tools,
-    super.toolChoice,
     super.concurrencyLimit,
   });
 
@@ -94,66 +90,51 @@ class ChatAnthropicOptions extends ChatModelOptions {
 
   @override
   ChatAnthropicOptions copyWith({
-    String? model,
     int? maxTokens,
     List<String>? stopSequences,
     double? temperature,
     int? topK,
     double? topP,
     String? userId,
-    List<ToolSpec>? tools,
-    ChatToolChoice? toolChoice,
     int? concurrencyLimit,
   }) => ChatAnthropicOptions(
-    model: model ?? this.model,
     maxTokens: maxTokens ?? this.maxTokens,
     stopSequences: stopSequences ?? this.stopSequences,
     temperature: temperature ?? this.temperature,
     topK: topK ?? this.topK,
     topP: topP ?? this.topP,
     userId: userId ?? this.userId,
-    tools: tools ?? this.tools,
-    toolChoice: toolChoice ?? this.toolChoice,
     concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
   );
 
   @override
   ChatAnthropicOptions merge(covariant ChatAnthropicOptions? other) => copyWith(
-    model: other?.model,
     maxTokens: other?.maxTokens,
     stopSequences: other?.stopSequences,
     temperature: other?.temperature,
     topK: other?.topK,
     topP: other?.topP,
     userId: other?.userId,
-    tools: other?.tools,
-    toolChoice: other?.toolChoice,
     concurrencyLimit: other?.concurrencyLimit,
   );
 
   @override
   bool operator ==(covariant ChatAnthropicOptions other) =>
-      model == other.model &&
       maxTokens == other.maxTokens &&
       const ListEquality<String>().equals(stopSequences, other.stopSequences) &&
       temperature == other.temperature &&
       topK == other.topK &&
       topP == other.topP &&
       userId == other.userId &&
-      const ListEquality<ToolSpec>().equals(tools, other.tools) &&
-      toolChoice == other.toolChoice &&
       concurrencyLimit == other.concurrencyLimit;
 
   @override
   int get hashCode =>
-      model.hashCode ^
       maxTokens.hashCode ^
       const ListEquality<String>().hash(stopSequences) ^
       temperature.hashCode ^
       topK.hashCode ^
       topP.hashCode ^
       userId.hashCode ^
-      const ListEquality<ToolSpec>().hash(tools) ^
-      toolChoice.hashCode ^
       concurrencyLimit.hashCode;
 }

@@ -2,7 +2,6 @@ import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
 import '../language_models/language_models.dart';
-import '../tools/base.dart';
 
 /// {@template chat_model_options}
 /// Generation options to pass into the Chat Model.
@@ -10,26 +9,10 @@ import '../tools/base.dart';
 @immutable
 abstract class ChatModelOptions extends LanguageModelOptions {
   /// {@macro chat_model_options}
-  const ChatModelOptions({
-    super.model,
-    this.tools,
-    this.toolChoice,
-    super.concurrencyLimit,
-  });
-
-  /// A list of tools the model may call.
-  final List<ToolSpec>? tools;
-
-  /// Controls which (if any) tool is called by the model.
-  final ChatToolChoice? toolChoice;
+  const ChatModelOptions({super.concurrencyLimit});
 
   @override
-  ChatModelOptions copyWith({
-    String? model,
-    List<ToolSpec>? tools,
-    ChatToolChoice? toolChoice,
-    int? concurrencyLimit,
-  });
+  ChatModelOptions copyWith({int? concurrencyLimit});
 }
 
 /// {@template chat_result}

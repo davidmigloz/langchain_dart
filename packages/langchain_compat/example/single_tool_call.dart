@@ -23,27 +23,24 @@ void main() async {
     // Add more tools here as needed
   };
 
-  // TODO: pull out common options and leave the rest to type-specific options
+  // Using the new API with common parameters factored out
   final models = [
-    // Provider.google.createModel(
-    //   options: ChatGoogleGenerativeAIOptions(tools: [currentDateTimeTool]),
-    // ),
-    // Provider.openai.createModel(
-    //   options: ChatOpenAIOptions(tools: [currentDateTimeTool]),
-    // ),
-    // Provider.anthropic.createModel(
-    //   options: ChatAnthropicOptions(tools: [currentDateTimeTool]),
-    // ),
+    // Provider.google.createModel(tools: [currentDateTimeTool]),
+    // Provider.openai.createModel(tools: [currentDateTimeTool]),
+    // Provider.anthropic.createModel(tools: [currentDateTimeTool]),
     // Provider.cohere.createModel(
-    //   options: ChatCohereOptions(tools: [currentDateTimeTool]),
+    //   model: Provider.cohere.defaultModel,
+    //   tools: [currentDateTimeTool],
     // ),
-    Provider.ollama.createModel(
-      options: ChatOllamaOptions(tools: [currentDateTimeTool]),
-    ),
+    // Provider.ollama.createModel(
+    //   model: Provider.ollama.defaultModel,
+    //   tools: [currentDateTimeTool],
+    // ),
     // TODO: Mistral doesn't support tools yet, waiting for a fix:
     // https://github.com/davidmigloz/langchain_dart/issues/653
     // Provider.mistral.createModel(
-    //   options: ChatMistralAIOptions(tools: [currentDateTimeTool]),
+    //   model: 'mistral-small',
+    //   tools: [currentDateTimeTool],
     // ),
   ];
 

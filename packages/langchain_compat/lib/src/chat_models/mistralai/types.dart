@@ -1,7 +1,6 @@
 import 'package:meta/meta.dart';
 
 import '../../../chat_models.dart';
-import '../../../tools.dart';
 
 /// {@template chat_mistral_ai_options}
 /// Options to pass into ChatMistralAI.
@@ -12,7 +11,6 @@ import '../../../tools.dart';
 class ChatMistralAIOptions extends ChatModelOptions {
   /// {@macro chat_mistral_ai_options}
   const ChatMistralAIOptions({
-    super.model,
     this.temperature,
     this.topP,
     this.maxTokens,
@@ -50,17 +48,13 @@ class ChatMistralAIOptions extends ChatModelOptions {
 
   @override
   ChatMistralAIOptions copyWith({
-    String? model,
     double? temperature,
     double? topP,
     int? maxTokens,
     bool? safePrompt,
     int? randomSeed,
-    List<ToolSpec>? tools,
-    ChatToolChoice? toolChoice,
     int? concurrencyLimit,
   }) => ChatMistralAIOptions(
-    model: model ?? this.model,
     temperature: temperature ?? this.temperature,
     topP: topP ?? this.topP,
     maxTokens: maxTokens ?? this.maxTokens,
@@ -71,7 +65,6 @@ class ChatMistralAIOptions extends ChatModelOptions {
 
   @override
   ChatMistralAIOptions merge(covariant ChatMistralAIOptions? other) => copyWith(
-    model: other?.model,
     temperature: other?.temperature,
     topP: other?.topP,
     maxTokens: other?.maxTokens,
@@ -82,7 +75,6 @@ class ChatMistralAIOptions extends ChatModelOptions {
 
   @override
   bool operator ==(covariant ChatMistralAIOptions other) =>
-      model == other.model &&
       temperature == other.temperature &&
       topP == other.topP &&
       maxTokens == other.maxTokens &&
@@ -92,7 +84,6 @@ class ChatMistralAIOptions extends ChatModelOptions {
 
   @override
   int get hashCode =>
-      model.hashCode ^
       temperature.hashCode ^
       topP.hashCode ^
       maxTokens.hashCode ^

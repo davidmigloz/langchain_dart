@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 import '../chat_models.dart';
+import 'src/tools/base.dart';
 
 /// Provides a unified interface for accessing all major LLM, chat, and
 /// embedding providers in LangChain.dart via a single import. This includes
@@ -56,7 +57,12 @@ abstract class Provider<TOptions extends ChatModelOptions> {
   final bool isRemote;
 
   /// Creates a chat model instance for this provider.
-  BaseChatModel<TOptions> createModel({TOptions? options});
+  BaseChatModel<TOptions> createModel({
+    String? model,
+    List<ToolSpec>? tools,
+    double? temperature,
+    TOptions? options,
+  });
 
   /// OpenAI provider (cloud, OpenAI API).
   static final openai = OpenAIProvider(
@@ -329,10 +335,14 @@ class OpenAIProvider extends Provider<ChatOpenAIOptions> {
   List<ModelInfo>? _cachedModels;
 
   @override
-  BaseChatModel<ChatOpenAIOptions> createModel({ChatOpenAIOptions? options}) {
+  BaseChatModel<ChatOpenAIOptions> createModel({
+    String? model,
+    List<ToolSpec>? tools,
+    double? temperature,
+    ChatOpenAIOptions? options,
+  }) {
     final opts = ChatOpenAIOptions(
-      model: options?.model ?? defaultModel,
-      temperature: options?.temperature,
+      temperature: temperature ?? options?.temperature,
       topP: options?.topP,
       n: options?.n,
       maxTokens: options?.maxTokens,
@@ -341,8 +351,6 @@ class OpenAIProvider extends Provider<ChatOpenAIOptions> {
       logitBias: options?.logitBias,
       stop: options?.stop,
       user: options?.user,
-      tools: options?.tools,
-      toolChoice: options?.toolChoice,
       responseFormat: options?.responseFormat,
       seed: options?.seed,
       parallelToolCalls: options?.parallelToolCalls,
@@ -351,6 +359,9 @@ class OpenAIProvider extends Provider<ChatOpenAIOptions> {
       concurrencyLimit: options?.concurrencyLimit ?? 1000,
     );
     return ChatOpenAI(
+      model: model,
+      tools: tools,
+      temperature: temperature,
       apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
       baseUrl: defaultBaseUrl,
       defaultOptions: opts,
@@ -456,24 +467,27 @@ class GoogleAIProvider extends Provider<ChatGoogleGenerativeAIOptions> {
 
   @override
   BaseChatModel<ChatGoogleGenerativeAIOptions> createModel({
+    String? model,
+    List<ToolSpec>? tools,
+    double? temperature,
     ChatGoogleGenerativeAIOptions? options,
   }) => ChatGoogleGenerativeAI(
+    model: model,
+    tools: tools,
+    temperature: temperature,
     apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
     baseUrl: defaultBaseUrl,
     defaultOptions: ChatGoogleGenerativeAIOptions(
-      model: options?.model ?? defaultModel,
       topP: options?.topP,
       topK: options?.topK,
       candidateCount: options?.candidateCount,
       maxOutputTokens: options?.maxOutputTokens,
-      temperature: options?.temperature,
+      temperature: temperature ?? options?.temperature,
       stopSequences: options?.stopSequences,
       responseMimeType: options?.responseMimeType,
       responseSchema: options?.responseSchema,
       safetySettings: options?.safetySettings,
       enableCodeExecution: options?.enableCodeExecution,
-      tools: options?.tools,
-      toolChoice: options?.toolChoice,
       concurrencyLimit: options?.concurrencyLimit ?? 1000,
     ),
   );
@@ -567,20 +581,23 @@ class AnthropicProvider extends Provider<ChatAnthropicOptions> {
 
   @override
   BaseChatModel<ChatAnthropicOptions> createModel({
+    String? model,
+    List<ToolSpec>? tools,
+    double? temperature,
     ChatAnthropicOptions? options,
   }) => ChatAnthropic(
+    model: model,
+    tools: tools,
+    temperature: temperature,
     apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
     baseUrl: defaultBaseUrl,
     defaultOptions: ChatAnthropicOptions(
-      model: options?.model ?? defaultModel,
-      temperature: options?.temperature,
+      temperature: temperature ?? options?.temperature,
       topP: options?.topP,
       topK: options?.topK,
       maxTokens: options?.maxTokens,
       stopSequences: options?.stopSequences,
       userId: options?.userId,
-      tools: options?.tools,
-      toolChoice: options?.toolChoice,
       concurrencyLimit: options?.concurrencyLimit ?? 1000,
     ),
   );
@@ -655,13 +672,18 @@ class MistralProvider extends Provider<ChatMistralAIOptions> {
 
   @override
   BaseChatModel<ChatMistralAIOptions> createModel({
+    String? model,
+    List<ToolSpec>? tools,
+    double? temperature,
     ChatMistralAIOptions? options,
   }) => ChatMistralAI(
+    model: model,
+    tools: tools,
+    temperature: temperature,
     apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
     baseUrl: defaultBaseUrl,
     defaultOptions: ChatMistralAIOptions(
-      model: options?.model ?? defaultModel,
-      temperature: options?.temperature,
+      temperature: temperature ?? options?.temperature,
       topP: options?.topP,
       maxTokens: options?.maxTokens,
       safePrompt: options?.safePrompt,
@@ -758,48 +780,52 @@ class OllamaProvider extends Provider<ChatOllamaOptions> {
   });
 
   @override
-  BaseChatModel<ChatOllamaOptions> createModel({ChatOllamaOptions? options}) =>
-      ChatOllama(
-        baseUrl: defaultBaseUrl,
-        defaultOptions: ChatOllamaOptions(
-          model: options?.model ?? defaultModel,
-          format: options?.format,
-          keepAlive: options?.keepAlive,
-          numKeep: options?.numKeep,
-          seed: options?.seed,
-          numPredict: options?.numPredict,
-          topK: options?.topK,
-          topP: options?.topP,
-          minP: options?.minP,
-          tfsZ: options?.tfsZ,
-          typicalP: options?.typicalP,
-          repeatLastN: options?.repeatLastN,
-          temperature: options?.temperature,
-          repeatPenalty: options?.repeatPenalty,
-          presencePenalty: options?.presencePenalty,
-          frequencyPenalty: options?.frequencyPenalty,
-          mirostat: options?.mirostat,
-          mirostatTau: options?.mirostatTau,
-          mirostatEta: options?.mirostatEta,
-          penalizeNewline: options?.penalizeNewline,
-          stop: options?.stop,
-          numa: options?.numa,
-          numCtx: options?.numCtx,
-          numBatch: options?.numBatch,
-          numGpu: options?.numGpu,
-          mainGpu: options?.mainGpu,
-          lowVram: options?.lowVram,
-          f16KV: options?.f16KV,
-          logitsAll: options?.logitsAll,
-          vocabOnly: options?.vocabOnly,
-          useMmap: options?.useMmap,
-          useMlock: options?.useMlock,
-          numThread: options?.numThread,
-          tools: options?.tools,
-          toolChoice: options?.toolChoice,
-          concurrencyLimit: options?.concurrencyLimit ?? 1000,
-        ),
-      );
+  BaseChatModel<ChatOllamaOptions> createModel({
+    String? model,
+    List<ToolSpec>? tools,
+    double? temperature,
+    ChatOllamaOptions? options,
+  }) => ChatOllama(
+    model: model,
+    tools: tools,
+    temperature: temperature,
+    baseUrl: defaultBaseUrl,
+    defaultOptions: ChatOllamaOptions(
+      format: options?.format,
+      keepAlive: options?.keepAlive,
+      numKeep: options?.numKeep,
+      seed: options?.seed,
+      numPredict: options?.numPredict,
+      topK: options?.topK,
+      topP: options?.topP,
+      minP: options?.minP,
+      tfsZ: options?.tfsZ,
+      typicalP: options?.typicalP,
+      repeatLastN: options?.repeatLastN,
+      temperature: temperature ?? options?.temperature,
+      repeatPenalty: options?.repeatPenalty,
+      presencePenalty: options?.presencePenalty,
+      frequencyPenalty: options?.frequencyPenalty,
+      mirostat: options?.mirostat,
+      mirostatTau: options?.mirostatTau,
+      mirostatEta: options?.mirostatEta,
+      penalizeNewline: options?.penalizeNewline,
+      stop: options?.stop,
+      numa: options?.numa,
+      numCtx: options?.numCtx,
+      numBatch: options?.numBatch,
+      numGpu: options?.numGpu,
+      mainGpu: options?.mainGpu,
+      lowVram: options?.lowVram,
+      f16KV: options?.f16KV,
+      logitsAll: options?.logitsAll,
+      vocabOnly: options?.vocabOnly,
+      useMmap: options?.useMmap,
+      useMlock: options?.useMlock,
+      numThread: options?.numThread,
+      concurrencyLimit: options?.concurrencyLimit ?? 1000,
+    ),
+  );
 
   @override
   Future<Iterable<ModelInfo>> listModels() async {
@@ -846,9 +872,13 @@ class CohereOpenAIProvider extends OpenAIProvider {
   });
 
   @override
-  BaseChatModel<ChatCohereOptions> createModel({ChatCohereOptions? options}) {
+  BaseChatModel<ChatCohereOptions> createModel({
+    String? model,
+    List<ToolSpec>? tools,
+    double? temperature,
+    ChatCohereOptions? options,
+  }) {
     final opts = ChatCohereOptions(
-      model: options?.model ?? defaultModel,
       frequencyPenalty: options?.frequencyPenalty,
       logitBias: options?.logitBias,
       maxTokens: options?.maxTokens,
@@ -857,10 +887,8 @@ class CohereOpenAIProvider extends OpenAIProvider {
       responseFormat: options?.responseFormat,
       seed: options?.seed,
       stop: options?.stop,
-      temperature: options?.temperature,
+      temperature: temperature ?? options?.temperature,
       topP: options?.topP,
-      tools: options?.tools,
-      toolChoice: options?.toolChoice,
       parallelToolCalls: options?.parallelToolCalls,
       serviceTier: options?.serviceTier,
       user: options?.user,
@@ -868,6 +896,9 @@ class CohereOpenAIProvider extends OpenAIProvider {
       streamOptions: null, // Cohere requires streamOptions to be null
     );
     return ChatCohere(
+      model: model,
+      tools: tools,
+      temperature: temperature,
       apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
       baseUrl: defaultBaseUrl,
       defaultOptions: opts,

@@ -55,14 +55,12 @@ class FakeLLM extends SimpleLLM<FakeLLMOptions> {
 /// {@endtemplate}
 class FakeLLMOptions extends LLMOptions {
   /// {@macro fake_llm_options}
-  const FakeLLMOptions({super.model, super.concurrencyLimit});
+  const FakeLLMOptions({super.concurrencyLimit});
 
   @override
-  FakeLLMOptions copyWith({String? model, int? concurrencyLimit}) =>
-      FakeLLMOptions(
-        model: model ?? this.model,
-        concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
-      );
+  FakeLLMOptions copyWith({int? concurrencyLimit}) => FakeLLMOptions(
+    concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
+  );
 }
 
 /// {@template fake_echo_llm}

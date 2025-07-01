@@ -13,8 +13,11 @@ import '../../../tools.dart';
 /// and options.
 a.CreateMessageRequest createMessageRequest(
   List<ChatMessage> messages, {
+  required String model,
   required ChatAnthropicOptions? options,
   required ChatAnthropicOptions defaultOptions,
+  List<ToolSpec>? tools,
+  double? temperature,
   bool stream = false,
 }) {
   final systemMsg = messages.firstOrNull is SystemChatMessage
@@ -22,16 +25,12 @@ a.CreateMessageRequest createMessageRequest(
       : null;
 
   final messagesDtos = messages.toMessages();
-  final toolChoice = options?.toolChoice ?? defaultOptions.toolChoice;
-  final toolChoiceDto = toolChoice?.toToolChoice();
-  final toolsDtos = (options?.tools ?? defaultOptions.tools)?.toTool(
-    toolChoice,
-  );
+  const toolChoice = ChatToolChoiceAuto(); // Default tool choice
+  final toolChoiceDto = toolChoice.toToolChoice();
+  final toolsDtos = tools?.toTool(toolChoice);
 
   return a.CreateMessageRequest(
-    model: a.Model.modelId(
-      options?.model ?? defaultOptions.model ?? ChatAnthropic.defaultModel,
-    ),
+    model: a.Model.modelId(model),
     messages: messagesDtos,
     maxTokens:
         options?.maxTokens ??
@@ -41,7 +40,8 @@ a.CreateMessageRequest createMessageRequest(
     system: systemMsg != null
         ? a.CreateMessageRequestSystem.text(systemMsg)
         : null,
-    temperature: options?.temperature ?? defaultOptions.temperature,
+    temperature:
+        temperature ?? options?.temperature ?? defaultOptions.temperature,
     topK: options?.topK ?? defaultOptions.topK,
     topP: options?.topP ?? defaultOptions.topP,
     metadata: a.CreateMessageRequestMetadata(

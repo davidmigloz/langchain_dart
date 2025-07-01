@@ -245,7 +245,6 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
 
   /// The default options for this model.
   static const OpenAIOptions defaultOpenAIOptions = OpenAIOptions(
-    model: defaultModel,
     maxTokens: defaultMaxTokens,
     concurrencyLimit: defaultConcurrencyLimit,
   );
@@ -322,9 +321,7 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
     OpenAIOptions? options,
     bool stream = false,
   }) => CreateCompletionRequest(
-    model: CompletionModel.modelId(
-      options?.model ?? defaultOpenAIOptions.model ?? defaultModel,
-    ),
+    model: const CompletionModel.modelId(defaultModel),
     prompt: CompletionPrompt.listString(prompts),
     bestOf: options?.bestOf ?? defaultOpenAIOptions.bestOf,
     frequencyPenalty:
@@ -363,9 +360,7 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
   }) async {
     final encoding = this.encoding != null
         ? getEncoding(this.encoding!)
-        : encodingForModel(
-            options?.model ?? defaultOpenAIOptions.model ?? defaultModel,
-          );
+        : encodingForModel(defaultModel);
     return encoding.encode(promptValue.toString());
   }
 

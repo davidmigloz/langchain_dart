@@ -1,7 +1,6 @@
 import 'package:meta/meta.dart';
 
 import '../../../chat_models.dart';
-import '../../../tools.dart';
 
 /// {@template chat_google_generative_ai_options}
 /// Options to pass into the Google Generative AI Chat Model.
@@ -12,7 +11,6 @@ import '../../../tools.dart';
 class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
   /// {@macro chat_google_generative_ai_options}
   const ChatGoogleGenerativeAIOptions({
-    super.model,
     this.topP,
     this.topK,
     this.candidateCount,
@@ -23,8 +21,6 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
     this.responseSchema,
     this.safetySettings,
     this.enableCodeExecution,
-    super.tools,
-    super.toolChoice,
     super.concurrencyLimit,
   });
 
@@ -126,7 +122,6 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
 
   @override
   ChatGoogleGenerativeAIOptions copyWith({
-    String? model,
     double? topP,
     int? topK,
     int? candidateCount,
@@ -135,11 +130,8 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
     List<String>? stopSequences,
     List<ChatGoogleGenerativeAISafetySetting>? safetySettings,
     bool? enableCodeExecution,
-    List<ToolSpec>? tools,
-    ChatToolChoice? toolChoice,
     int? concurrencyLimit,
   }) => ChatGoogleGenerativeAIOptions(
-    model: model ?? this.model,
     topP: topP ?? this.topP,
     topK: topK ?? this.topK,
     candidateCount: candidateCount ?? this.candidateCount,
@@ -148,8 +140,6 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
     stopSequences: stopSequences ?? this.stopSequences,
     safetySettings: safetySettings ?? this.safetySettings,
     enableCodeExecution: enableCodeExecution ?? this.enableCodeExecution,
-    tools: tools ?? this.tools,
-    toolChoice: toolChoice ?? this.toolChoice,
     concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
   );
 
@@ -157,7 +147,6 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
   ChatGoogleGenerativeAIOptions merge(
     covariant ChatGoogleGenerativeAIOptions? other,
   ) => copyWith(
-    model: other?.model,
     topP: other?.topP,
     topK: other?.topK,
     candidateCount: other?.candidateCount,
@@ -166,14 +155,11 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
     stopSequences: other?.stopSequences,
     safetySettings: other?.safetySettings,
     enableCodeExecution: other?.enableCodeExecution,
-    tools: other?.tools,
-    toolChoice: other?.toolChoice,
     concurrencyLimit: other?.concurrencyLimit,
   );
 
   @override
   bool operator ==(covariant ChatGoogleGenerativeAIOptions other) =>
-      model == other.model &&
       topP == other.topP &&
       topK == other.topK &&
       candidateCount == other.candidateCount &&
@@ -182,13 +168,10 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
       stopSequences == other.stopSequences &&
       safetySettings == other.safetySettings &&
       enableCodeExecution == other.enableCodeExecution &&
-      tools == other.tools &&
-      toolChoice == other.toolChoice &&
       concurrencyLimit == other.concurrencyLimit;
 
   @override
   int get hashCode =>
-      model.hashCode ^
       topP.hashCode ^
       topK.hashCode ^
       candidateCount.hashCode ^
@@ -197,8 +180,6 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
       stopSequences.hashCode ^
       safetySettings.hashCode ^
       enableCodeExecution.hashCode ^
-      tools.hashCode ^
-      toolChoice.hashCode ^
       concurrencyLimit.hashCode;
 }
 
