@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_print
 
+import 'dart:io';
+
 import 'package:langchain_compat/src/providers.dart';
 
 Future<void> main() async {
@@ -54,4 +56,5 @@ void _printExtra(Map<String, dynamic> extra, {int indent = 0}) {
       print('$pad$key: $value');
     }
   });
+  exit(0);
 }

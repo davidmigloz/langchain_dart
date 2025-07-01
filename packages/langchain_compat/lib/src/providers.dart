@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:html/dom.dart' as dom;
-import 'package:html/parser.dart' as html_parser;
 import 'package:http/http.dart' as http;
 
 import '../chat_models.dart';
@@ -18,7 +16,7 @@ import 'chat_models/chat_ollama/types.dart';
 /// The compat layer ensures all providers are accessible without importing
 /// provider-specific packages. All configuration (API keys, base URLs, models)
 /// is handled via the provider interface.
-abstract class Provider {
+abstract class Provider<TOptions extends ChatModelOptions> {
   /// Creates a new provider instance.
   ///
   /// [name]: The canonical provider name (e.g., 'openai', 'ollama').
@@ -58,9 +56,8 @@ abstract class Provider {
   /// True if the provider is cloud-based, false if local.
   final bool isRemote;
 
-  /// Creates a chat model instance for this provider. Optionally override the
-  /// model name.
-  BaseChatModel createModel({String? model});
+  /// Creates a chat model instance for this provider.
+  BaseChatModel<TOptions> createModel({TOptions? options});
 
   /// OpenAI provider (cloud, OpenAI API).
   static final openai = OpenAIProvider(
@@ -313,7 +310,7 @@ class ModelInfo {
 
 /// Provider for OpenAI-compatible APIs (OpenAI, Groq, Together, etc.). Handles
 /// API key, base URL, and model configuration.
-class OpenAIProvider extends Provider {
+class OpenAIProvider extends Provider<ChatOpenAIOptions> {
   /// Creates a new OpenAI provider instance.
   ///
   /// [name]: The canonical provider name (e.g., 'openai', 'groq').
@@ -333,19 +330,13 @@ class OpenAIProvider extends Provider {
   List<ModelInfo>? _cachedModels;
 
   @override
-  BaseChatModel createModel({String? model}) {
-    // For Cohere, forcibly disable include_usage because their
-    // OpenAI-compatible endpoint does not support it and will error if present.
-    // This is not user-overridable. For all other OpenAI-compatible providers,
-    // the default behavior is used.
+  BaseChatModel<ChatOpenAIOptions> createModel({ChatOpenAIOptions? options}) {
     if (name == 'cohere') {
       return ChatOpenAI(
         apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
         baseUrl: defaultBaseUrl,
-        // Cohere's OpenAI-compatible endpoint does not support streamOptions.
-        // Force streamOptions to null.
         defaultOptions: ChatOpenAIOptions(
-          model: model ?? defaultModel,
+          model: options?.model ?? defaultModel,
           streamOptions: null,
         ),
       );
@@ -353,7 +344,7 @@ class OpenAIProvider extends Provider {
     return ChatOpenAI(
       apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
       baseUrl: defaultBaseUrl,
-      defaultOptions: ChatOpenAIOptions(model: model ?? defaultModel),
+      defaultOptions: ChatOpenAIOptions(model: options?.model ?? defaultModel),
     );
   }
 
@@ -434,7 +425,7 @@ class OpenAIProvider extends Provider {
 }
 
 /// Provider for Google Gemini native API.
-class GoogleAIProvider extends Provider {
+class GoogleAIProvider extends Provider<ChatGoogleGenerativeAIOptions> {
   /// Creates a new Google AI provider instance.
   ///
   /// [name]: The canonical provider name (e.g., 'google', 'gemini').
@@ -455,10 +446,14 @@ class GoogleAIProvider extends Provider {
   List<ModelInfo>? _cachedModels;
 
   @override
-  BaseChatModel createModel({String? model}) => ChatGoogleGenerativeAI(
+  BaseChatModel<ChatGoogleGenerativeAIOptions> createModel({
+    ChatGoogleGenerativeAIOptions? options,
+  }) => ChatGoogleGenerativeAI(
     apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
     baseUrl: defaultBaseUrl,
-    defaultOptions: ChatGoogleGenerativeAIOptions(model: model ?? defaultModel),
+    defaultOptions: ChatGoogleGenerativeAIOptions(
+      model: options?.model ?? defaultModel,
+    ),
   );
 
   @override
@@ -528,7 +523,7 @@ class GoogleAIProvider extends Provider {
 }
 
 /// Provider for Anthropic Claude native API.
-class AnthropicProvider extends Provider {
+class AnthropicProvider extends Provider<ChatAnthropicOptions> {
   /// Creates a new Anthropic provider instance.
   ///
   /// [name]: The canonical provider name (e.g., 'anthropic', 'claude').
@@ -549,10 +544,12 @@ class AnthropicProvider extends Provider {
   List<ModelInfo>? _cachedModels;
 
   @override
-  BaseChatModel createModel({String? model}) => ChatAnthropic(
+  BaseChatModel<ChatAnthropicOptions> createModel({
+    ChatAnthropicOptions? options,
+  }) => ChatAnthropic(
     apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
     baseUrl: defaultBaseUrl,
-    defaultOptions: ChatAnthropicOptions(model: model ?? defaultModel),
+    defaultOptions: ChatAnthropicOptions(model: options?.model ?? defaultModel),
   );
 
   /// Returns all available models for this provider from the Anthropic API.
@@ -606,7 +603,7 @@ class AnthropicProvider extends Provider {
 }
 
 /// Provider for Mistral AI (OpenAI-compatible).
-class MistralProvider extends Provider {
+class MistralProvider extends Provider<ChatMistralAIOptions> {
   /// Creates a new Mistral provider instance.
   ///
   /// [name]: The canonical provider name (e.g., 'mistral', 'mistralai').
@@ -624,10 +621,12 @@ class MistralProvider extends Provider {
   });
 
   @override
-  BaseChatModel createModel({String? model}) => ChatMistralAI(
+  BaseChatModel<ChatMistralAIOptions> createModel({
+    ChatMistralAIOptions? options,
+  }) => ChatMistralAI(
     apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
     baseUrl: defaultBaseUrl,
-    defaultOptions: ChatMistralAIOptions(model: model ?? defaultModel),
+    defaultOptions: ChatMistralAIOptions(model: options?.model ?? defaultModel),
   );
 
   @override
@@ -700,7 +699,7 @@ class MistralProvider extends Provider {
 }
 
 /// Provider for native Ollama API (local, not OpenAI-compatible).
-class OllamaProvider extends Provider {
+class OllamaProvider extends Provider<ChatOllamaOptions> {
   /// Creates a new Ollama provider instance.
   ///
   /// [name]: The canonical provider name (e.g., 'ollama', 'ollama-openai').
@@ -718,10 +717,13 @@ class OllamaProvider extends Provider {
   });
 
   @override
-  BaseChatModel createModel({String? model}) => ChatOllama(
-    baseUrl: defaultBaseUrl,
-    defaultOptions: ChatOllamaOptions(model: model ?? defaultModel),
-  );
+  BaseChatModel<ChatOllamaOptions> createModel({ChatOllamaOptions? options}) =>
+      ChatOllama(
+        baseUrl: defaultBaseUrl,
+        defaultOptions: ChatOllamaOptions(
+          model: options?.model ?? defaultModel,
+        ),
+      );
 
   @override
   Future<Iterable<ModelInfo>> listModels() async {
@@ -768,114 +770,13 @@ class CohereOpenAIProvider extends OpenAIProvider {
   });
 
   @override
-  Future<Iterable<ModelInfo>> listModels() async {
-    if (_cachedModels != null) return _cachedModels!;
-    final url = Uri.parse('https://docs.cohere.com/docs/models');
-    final response = await http.get(url);
-    if (response.statusCode != 200) {
-      throw Exception('Failed to fetch Cohere models docs: ${response.body}');
-    }
-    final doc = html_parser.parse(response.body);
-    final models = <ModelInfo>[];
-    // Find all tables whose first header cell is 'Model Name'
-    for (final table in doc.querySelectorAll('table')) {
-      final headerCells = table.querySelectorAll('th');
-      if (headerCells.isEmpty) continue;
-      final firstHeader = headerCells.first.text.trim().toLowerCase();
-      if (firstHeader == 'model name') {
-        // Try to determine kind from headers or parse as chat/embedding/other
-        final headers = headerCells
-            .map((th) => th.text.trim().toLowerCase())
-            .toList();
-        // Parse the table, passing headers for classification
-        models.addAll(_parseCohereTableWithHeaders(table, headers));
-      }
-    }
-    if (models.isEmpty) {
-      throw Exception('No models found in Cohere docs.');
-    }
-    _cachedModels = models;
-    return models;
-  }
-
-  // Parse a Cohere model table, using headers to classify model kind
-  List<ModelInfo> _parseCohereTableWithHeaders(
-    dom.Element table,
-    List<String> headers,
-  ) {
-    final rows = table.querySelectorAll('tbody tr');
-    final result = <ModelInfo>[];
-    for (final row in rows) {
-      final cells = row.querySelectorAll('td');
-      if (cells.isEmpty) continue;
-      final id = cells[0].text.trim();
-      final description = cells.length > 1 ? cells[1].text.trim() : null;
-      final kinds = <ModelKind>{};
-      final idLower = id.toLowerCase();
-      // Heuristics based on model name
-      if (idLower.contains('embed')) {
-        kinds.add(ModelKind.embedding);
-      }
-      if (idLower.contains('command') ||
-          idLower.contains('c4ai-aya') ||
-          idLower.contains('vision')) {
-        kinds.add(ModelKind.chat);
-      }
-      if (idLower.contains('rerank')) {
-        kinds.add(ModelKind.other); // Consider ModelKind.rerank if you add it
-      }
-      // Only fall back to Modality column if name is ambiguous
-      if (kinds.isEmpty) {
-        final modalityIdx = headers.indexWhere(
-          (h) => h == 'modality' || h == 'modalities',
-        );
-        if (modalityIdx != -1 && cells.length > modalityIdx) {
-          final modality = cells[modalityIdx].text.trim().toLowerCase();
-          if (modality.contains('text') && !modality.contains('embed')) {
-            kinds.add(ModelKind.chat);
-          } else if (modality.contains('embed')) {
-            kinds.add(ModelKind.embedding);
-          } else if (modality.contains('image') ||
-              modality.contains('vision')) {
-            kinds.add(ModelKind.image);
-          } else if (modality.contains('audio')) {
-            kinds.add(ModelKind.audio);
-          } else if (modality.contains('tts')) {
-            kinds.add(ModelKind.tts);
-          } else {
-            kinds.add(ModelKind.other);
-          }
-        }
-      }
-      // Ensure kinds is never empty
-      if (kinds.isEmpty) kinds.add(ModelKind.other);
-      // Try to get context window if present
-      int? contextWindow;
-      final contextIdx = headers.indexWhere(
-        (h) => h.contains('context length'),
-      );
-      if (contextIdx != -1 && cells.length > contextIdx) {
-        final text = cells[contextIdx].text;
-        final match = RegExp(r'(\d+)k').firstMatch(text);
-        if (match != null) {
-          contextWindow = int.tryParse(match.group(1)!)! * 1000;
-        }
-      }
-      result.add(
-        ModelInfo(
-          name: id,
-          kinds: kinds,
-          displayName: id,
-          description: description,
-          extra: {
-            for (var i = 0; i < headers.length && i < cells.length; i++)
-              headers[i]: cells[i].text.trim(),
-            'description': description,
-            if (contextWindow != null) 'contextWindow': contextWindow,
-          },
+  BaseChatModel<ChatOpenAIOptions> createModel({ChatOpenAIOptions? options}) =>
+      ChatOpenAI(
+        apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
+        baseUrl: defaultBaseUrl,
+        defaultOptions: ChatOpenAIOptions(
+          model: options?.model ?? defaultModel,
+          streamOptions: null,
         ),
       );
-    }
-    return result;
-  }
 }
