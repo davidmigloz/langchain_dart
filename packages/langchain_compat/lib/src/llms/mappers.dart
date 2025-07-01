@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs
 import 'package:collection/collection.dart';
 import 'package:openai_dart/openai_dart.dart';
 
@@ -6,7 +5,13 @@ import '../language_models/language_models.dart';
 import '../language_models/types.dart';
 import '../llms/types.dart';
 
+/// Extension on [CreateCompletionResponse] to convert to a list of
+/// [LLMResult]s.
+///
+/// [CreateCompletionResponse] is the response from the OpenAI API for a
+/// completion request.
 extension CreateCompletionResponseMapper on CreateCompletionResponse {
+  /// Converts this [CreateCompletionResponse] to a list of [LLMResult]s.
   List<LLMResult> toLLMResults({bool streaming = false}) {
     final metadata = {
       'created': created,

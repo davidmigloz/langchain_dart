@@ -2,7 +2,7 @@
 
 import 'dart:io';
 
-import 'package:langchain_compat/src/providers.dart';
+import 'package:langchain_compat/providers.dart';
 
 Future<void> main() async {
   var totalProviders = 0;

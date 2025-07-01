@@ -8,4 +8,6 @@ export 'documents.dart';
 export 'embeddings.dart';
 export 'language_models.dart';
 export 'prompts.dart';
+export 'providers.dart';
+export 'tools.dart';
 export 'utils.dart';

@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 import '../chat_models.dart';
-import 'chat_models/chat_ollama/types.dart';
 
 /// Provides a unified interface for accessing all major LLM, chat, and
 /// embedding providers in LangChain.dart via a single import. This includes
@@ -847,28 +846,28 @@ class CohereOpenAIProvider extends OpenAIProvider {
   });
 
   @override
-  BaseChatModel<ChatOpenAIOptions> createModel({ChatOpenAIOptions? options}) {
-    final opts = ChatOpenAIOptions(
+  BaseChatModel<ChatCohereOptions> createModel({ChatCohereOptions? options}) {
+    final opts = ChatCohereOptions(
       model: options?.model ?? defaultModel,
-      temperature: options?.temperature,
-      topP: options?.topP,
-      n: options?.n,
-      maxTokens: options?.maxTokens,
-      presencePenalty: options?.presencePenalty,
       frequencyPenalty: options?.frequencyPenalty,
       logitBias: options?.logitBias,
-      stop: options?.stop,
-      user: options?.user,
-      tools: options?.tools,
-      toolChoice: options?.toolChoice,
+      maxTokens: options?.maxTokens,
+      n: options?.n,
+      presencePenalty: options?.presencePenalty,
       responseFormat: options?.responseFormat,
       seed: options?.seed,
+      stop: options?.stop,
+      temperature: options?.temperature,
+      topP: options?.topP,
+      tools: options?.tools,
+      toolChoice: options?.toolChoice,
       parallelToolCalls: options?.parallelToolCalls,
-      streamOptions: null, // Cohere requires streamOptions to be null
       serviceTier: options?.serviceTier,
+      user: options?.user,
       concurrencyLimit: options?.concurrencyLimit ?? 1000,
+      streamOptions: null, // Cohere requires streamOptions to be null
     );
-    return ChatOpenAI(
+    return ChatCohere(
       apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
       baseUrl: defaultBaseUrl,
       defaultOptions: opts,

@@ -2,6 +2,8 @@ export 'anthropic/chat_anthropic.dart';
 export 'anthropic/types.dart';
 export 'base.dart';
 export 'chat_ollama/chat_ollama.dart';
+export 'chat_ollama/types.dart';
+export 'cohere/types.dart';
 export 'google_ai/chat_google_generative_ai.dart';
 export 'google_ai/types.dart';
 export 'mistralai/chat_mistralai.dart';

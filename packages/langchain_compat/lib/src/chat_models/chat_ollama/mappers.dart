@@ -1,10 +1,9 @@
-// ignore_for_file: public_member_api_docs
 import 'package:collection/collection.dart';
 import 'package:ollama_dart/ollama_dart.dart' as o;
 
 import '../../../chat_models.dart';
 import '../../../language_models.dart' show FinishReason, LanguageModelUsage;
-import 'types.dart';
+import '../../tools/base.dart';
 
 /// Creates a [o.GenerateChatCompletionRequest] from the given input.
 o.GenerateChatCompletionRequest generateChatCompletionRequest(
@@ -17,7 +16,9 @@ o.GenerateChatCompletionRequest generateChatCompletionRequest(
   messages: messages.toMessages(),
   format: options?.format ?? defaultOptions.format,
   keepAlive: options?.keepAlive ?? defaultOptions.keepAlive,
-  tools: null, // Tool mapping omitted for brevity
+  tools: (options?.tools ?? defaultOptions.tools)?.toOllamaTools(),
+  // Ollama does not currently support toolChoice on the wire, but we pass it
+  // for future compatibility.
   stream: stream,
   options: o.RequestOptions(
     numKeep: options?.numKeep ?? defaultOptions.numKeep,
@@ -54,7 +55,25 @@ o.GenerateChatCompletionRequest generateChatCompletionRequest(
   ),
 );
 
+/// Extension on [List<ToolSpec>] to convert to Ollama SDK tool list.
+extension OllamaToolListMapper on List<ToolSpec> {
+  /// Converts this list of [ToolSpec]s to a list of Ollama SDK [o.Tool]s.
+  List<o.Tool> toOllamaTools() => map(
+    (tool) => o.Tool(
+      type: o.ToolType.function,
+      function: o.ToolFunction(
+        name: tool.name,
+        description: tool.description,
+        parameters: tool.inputJsonSchema,
+      ),
+    ),
+  ).toList(growable: false);
+}
+
+/// Extension on [List<ChatMessage>] to convert chat messages to Ollama SDK
+/// messages.
 extension OllamaChatMessagesMapper on List<ChatMessage> {
+  /// Converts this list of [ChatMessage]s to a list of Ollama SDK [o.Message]s.
   List<o.Message> toMessages() =>
       map(_mapMessage).expand((msg) => msg).toList(growable: false);
 
@@ -129,15 +148,31 @@ extension OllamaChatMessagesMapper on List<ChatMessage> {
     o.Message(
       role: o.MessageRole.assistant,
       content: message.content,
-      toolCalls: null,
+      toolCalls: message.toolCalls.isNotEmpty
+          ? message.toolCalls.map(_mapToolCall).toList(growable: false)
+          : null,
     ),
   ];
+
+  o.ToolCall _mapToolCall(AIChatMessageToolCall toolCall) => o.ToolCall(
+    function: o.ToolCallFunction(
+      name: toolCall.name,
+      arguments: toolCall.arguments,
+    ),
+  );
 }
 
+/// Extension on [o.GenerateChatCompletionResponse] to convert to [ChatResult].
 extension ChatResultMapper on o.GenerateChatCompletionResponse {
+  /// Converts this [o.GenerateChatCompletionResponse] to a [ChatResult].
   ChatResult toChatResult(String id, {bool streaming = false}) => ChatResult(
     id: id,
-    output: AIChatMessage(content: message.content, toolCalls: const []),
+    output: AIChatMessage(
+      content: message.content,
+      toolCalls:
+          message.toolCalls?.map(_mapOllamaToolCall).toList(growable: false) ??
+          const [],
+    ),
     finishReason: FinishReason.unspecified,
     metadata: {
       'model': model,
@@ -153,4 +188,24 @@ extension ChatResultMapper on o.GenerateChatCompletionResponse {
     usage: const LanguageModelUsage(),
     streaming: streaming,
   );
+
+  AIChatMessageToolCall _mapOllamaToolCall(o.ToolCall toolCall) {
+    final function = toolCall.function;
+    if (function == null) {
+      return const AIChatMessageToolCall(
+        id: '',
+        name: '',
+        argumentsRaw: '',
+        arguments: {},
+      );
+    }
+    return AIChatMessageToolCall(
+      id: '', // Ollama does not provide a tool call id in the response
+      name: function.name,
+      argumentsRaw: function.arguments is String
+          ? function.arguments as String
+          : function.arguments.toString(),
+      arguments: function.arguments,
+    );
+  }
 }

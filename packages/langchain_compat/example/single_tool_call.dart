@@ -4,40 +4,18 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:langchain_compat/langchain_compat.dart';
-import 'package:langchain_compat/src/providers.dart';
-import 'package:langchain_compat/src/tools/base.dart';
 
-Future<void> main() async {
-  // Helper method to decode JSON arguments after accumulation
-  Map<String, dynamic> decodeArguments(String argumentsRaw) {
-    final trimmed = argumentsRaw.trim();
-    if (trimmed.isEmpty) {
-      return <String, dynamic>{};
-    }
-    try {
-      return json.decode(trimmed) as Map<String, dynamic>;
-    } catch (e) {
-      print(
-        '[Warning] Failed to decode tool arguments: "$argumentsRaw", error: $e',
-      );
-      return <String, dynamic>{};
-    }
-  }
+import 'dump_chat_history.dart';
 
+void main() async {
   final currentDateTimeTool = Tool.fromFunction<Object, String>(
     name: 'current_date_time',
     description: 'Returns the current date and time in ISO 8601 format.',
-    inputJsonSchema: <String, dynamic>{
-      'type': 'object',
-      'properties': <String, dynamic>{},
-      'required': <String>[],
-    },
     func: (_) {
       final now = DateTime.now().toIso8601String();
       print('[Tool] Called current_date_time, returning: $now');
       return now;
     },
-    getInputFromJson: (_) => <String, dynamic>{},
   );
 
   final tools = {
@@ -46,17 +24,41 @@ Future<void> main() async {
   };
 
   // TODO: pull out common options and leave the rest to type-specific options
-  // final chatModel = Provider.google.createModel(
-  //   options: ChatGoogleGenerativeAIOptions(tools: [currentDateTimeTool]),
-  // );
-  final chatModel = Provider.openai.createModel(
-    options: ChatOpenAIOptions(
-      model: 'gpt-4o',
-      tools: [currentDateTimeTool],
-      parallelToolCalls: true,
+  final models = [
+    // Provider.google.createModel(
+    //   options: ChatGoogleGenerativeAIOptions(tools: [currentDateTimeTool]),
+    // ),
+    // Provider.openai.createModel(
+    //   options: ChatOpenAIOptions(tools: [currentDateTimeTool]),
+    // ),
+    // Provider.anthropic.createModel(
+    //   options: ChatAnthropicOptions(tools: [currentDateTimeTool]),
+    // ),
+    // Provider.cohere.createModel(
+    //   options: ChatCohereOptions(tools: [currentDateTimeTool]),
+    // ),
+    Provider.ollama.createModel(
+      options: ChatOllamaOptions(tools: [currentDateTimeTool]),
     ),
-  );
+    // TODO: Mistral doesn't support tools yet, waiting for a fix:
+    // https://github.com/davidmigloz/langchain_dart/issues/653
+    // Provider.mistral.createModel(
+    //   options: ChatMistralAIOptions(tools: [currentDateTimeTool]),
+    // ),
+  ];
 
+  for (final model in models) {
+    print('=== Testing ${model.runtimeType} ===');
+    await singleToolCall(model, tools);
+  }
+
+  exit(0);
+}
+
+Future<void> singleToolCall(
+  BaseChatModel<ChatModelOptions> model,
+  Map<String, Tool<Object, ToolOptions, Object>> tools,
+) async {
   const userMessage = 'What is the current date and time?';
   final history = [
     ChatMessage.system(
@@ -69,7 +71,7 @@ Future<void> main() async {
 
   var done = false;
   while (!done) {
-    final stream = chatModel.stream(PromptValue.chat(history));
+    final stream = model.stream(PromptValue.chat(history));
     var accumulatedMessage = const AIChatMessage(content: '');
 
     await for (final chunk in stream) {
@@ -80,6 +82,7 @@ Future<void> main() async {
       // Accumulate the message chunks (this will merge tool calls by ID)
       accumulatedMessage = accumulatedMessage.concat(chunk.output);
     }
+    stdout.writeln();
 
     // Add the accumulated AI message to the history
     history.add(accumulatedMessage);
@@ -94,14 +97,13 @@ Future<void> main() async {
           print('[Tool Error] No tool found for name: ${toolCall.name}');
           continue;
         }
-        // Decode the final accumulated arguments
-        final args = decodeArguments(toolCall.argumentsRaw);
-        print('\n[Tool Call] \\${toolCall.name} with args: \\$args');
+        final args = toolCall.arguments;
+        print('\n[Tool Call] ${toolCall.name} with args: $args');
         final toolResult = await tool.invoke(args);
         final toolResultString = toolResult is String
             ? toolResult
             : json.encode(toolResult);
-        print('[Tool Result] \\$toolResultString');
+        print('[Tool Result] $toolResultString');
         history.add(
           ChatMessage.tool(toolCallId: toolCall.id, content: toolResultString),
         );
@@ -109,15 +111,5 @@ Future<void> main() async {
     }
   }
 
-  _dumpHistory(history);
-  exit(0);
-}
-
-void _dumpHistory(List<ChatMessage> history) {
-  print('--------------------------------');
-  print('\n\nHistory:');
-  for (final message in history) {
-    print('${message.runtimeType}: ${message.contentAsString}');
-  }
-  print('--------------------------------');
+  dumpChatHistory(history);
 }

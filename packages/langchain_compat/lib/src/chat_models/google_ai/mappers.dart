@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs
 import 'dart:convert';
 
 import 'package:google_generative_ai/google_generative_ai.dart' as g;
@@ -12,7 +11,10 @@ import '../google_ai/types.dart'
         ChatGoogleGenerativeAISafetySettingThreshold;
 import '../types.dart';
 
+/// Extension on [List<ChatMessage>] to convert chat messages to Google
+/// Generative AI SDK content.
 extension ChatMessagesMapper on List<ChatMessage> {
+  /// Converts this list of [ChatMessage]s to a list of [g.Content]s.
   List<g.Content> toContentList() => where((msg) => msg is! SystemChatMessage)
       .map(
         (message) => switch (message) {
@@ -83,7 +85,9 @@ extension ChatMessagesMapper on List<ChatMessage> {
       g.Content(msg.role, [g.TextPart(msg.content)]);
 }
 
+/// Extension on [g.GenerateContentResponse] to convert to [ChatResult].
 extension GenerateContentResponseMapper on g.GenerateContentResponse {
+  /// Converts this [g.GenerateContentResponse] to a [ChatResult].
   ChatResult toChatResult(String id, String model) {
     final candidate = candidates.first;
     return ChatResult(
@@ -167,7 +171,11 @@ extension GenerateContentResponseMapper on g.GenerateContentResponse {
   };
 }
 
+/// Extension on [List<ChatGoogleGenerativeAISafetySetting>] to convert to
+/// Google SDK safety settings.
 extension SafetySettingsMapper on List<ChatGoogleGenerativeAISafetySetting> {
+  /// Converts this list of [ChatGoogleGenerativeAISafetySetting]s to a list of
+  /// [g.SafetySetting]s.
   List<g.SafetySetting> toSafetySettings() => map(
     (setting) => g.SafetySetting(
       switch (setting.category) {
@@ -198,7 +206,10 @@ extension SafetySettingsMapper on List<ChatGoogleGenerativeAISafetySetting> {
   ).toList(growable: false);
 }
 
+/// Extension on [List<ToolSpec>?] to convert to Google SDK tool list.
 extension ChatToolListMapper on List<ToolSpec>? {
+  /// Converts this list of [ToolSpec]s to a list of [g.Tool]s, optionally
+  /// enabling code execution.
   List<g.Tool>? toToolList({required bool enableCodeExecution}) {
     if (this == null && !enableCodeExecution) {
       return null;
@@ -221,7 +232,9 @@ extension ChatToolListMapper on List<ToolSpec>? {
   }
 }
 
+/// Extension on [Map<String, dynamic>] to convert to Google SDK schema.
 extension SchemaMapper on Map<String, dynamic> {
+  /// Converts this map to a [g.Schema].
   g.Schema toSchema() {
     final jsonSchema = this;
     final type = jsonSchema['type'] as String;
@@ -288,7 +301,9 @@ extension SchemaMapper on Map<String, dynamic> {
   }
 }
 
+/// Extension on [ChatToolChoice] to convert to Google SDK tool config.
 extension ChatToolChoiceMapper on ChatToolChoice {
+  /// Converts this [ChatToolChoice] to a [g.ToolConfig].
   g.ToolConfig toToolConfig() => switch (this) {
     ChatToolChoiceNone _ => g.ToolConfig(
       functionCallingConfig: g.FunctionCallingConfig(

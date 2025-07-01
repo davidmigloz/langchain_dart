@@ -1,10 +1,13 @@
-// ignore_for_file: public_member_api_docs
 import 'package:mistralai_dart/mistralai_dart.dart';
 
 import '../../../chat_models.dart';
 import '../../../language_models.dart';
 
+/// Extension on [List<ChatMessage>] to convert chat messages to Mistral SDK
+/// messages.
 extension ChatMessageListMapper on List<ChatMessage> {
+  /// Converts this list of [ChatMessage]s to a list of Mistral SDK
+  /// [ChatCompletionMessage]s.
   List<ChatCompletionMessage> toChatCompletionMessages() =>
       map(_mapMessage).toList(growable: false);
 
@@ -30,7 +33,9 @@ extension ChatMessageListMapper on List<ChatMessage> {
   };
 }
 
+/// Extension on [ChatCompletionResponse] to convert to [ChatResult].
 extension ChatResultMapper on ChatCompletionResponse {
+  /// Converts this [ChatCompletionResponse] to a [ChatResult].
   ChatResult toChatResult({bool streaming = false}) {
     final choice = choices.first;
     return ChatResult(

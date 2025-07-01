@@ -3,7 +3,6 @@
 import 'dart:io';
 
 import 'package:langchain_compat/langchain_compat.dart';
-import 'package:langchain_compat/src/providers.dart';
 
 Future<void> main() async {
   const promptText = 'Tell me a joke about Dart programming.';

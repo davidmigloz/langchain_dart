@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs
 import 'dart:async';
 import 'dart:convert';
 
@@ -10,7 +9,8 @@ import '../../../chat_models.dart';
 import '../../../language_models.dart';
 import '../../../tools.dart';
 
-/// Creates a [a.CreateMessageRequest] from the given input.
+/// Creates an Anthropic [a.CreateMessageRequest] from a list of chat messages
+/// and options.
 a.CreateMessageRequest createMessageRequest(
   List<ChatMessage> messages, {
   required ChatAnthropicOptions? options,
@@ -53,7 +53,11 @@ a.CreateMessageRequest createMessageRequest(
   );
 }
 
+/// Extension on [List<ChatMessage>] to convert chat messages to Anthropic SDK
+/// messages.
 extension ChatMessageListMapper on List<ChatMessage> {
+  /// Converts this list of [ChatMessage]s to a list of Anthropic SDK
+  /// [a.Message]s.
   List<a.Message> toMessages() {
     final result = <a.Message>[];
     final consecutiveToolMessages = <ToolChatMessage>[];
@@ -173,7 +177,10 @@ extension ChatMessageListMapper on List<ChatMessage> {
   );
 }
 
+/// Extension on [a.Message] to convert an Anthropic SDK message to a
+/// [ChatResult].
 extension MessageMapper on a.Message {
+  /// Converts this Anthropic SDK [a.Message] to a [ChatResult].
   ChatResult toChatResult() {
     final (content, toolCalls) = _mapMessageContent(this.content);
     return ChatResult(
@@ -186,13 +193,21 @@ extension MessageMapper on a.Message {
   }
 }
 
+/// A [StreamTransformer] that converts a stream of Anthropic
+/// [a.MessageStreamEvent]s into [ChatResult]s.
 class MessageStreamEventTransformer
     extends StreamTransformerBase<a.MessageStreamEvent, ChatResult> {
+  /// Creates a [MessageStreamEventTransformer].
   MessageStreamEventTransformer();
 
+  /// The last message ID.
   String? lastMessageId;
+
+  /// The last tool call ID.
   String? lastToolCallId;
 
+  /// Binds this transformer to a stream of [a.MessageStreamEvent]s, producing a
+  /// stream of [ChatResult]s.
   @override
   Stream<ChatResult> bind(Stream<a.MessageStreamEvent> stream) => stream
       .map(
@@ -283,6 +298,7 @@ class MessageStreamEventTransformer
   }
 }
 
+/// Maps an Anthropic [a.MessageContent] to content and tool calls.
 (String content, List<AIChatMessageToolCall> toolCalls) _mapMessageContent(
   a.MessageContent content,
 ) => switch (content) {
@@ -305,6 +321,7 @@ class MessageStreamEventTransformer
   ),
 };
 
+/// Maps an Anthropic [a.Block] to content and tool call.
 (String content, AIChatMessageToolCall? toolCall) _mapContentBlock(
   a.Block contentBlock,
 ) => switch (contentBlock) {
@@ -322,6 +339,7 @@ class MessageStreamEventTransformer
   final a.ToolResultBlock tr => (tr.content.text, null),
 };
 
+/// Maps an Anthropic [a.BlockDelta] to content and tool calls.
 (String content, List<AIChatMessageToolCall> toolCalls) _mapContentBlockDelta(
   String? lastToolId,
   a.BlockDelta blockDelta,
@@ -340,7 +358,9 @@ class MessageStreamEventTransformer
   ),
 };
 
+/// Extension on [List<ToolSpec>] to convert tool specs to Anthropic SDK tools.
 extension ToolSpecListMapper on List<ToolSpec> {
+  /// Converts this list of [ToolSpec]s to a list of Anthropic SDK [a.Tool]s.
   List<a.Tool> toTool(ChatToolChoice? toolChoice) {
     if (toolChoice is ChatToolChoiceNone) {
       return const [];
@@ -361,7 +381,9 @@ extension ToolSpecListMapper on List<ToolSpec> {
   );
 }
 
+/// Extension on [ChatToolChoice] to convert to Anthropic SDK [a.ToolChoice].
 extension ChatToolChoiceMapper on ChatToolChoice {
+  /// Converts this [ChatToolChoice] to an Anthropic SDK [a.ToolChoice].
   a.ToolChoice toToolChoice() => switch (this) {
     ChatToolChoiceNone _ => const a.ToolChoice(type: a.ToolChoiceType.auto),
     ChatToolChoiceAuto _ => const a.ToolChoice(type: a.ToolChoiceType.auto),
@@ -373,6 +395,7 @@ extension ChatToolChoiceMapper on ChatToolChoice {
   };
 }
 
+/// Maps an Anthropic [a.StopReason] to a [FinishReason].
 FinishReason _mapFinishReason(a.StopReason? reason) => switch (reason) {
   a.StopReason.endTurn => FinishReason.stop,
   a.StopReason.maxTokens => FinishReason.length,
@@ -381,6 +404,7 @@ FinishReason _mapFinishReason(a.StopReason? reason) => switch (reason) {
   null => FinishReason.unspecified,
 };
 
+/// Maps Anthropic [a.Usage] to [LanguageModelUsage].
 LanguageModelUsage _mapUsage(a.Usage? usage) => LanguageModelUsage(
   promptTokens: usage?.inputTokens,
   responseTokens: usage?.outputTokens,
@@ -389,6 +413,7 @@ LanguageModelUsage _mapUsage(a.Usage? usage) => LanguageModelUsage(
       : null,
 );
 
+/// Maps Anthropic [a.MessageDeltaUsage] to [LanguageModelUsage].
 LanguageModelUsage _mapMessageDeltaUsage(a.MessageDeltaUsage? usage) =>
     LanguageModelUsage(
       responseTokens: usage?.outputTokens,

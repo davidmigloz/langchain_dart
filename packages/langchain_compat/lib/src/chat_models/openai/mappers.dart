@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs
 import 'dart:convert';
 
 import 'package:openai_dart/openai_dart.dart';
@@ -75,7 +74,11 @@ CreateChatCompletionRequest createChatCompletionRequest(
   );
 }
 
+/// Extension on [List<ChatMessage>] to convert chat messages to OpenAI SDK
+/// messages.
 extension ChatMessageListMapper on List<ChatMessage> {
+  /// Converts this list of [ChatMessage]s to a list of
+  /// [ChatCompletionMessage]s.
   List<ChatCompletionMessage> toChatCompletionMessages() =>
       map(_mapMessage).toList(growable: false);
 
@@ -192,7 +195,9 @@ extension ChatMessageListMapper on List<ChatMessage> {
       );
 }
 
+/// Extension on [CreateChatCompletionResponse] to convert to [ChatResult].
 extension CreateChatCompletionResponseMapper on CreateChatCompletionResponse {
+  /// Converts this [CreateChatCompletionResponse] to a [ChatResult].
   ChatResult toChatResult(String id) {
     final choice = choices.first;
     final msg = choice.message;
@@ -242,7 +247,9 @@ LanguageModelUsage _mapUsage(CompletionUsage? usage) => LanguageModelUsage(
   totalTokens: usage?.totalTokens,
 );
 
+/// Extension on [List<ToolSpec>] to convert to OpenAI SDK tool list.
 extension ChatToolListMapper on List<ToolSpec> {
+  /// Converts this list of [ToolSpec]s to a list of [ChatCompletionTool]s.
   List<ChatCompletionTool> toChatCompletionTool() =>
       map(_mapChatCompletionTool).toList(growable: false);
 
@@ -257,7 +264,9 @@ extension ChatToolListMapper on List<ToolSpec> {
       );
 }
 
+/// Extension on [ChatToolChoice] to convert to OpenAI SDK tool choice.
 extension ChatToolChoiceMapper on ChatToolChoice {
+  /// Converts this [ChatToolChoice] to a [ChatCompletionToolChoiceOption].
   ChatCompletionToolChoiceOption toChatCompletionToolChoice() => switch (this) {
     ChatToolChoiceNone _ => const ChatCompletionToolChoiceOption.mode(
       ChatCompletionToolChoiceMode.none,
@@ -277,8 +286,11 @@ extension ChatToolChoiceMapper on ChatToolChoice {
   };
 }
 
+/// Extension on [CreateChatCompletionStreamResponse] to convert to
+/// [ChatResult].
 extension CreateChatCompletionStreamResponseMapper
     on CreateChatCompletionStreamResponse {
+  /// Converts this [CreateChatCompletionStreamResponse] to a [ChatResult].
   ChatResult toChatResult(String id) {
     final choice = choices.firstOrNull;
     final delta = choice?.delta;
@@ -308,25 +320,26 @@ extension CreateChatCompletionStreamResponseMapper
     );
   }
 
+  // Don't decode JSON here - arguments may be incomplete during streaming Store
+  // raw arguments and let the accumulation/concat logic handle merging
   AIChatMessageToolCall _mapMessageToolCall(
     ChatCompletionStreamMessageToolCallChunk toolCall,
-  ) {
-    // Don't decode JSON here - arguments may be incomplete during streaming
-    // Store raw arguments and let the accumulation/concat logic handle merging
-    return AIChatMessageToolCall(
-      id: toolCall.id ?? '',
-      name: toolCall.function?.name ?? '',
-      argumentsRaw: toolCall.function?.arguments ?? '',
-      arguments:
-          const <
-            String,
-            dynamic
-          >{}, // Empty - will be populated after accumulation
-    );
-  }
+  ) => AIChatMessageToolCall(
+    id: toolCall.id ?? '',
+    name: toolCall.function?.name ?? '',
+    argumentsRaw: toolCall.function?.arguments ?? '',
+    arguments:
+        const <
+          String,
+          dynamic
+        >{}, // Empty - will be populated after accumulation
+  );
 }
 
+/// Extension on [ChatOpenAIResponseFormat] to convert to OpenAI SDK response
+/// format.
 extension ChatOpenAIResponseFormatMapper on ChatOpenAIResponseFormat {
+  /// Converts this [ChatOpenAIResponseFormat] to a [ResponseFormat].
   ResponseFormat toChatCompletionResponseFormat() => switch (this) {
     ChatOpenAIResponseFormatText() => const ResponseFormat.text(),
     ChatOpenAIResponseFormatJsonObject() => const ResponseFormat.jsonObject(),
@@ -341,7 +354,10 @@ extension ChatOpenAIResponseFormatMapper on ChatOpenAIResponseFormat {
   };
 }
 
+/// Extension on [ChatOpenAIServiceTier?] to convert to OpenAI SDK service tier.
 extension ChatOpenAIServiceTierX on ChatOpenAIServiceTier? {
+  /// Converts this [ChatOpenAIServiceTier] to a
+  /// [CreateChatCompletionRequestServiceTier].
   CreateChatCompletionRequestServiceTier?
   toCreateChatCompletionRequestServiceTier() => switch (this) {
     ChatOpenAIServiceTier.auto => CreateChatCompletionRequestServiceTier.auto,

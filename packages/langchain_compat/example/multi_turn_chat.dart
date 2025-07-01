@@ -4,7 +4,8 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:langchain_compat/langchain_compat.dart';
-import 'package:langchain_compat/src/providers.dart';
+
+import 'dump_chat_history.dart';
 
 Future<void> main() async {
   final chatModel = Provider.google.createModel();
@@ -31,14 +32,6 @@ Future<void> main() async {
     print('');
   }
 
-  _dumpHistory(history);
-}
-
-void _dumpHistory(List<ChatMessage> history) {
-  print('--------------------------------');
-  print('\n\nHistory:');
-  for (final message in history) {
-    print('${message.runtimeType}: ${message.contentAsString}');
-  }
-  print('--------------------------------');
+  dumpChatHistory(history);
+  exit(0);
 }

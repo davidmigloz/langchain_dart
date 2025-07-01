@@ -15,12 +15,12 @@ import 'types.dart';
 /// {@endtemplate}
 class ToolSpec {
   /// {@macro tool_spec}
-  const ToolSpec({
+  ToolSpec({
     required this.name,
     required this.description,
-    required this.inputJsonSchema,
+    Map<String, dynamic>? inputJsonSchema,
     this.strict = false,
-  });
+  }) : inputJsonSchema = _normalizeAndValidateSchema(inputJsonSchema);
 
   /// The unique name of the tool that clearly communicates its purpose.
   final String name;
@@ -60,6 +60,20 @@ class ToolSpec {
   /// enabled, only a subset of JSON Schema may be supported. Check out the
   /// provider's tool calling documentation for more information.
   final bool strict;
+
+  static Map<String, dynamic> _normalizeAndValidateSchema(
+    Map<String, dynamic>? schema,
+  ) {
+    if (schema == null) {
+      return {'type': 'object', 'properties': {}};
+    }
+    if (!schema.containsKey('type') || !schema.containsKey('properties')) {
+      throw ArgumentError(
+        'inputJsonSchema must contain both "type" and "properties" keys.',
+      );
+    }
+    return schema;
+  }
 
   @override
   bool operator ==(covariant ToolSpec other) {
@@ -117,12 +131,13 @@ abstract base class Tool<
   Tool({
     required this.name,
     required this.description,
-    required this.inputJsonSchema,
+    Map<String, dynamic>? inputJsonSchema,
     this.strict = false,
     this.returnDirect = false,
     this.handleToolError,
     Options? defaultOptions,
-  }) : assert(name.isNotEmpty, 'Tool name cannot be empty.'),
+  }) : inputJsonSchema = ToolSpec._normalizeAndValidateSchema(inputJsonSchema),
+       assert(name.isNotEmpty, 'Tool name cannot be empty.'),
        assert(description.isNotEmpty, 'Tool description cannot be empty.'),
        super(defaultOptions: defaultOptions ?? const ToolOptions() as Options);
 
@@ -169,8 +184,8 @@ abstract base class Tool<
   static Tool fromFunction<Input extends Object, Output extends Object>({
     required String name,
     required String description,
-    required Map<String, dynamic> inputJsonSchema,
     required FutureOr<Output> Function(Input input) func,
+    Map<String, dynamic>? inputJsonSchema,
     bool strict = false,
     Input Function(Map<String, dynamic> json)? getInputFromJson,
     bool returnDirect = false,
@@ -263,10 +278,10 @@ final class _ToolFunc<Input extends Object, Output extends Object>
   _ToolFunc({
     required super.name,
     required super.description,
-    required super.inputJsonSchema,
     required super.strict,
     required FutureOr<Output> Function(Input input) function,
     required Input Function(Map<String, dynamic> json) getInputFromJson,
+    super.inputJsonSchema,
     super.returnDirect = false,
     super.handleToolError,
     super.defaultOptions,

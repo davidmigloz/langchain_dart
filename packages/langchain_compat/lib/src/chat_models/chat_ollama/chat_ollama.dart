@@ -1,5 +1,3 @@
-// ignore_for_file: public_member_api_docs
-
 import 'package:http/http.dart' as http;
 import 'package:langchain_tiktoken/langchain_tiktoken.dart';
 import 'package:ollama_dart/ollama_dart.dart' show OllamaClient;
@@ -10,7 +8,8 @@ import '../../../prompts.dart';
 import '../../runnables/runnable.dart' show Runnable;
 import '../../runnables/runnables.dart' show Runnable;
 import 'mappers.dart' as ollama_mappers;
-import 'types.dart';
+
+export 'types.dart';
 
 /// Wrapper around [Ollama](https://ollama.ai) Chat API that enables
 /// to interact with the LLMs in a chat-like fashion.
