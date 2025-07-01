@@ -311,12 +311,17 @@ extension CreateChatCompletionStreamResponseMapper
   AIChatMessageToolCall _mapMessageToolCall(
     ChatCompletionStreamMessageToolCallChunk toolCall,
   ) {
-    final args = json.decode(toolCall.function?.arguments ?? '');
+    // Don't decode JSON here - arguments may be incomplete during streaming
+    // Store raw arguments and let the accumulation/concat logic handle merging
     return AIChatMessageToolCall(
       id: toolCall.id ?? '',
       name: toolCall.function?.name ?? '',
       argumentsRaw: toolCall.function?.arguments ?? '',
-      arguments: args,
+      arguments:
+          const <
+            String,
+            dynamic
+          >{}, // Empty - will be populated after accumulation
     );
   }
 }

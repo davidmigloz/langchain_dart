@@ -331,20 +331,30 @@ class OpenAIProvider extends Provider<ChatOpenAIOptions> {
 
   @override
   BaseChatModel<ChatOpenAIOptions> createModel({ChatOpenAIOptions? options}) {
-    if (name == 'cohere') {
-      return ChatOpenAI(
-        apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
-        baseUrl: defaultBaseUrl,
-        defaultOptions: ChatOpenAIOptions(
-          model: options?.model ?? defaultModel,
-          streamOptions: null,
-        ),
-      );
-    }
+    final opts = ChatOpenAIOptions(
+      model: options?.model ?? defaultModel,
+      temperature: options?.temperature,
+      topP: options?.topP,
+      n: options?.n,
+      maxTokens: options?.maxTokens,
+      presencePenalty: options?.presencePenalty,
+      frequencyPenalty: options?.frequencyPenalty,
+      logitBias: options?.logitBias,
+      stop: options?.stop,
+      user: options?.user,
+      tools: options?.tools,
+      toolChoice: options?.toolChoice,
+      responseFormat: options?.responseFormat,
+      seed: options?.seed,
+      parallelToolCalls: options?.parallelToolCalls,
+      streamOptions: options?.streamOptions,
+      serviceTier: options?.serviceTier,
+      concurrencyLimit: options?.concurrencyLimit ?? 1000,
+    );
     return ChatOpenAI(
       apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
       baseUrl: defaultBaseUrl,
-      defaultOptions: ChatOpenAIOptions(model: options?.model ?? defaultModel),
+      defaultOptions: opts,
     );
   }
 
@@ -453,6 +463,19 @@ class GoogleAIProvider extends Provider<ChatGoogleGenerativeAIOptions> {
     baseUrl: defaultBaseUrl,
     defaultOptions: ChatGoogleGenerativeAIOptions(
       model: options?.model ?? defaultModel,
+      topP: options?.topP,
+      topK: options?.topK,
+      candidateCount: options?.candidateCount,
+      maxOutputTokens: options?.maxOutputTokens,
+      temperature: options?.temperature,
+      stopSequences: options?.stopSequences,
+      responseMimeType: options?.responseMimeType,
+      responseSchema: options?.responseSchema,
+      safetySettings: options?.safetySettings,
+      enableCodeExecution: options?.enableCodeExecution,
+      tools: options?.tools,
+      toolChoice: options?.toolChoice,
+      concurrencyLimit: options?.concurrencyLimit ?? 1000,
     ),
   );
 
@@ -549,7 +572,18 @@ class AnthropicProvider extends Provider<ChatAnthropicOptions> {
   }) => ChatAnthropic(
     apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
     baseUrl: defaultBaseUrl,
-    defaultOptions: ChatAnthropicOptions(model: options?.model ?? defaultModel),
+    defaultOptions: ChatAnthropicOptions(
+      model: options?.model ?? defaultModel,
+      temperature: options?.temperature,
+      topP: options?.topP,
+      topK: options?.topK,
+      maxTokens: options?.maxTokens,
+      stopSequences: options?.stopSequences,
+      userId: options?.userId,
+      tools: options?.tools,
+      toolChoice: options?.toolChoice,
+      concurrencyLimit: options?.concurrencyLimit ?? 1000,
+    ),
   );
 
   /// Returns all available models for this provider from the Anthropic API.
@@ -626,7 +660,15 @@ class MistralProvider extends Provider<ChatMistralAIOptions> {
   }) => ChatMistralAI(
     apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
     baseUrl: defaultBaseUrl,
-    defaultOptions: ChatMistralAIOptions(model: options?.model ?? defaultModel),
+    defaultOptions: ChatMistralAIOptions(
+      model: options?.model ?? defaultModel,
+      temperature: options?.temperature,
+      topP: options?.topP,
+      maxTokens: options?.maxTokens,
+      safePrompt: options?.safePrompt,
+      randomSeed: options?.randomSeed,
+      concurrencyLimit: options?.concurrencyLimit ?? 1000,
+    ),
   );
 
   @override
@@ -722,6 +764,41 @@ class OllamaProvider extends Provider<ChatOllamaOptions> {
         baseUrl: defaultBaseUrl,
         defaultOptions: ChatOllamaOptions(
           model: options?.model ?? defaultModel,
+          format: options?.format,
+          keepAlive: options?.keepAlive,
+          numKeep: options?.numKeep,
+          seed: options?.seed,
+          numPredict: options?.numPredict,
+          topK: options?.topK,
+          topP: options?.topP,
+          minP: options?.minP,
+          tfsZ: options?.tfsZ,
+          typicalP: options?.typicalP,
+          repeatLastN: options?.repeatLastN,
+          temperature: options?.temperature,
+          repeatPenalty: options?.repeatPenalty,
+          presencePenalty: options?.presencePenalty,
+          frequencyPenalty: options?.frequencyPenalty,
+          mirostat: options?.mirostat,
+          mirostatTau: options?.mirostatTau,
+          mirostatEta: options?.mirostatEta,
+          penalizeNewline: options?.penalizeNewline,
+          stop: options?.stop,
+          numa: options?.numa,
+          numCtx: options?.numCtx,
+          numBatch: options?.numBatch,
+          numGpu: options?.numGpu,
+          mainGpu: options?.mainGpu,
+          lowVram: options?.lowVram,
+          f16KV: options?.f16KV,
+          logitsAll: options?.logitsAll,
+          vocabOnly: options?.vocabOnly,
+          useMmap: options?.useMmap,
+          useMlock: options?.useMlock,
+          numThread: options?.numThread,
+          tools: options?.tools,
+          toolChoice: options?.toolChoice,
+          concurrencyLimit: options?.concurrencyLimit ?? 1000,
         ),
       );
 
@@ -770,13 +847,31 @@ class CohereOpenAIProvider extends OpenAIProvider {
   });
 
   @override
-  BaseChatModel<ChatOpenAIOptions> createModel({ChatOpenAIOptions? options}) =>
-      ChatOpenAI(
-        apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
-        baseUrl: defaultBaseUrl,
-        defaultOptions: ChatOpenAIOptions(
-          model: options?.model ?? defaultModel,
-          streamOptions: null,
-        ),
-      );
+  BaseChatModel<ChatOpenAIOptions> createModel({ChatOpenAIOptions? options}) {
+    final opts = ChatOpenAIOptions(
+      model: options?.model ?? defaultModel,
+      temperature: options?.temperature,
+      topP: options?.topP,
+      n: options?.n,
+      maxTokens: options?.maxTokens,
+      presencePenalty: options?.presencePenalty,
+      frequencyPenalty: options?.frequencyPenalty,
+      logitBias: options?.logitBias,
+      stop: options?.stop,
+      user: options?.user,
+      tools: options?.tools,
+      toolChoice: options?.toolChoice,
+      responseFormat: options?.responseFormat,
+      seed: options?.seed,
+      parallelToolCalls: options?.parallelToolCalls,
+      streamOptions: null, // Cohere requires streamOptions to be null
+      serviceTier: options?.serviceTier,
+      concurrencyLimit: options?.concurrencyLimit ?? 1000,
+    );
+    return ChatOpenAI(
+      apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
+      baseUrl: defaultBaseUrl,
+      defaultOptions: opts,
+    );
+  }
 }
