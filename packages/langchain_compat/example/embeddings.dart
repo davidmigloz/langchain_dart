@@ -11,40 +11,39 @@ void main() async {
     'Machine learning is fascinating', // Different topic
   ];
 
-  await embeddingsExample(
-    'OpenAI',
-    OpenAIEmbeddingsProvider(apiKey: Platform.environment['OPENAI_API_KEY']),
-    sampleTexts,
-  );
+  final embeddingProviders = <EmbeddingsProvider>[
+    EmbeddingsProvider.openai,
+    EmbeddingsProvider.google,
+    EmbeddingsProvider.mistral,
+    EmbeddingsProvider.cohere,
+  ];
 
-  await embeddingsExample(
-    'Google AI',
-    GoogleEmbeddingsProvider(apiKey: Platform.environment['GEMINI_API_KEY']),
-    sampleTexts,
-  );
+  for (final provider in embeddingProviders) {
+    await embeddingsExample(provider, sampleTexts);
+  }
 
   exit(0);
 }
 
 Future<void> embeddingsExample(
-  String providerName,
   EmbeddingsProvider provider,
   List<String> sampleTexts,
 ) async {
-  print('\n=== Testing $providerName ===');
+  print('\n=== ${provider.displayName} Embeddings ===');
 
+  final model = provider.createModel();
   final singleText = sampleTexts.first;
   print('Text: "$singleText"');
 
   // Track timing for single embedding
   final singleStart = DateTime.now();
-  final singleResult = await provider.embedQuery(singleText);
+  final singleResult = await model.embedQuery(singleText);
   final singleDuration = DateTime.now().difference(singleStart);
 
   print('Dimensions: ${singleResult.embeddings.length}');
   print('First 5 values: ${singleResult.embeddings.take(5).toList()}');
   print('Single embedding time: ${singleDuration.inMilliseconds}ms');
-  
+
   // Show usage data for single embedding
   print('\nSingle Embedding Usage:');
   print('- Result ID: ${singleResult.id}');
@@ -64,7 +63,7 @@ Future<void> embeddingsExample(
 
   // Track timing for batch embeddings
   final batchStart = DateTime.now();
-  final batchResult = await provider.embedDocuments(sampleTexts);
+  final batchResult = await model.embedDocuments(sampleTexts);
   final batchDuration = DateTime.now().difference(batchStart);
 
   print('Generated ${batchResult.count} embeddings');
@@ -108,7 +107,7 @@ Future<void> embeddingsExample(
 
   // Performance metrics summary
   print('\n--- Performance Summary ---');
-  print('- Provider: $providerName');
+  print('- Provider: ${provider.displayName}');
   print('- Vector dimensions: ${batchResult.dimensions}');
   print('- Total texts processed: ${batchResult.count}');
   print('- Total processing time: ${batchDuration.inMilliseconds}ms');

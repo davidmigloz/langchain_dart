@@ -1,0 +1,154 @@
+import 'dart:io';
+
+import 'package:google_generative_ai/google_generative_ai.dart'
+    show Content, EmbedContentRequest, GenerativeModel, TaskType;
+import 'package:http/http.dart' as http;
+import 'package:http/retry.dart' show RetryClient;
+
+import '../custom_http_client.dart';
+import '../language_models/language_models.dart';
+import 'chunk_list.dart';
+import 'embeddings_model.dart';
+import 'embeddings_result.dart';
+import 'google_embeddings_model_options.dart';
+
+/// Google AI embeddings model implementation.
+class GoogleEmbeddingsModel
+    extends EmbeddingsModel<GoogleEmbeddingsModelOptions> {
+  /// Creates a new Google AI embeddings model.
+  GoogleEmbeddingsModel({
+    String? apiKey,
+    String baseUrl = 'https://generativelanguage.googleapis.com/v1beta',
+    Map<String, String>? headers,
+    Map<String, dynamic>? queryParams,
+    int retries = 3,
+    http.Client? client,
+    super.model,
+    super.dimensions,
+    super.batchSize = 100,
+  }) : _httpClient = CustomHttpClient(
+         baseHttpClient: client ?? RetryClient(http.Client(), retries: retries),
+         baseUrl: Uri.parse(baseUrl),
+         headers: {
+           if (apiKey != null || Platform.environment['GEMINI_API_KEY'] != null)
+             'x-goog-api-key':
+                 apiKey ?? Platform.environment['GEMINI_API_KEY']!,
+           ...?headers,
+         },
+         queryParams: queryParams ?? const {},
+       ),
+       super(
+         defaultOptions: GoogleEmbeddingsModelOptions(
+           dimensions: dimensions,
+           batchSize: batchSize,
+         ),
+       ) {
+    _googleAiClient = _createGoogleAiClient();
+  }
+
+  final CustomHttpClient _httpClient;
+  late GenerativeModel _googleAiClient;
+
+  @override
+  String get defaultModelName => 'text-embedding-004';
+
+  @override
+  Future<EmbeddingsResult> embedQuery(
+    String query, {
+    GoogleEmbeddingsModelOptions? options,
+  }) async {
+    final data = await _googleAiClient.embedContent(
+      Content.text(query),
+      taskType: TaskType.retrievalQuery,
+      outputDimensionality: options?.dimensions ?? dimensions,
+    );
+
+    // Google doesn't provide token usage, so estimate
+    final estimatedTokens = (query.length / 4).round();
+
+    return EmbeddingsResult(
+      id: 'google-embedding-${DateTime.now().millisecondsSinceEpoch}',
+      output: data.embedding.values,
+      finishReason: FinishReason.stop,
+      metadata: {
+        'model': name,
+        'dimensions': options?.dimensions ?? dimensions,
+        'query_length': query.length,
+        'task_type': 'retrievalQuery',
+      },
+      usage: LanguageModelUsage(
+        promptTokens: estimatedTokens,
+        promptBillableCharacters: query.length,
+        totalTokens: estimatedTokens,
+      ),
+    );
+  }
+
+  @override
+  Future<BatchEmbeddingsResult> embedDocuments(
+    List<String> texts, {
+    GoogleEmbeddingsModelOptions? options,
+  }) async {
+    final effectiveBatchSize = options?.batchSize ?? batchSize ?? 100;
+    final batches = chunkList(texts, chunkSize: effectiveBatchSize);
+    final allEmbeddings = <List<double>>[];
+    var totalCharacters = 0;
+
+    for (final batch in batches) {
+      final data = await _googleAiClient.batchEmbedContents(
+        batch
+            .map(
+              (text) => EmbedContentRequest(
+                Content.text(text),
+                taskType: TaskType.retrievalDocument,
+                outputDimensionality: options?.dimensions ?? dimensions,
+              ),
+            )
+            .toList(growable: false),
+      );
+
+      // Extract embeddings
+      final batchEmbeddings = data.embeddings
+          .map((p) => p.values)
+          .nonNulls
+          .toList(growable: false);
+      allEmbeddings.addAll(batchEmbeddings);
+
+      // Count characters for estimation
+      totalCharacters += batch.map((t) => t.length).reduce((a, b) => a + b);
+    }
+
+    // Google doesn't provide token usage, so estimate
+    final estimatedTokens = (totalCharacters / 4).round();
+
+    return BatchEmbeddingsResult(
+      id: 'google-batch-embeddings-${DateTime.now().millisecondsSinceEpoch}',
+      output: allEmbeddings,
+      finishReason: FinishReason.stop,
+      metadata: {
+        'model': name,
+        'dimensions': options?.dimensions ?? dimensions,
+        'batch_count': batches.length,
+        'total_texts': texts.length,
+        'total_characters': totalCharacters,
+      },
+      usage: LanguageModelUsage(
+        promptTokens: estimatedTokens,
+        promptBillableCharacters: totalCharacters,
+        totalTokens: estimatedTokens,
+      ),
+    );
+  }
+
+  @override
+  void close() {
+    _httpClient.close();
+  }
+
+  /// Create a new [GenerativeModel] instance.
+  GenerativeModel _createGoogleAiClient() => GenerativeModel(
+    model: name,
+    apiKey: _httpClient.headers['x-goog-api-key'] ?? '',
+    httpClient: _httpClient,
+  );
+}

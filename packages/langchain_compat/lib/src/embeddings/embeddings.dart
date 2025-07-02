@@ -1,5 +1,17 @@
+export 'cohere_embeddings_model.dart';
+export 'cohere_embeddings_model_options.dart';
+export 'cohere_embeddings_provider.dart';
+export 'embeddings_model.dart';
+export 'embeddings_model_options.dart';
 export 'embeddings_provider.dart';
 export 'embeddings_result.dart';
+export 'google_embeddings_model.dart';
+export 'google_embeddings_model_options.dart';
 export 'google_embeddings_provider.dart';
+export 'mistral_embeddings_model.dart';
+export 'mistral_embeddings_model_options.dart';
+export 'mistral_embeddings_provider.dart';
+export 'openai_embeddings_model.dart';
+export 'openai_embeddings_model_options.dart';
 export 'openai_embeddings_provider.dart';
 export 'similarity.dart';

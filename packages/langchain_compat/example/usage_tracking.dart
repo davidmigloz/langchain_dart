@@ -16,13 +16,13 @@ Future<void> main() async {
     await streamingUsageExample(provider);
   }
 
-  final embeddingsProviders = <EmbeddingsProvider>[
-    OpenAIEmbeddingsProvider(apiKey: Platform.environment['OPENAI_API_KEY']),
-    GoogleEmbeddingsProvider(apiKey: Platform.environment['GEMINI_API_KEY']),
+  final embeddingsModels = <EmbeddingsModel>[
+    EmbeddingsProvider.openai.createModel(),
+    EmbeddingsProvider.google.createModel(),
   ];
 
-  for (final provider in embeddingsProviders) {
-    await embeddingsUsageExample(provider);
+  for (final model in embeddingsModels) {
+    await embeddingsUsageExample(model);
   }
 
   exit(0);
@@ -104,19 +104,8 @@ Future<void> streamingUsageExample(ChatProvider provider) async {
   print('- Final usage: ${finalResult?.usage}');
 }
 
-Future<void> embeddingsUsageExample(EmbeddingsProvider provider) async {
-  print('\n=== ${provider.displayName} Embeddings Usage Tracking ===');
-
-  final embeddingsProviders = [
-    (
-      'OpenAI',
-      OpenAIEmbeddingsProvider(apiKey: Platform.environment['OPENAI_API_KEY']),
-    ),
-    (
-      'Google AI',
-      GoogleEmbeddingsProvider(apiKey: Platform.environment['GEMINI_API_KEY']),
-    ),
-  ];
+Future<void> embeddingsUsageExample(EmbeddingsModel model) async {
+  print('\n=== ${model.name} Embeddings Usage Tracking ===');
 
   final sampleTexts = [
     'Machine learning enables computers to learn automatically.',
@@ -124,52 +113,49 @@ Future<void> embeddingsUsageExample(EmbeddingsProvider provider) async {
     'Computer vision allows machines to interpret visual information.',
   ];
 
-  for (final (providerName, provider) in embeddingsProviders) {
-    print('\n--- $providerName Embeddings Usage ---');
+  // Single embedding usage
+  final singleResult = await model.embedQuery(sampleTexts.first);
+  print('Single Embedding:');
+  print('- Result ID: ${singleResult.id}');
+  print('- Dimensions: ${singleResult.embeddings.length}');
+  print('- Prompt tokens: ${singleResult.usage.promptTokens ?? 'N/A'}');
+  print('- Total tokens: ${singleResult.usage.totalTokens ?? 'N/A'}');
+  if (singleResult.usage.promptBillableCharacters != null) {
+    print(
+      '- Billable characters: '
+      '${singleResult.usage.promptBillableCharacters}',
+    );
+  }
+  print('- Finish reason: ${singleResult.finishReason}');
 
-    // Single embedding usage
-    final singleResult = await provider.embedQuery(sampleTexts.first);
-    print('Single Embedding:');
-    print('- Result ID: ${singleResult.id}');
-    print('- Dimensions: ${singleResult.embeddings.length}');
-    print('- Prompt tokens: ${singleResult.usage.promptTokens ?? 'N/A'}');
-    print('- Total tokens: ${singleResult.usage.totalTokens ?? 'N/A'}');
-    if (singleResult.usage.promptBillableCharacters != null) {
-      print(
-        '- Billable characters: '
-        '${singleResult.usage.promptBillableCharacters}',
-      );
-    }
-    print('- Finish reason: ${singleResult.finishReason}');
+  // Batch embeddings usage
+  final batchResult = await model.embedDocuments(sampleTexts);
+  print('\nBatch Embeddings:');
+  print('- Result ID: ${batchResult.id}');
+  print('- Embedding count: ${batchResult.count}');
+  print('- Dimensions: ${batchResult.dimensions}');
+  print('- Prompt tokens: ${batchResult.usage.promptTokens ?? 'N/A'}');
+  print('- Total tokens: ${batchResult.usage.totalTokens ?? 'N/A'}');
+  if (batchResult.usage.promptBillableCharacters != null) {
+    print(
+      '- Billable characters: '
+      '${batchResult.usage.promptBillableCharacters}',
+    );
+  }
+  print('- Finish reason: ${batchResult.finishReason}');
 
-    // Batch embeddings usage
-    final batchResult = await provider.embedDocuments(sampleTexts);
-    print('\nBatch Embeddings:');
-    print('- Result ID: ${batchResult.id}');
-    print('- Embedding count: ${batchResult.count}');
-    print('- Dimensions: ${batchResult.dimensions}');
-    print('- Prompt tokens: ${batchResult.usage.promptTokens ?? 'N/A'}');
-    print('- Total tokens: ${batchResult.usage.totalTokens ?? 'N/A'}');
-    if (batchResult.usage.promptBillableCharacters != null) {
-      print(
-        '- Billable characters: '
-        '${batchResult.usage.promptBillableCharacters}',
-      );
-    }
-    print('- Finish reason: ${batchResult.finishReason}');
+  // Show metadata
+  if (batchResult.metadata.isNotEmpty) {
+    print('- Metadata: ${batchResult.metadata}');
+  }
 
-    // Show metadata
-    if (batchResult.metadata.isNotEmpty) {
-      print('- Metadata: ${batchResult.metadata}');
-    }
-
-    // Calculate estimated cost for OpenAI
-    if (providerName == 'OpenAI' && batchResult.usage.totalTokens != null) {
-      final embeddingsCost = _calculateOpenAIEmbeddingsCost(
-        batchResult.usage.totalTokens!,
-      );
-      print('- Estimated cost: \$${embeddingsCost.toStringAsFixed(6)}');
-    }
+  // Calculate estimated cost for OpenAI
+  if (model.name.contains('text-embedding-3') &&
+      batchResult.usage.totalTokens != null) {
+    final embeddingsCost = _calculateOpenAIEmbeddingsCost(
+      batchResult.usage.totalTokens!,
+    );
+    print('- Estimated cost: \$${embeddingsCost.toStringAsFixed(6)}');
   }
 }
 

@@ -1,16 +1,18 @@
-import '../chat/chat_providers/google_provider.dart';
+import 'dart:io';
+
+import '../chat/chat_providers/mistral_provider.dart';
 import '../chat/chat_providers/model_info.dart';
 import '../chat/chat_providers/model_kind.dart';
 import 'embeddings_model.dart';
 import 'embeddings_provider.dart';
-import 'google_embeddings_model.dart';
-import 'google_embeddings_model_options.dart';
+import 'mistral_embeddings_model.dart';
+import 'mistral_embeddings_model_options.dart';
 
-/// Google AI embeddings provider.
-class GoogleEmbeddingsProvider
-    extends EmbeddingsProvider<GoogleEmbeddingsModelOptions> {
-  /// Creates a new Google AI embeddings provider.
-  const GoogleEmbeddingsProvider({
+/// Mistral AI embeddings provider.
+class MistralEmbeddingsProvider
+    extends EmbeddingsProvider<MistralEmbeddingsModelOptions> {
+  /// Creates a new Mistral AI embeddings provider.
+  const MistralEmbeddingsProvider({
     required super.name,
     required super.displayName,
     required super.defaultModel,
@@ -21,32 +23,33 @@ class GoogleEmbeddingsProvider
   });
 
   @override
-  EmbeddingsModel<GoogleEmbeddingsModelOptions> createModel({
+  EmbeddingsModel<MistralEmbeddingsModelOptions> createModel({
     String? model,
     int? dimensions,
     int? batchSize,
-    GoogleEmbeddingsModelOptions? options,
-  }) => GoogleEmbeddingsModel(
+    MistralEmbeddingsModelOptions? options,
+  }) => MistralEmbeddingsModel(
+    apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
     baseUrl: defaultBaseUrl,
     model: model ?? defaultModel,
     dimensions: dimensions ?? options?.dimensions,
     batchSize: batchSize ?? options?.batchSize ?? 100,
+    encodingFormat: options?.encodingFormat,
   );
 
   @override
   Future<Iterable<ModelInfo>> listModels() async {
-    // Use the Google chat provider's listModels and filter for embeddings
-    final googleChatProvider = GoogleProvider(
+    // Use the Mistral chat provider's listModels and filter for embeddings
+    final mistralChatProvider = MistralProvider(
       name: name,
-      aliases: aliases,
       displayName: displayName,
-      defaultModel: defaultModel,
+      defaultModel: defaultModel ?? 'mistral-embed',
       defaultBaseUrl: defaultBaseUrl,
       apiKeyName: apiKeyName,
       isRemote: isRemote,
     );
     
-    final allModels = await googleChatProvider.listModels();
+    final allModels = await mistralChatProvider.listModels();
     return allModels.where(
       (model) => model.kinds.contains(ModelKind.embedding),
     );

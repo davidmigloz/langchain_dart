@@ -2,37 +2,90 @@
 
 import 'dart:io';
 
-import 'package:langchain_compat/src/chat/chat_providers/chat_provider.dart';
 import 'package:langchain_compat/src/chat/chat_providers/chat_providers.dart';
 
 Future<void> main() async {
   var totalProviders = 0;
-  var totalModels = 0;
+  var totalChatModels = 0;
+  var totalEmbeddingModels = 0;
+  var totalOtherModels = 0;
+  
   for (final provider in ChatProvider.all) {
     totalProviders++;
     print('\n# ${provider.displayName} (${provider.name})');
     final models = await provider.listModels();
     final modelList = models.toList();
-    totalModels += modelList.length;
-    for (final model in modelList) {
-      final kinds = model.kinds.map((k) => k.name).join(', ');
-      print(
-        '- ${provider.name}:${model.name} '
-        '${model.displayName != null ? '"${model.displayName}" ' : ''}'
-        '($kinds) ',
-      );
-      // if (model.description != null) {
-      //   print('    ${model.description}');
-      // }
-      // if (model.extra.isNotEmpty) {
-      //   print('    extra:');
-      //   _printExtra(model.extra, indent: 6);
-      // }
+    
+    // Categorize models by type
+    final chatModels = modelList
+        .where((m) => m.kinds.contains(ModelKind.chat))
+        .toList();
+    final embeddingModels = modelList
+        .where((m) => m.kinds.contains(ModelKind.embedding))
+        .toList();
+    final otherModels = modelList
+        .where(
+          (m) =>
+              !m.kinds.contains(ModelKind.chat) &&
+              !m.kinds.contains(ModelKind.embedding),
+        )
+        .toList();
+    
+    totalChatModels += chatModels.length;
+    totalEmbeddingModels += embeddingModels.length;
+    totalOtherModels += otherModels.length;
+    
+    // Print chat models
+    if (chatModels.isNotEmpty) {
+      print('\n## Chat Models (${chatModels.length})');
+      for (final model in chatModels) {
+        final kinds = model.kinds.map((k) => k.name).join(', ');
+        print(
+          '- ${provider.name}:${model.name} '
+          '${model.displayName != null ? '"${model.displayName}" ' : ''}'
+          '($kinds)',
+        );
+      }
     }
-    print('  (${modelList.length} models)');
+    
+    // Print embedding models
+    if (embeddingModels.isNotEmpty) {
+      print('\n## Embedding Models (${embeddingModels.length})');
+      for (final model in embeddingModels) {
+        final kinds = model.kinds.map((k) => k.name).join(', ');
+        print(
+          '- ${provider.name}:${model.name} '
+          '${model.displayName != null ? '"${model.displayName}" ' : ''}'
+          '($kinds)',
+        );
+      }
+    }
+    
+    // Print other models
+    if (otherModels.isNotEmpty) {
+      print('\n## Other Models (${otherModels.length})');
+      for (final model in otherModels) {
+        final kinds = model.kinds.map((k) => k.name).join(', ');
+        print(
+          '- ${provider.name}:${model.name} '
+          '${model.displayName != null ? '"${model.displayName}" ' : ''}'
+          '($kinds)',
+        );
+      }
+    }
+    
+    print('\n  Total: ${modelList.length} models');
   }
-  print('\nTotal providers: $totalProviders');
-  print('Total models: $totalModels');
+  
+  print('\n=== Summary ===');
+  print('Total providers: $totalProviders');
+  print('Total chat models: $totalChatModels');
+  print('Total embedding models: $totalEmbeddingModels');
+  print('Total other models: $totalOtherModels');
+  print(
+    'Grand total: '
+    '${totalChatModels + totalEmbeddingModels + totalOtherModels} models',
+  );
 }
 
 // ignore: unused_element
