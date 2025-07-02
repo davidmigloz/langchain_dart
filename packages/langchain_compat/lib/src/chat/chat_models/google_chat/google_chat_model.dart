@@ -8,7 +8,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../../prompts/types.dart';
 import '../../../runnables/runnable.dart' show Runnable;
-import '../../../utils/https_client/http_client.dart';
+import '../../../utils/custom_http_client.dart';
 import '../chat_models.dart';
 import 'google_chat_mappers.dart';
 

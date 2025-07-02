@@ -1,5 +1,5 @@
-import '../exceptions/base.dart';
 import '../langchain/types.dart';
+import '../langchain_exception.dart';
 
 /// {@template tool_options}
 /// Generation options to pass into the Tool.

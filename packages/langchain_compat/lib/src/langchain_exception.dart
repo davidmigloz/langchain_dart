@@ -1,11 +1,9 @@
 import 'package:meta/meta.dart';
 
-/// {@template lang_chain_exception}
 /// A base class for all exceptions thrown by LangChain.
-/// {@endtemplate}
 @immutable
 base class LangChainException implements Exception {
-  /// {@macro lang_chain_exception}
+  /// Creates a new [LangChainException] instance.
   const LangChainException({this.message, String? code, this.stackTrace})
     : code = code ?? 'exception';
 

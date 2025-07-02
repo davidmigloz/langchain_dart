@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import '../utils/chunk.dart';
+import '../utils/chunk_list.dart';
 import '../utils/retry_client.dart';
 import 'binding.dart';
 import 'fallbacks.dart';

@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../exceptions/base.dart';
+import '../langchain_exception.dart';
 import 'base_chat_message_prompt.dart';
 import 'chat_prompt.dart';
 import 'prompt.dart';
