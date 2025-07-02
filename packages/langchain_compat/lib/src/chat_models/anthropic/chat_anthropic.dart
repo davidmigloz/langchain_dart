@@ -171,7 +171,7 @@ class ChatAnthropic extends BaseChatModel<ChatAnthropicOptions> {
         "Model cannot be empty. Pass null to use the provider's default model.",
       );
     }
-    return model ?? 'claude-3-5-sonnet-20241022';
+    return model ?? defaultModelName;
   }
 
   final String _model;
@@ -189,7 +189,7 @@ class ChatAnthropic extends BaseChatModel<ChatAnthropicOptions> {
   String get modelType => 'anthropic-chat';
 
   /// The default model to use unless another is specified.
-  static const defaultModel = 'claude-3-5-sonnet-20241022';
+  static const defaultModelName = 'claude-3-5-sonnet-20241022';
 
   /// The default max tokens to use unless another is specified.
   static const defaultMaxTokens = 1024;

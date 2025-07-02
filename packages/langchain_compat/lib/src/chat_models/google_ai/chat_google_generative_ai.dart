@@ -246,7 +246,7 @@ class ChatGoogleGenerativeAI
         "Model cannot be empty. Pass null to use the provider's default model.",
       );
     }
-    return model ?? 'gemini-1.5-pro';
+    return model ?? defaultModelName;
   }
 
   final String _model;
@@ -270,7 +270,7 @@ class ChatGoogleGenerativeAI
   String get modelType => 'chat-google-generative-ai';
 
   /// The default model to use unless another is specified.
-  static const defaultModel = 'gemini-2.0-flash';
+  static const defaultModelName = 'gemini-2.0-flash';
 
   @override
   Future<ChatResult> invoke(

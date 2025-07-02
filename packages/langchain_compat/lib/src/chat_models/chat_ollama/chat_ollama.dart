@@ -168,7 +168,7 @@ class ChatOllama extends BaseChatModel<ChatOllamaOptions> {
         "Model cannot be empty. Pass null to use the provider's default model.",
       );
     }
-    return model ?? 'llama3.2';
+    return model ?? defaultModelName;
   }
 
   final String _model;
@@ -192,7 +192,7 @@ class ChatOllama extends BaseChatModel<ChatOllamaOptions> {
   String get name => _model;
 
   /// The default model to use unless another is specified.
-  static const defaultModel = 'llama3.1';
+  static const defaultModelName = 'llama3.1';
 
   @override
   Future<ChatResult> invoke(

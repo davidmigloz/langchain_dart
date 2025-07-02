@@ -217,7 +217,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
         "Model cannot be empty. Pass null to use the provider's default model.",
       );
     }
-    return model ?? 'gpt-4o';
+    return model ?? defaultModelName;
   }
 
   /// A client for interacting with OpenAI API.
@@ -254,7 +254,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   String get modelType => 'openai-chat';
 
   /// The default model to use unless another is specified.
-  static const defaultModel = 'gpt-4o-mini';
+  static const defaultModelName = 'gpt-4o-mini';
 
   @override
   Future<ChatResult> invoke(

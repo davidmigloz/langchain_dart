@@ -173,7 +173,7 @@ class ChatMistralAI extends BaseChatModel<ChatMistralAIOptions> {
         "Model cannot be empty. Pass null to use the provider's default model.",
       );
     }
-    return model ?? 'mistral-small-latest';
+    return model ?? defaultModelName;
   }
 
   final String _model;
@@ -191,7 +191,7 @@ class ChatMistralAI extends BaseChatModel<ChatMistralAIOptions> {
   String get modelType => 'chat-mistralai';
 
   /// The default model to use unless another is specified.
-  static const defaultModel = 'mistral-small';
+  static const defaultModelName = 'mistral-small';
 
   @override
   String get name => _model;

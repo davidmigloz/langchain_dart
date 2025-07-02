@@ -21,10 +21,10 @@ abstract class Provider<TOptions extends ChatModelOptions> {
   ///
   /// [name]: The canonical provider name (e.g., 'openai', 'ollama').
   /// [displayName]: Human-readable name for display. [defaultModel]: The
-  /// default model for this provider. [defaultBaseUrl]: The default API
-  /// endpoint. [apiKeyName]: The environment variable for the API key (if any).
-  /// [isRemote]: True if the provider is cloud-based, false if local.
-  /// [aliases]: Alternative names for lookup.
+  /// default model for this provider (null means use model's own default).
+  /// [defaultBaseUrl]: The default API endpoint. [apiKeyName]: The environment
+  /// variable for the API key (if any). [isRemote]: True if the provider is
+  /// cloud-based, false if local. [aliases]: Alternative names for lookup.
   const Provider({
     required this.name,
     required this.displayName,
@@ -44,8 +44,8 @@ abstract class Provider<TOptions extends ChatModelOptions> {
   /// Human-readable name for display.
   final String displayName;
 
-  /// The default model for this provider.
-  final String defaultModel;
+  /// The default model for this provider (null means use model's own default).
+  final String? defaultModel;
 
   /// The default API endpoint for this provider.
   final String defaultBaseUrl;
@@ -68,7 +68,7 @@ abstract class Provider<TOptions extends ChatModelOptions> {
   static final openai = OpenAIProvider(
     name: 'openai',
     displayName: 'OpenAI',
-    defaultModel: 'gpt-4o-mini',
+    defaultModel: null, // use ChatOpenAI.defaultModelName
     defaultBaseUrl: 'https://api.openai.com/v1',
     apiKeyName: 'OPENAI_API_KEY',
     isRemote: true,
@@ -78,7 +78,7 @@ abstract class Provider<TOptions extends ChatModelOptions> {
   static final openrouter = OpenAIProvider(
     name: 'openrouter',
     displayName: 'OpenRouter',
-    defaultModel: 'google/gemini-2.5-flash',
+    defaultModel: 'google/gemini-2.0-flash',
     defaultBaseUrl: 'https://openrouter.ai/api/v1',
     apiKeyName: 'OPENROUTER_API_KEY',
     isRemote: true,
@@ -114,11 +114,11 @@ abstract class Provider<TOptions extends ChatModelOptions> {
     isRemote: true,
   );
 
-  /// Mistral AI provider (OpenAI-compatible, cloud).
+  /// Mistral AI provider (native API, cloud).
   static final mistral = MistralProvider(
     name: 'mistral',
     displayName: 'Mistral AI',
-    defaultModel: 'mistral-small',
+    defaultModel: null, // use ChatMistralAI.defaultModelName
     defaultBaseUrl: 'https://api.mistral.ai/v1',
     apiKeyName: 'MISTRAL_API_KEY',
     isRemote: true,
@@ -170,7 +170,7 @@ abstract class Provider<TOptions extends ChatModelOptions> {
     name: 'google',
     aliases: ['gemini', 'googleai', 'google-gla'],
     displayName: 'Google AI',
-    defaultModel: 'gemini-2.0-flash',
+    defaultModel: null, // use ChatGoogleGenerativeAI.defaultModelName
     defaultBaseUrl: '',
     apiKeyName: 'GEMINI_API_KEY',
     isRemote: true,
@@ -181,25 +181,25 @@ abstract class Provider<TOptions extends ChatModelOptions> {
     name: 'anthropic',
     aliases: ['claude'],
     displayName: 'Anthropic',
-    defaultModel: ChatAnthropic.defaultModel,
+    defaultModel: null, // use ChatAnthropic.defaultModelName
     defaultBaseUrl: 'https://api.anthropic.com/v1',
     apiKeyName: 'ANTHROPIC_API_KEY',
     isRemote: true,
   );
 
-  /// Native Ollama provider (local, uses ChatOllama and /api endpoint). Default
-  /// model: gemma3n. No API key required.
+  /// Native Ollama provider (local, uses ChatOllama and /api endpoint).
+  /// No API key required.
   static final ollama = OllamaProvider(
     name: 'ollama',
     displayName: 'Ollama',
-    defaultModel: 'llama3.1',
+    defaultModel: null, // use ChatOllama.defaultModelName
     defaultBaseUrl: 'http://localhost:11434/api',
     apiKeyName: '',
     isRemote: false,
   );
 
-  /// OpenAI-compatible Ollama provider (local, uses /v1 endpoint). Default
-  /// model: gemma3n. No API key required.
+  /// OpenAI-compatible Ollama provider (local, uses /v1 endpoint).
+  /// No API key required.
   static final ollamaOpenAI = OpenAIProvider(
     name: 'ollama-openai',
     displayName: 'Ollama (OpenAI-compatible)',
@@ -341,6 +341,7 @@ class OpenAIProvider extends Provider<ChatOpenAIOptions> {
     double? temperature,
     ChatOpenAIOptions? options,
   }) {
+    final modelToUse = model ?? defaultModel;
     final opts = ChatOpenAIOptions(
       temperature: temperature ?? options?.temperature,
       topP: options?.topP,
@@ -359,7 +360,7 @@ class OpenAIProvider extends Provider<ChatOpenAIOptions> {
       concurrencyLimit: options?.concurrencyLimit ?? 1000,
     );
     return ChatOpenAI(
-      model: model,
+      model: modelToUse,
       tools: tools,
       temperature: temperature,
       apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
@@ -471,26 +472,29 @@ class GoogleAIProvider extends Provider<ChatGoogleGenerativeAIOptions> {
     List<ToolSpec>? tools,
     double? temperature,
     ChatGoogleGenerativeAIOptions? options,
-  }) => ChatGoogleGenerativeAI(
-    model: model,
-    tools: tools,
-    temperature: temperature,
-    apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
-    baseUrl: defaultBaseUrl,
-    defaultOptions: ChatGoogleGenerativeAIOptions(
-      topP: options?.topP,
-      topK: options?.topK,
-      candidateCount: options?.candidateCount,
-      maxOutputTokens: options?.maxOutputTokens,
-      temperature: temperature ?? options?.temperature,
-      stopSequences: options?.stopSequences,
-      responseMimeType: options?.responseMimeType,
-      responseSchema: options?.responseSchema,
-      safetySettings: options?.safetySettings,
-      enableCodeExecution: options?.enableCodeExecution,
-      concurrencyLimit: options?.concurrencyLimit ?? 1000,
-    ),
-  );
+  }) {
+    final modelToUse = model ?? defaultModel;
+    return ChatGoogleGenerativeAI(
+      model: modelToUse,
+      tools: tools,
+      temperature: temperature,
+      apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
+      baseUrl: defaultBaseUrl,
+      defaultOptions: ChatGoogleGenerativeAIOptions(
+        topP: options?.topP,
+        topK: options?.topK,
+        candidateCount: options?.candidateCount,
+        maxOutputTokens: options?.maxOutputTokens,
+        temperature: temperature ?? options?.temperature,
+        stopSequences: options?.stopSequences,
+        responseMimeType: options?.responseMimeType,
+        responseSchema: options?.responseSchema,
+        safetySettings: options?.safetySettings,
+        enableCodeExecution: options?.enableCodeExecution,
+        concurrencyLimit: options?.concurrencyLimit ?? 1000,
+      ),
+    );
+  }
 
   @override
   Future<Iterable<ModelInfo>> listModels() async {
@@ -585,22 +589,25 @@ class AnthropicProvider extends Provider<ChatAnthropicOptions> {
     List<ToolSpec>? tools,
     double? temperature,
     ChatAnthropicOptions? options,
-  }) => ChatAnthropic(
-    model: model,
-    tools: tools,
-    temperature: temperature,
-    apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
-    baseUrl: defaultBaseUrl,
-    defaultOptions: ChatAnthropicOptions(
-      temperature: temperature ?? options?.temperature,
-      topP: options?.topP,
-      topK: options?.topK,
-      maxTokens: options?.maxTokens,
-      stopSequences: options?.stopSequences,
-      userId: options?.userId,
-      concurrencyLimit: options?.concurrencyLimit ?? 1000,
-    ),
-  );
+  }) {
+    final modelToUse = model ?? defaultModel;
+    return ChatAnthropic(
+      model: modelToUse,
+      tools: tools,
+      temperature: temperature,
+      apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
+      baseUrl: defaultBaseUrl,
+      defaultOptions: ChatAnthropicOptions(
+        temperature: temperature ?? options?.temperature,
+        topP: options?.topP,
+        topK: options?.topK,
+        maxTokens: options?.maxTokens,
+        stopSequences: options?.stopSequences,
+        userId: options?.userId,
+        concurrencyLimit: options?.concurrencyLimit ?? 1000,
+      ),
+    );
+  }
 
   /// Returns all available models for this provider from the Anthropic API.
   ///
@@ -676,21 +683,24 @@ class MistralProvider extends Provider<ChatMistralAIOptions> {
     List<ToolSpec>? tools,
     double? temperature,
     ChatMistralAIOptions? options,
-  }) => ChatMistralAI(
-    model: model,
-    tools: tools,
-    temperature: temperature,
-    apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
-    baseUrl: defaultBaseUrl,
-    defaultOptions: ChatMistralAIOptions(
-      temperature: temperature ?? options?.temperature,
-      topP: options?.topP,
-      maxTokens: options?.maxTokens,
-      safePrompt: options?.safePrompt,
-      randomSeed: options?.randomSeed,
-      concurrencyLimit: options?.concurrencyLimit ?? 1000,
-    ),
-  );
+  }) {
+    final modelToUse = model ?? defaultModel;
+    return ChatMistralAI(
+      model: modelToUse,
+      tools: tools,
+      temperature: temperature,
+      apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
+      baseUrl: defaultBaseUrl,
+      defaultOptions: ChatMistralAIOptions(
+        temperature: temperature ?? options?.temperature,
+        topP: options?.topP,
+        maxTokens: options?.maxTokens,
+        safePrompt: options?.safePrompt,
+        randomSeed: options?.randomSeed,
+        concurrencyLimit: options?.concurrencyLimit ?? 1000,
+      ),
+    );
+  }
 
   @override
   Future<Iterable<ModelInfo>> listModels() async {
@@ -785,47 +795,50 @@ class OllamaProvider extends Provider<ChatOllamaOptions> {
     List<ToolSpec>? tools,
     double? temperature,
     ChatOllamaOptions? options,
-  }) => ChatOllama(
-    model: model,
-    tools: tools,
-    temperature: temperature,
-    baseUrl: defaultBaseUrl,
-    defaultOptions: ChatOllamaOptions(
-      format: options?.format,
-      keepAlive: options?.keepAlive,
-      numKeep: options?.numKeep,
-      seed: options?.seed,
-      numPredict: options?.numPredict,
-      topK: options?.topK,
-      topP: options?.topP,
-      minP: options?.minP,
-      tfsZ: options?.tfsZ,
-      typicalP: options?.typicalP,
-      repeatLastN: options?.repeatLastN,
-      temperature: temperature ?? options?.temperature,
-      repeatPenalty: options?.repeatPenalty,
-      presencePenalty: options?.presencePenalty,
-      frequencyPenalty: options?.frequencyPenalty,
-      mirostat: options?.mirostat,
-      mirostatTau: options?.mirostatTau,
-      mirostatEta: options?.mirostatEta,
-      penalizeNewline: options?.penalizeNewline,
-      stop: options?.stop,
-      numa: options?.numa,
-      numCtx: options?.numCtx,
-      numBatch: options?.numBatch,
-      numGpu: options?.numGpu,
-      mainGpu: options?.mainGpu,
-      lowVram: options?.lowVram,
-      f16KV: options?.f16KV,
-      logitsAll: options?.logitsAll,
-      vocabOnly: options?.vocabOnly,
-      useMmap: options?.useMmap,
-      useMlock: options?.useMlock,
-      numThread: options?.numThread,
-      concurrencyLimit: options?.concurrencyLimit ?? 1000,
-    ),
-  );
+  }) {
+    final modelToUse = model ?? defaultModel;
+    return ChatOllama(
+      model: modelToUse,
+      tools: tools,
+      temperature: temperature,
+      baseUrl: defaultBaseUrl,
+      defaultOptions: ChatOllamaOptions(
+        format: options?.format,
+        keepAlive: options?.keepAlive,
+        numKeep: options?.numKeep,
+        seed: options?.seed,
+        numPredict: options?.numPredict,
+        topK: options?.topK,
+        topP: options?.topP,
+        minP: options?.minP,
+        tfsZ: options?.tfsZ,
+        typicalP: options?.typicalP,
+        repeatLastN: options?.repeatLastN,
+        temperature: temperature ?? options?.temperature,
+        repeatPenalty: options?.repeatPenalty,
+        presencePenalty: options?.presencePenalty,
+        frequencyPenalty: options?.frequencyPenalty,
+        mirostat: options?.mirostat,
+        mirostatTau: options?.mirostatTau,
+        mirostatEta: options?.mirostatEta,
+        penalizeNewline: options?.penalizeNewline,
+        stop: options?.stop,
+        numa: options?.numa,
+        numCtx: options?.numCtx,
+        numBatch: options?.numBatch,
+        numGpu: options?.numGpu,
+        mainGpu: options?.mainGpu,
+        lowVram: options?.lowVram,
+        f16KV: options?.f16KV,
+        logitsAll: options?.logitsAll,
+        vocabOnly: options?.vocabOnly,
+        useMmap: options?.useMmap,
+        useMlock: options?.useMlock,
+        numThread: options?.numThread,
+        concurrencyLimit: options?.concurrencyLimit ?? 1000,
+      ),
+    );
+  }
 
   @override
   Future<Iterable<ModelInfo>> listModels() async {
@@ -878,6 +891,7 @@ class CohereOpenAIProvider extends OpenAIProvider {
     double? temperature,
     ChatCohereOptions? options,
   }) {
+    final modelToUse = model ?? defaultModel;
     final opts = ChatCohereOptions(
       frequencyPenalty: options?.frequencyPenalty,
       logitBias: options?.logitBias,
@@ -896,7 +910,7 @@ class CohereOpenAIProvider extends OpenAIProvider {
       streamOptions: null, // Cohere requires streamOptions to be null
     );
     return ChatCohere(
-      model: model,
+      model: modelToUse,
       tools: tools,
       temperature: temperature,
       apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,

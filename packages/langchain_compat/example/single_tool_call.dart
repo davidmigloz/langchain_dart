@@ -32,16 +32,10 @@ void main() async {
     //   model: Provider.cohere.defaultModel,
     //   tools: [currentDateTimeTool],
     // ),
-    // Provider.ollama.createModel(
-    //   model: Provider.ollama.defaultModel,
-    //   tools: [currentDateTimeTool],
-    // ),
+    Provider.ollama.createModel(tools: [currentDateTimeTool]),
     // TODO: Mistral doesn't support tools yet, waiting for a fix:
     // https://github.com/davidmigloz/langchain_dart/issues/653
-    // Provider.mistral.createModel(
-    //   model: 'mistral-small',
-    //   tools: [currentDateTimeTool],
-    // ),
+    // Provider.mistral.createModel(tools: [currentDateTimeTool]),
   ];
 
   for (final model in models) {
@@ -67,15 +61,41 @@ Future<void> singleToolCall(
   print('\nUser: $userMessage');
 
   var done = false;
+  var chunkNumber = 0;
   while (!done) {
     final stream = model.stream(PromptValue.chat(history));
     var accumulatedMessage = const AIChatMessage(content: '');
 
     await for (final chunk in stream) {
-      // Output text as it streams
-      if (chunk.output.content.isNotEmpty) {
+      chunkNumber++;
+      // DEBUG: Print out what we're getting from the stream
+      print('\n[DEBUG] Chunk #$chunkNumber:');
+      print('  - content: "${chunk.output.content}"');
+      print('  - content.length: ${chunk.output.content.length}');
+      print('  - toolCalls: ${chunk.output.toolCalls}');
+
+      // Let's also look at the raw chunk to understand better
+      print('  - raw output type: ${chunk.output.runtimeType}');
+      print('  - raw output: $chunk');
+
+      // Workaround for Ollama bug: filter out JSON fragments after tool calls
+      final content = chunk.output.content;
+      final isOllamaJsonFragment =
+          content.contains('", "parameters":') ||
+          content.contains('"}') && content.length < 20;
+
+      // Output text as it streams (skip Ollama JSON fragments)
+      if (chunk.output.content.isNotEmpty && !isOllamaJsonFragment) {
         stdout.write(chunk.output.content);
       }
+
+      // For accumulation, we need to be more careful
+      if (isOllamaJsonFragment && chunk.output.toolCalls.isEmpty) {
+        // Skip this chunk entirely - it's an Ollama bug
+        print('[DEBUG] Skipping Ollama JSON fragment bug');
+        continue;
+      }
+
       // Accumulate the message chunks (this will merge tool calls by ID)
       accumulatedMessage = accumulatedMessage.concat(chunk.output);
     }
