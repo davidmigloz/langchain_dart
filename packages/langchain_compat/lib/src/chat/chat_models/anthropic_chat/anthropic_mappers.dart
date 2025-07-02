@@ -245,7 +245,6 @@ class MessageStreamEventTransformer
           'stop_sequence': e.message.stopSequence,
       },
       usage: _mapUsage(e.message.usage),
-      streaming: true,
     );
   }
 
@@ -257,7 +256,6 @@ class MessageStreamEventTransformer
       if (e.delta.stopSequence != null) 'stop_sequence': e.delta.stopSequence,
     },
     usage: _mapMessageDeltaUsage(e.usage),
-    streaming: true,
   );
 
   ChatResult _mapContentBlockStartEvent(a.ContentBlockStartEvent e) {
@@ -275,7 +273,6 @@ class MessageStreamEventTransformer
       finishReason: FinishReason.unspecified,
       metadata: const {},
       usage: const LanguageModelUsage(),
-      streaming: true,
     );
   }
 
@@ -287,7 +284,6 @@ class MessageStreamEventTransformer
       finishReason: FinishReason.unspecified,
       metadata: {'index': e.index},
       usage: const LanguageModelUsage(),
-      streaming: true,
     );
   }
 

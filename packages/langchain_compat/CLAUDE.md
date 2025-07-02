@@ -32,12 +32,12 @@ This is a **Dart compatibility layer package** that provides unified access to 1
 - **Verbatim Copying**: Code copied directly from upstream LangChain.dart packages with minimal changes
 
 ### Core Directories
-- **`lib/src/providers/`** - Provider implementations (OpenAI, Anthropic, Google, Mistral, Ollama, etc.)
-- **`lib/src/chat_models/`** - Chat model implementations for each provider
+- **`lib/src/chat/chat_providers/`** - Provider implementations (OpenAI, Anthropic, Google, Mistral, Ollama, etc.)
+- **`lib/src/chat/chat_models/`** - Chat model implementations for each provider
+- **`lib/src/chat/tools/`** - Function calling and tool execution
 - **`lib/src/embeddings/`** - Text embedding models
-- **`lib/src/runnables/`** - Chain composition framework (LCEL-style)
-- **`lib/src/tools/`** - Function calling and tool execution
-- **`lib/src/utils/`** - HTTP clients, retry mechanisms, shared utilities
+- **`lib/src/language_models/`** - Base language model abstractions
+- **`lib/src/`** - HTTP clients, custom utilities, and shared components
 
 ### Supported Providers (1000+ models total)
 - **Cloud**: OpenAI (77), OpenRouter (318), Google Gemini (50), Anthropic (11), Mistral (53), Groq (22), Together AI (81), Fireworks AI (29), Cohere (42), NVIDIA NIM (142)
@@ -60,9 +60,13 @@ This is a **Dart compatibility layer package** that provides unified access to 1
 ### Provider Implementation Pattern
 ```dart
 // All providers follow this pattern
-final provider = Provider.openai;  // or anthropic, google, etc.
+final provider = ChatProvider.openai;  // or anthropic, google, etc.
 final model = provider.createModel();
 final response = await model.invoke(PromptValue.string('Hello'));
+
+// Alternative: find provider by name/alias  
+final provider = ChatProvider.forName('claude');  // uses alias for anthropic
+final model = provider.createModel();
 ```
 
 ### Migration Status
@@ -73,8 +77,9 @@ final response = await model.invoke(PromptValue.string('Hello'));
 
 ## Testing & Quality
 
-- **Test Framework**: Standard Dart `test` package
-- **Linting**: Comprehensive rules via `all_lint_rules_community`
+- **Test Framework**: Standard Dart `test` package (no test files exist yet - tests are TODO)
+- **Linting**: Comprehensive rules via `all_lint_rules_community` with custom overrides
+- **Analysis**: Run `dart analyze` to check for errors (some expected during migration)
 - **Examples**: Located in `/example/` directory with working demonstrations
 - **Documentation**: Provider specs in `/extraction-specs/` directory
 
@@ -84,3 +89,22 @@ Most providers require API keys set as environment variables:
 - `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `GEMINI_API_KEY`, etc.
 - Ollama runs locally without API keys
 - See README.md provider table for specific key names and links
+
+## Common Tasks
+
+### Run All Examples
+```bash
+dart run example/provider_models.dart    # List all 1000+ available models
+dart run example/single_turn_chat.dart   # Basic chat example
+dart run example/multi_turn_chat.dart    # Conversation example  
+dart run example/single_tool_call.dart   # Function calling example
+dart run example/embeddings.dart         # Text embedding example
+```
+
+### Find Provider by Name
+```dart
+// Find provider using name or alias
+final provider = ChatProvider.forName('openai');    // by name
+final provider = ChatProvider.forName('claude');    // by alias (maps to anthropic)
+final provider = ChatProvider.forName('gemini');    // by alias (maps to google)
+```

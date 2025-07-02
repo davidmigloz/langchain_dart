@@ -1,8 +1,10 @@
 import 'package:http/http.dart' as http;
 import 'package:openai_dart/openai_dart.dart';
 
+import '../language_models/language_models.dart';
 import 'chunk_list.dart';
 import 'embeddings_provider.dart';
+import 'embeddings_result.dart';
 
 /// Wrapper around OpenAI Embeddings API.
 ///
@@ -187,28 +189,49 @@ class OpenAIEmbeddingsProvider implements EmbeddingsProvider {
   String get apiKey => _client.apiKey;
 
   @override
-  Future<List<List<double>>> embedDocuments(List<String> texts) async {
+  Future<BatchEmbeddingsResult> embedDocuments(List<String> texts) async {
     final batches = chunkList(texts, chunkSize: batchSize);
+    var totalUsage = const LanguageModelUsage();
+    final allEmbeddings = <List<double>>[];
 
-    final embeddings = await Future.wait(
-      batches.map((batch) async {
-        final data = await _client.createEmbedding(
-          request: CreateEmbeddingRequest(
-            model: EmbeddingModel.modelId(model),
-            input: EmbeddingInput.listString(batch.toList(growable: false)),
-            dimensions: dimensions,
-            user: user,
-          ),
-        );
-        return data.data.map((d) => d.embeddingVector);
-      }),
+    for (final batch in batches) {
+      final data = await _client.createEmbedding(
+        request: CreateEmbeddingRequest(
+          model: EmbeddingModel.modelId(model),
+          input: EmbeddingInput.listString(batch.toList(growable: false)),
+          dimensions: dimensions,
+          user: user,
+        ),
+      );
+
+      // Extract embeddings
+      final batchEmbeddings = data.data.map((d) => d.embeddingVector).toList();
+      allEmbeddings.addAll(batchEmbeddings);
+
+      // Accumulate usage
+      final batchUsage = LanguageModelUsage(
+        promptTokens: data.usage?.promptTokens,
+        totalTokens: data.usage?.totalTokens,
+      );
+      totalUsage = totalUsage.concat(batchUsage);
+    }
+
+    return BatchEmbeddingsResult(
+      id: 'batch-embeddings-${DateTime.now().millisecondsSinceEpoch}',
+      output: allEmbeddings,
+      finishReason: FinishReason.stop,
+      metadata: {
+        'model': model,
+        'dimensions': dimensions,
+        'batch_count': batches.length,
+        'total_texts': texts.length,
+      },
+      usage: totalUsage,
     );
-
-    return embeddings.expand((e) => e).toList(growable: false);
   }
 
   @override
-  Future<List<double>> embedQuery(String query) async {
+  Future<EmbeddingsResult> embedQuery(String query) async {
     final data = await _client.createEmbedding(
       request: CreateEmbeddingRequest(
         model: EmbeddingModel.modelId(model),
@@ -217,11 +240,42 @@ class OpenAIEmbeddingsProvider implements EmbeddingsProvider {
         user: user,
       ),
     );
-    return data.data.first.embeddingVector;
+
+    return EmbeddingsResult(
+      id: 'embedding-${DateTime.now().millisecondsSinceEpoch}',
+      output: data.data.first.embeddingVector,
+      finishReason: FinishReason.stop,
+      metadata: {
+        'model': model,
+        'dimensions': dimensions,
+        'query_length': query.length,
+      },
+      usage: LanguageModelUsage(
+        promptTokens: data.usage?.promptTokens,
+        totalTokens: data.usage?.totalTokens,
+      ),
+    );
+  }
+
+  @override
+  @Deprecated('Use embedDocuments() for usage tracking')
+  Future<List<List<double>>> embedDocumentsRaw(List<String> texts) async {
+    final result = await embedDocuments(texts);
+    return result.embeddings;
+  }
+
+  @override
+  @Deprecated('Use embedQuery() for usage tracking')
+  Future<List<double>> embedQueryRaw(String query) async {
+    final result = await embedQuery(query);
+    return result.embeddings;
   }
 
   /// Closes the client and cleans up any resources associated with it.
   void close() {
     _client.endSession();
   }
+
+  @override
+  String get displayName => 'OpenAI';
 }

@@ -300,7 +300,6 @@ extension CreateChatCompletionStreamResponseMapper
         if (systemFingerprint != null) 'system_fingerprint': systemFingerprint,
       },
       usage: _mapUsage(usage),
-      streaming: true,
     );
   }
 

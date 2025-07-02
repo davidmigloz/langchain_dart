@@ -193,7 +193,6 @@ extension ChatResultMapper on o.GenerateChatCompletionResponse {
       'eval_duration': evalDuration,
     },
     usage: const LanguageModelUsage(),
-    streaming: streaming,
   );
 
   AIChatMessageToolCall _mapOllamaToolCall(o.ToolCall toolCall) {

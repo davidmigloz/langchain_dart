@@ -30,13 +30,13 @@ void main() async {
 
   for (final model in models) {
     print('=== Testing ${model.runtimeType} ===');
-    await singleToolCall(model, tools);
+    await singleToolCallExample(model, tools);
   }
 
   exit(0);
 }
 
-Future<void> singleToolCall(
+Future<void> singleToolCallExample(
   ChatModel<ChatModelOptions> model,
   List<Tool<Object, Object>> tools,
 ) async {

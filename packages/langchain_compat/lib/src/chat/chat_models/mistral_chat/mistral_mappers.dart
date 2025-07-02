@@ -44,7 +44,6 @@ extension ChatResultMapper on ChatCompletionResponse {
       finishReason: _mapFinishReason(choice.finishReason),
       metadata: {'model': model, 'created': created},
       usage: _mapUsage(usage),
-      streaming: streaming,
     );
   }
 
@@ -67,7 +66,6 @@ extension CreateChatCompletionStreamResponseMapper
       finishReason: _mapFinishReason(choice.finishReason),
       metadata: {'model': model, 'created': created},
       usage: const LanguageModelUsage(),
-      streaming: true,
     );
   }
 }

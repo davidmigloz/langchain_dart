@@ -4,8 +4,10 @@ import 'package:http/http.dart' as http;
 import 'package:http/retry.dart' show RetryClient;
 
 import '../custom_http_client.dart';
+import '../language_models/language_models.dart';
 import 'chunk_list.dart';
 import 'embeddings_provider.dart';
+import 'embeddings_result.dart';
 
 /// {@template google_generative_ai_embeddings}
 /// Wrapper around Google AI embedding models API
@@ -127,40 +129,98 @@ class GoogleEmbeddingsProvider implements EmbeddingsProvider {
   String get apiKey => _httpClient.headers['x-goog-api-key'] ?? '';
 
   @override
-  Future<List<List<double>>> embedDocuments(List<String> texts) async {
+  Future<BatchEmbeddingsResult> embedDocuments(List<String> texts) async {
     final batches = chunkList(texts, chunkSize: batchSize);
+    final allEmbeddings = <List<double>>[];
+    var totalCharacters = 0;
 
-    final embeddings = await Future.wait(
-      batches.map((batch) async {
-        final data = await _googleAiClient.batchEmbedContents(
-          batch
-              .map(
-                (text) => EmbedContentRequest(
-                  Content.text(text),
-                  taskType: TaskType.retrievalDocument,
-                  outputDimensionality: dimensions,
-                ),
-              )
-              .toList(growable: false),
-        );
-        return data.embeddings
-            .map((p) => p.values)
-            .nonNulls
-            .toList(growable: false);
-      }),
+    for (final batch in batches) {
+      final data = await _googleAiClient.batchEmbedContents(
+        batch
+            .map(
+              (text) => EmbedContentRequest(
+                Content.text(text),
+                taskType: TaskType.retrievalDocument,
+                outputDimensionality: dimensions,
+              ),
+            )
+            .toList(growable: false),
+      );
+
+      // Extract embeddings
+      final batchEmbeddings = data.embeddings
+          .map((p) => p.values)
+          .nonNulls
+          .toList(growable: false);
+      allEmbeddings.addAll(batchEmbeddings);
+
+      // Count characters for estimation
+      totalCharacters += batch.map((t) => t.length).reduce((a, b) => a + b);
+    }
+
+    // Google doesn't provide token usage, so estimate
+    final estimatedTokens = (totalCharacters / 4).round();
+
+    return BatchEmbeddingsResult(
+      id: 'google-batch-embeddings-${DateTime.now().millisecondsSinceEpoch}',
+      output: allEmbeddings,
+      finishReason: FinishReason.stop,
+      metadata: {
+        'model': _model,
+        'dimensions': dimensions,
+        'batch_count': batches.length,
+        'total_texts': texts.length,
+        'total_characters': totalCharacters,
+      },
+      usage: LanguageModelUsage(
+        promptTokens: estimatedTokens,
+        promptBillableCharacters: totalCharacters,
+        totalTokens: estimatedTokens,
+      ),
     );
-
-    return embeddings.expand((e) => e).toList(growable: false);
   }
 
   @override
-  Future<List<double>> embedQuery(String query) async {
+  Future<EmbeddingsResult> embedQuery(String query) async {
     final data = await _googleAiClient.embedContent(
       Content.text(query),
       taskType: TaskType.retrievalQuery,
       outputDimensionality: dimensions,
     );
-    return data.embedding.values;
+
+    // Google doesn't provide token usage, so estimate
+    final estimatedTokens = (query.length / 4).round();
+
+    return EmbeddingsResult(
+      id: 'google-embedding-${DateTime.now().millisecondsSinceEpoch}',
+      output: data.embedding.values,
+      finishReason: FinishReason.stop,
+      metadata: {
+        'model': _model,
+        'dimensions': dimensions,
+        'query_length': query.length,
+        'task_type': 'retrievalQuery',
+      },
+      usage: LanguageModelUsage(
+        promptTokens: estimatedTokens,
+        promptBillableCharacters: query.length,
+        totalTokens: estimatedTokens,
+      ),
+    );
+  }
+
+  @override
+  @Deprecated('Use embedDocuments() for usage tracking')
+  Future<List<List<double>>> embedDocumentsRaw(List<String> texts) async {
+    final result = await embedDocuments(texts);
+    return result.embeddings;
+  }
+
+  @override
+  @Deprecated('Use embedQuery() for usage tracking')
+  Future<List<double>> embedQueryRaw(String query) async {
+    final result = await embedQuery(query);
+    return result.embeddings;
   }
 
   /// Closes the client and cleans up any resources associated with it.
@@ -183,4 +243,7 @@ class GoogleEmbeddingsProvider implements EmbeddingsProvider {
   void _recreateGoogleAiClient(String model) {
     _googleAiClient = _createGoogleAiClient(model);
   }
+
+  @override
+  String get displayName => 'Google';
 }
