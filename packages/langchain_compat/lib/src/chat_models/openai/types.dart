@@ -2,7 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 import 'package:openai_dart/openai_dart.dart' show ChatCompletionStreamOptions;
 
-import '../../../chat_models.dart';
+import '../types.dart';
 
 /// {@template chat_openai_options}
 /// Options to pass into the OpenAI Chat Model.

@@ -1,4 +1,5 @@
-import '../../../chat_models.dart';
+import '../openai/chat_openai.dart';
+import '../openai/types.dart';
 
 /// Cohere OpenAI-compatible model.
 typedef ChatCohere = ChatOpenAI;

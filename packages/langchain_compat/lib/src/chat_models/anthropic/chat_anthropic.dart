@@ -2,11 +2,12 @@ import 'package:anthropic_sdk_dart/anthropic_sdk_dart.dart' as a;
 import 'package:http/http.dart' as http;
 import 'package:langchain_tiktoken/langchain_tiktoken.dart';
 
-import '../../../chat_models.dart';
-import '../../../prompts.dart';
+import '../../prompts/types.dart';
 import '../../runnables/runnable.dart' show Runnable;
-import '../../runnables/runnables.dart' show Runnable;
+import '../base.dart';
+import '../types.dart';
 import './mappers.dart';
+import 'types.dart';
 
 /// Wrapper around [Anthropic Messages API](https://docs.anthropic.com/en/api/messages)
 /// (aka Claude API).

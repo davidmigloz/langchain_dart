@@ -1,9 +1,9 @@
 import 'package:http/http.dart' as http;
 import 'package:openai_dart/openai_dart.dart';
 
-import '../../documents.dart';
-import '../../utils.dart';
+import '../documents/documents.dart';
 import '../embeddings.dart';
+import '../utils/utils.dart';
 
 /// Wrapper around OpenAI Embeddings API.
 ///

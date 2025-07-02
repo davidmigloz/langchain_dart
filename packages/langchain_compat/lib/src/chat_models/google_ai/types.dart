@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../../../chat_models.dart';
+import '../types.dart';
 
 /// {@template chat_google_generative_ai_options}
 /// Options to pass into the Google Generative AI Chat Model.

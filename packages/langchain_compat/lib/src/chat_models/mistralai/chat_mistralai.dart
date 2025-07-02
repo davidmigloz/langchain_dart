@@ -2,11 +2,11 @@ import 'package:http/http.dart' as http;
 import 'package:langchain_tiktoken/langchain_tiktoken.dart';
 import 'package:mistralai_dart/mistralai_dart.dart';
 
-import '../../../chat_models.dart' hide ChatMistralAIOptions;
-import '../../../prompts.dart';
+import '../../prompts/types.dart';
 import '../../runnables/runnable.dart' show Runnable;
-import '../../runnables/runnables.dart' show Runnable;
 import '../../tools/base.dart';
+import '../base.dart';
+import '../types.dart';
 import './mappers.dart';
 import './types.dart';
 

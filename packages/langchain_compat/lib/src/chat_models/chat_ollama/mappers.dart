@@ -1,9 +1,10 @@
 import 'package:collection/collection.dart';
 import 'package:ollama_dart/ollama_dart.dart' as o;
 
-import '../../../chat_models.dart';
-import '../../../language_models.dart' show FinishReason, LanguageModelUsage;
-import '../../tools/base.dart';
+import '../../language_models/types.dart' show FinishReason, LanguageModelUsage;
+import '../../tools/base.dart' show ToolSpec;
+import '../types.dart';
+import 'types.dart';
 
 /// Creates a [o.GenerateChatCompletionRequest] from the given input.
 o.GenerateChatCompletionRequest generateChatCompletionRequest(

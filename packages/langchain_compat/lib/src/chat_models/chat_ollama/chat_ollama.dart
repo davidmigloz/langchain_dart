@@ -3,10 +3,11 @@ import 'package:langchain_tiktoken/langchain_tiktoken.dart';
 import 'package:ollama_dart/ollama_dart.dart' show OllamaClient;
 import 'package:uuid/uuid.dart';
 
-import '../../../chat_models.dart' hide ChatOllamaOptions;
-import '../../../prompts.dart';
+import '../../prompts/types.dart';
 import '../../runnables/runnable.dart' show Runnable;
 import '../../runnables/runnables.dart' show Runnable;
+import '../base.dart';
+import '../types.dart';
 import './types.dart';
 import 'mappers.dart' as ollama_mappers;
 

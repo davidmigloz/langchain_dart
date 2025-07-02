@@ -6,13 +6,12 @@ import 'package:http/http.dart' as http;
 import 'package:http/retry.dart' show RetryClient;
 import 'package:uuid/uuid.dart';
 
-import '../../../chat_models.dart' hide ChatGoogleGenerativeAIOptions;
-import '../../../prompts.dart';
 import '../../prompts/types.dart';
 import '../../runnables/runnable.dart' show Runnable;
-import '../../runnables/runnables.dart' show Runnable;
 import '../../utils/https_client/http_client.dart';
+import '../base.dart';
 import '../google_ai/types.dart' show ChatGoogleGenerativeAIOptions;
+import '../types.dart';
 import './mappers.dart';
 import './types.dart';
 

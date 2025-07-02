@@ -2,7 +2,10 @@ import 'dart:convert';
 
 import 'package:openai_dart/openai_dart.dart';
 
-import '../../../chat_models.dart'
+import '../../../langchain_compat.dart'
+    show ChatMessage, ChatResult, ChatToolChoice, ToolSpec;
+import '../../language_models/types.dart';
+import '../types.dart'
     show
         AIChatMessage,
         AIChatMessageToolCall,
@@ -21,8 +24,6 @@ import '../../../chat_models.dart'
         HumanChatMessage,
         SystemChatMessage,
         ToolChatMessage;
-import '../../../language_models.dart';
-import '../../../tools.dart';
 import './types.dart';
 
 /// Creates a [CreateChatCompletionRequest] from the given input.

@@ -5,7 +5,7 @@ import 'dart:io';
 
 import 'package:langchain_compat/langchain_compat.dart';
 
-import 'dump_chat_history.dart';
+import 'lib/dump_chat_history.dart';
 
 void main() async {
   final currentDateTimeTool = Tool.fromFunction<Object, String>(

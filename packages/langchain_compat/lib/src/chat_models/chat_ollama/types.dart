@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../../../chat_models.dart';
+import '../types.dart';
 
 /// {@template chat_ollama_options}
 /// Options to pass into ChatOllama.

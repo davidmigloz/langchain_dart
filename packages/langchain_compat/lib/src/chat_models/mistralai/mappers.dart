@@ -1,7 +1,7 @@
 import 'package:mistralai_dart/mistralai_dart.dart';
 
-import '../../../chat_models.dart';
-import '../../../language_models.dart';
+import '../../language_models/types.dart';
+import '../types.dart';
 
 /// Extension on [List<ChatMessage>] to convert chat messages to Mistral SDK
 /// messages.

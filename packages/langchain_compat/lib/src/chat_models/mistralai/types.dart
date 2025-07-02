@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../../../chat_models.dart';
+import '../types.dart';
 
 /// {@template chat_mistral_ai_options}
 /// Options to pass into ChatMistralAI.

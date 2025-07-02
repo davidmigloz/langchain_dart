@@ -3,10 +3,10 @@ import 'package:langchain_tiktoken/langchain_tiktoken.dart';
 import 'package:openai_dart/openai_dart.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../chat_models.dart' hide ChatOpenAIOptions;
-import '../../../prompts.dart';
+import '../../prompts/types.dart';
 import '../../runnables/runnable.dart' show Runnable;
-import '../../runnables/runnables.dart' show Runnable;
+import '../base.dart';
+import '../types.dart';
 import './mappers.dart';
 import './types.dart';
 

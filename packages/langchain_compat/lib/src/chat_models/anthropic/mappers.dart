@@ -5,9 +5,10 @@ import 'package:anthropic_sdk_dart/anthropic_sdk_dart.dart' as a;
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:rxdart/rxdart.dart' show WhereNotNullExtension;
 
-import '../../../chat_models.dart';
-import '../../../language_models.dart';
-import '../../../tools.dart';
+import '../../language_models/types.dart' show FinishReason, LanguageModelUsage;
+import '../../tools/base.dart' show ToolSpec;
+import '../types.dart';
+import 'chat_models.dart';
 
 /// Creates an Anthropic [a.CreateMessageRequest] from a list of chat messages
 /// and options.

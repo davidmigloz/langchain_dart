@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
-import '../../../chat_models.dart';
+import '../types.dart';
 
 /// {@template chat_anthropic_options}
 /// Options to pass into the Anthropic Chat Model.
