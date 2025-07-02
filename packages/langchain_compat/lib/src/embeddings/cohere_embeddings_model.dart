@@ -64,7 +64,7 @@ class CohereEmbeddingsModel
   }) async {
     final chunks = <List<String>>[];
     final actualBatchSize = options?.batchSize ?? batchSize ?? 96;
-    
+
     for (var i = 0; i < texts.length; i += actualBatchSize) {
       chunks.add(
         texts.sublist(i, (i + actualBatchSize).clamp(0, texts.length)),
@@ -79,7 +79,7 @@ class CohereEmbeddingsModel
 
     for (final chunk in chunks) {
       final response = await _makeRequest(chunk, options);
-      
+
       // Handle Cohere v2 API response format
       List<List<double>> embeddings;
       if (response.containsKey('embeddings') && response['embeddings'] is Map) {
@@ -87,21 +87,28 @@ class CohereEmbeddingsModel
         final embeddingsMap = response['embeddings'] as Map<String, dynamic>;
         final floatEmbeddings = embeddingsMap['float'] as List<dynamic>;
         embeddings = floatEmbeddings
-            .map((item) => (item as List<dynamic>)
-                .map((e) => (e as num).toDouble())
-                .toList())
+            .map(
+              (item) => (item as List<dynamic>)
+                  .map((e) => (e as num).toDouble())
+                  .toList(),
+            )
             .toList();
-      } else if (response.containsKey('embeddings') && response['embeddings'] is List) {
+      } else if (response.containsKey('embeddings') &&
+          response['embeddings'] is List) {
         // v1 API format: {"embeddings": [[...], [...]]}
         embeddings = (response['embeddings'] as List<dynamic>)
-            .map((item) => (item as List<dynamic>)
-                .map((e) => (e as num).toDouble())
-                .toList())
+            .map(
+              (item) => (item as List<dynamic>)
+                  .map((e) => (e as num).toDouble())
+                  .toList(),
+            )
             .toList();
       } else {
-        throw Exception('Unexpected Cohere embeddings response format: ${response.keys}');
+        throw Exception(
+          'Unexpected Cohere embeddings response format: ${response.keys}',
+        );
       }
-      
+
       allEmbeddings.addAll(embeddings);
 
       // Accumulate usage data
@@ -110,8 +117,7 @@ class CohereEmbeddingsModel
         final billedUnits = meta['billed_units'] as Map<String, dynamic>?;
         if (billedUnits != null) {
           totalPromptTokens += billedUnits['input_tokens'] as int? ?? 0;
-          totalBillableCharacters +=
-              billedUnits['search_units'] as int? ?? 0;
+          totalBillableCharacters += billedUnits['search_units'] as int? ?? 0;
         }
       }
 
@@ -121,8 +127,9 @@ class CohereEmbeddingsModel
     final usage = LanguageModelUsage(
       promptTokens: totalPromptTokens > 0 ? totalPromptTokens : null,
       totalTokens: totalPromptTokens > 0 ? totalPromptTokens : null,
-      promptBillableCharacters:
-          totalBillableCharacters > 0 ? totalBillableCharacters : null,
+      promptBillableCharacters: totalBillableCharacters > 0
+          ? totalBillableCharacters
+          : null,
     );
 
     return BatchEmbeddingsResult(
@@ -147,8 +154,7 @@ class CohereEmbeddingsModel
       'model': name,
       'texts': texts,
       if (inputType != null || options?.inputType != null)
-        'input_type':
-            options?.inputType ?? inputType ?? 'search_document',
+        'input_type': options?.inputType ?? inputType ?? 'search_document',
       if (embeddingTypes != null || options?.embeddingTypes != null)
         'embedding_types':
             options?.embeddingTypes ?? embeddingTypes ?? ['float'],

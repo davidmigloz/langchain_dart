@@ -1,8 +1,8 @@
 # langchain_compat
 
 A unified compatibility layer for LangChain.dart, enabling seamless use of all
-major LLM, chat, and embedding providers (OpenAI, GoogleAI, VertexAI, Anthropic,
-Mistral, Ollama, and more) from a single package. No need to import
+major LLM, chat, and embedding providers (OpenAI, GoogleAI, Anthropic, Mistral,
+Cohere, Ollama, and more) from a single package. No need to import
 provider-specific packages—just use `langchain_compat` for everything.
 
 ## Features
@@ -11,12 +11,13 @@ provider-specific packages—just use `langchain_compat` for everything.
   one package.
 - **Unified API:** Consistent interfaces for chat, completion, and embedding
   models.
-- **OpenAI-Compatible:** Includes all major OpenAI-compatible providers (Groq,
-  Together, Fireworks, etc.).
-- **Native Providers:** Full support for native APIs (Anthropic, Gemini, Ollama,
-  etc.).
-- **Local Ollama:** Supports both native and OpenAI-compatible endpoints for
-  Ollama.
+- **15+ Providers:** OpenAI, Google, Anthropic, Mistral, Cohere, Groq, Together,
+  Fireworks, NVIDIA, Lambda, Ollama, and more.
+- **1000+ Models:** Access to over 1000 models across all providers.
+- **Native APIs:** Full support for provider-native APIs (Anthropic, Gemini,
+  Mistral, etc.).
+- **Embeddings Support:** 4 embedding providers (OpenAI, Google, Mistral,
+  Cohere) with 29 models for semantic search and vector operations.
 
 ## Supported Providers
 
@@ -31,8 +32,8 @@ provider-specific packages—just use `langchain_compat` for everything.
 | **Fireworks AI**           | accounts/fireworks/models/llama-v3p1-70b-instruct | Text Generation, Chat, File Uploads, Tools             | OpenAI-compatible                      |
 | **Groq**                   | llama3-70b-8192                                   | Text Generation, Chat, File Uploads, Tools             | OpenAI-compatible                      |
 | **Together AI**            | mistralai/Mixtral-8x7B-Instruct-v0.1              | Text Generation, Chat, File Uploads, Tools             | OpenAI-compatible                      |
-| **Mistral AI**             | mistral-small-latest                              | Text Generation, Chat, File Uploads, Tools             | OpenAI-compatible                      |
-| **Cohere**                 | command-r-plus                                    | Text Generation, Chat, File Uploads, Tools             | OpenAI-compatible                      |
+| **Mistral AI**             | mistral-small-latest                              | Text Generation, Embeddings, Chat, File Uploads, Tools | Native API with embeddings support     |
+| **Cohere**                 | command-r-plus                                    | Text Generation, Embeddings, Chat, File Uploads, Tools | Native API with embeddings support     |
 | **Lambda**                 | llama3.2-3b-instruct                              | Text Generation, Chat, File Uploads, Tools             | OpenAI-compatible                      |
 | **NVIDIA NIM**             | nvidia/nemotron-mini-4b-instruct                  | Text Generation, Chat, File Uploads, Tools             | OpenAI-compatible                      |
 | **Anthropic**              | claude-3-5-sonnet-20241022                        | Text Generation, Chat, File Uploads, Tools             | Native Claude API                      |
@@ -50,8 +51,8 @@ provider-specific packages—just use `langchain_compat` for everything.
 | **Fireworks AI**           | fireworks       | -                            | FIREWORKS_API_KEY  | [Get Fireworks API Key](https://app.fireworks.ai/keys)                         | OpenAIProvider    |
 | **Groq**                   | groq            | -                            | GROQ_API_KEY       | [Get Groq API Key](https://console.groq.com/keys)                              | OpenAIProvider    |
 | **Together AI**            | together        | -                            | TOGETHER_API_KEY   | [Get Together AI Key](https://platform.together.ai/account/api-keys)           | OpenAIProvider    |
-| **Mistral AI**             | mistral         | -                            | MISTRAL_API_KEY    | [Get Mistral API Key](https://console.mistral.ai/api-keys)                     | OpenAIProvider    |
-| **Cohere**                 | cohere          | -                            | COHERE_API_KEY     | [Get Cohere API Key](https://dashboard.cohere.com/api-keys)                    | OpenAIProvider    |
+| **Mistral AI**             | mistral         | -                            | MISTRAL_API_KEY    | [Get Mistral API Key](https://console.mistral.ai/api-keys)                     | MistralProvider   |
+| **Cohere**                 | cohere          | -                            | COHERE_API_KEY     | [Get Cohere API Key](https://dashboard.cohere.com/api-keys)                    | CohereProvider    |
 | **Lambda**                 | lambda          | -                            | LAMBDA_API_KEY     | [Get Lambda API Key](https://platform.lambdalabs.com/api-keys)                 | OpenAIProvider    |
 | **NVIDIA NIM**             | nvidia          | -                            | NVIDIA_API_KEY     | [Get NVIDIA API Key](https://platform.nvidia.com/en-us/nim/api-keys/)          | OpenAIProvider    |
 | **Anthropic**              | anthropic       | claude                       | ANTHROPIC_API_KEY  | [Get Anthropic API Key](https://console.anthropic.com/settings/keys)           | AnthropicProvider |
@@ -60,23 +61,23 @@ provider-specific packages—just use `langchain_compat` for everything.
 
 ### Model Availability by Provider
 
-*Model counts as of June 30, 2025.*
+*Model counts as of July 2, 2025.*
 
-| Provider Name | Key/ID     | # Models  | Notes                                                                                                       |
-| ------------- | ---------- | --------- | ----------------------------------------------------------------------------------------------------------- |
-| OpenAI        | openai     | 77        |                                                                                                             |
-| OpenRouter    | openrouter | 318       | Aggregator, many sources                                                                                    |
-| Groq          | groq       | 22        |                                                                                                             |
-| Together AI   | together   | 81        |                                                                                                             |
-| Fireworks AI  | fireworks  | 29        |                                                                                                             |
-| Mistral AI    | mistral    | 53        |                                                                                                             |
-| Cohere        | cohere     | 42        |                                                                                                             |
-| Lambda        | lambda     | 20        |                                                                                                             |
-| NVIDIA NIM    | nvidia     | 142       |                                                                                                             |
-| Google AI     | google     | 50        |                                                                                                             |
-| Anthropic     | anthropic  | 11        |                                                                                                             |
-| Ollama        | ollama     | 180+      | Curated Library: ~180 ready-to-pull model families<br />Extended universe: ~45K GGUF models on Hugging Face |
-| **Total**     |            | **>1000** |                                                                                                             |
+| Provider Name | Key/ID     | Chat Models | Embedding Models | Other Models | Total    | Notes                                                                                                       |
+| ------------- | ---------- | ----------- | ---------------- | ------------ | -------- | ----------------------------------------------------------------------------------------------------------- |
+| OpenAI        | openai     | 65          | 5                | 7            | 77       | Complete feature support including embeddings                                                               |
+| OpenRouter    | openrouter | 318         | 0                | 0            | 318      | Aggregator, many sources, no embeddings                                                                     |
+| Google AI     | google     | 45          | 5                | 0            | 50       | Native Gemini API with embeddings support                                                                   |
+| Groq          | groq       | 22          | 0                | 0            | 22       | Fast inference, no embeddings                                                                               |
+| Together AI   | together   | 81          | 0                | 0            | 81       | OpenAI-compatible, no embeddings                                                                            |
+| Fireworks AI  | fireworks  | 29          | 0                | 0            | 29       | OpenAI-compatible, no embeddings                                                                            |
+| Mistral AI    | mistral    | 50          | 3                | 0            | 53       | Native API with embeddings support                                                                          |
+| Cohere        | cohere     | 29          | 13               | 0            | 42       | Native API with comprehensive embeddings support                                                            |
+| Lambda        | lambda     | 20          | 0                | 0            | 20       | OpenAI-compatible, no embeddings                                                                            |
+| NVIDIA NIM    | nvidia     | 142         | 0                | 0            | 142      | OpenAI-compatible, no embeddings                                                                            |
+| Anthropic     | anthropic  | 11          | 0                | 0            | 11       | Native Claude API, no embeddings                                                                            |
+| Ollama        | ollama     | 180+        | 0                | 235          | 415+     | Curated Library: ~180 ready-to-pull model families<br />Extended universe: ~45K GGUF models on Hugging Face |
+| **Total**     |            | **662**     | **29**           | **235**      | **926+** | 4 providers support embeddings: OpenAI, Google, Mistral, Cohere                                             |
 
 *Note: Model counts and details may change as APIs evolve. Some providers
 aggregate or proxy many models from other sources.*
@@ -98,8 +99,9 @@ import 'package:langchain_compat/langchain_compat.dart';
 
 ## Usage
 
-Here's a minimal example that runs a chat prompt with both native and
-OpenAI-compatible Ollama providers:
+### Chat Models
+
+Here's a minimal example that runs a chat prompt with multiple providers:
 
 ```dart
 import 'package:langchain_compat/langchain_compat.dart';
@@ -108,9 +110,9 @@ import 'package:langchain_compat/src/providers.dart';
 void main() async {
   const promptText = 'Tell me a joke about Dart programming.';
 
-  for (final provider in [Provider.ollama, Provider.ollamaOpenAI]) {
+  for (final provider in [Provider.ollama, Provider.openai, Provider.anthropic]) {
     final model = provider.createModel();
-    print('\n# 𝟏${provider.displayName}𝟎 (${provider.name}:${model.name})');
+    print('\n# ${provider.displayName} (${provider.name}:${model.name})');
     await for (final chunk in model.stream(PromptValue.string(promptText))) {
       stdout.write(chunk.output.content);
     }
@@ -119,8 +121,38 @@ void main() async {
 }
 ```
 
-You can also use any other provider from `Provider.all` for a unified
-experience.
+### Embedding Models
+
+Here's how to use the embedding providers for semantic search and vector
+operations:
+
+```dart
+import 'package:langchain_compat/langchain_compat.dart';
+import 'package:langchain_compat/src/embeddings/embeddings_provider.dart';
+
+void main() async {
+  const texts = [
+    'The quick brown fox jumps over the lazy dog.',
+    'Machine learning is a subset of artificial intelligence.',
+    'Dart is a programming language developed by Google.',
+  ];
+
+  // Try all embedding providers
+  for (final provider in EmbeddingsProvider.all) {
+    try {
+      final model = provider.createModel();
+      print('\n# ${provider.displayName} Embeddings');
+      
+      final result = await model.embedDocuments(texts);
+      print('Generated ${result.embeddings.length} embeddings');
+      print('Vector dimensions: ${result.embeddings.first.length}');
+      print('Usage: ${result.usage}');
+    } catch (e) {
+      print('${provider.displayName}: API key required');
+    }
+  }
+}
+```
 
 ### Listing all models for all providers
 
