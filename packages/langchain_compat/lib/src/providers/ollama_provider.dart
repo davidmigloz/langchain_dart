@@ -1,5 +1,7 @@
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
+
 import '../chat_models/base.dart';
 import '../chat_models/chat_ollama/chat_ollama.dart';
 import '../tools/base.dart';
@@ -31,50 +33,47 @@ class OllamaProvider extends Provider<ChatOllamaOptions> {
     List<ToolSpec>? tools,
     double? temperature,
     ChatOllamaOptions? options,
-  }) {
-    final modelToUse = model ?? defaultModel;
-    return ChatOllama(
-      model: modelToUse,
-      tools: tools,
-      temperature: temperature,
-      baseUrl: defaultBaseUrl,
-      defaultOptions: ChatOllamaOptions(
-        format: options?.format,
-        keepAlive: options?.keepAlive,
-        numKeep: options?.numKeep,
-        seed: options?.seed,
-        numPredict: options?.numPredict,
-        topK: options?.topK,
-        topP: options?.topP,
-        minP: options?.minP,
-        tfsZ: options?.tfsZ,
-        typicalP: options?.typicalP,
-        repeatLastN: options?.repeatLastN,
-        temperature: temperature ?? options?.temperature,
-        repeatPenalty: options?.repeatPenalty,
-        presencePenalty: options?.presencePenalty,
-        frequencyPenalty: options?.frequencyPenalty,
-        mirostat: options?.mirostat,
-        mirostatTau: options?.mirostatTau,
-        mirostatEta: options?.mirostatEta,
-        penalizeNewline: options?.penalizeNewline,
-        stop: options?.stop,
-        numa: options?.numa,
-        numCtx: options?.numCtx,
-        numBatch: options?.numBatch,
-        numGpu: options?.numGpu,
-        mainGpu: options?.mainGpu,
-        lowVram: options?.lowVram,
-        f16KV: options?.f16KV,
-        logitsAll: options?.logitsAll,
-        vocabOnly: options?.vocabOnly,
-        useMmap: options?.useMmap,
-        useMlock: options?.useMlock,
-        numThread: options?.numThread,
-        concurrencyLimit: options?.concurrencyLimit ?? 1000,
-      ),
-    );
-  }
+  }) => ChatOllama(
+    model: model ?? defaultModel,
+    tools: tools,
+    temperature: temperature,
+    baseUrl: defaultBaseUrl,
+    defaultOptions: ChatOllamaOptions(
+      format: options?.format,
+      keepAlive: options?.keepAlive,
+      numKeep: options?.numKeep,
+      seed: options?.seed,
+      numPredict: options?.numPredict,
+      topK: options?.topK,
+      topP: options?.topP,
+      minP: options?.minP,
+      tfsZ: options?.tfsZ,
+      typicalP: options?.typicalP,
+      repeatLastN: options?.repeatLastN,
+      temperature: temperature ?? options?.temperature,
+      repeatPenalty: options?.repeatPenalty,
+      presencePenalty: options?.presencePenalty,
+      frequencyPenalty: options?.frequencyPenalty,
+      mirostat: options?.mirostat,
+      mirostatTau: options?.mirostatTau,
+      mirostatEta: options?.mirostatEta,
+      penalizeNewline: options?.penalizeNewline,
+      stop: options?.stop,
+      numa: options?.numa,
+      numCtx: options?.numCtx,
+      numBatch: options?.numBatch,
+      numGpu: options?.numGpu,
+      mainGpu: options?.mainGpu,
+      lowVram: options?.lowVram,
+      f16KV: options?.f16KV,
+      logitsAll: options?.logitsAll,
+      vocabOnly: options?.vocabOnly,
+      useMmap: options?.useMmap,
+      useMlock: options?.useMlock,
+      numThread: options?.numThread,
+      concurrencyLimit: options?.concurrencyLimit ?? 1000,
+    ),
+  );
 
   @override
   Future<Iterable<ModelInfo>> listModels() async {

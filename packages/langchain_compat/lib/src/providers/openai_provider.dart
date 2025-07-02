@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:http/http.dart' as http;
+
 import '../chat_models/base.dart';
 import '../chat_models/openai/chat_openai.dart';
 import '../chat_models/openai/types.dart';
@@ -36,9 +38,13 @@ class OpenAIProvider extends Provider<ChatOpenAIOptions> {
     List<ToolSpec>? tools,
     double? temperature,
     ChatOpenAIOptions? options,
-  }) {
-    final modelToUse = model ?? defaultModel;
-    final opts = ChatOpenAIOptions(
+  }) => ChatOpenAI(
+    model: model ?? defaultModel,
+    tools: tools,
+    temperature: temperature,
+    apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
+    baseUrl: defaultBaseUrl,
+    defaultOptions: ChatOpenAIOptions(
       temperature: temperature ?? options?.temperature,
       topP: options?.topP,
       n: options?.n,
@@ -54,16 +60,8 @@ class OpenAIProvider extends Provider<ChatOpenAIOptions> {
       streamOptions: options?.streamOptions,
       serviceTier: options?.serviceTier,
       concurrencyLimit: options?.concurrencyLimit ?? 1000,
-    );
-    return ChatOpenAI(
-      model: modelToUse,
-      tools: tools,
-      temperature: temperature,
-      apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
-      baseUrl: defaultBaseUrl,
-      defaultOptions: opts,
-    );
-  }
+    ),
+  );
 
   @override
   Future<Iterable<ModelInfo>> listModels() async {

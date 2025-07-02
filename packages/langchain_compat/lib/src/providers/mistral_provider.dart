@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:http/http.dart' as http;
+
 import '../chat_models/base.dart';
 import '../chat_models/mistralai/chat_mistralai.dart';
 import '../chat_models/mistralai/types.dart';
@@ -34,9 +36,14 @@ class MistralProvider extends Provider<ChatMistralAIOptions> {
     double? temperature,
     ChatMistralAIOptions? options,
   }) {
-    final modelToUse = model ?? defaultModel;
+    if (tools != null) {
+      // TODO: Mistral doesn't support tools yet, waiting for a fix:
+      // https://github.com/davidmigloz/langchain_dart/issues/653
+      throw Exception('Tools are not supported by Mistral.');
+    }
+
     return ChatMistralAI(
-      model: modelToUse,
+      model: model ?? defaultModel,
       tools: tools,
       temperature: temperature,
       apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,

@@ -35,9 +35,13 @@ class CohereOpenAIProvider extends OpenAIProvider {
     List<ToolSpec>? tools,
     double? temperature,
     ChatCohereOptions? options,
-  }) {
-    final modelToUse = model ?? defaultModel;
-    final opts = ChatCohereOptions(
+  }) => ChatCohere(
+    model: model ?? defaultModel,
+    tools: tools,
+    temperature: temperature,
+    apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
+    baseUrl: defaultBaseUrl,
+    defaultOptions: ChatCohereOptions(
       frequencyPenalty: options?.frequencyPenalty,
       logitBias: options?.logitBias,
       maxTokens: options?.maxTokens,
@@ -53,16 +57,8 @@ class CohereOpenAIProvider extends OpenAIProvider {
       user: options?.user,
       concurrencyLimit: options?.concurrencyLimit ?? 1000,
       streamOptions: null, // Cohere requires streamOptions to be null
-    );
-    return ChatCohere(
-      model: modelToUse,
-      tools: tools,
-      temperature: temperature,
-      apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
-      baseUrl: defaultBaseUrl,
-      defaultOptions: opts,
-    );
-  }
+    ),
+  );
 
   @override
   Future<Iterable<ModelInfo>> listModels() async {

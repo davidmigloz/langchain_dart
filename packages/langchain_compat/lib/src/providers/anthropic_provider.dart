@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:http/http.dart' as http;
+
 import '../chat_models/anthropic/chat_models.dart';
 import '../chat_models/base.dart';
 import '../tools/base.dart';
@@ -35,25 +37,22 @@ class AnthropicProvider extends Provider<ChatAnthropicOptions> {
     List<ToolSpec>? tools,
     double? temperature,
     ChatAnthropicOptions? options,
-  }) {
-    final modelToUse = model ?? defaultModel;
-    return ChatAnthropic(
-      model: modelToUse,
-      tools: tools,
-      temperature: temperature,
-      apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
-      baseUrl: defaultBaseUrl,
-      defaultOptions: ChatAnthropicOptions(
-        temperature: temperature ?? options?.temperature,
-        topP: options?.topP,
-        topK: options?.topK,
-        maxTokens: options?.maxTokens,
-        stopSequences: options?.stopSequences,
-        userId: options?.userId,
-        concurrencyLimit: options?.concurrencyLimit ?? 1000,
-      ),
-    );
-  }
+  }) => ChatAnthropic(
+    model: model ?? defaultModel,
+    tools: tools,
+    temperature: temperature,
+    apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
+    baseUrl: defaultBaseUrl,
+    defaultOptions: ChatAnthropicOptions(
+      temperature: temperature ?? options?.temperature,
+      topP: options?.topP,
+      topK: options?.topK,
+      maxTokens: options?.maxTokens,
+      stopSequences: options?.stopSequences,
+      userId: options?.userId,
+      concurrencyLimit: options?.concurrencyLimit ?? 1000,
+    ),
+  );
 
   /// Returns all available models for this provider from the Anthropic API.
   ///

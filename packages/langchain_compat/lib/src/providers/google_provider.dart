@@ -38,29 +38,26 @@ class GoogleProvider extends Provider<ChatGoogleGenerativeAIOptions> {
     List<ToolSpec>? tools,
     double? temperature,
     ChatGoogleGenerativeAIOptions? options,
-  }) {
-    final modelToUse = model ?? defaultModel;
-    return ChatGoogleGenerativeAI(
-      model: modelToUse,
-      tools: tools,
-      temperature: temperature,
-      apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
-      baseUrl: defaultBaseUrl,
-      defaultOptions: ChatGoogleGenerativeAIOptions(
-        topP: options?.topP,
-        topK: options?.topK,
-        candidateCount: options?.candidateCount,
-        maxOutputTokens: options?.maxOutputTokens,
-        temperature: temperature ?? options?.temperature,
-        stopSequences: options?.stopSequences,
-        responseMimeType: options?.responseMimeType,
-        responseSchema: options?.responseSchema,
-        safetySettings: options?.safetySettings,
-        enableCodeExecution: options?.enableCodeExecution,
-        concurrencyLimit: options?.concurrencyLimit ?? 1000,
-      ),
-    );
-  }
+  }) => ChatGoogleGenerativeAI(
+    model: model ?? defaultModel,
+    tools: tools,
+    temperature: temperature,
+    apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
+    baseUrl: defaultBaseUrl,
+    defaultOptions: ChatGoogleGenerativeAIOptions(
+      topP: options?.topP,
+      topK: options?.topK,
+      candidateCount: options?.candidateCount,
+      maxOutputTokens: options?.maxOutputTokens,
+      temperature: temperature ?? options?.temperature,
+      stopSequences: options?.stopSequences,
+      responseMimeType: options?.responseMimeType,
+      responseSchema: options?.responseSchema,
+      safetySettings: options?.safetySettings,
+      enableCodeExecution: options?.enableCodeExecution,
+      concurrencyLimit: options?.concurrencyLimit ?? 1000,
+    ),
+  );
 
   @override
   Future<Iterable<ModelInfo>> listModels() async {

@@ -18,24 +18,14 @@ void main() async {
     },
   );
 
-  final tools = {
-    currentDateTimeTool.name: currentDateTimeTool,
-    // Add more tools here as needed
-  };
-
-  // Using the new API with common parameters factored out
+  final tools = [currentDateTimeTool];
   final models = [
-    // Provider.google.createModel(tools: [currentDateTimeTool]),
-    // Provider.openai.createModel(tools: [currentDateTimeTool]),
-    // Provider.anthropic.createModel(tools: [currentDateTimeTool]),
-    // Provider.cohere.createModel(
-    //   model: Provider.cohere.defaultModel,
-    //   tools: [currentDateTimeTool],
-    // ),
-    Provider.ollama.createModel(tools: [currentDateTimeTool]),
-    // TODO: Mistral doesn't support tools yet, waiting for a fix:
-    // https://github.com/davidmigloz/langchain_dart/issues/653
-    // Provider.mistral.createModel(tools: [currentDateTimeTool]),
+    Provider.google.createModel(tools: tools),
+    Provider.openai.createModel(tools: tools),
+    Provider.anthropic.createModel(tools: tools),
+    Provider.cohere.createModel(tools: tools),
+    Provider.ollama.createModel(tools: tools),
+    // Provider.mistral.createModel(tools: tools),
   ];
 
   for (final model in models) {
@@ -48,8 +38,13 @@ void main() async {
 
 Future<void> singleToolCall(
   BaseChatModel<ChatModelOptions> model,
-  Map<String, Tool<Object, ToolOptions, Object>> tools,
+  List<Tool<Object, ToolOptions, Object>> tools,
 ) async {
+  final toolMap = <String, Tool<Object, ToolOptions, Object>>{};
+  for (final tool in tools) {
+    toolMap[tool.name] = tool;
+  }
+
   const userMessage = 'What is the current date and time?';
   final history = [
     ChatMessage.system(
@@ -96,7 +91,7 @@ Future<void> singleToolCall(
     } else {
       // Call all tools and add results to history
       for (final toolCall in accumulatedMessage.toolCalls) {
-        final tool = tools[toolCall.name];
+        final tool = toolMap[toolCall.name];
         if (tool == null) {
           print('[Tool Error] No tool found for name: ${toolCall.name}');
           continue;
