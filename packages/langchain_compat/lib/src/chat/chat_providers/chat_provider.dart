@@ -20,15 +20,14 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
   /// [displayName]: Human-readable name for display. [defaultModel]: The
   /// default model for this provider (null means use model's own default).
   /// [defaultBaseUrl]: The default API endpoint. [apiKeyName]: The environment
-  /// variable for the API key (if any). [isRemote]: True if the provider is
-  /// cloud-based, false if local. [aliases]: Alternative names for lookup.
+  /// variable for the API key (if any). [aliases]: Alternative names for
+  /// lookup.
   const ChatProvider({
     required this.name,
     required this.displayName,
     required this.defaultModel,
     required this.defaultBaseUrl,
     required this.apiKeyName,
-    required this.isRemote,
     this.aliases = const [],
   });
 
@@ -50,9 +49,6 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
   /// The environment variable for the API key (if any).
   final String apiKeyName;
 
-  /// True if the provider is cloud-based, false if local.
-  final bool isRemote;
-
   /// Creates a chat model instance for this provider.
   ChatModel<TOptions> createModel({
     String? model,
@@ -68,7 +64,6 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
     defaultModel: null, // use ChatOpenAI.defaultModelName
     defaultBaseUrl: 'https://api.openai.com/v1',
     apiKeyName: 'OPENAI_API_KEY',
-    isRemote: true,
   );
 
   /// OpenRouter provider (OpenAI-compatible, multi-model cloud).
@@ -78,7 +73,6 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
     defaultModel: 'google/gemini-2.5-flash',
     defaultBaseUrl: 'https://openrouter.ai/api/v1',
     apiKeyName: 'OPENROUTER_API_KEY',
-    isRemote: true,
   );
 
   /// Groq provider (OpenAI-compatible, cloud).
@@ -88,7 +82,6 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
     defaultModel: 'llama3-70b-8192',
     defaultBaseUrl: 'https://api.groq.com/openai/v1',
     apiKeyName: 'GROQ_API_KEY',
-    isRemote: true,
   );
 
   /// Together AI provider (OpenAI-compatible, cloud).
@@ -98,7 +91,6 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
     defaultModel: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
     defaultBaseUrl: 'https://api.together.xyz/v1',
     apiKeyName: 'TOGETHER_API_KEY',
-    isRemote: true,
   );
 
   /// Fireworks AI provider (OpenAI-compatible, cloud).
@@ -108,7 +100,6 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
     defaultModel: 'accounts/fireworks/models/llama-v3p1-70b-instruct',
     defaultBaseUrl: 'https://api.fireworks.ai/inference/v1',
     apiKeyName: 'FIREWORKS_API_KEY',
-    isRemote: true,
   );
 
   /// Mistral AI provider (native API, cloud).
@@ -118,7 +109,6 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
     defaultModel: null, // use ChatMistralAI.defaultModelName
     defaultBaseUrl: 'https://api.mistral.ai/v1',
     apiKeyName: 'MISTRAL_API_KEY',
-    isRemote: true,
   );
 
   /// Cohere provider (OpenAI-compatible, cloud). Note: streamOptions is
@@ -129,7 +119,6 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
     defaultModel: 'command-r-plus',
     defaultBaseUrl: 'https://api.cohere.ai/compatibility/v1',
     apiKeyName: 'COHERE_API_KEY',
-    isRemote: true,
   );
 
   /// Lambda provider (OpenAI-compatible, cloud).
@@ -139,7 +128,6 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
     defaultModel: 'llama3.2-3b-instruct',
     defaultBaseUrl: 'https://api.lambda.ai/v1',
     apiKeyName: 'LAMBDA_API_KEY',
-    isRemote: true,
   );
 
   /// NVIDIA NIM provider (OpenAI-compatible, cloud).
@@ -149,7 +137,6 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
     defaultModel: 'nvidia/nemotron-mini-4b-instruct',
     defaultBaseUrl: 'https://integrate.api.nvidia.com/v1',
     apiKeyName: 'NVIDIA_API_KEY',
-    isRemote: true,
   );
 
   /// Gemini (OpenAI-compatible) provider (Google AI, OpenAI API).
@@ -159,7 +146,6 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
     defaultModel: 'gemini-2.0-flash',
     defaultBaseUrl: 'https://generativelanguage.googleapis.com/v1beta/openai',
     apiKeyName: 'GEMINI_API_KEY',
-    isRemote: true,
   );
 
   /// Google Gemini native provider (uses Gemini API, not OpenAI-compatible).
@@ -170,7 +156,6 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
     defaultModel: null, // use ChatGoogleGenerativeAI.defaultModelName
     defaultBaseUrl: '',
     apiKeyName: 'GEMINI_API_KEY',
-    isRemote: true,
   );
 
   /// Anthropic provider (Claude, native API).
@@ -181,7 +166,6 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
     defaultModel: null, // use ChatAnthropic.defaultModelName
     defaultBaseUrl: 'https://api.anthropic.com/v1',
     apiKeyName: 'ANTHROPIC_API_KEY',
-    isRemote: true,
   );
 
   /// Native Ollama provider (local, uses ChatOllama and /api endpoint). No API
@@ -192,7 +176,6 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
     defaultModel: null, // use ChatOllama.defaultModelName
     defaultBaseUrl: 'http://localhost:11434/api',
     apiKeyName: '',
-    isRemote: false,
   );
 
   /// OpenAI-compatible Ollama provider (local, uses /v1 endpoint). No API key
@@ -203,7 +186,6 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
     defaultModel: 'llama3.1',
     defaultBaseUrl: 'http://localhost:11434/v1',
     apiKeyName: '',
-    isRemote: false,
   );
 
   /// Returns a list of all available providers (static fields above).

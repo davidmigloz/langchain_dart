@@ -13,7 +13,6 @@ void main() async {
     description: 'Returns the current date and time in ISO 8601 format.',
     func: (_) {
       final now = DateTime.now().toIso8601String();
-      print('[Tool] Called current_date_time, returning: $now');
       return now;
     },
   );
@@ -29,7 +28,7 @@ void main() async {
   ];
 
   for (final model in models) {
-    print('=== Testing ${model.runtimeType} ===');
+    print('=== Testing [1m${model.runtimeType}[0m ===');
     await singleToolCallExample(model, tools);
   }
 
@@ -56,28 +55,15 @@ Future<void> singleToolCallExample(
   print('\nUser: $userMessage');
 
   var done = false;
-  var chunkNumber = 0;
   while (!done) {
     final stream = model.stream(messages);
     var accumulatedMessage = const AIChatMessage(content: '');
 
     await for (final chunk in stream) {
-      chunkNumber++;
-      // DEBUG: Print out what we're getting from the stream
-      print('\n[DEBUG] Chunk #$chunkNumber:');
-      print('  - content: "${chunk.output.content}"');
-      print('  - content.length: ${chunk.output.content.length}');
-      print('  - toolCalls: ${chunk.output.toolCalls}');
-
-      // Let's also look at the raw chunk to understand better
-      print('  - raw output type: ${chunk.output.runtimeType}');
-      print('  - raw output: $chunk');
-
       // Output text as it streams
       if (chunk.output.content.isNotEmpty) {
         stdout.write(chunk.output.content);
       }
-
       // Accumulate the message chunks (this will merge tool calls by ID)
       accumulatedMessage = accumulatedMessage.concat(chunk.output);
     }
@@ -93,16 +79,13 @@ Future<void> singleToolCallExample(
       for (final toolCall in accumulatedMessage.toolCalls) {
         final tool = toolMap[toolCall.name];
         if (tool == null) {
-          print('[Tool Error] No tool found for name: ${toolCall.name}');
           continue;
         }
         final args = toolCall.arguments;
-        print('\n[Tool Call] ${toolCall.name} with args: $args');
         final toolResult = await tool.invoke(args);
         final toolResultString = toolResult is String
             ? toolResult
             : json.encode(toolResult);
-        print('[Tool Result] $toolResultString');
         messages.add(
           ChatMessage.tool(toolCallId: toolCall.id, content: toolResultString),
         );

@@ -18,7 +18,6 @@ class CohereEmbeddingsProvider
     required super.defaultModel,
     required super.defaultBaseUrl,
     required super.apiKeyName,
-    required super.isRemote,
     super.aliases,
   });
 
@@ -48,7 +47,6 @@ class CohereEmbeddingsProvider
       defaultModel: defaultModel ?? 'embed-v4.0',
       defaultBaseUrl: 'https://api.cohere.ai/v1', // Use OpenAI compat endpoint
       apiKeyName: apiKeyName,
-      isRemote: isRemote,
     );
     
     final allModels = await cohereChatProvider.listModels();

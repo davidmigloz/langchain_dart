@@ -18,7 +18,6 @@ class MistralEmbeddingsProvider
     required super.defaultModel,
     required super.defaultBaseUrl,
     required super.apiKeyName,
-    required super.isRemote,
     super.aliases,
   });
 
@@ -46,7 +45,6 @@ class MistralEmbeddingsProvider
       defaultModel: defaultModel ?? 'mistral-embed',
       defaultBaseUrl: defaultBaseUrl,
       apiKeyName: apiKeyName,
-      isRemote: isRemote,
     );
     
     final allModels = await mistralChatProvider.listModels();

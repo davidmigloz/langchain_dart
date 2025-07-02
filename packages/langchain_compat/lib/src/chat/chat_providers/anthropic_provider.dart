@@ -18,7 +18,6 @@ class AnthropicProvider extends ChatProvider<AnthropicChatOptions> {
   /// [displayName]: Human-readable name for display. [defaultModel]: The
   /// default model for this provider. [defaultBaseUrl]: The default API
   /// endpoint. [apiKeyName]: The environment variable for the API key (if any).
-  /// [isRemote]: True if the provider is cloud-based, false if local.
   AnthropicProvider({
     required super.name,
     required super.aliases,
@@ -26,7 +25,6 @@ class AnthropicProvider extends ChatProvider<AnthropicChatOptions> {
     required super.defaultModel,
     required super.defaultBaseUrl,
     required super.apiKeyName,
-    required super.isRemote,
   });
 
   @override

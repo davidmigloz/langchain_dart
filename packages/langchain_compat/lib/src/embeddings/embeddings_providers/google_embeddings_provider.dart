@@ -16,7 +16,6 @@ class GoogleEmbeddingsProvider
     required super.defaultModel,
     required super.defaultBaseUrl,
     required super.apiKeyName,
-    required super.isRemote,
     super.aliases,
   });
 
@@ -43,7 +42,6 @@ class GoogleEmbeddingsProvider
       defaultModel: defaultModel,
       defaultBaseUrl: defaultBaseUrl,
       apiKeyName: apiKeyName,
-      isRemote: isRemote,
     );
     
     final allModels = await googleChatProvider.listModels();

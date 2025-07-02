@@ -7,8 +7,8 @@ import 'ollama_mappers.dart' as ollama_mappers;
 
 export 'ollama_chat_options.dart';
 
-/// Wrapper around [Ollama](https://ollama.ai) Chat API that enables
-/// to interact with the LLMs in a chat-like fashion.
+/// Wrapper around [Ollama](https://ollama.ai) Chat API that enables to interact
+/// with the LLMs in a chat-like fashion.
 class OllamaChatModel extends ChatModel<OllamaChatOptions> {
   /// Creates a [OllamaChatModel] instance.
   OllamaChatModel({
@@ -53,7 +53,12 @@ class OllamaChatModel extends ChatModel<OllamaChatOptions> {
   String get name => _model;
 
   /// The default model to use unless another is specified.
-  static const defaultModelName = 'llama3.1';
+  ///
+  /// Note: llama3.x models have a known issue with spurious content in tool
+  /// calling responses, generating unwanted JSON fragments like '",
+  /// "parameters": {}}' during streaming. qwen2.5:7b-instruct provides cleaner
+  /// tool calling behavior.
+  static const defaultModelName = 'qwen2.5:7b-instruct';
 
   @override
   Future<ChatResult> invoke(

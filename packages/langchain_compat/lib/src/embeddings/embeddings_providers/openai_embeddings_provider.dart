@@ -18,7 +18,6 @@ class OpenAIEmbeddingsProvider
     required super.defaultModel,
     required super.defaultBaseUrl,
     required super.apiKeyName,
-    required super.isRemote,
     super.aliases,
   });
 
@@ -46,7 +45,6 @@ class OpenAIEmbeddingsProvider
       defaultModel: defaultModel,
       defaultBaseUrl: defaultBaseUrl,
       apiKeyName: apiKeyName,
-      isRemote: isRemote,
     );
     
     final allModels = await openaiChatProvider.listModels();

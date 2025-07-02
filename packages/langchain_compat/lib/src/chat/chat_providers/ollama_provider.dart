@@ -17,14 +17,12 @@ class OllamaProvider extends ChatProvider<OllamaChatOptions> {
   /// [displayName]: Human-readable name for display. [defaultModel]: The
   /// default model for this provider. [defaultBaseUrl]: The default API
   /// endpoint. [apiKeyName]: The environment variable for the API key (if any).
-  /// [isRemote]: True if the provider is cloud-based, false if local.
   OllamaProvider({
     required super.name,
     required super.displayName,
     required super.defaultModel,
     required super.defaultBaseUrl,
     required super.apiKeyName,
-    required super.isRemote,
   });
 
   @override

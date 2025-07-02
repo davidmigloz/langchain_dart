@@ -16,7 +16,6 @@ abstract class EmbeddingsProvider<TOptions extends EmbeddingsModelOptions> {
     required this.defaultModel,
     required this.defaultBaseUrl,
     required this.apiKeyName,
-    required this.isRemote,
     this.aliases = const [],
   });
 
@@ -38,9 +37,6 @@ abstract class EmbeddingsProvider<TOptions extends EmbeddingsModelOptions> {
   /// The environment variable for the API key (if any).
   final String apiKeyName;
 
-  /// True if the provider is cloud-based, false if local.
-  final bool isRemote;
-
   /// Creates an embeddings model instance for this provider.
   EmbeddingsModel<TOptions> createModel({
     String? model,
@@ -56,7 +52,6 @@ abstract class EmbeddingsProvider<TOptions extends EmbeddingsModelOptions> {
     defaultModel: 'text-embedding-3-small',
     defaultBaseUrl: 'https://api.openai.com/v1',
     apiKeyName: 'OPENAI_API_KEY',
-    isRemote: true,
   );
 
   /// Google AI embeddings provider.
@@ -66,7 +61,6 @@ abstract class EmbeddingsProvider<TOptions extends EmbeddingsModelOptions> {
     defaultModel: 'text-embedding-004',
     defaultBaseUrl: 'https://generativelanguage.googleapis.com/v1beta',
     apiKeyName: 'GEMINI_API_KEY',
-    isRemote: true,
   );
 
   /// Mistral AI embeddings provider.
@@ -76,7 +70,6 @@ abstract class EmbeddingsProvider<TOptions extends EmbeddingsModelOptions> {
     defaultModel: 'mistral-embed',
     defaultBaseUrl: 'https://api.mistral.ai/v1',
     apiKeyName: 'MISTRAL_API_KEY',
-    isRemote: true,
   );
 
   /// Cohere embeddings provider.
@@ -86,7 +79,6 @@ abstract class EmbeddingsProvider<TOptions extends EmbeddingsModelOptions> {
     defaultModel: 'embed-v4.0',
     defaultBaseUrl: 'https://api.cohere.ai/v2',
     apiKeyName: 'COHERE_API_KEY',
-    isRemote: true,
   );
 
   /// Returns a list of all available providers.
