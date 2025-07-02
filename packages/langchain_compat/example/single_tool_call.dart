@@ -78,22 +78,9 @@ Future<void> singleToolCall(
       print('  - raw output type: ${chunk.output.runtimeType}');
       print('  - raw output: $chunk');
 
-      // Workaround for Ollama bug: filter out JSON fragments after tool calls
-      final content = chunk.output.content;
-      final isOllamaJsonFragment =
-          content.contains('", "parameters":') ||
-          content.contains('"}') && content.length < 20;
-
-      // Output text as it streams (skip Ollama JSON fragments)
-      if (chunk.output.content.isNotEmpty && !isOllamaJsonFragment) {
+      // Output text as it streams
+      if (chunk.output.content.isNotEmpty) {
         stdout.write(chunk.output.content);
-      }
-
-      // For accumulation, we need to be more careful
-      if (isOllamaJsonFragment && chunk.output.toolCalls.isEmpty) {
-        // Skip this chunk entirely - it's an Ollama bug
-        print('[DEBUG] Skipping Ollama JSON fragment bug');
-        continue;
       }
 
       // Accumulate the message chunks (this will merge tool calls by ID)
