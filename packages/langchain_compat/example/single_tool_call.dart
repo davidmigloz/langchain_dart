@@ -38,15 +38,15 @@ void main() async {
 
 Future<void> singleToolCall(
   ChatModel<ChatModelOptions> model,
-  List<Tool<Object, ToolOptions, Object>> tools,
+  List<Tool<Object, Object>> tools,
 ) async {
-  final toolMap = <String, Tool<Object, ToolOptions, Object>>{};
+  final toolMap = <String, Tool<Object, Object>>{};
   for (final tool in tools) {
     toolMap[tool.name] = tool;
   }
 
   const userMessage = 'What is the current date and time?';
-  final history = [
+  final messages = [
     ChatMessage.system(
       'If asked for the current date and time, use the current_date_time tool.',
     ),
@@ -58,7 +58,7 @@ Future<void> singleToolCall(
   var done = false;
   var chunkNumber = 0;
   while (!done) {
-    final stream = model.stream(PromptValue.chat(history));
+    final stream = model.stream(messages);
     var accumulatedMessage = const AIChatMessage(content: '');
 
     await for (final chunk in stream) {
@@ -84,7 +84,7 @@ Future<void> singleToolCall(
     stdout.writeln();
 
     // Add the accumulated AI message to the history
-    history.add(accumulatedMessage);
+    messages.add(accumulatedMessage);
 
     if (accumulatedMessage.toolCalls.isEmpty) {
       done = true;
@@ -103,12 +103,12 @@ Future<void> singleToolCall(
             ? toolResult
             : json.encode(toolResult);
         print('[Tool Result] $toolResultString');
-        history.add(
+        messages.add(
           ChatMessage.tool(toolCallId: toolCall.id, content: toolResultString),
         );
       }
     }
   }
 
-  dumpChatHistory(history);
+  dumpChatHistory(messages);
 }

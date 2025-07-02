@@ -15,23 +15,23 @@ Future<void> main() async {
     'What are some must-see attractions?',
   ];
 
-  final history = [ChatMessage.system('Be concise in your responses.')];
+  final messages = [ChatMessage.system('Be concise in your responses.')];
 
   for (final userMsg in userMessages) {
-    history.add(ChatMessage.humanText(userMsg));
+    messages.add(ChatMessage.humanText(userMsg));
     print('\nUser: $userMsg');
 
-    final stream = chatModel.stream(PromptValue.chat(history));
+    final stream = chatModel.stream(messages);
     final fullResponse = StringBuffer();
     await for (final chunk in stream) {
       final content = chunk.output.content;
       stdout.write(content);
       fullResponse.write(content);
     }
-    history.add(ChatMessage.ai(fullResponse.toString()));
+    messages.add(ChatMessage.ai(fullResponse.toString()));
     print('');
   }
 
-  dumpChatHistory(history);
+  dumpChatHistory(messages);
   exit(0);
 }

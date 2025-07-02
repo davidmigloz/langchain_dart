@@ -19,7 +19,6 @@ class GoogleChatOptions extends ChatModelOptions {
     this.responseSchema,
     this.safetySettings,
     this.enableCodeExecution,
-    super.concurrencyLimit,
   });
 
   /// The maximum cumulative probability of tokens to consider when sampling.
@@ -117,66 +116,6 @@ class GoogleChatOptions extends ChatModelOptions {
   /// metadata as `metadata['executable_code']` and
   /// `metadata['code_execution_result']`.
   final bool? enableCodeExecution;
-
-  @override
-  GoogleChatOptions copyWith({
-    double? topP,
-    int? topK,
-    int? candidateCount,
-    int? maxOutputTokens,
-    double? temperature,
-    List<String>? stopSequences,
-    List<ChatGoogleGenerativeAISafetySetting>? safetySettings,
-    bool? enableCodeExecution,
-    int? concurrencyLimit,
-  }) => GoogleChatOptions(
-    topP: topP ?? this.topP,
-    topK: topK ?? this.topK,
-    candidateCount: candidateCount ?? this.candidateCount,
-    maxOutputTokens: maxOutputTokens ?? this.maxOutputTokens,
-    temperature: temperature ?? this.temperature,
-    stopSequences: stopSequences ?? this.stopSequences,
-    safetySettings: safetySettings ?? this.safetySettings,
-    enableCodeExecution: enableCodeExecution ?? this.enableCodeExecution,
-    concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
-  );
-
-  @override
-  GoogleChatOptions merge(covariant GoogleChatOptions? other) => copyWith(
-    topP: other?.topP,
-    topK: other?.topK,
-    candidateCount: other?.candidateCount,
-    maxOutputTokens: other?.maxOutputTokens,
-    temperature: other?.temperature,
-    stopSequences: other?.stopSequences,
-    safetySettings: other?.safetySettings,
-    enableCodeExecution: other?.enableCodeExecution,
-    concurrencyLimit: other?.concurrencyLimit,
-  );
-
-  @override
-  bool operator ==(covariant GoogleChatOptions other) =>
-      topP == other.topP &&
-      topK == other.topK &&
-      candidateCount == other.candidateCount &&
-      maxOutputTokens == other.maxOutputTokens &&
-      temperature == other.temperature &&
-      stopSequences == other.stopSequences &&
-      safetySettings == other.safetySettings &&
-      enableCodeExecution == other.enableCodeExecution &&
-      concurrencyLimit == other.concurrencyLimit;
-
-  @override
-  int get hashCode =>
-      topP.hashCode ^
-      topK.hashCode ^
-      candidateCount.hashCode ^
-      maxOutputTokens.hashCode ^
-      temperature.hashCode ^
-      stopSequences.hashCode ^
-      safetySettings.hashCode ^
-      enableCodeExecution.hashCode ^
-      concurrencyLimit.hashCode;
 }
 
 /// {@template chat_google_generative_ai_safety_setting}

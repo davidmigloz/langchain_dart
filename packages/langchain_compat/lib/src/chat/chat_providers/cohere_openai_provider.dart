@@ -4,10 +4,10 @@ import 'package:html/dom.dart' as dom;
 import 'package:html/parser.dart' as html_parser;
 import 'package:http/http.dart' as http;
 
-import '../../tools/base.dart';
 import '../chat_models/chat_model.dart';
 import '../chat_models/cohere_chat/cohere_chat_model.dart';
 import '../chat_models/cohere_chat/cohere_chat_options.dart';
+import '../tools/tool_spec.dart';
 import 'model_info.dart';
 import 'model_kind.dart';
 import 'openai_provider.dart';
@@ -56,7 +56,6 @@ class CohereOpenAIProvider extends OpenAIProvider {
       parallelToolCalls: options?.parallelToolCalls,
       serviceTier: options?.serviceTier,
       user: options?.user,
-      concurrencyLimit: options?.concurrencyLimit ?? 1000,
       streamOptions: null, // Cohere requires streamOptions to be null
     ),
   );

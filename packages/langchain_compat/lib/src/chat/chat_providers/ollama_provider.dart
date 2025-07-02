@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import '../../tools/base.dart';
 import '../chat_models/chat_model.dart';
 import '../chat_models/ollama_chat/ollama_chat_model.dart';
+import '../tools/tool_spec.dart';
 import 'chat_provider.dart';
 import 'model_info.dart';
 import 'model_kind.dart';
@@ -71,7 +71,6 @@ class OllamaProvider extends ChatProvider<OllamaChatOptions> {
       useMmap: options?.useMmap,
       useMlock: options?.useMlock,
       numThread: options?.numThread,
-      concurrencyLimit: options?.concurrencyLimit ?? 1000,
     ),
   );
 

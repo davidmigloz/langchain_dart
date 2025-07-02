@@ -1,5 +1,5 @@
-import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
+
 import '../chat_model_options.dart';
 
 /// Options to pass into the Anthropic Chat Model.
@@ -13,7 +13,6 @@ class AnthropicChatOptions extends ChatModelOptions {
     this.topK,
     this.topP,
     this.userId,
-    super.concurrencyLimit,
   });
 
   /// The maximum number of tokens to generate before stopping.
@@ -69,54 +68,4 @@ class AnthropicChatOptions extends ChatModelOptions {
   /// may use this id to help detect abuse. Do not include any identifying
   /// information such as name, email address, or phone number.
   final String? userId;
-
-  @override
-  AnthropicChatOptions copyWith({
-    int? maxTokens,
-    List<String>? stopSequences,
-    double? temperature,
-    int? topK,
-    double? topP,
-    String? userId,
-    int? concurrencyLimit,
-  }) => AnthropicChatOptions(
-    maxTokens: maxTokens ?? this.maxTokens,
-    stopSequences: stopSequences ?? this.stopSequences,
-    temperature: temperature ?? this.temperature,
-    topK: topK ?? this.topK,
-    topP: topP ?? this.topP,
-    userId: userId ?? this.userId,
-    concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
-  );
-
-  @override
-  AnthropicChatOptions merge(covariant AnthropicChatOptions? other) => copyWith(
-    maxTokens: other?.maxTokens,
-    stopSequences: other?.stopSequences,
-    temperature: other?.temperature,
-    topK: other?.topK,
-    topP: other?.topP,
-    userId: other?.userId,
-    concurrencyLimit: other?.concurrencyLimit,
-  );
-
-  @override
-  bool operator ==(covariant AnthropicChatOptions other) =>
-      maxTokens == other.maxTokens &&
-      const ListEquality<String>().equals(stopSequences, other.stopSequences) &&
-      temperature == other.temperature &&
-      topK == other.topK &&
-      topP == other.topP &&
-      userId == other.userId &&
-      concurrencyLimit == other.concurrencyLimit;
-
-  @override
-  int get hashCode =>
-      maxTokens.hashCode ^
-      const ListEquality<String>().hash(stopSequences) ^
-      temperature.hashCode ^
-      topK.hashCode ^
-      topP.hashCode ^
-      userId.hashCode ^
-      concurrencyLimit.hashCode;
 }

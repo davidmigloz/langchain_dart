@@ -1,7 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'package:openai_dart/openai_dart.dart';
 
-import '../utils/chunk_list.dart';
+import 'chunk_list.dart';
 import 'embeddings_provider.dart';
 
 /// Wrapper around OpenAI Embeddings API.

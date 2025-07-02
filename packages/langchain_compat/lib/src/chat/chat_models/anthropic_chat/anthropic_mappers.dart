@@ -7,7 +7,7 @@ import 'package:rxdart/rxdart.dart' show WhereNotNullExtension;
 
 import '../../../language_models/finish_reason.dart';
 import '../../../language_models/language_model_usage.dart';
-import '../../../tools/base.dart' show ToolSpec;
+import '../../tools/tool_spec.dart';
 import '../chat_message.dart';
 import '../chat_result.dart';
 import 'anthropic_chat.dart';

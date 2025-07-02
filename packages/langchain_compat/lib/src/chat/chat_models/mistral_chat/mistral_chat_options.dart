@@ -12,7 +12,6 @@ class MistralChatOptions extends ChatModelOptions {
     this.maxTokens,
     this.safePrompt,
     this.randomSeed,
-    super.concurrencyLimit,
   });
 
   /// What sampling temperature to use, between 0.0 and 2.0. Higher values like
@@ -41,49 +40,4 @@ class MistralChatOptions extends ChatModelOptions {
   /// The seed to use for random sampling.
   /// If set, different calls will generate deterministic results.
   final int? randomSeed;
-
-  @override
-  MistralChatOptions copyWith({
-    double? temperature,
-    double? topP,
-    int? maxTokens,
-    bool? safePrompt,
-    int? randomSeed,
-    int? concurrencyLimit,
-  }) => MistralChatOptions(
-    temperature: temperature ?? this.temperature,
-    topP: topP ?? this.topP,
-    maxTokens: maxTokens ?? this.maxTokens,
-    safePrompt: safePrompt ?? this.safePrompt,
-    randomSeed: randomSeed ?? this.randomSeed,
-    concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
-  );
-
-  @override
-  MistralChatOptions merge(covariant MistralChatOptions? other) => copyWith(
-    temperature: other?.temperature,
-    topP: other?.topP,
-    maxTokens: other?.maxTokens,
-    safePrompt: other?.safePrompt,
-    randomSeed: other?.randomSeed,
-    concurrencyLimit: other?.concurrencyLimit,
-  );
-
-  @override
-  bool operator ==(covariant MistralChatOptions other) =>
-      temperature == other.temperature &&
-      topP == other.topP &&
-      maxTokens == other.maxTokens &&
-      safePrompt == other.safePrompt &&
-      randomSeed == other.randomSeed &&
-      concurrencyLimit == other.concurrencyLimit;
-
-  @override
-  int get hashCode =>
-      temperature.hashCode ^
-      topP.hashCode ^
-      maxTokens.hashCode ^
-      safePrompt.hashCode ^
-      randomSeed.hashCode ^
-      concurrencyLimit.hashCode;
 }

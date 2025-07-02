@@ -3,10 +3,10 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
-import '../../tools/base.dart';
 import '../chat_models/chat_model.dart';
 import '../chat_models/openai_chat/openai_chat_model.dart';
 import '../chat_models/openai_chat/openai_chat_options.dart';
+import '../tools/tool_spec.dart';
 import 'chat_provider.dart';
 import 'model_info.dart';
 import 'model_kind.dart';
@@ -57,7 +57,6 @@ class OpenAIProvider extends ChatProvider<OpenAIChatOptions> {
       parallelToolCalls: options?.parallelToolCalls,
       streamOptions: options?.streamOptions,
       serviceTier: options?.serviceTier,
-      concurrencyLimit: options?.concurrencyLimit ?? 1000,
     ),
   );
 

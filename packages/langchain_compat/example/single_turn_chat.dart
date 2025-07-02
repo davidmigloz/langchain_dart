@@ -15,9 +15,13 @@ Future<void> main() async {
       stdout.writeln(
         '\n# ${provider.displayName} (${provider.name}:${model.name})',
       );
-      await model.stream(PromptValue.string(promptText)).forEach((chunk) {
-        stdout.write(chunk.output.content);
-      });
+      await model
+          .stream([
+            HumanChatMessage(content: ChatMessageContent.text(promptText)),
+          ])
+          .forEach((chunk) {
+            stdout.write(chunk.output.content);
+          });
       stdout.writeln();
     } on Exception catch (e) {
       stdout.writeln(

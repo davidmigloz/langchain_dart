@@ -2,142 +2,13 @@ import 'package:http/http.dart' as http;
 import 'package:ollama_dart/ollama_dart.dart' show OllamaClient;
 import 'package:uuid/uuid.dart';
 
-import '../../../prompts/types.dart';
-import '../../../runnables/runnable.dart' show Runnable;
-import '../chat_model.dart';
-import '../chat_result.dart';
-import 'ollama_chat_model.dart';
+import '../chat_models.dart';
 import 'ollama_mappers.dart' as ollama_mappers;
 
 export 'ollama_chat_options.dart';
 
 /// Wrapper around [Ollama](https://ollama.ai) Chat API that enables
 /// to interact with the LLMs in a chat-like fashion.
-///
-/// Ollama allows you to run open-source large language models,
-/// such as Llama 3.2, Gemma 2 or LLaVA, locally.
-///
-/// For a complete list of supported models and model variants, see the
-/// [Ollama model library](https://ollama.ai/library).
-///
-/// Example:
-/// ```dart
-/// final chatModel = ChatOllama();
-/// final messages = [
-///   ChatMessage.system(
-///     'You are a helpful assistant that translates English to French.'
-///   ),
-///   ChatMessage.humanText('I love programming.'),
-/// ];
-/// final prompt = PromptValue.chat(messages);
-/// final res = await llm.invoke(prompt);
-/// ```
-///
-/// - [Ollama API docs](https://github.com/jmorganca/ollama/blob/main/docs/api.md#generate-a-completion)
-///
-/// ### Setup
-///
-/// 1. Download and install [Ollama](https://ollama.ai)
-/// 2. Fetch a model via `ollama pull <model family>`
-///   * e.g., for Llama 3: `ollama pull llama3.2`
-///
-/// ### Ollama base URL
-///
-/// By default, [OllamaChatModel] uses 'http://localhost:11434/api' as base URL
-/// (default Ollama API URL). But if you are running Ollama on a different
-/// one, you can override it using the baseUrl parameter.
-///
-/// ### Call options
-///
-/// You can configure the parameters that will be used when calling the
-/// chat completions API in several ways:
-///
-/// **Default options:**
-///
-/// Use the [defaultOptions] parameter to set the default options. These
-/// options will be used unless you override them when generating completions.
-///
-/// ```dart
-/// final chatModel = ChatOllama(
-///   defaultOptions: const ChatOllamaOptions(
-///     model: 'llama3.2',
-///     temperature: 0,
-///     format: 'json',
-///   ),
-/// );
-/// ```
-///
-/// **Call options:**
-///
-/// You can override the default options when invoking the model:
-///
-/// ```dart
-/// final res = await chatModel.invoke(
-///   prompt,
-///   options: const ChatOllamaOptions(seed: 9999),
-/// );
-/// ```
-///
-/// **Bind:**
-///
-/// You can also change the options in a [Runnable] pipeline using the bind
-/// method.
-///
-/// In this example, we are using two totally different models for each
-/// question:
-///
-/// ```dart
-/// final chatModel = ChatOllama();
-/// const outputParser = StringOutputParser();
-/// final prompt1 = PromptTemplate.fromTemplate('How are you {name}?');
-/// final prompt2 = PromptTemplate.fromTemplate('How old are you {name}?');
-/// final chain = Runnable.fromMap({
-///   'q1': prompt1 |
-///       chatModel.bind(const ChatOllamaOptions(model: 'llama3.2')) |
-///       outputParser,
-///   'q2': prompt2 |
-///       chatModel.bind(const ChatOllamaOptions(model: 'mistral')) |
-///       outputParser,
-/// });
-/// final res = await chain.invoke({'name': 'David'});
-/// ```
-///
-/// ### Advance
-///
-/// #### Custom HTTP client
-///
-/// You can always provide your own implementation of `http.Client` for further
-/// customization:
-///
-/// ```dart
-/// final client = ChatOllama(
-///   client: MyHttpClient(),
-/// );
-/// ```
-///
-/// #### Using a proxy
-///
-/// ##### HTTP proxy
-///
-/// You can use your own HTTP proxy by overriding the `baseUrl` and providing
-/// your required `headers`:
-///
-/// ```dart
-/// final client = ChatOllama(
-///   baseUrl: 'https://my-proxy.com',
-///   headers: {'x-my-proxy-header': 'value'},
-///   queryParams: {'x-my-proxy-query-param': 'value'},
-/// );
-/// ```
-///
-/// If you need further customization, you can always provide your own
-/// `http.Client`.
-///
-/// ##### SOCKS5 proxy
-///
-/// To use a SOCKS5 proxy, you can use the
-/// [`socks5_proxy`](https://pub.dev/packages/socks5_proxy) package and a
-/// custom `http.Client`.
 class OllamaChatModel extends ChatModel<OllamaChatOptions> {
   /// Creates a [OllamaChatModel] instance.
   OllamaChatModel({
@@ -179,9 +50,6 @@ class OllamaChatModel extends ChatModel<OllamaChatOptions> {
   late final _uuid = const Uuid();
 
   @override
-  String get modelType => 'chat-ollama';
-
-  @override
   String get name => _model;
 
   /// The default model to use unless another is specified.
@@ -189,12 +57,12 @@ class OllamaChatModel extends ChatModel<OllamaChatOptions> {
 
   @override
   Future<ChatResult> invoke(
-    PromptValue input, {
+    List<ChatMessage> messages, {
     OllamaChatOptions? options,
   }) async {
     final completion = await _client.generateChatCompletion(
       request: ollama_mappers.generateChatCompletionRequest(
-        input.toChatMessages(),
+        messages,
         model: _model,
         options: options,
         defaultOptions: defaultOptions,
@@ -207,25 +75,27 @@ class OllamaChatModel extends ChatModel<OllamaChatOptions> {
   }
 
   @override
-  Stream<ChatResult> stream(PromptValue input, {OllamaChatOptions? options}) =>
-      _client
-          .generateChatCompletionStream(
-            request: ollama_mappers.generateChatCompletionRequest(
-              input.toChatMessages(),
-              model: _model,
-              options: options,
-              defaultOptions: defaultOptions,
-              tools: tools,
-              temperature: temperature,
-              stream: true,
-            ),
-          )
-          .map((completion) {
-            final id = _uuid.v4();
-            return ollama_mappers.ChatResultMapper(
-              completion,
-            ).toChatResult(id, streaming: true);
-          });
+  Stream<ChatResult> stream(
+    List<ChatMessage> messages, {
+    OllamaChatOptions? options,
+  }) => _client
+      .generateChatCompletionStream(
+        request: ollama_mappers.generateChatCompletionRequest(
+          messages,
+          model: _model,
+          options: options,
+          defaultOptions: defaultOptions,
+          tools: tools,
+          temperature: temperature,
+          stream: true,
+        ),
+      )
+      .map((completion) {
+        final id = _uuid.v4();
+        return ollama_mappers.ChatResultMapper(
+          completion,
+        ).toChatResult(id, streaming: true);
+      });
 
   @override
   void close() {

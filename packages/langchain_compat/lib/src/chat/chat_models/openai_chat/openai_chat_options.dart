@@ -22,7 +22,6 @@ class OpenAIChatOptions extends ChatModelOptions {
     this.parallelToolCalls,
     this.serviceTier,
     this.user,
-    super.concurrencyLimit,
     this.streamOptions,
   });
 
@@ -127,98 +126,6 @@ class OpenAIChatOptions extends ChatModelOptions {
   ///
   /// Ref: https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids
   final String? user;
-
-  @override
-  OpenAIChatOptions copyWith({
-    double? frequencyPenalty,
-    Map<String, int>? logitBias,
-    int? maxTokens,
-    int? n,
-    double? presencePenalty,
-    ChatOpenAIResponseFormat? responseFormat,
-    int? seed,
-    List<String>? stop,
-    double? temperature,
-    double? topP,
-    bool? parallelToolCalls,
-    ChatOpenAIServiceTier? serviceTier,
-    String? user,
-    int? concurrencyLimit,
-    ChatCompletionStreamOptions? streamOptions,
-  }) => OpenAIChatOptions(
-    frequencyPenalty: frequencyPenalty ?? this.frequencyPenalty,
-    logitBias: logitBias ?? this.logitBias,
-    maxTokens: maxTokens ?? this.maxTokens,
-    n: n ?? this.n,
-    presencePenalty: presencePenalty ?? this.presencePenalty,
-    responseFormat: responseFormat ?? this.responseFormat,
-    seed: seed ?? this.seed,
-    stop: stop ?? this.stop,
-    temperature: temperature ?? this.temperature,
-    topP: topP ?? this.topP,
-    parallelToolCalls: parallelToolCalls ?? this.parallelToolCalls,
-    serviceTier: serviceTier ?? this.serviceTier,
-    user: user ?? this.user,
-    concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
-    streamOptions: streamOptions ?? this.streamOptions,
-  );
-
-  @override
-  OpenAIChatOptions merge(covariant OpenAIChatOptions? other) => copyWith(
-    frequencyPenalty: other?.frequencyPenalty,
-    logitBias: other?.logitBias,
-    maxTokens: other?.maxTokens,
-    n: other?.n,
-    presencePenalty: other?.presencePenalty,
-    responseFormat: other?.responseFormat,
-    seed: other?.seed,
-    stop: other?.stop,
-    temperature: other?.temperature,
-    topP: other?.topP,
-    parallelToolCalls: other?.parallelToolCalls,
-    serviceTier: other?.serviceTier,
-    user: other?.user,
-    concurrencyLimit: other?.concurrencyLimit,
-    streamOptions: other?.streamOptions,
-  );
-
-  @override
-  bool operator ==(covariant OpenAIChatOptions other) =>
-      identical(this, other) ||
-      runtimeType == other.runtimeType &&
-          frequencyPenalty == other.frequencyPenalty &&
-          const MapEquality<String, int>().equals(logitBias, other.logitBias) &&
-          maxTokens == other.maxTokens &&
-          n == other.n &&
-          presencePenalty == other.presencePenalty &&
-          responseFormat == other.responseFormat &&
-          seed == other.seed &&
-          const ListEquality<String>().equals(stop, other.stop) &&
-          temperature == other.temperature &&
-          topP == other.topP &&
-          parallelToolCalls == other.parallelToolCalls &&
-          serviceTier == other.serviceTier &&
-          user == other.user &&
-          concurrencyLimit == other.concurrencyLimit &&
-          streamOptions == other.streamOptions;
-
-  @override
-  int get hashCode =>
-      frequencyPenalty.hashCode ^
-      const MapEquality<String, int>().hash(logitBias) ^
-      maxTokens.hashCode ^
-      n.hashCode ^
-      presencePenalty.hashCode ^
-      responseFormat.hashCode ^
-      seed.hashCode ^
-      const ListEquality<String>().hash(stop) ^
-      temperature.hashCode ^
-      topP.hashCode ^
-      parallelToolCalls.hashCode ^
-      serviceTier.hashCode ^
-      user.hashCode ^
-      concurrencyLimit.hashCode ^
-      streamOptions.hashCode;
 }
 
 /// {@template chat_openai_response_format}

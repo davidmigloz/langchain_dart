@@ -1,7 +1,6 @@
 // ignore_for_file: avoid_print
 
 import 'dart:io';
-import 'dart:math';
 
 import 'package:langchain_compat/langchain_compat.dart';
 
@@ -23,6 +22,8 @@ void main() async {
     GoogleEmbeddingsProvider(apiKey: Platform.environment['GEMINI_API_KEY']),
     sampleTexts,
   );
+
+  exit(0);
 }
 
 Future<void> embeddingsTest(
@@ -61,31 +62,4 @@ Future<void> embeddingsTest(
       print('  Text $j: "${sampleTexts[j]}"');
     }
   }
-}
-
-/// Calculate cosine similarity between two embedding vectors.
-/// Returns a value between -1 and 1, where 1 means identical vectors.
-double cosineSimilarity(List<double> a, List<double> b) {
-  if (a.length != b.length) {
-    throw ArgumentError('Vectors must have the same length');
-  }
-
-  var dotProduct = 0.0;
-  var normA = 0.0;
-  var normB = 0.0;
-
-  for (var i = 0; i < a.length; i++) {
-    dotProduct += a[i] * b[i];
-    normA += a[i] * a[i];
-    normB += b[i] * b[i];
-  }
-
-  normA = sqrt(normA);
-  normB = sqrt(normB);
-
-  if (normA == 0.0 || normB == 0.0) {
-    return 0;
-  }
-
-  return dotProduct / (normA * normB);
 }

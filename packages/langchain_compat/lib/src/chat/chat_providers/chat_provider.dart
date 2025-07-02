@@ -1,6 +1,6 @@
-import '../../tools/base.dart';
 import '../chat_models/chat_model.dart';
 import '../chat_models/chat_model_options.dart';
+import '../tools/tool_spec.dart';
 import 'chat_providers.dart';
 
 /// Provides a unified interface for accessing all major LLM, chat, and

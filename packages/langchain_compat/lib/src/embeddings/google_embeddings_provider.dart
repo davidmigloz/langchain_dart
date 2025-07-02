@@ -3,8 +3,8 @@ import 'package:google_generative_ai/google_generative_ai.dart'
 import 'package:http/http.dart' as http;
 import 'package:http/retry.dart' show RetryClient;
 
-import '../utils/chunk_list.dart';
-import '../utils/custom_http_client.dart';
+import '../custom_http_client.dart';
+import 'chunk_list.dart';
 import 'embeddings_provider.dart';
 
 /// {@template google_generative_ai_embeddings}

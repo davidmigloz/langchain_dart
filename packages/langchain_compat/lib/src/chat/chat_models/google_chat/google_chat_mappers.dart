@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:google_generative_ai/google_generative_ai.dart' as g;
 
 import '../../../language_models/language_models.dart';
-import '../../../tools/base.dart';
+import '../../tools/tool_spec.dart';
 import '../chat_models.dart';
 
 /// Extension on [List<ChatMessage>] to convert chat messages to Google

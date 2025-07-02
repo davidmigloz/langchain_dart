@@ -3,7 +3,8 @@ import 'dart:convert';
 import 'package:openai_dart/openai_dart.dart';
 
 import '../../../language_models/language_models.dart';
-import '../../../tools/tools.dart';
+import '../../tools/tool_spec.dart';
+import '../../tools/tools.dart';
 import '../chat_models.dart';
 import 'openai_chat_options.dart';
 

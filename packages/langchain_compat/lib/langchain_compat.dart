@@ -4,9 +4,7 @@
 library;
 
 export 'src/chat/chat.dart';
+export 'src/chat/tools/tools.dart';
 export 'src/embeddings/embeddings.dart';
 export 'src/langchain_exception.dart';
 export 'src/language_models/language_models.dart';
-export 'src/prompts/prompts.dart';
-export 'src/tools/tools.dart';
-export 'src/utils/utils.dart';

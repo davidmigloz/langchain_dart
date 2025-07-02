@@ -3,7 +3,7 @@ import 'package:ollama_dart/ollama_dart.dart' as o;
 
 import '../../../language_models/finish_reason.dart';
 import '../../../language_models/language_model_usage.dart';
-import '../../../tools/base.dart' show ToolSpec;
+import '../../tools/tool_spec.dart';
 import '../chat_message.dart';
 import '../chat_result.dart';
 import 'ollama_chat_options.dart';
