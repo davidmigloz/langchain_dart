@@ -26,9 +26,10 @@ a.CreateMessageRequest createMessageRequest(
       : null;
 
   final messagesDtos = messages.toMessages();
-  const toolChoice = ChatToolChoiceAuto(); // Default tool choice
-  final toolChoiceDto = toolChoice.toToolChoice();
-  final toolsDtos = tools?.toTool(toolChoice);
+  final hasTools = tools != null && tools.isNotEmpty;
+  final toolChoice = hasTools ? const ChatToolChoiceAuto() : null;
+  final toolChoiceDto = toolChoice?.toToolChoice();
+  final toolsDtos = hasTools ? tools.toTool(toolChoice) : null;
 
   return a.CreateMessageRequest(
     model: a.Model.modelId(model),

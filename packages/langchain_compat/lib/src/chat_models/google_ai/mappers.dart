@@ -211,22 +211,30 @@ extension ChatToolListMapper on List<ToolSpec>? {
   /// Converts this list of [ToolSpec]s to a list of [g.Tool]s, optionally
   /// enabling code execution.
   List<g.Tool>? toToolList({required bool enableCodeExecution}) {
-    if (this == null && !enableCodeExecution) {
+    final hasTools = this != null && this!.isNotEmpty;
+    if (!hasTools && !enableCodeExecution) {
       return null;
     }
-
+    final functionDeclarations = hasTools
+        ? this!
+              .map(
+                (tool) => g.FunctionDeclaration(
+                  tool.name,
+                  tool.description,
+                  tool.inputJsonSchema.toSchema(),
+                ),
+              )
+              .toList(growable: false)
+        : null;
+    final codeExecution = enableCodeExecution ? g.CodeExecution() : null;
+    if ((functionDeclarations == null || functionDeclarations.isEmpty) &&
+        codeExecution == null) {
+      return null;
+    }
     return [
       g.Tool(
-        functionDeclarations: this
-            ?.map(
-              (tool) => g.FunctionDeclaration(
-                tool.name,
-                tool.description,
-                tool.inputJsonSchema.toSchema(),
-              ),
-            )
-            .toList(growable: false),
-        codeExecution: enableCodeExecution ? g.CodeExecution() : null,
+        functionDeclarations: functionDeclarations,
+        codeExecution: codeExecution,
       ),
     ];
   }

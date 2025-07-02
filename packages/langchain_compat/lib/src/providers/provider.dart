@@ -75,7 +75,7 @@ abstract class Provider<TOptions extends ChatModelOptions> {
   static final openrouter = OpenAIProvider(
     name: 'openrouter',
     displayName: 'OpenRouter',
-    defaultModel: 'google/gemini-2.0-flash',
+    defaultModel: 'google/gemini-2.5-flash',
     defaultBaseUrl: 'https://openrouter.ai/api/v1',
     apiKeyName: 'OPENROUTER_API_KEY',
     isRemote: true,
