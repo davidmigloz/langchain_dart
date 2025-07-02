@@ -29,8 +29,6 @@ class AnthropicProvider extends Provider<ChatAnthropicOptions> {
     required super.isRemote,
   });
 
-  List<ModelInfo>? _cachedModels;
-
   @override
   BaseChatModel<ChatAnthropicOptions> createModel({
     String? model,
@@ -54,15 +52,8 @@ class AnthropicProvider extends Provider<ChatAnthropicOptions> {
     ),
   );
 
-  /// Returns all available models for this provider from the Anthropic API.
-  ///
-  /// Calls the Anthropic models endpoint, parses the response, and returns a
-  /// complete, accurate, and richly-typed list of models, including all
-  /// relevant metadata. Results are cached for the lifetime of the provider
-  /// instance. Throws if the API call fails or the response is malformed.
   @override
   Future<Iterable<ModelInfo>> listModels() async {
-    if (_cachedModels != null) return _cachedModels!;
     final apiKey = apiKeyName.isNotEmpty
         ? Platform.environment[apiKeyName]
         : null;
@@ -99,7 +90,6 @@ class AnthropicProvider extends Provider<ChatAnthropicOptions> {
         extra: extra,
       );
     }).toList();
-    _cachedModels = models;
-    return _cachedModels!;
+    return models;
   }
 }

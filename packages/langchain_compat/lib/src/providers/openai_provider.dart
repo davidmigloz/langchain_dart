@@ -30,8 +30,6 @@ class OpenAIProvider extends Provider<ChatOpenAIOptions> {
     required super.isRemote,
   });
 
-  List<ModelInfo>? _cachedModels;
-
   @override
   BaseChatModel<ChatOpenAIOptions> createModel({
     String? model,
@@ -65,7 +63,6 @@ class OpenAIProvider extends Provider<ChatOpenAIOptions> {
 
   @override
   Future<Iterable<ModelInfo>> listModels() async {
-    if (_cachedModels != null) return _cachedModels!;
     final apiKey = apiKeyName.isNotEmpty
         ? Platform.environment[apiKeyName]
         : null;
@@ -77,7 +74,7 @@ class OpenAIProvider extends Provider<ChatOpenAIOptions> {
     };
     final response = await http.get(url, headers: headers);
     if (response.statusCode != 200) {
-      throw Exception('Failed to fetch models: \\${response.body}');
+      throw Exception('Failed to fetch models: ${response.body}');
     }
     final data = jsonDecode(response.body);
     late final Iterable<ModelInfo> models;
@@ -128,13 +125,12 @@ class OpenAIProvider extends Provider<ChatOpenAIOptions> {
     } else if (data is Map<String, dynamic>) {
       final modelsList = data['data'] as List?;
       if (modelsList == null) {
-        throw Exception('No models found in response: \\${response.body}');
+        throw Exception('No models found in response: ${response.body}');
       }
       models = mapModels(modelsList);
     } else {
-      throw Exception('Unexpected models response shape: \\${response.body}');
+      throw Exception('Unexpected models response shape: ${response.body}');
     }
-    _cachedModels = models.toList();
-    return _cachedModels!;
+    return models;
   }
 }

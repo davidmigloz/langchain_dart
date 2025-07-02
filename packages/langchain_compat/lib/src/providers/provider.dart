@@ -184,8 +184,8 @@ abstract class Provider<TOptions extends ChatModelOptions> {
     isRemote: true,
   );
 
-  /// Native Ollama provider (local, uses ChatOllama and /api endpoint).
-  /// No API key required.
+  /// Native Ollama provider (local, uses ChatOllama and /api endpoint). No API
+  /// key required.
   static final ollama = OllamaProvider(
     name: 'ollama',
     displayName: 'Ollama',
@@ -195,8 +195,8 @@ abstract class Provider<TOptions extends ChatModelOptions> {
     isRemote: false,
   );
 
-  /// OpenAI-compatible Ollama provider (local, uses /v1 endpoint).
-  /// No API key required.
+  /// OpenAI-compatible Ollama provider (local, uses /v1 endpoint). No API key
+  /// required.
   static final ollamaOpenAI = OpenAIProvider(
     name: 'ollama-openai',
     displayName: 'Ollama (OpenAI-compatible)',
@@ -236,6 +236,8 @@ abstract class Provider<TOptions extends ChatModelOptions> {
 
   /// Returns all available models for this provider.
   ///
-  /// May cache results for the lifetime of the provider instance.
+  /// Implementations may or may not cache results. If your application requires
+  /// caching, you should implement it yourself rather than relying on the
+  /// provider.
   Future<Iterable<ModelInfo>> listModels();
 }

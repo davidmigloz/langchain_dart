@@ -20,10 +20,10 @@ void main() async {
 
   final tools = [currentDateTimeTool];
   final models = [
-    Provider.google.createModel(tools: tools),
-    Provider.openai.createModel(tools: tools),
-    Provider.anthropic.createModel(tools: tools),
-    Provider.cohere.createModel(tools: tools),
+    // Provider.google.createModel(tools: tools),
+    // Provider.openai.createModel(tools: tools),
+    // Provider.anthropic.createModel(tools: tools),
+    // Provider.cohere.createModel(tools: tools),
     Provider.ollama.createModel(tools: tools),
     // Provider.mistral.createModel(tools: tools),
   ];

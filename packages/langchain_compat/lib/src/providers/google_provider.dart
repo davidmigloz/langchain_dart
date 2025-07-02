@@ -30,8 +30,6 @@ class GoogleProvider extends Provider<ChatGoogleGenerativeAIOptions> {
     required super.isRemote,
   });
 
-  List<ModelInfo>? _cachedModels;
-
   @override
   BaseChatModel<ChatGoogleGenerativeAIOptions> createModel({
     String? model,
@@ -61,7 +59,6 @@ class GoogleProvider extends Provider<ChatGoogleGenerativeAIOptions> {
 
   @override
   Future<Iterable<ModelInfo>> listModels() async {
-    if (_cachedModels != null) return _cachedModels!;
     final apiKey = apiKeyName.isNotEmpty
         ? Platform.environment[apiKeyName]
         : null;
@@ -73,7 +70,7 @@ class GoogleProvider extends Provider<ChatGoogleGenerativeAIOptions> {
     );
     final response = await http.get(url, headers: {'x-goog-api-key': apiKey});
     if (response.statusCode != 200) {
-      throw Exception('Failed to fetch Gemini models: \\${response.body}');
+      throw Exception('Failed to fetch Gemini models: ${response.body}');
     }
     final data = jsonDecode(response.body) as Map<String, dynamic>;
     final models = (data['models'] as List).cast<Map<String, dynamic>>().map((
@@ -120,7 +117,6 @@ class GoogleProvider extends Provider<ChatGoogleGenerativeAIOptions> {
             ),
       );
     });
-    _cachedModels = models.toList();
-    return _cachedModels!;
+    return models;
   }
 }
