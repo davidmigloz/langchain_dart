@@ -1,4 +1,4 @@
-import 'embeddings_model_options.dart';
+import '../../embeddings_model_options.dart';
 
 /// Google AI-specific embeddings model options.
 class GoogleEmbeddingsModelOptions extends EmbeddingsModelOptions {

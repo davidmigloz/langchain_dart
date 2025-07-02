@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:openai_dart/openai_dart.dart';
 
-import '../language_models/language_models.dart';
-import 'chunk_list.dart';
-import 'embeddings_model.dart';
-import 'embeddings_result.dart';
+import '../../../language_models/language_models.dart';
+import '../../chunk_list.dart';
+import '../../embeddings_model.dart';
+import '../../embeddings_result.dart';
 import 'openai_embeddings_model_options.dart';
 
 /// OpenAI embeddings model implementation.

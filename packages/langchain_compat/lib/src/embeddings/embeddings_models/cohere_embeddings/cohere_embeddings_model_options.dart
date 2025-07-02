@@ -1,4 +1,4 @@
-import 'embeddings_model_options.dart';
+import '../../embeddings_model_options.dart';
 
 /// Options for Cohere embeddings models.
 class CohereEmbeddingsModelOptions extends EmbeddingsModelOptions {

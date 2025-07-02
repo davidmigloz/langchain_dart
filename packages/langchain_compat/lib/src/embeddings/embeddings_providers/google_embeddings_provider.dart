@@ -1,10 +1,10 @@
-import '../chat/chat_providers/google_provider.dart';
-import '../chat/chat_providers/model_info.dart';
-import '../chat/chat_providers/model_kind.dart';
-import 'embeddings_model.dart';
+import '../../chat/chat_providers/google_provider.dart';
+import '../../chat/chat_providers/model_info.dart';
+import '../../chat/chat_providers/model_kind.dart';
+import '../embeddings_model.dart';
+import '../embeddings_models/google_embeddings/google_embeddings_model.dart';
+import '../embeddings_models/google_embeddings/google_embeddings_model_options.dart';
 import 'embeddings_provider.dart';
-import 'google_embeddings_model.dart';
-import 'google_embeddings_model_options.dart';
 
 /// Google AI embeddings provider.
 class GoogleEmbeddingsProvider

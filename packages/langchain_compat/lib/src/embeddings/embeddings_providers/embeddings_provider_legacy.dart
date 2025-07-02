@@ -1,4 +1,4 @@
-import 'embeddings_result.dart';
+import '../embeddings_result.dart';
 
 /// Interface for embeddings providers.
 abstract interface class EmbeddingsProvider {

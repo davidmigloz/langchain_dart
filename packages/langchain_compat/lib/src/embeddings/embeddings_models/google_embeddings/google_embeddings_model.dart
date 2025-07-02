@@ -5,11 +5,11 @@ import 'package:google_generative_ai/google_generative_ai.dart'
 import 'package:http/http.dart' as http;
 import 'package:http/retry.dart' show RetryClient;
 
-import '../custom_http_client.dart';
-import '../language_models/language_models.dart';
-import 'chunk_list.dart';
-import 'embeddings_model.dart';
-import 'embeddings_result.dart';
+import '../../../custom_http_client.dart';
+import '../../../language_models/language_models.dart';
+import '../../chunk_list.dart';
+import '../../embeddings_model.dart';
+import '../../embeddings_result.dart';
 import 'google_embeddings_model_options.dart';
 
 /// Google AI embeddings model implementation.

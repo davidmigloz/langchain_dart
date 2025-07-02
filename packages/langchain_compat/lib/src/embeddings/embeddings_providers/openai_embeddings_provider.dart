@@ -1,12 +1,12 @@
 import 'dart:io';
 
-import '../chat/chat_providers/model_info.dart';
-import '../chat/chat_providers/model_kind.dart';
-import '../chat/chat_providers/openai_provider.dart';
-import 'embeddings_model.dart';
+import '../../chat/chat_providers/model_info.dart';
+import '../../chat/chat_providers/model_kind.dart';
+import '../../chat/chat_providers/openai_provider.dart';
+import '../embeddings_model.dart';
+import '../embeddings_models/openai_embeddings/openai_embeddings_model.dart';
+import '../embeddings_models/openai_embeddings/openai_embeddings_model_options.dart';
 import 'embeddings_provider.dart';
-import 'openai_embeddings_model.dart';
-import 'openai_embeddings_model_options.dart';
 
 /// OpenAI embeddings provider.
 class OpenAIEmbeddingsProvider

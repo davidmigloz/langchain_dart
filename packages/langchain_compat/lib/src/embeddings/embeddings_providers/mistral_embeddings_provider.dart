@@ -1,12 +1,12 @@
 import 'dart:io';
 
-import '../chat/chat_providers/mistral_provider.dart';
-import '../chat/chat_providers/model_info.dart';
-import '../chat/chat_providers/model_kind.dart';
-import 'embeddings_model.dart';
+import '../../chat/chat_providers/mistral_provider.dart';
+import '../../chat/chat_providers/model_info.dart';
+import '../../chat/chat_providers/model_kind.dart';
+import '../embeddings_model.dart';
+import '../embeddings_models/mistral_embeddings/mistral_embeddings_model.dart';
+import '../embeddings_models/mistral_embeddings/mistral_embeddings_model_options.dart';
 import 'embeddings_provider.dart';
-import 'mistral_embeddings_model.dart';
-import 'mistral_embeddings_model_options.dart';
 
 /// Mistral AI embeddings provider.
 class MistralEmbeddingsProvider

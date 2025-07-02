@@ -1,11 +1,11 @@
 import 'dart:io';
 
-import '../chat/chat_providers/cohere_openai_provider.dart';
-import '../chat/chat_providers/model_info.dart';
-import '../chat/chat_providers/model_kind.dart';
-import 'cohere_embeddings_model.dart';
-import 'cohere_embeddings_model_options.dart';
-import 'embeddings_model.dart';
+import '../../chat/chat_providers/cohere_openai_provider.dart';
+import '../../chat/chat_providers/model_info.dart';
+import '../../chat/chat_providers/model_kind.dart';
+import '../embeddings_model.dart';
+import '../embeddings_models/cohere_embeddings/cohere_embeddings_model.dart';
+import '../embeddings_models/cohere_embeddings/cohere_embeddings_model_options.dart';
 import 'embeddings_provider.dart';
 
 /// Cohere embeddings provider.

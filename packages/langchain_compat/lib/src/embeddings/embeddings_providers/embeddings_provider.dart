@@ -1,7 +1,7 @@
-import '../chat/chat_providers/model_info.dart';
+import '../../chat/chat_providers/model_info.dart';
+import '../embeddings_model.dart';
+import '../embeddings_model_options.dart';
 import 'cohere_embeddings_provider.dart';
-import 'embeddings_model.dart';
-import 'embeddings_model_options.dart';
 import 'google_embeddings_provider.dart';
 import 'mistral_embeddings_provider.dart';
 import 'openai_embeddings_provider.dart';

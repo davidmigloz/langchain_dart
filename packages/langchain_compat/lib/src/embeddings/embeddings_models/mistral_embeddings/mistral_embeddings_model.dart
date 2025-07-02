@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import '../language_models/finish_reason.dart';
-import '../language_models/language_model_usage.dart';
-import 'embeddings_model.dart';
-import 'embeddings_result.dart';
+import '../../../language_models/finish_reason.dart';
+import '../../../language_models/language_model_usage.dart';
+import '../../embeddings_model.dart';
+import '../../embeddings_result.dart';
 import 'mistral_embeddings_model_options.dart';
 
 /// Mistral AI embeddings model implementation.
