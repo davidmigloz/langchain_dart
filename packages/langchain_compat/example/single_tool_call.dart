@@ -24,7 +24,7 @@ void main() async {
     // Provider.openai.createModel(tools: tools),
     // Provider.anthropic.createModel(tools: tools),
     // Provider.cohere.createModel(tools: tools),
-    Provider.ollama.createModel(tools: tools),
+    ChatProvider.ollama.createModel(tools: tools),
     // Provider.mistral.createModel(tools: tools),
   ];
 
@@ -37,7 +37,7 @@ void main() async {
 }
 
 Future<void> singleToolCall(
-  BaseChatModel<ChatModelOptions> model,
+  ChatModel<ChatModelOptions> model,
   List<Tool<Object, ToolOptions, Object>> tools,
 ) async {
   final toolMap = <String, Tool<Object, ToolOptions, Object>>{};

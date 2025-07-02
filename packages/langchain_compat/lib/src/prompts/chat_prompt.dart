@@ -2,7 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:cross_file/cross_file.dart';
 import 'package:meta/meta.dart';
 
-import '../chat_models/types.dart';
+import '../chat/chat_models/chat_message.dart';
 import 'base_chat_message_prompt.dart';
 import 'base_chat_prompt.dart';
 import 'base_prompt.dart';

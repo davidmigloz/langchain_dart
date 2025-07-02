@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:langchain_compat/langchain_compat.dart';
+import 'package:langchain_compat/src/chat/chat_models/chat_message.dart';
 
 void dumpChatHistory(List<ChatMessage> history) {
   print('--------------------------------');

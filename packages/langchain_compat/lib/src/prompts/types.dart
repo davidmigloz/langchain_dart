@@ -3,8 +3,8 @@ import 'dart:math';
 import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
-import '../chat_models/types.dart';
-import '../chat_models/utils.dart';
+import '../chat/chat_models/chat_message.dart';
+import '../chat/chat_models/utils.dart';
 import '../exceptions/base.dart';
 
 /// {@template prompt_value}

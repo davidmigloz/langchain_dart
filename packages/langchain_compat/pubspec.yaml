@@ -20,7 +20,6 @@ dependencies:
   googleai_dart: ^0.1.1
   html: ^0.15.6
   http: ^1.4.0
-  langchain_tiktoken: ^1.0.1
   meta: ^1.16.0
   mistralai_dart: ^0.0.4
   ollama_dart: ^0.2.3

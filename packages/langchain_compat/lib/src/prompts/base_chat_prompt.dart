@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../chat_models/types.dart';
+import '../chat/chat_models/chat_message.dart';
 import 'base_prompt.dart';
 import 'types.dart';
 

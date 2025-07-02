@@ -2,13 +2,13 @@
 
 import 'dart:io';
 
-import 'package:langchain_compat/src/providers/provider.dart';
-import 'package:langchain_compat/src/providers/providers.dart';
+import 'package:langchain_compat/src/chat/chat_providers/chat_provider.dart';
+import 'package:langchain_compat/src/chat/chat_providers/chat_providers.dart';
 
 Future<void> main() async {
   var totalProviders = 0;
   var totalModels = 0;
-  for (final provider in Provider.all) {
+  for (final provider in ChatProvider.all) {
     totalProviders++;
     print('\n# ${provider.displayName} (${provider.name})');
     final models = await provider.listModels();

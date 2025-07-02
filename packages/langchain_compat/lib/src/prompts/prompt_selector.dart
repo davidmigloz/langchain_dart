@@ -1,5 +1,5 @@
-import '../chat_models/base.dart';
-import '../language_models/base.dart';
+import '../chat/chat_models/chat_model.dart';
+import '../language_models/language_model.dart';
 import 'base_prompt.dart';
 
 /// {@template base_prompt_template}
@@ -10,7 +10,7 @@ abstract interface class BasePromptSelector {
   const BasePromptSelector();
 
   /// Get default prompt for a language model.
-  BasePromptTemplate getPrompt(BaseLanguageModel llm);
+  BasePromptTemplate getPrompt(LanguageModel llm);
 }
 
 /// {@template conditional_prompt_selector}
@@ -53,7 +53,7 @@ class ConditionalPromptSelector implements BasePromptSelector {
   final List<PromptCondition> conditionals;
 
   @override
-  BasePromptTemplate getPrompt(BaseLanguageModel llm) {
+  BasePromptTemplate getPrompt(LanguageModel llm) {
     for (final conditional in conditionals) {
       if (conditional.condition(llm)) {
         return conditional.prompt;
@@ -76,10 +76,10 @@ class PromptCondition {
 
   /// A prompt for a language mode that is a chat model.
   factory PromptCondition.isChatModel(BasePromptTemplate prompt) =>
-      PromptCondition(condition: (llm) => llm is BaseChatModel, prompt: prompt);
+      PromptCondition(condition: (llm) => llm is ChatModel, prompt: prompt);
 
   /// Condition for a prompt.
-  final bool Function(BaseLanguageModel llm) condition;
+  final bool Function(LanguageModel llm) condition;
 
   /// Prompt to use if the condition is met.
   final BasePromptTemplate prompt;

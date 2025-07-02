@@ -1,5 +1,5 @@
-import '../chat_models/types.dart';
-import '../language_models/types.dart';
+import '../chat/chat_models/chat_message.dart';
+import '../language_models/language_model_result.dart';
 import '../prompts/types.dart';
 
 /// Reduces a list of objects to a single object by concatenating them.

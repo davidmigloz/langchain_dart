@@ -4,9 +4,6 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:langchain_compat/langchain_compat.dart';
-import 'package:langchain_compat/src/embeddings/base.dart';
-import 'package:langchain_compat/src/embeddings/google_ai/google_ai_embeddings.dart';
-import 'package:langchain_compat/src/embeddings/openai.dart';
 
 void main() async {
   final sampleTexts = [
@@ -17,15 +14,13 @@ void main() async {
 
   await embeddingsTest(
     'OpenAI',
-    OpenAIEmbeddings(apiKey: Platform.environment['OPENAI_API_KEY']),
+    OpenAIEmbeddingsProvider(apiKey: Platform.environment['OPENAI_API_KEY']),
     sampleTexts,
   );
 
   await embeddingsTest(
     'Google AI',
-    GoogleGenerativeAIEmbeddings(
-      apiKey: Platform.environment['GEMINI_API_KEY'],
-    ),
+    GoogleEmbeddingsProvider(apiKey: Platform.environment['GEMINI_API_KEY']),
     sampleTexts,
   );
 }
