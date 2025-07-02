@@ -1,6 +1,5 @@
 import '../chat_models/base.dart';
 import '../language_models/base.dart';
-import '../llms/base.dart';
 import 'base_prompt.dart';
 
 /// {@template base_prompt_template}
@@ -19,8 +18,7 @@ abstract interface class BasePromptSelector {
 /// prompt template.
 ///
 /// You can use this to select a prompt template based on the type of language
-/// model (LLM vs. ChatModel) or the specific model used (e.g. GPT-4 vs Gemini
-/// Pro).
+/// model or the specific model used (e.g. GPT-4 vs Gemini Pro).
 ///
 /// Example: Selecting a prompt based on the type of language model.
 /// ```dart
@@ -68,18 +66,13 @@ class ConditionalPromptSelector implements BasePromptSelector {
 /// {@template prompt_condition}
 /// Condition for a prompt.
 ///
-/// The following pre-defined conditions are available:
-/// - [PromptCondition.isLlm]: checks that the language model is an LLM.
+/// The following pre-defined condition is available:
 /// - [PromptCondition.isChatModel]: checks that the language model is a chat
 ///   model.
 /// {@endtemplate}
 class PromptCondition {
   /// {@macro prompt_condition}
   const PromptCondition({required this.condition, required this.prompt});
-
-  /// A prompt for a language mode that is an LLM.
-  factory PromptCondition.isLlm(BasePromptTemplate prompt) =>
-      PromptCondition(condition: (llm) => llm is BaseLLM, prompt: prompt);
 
   /// A prompt for a language mode that is a chat model.
   factory PromptCondition.isChatModel(BasePromptTemplate prompt) =>

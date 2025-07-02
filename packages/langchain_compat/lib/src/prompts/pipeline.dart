@@ -23,7 +23,7 @@ import 'types.dart';
 ///   pipelinePrompts: [('bar', promptA)],
 /// );
 /// final prompt = pipelinePromptTemplate.formatPrompt({'foo': 'jim'});
-/// final res = await llm.invoke(prompt);
+/// final res = await model.invoke(prompt);
 /// ```
 /// {@endtemplate}
 final class PipelinePromptTemplate extends BasePromptTemplate {

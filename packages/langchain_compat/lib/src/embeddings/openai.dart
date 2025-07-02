@@ -1,7 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'package:openai_dart/openai_dart.dart';
 
-import '../documents/documents.dart';
 import '../embeddings.dart';
 import '../utils/utils.dart';
 
@@ -13,9 +12,9 @@ import '../utils/utils.dart';
 /// final res = await embeddings.embedQuery('Hello world');
 /// ```
 ///
-/// - [Embeddings
+/// - [EmbeddingsProvider
 ///   guide](https://platform.openai.com/docs/guides/embeddings/limitations-risks)
-/// - [Embeddings API
+/// - [EmbeddingsProvider API
 ///   docs](https://platform.openai.com/docs/api-reference/embeddings)
 ///
 /// You can also use this wrapper to consume OpenAI-compatible APIs like
@@ -110,7 +109,7 @@ import '../utils/utils.dart';
 /// To use a SOCKS5 proxy, you can use the
 /// [`socks5_proxy`](https://pub.dev/packages/socks5_proxy) package and a custom
 /// `http.Client`.
-class OpenAIEmbeddings implements Embeddings {
+class OpenAIEmbeddings implements EmbeddingsProvider {
   /// Create a new [OpenAIEmbeddings] instance.
   ///
   /// Main configuration options:
@@ -170,7 +169,7 @@ class OpenAIEmbeddings implements Embeddings {
   /// Only supported in `text-embedding-3` and later models.
   int? dimensions;
 
-  /// The maximum number of documents to embed in a single request.
+  /// The maximum number of texts to embed in a single request.
   /// This is limited by max input tokens for the model
   /// (e.g. 8191 tokens for text-embedding-3-small).
   int batchSize;
@@ -188,19 +187,17 @@ class OpenAIEmbeddings implements Embeddings {
   String get apiKey => _client.apiKey;
 
   @override
-  Future<List<List<double>>> embedDocuments(List<Document> documents) async {
-    // TODO use tiktoken to chunk documents that exceed the context length of
+  Future<List<List<double>>> embedDocuments(List<String> texts) async {
+    // TODO use tiktoken to chunk texts that exceed the context length of
     // the model
-    final batches = chunkList(documents, chunkSize: batchSize);
+    final batches = chunkList(texts, chunkSize: batchSize);
 
     final embeddings = await Future.wait(
       batches.map((batch) async {
         final data = await _client.createEmbedding(
           request: CreateEmbeddingRequest(
             model: EmbeddingModel.modelId(model),
-            input: EmbeddingInput.listString(
-              batch.map((doc) => doc.pageContent).toList(growable: false),
-            ),
+            input: EmbeddingInput.listString(batch.toList(growable: false)),
             dimensions: dimensions,
             user: user,
           ),

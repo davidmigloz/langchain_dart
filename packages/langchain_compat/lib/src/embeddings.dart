@@ -1,2 +1,3 @@
 export 'embeddings/base.dart';
-export 'embeddings/fake.dart';
+export 'embeddings/embeddings.dart';
+export 'embeddings/openai.dart';

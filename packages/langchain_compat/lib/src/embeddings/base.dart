@@ -1,14 +1,12 @@
-import '../documents/document.dart';
-
 /// {@template embeddings}
 /// Interface for embedding models.
 /// {@endtemplate}
-abstract interface class Embeddings {
+abstract interface class EmbeddingsProvider {
   /// {@macro embeddings}
-  const Embeddings();
+  const EmbeddingsProvider();
 
-  /// Embed search docs.
-  Future<List<List<double>>> embedDocuments(List<Document> documents);
+  /// Embed texts.
+  Future<List<List<double>>> embedDocuments(List<String> texts);
 
   /// Embed query text.
   Future<List<double>> embedQuery(String query);

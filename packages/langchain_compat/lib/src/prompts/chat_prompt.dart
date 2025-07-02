@@ -13,7 +13,7 @@ import 'types.dart';
 /// {@template chat_prompt_template}
 /// A prompt template for chat models.
 ///
-/// Whereas LLMs take a string as prompt, Chat models take a list of messages.
+/// Chat models take a list of messages as input.
 /// [ChatPromptTemplate] uses a list of template messages to generate the final
 /// prompt.
 ///

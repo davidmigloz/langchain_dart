@@ -1,5 +1,4 @@
 import '../chat_models/types.dart';
-import '../documents/document.dart';
 import '../language_models/types.dart';
 import '../prompts/types.dart';
 
@@ -10,7 +9,6 @@ import '../prompts/types.dart';
 /// - A list of chat messages will be concatenated into a single chat message.
 /// - A list of language model results will be concatenated into a single
 ///   language model result.
-/// - A list of documents will be concatenated into a single document.
 /// - A list of lists will be reduced to a single list containing a single
 ///   reduced item.
 /// - A list of maps will be reduced to a single map containing the reduced
@@ -35,7 +33,6 @@ Type reduce<Type>(Iterable<Type> input) {
         LanguageModelResult() => input.cast<LanguageModelResult>().reduce(
           (a, b) => a.concat(b),
         ),
-        Document() => input.cast<Document>().reduce((a, b) => a.concat(b)),
         Iterable<String>() => _reduceIterable(input.cast<Iterable<String>>()),
         Iterable<Object>() => _reduceIterable(input.cast<Iterable<Object>>()),
         Iterable<dynamic>() => _reduceIterable(input.cast<Iterable<dynamic>>()),

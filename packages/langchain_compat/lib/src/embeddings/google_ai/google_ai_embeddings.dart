@@ -3,7 +3,6 @@ import 'package:google_generative_ai/google_generative_ai.dart'
 import 'package:http/http.dart' as http;
 import 'package:http/retry.dart' show RetryClient;
 
-import '../../documents/document.dart';
 import '../../embeddings/base.dart';
 import '../../utils/chunk.dart';
 import '../../utils/https_client/http_client.dart';
@@ -36,7 +35,7 @@ import '../../utils/https_client/http_client.dart';
 /// The task type is then used by the model to improve the quality of the
 /// embeddings.
 ///
-/// This class uses the specifies the following task type:
+/// This class specifies the following task type:
 /// - `retrievalDocument`: for [embedDocuments]
 /// - `retrievalQuery`: for [embedQuery]
 ///
@@ -52,27 +51,8 @@ import '../../utils/https_client/http_client.dart';
 ///
 /// ### Title
 ///
-/// Google AI support specifying a document title when embedding documents.
-/// The title is then used by the model to improve the quality of the
-/// embeddings.
-///
-/// To specify a document title, add the title to the document's metadata.
-/// Then, specify the metadata key in the [docTitleKey] parameter.
-///
-/// Example:
-/// ```dart
-/// final embeddings = GoogleGenerativeAIEmbeddings(
-///   apiKey: 'your-api-key',
-/// );
-/// final result = await embeddings.embedDocuments([
-///   Document(
-///     pageContent: 'Hello world',
-///     metadata: {'title': 'Hello!'},
-///   ),
-/// ]);
-/// ```
 /// {@endtemplate}
-class GoogleGenerativeAIEmbeddings implements Embeddings {
+class GoogleGenerativeAIEmbeddings implements EmbeddingsProvider {
   /// Create a new [GoogleGenerativeAIEmbeddings] instance.
   ///
   /// Main configuration options:
@@ -82,7 +62,6 @@ class GoogleGenerativeAIEmbeddings implements Embeddings {
   ///   embedding models here: https://ai.google.dev/models/gemini
   /// - [GoogleGenerativeAIEmbeddings.dimensions]
   /// - [GoogleGenerativeAIEmbeddings.batchSize]
-  /// - [GoogleGenerativeAIEmbeddings.docTitleKey]
   ///
   /// Advance configuration options:
   /// - `baseUrl`: the base URL to use. Defaults to Google AI's API URL. You can
@@ -104,7 +83,6 @@ class GoogleGenerativeAIEmbeddings implements Embeddings {
     String model = 'text-embedding-004',
     this.dimensions,
     this.batchSize = 100,
-    this.docTitleKey = 'title',
   }) : _model = model,
        _httpClient = CustomHttpClient(
          baseHttpClient: client ?? RetryClient(http.Client(), retries: retries),
@@ -139,11 +117,8 @@ class GoogleGenerativeAIEmbeddings implements Embeddings {
   /// Only supported in `text-embedding-004` and later models.
   int? dimensions;
 
-  /// The maximum number of documents to embed in a single request.
+  /// The maximum number of texts to embed in a single request.
   int batchSize;
-
-  /// The metadata key used to store the document's (optional) title.
-  String docTitleKey;
 
   /// Set or replace the API key.
   set apiKey(String value) => _httpClient.headers['x-goog-api-key'] = value;
@@ -152,18 +127,17 @@ class GoogleGenerativeAIEmbeddings implements Embeddings {
   String get apiKey => _httpClient.headers['x-goog-api-key'] ?? '';
 
   @override
-  Future<List<List<double>>> embedDocuments(List<Document> documents) async {
-    final batches = chunkList(documents, chunkSize: batchSize);
+  Future<List<List<double>>> embedDocuments(List<String> texts) async {
+    final batches = chunkList(texts, chunkSize: batchSize);
 
     final embeddings = await Future.wait(
       batches.map((batch) async {
         final data = await _googleAiClient.batchEmbedContents(
           batch
               .map(
-                (doc) => EmbedContentRequest(
-                  Content.text(doc.pageContent),
+                (text) => EmbedContentRequest(
+                  Content.text(text),
                   taskType: TaskType.retrievalDocument,
-                  title: doc.metadata[docTitleKey],
                   outputDimensionality: dimensions,
                 ),
               )

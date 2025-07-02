@@ -20,7 +20,7 @@ import 'types.dart';
 ///   template: 'What is a good name for a company that makes {product}?',
 /// );
 /// final prompt = promptTemplate.formatPrompt({'product': 'colorful socks'});
-/// final res = await llm.invoke(prompt);
+/// final res = await model.invoke(prompt);
 /// ```
 ///
 /// Note: the default constructor does not validate the template. You can use
