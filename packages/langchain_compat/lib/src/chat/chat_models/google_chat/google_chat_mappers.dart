@@ -5,7 +5,6 @@ import 'package:google_generative_ai/google_generative_ai.dart' as g;
 import '../../../language_models/language_models.dart';
 import '../../tools/tool_spec.dart';
 import '../chat_models.dart';
-import '../tool_call_id_manager.dart';
 
 /// Extension on [List<ChatMessage>] to convert chat messages to Google
 /// Generative AI SDK content.
@@ -139,8 +138,6 @@ extension ChatMessagesMapper on List<ChatMessage> {
 
 /// Extension on [g.GenerateContentResponse] to convert to [ChatResult].
 extension GenerateContentResponseMapper on g.GenerateContentResponse {
-  /// Tool call ID manager for Google tool calls
-  static const _toolCallIdManager = ToolCallIdManager('google');
 
   /// Converts this [g.GenerateContentResponse] to a [ChatResult].
   ChatResult toChatResult(String id, String model) {
@@ -162,19 +159,17 @@ extension GenerateContentResponseMapper on g.GenerateContentResponse {
             )
             .nonNulls
             .join('\n'),
-        toolCalls: _toolCallIdManager.assignIds(
-          candidate.content.parts
-              .whereType<g.FunctionCall>()
-              .map(
-                (call) => AIChatMessageToolCall(
-                  id: '', // Google doesn't provide tool call IDs
-                  name: call.name,
-                  argumentsRaw: jsonEncode(call.args),
-                  arguments: call.args,
-                ),
-              )
-              .toList(growable: false),
-        ),
+        toolCalls: candidate.content.parts
+            .whereType<g.FunctionCall>()
+            .map(
+              (call) => AIChatMessageToolCall(
+                id: '', // Google doesn't provide tool call IDs
+                name: call.name,
+                argumentsRaw: jsonEncode(call.args),
+                arguments: call.args,
+              ),
+            )
+            .toList(growable: false),
       ),
       finishReason: _mapFinishReason(candidate.finishReason),
       metadata: {

@@ -19,6 +19,8 @@ dart run example/provider_models.dart      # List all available models
 dart run example/single_turn_chat.dart     # Simple chat example
 dart run example/multi_turn_chat.dart      # Conversation example
 dart run example/single_tool_call.dart     # Tool calling example
+dart run example/multi_tool_call.dart      # Multi-tool calling example
+dart run example/usage_tracking.dart       # Usage tracking example
 ```
 
 ## Project Architecture

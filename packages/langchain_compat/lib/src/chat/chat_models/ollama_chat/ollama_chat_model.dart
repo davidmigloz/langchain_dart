@@ -3,13 +3,15 @@ import 'package:ollama_dart/ollama_dart.dart' show OllamaClient;
 import 'package:uuid/uuid.dart';
 
 import '../chat_models.dart';
+import '../tools_and_messages_helper.dart';
 import 'ollama_mappers.dart' as ollama_mappers;
 
 export 'ollama_chat_options.dart';
 
 /// Wrapper around [Ollama](https://ollama.ai) Chat API that enables to interact
 /// with the LLMs in a chat-like fashion.
-class OllamaChatModel extends ChatModel<OllamaChatOptions> {
+class OllamaChatModel extends ChatModel<OllamaChatOptions> 
+    with ToolsAndMessagesHelper<OllamaChatOptions> {
   /// Creates a [OllamaChatModel] instance.
   OllamaChatModel({
     String? model,
@@ -61,46 +63,28 @@ class OllamaChatModel extends ChatModel<OllamaChatOptions> {
   static const defaultModelName = 'qwen2.5:7b-instruct';
 
   @override
-  Future<ChatResult> invoke(
+  Stream<ChatResult> rawStream(
     List<ChatMessage> messages, {
     OllamaChatOptions? options,
-  }) async {
-    final completion = await _client.generateChatCompletion(
-      request: ollama_mappers.generateChatCompletionRequest(
-        messages,
-        model: _model,
-        options: options,
-        defaultOptions: defaultOptions,
-        tools: tools,
-        temperature: temperature,
-      ),
-    );
-    final id = _uuid.v4();
-    return ollama_mappers.ChatResultMapper(completion).toChatResult(id);
-  }
-
-  @override
-  Stream<ChatResult> stream(
-    List<ChatMessage> messages, {
-    OllamaChatOptions? options,
-  }) => _client
-      .generateChatCompletionStream(
-        request: ollama_mappers.generateChatCompletionRequest(
-          messages,
-          model: _model,
-          options: options,
-          defaultOptions: defaultOptions,
-          tools: tools,
-          temperature: temperature,
-          stream: true,
-        ),
-      )
-      .map((completion) {
-        final id = _uuid.v4();
-        return ollama_mappers.ChatResultMapper(
-          completion,
-        ).toChatResult(id, streaming: true);
-      });
+  }) =>
+      _client
+          .generateChatCompletionStream(
+            request: ollama_mappers.generateChatCompletionRequest(
+              messages,
+              model: _model,
+              options: options,
+              defaultOptions: defaultOptions,
+              tools: tools,
+              temperature: temperature,
+              stream: true,
+            ),
+          )
+          .map((completion) {
+            final id = _uuid.v4();
+            return ollama_mappers.ChatResultMapper(
+              completion,
+            ).toChatResult(id, streaming: true);
+          });
 
   @override
   void close() {

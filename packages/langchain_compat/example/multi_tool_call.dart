@@ -1,6 +1,5 @@
 // ignore_for_file: avoid_print
 
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:langchain_compat/langchain_compat.dart';
@@ -45,10 +44,6 @@ Future<void> multiToolCallExample(
   ChatModel<ChatModelOptions> model,
   List<Tool<Object, Object>> tools,
 ) async {
-  final toolMap = <String, Tool<Object, Object>>{};
-  for (final tool in tools) {
-    toolMap[tool.name] = tool;
-  }
 
   const userMessage =
       'What is the current date and time, and what is the temperature in '
@@ -63,44 +58,19 @@ Future<void> multiToolCallExample(
 
   print('\nUser: $userMessage');
 
-  var done = false;
-  while (!done) {
-    final stream = model.stream(messages);
-    var accumulatedMessage = const AIChatMessage(content: '');
-
-    await for (final chunk in stream) {
-      // Output text as it streams
-      if (chunk.output.content.isNotEmpty) {
-        stdout.write(chunk.output.content);
-      }
-      // Accumulate the message chunks (this will merge tool calls by ID)
-      accumulatedMessage = accumulatedMessage.concat(chunk.output);
+  // With the new API, tool execution and message collection is automatic
+  final stream = model.stream(messages);
+  
+  await for (final chunk in stream) {
+    // Output text as it streams
+    final outputText = chunk.output is String ? chunk.output as String : '';
+    if (outputText.isNotEmpty) {
+      stdout.write(outputText);
     }
-    stdout.writeln();
-
-    // Add the accumulated AI message to the history
-    messages.add(accumulatedMessage);
-
-    if (accumulatedMessage.toolCalls.isEmpty) {
-      done = true;
-    } else {
-      // Call all tools and add results to history
-      for (final toolCall in accumulatedMessage.toolCalls) {
-        final tool = toolMap[toolCall.name];
-        if (tool == null) {
-          continue;
-        }
-        final args = toolCall.arguments;
-        final toolResult = await tool.invoke(args);
-        final toolResultString = toolResult is String
-            ? toolResult
-            : json.encode(toolResult);
-        messages.add(
-          ChatMessage.tool(toolCallId: toolCall.id, content: toolResultString),
-        );
-      }
-    }
+    // Add new messages to the conversation
+    messages.addAll(chunk.messages);
   }
+  stdout.writeln();
 
   dumpChatHistory(messages);
 }

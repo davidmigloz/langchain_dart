@@ -20,7 +20,11 @@ Future<void> main() async {
             HumanChatMessage(content: ChatMessageContent.text(promptText)),
           ])
           .forEach((chunk) {
-            stdout.write(chunk.output.content);
+            final outputText =
+                chunk.output is String ? chunk.output as String : '';
+            if (outputText.isNotEmpty) {
+              stdout.write(outputText);
+            }
           });
       stdout.writeln();
     } on Exception catch (e) {

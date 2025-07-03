@@ -3,12 +3,14 @@ import 'package:openai_dart/openai_dart.dart';
 import 'package:uuid/uuid.dart';
 
 import '../chat_models.dart';
+import '../tools_and_messages_helper.dart';
 import 'openai_chat_options.dart';
 import 'openai_mappers.dart';
 
 /// Wrapper around [OpenAI Chat
 /// API](https://platform.openai.com/docs/api-reference/chat).
-class OpenAIChatModel extends ChatModel<OpenAIChatOptions> {
+class OpenAIChatModel extends ChatModel<OpenAIChatOptions> 
+    with ToolsAndMessagesHelper<OpenAIChatOptions> {
   /// Creates a [OpenAIChatModel] instance.
   OpenAIChatModel({
     String? model,
@@ -61,25 +63,7 @@ class OpenAIChatModel extends ChatModel<OpenAIChatOptions> {
   static const defaultModelName = 'gpt-4o-mini';
 
   @override
-  Future<ChatResult> invoke(
-    List<ChatMessage> messages, {
-    OpenAIChatOptions? options,
-  }) async {
-    final completion = await _client.createChatCompletion(
-      request: createChatCompletionRequest(
-        messages,
-        model: _model,
-        tools: tools,
-        temperature: temperature,
-        options: options,
-        defaultOptions: defaultOptions,
-      ),
-    );
-    return completion.toChatResult(completion.id ?? _uuid.v4());
-  }
-
-  @override
-  Stream<ChatResult> stream(
+  Stream<ChatResult> rawStream(
     List<ChatMessage> messages, {
     OpenAIChatOptions? options,
   }) => _client

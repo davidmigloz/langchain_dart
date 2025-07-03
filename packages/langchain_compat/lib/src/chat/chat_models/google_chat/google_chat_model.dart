@@ -8,11 +8,13 @@ import 'package:uuid/uuid.dart';
 
 import '../../../custom_http_client.dart';
 import '../chat_models.dart';
+import '../tools_and_messages_helper.dart';
 import 'google_chat_mappers.dart';
 
 /// Wrapper around [Google AI for Developers](https://ai.google.dev/) API
 /// (aka Gemini API).
-class GoogleChatModel extends ChatModel<GoogleChatOptions> {
+class GoogleChatModel extends ChatModel<GoogleChatOptions> 
+    with ToolsAndMessagesHelper<GoogleChatOptions> {
   /// Creates a [GoogleChatModel] instance.
   GoogleChatModel({
     String? model,
@@ -75,25 +77,7 @@ class GoogleChatModel extends ChatModel<GoogleChatOptions> {
   static const defaultModelName = 'gemini-2.0-flash';
 
   @override
-  Future<ChatResult> invoke(
-    List<ChatMessage> messages, {
-    GoogleChatOptions? options,
-  }) async {
-    final id = _uuid.v4();
-    final (model, prompt, safetySettings, generationConfig, tools, toolConfig) =
-        _generateCompletionRequest(messages, options: options);
-    final completion = await _googleAiClient.generateContent(
-      prompt,
-      safetySettings: safetySettings,
-      generationConfig: generationConfig,
-      tools: tools,
-      toolConfig: toolConfig,
-    );
-    return completion.toChatResult(id, model);
-  }
-
-  @override
-  Stream<ChatResult> stream(
+  Stream<ChatResult> rawStream(
     List<ChatMessage> messages, {
     GoogleChatOptions? options,
   }) {
