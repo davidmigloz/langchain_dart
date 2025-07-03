@@ -79,6 +79,32 @@ Chunk 2: {id: 'call_123', name: '', args: '{}'}            // Completion
 
 **Solution**: Provider-agnostic protocol detection based on data patterns, not provider names.
 
+### 4. Consecutive AI Message Readability Issues
+**Problem**: When using tools, providers often generate multiple consecutive AI messages:
+1. Initial response: "I'll help you get the time and temperature..."
+2. Final synthesis: "The current time is 2025-07-03..."
+
+Without proper separation, these stream as one continuous text causing poor UX:
+```dart
+// BAD: Messages run together
+"I'll help you get both.The current time is 2025-07-03..."
+```
+
+**Solution**: Intelligent newline prefixing that detects when a new AI message starts after tool execution and adds visual separation:
+
+```dart  
+// GOOD: Messages properly separated
+"I'll help you get both.
+The current time is 2025-07-03..."
+```
+
+This enhancement:
+- Only affects streaming output (`chunk.output`), not stored messages
+- Adds newline prefix only to the first chunk of subsequent AI messages
+- Maintains proper text flow within individual messages
+- Works across all providers automatically
+- Can be easily removed by users with `.trim()` if not desired
+
 ## Architecture Components
 
 ### ToolsAndMessagesHelper Mixin
@@ -111,7 +137,9 @@ mixin ToolsAndMessagesHelper<TOptions extends ChatModelOptions> {
 3. **UUID Assignment**: Assigns UUIDs to tool calls that lack IDs (Google,
    Ollama)
 4. **Message Collection**: Maintains complete conversation history automatically
-5. **Provider Independence**: Works with all provider types transparently
+5. **Streaming UX Enhancement**: Automatically separates consecutive AI messages
+   with newlines for better readability
+6. **Provider Independence**: Works with all provider types transparently
 
 ## Tool Call ID Management
 
@@ -179,6 +207,80 @@ currentAIMessage = currentAIMessage.concat(messageToConcat);
 | Single empty ID + name | `length == 1 && id.isEmpty && name.isNotEmpty` | Assign UUID before concat | Complete single calls |
 | Proper IDs | `!id.isEmpty` | Use natural concat logic | OpenAI, Anthropic |
 | Partial chunks | `id.isNotEmpty || name.isEmpty` | Use natural concat logic | OpenAI streaming |
+
+## Streaming UX Enhancement
+
+### Problem: Consecutive AI Messages Run Together
+When tools are involved, conversation flows typically involve multiple AI messages:
+
+1. **Initial AI Response**: "I'll help you get both the time and temperature for Portland."
+2. **Tool Execution**: (happens automatically)  
+3. **Final AI Synthesis**: "The current time is 2025-07-03T08:23:48 and the temperature is 80°F."
+
+Without proper separation, these messages stream as continuous text:
+```
+I'll help you get both the time and temperature for Portland.The current time is 2025-07-03T08:23:48...
+```
+
+### Solution: Intelligent Newline Prefixing
+
+The `ToolsAndMessagesHelper` tracks when an AI message contains tool calls and automatically prefixes the next AI message with a newline:
+
+```dart
+/// Flag to track if we should prefix the next AI message with a newline
+bool _shouldPrefixNextMessage = false;
+
+// When AI message has tool calls, set flag for next message
+if (messageWithIds.toolCalls.isNotEmpty) {
+  _shouldPrefixNextMessage = true;
+}
+
+// When streaming next AI message, prefix first chunk with newline
+final streamOutput = (_shouldPrefixNextMessage && isFirstChunkOfMessage)
+    ? '\n$textOutput'
+    : textOutput;
+```
+
+### Implementation Details
+
+**Flag Management**:
+- `_shouldPrefixNextMessage`: Set when current AI message has tool calls
+- `isFirstChunkOfMessage`: Ensures only first chunk of new message gets prefix
+- Reset at start of each `stream()` call
+
+**Timing**:
+- Flag is set AFTER an AI message with tool calls completes
+- Flag is checked BEFORE the first chunk of the subsequent AI message
+- Only affects the very first chunk of subsequent messages
+
+**Output Behavior**:
+```dart
+// First AI message (no prefix)
+"I'll help you get both the time and temperature."
+
+// Tool execution happens...
+
+// Second AI message (newline prefix on first chunk only)  
+"\nThe current time is 2025-07-03T08:23:48 and the temperature is 80°F."
+```
+
+### User Control
+
+Users can easily control this behavior:
+```dart
+// Accept newlines (default, recommended)
+stdout.write(chunk.output);
+
+// Remove newlines if not desired  
+stdout.write(chunk.output.trim());
+
+// Custom handling
+final text = chunk.output.startsWith('\n') 
+    ? chunk.output.substring(1)  // Remove leading newline
+    : chunk.output;
+```
+
+**Important**: This only affects streaming output (`chunk.output`). The actual messages stored in `chunk.messages` contain the original text without artificial newlines.
 
 ## Message Accumulation Strategy
 
@@ -364,6 +466,7 @@ This allows the LLM to understand and respond to tool failures appropriately.
 3. **OpenAI protocol errors**: ✅ **RESOLVED** - Fixed via protocol detection logic
 4. **Tool not found**: Check that tool names match exactly between definition and calling
 5. **Incorrect protocol detection**: Verify that your provider's streaming pattern matches expected detection logic
+6. **Messages running together**: If consecutive AI messages appear without separation, check that `_shouldPrefixNextMessage` logic is working
 
 ### Debug Patterns
 ```dart
@@ -379,6 +482,10 @@ print('Messages: ${messages.map((m) => m.runtimeType).join(' -> ')}');
 // Debug protocol detection
 print('Should assign IDs before concat: ${_shouldAssignIdsBeforeConcat(message)}');
 print('Tool call pattern: ${message.toolCalls.length} calls, empty IDs: ${message.toolCalls.where((tc) => tc.id.isEmpty).length}');
+
+// Debug streaming UX
+print('Should prefix next message: $_shouldPrefixNextMessage');
+print('Is first chunk of message: $isFirstChunkOfMessage');
 ```
 
 ## Future Enhancements

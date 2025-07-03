@@ -37,6 +37,26 @@ mixin ToolsAndMessagesHelper<TOptions extends ChatModelOptions> {
   /// UUID generator for tool call IDs.
   static const _uuid = Uuid();
 
+  /// Flag to track if we should prefix the next AI message with a newline.
+  /// Used to separate consecutive AI messages for better readability.
+  /// 
+  /// CRITICAL FOR UX: This prevents AI responses from running together like:
+  /// "I'll help you with that.The result is 42."
+  /// 
+  /// Instead produces readable output like:
+  /// "I'll help you with that.
+  /// The result is 42."
+  /// 
+  /// ⚠️  WARNING: Removing this feature will cause poor streaming UX where
+  /// consecutive AI messages (initial response + tool synthesis) appear as
+  /// one continuous sentence without proper separation. Users will see
+  /// confusing output like "...tools.The..." instead of clear message breaks.
+  /// 
+  /// This flag is set to true when an AI message contains tool calls 
+  /// (indicating another AI message will follow), and used to prefix the first 
+  /// chunk of the subsequent AI message with a newline for visual separation.
+  bool _shouldPrefixNextMessage = false;
+
   /// Invokes the model with the given messages and returns the final result.
   ///
   /// This method internally uses [stream] and accumulates all results.
@@ -86,7 +106,9 @@ mixin ToolsAndMessagesHelper<TOptions extends ChatModelOptions> {
     final toolMap = {for (final tool in tools ?? <Tool>[]) tool.name: tool};
 
     var done = false;
+    _shouldPrefixNextMessage = false; // Reset at start of stream
     while (!done) {
+      var isFirstChunkOfMessage = true; // Track first chunk of each AI message
       var currentAIMessage = const AIChatMessage(content: '');
       var lastResult = const ChatResult(
         id: '',
@@ -109,9 +131,26 @@ mixin ToolsAndMessagesHelper<TOptions extends ChatModelOptions> {
             : rawOutput.toString();
 
         if (textOutput.isNotEmpty) {
+          // STREAMING UX ENHANCEMENT: Add newline prefix for readability
+          // 
+          // This critical UX feature prevents consecutive AI messages from
+          // running together (e.g. "...tools.The..." → "...tools.\nThe...")
+          // 
+          // Only prefixes the FIRST chunk of subsequent AI messages, not every
+          // chunk within the same message, to maintain proper text flow.
+          // 
+          // Logic: If _shouldPrefixNextMessage is true (set when previous AI
+          // message had tool calls) AND this is the first chunk of the new
+          // message, then prefix with newline.
+          final streamOutput =
+              (_shouldPrefixNextMessage && isFirstChunkOfMessage)
+              ? '\n$textOutput'
+              : textOutput;
+          isFirstChunkOfMessage = false;
+
           yield ChatResult(
             id: result.id,
-            output: textOutput,
+            output: streamOutput,
             messages: const [],
             finishReason: result.finishReason,
             metadata: result.metadata,
@@ -165,6 +204,12 @@ mixin ToolsAndMessagesHelper<TOptions extends ChatModelOptions> {
       if (messageWithIds.toolCalls.isEmpty) {
         done = true;
       } else {
+        // STREAMING UX: Set flag to prefix next AI message with newline
+        // 
+        // Since this AI message has tool calls, we know another AI message
+        // will follow (the synthesis response). Set flag so that message
+        // gets visually separated with a newline prefix for better UX.
+        _shouldPrefixNextMessage = true;
         // Execute all tools
         final toolResults = <ChatMessage>[];
         for (final toolCall in messageWithIds.toolCalls) {
