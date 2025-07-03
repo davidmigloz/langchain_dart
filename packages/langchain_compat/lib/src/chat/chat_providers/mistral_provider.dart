@@ -33,28 +33,20 @@ class MistralProvider extends ChatProvider<MistralChatOptions> {
     List<ToolSpec>? tools,
     double? temperature,
     MistralChatOptions? options,
-  }) {
-    if (tools != null) {
-      // TODO: Mistral doesn't support tools yet, waiting for a fix:
-      // https://github.com/davidmigloz/langchain_dart/issues/653
-      throw Exception('Tools are not supported by Mistral.');
-    }
-
-    return MistralChatModel(
-      model: model ?? defaultModel,
-      tools: tools,
-      temperature: temperature,
-      apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
-      baseUrl: defaultBaseUrl,
-      defaultOptions: MistralChatOptions(
-        temperature: temperature ?? options?.temperature,
-        topP: options?.topP,
-        maxTokens: options?.maxTokens,
-        safePrompt: options?.safePrompt,
-        randomSeed: options?.randomSeed,
-      ),
-    );
-  }
+  }) => MistralChatModel(
+    model: model ?? defaultModel,
+    tools: tools,
+    temperature: temperature,
+    apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
+    baseUrl: defaultBaseUrl,
+    defaultOptions: MistralChatOptions(
+      temperature: temperature ?? options?.temperature,
+      topP: options?.topP,
+      maxTokens: options?.maxTokens,
+      safePrompt: options?.safePrompt,
+      randomSeed: options?.randomSeed,
+    ),
+  );
 
   @override
   Future<Iterable<ModelInfo>> listModels() async {

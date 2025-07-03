@@ -162,18 +162,38 @@ final model = provider.createModel(
 );
 ```
 
+### Tool Execution and Message Architecture
+
+This package uses a **unified mixin architecture** for all chat models:
+
+#### ToolsAndMessagesHelper Mixin
+All chat models use the `ToolsAndMessagesHelper` mixin which provides:
+- **Automatic tool execution** with error handling  
+- **Unified message collection** via `ChatResult.messages`
+- **Provider-agnostic protocol detection** for streaming
+- **Consistent API** across all providers
+
+#### Migration Status: ✅ Complete
+All chat models successfully migrated:
+- ✅ **OpenAI, Google, Anthropic, Ollama** (with tool support)
+- ✅ **Cohere** (inherits OpenAI compatibility)  
+- ✅ **Mistral** (unified API, no tool support)
+
+See `extraction-specs/TOOL_EXECUTION_AND_MESSAGE_ARCHITECTURE.md` for detailed architecture documentation.
+
 ### Adding New Providers (Implementation Guide)
 
 #### For Chat Providers
 1. **Create provider directory**: `lib/src/chat/chat_models/provider_chat/`
 2. **Follow the four-file pattern**:
    - `provider_chat.dart` - Barrel export
-   - `provider_chat_model.dart` - Core implementation extending `ChatModel<TOptions>`
+   - `provider_chat_model.dart` - Core implementation extending `ChatModel<TOptions>` **with `ToolsAndMessagesHelper<TOptions>`**
    - `provider_chat_options.dart` - Options class extending `ChatModelOptions`
    - `provider_mappers.dart` - API request/response transformations
-3. **Add provider class**: `lib/src/chat/chat_providers/provider_provider.dart`
-4. **Register in provider list**: Add static instance to `ChatProvider.all`
-5. **Update barrel exports**: Add to `chat_models.dart` and `chat_providers.dart`
+3. **Implement `rawStream()` method** instead of `invoke()` and `stream()` (mixin provides these)
+4. **Add provider class**: `lib/src/chat/chat_providers/provider_provider.dart`
+5. **Register in provider list**: Add static instance to `ChatProvider.all`
+6. **Update barrel exports**: Add to `chat_models.dart` and `chat_providers.dart`
 
 #### For Embeddings Providers (Mirror Pattern)
 1. **Create provider directory**: `lib/src/embeddings/embeddings_models/provider_embeddings/`
@@ -215,6 +235,8 @@ dart run example/provider_models.dart    # List all 1000+ available models
 dart run example/single_turn_chat.dart   # Basic chat example
 dart run example/multi_turn_chat.dart    # Conversation example  
 dart run example/single_tool_call.dart   # Function calling example
+dart run example/multi_tool_call.dart    # Multi-tool calling example
+dart run example/usage_tracking.dart     # Usage tracking example
 dart run example/embeddings.dart         # Text embedding example
 ```
 

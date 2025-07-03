@@ -2,10 +2,12 @@ import 'package:http/http.dart' as http;
 import 'package:mistralai_dart/mistralai_dart.dart';
 
 import '../../chat.dart';
+import '../tools_and_messages_helper.dart';
 import 'mistral_mappers.dart';
 
 /// Wrapper around [Mistral AI](https://docs.mistral.ai) Chat Completions API.
-class MistralChatModel extends ChatModel<MistralChatOptions> {
+class MistralChatModel extends ChatModel<MistralChatOptions>
+    with ToolsAndMessagesHelper<MistralChatOptions> {
   /// Creates a [MistralChatModel] instance.
   MistralChatModel({
     String? model,
@@ -28,7 +30,13 @@ class MistralChatModel extends ChatModel<MistralChatOptions> {
        super(
          model: _validateModel(model),
          defaultOptions: defaultOptions ?? const MistralChatOptions(),
-       );
+       ) {
+    if (tools != null) {
+      // TODO: Mistral doesn't support tools yet, waiting for a fix:
+      // https://github.com/davidmigloz/langchain_dart/issues/653
+      throw Exception('Tools are not supported by Mistral.');
+    }
+  }
 
   static String _validateModel(String? model) {
     if (model != null && model.isEmpty) {
@@ -51,25 +59,7 @@ class MistralChatModel extends ChatModel<MistralChatOptions> {
   String get name => _model;
 
   @override
-  Future<ChatResult> invoke(
-    List<ChatMessage> messages, {
-    MistralChatOptions? options,
-  }) async {
-    final completion = await _client.createChatCompletion(
-      request: createChatCompletionRequest(
-        messages,
-        model: _model,
-        tools: tools,
-        temperature: temperature,
-        options: options,
-        defaultOptions: defaultOptions,
-      ),
-    );
-    return completion.toChatResult();
-  }
-
-  @override
-  Stream<ChatResult> stream(
+  Stream<ChatResult> rawStream(
     List<ChatMessage> messages, {
     MistralChatOptions? options,
   }) => _client

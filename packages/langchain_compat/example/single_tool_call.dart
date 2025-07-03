@@ -38,7 +38,6 @@ Future<void> singleToolCallExample(
   ChatModel<ChatModelOptions> model,
   List<Tool<Object, Object>> tools,
 ) async {
-
   const userMessage = 'What is the current date and time?';
   final messages = [
     ChatMessage.system(
@@ -51,13 +50,12 @@ Future<void> singleToolCallExample(
 
   // With the new API, tool execution and message collection is automatic
   final stream = model.stream(messages);
-  
+
   await for (final chunk in stream) {
     // Output text as it streams
     final outputText = chunk.output is String ? chunk.output as String : '';
-    if (outputText.isNotEmpty) {
-      stdout.write(outputText);
-    }
+    stdout.write(outputText);
+  
     // Add new messages to the conversation
     messages.addAll(chunk.messages);
   }

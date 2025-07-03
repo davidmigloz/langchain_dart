@@ -19,21 +19,31 @@ void main() async {
   final temperatureTool = Tool.fromFunction<Object, String>(
     name: 'get_temperature',
     description: 'Returns the current temperature in Portland, OR.',
-    func: (_) => "It's a balmy 80°F in Portland, OR right now!",
+    inputJsonSchema: {
+      'type': 'object',
+      'properties': {
+        'location': {
+          'type': 'string',
+          'description': 'The location to get the temperature for.',
+        },
+      },
+      'required': ['location'],
+    },
+    func: (_) => '80°F',
   );
 
   final tools = [currentDateTimeTool, temperatureTool];
   final models = [
+    ChatProvider.google.createModel(tools: tools),
     // ChatProvider.openai.createModel(tools: tools),
-    // ChatProvider.google.createModel(tools: tools),
     // ChatProvider.anthropic.createModel(tools: tools),
     // ChatProvider.cohere.createModel(tools: tools),
-    ChatProvider.ollama.createModel(tools: tools),
-    // ChatProvider.mistral.createModel(tools: tools),
+    // ChatProvider.ollama.createModel(tools: tools),
+    // ChatProvider.mistral.createModel(tools: tools), // No tools support yet
   ];
 
   for (final model in models) {
-    print('=== Testing \u001b[1m${model.runtimeType}\u001b[0m ===');
+    print('=== Testing {model.runtimeType} ===');
     await multiToolCallExample(model, tools);
   }
 
@@ -44,33 +54,36 @@ Future<void> multiToolCallExample(
   ChatModel<ChatModelOptions> model,
   List<Tool<Object, Object>> tools,
 ) async {
-
   const userMessage =
-      'What is the current date and time, and what is the temperature in '
-      'Portland, OR?';
-  final messages = [
-    ChatMessage.system(
+      'What is the current time and temperature in Portland, OR?';
+
+  const systemMessage =
       'If asked for the current date and time, use the current_date_time tool. '
-      'If asked for temperature in Portland, OR, use the get_temperature tool.',
-    ),
+      'If asked for the temperature, use the get_temperature tool.';
+
+  final messages = [
+    ChatMessage.system(systemMessage),
     ChatMessage.humanText(userMessage),
   ];
 
   print('\nUser: $userMessage');
 
-  // With the new API, tool execution and message collection is automatic
-  final stream = model.stream(messages);
-  
-  await for (final chunk in stream) {
-    // Output text as it streams
-    final outputText = chunk.output is String ? chunk.output as String : '';
-    if (outputText.isNotEmpty) {
-      stdout.write(outputText);
-    }
-    // Add new messages to the conversation
-    messages.addAll(chunk.messages);
-  }
-  stdout.writeln();
+  // invoke
+  final result = await model.invoke(messages);
+  print(result.output);
+  dumpChatHistory(messages + result.messages);
 
-  dumpChatHistory(messages);
+  // stream
+  // final stream = model.stream(messages);
+  // await for (final chunk in stream) {
+  //   // Output text as it streams
+  //   final outputText = chunk.output is String ? chunk.output as String : '';
+  //   stdout.write(outputText);
+
+  //   // Add new messages to the conversation
+  //   messages.addAll(chunk.messages);
+  //   // if (chunk.messages.isNotEmpty) dumpChatHistory(chunk.messages);
+  // }
+  // stdout.writeln();
+  // dumpChatHistory(messages);
 }

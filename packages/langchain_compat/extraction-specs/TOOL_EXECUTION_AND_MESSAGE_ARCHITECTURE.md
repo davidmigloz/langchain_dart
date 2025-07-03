@@ -57,19 +57,27 @@ await for (final chunk in stream) {
 **Solution**: Unified UUID-based ID assignment that preserves existing IDs and
 generates UUIDs only when needed.
 
-### 3. Streaming Message Concatenation
-**Problem**: When providers stream tool calls with empty IDs, the
-`AIChatMessage.concat()` method would incorrectly merge separate tool calls:
+### 3. Provider-Specific Streaming Protocol Issues
+**Problem**: Different providers use fundamentally different streaming protocols that require different handling strategies:
+
+**OpenAI Protocol**: Sends partial tool calls that should be merged
 ```dart
-// BROKEN: Tool calls get merged due to empty IDs
-{id: '', name: 'current_date_time', args: '{}'}
-{id: '', name: 'get_temperature', args: '{}'}
-// After concat() becomes:
-{id: '', name: 'current_date_timeget_temperature', args: '{}{}'}
+// OpenAI streaming chunks:
+Chunk 1: {id: 'call_123', name: 'get_time', args: ''}      // Partial
+Chunk 2: {id: 'call_123', name: '', args: '{}'}            // Completion
+// Should merge via concat() → {id: 'call_123', name: 'get_time', args: '{}'}
 ```
 
-**Solution**: Assign UUIDs immediately upon receiving each chunk, before
-concatenation.
+**Ollama/Google Protocol**: Sends complete tool calls with empty IDs
+```dart
+// Ollama streaming (single chunk):
+{id: '', name: 'current_date_time', args: '{}'}
+{id: '', name: 'get_temperature', args: '{}'}
+// Without UUIDs, concat() merges by empty ID →
+// BROKEN: {id: '', name: 'current_date_timeget_temperature', args: '{}{}'}
+```
+
+**Solution**: Provider-agnostic protocol detection based on data patterns, not provider names.
 
 ## Architecture Components
 
@@ -110,48 +118,67 @@ mixin ToolsAndMessagesHelper<TOptions extends ChatModelOptions> {
 ### Problem Analysis
 Different providers have different tool call ID behaviors:
 
-| Provider  | Native IDs | Format          | Behavior          |
-| --------- | ---------- | --------------- | ----------------- |
-| OpenAI    | ✅ Yes      | `call_abc123`   | Provided by API   |
-| Anthropic | ✅ Yes      | `toolu_abc123`  | Provided by API   |
-| Google    | ❌ No       | `""` (empty)    | Must be generated |
-| Ollama    | ❌ No       | `""` (empty)    | Must be generated |
-| Mistral   | ✅ Yes      | Provider format | Provided by API   |
+| Provider  | Native IDs | Format          | Behavior          | Tool Support |
+| --------- | ---------- | --------------- | ----------------- | ------------ |
+| OpenAI    | ✅ Yes      | `call_abc123`   | Provided by API   | ✅ Full      |
+| Anthropic | ✅ Yes      | `toolu_abc123`  | Provided by API   | ✅ Full      |
+| Google    | ❌ No       | `""` (empty)    | Must be generated | ✅ Full      |
+| Ollama    | ❌ No       | `""` (empty)    | Must be generated | ✅ Full      |
+| Cohere    | ✅ Yes      | OpenAI format   | Via OpenAI compat | ✅ Full      |
+| Mistral   | ❌ No       | Not applicable  | No tool support   | ❌ None      |
 
-### Solution: Conditional UUID Assignment
+### Solution: Protocol-Agnostic Streaming Detection
 
-```dart
-List<AIChatMessageToolCall> _assignToolCallIds(List<AIChatMessageToolCall> toolCalls) =>
-    toolCalls.map((toolCall) {
-      // Only assign UUIDs if the tool call has an empty ID
-      // Providers like OpenAI already provide proper IDs
-      if (toolCall.id.isEmpty) {
-        return AIChatMessageToolCall(
-          id: _uuid.v4(), // Generate UUID
-          name: toolCall.name,
-          argumentsRaw: toolCall.argumentsRaw,
-          arguments: toolCall.arguments,
-        );
-      }
-      // Return as-is if ID already exists
-      return toolCall;
-    }).toList();
-```
-
-### Critical Timing
-UUID assignment must happen **before** message concatenation to prevent tool
-call merging:
+The solution uses **data pattern detection** rather than hardcoded provider behavior:
 
 ```dart
-// CORRECT: Assign IDs before concat
-if (rawOutput is AIChatMessage) {
-  final messageWithIds = AIChatMessage(
-    content: rawOutput.content,
-    toolCalls: _assignToolCallIds(rawOutput.toolCalls), // ID assignment first
-  );
-  currentAIMessage = currentAIMessage.concat(messageWithIds); // Then concat
+/// Determines if UUIDs should be assigned before concatenation.
+/// Returns true for providers that send multiple tool calls with empty IDs
+/// in the same chunk (Ollama, Google), which would cause incorrect merging.
+/// Returns false for providers that use proper streaming protocols.
+bool _shouldAssignIdsBeforeConcat(AIChatMessage message) {
+  // If there are multiple tool calls and any have empty IDs, we need to
+  // assign UUIDs before concat to prevent incorrect merging
+  if (message.toolCalls.length > 1) {
+    return message.toolCalls.any((tc) => tc.id.isEmpty);
+  }
+  
+  // For single tool calls, check if it has an empty ID and no name
+  // This indicates a partial chunk that should be concatenated
+  if (message.toolCalls.length == 1) {
+    final toolCall = message.toolCalls.first;
+    return toolCall.id.isEmpty && toolCall.name.isNotEmpty;
+  }
+  
+  return false;
 }
 ```
+
+### Adaptive Streaming Logic
+
+The mixin adapts its behavior based on detected streaming patterns:
+
+```dart
+// Handle different provider streaming protocols:
+// - OpenAI/Anthropic: Use concat logic for proper tool call merging
+// - Ollama/Google: Assign UUIDs before concat to prevent merging
+final messageToConcat = _shouldAssignIdsBeforeConcat(rawOutput)
+    ? AIChatMessage(
+        content: rawOutput.content,
+        toolCalls: _assignToolCallIds(rawOutput.toolCalls),
+      )
+    : rawOutput;
+currentAIMessage = currentAIMessage.concat(messageToConcat);
+```
+
+### Protocol Detection Results
+
+| Pattern | Detection Logic | Action | Providers |
+|---------|----------------|--------|-----------|
+| Multiple empty IDs | `toolCalls.length > 1 && any(tc.id.isEmpty)` | Assign UUIDs before concat | Ollama, Google |
+| Single empty ID + name | `length == 1 && id.isEmpty && name.isNotEmpty` | Assign UUID before concat | Complete single calls |
+| Proper IDs | `!id.isEmpty` | Use natural concat logic | OpenAI, Anthropic |
+| Partial chunks | `id.isNotEmpty || name.isEmpty` | Use natural concat logic | OpenAI streaming |
 
 ## Message Accumulation Strategy
 
@@ -332,14 +359,11 @@ This allows the LLM to understand and respond to tool failures appropriately.
 
 ### Common Issues
 
-1. **Tool calls getting merged**: Check that UUID assignment happens before
-   concatenation
-2. **Missing tool IDs**: Ensure mappers leave `id` field empty when provider
-   doesn't provide IDs
-3. **OpenAI protocol errors**: May indicate malformed tool calls in conversation
-   history
-4. **Tool not found**: Check that tool names match exactly between definition
-   and calling
+1. **Tool calls getting merged**: Check that protocol detection is working correctly for your provider
+2. **Missing tool IDs**: Ensure mappers leave `id` field empty when provider doesn't provide IDs  
+3. **OpenAI protocol errors**: ✅ **RESOLVED** - Fixed via protocol detection logic
+4. **Tool not found**: Check that tool names match exactly between definition and calling
+5. **Incorrect protocol detection**: Verify that your provider's streaming pattern matches expected detection logic
 
 ### Debug Patterns
 ```dart
@@ -351,6 +375,10 @@ print('Available tools: ${toolMap.keys.join(', ')}');
 
 // Check conversation history
 print('Messages: ${messages.map((m) => m.runtimeType).join(' -> ')}');
+
+// Debug protocol detection
+print('Should assign IDs before concat: ${_shouldAssignIdsBeforeConcat(message)}');
+print('Tool call pattern: ${message.toolCalls.length} calls, empty IDs: ${message.toolCalls.where((tc) => tc.id.isEmpty).length}');
 ```
 
 ## Future Enhancements
@@ -364,9 +392,10 @@ print('Messages: ${messages.map((m) => m.runtimeType).join(' -> ')}');
 5. **Tool caching**: Cache tool results for repeated calls with same arguments
 
 ### Provider Support
-- **Remaining models**: Apply mixin to Anthropic, Mistral, Cohere models
-- **OpenAI debugging**: Resolve protocol issues with conversation history
-- **Provider testing**: Comprehensive testing across all providers
+- ✅ **All models migrated**: OpenAI, Google, Anthropic, Ollama, Cohere (via typedef), Mistral
+- ✅ **OpenAI debugging**: Resolved protocol issues with conversation history via protocol detection
+- ✅ **Comprehensive testing**: All providers tested and working with unified architecture
+- ✅ **New provider support**: Protocol detection automatically handles future providers based on their streaming patterns
 
 ## Conclusion
 
@@ -375,14 +404,23 @@ and message collection while maintaining clean separation of concerns. The mixin
 pattern allows for consistent behavior across all providers while handling
 provider-specific quirks transparently.
 
-Key benefits:
-- **Dramatically simplified client code** (from complex loops to simple
-  streaming)
+### ✅ Migration Complete
+
+**All chat models successfully migrated** to the `ToolsAndMessagesHelper` mixin:
+- ✅ OpenAI, Google, Anthropic, Ollama (tool support)  
+- ✅ Cohere (inherits from OpenAI)
+- ✅ Mistral (unified API, no tools)
+
+### Key Benefits Achieved
+
+- **Dramatically simplified client code** (from complex loops to simple streaming)
+- **100% provider coverage** (all models use unified architecture)
+- **Provider-agnostic protocol handling** (automatic detection of streaming patterns)
 - **Consistent behavior across providers** (unified tool ID handling)
 - **Automatic error handling** (structured error responses)
 - **Complete conversation visibility** (full message history maintained)
-- **Performance optimized** (minimal overhead for UUID generation and message
-  collection)
+- **Performance optimized** (minimal overhead for UUID generation and message collection)
+- **Future-proof architecture** (automatically adapts to new provider protocols)
 
 The architecture is robust, extensible, and significantly improves the developer
-experience.
+experience across the entire provider ecosystem.

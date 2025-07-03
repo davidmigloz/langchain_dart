@@ -132,13 +132,16 @@ mixin ToolsAndMessagesHelper<TOptions extends ChatModelOptions> {
         // Accumulate the full message
         // Note: result.output is actually an AIChatMessage from _rawStream
         if (rawOutput is AIChatMessage) {
-          // Assign UUIDs to tool calls before concatenating to avoid merging
-          // issues
-          final messageWithIds = AIChatMessage(
-            content: rawOutput.content,
-            toolCalls: _assignToolCallIds(rawOutput.toolCalls),
-          );
-          currentAIMessage = currentAIMessage.concat(messageWithIds);
+          // Handle different provider streaming protocols:
+          // - OpenAI/Anthropic: Use concat logic for proper tool call merging
+          // - Ollama/Google: Assign UUIDs before concat to prevent merging
+          final messageToConcat = _shouldAssignIdsBeforeConcat(rawOutput)
+              ? AIChatMessage(
+                  content: rawOutput.content,
+                  toolCalls: _assignToolCallIds(rawOutput.toolCalls),
+                )
+              : rawOutput;
+          currentAIMessage = currentAIMessage.concat(messageToConcat);
         } else {
           // Fallback for string output
           currentAIMessage = currentAIMessage.concat(
@@ -148,28 +151,33 @@ mixin ToolsAndMessagesHelper<TOptions extends ChatModelOptions> {
         lastResult = result;
       }
 
-      // Tool call IDs are already assigned during accumulation
+      // Assign UUIDs to tool calls that still have empty IDs after concat
+      // This handles providers like Ollama and Google that don't provide IDs
+      final messageWithIds = AIChatMessage(
+        content: currentAIMessage.content,
+        toolCalls: _assignToolCallIds(currentAIMessage.toolCalls),
+      );
 
       // Add the complete AI message to conversation history
-      conversationHistory.add(currentAIMessage);
+      conversationHistory.add(messageWithIds);
 
       // Yield the complete AI message
       yield ChatResult(
         id: lastResult.id,
         output: '',
-        messages: [currentAIMessage],
+        messages: [messageWithIds],
         finishReason: lastResult.finishReason,
         metadata: lastResult.metadata,
         usage: lastResult.usage,
       );
 
       // Check if we need to execute tools
-      if (currentAIMessage.toolCalls.isEmpty) {
+      if (messageWithIds.toolCalls.isEmpty) {
         done = true;
       } else {
         // Execute all tools
         final toolResults = <ChatMessage>[];
-        for (final toolCall in currentAIMessage.toolCalls) {
+        for (final toolCall in messageWithIds.toolCalls) {
           final tool = toolMap[toolCall.name];
           if (tool != null) {
             try {
@@ -205,14 +213,42 @@ mixin ToolsAndMessagesHelper<TOptions extends ChatModelOptions> {
     }
   }
 
+  /// Determines if UUIDs should be assigned before concatenation.
+  /// 
+  /// Returns true for providers that send multiple tool calls with empty IDs
+  /// in the same chunk (Ollama, Google), which would cause incorrect merging.
+  /// Returns false for providers that use proper streaming protocols.
+  bool _shouldAssignIdsBeforeConcat(AIChatMessage message) {
+    // If there are multiple tool calls and any have empty IDs, we need to
+    // assign UUIDs before concat to prevent incorrect merging
+    if (message.toolCalls.length > 1) {
+      return message.toolCalls.any((tc) => tc.id.isEmpty);
+    }
+    
+    // For single tool calls, check if it has an empty ID and no name
+    // This indicates a partial chunk that should be concatenated
+    if (message.toolCalls.length == 1) {
+      final toolCall = message.toolCalls.first;
+      return toolCall.id.isEmpty && toolCall.name.isNotEmpty;
+    }
+    
+    return false;
+  }
+
   /// Assigns UUIDs to tool calls that don't have IDs.
+  /// 
+  /// This is primarily for providers like Ollama and Google that don't
+  /// provide tool call IDs. OpenAI provides proper IDs and uses a different
+  /// streaming protocol where partial tool calls should be concatenated
+  /// using the existing concat logic.
   List<AIChatMessageToolCall> _assignToolCallIds(
     List<AIChatMessageToolCall> toolCalls,
   ) =>
       toolCalls
           .map((toolCall) {
             // Only assign UUIDs if the tool call has an empty ID
-            // Providers like OpenAI already provide proper IDs
+            // Providers like OpenAI already provide proper IDs and use
+            // concat logic for streaming, so we should not assign UUIDs
             if (toolCall.id.isEmpty) {
               return AIChatMessageToolCall(
                 id: _uuid.v4(),

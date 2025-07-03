@@ -172,13 +172,12 @@ extension OllamaChatMessagesMapper on List<ChatMessage> {
 /// Extension on [o.GenerateChatCompletionResponse] to convert to [ChatResult].
 extension ChatResultMapper on o.GenerateChatCompletionResponse {
   /// Converts this [o.GenerateChatCompletionResponse] to a [ChatResult].
-  ChatResult toChatResult(String id, {bool streaming = false}) => ChatResult(
+  ChatResult toChatResult(String id) => ChatResult(
     id: id,
     output: AIChatMessage(
       content: message.content,
-      toolCalls: message.toolCalls
-              ?.map(_mapOllamaToolCall)
-              .toList(growable: false) ??
+      toolCalls:
+          message.toolCalls?.map(_mapOllamaToolCall).toList(growable: false) ??
           const [],
     ),
     finishReason: FinishReason.unspecified,
@@ -198,21 +197,20 @@ extension ChatResultMapper on o.GenerateChatCompletionResponse {
 
   AIChatMessageToolCall _mapOllamaToolCall(o.ToolCall toolCall) {
     final function = toolCall.function;
-    if (function == null) {
-      return const AIChatMessageToolCall(
-        id: '',
-        name: '',
-        argumentsRaw: '',
-        arguments: {},
-      );
-    }
-    return AIChatMessageToolCall(
-      id: '', // Ollama does not provide a tool call id in the response
-      name: function.name,
-      argumentsRaw: function.arguments is String
-          ? function.arguments as String
-          : function.arguments.toString(),
-      arguments: function.arguments,
-    );
+    return function == null
+        ? const AIChatMessageToolCall(
+            id: '',
+            name: '',
+            argumentsRaw: '',
+            arguments: {},
+          )
+        : AIChatMessageToolCall(
+            id: '', // Ollama does not provide a tool call id in the response
+            name: function.name,
+            argumentsRaw: function.arguments is String
+                ? function.arguments as String
+                : function.arguments.toString(),
+            arguments: function.arguments,
+          );
   }
 }

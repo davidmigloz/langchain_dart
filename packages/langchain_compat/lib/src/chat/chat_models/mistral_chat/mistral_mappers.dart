@@ -36,7 +36,7 @@ extension ChatMessageListMapper on List<ChatMessage> {
 /// Extension on [ChatCompletionResponse] to convert to [ChatResult].
 extension ChatResultMapper on ChatCompletionResponse {
   /// Converts this [ChatCompletionResponse] to a [ChatResult].
-  ChatResult toChatResult({bool streaming = false}) {
+  ChatResult toChatResult() {
     final choice = choices.first;
     return ChatResult(
       id: id,

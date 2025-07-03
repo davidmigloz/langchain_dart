@@ -4,12 +4,14 @@ import 'package:http/http.dart' as http;
 import '../chat_message.dart';
 import '../chat_model.dart';
 import '../chat_result.dart';
+import '../tools_and_messages_helper.dart';
 import 'anthropic_chat_options.dart';
 import 'anthropic_mappers.dart';
 
 /// Wrapper around [Anthropic Messages
 /// API](https://docs.anthropic.com/en/api/messages) (aka Claude API).
-class AnthropicChatModel extends ChatModel<AnthropicChatOptions> {
+class AnthropicChatModel extends ChatModel<AnthropicChatOptions> 
+    with ToolsAndMessagesHelper<AnthropicChatOptions> {
   /// Creates a [AnthropicChatModel] instance.
   AnthropicChatModel({
     String? model,
@@ -55,31 +57,13 @@ class AnthropicChatModel extends ChatModel<AnthropicChatOptions> {
   static const defaultMaxTokens = 1024;
 
   @override
-  Future<ChatResult> invoke(
+  Stream<ChatResult> rawStream(
     List<ChatMessage> messages, {
-    AnthropicChatOptions? options,
-  }) async {
-    final completion = await _client.createMessage(
-      request: createMessageRequest(
-        messages,
-        model: _model,
-        tools: tools,
-        temperature: temperature,
-        options: options,
-        defaultOptions: defaultOptions,
-      ),
-    );
-    return completion.toChatResult();
-  }
-
-  @override
-  Stream<ChatResult> stream(
-    Iterable<ChatMessage> messages, {
     AnthropicChatOptions? options,
   }) => _client
       .createMessageStream(
         request: createMessageRequest(
-          messages.toList(),
+          messages,
           model: _model,
           tools: tools,
           temperature: temperature,

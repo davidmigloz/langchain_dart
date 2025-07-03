@@ -10,7 +10,7 @@ export 'ollama_chat_options.dart';
 
 /// Wrapper around [Ollama](https://ollama.ai) Chat API that enables to interact
 /// with the LLMs in a chat-like fashion.
-class OllamaChatModel extends ChatModel<OllamaChatOptions> 
+class OllamaChatModel extends ChatModel<OllamaChatOptions>
     with ToolsAndMessagesHelper<OllamaChatOptions> {
   /// Creates a [OllamaChatModel] instance.
   OllamaChatModel({
@@ -66,28 +66,24 @@ class OllamaChatModel extends ChatModel<OllamaChatOptions>
   Stream<ChatResult> rawStream(
     List<ChatMessage> messages, {
     OllamaChatOptions? options,
-  }) =>
-      _client
-          .generateChatCompletionStream(
-            request: ollama_mappers.generateChatCompletionRequest(
-              messages,
-              model: _model,
-              options: options,
-              defaultOptions: defaultOptions,
-              tools: tools,
-              temperature: temperature,
-              stream: true,
-            ),
-          )
-          .map((completion) {
-            final id = _uuid.v4();
-            return ollama_mappers.ChatResultMapper(
-              completion,
-            ).toChatResult(id, streaming: true);
-          });
+  }) => _client
+      .generateChatCompletionStream(
+        request: ollama_mappers.generateChatCompletionRequest(
+          messages,
+          model: _model,
+          options: options,
+          defaultOptions: defaultOptions,
+          tools: tools,
+          temperature: temperature,
+          stream: true,
+        ),
+      )
+      .map(
+        (completion) => ollama_mappers.ChatResultMapper(
+          completion,
+        ).toChatResult(_uuid.v4()),
+      );
 
   @override
-  void close() {
-    _client.endSession();
-  }
+  void close() => _client.endSession();
 }
