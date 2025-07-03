@@ -172,28 +172,31 @@ extension OllamaChatMessagesMapper on List<ChatMessage> {
 /// Extension on [o.GenerateChatCompletionResponse] to convert to [ChatResult].
 extension ChatResultMapper on o.GenerateChatCompletionResponse {
   /// Converts this [o.GenerateChatCompletionResponse] to a [ChatResult].
-  ChatResult toChatResult(String id) => ChatResult(
-    id: id,
-    output: AIChatMessage(
-      content: message.content,
-      toolCalls:
-          message.toolCalls?.map(_mapOllamaToolCall).toList(growable: false) ??
-          const [],
-    ),
-    finishReason: FinishReason.unspecified,
-    metadata: {
-      'model': model,
-      'created_at': createdAt,
-      'done': done,
-      'total_duration': totalDuration,
-      'load_duration': loadDuration,
-      'prompt_eval_count': promptEvalCount,
-      'prompt_eval_duration': promptEvalDuration,
-      'eval_count': evalCount,
-      'eval_duration': evalDuration,
-    },
-    usage: const LanguageModelUsage(),
-  );
+  ChatResult<AIChatMessage> toChatResult(String id) =>
+      ChatResult<AIChatMessage>(
+        id: id,
+        output: AIChatMessage(
+          content: message.content,
+          toolCalls:
+              message.toolCalls
+                  ?.map(_mapOllamaToolCall)
+                  .toList(growable: false) ??
+              const [],
+        ),
+        finishReason: FinishReason.unspecified,
+        metadata: {
+          'model': model,
+          'created_at': createdAt,
+          'done': done,
+          'total_duration': totalDuration,
+          'load_duration': loadDuration,
+          'prompt_eval_count': promptEvalCount,
+          'prompt_eval_duration': promptEvalDuration,
+          'eval_count': evalCount,
+          'eval_duration': evalDuration,
+        },
+        usage: const LanguageModelUsage(),
+      );
 
   AIChatMessageToolCall _mapOllamaToolCall(o.ToolCall toolCall) {
     final function = toolCall.function;

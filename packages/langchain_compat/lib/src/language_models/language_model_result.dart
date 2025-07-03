@@ -5,7 +5,7 @@ import 'language_model_usage.dart';
 
 /// Result returned by the model.
 @immutable
-abstract class LanguageModelResult<O extends Object> {
+abstract class LanguageModelResult<TOutput extends Object> {
   /// Creates a new language model result instance.
   const LanguageModelResult({
     required this.id,
@@ -19,7 +19,7 @@ abstract class LanguageModelResult<O extends Object> {
   final String id;
 
   /// Generated output.
-  final O output;
+  final TOutput output;
 
   /// The reason the model stopped generating tokens.
   final FinishReason finishReason;

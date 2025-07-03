@@ -140,9 +140,9 @@ extension ChatMessagesMapper on List<ChatMessage> {
 /// Extension on [g.GenerateContentResponse] to convert to [ChatResult].
 extension GenerateContentResponseMapper on g.GenerateContentResponse {
   /// Converts this [g.GenerateContentResponse] to a [ChatResult].
-  ChatResult toChatResult(String id, String model) {
+  ChatResult<AIChatMessage> toChatResult(String id, String model) {
     final candidate = candidates.first;
-    return ChatResult(
+    return ChatResult<AIChatMessage>(
       id: id,
       output: AIChatMessage(
         content: candidate.content.parts
@@ -273,8 +273,9 @@ extension ChatToolListMapper on List<Tool>? {
                 (tool) => g.FunctionDeclaration(
                   tool.name,
                   tool.description,
-                  Map<String, dynamic>.from(tool.inputSchema.schemaMap ?? {})
-                      .toSchema(),
+                  Map<String, dynamic>.from(
+                    tool.inputSchema.schemaMap ?? {},
+                  ).toSchema(),
                 ),
               )
               .toList(growable: false)

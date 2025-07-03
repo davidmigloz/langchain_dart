@@ -43,7 +43,7 @@ class GoogleEmbeddingsProvider
       defaultBaseUrl: defaultBaseUrl,
       apiKeyName: apiKeyName,
     );
-    
+
     final allModels = await googleChatProvider.listModels();
     return allModels.where(
       (model) => model.kinds.contains(ModelKind.embedding),

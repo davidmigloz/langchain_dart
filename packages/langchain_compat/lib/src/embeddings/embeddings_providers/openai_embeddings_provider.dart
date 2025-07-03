@@ -46,7 +46,7 @@ class OpenAIEmbeddingsProvider
       defaultBaseUrl: defaultBaseUrl,
       apiKeyName: apiKeyName,
     );
-    
+
     final allModels = await openaiChatProvider.listModels();
     return allModels.where(
       (model) => model.kinds.contains(ModelKind.embedding),

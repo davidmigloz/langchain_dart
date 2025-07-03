@@ -9,7 +9,7 @@ import 'openai_mappers.dart';
 
 /// Wrapper around [OpenAI Chat
 /// API](https://platform.openai.com/docs/api-reference/chat).
-class OpenAIChatModel extends ChatModel<OpenAIChatOptions> 
+class OpenAIChatModel extends ChatModel<OpenAIChatOptions>
     with ToolsAndMessagesHelper<OpenAIChatOptions> {
   /// Creates a [OpenAIChatModel] instance.
   OpenAIChatModel({
@@ -63,7 +63,7 @@ class OpenAIChatModel extends ChatModel<OpenAIChatOptions>
   static const defaultModelName = 'gpt-4o-mini';
 
   @override
-  Stream<ChatResult> rawStream(
+  Stream<ChatResult<AIChatMessage>> rawStream(
     List<ChatMessage> messages, {
     OpenAIChatOptions? options,
   }) => _client

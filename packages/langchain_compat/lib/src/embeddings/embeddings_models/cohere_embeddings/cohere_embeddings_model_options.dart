@@ -30,23 +30,22 @@ class CohereEmbeddingsModelOptions extends EmbeddingsModelOptions {
     String? inputType,
     List<String>? embeddingTypes,
     String? truncate,
-  }) =>
-      CohereEmbeddingsModelOptions(
-        dimensions: dimensions ?? this.dimensions,
-        batchSize: batchSize ?? this.batchSize,
-        inputType: inputType ?? this.inputType,
-        embeddingTypes: embeddingTypes ?? this.embeddingTypes,
-        truncate: truncate ?? this.truncate,
-      );
+  }) => CohereEmbeddingsModelOptions(
+    dimensions: dimensions ?? this.dimensions,
+    batchSize: batchSize ?? this.batchSize,
+    inputType: inputType ?? this.inputType,
+    embeddingTypes: embeddingTypes ?? this.embeddingTypes,
+    truncate: truncate ?? this.truncate,
+  );
 
   /// Converts the options to a map.
   Map<String, dynamic> toMap() => {
-        if (dimensions != null) 'dimensions': dimensions,
-        if (batchSize != null) 'batch_size': batchSize,
-        if (inputType != null) 'input_type': inputType,
-        if (embeddingTypes != null) 'embedding_types': embeddingTypes,
-        if (truncate != null) 'truncate': truncate,
-      };
+    if (dimensions != null) 'dimensions': dimensions,
+    if (batchSize != null) 'batch_size': batchSize,
+    if (inputType != null) 'input_type': inputType,
+    if (embeddingTypes != null) 'embedding_types': embeddingTypes,
+    if (truncate != null) 'truncate': truncate,
+  };
 
   @override
   bool operator ==(Object other) =>
@@ -68,7 +67,8 @@ class CohereEmbeddingsModelOptions extends EmbeddingsModelOptions {
       truncate.hashCode;
 
   @override
-  String toString() => 'CohereEmbeddingsModelOptions('
+  String toString() =>
+      'CohereEmbeddingsModelOptions('
       'dimensions: $dimensions, '
       'batchSize: $batchSize, '
       'inputType: $inputType, '

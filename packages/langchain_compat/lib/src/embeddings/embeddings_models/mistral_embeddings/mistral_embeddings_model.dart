@@ -56,7 +56,7 @@ class MistralEmbeddingsModel
   }) async {
     final chunks = <List<String>>[];
     final actualBatchSize = options?.batchSize ?? batchSize ?? 100;
-    
+
     for (var i = 0; i < texts.length; i += actualBatchSize) {
       chunks.add(
         texts.sublist(i, (i + actualBatchSize).clamp(0, texts.length)),
@@ -71,12 +71,14 @@ class MistralEmbeddingsModel
     for (final chunk in chunks) {
       final response = await _makeRequest(chunk, options);
       final embeddings = (response['data'] as List<dynamic>)
-          .map((item) => 
-              ((item as Map<String, dynamic>)['embedding'] as List<dynamic>)
-                  .map((e) => (e as num).toDouble())
-                  .toList())
+          .map(
+            (item) =>
+                ((item as Map<String, dynamic>)['embedding'] as List<dynamic>)
+                    .map((e) => (e as num).toDouble())
+                    .toList(),
+          )
           .toList();
-      
+
       allEmbeddings.addAll(embeddings);
 
       // Accumulate usage data

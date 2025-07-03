@@ -27,7 +27,7 @@ mixin ToolsAndMessagesHelper<TOptions extends ChatModelOptions> {
   /// This should call the underlying LLM API and return a stream of responses.
   ///
   /// Models that use this mixin should override this method.
-  Stream<ChatResult> rawStream(
+  Stream<ChatResult<AIChatMessage>> rawStream(
     List<ChatMessage> messages, {
     TOptions? options,
   }) {
@@ -39,34 +39,34 @@ mixin ToolsAndMessagesHelper<TOptions extends ChatModelOptions> {
 
   /// Flag to track if we should prefix the next AI message with a newline.
   /// Used to separate consecutive AI messages for better readability.
-  /// 
+  ///
   /// CRITICAL FOR UX: This prevents AI responses from running together like:
   /// "I'll help you with that.The result is 42."
-  /// 
+  ///
   /// Instead produces readable output like:
   /// "I'll help you with that.
   /// The result is 42."
-  /// 
+  ///
   /// ⚠️  WARNING: Removing this feature will cause poor streaming UX where
   /// consecutive AI messages (initial response + tool synthesis) appear as
   /// one continuous sentence without proper separation. Users will see
   /// confusing output like "...tools.The..." instead of clear message breaks.
-  /// 
-  /// This flag is set to true when an AI message contains tool calls 
-  /// (indicating another AI message will follow), and used to prefix the first 
+  ///
+  /// This flag is set to true when an AI message contains tool calls
+  /// (indicating another AI message will follow), and used to prefix the first
   /// chunk of the subsequent AI message with a newline for visual separation.
   bool _shouldPrefixNextMessage = false;
 
   /// Invokes the model with the given messages and returns the final result.
   ///
   /// This method internally uses [stream] and accumulates all results.
-  Future<ChatResult> invoke(
+  Future<ChatResult<String>> invoke(
     List<ChatMessage> messages, {
     TOptions? options,
   }) async {
     final allNewMessages = <ChatMessage>[];
     var finalOutput = '';
-    var finalResult = const ChatResult(
+    var finalResult = const ChatResult<String>(
       id: '',
       output: '',
       finishReason: FinishReason.unspecified,
@@ -75,7 +75,7 @@ mixin ToolsAndMessagesHelper<TOptions extends ChatModelOptions> {
     );
 
     await for (final result in stream(messages, options: options)) {
-      final outputText = result.output is String ? result.output as String : '';
+      final outputText = result.outputAsString;
       if (outputText.isNotEmpty) {
         finalOutput += outputText;
       }
@@ -83,7 +83,7 @@ mixin ToolsAndMessagesHelper<TOptions extends ChatModelOptions> {
       finalResult = result;
     }
 
-    return ChatResult(
+    return ChatResult<String>(
       id: finalResult.id,
       output: finalOutput,
       messages: allNewMessages,
@@ -98,7 +98,7 @@ mixin ToolsAndMessagesHelper<TOptions extends ChatModelOptions> {
   /// Returns a stream of [ChatResult] where:
   /// - [ChatResult.output] contains streaming text chunks
   /// - [ChatResult.messages] contains new messages since the last result
-  Stream<ChatResult> stream(
+  Stream<ChatResult<String>> stream(
     List<ChatMessage> messages, {
     TOptions? options,
   }) async* {
@@ -110,9 +110,9 @@ mixin ToolsAndMessagesHelper<TOptions extends ChatModelOptions> {
     while (!done) {
       var isFirstChunkOfMessage = true; // Track first chunk of each AI message
       var currentAIMessage = const AIChatMessage(content: '');
-      var lastResult = const ChatResult(
+      var lastResult = const ChatResult<AIChatMessage>(
         id: '',
-        output: '',
+        output: AIChatMessage(content: ''),
         finishReason: FinishReason.unspecified,
         metadata: <String, dynamic>{},
         usage: LanguageModelUsage(),
@@ -124,21 +124,18 @@ mixin ToolsAndMessagesHelper<TOptions extends ChatModelOptions> {
         options: options,
       )) {
         // Stream the text output to the caller
-        // Convert AIChatMessage output to string output
-        final rawOutput = result.output as dynamic;
-        final textOutput = rawOutput is AIChatMessage
-            ? rawOutput.content
-            : rawOutput.toString();
+        // Extract text content from AIChatMessage output
+        final textOutput = result.output.content;
 
         if (textOutput.isNotEmpty) {
           // STREAMING UX ENHANCEMENT: Add newline prefix for readability
-          // 
+          //
           // This critical UX feature prevents consecutive AI messages from
           // running together (e.g. "...tools.The..." → "...tools.\nThe...")
-          // 
+          //
           // Only prefixes the FIRST chunk of subsequent AI messages, not every
           // chunk within the same message, to maintain proper text flow.
-          // 
+          //
           // Logic: If _shouldPrefixNextMessage is true (set when previous AI
           // message had tool calls) AND this is the first chunk of the new
           // message, then prefix with newline.
@@ -148,7 +145,7 @@ mixin ToolsAndMessagesHelper<TOptions extends ChatModelOptions> {
               : textOutput;
           isFirstChunkOfMessage = false;
 
-          yield ChatResult(
+          yield ChatResult<String>(
             id: result.id,
             output: streamOutput,
             messages: const [],
@@ -159,24 +156,16 @@ mixin ToolsAndMessagesHelper<TOptions extends ChatModelOptions> {
         }
 
         // Accumulate the full message
-        // Note: result.output is actually an AIChatMessage from _rawStream
-        if (rawOutput is AIChatMessage) {
-          // Handle different provider streaming protocols:
-          // - OpenAI/Anthropic: Use concat logic for proper tool call merging
-          // - Ollama/Google: Assign UUIDs before concat to prevent merging
-          final messageToConcat = _shouldAssignIdsBeforeConcat(rawOutput)
-              ? AIChatMessage(
-                  content: rawOutput.content,
-                  toolCalls: _assignToolCallIds(rawOutput.toolCalls),
-                )
-              : rawOutput;
-          currentAIMessage = currentAIMessage.concat(messageToConcat);
-        } else {
-          // Fallback for string output
-          currentAIMessage = currentAIMessage.concat(
-            AIChatMessage(content: rawOutput.toString()),
-          );
-        }
+        // Handle different provider streaming protocols:
+        // - OpenAI/Anthropic: Use concat logic for proper tool call merging
+        // - Ollama/Google: Assign UUIDs before concat to prevent merging
+        final messageToConcat = _shouldAssignIdsBeforeConcat(result.output)
+            ? AIChatMessage(
+                content: result.output.content,
+                toolCalls: _assignToolCallIds(result.output.toolCalls),
+              )
+            : result.output;
+        currentAIMessage = currentAIMessage.concat(messageToConcat);
         lastResult = result;
       }
 
@@ -191,7 +180,7 @@ mixin ToolsAndMessagesHelper<TOptions extends ChatModelOptions> {
       conversationHistory.add(messageWithIds);
 
       // Yield the complete AI message
-      yield ChatResult(
+      yield ChatResult<String>(
         id: lastResult.id,
         output: '',
         messages: [messageWithIds],
@@ -205,7 +194,7 @@ mixin ToolsAndMessagesHelper<TOptions extends ChatModelOptions> {
         done = true;
       } else {
         // STREAMING UX: Set flag to prefix next AI message with newline
-        // 
+        //
         // Since this AI message has tool calls, we know another AI message
         // will follow (the synthesis response). Set flag so that message
         // gets visually separated with a newline prefix for better UX.
@@ -241,7 +230,7 @@ mixin ToolsAndMessagesHelper<TOptions extends ChatModelOptions> {
         conversationHistory.addAll(toolResults);
 
         // Yield tool results
-        yield ChatResult(
+        yield ChatResult<String>(
           id: lastResult.id,
           output: '',
           messages: toolResults,

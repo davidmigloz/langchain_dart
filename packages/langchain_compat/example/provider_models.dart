@@ -9,13 +9,13 @@ Future<void> main() async {
   var totalChatModels = 0;
   var totalEmbeddingModels = 0;
   var totalOtherModels = 0;
-  
+
   for (final provider in ChatProvider.all) {
     totalProviders++;
     print('\n# ${provider.displayName} (${provider.name})');
     final models = await provider.listModels();
     final modelList = models.toList();
-    
+
     // Categorize models by type
     final chatModels = modelList
         .where((m) => m.kinds.contains(ModelKind.chat))
@@ -30,11 +30,11 @@ Future<void> main() async {
               !m.kinds.contains(ModelKind.embedding),
         )
         .toList();
-    
+
     totalChatModels += chatModels.length;
     totalEmbeddingModels += embeddingModels.length;
     totalOtherModels += otherModels.length;
-    
+
     // Print chat models
     if (chatModels.isNotEmpty) {
       print('\n## Chat Models (${chatModels.length})');
@@ -47,7 +47,7 @@ Future<void> main() async {
         );
       }
     }
-    
+
     // Print embedding models
     if (embeddingModels.isNotEmpty) {
       print('\n## Embedding Models (${embeddingModels.length})');
@@ -60,7 +60,7 @@ Future<void> main() async {
         );
       }
     }
-    
+
     // Print other models
     if (otherModels.isNotEmpty) {
       print('\n## Other Models (${otherModels.length})');
@@ -73,10 +73,10 @@ Future<void> main() async {
         );
       }
     }
-    
+
     print('\n  Total: ${modelList.length} models');
   }
-  
+
   print('\n=== Summary ===');
   print('Total providers: $totalProviders');
   print('Total chat models: $totalChatModels');

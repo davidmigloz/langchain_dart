@@ -11,7 +11,8 @@ class Tool<TInput extends Object> {
     required this.onCall,
     JsonSchema? inputSchema,
     TInput Function(Map<String, dynamic>)? inputFromJson,
-  }) : inputSchema = inputSchema ?? 
+  }) : inputSchema =
+           inputSchema ??
            JsonSchema.create({'type': 'object', 'properties': {}}),
        _getInputFromJson = inputFromJson {
     // Validate at construction time

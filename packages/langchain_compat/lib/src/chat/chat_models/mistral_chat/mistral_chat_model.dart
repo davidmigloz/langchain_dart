@@ -59,7 +59,7 @@ class MistralChatModel extends ChatModel<MistralChatOptions>
   String get name => _model;
 
   @override
-  Stream<ChatResult> rawStream(
+  Stream<ChatResult<AIChatMessage>> rawStream(
     List<ChatMessage> messages, {
     MistralChatOptions? options,
   }) => _client

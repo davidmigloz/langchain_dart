@@ -50,21 +50,20 @@ Future<void> singleToolCallExample(
   print('\nUser: $userMessage');
 
   // invoke
-  final result = await model.invoke(messages);
-  print(result.output);
-  messages.addAll(result.messages);
+  // final result = await model.invoke(messages);
+  // print(result.output);
+  // messages.addAll(result.messages);
 
   // stream
-  // final stream = model.stream(messages);
-  // await for (final chunk in stream) {
-  //   // Output text as it streams
-  //   final outputText = chunk.output is String ? chunk.output as String : '';
-  //   stdout.write(outputText);
+  final stream = model.stream(messages);
+  await for (final chunk in stream) {
+    // Output text as it streams
+    stdout.write(chunk.output);
 
-  //   // Add new messages to the conversation
-  //   messages.addAll(chunk.messages);
-  // }
-  // stdout.writeln();
+    // Add new messages to the conversation
+    messages.addAll(chunk.messages);
+  }
+  stdout.writeln();
 
   dumpChatHistory(messages);
 }

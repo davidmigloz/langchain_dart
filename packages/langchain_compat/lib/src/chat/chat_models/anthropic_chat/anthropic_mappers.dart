@@ -185,9 +185,9 @@ extension ChatMessageListMapper on List<ChatMessage> {
 /// [ChatResult].
 extension MessageMapper on a.Message {
   /// Converts this Anthropic SDK [a.Message] to a [ChatResult].
-  ChatResult toChatResult() {
+  ChatResult<AIChatMessage> toChatResult() {
     final (content, toolCalls) = _mapMessageContent(this.content);
-    return ChatResult(
+    return ChatResult<AIChatMessage>(
       id: id ?? '',
       output: AIChatMessage(content: content, toolCalls: toolCalls),
       finishReason: _mapFinishReason(stopReason),
@@ -200,7 +200,8 @@ extension MessageMapper on a.Message {
 /// A [StreamTransformer] that converts a stream of Anthropic
 /// [a.MessageStreamEvent]s into [ChatResult]s.
 class MessageStreamEventTransformer
-    extends StreamTransformerBase<a.MessageStreamEvent, ChatResult> {
+    extends
+        StreamTransformerBase<a.MessageStreamEvent, ChatResult<AIChatMessage>> {
   /// Creates a [MessageStreamEventTransformer].
   MessageStreamEventTransformer();
 
@@ -213,29 +214,30 @@ class MessageStreamEventTransformer
   /// Binds this transformer to a stream of [a.MessageStreamEvent]s, producing a
   /// stream of [ChatResult]s.
   @override
-  Stream<ChatResult> bind(Stream<a.MessageStreamEvent> stream) => stream
-      .map(
-        (event) => switch (event) {
-          final a.MessageStartEvent e => _mapMessageStartEvent(e),
-          final a.MessageDeltaEvent e => _mapMessageDeltaEvent(e),
-          final a.ContentBlockStartEvent e => _mapContentBlockStartEvent(e),
-          final a.ContentBlockDeltaEvent e => _mapContentBlockDeltaEvent(e),
-          final a.ContentBlockStopEvent e => _mapContentBlockStopEvent(e),
-          final a.MessageStopEvent e => _mapMessageStopEvent(e),
-          a.PingEvent() => null,
-          a.ErrorEvent() => null,
-        },
-      )
-      .whereNotNull();
+  Stream<ChatResult<AIChatMessage>> bind(Stream<a.MessageStreamEvent> stream) =>
+      stream
+          .map(
+            (event) => switch (event) {
+              final a.MessageStartEvent e => _mapMessageStartEvent(e),
+              final a.MessageDeltaEvent e => _mapMessageDeltaEvent(e),
+              final a.ContentBlockStartEvent e => _mapContentBlockStartEvent(e),
+              final a.ContentBlockDeltaEvent e => _mapContentBlockDeltaEvent(e),
+              final a.ContentBlockStopEvent e => _mapContentBlockStopEvent(e),
+              final a.MessageStopEvent e => _mapMessageStopEvent(e),
+              a.PingEvent() => null,
+              a.ErrorEvent() => null,
+            },
+          )
+          .whereNotNull();
 
-  ChatResult _mapMessageStartEvent(a.MessageStartEvent e) {
+  ChatResult<AIChatMessage> _mapMessageStartEvent(a.MessageStartEvent e) {
     final msg = e.message;
 
     final msgId = msg.id ?? lastMessageId ?? '';
     lastMessageId = msgId;
     final (content, toolCalls) = _mapMessageContent(e.message.content);
 
-    return ChatResult(
+    return ChatResult<AIChatMessage>(
       id: msgId,
       output: AIChatMessage(content: content, toolCalls: toolCalls),
       finishReason: _mapFinishReason(e.message.stopReason),
@@ -248,23 +250,27 @@ class MessageStreamEventTransformer
     );
   }
 
-  ChatResult _mapMessageDeltaEvent(a.MessageDeltaEvent e) => ChatResult(
-    id: lastMessageId ?? '',
-    output: const AIChatMessage(content: ''),
-    finishReason: _mapFinishReason(e.delta.stopReason),
-    metadata: {
-      if (e.delta.stopSequence != null) 'stop_sequence': e.delta.stopSequence,
-    },
-    usage: _mapMessageDeltaUsage(e.usage),
-  );
+  ChatResult<AIChatMessage> _mapMessageDeltaEvent(a.MessageDeltaEvent e) =>
+      ChatResult<AIChatMessage>(
+        id: lastMessageId ?? '',
+        output: const AIChatMessage(content: ''),
+        finishReason: _mapFinishReason(e.delta.stopReason),
+        metadata: {
+          if (e.delta.stopSequence != null)
+            'stop_sequence': e.delta.stopSequence,
+        },
+        usage: _mapMessageDeltaUsage(e.usage),
+      );
 
-  ChatResult _mapContentBlockStartEvent(a.ContentBlockStartEvent e) {
+  ChatResult<AIChatMessage> _mapContentBlockStartEvent(
+    a.ContentBlockStartEvent e,
+  ) {
     final (content, toolCall) = _mapContentBlock(e.contentBlock);
     if (toolCall != null) {
       lastToolCallId = toolCall.id;
     }
 
-    return ChatResult(
+    return ChatResult<AIChatMessage>(
       id: lastMessageId ?? '',
       output: AIChatMessage(
         content: content,
@@ -276,9 +282,11 @@ class MessageStreamEventTransformer
     );
   }
 
-  ChatResult _mapContentBlockDeltaEvent(a.ContentBlockDeltaEvent e) {
+  ChatResult<AIChatMessage> _mapContentBlockDeltaEvent(
+    a.ContentBlockDeltaEvent e,
+  ) {
     final (content, toolCals) = _mapContentBlockDelta(lastToolCallId, e.delta);
-    return ChatResult(
+    return ChatResult<AIChatMessage>(
       id: lastMessageId ?? '',
       output: AIChatMessage(content: content, toolCalls: toolCals),
       finishReason: FinishReason.unspecified,
@@ -287,12 +295,14 @@ class MessageStreamEventTransformer
     );
   }
 
-  ChatResult? _mapContentBlockStopEvent(a.ContentBlockStopEvent e) {
+  ChatResult<AIChatMessage>? _mapContentBlockStopEvent(
+    a.ContentBlockStopEvent e,
+  ) {
     lastToolCallId = null;
     return null;
   }
 
-  ChatResult? _mapMessageStopEvent(a.MessageStopEvent e) {
+  ChatResult<AIChatMessage>? _mapMessageStopEvent(a.MessageStopEvent e) {
     lastMessageId = null;
     return null;
   }

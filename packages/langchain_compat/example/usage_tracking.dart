@@ -86,8 +86,7 @@ Future<void> streamingUsageExample(ChatProvider provider) async {
 
   await for (final chunk in model.stream(messages)) {
     chunkCount++;
-    final outputText = chunk.output is String ? chunk.output as String : '';
-    stdout.write(outputText);
+    stdout.write(chunk.output);
 
     // Track usage as we stream
     if (chunk.usage.totalTokens != null) {

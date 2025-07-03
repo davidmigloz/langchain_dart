@@ -18,19 +18,18 @@ class MistralEmbeddingsModelOptions extends EmbeddingsModelOptions {
     int? dimensions,
     int? batchSize,
     String? encodingFormat,
-  }) =>
-      MistralEmbeddingsModelOptions(
-        dimensions: dimensions ?? this.dimensions,
-        batchSize: batchSize ?? this.batchSize,
-        encodingFormat: encodingFormat ?? this.encodingFormat,
-      );
+  }) => MistralEmbeddingsModelOptions(
+    dimensions: dimensions ?? this.dimensions,
+    batchSize: batchSize ?? this.batchSize,
+    encodingFormat: encodingFormat ?? this.encodingFormat,
+  );
 
   /// Converts the options to a map.
   Map<String, dynamic> toMap() => {
-        if (dimensions != null) 'dimensions': dimensions,
-        if (batchSize != null) 'batch_size': batchSize,
-        if (encodingFormat != null) 'encoding_format': encodingFormat,
-      };
+    if (dimensions != null) 'dimensions': dimensions,
+    if (batchSize != null) 'batch_size': batchSize,
+    if (encodingFormat != null) 'encoding_format': encodingFormat,
+  };
 
   @override
   bool operator ==(Object other) =>
@@ -46,7 +45,8 @@ class MistralEmbeddingsModelOptions extends EmbeddingsModelOptions {
       dimensions.hashCode ^ batchSize.hashCode ^ encodingFormat.hashCode;
 
   @override
-  String toString() => 'MistralEmbeddingsModelOptions('
+  String toString() =>
+      'MistralEmbeddingsModelOptions('
       'dimensions: $dimensions, '
       'batchSize: $batchSize, '
       'encodingFormat: $encodingFormat)';

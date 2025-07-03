@@ -182,7 +182,7 @@ extension ChatMessageListMapper on List<ChatMessage> {
 /// Extension on [CreateChatCompletionResponse] to convert to [ChatResult].
 extension CreateChatCompletionResponseMapper on CreateChatCompletionResponse {
   /// Converts this [CreateChatCompletionResponse] to a [ChatResult].
-  ChatResult toChatResult(String id) {
+  ChatResult<AIChatMessage> toChatResult(String id) {
     final choice = choices.first;
     final msg = choice.message;
 
@@ -190,7 +190,7 @@ extension CreateChatCompletionResponseMapper on CreateChatCompletionResponse {
       throw OpenAIRefusalException(msg.refusal!);
     }
 
-    return ChatResult(
+    return ChatResult<AIChatMessage>(
       id: id,
       output: AIChatMessage(
         content: msg.content ?? '',
@@ -274,7 +274,7 @@ extension ChatToolChoiceMapper on ChatToolChoice {
 extension CreateChatCompletionStreamResponseMapper
     on CreateChatCompletionStreamResponse {
   /// Converts this [CreateChatCompletionStreamResponse] to a [ChatResult].
-  ChatResult toChatResult(String id) {
+  ChatResult<AIChatMessage> toChatResult(String id) {
     final choice = choices.firstOrNull;
     final delta = choice?.delta;
 
@@ -282,7 +282,7 @@ extension CreateChatCompletionStreamResponseMapper
       throw OpenAIRefusalException(delta.refusal!);
     }
 
-    return ChatResult(
+    return ChatResult<AIChatMessage>(
       id: id,
       output: AIChatMessage(
         content: delta?.content ?? '',

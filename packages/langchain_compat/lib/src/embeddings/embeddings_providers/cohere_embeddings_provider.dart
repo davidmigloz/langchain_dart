@@ -48,7 +48,7 @@ class CohereEmbeddingsProvider
       defaultBaseUrl: 'https://api.cohere.ai/v1', // Use OpenAI compat endpoint
       apiKeyName: apiKeyName,
     );
-    
+
     final allModels = await cohereChatProvider.listModels();
     return allModels.where(
       (model) => model.kinds.contains(ModelKind.embedding),

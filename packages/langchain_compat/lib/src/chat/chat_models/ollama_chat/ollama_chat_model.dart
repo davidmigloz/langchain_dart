@@ -63,7 +63,7 @@ class OllamaChatModel extends ChatModel<OllamaChatOptions>
   static const defaultModelName = 'qwen2.5:7b-instruct';
 
   @override
-  Stream<ChatResult> rawStream(
+  Stream<ChatResult<AIChatMessage>> rawStream(
     List<ChatMessage> messages, {
     OllamaChatOptions? options,
   }) => _client

@@ -13,7 +13,7 @@ import 'google_chat_mappers.dart';
 
 /// Wrapper around [Google AI for Developers](https://ai.google.dev/) API
 /// (aka Gemini API).
-class GoogleChatModel extends ChatModel<GoogleChatOptions> 
+class GoogleChatModel extends ChatModel<GoogleChatOptions>
     with ToolsAndMessagesHelper<GoogleChatOptions> {
   /// Creates a [GoogleChatModel] instance.
   GoogleChatModel({
@@ -77,7 +77,7 @@ class GoogleChatModel extends ChatModel<GoogleChatOptions>
   static const defaultModelName = 'gemini-2.0-flash';
 
   @override
-  Stream<ChatResult> rawStream(
+  Stream<ChatResult<AIChatMessage>> rawStream(
     List<ChatMessage> messages, {
     GoogleChatOptions? options,
   }) {

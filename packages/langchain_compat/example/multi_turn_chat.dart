@@ -24,9 +24,8 @@ Future<void> main() async {
     final stream = chatModel.stream(messages);
     final fullResponse = StringBuffer();
     await for (final chunk in stream) {
-      final outputText = chunk.output is String ? chunk.output as String : '';
-      stdout.write(outputText);
-      fullResponse.write(outputText);
+      stdout.write(chunk.output);
+      fullResponse.write(chunk.output);
     }
     messages.add(ChatMessage.ai(fullResponse.toString()));
     print('');

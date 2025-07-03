@@ -2,7 +2,7 @@ import '../../language_models/language_models.dart';
 import 'chat_message.dart';
 
 /// Result returned by the Chat Model.
-class ChatResult extends LanguageModelResult<Object> {
+class ChatResult<T extends Object> extends LanguageModelResult<T> {
   /// Creates a new chat result instance.
   const ChatResult({
     required super.id,

@@ -80,8 +80,7 @@ Future<void> multiToolCallExample(
   final stream = model.stream(messages);
   await for (final chunk in stream) {
     // Output text as it streams
-    final outputText = chunk.output is String ? chunk.output as String : '';
-    stdout.write(outputText);
+    stdout.write(chunk.output);
 
     // Add new messages to the conversation
     messages.addAll(chunk.messages);

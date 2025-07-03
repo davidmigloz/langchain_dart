@@ -36,9 +36,9 @@ extension ChatMessageListMapper on List<ChatMessage> {
 /// Extension on [ChatCompletionResponse] to convert to [ChatResult].
 extension ChatResultMapper on ChatCompletionResponse {
   /// Converts this [ChatCompletionResponse] to a [ChatResult].
-  ChatResult toChatResult() {
+  ChatResult<AIChatMessage> toChatResult() {
     final choice = choices.first;
-    return ChatResult(
+    return ChatResult<AIChatMessage>(
       id: id,
       output: AIChatMessage(content: choice.message?.content ?? ''),
       finishReason: _mapFinishReason(choice.finishReason),
@@ -58,9 +58,9 @@ extension ChatResultMapper on ChatCompletionResponse {
 extension CreateChatCompletionStreamResponseMapper
     on ChatCompletionStreamResponse {
   /// Converts a [ChatCompletionStreamResponse] to a [ChatResult].
-  ChatResult toChatResult() {
+  ChatResult<AIChatMessage> toChatResult() {
     final choice = choices.first;
-    return ChatResult(
+    return ChatResult<AIChatMessage>(
       id: id,
       output: AIChatMessage(content: choice.delta.content ?? ''),
       finishReason: _mapFinishReason(choice.finishReason),

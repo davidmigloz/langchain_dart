@@ -46,7 +46,7 @@ class MistralEmbeddingsProvider
       defaultBaseUrl: defaultBaseUrl,
       apiKeyName: apiKeyName,
     );
-    
+
     final allModels = await mistralChatProvider.listModels();
     return allModels.where(
       (model) => model.kinds.contains(ModelKind.embedding),

@@ -27,10 +27,16 @@ abstract class ChatModel<TOptions extends ChatModelOptions> {
   String get name;
 
   /// Invokes the chat model.
-  Future<ChatResult> invoke(List<ChatMessage> messages, {TOptions? options});
+  Future<ChatResult<String>> invoke(
+    List<ChatMessage> messages, {
+    TOptions? options,
+  });
 
   /// Streams the chat model.
-  Stream<ChatResult> stream(List<ChatMessage> messages, {TOptions? options});
+  Stream<ChatResult<String>> stream(
+    List<ChatMessage> messages, {
+    TOptions? options,
+  });
 
   /// Closes the chat model.
   void close();

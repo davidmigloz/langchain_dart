@@ -10,7 +10,7 @@ import 'anthropic_mappers.dart';
 
 /// Wrapper around [Anthropic Messages
 /// API](https://docs.anthropic.com/en/api/messages) (aka Claude API).
-class AnthropicChatModel extends ChatModel<AnthropicChatOptions> 
+class AnthropicChatModel extends ChatModel<AnthropicChatOptions>
     with ToolsAndMessagesHelper<AnthropicChatOptions> {
   /// Creates a [AnthropicChatModel] instance.
   AnthropicChatModel({
@@ -57,7 +57,7 @@ class AnthropicChatModel extends ChatModel<AnthropicChatOptions>
   static const defaultMaxTokens = 1024;
 
   @override
-  Stream<ChatResult> rawStream(
+  Stream<ChatResult<AIChatMessage>> rawStream(
     List<ChatMessage> messages, {
     AnthropicChatOptions? options,
   }) => _client
