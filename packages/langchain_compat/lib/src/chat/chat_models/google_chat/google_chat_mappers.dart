@@ -5,24 +5,56 @@ import 'package:google_generative_ai/google_generative_ai.dart' as g;
 import '../../../language_models/language_models.dart';
 import '../../tools/tool_spec.dart';
 import '../chat_models.dart';
+import '../tool_call_id_manager.dart';
 
 /// Extension on [List<ChatMessage>] to convert chat messages to Google
 /// Generative AI SDK content.
 extension ChatMessagesMapper on List<ChatMessage> {
   /// Converts this list of [ChatMessage]s to a list of [g.Content]s.
-  List<g.Content> toContentList() => where((msg) => msg is! SystemChatMessage)
-      .map(
-        (message) => switch (message) {
+  /// 
+  /// Groups consecutive ToolChatMessage objects into a single 
+  /// g.Content.functionResponses() as required by Google's API.
+  List<g.Content> toContentList() {
+    final nonSystemMessages = 
+        where((msg) => msg is! SystemChatMessage).toList();
+    final result = <g.Content>[];
+    
+    for (var i = 0; i < nonSystemMessages.length; i++) {
+      final message = nonSystemMessages[i];
+      
+      if (message is ToolChatMessage) {
+        // Collect all consecutive ToolChatMessage objects
+        final toolMessages = [message];
+        var j = i + 1;
+        while (j < nonSystemMessages.length && 
+               nonSystemMessages[j] is ToolChatMessage) {
+          toolMessages.add(nonSystemMessages[j] as ToolChatMessage);
+          j++;
+        }
+        
+        // Create a single g.Content.functionResponses with all tool responses
+        result.add(_mapToolChatMessages(toolMessages));
+        
+        // Skip the processed messages
+        i = j - 1;
+      } else {
+        // Handle non-tool messages normally
+        result.add(switch (message) {
           SystemChatMessage() => throw AssertionError(
             'System messages should be filtered out',
           ),
           final HumanChatMessage msg => _mapHumanChatMessage(msg),
           final AIChatMessage msg => _mapAIChatMessage(msg),
-          final ToolChatMessage msg => _mapToolChatMessage(msg),
           final CustomChatMessage msg => _mapCustomChatMessage(msg),
-        },
-      )
-      .toList(growable: false);
+          ToolChatMessage() => throw AssertionError(
+            'ToolChatMessage should be handled above',
+          ),
+        });
+      }
+    }
+    
+    return result;
+  }
 
   g.Content _mapHumanChatMessage(HumanChatMessage msg) {
     final contentParts = switch (msg.content) {
@@ -63,17 +95,42 @@ extension ChatMessagesMapper on List<ChatMessage> {
     return g.Content.model(contentParts);
   }
 
-  g.Content _mapToolChatMessage(ToolChatMessage msg) {
-    Map<String, Object?>? response;
-    try {
-      response = jsonDecode(msg.content) as Map<String, Object?>;
-    } on Exception catch (_) {
-      response = {'result': msg.content};
-    }
+  /// Maps multiple ToolChatMessage objects to a single 
+  /// g.Content.functionResponses. This is required by Google's API - all 
+  /// function responses must be grouped together
+  g.Content _mapToolChatMessages(List<ToolChatMessage> messages) {
+    final functionResponses = messages.map((msg) {
+      Map<String, Object?>? response;
+      try {
+        response = jsonDecode(msg.content) as Map<String, Object?>;
+      } on Exception catch (_) {
+        response = {'result': msg.content};
+      }
+      
+      // Extract the original function name from our generated ID
+      // Format: google_{toolName}_{argsHash} -> toolName
+      final functionName = _extractFunctionNameFromId(msg.toolCallId);
+      
+      return g.FunctionResponse(functionName, response);
+    }).toList();
 
-    return g.Content.functionResponses([
-      g.FunctionResponse(msg.toolCallId, response),
-    ]);
+    return g.Content.functionResponses(functionResponses);
+  }
+
+  /// Extracts the original function name from a generated tool call ID.
+  /// 
+  /// For Google IDs in format "google_{toolName}_{argsHash}", returns toolName.
+  /// For other providers or malformed IDs, returns the ID as-is.
+  String _extractFunctionNameFromId(String toolCallId) {
+    if (toolCallId.startsWith('google_')) {
+      final parts = toolCallId.split('_');
+      if (parts.length >= 3) {
+        // Remove 'google' prefix and args hash suffix, keep the tool name
+        return parts.sublist(1, parts.length - 1).join('_');
+      }
+    }
+    // Fallback: return the ID as-is (for OpenAI/Anthropic native IDs)
+    return toolCallId;
   }
 
   g.Content _mapCustomChatMessage(CustomChatMessage msg) =>
@@ -82,6 +139,9 @@ extension ChatMessagesMapper on List<ChatMessage> {
 
 /// Extension on [g.GenerateContentResponse] to convert to [ChatResult].
 extension GenerateContentResponseMapper on g.GenerateContentResponse {
+  /// Tool call ID manager for Google tool calls
+  static const _toolCallIdManager = ToolCallIdManager('google');
+
   /// Converts this [g.GenerateContentResponse] to a [ChatResult].
   ChatResult toChatResult(String id, String model) {
     final candidate = candidates.first;
@@ -102,17 +162,19 @@ extension GenerateContentResponseMapper on g.GenerateContentResponse {
             )
             .nonNulls
             .join('\n'),
-        toolCalls: candidate.content.parts
-            .whereType<g.FunctionCall>()
-            .map(
-              (call) => AIChatMessageToolCall(
-                id: call.name,
-                name: call.name,
-                argumentsRaw: jsonEncode(call.args),
-                arguments: call.args,
-              ),
-            )
-            .toList(growable: false),
+        toolCalls: _toolCallIdManager.assignIds(
+          candidate.content.parts
+              .whereType<g.FunctionCall>()
+              .map(
+                (call) => AIChatMessageToolCall(
+                  id: '', // Google doesn't provide tool call IDs
+                  name: call.name,
+                  argumentsRaw: jsonEncode(call.args),
+                  arguments: call.args,
+                ),
+              )
+              .toList(growable: false),
+        ),
       ),
       finishReason: _mapFinishReason(candidate.finishReason),
       metadata: {

@@ -6,6 +6,7 @@ import '../../../language_models/language_model_usage.dart';
 import '../../tools/tool_spec.dart';
 import '../chat_message.dart';
 import '../chat_result.dart';
+import '../tool_call_id_manager.dart';
 import 'ollama_chat_options.dart';
 
 /// Creates a [o.GenerateChatCompletionRequest] from the given input.
@@ -171,14 +172,17 @@ extension OllamaChatMessagesMapper on List<ChatMessage> {
 
 /// Extension on [o.GenerateChatCompletionResponse] to convert to [ChatResult].
 extension ChatResultMapper on o.GenerateChatCompletionResponse {
+  /// Tool call ID manager for Ollama tool calls
+  static const _toolCallIdManager = ToolCallIdManager('ollama');
+
   /// Converts this [o.GenerateChatCompletionResponse] to a [ChatResult].
   ChatResult toChatResult(String id, {bool streaming = false}) => ChatResult(
     id: id,
     output: AIChatMessage(
       content: message.content,
-      toolCalls:
+      toolCalls: _toolCallIdManager.assignIds(
           message.toolCalls?.map(_mapOllamaToolCall).toList(growable: false) ??
-          const [],
+          const []),
     ),
     finishReason: FinishReason.unspecified,
     metadata: {
