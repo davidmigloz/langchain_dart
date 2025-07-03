@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 
 import '../chat_models/anthropic_chat/anthropic_chat.dart';
 import '../chat_models/chat_model.dart';
-import '../tools/tool_spec.dart';
+import '../tools/tool.dart';
 import 'chat_provider.dart';
 import 'model_info.dart';
 import 'model_kind.dart';
@@ -30,7 +30,7 @@ class AnthropicProvider extends ChatProvider<AnthropicChatOptions> {
   @override
   ChatModel<AnthropicChatOptions> createModel({
     String? model,
-    List<ToolSpec>? tools,
+    List<Tool>? tools,
     double? temperature,
     AnthropicChatOptions? options,
   }) => AnthropicChatModel(

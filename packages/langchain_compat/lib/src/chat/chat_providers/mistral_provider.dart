@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import '../chat_models/chat_model.dart';
 import '../chat_models/mistral_chat/mistral_chat_model.dart';
 import '../chat_models/mistral_chat/mistral_chat_options.dart';
-import '../tools/tool_spec.dart';
+import '../tools/tool.dart';
 import 'chat_provider.dart';
 import 'model_info.dart';
 import 'model_kind.dart';
@@ -30,7 +30,7 @@ class MistralProvider extends ChatProvider<MistralChatOptions> {
   @override
   ChatModel<MistralChatOptions> createModel({
     String? model,
-    List<ToolSpec>? tools,
+    List<Tool>? tools,
     double? temperature,
     MistralChatOptions? options,
   }) => MistralChatModel(

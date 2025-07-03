@@ -7,7 +7,7 @@ import 'package:rxdart/rxdart.dart' show WhereNotNullExtension;
 
 import '../../../language_models/finish_reason.dart';
 import '../../../language_models/language_model_usage.dart';
-import '../../tools/tool_spec.dart';
+import '../../tools/tool.dart';
 import '../chat_message.dart';
 import '../chat_result.dart';
 import 'anthropic_chat.dart';
@@ -19,7 +19,7 @@ a.CreateMessageRequest createMessageRequest(
   required String model,
   required AnthropicChatOptions? options,
   required AnthropicChatOptions defaultOptions,
-  List<ToolSpec>? tools,
+  List<Tool>? tools,
   double? temperature,
   bool stream = false,
 }) {
@@ -358,9 +358,9 @@ class MessageStreamEventTransformer
   ),
 };
 
-/// Extension on [List<ToolSpec>] to convert tool specs to Anthropic SDK tools.
-extension ToolSpecListMapper on List<ToolSpec> {
-  /// Converts this list of [ToolSpec]s to a list of Anthropic SDK [a.Tool]s.
+/// Extension on [List<Tool>] to convert tool specs to Anthropic SDK tools.
+extension ToolSpecListMapper on List<Tool> {
+  /// Converts this list of [Tool]s to a list of Anthropic SDK [a.Tool]s.
   List<a.Tool> toTool(ChatToolChoice? toolChoice) {
     if (toolChoice is ChatToolChoiceNone) {
       return const [];
@@ -374,10 +374,10 @@ extension ToolSpecListMapper on List<ToolSpec> {
     return map(_mapTool).toList(growable: false);
   }
 
-  a.Tool _mapTool(ToolSpec tool) => a.Tool.custom(
+  a.Tool _mapTool(Tool tool) => a.Tool.custom(
     name: tool.name,
     description: tool.description,
-    inputSchema: tool.inputJsonSchema,
+    inputSchema: tool.inputSchema,
   );
 }
 

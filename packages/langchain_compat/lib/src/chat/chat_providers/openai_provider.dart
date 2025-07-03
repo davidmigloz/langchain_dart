@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import '../chat_models/chat_model.dart';
 import '../chat_models/openai_chat/openai_chat_model.dart';
 import '../chat_models/openai_chat/openai_chat_options.dart';
-import '../tools/tool_spec.dart';
+import '../tools/tool.dart';
 import 'chat_provider.dart';
 import 'model_info.dart';
 import 'model_kind.dart';
@@ -31,7 +31,7 @@ class OpenAIProvider extends ChatProvider<OpenAIChatOptions> {
   @override
   ChatModel<OpenAIChatOptions> createModel({
     String? model,
-    List<ToolSpec>? tools,
+    List<Tool>? tools,
     double? temperature,
     OpenAIChatOptions? options,
   }) => OpenAIChatModel(

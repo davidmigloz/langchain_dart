@@ -7,10 +7,10 @@ import 'package:langchain_compat/langchain_compat.dart';
 import 'lib/dump_chat_history.dart';
 
 void main() async {
-  final currentDateTimeTool = Tool.fromFunction<Object, String>(
+  final currentDateTimeTool = Tool<String>(
     name: 'current_date_time',
     description: 'Returns the current date and time in ISO 8601 format.',
-    func: (_) {
+    onCall: (_) {
       final now = DateTime.now().toIso8601String();
       return now;
     },
@@ -18,16 +18,15 @@ void main() async {
 
   final tools = [currentDateTimeTool];
   final models = [
-    // Provider.google.createModel(tools: tools),
-    // Provider.openai.createModel(tools: tools),
-    // Provider.anthropic.createModel(tools: tools),
-    // Provider.cohere.createModel(tools: tools),
+    ChatProvider.google.createModel(tools: tools),
+    ChatProvider.openai.createModel(tools: tools),
+    ChatProvider.anthropic.createModel(tools: tools),
+    ChatProvider.cohere.createModel(tools: tools),
     ChatProvider.ollama.createModel(tools: tools),
-    // Provider.mistral.createModel(tools: tools),
+    // ChatProvider.mistral.createModel(tools: tools), // No tool support yet
   ];
 
   for (final model in models) {
-    print('=== Testing [1m${model.runtimeType}[0m ===');
     await singleToolCallExample(model, tools);
   }
 
@@ -36,8 +35,10 @@ void main() async {
 
 Future<void> singleToolCallExample(
   ChatModel<ChatModelOptions> model,
-  List<Tool<Object, Object>> tools,
+  List<Tool> tools,
 ) async {
+  print('=== ${model.runtimeType} Single-Tool Call ===');
+
   const userMessage = 'What is the current date and time?';
   final messages = [
     ChatMessage.system(
@@ -48,18 +49,22 @@ Future<void> singleToolCallExample(
 
   print('\nUser: $userMessage');
 
-  // With the new API, tool execution and message collection is automatic
-  final stream = model.stream(messages);
+  // invoke
+  final result = await model.invoke(messages);
+  print(result.output);
+  messages.addAll(result.messages);
 
-  await for (final chunk in stream) {
-    // Output text as it streams
-    final outputText = chunk.output is String ? chunk.output as String : '';
-    stdout.write(outputText);
-  
-    // Add new messages to the conversation
-    messages.addAll(chunk.messages);
-  }
-  stdout.writeln();
+  // stream
+  // final stream = model.stream(messages);
+  // await for (final chunk in stream) {
+  //   // Output text as it streams
+  //   final outputText = chunk.output is String ? chunk.output as String : '';
+  //   stdout.write(outputText);
+
+  //   // Add new messages to the conversation
+  //   messages.addAll(chunk.messages);
+  // }
+  // stdout.writeln();
 
   dumpChatHistory(messages);
 }

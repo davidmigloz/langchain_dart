@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 import '../chat_models/chat_model.dart';
 import '../chat_models/ollama_chat/ollama_chat_model.dart';
-import '../tools/tool_spec.dart';
+import '../tools/tool.dart';
 import 'chat_provider.dart';
 import 'model_info.dart';
 import 'model_kind.dart';
@@ -28,7 +28,7 @@ class OllamaProvider extends ChatProvider<OllamaChatOptions> {
   @override
   ChatModel<OllamaChatOptions> createModel({
     String? model,
-    List<ToolSpec>? tools,
+    List<Tool>? tools,
     double? temperature,
     OllamaChatOptions? options,
   }) => OllamaChatModel(

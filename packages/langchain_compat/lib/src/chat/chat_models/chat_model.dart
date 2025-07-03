@@ -1,4 +1,4 @@
-import '../tools/tool_spec.dart';
+import '../tools/tool.dart';
 import 'chat_models.dart';
 
 /// Chat model base class.
@@ -18,7 +18,7 @@ abstract class ChatModel<TOptions extends ChatModelOptions> {
   final String? model;
 
   /// The tools the model may call.
-  final List<ToolSpec>? tools;
+  final List<Tool>? tools;
 
   /// The temperature for the model.
   final double? temperature;

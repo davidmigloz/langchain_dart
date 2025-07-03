@@ -1,6 +1,6 @@
 import '../chat_models/chat_model.dart';
 import '../chat_models/chat_model_options.dart';
-import '../tools/tool_spec.dart';
+import '../tools/tool.dart';
 import 'chat_providers.dart';
 
 /// Provides a unified interface for accessing all major LLM, chat, and
@@ -52,7 +52,7 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
   /// Creates a chat model instance for this provider.
   ChatModel<TOptions> createModel({
     String? model,
-    List<ToolSpec>? tools,
+    List<Tool>? tools,
     double? temperature,
     TOptions? options,
   });

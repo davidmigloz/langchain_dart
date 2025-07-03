@@ -81,7 +81,7 @@ class MistralChatModel extends ChatModel<MistralChatOptions>
     List<ChatMessage> messages, {
     required String model,
     required MistralChatOptions defaultOptions,
-    List<ToolSpec>? tools,
+    List<Tool>? tools,
     double? temperature,
     MistralChatOptions? options,
     bool stream = false,

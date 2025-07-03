@@ -3,37 +3,38 @@ import 'dart:convert';
 import 'package:google_generative_ai/google_generative_ai.dart' as g;
 
 import '../../../language_models/language_models.dart';
-import '../../tools/tool_spec.dart';
+import '../../tools/tool.dart';
 import '../chat_models.dart';
 
 /// Extension on [List<ChatMessage>] to convert chat messages to Google
 /// Generative AI SDK content.
 extension ChatMessagesMapper on List<ChatMessage> {
   /// Converts this list of [ChatMessage]s to a list of [g.Content]s.
-  /// 
-  /// Groups consecutive ToolChatMessage objects into a single 
+  ///
+  /// Groups consecutive ToolChatMessage objects into a single
   /// g.Content.functionResponses() as required by Google's API.
   List<g.Content> toContentList() {
-    final nonSystemMessages = 
-        where((msg) => msg is! SystemChatMessage).toList();
+    final nonSystemMessages = where(
+      (msg) => msg is! SystemChatMessage,
+    ).toList();
     final result = <g.Content>[];
-    
+
     for (var i = 0; i < nonSystemMessages.length; i++) {
       final message = nonSystemMessages[i];
-      
+
       if (message is ToolChatMessage) {
         // Collect all consecutive ToolChatMessage objects
         final toolMessages = [message];
         var j = i + 1;
-        while (j < nonSystemMessages.length && 
-               nonSystemMessages[j] is ToolChatMessage) {
+        while (j < nonSystemMessages.length &&
+            nonSystemMessages[j] is ToolChatMessage) {
           toolMessages.add(nonSystemMessages[j] as ToolChatMessage);
           j++;
         }
-        
+
         // Create a single g.Content.functionResponses with all tool responses
         result.add(_mapToolChatMessages(toolMessages));
-        
+
         // Skip the processed messages
         i = j - 1;
       } else {
@@ -51,7 +52,7 @@ extension ChatMessagesMapper on List<ChatMessage> {
         });
       }
     }
-    
+
     return result;
   }
 
@@ -94,8 +95,8 @@ extension ChatMessagesMapper on List<ChatMessage> {
     return g.Content.model(contentParts);
   }
 
-  /// Maps multiple ToolChatMessage objects to a single 
-  /// g.Content.functionResponses. This is required by Google's API - all 
+  /// Maps multiple ToolChatMessage objects to a single
+  /// g.Content.functionResponses. This is required by Google's API - all
   /// function responses must be grouped together
   g.Content _mapToolChatMessages(List<ToolChatMessage> messages) {
     final functionResponses = messages.map((msg) {
@@ -105,11 +106,11 @@ extension ChatMessagesMapper on List<ChatMessage> {
       } on Exception catch (_) {
         response = {'result': msg.content};
       }
-      
+
       // Extract the original function name from our generated ID
       // Format: google_{toolName}_{argsHash} -> toolName
       final functionName = _extractFunctionNameFromId(msg.toolCallId);
-      
+
       return g.FunctionResponse(functionName, response);
     }).toList();
 
@@ -117,7 +118,7 @@ extension ChatMessagesMapper on List<ChatMessage> {
   }
 
   /// Extracts the original function name from a generated tool call ID.
-  /// 
+  ///
   /// For Google IDs in format "google_{toolName}_{argsHash}", returns toolName.
   /// For other providers or malformed IDs, returns the ID as-is.
   String _extractFunctionNameFromId(String toolCallId) {
@@ -138,7 +139,6 @@ extension ChatMessagesMapper on List<ChatMessage> {
 
 /// Extension on [g.GenerateContentResponse] to convert to [ChatResult].
 extension GenerateContentResponseMapper on g.GenerateContentResponse {
-
   /// Converts this [g.GenerateContentResponse] to a [ChatResult].
   ChatResult toChatResult(String id, String model) {
     final candidate = candidates.first;
@@ -258,9 +258,9 @@ extension SafetySettingsMapper on List<ChatGoogleGenerativeAISafetySetting> {
   ).toList(growable: false);
 }
 
-/// Extension on [List<ToolSpec>?] to convert to Google SDK tool list.
-extension ChatToolListMapper on List<ToolSpec>? {
-  /// Converts this list of [ToolSpec]s to a list of [g.Tool]s, optionally
+/// Extension on [List<Tool>?] to convert to Google SDK tool list.
+extension ChatToolListMapper on List<Tool>? {
+  /// Converts this list of [Tool]s to a list of [g.Tool]s, optionally
   /// enabling code execution.
   List<g.Tool>? toToolList({required bool enableCodeExecution}) {
     final hasTools = this != null && this!.isNotEmpty;
@@ -273,7 +273,7 @@ extension ChatToolListMapper on List<ToolSpec>? {
                 (tool) => g.FunctionDeclaration(
                   tool.name,
                   tool.description,
-                  tool.inputJsonSchema.toSchema(),
+                  tool.inputSchema.toSchema(),
                 ),
               )
               .toList(growable: false)

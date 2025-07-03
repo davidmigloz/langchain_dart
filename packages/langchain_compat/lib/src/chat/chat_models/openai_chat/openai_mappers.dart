@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:openai_dart/openai_dart.dart';
 
 import '../../../language_models/language_models.dart';
-import '../../tools/tool_spec.dart';
+import '../../tools/tool.dart';
 import '../../tools/tools.dart';
 import '../chat_models.dart';
 import 'openai_chat_options.dart';
@@ -14,7 +14,7 @@ CreateChatCompletionRequest createChatCompletionRequest(
   required String model,
   required OpenAIChatOptions? options,
   required OpenAIChatOptions defaultOptions,
-  List<ToolSpec>? tools,
+  List<Tool>? tools,
   double? temperature,
   bool stream = false,
 }) {
@@ -231,21 +231,20 @@ LanguageModelUsage _mapUsage(CompletionUsage? usage) => LanguageModelUsage(
   totalTokens: usage?.totalTokens,
 );
 
-/// Extension on [List<ToolSpec>] to convert to OpenAI SDK tool list.
-extension ChatToolListMapper on List<ToolSpec> {
-  /// Converts this list of [ToolSpec]s to a list of [ChatCompletionTool]s.
+/// Extension on [List<Tool>] to convert to OpenAI SDK tool list.
+extension ChatToolListMapper on List<Tool> {
+  /// Converts this list of [Tool]s to a list of [ChatCompletionTool]s.
   List<ChatCompletionTool> toChatCompletionTool() =>
       map(_mapChatCompletionTool).toList(growable: false);
 
-  ChatCompletionTool _mapChatCompletionTool(ToolSpec tool) =>
-      ChatCompletionTool(
-        type: ChatCompletionToolType.function,
-        function: FunctionObject(
-          name: tool.name,
-          description: tool.description,
-          parameters: tool.inputJsonSchema,
-        ),
-      );
+  ChatCompletionTool _mapChatCompletionTool(Tool tool) => ChatCompletionTool(
+    type: ChatCompletionToolType.function,
+    function: FunctionObject(
+      name: tool.name,
+      description: tool.description,
+      parameters: tool.inputSchema,
+    ),
+  );
 }
 
 /// Extension on [ChatToolChoice] to convert to OpenAI SDK tool choice.

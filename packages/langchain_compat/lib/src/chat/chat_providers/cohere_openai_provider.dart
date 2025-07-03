@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import '../chat_models/chat_model.dart';
 import '../chat_models/cohere_chat/cohere_chat_model.dart';
 import '../chat_models/cohere_chat/cohere_chat_options.dart';
-import '../tools/tool_spec.dart';
+import '../tools/tool.dart';
 import 'model_info.dart';
 import 'model_kind.dart';
 import 'openai_provider.dart';
@@ -31,7 +31,7 @@ class CohereOpenAIProvider extends OpenAIProvider {
   @override
   ChatModel<CohereChatOptions> createModel({
     String? model,
-    List<ToolSpec>? tools,
+    List<Tool>? tools,
     double? temperature,
     CohereChatOptions? options,
   }) => CohereChatModel(

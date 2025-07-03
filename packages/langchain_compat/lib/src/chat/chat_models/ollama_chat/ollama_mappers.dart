@@ -3,7 +3,7 @@ import 'package:ollama_dart/ollama_dart.dart' as o;
 
 import '../../../language_models/finish_reason.dart';
 import '../../../language_models/language_model_usage.dart';
-import '../../tools/tool_spec.dart';
+import '../../tools/tool.dart';
 import '../chat_message.dart';
 import '../chat_result.dart';
 import 'ollama_chat_options.dart';
@@ -14,7 +14,7 @@ o.GenerateChatCompletionRequest generateChatCompletionRequest(
   required String model,
   required OllamaChatOptions? options,
   required OllamaChatOptions defaultOptions,
-  List<ToolSpec>? tools,
+  List<Tool>? tools,
   double? temperature,
   bool stream = false,
 }) => o.GenerateChatCompletionRequest(
@@ -62,16 +62,16 @@ o.GenerateChatCompletionRequest generateChatCompletionRequest(
   ),
 );
 
-/// Extension on [List<ToolSpec>] to convert to Ollama SDK tool list.
-extension OllamaToolListMapper on List<ToolSpec> {
-  /// Converts this list of [ToolSpec]s to a list of Ollama SDK [o.Tool]s.
+/// Extension on [List<Tool>] to convert to Ollama SDK tool list.
+extension OllamaToolListMapper on List<Tool> {
+  /// Converts this list of [Tool]s to a list of Ollama SDK [o.Tool]s.
   List<o.Tool> toOllamaTools() => map(
     (tool) => o.Tool(
       type: o.ToolType.function,
       function: o.ToolFunction(
         name: tool.name,
         description: tool.description,
-        parameters: tool.inputJsonSchema,
+        parameters: tool.inputSchema,
       ),
     ),
   ).toList(growable: false);

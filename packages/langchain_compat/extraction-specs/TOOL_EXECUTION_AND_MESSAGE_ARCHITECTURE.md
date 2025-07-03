@@ -89,7 +89,7 @@ collection:
 ```dart
 mixin ToolsAndMessagesHelper<TOptions extends ChatModelOptions> {
   /// The tools available to this model. Models must provide this.
-  List<ToolSpec>? get tools;
+  List<Tool>? get tools;
 
   /// Raw streaming method that models must implement.
   Stream<ChatResult> rawStream(List<ChatMessage> messages, {TOptions? options});

@@ -5,7 +5,6 @@ import 'package:uuid/uuid.dart';
 
 import '../../language_models/language_models.dart';
 import '../tools/tool.dart';
-import '../tools/tool_spec.dart';
 import 'chat_message.dart';
 import 'chat_model_options.dart';
 import 'chat_result.dart';
@@ -22,11 +21,11 @@ import 'chat_result.dart';
 /// of [invoke] and [stream].
 mixin ToolsAndMessagesHelper<TOptions extends ChatModelOptions> {
   /// The tools available to this model. Models must provide this.
-  List<ToolSpec>? get tools;
+  List<Tool>? get tools;
 
   /// Raw streaming method that models must implement.
   /// This should call the underlying LLM API and return a stream of responses.
-  /// 
+  ///
   /// Models that use this mixin should override this method.
   Stream<ChatResult> rawStream(
     List<ChatMessage> messages, {
@@ -84,16 +83,7 @@ mixin ToolsAndMessagesHelper<TOptions extends ChatModelOptions> {
     TOptions? options,
   }) async* {
     final conversationHistory = List<ChatMessage>.from(messages);
-    final toolMap = <String, Tool>{};
-    
-    // Build tool map for quick lookup - only include executable tools
-    if (tools != null) {
-      for (final toolSpec in tools!) {
-        if (toolSpec is Tool) {
-          toolMap[toolSpec.name] = toolSpec;
-        }
-      }
-    }
+    final toolMap = {for (final tool in tools ?? <Tool>[]) tool.name: tool};
 
     var done = false;
     while (!done) {
@@ -117,7 +107,7 @@ mixin ToolsAndMessagesHelper<TOptions extends ChatModelOptions> {
         final textOutput = rawOutput is AIChatMessage
             ? rawOutput.content
             : rawOutput.toString();
-        
+
         if (textOutput.isNotEmpty) {
           yield ChatResult(
             id: result.id,
@@ -182,17 +172,22 @@ mixin ToolsAndMessagesHelper<TOptions extends ChatModelOptions> {
           if (tool != null) {
             try {
               final result = await tool.invoke(toolCall.arguments);
-              final resultString =
-                  result is String ? result : json.encode(result);
-              toolResults.add(ChatMessage.tool(
-                toolCallId: toolCall.id,
-                content: resultString,
-              ));
+              final resultString = result is String
+                  ? result
+                  : json.encode(result);
+              toolResults.add(
+                ChatMessage.tool(
+                  toolCallId: toolCall.id,
+                  content: resultString,
+                ),
+              );
             } on Exception catch (error) {
-              toolResults.add(ChatMessage.tool(
-                toolCallId: toolCall.id,
-                content: json.encode({'error': error.toString()}),
-              ));
+              toolResults.add(
+                ChatMessage.tool(
+                  toolCallId: toolCall.id,
+                  content: json.encode({'error': error.toString()}),
+                ),
+              );
             }
           }
         }
@@ -214,7 +209,7 @@ mixin ToolsAndMessagesHelper<TOptions extends ChatModelOptions> {
   }
 
   /// Determines if UUIDs should be assigned before concatenation.
-  /// 
+  ///
   /// Returns true for providers that send multiple tool calls with empty IDs
   /// in the same chunk (Ollama, Google), which would cause incorrect merging.
   /// Returns false for providers that use proper streaming protocols.
@@ -224,41 +219,38 @@ mixin ToolsAndMessagesHelper<TOptions extends ChatModelOptions> {
     if (message.toolCalls.length > 1) {
       return message.toolCalls.any((tc) => tc.id.isEmpty);
     }
-    
+
     // For single tool calls, check if it has an empty ID and no name
     // This indicates a partial chunk that should be concatenated
     if (message.toolCalls.length == 1) {
       final toolCall = message.toolCalls.first;
       return toolCall.id.isEmpty && toolCall.name.isNotEmpty;
     }
-    
+
     return false;
   }
 
   /// Assigns UUIDs to tool calls that don't have IDs.
-  /// 
+  ///
   /// This is primarily for providers like Ollama and Google that don't
   /// provide tool call IDs. OpenAI provides proper IDs and uses a different
   /// streaming protocol where partial tool calls should be concatenated
   /// using the existing concat logic.
   List<AIChatMessageToolCall> _assignToolCallIds(
     List<AIChatMessageToolCall> toolCalls,
-  ) =>
-      toolCalls
-          .map((toolCall) {
-            // Only assign UUIDs if the tool call has an empty ID
-            // Providers like OpenAI already provide proper IDs and use
-            // concat logic for streaming, so we should not assign UUIDs
-            if (toolCall.id.isEmpty) {
-              return AIChatMessageToolCall(
-                id: _uuid.v4(),
-                name: toolCall.name,
-                argumentsRaw: toolCall.argumentsRaw,
-                arguments: toolCall.arguments,
-              );
-            }
-            // Return as-is if ID already exists
-            return toolCall;
-          })
-          .toList();
+  ) => toolCalls.map((toolCall) {
+    // Only assign UUIDs if the tool call has an empty ID
+    // Providers like OpenAI already provide proper IDs and use
+    // concat logic for streaming, so we should not assign UUIDs
+    if (toolCall.id.isEmpty) {
+      return AIChatMessageToolCall(
+        id: _uuid.v4(),
+        name: toolCall.name,
+        argumentsRaw: toolCall.argumentsRaw,
+        arguments: toolCall.arguments,
+      );
+    }
+    // Return as-is if ID already exists
+    return toolCall;
+  }).toList();
 }

@@ -7,19 +7,19 @@ import 'package:langchain_compat/langchain_compat.dart';
 import 'lib/dump_chat_history.dart';
 
 void main() async {
-  final currentDateTimeTool = Tool.fromFunction<Object, String>(
+  final currentDateTimeTool = Tool<String>(
     name: 'current_date_time',
     description: 'Returns the current date and time in ISO 8601 format.',
-    func: (_) {
+    onCall: (_) {
       final now = DateTime.now().toIso8601String();
       return now;
     },
   );
 
-  final temperatureTool = Tool.fromFunction<Object, String>(
+  final temperatureTool = Tool<Map<String, dynamic>>(
     name: 'get_temperature',
     description: 'Returns the current temperature in Portland, OR.',
-    inputJsonSchema: {
+    inputSchema: {
       'type': 'object',
       'properties': {
         'location': {
@@ -29,21 +29,21 @@ void main() async {
       },
       'required': ['location'],
     },
-    func: (_) => '80°F',
+    onCall: (_) => '80°F',
+    inputFromJson: (json) => json,
   );
 
   final tools = [currentDateTimeTool, temperatureTool];
   final models = [
     ChatProvider.google.createModel(tools: tools),
-    // ChatProvider.openai.createModel(tools: tools),
-    // ChatProvider.anthropic.createModel(tools: tools),
-    // ChatProvider.cohere.createModel(tools: tools),
-    // ChatProvider.ollama.createModel(tools: tools),
-    // ChatProvider.mistral.createModel(tools: tools), // No tools support yet
+    ChatProvider.openai.createModel(tools: tools),
+    ChatProvider.anthropic.createModel(tools: tools),
+    ChatProvider.cohere.createModel(tools: tools),
+    ChatProvider.ollama.createModel(tools: tools),
+    // ChatProvider.mistral.createModel(tools: tools), // No tool support yet
   ];
 
   for (final model in models) {
-    print('=== Testing {model.runtimeType} ===');
     await multiToolCallExample(model, tools);
   }
 
@@ -52,8 +52,10 @@ void main() async {
 
 Future<void> multiToolCallExample(
   ChatModel<ChatModelOptions> model,
-  List<Tool<Object, Object>> tools,
+  List<Tool> tools,
 ) async {
+  print('=== ${model.runtimeType} Multi-Tool Call ===');
+
   const userMessage =
       'What is the current time and temperature in Portland, OR?';
 
@@ -71,7 +73,7 @@ Future<void> multiToolCallExample(
   // invoke
   final result = await model.invoke(messages);
   print(result.output);
-  dumpChatHistory(messages + result.messages);
+  messages.addAll(result.messages);
 
   // stream
   // final stream = model.stream(messages);
@@ -85,5 +87,6 @@ Future<void> multiToolCallExample(
   //   // if (chunk.messages.isNotEmpty) dumpChatHistory(chunk.messages);
   // }
   // stdout.writeln();
-  // dumpChatHistory(messages);
+
+  dumpChatHistory(messages);
 }
