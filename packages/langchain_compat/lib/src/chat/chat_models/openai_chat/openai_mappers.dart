@@ -242,7 +242,7 @@ extension ChatToolListMapper on List<Tool> {
     function: FunctionObject(
       name: tool.name,
       description: tool.description,
-      parameters: tool.inputSchema,
+      parameters: Map<String, dynamic>.from(tool.inputSchema.schemaMap ?? {}),
     ),
   );
 }

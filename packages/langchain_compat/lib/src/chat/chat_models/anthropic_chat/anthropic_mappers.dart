@@ -377,7 +377,7 @@ extension ToolSpecListMapper on List<Tool> {
   a.Tool _mapTool(Tool tool) => a.Tool.custom(
     name: tool.name,
     description: tool.description,
-    inputSchema: tool.inputSchema,
+    inputSchema: Map<String, dynamic>.from(tool.inputSchema.schemaMap ?? {}),
   );
 }
 

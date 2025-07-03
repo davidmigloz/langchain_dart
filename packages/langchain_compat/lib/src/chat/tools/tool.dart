@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'tool_utils.dart';
+import 'package:json_schema/json_schema.dart';
 
 /// A tool that can be called by the LLM.
 class Tool<TInput extends Object> {
@@ -9,9 +9,10 @@ class Tool<TInput extends Object> {
     required this.name,
     required this.description,
     required this.onCall,
-    Map<String, dynamic>? inputSchema,
+    JsonSchema? inputSchema,
     TInput Function(Map<String, dynamic>)? inputFromJson,
-  }) : inputSchema = normalizeAndValidateSchema(inputSchema),
+  }) : inputSchema = inputSchema ?? 
+           JsonSchema.create({'type': 'object', 'properties': {}}),
        _getInputFromJson = inputFromJson {
     // Validate at construction time
     if (_hasParameters(inputSchema) && inputFromJson == null) {
@@ -30,7 +31,7 @@ class Tool<TInput extends Object> {
 
   /// Schema to parse and validate tool's input arguments.
   /// Following the [JSON Schema specification](https://json-schema.org).
-  final Map<String, dynamic> inputSchema;
+  final JsonSchema inputSchema;
 
   /// The function that will be called when the tool is run.
   final FutureOr<dynamic> Function(TInput input) onCall;
@@ -55,16 +56,16 @@ class Tool<TInput extends Object> {
   }
 
   /// Checks if the schema has parameters that require custom parsing.
-  static bool _hasParameters(Map<String, dynamic>? schema) {
+  static bool _hasParameters(JsonSchema? schema) {
     if (schema == null) return false;
-    final properties = schema['properties'] as Map<String, dynamic>?;
-    return properties != null && properties.isNotEmpty;
+    final properties = schema.properties;
+    return properties.isNotEmpty;
   }
 
   /// Converts the tool to a JSON-serializable map.
   Map<String, dynamic> toJson() => {
     'name': name,
     'description': description,
-    'inputSchema': inputSchema,
+    'inputSchema': inputSchema.schemaMap ?? {},
   };
 }

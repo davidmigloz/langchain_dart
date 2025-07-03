@@ -273,7 +273,8 @@ extension ChatToolListMapper on List<Tool>? {
                 (tool) => g.FunctionDeclaration(
                   tool.name,
                   tool.description,
-                  tool.inputSchema.toSchema(),
+                  Map<String, dynamic>.from(tool.inputSchema.schemaMap ?? {})
+                      .toSchema(),
                 ),
               )
               .toList(growable: false)

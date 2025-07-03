@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:json_schema/json_schema.dart';
 import 'package:langchain_compat/langchain_compat.dart';
 
 import 'lib/dump_chat_history.dart';
@@ -19,7 +20,7 @@ void main() async {
   final temperatureTool = Tool<Map<String, dynamic>>(
     name: 'get_temperature',
     description: 'Returns the current temperature in Portland, OR.',
-    inputSchema: {
+    inputSchema: JsonSchema.create({
       'type': 'object',
       'properties': {
         'location': {
@@ -28,7 +29,7 @@ void main() async {
         },
       },
       'required': ['location'],
-    },
+    }),
     onCall: (_) => '80°F',
     inputFromJson: (json) => json,
   );
@@ -71,22 +72,22 @@ Future<void> multiToolCallExample(
   print('\nUser: $userMessage');
 
   // invoke
-  final result = await model.invoke(messages);
-  print(result.output);
-  messages.addAll(result.messages);
+  // final result = await model.invoke(messages);
+  // print(result.output);
+  // messages.addAll(result.messages);
 
   // stream
-  // final stream = model.stream(messages);
-  // await for (final chunk in stream) {
-  //   // Output text as it streams
-  //   final outputText = chunk.output is String ? chunk.output as String : '';
-  //   stdout.write(outputText);
+  final stream = model.stream(messages);
+  await for (final chunk in stream) {
+    // Output text as it streams
+    final outputText = chunk.output is String ? chunk.output as String : '';
+    stdout.write(outputText);
 
-  //   // Add new messages to the conversation
-  //   messages.addAll(chunk.messages);
-  //   // if (chunk.messages.isNotEmpty) dumpChatHistory(chunk.messages);
-  // }
-  // stdout.writeln();
+    // Add new messages to the conversation
+    messages.addAll(chunk.messages);
+    // if (chunk.messages.isNotEmpty) dumpChatHistory(chunk.messages);
+  }
+  stdout.writeln();
 
   dumpChatHistory(messages);
 }

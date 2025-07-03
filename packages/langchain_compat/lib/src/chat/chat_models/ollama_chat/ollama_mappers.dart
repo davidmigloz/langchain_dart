@@ -71,7 +71,7 @@ extension OllamaToolListMapper on List<Tool> {
       function: o.ToolFunction(
         name: tool.name,
         description: tool.description,
-        parameters: tool.inputSchema,
+        parameters: Map<String, dynamic>.from(tool.inputSchema.schemaMap ?? {}),
       ),
     ),
   ).toList(growable: false);
