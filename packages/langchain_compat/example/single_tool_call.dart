@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:collection/collection.dart';
 import 'package:langchain_compat/langchain_compat.dart';
 
 import 'lib/dump_chat_history.dart';
@@ -17,27 +18,26 @@ void main() async {
   );
 
   final tools = [currentDateTimeTool];
-  final models = [
-    ChatProvider.google.createModel(tools: tools),
-    ChatProvider.openai.createModel(tools: tools),
-    ChatProvider.anthropic.createModel(tools: tools),
-    ChatProvider.cohere.createModel(tools: tools),
-    ChatProvider.ollama.createModel(tools: tools),
-    // ChatProvider.mistral.createModel(tools: tools), // No tool support yet
-  ];
+  final providersWithToolSupport = ChatProvider.all.whereNot(
+    (p) => p.name == 'mistral' || p.name == 'lambda',
+  );
 
-  for (final model in models) {
-    await singleToolCallExample(model, tools);
+  for (final provider in providersWithToolSupport) {
+    final model = provider.createModel(tools: tools);
+    final fqModelName = '${provider.name}:${model.name}';
+    await singleToolCallExample(fqModelName, model, tools);
+    await singleToolCallExampleStream(fqModelName, model, tools);
   }
 
   exit(0);
 }
 
 Future<void> singleToolCallExample(
+  String fqModelName,
   ChatModel<ChatModelOptions> model,
   List<Tool> tools,
 ) async {
-  print('=== ${model.runtimeType} Single-Tool Call ===');
+  print('=== $fqModelName Single-Tool Call ===');
 
   const userMessage = 'What is the current date and time?';
   final messages = [
@@ -48,22 +48,33 @@ Future<void> singleToolCallExample(
   ];
 
   print('\nUser: $userMessage');
+  final result = await model.invoke(messages);
+  print(result.output);
+  messages.addAll(result.messages);
+  dumpChatHistory(messages);
+}
 
-  // invoke
-  // final result = await model.invoke(messages);
-  // print(result.output);
-  // messages.addAll(result.messages);
+Future<void> singleToolCallExampleStream(
+  String fqModelName,
+  ChatModel<ChatModelOptions> model,
+  List<Tool> tools,
+) async {
+  print('=== $fqModelName Single-Tool Call (stream) ===');
 
-  // stream
+  const userMessage = 'What is the current date and time?';
+  final messages = [
+    ChatMessage.system(
+      'If asked for the current date and time, use the current_date_time tool.',
+    ),
+    ChatMessage.humanText(userMessage),
+  ];
+
+  print('\nUser: $userMessage');
   final stream = model.stream(messages);
   await for (final chunk in stream) {
-    // Output text as it streams
     stdout.write(chunk.output);
-
-    // Add new messages to the conversation
     messages.addAll(chunk.messages);
   }
   stdout.writeln();
-
   dumpChatHistory(messages);
 }

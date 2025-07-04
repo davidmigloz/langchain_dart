@@ -243,6 +243,7 @@ extension ChatToolListMapper on List<Tool> {
       name: tool.name,
       description: tool.description,
       parameters: Map<String, dynamic>.from(tool.inputSchema.schemaMap ?? {}),
+      strict: null, // Don't include strict in JSON - let provider decide
     ),
   );
 }

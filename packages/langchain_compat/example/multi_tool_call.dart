@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:collection/collection.dart';
 import 'package:json_schema/json_schema.dart';
 import 'package:langchain_compat/langchain_compat.dart';
 
@@ -35,27 +36,26 @@ void main() async {
   );
 
   final tools = [currentDateTimeTool, temperatureTool];
-  final models = [
-    ChatProvider.google.createModel(tools: tools),
-    ChatProvider.openai.createModel(tools: tools),
-    ChatProvider.anthropic.createModel(tools: tools),
-    ChatProvider.cohere.createModel(tools: tools),
-    ChatProvider.ollama.createModel(tools: tools),
-    // ChatProvider.mistral.createModel(tools: tools), // No tool support yet
-  ];
+  final providersWithToolSupport = ChatProvider.all.whereNot(
+    (p) => p.name == 'mistral' || p.name == 'lambda',
+  );
 
-  for (final model in models) {
-    await multiToolCallExample(model, tools);
+  for (final provider in providersWithToolSupport) {
+    final model = provider.createModel(tools: tools);
+    final fqModelName = '${provider.name}:${model.name}';
+    await multiToolCallExample(fqModelName, model, tools);
+    await multiToolCallExampleStream(fqModelName, model, tools);
   }
 
   exit(0);
 }
 
 Future<void> multiToolCallExample(
+  String fqModelName,
   ChatModel<ChatModelOptions> model,
   List<Tool> tools,
 ) async {
-  print('=== ${model.runtimeType} Multi-Tool Call ===');
+  print('=== $fqModelName Multi-Tool Call ===');
 
   const userMessage =
       'What is the current time and temperature in Portland, OR?';
@@ -70,23 +70,37 @@ Future<void> multiToolCallExample(
   ];
 
   print('\nUser: $userMessage');
+  final result = await model.invoke(messages);
+  print(result.output);
+  messages.addAll(result.messages);
+  dumpChatHistory(messages);
+}
 
-  // invoke
-  // final result = await model.invoke(messages);
-  // print(result.output);
-  // messages.addAll(result.messages);
+Future<void> multiToolCallExampleStream(
+  String fqModelName,
+  ChatModel<ChatModelOptions> model,
+  List<Tool> tools,
+) async {
+  print('=== $fqModelName Multi-Tool Call (stream) ===');
 
-  // stream
+  const userMessage =
+      'What is the current time and temperature in Portland, OR?';
+
+  const systemMessage =
+      'If asked for the current date and time, use the current_date_time tool. '
+      'If asked for the temperature, use the get_temperature tool.';
+
+  final messages = [
+    ChatMessage.system(systemMessage),
+    ChatMessage.humanText(userMessage),
+  ];
+
+  print('\nUser: $userMessage');
   final stream = model.stream(messages);
   await for (final chunk in stream) {
-    // Output text as it streams
     stdout.write(chunk.output);
-
-    // Add new messages to the conversation
     messages.addAll(chunk.messages);
-    // if (chunk.messages.isNotEmpty) dumpChatHistory(chunk.messages);
   }
   stdout.writeln();
-
   dumpChatHistory(messages);
 }
