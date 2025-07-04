@@ -21,6 +21,7 @@ dart run example/multi_turn_chat.dart      # Conversation example
 dart run example/single_tool_call.dart     # Tool calling example
 dart run example/multi_tool_call.dart      # Multi-tool calling example
 dart run example/usage_tracking.dart       # Usage tracking example
+dart run example/agent.dart                # Agent demo with tool chaining
 ```
 
 ## Project Architecture
@@ -162,24 +163,43 @@ final model = provider.createModel(
 );
 ```
 
-### Tool Execution and Message Architecture
+### Agent Architecture (High-Level Tool Orchestration)
 
-This package uses a **unified mixin architecture** for all chat models:
+The package provides a **dual-layer architecture** for chat functionality:
 
-#### ToolsAndMessagesHelper Mixin
-All chat models use the `ToolsAndMessagesHelper` mixin which provides:
-- **Automatic tool execution** with error handling  
-- **Unified message collection** via `ChatResult.messages`
-- **Provider-agnostic protocol detection** for streaming
-- **Consistent API** across all providers
+#### ChatModel Layer (Raw API)
+- **Direct provider access** via `sendStream()` method only
+- **No tool execution** - returns raw `ChatResult<AIChatMessage>` 
+- **Provider-specific streaming** protocols handled in mappers
+- **Minimal abstraction** over native APIs
 
-#### Migration Status: ✅ Complete
-All chat models successfully migrated:
-- ✅ **OpenAI, Google, Anthropic, Ollama** (with tool support)
-- ✅ **Cohere** (inherits OpenAI compatibility)  
-- ✅ **Mistral** (unified API, no tool support)
+#### Agent Layer (Orchestration)
+- **High-level interface** via `Agent` class in `lib/src/agent.dart`
+- **Automatic tool execution** with error handling and streaming UX
+- **Model lifecycle management** with provider:model string parsing
+- **Message consolidation** across tool calls and responses
+- **Streaming enhancement** with proper message separation
 
-See `extraction-specs/TOOL_EXECUTION_AND_MESSAGE_ARCHITECTURE.md` for detailed architecture documentation.
+```dart
+// Low-level: Direct model access (raw API calls)
+final model = ChatProvider.openai.createModel();
+await for (final chunk in model.sendStream(messages)) {
+  // Raw AIChatMessage chunks, manual tool handling required
+}
+
+// High-level: Agent orchestration (recommended)
+final agent = Agent('openai:gpt-4o-mini', tools: tools);
+await for (final chunk in agent.runStream(messages)) {
+  // String output chunks, tools executed automatically
+}
+```
+
+#### Critical Streaming Fix for Tool Arguments
+The Agent layer includes a **crucial fix** for streaming tool argument parsing:
+- **Problem**: OpenAI-compatible providers send empty `arguments: {}` for streaming responses
+- **Solution**: Agent automatically parses `argumentsRaw` JSON when `arguments` is empty
+- **Handles edge cases**: Cohere sends `"null"` for parameter-less tools
+- **Error resilient**: Graceful fallback for malformed JSON
 
 ### Adding New Providers (Implementation Guide)
 
@@ -187,10 +207,10 @@ See `extraction-specs/TOOL_EXECUTION_AND_MESSAGE_ARCHITECTURE.md` for detailed a
 1. **Create provider directory**: `lib/src/chat/chat_models/provider_chat/`
 2. **Follow the four-file pattern**:
    - `provider_chat.dart` - Barrel export
-   - `provider_chat_model.dart` - Core implementation extending `ChatModel<TOptions>` **with `ToolsAndMessagesHelper<TOptions>`**
+   - `provider_chat_model.dart` - Core implementation extending `ChatModel<TOptions>`
    - `provider_chat_options.dart` - Options class extending `ChatModelOptions`
    - `provider_mappers.dart` - API request/response transformations
-3. **Implement `rawStream()` method** instead of `invoke()` and `stream()` (mixin provides these)
+3. **Implement `sendStream()` method** only (Agent handles tool execution)
 4. **Add provider class**: `lib/src/chat/chat_providers/provider_provider.dart`
 5. **Register in provider list**: Add static instance to `ChatProvider.all`
 6. **Update barrel exports**: Add to `chat_models.dart` and `chat_providers.dart`
@@ -237,6 +257,7 @@ dart run example/multi_turn_chat.dart    # Conversation example
 dart run example/single_tool_call.dart   # Function calling example
 dart run example/multi_tool_call.dart    # Multi-tool calling example
 dart run example/usage_tracking.dart     # Usage tracking example
+dart run example/agent.dart              # Agent demo with weather + temp conversion
 dart run example/embeddings.dart         # Text embedding example
 ```
 

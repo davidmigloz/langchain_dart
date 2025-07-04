@@ -105,16 +105,15 @@ Here's a minimal example that runs a chat prompt with multiple providers:
 
 ```dart
 import 'package:langchain_compat/langchain_compat.dart';
-import 'package:langchain_compat/src/providers.dart';
 
 void main() async {
   const promptText = 'Tell me a joke about Dart programming.';
 
-  for (final provider in [Provider.ollama, Provider.openai, Provider.anthropic]) {
-    final model = provider.createModel();
-    print('\n# ${provider.displayName} (${provider.name}:${model.name})');
-    await for (final chunk in model.stream(PromptValue.string(promptText))) {
-      stdout.write(chunk.output.content);
+  for (final provider in [ChatProvider.ollama, ChatProvider.openai, ChatProvider.anthropic]) {
+    final agent = Agent.fromProvider(provider);
+    print('\n# ${provider.displayName} (${agent.model})');
+    await for (final chunk in agent.runStream([ChatMessage.humanText(promptText)])) {
+      stdout.write(chunk.output);
     }
     print('');
   }
@@ -154,30 +153,83 @@ void main() async {
 }
 ```
 
-### Listing all models for all providers
+### Tool Calling with Agent
 
-You can use `Provider.listModels()` to enumerate all available models for every
-provider. This works for all providers in `Provider.all`:
+The Agent class provides high-level tool execution and message orchestration:
 
 ```dart
-import 'package:langchain_compat/src/providers.dart';
+import 'package:langchain_compat/langchain_compat.dart';
+import 'package:json_schema/json_schema.dart';
+
+void main() async {
+  // Define tools
+  final weatherTool = Tool<String>(
+    name: 'get_weather',
+    description: 'Get current weather for a location',
+    inputSchema: JsonSchema.create({
+      'type': 'object',
+      'properties': {
+        'location': {'type': 'string', 'description': 'City name'},
+      },
+      'required': ['location'],
+    }),
+    onCall: (args) => 'Weather in ${args['location']}: 72°F, sunny',
+    inputFromJson: (json) => json,
+  );
+
+  final tempTool = Tool<String>(
+    name: 'convert_temp',
+    description: 'Convert Fahrenheit to Celsius',
+    inputSchema: JsonSchema.create({
+      'type': 'object',
+      'properties': {
+        'fahrenheit': {'type': 'number', 'description': 'Temperature in Fahrenheit'},
+      },
+      'required': ['fahrenheit'],
+    }),
+    onCall: (args) {
+      final f = args['fahrenheit'] as num;
+      final c = (f - 32) * 5 / 9;
+      return '${c.toStringAsFixed(1)}°C';
+    },
+    inputFromJson: (json) => json,
+  );
+
+  // Create agent with tools
+  final agent = Agent('openai:gpt-4o-mini', tools: [weatherTool, tempTool]);
+
+  // Multi-turn conversation with tool execution
+  final messages = [
+    ChatMessage.humanText('What\'s the weather in Portland and convert it to Celsius?'),
+  ];
+
+  print('User: ${messages.last.content}');
+  await for (final chunk in agent.runStream(messages)) {
+    stdout.write(chunk.output);
+    messages.addAll(chunk.messages);
+  }
+}
+```
+
+### Listing all models for all providers
+
+You can use `ChatProvider.getModels()` to enumerate all available models for every
+provider. This works for all providers in `ChatProvider.all`:
+
+```dart
+import 'package:langchain_compat/langchain_compat.dart';
 
 Future<void> main() async {
   var totalProviders = 0;
   var totalModels = 0;
-  for (final provider in Provider.all) {
+  for (final provider in ChatProvider.all) {
     totalProviders++;
     print('\n# [1m${provider.displayName}[0m (${provider.name})');
-    final models = await provider.listModels();
+    final models = await provider.getModels();
     final modelList = models.toList();
     totalModels += modelList.length;
     for (final model in modelList) {
-      final kinds = model.kinds.map((k) => k.name).join(', ');
-      print(
-        '- ${provider.name}:${model.name} '
-        '${model.displayName != null ? '"${model.displayName}" ' : ''}'
-        '($kinds) ',
-      );
+      print('- ${provider.name}:${model.name} ${model.displayName ?? ''}');
     }
     print('  (${modelList.length} models)');
   }

@@ -86,7 +86,7 @@ Future<void> embeddingsExample(
   print('\n--- Similarity Analysis ---');
   for (var i = 0; i < sampleTexts.length; i++) {
     for (var j = i + 1; j < sampleTexts.length; j++) {
-      final similarity = cosineSimilarity(
+      final similarity = EmbeddingsProvider.cosineSimilarity(
         batchResult.embeddings[i],
         batchResult.embeddings[j],
       );
