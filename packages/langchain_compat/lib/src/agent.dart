@@ -261,7 +261,21 @@ class Agent {
           final tool = toolMap[toolCall.name];
           if (tool != null) {
             try {
-              final result = await tool.invoke(toolCall.arguments);
+              // Parse arguments from argumentsRaw if arguments is empty
+              // This handles the streaming case where JSON parsing is deferred
+              var parsedArguments = toolCall.arguments;
+              if (parsedArguments.isEmpty && toolCall.argumentsRaw.isNotEmpty) {
+                try {
+                  parsedArguments =
+                      json.decode(toolCall.argumentsRaw)
+                          as Map<String, dynamic>;
+                } on FormatException {
+                  // If JSON parsing fails, use empty arguments
+                  parsedArguments = <String, dynamic>{};
+                }
+              }
+
+              final result = await tool.invoke(parsedArguments);
               final resultString = result is String
                   ? result
                   : json.encode(result);

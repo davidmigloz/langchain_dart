@@ -6,59 +6,177 @@ import 'package:json_schema/json_schema.dart';
 import 'package:langchain_compat/langchain_compat.dart';
 
 void main() async {
+  print('🤖 Agent Demo: Showcasing Multi-turn Chat and Tool Calling\n');
+
+  // Create tools for the agent
+  final tools = [weatherTool, temperatureConverterTool];
+
   // Create an agent with tools
   final agent = Agent(
-    'openai:gpt-4o-mini', // Specify provider:model
-    tools: [weatherTool, calculatorTool],
-    temperature: 0.7,
+    'google:gemini-2.0-flash-001', // Specify provider:model
+    tools: tools,
   );
 
-  print('🤖 Agent Demo: Multi-turn Chat with Tool Calling');
-  print('Available tools: get_weather, calculate');
-  print('Type your messages or "quit" to exit\n');
+  print('Agent: ${agent.displayName}');
+  print('Available tools: ${tools.map((t) => t.name).join(", ")}\n');
 
-  // Keep track of conversation history
-  final conversationHistory = <ChatMessage>[];
+  // Scenario 1: Single tool call
+  await singleToolCall(agent);
 
-  while (true) {
-    // Get user input
-    stdout.write('You: ');
-    final userInput = stdin.readLineSync()?.trim();
+  // Scenario 2: Multiple tool calls in one response
+  await multipleToolCalls(agent);
 
-    if (userInput == null || userInput.isEmpty) {
-      continue;
-    }
+  // Scenario 3: Multi-turn conversation with tool usage
+  await multiTurnConversation(agent);
 
-    if (userInput.toLowerCase() == 'quit') {
-      break;
-    }
+  // Scenario 4: Weather + temperature conversion showcase
+  await weatherAndCalculation(agent);
 
-    // Add user message to history
-    conversationHistory.add(
-      HumanChatMessage(content: ChatMessageContent.text(userInput)),
-    );
+  // Scenario 5: Streaming vs non-streaming comparison
+  await streamingComparison(agent);
 
-    try {
-      print('🤖 Agent: ');
+  agent.close();
+  print('\n✅ Agent demo completed!');
+}
 
-      // Stream the agent's response
-      await for (final result in agent.runStream(conversationHistory)) {
-        if (result.output.isNotEmpty) {
-          stdout.write(result.output);
-        }
-      }
-      print('\n');
+Future<void> singleToolCall(Agent agent) async {
+  print('═══ Scenario 1: Single Tool Call ═══');
 
-      // Get the final response and add it to history
-      final finalResult = await agent.run(conversationHistory);
-      conversationHistory.add(AIChatMessage(content: finalResult.output));
-    } on Exception catch (e) {
-      print('❌ Error: $e\n');
+  final messages = [
+    ChatMessage.system('You are a helpful assistant.'),
+    ChatMessage.humanText("What's the weather like in Boston?"),
+  ];
+
+  print('User: ${messages.last.contentAsString}');
+  stdout.write('Agent: ');
+
+  final result = await agent.run(messages);
+  print(result.output);
+
+  print('\nTool calls made: ${_countToolCalls(result.messages)}');
+  print('Final message count: ${messages.length + result.messages.length}\n');
+}
+
+Future<void> multipleToolCalls(Agent agent) async {
+  print('═══ Scenario 2: Multiple Tool Calls ═══');
+
+  final messages = [
+    ChatMessage.system('You are a helpful assistant.'),
+    ChatMessage.humanText(
+      "What's the weather in New York and what's that temperature in Celsius?",
+    ),
+  ];
+
+  print('User: ${messages.last.contentAsString}');
+  stdout.write('Agent: ');
+
+  final result = await agent.run(messages);
+  print(result.output);
+
+  print('\nTool calls made: ${_countToolCalls(result.messages)}');
+  print('Final message count: ${messages.length + result.messages.length}\n');
+}
+
+Future<void> multiTurnConversation(Agent agent) async {
+  print('═══ Scenario 3: Multi-turn Conversation ═══');
+
+  final messages = <ChatMessage>[
+    ChatMessage.system('You are a helpful assistant.'),
+  ];
+
+  // Turn 1: Ask about weather
+  messages.add(ChatMessage.humanText("What's the weather in Seattle?"));
+  print('User: ${messages.last.contentAsString}');
+  stdout.write('Agent: ');
+
+  var result = await agent.run(messages);
+  print(result.output);
+  messages.addAll(result.messages);
+
+  // Turn 2: Follow up with temperature conversion
+  messages.add(
+    ChatMessage.humanText(
+      'Thanks! Can you convert that temperature to Celsius?',
+    ),
+  );
+  print('\nUser: ${messages.last.contentAsString}');
+  stdout.write('Agent: ');
+
+  result = await agent.run(messages);
+  print(result.output);
+  messages.addAll(result.messages);
+
+  // Turn 3: Continue conversation
+  messages.add(
+    ChatMessage.humanText('Perfect! What would 100°F be in Celsius?'),
+  );
+  print('\nUser: ${messages.last.contentAsString}');
+  stdout.write('Agent: ');
+
+  result = await agent.run(messages);
+  print(result.output);
+  messages.addAll(result.messages);
+
+  print('\nTotal conversation turns: 3');
+  print('Total tool calls made: ${_countToolCalls(messages)}');
+  print('Final message count: ${messages.length}\n');
+}
+
+Future<void> weatherAndCalculation(Agent agent) async {
+  print('═══ Scenario 4: Weather + Temperature Conversion ═══');
+
+  final messages = [
+    ChatMessage.system(
+      'You are a helpful assistant that can get weather and do calculations.',
+    ),
+    ChatMessage.humanText(
+      "What's the weather in Boston and can you convert that temperature to Celsius?",
+    ),
+  ];
+
+  print('User: ${messages.last.contentAsString}');
+  stdout.write('Agent: ');
+
+  final result = await agent.run(messages);
+  print(result.output);
+
+  print('\nTool calls made: ${_countToolCalls(result.messages)}');
+  print('Final message count: ${messages.length + result.messages.length}\n');
+}
+
+Future<void> streamingComparison(Agent agent) async {
+  print('═══ Scenario 5: Streaming vs Non-Streaming ═══');
+
+  final messages = [
+    ChatMessage.system('You are a helpful assistant.'),
+    ChatMessage.humanText(
+      'Check the weather in Miami and convert that temperature to Celsius.',
+    ),
+  ];
+
+  print('User: ${messages.last.contentAsString}');
+
+  // Non-streaming
+  print('\n--- Non-streaming response ---');
+  final result = await agent.run(messages);
+  print('Agent: ${result.output}');
+
+  // Streaming
+  print('\n--- Streaming response ---');
+  stdout.write('Agent: ');
+  await for (final chunk in agent.runStream(messages)) {
+    if (chunk.output.isNotEmpty) {
+      stdout.write(chunk.output);
     }
   }
+  print('\n');
 
-  print('👋 Goodbye!');
+  print('Both approaches produce the same result with tool execution.');
+  print('Streaming provides real-time feedback during processing.\n');
 }
+
+int _countToolCalls(List<ChatMessage> messages) =>
+    messages.whereType<AIChatMessage>().expand((msg) => msg.toolCalls).length;
 
 // Create weather tool
 final weatherTool = Tool<Map<String, dynamic>>(
@@ -78,69 +196,49 @@ final weatherTool = Tool<Map<String, dynamic>>(
   onCall: (input) async {
     final location = input['location'] as String;
 
-    // Simulate weather API call
-    return {
-      'location': location,
-      'temperature': '72°F',
-      'conditions': 'Partly cloudy',
-      'humidity': '65%',
-      'wind': '8 mph SW',
+    // Simulate weather API call with realistic variation
+    final temps = {
+      'Boston': '68°F',
+      'New York': '71°F',
+      'Seattle': '63°F',
+      'Miami': '82°F',
     };
+    final conditions = {
+      'Boston': 'partly cloudy',
+      'New York': 'sunny',
+      'Seattle': 'overcast',
+      'Miami': 'hot and humid',
+    };
+
+    final temp = temps[location] ?? '72°F';
+    final condition = conditions[location] ?? 'partly cloudy';
+
+    return 'The weather in $location is $temp and $condition.';
   },
 );
 
-// Create calculator tool
-final calculatorTool = Tool<Map<String, dynamic>>(
-  name: 'calculate',
-  description: 'Perform basic arithmetic calculations',
+// Create temperature converter tool
+final temperatureConverterTool = Tool<Map<String, dynamic>>(
+  name: 'convert_f_to_c',
+  description: 'Convert temperature from Fahrenheit to Celsius',
   inputSchema: JsonSchema.create({
     'type': 'object',
     'properties': {
-      'expression': {
-        'type': 'string',
-        'description':
-            'The mathematical expression to evaluate (e.g., "2 + 3 * 4")',
+      'fahrenheit': {
+        'type': 'number',
+        'description': 'Temperature in Fahrenheit to convert to Celsius',
       },
     },
-    'required': ['expression'],
+    'required': ['fahrenheit'],
   }),
   inputFromJson: (json) => json,
   onCall: (input) async {
-    final expression = input['expression'] as String;
+    final fahrenheit = input['fahrenheit'] as num? ?? 70;
 
-    // Simple calculator - in real app you'd use a proper expression parser
-    // Replace common operations for simple eval
-    final sanitized = expression
-        .replaceAll(RegExp(r'[^0-9+\-*/().\s]'), '')
-        .trim();
+    // Convert Fahrenheit to Celsius using formula: (F - 32) * 5/9
+    final celsius = (fahrenheit - 32) * 5 / 9;
+    final roundedCelsius = celsius.round();
 
-    if (sanitized.isEmpty) {
-      return 'Error: Invalid expression';
-    }
-
-    // For demo purposes, handle a few simple cases
-    if (sanitized.contains('+')) {
-      final parts = sanitized.split('+');
-      if (parts.length == 2) {
-        final a = double.tryParse(parts[0].trim());
-        final b = double.tryParse(parts[1].trim());
-        if (a != null && b != null) {
-          return (a + b).toString();
-        }
-      }
-    }
-
-    if (sanitized.contains('*')) {
-      final parts = sanitized.split('*');
-      if (parts.length == 2) {
-        final a = double.tryParse(parts[0].trim());
-        final b = double.tryParse(parts[1].trim());
-        if (a != null && b != null) {
-          return (a * b).toString();
-        }
-      }
-    }
-
-    return {'result': sanitized};
+    return '$fahrenheit°F = $roundedCelsius°C';
   },
 );
