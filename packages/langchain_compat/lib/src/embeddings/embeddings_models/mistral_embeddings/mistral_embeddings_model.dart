@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
+import '../../../chat/chat_models/mistral_chat/mistral_chat_model.dart';
 import '../../../language_models/finish_reason.dart';
 import '../../../language_models/language_model_usage.dart';
 import '../../embeddings_model.dart';
@@ -25,7 +26,7 @@ class MistralEmbeddingsModel
        super(name: name ?? defaultName);
 
   /// The environment variable name for the Mistral API key.
-  static const apiKeyName = 'MISTRAL_API_KEY';
+  static const apiKeyName = MistralChatModel.apiKeyName;
 
   static const String _baseUrl = 'https://api.mistral.ai/v1';
 

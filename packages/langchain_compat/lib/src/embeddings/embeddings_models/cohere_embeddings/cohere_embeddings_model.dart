@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
+import '../../../chat/chat_providers/chat_provider.dart';
 import '../../../language_models/finish_reason.dart';
 import '../../../language_models/language_model_usage.dart';
 import '../../embeddings_model.dart';
@@ -29,7 +30,7 @@ class CohereEmbeddingsModel
        super(name: name ?? defaultName);
 
   /// The environment variable name for the Cohere API key.
-  static const apiKeyName = 'COHERE_API_KEY';
+  static final apiKeyName = ChatProvider.cohere.apiKeyName;
 
   /// The default model name.
   static const defaultName = 'embed-v4.0';

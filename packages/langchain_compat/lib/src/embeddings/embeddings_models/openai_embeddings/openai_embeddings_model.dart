@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:openai_dart/openai_dart.dart';
 
+import '../../../chat/chat_models/openai_chat/openai_chat_model.dart';
 import '../../../language_models/language_models.dart';
 import '../../chunk_list.dart';
 import '../../embeddings_model.dart';
@@ -41,7 +42,7 @@ class OpenAIEmbeddingsModel
        );
 
   /// The environment variable name for the OpenAI API key.
-  static const apiKeyName = 'OPENAI_API_KEY';
+  static const apiKeyName = OpenAIChatModel.apiKeyName;
 
   /// The default model name for this provider.
   static const defaultName = 'text-embedding-3-small';

@@ -5,6 +5,7 @@ import 'package:google_generative_ai/google_generative_ai.dart'
 import 'package:http/http.dart' as http;
 import 'package:http/retry.dart' show RetryClient;
 
+import '../../../chat/chat_providers/chat_provider.dart';
 import '../../../custom_http_client.dart';
 import '../../../language_models/language_models.dart';
 import '../../chunk_list.dart';
@@ -18,7 +19,6 @@ class GoogleEmbeddingsModel
   /// Creates a new Google AI embeddings model.
   GoogleEmbeddingsModel({
     String? apiKey,
-    String baseUrl = 'https://generativelanguage.googleapis.com/v1beta',
     Map<String, String>? headers,
     Map<String, dynamic>? queryParams,
     int retries = 3,
@@ -26,17 +26,7 @@ class GoogleEmbeddingsModel
     String? name,
     super.dimensions,
     super.batchSize = 100,
-  }) : _httpClient = CustomHttpClient(
-         baseHttpClient: client ?? RetryClient(http.Client(), retries: retries),
-         baseUrl: Uri.parse(baseUrl),
-         headers: {
-           if (apiKey != null || Platform.environment['GEMINI_API_KEY'] != null)
-             'x-goog-api-key':
-                 apiKey ?? Platform.environment['GEMINI_API_KEY']!,
-           ...?headers,
-         },
-         queryParams: queryParams ?? const {},
-       ),
+  }) : _apiKey = apiKey ?? Platform.environment[apiKeyName]!,
        super(
          name: name ?? defaultName,
          defaultOptions: GoogleEmbeddingsModelOptions(
@@ -44,16 +34,25 @@ class GoogleEmbeddingsModel
            batchSize: batchSize,
          ),
        ) {
+    _httpClient = CustomHttpClient(
+      baseHttpClient: client ?? RetryClient(http.Client(), retries: retries),
+      baseUrl: Uri.parse(_baseUrl),
+      headers: {'x-goog-api-key': _apiKey, ...?headers},
+      queryParams: queryParams ?? const {},
+    );
     _googleAiClient = _createGoogleAiClient();
   }
 
   /// The environment variable name for the Google API key.
-  static const apiKeyName = 'GEMINI_API_KEY';
+  static final apiKeyName = ChatProvider.google.apiKeyName;
 
   /// The default model name.
   static const defaultName = 'text-embedding-004';
 
-  final CustomHttpClient _httpClient;
+  static const _baseUrl = 'https://generativelanguage.googleapis.com/v1beta';
+
+  final String _apiKey;
+  late final CustomHttpClient _httpClient;
   late GenerativeModel _googleAiClient;
 
   @override
@@ -148,9 +147,6 @@ class GoogleEmbeddingsModel
   void dispose() => _httpClient.close();
 
   /// Create a new [GenerativeModel] instance.
-  GenerativeModel _createGoogleAiClient() => GenerativeModel(
-    model: name,
-    apiKey: _httpClient.headers['x-goog-api-key'] ?? '',
-    httpClient: _httpClient,
-  );
+  GenerativeModel _createGoogleAiClient() =>
+      GenerativeModel(model: name, apiKey: _apiKey, httpClient: _httpClient);
 }
