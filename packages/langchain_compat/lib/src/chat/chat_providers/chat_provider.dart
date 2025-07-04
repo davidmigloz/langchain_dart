@@ -195,6 +195,15 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
     apiKeyName: '',
   );
 
+  /// Cerebras provider (OpenAI-compatible, cloud).
+  static final cerebras = OpenAIChatProvider(
+    name: 'cerebras',
+    displayName: 'Cerebras',
+    defaultModelName: 'llama-4-scout-17b-16e-instruct',
+    defaultBaseUrl: 'https://api.cerebras.ai/v1',
+    apiKeyName: 'CEREBRAS_API_KEY',
+  );
+
   /// Returns a list of all available providers (static fields above).
   ///
   /// Use this to iterate or display all providers in a UI.
@@ -213,6 +222,7 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
     anthropic,
     ollama,
     ollamaOpenAI,
+    cerebras,
   ];
 
   /// Looks up a provider by name or alias (case-insensitive). Throws if not

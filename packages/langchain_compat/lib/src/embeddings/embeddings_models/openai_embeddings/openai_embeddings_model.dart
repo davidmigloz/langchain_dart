@@ -2,6 +2,7 @@ import 'package:http/http.dart' as http;
 import 'package:openai_dart/openai_dart.dart';
 
 import '../../../chat/chat_models/openai_chat/openai_chat_model.dart';
+import '../../../http/retry_http_client.dart';
 import '../../../language_models/language_models.dart';
 import '../../../platform/platform.dart';
 import '../../chunk_list.dart';
@@ -28,7 +29,9 @@ class OpenAIEmbeddingsModel
          baseUrl: _baseUrl,
          headers: headers,
          queryParams: queryParams,
-         client: client,
+         client: client != null
+             ? RetryHttpClient(inner: client)
+             : RetryHttpClient(inner: http.Client()),
        ),
        _user = user,
        super(

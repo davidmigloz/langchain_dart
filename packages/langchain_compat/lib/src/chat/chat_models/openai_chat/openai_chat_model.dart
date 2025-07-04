@@ -2,6 +2,7 @@ import 'package:http/http.dart' as http;
 import 'package:openai_dart/openai_dart.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../http/retry_http_client.dart';
 import '../../../platform/platform.dart';
 import '../chat_models.dart';
 import 'openai_chat_mappers.dart';
@@ -28,7 +29,9 @@ class OpenAIChatModel extends ChatModel<OpenAIChatOptions> {
          baseUrl: baseUrl,
          headers: headers,
          queryParams: queryParams,
-         client: client,
+         client: client != null
+             ? RetryHttpClient(inner: client)
+             : RetryHttpClient(inner: http.Client()),
        ),
        super(
          name: name ?? defaultName,

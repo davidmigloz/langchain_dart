@@ -19,6 +19,4 @@ Future<void> main() async {
         .forEach((chunk) => stdout.write(chunk.output.content));
     stdout.writeln();
   }
-
-  exit(0);
 }

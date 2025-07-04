@@ -2,13 +2,20 @@
 
 import 'dart:io';
 
-import 'package:collection/collection.dart';
 import 'package:json_schema/json_schema.dart';
 import 'package:langchain_compat/langchain_compat.dart';
+import 'package:logging/logging.dart';
 
 import 'lib/dump_chat_history.dart';
 
 void main() async {
+  // Set up logging to see retry activity from RetryHttpClient
+  Logger.root.level = Level.ALL;
+  Logger.root.onRecord.listen(
+    (record) =>
+        print('\x1B[91m[${record.loggerName}] ${record.message}\x1B[0m'),
+  );
+
   final currentDateTimeTool = Tool<String>(
     name: 'current_date_time',
     description: 'Returns the current date and time in ISO 8601 format.',
@@ -36,11 +43,9 @@ void main() async {
   );
 
   final tools = [currentDateTimeTool, temperatureTool];
-  final providersWithToolSupport = ChatProvider.all.whereNot(
-    (p) => p.name == 'mistral' || p.name == 'lambda',
-  );
 
-  for (final provider in providersWithToolSupport) {
+  // for (final provider in ChatProvider.all) {
+  for (final provider in [ChatProvider.together]) {
     final model = provider.createModel();
     final fqModelName = '${provider.name}:${model.name}';
     final agent = Agent(fqModelName, tools: tools);
