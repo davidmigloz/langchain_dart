@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:collection/collection.dart';
 import 'package:json_schema/json_schema.dart';
 import 'package:langchain_compat/langchain_compat.dart';
 import 'package:logging/logging.dart';
@@ -43,9 +44,11 @@ void main() async {
   );
 
   final tools = [currentDateTimeTool, temperatureTool];
+  final providersWithToolSupport = ChatProvider.all.whereNot(
+    (p) => p.name == 'mistral' || p.name == 'lambda',
+  );
 
-  // for (final provider in ChatProvider.all) {
-  for (final provider in [ChatProvider.together]) {
+  for (final provider in providersWithToolSupport) {
     final model = provider.createModel();
     final fqModelName = '${provider.name}:${model.name}';
     final agent = Agent(fqModelName, tools: tools);

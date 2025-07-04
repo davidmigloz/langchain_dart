@@ -37,10 +37,11 @@ class _RequestInfo {
     } else {
       // Create simple request
       final request = http.Request(method, url);
-      request.headers.addAll(headers);
       if (body != null) {
         request.body = body!;
       }
+      // Set headers after body to ensure Content-Type is preserved exactly
+      request.headers.addAll(headers);
       return request;
     }
   }

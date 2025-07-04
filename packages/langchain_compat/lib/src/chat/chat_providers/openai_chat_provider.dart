@@ -60,7 +60,7 @@ class OpenAIChatProvider extends ChatProvider<OpenAIChatOptions> {
 
   @override
   Stream<ModelInfo> getModels() async* {
-    final apiKey = getEnv(apiKeyName);
+    final apiKey = apiKeyName.isNotEmpty ? getEnv(apiKeyName) : '';
     final url = Uri.parse('$defaultBaseUrl/models');
     final headers = <String, String>{
       if (apiKeyName.isNotEmpty && apiKey.isNotEmpty)

@@ -6,8 +6,6 @@ import 'package:json_schema/json_schema.dart';
 import 'package:langchain_compat/langchain_compat.dart';
 
 void main() async {
-  print('🤖 Agent Demo: Showcasing Multi-turn Chat and Tool Calling\n');
-
   // Create tools for the agent
   final tools = [weatherTool, temperatureConverterTool];
 
@@ -20,23 +18,14 @@ void main() async {
   print('Agent: ${agent.displayName}');
   print('Available tools: ${tools.map((t) => t.name).join(", ")}\n');
 
-  // Scenario 1: Single tool call
   await singleToolCall(agent);
-
-  // Scenario 2: Multiple tool calls in one response
   await multipleToolCalls(agent);
-
-  // Scenario 3: Multi-turn conversation with tool usage
   await multiTurnConversation(agent);
-
-  // Scenario 4: Weather + temperature conversion showcase
   await weatherAndCalculation(agent);
-
-  // Scenario 5: Streaming vs non-streaming comparison
   await streamingComparison(agent);
 
   agent.close();
-  print('\n✅ Agent demo completed!');
+  exit(0);
 }
 
 Future<void> singleToolCall(Agent agent) async {

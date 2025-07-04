@@ -225,6 +225,35 @@ The Agent layer includes a **crucial fix** for streaming tool argument parsing:
 4. **Register in provider list**: Add static instance to `EmbeddingsProvider.all`
 5. **Update barrel exports**: Add to `embeddings_models.dart` and `embeddings_providers.dart`
 
+### HTTP Client and Retry Logic
+
+**RetryHttpClient** (`lib/src/http/retry_http_client.dart`) provides automatic retry handling for all OpenAI-compatible providers:
+
+- **Rate limit handling**: Automatically retries 429 errors with exponential backoff
+- **Retry-After header support**: Respects server-provided retry delays
+- **Request recreation**: Stores request info and recreates fresh requests for each retry
+- **Logging**: Uses `Logger('RetryHttpClient')` for structured retry activity logs
+- **Applied automatically**: All OpenAI-compatible providers use RetryHttpClient by default
+
+#### Retry Configuration
+- **Max retries**: 3 attempts by default
+- **Base delay**: 1 second exponential backoff (1s, 2s, 4s)
+- **Max delay**: 60 seconds cap
+- **Jitter**: Random variance to prevent thundering herd
+
+#### Viewing Retry Logs
+Examples show how to set up logging listeners to see retry activity:
+
+```dart
+import 'package:logging/logging.dart';
+
+// Enable all logging levels and add console listener
+Logger.root.level = Level.ALL;
+Logger.root.onRecord.listen((record) {
+  print('\x1B[91m[${record.loggerName}] ${record.message}\x1B[0m');
+});
+```
+
 ### Migration Status & Verbatim Copying Strategy
 - This package is in active development migrating from multiple upstream packages
 - **Verbatim copying principle**: Code copied directly from upstream LangChain.dart packages with minimal changes
