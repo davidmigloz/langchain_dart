@@ -16,7 +16,7 @@ import 'anthropic_chat.dart';
 /// and options.
 a.CreateMessageRequest createMessageRequest(
   List<ChatMessage> messages, {
-  required String model,
+  required String modelName,
   required AnthropicChatOptions? options,
   required AnthropicChatOptions defaultOptions,
   List<Tool>? tools,
@@ -34,7 +34,7 @@ a.CreateMessageRequest createMessageRequest(
   final toolsDtos = hasTools ? tools.toTool(toolChoice) : null;
 
   return a.CreateMessageRequest(
-    model: a.Model.modelId(model),
+    model: a.Model.modelId(modelName),
     messages: messagesDtos,
     maxTokens:
         options?.maxTokens ??

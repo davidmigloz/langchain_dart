@@ -13,10 +13,10 @@ Future<void> main() async {
       '\n# ${provider.displayName} (${provider.name}:${model.name})',
     );
     await model
-        .stream([
+        .sendStream([
           HumanChatMessage(content: ChatMessageContent.text(promptText)),
         ])
-        .forEach((chunk) => stdout.write(chunk.output));
+        .forEach((chunk) => stdout.write(chunk.output.content));
     stdout.writeln();
   }
 

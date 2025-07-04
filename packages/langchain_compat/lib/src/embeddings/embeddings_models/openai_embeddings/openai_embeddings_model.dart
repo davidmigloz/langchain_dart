@@ -14,25 +14,25 @@ class OpenAIEmbeddingsModel
     extends EmbeddingsModel<OpenAIEmbeddingsModelOptions> {
   /// Creates a new OpenAI embeddings model.
   OpenAIEmbeddingsModel({
+    String? name,
     String? apiKey,
-    String baseUrl = 'https://api.openai.com/v1',
     Map<String, String>? headers,
     Map<String, dynamic>? queryParams,
     http.Client? client,
-    super.model,
     super.dimensions,
     super.batchSize = 512,
     String? user,
   }) : _client = OpenAIClient(
-         apiKey: apiKey ?? Platform.environment['OPENAI_API_KEY'] ?? '',
+         apiKey: apiKey ?? Platform.environment[apiKeyName]!,
          organization: null,
-         baseUrl: baseUrl,
+         baseUrl: _baseUrl,
          headers: headers,
          queryParams: queryParams,
          client: client,
        ),
        _user = user,
        super(
+         name: name ?? defaultName,
          defaultOptions: OpenAIEmbeddingsModelOptions(
            dimensions: dimensions,
            batchSize: batchSize,
@@ -40,11 +40,15 @@ class OpenAIEmbeddingsModel
          ),
        );
 
+  /// The environment variable name for the OpenAI API key.
+  static const apiKeyName = 'OPENAI_API_KEY';
+
+  /// The default model name for this provider.
+  static const defaultName = 'text-embedding-3-small';
+
+  static const _baseUrl = 'https://api.openai.com/v1';
   final OpenAIClient _client;
   final String? _user;
-
-  @override
-  String get defaultModelName => 'text-embedding-3-small';
 
   @override
   Future<EmbeddingsResult> embedQuery(
@@ -123,7 +127,8 @@ class OpenAIEmbeddingsModel
   }
 
   @override
-  void close() {
-    _client.endSession();
-  }
+  void dispose() => _client.endSession();
+
+  @override
+  String get name => throw UnimplementedError();
 }

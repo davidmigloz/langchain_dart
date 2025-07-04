@@ -1,16 +1,16 @@
+import 'dart:io';
+
 import 'package:http/http.dart' as http;
 import 'package:mistralai_dart/mistralai_dart.dart';
 
 import '../../chat.dart';
-import '../tools_and_messages_helper.dart';
-import 'mistral_mappers.dart';
+import 'mistral_chat_mappers.dart';
 
 /// Wrapper around [Mistral AI](https://docs.mistral.ai) Chat Completions API.
-class MistralChatModel extends ChatModel<MistralChatOptions>
-    with ToolsAndMessagesHelper<MistralChatOptions> {
+class MistralChatModel extends ChatModel<MistralChatOptions> {
   /// Creates a [MistralChatModel] instance.
   MistralChatModel({
-    String? model,
+    String? name,
     super.tools,
     super.temperature,
     MistralChatOptions? defaultOptions,
@@ -19,16 +19,15 @@ class MistralChatModel extends ChatModel<MistralChatOptions>
     Map<String, String>? headers,
     Map<String, dynamic>? queryParams,
     http.Client? client,
-  }) : _model = _validateModel(model),
-       _client = MistralAIClient(
-         apiKey: apiKey ?? '',
+  }) : _client = MistralAIClient(
+         apiKey: apiKey ?? Platform.environment[apiKeyName]!,
          baseUrl: baseUrl,
          headers: headers,
          queryParams: queryParams,
          client: client,
        ),
        super(
-         model: _validateModel(model),
+         name: name ?? defaultName,
          defaultOptions: defaultOptions ?? const MistralChatOptions(),
        ) {
     if (tools != null) {
@@ -38,35 +37,26 @@ class MistralChatModel extends ChatModel<MistralChatOptions>
     }
   }
 
-  static String _validateModel(String? model) {
-    if (model != null && model.isEmpty) {
-      throw ArgumentError(
-        "Model cannot be empty. Pass null to use the provider's default model.",
-      );
-    }
-    return model ?? defaultModelName;
-  }
+  /// The default model to use unless another is specified.
+  static const defaultName = 'mistral-small';
 
-  final String _model;
+  /// The default base URL to use unless another is specified.
+  static const defaultBaseUrl = 'https://api.mistral.ai/v1';
 
-  /// A client for interacting with Mistral AI API.
+  /// The environment variable for the API key
+  static const apiKeyName = 'MISTRAL_API_KEY';
+
   final MistralAIClient _client;
 
-  /// The default model to use unless another is specified.
-  static const defaultModelName = 'mistral-small';
-
   @override
-  String get name => _model;
-
-  @override
-  Stream<ChatResult<AIChatMessage>> rawStream(
+  Stream<ChatResult<AIChatMessage>> sendStream(
     List<ChatMessage> messages, {
     MistralChatOptions? options,
   }) => _client
       .createChatCompletionStream(
         request: createChatCompletionRequest(
           messages,
-          model: _model,
+          modelName: name,
           tools: tools,
           temperature: temperature,
           options: options,
@@ -79,14 +69,14 @@ class MistralChatModel extends ChatModel<MistralChatOptions>
   /// Creates a GenerateCompletionRequest from the given input.
   ChatCompletionRequest createChatCompletionRequest(
     List<ChatMessage> messages, {
-    required String model,
+    required String modelName,
     required MistralChatOptions defaultOptions,
+    required bool stream,
     List<Tool>? tools,
     double? temperature,
     MistralChatOptions? options,
-    bool stream = false,
   }) => ChatCompletionRequest(
-    model: ChatCompletionModel.modelId(model),
+    model: ChatCompletionModel.modelId(modelName),
     messages: messages.toChatCompletionMessages(),
     temperature:
         temperature ?? options?.temperature ?? defaultOptions.temperature,
@@ -98,7 +88,5 @@ class MistralChatModel extends ChatModel<MistralChatOptions>
   );
 
   @override
-  void close() {
-    _client.endSession();
-  }
+  void dispose() => _client.endSession();
 }

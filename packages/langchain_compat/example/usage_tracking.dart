@@ -35,8 +35,14 @@ Future<void> usageExample(ChatProvider provider) async {
   final model = provider.createModel();
   print('Model: ${model.name}');
 
-  // Use invoke() instead of stream() to get complete usage data
-  final result = await model.invoke([ChatMessage.humanText(testPrompt)]);
+  // Use rawStream() and collect the final result to get complete usage data
+  ChatResult<AIChatMessage>? finalResult;
+  await for (final chunk in model.sendStream([
+    ChatMessage.humanText(testPrompt),
+  ])) {
+    finalResult = chunk;
+  }
+  final result = finalResult!;
 
   print('\nResponse: ${result.outputAsString}');
   print('\nUsage Information:');
@@ -84,9 +90,9 @@ Future<void> streamingUsageExample(ChatProvider provider) async {
   var totalTokens = 0;
   var chunkCount = 0;
 
-  await for (final chunk in model.stream(messages)) {
+  await for (final chunk in model.sendStream(messages)) {
     chunkCount++;
-    stdout.write(chunk.output);
+    stdout.write(chunk.output.content);
 
     // Track usage as we stream
     if (chunk.usage.totalTokens != null) {

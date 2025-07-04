@@ -1,9 +1,9 @@
 import 'chat_provider.dart';
-import 'model_kind.dart';
+import 'model_chat_kind.dart';
 
 /// Model metadata for provider model listing.
 ///
-/// Returned by [ChatProvider.listModels] for all providers. Contains the model
+/// Returned by [ChatProvider.getModels] for all providers. Contains the model
 /// id, kind, name, description, and any extra metadata.
 class ModelInfo {
   /// Creates a new [ModelInfo] instance.

@@ -1,6 +1,5 @@
 import '../../chat/chat_providers/model_info.dart';
-import '../embeddings_model.dart';
-import '../embeddings_model_options.dart';
+import '../embeddings_models/embeddings_models.dart';
 import 'cohere_embeddings_provider.dart';
 import 'google_embeddings_provider.dart';
 import 'mistral_embeddings_provider.dart';
@@ -13,9 +12,6 @@ abstract class EmbeddingsProvider<TOptions extends EmbeddingsModelOptions> {
   const EmbeddingsProvider({
     required this.name,
     required this.displayName,
-    required this.defaultModel,
-    required this.defaultBaseUrl,
-    required this.apiKeyName,
     this.aliases = const [],
   });
 
@@ -28,58 +24,20 @@ abstract class EmbeddingsProvider<TOptions extends EmbeddingsModelOptions> {
   /// Human-readable name for display.
   final String displayName;
 
-  /// The default model for this provider (null means use model's own default).
-  final String? defaultModel;
-
-  /// The default API endpoint for this provider.
-  final String defaultBaseUrl;
-
-  /// The environment variable for the API key (if any).
-  final String apiKeyName;
-
   /// Creates an embeddings model instance for this provider.
-  EmbeddingsModel<TOptions> createModel({
-    String? model,
-    int? dimensions,
-    int? batchSize,
-    TOptions? options,
-  });
+  EmbeddingsModel<TOptions> createModel({String? name, TOptions? options});
 
   /// OpenAI embeddings provider.
-  static const openai = OpenAIEmbeddingsProvider(
-    name: 'openai',
-    displayName: 'OpenAI',
-    defaultModel: 'text-embedding-3-small',
-    defaultBaseUrl: 'https://api.openai.com/v1',
-    apiKeyName: 'OPENAI_API_KEY',
-  );
+  static const openai = OpenAIEmbeddingsProvider();
 
   /// Google AI embeddings provider.
-  static const google = GoogleEmbeddingsProvider(
-    name: 'google',
-    displayName: 'Google AI',
-    defaultModel: 'text-embedding-004',
-    defaultBaseUrl: 'https://generativelanguage.googleapis.com/v1beta',
-    apiKeyName: 'GEMINI_API_KEY',
-  );
+  static const google = GoogleEmbeddingsProvider();
 
   /// Mistral AI embeddings provider.
-  static const mistral = MistralEmbeddingsProvider(
-    name: 'mistral',
-    displayName: 'Mistral AI',
-    defaultModel: 'mistral-embed',
-    defaultBaseUrl: 'https://api.mistral.ai/v1',
-    apiKeyName: 'MISTRAL_API_KEY',
-  );
+  static const mistral = MistralEmbeddingsProvider();
 
   /// Cohere embeddings provider.
-  static const cohere = CohereEmbeddingsProvider(
-    name: 'cohere',
-    displayName: 'Cohere',
-    defaultModel: 'embed-v4.0',
-    defaultBaseUrl: 'https://api.cohere.ai/v2',
-    apiKeyName: 'COHERE_API_KEY',
-  );
+  static const cohere = CohereEmbeddingsProvider();
 
   /// Returns a list of all available providers.
   static List<EmbeddingsProvider> get all => [openai, google, mistral, cohere];
@@ -92,5 +50,5 @@ abstract class EmbeddingsProvider<TOptions extends EmbeddingsModelOptions> {
   );
 
   /// Returns all available models for this provider.
-  Future<Iterable<ModelInfo>> listModels();
+  Stream<ModelInfo> listModels();
 }

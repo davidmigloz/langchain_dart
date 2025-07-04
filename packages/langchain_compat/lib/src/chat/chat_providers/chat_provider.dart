@@ -1,5 +1,5 @@
-import '../chat_models/chat_model.dart';
-import '../chat_models/chat_model_options.dart';
+import '../chat_models/chat_models.dart';
+import '../chat_models/openai_chat/openai_chat_model.dart';
 import '../tools/tool.dart';
 import 'chat_providers.dart';
 
@@ -17,15 +17,15 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
   /// Creates a new provider instance.
   ///
   /// [name]: The canonical provider name (e.g., 'openai', 'ollama').
-  /// [displayName]: Human-readable name for display. [defaultModel]: The
-  /// default model for this provider (null means use model's own default).
+  /// [displayName]: Human-readable name for display. [defaultModelName]:
+  /// The default model for this provider (null means use model's own default).
   /// [defaultBaseUrl]: The default API endpoint. [apiKeyName]: The environment
   /// variable for the API key (if any). [aliases]: Alternative names for
   /// lookup.
   const ChatProvider({
     required this.name,
     required this.displayName,
-    required this.defaultModel,
+    required this.defaultModelName,
     required this.defaultBaseUrl,
     required this.apiKeyName,
     this.aliases = const [],
@@ -40,8 +40,8 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
   /// Human-readable name for display.
   final String displayName;
 
-  /// The default model for this provider (null means use model's own default).
-  final String? defaultModel;
+  /// The default model for this provider.
+  final String defaultModelName;
 
   /// The default API endpoint for this provider.
   final String defaultBaseUrl;
@@ -49,141 +49,148 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
   /// The environment variable for the API key (if any).
   final String apiKeyName;
 
+  /// Returns all available models for this provider.
+  ///
+  /// Implementations may or may not cache results. If your application requires
+  /// caching, you should implement it yourself rather than relying on the
+  /// provider.
+  Stream<ModelInfo> getModels();
+
   /// Creates a chat model instance for this provider.
   ChatModel<TOptions> createModel({
-    String? model,
+    String? name,
     List<Tool>? tools,
     double? temperature,
     TOptions? options,
   });
 
   /// OpenAI provider (cloud, OpenAI API).
-  static final openai = OpenAIProvider(
+  static final openai = OpenAIChatProvider(
     name: 'openai',
     displayName: 'OpenAI',
-    defaultModel: null, // use ChatOpenAI.defaultModelName
-    defaultBaseUrl: 'https://api.openai.com/v1',
-    apiKeyName: 'OPENAI_API_KEY',
+    defaultModelName: OpenAIChatModel.defaultName,
+    defaultBaseUrl: OpenAIChatModel.defaultBaseUrl,
+    apiKeyName: OpenAIChatModel.apiKeyName,
   );
 
   /// OpenRouter provider (OpenAI-compatible, multi-model cloud).
-  static final openrouter = OpenAIProvider(
+  static final openrouter = OpenAIChatProvider(
     name: 'openrouter',
     displayName: 'OpenRouter',
-    defaultModel: 'google/gemini-2.5-flash',
+    defaultModelName: 'google/gemini-2.5-flash',
     defaultBaseUrl: 'https://openrouter.ai/api/v1',
     apiKeyName: 'OPENROUTER_API_KEY',
   );
 
   /// Groq provider (OpenAI-compatible, cloud).
-  static final groq = OpenAIProvider(
+  static final groq = OpenAIChatProvider(
     name: 'groq',
     displayName: 'Groq',
-    defaultModel: 'llama3-70b-8192',
+    defaultModelName: 'llama3-70b-8192',
     defaultBaseUrl: 'https://api.groq.com/openai/v1',
     apiKeyName: 'GROQ_API_KEY',
   );
 
   /// Together AI provider (OpenAI-compatible, cloud).
-  static final together = OpenAIProvider(
+  static final together = OpenAIChatProvider(
     name: 'together',
     displayName: 'Together AI',
-    defaultModel: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
+    defaultModelName: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
     defaultBaseUrl: 'https://api.together.xyz/v1',
     apiKeyName: 'TOGETHER_API_KEY',
   );
 
   /// Fireworks AI provider (OpenAI-compatible, cloud).
-  static final fireworks = OpenAIProvider(
+  static final fireworks = OpenAIChatProvider(
     name: 'fireworks',
     displayName: 'Fireworks AI',
-    defaultModel: 'accounts/fireworks/models/llama-v3p1-70b-instruct',
+    defaultModelName: 'accounts/fireworks/models/llama-v3p1-70b-instruct',
     defaultBaseUrl: 'https://api.fireworks.ai/inference/v1',
     apiKeyName: 'FIREWORKS_API_KEY',
   );
 
   /// Mistral AI provider (native API, cloud).
-  static final mistral = MistralProvider(
+  static final mistral = MistralChatProvider(
     name: 'mistral',
     displayName: 'Mistral AI',
-    defaultModel: null, // use ChatMistralAI.defaultModelName
-    defaultBaseUrl: 'https://api.mistral.ai/v1',
-    apiKeyName: 'MISTRAL_API_KEY',
+    defaultModelName: MistralChatModel.defaultName,
+    defaultBaseUrl: MistralChatModel.defaultBaseUrl,
+    apiKeyName: MistralChatModel.apiKeyName,
   );
 
   /// Cohere provider (OpenAI-compatible, cloud). Note: streamOptions is
   /// forcibly set to null for compatibility.
-  static final cohere = CohereOpenAIProvider(
+  static final cohere = CohereChatProvider(
     name: 'cohere',
     displayName: 'Cohere',
-    defaultModel: 'command-r-plus',
+    defaultModelName: 'command-r-plus',
     defaultBaseUrl: 'https://api.cohere.ai/compatibility/v1',
     apiKeyName: 'COHERE_API_KEY',
   );
 
   /// Lambda provider (OpenAI-compatible, cloud).
-  static final lambda = OpenAIProvider(
+  static final lambda = OpenAIChatProvider(
     name: 'lambda',
     displayName: 'Lambda',
-    defaultModel: 'llama3.2-3b-instruct',
+    defaultModelName: 'llama3.2-3b-instruct',
     defaultBaseUrl: 'https://api.lambda.ai/v1',
     apiKeyName: 'LAMBDA_API_KEY',
   );
 
   /// NVIDIA NIM provider (OpenAI-compatible, cloud).
-  static final nvidia = OpenAIProvider(
+  static final nvidia = OpenAIChatProvider(
     name: 'nvidia',
     displayName: 'NVIDIA NIM',
-    defaultModel: 'nvidia/nemotron-mini-4b-instruct',
+    defaultModelName: 'nvidia/nemotron-mini-4b-instruct',
     defaultBaseUrl: 'https://integrate.api.nvidia.com/v1',
     apiKeyName: 'NVIDIA_API_KEY',
   );
 
   /// Gemini (OpenAI-compatible) provider (Google AI, OpenAI API).
-  static final geminiOpenAI = OpenAIProvider(
-    name: 'gemini-openai',
+  static final googleOpenAI = OpenAIChatProvider(
+    name: 'google-openai',
     displayName: 'Google AI (OpenAI-compatible)',
-    defaultModel: 'gemini-2.0-flash',
+    defaultModelName: GoogleChatModel.defaultName,
     defaultBaseUrl: 'https://generativelanguage.googleapis.com/v1beta/openai',
-    apiKeyName: 'GEMINI_API_KEY',
+    apiKeyName: GoogleChatModel.apiKeyName,
   );
 
   /// Google Gemini native provider (uses Gemini API, not OpenAI-compatible).
-  static final google = GoogleProvider(
+  static final google = GoogleChatProvider(
     name: 'google',
     aliases: ['gemini', 'googleai', 'google-gla'],
     displayName: 'Google AI',
-    defaultModel: null, // use ChatGoogleGenerativeAI.defaultModelName
-    defaultBaseUrl: '',
-    apiKeyName: 'GEMINI_API_KEY',
+    defaultModelName: GoogleChatModel.defaultName,
+    defaultBaseUrl: GoogleChatModel.defaultBaseUrl,
+    apiKeyName: GoogleChatModel.apiKeyName,
   );
 
   /// Anthropic provider (Claude, native API).
-  static final anthropic = AnthropicProvider(
+  static final anthropic = AnthropicChatProvider(
     name: 'anthropic',
     aliases: ['claude'],
     displayName: 'Anthropic',
-    defaultModel: null, // use ChatAnthropic.defaultModelName
-    defaultBaseUrl: 'https://api.anthropic.com/v1',
-    apiKeyName: 'ANTHROPIC_API_KEY',
+    defaultModelName: AnthropicChatModel.defaultName,
+    defaultBaseUrl: AnthropicChatModel.defaultBaseUrl,
+    apiKeyName: AnthropicChatModel.apiKeyName,
   );
 
   /// Native Ollama provider (local, uses ChatOllama and /api endpoint). No API
   /// key required.
-  static final ollama = OllamaProvider(
+  static final ollama = OllamaChatProvider(
     name: 'ollama',
     displayName: 'Ollama',
-    defaultModel: null, // use ChatOllama.defaultModelName
-    defaultBaseUrl: 'http://localhost:11434/api',
+    defaultModelName: OllamaChatModel.defaultName,
+    defaultBaseUrl: OllamaChatModel.defaultBaseUrl,
     apiKeyName: '',
   );
 
   /// OpenAI-compatible Ollama provider (local, uses /v1 endpoint). No API key
   /// required.
-  static final ollamaOpenAI = OpenAIProvider(
+  static final ollamaOpenAI = OpenAIChatProvider(
     name: 'ollama-openai',
     displayName: 'Ollama (OpenAI-compatible)',
-    defaultModel: 'llama3.1',
+    defaultModelName: 'llama3.1',
     defaultBaseUrl: 'http://localhost:11434/v1',
     apiKeyName: '',
   );
@@ -201,8 +208,8 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
     cohere,
     lambda,
     nvidia,
-    geminiOpenAI,
     google,
+    googleOpenAI,
     anthropic,
     ollama,
     ollamaOpenAI,
@@ -215,11 +222,4 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
         p.name.toLowerCase() == name.toLowerCase() ||
         p.aliases.any((a) => a.toLowerCase() == name.toLowerCase()),
   );
-
-  /// Returns all available models for this provider.
-  ///
-  /// Implementations may or may not cache results. If your application requires
-  /// caching, you should implement it yourself rather than relying on the
-  /// provider.
-  Future<Iterable<ModelInfo>> listModels();
 }

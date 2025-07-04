@@ -41,10 +41,11 @@ void main() async {
   );
 
   for (final provider in providersWithToolSupport) {
-    final model = provider.createModel(tools: tools);
+    final model = provider.createModel();
     final fqModelName = '${provider.name}:${model.name}';
-    await multiToolCallExample(fqModelName, model, tools);
-    await multiToolCallExampleStream(fqModelName, model, tools);
+    final agent = Agent(fqModelName, tools: tools);
+    await multiToolCallExample(fqModelName, agent, tools);
+    await multiToolCallExampleStream(fqModelName, agent, tools);
   }
 
   exit(0);
@@ -52,7 +53,7 @@ void main() async {
 
 Future<void> multiToolCallExample(
   String fqModelName,
-  ChatModel<ChatModelOptions> model,
+  Agent agent,
   List<Tool> tools,
 ) async {
   print('=== $fqModelName Multi-Tool Call ===');
@@ -70,7 +71,7 @@ Future<void> multiToolCallExample(
   ];
 
   print('\nUser: $userMessage');
-  final result = await model.invoke(messages);
+  final result = await agent.run(messages);
   print(result.output);
   messages.addAll(result.messages);
   dumpChatHistory(messages);
@@ -78,7 +79,7 @@ Future<void> multiToolCallExample(
 
 Future<void> multiToolCallExampleStream(
   String fqModelName,
-  ChatModel<ChatModelOptions> model,
+  Agent agent,
   List<Tool> tools,
 ) async {
   print('=== $fqModelName Multi-Tool Call (stream) ===');
@@ -96,7 +97,7 @@ Future<void> multiToolCallExampleStream(
   ];
 
   print('\nUser: $userMessage');
-  final stream = model.stream(messages);
+  final stream = agent.runStream(messages);
   await for (final chunk in stream) {
     stdout.write(chunk.output);
     messages.addAll(chunk.messages);

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
@@ -12,27 +13,27 @@ import 'mistral_embeddings_model_options.dart';
 class MistralEmbeddingsModel
     extends EmbeddingsModel<MistralEmbeddingsModelOptions> {
   /// Creates a new Mistral embeddings model.
-  const MistralEmbeddingsModel({
-    required this.apiKey,
-    required this.baseUrl,
-    super.model,
+  MistralEmbeddingsModel({
+    String? name,
+    String? apiKey,
     super.dimensions,
     super.batchSize = 100,
-    this.encodingFormat,
+    String? encodingFormat,
     super.defaultOptions = const MistralEmbeddingsModelOptions(),
-  });
+  }) : _encodingFormat = encodingFormat,
+       _apiKey = apiKey ?? Platform.environment[apiKeyName]!,
+       super(name: name ?? defaultName);
 
-  /// The API key for authentication.
-  final String? apiKey;
+  /// The environment variable name for the Mistral API key.
+  static const apiKeyName = 'MISTRAL_API_KEY';
 
-  /// The base URL for the API.
-  final String baseUrl;
+  static const String _baseUrl = 'https://api.mistral.ai/v1';
 
-  /// The encoding format for the embeddings.
-  final String? encodingFormat;
+  final String _apiKey;
+  final String? _encodingFormat;
 
-  @override
-  String get defaultModelName => 'mistral-embed';
+  /// The default name for the Mistral embeddings model.
+  static const String defaultName = 'mistral-embed';
 
   @override
   Future<EmbeddingsResult> embedQuery(
@@ -109,24 +110,20 @@ class MistralEmbeddingsModel
     List<String> texts,
     MistralEmbeddingsModelOptions? options,
   ) async {
-    if (apiKey == null || apiKey!.isEmpty) {
-      throw Exception('Mistral API key is required');
-    }
-
-    final url = Uri.parse('$baseUrl/embeddings');
+    final url = Uri.parse('$_baseUrl/embeddings');
     final body = {
       'model': name,
       'input': texts,
       if (dimensions != null || options?.dimensions != null)
         'dimensions': options?.dimensions ?? dimensions,
-      if (encodingFormat != null || options?.encodingFormat != null)
-        'encoding_format': options?.encodingFormat ?? encodingFormat,
+      if (_encodingFormat != null || options?.encodingFormat != null)
+        'encoding_format': options?.encodingFormat ?? _encodingFormat,
     };
 
     final response = await http.post(
       url,
       headers: {
-        'Authorization': 'Bearer $apiKey',
+        'Authorization': 'Bearer $_apiKey',
         'Content-Type': 'application/json',
       },
       body: jsonEncode(body),
@@ -142,7 +139,7 @@ class MistralEmbeddingsModel
   }
 
   @override
-  void close() {
+  void dispose() {
     // Nothing to close for HTTP-based model
   }
 }

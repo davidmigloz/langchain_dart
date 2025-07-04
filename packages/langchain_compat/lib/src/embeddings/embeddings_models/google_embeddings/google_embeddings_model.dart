@@ -23,7 +23,7 @@ class GoogleEmbeddingsModel
     Map<String, dynamic>? queryParams,
     int retries = 3,
     http.Client? client,
-    super.model,
+    String? name,
     super.dimensions,
     super.batchSize = 100,
   }) : _httpClient = CustomHttpClient(
@@ -38,6 +38,7 @@ class GoogleEmbeddingsModel
          queryParams: queryParams ?? const {},
        ),
        super(
+         name: name ?? defaultName,
          defaultOptions: GoogleEmbeddingsModelOptions(
            dimensions: dimensions,
            batchSize: batchSize,
@@ -46,11 +47,14 @@ class GoogleEmbeddingsModel
     _googleAiClient = _createGoogleAiClient();
   }
 
+  /// The environment variable name for the Google API key.
+  static const apiKeyName = 'GEMINI_API_KEY';
+
+  /// The default model name.
+  static const defaultName = 'text-embedding-004';
+
   final CustomHttpClient _httpClient;
   late GenerativeModel _googleAiClient;
-
-  @override
-  String get defaultModelName => 'text-embedding-004';
 
   @override
   Future<EmbeddingsResult> embedQuery(
@@ -141,9 +145,7 @@ class GoogleEmbeddingsModel
   }
 
   @override
-  void close() {
-    _httpClient.close();
-  }
+  void dispose() => _httpClient.close();
 
   /// Create a new [GenerativeModel] instance.
   GenerativeModel _createGoogleAiClient() => GenerativeModel(

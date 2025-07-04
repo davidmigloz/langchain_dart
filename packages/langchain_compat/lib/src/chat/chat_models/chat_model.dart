@@ -4,9 +4,9 @@ import 'chat_models.dart';
 /// Chat model base class.
 abstract class ChatModel<TOptions extends ChatModelOptions> {
   /// Creates a new chat model instance.
-  const ChatModel({
+  ChatModel({
+    required this.name,
     required this.defaultOptions,
-    this.model,
     this.tools,
     this.temperature,
   });
@@ -14,8 +14,8 @@ abstract class ChatModel<TOptions extends ChatModelOptions> {
   /// The default options for the chat model.
   final TOptions defaultOptions;
 
-  /// The model ID to use.
-  final String? model;
+  /// The model name to use.
+  final String name;
 
   /// The tools the model may call.
   final List<Tool>? tools;
@@ -23,21 +23,15 @@ abstract class ChatModel<TOptions extends ChatModelOptions> {
   /// The temperature for the model.
   final double? temperature;
 
-  /// The name of the model.
-  String get name;
-
-  /// Invokes the chat model.
-  Future<ChatResult<String>> invoke(
+  /// Streaming method that returns AIChatMessage objects.
+  ///
+  /// This method should call the underlying LLM API and return a stream
+  /// of responses.
+  Stream<ChatResult<AIChatMessage>> sendStream(
     List<ChatMessage> messages, {
     TOptions? options,
   });
 
-  /// Streams the chat model.
-  Stream<ChatResult<String>> stream(
-    List<ChatMessage> messages, {
-    TOptions? options,
-  });
-
-  /// Closes the chat model.
-  void close();
+  /// Disposes the chat model.
+  void dispose();
 }

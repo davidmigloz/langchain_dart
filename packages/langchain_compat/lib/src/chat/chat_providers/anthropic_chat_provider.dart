@@ -7,34 +7,34 @@ import '../chat_models/anthropic_chat/anthropic_chat.dart';
 import '../chat_models/chat_model.dart';
 import '../tools/tool.dart';
 import 'chat_provider.dart';
+import 'model_chat_kind.dart';
 import 'model_info.dart';
-import 'model_kind.dart';
 
 /// Provider for Anthropic Claude native API.
-class AnthropicProvider extends ChatProvider<AnthropicChatOptions> {
+class AnthropicChatProvider extends ChatProvider<AnthropicChatOptions> {
   /// Creates a new Anthropic provider instance.
   ///
   /// [name]: The canonical provider name (e.g., 'anthropic', 'claude').
-  /// [displayName]: Human-readable name for display. [defaultModel]: The
+  /// [displayName]: Human-readable name for display. [defaultModelName]: The
   /// default model for this provider. [defaultBaseUrl]: The default API
   /// endpoint. [apiKeyName]: The environment variable for the API key (if any).
-  AnthropicProvider({
+  AnthropicChatProvider({
     required super.name,
     required super.aliases,
     required super.displayName,
-    required super.defaultModel,
+    required super.defaultModelName,
     required super.defaultBaseUrl,
     required super.apiKeyName,
   });
 
   @override
   ChatModel<AnthropicChatOptions> createModel({
-    String? model,
+    String? name,
     List<Tool>? tools,
     double? temperature,
     AnthropicChatOptions? options,
   }) => AnthropicChatModel(
-    model: model ?? defaultModel,
+    name: name ?? defaultModelName,
     tools: tools,
     temperature: temperature,
     apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
@@ -50,7 +50,7 @@ class AnthropicProvider extends ChatProvider<AnthropicChatOptions> {
   );
 
   @override
-  Future<Iterable<ModelInfo>> listModels() async {
+  Stream<ModelInfo> getModels() async* {
     final apiKey = apiKeyName.isNotEmpty
         ? Platform.environment[apiKeyName]
         : null;
@@ -70,7 +70,7 @@ class AnthropicProvider extends ChatProvider<AnthropicChatOptions> {
     if (modelsList == null) {
       throw Exception('Anthropic API response missing "data" field.');
     }
-    final models = modelsList.cast<Map<String, dynamic>>().map((m) {
+    for (final m in modelsList.cast<Map<String, dynamic>>()) {
       final id = m['id'] as String? ?? '';
       final displayName = m['display_name'] as String?;
       final kind = id.startsWith('claude') ? ModelKind.chat : ModelKind.other;
@@ -79,14 +79,13 @@ class AnthropicProvider extends ChatProvider<AnthropicChatOptions> {
         if (m.containsKey('created_at')) 'createdAt': m['created_at'],
         if (m.containsKey('type')) 'type': m['type'],
       };
-      return ModelInfo(
+      yield ModelInfo(
         name: id,
         kinds: {kind},
         displayName: displayName,
         description: null,
         extra: extra,
       );
-    }).toList();
-    return models;
+    }
   }
 }

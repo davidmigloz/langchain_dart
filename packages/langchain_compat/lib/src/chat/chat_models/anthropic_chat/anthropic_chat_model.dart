@@ -1,20 +1,20 @@
+import 'dart:io';
+
 import 'package:anthropic_sdk_dart/anthropic_sdk_dart.dart' as a;
 import 'package:http/http.dart' as http;
 
 import '../chat_message.dart';
 import '../chat_model.dart';
 import '../chat_result.dart';
-import '../tools_and_messages_helper.dart';
+import 'anthropic_chat_mappers.dart';
 import 'anthropic_chat_options.dart';
-import 'anthropic_mappers.dart';
 
 /// Wrapper around [Anthropic Messages
 /// API](https://docs.anthropic.com/en/api/messages) (aka Claude API).
-class AnthropicChatModel extends ChatModel<AnthropicChatOptions>
-    with ToolsAndMessagesHelper<AnthropicChatOptions> {
+class AnthropicChatModel extends ChatModel<AnthropicChatOptions> {
   /// Creates a [AnthropicChatModel] instance.
   AnthropicChatModel({
-    String? model,
+    String? name,
     super.tools,
     super.temperature,
     AnthropicChatOptions? defaultOptions,
@@ -23,48 +23,41 @@ class AnthropicChatModel extends ChatModel<AnthropicChatOptions>
     Map<String, String>? headers,
     Map<String, dynamic>? queryParams,
     http.Client? client,
-  }) : _model = _validateModel(model),
-       _client = a.AnthropicClient(
-         apiKey: apiKey ?? '',
+  }) : _client = a.AnthropicClient(
+         apiKey: apiKey ?? Platform.environment[apiKeyName]!,
          baseUrl: baseUrl,
          headers: headers,
          queryParams: queryParams,
          client: client,
        ),
        super(
-         model: _validateModel(model),
+         name: name ?? defaultName,
          defaultOptions: defaultOptions ?? const AnthropicChatOptions(),
        );
 
-  static String _validateModel(String? model) {
-    if (model != null && model.isEmpty) {
-      throw ArgumentError(
-        "Model cannot be empty. Pass null to use the provider's default model.",
-      );
-    }
-    return model ?? defaultModelName;
-  }
-
-  final String _model;
-
-  /// A client for interacting with Anthropic API.
-  final a.AnthropicClient _client;
-
   /// The default model to use unless another is specified.
-  static const defaultModelName = 'claude-3-5-sonnet-20241022';
+  static const defaultName = 'claude-3-5-sonnet-20241022';
 
   /// The default max tokens to use unless another is specified.
   static const defaultMaxTokens = 1024;
 
+  /// The default base URL to use unless another is specified.
+  static const defaultBaseUrl = 'https://api.anthropic.com/v1';
+
+  /// The environment variable for the API key
+  static const apiKeyName = 'ANTHROPIC_API_KEY';
+
+  final a.AnthropicClient _client;
+
   @override
-  Stream<ChatResult<AIChatMessage>> rawStream(
+  Stream<ChatResult<AIChatMessage>> sendStream(
     List<ChatMessage> messages, {
     AnthropicChatOptions? options,
   }) => _client
       .createMessageStream(
         request: createMessageRequest(
           messages,
-          model: _model,
+          modelName: name,
           tools: tools,
           temperature: temperature,
           options: options,
@@ -75,10 +68,5 @@ class AnthropicChatModel extends ChatModel<AnthropicChatOptions>
       .transform(MessageStreamEventTransformer());
 
   @override
-  void close() {
-    _client.endSession();
-  }
-
-  @override
-  String get name => _model;
+  void dispose() => _client.endSession();
 }

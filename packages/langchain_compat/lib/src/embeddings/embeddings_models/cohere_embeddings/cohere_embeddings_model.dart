@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
@@ -12,35 +13,33 @@ import 'cohere_embeddings_model_options.dart';
 class CohereEmbeddingsModel
     extends EmbeddingsModel<CohereEmbeddingsModelOptions> {
   /// Creates a new Cohere embeddings model.
-  const CohereEmbeddingsModel({
-    required this.apiKey,
-    required this.baseUrl,
-    super.model,
+  CohereEmbeddingsModel({
+    String? name,
+    String? apiKey,
     super.dimensions,
     super.batchSize = 96, // Cohere's default batch size limit
-    this.inputType,
-    this.embeddingTypes,
-    this.truncate,
+    String? inputType,
+    List<String>? embeddingTypes,
+    String? truncate,
     super.defaultOptions = const CohereEmbeddingsModelOptions(),
-  });
+  }) : _truncate = truncate,
+       _embeddingTypes = embeddingTypes,
+       _inputType = inputType,
+       _apiKey = apiKey ?? Platform.environment[apiKeyName]!,
+       super(name: name ?? defaultName);
 
-  /// The API key for authentication.
-  final String? apiKey;
+  /// The environment variable name for the Cohere API key.
+  static const apiKeyName = 'COHERE_API_KEY';
 
-  /// The base URL for the API.
-  final String baseUrl;
+  /// The default model name.
+  static const defaultName = 'embed-v4.0';
 
-  /// The input type for the embeddings.
-  final String? inputType;
+  static const _baseUrl = 'https://api.cohere.ai/v2';
 
-  /// The embedding types to return.
-  final List<String>? embeddingTypes;
-
-  /// How to handle inputs longer than the maximum token length.
-  final String? truncate;
-
-  @override
-  String get defaultModelName => 'embed-v4.0';
+  final String _apiKey;
+  final String? _inputType;
+  final List<String>? _embeddingTypes;
+  final String? _truncate;
 
   @override
   Future<EmbeddingsResult> embedQuery(
@@ -145,27 +144,23 @@ class CohereEmbeddingsModel
     List<String> texts,
     CohereEmbeddingsModelOptions? options,
   ) async {
-    if (apiKey == null || apiKey!.isEmpty) {
-      throw Exception('Cohere API key is required');
-    }
-
-    final url = Uri.parse('$baseUrl/embed');
+    final url = Uri.parse('$_baseUrl/embed');
     final body = {
       'model': name,
       'texts': texts,
-      if (inputType != null || options?.inputType != null)
-        'input_type': options?.inputType ?? inputType ?? 'search_document',
-      if (embeddingTypes != null || options?.embeddingTypes != null)
+      if (_inputType != null || options?.inputType != null)
+        'input_type': options?.inputType ?? _inputType ?? 'search_document',
+      if (_embeddingTypes != null || options?.embeddingTypes != null)
         'embedding_types':
-            options?.embeddingTypes ?? embeddingTypes ?? ['float'],
-      if (truncate != null || options?.truncate != null)
-        'truncate': options?.truncate ?? truncate,
+            options?.embeddingTypes ?? _embeddingTypes ?? ['float'],
+      if (_truncate != null || options?.truncate != null)
+        'truncate': options?.truncate ?? _truncate,
     };
 
     final response = await http.post(
       url,
       headers: {
-        'Authorization': 'Bearer $apiKey',
+        'Authorization': 'Bearer $_apiKey',
         'Content-Type': 'application/json',
       },
       body: jsonEncode(body),
@@ -182,7 +177,7 @@ class CohereEmbeddingsModel
   }
 
   @override
-  void close() {
+  void dispose() {
     // Nothing to close for HTTP-based model
   }
 }

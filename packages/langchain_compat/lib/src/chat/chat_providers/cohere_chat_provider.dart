@@ -8,34 +8,34 @@ import '../chat_models/chat_model.dart';
 import '../chat_models/cohere_chat/cohere_chat_model.dart';
 import '../chat_models/cohere_chat/cohere_chat_options.dart';
 import '../tools/tool.dart';
+import 'model_chat_kind.dart';
 import 'model_info.dart';
-import 'model_kind.dart';
-import 'openai_provider.dart';
+import 'openai_chat_provider.dart';
 
 /// Provider for Cohere OpenAI-compatible API.
-class CohereOpenAIProvider extends OpenAIProvider {
+class CohereChatProvider extends OpenAIChatProvider {
   /// Creates a new Cohere OpenAI provider instance.
   ///
   /// [name]: The canonical provider name (e.g., 'cohere', 'cohere-openai').
-  /// [displayName]: Human-readable name for display. [defaultModel]: The
+  /// [displayName]: Human-readable name for display. [defaultModelName]: The
   /// default model for this provider. [defaultBaseUrl]: The default API
   /// endpoint. [apiKeyName]: The environment variable for the API key (if any).
-  CohereOpenAIProvider({
+  CohereChatProvider({
     required super.name,
     required super.displayName,
-    required super.defaultModel,
+    required super.defaultModelName,
     required super.defaultBaseUrl,
     required super.apiKeyName,
   });
 
   @override
   ChatModel<CohereChatOptions> createModel({
-    String? model,
+    String? name,
     List<Tool>? tools,
     double? temperature,
     CohereChatOptions? options,
   }) => CohereChatModel(
-    model: model ?? defaultModel,
+    name: name ?? defaultModelName,
     tools: tools,
     temperature: temperature,
     apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
@@ -59,14 +59,13 @@ class CohereOpenAIProvider extends OpenAIProvider {
   );
 
   @override
-  Future<Iterable<ModelInfo>> listModels() async {
+  Stream<ModelInfo> getModels() async* {
     final url = Uri.parse('https://docs.cohere.com/docs/models');
     final response = await http.get(url);
     if (response.statusCode != 200) {
       throw Exception('Failed to fetch Cohere models docs: ${response.body}');
     }
     final doc = html_parser.parse(response.body);
-    final models = <ModelInfo>[];
     // Find all tables whose first header cell is 'Model Name'
     for (final table in doc.querySelectorAll('table')) {
       final headerCells = table.querySelectorAll('th');
@@ -78,22 +77,17 @@ class CohereOpenAIProvider extends OpenAIProvider {
             .map((th) => th.text.trim().toLowerCase())
             .toList();
         // Parse the table, passing headers for classification
-        models.addAll(_parseCohereTableWithHeaders(table, headers));
+        yield* _parseCohereTableWithHeaders(table, headers);
       }
     }
-    if (models.isEmpty) {
-      throw Exception('No models found in Cohere docs.');
-    }
-    return models;
   }
 
   // Parse a Cohere model table, using headers to classify model kind
-  List<ModelInfo> _parseCohereTableWithHeaders(
+  Stream<ModelInfo> _parseCohereTableWithHeaders(
     dom.Element table,
     List<String> headers,
-  ) {
+  ) async* {
     final rows = table.querySelectorAll('tbody tr');
-    final result = <ModelInfo>[];
     for (final row in rows) {
       final cells = row.querySelectorAll('td');
       if (cells.isEmpty) continue;
@@ -136,6 +130,7 @@ class CohereOpenAIProvider extends OpenAIProvider {
           }
         }
       }
+
       // Ensure kinds is never empty
       if (kinds.isEmpty) kinds.add(ModelKind.other);
       // Try to get context window if present
@@ -143,6 +138,7 @@ class CohereOpenAIProvider extends OpenAIProvider {
       final contextIdx = headers.indexWhere(
         (h) => h.contains('context length'),
       );
+
       if (contextIdx != -1 && cells.length > contextIdx) {
         final text = cells[contextIdx].text;
         final match = RegExp(r'(\d+)k').firstMatch(text);
@@ -150,21 +146,19 @@ class CohereOpenAIProvider extends OpenAIProvider {
           contextWindow = int.tryParse(match.group(1)!)! * 1000;
         }
       }
-      result.add(
-        ModelInfo(
-          name: id,
-          kinds: kinds,
-          displayName: id,
-          description: description,
-          extra: {
-            for (var i = 0; i < headers.length && i < cells.length; i++)
-              headers[i]: cells[i].text.trim(),
-            'description': description,
-            if (contextWindow != null) 'contextWindow': contextWindow,
-          },
-        ),
+
+      yield ModelInfo(
+        name: id,
+        kinds: kinds,
+        displayName: id,
+        description: description,
+        extra: {
+          for (var i = 0; i < headers.length && i < cells.length; i++)
+            headers[i]: cells[i].text.trim(),
+          'description': description,
+          if (contextWindow != null) 'contextWindow': contextWindow,
+        },
       );
     }
-    return result;
   }
 }

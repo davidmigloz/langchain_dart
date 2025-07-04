@@ -22,11 +22,13 @@ void main() async {
     (p) => p.name == 'mistral' || p.name == 'lambda',
   );
 
-  for (final provider in providersWithToolSupport) {
-    final model = provider.createModel(tools: tools);
-    final fqModelName = '${provider.name}:${model.name}';
-    await singleToolCallExample(fqModelName, model, tools);
-    await singleToolCallExampleStream(fqModelName, model, tools);
+  for (final provider in providersWithToolSupport.where(
+    (p) => p.name == 'ollama',
+  )) {
+    final fqModelName = '${provider.name}:${provider.defaultModelName}';
+    final agent = Agent(fqModelName, tools: tools);
+    await singleToolCallExample(fqModelName, agent, tools);
+    await singleToolCallExampleStream(fqModelName, agent, tools);
   }
 
   exit(0);
@@ -34,7 +36,7 @@ void main() async {
 
 Future<void> singleToolCallExample(
   String fqModelName,
-  ChatModel<ChatModelOptions> model,
+  Agent agent,
   List<Tool> tools,
 ) async {
   print('=== $fqModelName Single-Tool Call ===');
@@ -48,7 +50,7 @@ Future<void> singleToolCallExample(
   ];
 
   print('\nUser: $userMessage');
-  final result = await model.invoke(messages);
+  final result = await agent.run(messages);
   print(result.output);
   messages.addAll(result.messages);
   dumpChatHistory(messages);
@@ -56,7 +58,7 @@ Future<void> singleToolCallExample(
 
 Future<void> singleToolCallExampleStream(
   String fqModelName,
-  ChatModel<ChatModelOptions> model,
+  Agent agent,
   List<Tool> tools,
 ) async {
   print('=== $fqModelName Single-Tool Call (stream) ===');
@@ -70,7 +72,7 @@ Future<void> singleToolCallExampleStream(
   ];
 
   print('\nUser: $userMessage');
-  final stream = model.stream(messages);
+  final stream = agent.runStream(messages);
   await for (final chunk in stream) {
     stdout.write(chunk.output);
     messages.addAll(chunk.messages);

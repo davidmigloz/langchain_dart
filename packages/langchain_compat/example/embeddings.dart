@@ -11,14 +11,7 @@ void main() async {
     'Machine learning is fascinating', // Different topic
   ];
 
-  final embeddingProviders = <EmbeddingsProvider>[
-    EmbeddingsProvider.openai,
-    EmbeddingsProvider.google,
-    EmbeddingsProvider.mistral,
-    EmbeddingsProvider.cohere,
-  ];
-
-  for (final provider in embeddingProviders) {
+  for (final provider in EmbeddingsProvider.all) {
     await embeddingsExample(provider, sampleTexts);
   }
 

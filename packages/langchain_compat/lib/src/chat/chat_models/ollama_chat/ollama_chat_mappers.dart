@@ -11,14 +11,14 @@ import 'ollama_chat_options.dart';
 /// Creates a [o.GenerateChatCompletionRequest] from the given input.
 o.GenerateChatCompletionRequest generateChatCompletionRequest(
   List<ChatMessage> messages, {
-  required String model,
+  required String modelName,
   required OllamaChatOptions? options,
   required OllamaChatOptions defaultOptions,
   List<Tool>? tools,
   double? temperature,
   bool stream = false,
 }) => o.GenerateChatCompletionRequest(
-  model: model,
+  model: modelName,
   messages: messages.toMessages(),
   format: options?.format ?? defaultOptions.format,
   keepAlive: options?.keepAlive ?? defaultOptions.keepAlive,

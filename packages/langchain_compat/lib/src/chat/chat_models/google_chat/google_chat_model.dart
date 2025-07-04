@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:google_generative_ai/google_generative_ai.dart'
     show GenerativeModel;
 import 'package:google_generative_ai/google_generative_ai.dart' as gai;
@@ -8,16 +10,14 @@ import 'package:uuid/uuid.dart';
 
 import '../../../custom_http_client.dart';
 import '../chat_models.dart';
-import '../tools_and_messages_helper.dart';
 import 'google_chat_mappers.dart';
 
 /// Wrapper around [Google AI for Developers](https://ai.google.dev/) API
 /// (aka Gemini API).
-class GoogleChatModel extends ChatModel<GoogleChatOptions>
-    with ToolsAndMessagesHelper<GoogleChatOptions> {
+class GoogleChatModel extends ChatModel<GoogleChatOptions> {
   /// Creates a [GoogleChatModel] instance.
   GoogleChatModel({
-    String? model,
+    String? name,
     super.tools,
     super.temperature,
     GoogleChatOptions? defaultOptions,
@@ -26,58 +26,42 @@ class GoogleChatModel extends ChatModel<GoogleChatOptions>
     Map<String, String>? headers,
     Map<String, dynamic>? queryParams,
     http.Client? client,
-  }) : _model = _validateModel(model),
-       _apiKey = apiKey ?? '',
+  }) : _apiKey = apiKey ?? '',
        _httpClient = CustomHttpClient(
          baseHttpClient: client ?? RetryClient(http.Client(), retries: 3),
-         baseUrl: Uri.parse(
-           baseUrl ?? 'https://generativelanguage.googleapis.com/v1beta',
-         ),
+         baseUrl: Uri.parse(baseUrl ?? defaultBaseUrl),
          headers: {'x-goog-api-key': apiKey ?? '', ...?headers},
          queryParams: queryParams ?? const {},
        ),
        super(
-         model: _validateModel(model),
+         name: name ?? defaultName,
          defaultOptions: defaultOptions ?? const GoogleChatOptions(),
        ) {
     _googleAiClient = _createGoogleAiClient(
-      _model,
-      apiKey: apiKey ?? '',
+      modelName: name ?? defaultName,
+      apiKey: apiKey ?? Platform.environment[apiKeyName]!,
       httpClient: _httpClient,
     );
   }
 
-  static String _validateModel(String? model) {
-    if (model != null && model.isEmpty) {
-      throw ArgumentError(
-        "Model cannot be empty. Pass null to use the provider's default model.",
-      );
-    }
-    return model ?? defaultModelName;
-  }
+  /// The default model to use unless another is specified.
+  static const defaultName = 'gemini-2.0-flash';
 
-  final String _model;
+  /// The environment variable for the API key
+  static const apiKeyName = 'GEMINI_API_KEY';
 
-  /// The API key to use for authentication.
+  /// The default base URL to use unless another is specified.
+  static const defaultBaseUrl =
+      'https://generativelanguage.googleapis.com/v1beta';
+
   final String _apiKey;
-
-  /// The HTTP client to use.
   final CustomHttpClient _httpClient;
-
-  /// A client for interacting with Google AI API.
   late gai.GenerativeModel _googleAiClient;
-
-  /// A UUID generator.
   late final _uuid = const Uuid();
-
-  /// The current system instruction set in [_googleAiClient];
   String? _currentSystemInstruction;
 
-  /// The default model to use unless another is specified.
-  static const defaultModelName = 'gemini-2.0-flash';
-
   @override
-  Stream<ChatResult<AIChatMessage>> rawStream(
+  Stream<ChatResult<AIChatMessage>> sendStream(
     List<ChatMessage> messages, {
     GoogleChatOptions? options,
   }) {
@@ -111,7 +95,7 @@ class GoogleChatModel extends ChatModel<GoogleChatOptions>
     _updateClientIfNeeded(messages, options);
 
     return (
-      _model,
+      name,
       messages.toContentList(),
       (options?.safetySettings ?? defaultOptions.safetySettings)
           ?.toSafetySettings(),
@@ -143,18 +127,16 @@ class GoogleChatModel extends ChatModel<GoogleChatOptions>
   }
 
   @override
-  void close() {
-    _httpClient.close();
-  }
+  void dispose() => _httpClient.close();
 
   /// Create a new [gai.GenerativeModel] instance.
-  GenerativeModel _createGoogleAiClient(
-    String model, {
+  GenerativeModel _createGoogleAiClient({
+    required String modelName,
     String? apiKey,
     CustomHttpClient? httpClient,
     String? systemInstruction,
   }) => GenerativeModel(
-    model: model,
+    model: modelName,
     apiKey: apiKey ?? _apiKey,
     httpClient: httpClient ?? _httpClient,
     systemInstruction: systemInstruction != null
@@ -163,9 +145,12 @@ class GoogleChatModel extends ChatModel<GoogleChatOptions>
   );
 
   /// Recreate the [gai.GenerativeModel] instance.
-  void _recreateGoogleAiClient(String model, String? systemInstruction) {
+  void _recreateGoogleAiClient({
+    required String modelName,
+    String? systemInstruction,
+  }) {
     _googleAiClient = _createGoogleAiClient(
-      model,
+      modelName: modelName,
       systemInstruction: systemInstruction,
     );
   }
@@ -175,25 +160,20 @@ class GoogleChatModel extends ChatModel<GoogleChatOptions>
     List<ChatMessage> messages,
     GoogleChatOptions? options,
   ) {
-    final model = _model;
-
     final systemInstruction = messages.firstOrNull is SystemChatMessage
         ? messages.firstOrNull?.contentAsString
         : null;
 
     var recreate = false;
-    if (model != _model) {
-      recreate = true;
-    }
     if (systemInstruction != _currentSystemInstruction) {
       _currentSystemInstruction = systemInstruction;
       recreate = true;
     }
     if (recreate) {
-      _recreateGoogleAiClient(model, systemInstruction);
+      _recreateGoogleAiClient(
+        modelName: name,
+        systemInstruction: systemInstruction,
+      );
     }
   }
-
-  @override
-  String get name => _model;
 }

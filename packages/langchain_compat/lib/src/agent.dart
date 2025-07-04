@@ -3,38 +3,101 @@ import 'dart:convert';
 
 import 'package:uuid/uuid.dart';
 
-import '../../language_models/language_models.dart';
-import '../tools/tool.dart';
-import 'chat_message.dart';
-import 'chat_model_options.dart';
-import 'chat_result.dart';
+import 'chat/chat_models/chat_models.dart';
+import 'chat/chat_providers/chat_providers.dart';
+import 'chat/tools/tools.dart';
+import 'language_models/language_models.dart';
 
-/// Base class that provides tool execution and message collection capabilities
-/// for chat models.
+/// An agent that manages chat models and provides tool execution and message
+/// collection capabilities.
 ///
-/// This class implements both [invoke] and [stream] methods, handling:
+/// The Agent handles:
+/// - Provider and model creation from string specification
 /// - Tool call ID assignment for providers that don't provide them
 /// - Automatic tool execution with error handling
-/// - Message collection and streaming
-///
-/// Chat models that extend this class should implement [rawStream] instead
-/// of [invoke] and [stream].
-mixin ToolsAndMessagesHelper<TOptions extends ChatModelOptions> {
-  /// The tools available to this model. Models must provide this.
-  List<Tool>? get tools;
-
-  /// Raw streaming method that models must implement.
-  /// This should call the underlying LLM API and return a stream of responses.
+/// - Message collection and streaming UX enhancement
+/// - Model caching and lifecycle management
+class Agent {
+  /// Creates an agent with the specified model.
   ///
-  /// Models that use this mixin should override this method.
-  Stream<ChatResult<AIChatMessage>> rawStream(
-    List<ChatMessage> messages, {
-    TOptions? options,
+  /// The [model] parameter should be in the format "providerName",
+  /// "providerName:modelName", or "providerName/modelName".
+  /// For example: "openai", "openai:gpt-4o", "openai/gpt-4o",
+  /// "anthropic", "anthropic:claude-3-sonnet", etc.
+  ///
+  /// Optional parameters:
+  /// - [tools]: List of tools the agent can use
+  /// - [temperature]: Model temperature (0.0 to 1.0)
+  Agent(
+    String model, {
+    List<Tool>? tools,
+    double? temperature,
+    String? displayName,
   }) {
-    throw UnimplementedError('Models must override rawStream');
+    // split the model into provider name and model name
+    final index = model.indexOf(RegExp('[:/]'));
+    final providerName = index == -1 ? model : model.substring(0, index);
+    final modelName = index == -1 ? null : model.substring(index + 1);
+
+    // cache the provider name from the input; it could be an alias
+    _providerName = providerName;
+    _displayName = displayName;
+
+    // Create model
+    final provider = ChatProvider.forName(providerName);
+    _model = provider.createModel(
+      name: modelName,
+      tools: tools,
+      temperature: temperature,
+    );
   }
 
-  /// UUID generator for tool call IDs.
+  /// Creates an agent from a provider
+  Agent.fromProvider(
+    ChatProvider provider, {
+    String? modelName,
+    List<Tool>? tools,
+    double? temperature,
+    String? displayName,
+  }) {
+    _providerName = provider.name;
+    _displayName = displayName;
+    _model = provider.createModel(
+      name: modelName,
+      tools: tools,
+      temperature: temperature,
+    );
+  }
+
+  /// Creates an agent from a model.
+  Agent.fromModel(
+    ChatModel model, {
+    required String providerName,
+    String? displayName,
+  }) {
+    _providerName = providerName;
+    _displayName = displayName;
+    _model = model;
+  }
+
+  /// Gets the provider name.
+  String get providerName => _providerName;
+
+  /// Gets the model name.
+  String get modelName => _model.name;
+
+  /// Gets the fully qualified model name.
+  String get model => '$providerName:$modelName';
+
+  /// Gets the display name.
+  String get displayName => _displayName ?? model;
+
+  /// Closes the underlying model.
+  void close() => _model.dispose();
+
+  late final String _providerName;
+  late final ChatModel _model;
+  late final String? _displayName;
   static const _uuid = Uuid();
 
   /// Flag to track if we should prefix the next AI message with a newline.
@@ -57,13 +120,10 @@ mixin ToolsAndMessagesHelper<TOptions extends ChatModelOptions> {
   /// chunk of the subsequent AI message with a newline for visual separation.
   bool _shouldPrefixNextMessage = false;
 
-  /// Invokes the model with the given messages and returns the final result.
+  /// Invokes the agent with the given messages and returns the final result.
   ///
-  /// This method internally uses [stream] and accumulates all results.
-  Future<ChatResult<String>> invoke(
-    List<ChatMessage> messages, {
-    TOptions? options,
-  }) async {
+  /// This method internally uses [runStream] and accumulates all results.
+  Future<ChatResult<String>> run(List<ChatMessage> messages) async {
     final allNewMessages = <ChatMessage>[];
     var finalOutput = '';
     var finalResult = const ChatResult<String>(
@@ -74,7 +134,7 @@ mixin ToolsAndMessagesHelper<TOptions extends ChatModelOptions> {
       usage: LanguageModelUsage(),
     );
 
-    await for (final result in stream(messages, options: options)) {
+    await for (final result in runStream(messages)) {
       final outputText = result.outputAsString;
       if (outputText.isNotEmpty) {
         finalOutput += outputText;
@@ -93,17 +153,16 @@ mixin ToolsAndMessagesHelper<TOptions extends ChatModelOptions> {
     );
   }
 
-  /// Streams responses from the model, handling tool execution automatically.
+  /// Streams responses from the agent, handling tool execution automatically.
   ///
   /// Returns a stream of [ChatResult] where:
   /// - [ChatResult.output] contains streaming text chunks
   /// - [ChatResult.messages] contains new messages since the last result
-  Stream<ChatResult<String>> stream(
-    List<ChatMessage> messages, {
-    TOptions? options,
-  }) async* {
+  Stream<ChatResult<String>> runStream(List<ChatMessage> messages) async* {
     final conversationHistory = List<ChatMessage>.from(messages);
-    final toolMap = {for (final tool in tools ?? <Tool>[]) tool.name: tool};
+    final toolMap = {
+      for (final tool in _model.tools ?? <Tool>[]) tool.name: tool,
+    };
 
     var done = false;
     _shouldPrefixNextMessage = false; // Reset at start of stream
@@ -119,10 +178,7 @@ mixin ToolsAndMessagesHelper<TOptions extends ChatModelOptions> {
       );
 
       // Stream the raw response and collect it
-      await for (final result in rawStream(
-        conversationHistory,
-        options: options,
-      )) {
+      await for (final result in _model.sendStream(conversationHistory)) {
         // Stream the text output to the caller
         // Extract text content from AIChatMessage output
         final textOutput = result.output.content;

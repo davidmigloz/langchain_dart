@@ -8,33 +8,33 @@ import '../chat_models/mistral_chat/mistral_chat_model.dart';
 import '../chat_models/mistral_chat/mistral_chat_options.dart';
 import '../tools/tool.dart';
 import 'chat_provider.dart';
+import 'model_chat_kind.dart';
 import 'model_info.dart';
-import 'model_kind.dart';
 
 /// Provider for Mistral AI (OpenAI-compatible).
-class MistralProvider extends ChatProvider<MistralChatOptions> {
+class MistralChatProvider extends ChatProvider<MistralChatOptions> {
   /// Creates a new Mistral provider instance.
   ///
   /// [name]: The canonical provider name (e.g., 'mistral', 'mistralai').
-  /// [displayName]: Human-readable name for display. [defaultModel]: The
+  /// [displayName]: Human-readable name for display. [defaultModelName]: The
   /// default model for this provider. [defaultBaseUrl]: The default API
   /// endpoint. [apiKeyName]: The environment variable for the API key (if any).
-  MistralProvider({
+  MistralChatProvider({
     required super.name,
     required super.displayName,
-    required super.defaultModel,
+    required super.defaultModelName,
     required super.defaultBaseUrl,
     required super.apiKeyName,
   });
 
   @override
   ChatModel<MistralChatOptions> createModel({
-    String? model,
+    String? name,
     List<Tool>? tools,
     double? temperature,
     MistralChatOptions? options,
   }) => MistralChatModel(
-    model: model ?? defaultModel,
+    name: name ?? defaultModelName,
     tools: tools,
     temperature: temperature,
     apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
@@ -49,7 +49,7 @@ class MistralProvider extends ChatProvider<MistralChatOptions> {
   );
 
   @override
-  Future<Iterable<ModelInfo>> listModels() async {
+  Stream<ModelInfo> getModels() async* {
     final apiKey = apiKeyName.isNotEmpty
         ? Platform.environment[apiKeyName]
         : null;
@@ -65,7 +65,7 @@ class MistralProvider extends ChatProvider<MistralChatOptions> {
       throw Exception('Failed to fetch Mistral models: \\${response.body}');
     }
     final data = jsonDecode(response.body) as Map<String, dynamic>;
-    return (data['data'] as List).cast<Map<String, dynamic>>().map((m) {
+    for (final m in (data['data'] as List).cast<Map<String, dynamic>>()) {
       final id = m['id'] as String? ?? '';
       final desc = m['description'] as String? ?? '';
       final kinds = <ModelKind>{};
@@ -102,7 +102,7 @@ class MistralProvider extends ChatProvider<MistralChatOptions> {
       }
       if (kinds.isEmpty) kinds.add(ModelKind.other);
       assert(kinds.isNotEmpty, 'Model $id returned with empty kinds set');
-      return ModelInfo(
+      yield ModelInfo(
         name: id,
         kinds: kinds,
         displayName: m['name'] as String?,
@@ -113,6 +113,6 @@ class MistralProvider extends ChatProvider<MistralChatOptions> {
             'contextWindow': m['context_length'],
         }..removeWhere((k, _) => ['id', 'name', 'description'].contains(k)),
       );
-    });
+    }
   }
 }

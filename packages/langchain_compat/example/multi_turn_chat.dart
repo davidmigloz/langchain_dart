@@ -21,11 +21,11 @@ Future<void> main() async {
     messages.add(ChatMessage.humanText(userMsg));
     print('\nUser: $userMsg');
 
-    final stream = chatModel.stream(messages);
+    final stream = chatModel.sendStream(messages);
     final fullResponse = StringBuffer();
     await for (final chunk in stream) {
-      stdout.write(chunk.output);
-      fullResponse.write(chunk.output);
+      stdout.write(chunk.output.content);
+      fullResponse.write(chunk.output.content);
     }
     messages.add(ChatMessage.ai(fullResponse.toString()));
     print('');

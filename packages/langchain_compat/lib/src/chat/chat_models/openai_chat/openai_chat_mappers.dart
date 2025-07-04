@@ -11,7 +11,7 @@ import 'openai_chat_options.dart';
 /// Creates a [CreateChatCompletionRequest] from the given input.
 CreateChatCompletionRequest createChatCompletionRequest(
   List<ChatMessage> messages, {
-  required String model,
+  required String modelName,
   required OpenAIChatOptions? options,
   required OpenAIChatOptions defaultOptions,
   List<Tool>? tools,
@@ -30,7 +30,7 @@ CreateChatCompletionRequest createChatCompletionRequest(
       .toCreateChatCompletionRequestServiceTier();
 
   return CreateChatCompletionRequest(
-    model: ChatCompletionModel.modelId(model),
+    model: ChatCompletionModel.modelId(modelName),
     messages: messagesDtos,
     tools: toolsDtos,
     toolChoice: toolChoice,

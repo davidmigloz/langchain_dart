@@ -8,34 +8,34 @@ import '../chat_models/openai_chat/openai_chat_model.dart';
 import '../chat_models/openai_chat/openai_chat_options.dart';
 import '../tools/tool.dart';
 import 'chat_provider.dart';
+import 'model_chat_kind.dart';
 import 'model_info.dart';
-import 'model_kind.dart';
 
 /// Provider for OpenAI-compatible APIs (OpenAI, Groq, Together, etc.). Handles
 /// API key, base URL, and model configuration.
-class OpenAIProvider extends ChatProvider<OpenAIChatOptions> {
+class OpenAIChatProvider extends ChatProvider<OpenAIChatOptions> {
   /// Creates a new OpenAI provider instance.
   ///
   /// [name]: The canonical provider name (e.g., 'openai', 'groq').
-  /// [displayName]: Human-readable name for display. [defaultModel]: The
+  /// [displayName]: Human-readable name for display. [defaultModelName]: The
   /// default model for this provider. [defaultBaseUrl]: The default API
   /// endpoint. [apiKeyName]: The environment variable for the API key (if any).
-  OpenAIProvider({
+  OpenAIChatProvider({
     required super.name,
     required super.displayName,
-    required super.defaultModel,
+    required super.defaultModelName,
     required super.defaultBaseUrl,
     required super.apiKeyName,
   });
 
   @override
   ChatModel<OpenAIChatOptions> createModel({
-    String? model,
+    String? name,
     List<Tool>? tools,
     double? temperature,
     OpenAIChatOptions? options,
   }) => OpenAIChatModel(
-    model: model ?? defaultModel,
+    name: name ?? defaultModelName,
     tools: tools,
     temperature: temperature,
     apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
@@ -59,7 +59,7 @@ class OpenAIProvider extends ChatProvider<OpenAIChatOptions> {
   );
 
   @override
-  Future<Iterable<ModelInfo>> listModels() async {
+  Stream<ModelInfo> getModels() async* {
     final apiKey = apiKeyName.isNotEmpty
         ? Platform.environment[apiKeyName]
         : null;
@@ -74,60 +74,61 @@ class OpenAIProvider extends ChatProvider<OpenAIChatOptions> {
       throw Exception('Failed to fetch models: ${response.body}');
     }
     final data = jsonDecode(response.body);
-    late final Iterable<ModelInfo> models;
-    Iterable<ModelInfo> mapModels(Iterable mList) => mList.map((m) {
-      // ignore: avoid_dynamic_calls
-      final id = m['id'] as String;
-      final kinds = <ModelKind>{};
-      // ignore: avoid_dynamic_calls
-      final object = m['object']?.toString() ?? '';
-      // Heuristics for OpenAI model kinds
-      if (id.contains('embedding')) kinds.add(ModelKind.embedding);
-      if (id.contains('tts')) kinds.add(ModelKind.tts);
-      if (id.contains('vision') ||
-          id.contains('dall-e') ||
-          id.contains('image')) {
-        kinds.add(ModelKind.image);
-      }
-      if (id.contains('audio')) kinds.add(ModelKind.audio);
-      if (id.contains('count-tokens')) kinds.add(ModelKind.countTokens);
-      // Most models are chat if not otherwise classified
-      if (object == 'model' ||
-          id.contains('gpt') ||
-          id.contains('chat') ||
-          id.contains('claude') ||
-          id.contains('mixtral') ||
-          id.contains('llama') ||
-          id.contains('command') ||
-          id.contains('sonnet')) {
-        kinds.add(ModelKind.chat);
-      }
-      if (kinds.isEmpty) kinds.add(ModelKind.other);
-      assert(kinds.isNotEmpty, 'Model $id returned with empty kinds set');
-      return ModelInfo(
-        name: id,
-        kinds: kinds,
-        description: object.isNotEmpty ? object : null,
-        extra: {
-          ...m,
-          // ignore: avoid_dynamic_calls
-          if (m.containsKey('context_window'))
+    Stream<ModelInfo> mapModels(Iterable mList) async* {
+      for (final m in mList) {
+        // ignore: avoid_dynamic_calls
+        final id = m['id'] as String;
+        final kinds = <ModelKind>{};
+        // ignore: avoid_dynamic_calls
+        final object = m['object']?.toString() ?? '';
+        // Heuristics for OpenAI model kinds
+        if (id.contains('embedding')) kinds.add(ModelKind.embedding);
+        if (id.contains('tts')) kinds.add(ModelKind.tts);
+        if (id.contains('vision') ||
+            id.contains('dall-e') ||
+            id.contains('image')) {
+          kinds.add(ModelKind.image);
+        }
+        if (id.contains('audio')) kinds.add(ModelKind.audio);
+        if (id.contains('count-tokens')) kinds.add(ModelKind.countTokens);
+        // Most models are chat if not otherwise classified
+        if (object == 'model' ||
+            id.contains('gpt') ||
+            id.contains('chat') ||
+            id.contains('claude') ||
+            id.contains('mixtral') ||
+            id.contains('llama') ||
+            id.contains('command') ||
+            id.contains('sonnet')) {
+          kinds.add(ModelKind.chat);
+        }
+        if (kinds.isEmpty) kinds.add(ModelKind.other);
+        assert(kinds.isNotEmpty, 'Model $id returned with empty kinds set');
+        yield ModelInfo(
+          name: id,
+          kinds: kinds,
+          description: object.isNotEmpty ? object : null,
+          extra: {
+            ...m,
             // ignore: avoid_dynamic_calls
-            'contextWindow': m['context_window'],
-        }..removeWhere((k, _) => ['id', 'object'].contains(k)),
-      );
-    });
+            if (m.containsKey('context_window'))
+              // ignore: avoid_dynamic_calls
+              'contextWindow': m['context_window'],
+          }..removeWhere((k, _) => ['id', 'object'].contains(k)),
+        );
+      }
+    }
+
     if (data is List) {
-      models = mapModels(data);
+      yield* mapModels(data);
     } else if (data is Map<String, dynamic>) {
       final modelsList = data['data'] as List?;
       if (modelsList == null) {
         throw Exception('No models found in response: ${response.body}');
       }
-      models = mapModels(modelsList);
+      yield* mapModels(modelsList);
     } else {
       throw Exception('Unexpected models response shape: ${response.body}');
     }
-    return models;
   }
 }
