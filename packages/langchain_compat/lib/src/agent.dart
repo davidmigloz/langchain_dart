@@ -92,6 +92,9 @@ class Agent {
   /// Gets the display name.
   String get displayName => _displayName ?? model;
 
+  /// Gets an environment map for the agent.
+  static Map<String, String> environment = {};
+
   /// Closes the underlying model.
   void close() => _model.dispose();
 

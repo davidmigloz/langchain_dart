@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
+import '../../platform/platform.dart';
 import '../chat_models/chat_model.dart';
 import '../chat_models/openai_chat/openai_chat_model.dart';
 import '../chat_models/openai_chat/openai_chat_options.dart';
@@ -38,7 +38,7 @@ class OpenAIChatProvider extends ChatProvider<OpenAIChatOptions> {
     name: name ?? defaultModelName,
     tools: tools,
     temperature: temperature,
-    apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
+    apiKey: tryGetEnv(apiKeyName),
     baseUrl: defaultBaseUrl,
     defaultOptions: OpenAIChatOptions(
       temperature: temperature ?? options?.temperature,
@@ -60,12 +60,10 @@ class OpenAIChatProvider extends ChatProvider<OpenAIChatOptions> {
 
   @override
   Stream<ModelInfo> getModels() async* {
-    final apiKey = apiKeyName.isNotEmpty
-        ? Platform.environment[apiKeyName]
-        : null;
+    final apiKey = getEnv(apiKeyName);
     final url = Uri.parse('$defaultBaseUrl/models');
     final headers = <String, String>{
-      if (apiKeyName.isNotEmpty && apiKey != null && apiKey.isNotEmpty)
+      if (apiKeyName.isNotEmpty && apiKey.isNotEmpty)
         'Authorization': 'Bearer $apiKey',
       'Content-Type': 'application/json',
     };

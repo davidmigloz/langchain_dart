@@ -1,9 +1,8 @@
-import 'dart:io';
-
 import 'package:html/dom.dart' as dom;
 import 'package:html/parser.dart' as html_parser;
 import 'package:http/http.dart' as http;
 
+import '../../platform/platform.dart';
 import '../chat_models/chat_model.dart';
 import '../chat_models/cohere_chat/cohere_chat_model.dart';
 import '../chat_models/cohere_chat/cohere_chat_options.dart';
@@ -38,7 +37,7 @@ class CohereChatProvider extends OpenAIChatProvider {
     name: name ?? defaultModelName,
     tools: tools,
     temperature: temperature,
-    apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
+    apiKey: tryGetEnv(apiKeyName),
     baseUrl: defaultBaseUrl,
     defaultOptions: CohereChatOptions(
       frequencyPenalty: options?.frequencyPenalty,

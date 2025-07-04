@@ -1,8 +1,7 @@
-import 'dart:io';
-
 import 'package:anthropic_sdk_dart/anthropic_sdk_dart.dart' as a;
 import 'package:http/http.dart' as http;
 
+import '../../../platform/platform.dart';
 import '../chat_message.dart';
 import '../chat_model.dart';
 import '../chat_result.dart';
@@ -24,7 +23,7 @@ class AnthropicChatModel extends ChatModel<AnthropicChatOptions> {
     Map<String, dynamic>? queryParams,
     http.Client? client,
   }) : _client = a.AnthropicClient(
-         apiKey: apiKey ?? Platform.environment[apiKeyName]!,
+         apiKey: apiKey ?? getEnv(apiKeyName),
          baseUrl: baseUrl,
          headers: headers,
          queryParams: queryParams,

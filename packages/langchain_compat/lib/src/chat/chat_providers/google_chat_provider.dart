@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
+import '../../platform/platform.dart';
 import '../chat_models/chat_model.dart';
 import '../chat_models/google_chat/google_chat_model.dart';
 import '../chat_models/google_chat/google_chat_options.dart';
@@ -38,7 +38,7 @@ class GoogleChatProvider extends ChatProvider<GoogleChatOptions> {
     name: name ?? defaultModelName,
     tools: tools,
     temperature: temperature,
-    apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
+    apiKey: tryGetEnv(apiKeyName),
     baseUrl: defaultBaseUrl,
     defaultOptions: GoogleChatOptions(
       topP: options?.topP,
@@ -56,12 +56,7 @@ class GoogleChatProvider extends ChatProvider<GoogleChatOptions> {
 
   @override
   Stream<ModelInfo> getModels() async* {
-    final apiKey = apiKeyName.isNotEmpty
-        ? Platform.environment[apiKeyName]
-        : null;
-    if (apiKey == null || apiKey.isEmpty) {
-      throw Exception('Missing API key for $name');
-    }
+    final apiKey = getEnv(apiKeyName);
     final url = Uri.parse(
       'https://generativelanguage.googleapis.com/v1beta/models',
     );

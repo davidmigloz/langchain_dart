@@ -1,11 +1,11 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
 import '../../../chat/chat_providers/chat_provider.dart';
 import '../../../language_models/finish_reason.dart';
 import '../../../language_models/language_model_usage.dart';
+import '../../../platform/platform.dart';
 import '../../embeddings_model.dart';
 import '../../embeddings_result.dart';
 import 'cohere_embeddings_model_options.dart';
@@ -26,7 +26,7 @@ class CohereEmbeddingsModel
   }) : _truncate = truncate,
        _embeddingTypes = embeddingTypes,
        _inputType = inputType,
-       _apiKey = apiKey ?? Platform.environment[apiKeyName]!,
+       _apiKey = apiKey ?? getEnv(apiKeyName),
        super(name: name ?? defaultName);
 
   /// The environment variable name for the Cohere API key.

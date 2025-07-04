@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:google_generative_ai/google_generative_ai.dart'
     show GenerativeModel;
 import 'package:google_generative_ai/google_generative_ai.dart' as gai;
@@ -9,6 +7,7 @@ import 'package:http/retry.dart' show RetryClient;
 import 'package:uuid/uuid.dart';
 
 import '../../../custom_http_client.dart';
+import '../../../platform/platform.dart';
 import '../chat_models.dart';
 import 'google_chat_mappers.dart';
 
@@ -39,7 +38,7 @@ class GoogleChatModel extends ChatModel<GoogleChatOptions> {
        ) {
     _googleAiClient = _createGoogleAiClient(
       modelName: name ?? defaultName,
-      apiKey: apiKey ?? Platform.environment[apiKeyName]!,
+      apiKey: apiKey ?? getEnv(apiKeyName),
       httpClient: _httpClient,
     );
   }

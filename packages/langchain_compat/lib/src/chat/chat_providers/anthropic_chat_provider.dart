@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
+import '../../platform/platform.dart';
 import '../chat_models/anthropic_chat/anthropic_chat.dart';
 import '../chat_models/chat_model.dart';
 import '../tools/tool.dart';
@@ -37,7 +37,7 @@ class AnthropicChatProvider extends ChatProvider<AnthropicChatOptions> {
     name: name ?? defaultModelName,
     tools: tools,
     temperature: temperature,
-    apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
+    apiKey: tryGetEnv(apiKeyName),
     baseUrl: defaultBaseUrl,
     defaultOptions: AnthropicChatOptions(
       temperature: temperature ?? options?.temperature,
@@ -51,12 +51,7 @@ class AnthropicChatProvider extends ChatProvider<AnthropicChatOptions> {
 
   @override
   Stream<ModelInfo> getModels() async* {
-    final apiKey = apiKeyName.isNotEmpty
-        ? Platform.environment[apiKeyName]
-        : null;
-    if (apiKey == null || apiKey.isEmpty) {
-      throw Exception('Missing API key for $name');
-    }
+    final apiKey = getEnv(apiKeyName);
     final url = Uri.parse('https://api.anthropic.com/v1/models');
     final response = await http.get(
       url,

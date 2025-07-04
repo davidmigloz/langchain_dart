@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:google_generative_ai/google_generative_ai.dart'
     show Content, EmbedContentRequest, GenerativeModel, TaskType;
 import 'package:http/http.dart' as http;
@@ -8,6 +6,7 @@ import 'package:http/retry.dart' show RetryClient;
 import '../../../chat/chat_providers/chat_provider.dart';
 import '../../../custom_http_client.dart';
 import '../../../language_models/language_models.dart';
+import '../../../platform/platform.dart';
 import '../../chunk_list.dart';
 import '../../embeddings_model.dart';
 import '../../embeddings_result.dart';
@@ -26,7 +25,7 @@ class GoogleEmbeddingsModel
     String? name,
     super.dimensions,
     super.batchSize = 100,
-  }) : _apiKey = apiKey ?? Platform.environment[apiKeyName]!,
+  }) : _apiKey = apiKey ?? getEnv(apiKeyName),
        super(
          name: name ?? defaultName,
          defaultOptions: GoogleEmbeddingsModelOptions(

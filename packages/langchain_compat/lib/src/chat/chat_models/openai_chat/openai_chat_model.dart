@@ -1,9 +1,8 @@
-import 'dart:io';
-
 import 'package:http/http.dart' as http;
 import 'package:openai_dart/openai_dart.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../platform/platform.dart';
 import '../chat_models.dart';
 import 'openai_chat_mappers.dart';
 import 'openai_chat_options.dart';
@@ -24,7 +23,7 @@ class OpenAIChatModel extends ChatModel<OpenAIChatOptions> {
     Map<String, dynamic>? queryParams,
     http.Client? client,
   }) : _client = OpenAIClient(
-         apiKey: apiKey ?? Platform.environment[apiKeyName]!,
+         apiKey: apiKey ?? getEnv(apiKeyName),
          organization: organization,
          baseUrl: baseUrl,
          headers: headers,

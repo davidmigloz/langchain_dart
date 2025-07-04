@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
+import '../../platform/platform.dart';
 import '../chat_models/chat_model.dart';
 import '../chat_models/mistral_chat/mistral_chat_model.dart';
 import '../chat_models/mistral_chat/mistral_chat_options.dart';
@@ -37,7 +37,7 @@ class MistralChatProvider extends ChatProvider<MistralChatOptions> {
     name: name ?? defaultModelName,
     tools: tools,
     temperature: temperature,
-    apiKey: apiKeyName.isNotEmpty ? Platform.environment[apiKeyName] : null,
+    apiKey: tryGetEnv(apiKeyName),
     baseUrl: defaultBaseUrl,
     defaultOptions: MistralChatOptions(
       temperature: temperature ?? options?.temperature,
@@ -50,12 +50,7 @@ class MistralChatProvider extends ChatProvider<MistralChatOptions> {
 
   @override
   Stream<ModelInfo> getModels() async* {
-    final apiKey = apiKeyName.isNotEmpty
-        ? Platform.environment[apiKeyName]
-        : null;
-    if (apiKey == null || apiKey.isEmpty) {
-      throw Exception('Missing API key for $name');
-    }
+    final apiKey = getEnv(apiKeyName);
     final url = Uri.parse('https://api.mistral.ai/v1/models');
     final response = await http.get(
       url,

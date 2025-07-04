@@ -1,8 +1,7 @@
-import 'dart:io';
-
 import 'package:http/http.dart' as http;
 import 'package:mistralai_dart/mistralai_dart.dart';
 
+import '../../../platform/platform.dart';
 import '../../chat.dart';
 import 'mistral_chat_mappers.dart';
 
@@ -20,7 +19,7 @@ class MistralChatModel extends ChatModel<MistralChatOptions> {
     Map<String, dynamic>? queryParams,
     http.Client? client,
   }) : _client = MistralAIClient(
-         apiKey: apiKey ?? Platform.environment[apiKeyName]!,
+         apiKey: apiKey ?? getEnv(apiKeyName),
          baseUrl: baseUrl,
          headers: headers,
          queryParams: queryParams,

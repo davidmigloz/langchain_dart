@@ -1,11 +1,11 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
 import '../../../chat/chat_models/mistral_chat/mistral_chat_model.dart';
 import '../../../language_models/finish_reason.dart';
 import '../../../language_models/language_model_usage.dart';
+import '../../../platform/platform.dart';
 import '../../embeddings_model.dart';
 import '../../embeddings_result.dart';
 import 'mistral_embeddings_model_options.dart';
@@ -22,7 +22,7 @@ class MistralEmbeddingsModel
     String? encodingFormat,
     super.defaultOptions = const MistralEmbeddingsModelOptions(),
   }) : _encodingFormat = encodingFormat,
-       _apiKey = apiKey ?? Platform.environment[apiKeyName]!,
+       _apiKey = apiKey ?? getEnv(apiKeyName),
        super(name: name ?? defaultName);
 
   /// The environment variable name for the Mistral API key.
