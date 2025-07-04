@@ -265,12 +265,12 @@ class Agent {
               // This handles the streaming case where JSON parsing is deferred
               var parsedArguments = toolCall.arguments;
               if (parsedArguments.isEmpty && toolCall.argumentsRaw.isNotEmpty) {
-                try {
-                  parsedArguments =
-                      json.decode(toolCall.argumentsRaw)
-                          as Map<String, dynamic>;
-                } on FormatException {
-                  // If JSON parsing fails, use empty arguments
+                final decoded = json.decode(toolCall.argumentsRaw);
+                if (decoded is Map<String, dynamic>) {
+                  parsedArguments = decoded;
+                } else {
+                  // Handle cases where decoded is null or other types
+                  // (e.g., Cohere sends "null" for tools with no parameters)
                   parsedArguments = <String, dynamic>{};
                 }
               }

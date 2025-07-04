@@ -22,24 +22,17 @@ void main() async {
     (p) => p.name == 'mistral' || p.name == 'lambda',
   );
 
-  for (final provider in providersWithToolSupport.where(
-    (p) => p.name == 'ollama',
-  )) {
-    final fqModelName = '${provider.name}:${provider.defaultModelName}';
-    final agent = Agent(fqModelName, tools: tools);
-    await singleToolCallExample(fqModelName, agent, tools);
-    await singleToolCallExampleStream(fqModelName, agent, tools);
+  for (final provider in providersWithToolSupport) {
+    final agent = Agent.fromProvider(provider, tools: tools);
+    await singleToolCallExample(agent, tools);
+    await singleToolCallExampleStream(agent, tools);
   }
 
   exit(0);
 }
 
-Future<void> singleToolCallExample(
-  String fqModelName,
-  Agent agent,
-  List<Tool> tools,
-) async {
-  print('=== $fqModelName Single-Tool Call ===');
+Future<void> singleToolCallExample(Agent agent, List<Tool> tools) async {
+  print('=== ${agent.model} Single-Tool Call ===');
 
   const userMessage = 'What is the current date and time?';
   final messages = [
@@ -56,12 +49,8 @@ Future<void> singleToolCallExample(
   dumpChatHistory(messages);
 }
 
-Future<void> singleToolCallExampleStream(
-  String fqModelName,
-  Agent agent,
-  List<Tool> tools,
-) async {
-  print('=== $fqModelName Single-Tool Call (stream) ===');
+Future<void> singleToolCallExampleStream(Agent agent, List<Tool> tools) async {
+  print('=== ${agent.model} Single-Tool Call (stream) ===');
 
   const userMessage = 'What is the current date and time?';
   final messages = [

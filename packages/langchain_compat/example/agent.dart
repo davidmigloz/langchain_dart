@@ -130,7 +130,8 @@ Future<void> weatherAndCalculation(Agent agent) async {
       'You are a helpful assistant that can get weather and do calculations.',
     ),
     ChatMessage.humanText(
-      "What's the weather in Boston and can you convert that temperature to Celsius?",
+      "What's the weather in Boston and "
+      'can you convert that temperature to Celsius?',
     ),
   ];
 

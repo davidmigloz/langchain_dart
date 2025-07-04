@@ -95,7 +95,7 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
   static final together = OpenAIChatProvider(
     name: 'together',
     displayName: 'Together AI',
-    defaultModelName: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
+    defaultModelName: 'meta-llama/Llama-3.2-3B-Instruct-Turbo',
     defaultBaseUrl: 'https://api.together.xyz/v1',
     apiKeyName: 'TOGETHER_API_KEY',
   );

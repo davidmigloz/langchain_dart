@@ -129,7 +129,4 @@ class OpenAIEmbeddingsModel
 
   @override
   void dispose() => _client.endSession();
-
-  @override
-  String get name => throw UnimplementedError();
 }
