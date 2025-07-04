@@ -3,7 +3,8 @@ import 'package:ollama_dart/ollama_dart.dart' show OllamaClient;
 import 'package:uuid/uuid.dart';
 
 import '../chat_models.dart';
-import 'ollama_chat_mappers.dart' as ollama_mappers;
+import '../message.dart' as msg;
+import 'ollama_message_mappers.dart' as ollama_mappers;
 
 export 'ollama_chat_options.dart';
 
@@ -46,8 +47,8 @@ class OllamaChatModel extends ChatModel<OllamaChatOptions> {
   late final _uuid = const Uuid();
 
   @override
-  Stream<ChatResult<AIChatMessage>> sendStream(
-    List<ChatMessage> messages, {
+  Stream<ChatResult<msg.Message>> sendStream(
+    List<msg.Message> messages, {
     OllamaChatOptions? options,
   }) => _client
       .generateChatCompletionStream(

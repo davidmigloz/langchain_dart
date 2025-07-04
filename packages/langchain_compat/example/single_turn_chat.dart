@@ -14,9 +14,15 @@ Future<void> main() async {
     );
     await model
         .sendStream([
-          HumanChatMessage(content: ChatMessageContent.text(promptText)),
+          Message(role: MessageRole.user, parts: [TextPart(promptText)]),
         ])
-        .forEach((chunk) => stdout.write(chunk.output.content));
+        .forEach((chunk) {
+          final text = chunk.output.parts
+              .whereType<TextPart>()
+              .map((p) => p.text)
+              .join();
+          stdout.write(text);
+        });
     stdout.writeln();
   }
 }

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import '../agent.dart';
+import '../agent_message.dart';
 
 /// Gets an environment variable from the [Agent.environment] map.
 ///

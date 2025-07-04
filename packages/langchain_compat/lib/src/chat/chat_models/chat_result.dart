@@ -1,5 +1,5 @@
 import '../../language_models/language_models.dart';
-import 'chat_message.dart';
+import 'message.dart';
 
 /// Result returned by the Chat Model.
 class ChatResult<T extends Object> extends LanguageModelResult<T> {
@@ -14,7 +14,7 @@ class ChatResult<T extends Object> extends LanguageModelResult<T> {
   });
 
   /// The new messages generated during this chat interaction.
-  final List<ChatMessage> messages;
+  final List<Message> messages;
 
   @override
   String get outputAsString =>

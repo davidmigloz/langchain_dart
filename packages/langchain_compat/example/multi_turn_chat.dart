@@ -5,7 +5,7 @@ import 'dart:io';
 
 import 'package:langchain_compat/langchain_compat.dart';
 
-import 'lib/dump_chat_history.dart';
+// import 'lib/dump_chat_history.dart'; // TODO: Update this utility
 
 Future<void> main() async {
   for (final provider in ChatProvider.all) {
@@ -23,21 +23,25 @@ Future<void> multiTurnChat(ChatProvider provider) async {
     'What are some must-see attractions?',
   ];
 
-  final messages = [ChatMessage.system('Be concise in your responses.')];
+  final messages = [Message(role: MessageRole.system, parts: [TextPart('Be concise in your responses.')])];
 
   for (final userMsg in userMessages) {
-    messages.add(ChatMessage.humanText(userMsg));
+    messages.add(Message(role: MessageRole.user, parts: [TextPart(userMsg)]));
     print('\nUser: $userMsg');
 
     final stream = model.sendStream(messages);
     final fullResponse = StringBuffer();
     await for (final chunk in stream) {
-      stdout.write(chunk.output.content);
-      fullResponse.write(chunk.output.content);
+      final text = chunk.output.parts
+          .whereType<TextPart>()
+          .map((p) => p.text)
+          .join();
+      stdout.write(text);
+      fullResponse.write(text);
     }
-    messages.add(ChatMessage.ai(fullResponse.toString()));
+    messages.add(Message(role: MessageRole.model, parts: [TextPart(fullResponse.toString())]));
     print('');
   }
 
-  dumpChatHistory(messages);
+  // dumpChatHistory(messages); // TODO: Update dump_chat_history.dart
 }

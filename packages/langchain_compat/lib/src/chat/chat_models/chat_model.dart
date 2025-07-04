@@ -23,12 +23,12 @@ abstract class ChatModel<TOptions extends ChatModelOptions> {
   /// The temperature for the model.
   final double? temperature;
 
-  /// Streaming method that returns AIChatMessage objects.
+  /// Streaming method that returns Message objects.
   ///
   /// This method should call the underlying LLM API and return a stream
   /// of responses.
-  Stream<ChatResult<AIChatMessage>> sendStream(
-    List<ChatMessage> messages, {
+  Stream<ChatResult<Message>> sendStream(
+    List<Message> messages, {
     TOptions? options,
   });
 

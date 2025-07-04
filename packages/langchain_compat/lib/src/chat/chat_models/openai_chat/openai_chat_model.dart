@@ -5,7 +5,9 @@ import 'package:uuid/uuid.dart';
 import '../../../http/retry_http_client.dart';
 import '../../../platform/platform.dart';
 import '../chat_models.dart';
-import 'openai_chat_mappers.dart';
+import '../message.dart' as msg;
+import 'openai_message_mappers.dart';
+import 'openai_message_mappers_helpers.dart';
 import 'openai_chat_options.dart';
 
 /// Wrapper around [OpenAI Chat
@@ -51,24 +53,42 @@ class OpenAIChatModel extends ChatModel<OpenAIChatOptions> {
   final _uuid = const Uuid();
 
   @override
-  Stream<ChatResult<AIChatMessage>> sendStream(
-    List<ChatMessage> messages, {
+  Stream<ChatResult<msg.Message>> sendStream(
+    List<msg.Message> messages, {
     OpenAIChatOptions? options,
-  }) => _client
-      .createChatCompletionStream(
-        request: createChatCompletionRequest(
-          messages,
-          modelName: name,
-          tools: tools,
-          temperature: temperature,
-          options: options,
-          defaultOptions: defaultOptions,
-          stream: true,
-        ),
-      )
-      .map(
-        (completion) => completion.toChatResult(completion.id ?? _uuid.v4()),
+  }) async* {
+    final request = createChatCompletionRequest(
+      messages,
+      modelName: name,
+      tools: tools,
+      temperature: temperature,
+      options: options,
+      defaultOptions: defaultOptions,
+      stream: true,
+    );
+    
+    final accumulatedToolCalls = <StreamingToolCall>[];
+    
+    await for (final completion in _client.createChatCompletionStream(request: request)) {
+      final delta = completion.choices.firstOrNull?.delta;
+      if (delta == null) continue;
+      
+      final message = messageFromOpenAIStreamDelta(delta, accumulatedToolCalls);
+      
+      yield ChatResult<msg.Message>(
+        id: completion.id ?? _uuid.v4(),
+        output: message,
+        messages: [message],
+        finishReason: mapFinishReason(completion.choices.firstOrNull?.finishReason),
+        metadata: {
+          'created': completion.created,
+          'model': completion.model,
+          'system_fingerprint': completion.systemFingerprint,
+        },
+        usage: mapUsage(completion.usage),
       );
+    }
+  }
 
   @override
   void dispose() => _client.endSession();

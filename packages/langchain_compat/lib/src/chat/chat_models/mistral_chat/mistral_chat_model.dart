@@ -3,7 +3,8 @@ import 'package:mistralai_dart/mistralai_dart.dart';
 
 import '../../../platform/platform.dart';
 import '../../chat.dart';
-import 'mistral_chat_mappers.dart';
+import '../message.dart' as msg;
+import 'mistral_message_mappers.dart';
 
 /// Wrapper around [Mistral AI](https://docs.mistral.ai) Chat Completions API.
 class MistralChatModel extends ChatModel<MistralChatOptions> {
@@ -48,8 +49,8 @@ class MistralChatModel extends ChatModel<MistralChatOptions> {
   final MistralAIClient _client;
 
   @override
-  Stream<ChatResult<AIChatMessage>> sendStream(
-    List<ChatMessage> messages, {
+  Stream<ChatResult<msg.Message>> sendStream(
+    List<msg.Message> messages, {
     MistralChatOptions? options,
   }) => _client
       .createChatCompletionStream(
@@ -67,7 +68,7 @@ class MistralChatModel extends ChatModel<MistralChatOptions> {
 
   /// Creates a GenerateCompletionRequest from the given input.
   ChatCompletionRequest createChatCompletionRequest(
-    List<ChatMessage> messages, {
+    List<msg.Message> messages, {
     required String modelName,
     required MistralChatOptions defaultOptions,
     required bool stream,

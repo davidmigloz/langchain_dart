@@ -2,10 +2,10 @@ import 'package:anthropic_sdk_dart/anthropic_sdk_dart.dart' as a;
 import 'package:http/http.dart' as http;
 
 import '../../../platform/platform.dart';
-import '../chat_message.dart';
 import '../chat_model.dart';
 import '../chat_result.dart';
-import 'anthropic_chat_mappers.dart';
+import '../message.dart' as msg;
+import 'anthropic_message_mappers.dart';
 import 'anthropic_chat_options.dart';
 
 /// Wrapper around [Anthropic Messages
@@ -49,8 +49,8 @@ class AnthropicChatModel extends ChatModel<AnthropicChatOptions> {
   final a.AnthropicClient _client;
 
   @override
-  Stream<ChatResult<AIChatMessage>> sendStream(
-    List<ChatMessage> messages, {
+  Stream<ChatResult<msg.Message>> sendStream(
+    List<msg.Message> messages, {
     AnthropicChatOptions? options,
   }) => _client
       .createMessageStream(

@@ -5,6 +5,16 @@ import 'dart:io';
 import 'package:json_schema/json_schema.dart';
 import 'package:langchain_compat/langchain_compat.dart';
 
+// Helper functions for creating messages
+Message systemMessage(String text) => 
+    Message(role: MessageRole.system, parts: [TextPart(text)]);
+
+Message userMessage(String text) => 
+    Message(role: MessageRole.user, parts: [TextPart(text)]);
+
+String getMessageText(Message message) =>
+    message.parts.whereType<TextPart>().map((p) => p.text).join();
+
 void main() async {
   // Create tools for the agent
   final tools = [weatherTool, temperatureConverterTool];
@@ -32,11 +42,11 @@ Future<void> singleToolCall(Agent agent) async {
   print('═══ Scenario 1: Single Tool Call ═══');
 
   final messages = [
-    ChatMessage.system('You are a helpful assistant.'),
-    ChatMessage.humanText("What's the weather like in Boston?"),
+    systemMessage('You are a helpful assistant.'),
+    userMessage("What's the weather like in Boston?"),
   ];
 
-  print('User: ${messages.last.contentAsString}');
+  print('User: ${getMessageText(messages.last)}');
   stdout.write('Agent: ');
 
   final result = await agent.run(messages);
@@ -50,13 +60,13 @@ Future<void> multipleToolCalls(Agent agent) async {
   print('═══ Scenario 2: Multiple Tool Calls ═══');
 
   final messages = [
-    ChatMessage.system('You are a helpful assistant.'),
-    ChatMessage.humanText(
+    systemMessage('You are a helpful assistant.'),
+    userMessage(
       "What's the weather in New York and what's that temperature in Celsius?",
     ),
   ];
 
-  print('User: ${messages.last.contentAsString}');
+  print('User: ${getMessageText(messages.last)}');
   stdout.write('Agent: ');
 
   final result = await agent.run(messages);
@@ -69,13 +79,13 @@ Future<void> multipleToolCalls(Agent agent) async {
 Future<void> multiTurnConversation(Agent agent) async {
   print('═══ Scenario 3: Multi-turn Conversation ═══');
 
-  final messages = <ChatMessage>[
-    ChatMessage.system('You are a helpful assistant.'),
+  final messages = <Message>[
+    systemMessage('You are a helpful assistant.'),
   ];
 
   // Turn 1: Ask about weather
-  messages.add(ChatMessage.humanText("What's the weather in Seattle?"));
-  print('User: ${messages.last.contentAsString}');
+  messages.add(userMessage("What's the weather in Seattle?"));
+  print('User: ${getMessageText(messages.last)}');
   stdout.write('Agent: ');
 
   var result = await agent.run(messages);
@@ -84,11 +94,11 @@ Future<void> multiTurnConversation(Agent agent) async {
 
   // Turn 2: Follow up with temperature conversion
   messages.add(
-    ChatMessage.humanText(
+    userMessage(
       'Thanks! Can you convert that temperature to Celsius?',
     ),
   );
-  print('\nUser: ${messages.last.contentAsString}');
+  print('\nUser: ${getMessageText(messages.last)}');
   stdout.write('Agent: ');
 
   result = await agent.run(messages);
@@ -97,9 +107,9 @@ Future<void> multiTurnConversation(Agent agent) async {
 
   // Turn 3: Continue conversation
   messages.add(
-    ChatMessage.humanText('Perfect! What would 100°F be in Celsius?'),
+    userMessage('Perfect! What would 100°F be in Celsius?'),
   );
-  print('\nUser: ${messages.last.contentAsString}');
+  print('\nUser: ${getMessageText(messages.last)}');
   stdout.write('Agent: ');
 
   result = await agent.run(messages);
@@ -115,16 +125,16 @@ Future<void> weatherAndCalculation(Agent agent) async {
   print('═══ Scenario 4: Weather + Temperature Conversion ═══');
 
   final messages = [
-    ChatMessage.system(
+    systemMessage(
       'You are a helpful assistant that can get weather and do calculations.',
     ),
-    ChatMessage.humanText(
+    userMessage(
       "What's the weather in Boston and "
       'can you convert that temperature to Celsius?',
     ),
   ];
 
-  print('User: ${messages.last.contentAsString}');
+  print('User: ${getMessageText(messages.last)}');
   stdout.write('Agent: ');
 
   final result = await agent.run(messages);
@@ -138,13 +148,13 @@ Future<void> streamingComparison(Agent agent) async {
   print('═══ Scenario 5: Streaming vs Non-Streaming ═══');
 
   final messages = [
-    ChatMessage.system('You are a helpful assistant.'),
-    ChatMessage.humanText(
+    systemMessage('You are a helpful assistant.'),
+    userMessage(
       'Check the weather in Miami and convert that temperature to Celsius.',
     ),
   ];
 
-  print('User: ${messages.last.contentAsString}');
+  print('User: ${getMessageText(messages.last)}');
 
   // Non-streaming
   print('\n--- Non-streaming response ---');
@@ -165,8 +175,11 @@ Future<void> streamingComparison(Agent agent) async {
   print('Streaming provides real-time feedback during processing.\n');
 }
 
-int _countToolCalls(List<ChatMessage> messages) =>
-    messages.whereType<AIChatMessage>().expand((msg) => msg.toolCalls).length;
+int _countToolCalls(List<Message> messages) =>
+    messages
+        .where((msg) => msg.role == MessageRole.model)
+        .expand((msg) => msg.parts.whereType<ToolPart>().where((p) => p.kind == ToolPartKind.call))
+        .length;
 
 // Create weather tool
 final weatherTool = Tool<Map<String, dynamic>>(

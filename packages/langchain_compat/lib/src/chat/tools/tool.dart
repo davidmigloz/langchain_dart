@@ -11,6 +11,7 @@ class Tool<TInput extends Object> {
     required this.onCall,
     JsonSchema? inputSchema,
     TInput Function(Map<String, dynamic>)? inputFromJson,
+    this.strict,
   }) : inputSchema =
            inputSchema ??
            JsonSchema.create({'type': 'object', 'properties': {}}),
@@ -33,6 +34,13 @@ class Tool<TInput extends Object> {
   /// Schema to parse and validate tool's input arguments.
   /// Following the [JSON Schema specification](https://json-schema.org).
   final JsonSchema inputSchema;
+
+  /// Whether to enable strict schema adherence when generating the function call.
+  /// If set to true, the model will follow the exact schema defined in the inputSchema field.
+  /// Only a subset of JSON Schema is supported when strict is true.
+  /// If null, the provider will use its default behavior.
+  /// Learn more about Structured Outputs in the OpenAI function calling guide.
+  final bool? strict;
 
   /// The function that will be called when the tool is run.
   final FutureOr<dynamic> Function(TInput input) onCall;
@@ -68,5 +76,6 @@ class Tool<TInput extends Object> {
     'name': name,
     'description': description,
     'inputSchema': inputSchema.schemaMap ?? {},
+    if (strict != null) 'strict': strict,
   };
 }

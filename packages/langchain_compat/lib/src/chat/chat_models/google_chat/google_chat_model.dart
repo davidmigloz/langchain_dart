@@ -9,7 +9,8 @@ import 'package:uuid/uuid.dart';
 import '../../../custom_http_client.dart';
 import '../../../platform/platform.dart';
 import '../chat_models.dart';
-import 'google_chat_mappers.dart';
+import '../message.dart' as msg;
+import 'google_message_mappers.dart';
 
 /// Wrapper around [Google AI for Developers](https://ai.google.dev/) API
 /// (aka Gemini API).
@@ -60,8 +61,8 @@ class GoogleChatModel extends ChatModel<GoogleChatOptions> {
   String? _currentSystemInstruction;
 
   @override
-  Stream<ChatResult<AIChatMessage>> sendStream(
-    List<ChatMessage> messages, {
+  Stream<ChatResult<msg.Message>> sendStream(
+    List<msg.Message> messages, {
     GoogleChatOptions? options,
   }) {
     final id = _uuid.v4();
@@ -88,7 +89,7 @@ class GoogleChatModel extends ChatModel<GoogleChatOptions> {
     gai.ToolConfig? toolConfig,
   )
   _generateCompletionRequest(
-    List<ChatMessage> messages, {
+    List<msg.Message> messages, {
     GoogleChatOptions? options,
   }) {
     _updateClientIfNeeded(messages, options);
@@ -156,11 +157,11 @@ class GoogleChatModel extends ChatModel<GoogleChatOptions> {
 
   /// Updates the model in [_googleAiClient] if needed.
   void _updateClientIfNeeded(
-    List<ChatMessage> messages,
+    List<msg.Message> messages,
     GoogleChatOptions? options,
   ) {
-    final systemInstruction = messages.firstOrNull is SystemChatMessage
-        ? messages.firstOrNull?.contentAsString
+    final systemInstruction = messages.firstOrNull?.role == msg.MessageRole.system
+        ? messages.firstOrNull?.parts.whereType<msg.TextPart>().map((p) => p.text).join('\n')
         : null;
 
     var recreate = false;

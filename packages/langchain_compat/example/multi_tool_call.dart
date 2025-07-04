@@ -7,7 +7,7 @@ import 'package:json_schema/json_schema.dart';
 import 'package:langchain_compat/langchain_compat.dart';
 import 'package:logging/logging.dart';
 
-import 'lib/dump_chat_history.dart';
+import 'lib/dump_message_history.dart';
 
 void main() async {
   // Set up logging to see retry activity from RetryHttpClient
@@ -74,15 +74,15 @@ Future<void> multiToolCallExample(
       'If asked for the temperature, use the get_temperature tool.';
 
   final messages = [
-    ChatMessage.system(systemMessage),
-    ChatMessage.humanText(userMessage),
+    const Message(role: MessageRole.system, parts: [TextPart(systemMessage)]),
+    const Message(role: MessageRole.user, parts: [TextPart(userMessage)]),
   ];
 
   print('\nUser: $userMessage');
   final result = await agent.run(messages);
   print(result.output);
   messages.addAll(result.messages);
-  dumpChatHistory(messages);
+  dumpMessageHistory(messages);
 }
 
 Future<void> multiToolCallExampleStream(
@@ -100,8 +100,8 @@ Future<void> multiToolCallExampleStream(
       'If asked for the temperature, use the get_temperature tool.';
 
   final messages = [
-    ChatMessage.system(systemMessage),
-    ChatMessage.humanText(userMessage),
+    const Message(role: MessageRole.system, parts: [TextPart(systemMessage)]),
+    const Message(role: MessageRole.user, parts: [TextPart(userMessage)]),
   ];
 
   print('\nUser: $userMessage');
@@ -111,5 +111,5 @@ Future<void> multiToolCallExampleStream(
     messages.addAll(chunk.messages);
   }
   stdout.writeln();
-  dumpChatHistory(messages);
+  dumpMessageHistory(messages);
 }

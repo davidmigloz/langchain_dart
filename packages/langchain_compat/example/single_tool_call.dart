@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:collection/collection.dart';
 import 'package:langchain_compat/langchain_compat.dart';
 
-import 'lib/dump_chat_history.dart';
+import 'lib/dump_message_history.dart';
 
 void main() async {
   final currentDateTimeTool = Tool<String>(
@@ -36,17 +36,17 @@ Future<void> singleToolCallExample(Agent agent, List<Tool> tools) async {
 
   const userMessage = 'What is the current date and time?';
   final messages = [
-    ChatMessage.system(
-      'If asked for the current date and time, use the current_date_time tool.',
-    ),
-    ChatMessage.humanText(userMessage),
+    Message(role: MessageRole.system, parts: [
+      TextPart('If asked for the current date and time, use the current_date_time tool.'),
+    ]),
+    Message(role: MessageRole.user, parts: [TextPart(userMessage)]),
   ];
 
   print('\nUser: $userMessage');
   final result = await agent.run(messages);
   print(result.output);
   messages.addAll(result.messages);
-  dumpChatHistory(messages);
+  dumpMessageHistory(messages);
 }
 
 Future<void> singleToolCallExampleStream(Agent agent, List<Tool> tools) async {
@@ -54,10 +54,10 @@ Future<void> singleToolCallExampleStream(Agent agent, List<Tool> tools) async {
 
   const userMessage = 'What is the current date and time?';
   final messages = [
-    ChatMessage.system(
-      'If asked for the current date and time, use the current_date_time tool.',
-    ),
-    ChatMessage.humanText(userMessage),
+    Message(role: MessageRole.system, parts: [
+      TextPart('If asked for the current date and time, use the current_date_time tool.'),
+    ]),
+    Message(role: MessageRole.user, parts: [TextPart(userMessage)]),
   ];
 
   print('\nUser: $userMessage');
@@ -67,5 +67,5 @@ Future<void> singleToolCallExampleStream(Agent agent, List<Tool> tools) async {
     messages.addAll(chunk.messages);
   }
   stdout.writeln();
-  dumpChatHistory(messages);
+  dumpMessageHistory(messages);
 }

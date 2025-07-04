@@ -5,114 +5,141 @@ import 'package:google_generative_ai/google_generative_ai.dart' as g;
 import '../../../language_models/language_models.dart';
 import '../../tools/tool.dart';
 import '../chat_models.dart';
+import '../message.dart' as msg;
 
-/// Extension on [List<ChatMessage>] to convert chat messages to Google
+/// Extension on [List<msg.Message>] to convert messages to Google
 /// Generative AI SDK content.
-extension ChatMessagesMapper on List<ChatMessage> {
-  /// Converts this list of [ChatMessage]s to a list of [g.Content]s.
+extension MessageListMapper on List<msg.Message> {
+  /// Converts this list of [msg.Message]s to a list of [g.Content]s.
   ///
-  /// Groups consecutive ToolChatMessage objects into a single
+  /// Groups consecutive tool result messages into a single
   /// g.Content.functionResponses() as required by Google's API.
   List<g.Content> toContentList() {
     final nonSystemMessages = where(
-      (msg) => msg is! SystemChatMessage,
+      (message) => message.role != msg.MessageRole.system,
     ).toList();
     final result = <g.Content>[];
 
     for (var i = 0; i < nonSystemMessages.length; i++) {
       final message = nonSystemMessages[i];
 
-      if (message is ToolChatMessage) {
-        // Collect all consecutive ToolChatMessage objects
+      // Check if this is a tool result message
+      final hasToolResults = message.parts
+          .whereType<msg.ToolPart>()
+          .any((p) => p.result != null);
+
+      if (hasToolResults) {
+        // Collect all consecutive tool result messages
         final toolMessages = [message];
         var j = i + 1;
-        while (j < nonSystemMessages.length &&
-            nonSystemMessages[j] is ToolChatMessage) {
-          toolMessages.add(nonSystemMessages[j] as ToolChatMessage);
-          j++;
+        while (j < nonSystemMessages.length) {
+          final nextMsg = nonSystemMessages[j];
+          final nextHasToolResults = nextMsg.parts
+              .whereType<msg.ToolPart>()
+              .any((p) => p.result != null);
+          if (nextHasToolResults) {
+            toolMessages.add(nextMsg);
+            j++;
+          } else {
+            break;
+          }
         }
 
         // Create a single g.Content.functionResponses with all tool responses
-        result.add(_mapToolChatMessages(toolMessages));
+        result.add(_mapToolResultMessages(toolMessages));
 
         // Skip the processed messages
         i = j - 1;
       } else {
         // Handle non-tool messages normally
-        result.add(switch (message) {
-          SystemChatMessage() => throw AssertionError(
-            'System messages should be filtered out',
-          ),
-          final HumanChatMessage msg => _mapHumanChatMessage(msg),
-          final AIChatMessage msg => _mapAIChatMessage(msg),
-          final CustomChatMessage msg => _mapCustomChatMessage(msg),
-          ToolChatMessage() => throw AssertionError(
-            'ToolChatMessage should be handled above',
-          ),
-        });
+        result.add(_mapMessage(message));
       }
     }
 
     return result;
   }
 
-  g.Content _mapHumanChatMessage(HumanChatMessage msg) {
-    final contentParts = switch (msg.content) {
-      final ChatMessageContentText c => [g.TextPart(c.text)],
-      final ChatMessageContentImage c => [
-        if (c.data.startsWith('http'))
-          g.FilePart(Uri.parse(c.data))
-        else
-          g.DataPart(c.mimeType ?? '', base64Decode(c.data)),
-      ],
-      final ChatMessageContentMultiModal c =>
-        c.parts
-            .map(
-              (p) => switch (p) {
-                final ChatMessageContentText c => g.TextPart(c.text),
-                final ChatMessageContentImage c =>
-                  c.data.startsWith('http')
-                      ? g.FilePart(Uri.parse(c.data))
-                      : g.DataPart(c.mimeType ?? '', base64Decode(c.data)),
-                ChatMessageContentMultiModal() => throw UnsupportedError(
-                  'Cannot have multimodal content in multimodal content',
-                ),
-              },
-            )
-            .toList(growable: false),
-    };
+  g.Content _mapMessage(msg.Message message) {
+    switch (message.role) {
+      case msg.MessageRole.system:
+        throw AssertionError('System messages should be filtered out');
+      case msg.MessageRole.user:
+        return _mapUserMessage(message);
+      case msg.MessageRole.model:
+        return _mapModelMessage(message);
+    }
+  }
+
+  g.Content _mapUserMessage(msg.Message message) {
+    final contentParts = <g.Part>[];
+    
+    for (final part in message.parts) {
+      switch (part) {
+        case msg.TextPart(:final text):
+          contentParts.add(g.TextPart(text));
+        case msg.DataPart(:final bytes, :final mimeType):
+          contentParts.add(g.DataPart(mimeType, bytes));
+        case msg.LinkPart(:final url):
+          contentParts.add(g.FilePart(Uri.parse(url)));
+        case msg.ToolPart():
+          // Tool parts in user messages are handled separately as tool results
+          break;
+      }
+    }
+    
     return g.Content.multi(contentParts);
   }
 
-  g.Content _mapAIChatMessage(AIChatMessage msg) {
-    final contentParts = [
-      if (msg.content.isNotEmpty) g.TextPart(msg.content),
-      if (msg.toolCalls.isNotEmpty)
-        ...msg.toolCalls.map(
-          (call) => g.FunctionCall(call.name, call.arguments),
-        ),
-    ];
+  g.Content _mapModelMessage(msg.Message message) {
+    final contentParts = <g.Part>[];
+    
+    // Add text parts
+    final textParts = message.parts.whereType<msg.TextPart>();
+    for (final part in textParts) {
+      if (part.text.isNotEmpty) {
+        contentParts.add(g.TextPart(part.text));
+      }
+    }
+    
+    // Add tool calls
+    final toolParts = message.parts.whereType<msg.ToolPart>();
+    for (final part in toolParts) {
+      if (part.kind == msg.ToolPartKind.call) {
+        // This is a tool call, not a result
+        contentParts.add(
+          g.FunctionCall(part.name, part.arguments ?? {}),
+        );
+      }
+    }
+    
     return g.Content.model(contentParts);
   }
 
-  /// Maps multiple ToolChatMessage objects to a single
+  /// Maps multiple tool result messages to a single
   /// g.Content.functionResponses. This is required by Google's API - all
   /// function responses must be grouped together
-  g.Content _mapToolChatMessages(List<ToolChatMessage> messages) {
-    final functionResponses = messages.map((msg) {
-      Map<String, Object?>? response;
-      try {
-        response = jsonDecode(msg.content) as Map<String, Object?>;
-      } on Exception catch (_) {
-        response = {'result': msg.content};
+  g.Content _mapToolResultMessages(List<msg.Message> messages) {
+    final functionResponses = <g.FunctionResponse>[];
+    
+    for (final message in messages) {
+      for (final part in message.parts) {
+        if (part is msg.ToolPart && part.kind == msg.ToolPartKind.result) {
+          Map<String, Object?>? response;
+          try {
+            final resultStr = part.result is String ? part.result : jsonEncode(part.result);
+            response = jsonDecode(resultStr) as Map<String, Object?>;
+          } on Exception catch (_) {
+            response = {'result': part.result.toString()};
+          }
+
+          // Extract the original function name from our generated ID
+          // Format: google_{toolName}_{argsHash} -> toolName
+          final functionName = _extractFunctionNameFromId(part.id);
+
+          functionResponses.add(g.FunctionResponse(functionName, response));
+        }
       }
-
-      // Extract the original function name from our generated ID
-      // Format: google_{toolName}_{argsHash} -> toolName
-      final functionName = _extractFunctionNameFromId(msg.toolCallId);
-
-      return g.FunctionResponse(functionName, response);
-    }).toList();
+    }
 
     return g.Content.functionResponses(functionResponses);
   }
@@ -132,45 +159,56 @@ extension ChatMessagesMapper on List<ChatMessage> {
     // Fallback: return the ID as-is (for OpenAI/Anthropic native IDs)
     return toolCallId;
   }
-
-  g.Content _mapCustomChatMessage(CustomChatMessage msg) =>
-      g.Content(msg.role, [g.TextPart(msg.content)]);
 }
 
 /// Extension on [g.GenerateContentResponse] to convert to [ChatResult].
 extension GenerateContentResponseMapper on g.GenerateContentResponse {
   /// Converts this [g.GenerateContentResponse] to a [ChatResult].
-  ChatResult<AIChatMessage> toChatResult(String id, String model) {
+  ChatResult<msg.Message> toChatResult(String id, String model) {
     final candidate = candidates.first;
-    return ChatResult<AIChatMessage>(
+    final parts = <msg.Part>[];
+    
+    // Process all parts from the response
+    for (final part in candidate.content.parts) {
+      switch (part) {
+        case g.TextPart(:final text):
+          if (text.isNotEmpty) {
+            parts.add(msg.TextPart(text));
+          }
+        case g.DataPart(:final mimeType, :final bytes):
+          parts.add(msg.DataPart(
+            bytes: bytes,
+            mimeType: mimeType,
+          ));
+        case g.FilePart(:final uri):
+          parts.add(msg.LinkPart(url: uri.toString()));
+        case g.FunctionCall(:final name, :final args):
+          parts.add(msg.ToolPart.call(
+            id: '', // Google doesn't provide tool call IDs
+            name: name,
+            arguments: args,
+          ));
+        case g.FunctionResponse():
+          // Function responses shouldn't appear in model output
+          break;
+        case g.ExecutableCode():
+          // Could map to a custom part type in the future
+          break;
+        case g.CodeExecutionResult():
+          // Could map to a custom part type in the future
+          break;
+      }
+    }
+    
+    final message = msg.Message(
+      role: msg.MessageRole.model,
+      parts: parts,
+    );
+    
+    return ChatResult<msg.Message>(
       id: id,
-      output: AIChatMessage(
-        content: candidate.content.parts
-            .map(
-              (p) => switch (p) {
-                final g.TextPart p => p.text,
-                final g.DataPart p => base64Encode(p.bytes),
-                final g.FilePart p => p.uri.toString(),
-                g.FunctionResponse() || g.FunctionCall() => '',
-                g.ExecutableCode() => '',
-                g.CodeExecutionResult() => '',
-                _ => throw AssertionError('Unknown part type: $p'),
-              },
-            )
-            .nonNulls
-            .join('\n'),
-        toolCalls: candidate.content.parts
-            .whereType<g.FunctionCall>()
-            .map(
-              (call) => AIChatMessageToolCall(
-                id: '', // Google doesn't provide tool call IDs
-                name: call.name,
-                argumentsRaw: jsonEncode(call.args),
-                arguments: call.args,
-              ),
-            )
-            .toList(growable: false),
-      ),
+      output: message,
+      messages: [message],
       finishReason: _mapFinishReason(candidate.finishReason),
       metadata: {
         'model': model,
@@ -370,30 +408,4 @@ extension SchemaMapper on Map<String, dynamic> {
   }
 }
 
-/// Extension on [ChatToolChoice] to convert to Google SDK tool config.
-extension ChatToolChoiceMapper on ChatToolChoice {
-  /// Converts this [ChatToolChoice] to a [g.ToolConfig].
-  g.ToolConfig toToolConfig() => switch (this) {
-    ChatToolChoiceNone _ => g.ToolConfig(
-      functionCallingConfig: g.FunctionCallingConfig(
-        mode: g.FunctionCallingMode.none,
-      ),
-    ),
-    ChatToolChoiceAuto _ => g.ToolConfig(
-      functionCallingConfig: g.FunctionCallingConfig(
-        mode: g.FunctionCallingMode.auto,
-      ),
-    ),
-    ChatToolChoiceRequired() => g.ToolConfig(
-      functionCallingConfig: g.FunctionCallingConfig(
-        mode: g.FunctionCallingMode.any,
-      ),
-    ),
-    final ChatToolChoiceForced t => g.ToolConfig(
-      functionCallingConfig: g.FunctionCallingConfig(
-        mode: g.FunctionCallingMode.any,
-        allowedFunctionNames: {t.name},
-      ),
-    ),
-  };
-}
+// TODO: Add tool choice support when it's re-implemented

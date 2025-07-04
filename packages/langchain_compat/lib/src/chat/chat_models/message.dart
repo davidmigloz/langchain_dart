@@ -1,0 +1,316 @@
+import 'dart:typed_data';
+
+import 'package:meta/meta.dart';
+
+/// A message in a conversation between a user and a model.
+@immutable
+class Message {
+  /// Creates a new message.
+  const Message({
+    required this.role,
+    required this.parts,
+  });
+
+  /// Creates a system message.
+  factory Message.system(String text) => Message(
+        role: MessageRole.system,
+        parts: [TextPart(text)],
+      );
+
+  /// Creates a user message with text.
+  factory Message.user(String text) => Message(
+        role: MessageRole.user,
+        parts: [TextPart(text)],
+      );
+
+  /// Creates a user message with parts.
+  factory Message.userParts(List<Part> parts) => Message(
+        role: MessageRole.user,
+        parts: parts,
+      );
+
+  /// Creates a model message with text.
+  factory Message.model(String text) => Message(
+        role: MessageRole.model,
+        parts: [TextPart(text)],
+      );
+
+  /// Creates a model message with parts.
+  factory Message.modelParts(List<Part> parts) => Message(
+        role: MessageRole.model,
+        parts: parts,
+      );
+
+  /// The role of the message author.
+  final MessageRole role;
+
+  /// The content parts of the message.
+  final List<Part> parts;
+
+  /// Gets the text content of the message by concatenating all text parts.
+  String get text => parts
+      .whereType<TextPart>()
+      .map((p) => p.text)
+      .join();
+
+  /// Checks if this message contains any tool calls.
+  bool get hasToolCalls => parts
+      .whereType<ToolPart>()
+      .any((p) => p.kind == ToolPartKind.call);
+
+  /// Gets all tool calls in this message.
+  List<ToolPart> get toolCalls => parts
+      .whereType<ToolPart>()
+      .where((p) => p.kind == ToolPartKind.call)
+      .toList();
+
+  /// Checks if this message contains any tool results.
+  bool get hasToolResults => parts
+      .whereType<ToolPart>()
+      .any((p) => p.kind == ToolPartKind.result);
+
+  /// Gets all tool results in this message.
+  List<ToolPart> get toolResults => parts
+      .whereType<ToolPart>()
+      .where((p) => p.kind == ToolPartKind.result)
+      .toList();
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Message &&
+          runtimeType == other.runtimeType &&
+          role == other.role &&
+          _listEquals(parts, other.parts);
+
+  @override
+  int get hashCode => role.hashCode ^ parts.hashCode;
+
+  @override
+  String toString() => 'Message(role: $role, parts: $parts)';
+}
+
+/// The role of a message author.
+enum MessageRole {
+  /// A message from the system that sets context or instructions.
+  system,
+
+  /// A message from the end user.
+  user,
+
+  /// A message from the model.
+  model,
+}
+
+/// Base class for message content parts.
+@immutable
+abstract class Part {
+  const Part();
+}
+
+/// A text part of a message.
+@immutable
+class TextPart extends Part {
+  /// Creates a new text part.
+  const TextPart(this.text);
+
+  /// The text content.
+  final String text;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is TextPart &&
+          runtimeType == other.runtimeType &&
+          text == other.text;
+
+  @override
+  int get hashCode => text.hashCode;
+
+  @override
+  String toString() => 'TextPart($text)';
+}
+
+/// A data part containing binary data (e.g., images).
+@immutable
+class DataPart extends Part {
+  /// Creates a new data part.
+  const DataPart({
+    required this.bytes,
+    required this.mimeType,
+    this.name,
+  });
+
+  /// The binary data.
+  final Uint8List bytes;
+
+  /// The MIME type of the data.
+  final String mimeType;
+
+  /// Optional name for the data.
+  final String? name;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is DataPart &&
+          runtimeType == other.runtimeType &&
+          _listEquals(bytes, other.bytes) &&
+          mimeType == other.mimeType &&
+          name == other.name;
+
+  @override
+  int get hashCode => bytes.hashCode ^ mimeType.hashCode ^ name.hashCode;
+
+  @override
+  String toString() => 'DataPart(mimeType: $mimeType, name: $name, bytes: ${bytes.length})';
+}
+
+/// A link part referencing external content.
+@immutable
+class LinkPart extends Part {
+  /// Creates a new link part.
+  const LinkPart({
+    required this.url,
+    this.mimeType,
+    this.name,
+  });
+
+  /// The URL of the external content.
+  final String url;
+
+  /// Optional MIME type of the linked content.
+  final String? mimeType;
+
+  /// Optional name for the link.
+  final String? name;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is LinkPart &&
+          runtimeType == other.runtimeType &&
+          url == other.url &&
+          mimeType == other.mimeType &&
+          name == other.name;
+
+  @override
+  int get hashCode => url.hashCode ^ mimeType.hashCode ^ name.hashCode;
+
+  @override
+  String toString() => 'LinkPart(url: $url, mimeType: $mimeType, name: $name)';
+}
+
+/// A tool interaction part of a message.
+@immutable
+class ToolPart extends Part {
+  /// Creates a tool call part.
+  const ToolPart.call({
+    required this.id,
+    required this.name,
+    required this.arguments,
+  })  : kind = ToolPartKind.call,
+        result = null;
+
+  /// Creates a tool result part.
+  const ToolPart.result({
+    required this.id,
+    required this.name,
+    required this.result,
+  })  : kind = ToolPartKind.result,
+        arguments = null;
+
+  /// The kind of tool interaction.
+  final ToolPartKind kind;
+
+  /// The unique identifier for this tool interaction.
+  final String id;
+
+  /// The name of the tool.
+  final String name;
+
+  /// The arguments for a tool call (null for results).
+  final Map<String, dynamic>? arguments;
+
+  /// The result of a tool execution (null for calls).
+  final dynamic result;
+
+  /// The raw arguments as a JSON string (for streaming).
+  String get argumentsRaw => arguments != null 
+      ? (arguments!.isEmpty ? '{}' : _jsonEncode(arguments!))
+      : '';
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ToolPart &&
+          runtimeType == other.runtimeType &&
+          kind == other.kind &&
+          id == other.id &&
+          name == other.name &&
+          _mapEquals(arguments, other.arguments) &&
+          result == other.result;
+
+  @override
+  int get hashCode =>
+      kind.hashCode ^
+      id.hashCode ^
+      name.hashCode ^
+      arguments.hashCode ^
+      result.hashCode;
+
+  @override
+  String toString() {
+    if (kind == ToolPartKind.call) {
+      return 'ToolPart.call(id: $id, name: $name, arguments: $arguments)';
+    } else {
+      return 'ToolPart.result(id: $id, name: $name, result: $result)';
+    }
+  }
+}
+
+/// The kind of tool interaction.
+enum ToolPartKind {
+  /// A request to call a tool.
+  call,
+
+  /// The result of a tool execution.
+  result,
+}
+
+// Helper functions for equality checks
+bool _listEquals<T>(List<T>? a, List<T>? b) {
+  if (a == null) return b == null;
+  if (b == null || a.length != b.length) return false;
+  for (var i = 0; i < a.length; i++) {
+    if (a[i] != b[i]) return false;
+  }
+  return true;
+}
+
+bool _mapEquals<K, V>(Map<K, V>? a, Map<K, V>? b) {
+  if (a == null) return b == null;
+  if (b == null || a.length != b.length) return false;
+  for (final key in a.keys) {
+    if (!b.containsKey(key) || a[key] != b[key]) return false;
+  }
+  return true;
+}
+
+String _jsonEncode(dynamic object) {
+  // Simple JSON encoding for common cases
+  if (object == null) return 'null';
+  if (object is String) return '"${object.replaceAll('"', '\\"')}"';
+  if (object is num || object is bool) return object.toString();
+  if (object is List) {
+    final items = object.map(_jsonEncode).join(',');
+    return '[$items]';
+  }
+  if (object is Map) {
+    final entries = object.entries.map((e) => 
+      '"${e.key}":${_jsonEncode(e.value)}'
+    ).join(',');
+    return '{$entries}';
+  }
+  return object.toString();
+}
