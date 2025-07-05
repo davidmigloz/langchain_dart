@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:json_schema/json_schema.dart';
 import 'package:logging/logging.dart';
 import 'package:uuid/uuid.dart';
 
@@ -234,6 +235,36 @@ class Agent {
       finishReason: finalResult.finishReason,
       metadata: finalResult.metadata,
       usage: finalResult.usage,
+    );
+  }
+
+  /// Runs the given [prompt] through the model and returns a typed response.
+  ///
+  /// Returns an [ChatResult<TOutput>] containing the output converted to type
+  /// [TOutput]. Uses [outputFromJson] to convert the JSON response if provided,
+  /// otherwise returns the decoded JSON.
+  Future<ChatResult<TOutput>> runFor<TOutput extends Object>(
+    String prompt, {
+    required JsonSchema outputSchema,
+    dynamic Function(Map<String, dynamic> json)? outputFromJson,
+    List<ChatMessage> history = const [],
+    List<Part> attachments = const [],
+  }) async {
+    final response = await run(
+      prompt,
+      history: history,
+      attachments: attachments,
+    );
+
+    final outputJson = jsonDecode(response.output);
+    final typedOutput = outputFromJson?.call(outputJson) ?? outputJson;
+    return ChatResult<TOutput>(
+      id: response.id,
+      output: typedOutput,
+      messages: response.messages,
+      finishReason: response.finishReason,
+      metadata: response.metadata,
+      usage: response.usage,
     );
   }
 

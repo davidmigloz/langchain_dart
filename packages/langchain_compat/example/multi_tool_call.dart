@@ -3,38 +3,12 @@
 import 'dart:io';
 
 import 'package:collection/collection.dart';
-import 'package:json_schema/json_schema.dart';
 import 'package:langchain_compat/langchain_compat.dart';
 
 import 'lib/dump_message_history.dart';
+import 'lib/example_tools.dart';
 
 void main() async {
-  final currentDateTimeTool = Tool<String>(
-    name: 'current_date_time',
-    description: 'Returns the current date and time in ISO 8601 format.',
-    onCall: (_) {
-      final now = DateTime.now().toIso8601String();
-      return now;
-    },
-  );
-
-  final temperatureTool = Tool<Map<String, dynamic>>(
-    name: 'get_temperature',
-    description: 'Returns the current temperature in Portland, OR.',
-    inputSchema: JsonSchema.create({
-      'type': 'object',
-      'properties': {
-        'location': {
-          'type': 'string',
-          'description': 'The location to get the temperature for.',
-        },
-      },
-      'required': ['location'],
-    }),
-    onCall: (_) => '80°F',
-    inputFromJson: (json) => json,
-  );
-
   final tools = [currentDateTimeTool, temperatureTool];
   final providersWithToolSupport = ChatProvider.all.whereNot(
     (p) => p.name == 'mistral' || p.name == 'lambda',
