@@ -36,13 +36,18 @@ while (!done) {
 }
 ```
 
-**Solution**: Automatic execution within the chat model:
+**Solution**: Automatic execution through the Agent class:
 ```dart
-// NEW: Simple automatic tool execution
-final stream = model.stream(messages);
-await for (final chunk in stream) {
+// NEW: Simple automatic tool execution with Agent
+final agent = Agent('openai:gpt-4o', tools: tools);
+final result = await agent.run('What is the current weather?', history: history);
+print(result.output);
+history.addAll(result.messages);
+
+// Or with streaming:
+await for (final chunk in agent.runStream('What is the current weather?', history: history)) {
   if (chunk.output.isNotEmpty) stdout.write(chunk.output);
-  messages.addAll(chunk.messages);
+  history.addAll(chunk.messages);
 }
 ```
 
@@ -107,10 +112,108 @@ This enhancement:
 
 ## Architecture Components
 
+### Agent Class - High-Level Interface
+
+The `Agent` class provides the primary user-facing API for chat interactions with automatic tool execution. It wraps the underlying `ChatModel` implementations and provides a clean, unified interface:
+
+```dart
+class Agent {
+  /// Creates an agent with the specified model.
+  Agent(String model, {List<Tool>? tools, double? temperature, String? systemPrompt});
+  
+  /// Invokes the agent with the given prompt and returns the final result.
+  Future<ChatResult<String>> run(
+    String prompt, {
+    List<ChatMessage> history = const [],
+    List<Part> attachments = const [],
+  });
+  
+  /// Streams responses from the agent, handling tool execution automatically.
+  Stream<ChatResult<String>> runStream(
+    String prompt, {
+    List<ChatMessage> history = const [],
+    List<Part> attachments = const [],
+  });
+}
+```
+
+#### Key Design Principles
+
+1. **Separation of History and New Input**: Unlike the old API that required passing a complete message list, the new API cleanly separates:
+   - `history`: Previous conversation messages
+   - `prompt`: The new user input text
+   - `attachments`: Optional additional parts (images, files, etc.)
+
+2. **Immediate User Message Feedback**: The agent immediately yields the constructed user message, providing transparency about how the prompt and attachments were combined.
+
+3. **Unified Return Type**: Both `run()` and `runStream()` return `ChatResult<String>` where:
+   - `output`: Streaming text chunks (for `runStream`) or complete response (for `run`)
+   - `messages`: New messages generated during the interaction
+
+#### API Evolution
+
+**Before (Old API)**:
+```dart
+// Required building complete message list manually
+final messages = [
+  ChatMessage.system('You are helpful'),
+  ChatMessage.user('What is the weather?'),
+];
+final result = await agent.run(messages);
+```
+
+**After (New API)**:
+```dart
+// Clean separation of concerns
+final history = [ChatMessage.system('You are helpful')];
+final result = await agent.run('What is the weather?', history: history);
+```
+
+#### Implementation Details
+
+The `Agent` class internally:
+
+1. **Constructs User Messages**: Combines prompt and attachments into a `ChatMessage.userParts([TextPart(prompt), ...attachments])`
+
+2. **Immediate Streaming**: In `runStream()`, immediately yields the constructed user message before processing:
+   ```dart
+   // Immediately yield the new user message
+   yield ChatResult<String>(
+     id: '',
+     output: '',
+     messages: [newUserMessage],
+     finishReason: FinishReason.unspecified,
+     metadata: const <String, dynamic>{},
+     usage: const LanguageModelUsage(),
+   );
+   ```
+
+3. **Message Orchestration**: Builds full conversation by combining `[...history, newUserMessage]` and delegates to the underlying `ChatModel.sendStream()`
+
+4. **Result Aggregation**: For `run()`, accumulates all streaming results and returns the final aggregated response
+
+#### Multi-turn Conversation Pattern
+
+The new API supports clean multi-turn conversations:
+
+```dart
+var history = <ChatMessage>[ChatMessage.system('You are helpful')];
+
+// Turn 1
+var result = await agent.run('What is the weather in Boston?', history: history);
+print('Agent: ${result.output}');
+history.addAll(result.messages);
+
+// Turn 2  
+result = await agent.run('Convert that temperature to Celsius', history: history);
+print('Agent: ${result.output}');
+history.addAll(result.messages);
+```
+
 ### ToolsAndMessagesHelper Mixin
 
 The core component that provides automatic tool execution and message
-collection:
+collection at the `ChatModel` level:
 
 ```dart
 mixin ToolsAndMessagesHelper<TOptions extends ChatModelOptions> {
@@ -282,9 +385,179 @@ final text = chunk.output.startsWith('\n')
 
 **Important**: This only affects streaming output (`chunk.output`). The actual messages stored in `chunk.messages` contain the original text without artificial newlines.
 
+### 5. Text Part Consolidation Issue
+
+**Problem**: Streaming text content was being split into multiple `TextPart` objects instead of being consolidated into a single `TextPart`. This happened because each streaming chunk would create a new `TextPart`, leading to messages like:
+
+```dart
+// BROKEN: Multiple TextParts for streaming text
+Message{role: model, parts: [
+  TextPart{"The weather in Boston"}, 
+  TextPart{" is 68°F and partly cloudy."}
+]}
+```
+
+**Solution**: Improved text accumulation strategy in the Agent class that:
+1. **Accumulates text separately**: Uses a string buffer (`accumulatedTextContent`) to collect all text content
+2. **Collects non-text parts separately**: Maintains a separate list for tool calls and other parts
+3. **Creates single TextPart**: Constructs the final message with one `TextPart` containing all accumulated text
+
+```dart
+// CORRECT: Single TextPart for complete text
+Message{role: model, parts: [
+  TextPart{"The weather in Boston is 68°F and partly cloudy."}
+]}
+```
+
+**Implementation**:
+```dart
+// Agent streaming logic (simplified)
+var accumulatedTextContent = '';  // Accumulate text separately
+final currentParts = <Part>[];    // Non-text parts
+
+await for (final result in _model.sendStream(conversationHistory)) {
+  // Accumulate text content
+  final textOutput = result.output.parts.whereType<TextPart>()...;
+  accumulatedTextContent += textOutput;
+  
+  // Collect non-text parts separately
+  final nonTextParts = result.output.parts.where((part) => part is! TextPart);
+  currentParts.addAll(nonTextParts);
+}
+
+// Create final message with single TextPart + non-text parts
+final finalParts = <Part>[];
+if (accumulatedTextContent.isNotEmpty) {
+  finalParts.add(TextPart(accumulatedTextContent));  // Single TextPart
+}
+finalParts.addAll(currentParts);  // Tool calls, etc.
+```
+
+**Quality Assurance**: Added debug assertions to prevent regressions:
+```dart
+void _assertNoMultipleTextParts(List<ChatMessage> messages) {
+  assert(() {
+    for (final message in messages) {
+      final textParts = message.parts.whereType<TextPart>().toList();
+      if (textParts.length > 1) {
+        throw AssertionError(
+          'Message contains ${textParts.length} TextParts but should have '
+          'at most 1. This indicates a streaming consolidation bug.',
+        );
+      }
+    }
+    return true;
+  }());
+}
+```
+
+This ensures that any future changes to the streaming logic will immediately fail if text consolidation breaks.
+
+### 6. Streaming Tool Call Accumulation Bug
+
+**Problem**: The Agent class was incorrectly accumulating tool call parts from streaming chunks by simply adding them to a list (`currentParts.addAll(processedParts)`), rather than properly merging them. This caused OpenAI's streaming protocol to create duplicate tool calls with the same ID:
+
+```dart
+// BROKEN: Naive accumulation creates duplicates
+Found 3 tool calls to execute: current_date_time(call_ABC123), current_date_time(call_ABC123), get_temperature(call_XYZ789)
+// OpenAI would reject this with "Duplicate value for 'tool_call_id'"
+```
+
+**Root Cause**: OpenAI sends tool calls across multiple streaming chunks that need to be **merged by ID**, not simply accumulated. The naive approach treated each chunk as a separate tool call.
+
+**Solution**: Implemented proper streaming chunk merging with `_concatMessages()` method that:
+1. **Merges tool calls by ID**: Tool calls with the same ID are merged (for incremental streaming)
+2. **Preserves distinct tools**: Tool calls with different IDs remain separate
+3. **Handles all part types**: Properly accumulates text, data, and tool parts
+
+```dart
+// CORRECT: Proper merging eliminates duplicates
+Found 2 tool calls to execute: current_date_time(call_ABC123), get_temperature(call_XYZ789)
+// OpenAI accepts this without errors
+```
+
+**Implementation Details**:
+```dart
+ChatMessage _concatMessages(ChatMessage accumulated, ChatMessage newChunk) {
+  // Find existing tool call with same ID for merging
+  final existingIndex = accumulatedParts.indexWhere((part) =>
+      part is ToolPart &&
+      part.kind == ToolPartKind.call &&
+      part.id.isNotEmpty &&
+      part.id == newPart.id);
+
+  if (existingIndex != -1) {
+    // Merge with existing tool call (combine name, arguments)
+    final mergedToolCall = ToolPart.call(
+      id: newPart.id,
+      name: newPart.name.isNotEmpty ? newPart.name : existingToolCall.name,
+      arguments: newPart.arguments?.isNotEmpty == true 
+          ? newPart.arguments!
+          : existingToolCall.arguments ?? {},
+    );
+    accumulatedParts[existingIndex] = mergedToolCall;
+  } else {
+    // Add new tool call
+    accumulatedParts.add(newPart);
+  }
+}
+```
+
+**Key Benefits**:
+- **Eliminates duplicate tool call IDs**: No more OpenAI API rejections
+- **Maintains streaming performance**: Text still streams in real-time
+- **Provider agnostic**: Works with all streaming protocols
+- **Agent is truly stateless**: No shared state between calls
+
+### 7. Stateless Agent Assertion
+
+**Purpose**: Prevent future regressions where mutable instance state is accidentally introduced to the Agent class.
+
+**Implementation**: Added `_assertStatelessAgent()` method that validates the Agent instance has no mutable state at the start of each `runStream()` call:
+
+```dart
+void _assertStatelessAgent() {
+  assert(() {
+    // Check for any mutable instance variables that could affect behavior.
+    // The Agent should only have immutable configuration set during construction.
+    
+    // Example checks if we had mutable state:
+    // if (_someCounter != 0) {
+    //   throw AssertionError('Agent instance state is not clean: _someCounter = $_someCounter. '
+    //       'The Agent should be stateless between calls.');
+    // }
+    
+    // This serves as a placeholder and documentation that the Agent
+    // should remain stateless. Future additions of instance state should be
+    // validated here by uncommenting and adapting the example above.
+    return true;
+  }());
+}
+```
+
+**Usage Pattern**: When adding new mutable instance variables, developers must:
+1. Add validation to `_assertStatelessAgent()` method
+2. Ensure the variable is reset to initial state between calls
+3. Test with multiple consecutive Agent calls to verify statelessness
+
+**Benefits**:
+- **Prevents regression**: Catches stateful behavior in debug mode
+- **Clear documentation**: Makes statelessness requirement explicit
+- **Easy to extend**: Simple pattern for validating new fields
+- **Fail fast**: Errors appear immediately during development
+
 ## Message Accumulation Strategy
 
-### Streaming Flow
+### Streaming Flow (Agent Implementation)
+1. **Receive chunk** from `_model.sendStream()`
+2. **Extract text content** and stream to user as `ChatResult.output`
+3. **Accumulate text separately** in `accumulatedTextContent` string buffer
+4. **Collect non-text parts** (tool calls, etc.) in separate list
+5. **Repeat** until complete message received
+6. **Construct final message** with single `TextPart` + all non-text parts
+7. **Assert single TextPart** to catch consolidation bugs
+
+### Legacy Streaming Flow (ToolsAndMessagesHelper)
 1. **Receive chunk** from `rawStream()`
 2. **Extract text content** and stream to user as `ChatResult.output`
 3. **Assign tool call IDs** if needed
@@ -349,6 +622,14 @@ class ChatResult extends LanguageModelResult<Object> {
 
 **Example Flow**:
 ```dart
+// Agent API (recommended)
+final stream = agent.runStream('What is the weather?', history: history);
+await for (final chunk in stream) {
+  if (chunk.output.isNotEmpty) stdout.write(chunk.output);  // Stream text
+  history.addAll(chunk.messages);  // Collect new messages
+}
+
+// Or lower-level ChatModel API
 final stream = model.stream(messages);
 await for (final chunk in stream) {
   if (chunk.output.isNotEmpty) stdout.write(chunk.output);  // Stream text
@@ -364,6 +645,12 @@ await for (final chunk in stream) {
 
 **Example Flow**:
 ```dart
+// Agent API (recommended)
+final result = await agent.run('What is the weather?', history: history);
+print(result.output);  // Complete response text
+history.addAll(result.messages);  // All new messages from interaction
+
+// Or lower-level ChatModel API
 final result = await model.invoke(messages);
 print(result.outputAsString);  // Complete response text
 messages.addAll(result.messages);  // All new messages from interaction
@@ -424,6 +711,55 @@ This allows the LLM to understand and respond to tool failures appropriately.
 
 ## Migration Guide
 
+### For Application Code (Agent API)
+
+**Recommended**: Use the new Agent API for all application-level code:
+
+#### Old Pattern:
+```dart
+// Manual message list construction
+final messages = [
+  ChatMessage.system('You are helpful'),
+  ChatMessage.user('What is the weather?'),
+];
+final result = await agent.run(messages);
+print(result.output);
+```
+
+#### New Pattern:
+```dart
+// Clean separation of concerns
+final history = [ChatMessage.system('You are helpful')];
+final result = await agent.run('What is the weather?', history: history);
+print(result.output);
+history.addAll(result.messages);
+```
+
+#### Multi-turn Conversations:
+```dart
+// Initialize with system prompt
+var history = <ChatMessage>[ChatMessage.system('You are helpful')];
+
+// Each turn is clean and simple
+for (final userInput in userInputs) {
+  final result = await agent.run(userInput, history: history);
+  print('Agent: ${result.output}');
+  history.addAll(result.messages);  // Accumulate conversation
+}
+```
+
+#### With Attachments:
+```dart
+final result = await agent.run(
+  'Analyze this image',
+  history: history,
+  attachments: [
+    DataPart(bytes: imageBytes, mimeType: 'image/jpeg'),
+    LinkPart(url: 'https://example.com/doc.pdf'),
+  ],
+);
+```
+
 ### For Chat Model Implementations
 1. **Add mixin**: `with ToolsAndMessagesHelper<YourOptions>`
 2. **Remove methods**: Delete existing `invoke()` and `stream()` implementations
@@ -467,6 +803,8 @@ This allows the LLM to understand and respond to tool failures appropriately.
 4. **Tool not found**: Check that tool names match exactly between definition and calling
 5. **Incorrect protocol detection**: Verify that your provider's streaming pattern matches expected detection logic
 6. **Messages running together**: If consecutive AI messages appear without separation, check that `_shouldPrefixNextMessage` logic is working
+7. **Multiple TextParts**: ✅ **RESOLVED** - Fixed via improved text accumulation + debug assertions catch regressions
+8. **Duplicate tool call IDs**: ✅ **RESOLVED** - Fixed via `_concatMessages()` method that properly merges streaming tool calls by ID instead of naively accumulating them
 
 ### Debug Patterns
 ```dart
@@ -486,6 +824,15 @@ print('Tool call pattern: ${message.toolCalls.length} calls, empty IDs: ${messag
 // Debug streaming UX
 print('Should prefix next message: $_shouldPrefixNextMessage');
 print('Is first chunk of message: $isFirstChunkOfMessage');
+
+// Debug text consolidation (will throw if multiple TextParts detected)
+_assertNoMultipleTextParts(messages);
+
+// Manual check for text consolidation issues
+for (final message in messages) {
+  final textParts = message.parts.whereType<TextPart>().toList();
+  print('Message has ${textParts.length} TextParts: ${textParts.map((p) => '"${p.text}"').join(', ')}');
+}
 ```
 
 ## Future Enhancements

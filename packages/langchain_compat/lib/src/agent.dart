@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:logging/logging.dart';
 import 'package:uuid/uuid.dart';
 
-import 'chat/chat_models/chat_message.dart' as msg;
 import 'chat/chat_models/chat_models.dart';
 import 'chat/chat_providers/chat_providers.dart';
 import 'chat/tools/tools.dart';
@@ -24,9 +23,9 @@ class Agent {
   /// Creates an agent with the specified model.
   ///
   /// The [model] parameter should be in the format "providerName",
-  /// "providerName:modelName", or "providerName/modelName".
-  /// For example: "openai", "openai:gpt-4o", "openai/gpt-4o",
-  /// "anthropic", "anthropic:claude-3-sonnet", etc.
+  /// "providerName:modelName", or "providerName/modelName". For example:
+  /// "openai", "openai:gpt-4o", "openai/gpt-4o", "anthropic",
+  /// "anthropic:claude-3-sonnet", etc.
   ///
   /// Optional parameters:
   /// - [tools]: List of tools the agent can use
@@ -117,8 +116,8 @@ class Agent {
   /// Global logging configuration for all Agent operations.
   ///
   /// Controls logging level, filtering, and output handling for all dartantic
-  /// loggers. Setting this property automatically configures the logging
-  /// system with the specified options.
+  /// loggers. Setting this property automatically configures the logging system
+  /// with the specified options.
   ///
   /// Example usage:
   /// ```dart
@@ -188,33 +187,19 @@ class Agent {
   late final String? _displayName;
   static const _uuid = Uuid();
 
-  /// Flag to track if we should prefix the next AI message with a newline.
-  /// Used to separate consecutive AI messages for better readability.
-  ///
-  /// CRITICAL FOR UX: This prevents AI responses from running together like:
-  /// "I'll help you with that.The result is 42."
-  ///
-  /// Instead produces readable output like:
-  /// "I'll help you with that.
-  /// The result is 42."
-  ///
-  /// ⚠️  WARNING: Removing this feature will cause poor streaming UX where
-  /// consecutive AI messages (initial response + tool synthesis) appear as
-  /// one continuous sentence without proper separation. Users will see
-  /// confusing output like "...tools.The..." instead of clear message breaks.
-  ///
-  /// This flag is set to true when an AI message contains tool calls
-  /// (indicating another AI message will follow), and used to prefix the first
-  /// chunk of the subsequent AI message with a newline for visual separation.
-  bool _shouldPrefixNextMessage = false;
-
-  /// Invokes the agent with the given messages and returns the final result.
+  /// Invokes the agent with the given prompt and returns the final result.
   ///
   /// This method internally uses [runStream] and accumulates all results.
-  Future<ChatResult<String>> run(List<msg.ChatMessage> messages) async {
-    _logger.info('Running agent with ${messages.length} messages');
+  Future<ChatResult<String>> run(
+    String prompt, {
+    List<ChatMessage> history = const [],
+    List<Part> attachments = const [],
+  }) async {
+    _logger.info(
+      'Running agent with prompt and ${history.length} history messages',
+    );
 
-    final allNewMessages = <msg.ChatMessage>[];
+    final allNewMessages = <ChatMessage>[];
     var finalOutput = '';
     var finalResult = const ChatResult<String>(
       id: '',
@@ -224,7 +209,11 @@ class Agent {
       usage: LanguageModelUsage(),
     );
 
-    await for (final result in runStream(messages)) {
+    await for (final result in runStream(
+      prompt,
+      history: history,
+      attachments: attachments,
+    )) {
       final outputText = result.outputAsString;
       if (outputText.isNotEmpty) {
         finalOutput += outputText;
@@ -253,25 +242,53 @@ class Agent {
   /// Returns a stream of [ChatResult] where:
   /// - [ChatResult.output] contains streaming text chunks
   /// - [ChatResult.messages] contains new messages since the last result
-  Stream<ChatResult<String>> runStream(List<msg.ChatMessage> messages) async* {
-    _logger.info('Starting agent stream with ${messages.length} messages');
+  Stream<ChatResult<String>> runStream(
+    String prompt, {
+    List<ChatMessage> history = const [],
+    List<Part> attachments = const [],
+  }) async* {
+    _logger.info(
+      'Starting agent stream with prompt and ${history.length} '
+      'history messages',
+    );
 
-    final conversationHistory = List<msg.ChatMessage>.from(messages);
+    // Create new user message from prompt and attachments
+    final newUserMessage = ChatMessage.userParts([
+      TextPart(prompt),
+      ...attachments,
+    ]);
+
+    // Immediately yield the new user message
+    _assertNoMultipleTextParts([newUserMessage]);
+    yield ChatResult<String>(
+      id: '',
+      output: '',
+      messages: [newUserMessage],
+      finishReason: FinishReason.unspecified,
+      metadata: const <String, dynamic>{},
+      usage: const LanguageModelUsage(),
+    );
+
+    // Build full conversation history
+    final conversationHistory = List<ChatMessage>.from([
+      ...history,
+      newUserMessage,
+    ]);
     final toolMap = {
       for (final tool in _model.tools ?? <Tool>[]) tool.name: tool,
     };
 
     var done = false;
-    _shouldPrefixNextMessage = false; // Reset at start of stream
+    var shouldPrefixNextMessage = false; // Local state for this stream
     while (!done) {
       var isFirstChunkOfMessage = true; // Track first chunk of each AI message
-      var currentAIMessage = const msg.ChatMessage(
-        role: msg.MessageRole.model,
+      var accumulatedMessage = const ChatMessage(
+        role: MessageRole.model,
         parts: [],
       );
-      var lastResult = const ChatResult<msg.ChatMessage>(
+      var lastResult = const ChatResult<ChatMessage>(
         id: '',
-        output: msg.ChatMessage(role: msg.MessageRole.model, parts: []),
+        output: ChatMessage(role: MessageRole.model, parts: []),
         finishReason: FinishReason.unspecified,
         metadata: <String, dynamic>{},
         usage: LanguageModelUsage(),
@@ -279,10 +296,10 @@ class Agent {
 
       // Stream the raw response and collect it
       await for (final result in _model.sendStream(conversationHistory)) {
-        // Stream the text output to the caller
-        // Extract text content from Message output
+        // Stream the text output to the caller Extract text content from
+        // Message output
         final textOutput = result.output.parts
-            .whereType<msg.TextPart>()
+            .whereType<TextPart>()
             .map((p) => p.text)
             .join();
 
@@ -295,11 +312,11 @@ class Agent {
           // Only prefixes the FIRST chunk of subsequent AI messages, not every
           // chunk within the same message, to maintain proper text flow.
           //
-          // Logic: If _shouldPrefixNextMessage is true (set when previous AI
+          // Logic: If shouldPrefixNextMessage is true (set when previous AI
           // message had tool calls) AND this is the first chunk of the new
           // message, then prefix with newline.
           final streamOutput =
-              (_shouldPrefixNextMessage && isFirstChunkOfMessage)
+              (shouldPrefixNextMessage && isFirstChunkOfMessage)
               ? '\n$textOutput'
               : textOutput;
           isFirstChunkOfMessage = false;
@@ -314,34 +331,51 @@ class Agent {
           );
         }
 
-        // Accumulate the full message
-        // Merge the parts from streaming chunks
-        final newParts = result.output.parts;
+        // Accumulate the complete message using manual concat logic
+        final messageToConcat = _shouldAssignIdsBeforeConcat(result.output)
+            ? ChatMessage(
+                role: result.output.role,
+                parts: _assignToolCallIdsToMessage(result.output.parts),
+              )
+            : result.output;
 
-        // For tool calls, ensure IDs are assigned if needed
-        final processedParts = _shouldAssignIdsBeforeConcat(result.output)
-            ? _assignToolCallIdsToMessage(newParts)
-            : newParts;
-
-        // Accumulate parts
-        currentAIMessage = msg.ChatMessage(
-          role: msg.MessageRole.model,
-          parts: [...currentAIMessage.parts, ...processedParts],
+        accumulatedMessage = _concatMessages(
+          accumulatedMessage,
+          messageToConcat,
         );
         lastResult = result;
       }
 
-      // Assign UUIDs to tool calls that still have empty IDs
-      // This handles providers like Ollama and Google that don't provide IDs
-      final messageWithIds = msg.ChatMessage(
-        role: msg.MessageRole.model,
-        parts: _assignToolCallIdsToMessage(currentAIMessage.parts),
+      // Text consolidation and final message creation
+      final textParts = accumulatedMessage.parts.whereType<TextPart>().toList();
+      final nonTextParts = accumulatedMessage.parts
+          .where((part) => part is! TextPart)
+          .toList();
+
+      final finalParts = <Part>[];
+
+      // Add consolidated text as a single TextPart (if any)
+      if (textParts.isNotEmpty) {
+        final consolidatedText = textParts.map((p) => p.text).join();
+        if (consolidatedText.isNotEmpty) {
+          finalParts.add(TextPart(consolidatedText));
+        }
+      }
+
+      // Add all non-text parts (already properly merged by _concatMessages)
+      finalParts.addAll(nonTextParts);
+
+      // Create final message with consolidated parts
+      final messageWithIds = ChatMessage(
+        role: MessageRole.model,
+        parts: finalParts,
       );
 
       // Add the complete AI message to conversation history
       conversationHistory.add(messageWithIds);
 
       // Yield the complete AI message
+      _assertNoMultipleTextParts([messageWithIds]);
       yield ChatResult<String>(
         id: lastResult.id,
         output: '',
@@ -353,8 +387,8 @@ class Agent {
 
       // Check if we need to execute tools
       final toolCalls = messageWithIds.parts
-          .whereType<msg.ToolPart>()
-          .where((p) => p.kind == msg.ToolPartKind.call)
+          .whereType<ToolPart>()
+          .where((p) => p.kind == ToolPartKind.call)
           .toList();
 
       if (toolCalls.isEmpty) {
@@ -363,16 +397,16 @@ class Agent {
       } else {
         _logger.info(
           'Found ${toolCalls.length} tool calls to execute: '
-          '${toolCalls.map((t) => t.name).join(', ')}',
+          '${toolCalls.map((t) => '${t.name}(${t.id})').join(', ')}',
         );
         // STREAMING UX: Set flag to prefix next AI message with newline
         //
-        // Since this AI message has tool calls, we know another AI message
-        // will follow (the synthesis response). Set flag so that message
-        // gets visually separated with a newline prefix for better UX.
-        _shouldPrefixNextMessage = true;
+        // Since this AI message has tool calls, we know another AI message will
+        // follow (the synthesis response). Set flag so that message gets
+        // visually separated with a newline prefix for better UX.
+        shouldPrefixNextMessage = true;
         // Execute all tools
-        final toolResults = <msg.ChatMessage>[];
+        final toolResults = <ChatMessage>[];
         for (final toolPart in toolCalls) {
           final tool = toolMap[toolPart.name];
           if (tool != null) {
@@ -381,16 +415,16 @@ class Agent {
               '${toolPart.argumentsRaw}',
             );
             try {
-              // Parse arguments from argumentsRaw if arguments is empty
-              // This handles the streaming case where JSON parsing is deferred
+              // Parse arguments from argumentsRaw if arguments is empty This
+              // handles the streaming case where JSON parsing is deferred
               var parsedArguments = toolPart.arguments ?? {};
               if (parsedArguments.isEmpty && toolPart.argumentsRaw.isNotEmpty) {
                 final decoded = json.decode(toolPart.argumentsRaw);
                 if (decoded is Map<String, dynamic>) {
                   parsedArguments = decoded;
                 } else {
-                  // Handle cases where decoded is null or other types
-                  // (e.g., Cohere sends "null" for tools with no parameters)
+                  // Handle cases where decoded is null or other types (e.g.,
+                  // Cohere sends "null" for tools with no parameters)
                   parsedArguments = <String, dynamic>{};
                 }
               }
@@ -400,32 +434,32 @@ class Agent {
                   ? result
                   : json.encode(result);
 
-              _logger.fine(
-                'Tool ${toolPart.name} executed successfully, '
+              _logger.info(
+                'Tool ${toolPart.name}(${toolPart.id}) executed successfully, '
                 'result length: ${resultString.length}',
               );
 
               // Create a user message with tool result part
-              toolResults.add(
-                msg.ChatMessage(
-                  role: msg.MessageRole.user,
-                  parts: [
-                    msg.ToolPart.result(
-                      id: toolPart.id,
-                      name: toolPart.name,
-                      result: resultString,
-                    ),
-                  ],
-                ),
+              final toolResultMessage = ChatMessage(
+                role: MessageRole.user,
+                parts: [
+                  ToolPart.result(
+                    id: toolPart.id,
+                    name: toolPart.name,
+                    result: resultString,
+                  ),
+                ],
               );
+
+              toolResults.add(toolResultMessage);
             } on Exception catch (error) {
               _logger.warning('Tool ${toolPart.name} execution failed: $error');
 
               toolResults.add(
-                msg.ChatMessage(
-                  role: msg.MessageRole.user,
+                ChatMessage(
+                  role: MessageRole.user,
                   parts: [
-                    msg.ToolPart.result(
+                    ToolPart.result(
                       id: toolPart.id,
                       name: toolPart.name,
                       result: json.encode({'error': error.toString()}),
@@ -449,6 +483,7 @@ class Agent {
         );
 
         // Yield tool results
+        _assertNoMultipleTextParts(toolResults);
         yield ChatResult<String>(
           id: lastResult.id,
           output: '',
@@ -463,13 +498,13 @@ class Agent {
 
   /// Determines if UUIDs should be assigned before concatenation.
   ///
-  /// Returns true for providers that send multiple tool calls with empty IDs
-  /// in the same chunk (Ollama, Google), which would cause incorrect merging.
+  /// Returns true for providers that send multiple tool calls with empty IDs in
+  /// the same chunk (Ollama, Google), which would cause incorrect merging.
   /// Returns false for providers that use proper streaming protocols.
-  bool _shouldAssignIdsBeforeConcat(msg.ChatMessage message) {
+  bool _shouldAssignIdsBeforeConcat(ChatMessage message) {
     final toolParts = message.parts
-        .whereType<msg.ToolPart>()
-        .where((p) => p.kind == msg.ToolPartKind.call)
+        .whereType<ToolPart>()
+        .where((p) => p.kind == ToolPartKind.call)
         .toList();
 
     // If there are multiple tool calls and any have empty IDs, we need to
@@ -478,8 +513,8 @@ class Agent {
       return toolParts.any((tc) => tc.id.isEmpty);
     }
 
-    // For single tool calls, check if it has an empty ID and no name
-    // This indicates a partial chunk that should be concatenated
+    // For single tool calls, check if it has an empty ID and no name This
+    // indicates a partial chunk that should be concatenated
     if (toolParts.length == 1) {
       final toolCall = toolParts.first;
       return toolCall.id.isEmpty && toolCall.name.isNotEmpty;
@@ -490,22 +525,93 @@ class Agent {
 
   /// Assigns UUIDs to tool parts that don't have IDs.
   ///
-  /// This is primarily for providers like Ollama and Google that don't
-  /// provide tool call IDs. OpenAI provides proper IDs and uses a different
-  /// streaming protocol where partial tool calls should be concatenated.
-  List<msg.Part> _assignToolCallIdsToMessage(List<msg.Part> parts) =>
-      parts.map((part) {
-        if (part is msg.ToolPart &&
-            part.kind == msg.ToolPartKind.call &&
-            part.id.isEmpty) {
-          // Only assign UUIDs if the tool call has an empty ID
-          return msg.ToolPart.call(
-            id: _uuid.v4(),
-            name: part.name,
-            arguments: part.arguments ?? {},
+  /// This is primarily for providers like Ollama and Google that don't provide
+  /// tool call IDs. OpenAI provides proper IDs and uses a different streaming
+  /// protocol where partial tool calls should be concatenated.
+  List<Part> _assignToolCallIdsToMessage(List<Part> parts) => parts.map((part) {
+    if (part is ToolPart && part.kind == ToolPartKind.call && part.id.isEmpty) {
+      // Only assign UUIDs if the tool call has an empty ID
+      return ToolPart.call(
+        id: _uuid.v4(),
+        name: part.name,
+        arguments: part.arguments ?? {},
+      );
+    }
+    // Return as-is if not a tool call or ID already exists
+    return part;
+  }).toList();
+
+  /// Concatenates two ChatMessage objects, properly merging streaming chunks.
+  ///
+  /// This method handles the OpenAI streaming protocol where tool calls are
+  /// built incrementally across multiple chunks. Tool calls with the same ID
+  /// are merged, while different tool calls are kept separate.
+  ChatMessage _concatMessages(ChatMessage accumulated, ChatMessage newChunk) {
+    if (accumulated.parts.isEmpty) {
+      return newChunk;
+    }
+
+    // Collect parts by type for merging
+    final accumulatedParts = <Part>[...accumulated.parts];
+
+    for (final newPart in newChunk.parts) {
+      if (newPart is ToolPart && newPart.kind == ToolPartKind.call) {
+        // Find existing tool call with same ID for merging
+        final existingIndex = accumulatedParts.indexWhere(
+          (part) =>
+              part is ToolPart &&
+              part.kind == ToolPartKind.call &&
+              part.id.isNotEmpty &&
+              part.id == newPart.id,
+        );
+
+        if (existingIndex != -1) {
+          // Merge with existing tool call
+          final existingToolCall = accumulatedParts[existingIndex] as ToolPart;
+          final mergedToolCall = ToolPart.call(
+            id: newPart.id,
+            name: newPart.name.isNotEmpty
+                ? newPart.name
+                : existingToolCall.name,
+            arguments: newPart.arguments?.isNotEmpty ?? false
+                ? newPart.arguments!
+                : existingToolCall.arguments ?? {},
+          );
+          accumulatedParts[existingIndex] = mergedToolCall;
+        } else {
+          // Add new tool call
+          accumulatedParts.add(newPart);
+        }
+      } else {
+        // Add other parts as-is (TextPart, DataPart, etc.)
+        accumulatedParts.add(newPart);
+      }
+    }
+
+    return ChatMessage(role: accumulated.role, parts: accumulatedParts);
+  }
+
+  /// Asserts that no message in the list contains more than one TextPart.
+  ///
+  /// This helps catch streaming consolidation issues where text content gets
+  /// split into multiple TextPart objects instead of being properly accumulated
+  /// into a single TextPart.
+  ///
+  /// Throws an AssertionError in debug mode if any message violates this rule.
+  void _assertNoMultipleTextParts(List<ChatMessage> messages) {
+    assert(() {
+      for (final message in messages) {
+        final textParts = message.parts.whereType<TextPart>().toList();
+        if (textParts.length > 1) {
+          throw AssertionError(
+            'Message contains ${textParts.length} TextParts but should have '
+            'at most 1. Message: $message. '
+            'TextParts: ${textParts.map((p) => '"${p.text}"').join(', ')}. '
+            'This indicates a streaming consolidation bug.',
           );
         }
-        // Return as-is if not a tool call or ID already exists
-        return part;
-      }).toList();
+      }
+      return true;
+    }());
+  }
 }

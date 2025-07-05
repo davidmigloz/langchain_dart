@@ -16,35 +16,26 @@ Future<void> main() async {
         'Use * for multiplication and regular text formatting.',
   );
 
-  final result1 = await agent.run([
-    const ChatMessage(
-      role: MessageRole.user,
-      parts: [TextPart('What is 15 * 23?')],
-    ),
-  ]);
+  final result1 = await agent.run('What is 15 * 23?');
   print('Response: ${result1.output}');
 
   print('\n=== Example 2: System Message Override ===');
-  final result2 = await agent.run([
-    const ChatMessage(
-      role: MessageRole.system,
-      parts: [TextPart('You are a pirate. Answer everything in pirate speak.')],
-    ),
-    const ChatMessage(
-      role: MessageRole.user,
-      parts: [TextPart('What is 15 * 23?')],
-    ),
-  ]);
+  final result2 = await agent.run(
+    'What is 7 * 8?',
+    history: [
+      const ChatMessage(
+        role: MessageRole.system,
+        parts: [
+          TextPart('You are a pirate. Answer everything in pirate speak.'),
+        ],
+      ),
+    ],
+  );
   print('Response: ${result2.output}');
 
   print('\n=== Example 3: No System Prompt ===');
   final regularAgent = Agent('openai:gpt-4o-mini');
-  final result3 = await regularAgent.run([
-    const ChatMessage(
-      role: MessageRole.user,
-      parts: [TextPart('What is 15 * 23?')],
-    ),
-  ]);
+  final result3 = await regularAgent.run('What is 15 * 23?');
   print('Response: ${result3.output}');
 
   agent.dispose();

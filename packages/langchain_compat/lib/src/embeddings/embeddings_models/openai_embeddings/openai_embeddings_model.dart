@@ -14,7 +14,6 @@ import 'openai_embeddings_model_options.dart';
 /// OpenAI embeddings model implementation.
 class OpenAIEmbeddingsModel
     extends EmbeddingsModel<OpenAIEmbeddingsModelOptions> {
-
   /// Creates a new OpenAI embeddings model.
   OpenAIEmbeddingsModel({
     String? name,

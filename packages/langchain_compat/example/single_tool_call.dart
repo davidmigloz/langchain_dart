@@ -35,7 +35,7 @@ Future<void> singleToolCallExample(Agent agent, List<Tool> tools) async {
   print('=== ${agent.model} Single-Tool Call ===');
 
   const userMessage = 'What is the current date and time?';
-  final messages = [
+  final history = [
     const ChatMessage(
       role: MessageRole.system,
       parts: [
@@ -45,21 +45,20 @@ Future<void> singleToolCallExample(Agent agent, List<Tool> tools) async {
         ),
       ],
     ),
-    const ChatMessage(role: MessageRole.user, parts: [TextPart(userMessage)]),
   ];
 
   print('\nUser: $userMessage');
-  final result = await agent.run(messages);
+  final result = await agent.run(userMessage, history: history);
   print(result.output);
-  messages.addAll(result.messages);
-  dumpMessageHistory(messages);
+  final allMessages = [...history, ...result.messages];
+  dumpMessageHistory(allMessages);
 }
 
 Future<void> singleToolCallExampleStream(Agent agent, List<Tool> tools) async {
   print('=== ${agent.model} Single-Tool Call (stream) ===');
 
   const userMessage = 'What is the current date and time?';
-  final messages = [
+  final history = [
     const ChatMessage(
       role: MessageRole.system,
       parts: [
@@ -69,15 +68,15 @@ Future<void> singleToolCallExampleStream(Agent agent, List<Tool> tools) async {
         ),
       ],
     ),
-    const ChatMessage(role: MessageRole.user, parts: [TextPart(userMessage)]),
   ];
 
   print('\nUser: $userMessage');
-  final stream = agent.runStream(messages);
+  final allMessages = <ChatMessage>[...history];
+  final stream = agent.runStream(userMessage, history: history);
   await for (final chunk in stream) {
     stdout.write(chunk.output);
-    messages.addAll(chunk.messages);
+    allMessages.addAll(chunk.messages);
   }
   stdout.writeln();
-  dumpMessageHistory(messages);
+  dumpMessageHistory(allMessages);
 }

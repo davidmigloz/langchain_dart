@@ -123,7 +123,7 @@ void main() async {
   for (final provider in [ChatProvider.ollama, ChatProvider.openai, ChatProvider.anthropic]) {
     final agent = Agent.fromProvider(provider);
     print('\n# ${provider.displayName} (${agent.model})');
-    await for (final chunk in agent.runStream([Message.user(promptText)])) {
+    await for (final chunk in agent.runStream(promptText)) {
       stdout.write(chunk.output);
     }
     print('');
@@ -161,6 +161,47 @@ void main() async {
       print('${provider.displayName}: API key required');
     }
   }
+}
+```
+
+### Agent API - High-Level Interface
+
+The Agent class provides a clean, unified interface for chat interactions with automatic tool execution. The API separates conversation history from new user input for cleaner code:
+
+```dart
+import 'package:langchain_compat/langchain_compat.dart';
+
+void main() async {
+  final agent = Agent('openai:gpt-4o-mini');
+  
+  // Simple single-turn conversation
+  final result = await agent.run('What is the capital of France?');
+  print('Agent: ${result.output}');
+  
+  // Multi-turn conversation with history
+  var history = <ChatMessage>[
+    ChatMessage.system('You are a helpful assistant.'),
+  ];
+  
+  // Turn 1
+  var result1 = await agent.run('What is 2 + 2?', history: history);
+  print('Agent: ${result1.output}');
+  history.addAll(result1.messages);
+  
+  // Turn 2 - agent remembers context
+  var result2 = await agent.run('Multiply that by 3', history: history);
+  print('Agent: ${result2.output}');
+  history.addAll(result2.messages);
+  
+  // With attachments (images, files, etc.)
+  final result3 = await agent.run(
+    'What do you see in this image?',
+    history: history,
+    attachments: [
+      DataPart(bytes: imageBytes, mimeType: 'image/jpeg'),
+    ],
+  );
+  print('Agent: ${result3.output}');
 }
 ```
 
@@ -209,15 +250,19 @@ void main() async {
   // Create agent with tools
   final agent = Agent('openai:gpt-4o-mini', tools: [weatherTool, tempTool]);
 
-  // Multi-turn conversation with tool execution
-  final messages = [
-    Message.user('What\'s the weather in Portland and convert it to Celsius?'),
-  ];
+  // Simple tool execution with new API
+  const userPrompt = 'What\'s the weather in Portland and convert it to Celsius?';
+  
+  print('User: $userPrompt');
+  final result = await agent.run(userPrompt);
+  print('Agent: ${result.output}');
 
-  print('User: ${messages.last.text}');
-  await for (final chunk in agent.runStream(messages)) {
-    stdout.write(chunk.output);
-    messages.addAll(chunk.messages);
+  // Or with streaming
+  print('\nStreaming response:');
+  var history = <ChatMessage>[];
+  await for (final chunk in agent.runStream(userPrompt, history: history)) {
+    if (chunk.output.isNotEmpty) stdout.write(chunk.output);
+    history.addAll(chunk.messages);
   }
 }
 ```
@@ -318,16 +363,32 @@ if (result.usage != null) {
 
 ## Message API
 
-This package uses a simplified Message/Part model for all conversations:
+This package provides two ways to work with conversations:
+
+### Agent API (Recommended)
+For most use cases, use the Agent API which separates history from new input:
 
 ```dart
-// Creating messages
-final systemMsg = Message.system('You are a helpful assistant');
-final userMsg = Message.user('Hello!');
-final modelMsg = Message.model('Hi! How can I help you today?');
+// Simple usage - Agent handles message construction
+final agent = Agent('openai:gpt-4o-mini');
+final result = await agent.run('Hello!');
+
+// With conversation history
+final history = [ChatMessage.system('You are helpful')];
+final result = await agent.run('Hello!', history: history);
+```
+
+### Direct Message Construction
+For advanced use cases, you can work directly with the Message/Part model:
+
+```dart
+// Creating messages manually
+final systemMsg = ChatMessage.system('You are a helpful assistant');
+final userMsg = ChatMessage.user('Hello!');
+final modelMsg = ChatMessage.model('Hi! How can I help you today?');
 
 // Messages with multiple parts
-final multipartMsg = Message(
+final multipartMsg = ChatMessage(
   role: MessageRole.user,
   parts: [
     TextPart('What is in this image?'),
@@ -336,7 +397,7 @@ final multipartMsg = Message(
 );
 
 // Tool interactions
-final toolCall = Message(
+final toolCall = ChatMessage(
   role: MessageRole.model,
   parts: [
     TextPart('Let me check the weather for you.'),
@@ -348,7 +409,7 @@ final toolCall = Message(
   ],
 );
 
-final toolResult = Message(
+final toolResult = ChatMessage(
   role: MessageRole.user,
   parts: [
     ToolPart.result(
@@ -361,12 +422,13 @@ final toolResult = Message(
 ```
 
 The Message API provides:
-- **Unified Structure**: Single `Message` class with `MessageRole` enum
+- **Unified Structure**: Single `ChatMessage` class with `MessageRole` enum
 - **Flexible Content**: Support for text, data (images), links, and tool
   interactions
 - **Tool Integration**: Tools are message parts, not separate message types
 - **Simple Access**: Convenience methods like `message.text` and
   `message.toolCalls`
+- **Agent Integration**: The Agent API automatically constructs messages from prompts and attachments
 
 ## System Prompts
 
@@ -384,9 +446,7 @@ final agent = Agent(
                'Use * for multiplication and regular text formatting.',
 );
 
-final result = await agent.run([
-  Message.user('What is 15 * 23?'),
-]);
+final result = await agent.run('What is 15 * 23?');
 // Response: Detailed step-by-step math explanation
 
 // Direct model creation with system prompt
@@ -406,10 +466,12 @@ final agent = Agent(
 );
 
 // Override the default with a conversation system message
-final result = await agent.run([
-  Message.system('You are a pirate. Answer everything in pirate speak.'),
-  Message.user('What is 15 * 23?'),
-]);
+final result = await agent.run(
+  'What is 15 * 23?',
+  history: [
+    ChatMessage.system('You are a pirate. Answer everything in pirate speak.'),
+  ],
+);
 // Response: "Arrr, matey! The answer to ye riddle be 345!"
 ```
 

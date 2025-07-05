@@ -9,14 +9,6 @@ import 'package:langchain_compat/langchain_compat.dart';
 import 'lib/dump_message_history.dart';
 
 void main() async {
-  // Set up logging to see retry activity from RetryHttpClient
-  Agent.loggingOptions = LoggingOptions(
-    filter: 'retry',
-    onRecord: (record) =>
-        '\x1B[91m[${record.level.name}] ${record.loggerName}: '
-        '${record.message}\x1B[0m',
-  );
-
   final currentDateTimeTool = Tool<String>(
     name: 'current_date_time',
     description: 'Returns the current date and time in ISO 8601 format.',
@@ -66,26 +58,20 @@ Future<void> multiToolCallExample(
 ) async {
   print('=== $fqModelName Multi-Tool Call ===');
 
-  const userMessage =
-      'What is the current time and temperature in Portland, OR?';
-
-  const systemMessage =
+  const systemPrompt =
       'If asked for the current date and time, use the current_date_time tool. '
       'If asked for the temperature, use the get_temperature tool.';
 
-  final messages = [
-    const ChatMessage(
-      role: MessageRole.system,
-      parts: [TextPart(systemMessage)],
-    ),
-    const ChatMessage(role: MessageRole.user, parts: [TextPart(userMessage)]),
-  ];
+  final history = [ChatMessage.system(systemPrompt)];
+
+  const userMessage =
+      'What is the current time and temperature in Portland, OR?';
 
   print('\nUser: $userMessage');
-  final result = await agent.run(messages);
+  final result = await agent.run(userMessage, history: history);
   print(result.output);
-  messages.addAll(result.messages);
-  dumpMessageHistory(messages);
+  history.addAll(result.messages);
+  dumpMessageHistory(history);
 }
 
 Future<void> multiToolCallExampleStream(
@@ -95,27 +81,21 @@ Future<void> multiToolCallExampleStream(
 ) async {
   print('=== $fqModelName Multi-Tool Call (stream) ===');
 
-  const userMessage =
-      'What is the current time and temperature in Portland, OR?';
-
   const systemMessage =
       'If asked for the current date and time, use the current_date_time tool. '
       'If asked for the temperature, use the get_temperature tool.';
 
-  final messages = [
-    const ChatMessage(
-      role: MessageRole.system,
-      parts: [TextPart(systemMessage)],
-    ),
-    const ChatMessage(role: MessageRole.user, parts: [TextPart(userMessage)]),
-  ];
+  final history = [ChatMessage.system(systemMessage)];
+
+  const userMessage =
+      'What is the current time and temperature in Portland, OR?';
 
   print('\nUser: $userMessage');
-  final stream = agent.runStream(messages);
+  final stream = agent.runStream(userMessage, history: history);
   await for (final chunk in stream) {
     stdout.write(chunk.output);
-    messages.addAll(chunk.messages);
+    history.addAll(chunk.messages);
   }
   stdout.writeln();
-  dumpMessageHistory(messages);
+  dumpMessageHistory(history);
 }

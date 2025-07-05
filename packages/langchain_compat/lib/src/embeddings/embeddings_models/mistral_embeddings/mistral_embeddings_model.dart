@@ -14,7 +14,6 @@ import 'mistral_embeddings_model_options.dart';
 /// Mistral AI embeddings model implementation.
 class MistralEmbeddingsModel
     extends EmbeddingsModel<MistralEmbeddingsModelOptions> {
-
   /// Creates a new Mistral embeddings model.
   MistralEmbeddingsModel({
     String? name,

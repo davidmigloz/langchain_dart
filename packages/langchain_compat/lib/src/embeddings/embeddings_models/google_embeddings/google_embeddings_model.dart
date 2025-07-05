@@ -16,7 +16,6 @@ import 'google_embeddings_model_options.dart';
 /// Google AI embeddings model implementation.
 class GoogleEmbeddingsModel
     extends EmbeddingsModel<GoogleEmbeddingsModelOptions> {
-
   /// Creates a new Google AI embeddings model.
   GoogleEmbeddingsModel({
     String? apiKey,
