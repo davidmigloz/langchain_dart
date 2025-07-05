@@ -4,6 +4,7 @@ import 'package:google_generative_ai/google_generative_ai.dart' as gai;
 import 'package:googleai_dart/googleai_dart.dart' show GenerateContentRequest;
 import 'package:http/http.dart' as http;
 import 'package:http/retry.dart' show RetryClient;
+import 'package:logging/logging.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../custom_http_client.dart';
@@ -37,12 +38,19 @@ class GoogleChatModel extends ChatModel<GoogleChatOptions> {
          name: name ?? defaultName,
          defaultOptions: defaultOptions ?? const GoogleChatOptions(),
        ) {
+    _logger.info(
+      'Creating Google model: ${name ?? defaultName} '
+      'with ${tools?.length ?? 0} tools, temp: $temperature',
+    );
     _googleAiClient = _createGoogleAiClient(
       modelName: name ?? defaultName,
       apiKey: apiKey ?? getEnv(apiKeyName),
       httpClient: _httpClient,
     );
   }
+
+  /// Logger for Google chat model operations.
+  static final Logger _logger = Logger('dartantic.chat.models.google');
 
   /// The default model to use unless another is specified.
   static const defaultName = 'gemini-2.0-flash';
@@ -65,9 +73,14 @@ class GoogleChatModel extends ChatModel<GoogleChatOptions> {
     List<msg.Message> messages, {
     GoogleChatOptions? options,
   }) {
+    _logger.info(
+      'Starting Google chat stream with ${messages.length} '
+      'messages for model: $name',
+    );
     final id = _uuid.v4();
     final (model, prompt, safetySettings, generationConfig, tools, toolConfig) =
         _generateCompletionRequest(messages, options: options);
+    var chunkCount = 0;
     return _googleAiClient
         .generateContentStream(
           prompt,
@@ -76,7 +89,11 @@ class GoogleChatModel extends ChatModel<GoogleChatOptions> {
           tools: tools,
           toolConfig: toolConfig,
         )
-        .map((completion) => completion.toChatResult(id, model));
+        .map((completion) {
+          chunkCount++;
+          _logger.fine('Received Google stream chunk $chunkCount');
+          return completion.toChatResult(id, model);
+        });
   }
 
   /// Creates a [GenerateContentRequest] from the given input.
@@ -160,8 +177,12 @@ class GoogleChatModel extends ChatModel<GoogleChatOptions> {
     List<msg.Message> messages,
     GoogleChatOptions? options,
   ) {
-    final systemInstruction = messages.firstOrNull?.role == msg.MessageRole.system
-        ? messages.firstOrNull?.parts.whereType<msg.TextPart>().map((p) => p.text).join('\n')
+    final systemInstruction =
+        messages.firstOrNull?.role == msg.MessageRole.system
+        ? messages.firstOrNull?.parts
+              .whereType<msg.TextPart>()
+              .map((p) => p.text)
+              .join('\n')
         : null;
 
     var recreate = false;

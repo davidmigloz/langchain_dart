@@ -38,7 +38,7 @@ Future<void> usageExample(ChatProvider provider) async {
   // Use sendStream() and collect the final result to get complete usage data
   ChatResult<Message>? finalResult;
   await for (final chunk in model.sendStream([
-    Message(role: MessageRole.user, parts: [TextPart(testPrompt)]),
+    const Message(role: MessageRole.user, parts: [TextPart(testPrompt)]),
   ])) {
     finalResult = chunk;
   }
@@ -81,7 +81,12 @@ Future<void> usageExample(ChatProvider provider) async {
 
 Future<void> streamingUsageExample(ChatProvider provider) async {
   final model = provider.createModel();
-  final messages = [Message(role: MessageRole.user, parts: [TextPart('Count from 1 to 10 slowly.')])];
+  final messages = [
+    const Message(
+      role: MessageRole.user,
+      parts: [TextPart('Count from 1 to 10 slowly.')],
+    ),
+  ];
 
   print('\n=== ${provider.displayName} Streaming Usage Tracking ===');
   print('Streaming response with usage tracking...');
@@ -92,7 +97,9 @@ Future<void> streamingUsageExample(ChatProvider provider) async {
 
   await for (final chunk in model.sendStream(messages)) {
     chunkCount++;
-    stdout.write(chunk.output.parts.whereType<TextPart>().map((p) => p.text).join());
+    stdout.write(
+      chunk.output.parts.whereType<TextPart>().map((p) => p.text).join(),
+    );
 
     // Track usage as we stream
     if (chunk.usage.totalTokens != null) {

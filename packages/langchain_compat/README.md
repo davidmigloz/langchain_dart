@@ -13,15 +13,16 @@ provider-specific packages—just use `langchain_compat` for everything.
   models.
 - **15+ Providers:** OpenAI, Google, Anthropic, Mistral, Cohere, Groq, Together,
   Fireworks, NVIDIA, Lambda, Ollama, and more.
-- **46,000+ Models:** Access to over 46,000 models across all providers (including Ollama's vast ecosystem).
+- **46,000+ Models:** Access to over 46,000 models across all providers
+  (including Ollama's vast ecosystem).
 - **Native APIs:** Full support for provider-native APIs (Anthropic, Gemini,
   Mistral, etc.).
 - **Embeddings Support:** 4 embedding providers (OpenAI, Google, Mistral,
   Cohere) with 29 models for semantic search and vector operations.
 - **Automatic Retry:** HTTP-level retry logic with exponential backoff for rate
   limiting (429 errors) and Retry-After header support.
-- **Named Providers:** Dynamic provider selection using names and aliases
-  (e.g., 'claude' → Anthropic, 'gemini' → Google).
+- **Named Providers:** Dynamic provider selection using names and aliases (e.g.,
+  'claude' → Anthropic, 'gemini' → Google).
 - **Usage Tracking:** Token usage monitoring and reporting across all providers.
 
 ## Supported Providers
@@ -70,24 +71,24 @@ provider-specific packages—just use `langchain_compat` for everything.
 
 *Model counts as of July 4, 2025.*
 
-| Provider Name | Key/ID     | Chat Models | Embedding Models | Other Models | Total    | Notes                                                                                                       |
-| ------------- | ---------- | ----------- | ---------------- | ------------ | -------- | ----------------------------------------------------------------------------------------------------------- |
-| OpenAI        | openai     | 74          | 3                | 0            | 77       | Complete feature support including embeddings                                                               |
-| OpenRouter    | openrouter | 312         | 0                | 0            | 312      | Aggregator, many sources, no embeddings                                                                     |
-| Google AI     | google     | 37          | 5                | 8            | 50       | Native Gemini API with embeddings support                                                                   |
-| Google AI (OpenAI-compat) | google-openai | 53 | 5            | 0            | 58       | OpenAI-compatible Gemini endpoint                                                                            |
-| Groq          | groq       | 22          | 0                | 0            | 22       | Fast inference, no embeddings                                                                               |
-| Together AI   | together   | 83          | 0                | 0            | 83       | OpenAI-compatible, no embeddings                                                                            |
-| Fireworks AI  | fireworks  | 28          | 0                | 0            | 28       | OpenAI-compatible, no embeddings                                                                            |
-| Mistral AI    | mistral    | 53          | 0                | 0            | 53       | Native API with embeddings support                                                                          |
-| Cohere        | cohere     | 42          | 0                | 0            | 42       | Native API with comprehensive embeddings support                                                            |
-| Lambda        | lambda     | 20          | 0                | 0            | 20       | OpenAI-compatible, no embeddings                                                                            |
-| NVIDIA NIM    | nvidia     | 143         | 0                | 0            | 143      | OpenAI-compatible, no embeddings                                                                            |
-| Anthropic     | anthropic  | 11          | 0                | 0            | 11       | Native Claude API, no embeddings                                                                            |
-| Cerebras      | cerebras   | 4           | 0                | 0            | 4        | OpenAI-compatible, no embeddings                                                                            |
-| Ollama        | ollama     | 180+        | 0                | 0            | 180+     | Curated Library: ~180 ready-to-pull model families<br />Extended universe: ~45K GGUF models on Hugging Face |
-| Ollama (OpenAI-compat) | ollama-openai | 180+ | 0              | 0            | 180+     | Same model access as native Ollama via OpenAI-compatible endpoint                                           |
-| **Total**     |            | **1000+**   | **29**           | **45K+**     | **46K+** | 4 providers support embeddings: OpenAI, Google, Mistral, Cohere                                             |
+| Provider Name             | Key/ID        | Chat Models | Embedding Models | Other Models | Total    | Notes                                                                                                       |
+| ------------------------- | ------------- | ----------- | ---------------- | ------------ | -------- | ----------------------------------------------------------------------------------------------------------- |
+| OpenAI                    | openai        | 74          | 3                | 0            | 77       | Complete feature support including embeddings                                                               |
+| OpenRouter                | openrouter    | 312         | 0                | 0            | 312      | Aggregator, many sources, no embeddings                                                                     |
+| Google AI                 | google        | 37          | 5                | 8            | 50       | Native Gemini API with embeddings support                                                                   |
+| Google AI (OpenAI-compat) | google-openai | 53          | 5                | 0            | 58       | OpenAI-compatible Gemini endpoint                                                                           |
+| Groq                      | groq          | 22          | 0                | 0            | 22       | Fast inference, no embeddings                                                                               |
+| Together AI               | together      | 83          | 0                | 0            | 83       | OpenAI-compatible, no embeddings                                                                            |
+| Fireworks AI              | fireworks     | 28          | 0                | 0            | 28       | OpenAI-compatible, no embeddings                                                                            |
+| Mistral AI                | mistral       | 53          | 0                | 0            | 53       | Native API with embeddings support                                                                          |
+| Cohere                    | cohere        | 42          | 0                | 0            | 42       | Native API with comprehensive embeddings support                                                            |
+| Lambda                    | lambda        | 20          | 0                | 0            | 20       | OpenAI-compatible, no embeddings                                                                            |
+| NVIDIA NIM                | nvidia        | 143         | 0                | 0            | 143      | OpenAI-compatible, no embeddings                                                                            |
+| Anthropic                 | anthropic     | 11          | 0                | 0            | 11       | Native Claude API, no embeddings                                                                            |
+| Cerebras                  | cerebras      | 4           | 0                | 0            | 4        | OpenAI-compatible, no embeddings                                                                            |
+| Ollama                    | ollama        | 180+        | 0                | 0            | 180+     | Curated Library: ~180 ready-to-pull model families<br />Extended universe: ~45K GGUF models on Hugging Face |
+| Ollama (OpenAI-compat)    | ollama-openai | 180+        | 0                | 0            | 180+     | Same model access as native Ollama via OpenAI-compatible endpoint                                           |
+| **Total**                 |               | **1000+**   | **29**           | **45K+**     | **46K+** | 4 providers support embeddings: OpenAI, Google, Mistral, Cohere                                             |
 
 *Note: Model counts and details may change as APIs evolve. Some providers
 aggregate or proxy many models from other sources.*
@@ -122,7 +123,7 @@ void main() async {
   for (final provider in [ChatProvider.ollama, ChatProvider.openai, ChatProvider.anthropic]) {
     final agent = Agent.fromProvider(provider);
     print('\n# ${provider.displayName} (${agent.model})');
-    await for (final chunk in agent.runStream([ChatMessage.humanText(promptText)])) {
+    await for (final chunk in agent.runStream([Message.user(promptText)])) {
       stdout.write(chunk.output);
     }
     print('');
@@ -210,10 +211,10 @@ void main() async {
 
   // Multi-turn conversation with tool execution
   final messages = [
-    ChatMessage.humanText('What\'s the weather in Portland and convert it to Celsius?'),
+    Message.user('What\'s the weather in Portland and convert it to Celsius?'),
   ];
 
-  print('User: ${messages.last.content}');
+  print('User: ${messages.last.text}');
   await for (final chunk in agent.runStream(messages)) {
     stdout.write(chunk.output);
     messages.addAll(chunk.messages);
@@ -223,8 +224,8 @@ void main() async {
 
 ### Listing all models for all providers
 
-You can use `ChatProvider.getModels()` to enumerate all available models for every
-provider. This works for all providers in `ChatProvider.all`:
+You can use `ChatProvider.getModels()` to enumerate all available models for
+every provider. This works for all providers in `ChatProvider.all`:
 
 ```dart
 import 'package:langchain_compat/langchain_compat.dart';
@@ -314,6 +315,58 @@ if (result.usage != null) {
   print('Total tokens: ${result.usage!.totalTokens}');
 }
 ```
+
+## Message API
+
+This package uses a simplified Message/Part model for all conversations:
+
+```dart
+// Creating messages
+final systemMsg = Message.system('You are a helpful assistant');
+final userMsg = Message.user('Hello!');
+final modelMsg = Message.model('Hi! How can I help you today?');
+
+// Messages with multiple parts
+final multipartMsg = Message(
+  role: MessageRole.user,
+  parts: [
+    TextPart('What is in this image?'),
+    DataPart(bytes: imageBytes, mimeType: 'image/png'),
+  ],
+);
+
+// Tool interactions
+final toolCall = Message(
+  role: MessageRole.model,
+  parts: [
+    TextPart('Let me check the weather for you.'),
+    ToolPart.call(
+      id: 'call_123',
+      name: 'get_weather',
+      arguments: {'location': 'Portland'},
+    ),
+  ],
+);
+
+final toolResult = Message(
+  role: MessageRole.user,
+  parts: [
+    ToolPart.result(
+      id: 'call_123',
+      name: 'get_weather',
+      result: '72°F, sunny',
+    ),
+  ],
+);
+```
+
+The Message API provides:
+- **Unified Structure**: Single `Message` class with `MessageRole` enum
+- **Flexible Content**: Support for text, data (images), links, and tool
+  interactions
+- **Tool Integration**: Tools are message parts, not separate message types
+- **Simple Access**: Convenience methods like `message.text` and
+  `message.toolCalls`
 
 ## Additional information
 - To contribute, open issues or pull requests on GitHub. Please follow the

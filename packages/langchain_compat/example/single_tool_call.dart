@@ -36,10 +36,16 @@ Future<void> singleToolCallExample(Agent agent, List<Tool> tools) async {
 
   const userMessage = 'What is the current date and time?';
   final messages = [
-    Message(role: MessageRole.system, parts: [
-      TextPart('If asked for the current date and time, use the current_date_time tool.'),
-    ]),
-    Message(role: MessageRole.user, parts: [TextPart(userMessage)]),
+    const Message(
+      role: MessageRole.system,
+      parts: [
+        TextPart(
+          'If asked for the current date and time, '
+          'use the current_date_time tool.',
+        ),
+      ],
+    ),
+    const Message(role: MessageRole.user, parts: [TextPart(userMessage)]),
   ];
 
   print('\nUser: $userMessage');
@@ -54,10 +60,16 @@ Future<void> singleToolCallExampleStream(Agent agent, List<Tool> tools) async {
 
   const userMessage = 'What is the current date and time?';
   final messages = [
-    Message(role: MessageRole.system, parts: [
-      TextPart('If asked for the current date and time, use the current_date_time tool.'),
-    ]),
-    Message(role: MessageRole.user, parts: [TextPart(userMessage)]),
+    const Message(
+      role: MessageRole.system,
+      parts: [
+        TextPart(
+          'If asked for the current date and time, '
+          'use the current_date_time tool.',
+        ),
+      ],
+    ),
+    const Message(role: MessageRole.user, parts: [TextPart(userMessage)]),
   ];
 
   print('\nUser: $userMessage');

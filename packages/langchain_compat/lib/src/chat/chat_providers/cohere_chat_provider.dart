@@ -1,6 +1,7 @@
 import 'package:html/dom.dart' as dom;
 import 'package:html/parser.dart' as html_parser;
 import 'package:http/http.dart' as http;
+import 'package:logging/logging.dart';
 
 import '../../platform/platform.dart';
 import '../chat_models/chat_model.dart';
@@ -27,44 +28,60 @@ class CohereChatProvider extends OpenAIChatProvider {
     required super.apiKeyName,
   });
 
+  /// Logger for Cohere chat provider operations.
+  static final Logger _logger = Logger('dartantic.chat.providers.cohere');
+
   @override
   ChatModel<CohereChatOptions> createModel({
     String? name,
     List<Tool>? tools,
     double? temperature,
     CohereChatOptions? options,
-  }) => CohereChatModel(
-    name: name ?? defaultModelName,
-    tools: tools,
-    temperature: temperature,
-    apiKey: tryGetEnv(apiKeyName),
-    baseUrl: defaultBaseUrl,
-    defaultOptions: CohereChatOptions(
-      frequencyPenalty: options?.frequencyPenalty,
-      logitBias: options?.logitBias,
-      maxTokens: options?.maxTokens,
-      n: options?.n,
-      presencePenalty: options?.presencePenalty,
-      responseFormat: options?.responseFormat,
-      seed: options?.seed,
-      stop: options?.stop,
-      temperature: temperature ?? options?.temperature,
-      topP: options?.topP,
-      parallelToolCalls: options?.parallelToolCalls,
-      serviceTier: options?.serviceTier,
-      user: options?.user,
-      streamOptions: null, // Cohere requires streamOptions to be null
-    ),
-  );
+  }) {
+    final modelName = name ?? defaultModelName;
+    _logger.info(
+      'Creating Cohere model: $modelName with ${tools?.length ?? 0} tools, '
+      'temp: $temperature',
+    );
+    return CohereChatModel(
+      name: name ?? defaultModelName,
+      tools: tools,
+      temperature: temperature,
+      apiKey: tryGetEnv(apiKeyName),
+      baseUrl: defaultBaseUrl,
+      defaultOptions: CohereChatOptions(
+        frequencyPenalty: options?.frequencyPenalty,
+        logitBias: options?.logitBias,
+        maxTokens: options?.maxTokens,
+        n: options?.n,
+        presencePenalty: options?.presencePenalty,
+        responseFormat: options?.responseFormat,
+        seed: options?.seed,
+        stop: options?.stop,
+        temperature: temperature ?? options?.temperature,
+        topP: options?.topP,
+        parallelToolCalls: options?.parallelToolCalls,
+        serviceTier: options?.serviceTier,
+        user: options?.user,
+        streamOptions: null, // Cohere requires streamOptions to be null
+      ),
+    );
+  }
 
   @override
   Stream<ModelInfo> getModels() async* {
     final url = Uri.parse('https://docs.cohere.com/docs/models');
+    _logger.info('Fetching models from Cohere docs: $url');
     final response = await http.get(url);
     if (response.statusCode != 200) {
+      _logger.warning(
+        'Failed to fetch models: HTTP ${response.statusCode}, '
+        'body: ${response.body}',
+      );
       throw Exception('Failed to fetch Cohere models docs: ${response.body}');
     }
     final doc = html_parser.parse(response.body);
+    _logger.info('Successfully fetched Cohere models documentation');
     // Find all tables whose first header cell is 'Model Name'
     for (final table in doc.querySelectorAll('table')) {
       final headerCells = table.querySelectorAll('th');

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:logging/logging.dart';
 
 import '../../../chat/chat_models/mistral_chat/mistral_chat_model.dart';
 import '../../../language_models/finish_reason.dart';
@@ -13,6 +14,7 @@ import 'mistral_embeddings_model_options.dart';
 /// Mistral AI embeddings model implementation.
 class MistralEmbeddingsModel
     extends EmbeddingsModel<MistralEmbeddingsModelOptions> {
+
   /// Creates a new Mistral embeddings model.
   MistralEmbeddingsModel({
     String? name,
@@ -23,7 +25,13 @@ class MistralEmbeddingsModel
     super.defaultOptions = const MistralEmbeddingsModelOptions(),
   }) : _encodingFormat = encodingFormat,
        _apiKey = apiKey ?? getEnv(apiKeyName),
-       super(name: name ?? defaultName);
+       super(name: name ?? defaultName) {
+    _logger.info(
+      'Created Mistral embeddings model: ${this.name} '
+      '(dimensions: $dimensions, batchSize: $batchSize)',
+    );
+  }
+  static final _logger = Logger('dartantic.embeddings.models.mistral');
 
   /// The environment variable name for the Mistral API key.
   static const apiKeyName = MistralChatModel.apiKeyName;
@@ -41,14 +49,30 @@ class MistralEmbeddingsModel
     String query, {
     MistralEmbeddingsModelOptions? options,
   }) async {
+    final queryLength = query.length;
+
+    _logger.fine(
+      'Embedding query with Mistral model "$name" '
+      '(length: $queryLength)',
+    );
+
     final result = await embedDocuments([query], options: options);
-    return EmbeddingsResult(
+
+    final queryResult = EmbeddingsResult(
       id: result.id,
       output: result.embeddings.first,
       finishReason: result.finishReason,
       usage: result.usage,
       metadata: result.metadata,
     );
+
+    _logger.info(
+      'Mistral embedding query result: '
+      '${queryResult.output.length} dimensions, '
+      '${queryResult.usage.totalTokens} tokens',
+    );
+
+    return queryResult;
   }
 
   @override
@@ -58,6 +82,8 @@ class MistralEmbeddingsModel
   }) async {
     final chunks = <List<String>>[];
     final actualBatchSize = options?.batchSize ?? batchSize ?? 100;
+    final totalTexts = texts.length;
+    final totalCharacters = texts.map((t) => t.length).reduce((a, b) => a + b);
 
     for (var i = 0; i < texts.length; i += actualBatchSize) {
       chunks.add(
@@ -65,12 +91,28 @@ class MistralEmbeddingsModel
       );
     }
 
+    _logger.info(
+      'Embedding $totalTexts documents with Mistral model "$name" '
+      '(batches: ${chunks.length}, batchSize: $actualBatchSize, '
+      'totalChars: $totalCharacters)',
+    );
+
     final allEmbeddings = <List<double>>[];
     var totalPromptTokens = 0;
     var totalTokens = 0;
     var lastId = '';
 
-    for (final chunk in chunks) {
+    for (var i = 0; i < chunks.length; i++) {
+      final chunk = chunks[i];
+      final chunkCharacters = chunk
+          .map((t) => t.length)
+          .reduce((a, b) => a + b);
+
+      _logger.fine(
+        'Processing batch ${i + 1}/${chunks.length} '
+        '(${chunk.length} texts, $chunkCharacters chars)',
+      );
+
       final response = await _makeRequest(chunk, options);
       final embeddings = (response['data'] as List<dynamic>)
           .map(
@@ -91,6 +133,12 @@ class MistralEmbeddingsModel
       }
 
       lastId = response['id'] as String? ?? '';
+
+      _logger.fine(
+        'Batch ${i + 1} completed: '
+        '${embeddings.length} embeddings, '
+        '${usage?['total_tokens'] ?? 0} tokens',
+      );
     }
 
     final usage = LanguageModelUsage(
@@ -98,13 +146,21 @@ class MistralEmbeddingsModel
       totalTokens: totalTokens > 0 ? totalTokens : null,
     );
 
-    return BatchEmbeddingsResult(
+    final result = BatchEmbeddingsResult(
       id: lastId,
       output: allEmbeddings,
       finishReason: FinishReason.stop,
       usage: usage,
       metadata: {'model': name, 'provider': 'mistral'},
     );
+
+    _logger.info(
+      'Mistral batch embedding completed: '
+      '${result.output.length} embeddings, '
+      '${result.usage.totalTokens} total tokens',
+    );
+
+    return result;
   }
 
   Future<Map<String, dynamic>> _makeRequest(
@@ -121,6 +177,8 @@ class MistralEmbeddingsModel
         'encoding_format': options?.encodingFormat ?? _encodingFormat,
     };
 
+    _logger.fine('Making Mistral API request for ${texts.length} texts');
+
     final response = await http.post(
       url,
       headers: {
@@ -131,12 +189,17 @@ class MistralEmbeddingsModel
     );
 
     if (response.statusCode != 200) {
+      _logger.warning(
+        'Mistral API error: ${response.statusCode} ${response.body}',
+      );
       throw Exception(
         'Mistral embeddings API error: ${response.statusCode} ${response.body}',
       );
     }
 
-    return jsonDecode(response.body) as Map<String, dynamic>;
+    final result = jsonDecode(response.body) as Map<String, dynamic>;
+    _logger.fine('Mistral API response received successfully');
+    return result;
   }
 
   @override

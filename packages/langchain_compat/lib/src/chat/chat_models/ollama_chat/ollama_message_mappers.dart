@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:collection/collection.dart';
 import 'package:ollama_dart/ollama_dart.dart' as o;
 
 import '../../../language_models/finish_reason.dart';
@@ -102,10 +101,9 @@ extension MessageListMapper on List<msg.Message> {
           // Tool result message
           return toolParts
               .where((p) => p.result != null)
-              .map((p) => o.Message(
-                    role: o.MessageRole.tool,
-                    content: p.result!,
-                  ))
+              .map(
+                (p) => o.Message(role: o.MessageRole.tool, content: p.result!),
+              )
               .toList();
         } else {
           return _mapUserMessage(message);
@@ -118,20 +116,20 @@ extension MessageListMapper on List<msg.Message> {
   List<o.Message> _mapUserMessage(msg.Message message) {
     final textParts = message.parts.whereType<msg.TextPart>().toList();
     final dataParts = message.parts.whereType<msg.DataPart>().toList();
-    
+
     if (dataParts.isEmpty) {
       // Text-only message
       final text = textParts.map((p) => p.text).join('\n');
-      return [
-        o.Message(role: o.MessageRole.user, content: text),
-      ];
+      return [o.Message(role: o.MessageRole.user, content: text)];
     } else if (textParts.length == 1 && dataParts.isNotEmpty) {
       // Single text with images (Ollama's preferred format)
       return [
         o.Message(
           role: o.MessageRole.user,
           content: textParts.first.text,
-          images: dataParts.map((p) => base64Encode(p.bytes)).toList(growable: false),
+          images: dataParts
+              .map((p) => base64Encode(p.bytes))
+              .toList(growable: false),
         ),
       ];
     } else {
@@ -139,10 +137,7 @@ extension MessageListMapper on List<msg.Message> {
       return message.parts
           .map((part) {
             if (part is msg.TextPart) {
-              return o.Message(
-                role: o.MessageRole.user,
-                content: part.text,
-              );
+              return o.Message(role: o.MessageRole.user, content: part.text);
             } else if (part is msg.DataPart) {
               return o.Message(
                 role: o.MessageRole.user,
@@ -151,7 +146,7 @@ extension MessageListMapper on List<msg.Message> {
             }
             return null;
           })
-          .whereNotNull()
+          .nonNulls
           .toList(growable: false);
     }
   }
@@ -159,21 +154,25 @@ extension MessageListMapper on List<msg.Message> {
   List<o.Message> _mapModelMessage(msg.Message message) {
     final textContent = _extractTextContent(message);
     final toolParts = message.parts.whereType<msg.ToolPart>().toList();
-    
+
     return [
       o.Message(
         role: o.MessageRole.assistant,
         content: textContent,
         toolCalls: toolParts.isNotEmpty
             ? toolParts
-                .where((p) => p.kind == msg.ToolPartKind.call) // Only tool calls, not results
-                .map((p) => o.ToolCall(
+                  .where(
+                    (p) => p.kind == msg.ToolPartKind.call,
+                  ) // Only tool calls, not results
+                  .map(
+                    (p) => o.ToolCall(
                       function: o.ToolCallFunction(
                         name: p.name,
                         arguments: p.arguments ?? {},
                       ),
-                    ))
-                .toList(growable: false)
+                    ),
+                  )
+                  .toList(growable: false)
             : null,
       ),
     ];
@@ -193,30 +192,32 @@ extension ChatResultMapper on o.GenerateChatCompletionResponse {
   /// Converts this [o.GenerateChatCompletionResponse] to a [ChatResult].
   ChatResult<msg.Message> toChatResult(String id) {
     final parts = <msg.Part>[];
-    
+
     // Add text content
     if (message.content.isNotEmpty) {
       parts.add(msg.TextPart(message.content));
     }
-    
+
     // Add tool calls
     if (message.toolCalls != null) {
       for (final toolCall in message.toolCalls!) {
         if (toolCall.function != null) {
-          parts.add(msg.ToolPart.call(
-            id: '', // Ollama doesn't provide tool call IDs
-            name: toolCall.function!.name,
-            arguments: toolCall.function!.arguments,
-          ));
+          parts.add(
+            msg.ToolPart.call(
+              id: '', // Ollama doesn't provide tool call IDs
+              name: toolCall.function!.name,
+              arguments: toolCall.function!.arguments,
+            ),
+          );
         }
       }
     }
-    
+
     final responseMessage = msg.Message(
       role: msg.MessageRole.model,
       parts: parts,
     );
-    
+
     return ChatResult<msg.Message>(
       id: id,
       output: responseMessage,

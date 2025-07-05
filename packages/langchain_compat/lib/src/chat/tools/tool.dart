@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:json_schema/json_schema.dart';
+import 'package:logging/logging.dart';
 
 /// A tool that can be called by the LLM.
 class Tool<TInput extends Object> {
@@ -22,24 +23,33 @@ class Tool<TInput extends Object> {
         'inputFromJson cannot be null when tool has parameters',
       );
     }
+
+    _logger.info(
+      'Registered tool: $name with '
+      '${_hasParameters(inputSchema) ? inputSchema?.properties.length ?? 0 : 0}'
+      ' parameters, strict: ${strict ?? false}',
+    );
   }
+
+  /// Logger for tool operations.
+  static final Logger _logger = Logger('dartantic.tools');
 
   /// The unique name of the tool that clearly communicates its purpose.
   final String name;
 
-  /// Used to tell the model how/when/why to use the tool.
-  /// You can provide few-shot examples as a part of the description.
+  /// Used to tell the model how/when/why to use the tool. You can provide
+  /// few-shot examples as a part of the description.
   final String description;
 
-  /// Schema to parse and validate tool's input arguments.
-  /// Following the [JSON Schema specification](https://json-schema.org).
+  /// Schema to parse and validate tool's input arguments. Following the [JSON
+  /// Schema specification](https://json-schema.org).
   final JsonSchema inputSchema;
 
-  /// Whether to enable strict schema adherence when generating the function call.
-  /// If set to true, the model will follow the exact schema defined in the inputSchema field.
-  /// Only a subset of JSON Schema is supported when strict is true.
-  /// If null, the provider will use its default behavior.
-  /// Learn more about Structured Outputs in the OpenAI function calling guide.
+  /// Whether to enable strict schema adherence when generating the function
+  /// call. If set to true, the model will follow the exact schema defined in
+  /// the inputSchema field. Only a subset of JSON Schema is supported when
+  /// strict is true. If null, the provider will use its default behavior. Learn
+  /// more about Structured Outputs in the OpenAI function calling guide.
   final bool? strict;
 
   /// The function that will be called when the tool is run.
@@ -50,17 +60,28 @@ class Tool<TInput extends Object> {
 
   /// Runs the tool.
   Future<dynamic> invoke(Map<String, dynamic> arguments) async {
-    if (_getInputFromJson != null) {
-      final input = _getInputFromJson(arguments);
-      return onCall(input);
-    } else {
-      // No parameters expected - for tools like Tool<String> with no params,
-      // we pass an empty string or the Map itself, depending on TInput type
-      if (TInput == String) {
-        return onCall('' as TInput);
+    _logger.fine('Invoking tool: $name with arguments: $arguments');
+    try {
+      dynamic result;
+      if (_getInputFromJson != null) {
+        final input = _getInputFromJson(arguments);
+        result = await onCall(input);
       } else {
-        return onCall(arguments as TInput);
+        // No parameters expected - for tools like Tool<String> with no params,
+        // we pass an empty string or the Map itself, depending on TInput type
+        if (TInput == String) {
+          result = await onCall('' as TInput);
+        } else {
+          result = await onCall(arguments as TInput);
+        }
       }
+      _logger.fine(
+        'Tool $name executed successfully, result type: ${result.runtimeType}',
+      );
+      return result;
+    } catch (error, stackTrace) {
+      _logger.warning('Tool $name execution failed: $error', error, stackTrace);
+      rethrow;
     }
   }
 

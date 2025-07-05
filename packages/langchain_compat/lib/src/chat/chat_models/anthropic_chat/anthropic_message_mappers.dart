@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:anthropic_sdk_dart/anthropic_sdk_dart.dart' as a;
 import 'package:collection/collection.dart' show IterableExtension;
+import 'package:logging/logging.dart';
 import 'package:rxdart/rxdart.dart' show WhereNotNullExtension;
 
 import '../../../language_models/finish_reason.dart';
@@ -12,6 +13,9 @@ import '../../tools/tool.dart';
 import '../chat_result.dart';
 import '../message.dart' as msg;
 import 'anthropic_chat.dart';
+
+/// Logger for Anthropic message mapping operations.
+final Logger _logger = Logger('dartantic.chat.mappers.anthropic');
 
 /// Creates an Anthropic [a.CreateMessageRequest] from a list of messages
 /// and options.
@@ -28,8 +32,14 @@ a.CreateMessageRequest createMessageRequest(
       ? (messages.firstOrNull!.parts.firstOrNull as msg.TextPart?)?.text
       : null;
 
+  _logger.fine(
+    'Creating Anthropic message request for ${messages.length} messages',
+  );
   final messagesDtos = messages.toMessages();
   final hasTools = tools != null && tools.isNotEmpty;
+  _logger.fine(
+    'Tool configuration: hasTools=$hasTools, toolCount=${tools?.length ?? 0}',
+  );
   final toolsDtos = hasTools ? tools.toTool() : null;
 
   return a.CreateMessageRequest(
@@ -51,7 +61,9 @@ a.CreateMessageRequest createMessageRequest(
       userId: options?.userId ?? defaultOptions.userId,
     ),
     tools: toolsDtos,
-    toolChoice: hasTools ? const a.ToolChoice(type: a.ToolChoiceType.auto) : null,
+    toolChoice: hasTools
+        ? const a.ToolChoice(type: a.ToolChoiceType.auto)
+        : null,
     stream: stream,
   );
 }
@@ -62,11 +74,16 @@ extension MessageListMapper on List<msg.Message> {
   /// Converts this list of [msg.Message]s to a list of Anthropic SDK
   /// [a.Message]s.
   List<a.Message> toMessages() {
+    _logger.fine('Converting $length messages to Anthropic format');
     final result = <a.Message>[];
     final consecutiveToolMessages = <msg.Message>[];
 
     void flushToolMessages() {
       if (consecutiveToolMessages.isNotEmpty) {
+        _logger.fine(
+          'Flushing ${consecutiveToolMessages.length} '
+          'consecutive tool messages',
+        );
         result.add(_mapToolMessages(consecutiveToolMessages));
         consecutiveToolMessages.clear();
       }
@@ -80,6 +97,10 @@ extension MessageListMapper on List<msg.Message> {
         case msg.MessageRole.user:
           // Check if this is a tool result message
           if (message.parts.whereType<msg.ToolPart>().isNotEmpty) {
+            _logger.fine(
+              'Adding user message with tool parts to consecutive tool '
+              'messages',
+            );
             consecutiveToolMessages.add(message);
           } else {
             flushToolMessages();
@@ -100,6 +121,10 @@ extension MessageListMapper on List<msg.Message> {
   a.Message _mapUserMessage(msg.Message message) {
     final textParts = message.parts.whereType<msg.TextPart>().toList();
     final dataParts = message.parts.whereType<msg.DataPart>().toList();
+    _logger.fine(
+      'Mapping user message: ${textParts.length} text parts, '
+      '${dataParts.length} data parts',
+    );
 
     if (dataParts.isEmpty) {
       // Text-only message
@@ -111,7 +136,7 @@ extension MessageListMapper on List<msg.Message> {
     } else {
       // Multimodal message
       final blocks = <a.Block>[];
-      
+
       for (final part in message.parts) {
         if (part is msg.TextPart) {
           blocks.add(a.Block.text(text: part.text));
@@ -119,7 +144,7 @@ extension MessageListMapper on List<msg.Message> {
           blocks.add(_mapDataPartToBlock(part));
         }
       }
-      
+
       return a.Message(
         role: a.MessageRole.user,
         content: a.MessageContent.blocks(blocks),
@@ -134,7 +159,7 @@ extension MessageListMapper on List<msg.Message> {
         'Anthropic only supports image data parts, got: ${dataPart.mimeType}',
       );
     }
-    
+
     return a.Block.image(
       source: a.ImageBlockSource(
         type: a.ImageBlockSourceType.base64,
@@ -155,6 +180,10 @@ extension MessageListMapper on List<msg.Message> {
   a.Message _mapModelMessage(msg.Message message) {
     final textParts = message.parts.whereType<msg.TextPart>().toList();
     final toolParts = message.parts.whereType<msg.ToolPart>().toList();
+    _logger.fine(
+      'Mapping model message: ${textParts.length} text parts, '
+      '${toolParts.length} tool parts',
+    );
 
     if (toolParts.isEmpty) {
       // Text-only response
@@ -183,8 +212,11 @@ extension MessageListMapper on List<msg.Message> {
   }
 
   a.Message _mapToolMessages(List<msg.Message> messages) {
+    _logger.fine(
+      'Mapping ${messages.length} tool messages to Anthropic blocks',
+    );
     final blocks = <a.Block>[];
-    
+
     for (final message in messages) {
       for (final part in message.parts) {
         if (part is msg.ToolPart && part.kind == msg.ToolPartKind.result) {
@@ -199,7 +231,7 @@ extension MessageListMapper on List<msg.Message> {
         }
       }
     }
-    
+
     return a.Message(
       role: a.MessageRole.user,
       content: a.MessageContent.blocks(blocks),
@@ -213,11 +245,11 @@ extension MessageMapper on a.Message {
   /// Converts this Anthropic SDK [a.Message] to a [ChatResult].
   ChatResult<msg.Message> toChatResult() {
     final parts = _mapMessageContent(content);
-    final message = msg.Message(
-      role: msg.MessageRole.model,
-      parts: parts,
+    final message = msg.Message(role: msg.MessageRole.model, parts: parts);
+    _logger.fine(
+      'Converting Anthropic message to ChatResult with ${parts.length} parts',
     );
-    
+
     return ChatResult<msg.Message>(
       id: id ?? '',
       output: message,
@@ -232,7 +264,8 @@ extension MessageMapper on a.Message {
 /// A [StreamTransformer] that converts a stream of Anthropic
 /// [a.MessageStreamEvent]s into [ChatResult]s.
 class MessageStreamEventTransformer
-    extends StreamTransformerBase<a.MessageStreamEvent, ChatResult<msg.Message>> {
+    extends
+        StreamTransformerBase<a.MessageStreamEvent, ChatResult<msg.Message>> {
   /// Creates a [MessageStreamEventTransformer].
   MessageStreamEventTransformer();
 
@@ -263,10 +296,13 @@ class MessageStreamEventTransformer
 
   ChatResult<msg.Message> _mapMessageStartEvent(a.MessageStartEvent e) {
     final message = e.message;
-    
+
     final msgId = message.id ?? lastMessageId ?? '';
     lastMessageId = msgId;
     final parts = _mapMessageContent(e.message.content);
+    _logger.fine(
+      'Processing message start event: messageId=$msgId, parts=${parts.length}',
+    );
 
     return ChatResult<msg.Message>(
       id: msgId,
@@ -285,8 +321,8 @@ class MessageStreamEventTransformer
   ChatResult<msg.Message> _mapMessageDeltaEvent(a.MessageDeltaEvent e) =>
       ChatResult<msg.Message>(
         id: lastMessageId ?? '',
-        output: msg.Message(role: msg.MessageRole.model, parts: []),
-        messages: [msg.Message(role: msg.MessageRole.model, parts: [])],
+        output: const msg.Message(role: msg.MessageRole.model, parts: []),
+        messages: const [msg.Message(role: msg.MessageRole.model, parts: [])],
         finishReason: _mapFinishReason(e.delta.stopReason),
         metadata: {
           if (e.delta.stopSequence != null)
@@ -299,7 +335,11 @@ class MessageStreamEventTransformer
     a.ContentBlockStartEvent e,
   ) {
     final parts = _mapContentBlock(e.contentBlock);
-    
+    _logger.fine(
+      'Processing content block start event: index=${e.index}, '
+      'parts=${parts.length}',
+    );
+
     // Track tool call IDs
     for (final part in parts) {
       if (part is msg.ToolPart && part.kind == msg.ToolPartKind.call) {
@@ -322,6 +362,10 @@ class MessageStreamEventTransformer
     a.ContentBlockDeltaEvent e,
   ) {
     final parts = _mapContentBlockDelta(lastToolCallId, e.delta);
+    _logger.fine(
+      'Processing content block delta event: index=${e.index}, '
+      'parts=${parts.length}',
+    );
     return ChatResult<msg.Message>(
       id: lastMessageId ?? '',
       output: msg.Message(role: msg.MessageRole.model, parts: parts),
@@ -346,35 +390,34 @@ class MessageStreamEventTransformer
 }
 
 /// Maps an Anthropic [a.MessageContent] to message parts.
-List<msg.Part> _mapMessageContent(a.MessageContent content) => switch (content) {
-  final a.MessageContentText t => [msg.TextPart(t.value)],
-  final a.MessageContentBlocks b => [
-    // Extract text parts
-    ...b.value.whereType<a.TextBlock>().map((t) => msg.TextPart(t.text)),
-    // Extract tool use parts
-    ...b.value.whereType<a.ToolUseBlock>().map(
-      (toolUse) => msg.ToolPart.call(
-        id: toolUse.id,
-        name: toolUse.name,
-        arguments: toolUse.input,
-      ),
-    ),
-  ],
-};
+List<msg.Part> _mapMessageContent(a.MessageContent content) =>
+    switch (content) {
+      final a.MessageContentText t => [msg.TextPart(t.value)],
+      final a.MessageContentBlocks b => [
+        // Extract text parts
+        ...b.value.whereType<a.TextBlock>().map((t) => msg.TextPart(t.text)),
+        // Extract tool use parts
+        ...b.value.whereType<a.ToolUseBlock>().map(
+          (toolUse) => msg.ToolPart.call(
+            id: toolUse.id,
+            name: toolUse.name,
+            arguments: toolUse.input,
+          ),
+        ),
+      ],
+    };
 
 /// Maps an Anthropic [a.Block] to message parts.
 List<msg.Part> _mapContentBlock(a.Block contentBlock) => switch (contentBlock) {
   final a.TextBlock t => [msg.TextPart(t.text)],
-  final a.ImageBlock i => [msg.DataPart(
-    bytes: Uint8List.fromList(i.source.data.codeUnits),
-    mimeType: 'image/png',
-  )],
-  final a.ToolUseBlock tu => [
-    msg.ToolPart.call(
-      id: tu.id,
-      name: tu.name,
-      arguments: tu.input,
+  final a.ImageBlock i => [
+    msg.DataPart(
+      bytes: Uint8List.fromList(i.source.data.codeUnits),
+      mimeType: 'image/png',
     ),
+  ],
+  final a.ToolUseBlock tu => [
+    msg.ToolPart.call(id: tu.id, name: tu.name, arguments: tu.input),
   ],
   final a.ToolResultBlock tr => [msg.TextPart(tr.content.text)],
 };
@@ -386,11 +429,7 @@ List<msg.Part> _mapContentBlockDelta(
 ) => switch (blockDelta) {
   final a.TextBlockDelta t => [msg.TextPart(t.text)],
   final a.InputJsonBlockDelta _ => [
-    msg.ToolPart.call(
-      id: lastToolId ?? '',
-      name: '',
-      arguments: {},
-    ),
+    msg.ToolPart.call(id: lastToolId ?? '', name: '', arguments: const {}),
   ],
 };
 
@@ -398,6 +437,7 @@ List<msg.Part> _mapContentBlockDelta(
 extension ToolSpecListMapper on List<Tool> {
   /// Converts this list of [Tool]s to a list of Anthropic SDK [a.Tool]s.
   List<a.Tool> toTool() {
+    _logger.fine('Converting $length tools to Anthropic format');
     return map(_mapTool).toList(growable: false);
   }
 

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:logging/logging.dart';
 import 'package:uuid/uuid.dart';
 
 import 'chat/chat_models/chat_models.dart';
@@ -8,6 +9,7 @@ import 'chat/chat_models/message.dart' as msg;
 import 'chat/chat_providers/chat_providers.dart';
 import 'chat/tools/tools.dart';
 import 'language_models/language_models.dart';
+import 'logging_options.dart';
 
 /// An agent that manages chat models and provides tool execution and message
 /// collection capabilities.
@@ -40,6 +42,11 @@ class Agent {
     final providerName = index == -1 ? model : model.substring(0, index);
     final modelName = index == -1 ? null : model.substring(index + 1);
 
+    _logger.info(
+      'Creating agent with model: $model (provider: $providerName, '
+      'model: $modelName)',
+    );
+
     // cache the provider name from the input; it could be an alias
     _providerName = providerName;
     _displayName = displayName;
@@ -51,6 +58,11 @@ class Agent {
       tools: tools,
       temperature: temperature,
     );
+
+    _logger.fine(
+      'Agent created successfully with ${tools?.length ?? 0} tools, '
+      'temperature: $temperature',
+    );
   }
 
   /// Creates an agent from a provider
@@ -61,12 +73,21 @@ class Agent {
     double? temperature,
     String? displayName,
   }) {
+    _logger.info(
+      'Creating agent from provider: ${provider.name}, model: $modelName',
+    );
+
     _providerName = provider.name;
     _displayName = displayName;
     _model = provider.createModel(
       name: modelName,
       tools: tools,
       temperature: temperature,
+    );
+
+    _logger.fine(
+      'Agent created from provider with ${tools?.length ?? 0} tools, '
+      'temperature: $temperature',
     );
   }
 
@@ -76,9 +97,67 @@ class Agent {
     required String providerName,
     String? displayName,
   }) {
+    _logger.info('Creating agent from existing model, provider: $providerName');
+
     _providerName = providerName;
     _displayName = displayName;
     _model = model;
+
+    _logger.fine('Agent created from existing model');
+  }
+
+  /// Logger for agent operations.
+  static final Logger _logger = Logger('dartantic.agent');
+
+  /// Global logging configuration for all Agent operations.
+  ///
+  /// Controls logging level, filtering, and output handling for all dartantic
+  /// loggers. Setting this property automatically configures the logging
+  /// system with the specified options.
+  ///
+  /// Example usage:
+  /// ```dart
+  /// // Filter to only OpenAI operations
+  /// Agent.loggingOptions = LoggingOptions(filter: 'openai');
+  ///
+  /// // Custom level and handler
+  /// Agent.loggingOptions = LoggingOptions(
+  ///   level: Level.FINE,
+  ///   onRecord: (record) => myLogger.log(record),
+  /// );
+  /// ```
+  static LoggingOptions get loggingOptions => _loggingOptions;
+  static LoggingOptions _loggingOptions = const LoggingOptions();
+  static StreamSubscription<LogRecord>? _loggingSubscription;
+
+  /// Sets the global logging configuration and applies it immediately.
+  static set loggingOptions(LoggingOptions options) {
+    _loggingOptions = options;
+    _setupLogging();
+  }
+
+  /// Sets up the logging system with the current options.
+  static void _setupLogging() {
+    // Cancel existing subscription if any
+    unawaited(_loggingSubscription?.cancel());
+
+    // Configure root logger level
+    Logger.root.level = _loggingOptions.level;
+
+    // Set up new subscription with filtering
+    _loggingSubscription = Logger.root.onRecord.listen((record) {
+      // Apply level filter (should already be handled by Logger.root.level)
+      if (record.level < _loggingOptions.level) return;
+
+      // Apply name filter - empty string matches all
+      if (_loggingOptions.filter.isNotEmpty &&
+          !record.loggerName.contains(_loggingOptions.filter)) {
+        return;
+      }
+
+      // Call the configured handler
+      _loggingOptions.onRecord(record);
+    });
   }
 
   /// Gets the provider name.
@@ -128,6 +207,8 @@ class Agent {
   ///
   /// This method internally uses [runStream] and accumulates all results.
   Future<ChatResult<String>> run(List<msg.Message> messages) async {
+    _logger.info('Running agent with ${messages.length} messages');
+
     final allNewMessages = <msg.Message>[];
     var finalOutput = '';
     var finalResult = const ChatResult<String>(
@@ -147,6 +228,11 @@ class Agent {
       finalResult = result;
     }
 
+    _logger.info(
+      'Agent run completed with ${allNewMessages.length} new messages, '
+      'finish reason: ${finalResult.finishReason}',
+    );
+
     return ChatResult<String>(
       id: finalResult.id,
       output: finalOutput,
@@ -163,6 +249,8 @@ class Agent {
   /// - [ChatResult.output] contains streaming text chunks
   /// - [ChatResult.messages] contains new messages since the last result
   Stream<ChatResult<String>> runStream(List<msg.Message> messages) async* {
+    _logger.info('Starting agent stream with ${messages.length} messages');
+
     final conversationHistory = List<msg.Message>.from(messages);
     final toolMap = {
       for (final tool in _model.tools ?? <Tool>[]) tool.name: tool,
@@ -172,13 +260,16 @@ class Agent {
     _shouldPrefixNextMessage = false; // Reset at start of stream
     while (!done) {
       var isFirstChunkOfMessage = true; // Track first chunk of each AI message
-      var currentAIMessage = msg.Message(role: msg.MessageRole.model, parts: []);
-      var lastResult = ChatResult<msg.Message>(
+      var currentAIMessage = const msg.Message(
+        role: msg.MessageRole.model,
+        parts: [],
+      );
+      var lastResult = const ChatResult<msg.Message>(
         id: '',
         output: msg.Message(role: msg.MessageRole.model, parts: []),
         finishReason: FinishReason.unspecified,
-        metadata: const <String, dynamic>{},
-        usage: const LanguageModelUsage(),
+        metadata: <String, dynamic>{},
+        usage: LanguageModelUsage(),
       );
 
       // Stream the raw response and collect it
@@ -221,12 +312,12 @@ class Agent {
         // Accumulate the full message
         // Merge the parts from streaming chunks
         final newParts = result.output.parts;
-        
+
         // For tool calls, ensure IDs are assigned if needed
         final processedParts = _shouldAssignIdsBeforeConcat(result.output)
             ? _assignToolCallIdsToMessage(newParts)
             : newParts;
-        
+
         // Accumulate parts
         currentAIMessage = msg.Message(
           role: msg.MessageRole.model,
@@ -260,10 +351,15 @@ class Agent {
           .whereType<msg.ToolPart>()
           .where((p) => p.kind == msg.ToolPartKind.call)
           .toList();
-      
+
       if (toolCalls.isEmpty) {
+        _logger.fine('No tool calls found, completing agent stream');
         done = true;
       } else {
+        _logger.info(
+          'Found ${toolCalls.length} tool calls to execute: '
+          '${toolCalls.map((t) => t.name).join(', ')}',
+        );
         // STREAMING UX: Set flag to prefix next AI message with newline
         //
         // Since this AI message has tool calls, we know another AI message
@@ -275,6 +371,10 @@ class Agent {
         for (final toolPart in toolCalls) {
           final tool = toolMap[toolPart.name];
           if (tool != null) {
+            _logger.fine(
+              'Executing tool: ${toolPart.name} with args: '
+              '${toolPart.argumentsRaw}',
+            );
             try {
               // Parse arguments from argumentsRaw if arguments is empty
               // This handles the streaming case where JSON parsing is deferred
@@ -294,7 +394,12 @@ class Agent {
               final resultString = result is String
                   ? result
                   : json.encode(result);
-              
+
+              _logger.fine(
+                'Tool ${toolPart.name} executed successfully, '
+                'result length: ${resultString.length}',
+              );
+
               // Create a user message with tool result part
               toolResults.add(
                 msg.Message(
@@ -309,6 +414,8 @@ class Agent {
                 ),
               );
             } on Exception catch (error) {
+              _logger.warning('Tool ${toolPart.name} execution failed: $error');
+
               toolResults.add(
                 msg.Message(
                   role: msg.MessageRole.user,
@@ -322,11 +429,19 @@ class Agent {
                 ),
               );
             }
+          } else {
+            _logger.warning(
+              'Tool ${toolPart.name} not found in available tools: '
+              '${toolMap.keys.join(', ')}',
+            );
           }
         }
 
         // Add tool results to conversation history
         conversationHistory.addAll(toolResults);
+        _logger.fine(
+          'Added ${toolResults.length} tool results to conversation history',
+        );
 
         // Yield tool results
         yield ChatResult<String>(
@@ -351,7 +466,7 @@ class Agent {
         .whereType<msg.ToolPart>()
         .where((p) => p.kind == msg.ToolPartKind.call)
         .toList();
-    
+
     // If there are multiple tool calls and any have empty IDs, we need to
     // assign UUIDs before concat to prevent incorrect merging
     if (toolParts.length > 1) {
@@ -373,20 +488,19 @@ class Agent {
   /// This is primarily for providers like Ollama and Google that don't
   /// provide tool call IDs. OpenAI provides proper IDs and uses a different
   /// streaming protocol where partial tool calls should be concatenated.
-  List<msg.Part> _assignToolCallIdsToMessage(List<msg.Part> parts) {
-    return parts.map((part) {
-      if (part is msg.ToolPart && 
-          part.kind == msg.ToolPartKind.call && 
-          part.id.isEmpty) {
-        // Only assign UUIDs if the tool call has an empty ID
-        return msg.ToolPart.call(
-          id: _uuid.v4(),
-          name: part.name,
-          arguments: part.arguments ?? {},
-        );
-      }
-      // Return as-is if not a tool call or ID already exists
-      return part;
-    }).toList();
-  }
+  List<msg.Part> _assignToolCallIdsToMessage(List<msg.Part> parts) =>
+      parts.map((part) {
+        if (part is msg.ToolPart &&
+            part.kind == msg.ToolPartKind.call &&
+            part.id.isEmpty) {
+          // Only assign UUIDs if the tool call has an empty ID
+          return msg.ToolPart.call(
+            id: _uuid.v4(),
+            name: part.name,
+            arguments: part.arguments ?? {},
+          );
+        }
+        // Return as-is if not a tool call or ID already exists
+        return part;
+      }).toList();
 }

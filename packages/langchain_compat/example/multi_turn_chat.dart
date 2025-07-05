@@ -5,7 +5,7 @@ import 'dart:io';
 
 import 'package:langchain_compat/langchain_compat.dart';
 
-// import 'lib/dump_chat_history.dart'; // TODO: Update this utility
+import 'lib/dump_message_history.dart';
 
 Future<void> main() async {
   for (final provider in ChatProvider.all) {
@@ -23,7 +23,12 @@ Future<void> multiTurnChat(ChatProvider provider) async {
     'What are some must-see attractions?',
   ];
 
-  final messages = [Message(role: MessageRole.system, parts: [TextPart('Be concise in your responses.')])];
+  final messages = [
+    const Message(
+      role: MessageRole.system,
+      parts: [TextPart('Be concise in your responses.')],
+    ),
+  ];
 
   for (final userMsg in userMessages) {
     messages.add(Message(role: MessageRole.user, parts: [TextPart(userMsg)]));
@@ -39,9 +44,14 @@ Future<void> multiTurnChat(ChatProvider provider) async {
       stdout.write(text);
       fullResponse.write(text);
     }
-    messages.add(Message(role: MessageRole.model, parts: [TextPart(fullResponse.toString())]));
+    messages.add(
+      Message(
+        role: MessageRole.model,
+        parts: [TextPart(fullResponse.toString())],
+      ),
+    );
     print('');
   }
 
-  // dumpChatHistory(messages); // TODO: Update dump_chat_history.dart
+  dumpMessageHistory(messages);
 }

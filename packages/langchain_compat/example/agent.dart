@@ -6,10 +6,10 @@ import 'package:json_schema/json_schema.dart';
 import 'package:langchain_compat/langchain_compat.dart';
 
 // Helper functions for creating messages
-Message systemMessage(String text) => 
+Message systemMessage(String text) =>
     Message(role: MessageRole.system, parts: [TextPart(text)]);
 
-Message userMessage(String text) => 
+Message userMessage(String text) =>
     Message(role: MessageRole.user, parts: [TextPart(text)]);
 
 String getMessageText(Message message) =>
@@ -79,9 +79,7 @@ Future<void> multipleToolCalls(Agent agent) async {
 Future<void> multiTurnConversation(Agent agent) async {
   print('═══ Scenario 3: Multi-turn Conversation ═══');
 
-  final messages = <Message>[
-    systemMessage('You are a helpful assistant.'),
-  ];
+  final messages = <Message>[systemMessage('You are a helpful assistant.')];
 
   // Turn 1: Ask about weather
   messages.add(userMessage("What's the weather in Seattle?"));
@@ -94,9 +92,7 @@ Future<void> multiTurnConversation(Agent agent) async {
 
   // Turn 2: Follow up with temperature conversion
   messages.add(
-    userMessage(
-      'Thanks! Can you convert that temperature to Celsius?',
-    ),
+    userMessage('Thanks! Can you convert that temperature to Celsius?'),
   );
   print('\nUser: ${getMessageText(messages.last)}');
   stdout.write('Agent: ');
@@ -106,9 +102,7 @@ Future<void> multiTurnConversation(Agent agent) async {
   messages.addAll(result.messages);
 
   // Turn 3: Continue conversation
-  messages.add(
-    userMessage('Perfect! What would 100°F be in Celsius?'),
-  );
+  messages.add(userMessage('Perfect! What would 100°F be in Celsius?'));
   print('\nUser: ${getMessageText(messages.last)}');
   stdout.write('Agent: ');
 
@@ -175,11 +169,14 @@ Future<void> streamingComparison(Agent agent) async {
   print('Streaming provides real-time feedback during processing.\n');
 }
 
-int _countToolCalls(List<Message> messages) =>
-    messages
-        .where((msg) => msg.role == MessageRole.model)
-        .expand((msg) => msg.parts.whereType<ToolPart>().where((p) => p.kind == ToolPartKind.call))
-        .length;
+int _countToolCalls(List<Message> messages) => messages
+    .where((msg) => msg.role == MessageRole.model)
+    .expand(
+      (msg) => msg.parts.whereType<ToolPart>().where(
+        (p) => p.kind == ToolPartKind.call,
+      ),
+    )
+    .length;
 
 // Create weather tool
 final weatherTool = Tool<Map<String, dynamic>>(

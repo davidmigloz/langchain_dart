@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'package:logging/logging.dart';
 import 'package:ollama_dart/ollama_dart.dart' show OllamaClient;
 import 'package:uuid/uuid.dart';
 
@@ -30,7 +31,13 @@ class OllamaChatModel extends ChatModel<OllamaChatOptions> {
        super(
          name: name ?? defaultName,
          defaultOptions: defaultOptions ?? const OllamaChatOptions(),
-       );
+       ) {
+    _logger.info(
+      'Creating Ollama model: ${name ?? defaultName} '
+      'with ${tools?.length ?? 0} tools, temp: $temperature',
+    );
+  }
+  static final Logger _logger = Logger('dartantic.chat.models.ollama');
 
   /// The default model to use unless another is specified.
   ///
@@ -50,23 +57,32 @@ class OllamaChatModel extends ChatModel<OllamaChatOptions> {
   Stream<ChatResult<msg.Message>> sendStream(
     List<msg.Message> messages, {
     OllamaChatOptions? options,
-  }) => _client
-      .generateChatCompletionStream(
-        request: ollama_mappers.generateChatCompletionRequest(
-          messages,
-          modelName: name,
-          options: options,
-          defaultOptions: defaultOptions,
-          tools: tools,
-          temperature: temperature,
-          stream: true,
-        ),
-      )
-      .map(
-        (completion) => ollama_mappers.ChatResultMapper(
-          completion,
-        ).toChatResult(_uuid.v4()),
-      );
+  }) {
+    _logger.info(
+      'Starting Ollama chat stream with ${messages.length} '
+      'messages for model: $name',
+    );
+    var chunkCount = 0;
+    return _client
+        .generateChatCompletionStream(
+          request: ollama_mappers.generateChatCompletionRequest(
+            messages,
+            modelName: name,
+            options: options,
+            defaultOptions: defaultOptions,
+            tools: tools,
+            temperature: temperature,
+            stream: true,
+          ),
+        )
+        .map((completion) {
+          chunkCount++;
+          _logger.fine('Received Ollama stream chunk $chunkCount');
+          return ollama_mappers.ChatResultMapper(
+            completion,
+          ).toChatResult(_uuid.v4());
+        });
+  }
 
   @override
   void dispose() => _client.endSession();

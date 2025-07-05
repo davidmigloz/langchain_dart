@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'package:logging/logging.dart';
 import 'package:mistralai_dart/mistralai_dart.dart';
 
 import '../../../platform/platform.dart';
@@ -30,12 +31,17 @@ class MistralChatModel extends ChatModel<MistralChatOptions> {
          name: name ?? defaultName,
          defaultOptions: defaultOptions ?? const MistralChatOptions(),
        ) {
+    _logger.info(
+      'Creating Mistral model: ${name ?? defaultName} '
+      'with ${tools?.length ?? 0} tools, temp: $temperature',
+    );
     if (tools != null) {
       // TODO: Mistral doesn't support tools yet, waiting for a fix:
       // https://github.com/davidmigloz/langchain_dart/issues/653
       throw Exception('Tools are not supported by Mistral.');
     }
   }
+  static final Logger _logger = Logger('dartantic.chat.models.mistral');
 
   /// The default model to use unless another is specified.
   static const defaultName = 'mistral-small';
@@ -52,19 +58,30 @@ class MistralChatModel extends ChatModel<MistralChatOptions> {
   Stream<ChatResult<msg.Message>> sendStream(
     List<msg.Message> messages, {
     MistralChatOptions? options,
-  }) => _client
-      .createChatCompletionStream(
-        request: createChatCompletionRequest(
-          messages,
-          modelName: name,
-          tools: tools,
-          temperature: temperature,
-          options: options,
-          defaultOptions: defaultOptions,
-          stream: true,
-        ),
-      )
-      .map((completion) => completion.toChatResult());
+  }) {
+    _logger.info(
+      'Starting Mistral chat stream with ${messages.length} messages for '
+      'model: $name',
+    );
+    var chunkCount = 0;
+    return _client
+        .createChatCompletionStream(
+          request: createChatCompletionRequest(
+            messages,
+            modelName: name,
+            tools: tools,
+            temperature: temperature,
+            options: options,
+            defaultOptions: defaultOptions,
+            stream: true,
+          ),
+        )
+        .map((completion) {
+          chunkCount++;
+          _logger.fine('Received Mistral stream chunk $chunkCount');
+          return completion.toChatResult();
+        });
+  }
 
   /// Creates a GenerateCompletionRequest from the given input.
   ChatCompletionRequest createChatCompletionRequest(

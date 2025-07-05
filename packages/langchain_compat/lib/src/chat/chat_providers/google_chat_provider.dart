@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:logging/logging.dart';
 
 import '../../platform/platform.dart';
 import '../chat_models/chat_model.dart';
@@ -28,31 +29,41 @@ class GoogleChatProvider extends ChatProvider<GoogleChatOptions> {
     required super.apiKeyName,
   });
 
+  /// Logger for Google chat provider operations.
+  static final Logger _logger = Logger('dartantic.chat.providers.google');
+
   @override
   ChatModel<GoogleChatOptions> createModel({
     String? name,
     List<Tool>? tools,
     double? temperature,
     GoogleChatOptions? options,
-  }) => GoogleChatModel(
-    name: name ?? defaultModelName,
-    tools: tools,
-    temperature: temperature,
-    apiKey: tryGetEnv(apiKeyName),
-    baseUrl: defaultBaseUrl,
-    defaultOptions: GoogleChatOptions(
-      topP: options?.topP,
-      topK: options?.topK,
-      candidateCount: options?.candidateCount,
-      maxOutputTokens: options?.maxOutputTokens,
-      temperature: temperature ?? options?.temperature,
-      stopSequences: options?.stopSequences,
-      responseMimeType: options?.responseMimeType,
-      responseSchema: options?.responseSchema,
-      safetySettings: options?.safetySettings,
-      enableCodeExecution: options?.enableCodeExecution,
-    ),
-  );
+  }) {
+    final modelName = name ?? defaultModelName;
+    _logger.info(
+      'Creating Google model: $modelName with ${tools?.length ?? 0} tools, '
+      'temp: $temperature',
+    );
+    return GoogleChatModel(
+      name: name ?? defaultModelName,
+      tools: tools,
+      temperature: temperature,
+      apiKey: tryGetEnv(apiKeyName),
+      baseUrl: defaultBaseUrl,
+      defaultOptions: GoogleChatOptions(
+        topP: options?.topP,
+        topK: options?.topK,
+        candidateCount: options?.candidateCount,
+        maxOutputTokens: options?.maxOutputTokens,
+        temperature: temperature ?? options?.temperature,
+        stopSequences: options?.stopSequences,
+        responseMimeType: options?.responseMimeType,
+        responseSchema: options?.responseSchema,
+        safetySettings: options?.safetySettings,
+        enableCodeExecution: options?.enableCodeExecution,
+      ),
+    );
+  }
 
   @override
   Stream<ModelInfo> getModels() async* {
@@ -60,11 +71,18 @@ class GoogleChatProvider extends ChatProvider<GoogleChatOptions> {
     final url = Uri.parse(
       'https://generativelanguage.googleapis.com/v1beta/models',
     );
+    _logger.info('Fetching models from Google API: $url');
     final response = await http.get(url, headers: {'x-goog-api-key': apiKey});
     if (response.statusCode != 200) {
+      _logger.warning(
+        'Failed to fetch models: HTTP ${response.statusCode}, '
+        'body: ${response.body}',
+      );
       throw Exception('Failed to fetch Gemini models: ${response.body}');
     }
     final data = jsonDecode(response.body) as Map<String, dynamic>;
+    final modelCount = (data['models'] as List).length;
+    _logger.info('Successfully fetched $modelCount models from Google API');
     for (final m in (data['models'] as List).cast<Map<String, dynamic>>()) {
       final id = m['name'] as String;
       final kinds = <ModelKind>{};

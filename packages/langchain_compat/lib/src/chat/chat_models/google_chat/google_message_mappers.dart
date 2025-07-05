@@ -1,11 +1,15 @@
 import 'dart:convert';
 
 import 'package:google_generative_ai/google_generative_ai.dart' as g;
+import 'package:logging/logging.dart';
 
 import '../../../language_models/language_models.dart';
 import '../../tools/tool.dart';
 import '../chat_models.dart';
 import '../message.dart' as msg;
+
+/// Logger for Google message mapping operations.
+final Logger _logger = Logger('dartantic.chat.mappers.google');
 
 /// Extension on [List<msg.Message>] to convert messages to Google
 /// Generative AI SDK content.
@@ -18,20 +22,28 @@ extension MessageListMapper on List<msg.Message> {
     final nonSystemMessages = where(
       (message) => message.role != msg.MessageRole.system,
     ).toList();
+    _logger.fine(
+      'Converting ${nonSystemMessages.length} non-system messages to Google '
+      'format',
+    );
     final result = <g.Content>[];
 
     for (var i = 0; i < nonSystemMessages.length; i++) {
       final message = nonSystemMessages[i];
 
       // Check if this is a tool result message
-      final hasToolResults = message.parts
-          .whereType<msg.ToolPart>()
-          .any((p) => p.result != null);
+      final hasToolResults = message.parts.whereType<msg.ToolPart>().any(
+        (p) => p.result != null,
+      );
 
       if (hasToolResults) {
         // Collect all consecutive tool result messages
         final toolMessages = [message];
         var j = i + 1;
+        _logger.fine(
+          'Found tool result message at index $i, collecting consecutive tool '
+          'messages',
+        );
         while (j < nonSystemMessages.length) {
           final nextMsg = nonSystemMessages[j];
           final nextHasToolResults = nextMsg.parts
@@ -46,6 +58,10 @@ extension MessageListMapper on List<msg.Message> {
         }
 
         // Create a single g.Content.functionResponses with all tool responses
+        _logger.fine(
+          'Creating function responses for ${toolMessages.length} tool '
+          'messages',
+        );
         result.add(_mapToolResultMessages(toolMessages));
 
         // Skip the processed messages
@@ -72,7 +88,8 @@ extension MessageListMapper on List<msg.Message> {
 
   g.Content _mapUserMessage(msg.Message message) {
     final contentParts = <g.Part>[];
-    
+    _logger.fine('Mapping user message with ${message.parts.length} parts');
+
     for (final part in message.parts) {
       switch (part) {
         case msg.TextPart(:final text):
@@ -86,32 +103,34 @@ extension MessageListMapper on List<msg.Message> {
           break;
       }
     }
-    
+
     return g.Content.multi(contentParts);
   }
 
   g.Content _mapModelMessage(msg.Message message) {
     final contentParts = <g.Part>[];
-    
+
     // Add text parts
     final textParts = message.parts.whereType<msg.TextPart>();
+    _logger.fine('Mapping model message with ${message.parts.length} parts');
     for (final part in textParts) {
       if (part.text.isNotEmpty) {
         contentParts.add(g.TextPart(part.text));
       }
     }
-    
+
     // Add tool calls
     final toolParts = message.parts.whereType<msg.ToolPart>();
+    var toolCallCount = 0;
     for (final part in toolParts) {
       if (part.kind == msg.ToolPartKind.call) {
         // This is a tool call, not a result
-        contentParts.add(
-          g.FunctionCall(part.name, part.arguments ?? {}),
-        );
+        contentParts.add(g.FunctionCall(part.name, part.arguments ?? {}));
+        toolCallCount++;
       }
     }
-    
+    _logger.fine('Added $toolCallCount tool calls to model message');
+
     return g.Content.model(contentParts);
   }
 
@@ -120,13 +139,19 @@ extension MessageListMapper on List<msg.Message> {
   /// function responses must be grouped together
   g.Content _mapToolResultMessages(List<msg.Message> messages) {
     final functionResponses = <g.FunctionResponse>[];
-    
+    _logger.fine(
+      'Mapping ${messages.length} tool result messages to Google function '
+      'responses',
+    );
+
     for (final message in messages) {
       for (final part in message.parts) {
         if (part is msg.ToolPart && part.kind == msg.ToolPartKind.result) {
           Map<String, Object?>? response;
           try {
-            final resultStr = part.result is String ? part.result : jsonEncode(part.result);
+            final resultStr = part.result is String
+                ? part.result
+                : jsonEncode(part.result);
             response = jsonDecode(resultStr) as Map<String, Object?>;
           } on Exception catch (_) {
             response = {'result': part.result.toString()};
@@ -135,6 +160,7 @@ extension MessageListMapper on List<msg.Message> {
           // Extract the original function name from our generated ID
           // Format: google_{toolName}_{argsHash} -> toolName
           final functionName = _extractFunctionNameFromId(part.id);
+          _logger.fine('Creating function response for tool: $functionName');
 
           functionResponses.add(g.FunctionResponse(functionName, response));
         }
@@ -167,8 +193,14 @@ extension GenerateContentResponseMapper on g.GenerateContentResponse {
   ChatResult<msg.Message> toChatResult(String id, String model) {
     final candidate = candidates.first;
     final parts = <msg.Part>[];
-    
+    _logger.fine(
+      'Converting Google response to ChatResult: id=$id, model=$model',
+    );
+
     // Process all parts from the response
+    _logger.fine(
+      'Processing ${candidate.content.parts.length} parts from Google response',
+    );
     for (final part in candidate.content.parts) {
       switch (part) {
         case g.TextPart(:final text):
@@ -176,18 +208,18 @@ extension GenerateContentResponseMapper on g.GenerateContentResponse {
             parts.add(msg.TextPart(text));
           }
         case g.DataPart(:final mimeType, :final bytes):
-          parts.add(msg.DataPart(
-            bytes: bytes,
-            mimeType: mimeType,
-          ));
+          parts.add(msg.DataPart(bytes: bytes, mimeType: mimeType));
         case g.FilePart(:final uri):
           parts.add(msg.LinkPart(url: uri.toString()));
         case g.FunctionCall(:final name, :final args):
-          parts.add(msg.ToolPart.call(
-            id: '', // Google doesn't provide tool call IDs
-            name: name,
-            arguments: args,
-          ));
+          _logger.fine('Processing function call: $name');
+          parts.add(
+            msg.ToolPart.call(
+              id: '', // Google doesn't provide tool call IDs
+              name: name,
+              arguments: args,
+            ),
+          );
         case g.FunctionResponse():
           // Function responses shouldn't appear in model output
           break;
@@ -199,12 +231,9 @@ extension GenerateContentResponseMapper on g.GenerateContentResponse {
           break;
       }
     }
-    
-    final message = msg.Message(
-      role: msg.MessageRole.model,
-      parts: parts,
-    );
-    
+
+    final message = msg.Message(role: msg.MessageRole.model, parts: parts);
+
     return ChatResult<msg.Message>(
       id: id,
       output: message,
@@ -266,34 +295,37 @@ extension GenerateContentResponseMapper on g.GenerateContentResponse {
 extension SafetySettingsMapper on List<ChatGoogleGenerativeAISafetySetting> {
   /// Converts this list of [ChatGoogleGenerativeAISafetySetting]s to a list of
   /// [g.SafetySetting]s.
-  List<g.SafetySetting> toSafetySettings() => map(
-    (setting) => g.SafetySetting(
-      switch (setting.category) {
-        ChatGoogleGenerativeAISafetySettingCategory.unspecified =>
-          g.HarmCategory.unspecified,
-        ChatGoogleGenerativeAISafetySettingCategory.harassment =>
-          g.HarmCategory.harassment,
-        ChatGoogleGenerativeAISafetySettingCategory.hateSpeech =>
-          g.HarmCategory.hateSpeech,
-        ChatGoogleGenerativeAISafetySettingCategory.sexuallyExplicit =>
-          g.HarmCategory.sexuallyExplicit,
-        ChatGoogleGenerativeAISafetySettingCategory.dangerousContent =>
-          g.HarmCategory.dangerousContent,
-      },
-      switch (setting.threshold) {
-        ChatGoogleGenerativeAISafetySettingThreshold.unspecified =>
-          g.HarmBlockThreshold.unspecified,
-        ChatGoogleGenerativeAISafetySettingThreshold.blockLowAndAbove =>
-          g.HarmBlockThreshold.low,
-        ChatGoogleGenerativeAISafetySettingThreshold.blockMediumAndAbove =>
-          g.HarmBlockThreshold.medium,
-        ChatGoogleGenerativeAISafetySettingThreshold.blockOnlyHigh =>
-          g.HarmBlockThreshold.high,
-        ChatGoogleGenerativeAISafetySettingThreshold.blockNone =>
-          g.HarmBlockThreshold.none,
-      },
-    ),
-  ).toList(growable: false);
+  List<g.SafetySetting> toSafetySettings() {
+    _logger.fine('Converting $length safety settings to Google format');
+    return map(
+      (setting) => g.SafetySetting(
+        switch (setting.category) {
+          ChatGoogleGenerativeAISafetySettingCategory.unspecified =>
+            g.HarmCategory.unspecified,
+          ChatGoogleGenerativeAISafetySettingCategory.harassment =>
+            g.HarmCategory.harassment,
+          ChatGoogleGenerativeAISafetySettingCategory.hateSpeech =>
+            g.HarmCategory.hateSpeech,
+          ChatGoogleGenerativeAISafetySettingCategory.sexuallyExplicit =>
+            g.HarmCategory.sexuallyExplicit,
+          ChatGoogleGenerativeAISafetySettingCategory.dangerousContent =>
+            g.HarmCategory.dangerousContent,
+        },
+        switch (setting.threshold) {
+          ChatGoogleGenerativeAISafetySettingThreshold.unspecified =>
+            g.HarmBlockThreshold.unspecified,
+          ChatGoogleGenerativeAISafetySettingThreshold.blockLowAndAbove =>
+            g.HarmBlockThreshold.low,
+          ChatGoogleGenerativeAISafetySettingThreshold.blockMediumAndAbove =>
+            g.HarmBlockThreshold.medium,
+          ChatGoogleGenerativeAISafetySettingThreshold.blockOnlyHigh =>
+            g.HarmBlockThreshold.high,
+          ChatGoogleGenerativeAISafetySettingThreshold.blockNone =>
+            g.HarmBlockThreshold.none,
+        },
+      ),
+    ).toList(growable: false);
+  }
 }
 
 /// Extension on [List<Tool>?] to convert to Google SDK tool list.
@@ -302,6 +334,11 @@ extension ChatToolListMapper on List<Tool>? {
   /// enabling code execution.
   List<g.Tool>? toToolList({required bool enableCodeExecution}) {
     final hasTools = this != null && this!.isNotEmpty;
+    _logger.fine(
+      'Converting tools to Google format: hasTools=$hasTools, '
+      'enableCodeExecution=$enableCodeExecution, '
+      'toolCount=${this?.length ?? 0}',
+    );
     if (!hasTools && !enableCodeExecution) {
       return null;
     }
@@ -339,6 +376,7 @@ extension SchemaMapper on Map<String, dynamic> {
     final jsonSchema = this;
     final type = jsonSchema['type'] as String;
     final description = jsonSchema['description'] as String?;
+    _logger.fine('Converting schema to Google format: type=$type');
     final nullable = jsonSchema['nullable'] as bool?;
     final enumValues = (jsonSchema['enum'] as List?)?.cast<String>();
     final format = jsonSchema['format'] as String?;
@@ -379,6 +417,7 @@ extension SchemaMapper on Map<String, dynamic> {
       case 'array':
         if (items != null) {
           final itemsSchema = items.toSchema();
+          _logger.fine('Converting array schema with items');
           return g.Schema.array(
             items: itemsSchema,
             description: description,
@@ -393,6 +432,9 @@ extension SchemaMapper on Map<String, dynamic> {
               key,
               Map<String, dynamic>.from(value as Map).toSchema(),
             ),
+          );
+          _logger.fine(
+            'Converting object schema with ${properties.length} properties',
           );
           return g.Schema.object(
             properties: propertiesSchema,

@@ -1,13 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:logging/logging.dart';
 import 'package:uuid/uuid.dart';
 
 import 'chat/chat_models/chat_models.dart';
-import 'chat/chat_models/message.dart';
 import 'chat/chat_providers/chat_providers.dart';
 import 'chat/tools/tools.dart';
 import 'language_models/language_models.dart';
+import 'logging_options.dart';
 
 /// An agent that manages chat models and provides tool execution and message
 /// collection capabilities using the new Message/Part types.
@@ -39,6 +40,11 @@ class Agent {
     final index = model.indexOf(RegExp('[:/]'));
     final providerName = index == -1 ? model : model.substring(0, index);
     final modelName = index == -1 ? null : model.substring(index + 1);
+
+    _logger.info(
+      'Creating agent message with model: $model '
+      '(provider: $providerName, model: $modelName)',
+    );
 
     // cache the provider name from the input; it could be an alias
     _providerName = providerName;
@@ -79,6 +85,60 @@ class Agent {
     _providerName = providerName;
     _displayName = displayName;
     _model = model;
+  }
+
+  /// Logger for agent message operations.
+  static final Logger _logger = Logger('dartantic.agent.message');
+
+  /// Global logging configuration for all Agent operations.
+  ///
+  /// Controls logging level, filtering, and output handling for all dartantic
+  /// loggers. Setting this property automatically configures the logging
+  /// system with the specified options.
+  ///
+  /// Example usage:
+  /// ```dart
+  /// // Filter to only OpenAI operations
+  /// Agent.loggingOptions = LoggingOptions(filter: 'openai');
+  ///
+  /// // Custom level and handler
+  /// Agent.loggingOptions = LoggingOptions(
+  ///   level: Level.FINE,
+  ///   onRecord: (record) => myLogger.log(record),
+  /// );
+  /// ```
+  static LoggingOptions get loggingOptions => _loggingOptions;
+  static LoggingOptions _loggingOptions = const LoggingOptions();
+  static StreamSubscription<LogRecord>? _loggingSubscription;
+
+  /// Sets the global logging configuration and applies it immediately.
+  static set loggingOptions(LoggingOptions options) {
+    _loggingOptions = options;
+    _setupLogging();
+  }
+
+  /// Sets up the logging system with the current options.
+  static void _setupLogging() {
+    // Cancel existing subscription if any
+    unawaited(_loggingSubscription?.cancel());
+
+    // Configure root logger level
+    Logger.root.level = _loggingOptions.level;
+
+    // Set up new subscription with filtering
+    _loggingSubscription = Logger.root.onRecord.listen((record) {
+      // Apply level filter (should already be handled by Logger.root.level)
+      if (record.level < _loggingOptions.level) return;
+
+      // Apply name filter - empty string matches all
+      if (_loggingOptions.filter.isNotEmpty &&
+          !record.loggerName.contains(_loggingOptions.filter)) {
+        return;
+      }
+
+      // Call the configured handler
+      _loggingOptions.onRecord(record);
+    });
   }
 
   /// Gets the provider name.
@@ -172,8 +232,8 @@ class Agent {
     _shouldPrefixNextMessage = false; // Reset at start of stream
     while (!done) {
       var isFirstChunkOfMessage = true; // Track first chunk of each AI message
-      var textBuffer = StringBuffer();
-      var toolCalls = <ToolPart>[];
+      final textBuffer = StringBuffer();
+      final toolCalls = <ToolPart>[];
       var lastResult = const ChatResult<Message>(
         id: '',
         output: Message(role: MessageRole.model, parts: []),
@@ -187,13 +247,13 @@ class Agent {
         // Extract text and tool parts from the message
         final textParts = result.output.parts.whereType<TextPart>();
         final newToolParts = result.output.parts.whereType<ToolPart>();
-        
+
         // Accumulate text content
         final textOutput = textParts.map((p) => p.text).join();
-        
+
         if (textOutput.isNotEmpty) {
           textBuffer.write(textOutput);
-          
+
           // STREAMING UX ENHANCEMENT: Add newline prefix for readability
           //
           // This critical UX feature prevents consecutive AI messages from
@@ -228,12 +288,12 @@ class Agent {
             if (toolPart.name.isEmpty && toolPart.id.isEmpty) {
               continue;
             }
-            
+
             // For streaming, merge tool calls with same ID
             final existingIndex = toolCalls.indexWhere(
               (t) => t.id == toolPart.id && t.id.isNotEmpty,
             );
-            
+
             if (existingIndex >= 0) {
               // Merge with existing tool call (for streaming arguments)
               final existing = toolCalls[existingIndex];
@@ -244,24 +304,21 @@ class Agent {
             }
           }
         }
-        
+
         lastResult = result;
       }
 
       // Assign UUIDs to tool calls that don't have IDs
       final toolCallsWithIds = _assignToolCallIds(toolCalls);
-      
+
       // Create the complete message with all parts
       final parts = <Part>[];
       if (textBuffer.isNotEmpty) {
         parts.add(TextPart(textBuffer.toString()));
       }
       parts.addAll(toolCallsWithIds);
-      
-      final completeMessage = Message(
-        role: MessageRole.model,
-        parts: parts,
-      );
+
+      final completeMessage = Message(role: MessageRole.model, parts: parts);
 
       // Add the complete AI message to conversation history
       conversationHistory.add(completeMessage);
@@ -286,7 +343,7 @@ class Agent {
         // will follow (the synthesis response). Set flag so that message
         // gets visually separated with a newline prefix for better UX.
         _shouldPrefixNextMessage = true;
-        
+
         // Execute all tools
         final toolResultMessages = <Message>[];
         for (final toolPart in toolCallsWithIds) {
@@ -300,30 +357,34 @@ class Agent {
               final resultString = result is String
                   ? result
                   : json.encode(result);
-              
+
               // Create a tool result message
-              toolResultMessages.add(Message(
-                role: MessageRole.user,
-                parts: [
-                  ToolPart.result(
-                    id: toolPart.id,
-                    name: toolPart.name,
-                    result: resultString,
-                  ),
-                ],
-              ));
+              toolResultMessages.add(
+                Message(
+                  role: MessageRole.user,
+                  parts: [
+                    ToolPart.result(
+                      id: toolPart.id,
+                      name: toolPart.name,
+                      result: resultString,
+                    ),
+                  ],
+                ),
+              );
             } on Exception catch (error) {
               // Create an error result message
-              toolResultMessages.add(Message(
-                role: MessageRole.user,
-                parts: [
-                  ToolPart.result(
-                    id: toolPart.id,
-                    name: toolPart.name,
-                    result: json.encode({'error': error.toString()}),
-                  ),
-                ],
-              ));
+              toolResultMessages.add(
+                Message(
+                  role: MessageRole.user,
+                  parts: [
+                    ToolPart.result(
+                      id: toolPart.id,
+                      name: toolPart.name,
+                      result: json.encode({'error': error.toString()}),
+                    ),
+                  ],
+                ),
+              );
             }
           }
         }
@@ -349,10 +410,11 @@ class Agent {
   /// This handles the case where tool call arguments are streamed in chunks.
   ToolPart _mergeToolParts(ToolPart existing, ToolPart update) {
     // Only merge tool calls, not results
-    if (existing.kind != ToolPartKind.call || update.kind != ToolPartKind.call) {
+    if (existing.kind != ToolPartKind.call ||
+        update.kind != ToolPartKind.call) {
       return update;
     }
-    
+
     // Merge arguments if both have them
     final mergedArguments = <String, dynamic>{};
     if (existing.arguments != null) {
@@ -361,7 +423,7 @@ class Agent {
     if (update.arguments != null) {
       mergedArguments.addAll(update.arguments!);
     }
-    
+
     return ToolPart.call(
       id: existing.id.isNotEmpty ? existing.id : update.id,
       name: existing.name.isNotEmpty ? existing.name : update.name,
@@ -372,16 +434,15 @@ class Agent {
   /// Assigns UUIDs to tool calls that don't have IDs.
   ///
   /// This handles providers that don't provide tool call IDs (e.g., Google).
-  List<ToolPart> _assignToolCallIds(List<ToolPart> toolParts) {
-    return toolParts.map((toolPart) {
-      if (toolPart.kind == ToolPartKind.call && toolPart.id.isEmpty) {
-        return ToolPart.call(
-          id: _uuid.v4(),
-          name: toolPart.name,
-          arguments: toolPart.arguments,
-        );
-      }
-      return toolPart;
-    }).toList();
-  }
+  List<ToolPart> _assignToolCallIds(List<ToolPart> toolParts) =>
+      toolParts.map((toolPart) {
+        if (toolPart.kind == ToolPartKind.call && toolPart.id.isEmpty) {
+          return ToolPart.call(
+            id: _uuid.v4(),
+            name: toolPart.name,
+            arguments: toolPart.arguments,
+          );
+        }
+        return toolPart;
+      }).toList();
 }

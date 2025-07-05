@@ -1,3 +1,5 @@
+import 'package:logging/logging.dart';
+
 import '../../chat/chat_providers/chat_provider.dart';
 import '../../chat/chat_providers/model_chat_kind.dart';
 import '../../chat/chat_providers/model_info.dart';
@@ -13,23 +15,46 @@ class OpenAIEmbeddingsProvider
   const OpenAIEmbeddingsProvider()
     : super(name: 'openai', displayName: 'OpenAI');
 
+  static final _logger = Logger('dartantic.embeddings.providers.openai');
+
   @override
   EmbeddingsModel<OpenAIEmbeddingsModelOptions> createModel({
     String? name,
     int? dimensions,
     int? batchSize,
     OpenAIEmbeddingsModelOptions? options,
-  }) => OpenAIEmbeddingsModel(
-    dimensions: dimensions ?? options?.dimensions,
-    batchSize: batchSize ?? options?.batchSize ?? 512,
-    user: options?.user,
-  );
+  }) {
+    final modelName = name ?? OpenAIEmbeddingsModel.defaultName;
+    final modelDimensions = dimensions ?? options?.dimensions;
+    final modelBatchSize = batchSize ?? options?.batchSize ?? 512;
+
+    _logger.info(
+      'Creating OpenAI embeddings model: $modelName '
+      '(dimensions: $modelDimensions, batchSize: $modelBatchSize)',
+    );
+
+    return OpenAIEmbeddingsModel(
+      name: modelName,
+      dimensions: modelDimensions,
+      batchSize: modelBatchSize,
+      user: options?.user,
+    );
+  }
 
   @override
   Stream<ModelInfo> listModels() async* {
+    _logger.fine('Fetching OpenAI embedding models from chat provider');
+
     // Use the OpenAI chat provider's listModels and filter for embeddings
-    yield* ChatProvider.openai.getModels().where(
+    var modelCount = 0;
+    await for (final model in ChatProvider.openai.getModels().where(
       (model) => model.kinds.contains(ModelKind.embedding),
-    );
+    )) {
+      modelCount++;
+      _logger.fine('Found embedding model: ${model.name}');
+      yield model;
+    }
+
+    _logger.info('Retrieved $modelCount OpenAI embedding models');
   }
 }

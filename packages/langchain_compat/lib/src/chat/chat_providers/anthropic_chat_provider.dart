@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:logging/logging.dart';
 
 import '../../platform/platform.dart';
 import '../chat_models/anthropic_chat/anthropic_chat.dart';
@@ -27,27 +28,38 @@ class AnthropicChatProvider extends ChatProvider<AnthropicChatOptions> {
     required super.apiKeyName,
   });
 
+  /// Logger for Anthropic chat provider operations.
+  static final Logger _logger = Logger('dartantic.chat.providers.anthropic');
+
   @override
   ChatModel<AnthropicChatOptions> createModel({
     String? name,
     List<Tool>? tools,
     double? temperature,
     AnthropicChatOptions? options,
-  }) => AnthropicChatModel(
-    name: name ?? defaultModelName,
-    tools: tools,
-    temperature: temperature,
-    apiKey: tryGetEnv(apiKeyName),
-    baseUrl: defaultBaseUrl,
-    defaultOptions: AnthropicChatOptions(
-      temperature: temperature ?? options?.temperature,
-      topP: options?.topP,
-      topK: options?.topK,
-      maxTokens: options?.maxTokens,
-      stopSequences: options?.stopSequences,
-      userId: options?.userId,
-    ),
-  );
+  }) {
+    final modelName = name ?? defaultModelName;
+    _logger.info(
+      'Creating Anthropic model: '
+      '$modelName with ${tools?.length ?? 0} tools, temp: $temperature',
+    );
+
+    return AnthropicChatModel(
+      name: modelName,
+      tools: tools,
+      temperature: temperature,
+      apiKey: tryGetEnv(apiKeyName),
+      baseUrl: defaultBaseUrl,
+      defaultOptions: AnthropicChatOptions(
+        temperature: temperature ?? options?.temperature,
+        topP: options?.topP,
+        topK: options?.topK,
+        maxTokens: options?.maxTokens,
+        stopSequences: options?.stopSequences,
+        userId: options?.userId,
+      ),
+    );
+  }
 
   @override
   Stream<ModelInfo> getModels() async* {

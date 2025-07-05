@@ -6,40 +6,27 @@ import 'package:meta/meta.dart';
 @immutable
 class Message {
   /// Creates a new message.
-  const Message({
-    required this.role,
-    required this.parts,
-  });
+  const Message({required this.role, required this.parts});
 
   /// Creates a system message.
-  factory Message.system(String text) => Message(
-        role: MessageRole.system,
-        parts: [TextPart(text)],
-      );
+  factory Message.system(String text) =>
+      Message(role: MessageRole.system, parts: [TextPart(text)]);
 
   /// Creates a user message with text.
-  factory Message.user(String text) => Message(
-        role: MessageRole.user,
-        parts: [TextPart(text)],
-      );
+  factory Message.user(String text) =>
+      Message(role: MessageRole.user, parts: [TextPart(text)]);
 
   /// Creates a user message with parts.
-  factory Message.userParts(List<Part> parts) => Message(
-        role: MessageRole.user,
-        parts: parts,
-      );
+  factory Message.userParts(List<Part> parts) =>
+      Message(role: MessageRole.user, parts: parts);
 
   /// Creates a model message with text.
-  factory Message.model(String text) => Message(
-        role: MessageRole.model,
-        parts: [TextPart(text)],
-      );
+  factory Message.model(String text) =>
+      Message(role: MessageRole.model, parts: [TextPart(text)]);
 
   /// Creates a model message with parts.
-  factory Message.modelParts(List<Part> parts) => Message(
-        role: MessageRole.model,
-        parts: parts,
-      );
+  factory Message.modelParts(List<Part> parts) =>
+      Message(role: MessageRole.model, parts: parts);
 
   /// The role of the message author.
   final MessageRole role;
@@ -48,15 +35,11 @@ class Message {
   final List<Part> parts;
 
   /// Gets the text content of the message by concatenating all text parts.
-  String get text => parts
-      .whereType<TextPart>()
-      .map((p) => p.text)
-      .join();
+  String get text => parts.whereType<TextPart>().map((p) => p.text).join();
 
   /// Checks if this message contains any tool calls.
-  bool get hasToolCalls => parts
-      .whereType<ToolPart>()
-      .any((p) => p.kind == ToolPartKind.call);
+  bool get hasToolCalls =>
+      parts.whereType<ToolPart>().any((p) => p.kind == ToolPartKind.call);
 
   /// Gets all tool calls in this message.
   List<ToolPart> get toolCalls => parts
@@ -65,9 +48,8 @@ class Message {
       .toList();
 
   /// Checks if this message contains any tool results.
-  bool get hasToolResults => parts
-      .whereType<ToolPart>()
-      .any((p) => p.kind == ToolPartKind.result);
+  bool get hasToolResults =>
+      parts.whereType<ToolPart>().any((p) => p.kind == ToolPartKind.result);
 
   /// Gets all tool results in this message.
   List<ToolPart> get toolResults => parts
@@ -105,6 +87,7 @@ enum MessageRole {
 /// Base class for message content parts.
 @immutable
 abstract class Part {
+  /// Creates a new part.
   const Part();
 }
 
@@ -135,11 +118,7 @@ class TextPart extends Part {
 @immutable
 class DataPart extends Part {
   /// Creates a new data part.
-  const DataPart({
-    required this.bytes,
-    required this.mimeType,
-    this.name,
-  });
+  const DataPart({required this.bytes, required this.mimeType, this.name});
 
   /// The binary data.
   final Uint8List bytes;
@@ -163,18 +142,15 @@ class DataPart extends Part {
   int get hashCode => bytes.hashCode ^ mimeType.hashCode ^ name.hashCode;
 
   @override
-  String toString() => 'DataPart(mimeType: $mimeType, name: $name, bytes: ${bytes.length})';
+  String toString() =>
+      'DataPart(mimeType: $mimeType, name: $name, bytes: ${bytes.length})';
 }
 
 /// A link part referencing external content.
 @immutable
 class LinkPart extends Part {
   /// Creates a new link part.
-  const LinkPart({
-    required this.url,
-    this.mimeType,
-    this.name,
-  });
+  const LinkPart({required this.url, this.mimeType, this.name});
 
   /// The URL of the external content.
   final String url;
@@ -209,16 +185,16 @@ class ToolPart extends Part {
     required this.id,
     required this.name,
     required this.arguments,
-  })  : kind = ToolPartKind.call,
-        result = null;
+  }) : kind = ToolPartKind.call,
+       result = null;
 
   /// Creates a tool result part.
   const ToolPart.result({
     required this.id,
     required this.name,
     required this.result,
-  })  : kind = ToolPartKind.result,
-        arguments = null;
+  }) : kind = ToolPartKind.result,
+       arguments = null;
 
   /// The kind of tool interaction.
   final ToolPartKind kind;
@@ -236,8 +212,8 @@ class ToolPart extends Part {
   final dynamic result;
 
   /// The raw arguments as a JSON string (for streaming).
-  String get argumentsRaw => arguments != null 
-      ? (arguments!.isEmpty ? '{}' : _jsonEncode(arguments!))
+  String get argumentsRaw => arguments != null
+      ? (arguments!.isEmpty ? '{}' : _jsonEncode(arguments))
       : '';
 
   @override
@@ -300,16 +276,16 @@ bool _mapEquals<K, V>(Map<K, V>? a, Map<K, V>? b) {
 String _jsonEncode(dynamic object) {
   // Simple JSON encoding for common cases
   if (object == null) return 'null';
-  if (object is String) return '"${object.replaceAll('"', '\\"')}"';
+  if (object is String) return '"${object.replaceAll('"', r'\"')}"';
   if (object is num || object is bool) return object.toString();
   if (object is List) {
     final items = object.map(_jsonEncode).join(',');
     return '[$items]';
   }
   if (object is Map) {
-    final entries = object.entries.map((e) => 
-      '"${e.key}":${_jsonEncode(e.value)}'
-    ).join(',');
+    final entries = object.entries
+        .map((e) => '"${e.key}":${_jsonEncode(e.value)}')
+        .join(',');
     return '{$entries}';
   }
   return object.toString();

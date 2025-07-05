@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:logging/logging.dart';
 
 import '../../platform/platform.dart';
 import '../chat_models/chat_model.dart';
@@ -27,39 +28,56 @@ class MistralChatProvider extends ChatProvider<MistralChatOptions> {
     required super.apiKeyName,
   });
 
+  /// Logger for Mistral chat provider operations.
+  static final Logger _logger = Logger('dartantic.chat.providers.mistral');
+
   @override
   ChatModel<MistralChatOptions> createModel({
     String? name,
     List<Tool>? tools,
     double? temperature,
     MistralChatOptions? options,
-  }) => MistralChatModel(
-    name: name ?? defaultModelName,
-    tools: tools,
-    temperature: temperature,
-    apiKey: tryGetEnv(apiKeyName),
-    baseUrl: defaultBaseUrl,
-    defaultOptions: MistralChatOptions(
-      temperature: temperature ?? options?.temperature,
-      topP: options?.topP,
-      maxTokens: options?.maxTokens,
-      safePrompt: options?.safePrompt,
-      randomSeed: options?.randomSeed,
-    ),
-  );
+  }) {
+    final modelName = name ?? defaultModelName;
+    _logger.info(
+      'Creating Mistral model: $modelName with ${tools?.length ?? 0} tools, '
+      'temp: $temperature',
+    );
+    return MistralChatModel(
+      name: name ?? defaultModelName,
+      tools: tools,
+      temperature: temperature,
+      apiKey: tryGetEnv(apiKeyName),
+      baseUrl: defaultBaseUrl,
+      defaultOptions: MistralChatOptions(
+        temperature: temperature ?? options?.temperature,
+        topP: options?.topP,
+        maxTokens: options?.maxTokens,
+        safePrompt: options?.safePrompt,
+        randomSeed: options?.randomSeed,
+      ),
+    );
+  }
 
   @override
   Stream<ModelInfo> getModels() async* {
     final apiKey = getEnv(apiKeyName);
     final url = Uri.parse('https://api.mistral.ai/v1/models');
+    _logger.info('Fetching models from Mistral API: $url');
     final response = await http.get(
       url,
       headers: {'Authorization': 'Bearer $apiKey'},
     );
     if (response.statusCode != 200) {
-      throw Exception('Failed to fetch Mistral models: \\${response.body}');
+      _logger.warning(
+        'Failed to fetch models: HTTP ${response.statusCode}, '
+        'body: ${response.body}',
+      );
+      throw Exception('Failed to fetch Mistral models: ${response.body}');
     }
     final data = jsonDecode(response.body) as Map<String, dynamic>;
+    final modelCount = (data['data'] as List).length;
+    _logger.info('Successfully fetched $modelCount models from Mistral API');
     for (final m in (data['data'] as List).cast<Map<String, dynamic>>()) {
       final id = m['id'] as String? ?? '';
       final desc = m['description'] as String? ?? '';

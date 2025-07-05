@@ -1,3 +1,5 @@
+import 'package:logging/logging.dart';
+
 import '../../chat/chat_providers/chat_provider.dart';
 import '../../chat/chat_providers/model_chat_kind.dart';
 import '../../chat/chat_providers/model_info.dart';
@@ -13,21 +15,43 @@ class GoogleEmbeddingsProvider
   const GoogleEmbeddingsProvider()
     : super(name: 'google', displayName: 'Google AI');
 
+  static final _logger = Logger('dartantic.embeddings.providers.google');
+
   @override
   EmbeddingsModel<GoogleEmbeddingsModelOptions> createModel({
     String? name,
     GoogleEmbeddingsModelOptions? options,
-  }) => GoogleEmbeddingsModel(
-    name: name,
-    dimensions: options?.dimensions,
-    batchSize: options?.batchSize,
-  );
+  }) {
+    final modelName = name ?? GoogleEmbeddingsModel.defaultName;
+    final modelDimensions = options?.dimensions;
+    final modelBatchSize = options?.batchSize ?? 100;
+
+    _logger.info(
+      'Creating Google embeddings model: $modelName '
+      '(dimensions: $modelDimensions, batchSize: $modelBatchSize)',
+    );
+
+    return GoogleEmbeddingsModel(
+      name: modelName,
+      dimensions: modelDimensions,
+      batchSize: modelBatchSize,
+    );
+  }
 
   @override
   Stream<ModelInfo> listModels() async* {
+    _logger.fine('Fetching Google embedding models from chat provider');
+
     // Use the Google chat provider's listModels and filter for embeddings
-    yield* ChatProvider.google.getModels().where(
+    var modelCount = 0;
+    await for (final model in ChatProvider.google.getModels().where(
       (model) => model.kinds.contains(ModelKind.embedding),
-    );
+    )) {
+      modelCount++;
+      _logger.fine('Found embedding model: ${model.name}');
+      yield model;
+    }
+
+    _logger.info('Retrieved $modelCount Google embedding models');
   }
 }

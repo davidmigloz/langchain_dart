@@ -1,3 +1,5 @@
+import 'package:logging/logging.dart';
+
 import '../../chat/chat_providers/model_chat_kind.dart';
 import '../../chat/chat_providers/model_info.dart';
 import '../embeddings_model.dart';
@@ -12,24 +14,46 @@ class CohereEmbeddingsProvider
   const CohereEmbeddingsProvider()
     : super(name: 'cohere', displayName: 'Cohere');
 
+  static final _logger = Logger('dartantic.embeddings.providers.cohere');
+
   @override
   EmbeddingsModel<CohereEmbeddingsModelOptions> createModel({
     String? name,
     CohereEmbeddingsModelOptions? options,
-  }) => CohereEmbeddingsModel(
-    name: name,
-    dimensions: options?.dimensions,
-    batchSize: options?.batchSize,
-    inputType: options?.inputType,
-    embeddingTypes: options?.embeddingTypes,
-    truncate: options?.truncate,
-  );
+  }) {
+    final modelName = name ?? CohereEmbeddingsModel.defaultName;
+    final modelDimensions = options?.dimensions;
+    final modelBatchSize = options?.batchSize ?? 96;
+
+    _logger.info(
+      'Creating Cohere embeddings model: $modelName '
+      '(dimensions: $modelDimensions, batchSize: $modelBatchSize)',
+    );
+
+    return CohereEmbeddingsModel(
+      name: modelName,
+      dimensions: modelDimensions,
+      batchSize: modelBatchSize,
+      inputType: options?.inputType,
+      embeddingTypes: options?.embeddingTypes,
+      truncate: options?.truncate,
+    );
+  }
 
   @override
   Stream<ModelInfo> listModels() async* {
+    _logger.fine('Fetching Cohere embedding models');
+
     // Use the Cohere chat provider's listModels and filter for embeddings
-    yield* EmbeddingsProvider.cohere.listModels().where(
+    var modelCount = 0;
+    await for (final model in EmbeddingsProvider.cohere.listModels().where(
       (model) => model.kinds.contains(ModelKind.embedding),
-    );
+    )) {
+      modelCount++;
+      _logger.fine('Found embedding model: ${model.name}');
+      yield model;
+    }
+
+    _logger.info('Retrieved $modelCount Cohere embedding models');
   }
 }

@@ -64,7 +64,8 @@ class _RequestInfo {
       );
     } else if (request is http.StreamedRequest) {
       // For streamed requests, we need to read the body
-      final bodyBytes = await request.finalize()
+      final bodyBytes = await request
+          .finalize()
           .expand((bytes) => bytes)
           .toList();
       final bodyString = String.fromCharCodes(bodyBytes);
@@ -99,42 +100,42 @@ class RetryHttpClient extends http.BaseClient {
 
   /// The underlying HTTP client to wrap.
   final http.Client inner;
-  
+
   /// Maximum number of retry attempts for 429 errors.
   final int maxRetries;
-  
+
   /// Base delay for exponential backoff.
   final Duration baseDelay;
-  
+
   /// Maximum delay cap for retries.
   final Duration maxDelay;
-  
+
   /// Whether to add jitter to prevent thundering herd.
   final bool jitter;
   final Random _random = Random();
-  
+
   /// Logger for retry operations.
-  static final Logger _logger = Logger('RetryHttpClient');
+  static final Logger _logger = Logger('dartantic.http.retry');
 
   @override
   Future<http.StreamedResponse> send(http.BaseRequest request) async {
     // Store request info for retries
     final requestInfo = await _RequestInfo.fromRequest(request);
-    
+
     var attempt = 0;
-    
+
     while (attempt <= maxRetries) {
       // Create a fresh request for each attempt
       final currentRequest = requestInfo.createRequest();
-      
+
       try {
         final response = await inner.send(currentRequest);
-        
+
         // If not a rate limit error, return immediately
         if (response.statusCode != 429) {
           return response;
         }
-        
+
         // If we've exhausted retries, return the 429 response
         if (attempt == maxRetries) {
           _logger.warning(
@@ -143,22 +144,21 @@ class RetryHttpClient extends http.BaseClient {
           );
           return response;
         }
-        
+
         // Calculate delay for retry
         final delay = _calculateDelay(attempt, response.headers);
-        
+
         _logger.info(
           'Rate limited (429), retrying attempt ${attempt + 1}/$maxRetries after ${delay.inMilliseconds}ms for ${requestInfo.method} ${requestInfo.url}',
         );
-        
+
         // Consume the response body before retrying
         await response.stream.drain();
-        
+
         // Wait before retrying
         await Future.delayed(delay);
-        
+
         attempt++;
-        
       } catch (e) {
         // If we've exhausted retries, rethrow
         if (attempt == maxRetries) {
@@ -168,19 +168,19 @@ class RetryHttpClient extends http.BaseClient {
           );
           rethrow;
         }
-        
+
         // Wait before retrying on other errors
         final delay = _calculateDelay(attempt, {});
-        
+
         _logger.info(
           'HTTP error, retrying attempt ${attempt + 1}/$maxRetries after ${delay.inMilliseconds}ms for ${requestInfo.method} ${requestInfo.url}: $e',
         );
-        
+
         await Future.delayed(delay);
         attempt++;
       }
     }
-    
+
     // This should never be reached, but just in case
     final finalRequest = requestInfo.createRequest();
     return inner.send(finalRequest);
@@ -195,32 +195,32 @@ class RetryHttpClient extends http.BaseClient {
         // Respect the server's retry-after directive, but cap it at maxDelay
         final serverDelay = Duration(seconds: seconds);
         final effectiveDelay = serverDelay > maxDelay ? maxDelay : serverDelay;
-        
+
         _logger.fine(
           'Using server Retry-After header: ${seconds}s '
           '(capped at ${effectiveDelay.inSeconds}s)',
         );
-        
+
         return effectiveDelay;
       }
     }
-    
+
     // Exponential backoff: baseDelay * (2^attempt)
     var delay = Duration(
       milliseconds: baseDelay.inMilliseconds * (1 << attempt),
     );
-    
+
     // Cap at maxDelay
     if (delay > maxDelay) {
       delay = maxDelay;
     }
-    
+
     // Add jitter to prevent thundering herd
     if (jitter) {
       final jitterMs = _random.nextInt(delay.inMilliseconds ~/ 2);
       delay = Duration(milliseconds: delay.inMilliseconds + jitterMs);
     }
-    
+
     return delay;
   }
 

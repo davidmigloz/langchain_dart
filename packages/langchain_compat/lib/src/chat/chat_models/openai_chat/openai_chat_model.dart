@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'package:logging/logging.dart';
 import 'package:openai_dart/openai_dart.dart';
 import 'package:uuid/uuid.dart';
 
@@ -8,7 +9,6 @@ import '../chat_models.dart';
 import '../message.dart' as msg;
 import 'openai_message_mappers.dart';
 import 'openai_message_mappers_helpers.dart';
-import 'openai_chat_options.dart';
 
 /// Wrapper around [OpenAI Chat
 /// API](https://platform.openai.com/docs/api-reference/chat).
@@ -40,6 +40,9 @@ class OpenAIChatModel extends ChatModel<OpenAIChatOptions> {
          defaultOptions: defaultOptions ?? const OpenAIChatOptions(),
        );
 
+  /// Logger for OpenAI chat model operations.
+  static final Logger _logger = Logger('dartantic.chat.models.openai');
+
   /// The default model to use unless another is specified.
   static const defaultName = 'gpt-4o-mini';
 
@@ -57,6 +60,11 @@ class OpenAIChatModel extends ChatModel<OpenAIChatOptions> {
     List<msg.Message> messages, {
     OpenAIChatOptions? options,
   }) async* {
+    _logger.info(
+      'Starting OpenAI chat stream with ${messages.length} messages '
+      'for model: $name',
+    );
+
     final request = createChatCompletionRequest(
       messages,
       modelName: name,
@@ -66,27 +74,44 @@ class OpenAIChatModel extends ChatModel<OpenAIChatOptions> {
       defaultOptions: defaultOptions,
       stream: true,
     );
-    
+
     final accumulatedToolCalls = <StreamingToolCall>[];
-    
-    await for (final completion in _client.createChatCompletionStream(request: request)) {
-      final delta = completion.choices.firstOrNull?.delta;
-      if (delta == null) continue;
-      
-      final message = messageFromOpenAIStreamDelta(delta, accumulatedToolCalls);
-      
-      yield ChatResult<msg.Message>(
-        id: completion.id ?? _uuid.v4(),
-        output: message,
-        messages: [message],
-        finishReason: mapFinishReason(completion.choices.firstOrNull?.finishReason),
-        metadata: {
-          'created': completion.created,
-          'model': completion.model,
-          'system_fingerprint': completion.systemFingerprint,
-        },
-        usage: mapUsage(completion.usage),
-      );
+    var chunkCount = 0;
+
+    try {
+      await for (final completion in _client.createChatCompletionStream(
+        request: request,
+      )) {
+        chunkCount++;
+        _logger.fine('Received OpenAI stream chunk $chunkCount');
+        final delta = completion.choices.firstOrNull?.delta;
+        if (delta == null) continue;
+
+        final message = messageFromOpenAIStreamDelta(
+          delta,
+          accumulatedToolCalls,
+        );
+
+        yield ChatResult<msg.Message>(
+          id: completion.id ?? _uuid.v4(),
+          output: message,
+          messages: [message],
+          finishReason: mapFinishReason(
+            completion.choices.firstOrNull?.finishReason,
+          ),
+          metadata: {
+            'created': completion.created,
+            'model': completion.model,
+            'system_fingerprint': completion.systemFingerprint,
+          },
+          usage: mapUsage(completion.usage),
+        );
+      }
+
+      _logger.info('OpenAI chat stream completed after $chunkCount chunks');
+    } catch (e) {
+      _logger.warning('OpenAI chat stream error: $e');
+      rethrow;
     }
   }
 

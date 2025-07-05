@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:logging/logging.dart';
 
 import '../../../chat/chat_providers/chat_provider.dart';
 import '../../../language_models/finish_reason.dart';
@@ -27,7 +28,13 @@ class CohereEmbeddingsModel
        _embeddingTypes = embeddingTypes,
        _inputType = inputType,
        _apiKey = apiKey ?? getEnv(apiKeyName),
-       super(name: name ?? defaultName);
+       super(name: name ?? defaultName) {
+    _logger.info(
+      'Created Cohere embeddings model: ${this.name} '
+      '(dimensions: $dimensions, batchSize: $batchSize)',
+    );
+  }
+  static final _logger = Logger('dartantic.embeddings.models.cohere');
 
   /// The environment variable name for the Cohere API key.
   static final apiKeyName = ChatProvider.cohere.apiKeyName;
@@ -47,14 +54,30 @@ class CohereEmbeddingsModel
     String query, {
     CohereEmbeddingsModelOptions? options,
   }) async {
+    final queryLength = query.length;
+
+    _logger.fine(
+      'Embedding query with Cohere model "$name" '
+      '(length: $queryLength)',
+    );
+
     final result = await embedDocuments([query], options: options);
-    return EmbeddingsResult(
+
+    final queryResult = EmbeddingsResult(
       id: result.id,
       output: result.embeddings.first,
       finishReason: result.finishReason,
       usage: result.usage,
       metadata: result.metadata,
     );
+
+    _logger.info(
+      'Cohere embedding query result: '
+      '${queryResult.output.length} dimensions, '
+      '${queryResult.usage.totalTokens} tokens',
+    );
+
+    return queryResult;
   }
 
   @override
@@ -64,6 +87,8 @@ class CohereEmbeddingsModel
   }) async {
     final chunks = <List<String>>[];
     final actualBatchSize = options?.batchSize ?? batchSize ?? 96;
+    final totalTexts = texts.length;
+    final totalCharacters = texts.map((t) => t.length).reduce((a, b) => a + b);
 
     for (var i = 0; i < texts.length; i += actualBatchSize) {
       chunks.add(
@@ -71,13 +96,29 @@ class CohereEmbeddingsModel
       );
     }
 
+    _logger.info(
+      'Embedding $totalTexts documents with Cohere model "$name" '
+      '(batches: ${chunks.length}, batchSize: $actualBatchSize, '
+      'totalChars: $totalCharacters)',
+    );
+
     final allEmbeddings = <List<double>>[];
     var totalPromptTokens = 0;
     // var totalTokens = 0; // Unused in Cohere response
     var totalBillableCharacters = 0;
     var lastId = '';
 
-    for (final chunk in chunks) {
+    for (var i = 0; i < chunks.length; i++) {
+      final chunk = chunks[i];
+      final chunkCharacters = chunk
+          .map((t) => t.length)
+          .reduce((a, b) => a + b);
+
+      _logger.fine(
+        'Processing batch ${i + 1}/${chunks.length} '
+        '(${chunk.length} texts, $chunkCharacters chars)',
+      );
+
       final response = await _makeRequest(chunk, options);
 
       // Handle Cohere v2 API response format
@@ -122,6 +163,13 @@ class CohereEmbeddingsModel
       }
 
       lastId = response['id'] as String? ?? '';
+
+      _logger.fine(
+        'Batch ${i + 1} completed: '
+        '${embeddings.length} embeddings, '
+        // ignore: avoid_dynamic_calls
+        '${meta?['billed_units']?['input_tokens'] ?? 0} tokens',
+      );
     }
 
     final usage = LanguageModelUsage(
@@ -132,13 +180,21 @@ class CohereEmbeddingsModel
           : null,
     );
 
-    return BatchEmbeddingsResult(
+    final result = BatchEmbeddingsResult(
       id: lastId,
       output: allEmbeddings,
       finishReason: FinishReason.stop,
       usage: usage,
       metadata: {'model': name, 'provider': 'cohere'},
     );
+
+    _logger.info(
+      'Cohere batch embedding completed: '
+      '${result.output.length} embeddings, '
+      '${result.usage.totalTokens} total tokens',
+    );
+
+    return result;
   }
 
   Future<Map<String, dynamic>> _makeRequest(
@@ -158,6 +214,8 @@ class CohereEmbeddingsModel
         'truncate': options?.truncate ?? _truncate,
     };
 
+    _logger.fine('Making Cohere API request for ${texts.length} texts');
+
     final response = await http.post(
       url,
       headers: {
@@ -168,13 +226,18 @@ class CohereEmbeddingsModel
     );
 
     if (response.statusCode != 200) {
+      _logger.warning(
+        'Cohere API error: ${response.statusCode} ${response.body}',
+      );
       throw Exception(
         'Cohere embeddings API error: '
         '${response.statusCode} ${response.body}',
       );
     }
 
-    return jsonDecode(response.body) as Map<String, dynamic>;
+    final result = jsonDecode(response.body) as Map<String, dynamic>;
+    _logger.fine('Cohere API response received successfully');
+    return result;
   }
 
   @override

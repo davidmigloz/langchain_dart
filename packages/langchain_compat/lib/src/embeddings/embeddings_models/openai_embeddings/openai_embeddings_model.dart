@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'package:logging/logging.dart';
 import 'package:openai_dart/openai_dart.dart';
 
 import '../../../chat/chat_models/openai_chat/openai_chat_model.dart';
@@ -13,6 +14,7 @@ import 'openai_embeddings_model_options.dart';
 /// OpenAI embeddings model implementation.
 class OpenAIEmbeddingsModel
     extends EmbeddingsModel<OpenAIEmbeddingsModelOptions> {
+
   /// Creates a new OpenAI embeddings model.
   OpenAIEmbeddingsModel({
     String? name,
@@ -41,7 +43,13 @@ class OpenAIEmbeddingsModel
            batchSize: batchSize,
            user: user,
          ),
-       );
+       ) {
+    _logger.info(
+      'Created OpenAI embeddings model: ${this.name} '
+      '(dimensions: $dimensions, batchSize: $batchSize)',
+    );
+  }
+  static final _logger = Logger('dartantic.embeddings.models.openai');
 
   /// The environment variable name for the OpenAI API key.
   static const apiKeyName = OpenAIChatModel.apiKeyName;
@@ -58,29 +66,50 @@ class OpenAIEmbeddingsModel
     String query, {
     OpenAIEmbeddingsModelOptions? options,
   }) async {
+    final queryLength = query.length;
+    final effectiveDimensions = options?.dimensions ?? dimensions;
+
+    _logger.fine(
+      'Embedding query with OpenAI model "$name" '
+      '(length: $queryLength, dimensions: $effectiveDimensions)',
+    );
+
     final data = await _client.createEmbedding(
       request: CreateEmbeddingRequest(
         model: EmbeddingModel.modelId(name),
         input: EmbeddingInput.string(query),
-        dimensions: options?.dimensions ?? dimensions,
+        dimensions: effectiveDimensions,
         user: options?.user ?? _user,
       ),
     );
 
-    return EmbeddingsResult(
+    _logger.fine(
+      'OpenAI embedding query completed '
+      '(tokens: ${data.usage?.totalTokens})',
+    );
+
+    final result = EmbeddingsResult(
       id: 'embedding-${DateTime.now().millisecondsSinceEpoch}',
       output: data.data.first.embeddingVector,
       finishReason: FinishReason.stop,
       metadata: {
         'model': name,
-        'dimensions': options?.dimensions ?? dimensions,
-        'query_length': query.length,
+        'dimensions': effectiveDimensions,
+        'query_length': queryLength,
       },
       usage: LanguageModelUsage(
         promptTokens: data.usage?.promptTokens,
         totalTokens: data.usage?.totalTokens,
       ),
     );
+
+    _logger.info(
+      'OpenAI embedding query result: '
+      '${result.output.length} dimensions, '
+      '${result.usage.totalTokens} tokens',
+    );
+
+    return result;
   }
 
   @override
@@ -89,16 +118,36 @@ class OpenAIEmbeddingsModel
     OpenAIEmbeddingsModelOptions? options,
   }) async {
     final effectiveBatchSize = options?.batchSize ?? batchSize ?? 512;
+    final effectiveDimensions = options?.dimensions ?? dimensions;
     final batches = chunkList(texts, chunkSize: effectiveBatchSize);
+    final totalTexts = texts.length;
+    final totalCharacters = texts.map((t) => t.length).reduce((a, b) => a + b);
+
+    _logger.info(
+      'Embedding $totalTexts documents with OpenAI model "$name" '
+      '(batches: ${batches.length}, batchSize: $effectiveBatchSize, '
+      'dimensions: $effectiveDimensions, totalChars: $totalCharacters)',
+    );
+
     var totalUsage = const LanguageModelUsage();
     final allEmbeddings = <List<double>>[];
 
-    for (final batch in batches) {
+    for (var i = 0; i < batches.length; i++) {
+      final batch = batches[i];
+      final batchCharacters = batch
+          .map((t) => t.length)
+          .reduce((a, b) => a + b);
+
+      _logger.fine(
+        'Processing batch ${i + 1}/${batches.length} '
+        '(${batch.length} texts, $batchCharacters chars)',
+      );
+
       final data = await _client.createEmbedding(
         request: CreateEmbeddingRequest(
           model: EmbeddingModel.modelId(name),
           input: EmbeddingInput.listString(batch.toList(growable: false)),
-          dimensions: options?.dimensions ?? dimensions,
+          dimensions: effectiveDimensions,
           user: options?.user ?? _user,
         ),
       );
@@ -113,20 +162,34 @@ class OpenAIEmbeddingsModel
         totalTokens: data.usage?.totalTokens,
       );
       totalUsage = totalUsage.concat(batchUsage);
+
+      _logger.fine(
+        'Batch ${i + 1} completed: '
+        '${batchEmbeddings.length} embeddings, '
+        '${batchUsage.totalTokens} tokens',
+      );
     }
 
-    return BatchEmbeddingsResult(
+    final result = BatchEmbeddingsResult(
       id: 'batch-embeddings-${DateTime.now().millisecondsSinceEpoch}',
       output: allEmbeddings,
       finishReason: FinishReason.stop,
       metadata: {
         'model': name,
-        'dimensions': options?.dimensions ?? dimensions,
+        'dimensions': effectiveDimensions,
         'batch_count': batches.length,
-        'total_texts': texts.length,
+        'total_texts': totalTexts,
       },
       usage: totalUsage,
     );
+
+    _logger.info(
+      'OpenAI batch embedding completed: '
+      '${result.output.length} embeddings, '
+      '${result.usage.totalTokens} total tokens',
+    );
+
+    return result;
   }
 
   @override

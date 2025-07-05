@@ -1,5 +1,4 @@
 import '../chat_models/chat_models.dart';
-import '../chat_models/openai_chat/openai_chat_model.dart';
 import '../tools/tool.dart';
 import 'chat_providers.dart';
 
