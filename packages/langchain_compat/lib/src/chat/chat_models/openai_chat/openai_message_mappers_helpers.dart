@@ -48,7 +48,7 @@ CreateChatCompletionRequest createChatCompletionRequest(
         name: tool.name,
         description: tool.description,
         parameters: tool.inputSchema.schemaMap as Map<String, dynamic>?,
-        // Don't pass strict parameter - let each provider use their defaults
+        strict: null, // Explicitly pass null to override any defaults
       ),
     )).toList(),
     toolChoice: options?.toolChoice ?? defaultOptions.toolChoice,

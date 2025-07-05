@@ -104,7 +104,7 @@ extension MessageListMapper on List<msg.Message> {
               .where((p) => p.result != null)
               .map((p) => o.Message(
                     role: o.MessageRole.tool,
-                    content: p.result!.output,
+                    content: p.result!,
                   ))
               .toList();
         } else {

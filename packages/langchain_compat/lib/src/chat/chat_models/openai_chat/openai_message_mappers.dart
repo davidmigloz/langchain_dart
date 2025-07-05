@@ -24,6 +24,7 @@ CreateChatCompletionRequest createChatCompletionRequestFromMessages(
       name: tool.name,
       description: tool.description,
       parameters: tool.inputSchema.schemaMap as Map<String, dynamic>?,
+      strict: null, // Explicitly pass null to override any defaults
     ),
   )).toList();
   
