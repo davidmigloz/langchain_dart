@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:json_schema/json_schema.dart';
 import 'package:ollama_dart/ollama_dart.dart' as o;
 
 import '../../../language_models/finish_reason.dart';
@@ -17,51 +18,61 @@ o.GenerateChatCompletionRequest generateChatCompletionRequest(
   required OllamaChatOptions defaultOptions,
   List<Tool>? tools,
   double? temperature,
+  JsonSchema? outputSchema,
   bool stream = false,
-}) => o.GenerateChatCompletionRequest(
-  model: modelName,
-  messages: messages.toMessages(),
-  format: options?.format ?? defaultOptions.format,
-  keepAlive: options?.keepAlive ?? defaultOptions.keepAlive,
-  tools: tools?.toOllamaTools(),
-  // Ollama does not currently support toolChoice on the wire, but we pass it
-  // for future compatibility.
-  stream: stream,
-  options: o.RequestOptions(
-    numKeep: options?.numKeep ?? defaultOptions.numKeep,
-    seed: options?.seed ?? defaultOptions.seed,
-    numPredict: options?.numPredict ?? defaultOptions.numPredict,
-    topK: options?.topK ?? defaultOptions.topK,
-    topP: options?.topP ?? defaultOptions.topP,
-    minP: options?.minP ?? defaultOptions.minP,
-    tfsZ: options?.tfsZ ?? defaultOptions.tfsZ,
-    typicalP: options?.typicalP ?? defaultOptions.typicalP,
-    repeatLastN: options?.repeatLastN ?? defaultOptions.repeatLastN,
-    temperature:
-        temperature ?? options?.temperature ?? defaultOptions.temperature,
-    repeatPenalty: options?.repeatPenalty ?? defaultOptions.repeatPenalty,
-    presencePenalty: options?.presencePenalty ?? defaultOptions.presencePenalty,
-    frequencyPenalty:
-        options?.frequencyPenalty ?? defaultOptions.frequencyPenalty,
-    mirostat: options?.mirostat ?? defaultOptions.mirostat,
-    mirostatTau: options?.mirostatTau ?? defaultOptions.mirostatTau,
-    mirostatEta: options?.mirostatEta ?? defaultOptions.mirostatEta,
-    penalizeNewline: options?.penalizeNewline ?? defaultOptions.penalizeNewline,
-    stop: options?.stop ?? defaultOptions.stop,
-    numa: options?.numa ?? defaultOptions.numa,
-    numCtx: options?.numCtx ?? defaultOptions.numCtx,
-    numBatch: options?.numBatch ?? defaultOptions.numBatch,
-    numGpu: options?.numGpu ?? defaultOptions.numGpu,
-    mainGpu: options?.mainGpu ?? defaultOptions.mainGpu,
-    lowVram: options?.lowVram ?? defaultOptions.lowVram,
-    f16Kv: options?.f16KV ?? defaultOptions.f16KV,
-    logitsAll: options?.logitsAll ?? defaultOptions.logitsAll,
-    vocabOnly: options?.vocabOnly ?? defaultOptions.vocabOnly,
-    useMmap: options?.useMmap ?? defaultOptions.useMmap,
-    useMlock: options?.useMlock ?? defaultOptions.useMlock,
-    numThread: options?.numThread ?? defaultOptions.numThread,
-  ),
-);
+}) {
+  // Use native Ollama format parameter for structured output
+  final format = outputSchema != null
+      ? outputSchema.schemaMap
+      : options?.format ?? defaultOptions.format;
+
+  return o.GenerateChatCompletionRequest(
+    model: modelName,
+    messages: messages.toMessages(),
+    format: format,
+    keepAlive: options?.keepAlive ?? defaultOptions.keepAlive,
+    tools: tools?.toOllamaTools(),
+    // Ollama does not currently support toolChoice on the wire, but we pass it
+    // for future compatibility.
+    stream: stream,
+    options: o.RequestOptions(
+      numKeep: options?.numKeep ?? defaultOptions.numKeep,
+      seed: options?.seed ?? defaultOptions.seed,
+      numPredict: options?.numPredict ?? defaultOptions.numPredict,
+      topK: options?.topK ?? defaultOptions.topK,
+      topP: options?.topP ?? defaultOptions.topP,
+      minP: options?.minP ?? defaultOptions.minP,
+      tfsZ: options?.tfsZ ?? defaultOptions.tfsZ,
+      typicalP: options?.typicalP ?? defaultOptions.typicalP,
+      repeatLastN: options?.repeatLastN ?? defaultOptions.repeatLastN,
+      temperature:
+          temperature ?? options?.temperature ?? defaultOptions.temperature,
+      repeatPenalty: options?.repeatPenalty ?? defaultOptions.repeatPenalty,
+      presencePenalty:
+          options?.presencePenalty ?? defaultOptions.presencePenalty,
+      frequencyPenalty:
+          options?.frequencyPenalty ?? defaultOptions.frequencyPenalty,
+      mirostat: options?.mirostat ?? defaultOptions.mirostat,
+      mirostatTau: options?.mirostatTau ?? defaultOptions.mirostatTau,
+      mirostatEta: options?.mirostatEta ?? defaultOptions.mirostatEta,
+      penalizeNewline:
+          options?.penalizeNewline ?? defaultOptions.penalizeNewline,
+      stop: options?.stop ?? defaultOptions.stop,
+      numa: options?.numa ?? defaultOptions.numa,
+      numCtx: options?.numCtx ?? defaultOptions.numCtx,
+      numBatch: options?.numBatch ?? defaultOptions.numBatch,
+      numGpu: options?.numGpu ?? defaultOptions.numGpu,
+      mainGpu: options?.mainGpu ?? defaultOptions.mainGpu,
+      lowVram: options?.lowVram ?? defaultOptions.lowVram,
+      f16Kv: options?.f16KV ?? defaultOptions.f16KV,
+      logitsAll: options?.logitsAll ?? defaultOptions.logitsAll,
+      vocabOnly: options?.vocabOnly ?? defaultOptions.vocabOnly,
+      useMmap: options?.useMmap ?? defaultOptions.useMmap,
+      useMlock: options?.useMlock ?? defaultOptions.useMlock,
+      numThread: options?.numThread ?? defaultOptions.numThread,
+    ),
+  );
+}
 
 /// Extension on [List<Tool>] to convert to Ollama SDK tool list.
 extension OllamaToolListMapper on List<Tool> {

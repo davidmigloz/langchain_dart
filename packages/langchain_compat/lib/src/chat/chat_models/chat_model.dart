@@ -1,3 +1,4 @@
+import 'package:json_schema/json_schema.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 
@@ -41,9 +42,18 @@ abstract class ChatModel<TOptions extends ChatModelOptions> {
   ///
   /// This method should call the underlying LLM API and return a stream
   /// of responses.
+  ///
+  /// [messages] is the list of messages to send to the model.
+  ///
+  /// [options] is an optional set of options that can be used to configure
+  /// the model.
+  ///
+  /// [outputSchema] is an optional schema that can be used to validate
+  /// the output of the model.
   Stream<ChatResult<ChatMessage>> sendStream(
     List<ChatMessage> messages, {
     TOptions? options,
+    JsonSchema? outputSchema,
   });
 
   /// Disposes the chat model.

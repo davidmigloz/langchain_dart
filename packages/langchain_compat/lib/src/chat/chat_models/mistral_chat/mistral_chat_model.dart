@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'package:json_schema/json_schema.dart';
 import 'package:logging/logging.dart';
 import 'package:mistralai_dart/mistralai_dart.dart';
 
@@ -59,7 +60,16 @@ class MistralChatModel extends ChatModel<MistralChatOptions> {
   Stream<ChatResult<msg.ChatMessage>> sendStream(
     List<msg.ChatMessage> messages, {
     MistralChatOptions? options,
+    JsonSchema? outputSchema,
   }) {
+    if (outputSchema != null) {
+      // TODO: Mistral doesn't support structured output yet, waiting for
+      // mistralai_dart package to support responseFormat parameter
+      throw Exception(
+        'Structured output (JsonSchema) is not supported by Mistral yet.',
+      );
+    }
+
     _logger.info(
       'Starting Mistral chat stream with ${messages.length} messages for '
       'model: $name',

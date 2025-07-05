@@ -4,8 +4,10 @@ import 'dart:typed_data';
 
 import 'package:anthropic_sdk_dart/anthropic_sdk_dart.dart' as a;
 import 'package:collection/collection.dart' show IterableExtension;
+import 'package:json_schema/json_schema.dart';
 import 'package:logging/logging.dart';
 import 'package:rxdart/rxdart.dart' show WhereNotNullExtension;
+import 'package:uuid/uuid.dart';
 
 import '../../../language_models/finish_reason.dart';
 import '../../../language_models/language_model_usage.dart';
@@ -17,6 +19,9 @@ import 'anthropic_chat.dart';
 /// Logger for Anthropic message mapping operations.
 final Logger _logger = Logger('dartantic.chat.mappers.anthropic');
 
+/// UUID generator for tool call IDs.
+const _uuid = Uuid();
+
 /// Creates an Anthropic [a.CreateMessageRequest] from a list of messages
 /// and options.
 a.CreateMessageRequest createMessageRequest(
@@ -26,21 +31,48 @@ a.CreateMessageRequest createMessageRequest(
   required AnthropicChatOptions defaultOptions,
   List<Tool>? tools,
   double? temperature,
+  JsonSchema? outputSchema,
   bool stream = false,
 }) {
   final systemMsg = messages.firstOrNull?.role == msg.MessageRole.system
       ? (messages.firstOrNull!.parts.firstOrNull as msg.TextPart?)?.text
       : null;
 
+  // Create structured output tool if outputSchema is provided
+  final hasTools = tools != null && tools.isNotEmpty;
+  final hasStructuredOutput = outputSchema != null;
+  var structuredTools = hasTools ? tools.toTool() : null;
+
+  if (hasStructuredOutput) {
+    final schema = Map<String, dynamic>.from(outputSchema.schemaMap ?? {});
+    // Ensure required array is present for objects
+    if (schema['type'] == 'object' && schema['properties'] != null) {
+      final properties = schema['properties'] as Map<String, dynamic>;
+      if (!schema.containsKey('required')) {
+        schema['required'] = properties.keys.toList();
+      }
+    }
+    
+    final structuredOutputTool = a.Tool.custom(
+      name: 'structured_output',
+      description:
+          'Generate a structured response matching the required schema',
+      inputSchema: schema,
+    );
+    structuredTools = [
+      if (structuredTools != null) ...structuredTools,
+      structuredOutputTool,
+    ];
+  }
+
   _logger.fine(
     'Creating Anthropic message request for ${messages.length} messages',
   );
   final messagesDtos = messages.toMessages();
-  final hasTools = tools != null && tools.isNotEmpty;
   _logger.fine(
-    'Tool configuration: hasTools=$hasTools, toolCount=${tools?.length ?? 0}',
+    'Tool configuration: hasTools=$hasTools, toolCount=${tools?.length ?? 0}, '
+    'hasStructuredOutput=$hasStructuredOutput',
   );
-  final toolsDtos = hasTools ? tools.toTool() : null;
 
   return a.CreateMessageRequest(
     model: a.Model.modelId(modelName),
@@ -60,8 +92,13 @@ a.CreateMessageRequest createMessageRequest(
     metadata: a.CreateMessageRequestMetadata(
       userId: options?.userId ?? defaultOptions.userId,
     ),
-    tools: toolsDtos,
-    toolChoice: hasTools
+    tools: structuredTools,
+    toolChoice: hasStructuredOutput
+        ? const a.ToolChoice(
+            type: a.ToolChoiceType.tool,
+            name: 'structured_output',
+          )
+        : hasTools
         ? const a.ToolChoice(type: a.ToolChoiceType.auto)
         : null,
     stream: stream,
@@ -400,13 +437,15 @@ List<msg.Part> _mapMessageContent(a.MessageContent content) =>
       final a.MessageContentBlocks b => [
         // Extract text parts
         ...b.value.whereType<a.TextBlock>().map((t) => msg.TextPart(t.text)),
-        // Extract tool use parts
+        // Extract tool use parts, converting structured_output to text
         ...b.value.whereType<a.ToolUseBlock>().map(
-          (toolUse) => msg.ToolPart.call(
-            id: toolUse.id,
-            name: toolUse.name,
-            arguments: toolUse.input,
-          ),
+          (toolUse) => toolUse.name == 'structured_output'
+              ? msg.TextPart(json.encode(toolUse.input))
+              : msg.ToolPart.call(
+                  id: toolUse.id,
+                  name: toolUse.name,
+                  arguments: toolUse.input,
+                ),
         ),
       ],
     };
@@ -420,9 +459,10 @@ List<msg.Part> _mapContentBlock(a.Block contentBlock) => switch (contentBlock) {
       mimeType: 'image/png',
     ),
   ],
-  final a.ToolUseBlock tu => [
-    msg.ToolPart.call(id: tu.id, name: tu.name, arguments: tu.input),
-  ],
+  final a.ToolUseBlock tu =>
+    tu.name == 'structured_output'
+        ? [msg.TextPart(json.encode(tu.input))]
+        : [msg.ToolPart.call(id: tu.id, name: tu.name, arguments: tu.input)],
   final a.ToolResultBlock tr => [msg.TextPart(tr.content.text)],
 };
 
@@ -432,9 +472,7 @@ List<msg.Part> _mapContentBlockDelta(
   a.BlockDelta blockDelta,
 ) => switch (blockDelta) {
   final a.TextBlockDelta t => [msg.TextPart(t.text)],
-  final a.InputJsonBlockDelta _ => [
-    msg.ToolPart.call(id: lastToolId ?? '', name: '', arguments: const {}),
-  ],
+  final a.InputJsonBlockDelta _ => const [],
 };
 
 /// Extension on [List<Tool>] to convert tool specs to Anthropic SDK tools.

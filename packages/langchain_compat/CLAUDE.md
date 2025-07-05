@@ -82,6 +82,7 @@ embeddings/
 3. **Native API Support**: Also supports provider-native APIs (Anthropic, Gemini, Mistral, Cohere)
 4. **Dual Ollama Support**: Both native Ollama API and OpenAI-compatible endpoints
 5. **Architectural Consistency**: Embeddings deliberately mirrors chat structure for maintainability
+6. **Exception Transparency**: Never hide exceptions with try-catch blocks unless there's a specific fix we can apply in our code - exceptions are either problems we need to fix or problems the user needs to fix, but swallowing them makes that impossible
 
 ### Provider Implementation Patterns
 

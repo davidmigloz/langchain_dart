@@ -4,6 +4,7 @@ import 'package:google_generative_ai/google_generative_ai.dart' as gai;
 import 'package:googleai_dart/googleai_dart.dart' show GenerateContentRequest;
 import 'package:http/http.dart' as http;
 import 'package:http/retry.dart' show RetryClient;
+import 'package:json_schema/json_schema.dart';
 import 'package:logging/logging.dart';
 import 'package:uuid/uuid.dart';
 
@@ -73,6 +74,7 @@ class GoogleChatModel extends ChatModel<GoogleChatOptions> {
   Stream<ChatResult<msg.ChatMessage>> sendStream(
     List<msg.ChatMessage> messages, {
     GoogleChatOptions? options,
+    JsonSchema? outputSchema,
   }) {
     _logger.info(
       'Starting Google chat stream with ${messages.length} '
@@ -80,8 +82,18 @@ class GoogleChatModel extends ChatModel<GoogleChatOptions> {
     );
     final id = _uuid.v4();
     final messagesWithDefaults = prepareMessagesWithDefaults(messages);
-    final (model, prompt, safetySettings, generationConfig, tools, toolConfig) =
-        _generateCompletionRequest(messagesWithDefaults, options: options);
+    final (
+      model,
+      prompt,
+      safetySettings,
+      generationConfig,
+      tools,
+      toolConfig,
+    ) = _generateCompletionRequest(
+      messagesWithDefaults,
+      options: options,
+      outputSchema: outputSchema,
+    );
     var chunkCount = 0;
     return _googleAiClient
         .generateContentStream(
@@ -119,6 +131,7 @@ class GoogleChatModel extends ChatModel<GoogleChatOptions> {
   _generateCompletionRequest(
     List<msg.ChatMessage> messages, {
     GoogleChatOptions? options,
+    JsonSchema? outputSchema,
   }) {
     _updateClientIfNeeded(messages, options);
 
@@ -138,9 +151,11 @@ class GoogleChatModel extends ChatModel<GoogleChatOptions> {
             temperature ?? options?.temperature ?? defaultOptions.temperature,
         topP: options?.topP ?? defaultOptions.topP,
         topK: options?.topK ?? defaultOptions.topK,
-        responseMimeType:
-            options?.responseMimeType ?? defaultOptions.responseMimeType,
+        responseMimeType: outputSchema != null
+            ? 'application/json'
+            : options?.responseMimeType ?? defaultOptions.responseMimeType,
         responseSchema:
+            _createGoogleSchema(outputSchema) ??
             (options?.responseSchema ?? defaultOptions.responseSchema)
                 ?.toSchema(),
       ),
@@ -156,6 +171,71 @@ class GoogleChatModel extends ChatModel<GoogleChatOptions> {
 
   @override
   void dispose() => _httpClient.close();
+
+  /// Creates Google Schema from JsonSchema
+  gai.Schema? _createGoogleSchema(JsonSchema? outputSchema) {
+    if (outputSchema == null) return null;
+
+    return _convertSchemaToGoogle(
+      Map<String, dynamic>.from(outputSchema.schemaMap ?? {}),
+    );
+  }
+
+  /// Converts a schema map to Google's Schema format
+  gai.Schema _convertSchemaToGoogle(Map<String, dynamic> schemaMap) {
+    final type = schemaMap['type'] as String?;
+    final description = schemaMap['description'] as String?;
+    final nullable = schemaMap['nullable'] as bool? ?? false;
+
+    switch (type) {
+      case 'string':
+        final enumValues = schemaMap['enum'] as List<dynamic>?;
+        if (enumValues != null) {
+          return gai.Schema.enumString(
+            enumValues: enumValues.cast<String>(),
+            description: description,
+            nullable: nullable,
+          );
+        } else {
+          return gai.Schema.string(
+            description: description,
+            nullable: nullable,
+          );
+        }
+      case 'number':
+        return gai.Schema.number(description: description, nullable: nullable);
+      case 'integer':
+        return gai.Schema.integer(description: description, nullable: nullable);
+      case 'boolean':
+        return gai.Schema.boolean(description: description, nullable: nullable);
+      case 'array':
+        final items = schemaMap['items'] as Map<String, dynamic>?;
+        return gai.Schema.array(
+          items: items != null
+              ? _convertSchemaToGoogle(Map<String, dynamic>.from(items))
+              : gai.Schema.string(),
+          description: description,
+          nullable: nullable,
+        );
+      case 'object':
+        final properties = schemaMap['properties'] as Map<String, dynamic>?;
+        final convertedProperties = <String, gai.Schema>{};
+        if (properties != null) {
+          for (final entry in properties.entries) {
+            convertedProperties[entry.key] = _convertSchemaToGoogle(
+              Map<String, dynamic>.from(entry.value as Map<String, dynamic>),
+            );
+          }
+        }
+        return gai.Schema.object(
+          properties: convertedProperties,
+          description: description,
+          nullable: nullable,
+        );
+      default:
+        return gai.Schema.string(description: description, nullable: nullable);
+    }
+  }
 
   /// Create a new [gai.GenerativeModel] instance.
   GenerativeModel _createGoogleAiClient({

@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'package:json_schema/json_schema.dart';
 import 'package:logging/logging.dart';
 import 'package:ollama_dart/ollama_dart.dart' show OllamaClient;
 import 'package:uuid/uuid.dart';
@@ -58,6 +59,7 @@ class OllamaChatModel extends ChatModel<OllamaChatOptions> {
   Stream<ChatResult<msg.ChatMessage>> sendStream(
     List<msg.ChatMessage> messages, {
     OllamaChatOptions? options,
+    JsonSchema? outputSchema,
   }) {
     _logger.info(
       'Starting Ollama chat stream with ${messages.length} '
@@ -74,6 +76,7 @@ class OllamaChatModel extends ChatModel<OllamaChatOptions> {
             defaultOptions: defaultOptions,
             tools: tools,
             temperature: temperature,
+            outputSchema: outputSchema,
             stream: true,
           ),
         )

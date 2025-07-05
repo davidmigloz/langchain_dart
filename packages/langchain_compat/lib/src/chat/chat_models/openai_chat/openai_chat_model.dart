@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'package:json_schema/json_schema.dart';
 import 'package:logging/logging.dart';
 import 'package:openai_dart/openai_dart.dart';
 import 'package:uuid/uuid.dart';
@@ -60,6 +61,7 @@ class OpenAIChatModel extends ChatModel<OpenAIChatOptions> {
   Stream<ChatResult<msg.ChatMessage>> sendStream(
     List<msg.ChatMessage> messages, {
     OpenAIChatOptions? options,
+    JsonSchema? outputSchema,
   }) async* {
     _logger.info(
       'Starting OpenAI chat stream with ${messages.length} messages '
@@ -74,6 +76,7 @@ class OpenAIChatModel extends ChatModel<OpenAIChatOptions> {
       temperature: temperature,
       options: options,
       defaultOptions: defaultOptions,
+      outputSchema: outputSchema,
       stream: true,
     );
 

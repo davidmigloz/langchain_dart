@@ -3,22 +3,30 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:collection/collection.dart';
 import 'package:json_schema/json_schema.dart';
 import 'package:langchain_compat/langchain_compat.dart';
 
 void main() async {
-  final agent = Agent.fromProvider(ChatProvider.google);
-  await jsonOutput(agent);
-  // await mapOutput(agent);
-  // await typedOutput(agent);
-  // await typedOutputWithToolCalls(agent);
+  final providersWithOutputSchema = ChatProvider.all.whereNot(
+    (p) => p.name == 'groq' || p.name == 'mistral' || p.name == 'nvidia',
+  );
+
+  for (final provider in providersWithOutputSchema) {
+    final agent = Agent.fromProvider(provider);
+    await jsonOutput(agent);
+    // await mapOutput(agent);
+    // await typedOutput(agent);
+    // await typedOutputWithToolCalls(agent);
+    // await streamingTypedOutputWithToolCalls(agent);
+  }
   exit(0);
 }
 
 Future<void> jsonOutput(Agent agent) async {
-  print('═══ JSON Output ═══');
+  print('═══ ${agent.displayName} JSON Output ═══');
 
-  final result = await agent.runFor<String>(
+  final result = await agent.run(
     'What is the Windy City in the US of A?',
     outputSchema: TownAndCountry.schema,
   );
@@ -29,7 +37,7 @@ Future<void> jsonOutput(Agent agent) async {
 }
 
 Future<void> mapOutput(Agent agent) async {
-  print('═══ Map Output ═══');
+  print('═══ ${agent.displayName} Map Output ═══');
 
   final result = await agent.runFor<Map<String, dynamic>>(
     'What is the Windy City in the US of A?',
@@ -41,7 +49,7 @@ Future<void> mapOutput(Agent agent) async {
 }
 
 Future<void> typedOutput(Agent agent) async {
-  print('═══ Typed Output ═══');
+  print('═══ ${agent.displayName} Typed Output ═══');
 
   final result = await agent.runFor<TownAndCountry>(
     'What is the Windy City in the US of A?',
@@ -53,7 +61,7 @@ Future<void> typedOutput(Agent agent) async {
 }
 
 Future<void> typedOutputWithToolCalls(Agent agent) async {
-  print('═══ Typed Output with Tool Calls ═══');
+  print('═══ ${agent.displayName} Typed Output with Tool Calls ═══');
 
   final result = await agent.runFor<TimeAndTemperature>(
     'What is the time and temperature in Portland, OR?',
@@ -63,6 +71,18 @@ Future<void> typedOutputWithToolCalls(Agent agent) async {
   print('time: ${result.output.time}');
   print('temperature: ${result.output.temperature}');
 }
+
+// Future<void> streamingTypedOutputWithToolCalls(Agent agent) async {
+//   print('═══ ${agent.displayName} Typed Output with Tool Calls ═══');
+
+//   final result = await agent.runForStream<TimeAndTemperature>(
+//     'What is the time and temperature in Portland, OR?',
+//     outputSchema: TimeAndTemperature.schema,
+//   );
+
+//   print('time: ${result.output.time}');
+//   print('temperature: ${result.output.temperature}');
+// }
 
 class TownAndCountry {
   const TownAndCountry({required this.town, required this.country});

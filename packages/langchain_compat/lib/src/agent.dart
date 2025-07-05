@@ -195,6 +195,7 @@ class Agent {
     String prompt, {
     List<ChatMessage> history = const [],
     List<Part> attachments = const [],
+    JsonSchema? outputSchema,
   }) async {
     _logger.info(
       'Running agent with prompt and ${history.length} history messages',
@@ -214,6 +215,7 @@ class Agent {
       prompt,
       history: history,
       attachments: attachments,
+      outputSchema: outputSchema,
     )) {
       final outputText = result.outputAsString;
       if (outputText.isNotEmpty) {
@@ -277,6 +279,7 @@ class Agent {
     String prompt, {
     List<ChatMessage> history = const [],
     List<Part> attachments = const [],
+    JsonSchema? outputSchema,
   }) async* {
     _logger.info(
       'Starting agent stream with prompt and ${history.length} '
@@ -326,7 +329,10 @@ class Agent {
       );
 
       // Stream the raw response and collect it
-      await for (final result in _model.sendStream(conversationHistory)) {
+      await for (final result in _model.sendStream(
+        conversationHistory,
+        outputSchema: outputSchema,
+      )) {
         // Stream the text output to the caller Extract text content from
         // Message output
         final textOutput = result.output.parts

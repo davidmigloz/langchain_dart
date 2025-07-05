@@ -1,5 +1,6 @@
 import 'package:anthropic_sdk_dart/anthropic_sdk_dart.dart' as a;
 import 'package:http/http.dart' as http;
+import 'package:json_schema/json_schema.dart';
 import 'package:logging/logging.dart';
 
 import '../../../platform/platform.dart';
@@ -62,6 +63,7 @@ class AnthropicChatModel extends ChatModel<AnthropicChatOptions> {
   Stream<ChatResult<msg.ChatMessage>> sendStream(
     List<msg.ChatMessage> messages, {
     AnthropicChatOptions? options,
+    JsonSchema? outputSchema,
   }) {
     _logger.info(
       'Starting Anthropic chat stream with '
@@ -78,6 +80,7 @@ class AnthropicChatModel extends ChatModel<AnthropicChatOptions> {
             temperature: temperature,
             options: options,
             defaultOptions: defaultOptions,
+            outputSchema: outputSchema,
             stream: true,
           ),
         )
