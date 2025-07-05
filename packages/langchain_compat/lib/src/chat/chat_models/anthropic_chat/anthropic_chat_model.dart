@@ -3,9 +3,9 @@ import 'package:http/http.dart' as http;
 import 'package:logging/logging.dart';
 
 import '../../../platform/platform.dart';
+import '../chat_message.dart' as msg;
 import '../chat_model.dart';
 import '../chat_result.dart';
-import '../message.dart' as msg;
 import 'anthropic_chat_options.dart';
 import 'anthropic_message_mappers.dart';
 
@@ -17,6 +17,7 @@ class AnthropicChatModel extends ChatModel<AnthropicChatOptions> {
     String? name,
     super.tools,
     super.temperature,
+    super.systemPrompt,
     AnthropicChatOptions? defaultOptions,
     String? apiKey,
     String? baseUrl,
@@ -58,19 +59,20 @@ class AnthropicChatModel extends ChatModel<AnthropicChatOptions> {
   final a.AnthropicClient _client;
 
   @override
-  Stream<ChatResult<msg.Message>> sendStream(
-    List<msg.Message> messages, {
+  Stream<ChatResult<msg.ChatMessage>> sendStream(
+    List<msg.ChatMessage> messages, {
     AnthropicChatOptions? options,
   }) {
     _logger.info(
       'Starting Anthropic chat stream with '
       '${messages.length} messages for model: $name',
     );
+    final messagesWithDefaults = prepareMessagesWithDefaults(messages);
     var chunkCount = 0;
     return _client
         .createMessageStream(
           request: createMessageRequest(
-            messages,
+            messagesWithDefaults,
             modelName: name,
             tools: tools,
             temperature: temperature,
@@ -83,7 +85,15 @@ class AnthropicChatModel extends ChatModel<AnthropicChatOptions> {
         .map((result) {
           chunkCount++;
           _logger.fine('Received Anthropic stream chunk $chunkCount');
-          return result;
+          // Filter system messages from the response
+          return ChatResult<msg.ChatMessage>(
+            id: result.id,
+            output: result.output,
+            messages: filterSystemMessages(result.messages),
+            finishReason: result.finishReason,
+            metadata: result.metadata,
+            usage: result.usage,
+          );
         });
   }
 

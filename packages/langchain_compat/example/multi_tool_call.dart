@@ -74,8 +74,11 @@ Future<void> multiToolCallExample(
       'If asked for the temperature, use the get_temperature tool.';
 
   final messages = [
-    const Message(role: MessageRole.system, parts: [TextPart(systemMessage)]),
-    const Message(role: MessageRole.user, parts: [TextPart(userMessage)]),
+    const ChatMessage(
+      role: MessageRole.system,
+      parts: [TextPart(systemMessage)],
+    ),
+    const ChatMessage(role: MessageRole.user, parts: [TextPart(userMessage)]),
   ];
 
   print('\nUser: $userMessage');
@@ -100,8 +103,11 @@ Future<void> multiToolCallExampleStream(
       'If asked for the temperature, use the get_temperature tool.';
 
   final messages = [
-    const Message(role: MessageRole.system, parts: [TextPart(systemMessage)]),
-    const Message(role: MessageRole.user, parts: [TextPart(userMessage)]),
+    const ChatMessage(
+      role: MessageRole.system,
+      parts: [TextPart(systemMessage)],
+    ),
+    const ChatMessage(role: MessageRole.user, parts: [TextPart(userMessage)]),
   ];
 
   print('\nUser: $userMessage');

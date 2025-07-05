@@ -10,8 +10,8 @@ import 'package:rxdart/rxdart.dart' show WhereNotNullExtension;
 import '../../../language_models/finish_reason.dart';
 import '../../../language_models/language_model_usage.dart';
 import '../../tools/tool.dart';
+import '../chat_message.dart' as msg;
 import '../chat_result.dart';
-import '../message.dart' as msg;
 import 'anthropic_chat.dart';
 
 /// Logger for Anthropic message mapping operations.
@@ -20,7 +20,7 @@ final Logger _logger = Logger('dartantic.chat.mappers.anthropic');
 /// Creates an Anthropic [a.CreateMessageRequest] from a list of messages
 /// and options.
 a.CreateMessageRequest createMessageRequest(
-  List<msg.Message> messages, {
+  List<msg.ChatMessage> messages, {
   required String modelName,
   required AnthropicChatOptions? options,
   required AnthropicChatOptions defaultOptions,
@@ -70,13 +70,13 @@ a.CreateMessageRequest createMessageRequest(
 
 /// Extension on [List<msg.Message>] to convert messages to Anthropic SDK
 /// messages.
-extension MessageListMapper on List<msg.Message> {
-  /// Converts this list of [msg.Message]s to a list of Anthropic SDK
+extension MessageListMapper on List<msg.ChatMessage> {
+  /// Converts this list of [msg.ChatMessage]s to a list of Anthropic SDK
   /// [a.Message]s.
   List<a.Message> toMessages() {
     _logger.fine('Converting $length messages to Anthropic format');
     final result = <a.Message>[];
-    final consecutiveToolMessages = <msg.Message>[];
+    final consecutiveToolMessages = <msg.ChatMessage>[];
 
     void flushToolMessages() {
       if (consecutiveToolMessages.isNotEmpty) {
@@ -118,7 +118,7 @@ extension MessageListMapper on List<msg.Message> {
     return result;
   }
 
-  a.Message _mapUserMessage(msg.Message message) {
+  a.Message _mapUserMessage(msg.ChatMessage message) {
     final textParts = message.parts.whereType<msg.TextPart>().toList();
     final dataParts = message.parts.whereType<msg.DataPart>().toList();
     _logger.fine(
@@ -177,7 +177,7 @@ extension MessageListMapper on List<msg.Message> {
     );
   }
 
-  a.Message _mapModelMessage(msg.Message message) {
+  a.Message _mapModelMessage(msg.ChatMessage message) {
     final textParts = message.parts.whereType<msg.TextPart>().toList();
     final toolParts = message.parts.whereType<msg.ToolPart>().toList();
     _logger.fine(
@@ -211,7 +211,7 @@ extension MessageListMapper on List<msg.Message> {
     }
   }
 
-  a.Message _mapToolMessages(List<msg.Message> messages) {
+  a.Message _mapToolMessages(List<msg.ChatMessage> messages) {
     _logger.fine(
       'Mapping ${messages.length} tool messages to Anthropic blocks',
     );
@@ -243,14 +243,14 @@ extension MessageListMapper on List<msg.Message> {
 /// [ChatResult].
 extension MessageMapper on a.Message {
   /// Converts this Anthropic SDK [a.Message] to a [ChatResult].
-  ChatResult<msg.Message> toChatResult() {
+  ChatResult<msg.ChatMessage> toChatResult() {
     final parts = _mapMessageContent(content);
-    final message = msg.Message(role: msg.MessageRole.model, parts: parts);
+    final message = msg.ChatMessage(role: msg.MessageRole.model, parts: parts);
     _logger.fine(
       'Converting Anthropic message to ChatResult with ${parts.length} parts',
     );
 
-    return ChatResult<msg.Message>(
+    return ChatResult<msg.ChatMessage>(
       id: id ?? '',
       output: message,
       messages: [message],
@@ -265,7 +265,10 @@ extension MessageMapper on a.Message {
 /// [a.MessageStreamEvent]s into [ChatResult]s.
 class MessageStreamEventTransformer
     extends
-        StreamTransformerBase<a.MessageStreamEvent, ChatResult<msg.Message>> {
+        StreamTransformerBase<
+          a.MessageStreamEvent,
+          ChatResult<msg.ChatMessage>
+        > {
   /// Creates a [MessageStreamEventTransformer].
   MessageStreamEventTransformer();
 
@@ -278,23 +281,24 @@ class MessageStreamEventTransformer
   /// Binds this transformer to a stream of [a.MessageStreamEvent]s, producing a
   /// stream of [ChatResult]s.
   @override
-  Stream<ChatResult<msg.Message>> bind(Stream<a.MessageStreamEvent> stream) =>
-      stream
-          .map(
-            (event) => switch (event) {
-              final a.MessageStartEvent e => _mapMessageStartEvent(e),
-              final a.MessageDeltaEvent e => _mapMessageDeltaEvent(e),
-              final a.ContentBlockStartEvent e => _mapContentBlockStartEvent(e),
-              final a.ContentBlockDeltaEvent e => _mapContentBlockDeltaEvent(e),
-              final a.ContentBlockStopEvent e => _mapContentBlockStopEvent(e),
-              final a.MessageStopEvent e => _mapMessageStopEvent(e),
-              a.PingEvent() => null,
-              a.ErrorEvent() => null,
-            },
-          )
-          .whereNotNull();
+  Stream<ChatResult<msg.ChatMessage>> bind(
+    Stream<a.MessageStreamEvent> stream,
+  ) => stream
+      .map(
+        (event) => switch (event) {
+          final a.MessageStartEvent e => _mapMessageStartEvent(e),
+          final a.MessageDeltaEvent e => _mapMessageDeltaEvent(e),
+          final a.ContentBlockStartEvent e => _mapContentBlockStartEvent(e),
+          final a.ContentBlockDeltaEvent e => _mapContentBlockDeltaEvent(e),
+          final a.ContentBlockStopEvent e => _mapContentBlockStopEvent(e),
+          final a.MessageStopEvent e => _mapMessageStopEvent(e),
+          a.PingEvent() => null,
+          a.ErrorEvent() => null,
+        },
+      )
+      .whereNotNull();
 
-  ChatResult<msg.Message> _mapMessageStartEvent(a.MessageStartEvent e) {
+  ChatResult<msg.ChatMessage> _mapMessageStartEvent(a.MessageStartEvent e) {
     final message = e.message;
 
     final msgId = message.id ?? lastMessageId ?? '';
@@ -304,10 +308,10 @@ class MessageStreamEventTransformer
       'Processing message start event: messageId=$msgId, parts=${parts.length}',
     );
 
-    return ChatResult<msg.Message>(
+    return ChatResult<msg.ChatMessage>(
       id: msgId,
-      output: msg.Message(role: msg.MessageRole.model, parts: parts),
-      messages: [msg.Message(role: msg.MessageRole.model, parts: parts)],
+      output: msg.ChatMessage(role: msg.MessageRole.model, parts: parts),
+      messages: [msg.ChatMessage(role: msg.MessageRole.model, parts: parts)],
       finishReason: _mapFinishReason(e.message.stopReason),
       metadata: {
         if (e.message.model != null) 'model': e.message.model,
@@ -318,20 +322,20 @@ class MessageStreamEventTransformer
     );
   }
 
-  ChatResult<msg.Message> _mapMessageDeltaEvent(a.MessageDeltaEvent e) =>
-      ChatResult<msg.Message>(
-        id: lastMessageId ?? '',
-        output: const msg.Message(role: msg.MessageRole.model, parts: []),
-        messages: const [msg.Message(role: msg.MessageRole.model, parts: [])],
-        finishReason: _mapFinishReason(e.delta.stopReason),
-        metadata: {
-          if (e.delta.stopSequence != null)
-            'stop_sequence': e.delta.stopSequence,
-        },
-        usage: _mapMessageDeltaUsage(e.usage),
-      );
+  ChatResult<msg.ChatMessage> _mapMessageDeltaEvent(
+    a.MessageDeltaEvent e,
+  ) => ChatResult<msg.ChatMessage>(
+    id: lastMessageId ?? '',
+    output: const msg.ChatMessage(role: msg.MessageRole.model, parts: []),
+    messages: const [msg.ChatMessage(role: msg.MessageRole.model, parts: [])],
+    finishReason: _mapFinishReason(e.delta.stopReason),
+    metadata: {
+      if (e.delta.stopSequence != null) 'stop_sequence': e.delta.stopSequence,
+    },
+    usage: _mapMessageDeltaUsage(e.usage),
+  );
 
-  ChatResult<msg.Message> _mapContentBlockStartEvent(
+  ChatResult<msg.ChatMessage> _mapContentBlockStartEvent(
     a.ContentBlockStartEvent e,
   ) {
     final parts = _mapContentBlock(e.contentBlock);
@@ -348,17 +352,17 @@ class MessageStreamEventTransformer
       }
     }
 
-    return ChatResult<msg.Message>(
+    return ChatResult<msg.ChatMessage>(
       id: lastMessageId ?? '',
-      output: msg.Message(role: msg.MessageRole.model, parts: parts),
-      messages: [msg.Message(role: msg.MessageRole.model, parts: parts)],
+      output: msg.ChatMessage(role: msg.MessageRole.model, parts: parts),
+      messages: [msg.ChatMessage(role: msg.MessageRole.model, parts: parts)],
       finishReason: FinishReason.unspecified,
       metadata: const {},
       usage: const LanguageModelUsage(),
     );
   }
 
-  ChatResult<msg.Message> _mapContentBlockDeltaEvent(
+  ChatResult<msg.ChatMessage> _mapContentBlockDeltaEvent(
     a.ContentBlockDeltaEvent e,
   ) {
     final parts = _mapContentBlockDelta(lastToolCallId, e.delta);
@@ -366,24 +370,24 @@ class MessageStreamEventTransformer
       'Processing content block delta event: index=${e.index}, '
       'parts=${parts.length}',
     );
-    return ChatResult<msg.Message>(
+    return ChatResult<msg.ChatMessage>(
       id: lastMessageId ?? '',
-      output: msg.Message(role: msg.MessageRole.model, parts: parts),
-      messages: [msg.Message(role: msg.MessageRole.model, parts: parts)],
+      output: msg.ChatMessage(role: msg.MessageRole.model, parts: parts),
+      messages: [msg.ChatMessage(role: msg.MessageRole.model, parts: parts)],
       finishReason: FinishReason.unspecified,
       metadata: {'index': e.index},
       usage: const LanguageModelUsage(),
     );
   }
 
-  ChatResult<msg.Message>? _mapContentBlockStopEvent(
+  ChatResult<msg.ChatMessage>? _mapContentBlockStopEvent(
     a.ContentBlockStopEvent e,
   ) {
     lastToolCallId = null;
     return null;
   }
 
-  ChatResult<msg.Message>? _mapMessageStopEvent(a.MessageStopEvent e) {
+  ChatResult<msg.ChatMessage>? _mapMessageStopEvent(a.MessageStopEvent e) {
     lastMessageId = null;
     return null;
   }

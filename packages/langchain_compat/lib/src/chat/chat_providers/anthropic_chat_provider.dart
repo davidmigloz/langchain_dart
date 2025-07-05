@@ -36,6 +36,7 @@ class AnthropicChatProvider extends ChatProvider<AnthropicChatOptions> {
     String? name,
     List<Tool>? tools,
     double? temperature,
+    String? systemPrompt,
     AnthropicChatOptions? options,
   }) {
     final modelName = name ?? defaultModelName;
@@ -48,6 +49,7 @@ class AnthropicChatProvider extends ChatProvider<AnthropicChatOptions> {
       name: modelName,
       tools: tools,
       temperature: temperature,
+      systemPrompt: systemPrompt,
       apiKey: tryGetEnv(apiKeyName),
       baseUrl: defaultBaseUrl,
       defaultOptions: AnthropicChatOptions(

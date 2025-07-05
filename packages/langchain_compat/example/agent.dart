@@ -6,13 +6,13 @@ import 'package:json_schema/json_schema.dart';
 import 'package:langchain_compat/langchain_compat.dart';
 
 // Helper functions for creating messages
-Message systemMessage(String text) =>
-    Message(role: MessageRole.system, parts: [TextPart(text)]);
+ChatMessage systemMessage(String text) =>
+    ChatMessage(role: MessageRole.system, parts: [TextPart(text)]);
 
-Message userMessage(String text) =>
-    Message(role: MessageRole.user, parts: [TextPart(text)]);
+ChatMessage userMessage(String text) =>
+    ChatMessage(role: MessageRole.user, parts: [TextPart(text)]);
 
-String getMessageText(Message message) =>
+String getMessageText(ChatMessage message) =>
     message.parts.whereType<TextPart>().map((p) => p.text).join();
 
 void main() async {
@@ -34,7 +34,7 @@ void main() async {
   await weatherAndCalculation(agent);
   await streamingComparison(agent);
 
-  agent.close();
+  agent.dispose();
   exit(0);
 }
 
@@ -79,7 +79,7 @@ Future<void> multipleToolCalls(Agent agent) async {
 Future<void> multiTurnConversation(Agent agent) async {
   print('═══ Scenario 3: Multi-turn Conversation ═══');
 
-  final messages = <Message>[systemMessage('You are a helpful assistant.')];
+  final messages = <ChatMessage>[systemMessage('You are a helpful assistant.')];
 
   // Turn 1: Ask about weather
   messages.add(userMessage("What's the weather in Seattle?"));
@@ -169,7 +169,7 @@ Future<void> streamingComparison(Agent agent) async {
   print('Streaming provides real-time feedback during processing.\n');
 }
 
-int _countToolCalls(List<Message> messages) => messages
+int _countToolCalls(List<ChatMessage> messages) => messages
     .where((msg) => msg.role == MessageRole.model)
     .expand(
       (msg) => msg.parts.whereType<ToolPart>().where(

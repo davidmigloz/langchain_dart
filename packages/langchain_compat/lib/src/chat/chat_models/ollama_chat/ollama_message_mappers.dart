@@ -5,13 +5,13 @@ import 'package:ollama_dart/ollama_dart.dart' as o;
 import '../../../language_models/finish_reason.dart';
 import '../../../language_models/language_model_usage.dart';
 import '../../tools/tool.dart';
+import '../chat_message.dart' as msg;
 import '../chat_result.dart';
-import '../message.dart' as msg;
 import 'ollama_chat_options.dart';
 
 /// Creates a [o.GenerateChatCompletionRequest] from the given input.
 o.GenerateChatCompletionRequest generateChatCompletionRequest(
-  List<msg.Message> messages, {
+  List<msg.ChatMessage> messages, {
   required String modelName,
   required OllamaChatOptions? options,
   required OllamaChatOptions defaultOptions,
@@ -80,12 +80,13 @@ extension OllamaToolListMapper on List<Tool> {
 
 /// Extension on [List<msg.Message>] to convert messages to Ollama SDK
 /// messages.
-extension MessageListMapper on List<msg.Message> {
-  /// Converts this list of [msg.Message]s to a list of Ollama SDK [o.Message]s.
+extension MessageListMapper on List<msg.ChatMessage> {
+  /// Converts this list of [msg.ChatMessage]s to a list of Ollama SDK
+  /// [o.Message]s.
   List<o.Message> toMessages() =>
       map(_mapMessage).expand((msg) => msg).toList(growable: false);
 
-  List<o.Message> _mapMessage(msg.Message message) {
+  List<o.Message> _mapMessage(msg.ChatMessage message) {
     switch (message.role) {
       case msg.MessageRole.system:
         return [
@@ -113,7 +114,7 @@ extension MessageListMapper on List<msg.Message> {
     }
   }
 
-  List<o.Message> _mapUserMessage(msg.Message message) {
+  List<o.Message> _mapUserMessage(msg.ChatMessage message) {
     final textParts = message.parts.whereType<msg.TextPart>().toList();
     final dataParts = message.parts.whereType<msg.DataPart>().toList();
 
@@ -151,7 +152,7 @@ extension MessageListMapper on List<msg.Message> {
     }
   }
 
-  List<o.Message> _mapModelMessage(msg.Message message) {
+  List<o.Message> _mapModelMessage(msg.ChatMessage message) {
     final textContent = _extractTextContent(message);
     final toolParts = message.parts.whereType<msg.ToolPart>().toList();
 
@@ -178,7 +179,7 @@ extension MessageListMapper on List<msg.Message> {
     ];
   }
 
-  String _extractTextContent(msg.Message message) {
+  String _extractTextContent(msg.ChatMessage message) {
     final textParts = message.parts.whereType<msg.TextPart>();
     if (textParts.isEmpty) {
       return '';
@@ -190,7 +191,7 @@ extension MessageListMapper on List<msg.Message> {
 /// Extension on [o.GenerateChatCompletionResponse] to convert to [ChatResult].
 extension ChatResultMapper on o.GenerateChatCompletionResponse {
   /// Converts this [o.GenerateChatCompletionResponse] to a [ChatResult].
-  ChatResult<msg.Message> toChatResult(String id) {
+  ChatResult<msg.ChatMessage> toChatResult(String id) {
     final parts = <msg.Part>[];
 
     // Add text content
@@ -213,12 +214,12 @@ extension ChatResultMapper on o.GenerateChatCompletionResponse {
       }
     }
 
-    final responseMessage = msg.Message(
+    final responseMessage = msg.ChatMessage(
       role: msg.MessageRole.model,
       parts: parts,
     );
 
-    return ChatResult<msg.Message>(
+    return ChatResult<msg.ChatMessage>(
       id: id,
       output: responseMessage,
       messages: [responseMessage],

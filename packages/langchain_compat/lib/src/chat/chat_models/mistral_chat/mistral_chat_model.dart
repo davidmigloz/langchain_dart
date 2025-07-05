@@ -4,7 +4,7 @@ import 'package:mistralai_dart/mistralai_dart.dart';
 
 import '../../../platform/platform.dart';
 import '../../chat.dart';
-import '../message.dart' as msg;
+import '../chat_message.dart' as msg;
 import 'mistral_message_mappers.dart';
 
 /// Wrapper around [Mistral AI](https://docs.mistral.ai) Chat Completions API.
@@ -14,6 +14,7 @@ class MistralChatModel extends ChatModel<MistralChatOptions> {
     String? name,
     super.tools,
     super.temperature,
+    super.systemPrompt,
     MistralChatOptions? defaultOptions,
     String? apiKey,
     String? baseUrl,
@@ -55,19 +56,20 @@ class MistralChatModel extends ChatModel<MistralChatOptions> {
   final MistralAIClient _client;
 
   @override
-  Stream<ChatResult<msg.Message>> sendStream(
-    List<msg.Message> messages, {
+  Stream<ChatResult<msg.ChatMessage>> sendStream(
+    List<msg.ChatMessage> messages, {
     MistralChatOptions? options,
   }) {
     _logger.info(
       'Starting Mistral chat stream with ${messages.length} messages for '
       'model: $name',
     );
+    final messagesWithDefaults = prepareMessagesWithDefaults(messages);
     var chunkCount = 0;
     return _client
         .createChatCompletionStream(
           request: createChatCompletionRequest(
-            messages,
+            messagesWithDefaults,
             modelName: name,
             tools: tools,
             temperature: temperature,
@@ -79,13 +81,22 @@ class MistralChatModel extends ChatModel<MistralChatOptions> {
         .map((completion) {
           chunkCount++;
           _logger.fine('Received Mistral stream chunk $chunkCount');
-          return completion.toChatResult();
+          final result = completion.toChatResult();
+          // Filter system messages from the response
+          return ChatResult<msg.ChatMessage>(
+            id: result.id,
+            output: result.output,
+            messages: filterSystemMessages(result.messages),
+            finishReason: result.finishReason,
+            metadata: result.metadata,
+            usage: result.usage,
+          );
         });
   }
 
   /// Creates a GenerateCompletionRequest from the given input.
   ChatCompletionRequest createChatCompletionRequest(
-    List<msg.Message> messages, {
+    List<msg.ChatMessage> messages, {
     required String modelName,
     required MistralChatOptions defaultOptions,
     required bool stream,

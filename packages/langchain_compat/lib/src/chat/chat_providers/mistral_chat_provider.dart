@@ -36,6 +36,7 @@ class MistralChatProvider extends ChatProvider<MistralChatOptions> {
     String? name,
     List<Tool>? tools,
     double? temperature,
+    String? systemPrompt,
     MistralChatOptions? options,
   }) {
     final modelName = name ?? defaultModelName;
@@ -47,6 +48,7 @@ class MistralChatProvider extends ChatProvider<MistralChatOptions> {
       name: name ?? defaultModelName,
       tools: tools,
       temperature: temperature,
+      systemPrompt: systemPrompt,
       apiKey: tryGetEnv(apiKeyName),
       baseUrl: defaultBaseUrl,
       defaultOptions: MistralChatOptions(

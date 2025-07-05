@@ -9,8 +9,8 @@ import 'package:uuid/uuid.dart';
 
 import '../../../custom_http_client.dart';
 import '../../../platform/platform.dart';
+import '../chat_message.dart' as msg;
 import '../chat_models.dart';
-import '../message.dart' as msg;
 import 'google_message_mappers.dart';
 
 /// Wrapper around [Google AI for Developers](https://ai.google.dev/) API
@@ -21,6 +21,7 @@ class GoogleChatModel extends ChatModel<GoogleChatOptions> {
     String? name,
     super.tools,
     super.temperature,
+    super.systemPrompt,
     GoogleChatOptions? defaultOptions,
     String? apiKey,
     String? baseUrl,
@@ -69,8 +70,8 @@ class GoogleChatModel extends ChatModel<GoogleChatOptions> {
   String? _currentSystemInstruction;
 
   @override
-  Stream<ChatResult<msg.Message>> sendStream(
-    List<msg.Message> messages, {
+  Stream<ChatResult<msg.ChatMessage>> sendStream(
+    List<msg.ChatMessage> messages, {
     GoogleChatOptions? options,
   }) {
     _logger.info(
@@ -78,8 +79,9 @@ class GoogleChatModel extends ChatModel<GoogleChatOptions> {
       'messages for model: $name',
     );
     final id = _uuid.v4();
+    final messagesWithDefaults = prepareMessagesWithDefaults(messages);
     final (model, prompt, safetySettings, generationConfig, tools, toolConfig) =
-        _generateCompletionRequest(messages, options: options);
+        _generateCompletionRequest(messagesWithDefaults, options: options);
     var chunkCount = 0;
     return _googleAiClient
         .generateContentStream(
@@ -92,7 +94,16 @@ class GoogleChatModel extends ChatModel<GoogleChatOptions> {
         .map((completion) {
           chunkCount++;
           _logger.fine('Received Google stream chunk $chunkCount');
-          return completion.toChatResult(id, model);
+          final result = completion.toChatResult(id, model);
+          // Filter system messages from the response
+          return ChatResult<msg.ChatMessage>(
+            id: result.id,
+            output: result.output,
+            messages: filterSystemMessages(result.messages),
+            finishReason: result.finishReason,
+            metadata: result.metadata,
+            usage: result.usage,
+          );
         });
   }
 
@@ -106,7 +117,7 @@ class GoogleChatModel extends ChatModel<GoogleChatOptions> {
     gai.ToolConfig? toolConfig,
   )
   _generateCompletionRequest(
-    List<msg.Message> messages, {
+    List<msg.ChatMessage> messages, {
     GoogleChatOptions? options,
   }) {
     _updateClientIfNeeded(messages, options);
@@ -174,7 +185,7 @@ class GoogleChatModel extends ChatModel<GoogleChatOptions> {
 
   /// Updates the model in [_googleAiClient] if needed.
   void _updateClientIfNeeded(
-    List<msg.Message> messages,
+    List<msg.ChatMessage> messages,
     GoogleChatOptions? options,
   ) {
     final systemInstruction =

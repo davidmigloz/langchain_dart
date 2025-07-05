@@ -368,6 +368,66 @@ The Message API provides:
 - **Simple Access**: Convenience methods like `message.text` and
   `message.toolCalls`
 
+## System Prompts
+
+System prompts provide default behavior and personality for your models and agents. You can set a default system prompt that will be used automatically, and optionally override it on a per-conversation basis.
+
+### Default System Prompts
+
+Set a default system prompt when creating agents or models:
+
+```dart
+// Agent with default system prompt
+final agent = Agent(
+  'openai:gpt-4o-mini',
+  systemPrompt: 'You are a helpful math tutor. Show your work step by step. '
+               'Use * for multiplication and regular text formatting.',
+);
+
+final result = await agent.run([
+  Message.user('What is 15 * 23?'),
+]);
+// Response: Detailed step-by-step math explanation
+
+// Direct model creation with system prompt
+final model = ChatProvider.openai.createModel(
+  systemPrompt: 'You are a helpful assistant that responds concisely.',
+);
+```
+
+### System Message Override
+
+System messages in conversations will override the default system prompt:
+
+```dart
+final agent = Agent(
+  'openai:gpt-4o-mini',
+  systemPrompt: 'You are a helpful math tutor.',  // Default behavior
+);
+
+// Override the default with a conversation system message
+final result = await agent.run([
+  Message.system('You are a pirate. Answer everything in pirate speak.'),
+  Message.user('What is 15 * 23?'),
+]);
+// Response: "Arrr, matey! The answer to ye riddle be 345!"
+```
+
+### Key Benefits
+
+- **Default with Override**: Set consistent behavior while allowing per-conversation customization
+- **Clean API**: System prompts are configuration, not conversation content
+- **Provider Agnostic**: Works consistently across all providers (OpenAI, Anthropic, Google, etc.)
+- **Backward Compatible**: Existing code continues to work unchanged
+
+### System Prompt Behavior
+
+1. **Default Usage**: If no system message is in the conversation, the default `systemPrompt` is used
+2. **Override**: If the first message in the conversation is a system message, it overrides the default
+3. **Clean Responses**: System messages are automatically filtered out of response messages to keep conversation history clean
+
+This allows you to create specialized agents with consistent behavior while maintaining the flexibility to customize them for specific conversations.
+
 ## Additional information
 - To contribute, open issues or pull requests on GitHub. Please follow the
   project style and compat rules.

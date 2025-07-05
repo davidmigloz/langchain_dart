@@ -5,8 +5,8 @@ import 'package:uuid/uuid.dart';
 
 import '../../../http/retry_http_client.dart';
 import '../../../platform/platform.dart';
+import '../chat_message.dart' as msg;
 import '../chat_models.dart';
-import '../message.dart' as msg;
 import 'openai_message_mappers.dart';
 import 'openai_message_mappers_helpers.dart';
 
@@ -18,6 +18,7 @@ class OpenAIChatModel extends ChatModel<OpenAIChatOptions> {
     String? name,
     super.tools,
     super.temperature,
+    super.systemPrompt,
     OpenAIChatOptions? defaultOptions,
     String? apiKey,
     String? organization,
@@ -56,8 +57,8 @@ class OpenAIChatModel extends ChatModel<OpenAIChatOptions> {
   final _uuid = const Uuid();
 
   @override
-  Stream<ChatResult<msg.Message>> sendStream(
-    List<msg.Message> messages, {
+  Stream<ChatResult<msg.ChatMessage>> sendStream(
+    List<msg.ChatMessage> messages, {
     OpenAIChatOptions? options,
   }) async* {
     _logger.info(
@@ -65,8 +66,9 @@ class OpenAIChatModel extends ChatModel<OpenAIChatOptions> {
       'for model: $name',
     );
 
+    final messagesWithDefaults = prepareMessagesWithDefaults(messages);
     final request = createChatCompletionRequest(
-      messages,
+      messagesWithDefaults,
       modelName: name,
       tools: tools,
       temperature: temperature,
@@ -92,10 +94,10 @@ class OpenAIChatModel extends ChatModel<OpenAIChatOptions> {
           accumulatedToolCalls,
         );
 
-        yield ChatResult<msg.Message>(
+        yield ChatResult<msg.ChatMessage>(
           id: completion.id ?? _uuid.v4(),
           output: message,
-          messages: [message],
+          messages: filterSystemMessages([message]),
           finishReason: mapFinishReason(
             completion.choices.firstOrNull?.finishReason,
           ),

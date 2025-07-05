@@ -4,8 +4,8 @@ import 'dart:convert';
 import 'package:logging/logging.dart';
 import 'package:uuid/uuid.dart';
 
+import 'chat/chat_models/chat_message.dart' as msg;
 import 'chat/chat_models/chat_models.dart';
-import 'chat/chat_models/message.dart' as msg;
 import 'chat/chat_providers/chat_providers.dart';
 import 'chat/tools/tools.dart';
 import 'language_models/language_models.dart';
@@ -31,10 +31,12 @@ class Agent {
   /// Optional parameters:
   /// - [tools]: List of tools the agent can use
   /// - [temperature]: Model temperature (0.0 to 1.0)
+  /// - [systemPrompt]: Default system prompt for the agent
   Agent(
     String model, {
     List<Tool>? tools,
     double? temperature,
+    String? systemPrompt,
     String? displayName,
   }) {
     // split the model into provider name and model name
@@ -57,6 +59,7 @@ class Agent {
       name: modelName,
       tools: tools,
       temperature: temperature,
+      systemPrompt: systemPrompt,
     );
 
     _logger.fine(
@@ -71,6 +74,7 @@ class Agent {
     String? modelName,
     List<Tool>? tools,
     double? temperature,
+    String? systemPrompt,
     String? displayName,
   }) {
     _logger.info(
@@ -83,6 +87,7 @@ class Agent {
       name: modelName,
       tools: tools,
       temperature: temperature,
+      systemPrompt: systemPrompt,
     );
 
     _logger.fine(
@@ -176,7 +181,7 @@ class Agent {
   static Map<String, String> environment = {};
 
   /// Closes the underlying model.
-  void close() => _model.dispose();
+  void dispose() => _model.dispose();
 
   late final String _providerName;
   late final ChatModel _model;
@@ -206,10 +211,10 @@ class Agent {
   /// Invokes the agent with the given messages and returns the final result.
   ///
   /// This method internally uses [runStream] and accumulates all results.
-  Future<ChatResult<String>> run(List<msg.Message> messages) async {
+  Future<ChatResult<String>> run(List<msg.ChatMessage> messages) async {
     _logger.info('Running agent with ${messages.length} messages');
 
-    final allNewMessages = <msg.Message>[];
+    final allNewMessages = <msg.ChatMessage>[];
     var finalOutput = '';
     var finalResult = const ChatResult<String>(
       id: '',
@@ -248,10 +253,10 @@ class Agent {
   /// Returns a stream of [ChatResult] where:
   /// - [ChatResult.output] contains streaming text chunks
   /// - [ChatResult.messages] contains new messages since the last result
-  Stream<ChatResult<String>> runStream(List<msg.Message> messages) async* {
+  Stream<ChatResult<String>> runStream(List<msg.ChatMessage> messages) async* {
     _logger.info('Starting agent stream with ${messages.length} messages');
 
-    final conversationHistory = List<msg.Message>.from(messages);
+    final conversationHistory = List<msg.ChatMessage>.from(messages);
     final toolMap = {
       for (final tool in _model.tools ?? <Tool>[]) tool.name: tool,
     };
@@ -260,13 +265,13 @@ class Agent {
     _shouldPrefixNextMessage = false; // Reset at start of stream
     while (!done) {
       var isFirstChunkOfMessage = true; // Track first chunk of each AI message
-      var currentAIMessage = const msg.Message(
+      var currentAIMessage = const msg.ChatMessage(
         role: msg.MessageRole.model,
         parts: [],
       );
-      var lastResult = const ChatResult<msg.Message>(
+      var lastResult = const ChatResult<msg.ChatMessage>(
         id: '',
-        output: msg.Message(role: msg.MessageRole.model, parts: []),
+        output: msg.ChatMessage(role: msg.MessageRole.model, parts: []),
         finishReason: FinishReason.unspecified,
         metadata: <String, dynamic>{},
         usage: LanguageModelUsage(),
@@ -319,7 +324,7 @@ class Agent {
             : newParts;
 
         // Accumulate parts
-        currentAIMessage = msg.Message(
+        currentAIMessage = msg.ChatMessage(
           role: msg.MessageRole.model,
           parts: [...currentAIMessage.parts, ...processedParts],
         );
@@ -328,7 +333,7 @@ class Agent {
 
       // Assign UUIDs to tool calls that still have empty IDs
       // This handles providers like Ollama and Google that don't provide IDs
-      final messageWithIds = msg.Message(
+      final messageWithIds = msg.ChatMessage(
         role: msg.MessageRole.model,
         parts: _assignToolCallIdsToMessage(currentAIMessage.parts),
       );
@@ -367,7 +372,7 @@ class Agent {
         // gets visually separated with a newline prefix for better UX.
         _shouldPrefixNextMessage = true;
         // Execute all tools
-        final toolResults = <msg.Message>[];
+        final toolResults = <msg.ChatMessage>[];
         for (final toolPart in toolCalls) {
           final tool = toolMap[toolPart.name];
           if (tool != null) {
@@ -402,7 +407,7 @@ class Agent {
 
               // Create a user message with tool result part
               toolResults.add(
-                msg.Message(
+                msg.ChatMessage(
                   role: msg.MessageRole.user,
                   parts: [
                     msg.ToolPart.result(
@@ -417,7 +422,7 @@ class Agent {
               _logger.warning('Tool ${toolPart.name} execution failed: $error');
 
               toolResults.add(
-                msg.Message(
+                msg.ChatMessage(
                   role: msg.MessageRole.user,
                   parts: [
                     msg.ToolPart.result(
@@ -461,7 +466,7 @@ class Agent {
   /// Returns true for providers that send multiple tool calls with empty IDs
   /// in the same chunk (Ollama, Google), which would cause incorrect merging.
   /// Returns false for providers that use proper streaming protocols.
-  bool _shouldAssignIdsBeforeConcat(msg.Message message) {
+  bool _shouldAssignIdsBeforeConcat(msg.ChatMessage message) {
     final toolParts = message.parts
         .whereType<msg.ToolPart>()
         .where((p) => p.kind == msg.ToolPartKind.call)

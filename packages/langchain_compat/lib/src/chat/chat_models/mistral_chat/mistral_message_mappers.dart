@@ -2,23 +2,23 @@ import 'package:logging/logging.dart';
 import 'package:mistralai_dart/mistralai_dart.dart';
 
 import '../../../language_models/language_models.dart';
+import '../chat_message.dart' as msg;
 import '../chat_models.dart';
-import '../message.dart' as msg;
 
 /// Logger for Mistral message mapping operations.
 final Logger _logger = Logger('dartantic.chat.mappers.mistral');
 
 /// Extension on [List<msg.Message>] to convert messages to Mistral SDK
 /// messages.
-extension MessageListMapper on List<msg.Message> {
-  /// Converts this list of [msg.Message]s to a list of Mistral SDK
+extension MessageListMapper on List<msg.ChatMessage> {
+  /// Converts this list of [msg.ChatMessage]s to a list of Mistral SDK
   /// [ChatCompletionMessage]s.
   List<ChatCompletionMessage> toChatCompletionMessages() {
     _logger.fine('Converting $length messages to Mistral format');
     return map(_mapMessage).toList(growable: false);
   }
 
-  ChatCompletionMessage _mapMessage(msg.Message message) {
+  ChatCompletionMessage _mapMessage(msg.ChatMessage message) {
     _logger.fine(
       'Mapping ${message.role.name} message with ${message.parts.length} parts',
     );
@@ -51,7 +51,7 @@ extension MessageListMapper on List<msg.Message> {
     }
   }
 
-  String _extractTextContent(msg.Message message) {
+  String _extractTextContent(msg.ChatMessage message) {
     final textParts = message.parts.whereType<msg.TextPart>();
     if (textParts.isEmpty) {
       _logger.fine('No text parts found in message');
@@ -66,7 +66,7 @@ extension MessageListMapper on List<msg.Message> {
 /// Extension on [ChatCompletionResponse] to convert to [ChatResult].
 extension ChatResultMapper on ChatCompletionResponse {
   /// Converts this [ChatCompletionResponse] to a [ChatResult].
-  ChatResult<msg.Message> toChatResult() {
+  ChatResult<msg.ChatMessage> toChatResult() {
     final choice = choices.first;
     final content = choice.message?.content ?? '';
     _logger.fine(
@@ -74,12 +74,12 @@ extension ChatResultMapper on ChatCompletionResponse {
       'content=${content.length} characters',
     );
 
-    final message = msg.Message(
+    final message = msg.ChatMessage(
       role: msg.MessageRole.model,
       parts: content.isNotEmpty ? [msg.TextPart(content)] : [],
     );
 
-    return ChatResult<msg.Message>(
+    return ChatResult<msg.ChatMessage>(
       id: id,
       output: message,
       messages: [message],
@@ -106,7 +106,7 @@ extension ChatResultMapper on ChatCompletionResponse {
 extension CreateChatCompletionStreamResponseMapper
     on ChatCompletionStreamResponse {
   /// Converts a [ChatCompletionStreamResponse] to a [ChatResult].
-  ChatResult<msg.Message> toChatResult() {
+  ChatResult<msg.ChatMessage> toChatResult() {
     final choice = choices.first;
     final content = choice.delta.content ?? '';
     _logger.fine(
@@ -114,12 +114,12 @@ extension CreateChatCompletionStreamResponseMapper
       'content=${content.length} characters',
     );
 
-    final message = msg.Message(
+    final message = msg.ChatMessage(
       role: msg.MessageRole.model,
       parts: content.isNotEmpty ? [msg.TextPart(content)] : [],
     );
 
-    return ChatResult<msg.Message>(
+    return ChatResult<msg.ChatMessage>(
       id: id,
       output: message,
       messages: [message],

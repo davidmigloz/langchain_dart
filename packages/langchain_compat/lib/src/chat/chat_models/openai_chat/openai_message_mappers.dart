@@ -4,7 +4,7 @@ import 'package:logging/logging.dart';
 import 'package:openai_dart/openai_dart.dart';
 
 import '../../tools/tool.dart';
-import '../message.dart' as msg;
+import '../chat_message.dart' as msg;
 import 'openai_chat_options.dart';
 import 'openai_message_mappers_helpers.dart';
 
@@ -13,7 +13,7 @@ final Logger _logger = Logger('dartantic.chat.mappers.openai');
 
 /// Creates a [CreateChatCompletionRequest] from the given Message input.
 CreateChatCompletionRequest createChatCompletionRequestFromMessages(
-  List<msg.Message> messages, {
+  List<msg.ChatMessage> messages, {
   required String modelName,
   required OpenAIChatOptions? options,
   required OpenAIChatOptions defaultOptions,
@@ -67,15 +67,15 @@ CreateChatCompletionRequest createChatCompletionRequestFromMessages(
 }
 
 /// Extension on [List<msg.Message>] to convert messages to OpenAI SDK messages.
-extension MessageListToOpenAI on List<msg.Message> {
-  /// Converts this list of [msg.Message]s to a list of
+extension MessageListToOpenAI on List<msg.ChatMessage> {
+  /// Converts this list of [msg.ChatMessage]s to a list of
   /// [ChatCompletionMessage]s.
   List<ChatCompletionMessage> toOpenAIMessages() {
     _logger.fine('Converting $length messages to OpenAI format');
     return map(_mapMessage).toList(growable: false);
   }
 
-  ChatCompletionMessage _mapMessage(msg.Message message) {
+  ChatCompletionMessage _mapMessage(msg.ChatMessage message) {
     switch (message.role) {
       case msg.MessageRole.system:
         return _mapSystemMessage(message);
@@ -86,7 +86,7 @@ extension MessageListToOpenAI on List<msg.Message> {
     }
   }
 
-  ChatCompletionMessage _mapSystemMessage(msg.Message message) {
+  ChatCompletionMessage _mapSystemMessage(msg.ChatMessage message) {
     // System messages should have a single text part
     final text = message.parts
         .whereType<msg.TextPart>()
@@ -95,7 +95,7 @@ extension MessageListToOpenAI on List<msg.Message> {
     return ChatCompletionMessage.system(content: text);
   }
 
-  ChatCompletionMessage _mapUserMessage(msg.Message message) {
+  ChatCompletionMessage _mapUserMessage(msg.ChatMessage message) {
     // Check if this is a tool result message
     final toolResults = message.parts
         .whereType<msg.ToolPart>()
@@ -162,7 +162,7 @@ extension MessageListToOpenAI on List<msg.Message> {
     }
   }
 
-  ChatCompletionMessage _mapModelMessage(msg.Message message) {
+  ChatCompletionMessage _mapModelMessage(msg.ChatMessage message) {
     // Extract text content
     final textContent = message.parts
         .whereType<msg.TextPart>()
@@ -193,7 +193,7 @@ extension MessageListToOpenAI on List<msg.Message> {
 }
 
 /// Converts OpenAI streaming response to Message.
-msg.Message messageFromOpenAIStreamDelta(
+msg.ChatMessage messageFromOpenAIStreamDelta(
   ChatCompletionStreamResponseDelta delta,
   List<StreamingToolCall> accumulatedToolCalls,
 ) {
@@ -261,13 +261,15 @@ msg.Message messageFromOpenAIStreamDelta(
     }
   }
 
-  return msg.Message(role: msg.MessageRole.model, parts: parts);
+  return msg.ChatMessage(role: msg.MessageRole.model, parts: parts);
 }
 
 /// Converts OpenAI completion response to Message.
-msg.Message messageFromOpenAIResponse(CreateChatCompletionResponse response) {
+msg.ChatMessage messageFromOpenAIResponse(
+  CreateChatCompletionResponse response,
+) {
   if (response.choices.isEmpty) {
-    return const msg.Message(role: msg.MessageRole.model, parts: []);
+    return const msg.ChatMessage(role: msg.MessageRole.model, parts: []);
   }
 
   final choice = response.choices.first;
@@ -306,5 +308,5 @@ msg.Message messageFromOpenAIResponse(CreateChatCompletionResponse response) {
     }
   }
 
-  return msg.Message(role: msg.MessageRole.model, parts: parts);
+  return msg.ChatMessage(role: msg.MessageRole.model, parts: parts);
 }

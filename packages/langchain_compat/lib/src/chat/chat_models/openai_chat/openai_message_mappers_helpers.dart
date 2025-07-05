@@ -2,7 +2,7 @@ import 'package:openai_dart/openai_dart.dart';
 
 import '../../../language_models/language_models.dart';
 import '../../tools/tool.dart';
-import '../message.dart' as msg;
+import '../chat_message.dart' as msg;
 import 'openai_chat_options.dart';
 import 'openai_message_mappers.dart';
 
@@ -32,7 +32,7 @@ LanguageModelUsage mapUsage(CompletionUsage? usage) {
 
 /// Creates a ChatCompletionRequest from the given input
 CreateChatCompletionRequest createChatCompletionRequest(
-  List<msg.Message> messages, {
+  List<msg.ChatMessage> messages, {
   required String modelName,
   required OpenAIChatOptions defaultOptions,
   required bool stream,

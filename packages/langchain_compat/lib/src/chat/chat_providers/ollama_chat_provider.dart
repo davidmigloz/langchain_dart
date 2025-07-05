@@ -34,6 +34,7 @@ class OllamaChatProvider extends ChatProvider<OllamaChatOptions> {
     String? name,
     List<Tool>? tools,
     double? temperature,
+    String? systemPrompt,
     OllamaChatOptions? options,
   }) {
     final modelName = name ?? defaultModelName;
@@ -45,6 +46,7 @@ class OllamaChatProvider extends ChatProvider<OllamaChatOptions> {
       name: name ?? defaultModelName,
       tools: tools,
       temperature: temperature,
+      systemPrompt: systemPrompt,
       baseUrl: defaultBaseUrl,
       defaultOptions: OllamaChatOptions(
         format: options?.format,

@@ -36,9 +36,9 @@ Future<void> usageExample(ChatProvider provider) async {
   print('Model: ${model.name}');
 
   // Use sendStream() and collect the final result to get complete usage data
-  ChatResult<Message>? finalResult;
+  ChatResult<ChatMessage>? finalResult;
   await for (final chunk in model.sendStream([
-    const Message(role: MessageRole.user, parts: [TextPart(testPrompt)]),
+    const ChatMessage(role: MessageRole.user, parts: [TextPart(testPrompt)]),
   ])) {
     finalResult = chunk;
   }
@@ -82,7 +82,7 @@ Future<void> usageExample(ChatProvider provider) async {
 Future<void> streamingUsageExample(ChatProvider provider) async {
   final model = provider.createModel();
   final messages = [
-    const Message(
+    const ChatMessage(
       role: MessageRole.user,
       parts: [TextPart('Count from 1 to 10 slowly.')],
     ),

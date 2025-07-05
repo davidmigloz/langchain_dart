@@ -36,7 +36,7 @@ Future<void> singleToolCallExample(Agent agent, List<Tool> tools) async {
 
   const userMessage = 'What is the current date and time?';
   final messages = [
-    const Message(
+    const ChatMessage(
       role: MessageRole.system,
       parts: [
         TextPart(
@@ -45,7 +45,7 @@ Future<void> singleToolCallExample(Agent agent, List<Tool> tools) async {
         ),
       ],
     ),
-    const Message(role: MessageRole.user, parts: [TextPart(userMessage)]),
+    const ChatMessage(role: MessageRole.user, parts: [TextPart(userMessage)]),
   ];
 
   print('\nUser: $userMessage');
@@ -60,7 +60,7 @@ Future<void> singleToolCallExampleStream(Agent agent, List<Tool> tools) async {
 
   const userMessage = 'What is the current date and time?';
   final messages = [
-    const Message(
+    const ChatMessage(
       role: MessageRole.system,
       parts: [
         TextPart(
@@ -69,7 +69,7 @@ Future<void> singleToolCallExampleStream(Agent agent, List<Tool> tools) async {
         ),
       ],
     ),
-    const Message(role: MessageRole.user, parts: [TextPart(userMessage)]),
+    const ChatMessage(role: MessageRole.user, parts: [TextPart(userMessage)]),
   ];
 
   print('\nUser: $userMessage');

@@ -3,8 +3,8 @@ import 'package:logging/logging.dart';
 import 'package:ollama_dart/ollama_dart.dart' show OllamaClient;
 import 'package:uuid/uuid.dart';
 
+import '../chat_message.dart' as msg;
 import '../chat_models.dart';
-import '../message.dart' as msg;
 import 'ollama_message_mappers.dart' as ollama_mappers;
 
 export 'ollama_chat_options.dart';
@@ -17,6 +17,7 @@ class OllamaChatModel extends ChatModel<OllamaChatOptions> {
     String? name,
     super.tools,
     super.temperature,
+    super.systemPrompt,
     OllamaChatOptions? defaultOptions,
     String? baseUrl,
     Map<String, String>? headers,
@@ -54,19 +55,20 @@ class OllamaChatModel extends ChatModel<OllamaChatOptions> {
   late final _uuid = const Uuid();
 
   @override
-  Stream<ChatResult<msg.Message>> sendStream(
-    List<msg.Message> messages, {
+  Stream<ChatResult<msg.ChatMessage>> sendStream(
+    List<msg.ChatMessage> messages, {
     OllamaChatOptions? options,
   }) {
     _logger.info(
       'Starting Ollama chat stream with ${messages.length} '
       'messages for model: $name',
     );
+    final messagesWithDefaults = prepareMessagesWithDefaults(messages);
     var chunkCount = 0;
     return _client
         .generateChatCompletionStream(
           request: ollama_mappers.generateChatCompletionRequest(
-            messages,
+            messagesWithDefaults,
             modelName: name,
             options: options,
             defaultOptions: defaultOptions,
@@ -78,9 +80,18 @@ class OllamaChatModel extends ChatModel<OllamaChatOptions> {
         .map((completion) {
           chunkCount++;
           _logger.fine('Received Ollama stream chunk $chunkCount');
-          return ollama_mappers.ChatResultMapper(
+          final result = ollama_mappers.ChatResultMapper(
             completion,
           ).toChatResult(_uuid.v4());
+          // Filter system messages from the response
+          return ChatResult<msg.ChatMessage>(
+            id: result.id,
+            output: result.output,
+            messages: filterSystemMessages(result.messages),
+            finishReason: result.finishReason,
+            metadata: result.metadata,
+            usage: result.usage,
+          );
         });
   }
 

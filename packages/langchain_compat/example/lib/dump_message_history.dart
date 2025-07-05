@@ -2,7 +2,7 @@
 
 import 'package:langchain_compat/langchain_compat.dart';
 
-void dumpMessageHistory(List<Message> history) {
+void dumpMessageHistory(List<ChatMessage> history) {
   print('--------------------------------');
   print('# Message History:');
   for (final message in history) {
@@ -11,7 +11,7 @@ void dumpMessageHistory(List<Message> history) {
   print('--------------------------------');
 }
 
-String _messageToSingleLine(Message message) {
+String _messageToSingleLine(ChatMessage message) {
   final roleName = message.role.name;
   final parts = <String>[];
 

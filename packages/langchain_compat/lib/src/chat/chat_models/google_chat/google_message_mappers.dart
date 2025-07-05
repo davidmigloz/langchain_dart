@@ -5,16 +5,16 @@ import 'package:logging/logging.dart';
 
 import '../../../language_models/language_models.dart';
 import '../../tools/tool.dart';
+import '../chat_message.dart' as msg;
 import '../chat_models.dart';
-import '../message.dart' as msg;
 
 /// Logger for Google message mapping operations.
 final Logger _logger = Logger('dartantic.chat.mappers.google');
 
 /// Extension on [List<msg.Message>] to convert messages to Google
 /// Generative AI SDK content.
-extension MessageListMapper on List<msg.Message> {
-  /// Converts this list of [msg.Message]s to a list of [g.Content]s.
+extension MessageListMapper on List<msg.ChatMessage> {
+  /// Converts this list of [msg.ChatMessage]s to a list of [g.Content]s.
   ///
   /// Groups consecutive tool result messages into a single
   /// g.Content.functionResponses() as required by Google's API.
@@ -75,7 +75,7 @@ extension MessageListMapper on List<msg.Message> {
     return result;
   }
 
-  g.Content _mapMessage(msg.Message message) {
+  g.Content _mapMessage(msg.ChatMessage message) {
     switch (message.role) {
       case msg.MessageRole.system:
         throw AssertionError('System messages should be filtered out');
@@ -86,7 +86,7 @@ extension MessageListMapper on List<msg.Message> {
     }
   }
 
-  g.Content _mapUserMessage(msg.Message message) {
+  g.Content _mapUserMessage(msg.ChatMessage message) {
     final contentParts = <g.Part>[];
     _logger.fine('Mapping user message with ${message.parts.length} parts');
 
@@ -107,7 +107,7 @@ extension MessageListMapper on List<msg.Message> {
     return g.Content.multi(contentParts);
   }
 
-  g.Content _mapModelMessage(msg.Message message) {
+  g.Content _mapModelMessage(msg.ChatMessage message) {
     final contentParts = <g.Part>[];
 
     // Add text parts
@@ -137,7 +137,7 @@ extension MessageListMapper on List<msg.Message> {
   /// Maps multiple tool result messages to a single
   /// g.Content.functionResponses. This is required by Google's API - all
   /// function responses must be grouped together
-  g.Content _mapToolResultMessages(List<msg.Message> messages) {
+  g.Content _mapToolResultMessages(List<msg.ChatMessage> messages) {
     final functionResponses = <g.FunctionResponse>[];
     _logger.fine(
       'Mapping ${messages.length} tool result messages to Google function '
@@ -190,7 +190,7 @@ extension MessageListMapper on List<msg.Message> {
 /// Extension on [g.GenerateContentResponse] to convert to [ChatResult].
 extension GenerateContentResponseMapper on g.GenerateContentResponse {
   /// Converts this [g.GenerateContentResponse] to a [ChatResult].
-  ChatResult<msg.Message> toChatResult(String id, String model) {
+  ChatResult<msg.ChatMessage> toChatResult(String id, String model) {
     final candidate = candidates.first;
     final parts = <msg.Part>[];
     _logger.fine(
@@ -232,9 +232,9 @@ extension GenerateContentResponseMapper on g.GenerateContentResponse {
       }
     }
 
-    final message = msg.Message(role: msg.MessageRole.model, parts: parts);
+    final message = msg.ChatMessage(role: msg.MessageRole.model, parts: parts);
 
-    return ChatResult<msg.Message>(
+    return ChatResult<msg.ChatMessage>(
       id: id,
       output: message,
       messages: [message],

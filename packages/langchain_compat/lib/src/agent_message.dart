@@ -187,8 +187,8 @@ class Agent {
   /// Invokes the agent with the given messages and returns the final result.
   ///
   /// This method internally uses [runStream] and accumulates all results.
-  Future<ChatResult<String>> run(List<Message> messages) async {
-    final allNewMessages = <Message>[];
+  Future<ChatResult<String>> run(List<ChatMessage> messages) async {
+    final allNewMessages = <ChatMessage>[];
     var finalOutput = '';
     var finalResult = const ChatResult<String>(
       id: '',
@@ -222,8 +222,8 @@ class Agent {
   /// Returns a stream of [ChatResult] where:
   /// - [ChatResult.output] contains streaming text chunks
   /// - [ChatResult.messages] contains new messages since the last result
-  Stream<ChatResult<String>> runStream(List<Message> messages) async* {
-    final conversationHistory = List<Message>.from(messages);
+  Stream<ChatResult<String>> runStream(List<ChatMessage> messages) async* {
+    final conversationHistory = List<ChatMessage>.from(messages);
     final toolMap = {
       for (final tool in _model.tools ?? <Tool>[]) tool.name: tool,
     };
@@ -234,9 +234,9 @@ class Agent {
       var isFirstChunkOfMessage = true; // Track first chunk of each AI message
       final textBuffer = StringBuffer();
       final toolCalls = <ToolPart>[];
-      var lastResult = const ChatResult<Message>(
+      var lastResult = const ChatResult<ChatMessage>(
         id: '',
-        output: Message(role: MessageRole.model, parts: []),
+        output: ChatMessage(role: MessageRole.model, parts: []),
         finishReason: FinishReason.unspecified,
         metadata: <String, dynamic>{},
         usage: LanguageModelUsage(),
@@ -318,7 +318,10 @@ class Agent {
       }
       parts.addAll(toolCallsWithIds);
 
-      final completeMessage = Message(role: MessageRole.model, parts: parts);
+      final completeMessage = ChatMessage(
+        role: MessageRole.model,
+        parts: parts,
+      );
 
       // Add the complete AI message to conversation history
       conversationHistory.add(completeMessage);
@@ -345,7 +348,7 @@ class Agent {
         _shouldPrefixNextMessage = true;
 
         // Execute all tools
-        final toolResultMessages = <Message>[];
+        final toolResultMessages = <ChatMessage>[];
         for (final toolPart in toolCallsWithIds) {
           final tool = toolMap[toolPart.name];
           if (tool != null) {
@@ -360,7 +363,7 @@ class Agent {
 
               // Create a tool result message
               toolResultMessages.add(
-                Message(
+                ChatMessage(
                   role: MessageRole.user,
                   parts: [
                     ToolPart.result(
@@ -374,7 +377,7 @@ class Agent {
             } on Exception catch (error) {
               // Create an error result message
               toolResultMessages.add(
-                Message(
+                ChatMessage(
                   role: MessageRole.user,
                   parts: [
                     ToolPart.result(

@@ -24,7 +24,9 @@ Future<void> defaultLogging() async {
   final agent = Agent('openai:gpt-4o-mini');
 
   print('Running a simple conversation...');
-  final result = await agent.run([Message.user('Hello! Just say hi back.')]);
+  final result = await agent.run([
+    ChatMessage.user('Hello! Just say hi back.'),
+  ]);
 
   print('Response: ${result.output}');
 }
@@ -42,7 +44,7 @@ Future<void> levelFiltering() async {
   );
 
   final agent = Agent('openai:gpt-3.5-turbo');
-  await agent.run([Message.user('Quick test')]);
+  await agent.run([ChatMessage.user('Quick test')]);
 
   // Now show WARNING level for production
   print('\nSetting level to WARNING for production...');
@@ -53,7 +55,7 @@ Future<void> levelFiltering() async {
   );
 
   // This should show no logs (no warnings/errors expected)
-  await agent.run([Message.user('Another test')]);
+  await agent.run([ChatMessage.user('Another test')]);
   print("(No warnings/errors - that's good!)");
 }
 
@@ -70,7 +72,7 @@ Future<void> providerFiltering() async {
   );
 
   final openaiAgent = Agent('openai:gpt-4o-mini');
-  await openaiAgent.run([Message.user('Test OpenAI')]);
+  await openaiAgent.run([ChatMessage.user('Test OpenAI')]);
 
   // Filter to only HTTP operations
   print('\nFiltering to only HTTP retry operations...');
@@ -81,7 +83,7 @@ Future<void> providerFiltering() async {
   );
 
   // This should show HTTP logs if any retries happen
-  await openaiAgent.run([Message.user('Test HTTP logging')]);
+  await openaiAgent.run([ChatMessage.user('Test HTTP logging')]);
 
   // Filter to agent operations only
   print('\nFiltering to only Agent operations...');
@@ -92,7 +94,7 @@ Future<void> providerFiltering() async {
   );
 
   final agentForAgentLogs = Agent('openai:gpt-3.5-turbo');
-  await agentForAgentLogs.run([Message.user('Test agent logging')]);
+  await agentForAgentLogs.run([ChatMessage.user('Test agent logging')]);
 }
 
 Future<void> customHandlers() async {
@@ -110,7 +112,7 @@ Future<void> customHandlers() async {
 
   print('Using custom colored logging...');
   final agent = Agent('openai:gpt-4o-mini');
-  await agent.run([Message.user('Show me colors!')]);
+  await agent.run([ChatMessage.user('Show me colors!')]);
 
   // JSON structured logging
   print('\nUsing JSON structured logging...');
@@ -127,7 +129,7 @@ Future<void> customHandlers() async {
     },
   );
 
-  await agent.run([Message.user('Show me JSON!')]);
+  await agent.run([ChatMessage.user('Show me JSON!')]);
 }
 
 // Helper functions for custom logging

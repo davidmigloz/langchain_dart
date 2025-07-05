@@ -14,7 +14,10 @@ Future<void> main() async {
     );
     await model
         .sendStream([
-          const Message(role: MessageRole.user, parts: [TextPart(promptText)]),
+          const ChatMessage(
+            role: MessageRole.user,
+            parts: [TextPart(promptText)],
+          ),
         ])
         .forEach((chunk) {
           final text = chunk.output.parts

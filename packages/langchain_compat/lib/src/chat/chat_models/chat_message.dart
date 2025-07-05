@@ -4,29 +4,29 @@ import 'package:meta/meta.dart';
 
 /// A message in a conversation between a user and a model.
 @immutable
-class Message {
+class ChatMessage {
   /// Creates a new message.
-  const Message({required this.role, required this.parts});
+  const ChatMessage({required this.role, required this.parts});
 
   /// Creates a system message.
-  factory Message.system(String text) =>
-      Message(role: MessageRole.system, parts: [TextPart(text)]);
+  factory ChatMessage.system(String text) =>
+      ChatMessage(role: MessageRole.system, parts: [TextPart(text)]);
 
   /// Creates a user message with text.
-  factory Message.user(String text) =>
-      Message(role: MessageRole.user, parts: [TextPart(text)]);
+  factory ChatMessage.user(String text) =>
+      ChatMessage(role: MessageRole.user, parts: [TextPart(text)]);
 
   /// Creates a user message with parts.
-  factory Message.userParts(List<Part> parts) =>
-      Message(role: MessageRole.user, parts: parts);
+  factory ChatMessage.userParts(List<Part> parts) =>
+      ChatMessage(role: MessageRole.user, parts: parts);
 
   /// Creates a model message with text.
-  factory Message.model(String text) =>
-      Message(role: MessageRole.model, parts: [TextPart(text)]);
+  factory ChatMessage.model(String text) =>
+      ChatMessage(role: MessageRole.model, parts: [TextPart(text)]);
 
   /// Creates a model message with parts.
-  factory Message.modelParts(List<Part> parts) =>
-      Message(role: MessageRole.model, parts: parts);
+  factory ChatMessage.modelParts(List<Part> parts) =>
+      ChatMessage(role: MessageRole.model, parts: parts);
 
   /// The role of the message author.
   final MessageRole role;
@@ -60,7 +60,7 @@ class Message {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Message &&
+      other is ChatMessage &&
           runtimeType == other.runtimeType &&
           role == other.role &&
           _listEquals(parts, other.parts);

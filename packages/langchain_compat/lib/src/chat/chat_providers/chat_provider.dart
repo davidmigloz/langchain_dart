@@ -60,6 +60,7 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
     String? name,
     List<Tool>? tools,
     double? temperature,
+    String? systemPrompt,
     TOptions? options,
   });
 

@@ -37,6 +37,7 @@ class GoogleChatProvider extends ChatProvider<GoogleChatOptions> {
     String? name,
     List<Tool>? tools,
     double? temperature,
+    String? systemPrompt,
     GoogleChatOptions? options,
   }) {
     final modelName = name ?? defaultModelName;
@@ -48,6 +49,7 @@ class GoogleChatProvider extends ChatProvider<GoogleChatOptions> {
       name: name ?? defaultModelName,
       tools: tools,
       temperature: temperature,
+      systemPrompt: systemPrompt,
       apiKey: tryGetEnv(apiKeyName),
       baseUrl: defaultBaseUrl,
       defaultOptions: GoogleChatOptions(

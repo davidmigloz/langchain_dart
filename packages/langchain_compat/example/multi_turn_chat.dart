@@ -24,14 +24,16 @@ Future<void> multiTurnChat(ChatProvider provider) async {
   ];
 
   final messages = [
-    const Message(
+    const ChatMessage(
       role: MessageRole.system,
       parts: [TextPart('Be concise in your responses.')],
     ),
   ];
 
   for (final userMsg in userMessages) {
-    messages.add(Message(role: MessageRole.user, parts: [TextPart(userMsg)]));
+    messages.add(
+      ChatMessage(role: MessageRole.user, parts: [TextPart(userMsg)]),
+    );
     print('\nUser: $userMsg');
 
     final stream = model.sendStream(messages);
@@ -45,7 +47,7 @@ Future<void> multiTurnChat(ChatProvider provider) async {
       fullResponse.write(text);
     }
     messages.add(
-      Message(
+      ChatMessage(
         role: MessageRole.model,
         parts: [TextPart(fullResponse.toString())],
       ),

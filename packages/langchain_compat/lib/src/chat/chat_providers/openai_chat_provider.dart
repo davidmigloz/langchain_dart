@@ -37,6 +37,7 @@ class OpenAIChatProvider extends ChatProvider<OpenAIChatOptions> {
     String? name,
     List<Tool>? tools,
     double? temperature,
+    String? systemPrompt,
     OpenAIChatOptions? options,
   }) {
     final modelName = name ?? defaultModelName;
@@ -49,6 +50,7 @@ class OpenAIChatProvider extends ChatProvider<OpenAIChatOptions> {
       name: modelName,
       tools: tools,
       temperature: temperature,
+      systemPrompt: systemPrompt,
       apiKey: tryGetEnv(apiKeyName),
       baseUrl: defaultBaseUrl,
       defaultOptions: OpenAIChatOptions(
