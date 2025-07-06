@@ -147,15 +147,10 @@ extension MessageListMapper on List<msg.ChatMessage> {
     for (final message in messages) {
       for (final part in message.parts) {
         if (part is msg.ToolPart && part.kind == msg.ToolPartKind.result) {
-          Map<String, Object?>? response;
-          try {
-            final resultStr = part.result is String
-                ? part.result
-                : jsonEncode(part.result);
-            response = jsonDecode(resultStr) as Map<String, Object?>;
-          } on Exception catch (_) {
-            response = {'result': part.result.toString()};
-          }
+          final resultStr = part.result is String
+              ? part.result
+              : jsonEncode(part.result);
+          final response = jsonDecode(resultStr) as Map<String, Object?>;
 
           // Extract the original function name from our generated ID
           // Format: google_{toolName}_{argsHash} -> toolName

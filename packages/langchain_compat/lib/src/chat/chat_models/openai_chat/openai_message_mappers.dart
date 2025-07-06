@@ -238,17 +238,12 @@ msg.ChatMessage messageFromOpenAIStreamDelta(
     for (final streamingCall in accumulatedToolCalls) {
       // Try to parse accumulated arguments
       Map<String, dynamic>? parsedArgs;
-      try {
-        if (streamingCall.argumentsJson.isNotEmpty) {
-          final decoded = json.decode(streamingCall.argumentsJson);
-          if (decoded is Map<String, dynamic>) {
-            parsedArgs = decoded;
-          }
-          // If decoded is null or other type, parsedArgs stays null
+      if (streamingCall.argumentsJson.isNotEmpty) {
+        final decoded = json.decode(streamingCall.argumentsJson);
+        if (decoded is Map<String, dynamic>) {
+          parsedArgs = decoded;
         }
-      } on FormatException catch (_) {
-        // Not complete JSON yet, skip for now
-        continue;
+        // If decoded is null or other type, parsedArgs stays null
       }
 
       parts.add(
@@ -286,16 +281,12 @@ msg.ChatMessage messageFromOpenAIResponse(
   if (message.toolCalls != null) {
     for (final toolCall in message.toolCalls!) {
       var arguments = <String, dynamic>{};
-      try {
-        if (toolCall.function.arguments.isNotEmpty) {
-          final decoded = json.decode(toolCall.function.arguments);
-          if (decoded is Map<String, dynamic>) {
-            arguments = decoded;
-          }
-          // If decoded is null or other type, keep empty arguments
+      if (toolCall.function.arguments.isNotEmpty) {
+        final decoded = json.decode(toolCall.function.arguments);
+        if (decoded is Map<String, dynamic>) {
+          arguments = decoded;
         }
-      } on FormatException catch (_) {
-        // Invalid JSON, keep empty arguments
+        // If decoded is null or other type, keep empty arguments
       }
 
       parts.add(
