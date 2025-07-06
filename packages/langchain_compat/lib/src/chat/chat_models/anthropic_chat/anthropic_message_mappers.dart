@@ -7,7 +7,6 @@ import 'package:collection/collection.dart' show IterableExtension;
 import 'package:json_schema/json_schema.dart';
 import 'package:logging/logging.dart';
 import 'package:rxdart/rxdart.dart' show WhereNotNullExtension;
-import 'package:uuid/uuid.dart';
 
 import '../../../language_models/finish_reason.dart';
 import '../../../language_models/language_model_usage.dart';
@@ -18,9 +17,6 @@ import 'anthropic_chat.dart';
 
 /// Logger for Anthropic message mapping operations.
 final Logger _logger = Logger('dartantic.chat.mappers.anthropic');
-
-/// UUID generator for tool call IDs.
-const _uuid = Uuid();
 
 /// Creates an Anthropic [a.CreateMessageRequest] from a list of messages
 /// and options.
@@ -34,41 +30,43 @@ a.CreateMessageRequest createMessageRequest(
   JsonSchema? outputSchema,
   bool stream = false,
 }) {
-  final systemMsg = messages.firstOrNull?.role == msg.MessageRole.system
+  // Handle tools but not structured output (use prefilling instead)
+  final hasTools = tools != null && tools.isNotEmpty;
+  final hasStructuredOutput = outputSchema != null;
+
+  var systemMsg = messages.firstOrNull?.role == msg.MessageRole.system
       ? (messages.firstOrNull!.parts.firstOrNull as msg.TextPart?)?.text
       : null;
 
-  // Create structured output tool if outputSchema is provided
-  final hasTools = tools != null && tools.isNotEmpty;
-  final hasStructuredOutput = outputSchema != null;
-  var structuredTools = hasTools ? tools.toTool() : null;
-
+  // Add JSON output instructions to system message if outputSchema is provided
+  // This follows Anthropic's recommendations for structured output consistency
   if (hasStructuredOutput) {
-    final schema = Map<String, dynamic>.from(outputSchema.schemaMap ?? {});
-    // Ensure required array is present for objects
-    if (schema['type'] == 'object' && schema['properties'] != null) {
-      final properties = schema['properties'] as Map<String, dynamic>;
-      if (!schema.containsKey('required')) {
-        schema['required'] = properties.keys.toList();
-      }
-    }
-    
-    final structuredOutputTool = a.Tool.custom(
-      name: 'structured_output',
-      description:
-          'Generate a structured response matching the required schema',
-      inputSchema: schema,
-    );
-    structuredTools = [
-      if (structuredTools != null) ...structuredTools,
-      structuredOutputTool,
-    ];
+    final schemaStr = json.encode(outputSchema.schemaMap);
+    final jsonInstructions =
+        '\n\nYou must respond with valid JSON that matches this exact schema: '
+        '$schemaStr\n'
+        'Do not include any text before or after the JSON. '
+        'Only return the JSON object.';
+    systemMsg = (systemMsg ?? '') + jsonInstructions;
   }
+  final structuredTools = hasTools ? tools.toTool() : null;
 
   _logger.fine(
     'Creating Anthropic message request for ${messages.length} messages',
   );
   final messagesDtos = messages.toMessages();
+
+  // Add prefilling for structured output - this forces Claude to start with '{'
+  // See: https://docs.anthropic.com/en/docs/test-and-evaluate/strengthen-guardrails/increase-consistency
+  // "Prefill Claude's response" section explains this technique
+  if (hasStructuredOutput) {
+    messagesDtos.add(
+      const a.Message(
+        role: a.MessageRole.assistant,
+        content: a.MessageContent.text('{'),
+      ),
+    );
+  }
   _logger.fine(
     'Tool configuration: hasTools=$hasTools, toolCount=${tools?.length ?? 0}, '
     'hasStructuredOutput=$hasStructuredOutput',
@@ -93,12 +91,7 @@ a.CreateMessageRequest createMessageRequest(
       userId: options?.userId ?? defaultOptions.userId,
     ),
     tools: structuredTools,
-    toolChoice: hasStructuredOutput
-        ? const a.ToolChoice(
-            type: a.ToolChoiceType.tool,
-            name: 'structured_output',
-          )
-        : hasTools
+    toolChoice: hasTools
         ? const a.ToolChoice(type: a.ToolChoiceType.auto)
         : null,
     stream: stream,
@@ -437,15 +430,13 @@ List<msg.Part> _mapMessageContent(a.MessageContent content) =>
       final a.MessageContentBlocks b => [
         // Extract text parts
         ...b.value.whereType<a.TextBlock>().map((t) => msg.TextPart(t.text)),
-        // Extract tool use parts, converting structured_output to text
+        // Extract tool use parts
         ...b.value.whereType<a.ToolUseBlock>().map(
-          (toolUse) => toolUse.name == 'structured_output'
-              ? msg.TextPart(json.encode(toolUse.input))
-              : msg.ToolPart.call(
-                  id: toolUse.id,
-                  name: toolUse.name,
-                  arguments: toolUse.input,
-                ),
+          (toolUse) => msg.ToolPart.call(
+            id: toolUse.id,
+            name: toolUse.name,
+            arguments: toolUse.input,
+          ),
         ),
       ],
     };
@@ -459,10 +450,9 @@ List<msg.Part> _mapContentBlock(a.Block contentBlock) => switch (contentBlock) {
       mimeType: 'image/png',
     ),
   ],
-  final a.ToolUseBlock tu =>
-    tu.name == 'structured_output'
-        ? [msg.TextPart(json.encode(tu.input))]
-        : [msg.ToolPart.call(id: tu.id, name: tu.name, arguments: tu.input)],
+  final a.ToolUseBlock tu => [
+    msg.ToolPart.call(id: tu.id, name: tu.name, arguments: tu.input),
+  ],
   final a.ToolResultBlock tr => [msg.TextPart(tr.content.text)],
 };
 

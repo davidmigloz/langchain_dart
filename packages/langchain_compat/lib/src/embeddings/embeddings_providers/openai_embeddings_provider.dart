@@ -47,7 +47,7 @@ class OpenAIEmbeddingsProvider
 
     // Use the OpenAI chat provider's listModels and filter for embeddings
     var modelCount = 0;
-    await for (final model in ChatProvider.openai.getModels().where(
+    await for (final model in ChatProvider.openai.listModels().where(
       (model) => model.kinds.contains(ModelKind.embedding),
     )) {
       modelCount++;

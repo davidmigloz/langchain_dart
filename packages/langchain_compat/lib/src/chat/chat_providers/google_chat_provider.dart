@@ -68,7 +68,7 @@ class GoogleChatProvider extends ChatProvider<GoogleChatOptions> {
   }
 
   @override
-  Stream<ModelInfo> getModels() async* {
+  Stream<ModelInfo> listModels() async* {
     final apiKey = getEnv(apiKeyName);
     final url = Uri.parse(
       'https://generativelanguage.googleapis.com/v1beta/models',

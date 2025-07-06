@@ -21,9 +21,10 @@ o.GenerateChatCompletionRequest generateChatCompletionRequest(
   JsonSchema? outputSchema,
   bool stream = false,
 }) {
-  // Use native Ollama format parameter for structured output
+  // Use native Ollama format parameter for structured output Note: When
+  // outputSchema is provided, the caller handles schema directly via HTTP
   final format = outputSchema != null
-      ? outputSchema.schemaMap
+      ? null // Schema handled separately via direct HTTP
       : options?.format ?? defaultOptions.format;
 
   return o.GenerateChatCompletionRequest(
@@ -89,8 +90,7 @@ extension OllamaToolListMapper on List<Tool> {
   ).toList(growable: false);
 }
 
-/// Extension on [List<msg.Message>] to convert messages to Ollama SDK
-/// messages.
+/// Extension on [List<msg.Message>] to convert messages to Ollama SDK messages.
 extension MessageListMapper on List<msg.ChatMessage> {
   /// Converts this list of [msg.ChatMessage]s to a list of Ollama SDK
   /// [o.Message]s.

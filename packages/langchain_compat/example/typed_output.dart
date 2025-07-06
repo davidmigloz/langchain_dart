@@ -9,7 +9,7 @@ import 'package:langchain_compat/langchain_compat.dart';
 
 void main() async {
   final providersWithOutputSchema = ChatProvider.all.whereNot(
-    (p) => p.name == 'groq' || p.name == 'mistral' || p.name == 'nvidia',
+    (p) => p.name == 'groq' || p.name == 'nvidia' || p.name == 'mistral',
   );
 
   for (final provider in providersWithOutputSchema) {
@@ -96,6 +96,7 @@ class TownAndCountry {
       'town': {'type': 'string'},
       'country': {'type': 'string'},
     },
+    'required': ['town', 'country'],
   });
 
   final String town;

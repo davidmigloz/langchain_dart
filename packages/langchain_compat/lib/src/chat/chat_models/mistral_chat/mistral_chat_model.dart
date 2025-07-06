@@ -62,20 +62,19 @@ class MistralChatModel extends ChatModel<MistralChatOptions> {
     MistralChatOptions? options,
     JsonSchema? outputSchema,
   }) {
-    if (outputSchema != null) {
-      // TODO: Mistral doesn't support structured output yet, waiting for
-      // mistralai_dart package to support responseFormat parameter
-      throw Exception(
-        'Structured output (JsonSchema) is not supported by Mistral yet.',
-      );
-    }
-
     _logger.info(
       'Starting Mistral chat stream with ${messages.length} messages for '
       'model: $name',
     );
     final messagesWithDefaults = prepareMessagesWithDefaults(messages);
     var chunkCount = 0;
+
+    if (outputSchema != null) {
+      throw Exception(
+        'JSON schema support is not yet implemented for Mistral.',
+      );
+    }
+
     return _client
         .createChatCompletionStream(
           request: createChatCompletionRequest(

@@ -68,48 +68,59 @@ GenerationConfig(
 ```
 
 #### Ollama
-- **Implementation**: Uses native `format` parameter with full schema
-- **API Feature**: Direct JSON schema support in format field
+- **Implementation**: Uses native `format` parameter with full JSON schema via direct HTTP
+- **API Feature**: Native JSON schema support through format field
 - **Schema Conversion**: Direct `JsonSchema.schemaMap` to format parameter
-- **Reliability**: High - enforced by local model
+- **Reliability**: High - enforced by local model with full schema validation
+- **Note**: Bypasses ollama_dart package limitation via direct HTTP requests
 
 ```dart
 // Conceptual implementation
-GenerateChatCompletionRequest(
-  format: outputSchema.schemaMap, // Full JSON schema
-)
+// Direct HTTP POST to /api/chat with:
+{
+  "format": outputSchema.schemaMap, // Full JSON schema object
+  "model": "...",
+  "messages": [...],
+  ...
+}
 ```
 
-### Tool-Based Structured Output Providers
+### Prompt-Based Structured Output Providers
 
 #### Anthropic
-- **Implementation**: Creates dedicated `structured_output` tool with schema as input
-- **API Feature**: Tool calling with forced tool choice
-- **Schema Conversion**: `JsonSchema` becomes tool input schema
-- **JSON Extraction**: Tool response arguments converted to text content
-- **Reliability**: High - enforced through tool contracts
+- **Implementation**: Uses prefilling technique with system prompt instructions
+- **API Feature**: Response prefilling as recommended in official docs
+- **Schema Conversion**: `JsonSchema` embedded in system prompt + prefilled `{`
+- **Streaming Fix**: Manually stream prefilled content as first chunk (streaming API omits it)
+- **Reliability**: Medium-High - relies on prompt following rather than API enforcement
+- **Reference**: [Anthropic's structured output guide](https://docs.anthropic.com/en/docs/test-and-evaluate/strengthen-guardrails/increase-consistency)
 
 ```dart
 // Conceptual implementation
-Tool.custom(
-  name: 'structured_output',
-  inputSchema: outputSchema.schemaMap,
-)
-// Force tool choice: ToolChoice(type: tool, name: 'structured_output')
-// Extract JSON: json.encode(toolResponse.arguments) → TextPart
+// 1. Add schema to system prompt
+systemMsg += 'You must respond with valid JSON matching: ${jsonSchema}'
+
+// 2. Prefill assistant response
+messages.add(Message(role: assistant, content: '{'))
+
+// 3. Stream prefilled content first (compensates for streaming API limitation)
+yield ChatResult(parts: [TextPart('{')])  // First chunk
+// Then stream normal Anthropic response chunks
 ```
 
 ### Unsupported Providers
 
 #### Mistral
-- **Status**: Not supported - throws exception
-- **Reason**: Package version lacks `responseFormat` parameter support
-- **Exception**: Same format as tools limitation
-- **Future**: Will be updated when package supports native structured output
+- **Status**: Not implemented - throws exception when `outputSchema` is provided
+- **Issue**: While Mistral's API documentation suggests support for `response_format` with JSON schema, testing reveals unreliable behavior (returns arrays instead of objects)
+- **Package Limitation**: mistralai_dart package doesn't support `response_format` parameter
+- **Current Implementation**: Throws `Exception('JSON schema support is not yet implemented for Mistral.')`
+- **Future**: Requires investigation into Mistral's actual structured output capabilities
 
 ```dart
+// Current implementation
 if (outputSchema != null) {
-  throw Exception('Structured output (JsonSchema) is not supported by Mistral yet.');
+  throw Exception('JSON schema support is not yet implemented for Mistral.');
 }
 ```
 
@@ -180,6 +191,8 @@ switch (provider) {
     return format: jsonSchema.schemaMap;
   case 'anthropic':
     return Tool.custom(inputSchema: jsonSchema.schemaMap);
+  case 'mistral':
+    throw Exception('JSON schema support is not yet implemented for Mistral.');
 }
 ```
 

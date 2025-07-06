@@ -45,7 +45,7 @@ class MistralEmbeddingsProvider
 
     // Use the Mistral chat provider's listModels and filter for embeddings
     var modelCount = 0;
-    await for (final model in ChatProvider.mistral.getModels().where(
+    await for (final model in ChatProvider.mistral.listModels().where(
       (model) => model.kinds.contains(ModelKind.embedding),
     )) {
       modelCount++;

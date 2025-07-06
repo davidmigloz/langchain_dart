@@ -71,7 +71,7 @@ class CohereChatProvider extends OpenAIChatProvider {
   }
 
   @override
-  Stream<ModelInfo> getModels() async* {
+  Stream<ModelInfo> listModels() async* {
     final url = Uri.parse('https://docs.cohere.com/docs/models');
     _logger.info('Fetching models from Cohere docs: $url');
     final response = await http.get(url);

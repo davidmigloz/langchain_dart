@@ -73,7 +73,7 @@ class OpenAIChatProvider extends ChatProvider<OpenAIChatOptions> {
   }
 
   @override
-  Stream<ModelInfo> getModels() async* {
+  Stream<ModelInfo> listModels() async* {
     _logger.info('Fetching models from OpenAI API: $defaultBaseUrl/models');
 
     final apiKey = apiKeyName.isNotEmpty ? getEnv(apiKeyName) : '';

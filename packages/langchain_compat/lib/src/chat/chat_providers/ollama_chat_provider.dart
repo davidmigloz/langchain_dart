@@ -86,7 +86,7 @@ class OllamaChatProvider extends ChatProvider<OllamaChatOptions> {
   }
 
   @override
-  Stream<ModelInfo> getModels() async* {
+  Stream<ModelInfo> listModels() async* {
     final url = Uri.parse('$defaultBaseUrl/tags');
     _logger.info('Fetching models from Ollama API: $url');
     final response = await http.get(url);

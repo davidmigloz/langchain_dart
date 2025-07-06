@@ -13,7 +13,7 @@ Future<void> main() async {
   for (final provider in ChatProvider.all) {
     totalProviders++;
     print('\n# ${provider.displayName} (${provider.name})');
-    final models = await provider.getModels().toList();
+    final models = await provider.listModels().toList();
     final modelList = models.toList();
 
     // Categorize models by type

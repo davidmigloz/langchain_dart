@@ -9,6 +9,7 @@ analyzer:
     - "lib/generated_plugin_registrant.dart"
     - "lib/pubspec.dart"
 
+
   errors:
     # without ignore here, we cause import of all_lint_rules to warn, because
     # some rules conflict; instead, we're explicitly enabling even conflicting
@@ -35,3 +36,6 @@ linter:
     one_member_abstracts: false # interfaces can have a single method
     flutter_style_todos: false # I'm too lazy for this...
     diagnostic_describe_all_properties: false # too annoying for StatefulWidget
+
+formatter:
+  page_width: 80

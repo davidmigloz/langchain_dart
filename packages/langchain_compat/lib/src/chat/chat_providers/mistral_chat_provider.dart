@@ -62,7 +62,7 @@ class MistralChatProvider extends ChatProvider<MistralChatOptions> {
   }
 
   @override
-  Stream<ModelInfo> getModels() async* {
+  Stream<ModelInfo> listModels() async* {
     final apiKey = getEnv(apiKeyName);
     final url = Uri.parse('https://api.mistral.ai/v1/models');
     _logger.info('Fetching models from Mistral API: $url');

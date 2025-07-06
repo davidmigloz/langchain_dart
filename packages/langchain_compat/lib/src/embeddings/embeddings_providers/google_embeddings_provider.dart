@@ -44,7 +44,7 @@ class GoogleEmbeddingsProvider
 
     // Use the Google chat provider's listModels and filter for embeddings
     var modelCount = 0;
-    await for (final model in ChatProvider.google.getModels().where(
+    await for (final model in ChatProvider.google.listModels().where(
       (model) => model.kinds.contains(ModelKind.embedding),
     )) {
       modelCount++;

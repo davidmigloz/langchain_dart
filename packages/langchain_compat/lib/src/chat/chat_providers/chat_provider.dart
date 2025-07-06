@@ -53,7 +53,7 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
   /// Implementations may or may not cache results. If your application requires
   /// caching, you should implement it yourself rather than relying on the
   /// provider.
-  Stream<ModelInfo> getModels();
+  Stream<ModelInfo> listModels();
 
   /// Creates a chat model instance for this provider.
   ChatModel<TOptions> createModel({

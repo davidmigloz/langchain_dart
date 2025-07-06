@@ -64,7 +64,7 @@ class AnthropicChatProvider extends ChatProvider<AnthropicChatOptions> {
   }
 
   @override
-  Stream<ModelInfo> getModels() async* {
+  Stream<ModelInfo> listModels() async* {
     final apiKey = getEnv(apiKeyName);
     final url = Uri.parse('https://api.anthropic.com/v1/models');
     final response = await http.get(
