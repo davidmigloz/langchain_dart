@@ -254,6 +254,7 @@ class Agent {
   }) async {
     final response = await run(
       prompt,
+      outputSchema: outputSchema,
       history: history,
       attachments: attachments,
     );
