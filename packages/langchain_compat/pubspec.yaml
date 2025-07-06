@@ -31,4 +31,6 @@ dependencies:
 
 dev_dependencies:
   all_lint_rules_community: ^0.0.43
+  exception_transparency_lint:
+    path: ../../../../exception_transparency_lint
   test: ^1.24.0
