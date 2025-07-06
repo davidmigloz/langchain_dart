@@ -1,0 +1,25 @@
+The request analysis.setContextRoots failed with the following error:
+RequestErrorCode.PLUGIN_ERROR
+The package "exception_transparency_lint" has incompatible version constraints in the project:
+- "../exception_transparency_lint"
+  from "langchain_compat" at "./Users/csells/Code/Other/langchain_dart/packages/langchain_compat/pubspec.yaml".
+- "../exception_transparency_lint"
+  from "exception_transparency_test_console" at "./Users/csells/Code/Other/langchain_dart/packages/exception_transparency_lint/exception_transparency_test_console/pubspec.yaml".
+
+at:
+#0      _buildDependencyConstraint.throws (package:custom_lint/src/workspace.dart:40:23)
+#1      _buildDependencyConstraint (package:custom_lint/src/workspace.dart:82:56)
+#2      CustomLintWorkspace._writePubspecDependencies (package:custom_lint/src/workspace.dart:649:13)
+#3      CustomLintWorkspace.computePubspec (package:custom_lint/src/workspace.dart:554:5)
+#4      CustomLintWorkspace.resolvePluginHost (package:custom_lint/src/workspace.dart:740:28)
+#5      SocketCustomLintServerToClientChannel._startProcess (package:custom_lint/src/v2/server_to_client_channel.dart:151:24)
+#6      SocketCustomLintServerToClientChannel.init (package:custom_lint/src/v2/server_to_client_channel.dart:110:22)
+#7      CustomLintServer._maybeSpawnCustomLintPlugin (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:394:25)
+<asynchronous suspension>
+#8      CustomLintServer._handleAnalysisSetContextRoots.<anonymous closure> (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:341:9)
+<asynchronous suspension>
+#9      PendingOperation.run (package:custom_lint/src/async_operation.dart:22:14)
+<asynchronous suspension>
+#10     CustomLintServer._handleRequest (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:173:22)
+<asynchronous suspension>
+

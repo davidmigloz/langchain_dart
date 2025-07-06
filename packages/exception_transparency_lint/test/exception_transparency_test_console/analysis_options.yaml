@@ -1,0 +1,13 @@
+include: package:lints/recommended.yaml
+
+analyzer:
+  plugins:
+    - custom_lint
+
+custom_lint:
+  rules:
+    - exception_swallowing
+
+linter:
+  rules:
+    - prefer_relative_imports
