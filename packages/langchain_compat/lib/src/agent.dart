@@ -490,6 +490,7 @@ class Agent {
               );
 
               toolResults.add(toolResultMessage);
+              // ignore: exception_hiding
             } on Exception catch (error) {
               _logger.warning('Tool ${toolPart.name} execution failed: $error');
 

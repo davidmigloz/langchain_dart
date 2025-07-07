@@ -374,6 +374,7 @@ class Agent {
                   ],
                 ),
               );
+              // ignore: exception_hiding
             } on Exception catch (error) {
               // Create an error result message
               toolResultMessages.add(

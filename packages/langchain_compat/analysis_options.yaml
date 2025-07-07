@@ -1,6 +1,8 @@
 include: package:all_lint_rules_community/all.yaml
 
 analyzer:
+  plugins:
+    - custom_lint
   exclude:
     - "**/*.g.dart"
     - "**/*.freezed.dart"
@@ -36,6 +38,10 @@ linter:
     one_member_abstracts: false # interfaces can have a single method
     flutter_style_todos: false # I'm too lazy for this...
     diagnostic_describe_all_properties: false # too annoying for StatefulWidget
+
+custom_lint:
+  rules:
+    - exception_hiding
 
 formatter:
   page_width: 80
