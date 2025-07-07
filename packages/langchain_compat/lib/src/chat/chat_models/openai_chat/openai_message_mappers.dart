@@ -209,41 +209,50 @@ msg.ChatMessage messageFromOpenAIStreamDelta(
     for (var i = 0; i < delta.toolCalls!.length; i++) {
       final toolCall = delta.toolCalls![i];
 
-      // Find or create tool call
-      if (i < accumulatedToolCalls.length) {
-        // Update existing tool call
-        final existing = accumulatedToolCalls[i];
-        if (toolCall.function?.arguments != null) {
-          existing.argumentsJson += toolCall.function!.arguments!;
-        }
-        if (toolCall.id != null) {
-          existing.id = toolCall.id!;
-        }
-        if (toolCall.function?.name != null) {
-          existing.name = toolCall.function!.name!;
-        }
-      } else {
-        // New tool call
+      // OpenAI streaming pattern:
+      // - First chunk of a tool: has id, name, empty arguments
+      // - Subsequent chunks: no id, no name, partial arguments
+      // We need to match by position when there's no ID
+      
+      if (toolCall.id != null && toolCall.id!.isNotEmpty) {
+        // This is a new tool call with an ID
         accumulatedToolCalls.add(
           StreamingToolCall(
-            id: toolCall.id ?? '',
+            id: toolCall.id!,
             name: toolCall.function?.name ?? '',
             argumentsJson: toolCall.function?.arguments ?? '',
           ),
         );
+      } else if (accumulatedToolCalls.isNotEmpty) {
+        // This is a continuation chunk - append to the last tool call
+        final lastTool = accumulatedToolCalls.last;
+        if (toolCall.function?.arguments != null) {
+          lastTool.argumentsJson += toolCall.function!.arguments!;
+        }
+        // Update name if provided (shouldn't happen in practice)
+        if (toolCall.function?.name != null && toolCall.function!.name!.isNotEmpty) {
+          lastTool.name = toolCall.function!.name!;
+        }
       }
     }
 
     // Convert accumulated tool calls to ToolParts
     for (final streamingCall in accumulatedToolCalls) {
-      // Try to parse accumulated arguments
+      // Only try to parse if we have complete JSON
       Map<String, dynamic>? parsedArgs;
       if (streamingCall.argumentsJson.isNotEmpty) {
-        final decoded = json.decode(streamingCall.argumentsJson);
-        if (decoded is Map<String, dynamic>) {
-          parsedArgs = decoded;
+        // Check if JSON looks complete (basic check for balanced braces)
+        final trimmed = streamingCall.argumentsJson.trim();
+        if (trimmed.startsWith('{') && trimmed.endsWith('}')) {
+          try {
+            final decoded = json.decode(streamingCall.argumentsJson);
+            if (decoded is Map<String, dynamic>) {
+              parsedArgs = decoded;
+            }
+          } catch (_) {
+            // JSON is incomplete, will be parsed later
+          }
         }
-        // If decoded is null or other type, parsedArgs stays null
       }
 
       parts.add(

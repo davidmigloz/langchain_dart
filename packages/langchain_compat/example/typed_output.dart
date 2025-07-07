@@ -8,6 +8,7 @@ import 'package:json_schema/json_schema.dart';
 import 'package:langchain_compat/langchain_compat.dart';
 
 import 'lib/dump_message_history.dart';
+import 'lib/example_tools.dart';
 
 void main() async {
   final providersWithOutputSchema = ChatProvider.all.whereNot(
@@ -15,12 +16,22 @@ void main() async {
   );
 
   for (final provider in providersWithOutputSchema) {
-    final agent = Agent.fromProvider(provider);
+  // for (final provider in [ChatProvider.google]) {
+    final agent = Agent.fromProvider(
+      provider,
+      tools: [currentDateTimeTool, temperatureTool],
+      systemPrompt: '''You are a helpful assistant that provides accurate information.
+
+When responding with structured data, ensure your JSON output strictly follows the provided schema format. Do not include additional text or explanations outside the JSON structure.
+
+When you have access to tools, use them to gather real data before formatting your response.''',
+    );
+
     // await jsonOutput(agent);
     // await jsonOutputStream(agent);
     // await mapOutput(agent);
-    await typedOutput(agent);
-    // await typedOutputWithToolCalls(agent);
+    // await typedOutput(agent);
+    await typedOutputWithToolCalls(agent);
     // await streamingTypedOutputWithToolCalls(agent);
   }
   exit(0);
@@ -90,14 +101,19 @@ Future<void> typedOutput(Agent agent) async {
 Future<void> typedOutputWithToolCalls(Agent agent) async {
   print('═══ ${agent.displayName} Typed Output with Tool Calls ═══');
 
-  final result = await agent.runFor<TimeAndTemperature>(
-    'What is the time and temperature in Portland, OR?',
-    outputSchema: TimeAndTemperature.schema,
-    outputFromJson: TimeAndTemperature.fromJson,
-  );
+  try {
+    final result = await agent.runFor<TimeAndTemperature>(
+      'What is the time and temperature in Portland, OR?',
+      outputSchema: TimeAndTemperature.schema,
+      outputFromJson: TimeAndTemperature.fromJson,
+    );
 
-  print('time: ${result.output.time}');
-  print('temperature: ${result.output.temperature}');
+    print('time: ${result.output.time}');
+    print('temperature: ${result.output.temperature}');
+  } catch (e) {
+    print('Error: $e');
+    // Don't rethrow, continue to next provider
+  }
 }
 
 // Future<void> streamingTypedOutputWithToolCalls(Agent agent) async {
@@ -137,7 +153,7 @@ class TimeAndTemperature {
   factory TimeAndTemperature.fromJson(Map<String, dynamic> json) =>
       TimeAndTemperature(
         time: DateTime.parse(json['time']),
-        temperature: json['temperature'],
+        temperature: (json['temperature'] as num).toDouble(),
       );
 
   static final schema = JsonSchema.create({
@@ -146,6 +162,7 @@ class TimeAndTemperature {
       'time': {'type': 'string'},
       'temperature': {'type': 'number'},
     },
+    'required': ['time', 'temperature'],
   });
 
   final DateTime time;
