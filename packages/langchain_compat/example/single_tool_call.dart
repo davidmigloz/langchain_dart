@@ -11,7 +11,7 @@ import 'lib/example_tools.dart';
 void main() async {
   final tools = [currentDateTimeTool];
   final providersWithToolSupport = ChatProvider.all.whereNot(
-    (p) => p.name == 'mistral' || p.name == 'lambda',
+    (p) => p.name == 'mistral' || p.name == 'lambda' || p.name == 'groq',
   );
 
   for (final provider in providersWithToolSupport) {

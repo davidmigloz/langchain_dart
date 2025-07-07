@@ -89,3 +89,112 @@ final temperatureConverterTool = Tool<Map<String, dynamic>>(
     return '$fahrenheit°F = $roundedCelsius°C';
   },
 );
+
+// Tool that returns a string
+final stringTool = Tool<Map<String, dynamic>>(
+  name: 'get_greeting',
+  description: 'Returns a greeting message',
+  inputSchema: JsonSchema.create({
+    'type': 'object',
+    'properties': {
+      'name': {'type': 'string'},
+    },
+    'required': ['name'],
+  }),
+  onCall: (input) => 'Hello, ${input['name']}!',
+  inputFromJson: (json) => json,
+);
+
+// Tool that returns an int
+final intTool = Tool<Map<String, dynamic>>(
+  name: 'calculate_age',
+  description: 'Calculates age from birth year',
+  inputSchema: JsonSchema.create({
+    'type': 'object',
+    'properties': {
+      'birth_year': {'type': 'integer'},
+    },
+    'required': ['birth_year'],
+  }),
+  onCall: (input) => 2025 - (input['birth_year'] as int),
+  inputFromJson: (json) => json,
+);
+
+// Tool that returns an array
+final arrayTool = Tool<Map<String, dynamic>>(
+  name: 'list_colors',
+  description: 'Returns a list of favorite colors',
+  inputSchema: JsonSchema.create({
+    'type': 'object',
+    'properties': {
+      'count': {'type': 'integer'},
+    },
+    'required': ['count'],
+  }),
+  onCall: (input) {
+    final count = input['count'] as int;
+    return List.generate(
+      count,
+      (i) => ['red', 'blue', 'green', 'yellow'][i % 4],
+    );
+  },
+  inputFromJson: (json) => json,
+);
+
+// Tool that returns a map
+final mapTool = Tool<Map<String, dynamic>>(
+  name: 'get_weather',
+  description: 'Returns weather information',
+  inputSchema: JsonSchema.create({
+    'type': 'object',
+    'properties': {
+      'city': {'type': 'string'},
+    },
+    'required': ['city'],
+  }),
+  onCall: (input) => {
+    'city': input['city'],
+    'temperature': 72,
+    'conditions': 'sunny',
+    'humidity': 45,
+    'forecast': ['sunny', 'partly cloudy', 'rain'],
+  },
+  inputFromJson: (json) => json,
+);
+
+// Tool that returns null (edge case)
+final nullTool = Tool<Map<String, dynamic>>(
+  name: 'check_availability',
+  description: 'Checks if something is available',
+  inputSchema: JsonSchema.create({
+    'type': 'object',
+    'properties': {
+      'item': {'type': 'string'},
+    },
+    'required': ['item'],
+  }),
+  onCall: (input) => input['item'] == 'unicorn' ? null : 'available',
+  inputFromJson: (json) => json,
+);
+
+// Tool that returns a boolean
+final boolTool = Tool<Map<String, dynamic>>(
+  name: 'is_prime',
+  description: 'Checks if a number is prime',
+  inputSchema: JsonSchema.create({
+    'type': 'object',
+    'properties': {
+      'number': {'type': 'integer'},
+    },
+    'required': ['number'],
+  }),
+  onCall: (input) {
+    final n = input['number'] as int;
+    if (n <= 1) return false;
+    for (var i = 2; i * i <= n; i++) {
+      if (n % i == 0) return false;
+    }
+    return true;
+  },
+  inputFromJson: (json) => json,
+);
