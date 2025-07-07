@@ -213,7 +213,7 @@ msg.ChatMessage messageFromOpenAIStreamDelta(
       // - First chunk of a tool: has id, name, empty arguments
       // - Subsequent chunks: no id, no name, partial arguments
       // We need to match by position when there's no ID
-      
+
       if (toolCall.id != null && toolCall.id!.isNotEmpty) {
         // This is a new tool call with an ID
         accumulatedToolCalls.add(
@@ -230,7 +230,8 @@ msg.ChatMessage messageFromOpenAIStreamDelta(
           lastTool.argumentsJson += toolCall.function!.arguments!;
         }
         // Update name if provided (shouldn't happen in practice)
-        if (toolCall.function?.name != null && toolCall.function!.name!.isNotEmpty) {
+        if (toolCall.function?.name != null &&
+            toolCall.function!.name!.isNotEmpty) {
           lastTool.name = toolCall.function!.name!;
         }
       }

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:google_generative_ai/google_generative_ai.dart' as g;
 import 'package:logging/logging.dart';
 
@@ -151,7 +149,7 @@ extension MessageListMapper on List<msg.ChatMessage> {
           // If the result is already a Map, use it directly
           // Otherwise, wrap it in a Map with a "result" key
           final response = switch (part.result) {
-            Map<String, Object?> map => map,
+            final Map<String, Object?> map => map,
             _ => <String, Object?>{'result': part.result},
           };
 

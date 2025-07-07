@@ -16,11 +16,12 @@ void main() async {
   );
 
   for (final provider in providersWithOutputSchema) {
-  // for (final provider in [ChatProvider.google]) {
+    // for (final provider in [ChatProvider.google]) {
     final agent = Agent.fromProvider(
       provider,
       tools: [currentDateTimeTool, temperatureTool],
-      systemPrompt: '''You are a helpful assistant that provides accurate information.
+      systemPrompt: '''
+You are a helpful assistant that provides accurate information.
 
 When responding with structured data, ensure your JSON output strictly follows the provided schema format. Do not include additional text or explanations outside the JSON structure.
 
@@ -101,19 +102,14 @@ Future<void> typedOutput(Agent agent) async {
 Future<void> typedOutputWithToolCalls(Agent agent) async {
   print('═══ ${agent.displayName} Typed Output with Tool Calls ═══');
 
-  try {
-    final result = await agent.runFor<TimeAndTemperature>(
-      'What is the time and temperature in Portland, OR?',
-      outputSchema: TimeAndTemperature.schema,
-      outputFromJson: TimeAndTemperature.fromJson,
-    );
+  final result = await agent.runFor<TimeAndTemperature>(
+    'What is the time and temperature in Portland, OR?',
+    outputSchema: TimeAndTemperature.schema,
+    outputFromJson: TimeAndTemperature.fromJson,
+  );
 
-    print('time: ${result.output.time}');
-    print('temperature: ${result.output.temperature}');
-  } catch (e) {
-    print('Error: $e');
-    // Don't rethrow, continue to next provider
-  }
+  print('time: ${result.output.time}');
+  print('temperature: ${result.output.temperature}');
 }
 
 // Future<void> streamingTypedOutputWithToolCalls(Agent agent) async {
