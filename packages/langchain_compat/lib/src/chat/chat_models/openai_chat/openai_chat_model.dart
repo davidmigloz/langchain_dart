@@ -5,6 +5,7 @@ import 'package:openai_dart/openai_dart.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../http/retry_http_client.dart';
+import '../../../language_models/language_models.dart';
 import '../../../platform/platform.dart';
 import '../chat_message.dart' as msg;
 import '../chat_models.dart';
@@ -81,7 +82,15 @@ class OpenAIChatModel extends ChatModel<OpenAIChatOptions> {
     );
 
     final accumulatedToolCalls = <StreamingToolCall>[];
+    final accumulatedTextBuffer = StringBuffer();
     var chunkCount = 0;
+    var lastResult = ChatResult<msg.ChatMessage>(
+      id: _uuid.v4(),
+      output: const msg.ChatMessage(role: msg.MessageRole.model, parts: []),
+      finishReason: FinishReason.unspecified,
+      metadata: const {},
+      usage: const LanguageModelUsage(),
+    );
 
     try {
       await for (final completion in _client.createChatCompletionStream(
@@ -92,12 +101,15 @@ class OpenAIChatModel extends ChatModel<OpenAIChatOptions> {
         final delta = completion.choices.firstOrNull?.delta;
         if (delta == null) continue;
 
+        // Get the message with any text content (tool calls are only
+        // accumulated)
         final message = messageFromOpenAIStreamDelta(
           delta,
           accumulatedToolCalls,
         );
 
-        yield ChatResult<msg.ChatMessage>(
+        // Store the latest completion info for the final result
+        lastResult = ChatResult<msg.ChatMessage>(
           id: completion.id ?? _uuid.v4(),
           output: message,
           messages: filterSystemMessages([message]),
@@ -111,6 +123,41 @@ class OpenAIChatModel extends ChatModel<OpenAIChatOptions> {
           },
           usage: mapUsage(completion.usage),
         );
+
+        // If there's text content, stream it immediately
+        if (message.parts.isNotEmpty) {
+          // Accumulate text for the final message
+          for (final part in message.parts) {
+            if (part is msg.TextPart) {
+              accumulatedTextBuffer.write(part.text);
+            }
+          }
+
+          // Yield the text-only message for streaming
+          yield lastResult;
+        }
+      }
+
+      // After streaming completes, create and yield the final message with all
+      // tools
+      if (accumulatedToolCalls.isNotEmpty) {
+        final completeMessage = createCompleteMessageWithTools(
+          accumulatedToolCalls,
+          accumulatedText: accumulatedTextBuffer.toString(),
+        );
+
+        yield ChatResult<msg.ChatMessage>(
+          id: lastResult.id,
+          output: completeMessage,
+          messages: filterSystemMessages([completeMessage]),
+          finishReason: lastResult.finishReason,
+          metadata: lastResult.metadata,
+          usage: lastResult.usage,
+        );
+      } else if (accumulatedTextBuffer.isEmpty) {
+        // If we have neither text nor tools, yield an empty message to signal
+        // completion
+        yield lastResult;
       }
 
       _logger.info('OpenAI chat stream completed after $chunkCount chunks');

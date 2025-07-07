@@ -192,7 +192,9 @@ extension MessageListToOpenAI on List<msg.ChatMessage> {
   }
 }
 
-/// Converts OpenAI streaming response to Message.
+/// Converts OpenAI streaming response to Message. During streaming, only
+/// returns text content. Tool calls are accumulated in the provided list but
+/// not converted to ToolParts until streaming completes.
 msg.ChatMessage messageFromOpenAIStreamDelta(
   ChatCompletionStreamResponseDelta delta,
   List<StreamingToolCall> accumulatedToolCalls,
@@ -204,15 +206,15 @@ msg.ChatMessage messageFromOpenAIStreamDelta(
     parts.add(msg.TextPart(delta.content!));
   }
 
-  // Process tool calls
+  // Process tool calls - only accumulate, don't create ToolParts yet
   if (delta.toolCalls != null) {
     for (var i = 0; i < delta.toolCalls!.length; i++) {
       final toolCall = delta.toolCalls![i];
 
       // OpenAI streaming pattern:
       // - First chunk of a tool: has id, name, empty arguments
-      // - Subsequent chunks: no id, no name, partial arguments
-      // We need to match by position when there's no ID
+      // - Subsequent chunks: no id, no name, partial arguments We need to match
+      //   by position when there's no ID
 
       if (toolCall.id != null && toolCall.id!.isNotEmpty) {
         // This is a new tool call with an ID
@@ -236,34 +238,47 @@ msg.ChatMessage messageFromOpenAIStreamDelta(
         }
       }
     }
+  }
 
-    // Convert accumulated tool calls to ToolParts
-    for (final streamingCall in accumulatedToolCalls) {
-      // Only try to parse if we have complete JSON
-      Map<String, dynamic>? parsedArgs;
-      if (streamingCall.argumentsJson.isNotEmpty) {
-        // Check if JSON looks complete (basic check for balanced braces)
-        final trimmed = streamingCall.argumentsJson.trim();
-        if (trimmed.startsWith('{') && trimmed.endsWith('}')) {
-          try {
-            final decoded = json.decode(streamingCall.argumentsJson);
-            if (decoded is Map<String, dynamic>) {
-              parsedArgs = decoded;
-            }
-          } catch (_) {
-            // JSON is incomplete, will be parsed later
-          }
-        }
+  // During streaming, only return text parts Tool parts will be created when
+  // streaming completes
+  return msg.ChatMessage(role: msg.MessageRole.model, parts: parts);
+}
+
+/// Creates a complete message from accumulated tool calls. This is called after
+/// streaming completes to create the final message with all tool calls properly
+/// parsed.
+msg.ChatMessage createCompleteMessageWithTools(
+  List<StreamingToolCall> accumulatedToolCalls, {
+  String? accumulatedText,
+}) {
+  final parts = <msg.Part>[];
+
+  // Add accumulated text as a single TextPart if present
+  if (accumulatedText != null && accumulatedText.isNotEmpty) {
+    parts.add(msg.TextPart(accumulatedText));
+  }
+
+  // Convert accumulated tool calls to ToolParts with parsed arguments
+  for (final streamingCall in accumulatedToolCalls) {
+    var arguments = <String, dynamic>{};
+
+    // Parse the complete JSON arguments
+    if (streamingCall.argumentsJson.isNotEmpty) {
+      final decoded = json.decode(streamingCall.argumentsJson);
+      if (decoded is Map<String, dynamic>) {
+        arguments = decoded;
       }
-
-      parts.add(
-        msg.ToolPart.call(
-          id: streamingCall.id,
-          name: streamingCall.name,
-          arguments: parsedArgs ?? {},
-        ),
-      );
+      // If decoded is null or other type, keep empty arguments
     }
+
+    parts.add(
+      msg.ToolPart.call(
+        id: streamingCall.id,
+        name: streamingCall.name,
+        arguments: arguments,
+      ),
+    );
   }
 
   return msg.ChatMessage(role: msg.MessageRole.model, parts: parts);
