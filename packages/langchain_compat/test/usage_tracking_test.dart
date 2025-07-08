@@ -90,7 +90,7 @@ void main() {
         final result2 = await agent.run(prompt);
 
         // Prompt tokens should be very similar (if available)
-        if (result1.usage.promptTokens != null && 
+        if (result1.usage.promptTokens != null &&
             result2.usage.promptTokens != null) {
           expect(
             (result1.usage.promptTokens! - result2.usage.promptTokens!).abs(),

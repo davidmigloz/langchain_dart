@@ -359,9 +359,7 @@ void main() {
         });
 
         // Test subset of structured output providers
-        final structuredProviders = {
-          'openai': 'gpt-4o-mini',
-        };
+        final structuredProviders = {'openai': 'gpt-4o-mini'};
 
         for (final entry in structuredProviders.entries) {
           final providerName = entry.key;

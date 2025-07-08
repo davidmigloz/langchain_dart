@@ -30,19 +30,13 @@ void main() {
       });
 
       test('creates agent with tools', () {
-        final agent = Agent(
-          'openai:gpt-4o-mini',
-          tools: [stringTool, intTool],
-        );
+        final agent = Agent('openai:gpt-4o-mini', tools: [stringTool, intTool]);
         expect(agent, isNotNull);
         expect(agent.model, equals('openai:gpt-4o-mini'));
       });
 
       test('creates agent with temperature', () {
-        final agent = Agent(
-          'google:gemini-2.0-flash',
-          temperature: 0.7,
-        );
+        final agent = Agent('google:gemini-2.0-flash', temperature: 0.7);
         expect(agent, isNotNull);
         expect(agent.model, equals('google:gemini-2.0-flash'));
       });
@@ -79,21 +73,22 @@ void main() {
         final history = [
           const ChatMessage(
             role: MessageRole.system,
-            parts: [
-              TextPart('You are a pirate. Answer in pirate speak.'),
-            ],
+            parts: [TextPart('You are a pirate. Answer in pirate speak.')],
           ),
         ];
 
         final result = await agent.run('Say hello', history: history);
         expect(result.output, isNotEmpty);
         // Response should reflect the pirate override, not the default
-        expect(result.output.toLowerCase(), anyOf(
-          contains('ahoy'),
-          contains('arr'),
-          contains('matey'),
-          contains('ye'),
-        ));
+        expect(
+          result.output.toLowerCase(),
+          anyOf(
+            contains('ahoy'),
+            contains('arr'),
+            contains('matey'),
+            contains('ye'),
+          ),
+        );
       });
 
       test('system prompt behavior without override', () async {
@@ -123,10 +118,7 @@ void main() {
       });
 
       test('empty system prompt handling', () async {
-        final agent = Agent(
-          'openai:gpt-4o-mini',
-          systemPrompt: '',
-        );
+        final agent = Agent('openai:gpt-4o-mini', systemPrompt: '');
 
         final result = await agent.run('Hello');
         expect(result.output, isNotEmpty);
@@ -152,14 +144,12 @@ void main() {
 
         final result = await agent.run(
           'What do you see in this image?',
-          attachments: [
-            DataPart(bytes: imageBytes, mimeType: 'image/png'),
-          ],
+          attachments: [DataPart(bytes: imageBytes, mimeType: 'image/png')],
         );
 
         expect(result.output, isNotEmpty);
         expect(result.messages, isNotEmpty);
-        
+
         // Should have a user message with both text and image parts
         final userMessage = result.messages
             .where((msg) => msg.role == MessageRole.user)
@@ -173,14 +163,12 @@ void main() {
 
         final result = await agent.run(
           'Tell me about this URL',
-          attachments: [
-            const LinkPart(url: 'https://www.example.com'),
-          ],
+          attachments: [const LinkPart(url: 'https://www.example.com')],
         );
 
         expect(result.output, isNotEmpty);
         expect(result.messages, isNotEmpty);
-        
+
         // Should have a user message with both text and link parts
         final userMessage = result.messages
             .where((msg) => msg.role == MessageRole.user)
@@ -203,7 +191,7 @@ void main() {
         );
 
         expect(result.output, isNotEmpty);
-        
+
         // Should have a user message with text + multiple attachments
         final userMessage = result.messages
             .where((msg) => msg.role == MessageRole.user)
@@ -220,13 +208,11 @@ void main() {
 
         final result = await agent.run(
           '', // Empty text
-          attachments: [
-            DataPart(bytes: imageBytes, mimeType: 'image/png'),
-          ],
+          attachments: [DataPart(bytes: imageBytes, mimeType: 'image/png')],
         );
 
         expect(result.output, isNotEmpty);
-        
+
         // Should still create valid user message
         final userMessage = result.messages
             .where((msg) => msg.role == MessageRole.user)
@@ -241,36 +227,30 @@ void main() {
         final history = <ChatMessage>[];
 
         // Turn 1: Introduction
-        var result = await agent.run(
-          'Hi, my name is Alice.',
-          history: history,
-        );
+        var result = await agent.run('Hi, my name is Alice.', history: history);
         expect(result.output, isNotEmpty);
         history.addAll(result.messages);
 
         // Turn 2: Ask about the name
-        result = await agent.run(
-          'What is my name?',
-          history: history,
-        );
+        result = await agent.run('What is my name?', history: history);
         expect(result.output.toLowerCase(), contains('alice'));
         history.addAll(result.messages);
 
         // Turn 3: Continue conversation
-        result = await agent.run(
-          'Tell me a short joke.',
-          history: history,
-        );
+        result = await agent.run('Tell me a short joke.', history: history);
         expect(result.output, isNotEmpty);
         history.addAll(result.messages);
 
         // History should have accumulated properly
-        expect(history.length, greaterThanOrEqualTo(6)); // 3 user + 3 AI minimum
+        expect(
+          history.length,
+          greaterThanOrEqualTo(6),
+        ); // 3 user + 3 AI minimum
       });
 
       test('history with system message override', () async {
         final agent = Agent('openai:gpt-4o-mini');
-        
+
         final history = [
           const ChatMessage(
             role: MessageRole.system,
@@ -278,17 +258,12 @@ void main() {
           ),
         ];
 
-        final result = await agent.run(
-          'Is the sky blue?',
-          history: history,
-        );
+        final result = await agent.run('Is the sky blue?', history: history);
 
-        expect(result.output.trim().toUpperCase(), anyOf(
-          equals('YES'),
-          equals('NO'),
-          contains('YES'),
-          contains('NO'),
-        ));
+        expect(
+          result.output.trim().toUpperCase(),
+          anyOf(equals('YES'), equals('NO'), contains('YES'), contains('NO')),
+        );
       });
 
       test('history preservation across calls', () async {
@@ -349,10 +324,7 @@ void main() {
       });
 
       test('streaming with tools', () async {
-        final agent = Agent(
-          'openai:gpt-4o-mini',
-          tools: [stringTool],
-        );
+        final agent = Agent('openai:gpt-4o-mini', tools: [stringTool]);
 
         final chunks = <String>[];
         final allMessages = <ChatMessage>[];
@@ -366,7 +338,7 @@ void main() {
 
         expect(chunks, isNotEmpty);
         expect(allMessages, isNotEmpty);
-        
+
         // Should have tool execution in messages
         final toolResults = allMessages
             .expand((msg) => msg.toolResults)
@@ -439,10 +411,7 @@ void main() {
       });
 
       test('agent displays custom display name', () {
-        final agent = Agent(
-          'openai:gpt-4o-mini',
-          displayName: 'My Assistant',
-        );
+        final agent = Agent('openai:gpt-4o-mini', displayName: 'My Assistant');
         expect(agent.displayName, equals('My Assistant'));
       });
 
@@ -471,10 +440,7 @@ void main() {
         final agent = Agent('openai:gpt-4o-mini');
 
         // This should complete without throwing
-        expect(
-          () async => agent.run('Hello'),
-          returnsNormally,
-        );
+        expect(() async => agent.run('Hello'), returnsNormally);
       });
 
       test('agent with unsupported features', () {
@@ -490,7 +456,7 @@ void main() {
       test('agents with same configuration', () {
         final agent1 = Agent('openai:gpt-4o-mini');
         final agent2 = Agent('openai:gpt-4o-mini');
-        
+
         // Agents are separate instances but have same configuration
         expect(agent1.model, equals(agent2.model));
         expect(agent1.providerName, equals(agent2.providerName));
@@ -499,7 +465,7 @@ void main() {
       test('agents with different configurations', () {
         final agent1 = Agent('openai:gpt-4o-mini');
         final agent2 = Agent('openai:gpt-4o');
-        
+
         expect(agent1.model, isNot(equals(agent2.model)));
         expect(agent1.providerName, equals(agent2.providerName));
       });

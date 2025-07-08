@@ -148,10 +148,7 @@ void main() {
 
     group('error handling', () {
       test('handles invalid model names', () async {
-        expect(
-          () => Agent('invalid:model-name'),
-          throwsA(isA<StateError>()),
-        );
+        expect(() => Agent('invalid:model-name'), throwsA(isA<StateError>()));
       });
 
       test('handles malformed messages gracefully', () async {

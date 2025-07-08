@@ -49,10 +49,7 @@ void main() {
       });
 
       test('creates empty messages', () {
-        const message = ChatMessage(
-          role: MessageRole.user,
-          parts: [],
-        );
+        const message = ChatMessage(role: MessageRole.user, parts: []);
 
         expect(message.role, equals(MessageRole.user));
         expect(message.parts, isEmpty);
@@ -61,10 +58,7 @@ void main() {
       test('creates messages with multiple text parts', () {
         const message = ChatMessage(
           role: MessageRole.user,
-          parts: [
-            TextPart('First part. '),
-            TextPart('Second part.'),
-          ],
+          parts: [TextPart('First part. '), TextPart('Second part.')],
         );
 
         expect(message.role, equals(MessageRole.user));
@@ -161,9 +155,7 @@ void main() {
         final imageBytes = Uint8List.fromList([255, 216, 255]); // JPEG header
         final message = ChatMessage(
           role: MessageRole.user,
-          parts: [
-            DataPart(bytes: imageBytes, mimeType: 'image/jpeg'),
-          ],
+          parts: [DataPart(bytes: imageBytes, mimeType: 'image/jpeg')],
         );
 
         expect(message.role, equals(MessageRole.user));
@@ -178,9 +170,7 @@ void main() {
       test('creates link-only messages', () {
         const message = ChatMessage(
           role: MessageRole.user,
-          parts: [
-            LinkPart(url: 'https://docs.example.com/api'),
-          ],
+          parts: [LinkPart(url: 'https://docs.example.com/api')],
         );
 
         expect(message.role, equals(MessageRole.user));
@@ -216,8 +206,7 @@ void main() {
           'text/plain',
           'application/json',
           'text/csv',
-          'application/vnd.openxmlformats-officedocument'
-              '.wordprocessingml.document',
+          'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         ];
 
         for (final mimeType in testCases) {
@@ -326,10 +315,7 @@ void main() {
 
         const message = ChatMessage(
           role: MessageRole.model,
-          parts: [
-            TextPart('Here is the result:'),
-            toolResult,
-          ],
+          parts: [TextPart('Here is the result:'), toolResult],
         );
 
         expect(message.role, equals(MessageRole.model));
@@ -352,10 +338,7 @@ void main() {
 
         const message = ChatMessage(
           role: MessageRole.model,
-          parts: [
-            TextPart('Multiple tools executed:'),
-            ...toolResults,
-          ],
+          parts: [TextPart('Multiple tools executed:'), ...toolResults],
         );
 
         expect(message.hasToolResults, isTrue);
@@ -381,15 +364,15 @@ void main() {
 
         const message = ChatMessage(
           role: MessageRole.model,
-          parts: [
-            TextPart('Complex tool completed:'),
-            toolResult,
-          ],
+          parts: [TextPart('Complex tool completed:'), toolResult],
         );
 
         final result = message.toolResults.first;
         expect(result.result, equals(complexOutput));
-        expect(result.result['status'], equals('success'));
+        expect(
+          (result.result as Map<String, dynamic>)['status'],
+          equals('success'),
+        );
       });
 
       test('distinguishes between tool calls and results', () {
@@ -426,11 +409,7 @@ void main() {
 
     group('message role validation', () {
       test('supports all message roles', () {
-        final roles = [
-          MessageRole.system,
-          MessageRole.user,
-          MessageRole.model,
-        ];
+        final roles = [MessageRole.system, MessageRole.user, MessageRole.model];
 
         for (final role in roles) {
           final message = ChatMessage(
@@ -446,7 +425,9 @@ void main() {
         const message = ChatMessage(
           role: MessageRole.system,
           parts: [
-            TextPart('You are an expert data analyst. Be concise and accurate.'),
+            TextPart(
+              'You are an expert data analyst. Be concise and accurate.',
+            ),
           ],
         );
 
@@ -458,9 +439,7 @@ void main() {
       test('user messages typically contain queries', () {
         const message = ChatMessage(
           role: MessageRole.user,
-          parts: [
-            TextPart('Can you help me analyze this data?'),
-          ],
+          parts: [TextPart('Can you help me analyze this data?')],
         );
 
         expect(message.role, equals(MessageRole.user));
@@ -471,9 +450,7 @@ void main() {
       test('model messages typically contain responses', () {
         const message = ChatMessage(
           role: MessageRole.model,
-          parts: [
-            TextPart('I would be happy to help you analyze your data.'),
-          ],
+          parts: [TextPart('I would be happy to help you analyze your data.')],
         );
 
         expect(message.role, equals(MessageRole.model));
@@ -507,10 +484,7 @@ void main() {
         // Create a new message with additional parts
         final extendedMessage = ChatMessage(
           role: baseMessage.role,
-          parts: [
-            ...baseMessage.parts,
-            const TextPart(' Extended text'),
-          ],
+          parts: [...baseMessage.parts, const TextPart(' Extended text')],
         );
 
         expect(baseMessage.parts, hasLength(1));
@@ -530,10 +504,7 @@ void main() {
 
         const originalMessage = ChatMessage(
           role: MessageRole.model,
-          parts: [
-            TextPart('Original response'),
-            originalToolResult,
-          ],
+          parts: [TextPart('Original response'), originalToolResult],
         );
 
         const newToolResult = ToolPart.result(
@@ -544,10 +515,7 @@ void main() {
 
         final newMessage = ChatMessage(
           role: originalMessage.role,
-          parts: [
-            ...originalMessage.parts,
-            newToolResult,
-          ],
+          parts: [...originalMessage.parts, newToolResult],
         );
 
         expect(originalMessage.toolResults, hasLength(1));
@@ -563,10 +531,7 @@ void main() {
             role: MessageRole.system,
             parts: [TextPart('You are a helpful assistant.')],
           ),
-          ChatMessage(
-            role: MessageRole.user,
-            parts: [TextPart('Hello!')],
-          ),
+          ChatMessage(role: MessageRole.user, parts: [TextPart('Hello!')]),
           ChatMessage(
             role: MessageRole.model,
             parts: [TextPart('Hello! How can I help you today?')],
@@ -620,10 +585,7 @@ void main() {
               ToolPart.result(id: 'call_1', name: 'tool_1', result: 'Result 1'),
             ],
           ),
-          ChatMessage(
-            role: MessageRole.user,
-            parts: [TextPart('Continue')],
-          ),
+          ChatMessage(role: MessageRole.user, parts: [TextPart('Continue')]),
           ChatMessage(
             role: MessageRole.model,
             parts: [
@@ -831,9 +793,9 @@ Final paragraph.''';
           DataPart(bytes: imageBytes, mimeType: 'image/jpeg'),
         ]);
 
-        final modelMessage = ChatMessage.modelParts([
-          const TextPart('Processing...'),
-          const ToolPart.call(id: 'call_1', name: 'analyze', arguments: {}),
+        final modelMessage = ChatMessage.modelParts(const [
+          TextPart('Processing...'),
+          ToolPart.call(id: 'call_1', name: 'analyze', arguments: {}),
         ]);
 
         expect(userMessage.role, equals(MessageRole.user));

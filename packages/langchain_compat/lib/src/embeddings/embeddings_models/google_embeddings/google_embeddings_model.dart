@@ -145,9 +145,9 @@ class GoogleEmbeddingsModel
 
     for (var i = 0; i < batches.length; i++) {
       final batch = batches[i];
-      final batchCharacters = batch.isEmpty ? 0 : batch
-          .map((t) => t.length)
-          .reduce((a, b) => a + b);
+      final batchCharacters = batch.isEmpty
+          ? 0
+          : batch.map((t) => t.length).reduce((a, b) => a + b);
 
       _logger.fine(
         'Processing batch ${i + 1}/${batches.length} '

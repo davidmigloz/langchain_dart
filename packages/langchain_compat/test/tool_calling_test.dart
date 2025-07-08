@@ -7,15 +7,12 @@ void main() {
   group('Tool Calling', () {
     group('single tool calls', () {
       test('calls a simple string tool', () async {
-        final agent = Agent(
-          'openai:gpt-4o-mini',
-          tools: [stringTool],
-        );
+        final agent = Agent('openai:gpt-4o-mini', tools: [stringTool]);
 
         final response = await agent.run(
           'Use the string_tool with input "hello"',
         );
-        
+
         // Check that tool was executed and result is in messages
         final toolResults = response.messages
             .expand((msg) => msg.toolResults)
@@ -28,7 +25,7 @@ void main() {
         final agent = Agent('openai:gpt-4o-mini', tools: [intTool]);
 
         final response = await agent.run('Use the int_tool with value 42');
-        
+
         // Check that tool was executed and result is in messages
         final toolResults = response.messages
             .expand((msg) => msg.toolResults)
@@ -36,8 +33,11 @@ void main() {
         expect(toolResults, hasLength(1));
         final result = toolResults.first.result;
         // Tool result may be serialized as string or kept as int
-        expect(result == 42 || result == '42', isTrue,
-            reason: 'Expected 42 or "42", got $result (${result.runtimeType})');
+        expect(
+          result == 42 || result == '42',
+          isTrue,
+          reason: 'Expected 42 or "42", got $result (${result.runtimeType})',
+        );
       });
 
       test('calls a tool returning a map', () async {
@@ -45,7 +45,7 @@ void main() {
         final response = await agent.run(
           'Use the map_tool with key "name" and value "test"',
         );
-        
+
         // Check that tool was executed and result is in messages
         final toolResults = response.messages
             .expand((msg) => msg.toolResults)
@@ -65,13 +65,10 @@ void main() {
       });
 
       test('handles tool with no parameters', () async {
-        final agent = Agent(
-          'openai:gpt-4o-mini',
-          tools: [noParamsTool],
-        );
+        final agent = Agent('openai:gpt-4o-mini', tools: [noParamsTool]);
 
         final response = await agent.run('Call the no_params_tool');
-        
+
         // Check that tool was executed and result is in messages
         final toolResults = response.messages
             .expand((msg) => msg.toolResults)
@@ -92,7 +89,7 @@ void main() {
           'First call step1 with input "hello", '
           'then call step2 with the result',
         );
-        
+
         // Check that both tools were executed and results are in messages
         final toolResults = response.messages
             .expand((msg) => msg.toolResults)
@@ -112,13 +109,13 @@ void main() {
           'Call string_tool with "test", int_tool with 100, '
           'and bool_tool with true',
         );
-        
+
         // Check that all three tools were executed and results are in messages
         final toolResults = response.messages
             .expand((msg) => msg.toolResults)
             .toList();
         expect(toolResults, hasLength(3));
-        
+
         // Check for specific results (order may vary)
         final results = toolResults.map((tr) => tr.result).toList();
         expect(results, contains('String result: test'));
@@ -130,10 +127,7 @@ void main() {
 
     group('edge cases', () {
       test('handles null return values', () async {
-        final agent = Agent(
-          'openai:gpt-4o-mini',
-          tools: [nullTool],
-        );
+        final agent = Agent('openai:gpt-4o-mini', tools: [nullTool]);
 
         final response = await agent.run('Call the null_tool');
         // Should handle null gracefully
@@ -149,10 +143,7 @@ void main() {
       });
 
       test('handles very long string returns', () async {
-        final agent = Agent(
-          'openai:gpt-4o-mini',
-          tools: [veryLongStringTool],
-        );
+        final agent = Agent('openai:gpt-4o-mini', tools: [veryLongStringTool]);
 
         final response = await agent.run(
           'Call very_long_string_tool with repeat_count 10',
@@ -161,10 +152,7 @@ void main() {
       });
 
       test('handles unicode in tool results', () async {
-        final agent = Agent(
-          'openai:gpt-4o-mini',
-          tools: [unicodeTool],
-        );
+        final agent = Agent('openai:gpt-4o-mini', tools: [unicodeTool]);
 
         final response = await agent.run('Call the unicode_tool');
         expect(response.output, contains('👋'));
@@ -182,10 +170,7 @@ void main() {
 
     group('error handling', () {
       test('handles tool execution errors gracefully', () async {
-        final agent = Agent(
-          'openai:gpt-4o-mini',
-          tools: [errorTool],
-        );
+        final agent = Agent('openai:gpt-4o-mini', tools: [errorTool]);
 
         // Agent should handle the error and report it
         final response = await agent.run(
@@ -223,10 +208,7 @@ void main() {
 
     group('streaming with tools', () {
       test('streams tool call results', () async {
-        final agent = Agent(
-          'openai:gpt-4o-mini',
-          tools: [stringTool],
-        );
+        final agent = Agent('openai:gpt-4o-mini', tools: [stringTool]);
 
         final chunks = <String>[];
         await for (final chunk in agent.runStream(
@@ -237,17 +219,14 @@ void main() {
 
         final fullResponse = chunks.join();
         // Response should mention the tool result or input
-        expect(fullResponse.toLowerCase(), anyOf(
-          contains('streaming test'),
-          contains('string_tool'),
-        ));
+        expect(
+          fullResponse.toLowerCase(),
+          anyOf(contains('streaming test'), contains('string_tool')),
+        );
       });
 
       test('streams multiple tool calls', () async {
-        final agent = Agent(
-          'openai:gpt-4o-mini',
-          tools: [stringTool, intTool],
-        );
+        final agent = Agent('openai:gpt-4o-mini', tools: [stringTool, intTool]);
 
         final chunks = <String>[];
         await for (final chunk in agent.runStream(
@@ -258,23 +237,20 @@ void main() {
 
         final fullResponse = chunks.join();
         // Response should mention the tool results or inputs
-        expect(fullResponse.toLowerCase(), anyOf(
-          contains('test'),
-          contains('string_tool'),
-        ));
-        expect(fullResponse.toLowerCase(), anyOf(
-          contains('99'),
-          contains('int_tool'),
-        ));
+        expect(
+          fullResponse.toLowerCase(),
+          anyOf(contains('test'), contains('string_tool')),
+        );
+        expect(
+          fullResponse.toLowerCase(),
+          anyOf(contains('99'), contains('int_tool')),
+        );
       });
     });
 
     group('tool result integration', () {
       test('integrates tool results into message history', () async {
-        final agent = Agent(
-          'openai:gpt-4o-mini',
-          tools: [stringTool],
-        );
+        final agent = Agent('openai:gpt-4o-mini', tools: [stringTool]);
 
         final response = await agent.run(
           'Call string_tool with "hello" and tell me what it returned',
@@ -289,16 +265,11 @@ void main() {
       });
 
       test('handles tool results in conversation context', () async {
-        final agent = Agent(
-          'openai:gpt-4o-mini',
-          tools: [mapTool],
-        );
+        final agent = Agent('openai:gpt-4o-mini', tools: [mapTool]);
         final messages = [
           const ChatMessage(
             role: MessageRole.user,
-            parts: [
-              TextPart('Use map_tool with key "color" and value "blue"'),
-            ],
+            parts: [TextPart('Use map_tool with key "color" and value "blue"')],
           ),
         ];
 
@@ -344,10 +315,7 @@ void main() {
           final providerName = entry.key;
           final modelName = entry.value;
 
-          final agent = Agent(
-            '$providerName:$modelName',
-            tools: [testTool],
-          );
+          final agent = Agent('$providerName:$modelName', tools: [testTool]);
           final response = await agent.run(
             'Use string_tool with input "provider test"',
           );
@@ -355,10 +323,7 @@ void main() {
           // Response should mention the tool result or input
           expect(
             response.output.toLowerCase(),
-            anyOf(
-              contains('provider test'),
-              contains('string_tool'),
-            ),
+            anyOf(contains('provider test'), contains('string_tool')),
             reason: 'Provider $providerName should execute tool correctly',
           );
         }

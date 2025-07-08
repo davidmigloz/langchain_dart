@@ -33,14 +33,8 @@ void main() {
         // Test documented aliases from README
         expect(ChatProvider.forName('claude'), equals(ChatProvider.anthropic));
         expect(ChatProvider.forName('gemini'), equals(ChatProvider.google));
-        expect(
-          ChatProvider.forName('googleai'),
-          equals(ChatProvider.google),
-        );
-        expect(
-          ChatProvider.forName('google-gla'),
-          equals(ChatProvider.google),
-        );
+        expect(ChatProvider.forName('googleai'), equals(ChatProvider.google));
+        expect(ChatProvider.forName('google-gla'), equals(ChatProvider.google));
       });
 
       test('throws on unknown provider name', () {
@@ -52,10 +46,7 @@ void main() {
           () => ChatProvider.forName('invalid'),
           throwsA(isA<StateError>()),
         );
-        expect(
-          () => ChatProvider.forName(''),
-          throwsA(isA<StateError>()),
-        );
+        expect(() => ChatProvider.forName(''), throwsA(isA<StateError>()));
       });
 
       test('is case insensitive', () {
@@ -191,8 +182,7 @@ void main() {
             expect(
               model.name,
               isNotEmpty,
-              reason:
-                  'Model name should not be empty for ${provider.name}',
+              reason: 'Model name should not be empty for ${provider.name}',
             );
           }
         }
@@ -210,8 +200,7 @@ void main() {
           expect(
             models,
             isNotEmpty,
-            reason:
-                'Provider ${provider.name} should have embedding models',
+            reason: 'Provider ${provider.name} should have embedding models',
           );
 
           // Verify model structure
@@ -219,8 +208,7 @@ void main() {
             expect(
               model.name,
               isNotEmpty,
-              reason:
-                  'Model name should not be empty for ${provider.name}',
+              reason: 'Model name should not be empty for ${provider.name}',
             );
           }
         }
@@ -231,8 +219,9 @@ void main() {
         final openaiModels = await ChatProvider.openai.listModels().toList();
         expect(openaiModels.length, greaterThan(50));
 
-        final anthropicModels =
-            await ChatProvider.anthropic.listModels().toList();
+        final anthropicModels = await ChatProvider.anthropic
+            .listModels()
+            .toList();
         expect(anthropicModels.length, greaterThan(5));
 
         final googleModels = await ChatProvider.google.listModels().toList();
@@ -344,20 +333,14 @@ void main() {
 
     group('error handling', () {
       test('handles null and empty provider names gracefully', () {
-        expect(
-          () => ChatProvider.forName(''),
-          throwsA(isA<StateError>()),
-        );
+        expect(() => ChatProvider.forName(''), throwsA(isA<StateError>()));
       });
 
       test('provides helpful error messages', () {
-        try {
-          ChatProvider.forName('invalid-provider');
-          fail('Should have thrown an exception');
-        } catch (e) {
-          // The actual error message is "Bad state: No element"
-          expect(e.toString().toLowerCase(), contains('no element'));
-        }
+        expect(
+          () => ChatProvider.forName('invalid-provider'),
+          throwsA(isA<StateError>()),
+        );
       });
     });
   });
