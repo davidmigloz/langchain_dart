@@ -1,59 +1,75 @@
 // ignore_for_file: avoid_print
 
-import 'dart:async';
 import 'dart:io';
 
 import 'package:langchain_compat/langchain_compat.dart';
 
-import 'lib/dump_message_history.dart';
+void main() async {
+  print('=== Multi-turn Conversation Example ===\n');
 
-Future<void> main() async {
-  for (final provider in ChatProvider.all) {
-    await multiTurnChat(provider);
-  }
-  exit(0);
-}
+  // Create an agent
+  final agent = Agent('anthropic:claude-3-5-haiku-latest');
 
-Future<void> multiTurnChat(ChatProvider provider) async {
-  final model = provider.createModel();
-  print('multiTurnChat: ${provider.name}:${model.name}');
+  // Start a conversation
+  final messages = <ChatMessage>[];
 
-  final userMessages = [
-    "Hi, I'm planning a trip to Paris. Can you help?",
-    'What are some must-see attractions?',
-  ];
+  // First turn
+  print('User: My name is Alice. Can you remember that?');
+  var response = await agent.run(
+    'My name is Alice. Can you remember that?',
+    history: messages,
+  );
+  print('Assistant: ${response.output}\n');
 
-  final messages = [
+  // Add user message and assistant response to history
+  messages.add(
     const ChatMessage(
-      role: MessageRole.system,
-      parts: [TextPart('Be concise in your responses.')],
+      role: MessageRole.user,
+      parts: [TextPart('My name is Alice. Can you remember that?')],
     ),
-  ];
+  );
+  messages.add(
+    ChatMessage(role: MessageRole.model, parts: [TextPart(response.output)]),
+  );
 
-  for (final userMsg in userMessages) {
-    messages.add(
-      ChatMessage(role: MessageRole.user, parts: [TextPart(userMsg)]),
-    );
-    print('\nUser: $userMsg');
+  // Second turn
+  print('User: What is my name?');
+  response = await agent.run('What is my name?', history: messages);
+  print('Assistant: ${response.output}\n');
 
-    final stream = model.sendStream(messages);
-    final fullResponse = StringBuffer();
-    await for (final chunk in stream) {
-      final text = chunk.output.parts
-          .whereType<TextPart>()
-          .map((p) => p.text)
-          .join();
-      stdout.write(text);
-      fullResponse.write(text);
-    }
-    messages.add(
-      ChatMessage(
-        role: MessageRole.model,
-        parts: [TextPart(fullResponse.toString())],
-      ),
-    );
-    print('');
-  }
+  // Add to history
+  messages.add(
+    const ChatMessage(
+      role: MessageRole.user,
+      parts: [TextPart('What is my name?')],
+    ),
+  );
+  messages.add(
+    ChatMessage(role: MessageRole.model, parts: [TextPart(response.output)]),
+  );
 
-  dumpMessageHistory(messages);
+  // Third turn with different provider
+  print('=== Switching to OpenAI ===\n');
+  final openaiAgent = Agent('openai:gpt-4o-mini');
+
+  print('User: Can you tell me what we talked about?');
+  response = await openaiAgent.run(
+    'Can you tell me what we talked about?',
+    history: messages,
+  );
+  print('Assistant: ${response.output}\n');
+
+  // Example with system message
+  print('=== Example with System Message (Google) ===\n');
+  final googleAgent = Agent(
+    'google:gemini-2.0-flash',
+    systemPrompt: 'You are a helpful assistant who speaks like a pirate.',
+  );
+
+  print('System: You are a helpful assistant who speaks like a pirate.');
+  print('User: Tell me about the weather today.');
+  response = await googleAgent.run('Tell me about the weather today.');
+  print('Assistant: ${response.output}\n');
+
+  exit(0);
 }

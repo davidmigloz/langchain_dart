@@ -1,200 +1,195 @@
+import 'dart:math';
+
 import 'package:json_schema/json_schema.dart';
 import 'package:langchain_compat/langchain_compat.dart';
 
-final currentDateTimeTool = Tool<String>(
+/// Tool that returns the current date and time
+final currentDateTimeTool = Tool<Map<String, dynamic>>(
   name: 'current_date_time',
-  description: 'Returns the current date and time in ISO 8601 format.',
-  onCall: (_) {
-    final now = DateTime.now().toIso8601String();
-    return now;
-  },
-);
-
-final temperatureTool = Tool<Map<String, dynamic>>(
-  name: 'get_temperature',
-  description: 'Returns the current temperature in Portland, OR.',
-  inputSchema: JsonSchema.create({
-    'type': 'object',
-    'properties': {
-      'location': {
-        'type': 'string',
-        'description': 'The location to get the temperature for.',
-      },
-    },
-    'required': ['location'],
-  }),
-  onCall: (_) => '80°F',
+  description: 'Get the current date and time',
   inputFromJson: (json) => json,
+  onCall: (_) => DateTime.now().toIso8601String(),
 );
 
+/// Tool that returns a simple weather report for a given location
 final weatherTool = Tool<Map<String, dynamic>>(
-  name: 'get_weather',
-  description: 'Get the current weather for a given location',
+  name: 'weather',
+  description: 'Get the weather for a given location',
   inputSchema: JsonSchema.create({
     'type': 'object',
     'properties': {
       'location': {
         'type': 'string',
-        'description': 'The location to get weather for',
+        'description': 'The location to get the weather for',
       },
     },
     'required': ['location'],
   }),
   inputFromJson: (json) => json,
-  onCall: (input) async {
+  onCall: (input) {
     final location = input['location'] as String;
-
-    // Simulate weather API call with realistic variation
-    final temps = {
-      'Boston': '68°F',
-      'New York': '71°F',
-      'Seattle': '63°F',
-      'Miami': '82°F',
+    // This is a mock implementation. In a real app, you'd call a weather API.
+    final temp = 20 + Random().nextInt(15);
+    return {
+      'location': location,
+      'temperature': temp,
+      'unit': 'C',
+      'conditions': ['sunny', 'cloudy', 'rainy'][Random().nextInt(3)],
     };
-    final conditions = {
-      'Boston': 'partly cloudy',
-      'New York': 'sunny',
-      'Seattle': 'overcast',
-      'Miami': 'hot and humid',
-    };
-
-    final temp = temps[location] ?? '72°F';
-    final condition = conditions[location] ?? 'partly cloudy';
-
-    return 'The weather in $location is $temp and $condition.';
   },
 );
 
-final temperatureConverterTool = Tool<Map<String, dynamic>>(
-  name: 'convert_f_to_c',
-  description: 'Convert temperature from Fahrenheit to Celsius',
+/// Tool that converts Fahrenheit to Celsius
+final fahrenheitToCelsiusTool = Tool<Map<String, dynamic>>(
+  name: 'fahrenheit_to_celsius',
+  description: 'Convert a temperature from Fahrenheit to Celsius',
   inputSchema: JsonSchema.create({
     'type': 'object',
     'properties': {
       'fahrenheit': {
         'type': 'number',
-        'description': 'Temperature in Fahrenheit to convert to Celsius',
+        'description': 'The temperature in Fahrenheit',
       },
     },
     'required': ['fahrenheit'],
   }),
   inputFromJson: (json) => json,
-  onCall: (input) async {
+  onCall: (input) {
     final fahrenheit = input['fahrenheit'] as num;
-
-    // Convert Fahrenheit to Celsius using formula: (F - 32) * 5/9
     final celsius = (fahrenheit - 32) * 5 / 9;
-    final roundedCelsius = celsius.round();
-
-    return '$fahrenheit°F = $roundedCelsius°C';
+    return {'fahrenheit': fahrenheit, 'celsius': celsius.toStringAsFixed(1)};
   },
 );
 
-// Tool that returns a string
-final stringTool = Tool<Map<String, dynamic>>(
-  name: 'get_greeting',
-  description: 'Returns a greeting message',
+/// Tool that gets the temperature for a location (returns just the temperature
+/// string)
+final temperatureTool = Tool<Map<String, dynamic>>(
+  name: 'temperature',
+  description: 'Get the temperature for a given location',
   inputSchema: JsonSchema.create({
     'type': 'object',
     'properties': {
-      'name': {'type': 'string'},
+      'location': {
+        'type': 'string',
+        'description': 'The location to get the temperature for',
+      },
     },
-    'required': ['name'],
+    'required': ['location'],
   }),
-  onCall: (input) => 'Hello, ${input['name']}!',
   inputFromJson: (json) => json,
-);
-
-// Tool that returns an int
-final intTool = Tool<Map<String, dynamic>>(
-  name: 'calculate_age',
-  description: 'Calculates age from birth year',
-  inputSchema: JsonSchema.create({
-    'type': 'object',
-    'properties': {
-      'birth_year': {'type': 'integer'},
-    },
-    'required': ['birth_year'],
-  }),
-  onCall: (input) => 2025 - (input['birth_year'] as int),
-  inputFromJson: (json) => json,
-);
-
-// Tool that returns an array
-final arrayTool = Tool<Map<String, dynamic>>(
-  name: 'list_colors',
-  description: 'Returns a list of favorite colors',
-  inputSchema: JsonSchema.create({
-    'type': 'object',
-    'properties': {
-      'count': {'type': 'integer'},
-    },
-    'required': ['count'],
-  }),
   onCall: (input) {
-    final count = input['count'] as int;
-    return List.generate(
-      count,
-      (i) => ['red', 'blue', 'green', 'yellow'][i % 4],
-    );
+    final location = input['location'] as String;
+    // This is a mock implementation
+    final temp = 20 + Random().nextInt(15);
+    return '$temp°C in $location';
   },
-  inputFromJson: (json) => json,
 );
 
-// Tool that returns a map
-final mapTool = Tool<Map<String, dynamic>>(
-  name: 'get_weather',
-  description: 'Returns weather information',
+/// Tool that converts temperature between units
+final temperatureConverterTool = Tool<Map<String, dynamic>>(
+  name: 'temperature_converter',
+  description: 'Convert temperature between Celsius and Fahrenheit',
   inputSchema: JsonSchema.create({
     'type': 'object',
     'properties': {
-      'city': {'type': 'string'},
+      'value': {
+        'type': 'number',
+        'description': 'The temperature value to convert',
+      },
+      'from_unit': {
+        'type': 'string',
+        'description': 'The unit to convert from (C or F)',
+        'enum': ['C', 'F'],
+      },
+      'to_unit': {
+        'type': 'string',
+        'description': 'The unit to convert to (C or F)',
+        'enum': ['C', 'F'],
+      },
     },
-    'required': ['city'],
+    'required': ['value', 'from_unit', 'to_unit'],
   }),
-  onCall: (input) => {
-    'city': input['city'],
-    'temperature': 72,
-    'conditions': 'sunny',
-    'humidity': 45,
-    'forecast': ['sunny', 'partly cloudy', 'rain'],
-  },
   inputFromJson: (json) => json,
-);
-
-// Tool that returns null (edge case)
-final nullTool = Tool<Map<String, dynamic>>(
-  name: 'check_availability',
-  description: 'Checks if something is available',
-  inputSchema: JsonSchema.create({
-    'type': 'object',
-    'properties': {
-      'item': {'type': 'string'},
-    },
-    'required': ['item'],
-  }),
-  onCall: (input) => input['item'] == 'unicorn' ? null : 'available',
-  inputFromJson: (json) => json,
-);
-
-// Tool that returns a boolean
-final boolTool = Tool<Map<String, dynamic>>(
-  name: 'is_prime',
-  description: 'Checks if a number is prime',
-  inputSchema: JsonSchema.create({
-    'type': 'object',
-    'properties': {
-      'number': {'type': 'integer'},
-    },
-    'required': ['number'],
-  }),
   onCall: (input) {
-    final n = input['number'] as int;
-    if (n <= 1) return false;
-    for (var i = 2; i * i <= n; i++) {
-      if (n % i == 0) return false;
+    final value = input['value'] as num;
+    final fromUnit = input['from_unit'] as String;
+    final toUnit = input['to_unit'] as String;
+
+    if (fromUnit == toUnit) {
+      return {'result': value, 'unit': toUnit};
     }
-    return true;
+
+    final converted = fromUnit == 'C'
+        ? (value * 9 / 5) +
+              32 // C to F
+        : (value - 32) * 5 / 9; // F to C
+
+    return {
+      'original': {'value': value, 'unit': fromUnit},
+      'converted': {'value': converted.toStringAsFixed(1), 'unit': toUnit},
+    };
   },
-  inputFromJson: (json) => json,
 );
+
+/// Tool that calculates the distance between two cities
+final distanceCalculatorTool = Tool<Map<String, dynamic>>(
+  name: 'distance_calculator',
+  description: 'Calculate the distance between two cities',
+  inputSchema: JsonSchema.create({
+    'type': 'object',
+    'properties': {
+      'city1': {'type': 'string', 'description': 'First city'},
+      'city2': {'type': 'string', 'description': 'Second city'},
+    },
+    'required': ['city1', 'city2'],
+  }),
+  inputFromJson: (json) => json,
+  onCall: (input) {
+    final city1 = input['city1'] as String;
+    final city2 = input['city2'] as String;
+    // Mock implementation
+    final distance = 100 + Random().nextInt(900);
+    return {'from': city1, 'to': city2, 'distance': distance, 'unit': 'km'};
+  },
+);
+
+/// Tool that gets stock price (mock)
+final stockPriceTool = Tool<Map<String, dynamic>>(
+  name: 'stock_price',
+  description: 'Get the current stock price for a ticker symbol',
+  inputSchema: JsonSchema.create({
+    'type': 'object',
+    'properties': {
+      'symbol': {
+        'type': 'string',
+        'description': 'Stock ticker symbol (e.g., AAPL, GOOGL)',
+      },
+    },
+    'required': ['symbol'],
+  }),
+  inputFromJson: (json) => json,
+  onCall: (input) {
+    final symbol = input['symbol'] as String;
+    // Mock implementation
+    final price = 100 + Random().nextDouble() * 200;
+    final change = -5 + Random().nextDouble() * 10;
+    return {
+      'symbol': symbol.toUpperCase(),
+      'price': price.toStringAsFixed(2),
+      'change': change.toStringAsFixed(2),
+      'change_percent': (change / price * 100).toStringAsFixed(2),
+      'currency': 'USD',
+    };
+  },
+);
+
+/// Returns example tools for demonstrations
+List<Tool> get exampleTools => [
+  currentDateTimeTool,
+  weatherTool,
+  fahrenheitToCelsiusTool,
+  temperatureTool,
+  temperatureConverterTool,
+  distanceCalculatorTool,
+  stockPriceTool,
+];

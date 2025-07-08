@@ -4,28 +4,33 @@ import 'dart:io';
 
 import 'package:langchain_compat/langchain_compat.dart';
 
-Future<void> main() async {
-  const promptText = 'Tell me a joke about Dart programming.';
+void main() async {
+  // Simple chat with Anthropic
+  print('=== Anthropic (Claude) ===');
+  var agent = Agent('anthropic:claude-3-5-haiku-latest');
+  var response = await agent.run('What is the capital of France?');
+  print(response.output);
 
-  for (final provider in ChatProvider.all) {
-    final model = provider.createModel();
-    stdout.writeln(
-      '\n# ${provider.displayName} (${provider.name}:${model.name})',
-    );
-    await model
-        .sendStream([
-          const ChatMessage(
-            role: MessageRole.user,
-            parts: [TextPart(promptText)],
-          ),
-        ])
-        .forEach((chunk) {
-          final text = chunk.output.parts
-              .whereType<TextPart>()
-              .map((p) => p.text)
-              .join();
-          stdout.write(text);
-        });
-    stdout.writeln();
+  print('\n=== OpenAI (GPT) ===');
+  agent = Agent('openai:gpt-4o-mini');
+  response = await agent.run('What is the capital of Japan?');
+  print(response.output);
+
+  print('\n=== Google (Gemini) ===');
+  agent = Agent('google:gemini-2.0-flash');
+  response = await agent.run('What is the capital of Germany?');
+  print(response.output);
+
+  // Streaming example
+  print('\n=== Streaming Example (Anthropic) ===');
+  agent = Agent('anthropic:claude-3-5-haiku-latest');
+  print('Counting to 5:');
+  await for (final chunk in agent.runStream(
+    'Count from 1 to 5, one number at a time',
+  )) {
+    stdout.write(chunk.output);
   }
+  print('\n');
+
+  exit(0);
 }

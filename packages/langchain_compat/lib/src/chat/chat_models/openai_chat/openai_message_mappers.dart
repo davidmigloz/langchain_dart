@@ -5,6 +5,7 @@ import 'package:openai_dart/openai_dart.dart';
 
 import '../../tools/tool.dart';
 import '../chat_message.dart' as msg;
+import '../helpers/message_part_helpers.dart';
 import 'openai_chat_options.dart';
 import 'openai_message_mappers_helpers.dart';
 
@@ -88,27 +89,20 @@ extension MessageListToOpenAI on List<msg.ChatMessage> {
 
   ChatCompletionMessage _mapSystemMessage(msg.ChatMessage message) {
     // System messages should have a single text part
-    final text = message.parts
-        .whereType<msg.TextPart>()
-        .map((p) => p.text)
-        .join();
+    final text = MessagePartHelpers.extractText(message.parts);
     return ChatCompletionMessage.system(content: text);
   }
 
   ChatCompletionMessage _mapUserMessage(msg.ChatMessage message) {
     // Check if this is a tool result message
-    final toolResults = message.parts
-        .whereType<msg.ToolPart>()
-        .where((p) => p.kind == msg.ToolPartKind.result)
-        .toList();
+    final toolResults = MessagePartHelpers.extractToolResults(message.parts);
 
     if (toolResults.isNotEmpty) {
       // OpenAI expects separate tool messages for each result This should be
       // handled at a higher level, so here we just take the first
       final toolResult = toolResults.first;
-      final content = toolResult.result is String
-          ? toolResult.result as String
-          : json.encode(toolResult.result);
+      // ignore: avoid_dynamic_calls
+      final content = ToolResultHelpers.serialize(toolResult.result);
       return ChatCompletionMessage.tool(
         toolCallId: toolResult.id,
         content: content,
@@ -164,15 +158,10 @@ extension MessageListToOpenAI on List<msg.ChatMessage> {
 
   ChatCompletionMessage _mapModelMessage(msg.ChatMessage message) {
     // Extract text content
-    final textContent = message.parts
-        .whereType<msg.TextPart>()
-        .map((p) => p.text)
-        .join();
+    final textContent = MessagePartHelpers.extractText(message.parts);
 
     // Extract tool calls
-    final toolCalls = message.parts
-        .whereType<msg.ToolPart>()
-        .where((p) => p.kind == msg.ToolPartKind.call)
+    final toolCalls = MessagePartHelpers.extractToolCalls(message.parts)
         .map(
           (p) => ChatCompletionMessageToolCall(
             id: p.id,

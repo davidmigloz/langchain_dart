@@ -8,6 +8,7 @@ import '../../../language_models/language_model_usage.dart';
 import '../../tools/tool.dart';
 import '../chat_message.dart' as msg;
 import '../chat_result.dart';
+import '../helpers/message_part_helpers.dart';
 import 'ollama_chat_options.dart';
 
 /// Creates a [o.GenerateChatCompletionRequest] from the given input.
@@ -108,13 +109,18 @@ extension MessageListMapper on List<msg.ChatMessage> {
         ];
       case msg.MessageRole.user:
         // Check if this is a tool result message
-        final toolParts = message.parts.whereType<msg.ToolPart>().toList();
-        if (toolParts.any((p) => p.result != null)) {
+        final toolResults = MessagePartHelpers.extractToolResults(
+          message.parts,
+        );
+        if (toolResults.isNotEmpty) {
           // Tool result message
-          return toolParts
-              .where((p) => p.result != null)
+          return toolResults
               .map(
-                (p) => o.Message(role: o.MessageRole.tool, content: p.result!),
+                (p) => o.Message(
+                  role: o.MessageRole.tool,
+                  // ignore: avoid_dynamic_calls
+                  content: ToolResultHelpers.serialize(p.result),
+                ),
               )
               .toList();
         } else {
@@ -131,7 +137,7 @@ extension MessageListMapper on List<msg.ChatMessage> {
 
     if (dataParts.isEmpty) {
       // Text-only message
-      final text = textParts.map((p) => p.text).join('\n');
+      final text = MessagePartHelpers.extractText(message.parts);
       return [o.Message(role: o.MessageRole.user, content: text)];
     } else if (textParts.length == 1 && dataParts.isNotEmpty) {
       // Single text with images (Ollama's preferred format)
@@ -165,17 +171,14 @@ extension MessageListMapper on List<msg.ChatMessage> {
 
   List<o.Message> _mapModelMessage(msg.ChatMessage message) {
     final textContent = _extractTextContent(message);
-    final toolParts = message.parts.whereType<msg.ToolPart>().toList();
+    final toolCalls = MessagePartHelpers.extractToolCalls(message.parts);
 
     return [
       o.Message(
         role: o.MessageRole.assistant,
         content: textContent,
-        toolCalls: toolParts.isNotEmpty
-            ? toolParts
-                  .where(
-                    (p) => p.kind == msg.ToolPartKind.call,
-                  ) // Only tool calls, not results
+        toolCalls: toolCalls.isNotEmpty
+            ? toolCalls
                   .map(
                     (p) => o.ToolCall(
                       function: o.ToolCallFunction(
@@ -190,13 +193,8 @@ extension MessageListMapper on List<msg.ChatMessage> {
     ];
   }
 
-  String _extractTextContent(msg.ChatMessage message) {
-    final textParts = message.parts.whereType<msg.TextPart>();
-    if (textParts.isEmpty) {
-      return '';
-    }
-    return textParts.map((p) => p.text).join('\n');
-  }
+  String _extractTextContent(msg.ChatMessage message) =>
+      MessagePartHelpers.extractText(message.parts);
 }
 
 /// Extension on [o.GenerateChatCompletionResponse] to convert to [ChatResult].

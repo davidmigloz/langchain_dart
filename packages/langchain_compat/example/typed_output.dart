@@ -1,166 +1,214 @@
-// ignore_for_file: avoid_print, unreachable_from_main
+// ignore_for_file: avoid_print
 
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:collection/collection.dart';
-import 'package:json_schema/json_schema.dart';
+import 'package:json_schema/json_schema.dart' as js;
 import 'package:langchain_compat/langchain_compat.dart';
 
-import 'lib/dump_message_history.dart';
-import 'lib/example_tools.dart';
-
 void main() async {
-  final providersWithOutputSchema = ChatProvider.all.whereNot(
-    (p) => p.name == 'groq' || p.name == 'nvidia' || p.name == 'mistral',
+  print('=== Typed Output Example ===\n');
+
+  // Simple structured output with Anthropic
+  print('--- Simple JSON Object (Anthropic) ---');
+  var schema = js.JsonSchema.create({
+    'type': 'object',
+    'properties': {
+      'name': {'type': 'string'},
+      'age': {'type': 'integer'},
+      'email': {'type': 'string'},
+    },
+    'required': ['name', 'age', 'email'],
+  });
+
+  // Use Agent with outputSchema
+  var agent = Agent('anthropic:claude-3-5-haiku-latest');
+  var result = await agent.run(
+    'Generate a person object with name "Alice Smith", age 28, '
+    'and email "alice@example.com"',
+    outputSchema: schema,
   );
 
-  for (final provider in providersWithOutputSchema) {
-    // for (final provider in [ChatProvider.google]) {
-    final agent = Agent.fromProvider(
-      provider,
-      tools: [currentDateTimeTool, temperatureTool],
-      systemPrompt: '''
-You are a helpful assistant that provides accurate information.
+  print('Generated person:');
+  print(const JsonEncoder.withIndent('  ').convert(jsonDecode(result.output)));
 
-When responding with structured data, ensure your JSON output strictly follows the provided schema format. Do not include additional text or explanations outside the JSON structure.
+  // Array output with OpenAI
+  print('\n--- Array Output (OpenAI) ---');
+  schema = js.JsonSchema.create({
+    'type': 'object',
+    'properties': {
+      'tasks': {
+        'type': 'array',
+        'items': {
+          'type': 'object',
+          'properties': {
+            'id': {'type': 'integer'},
+            'title': {'type': 'string'},
+            'completed': {'type': 'boolean'},
+          },
+          'required': ['id', 'title', 'completed'],
+        },
+      },
+    },
+    'required': ['tasks'],
+  });
 
-When you have access to tools, use them to gather real data before formatting your response.''',
-    );
+  agent = Agent('openai:gpt-4o-mini');
+  result = await agent.run(
+    'Create a todo list with 3 items: '
+    '1) "Write tests" (not completed), '
+    '2) "Review PR" (completed), '
+    '3) "Deploy to production" (not completed)',
+    outputSchema: schema,
+  );
 
-    // await jsonOutput(agent);
-    // await jsonOutputStream(agent);
-    // await mapOutput(agent);
-    // await typedOutput(agent);
-    await typedOutputWithToolCalls(agent);
-    // await streamingTypedOutputWithToolCalls(agent);
-  }
+  print('Generated todo list:');
+  print(const JsonEncoder.withIndent('  ').convert(jsonDecode(result.output)));
+
+  // Nested structure with Google
+  print('\n--- Nested Structure (Google) ---');
+  schema = js.JsonSchema.create({
+    'type': 'object',
+    'properties': {
+      'company': {
+        'type': 'object',
+        'properties': {
+          'name': {'type': 'string'},
+          'founded': {'type': 'integer'},
+          'employees': {
+            'type': 'array',
+            'items': {
+              'type': 'object',
+              'properties': {
+                'name': {'type': 'string'},
+                'role': {'type': 'string'},
+                'department': {'type': 'string'},
+              },
+              'required': ['name', 'role'],
+            },
+          },
+        },
+        'required': ['name', 'founded', 'employees'],
+      },
+    },
+    'required': ['company'],
+  });
+
+  agent = Agent('google:gemini-2.0-flash');
+  result = await agent.run(
+    'Create a tech company called "TechCorp" founded in 2020 with 3 employees: '
+    'CEO John Doe, CTO Jane Smith in Engineering, '
+    'and CFO Bob Johnson in Finance',
+    outputSchema: schema,
+  );
+
+  print('Generated company structure:');
+  print(const JsonEncoder.withIndent('  ').convert(jsonDecode(result.output)));
+
+  // Enum constraints example
+  print('\n--- Enum Constraints (Anthropic) ---');
+  schema = js.JsonSchema.create({
+    'type': 'object',
+    'properties': {
+      'order': {
+        'type': 'object',
+        'properties': {
+          'id': {'type': 'string'},
+          'status': {
+            'type': 'string',
+            'enum': [
+              'pending',
+              'processing',
+              'shipped',
+              'delivered',
+              'cancelled',
+            ],
+          },
+          'priority': {
+            'type': 'string',
+            'enum': ['low', 'medium', 'high', 'urgent'],
+          },
+          'paymentMethod': {
+            'type': 'string',
+            'enum': ['credit_card', 'debit_card', 'paypal', 'bank_transfer'],
+          },
+        },
+        'required': ['id', 'status', 'priority', 'paymentMethod'],
+      },
+    },
+    'required': ['order'],
+  });
+
+  agent = Agent('anthropic:claude-3-5-haiku-latest');
+  result = await agent.run(
+    'Create an order with ID "ORD-12345", status "processing", '
+    'high priority, paid with credit card',
+    outputSchema: schema,
+  );
+
+  print('Generated order:');
+  print(const JsonEncoder.withIndent('  ').convert(jsonDecode(result.output)));
+
+  // Complex real-world example
+  print('\n--- Real-world Example: API Response (OpenAI) ---');
+  schema = js.JsonSchema.create({
+    'type': 'object',
+    'properties': {
+      'success': {'type': 'boolean'},
+      'data': {
+        'type': 'object',
+        'properties': {
+          'user': {
+            'type': 'object',
+            'properties': {
+              'id': {'type': 'string'},
+              'username': {'type': 'string'},
+              'profile': {
+                'type': 'object',
+                'properties': {
+                  'firstName': {'type': 'string'},
+                  'lastName': {'type': 'string'},
+                  'avatar': {'type': 'string'},
+                },
+              },
+            },
+          },
+          'posts': {
+            'type': 'array',
+            'items': {
+              'type': 'object',
+              'properties': {
+                'id': {'type': 'string'},
+                'title': {'type': 'string'},
+                'content': {'type': 'string'},
+                'likes': {'type': 'integer'},
+                'createdAt': {'type': 'string'},
+              },
+            },
+          },
+        },
+      },
+      'metadata': {
+        'type': 'object',
+        'properties': {
+          'totalPosts': {'type': 'integer'},
+          'page': {'type': 'integer'},
+          'perPage': {'type': 'integer'},
+        },
+      },
+    },
+    'required': ['success', 'data'],
+  });
+
+  agent = Agent('openai:gpt-4o-mini');
+  result = await agent.run(
+    'Create a successful API response for user "john_doe" with 2 blog posts '
+    'about programming. Include realistic metadata.',
+    outputSchema: schema,
+  );
+
+  print('Generated API response:');
+  print(const JsonEncoder.withIndent('  ').convert(jsonDecode(result.output)));
+
   exit(0);
-}
-
-Future<void> jsonOutput(Agent agent) async {
-  print('═══ ${agent.displayName} JSON Output ═══');
-
-  final result = await agent.run(
-    'What is the Windy City in the US of A?',
-    outputSchema: TownAndCountry.schema,
-  );
-
-  final map = jsonDecode(result.output) as Map<String, dynamic>;
-  print('town: ${map['town']}');
-  print('country: ${map['country']}');
-  dumpMessageHistory(result.messages);
-}
-
-Future<void> jsonOutputStream(Agent agent) async {
-  print('═══ ${agent.displayName} JSON Output Stream ═══');
-
-  final text = StringBuffer();
-  final history = <ChatMessage>[];
-  await agent
-      .runStream(
-        'What is the Windy City in the US of A?',
-        outputSchema: TownAndCountry.schema,
-      )
-      .forEach((r) {
-        text.write(r.output);
-        history.addAll(r.messages);
-        print(r.output);
-      });
-
-  final map = jsonDecode(text.toString()) as Map<String, dynamic>;
-  print('town: ${map['town']}');
-  print('country: ${map['country']}');
-  dumpMessageHistory(history);
-}
-
-Future<void> mapOutput(Agent agent) async {
-  print('═══ ${agent.displayName} Map Output ═══');
-
-  final result = await agent.runFor<Map<String, dynamic>>(
-    'What is the Windy City in the US of A?',
-    outputSchema: TownAndCountry.schema,
-  );
-
-  print('town: ${result.output['town']}');
-  print('country: ${result.output['country']}');
-}
-
-Future<void> typedOutput(Agent agent) async {
-  print('═══ ${agent.displayName} Typed Output ═══');
-
-  final result = await agent.runFor<TownAndCountry>(
-    'What is the Windy City in the US of A?',
-    outputSchema: TownAndCountry.schema,
-    outputFromJson: TownAndCountry.fromJson,
-  );
-
-  print('town: ${result.output.town}');
-  print('country: ${result.output.country}');
-}
-
-Future<void> typedOutputWithToolCalls(Agent agent) async {
-  print('═══ ${agent.displayName} Typed Output with Tool Calls ═══');
-
-  final result = await agent.runFor<TimeAndTemperature>(
-    'What is the time and temperature in Portland, OR?',
-    outputSchema: TimeAndTemperature.schema,
-    outputFromJson: TimeAndTemperature.fromJson,
-  );
-
-  print('time: ${result.output.time}');
-  print('temperature: ${result.output.temperature}');
-}
-
-// Future<void> streamingTypedOutputWithToolCalls(Agent agent) async {
-//   print('═══ ${agent.displayName} Typed Output with Tool Calls ═══');
-
-//   final result = await agent.runForStream<TimeAndTemperature>(
-//     'What is the time and temperature in Portland, OR?',
-//     outputSchema: TimeAndTemperature.schema,
-//   );
-
-//   print('time: ${result.output.time}');
-//   print('temperature: ${result.output.temperature}');
-// }
-
-class TownAndCountry {
-  const TownAndCountry({required this.town, required this.country});
-
-  factory TownAndCountry.fromJson(Map<String, dynamic> json) =>
-      TownAndCountry(town: json['town'], country: json['country']);
-
-  static final schema = JsonSchema.create({
-    'type': 'object',
-    'properties': {
-      'town': {'type': 'string'},
-      'country': {'type': 'string'},
-    },
-    'required': ['town', 'country'],
-  });
-
-  final String town;
-  final String country;
-}
-
-class TimeAndTemperature {
-  const TimeAndTemperature({required this.time, required this.temperature});
-
-  factory TimeAndTemperature.fromJson(Map<String, dynamic> json) =>
-      TimeAndTemperature(
-        time: DateTime.parse(json['time']),
-        temperature: (json['temperature'] as num).toDouble(),
-      );
-
-  static final schema = JsonSchema.create({
-    'type': 'object',
-    'properties': {
-      'time': {'type': 'string'},
-      'temperature': {'type': 'number'},
-    },
-    'required': ['time', 'temperature'],
-  });
-
-  final DateTime time;
-  final double temperature;
 }

@@ -5,6 +5,7 @@ import '../../../language_models/language_models.dart';
 import '../../tools/tool.dart';
 import '../chat_message.dart' as msg;
 import '../chat_models.dart';
+import '../helpers/message_part_helpers.dart';
 
 /// Logger for Google message mapping operations.
 final Logger _logger = Logger('dartantic.chat.mappers.google');
@@ -148,10 +149,8 @@ extension MessageListMapper on List<msg.ChatMessage> {
           // Google's FunctionResponse requires a Map<String, Object?>
           // If the result is already a Map, use it directly
           // Otherwise, wrap it in a Map with a "result" key
-          final response = switch (part.result) {
-            final Map<String, Object?> map => map,
-            _ => <String, Object?>{'result': part.result},
-          };
+          // ignore: avoid_dynamic_calls
+          final response = ToolResultHelpers.ensureMap(part.result);
 
           // Extract the original function name from our generated ID
           // Format: google_{toolName}_{argsHash} -> toolName

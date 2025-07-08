@@ -4,186 +4,112 @@ import 'dart:io';
 
 import 'package:langchain_compat/langchain_compat.dart';
 
-Future<void> main() async {
-  final chatProviders = <ChatProvider>[
-    ChatProvider.openai,
-    ChatProvider.anthropic,
-    ChatProvider.google,
-  ];
-
-  for (final provider in chatProviders) {
-    await usageExample(provider);
-    await streamingUsageExample(provider);
-  }
-
-  final embeddingsModels = <EmbeddingsModel>[
-    EmbeddingsProvider.openai.createModel(),
-    EmbeddingsProvider.google.createModel(),
-  ];
-
-  for (final model in embeddingsModels) {
-    await embeddingsUsageExample(model);
-  }
-
+void main() async {
+  print('=== Usage Tracking Example ===\n');
+  await claudeUsage();
+  await openaiUsage();
+  await googleUsage();
+  await streamingUsage();
   exit(0);
 }
 
-Future<void> usageExample(ChatProvider provider) async {
-  print('\n=== ${provider.displayName} Usage Tracking ===');
+Future<void> claudeUsage() async {
+  print('--- Anthropic Usage ---');
+  final agent = Agent('claude-3-5-haiku-latest');
+  final result = await agent.run('Write a haiku about programming');
 
-  const testPrompt = 'Explain what machine learning is in 2 sentences.';
-  final model = provider.createModel();
-  print('Model: ${model.name}');
+  print('Response: ${result.output}');
+  print('Usage:');
+  print('  Prompt tokens: ${result.usage.promptTokens}');
+  print('  Response tokens: ${result.usage.responseTokens}');
+  print('  Total tokens: ${result.usage.totalTokens}');
 
-  // Use sendStream() and collect the final result to get complete usage data
-  ChatResult<ChatMessage>? finalResult;
-  await for (final chunk in model.sendStream([
-    const ChatMessage(role: MessageRole.user, parts: [TextPart(testPrompt)]),
-  ])) {
-    finalResult = chunk;
-  }
-  final result = finalResult!;
-
-  print('\nResponse: ${result.outputAsString}');
-  print('\nUsage Information:');
-  print('- Result ID: ${result.id}');
-  print('- Finish Reason: ${result.finishReason}');
-
-  // Access usage data
-  final usage = result.usage;
-  print('\nToken Usage:');
-  print('- Prompt tokens: ${usage.promptTokens ?? 'N/A'}');
-  print('- Response tokens: ${usage.responseTokens ?? 'N/A'}');
-  print('- Total tokens: ${usage.totalTokens ?? 'N/A'}');
-
-  // Some providers may use character-based billing
-  if (usage.promptBillableCharacters != null ||
-      usage.responseBillableCharacters != null) {
-    print('\nBillable Characters:');
-    print('- Prompt chars: ${usage.promptBillableCharacters ?? 'N/A'}');
-    print('- Response chars: ${usage.responseBillableCharacters ?? 'N/A'}');
-  }
-
-  // Show metadata (provider-specific info)
-  if (result.metadata.isNotEmpty) {
-    print('\nMetadata:');
-    result.metadata.forEach((key, value) {
-      print('- $key: $value');
-    });
-  }
-
-  // Calculate estimated cost (example for OpenAI pricing)
-  if (provider == ChatProvider.openai && usage.totalTokens != null) {
-    final estimatedCost = _calculateOpenAICost(usage.totalTokens!);
-    print('\nEstimated Cost: \$${estimatedCost.toStringAsFixed(6)}');
-  }
+  // Calculate approximate cost (example rates)
+  const haikuCostPer1k = 0.0008;
+  final cost = (result.usage.totalTokens ?? 0) / 1000 * haikuCostPer1k;
+  print('  Estimated cost: \$${cost.toStringAsFixed(6)}\n');
 }
 
-Future<void> streamingUsageExample(ChatProvider provider) async {
-  final model = provider.createModel();
-  final messages = [
-    const ChatMessage(
-      role: MessageRole.user,
-      parts: [TextPart('Count from 1 to 10 slowly.')],
-    ),
+Future<void> openaiUsage() async {
+  print('--- OpenAI Usage ---');
+  final agent = Agent('gpt-4o-mini');
+  final result = await agent.run('Explain recursion in one sentence');
+
+  print('Response: ${result.output}');
+  print('Usage:');
+  print('  Prompt tokens: ${result.usage.promptTokens}');
+  print('  Response tokens: ${result.usage.responseTokens}');
+  print('  Total tokens: ${result.usage.totalTokens}');
+
+  // GPT-4o-mini pricing
+  const gptPromptCostPer1k = 0.00015;
+  const gptResponseCostPer1k = 0.0006;
+  final gptCost =
+      (result.usage.promptTokens ?? 0) / 1000 * gptPromptCostPer1k +
+      (result.usage.responseTokens ?? 0) / 1000 * gptResponseCostPer1k;
+  print('  Estimated cost: \$${gptCost.toStringAsFixed(6)}\n');
+}
+
+Future<void> googleUsage() async {
+  // Track cumulative usage across multiple calls
+  print('--- Cumulative Usage (Google) ---');
+  final agent = Agent('gemini-2.0-flash');
+
+  var totalPromptTokens = 0;
+  var totalResponseTokens = 0;
+  var totalCost = 0.0;
+
+  // Gemini pricing (example)
+  const geminiCostPer1k = 0.00035;
+
+  final questions = [
+    'What is 2+2?',
+    'Name a prime number',
+    'What color is the sky?',
   ];
 
-  print('\n=== ${provider.displayName} Streaming Usage Tracking ===');
-  print('Streaming response with usage tracking...');
+  for (final question in questions) {
+    final result = await agent.run(question);
 
-  ChatResult? finalResult;
-  var totalTokens = 0;
-  var chunkCount = 0;
+    totalPromptTokens += result.usage.promptTokens ?? 0;
+    totalResponseTokens += result.usage.responseTokens ?? 0;
 
-  await for (final chunk in model.sendStream(messages)) {
-    chunkCount++;
-    stdout.write(
-      chunk.output.parts.whereType<TextPart>().map((p) => p.text).join(),
-    );
+    print('Q: $question');
+    print('A: ${result.output}');
+    print('   Tokens: ${result.usage.totalTokens}');
+  }
 
-    // Track usage as we stream
-    if (chunk.usage.totalTokens != null) {
-      totalTokens = chunk.usage.totalTokens!;
+  final totalTokens = totalPromptTokens + totalResponseTokens;
+  totalCost = totalTokens / 1000 * geminiCostPer1k;
+
+  print('\nCumulative usage:');
+  print('  Total prompt tokens: $totalPromptTokens');
+  print('  Total response tokens: $totalResponseTokens');
+  print('  Total tokens: $totalTokens');
+  print('  Total estimated cost: \$${totalCost.toStringAsFixed(6)}\n');
+}
+
+Future<void> streamingUsage() async {
+  // Usage tracking with streaming
+  print('--- Streaming Usage (Anthropic) ---');
+  final agent = Agent('claude-3-5-haiku-latest');
+
+  print('Generating a story...');
+  var streamUsage = const LanguageModelUsage();
+
+  await for (final chunk in agent.runStream(
+    'Write a 3-sentence story about a robot',
+  )) {
+    stdout.write(chunk.output);
+
+    // Usage typically comes in the final chunks
+    if (chunk.usage.totalTokens != null && chunk.usage.totalTokens! > 0) {
+      streamUsage = chunk.usage;
     }
-
-    // Keep the final result for complete usage info
-    finalResult = chunk;
   }
 
-  print('\n\nStreaming Summary:');
-  print('- Chunks received: $chunkCount');
-  print('- Final total tokens: $totalTokens');
-  print('- Final finish reason: ${finalResult?.finishReason}');
-  print('- Final usage: ${finalResult?.usage}');
-}
-
-Future<void> embeddingsUsageExample(EmbeddingsModel model) async {
-  print('\n=== ${model.name} Embeddings Usage Tracking ===');
-
-  final sampleTexts = [
-    'Machine learning enables computers to learn automatically.',
-    'Natural language processing helps computers understand human language.',
-    'Computer vision allows machines to interpret visual information.',
-  ];
-
-  // Single embedding usage
-  final singleResult = await model.embedQuery(sampleTexts.first);
-  print('Single Embedding:');
-  print('- Result ID: ${singleResult.id}');
-  print('- Dimensions: ${singleResult.embeddings.length}');
-  print('- Prompt tokens: ${singleResult.usage.promptTokens ?? 'N/A'}');
-  print('- Total tokens: ${singleResult.usage.totalTokens ?? 'N/A'}');
-  if (singleResult.usage.promptBillableCharacters != null) {
-    print(
-      '- Billable characters: '
-      '${singleResult.usage.promptBillableCharacters}',
-    );
-  }
-  print('- Finish reason: ${singleResult.finishReason}');
-
-  // Batch embeddings usage
-  final batchResult = await model.embedDocuments(sampleTexts);
-  print('\nBatch Embeddings:');
-  print('- Result ID: ${batchResult.id}');
-  print('- Embedding count: ${batchResult.count}');
-  print('- Dimensions: ${batchResult.dimensions}');
-  print('- Prompt tokens: ${batchResult.usage.promptTokens ?? 'N/A'}');
-  print('- Total tokens: ${batchResult.usage.totalTokens ?? 'N/A'}');
-  if (batchResult.usage.promptBillableCharacters != null) {
-    print(
-      '- Billable characters: '
-      '${batchResult.usage.promptBillableCharacters}',
-    );
-  }
-  print('- Finish reason: ${batchResult.finishReason}');
-
-  // Show metadata
-  if (batchResult.metadata.isNotEmpty) {
-    print('- Metadata: ${batchResult.metadata}');
-  }
-
-  // Calculate estimated cost for OpenAI
-  if (model.name.contains('text-embedding-3') &&
-      batchResult.usage.totalTokens != null) {
-    final embeddingsCost = _calculateOpenAIEmbeddingsCost(
-      batchResult.usage.totalTokens!,
-    );
-    print('- Estimated cost: \$${embeddingsCost.toStringAsFixed(6)}');
-  }
-}
-
-/// Example cost calculation for OpenAI chat (rates as of 2024)
-/// Note: This is just an example - actual rates may vary
-double _calculateOpenAICost(int totalTokens) {
-  // Simplified calculation assuming GPT-4o-mini pricing
-  const pricePerThousandTokens = 0.00015; // $0.15 per 1K tokens
-  return (totalTokens / 1000) * pricePerThousandTokens;
-}
-
-/// Example cost calculation for OpenAI embeddings (rates as of 2024)
-/// Note: This is just an example - actual rates may vary
-double _calculateOpenAIEmbeddingsCost(int totalTokens) {
-  // Simplified calculation assuming text-embedding-3-small pricing
-  const pricePerThousandTokens = 0.00002; // $0.02 per 1K tokens
-  return (totalTokens / 1000) * pricePerThousandTokens;
+  print('\n\nStreaming usage:');
+  print('  Prompt tokens: ${streamUsage.promptTokens}');
+  print('  Response tokens: ${streamUsage.responseTokens}');
+  print('  Total tokens: ${streamUsage.totalTokens}');
 }

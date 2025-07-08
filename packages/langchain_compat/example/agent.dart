@@ -4,104 +4,85 @@ import 'dart:io';
 
 import 'package:langchain_compat/langchain_compat.dart';
 
-import 'lib/dump_message_history.dart';
 import 'lib/example_tools.dart';
 
 void main() async {
-  // Create an agent with tools
-  final agent = Agent('gemini', tools: [weatherTool, temperatureConverterTool]);
+  print('=== Agent Example ===\n');
+  print('This example demonstrates an AI agent that can use multiple tools');
+  print('to help answer questions and perform tasks.\n');
 
-  await singleToolCall(agent);
-  await multipleToolCalls(agent);
-  await multiTurnConversation(agent);
-  await streamingComparison(agent);
+  // Create an agent with multiple tools
+  final agent = Agent('anthropic:claude-3-5-haiku-latest', tools: exampleTools);
 
-  agent.dispose();
-  exit(0);
-}
+  // Example 1: Weather and temperature conversion
+  print('--- Example 1: Weather Query ---');
+  print(
+    "User: What's the weather in Boston? "
+    "If it's in Celsius, convert to Fahrenheit.",
+  );
 
-Future<void> singleToolCall(Agent agent) async {
-  print('═══ Single Tool Call ═══');
+  final response1 = await agent.run(
+    "What's the weather in Boston? If it's in Celsius, convert to Fahrenheit.",
+  );
 
-  final history = <ChatMessage>[];
-  const prompt = "What's the weather like in Boston?";
-  print('User: $prompt');
-  stdout.write('Agent: ');
+  print('Agent: ${response1.output}\n');
 
-  final result = await agent.run(prompt, history: history);
-  history.addAll(result.messages);
-  print(result.output);
-  dumpMessageHistory(history);
-}
+  // Example 2: Travel planning
+  print('--- Example 2: Travel Planning ---');
+  print(
+    "User: I'm planning a trip from New York to San Francisco. "
+    'Can you tell me the distance and check the weather in both cities?',
+  );
 
-Future<void> multipleToolCalls(Agent agent) async {
-  print('═══ Multiple Tool Calls ═══');
+  final response2 = await agent.run(
+    "I'm planning a trip from New York to San Francisco. "
+    'Can you tell me the distance and check the weather in both cities?',
+  );
 
-  final history = <ChatMessage>[];
-  const prompt =
-      "What's the weather in New York and what's that temperature in Celsius?";
-  print('User: $prompt');
-  stdout.write('Agent: ');
+  print('Agent: ${response2.output}\n');
 
-  final result = await agent.run(prompt, history: history);
-  print(result.output);
-  history.addAll(result.messages);
-  dumpMessageHistory(history);
-}
+  // Example 3: Multi-step task with streaming
+  print('--- Example 3: Investment Research (Streaming) ---');
+  print(
+    'User: Check the stock prices for AAPL and MSFT, then tell me which one '
+    'is performing better today.',
+  );
+  print('Agent: ');
 
-Future<void> multiTurnConversation(Agent agent) async {
-  print('═══ Multi-turn Conversation ═══');
-
-  final history = <ChatMessage>[];
-
-  // Turn 1: Ask about weather
-  const prompt1 = "What's the weather in Seattle?";
-  print('User: $prompt1');
-  stdout.write('Agent: ');
-
-  var result = await agent.run(prompt1, history: history);
-  print(result.output);
-  history.addAll(result.messages);
-
-  // Turn 2: Follow up with temperature conversion
-  const prompt2 = 'Thanks! Can you convert that temperature to Celsius?';
-  print('\nUser: $prompt2');
-  stdout.write('Agent: ');
-
-  result = await agent.run(prompt2, history: history);
-  print(result.output);
-  history.addAll(result.messages);
-
-  // Turn 3: Continue conversation
-  const prompt3 = 'Perfect! What would 100°F be in Celsius?';
-  print('\nUser: $prompt3');
-  stdout.write('Agent: ');
-
-  result = await agent.run(prompt3, history: history);
-  print(result.output);
-  history.addAll(result.messages);
-
-  dumpMessageHistory(history);
-}
-
-Future<void> streamingComparison(Agent agent) async {
-  print('═══ Streaming vs Non-Streaming ═══');
-
-  const prompt =
-      'Check the weather in Miami and convert that temperature to Celsius.';
-  print('User: $prompt');
-
-  // Non-streaming
-  print('\n--- Non-streaming response ---');
-  final result = await agent.run(prompt);
-  print('Agent: ${result.output}');
-
-  // Streaming
-  print('\n--- Streaming response ---');
-  stdout.write('Agent: ');
-  await for (final chunk in agent.runStream(prompt)) {
+  await for (final chunk in agent.runStream(
+    'Check the stock prices for AAPL and MSFT, then tell me which one '
+    'is performing better today.',
+  )) {
     stdout.write(chunk.output);
-    if (chunk.messages.isNotEmpty) dumpMessageHistory(chunk.messages);
   }
   print('\n');
+
+  // Example 4: Agent with different providers
+  print('--- Example 4: Cross-Provider Comparison ---');
+
+  // OpenAI agent
+  final openAIAgent = Agent(
+    'openai:gpt-4o-mini',
+    tools: [currentDateTimeTool, weatherTool],
+  );
+
+  print('OpenAI Agent:');
+  final openAIResponse = await openAIAgent.run(
+    "What time is it and how's the weather in London?",
+  );
+  print(openAIResponse.output);
+
+  // Google agent
+  print('\nGoogle Agent:');
+  final googleAgent = Agent(
+    'google:gemini-2.0-flash',
+    tools: [currentDateTimeTool, weatherTool],
+  );
+
+  final googleResponse = await googleAgent.run(
+    "What time is it and how's the weather in London?",
+  );
+  print(googleResponse.output);
+
+  exit(0);
 }

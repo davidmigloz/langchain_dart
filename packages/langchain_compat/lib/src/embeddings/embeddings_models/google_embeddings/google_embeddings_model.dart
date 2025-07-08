@@ -119,6 +119,16 @@ class GoogleEmbeddingsModel
     List<String> texts, {
     GoogleEmbeddingsModelOptions? options,
   }) async {
+    if (texts.isEmpty) {
+      return const BatchEmbeddingsResult(
+        id: 'empty-batch',
+        output: <List<double>>[],
+        finishReason: FinishReason.stop,
+        metadata: <String, dynamic>{},
+        usage: LanguageModelUsage(totalTokens: 0),
+      );
+    }
+
     final effectiveBatchSize = options?.batchSize ?? batchSize ?? 100;
     final effectiveDimensions = options?.dimensions ?? dimensions;
     final batches = chunkList(texts, chunkSize: effectiveBatchSize);
@@ -135,7 +145,7 @@ class GoogleEmbeddingsModel
 
     for (var i = 0; i < batches.length; i++) {
       final batch = batches[i];
-      final batchCharacters = batch
+      final batchCharacters = batch.isEmpty ? 0 : batch
           .map((t) => t.length)
           .reduce((a, b) => a + b);
 

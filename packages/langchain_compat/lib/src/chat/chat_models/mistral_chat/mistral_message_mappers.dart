@@ -4,6 +4,7 @@ import 'package:mistralai_dart/mistralai_dart.dart';
 import '../../../language_models/language_models.dart';
 import '../chat_message.dart' as msg;
 import '../chat_models.dart';
+import '../helpers/message_part_helpers.dart';
 
 /// Logger for Mistral message mapping operations.
 final Logger _logger = Logger('dartantic.chat.mappers.mistral');
@@ -35,11 +36,15 @@ extension MessageListMapper on List<msg.ChatMessage> {
         );
       case msg.MessageRole.model:
         // Check for tool calls
-        final toolParts = message.parts.whereType<msg.ToolPart>().toList();
-        if (toolParts.isNotEmpty) {
+        final toolCalls = MessagePartHelpers.extractToolCalls(message.parts);
+        final toolResults = MessagePartHelpers.extractToolResults(
+          message.parts,
+        );
+        if (toolCalls.isNotEmpty || toolResults.isNotEmpty) {
           _logger.warning(
             'Mistral AI does not support tool calls, '
-            'found ${toolParts.length} tool parts',
+            'found ${toolCalls.length} tool calls and ${toolResults.length} '
+            'tool results',
           );
           throw UnsupportedError('Mistral AI does not support tool calls');
         }
@@ -52,12 +57,11 @@ extension MessageListMapper on List<msg.ChatMessage> {
   }
 
   String _extractTextContent(msg.ChatMessage message) {
-    final textParts = message.parts.whereType<msg.TextPart>();
-    if (textParts.isEmpty) {
+    final content = MessagePartHelpers.extractText(message.parts);
+    if (content.isEmpty) {
       _logger.fine('No text parts found in message');
       return '';
     }
-    final content = textParts.map((p) => p.text).join('\n');
     _logger.fine('Extracted text content: ${content.length} characters');
     return content;
   }

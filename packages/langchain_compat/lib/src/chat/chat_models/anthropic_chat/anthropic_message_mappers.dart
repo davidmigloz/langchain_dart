@@ -13,13 +13,14 @@ import '../../../language_models/language_model_usage.dart';
 import '../../tools/tool.dart';
 import '../chat_message.dart' as msg;
 import '../chat_result.dart';
+import '../helpers/message_part_helpers.dart';
 import 'anthropic_chat.dart';
 
 /// Logger for Anthropic message mapping operations.
 final Logger _logger = Logger('dartantic.chat.mappers.anthropic');
 
-/// Creates an Anthropic [a.CreateMessageRequest] from a list of messages
-/// and options.
+/// Creates an Anthropic [a.CreateMessageRequest] from a list of messages and
+/// options.
 a.CreateMessageRequest createMessageRequest(
   List<msg.ChatMessage> messages, {
   required String modelName,
@@ -57,7 +58,8 @@ a.CreateMessageRequest createMessageRequest(
   final messagesDtos = messages.toMessages();
 
   // Add prefilling for structured output - this forces Claude to start with '{'
-  // See: https://docs.anthropic.com/en/docs/test-and-evaluate/strengthen-guardrails/increase-consistency
+  // See:
+  // https://docs.anthropic.com/en/docs/test-and-evaluate/strengthen-guardrails/increase-consistency
   // "Prefill Claude's response" section explains this technique
   if (hasStructuredOutput) {
     messagesDtos.add(
@@ -158,7 +160,7 @@ extension MessageListMapper on List<msg.ChatMessage> {
 
     if (dataParts.isEmpty) {
       // Text-only message
-      final text = textParts.map((p) => p.text).join('\n');
+      final text = MessagePartHelpers.extractText(message.parts);
       return a.Message(
         role: a.MessageRole.user,
         content: a.MessageContent.text(text),
@@ -217,7 +219,7 @@ extension MessageListMapper on List<msg.ChatMessage> {
 
     if (toolParts.isEmpty) {
       // Text-only response
-      final text = textParts.map((p) => p.text).join('\n');
+      final text = MessagePartHelpers.extractText(message.parts);
       return a.Message(
         role: a.MessageRole.assistant,
         content: a.MessageContent.text(text),
@@ -253,8 +255,9 @@ extension MessageListMapper on List<msg.ChatMessage> {
           blocks.add(
             a.Block.toolResult(
               toolUseId: part.id,
+              // ignore: avoid_dynamic_calls
               content: a.ToolResultBlockContent.text(
-                part.result is String ? part.result : json.encode(part.result),
+                ToolResultHelpers.serialize(part.result),
               ),
             ),
           );

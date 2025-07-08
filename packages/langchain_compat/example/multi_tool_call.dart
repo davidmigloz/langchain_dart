@@ -2,74 +2,79 @@
 
 import 'dart:io';
 
-import 'package:collection/collection.dart';
 import 'package:langchain_compat/langchain_compat.dart';
 
-import 'lib/dump_message_history.dart';
 import 'lib/example_tools.dart';
 
 void main() async {
-  final tools = [currentDateTimeTool, temperatureTool];
-  final providersWithToolSupport = ChatProvider.all.whereNot(
-    (p) => p.name == 'mistral' || p.name == 'lambda' || p.name == 'groq',
+  print('=== Multiple Tool Call Example ===\n');
+
+  // Example with multiple independent tools
+  print('--- Multiple Independent Tools (OpenAI) ---');
+  var agent = Agent(
+    'openai:gpt-4o-mini',
+    tools: [currentDateTimeTool, weatherTool, stockPriceTool],
   );
 
-  for (final provider in providersWithToolSupport) {
-    final model = provider.createModel();
-    final fqModelName = '${provider.name}:${model.name}';
-    final agent = Agent(fqModelName, tools: tools);
-    await multiToolCallExample(fqModelName, agent, tools);
-    await multiToolCallExampleStream(fqModelName, agent, tools);
+  print(
+    'User: Tell me the current time, the weather in NYC, '
+    'and the price of GOOGL stock.',
+  );
+  var response = await agent.run(
+    'Tell me the current time, the weather in NYC, '
+    'and the price of GOOGL stock.',
+  );
+  print('Assistant: ${response.output}\n');
+
+  // Example with dependent tool calls
+  print('--- Dependent Tool Calls (Anthropic) ---');
+  agent = Agent(
+    'anthropic:claude-3-5-haiku-latest',
+    tools: [weatherTool, temperatureConverterTool],
+  );
+
+  print(
+    'User: What is the temperature in Miami? Then convert it to Fahrenheit.',
+  );
+  response = await agent.run(
+    'What is the temperature in Miami? Then convert it to Fahrenheit.',
+  );
+  print('Assistant: ${response.output}\n');
+
+  // Example with calculation tools
+  print('--- Travel Planning Tools (Google) ---');
+  agent = Agent(
+    'google:gemini-2.0-flash',
+    tools: [distanceCalculatorTool, weatherTool, currentDateTimeTool],
+  );
+
+  print('User: I want to travel from New York to Boston...');
+  response = await agent.run(
+    'I want to travel from New York to Boston. '
+    'Tell me the distance, current weather in both cities, '
+    'and what time it is now.',
+  );
+  print('Assistant: ${response.output}\n');
+
+  // Streaming with multiple tools
+  print('--- Streaming Multiple Tool Calls (Anthropic) ---');
+  agent = Agent(
+    'anthropic:claude-3-5-haiku-latest',
+    tools: exampleTools, // All tools available
+  );
+
+  print(
+    'User: Check the weather in Seattle and tell me the distance from Seattle '
+    'to Portland.',
+  );
+  print('Assistant: ');
+  await for (final chunk in agent.runStream(
+    'Check the weather in Seattle and tell me the distance from Seattle '
+    'to Portland.',
+  )) {
+    stdout.write(chunk.output);
   }
+  print('\n');
 
   exit(0);
-}
-
-Future<void> multiToolCallExample(
-  String fqModelName,
-  Agent agent,
-  List<Tool> tools,
-) async {
-  print('=== $fqModelName Multi-Tool Call ===');
-
-  const systemPrompt =
-      'If asked for the current date and time, use the current_date_time tool. '
-      'If asked for the temperature, use the get_temperature tool.';
-
-  final history = [ChatMessage.system(systemPrompt)];
-
-  const userMessage =
-      'What is the current time and temperature in Portland, OR?';
-
-  print('\nUser: $userMessage');
-  final result = await agent.run(userMessage, history: history);
-  print(result.output);
-  history.addAll(result.messages);
-  dumpMessageHistory(history);
-}
-
-Future<void> multiToolCallExampleStream(
-  String fqModelName,
-  Agent agent,
-  List<Tool> tools,
-) async {
-  print('=== $fqModelName Multi-Tool Call (stream) ===');
-
-  const systemMessage =
-      'If asked for the current date and time, use the current_date_time tool. '
-      'If asked for the temperature, use the get_temperature tool.';
-
-  final history = [ChatMessage.system(systemMessage)];
-
-  const userMessage =
-      'What is the current time and temperature in Portland, OR?';
-
-  print('\nUser: $userMessage');
-  final stream = agent.runStream(userMessage, history: history);
-  await for (final chunk in stream) {
-    stdout.write(chunk.output);
-    history.addAll(chunk.messages);
-  }
-  stdout.writeln();
-  dumpMessageHistory(history);
 }

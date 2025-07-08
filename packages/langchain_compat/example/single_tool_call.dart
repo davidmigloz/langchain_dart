@@ -2,73 +2,49 @@
 
 import 'dart:io';
 
-import 'package:collection/collection.dart';
 import 'package:langchain_compat/langchain_compat.dart';
 
-import 'lib/dump_message_history.dart';
 import 'lib/example_tools.dart';
 
 void main() async {
-  final tools = [currentDateTimeTool];
-  final providersWithToolSupport = ChatProvider.all.whereNot(
-    (p) => p.name == 'mistral' || p.name == 'lambda' || p.name == 'groq',
-  );
+  print('=== Single Tool Call Example ===\n');
 
-  for (final provider in providersWithToolSupport) {
-    final agent = Agent.fromProvider(provider, tools: tools);
-    await singleToolCallExample(agent, tools);
-    await singleToolCallExampleStream(agent, tools);
+  // Example with Anthropic
+  print('--- Weather Tool (Anthropic) ---');
+  var agent = Agent('anthropic:claude-3-5-haiku-latest', tools: [weatherTool]);
+
+  print('User: What is the weather in Boston?');
+  var response = await agent.run('What is the weather in Boston?');
+  print('Assistant: ${response.output}\n');
+
+  // Example with OpenAI
+  print('--- Temperature Converter Tool (OpenAI) ---');
+  agent = Agent('openai:gpt-4o-mini', tools: [fahrenheitToCelsiusTool]);
+
+  print('User: Convert 68 degrees Fahrenheit to Celsius');
+  response = await agent.run('Convert 68 degrees Fahrenheit to Celsius');
+  print('Assistant: ${response.output}\n');
+
+  // Example with Google
+  print('--- Current Date/Time Tool (Google) ---');
+  agent = Agent('google:gemini-2.0-flash', tools: [currentDateTimeTool]);
+
+  print('User: What is the current date and time?');
+  response = await agent.run('What is the current date and time?');
+  print('Assistant: ${response.output}\n');
+
+  // Streaming with tools
+  print('--- Streaming Tool Call (Anthropic) ---');
+  agent = Agent('anthropic:claude-3-5-haiku-latest', tools: [stockPriceTool]);
+
+  print('User: What is the current price of AAPL stock?');
+  print('Assistant: ');
+  await for (final chunk in agent.runStream(
+    'What is the current price of AAPL stock?',
+  )) {
+    stdout.write(chunk.output);
   }
+  print('\n');
 
   exit(0);
-}
-
-Future<void> singleToolCallExample(Agent agent, List<Tool> tools) async {
-  print('=== ${agent.model} Single-Tool Call ===');
-
-  const userMessage = 'What is the current date and time?';
-  final history = [
-    const ChatMessage(
-      role: MessageRole.system,
-      parts: [
-        TextPart(
-          'If asked for the current date and time, '
-          'use the current_date_time tool.',
-        ),
-      ],
-    ),
-  ];
-
-  print('\nUser: $userMessage');
-  final result = await agent.run(userMessage, history: history);
-  print(result.output);
-  final allMessages = [...history, ...result.messages];
-  dumpMessageHistory(allMessages);
-}
-
-Future<void> singleToolCallExampleStream(Agent agent, List<Tool> tools) async {
-  print('=== ${agent.model} Single-Tool Call (stream) ===');
-
-  const userMessage = 'What is the current date and time?';
-  final history = [
-    const ChatMessage(
-      role: MessageRole.system,
-      parts: [
-        TextPart(
-          'If asked for the current date and time, '
-          'use the current_date_time tool.',
-        ),
-      ],
-    ),
-  ];
-
-  print('\nUser: $userMessage');
-  final allMessages = <ChatMessage>[...history];
-  final stream = agent.runStream(userMessage, history: history);
-  await for (final chunk in stream) {
-    stdout.write(chunk.output);
-    allMessages.addAll(chunk.messages);
-  }
-  stdout.writeln();
-  dumpMessageHistory(allMessages);
 }
