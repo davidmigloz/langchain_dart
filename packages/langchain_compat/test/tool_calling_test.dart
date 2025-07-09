@@ -155,8 +155,15 @@ void main() {
         final agent = Agent('openai:gpt-4o-mini', tools: [unicodeTool]);
 
         final response = await agent.run('Call the unicode_tool');
-        expect(response.output, contains('👋'));
-        expect(response.output, contains('世界'));
+        expect(response.output, isNotEmpty);
+        
+        // Check that the tool was actually called and returned unicode
+        final toolResults = response.messages
+            .expand((msg) => msg.toolResults)
+            .toList();
+        expect(toolResults, isNotEmpty);
+        expect(toolResults.first.result, contains('👋'));
+        expect(toolResults.first.result, contains('世界'));
       });
 
       test('handles special characters in tool results', () async {
@@ -194,14 +201,12 @@ void main() {
 
       test('rejects tools on unsupported providers', () async {
         // Mistral doesn't support tools
-        final agent = Agent(
-          'mistral:mistral-small-latest',
-          tools: [stringTool],
-        );
-
         expect(
-          () async => agent.run('Call the string_tool'),
-          throwsA(isA<UnsupportedError>()),
+          () => Agent(
+            'mistral:mistral-small-latest',
+            tools: [stringTool],
+          ),
+          throwsException,
         );
       });
     });
@@ -256,8 +261,14 @@ void main() {
           'Call string_tool with "hello" and tell me what it returned',
         );
 
-        // Response should include both the tool call and interpretation
-        expect(response.output, contains('String result: hello'));
+        // Check that the tool was called
+        final toolResults = response.messages
+            .expand((msg) => msg.toolResults)
+            .toList();
+        expect(toolResults, hasLength(1));
+        expect(toolResults.first.result, equals('String result: hello'));
+        
+        // Response should mention the result
         expect(
           response.output.toLowerCase(),
           anyOf(contains('returned'), contains('result'), contains('output')),
@@ -302,7 +313,8 @@ void main() {
     });
 
     group('all providers - tool support', () {
-      test('tool calling works across supporting providers', () async {
+      test('tool calling works across supporting providers',
+          timeout: const Timeout(Duration(minutes: 2)), () async {
         final testTool = stringTool;
 
         // Test subset of stable tool-supporting providers

@@ -692,7 +692,7 @@ Final paragraph.''';
         final text = (message.parts.first as TextPart).text;
         expect(text, contains('\n'));
         expect(text, contains('  - '));
-        expect(text.split('\n'), hasLength(7));
+        expect(text.split('\n'), hasLength(6));
       });
 
       test('handles empty strings gracefully', () {

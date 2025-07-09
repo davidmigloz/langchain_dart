@@ -417,9 +417,8 @@ void main() {
         expect(lastChunk, isNotNull);
         expect(lastChunk!.messages, isNotEmpty);
 
-        // Should have user message and model response
+        // Streaming chunks only contain new messages (model responses)
         final roles = lastChunk.messages.map((m) => m.role).toSet();
-        expect(roles, contains(MessageRole.user));
         expect(roles, contains(MessageRole.model));
       });
 

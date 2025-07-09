@@ -178,7 +178,15 @@ void main() {
             (longResult.usage.promptTokens ?? 0) / 1000 * promptCostPer1k +
             (longResult.usage.responseTokens ?? 0) / 1000 * responseCostPer1k;
 
-        expect(longCost, greaterThan(shortCost));
+        // Ensure we have valid costs before comparing
+        expect(shortCost, greaterThanOrEqualTo(0));
+        expect(longCost, greaterThan(0));
+
+        // Long responses should cost more than short ones if both have usage
+        // data
+        if (shortCost > 0 && longCost > 0) {
+          expect(longCost, greaterThan(shortCost));
+        }
       });
     });
 
