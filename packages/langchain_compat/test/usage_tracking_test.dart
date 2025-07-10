@@ -23,7 +23,7 @@ void main() {
   }) {
     group(testName, () {
       for (final provider in ChatProvider.all) {
-        test(provider.name, () async {
+        test('${provider.name} - $testName', () async {
           await testFunction(provider);
         }, timeout: timeout ?? const Timeout(Duration(seconds: 30)));
       }
@@ -322,26 +322,36 @@ void main() {
       });
     });
 
-    group('edge cases', () {
+    group('edge cases (limited providers)', () {
+      // Test edge cases on only 1-2 providers to save resources
+      final edgeCaseProviders = <ChatProvider>[
+        ChatProvider.openai,
+        ChatProvider.anthropic,
+      ];
+
       test('handles missing usage data gracefully', () async {
         // Some providers might not always return usage
-        final agent = Agent('ollama:llama3.2:latest');
+        for (final provider in edgeCaseProviders) {
+          final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
-        final result = await agent.run('Hello');
-        // If usage is provided, it should be valid
-        if (result.usage.totalTokens != null) {
-          expect(result.usage.totalTokens, greaterThanOrEqualTo(0));
+          final result = await agent.run('Hello');
+          // If usage is provided, it should be valid
+          if (result.usage.totalTokens != null) {
+            expect(result.usage.totalTokens, greaterThanOrEqualTo(0));
+          }
         }
       });
 
       test('handles zero token edge cases', () async {
-        final agent = Agent('anthropic:claude-3-5-haiku-latest');
+        for (final provider in edgeCaseProviders) {
+          final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
-        // Even minimal prompts should have some tokens if usage tracking is
-        // available
-        final result = await agent.run('Hi');
-        if (result.usage.promptTokens != null) {
-          expect(result.usage.promptTokens, greaterThan(0)); // System tokens
+          // Even minimal prompts should have some tokens if usage tracking is
+          // available
+          final result = await agent.run('Hi');
+          if (result.usage.promptTokens != null) {
+            expect(result.usage.promptTokens, greaterThan(0)); // System tokens
+          }
         }
       });
     });

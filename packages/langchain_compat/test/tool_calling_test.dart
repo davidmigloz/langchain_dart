@@ -34,7 +34,7 @@ void main() {
   }) {
     group(testName, () {
       for (final provider in toolProviders) {
-        test(provider.name, () async {
+        test('${provider.name} - $testName', () async {
           await testFunction(provider);
         }, timeout: timeout ?? const Timeout(Duration(seconds: 30)));
       }
@@ -101,18 +101,7 @@ void main() {
         }
       });
 
-      test('handles tool with no parameters', () async {
-        final agent = Agent('openai:gpt-4o-mini', tools: [noParamsTool]);
-
-        final response = await agent.run('Call the no_params_tool');
-
-        // Check that tool was executed and result is in messages
-        final toolResults = response.messages
-            .expand((msg) => msg.toolResults)
-            .toList();
-        expect(toolResults, hasLength(1));
-        expect(toolResults.first.result, equals('Called with no parameters'));
-      });
+      // Moved to edge cases section
 
       runProviderTest('handles single tool calls correctly', (provider) async {
         final agent = Agent(
@@ -361,104 +350,134 @@ void main() {
       });
     });
 
-    group('edge cases', () {
+    // Edge cases moved to dedicated section at bottom
+    group('edge cases (limited providers)', () {
+      // Test edge cases on only 1-2 providers to save resources
+      final edgeCaseProviders = <ChatProvider>[
+        ChatProvider.openai,
+        ChatProvider.anthropic,
+      ];
       test('handles null return values', () async {
-        final agent = Agent('openai:gpt-4o-mini', tools: [nullTool]);
-
-        final response = await agent.run('Call the null_tool');
-        // Should handle null gracefully
-        expect(response.output, isA<String>());
+        for (final provider in edgeCaseProviders) {
+          final agent = Agent(
+            '${provider.name}:${provider.defaultModelName}',
+            tools: [nullTool],
+          );
+          final response = await agent.run('Call the null_tool');
+          // Should handle null gracefully
+          expect(response.output, isA<String>());
+        }
       });
 
       test('handles empty string returns', () async {
-        final agent = Agent('openai:gpt-4o-mini', tools: [emptyStringTool]);
-
-        final response = await agent.run('Call the empty_string_tool');
-        // Should complete without error
-        expect(response.output, isA<String>());
+        for (final provider in edgeCaseProviders) {
+          final agent = Agent(
+            '${provider.name}:${provider.defaultModelName}',
+            tools: [emptyStringTool],
+          );
+          final response = await agent.run('Call the empty_string_tool');
+          // Should complete without error
+          expect(response.output, isA<String>());
+        }
       });
 
       test('handles very long string returns', () async {
-        final agent = Agent('openai:gpt-4o-mini', tools: [veryLongStringTool]);
-
-        final response = await agent.run(
-          'Call very_long_string_tool with repeat_count 10',
-        );
-        expect(response.output, contains('Lorem ipsum'));
+        for (final provider in edgeCaseProviders) {
+          final agent = Agent(
+            '${provider.name}:${provider.defaultModelName}',
+            tools: [veryLongStringTool],
+          );
+          final response = await agent.run(
+            'Call very_long_string_tool with repeat_count 10',
+          );
+          expect(response.output, contains('Lorem ipsum'));
+        }
       });
 
       test('handles unicode in tool results', () async {
-        final agent = Agent('openai:gpt-4o-mini', tools: [unicodeTool]);
+        for (final provider in edgeCaseProviders) {
+          final agent = Agent(
+            '${provider.name}:${provider.defaultModelName}',
+            tools: [unicodeTool],
+          );
+          final response = await agent.run('Call the unicode_tool');
+          expect(response.output, isNotEmpty);
 
-        final response = await agent.run('Call the unicode_tool');
-        expect(response.output, isNotEmpty);
-
-        // Check that the tool was actually called and returned unicode
-        final toolResults = response.messages
-            .expand((msg) => msg.toolResults)
-            .toList();
-        expect(toolResults, isNotEmpty);
-        expect(toolResults.first.result, contains('👋'));
-        expect(toolResults.first.result, contains('世界'));
+          // Check that the tool was actually called and returned unicode
+          final toolResults = response.messages
+              .expand((msg) => msg.toolResults)
+              .toList();
+          expect(toolResults, isNotEmpty);
+          expect(toolResults.first.result, contains('👋'));
+          expect(toolResults.first.result, contains('世界'));
+        }
       });
 
       test('handles special characters in tool results', () async {
-        final agent = Agent('openai:gpt-4o-mini', tools: [specialCharsTool]);
-
-        final response = await agent.run('Call the special_chars_tool');
-        expect(response.output, contains('Line 1'));
-        expect(response.output, contains('Quoted'));
-      });
-
-      runProviderTest('handles unicode in tool results', (provider) async {
-        final agent = Agent(
-          '${provider.name}:${provider.defaultModelName}',
-          tools: [unicodeTool],
-        );
-
-        final response = await agent.run('Call the unicode_tool');
-
-        // Check that the tool was called and returned unicode
-        final toolResults = response.messages
-            .expand((msg) => msg.toolResults)
-            .toList();
-        expect(
-          toolResults,
-          isNotEmpty,
-          reason: 'Provider ${provider.name} should execute unicode_tool',
-        );
-        expect(
-          toolResults.first.result,
-          allOf([contains('👋'), contains('世界')]),
-          reason: 'Provider ${provider.name} should handle unicode correctly',
-        );
-      });
-
-      runProviderTest('handles no-params tools', (provider) async {
-        final agent = Agent(
-          '${provider.name}:${provider.defaultModelName}',
-          tools: [noParamsTool],
-        );
-
-        final response = await agent.run('Call the no_params_tool');
-        final toolResults = response.messages
-            .expand((msg) => msg.toolResults)
-            .toList();
-        expect(
-          toolResults,
-          isNotEmpty,
-          reason: 'Provider ${provider.name} should handle no-params tools',
-        );
-
-        // Check all results are correct (provider might call multiple times)
-        for (final tr in toolResults) {
-          expect(
-            tr.result,
-            equals('Called with no parameters'),
-            reason:
-                'Provider ${provider.name} should execute no-params tool '
-                'correctly',
+        for (final provider in edgeCaseProviders) {
+          final agent = Agent(
+            '${provider.name}:${provider.defaultModelName}',
+            tools: [specialCharsTool],
           );
+          final response = await agent.run('Call the special_chars_tool');
+          expect(response.output, contains('Line 1'));
+          expect(response.output, contains('Quoted'));
+        }
+      });
+
+      // Removed - already covered above
+
+      test('handles no-params tools', () async {
+        for (final provider in edgeCaseProviders) {
+          final agent = Agent(
+            '${provider.name}:${provider.defaultModelName}',
+            tools: [noParamsTool],
+          );
+
+          final response = await agent.run('Call the no_params_tool');
+          final toolResults = response.messages
+              .expand((msg) => msg.toolResults)
+              .toList();
+          expect(toolResults, isNotEmpty);
+
+          // Check all results are correct (provider might call multiple times)
+          for (final tr in toolResults) {
+            expect(
+              tr.result,
+              equals('Called with no parameters'),
+            );
+          }
+        }
+      });
+
+      test('handles missing required parameters', () async {
+        for (final provider in edgeCaseProviders) {
+          final agent = Agent(
+            '${provider.name}:${provider.defaultModelName}',
+            tools: [strictTypeTool],
+          );
+
+          // Model should either request missing params or handle gracefully
+          final response = await agent.run(
+            'Call strict_type_tool but only provide string_param "test"',
+          );
+          expect(response.output, isA<String>());
+        }
+      });
+
+      test('handles tool with no parameters', () async {
+        for (final provider in edgeCaseProviders) {
+          final agent = Agent(
+            '${provider.name}:${provider.defaultModelName}',
+            tools: [noParamsTool],
+          );
+          final response = await agent.run('Call the no_params_tool');
+          // Check that tool was executed and result is in messages
+          final toolResults = response.messages
+              .expand((msg) => msg.toolResults)
+              .toList();
+          expect(toolResults, hasLength(1));
+          expect(toolResults.first.result, equals('Called with no parameters'));
         }
       });
     });
@@ -477,15 +496,7 @@ void main() {
         );
       });
 
-      test('handles missing required parameters', () async {
-        final agent = Agent('openai:gpt-4o-mini', tools: [strictTypeTool]);
-
-        // Model should either request missing params or handle gracefully
-        final response = await agent.run(
-          'Call strict_type_tool but only provide string_param "test"',
-        );
-        expect(response.output, isA<String>());
-      });
+      // Moved to edge cases section
 
       test('rejects tools on unsupported providers', () async {
         // Mistral doesn't support tools

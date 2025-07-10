@@ -23,7 +23,7 @@ void main() {
   }) {
     group(testName, () {
       for (final provider in ChatProvider.all) {
-        test(provider.name, () async {
+        test('${provider.name} - $testName', () async {
           await testFunction(provider);
         }, timeout: timeout ?? const Timeout(Duration(seconds: 30)));
       }
@@ -38,7 +38,7 @@ void main() {
   }) {
     group(testName, () {
       for (final provider in EmbeddingsProvider.all) {
-        test(provider.name, () async {
+        test('${provider.name} - $testName', () async {
           await testFunction(provider);
         }, timeout: timeout ?? const Timeout(Duration(seconds: 30)));
       }

@@ -226,6 +226,8 @@ extension ChatResultMapper on o.GenerateChatCompletionResponse {
               id: toolId,
               name: toolCall.function!.name,
               arguments: toolCall.function!.arguments,
+              // Provide raw JSON string for Agent's streaming fallback
+              argumentsRawString: json.encode(toolCall.function!.arguments),
             ),
           );
         }

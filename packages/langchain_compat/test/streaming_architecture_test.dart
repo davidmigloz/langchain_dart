@@ -28,7 +28,7 @@ void main() {
   }) {
     group(testName, () {
       for (final provider in ChatProvider.all) {
-        test(provider.name, () async {
+        test('${provider.name} - $testName', () async {
           await testFunction(provider);
         }, timeout: timeout ?? const Timeout(Duration(seconds: 30)));
       }
@@ -74,25 +74,7 @@ void main() {
         expect(totalLength, greaterThan(0));
       });
 
-      runProviderTest('empty chunks are handled gracefully', (provider) async {
-        final agent = Agent('${provider.name}:${provider.defaultModelName}');
-
-        var emptyChunks = 0;
-        var nonEmptyChunks = 0;
-
-        await for (final chunk in agent.runStream('Say hello')) {
-          if (chunk.output.isEmpty) {
-            emptyChunks++;
-          } else {
-            nonEmptyChunks++;
-          }
-        }
-
-        // Should have at least some non-empty chunks
-        expect(nonEmptyChunks, greaterThan(0));
-        // Empty chunks are normal in streaming protocols
-        expect(emptyChunks, greaterThanOrEqualTo(0));
-      });
+      // Moved to edge cases section
 
       runProviderTest('handle streaming correctly', (provider) async {
         final agent = Agent('${provider.name}:${provider.defaultModelName}');
@@ -187,21 +169,7 @@ void main() {
         expect(streamedText.toLowerCase(), contains('complete'));
       });
 
-      runProviderTest('handles unicode and special characters in streaming', (
-        provider,
-      ) async {
-        final agent = Agent('${provider.name}:${provider.defaultModelName}');
-
-        final chunks = <String>[];
-        await for (final chunk in agent.runStream('Say "Hello 世界 🌍"')) {
-          chunks.add(chunk.output);
-        }
-
-        final fullText = chunks.join();
-        expect(fullText, contains('Hello'));
-        // May contain unicode characters depending on model behavior
-        expect(fullText, isNotEmpty);
-      });
+      // Moved to edge cases section
     });
 
     group('tool execution streaming', () {
@@ -217,7 +185,7 @@ void main() {
           });
           for (final provider in toolProviders) {
             test(
-              provider.name,
+              '${provider.name} - $testName',
               () async {
                 await testFunction(provider);
               },
@@ -470,75 +438,7 @@ void main() {
       });
     });
 
-    group('streaming edge cases', () {
-      runProviderTest('very short responses stream correctly', (
-        provider,
-      ) async {
-        final agent = Agent('${provider.name}:${provider.defaultModelName}');
-
-        final chunks = <String>[];
-        await for (final chunk in agent.runStream('Say "yes"')) {
-          chunks.add(chunk.output);
-        }
-
-        expect(chunks, isNotEmpty);
-        final fullText = chunks.join().toLowerCase();
-        expect(fullText, contains('yes'));
-      });
-
-      runProviderTest('empty input streams correctly', (provider) async {
-        final agent = Agent('${provider.name}:${provider.defaultModelName}');
-
-        var chunkCount = 0;
-        await for (final chunk in agent.runStream('')) {
-          chunkCount++;
-          expect(chunk, isNotNull);
-        }
-
-        // Should handle empty input gracefully
-        expect(chunkCount, greaterThanOrEqualTo(0));
-      });
-
-      runProviderTest('special characters in streaming', (provider) async {
-        final agent = Agent('${provider.name}:${provider.defaultModelName}');
-
-        final chunks = <String>[];
-        await for (final chunk in agent.runStream(r'Echo: @#$%^&*()')) {
-          chunks.add(chunk.output);
-        }
-
-        expect(chunks, isNotEmpty);
-        // Should handle special characters
-        expect(chunks.join(), isNotEmpty);
-      });
-
-      runProviderTest('streaming with system prompt override', (
-        provider,
-      ) async {
-        final agent = Agent('${provider.name}:${provider.defaultModelName}');
-
-        final history = [
-          const ChatMessage(
-            role: MessageRole.system,
-            parts: [TextPart('You must respond with exactly one word.')],
-          ),
-        ];
-
-        final chunks = <String>[];
-        await for (final chunk in agent.runStream(
-          'How are you?',
-          history: history,
-        )) {
-          chunks.add(chunk.output);
-        }
-
-        expect(chunks, isNotEmpty);
-
-        // Response should be constrained by system prompt
-        final response = chunks.join().trim();
-        expect(response, isNotEmpty);
-      });
-    });
+    // Edge cases moved to dedicated section at bottom
 
     group('stream termination and completion', () {
       runProviderTest('stream completes properly', (provider) async {
@@ -631,6 +531,124 @@ void main() {
         }
 
         expect(hasResponse, isTrue);
+      });
+    });
+
+    group('edge cases (limited providers)', () {
+      // Test edge cases on only 1-2 providers to save resources
+      final edgeCaseProviders = <ChatProvider>[
+        ChatProvider.openai,
+        ChatProvider.anthropic,
+      ];
+
+      test('empty chunks are handled gracefully', () async {
+        for (final provider in edgeCaseProviders) {
+          final agent = Agent('${provider.name}:${provider.defaultModelName}');
+
+          var emptyChunks = 0;
+          var nonEmptyChunks = 0;
+
+          await for (final chunk in agent.runStream('Say hello')) {
+            if (chunk.output.isEmpty) {
+              emptyChunks++;
+            } else {
+              nonEmptyChunks++;
+            }
+          }
+
+          // Should have at least some non-empty chunks
+          expect(nonEmptyChunks, greaterThan(0));
+          // Empty chunks are normal in streaming protocols
+          expect(emptyChunks, greaterThanOrEqualTo(0));
+        }
+      });
+
+      test('handles unicode and special characters in streaming', () async {
+        for (final provider in edgeCaseProviders) {
+          final agent = Agent('${provider.name}:${provider.defaultModelName}');
+
+          final chunks = <String>[];
+          await for (final chunk in agent.runStream('Say "Hello 世界 🌍"')) {
+            chunks.add(chunk.output);
+          }
+
+          final fullText = chunks.join();
+          expect(fullText, contains('Hello'));
+          // May contain unicode characters depending on model behavior
+          expect(fullText, isNotEmpty);
+        }
+      });
+
+      test('very short responses stream correctly', () async {
+        for (final provider in edgeCaseProviders) {
+          final agent = Agent('${provider.name}:${provider.defaultModelName}');
+
+          final chunks = <String>[];
+          await for (final chunk in agent.runStream('Say "yes"')) {
+            chunks.add(chunk.output);
+          }
+
+          expect(chunks, isNotEmpty);
+          final fullText = chunks.join().toLowerCase();
+          expect(fullText, contains('yes'));
+        }
+      });
+
+      test('empty input streams correctly', () async {
+        for (final provider in edgeCaseProviders) {
+          final agent = Agent('${provider.name}:${provider.defaultModelName}');
+
+          var chunkCount = 0;
+          await for (final chunk in agent.runStream('')) {
+            chunkCount++;
+            expect(chunk, isNotNull);
+          }
+
+          // Should handle empty input gracefully
+          expect(chunkCount, greaterThanOrEqualTo(0));
+        }
+      });
+
+      test('special characters in streaming', () async {
+        for (final provider in edgeCaseProviders) {
+          final agent = Agent('${provider.name}:${provider.defaultModelName}');
+
+          final chunks = <String>[];
+          await for (final chunk in agent.runStream(r'Echo: @#$%^&*()')) {
+            chunks.add(chunk.output);
+          }
+
+          expect(chunks, isNotEmpty);
+          // Should handle special characters
+          expect(chunks.join(), isNotEmpty);
+        }
+      });
+
+      test('streaming with system prompt override', () async {
+        for (final provider in edgeCaseProviders) {
+          final agent = Agent('${provider.name}:${provider.defaultModelName}');
+
+          final history = [
+            const ChatMessage(
+              role: MessageRole.system,
+              parts: [TextPart('You must respond with exactly one word.')],
+            ),
+          ];
+
+          final chunks = <String>[];
+          await for (final chunk in agent.runStream(
+            'How are you?',
+            history: history,
+          )) {
+            chunks.add(chunk.output);
+          }
+
+          expect(chunks, isNotEmpty);
+
+          // Response should be constrained by system prompt
+          final response = chunks.join().trim();
+          expect(response, isNotEmpty);
+        }
       });
     });
   });

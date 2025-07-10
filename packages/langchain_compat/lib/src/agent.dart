@@ -5,11 +5,36 @@ import 'package:json_schema/json_schema.dart';
 import 'package:logging/logging.dart';
 
 import 'chat/chat_models/chat_models.dart';
-import 'chat/chat_models/helpers/tool_id_helpers.dart';
 import 'chat/chat_providers/chat_providers.dart';
 import 'chat/tools/tools.dart';
 import 'language_models/language_models.dart';
 import 'logging_options.dart';
+
+/// Exception thrown when a tool execution fails.
+class ToolExecutionException implements Exception {
+  /// Creates a tool execution exception.
+  const ToolExecutionException(
+    this.message, {
+    required this.tool,
+    this.originalError,
+    this.stackTrace,
+  });
+
+  /// The error message.
+  final String message;
+
+  /// The name of the tool that failed.
+  final String tool;
+
+  /// The original error that caused the failure.
+  final Object? originalError;
+
+  /// The stack trace from the original error.
+  final StackTrace? stackTrace;
+
+  @override
+  String toString() => 'ToolExecutionException: $message';
+}
 
 /// An agent that manages chat models and provides tool execution and message
 /// collection capabilities.
@@ -314,7 +339,6 @@ class Agent {
 
     var done = false;
     var shouldPrefixNextMessage = false; // Local state for this stream
-    final toolIdCoordinator = ToolIdCoordinator(); // Coordinate tool IDs
     while (!done) {
       var isFirstChunkOfMessage = true; // Track first chunk of each AI message
       var accumulatedMessage = const ChatMessage(
@@ -370,17 +394,7 @@ class Agent {
         }
 
         // Accumulate the complete message using manual concat logic
-        final messageToConcat = _shouldAssignIdsBeforeConcat(result.output)
-            ? ChatMessage(
-                role: result.output.role,
-                parts: _assignToolCallIdsToMessage(result.output.parts),
-              )
-            : result.output;
-
-        accumulatedMessage = _concatMessages(
-          accumulatedMessage,
-          messageToConcat,
-        );
+        accumulatedMessage = _concatMessages(accumulatedMessage, result.output);
         lastResult = result;
       }
 
@@ -433,14 +447,6 @@ class Agent {
         _logger.fine('No tool calls found, completing agent stream');
         done = true;
       } else {
-        // Register tool calls with the coordinator
-        for (final toolCall in toolCalls) {
-          toolIdCoordinator.registerToolCall(
-            id: toolCall.id,
-            name: toolCall.name,
-            arguments: toolCall.arguments,
-          );
-        }
         _logger.info(
           'Found ${toolCalls.length} tool calls to execute: '
           '${toolCalls.map((t) => '${t.name}(${t.id})').join(', ')}',
@@ -461,21 +467,23 @@ class Agent {
               '${toolPart.argumentsRaw}',
             );
             try {
-              // Parse arguments from argumentsRaw if arguments is empty This
-              // handles the streaming case where JSON parsing is deferred
-              var parsedArguments = toolPart.arguments ?? {};
-              if (parsedArguments.isEmpty && toolPart.argumentsRaw.isNotEmpty) {
-                final decoded = json.decode(toolPart.argumentsRaw);
-                if (decoded is Map<String, dynamic>) {
-                  parsedArguments = decoded;
-                } else {
-                  // Handle cases where decoded is null or other types (e.g.,
-                  // Cohere sends "null" for tools with no parameters)
-                  parsedArguments = <String, dynamic>{};
+              // CRITICAL: Parse argumentsRaw when arguments is empty This
+              // handles OpenAI-compatible providers that send empty arguments
+              // during streaming
+              var args = toolPart.arguments ?? {};
+              if (args.isEmpty &&
+                  (toolPart.argumentsRawString?.isNotEmpty ?? false)) {
+                final parsed = json.decode(toolPart.argumentsRawString!);
+                if (parsed is Map<String, dynamic>) {
+                  args = parsed;
+                } else if (parsed == null || parsed == 'null') {
+                  // Handle Cohere edge case where it sends "null" for no
+                  // params
+                  args = <String, dynamic>{};
                 }
               }
 
-              final result = await tool.invoke(parsedArguments);
+              final result = await tool.invoke(args);
               final resultString = result is String
                   ? result
                   : json.encode(result);
@@ -484,13 +492,6 @@ class Agent {
                 'Tool ${toolPart.name}(${toolPart.id}) executed successfully, '
                 'result length: ${resultString.length}',
               );
-
-              // Validate tool ID before creating result
-              if (!toolIdCoordinator.validateToolResultId(toolPart.id)) {
-                _logger.warning(
-                  'Tool result ID ${toolPart.id} has no matching tool call',
-                );
-              }
 
               // Create a user message with tool result part
               final toolResultMessage = ChatMessage(
@@ -506,9 +507,14 @@ class Agent {
 
               toolResults.add(toolResultMessage);
               // ignore: exception_hiding
-            } on Exception catch (error) {
-              _logger.warning('Tool ${toolPart.name} execution failed: $error');
+            } on Exception catch (error, stackTrace) {
+              _logger.warning(
+                'Tool ${toolPart.name} execution failed: $error',
+                error,
+                stackTrace,
+              );
 
+              // Return error result to LLM so it can handle the failure
               toolResults.add(
                 ChatMessage(
                   role: MessageRole.user,
@@ -550,45 +556,10 @@ class Agent {
     }
   }
 
-  /// Determines if UUIDs should be assigned before concatenation.
-  ///
-  /// Returns true for providers that send multiple tool calls with empty IDs in
-  /// the same chunk (Ollama, Google), which would cause incorrect merging.
-  /// Returns false for providers that use proper streaming protocols.
-  bool _shouldAssignIdsBeforeConcat(ChatMessage message) {
-    final toolParts = message.parts
-        .whereType<ToolPart>()
-        .where((p) => p.kind == ToolPartKind.call)
-        .toList();
-
-    // If there are multiple tool calls and any have empty IDs, we need to
-    // assign UUIDs before concat to prevent incorrect merging
-    if (toolParts.length > 1) {
-      return toolParts.any((tc) => tc.id.isEmpty);
-    }
-
-    // For single tool calls, check if it has an empty ID and no name This
-    // indicates a partial chunk that should be concatenated
-    if (toolParts.length == 1) {
-      final toolCall = toolParts.first;
-      return toolCall.id.isEmpty && toolCall.name.isNotEmpty;
-    }
-
-    return false;
-  }
-
-  /// Assigns IDs to tool parts that don't have them.
-  ///
-  /// This is primarily for providers like Ollama and Google that don't provide
-  /// tool call IDs. OpenAI provides proper IDs and uses a different streaming
-  /// protocol where partial tool calls should be concatenated.
-  List<Part> _assignToolCallIdsToMessage(List<Part> parts) =>
-      ToolIdHelpers.assignToolCallIds(parts, providerHint: _providerName);
-
   /// Concatenates two ChatMessage objects, properly merging streaming chunks.
   ///
-  /// This method handles the OpenAI streaming protocol where tool calls are
-  /// built incrementally across multiple chunks. Tool calls with the same ID
+  /// This method handles streaming protocols where tool calls are built
+  /// incrementally across multiple chunks. Tool calls with the same ID
   /// are merged, while different tool calls are kept separate.
   ChatMessage _concatMessages(ChatMessage accumulated, ChatMessage newChunk) {
     if (accumulated.parts.isEmpty) {
@@ -620,6 +591,9 @@ class Agent {
             arguments: newPart.arguments?.isNotEmpty ?? false
                 ? newPart.arguments!
                 : existingToolCall.arguments ?? {},
+            argumentsRawString:
+                newPart.argumentsRawString ??
+                existingToolCall.argumentsRawString,
           );
           accumulatedParts[existingIndex] = mergedToolCall;
         } else {

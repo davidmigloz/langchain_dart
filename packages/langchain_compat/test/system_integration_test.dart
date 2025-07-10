@@ -27,7 +27,7 @@ void main() {
   }) {
     group(testName, () {
       for (final provider in ChatProvider.all) {
-        test(provider.name, () async {
+        test('${provider.name} - $testName', () async {
           await testFunction(provider);
         }, timeout: timeout ?? const Timeout(Duration(seconds: 30)));
       }
@@ -43,7 +43,7 @@ void main() {
     group(testName, () {
       final toolProviders = ChatProvider.allWith({ProviderCaps.multiToolCalls});
       for (final provider in toolProviders) {
-        test(provider.name, () async {
+        test('${provider.name} - $testName', () async {
           await testFunction(provider);
         }, timeout: timeout ?? const Timeout(Duration(seconds: 30)));
       }
@@ -610,51 +610,68 @@ function fibonacci(n) {
       });
     });
 
-    group('edge case integration', () {
+    group('edge cases (limited providers)', () {
+      // Test edge cases on only 1-2 providers to save resources
+      final edgeCaseProviders = <ChatProvider>[
+        ChatProvider.openai,
+        ChatProvider.anthropic,
+      ];
       test('empty and minimal inputs', () async {
-        final agent = Agent('openai:gpt-4o-mini');
+        for (final provider in edgeCaseProviders) {
+          final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
-        final testCases = ['', ' ', '?', '1'];
+          final testCases = ['', ' ', '?', '1'];
 
-        for (final input in testCases) {
-          final result = await agent.run(input);
-          expect(result.output, isA<String>());
+          for (final input in testCases) {
+            final result = await agent.run(input);
+            expect(result.output, isA<String>());
+          }
         }
       });
 
       test('special character handling across system', () async {
-        final agent = Agent('openai:gpt-4o-mini', tools: [stringTool]);
+        for (final provider in edgeCaseProviders) {
+          final agent = Agent(
+            '${provider.name}:${provider.defaultModelName}',
+            tools: [stringTool],
+          );
 
-        const specialInput = '{"test": "hello 世界 🌍"}';
+          const specialInput = '{"test": "hello 世界 🌍"}';
 
-        final result = await agent.run(
-          'Process this JSON and use string_tool: $specialInput',
-        );
+          final result = await agent.run(
+            'Process this JSON and use string_tool: $specialInput',
+          );
 
-        expect(result.output, isNotEmpty);
+          expect(result.output, isNotEmpty);
 
-        // Should handle unicode and special characters properly
-        expect(result.output, isA<String>());
+          // Should handle unicode and special characters properly
+          expect(result.output, isA<String>());
+        }
       });
 
       test('very long workflow chains', () async {
-        final agent = Agent('openai:gpt-4o-mini', tools: [stringTool]);
+        for (final provider in edgeCaseProviders) {
+          final agent = Agent(
+            '${provider.name}:${provider.defaultModelName}',
+            tools: [stringTool],
+          );
 
-        const longPrompt =
-            'Use string_tool with input "step1", '
-            'then analyze the result, '
-            'then explain what happened, '
-            'then provide a summary, '
-            'then give your final thoughts.';
+          const longPrompt =
+              'Use string_tool with input "step1", '
+              'then analyze the result, '
+              'then explain what happened, '
+              'then provide a summary, '
+              'then give your final thoughts.';
 
-        final result = await agent.run(longPrompt);
+          final result = await agent.run(longPrompt);
 
-        expect(result.output, isNotEmpty);
-        expect(result.messages, isNotEmpty);
+          expect(result.output, isNotEmpty);
+          expect(result.messages, isNotEmpty);
 
-        // Should handle complex multi-step workflows
-        final hasToolResults = result.messages.any((m) => m.hasToolResults);
-        expect(hasToolResults, isTrue);
+          // Should handle complex multi-step workflows
+          final hasToolResults = result.messages.any((m) => m.hasToolResults);
+          expect(hasToolResults, isTrue);
+        }
       });
     });
   });

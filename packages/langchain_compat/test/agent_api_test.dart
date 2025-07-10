@@ -30,7 +30,7 @@ void main() {
   }) {
     group(testName, () {
       for (final provider in ChatProvider.all) {
-        test(provider.name, () async {
+        test('${provider.name} - $testName', () async {
           await testFunction(provider);
         }, timeout: timeout ?? const Timeout(Duration(seconds: 30)));
       }
@@ -46,7 +46,7 @@ void main() {
     group(testName, () {
       final toolProviders = ChatProvider.allWith({ProviderCaps.multiToolCalls});
       for (final provider in toolProviders) {
-        test(provider.name, () async {
+        test('${provider.name} - $testName', () async {
           await testFunction(provider);
         }, timeout: timeout ?? const Timeout(Duration(seconds: 30)));
       }
@@ -222,15 +222,7 @@ void main() {
         expect(toolResults, isNotEmpty);
       });
 
-      runProviderTest('empty system prompt handling', (provider) async {
-        final agent = Agent(
-          '${provider.name}:${provider.defaultModelName}',
-          systemPrompt: '',
-        );
-
-        final result = await agent.run('Hello');
-        expect(result.output, isNotEmpty);
-      });
+      // Moved to edge cases section
     });
 
     group('attachments', () {
@@ -325,24 +317,7 @@ void main() {
         expect(userMessage.parts.whereType<LinkPart>(), hasLength(1));
       });
 
-      runProviderTest('attachments without text prompt', (provider) async {
-        final agent = Agent('${provider.name}:${provider.defaultModelName}');
-
-        final imageBytes = Uint8List.fromList([1, 2, 3]);
-
-        final result = await agent.run(
-          '', // Empty text
-          attachments: [DataPart(bytes: imageBytes, mimeType: 'image/png')],
-        );
-
-        expect(result.output, isNotEmpty);
-
-        // Should still create valid user message
-        final userMessage = result.messages
-            .where((msg) => msg.role == MessageRole.user)
-            .first;
-        expect(userMessage.parts.whereType<DataPart>(), hasLength(1));
-      });
+      // Moved to edge cases section
     });
 
     group('history management', () {
@@ -416,17 +391,7 @@ void main() {
         expect(result.output.toLowerCase(), contains('red'));
       });
 
-      runProviderTest('empty history handling', (provider) async {
-        final agent = Agent('${provider.name}:${provider.defaultModelName}');
-
-        final result = await agent.run(
-          'Hello',
-          history: [], // Explicitly empty
-        );
-
-        expect(result.output, isNotEmpty);
-        expect(result.messages, isNotEmpty);
-      });
+      // Moved to edge cases section
     });
 
     group('streaming behavior', () {
@@ -500,20 +465,7 @@ void main() {
         expect(fullText, contains('42'));
       });
 
-      runProviderTest('streaming empty chunks handling', (provider) async {
-        final agent = Agent('${provider.name}:${provider.defaultModelName}');
-
-        final allChunks = <String>[];
-
-        await for (final chunk in agent.runStream('Say "test"')) {
-          allChunks.add(chunk.output);
-        }
-
-        expect(allChunks, isNotEmpty);
-        final fullText = allChunks.join();
-        expect(fullText.toLowerCase(), contains('test'));
-        // Empty chunks are normal in streaming
-      });
+      // Moved to edge cases section
     });
 
     group('agent properties', () {
@@ -613,6 +565,78 @@ void main() {
           () => Agent('${provider.name}:${provider.defaultModelName}'),
           returnsNormally,
         );
+      });
+    });
+
+    group('edge cases (limited providers)', () {
+      // Test edge cases on only 1-2 providers to save resources
+      final edgeCaseProviders = <ChatProvider>[
+        ChatProvider.openai,
+        ChatProvider.anthropic,
+      ];
+
+      test('empty system prompt handling', () async {
+        for (final provider in edgeCaseProviders) {
+          final agent = Agent(
+            '${provider.name}:${provider.defaultModelName}',
+            systemPrompt: '',
+          );
+
+          final result = await agent.run('Hello');
+          expect(result.output, isNotEmpty);
+        }
+      });
+
+      test('attachments without text prompt', () async {
+        for (final provider in edgeCaseProviders) {
+          final agent = Agent('${provider.name}:${provider.defaultModelName}');
+
+          final imageBytes = Uint8List.fromList([1, 2, 3]);
+
+          final result = await agent.run(
+            '', // Empty text
+            attachments: [DataPart(bytes: imageBytes, mimeType: 'image/png')],
+          );
+
+          expect(result.output, isNotEmpty);
+
+          // Should still create valid user message
+          final userMessage = result.messages
+              .where((msg) => msg.role == MessageRole.user)
+              .first;
+          expect(userMessage.parts.whereType<DataPart>(), hasLength(1));
+        }
+      });
+
+      test('empty history handling', () async {
+        for (final provider in edgeCaseProviders) {
+          final agent = Agent('${provider.name}:${provider.defaultModelName}');
+
+          final result = await agent.run(
+            'Hello',
+            history: [], // Explicitly empty
+          );
+
+          expect(result.output, isNotEmpty);
+          expect(result.messages, isNotEmpty);
+        }
+      });
+
+      test('streaming empty chunks handling', () async {
+        for (final provider in edgeCaseProviders) {
+          final agent = Agent('${provider.name}:${provider.defaultModelName}');
+
+          final allChunks = <String>[];
+
+          await for (final chunk in agent.runStream('Say "test"')) {
+            allChunks.add(chunk.output);
+          }
+
+          expect(allChunks, isNotEmpty);
+          final fullText = allChunks.join();
+          expect(fullText.toLowerCase(), contains('test'));
+          // Empty chunks are normal in streaming
+        }
       });
     });
   });

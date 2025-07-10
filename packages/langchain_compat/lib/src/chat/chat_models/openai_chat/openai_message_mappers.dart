@@ -260,12 +260,16 @@ msg.ChatMessage createCompleteMessageWithTools(
   // Convert accumulated tool calls to ToolParts with parsed arguments
   for (final streamingCall in accumulatedToolCalls) {
     var arguments = <String, dynamic>{};
+    final rawArgs = streamingCall.argumentsJson;
 
     // Parse the complete JSON arguments
-    if (streamingCall.argumentsJson.isNotEmpty) {
-      final decoded = json.decode(streamingCall.argumentsJson);
+    if (rawArgs.isNotEmpty) {
+      final decoded = json.decode(rawArgs);
       if (decoded is Map<String, dynamic>) {
         arguments = decoded;
+      } else if (decoded == null || decoded == 'null') {
+        // Handle null case
+        arguments = <String, dynamic>{};
       }
     }
 
@@ -274,6 +278,7 @@ msg.ChatMessage createCompleteMessageWithTools(
         id: streamingCall.id,
         name: streamingCall.name,
         arguments: arguments,
+        argumentsRawString: rawArgs,
       ),
     );
   }
@@ -303,12 +308,18 @@ msg.ChatMessage messageFromOpenAIResponse(
   if (message.toolCalls != null) {
     for (final toolCall in message.toolCalls!) {
       var arguments = <String, dynamic>{};
-      if (toolCall.function.arguments.isNotEmpty) {
-        final decoded = json.decode(toolCall.function.arguments);
+      final rawArgs = toolCall.function.arguments;
+      
+      // Parse arguments, handling empty arguments case for streaming
+      if (rawArgs.isNotEmpty) {
+        final decoded = json.decode(rawArgs);
         if (decoded is Map<String, dynamic>) {
           arguments = decoded;
+        } else if (decoded == null || decoded == 'null') {
+          // Handle cases where decoded is null (e.g., Cohere sends "null" for
+          // no params)
+          arguments = <String, dynamic>{};
         }
-        // If decoded is null or other type, keep empty arguments
       }
 
       parts.add(
@@ -316,6 +327,7 @@ msg.ChatMessage messageFromOpenAIResponse(
           id: toolCall.id,
           name: toolCall.function.name,
           arguments: arguments,
+          argumentsRawString: rawArgs,
         ),
       );
     }

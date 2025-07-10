@@ -457,6 +457,8 @@ class MessageStreamEventTransformer
               id: lastToolCallId!,
               name: lastToolName ?? '',
               arguments: argsJson.isNotEmpty ? json.decode(argsJson) : {},
+              // Provide raw JSON string for Agent's streaming fallback
+              argumentsRawString: argsJson,
             ),
           ],
         ),
@@ -495,6 +497,8 @@ List<msg.Part> _mapMessageContent(a.MessageContent content) =>
             id: toolUse.id,
             name: toolUse.name,
             arguments: toolUse.input,
+            // Provide raw JSON string for Agent's streaming fallback
+            argumentsRawString: json.encode(toolUse.input),
           ),
         ),
       ],
@@ -510,7 +514,13 @@ List<msg.Part> _mapContentBlock(a.Block contentBlock) => switch (contentBlock) {
     ),
   ],
   final a.ToolUseBlock tu => [
-    msg.ToolPart.call(id: tu.id, name: tu.name, arguments: tu.input),
+    msg.ToolPart.call(
+      id: tu.id,
+      name: tu.name,
+      arguments: tu.input,
+      // Provide raw JSON string for Agent's streaming fallback
+      argumentsRawString: json.encode(tu.input),
+    ),
   ],
   final a.ToolResultBlock tr => [msg.TextPart(tr.content.text)],
 };
