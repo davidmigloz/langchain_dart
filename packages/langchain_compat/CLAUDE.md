@@ -26,7 +26,11 @@ dart run example/agent.dart                # Agent demo with tool chaining
 
 ## Project Architecture
 
-This is a **Dart compatibility layer package** that provides unified access to 15+ LLM providers through a single import. Key architectural patterns:
+This is a **Dart compatibility layer package** that provides unified access to 15+ LLM providers through a single import. 
+
+**📋 For comprehensive architectural overview, see [`specs/ARCHITECTURE_OVERVIEW.md`](./specs/ARCHITECTURE_OVERVIEW.md)**
+
+Key architectural patterns:
 
 ### Provider Abstraction Layer
 - **Unified Interface**: All providers implement the `Provider` interface
@@ -200,7 +204,7 @@ The Agent layer includes a **crucial fix** for streaming tool argument parsing:
 - **Problem**: OpenAI-compatible providers send empty `arguments: {}` for streaming responses
 - **Solution**: Agent automatically parses `argumentsRaw` JSON when `arguments` is empty
 - **Handles edge cases**: Cohere sends `"null"` for parameter-less tools
-- **Error resilient**: Graceful fallback for malformed JSON
+- **Error transparent**: No defensive exception hiding - malformed JSON will throw for debugging
 
 ### Adding New Providers (Implementation Guide)
 
@@ -264,11 +268,14 @@ Logger.root.onRecord.listen((record) {
 
 ## Testing & Quality
 
-- **Test Framework**: Standard Dart `test` package (no test files exist yet - tests are TODO)
+- **Test Framework**: Standard Dart `test` package with comprehensive test suite
+- **Testing Strategy**: 80% cases across all providers, edge cases on limited providers (see [`specs/ARCHITECTURE_OVERVIEW.md#testing-strategy`](./specs/ARCHITECTURE_OVERVIEW.md#testing-strategy))
+- **Capability-Based Testing**: Tests automatically filter providers based on supported features
+- **Ground Truth Validation**: Use curl for API validation before fixing implementation issues
 - **Linting**: Comprehensive rules via `all_lint_rules_community` with custom overrides
 - **Analysis**: Run `dart analyze` to check for errors (some expected during migration)
 - **Examples**: Located in `/example/` directory with working demonstrations
-- **Documentation**: Provider specs in `/extraction-specs/` directory
+- **Documentation**: Architecture specs in `/specs/` directory, provider specs in `/extraction-specs/` directory
 
 ## Environment Setup
 

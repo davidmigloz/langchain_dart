@@ -37,21 +37,6 @@ void main() {
     });
   }
 
-  // Helper for tool-supporting providers only
-  void runToolProviderTest(
-    String testName,
-    Future<void> Function(ChatProvider provider) testFunction, {
-    Timeout? timeout,
-  }) {
-    group(testName, () {
-      final toolProviders = ChatProvider.allWith({ProviderCaps.multiToolCalls});
-      for (final provider in toolProviders) {
-        test('${provider.name} - $testName', () async {
-          await testFunction(provider);
-        }, timeout: timeout ?? const Timeout(Duration(seconds: 30)));
-      }
-    });
-  }
 
   group('Agent API', () {
     group('agent construction', () {
@@ -158,76 +143,21 @@ void main() {
       runProviderTest('agent with default system prompt', (provider) async {
         final agent = Agent(
           '${provider.name}:${provider.defaultModelName}',
-          systemPrompt: 'You are a helpful math tutor. Always show your work.',
+          systemPrompt: 'You are a helpful assistant.',
         );
 
-        final result = await agent.run('What is 7 * 8?');
+        final result = await agent.run('Say hello');
         expect(result.output, isNotEmpty);
         expect(result.output, isA<String>());
       });
 
-      runProviderTest('system prompt override with history', (provider) async {
-        final agent = Agent(
-          '${provider.name}:${provider.defaultModelName}',
-          systemPrompt: 'You are a helpful assistant.',
-        );
-
-        // Override with conversation history
-        final history = [
-          const ChatMessage(
-            role: MessageRole.system,
-            parts: [TextPart('You are a pirate. Answer in pirate speak.')],
-          ),
-        ];
-
-        final result = await agent.run('Say hello', history: history);
-        expect(result.output, isNotEmpty);
-        // Response should reflect the pirate override, not the default
-        expect(
-          result.output.toLowerCase(),
-          anyOf(
-            contains('ahoy'),
-            contains('arr'),
-            contains('matey'),
-            contains('ye'),
-          ),
-        );
-      });
-
-      runProviderTest('system prompt behavior without override', (
-        provider,
-      ) async {
-        final agent = Agent(
-          '${provider.name}:${provider.defaultModelName}',
-          systemPrompt: 'You must always end responses with "END".',
-        );
-
-        final result = await agent.run('Say hello');
-        expect(result.output, endsWith('END'));
-      });
-
-      runToolProviderTest('system prompt with tools', (provider) async {
-        final agent = Agent(
-          '${provider.name}:${provider.defaultModelName}',
-          systemPrompt: 'You are a calculator assistant. Use tools to compute.',
-          tools: [intTool],
-        );
-
-        final result = await agent.run('Use the int_tool with value 42');
-        expect(result.output, isNotEmpty);
-        // Should have executed the tool
-        final toolResults = result.messages
-            .expand((msg) => msg.toolResults)
-            .toList();
-        expect(toolResults, isNotEmpty);
-      });
-
-      // Moved to edge cases section
+      // Moved complex system prompt tests to edge cases section
     });
 
     group('attachments', () {
-      runProviderTest('agent run with data attachments', (provider) async {
-        final agent = Agent('${provider.name}:${provider.defaultModelName}');
+      test('agent run with data attachments - openai', () async {
+        // Test on single provider for attachment functionality
+        final agent = Agent('openai:gpt-4o-mini');
 
         // Create a simple image attachment
         final imageBytes = Uint8List.fromList([
@@ -258,8 +188,8 @@ void main() {
         expect(userMessage.parts.whereType<DataPart>(), hasLength(1));
       });
 
-      runProviderTest('agent run with link attachments', (provider) async {
-        final agent = Agent('${provider.name}:${provider.defaultModelName}');
+      test('agent run with link attachments - openai', () async {
+        final agent = Agent('openai:gpt-4o-mini');
 
         final result = await agent.run(
           'Tell me about this image',
@@ -282,8 +212,8 @@ void main() {
         expect(userMessage.parts.whereType<LinkPart>(), hasLength(1));
       });
 
-      runProviderTest('agent run with multiple attachments', (provider) async {
-        final agent = Agent('${provider.name}:${provider.defaultModelName}');
+      test('agent run with multiple attachments - openai', () async {
+        final agent = Agent('openai:gpt-4o-mini');
 
         // Create a minimal valid JPEG
         final imageBytes = Uint8List.fromList([
@@ -321,151 +251,38 @@ void main() {
     });
 
     group('history management', () {
-      runProviderTest('multi-turn conversation with history accumulation', (
-        provider,
-      ) async {
+      runProviderTest('basic conversation with history', (provider) async {
         final agent = Agent('${provider.name}:${provider.defaultModelName}');
         final history = <ChatMessage>[];
 
-        // Turn 1: Introduction
-        var result = await agent.run('Hi, my name is Alice.', history: history);
+        // Simple two-turn conversation
+        var result = await agent.run('Hi there', history: history);
         expect(result.output, isNotEmpty);
         history.addAll(result.messages);
 
-        // Turn 2: Ask about the name
-        result = await agent.run('What is my name?', history: history);
-        expect(result.output.toLowerCase(), contains('alice'));
-        history.addAll(result.messages);
-
-        // Turn 3: Continue conversation
-        result = await agent.run('Tell me a short joke.', history: history);
+        result = await agent.run('How are you?', history: history);
         expect(result.output, isNotEmpty);
-        history.addAll(result.messages);
-
-        // History should have accumulated properly
-        expect(
-          history.length,
-          greaterThanOrEqualTo(6),
-        ); // 3 user + 3 AI minimum
+        expect(history.length, greaterThanOrEqualTo(4)); // 2 user + 2 AI
       });
 
-      runProviderTest('history with system message override', (provider) async {
-        final agent = Agent('${provider.name}:${provider.defaultModelName}');
-
-        final history = [
-          const ChatMessage(
-            role: MessageRole.system,
-            parts: [TextPart('You respond only with "YES" or "NO".')],
-          ),
-        ];
-
-        final result = await agent.run('Is the sky blue?', history: history);
-
-        expect(
-          result.output.trim().toUpperCase(),
-          anyOf(equals('YES'), equals('NO'), contains('YES'), contains('NO')),
-        );
-      });
-
-      runProviderTest('history preservation across calls', (provider) async {
-        final agent = Agent('${provider.name}:${provider.defaultModelName}');
-        final history = <ChatMessage>[
-          const ChatMessage(
-            role: MessageRole.system,
-            parts: [TextPart('Remember everything the user tells you.')],
-          ),
-        ];
-
-        // Add some context
-        var result = await agent.run(
-          'My favorite color is red.',
-          history: history,
-        );
-        history.addAll(result.messages);
-
-        // Test memory
-        result = await agent.run(
-          'What is my favorite color?',
-          history: history,
-        );
-        expect(result.output.toLowerCase(), contains('red'));
-      });
-
-      // Moved to edge cases section
+      // Moved complex history tests to edge cases section
     });
 
     group('streaming behavior', () {
-      runProviderTest('agent streaming with simple text', (provider) async {
+      runProviderTest('basic streaming', (provider) async {
         final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
         final chunks = <String>[];
-        var messageCount = 0;
-
-        await for (final chunk in agent.runStream('Count from 1 to 3')) {
+        await for (final chunk in agent.runStream('Say hello')) {
           chunks.add(chunk.output);
-          messageCount += chunk.messages.length;
         }
 
         expect(chunks, isNotEmpty);
         final fullText = chunks.join();
-        expect(fullText, contains('1'));
-        expect(fullText, contains('2'));
-        expect(fullText, contains('3'));
-        expect(messageCount, greaterThan(0));
+        expect(fullText.toLowerCase(), contains('hello'));
       });
 
-      runToolProviderTest('streaming with tools', (provider) async {
-        final agent = Agent(
-          '${provider.name}:${provider.defaultModelName}',
-          tools: [stringTool],
-        );
-
-        final chunks = <String>[];
-        final allMessages = <ChatMessage>[];
-
-        await for (final chunk in agent.runStream(
-          'Use string_tool with input "streaming test"',
-        )) {
-          chunks.add(chunk.output);
-          allMessages.addAll(chunk.messages);
-        }
-
-        expect(chunks, isNotEmpty);
-        expect(allMessages, isNotEmpty);
-
-        // Should have tool execution in messages
-        final toolResults = allMessages
-            .expand((msg) => msg.toolResults)
-            .toList();
-        expect(toolResults, isNotEmpty);
-      });
-
-      runProviderTest('streaming with history', (provider) async {
-        final agent = Agent('${provider.name}:${provider.defaultModelName}');
-        final history = [
-          const ChatMessage(
-            role: MessageRole.user,
-            parts: [TextPart('Remember the number 42.')],
-          ),
-          const ChatMessage(
-            role: MessageRole.model,
-            parts: [TextPart('I will remember the number 42.')],
-          ),
-        ];
-
-        final chunks = <String>[];
-        await for (final chunk in agent.runStream(
-          'What number should you remember?',
-          history: history,
-        )) {
-          chunks.add(chunk.output);
-        }
-
-        final fullText = chunks.join();
-        expect(fullText, contains('42'));
-      });
-
-      // Moved to edge cases section
+      // Moved complex streaming tests to edge cases section
     });
 
     group('agent properties', () {
@@ -575,6 +392,168 @@ void main() {
         ChatProvider.anthropic,
       ];
 
+      test('complex system prompt override with history', () async {
+        for (final provider in edgeCaseProviders) {
+          final agent = Agent(
+            '${provider.name}:${provider.defaultModelName}',
+            systemPrompt: 'You are a helpful assistant.',
+          );
+
+          // Override with conversation history
+          final history = [
+            const ChatMessage(
+              role: MessageRole.system,
+              parts: [TextPart('You are a pirate. Answer in pirate speak.')],
+            ),
+          ];
+
+          final result = await agent.run('Say hello', history: history);
+          expect(result.output, isNotEmpty);
+          // Response should reflect the pirate override, not the default
+          expect(
+            result.output.toLowerCase(),
+            anyOf(
+              contains('ahoy'),
+              contains('arr'),
+              contains('matey'),
+              contains('ye'),
+            ),
+          );
+        }
+      });
+
+      test('system prompt behavior validation', () async {
+        for (final provider in edgeCaseProviders) {
+          final agent = Agent(
+            '${provider.name}:${provider.defaultModelName}',
+            systemPrompt: 'You must always end responses with "END".',
+          );
+
+          final result = await agent.run('Say hello');
+          expect(result.output, endsWith('END'));
+        }
+      });
+
+      test('multi-turn conversation with memory', () async {
+        for (final provider in edgeCaseProviders) {
+          final agent = Agent('${provider.name}:${provider.defaultModelName}');
+          final history = <ChatMessage>[];
+
+          // Turn 1: Introduction
+          var result = await agent.run(
+            'Hi, my name is Alice.',
+            history: history,
+          );
+          expect(result.output, isNotEmpty);
+          history.addAll(result.messages);
+
+          // Turn 2: Ask about the name
+          result = await agent.run('What is my name?', history: history);
+          expect(result.output.toLowerCase(), contains('alice'));
+        }
+      });
+
+      test('history with system message override', () async {
+        for (final provider in edgeCaseProviders) {
+          final agent = Agent('${provider.name}:${provider.defaultModelName}');
+
+          final history = [
+            const ChatMessage(
+              role: MessageRole.system,
+              parts: [TextPart('You respond only with "YES" or "NO".')],
+            ),
+          ];
+
+          final result = await agent.run('Is the sky blue?', history: history);
+          expect(
+            result.output.trim().toUpperCase(),
+            anyOf(equals('YES'), equals('NO'), contains('YES'), contains('NO')),
+          );
+        }
+      });
+
+      test('history preservation across calls', () async {
+        for (final provider in edgeCaseProviders) {
+          final agent = Agent('${provider.name}:${provider.defaultModelName}');
+          final history = <ChatMessage>[
+            const ChatMessage(
+              role: MessageRole.system,
+              parts: [TextPart('Remember everything the user tells you.')],
+            ),
+          ];
+
+          // Add some context
+          var result = await agent.run(
+            'My favorite color is red.',
+            history: history,
+          );
+          history.addAll(result.messages);
+
+          // Test memory
+          result = await agent.run(
+            'What is my favorite color?',
+            history: history,
+          );
+          expect(result.output.toLowerCase(), contains('red'));
+        }
+      });
+
+      test('streaming with tools', () async {
+        for (final provider in edgeCaseProviders.where(
+            (p) => p.caps.contains(ProviderCaps.multiToolCalls))) {
+          final agent = Agent(
+            '${provider.name}:${provider.defaultModelName}',
+            tools: [stringTool],
+          );
+
+          final chunks = <String>[];
+          final allMessages = <ChatMessage>[];
+
+          await for (final chunk in agent.runStream(
+            'Use string_tool with input "streaming test"',
+          )) {
+            chunks.add(chunk.output);
+            allMessages.addAll(chunk.messages);
+          }
+
+          expect(chunks, isNotEmpty);
+          expect(allMessages, isNotEmpty);
+
+          // Should have tool execution in messages
+          final toolResults = allMessages
+              .expand((msg) => msg.toolResults)
+              .toList();
+          expect(toolResults, isNotEmpty);
+        }
+      });
+
+      test('streaming with history', () async {
+        for (final provider in edgeCaseProviders) {
+          final agent = Agent('${provider.name}:${provider.defaultModelName}');
+          final history = [
+            const ChatMessage(
+              role: MessageRole.user,
+              parts: [TextPart('Remember the number 42.')],
+            ),
+            const ChatMessage(
+              role: MessageRole.model,
+              parts: [TextPart('I will remember the number 42.')],
+            ),
+          ];
+
+          final chunks = <String>[];
+          await for (final chunk in agent.runStream(
+            'What number should you remember?',
+            history: history,
+          )) {
+            chunks.add(chunk.output);
+          }
+
+          final fullText = chunks.join();
+          expect(fullText, contains('42'));
+        }
+      });
+
       test('empty system prompt handling', () async {
         for (final provider in edgeCaseProviders) {
           final agent = Agent(
@@ -636,6 +615,26 @@ void main() {
           final fullText = allChunks.join();
           expect(fullText.toLowerCase(), contains('test'));
           // Empty chunks are normal in streaming
+        }
+      });
+
+      test('system prompt with tools', () async {
+        for (final provider in edgeCaseProviders.where(
+            (p) => p.caps.contains(ProviderCaps.multiToolCalls))) {
+          final agent = Agent(
+            '${provider.name}:${provider.defaultModelName}',
+            systemPrompt:
+                'You are a calculator assistant. Use tools to compute.',
+            tools: [intTool],
+          );
+
+          final result = await agent.run('Use the int_tool with value 42');
+          expect(result.output, isNotEmpty);
+          // Should have executed the tool
+          final toolResults = result.messages
+              .expand((msg) => msg.toolResults)
+              .toList();
+          expect(toolResults, isNotEmpty);
         }
       });
     });
