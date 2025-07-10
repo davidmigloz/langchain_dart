@@ -17,6 +17,7 @@ analyzer:
     # some rules conflict; instead, we're explicitly enabling even conflicting
     # rules and are fixing the conflicts in this file
     cascade_invocations: ignore
+    dangling_library_doc_comments: ignore
     document_ignores: ignore
     included_file_warning: ignore
     specify_nonobvious_local_variable_types: ignore

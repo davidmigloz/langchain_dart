@@ -31,9 +31,13 @@ void main() {
   }) {
     group(testName, () {
       for (final provider in toolProviders) {
-        test('${provider.name} - $testName', () async {
-          await testFunction(provider);
-        }, timeout: timeout ?? const Timeout(Duration(seconds: 30)));
+        test(
+          '${provider.name} - $testName',
+          () async {
+            await testFunction(provider);
+          },
+          timeout: timeout ?? const Timeout(Duration(seconds: 30)),
+        );
       }
     });
   }
@@ -110,10 +114,7 @@ void main() {
 
       test('extractToolNameFromId returns null (IDs are opaque)', () {
         // Tool IDs are opaque - we don't extract info from them
-        expect(
-          ToolIdHelpers.extractToolNameFromId('any-id-format'),
-          isNull,
-        );
+        expect(ToolIdHelpers.extractToolNameFromId('any-id-format'), isNull);
         expect(
           ToolIdHelpers.extractToolNameFromId(
             'tool_openai_weather_tool_abc123',
@@ -241,10 +242,7 @@ void main() {
 
         expect(updated.parts[0], isA<TextPart>());
         // Should generate a non-empty ID for the tool without one
-        expect(
-          (updated.parts[1] as ToolPart).id,
-          isNotEmpty,
-        );
+        expect((updated.parts[1] as ToolPart).id, isNotEmpty);
         // Should preserve existing ID
         expect((updated.parts[2] as ToolPart).id, equals('existing_id'));
       });
@@ -386,8 +384,7 @@ void main() {
 
           // Only check uniqueness if we got multiple calls
           final ids = toolCalls.map((tc) => tc.id).toList();
-          
-          
+
           if (ids.length > 1) {
             expect(
               ids.toSet().length,
@@ -403,8 +400,7 @@ void main() {
             expect(
               id,
               isNotEmpty,
-              reason:
-                  'Provider ${provider.name} should generate non-empty IDs',
+              reason: 'Provider ${provider.name} should generate non-empty IDs',
             );
           }
         },

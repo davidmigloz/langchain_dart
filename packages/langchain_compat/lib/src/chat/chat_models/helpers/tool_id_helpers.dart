@@ -21,9 +21,7 @@ class ToolIdHelpers {
     String? providerHint,
     Map<String, dynamic>? arguments,
     int? index,
-  }) =>
-      _uuid.v4();
-
+  }) => _uuid.v4();
 
   /// Validates that a tool call ID is well-formed.
   /// Any non-empty string is considered valid since providers may use their
@@ -153,12 +151,12 @@ extension ToolIdValidation on ChatMessage {
   /// Returns a list of validation errors, or empty list if valid.
   List<String> validateToolIds() {
     final errors = <String>[];
-    final toolCalls = parts
-        .whereType<ToolPart>()
-        .where((p) => p.kind == ToolPartKind.call);
-    final toolResults = parts
-        .whereType<ToolPart>()
-        .where((p) => p.kind == ToolPartKind.result);
+    final toolCalls = parts.whereType<ToolPart>().where(
+      (p) => p.kind == ToolPartKind.call,
+    );
+    final toolResults = parts.whereType<ToolPart>().where(
+      (p) => p.kind == ToolPartKind.result,
+    );
 
     // Check for empty IDs
     for (final call in toolCalls) {
@@ -184,9 +182,7 @@ extension ToolIdValidation on ChatMessage {
   ChatMessage ensureToolCallIds({required String providerHint}) {
     final needsUpdate = parts.any(
       (part) =>
-          part is ToolPart &&
-          part.kind == ToolPartKind.call &&
-          part.id.isEmpty,
+          part is ToolPart && part.kind == ToolPartKind.call && part.id.isEmpty,
     );
 
     if (!needsUpdate) return this;

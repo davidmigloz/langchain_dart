@@ -156,8 +156,8 @@ extension MessageListMapper on List<msg.ChatMessage> {
           final response = ToolResultHelpers.ensureMap(part.result);
 
           // Extract the original function name from our generated ID
-          final functionName = ToolIdHelpers.extractToolNameFromId(part.id) ?? 
-              part.name;
+          final functionName =
+              ToolIdHelpers.extractToolNameFromId(part.id) ?? part.name;
           _logger.fine('Creating function response for tool: $functionName');
 
           functionResponses.add(g.FunctionResponse(functionName, response));
@@ -167,7 +167,6 @@ extension MessageListMapper on List<msg.ChatMessage> {
 
     return g.Content.functionResponses(functionResponses);
   }
-
 }
 
 /// Extension on [g.GenerateContentResponse] to convert to [ChatResult].

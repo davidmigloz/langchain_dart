@@ -309,7 +309,7 @@ msg.ChatMessage messageFromOpenAIResponse(
     for (final toolCall in message.toolCalls!) {
       var arguments = <String, dynamic>{};
       final rawArgs = toolCall.function.arguments;
-      
+
       // Parse arguments, handling empty arguments case for streaming
       if (rawArgs.isNotEmpty) {
         final decoded = json.decode(rawArgs);

@@ -34,9 +34,13 @@ void main() {
   }) {
     group(testName, () {
       for (final provider in toolProviders) {
-        test('${provider.name} - $testName', () async {
-          await testFunction(provider);
-        }, timeout: timeout ?? const Timeout(Duration(seconds: 30)));
+        test(
+          '${provider.name} - $testName',
+          () async {
+            await testFunction(provider);
+          },
+          timeout: timeout ?? const Timeout(Duration(seconds: 30)),
+        );
       }
     });
   }
@@ -442,10 +446,7 @@ void main() {
 
           // Check all results are correct (provider might call multiple times)
           for (final tr in toolResults) {
-            expect(
-              tr.result,
-              equals('Called with no parameters'),
-            );
+            expect(tr.result, equals('Called with no parameters'));
           }
         }
       });

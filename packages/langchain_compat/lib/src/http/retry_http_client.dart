@@ -133,7 +133,7 @@ class RetryHttpClient extends http.BaseClient {
           'Attempt ${attempt + 1}/${maxRetries + 1} for '
           '${requestInfo.method} ${requestInfo.url}',
         );
-        
+
         final response = await inner.send(currentRequest);
 
         _logger.fine(

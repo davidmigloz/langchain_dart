@@ -1,15 +1,13 @@
-// CRITICAL TEST FAILURE INVESTIGATION PROCESS:
-// When a test fails for a provider capability:
-// 1. NEVER immediately disable the capability in provider definitions
-// 2. ALWAYS investigate at the API level first:
-//    - Test with curl to verify if the feature works at the raw API level
-//    - Check the provider's official documentation
-//    - Look for differences between our implementation and the API requirements
-// 3. ONLY disable a capability after confirming:
-//    - The API itself doesn't support the feature, OR
-//    - The API has a fundamental limitation (like Together's
-//      streaming tool format)
-// 4. If the API supports it but our code doesn't: FIX THE IMPLEMENTATION
+/// TESTING PHILOSOPHY:
+/// 1. DO NOT catch exceptions - let them bubble up for diagnosis
+/// 2. DO NOT add provider filtering except by capabilities (e.g. ProviderCaps)
+/// 3. DO NOT add performance tests
+/// 4. DO NOT add regression tests
+/// 5. 80% cases = common usage patterns tested across ALL capable providers
+/// 6. Edge cases = rare scenarios tested on Google only to avoid timeouts
+/// 7. Each functionality should only be tested in ONE file - no duplication
+/// 
+/// This file tests cross-provider integration scenarios
 
 import 'dart:typed_data';
 
@@ -27,9 +25,13 @@ void main() {
   }) {
     group(testName, () {
       for (final provider in ChatProvider.all) {
-        test('${provider.name} - $testName', () async {
-          await testFunction(provider);
-        }, timeout: timeout ?? const Timeout(Duration(seconds: 30)));
+        test(
+          '${provider.name} - $testName',
+          () async {
+            await testFunction(provider);
+          },
+          timeout: timeout ?? const Timeout(Duration(seconds: 30)),
+        );
       }
     });
   }
@@ -43,9 +45,13 @@ void main() {
     group(testName, () {
       final toolProviders = ChatProvider.allWith({ProviderCaps.multiToolCalls});
       for (final provider in toolProviders) {
-        test('${provider.name} - $testName', () async {
-          await testFunction(provider);
-        }, timeout: timeout ?? const Timeout(Duration(seconds: 30)));
+        test(
+          '${provider.name} - $testName',
+          () async {
+            await testFunction(provider);
+          },
+          timeout: timeout ?? const Timeout(Duration(seconds: 30)),
+        );
       }
     });
   }
@@ -150,9 +156,7 @@ void main() {
         'handle end-to-end workflows correctly (basic conversation)',
         (provider) async {
           // Test basic conversation
-          final agent = Agent(
-            '${provider.name}:${provider.defaultModelName}',
-          );
+          final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
           final history = <ChatMessage>[];
 

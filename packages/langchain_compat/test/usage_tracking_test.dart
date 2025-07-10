@@ -1,15 +1,11 @@
-// CRITICAL TEST FAILURE INVESTIGATION PROCESS:
-// When a test fails for a provider capability:
-// 1. NEVER immediately disable the capability in provider definitions
-// 2. ALWAYS investigate at the API level first:
-//    - Test with curl to verify if the feature works at the raw API level
-//    - Check the provider's official documentation
-//    - Look for differences between our implementation and the API requirements
-// 3. ONLY disable a capability after confirming:
-//    - The API itself doesn't support the feature, OR
-//    - The API has a fundamental limitation (like Together's
-//      streaming tool format)
-// 4. If the API supports it but our code doesn't: FIX THE IMPLEMENTATION
+/// TESTING PHILOSOPHY:
+/// 1. DO NOT catch exceptions - let them bubble up for diagnosis
+/// 2. DO NOT add provider filtering except by capabilities (e.g. ProviderCaps)
+/// 3. DO NOT add performance tests
+/// 4. DO NOT add regression tests
+/// 5. 80% cases = common usage patterns tested across ALL capable providers
+/// 6. Edge cases = rare scenarios tested on Google only to avoid timeouts
+/// 7. Each functionality should only be tested in ONE file - no duplication
 
 import 'package:langchain_compat/langchain_compat.dart';
 import 'package:test/test.dart';
@@ -23,9 +19,13 @@ void main() {
   }) {
     group(testName, () {
       for (final provider in ChatProvider.all) {
-        test('${provider.name} - $testName', () async {
-          await testFunction(provider);
-        }, timeout: timeout ?? const Timeout(Duration(seconds: 30)));
+        test(
+          '${provider.name} - $testName',
+          () async {
+            await testFunction(provider);
+          },
+          timeout: timeout ?? const Timeout(Duration(seconds: 30)),
+        );
       }
     });
   }
@@ -82,59 +82,50 @@ void main() {
         expect(result.usage.totalTokens, greaterThan(20));
       });
 
-      runProviderTest(
-        'track usage correctly',
-        (provider) async {
-          final agent = Agent(
-            '${provider.name}:${provider.defaultModelName}',
+      runProviderTest('track usage correctly', (provider) async {
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
+
+        final result = await agent.run(
+          'Write exactly: "Usage test for ${provider.name}"',
+        );
+
+        // Usage tracking may not be available for all providers
+        if (result.usage.promptTokens != null) {
+          expect(
+            result.usage.promptTokens,
+            greaterThan(0),
+            reason: 'Provider ${provider.name} should track prompt tokens',
+          );
+        }
+
+        if (result.usage.responseTokens != null) {
+          expect(
+            result.usage.responseTokens,
+            greaterThan(0),
+            reason: 'Provider ${provider.name} should track response tokens',
+          );
+        }
+
+        if (result.usage.totalTokens != null) {
+          expect(
+            result.usage.totalTokens,
+            greaterThan(0),
+            reason: 'Provider ${provider.name} should track total tokens',
           );
 
-          final result = await agent.run(
-            'Write exactly: "Usage test for ${provider.name}"',
-          );
-
-          // Usage tracking may not be available for all providers
-          if (result.usage.promptTokens != null) {
-            expect(
-              result.usage.promptTokens,
-              greaterThan(0),
-              reason: 'Provider ${provider.name} should track prompt tokens',
-            );
-          }
-
-          if (result.usage.responseTokens != null) {
-            expect(
-              result.usage.responseTokens,
-              greaterThan(0),
-              reason:
-                  'Provider ${provider.name} should track response tokens',
-            );
-          }
-
-          if (result.usage.totalTokens != null) {
+          // If we have prompt and response, total should equal their sum
+          if (result.usage.promptTokens != null &&
+              result.usage.responseTokens != null) {
             expect(
               result.usage.totalTokens,
-              greaterThan(0),
-              reason: 'Provider ${provider.name} should track total tokens',
+              equals(result.usage.promptTokens! + result.usage.responseTokens!),
+              reason:
+                  'Provider ${provider.name} total should equal '
+                  'prompt + response tokens',
             );
-
-            // If we have prompt and response, total should equal their sum
-            if (result.usage.promptTokens != null &&
-                result.usage.responseTokens != null) {
-              expect(
-                result.usage.totalTokens,
-                equals(
-                  result.usage.promptTokens! + result.usage.responseTokens!,
-                ),
-                reason:
-                    'Provider ${provider.name} total should equal '
-                    'prompt + response tokens',
-              );
-            }
           }
-        },
-        timeout: const Timeout(Duration(minutes: 3)),
-      );
+        }
+      }, timeout: const Timeout(Duration(minutes: 3)));
     });
 
     group('cumulative usage tracking', () {

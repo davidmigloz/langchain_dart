@@ -1,15 +1,11 @@
-// CRITICAL TEST FAILURE INVESTIGATION PROCESS:
-// When a test fails for a provider capability:
-// 1. NEVER immediately disable the capability in provider definitions
-// 2. ALWAYS investigate at the API level first:
-//    - Test with curl to verify if the feature works at the raw API level
-//    - Check the provider's official documentation
-//    - Look for differences between our implementation and the API requirements
-// 3. ONLY disable a capability after confirming:
-//    - The API itself doesn't support the feature, OR
-//    - The API has a fundamental limitation (like Together's
-//      streaming tool format)
-// 4. If the API supports it but our code doesn't: FIX THE IMPLEMENTATION
+/// TESTING PHILOSOPHY:
+/// 1. DO NOT catch exceptions - let them bubble up for diagnosis
+/// 2. DO NOT add provider filtering except by capabilities (e.g. ProviderCaps)
+/// 3. DO NOT add performance tests
+/// 4. DO NOT add regression tests
+/// 5. 80% cases = common usage patterns tested across ALL capable providers
+/// 6. Edge cases = rare scenarios tested on Google only to avoid timeouts
+/// 7. Each functionality should only be tested in ONE file - no duplication
 
 import 'package:langchain_compat/langchain_compat.dart';
 import 'package:test/test.dart';
@@ -25,33 +21,34 @@ void main() {
   }) {
     group(testName, () {
       for (final provider in ChatProvider.all) {
-        test('${provider.name} - $testName', () async {
-          await testFunction(provider);
-        }, timeout: timeout ?? const Timeout(Duration(seconds: 30)));
+        test(
+          '${provider.name} - $testName',
+          () async {
+            await testFunction(provider);
+          },
+          timeout: timeout ?? const Timeout(Duration(seconds: 30)),
+        );
       }
     });
   }
 
   group('Reliability Features', () {
     group('basic construction reliability', () {
-      runProviderTest(
-        'agent creation does not throw',
-        (provider) async {
-          // Test that agent creation works for all providers (no API calls)
-          expect(
-            () => Agent('${provider.name}:${provider.defaultModelName}'),
-            returnsNormally,
-            reason:
-                'Provider ${provider.name} should create agent '
-                'without throwing',
-          );
+      runProviderTest('agent creation does not throw', (provider) async {
+        // Test that agent creation works for all providers (no API calls)
+        expect(
+          () => Agent('${provider.name}:${provider.defaultModelName}'),
+          returnsNormally,
+          reason:
+              'Provider ${provider.name} should create agent '
+              'without throwing',
+        );
 
-          // Test that agent has expected properties
-          final agent = Agent('${provider.name}:${provider.defaultModelName}');
-          expect(agent.providerName, equals(provider.name));
-          expect(agent.model, contains('${provider.name}:'));
-        },
-      );
+        // Test that agent has expected properties
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
+        expect(agent.providerName, equals(provider.name));
+        expect(agent.model, contains('${provider.name}:'));
+      });
 
       test('provider creation handles missing API keys', () {
         // All providers should create agents even without API keys

@@ -217,7 +217,8 @@ class ToolPart extends Part {
   final dynamic result;
 
   /// The raw arguments as a JSON string (for compatibility).
-  String get argumentsRaw => argumentsRawString ?? 
+  String get argumentsRaw =>
+      argumentsRawString ??
       (arguments != null
           ? (arguments!.isEmpty ? '{}' : _jsonEncode(arguments))
           : '');

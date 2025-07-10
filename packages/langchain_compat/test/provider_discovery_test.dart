@@ -1,15 +1,14 @@
-// CRITICAL TEST FAILURE INVESTIGATION PROCESS:
-// When a test fails for a provider capability:
-// 1. NEVER immediately disable the capability in provider definitions
-// 2. ALWAYS investigate at the API level first:
-//    - Test with curl to verify if the feature works at the raw API level
-//    - Check the provider's official documentation
-//    - Look for differences between our implementation and the API requirements
-// 3. ONLY disable a capability after confirming:
-//    - The API itself doesn't support the feature, OR
-//    - The API has a fundamental limitation (like Together's
-//      streaming tool format)
-// 4. If the API supports it but our code doesn't: FIX THE IMPLEMENTATION
+/// TESTING PHILOSOPHY:
+/// 1. DO NOT catch exceptions - let them bubble up for diagnosis
+/// 2. DO NOT add provider filtering except by capabilities (e.g. ProviderCaps)
+/// 3. DO NOT add performance tests
+/// 4. DO NOT add regression tests
+/// 5. 80% cases = common usage patterns tested across ALL capable providers
+/// 6. Edge cases = rare scenarios tested on Google only to avoid timeouts
+/// 7. Each functionality should only be tested in ONE file - no duplication
+/// 
+/// This file tests provider discovery including model enumeration via 
+/// listModels()
 
 import 'package:langchain_compat/langchain_compat.dart';
 import 'package:test/test.dart';
@@ -23,9 +22,13 @@ void main() {
   }) {
     group(testName, () {
       for (final provider in ChatProvider.all) {
-        test('${provider.name} - $testName', () async {
-          await testFunction(provider);
-        }, timeout: timeout ?? const Timeout(Duration(seconds: 30)));
+        test(
+          '${provider.name} - $testName',
+          () async {
+            await testFunction(provider);
+          },
+          timeout: timeout ?? const Timeout(Duration(seconds: 30)),
+        );
       }
     });
   }
@@ -38,9 +41,13 @@ void main() {
   }) {
     group(testName, () {
       for (final provider in EmbeddingsProvider.all) {
-        test('${provider.name} - $testName', () async {
-          await testFunction(provider);
-        }, timeout: timeout ?? const Timeout(Duration(seconds: 30)));
+        test(
+          '${provider.name} - $testName',
+          () async {
+            await testFunction(provider);
+          },
+          timeout: timeout ?? const Timeout(Duration(seconds: 30)),
+        );
       }
     });
   }
@@ -206,7 +213,7 @@ void main() {
         for (final provider in ChatProvider.all) {
           expect(provider.listModels, isNotNull);
         }
-        
+
         for (final provider in EmbeddingsProvider.all) {
           expect(provider.listModels, isNotNull);
         }
@@ -318,7 +325,7 @@ void main() {
         ChatProvider.openai,
         ChatProvider.anthropic,
       ];
-      
+
       final edgeCaseEmbeddingsProviders = <EmbeddingsProvider>[
         EmbeddingsProvider.openai,
       ];
@@ -374,7 +381,8 @@ void main() {
         final provider = ChatProvider.openai;
         final models = await provider.listModels().toList();
 
-        for (final model in models.take(10)) {  // Test first 10 models only
+        for (final model in models.take(10)) {
+          // Test first 10 models only
           // OpenAI models should have recognizable patterns
           expect(
             model.name,
