@@ -10,6 +10,9 @@
 //    - The API has a fundamental limitation (like Together's streaming tool
 //      format)
 // 4. If the API supports it but our code doesn't: FIX THE IMPLEMENTATION
+// 5. LET EXCEPTIONS BUBBLE UP: Do not add defensive checks or try-catch blocks.
+//    Missing API keys, network errors, and provider issues should fail loudly
+//    so they can be identified and fixed immediately.
 
 import 'package:langchain_compat/langchain_compat.dart';
 import 'package:test/test.dart';
@@ -17,10 +20,27 @@ import 'package:test/test.dart';
 import 'test_tools.dart';
 
 void main() {
+  // Helper to run parameterized tests
+  void runProviderTest(
+    String testName,
+    Future<void> Function(ChatProvider provider) testFunction, {
+    Timeout? timeout,
+  }) {
+    group(testName, () {
+      for (final provider in ChatProvider.all) {
+        test(provider.name, () async {
+          await testFunction(provider);
+        }, timeout: timeout ?? const Timeout(Duration(seconds: 30)));
+      }
+    });
+  }
+
   group('Streaming Architecture', () {
     group('basic streaming behavior', () {
-      test('agent streaming returns individual chunks', () async {
-        final agent = Agent('openai:gpt-4o-mini');
+      runProviderTest('agent streaming returns individual chunks', (
+        provider,
+      ) async {
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
         final chunks = <String>[];
         await for (final chunk in agent.runStream('Count from 1 to 3')) {
@@ -38,8 +58,10 @@ void main() {
         expect(fullText, contains('3'));
       });
 
-      test('streaming chunks have incremental content', () async {
-        final agent = Agent('openai:gpt-4o-mini');
+      runProviderTest('streaming chunks have incremental content', (
+        provider,
+      ) async {
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
         var totalLength = 0;
         await for (final chunk in agent.runStream('Write a short poem')) {
@@ -52,8 +74,8 @@ void main() {
         expect(totalLength, greaterThan(0));
       });
 
-      test('empty chunks are handled gracefully', () async {
-        final agent = Agent('openai:gpt-4o-mini');
+      runProviderTest('empty chunks are handled gracefully', (provider) async {
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
         var emptyChunks = 0;
         var nonEmptyChunks = 0;
@@ -72,54 +94,33 @@ void main() {
         expect(emptyChunks, greaterThanOrEqualTo(0));
       });
 
-      test(
-        'ALL providers handle streaming correctly',
-        timeout: const Timeout(Duration(minutes: 3)),
-        () async {
-          // Test EVERY provider
-          for (final provider in ChatProvider.all) {
-            // Skip local providers if not available
-            if (provider.name.contains('ollama')) {
-              continue; // Skip for speed
-            }
+      runProviderTest('handle streaming correctly', (provider) async {
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
-            // Testing streaming with provider
+        final chunks = <String>[];
+        await for (final chunk in agent.runStream(
+          'Write three words: apple, banana, orange',
+        )) {
+          chunks.add(chunk.output);
+        }
 
-            final agent = Agent(
-              '${provider.name}:${provider.defaultModelName}',
-            );
+        expect(
+          chunks,
+          isNotEmpty,
+          reason: 'Provider ${provider.name} should stream chunks',
+        );
 
-            final chunks = <String>[];
-            await for (final chunk in agent.runStream(
-              'Write three words: apple, banana, orange',
-            )) {
-              chunks.add(chunk.output);
-            }
+        // Combined output should contain all words
+        final fullText = chunks.join();
+        expect(
+          fullText.toLowerCase(),
+          allOf([contains('apple'), contains('banana'), contains('orange')]),
+          reason: 'Provider ${provider.name} should stream complete content',
+        );
+      }, timeout: const Timeout(Duration(minutes: 3)));
 
-            expect(
-              chunks,
-              isNotEmpty,
-              reason: 'Provider ${provider.name} should stream chunks',
-            );
-
-            // Combined output should contain all words
-            final fullText = chunks.join();
-            expect(
-              fullText.toLowerCase(),
-              allOf([
-                contains('apple'),
-                contains('banana'),
-                contains('orange'),
-              ]),
-              reason:
-                  'Provider ${provider.name} should stream complete content',
-            );
-          }
-        },
-      );
-
-      test('streaming preserves message sequence', () async {
-        final agent = Agent('openai:gpt-4o-mini');
+      runProviderTest('streaming preserves message sequence', (provider) async {
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
         final allMessages = <ChatMessage>[];
         await for (final chunk in agent.runStream('Hello')) {
@@ -135,8 +136,10 @@ void main() {
     });
 
     group('text consolidation', () {
-      test('chunks combine to form complete response', () async {
-        final agent = Agent('openai:gpt-4o-mini');
+      runProviderTest('chunks combine to form complete response', (
+        provider,
+      ) async {
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
         final allChunks = <String>[];
         await for (final chunk in agent.runStream('What is 2 + 2?')) {
@@ -148,8 +151,8 @@ void main() {
         expect(consolidatedText, contains('4'));
       });
 
-      test('text accumulation is monotonic', () async {
-        final agent = Agent('openai:gpt-4o-mini');
+      runProviderTest('text accumulation is monotonic', (provider) async {
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
         final buffer = StringBuffer();
         var previousLength = 0;
@@ -167,8 +170,10 @@ void main() {
         expect(buffer.toString(), isNotEmpty);
       });
 
-      test('final consolidated text matches complete response', () async {
-        final agent = Agent('openai:gpt-4o-mini');
+      runProviderTest('final consolidated text matches complete response', (
+        provider,
+      ) async {
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
         // Get streaming response
         final streamChunks = <String>[];
@@ -182,8 +187,10 @@ void main() {
         expect(streamedText.toLowerCase(), contains('complete'));
       });
 
-      test('handles unicode and special characters in streaming', () async {
-        final agent = Agent('openai:gpt-4o-mini');
+      runProviderTest('handles unicode and special characters in streaming', (
+        provider,
+      ) async {
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
         final chunks = <String>[];
         await for (final chunk in agent.runStream('Say "Hello 世界 🌍"')) {
@@ -198,8 +205,33 @@ void main() {
     });
 
     group('tool execution streaming', () {
-      test('tool calls stream correctly', () async {
-        final agent = Agent('openai:gpt-4o-mini', tools: [stringTool]);
+      // Helper for tool-supporting providers only
+      void runToolProviderTest(
+        String testName,
+        Future<void> Function(ChatProvider provider) testFunction, {
+        Timeout? timeout,
+      }) {
+        group(testName, () {
+          final toolProviders = ChatProvider.allWith({
+            ProviderCaps.multiToolCalls,
+          });
+          for (final provider in toolProviders) {
+            test(
+              provider.name,
+              () async {
+                await testFunction(provider);
+              },
+              timeout: timeout ?? const Timeout(Duration(seconds: 30)),
+            );
+          }
+        });
+      }
+
+      runToolProviderTest('tool calls stream correctly', (provider) async {
+        final agent = Agent(
+          '${provider.name}:${provider.defaultModelName}',
+          tools: [stringTool],
+        );
 
         final allChunks = <ChatResult<String>>[];
         await agent
@@ -214,8 +246,13 @@ void main() {
         expect(hasToolResults, isTrue);
       });
 
-      test('tool argument streaming is handled correctly', () async {
-        final agent = Agent('openai:gpt-4o-mini', tools: [intTool]);
+      runToolProviderTest('tool argument streaming is handled correctly', (
+        provider,
+      ) async {
+        final agent = Agent(
+          '${provider.name}:${provider.defaultModelName}',
+          tools: [intTool],
+        );
 
         var toolCallFound = false;
         var toolResultFound = false;
@@ -237,8 +274,13 @@ void main() {
         expect(toolResultFound, isTrue);
       });
 
-      test('multiple tool calls stream in sequence', () async {
-        final agent = Agent('openai:gpt-4o-mini', tools: [stringTool, intTool]);
+      runToolProviderTest('multiple tool calls stream in sequence', (
+        provider,
+      ) async {
+        final agent = Agent(
+          '${provider.name}:${provider.defaultModelName}',
+          tools: [stringTool, intTool],
+        );
 
         final allMessages = <ChatMessage>[];
         await for (final chunk in agent.runStream(
@@ -252,8 +294,13 @@ void main() {
         expect(toolResults, isNotEmpty);
       });
 
-      test('tool errors are handled in streaming', () async {
-        final agent = Agent('openai:gpt-4o-mini', tools: [errorTool]);
+      runToolProviderTest('tool errors are handled in streaming', (
+        provider,
+      ) async {
+        final agent = Agent(
+          '${provider.name}:${provider.defaultModelName}',
+          tools: [errorTool],
+        );
 
         // Should complete without throwing, even if tool fails
         await for (final _ in agent.runStream(
@@ -263,56 +310,43 @@ void main() {
         }
       });
 
-      test(
-        'ALL providers handle tool streaming correctly',
-        timeout: const Timeout(Duration(minutes: 3)),
-        () async {
-          // Test EVERY provider that supports tools
-          for (final provider in ChatProvider.allWith({
-            ProviderCaps.multiToolCalls,
-          })) {
-            // Skip local providers if not available
-            if (provider.name.contains('ollama')) {
-              continue; // Skip for speed
-            }
+      runToolProviderTest(
+        'handle tool streaming correctly',
+        (provider) async {
+          final agent = Agent(
+            '${provider.name}:${provider.defaultModelName}',
+            tools: [stringTool],
+          );
 
-            // Testing tool streaming with provider
+          final allChunks = <ChatResult<String>>[];
+          await agent
+              .runStream('Use string_tool with input "stream ${provider.name}"')
+              .forEach(allChunks.add);
 
-            final agent = Agent(
-              '${provider.name}:${provider.defaultModelName}',
-              tools: [stringTool],
-            );
+          expect(
+            allChunks,
+            isNotEmpty,
+            reason: 'Provider ${provider.name} should stream tool calls',
+          );
 
-            final allChunks = <ChatResult<String>>[];
-            await agent
-                .runStream(
-                  'Use string_tool with input "stream ${provider.name}"',
-                )
-                .forEach(allChunks.add);
-
-            expect(
-              allChunks,
-              isNotEmpty,
-              reason: 'Provider ${provider.name} should stream tool calls',
-            );
-
-            // Should have tool execution in the complete message set
-            final allMessages = allChunks.expand((c) => c.messages).toList();
-            final hasToolResults = allMessages.any((m) => m.hasToolResults);
-            expect(
-              hasToolResults,
-              isTrue,
-              reason:
-                  'Provider ${provider.name} should execute tools in stream',
-            );
-          }
+          // Should have tool execution in the complete message set
+          final allMessages = allChunks.expand((c) => c.messages).toList();
+          final hasToolResults = allMessages.any((m) => m.hasToolResults);
+          expect(
+            hasToolResults,
+            isTrue,
+            reason: 'Provider ${provider.name} should execute tools in stream',
+          );
         },
+        timeout: const Timeout(Duration(minutes: 3)),
       );
     });
 
     group('message accumulation patterns', () {
-      test('messages accumulate correctly during streaming', () async {
-        final agent = Agent('openai:gpt-4o-mini');
+      runProviderTest('messages accumulate correctly during streaming', (
+        provider,
+      ) async {
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
         final messageHistory = <ChatMessage>[];
         await for (final chunk in agent.runStream('Hello, how are you?')) {
@@ -333,8 +367,10 @@ void main() {
         expect(modelMessages, isNotEmpty);
       });
 
-      test('message parts are preserved during streaming', () async {
-        final agent = Agent('openai:gpt-4o-mini');
+      runProviderTest('message parts are preserved during streaming', (
+        provider,
+      ) async {
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
         final allParts = <Part>[];
         await for (final chunk in agent.runStream('Tell me a story')) {
@@ -350,8 +386,8 @@ void main() {
         expect(textParts, isNotEmpty);
       });
 
-      test('streaming with conversation history', () async {
-        final agent = Agent('openai:gpt-4o-mini');
+      runProviderTest('streaming with conversation history', (provider) async {
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
         final history = [
           const ChatMessage(
@@ -384,8 +420,8 @@ void main() {
     });
 
     group('streaming performance and efficiency', () {
-      test('streaming starts quickly', () async {
-        final agent = Agent('openai:gpt-4o-mini');
+      runProviderTest('streaming starts quickly', (provider) async {
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
         final stopwatch = Stopwatch()..start();
         await for (final _ in agent.runStream('Hello')) {
@@ -396,9 +432,11 @@ void main() {
         }
       });
 
-      test('streaming handles concurrent requests', () async {
-        final agent1 = Agent('openai:gpt-4o-mini');
-        final agent2 = Agent('openai:gpt-4o-mini');
+      runProviderTest('streaming handles concurrent requests', (
+        provider,
+      ) async {
+        final agent1 = Agent('${provider.name}:${provider.defaultModelName}');
+        final agent2 = Agent('${provider.name}:${provider.defaultModelName}');
 
         final futures = [
           agent1.runStream('Count to 5').toList(),
@@ -412,8 +450,8 @@ void main() {
         expect(results[1], isNotEmpty);
       });
 
-      test('streaming memory usage is reasonable', () async {
-        final agent = Agent('openai:gpt-4o-mini');
+      runProviderTest('streaming memory usage is reasonable', (provider) async {
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
         var chunkCount = 0;
         await for (final chunk in agent.runStream('Write a short paragraph')) {
@@ -433,8 +471,10 @@ void main() {
     });
 
     group('streaming edge cases', () {
-      test('very short responses stream correctly', () async {
-        final agent = Agent('openai:gpt-4o-mini');
+      runProviderTest('very short responses stream correctly', (
+        provider,
+      ) async {
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
         final chunks = <String>[];
         await for (final chunk in agent.runStream('Say "yes"')) {
@@ -446,8 +486,8 @@ void main() {
         expect(fullText, contains('yes'));
       });
 
-      test('empty input streams correctly', () async {
-        final agent = Agent('openai:gpt-4o-mini');
+      runProviderTest('empty input streams correctly', (provider) async {
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
         var chunkCount = 0;
         await for (final chunk in agent.runStream('')) {
@@ -459,8 +499,8 @@ void main() {
         expect(chunkCount, greaterThanOrEqualTo(0));
       });
 
-      test('special characters in streaming', () async {
-        final agent = Agent('openai:gpt-4o-mini');
+      runProviderTest('special characters in streaming', (provider) async {
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
         final chunks = <String>[];
         await for (final chunk in agent.runStream(r'Echo: @#$%^&*()')) {
@@ -472,8 +512,10 @@ void main() {
         expect(chunks.join(), isNotEmpty);
       });
 
-      test('streaming with system prompt override', () async {
-        final agent = Agent('openai:gpt-4o-mini');
+      runProviderTest('streaming with system prompt override', (
+        provider,
+      ) async {
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
         final history = [
           const ChatMessage(
@@ -499,8 +541,8 @@ void main() {
     });
 
     group('stream termination and completion', () {
-      test('stream completes properly', () async {
-        final agent = Agent('openai:gpt-4o-mini');
+      runProviderTest('stream completes properly', (provider) async {
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
         var streamCompleted = false;
         await for (final chunk in agent.runStream('Say goodbye')) {
@@ -511,8 +553,8 @@ void main() {
         expect(streamCompleted, isTrue);
       });
 
-      test('final chunk has complete message set', () async {
-        final agent = Agent('openai:gpt-4o-mini');
+      runProviderTest('final chunk has complete message set', (provider) async {
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
         ChatResult<String>? lastChunk;
         await for (final chunk in agent.runStream('Hello world')) {
@@ -527,8 +569,8 @@ void main() {
         expect(roles, contains(MessageRole.model));
       });
 
-      test('stream can be canceled early', () async {
-        final agent = Agent('openai:gpt-4o-mini');
+      runProviderTest('stream can be canceled early', (provider) async {
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
         var chunkCount = 0;
         await for (final _ in agent.runStream('Write a long story')) {
@@ -543,58 +585,23 @@ void main() {
     });
 
     group('provider-specific streaming behavior', () {
-      test('OpenAI streaming patterns', () async {
-        final agent = Agent('openai:gpt-4o-mini');
+      runProviderTest('provider streaming patterns', (provider) async {
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
         final chunks = <ChatResult<String>>[];
         await agent.runStream('Count from 1 to 5').forEach(chunks.add);
 
         expect(chunks, isNotEmpty);
 
-        // OpenAI typically streams word by word or phrase by phrase
+        // All providers should stream with non-empty outputs
         final outputs = chunks.map((c) => c.output).toList();
         expect(outputs.any((o) => o.isNotEmpty), isTrue);
-      });
-
-      test('Google streaming patterns', () async {
-        final agent = Agent('google:gemini-2.0-flash');
-
-        final chunks = <ChatResult<String>>[];
-        await agent.runStream('Count from 1 to 5').forEach(chunks.add);
-
-        expect(chunks, isNotEmpty);
-
-        // Google may have different streaming characteristics
-        final fullText = chunks.map((c) => c.output).join();
-        expect(fullText, isNotEmpty);
-      });
-
-      test('streaming with different model types', () async {
-        final models = ['openai:gpt-4o-mini', 'google:gemini-2.0-flash'];
-
-        for (final model in models) {
-          final agent = Agent(model);
-
-          var hasContent = false;
-          await for (final chunk in agent.runStream('Say hello')) {
-            if (chunk.output.isNotEmpty) {
-              hasContent = true;
-              break;
-            }
-          }
-
-          expect(
-            hasContent,
-            isTrue,
-            reason: 'Model $model should stream content',
-          );
-        }
       });
     });
 
     group('streaming error handling', () {
-      test('network interruption handling', () async {
-        final agent = Agent('openai:gpt-4o-mini');
+      runProviderTest('network interruption handling', (provider) async {
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
         // Should handle network issues gracefully
         await for (final chunk in agent.runStream('Hello')) {
@@ -602,8 +609,8 @@ void main() {
         }
       });
 
-      test('malformed response handling', () async {
-        final agent = Agent('openai:gpt-4o-mini');
+      runProviderTest('malformed response handling', (provider) async {
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
         // Agent should handle unexpected responses
         await for (final chunk in agent.runStream('Test response')) {
@@ -611,8 +618,8 @@ void main() {
         }
       });
 
-      test('timeout handling in streaming', () async {
-        final agent = Agent('openai:gpt-4o-mini');
+      runProviderTest('timeout handling in streaming', (provider) async {
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
         // Should handle long responses appropriately
         var hasResponse = false;

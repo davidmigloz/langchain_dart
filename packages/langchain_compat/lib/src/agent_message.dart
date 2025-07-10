@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:logging/logging.dart';
-import 'package:uuid/uuid.dart';
 
 import 'chat/chat_models/chat_models.dart';
 import 'chat/chat_providers/chat_providers.dart';
@@ -162,7 +161,6 @@ class Agent {
   late final String _providerName;
   late final ChatModel _model;
   late final String? _displayName;
-  static const _uuid = Uuid();
 
   /// Flag to track if we should prefix the next AI message with a newline.
   /// Used to separate consecutive AI messages for better readability.
@@ -308,8 +306,8 @@ class Agent {
         lastResult = result;
       }
 
-      // Assign UUIDs to tool calls that don't have IDs
-      final toolCallsWithIds = _assignToolCallIds(toolCalls);
+      // Mappers should have already assigned IDs - just use them as-is
+      final toolCallsWithIds = toolCalls;
 
       // Create the complete message with all parts
       final parts = <Part>[];
@@ -435,18 +433,4 @@ class Agent {
     );
   }
 
-  /// Assigns UUIDs to tool calls that don't have IDs.
-  ///
-  /// This handles providers that don't provide tool call IDs (e.g., Google).
-  List<ToolPart> _assignToolCallIds(List<ToolPart> toolParts) =>
-      toolParts.map((toolPart) {
-        if (toolPart.kind == ToolPartKind.call && toolPart.id.isEmpty) {
-          return ToolPart.call(
-            id: _uuid.v4(),
-            name: toolPart.name,
-            arguments: toolPart.arguments,
-          );
-        }
-        return toolPart;
-      }).toList();
 }

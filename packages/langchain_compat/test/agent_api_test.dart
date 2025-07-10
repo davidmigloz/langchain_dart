@@ -10,6 +10,9 @@
 //    - The API has a fundamental limitation (like Together's
 //      streaming tool format)
 // 4. If the API supports it but our code doesn't: FIX THE IMPLEMENTATION
+// 5. LET EXCEPTIONS BUBBLE UP: Do not add defensive checks or try-catch blocks.
+//    Missing API keys, network errors, and provider issues should fail loudly
+//    so they can be identified and fixed immediately.
 
 import 'dart:typed_data';
 
@@ -19,6 +22,37 @@ import 'package:test/test.dart';
 import 'test_tools.dart';
 
 void main() {
+  // Helper to run parameterized tests
+  void runProviderTest(
+    String testName,
+    Future<void> Function(ChatProvider provider) testFunction, {
+    Timeout? timeout,
+  }) {
+    group(testName, () {
+      for (final provider in ChatProvider.all) {
+        test(provider.name, () async {
+          await testFunction(provider);
+        }, timeout: timeout ?? const Timeout(Duration(seconds: 30)));
+      }
+    });
+  }
+
+  // Helper for tool-supporting providers only
+  void runToolProviderTest(
+    String testName,
+    Future<void> Function(ChatProvider provider) testFunction, {
+    Timeout? timeout,
+  }) {
+    group(testName, () {
+      final toolProviders = ChatProvider.allWith({ProviderCaps.multiToolCalls});
+      for (final provider in toolProviders) {
+        test(provider.name, () async {
+          await testFunction(provider);
+        }, timeout: timeout ?? const Timeout(Duration(seconds: 30)));
+      }
+    });
+  }
+
   group('Agent API', () {
     group('agent construction', () {
       test('creates agent with provider only', () {
@@ -63,74 +97,67 @@ void main() {
         expect(agent.displayName, equals('My Custom Agent'));
       });
 
-      test(
-        'ALL providers can be instantiated as agents',
-        timeout: const Timeout(Duration(minutes: 1)),
-        () async {
-          // Test EVERY provider
-          for (final provider in ChatProvider.all) {
-            // Testing agent construction with provider
+      runProviderTest(
+        'can be instantiated as agents',
+        (provider) async {
+          final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
-            final agent = Agent(
+          expect(
+            agent,
+            isNotNull,
+            reason: 'Provider ${provider.name} should create valid agent',
+          );
+          expect(
+            agent.providerName,
+            equals(provider.name),
+            reason:
+                'Provider ${provider.name} should have correct provider'
+                ' name',
+          );
+          expect(
+            agent.model,
+            equals('${provider.name}:${provider.defaultModelName}'),
+            reason:
+                'Provider ${provider.name} should have correct model '
+                'string',
+          );
+
+          // Test with tools
+          if (provider.caps.contains(ProviderCaps.multiToolCalls)) {
+            final agentWithTools = Agent(
               '${provider.name}:${provider.defaultModelName}',
-            );
-
-            expect(
-              agent,
-              isNotNull,
-              reason: 'Provider ${provider.name} should create valid agent',
+              tools: [stringTool],
             );
             expect(
-              agent.providerName,
-              equals(provider.name),
-              reason:
-                  'Provider ${provider.name} should have correct provider'
-                  ' name',
-            );
-            expect(
-              agent.model,
-              equals('${provider.name}:${provider.defaultModelName}'),
-              reason:
-                  'Provider ${provider.name} should have correct model '
-                  'string',
-            );
-
-            // Test with tools
-            if (provider.caps.contains(ProviderCaps.multiToolCalls)) {
-              final agentWithTools = Agent(
-                '${provider.name}:${provider.defaultModelName}',
-                tools: [stringTool],
-              );
-              expect(
-                agentWithTools,
-                isNotNull,
-                reason:
-                    'Provider ${provider.name} should create agent with tools',
-              );
-            }
-
-            // Test with options
-            final agentWithOptions = Agent(
-              '${provider.name}:${provider.defaultModelName}',
-              temperature: 0.7,
-              systemPrompt: 'You are a test assistant',
-            );
-            expect(
-              agentWithOptions,
+              agentWithTools,
               isNotNull,
               reason:
-                  'Provider ${provider.name} should create agent with '
-                  'options',
+                  'Provider ${provider.name} should create agent with tools',
             );
           }
+
+          // Test with options
+          final agentWithOptions = Agent(
+            '${provider.name}:${provider.defaultModelName}',
+            temperature: 0.7,
+            systemPrompt: 'You are a test assistant',
+          );
+          expect(
+            agentWithOptions,
+            isNotNull,
+            reason:
+                'Provider ${provider.name} should create agent with '
+                'options',
+          );
         },
+        timeout: const Timeout(Duration(minutes: 1)),
       );
     });
 
     group('system prompts', () {
-      test('agent with default system prompt', () async {
+      runProviderTest('agent with default system prompt', (provider) async {
         final agent = Agent(
-          'openai:gpt-4o-mini',
+          '${provider.name}:${provider.defaultModelName}',
           systemPrompt: 'You are a helpful math tutor. Always show your work.',
         );
 
@@ -139,9 +166,9 @@ void main() {
         expect(result.output, isA<String>());
       });
 
-      test('system prompt override with history', () async {
+      runProviderTest('system prompt override with history', (provider) async {
         final agent = Agent(
-          'openai:gpt-4o-mini',
+          '${provider.name}:${provider.defaultModelName}',
           systemPrompt: 'You are a helpful assistant.',
         );
 
@@ -167,9 +194,11 @@ void main() {
         );
       });
 
-      test('system prompt behavior without override', () async {
+      runProviderTest('system prompt behavior without override', (
+        provider,
+      ) async {
         final agent = Agent(
-          'openai:gpt-4o-mini',
+          '${provider.name}:${provider.defaultModelName}',
           systemPrompt: 'You must always end responses with "END".',
         );
 
@@ -177,9 +206,9 @@ void main() {
         expect(result.output, endsWith('END'));
       });
 
-      test('system prompt with tools', () async {
+      runToolProviderTest('system prompt with tools', (provider) async {
         final agent = Agent(
-          'openai:gpt-4o-mini',
+          '${provider.name}:${provider.defaultModelName}',
           systemPrompt: 'You are a calculator assistant. Use tools to compute.',
           tools: [intTool],
         );
@@ -193,8 +222,11 @@ void main() {
         expect(toolResults, isNotEmpty);
       });
 
-      test('empty system prompt handling', () async {
-        final agent = Agent('openai:gpt-4o-mini', systemPrompt: '');
+      runProviderTest('empty system prompt handling', (provider) async {
+        final agent = Agent(
+          '${provider.name}:${provider.defaultModelName}',
+          systemPrompt: '',
+        );
 
         final result = await agent.run('Hello');
         expect(result.output, isNotEmpty);
@@ -202,8 +234,8 @@ void main() {
     });
 
     group('attachments', () {
-      test('agent run with data attachments', () async {
-        final agent = Agent('openai:gpt-4o-mini');
+      runProviderTest('agent run with data attachments', (provider) async {
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
         // Create a simple image attachment
         final imageBytes = Uint8List.fromList([
@@ -234,8 +266,8 @@ void main() {
         expect(userMessage.parts.whereType<DataPart>(), hasLength(1));
       });
 
-      test('agent run with link attachments', () async {
-        final agent = Agent('openai:gpt-4o-mini');
+      runProviderTest('agent run with link attachments', (provider) async {
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
         final result = await agent.run(
           'Tell me about this image',
@@ -258,72 +290,66 @@ void main() {
         expect(userMessage.parts.whereType<LinkPart>(), hasLength(1));
       });
 
-      test(
-        'agent run with multiple attachments',
-        skip: 'Image validation issues',
-        () async {
-          final agent = Agent('openai:gpt-4o-mini');
+      runProviderTest('agent run with multiple attachments', (provider) async {
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
-          // Create a minimal valid JPEG
-          final imageBytes = Uint8List.fromList([
-            0xFF, 0xD8, 0xFF, 0xE0, 0x00, 0x10, 0x4A, 0x46, // JPEG header
-            0x49, 0x46, 0x00, 0x01, 0x01, 0x00, 0x00, 0x01,
-            0x00, 0x01, 0x00, 0x00, 0xFF, 0xDB, 0x00, 0x43,
-            0x00, 0x08, 0x06, 0x06, 0x07, 0x06, 0x05, 0x08,
-            0x07, 0x07, 0x07, 0x09, 0x09, 0x08, 0x0A, 0x0C,
-            0xFF, 0xD9, // End marker
-          ]);
+        // Create a minimal valid JPEG
+        final imageBytes = Uint8List.fromList([
+          0xFF, 0xD8, 0xFF, 0xE0, 0x00, 0x10, 0x4A, 0x46, // JPEG header
+          0x49, 0x46, 0x00, 0x01, 0x01, 0x00, 0x00, 0x01,
+          0x00, 0x01, 0x00, 0x00, 0xFF, 0xDB, 0x00, 0x43,
+          0x00, 0x08, 0x06, 0x06, 0x07, 0x06, 0x05, 0x08,
+          0x07, 0x07, 0x07, 0x09, 0x09, 0x08, 0x0A, 0x0C,
+          0xFF, 0xD9, // End marker
+        ]);
 
-          final result = await agent.run(
-            'Analyze these inputs',
-            attachments: [
-              DataPart(bytes: imageBytes, mimeType: 'image/jpeg'),
-              const LinkPart(
-                url:
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/PNG_transparency_demonstration_1.png/240px-PNG_transparency_demonstration_1.png',
-              ),
-            ],
-          );
+        final result = await agent.run(
+          'Analyze these inputs',
+          attachments: [
+            DataPart(bytes: imageBytes, mimeType: 'image/jpeg'),
+            const LinkPart(
+              url:
+                  'https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/PNG_transparency_demonstration_1.png/240px-PNG_transparency_demonstration_1.png',
+            ),
+          ],
+        );
 
-          expect(result.output, isNotEmpty);
+        expect(result.output, isNotEmpty);
 
-          // Should have a user message with text + multiple attachments
-          final userMessage = result.messages
-              .where((msg) => msg.role == MessageRole.user)
-              .first;
-          expect(userMessage.parts.whereType<TextPart>(), hasLength(1));
-          expect(userMessage.parts.whereType<DataPart>(), hasLength(1));
-          expect(userMessage.parts.whereType<LinkPart>(), hasLength(1));
-        },
-      );
+        // Should have a user message with text + multiple attachments
+        final userMessage = result.messages
+            .where((msg) => msg.role == MessageRole.user)
+            .first;
+        expect(userMessage.parts.whereType<TextPart>(), hasLength(1));
+        expect(userMessage.parts.whereType<DataPart>(), hasLength(1));
+        expect(userMessage.parts.whereType<LinkPart>(), hasLength(1));
+      });
 
-      test(
-        'attachments without text prompt',
-        skip: 'Image validation issues',
-        () async {
-          final agent = Agent('openai:gpt-4o-mini');
+      runProviderTest('attachments without text prompt', (provider) async {
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
-          final imageBytes = Uint8List.fromList([1, 2, 3]);
+        final imageBytes = Uint8List.fromList([1, 2, 3]);
 
-          final result = await agent.run(
-            '', // Empty text
-            attachments: [DataPart(bytes: imageBytes, mimeType: 'image/png')],
-          );
+        final result = await agent.run(
+          '', // Empty text
+          attachments: [DataPart(bytes: imageBytes, mimeType: 'image/png')],
+        );
 
-          expect(result.output, isNotEmpty);
+        expect(result.output, isNotEmpty);
 
-          // Should still create valid user message
-          final userMessage = result.messages
-              .where((msg) => msg.role == MessageRole.user)
-              .first;
-          expect(userMessage.parts.whereType<DataPart>(), hasLength(1));
-        },
-      );
+        // Should still create valid user message
+        final userMessage = result.messages
+            .where((msg) => msg.role == MessageRole.user)
+            .first;
+        expect(userMessage.parts.whereType<DataPart>(), hasLength(1));
+      });
     });
 
     group('history management', () {
-      test('multi-turn conversation with history accumulation', () async {
-        final agent = Agent('openai:gpt-4o-mini');
+      runProviderTest('multi-turn conversation with history accumulation', (
+        provider,
+      ) async {
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
         final history = <ChatMessage>[];
 
         // Turn 1: Introduction
@@ -348,8 +374,8 @@ void main() {
         ); // 3 user + 3 AI minimum
       });
 
-      test('history with system message override', () async {
-        final agent = Agent('openai:gpt-4o-mini');
+      runProviderTest('history with system message override', (provider) async {
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
         final history = [
           const ChatMessage(
@@ -366,8 +392,8 @@ void main() {
         );
       });
 
-      test('history preservation across calls', () async {
-        final agent = Agent('openai:gpt-4o-mini');
+      runProviderTest('history preservation across calls', (provider) async {
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
         final history = <ChatMessage>[
           const ChatMessage(
             role: MessageRole.system,
@@ -390,8 +416,8 @@ void main() {
         expect(result.output.toLowerCase(), contains('red'));
       });
 
-      test('empty history handling', () async {
-        final agent = Agent('openai:gpt-4o-mini');
+      runProviderTest('empty history handling', (provider) async {
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
         final result = await agent.run(
           'Hello',
@@ -404,8 +430,8 @@ void main() {
     });
 
     group('streaming behavior', () {
-      test('agent streaming with simple text', () async {
-        final agent = Agent('openai:gpt-4o-mini');
+      runProviderTest('agent streaming with simple text', (provider) async {
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
         final chunks = <String>[];
         var messageCount = 0;
@@ -423,8 +449,11 @@ void main() {
         expect(messageCount, greaterThan(0));
       });
 
-      test('streaming with tools', () async {
-        final agent = Agent('openai:gpt-4o-mini', tools: [stringTool]);
+      runToolProviderTest('streaming with tools', (provider) async {
+        final agent = Agent(
+          '${provider.name}:${provider.defaultModelName}',
+          tools: [stringTool],
+        );
 
         final chunks = <String>[];
         final allMessages = <ChatMessage>[];
@@ -446,8 +475,8 @@ void main() {
         expect(toolResults, isNotEmpty);
       });
 
-      test('streaming with history', () async {
-        final agent = Agent('openai:gpt-4o-mini');
+      runProviderTest('streaming with history', (provider) async {
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
         final history = [
           const ChatMessage(
             role: MessageRole.user,
@@ -471,8 +500,8 @@ void main() {
         expect(fullText, contains('42'));
       });
 
-      test('streaming empty chunks handling', () async {
-        final agent = Agent('openai:gpt-4o-mini');
+      runProviderTest('streaming empty chunks handling', (provider) async {
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
         final allChunks = <String>[];
 
@@ -536,8 +565,8 @@ void main() {
         expect(() => Agent(':gpt-4o-mini'), throwsA(isA<StateError>()));
       });
 
-      test('agent handles API errors gracefully', () async {
-        final agent = Agent('openai:gpt-4o-mini');
+      runProviderTest('agent handles API errors gracefully', (provider) async {
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
         // This should complete without throwing
         expect(() async => agent.run('Hello'), returnsNormally);
@@ -572,27 +601,18 @@ void main() {
     });
 
     group('provider-specific features', () {
-      test('OpenAI agent creation and basic usage', () async {
-        final agent = Agent('openai:gpt-4o-mini');
-        final result = await agent.run('Say "OpenAI test"');
-        expect(result.output, contains('OpenAI test'));
+      runProviderTest('agent creation and basic usage', (provider) async {
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
+        final result = await agent.run('Say "${provider.name} test"');
+        expect(result.output.toLowerCase(), contains('${provider.name} test'));
       });
 
-      test('Google agent creation and basic usage', () async {
-        final agent = Agent('google:gemini-2.0-flash');
-        final result = await agent.run('Say "Google test"');
-        expect(result.output, contains('Google test'));
-      });
-
-      test('Construction without API calls', () {
+      runProviderTest('Construction without API calls', (provider) async {
         // These should construct without making API calls
-        expect(() => Agent('openai:gpt-4o-mini'), returnsNormally);
-        expect(() => Agent('google:gemini-2.0-flash'), returnsNormally);
-      });
-
-      test('Ollama agent creation (no API key required)', () {
-        // Ollama doesn't require API keys
-        expect(() => Agent('ollama:llama3.2:latest'), returnsNormally);
+        expect(
+          () => Agent('${provider.name}:${provider.defaultModelName}'),
+          returnsNormally,
+        );
       });
     });
   });

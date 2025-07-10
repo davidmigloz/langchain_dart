@@ -10,6 +10,9 @@
 //    - The API has a fundamental limitation (like Together's streaming tool
 //      format)
 // 4. If the API supports it but our code doesn't: FIX THE IMPLEMENTATION
+// 5. LET EXCEPTIONS BUBBLE UP: Do not add defensive checks or try-catch blocks.
+//    Missing API keys, network errors, and provider issues should fail loudly
+//    so they can be identified and fixed immediately.
 
 // ignore_for_file: avoid_dynamic_calls
 
@@ -17,7 +20,6 @@ import 'package:langchain_compat/langchain_compat.dart';
 import 'package:test/test.dart';
 
 import 'test_tools.dart';
-import 'test_utils.dart';
 import 'test_weather_tool.dart';
 
 void main() {
@@ -33,12 +35,6 @@ void main() {
     group(testName, () {
       for (final provider in toolProviders) {
         test(provider.name, () async {
-          // Skip local providers if not available
-          if (provider.name.contains('ollama') && !await isOllamaAvailable()) {
-            // Ollama not running - skip this provider
-            return;
-          }
-
           await testFunction(provider);
         }, timeout: timeout ?? const Timeout(Duration(seconds: 30)));
       }

@@ -1,7 +1,4 @@
-import 'dart:convert';
-import 'dart:math';
-
-import 'package:crypto/crypto.dart';
+import 'package:uuid/uuid.dart';
 
 import '../chat_message.dart';
 
@@ -12,86 +9,32 @@ import '../chat_message.dart';
 /// providers that don't supply their own IDs (Google, Ollama) and for fixing
 /// providers that supply empty IDs (Google's OpenAI endpoint).
 class ToolIdHelpers {
+  static const _uuid = Uuid();
+
   /// Generates a unique tool call ID.
   ///
-  /// Format: `tool_{providerHint}_{toolName}_{uniqueSuffix}`
-  ///
-  /// The ID is designed to be:
-  /// - Unique within a response
-  /// - Readable for debugging
-  /// - Consistent across retries when possible
+  /// Returns a standard UUID v4 for maximum compatibility across all
+  /// providers. Some providers have strict requirements for ID format
+  /// (alphanumeric + dashes).
   static String generateToolCallId({
     required String toolName,
     String? providerHint,
     Map<String, dynamic>? arguments,
     int? index,
-  }) {
-    final provider = providerHint ?? 'unknown';
-    final suffix = _generateUniqueSuffix(toolName, arguments, index);
-    return 'tool_${provider}_${toolName}_$suffix';
-  }
+  }) =>
+      _uuid.v4();
 
-  /// Generates a unique suffix for a tool call ID.
-  ///
-  /// Uses a combination of:
-  /// - Argument hash (for deterministic IDs when possible)
-  /// - Index (for multiple calls with same args)
-  /// - Random component (for uniqueness)
-  static String _generateUniqueSuffix(
-    String toolName,
-    Map<String, dynamic>? arguments,
-    int? index,
-  ) {
-    // Create a deterministic component from arguments
-    final argHash = arguments != null && arguments.isNotEmpty
-        ? _hashArguments(arguments)
-        : 'noargs';
-
-    // Add index if provided (for multiple calls)
-    final indexPart = index != null ? '${index}_' : '';
-
-    // Add random component for uniqueness
-    final random = Random().nextInt(1000);
-
-    return '$indexPart$argHash$random';
-  }
-
-  /// Creates a short hash of the arguments for deterministic ID generation.
-  static String _hashArguments(Map<String, dynamic> arguments) {
-    try {
-      final jsonStr = json.encode(arguments);
-      final bytes = utf8.encode(jsonStr);
-      final digest = sha1.convert(bytes);
-      // Take first 8 chars of hash
-      return digest.toString().substring(0, 8);
-    } on Exception {
-      // Fallback if arguments can't be serialized
-      return 'err${Random().nextInt(1000)}';
-    }
-  }
 
   /// Validates that a tool call ID is well-formed.
-  static bool isValidToolCallId(String id) =>
-      id.isNotEmpty && id.startsWith('tool_');
+  /// Any non-empty string is considered valid since providers may use their
+  /// own ID formats.
+  static bool isValidToolCallId(String id) => id.isNotEmpty;
 
   /// Extracts the tool name from a generated tool call ID.
   ///
-  /// For IDs in format "tool_{provider}_{toolName}_{suffix}", returns toolName.
-  /// Returns null if the ID doesn't match the expected format.
-  static String? extractToolNameFromId(String toolCallId) {
-    if (!isValidToolCallId(toolCallId)) return null;
-
-    final parts = toolCallId.split('_');
-    if (parts.length >= 3) {
-      // Format: tool_provider_toolName_suffix
-      // Find the tool name part (everything between provider and suffix)
-      final endIndex = parts.lastIndexOf(parts.last);
-      if (endIndex > 2) {
-        return parts.sublist(2, endIndex).join('_');
-      }
-    }
-    return null;
-  }
+  /// Since we now use pure UUIDs, this method can't extract tool names.
+  /// Returns null as tool names must be tracked separately.
+  static String? extractToolNameFromId(String toolCallId) => null;
 
   /// Fixes empty or invalid tool call IDs in a message.
   ///

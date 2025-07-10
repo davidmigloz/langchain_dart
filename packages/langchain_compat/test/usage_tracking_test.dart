@@ -14,8 +14,6 @@
 import 'package:langchain_compat/langchain_compat.dart';
 import 'package:test/test.dart';
 
-import 'test_utils.dart';
-
 void main() {
   // Helper to run parameterized tests
   void runProviderTest(
@@ -26,12 +24,6 @@ void main() {
     group(testName, () {
       for (final provider in ChatProvider.all) {
         test(provider.name, () async {
-          // Skip local providers if not available
-          if (provider.name.contains('ollama') && !await isOllamaAvailable()) {
-            // Ollama not running - skip this provider
-            return;
-          }
-          
           await testFunction(provider);
         }, timeout: timeout ?? const Timeout(Duration(seconds: 30)));
       }

@@ -18,7 +18,6 @@ import 'package:langchain_compat/src/chat/chat_models/helpers/tool_id_helpers.da
 import 'package:test/test.dart';
 
 import 'test_tools.dart';
-import 'test_utils.dart';
 
 void main() {
   // Get all providers that support tools
@@ -33,12 +32,6 @@ void main() {
     group(testName, () {
       for (final provider in toolProviders) {
         test(provider.name, () async {
-          // Skip local providers if not available
-          if (provider.name.contains('ollama') && !await isOllamaAvailable()) {
-            // Ollama not running - skip this provider
-            return;
-          }
-          
           await testFunction(provider);
         }, timeout: timeout ?? const Timeout(Duration(seconds: 30)));
       }
@@ -57,12 +50,13 @@ void main() {
           providerHint: 'openai',
         );
 
-        expect(id1, startsWith('tool_openai_weather_tool_'));
-        expect(id2, startsWith('tool_openai_weather_tool_'));
-        expect(id1, isNot(equals(id2))); // Should be unique
+        // IDs should be non-empty and unique
+        expect(id1, isNotEmpty);
+        expect(id2, isNotEmpty);
+        expect(id1, isNot(equals(id2)));
       });
 
-      test('generates deterministic IDs with same arguments', () {
+      test('generates unique IDs even with same arguments', () {
         final args = {'city': 'Boston', 'units': 'fahrenheit'};
 
         final id1 = ToolIdHelpers.generateToolCallId(
@@ -78,10 +72,10 @@ void main() {
           index: 0,
         );
 
-        // Should have same prefix and argument hash
-        final id1Parts = id1.split('_');
-        final id2Parts = id2.split('_');
-        expect(id1Parts.take(4).join('_'), equals(id2Parts.take(4).join('_')));
+        // Each call should get a unique ID
+        expect(id1, isNotEmpty);
+        expect(id2, isNotEmpty);
+        expect(id1, isNot(equals(id2)));
       });
 
       test('handles empty and null arguments', () {
@@ -93,30 +87,45 @@ void main() {
           toolName: 'no_params_tool',
         );
 
-        expect(idEmpty, contains('noargs'));
-        expect(idNull, contains('noargs'));
+        // Should generate valid IDs regardless of arguments
+        expect(idEmpty, isNotEmpty);
+        expect(idNull, isNotEmpty);
+        expect(idEmpty, isNot(equals(idNull)));
       });
 
       test('validates tool call IDs', () {
+        // Any non-empty string is valid
+        expect(ToolIdHelpers.isValidToolCallId('abc123'), isTrue);
         expect(ToolIdHelpers.isValidToolCallId('tool_openai_test_123'), isTrue);
+        expect(
+          ToolIdHelpers.isValidToolCallId(
+            'a2e46fb8-4c8e-4200-a995-ceb84b9f812d',
+          ),
+          isTrue,
+        );
+        expect(ToolIdHelpers.isValidToolCallId('simple-id'), isTrue);
+        // Empty is invalid
         expect(ToolIdHelpers.isValidToolCallId(''), isFalse);
-        expect(ToolIdHelpers.isValidToolCallId('invalid_id'), isFalse);
       });
 
-      test('extracts tool name from ID', () {
+      test('extractToolNameFromId returns null (IDs are opaque)', () {
+        // Tool IDs are opaque - we don't extract info from them
+        expect(
+          ToolIdHelpers.extractToolNameFromId('any-id-format'),
+          isNull,
+        );
         expect(
           ToolIdHelpers.extractToolNameFromId(
             'tool_openai_weather_tool_abc123',
           ),
-          equals('weather_tool'),
+          isNull,
         );
         expect(
           ToolIdHelpers.extractToolNameFromId(
-            'tool_google_complex_name_with_underscores_xyz',
+            'a2e46fb8-4c8e-4200-a995-ceb84b9f812d',
           ),
-          equals('complex_name_with_underscores'),
+          isNull,
         );
-        expect(ToolIdHelpers.extractToolNameFromId('invalid_id'), isNull);
       });
 
       test('assigns IDs to tool calls without them', () {
@@ -133,9 +142,16 @@ void main() {
         );
 
         expect(updated[0], isA<TextPart>());
-        expect((updated[1] as ToolPart).id, startsWith('tool_test_tool1_'));
+        // Should assign non-empty IDs to empty ones
+        expect((updated[1] as ToolPart).id, isNotEmpty);
+        // Keep existing
         expect((updated[2] as ToolPart).id, equals('existing_id'));
-        expect((updated[3] as ToolPart).id, startsWith('tool_test_tool3_'));
+        expect((updated[3] as ToolPart).id, isNotEmpty);
+        // Assigned IDs should be unique
+        expect(
+          (updated[1] as ToolPart).id,
+          isNot(equals((updated[3] as ToolPart).id)),
+        );
       });
     });
 

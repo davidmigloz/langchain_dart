@@ -129,7 +129,17 @@ class RetryHttpClient extends http.BaseClient {
       final currentRequest = requestInfo.createRequest();
 
       try {
+        _logger.fine(
+          'Attempt ${attempt + 1}/${maxRetries + 1} for '
+          '${requestInfo.method} ${requestInfo.url}',
+        );
+        
         final response = await inner.send(currentRequest);
+
+        _logger.fine(
+          'Response ${response.statusCode} for '
+          '${requestInfo.method} ${requestInfo.url}',
+        );
 
         // If not a rate limit error, return immediately
         if (response.statusCode != 429) {
@@ -140,7 +150,8 @@ class RetryHttpClient extends http.BaseClient {
         if (attempt == maxRetries) {
           _logger.warning(
             'Rate limit retry exhausted after $maxRetries attempts for '
-            '${requestInfo.method} ${requestInfo.url}',
+            '${requestInfo.method} ${requestInfo.url} '
+            '(final status: ${response.statusCode})',
           );
           return response;
         }
@@ -149,7 +160,10 @@ class RetryHttpClient extends http.BaseClient {
         final delay = _calculateDelay(attempt, response.headers);
 
         _logger.info(
-          'Rate limited (429), retrying attempt ${attempt + 1}/$maxRetries after ${delay.inMilliseconds}ms for ${requestInfo.method} ${requestInfo.url}',
+          'Rate limited (429), retrying attempt ${attempt + 1}/$maxRetries '
+          'after ${delay.inMilliseconds}ms for '
+          '${requestInfo.method} ${requestInfo.url} '
+          '(Retry-After: ${response.headers['retry-after'] ?? 'not set'})',
         );
 
         // Consume the response body before retrying
@@ -197,7 +211,7 @@ class RetryHttpClient extends http.BaseClient {
         final serverDelay = Duration(seconds: seconds);
         final effectiveDelay = serverDelay > maxDelay ? maxDelay : serverDelay;
 
-        _logger.fine(
+        _logger.info(
           'Using server Retry-After header: ${seconds}s '
           '(capped at ${effectiveDelay.inSeconds}s)',
         );

@@ -24,6 +24,14 @@ provider-specific packages—just use `langchain_compat` for everything.
 - **Named Providers:** Dynamic provider selection using names and aliases (e.g.,
   'claude' → Anthropic, 'gemini' → Google).
 - **Usage Tracking:** Token usage monitoring and reporting across all providers.
+- **OpenAI-Compatibility:** TODO: talk about the existing providers that are
+  based on OpenAI compatibilty that change their parameters, e.g. api key name
+  and baseUrl. then talk about how they can define their own using the same
+  technique, 
+- **Named Lookup**: TODO: by provider[:/]model name. then talk about how they
+  can add their own add it to the list of providers and have it participate in
+  the named lookup.
+
 
 ## Supported Providers
 

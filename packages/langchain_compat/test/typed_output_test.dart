@@ -10,6 +10,9 @@
 //    - The API has a fundamental limitation (like Together's streaming tool
 //      format)
 // 4. If the API supports it but our code doesn't: FIX THE IMPLEMENTATION
+// 5. LET EXCEPTIONS BUBBLE UP: Do not add defensive checks or try-catch blocks.
+//    Missing API keys, network errors, and provider issues should fail loudly
+//    so they can be identified and fixed immediately.
 
 // ignore_for_file: avoid_dynamic_calls
 
@@ -20,9 +23,27 @@ import 'package:langchain_compat/langchain_compat.dart';
 import 'package:test/test.dart';
 
 void main() {
+  // Get all providers that support typed output
+  final typedOutputProviders = ChatProvider.allWith({ProviderCaps.typedOutput});
+
+  // Helper to run parameterized tests
+  void runProviderTest(
+    String testName,
+    Future<void> Function(ChatProvider provider) testFunction, {
+    Timeout? timeout,
+  }) {
+    group(testName, () {
+      for (final provider in typedOutputProviders) {
+        test(provider.name, () async {
+          await testFunction(provider);
+        }, timeout: timeout ?? const Timeout(Duration(seconds: 30)));
+      }
+    });
+  }
+
   group('Typed Output', () {
     group('basic structured output', () {
-      test('returns simple JSON object', () async {
+      runProviderTest('returns simple JSON object', (provider) async {
         final schema = js.JsonSchema.create({
           'type': 'object',
           'properties': {
@@ -32,7 +53,7 @@ void main() {
           'required': ['name', 'age'],
         });
 
-        final agent = Agent('anthropic:claude-3-5-haiku-latest');
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
         final result = await agent.run(
           'Generate a person with name "John" and age 30',
           outputSchema: schema,
@@ -43,7 +64,7 @@ void main() {
         expect(json['age'], equals(30));
       });
 
-      test('handles nested objects', () async {
+      runProviderTest('handles nested objects', (provider) async {
         final schema = js.JsonSchema.create({
           'type': 'object',
           'properties': {
@@ -66,7 +87,7 @@ void main() {
           'required': ['user', 'settings'],
         });
 
-        final agent = Agent('openai:gpt-4o-mini');
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
         final result = await agent.run(
           'Create a user object with name "Alice", email "alice@example.com", '
           'theme "dark", and notifications enabled',
@@ -84,7 +105,7 @@ void main() {
         }
       });
 
-      test('returns arrays when specified', () async {
+      runProviderTest('returns arrays when specified', (provider) async {
         final schema = js.JsonSchema.create({
           'type': 'object',
           'properties': {
@@ -103,7 +124,7 @@ void main() {
           'required': ['items'],
         });
 
-        final agent = Agent('google:gemini-2.0-flash');
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
         final result = await agent.run(
           'Create an array of 3 items with sequential IDs starting at 1 '
           'and names "Apple", "Banana", "Cherry"',
@@ -118,10 +139,9 @@ void main() {
         expect(json['items'][2]['name'], equals('Cherry'));
       });
 
-      test(
-        'ALL providers handle structured output correctly',
-        timeout: const Timeout(Duration(minutes: 3)),
-        () async {
+      runProviderTest(
+        'handle structured output correctly',
+        (provider) async {
           final schema = js.JsonSchema.create({
             'type': 'object',
             'properties': {
@@ -132,53 +152,37 @@ void main() {
             'required': ['result', 'count', 'success'],
           });
 
-          // Test EVERY provider that supports typed output
-          for (final provider in ChatProvider.allWith({
-            ProviderCaps.typedOutput,
-          })) {
-            // Skip local providers if not available
-            if (provider.name.contains('ollama')) {
-              continue; // Skip for speed
-            }
+          final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
-            // Testing structured output with provider
+          final result = await agent.run(
+            'Generate JSON with result="${provider.name} test", '
+            'count=42, success=true',
+            outputSchema: schema,
+          );
 
-            final agent = Agent(
-              '${provider.name}:${provider.defaultModelName}',
-            );
-
-            final result = await agent.run(
-              'Generate JSON with result="${provider.name} test", '
-              'count=42, success=true',
-              outputSchema: schema,
-            );
-
-            final json = jsonDecode(result.output) as Map<String, dynamic>;
-            expect(
-              json['result'],
-              equals('${provider.name} test'),
-              reason:
-                  'Provider ${provider.name} should generate correct string',
-            );
-            expect(
-              json['count'],
-              equals(42),
-              reason:
-                  'Provider ${provider.name} should generate correct integer',
-            );
-            expect(
-              json['success'],
-              isTrue,
-              reason:
-                  'Provider ${provider.name} should generate correct boolean',
-            );
-          }
+          final json = jsonDecode(result.output) as Map<String, dynamic>;
+          expect(
+            json['result'],
+            equals('${provider.name} test'),
+            reason: 'Provider ${provider.name} should generate correct string',
+          );
+          expect(
+            json['count'],
+            equals(42),
+            reason: 'Provider ${provider.name} should generate correct integer',
+          );
+          expect(
+            json['success'],
+            isTrue,
+            reason: 'Provider ${provider.name} should generate correct boolean',
+          );
         },
+        timeout: const Timeout(Duration(minutes: 3)),
       );
     });
 
     group('data types', () {
-      test('handles all primitive types', () async {
+      runProviderTest('handles all primitive types', (provider) async {
         final schema = js.JsonSchema.create({
           'type': 'object',
           'properties': {
@@ -196,7 +200,7 @@ void main() {
           ],
         });
 
-        final agent = Agent('anthropic:claude-3-5-haiku-latest');
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
         final result = await agent.run(
           'Create object with: string_field="test", integer_field=42, '
           'number_field=3.14, boolean_field=true, null_field=null',
@@ -211,7 +215,7 @@ void main() {
         expect(json['null_field'], isNull);
       });
 
-      test('respects enum constraints', () async {
+      runProviderTest('respects enum constraints', (provider) async {
         final schema = js.JsonSchema.create({
           'type': 'object',
           'properties': {
@@ -227,7 +231,7 @@ void main() {
           'required': ['status', 'priority'],
         });
 
-        final agent = Agent('openai:gpt-4o-mini');
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
         final result = await agent.run(
           'Create object with status "approved" and priority "high"',
           outputSchema: schema,
@@ -238,7 +242,7 @@ void main() {
         expect(json['priority'], equals('high'));
       });
 
-      test('handles numeric constraints', () async {
+      runProviderTest('handles numeric constraints', (provider) async {
         final schema = js.JsonSchema.create({
           'type': 'object',
           'properties': {
@@ -248,7 +252,7 @@ void main() {
           'required': ['age', 'score'],
         });
 
-        final agent = Agent('google:gemini-2.0-flash');
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
         final result = await agent.run(
           'Create object with age 25 and score 87.5',
           outputSchema: schema,
@@ -263,7 +267,7 @@ void main() {
     });
 
     group('complex schemas', () {
-      test('generates valid recursive structures', () async {
+      runProviderTest('generates valid recursive structures', (provider) async {
         final schema = js.JsonSchema.create({
           'type': 'object',
           'properties': {
@@ -283,7 +287,7 @@ void main() {
           'required': ['name'],
         });
 
-        final agent = Agent('anthropic:claude-3-5-haiku-latest');
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
         final result = await agent.run(
           'Create a parent named "John" with two children: "Alice" age 10 and '
           '"Bob" age 8',
@@ -297,7 +301,7 @@ void main() {
         expect(json['children'][0]['age'], equals(10));
       });
 
-      test('handles union types with anyOf', () async {
+      runProviderTest('handles union types with anyOf', (provider) async {
         final schema = js.JsonSchema.create({
           'type': 'object',
           'properties': {
@@ -312,7 +316,7 @@ void main() {
           'required': ['value'],
         });
 
-        final agent = Agent('openai:gpt-4o-mini');
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
         // Test with string
         var result = await agent.run(
@@ -333,7 +337,7 @@ void main() {
     });
 
     group('error cases', () {
-      test('handles schema validation errors', () async {
+      runProviderTest('handles schema validation errors', (provider) async {
         final schema = js.JsonSchema.create({
           'type': 'object',
           'properties': {
@@ -342,7 +346,7 @@ void main() {
           'required': ['required_field', 'another_required_field'], // Invalid
         });
 
-        final agent = Agent('google:gemini-2.0-flash');
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
 
         // Model should handle gracefully even with invalid schema
         final result = await agent.run(
@@ -354,7 +358,7 @@ void main() {
         expect(result.output, isNotEmpty);
       });
 
-      test('handles conflicting instructions', () async {
+      runProviderTest('handles conflicting instructions', (provider) async {
         final schema = js.JsonSchema.create({
           'type': 'object',
           'properties': {
@@ -363,7 +367,7 @@ void main() {
           'required': ['number'],
         });
 
-        final agent = Agent('anthropic:claude-3-5-haiku-latest');
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
         final result = await agent.run(
           // Conflicting: asking for 50 but schema max is 20
           'Create a JSON object with number between 10 and 20',
@@ -380,7 +384,7 @@ void main() {
     });
 
     group('provider differences', () {
-      test('handles provider-specific formats', () async {
+      runProviderTest('handles provider-specific formats', (provider) async {
         final schema = js.JsonSchema.create({
           'type': 'object',
           'properties': {
@@ -391,35 +395,22 @@ void main() {
 
         // Different providers handle schemas differently internally but all
         // should produce valid JSON output through Agent
-
-        // OpenAI
-        var agent = Agent('openai:gpt-4o-mini');
-        var result = await agent.run(
-          'Create object with message "OpenAI test"',
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
+        final result = await agent.run(
+          'Create object with message "${provider.name} test"',
           outputSchema: schema,
         );
         expect(() => jsonDecode(result.output), returnsNormally);
 
-        // Anthropic
-        agent = Agent('anthropic:claude-3-5-haiku-latest');
-        result = await agent.run(
-          'Create object with message "Anthropic test"',
-          outputSchema: schema,
-        );
-        expect(() => jsonDecode(result.output), returnsNormally);
-
-        // Google
-        agent = Agent('google:gemini-2.0-flash');
-        result = await agent.run(
-          'Create object with message "Google test"',
-          outputSchema: schema,
-        );
-        expect(() => jsonDecode(result.output), returnsNormally);
+        final json = jsonDecode(result.output) as Map<String, dynamic>;
+        expect(json['message'], equals('${provider.name} test'));
       });
     });
 
     group('all providers - typed output', () {
-      test('structured output works across supporting providers', () async {
+      runProviderTest('structured output works across supporting providers', (
+        provider,
+      ) async {
         final schema = js.JsonSchema.create({
           'type': 'object',
           'properties': {
@@ -429,32 +420,24 @@ void main() {
           'required': ['name', 'value'],
         });
 
-        // Test subset of structured output providers
-        final structuredProviders = {'openai': 'gpt-4o-mini'};
+        final agent = Agent('${provider.name}:${provider.defaultModelName}');
+        final result = await agent.run(
+          'Create object with name "test" and value 123',
+          outputSchema: schema,
+        );
 
-        for (final entry in structuredProviders.entries) {
-          final providerName = entry.key;
-          final modelName = entry.value;
+        final json = jsonDecode(result.output) as Map<String, dynamic>;
 
-          final agent = Agent('$providerName:$modelName');
-          final result = await agent.run(
-            'Create object with name "test" and value 123',
-            outputSchema: schema,
-          );
-
-          final json = jsonDecode(result.output) as Map<String, dynamic>;
-
-          expect(
-            json['name'],
-            equals('test'),
-            reason: 'Provider $providerName should return correct name',
-          );
-          expect(
-            json['value'],
-            equals(123),
-            reason: 'Provider $providerName should return correct value',
-          );
-        }
+        expect(
+          json['name'],
+          equals('test'),
+          reason: 'Provider ${provider.name} should return correct name',
+        );
+        expect(
+          json['value'],
+          equals(123),
+          reason: 'Provider ${provider.name} should return correct value',
+        );
       });
     });
   });
