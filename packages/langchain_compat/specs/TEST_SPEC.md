@@ -2,6 +2,18 @@
 
 ## Core Testing Philosophy
 
+### Testing Principles
+
+1. **Exception Transparency**: DO NOT catch exceptions - let them bubble up for diagnosis
+2. **Capability-Based Filtering**: DO NOT add provider filtering except by capabilities (e.g. ProviderCaps)
+3. **No Performance Testing**: DO NOT add performance tests
+4. **No Regression Testing**: DO NOT add regression tests
+5. **80% Coverage**: Common usage patterns tested across ALL capable providers
+6. **Edge Case Isolation**: Rare scenarios tested on Google only to avoid timeouts
+7. **Single Responsibility**: Each functionality should only be tested in ONE file - no duplication
+
+### Required Test File Header
+
 **CRITICAL: This header MUST appear at the top of EVERY test file:**
 
 ```dart
@@ -15,134 +27,179 @@
 /// 7. Each functionality should only be tested in ONE file - no duplication
 ```
 
-## Complete Functionality Areas (20 total)
+## Complete Functionality Areas (18 total)
 
 Based on comprehensive analysis of lib/langchain_compat.dart and the entire codebase:
 
-ADD: Update each of these functional areas to show the 80% vs. Edge breakdown
-
 ### 1. **Chat Models** (lib/src/chat/)
+   **80% Cases:**
    - Basic chat completions
    - Multi-turn conversations
    - System prompts
-   - REMOVE: Temperature/options control
+   
+   **Edge Cases:**
+   - Empty/null inputs
+   - Unicode/emoji handling
 
 ### 2. **Embeddings** (lib/src/embeddings/)
+   **80% Cases:**
    - Text embeddings generation
    - Document embeddings
    - Similarity calculations
-   - Batch processing
+   
+   **Edge Cases:**
+   - Empty text handling
 
 ### 3. **Tool Calling** (lib/src/tools/)
+   **80% Cases:**
    - Single tool calls
    - Multiple tool calls in sequence
    - Tool result handling
-   - Tool validation
-   - ADD: Tools with and without parameters
-   - ADD: Tools with atomic results, list returns and structured results
+   - Tools with and without parameters
+   - Tools with atomic results, list returns and structured results
+   
+   **Edge Cases:**
+   - Tool validation errors
+   - Malformed tool responses
 
 ### 4. **Streaming** (Agent and ChatModel streaming)
+   **80% Cases:**
    - Basic streaming responses
    - Tool call streaming
    - Multi-turn streaming
-   - Stream accumulation
+   
+   **Edge Cases:**
+   - Stream accumulation edge cases
 
 ### 5. **Provider Discovery** (lib/src/chat/chat_providers/)
+   **80% Cases:**
    - Provider enumeration
    - Name/alias lookup
    - Capability detection
    - Model listing
+   
+   **Edge Cases:**
+   - Invalid provider names
+   - Missing API keys
 
 ### 6. **Message Management** (lib/src/chat/chat_messages.dart)
+   **80% Cases:**
    - Message construction
    - Role handling
    - Part types (text, data, tool)
-   - Message conversion
+   
+   **Edge Cases:**
+   - Message conversion edge cases
+   - Malformed message parts
 
 ### 7. **Agent Orchestration** (lib/src/agent.dart)
-   - REMOVE: High-level run/runStream -- well tested in other tests
-   - REMOVE: Tool execution -- this is covered in the existing tools test
+   **80% Cases:**
    - Message consolidation
-   - Error handling
+   - Agent lifecycle management
+   
+   **Edge Cases:**
+   - Error propagation
+   - Complex message sequences
 
 ### 8. **Multi-modal Input** (DataPart support)
-   - Image attachments
-   - File uploads
-   - MIME type handling
+   **80% Cases:**
+   - Image attachments (PNG, JPEG)
    - Base64 encoding
+   
+   **Edge Cases:** (use OpenAI for this)
+   - Unsupported MIME types
+   - Two images
 
 ### 9. **Usage Tracking** (LanguageModelUsage)
+   **80% Cases:**
    - Token counting
    - Usage concatenation
-   - Billable character tracking
-   - REMOVE: Provider differences
+   
+   **Edge Cases:**
+   - Missing usage data
 
 ### 10. **Logging** (LoggingOptions)
+    **80% Cases:**
     - Level filtering
-    - REMOVE: Provider filtering
-    - ADD: String filtering -- could be by provider or area, e.g. "retry"
+    - String filtering (by provider or area, e.g. "retry")
     - Custom handlers
-    - REMOVE: Structured logging -- what is this?
+    
+    **Edge Cases:**
+    - Complex filter combinations
 
 ### 11. **Typed Output** (JSON Schema)
+    **80% Cases:**
     - Structured responses
-    - Schema validation
-    - REMOVE: Provider support -- use provider caps to test all providers that support schemas
-    - CONSIDER: Complex schemas -- 80% vs. edge
+    - Basic schema validation
+    - Simple nested schemas
+    
+    **Edge Cases:**
+    - Complex schemas (deep nesting, arrays of objects)
+    - Schema validation errors
 
 ### 12. **HTTP Reliability** (lib/src/http/)
-    - Retry logic
-    - Rate limiting (429)
+    **80% Cases:**
+    - Basic retry logic
+    - Rate limiting (429) handling
+    
+    **Edge Cases:**
     - Retry-After headers
-    - Custom HTTP clients
 
 ### 13. **Exception Handling** (lib/src/chat_exceptions.dart)
-    - EDGE: Provider-specific errors
-    - EDGE: Error mapping
-    - EDGE: Stack traces
-    - EDGE: Error messages
+    **80% Cases:**
+    - None (all exception handling is edge case testing)
+    
+    **Edge Cases:**
+    - Provider-specific errors
+    - Error mapping
+    - Stack traces
+    - Error messages
 
 ### 14. **Infrastructure Helpers**
-    - MessagePartHelpers (lib/src/chat/message_part_helpers.dart)
-    - ToolIdHelpers (lib/src/tools/tool_id_helpers.dart)
-    - ToolPartHelpers (lib/src/tools/tool_part_helpers.dart)
-    - CustomHttpClient (lib/src/custom_http_client.dart)
+    **80% Cases:**
+    - MessagePartHelpers basic operations
+    - ToolIdHelpers generation
+    - ToolPartHelpers conversion
+    - CustomHttpClient creation
+    
+    **Edge Cases:**
+    - Helper error conditions
+    - Null/empty input handling
 
 ### 15. **Model Options** (Provider-specific options)
-    - OpenAI options
-    - Anthropic options
-    - Google options
+    **80% Cases:**
+    - Basic option setting
     - Option merging
+    
+    **Edge Cases:**
+    - Invalid option values
 
 ### 16. **Provider Mappers** (Request/response transformation)
+    **80% Cases:**
     - Message conversion
     - Tool call mapping
-    - Stream parsing
+    
+    **Edge Cases:**
+    - Stream parsing edge cases
     - Error mapping
 
 ### 17. **System Integration**
+    **80% Cases:**
     - Cross-provider compatibility
     - Provider switching
-    - API key handling
-    - Environment setup
+    
+    **Edge Cases:**
+    - Missing API keys
+    - Environment setup issues
 
-### 18. **Ollama Support** (Local models)
-    - Native Ollama API
-    - OpenAI-compatible mode
-    - Model discovery
-    - Local vs remote
-
-### 19. **Provider Capabilities** (ProviderCaps)
+### 18. **Provider Capabilities** (ProviderCaps)
+    **80% Cases:**
     - Feature detection
     - Capability filtering
+    
+    **Edge Cases:**
     - Provider limitations
     - Dynamic capabilities
-
-### 20. **Finish Reasons** (lib/src/language_models/)
-    - REMOVE: Stop reasons
-    - REMOVE: Length limits
-    - REMOVE: Tool calls
-    - REMOVE: Content filtering
 
 ## Test Organization Plan
 
@@ -167,9 +224,7 @@ test/
 ├── model_options_test.dart            # 15. Model Options
 ├── provider_mappers_test.dart         # 16. Provider Mappers
 ├── system_integration_test.dart       # 17. System Integration
-├── ollama_support_test.dart           # 18. Ollama Support
-├── provider_capabilities_test.dart    # 19. Provider Capabilities
-└── finish_reasons_test.dart           # 20. Finish Reasons
+└── provider_capabilities_test.dart    # 18. Provider Capabilities
 ```
 
 ## Test Content Guidelines
@@ -233,14 +288,7 @@ Based on analysis, these files need to be created or have missing coverage:
 7. **infrastructure_helpers_test.dart** - Test all helper utilities
 8. **model_options_test.dart** - Test provider-specific options
 9. **provider_mappers_test.dart** - Test request/response transformations
-
-10. **ollama_support_test.dart** - Test Ollama-specific functionality
-- REMOVE this test file -- local LLMs should be tested alongside cloud LLMs
-
-11.  **provider_capabilities_test.dart** - Test ProviderCaps filtering
-
-12.  **finish_reasons_test.dart** - Test finish reason handling
-- REMOVE this test file -- not important to test
+10. **provider_capabilities_test.dart** - Test ProviderCaps filtering
 
 
 ## Implementation Priority
@@ -259,5 +307,4 @@ Based on analysis, these files need to be created or have missing coverage:
 3. **Low Priority** (Advanced/specific):
    - model_options_test.dart
    - provider_mappers_test.dart
-   - ollama_support_test.dart
-   - finish_reasons_test.dart
+   - provider_capabilities_test.dart
