@@ -32,7 +32,6 @@ void main() {
           ChatProvider.forName('fireworks'),
           equals(ChatProvider.fireworks),
         );
-        expect(ChatProvider.forName('nvidia'), equals(ChatProvider.nvidia));
         expect(ChatProvider.forName('lambda'), equals(ChatProvider.lambda));
         expect(ChatProvider.forName('cohere'), equals(ChatProvider.cohere));
         expect(ChatProvider.forName('cerebras'), equals(ChatProvider.cerebras));

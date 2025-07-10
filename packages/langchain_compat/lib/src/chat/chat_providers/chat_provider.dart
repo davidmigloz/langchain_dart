@@ -235,7 +235,6 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
     mistral,
     cohere,
     lambda,
-    nvidia,
     google,
     googleOpenAI,
     anthropic,
