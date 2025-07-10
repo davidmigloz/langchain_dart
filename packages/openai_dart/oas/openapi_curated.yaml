@@ -3080,7 +3080,7 @@ components:
         usage:
           $ref: "#/components/schemas/CompletionUsage"
       required:
-        - choices
+        # - choices # Made nullable to support Groq API which doesn't return this field all the time
         # - created # Made nullable to support FastChat API which doesn't return this field with some models
         # - id # Made nullable to support OpenRouter API which doesn't return this field with some models
         # - model # Made nullable to support TogetherAI API which doesn't return this field with some models

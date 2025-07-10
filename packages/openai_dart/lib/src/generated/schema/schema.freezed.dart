@@ -11682,7 +11682,8 @@ mixin _$CreateChatCompletionStreamResponse {
 
   /// A list of chat completion choices. Can contain more than one elements if `n` is greater than 1. Can also be empty for the
   /// last chunk if you set `stream_options: {"include_usage": true}`.
-  List<ChatCompletionStreamResponseChoice> get choices =>
+  @JsonKey(includeIfNull: false)
+  List<ChatCompletionStreamResponseChoice>? get choices =>
       throw _privateConstructorUsedError;
 
   /// The Unix timestamp (in seconds) of when the chat completion was created. Each chunk has the same timestamp.
@@ -11736,7 +11737,8 @@ abstract class $CreateChatCompletionStreamResponseCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(includeIfNull: false) String? id,
-      List<ChatCompletionStreamResponseChoice> choices,
+      @JsonKey(includeIfNull: false)
+      List<ChatCompletionStreamResponseChoice>? choices,
       @JsonKey(includeIfNull: false) int? created,
       @JsonKey(includeIfNull: false) String? model,
       @JsonKey(
@@ -11769,7 +11771,7 @@ class _$CreateChatCompletionStreamResponseCopyWithImpl<$Res,
   @override
   $Res call({
     Object? id = freezed,
-    Object? choices = null,
+    Object? choices = freezed,
     Object? created = freezed,
     Object? model = freezed,
     Object? serviceTier = freezed,
@@ -11782,10 +11784,10 @@ class _$CreateChatCompletionStreamResponseCopyWithImpl<$Res,
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
-      choices: null == choices
+      choices: freezed == choices
           ? _value.choices
           : choices // ignore: cast_nullable_to_non_nullable
-              as List<ChatCompletionStreamResponseChoice>,
+              as List<ChatCompletionStreamResponseChoice>?,
       created: freezed == created
           ? _value.created
           : created // ignore: cast_nullable_to_non_nullable
@@ -11839,7 +11841,8 @@ abstract class _$$CreateChatCompletionStreamResponseImplCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(includeIfNull: false) String? id,
-      List<ChatCompletionStreamResponseChoice> choices,
+      @JsonKey(includeIfNull: false)
+      List<ChatCompletionStreamResponseChoice>? choices,
       @JsonKey(includeIfNull: false) int? created,
       @JsonKey(includeIfNull: false) String? model,
       @JsonKey(
@@ -11872,7 +11875,7 @@ class __$$CreateChatCompletionStreamResponseImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
-    Object? choices = null,
+    Object? choices = freezed,
     Object? created = freezed,
     Object? model = freezed,
     Object? serviceTier = freezed,
@@ -11885,10 +11888,10 @@ class __$$CreateChatCompletionStreamResponseImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
-      choices: null == choices
+      choices: freezed == choices
           ? _value._choices
           : choices // ignore: cast_nullable_to_non_nullable
-              as List<ChatCompletionStreamResponseChoice>,
+              as List<ChatCompletionStreamResponseChoice>?,
       created: freezed == created
           ? _value.created
           : created // ignore: cast_nullable_to_non_nullable
@@ -11923,7 +11926,8 @@ class _$CreateChatCompletionStreamResponseImpl
     extends _CreateChatCompletionStreamResponse {
   const _$CreateChatCompletionStreamResponseImpl(
       {@JsonKey(includeIfNull: false) this.id,
-      required final List<ChatCompletionStreamResponseChoice> choices,
+      @JsonKey(includeIfNull: false)
+      final List<ChatCompletionStreamResponseChoice>? choices,
       @JsonKey(includeIfNull: false) this.created,
       @JsonKey(includeIfNull: false) this.model,
       @JsonKey(
@@ -11949,15 +11953,18 @@ class _$CreateChatCompletionStreamResponseImpl
 
   /// A list of chat completion choices. Can contain more than one elements if `n` is greater than 1. Can also be empty for the
   /// last chunk if you set `stream_options: {"include_usage": true}`.
-  final List<ChatCompletionStreamResponseChoice> _choices;
+  final List<ChatCompletionStreamResponseChoice>? _choices;
 
   /// A list of chat completion choices. Can contain more than one elements if `n` is greater than 1. Can also be empty for the
   /// last chunk if you set `stream_options: {"include_usage": true}`.
   @override
-  List<ChatCompletionStreamResponseChoice> get choices {
+  @JsonKey(includeIfNull: false)
+  List<ChatCompletionStreamResponseChoice>? get choices {
+    final value = _choices;
+    if (value == null) return null;
     if (_choices is EqualUnmodifiableListView) return _choices;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_choices);
+    return EqualUnmodifiableListView(value);
   }
 
   /// The Unix timestamp (in seconds) of when the chat completion was created. Each chunk has the same timestamp.
@@ -12053,7 +12060,8 @@ abstract class _CreateChatCompletionStreamResponse
     extends CreateChatCompletionStreamResponse {
   const factory _CreateChatCompletionStreamResponse(
           {@JsonKey(includeIfNull: false) final String? id,
-          required final List<ChatCompletionStreamResponseChoice> choices,
+          @JsonKey(includeIfNull: false)
+          final List<ChatCompletionStreamResponseChoice>? choices,
           @JsonKey(includeIfNull: false) final int? created,
           @JsonKey(includeIfNull: false) final String? model,
           @JsonKey(
@@ -12080,7 +12088,8 @@ abstract class _CreateChatCompletionStreamResponse
   /// A list of chat completion choices. Can contain more than one elements if `n` is greater than 1. Can also be empty for the
   /// last chunk if you set `stream_options: {"include_usage": true}`.
   @override
-  List<ChatCompletionStreamResponseChoice> get choices;
+  @JsonKey(includeIfNull: false)
+  List<ChatCompletionStreamResponseChoice>? get choices;
 
   /// The Unix timestamp (in seconds) of when the chat completion was created. Each chunk has the same timestamp.
   @override

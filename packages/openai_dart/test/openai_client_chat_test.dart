@@ -193,11 +193,11 @@ void main() {
         expect(res.created, greaterThan(0));
         expect(res.model, startsWith('gpt-4.1-nano'));
         expect(res.object, isNotEmpty);
-        if (res.choices.isNotEmpty) {
+        if ((res.choices ?? const []).isNotEmpty) {
           expect(res.choices, hasLength(1));
-          final choice = res.choices.first;
+          final choice = res.choices!.first;
           expect(choice.index, 0);
-          text += res.choices.first.delta?.content?.trim() ?? '';
+          text += res.choices!.first.delta?.content?.trim() ?? '';
           lastChoice = choice;
         }
         lastResponse = res;
@@ -380,7 +380,7 @@ void main() {
         );
         expect(res.model, startsWith('gpt-4.1-nano'));
         expect(res.choices, hasLength(1));
-        final choice = res.choices.first;
+        final choice = res.choices!.first;
         expect(choice.index, 0);
         final delta = choice.delta;
         if (choice.finishReason != ChatCompletionFinishReason.stop) {
@@ -618,7 +618,7 @@ void main() {
       final stream = client.createChatCompletionStream(request: request);
       await for (final res in stream) {
         expect(res.choices, hasLength(1));
-        final choice = res.choices.first;
+        final choice = res.choices!.first;
         transcript += choice.delta?.audio?.transcript ?? '';
         data += choice.delta?.audio?.data ?? '';
         chunks++;

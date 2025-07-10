@@ -21,7 +21,8 @@ class CreateChatCompletionStreamResponse
 
     /// A list of chat completion choices. Can contain more than one elements if `n` is greater than 1. Can also be empty for the
     /// last chunk if you set `stream_options: {"include_usage": true}`.
-    required List<ChatCompletionStreamResponseChoice> choices,
+    @JsonKey(includeIfNull: false)
+    List<ChatCompletionStreamResponseChoice>? choices,
 
     /// The Unix timestamp (in seconds) of when the chat completion was created. Each chunk has the same timestamp.
     @JsonKey(includeIfNull: false) int? created,
