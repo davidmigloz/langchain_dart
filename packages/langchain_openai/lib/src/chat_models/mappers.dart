@@ -283,7 +283,7 @@ extension ChatToolChoiceMapper on ChatToolChoice {
 extension CreateChatCompletionStreamResponseMapper
     on CreateChatCompletionStreamResponse {
   ChatResult toChatResult(final String id) {
-    final choice = choices.firstOrNull;
+    final choice = choices?.firstOrNull;
     final delta = choice?.delta;
 
     if (delta?.refusal != null && delta!.refusal!.isNotEmpty) {

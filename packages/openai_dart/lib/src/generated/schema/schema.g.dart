@@ -1019,8 +1019,8 @@ _$CreateChatCompletionStreamResponseImpl
             Map<String, dynamic> json) =>
         _$CreateChatCompletionStreamResponseImpl(
           id: json['id'] as String?,
-          choices: (json['choices'] as List<dynamic>)
-              .map((e) => ChatCompletionStreamResponseChoice.fromJson(
+          choices: (json['choices'] as List<dynamic>?)
+              ?.map((e) => ChatCompletionStreamResponseChoice.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
           created: (json['created'] as num?)?.toInt(),
@@ -1039,7 +1039,8 @@ Map<String, dynamic> _$$CreateChatCompletionStreamResponseImplToJson(
         _$CreateChatCompletionStreamResponseImpl instance) =>
     <String, dynamic>{
       if (instance.id case final value?) 'id': value,
-      'choices': instance.choices.map((e) => e.toJson()).toList(),
+      if (instance.choices?.map((e) => e.toJson()).toList() case final value?)
+        'choices': value,
       if (instance.created case final value?) 'created': value,
       if (instance.model case final value?) 'model': value,
       if (_$ServiceTierEnumMap[instance.serviceTier] case final value?)

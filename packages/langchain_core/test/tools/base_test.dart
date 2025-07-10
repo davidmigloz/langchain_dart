@@ -91,7 +91,7 @@ void main() {
 
         // OpenAI format: {input: {location: "..."}}
         final openAiFormat = {
-          'input': {'location': 'San Francisco, CA'}
+          'input': {'location': 'San Francisco, CA'},
         };
 
         final parsedInput = weatherTool.getInputFromJson(openAiFormat);

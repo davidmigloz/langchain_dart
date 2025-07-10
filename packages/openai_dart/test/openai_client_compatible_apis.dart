@@ -78,7 +78,7 @@ void main() {
       final toolCallsMap = <String, Map<String, dynamic>>{};
 
       await for (final chunk in stream1) {
-        final delta = chunk.choices.first.delta;
+        final delta = chunk.choices?.first.delta;
         // Handle tool calls
         final toolCalls = delta?.toolCalls;
         if (toolCalls != null) {
@@ -152,7 +152,7 @@ void main() {
         var responseContent = '';
         // Stream the final response
         await for (final chunk in stream2) {
-          final delta = chunk.choices.first.delta;
+          final delta = chunk.choices?.first.delta;
           final content = delta?.content;
           if (content != null) {
             responseContent += content;
