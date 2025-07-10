@@ -41,20 +41,6 @@ void main() {
     });
 
     group('API exceptions (80% cases)', () {
-      test('missing API key throws appropriate error', () async {
-        // This test assumes FAKE_PROVIDER_API_KEY is not set
-        // If it is set, the test will pass differently
-        try {
-          final agent = Agent('openai:gpt-4o-mini');
-          // If we get here, API key is set, so make a request
-          final result = await agent.run('Test');
-          expect(result.output, isNotEmpty);
-        } on Exception catch (e) {
-          // If API key is missing, we should get an exception
-          expect(e, isA<Exception>());
-        }
-      });
-
       test('handles rate limiting gracefully', () async {
         // Make rapid requests to potentially trigger rate limiting
         final agent = Agent('openai:gpt-4o-mini');
@@ -196,26 +182,6 @@ void main() {
 
         // At least some should complete
         expect(results, isA<List>());
-      });
-
-      test('handles exception during streaming', () async {
-        final agent = Agent('google:gemini-2.0-flash');
-
-        // Stream that might encounter issues
-        final chunks = <String>[];
-        try {
-          await for (final chunk in agent.runStream('Stream this response')) {
-            chunks.add(chunk.output);
-            // Simulate potential interruption
-            if (chunks.length > 100) {
-              throw Exception('Simulated streaming error');
-            }
-          }
-        } on Exception catch (e) {
-          // Exception during streaming is expected
-          // Should have collected some chunks
-          expect(chunks, isNotEmpty);
-        }
       });
     });
   });

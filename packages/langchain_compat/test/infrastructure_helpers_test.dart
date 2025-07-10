@@ -242,13 +242,8 @@ void main() {
         };
 
         for (final entry in aliases.entries) {
-          try {
-            final provider = ChatProvider.forName(entry.key);
-            expect(provider.name, equals(entry.value));
-            // ignore: avoid_catches_without_on_clauses
-          } catch (_) {
-            // Some aliases might not exist
-          }
+          final provider = ChatProvider.forName(entry.key);
+          expect(provider.name, equals(entry.value));
         }
       });
     });
