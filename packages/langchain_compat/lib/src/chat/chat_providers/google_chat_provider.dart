@@ -27,6 +27,7 @@ class GoogleChatProvider extends ChatProvider<GoogleChatOptions> {
     required super.defaultModelName,
     required super.defaultBaseUrl,
     required super.apiKeyName,
+    required super.caps,
   });
 
   /// Logger for Google chat provider operations.

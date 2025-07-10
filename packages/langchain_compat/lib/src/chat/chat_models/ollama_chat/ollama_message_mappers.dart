@@ -9,6 +9,7 @@ import '../../tools/tool.dart';
 import '../chat_message.dart' as msg;
 import '../chat_result.dart';
 import '../helpers/message_part_helpers.dart';
+import '../helpers/tool_id_helpers.dart';
 import 'ollama_chat_options.dart';
 
 /// Creates a [o.GenerateChatCompletionRequest] from the given input.
@@ -210,11 +211,19 @@ extension ChatResultMapper on o.GenerateChatCompletionResponse {
 
     // Add tool calls
     if (message.toolCalls != null) {
-      for (final toolCall in message.toolCalls!) {
+      for (var i = 0; i < message.toolCalls!.length; i++) {
+        final toolCall = message.toolCalls![i];
         if (toolCall.function != null) {
+          // Generate a unique ID for this tool call
+          final toolId = ToolIdHelpers.generateToolCallId(
+            toolName: toolCall.function!.name,
+            providerHint: 'ollama',
+            arguments: toolCall.function!.arguments,
+            index: i,
+          );
           parts.add(
             msg.ToolPart.call(
-              id: '', // Ollama doesn't provide tool call IDs
+              id: toolId,
               name: toolCall.function!.name,
               arguments: toolCall.function!.arguments,
             ),

@@ -3,7 +3,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:collection/collection.dart';
 import 'package:json_schema/json_schema.dart';
 import 'package:langchain_compat/langchain_compat.dart';
 
@@ -11,12 +10,7 @@ import 'lib/dump_message_history.dart';
 import 'lib/example_tools.dart';
 
 void main() async {
-  final providersWithOutputSchema = ChatProvider.all.whereNot(
-    (p) => p.name == 'groq' || p.name == 'nvidia' || p.name == 'mistral',
-  );
-
-  for (final provider in providersWithOutputSchema) {
-    // for (final provider in [ChatProvider.google]) {
+  for (final provider in ChatProvider.allWith({ProviderCaps.typedOutput})) {
     final agent = Agent.fromProvider(
       provider,
       tools: [currentDateTimeTool, temperatureTool],

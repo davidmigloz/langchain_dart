@@ -10,3 +10,4 @@ export 'src/embeddings/embeddings.dart';
 export 'src/langchain_exception.dart';
 export 'src/language_models/language_models.dart';
 export 'src/logging_options.dart';
+export 'src/provider_caps.dart';

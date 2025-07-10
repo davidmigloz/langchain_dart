@@ -6,6 +6,7 @@ import '../../tools/tool.dart';
 import '../chat_message.dart' as msg;
 import '../chat_models.dart';
 import '../helpers/message_part_helpers.dart';
+import '../helpers/tool_id_helpers.dart';
 
 /// Logger for Google message mapping operations.
 final Logger _logger = Logger('dartantic.chat.mappers.google');
@@ -153,8 +154,8 @@ extension MessageListMapper on List<msg.ChatMessage> {
           final response = ToolResultHelpers.ensureMap(part.result);
 
           // Extract the original function name from our generated ID
-          // Format: google_{toolName}_{argsHash} -> toolName
-          final functionName = _extractFunctionNameFromId(part.id);
+          final functionName = ToolIdHelpers.extractToolNameFromId(part.id) ?? 
+              part.name;
           _logger.fine('Creating function response for tool: $functionName');
 
           functionResponses.add(g.FunctionResponse(functionName, response));
@@ -165,21 +166,6 @@ extension MessageListMapper on List<msg.ChatMessage> {
     return g.Content.functionResponses(functionResponses);
   }
 
-  /// Extracts the original function name from a generated tool call ID.
-  ///
-  /// For Google IDs in format "google_{toolName}_{argsHash}", returns toolName.
-  /// For other providers or malformed IDs, returns the ID as-is.
-  String _extractFunctionNameFromId(String toolCallId) {
-    if (toolCallId.startsWith('google_')) {
-      final parts = toolCallId.split('_');
-      if (parts.length >= 3) {
-        // Remove 'google' prefix and args hash suffix, keep the tool name
-        return parts.sublist(1, parts.length - 1).join('_');
-      }
-    }
-    // Fallback: return the ID as-is (for OpenAI/Anthropic native IDs)
-    return toolCallId;
-  }
 }
 
 /// Extension on [g.GenerateContentResponse] to convert to [ChatResult].
@@ -208,9 +194,15 @@ extension GenerateContentResponseMapper on g.GenerateContentResponse {
           parts.add(msg.LinkPart(url: uri.toString()));
         case g.FunctionCall(:final name, :final args):
           _logger.fine('Processing function call: $name');
+          // Generate a unique ID for this tool call
+          final toolId = ToolIdHelpers.generateToolCallId(
+            toolName: name,
+            providerHint: 'google',
+            arguments: args,
+          );
           parts.add(
             msg.ToolPart.call(
-              id: '', // Google doesn't provide tool call IDs
+              id: toolId,
               name: name,
               arguments: args,
             ),

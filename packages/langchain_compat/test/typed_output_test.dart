@@ -1,3 +1,16 @@
+// CRITICAL TEST FAILURE INVESTIGATION PROCESS: When a test fails for a provider
+// capability:
+// 1. NEVER immediately disable the capability in provider definitions
+// 2. ALWAYS investigate at the API level first:
+//    - Test with curl to verify if the feature works at the raw API level
+//    - Check the provider's official documentation
+//    - Look for differences between our implementation and the API requirements
+// 3. ONLY disable a capability after confirming:
+//    - The API itself doesn't support the feature, OR
+//    - The API has a fundamental limitation (like Together's streaming tool
+//      format)
+// 4. If the API supports it but our code doesn't: FIX THE IMPLEMENTATION
+
 // ignore_for_file: avoid_dynamic_calls
 
 import 'dart:convert';
@@ -104,6 +117,64 @@ void main() {
         expect(json['items'][0]['name'], equals('Apple'));
         expect(json['items'][2]['name'], equals('Cherry'));
       });
+
+      test(
+        'ALL providers handle structured output correctly',
+        timeout: const Timeout(Duration(minutes: 3)),
+        () async {
+          final schema = js.JsonSchema.create({
+            'type': 'object',
+            'properties': {
+              'result': {'type': 'string'},
+              'count': {'type': 'integer'},
+              'success': {'type': 'boolean'},
+            },
+            'required': ['result', 'count', 'success'],
+          });
+
+          // Test EVERY provider that supports typed output
+          for (final provider in ChatProvider.allWith({
+            ProviderCaps.typedOutput,
+          })) {
+            // Skip local providers if not available
+            if (provider.name.contains('ollama')) {
+              continue; // Skip for speed
+            }
+
+            // Testing structured output with provider
+
+            final agent = Agent(
+              '${provider.name}:${provider.defaultModelName}',
+            );
+
+            final result = await agent.run(
+              'Generate JSON with result="${provider.name} test", '
+              'count=42, success=true',
+              outputSchema: schema,
+            );
+
+            final json = jsonDecode(result.output) as Map<String, dynamic>;
+            expect(
+              json['result'],
+              equals('${provider.name} test'),
+              reason:
+                  'Provider ${provider.name} should generate correct string',
+            );
+            expect(
+              json['count'],
+              equals(42),
+              reason:
+                  'Provider ${provider.name} should generate correct integer',
+            );
+            expect(
+              json['success'],
+              isTrue,
+              reason:
+                  'Provider ${provider.name} should generate correct boolean',
+            );
+          }
+        },
+      );
     });
 
     group('data types', () {
@@ -318,8 +389,8 @@ void main() {
           'required': ['message'],
         });
 
-        // Different providers handle schemas differently internally
-        // but all should produce valid JSON output through Agent
+        // Different providers handle schemas differently internally but all
+        // should produce valid JSON output through Agent
 
         // OpenAI
         var agent = Agent('openai:gpt-4o-mini');

@@ -1,3 +1,16 @@
+// CRITICAL TEST FAILURE INVESTIGATION PROCESS:
+// When a test fails for a provider capability:
+// 1. NEVER immediately disable the capability in provider definitions
+// 2. ALWAYS investigate at the API level first:
+//    - Test with curl to verify if the feature works at the raw API level
+//    - Check the provider's official documentation
+//    - Look for differences between our implementation and the API requirements
+// 3. ONLY disable a capability after confirming:
+//    - The API itself doesn't support the feature, OR
+//    - The API has a fundamental limitation (like Together's
+//      streaming tool format)
+// 4. If the API supports it but our code doesn't: FIX THE IMPLEMENTATION
+
 import 'dart:typed_data';
 
 import 'package:langchain_compat/langchain_compat.dart';
@@ -49,6 +62,69 @@ void main() {
         expect(agent, isNotNull);
         expect(agent.displayName, equals('My Custom Agent'));
       });
+
+      test(
+        'ALL providers can be instantiated as agents',
+        timeout: const Timeout(Duration(minutes: 1)),
+        () async {
+          // Test EVERY provider
+          for (final provider in ChatProvider.all) {
+            // Testing agent construction with provider
+
+            final agent = Agent(
+              '${provider.name}:${provider.defaultModelName}',
+            );
+
+            expect(
+              agent,
+              isNotNull,
+              reason: 'Provider ${provider.name} should create valid agent',
+            );
+            expect(
+              agent.providerName,
+              equals(provider.name),
+              reason:
+                  'Provider ${provider.name} should have correct provider'
+                  ' name',
+            );
+            expect(
+              agent.model,
+              equals('${provider.name}:${provider.defaultModelName}'),
+              reason:
+                  'Provider ${provider.name} should have correct model '
+                  'string',
+            );
+
+            // Test with tools
+            if (provider.caps.contains(ProviderCaps.multiToolCalls)) {
+              final agentWithTools = Agent(
+                '${provider.name}:${provider.defaultModelName}',
+                tools: [stringTool],
+              );
+              expect(
+                agentWithTools,
+                isNotNull,
+                reason:
+                    'Provider ${provider.name} should create agent with tools',
+              );
+            }
+
+            // Test with options
+            final agentWithOptions = Agent(
+              '${provider.name}:${provider.defaultModelName}',
+              temperature: 0.7,
+              systemPrompt: 'You are a test assistant',
+            );
+            expect(
+              agentWithOptions,
+              isNotNull,
+              reason:
+                  'Provider ${provider.name} should create agent with '
+                  'options',
+            );
+          }
+        },
+      );
     });
 
     group('system prompts', () {
@@ -126,41 +202,37 @@ void main() {
     });
 
     group('attachments', () {
-      test(
-        'agent run with data attachments',
-        skip: 'Image validation issues',
-        () async {
-          final agent = Agent('openai:gpt-4o-mini');
+      test('agent run with data attachments', () async {
+        final agent = Agent('openai:gpt-4o-mini');
 
-          // Create a simple image attachment
-          final imageBytes = Uint8List.fromList([
-            0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, // PNG header
-            0x00, 0x00, 0x00, 0x0D, 0x49, 0x48, 0x44, 0x52, // IHDR chunk
-            0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, // 1x1 pixel
-            0x08, 0x02, 0x00, 0x00, 0x00, 0x90, 0x77, 0x53,
-            0xDE, 0x00, 0x00, 0x00, 0x0C, 0x49, 0x44, 0x41,
-            0x54, 0x08, 0x99, 0x01, 0x01, 0x00, 0x00, 0xFF,
-            0xFF, 0x00, 0x00, 0x00, 0x02, 0x00, 0x01, 0x73,
-            0x75, 0x01, 0x18, 0x00, 0x00, 0x00, 0x00, 0x49,
-            0x45, 0x4E, 0x44, 0xAE, 0x42, 0x60, 0x82,
-          ]);
+        // Create a simple image attachment
+        final imageBytes = Uint8List.fromList([
+          0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, // PNG header
+          0x00, 0x00, 0x00, 0x0D, 0x49, 0x48, 0x44, 0x52, // IHDR chunk
+          0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, // 1x1 pixel
+          0x08, 0x02, 0x00, 0x00, 0x00, 0x90, 0x77, 0x53,
+          0xDE, 0x00, 0x00, 0x00, 0x0C, 0x49, 0x44, 0x41,
+          0x54, 0x08, 0x99, 0x01, 0x01, 0x00, 0x00, 0xFF,
+          0xFF, 0x00, 0x00, 0x00, 0x02, 0x00, 0x01, 0x73,
+          0x75, 0x01, 0x18, 0x00, 0x00, 0x00, 0x00, 0x49,
+          0x45, 0x4E, 0x44, 0xAE, 0x42, 0x60, 0x82,
+        ]);
 
-          final result = await agent.run(
-            'What do you see in this image?',
-            attachments: [DataPart(bytes: imageBytes, mimeType: 'image/png')],
-          );
+        final result = await agent.run(
+          'What do you see in this image?',
+          attachments: [DataPart(bytes: imageBytes, mimeType: 'image/png')],
+        );
 
-          expect(result.output, isNotEmpty);
-          expect(result.messages, isNotEmpty);
+        expect(result.output, isNotEmpty);
+        expect(result.messages, isNotEmpty);
 
-          // Should have a user message with both text and image parts
-          final userMessage = result.messages
-              .where((msg) => msg.role == MessageRole.user)
-              .first;
-          expect(userMessage.parts.whereType<TextPart>(), hasLength(1));
-          expect(userMessage.parts.whereType<DataPart>(), hasLength(1));
-        },
-      );
+        // Should have a user message with both text and image parts
+        final userMessage = result.messages
+            .where((msg) => msg.role == MessageRole.user)
+            .first;
+        expect(userMessage.parts.whereType<TextPart>(), hasLength(1));
+        expect(userMessage.parts.whereType<DataPart>(), hasLength(1));
+      });
 
       test('agent run with link attachments', () async {
         final agent = Agent('openai:gpt-4o-mini');

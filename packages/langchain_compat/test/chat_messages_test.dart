@@ -1,3 +1,16 @@
+// CRITICAL TEST FAILURE INVESTIGATION PROCESS: When a test fails for a provider
+// capability:
+// 1. NEVER immediately disable the capability in provider definitions
+// 2. ALWAYS investigate at the API level first:
+//    - Test with curl to verify if the feature works at the raw API level
+//    - Check the provider's official documentation
+//    - Look for differences between our implementation and the API requirements
+// 3. ONLY disable a capability after confirming:
+//    - The API itself doesn't support the feature, OR
+//    - The API has a fundamental limitation (like Together's streaming tool
+//      format)
+// 4. If the API supports it but our code doesn't: FIX THE IMPLEMENTATION
+
 import 'package:langchain_compat/langchain_compat.dart';
 import 'package:test/test.dart';
 
@@ -28,6 +41,36 @@ void main() {
         expect(response.output, contains('世界'));
         expect(response.output, contains('🌍'));
       });
+
+      test(
+        'ALL providers handle single turn chat correctly',
+        timeout: const Timeout(Duration(minutes: 3)),
+        () async {
+          // Test EVERY provider
+          for (final provider in ChatProvider.all) {
+            // Skip local providers if not available
+            if (provider.name.contains('ollama')) {
+              continue; // Skip for speed
+            }
+
+            // Testing single turn chat with provider
+
+            final agent = Agent(
+              '${provider.name}:${provider.defaultModelName}',
+            );
+
+            final response = await agent.run(
+              'Reply with exactly: "Test ${provider.name} OK"',
+            );
+
+            expect(
+              response.output,
+              contains('Test ${provider.name} OK'),
+              reason: 'Provider ${provider.name} should respond correctly',
+            );
+          }
+        },
+      );
     });
 
     group('multi turn chat', () {
@@ -113,6 +156,62 @@ void main() {
         expect(messages[2].role, equals(MessageRole.user));
         expect(messages[3].role, equals(MessageRole.model));
       });
+
+      test(
+        'ALL providers handle multi-turn conversation correctly',
+        timeout: const Timeout(Duration(minutes: 3)),
+        () async {
+          // Test EVERY provider
+          for (final provider in ChatProvider.all) {
+            // Skip local providers if not available
+            if (provider.name.contains('ollama')) {
+              continue; // Skip for speed
+            }
+
+            // Testing multi-turn chat with provider
+
+            final agent = Agent(
+              '${provider.name}:${provider.defaultModelName}',
+            );
+            final messages = <ChatMessage>[];
+
+            var response = await agent.run(
+              'My favorite color is purple. Remember that.',
+              history: messages,
+            );
+
+            // Add to history
+            messages.add(
+              const ChatMessage(
+                role: MessageRole.user,
+                parts: [
+                  TextPart('My favorite color is purple. Remember that.'),
+                ],
+              ),
+            );
+            messages.add(
+              ChatMessage(
+                role: MessageRole.model,
+                parts: [TextPart(response.output)],
+              ),
+            );
+
+            // Follow up question
+            response = await agent.run(
+              'What is my favorite color?',
+              history: messages,
+            );
+
+            expect(
+              response.output.toLowerCase(),
+              contains('purple'),
+              reason:
+                  'Provider ${provider.name} should remember '
+                  'conversation context',
+            );
+          }
+        },
+      );
     });
 
     group('streaming', () {
@@ -144,6 +243,45 @@ void main() {
         // But individual chunks might be empty
         expect(chunks.join().toLowerCase(), contains('test'));
       });
+
+      test(
+        'ALL providers handle streaming correctly',
+        timeout: const Timeout(Duration(minutes: 3)),
+        () async {
+          // Test EVERY provider
+          for (final provider in ChatProvider.all) {
+            // Skip local providers if not available
+            if (provider.name.contains('ollama')) {
+              continue; // Skip for speed
+            }
+
+            // Testing streaming with provider
+
+            final agent = Agent(
+              '${provider.name}:${provider.defaultModelName}',
+            );
+
+            final chunks = <String>[];
+            await for (final chunk in agent.runStream('Count from 1 to 3')) {
+              chunks.add(chunk.output);
+            }
+
+            expect(
+              chunks,
+              isNotEmpty,
+              reason: 'Provider ${provider.name} should stream chunks',
+            );
+
+            final fullResponse = chunks.join();
+            expect(
+              fullResponse,
+              allOf([contains('1'), contains('2'), contains('3')]),
+              reason:
+                  'Provider ${provider.name} should stream complete response',
+            );
+          }
+        },
+      );
     });
 
     group('error handling', () {
@@ -161,27 +299,35 @@ void main() {
     });
 
     group('all providers - comprehensive test', () {
-      test('basic chat works across all providers', () async {
-        // Test a subset of stable providers to avoid timeouts
-        final testProviders = [
-          ('openai', 'gpt-4o-mini'),
-          ('anthropic', 'claude-3-5-haiku-latest'),
-          ('google', 'gemini-2.0-flash'),
-        ];
+      test(
+        'basic chat works across ALL providers',
+        timeout: const Timeout(Duration(minutes: 3)),
+        () async {
+          // Test EVERY FUCKING PROVIDER
+          for (final provider in ChatProvider.all) {
+            // Skip local providers if not available
+            if (provider.name.contains('ollama')) {
+              continue; // Skip for speed
+            }
 
-        for (final (providerName, modelName) in testProviders) {
-          final agent = Agent('$providerName:$modelName');
-          final response = await agent.run(
-            'Respond with exactly: "Provider test passed"',
-          );
+            // Testing basic chat with provider
 
-          expect(
-            response.output.toLowerCase(),
-            contains('provider test passed'),
-            reason: 'Provider $providerName should respond correctly',
-          );
-        }
-      });
+            final agent = Agent(
+              '${provider.name}:${provider.defaultModelName}',
+            );
+
+            final response = await agent.run(
+              'Respond with exactly: "Provider test passed"',
+            );
+
+            expect(
+              response.output.toLowerCase(),
+              contains('provider test passed'),
+              reason: 'Provider ${provider.name} should respond correctly',
+            );
+          }
+        },
+      );
     });
   });
 }

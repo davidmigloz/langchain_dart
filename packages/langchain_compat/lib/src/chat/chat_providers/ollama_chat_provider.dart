@@ -24,6 +24,7 @@ class OllamaChatProvider extends ChatProvider<OllamaChatOptions> {
     required super.defaultModelName,
     required super.defaultBaseUrl,
     required super.apiKeyName,
+    required super.caps,
   });
 
   /// Logger for Ollama chat provider operations.

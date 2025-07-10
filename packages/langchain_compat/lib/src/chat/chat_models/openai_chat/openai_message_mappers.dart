@@ -6,6 +6,7 @@ import 'package:openai_dart/openai_dart.dart';
 import '../../tools/tool.dart';
 import '../chat_message.dart' as msg;
 import '../helpers/message_part_helpers.dart';
+import '../helpers/tool_id_helpers.dart';
 import 'openai_chat_options.dart';
 import 'openai_message_mappers_helpers.dart';
 
@@ -205,11 +206,19 @@ msg.ChatMessage messageFromOpenAIStreamDelta(
       // - Subsequent chunks: no id, no name, partial arguments We need to match
       //   by position when there's no ID
 
-      if (toolCall.id != null && toolCall.id!.isNotEmpty) {
+      if (toolCall.id != null) {
         // This is a new tool call with an ID
+        // Google's OpenAI endpoint returns empty IDs, so generate one if needed
+        final toolId = toolCall.id!.isEmpty
+            ? ToolIdHelpers.generateToolCallId(
+                toolName: toolCall.function?.name ?? '',
+                providerHint: 'openai',
+                index: i,
+              )
+            : toolCall.id!;
         accumulatedToolCalls.add(
           StreamingToolCall(
-            id: toolCall.id!,
+            id: toolId,
             name: toolCall.function?.name ?? '',
             argumentsJson: toolCall.function?.arguments ?? '',
           ),
@@ -258,7 +267,6 @@ msg.ChatMessage createCompleteMessageWithTools(
       if (decoded is Map<String, dynamic>) {
         arguments = decoded;
       }
-      // If decoded is null or other type, keep empty arguments
     }
 
     parts.add(

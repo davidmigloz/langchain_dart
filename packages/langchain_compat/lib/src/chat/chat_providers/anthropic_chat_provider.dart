@@ -26,6 +26,7 @@ class AnthropicChatProvider extends ChatProvider<AnthropicChatOptions> {
     required super.defaultModelName,
     required super.defaultBaseUrl,
     required super.apiKeyName,
+    required super.caps,
   });
 
   /// Logger for Anthropic chat provider operations.

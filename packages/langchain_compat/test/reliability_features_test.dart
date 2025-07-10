@@ -1,3 +1,16 @@
+// CRITICAL TEST FAILURE INVESTIGATION PROCESS:
+// When a test fails for a provider capability:
+// 1. NEVER immediately disable the capability in provider definitions
+// 2. ALWAYS investigate at the API level first:
+//    - Test with curl to verify if the feature works at the raw API level
+//    - Check the provider's official documentation
+//    - Look for differences between our implementation and the API requirements
+// 3. ONLY disable a capability after confirming:
+//    - The API itself doesn't support the feature, OR
+//    - The API has a fundamental limitation (like Together's
+//      streaming tool format)
+// 4. If the API supports it but our code doesn't: FIX THE IMPLEMENTATION
+
 import 'package:langchain_compat/langchain_compat.dart';
 import 'package:test/test.dart';
 
@@ -51,6 +64,52 @@ void main() {
         final models = await provider.listModels().toList();
         expect(models, isA<List>());
       });
+
+      test(
+        'ALL providers handle basic reliability features',
+        timeout: const Timeout(Duration(minutes: 3)),
+        () async {
+          // Test EVERY provider
+          for (final provider in ChatProvider.all) {
+            // Skip local providers if not available
+            if (provider.name.contains('ollama')) {
+              continue; // Skip for speed
+            }
+
+            // Testing reliability features with provider
+
+            // Test 1: Provider creation should not throw
+            expect(
+              () => Agent('${provider.name}:${provider.defaultModelName}'),
+              returnsNormally,
+              reason:
+                  'Provider ${provider.name} should create agent '
+                  'without throwing',
+            );
+
+            // Test 2: Model enumeration should not throw
+            final models = await provider.listModels().toList();
+            expect(
+              models,
+              isA<List>(),
+              reason: 'Provider ${provider.name} should return model list',
+            );
+
+            // Test 3: Basic error recovery
+            final agent = Agent(
+              '${provider.name}:${provider.defaultModelName}',
+            );
+
+            // Test with a simple request
+            final result = await agent.run('Say "test"');
+            expect(
+              result.output,
+              isA<String>(),
+              reason: 'Provider ${provider.name} should return string output',
+            );
+          }
+        },
+      );
     });
 
     group('timeout handling', () {

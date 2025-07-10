@@ -1,3 +1,16 @@
+// CRITICAL TEST FAILURE INVESTIGATION PROCESS:
+// When a test fails for a provider capability:
+// 1. NEVER immediately disable the capability in provider definitions
+// 2. ALWAYS investigate at the API level first:
+//    - Test with curl to verify if the feature works at the raw API level
+//    - Check the provider's official documentation
+//    - Look for differences between our implementation and the API requirements
+// 3. ONLY disable a capability after confirming:
+//    - The API itself doesn't support the feature, OR
+//    - The API has a fundamental limitation (like Together's
+//      streaming tool format)
+// 4. If the API supports it but our code doesn't: FIX THE IMPLEMENTATION
+
 import 'package:langchain_compat/langchain_compat.dart';
 import 'package:test/test.dart';
 
@@ -53,6 +66,70 @@ void main() {
         expect(result.usage.responseTokens, greaterThan(10));
         expect(result.usage.totalTokens, greaterThan(20));
       });
+
+      test(
+        'ALL providers track usage correctly',
+        timeout: const Timeout(Duration(minutes: 3)),
+        () async {
+          // Test EVERY provider
+          for (final provider in ChatProvider.all) {
+            // Skip local providers if not available
+            if (provider.name.contains('ollama')) {
+              continue; // Skip for speed
+            }
+
+            // Testing usage tracking with provider
+
+            final agent = Agent(
+              '${provider.name}:${provider.defaultModelName}',
+            );
+
+            final result = await agent.run(
+              'Write exactly: "Usage test for ${provider.name}"',
+            );
+
+            // Usage tracking may not be available for all providers
+            if (result.usage.promptTokens != null) {
+              expect(
+                result.usage.promptTokens,
+                greaterThan(0),
+                reason: 'Provider ${provider.name} should track prompt tokens',
+              );
+            }
+
+            if (result.usage.responseTokens != null) {
+              expect(
+                result.usage.responseTokens,
+                greaterThan(0),
+                reason:
+                    'Provider ${provider.name} should track response tokens',
+              );
+            }
+
+            if (result.usage.totalTokens != null) {
+              expect(
+                result.usage.totalTokens,
+                greaterThan(0),
+                reason: 'Provider ${provider.name} should track total tokens',
+              );
+
+              // If we have prompt and response, total should equal their sum
+              if (result.usage.promptTokens != null &&
+                  result.usage.responseTokens != null) {
+                expect(
+                  result.usage.totalTokens,
+                  equals(
+                    result.usage.promptTokens! + result.usage.responseTokens!,
+                  ),
+                  reason:
+                      'Provider ${provider.name} total should equal '
+                      'prompt + response tokens',
+                );
+              }
+            }
+          }
+        },
+      );
     });
 
     group('cumulative usage tracking', () {

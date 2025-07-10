@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import '../../chat/chat_providers/model_info.dart';
+import '../../provider_caps.dart';
 import '../embeddings_models/embeddings_models.dart';
 import 'cohere_embeddings_provider.dart';
 import 'google_embeddings_provider.dart';
@@ -25,6 +26,9 @@ abstract class EmbeddingsProvider<TOptions extends EmbeddingsModelOptions> {
 
   /// Human-readable name for display.
   final String displayName;
+
+  /// The capabilities of this provider.
+  Set<ProviderCaps> get caps => ProviderCaps.allEmbeddings;
 
   /// Creates an embeddings model instance for this provider.
   EmbeddingsModel<TOptions> createModel({String? name, TOptions? options});

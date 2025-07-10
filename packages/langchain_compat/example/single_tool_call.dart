@@ -9,12 +9,20 @@ import 'lib/example_tools.dart';
 void main() async {
   print('=== Single Tool Call Example ===\n');
 
-  // Example with Anthropic
-  print('--- Weather Tool (Anthropic) ---');
-  var agent = Agent('anthropic:claude-3-5-haiku-latest', tools: [weatherTool]);
+  // Start with OpenAI to test if tools work
+  print('--- Weather Tool (OpenAI) ---');
+  var agent = Agent('openai:gpt-4o-mini', tools: [weatherTool]);
 
   print('User: What is the weather in Boston?');
   var response = await agent.run('What is the weather in Boston?');
+  print('Assistant: ${response.output}\n');
+
+  // Example with Anthropic
+  print('--- Weather Tool (Anthropic) ---');
+  agent = Agent('anthropic:claude-3-5-haiku-latest', tools: [weatherTool]);
+
+  print('User: What is the weather in Boston?');
+  response = await agent.run('What is the weather in Boston?');
   print('Assistant: ${response.output}\n');
 
   // Example with OpenAI

@@ -311,6 +311,12 @@ class MessageStreamEventTransformer
   /// The last tool call ID.
   String? lastToolCallId;
 
+  /// The last tool name.
+  String? lastToolName;
+
+  /// Accumulator for tool arguments during streaming.
+  final Map<String, StringBuffer> _toolArgumentsAccumulator = {};
+
   /// Binds this transformer to a stream of [a.MessageStreamEvent]s, producing a
   /// stream of [ChatResult]s.
   @override
@@ -374,13 +380,14 @@ class MessageStreamEventTransformer
     final parts = _mapContentBlock(e.contentBlock);
     _logger.fine(
       'Processing content block start event: index=${e.index}, '
-      'parts=${parts.length}',
+      'parts=${parts.length}, contentBlock=$e.contentBlock',
     );
 
-    // Track tool call IDs
+    // Track tool call IDs and names
     for (final part in parts) {
       if (part is msg.ToolPart && part.kind == msg.ToolPartKind.call) {
         lastToolCallId = part.id;
+        lastToolName = part.name;
         break;
       }
     }
@@ -398,6 +405,23 @@ class MessageStreamEventTransformer
   ChatResult<msg.ChatMessage> _mapContentBlockDeltaEvent(
     a.ContentBlockDeltaEvent e,
   ) {
+    // Handle InputJsonBlockDelta specially to accumulate arguments
+    if (e.delta is a.InputJsonBlockDelta && lastToolCallId != null) {
+      final delta = e.delta as a.InputJsonBlockDelta;
+      _toolArgumentsAccumulator.putIfAbsent(lastToolCallId!, StringBuffer.new);
+      _toolArgumentsAccumulator[lastToolCallId]!.write(delta.partialJson);
+
+      // Return empty result for accumulation
+      return ChatResult<msg.ChatMessage>(
+        id: lastMessageId ?? '',
+        output: const msg.ChatMessage(role: msg.MessageRole.model, parts: []),
+        messages: const [],
+        finishReason: FinishReason.unspecified,
+        metadata: {'index': e.index},
+        usage: const LanguageModelUsage(),
+      );
+    }
+
     final parts = _mapContentBlockDelta(lastToolCallId, e.delta);
     _logger.fine(
       'Processing content block delta event: index=${e.index}, '
@@ -416,7 +440,39 @@ class MessageStreamEventTransformer
   ChatResult<msg.ChatMessage>? _mapContentBlockStopEvent(
     a.ContentBlockStopEvent e,
   ) {
+    // If we have accumulated arguments for this tool, create a complete tool
+    // part
+    if (lastToolCallId != null &&
+        _toolArgumentsAccumulator.containsKey(lastToolCallId)) {
+      final argsJson = _toolArgumentsAccumulator[lastToolCallId]!.toString();
+      _toolArgumentsAccumulator.remove(lastToolCallId);
+
+      // Return a result with the complete tool call
+      final result = ChatResult<msg.ChatMessage>(
+        id: lastMessageId ?? '',
+        output: msg.ChatMessage(
+          role: msg.MessageRole.model,
+          parts: [
+            msg.ToolPart.call(
+              id: lastToolCallId!,
+              name: lastToolName ?? '',
+              arguments: argsJson.isNotEmpty ? json.decode(argsJson) : {},
+            ),
+          ],
+        ),
+        messages: const [],
+        finishReason: FinishReason.unspecified,
+        metadata: const {},
+        usage: const LanguageModelUsage(),
+      );
+
+      lastToolCallId = null;
+      lastToolName = null;
+      return result;
+    }
+
     lastToolCallId = null;
+    lastToolName = null;
     return null;
   }
 

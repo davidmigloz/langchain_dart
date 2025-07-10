@@ -41,7 +41,21 @@ class OpenAIChatModel extends ChatModel<OpenAIChatOptions> {
        super(
          name: name ?? defaultName,
          defaultOptions: defaultOptions ?? const OpenAIChatOptions(),
-       );
+       ) {
+    // Validate that providers with known tool limitations don't use tools
+    if (tools != null && tools!.isNotEmpty) {
+      final normalizedBaseUrl = baseUrl?.toLowerCase() ?? '';
+
+      // Together AI doesn't support OpenAI-style tool calls in streaming mode
+      if (normalizedBaseUrl.contains('together.xyz')) {
+        throw ArgumentError(
+          'Together AI does not support OpenAI-compatible tool calls. '
+          'Their streaming API returns tools in a custom format with '
+          '<|python_tag|> prefix instead of standard tool_calls.',
+        );
+      }
+    }
+  }
 
   /// Logger for OpenAI chat model operations.
   static final Logger _logger = Logger('dartantic.chat.models.openai');

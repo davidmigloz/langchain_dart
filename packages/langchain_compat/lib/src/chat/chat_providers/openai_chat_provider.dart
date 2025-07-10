@@ -27,6 +27,7 @@ class OpenAIChatProvider extends ChatProvider<OpenAIChatOptions> {
     required super.defaultModelName,
     required super.defaultBaseUrl,
     required super.apiKeyName,
+    required super.caps,
   });
 
   /// Logger for OpenAI chat provider operations.

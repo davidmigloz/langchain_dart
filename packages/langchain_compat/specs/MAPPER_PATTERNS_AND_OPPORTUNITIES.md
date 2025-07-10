@@ -18,6 +18,7 @@ for centralized helper functions.
 4. [Opportunities for Centralization](#opportunities-for-centralization)
 5. [Proposed Helper Functions](#proposed-helper-functions)
 6. [Recommendations](#recommendations)
+7. [Implementation Status](#implementation-status)
 
 ## Provider-Specific Mapper Analysis
 
@@ -89,6 +90,7 @@ final response = switch (part.result) {
 - Block-based content handling (text blocks, tool use blocks)
 - Complex message grouping logic for tool results
 - Event type mapping (MessageStart, ContentBlockStart, etc.)
+- **Tool argument accumulation via InputJsonBlockDelta events** (implemented December 2024)
 
 **Model Responsibilities:**
 - Prefilling technique for structured output
@@ -97,18 +99,33 @@ final response = switch (part.result) {
 
 **Key Patterns:**
 ```dart
-// Stateful transformer pattern
+// Stateful transformer pattern with tool argument accumulation
 class MessageStreamEventTransformer {
   String? lastToolCallId;
+  String? lastToolName;
+  final Map<String, StringBuffer> _toolArgumentsAccumulator = {};
   
-  ChatMessage? transformEvent(MessageStreamEvent event) {
+  ChatResult<ChatMessage>? transformEvent(MessageStreamEvent event) {
     switch (event) {
-      case MessageStartEvent():
-        // Initialize message
       case ContentBlockStartEvent():
-        // Track tool call ID
+        // Track tool call ID and name
         if (block is ToolUseBlock) {
           lastToolCallId = block.id;
+          lastToolName = block.name;
+        }
+      case ContentBlockDeltaEvent():
+        // Accumulate tool arguments
+        if (delta is InputJsonBlockDelta && lastToolCallId != null) {
+          _toolArgumentsAccumulator.putIfAbsent(lastToolCallId!, () => StringBuffer());
+          _toolArgumentsAccumulator[lastToolCallId]!.write(delta.partialJson);
+          return emptyResult(); // Continue accumulating
+        }
+      case ContentBlockStopEvent():
+        // Assemble complete tool call
+        if (lastToolCallId != null && _toolArgumentsAccumulator.containsKey(lastToolCallId)) {
+          final argsJson = _toolArgumentsAccumulator[lastToolCallId]!.toString();
+          _toolArgumentsAccumulator.remove(lastToolCallId);
+          return createToolCallResult(lastToolCallId!, lastToolName!, argsJson);
         }
     }
   }
@@ -118,7 +135,7 @@ class MessageStreamEventTransformer {
 **Edge Cases Handled:**
 - Tool results must be grouped in user messages
 - System messages require special handling
-- Currently ignores streaming tool arguments (InputJsonBlockDelta)
+- **Streaming tool arguments via InputJsonBlockDelta are accumulated and parsed** (fixed December 2024)
 
 ### Mistral Provider (mistral_chat)
 
@@ -221,7 +238,7 @@ tools?.map((tool) => ProviderToolFormat(
 - **Ollama**: Receives complete JSON strings
 
 **Event-based Streaming:**
-- **Anthropic**: Arguments via InputJsonBlockDelta (currently ignored)
+- **Anthropic**: Arguments accumulated via InputJsonBlockDelta events and assembled on ContentBlockStop
 
 ### 3. Tool Call ID Management
 
@@ -369,7 +386,47 @@ class ImageEncoder {
 }
 ```
 
-### 5. Provider Response Validation
+### 5. Tool ID Generation and Coordination - **IMPLEMENTED**
+
+**Status:** ✅ Implemented in December 2024
+
+**Location:** `lib/src/chat/chat_models/helpers/tool_id_helpers.dart`
+
+**Implementation Details:**
+Centralized tool ID generation and coordination system that handles:
+- Consistent ID generation for providers without IDs (Google, Ollama)
+- Empty ID fixing for providers with issues (Google's OpenAI endpoint)
+- Tool call/result ID matching validation
+- Multiple simultaneous tool call coordination
+
+```dart
+// Tool ID generation with deterministic components
+final toolId = ToolIdHelpers.generateToolCallId(
+  toolName: 'weather_tool',
+  providerHint: 'google',
+  arguments: {'city': 'Boston'},
+  index: 0,
+);
+// Result: "tool_google_weather_tool_0_abc12345678"
+
+// Coordination across multiple tool calls
+final coordinator = ToolIdCoordinator();
+coordinator.registerToolCall(
+  id: toolId,
+  name: 'weather_tool',
+  arguments: {'city': 'Boston'},
+);
+// Later validate matching
+coordinator.validateToolResultId(toolId); // true
+```
+
+**Benefits:**
+- Eliminates duplicate ID generation logic across providers
+- Ensures unique IDs for multiple calls to same tool
+- Enables validation of call/result ID matching
+- Supports debugging with readable ID format
+
+### 6. Provider Response Validation
 
 **Potential Helper:**
 ```dart
@@ -417,7 +474,7 @@ class ResponseValidator {
 
 Based on the analysis, here are the helpers that would provide the most value:
 
-### 1. MessagePartHelpers
+### 1. MessagePartHelpers - **IMPLEMENTED**
 Location: `lib/src/chat/chat_models/helpers/message_part_helpers.dart`
 
 Benefits:
@@ -425,23 +482,36 @@ Benefits:
 - Standardizes part extraction
 - Single place to update if Part types change
 
-### 2. ToolResultHelpers  
-Location: `lib/src/chat/chat_models/helpers/tool_result_helpers.dart`
+### 2. ToolResultHelpers - **IMPLEMENTED**
+Location: `lib/src/chat/chat_models/helpers/message_part_helpers.dart`
 
 Benefits:
 - Consistent serialization across providers
 - Handles edge cases (null, non-Map types)
 - Simplifies mapper code
 
-### 3. StreamingAccumulatorBase
-Location: `lib/src/chat/chat_models/helpers/streaming_accumulator.dart`
+### 3. ToolIdHelpers - **IMPLEMENTED**
+Location: `lib/src/chat/chat_models/helpers/tool_id_helpers.dart`
 
 Benefits:
-- Provides tested accumulation logic
-- Can be extended for provider-specific needs
-- Reduces bugs in streaming handling
+- Centralized ID generation for providers without IDs (Google, Ollama)
+- Fixes empty IDs from Google's OpenAI endpoint
+- Consistent ID format across all providers
+- Enables tool call/result validation
 
-### 4. ImageEncodingHelpers
+### 4. StreamingAccumulatorBase (NOT IMPLEMENTED)
+Location: `lib/src/chat/chat_models/helpers/streaming_accumulator.dart`
+
+**Status:** Not implemented - tool argument accumulation remains provider-specific
+
+**Rationale:** After implementing Anthropic's streaming fix, it became clear that accumulation strategies are too different to meaningfully abstract:
+- **OpenAI**: Accumulates JSON strings across chunks with ID tracking
+- **Anthropic**: Event-based accumulation via InputJsonBlockDelta 
+- **Google/Ollama**: No accumulation needed (complete responses)
+
+Each provider's streaming protocol is fundamentally different, making centralization counterproductive.
+
+### 5. ImageEncodingHelpers
 Location: `lib/src/chat/chat_models/helpers/image_encoding_helpers.dart`
 
 Benefits:
@@ -581,7 +651,7 @@ All chat model providers have been updated to use the static helper methods:
 
 ### Critical Issues Resolved
 
-#### Extension Method Runtime Error
+#### 1. Extension Method Runtime Error
 **Problem:** Extension methods on `dynamic` type were causing runtime errors:
 ```
 NoSuchMethodError: Class 'String' has no instance method 'serialize()'
@@ -602,6 +672,31 @@ class ToolResultHelpers {
       result is String ? result : json.encode(result);
 }
 ```
+
+#### 2. Anthropic Streaming Tool Arguments Bug (December 2024)
+**Problem:** Anthropic's streaming implementation was discarding tool arguments during InputJsonBlockDelta events, causing tools to receive empty argument maps.
+
+**Root Cause:** The mapper was ignoring InputJsonBlockDelta events, which contain the incremental tool argument data in Anthropic's streaming protocol.
+
+**Solution:** Implemented stateful accumulation in the MessageStreamEventTransformer:
+```dart
+// Added accumulator
+final Map<String, StringBuffer> _toolArgumentsAccumulator = {};
+
+// In ContentBlockDeltaEvent handling:
+if (e.delta is InputJsonBlockDelta && lastToolCallId != null) {
+  _toolArgumentsAccumulator.putIfAbsent(lastToolCallId!, () => StringBuffer());
+  _toolArgumentsAccumulator[lastToolCallId]!.write(delta.partialJson);
+}
+
+// In ContentBlockStopEvent handling:
+if (lastToolCallId != null && _toolArgumentsAccumulator.containsKey(lastToolCallId)) {
+  final argsJson = _toolArgumentsAccumulator[lastToolCallId]!.toString();
+  // Create complete tool call with accumulated arguments
+}
+```
+
+**Impact:** Fixed tool calling for Anthropic provider in streaming mode, enabling proper function execution with correct arguments.
 
 #### Migration Impact
 **Files Modified:** 8 files updated
@@ -643,4 +738,15 @@ differences in streaming protocols and API requirements.
 
 **✅ The core helper functions have been successfully implemented and deployed**, resolving critical runtime errors and significantly improving code maintainability. The implementation demonstrates that centralization of common patterns provides substantial benefits without creating over-abstraction.
 
-The next phase could focus on additional helpers like streaming accumulation base classes and image encoding helpers, but the foundation is now solid and all providers are using the centralized helper functions effectively.
+**Key Accomplishments:**
+1. **MessagePartHelpers** - Centralized text/tool extraction across all providers
+2. **ToolResultHelpers** - Unified result serialization and map wrapping
+3. **Anthropic Streaming Fix** - Implemented tool argument accumulation for InputJsonBlockDelta events
+4. **Comprehensive Testing** - Added ALL providers tests to ensure consistent behavior
+
+**Intentionally Provider-Specific:**
+- Tool argument streaming accumulation (too different between OpenAI/Anthropic)
+- Message grouping strategies (Google's function responses vs Anthropic's blocks)
+- System message handling (inline vs separate configuration)
+
+The implementation strikes the right balance between DRY principles and respecting fundamental protocol differences. Additional helpers like image encoding could be added in the future, but the current state provides a solid, maintainable foundation with all critical issues resolved.

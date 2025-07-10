@@ -26,6 +26,7 @@ class MistralChatProvider extends ChatProvider<MistralChatOptions> {
     required super.defaultModelName,
     required super.defaultBaseUrl,
     required super.apiKeyName,
+    required super.caps,
   });
 
   /// Logger for Mistral chat provider operations.

@@ -3,9 +3,9 @@ import 'dart:convert';
 
 import 'package:json_schema/json_schema.dart';
 import 'package:logging/logging.dart';
-import 'package:uuid/uuid.dart';
 
 import 'chat/chat_models/chat_models.dart';
+import 'chat/chat_models/helpers/tool_id_helpers.dart';
 import 'chat/chat_providers/chat_providers.dart';
 import 'chat/tools/tools.dart';
 import 'language_models/language_models.dart';
@@ -186,7 +186,6 @@ class Agent {
   late final String _providerName;
   late final ChatModel _model;
   late final String? _displayName;
-  static const _uuid = Uuid();
 
   /// Invokes the agent with the given prompt and returns the final result.
   ///
@@ -315,6 +314,7 @@ class Agent {
 
     var done = false;
     var shouldPrefixNextMessage = false; // Local state for this stream
+    final toolIdCoordinator = ToolIdCoordinator(); // Coordinate tool IDs
     while (!done) {
       var isFirstChunkOfMessage = true; // Track first chunk of each AI message
       var accumulatedMessage = const ChatMessage(
@@ -433,6 +433,14 @@ class Agent {
         _logger.fine('No tool calls found, completing agent stream');
         done = true;
       } else {
+        // Register tool calls with the coordinator
+        for (final toolCall in toolCalls) {
+          toolIdCoordinator.registerToolCall(
+            id: toolCall.id,
+            name: toolCall.name,
+            arguments: toolCall.arguments,
+          );
+        }
         _logger.info(
           'Found ${toolCalls.length} tool calls to execute: '
           '${toolCalls.map((t) => '${t.name}(${t.id})').join(', ')}',
@@ -476,6 +484,13 @@ class Agent {
                 'Tool ${toolPart.name}(${toolPart.id}) executed successfully, '
                 'result length: ${resultString.length}',
               );
+
+              // Validate tool ID before creating result
+              if (!toolIdCoordinator.validateToolResultId(toolPart.id)) {
+                _logger.warning(
+                  'Tool result ID ${toolPart.id} has no matching tool call',
+                );
+              }
 
               // Create a user message with tool result part
               final toolResultMessage = ChatMessage(
@@ -562,23 +577,13 @@ class Agent {
     return false;
   }
 
-  /// Assigns UUIDs to tool parts that don't have IDs.
+  /// Assigns IDs to tool parts that don't have them.
   ///
   /// This is primarily for providers like Ollama and Google that don't provide
   /// tool call IDs. OpenAI provides proper IDs and uses a different streaming
   /// protocol where partial tool calls should be concatenated.
-  List<Part> _assignToolCallIdsToMessage(List<Part> parts) => parts.map((part) {
-    if (part is ToolPart && part.kind == ToolPartKind.call && part.id.isEmpty) {
-      // Only assign UUIDs if the tool call has an empty ID
-      return ToolPart.call(
-        id: _uuid.v4(),
-        name: part.name,
-        arguments: part.arguments ?? {},
-      );
-    }
-    // Return as-is if not a tool call or ID already exists
-    return part;
-  }).toList();
+  List<Part> _assignToolCallIdsToMessage(List<Part> parts) =>
+      ToolIdHelpers.assignToolCallIds(parts, providerHint: _providerName);
 
   /// Concatenates two ChatMessage objects, properly merging streaming chunks.
   ///

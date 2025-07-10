@@ -1,3 +1,16 @@
+// CRITICAL TEST FAILURE INVESTIGATION PROCESS: When a test fails for a provider
+// capability:
+// 1. NEVER immediately disable the capability in provider definitions
+// 2. ALWAYS investigate at the API level first:
+//    - Test with curl to verify if the feature works at the raw API level
+//    - Check the provider's official documentation
+//    - Look for differences between our implementation and the API requirements
+// 3. ONLY disable a capability after confirming:
+//    - The API itself doesn't support the feature, OR
+//    - The API has a fundamental limitation (like Together's streaming tool
+//      format)
+// 4. If the API supports it but our code doesn't: FIX THE IMPLEMENTATION
+
 import 'package:langchain_compat/langchain_compat.dart';
 import 'package:test/test.dart';
 
@@ -58,6 +71,52 @@ void main() {
         // Empty chunks are normal in streaming protocols
         expect(emptyChunks, greaterThanOrEqualTo(0));
       });
+
+      test(
+        'ALL providers handle streaming correctly',
+        timeout: const Timeout(Duration(minutes: 3)),
+        () async {
+          // Test EVERY provider
+          for (final provider in ChatProvider.all) {
+            // Skip local providers if not available
+            if (provider.name.contains('ollama')) {
+              continue; // Skip for speed
+            }
+
+            // Testing streaming with provider
+
+            final agent = Agent(
+              '${provider.name}:${provider.defaultModelName}',
+            );
+
+            final chunks = <String>[];
+            await for (final chunk in agent.runStream(
+              'Write three words: apple, banana, orange',
+            )) {
+              chunks.add(chunk.output);
+            }
+
+            expect(
+              chunks,
+              isNotEmpty,
+              reason: 'Provider ${provider.name} should stream chunks',
+            );
+
+            // Combined output should contain all words
+            final fullText = chunks.join();
+            expect(
+              fullText.toLowerCase(),
+              allOf([
+                contains('apple'),
+                contains('banana'),
+                contains('orange'),
+              ]),
+              reason:
+                  'Provider ${provider.name} should stream complete content',
+            );
+          }
+        },
+      );
 
       test('streaming preserves message sequence', () async {
         final agent = Agent('openai:gpt-4o-mini');
@@ -143,9 +202,9 @@ void main() {
         final agent = Agent('openai:gpt-4o-mini', tools: [stringTool]);
 
         final allChunks = <ChatResult<String>>[];
-        await agent.runStream(
-          'Use string_tool with input "streaming test"',
-        ).forEach(allChunks.add);
+        await agent
+            .runStream('Use string_tool with input "streaming test"')
+            .forEach(allChunks.add);
 
         expect(allChunks, isNotEmpty);
 
@@ -203,6 +262,52 @@ void main() {
           // Just consume the stream
         }
       });
+
+      test(
+        'ALL providers handle tool streaming correctly',
+        timeout: const Timeout(Duration(minutes: 3)),
+        () async {
+          // Test EVERY provider that supports tools
+          for (final provider in ChatProvider.allWith({
+            ProviderCaps.multiToolCalls,
+          })) {
+            // Skip local providers if not available
+            if (provider.name.contains('ollama')) {
+              continue; // Skip for speed
+            }
+
+            // Testing tool streaming with provider
+
+            final agent = Agent(
+              '${provider.name}:${provider.defaultModelName}',
+              tools: [stringTool],
+            );
+
+            final allChunks = <ChatResult<String>>[];
+            await agent
+                .runStream(
+                  'Use string_tool with input "stream ${provider.name}"',
+                )
+                .forEach(allChunks.add);
+
+            expect(
+              allChunks,
+              isNotEmpty,
+              reason: 'Provider ${provider.name} should stream tool calls',
+            );
+
+            // Should have tool execution in the complete message set
+            final allMessages = allChunks.expand((c) => c.messages).toList();
+            final hasToolResults = allMessages.any((m) => m.hasToolResults);
+            expect(
+              hasToolResults,
+              isTrue,
+              reason:
+                  'Provider ${provider.name} should execute tools in stream',
+            );
+          }
+        },
+      );
     });
 
     group('message accumulation patterns', () {

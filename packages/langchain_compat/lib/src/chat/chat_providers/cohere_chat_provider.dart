@@ -26,6 +26,7 @@ class CohereChatProvider extends OpenAIChatProvider {
     required super.defaultModelName,
     required super.defaultBaseUrl,
     required super.apiKeyName,
+    required super.caps,
   });
 
   /// Logger for Cohere chat provider operations.

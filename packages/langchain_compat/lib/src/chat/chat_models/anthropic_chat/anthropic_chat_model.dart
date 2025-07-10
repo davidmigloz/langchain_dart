@@ -28,7 +28,10 @@ class AnthropicChatModel extends ChatModel<AnthropicChatOptions> {
     Map<String, dynamic>? queryParams,
     http.Client? client,
   }) : _client = a.AnthropicClient(
-         apiKey: apiKey ?? getEnv(apiKeyName),
+         apiKey:
+             apiKey ??
+             tryGetEnv('ANTHROPIC_API_TEST_KEY') ??
+             getEnv(apiKeyName),
          baseUrl: baseUrl,
          headers: headers,
          queryParams: queryParams,
