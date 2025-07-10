@@ -31,7 +31,7 @@ void main() {
             // Ollama not running - skip this provider
             return;
           }
-          
+
           await testFunction(provider);
         }, timeout: timeout ?? const Timeout(Duration(seconds: 30)));
       }
@@ -187,19 +187,24 @@ void main() {
         expect(providerNames, contains('cohere'));
       });
 
-      runChatProviderTest('chat providers have required properties', (provider) async {
+      runChatProviderTest('chat providers have required properties', (
+        provider,
+      ) async {
         expect(provider.name, isNotEmpty);
         expect(provider.displayName, isNotEmpty);
         expect(provider.createModel, isNotNull);
         expect(provider.listModels, isNotNull);
       });
 
-      runEmbeddingsProviderTest('embeddings providers have required properties', (provider) async {
-        expect(provider.name, isNotEmpty);
-        expect(provider.displayName, isNotEmpty);
-        expect(provider.createModel, isNotNull);
-        expect(provider.listModels, isNotNull);
-      });
+      runEmbeddingsProviderTest(
+        'embeddings providers have required properties',
+        (provider) async {
+          expect(provider.name, isNotEmpty);
+          expect(provider.displayName, isNotEmpty);
+          expect(provider.createModel, isNotNull);
+          expect(provider.listModels, isNotNull);
+        },
+      );
     });
 
     group('model enumeration', () {

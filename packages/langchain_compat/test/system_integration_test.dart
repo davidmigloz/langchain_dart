@@ -17,8 +17,52 @@ import 'package:langchain_compat/langchain_compat.dart';
 import 'package:test/test.dart';
 
 import 'test_tools.dart';
+import 'test_utils.dart';
 
 void main() {
+  // Helper to run parameterized tests
+  void runProviderTest(
+    String testName,
+    Future<void> Function(ChatProvider provider) testFunction, {
+    Timeout? timeout,
+  }) {
+    group(testName, () {
+      for (final provider in ChatProvider.all) {
+        test(provider.name, () async {
+          // Skip local providers if not available
+          if (provider.name.contains('ollama') && !await isOllamaAvailable()) {
+            // Ollama not running - skip this provider
+            return;
+          }
+          
+          await testFunction(provider);
+        }, timeout: timeout ?? const Timeout(Duration(seconds: 30)));
+      }
+    });
+  }
+
+  // Helper for tool-supporting providers
+  void runToolProviderTest(
+    String testName,
+    Future<void> Function(ChatProvider provider) testFunction, {
+    Timeout? timeout,
+  }) {
+    group(testName, () {
+      final toolProviders = ChatProvider.allWith({ProviderCaps.multiToolCalls});
+      for (final provider in toolProviders) {
+        test(provider.name, () async {
+          // Skip local providers if not available
+          if (provider.name.contains('ollama') && !await isOllamaAvailable()) {
+            // Ollama not running - skip this provider
+            return;
+          }
+          
+          await testFunction(provider);
+        }, timeout: timeout ?? const Timeout(Duration(seconds: 30)));
+      }
+    });
+  }
+
   group('System Integration', () {
     group('end-to-end workflows', () {
       test('complete agent conversation with tools', () async {
@@ -115,79 +159,65 @@ void main() {
         expect(fullText, isNotEmpty);
       });
 
-      test(
-        'ALL providers handle end-to-end workflows correctly',
-        timeout: const Timeout(Duration(minutes: 3)),
-        () async {
-          // Test basic conversation with all providers
-          for (final provider in ChatProvider.all) {
-            // Skip local providers if not available
-            if (provider.name.contains('ollama')) {
-              continue; // Skip for speed
-            }
+      runProviderTest(
+        'handle end-to-end workflows correctly (basic conversation)',
+        (provider) async {
+          // Test basic conversation
+          final agent = Agent(
+            '${provider.name}:${provider.defaultModelName}',
+          );
 
-            // Testing end-to-end workflow with provider
+          final history = <ChatMessage>[];
 
-            // Test basic conversation
-            final agent = Agent(
-              '${provider.name}:${provider.defaultModelName}',
-            );
+          // Turn 1: Initial greeting
+          var result = await agent.run(
+            'Hello! Reply with "Hi from ${provider.name}"',
+            history: history,
+          );
+          expect(
+            result.output,
+            isNotEmpty,
+            reason: 'Provider ${provider.name} should respond',
+          );
+          history.addAll(result.messages);
 
-            final history = <ChatMessage>[];
-
-            // Turn 1: Initial greeting
-            var result = await agent.run(
-              'Hello! Reply with "Hi from ${provider.name}"',
-              history: history,
-            );
-            expect(
-              result.output,
-              isNotEmpty,
-              reason: 'Provider ${provider.name} should respond',
-            );
-            history.addAll(result.messages);
-
-            // Turn 2: Continue conversation
-            result = await agent.run(
-              'What provider are you from?',
-              history: history,
-            );
-            expect(
-              result.output.toLowerCase(),
-              contains(provider.name),
-              reason: 'Provider ${provider.name} should maintain context',
-            );
-          }
-
-          // Test tool execution with providers that support tools
-          for (final provider in ChatProvider.allWith({
-            ProviderCaps.multiToolCalls,
-          })) {
-            // Skip local providers if not available
-            if (provider.name.contains('ollama')) {
-              continue; // Skip for speed
-            }
-
-            final agentWithTools = Agent(
-              '${provider.name}:${provider.defaultModelName}',
-              tools: [stringTool],
-            );
-
-            final toolResult = await agentWithTools.run(
-              'Use string_tool with input "${provider.name} workflow test"',
-            );
-
-            // Should have executed tool
-            final hasToolResults = toolResult.messages.any(
-              (m) => m.hasToolResults,
-            );
-            expect(
-              hasToolResults,
-              isTrue,
-              reason: 'Provider ${provider.name} should execute tools',
-            );
-          }
+          // Turn 2: Continue conversation
+          result = await agent.run(
+            'What provider are you from?',
+            history: history,
+          );
+          expect(
+            result.output.toLowerCase(),
+            contains(provider.name),
+            reason: 'Provider ${provider.name} should maintain context',
+          );
         },
+        timeout: const Timeout(Duration(minutes: 3)),
+      );
+
+      runToolProviderTest(
+        'handle end-to-end workflows correctly (tool execution)',
+        (provider) async {
+          final agentWithTools = Agent(
+            '${provider.name}:${provider.defaultModelName}',
+            tools: [stringTool],
+          );
+
+          final toolResult = await agentWithTools.run(
+            'Use string_tool with input "${provider.name} workflow test"',
+          );
+
+          // Should have executed tool
+          final hasToolResults = toolResult.messages.any(
+            (m) => m.hasToolResults,
+          );
+          expect(
+            hasToolResults,
+            isTrue,
+            reason: 'Provider ${provider.name} should execute tools',
+          );
+        },
+        timeout: const Timeout(Duration(minutes: 3)),
       );
     });
 

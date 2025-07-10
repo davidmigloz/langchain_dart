@@ -21,6 +21,30 @@ import 'test_tools.dart';
 import 'test_utils.dart';
 
 void main() {
+  // Get all providers that support tools
+  final toolProviders = ChatProvider.allWith({ProviderCaps.multiToolCalls});
+
+  // Helper to run parameterized tests
+  void runProviderTest(
+    String testName,
+    Future<void> Function(ChatProvider provider) testFunction, {
+    Timeout? timeout,
+  }) {
+    group(testName, () {
+      for (final provider in toolProviders) {
+        test(provider.name, () async {
+          // Skip local providers if not available
+          if (provider.name.contains('ollama') && !await isOllamaAvailable()) {
+            // Ollama not running - skip this provider
+            return;
+          }
+          
+          await testFunction(provider);
+        }, timeout: timeout ?? const Timeout(Duration(seconds: 30)));
+      }
+    });
+  }
+
   group('Tool ID Coordination', () {
     group('ToolIdHelpers', () {
       test('generates unique tool call IDs', () {
@@ -235,156 +259,134 @@ void main() {
     });
 
     group('ALL providers generate unique tool IDs', () {
-      test(
+      runProviderTest(
         'tool IDs are unique and properly matched',
-        timeout: const Timeout(Duration(minutes: 3)),
-        () async {
-          // Test EVERY provider that supports tools
-          for (final provider in ChatProvider.allWith({
-            ProviderCaps.multiToolCalls,
-          })) {
-            // Skip local providers if not available
-            if (provider.name.contains('ollama') &&
-                !await isOllamaAvailable()) {
-              continue;
-            }
+        (provider) async {
+          final agent = Agent(
+            '${provider.name}:${provider.defaultModelName}',
+            tools: [stringTool, intTool],
+          );
 
-            final agent = Agent(
-              '${provider.name}:${provider.defaultModelName}',
-              tools: [stringTool, intTool],
-            );
+          final response = await agent.run(
+            'Call string_tool with "test" and int_tool with 42',
+          );
 
-            final response = await agent.run(
-              'Call string_tool with "test" and int_tool with 42',
-            );
+          // Extract all tool calls and results
+          final toolCalls = <ToolPart>[];
+          final toolResults = <ToolPart>[];
 
-            // Extract all tool calls and results
-            final toolCalls = <ToolPart>[];
-            final toolResults = <ToolPart>[];
-
-            for (final message in response.messages) {
-              for (final part in message.parts) {
-                if (part is ToolPart) {
-                  if (part.kind == ToolPartKind.call) {
-                    toolCalls.add(part);
-                  } else if (part.kind == ToolPartKind.result) {
-                    toolResults.add(part);
-                  }
+          for (final message in response.messages) {
+            for (final part in message.parts) {
+              if (part is ToolPart) {
+                if (part.kind == ToolPartKind.call) {
+                  toolCalls.add(part);
+                } else if (part.kind == ToolPartKind.result) {
+                  toolResults.add(part);
                 }
               }
             }
+          }
 
-            // Verify we have tool calls and results
+          // Verify we have tool calls and results
+          expect(
+            toolCalls,
+            isNotEmpty,
+            reason: 'Provider ${provider.name} should generate tool calls',
+          );
+          expect(
+            toolResults,
+            isNotEmpty,
+            reason: 'Provider ${provider.name} should generate tool results',
+          );
+
+          // Verify all tool calls have unique IDs
+          final callIds = toolCalls.map((tc) => tc.id).toList();
+          expect(
+            callIds.toSet().length,
+            equals(callIds.length),
+            reason: 'Provider ${provider.name} should generate unique IDs',
+          );
+
+          // Verify no empty IDs
+          for (final call in toolCalls) {
             expect(
-              toolCalls,
+              call.id,
               isNotEmpty,
-              reason: 'Provider ${provider.name} should generate tool calls',
+              reason:
+                  'Provider ${provider.name} tool call "${call.name}" '
+                  'should have non-empty ID',
             );
+          }
+
+          // Verify all tool results have matching calls
+          final callIdSet = callIds.toSet();
+          for (final result in toolResults) {
             expect(
-              toolResults,
+              result.id,
               isNotEmpty,
-              reason: 'Provider ${provider.name} should generate tool results',
+              reason: 'Provider ${provider.name} tool result should have ID',
             );
-
-            // Verify all tool calls have unique IDs
-            final callIds = toolCalls.map((tc) => tc.id).toList();
             expect(
-              callIds.toSet().length,
-              equals(callIds.length),
-              reason: 'Provider ${provider.name} should generate unique IDs',
+              callIdSet.contains(result.id),
+              isTrue,
+              reason:
+                  'Provider ${provider.name} tool result ID "${result.id}" '
+                  'should match a tool call',
             );
-
-            // Verify no empty IDs
-            for (final call in toolCalls) {
-              expect(
-                call.id,
-                isNotEmpty,
-                reason:
-                    'Provider ${provider.name} tool call "${call.name}" '
-                    'should have non-empty ID',
-              );
-            }
-
-            // Verify all tool results have matching calls
-            final callIdSet = callIds.toSet();
-            for (final result in toolResults) {
-              expect(
-                result.id,
-                isNotEmpty,
-                reason: 'Provider ${provider.name} tool result should have ID',
-              );
-              expect(
-                callIdSet.contains(result.id),
-                isTrue,
-                reason:
-                    'Provider ${provider.name} tool result ID "${result.id}" '
-                    'should match a tool call',
-              );
-            }
           }
         },
+        timeout: const Timeout(Duration(minutes: 3)),
       );
 
-      test(
+      runProviderTest(
         'multiple calls to same tool have unique IDs',
-        timeout: const Timeout(Duration(minutes: 2)),
-        () async {
-          // Test EVERY provider that supports tools
-          for (final provider in ChatProvider.allWith({
-            ProviderCaps.multiToolCalls,
-          })) {
-            // Skip local providers if not available
-            if (provider.name.contains('ollama') &&
-                !await isOllamaAvailable()) {
-              continue;
-            }
+        (provider) async {
+          final agent = Agent(
+            '${provider.name}:${provider.defaultModelName}',
+            tools: [stringTool],
+          );
 
-            final agent = Agent(
-              '${provider.name}:${provider.defaultModelName}',
-              tools: [stringTool],
-            );
+          // Ask to call the same tool multiple times
+          final response = await agent.run(
+            'Call string_tool three times with inputs '
+            '"first", "second", and "third"',
+          );
 
-            // Ask to call the same tool multiple times
-            final response = await agent.run(
-              'Call string_tool three times with inputs '
-              '"first", "second", and "third"',
-            );
+          // Extract all tool calls
+          final toolCalls = response.messages
+              .expand((msg) => msg.parts)
+              .whereType<ToolPart>()
+              .where((p) => p.kind == ToolPartKind.call)
+              .toList();
 
-            // Extract all tool calls
-            final toolCalls = response.messages
-                .expand((msg) => msg.parts)
-                .whereType<ToolPart>()
-                .where((p) => p.kind == ToolPartKind.call)
-                .toList();
+          // May not get exactly 3 calls, but should get at least 1
+          expect(
+            toolCalls,
+            isNotEmpty,
+            reason: 'Provider ${provider.name} should call the tool',
+          );
 
-            // May not get exactly 3 calls, but should get at least 1
+          // All calls should have unique IDs
+          final ids = toolCalls.map((tc) => tc.id).toList();
+          expect(
+            ids.toSet().length,
+            equals(ids.length),
+            reason:
+                'Provider ${provider.name} should generate unique IDs '
+                'for multiple calls to same tool',
+          );
+
+          // All IDs should be non-empty
+          for (final id in ids) {
             expect(
-              toolCalls,
+              id,
               isNotEmpty,
-              reason: 'Provider ${provider.name} should call the tool',
-            );
-
-            // All calls should have unique IDs
-            final ids = toolCalls.map((tc) => tc.id).toList();
-            expect(
-              ids.toSet().length,
-              equals(ids.length),
               reason:
-                  'Provider ${provider.name} should generate unique IDs '
-                  'for multiple calls to same tool',
+                  'Provider ${provider.name} should generate non-empty IDs',
             );
-
-            // All IDs should be non-empty
-            for (final id in ids) {
-              expect(
-                id,
-                isNotEmpty,
-                reason:
-                    'Provider ${provider.name} should generate non-empty IDs',
-              );
-            }
           }
         },
+        timeout: const Timeout(Duration(minutes: 2)),
       );
     });
   });
