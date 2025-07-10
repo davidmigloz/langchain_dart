@@ -12,12 +12,12 @@ import 'chat_provider.dart';
 import 'model_chat_kind.dart';
 import 'model_info.dart';
 
-/// Provider for OpenAI-compatible APIs (OpenAI, Groq, Together, etc.). Handles
-/// API key, base URL, and model configuration.
+/// Provider for OpenAI-compatible APIs (OpenAI, Fireworks, Together, etc.).
+/// Handles API key, base URL, and model configuration.
 class OpenAIChatProvider extends ChatProvider<OpenAIChatOptions> {
   /// Creates a new OpenAI provider instance.
   ///
-  /// [name]: The canonical provider name (e.g., 'openai', 'groq').
+  /// [name]: The canonical provider name (e.g., 'openai', 'fireworks').
   /// [displayName]: Human-readable name for display. [defaultModelName]: The
   /// default model for this provider. [defaultBaseUrl]: The default API
   /// endpoint. [apiKeyName]: The environment variable for the API key (if any).

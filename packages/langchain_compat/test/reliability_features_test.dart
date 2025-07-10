@@ -15,8 +15,30 @@ import 'package:langchain_compat/langchain_compat.dart';
 import 'package:test/test.dart';
 
 import 'test_tools.dart';
+import 'test_utils.dart';
 
 void main() {
+  // Helper to run parameterized tests
+  void runProviderTest(
+    String testName,
+    Future<void> Function(ChatProvider provider) testFunction, {
+    Timeout? timeout,
+  }) {
+    group(testName, () {
+      for (final provider in ChatProvider.all) {
+        test(provider.name, () async {
+          // Skip local providers if not available
+          if (provider.name.contains('ollama') && !await isOllamaAvailable()) {
+            // Ollama not running - skip this provider
+            return;
+          }
+          
+          await testFunction(provider);
+        }, timeout: timeout ?? const Timeout(Duration(seconds: 30)));
+      }
+    });
+  }
+
   group('Reliability Features', () {
     group('basic error recovery', () {
       test('agent handles network errors gracefully', () async {
@@ -65,50 +87,40 @@ void main() {
         expect(models, isA<List>());
       });
 
-      test(
-        'ALL providers handle basic reliability features',
-        timeout: const Timeout(Duration(minutes: 3)),
-        () async {
-          // Test EVERY provider
-          for (final provider in ChatProvider.all) {
-            // Skip local providers if not available
-            if (provider.name.contains('ollama')) {
-              continue; // Skip for speed
-            }
+      runProviderTest(
+        'handle basic reliability features',
+        (provider) async {
+          // Test 1: Provider creation should not throw
+          expect(
+            () => Agent('${provider.name}:${provider.defaultModelName}'),
+            returnsNormally,
+            reason:
+                'Provider ${provider.name} should create agent '
+                'without throwing',
+          );
 
-            // Testing reliability features with provider
+          // Test 2: Model enumeration should not throw
+          final models = await provider.listModels().toList();
+          expect(
+            models,
+            isA<List>(),
+            reason: 'Provider ${provider.name} should return model list',
+          );
 
-            // Test 1: Provider creation should not throw
-            expect(
-              () => Agent('${provider.name}:${provider.defaultModelName}'),
-              returnsNormally,
-              reason:
-                  'Provider ${provider.name} should create agent '
-                  'without throwing',
-            );
+          // Test 3: Basic error recovery
+          final agent = Agent(
+            '${provider.name}:${provider.defaultModelName}',
+          );
 
-            // Test 2: Model enumeration should not throw
-            final models = await provider.listModels().toList();
-            expect(
-              models,
-              isA<List>(),
-              reason: 'Provider ${provider.name} should return model list',
-            );
-
-            // Test 3: Basic error recovery
-            final agent = Agent(
-              '${provider.name}:${provider.defaultModelName}',
-            );
-
-            // Test with a simple request
-            final result = await agent.run('Say "test"');
-            expect(
-              result.output,
-              isA<String>(),
-              reason: 'Provider ${provider.name} should return string output',
-            );
-          }
+          // Test with a simple request
+          final result = await agent.run('Say "test"');
+          expect(
+            result.output,
+            isA<String>(),
+            reason: 'Provider ${provider.name} should return string output',
+          );
         },
+        timeout: const Timeout(Duration(minutes: 3)),
       );
     });
 

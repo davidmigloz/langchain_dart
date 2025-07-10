@@ -14,7 +14,45 @@
 import 'package:langchain_compat/langchain_compat.dart';
 import 'package:test/test.dart';
 
+import 'test_utils.dart';
+
 void main() {
+  // Helper to run parameterized tests for chat providers
+  void runChatProviderTest(
+    String testName,
+    Future<void> Function(ChatProvider provider) testFunction, {
+    Timeout? timeout,
+  }) {
+    group(testName, () {
+      for (final provider in ChatProvider.all) {
+        test(provider.name, () async {
+          // Skip local providers if not available
+          if (provider.name.contains('ollama') && !await isOllamaAvailable()) {
+            // Ollama not running - skip this provider
+            return;
+          }
+          
+          await testFunction(provider);
+        }, timeout: timeout ?? const Timeout(Duration(seconds: 30)));
+      }
+    });
+  }
+
+  // Helper to run parameterized tests for embeddings providers
+  void runEmbeddingsProviderTest(
+    String testName,
+    Future<void> Function(EmbeddingsProvider provider) testFunction, {
+    Timeout? timeout,
+  }) {
+    group(testName, () {
+      for (final provider in EmbeddingsProvider.all) {
+        test(provider.name, () async {
+          await testFunction(provider);
+        }, timeout: timeout ?? const Timeout(Duration(seconds: 30)));
+      }
+    });
+  }
+
   group('Provider Discovery', () {
     group('chat provider selection', () {
       test('finds providers by exact name', () {
@@ -26,7 +64,6 @@ void main() {
         expect(ChatProvider.forName('google'), equals(ChatProvider.google));
         expect(ChatProvider.forName('mistral'), equals(ChatProvider.mistral));
         expect(ChatProvider.forName('ollama'), equals(ChatProvider.ollama));
-        expect(ChatProvider.forName('groq'), equals(ChatProvider.groq));
         expect(ChatProvider.forName('together'), equals(ChatProvider.together));
         expect(
           ChatProvider.forName('fireworks'),
@@ -34,7 +71,6 @@ void main() {
         );
         expect(ChatProvider.forName('lambda'), equals(ChatProvider.lambda));
         expect(ChatProvider.forName('cohere'), equals(ChatProvider.cohere));
-        expect(ChatProvider.forName('cerebras'), equals(ChatProvider.cerebras));
         expect(
           ChatProvider.forName('openrouter'),
           equals(ChatProvider.openrouter),
@@ -135,10 +171,8 @@ void main() {
         expect(providerNames, contains('google'));
         expect(providerNames, contains('mistral'));
         expect(providerNames, contains('ollama'));
-        expect(providerNames, contains('groq'));
         expect(providerNames, contains('together'));
         expect(providerNames, contains('fireworks'));
-        expect(providerNames, contains('nvidia'));
         expect(providerNames, contains('cohere'));
       });
 
@@ -153,22 +187,18 @@ void main() {
         expect(providerNames, contains('cohere'));
       });
 
-      test('chat providers have required properties', () {
-        for (final provider in ChatProvider.all) {
-          expect(provider.name, isNotEmpty);
-          expect(provider.displayName, isNotEmpty);
-          expect(provider.createModel, isNotNull);
-          expect(provider.listModels, isNotNull);
-        }
+      runChatProviderTest('chat providers have required properties', (provider) async {
+        expect(provider.name, isNotEmpty);
+        expect(provider.displayName, isNotEmpty);
+        expect(provider.createModel, isNotNull);
+        expect(provider.listModels, isNotNull);
       });
 
-      test('embeddings providers have required properties', () {
-        for (final provider in EmbeddingsProvider.all) {
-          expect(provider.name, isNotEmpty);
-          expect(provider.displayName, isNotEmpty);
-          expect(provider.createModel, isNotNull);
-          expect(provider.listModels, isNotNull);
-        }
+      runEmbeddingsProviderTest('embeddings providers have required properties', (provider) async {
+        expect(provider.name, isNotEmpty);
+        expect(provider.displayName, isNotEmpty);
+        expect(provider.createModel, isNotNull);
+        expect(provider.listModels, isNotNull);
       });
     });
 

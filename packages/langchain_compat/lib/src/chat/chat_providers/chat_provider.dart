@@ -89,16 +89,6 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
     caps: ProviderCaps.allChat,
   );
 
-  /// Groq provider (OpenAI-compatible, cloud).
-  static final groq = OpenAIChatProvider(
-    name: 'groq',
-    displayName: 'Groq',
-    defaultModelName: 'llama3-70b-8192',
-    defaultBaseUrl: 'https://api.groq.com/openai/v1',
-    apiKeyName: 'GROQ_API_KEY',
-    caps: ProviderCaps.allChatExcept({ProviderCaps.typedOutput}),
-  );
-
   /// Together AI provider (OpenAI-compatible, cloud).
   ///
   /// Note: Tool support is disabled because Together's streaming API returns
@@ -213,23 +203,12 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
     caps: ProviderCaps.allChat,
   );
 
-  /// Cerebras provider (OpenAI-compatible, cloud).
-  static final cerebras = OpenAIChatProvider(
-    name: 'cerebras',
-    displayName: 'Cerebras',
-    defaultModelName: 'llama-4-scout-17b-16e-instruct',
-    defaultBaseUrl: 'https://api.cerebras.ai/v1',
-    apiKeyName: 'CEREBRAS_API_KEY',
-    caps: ProviderCaps.allChat,
-  );
-
   /// Returns a list of all available providers (static fields above).
   ///
   /// Use this to iterate or display all providers in a UI.
   static List<ChatProvider> get all => [
     openai,
     openrouter,
-    groq,
     together,
     fireworks,
     mistral,
@@ -240,7 +219,6 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
     anthropic,
     ollama,
     ollamaOpenAI,
-    cerebras,
   ];
 
   /// Returns all providers that have the specified capabilities.
