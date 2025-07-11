@@ -1,0 +1,4 @@
+Chris Sells has worked on developer tools and services since the development of the Telephony API for Windows at Intel in the '90s. Since then, he's been a contributing member of several ecosystems, including Windows, COM, ATL, .NET, C#, GCP, Android, Flutter and most recently developer experience as a Product Manager at Meta focused on Augmented Reality. Along the way, he's given conference talks, written training courses, maintained a successful blog, authored books, penned magazine articles and shipped several developer-focused products, both proprietary and OSS.
+
+https://twitter.com/csells
+https://sellsbrothers.com

@@ -257,11 +257,13 @@ void main() {
 
         // Long responses should cost more than short ones if both have usage
         // data available
-        final hasShortUsage = (shortResult.usage.promptTokens ?? 0) > 0 || 
-                            (shortResult.usage.responseTokens ?? 0) > 0;
-        final hasLongUsage = (longResult.usage.promptTokens ?? 0) > 0 || 
-                           (longResult.usage.responseTokens ?? 0) > 0;
-        
+        final hasShortUsage =
+            (shortResult.usage.promptTokens ?? 0) > 0 ||
+            (shortResult.usage.responseTokens ?? 0) > 0;
+        final hasLongUsage =
+            (longResult.usage.promptTokens ?? 0) > 0 ||
+            (longResult.usage.responseTokens ?? 0) > 0;
+
         if (hasShortUsage && hasLongUsage) {
           expect(longCost, greaterThan(shortCost));
         }

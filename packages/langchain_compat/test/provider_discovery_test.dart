@@ -6,8 +6,8 @@
 /// 5. 80% cases = common usage patterns tested across ALL capable providers
 /// 6. Edge cases = rare scenarios tested on Google only to avoid timeouts
 /// 7. Each functionality should only be tested in ONE file - no duplication
-/// 
-/// This file tests provider discovery including model enumeration via 
+///
+/// This file tests provider discovery including model enumeration via
 /// listModels()
 
 import 'package:langchain_compat/langchain_compat.dart';
@@ -350,7 +350,7 @@ void main() {
             }
           } catch (e) {
             // Skip providers that require API keys when not available
-            if (e.toString().contains('API_KEY') || 
+            if (e.toString().contains('API_KEY') ||
                 e.toString().contains('not set') ||
                 e.toString().contains('Environment variable')) {
               continue;
@@ -380,7 +380,7 @@ void main() {
             }
           } catch (e) {
             // Skip providers that require API keys when not available
-            if (e.toString().contains('API_KEY') || 
+            if (e.toString().contains('API_KEY') ||
                 e.toString().contains('not set') ||
                 e.toString().contains('Environment variable')) {
               continue;

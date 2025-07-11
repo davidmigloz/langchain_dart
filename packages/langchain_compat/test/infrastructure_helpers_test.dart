@@ -150,12 +150,17 @@ void main() {
 
       test('agent uses custom model name when specified', () {
         // Test that Agent correctly parses "provider:model" format
-        final agent1 = Agent('together:meta-llama/Llama-3.2-11B-Vision-Instruct-Turbo');
-        expect(agent1.model, contains('meta-llama/Llama-3.2-11B-Vision-Instruct-Turbo'));
-        
+        final agent1 = Agent(
+          'together:meta-llama/Llama-3.2-11B-Vision-Instruct-Turbo',
+        );
+        expect(
+          agent1.model,
+          contains('meta-llama/Llama-3.2-11B-Vision-Instruct-Turbo'),
+        );
+
         final agent2 = Agent('openai:gpt-4o');
         expect(agent2.model, contains('gpt-4o'));
-        
+
         final agent3 = Agent('anthropic:claude-3-5-sonnet-20241022');
         expect(agent3.model, contains('claude-3-5-sonnet-20241022'));
       });
@@ -223,7 +228,7 @@ void main() {
         expect(ChatProvider.forName('openai'), isNotNull);
         expect(ChatProvider.forName('OpenAI'), isNotNull);
         expect(ChatProvider.forName('OPENAI'), isNotNull);
-        
+
         // All should return the same provider
         final provider1 = ChatProvider.forName('openai');
         final provider2 = ChatProvider.forName('OpenAI');

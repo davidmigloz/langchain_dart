@@ -117,10 +117,7 @@ void main() {
         // Accept either "30" or "10 + 20" as valid answers
         expect(
           result.output.toLowerCase(),
-          anyOf(
-            contains('30'),
-            allOf(contains('10'), contains('20')),
-          ),
+          anyOf(contains('30'), allOf(contains('10'), contains('20'))),
         );
       });
 

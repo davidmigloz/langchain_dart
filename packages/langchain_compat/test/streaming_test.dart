@@ -93,7 +93,7 @@ void main() {
 
         // We should have received some chunks
         expect(chunks, isNotEmpty);
-        
+
         // At least some chunks should have content
         expect(chunks.any((c) => c.isNotEmpty), isTrue);
 

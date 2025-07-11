@@ -206,7 +206,8 @@ extension MessageListMapper on List<msg.ChatMessage> {
       // Non-images: Use dartantic_ai format as text
       final base64Data = base64Encode(dataPart.bytes);
       return a.Block.text(
-        text: '[media: ${dataPart.mimeType}] '
+        text:
+            '[media: ${dataPart.mimeType}] '
             'data:${dataPart.mimeType};base64,$base64Data',
       );
     }

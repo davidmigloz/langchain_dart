@@ -98,7 +98,7 @@ void main() {
         );
 
         final result = await agent.run('Tell me about the weather');
-        
+
         // Should contain pirate-like language
         expect(
           result.output.toLowerCase(),
@@ -142,10 +142,7 @@ void main() {
         // Model should include the requested fields somehow
         expect(
           decoded.toString().toLowerCase(),
-          allOf(
-            contains('test'),
-            contains('123'),
-          ),
+          allOf(contains('test'), contains('123')),
         );
       });
 
@@ -177,10 +174,7 @@ void main() {
 
     group('configuration flexibility (80% cases)', () {
       test('agent respects temperature setting', () async {
-        final agent = Agent(
-          'openai:gpt-4o-mini',
-          temperature: 0.7,
-        );
+        final agent = Agent('openai:gpt-4o-mini', temperature: 0.7);
 
         final result = await agent.run('Generate a random word');
         expect(result.output, isNotEmpty);

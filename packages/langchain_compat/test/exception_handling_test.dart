@@ -99,9 +99,7 @@ void main() {
 
         // Per our testing philosophy, exceptions should bubble up
         expect(
-          () => agent.run(
-            'Use strict_tool but forget the required_field',
-          ),
+          () => agent.run('Use strict_tool but forget the required_field'),
           throwsA(isA<ArgumentError>()),
         );
       });

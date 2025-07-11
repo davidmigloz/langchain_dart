@@ -148,9 +148,7 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
     defaultModelName: 'hermes-3-llama-3.1-405b-fp8',
     defaultBaseUrl: 'https://api.lambda.ai/v1',
     apiKeyName: 'LAMBDA_API_KEY',
-    caps: ProviderCaps.allChatExcept({
-      ProviderCaps.multiToolCalls,
-    }),
+    caps: ProviderCaps.allChatExcept({ProviderCaps.multiToolCalls}),
   );
 
   /// Gemini (OpenAI-compatible) provider (Google AI, OpenAI API).
