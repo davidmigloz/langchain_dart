@@ -39,7 +39,12 @@ final intTool = Tool<Map<String, dynamic>>(
     'required': ['value'],
   }),
   inputFromJson: (json) => json,
-  onCall: (input) => input['value'] as int,
+  onCall: (input) {
+    final value = input['value'];
+    if (value is int) return value;
+    if (value is String) return int.parse(value);
+    throw ArgumentError('Expected int or string, got ${value.runtimeType}');
+  },
 );
 
 final doubleTool = Tool<Map<String, dynamic>>(

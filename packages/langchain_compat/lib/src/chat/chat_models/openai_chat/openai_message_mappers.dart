@@ -118,15 +118,26 @@ extension MessageListToOpenAI on List<msg.ChatMessage> {
         case msg.TextPart(:final text):
           contentParts.add(ChatCompletionMessageContentPartText(text: text));
         case msg.DataPart(:final bytes, :final mimeType):
-          // Convert to base64
-          final base64Data = base64.encode(bytes);
-          contentParts.add(
-            ChatCompletionMessageContentPartImage(
-              imageUrl: ChatCompletionMessageImageUrl(
-                url: 'data:$mimeType;base64,$base64Data',
+          if (mimeType.startsWith('image/')) {
+            // Images: Use native image support for better quality
+            final base64Data = base64.encode(bytes);
+            contentParts.add(
+              ChatCompletionMessageContentPartImage(
+                imageUrl: ChatCompletionMessageImageUrl(
+                  url: 'data:$mimeType;base64,$base64Data',
+                ),
               ),
-            ),
-          );
+            );
+          } else {
+            // Non-images: Use dartantic_ai text format
+            // This allows any MIME type to work with OpenAI
+            final base64Data = base64.encode(bytes);
+            contentParts.add(
+              ChatCompletionMessageContentPartText(
+                text: '[media: $mimeType] data:$mimeType;base64,$base64Data',
+              ),
+            );
+          }
         case msg.LinkPart(:final url):
           contentParts.add(
             ChatCompletionMessageContentPartImage(

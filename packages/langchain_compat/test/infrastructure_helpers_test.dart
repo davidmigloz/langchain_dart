@@ -148,6 +148,18 @@ void main() {
         }
       });
 
+      test('agent uses custom model name when specified', () {
+        // Test that Agent correctly parses "provider:model" format
+        final agent1 = Agent('together:meta-llama/Llama-3.2-11B-Vision-Instruct-Turbo');
+        expect(agent1.model, contains('meta-llama/Llama-3.2-11B-Vision-Instruct-Turbo'));
+        
+        final agent2 = Agent('openai:gpt-4o');
+        expect(agent2.model, contains('gpt-4o'));
+        
+        final agent3 = Agent('anthropic:claude-3-5-sonnet-20241022');
+        expect(agent3.model, contains('claude-3-5-sonnet-20241022'));
+      });
+
       test('default model names follow conventions', () {
         final testProviderNames = ['openai', 'google'];
         for (final providerName in testProviderNames) {
@@ -206,11 +218,18 @@ void main() {
         expect(results.every((r) => r?.name == 'openai'), isTrue);
       });
 
-      test('handles case-sensitive provider names', () {
-        // Provider names should be case-sensitive
+      test('handles case-insensitive provider names', () {
+        // Provider lookup is case-insensitive by design
         expect(ChatProvider.forName('openai'), isNotNull);
-        expect(ChatProvider.forName('OpenAI'), isNull);
-        expect(ChatProvider.forName('OPENAI'), isNull);
+        expect(ChatProvider.forName('OpenAI'), isNotNull);
+        expect(ChatProvider.forName('OPENAI'), isNotNull);
+        
+        // All should return the same provider
+        final provider1 = ChatProvider.forName('openai');
+        final provider2 = ChatProvider.forName('OpenAI');
+        final provider3 = ChatProvider.forName('OPENAI');
+        expect(provider1, equals(provider2));
+        expect(provider2, equals(provider3));
       });
 
       test('handles empty capability filters', () {
@@ -238,7 +257,8 @@ void main() {
         final aliases = {
           'claude': 'anthropic',
           'gemini': 'google',
-          'gpt': 'openai',
+          'googleai': 'google',
+          'google-gla': 'google',
         };
 
         for (final entry in aliases.entries) {

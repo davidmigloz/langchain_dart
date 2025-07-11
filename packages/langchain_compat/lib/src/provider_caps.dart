@@ -10,10 +10,13 @@ enum ProviderCaps {
   multiToolCalls,
 
   /// The provider supports typed output.
-  typedOutput;
+  typedOutput,
+
+  /// The provider supports vision/multi-modal input (images, etc.).
+  vision;
 
   /// All chat capabilities.
-  static const allChat = {chat, multiToolCalls, typedOutput};
+  static const allChat = {chat, multiToolCalls, typedOutput, vision};
 
   /// All embeddings capabilities.
   static const allEmbeddings = {embeddings};

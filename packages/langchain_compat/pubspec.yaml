@@ -26,7 +26,7 @@ dependencies:
   mistralai_dart: ^0.0.4
   ollama_dart: ^0.2.3
   openai_dart: ^0.5.2
-  rxdart: ">=0.27.7 <0.29.0"
+  rxdart: ^0.28.0
   uuid: ^4.2.2
 
 dev_dependencies:

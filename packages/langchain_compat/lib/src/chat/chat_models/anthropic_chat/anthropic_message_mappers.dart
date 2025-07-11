@@ -185,28 +185,31 @@ extension MessageListMapper on List<msg.ChatMessage> {
   }
 
   a.Block _mapDataPartToBlock(msg.DataPart dataPart) {
-    // Anthropic only supports base64 images
-    if (!dataPart.mimeType.startsWith('image/')) {
-      throw AssertionError(
-        'Anthropic only supports image data parts, got: ${dataPart.mimeType}',
+    if (dataPart.mimeType.startsWith('image/')) {
+      // Images: Use native image blocks for better quality
+      return a.Block.image(
+        source: a.ImageBlockSource(
+          type: a.ImageBlockSourceType.base64,
+          mediaType: switch (dataPart.mimeType) {
+            'image/jpeg' => a.ImageBlockSourceMediaType.imageJpeg,
+            'image/png' => a.ImageBlockSourceMediaType.imagePng,
+            'image/gif' => a.ImageBlockSourceMediaType.imageGif,
+            'image/webp' => a.ImageBlockSourceMediaType.imageWebp,
+            _ => throw AssertionError(
+              'Unsupported image MIME type: ${dataPart.mimeType}',
+            ),
+          },
+          data: base64Encode(dataPart.bytes),
+        ),
+      );
+    } else {
+      // Non-images: Use dartantic_ai format as text
+      final base64Data = base64Encode(dataPart.bytes);
+      return a.Block.text(
+        text: '[media: ${dataPart.mimeType}] '
+            'data:${dataPart.mimeType};base64,$base64Data',
       );
     }
-
-    return a.Block.image(
-      source: a.ImageBlockSource(
-        type: a.ImageBlockSourceType.base64,
-        mediaType: switch (dataPart.mimeType) {
-          'image/jpeg' => a.ImageBlockSourceMediaType.imageJpeg,
-          'image/png' => a.ImageBlockSourceMediaType.imagePng,
-          'image/gif' => a.ImageBlockSourceMediaType.imageGif,
-          'image/webp' => a.ImageBlockSourceMediaType.imageWebp,
-          _ => throw AssertionError(
-            'Unsupported image MIME type: ${dataPart.mimeType}',
-          ),
-        },
-        data: String.fromCharCodes(dataPart.bytes),
-      ),
-    );
   }
 
   a.Message _mapModelMessage(msg.ChatMessage message) {

@@ -106,13 +106,15 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
   );
 
   /// Fireworks AI provider (OpenAI-compatible, cloud).
+  /// Note: Vision requires Document Inlining with URL#transform=inline format,
+  /// base64 images are not supported.
   static final fireworks = OpenAIChatProvider(
     name: 'fireworks',
     displayName: 'Fireworks AI',
     defaultModelName: 'accounts/fireworks/models/llama-v3p1-70b-instruct',
     defaultBaseUrl: 'https://api.fireworks.ai/inference/v1',
     apiKeyName: 'FIREWORKS_API_KEY',
-    caps: ProviderCaps.allChat,
+    caps: ProviderCaps.allChatExcept({ProviderCaps.vision}),
   );
 
   /// Mistral AI provider (native API, cloud).
@@ -143,10 +145,12 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
   static final lambda = OpenAIChatProvider(
     name: 'lambda',
     displayName: 'Lambda',
-    defaultModelName: 'llama3.2-3b-instruct',
+    defaultModelName: 'hermes-3-llama-3.1-405b-fp8',
     defaultBaseUrl: 'https://api.lambda.ai/v1',
     apiKeyName: 'LAMBDA_API_KEY',
-    caps: ProviderCaps.allChatExcept({ProviderCaps.multiToolCalls}),
+    caps: ProviderCaps.allChatExcept({
+      ProviderCaps.multiToolCalls,
+    }),
   );
 
   /// Gemini (OpenAI-compatible) provider (Google AI, OpenAI API).
@@ -182,7 +186,7 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
   );
 
   /// Native Ollama provider (local, uses ChatOllama and /api endpoint). No API
-  /// key required.
+  /// key required. Vision models like llava are available.
   static final ollama = OllamaChatProvider(
     name: 'ollama',
     displayName: 'Ollama',
@@ -193,7 +197,7 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
   );
 
   /// OpenAI-compatible Ollama provider (local, uses /v1 endpoint). No API key
-  /// required.
+  /// required. Vision models like llava are available.
   static final ollamaOpenAI = OpenAIChatProvider(
     name: 'ollama-openai',
     displayName: 'Ollama (OpenAI-compatible)',

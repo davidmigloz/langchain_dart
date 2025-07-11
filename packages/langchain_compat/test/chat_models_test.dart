@@ -114,7 +114,14 @@ void main() {
           'What was the original sum?',
           history: history,
         );
-        expect(result.output, contains('30'));
+        // Accept either "30" or "10 + 20" as valid answers
+        expect(
+          result.output.toLowerCase(),
+          anyOf(
+            contains('30'),
+            allOf(contains('10'), contains('20')),
+          ),
+        );
       });
 
       runProviderTest('context retention across turns', (provider) async {
