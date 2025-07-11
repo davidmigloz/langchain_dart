@@ -32,7 +32,7 @@ void main() async {
 }
 
 Future<void> analyzeSingleImage(Agent agent) async {
-  final imageBytes = await File('example/files/fridge.jpg').readAsBytes();
+  final imageBytes = await File('example/files/fridge.png').readAsBytes();
 
   // Send to agent with image
   final response = await agent.run(
@@ -42,7 +42,7 @@ Future<void> analyzeSingleImage(Agent agent) async {
         const TextPart(
           'What items can you see in this fridge? List them by category.',
         ),
-        DataPart(mimeType: 'image/jpeg', bytes: imageBytes),
+        DataPart(mimeType: 'image/png', bytes: imageBytes),
       ]),
     ],
   );
@@ -51,8 +51,8 @@ Future<void> analyzeSingleImage(Agent agent) async {
 }
 
 Future<void> analyzeMultipleImages(Agent agent) async {
-  final fridge = await File('example/files/fridge.jpg').readAsBytes();
-  final cupboard = await File('example/files/cupboard.jpg').readAsBytes();
+  final fridge = await File('example/files/fridge.png').readAsBytes();
+  final cupboard = await File('example/files/cupboard.png').readAsBytes();
 
   // Send to agent with multiple images
   final response = await agent.run(
@@ -61,9 +61,9 @@ Future<void> analyzeMultipleImages(Agent agent) async {
       ChatMessage.userParts([
         const TextPart('I have two images from my kitchen.'),
         const TextPart('\nImage 1 - Fridge:'),
-        DataPart(mimeType: 'image/jpeg', bytes: fridge),
+        DataPart(mimeType: 'image/png', bytes: fridge),
         const TextPart('\nImage 2 - Cupboard:'),
-        DataPart(mimeType: 'image/jpeg', bytes: cupboard),
+        DataPart(mimeType: 'image/png', bytes: cupboard),
         const TextPart('\nWhat meal could I make using items from both?'),
       ]),
     ],
@@ -74,7 +74,7 @@ Future<void> analyzeMultipleImages(Agent agent) async {
 
 Future<void> combineTextAndImage(Agent agent) async {
   final bio = await File('example/files/bio.txt').readAsString();
-  final fridge = await File('example/files/fridge.jpg').readAsBytes();
+  final fridge = await File('example/files/fridge.png').readAsBytes();
 
   // Combine text content and image
   final response = await agent.run(
@@ -83,7 +83,7 @@ Future<void> combineTextAndImage(Agent agent) async {
       ChatMessage.userParts([
         TextPart("Based on this person's bio:\n\n$bio\n"),
         const TextPart('And looking at their fridge contents:'),
-        DataPart(mimeType: 'image/jpeg', bytes: fridge),
+        DataPart(mimeType: 'image/png', bytes: fridge),
         const TextPart(
           '\nWhat can you tell me about their lifestyle and dietary habits?',
         ),
@@ -109,8 +109,8 @@ Future<void> useLinkAttachment(Agent agent) async {
           ),
           const TextPart('\nHow does it relate to the items in this fridge?'),
           DataPart(
-            mimeType: 'image/jpeg',
-            bytes: await File('example/files/fridge.jpg').readAsBytes(),
+            mimeType: 'image/png',
+            bytes: await File('example/files/fridge.png').readAsBytes(),
           ),
         ]),
       ],

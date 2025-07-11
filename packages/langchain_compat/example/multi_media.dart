@@ -34,8 +34,8 @@ Future<void> analyzeImages(Agent agent) async {
   print('Analyzing kitchen images...\n');
 
   // Load images
-  final fridgeImage = await File('example/files/fridge.jpg').readAsBytes();
-  final cupboardImage = await File('example/files/cupboard.jpg').readAsBytes();
+  final fridgeImage = await File('example/files/fridge.png').readAsBytes();
+  final cupboardImage = await File('example/files/cupboard.png').readAsBytes();
 
   // Create message with multiple images
   final response = await agent.run(
@@ -46,9 +46,9 @@ Future<void> analyzeImages(Agent agent) async {
         const TextPart('1. What items you can see in each image?'),
         const TextPart('2. What meals could I make with these ingredients?'),
         const TextPart('\nFirst image (fridge):'),
-        DataPart(mimeType: 'image/jpeg', bytes: fridgeImage),
+        DataPart(mimeType: 'image/png', bytes: fridgeImage),
         const TextPart('\nSecond image (cupboard):'),
-        DataPart(mimeType: 'image/jpeg', bytes: cupboardImage),
+        DataPart(mimeType: 'image/png', bytes: cupboardImage),
       ]),
     ],
   );
@@ -61,7 +61,7 @@ Future<void> processTextWithImages(Agent agent) async {
 
   // Load text file
   final bioText = await File('example/files/bio.txt').readAsString();
-  final fridgeImage = await File('example/files/fridge.jpg').readAsBytes();
+  final fridgeImage = await File('example/files/fridge.png').readAsBytes();
 
   final response = await agent.run(
     'Analyze this person based on their bio and fridge',
@@ -73,7 +73,7 @@ Future<void> processTextWithImages(Agent agent) async {
           'What can you infer about this person from both the bio '
           'and their fridge contents?',
         ),
-        DataPart(mimeType: 'image/jpeg', bytes: fridgeImage),
+        DataPart(mimeType: 'image/png', bytes: fridgeImage),
       ]),
     ],
   );
@@ -84,7 +84,7 @@ Future<void> processTextWithImages(Agent agent) async {
 Future<void> multiModalConversation(Agent agent) async {
   print('Starting multi-modal conversation...\n');
 
-  final fridgeImage = await File('example/files/fridge.jpg').readAsBytes();
+  final fridgeImage = await File('example/files/fridge.png').readAsBytes();
   final history = <ChatMessage>[];
 
   // First turn: Show image
@@ -93,7 +93,7 @@ Future<void> multiModalConversation(Agent agent) async {
     history: [
       ChatMessage.userParts([
         const TextPart('What do you see in this fridge?'),
-        DataPart(mimeType: 'image/jpeg', bytes: fridgeImage),
+        DataPart(mimeType: 'image/png', bytes: fridgeImage),
       ]),
     ],
   );
@@ -119,8 +119,8 @@ Future<void> multiModalConversation(Agent agent) async {
 Future<void> compareImages(Agent agent) async {
   print('Comparing fridge and cupboard contents...\n');
 
-  final fridgeImage = await File('example/files/fridge.jpg').readAsBytes();
-  final cupboardImage = await File('example/files/cupboard.jpg').readAsBytes();
+  final fridgeImage = await File('example/files/fridge.png').readAsBytes();
+  final cupboardImage = await File('example/files/cupboard.png').readAsBytes();
 
   final response = await agent.run(
     'Compare these two kitchen storage areas',
@@ -133,9 +133,9 @@ Future<void> compareImages(Agent agent) async {
         const TextPart('2. What types of food are in each?'),
         const TextPart('3. Any organizational suggestions?'),
         const TextPart('\nFridge:'),
-        DataPart(mimeType: 'image/jpeg', bytes: fridgeImage),
+        DataPart(mimeType: 'image/png', bytes: fridgeImage),
         const TextPart('\nCupboard:'),
-        DataPart(mimeType: 'image/jpeg', bytes: cupboardImage),
+        DataPart(mimeType: 'image/png', bytes: cupboardImage),
       ]),
     ],
   );

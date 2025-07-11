@@ -10,25 +10,26 @@ import 'lib/dump_message_history.dart';
 import 'lib/example_tools.dart';
 
 void main() async {
-  for (final provider in ChatProvider.allWith({ProviderCaps.typedOutput})) {
-    final agent = Agent.fromProvider(
-      provider,
-      tools: [currentDateTimeTool, temperatureTool],
-      systemPrompt: '''
+  final agent = Agent.fromProvider(
+    ChatProvider.openai,
+    tools: [currentDateTimeTool, temperatureTool],
+    systemPrompt: '''
 You are a helpful assistant that provides accurate information.
 
-When responding with structured data, ensure your JSON output strictly follows the provided schema format. Do not include additional text or explanations outside the JSON structure.
+When responding with structured data, ensure your JSON output strictly follows
+the provided schema format. Do not include additional text or explanations
+outside the JSON structure.
 
-When you have access to tools, use them to gather real data before formatting your response.''',
-    );
+When you have access to tools, use them to gather real data before formatting
+your response.
+''',
+  );
 
-    // await jsonOutput(agent);
-    // await jsonOutputStream(agent);
-    // await mapOutput(agent);
-    // await typedOutput(agent);
-    await typedOutputWithToolCalls(agent);
-    // await streamingTypedOutputWithToolCalls(agent);
-  }
+  await jsonOutput(agent);
+  await jsonOutputStream(agent);
+  await mapOutput(agent);
+  await typedOutput(agent);
+  await typedOutputWithToolCalls(agent);
   exit(0);
 }
 
@@ -44,6 +45,8 @@ Future<void> jsonOutput(Agent agent) async {
   print('town: ${map['town']}');
   print('country: ${map['country']}');
   dumpMessageHistory(result.messages);
+  print('--------------------------------');
+  print('');
 }
 
 Future<void> jsonOutputStream(Agent agent) async {
@@ -59,13 +62,16 @@ Future<void> jsonOutputStream(Agent agent) async {
       .forEach((r) {
         text.write(r.output);
         history.addAll(r.messages);
-        print(r.output);
+        stdout.write(r.output);
       });
+  stdout.writeln();
 
   final map = jsonDecode(text.toString()) as Map<String, dynamic>;
   print('town: ${map['town']}');
   print('country: ${map['country']}');
   dumpMessageHistory(history);
+  print('--------------------------------');
+  print('');
 }
 
 Future<void> mapOutput(Agent agent) async {
@@ -78,6 +84,9 @@ Future<void> mapOutput(Agent agent) async {
 
   print('town: ${result.output['town']}');
   print('country: ${result.output['country']}');
+  dumpMessageHistory(result.messages);
+  print('--------------------------------');
+  print('');
 }
 
 Future<void> typedOutput(Agent agent) async {
@@ -91,6 +100,9 @@ Future<void> typedOutput(Agent agent) async {
 
   print('town: ${result.output.town}');
   print('country: ${result.output.country}');
+  dumpMessageHistory(result.messages);
+  print('--------------------------------');
+  print('');
 }
 
 Future<void> typedOutputWithToolCalls(Agent agent) async {
@@ -104,19 +116,10 @@ Future<void> typedOutputWithToolCalls(Agent agent) async {
 
   print('time: ${result.output.time}');
   print('temperature: ${result.output.temperature}');
+  dumpMessageHistory(result.messages);
+  print('--------------------------------');
+  print('');
 }
-
-// Future<void> streamingTypedOutputWithToolCalls(Agent agent) async {
-//   print('═══ ${agent.displayName} Typed Output with Tool Calls ═══');
-
-//   final result = await agent.runForStream<TimeAndTemperature>(
-//     'What is the time and temperature in Portland, OR?',
-//     outputSchema: TimeAndTemperature.schema,
-//   );
-
-//   print('time: ${result.output.time}');
-//   print('temperature: ${result.output.temperature}');
-// }
 
 class TownAndCountry {
   const TownAndCountry({required this.town, required this.country});

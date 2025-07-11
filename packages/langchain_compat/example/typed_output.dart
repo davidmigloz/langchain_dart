@@ -197,7 +197,7 @@ void main() async {
         },
       },
     },
-    'required': ['success', 'data'],
+    'required': ['success', 'data', 'metadata'],
   });
 
   agent = Agent('openai:gpt-4o-mini');
