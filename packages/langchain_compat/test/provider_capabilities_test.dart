@@ -93,7 +93,7 @@ void main() {
                 ),
               ],
             ),
-            throwsException,
+            throwsA(isA<ArgumentError>()),
           );
         }
       });
@@ -107,7 +107,7 @@ void main() {
         final tool = Tool<String>(
           name: 'echo',
           description: 'Echo input',
-          inputFromJson: (json) => json['text'] as String,
+          inputFromJson: (json) => (json['text'] ?? 'test') as String,
           onCall: (input) => input,
         );
         

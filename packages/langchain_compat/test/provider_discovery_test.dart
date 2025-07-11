@@ -332,40 +332,60 @@ void main() {
 
       test('chat providers return available models', () async {
         for (final provider in edgeCaseProviders) {
-          final models = await provider.listModels().toList();
-          expect(
-            models,
-            isNotEmpty,
-            reason: 'Provider ${provider.name} should have models',
-          );
-
-          // Verify model structure
-          for (final model in models) {
+          try {
+            final models = await provider.listModels().toList();
             expect(
-              model.name,
+              models,
               isNotEmpty,
-              reason: 'Model name should not be empty for ${provider.name}',
+              reason: 'Provider ${provider.name} should have models',
             );
+
+            // Verify model structure
+            for (final model in models) {
+              expect(
+                model.name,
+                isNotEmpty,
+                reason: 'Model name should not be empty for ${provider.name}',
+              );
+            }
+          } catch (e) {
+            // Skip providers that require API keys when not available
+            if (e.toString().contains('API_KEY') || 
+                e.toString().contains('not set') ||
+                e.toString().contains('Environment variable')) {
+              continue;
+            }
+            rethrow;
           }
         }
       });
 
       test('embeddings providers return available models', () async {
         for (final provider in edgeCaseEmbeddingsProviders) {
-          final models = await provider.listModels().toList();
-          expect(
-            models,
-            isNotEmpty,
-            reason: 'Provider ${provider.name} should have embedding models',
-          );
-
-          // Verify model structure
-          for (final model in models) {
+          try {
+            final models = await provider.listModels().toList();
             expect(
-              model.name,
+              models,
               isNotEmpty,
-              reason: 'Model name should not be empty for ${provider.name}',
+              reason: 'Provider ${provider.name} should have embedding models',
             );
+
+            // Verify model structure
+            for (final model in models) {
+              expect(
+                model.name,
+                isNotEmpty,
+                reason: 'Model name should not be empty for ${provider.name}',
+              );
+            }
+          } catch (e) {
+            // Skip providers that require API keys when not available
+            if (e.toString().contains('API_KEY') || 
+                e.toString().contains('not set') ||
+                e.toString().contains('Environment variable')) {
+              continue;
+            }
+            rethrow;
           }
         }
       });

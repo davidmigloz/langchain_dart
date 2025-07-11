@@ -97,13 +97,13 @@ void main() {
 
         final agent = Agent('openai:gpt-4o-mini', tools: [strictTool]);
 
-        // Agent might call with wrong arguments
-        final result = await agent.run(
-          'Use strict_tool but forget the required_field',
+        // Per our testing philosophy, exceptions should bubble up
+        expect(
+          () => agent.run(
+            'Use strict_tool but forget the required_field',
+          ),
+          throwsA(isA<ArgumentError>()),
         );
-
-        // Should complete (agent handles the error)
-        expect(result.output, isNotEmpty);
       });
     });
 

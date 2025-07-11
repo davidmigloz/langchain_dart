@@ -121,8 +121,32 @@ void main() {
           'Return only valid JSON.',
         );
 
+        // Extract JSON from markdown if needed
+        var jsonStr = result.output.trim();
+        if (jsonStr.startsWith('```json')) {
+          jsonStr = jsonStr
+              .replaceFirst('```json', '')
+              .replaceFirst('```', '')
+              .trim();
+        } else if (jsonStr.startsWith('```')) {
+          jsonStr = jsonStr
+              .replaceFirst('```', '')
+              .replaceFirst('```', '')
+              .trim();
+        }
+
         // Should return valid JSON
-        expect(() => jsonDecode(result.output), returnsNormally);
+        expect(() => jsonDecode(jsonStr), returnsNormally);
+        final decoded = jsonDecode(jsonStr) as Map<String, dynamic>;
+        expect(decoded, isA<Map>());
+        // Model should include the requested fields somehow
+        expect(
+          decoded.toString().toLowerCase(),
+          allOf(
+            contains('test'),
+            contains('123'),
+          ),
+        );
       });
 
       test('providers respect system prompts', () async {
