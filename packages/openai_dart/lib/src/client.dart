@@ -72,7 +72,7 @@ class OpenAIClient extends g.OpenAIClient {
     required final CreateCompletionRequest request,
   }) async* {
     final r = await makeRequestStream(
-      baseUrl: this.baseUrl ?? 'https://api.openai.com/v1',
+      baseUrl: baseUrl ?? 'https://api.openai.com/v1',
       path: '/completions',
       method: g.HttpMethod.post,
       requestType: 'application/json',
