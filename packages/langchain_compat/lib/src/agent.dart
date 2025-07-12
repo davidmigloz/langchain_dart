@@ -323,11 +323,7 @@ class Agent {
         outputSchema: outputSchema,
       );
     } else {
-      return _runStream(
-        prompt,
-        history: history,
-        attachments: attachments,
-      );
+      return _runStream(prompt, history: history, attachments: attachments);
     }
   }
 
@@ -391,9 +387,7 @@ class Agent {
         );
 
         // Stream the raw response and collect it
-        await for (final result in model.sendStream(
-          conversationHistory,
-        )) {
+        await for (final result in model.sendStream(conversationHistory)) {
           // Stream the text output to the caller Extract text content from
           // Message output
           final textOutput = result.output.parts
@@ -618,32 +612,21 @@ class Agent {
     required List<Part> attachments,
     required JsonSchema outputSchema,
   }) async* {
-    // Create model with return_result tool if needed
-    var tools = _tools;
-    
-    // Check if provider supports typed output with tools but not natively
-    final supportsTypedOutputWithTools = 
-        _provider.caps.contains(ProviderCaps.typedOutputWithTools);
-    final hasNativeSupport = 
-        _provider.caps.contains(ProviderCaps.nativeTypedOutputWithTools);
-    
-    // Add return_result tool if provider supports typed output with tools
-    // but doesn't have native support (needs return_result pattern)
-    if (supportsTypedOutputWithTools && !hasNativeSupport) {
-      final returnResultTool = Tool<Map<String, dynamic>>(
-        name: kReturnResultToolName,
-        description:
-            'REQUIRED: You MUST call this tool to return the final result. '
-            'Use this tool to format and return your response according to '
-            'the specified JSON schema. Call this after gathering any '
-            'necessary information from other tools.',
-        inputSchema: outputSchema,
-        inputFromJson: (json) => json, // Identity function for JSON input
-        onCall: (args) async => json.encode(args), // Return JSON string
-      );
+    // Always add return_result tool for typed output Providers with native
+    // support will filter it out in their constructors
+    final returnResultTool = Tool<Map<String, dynamic>>(
+      name: kReturnResultToolName,
+      description:
+          'REQUIRED: You MUST call this tool to return the final result. '
+          'Use this tool to format and return your response according to '
+          'the specified JSON schema. Call this after gathering any '
+          'necessary information from other tools.',
+      inputSchema: outputSchema,
+      inputFromJson: (json) => json, // Identity function for JSON input
+      onCall: (args) async => json.encode(args), // Return JSON string
+    );
 
-      tools = [...?_tools, returnResultTool];
-    }
+    final tools = [...?_tools, returnResultTool];
 
     final model = _provider.createModel(
       name: _modelName,
@@ -651,9 +634,10 @@ class Agent {
       temperature: _temperature,
       systemPrompt: _systemPrompt,
     );
-    
-    _logger.info('supportsTypedOutputWithTools: $supportsTypedOutputWithTools, hasNativeSupport: $hasNativeSupport');
-    _logger.info('Created model with tools: ${tools?.map((t) => t.name).join(', ')}');
+
+    _logger.info(
+      'Created model with tools: ${tools.map((t) => t.name).join(', ')}',
+    );
 
     try {
       // Create new user message from prompt and attachments
@@ -686,11 +670,11 @@ class Agent {
 
       var done = false;
       var shouldPrefixNextMessage = false; // Local state for this stream
-      
+
       // Track suppressed message metadata for return_result normalization
       var suppressedToolCallMetadata = <String, dynamic>{};
       var suppressedTextParts = <TextPart>[];
-      
+
       while (!done) {
         var isFirstChunkOfMessage =
             true; // Track first chunk of each AI message
@@ -711,10 +695,13 @@ class Agent {
           conversationHistory,
           outputSchema: outputSchema,
         )) {
-          // Stream JSON text for providers that:
-          // 1. Have native typed output support, OR
-          // 2. Don't support typed output with tools at all (just typed output)
-          if (hasNativeSupport || !supportsTypedOutputWithTools) {
+          // Check if we should stream native JSON text Stream when:
+          // 1. Provider doesn't have return_result in its tools (native
+          //    support)
+          // 2. Provider doesn't support typed output with tools at all
+          final hasReturnResultTool =
+              model.tools?.any((t) => t.name == kReturnResultToolName) ?? false;
+          if (!hasReturnResultTool) {
             final textOutput = result.output.parts
                 .whereType<TextPart>()
                 .map((p) => p.text)
@@ -743,8 +730,9 @@ class Agent {
               );
             }
           }
-          // For return_result providers, don't stream any text during raw streaming
-          // Text will only be streamed when we emit the synthetic JSON message
+          // For return_result providers, don't stream any text during raw
+          // streaming Text will only be streamed when we emit the synthetic
+          // JSON message
 
           // Accumulate the complete message using manual concat logic
           accumulatedMessage = _concatMessages(
@@ -785,17 +773,22 @@ class Agent {
         // Check if this message has return_result tool call
         final hasReturnResultCall = messageWithIds.parts
             .whereType<ToolPart>()
-            .any((p) => p.kind == ToolPartKind.call && p.name == kReturnResultToolName);
+            .any(
+              (p) =>
+                  p.kind == ToolPartKind.call &&
+                  p.name == kReturnResultToolName,
+            );
 
-        if (hasReturnResultCall && supportsTypedOutputWithTools && !hasNativeSupport) {
-          // Suppress this message and save metadata/text for later
+        if (hasReturnResultCall) {
+          // This is a return_result call - suppress it and save metadata/text
           suppressedToolCallMetadata = {...messageWithIds.metadata};
           suppressedTextParts = textParts;
           _logger.fine('Suppressing return_result tool call message');
-        } else if (supportsTypedOutputWithTools && !hasNativeSupport) {
-          // For return_result providers, don't stream any AI text
-          // (it would be explanatory text before tool calls)
-          // Still yield the message but without text output
+        } else if (_provider.caps.contains(ProviderCaps.typedOutputWithTools) &&
+            messageWithIds.parts.whereType<ToolPart>().isEmpty) {
+          // For providers using return_result pattern, don't stream AI text
+          // that comes before tool calls (it's usually explanatory) Still yield
+          // the message but without text output
           _assertNoMultipleTextParts([messageWithIds]);
           yield ChatResult<String>(
             id: lastResult.id,
@@ -841,12 +834,12 @@ class Agent {
             '${toolCalls.map((t) => '${t.name}(${t.id})').join(', ')}',
           );
           shouldPrefixNextMessage = true;
-          
+
           // Execute all tools and collect results
           final toolResultParts = <Part>[];
           var returnResultJson = '';
           var returnResultMetadata = <String, dynamic>{};
-          
+
           for (final toolPart in toolCalls) {
             final tool = toolMap[toolPart.name];
             if (tool != null) {
@@ -883,7 +876,7 @@ class Agent {
                 );
 
                 // Check if this is return_result
-                if (toolPart.name == kReturnResultToolName && supportsTypedOutputWithTools && !hasNativeSupport) {
+                if (toolPart.name == kReturnResultToolName) {
                   returnResultJson = resultString;
                   // We'll use the tool result metadata later
                   returnResultMetadata = {
@@ -936,9 +929,10 @@ class Agent {
             // Add tool result message to conversation history
             conversationHistory.add(toolResultMessage);
             _logger.fine(
-              'Added tool result message with ${toolResultParts.length} results',
+              'Added tool result message with ${toolResultParts.length} '
+              'results',
             );
-            
+
             // Only yield if not handling return_result normalization
             if (returnResultJson.isEmpty) {
               // Yield tool result message
@@ -953,7 +947,7 @@ class Agent {
               );
             }
           }
-          
+
           // Handle return_result normalization
           if (returnResultJson.isNotEmpty) {
             // Create synthetic model message with JSON text
@@ -963,15 +957,15 @@ class Agent {
               if (suppressedTextParts.isNotEmpty)
                 'suppressedText': suppressedTextParts.map((p) => p.text).join(),
             };
-            
+
             final syntheticMessage = ChatMessage(
               role: MessageRole.model,
               parts: [TextPart(returnResultJson)],
               metadata: mergedMetadata,
             );
-            
+
             _logger.fine('Yielding synthetic JSON message for return_result');
-            
+
             // Yield the JSON as a model text message
             yield ChatResult<String>(
               id: lastResult.id,
@@ -981,11 +975,11 @@ class Agent {
               metadata: lastResult.metadata,
               usage: lastResult.usage,
             );
-            
+
             // Clear suppressed data
             suppressedToolCallMetadata = {};
             suppressedTextParts = [];
-            
+
             // We're done - return_result is the final result
             done = true;
           }

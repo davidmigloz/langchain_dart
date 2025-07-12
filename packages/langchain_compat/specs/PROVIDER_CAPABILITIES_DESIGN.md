@@ -15,23 +15,26 @@ enum ProviderCaps {
   multiToolCalls,             // Multiple function/tool calls in one response
   typedOutput,                // Structured JSON output generation
   typedOutputWithTools,       // Typed output + tools together (any implementation)
-  nativeTypedOutputWithTools, // Native typed output + tools (no return_result)
   vision,                     // Vision/multi-modal input (images, etc.)
 }
 ```
 
 Note: Streaming is not a capability because all chat providers support it by default.
 
-#### Typed Output Capabilities Hierarchy
+#### Typed Output Capabilities
 
-The typed output capabilities form a hierarchy:
-- `typedOutput`: Provider supports structured JSON output (via native response_format or return_result pattern)
-- `typedOutputWithTools`: Provider can use typed output AND tools in the same request (via any implementation)
-- `nativeTypedOutputWithTools`: Provider supports this natively without needing the return_result workaround
+The typed output capabilities:
+- `typedOutput`: Provider supports structured JSON output
+- `typedOutputWithTools`: Provider can use typed output AND tools in the same request
+
+Implementation notes:
+- Providers with native support (OpenAI, Google) filter out the `return_result` tool in their constructors
+- Providers needing the return_result pattern (Anthropic) use the tool added by Agent
+- The Agent unconditionally adds `return_result` tool for typed output requests
 
 Examples:
-- OpenAI: Has all three capabilities (native support)
-- Anthropic: Has `typedOutput` and `typedOutputWithTools` but NOT `nativeTypedOutputWithTools` (uses return_result)
+- OpenAI: Has both capabilities (native support, filters return_result)
+- Anthropic: Has both capabilities (uses return_result pattern)
 - Fireworks: Has only `typedOutput` (cannot combine with tools)
 
 ### 2. Provider Integration
@@ -46,7 +49,6 @@ static final openai = OpenAIChatProvider(
     ProviderCaps.multiToolCalls,
     ProviderCaps.typedOutput,
     ProviderCaps.typedOutputWithTools,
-    ProviderCaps.nativeTypedOutputWithTools,  // Native support
     ProviderCaps.vision,
   },
 );
@@ -57,8 +59,7 @@ static final anthropic = AnthropicChatProvider(
     ProviderCaps.chat,
     ProviderCaps.multiToolCalls,
     ProviderCaps.typedOutput,
-    ProviderCaps.typedOutputWithTools,  // Via return_result pattern
-    // NO nativeTypedOutputWithTools
+    ProviderCaps.typedOutputWithTools,
     ProviderCaps.vision,
   },
 );

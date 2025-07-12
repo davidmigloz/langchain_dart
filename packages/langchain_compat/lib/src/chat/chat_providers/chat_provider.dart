@@ -81,7 +81,6 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
       ProviderCaps.multiToolCalls,
       ProviderCaps.typedOutput,
       ProviderCaps.typedOutputWithTools,
-      ProviderCaps.nativeTypedOutputWithTools,
       ProviderCaps.vision,
     },
   );

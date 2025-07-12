@@ -7,6 +7,8 @@ import 'package:uuid/uuid.dart';
 import '../../../http/retry_http_client.dart';
 import '../../../language_models/language_models.dart';
 import '../../../platform/platform.dart';
+import '../../tools/tool.dart';
+import '../../tools/tool_constants.dart';
 import '../chat_message.dart' as msg;
 import '../chat_models.dart';
 import 'openai_message_mappers.dart';
@@ -18,7 +20,7 @@ class OpenAIChatModel extends ChatModel<OpenAIChatOptions> {
   /// Creates a [OpenAIChatModel] instance.
   OpenAIChatModel({
     String? name,
-    super.tools,
+    List<Tool>? tools,
     super.temperature,
     super.systemPrompt,
     OpenAIChatOptions? defaultOptions,
@@ -41,9 +43,13 @@ class OpenAIChatModel extends ChatModel<OpenAIChatOptions> {
        super(
          name: name ?? defaultName,
          defaultOptions: defaultOptions ?? const OpenAIChatOptions(),
+         // Filter out return_result tool as OpenAI has native typed output
+         // support
+         tools: tools?.where((t) => t.name != kReturnResultToolName).toList(),
        ) {
     // Validate that providers with known tool limitations don't use tools
-    if (tools != null && tools!.isNotEmpty) {
+    final filteredTools = super.tools;
+    if (filteredTools != null && filteredTools.isNotEmpty) {
       final normalizedBaseUrl = baseUrl?.toLowerCase() ?? '';
 
       // Together AI doesn't support OpenAI-style tool calls in streaming mode

@@ -16,11 +16,6 @@ enum ProviderCaps {
   /// This includes providers that use return_result pattern (Anthropic) or
   /// native response_format (OpenAI).
   typedOutputWithTools,
-  
-  /// The provider supports typed output with tool calls NATIVELY.
-  /// Only true for providers that can use response_format + tools without
-  /// needing the return_result workaround (e.g., OpenAI).
-  nativeTypedOutputWithTools,
 
   /// The provider supports vision/multi-modal input (images, etc.).
   vision,

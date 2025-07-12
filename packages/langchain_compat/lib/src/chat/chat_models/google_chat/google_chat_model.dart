@@ -10,6 +10,8 @@ import 'package:uuid/uuid.dart';
 
 import '../../../custom_http_client.dart';
 import '../../../platform/platform.dart';
+import '../../tools/tool.dart';
+import '../../tools/tool_constants.dart';
 import '../chat_message.dart' as msg;
 import '../chat_models.dart';
 import 'google_message_mappers.dart';
@@ -20,7 +22,7 @@ class GoogleChatModel extends ChatModel<GoogleChatOptions> {
   /// Creates a [GoogleChatModel] instance.
   GoogleChatModel({
     String? name,
-    super.tools,
+    List<Tool>? tools,
     super.temperature,
     super.systemPrompt,
     GoogleChatOptions? defaultOptions,
@@ -39,10 +41,13 @@ class GoogleChatModel extends ChatModel<GoogleChatOptions> {
        super(
          name: name ?? defaultName,
          defaultOptions: defaultOptions ?? const GoogleChatOptions(),
+         // Filter out return_result tool as Google has native typed output
+         // support
+         tools: tools?.where((t) => t.name != kReturnResultToolName).toList(),
        ) {
     _logger.info(
       'Creating Google model: ${name ?? defaultName} '
-      'with ${tools?.length ?? 0} tools, temp: $temperature',
+      'with ${super.tools?.length ?? 0} tools, temp: $temperature',
     );
     _googleAiClient = _createGoogleAiClient(
       modelName: name ?? defaultName,
