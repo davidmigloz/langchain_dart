@@ -53,18 +53,32 @@ The langchain_compat package provides a unified interface to 15+ LLM providers t
 - Clear distinction between native vs cross-platform providers
 - Migration patterns for model updates
 
-### 🌊 **Unified Streaming and Typed Output Architecture**
-**Purpose**: Comprehensive streaming, tool execution, and typed output handling
-**Location**: [`UNIFIED_STREAMING_AND_TYPED_OUTPUT_ARCHITECTURE.md`](./UNIFIED_STREAMING_AND_TYPED_OUTPUT_ARCHITECTURE.md)
+### 🌊 **Streaming Tool Call Architecture**
+**Purpose**: Comprehensive streaming and tool execution handling
+**Location**: [`STREAMING_TOOL_CALL_ARCHITECTURE.md`](./STREAMING_TOOL_CALL_ARCHITECTURE.md)
 
 - Provider-specific streaming protocol handling
 - Centralized tool ID generation and coordination
 - Message accumulation with metadata preservation
 - Tool execution with error handling and streaming UX
+
+### 📊 **Typed Output Architecture**
+**Purpose**: Structured JSON output handling across providers
+**Location**: [`TYPED_OUTPUT_ARCHITECTURE.md`](./TYPED_OUTPUT_ARCHITECTURE.md)
+
 - Native schema support where available (OpenAI, Google, Ollama)
 - Tool-based typed output for Anthropic (return_result pattern)
 - Per-message metadata for suppressed content tracking
 - Agent-level JSON validation and parsing
+
+### 💬 **Message Handling Architecture**
+**Purpose**: Clean message semantics and provider-specific transformations
+**Location**: [`MESSAGE_HANDLING_ARCHITECTURE.md`](./MESSAGE_HANDLING_ARCHITECTURE.md)
+
+- Agent layer maintains request/response pairs
+- Multiple tool results consolidated at Agent level
+- Mapper layer handles provider-specific requirements
+- OpenAI's need for separate tool messages handled in mapper
 
 ### 📋 **Logging Architecture**
 **Purpose**: Comprehensive, user-configurable logging system

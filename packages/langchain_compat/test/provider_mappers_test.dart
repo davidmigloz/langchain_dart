@@ -7,8 +7,11 @@
 /// 6. Edge cases = rare scenarios tested on Google only to avoid timeouts
 /// 7. Each functionality should only be tested in ONE file - no duplication
 
+import 'package:json_schema/json_schema.dart' as js;
 import 'package:langchain_compat/langchain_compat.dart';
 import 'package:test/test.dart';
+
+import 'test_utils.dart';
 
 void main() {
   group('Provider Mappers', () {
@@ -35,6 +38,9 @@ void main() {
             isTrue,
             reason: '$providerName should have AI message',
           );
+          
+          // Validate message history follows correct pattern
+          validateMessageHistory(result.messages);
         }
       });
 
@@ -64,6 +70,16 @@ void main() {
           final tool = Tool<String>(
             name: 'echo_tool',
             description: 'Echoes the input',
+            inputSchema: js.JsonSchema.create({
+              'type': 'object',
+              'properties': {
+                'text': {
+                  'type': 'string',
+                  'description': 'The text to echo',
+                },
+              },
+              'required': ['text'],
+            }),
             inputFromJson: (json) => (json['text'] ?? 'hello') as String,
             onCall: (input) => 'Echo: $input',
           );
@@ -84,6 +100,9 @@ void main() {
             isTrue,
             reason: '${provider.name} should have tool messages',
           );
+          
+          // Validate message history follows correct pattern
+          validateMessageHistory(result.messages);
         }
       });
 
@@ -91,6 +110,20 @@ void main() {
         final tool = Tool<int>(
           name: 'add',
           description: 'Adds two numbers',
+          inputSchema: js.JsonSchema.create({
+            'type': 'object',
+            'properties': {
+              'a': {
+                'type': 'integer',
+                'description': 'First number',
+              },
+              'b': {
+                'type': 'integer',
+                'description': 'Second number',
+              },
+            },
+            'required': ['a', 'b'],
+          }),
           inputFromJson: (json) {
             final a = json['a'] ?? 5;
             final b = json['b'] ?? 3;
@@ -127,6 +160,9 @@ void main() {
         expect(toolResultMsg.parts, isNotEmpty);
         final toolResultPart = toolResultMsg.parts.whereType<ToolPart>().first;
         expect(toolResultPart.id, equals(toolCallPart.id));
+        
+        // Validate message history follows correct pattern
+        validateMessageHistory(result.messages);
       });
     });
 
@@ -155,6 +191,9 @@ void main() {
 
         // Should have at least human and AI messages
         expect(result.messages.length, greaterThanOrEqualTo(2));
+        
+        // Validate message history follows correct pattern
+        validateMessageHistory(result.messages);
       });
     });
 

@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:langchain_compat/langchain_compat.dart';
 
+import 'lib/dump_message_history.dart';
 import 'lib/example_tools.dart';
 
 void main() async {
@@ -25,6 +26,7 @@ void main() async {
     'and the price of GOOGL stock.',
   );
   print('Assistant: ${response.output}\n');
+  dumpMessageHistory(response.messages);
 
   // Example with dependent tool calls
   print('--- Dependent Tool Calls (Anthropic) ---');

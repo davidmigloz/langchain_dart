@@ -15,6 +15,7 @@ import 'package:langchain_compat/langchain_compat.dart';
 import 'package:test/test.dart';
 
 import 'test_tools.dart';
+import 'test_utils.dart';
 
 void main() {
   // Helper to run parameterized tests
@@ -86,9 +87,13 @@ void main() {
         // Turn 3: Continue conversation
         result = await agent.run('What was the result?', history: history);
         expect(result.output, isNotEmpty);
+        history.addAll(result.messages);
 
         // Complete conversation should have appropriate message count
         expect(history.length, greaterThan(4));
+        
+        // Validate message history follows correct pattern
+        validateMessageHistory(history);
       });
 
       test('multi-tool workflow with dependencies', () async {
@@ -106,6 +111,9 @@ void main() {
             .expand((m) => m.toolResults)
             .toList();
         expect(toolResults.length, greaterThanOrEqualTo(1));
+        
+        // Validate message history follows correct pattern
+        validateMessageHistory(result.messages);
       });
 
       test('complex conversation with system prompt override', () async {
@@ -126,6 +134,10 @@ void main() {
         expect(result.output, isNotEmpty);
         expect(result.output, contains('15'));
         expect(result.output, contains('23'));
+        
+        // Validate message history with system prompt
+        final fullHistory = [...history, ...result.messages];
+        validateMessageHistory(fullHistory);
       });
 
       test('streaming workflow with tool execution', () async {
@@ -150,6 +162,9 @@ void main() {
 
         final fullText = chunks.join();
         expect(fullText, isNotEmpty);
+        
+        // Validate message history follows correct pattern
+        validateMessageHistory(allMessages);
       });
 
       runProviderTest(
@@ -184,6 +199,10 @@ void main() {
             isNotEmpty,
             reason: 'Provider ${provider.name} should respond in conversation',
           );
+          history.addAll(result.messages);
+          
+          // Validate message history follows correct pattern
+          validateMessageHistory(history);
         },
         timeout: const Timeout(Duration(minutes: 3)),
       );
@@ -208,6 +227,100 @@ void main() {
             hasToolResults,
             isTrue,
             reason: 'Provider ${provider.name} should execute tools',
+          );
+          
+          // Validate message history follows correct pattern
+          validateMessageHistory(toolResult.messages);
+        },
+        timeout: const Timeout(Duration(minutes: 3)),
+      );
+      
+      runToolProviderTest(
+        'multi-turn conversation with multiple tool calls '
+        'and message validation',
+        (provider) async {
+          // COMPREHENSIVE TEST: Validates that ALL tool-capable providers
+          // maintain proper message history (user/model alternation) through:
+          // 1. Multi-turn conversations (4 turns)
+          // 2. Multiple tool calls in a single turn
+          // 3. Tool result consolidation
+          // 4. Reference to previous tool results
+          final agent = Agent(
+            '${provider.name}:${provider.defaultModelName}',
+            tools: [stringTool, intTool],
+          );
+          
+          final history = <ChatMessage>[];
+          
+          // Turn 1: Initial greeting (no tools)
+          var result = await agent.run(
+            'Hello! I need help with some text processing and calculations.',
+            history: history,
+          );
+          expect(result.output, isNotEmpty);
+          history.addAll(result.messages);
+          validateMessageHistory(history);
+          
+          // Turn 2: Single tool call
+          result = await agent.run(
+            'Please use string_tool with "Hello ${provider.name}"',
+            history: history,
+          );
+          expect(result.output, isNotEmpty);
+          expect(
+            result.messages.any((m) => m.hasToolResults),
+            isTrue,
+            reason: '${provider.name} should execute string_tool',
+          );
+          history.addAll(result.messages);
+          validateMessageHistory(history);
+          
+          // Turn 3: Multiple tool calls in one turn
+          result = await agent.run(
+            'Now use both tools: string_tool with "multi-tool test" '
+            'and int_tool with 42',
+            history: history,
+          );
+          expect(result.output, isNotEmpty);
+          
+          // Verify multiple tools were called
+          final toolResults = result.messages
+              .expand((m) => m.toolResults)
+              .toList();
+          expect(
+            toolResults.length,
+            greaterThanOrEqualTo(1),
+            reason: '${provider.name} should execute multiple tools',
+          );
+          history.addAll(result.messages);
+          validateMessageHistory(history);
+          
+          // Turn 4: Reference previous tool results
+          result = await agent.run(
+            'What were the results from the tools you just used?',
+            history: history,
+          );
+          expect(result.output, isNotEmpty);
+          expect(
+            result.output.toLowerCase(),
+            anyOf(
+              contains('test'),
+              contains('42'),
+              contains('tool'),
+            ),
+            reason: '${provider.name} should reference previous tool results',
+          );
+          history.addAll(result.messages);
+          
+          // Final validation of complete multi-turn conversation
+          validateMessageHistory(history);
+          
+          // Verify we have a proper multi-turn conversation
+          expect(
+            history.length,
+            greaterThanOrEqualTo(8), // At least 4 turns * 2 messages each
+            reason: '${provider.name} should have complete '
+                'conversation history',
           );
         },
         timeout: const Timeout(Duration(minutes: 3)),
@@ -367,6 +480,10 @@ void main() {
 
         expect(result.output, isNotEmpty);
         expect(result.output.toLowerCase(), contains('test'));
+        history.addAll(result.messages);
+        
+        // Validate full multi-turn conversation with tools
+        validateMessageHistory(history);
       });
     });
 
@@ -444,6 +561,10 @@ void main() {
 
         expect(result2.output, isNotEmpty);
         expect(result2.output, contains('4'));
+        history.addAll(result2.messages);
+        
+        // Validate conversation history even with error
+        validateMessageHistory(history);
       });
     });
 
@@ -595,6 +716,10 @@ function fibonacci(n) {
         // Should have mathematical reasoning and tool usage
         final hasToolResults = result.messages.any((m) => m.hasToolResults);
         expect(hasToolResults, isTrue);
+        history.addAll(result.messages);
+        
+        // Validate multi-turn conversation with tools
+        validateMessageHistory(history);
       });
 
       test('creative writing with constraints', () async {

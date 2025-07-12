@@ -268,6 +268,22 @@ class Agent {
         }
         finalOutput = returnResultJson;
         _logger.fine('Using return_result output for typed response');
+        
+        // Check if the last message is empty (Anthropic's behavior)
+        // If so, replace it with a message containing the JSON
+        if (allNewMessages.isNotEmpty) {
+          final lastMessage = allNewMessages.last;
+          if (lastMessage.role == MessageRole.model && 
+              lastMessage.parts.isEmpty) {
+            // Replace empty message with JSON message
+            allNewMessages[allNewMessages.length - 1] = ChatMessage(
+              role: MessageRole.model,
+              parts: [TextPart(returnResultJson)],
+              metadata: lastMessage.metadata,
+            );
+            _logger.fine('Replaced empty model message with JSON output');
+          }
+        }
       } else {
         // OpenAI case: finalOutput should already be JSON
         _logger.fine('Using model output as typed response');
@@ -280,6 +296,16 @@ class Agent {
         messages: allNewMessages,
         finishReason: finalResult.finishReason,
         metadata: {...finalResult.metadata, ...metadata},
+        usage: finalResult.usage,
+      );
+    } else {
+      // No outputSchema - still need to return all accumulated messages
+      finalResult = ChatResult<String>(
+        id: finalResult.id,
+        output: finalOutput,
+        messages: allNewMessages,
+        finishReason: finalResult.finishReason,
+        metadata: finalResult.metadata,
         usage: finalResult.usage,
       );
     }
@@ -387,6 +413,10 @@ class Agent {
       final toolMap = {
         for (final tool in model.tools ?? <Tool>[]) tool.name: tool,
       };
+      
+      _logger.fine(
+        'Available tools in toolMap: ${toolMap.keys.join(', ')}',
+      );
 
       var done = false;
       var shouldPrefixNextMessage = false; // Local state for this stream
@@ -454,25 +484,45 @@ class Agent {
       final nonTextParts = accumulatedMessage.parts
           .where((part) => part is! TextPart)
           .toList();
+      
+      // Check if we should suppress text (typed output + tool calls)
+      final hasToolCalls = nonTextParts.any((part) => 
+          part is ToolPart && part.kind == ToolPartKind.call);
+      final shouldSuppressText = outputSchema != null && hasToolCalls;
 
       final finalParts = <Part>[];
+      var suppressedText = '';
 
       // Add consolidated text as a single TextPart (if any)
       if (textParts.isNotEmpty) {
         final consolidatedText = textParts.map((p) => p.text).join();
         if (consolidatedText.isNotEmpty) {
-          finalParts.add(TextPart(consolidatedText));
+          if (shouldSuppressText) {
+            // Suppress text when we have typed output and tool calls
+            suppressedText = consolidatedText;
+            _logger.fine(
+              'Suppressing text in typed output: "$consolidatedText"',
+            );
+          } else {
+            finalParts.add(TextPart(consolidatedText));
+          }
         }
       }
 
       // Add all non-text parts (already properly merged by _concatMessages)
       finalParts.addAll(nonTextParts);
+      
+      // Add suppressed text to metadata if any
+      final messageMetadata = {...accumulatedMessage.metadata};
+      if (suppressedText.isNotEmpty) {
+        messageMetadata['suppressed_text'] = suppressedText;
+      }
 
       // Create final message with consolidated parts and metadata
       final messageWithIds = ChatMessage(
         role: MessageRole.model,
         parts: finalParts,
-        metadata: accumulatedMessage.metadata,
+        metadata: messageMetadata,
       );
 
       // Add the complete AI message to conversation history
@@ -495,6 +545,11 @@ class Agent {
           .where((p) => p.kind == ToolPartKind.call)
           .toList();
 
+      _logger.fine(
+        'Tool calls found: '
+        '${toolCalls.map((t) => '${t.name}(${t.id})').join(', ')}',
+      );
+
       if (toolCalls.isEmpty) {
         _logger.fine('No tool calls found, completing agent stream');
         done = true;
@@ -509,8 +564,8 @@ class Agent {
         // follow (the synthesis response). Set flag so that message gets
         // visually separated with a newline prefix for better UX.
         shouldPrefixNextMessage = true;
-        // Execute all tools
-        final toolResults = <ChatMessage>[];
+        // Execute all tools and collect results
+        final toolResultParts = <Part>[];
         for (final toolPart in toolCalls) {
           final tool = toolMap[toolPart.name];
           if (tool != null) {
@@ -545,19 +600,14 @@ class Agent {
                 'result length: ${resultString.length}',
               );
 
-              // Create a user message with tool result part
-              final toolResultMessage = ChatMessage(
-                role: MessageRole.user,
-                parts: [
-                  ToolPart.result(
-                    id: toolPart.id,
-                    name: toolPart.name,
-                    result: resultString,
-                  ),
-                ],
+              // Add tool result part to collection
+              toolResultParts.add(
+                ToolPart.result(
+                  id: toolPart.id,
+                  name: toolPart.name,
+                  result: resultString,
+                ),
               );
-
-              toolResults.add(toolResultMessage);
               // ignore: exception_hiding
             } on Exception catch (error, stackTrace) {
               _logger.warning(
@@ -566,17 +616,12 @@ class Agent {
                 stackTrace,
               );
 
-              // Return error result to LLM so it can handle the failure
-              toolResults.add(
-                ChatMessage(
-                  role: MessageRole.user,
-                  parts: [
-                    ToolPart.result(
-                      id: toolPart.id,
-                      name: toolPart.name,
-                      result: json.encode({'error': error.toString()}),
-                    ),
-                  ],
+              // Add error result part
+              toolResultParts.add(
+                ToolPart.result(
+                  id: toolPart.id,
+                  name: toolPart.name,
+                  result: json.encode({'error': error.toString()}),
                 ),
               );
             }
@@ -588,18 +633,24 @@ class Agent {
           }
         }
 
-        // Add tool results to conversation history
-        conversationHistory.addAll(toolResults);
-        _logger.fine(
-          'Added ${toolResults.length} tool results to conversation history',
+        // Create a single user message with all tool results
+        final toolResultMessage = ChatMessage(
+          role: MessageRole.user,
+          parts: toolResultParts,
         );
 
-        // Yield tool results
-        _assertNoMultipleTextParts(toolResults);
+        // Add tool result message to conversation history
+        conversationHistory.add(toolResultMessage);
+        _logger.fine(
+          'Added tool result message with ${toolResultParts.length} results',
+        );
+
+        // Yield tool result message
+        _assertNoMultipleTextParts([toolResultMessage]);
         yield ChatResult<String>(
           id: lastResult.id,
           output: '',
-          messages: toolResults,
+          messages: [toolResultMessage],
           finishReason: lastResult.finishReason,
           metadata: lastResult.metadata,
           usage: lastResult.usage,

@@ -22,6 +22,8 @@ import 'package:json_schema/json_schema.dart' as js;
 import 'package:langchain_compat/langchain_compat.dart';
 import 'package:test/test.dart';
 
+import 'test_utils.dart';
+
 void main() {
   // Recipe lookup tool for chef scenario
   final recipeLookupTool = Tool<Map<String, dynamic>>(
@@ -154,6 +156,9 @@ void main() {
                 .toList();
             expect(toolCalls, hasLength(1));
             expect(toolCalls.first.name, equals('lookup_recipe'));
+            
+            // Validate message history follows correct pattern
+            validateMessageHistory(firstMessages);
 
             // Second turn: Modify the recipe using streaming
             final secondChunks = <String>[];
@@ -188,6 +193,10 @@ void main() {
               (secondJson['instructions'] as List).join(' ').toLowerCase(),
               contains('ham'),
             );
+            
+            // Validate full conversation history follows correct pattern
+            final fullHistory = [...firstMessages, ...secondMessages];
+            validateMessageHistory(fullHistory);
           },
           timeout: const Timeout(Duration(seconds: 60)),
           // No skip needed - we're only testing on providers that work

@@ -74,7 +74,37 @@ extension MessageListToOpenAI on List<msg.ChatMessage> {
   /// [ChatCompletionMessage]s.
   List<ChatCompletionMessage> toOpenAIMessages() {
     _logger.fine('Converting $length messages to OpenAI format');
-    return map(_mapMessage).toList(growable: false);
+    
+    // Expand messages to handle multiple tool results
+    final expandedMessages = <ChatCompletionMessage>[];
+    for (final message in this) {
+      if (message.role == msg.MessageRole.user) {
+        // Check if this is a tool result message with multiple results
+        final toolResults = MessagePartHelpers.extractToolResults(
+          message.parts,
+        );
+        if (toolResults.length > 1) {
+          // OpenAI requires separate tool messages for each result
+          for (final toolResult in toolResults) {
+            final content = ToolResultHelpers.serialize(toolResult.result);
+            expandedMessages.add(
+              ChatCompletionMessage.tool(
+                toolCallId: toolResult.id,
+                content: content,
+              ),
+            );
+          }
+        } else {
+          // Single result or regular message
+          expandedMessages.add(_mapMessage(message));
+        }
+      } else {
+        // Non-user messages are mapped normally
+        expandedMessages.add(_mapMessage(message));
+      }
+    }
+    
+    return expandedMessages;
   }
 
   ChatCompletionMessage _mapMessage(msg.ChatMessage message) {

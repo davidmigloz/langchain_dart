@@ -11,7 +11,7 @@ import 'lib/example_tools.dart';
 import 'lib/example_types.dart';
 
 void main() async {
-  final provider = ChatProvider.anthropic;
+  final provider = ChatProvider.openai;
   final agent = Agent.forProvider(
     provider,
     tools: [currentDateTimeTool, temperatureTool, recipeLookupTool],

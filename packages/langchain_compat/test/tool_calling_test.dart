@@ -20,6 +20,7 @@ import 'package:langchain_compat/langchain_compat.dart';
 import 'package:test/test.dart';
 
 import 'test_tools.dart';
+import 'test_utils.dart';
 
 void main() {
   // Get all providers that support tools
@@ -167,6 +168,9 @@ void main() {
         expect(toolResults, hasLength(2));
         expect(toolResults[0].result, equals('Step 1 processed: hello'));
         expect(toolResults[1].result, contains('Step 2 processed:'));
+        
+        // Validate message history follows correct pattern
+        validateMessageHistory(response.messages);
       });
 
       test('calls multiple independent tools', () async {
@@ -192,6 +196,9 @@ void main() {
         // Tool results may be serialized as strings
         expect(results.any((r) => r == 100 || r == '100'), isTrue);
         expect(results.any((r) => r == true || r == 'true'), isTrue);
+        
+        // Validate message history follows correct pattern
+        validateMessageHistory(response.messages);
       });
 
       test('calls same tool multiple times with different arguments', () async {
@@ -272,6 +279,9 @@ void main() {
           isTrue,
           reason: 'Provider ${provider.name} should execute int_tool correctly',
         );
+        
+        // Validate message history follows correct pattern
+        validateMessageHistory(response.messages);
       });
 
       runProviderTest('handles same tool multiple times with different args', (
@@ -598,10 +608,12 @@ void main() {
         final agent = Agent('openai:gpt-4o-mini', tools: [stringTool, intTool]);
 
         final chunks = <String>[];
+        final messages = <ChatMessage>[];
         await for (final chunk in agent.runStream(
           'Call string_tool with "test" and int_tool with 99',
         )) {
           chunks.add(chunk.output);
+          messages.addAll(chunk.messages);
         }
 
         final fullResponse = chunks.join();
@@ -614,6 +626,9 @@ void main() {
           fullResponse.toLowerCase(),
           anyOf(contains('99'), contains('int_tool')),
         );
+        
+        // Validate message history follows correct pattern
+        validateMessageHistory(messages);
       });
     });
 

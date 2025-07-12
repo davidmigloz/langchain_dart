@@ -35,5 +35,5 @@ String _messageToSingleLine(ChatMessage message) {
       },
   ];
 
-  return 'Message{role: $roleName, parts: [${parts.join(', ')}]}';
+  return 'Message.$roleName(${parts.join(', ')})';
 }
