@@ -10,8 +10,8 @@ import 'lib/dump_message_history.dart';
 import 'lib/example_tools.dart';
 
 void main() async {
-  final agent = Agent.fromProvider(
-    ChatProvider.openai,
+  final agent = Agent.forProvider(
+    ChatProvider.google,
     tools: [currentDateTimeTool, temperatureTool],
     systemPrompt: '''
 You are a helpful assistant that provides accurate information.
@@ -25,11 +25,12 @@ your response.
 ''',
   );
 
-  await jsonOutput(agent);
-  await jsonOutputStream(agent);
-  await mapOutput(agent);
-  await typedOutput(agent);
+  // await jsonOutput(agent);
+  // await jsonOutputStream(agent);
+  // await mapOutput(agent);
+  // await typedOutput(agent);
   await typedOutputWithToolCalls(agent);
+  // await typedOutputWithToolCallsAndMultipleTurns(agent);
   exit(0);
 }
 
@@ -117,6 +118,41 @@ Future<void> typedOutputWithToolCalls(Agent agent) async {
   print('time: ${result.output.time}');
   print('temperature: ${result.output.temperature}');
   dumpMessageHistory(result.messages);
+  print('--------------------------------');
+  print('');
+}
+
+Future<void> typedOutputWithToolCallsAndMultipleTurns(Agent agent) async {
+  print(
+    '═══ '
+    '${agent.displayName} Typed Output with Tool Calls and Multiple Turns '
+    '═══',
+  );
+
+  final history = <ChatMessage>[];
+  final result = await agent.runFor<TownAndCountry>(
+    'What is the Windy City in the US of A?',
+    outputSchema: TownAndCountry.schema,
+    outputFromJson: TownAndCountry.fromJson,
+  );
+
+  history.addAll(result.messages);
+  print('# First turn:');
+  print('town: ${result.output.town}');
+  print('country: ${result.output.country}');
+  dumpMessageHistory(history);
+
+  final result2 = await agent.runFor<TownAndCountry>(
+    'What is the Big Apple in the United States?',
+    outputSchema: TownAndCountry.schema,
+    outputFromJson: TownAndCountry.fromJson,
+  );
+
+  history.addAll(result.messages);
+  print('# Second turn:');
+  print('town: ${result2.output.town}');
+  print('country: ${result2.output.country}');
+  dumpMessageHistory(history);
   print('--------------------------------');
   print('');
 }

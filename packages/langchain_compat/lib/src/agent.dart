@@ -94,7 +94,7 @@ class Agent {
   }
 
   /// Creates an agent from a provider
-  Agent.fromProvider(
+  Agent.forProvider(
     ChatProvider provider, {
     String? modelName,
     List<Tool>? tools,
@@ -122,7 +122,7 @@ class Agent {
   }
 
   /// Creates an agent from a model.
-  Agent.fromModel(
+  Agent.forModel(
     ChatModel model, {
     required String providerName,
     String? displayName,
