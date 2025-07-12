@@ -102,7 +102,7 @@ void main() {
   });
 
   group('typed output with tools', () {
-    group('chef conversation with recipe modification (streaming)', () {
+    group('multi-turn chat with typed output and tools (streaming)', () {
       final typedOutputWithToolProviders = ChatProvider.allWith({
         ProviderCaps.multiToolCalls,
         ProviderCaps.typedOutput,
