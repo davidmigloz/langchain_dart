@@ -1,7 +1,10 @@
 import 'package:anthropic_sdk_dart/anthropic_sdk_dart.dart' as a;
 import 'package:http/http.dart' as http;
 import 'package:json_schema/json_schema.dart';
+import 'package:logging/logging.dart';
 
+import '../../../language_models/finish_reason.dart';
+import '../../../language_models/language_model_usage.dart';
 import '../../../platform/platform.dart';
 import '../chat_message.dart' as msg;
 import '../chat_model.dart';
@@ -38,10 +41,14 @@ class AnthropicChatModel extends ChatModel<AnthropicChatOptions> {
          name: name ?? defaultName,
          defaultOptions: defaultOptions ?? const AnthropicChatOptions(),
        ) {
-    // Removed verbose logging
+    _logger.info(
+      'Creating Anthropic model: ${name ?? defaultName} with '
+      '${tools?.length ?? 0} tools, temp: $temperature',
+    );
   }
 
-  // Logger removed - verbose logging disabled
+  /// Logger for Anthropic chat model operations.
+  static final Logger _logger = Logger('dartantic.chat.models.anthropic');
 
   /// The default model to use unless another is specified.
   static const defaultName = 'claude-3-5-sonnet-20241022';
@@ -63,10 +70,41 @@ class AnthropicChatModel extends ChatModel<AnthropicChatOptions> {
     AnthropicChatOptions? options,
     JsonSchema? outputSchema,
   }) async* {
-    // Removed verbose logging
+    _logger.info(
+      'Starting Anthropic chat stream with '
+      '${messages.length} messages for model: $name',
+    );
     final messagesWithDefaults = prepareMessagesWithDefaults(messages);
 
-    // Removed unused variable
+    // Stream prefilled content first (Anthropic's streaming API omits it)
+    //
+    // Anthropic recommends prefilling for structured output:
+    // https://docs.anthropic.com/en/docs/test-and-evaluate/strengthen-guardrails/increase-consistency
+    //
+    // However, when using streaming, the prefilled content is not included in
+    // the streaming events (confirmed via direct API testing). We work around
+    // this by streaming the prefilled content as the first chunk, allowing
+    // the Agent to accumulate it naturally with the subsequent chunks.
+    if (outputSchema != null) {
+      yield const ChatResult<msg.ChatMessage>(
+        id: 'prefilled',
+        output: msg.ChatMessage(
+          role: msg.MessageRole.model,
+          parts: [msg.TextPart('{')],
+        ),
+        messages: [
+          msg.ChatMessage(
+            role: msg.MessageRole.model,
+            parts: [msg.TextPart('{')],
+          ),
+        ],
+        finishReason: FinishReason.unspecified,
+        metadata: {'anthropic_prefilled': true},
+        usage: LanguageModelUsage(),
+      );
+    }
+
+    var chunkCount = 0;
     await for (final result
         in _client
             .createMessageStream(
@@ -81,10 +119,9 @@ class AnthropicChatModel extends ChatModel<AnthropicChatOptions> {
                 stream: true,
               ),
             )
-            .transform(MessageStreamEventTransformer(
-              hasOutputSchema: outputSchema != null,
-            ))) {
-      // Removed verbose logging
+            .transform(MessageStreamEventTransformer())) {
+      chunkCount++;
+      _logger.fine('Received Anthropic stream chunk $chunkCount');
       // Filter system messages from the response
       yield ChatResult<msg.ChatMessage>(
         id: result.id,
