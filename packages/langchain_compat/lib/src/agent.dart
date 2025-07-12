@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math' as math;
 
 import 'package:json_schema/json_schema.dart';
 import 'package:logging/logging.dart';
@@ -9,6 +10,7 @@ import 'chat/chat_providers/chat_providers.dart';
 import 'chat/tools/tools.dart';
 import 'language_models/language_models.dart';
 import 'logging_options.dart';
+import 'provider_caps.dart';
 
 /// Exception thrown when a tool execution fails.
 class ToolExecutionException implements Exception {
@@ -106,7 +108,7 @@ class Agent {
 
     _providerName = provider.name;
     _displayName = displayName;
-    
+
     // Store provider and model parameters
     _provider = provider;
     _modelName = modelName ?? provider.defaultModelName;
@@ -119,7 +121,6 @@ class Agent {
       'temperature: $temperature',
     );
   }
-
 
   /// Logger for agent operations.
   static final Logger _logger = Logger('dartantic.agent');
@@ -225,10 +226,6 @@ class Agent {
       metadata: <String, dynamic>{},
       usage: LanguageModelUsage(),
     );
-    
-    // Track if return_result was called
-    var returnResultCalled = false;
-    String? returnResultJson;
 
     await for (final result in runStream(
       prompt,
@@ -242,73 +239,17 @@ class Agent {
       }
       allNewMessages.addAll(result.messages);
       finalResult = result;
-      
-      // Check if return_result was called in tool messages
-      for (final msg in result.messages) {
-        for (final part in msg.parts) {
-          if (part is ToolPart && 
-              part.kind == ToolPartKind.result && 
-              part.name == kReturnResultToolName) {
-            returnResultCalled = true;
-            returnResultJson = part.result as String?;
-            _logger.fine('return_result tool returned: $returnResultJson');
-          }
-        }
-      }
     }
-    
-    // Handle typed output
-    if (outputSchema != null) {
-      final metadata = <String, dynamic>{};
-      
-      if (returnResultCalled && returnResultJson != null) {
-        // Anthropic case: use return_result output
-        if (finalOutput.isNotEmpty && finalOutput != returnResultJson) {
-          metadata['suppressed_text'] = finalOutput;
-        }
-        finalOutput = returnResultJson;
-        _logger.fine('Using return_result output for typed response');
-        
-        // Check if the last message is empty (Anthropic's behavior)
-        // If so, replace it with a message containing the JSON
-        if (allNewMessages.isNotEmpty) {
-          final lastMessage = allNewMessages.last;
-          if (lastMessage.role == MessageRole.model && 
-              lastMessage.parts.isEmpty) {
-            // Replace empty message with JSON message
-            allNewMessages[allNewMessages.length - 1] = ChatMessage(
-              role: MessageRole.model,
-              parts: [TextPart(returnResultJson)],
-              metadata: lastMessage.metadata,
-            );
-            _logger.fine('Replaced empty model message with JSON output');
-          }
-        }
-      } else {
-        // OpenAI case: finalOutput should already be JSON
-        _logger.fine('Using model output as typed response');
-      }
-      
-      // Update final result metadata
-      finalResult = ChatResult<String>(
-        id: finalResult.id,
-        output: finalOutput,
-        messages: allNewMessages,
-        finishReason: finalResult.finishReason,
-        metadata: {...finalResult.metadata, ...metadata},
-        usage: finalResult.usage,
-      );
-    } else {
-      // No outputSchema - still need to return all accumulated messages
-      finalResult = ChatResult<String>(
-        id: finalResult.id,
-        output: finalOutput,
-        messages: allNewMessages,
-        finishReason: finalResult.finishReason,
-        metadata: finalResult.metadata,
-        usage: finalResult.usage,
-      );
-    }
+
+    // Return final result with all accumulated messages
+    finalResult = ChatResult<String>(
+      id: finalResult.id,
+      output: finalOutput,
+      messages: allNewMessages,
+      finishReason: finalResult.finishReason,
+      metadata: finalResult.metadata,
+      usage: finalResult.usage,
+    );
 
     _logger.info(
       'Agent run completed with ${allNewMessages.length} new messages, '
@@ -337,7 +278,15 @@ class Agent {
       attachments: attachments,
     );
 
-    final outputJson = jsonDecode(response.output);
+    // Since runStream now normalizes output, JSON is always in response.output
+    final jsonString = response.output;
+    if (jsonString.isEmpty) {
+      throw const FormatException(
+        'No JSON output found in response. Expected JSON in response.output.',
+      );
+    }
+
+    final outputJson = jsonDecode(jsonString);
     final typedOutput = outputFromJson?.call(outputJson) ?? outputJson;
     return ChatResult<TOutput>(
       id: response.id,
@@ -359,30 +308,38 @@ class Agent {
     List<ChatMessage> history = const [],
     List<Part> attachments = const [],
     JsonSchema? outputSchema,
-  }) async* {
+  }) {
     _logger.info(
       'Starting agent stream with prompt and ${history.length} '
       'history messages',
     );
 
-    // Create model with appropriate tools
-    var tools = _tools;
+    // Delegate to appropriate implementation based on outputSchema
     if (outputSchema != null) {
-      final returnResultTool = Tool<Map<String, dynamic>>(
-        name: kReturnResultToolName,
-        description: 
-            'Return the final result in the required structured format',
-        inputSchema: outputSchema,
-        inputFromJson: (json) => json, // Identity function for JSON input
-        onCall: (args) async => json.encode(args), // Return JSON string
+      return _runStreamWithOutputSchema(
+        prompt,
+        history: history,
+        attachments: attachments,
+        outputSchema: outputSchema,
       );
-      
-      tools = [...?_tools, returnResultTool];
+    } else {
+      return _runStream(
+        prompt,
+        history: history,
+        attachments: attachments,
+      );
     }
-    
+  }
+
+  /// Regular streaming without typed output
+  Stream<ChatResult<String>> _runStream(
+    String prompt, {
+    List<ChatMessage> history = const [],
+    List<Part> attachments = const [],
+  }) async* {
     final model = _provider.createModel(
       name: _modelName,
-      tools: tools,
+      tools: _tools,
       temperature: _temperature,
       systemPrompt: _systemPrompt,
     );
@@ -413,250 +370,627 @@ class Agent {
       final toolMap = {
         for (final tool in model.tools ?? <Tool>[]) tool.name: tool,
       };
-      
-      _logger.fine(
-        'Available tools in toolMap: ${toolMap.keys.join(', ')}',
-      );
+
+      _logger.fine('Available tools in toolMap: ${toolMap.keys.join(', ')}');
 
       var done = false;
       var shouldPrefixNextMessage = false; // Local state for this stream
       while (!done) {
-      var isFirstChunkOfMessage = true; // Track first chunk of each AI message
-      var accumulatedMessage = const ChatMessage(
-        role: MessageRole.model,
-        parts: [],
-      );
-      var lastResult = const ChatResult<ChatMessage>(
-        id: '',
-        output: ChatMessage(role: MessageRole.model, parts: []),
-        finishReason: FinishReason.unspecified,
-        metadata: <String, dynamic>{},
-        usage: LanguageModelUsage(),
-      );
+        var isFirstChunkOfMessage =
+            true; // Track first chunk of each AI message
+        var accumulatedMessage = const ChatMessage(
+          role: MessageRole.model,
+          parts: [],
+        );
+        var lastResult = const ChatResult<ChatMessage>(
+          id: '',
+          output: ChatMessage(role: MessageRole.model, parts: []),
+          finishReason: FinishReason.unspecified,
+          metadata: <String, dynamic>{},
+          usage: LanguageModelUsage(),
+        );
 
-      // Stream the raw response and collect it
-      await for (final result in model.sendStream(
-        conversationHistory,
-        outputSchema: outputSchema,
-      )) {
-        // Stream the text output to the caller Extract text content from
-        // Message output
-        final textOutput = result.output.parts
-            .whereType<TextPart>()
-            .map((p) => p.text)
-            .join();
+        // Stream the raw response and collect it
+        await for (final result in model.sendStream(
+          conversationHistory,
+        )) {
+          // Stream the text output to the caller Extract text content from
+          // Message output
+          final textOutput = result.output.parts
+              .whereType<TextPart>()
+              .map((p) => p.text)
+              .join();
 
-        if (textOutput.isNotEmpty) {
-          // STREAMING UX ENHANCEMENT: Add newline prefix for readability
-          //
-          // This critical UX feature prevents consecutive AI messages from
-          // running together (e.g. "...tools.The..." → "...tools.\nThe...")
-          //
-          // Only prefixes the FIRST chunk of subsequent AI messages, not every
-          // chunk within the same message, to maintain proper text flow.
-          //
-          // Logic: If shouldPrefixNextMessage is true (set when previous AI
-          // message had tool calls) AND this is the first chunk of the new
-          // message, then prefix with newline.
-          final streamOutput =
-              (shouldPrefixNextMessage && isFirstChunkOfMessage)
-              ? '\n$textOutput'
-              : textOutput;
-          isFirstChunkOfMessage = false;
+          if (textOutput.isNotEmpty) {
+            _logger.fine(
+              'Streaming text: "'
+              '${textOutput.substring(0, math.min(50, textOutput.length))}'
+              '..."',
+            );
 
-          yield ChatResult<String>(
-            id: result.id,
-            output: streamOutput,
-            messages: const [],
-            finishReason: result.finishReason,
-            metadata: result.metadata,
-            usage: result.usage,
+            // STREAMING UX ENHANCEMENT: Add newline prefix for readability
+            //
+            // This critical UX feature prevents consecutive AI messages from
+            // running together (e.g. "...tools.The..." → "...tools.\nThe...")
+            //
+            // Only prefixes the FIRST chunk of subsequent AI messages, not
+            // every chunk within the same message, to maintain proper text
+            // flow.
+            //
+            // Logic: If shouldPrefixNextMessage is true (set when previous AI
+            // message had tool calls) AND this is the first chunk of the new
+            // message, then prefix with newline.
+            final streamOutput =
+                (shouldPrefixNextMessage && isFirstChunkOfMessage)
+                ? '\n$textOutput'
+                : textOutput;
+            isFirstChunkOfMessage = false;
+
+            yield ChatResult<String>(
+              id: result.id,
+              output: streamOutput,
+              messages: const [],
+              finishReason: result.finishReason,
+              metadata: result.metadata,
+              usage: result.usage,
+            );
+          }
+
+          // Accumulate the complete message using manual concat logic
+          accumulatedMessage = _concatMessages(
+            accumulatedMessage,
+            result.output,
           );
+          lastResult = result;
         }
 
-        // Accumulate the complete message using manual concat logic
-        accumulatedMessage = _concatMessages(accumulatedMessage, result.output);
-        lastResult = result;
-      }
+        // Text consolidation and final message creation
+        final textParts = accumulatedMessage.parts
+            .whereType<TextPart>()
+            .toList();
+        final nonTextParts = accumulatedMessage.parts
+            .where((part) => part is! TextPart)
+            .toList();
 
-      // Text consolidation and final message creation
-      final textParts = accumulatedMessage.parts.whereType<TextPart>().toList();
-      final nonTextParts = accumulatedMessage.parts
-          .where((part) => part is! TextPart)
-          .toList();
-      
-      // Check if we should suppress text (typed output + tool calls)
-      final hasToolCalls = nonTextParts.any((part) => 
-          part is ToolPart && part.kind == ToolPartKind.call);
-      final shouldSuppressText = outputSchema != null && hasToolCalls;
+        final finalParts = <Part>[];
 
-      final finalParts = <Part>[];
-      var suppressedText = '';
-
-      // Add consolidated text as a single TextPart (if any)
-      if (textParts.isNotEmpty) {
-        final consolidatedText = textParts.map((p) => p.text).join();
-        if (consolidatedText.isNotEmpty) {
-          if (shouldSuppressText) {
-            // Suppress text when we have typed output and tool calls
-            suppressedText = consolidatedText;
-            _logger.fine(
-              'Suppressing text in typed output: "$consolidatedText"',
-            );
-          } else {
+        // Add consolidated text as a single TextPart (if any)
+        if (textParts.isNotEmpty) {
+          final consolidatedText = textParts.map((p) => p.text).join();
+          if (consolidatedText.isNotEmpty) {
             finalParts.add(TextPart(consolidatedText));
           }
         }
-      }
 
-      // Add all non-text parts (already properly merged by _concatMessages)
-      finalParts.addAll(nonTextParts);
-      
-      // Add suppressed text to metadata if any
-      final messageMetadata = {...accumulatedMessage.metadata};
-      if (suppressedText.isNotEmpty) {
-        messageMetadata['suppressed_text'] = suppressedText;
-      }
+        // Add all non-text parts (already properly merged by _concatMessages)
+        finalParts.addAll(nonTextParts);
 
-      // Create final message with consolidated parts and metadata
-      final messageWithIds = ChatMessage(
-        role: MessageRole.model,
-        parts: finalParts,
-        metadata: messageMetadata,
-      );
-
-      // Add the complete AI message to conversation history
-      conversationHistory.add(messageWithIds);
-
-      // Yield the complete AI message
-      _assertNoMultipleTextParts([messageWithIds]);
-      yield ChatResult<String>(
-        id: lastResult.id,
-        output: '',
-        messages: [messageWithIds],
-        finishReason: lastResult.finishReason,
-        metadata: lastResult.metadata,
-        usage: lastResult.usage,
-      );
-
-      // Check if we need to execute tools
-      final toolCalls = messageWithIds.parts
-          .whereType<ToolPart>()
-          .where((p) => p.kind == ToolPartKind.call)
-          .toList();
-
-      _logger.fine(
-        'Tool calls found: '
-        '${toolCalls.map((t) => '${t.name}(${t.id})').join(', ')}',
-      );
-
-      if (toolCalls.isEmpty) {
-        _logger.fine('No tool calls found, completing agent stream');
-        done = true;
-      } else {
-        _logger.info(
-          'Found ${toolCalls.length} tool calls to execute: '
-          '${toolCalls.map((t) => '${t.name}(${t.id})').join(', ')}',
-        );
-        // STREAMING UX: Set flag to prefix next AI message with newline
-        //
-        // Since this AI message has tool calls, we know another AI message will
-        // follow (the synthesis response). Set flag so that message gets
-        // visually separated with a newline prefix for better UX.
-        shouldPrefixNextMessage = true;
-        // Execute all tools and collect results
-        final toolResultParts = <Part>[];
-        for (final toolPart in toolCalls) {
-          final tool = toolMap[toolPart.name];
-          if (tool != null) {
-            _logger.fine(
-              'Executing tool: ${toolPart.name} with args: '
-              '${toolPart.argumentsRaw}',
-            );
-            try {
-              // CRITICAL: Parse argumentsRaw when arguments is empty This
-              // handles OpenAI-compatible providers that send empty arguments
-              // during streaming
-              var args = toolPart.arguments ?? {};
-              if (args.isEmpty &&
-                  (toolPart.argumentsRawString?.isNotEmpty ?? false)) {
-                final parsed = json.decode(toolPart.argumentsRawString!);
-                if (parsed is Map<String, dynamic>) {
-                  args = parsed;
-                } else if (parsed == null || parsed == 'null') {
-                  // Handle Cohere edge case where it sends "null" for no
-                  // params
-                  args = <String, dynamic>{};
-                }
-              }
-
-              final result = await tool.invoke(args);
-              final resultString = result is String
-                  ? result
-                  : json.encode(result);
-
-              _logger.info(
-                'Tool ${toolPart.name}(${toolPart.id}) executed successfully, '
-                'result length: ${resultString.length}',
-              );
-
-              // Add tool result part to collection
-              toolResultParts.add(
-                ToolPart.result(
-                  id: toolPart.id,
-                  name: toolPart.name,
-                  result: resultString,
-                ),
-              );
-              // ignore: exception_hiding
-            } on Exception catch (error, stackTrace) {
-              _logger.warning(
-                'Tool ${toolPart.name} execution failed: $error',
-                error,
-                stackTrace,
-              );
-
-              // Add error result part
-              toolResultParts.add(
-                ToolPart.result(
-                  id: toolPart.id,
-                  name: toolPart.name,
-                  result: json.encode({'error': error.toString()}),
-                ),
-              );
-            }
-          } else {
-            _logger.warning(
-              'Tool ${toolPart.name} not found in available tools: '
-              '${toolMap.keys.join(', ')}',
-            );
-          }
-        }
-
-        // Create a single user message with all tool results
-        final toolResultMessage = ChatMessage(
-          role: MessageRole.user,
-          parts: toolResultParts,
+        // Create final message with consolidated parts
+        final messageWithIds = ChatMessage(
+          role: MessageRole.model,
+          parts: finalParts,
+          metadata: accumulatedMessage.metadata,
         );
 
-        // Add tool result message to conversation history
-        conversationHistory.add(toolResultMessage);
-        _logger.fine(
-          'Added tool result message with ${toolResultParts.length} results',
-        );
+        // Add the complete AI message to conversation history
+        conversationHistory.add(messageWithIds);
 
-        // Yield tool result message
-        _assertNoMultipleTextParts([toolResultMessage]);
+        // Yield the complete AI message
+        _assertNoMultipleTextParts([messageWithIds]);
         yield ChatResult<String>(
           id: lastResult.id,
           output: '',
-          messages: [toolResultMessage],
+          messages: [messageWithIds],
           finishReason: lastResult.finishReason,
           metadata: lastResult.metadata,
           usage: lastResult.usage,
         );
+
+        // Check if we need to execute tools
+        final toolCalls = messageWithIds.parts
+            .whereType<ToolPart>()
+            .where((p) => p.kind == ToolPartKind.call)
+            .toList();
+
+        _logger.fine(
+          'Tool calls found: '
+          '${toolCalls.map((t) => '${t.name}(${t.id})').join(', ')}',
+        );
+
+        if (toolCalls.isEmpty) {
+          _logger.fine('No tool calls found, completing agent stream');
+          done = true;
+        } else {
+          _logger.info(
+            'Found ${toolCalls.length} tool calls to execute: '
+            '${toolCalls.map((t) => '${t.name}(${t.id})').join(', ')}',
+          );
+          // STREAMING UX: Set flag to prefix next AI message with newline
+          //
+          // Since this AI message has tool calls, we know another AI message
+          // will follow (the synthesis response). Set flag so that message gets
+          // visually separated with a newline prefix for better UX.
+          shouldPrefixNextMessage = true;
+          // Execute all tools and collect results
+          final toolResultParts = <Part>[];
+          for (final toolPart in toolCalls) {
+            final tool = toolMap[toolPart.name];
+            if (tool != null) {
+              _logger.fine(
+                'Executing tool: ${toolPart.name} with args: '
+                '${toolPart.argumentsRaw}',
+              );
+              try {
+                // CRITICAL: Parse argumentsRaw when arguments is empty This
+                // handles OpenAI-compatible providers that send empty arguments
+                // during streaming
+                var args = toolPart.arguments ?? {};
+                if (args.isEmpty &&
+                    (toolPart.argumentsRawString?.isNotEmpty ?? false)) {
+                  final parsed = json.decode(toolPart.argumentsRawString!);
+                  if (parsed is Map<String, dynamic>) {
+                    args = parsed;
+                  } else if (parsed == null || parsed == 'null') {
+                    // Handle Cohere edge case where it sends "null" for no
+                    // params
+                    args = <String, dynamic>{};
+                  }
+                }
+
+                final result = await tool.invoke(args);
+                final resultString = result is String
+                    ? result
+                    : json.encode(result);
+
+                _logger.info(
+                  'Tool ${toolPart.name}(${toolPart.id}) executed '
+                  'successfully, '
+                  'result length: ${resultString.length}',
+                );
+
+                // Add tool result part to collection
+                toolResultParts.add(
+                  ToolPart.result(
+                    id: toolPart.id,
+                    name: toolPart.name,
+                    result: resultString,
+                  ),
+                );
+                // ignore: exception_hiding
+              } on Exception catch (error, stackTrace) {
+                _logger.warning(
+                  'Tool ${toolPart.name} execution failed: $error',
+                  error,
+                  stackTrace,
+                );
+
+                // Add error result part
+                toolResultParts.add(
+                  ToolPart.result(
+                    id: toolPart.id,
+                    name: toolPart.name,
+                    result: json.encode({'error': error.toString()}),
+                  ),
+                );
+              }
+            } else {
+              _logger.warning(
+                'Tool ${toolPart.name} not found in available tools: '
+                '${toolMap.keys.join(', ')}',
+              );
+            }
+          }
+
+          // Create a single user message with all tool results
+          final toolResultMessage = ChatMessage(
+            role: MessageRole.user,
+            parts: toolResultParts,
+          );
+
+          // Add tool result message to conversation history
+          conversationHistory.add(toolResultMessage);
+          _logger.fine(
+            'Added tool result message with ${toolResultParts.length} results',
+          );
+
+          // Yield tool result message
+          _assertNoMultipleTextParts([toolResultMessage]);
+          yield ChatResult<String>(
+            id: lastResult.id,
+            output: '',
+            messages: [toolResultMessage],
+            finishReason: lastResult.finishReason,
+            metadata: lastResult.metadata,
+            usage: lastResult.usage,
+          );
+        }
       }
+    } finally {
+      // Dispose of the model created for this operation
+      model.dispose();
     }
+  }
+
+  /// Streaming with typed output - normalizes output across providers
+  Stream<ChatResult<String>> _runStreamWithOutputSchema(
+    String prompt, {
+    required List<ChatMessage> history,
+    required List<Part> attachments,
+    required JsonSchema outputSchema,
+  }) async* {
+    // Create model with return_result tool if needed
+    var tools = _tools;
+    
+    // Check if provider supports typed output with tools but not natively
+    final supportsTypedOutputWithTools = 
+        _provider.caps.contains(ProviderCaps.typedOutputWithTools);
+    final hasNativeSupport = 
+        _provider.caps.contains(ProviderCaps.nativeTypedOutputWithTools);
+    
+    // Add return_result tool if provider supports typed output with tools
+    // but doesn't have native support (needs return_result pattern)
+    if (supportsTypedOutputWithTools && !hasNativeSupport) {
+      final returnResultTool = Tool<Map<String, dynamic>>(
+        name: kReturnResultToolName,
+        description:
+            'REQUIRED: You MUST call this tool to return the final result. '
+            'Use this tool to format and return your response according to '
+            'the specified JSON schema. Call this after gathering any '
+            'necessary information from other tools.',
+        inputSchema: outputSchema,
+        inputFromJson: (json) => json, // Identity function for JSON input
+        onCall: (args) async => json.encode(args), // Return JSON string
+      );
+
+      tools = [...?_tools, returnResultTool];
+    }
+
+    final model = _provider.createModel(
+      name: _modelName,
+      tools: tools,
+      temperature: _temperature,
+      systemPrompt: _systemPrompt,
+    );
+    
+    _logger.info('supportsTypedOutputWithTools: $supportsTypedOutputWithTools, hasNativeSupport: $hasNativeSupport');
+    _logger.info('Created model with tools: ${tools?.map((t) => t.name).join(', ')}');
+
+    try {
+      // Create new user message from prompt and attachments
+      final newUserMessage = ChatMessage.userParts([
+        TextPart(prompt),
+        ...attachments,
+      ]);
+
+      // Immediately yield the new user message
+      _assertNoMultipleTextParts([newUserMessage]);
+      yield ChatResult<String>(
+        id: '',
+        output: '',
+        messages: [newUserMessage],
+        finishReason: FinishReason.unspecified,
+        metadata: const <String, dynamic>{},
+        usage: const LanguageModelUsage(),
+      );
+
+      // Build full conversation history
+      final conversationHistory = List<ChatMessage>.from([
+        ...history,
+        newUserMessage,
+      ]);
+      final toolMap = {
+        for (final tool in model.tools ?? <Tool>[]) tool.name: tool,
+      };
+
+      _logger.fine('Available tools in toolMap: ${toolMap.keys.join(', ')}');
+
+      var done = false;
+      var shouldPrefixNextMessage = false; // Local state for this stream
+      
+      // Track suppressed message metadata for return_result normalization
+      var suppressedToolCallMetadata = <String, dynamic>{};
+      var suppressedTextParts = <TextPart>[];
+      
+      while (!done) {
+        var isFirstChunkOfMessage =
+            true; // Track first chunk of each AI message
+        var accumulatedMessage = const ChatMessage(
+          role: MessageRole.model,
+          parts: [],
+        );
+        var lastResult = const ChatResult<ChatMessage>(
+          id: '',
+          output: ChatMessage(role: MessageRole.model, parts: []),
+          finishReason: FinishReason.unspecified,
+          metadata: <String, dynamic>{},
+          usage: LanguageModelUsage(),
+        );
+
+        // Stream the raw response and collect it
+        await for (final result in model.sendStream(
+          conversationHistory,
+          outputSchema: outputSchema,
+        )) {
+          // Stream JSON text for providers that:
+          // 1. Have native typed output support, OR
+          // 2. Don't support typed output with tools at all (just typed output)
+          if (hasNativeSupport || !supportsTypedOutputWithTools) {
+            final textOutput = result.output.parts
+                .whereType<TextPart>()
+                .map((p) => p.text)
+                .join();
+
+            if (textOutput.isNotEmpty) {
+              _logger.fine(
+                'Streaming native JSON text: "'
+                '${textOutput.substring(0, math.min(50, textOutput.length))}'
+                '..."',
+              );
+
+              final streamOutput =
+                  (shouldPrefixNextMessage && isFirstChunkOfMessage)
+                  ? '\n$textOutput'
+                  : textOutput;
+              isFirstChunkOfMessage = false;
+
+              yield ChatResult<String>(
+                id: result.id,
+                output: streamOutput,
+                messages: const [],
+                finishReason: result.finishReason,
+                metadata: result.metadata,
+                usage: result.usage,
+              );
+            }
+          }
+          // For return_result providers, don't stream any text during raw streaming
+          // Text will only be streamed when we emit the synthetic JSON message
+
+          // Accumulate the complete message using manual concat logic
+          accumulatedMessage = _concatMessages(
+            accumulatedMessage,
+            result.output,
+          );
+          lastResult = result;
+        }
+
+        // Text consolidation and final message creation
+        final textParts = accumulatedMessage.parts
+            .whereType<TextPart>()
+            .toList();
+        final nonTextParts = accumulatedMessage.parts
+            .where((part) => part is! TextPart)
+            .toList();
+
+        final finalParts = <Part>[];
+
+        // Add consolidated text as a single TextPart (if any)
+        if (textParts.isNotEmpty) {
+          final consolidatedText = textParts.map((p) => p.text).join();
+          if (consolidatedText.isNotEmpty) {
+            finalParts.add(TextPart(consolidatedText));
+          }
+        }
+
+        // Add all non-text parts (already properly merged by _concatMessages)
+        finalParts.addAll(nonTextParts);
+
+        // Create final message with consolidated parts
+        final messageWithIds = ChatMessage(
+          role: MessageRole.model,
+          parts: finalParts,
+          metadata: accumulatedMessage.metadata,
+        );
+
+        // Check if this message has return_result tool call
+        final hasReturnResultCall = messageWithIds.parts
+            .whereType<ToolPart>()
+            .any((p) => p.kind == ToolPartKind.call && p.name == kReturnResultToolName);
+
+        if (hasReturnResultCall && supportsTypedOutputWithTools && !hasNativeSupport) {
+          // Suppress this message and save metadata/text for later
+          suppressedToolCallMetadata = {...messageWithIds.metadata};
+          suppressedTextParts = textParts;
+          _logger.fine('Suppressing return_result tool call message');
+        } else if (supportsTypedOutputWithTools && !hasNativeSupport) {
+          // For return_result providers, don't stream any AI text
+          // (it would be explanatory text before tool calls)
+          // Still yield the message but without text output
+          _assertNoMultipleTextParts([messageWithIds]);
+          yield ChatResult<String>(
+            id: lastResult.id,
+            output: '',
+            messages: [messageWithIds],
+            finishReason: lastResult.finishReason,
+            metadata: lastResult.metadata,
+            usage: lastResult.usage,
+          );
+        } else {
+          // Normal message for native typed output - yield it
+          _assertNoMultipleTextParts([messageWithIds]);
+          yield ChatResult<String>(
+            id: lastResult.id,
+            output: '',
+            messages: [messageWithIds],
+            finishReason: lastResult.finishReason,
+            metadata: lastResult.metadata,
+            usage: lastResult.usage,
+          );
+        }
+
+        // Add the complete AI message to conversation history
+        conversationHistory.add(messageWithIds);
+
+        // Check if we need to execute tools
+        final toolCalls = messageWithIds.parts
+            .whereType<ToolPart>()
+            .where((p) => p.kind == ToolPartKind.call)
+            .toList();
+
+        _logger.fine(
+          'Tool calls found: '
+          '${toolCalls.map((t) => '${t.name}(${t.id})').join(', ')}',
+        );
+
+        if (toolCalls.isEmpty) {
+          _logger.fine('No tool calls found, completing agent stream');
+          done = true;
+        } else {
+          _logger.info(
+            'Found ${toolCalls.length} tool calls to execute: '
+            '${toolCalls.map((t) => '${t.name}(${t.id})').join(', ')}',
+          );
+          shouldPrefixNextMessage = true;
+          
+          // Execute all tools and collect results
+          final toolResultParts = <Part>[];
+          var returnResultJson = '';
+          var returnResultMetadata = <String, dynamic>{};
+          
+          for (final toolPart in toolCalls) {
+            final tool = toolMap[toolPart.name];
+            if (tool != null) {
+              _logger.fine(
+                'Executing tool: ${toolPart.name} with args: '
+                '${toolPart.argumentsRaw}',
+              );
+              try {
+                // CRITICAL: Parse argumentsRaw when arguments is empty This
+                // handles OpenAI-compatible providers that send empty arguments
+                // during streaming
+                var args = toolPart.arguments ?? {};
+                if (args.isEmpty &&
+                    (toolPart.argumentsRawString?.isNotEmpty ?? false)) {
+                  final parsed = json.decode(toolPart.argumentsRawString!);
+                  if (parsed is Map<String, dynamic>) {
+                    args = parsed;
+                  } else if (parsed == null || parsed == 'null') {
+                    // Handle Cohere edge case where it sends "null" for no
+                    // params
+                    args = <String, dynamic>{};
+                  }
+                }
+
+                final result = await tool.invoke(args);
+                final resultString = result is String
+                    ? result
+                    : json.encode(result);
+
+                _logger.info(
+                  'Tool ${toolPart.name}(${toolPart.id}) executed '
+                  'successfully, '
+                  'result length: ${resultString.length}',
+                );
+
+                // Check if this is return_result
+                if (toolPart.name == kReturnResultToolName && supportsTypedOutputWithTools && !hasNativeSupport) {
+                  returnResultJson = resultString;
+                  // We'll use the tool result metadata later
+                  returnResultMetadata = {
+                    'toolId': toolPart.id,
+                    'toolName': toolPart.name,
+                  };
+                } else {
+                  // Add tool result part to collection
+                  toolResultParts.add(
+                    ToolPart.result(
+                      id: toolPart.id,
+                      name: toolPart.name,
+                      result: resultString,
+                    ),
+                  );
+                }
+                // ignore: exception_hiding
+              } on Exception catch (error, stackTrace) {
+                _logger.warning(
+                  'Tool ${toolPart.name} execution failed: $error',
+                  error,
+                  stackTrace,
+                );
+
+                // Add error result part
+                toolResultParts.add(
+                  ToolPart.result(
+                    id: toolPart.id,
+                    name: toolPart.name,
+                    result: json.encode({'error': error.toString()}),
+                  ),
+                );
+              }
+            } else {
+              _logger.warning(
+                'Tool ${toolPart.name} not found in available tools: '
+                '${toolMap.keys.join(', ')}',
+              );
+            }
+          }
+
+          // Always add tool results to conversation history if we have any
+          if (toolResultParts.isNotEmpty) {
+            // Create a single user message with all tool results
+            final toolResultMessage = ChatMessage(
+              role: MessageRole.user,
+              parts: toolResultParts,
+            );
+
+            // Add tool result message to conversation history
+            conversationHistory.add(toolResultMessage);
+            _logger.fine(
+              'Added tool result message with ${toolResultParts.length} results',
+            );
+            
+            // Only yield if not handling return_result normalization
+            if (returnResultJson.isEmpty) {
+              // Yield tool result message
+              _assertNoMultipleTextParts([toolResultMessage]);
+              yield ChatResult<String>(
+                id: lastResult.id,
+                output: '',
+                messages: [toolResultMessage],
+                finishReason: lastResult.finishReason,
+                metadata: lastResult.metadata,
+                usage: lastResult.usage,
+              );
+            }
+          }
+          
+          // Handle return_result normalization
+          if (returnResultJson.isNotEmpty) {
+            // Create synthetic model message with JSON text
+            final mergedMetadata = <String, dynamic>{
+              ...suppressedToolCallMetadata,
+              ...returnResultMetadata,
+              if (suppressedTextParts.isNotEmpty)
+                'suppressedText': suppressedTextParts.map((p) => p.text).join(),
+            };
+            
+            final syntheticMessage = ChatMessage(
+              role: MessageRole.model,
+              parts: [TextPart(returnResultJson)],
+              metadata: mergedMetadata,
+            );
+            
+            _logger.fine('Yielding synthetic JSON message for return_result');
+            
+            // Yield the JSON as a model text message
+            yield ChatResult<String>(
+              id: lastResult.id,
+              output: returnResultJson,
+              messages: [syntheticMessage],
+              finishReason: lastResult.finishReason,
+              metadata: lastResult.metadata,
+              usage: lastResult.usage,
+            );
+            
+            // Clear suppressed data
+            suppressedToolCallMetadata = {};
+            suppressedTextParts = [];
+            
+            // We're done - return_result is the final result
+            done = true;
+          }
+        }
+      }
     } finally {
       // Dispose of the model created for this operation
       model.dispose();
@@ -666,8 +1000,8 @@ class Agent {
   /// Concatenates two ChatMessage objects, properly merging streaming chunks.
   ///
   /// This method handles streaming protocols where tool calls are built
-  /// incrementally across multiple chunks. Tool calls with the same ID
-  /// are merged, while different tool calls are kept separate.
+  /// incrementally across multiple chunks. Tool calls with the same ID are
+  /// merged, while different tool calls are kept separate.
   ChatMessage _concatMessages(ChatMessage accumulated, ChatMessage newChunk) {
     if (accumulated.parts.isEmpty) {
       return newChunk;
@@ -718,7 +1052,7 @@ class Agent {
       ...accumulated.metadata,
       ...newChunk.metadata,
     };
-    
+
     return ChatMessage(
       role: accumulated.role,
       parts: accumulatedParts,

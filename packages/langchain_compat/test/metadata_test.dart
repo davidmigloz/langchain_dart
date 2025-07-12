@@ -59,12 +59,12 @@ void main() {
       }
 
       expect(jsonMessage, isNotNull, reason: 'Should have a message with JSON');
-      
+
       // Check for metadata
       if (jsonMessage!.metadata.isNotEmpty) {
         print('Found metadata on JSON message:');
         print(const JsonEncoder.withIndent('  ').convert(jsonMessage.metadata));
-        
+
         // Metadata should contain suppressed_text if LLM added any
         if (jsonMessage.metadata.containsKey('suppressed_text')) {
           expect(jsonMessage.metadata['suppressed_text'], isA<String>());
@@ -73,13 +73,13 @@ void main() {
     });
 
     test('ChatMessage preserves metadata during concatenation', () {
-      final msg1 = ChatMessage(
+      const msg1 = ChatMessage(
         role: MessageRole.model,
         parts: [TextPart('Hello')],
         metadata: {'key1': 'value1'},
       );
 
-      final msg2 = ChatMessage(
+      const msg2 = ChatMessage(
         role: MessageRole.model,
         parts: [TextPart(' world')],
         metadata: {'key2': 'value2'},

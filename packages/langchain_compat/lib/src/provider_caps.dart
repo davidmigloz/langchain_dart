@@ -11,17 +11,17 @@ enum ProviderCaps {
 
   /// The provider supports typed output.
   typedOutput,
+  
+  /// The provider supports typed output with tool calls simultaneously.
+  /// This includes providers that use return_result pattern (Anthropic) or
+  /// native response_format (OpenAI).
+  typedOutputWithTools,
+  
+  /// The provider supports typed output with tool calls NATIVELY.
+  /// Only true for providers that can use response_format + tools without
+  /// needing the return_result workaround (e.g., OpenAI).
+  nativeTypedOutputWithTools,
 
   /// The provider supports vision/multi-modal input (images, etc.).
-  vision;
-
-  /// All chat capabilities.
-  static const allChat = {chat, multiToolCalls, typedOutput, vision};
-
-  /// All embeddings capabilities.
-  static const allEmbeddings = {embeddings};
-
-  /// Returns all capabilities except those specified in [these].
-  static Set<ProviderCaps> allChatExcept(Set<ProviderCaps> these) =>
-      allChat.difference(these);
+  vision,
 }

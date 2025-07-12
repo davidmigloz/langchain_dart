@@ -28,7 +28,7 @@ abstract class EmbeddingsProvider<TOptions extends EmbeddingsModelOptions> {
   final String displayName;
 
   /// The capabilities of this provider.
-  Set<ProviderCaps> get caps => ProviderCaps.allEmbeddings;
+  Set<ProviderCaps> get caps => {ProviderCaps.embeddings};
 
   /// Creates an embeddings model instance for this provider.
   EmbeddingsModel<TOptions> createModel({String? name, TOptions? options});

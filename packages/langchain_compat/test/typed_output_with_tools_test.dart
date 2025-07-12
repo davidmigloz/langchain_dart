@@ -106,8 +106,7 @@ void main() {
   group('typed output with tools', () {
     group('multi-turn chat with typed output and tools (streaming)', () {
       final typedOutputWithToolProviders = ChatProvider.allWith({
-        ProviderCaps.multiToolCalls,
-        ProviderCaps.typedOutput,
+        ProviderCaps.typedOutputWithTools,
       });
 
       for (final provider in typedOutputWithToolProviders) {

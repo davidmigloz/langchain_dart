@@ -76,7 +76,14 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
     defaultModelName: OpenAIChatModel.defaultName,
     defaultBaseUrl: OpenAIChatModel.defaultBaseUrl,
     apiKeyName: OpenAIChatModel.apiKeyName,
-    caps: ProviderCaps.allChat,
+    caps: {
+      ProviderCaps.chat,
+      ProviderCaps.multiToolCalls,
+      ProviderCaps.typedOutput,
+      ProviderCaps.typedOutputWithTools,
+      ProviderCaps.nativeTypedOutputWithTools,
+      ProviderCaps.vision,
+    },
   );
 
   /// OpenRouter provider (OpenAI-compatible, multi-model cloud).
@@ -86,7 +93,12 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
     defaultModelName: 'google/gemini-2.5-flash',
     defaultBaseUrl: 'https://openrouter.ai/api/v1',
     apiKeyName: 'OPENROUTER_API_KEY',
-    caps: ProviderCaps.allChat,
+    caps: {
+      ProviderCaps.chat,
+      ProviderCaps.multiToolCalls,
+      ProviderCaps.typedOutput,
+      ProviderCaps.vision,
+    },
   );
 
   /// Together AI provider (OpenAI-compatible, cloud).
@@ -102,19 +114,28 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
     defaultModelName: 'meta-llama/Llama-3.2-3B-Instruct-Turbo',
     defaultBaseUrl: 'https://api.together.xyz/v1',
     apiKeyName: 'TOGETHER_API_KEY',
-    caps: ProviderCaps.allChatExcept({ProviderCaps.multiToolCalls}),
+    caps: {
+      ProviderCaps.chat,
+      ProviderCaps.typedOutput,
+      ProviderCaps.vision,
+    },
   );
 
   /// Fireworks AI provider (OpenAI-compatible, cloud).
   /// Note: Vision requires Document Inlining with URL#transform=inline format,
   /// base64 images are not supported.
+  /// Note: Does not support response_format with tools simultaneously.
   static final fireworks = OpenAIChatProvider(
     name: 'fireworks',
     displayName: 'Fireworks AI',
     defaultModelName: 'accounts/fireworks/models/llama-v3p1-70b-instruct',
     defaultBaseUrl: 'https://api.fireworks.ai/inference/v1',
     apiKeyName: 'FIREWORKS_API_KEY',
-    caps: ProviderCaps.allChatExcept({ProviderCaps.vision}),
+    caps: {
+      ProviderCaps.chat,
+      ProviderCaps.multiToolCalls,
+      ProviderCaps.typedOutput,
+    },
   );
 
   /// Mistral AI provider (native API, cloud).
@@ -124,21 +145,27 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
     defaultModelName: MistralChatModel.defaultName,
     defaultBaseUrl: MistralChatModel.defaultBaseUrl,
     apiKeyName: MistralChatModel.apiKeyName,
-    caps: ProviderCaps.allChatExcept({
-      ProviderCaps.multiToolCalls,
-      ProviderCaps.typedOutput,
-    }),
+    caps: {
+      ProviderCaps.chat,
+      ProviderCaps.vision,
+    },
   );
 
   /// Cohere provider (OpenAI-compatible, cloud). Note: streamOptions is
   /// forcibly set to null for compatibility.
+  /// Note: Does not support response_format with tools simultaneously.
   static final cohere = CohereChatProvider(
     name: 'cohere',
     displayName: 'Cohere',
     defaultModelName: 'command-r-plus',
     defaultBaseUrl: 'https://api.cohere.ai/compatibility/v1',
     apiKeyName: 'COHERE_API_KEY',
-    caps: ProviderCaps.allChat,
+    caps: {
+      ProviderCaps.chat,
+      ProviderCaps.multiToolCalls,
+      ProviderCaps.typedOutput,
+      ProviderCaps.vision,
+    },
   );
 
   /// Lambda provider (OpenAI-compatible, cloud).
@@ -148,7 +175,11 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
     defaultModelName: 'hermes-3-llama-3.1-405b-fp8',
     defaultBaseUrl: 'https://api.lambda.ai/v1',
     apiKeyName: 'LAMBDA_API_KEY',
-    caps: ProviderCaps.allChatExcept({ProviderCaps.multiToolCalls}),
+    caps: {
+      ProviderCaps.chat,
+      ProviderCaps.typedOutput,
+      ProviderCaps.vision,
+    },
   );
 
   /// Gemini (OpenAI-compatible) provider (Google AI, OpenAI API).
@@ -158,10 +189,16 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
     defaultModelName: GoogleChatModel.defaultName,
     defaultBaseUrl: 'https://generativelanguage.googleapis.com/v1beta/openai',
     apiKeyName: GoogleChatModel.apiKeyName,
-    caps: ProviderCaps.allChat,
+    caps: {
+      ProviderCaps.chat,
+      ProviderCaps.multiToolCalls,
+      ProviderCaps.typedOutput,
+      ProviderCaps.vision,
+    },
   );
 
   /// Google Gemini native provider (uses Gemini API, not OpenAI-compatible).
+  /// Note: When responseSchema is set, tools are ignored by the model.
   static final google = GoogleChatProvider(
     name: 'google',
     aliases: ['gemini', 'googleai', 'google-gla'],
@@ -169,7 +206,12 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
     defaultModelName: GoogleChatModel.defaultName,
     defaultBaseUrl: GoogleChatModel.defaultBaseUrl,
     apiKeyName: GoogleChatModel.apiKeyName,
-    caps: ProviderCaps.allChat,
+    caps: {
+      ProviderCaps.chat,
+      ProviderCaps.multiToolCalls,
+      ProviderCaps.typedOutput,
+      ProviderCaps.vision,
+    },
   );
 
   /// Anthropic provider (Claude, native API).
@@ -180,7 +222,13 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
     defaultModelName: AnthropicChatModel.defaultName,
     defaultBaseUrl: AnthropicChatModel.defaultBaseUrl,
     apiKeyName: AnthropicChatModel.apiKeyName,
-    caps: ProviderCaps.allChat,
+    caps: {
+      ProviderCaps.chat,
+      ProviderCaps.multiToolCalls,
+      ProviderCaps.typedOutput,
+      ProviderCaps.typedOutputWithTools,
+      ProviderCaps.vision,
+    },
   );
 
   /// Native Ollama provider (local, uses ChatOllama and /api endpoint). No API
@@ -191,7 +239,12 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
     defaultModelName: OllamaChatModel.defaultName,
     defaultBaseUrl: OllamaChatModel.defaultBaseUrl,
     apiKeyName: '',
-    caps: ProviderCaps.allChat,
+    caps: {
+      ProviderCaps.chat,
+      ProviderCaps.multiToolCalls,
+      ProviderCaps.typedOutput,
+      ProviderCaps.vision,
+    },
   );
 
   /// OpenAI-compatible Ollama provider (local, uses /v1 endpoint). No API key
@@ -202,7 +255,12 @@ abstract class ChatProvider<TOptions extends ChatModelOptions> {
     defaultModelName: 'llama3.1',
     defaultBaseUrl: 'http://localhost:11434/v1',
     apiKeyName: '',
-    caps: ProviderCaps.allChat,
+    caps: {
+      ProviderCaps.chat,
+      ProviderCaps.multiToolCalls,
+      ProviderCaps.typedOutput,
+      ProviderCaps.vision,
+    },
   );
 
   /// Returns a list of all available providers (static fields above).

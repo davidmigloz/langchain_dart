@@ -11,11 +11,15 @@ import 'lib/example_tools.dart';
 import 'lib/example_types.dart';
 
 void main() async {
-  final provider = ChatProvider.openai;
-  final agent = Agent.forProvider(
-    provider,
-    tools: [currentDateTimeTool, temperatureTool, recipeLookupTool],
-    systemPrompt: '''
+  final providers = ChatProvider.all
+      .where((p) => p.caps.contains(ProviderCaps.typedOutputWithTools))
+      .toList();
+
+  for (final provider in providers) {
+    final agent = Agent.forProvider(
+      provider,
+      tools: [currentDateTimeTool, temperatureTool, recipeLookupTool],
+      systemPrompt: '''
 You are a helpful assistant that provides accurate information.
 
 When responding with structured data, ensure your JSON output strictly follows
@@ -25,14 +29,15 @@ outside the JSON structure.
 When you have access to tools, use them to gather real data before formatting
 your response.
 ''',
-  );
+    );
 
-  // await jsonOutput(agent);
-  // await jsonOutputStream(agent);
-  // await mapOutput(agent);
-  // await typedOutput(agent);
-  await typedOutputWithToolCalls(agent);
-  // await typedOutputWithToolCallsAndMultipleTurns(provider);
+    await jsonOutput(agent);
+    await jsonOutputStream(agent);
+    await mapOutput(agent);
+    await typedOutput(agent);
+    await typedOutputWithToolCalls(agent);
+    await typedOutputWithToolCallsAndMultipleTurns(provider);
+  }
   exit(0);
 }
 

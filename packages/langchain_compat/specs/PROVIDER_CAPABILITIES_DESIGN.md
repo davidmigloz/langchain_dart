@@ -10,15 +10,29 @@ The Provider Capabilities system enables dynamic discovery and filtering of LLM 
 
 ```dart
 enum ProviderCaps {
-  chat,            // Basic chat completion
-  embeddings,      // Text embeddings generation
-  multiToolCalls,  // Multiple function/tool calls in one response
-  typedOutput,     // Structured JSON output generation
-  vision,          // Vision/multi-modal input (images, etc.)
+  chat,                       // Basic chat completion
+  embeddings,                 // Text embeddings generation
+  multiToolCalls,             // Multiple function/tool calls in one response
+  typedOutput,                // Structured JSON output generation
+  typedOutputWithTools,       // Typed output + tools together (any implementation)
+  nativeTypedOutputWithTools, // Native typed output + tools (no return_result)
+  vision,                     // Vision/multi-modal input (images, etc.)
 }
 ```
 
 Note: Streaming is not a capability because all chat providers support it by default.
+
+#### Typed Output Capabilities Hierarchy
+
+The typed output capabilities form a hierarchy:
+- `typedOutput`: Provider supports structured JSON output (via native response_format or return_result pattern)
+- `typedOutputWithTools`: Provider can use typed output AND tools in the same request (via any implementation)
+- `nativeTypedOutputWithTools`: Provider supports this natively without needing the return_result workaround
+
+Examples:
+- OpenAI: Has all three capabilities (native support)
+- Anthropic: Has `typedOutput` and `typedOutputWithTools` but NOT `nativeTypedOutputWithTools` (uses return_result)
+- Fireworks: Has only `typedOutput` (cannot combine with tools)
 
 ### 2. Provider Integration
 
@@ -27,17 +41,34 @@ Each provider declares its capabilities during initialization:
 ```dart
 static final openai = OpenAIChatProvider(
   name: 'openai',
-  caps: ProviderCaps.allChat,  // Supports all chat capabilities
+  caps: {
+    ProviderCaps.chat,
+    ProviderCaps.multiToolCalls,
+    ProviderCaps.typedOutput,
+    ProviderCaps.typedOutputWithTools,
+    ProviderCaps.nativeTypedOutputWithTools,  // Native support
+    ProviderCaps.vision,
+  },
 );
 
 static final anthropic = AnthropicChatProvider(
   name: 'anthropic',
-  caps: ProviderCaps.allChatExcept({ProviderCaps.vision}),
+  caps: {
+    ProviderCaps.chat,
+    ProviderCaps.multiToolCalls,
+    ProviderCaps.typedOutput,
+    ProviderCaps.typedOutputWithTools,  // Via return_result pattern
+    // NO nativeTypedOutputWithTools
+    ProviderCaps.vision,
+  },
 );
 
 static final mistral = MistralChatProvider(
   name: 'mistral',
-  caps: {ProviderCaps.chat},  // Basic chat only, no tools or typed output
+  caps: {
+    ProviderCaps.chat,
+    ProviderCaps.vision,
+  },  // Basic chat only, no tools or typed output
 );
 ```
 
@@ -109,30 +140,33 @@ validateMessageHistory(result.messages);
 - Capabilities: Only `ProviderCaps.chat`
 - No support for tools or typed output in their API
 
-#### Fireworks & Cohere
-- Cannot use tools and typed output simultaneously
+#### Fireworks, Cohere, Together, Lambda
+- Cannot use response_format and tools simultaneously
 - API returns error when both are requested together
+- Have `typedOutput` but NOT `typedOutputWithTools`
 
-#### Google & Ollama
-- Typed output works alone but not with tools
-- TODO: Implement return_result pattern for simultaneous use
+#### Anthropic, Google, Ollama
+- Support typed output with tools via return_result pattern
+- Have `typedOutput` and `typedOutputWithTools` but NOT `nativeTypedOutputWithTools`
+
+#### OpenAI
+- Full native support for response_format + tools
+- Has all three typed output capabilities
 
 ## Implementation Details
 
-### Capability Sets
+### Capability Declaration
 
-Common capability combinations are provided as static constants:
+Providers must explicitly declare their capabilities. This approach provides clarity and prevents accidental inheritance of unsupported features.
 
 ```dart
-/// All chat capabilities
-static const allChat = {chat, multiToolCalls, typedOutput, vision};
-
-/// All embeddings capabilities
-static const allEmbeddings = {embeddings};
-
-/// Returns all capabilities except those specified
-static Set<ProviderCaps> allChatExcept(Set<ProviderCaps> these) =>
-    allChat.difference(these);
+// Each provider explicitly lists its capabilities
+caps: {
+  ProviderCaps.chat,
+  ProviderCaps.multiToolCalls,
+  ProviderCaps.typedOutput,
+  // ... only what the provider actually supports
+}
 ```
 
 ## Usage Examples
