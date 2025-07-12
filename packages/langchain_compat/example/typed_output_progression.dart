@@ -31,8 +31,8 @@ your response.
   // await jsonOutputStream(agent);
   // await mapOutput(agent);
   // await typedOutput(agent);
-  // await typedOutputWithToolCalls(agent);
-  await typedOutputWithToolCallsAndMultipleTurns(provider);
+  await typedOutputWithToolCalls(agent);
+  // await typedOutputWithToolCallsAndMultipleTurns(provider);
   exit(0);
 }
 

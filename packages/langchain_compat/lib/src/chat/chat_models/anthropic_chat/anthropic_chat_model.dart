@@ -3,8 +3,6 @@ import 'package:http/http.dart' as http;
 import 'package:json_schema/json_schema.dart';
 import 'package:logging/logging.dart';
 
-import '../../../language_models/finish_reason.dart';
-import '../../../language_models/language_model_usage.dart';
 import '../../../platform/platform.dart';
 import '../chat_message.dart' as msg;
 import '../chat_model.dart';
@@ -75,34 +73,6 @@ class AnthropicChatModel extends ChatModel<AnthropicChatOptions> {
       '${messages.length} messages for model: $name',
     );
     final messagesWithDefaults = prepareMessagesWithDefaults(messages);
-
-    // Stream prefilled content first (Anthropic's streaming API omits it)
-    //
-    // Anthropic recommends prefilling for structured output:
-    // https://docs.anthropic.com/en/docs/test-and-evaluate/strengthen-guardrails/increase-consistency
-    //
-    // However, when using streaming, the prefilled content is not included in
-    // the streaming events (confirmed via direct API testing). We work around
-    // this by streaming the prefilled content as the first chunk, allowing
-    // the Agent to accumulate it naturally with the subsequent chunks.
-    if (outputSchema != null) {
-      yield const ChatResult<msg.ChatMessage>(
-        id: 'prefilled',
-        output: msg.ChatMessage(
-          role: msg.MessageRole.model,
-          parts: [msg.TextPart('{')],
-        ),
-        messages: [
-          msg.ChatMessage(
-            role: msg.MessageRole.model,
-            parts: [msg.TextPart('{')],
-          ),
-        ],
-        finishReason: FinishReason.unspecified,
-        metadata: {'anthropic_prefilled': true},
-        usage: LanguageModelUsage(),
-      );
-    }
 
     var chunkCount = 0;
     await for (final result

@@ -78,14 +78,12 @@ class Agent {
     _providerName = providerName;
     _displayName = displayName;
 
-    // Create model
-    final provider = ChatProvider.forName(providerName);
-    _model = provider.createModel(
-      name: modelName,
-      tools: tools,
-      temperature: temperature,
-      systemPrompt: systemPrompt,
-    );
+    // Store provider and model parameters
+    _provider = ChatProvider.forName(providerName);
+    _modelName = modelName ?? _provider.defaultModelName;
+    _tools = tools;
+    _temperature = temperature;
+    _systemPrompt = systemPrompt;
 
     _logger.fine(
       'Agent created successfully with ${tools?.length ?? 0} tools, '
@@ -108,12 +106,13 @@ class Agent {
 
     _providerName = provider.name;
     _displayName = displayName;
-    _model = provider.createModel(
-      name: modelName,
-      tools: tools,
-      temperature: temperature,
-      systemPrompt: systemPrompt,
-    );
+    
+    // Store provider and model parameters
+    _provider = provider;
+    _modelName = modelName ?? provider.defaultModelName;
+    _tools = tools;
+    _temperature = temperature;
+    _systemPrompt = systemPrompt;
 
     _logger.fine(
       'Agent created from provider with ${tools?.length ?? 0} tools, '
@@ -121,20 +120,6 @@ class Agent {
     );
   }
 
-  /// Creates an agent from a model.
-  Agent.forModel(
-    ChatModel model, {
-    required String providerName,
-    String? displayName,
-  }) {
-    _logger.info('Creating agent from existing model, provider: $providerName');
-
-    _providerName = providerName;
-    _displayName = displayName;
-    _model = model;
-
-    _logger.fine('Agent created from existing model');
-  }
 
   /// Logger for agent operations.
   static final Logger _logger = Logger('dartantic.agent');
@@ -194,7 +179,7 @@ class Agent {
   String get providerName => _providerName;
 
   /// Gets the model name.
-  String get modelName => _model.name;
+  String get modelName => _modelName;
 
   /// Gets the fully qualified model name.
   String get model => '$providerName:$modelName';
@@ -206,10 +191,16 @@ class Agent {
   static Map<String, String> environment = {};
 
   /// Closes the underlying model.
-  void dispose() => _model.dispose();
+  void dispose() {
+    // No longer needed since models are created on-the-fly
+  }
 
   late final String _providerName;
-  late final ChatModel _model;
+  late final ChatProvider _provider;
+  late final String _modelName;
+  late final List<Tool>? _tools;
+  late final double? _temperature;
+  late final String? _systemPrompt;
   late final String? _displayName;
 
   /// Invokes the agent with the given prompt and returns the final result.
@@ -234,6 +225,10 @@ class Agent {
       metadata: <String, dynamic>{},
       usage: LanguageModelUsage(),
     );
+    
+    // Track if return_result was called
+    var returnResultCalled = false;
+    String? returnResultJson;
 
     await for (final result in runStream(
       prompt,
@@ -247,6 +242,46 @@ class Agent {
       }
       allNewMessages.addAll(result.messages);
       finalResult = result;
+      
+      // Check if return_result was called in tool messages
+      for (final msg in result.messages) {
+        for (final part in msg.parts) {
+          if (part is ToolPart && 
+              part.kind == ToolPartKind.result && 
+              part.name == kReturnResultToolName) {
+            returnResultCalled = true;
+            returnResultJson = part.result as String?;
+            _logger.fine('return_result tool returned: $returnResultJson');
+          }
+        }
+      }
+    }
+    
+    // Handle typed output
+    if (outputSchema != null) {
+      final metadata = <String, dynamic>{};
+      
+      if (returnResultCalled && returnResultJson != null) {
+        // Anthropic case: use return_result output
+        if (finalOutput.isNotEmpty && finalOutput != returnResultJson) {
+          metadata['suppressed_text'] = finalOutput;
+        }
+        finalOutput = returnResultJson;
+        _logger.fine('Using return_result output for typed response');
+      } else {
+        // OpenAI case: finalOutput should already be JSON
+        _logger.fine('Using model output as typed response');
+      }
+      
+      // Update final result metadata
+      finalResult = ChatResult<String>(
+        id: finalResult.id,
+        output: finalOutput,
+        messages: allNewMessages,
+        finishReason: finalResult.finishReason,
+        metadata: {...finalResult.metadata, ...metadata},
+        usage: finalResult.usage,
+      );
     }
 
     _logger.info(
@@ -254,14 +289,7 @@ class Agent {
       'finish reason: ${finalResult.finishReason}',
     );
 
-    return ChatResult<String>(
-      id: finalResult.id,
-      output: finalOutput,
-      messages: allNewMessages,
-      finishReason: finalResult.finishReason,
-      metadata: finalResult.metadata,
-      usage: finalResult.usage,
-    );
+    return finalResult;
   }
 
   /// Runs the given [prompt] through the model and returns a typed response.
@@ -311,35 +339,58 @@ class Agent {
       'history messages',
     );
 
-    // Create new user message from prompt and attachments
-    final newUserMessage = ChatMessage.userParts([
-      TextPart(prompt),
-      ...attachments,
-    ]);
-
-    // Immediately yield the new user message
-    _assertNoMultipleTextParts([newUserMessage]);
-    yield ChatResult<String>(
-      id: '',
-      output: '',
-      messages: [newUserMessage],
-      finishReason: FinishReason.unspecified,
-      metadata: const <String, dynamic>{},
-      usage: const LanguageModelUsage(),
+    // Create model with appropriate tools
+    var tools = _tools;
+    if (outputSchema != null) {
+      final returnResultTool = Tool<Map<String, dynamic>>(
+        name: kReturnResultToolName,
+        description: 
+            'Return the final result in the required structured format',
+        inputSchema: outputSchema,
+        inputFromJson: (json) => json, // Identity function for JSON input
+        onCall: (args) async => json.encode(args), // Return JSON string
+      );
+      
+      tools = [...?_tools, returnResultTool];
+    }
+    
+    final model = _provider.createModel(
+      name: _modelName,
+      tools: tools,
+      temperature: _temperature,
+      systemPrompt: _systemPrompt,
     );
 
-    // Build full conversation history
-    final conversationHistory = List<ChatMessage>.from([
-      ...history,
-      newUserMessage,
-    ]);
-    final toolMap = {
-      for (final tool in _model.tools ?? <Tool>[]) tool.name: tool,
-    };
+    try {
+      // Create new user message from prompt and attachments
+      final newUserMessage = ChatMessage.userParts([
+        TextPart(prompt),
+        ...attachments,
+      ]);
 
-    var done = false;
-    var shouldPrefixNextMessage = false; // Local state for this stream
-    while (!done) {
+      // Immediately yield the new user message
+      _assertNoMultipleTextParts([newUserMessage]);
+      yield ChatResult<String>(
+        id: '',
+        output: '',
+        messages: [newUserMessage],
+        finishReason: FinishReason.unspecified,
+        metadata: const <String, dynamic>{},
+        usage: const LanguageModelUsage(),
+      );
+
+      // Build full conversation history
+      final conversationHistory = List<ChatMessage>.from([
+        ...history,
+        newUserMessage,
+      ]);
+      final toolMap = {
+        for (final tool in model.tools ?? <Tool>[]) tool.name: tool,
+      };
+
+      var done = false;
+      var shouldPrefixNextMessage = false; // Local state for this stream
+      while (!done) {
       var isFirstChunkOfMessage = true; // Track first chunk of each AI message
       var accumulatedMessage = const ChatMessage(
         role: MessageRole.model,
@@ -354,7 +405,7 @@ class Agent {
       );
 
       // Stream the raw response and collect it
-      await for (final result in _model.sendStream(
+      await for (final result in model.sendStream(
         conversationHistory,
         outputSchema: outputSchema,
       )) {
@@ -554,6 +605,10 @@ class Agent {
           usage: lastResult.usage,
         );
       }
+    }
+    } finally {
+      // Dispose of the model created for this operation
+      model.dispose();
     }
   }
 

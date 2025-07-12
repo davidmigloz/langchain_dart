@@ -31,25 +31,13 @@ a.CreateMessageRequest createMessageRequest(
   JsonSchema? outputSchema,
   bool stream = false,
 }) {
-  // Handle tools but not structured output (use prefilling instead)
+  // Handle tools
   final hasTools = tools != null && tools.isNotEmpty;
-  final hasStructuredOutput = outputSchema != null;
 
-  var systemMsg = messages.firstOrNull?.role == msg.MessageRole.system
+  final systemMsg = messages.firstOrNull?.role == msg.MessageRole.system
       ? (messages.firstOrNull!.parts.firstOrNull as msg.TextPart?)?.text
       : null;
 
-  // Add JSON output instructions to system message if outputSchema is provided
-  // This follows Anthropic's recommendations for structured output consistency
-  if (hasStructuredOutput) {
-    final schemaStr = json.encode(outputSchema.schemaMap);
-    final jsonInstructions =
-        '\n\nYou must respond with valid JSON that matches this exact schema: '
-        '$schemaStr\n'
-        'Do not include any text before or after the JSON. '
-        'Only return the JSON object.';
-    systemMsg = (systemMsg ?? '') + jsonInstructions;
-  }
   final structuredTools = hasTools ? tools.toTool() : null;
 
   _logger.fine(
@@ -57,21 +45,8 @@ a.CreateMessageRequest createMessageRequest(
   );
   final messagesDtos = messages.toMessages();
 
-  // Add prefilling for structured output - this forces Claude to start with '{'
-  // See:
-  // https://docs.anthropic.com/en/docs/test-and-evaluate/strengthen-guardrails/increase-consistency
-  // "Prefill Claude's response" section explains this technique
-  if (hasStructuredOutput) {
-    messagesDtos.add(
-      const a.Message(
-        role: a.MessageRole.assistant,
-        content: a.MessageContent.text('{'),
-      ),
-    );
-  }
   _logger.fine(
-    'Tool configuration: hasTools=$hasTools, toolCount=${tools?.length ?? 0}, '
-    'hasStructuredOutput=$hasStructuredOutput',
+    'Tool configuration: hasTools=$hasTools, toolCount=${tools?.length ?? 0}',
   );
 
   return a.CreateMessageRequest(
