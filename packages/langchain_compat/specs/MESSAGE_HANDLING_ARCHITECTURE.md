@@ -41,6 +41,7 @@ Model: Final synthesis response
 3. **Multiple Parts**: A single message can contain multiple parts (text, tool calls, tool results)
 4. **No Provider Logic**: The Agent doesn't know or care about provider-specific requirements
 5. **Complete Message History**: The Agent's `run()` method returns ALL messages from the conversation, including tool interactions, regardless of whether `outputSchema` is provided
+6. **Message Validation**: The `validateMessageHistory()` function enforces proper message structure (at most one system message first, then alternating user/model)
 
 ## Collecting Full History
 
@@ -123,6 +124,45 @@ final result3 = await agent.run(
 conversationHistory.addAll(result3.messages);
 // Full conversation maintained with proper context
 ```
+
+## Typed Output Support
+
+For typed output (structured JSON responses), see [TYPED_OUTPUT_ARCHITECTURE.md](./TYPED_OUTPUT_ARCHITECTURE.md). The key points for message handling:
+
+- When `outputSchema` is provided, Agent adds a `return_result` tool
+- Tool results are still consolidated into single user messages as normal
+- The final JSON output replaces the text output in ChatResult
+
+## Streaming Enhancements
+
+### Tool Call Argument Parsing
+
+During streaming, some providers send empty `arguments: {}` and only populate `argumentsRaw`. The Agent automatically handles this:
+
+```dart
+// Critical: Parse argumentsRaw when arguments is empty
+var args = toolPart.arguments ?? {};
+if (args.isEmpty && (toolPart.argumentsRawString?.isNotEmpty ?? false)) {
+  final parsed = json.decode(toolPart.argumentsRawString!);
+  if (parsed is Map<String, dynamic>) {
+    args = parsed;
+  } else if (parsed == null || parsed == 'null') {
+    // Handle edge case (e.g., Cohere sends "null" for no params)
+    args = <String, dynamic>{};
+  }
+}
+```
+
+### UX Enhancement: Message Separation
+
+When streaming responses that involve tool calls, the Agent adds a newline prefix to prevent consecutive AI messages from running together:
+
+```dart
+// Prevents: "...calling tools.The weather is..."
+// Becomes: "...calling tools.\nThe weather is..."
+```
+
+This only applies to the FIRST chunk of a new AI message after tool execution, maintaining proper text flow within each message.
 
 ## Provider-Specific Requirements
 
@@ -232,21 +272,26 @@ yield ChatResult(messages: [toolResultMessage]);
 ### OpenAI Mapper (Provider-Specific)
 
 ```dart
-ChatCompletionMessage _mapUserMessage(ChatMessage message) {
-  final toolResults = MessagePartHelpers.extractToolResults(message.parts);
-  
-  if (toolResults.isNotEmpty) {
-    // OpenAI requires separate tool messages
-    // This is handled by returning multiple messages from the mapper
-    // (Implementation detail: caller must handle message expansion)
-    final toolResult = toolResults.first;
-    return ChatCompletionMessage.tool(
-      toolCallId: toolResult.id,
-      content: ToolResultHelpers.serialize(toolResult.result),
+// In _mapMessages, when processing user messages with tool results:
+if (toolResults.length > 1) {
+  // OpenAI requires separate tool messages for each result
+  for (final toolResult in toolResults) {
+    final content = ToolResultHelpers.serialize(toolResult.result);
+    expandedMessages.add(
+      ChatCompletionMessage.tool(
+        toolCallId: toolResult.id,
+        content: content,
+      ),
     );
   }
-  
-  // Regular user message handling...
+} else if (toolResults.length == 1) {
+  // Single tool result
+  expandedMessages.add(
+    ChatCompletionMessage.tool(
+      toolCallId: toolResults.first.id,
+      content: ToolResultHelpers.serialize(toolResults.first.result),
+    ),
+  );
 }
 ```
 

@@ -62,6 +62,7 @@ The system operates through a three-layer architecture:
 | Provider   | Streaming | Tools | Tool IDs | Streaming Format |
 |------------|-----------|-------|----------|------------------|
 | OpenAI     | ✅        | ✅    | ✅       | Partial chunks   |
+| OpenRouter | ✅        | ✅    | ✅       | OpenAI-compatible|
 | Anthropic  | ✅        | ✅    | ✅       | Event-based      |
 | Google     | ✅        | ✅    | ❌       | Complete chunks  |
 | Ollama     | ✅        | ✅    | ❌       | Complete chunks  |
@@ -178,6 +179,8 @@ if (args.isEmpty && (toolPart.argumentsRawString?.isNotEmpty ?? false)) {
 
 #### 2. Tool Execution Flow
 ```dart
+// Execute all tools and collect results
+final toolResultParts = <Part>[];
 for (final toolPart in toolCalls) {
   final tool = toolMap[toolPart.name];
   if (tool != null) {
@@ -185,36 +188,35 @@ for (final toolPart in toolCalls) {
       final result = await tool.invoke(args);
       final resultString = result is String ? result : json.encode(result);
       
-      // Create tool result message
-      final toolResultMessage = ChatMessage(
-        role: MessageRole.user,
-        parts: [
-          ToolPart.result(
-            id: toolPart.id,
-            name: toolPart.name,
-            result: resultString,
-          ),
-        ],
+      toolResultParts.add(
+        ToolPart.result(
+          id: toolPart.id,
+          name: toolPart.name,
+          result: resultString,
+        ),
       );
-      
-      toolResults.add(toolResultMessage);
     } on Exception catch (error, stackTrace) {
-      // Return error to LLM
-      toolResults.add(
-        ChatMessage(
-          role: MessageRole.user,
-          parts: [
-            ToolPart.result(
-              id: toolPart.id,
-              name: toolPart.name,
-              result: json.encode({'error': error.toString()}),
-            ),
-          ],
+      // Add error result part
+      toolResultParts.add(
+        ToolPart.result(
+          id: toolPart.id,
+          name: toolPart.name,
+          result: json.encode({'error': error.toString()}),
         ),
       );
     }
   }
 }
+
+// Create a single user message with all tool results
+final toolResultMessage = ChatMessage(
+  role: MessageRole.user,
+  parts: toolResultParts,
+);
+
+// Add to history and yield
+conversationHistory.add(toolResultMessage);
+yield ChatResult(messages: [toolResultMessage]);
 ```
 
 #### 3. Streaming UX Enhancement
@@ -294,22 +296,18 @@ argumentsRawString: json.encode(functionCall.args)
 
 ### Error Handling
 
-Tool execution errors are returned to the LLM:
+Tool execution errors are included in the consolidated tool result message:
 
 ```dart
 catch (error, stackTrace) {
   _logger.warning('Tool ${toolPart.name} execution failed: $error');
   
-  toolResults.add(
-    ChatMessage(
-      role: MessageRole.user,
-      parts: [
-        ToolPart.result(
-          id: toolPart.id,
-          name: toolPart.name,
-          result: json.encode({'error': error.toString()}),
-        ),
-      ],
+  // Add error result part to collection
+  toolResultParts.add(
+    ToolPart.result(
+      id: toolPart.id,
+      name: toolPart.name,
+      result: json.encode({'error': error.toString()}),
     ),
   );
 }
@@ -356,6 +354,8 @@ catch (error, stackTrace) {
 3. **ID Matching**: Tool calls and results properly paired
 4. **Error Recovery**: Tool errors handled gracefully
 5. **UX Features**: Newline prefixing works correctly
+6. **Message History Validation**: User/model alternation maintained
+7. **Tool Result Consolidation**: Multiple results in single message
 
 ### Debug Examples
 
@@ -390,6 +390,8 @@ catch (error, stackTrace) {
 2. **Streaming UX**: Added newline prefixing for readability
 3. **Error Handling**: Consistent tool error reporting
 4. **Message Concatenation**: Robust merging of streaming chunks
+5. **Tool Result Consolidation**: Multiple tool results in single user message
+6. **Message Validation**: Comprehensive test validates user/model alternation across all providers
 
 ## Future Considerations
 

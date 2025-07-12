@@ -25,15 +25,16 @@ Typed output allows constraining LLM responses to specific JSON schemas. The sys
 | Provider   | Typed Output | Method | Simultaneous Tools+Output |
 |------------|--------------|--------|---------------------------|
 | OpenAI     | ✅          | Native response_format | ✅ |
+| OpenRouter | ✅          | Native (OpenAI-compatible) | ✅ |
 | Anthropic  | ✅          | return_result tool | ✅ |
 | Google     | ✅          | Native responseSchema | ❌ (TODO: add return_result) |
 | Ollama     | ✅          | Native format param | ❌ (TODO: add return_result) |
 | Groq       | ✅          | Native (OpenAI-compatible) | ✅ |
 | Together   | ✅          | Native (OpenAI-compatible) | ✅ |
-| Fireworks  | ✅          | Native (OpenAI-compatible) | ✅ |
+| Fireworks  | ✅          | Native (OpenAI-compatible) | ❌ (API limitation) |
+| Cohere     | ✅          | Native (OpenAI-compatible) | ❌ (API limitation) |
 | NVIDIA     | ✅          | Native (OpenAI-compatible) | ✅ |
 | Mistral    | ❌          | Not supported | ❌ |
-| Cohere     | ❌          | Not supported | ❌ |
 
 ## Implementation Approaches
 
@@ -60,14 +61,14 @@ ResponseFormat.jsonSchema(
 The Agent always adds the return_result tool when outputSchema is provided, regardless of provider. 
 
 **Empirically verified behavior**:
-- **OpenAI**: Calls the return_result tool even though it has native response_format support
+- **OpenAI**: Uses native response_format and returns JSON directly (ignores return_result tool)
 - **Anthropic**: Calls the return_result tool (no native support)
 
 The Agent's logic handles both cases identically:
-- If return_result was called: use that output
-- If not: use the model's direct output (fallback for providers that might not call it)
+- If return_result was called: use that output (Anthropic path)
+- If not: use the model's direct output (OpenAI and other native providers)
 
-This unified approach works well for providers that support it. OpenAI surprisingly uses the return_result tool even though it has native support, creating consistency with Anthropic.
+This unified approach allows the Agent to support both native typed output (OpenAI, Google, etc.) and tool-based typed output (Anthropic) transparently.
 
 **Still TODO**: Make Google and Ollama work with the return_result pattern when both tools and typed output are needed.
 
@@ -153,15 +154,16 @@ final typedOutput = outputFromJson?.call(outputJson) ?? outputJson;
 
 ### OpenAI
 - **Method**: Native `response_format.json_schema` parameter
-- **Behavior**: When return_result tool is present, calls it instead of using native format
+- **Behavior**: Uses native format and returns JSON directly (ignores return_result tool)
 - **Tools**: Can use tools and typed output simultaneously
-- **Verified**: Testing shows OpenAI prefers the return_result tool when available
+- **Verified**: Testing shows OpenAI uses native response_format even when return_result tool is present
 
 ### Anthropic
 - **Method**: return_result tool pattern
 - **Behavior**: Model calls return_result tool with JSON
 - **Tools**: Works naturally since return_result is just another tool
 - **Note**: Agent handles this transparently - Anthropic mapper has no special logic
+- **Edge case**: Sometimes returns empty final message after return_result call (Agent replaces with JSON)
 
 ### Google/Gemini
 - **Method**: Native `responseSchema` in GenerationConfig

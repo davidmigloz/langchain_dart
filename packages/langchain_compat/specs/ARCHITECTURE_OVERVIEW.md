@@ -155,12 +155,18 @@ Per-message visibility into processing decisions:
 | Provider | Native API | OpenAI Compat | Tools | Streaming | Typed Output |
 |----------|------------|---------------|--------|-----------|--------------|
 | OpenAI | ✅ | ✅ | ✅ | ✅ | ✅ |
+| OpenRouter | ❌ | ✅ | ✅ | ✅ | ✅ |
 | Anthropic | ✅ | ❌ | ✅ | ✅ | ✅ |
-| Google | ✅ | ❌ | ✅ | ✅ | ✅ |
+| Google | ✅ | ✅ | ✅ | ✅ | ✅ |
 | Mistral | ✅ | ❌ | ❌ | ✅ | ❌ |
-| Cohere | ❌ | ✅ | ✅ | ✅ | ❌ |
+| Cohere | ✅ | ✅ | ✅ | ✅ | ✅* |
 | Ollama | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Others | ❌ | ✅ | ✅ | ✅ | ❌ |
+| Groq | ❌ | ✅ | ✅ | ✅ | ✅ |
+| Together | ❌ | ✅ | ✅ | ✅ | ✅ |
+| Fireworks | ❌ | ✅ | ✅ | ✅ | ✅* |
+| NVIDIA | ❌ | ✅ | ✅ | ✅ | ✅ |
+
+*Cannot use tools and typed output simultaneously
 
 ## Testing Strategy
 
@@ -174,6 +180,13 @@ final toolProviders = ChatProvider.allWith({ProviderCaps.multiToolCalls});
 ### **80% vs Edge Case Separation**
 - **80% Cases**: Core functionality across all supporting providers
 - **Edge Cases**: Special scenarios on limited providers (typically OpenAI + Anthropic)
+
+### **Comprehensive Integration Testing**
+The system includes comprehensive tests that validate:
+- Multi-turn conversations with tool calls across all providers
+- Message history validation (user/model alternation)
+- Multiple tool calls in single turns
+- See: `system_integration_test.dart` - "multi-turn conversation with multiple tool calls and message validation"
 
 ### **Ground Truth Validation**
 When debugging provider issues:

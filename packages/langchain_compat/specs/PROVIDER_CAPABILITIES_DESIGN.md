@@ -10,13 +10,15 @@ The Provider Capabilities system enables dynamic discovery and filtering of LLM 
 
 ```dart
 enum ProviderCaps {
-  chat,           // Basic chat completion
-  streaming,      // Streaming responses
-  tools,          // Function/tool calling
-  typedOutput,    // Structured output generation
-  embeddings,     // Text embeddings generation
+  chat,            // Basic chat completion
+  embeddings,      // Text embeddings generation
+  multiToolCalls,  // Multiple function/tool calls in one response
+  typedOutput,     // Structured JSON output generation
+  vision,          // Vision/multi-modal input (images, etc.)
 }
 ```
+
+Note: Streaming is not a capability because all chat providers support it by default.
 
 ### 2. Provider Integration
 
@@ -28,14 +30,14 @@ static final openai = OpenAIChatProvider(
   caps: ProviderCaps.allChat,  // Supports all chat capabilities
 );
 
-static final groq = OpenAIChatProvider(
-  name: 'groq',
-  caps: ProviderCaps.allChatExcept({ProviderCaps.typedOutput}),
+static final anthropic = AnthropicChatProvider(
+  name: 'anthropic',
+  caps: ProviderCaps.allChatExcept({ProviderCaps.vision}),
 );
 
-static final together = OpenAIChatProvider(
-  name: 'together',
-  caps: ProviderCaps.allChatExcept({ProviderCaps.tools}),
+static final mistral = MistralChatProvider(
+  name: 'mistral',
+  caps: {ProviderCaps.chat},  // Basic chat only, no tools or typed output
 );
 ```
 
@@ -45,16 +47,16 @@ Providers can be filtered by required capabilities:
 
 ```dart
 // Get all providers that support tool calling
-final toolProviders = ChatProvider.allWith({ProviderCaps.tools});
+final toolProviders = ChatProvider.allWith({ProviderCaps.multiToolCalls});
 
 // Get providers supporting both tools and typed output
 final advancedProviders = ChatProvider.allWith({
-  ProviderCaps.tools,
+  ProviderCaps.multiToolCalls,
   ProviderCaps.typedOutput,
 });
 
 // Check if a specific provider supports a capability
-if (provider.supports(ProviderCaps.tools)) {
+if (provider.capabilities.contains(ProviderCaps.multiToolCalls)) {
   // Use tools with this provider
 }
 ```
@@ -88,76 +90,49 @@ Tests use capability filtering to run feature-specific tests only on supporting 
 
 ```dart
 test('tool calling works', () async {
-  for (final provider in ChatProvider.allWith({ProviderCaps.tools})) {
+  for (final provider in ChatProvider.allWith({ProviderCaps.multiToolCalls})) {
     // Test will run for all tool-supporting providers
     // Will fail explicitly if API key is missing
   }
 });
 ```
 
-### 4. Known Limitations Handling
+Tests also validate message history to ensure proper user/model alternation:
+```dart
+// After collecting messages from agent.run()
+validateMessageHistory(result.messages);
+```
 
-#### Together AI
-- Capability: `ProviderCaps.tools` disabled
-- Reason: Streaming API returns tool calls in custom `<|python_tag|>` format instead of OpenAI-compatible format
-- Non-streaming API works correctly but we prioritize consistent behavior
+### 5. Known Limitations
 
-#### Lambda
-- Currently supports tools but has known issues with multiple tool executions
-- Constructor validation prevents tool usage to avoid unexpected behavior
+#### Mistral
+- Capabilities: Only `ProviderCaps.chat`
+- No support for tools or typed output in their API
 
-#### Groq
-- Capability: `ProviderCaps.typedOutput` disabled
-- Reason: Does not support structured output generation
+#### Fireworks & Cohere
+- Cannot use tools and typed output simultaneously
+- API returns error when both are requested together
+
+#### Google & Ollama
+- Typed output works alone but not with tools
+- TODO: Implement return_result pattern for simultaneous use
 
 ## Implementation Details
-
-### Provider Constructor Validation
-
-The `OpenAIChatModel` constructor validates provider limitations:
-
-```dart
-if (tools != null && tools!.isNotEmpty) {
-  final normalizedBaseUrl = baseUrl?.toLowerCase() ?? '';
-  
-  // Together AI validation
-  if (normalizedBaseUrl.contains('together.xyz')) {
-    throw ArgumentError(
-      'Together AI does not support OpenAI-compatible tool calls. '
-      'Their streaming API returns tools in a custom format with '
-      '<|python_tag|> prefix instead of standard tool_calls.',
-    );
-  }
-  
-  // Lambda validation
-  if (normalizedBaseUrl.contains('lambda')) {
-    throw ArgumentError(
-      'Lambda provider has known issues with tool calling that may '
-      'result in unexpected multiple tool executions.',
-    );
-  }
-}
-```
 
 ### Capability Sets
 
 Common capability combinations are provided as static constants:
 
 ```dart
-class ProviderCaps {
-  /// All chat-related capabilities
-  static const allChat = {
-    ProviderCaps.chat,
-    ProviderCaps.streaming,
-    ProviderCaps.tools,
-    ProviderCaps.typedOutput,
-  };
-  
-  /// Helper to create a set with specific exclusions
-  static Set<ProviderCaps> allChatExcept(Set<ProviderCaps> exclude) {
-    return allChat.difference(exclude);
-  }
-}
+/// All chat capabilities
+static const allChat = {chat, multiToolCalls, typedOutput, vision};
+
+/// All embeddings capabilities
+static const allEmbeddings = {embeddings};
+
+/// Returns all capabilities except those specified
+static Set<ProviderCaps> allChatExcept(Set<ProviderCaps> these) =>
+    allChat.difference(these);
 ```
 
 ## Usage Examples
@@ -190,6 +165,20 @@ group('typed output tests', () {
     });
   }
 });
+```
+
+### 4. Comprehensive Integration Test
+```dart
+runToolProviderTest(
+  'multi-turn conversation with multiple tool calls and message validation',
+  (provider) async {
+    // Test implementation that validates:
+    // - Multi-turn conversations
+    // - Multiple tool calls in single turn
+    // - Message history validation
+    validateMessageHistory(history);
+  },
+);
 ```
 
 ## Future Enhancements

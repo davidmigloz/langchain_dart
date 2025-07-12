@@ -201,30 +201,44 @@ Based on comprehensive analysis of lib/langchain_compat.dart and the entire code
     - Provider limitations
     - Dynamic capabilities
 
-## Test Organization Plan
+## Test Organization
 
-### File Structure (FLAT in test/ directory)
+### Current Test Files
 
 ```
 test/
-├── chat_models_test.dart              # 1. Chat Models
-├── embeddings_test.dart               # 2. Embeddings  
-├── tool_calling_test.dart             # 3. Tool Calling
-├── streaming_test.dart                # 4. Streaming
-├── provider_discovery_test.dart       # 5. Provider Discovery
-├── message_management_test.dart       # 6. Message Management
-├── agent_orchestration_test.dart      # 7. Agent Orchestration
-├── multi_modal_test.dart              # 8. Multi-modal Input
-├── usage_tracking_test.dart           # 9. Usage Tracking
-├── logging_test.dart                  # 10. Logging
-├── typed_output_test.dart             # 11. Typed Output
-├── http_reliability_test.dart         # 12. HTTP Reliability
-├── exception_handling_test.dart       # 13. Exception Handling
-├── infrastructure_helpers_test.dart   # 14. Infrastructure Helpers
-├── model_options_test.dart            # 15. Model Options
-├── provider_mappers_test.dart         # 16. Provider Mappers
-├── system_integration_test.dart       # 17. System Integration
-└── provider_capabilities_test.dart    # 18. Provider Capabilities
+├── agent_orchestration_test.dart      # Agent lifecycle and management
+├── chat_messages_test.dart            # Multi-turn conversations, message history
+├── chat_models_test.dart              # Basic chat completions, system prompts
+├── edge_cases_test.dart               # Edge cases across providers
+├── embeddings_test.dart               # Text embeddings and similarity
+├── exception_handling_test.dart       # Error propagation and mapping
+├── http_reliability_test.dart         # Retry logic and rate limiting
+├── infrastructure_helpers_test.dart   # Helper utilities
+├── logging_test.dart                  # LoggingOptions and filtering
+├── message_api_test.dart              # Low-level message API
+├── message_management_test.dart       # Message construction and parts
+├── message_part_helpers_test.dart     # MessagePartHelpers utilities
+├── metadata_test.dart                 # Metadata preservation
+├── model_options_test.dart            # Provider-specific options
+├── multi_modal_test.dart              # Image and file attachments
+├── provider_capabilities_test.dart    # ProviderCaps filtering
+├── provider_discovery_test.dart       # Provider enumeration and lookup
+├── provider_mappers_test.dart         # Message transformation, validateMessageHistory
+├── streaming_test.dart                # Streaming responses and tool calls
+├── system_integration_test.dart       # Cross-provider workflows, comprehensive tests
+├── tool_calling_test.dart             # Tool execution and result handling
+├── tool_id_coordination_test.dart     # Tool ID generation and matching
+├── typed_output_test.dart             # Structured JSON responses
+├── typed_output_with_tools_test.dart  # Combined typed output and tools
+├── usage_tracking_test.dart           # Token counting and usage
+├── test_tools.dart                    # Shared test tool definitions
+└── test_utils.dart                    # validateMessageHistory and utilities
+```
+
+### Debug Test Files
+```
+test/debug_*.dart                      # Temporary debugging tests (not part of suite)
 ```
 
 ## Test Content Guidelines
