@@ -193,3 +193,54 @@ List<Tool> get exampleTools => [
   distanceCalculatorTool,
   stockPriceTool,
 ];
+
+/// Recipe lookup tool for chef scenario
+final recipeLookupTool = Tool<Map<String, dynamic>>(
+  name: 'lookup_recipe',
+  description: 'Look up a recipe by name',
+  inputSchema: JsonSchema.create({
+    'type': 'object',
+    'properties': {
+      'recipe_name': {
+        'type': 'string',
+        'description': 'The name of the recipe to look up',
+      },
+    },
+    'required': ['recipe_name'],
+  }),
+  inputFromJson: (json) => json,
+  onCall: (input) {
+    final recipeName = input['recipe_name'] as String;
+    // Mock recipe database
+    if (recipeName.toLowerCase().contains('mushroom') &&
+        recipeName.toLowerCase().contains('omelette')) {
+      return {
+        'name': "Grandma's Mushroom Omelette",
+        'ingredients': [
+          '3 large eggs',
+          '1/4 cup sliced mushrooms',
+          '2 tablespoons butter',
+          '1/4 cup shredded cheddar cheese',
+          'Salt and pepper to taste',
+          '1 tablespoon fresh chives',
+        ],
+        'instructions': [
+          'Beat eggs in a bowl with salt and pepper',
+          'Heat butter in a non-stick pan over medium heat',
+          'Sauté mushrooms until golden, about 3 minutes',
+          'Pour beaten eggs over mushrooms',
+          'When eggs begin to set, sprinkle cheese on one half',
+          'Fold omelette in half and cook until cheese melts',
+          'Garnish with fresh chives and serve',
+        ],
+        'prep_time': '5 minutes',
+        'cook_time': '10 minutes',
+        'servings': 1,
+      };
+    }
+    return {
+      'error': 'Recipe not found',
+      'suggestion': 'Try searching for "mushroom omelette"',
+    };
+  },
+);

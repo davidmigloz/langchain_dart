@@ -19,6 +19,9 @@ import 'anthropic_chat.dart';
 /// Logger for Anthropic message mapping operations.
 final Logger _logger = Logger('dartantic.chat.mappers.anthropic');
 
+/// The name of the tool used for structured output via ToolOutput pattern.
+const String kReturnResultToolName = 'return_result';
+
 /// Creates an Anthropic [a.CreateMessageRequest] from a list of messages and
 /// options.
 a.CreateMessageRequest createMessageRequest(
@@ -31,48 +34,38 @@ a.CreateMessageRequest createMessageRequest(
   JsonSchema? outputSchema,
   bool stream = false,
 }) {
-  // Handle tools but not structured output (use prefilling instead)
+  // Handle tools including structured output as a tool
   final hasTools = tools != null && tools.isNotEmpty;
   final hasStructuredOutput = outputSchema != null;
 
-  var systemMsg = messages.firstOrNull?.role == msg.MessageRole.system
+  final systemMsg = messages.firstOrNull?.role == msg.MessageRole.system
       ? (messages.firstOrNull!.parts.firstOrNull as msg.TextPart?)?.text
       : null;
 
-  // Add JSON output instructions to system message if outputSchema is provided
-  // This follows Anthropic's recommendations for structured output consistency
-  if (hasStructuredOutput) {
-    final schemaStr = json.encode(outputSchema.schemaMap);
-    final jsonInstructions =
-        '\n\nYou must respond with valid JSON that matches this exact schema: '
-        '$schemaStr\n'
-        'Do not include any text before or after the JSON. '
-        'Only return the JSON object.';
-    systemMsg = (systemMsg ?? '') + jsonInstructions;
+  // Build the complete tools list
+  final allTools = <Tool>[];
+  if (hasTools) {
+    allTools.addAll(tools);
   }
-  final structuredTools = hasTools ? tools.toTool() : null;
 
-  _logger.fine(
-    'Creating Anthropic message request for ${messages.length} messages',
-  );
+  // Add return_result tool for structured output
+  if (hasStructuredOutput) {
+    final returnResultTool = Tool<Map<String, dynamic>>(
+      name: kReturnResultToolName,
+      description: 'Return the final result in the required structured format',
+      inputSchema: outputSchema,
+      inputFromJson: (json) => json, // Identity function for JSON input
+      onCall: (args) async => args, // Pass through the structured data
+    );
+    allTools.add(returnResultTool);
+  }
+
+  final structuredTools = allTools.isNotEmpty ? allTools.toTool() : null;
+
+  // Removed verbose logging
   final messagesDtos = messages.toMessages();
 
-  // Add prefilling for structured output - this forces Claude to start with '{'
-  // See:
-  // https://docs.anthropic.com/en/docs/test-and-evaluate/strengthen-guardrails/increase-consistency
-  // "Prefill Claude's response" section explains this technique
-  if (hasStructuredOutput) {
-    messagesDtos.add(
-      const a.Message(
-        role: a.MessageRole.assistant,
-        content: a.MessageContent.text('{'),
-      ),
-    );
-  }
-  _logger.fine(
-    'Tool configuration: hasTools=$hasTools, toolCount=${tools?.length ?? 0}, '
-    'hasStructuredOutput=$hasStructuredOutput',
-  );
+  // Removed verbose logging
 
   return a.CreateMessageRequest(
     model: a.Model.modelId(modelName),
@@ -93,7 +86,7 @@ a.CreateMessageRequest createMessageRequest(
       userId: options?.userId ?? defaultOptions.userId,
     ),
     tools: structuredTools,
-    toolChoice: hasTools
+    toolChoice: structuredTools != null
         ? const a.ToolChoice(type: a.ToolChoiceType.auto)
         : null,
     stream: stream,
@@ -106,16 +99,13 @@ extension MessageListMapper on List<msg.ChatMessage> {
   /// Converts this list of [msg.ChatMessage]s to a list of Anthropic SDK
   /// [a.Message]s.
   List<a.Message> toMessages() {
-    _logger.fine('Converting $length messages to Anthropic format');
+    // Removed verbose logging
     final result = <a.Message>[];
     final consecutiveToolMessages = <msg.ChatMessage>[];
 
     void flushToolMessages() {
       if (consecutiveToolMessages.isNotEmpty) {
-        _logger.fine(
-          'Flushing ${consecutiveToolMessages.length} '
-          'consecutive tool messages',
-        );
+        // Removed verbose logging
         result.add(_mapToolMessages(consecutiveToolMessages));
         consecutiveToolMessages.clear();
       }
@@ -129,10 +119,7 @@ extension MessageListMapper on List<msg.ChatMessage> {
         case msg.MessageRole.user:
           // Check if this is a tool result message
           if (message.parts.whereType<msg.ToolPart>().isNotEmpty) {
-            _logger.fine(
-              'Adding user message with tool parts to consecutive tool '
-              'messages',
-            );
+            // Removed verbose logging
             consecutiveToolMessages.add(message);
           } else {
             flushToolMessages();
@@ -151,12 +138,8 @@ extension MessageListMapper on List<msg.ChatMessage> {
   }
 
   a.Message _mapUserMessage(msg.ChatMessage message) {
-    final textParts = message.parts.whereType<msg.TextPart>().toList();
     final dataParts = message.parts.whereType<msg.DataPart>().toList();
-    _logger.fine(
-      'Mapping user message: ${textParts.length} text parts, '
-      '${dataParts.length} data parts',
-    );
+    // Removed verbose logging
 
     if (dataParts.isEmpty) {
       // Text-only message
@@ -214,12 +197,8 @@ extension MessageListMapper on List<msg.ChatMessage> {
   }
 
   a.Message _mapModelMessage(msg.ChatMessage message) {
-    final textParts = message.parts.whereType<msg.TextPart>().toList();
     final toolParts = message.parts.whereType<msg.ToolPart>().toList();
-    _logger.fine(
-      'Mapping model message: ${textParts.length} text parts, '
-      '${toolParts.length} tool parts',
-    );
+    // Removed verbose logging
 
     if (toolParts.isEmpty) {
       // Text-only response
@@ -248,9 +227,7 @@ extension MessageListMapper on List<msg.ChatMessage> {
   }
 
   a.Message _mapToolMessages(List<msg.ChatMessage> messages) {
-    _logger.fine(
-      'Mapping ${messages.length} tool messages to Anthropic blocks',
-    );
+    // Removed verbose logging
     final blocks = <a.Block>[];
 
     for (final message in messages) {
@@ -283,9 +260,7 @@ extension MessageMapper on a.Message {
   ChatResult<msg.ChatMessage> toChatResult() {
     final parts = _mapMessageContent(content);
     final message = msg.ChatMessage(role: msg.MessageRole.model, parts: parts);
-    _logger.fine(
-      'Converting Anthropic message to ChatResult with ${parts.length} parts',
-    );
+    // Removed verbose logging
 
     return ChatResult<msg.ChatMessage>(
       id: id ?? '',
@@ -307,7 +282,10 @@ class MessageStreamEventTransformer
           ChatResult<msg.ChatMessage>
         > {
   /// Creates a [MessageStreamEventTransformer].
-  MessageStreamEventTransformer();
+  MessageStreamEventTransformer({this.hasOutputSchema = false});
+
+  /// Whether the request has an output schema (expecting return_result).
+  final bool hasOutputSchema;
 
   /// The last message ID.
   String? lastMessageId;
@@ -320,6 +298,14 @@ class MessageStreamEventTransformer
 
   /// Accumulator for tool arguments during streaming.
   final Map<String, StringBuffer> _toolArgumentsAccumulator = {};
+
+  /// Track completed return_result tools in current message.
+  int _returnResultCount = 0;
+
+  /// Collect suppressed content for metadata.
+  final List<String> _suppressedText = [];
+  final List<String> _suppressedToolCalls = [];
+  final List<String> _extraReturnResults = [];
 
   /// Binds this transformer to a stream of [a.MessageStreamEvent]s, producing a
   /// stream of [ChatResult]s.
@@ -347,9 +333,7 @@ class MessageStreamEventTransformer
     final msgId = message.id ?? lastMessageId ?? '';
     lastMessageId = msgId;
     final parts = _mapMessageContent(e.message.content);
-    _logger.fine(
-      'Processing message start event: messageId=$msgId, parts=${parts.length}',
-    );
+    // Removed verbose logging
 
     return ChatResult<msg.ChatMessage>(
       id: msgId,
@@ -381,11 +365,27 @@ class MessageStreamEventTransformer
   ChatResult<msg.ChatMessage> _mapContentBlockStartEvent(
     a.ContentBlockStartEvent e,
   ) {
+    // Check if this is a return_result tool - track it but don't emit anything
+    if (e.contentBlock is a.ToolUseBlock) {
+      final toolBlock = e.contentBlock as a.ToolUseBlock;
+      if (toolBlock.name == kReturnResultToolName) {
+        lastToolCallId = toolBlock.id;
+        lastToolName = toolBlock.name;
+        // Processing return_result tool
+        // Return empty result - we'll emit the JSON text on block stop
+        return ChatResult<msg.ChatMessage>(
+          id: lastMessageId ?? '',
+          output: const msg.ChatMessage(role: msg.MessageRole.model, parts: []),
+          messages: const [],
+          finishReason: FinishReason.unspecified,
+          metadata: const {},
+          usage: const LanguageModelUsage(),
+        );
+      }
+    }
+
     final parts = _mapContentBlock(e.contentBlock);
-    _logger.fine(
-      'Processing content block start event: index=${e.index}, '
-      'parts=${parts.length}, contentBlock=$e.contentBlock',
-    );
+    // Removed verbose logging
 
     // Track tool call IDs and names
     for (final part in parts) {
@@ -427,10 +427,41 @@ class MessageStreamEventTransformer
     }
 
     final parts = _mapContentBlockDelta(lastToolCallId, e.delta);
-    _logger.fine(
-      'Processing content block delta event: index=${e.index}, '
-      'parts=${parts.length}',
-    );
+
+    // If we have output schema, suppress text streaming
+    if (hasOutputSchema && parts.whereType<msg.TextPart>().isNotEmpty) {
+      final suppressedContent = parts
+          .whereType<msg.TextPart>()
+          .map((p) => p.text)
+          .join();
+      _suppressedText.add(suppressedContent);
+      // Suppressing text output when outputSchema is present
+      // Return empty result to suppress text
+      return ChatResult<msg.ChatMessage>(
+        id: lastMessageId ?? '',
+        output: const msg.ChatMessage(role: msg.MessageRole.model, parts: []),
+        messages: const [],
+        finishReason: FinishReason.unspecified,
+        metadata: {'index': e.index},
+        usage: const LanguageModelUsage(),
+      );
+    }
+
+    // If we already have a return_result and this is text, log warning
+    if (_returnResultCount > 0 && parts.whereType<msg.TextPart>().isNotEmpty) {
+      final textContent = parts
+          .whereType<msg.TextPart>()
+          .map((p) => p.text)
+          .join();
+      if (textContent.isNotEmpty) {
+        _logger.warning(
+          'Dropping text content alongside return_result tool call: '
+          '"$textContent"',
+        );
+      }
+    }
+
+    // Removed verbose logging
     return ChatResult<msg.ChatMessage>(
       id: lastMessageId ?? '',
       output: msg.ChatMessage(role: msg.MessageRole.model, parts: parts),
@@ -451,7 +482,75 @@ class MessageStreamEventTransformer
       final argsJson = _toolArgumentsAccumulator[lastToolCallId]!.toString();
       _toolArgumentsAccumulator.remove(lastToolCallId);
 
-      // Return a result with the complete tool call
+      // Check if this is the return_result tool
+      if (lastToolName == kReturnResultToolName) {
+        _returnResultCount++;
+
+        // Convert to JSON text output instead of tool call
+        final parsedArgs = argsJson.isNotEmpty ? json.decode(argsJson) : {};
+        final jsonOutput = json.encode(parsedArgs);
+
+        // Log warning if we already have a return_result
+        if (_returnResultCount > 1) {
+          _logger.warning(
+            'Multiple return_result tool calls found '
+            '($_returnResultCount), using first one',
+          );
+          // Track the extra result
+          _extraReturnResults.add(jsonOutput);
+          // Don't emit this one, just clear state and return null
+          lastToolCallId = null;
+          lastToolName = null;
+          return null;
+        }
+
+        // Create metadata for the message
+        final messageMetadata = <String, dynamic>{};
+        if (_suppressedText.isNotEmpty) {
+          messageMetadata['suppressed_text'] = _suppressedText.join('');
+        }
+        if (_suppressedToolCalls.isNotEmpty) {
+          messageMetadata['suppressed_tool_calls'] = _suppressedToolCalls;
+        }
+        if (_extraReturnResults.isNotEmpty) {
+          messageMetadata['extra_return_results'] = _extraReturnResults;
+        }
+
+        final result = ChatResult<msg.ChatMessage>(
+          id: lastMessageId ?? '',
+          output: msg.ChatMessage(
+            role: msg.MessageRole.model,
+            parts: [msg.TextPart(jsonOutput)],
+            metadata: messageMetadata,
+          ),
+          messages: const [],
+          finishReason: FinishReason.unspecified,
+          metadata: const {},
+          usage: const LanguageModelUsage(),
+        );
+
+        lastToolCallId = null;
+        lastToolName = null;
+        return result;
+      }
+
+      // Normal tool call - check if we should warn about it
+      if (_returnResultCount > 0) {
+        _logger.warning(
+          'Dropping other tool calls alongside return_result: '
+          '${lastToolName ?? "unknown"}',
+        );
+        // Track the suppressed tool call
+        _suppressedToolCalls.add(
+          '${lastToolName ?? "unknown"}(args: $argsJson)',
+        );
+        // Don't emit this tool call
+        lastToolCallId = null;
+        lastToolName = null;
+        return null;
+      }
+
+      // Normal tool call - return as ToolPart
       final result = ChatResult<msg.ChatMessage>(
         id: lastMessageId ?? '',
         output: msg.ChatMessage(
@@ -484,6 +583,10 @@ class MessageStreamEventTransformer
 
   ChatResult<msg.ChatMessage>? _mapMessageStopEvent(a.MessageStopEvent e) {
     lastMessageId = null;
+    _returnResultCount = 0; // Reset for next message
+    _suppressedText.clear();
+    _suppressedToolCalls.clear();
+    _extraReturnResults.clear();
     return null;
   }
 }
@@ -492,21 +595,72 @@ class MessageStreamEventTransformer
 List<msg.Part> _mapMessageContent(a.MessageContent content) =>
     switch (content) {
       final a.MessageContentText t => [msg.TextPart(t.value)],
-      final a.MessageContentBlocks b => [
-        // Extract text parts
-        ...b.value.whereType<a.TextBlock>().map((t) => msg.TextPart(t.text)),
-        // Extract tool use parts
-        ...b.value.whereType<a.ToolUseBlock>().map(
-          (toolUse) => msg.ToolPart.call(
-            id: toolUse.id,
-            name: toolUse.name,
-            arguments: toolUse.input,
-            // Provide raw JSON string for Agent's streaming fallback
-            argumentsRawString: json.encode(toolUse.input),
-          ),
-        ),
-      ],
+      final a.MessageContentBlocks b => _mapContentBlocks(b.value),
     };
+
+/// Maps Anthropic content blocks to message parts, handling return_result
+/// specially.
+List<msg.Part> _mapContentBlocks(List<a.Block> blocks) {
+  // Check if there's a return_result tool call
+  final toolUseBlocks = blocks.whereType<a.ToolUseBlock>().toList();
+  final returnResultBlock = toolUseBlocks
+      .where((toolUse) => toolUse.name == kReturnResultToolName)
+      .firstOrNull;
+
+  if (returnResultBlock != null) {
+    // Found return_result - convert to JSON text and drop everything else
+    final jsonOutput = json.encode(returnResultBlock.input);
+
+    // Log warnings for dropped content
+    final textBlocks = blocks.whereType<a.TextBlock>().toList();
+    if (textBlocks.isNotEmpty) {
+      final droppedText = textBlocks.map((t) => t.text).join(' ');
+      _logger.warning(
+        'Dropping text content alongside return_result tool call: '
+        '"$droppedText"',
+      );
+    }
+
+    final otherToolBlocks = toolUseBlocks
+        .where((toolUse) => toolUse.name != kReturnResultToolName)
+        .toList();
+    if (otherToolBlocks.isNotEmpty) {
+      final droppedTools = otherToolBlocks.map((t) => t.name).join(', ');
+      _logger.warning(
+        'Dropping other tool calls alongside return_result: $droppedTools',
+      );
+    }
+
+    // Check for multiple return_result calls
+    final returnResultCount = toolUseBlocks
+        .where((toolUse) => toolUse.name == kReturnResultToolName)
+        .length;
+    if (returnResultCount > 1) {
+      _logger.warning(
+        'Multiple return_result tool calls found ($returnResultCount), '
+        'using first one',
+      );
+    }
+
+    return [msg.TextPart(jsonOutput)];
+  }
+
+  // No return_result found - process normally
+  return [
+    // Extract text parts
+    ...blocks.whereType<a.TextBlock>().map((t) => msg.TextPart(t.text)),
+    // Extract tool use parts
+    ...toolUseBlocks.map(
+      (toolUse) => msg.ToolPart.call(
+        id: toolUse.id,
+        name: toolUse.name,
+        arguments: toolUse.input,
+        // Provide raw JSON string for Agent's streaming fallback
+        argumentsRawString: json.encode(toolUse.input),
+      ),
+    ),
+  ];
+}
 
 /// Maps an Anthropic [a.Block] to message parts.
 List<msg.Part> _mapContentBlock(a.Block contentBlock) => switch (contentBlock) {
@@ -517,15 +671,18 @@ List<msg.Part> _mapContentBlock(a.Block contentBlock) => switch (contentBlock) {
       mimeType: 'image/png',
     ),
   ],
-  final a.ToolUseBlock tu => [
-    msg.ToolPart.call(
-      id: tu.id,
-      name: tu.name,
-      arguments: tu.input,
-      // Provide raw JSON string for Agent's streaming fallback
-      argumentsRawString: json.encode(tu.input),
-    ),
-  ],
+  final a.ToolUseBlock tu =>
+    tu.name == kReturnResultToolName
+        ? [] // Don't emit return_result as a tool part
+        : [
+            msg.ToolPart.call(
+              id: tu.id,
+              name: tu.name,
+              arguments: tu.input,
+              // Provide raw JSON string for Agent's streaming fallback
+              argumentsRawString: json.encode(tu.input),
+            ),
+          ],
   final a.ToolResultBlock tr => [msg.TextPart(tr.content.text)],
 };
 
@@ -541,10 +698,7 @@ List<msg.Part> _mapContentBlockDelta(
 /// Extension on [List<Tool>] to convert tool specs to Anthropic SDK tools.
 extension ToolSpecListMapper on List<Tool> {
   /// Converts this list of [Tool]s to a list of Anthropic SDK [a.Tool]s.
-  List<a.Tool> toTool() {
-    _logger.fine('Converting $length tools to Anthropic format');
-    return map(_mapTool).toList(growable: false);
-  }
+  List<a.Tool> toTool() => map(_mapTool).toList(growable: false);
 
   a.Tool _mapTool(Tool tool) => a.Tool.custom(
     name: tool.name,

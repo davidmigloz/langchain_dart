@@ -6,33 +6,67 @@ import 'package:meta/meta.dart';
 @immutable
 class ChatMessage {
   /// Creates a new message.
-  const ChatMessage({required this.role, required this.parts});
+  const ChatMessage({
+    required this.role,
+    required this.parts,
+    this.metadata = const {},
+  });
 
   /// Creates a system message.
-  factory ChatMessage.system(String text) =>
-      ChatMessage(role: MessageRole.system, parts: [TextPart(text)]);
+  factory ChatMessage.system(String text, {Map<String, dynamic>? metadata}) =>
+      ChatMessage(
+        role: MessageRole.system,
+        parts: [TextPart(text)],
+        metadata: metadata ?? const {},
+      );
 
   /// Creates a user message with text.
-  factory ChatMessage.user(String text) =>
-      ChatMessage(role: MessageRole.user, parts: [TextPart(text)]);
+  factory ChatMessage.user(String text, {Map<String, dynamic>? metadata}) =>
+      ChatMessage(
+        role: MessageRole.user,
+        parts: [TextPart(text)],
+        metadata: metadata ?? const {},
+      );
 
   /// Creates a user message with parts.
-  factory ChatMessage.userParts(List<Part> parts) =>
-      ChatMessage(role: MessageRole.user, parts: parts);
+  factory ChatMessage.userParts(
+    List<Part> parts, {
+    Map<String, dynamic>? metadata,
+  }) =>
+      ChatMessage(
+        role: MessageRole.user,
+        parts: parts,
+        metadata: metadata ?? const {},
+      );
 
   /// Creates a model message with text.
-  factory ChatMessage.model(String text) =>
-      ChatMessage(role: MessageRole.model, parts: [TextPart(text)]);
+  factory ChatMessage.model(String text, {Map<String, dynamic>? metadata}) =>
+      ChatMessage(
+        role: MessageRole.model,
+        parts: [TextPart(text)],
+        metadata: metadata ?? const {},
+      );
 
   /// Creates a model message with parts.
-  factory ChatMessage.modelParts(List<Part> parts) =>
-      ChatMessage(role: MessageRole.model, parts: parts);
+  factory ChatMessage.modelParts(
+    List<Part> parts, {
+    Map<String, dynamic>? metadata,
+  }) =>
+      ChatMessage(
+        role: MessageRole.model,
+        parts: parts,
+        metadata: metadata ?? const {},
+      );
 
   /// The role of the message author.
   final MessageRole role;
 
   /// The content parts of the message.
   final List<Part> parts;
+
+  /// Optional metadata associated with this message.
+  /// Can include information like suppressed content, warnings, etc.
+  final Map<String, dynamic> metadata;
 
   /// Gets the text content of the message by concatenating all text parts.
   String get text => parts.whereType<TextPart>().map((p) => p.text).join();
@@ -63,13 +97,15 @@ class ChatMessage {
       other is ChatMessage &&
           runtimeType == other.runtimeType &&
           role == other.role &&
-          _listEquals(parts, other.parts);
+          _listEquals(parts, other.parts) &&
+          _mapEquals(metadata, other.metadata);
 
   @override
-  int get hashCode => role.hashCode ^ parts.hashCode;
+  int get hashCode => role.hashCode ^ parts.hashCode ^ metadata.hashCode;
 
   @override
-  String toString() => 'Message(role: $role, parts: $parts)';
+  String toString() =>
+      'Message(role: $role, parts: $parts, metadata: $metadata)';
 }
 
 /// The role of a message author.

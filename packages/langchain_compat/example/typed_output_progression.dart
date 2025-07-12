@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, unreachable_from_main
+// ignore_for_file: avoid_print, unreachable_from_main, unused_local_variable
 
 import 'dart:convert';
 import 'dart:io';
@@ -8,11 +8,13 @@ import 'package:langchain_compat/langchain_compat.dart';
 
 import 'lib/dump_message_history.dart';
 import 'lib/example_tools.dart';
+import 'lib/example_types.dart';
 
 void main() async {
+  final provider = ChatProvider.anthropic;
   final agent = Agent.forProvider(
-    ChatProvider.google,
-    tools: [currentDateTimeTool, temperatureTool],
+    provider,
+    tools: [currentDateTimeTool, temperatureTool, recipeLookupTool],
     systemPrompt: '''
 You are a helpful assistant that provides accurate information.
 
@@ -29,8 +31,8 @@ your response.
   // await jsonOutputStream(agent);
   // await mapOutput(agent);
   // await typedOutput(agent);
-  await typedOutputWithToolCalls(agent);
-  // await typedOutputWithToolCallsAndMultipleTurns(agent);
+  // await typedOutputWithToolCalls(agent);
+  await typedOutputWithToolCallsAndMultipleTurns(provider);
   exit(0);
 }
 
@@ -122,78 +124,77 @@ Future<void> typedOutputWithToolCalls(Agent agent) async {
   print('');
 }
 
-Future<void> typedOutputWithToolCallsAndMultipleTurns(Agent agent) async {
+Future<void> typedOutputWithToolCallsAndMultipleTurns(
+  ChatProvider provider,
+) async {
+  final agent = Agent(
+    '${provider.name}:${provider.defaultModelName}',
+    tools: [recipeLookupTool],
+    systemPrompt: 'You are an expert chef.',
+  );
+
   print(
     '═══ '
     '${agent.displayName} Typed Output with Tool Calls and Multiple Turns '
     '═══',
   );
 
+  final recipeSchema = JsonSchema.create({
+    'type': 'object',
+    'properties': {
+      'name': {'type': 'string'},
+      'ingredients': {
+        'type': 'array',
+        'items': {'type': 'string'},
+      },
+      'instructions': {
+        'type': 'array',
+        'items': {'type': 'string'},
+      },
+      'prep_time': {'type': 'string'},
+      'cook_time': {'type': 'string'},
+      'servings': {'type': 'integer'},
+    },
+    'required': [
+      'name',
+      'ingredients',
+      'instructions',
+      'prep_time',
+      'cook_time',
+      'servings',
+    ],
+  });
+
+  // First turn: Look up the recipe
   final history = <ChatMessage>[];
-  final result = await agent.runFor<TownAndCountry>(
-    'What is the Windy City in the US of A?',
-    outputSchema: TownAndCountry.schema,
-    outputFromJson: TownAndCountry.fromJson,
+  final result = await agent.runFor<Map<String, dynamic>>(
+    "Can you show me grandma's mushroom omelette recipe?",
+    outputSchema: recipeSchema,
   );
-
   history.addAll(result.messages);
-  print('# First turn:');
-  print('town: ${result.output.town}');
-  print('country: ${result.output.country}');
   dumpMessageHistory(history);
 
-  final result2 = await agent.runFor<TownAndCountry>(
-    'What is the Big Apple in the United States?',
-    outputSchema: TownAndCountry.schema,
-    outputFromJson: TownAndCountry.fromJson,
-  );
+  final json = result.output;
+  dumpRecipe(json);
 
-  history.addAll(result.messages);
-  print('# Second turn:');
-  print('town: ${result2.output.town}');
-  print('country: ${result2.output.country}');
+  // Second turn: Modify the recipe
+  final secondResult = await agent.runFor<Map<String, dynamic>>(
+    'Can you update it to replace the mushrooms with ham?',
+    history: history,
+    outputSchema: recipeSchema,
+  );
+  history.addAll(secondResult.messages);
+  dumpRecipe(secondResult.output);
   dumpMessageHistory(history);
+}
+
+void dumpRecipe(Map<String, dynamic> json) {
   print('--------------------------------');
-  print('');
-}
-
-class TownAndCountry {
-  const TownAndCountry({required this.town, required this.country});
-
-  factory TownAndCountry.fromJson(Map<String, dynamic> json) =>
-      TownAndCountry(town: json['town'], country: json['country']);
-
-  static final schema = JsonSchema.create({
-    'type': 'object',
-    'properties': {
-      'town': {'type': 'string'},
-      'country': {'type': 'string'},
-    },
-    'required': ['town', 'country'],
-  });
-
-  final String town;
-  final String country;
-}
-
-class TimeAndTemperature {
-  const TimeAndTemperature({required this.time, required this.temperature});
-
-  factory TimeAndTemperature.fromJson(Map<String, dynamic> json) =>
-      TimeAndTemperature(
-        time: DateTime.parse(json['time']),
-        temperature: (json['temperature'] as num).toDouble(),
-      );
-
-  static final schema = JsonSchema.create({
-    'type': 'object',
-    'properties': {
-      'time': {'type': 'string'},
-      'temperature': {'type': 'number'},
-    },
-    'required': ['time', 'temperature'],
-  });
-
-  final DateTime time;
-  final double temperature;
+  print('name: ${json['name']}');
+  print('ingredients: ${json['ingredients']}');
+  print('instructions: ${json['instructions']}');
+  print('prep_time: ${json['prep_time']}');
+  print('cook_time: ${json['cook_time']}');
+  print('servings: ${json['servings']}');
+  print('--------------------------------');
 }

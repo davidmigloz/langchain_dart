@@ -417,10 +417,11 @@ class Agent {
       // Add all non-text parts (already properly merged by _concatMessages)
       finalParts.addAll(nonTextParts);
 
-      // Create final message with consolidated parts
+      // Create final message with consolidated parts and metadata
       final messageWithIds = ChatMessage(
         role: MessageRole.model,
         parts: finalParts,
+        metadata: accumulatedMessage.metadata,
       );
 
       // Add the complete AI message to conversation history
@@ -606,7 +607,17 @@ class Agent {
       }
     }
 
-    return ChatMessage(role: accumulated.role, parts: accumulatedParts);
+    // Merge metadata from both messages
+    final mergedMetadata = <String, dynamic>{
+      ...accumulated.metadata,
+      ...newChunk.metadata,
+    };
+    
+    return ChatMessage(
+      role: accumulated.role,
+      parts: accumulatedParts,
+      metadata: mergedMetadata,
+    );
   }
 
   /// Asserts that no message in the list contains more than one TextPart.

@@ -14,9 +14,9 @@ The langchain_compat package provides a unified interface to 15+ LLM providers t
 ## Core Architectural Principles
 
 ### 1. **Three-Layer Architecture**
-- **Agent Layer**: User-facing API, orchestration, tool execution
+- **Agent Layer**: User-facing API, orchestration, tool execution, metadata preservation
 - **Model Layer**: Provider-specific implementations 
-- **Mapper Layer**: Protocol conversion, streaming handling, ID assignment
+- **Mapper Layer**: Protocol conversion, streaming handling, ID assignment, metadata attachment
 
 ### 2. **Provider Abstraction**
 - Single unified API regardless of underlying provider
@@ -53,23 +53,18 @@ The langchain_compat package provides a unified interface to 15+ LLM providers t
 - Clear distinction between native vs cross-platform providers
 - Migration patterns for model updates
 
-### 🌊 **Streaming Tool Architecture**
-**Purpose**: Unified streaming and tool execution across all providers
-**Location**: [`STREAMING_TOOL_ARCHITECTURE.md`](./STREAMING_TOOL_ARCHITECTURE.md)
+### 🌊 **Unified Streaming and Typed Output Architecture**
+**Purpose**: Comprehensive streaming, tool execution, and typed output handling
+**Location**: [`UNIFIED_STREAMING_AND_TYPED_OUTPUT_ARCHITECTURE.md`](./UNIFIED_STREAMING_AND_TYPED_OUTPUT_ARCHITECTURE.md)
 
 - Provider-specific streaming protocol handling
 - Centralized tool ID generation and coordination
-- Message accumulation and consolidation
+- Message accumulation with metadata preservation
 - Tool execution with error handling and streaming UX
-
-### 📊 **Typed Output System**
-**Purpose**: Schema-driven structured JSON responses
-**Location**: [`TYPED_OUTPUT_SPEC.md`](./TYPED_OUTPUT_SPEC.md)
-
 - Native schema support where available (OpenAI, Google, Ollama)
-- Prompt-based fallbacks for other providers
+- Tool-based typed output for Anthropic (return_result pattern)
+- Per-message metadata for suppressed content tracking
 - Agent-level JSON validation and parsing
-- Schema ownership and system prompt management
 
 ### 📋 **Logging Architecture**
 **Purpose**: Comprehensive, user-configurable logging system
@@ -94,11 +89,11 @@ The langchain_compat package provides a unified interface to 15+ LLM providers t
 ```
 User Request
     ↓
-Agent Layer (orchestration, tool execution, UX)
+Agent Layer (orchestration, tool execution, UX, metadata preservation)
     ↓
 ChatModel Layer (provider selection, API calls)
     ↓
-Mapper Layer (protocol conversion, streaming, ID assignment)
+Mapper Layer (protocol conversion, streaming, ID assignment, metadata)
     ↓
 Helper Layer (utilities, common patterns)
     ↓
@@ -133,6 +128,13 @@ final agent = Agent('anthropic:claude-3-5-sonnet', tools: tools);
 - Model: Provider-specific error handling
 - Mapper: Protocol-level error recovery
 - No defensive exception hiding
+
+### **Message Metadata Pattern**
+Per-message visibility into processing decisions:
+- Suppressed text content when using typed output
+- Dropped tool calls alongside return_result
+- Extra return_result calls beyond the first
+- Preserved during message accumulation in Agent layer
 
 ## Provider Support Matrix
 

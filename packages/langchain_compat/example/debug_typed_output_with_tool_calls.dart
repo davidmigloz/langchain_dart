@@ -10,12 +10,11 @@ import 'dart:io';
 
 import 'package:json_schema/json_schema.dart' as js;
 import 'package:langchain_compat/langchain_compat.dart';
-import 'package:logging/logging.dart';
 
 import 'lib/dump_message_history.dart';
 
 bool providerSupportsToolsAndTypedOutput(ChatProvider provider) =>
-    provider.name == 'openai';
+    provider.name == 'openai' || provider.name == 'anthropic';
 
 void main() async {
   final providers = [
@@ -23,12 +22,6 @@ void main() async {
     // ChatProvider.google,
     ChatProvider.anthropic,
   ];
-
-  // Set up logging to see what's happening
-  Logger.root.level = Level.WARNING; // Only show warnings and errors
-  Logger.root.onRecord.listen((record) {
-    print('[${record.level.name}] ${record.loggerName}: ${record.message}');
-  });
 
   // Recipe lookup tool
   final recipeLookupTool = Tool<Map<String, dynamic>>(
@@ -91,7 +84,8 @@ void main() async {
       recipeSchema,
       [recipeLookupTool],
     );
-    print(result);
+    print('\n📊 Final formatted output:');
+    print(const JsonEncoder.withIndent('  ').convert(result));
   }
 
   exit(0);
@@ -200,9 +194,6 @@ Future<T> runForTwoPass<T extends Object>({
   print('\n✅ Pass 2 complete:');
   print('   - Messages generated: ${pass2Result.messages.length}');
   dumpMessageHistory(pass2Result.messages);
-
-  print('\n📊 Final formatted output:');
-  print(const JsonEncoder.withIndent('  ').convert(pass2Result.output));
 
   return pass2Result.output;
 }

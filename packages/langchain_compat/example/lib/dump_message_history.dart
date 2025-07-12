@@ -7,6 +7,9 @@ void dumpMessageHistory(List<ChatMessage> history) {
   print('# Message History:');
   for (final message in history) {
     print('- ${_messageToSingleLine(message)}');
+    if (message.metadata.isNotEmpty) {
+      print('  Metadata: ${message.metadata}');
+    }
   }
   print('--------------------------------');
 }
