@@ -26,16 +26,16 @@ class GenerateChatCompletionRequest with _$GenerateChatCompletionRequest {
     /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
     @Default(false) bool stream,
 
-    /// The format to return a response in. Currently the only accepted value is json.
+    /// The format to return a response in.
     ///
-    /// Enable JSON mode by setting the format parameter to json. This will structure the response as valid JSON.
+    /// It can be set to `ResponseFormat.json` to enable JSON mode, or a `Map<String, dynamic>` to pass a JSON schema.
+    ///
+    /// When using JSON mode, the model will be constrained to generating valid JSON.
+    ///
+    /// When using a JSON schema, the model will be constrained to generating a JSON object that matches the given schema.
     ///
     /// Note: it's important to instruct the model to use JSON in the prompt. Otherwise, the model may generate large amounts whitespace.
-    @JsonKey(
-      includeIfNull: false,
-      unknownEnumValue: JsonKey.nullForUndefinedEnumValue,
-    )
-    ResponseFormat? format,
+    @JsonKey(includeIfNull: false) @_FormatConverter() dynamic format,
 
     /// How long (in minutes) to keep the model loaded in memory.
     ///
@@ -91,5 +91,29 @@ class GenerateChatCompletionRequest with _$GenerateChatCompletionRequest {
       'options': options,
       'think': think,
     };
+  }
+}
+
+// ==========================================
+// CLASS: _FormatConverter
+// ==========================================
+
+class _FormatConverter implements JsonConverter<dynamic, dynamic> {
+  const _FormatConverter();
+
+  @override
+  dynamic fromJson(dynamic json) {
+    if (json == null) return null;
+    if (json == 'json') return ResponseFormat.json;
+    if (json is Map<String, dynamic>) return json;
+    return json;
+  }
+
+  @override
+  dynamic toJson(dynamic object) {
+    if (object == null) return null;
+    if (object is ResponseFormat) return object.toString().split('.').last;
+    if (object is Map<String, dynamic>) return object;
+    return object;
   }
 }
