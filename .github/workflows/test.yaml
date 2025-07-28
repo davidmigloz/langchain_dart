@@ -38,7 +38,7 @@ jobs:
           dart --disable-analytics
 
       - name: Install Melos
-        uses: bluefireteam/melos-action@b3ccbb59dd75a6c926d54684abd8c5cda074457a
+        uses: bluefireteam/melos-action@8cca19067d5bc4021b5a9f4656955d8b386583bf
         with:
           melos-version: '7.0.0-dev.9'
           run-bootstrap: false
