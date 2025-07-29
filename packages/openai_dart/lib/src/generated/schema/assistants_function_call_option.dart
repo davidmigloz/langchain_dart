@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// No Description
 @freezed
-class AssistantsFunctionCallOption with _$AssistantsFunctionCallOption {
+abstract class AssistantsFunctionCallOption with _$AssistantsFunctionCallOption {
   const AssistantsFunctionCallOption._();
 
   /// Factory constructor for AssistantsFunctionCallOption

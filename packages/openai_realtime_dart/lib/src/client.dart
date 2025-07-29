@@ -234,17 +234,17 @@ class RealtimeClient extends RealtimeEventHandler {
     ResponseConfig? responseConfig;
     final tc = sessionConfig.toolChoice;
     if (tc != null) {
-      tc.mapOrNull(
-        mode: (m) {
-          if (m.value == SessionConfigToolChoiceMode.required) {
+      switch (tc) {
+        case SessionConfigToolChoiceEnumeration(:final value):
+          if (value == SessionConfigToolChoiceMode.required) {
             responseConfig = const ResponseConfig(
               toolChoice: ResponseConfigToolChoice.mode(
                 ResponseConfigToolChoiceMode.auto,
               ),
             );
           }
-        },
-      );
+        case _:
+      }
     }
     await createResponse(responseConfig: responseConfig);
   }

@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Forces the model to call the specified function.
 @freezed
-class ChatCompletionFunctionCallOption with _$ChatCompletionFunctionCallOption {
+abstract class ChatCompletionFunctionCallOption with _$ChatCompletionFunctionCallOption {
   const ChatCompletionFunctionCallOption._();
 
   /// Factory constructor for ChatCompletionFunctionCallOption

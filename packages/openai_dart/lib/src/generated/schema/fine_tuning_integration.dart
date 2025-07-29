@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// A fine-tuning integration to enable for a fine-tuning job.
 @freezed
-class FineTuningIntegration with _$FineTuningIntegration {
+abstract class FineTuningIntegration with _$FineTuningIntegration {
   const FineTuningIntegration._();
 
   /// Factory constructor for FineTuningIntegration
@@ -63,7 +63,7 @@ enum FineTuningIntegrationType {
 /// metrics will be sent to. Optionally, you can set an explicit display name for your run, add tags
 /// to your run, and set a default entity (team, username, etc) to be associated with your run.
 @freezed
-class FineTuningIntegrationWandb with _$FineTuningIntegrationWandb {
+abstract class FineTuningIntegrationWandb with _$FineTuningIntegrationWandb {
   const FineTuningIntegrationWandb._();
 
   /// Factory constructor for FineTuningIntegrationWandb

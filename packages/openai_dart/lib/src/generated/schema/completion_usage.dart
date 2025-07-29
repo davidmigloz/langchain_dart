@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Usage statistics for the completion request.
 @freezed
-class CompletionUsage with _$CompletionUsage {
+abstract class CompletionUsage with _$CompletionUsage {
   const CompletionUsage._();
 
   /// Factory constructor for CompletionUsage

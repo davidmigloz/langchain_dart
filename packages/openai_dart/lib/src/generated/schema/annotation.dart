@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// A URL citation when using web search.
 @freezed
-class Annotation with _$Annotation {
+abstract class Annotation with _$Annotation {
   const Annotation._();
 
   /// Factory constructor for Annotation
@@ -59,7 +59,7 @@ enum AnnotationType {
 
 /// A URL citation when using web search.
 @freezed
-class AnnotationUrlCitation with _$AnnotationUrlCitation {
+abstract class AnnotationUrlCitation with _$AnnotationUrlCitation {
   const AnnotationUrlCitation._();
 
   /// Factory constructor for AnnotationUrlCitation

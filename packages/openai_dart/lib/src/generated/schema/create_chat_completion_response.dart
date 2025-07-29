@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Represents a chat completion response returned by model, based on the provided input.
 @freezed
-class CreateChatCompletionResponse with _$CreateChatCompletionResponse {
+abstract class CreateChatCompletionResponse with _$CreateChatCompletionResponse {
   const CreateChatCompletionResponse._();
 
   /// Factory constructor for CreateChatCompletionResponse

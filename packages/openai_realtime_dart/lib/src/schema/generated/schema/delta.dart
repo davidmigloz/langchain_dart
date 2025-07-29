@@ -10,7 +10,7 @@ part of openai_realtime_schema;
 
 /// Delta object.
 @freezed
-class Delta with _$Delta {
+abstract class Delta with _$Delta {
   const Delta._();
 
   /// Factory constructor for Delta

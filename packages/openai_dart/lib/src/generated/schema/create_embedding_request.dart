@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Request object for the Create embedding endpoint.
 @freezed
-class CreateEmbeddingRequest with _$CreateEmbeddingRequest {
+abstract class CreateEmbeddingRequest with _$CreateEmbeddingRequest {
   const CreateEmbeddingRequest._();
 
   /// Factory constructor for CreateEmbeddingRequest

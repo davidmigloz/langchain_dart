@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Represents a list of message files returned by the List vector store files endpoint.
 @freezed
-class ListVectorStoreFilesResponse with _$ListVectorStoreFilesResponse {
+abstract class ListVectorStoreFilesResponse with _$ListVectorStoreFilesResponse {
   const ListVectorStoreFilesResponse._();
 
   /// Factory constructor for ListVectorStoreFilesResponse

@@ -19,6 +19,7 @@ sealed class MessageDeltaContent with _$MessageDeltaContent {
 
   /// References an image [File](https://platform.openai.com/docs/api-reference/files) in the content of a message.
 
+  @FreezedUnionValue('image_file')
   const factory MessageDeltaContent.imageFile({
     /// The index of the content part in the message.
     required int index,
@@ -37,6 +38,7 @@ sealed class MessageDeltaContent with _$MessageDeltaContent {
 
   /// The text content that is part of a message.
 
+  @FreezedUnionValue('text')
   const factory MessageDeltaContent.text({
     /// The index of the content part in the message.
     required int index,

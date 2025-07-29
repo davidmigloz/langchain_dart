@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Represents an error that occurred during an API request.
 @freezed
-class Error with _$Error {
+abstract class Error with _$Error {
   const Error._();
 
   /// Factory constructor for Error

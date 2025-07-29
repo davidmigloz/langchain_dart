@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Details of the message creation by the run step.
 @freezed
-class RunStepDetailsMessageCreation with _$RunStepDetailsMessageCreation {
+abstract class RunStepDetailsMessageCreation with _$RunStepDetailsMessageCreation {
   const RunStepDetailsMessageCreation._();
 
   /// Factory constructor for RunStepDetailsMessageCreation

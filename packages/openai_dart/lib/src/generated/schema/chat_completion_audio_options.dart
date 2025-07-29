@@ -11,7 +11,7 @@ part of open_a_i_schema;
 /// Parameters for audio output. Required when audio output is requested with `modalities: ["audio"]`.
 /// [Learn more](https://platform.openai.com/docs/guides/audio).
 @freezed
-class ChatCompletionAudioOptions with _$ChatCompletionAudioOptions {
+abstract class ChatCompletionAudioOptions with _$ChatCompletionAudioOptions {
   const ChatCompletionAudioOptions._();
 
   /// Factory constructor for ChatCompletionAudioOptions

@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// The usage information for the request.
 @freezed
-class EmbeddingUsage with _$EmbeddingUsage {
+abstract class EmbeddingUsage with _$EmbeddingUsage {
   const EmbeddingUsage._();
 
   /// Factory constructor for EmbeddingUsage

@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Request object for the Create run endpoint.
 @freezed
-class CreateRunRequest with _$CreateRunRequest {
+abstract class CreateRunRequest with _$CreateRunRequest {
   const CreateRunRequest._();
 
   /// Factory constructor for CreateRunRequest

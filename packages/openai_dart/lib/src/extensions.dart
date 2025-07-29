@@ -8,12 +8,14 @@ extension EmbeddingX on Embedding {
   /// [CreateEmbeddingRequest.encodingFormat] set to
   /// [EmbeddingEncodingFormat.float].
   List<double> get embeddingVector {
-    return embedding.mapOrNull(
-      vectorBase64: (final s) => throw ArgumentError(
-        '`encodingFormat` is not set to `float` in the create embedding request',
-      ),
-      vector: (final a) => a.value,
-    )!;
+    switch (embedding) {
+      case EmbeddingVectorListDouble(:final value):
+        return value;
+      case EmbeddingVectorString():
+        throw ArgumentError(
+          '`encodingFormat` is not set to `float` in the create embedding request',
+        );
+    }
   }
 
   /// The embedding vector as a base64-encoded string.
@@ -22,12 +24,14 @@ extension EmbeddingX on Embedding {
   /// [CreateEmbeddingRequest.encodingFormat] set to
   /// [EmbeddingEncodingFormat.base64].
   String get embeddingVectorBase64 {
-    return embedding.mapOrNull(
-      vectorBase64: (final s) => s.value,
-      vector: (final a) => throw ArgumentError(
-        '`encodingFormat` is not set to `base64` in the create embedding request',
-      ),
-    )!;
+    switch (embedding) {
+      case EmbeddingVectorString(:final value):
+        return value;
+      case EmbeddingVectorListDouble():
+        throw ArgumentError(
+          '`encodingFormat` is not set to `base64` in the create embedding request',
+        );
+    }
   }
 }
 
@@ -38,12 +42,12 @@ extension MessageContentX on MessageContent {
   /// You can only use this field if the message content is of type
   /// [MessageContentText].
   String get text {
-    return mapOrNull(
-      text: (final MessageContentTextObject c) => c.text.value,
-      imageFile: (final a) => throw ArgumentError(
-        'Message content is not of type `text`',
-      ),
-    )!;
+    switch (this) {
+      case MessageContentTextObject(:final text):
+        return text.value;
+      default:
+        throw ArgumentError('Message content is not of type `text`');
+    }
   }
 
   /// Returns the image file ID of the message.
@@ -51,11 +55,11 @@ extension MessageContentX on MessageContent {
   /// You can only use this field if the message content is of type
   /// [MessageContentImage].
   String get imageFile {
-    return mapOrNull(
-      text: (final s) => throw ArgumentError(
-        'Message content is not of type `imageFile`',
-      ),
-      imageFile: (final c) => c.imageFile.fileId,
-    )!;
+    switch (this) {
+      case MessageContentImageFileObject(:final imageFile):
+        return imageFile.fileId;
+      default:
+        throw ArgumentError('Message content is not of type `imageFile`');
+    }
   }
 }

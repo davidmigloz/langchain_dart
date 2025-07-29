@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// An attachment to a message.
 @freezed
-class MessageAttachment with _$MessageAttachment {
+abstract class MessageAttachment with _$MessageAttachment {
   const MessageAttachment._();
 
   /// Factory constructor for MessageAttachment

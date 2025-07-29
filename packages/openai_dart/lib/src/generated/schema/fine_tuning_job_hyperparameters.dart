@@ -14,7 +14,7 @@ part of open_a_i_schema;
 /// This value is now deprecated in favor of `method`, and should be passed in under the `method`
 /// parameter.
 @freezed
-class FineTuningJobHyperparameters with _$FineTuningJobHyperparameters {
+abstract class FineTuningJobHyperparameters with _$FineTuningJobHyperparameters {
   const FineTuningJobHyperparameters._();
 
   /// Factory constructor for FineTuningJobHyperparameters

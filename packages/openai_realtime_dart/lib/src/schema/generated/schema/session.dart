@@ -10,7 +10,7 @@ part of openai_realtime_schema;
 
 /// The session resource.
 @freezed
-class Session with _$Session {
+abstract class Session with _$Session {
   const Session._();
 
   /// Factory constructor for Session

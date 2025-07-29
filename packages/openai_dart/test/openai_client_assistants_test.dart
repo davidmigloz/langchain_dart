@@ -227,8 +227,11 @@ void main() {
       expect(step1.runId, isNotNull);
       expect(step1.type, RunStepType.messageCreation);
       expect(step1.status, RunStepStatus.completed);
-      final details = step1.stepDetails
-          .mapOrNull(messageCreation: (final d) => d.messageCreation);
+      final details = switch (step1.stepDetails) {
+        RunStepDetailsMessageCreationObject(:final messageCreation) =>
+          messageCreation,
+        _ => null,
+      };
       expect(details?.messageId, isNotEmpty);
       expect(step1.lastError, isNull);
       expect(step1.expiredAt, isNull);
@@ -250,7 +253,10 @@ void main() {
       expect(step2.type, RunStepType.toolCalls);
       expect(step2.status, RunStepStatus.completed);
       final toolCalls =
-          step2.stepDetails.mapOrNull(toolCalls: (final d) => d.toolCalls);
+          switch (step2.stepDetails) {
+        RunStepDetailsToolCallsObject(toolCalls:final d) => d,
+        _ => null,
+      };
       expect(toolCalls, hasLength(1));
       final toolCall = toolCalls?.first;
       expect(toolCall?.id, isNotEmpty);
@@ -258,8 +264,10 @@ void main() {
         toolCall?.type,
         'code_interpreter',
       );
-      final codeInterpreter =
-          toolCall?.mapOrNull(codeInterpreter: (final c) => c.codeInterpreter);
+      final codeInterpreter = switch (toolCall) {
+        RunStepDetailsToolCallsCodeObject(:final codeInterpreter) => codeInterpreter,
+        _ => null,
+      };
       expect(codeInterpreter?.input, isNotEmpty);
       expect(codeInterpreter?.outputs, hasLength(1));
       final output = codeInterpreter?.outputs.first;
@@ -286,8 +294,11 @@ void main() {
       expect(step3.runId, isNotNull);
       expect(step3.type, RunStepType.messageCreation);
       expect(step3.status, RunStepStatus.completed);
-      final details3 = step3.stepDetails
-          .mapOrNull(messageCreation: (final d) => d.messageCreation);
+      final RunStepDetailsMessageCreation? details3 =
+          switch (step3.stepDetails) {
+        RunStepDetailsMessageCreationObject(messageCreation: final d) => d,
+       _=> null,
+      };
       expect(details3?.messageId, isNotEmpty);
       expect(step3.lastError, isNull);
       expect(step3.expiredAt, isNull);
@@ -343,18 +354,20 @@ void main() {
 
         var output = '';
         await for (final AssistantStreamEvent res in stream) {
-          output += res.whenOrNull(
-                messageStreamDeltaEvent: (final event, final data) =>
-                    data.delta.content
-                        ?.map(
-                          (final c) => c.mapOrNull(
-                            text: (final o) => o.text?.value ?? '',
-                          ),
-                        )
-                        .join() ??
-                    '',
-              ) ??
-              '';
+          switch (res) {
+            case MessageStreamDeltaEvent(data: final d):
+              output += d.delta.content
+                      ?.map(
+                        (final c) => switch (c) {
+                          MessageDeltaContentTextObject(text: final t) => t?.value ?? '',
+                          _ => '',
+                        },
+                      )
+                      .join() ??
+                  '';
+            default:
+              break;
+          }
         }
 
         expect(output, contains('Jane Doe'));

@@ -12,7 +12,7 @@ part of openai_realtime_schema;
 /// VAD means that the model will detect the start and end of speech based on
 /// audio volume and respond at the end of user speech.
 @freezed
-class TurnDetection with _$TurnDetection {
+abstract class TurnDetection with _$TurnDetection {
   const TurnDetection._();
 
   /// Factory constructor for TurnDetection

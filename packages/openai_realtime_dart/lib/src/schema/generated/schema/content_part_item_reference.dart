@@ -10,7 +10,7 @@ part of openai_realtime_schema;
 
 /// A part of the item reference content.
 @freezed
-class ContentPartItemReference with _$ContentPartItemReference {
+abstract class ContentPartItemReference with _$ContentPartItemReference {
   const ContentPartItemReference._();
 
   /// Factory constructor for ContentPartItemReference

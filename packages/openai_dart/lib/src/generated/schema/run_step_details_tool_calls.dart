@@ -19,6 +19,7 @@ sealed class RunStepDetailsToolCalls with _$RunStepDetailsToolCalls {
 
   /// Details of the Code Interpreter tool call the run step was involved in.
 
+  @FreezedUnionValue('code_interpreter')
   const factory RunStepDetailsToolCalls.codeInterpreter({
     /// The ID of the tool call.
     required String id,
@@ -37,6 +38,7 @@ sealed class RunStepDetailsToolCalls with _$RunStepDetailsToolCalls {
 
   /// File search tool call
 
+  @FreezedUnionValue('file_search')
   const factory RunStepDetailsToolCalls.fileSearch({
     /// The ID of the tool call object.
     required String id,
@@ -55,6 +57,7 @@ sealed class RunStepDetailsToolCalls with _$RunStepDetailsToolCalls {
 
   /// Function tool call
 
+  @FreezedUnionValue('function')
   const factory RunStepDetailsToolCalls.function({
     /// The ID of the tool call object.
     required String id,
@@ -77,7 +80,7 @@ sealed class RunStepDetailsToolCalls with _$RunStepDetailsToolCalls {
 
 /// The definition of the function that was called.
 @freezed
-class RunStepDetailsToolCallsFunction with _$RunStepDetailsToolCallsFunction {
+abstract class RunStepDetailsToolCallsFunction with _$RunStepDetailsToolCallsFunction {
   const RunStepDetailsToolCallsFunction._();
 
   /// Factory constructor for RunStepDetailsToolCallsFunction

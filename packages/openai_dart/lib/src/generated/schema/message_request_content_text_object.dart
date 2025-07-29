@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// The text content that is part of a message.
 @freezed
-class MessageRequestContentTextObject with _$MessageRequestContentTextObject {
+abstract class MessageRequestContentTextObject with _$MessageRequestContentTextObject {
   const MessageRequestContentTextObject._();
 
   /// Factory constructor for MessageRequestContentTextObject

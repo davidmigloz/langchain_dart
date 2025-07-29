@@ -11,7 +11,7 @@ part of open_a_i_schema;
 /// A helper to create a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) with
 /// file_ids and attach it to this thread.
 @freezed
-class ToolResourcesFileSearchVectorStore
+abstract class ToolResourcesFileSearchVectorStore
     with _$ToolResourcesFileSearchVectorStore {
   const ToolResourcesFileSearchVectorStore._();
 
