@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Represents a list of run steps returned by the List run steps endpoint.
 @freezed
-class ListRunStepsResponse with _$ListRunStepsResponse {
+abstract class ListRunStepsResponse with _$ListRunStepsResponse {
   const ListRunStepsResponse._();
 
   /// Factory constructor for ListRunStepsResponse

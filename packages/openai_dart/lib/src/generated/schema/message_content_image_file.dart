@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// The image file that is part of a message.
 @freezed
-class MessageContentImageFile with _$MessageContentImageFile {
+abstract class MessageContentImageFile with _$MessageContentImageFile {
   const MessageContentImageFile._();
 
   /// Factory constructor for MessageContentImageFile

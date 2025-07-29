@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Code interpreter image output.
 @freezed
-class RunStepDetailsToolCallsCodeOutputImage
+abstract class RunStepDetailsToolCallsCodeOutputImage
     with _$RunStepDetailsToolCallsCodeOutputImage {
   const RunStepDetailsToolCallsCodeOutputImage._();
 

@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Represents a list of batches returned by the List batches endpoint.
 @freezed
-class ListBatchesResponse with _$ListBatchesResponse {
+abstract class ListBatchesResponse with _$ListBatchesResponse {
   const ListBatchesResponse._();
 
   /// Factory constructor for ListBatchesResponse

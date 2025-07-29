@@ -81,12 +81,13 @@ class RealtimeConversation {
         newItem = newItem.copyWith(
           formatted: newItem.formatted!.copyWith(
             text: textContent
-                .map(
-                  (c) => c.mapOrNull(
-                    inputText: (c) => c.text,
-                    text: (c) => c.text,
-                  ),
-                )
+                .map((c) {
+                  switch (c) {
+                    case ContentPartInputText(): return c.text;
+                    case ContentPartText(): return c.text;
+                    default: return null;
+                  }
+                })
                 .join(),
           ),
         );

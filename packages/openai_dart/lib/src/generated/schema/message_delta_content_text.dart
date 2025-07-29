@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// The text content that is part of a message.
 @freezed
-class MessageDeltaContentText with _$MessageDeltaContentText {
+abstract class MessageDeltaContentText with _$MessageDeltaContentText {
   const MessageDeltaContentText._();
 
   /// Factory constructor for MessageDeltaContentText

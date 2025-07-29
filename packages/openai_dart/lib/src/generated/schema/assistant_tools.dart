@@ -80,7 +80,7 @@ enum AssistantToolsEnumType {
 
 /// Overrides for the file search tool.
 @freezed
-class AssistantToolsFileSearchFileSearch
+abstract class AssistantToolsFileSearchFileSearch
     with _$AssistantToolsFileSearchFileSearch {
   const AssistantToolsFileSearchFileSearch._();
 

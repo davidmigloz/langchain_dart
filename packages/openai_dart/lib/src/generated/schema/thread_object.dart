@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Represents a thread that contains [messages](https://platform.openai.com/docs/api-reference/messages).
 @freezed
-class ThreadObject with _$ThreadObject {
+abstract class ThreadObject with _$ThreadObject {
   const ThreadObject._();
 
   /// Factory constructor for ThreadObject

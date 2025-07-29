@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Represents an embedding vector returned by embedding endpoint.
 @freezed
-class CreateEmbeddingResponse with _$CreateEmbeddingResponse {
+abstract class CreateEmbeddingResponse with _$CreateEmbeddingResponse {
   const CreateEmbeddingResponse._();
 
   /// Factory constructor for CreateEmbeddingResponse

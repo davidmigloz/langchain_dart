@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Request object for the Create fine-tuning job endpoint.
 @freezed
-class CreateFineTuningJobRequest with _$CreateFineTuningJobRequest {
+abstract class CreateFineTuningJobRequest with _$CreateFineTuningJobRequest {
   const CreateFineTuningJobRequest._();
 
   /// Factory constructor for CreateFineTuningJobRequest

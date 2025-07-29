@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Request object for the Modify thread endpoint.
 @freezed
-class ModifyThreadRequest with _$ModifyThreadRequest {
+abstract class ModifyThreadRequest with _$ModifyThreadRequest {
   const ModifyThreadRequest._();
 
   /// Factory constructor for ModifyThreadRequest

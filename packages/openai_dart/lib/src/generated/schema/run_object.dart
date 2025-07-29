@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Represents an execution run on a [thread](https://platform.openai.com/docs/api-reference/threads).
 @freezed
-class RunObject with _$RunObject {
+abstract class RunObject with _$RunObject {
   const RunObject._();
 
   /// Factory constructor for RunObject
@@ -254,7 +254,7 @@ enum RunStatus {
 
 /// Details on the action required to continue the run. Will be `null` if no action is required.
 @freezed
-class RunRequiredAction with _$RunRequiredAction {
+abstract class RunRequiredAction with _$RunRequiredAction {
   const RunRequiredAction._();
 
   /// Factory constructor for RunRequiredAction
@@ -294,7 +294,7 @@ class RunRequiredAction with _$RunRequiredAction {
 
 /// The last error associated with this run. Will be `null` if there are no errors.
 @freezed
-class RunLastError with _$RunLastError {
+abstract class RunLastError with _$RunLastError {
   const RunLastError._();
 
   /// Factory constructor for RunLastError
@@ -333,7 +333,7 @@ class RunLastError with _$RunLastError {
 
 /// Details on why the run is incomplete. Will be `null` if the run is not incomplete.
 @freezed
-class RunObjectIncompleteDetails with _$RunObjectIncompleteDetails {
+abstract class RunObjectIncompleteDetails with _$RunObjectIncompleteDetails {
   const RunObjectIncompleteDetails._();
 
   /// Factory constructor for RunObjectIncompleteDetails
@@ -549,7 +549,7 @@ enum RunRequiredActionType {
 
 /// Details on the tool outputs needed for this run to continue.
 @freezed
-class RunSubmitToolOutputs with _$RunSubmitToolOutputs {
+abstract class RunSubmitToolOutputs with _$RunSubmitToolOutputs {
   const RunSubmitToolOutputs._();
 
   /// Factory constructor for RunSubmitToolOutputs

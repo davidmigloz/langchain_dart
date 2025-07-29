@@ -10,7 +10,7 @@ part of openai_realtime_schema;
 
 /// Configuration for the response.
 @freezed
-class ResponseConfig with _$ResponseConfig {
+abstract class ResponseConfig with _$ResponseConfig {
   const ResponseConfig._();
 
   /// Factory constructor for ResponseConfig

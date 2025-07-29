@@ -19,6 +19,7 @@ sealed class RunStepDetails with _$RunStepDetails {
 
   /// Details of the message creation by the run step.
 
+  @FreezedUnionValue('message_creation')
   const factory RunStepDetails.messageCreation({
     /// Always `message_creation`.
     required String type,
@@ -34,6 +35,7 @@ sealed class RunStepDetails with _$RunStepDetails {
 
   /// Details of the tool call.
 
+  @FreezedUnionValue('tool_calls')
   const factory RunStepDetails.toolCalls({
     /// Always `tool_calls`.
     required String type,

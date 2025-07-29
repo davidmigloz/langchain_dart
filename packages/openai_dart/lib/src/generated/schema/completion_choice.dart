@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// A choice the model generated for the input prompt.
 @freezed
-class CompletionChoice with _$CompletionChoice {
+abstract class CompletionChoice with _$CompletionChoice {
   const CompletionChoice._();
 
   /// Factory constructor for CompletionChoice

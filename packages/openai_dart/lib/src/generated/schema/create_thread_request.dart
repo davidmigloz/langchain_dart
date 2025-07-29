@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Request object for the Create thread endpoint.
 @freezed
-class CreateThreadRequest with _$CreateThreadRequest {
+abstract class CreateThreadRequest with _$CreateThreadRequest {
   const CreateThreadRequest._();
 
   /// Factory constructor for CreateThreadRequest

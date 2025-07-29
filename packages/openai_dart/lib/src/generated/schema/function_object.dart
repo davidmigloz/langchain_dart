@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// A function that the model may call.
 @freezed
-class FunctionObject with _$FunctionObject {
+abstract class FunctionObject with _$FunctionObject {
   const FunctionObject._();
 
   /// Factory constructor for FunctionObject

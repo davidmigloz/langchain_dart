@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Details of the message creation by the run step.
 @freezed
-class RunStepDeltaStepDetailsMessageCreation
+abstract class RunStepDeltaStepDetailsMessageCreation
     with _$RunStepDeltaStepDetailsMessageCreation {
   const RunStepDeltaStepDetailsMessageCreation._();
 

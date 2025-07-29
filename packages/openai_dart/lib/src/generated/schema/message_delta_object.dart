@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Represents a message delta i.e. any changed fields on a message during streaming.
 @freezed
-class MessageDeltaObject with _$MessageDeltaObject {
+abstract class MessageDeltaObject with _$MessageDeltaObject {
   const MessageDeltaObject._();
 
   /// Factory constructor for MessageDeltaObject

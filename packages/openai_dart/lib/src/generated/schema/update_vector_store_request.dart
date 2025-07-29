@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Request object for the Update vector store endpoint.
 @freezed
-class UpdateVectorStoreRequest with _$UpdateVectorStoreRequest {
+abstract class UpdateVectorStoreRequest with _$UpdateVectorStoreRequest {
   const UpdateVectorStoreRequest._();
 
   /// Factory constructor for UpdateVectorStoreRequest

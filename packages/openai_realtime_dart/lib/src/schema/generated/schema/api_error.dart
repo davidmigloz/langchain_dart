@@ -10,7 +10,7 @@ part of openai_realtime_schema;
 
 /// Details of the API error.
 @freezed
-class APIError with _$APIError {
+abstract class APIError with _$APIError {
   const APIError._();
 
   /// Factory constructor for APIError

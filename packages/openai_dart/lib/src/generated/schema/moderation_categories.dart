@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// A list of the categories, and whether they are flagged or not.
 @freezed
-class ModerationCategories with _$ModerationCategories {
+abstract class ModerationCategories with _$ModerationCategories {
   const ModerationCategories._();
 
   /// Factory constructor for ModerationCategories

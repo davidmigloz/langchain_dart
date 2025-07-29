@@ -10,7 +10,7 @@ part of openai_realtime_schema;
 
 /// A formatted tool.
 @freezed
-class FormattedTool with _$FormattedTool {
+abstract class FormattedTool with _$FormattedTool {
   const FormattedTool._();
 
   /// Factory constructor for FormattedTool

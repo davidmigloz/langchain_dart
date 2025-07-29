@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Represents a run step delta i.e. any changed fields on a run step during streaming.
 @freezed
-class RunStepDeltaObject with _$RunStepDeltaObject {
+abstract class RunStepDeltaObject with _$RunStepDeltaObject {
   const RunStepDeltaObject._();
 
   /// Factory constructor for RunStepDeltaObject

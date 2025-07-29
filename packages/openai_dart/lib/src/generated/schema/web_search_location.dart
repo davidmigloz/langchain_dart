@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Approximate location parameters for the search.
 @freezed
-class WebSearchLocation with _$WebSearchLocation {
+abstract class WebSearchLocation with _$WebSearchLocation {
   const WebSearchLocation._();
 
   /// Factory constructor for WebSearchLocation

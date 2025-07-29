@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// This tool searches the web for relevant results to use in a response.
 @freezed
-class WebSearchOptions with _$WebSearchOptions {
+abstract class WebSearchOptions with _$WebSearchOptions {
   const WebSearchOptions._();
 
   /// Factory constructor for WebSearchOptions
@@ -56,7 +56,7 @@ class WebSearchOptions with _$WebSearchOptions {
 
 /// Approximate location parameters for the search.
 @freezed
-class WebSearchOptionsUserLocation with _$WebSearchOptionsUserLocation {
+abstract class WebSearchOptionsUserLocation with _$WebSearchOptionsUserLocation {
   const WebSearchOptionsUserLocation._();
 
   /// Factory constructor for WebSearchOptionsUserLocation

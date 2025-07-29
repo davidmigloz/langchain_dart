@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// The ranking options for the file search.
 @freezed
-class RunStepDetailsToolCallsFileSearchRankingOptionsObject
+abstract class RunStepDetailsToolCallsFileSearchRankingOptionsObject
     with _$RunStepDetailsToolCallsFileSearchRankingOptionsObject {
   const RunStepDetailsToolCallsFileSearchRankingOptionsObject._();
 

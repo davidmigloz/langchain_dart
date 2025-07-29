@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Request object for the Submit tool outputs to run endpoint.
 @freezed
-class SubmitToolOutputsRunRequest with _$SubmitToolOutputsRunRequest {
+abstract class SubmitToolOutputsRunRequest with _$SubmitToolOutputsRunRequest {
   const SubmitToolOutputsRunRequest._();
 
   /// Factory constructor for SubmitToolOutputsRunRequest

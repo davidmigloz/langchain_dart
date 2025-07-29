@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// A JSON Schema object.
 @freezed
-class JsonSchemaObject with _$JsonSchemaObject {
+abstract class JsonSchemaObject with _$JsonSchemaObject {
   const JsonSchemaObject._();
 
   /// Factory constructor for JsonSchemaObject

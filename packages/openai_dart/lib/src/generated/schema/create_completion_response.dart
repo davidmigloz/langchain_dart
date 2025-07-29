@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Represents a completion response from the API. Note: both the streamed and non-streamed response objects share the same shape (unlike the chat endpoint).
 @freezed
-class CreateCompletionResponse with _$CreateCompletionResponse {
+abstract class CreateCompletionResponse with _$CreateCompletionResponse {
   const CreateCompletionResponse._();
 
   /// Factory constructor for CreateCompletionResponse

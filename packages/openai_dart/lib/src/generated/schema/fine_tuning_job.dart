@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// The `fine_tuning.job` object represents a fine-tuning job that has been created through the API.
 @freezed
-class FineTuningJob with _$FineTuningJob {
+abstract class FineTuningJob with _$FineTuningJob {
   const FineTuningJob._();
 
   /// Factory constructor for FineTuningJob

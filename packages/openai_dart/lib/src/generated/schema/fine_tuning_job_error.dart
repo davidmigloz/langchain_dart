@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// For fine-tuning jobs that have `failed`, this will contain more information on the cause of the failure.
 @freezed
-class FineTuningJobError with _$FineTuningJobError {
+abstract class FineTuningJobError with _$FineTuningJobError {
   const FineTuningJobError._();
 
   /// Factory constructor for FineTuningJobError

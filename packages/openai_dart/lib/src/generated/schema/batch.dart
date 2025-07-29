@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Represents a batch of requests.
 @freezed
-class Batch with _$Batch {
+abstract class Batch with _$Batch {
   const Batch._();
 
   /// Factory constructor for Batch
@@ -155,7 +155,7 @@ enum BatchObject {
 
 /// No Description
 @freezed
-class BatchErrors with _$BatchErrors {
+abstract class BatchErrors with _$BatchErrors {
   const BatchErrors._();
 
   /// Factory constructor for BatchErrors
@@ -218,7 +218,7 @@ enum BatchStatus {
 
 /// The request counts for different statuses within the batch.
 @freezed
-class BatchRequestCounts with _$BatchRequestCounts {
+abstract class BatchRequestCounts with _$BatchRequestCounts {
   const BatchRequestCounts._();
 
   /// Factory constructor for BatchRequestCounts
@@ -261,7 +261,7 @@ class BatchRequestCounts with _$BatchRequestCounts {
 
 /// No Description
 @freezed
-class BatchErrorsDataInner with _$BatchErrorsDataInner {
+abstract class BatchErrorsDataInner with _$BatchErrorsDataInner {
   const BatchErrorsDataInner._();
 
   /// Factory constructor for BatchErrorsDataInner

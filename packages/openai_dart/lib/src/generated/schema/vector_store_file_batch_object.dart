@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// A batch of files attached to a vector store.
 @freezed
-class VectorStoreFileBatchObject with _$VectorStoreFileBatchObject {
+abstract class VectorStoreFileBatchObject with _$VectorStoreFileBatchObject {
   const VectorStoreFileBatchObject._();
 
   /// Factory constructor for VectorStoreFileBatchObject
@@ -89,7 +89,7 @@ enum VectorStoreFileBatchObjectStatus {
 
 /// The number of files per status.
 @freezed
-class VectorStoreFileBatchObjectFileCounts
+abstract class VectorStoreFileBatchObjectFileCounts
     with _$VectorStoreFileBatchObjectFileCounts {
   const VectorStoreFileBatchObjectFileCounts._();
 

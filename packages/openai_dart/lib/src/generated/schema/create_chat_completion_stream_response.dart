@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Represents a streamed chunk of a chat completion response returned by model, based on the provided input.
 @freezed
-class CreateChatCompletionStreamResponse
+abstract class CreateChatCompletionStreamResponse
     with _$CreateChatCompletionStreamResponse {
   const CreateChatCompletionStreamResponse._();
 

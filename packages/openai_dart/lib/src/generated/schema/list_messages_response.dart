@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Represents a list of messages returned by the List messages endpoint.
 @freezed
-class ListMessagesResponse with _$ListMessagesResponse {
+abstract class ListMessagesResponse with _$ListMessagesResponse {
   const ListMessagesResponse._();
 
   /// Factory constructor for ListMessagesResponse

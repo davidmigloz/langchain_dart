@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// A choice the model generated for the input prompt.
 @freezed
-class ChatCompletionStreamResponseChoice
+abstract class ChatCompletionStreamResponseChoice
     with _$ChatCompletionStreamResponseChoice {
   const ChatCompletionStreamResponseChoice._();
 
@@ -73,7 +73,7 @@ class ChatCompletionStreamResponseChoice
 
 /// Log probability information for the choice.
 @freezed
-class ChatCompletionStreamResponseChoiceLogprobs
+abstract class ChatCompletionStreamResponseChoiceLogprobs
     with _$ChatCompletionStreamResponseChoiceLogprobs {
   const ChatCompletionStreamResponseChoiceLogprobs._();
 

@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// A list of the categories along with their scores as predicted by model.
 @freezed
-class ModerationCategoriesScores with _$ModerationCategoriesScores {
+abstract class ModerationCategoriesScores with _$ModerationCategoriesScores {
   const ModerationCategoriesScores._();
 
   /// Factory constructor for ModerationCategoriesScores

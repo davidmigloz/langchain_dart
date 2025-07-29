@@ -73,7 +73,7 @@ sealed class MessageContentTextAnnotations
 
 /// No Description
 @freezed
-class MessageContentTextAnnotationsFilePath
+abstract class MessageContentTextAnnotationsFilePath
     with _$MessageContentTextAnnotationsFilePath {
   const MessageContentTextAnnotationsFilePath._();
 

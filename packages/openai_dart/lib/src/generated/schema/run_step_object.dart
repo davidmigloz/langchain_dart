@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Represents a step in execution of a run.
 @freezed
-class RunStepObject with _$RunStepObject {
+abstract class RunStepObject with _$RunStepObject {
   const RunStepObject._();
 
   /// Factory constructor for RunStepObject
@@ -165,7 +165,7 @@ enum RunStepStatus {
 
 /// The last error associated with this run step. Will be `null` if there are no errors.
 @freezed
-class RunStepLastError with _$RunStepLastError {
+abstract class RunStepLastError with _$RunStepLastError {
   const RunStepLastError._();
 
   /// Factory constructor for RunStepLastError

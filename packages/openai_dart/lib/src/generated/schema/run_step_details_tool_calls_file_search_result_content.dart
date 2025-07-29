@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// The content of the result that was found.
 @freezed
-class RunStepDetailsToolCallsFileSearchResultContent
+abstract class RunStepDetailsToolCallsFileSearchResultContent
     with _$RunStepDetailsToolCallsFileSearchResultContent {
   const RunStepDetailsToolCallsFileSearchResultContent._();
 

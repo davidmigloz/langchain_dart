@@ -10,7 +10,7 @@ part of openai_realtime_schema;
 
 /// A formatted property.
 @freezed
-class FormattedProperty with _$FormattedProperty {
+abstract class FormattedProperty with _$FormattedProperty {
   const FormattedProperty._();
 
   /// Factory constructor for FormattedProperty

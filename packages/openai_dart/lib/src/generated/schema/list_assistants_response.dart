@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Represents a list of assistants returned by the List assistants endpoint.
 @freezed
-class ListAssistantsResponse with _$ListAssistantsResponse {
+abstract class ListAssistantsResponse with _$ListAssistantsResponse {
   const ListAssistantsResponse._();
 
   /// Factory constructor for ListAssistantsResponse

@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Request object for the Create assistant endpoint.
 @freezed
-class CreateAssistantRequest with _$CreateAssistantRequest {
+abstract class CreateAssistantRequest with _$CreateAssistantRequest {
   const CreateAssistantRequest._();
 
   /// Factory constructor for CreateAssistantRequest

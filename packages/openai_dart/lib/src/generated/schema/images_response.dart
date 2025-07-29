@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Represents a generated image returned by the images endpoint.
 @freezed
-class ImagesResponse with _$ImagesResponse {
+abstract class ImagesResponse with _$ImagesResponse {
   const ImagesResponse._();
 
   /// Factory constructor for ImagesResponse

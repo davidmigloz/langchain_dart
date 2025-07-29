@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// No Description
 @freezed
-class DeleteMessageResponse with _$DeleteMessageResponse {
+abstract class DeleteMessageResponse with _$DeleteMessageResponse {
   const DeleteMessageResponse._();
 
   /// Factory constructor for DeleteMessageResponse

@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Fine-tuning job event object.
 @freezed
-class FineTuningJobEvent with _$FineTuningJobEvent {
+abstract class FineTuningJobEvent with _$FineTuningJobEvent {
   const FineTuningJobEvent._();
 
   /// Factory constructor for FineTuningJobEvent

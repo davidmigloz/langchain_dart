@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// The delta containing the fields that have changed on the Message.
 @freezed
-class MessageDelta with _$MessageDelta {
+abstract class MessageDelta with _$MessageDelta {
   const MessageDelta._();
 
   /// Factory constructor for MessageDelta

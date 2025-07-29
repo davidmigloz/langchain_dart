@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// The Code Interpreter tool call definition.
 @freezed
-class RunStepDetailsToolCallsCodeObjectCodeInterpreter
+abstract class RunStepDetailsToolCallsCodeObjectCodeInterpreter
     with _$RunStepDetailsToolCallsCodeObjectCodeInterpreter {
   const RunStepDetailsToolCallsCodeObjectCodeInterpreter._();
 

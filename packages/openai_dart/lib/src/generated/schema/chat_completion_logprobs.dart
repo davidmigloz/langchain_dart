@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Log probability information for the choice.
 @freezed
-class ChatCompletionLogprobs with _$ChatCompletionLogprobs {
+abstract class ChatCompletionLogprobs with _$ChatCompletionLogprobs {
   const ChatCompletionLogprobs._();
 
   /// Factory constructor for ChatCompletionLogprobs

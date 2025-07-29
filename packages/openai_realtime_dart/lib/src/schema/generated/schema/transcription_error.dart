@@ -10,7 +10,7 @@ part of openai_realtime_schema;
 
 /// Details of the transcription error.
 @freezed
-class TranscriptionError with _$TranscriptionError {
+abstract class TranscriptionError with _$TranscriptionError {
   const TranscriptionError._();
 
   /// Factory constructor for TranscriptionError

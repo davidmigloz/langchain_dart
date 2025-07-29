@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Usage statistics related to the run step. This value will be `null` while the run step's status is `in_progress`.
 @freezed
-class RunStepCompletionUsage with _$RunStepCompletionUsage {
+abstract class RunStepCompletionUsage with _$RunStepCompletionUsage {
   const RunStepCompletionUsage._();
 
   /// Factory constructor for RunStepCompletionUsage

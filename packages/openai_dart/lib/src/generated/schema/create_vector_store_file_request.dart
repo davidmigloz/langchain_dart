@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Request object for the Create vector store file endpoint.
 @freezed
-class CreateVectorStoreFileRequest with _$CreateVectorStoreFileRequest {
+abstract class CreateVectorStoreFileRequest with _$CreateVectorStoreFileRequest {
   const CreateVectorStoreFileRequest._();
 
   /// Factory constructor for CreateVectorStoreFileRequest

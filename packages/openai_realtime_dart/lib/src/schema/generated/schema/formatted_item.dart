@@ -10,7 +10,7 @@ part of openai_realtime_schema;
 
 /// A formatted item.
 @freezed
-class FormattedItem with _$FormattedItem {
+abstract class FormattedItem with _$FormattedItem {
   const FormattedItem._();
 
   /// Factory constructor for FormattedItem

@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Specifies a tool the model should use. Use to force the model to call a specific function.
 @freezed
-class ChatCompletionNamedToolChoice with _$ChatCompletionNamedToolChoice {
+abstract class ChatCompletionNamedToolChoice with _$ChatCompletionNamedToolChoice {
   const ChatCompletionNamedToolChoice._();
 
   /// Factory constructor for ChatCompletionNamedToolChoice
