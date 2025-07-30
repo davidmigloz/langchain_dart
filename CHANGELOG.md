@@ -2,6 +2,131 @@
 
 📣 Check out the [releases page](https://github.com/davidmigloz/langchain_dart/releases) or the [#announcements](https://discord.com/channels/1123158322812555295/1123250594644242534) channel on the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details.
 
+## 2025-07-30
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`anthropic_sdk_dart` - `v0.2.2`](#anthropic_sdk_dart---v022)
+ - [`chromadb` - `v0.2.2`](#chromadb---v022)
+ - [`googleai_dart` - `v0.1.2`](#googleai_dart---v012)
+ - [`langchain` - `v0.7.8+1`](#langchain---v0781)
+ - [`langchain_anthropic` - `v0.2.1+1`](#langchain_anthropic---v0211)
+ - [`langchain_chroma` - `v0.2.2+1`](#langchain_chroma---v0221)
+ - [`langchain_community` - `v0.3.4+1`](#langchain_community---v0341)
+ - [`langchain_core` - `v0.3.8`](#langchain_core---v038)
+ - [`langchain_firebase` - `v0.2.2+1`](#langchain_firebase---v0221)
+ - [`langchain_google` - `v0.6.5+1`](#langchain_google---v0651)
+ - [`langchain_mistralai` - `v0.2.4+1`](#langchain_mistralai---v0241)
+ - [`langchain_ollama` - `v0.3.3+1`](#langchain_ollama---v0331)
+ - [`langchain_openai` - `v0.7.5`](#langchain_openai---v075)
+ - [`langchain_pinecone` - `v0.1.1+1`](#langchain_pinecone---v0111)
+ - [`langchain_supabase` - `v0.1.2+1`](#langchain_supabase---v0121)
+ - [`mistralai_dart` - `v0.0.5`](#mistralai_dart---v005)
+ - [`ollama_dart` - `v0.2.4`](#ollama_dart---v024)
+ - [`openai_dart` - `v0.5.3`](#openai_dart---v053)
+ - [`openai_realtime_dart` - `v0.0.5`](#openai_realtime_dart---v005)
+ - [`tavily_dart` - `v0.1.2`](#tavily_dart---v012)
+ - [`vertex_ai` - `v0.1.2`](#vertex_ai---v012)
+
+---
+
+#### `anthropic_sdk_dart` - `v0.2.2`
+
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+#### `chromadb` - `v0.2.2`
+
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015)
+
+#### `googleai_dart` - `v0.1.2`
+
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+#### `langchain` - `v0.7.8+1`
+
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+#### `langchain_anthropic` - `v0.2.1+1`
+
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+#### `langchain_chroma` - `v0.2.2+1`
+
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+#### `langchain_community` - `v0.3.4+1`
+
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+#### `langchain_core` - `v0.3.8`
+
+ - **FEAT**: Make CreateChatCompletionStreamResponse.choices field nullable to support Groq's OpenAI-compatible API ([#742](https://github.com/davidmigloz/langchain_dart/issues/742)). ([76fbbdc6](https://github.com/davidmigloz/langchain_dart/commit/76fbbdc6f78e83f1f622ed73ff4b27b37a4f744b))
+ - **FIX**: Add multi-LLM compatibility for Tool.fromFunction getInputFromJson ([#738](https://github.com/davidmigloz/langchain_dart/issues/738)). ([291a0efc](https://github.com/davidmigloz/langchain_dart/commit/291a0efcebe1696f609ecbd0b803cc9324474db5))
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+#### `langchain_firebase` - `v0.2.2+1`
+
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+#### `langchain_google` - `v0.6.5+1`
+
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+#### `langchain_mistralai` - `v0.2.4+1`
+
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+#### `langchain_ollama` - `v0.3.3+1`
+
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+#### `langchain_openai` - `v0.7.5`
+
+ - **FEAT**: Make CreateChatCompletionStreamResponse.choices field nullable to support Groq's OpenAI-compatible API ([#742](https://github.com/davidmigloz/langchain_dart/issues/742)). ([76fbbdc6](https://github.com/davidmigloz/langchain_dart/commit/76fbbdc6f78e83f1f622ed73ff4b27b37a4f744b))
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+#### `langchain_pinecone` - `v0.1.1+1`
+
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+#### `langchain_supabase` - `v0.1.2+1`
+
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+#### `mistralai_dart` - `v0.0.5`
+
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+#### `ollama_dart` - `v0.2.4`
+
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+#### `openai_dart` - `v0.5.3`
+
+ - **FEAT**: Make CreateChatCompletionStreamResponse.choices field nullable to support Groq's OpenAI-compatible API ([#742](https://github.com/davidmigloz/langchain_dart/issues/742)). ([76fbbdc6](https://github.com/davidmigloz/langchain_dart/commit/76fbbdc6f78e83f1f622ed73ff4b27b37a4f744b))
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+#### `openai_realtime_dart` - `v0.0.5`
+
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+#### `tavily_dart` - `v0.1.2`
+
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+#### `vertex_ai` - `v0.1.2`
+
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+
 ## 2025-06-20
 
 ### Changes

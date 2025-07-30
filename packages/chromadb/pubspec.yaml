@@ -1,6 +1,6 @@
 name: chromadb
 description: Dart Client for the Chroma open-source embedding database API.
-version: 0.2.1
+version: 0.2.2
 repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/chromadb
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues
 homepage: https://github.com/davidmigloz/langchain_dart

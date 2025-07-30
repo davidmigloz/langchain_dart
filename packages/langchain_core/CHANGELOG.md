@@ -1,6 +1,8 @@
-📣 Check out the [releases page](https://github.com/davidmigloz/langchain_dart/releases) or the [#announcements](https://discord.com/channels/1123158322812555295/1123250594644242534) channel on the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details.
+## 0.3.8
 
----
+ - **FEAT**: Make CreateChatCompletionStreamResponse.choices field nullable to support Groq's OpenAI-compatible API ([#742](https://github.com/davidmigloz/langchain_dart/issues/742)). ([76fbbdc6](https://github.com/davidmigloz/langchain_dart/commit/76fbbdc6f78e83f1f622ed73ff4b27b37a4f744b))
+ - **FIX**: Add multi-LLM compatibility for Tool.fromFunction getInputFromJson ([#738](https://github.com/davidmigloz/langchain_dart/issues/738)). ([291a0efc](https://github.com/davidmigloz/langchain_dart/commit/291a0efcebe1696f609ecbd0b803cc9324474db5))
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
 
 ## 0.3.7
 
