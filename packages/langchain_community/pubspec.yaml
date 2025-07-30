@@ -32,7 +32,12 @@ dependencies:
   meta: ^1.16.0
   objectbox: ^4.3.0
   path: ^1.9.1
-  tavily_dart: ^0.1.1
+  tavily_dart:
+    #TODO: Only for Test Change after sync
+    git:
+      url: https://github.com/davidmigloz/langchain_dart.git
+      ref: 704102ff44ebfc30503d43992ccfb62a29cf95c1
+      path: packages/taivily_dart
   uuid: ^4.5.1
 
 dev_dependencies:
