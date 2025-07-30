@@ -40,6 +40,6 @@ dev_dependencies:
     #TODO: Only for Test Change after sync
     git:
       url: https://github.com/davidmigloz/langchain_dart.git
-      ref: b0a8b45799601e43a932ce234b26ce3cbb8e3c68
+      ref: 7f054ce1d99a89ebba9b1bedbb713b4a92dfe135
       path: packages/langchain_community
   test: ^1.25.15
