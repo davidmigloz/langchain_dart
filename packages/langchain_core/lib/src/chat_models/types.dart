@@ -523,20 +523,36 @@ class ToolChatMessage extends ChatMessage {
   const ToolChatMessage({
     required this.toolCallId,
     required this.content,
-  });
+  }) : toolResults = const [];
+
+  /// Chat message containing multiple tool chat messages.
+  ToolChatMessage.multi({
+    required Iterable<ToolChatMessage> toolResults,
+  })  : toolCallId = '',
+        content = '',
+        toolResults = toolResults.toList(growable: false);
 
   /// Converts a map to a [ToolChatMessage].
-  factory ToolChatMessage.fromMap(Map<String, dynamic> map) => ToolChatMessage(
-        toolCallId: map['toolCallId'] as String,
-        content: map['content'] as String,
-      );
+  factory ToolChatMessage.fromMap(Map<String, dynamic> map) =>
+      (map['toolCallId'] is String && map['content'] is String)
+          ? ToolChatMessage(
+              toolCallId: map['toolCallId'] as String,
+              content: map['content'] as String,
+            )
+          : ToolChatMessage.multi(
+              toolResults: (map['toolResults'] as List)
+                  .map((m) => ToolChatMessage.fromMap(m))
+                  .toList(growable: false),
+            );
 
   /// Converts this ChatMessage to a map along with a type hint for deserialization.
   @override
   Map<String, dynamic> toMap() => {
         ...super.toMap(),
-        'content': content,
-        'toolCallId': toolCallId,
+        if (toolResults.isEmpty) 'content': content,
+        if (toolResults.isEmpty) 'toolCallId': toolCallId,
+        if (toolResults.isNotEmpty)
+          'toolResults': toolResults.map((t) => t.toMap()).toList(),
         'type': 'tool',
       };
 
@@ -546,21 +562,48 @@ class ToolChatMessage extends ChatMessage {
   /// The response of the tool call.
   final String content;
 
+  /// The list of reponses in the event of multiple tool calls.
+  final List<ToolChatMessage> toolResults;
+
   /// Default prefix for [ToolChatMessage].
   static const defaultPrefix = 'Tool';
 
   @override
   bool operator ==(covariant final ToolChatMessage other) =>
       identical(this, other) ||
-      toolCallId == other.toolCallId && content == other.content;
+      toolCallId == other.toolCallId &&
+          content == other.content &&
+          toolResults.length == other.toolResults.length &&
+          toolResults.every(
+            (m) => other.toolResults.any((o) => o == m),
+          );
 
   @override
-  int get hashCode => toolCallId.hashCode ^ content.hashCode;
+  int get hashCode => toolResults.isEmpty
+      ? (toolCallId.hashCode ^ content.hashCode)
+      : toolResults.fold<int>(
+          0,
+          (h, m) => h ^ m.hashCode,
+        );
 
   @override
   ToolChatMessage concat(final ChatMessage other) {
     if (other is! ToolChatMessage) {
       return this;
+    }
+
+    if (toolResults.isNotEmpty) {
+      // Not sure this is the right way to go. I understand `concat` is used in streaming scenarios?
+      //
+      // In a multi-`ToolChatMessage` scenario, there will be a top `ToolChatMessage` (the multi) and a
+      // number of children `ToolChatMessage` (single results): `other` will have to be concatenated with
+      // the latest child message until the message is complete, then it must be concatenated with the
+      // top `ToolChatMessage`. It's the responsibility of the caller to decide which `ToolChatMessage`
+      // `other` needs to be concatenated with.
+      //
+      // However I'm not sure streaming makes sense in this scenario, because `ToolChatMessages` should
+      // not come from the LLM, and should be computed by user code instead?
+      return ToolChatMessage.multi(toolResults: [...toolResults, other]);
     }
 
     return ToolChatMessage(
@@ -571,11 +614,17 @@ class ToolChatMessage extends ChatMessage {
 
   @override
   String toString() {
-    return '''
+    return toolResults.isEmpty
+        ? '''
 ToolChatMessage{
   toolCallId: $toolCallId,
   content: $content,
-}''';
+}'''
+        : '''
+ToolChatMessage.multi{
+  toolResults: [
+${toolResults.map((t) => t.toString().split('\n').map((l) => '    $l').join('\n')).join(',\n')}
+]}''';
   }
 }
 

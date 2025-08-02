@@ -63,14 +63,21 @@ extension ChatMessagesMapper on List<ChatMessage> {
   }
 
   f.Content _mapToolChatMessage(final ToolChatMessage msg) {
-    Map<String, Object?>? response;
-    try {
-      response = jsonDecode(msg.content) as Map<String, Object?>;
-    } catch (_) {
-      response = {'result': msg.content};
+    if (msg.toolResults.isEmpty) {
+      Map<String, Object?> response;
+      try {
+        response = jsonDecode(msg.content) as Map<String, Object?>;
+      } catch (_) {
+        response = {'result': msg.content};
+      }
+      return f.Content.functionResponse(msg.toolCallId, response);
+    } else {
+      return f.Content.functionResponses(
+        msg.toolResults
+            .map((t) => _mapToolChatMessage(t).parts.first)
+            .cast<f.FunctionResponse>(),
+      );
     }
-
-    return f.Content.functionResponse(msg.toolCallId, response);
   }
 
   f.Content _mapCustomChatMessage(final CustomChatMessage msg) {
