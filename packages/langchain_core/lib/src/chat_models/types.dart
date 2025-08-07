@@ -611,6 +611,7 @@ class ToolChatMessage extends ChatMessage {
       content: content + other.content,
     );
   }
+
   @override
   String toString([int indentation = 0]) {
     final indent = '  ' * indentation;
@@ -623,25 +624,11 @@ $indent}''';
     } else {
       return '''
 ${indent}ToolChatMessage.multi{
-${indent}  toolResults: [
+$indent  toolResults: [
 ${toolResults.map((t) => t.toString(indentation + 2)).join(',\n')}
-${indent}  ]
-${indent}}''';
+$indent  ]
+$indent}''';
     }
-  }
-  @override
-  String toString() {
-    return toolResults.isEmpty
-        ? '''
-ToolChatMessage{
-  toolCallId: $toolCallId,
-  content: $content,
-}'''
-        : '''
-ToolChatMessage.multi{
-  toolResults: [
-${toolResults.map((t) => t.toString().split('\n').map((l) => '    $l').join('\n')).join(',\n')}
-]}''';
   }
 }
 
