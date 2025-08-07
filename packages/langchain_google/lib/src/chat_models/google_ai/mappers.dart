@@ -72,9 +72,9 @@ extension ChatMessagesMapper on List<ChatMessage> {
       return g.Content.functionResponse(msg.toolCallId, response);
     } else {
       return g.Content.functionResponses(
-        msg.toolResults
-            .map((t) => _mapToolChatMessage(t).parts.first)
-            .cast<g.FunctionResponse>(),
+        msg.toolResults.map(
+          (t) => _mapToolChatMessage(t).parts.first as g.FunctionResponse,
+        ),
       );
     }
   }

@@ -73,9 +73,9 @@ extension ChatMessagesMapper on List<ChatMessage> {
       return f.Content.functionResponse(msg.toolCallId, response);
     } else {
       return f.Content.functionResponses(
-        msg.toolResults
-            .map((t) => _mapToolChatMessage(t).parts.first)
-            .cast<f.FunctionResponse>(),
+        msg.toolResults.map(
+          (t) => _mapToolChatMessage(t).parts.first as f.FunctionResponse,
+        ),
       );
     }
   }
