@@ -14,7 +14,7 @@ import 'package:test/test.dart';
 
 void main() {
   group('ChatGoogleGenerativeAI tests', () {
-    const defaultModel = 'gemini-1.5-pro';
+    const defaultModel = 'gemini-2.5-flash';
 
     late ChatGoogleGenerativeAI chatModel;
 
@@ -33,9 +33,9 @@ void main() {
 
     test('Test Text-only input with gemini-pro', () async {
       const models = [
-        'gemini-1.0-pro',
-        'gemini-1.5-pro-latest',
-        'gemini-1.5-flash-latest',
+        'gemini-2.5-pro',
+        'gemini-2.5-flash',
+        'gemini-2.5-flash-lite',
       ];
       for (final model in models) {
         final res = await chatModel.invoke(
@@ -255,7 +255,7 @@ void main() {
           'Calculate the fibonacci sequence up to 10 terms and output the last one.',
         ),
         options: const ChatGoogleGenerativeAIOptions(
-          model: 'gemini-1.5-flash',
+          model: defaultModel,
           enableCodeExecution: true,
         ),
       );
@@ -263,6 +263,76 @@ void main() {
       expect(text, contains('34'));
       expect(res.metadata['executable_code'], isNotNull);
       expect(res.metadata['code_execution_result'], isNotNull);
+    });
+
+    // https://github.com/davidmigloz/langchain_dart/issues/753
+    test('Batches sequential tool responses into a single turn', () async {
+      const tool = ToolSpec(
+        name: 'add',
+        description: 'sum of `a` and `b`: result = `a` + `b`',
+        inputJsonSchema: {
+          'type': 'object',
+          'properties': {
+            'a': {'type': 'integer'},
+            'b': {'type': 'integer'},
+          },
+          'required': ['a', 'b'],
+        },
+      );
+
+      final model = chatModel.bind(
+        const ChatGoogleGenerativeAIOptions(
+          model: defaultModel,
+          tools: [tool],
+          temperature: 0,
+        ),
+      );
+
+      // Encourage Gemini to emit both function calls in a single model turn
+      final humanMessage = ChatMessage.humanText(
+        'Compute 1+2 and 5+8 in one go using the `add` tool only. '
+        'Do not produce the final answer until tool results are provided.',
+      );
+
+      final res1 = await model.invoke(PromptValue.chat([humanMessage]));
+      final aiMessage1 = res1.output;
+
+      // The model should request two tool calls in the same turn.
+      expect(aiMessage1.toolCalls, hasLength(2));
+      for (final call in aiMessage1.toolCalls) {
+        expect(call.name, tool.name);
+        expect(call.arguments.containsKey('a'), isTrue);
+        expect(call.arguments.containsKey('b'), isTrue);
+      }
+
+      // Provide two consecutive ToolChatMessages (these will be batched by the mapper)
+      final functionMessages = <ChatMessage>[];
+      for (final call in aiMessage1.toolCalls) {
+        final a = call.arguments['a'] as int;
+        final b = call.arguments['b'] as int;
+        final result = a + b;
+        functionMessages.add(
+          ChatMessage.tool(
+            toolCallId: call.id,
+            content: json.encode({'result': result}),
+          ),
+        );
+      }
+
+      // If batching works, a single functionResponses turn will be sent and this call succeeds
+      final res2 = await model.invoke(
+        PromptValue.chat([
+          humanMessage,
+          aiMessage1,
+          ...functionMessages,
+        ]),
+      );
+
+      final aiMessage2 = res2.output;
+      expect(aiMessage2.toolCalls, isEmpty);
+      // The final answer should incorporate both tool results: 3 and 13.
+      expect(aiMessage2.content, contains('3'));
+      expect(aiMessage2.content, contains('13'));
     });
   });
 }

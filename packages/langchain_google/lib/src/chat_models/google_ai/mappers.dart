@@ -10,18 +10,57 @@ import 'types.dart';
 
 extension ChatMessagesMapper on List<ChatMessage> {
   List<g.Content> toContentList() {
-    return where((msg) => msg is! SystemChatMessage)
-        .map(
-          (final message) => switch (message) {
-            SystemChatMessage() =>
-              throw AssertionError('System messages should be filtered out'),
-            final HumanChatMessage msg => _mapHumanChatMessage(msg),
-            final AIChatMessage msg => _mapAIChatMessage(msg),
-            final ToolChatMessage msg => _mapToolChatMessage(msg),
-            final CustomChatMessage msg => _mapCustomChatMessage(msg),
-          },
-        )
-        .toList(growable: false);
+    final result = <g.Content>[];
+
+    // NOTE: Gemini can return multiple FunctionCall parts in a single model turn.
+    // The API requires the next turn to be ONE Content.functionResponses that
+    // includes the SAME number of FunctionResponse parts, in the SAME order.
+    // If we send each ToolChatMessage separately, the counts won't match and
+    // google_generative_ai throws:
+    // "Please ensure that the number of function response parts is equal to the number
+    // of function call parts of the function call turn."
+    // Therefore we batch consecutive ToolChatMessage instances into a single
+    // g.Content.functionResponses([...]).
+    List<g.FunctionResponse>? pendingToolResponses;
+
+    void flushToolResponses() {
+      if (pendingToolResponses != null && pendingToolResponses!.isNotEmpty) {
+        result.add(g.Content.functionResponses(pendingToolResponses!));
+        pendingToolResponses = null;
+      }
+    }
+
+    for (final message in this) {
+      if (message is SystemChatMessage) {
+        continue; // System messages are ignored
+      }
+
+      if (message is ToolChatMessage) {
+        // Start (or continue) a batch of tool responses
+        pendingToolResponses ??= <g.FunctionResponse>[];
+        pendingToolResponses!.add(_toolMsgToFunctionResponse(message));
+        continue;
+      }
+
+      // Any non-tool message breaks the batch: flush before adding it
+      flushToolResponses();
+
+      switch (message) {
+        case final HumanChatMessage msg:
+          result.add(_mapHumanChatMessage(msg));
+        case final AIChatMessage msg:
+          result.add(_mapAIChatMessage(msg));
+        case final CustomChatMessage msg:
+          result.add(_mapCustomChatMessage(msg));
+        default:
+          throw UnsupportedError('Unknown message type: $message');
+      }
+    }
+
+    // Flush remaining batched tool responses at the end
+    flushToolResponses();
+
+    return result;
   }
 
   g.Content _mapHumanChatMessage(final HumanChatMessage msg) {
@@ -61,17 +100,14 @@ extension ChatMessagesMapper on List<ChatMessage> {
     return g.Content.model(contentParts);
   }
 
-  g.Content _mapToolChatMessage(final ToolChatMessage msg) {
-    Map<String, Object?>? response;
+  g.FunctionResponse _toolMsgToFunctionResponse(final ToolChatMessage msg) {
+    Map<String, Object?> response;
     try {
       response = jsonDecode(msg.content) as Map<String, Object?>;
     } catch (_) {
       response = {'result': msg.content};
     }
-
-    return g.Content.functionResponses(
-      [g.FunctionResponse(msg.toolCallId, response)],
-    );
+    return g.FunctionResponse(msg.toolCallId, response);
   }
 
   g.Content _mapCustomChatMessage(final CustomChatMessage msg) {
