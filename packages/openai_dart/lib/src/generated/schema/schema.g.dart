@@ -415,6 +415,7 @@ Map<String, dynamic> _$$CreateChatCompletionRequestImplToJson(
     };
 
 const _$ReasoningEffortEnumMap = {
+  ReasoningEffort.minimal: 'minimal',
   ReasoningEffort.low: 'low',
   ReasoningEffort.medium: 'medium',
   ReasoningEffort.high: 'high',
