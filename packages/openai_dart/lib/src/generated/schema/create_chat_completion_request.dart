@@ -232,6 +232,16 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     ///
     /// A list of functions the model may generate JSON inputs for.
     @JsonKey(includeIfNull: false) List<FunctionObject>? functions,
+
+    /// Constrains the verbosity of the model's response. Lower values will result in
+    /// more concise responses, while higher values will result in more verbose responses.
+    /// Currently supported values are `low`, `medium`, and `high`.
+    @JsonKey(
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue,
+    )
+    @Default(Verbosity.medium)
+    Verbosity? verbosity,
   }) = _CreateChatCompletionRequest;
 
   /// Object construction from a JSON representation
@@ -270,7 +280,8 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     'parallel_tool_calls',
     'user',
     'function_call',
-    'functions'
+    'functions',
+    'verbosity'
   ];
 
   /// Validation constants
@@ -364,6 +375,7 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
       'user': user,
       'function_call': functionCall,
       'functions': functions,
+      'verbosity': verbosity,
     };
   }
 }

@@ -3784,6 +3784,13 @@ mixin _$CreateChatCompletionRequest {
   @JsonKey(includeIfNull: false)
   List<FunctionObject>? get functions => throw _privateConstructorUsedError;
 
+  /// Constrains the verbosity of the model's response. Lower values will result in
+  /// more concise responses, while higher values will result in more verbose responses.
+  /// Currently supported values are `low`, `medium`, and `high`.
+  @JsonKey(
+      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  Verbosity? get verbosity => throw _privateConstructorUsedError;
+
   /// Serializes this CreateChatCompletionRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
@@ -3855,7 +3862,11 @@ abstract class $CreateChatCompletionRequestCopyWith<$Res> {
       @_ChatCompletionFunctionCallConverter()
       @JsonKey(name: 'function_call', includeIfNull: false)
       ChatCompletionFunctionCall? functionCall,
-      @JsonKey(includeIfNull: false) List<FunctionObject>? functions});
+      @JsonKey(includeIfNull: false) List<FunctionObject>? functions,
+      @JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      Verbosity? verbosity});
 
   $ChatCompletionModelCopyWith<$Res> get model;
   $PredictionContentCopyWith<$Res>? get prediction;
@@ -3915,6 +3926,7 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res,
     Object? user = freezed,
     Object? functionCall = freezed,
     Object? functions = freezed,
+    Object? verbosity = freezed,
   }) {
     return _then(_value.copyWith(
       model: null == model
@@ -4041,6 +4053,10 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res,
           ? _value.functions
           : functions // ignore: cast_nullable_to_non_nullable
               as List<FunctionObject>?,
+      verbosity: freezed == verbosity
+          ? _value.verbosity
+          : verbosity // ignore: cast_nullable_to_non_nullable
+              as Verbosity?,
     ) as $Val);
   }
 
@@ -4232,7 +4248,11 @@ abstract class _$$CreateChatCompletionRequestImplCopyWith<$Res>
       @_ChatCompletionFunctionCallConverter()
       @JsonKey(name: 'function_call', includeIfNull: false)
       ChatCompletionFunctionCall? functionCall,
-      @JsonKey(includeIfNull: false) List<FunctionObject>? functions});
+      @JsonKey(includeIfNull: false) List<FunctionObject>? functions,
+      @JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      Verbosity? verbosity});
 
   @override
   $ChatCompletionModelCopyWith<$Res> get model;
@@ -4300,6 +4320,7 @@ class __$$CreateChatCompletionRequestImplCopyWithImpl<$Res>
     Object? user = freezed,
     Object? functionCall = freezed,
     Object? functions = freezed,
+    Object? verbosity = freezed,
   }) {
     return _then(_$CreateChatCompletionRequestImpl(
       model: null == model
@@ -4426,6 +4447,10 @@ class __$$CreateChatCompletionRequestImplCopyWithImpl<$Res>
           ? _value._functions
           : functions // ignore: cast_nullable_to_non_nullable
               as List<FunctionObject>?,
+      verbosity: freezed == verbosity
+          ? _value.verbosity
+          : verbosity // ignore: cast_nullable_to_non_nullable
+              as Verbosity?,
     ));
   }
 }
@@ -4484,7 +4509,11 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
       @_ChatCompletionFunctionCallConverter()
       @JsonKey(name: 'function_call', includeIfNull: false)
       this.functionCall,
-      @JsonKey(includeIfNull: false) final List<FunctionObject>? functions})
+      @JsonKey(includeIfNull: false) final List<FunctionObject>? functions,
+      @JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      this.verbosity = Verbosity.medium})
       : _messages = messages,
         _metadata = metadata,
         _logitBias = logitBias,
@@ -4827,9 +4856,17 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
     return EqualUnmodifiableListView(value);
   }
 
+  /// Constrains the verbosity of the model's response. Lower values will result in
+  /// more concise responses, while higher values will result in more verbose responses.
+  /// Currently supported values are `low`, `medium`, and `high`.
+  @override
+  @JsonKey(
+      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  final Verbosity? verbosity;
+
   @override
   String toString() {
-    return 'CreateChatCompletionRequest(model: $model, messages: $messages, store: $store, reasoningEffort: $reasoningEffort, metadata: $metadata, frequencyPenalty: $frequencyPenalty, logitBias: $logitBias, logprobs: $logprobs, topLogprobs: $topLogprobs, maxTokens: $maxTokens, maxCompletionTokens: $maxCompletionTokens, n: $n, modalities: $modalities, prediction: $prediction, audio: $audio, presencePenalty: $presencePenalty, webSearchOptions: $webSearchOptions, responseFormat: $responseFormat, seed: $seed, serviceTier: $serviceTier, stop: $stop, stream: $stream, streamOptions: $streamOptions, temperature: $temperature, topP: $topP, tools: $tools, toolChoice: $toolChoice, parallelToolCalls: $parallelToolCalls, user: $user, functionCall: $functionCall, functions: $functions)';
+    return 'CreateChatCompletionRequest(model: $model, messages: $messages, store: $store, reasoningEffort: $reasoningEffort, metadata: $metadata, frequencyPenalty: $frequencyPenalty, logitBias: $logitBias, logprobs: $logprobs, topLogprobs: $topLogprobs, maxTokens: $maxTokens, maxCompletionTokens: $maxCompletionTokens, n: $n, modalities: $modalities, prediction: $prediction, audio: $audio, presencePenalty: $presencePenalty, webSearchOptions: $webSearchOptions, responseFormat: $responseFormat, seed: $seed, serviceTier: $serviceTier, stop: $stop, stream: $stream, streamOptions: $streamOptions, temperature: $temperature, topP: $topP, tools: $tools, toolChoice: $toolChoice, parallelToolCalls: $parallelToolCalls, user: $user, functionCall: $functionCall, functions: $functions, verbosity: $verbosity)';
   }
 
   @override
@@ -4886,7 +4923,9 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
             (identical(other.functionCall, functionCall) ||
                 other.functionCall == functionCall) &&
             const DeepCollectionEquality()
-                .equals(other._functions, _functions));
+                .equals(other._functions, _functions) &&
+            (identical(other.verbosity, verbosity) ||
+                other.verbosity == verbosity));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -4923,7 +4962,8 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
         parallelToolCalls,
         user,
         functionCall,
-        const DeepCollectionEquality().hash(_functions)
+        const DeepCollectionEquality().hash(_functions),
+        verbosity
       ]);
 
   /// Create a copy of CreateChatCompletionRequest
@@ -5001,9 +5041,11 @@ abstract class _CreateChatCompletionRequest
       @_ChatCompletionFunctionCallConverter()
       @JsonKey(name: 'function_call', includeIfNull: false)
       final ChatCompletionFunctionCall? functionCall,
-      @JsonKey(includeIfNull: false)
-      final List<FunctionObject>?
-          functions}) = _$CreateChatCompletionRequestImpl;
+      @JsonKey(includeIfNull: false) final List<FunctionObject>? functions,
+      @JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      final Verbosity? verbosity}) = _$CreateChatCompletionRequestImpl;
   const _CreateChatCompletionRequest._() : super._();
 
   factory _CreateChatCompletionRequest.fromJson(Map<String, dynamic> json) =
@@ -5272,6 +5314,14 @@ abstract class _CreateChatCompletionRequest
   @override
   @JsonKey(includeIfNull: false)
   List<FunctionObject>? get functions;
+
+  /// Constrains the verbosity of the model's response. Lower values will result in
+  /// more concise responses, while higher values will result in more verbose responses.
+  /// Currently supported values are `low`, `medium`, and `high`.
+  @override
+  @JsonKey(
+      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  Verbosity? get verbosity;
 
   /// Create a copy of CreateChatCompletionRequest
   /// with the given fields replaced by the non-null parameter values.

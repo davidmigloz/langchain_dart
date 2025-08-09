@@ -348,6 +348,9 @@ _$CreateChatCompletionRequestImpl _$$CreateChatCompletionRequestImplFromJson(
       functions: (json['functions'] as List<dynamic>?)
           ?.map((e) => FunctionObject.fromJson(e as Map<String, dynamic>))
           .toList(),
+      verbosity: $enumDecodeNullable(_$VerbosityEnumMap, json['verbosity'],
+              unknownValue: JsonKey.nullForUndefinedEnumValue) ??
+          Verbosity.medium,
     );
 
 Map<String, dynamic> _$$CreateChatCompletionRequestImplToJson(
@@ -407,6 +410,8 @@ Map<String, dynamic> _$$CreateChatCompletionRequestImplToJson(
         'function_call': value,
       if (instance.functions?.map((e) => e.toJson()).toList() case final value?)
         'functions': value,
+      if (_$VerbosityEnumMap[instance.verbosity] case final value?)
+        'verbosity': value,
     };
 
 const _$ReasoningEffortEnumMap = {
@@ -424,6 +429,12 @@ const _$CreateChatCompletionRequestServiceTierEnumMap = {
   CreateChatCompletionRequestServiceTier.auto: 'auto',
   CreateChatCompletionRequestServiceTier.vDefault: 'default',
   CreateChatCompletionRequestServiceTier.flex: 'flex',
+};
+
+const _$VerbosityEnumMap = {
+  Verbosity.low: 'low',
+  Verbosity.medium: 'medium',
+  Verbosity.high: 'high',
 };
 
 _$ChatCompletionModelEnumerationImpl
