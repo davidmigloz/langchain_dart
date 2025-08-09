@@ -656,8 +656,10 @@ void main() {
       expect(choice1.message.audio, isNotNull);
       expect(choice1.message.audio!.id, isNotEmpty);
       expect(choice1.message.audio!.expiresAt, greaterThan(0));
-      expect(choice1.message.audio!.transcript,
-          anyOf(contains('two'), contains('2')));
+      expect(
+        choice1.message.audio!.transcript,
+        anyOf(contains('two'), contains('2')),
+      );
       expect(choice1.message.audio!.data, isNotEmpty);
     });
 
