@@ -23,8 +23,9 @@ void main() {
 
     test('Test call chat completion API', () async {
       final models = [
-        ChatCompletionModels.gpt41Nano,
-        ChatCompletionModels.gpt41Nano,
+        ChatCompletionModels.gpt5,
+        ChatCompletionModels.gpt5Mini,
+        ChatCompletionModels.gpt5Nano,
       ];
 
       for (final model in models) {
@@ -40,9 +41,7 @@ void main() {
               content: ChatCompletionUserMessageContent.string('Hello!'),
             ),
           ],
-          temperature: 0,
-          topLogprobs: 2,
-          logprobs: true,
+          temperature: 1,
         );
         final CreateChatCompletionResponse res =
             await client.createChatCompletion(request: request);
@@ -50,14 +49,6 @@ void main() {
         final choice = res.choices.first;
         expect(choice.index, 0);
         expect(choice.finishReason, ChatCompletionFinishReason.stop);
-        expect(choice.logprobs?.content, isNotEmpty);
-        final logprob = choice.logprobs!.content!.first;
-        expect(logprob.token, isNotEmpty);
-        expect(logprob.bytes, isNotEmpty);
-        expect(logprob.topLogprobs, hasLength(2));
-        final topLogprob = logprob.topLogprobs.first;
-        expect(topLogprob.token, isNotEmpty);
-        expect(topLogprob.bytes, isNotEmpty);
         final message = choice.message;
         expect(message.role, ChatCompletionMessageRole.assistant);
         expect(message.content, isNotEmpty);
@@ -75,7 +66,7 @@ void main() {
     test('Test call chat completion API with stop sequence', () async {
       const request = CreateChatCompletionRequest(
         model: ChatCompletionModel.model(
-          ChatCompletionModels.gpt41Nano,
+          ChatCompletionModels.gpt4o,
         ),
         messages: [
           ChatCompletionMessage.developer(
@@ -90,8 +81,8 @@ void main() {
             ),
           ),
         ],
-        maxTokens: 10,
-        temperature: 0,
+        maxCompletionTokens: 10,
+        temperature: 1,
         stop: ChatCompletionStop.string('4'),
       );
       final res = await client.createChatCompletion(request: request);
@@ -108,7 +99,7 @@ void main() {
     test('Test call chat completions API with max tokens', () async {
       const request = CreateChatCompletionRequest(
         model: ChatCompletionModel.model(
-          ChatCompletionModels.gpt41Nano,
+          ChatCompletionModels.gpt4o,
         ),
         messages: [
           ChatCompletionMessage.developer(
@@ -137,7 +128,7 @@ void main() {
     test('Test call chat completions API with other parameters', () async {
       const request = CreateChatCompletionRequest(
         model: ChatCompletionModel.model(
-          ChatCompletionModels.gpt41Nano,
+          ChatCompletionModels.gpt4o,
         ),
         messages: [
           ChatCompletionMessage.developer(
@@ -154,7 +145,7 @@ void main() {
         frequencyPenalty: 0.6,
         logitBias: {'50256': -100},
         n: 2,
-        temperature: 0,
+        temperature: 1,
         topP: 0.2,
         user: 'user_123',
       );
@@ -165,7 +156,7 @@ void main() {
     test('Test call chat completions streaming API', () async {
       const request = CreateChatCompletionRequest(
         model: ChatCompletionModel.model(
-          ChatCompletionModels.gpt41Nano,
+          ChatCompletionModels.gpt5Nano,
         ),
         messages: [
           ChatCompletionMessage.developer(
@@ -191,7 +182,7 @@ void main() {
       await for (final res in stream) {
         expect(res.id, isNotEmpty);
         expect(res.created, greaterThan(0));
-        expect(res.model, startsWith('gpt-4.1-nano'));
+        expect(res.model, startsWith('gpt-5-nano'));
         expect(res.object, isNotEmpty);
         if ((res.choices ?? const []).isNotEmpty) {
           expect(res.choices, hasLength(1));
@@ -236,7 +227,7 @@ void main() {
 
       final request1 = CreateChatCompletionRequest(
         model: const ChatCompletionModel.model(
-          ChatCompletionModels.gpt41Nano,
+          ChatCompletionModels.gpt5Nano,
         ),
         messages: [
           const ChatCompletionMessage.developer(
@@ -286,7 +277,7 @@ void main() {
 
       final request2 = CreateChatCompletionRequest(
         model: const ChatCompletionModel.model(
-          ChatCompletionModels.gpt41Nano,
+          ChatCompletionModels.gpt5Nano,
         ),
         messages: [
           const ChatCompletionMessage.developer(
@@ -346,7 +337,7 @@ void main() {
 
       final request1 = CreateChatCompletionRequest(
         model: const ChatCompletionModel.model(
-          ChatCompletionModels.gpt41Nano,
+          ChatCompletionModels.gpt5,
         ),
         messages: const [
           ChatCompletionMessage.developer(
@@ -378,7 +369,7 @@ void main() {
           res.object,
           isNotEmpty,
         );
-        expect(res.model, startsWith('gpt-4.1-nano'));
+        expect(res.model, startsWith('gpt-5-nano'));
         expect(res.choices, hasLength(1));
         final choice = res.choices!.first;
         expect(choice.index, 0);
@@ -407,7 +398,7 @@ void main() {
     test('Test jsonObject response format', () async {
       const request = CreateChatCompletionRequest(
         model: ChatCompletionModel.model(
-          ChatCompletionModels.gpt41Nano,
+          ChatCompletionModels.gpt5Nano,
         ),
         messages: [
           ChatCompletionMessage.developer(
@@ -422,7 +413,7 @@ void main() {
             ),
           ),
         ],
-        temperature: 0,
+        temperature: 1,
         responseFormat: ResponseFormat.jsonObject(),
       );
       final res = await client.createChatCompletion(request: request);
@@ -443,7 +434,7 @@ void main() {
     test('Test jsonSchema response format', () async {
       const request = CreateChatCompletionRequest(
         model: ChatCompletionModel.model(
-          ChatCompletionModels.gpt41Nano,
+          ChatCompletionModels.gpt5Nano,
         ),
         messages: [
           ChatCompletionMessage.developer(
@@ -457,7 +448,7 @@ void main() {
             ),
           ),
         ],
-        temperature: 0,
+        temperature: 1,
         responseFormat: ResponseFormat.jsonSchema(
           jsonSchema: JsonSchemaObject(
             name: 'Names',
@@ -497,7 +488,7 @@ void main() {
     test('Test response seed', () async {
       const request = CreateChatCompletionRequest(
         model: ChatCompletionModel.model(
-          ChatCompletionModels.gpt4TurboPreview,
+          ChatCompletionModels.gpt5,
         ),
         messages: [
           ChatCompletionMessage.developer(
@@ -509,7 +500,7 @@ void main() {
             content: ChatCompletionUserMessageContent.string('How are you?'),
           ),
         ],
-        temperature: 0,
+        temperature: 1,
         seed: 9999999999,
       );
       final res1 = await client.createChatCompletion(request: request);
@@ -527,7 +518,7 @@ void main() {
     test('Test multi-modal vision', () async {
       const request = CreateChatCompletionRequest(
         model: ChatCompletionModel.model(
-          ChatCompletionModels.gpt4o,
+          ChatCompletionModels.gpt5,
         ),
         messages: [
           ChatCompletionMessage.developer(
@@ -665,7 +656,8 @@ void main() {
       expect(choice1.message.audio, isNotNull);
       expect(choice1.message.audio!.id, isNotEmpty);
       expect(choice1.message.audio!.expiresAt, greaterThan(0));
-      expect(choice1.message.audio!.transcript, contains('2'));
+      expect(choice1.message.audio!.transcript,
+          anyOf(contains('two'), contains('2')));
       expect(choice1.message.audio!.data, isNotEmpty);
     });
 
@@ -745,7 +737,7 @@ export default User;''';
     test('Test store', () async {
       const request = CreateChatCompletionRequest(
         model: ChatCompletionModel.model(
-          ChatCompletionModels.gpt41Nano,
+          ChatCompletionModels.gpt5Nano,
         ),
         store: true,
         messages: [

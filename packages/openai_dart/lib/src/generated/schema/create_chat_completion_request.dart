@@ -374,6 +374,20 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
 
 /// Available completion models. Mind that the list may not be exhaustive nor up-to-date.
 enum ChatCompletionModels {
+  @JsonValue('gpt-5')
+  gpt5,
+  @JsonValue('gpt-5-mini')
+  gpt5Mini,
+  @JsonValue('gpt-5-nano')
+  gpt5Nano,
+  @JsonValue('gpt-5-2025-08-07')
+  gpt520250807,
+  @JsonValue('gpt-5-mini-2025-08-07')
+  gpt5Mini20250807,
+  @JsonValue('gpt-5-nano-2025-08-07')
+  gpt5Nano20250807,
+  @JsonValue('gpt-5-chat-latest')
+  gpt5ChatLatest,
   @JsonValue('gpt-4.1')
   gpt41,
   @JsonValue('gpt-4.1-mini')
@@ -446,6 +460,10 @@ enum ChatCompletionModels {
   gpt4oMini,
   @JsonValue('gpt-4o-mini-2024-07-18')
   gpt4oMini20240718,
+  @JsonValue('gpt-4.5-preview')
+  gpt45Preview,
+  @JsonValue('gpt-4.5-preview-2025-02-27')
+  gpt45Preview20250227,
   @JsonValue('gpt-4-turbo')
   gpt4Turbo,
   @JsonValue('gpt-4-turbo-2024-04-09')

@@ -191,6 +191,20 @@ class CreateRunRequest with _$CreateRunRequest {
 
 /// Available models. Mind that the list may not be exhaustive nor up-to-date.
 enum RunModels {
+  @JsonValue('gpt-5')
+  gpt5,
+  @JsonValue('gpt-5-mini')
+  gpt5Mini,
+  @JsonValue('gpt-5-nano')
+  gpt5Nano,
+  @JsonValue('gpt-5-2025-08-07')
+  gpt520250807,
+  @JsonValue('gpt-5-mini-2025-08-07')
+  gpt5Mini20250807,
+  @JsonValue('gpt-5-nano-2025-08-07')
+  gpt5Nano20250807,
+  @JsonValue('gpt-5-chat-latest')
+  gpt5ChatLatest,
   @JsonValue('gpt-4.1')
   gpt41,
   @JsonValue('gpt-4.1-mini')
@@ -203,6 +217,14 @@ enum RunModels {
   gpt41Mini20250414,
   @JsonValue('gpt-4.1-nano-2025-04-14')
   gpt41Nano20250414,
+  @JsonValue('o4-mini')
+  o4Mini,
+  @JsonValue('o4-mini-2025-04-16')
+  o4Mini20250416,
+  @JsonValue('o3')
+  o3,
+  @JsonValue('o3-2025-04-16')
+  o320250416,
   @JsonValue('o3-mini')
   o3Mini,
   @JsonValue('o3-mini-2025-01-31')
@@ -211,6 +233,14 @@ enum RunModels {
   o1,
   @JsonValue('o1-2024-12-17')
   o120241217,
+  @JsonValue('o1-preview')
+  o1Preview,
+  @JsonValue('o1-preview-2024-09-12')
+  o1Preview20240912,
+  @JsonValue('o1-mini')
+  o1Mini,
+  @JsonValue('o1-mini-2024-09-12')
+  o1Mini20240912,
   @JsonValue('gpt-4o')
   gpt4o,
   @JsonValue('gpt-4o-2024-11-20')
@@ -219,6 +249,30 @@ enum RunModels {
   gpt4o20240806,
   @JsonValue('gpt-4o-2024-05-13')
   gpt4o20240513,
+  @JsonValue('gpt-4o-audio-preview')
+  gpt4oAudioPreview,
+  @JsonValue('gpt-4o-audio-preview-2024-10-01')
+  gpt4oAudioPreview20241001,
+  @JsonValue('gpt-4o-audio-preview-2024-12-17')
+  gpt4oAudioPreview20241217,
+  @JsonValue('gpt-4o-audio-preview-2025-06-03')
+  gpt4oAudioPreview20250603,
+  @JsonValue('gpt-4o-mini-audio-preview')
+  gpt4oMiniAudioPreview,
+  @JsonValue('gpt-4o-mini-audio-preview-2024-12-17')
+  gpt4oMiniAudioPreview20241217,
+  @JsonValue('gpt-4o-search-preview')
+  gpt4oSearchPreview,
+  @JsonValue('gpt-4o-mini-search-preview')
+  gpt4oMiniSearchPreview,
+  @JsonValue('gpt-4o-search-preview-2025-03-11')
+  gpt4oSearchPreview20250311,
+  @JsonValue('gpt-4o-mini-search-preview-2025-03-11')
+  gpt4oMiniSearchPreview20250311,
+  @JsonValue('chatgpt-4o-latest')
+  chatgpt4oLatest,
+  @JsonValue('codex-mini-latest')
+  codexMiniLatest,
   @JsonValue('gpt-4o-mini')
   gpt4oMini,
   @JsonValue('gpt-4o-mini-2024-07-18')
@@ -255,6 +309,8 @@ enum RunModels {
   gpt35Turbo,
   @JsonValue('gpt-3.5-turbo-16k')
   gpt35Turbo16k,
+  @JsonValue('gpt-3.5-turbo-0301')
+  gpt35Turbo0301,
   @JsonValue('gpt-3.5-turbo-0613')
   gpt35Turbo0613,
   @JsonValue('gpt-3.5-turbo-1106')
