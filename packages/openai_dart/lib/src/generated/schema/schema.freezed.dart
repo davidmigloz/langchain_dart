@@ -3564,11 +3564,9 @@ mixin _$CreateChatCompletionRequest {
   @JsonKey(includeIfNull: false)
   bool? get store => throw _privateConstructorUsedError;
 
-  /// **o1 models only**
-  ///
   /// Constrains effort on reasoning for
   /// [reasoning models](https://platform.openai.com/docs/guides/reasoning).
-  /// Currently supported values are `low`, `medium`, and `high`. Reducing
+  /// Currently supported values are `minimal`, `low`, `medium`, and `high`. Reducing
   /// reasoning effort can result in faster responses and fewer tokens used
   /// on reasoning in a response.
   @JsonKey(
@@ -4558,11 +4556,9 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
   @JsonKey(includeIfNull: false)
   final bool? store;
 
-  /// **o1 models only**
-  ///
   /// Constrains effort on reasoning for
   /// [reasoning models](https://platform.openai.com/docs/guides/reasoning).
-  /// Currently supported values are `low`, `medium`, and `high`. Reducing
+  /// Currently supported values are `minimal`, `low`, `medium`, and `high`. Reducing
   /// reasoning effort can result in faster responses and fewer tokens used
   /// on reasoning in a response.
   @override
@@ -5072,11 +5068,9 @@ abstract class _CreateChatCompletionRequest
   @JsonKey(includeIfNull: false)
   bool? get store;
 
-  /// **o1 models only**
-  ///
   /// Constrains effort on reasoning for
   /// [reasoning models](https://platform.openai.com/docs/guides/reasoning).
-  /// Currently supported values are `low`, `medium`, and `high`. Reducing
+  /// Currently supported values are `minimal`, `low`, `medium`, and `high`. Reducing
   /// reasoning effort can result in faster responses and fewer tokens used
   /// on reasoning in a response.
   @override
