@@ -106,16 +106,15 @@ Related guide: [Chat Completions](https://platform.openai.com/docs/guides/chat-c
 ```dart
 final res = await client.createChatCompletion(
   request: CreateChatCompletionRequest(
-    model: ChatCompletionModel.modelId('gpt-4o'),
+    model: ChatCompletionModel.modelId('gpt-5'),
     messages: [
-      ChatCompletionMessage.system(
+      ChatCompletionMessage.developer(
         content: 'You are a helpful assistant.',
       ),
       ChatCompletionMessage.user(
         content: ChatCompletionUserMessageContent.string('Hello!'),
       ),
     ],
-    temperature: 0,
   ),
 );
 print(res.choices.first.message.content);
@@ -123,11 +122,11 @@ print(res.choices.first.message.content);
 ```
 
 `ChatCompletionModel` is a sealed class that offers two ways to specify the model:
-- `ChatCompletionModel.modelId('model-id')`: the model ID as string (e.g. `'gpt-4o'` or your fine-tuned model ID).
-- `ChatCompletionModel.model(ChatCompletionModels.gpt4o)`: a value from `ChatCompletionModels` enum which lists all of the available models.
+- `ChatCompletionModel.modelId('model-id')`: the model ID as string (e.g. `'gpt-5'` or your fine-tuned model ID).
+- `ChatCompletionModel.model(ChatCompletionModels.gpt5)`: a value from `ChatCompletionModels` enum which lists all of the available models.
 
 `ChatCompletionMessage` is a sealed class that supports the following message types:
-- `ChatCompletionMessage.system()`: a system message.
+- `ChatCompletionMessage.developer()`: a developer message.
 - `ChatCompletionMessage.user()`: a user message.
 - `ChatCompletionMessage.assistant()`: an assistant message.
 - `ChatCompletionMessage.tool()`: a tool message.
@@ -144,9 +143,9 @@ print(res.choices.first.message.content);
 ```dart
 final stream = client.createChatCompletionStream(
   request: CreateChatCompletionRequest(
-    model: ChatCompletionModel.modelId('gpt-4o'),
+    model: ChatCompletionModel.modelId('gpt-5'),
     messages: [
-      ChatCompletionMessage.system(
+      ChatCompletionMessage.developer(
         content:
             'You are a helpful assistant that replies only with numbers '
             'in order without any spaces or commas',
@@ -175,10 +174,10 @@ You can either provide the image URL:
 final res = await client.createChatCompletion(
   request: CreateChatCompletionRequest(
     model: ChatCompletionModel.model(
-      ChatCompletionModels.gpt4o,
+      ChatCompletionModels.gpt5,
     ),
     messages: [
-      ChatCompletionMessage.system(
+      ChatCompletionMessage.developer(
         content: 'You are a helpful assistant.',
       ),
       ChatCompletionMessage.user(
@@ -311,10 +310,10 @@ Structured Outputs is a feature that ensures the model will always generate resp
 final res = await client.createChatCompletion(
   request: CreateChatCompletionRequest(
     model: ChatCompletionModel.model(
-      ChatCompletionModels.gpt4oMini,
+      ChatCompletionModels.gpt5Mini,
     ),
     messages: [
-      ChatCompletionMessage.system(
+      ChatCompletionMessage.developer(
         content: 'You are a helpful assistant. That extracts names from text.',
       ),
       ChatCompletionMessage.user(
@@ -323,7 +322,6 @@ final res = await client.createChatCompletion(
         ),
       ),
     ],
-    temperature: 0,
     responseFormat: ResponseFormat.jsonSchema(
       jsonSchema: JsonSchemaObject(
         name: 'Names',
@@ -366,7 +364,7 @@ export default User;
 
 const request = CreateChatCompletionRequest(
   model: ChatCompletionModel.model(
-    ChatCompletionModels.gpt4o,
+    ChatCompletionModels.gpt5,
   ),
   messages: [
     ChatCompletionMessage.user(
@@ -413,7 +411,7 @@ final res = await client.createChatCompletion(
       ChatCompletionModels.gpt41106Preview,
     ),
     messages: [
-      ChatCompletionMessage.system(
+      ChatCompletionMessage.developer(
         content:
           'You are a helpful assistant. That extracts names from text '
           'and returns them in a JSON array.',
@@ -424,7 +422,6 @@ final res = await client.createChatCompletion(
         ),
       ),
     ],
-    temperature: 0,
     responseFormat: ChatCompletionResponseFormat(
       type: ChatCompletionResponseFormatType.jsonObject,
     ),
@@ -465,10 +462,10 @@ const tool = ChatCompletionTool(
 final res1 = await client.createChatCompletion(
   request: CreateChatCompletionRequest(
     model: ChatCompletionModel.model(
-      ChatCompletionModels.gpt4oMini,
+      ChatCompletionModels.gpt5Mini,
     ),
     messages: [
-      ChatCompletionMessage.system(
+      ChatCompletionMessage.developer(
         content: 'You are a helpful assistant.',
       ),
       ChatCompletionMessage.user(
@@ -496,7 +493,7 @@ final res2 = await client.createChatCompletion(
   request: CreateChatCompletionRequest(
     model: ChatCompletionModel.modelId('gpt-4-turbo'),
     messages: [
-      ChatCompletionMessage.system(
+      ChatCompletionMessage.developer(
         content: 'You are a helpful assistant.',
       ),
       ChatCompletionMessage.user(
@@ -525,7 +522,7 @@ You can store the output of a chat completion request for use in [model distilla
 ```dart
 final stream = client.createChatCompletionStream(
   request: CreateChatCompletionRequest(
-    model: ChatCompletionModel.modelId('gpt-4o'),
+    model: ChatCompletionModel.modelId('gpt-5'),
     store: true,
     messages: [
       //...
@@ -540,7 +537,7 @@ You can also attach metadata to the request to help you filter and search for st
 
 final stream = client.createChatCompletionStream(
   request: CreateChatCompletionRequest(
-    model: ChatCompletionModel.modelId('gpt-4o'),
+    model: ChatCompletionModel.modelId('gpt-5'),
     store: true,
     metadata: {
       'customer_id': '12345',
@@ -584,9 +581,9 @@ const function = FunctionObject(
 
 final res1 = await client.createChatCompletion(
   request: CreateChatCompletionRequest(
-    model: ChatCompletionModel.modelId('gpt-4o-mini'),
+    model: ChatCompletionModel.modelId('gpt-5-mini'),
     messages: [
-      ChatCompletionMessage.system(
+      ChatCompletionMessage.developer(
         content: 'You are a helpful assistant.',
       ),
       ChatCompletionMessage.user(
@@ -606,9 +603,9 @@ final functionResult = getCurrentWeather(arguments['location'], arguments['unit'
 
 final res2 = await client.createChatCompletion(
   request: CreateChatCompletionRequest(
-    model: ChatCompletionModel.modelId('gpt-4o-mini'),
+    model: ChatCompletionModel.modelId('gpt-5-mini'),
     messages: [
-      ChatCompletionMessage.system(
+      ChatCompletionMessage.developer(
         content: 'You are a helpful assistant.',
       ),
       ChatCompletionMessage.user(
@@ -642,8 +639,7 @@ final res = await client.createCompletion(
   request: CreateCompletionRequest(
     model: CompletionModel.modelId('gpt-3.5-turbo-instruct'),
     prompt: CompletionPrompt.string('Say this is a test'),
-    maxTokens: 7,
-    temperature: 0,
+    maxCompletionTokens: 7,
   ),
 );
 print(res.choices.first.text);
@@ -669,8 +665,7 @@ final stream = client.createCompletionStream(
     prompt: [
       'Say this is a test',
     ],
-    maxTokens: 7,
-    temperature: 0,
+    maxCompletionTokens: 7,
   ),
 );
 await for (final res in stream) {
@@ -731,7 +726,7 @@ Related guide: [Fine-tune models](https://platform.openai.com/docs/guides/fine-t
 
 ```dart
 const request = CreateFineTuningJobRequest(
-  model: FineTuningModel.modelId('gpt-4o-mini'),
+  model: FineTuningModel.modelId('gpt-5-mini'),
   trainingFile: 'file-abc123',
   validationFile: 'file-abc123',
   hyperparameters: FineTuningJobHyperparameters(
@@ -1102,7 +1097,7 @@ final res = await client.createThreadRun(
   request: CreateRunRequest(
     assistantId: assistantId,
     instructions: 'You are a helpful assistant that extracts names from text.',
-    model: CreateRunRequestModel.modelId('gpt-4o'),
+    model: CreateRunRequestModel.modelId('gpt-5'),
     responseFormat: CreateRunRequestResponseFormat.responseFormat(
         ResponseFormat.jsonSchema(
           jsonSchema: JsonSchemaObject(
