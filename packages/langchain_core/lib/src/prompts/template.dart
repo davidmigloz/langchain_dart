@@ -150,7 +150,7 @@ List<ParsedFStringNode> parseFStringTemplate(final String template) {
   final List<ParsedFStringNode> nodes = [];
 
   int nextBracket(final String bracket, final int start) {
-    for (int i = start; i < chars.length; i += 1) {
+    for (var i = start; i < chars.length; i += 1) {
       if (bracket.contains(chars[i])) {
         return i;
       }

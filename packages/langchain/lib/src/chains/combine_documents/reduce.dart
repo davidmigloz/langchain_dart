@@ -132,7 +132,7 @@ class ReduceDocumentsChain extends BaseCombineDocumentsChain {
   }) async {
     final lengthFunc = combineDocumentsChain.promptLength;
 
-    List<Document> resultDocs = docs;
+    var resultDocs = docs;
     int? numTokens = await lengthFunc(resultDocs, inputs: inputs);
 
     while (numTokens != null && numTokens > tokenMax) {
