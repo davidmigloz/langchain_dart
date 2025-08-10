@@ -240,7 +240,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   String get modelType => 'openai-chat';
 
   /// The default model to use unless another is specified.
-  static const defaultModel = 'gpt-4o-mini';
+  static const defaultModel = 'gpt-5-mini';
 
   @override
   Future<ChatResult> invoke(

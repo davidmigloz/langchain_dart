@@ -7,6 +7,13 @@ import 'package:meta/meta.dart';
 /// Options to pass into the OpenAI Chat Model.
 ///
 /// Available [ChatOpenAIOptions.model]s:
+/// - `gpt-5`
+/// - `gpt-5-mini`
+/// - `gpt-5-nano`
+/// - `gpt-5-2025-08-07`
+/// - `gpt-5-mini-2025-08-07`
+/// - `gpt-5-nano-2025-08-07`
+/// - `gpt-5-chat-latest`
 /// - `gpt-4.1`
 /// - `gpt-4.1-mini`
 /// - `gpt-4.1-nano`
@@ -43,6 +50,8 @@ import 'package:meta/meta.dart';
 /// - `codex-mini-latest`
 /// - `gpt-4o-mini`
 /// - `gpt-4o-mini-2024-07-18`
+/// - `gpt-4.5-preview`
+/// - `gpt-4.5-preview-2025-02-27`
 /// - `gpt-4-turbo`
 /// - `gpt-4-turbo-2024-04-09`
 /// - `gpt-4-0125-preview`
