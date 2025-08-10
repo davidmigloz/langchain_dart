@@ -2,6 +2,70 @@
 
 📣 Check out the [releases page](https://github.com/davidmigloz/langchain_dart/releases) or the [#announcements](https://discord.com/channels/1123158322812555295/1123250594644242534) channel on the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details.
 
+## 2025-08-10
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`langchain` - `v0.7.9`](#langchain---v079)
+ - [`langchain_core` - `v0.3.9`](#langchain_core---v039)
+ - [`langchain_firebase` - `v0.2.2+2`](#langchain_firebase---v0222)
+ - [`langchain_google` - `v0.6.5+2`](#langchain_google---v0652)
+ - [`langchain_openai` - `v0.7.6`](#langchain_openai---v076)
+ - [`openai_dart` - `v0.5.4`](#openai_dart---v054)
+ - [`langchain_anthropic` - `v0.2.1+2`](#langchain_anthropic---v0212)
+ - [`langchain_chroma` - `v0.2.2+2`](#langchain_chroma---v0222)
+ - [`langchain_community` - `v0.3.4+2`](#langchain_community---v0342)
+ - [`langchain_mistralai` - `v0.2.4+2`](#langchain_mistralai---v0242)
+ - [`langchain_ollama` - `v0.3.3+2`](#langchain_ollama---v0332)
+ - [`langchain_pinecone` - `v0.1.1+2`](#langchain_pinecone---v0112)
+ - [`langchain_supabase` - `v0.1.2+2`](#langchain_supabase---v0122)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `langchain_anthropic` - `v0.2.1+2`
+ - `langchain_chroma` - `v0.2.2+2`
+ - `langchain_community` - `v0.3.4+2`
+ - `langchain_mistralai` - `v0.2.4+2`
+ - `langchain_ollama` - `v0.3.3+2`
+ - `langchain_pinecone` - `v0.1.1+2`
+ - `langchain_supabase` - `v0.1.2+2`
+
+---
+
+#### `langchain` - `v0.7.9`
+
+ - **DOCS**: Remove Code Assist AI badge ([#752](https://github.com/davidmigloz/langchain_dart/issues/752)). ([dc0e70df](https://github.com/davidmigloz/langchain_dart/commit/dc0e70dfd9866267456b6caf0b76bf0cc646a425))
+
+#### `langchain_openai` - `v0.7.6`
+
+ - **FEAT**: Support reasoningEffort, verbosity and other new fields in ChatOpenAI ([#762](https://github.com/davidmigloz/langchain_dart/issues/762)). ([9cc5d591](https://github.com/davidmigloz/langchain_dart/commit/9cc5d591e868bd5dd3e0a926e564d797dd602dab))
+ - **FEAT**: Update ChatOpenAI default model to gpt-5-mini ([#761](https://github.com/davidmigloz/langchain_dart/issues/761)). ([b38ce320](https://github.com/davidmigloz/langchain_dart/commit/b38ce320971373454e10506e79ff75479b0391cd))
+
+#### `langchain_firebase` - `v0.2.2+2`
+
+ - **FIX**: Batch sequential tool responses in GoogleAI & Firebase VertexAI ([#757](https://github.com/davidmigloz/langchain_dart/issues/757)). ([8ff44486](https://github.com/davidmigloz/langchain_dart/commit/8ff4448665d26b49c1e1077d0822703e7d853d39))
+
+#### `langchain_google` - `v0.6.5+2`
+
+ - **FIX**: Batch sequential tool responses in GoogleAI & Firebase VertexAI ([#757](https://github.com/davidmigloz/langchain_dart/issues/757)). ([8ff44486](https://github.com/davidmigloz/langchain_dart/commit/8ff4448665d26b49c1e1077d0822703e7d853d39))
+
+#### `openai_dart` - `v0.5.4`
+
+ - **FEAT**: Add gpt-5 to model catalog in openai_dart ([#758](https://github.com/davidmigloz/langchain_dart/issues/758)). ([f92c94ed](https://github.com/davidmigloz/langchain_dart/commit/f92c94ed799ab49e988f97880017f041522216a6))
+ - **FEAT**: Add support for minimal reasoning effort in openai_dart ([#760](https://github.com/davidmigloz/langchain_dart/issues/760)). ([2ebc5506](https://github.com/davidmigloz/langchain_dart/commit/2ebc5506505e07f3d9b85ef60e1c54ed171a7480))
+ - **FEAT**: Add Verbosity support in openai_dart ([#759](https://github.com/davidmigloz/langchain_dart/issues/759)). ([3894da76](https://github.com/davidmigloz/langchain_dart/commit/3894da76229bb0fd4a5124b68cd02e2996a6854a))
+
+
 ## 2025-07-30
 
 ### Changes

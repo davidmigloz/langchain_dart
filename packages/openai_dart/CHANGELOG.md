@@ -1,3 +1,9 @@
+## 0.5.4
+
+ - **FEAT**: Add gpt-5 to model catalog ([#758](https://github.com/davidmigloz/langchain_dart/issues/758)). ([f92c94ed](https://github.com/davidmigloz/langchain_dart/commit/f92c94ed799ab49e988f97880017f041522216a6))
+ - **FEAT**: Add support for minimal reasoning effort ([#760](https://github.com/davidmigloz/langchain_dart/issues/760)). ([2ebc5506](https://github.com/davidmigloz/langchain_dart/commit/2ebc5506505e07f3d9b85ef60e1c54ed171a7480))
+ - **FEAT**: Add Verbosity support ([#759](https://github.com/davidmigloz/langchain_dart/issues/759)). ([3894da76](https://github.com/davidmigloz/langchain_dart/commit/3894da76229bb0fd4a5124b68cd02e2996a6854a))
+
 ## 0.5.3
 
  - **FEAT**: Make CreateChatCompletionStreamResponse.choices field nullable to support Groq's OpenAI-compatible API ([#742](https://github.com/davidmigloz/langchain_dart/issues/742)). ([76fbbdc6](https://github.com/davidmigloz/langchain_dart/commit/76fbbdc6f78e83f1f622ed73ff4b27b37a4f744b))

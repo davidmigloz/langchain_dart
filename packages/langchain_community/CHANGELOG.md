@@ -1,3 +1,7 @@
+## 0.3.4+2
+
+ - Update a dependency to the latest release.
+
 ## 0.3.4+1
 
  - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))

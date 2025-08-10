@@ -1,3 +1,8 @@
+## 0.7.6
+
+ - **FEAT**: Support reasoningEffort, verbosity and other new fields in ChatOpenAI ([#762](https://github.com/davidmigloz/langchain_dart/issues/762)). ([9cc5d591](https://github.com/davidmigloz/langchain_dart/commit/9cc5d591e868bd5dd3e0a926e564d797dd602dab))
+ - **FEAT**: Update ChatOpenAI default model to gpt-5-mini ([#761](https://github.com/davidmigloz/langchain_dart/issues/761)). ([b38ce320](https://github.com/davidmigloz/langchain_dart/commit/b38ce320971373454e10506e79ff75479b0391cd))
+
 ## 0.7.5
 
  - **FEAT**: Make CreateChatCompletionStreamResponse.choices field nullable to support Groq's OpenAI-compatible API ([#742](https://github.com/davidmigloz/langchain_dart/issues/742)). ([76fbbdc6](https://github.com/davidmigloz/langchain_dart/commit/76fbbdc6f78e83f1f622ed73ff4b27b37a4f744b))
