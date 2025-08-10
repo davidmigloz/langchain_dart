@@ -13,7 +13,7 @@ import '../prompts/types.dart';
 /// - A list of lists will be reduced to a single list containing a single reduced item.
 /// - A list of maps will be reduced to a single map containing the reduced items.
 /// - If a type is not recognized, the last item in the list will be returned.
-Type reduce<Type>(final Iterable<Type> input) {
+T reduce<T>(final Iterable<T> input) {
   if (input.isEmpty) {
     throw Exception('Cannot reduce an empty list');
   } else if (input.length == 1) {
@@ -40,7 +40,7 @@ Type reduce<Type>(final Iterable<Type> input) {
     Map<String, dynamic>() => _reduceMap(input.cast<Map<String, dynamic>>()),
     Map<dynamic, dynamic>() => _reduceMap(input.cast<Map<dynamic, dynamic>>()),
     _ => input.last,
-  } as Type;
+  } as T;
 }
 
 Iterable<V> _reduceIterable<V>(final Iterable<Iterable<V>> input) {
