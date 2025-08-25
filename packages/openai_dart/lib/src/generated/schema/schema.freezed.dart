@@ -4511,7 +4511,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
       @JsonKey(
           includeIfNull: false,
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-      this.verbosity = Verbosity.medium})
+      this.verbosity})
       : _messages = messages,
         _metadata = metadata,
         _logitBias = logitBias,
