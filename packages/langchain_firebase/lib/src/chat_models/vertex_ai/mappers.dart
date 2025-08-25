@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs
 import 'dart:convert';
 
-// ignore: depend_on_referenced_packages, implementation_imports
+// ignore: implementation_imports
 import 'package:firebase_ai/src/content.dart';
 import 'package:firebase_vertexai/firebase_vertexai.dart' as f;
 import 'package:langchain_core/chat_models.dart';

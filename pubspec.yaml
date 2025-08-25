@@ -73,6 +73,7 @@ melos:
         crypto: ^3.0.6
         csv: ^6.0.0
         equatable: ^2.0.7
+        firebase_ai: ^3.1.0
         firebase_app_check: ^0.4.0
         firebase_auth: ^6.0.0
         firebase_core: ^4.0.0
