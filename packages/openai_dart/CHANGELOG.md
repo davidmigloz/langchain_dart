@@ -1,3 +1,7 @@
+## 0.5.4+1
+
+ - **FIX**: Change CreateChatCompletionRequest.verbosity default value to null ([#771](https://github.com/davidmigloz/langchain_dart/issues/771)). ([46d22905](https://github.com/davidmigloz/langchain_dart/commit/46d22905fee42dd7f1b149d676323d8bce57630f))
+
 ## 0.5.4
 
  - **FEAT**: Add gpt-5 to model catalog ([#758](https://github.com/davidmigloz/langchain_dart/issues/758)). ([f92c94ed](https://github.com/davidmigloz/langchain_dart/commit/f92c94ed799ab49e988f97880017f041522216a6))

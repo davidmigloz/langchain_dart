@@ -17,7 +17,7 @@ dependencies:
   langchain_google: ^0.6.5+2
   langchain_mistralai: ^0.2.4+2
   langchain_ollama: ^0.3.3+2
-  langchain_openai: ^0.7.6
+  langchain_openai: ^0.7.6+1
 
 flutter:
   uses-material-design: true

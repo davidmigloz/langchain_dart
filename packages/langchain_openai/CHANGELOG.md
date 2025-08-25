@@ -1,3 +1,7 @@
+## 0.7.6+1
+
+ - Update a dependency to the latest release.
+
 ## 0.7.6
 
  - **FEAT**: Support reasoningEffort, verbosity and other new fields in ChatOpenAI ([#762](https://github.com/davidmigloz/langchain_dart/issues/762)). ([9cc5d591](https://github.com/davidmigloz/langchain_dart/commit/9cc5d591e868bd5dd3e0a926e564d797dd602dab))

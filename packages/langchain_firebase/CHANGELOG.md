@@ -1,3 +1,7 @@
+## 0.2.2+3
+
+ - **FIX**: Breaking change in firebase_vertexai package ([#770](https://github.com/davidmigloz/langchain_dart/issues/770)). ([6a21546e](https://github.com/davidmigloz/langchain_dart/commit/6a21546e889956cc8e0f9282073757e8aa2abeb3))
+
 ## 0.2.2+2
 
  - **FIX**: Batch sequential tool responses in GoogleAI & Firebase VertexAI ([#757](https://github.com/davidmigloz/langchain_dart/issues/757)). ([8ff44486](https://github.com/davidmigloz/langchain_dart/commit/8ff4448665d26b49c1e1077d0822703e7d853d39))
