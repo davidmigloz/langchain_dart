@@ -2,6 +2,27 @@
 
 📣 Check out the [releases page](https://github.com/davidmigloz/langchain_dart/releases) or the [#announcements](https://discord.com/channels/1123158322812555295/1123250594644242534) channel on the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details.
 
+## 2025-08-26
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`langchain_firebase` - `v0.2.2+4`](#langchain_firebase---v0224)
+
+---
+
+#### `langchain_firebase` - `v0.2.2+4`
+
+ - **FIX**: depend_on_referenced_packages error ([#772](https://github.com/davidmigloz/langchain_dart/issues/772)). ([ef57d530](https://github.com/davidmigloz/langchain_dart/commit/ef57d5303331c7cb85fdb077a50e040a819ec94e))
+
+
 ## 2025-08-25
 
 ### Changes

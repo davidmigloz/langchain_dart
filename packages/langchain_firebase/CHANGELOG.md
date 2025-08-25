@@ -1,3 +1,7 @@
+## 0.2.2+4
+
+ - **FIX**: depend_on_referenced_packages error ([#772](https://github.com/davidmigloz/langchain_dart/issues/772)). ([ef57d530](https://github.com/davidmigloz/langchain_dart/commit/ef57d5303331c7cb85fdb077a50e040a819ec94e))
+
 ## 0.2.2+3
 
  - **FIX**: Breaking change in firebase_vertexai package ([#770](https://github.com/davidmigloz/langchain_dart/issues/770)). ([6a21546e](https://github.com/davidmigloz/langchain_dart/commit/6a21546e889956cc8e0f9282073757e8aa2abeb3))
