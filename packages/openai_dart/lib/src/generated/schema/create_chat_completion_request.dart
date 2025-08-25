@@ -238,7 +238,6 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
       includeIfNull: false,
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue,
     )
-    @Default(Verbosity.medium)
     Verbosity? verbosity,
   }) = _CreateChatCompletionRequest;
 

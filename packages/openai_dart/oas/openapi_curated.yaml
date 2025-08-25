@@ -2669,7 +2669,7 @@ components:
         - low
         - medium
         - high
-      default: medium
+      # default: medium # Setting a non-null value triggers an error in models that don't support it
       nullable: true
       description: |
         Constrains the verbosity of the model's response. Lower values will result in

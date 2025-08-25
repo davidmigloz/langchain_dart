@@ -349,8 +349,7 @@ _$CreateChatCompletionRequestImpl _$$CreateChatCompletionRequestImplFromJson(
           ?.map((e) => FunctionObject.fromJson(e as Map<String, dynamic>))
           .toList(),
       verbosity: $enumDecodeNullable(_$VerbosityEnumMap, json['verbosity'],
-              unknownValue: JsonKey.nullForUndefinedEnumValue) ??
-          Verbosity.medium,
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
     );
 
 Map<String, dynamic> _$$CreateChatCompletionRequestImplToJson(
