@@ -10,7 +10,7 @@ part of ollama_schema;
 
 /// A model available locally.
 @freezed
-class Model with _$Model {
+abstract class Model with _$Model {
   const Model._();
 
   /// Factory constructor for Model

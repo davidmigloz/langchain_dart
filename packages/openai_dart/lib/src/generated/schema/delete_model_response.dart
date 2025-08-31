@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Represents a deleted response returned by the Delete model endpoint.
 @freezed
-class DeleteModelResponse with _$DeleteModelResponse {
+abstract class DeleteModelResponse with _$DeleteModelResponse {
   const DeleteModelResponse._();
 
   /// Factory constructor for DeleteModelResponse

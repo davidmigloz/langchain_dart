@@ -10,7 +10,7 @@ part of anthropic_schema;
 
 /// The source of an image block.
 @freezed
-class ImageBlockSource with _$ImageBlockSource {
+abstract class ImageBlockSource with _$ImageBlockSource {
   const ImageBlockSource._();
 
   /// Factory constructor for ImageBlockSource

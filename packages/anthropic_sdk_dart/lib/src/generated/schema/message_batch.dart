@@ -10,7 +10,7 @@ part of anthropic_schema;
 
 /// A batch of message requests.
 @freezed
-class MessageBatch with _$MessageBatch {
+abstract class MessageBatch with _$MessageBatch {
   const MessageBatch._();
 
   /// Factory constructor for MessageBatch

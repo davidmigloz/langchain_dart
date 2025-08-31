@@ -10,7 +10,8 @@ part of open_a_i_schema;
 
 /// Represents a list of fine-tuning job events.
 @freezed
-class ListFineTuningJobEventsResponse with _$ListFineTuningJobEventsResponse {
+abstract class ListFineTuningJobEventsResponse
+    with _$ListFineTuningJobEventsResponse {
   const ListFineTuningJobEventsResponse._();
 
   /// Factory constructor for ListFineTuningJobEventsResponse

@@ -10,7 +10,7 @@ part of ollama_schema;
 
 /// Metadata for a given tensor.
 @freezed
-class Tensor with _$Tensor {
+abstract class Tensor with _$Tensor {
   const Tensor._();
 
   /// Factory constructor for Tensor

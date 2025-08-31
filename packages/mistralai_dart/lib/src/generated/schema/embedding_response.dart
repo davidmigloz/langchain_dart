@@ -10,7 +10,7 @@ part of mistral_a_i_schema;
 
 /// Response class for the embedding endpoint.
 @freezed
-class EmbeddingResponse with _$EmbeddingResponse {
+abstract class EmbeddingResponse with _$EmbeddingResponse {
   const EmbeddingResponse._();
 
   /// Factory constructor for EmbeddingResponse
@@ -67,7 +67,7 @@ class EmbeddingResponse with _$EmbeddingResponse {
 
 /// The usage statistics for this embedding.
 @freezed
-class EmbeddingUsage with _$EmbeddingUsage {
+abstract class EmbeddingUsage with _$EmbeddingUsage {
   const EmbeddingUsage._();
 
   /// Factory constructor for EmbeddingUsage

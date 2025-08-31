@@ -10,7 +10,7 @@ part of google_a_i_schema;
 
 /// A citation to a source for a portion of a specific response.
 @freezed
-class CitationSource with _$CitationSource {
+abstract class CitationSource with _$CitationSource {
   const CitationSource._();
 
   /// Factory constructor for CitationSource

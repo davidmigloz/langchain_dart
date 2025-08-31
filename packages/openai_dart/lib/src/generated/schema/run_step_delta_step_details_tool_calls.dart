@@ -88,7 +88,7 @@ sealed class RunStepDeltaStepDetailsToolCalls
 
 /// The definition of the function that was called.
 @freezed
-class RunStepDeltaStepDetailsToolCallsFunction
+abstract class RunStepDeltaStepDetailsToolCallsFunction
     with _$RunStepDeltaStepDetailsToolCallsFunction {
   const RunStepDeltaStepDetailsToolCallsFunction._();
 

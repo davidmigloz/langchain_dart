@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Response object for the Delete vector store endpoint.
 @freezed
-class DeleteVectorStoreResponse with _$DeleteVectorStoreResponse {
+abstract class DeleteVectorStoreResponse with _$DeleteVectorStoreResponse {
   const DeleteVectorStoreResponse._();
 
   /// Factory constructor for DeleteVectorStoreResponse

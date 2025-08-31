@@ -107,7 +107,8 @@ enum ChatCompletionMessageContentPartEnumType {
 
 /// The URL of the image.
 @freezed
-class ChatCompletionMessageImageUrl with _$ChatCompletionMessageImageUrl {
+abstract class ChatCompletionMessageImageUrl
+    with _$ChatCompletionMessageImageUrl {
   const ChatCompletionMessageImageUrl._();
 
   /// Factory constructor for ChatCompletionMessageImageUrl
@@ -163,7 +164,8 @@ enum ChatCompletionMessageImageDetail {
 
 /// The audio input.
 @freezed
-class ChatCompletionMessageInputAudio with _$ChatCompletionMessageInputAudio {
+abstract class ChatCompletionMessageInputAudio
+    with _$ChatCompletionMessageInputAudio {
   const ChatCompletionMessageInputAudio._();
 
   /// Factory constructor for ChatCompletionMessageInputAudio

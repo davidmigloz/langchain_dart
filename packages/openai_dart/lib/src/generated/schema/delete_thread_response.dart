@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// No Description
 @freezed
-class DeleteThreadResponse with _$DeleteThreadResponse {
+abstract class DeleteThreadResponse with _$DeleteThreadResponse {
   const DeleteThreadResponse._();
 
   /// Factory constructor for DeleteThreadResponse

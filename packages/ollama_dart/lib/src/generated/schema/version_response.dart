@@ -10,7 +10,7 @@ part of ollama_schema;
 
 /// The response class for the version endpoint.
 @freezed
-class VersionResponse with _$VersionResponse {
+abstract class VersionResponse with _$VersionResponse {
   const VersionResponse._();
 
   /// Factory constructor for VersionResponse

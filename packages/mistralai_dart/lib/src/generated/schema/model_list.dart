@@ -10,7 +10,7 @@ part of mistral_a_i_schema;
 
 /// Response class for the list models endpoint.
 @freezed
-class ModelList with _$ModelList {
+abstract class ModelList with _$ModelList {
   const ModelList._();
 
   /// Factory constructor for ModelList

@@ -10,7 +10,7 @@ part of anthropic_schema;
 
 /// An individual message request within a batch.
 @freezed
-class BatchMessageRequest with _$BatchMessageRequest {
+abstract class BatchMessageRequest with _$BatchMessageRequest {
   const BatchMessageRequest._();
 
   /// Factory constructor for BatchMessageRequest

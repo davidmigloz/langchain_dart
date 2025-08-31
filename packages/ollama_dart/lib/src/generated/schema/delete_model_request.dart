@@ -10,7 +10,7 @@ part of ollama_schema;
 
 /// Request class for deleting a model.
 @freezed
-class DeleteModelRequest with _$DeleteModelRequest {
+abstract class DeleteModelRequest with _$DeleteModelRequest {
   const DeleteModelRequest._();
 
   /// Factory constructor for DeleteModelRequest

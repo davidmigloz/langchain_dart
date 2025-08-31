@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// The expiration policy for a vector store.
 @freezed
-class VectorStoreExpirationAfter with _$VectorStoreExpirationAfter {
+abstract class VectorStoreExpirationAfter with _$VectorStoreExpirationAfter {
   const VectorStoreExpirationAfter._();
 
   /// Factory constructor for VectorStoreExpirationAfter

@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Request object for the Modify run endpoint.
 @freezed
-class ModifyRunRequest with _$ModifyRunRequest {
+abstract class ModifyRunRequest with _$ModifyRunRequest {
   const ModifyRunRequest._();
 
   /// Factory constructor for ModifyRunRequest

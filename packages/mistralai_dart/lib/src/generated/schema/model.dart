@@ -10,7 +10,7 @@ part of mistral_a_i_schema;
 
 /// A model.
 @freezed
-class Model with _$Model {
+abstract class Model with _$Model {
   const Model._();
 
   /// Factory constructor for Model

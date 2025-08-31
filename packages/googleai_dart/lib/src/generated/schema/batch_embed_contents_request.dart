@@ -10,7 +10,7 @@ part of google_a_i_schema;
 
 /// Batch request to get embeddings from the model for a list of prompts.
 @freezed
-class BatchEmbedContentsRequest with _$BatchEmbedContentsRequest {
+abstract class BatchEmbedContentsRequest with _$BatchEmbedContentsRequest {
   const BatchEmbedContentsRequest._();
 
   /// Factory constructor for BatchEmbedContentsRequest

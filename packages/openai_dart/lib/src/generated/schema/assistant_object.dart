@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Represents an `assistant` that can call the model and use tools.
 @freezed
-class AssistantObject with _$AssistantObject {
+abstract class AssistantObject with _$AssistantObject {
   const AssistantObject._();
 
   /// Factory constructor for AssistantObject

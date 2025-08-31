@@ -10,7 +10,7 @@ part of ollama_schema;
 
 /// A model that is currently loaded.
 @freezed
-class ProcessModel with _$ProcessModel {
+abstract class ProcessModel with _$ProcessModel {
   const ProcessModel._();
 
   /// Factory constructor for ProcessModel

@@ -10,7 +10,7 @@ part of ollama_schema;
 
 /// A message in the chat endpoint
 @freezed
-class Message with _$Message {
+abstract class Message with _$Message {
   const Message._();
 
   /// Factory constructor for Message

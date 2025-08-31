@@ -10,7 +10,7 @@ part of ollama_schema;
 
 /// Create model request object.
 @freezed
-class CreateModelRequest with _$CreateModelRequest {
+abstract class CreateModelRequest with _$CreateModelRequest {
   const CreateModelRequest._();
 
   /// Factory constructor for CreateModelRequest

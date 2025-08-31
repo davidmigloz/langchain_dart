@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// The definition of the file search that was called.
 @freezed
-class RunStepDetailsToolCallsFileSearch
+abstract class RunStepDetailsToolCallsFileSearch
     with _$RunStepDetailsToolCallsFileSearch {
   const RunStepDetailsToolCallsFileSearch._();
 

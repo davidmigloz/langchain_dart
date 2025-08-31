@@ -10,7 +10,7 @@ part of google_a_i_schema;
 
 /// A collection of source attributions for a piece of content.
 @freezed
-class CitationMetadata with _$CitationMetadata {
+abstract class CitationMetadata with _$CitationMetadata {
   const CitationMetadata._();
 
   /// Factory constructor for CitationMetadata

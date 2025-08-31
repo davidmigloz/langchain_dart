@@ -10,7 +10,7 @@ part of anthropic_schema;
 
 /// The request parameters for creating a message.
 @freezed
-class CreateMessageRequest with _$CreateMessageRequest {
+abstract class CreateMessageRequest with _$CreateMessageRequest {
   const CreateMessageRequest._();
 
   /// Factory constructor for CreateMessageRequest

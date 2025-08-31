@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Request object for the Create completion endpoint.
 @freezed
-class CreateCompletionRequest with _$CreateCompletionRequest {
+abstract class CreateCompletionRequest with _$CreateCompletionRequest {
   const CreateCompletionRequest._();
 
   /// Factory constructor for CreateCompletionRequest

@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// A list of files attached to a vector store.
 @freezed
-class VectorStoreFileObject with _$VectorStoreFileObject {
+abstract class VectorStoreFileObject with _$VectorStoreFileObject {
   const VectorStoreFileObject._();
 
   /// Factory constructor for VectorStoreFileObject
@@ -101,7 +101,8 @@ enum VectorStoreFileStatus {
 
 /// The last error associated with this vector store file. Will be `null` if there are no errors.
 @freezed
-class VectorStoreFileObjectLastError with _$VectorStoreFileObjectLastError {
+abstract class VectorStoreFileObjectLastError
+    with _$VectorStoreFileObjectLastError {
   const VectorStoreFileObjectLastError._();
 
   /// Factory constructor for VectorStoreFileObjectLastError

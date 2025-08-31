@@ -10,7 +10,7 @@ part of google_a_i_schema;
 
 /// A list of floats representing an embedding.
 @freezed
-class ContentEmbedding with _$ContentEmbedding {
+abstract class ContentEmbedding with _$ContentEmbedding {
   const ContentEmbedding._();
 
   /// Factory constructor for ContentEmbedding

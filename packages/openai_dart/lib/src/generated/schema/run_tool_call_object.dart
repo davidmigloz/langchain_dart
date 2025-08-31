@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Tool call objects
 @freezed
-class RunToolCallObject with _$RunToolCallObject {
+abstract class RunToolCallObject with _$RunToolCallObject {
   const RunToolCallObject._();
 
   /// Factory constructor for RunToolCallObject
@@ -63,7 +63,7 @@ enum RunToolCallObjectType {
 
 /// The function definition.
 @freezed
-class RunToolCallFunction with _$RunToolCallFunction {
+abstract class RunToolCallFunction with _$RunToolCallFunction {
   const RunToolCallFunction._();
 
   /// Factory constructor for RunToolCallFunction

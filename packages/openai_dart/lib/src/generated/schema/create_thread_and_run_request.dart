@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Request object for the Create thread and run endpoint.
 @freezed
-class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
+abstract class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
   const CreateThreadAndRunRequest._();
 
   /// Factory constructor for CreateThreadAndRunRequest

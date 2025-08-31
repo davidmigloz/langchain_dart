@@ -10,7 +10,7 @@ part of google_a_i_schema;
 
 /// This resource represents a long-running operation that is the result of a network API call.
 @freezed
-class Operation with _$Operation {
+abstract class Operation with _$Operation {
   const Operation._();
 
   /// Factory constructor for Operation

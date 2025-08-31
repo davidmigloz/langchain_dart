@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// The image URL part of a message.
 @freezed
-class MessageContentImageUrl with _$MessageContentImageUrl {
+abstract class MessageContentImageUrl with _$MessageContentImageUrl {
   const MessageContentImageUrl._();
 
   /// Factory constructor for MessageContentImageUrl

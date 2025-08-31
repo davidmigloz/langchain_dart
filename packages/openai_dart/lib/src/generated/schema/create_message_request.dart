@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Request object for the Create message endpoint.
 @freezed
-class CreateMessageRequest with _$CreateMessageRequest {
+abstract class CreateMessageRequest with _$CreateMessageRequest {
   const CreateMessageRequest._();
 
   /// Factory constructor for CreateMessageRequest

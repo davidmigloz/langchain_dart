@@ -10,7 +10,7 @@ part of google_a_i_schema;
 
 /// Configuration options for model generation and outputs. Not all parameters may be configurable for every model.
 @freezed
-class GenerationConfig with _$GenerationConfig {
+abstract class GenerationConfig with _$GenerationConfig {
   const GenerationConfig._();
 
   /// Factory constructor for GenerationConfig

@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Represents a list of runs returned by the List runs endpoint.
 @freezed
-class ListRunsResponse with _$ListRunsResponse {
+abstract class ListRunsResponse with _$ListRunsResponse {
   const ListRunsResponse._();
 
   /// Factory constructor for ListRunsResponse

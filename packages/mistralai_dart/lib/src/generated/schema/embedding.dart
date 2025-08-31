@@ -10,7 +10,7 @@ part of mistral_a_i_schema;
 
 /// A generated embedding.
 @freezed
-class Embedding with _$Embedding {
+abstract class Embedding with _$Embedding {
   const Embedding._();
 
   /// Factory constructor for Embedding

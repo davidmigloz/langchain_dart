@@ -10,7 +10,7 @@ part of google_a_i_schema;
 
 /// Response from `ListModel` containing a paginated list of Models.
 @freezed
-class ListModelsResponse with _$ListModelsResponse {
+abstract class ListModelsResponse with _$ListModelsResponse {
   const ListModelsResponse._();
 
   /// Factory constructor for ListModelsResponse

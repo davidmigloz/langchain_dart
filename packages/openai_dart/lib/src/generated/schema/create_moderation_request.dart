@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Request object for the Create moderation endpoint.
 @freezed
-class CreateModerationRequest with _$CreateModerationRequest {
+abstract class CreateModerationRequest with _$CreateModerationRequest {
   const CreateModerationRequest._();
 
   /// Factory constructor for CreateModerationRequest

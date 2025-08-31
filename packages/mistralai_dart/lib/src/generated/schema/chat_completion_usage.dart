@@ -10,7 +10,7 @@ part of mistral_a_i_schema;
 
 /// The usage statistics for this completion.
 @freezed
-class ChatCompletionUsage with _$ChatCompletionUsage {
+abstract class ChatCompletionUsage with _$ChatCompletionUsage {
   const ChatCompletionUsage._();
 
   /// Factory constructor for ChatCompletionUsage

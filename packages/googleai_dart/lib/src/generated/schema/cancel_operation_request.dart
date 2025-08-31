@@ -10,7 +10,7 @@ part of google_a_i_schema;
 
 /// The request message for Operations.CancelOperation.
 @freezed
-class CancelOperationRequest with _$CancelOperationRequest {
+abstract class CancelOperationRequest with _$CancelOperationRequest {
   const CancelOperationRequest._();
 
   /// Factory constructor for CancelOperationRequest

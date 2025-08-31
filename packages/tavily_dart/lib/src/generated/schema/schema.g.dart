@@ -8,8 +8,8 @@ part of 'schema.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$SearchRequestImpl _$$SearchRequestImplFromJson(Map<String, dynamic> json) =>
-    _$SearchRequestImpl(
+_SearchRequest _$SearchRequestFromJson(Map<String, dynamic> json) =>
+    _SearchRequest(
       apiKey: json['api_key'] as String?,
       query: json['query'] as String,
       searchDepth: $enumDecodeNullable(
@@ -27,7 +27,7 @@ _$SearchRequestImpl _$$SearchRequestImplFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$$SearchRequestImplToJson(_$SearchRequestImpl instance) =>
+Map<String, dynamic> _$SearchRequestToJson(_SearchRequest instance) =>
     <String, dynamic>{
       if (instance.apiKey case final value?) 'api_key': value,
       'query': instance.query,
@@ -45,8 +45,8 @@ const _$SearchRequestSearchDepthEnumMap = {
   SearchRequestSearchDepth.advanced: 'advanced',
 };
 
-_$SearchResponseImpl _$$SearchResponseImplFromJson(Map<String, dynamic> json) =>
-    _$SearchResponseImpl(
+_SearchResponse _$SearchResponseFromJson(Map<String, dynamic> json) =>
+    _SearchResponse(
       answer: json['answer'] as String?,
       query: json['query'] as String,
       responseTime: (json['response_time'] as num).toDouble(),
@@ -60,8 +60,7 @@ _$SearchResponseImpl _$$SearchResponseImplFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$$SearchResponseImplToJson(
-        _$SearchResponseImpl instance) =>
+Map<String, dynamic> _$SearchResponseToJson(_SearchResponse instance) =>
     <String, dynamic>{
       if (instance.answer case final value?) 'answer': value,
       'query': instance.query,
@@ -72,8 +71,8 @@ Map<String, dynamic> _$$SearchResponseImplToJson(
       'results': instance.results.map((e) => e.toJson()).toList(),
     };
 
-_$SearchResultImpl _$$SearchResultImplFromJson(Map<String, dynamic> json) =>
-    _$SearchResultImpl(
+_SearchResult _$SearchResultFromJson(Map<String, dynamic> json) =>
+    _SearchResult(
       title: json['title'] as String,
       url: json['url'] as String,
       content: json['content'] as String,
@@ -81,7 +80,7 @@ _$SearchResultImpl _$$SearchResultImplFromJson(Map<String, dynamic> json) =>
       score: (json['score'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$$SearchResultImplToJson(_$SearchResultImpl instance) =>
+Map<String, dynamic> _$SearchResultToJson(_SearchResult instance) =>
     <String, dynamic>{
       'title': instance.title,
       'url': instance.url,

@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Request object for the Create vector store file batch endpoint.
 @freezed
-class CreateVectorStoreFileBatchRequest
+abstract class CreateVectorStoreFileBatchRequest
     with _$CreateVectorStoreFileBatchRequest {
   const CreateVectorStoreFileBatchRequest._();
 

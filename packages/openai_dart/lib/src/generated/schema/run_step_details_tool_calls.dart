@@ -77,7 +77,8 @@ sealed class RunStepDetailsToolCalls with _$RunStepDetailsToolCalls {
 
 /// The definition of the function that was called.
 @freezed
-class RunStepDetailsToolCallsFunction with _$RunStepDetailsToolCallsFunction {
+abstract class RunStepDetailsToolCallsFunction
+    with _$RunStepDetailsToolCallsFunction {
   const RunStepDetailsToolCallsFunction._();
 
   /// Factory constructor for RunStepDetailsToolCallsFunction

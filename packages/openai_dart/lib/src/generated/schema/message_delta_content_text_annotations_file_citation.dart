@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// A citation within the message that points to a specific quote from a specific File associated with the assistant or the message.
 @freezed
-class MessageDeltaContentTextAnnotationsFileCitation
+abstract class MessageDeltaContentTextAnnotationsFileCitation
     with _$MessageDeltaContentTextAnnotationsFileCitation {
   const MessageDeltaContentTextAnnotationsFileCitation._();
 

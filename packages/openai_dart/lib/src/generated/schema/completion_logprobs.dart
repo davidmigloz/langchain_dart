@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// The probabilities on the `logprobs` most likely tokens, as well the chosen tokens. For example, if `logprobs` is 5, the API will return a list of the 5 most likely tokens. The API will always return the `logprob` of the sampled token, so there may be up to `logprobs+1` elements in the response.
 @freezed
-class CompletionLogprobs with _$CompletionLogprobs {
+abstract class CompletionLogprobs with _$CompletionLogprobs {
   const CompletionLogprobs._();
 
   /// Factory constructor for CompletionLogprobs

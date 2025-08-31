@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Static chunking strategy
 @freezed
-class StaticChunkingStrategy with _$StaticChunkingStrategy {
+abstract class StaticChunkingStrategy with _$StaticChunkingStrategy {
   const StaticChunkingStrategy._();
 
   /// Factory constructor for StaticChunkingStrategy

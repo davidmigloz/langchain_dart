@@ -10,7 +10,8 @@ part of ollama_schema;
 
 /// Request class for the chat endpoint.
 @freezed
-class GenerateChatCompletionRequest with _$GenerateChatCompletionRequest {
+abstract class GenerateChatCompletionRequest
+    with _$GenerateChatCompletionRequest {
   const GenerateChatCompletionRequest._();
 
   /// Factory constructor for GenerateChatCompletionRequest

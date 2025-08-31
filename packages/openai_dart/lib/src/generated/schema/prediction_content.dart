@@ -13,7 +13,7 @@ part of open_a_i_schema;
 /// response are known ahead of time. This is most common when you are
 /// regenerating a file with only minor changes to most of the content.
 @freezed
-class PredictionContent with _$PredictionContent {
+abstract class PredictionContent with _$PredictionContent {
   const PredictionContent._();
 
   /// Factory constructor for PredictionContent

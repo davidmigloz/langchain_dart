@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Request object for the Create image endpoint.
 @freezed
-class CreateImageRequest with _$CreateImageRequest {
+abstract class CreateImageRequest with _$CreateImageRequest {
   const CreateImageRequest._();
 
   /// Factory constructor for CreateImageRequest
