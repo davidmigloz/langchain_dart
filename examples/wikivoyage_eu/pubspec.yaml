@@ -9,5 +9,5 @@ resolution: workspace
 
 dependencies:
   langchain: ^0.7.9
-  langchain_ollama: ^0.3.3+2
-  langchain_community: 0.3.4+2
+  langchain_ollama: ^0.3.3+3
+  langchain_community: 0.3.4+3

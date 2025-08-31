@@ -1,3 +1,7 @@
+## 0.5.5
+
+ - **FEAT**: Migrate to Freezed v3 ([#773](https://github.com/davidmigloz/langchain_dart/issues/773)). ([f87c8c03](https://github.com/davidmigloz/langchain_dart/commit/f87c8c03711ef382d2c9de19d378bee92e7631c1))
+
 ## 0.5.4+1
 
  - **FIX**: Change CreateChatCompletionRequest.verbosity default value to null ([#771](https://github.com/davidmigloz/langchain_dart/issues/771)). ([46d22905](https://github.com/davidmigloz/langchain_dart/commit/46d22905fee42dd7f1b149d676323d8bce57630f))

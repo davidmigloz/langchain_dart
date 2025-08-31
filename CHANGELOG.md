@@ -2,6 +2,79 @@
 
 📣 Check out the [releases page](https://github.com/davidmigloz/langchain_dart/releases) or the [#announcements](https://discord.com/channels/1123158322812555295/1123250594644242534) channel on the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details.
 
+## 2025-08-31
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`anthropic_sdk_dart` - `v0.2.3`](#anthropic_sdk_dart---v023)
+ - [`chromadb` - `v0.2.3`](#chromadb---v023)
+ - [`googleai_dart` - `v0.1.3`](#googleai_dart---v013)
+ - [`mistralai_dart` - `v0.0.6`](#mistralai_dart---v006)
+ - [`ollama_dart` - `v0.2.5`](#ollama_dart---v025)
+ - [`openai_dart` - `v0.5.5`](#openai_dart---v055)
+ - [`openai_realtime_dart` - `v0.0.6`](#openai_realtime_dart---v006)
+ - [`tavily_dart` - `v0.1.3`](#tavily_dart---v013)
+ - [`langchain_anthropic` - `v0.2.1+3`](#langchain_anthropic---v0213)
+ - [`langchain_chroma` - `v0.2.2+3`](#langchain_chroma---v0223)
+ - [`langchain_mistralai` - `v0.2.4+3`](#langchain_mistralai---v0243)
+ - [`langchain_ollama` - `v0.3.3+3`](#langchain_ollama---v0333)
+ - [`langchain_openai` - `v0.7.6+2`](#langchain_openai---v0762)
+ - [`langchain_community` - `v0.3.4+3`](#langchain_community---v0343)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `langchain_anthropic` - `v0.2.1+3`
+ - `langchain_chroma` - `v0.2.2+3`
+ - `langchain_mistralai` - `v0.2.4+3`
+ - `langchain_ollama` - `v0.3.3+3`
+ - `langchain_openai` - `v0.7.6+2`
+ - `langchain_community` - `v0.3.4+3`
+
+---
+
+#### `anthropic_sdk_dart` - `v0.2.3`
+
+ - **FEAT**: Migrate to Freezed v3 ([#773](https://github.com/davidmigloz/langchain_dart/issues/773)). ([f87c8c03](https://github.com/davidmigloz/langchain_dart/commit/f87c8c03711ef382d2c9de19d378bee92e7631c1))
+
+#### `chromadb` - `v0.2.3`
+
+ - **FEAT**: Migrate to Freezed v3 ([#773](https://github.com/davidmigloz/langchain_dart/issues/773)). ([f87c8c03](https://github.com/davidmigloz/langchain_dart/commit/f87c8c03711ef382d2c9de19d378bee92e7631c1))
+
+#### `googleai_dart` - `v0.1.3`
+
+ - **FEAT**: Migrate to Freezed v3 ([#773](https://github.com/davidmigloz/langchain_dart/issues/773)). ([f87c8c03](https://github.com/davidmigloz/langchain_dart/commit/f87c8c03711ef382d2c9de19d378bee92e7631c1))
+
+#### `mistralai_dart` - `v0.0.6`
+
+ - **FEAT**: Migrate to Freezed v3 ([#773](https://github.com/davidmigloz/langchain_dart/issues/773)). ([f87c8c03](https://github.com/davidmigloz/langchain_dart/commit/f87c8c03711ef382d2c9de19d378bee92e7631c1))
+
+#### `ollama_dart` - `v0.2.5`
+
+ - **FEAT**: Migrate to Freezed v3 ([#773](https://github.com/davidmigloz/langchain_dart/issues/773)). ([f87c8c03](https://github.com/davidmigloz/langchain_dart/commit/f87c8c03711ef382d2c9de19d378bee92e7631c1))
+
+#### `openai_dart` - `v0.5.5`
+
+ - **FEAT**: Migrate to Freezed v3 ([#773](https://github.com/davidmigloz/langchain_dart/issues/773)). ([f87c8c03](https://github.com/davidmigloz/langchain_dart/commit/f87c8c03711ef382d2c9de19d378bee92e7631c1))
+
+#### `openai_realtime_dart` - `v0.0.6`
+
+ - **FEAT**: Migrate to Freezed v3 ([#773](https://github.com/davidmigloz/langchain_dart/issues/773)). ([f87c8c03](https://github.com/davidmigloz/langchain_dart/commit/f87c8c03711ef382d2c9de19d378bee92e7631c1))
+
+#### `tavily_dart` - `v0.1.3`
+
+ - **FEAT**: Migrate to Freezed v3 ([#773](https://github.com/davidmigloz/langchain_dart/issues/773)). ([f87c8c03](https://github.com/davidmigloz/langchain_dart/commit/f87c8c03711ef382d2c9de19d378bee92e7631c1))
+
+
 ## 2025-08-26
 
 ### Changes
