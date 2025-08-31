@@ -10,7 +10,7 @@ part of ollama_schema;
 
 /// Additional model parameters listed in the documentation for the Modelfile such as `temperature`.
 @freezed
-class RequestOptions with _$RequestOptions {
+abstract class RequestOptions with _$RequestOptions {
   const RequestOptions._();
 
   /// Factory constructor for RequestOptions

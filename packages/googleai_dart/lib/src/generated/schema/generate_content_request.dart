@@ -10,7 +10,7 @@ part of google_a_i_schema;
 
 /// Request to generate a completion from the model.
 @freezed
-class GenerateContentRequest with _$GenerateContentRequest {
+abstract class GenerateContentRequest with _$GenerateContentRequest {
   const GenerateContentRequest._();
 
   /// Factory constructor for GenerateContentRequest

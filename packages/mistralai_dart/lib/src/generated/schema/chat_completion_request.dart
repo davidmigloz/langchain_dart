@@ -10,7 +10,7 @@ part of mistral_a_i_schema;
 
 /// Request class for the chat completion endpoint.
 @freezed
-class ChatCompletionRequest with _$ChatCompletionRequest {
+abstract class ChatCompletionRequest with _$ChatCompletionRequest {
   const ChatCompletionRequest._();
 
   /// Factory constructor for ChatCompletionRequest

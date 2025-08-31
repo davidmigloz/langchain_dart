@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Represents a list of threads returned by the List threads endpoint.
 @freezed
-class ListThreadsResponse with _$ListThreadsResponse {
+abstract class ListThreadsResponse with _$ListThreadsResponse {
   const ListThreadsResponse._();
 
   /// Factory constructor for ListThreadsResponse

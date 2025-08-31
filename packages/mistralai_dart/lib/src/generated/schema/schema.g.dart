@@ -8,9 +8,9 @@ part of 'schema.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$ChatCompletionRequestImpl _$$ChatCompletionRequestImplFromJson(
+_ChatCompletionRequest _$ChatCompletionRequestFromJson(
         Map<String, dynamic> json) =>
-    _$ChatCompletionRequestImpl(
+    _ChatCompletionRequest(
       model: const _ChatCompletionModelConverter().fromJson(json['model']),
       messages: (json['messages'] as List<dynamic>)
           .map((e) => ChatCompletionMessage.fromJson(e as Map<String, dynamic>))
@@ -23,37 +23,28 @@ _$ChatCompletionRequestImpl _$$ChatCompletionRequestImplFromJson(
       randomSeed: (json['random_seed'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$$ChatCompletionRequestImplToJson(
-    _$ChatCompletionRequestImpl instance) {
-  final val = <String, dynamic>{
-    'model': const _ChatCompletionModelConverter().toJson(instance.model),
-    'messages': instance.messages.map((e) => e.toJson()).toList(),
-  };
+Map<String, dynamic> _$ChatCompletionRequestToJson(
+        _ChatCompletionRequest instance) =>
+    <String, dynamic>{
+      'model': const _ChatCompletionModelConverter().toJson(instance.model),
+      'messages': instance.messages.map((e) => e.toJson()).toList(),
+      if (instance.temperature case final value?) 'temperature': value,
+      if (instance.topP case final value?) 'top_p': value,
+      if (instance.maxTokens case final value?) 'max_tokens': value,
+      if (instance.stream case final value?) 'stream': value,
+      if (instance.safePrompt case final value?) 'safe_prompt': value,
+      if (instance.randomSeed case final value?) 'random_seed': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
+ChatCompletionModelEnumeration _$ChatCompletionModelEnumerationFromJson(
+        Map<String, dynamic> json) =>
+    ChatCompletionModelEnumeration(
+      $enumDecode(_$ChatCompletionModelsEnumMap, json['value']),
+      $type: json['runtimeType'] as String?,
+    );
 
-  writeNotNull('temperature', instance.temperature);
-  writeNotNull('top_p', instance.topP);
-  writeNotNull('max_tokens', instance.maxTokens);
-  writeNotNull('stream', instance.stream);
-  writeNotNull('safe_prompt', instance.safePrompt);
-  writeNotNull('random_seed', instance.randomSeed);
-  return val;
-}
-
-_$ChatCompletionModelEnumerationImpl
-    _$$ChatCompletionModelEnumerationImplFromJson(Map<String, dynamic> json) =>
-        _$ChatCompletionModelEnumerationImpl(
-          $enumDecode(_$ChatCompletionModelsEnumMap, json['value']),
-          $type: json['runtimeType'] as String?,
-        );
-
-Map<String, dynamic> _$$ChatCompletionModelEnumerationImplToJson(
-        _$ChatCompletionModelEnumerationImpl instance) =>
+Map<String, dynamic> _$ChatCompletionModelEnumerationToJson(
+        ChatCompletionModelEnumeration instance) =>
     <String, dynamic>{
       'value': _$ChatCompletionModelsEnumMap[instance.value]!,
       'runtimeType': instance.$type,
@@ -65,23 +56,23 @@ const _$ChatCompletionModelsEnumMap = {
   ChatCompletionModels.mistralTiny: 'mistral-tiny',
 };
 
-_$ChatCompletionModelStringImpl _$$ChatCompletionModelStringImplFromJson(
+ChatCompletionModelString _$ChatCompletionModelStringFromJson(
         Map<String, dynamic> json) =>
-    _$ChatCompletionModelStringImpl(
+    ChatCompletionModelString(
       json['value'] as String,
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$ChatCompletionModelStringImplToJson(
-        _$ChatCompletionModelStringImpl instance) =>
+Map<String, dynamic> _$ChatCompletionModelStringToJson(
+        ChatCompletionModelString instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$ChatCompletionResponseImpl _$$ChatCompletionResponseImplFromJson(
+_ChatCompletionResponse _$ChatCompletionResponseFromJson(
         Map<String, dynamic> json) =>
-    _$ChatCompletionResponseImpl(
+    _ChatCompletionResponse(
       id: json['id'] as String,
       object: json['object'] as String,
       created: (json['created'] as num).toInt(),
@@ -94,8 +85,8 @@ _$ChatCompletionResponseImpl _$$ChatCompletionResponseImplFromJson(
           ChatCompletionUsage.fromJson(json['usage'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$ChatCompletionResponseImplToJson(
-        _$ChatCompletionResponseImpl instance) =>
+Map<String, dynamic> _$ChatCompletionResponseToJson(
+        _ChatCompletionResponse instance) =>
     <String, dynamic>{
       'id': instance.id,
       'object': instance.object,
@@ -105,10 +96,9 @@ Map<String, dynamic> _$$ChatCompletionResponseImplToJson(
       'usage': instance.usage.toJson(),
     };
 
-_$ChatCompletionResponseChoicesInnerImpl
-    _$$ChatCompletionResponseChoicesInnerImplFromJson(
-            Map<String, dynamic> json) =>
-        _$ChatCompletionResponseChoicesInnerImpl(
+_ChatCompletionResponseChoicesInner
+    _$ChatCompletionResponseChoicesInnerFromJson(Map<String, dynamic> json) =>
+        _ChatCompletionResponseChoicesInner(
           index: (json['index'] as num).toInt(),
           message: json['message'] == null
               ? null
@@ -118,23 +108,14 @@ _$ChatCompletionResponseChoicesInnerImpl
               _$ChatCompletionFinishReasonEnumMap, json['finish_reason']),
         );
 
-Map<String, dynamic> _$$ChatCompletionResponseChoicesInnerImplToJson(
-    _$ChatCompletionResponseChoicesInnerImpl instance) {
-  final val = <String, dynamic>{
-    'index': instance.index,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('message', instance.message?.toJson());
-  val['finish_reason'] =
-      _$ChatCompletionFinishReasonEnumMap[instance.finishReason]!;
-  return val;
-}
+Map<String, dynamic> _$ChatCompletionResponseChoicesInnerToJson(
+        _ChatCompletionResponseChoicesInner instance) =>
+    <String, dynamic>{
+      'index': instance.index,
+      if (instance.message?.toJson() case final value?) 'message': value,
+      'finish_reason':
+          _$ChatCompletionFinishReasonEnumMap[instance.finishReason]!,
+    };
 
 const _$ChatCompletionFinishReasonEnumMap = {
   ChatCompletionFinishReason.stop: 'stop',
@@ -142,15 +123,15 @@ const _$ChatCompletionFinishReasonEnumMap = {
   ChatCompletionFinishReason.modelLength: 'model_length',
 };
 
-_$ChatCompletionMessageImpl _$$ChatCompletionMessageImplFromJson(
+_ChatCompletionMessage _$ChatCompletionMessageFromJson(
         Map<String, dynamic> json) =>
-    _$ChatCompletionMessageImpl(
+    _ChatCompletionMessage(
       role: $enumDecode(_$ChatCompletionMessageRoleEnumMap, json['role']),
       content: json['content'] as String,
     );
 
-Map<String, dynamic> _$$ChatCompletionMessageImplToJson(
-        _$ChatCompletionMessageImpl instance) =>
+Map<String, dynamic> _$ChatCompletionMessageToJson(
+        _ChatCompletionMessage instance) =>
     <String, dynamic>{
       'role': _$ChatCompletionMessageRoleEnumMap[instance.role]!,
       'content': instance.content,
@@ -162,25 +143,24 @@ const _$ChatCompletionMessageRoleEnumMap = {
   ChatCompletionMessageRole.assistant: 'assistant',
 };
 
-_$ChatCompletionUsageImpl _$$ChatCompletionUsageImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ChatCompletionUsageImpl(
+_ChatCompletionUsage _$ChatCompletionUsageFromJson(Map<String, dynamic> json) =>
+    _ChatCompletionUsage(
       promptTokens: (json['prompt_tokens'] as num).toInt(),
       completionTokens: (json['completion_tokens'] as num).toInt(),
       totalTokens: (json['total_tokens'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$ChatCompletionUsageImplToJson(
-        _$ChatCompletionUsageImpl instance) =>
+Map<String, dynamic> _$ChatCompletionUsageToJson(
+        _ChatCompletionUsage instance) =>
     <String, dynamic>{
       'prompt_tokens': instance.promptTokens,
       'completion_tokens': instance.completionTokens,
       'total_tokens': instance.totalTokens,
     };
 
-_$ChatCompletionStreamResponseImpl _$$ChatCompletionStreamResponseImplFromJson(
+_ChatCompletionStreamResponse _$ChatCompletionStreamResponseFromJson(
         Map<String, dynamic> json) =>
-    _$ChatCompletionStreamResponseImpl(
+    _ChatCompletionStreamResponse(
       id: json['id'] as String,
       object: json['object'] as String?,
       created: (json['created'] as num?)?.toInt(),
@@ -191,29 +171,20 @@ _$ChatCompletionStreamResponseImpl _$$ChatCompletionStreamResponseImplFromJson(
           .toList(),
     );
 
-Map<String, dynamic> _$$ChatCompletionStreamResponseImplToJson(
-    _$ChatCompletionStreamResponseImpl instance) {
-  final val = <String, dynamic>{
-    'id': instance.id,
-  };
+Map<String, dynamic> _$ChatCompletionStreamResponseToJson(
+        _ChatCompletionStreamResponse instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      if (instance.object case final value?) 'object': value,
+      if (instance.created case final value?) 'created': value,
+      'model': instance.model,
+      'choices': instance.choices.map((e) => e.toJson()).toList(),
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('object', instance.object);
-  writeNotNull('created', instance.created);
-  val['model'] = instance.model;
-  val['choices'] = instance.choices.map((e) => e.toJson()).toList();
-  return val;
-}
-
-_$ChatCompletionStreamResponseChoicesInnerImpl
-    _$$ChatCompletionStreamResponseChoicesInnerImplFromJson(
+_ChatCompletionStreamResponseChoicesInner
+    _$ChatCompletionStreamResponseChoicesInnerFromJson(
             Map<String, dynamic> json) =>
-        _$ChatCompletionStreamResponseChoicesInnerImpl(
+        _ChatCompletionStreamResponseChoicesInner(
           index: (json['index'] as num).toInt(),
           delta: ChatCompletionStreamDelta.fromJson(
               json['delta'] as Map<String, dynamic>),
@@ -222,51 +193,35 @@ _$ChatCompletionStreamResponseChoicesInnerImpl
               unknownValue: JsonKey.nullForUndefinedEnumValue),
         );
 
-Map<String, dynamic> _$$ChatCompletionStreamResponseChoicesInnerImplToJson(
-    _$ChatCompletionStreamResponseChoicesInnerImpl instance) {
-  final val = <String, dynamic>{
-    'index': instance.index,
-    'delta': instance.delta.toJson(),
-  };
+Map<String, dynamic> _$ChatCompletionStreamResponseChoicesInnerToJson(
+        _ChatCompletionStreamResponseChoicesInner instance) =>
+    <String, dynamic>{
+      'index': instance.index,
+      'delta': instance.delta.toJson(),
+      if (_$ChatCompletionFinishReasonEnumMap[instance.finishReason]
+          case final value?)
+        'finish_reason': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('finish_reason',
-      _$ChatCompletionFinishReasonEnumMap[instance.finishReason]);
-  return val;
-}
-
-_$ChatCompletionStreamDeltaImpl _$$ChatCompletionStreamDeltaImplFromJson(
+_ChatCompletionStreamDelta _$ChatCompletionStreamDeltaFromJson(
         Map<String, dynamic> json) =>
-    _$ChatCompletionStreamDeltaImpl(
+    _ChatCompletionStreamDelta(
       role: $enumDecodeNullable(
           _$ChatCompletionMessageRoleEnumMap, json['role'],
           unknownValue: JsonKey.nullForUndefinedEnumValue),
       content: json['content'] as String?,
     );
 
-Map<String, dynamic> _$$ChatCompletionStreamDeltaImplToJson(
-    _$ChatCompletionStreamDeltaImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$ChatCompletionStreamDeltaToJson(
+        _ChatCompletionStreamDelta instance) =>
+    <String, dynamic>{
+      if (_$ChatCompletionMessageRoleEnumMap[instance.role] case final value?)
+        'role': value,
+      if (instance.content case final value?) 'content': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('role', _$ChatCompletionMessageRoleEnumMap[instance.role]);
-  writeNotNull('content', instance.content);
-  return val;
-}
-
-_$EmbeddingRequestImpl _$$EmbeddingRequestImplFromJson(
-        Map<String, dynamic> json) =>
-    _$EmbeddingRequestImpl(
+_EmbeddingRequest _$EmbeddingRequestFromJson(Map<String, dynamic> json) =>
+    _EmbeddingRequest(
       model: const _EmbeddingModelConverter().fromJson(json['model']),
       input: (json['input'] as List<dynamic>).map((e) => e as String).toList(),
       encodingFormat: $enumDecodeNullable(
@@ -274,8 +229,7 @@ _$EmbeddingRequestImpl _$$EmbeddingRequestImplFromJson(
           EmbeddingEncodingFormat.float,
     );
 
-Map<String, dynamic> _$$EmbeddingRequestImplToJson(
-        _$EmbeddingRequestImpl instance) =>
+Map<String, dynamic> _$EmbeddingRequestToJson(_EmbeddingRequest instance) =>
     <String, dynamic>{
       'model': const _EmbeddingModelConverter().toJson(instance.model),
       'input': instance.input,
@@ -287,15 +241,15 @@ const _$EmbeddingEncodingFormatEnumMap = {
   EmbeddingEncodingFormat.float: 'float',
 };
 
-_$EmbeddingModelEnumerationImpl _$$EmbeddingModelEnumerationImplFromJson(
+EmbeddingModelEnumeration _$EmbeddingModelEnumerationFromJson(
         Map<String, dynamic> json) =>
-    _$EmbeddingModelEnumerationImpl(
+    EmbeddingModelEnumeration(
       $enumDecode(_$EmbeddingModelsEnumMap, json['value']),
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$EmbeddingModelEnumerationImplToJson(
-        _$EmbeddingModelEnumerationImpl instance) =>
+Map<String, dynamic> _$EmbeddingModelEnumerationToJson(
+        EmbeddingModelEnumeration instance) =>
     <String, dynamic>{
       'value': _$EmbeddingModelsEnumMap[instance.value]!,
       'runtimeType': instance.$type,
@@ -305,23 +259,22 @@ const _$EmbeddingModelsEnumMap = {
   EmbeddingModels.mistralEmbed: 'mistral-embed',
 };
 
-_$EmbeddingModelStringImpl _$$EmbeddingModelStringImplFromJson(
+EmbeddingModelString _$EmbeddingModelStringFromJson(
         Map<String, dynamic> json) =>
-    _$EmbeddingModelStringImpl(
+    EmbeddingModelString(
       json['value'] as String,
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$EmbeddingModelStringImplToJson(
-        _$EmbeddingModelStringImpl instance) =>
+Map<String, dynamic> _$EmbeddingModelStringToJson(
+        EmbeddingModelString instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$EmbeddingResponseImpl _$$EmbeddingResponseImplFromJson(
-        Map<String, dynamic> json) =>
-    _$EmbeddingResponseImpl(
+_EmbeddingResponse _$EmbeddingResponseFromJson(Map<String, dynamic> json) =>
+    _EmbeddingResponse(
       id: json['id'] as String,
       object: json['object'] as String,
       data: (json['data'] as List<dynamic>)
@@ -331,8 +284,7 @@ _$EmbeddingResponseImpl _$$EmbeddingResponseImplFromJson(
       usage: EmbeddingUsage.fromJson(json['usage'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$EmbeddingResponseImplToJson(
-        _$EmbeddingResponseImpl instance) =>
+Map<String, dynamic> _$EmbeddingResponseToJson(_EmbeddingResponse instance) =>
     <String, dynamic>{
       'id': instance.id,
       'object': instance.object,
@@ -341,21 +293,19 @@ Map<String, dynamic> _$$EmbeddingResponseImplToJson(
       'usage': instance.usage.toJson(),
     };
 
-_$EmbeddingUsageImpl _$$EmbeddingUsageImplFromJson(Map<String, dynamic> json) =>
-    _$EmbeddingUsageImpl(
+_EmbeddingUsage _$EmbeddingUsageFromJson(Map<String, dynamic> json) =>
+    _EmbeddingUsage(
       promptTokens: (json['prompt_tokens'] as num).toInt(),
       totalTokens: (json['total_tokens'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$EmbeddingUsageImplToJson(
-        _$EmbeddingUsageImpl instance) =>
+Map<String, dynamic> _$EmbeddingUsageToJson(_EmbeddingUsage instance) =>
     <String, dynamic>{
       'prompt_tokens': instance.promptTokens,
       'total_tokens': instance.totalTokens,
     };
 
-_$EmbeddingImpl _$$EmbeddingImplFromJson(Map<String, dynamic> json) =>
-    _$EmbeddingImpl(
+_Embedding _$EmbeddingFromJson(Map<String, dynamic> json) => _Embedding(
       object: json['object'] as String,
       embedding: (json['embedding'] as List<dynamic>)
           .map((e) => (e as num).toDouble())
@@ -363,36 +313,34 @@ _$EmbeddingImpl _$$EmbeddingImplFromJson(Map<String, dynamic> json) =>
       index: (json['index'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$EmbeddingImplToJson(_$EmbeddingImpl instance) =>
+Map<String, dynamic> _$EmbeddingToJson(_Embedding instance) =>
     <String, dynamic>{
       'object': instance.object,
       'embedding': instance.embedding,
       'index': instance.index,
     };
 
-_$ModelListImpl _$$ModelListImplFromJson(Map<String, dynamic> json) =>
-    _$ModelListImpl(
+_ModelList _$ModelListFromJson(Map<String, dynamic> json) => _ModelList(
       object: json['object'] as String,
       data: (json['data'] as List<dynamic>)
           .map((e) => Model.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$$ModelListImplToJson(_$ModelListImpl instance) =>
+Map<String, dynamic> _$ModelListToJson(_ModelList instance) =>
     <String, dynamic>{
       'object': instance.object,
       'data': instance.data.map((e) => e.toJson()).toList(),
     };
 
-_$ModelImpl _$$ModelImplFromJson(Map<String, dynamic> json) => _$ModelImpl(
+_Model _$ModelFromJson(Map<String, dynamic> json) => _Model(
       id: json['id'] as String,
       object: json['object'] as String,
       created: (json['created'] as num).toInt(),
       ownedBy: json['owned_by'] as String,
     );
 
-Map<String, dynamic> _$$ModelImplToJson(_$ModelImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$ModelToJson(_Model instance) => <String, dynamic>{
       'id': instance.id,
       'object': instance.object,
       'created': instance.created,

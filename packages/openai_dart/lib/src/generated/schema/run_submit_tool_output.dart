@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Output of a tool.
 @freezed
-class RunSubmitToolOutput with _$RunSubmitToolOutput {
+abstract class RunSubmitToolOutput with _$RunSubmitToolOutput {
   const RunSubmitToolOutput._();
 
   /// Factory constructor for RunSubmitToolOutput

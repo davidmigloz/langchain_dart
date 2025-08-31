@@ -10,7 +10,7 @@ part of openai_realtime_schema;
 
 /// The response resource.
 @freezed
-class Response with _$Response {
+abstract class Response with _$Response {
   const Response._();
 
   /// Factory constructor for Response

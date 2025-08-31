@@ -10,7 +10,7 @@ part of ollama_schema;
 
 /// Details about a model.
 @freezed
-class ModelInformation with _$ModelInformation {
+abstract class ModelInformation with _$ModelInformation {
   const ModelInformation._();
 
   /// Factory constructor for ModelInformation

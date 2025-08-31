@@ -10,7 +10,8 @@ part of anthropic_schema;
 
 /// An object describing metadata about the request.
 @freezed
-class CreateMessageRequestMetadata with _$CreateMessageRequestMetadata {
+abstract class CreateMessageRequestMetadata
+    with _$CreateMessageRequestMetadata {
   const CreateMessageRequestMetadata._();
 
   /// Factory constructor for CreateMessageRequestMetadata

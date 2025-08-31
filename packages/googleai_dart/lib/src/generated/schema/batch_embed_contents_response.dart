@@ -10,7 +10,7 @@ part of google_a_i_schema;
 
 /// The response to a `BatchEmbedContentsRequest`.
 @freezed
-class BatchEmbedContentsResponse with _$BatchEmbedContentsResponse {
+abstract class BatchEmbedContentsResponse with _$BatchEmbedContentsResponse {
   const BatchEmbedContentsResponse._();
 
   /// Factory constructor for BatchEmbedContentsResponse

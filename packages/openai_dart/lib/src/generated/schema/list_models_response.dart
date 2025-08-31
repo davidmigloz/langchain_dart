@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Represents a list of models returned by the List models endpoint.
 @freezed
-class ListModelsResponse with _$ListModelsResponse {
+abstract class ListModelsResponse with _$ListModelsResponse {
   const ListModelsResponse._();
 
   /// Factory constructor for ListModelsResponse

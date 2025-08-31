@@ -14,7 +14,7 @@ part of open_a_i_schema;
 /// See the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search#customizing-file-search-settings)
 /// for more information.
 @freezed
-class FileSearchRankingOptions with _$FileSearchRankingOptions {
+abstract class FileSearchRankingOptions with _$FileSearchRankingOptions {
   const FileSearchRankingOptions._();
 
   /// Factory constructor for FileSearchRankingOptions

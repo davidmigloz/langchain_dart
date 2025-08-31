@@ -10,7 +10,7 @@ part of ollama_schema;
 
 /// A function that the model may call.
 @freezed
-class ToolFunction with _$ToolFunction {
+abstract class ToolFunction with _$ToolFunction {
   const ToolFunction._();
 
   /// Factory constructor for ToolFunction

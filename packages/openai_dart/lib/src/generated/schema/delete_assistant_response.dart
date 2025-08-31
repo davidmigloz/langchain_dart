@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Represents a deleted response returned by the Delete assistant endpoint.
 @freezed
-class DeleteAssistantResponse with _$DeleteAssistantResponse {
+abstract class DeleteAssistantResponse with _$DeleteAssistantResponse {
   const DeleteAssistantResponse._();
 
   /// Factory constructor for DeleteAssistantResponse

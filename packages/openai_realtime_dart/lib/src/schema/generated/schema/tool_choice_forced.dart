@@ -10,7 +10,7 @@ part of openai_realtime_schema;
 
 /// Specifies a tool the model should use. Use to force the model to call a specific function.
 @freezed
-class ToolChoiceForced with _$ToolChoiceForced {
+abstract class ToolChoiceForced with _$ToolChoiceForced {
   const ToolChoiceForced._();
 
   /// Factory constructor for ToolChoiceForced

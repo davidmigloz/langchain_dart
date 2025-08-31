@@ -10,7 +10,7 @@ part of ollama_schema;
 
 /// Request class for pushing a model.
 @freezed
-class PushModelRequest with _$PushModelRequest {
+abstract class PushModelRequest with _$PushModelRequest {
   const PushModelRequest._();
 
   /// Factory constructor for PushModelRequest

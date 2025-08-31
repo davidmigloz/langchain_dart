@@ -10,7 +10,7 @@ part of google_a_i_schema;
 
 /// The response to an `EmbedContentRequest`.
 @freezed
-class EmbedContentResponse with _$EmbedContentResponse {
+abstract class EmbedContentResponse with _$EmbedContentResponse {
   const EmbedContentResponse._();
 
   /// Factory constructor for EmbedContentResponse

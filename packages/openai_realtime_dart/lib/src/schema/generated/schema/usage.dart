@@ -12,7 +12,7 @@ part of openai_realtime_schema;
 /// maintain a conversation context and append new Items to the Conversation, thus output from
 /// previous turns (text and audio tokens) will become the input for later turns.
 @freezed
-class Usage with _$Usage {
+abstract class Usage with _$Usage {
   const Usage._();
 
   /// Factory constructor for Usage
@@ -70,7 +70,7 @@ class Usage with _$Usage {
 
 /// Details about the input tokens used in the Response.
 @freezed
-class UsageInputTokenDetails with _$UsageInputTokenDetails {
+abstract class UsageInputTokenDetails with _$UsageInputTokenDetails {
   const UsageInputTokenDetails._();
 
   /// Factory constructor for UsageInputTokenDetails
@@ -117,7 +117,7 @@ class UsageInputTokenDetails with _$UsageInputTokenDetails {
 
 /// Details about the output tokens used in the Response.
 @freezed
-class UsageOutputTokenDetails with _$UsageOutputTokenDetails {
+abstract class UsageOutputTokenDetails with _$UsageOutputTokenDetails {
   const UsageOutputTokenDetails._();
 
   /// Factory constructor for UsageOutputTokenDetails

@@ -8,9 +8,9 @@ part of 'schema.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$GenerateCompletionRequestImpl _$$GenerateCompletionRequestImplFromJson(
+_GenerateCompletionRequest _$GenerateCompletionRequestFromJson(
         Map<String, dynamic> json) =>
-    _$GenerateCompletionRequestImpl(
+    _GenerateCompletionRequest(
       model: json['model'] as String,
       prompt: json['prompt'] as String,
       suffix: json['suffix'] as String?,
@@ -32,8 +32,8 @@ _$GenerateCompletionRequestImpl _$$GenerateCompletionRequestImplFromJson(
       think: json['think'] as bool?,
     );
 
-Map<String, dynamic> _$$GenerateCompletionRequestImplToJson(
-        _$GenerateCompletionRequestImpl instance) =>
+Map<String, dynamic> _$GenerateCompletionRequestToJson(
+        _GenerateCompletionRequest instance) =>
     <String, dynamic>{
       'model': instance.model,
       'prompt': instance.prompt,
@@ -55,8 +55,8 @@ const _$ResponseFormatEnumMap = {
   ResponseFormat.json: 'json',
 };
 
-_$RequestOptionsImpl _$$RequestOptionsImplFromJson(Map<String, dynamic> json) =>
-    _$RequestOptionsImpl(
+_RequestOptions _$RequestOptionsFromJson(Map<String, dynamic> json) =>
+    _RequestOptions(
       numKeep: (json['num_keep'] as num?)?.toInt(),
       seed: (json['seed'] as num?)?.toInt(),
       numPredict: (json['num_predict'] as num?)?.toInt(),
@@ -89,8 +89,7 @@ _$RequestOptionsImpl _$$RequestOptionsImplFromJson(Map<String, dynamic> json) =>
       numThread: (json['num_thread'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$$RequestOptionsImplToJson(
-        _$RequestOptionsImpl instance) =>
+Map<String, dynamic> _$RequestOptionsToJson(_RequestOptions instance) =>
     <String, dynamic>{
       if (instance.numKeep case final value?) 'num_keep': value,
       if (instance.seed case final value?) 'seed': value,
@@ -125,21 +124,19 @@ Map<String, dynamic> _$$RequestOptionsImplToJson(
       if (instance.numThread case final value?) 'num_thread': value,
     };
 
-_$VersionResponseImpl _$$VersionResponseImplFromJson(
-        Map<String, dynamic> json) =>
-    _$VersionResponseImpl(
+_VersionResponse _$VersionResponseFromJson(Map<String, dynamic> json) =>
+    _VersionResponse(
       version: json['version'] as String?,
     );
 
-Map<String, dynamic> _$$VersionResponseImplToJson(
-        _$VersionResponseImpl instance) =>
+Map<String, dynamic> _$VersionResponseToJson(_VersionResponse instance) =>
     <String, dynamic>{
       if (instance.version case final value?) 'version': value,
     };
 
-_$GenerateCompletionResponseImpl _$$GenerateCompletionResponseImplFromJson(
+_GenerateCompletionResponse _$GenerateCompletionResponseFromJson(
         Map<String, dynamic> json) =>
-    _$GenerateCompletionResponseImpl(
+    _GenerateCompletionResponse(
       model: json['model'] as String?,
       createdAt: json['created_at'] as String?,
       response: json['response'] as String?,
@@ -156,8 +153,8 @@ _$GenerateCompletionResponseImpl _$$GenerateCompletionResponseImplFromJson(
       evalDuration: (json['eval_duration'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$$GenerateCompletionResponseImplToJson(
-        _$GenerateCompletionResponseImpl instance) =>
+Map<String, dynamic> _$GenerateCompletionResponseToJson(
+        _GenerateCompletionResponse instance) =>
     <String, dynamic>{
       if (instance.model case final value?) 'model': value,
       if (instance.createdAt case final value?) 'created_at': value,
@@ -175,29 +172,28 @@ Map<String, dynamic> _$$GenerateCompletionResponseImplToJson(
       if (instance.evalDuration case final value?) 'eval_duration': value,
     };
 
-_$GenerateChatCompletionRequestImpl
-    _$$GenerateChatCompletionRequestImplFromJson(Map<String, dynamic> json) =>
-        _$GenerateChatCompletionRequestImpl(
-          model: json['model'] as String,
-          messages: (json['messages'] as List<dynamic>)
-              .map((e) => Message.fromJson(e as Map<String, dynamic>))
-              .toList(),
-          stream: json['stream'] as bool? ?? false,
-          format: $enumDecodeNullable(_$ResponseFormatEnumMap, json['format'],
-              unknownValue: JsonKey.nullForUndefinedEnumValue),
-          keepAlive: (json['keep_alive'] as num?)?.toInt(),
-          tools: (json['tools'] as List<dynamic>?)
-              ?.map((e) => Tool.fromJson(e as Map<String, dynamic>))
-              .toList(),
-          options: json['options'] == null
-              ? null
-              : RequestOptions.fromJson(
-                  json['options'] as Map<String, dynamic>),
-          think: json['think'] as bool?,
-        );
+_GenerateChatCompletionRequest _$GenerateChatCompletionRequestFromJson(
+        Map<String, dynamic> json) =>
+    _GenerateChatCompletionRequest(
+      model: json['model'] as String,
+      messages: (json['messages'] as List<dynamic>)
+          .map((e) => Message.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      stream: json['stream'] as bool? ?? false,
+      format: $enumDecodeNullable(_$ResponseFormatEnumMap, json['format'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      keepAlive: (json['keep_alive'] as num?)?.toInt(),
+      tools: (json['tools'] as List<dynamic>?)
+          ?.map((e) => Tool.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      options: json['options'] == null
+          ? null
+          : RequestOptions.fromJson(json['options'] as Map<String, dynamic>),
+      think: json['think'] as bool?,
+    );
 
-Map<String, dynamic> _$$GenerateChatCompletionRequestImplToJson(
-        _$GenerateChatCompletionRequestImpl instance) =>
+Map<String, dynamic> _$GenerateChatCompletionRequestToJson(
+        _GenerateChatCompletionRequest instance) =>
     <String, dynamic>{
       'model': instance.model,
       'messages': instance.messages.map((e) => e.toJson()).toList(),
@@ -211,26 +207,25 @@ Map<String, dynamic> _$$GenerateChatCompletionRequestImplToJson(
       if (instance.think case final value?) 'think': value,
     };
 
-_$GenerateChatCompletionResponseImpl
-    _$$GenerateChatCompletionResponseImplFromJson(Map<String, dynamic> json) =>
-        _$GenerateChatCompletionResponseImpl(
-          message: Message.fromJson(json['message'] as Map<String, dynamic>),
-          model: json['model'] as String,
-          createdAt: json['created_at'] as String,
-          done: json['done'] as bool,
-          doneReason: $enumDecodeNullable(
-              _$DoneReasonEnumMap, json['done_reason'],
-              unknownValue: JsonKey.nullForUndefinedEnumValue),
-          totalDuration: (json['total_duration'] as num?)?.toInt(),
-          loadDuration: (json['load_duration'] as num?)?.toInt(),
-          promptEvalCount: (json['prompt_eval_count'] as num?)?.toInt(),
-          promptEvalDuration: (json['prompt_eval_duration'] as num?)?.toInt(),
-          evalCount: (json['eval_count'] as num?)?.toInt(),
-          evalDuration: (json['eval_duration'] as num?)?.toInt(),
-        );
+_GenerateChatCompletionResponse _$GenerateChatCompletionResponseFromJson(
+        Map<String, dynamic> json) =>
+    _GenerateChatCompletionResponse(
+      message: Message.fromJson(json['message'] as Map<String, dynamic>),
+      model: json['model'] as String,
+      createdAt: json['created_at'] as String,
+      done: json['done'] as bool,
+      doneReason: $enumDecodeNullable(_$DoneReasonEnumMap, json['done_reason'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      totalDuration: (json['total_duration'] as num?)?.toInt(),
+      loadDuration: (json['load_duration'] as num?)?.toInt(),
+      promptEvalCount: (json['prompt_eval_count'] as num?)?.toInt(),
+      promptEvalDuration: (json['prompt_eval_duration'] as num?)?.toInt(),
+      evalCount: (json['eval_count'] as num?)?.toInt(),
+      evalDuration: (json['eval_duration'] as num?)?.toInt(),
+    );
 
-Map<String, dynamic> _$$GenerateChatCompletionResponseImplToJson(
-        _$GenerateChatCompletionResponseImpl instance) =>
+Map<String, dynamic> _$GenerateChatCompletionResponseToJson(
+        _GenerateChatCompletionResponse instance) =>
     <String, dynamic>{
       'message': instance.message.toJson(),
       'model': instance.model,
@@ -254,8 +249,7 @@ const _$DoneReasonEnumMap = {
   DoneReason.load: 'load',
 };
 
-_$MessageImpl _$$MessageImplFromJson(Map<String, dynamic> json) =>
-    _$MessageImpl(
+_Message _$MessageFromJson(Map<String, dynamic> json) => _Message(
       role: $enumDecode(_$MessageRoleEnumMap, json['role']),
       content: json['content'] as String,
       thinking: json['thinking'] as String?,
@@ -266,8 +260,7 @@ _$MessageImpl _$$MessageImplFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$$MessageImplToJson(_$MessageImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$MessageToJson(_Message instance) => <String, dynamic>{
       'role': _$MessageRoleEnumMap[instance.role]!,
       'content': instance.content,
       if (instance.thinking case final value?) 'thinking': value,
@@ -283,7 +276,7 @@ const _$MessageRoleEnumMap = {
   MessageRole.tool: 'tool',
 };
 
-_$ToolImpl _$$ToolImplFromJson(Map<String, dynamic> json) => _$ToolImpl(
+_Tool _$ToolFromJson(Map<String, dynamic> json) => _Tool(
       type: $enumDecodeNullable(_$ToolTypeEnumMap, json['type']) ??
           ToolType.function,
       function: json['function'] == null
@@ -291,8 +284,7 @@ _$ToolImpl _$$ToolImplFromJson(Map<String, dynamic> json) => _$ToolImpl(
           : ToolFunction.fromJson(json['function'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$ToolImplToJson(_$ToolImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$ToolToJson(_Tool instance) => <String, dynamic>{
       'type': _$ToolTypeEnumMap[instance.type]!,
       if (instance.function?.toJson() case final value?) 'function': value,
     };
@@ -301,49 +293,45 @@ const _$ToolTypeEnumMap = {
   ToolType.function: 'function',
 };
 
-_$ToolFunctionImpl _$$ToolFunctionImplFromJson(Map<String, dynamic> json) =>
-    _$ToolFunctionImpl(
+_ToolFunction _$ToolFunctionFromJson(Map<String, dynamic> json) =>
+    _ToolFunction(
       name: json['name'] as String,
       description: json['description'] as String,
       parameters: json['parameters'] as Map<String, dynamic>,
     );
 
-Map<String, dynamic> _$$ToolFunctionImplToJson(_$ToolFunctionImpl instance) =>
+Map<String, dynamic> _$ToolFunctionToJson(_ToolFunction instance) =>
     <String, dynamic>{
       'name': instance.name,
       'description': instance.description,
       'parameters': instance.parameters,
     };
 
-_$ToolCallImpl _$$ToolCallImplFromJson(Map<String, dynamic> json) =>
-    _$ToolCallImpl(
+_ToolCall _$ToolCallFromJson(Map<String, dynamic> json) => _ToolCall(
       function: json['function'] == null
           ? null
           : ToolCallFunction.fromJson(json['function'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$ToolCallImplToJson(_$ToolCallImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$ToolCallToJson(_ToolCall instance) => <String, dynamic>{
       if (instance.function?.toJson() case final value?) 'function': value,
     };
 
-_$ToolCallFunctionImpl _$$ToolCallFunctionImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ToolCallFunctionImpl(
+_ToolCallFunction _$ToolCallFunctionFromJson(Map<String, dynamic> json) =>
+    _ToolCallFunction(
       name: json['name'] as String,
       arguments: json['arguments'] as Map<String, dynamic>,
     );
 
-Map<String, dynamic> _$$ToolCallFunctionImplToJson(
-        _$ToolCallFunctionImpl instance) =>
+Map<String, dynamic> _$ToolCallFunctionToJson(_ToolCallFunction instance) =>
     <String, dynamic>{
       'name': instance.name,
       'arguments': instance.arguments,
     };
 
-_$GenerateEmbeddingRequestImpl _$$GenerateEmbeddingRequestImplFromJson(
+_GenerateEmbeddingRequest _$GenerateEmbeddingRequestFromJson(
         Map<String, dynamic> json) =>
-    _$GenerateEmbeddingRequestImpl(
+    _GenerateEmbeddingRequest(
       model: json['model'] as String,
       prompt: json['prompt'] as String,
       options: json['options'] == null
@@ -352,8 +340,8 @@ _$GenerateEmbeddingRequestImpl _$$GenerateEmbeddingRequestImplFromJson(
       keepAlive: (json['keep_alive'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$$GenerateEmbeddingRequestImplToJson(
-        _$GenerateEmbeddingRequestImpl instance) =>
+Map<String, dynamic> _$GenerateEmbeddingRequestToJson(
+        _GenerateEmbeddingRequest instance) =>
     <String, dynamic>{
       'model': instance.model,
       'prompt': instance.prompt,
@@ -361,23 +349,22 @@ Map<String, dynamic> _$$GenerateEmbeddingRequestImplToJson(
       if (instance.keepAlive case final value?) 'keep_alive': value,
     };
 
-_$GenerateEmbeddingResponseImpl _$$GenerateEmbeddingResponseImplFromJson(
+_GenerateEmbeddingResponse _$GenerateEmbeddingResponseFromJson(
         Map<String, dynamic> json) =>
-    _$GenerateEmbeddingResponseImpl(
+    _GenerateEmbeddingResponse(
       embedding: (json['embedding'] as List<dynamic>?)
           ?.map((e) => (e as num).toDouble())
           .toList(),
     );
 
-Map<String, dynamic> _$$GenerateEmbeddingResponseImplToJson(
-        _$GenerateEmbeddingResponseImpl instance) =>
+Map<String, dynamic> _$GenerateEmbeddingResponseToJson(
+        _GenerateEmbeddingResponse instance) =>
     <String, dynamic>{
       if (instance.embedding case final value?) 'embedding': value,
     };
 
-_$CreateModelRequestImpl _$$CreateModelRequestImplFromJson(
-        Map<String, dynamic> json) =>
-    _$CreateModelRequestImpl(
+_CreateModelRequest _$CreateModelRequestFromJson(Map<String, dynamic> json) =>
+    _CreateModelRequest(
       model: json['model'] as String,
       modelfile: json['modelfile'] as String,
       path: json['path'] as String?,
@@ -385,8 +372,7 @@ _$CreateModelRequestImpl _$$CreateModelRequestImplFromJson(
       stream: json['stream'] as bool? ?? false,
     );
 
-Map<String, dynamic> _$$CreateModelRequestImplToJson(
-        _$CreateModelRequestImpl instance) =>
+Map<String, dynamic> _$CreateModelRequestToJson(_CreateModelRequest instance) =>
     <String, dynamic>{
       'model': instance.model,
       'modelfile': instance.modelfile,
@@ -395,15 +381,14 @@ Map<String, dynamic> _$$CreateModelRequestImplToJson(
       'stream': instance.stream,
     };
 
-_$CreateModelResponseImpl _$$CreateModelResponseImplFromJson(
-        Map<String, dynamic> json) =>
-    _$CreateModelResponseImpl(
+_CreateModelResponse _$CreateModelResponseFromJson(Map<String, dynamic> json) =>
+    _CreateModelResponse(
       status: $enumDecodeNullable(_$CreateModelStatusEnumMap, json['status'],
           unknownValue: JsonKey.nullForUndefinedEnumValue),
     );
 
-Map<String, dynamic> _$$CreateModelResponseImplToJson(
-        _$CreateModelResponseImpl instance) =>
+Map<String, dynamic> _$CreateModelResponseToJson(
+        _CreateModelResponse instance) =>
     <String, dynamic>{
       if (_$CreateModelStatusEnumMap[instance.status] case final value?)
         'status': value,
@@ -415,21 +400,20 @@ const _$CreateModelStatusEnumMap = {
   CreateModelStatus.success: 'success',
 };
 
-_$ModelsResponseImpl _$$ModelsResponseImplFromJson(Map<String, dynamic> json) =>
-    _$ModelsResponseImpl(
+_ModelsResponse _$ModelsResponseFromJson(Map<String, dynamic> json) =>
+    _ModelsResponse(
       models: (json['models'] as List<dynamic>?)
           ?.map((e) => Model.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$$ModelsResponseImplToJson(
-        _$ModelsResponseImpl instance) =>
+Map<String, dynamic> _$ModelsResponseToJson(_ModelsResponse instance) =>
     <String, dynamic>{
       if (instance.models?.map((e) => e.toJson()).toList() case final value?)
         'models': value,
     };
 
-_$ModelImpl _$$ModelImplFromJson(Map<String, dynamic> json) => _$ModelImpl(
+_Model _$ModelFromJson(Map<String, dynamic> json) => _Model(
       model: json['model'] as String?,
       modifiedAt: json['modified_at'] as String?,
       size: (json['size'] as num?)?.toInt(),
@@ -439,8 +423,7 @@ _$ModelImpl _$$ModelImplFromJson(Map<String, dynamic> json) => _$ModelImpl(
           : ModelDetails.fromJson(json['details'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$ModelImplToJson(_$ModelImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$ModelToJson(_Model instance) => <String, dynamic>{
       if (instance.model case final value?) 'model': value,
       if (instance.modifiedAt case final value?) 'modified_at': value,
       if (instance.size case final value?) 'size': value,
@@ -448,8 +431,8 @@ Map<String, dynamic> _$$ModelImplToJson(_$ModelImpl instance) =>
       if (instance.details?.toJson() case final value?) 'details': value,
     };
 
-_$ModelDetailsImpl _$$ModelDetailsImplFromJson(Map<String, dynamic> json) =>
-    _$ModelDetailsImpl(
+_ModelDetails _$ModelDetailsFromJson(Map<String, dynamic> json) =>
+    _ModelDetails(
       parentModel: json['parent_model'] as String?,
       format: json['format'] as String?,
       family: json['family'] as String?,
@@ -460,7 +443,7 @@ _$ModelDetailsImpl _$$ModelDetailsImplFromJson(Map<String, dynamic> json) =>
       quantizationLevel: json['quantization_level'] as String?,
     );
 
-Map<String, dynamic> _$$ModelDetailsImplToJson(_$ModelDetailsImpl instance) =>
+Map<String, dynamic> _$ModelDetailsToJson(_ModelDetails instance) =>
     <String, dynamic>{
       if (instance.parentModel case final value?) 'parent_model': value,
       if (instance.format case final value?) 'format': value,
@@ -471,9 +454,8 @@ Map<String, dynamic> _$$ModelDetailsImplToJson(_$ModelDetailsImpl instance) =>
         'quantization_level': value,
     };
 
-_$ModelInformationImpl _$$ModelInformationImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ModelInformationImpl(
+_ModelInformation _$ModelInformationFromJson(Map<String, dynamic> json) =>
+    _ModelInformation(
       generalArchitecture: json['general.architecture'] as String?,
       generalFileType: (json['general.file_type'] as num?)?.toInt(),
       generalParameterCount: (json['general.parameter_count'] as num?)?.toInt(),
@@ -481,8 +463,7 @@ _$ModelInformationImpl _$$ModelInformationImplFromJson(
           (json['general.quantization_version'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$$ModelInformationImplToJson(
-        _$ModelInformationImpl instance) =>
+Map<String, dynamic> _$ModelInformationToJson(_ModelInformation instance) =>
     <String, dynamic>{
       if (instance.generalArchitecture case final value?)
         'general.architecture': value,
@@ -494,7 +475,7 @@ Map<String, dynamic> _$$ModelInformationImplToJson(
         'general.quantization_version': value,
     };
 
-_$TensorImpl _$$TensorImplFromJson(Map<String, dynamic> json) => _$TensorImpl(
+_Tensor _$TensorFromJson(Map<String, dynamic> json) => _Tensor(
       name: json['name'] as String?,
       type: json['type'] as String?,
       shape: (json['shape'] as List<dynamic>?)
@@ -502,30 +483,27 @@ _$TensorImpl _$$TensorImplFromJson(Map<String, dynamic> json) => _$TensorImpl(
           .toList(),
     );
 
-Map<String, dynamic> _$$TensorImplToJson(_$TensorImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$TensorToJson(_Tensor instance) => <String, dynamic>{
       if (instance.name case final value?) 'name': value,
       if (instance.type case final value?) 'type': value,
       if (instance.shape case final value?) 'shape': value,
     };
 
-_$ProcessResponseImpl _$$ProcessResponseImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ProcessResponseImpl(
+_ProcessResponse _$ProcessResponseFromJson(Map<String, dynamic> json) =>
+    _ProcessResponse(
       models: (json['models'] as List<dynamic>?)
           ?.map((e) => ProcessModel.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$$ProcessResponseImplToJson(
-        _$ProcessResponseImpl instance) =>
+Map<String, dynamic> _$ProcessResponseToJson(_ProcessResponse instance) =>
     <String, dynamic>{
       if (instance.models?.map((e) => e.toJson()).toList() case final value?)
         'models': value,
     };
 
-_$ProcessModelImpl _$$ProcessModelImplFromJson(Map<String, dynamic> json) =>
-    _$ProcessModelImpl(
+_ProcessModel _$ProcessModelFromJson(Map<String, dynamic> json) =>
+    _ProcessModel(
       model: json['model'] as String?,
       size: (json['size'] as num?)?.toInt(),
       digest: json['digest'] as String?,
@@ -536,7 +514,7 @@ _$ProcessModelImpl _$$ProcessModelImplFromJson(Map<String, dynamic> json) =>
       sizeVram: (json['size_vram'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$$ProcessModelImplToJson(_$ProcessModelImpl instance) =>
+Map<String, dynamic> _$ProcessModelToJson(_ProcessModel instance) =>
     <String, dynamic>{
       if (instance.model case final value?) 'model': value,
       if (instance.size case final value?) 'size': value,
@@ -546,20 +524,17 @@ Map<String, dynamic> _$$ProcessModelImplToJson(_$ProcessModelImpl instance) =>
       if (instance.sizeVram case final value?) 'size_vram': value,
     };
 
-_$ModelInfoRequestImpl _$$ModelInfoRequestImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ModelInfoRequestImpl(
+_ModelInfoRequest _$ModelInfoRequestFromJson(Map<String, dynamic> json) =>
+    _ModelInfoRequest(
       model: json['model'] as String,
     );
 
-Map<String, dynamic> _$$ModelInfoRequestImplToJson(
-        _$ModelInfoRequestImpl instance) =>
+Map<String, dynamic> _$ModelInfoRequestToJson(_ModelInfoRequest instance) =>
     <String, dynamic>{
       'model': instance.model,
     };
 
-_$ModelInfoImpl _$$ModelInfoImplFromJson(Map<String, dynamic> json) =>
-    _$ModelInfoImpl(
+_ModelInfo _$ModelInfoFromJson(Map<String, dynamic> json) => _ModelInfo(
       license: json['license'] as String?,
       modelfile: json['modelfile'] as String?,
       parameters: json['parameters'] as String?,
@@ -585,7 +560,7 @@ _$ModelInfoImpl _$$ModelInfoImplFromJson(Map<String, dynamic> json) =>
       modifiedAt: json['modified_at'] as String?,
     );
 
-Map<String, dynamic> _$$ModelInfoImplToJson(_$ModelInfoImpl instance) =>
+Map<String, dynamic> _$ModelInfoToJson(_ModelInfo instance) =>
     <String, dynamic>{
       if (instance.license case final value?) 'license': value,
       if (instance.modelfile case final value?) 'modelfile': value,
@@ -614,35 +589,30 @@ const _$CapabilityEnumMap = {
   Capability.thinking: 'thinking',
 };
 
-_$CopyModelRequestImpl _$$CopyModelRequestImplFromJson(
-        Map<String, dynamic> json) =>
-    _$CopyModelRequestImpl(
+_CopyModelRequest _$CopyModelRequestFromJson(Map<String, dynamic> json) =>
+    _CopyModelRequest(
       source: json['source'] as String,
       destination: json['destination'] as String,
     );
 
-Map<String, dynamic> _$$CopyModelRequestImplToJson(
-        _$CopyModelRequestImpl instance) =>
+Map<String, dynamic> _$CopyModelRequestToJson(_CopyModelRequest instance) =>
     <String, dynamic>{
       'source': instance.source,
       'destination': instance.destination,
     };
 
-_$DeleteModelRequestImpl _$$DeleteModelRequestImplFromJson(
-        Map<String, dynamic> json) =>
-    _$DeleteModelRequestImpl(
+_DeleteModelRequest _$DeleteModelRequestFromJson(Map<String, dynamic> json) =>
+    _DeleteModelRequest(
       model: json['model'] as String,
     );
 
-Map<String, dynamic> _$$DeleteModelRequestImplToJson(
-        _$DeleteModelRequestImpl instance) =>
+Map<String, dynamic> _$DeleteModelRequestToJson(_DeleteModelRequest instance) =>
     <String, dynamic>{
       'model': instance.model,
     };
 
-_$PullModelRequestImpl _$$PullModelRequestImplFromJson(
-        Map<String, dynamic> json) =>
-    _$PullModelRequestImpl(
+_PullModelRequest _$PullModelRequestFromJson(Map<String, dynamic> json) =>
+    _PullModelRequest(
       model: json['model'] as String,
       insecure: json['insecure'] as bool? ?? false,
       username: json['username'] as String?,
@@ -650,8 +620,7 @@ _$PullModelRequestImpl _$$PullModelRequestImplFromJson(
       stream: json['stream'] as bool? ?? false,
     );
 
-Map<String, dynamic> _$$PullModelRequestImplToJson(
-        _$PullModelRequestImpl instance) =>
+Map<String, dynamic> _$PullModelRequestToJson(_PullModelRequest instance) =>
     <String, dynamic>{
       'model': instance.model,
       'insecure': instance.insecure,
@@ -660,9 +629,8 @@ Map<String, dynamic> _$$PullModelRequestImplToJson(
       'stream': instance.stream,
     };
 
-_$PullModelResponseImpl _$$PullModelResponseImplFromJson(
-        Map<String, dynamic> json) =>
-    _$PullModelResponseImpl(
+_PullModelResponse _$PullModelResponseFromJson(Map<String, dynamic> json) =>
+    _PullModelResponse(
       status: $enumDecodeNullable(_$PullModelStatusEnumMap, json['status'],
           unknownValue: JsonKey.nullForUndefinedEnumValue),
       digest: json['digest'] as String?,
@@ -670,8 +638,7 @@ _$PullModelResponseImpl _$$PullModelResponseImplFromJson(
       completed: (json['completed'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$$PullModelResponseImplToJson(
-        _$PullModelResponseImpl instance) =>
+Map<String, dynamic> _$PullModelResponseToJson(_PullModelResponse instance) =>
     <String, dynamic>{
       if (_$PullModelStatusEnumMap[instance.status] case final value?)
         'status': value,
@@ -689,9 +656,8 @@ const _$PullModelStatusEnumMap = {
   PullModelStatus.success: 'success',
 };
 
-_$PushModelRequestImpl _$$PushModelRequestImplFromJson(
-        Map<String, dynamic> json) =>
-    _$PushModelRequestImpl(
+_PushModelRequest _$PushModelRequestFromJson(Map<String, dynamic> json) =>
+    _PushModelRequest(
       model: json['model'] as String,
       insecure: json['insecure'] as bool? ?? false,
       username: json['username'] as String?,
@@ -699,8 +665,7 @@ _$PushModelRequestImpl _$$PushModelRequestImplFromJson(
       stream: json['stream'] as bool? ?? false,
     );
 
-Map<String, dynamic> _$$PushModelRequestImplToJson(
-        _$PushModelRequestImpl instance) =>
+Map<String, dynamic> _$PushModelRequestToJson(_PushModelRequest instance) =>
     <String, dynamic>{
       'model': instance.model,
       'insecure': instance.insecure,
@@ -709,17 +674,15 @@ Map<String, dynamic> _$$PushModelRequestImplToJson(
       'stream': instance.stream,
     };
 
-_$PushModelResponseImpl _$$PushModelResponseImplFromJson(
-        Map<String, dynamic> json) =>
-    _$PushModelResponseImpl(
+_PushModelResponse _$PushModelResponseFromJson(Map<String, dynamic> json) =>
+    _PushModelResponse(
       status: json['status'] as String?,
       digest: json['digest'] as String?,
       total: (json['total'] as num?)?.toInt(),
       completed: (json['completed'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$$PushModelResponseImplToJson(
-        _$PushModelResponseImpl instance) =>
+Map<String, dynamic> _$PushModelResponseToJson(_PushModelResponse instance) =>
     <String, dynamic>{
       if (instance.status case final value?) 'status': value,
       if (instance.digest case final value?) 'digest': value,

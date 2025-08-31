@@ -10,7 +10,7 @@ part of openai_realtime_schema;
 
 /// The conversation resource.
 @freezed
-class Conversation with _$Conversation {
+abstract class Conversation with _$Conversation {
   const Conversation._();
 
   /// Factory constructor for Conversation

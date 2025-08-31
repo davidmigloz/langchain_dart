@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Represents a request to create a new batch.
 @freezed
-class CreateBatchRequest with _$CreateBatchRequest {
+abstract class CreateBatchRequest with _$CreateBatchRequest {
   const CreateBatchRequest._();
 
   /// Factory constructor for CreateBatchRequest

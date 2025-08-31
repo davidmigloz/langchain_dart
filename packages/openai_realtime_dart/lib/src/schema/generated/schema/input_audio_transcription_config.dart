@@ -16,7 +16,8 @@ part of openai_realtime_schema;
 /// can optionally set the language and prompt for transcription, these offer additional guidance to
 /// the transcription service.
 @freezed
-class InputAudioTranscriptionConfig with _$InputAudioTranscriptionConfig {
+abstract class InputAudioTranscriptionConfig
+    with _$InputAudioTranscriptionConfig {
   const InputAudioTranscriptionConfig._();
 
   /// Factory constructor for InputAudioTranscriptionConfig

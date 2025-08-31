@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// A tool the model may use.
 @freezed
-class ChatCompletionTool with _$ChatCompletionTool {
+abstract class ChatCompletionTool with _$ChatCompletionTool {
   const ChatCompletionTool._();
 
   /// Factory constructor for ChatCompletionTool

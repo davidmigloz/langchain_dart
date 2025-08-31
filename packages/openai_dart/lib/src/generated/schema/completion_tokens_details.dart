@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Breakdown of tokens used in a completion.
 @freezed
-class CompletionTokensDetails with _$CompletionTokensDetails {
+abstract class CompletionTokensDetails with _$CompletionTokensDetails {
   const CompletionTokensDetails._();
 
   /// Factory constructor for CompletionTokensDetails

@@ -80,7 +80,7 @@ sealed class MessageDeltaContentTextAnnotations
 
 /// No Description
 @freezed
-class MessageDeltaContentTextAnnotationsFilePathObjectFilePath
+abstract class MessageDeltaContentTextAnnotationsFilePathObjectFilePath
     with _$MessageDeltaContentTextAnnotationsFilePathObjectFilePath {
   const MessageDeltaContentTextAnnotationsFilePathObjectFilePath._();
 

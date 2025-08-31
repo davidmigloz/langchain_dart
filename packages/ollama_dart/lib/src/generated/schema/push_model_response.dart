@@ -10,7 +10,7 @@ part of ollama_schema;
 
 /// Response class for pushing a model.
 @freezed
-class PushModelResponse with _$PushModelResponse {
+abstract class PushModelResponse with _$PushModelResponse {
   const PushModelResponse._();
 
   /// Factory constructor for PushModelResponse

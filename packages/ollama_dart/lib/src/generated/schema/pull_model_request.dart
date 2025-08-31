@@ -10,7 +10,7 @@ part of ollama_schema;
 
 /// Request class for pulling a model.
 @freezed
-class PullModelRequest with _$PullModelRequest {
+abstract class PullModelRequest with _$PullModelRequest {
   const PullModelRequest._();
 
   /// Factory constructor for PullModelRequest

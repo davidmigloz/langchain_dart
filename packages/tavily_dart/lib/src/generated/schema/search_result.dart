@@ -10,7 +10,7 @@ part of tavily_schema;
 
 /// The search result object.
 @freezed
-class SearchResult with _$SearchResult {
+abstract class SearchResult with _$SearchResult {
   const SearchResult._();
 
   /// Factory constructor for SearchResult

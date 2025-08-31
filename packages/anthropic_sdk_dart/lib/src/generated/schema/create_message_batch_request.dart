@@ -10,7 +10,7 @@ part of anthropic_schema;
 
 /// The request parameters for creating a message batch.
 @freezed
-class CreateMessageBatchRequest with _$CreateMessageBatchRequest {
+abstract class CreateMessageBatchRequest with _$CreateMessageBatchRequest {
   const CreateMessageBatchRequest._();
 
   /// Factory constructor for CreateMessageBatchRequest

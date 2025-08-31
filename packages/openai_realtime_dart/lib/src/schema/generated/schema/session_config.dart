@@ -10,7 +10,7 @@ part of openai_realtime_schema;
 
 /// Session configuration to update.
 @freezed
-class SessionConfig with _$SessionConfig {
+abstract class SessionConfig with _$SessionConfig {
   const SessionConfig._();
 
   /// Factory constructor for SessionConfig
@@ -148,7 +148,7 @@ class SessionConfig with _$SessionConfig {
 
 /// Ephemeral key returned by the API.
 @freezed
-class SessionConfigClientSecret with _$SessionConfigClientSecret {
+abstract class SessionConfigClientSecret with _$SessionConfigClientSecret {
   const SessionConfigClientSecret._();
 
   /// Factory constructor for SessionConfigClientSecret

@@ -10,7 +10,7 @@ part of google_a_i_schema;
 
 /// Safety setting, affecting the safety-blocking behavior. Passing a safety setting for a category changes the allowed proability that content is blocked.
 @freezed
-class SafetySetting with _$SafetySetting {
+abstract class SafetySetting with _$SafetySetting {
   const SafetySetting._();
 
   /// Factory constructor for SafetySetting

@@ -8,31 +8,23 @@ part of 'schema.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$BatchEmbedContentsResponseImpl _$$BatchEmbedContentsResponseImplFromJson(
+_BatchEmbedContentsResponse _$BatchEmbedContentsResponseFromJson(
         Map<String, dynamic> json) =>
-    _$BatchEmbedContentsResponseImpl(
+    _BatchEmbedContentsResponse(
       embeddings: (json['embeddings'] as List<dynamic>?)
           ?.map((e) => ContentEmbedding.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$$BatchEmbedContentsResponseImplToJson(
-    _$BatchEmbedContentsResponseImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$BatchEmbedContentsResponseToJson(
+        _BatchEmbedContentsResponse instance) =>
+    <String, dynamic>{
+      if (instance.embeddings?.map((e) => e.toJson()).toList()
+          case final value?)
+        'embeddings': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'embeddings', instance.embeddings?.map((e) => e.toJson()).toList());
-  return val;
-}
-
-_$CandidateImpl _$$CandidateImplFromJson(Map<String, dynamic> json) =>
-    _$CandidateImpl(
+_Candidate _$CandidateFromJson(Map<String, dynamic> json) => _Candidate(
       content: json['content'] == null
           ? null
           : Content.fromJson(json['content'] as Map<String, dynamic>),
@@ -50,25 +42,20 @@ _$CandidateImpl _$$CandidateImplFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$$CandidateImplToJson(_$CandidateImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('content', instance.content?.toJson());
-  writeNotNull(
-      'finishReason', _$CandidateFinishReasonEnumMap[instance.finishReason]);
-  writeNotNull('citationMetadata', instance.citationMetadata?.toJson());
-  writeNotNull('index', instance.index);
-  writeNotNull('tokenCount', instance.tokenCount);
-  writeNotNull(
-      'safetyRatings', instance.safetyRatings?.map((e) => e.toJson()).toList());
-  return val;
-}
+Map<String, dynamic> _$CandidateToJson(_Candidate instance) =>
+    <String, dynamic>{
+      if (instance.content?.toJson() case final value?) 'content': value,
+      if (_$CandidateFinishReasonEnumMap[instance.finishReason]
+          case final value?)
+        'finishReason': value,
+      if (instance.citationMetadata?.toJson() case final value?)
+        'citationMetadata': value,
+      if (instance.index case final value?) 'index': value,
+      if (instance.tokenCount case final value?) 'tokenCount': value,
+      if (instance.safetyRatings?.map((e) => e.toJson()).toList()
+          case final value?)
+        'safetyRatings': value,
+    };
 
 const _$CandidateFinishReasonEnumMap = {
   CandidateFinishReason.finishReasonUnspecified: 'FINISH_REASON_UNSPECIFIED',
@@ -79,9 +66,9 @@ const _$CandidateFinishReasonEnumMap = {
   CandidateFinishReason.other: 'OTHER',
 };
 
-_$CreateTunedModelMetadataImpl _$$CreateTunedModelMetadataImplFromJson(
+_CreateTunedModelMetadata _$CreateTunedModelMetadataFromJson(
         Map<String, dynamic> json) =>
-    _$CreateTunedModelMetadataImpl(
+    _CreateTunedModelMetadata(
       totalSteps: (json['totalSteps'] as num?)?.toInt(),
       tunedModel: json['tunedModel'] as String?,
       completedSteps: (json['completedSteps'] as num?)?.toInt(),
@@ -91,49 +78,35 @@ _$CreateTunedModelMetadataImpl _$$CreateTunedModelMetadataImplFromJson(
       completedPercent: (json['completedPercent'] as num?)?.toDouble(),
     );
 
-Map<String, dynamic> _$$CreateTunedModelMetadataImplToJson(
-    _$CreateTunedModelMetadataImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$CreateTunedModelMetadataToJson(
+        _CreateTunedModelMetadata instance) =>
+    <String, dynamic>{
+      if (instance.totalSteps case final value?) 'totalSteps': value,
+      if (instance.tunedModel case final value?) 'tunedModel': value,
+      if (instance.completedSteps case final value?) 'completedSteps': value,
+      if (instance.snapshots?.map((e) => e.toJson()).toList() case final value?)
+        'snapshots': value,
+      if (instance.completedPercent case final value?)
+        'completedPercent': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('totalSteps', instance.totalSteps);
-  writeNotNull('tunedModel', instance.tunedModel);
-  writeNotNull('completedSteps', instance.completedSteps);
-  writeNotNull(
-      'snapshots', instance.snapshots?.map((e) => e.toJson()).toList());
-  writeNotNull('completedPercent', instance.completedPercent);
-  return val;
-}
-
-_$BatchEmbedContentsRequestImpl _$$BatchEmbedContentsRequestImplFromJson(
+_BatchEmbedContentsRequest _$BatchEmbedContentsRequestFromJson(
         Map<String, dynamic> json) =>
-    _$BatchEmbedContentsRequestImpl(
+    _BatchEmbedContentsRequest(
       requests: (json['requests'] as List<dynamic>?)
           ?.map((e) => EmbedContentRequest.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$$BatchEmbedContentsRequestImplToJson(
-    _$BatchEmbedContentsRequestImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$BatchEmbedContentsRequestToJson(
+        _BatchEmbedContentsRequest instance) =>
+    <String, dynamic>{
+      if (instance.requests?.map((e) => e.toJson()).toList() case final value?)
+        'requests': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('requests', instance.requests?.map((e) => e.toJson()).toList());
-  return val;
-}
-
-_$SafetyRatingImpl _$$SafetyRatingImplFromJson(Map<String, dynamic> json) =>
-    _$SafetyRatingImpl(
+_SafetyRating _$SafetyRatingFromJson(Map<String, dynamic> json) =>
+    _SafetyRating(
       category: $enumDecodeNullable(
           _$SafetyRatingCategoryEnumMap, json['category'],
           unknownValue: JsonKey.nullForUndefinedEnumValue),
@@ -143,21 +116,15 @@ _$SafetyRatingImpl _$$SafetyRatingImplFromJson(Map<String, dynamic> json) =>
       blocked: json['blocked'] as bool?,
     );
 
-Map<String, dynamic> _$$SafetyRatingImplToJson(_$SafetyRatingImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('category', _$SafetyRatingCategoryEnumMap[instance.category]);
-  writeNotNull(
-      'probability', _$SafetyRatingProbabilityEnumMap[instance.probability]);
-  writeNotNull('blocked', instance.blocked);
-  return val;
-}
+Map<String, dynamic> _$SafetyRatingToJson(_SafetyRating instance) =>
+    <String, dynamic>{
+      if (_$SafetyRatingCategoryEnumMap[instance.category] case final value?)
+        'category': value,
+      if (_$SafetyRatingProbabilityEnumMap[instance.probability]
+          case final value?)
+        'probability': value,
+      if (instance.blocked case final value?) 'blocked': value,
+    };
 
 const _$SafetyRatingCategoryEnumMap = {
   SafetyRatingCategory.harmCategoryUnspecified: 'HARM_CATEGORY_UNSPECIFIED',
@@ -184,29 +151,19 @@ const _$SafetyRatingProbabilityEnumMap = {
   SafetyRatingProbability.high: 'HIGH',
 };
 
-_$PartImpl _$$PartImplFromJson(Map<String, dynamic> json) => _$PartImpl(
+_Part _$PartFromJson(Map<String, dynamic> json) => _Part(
       inlineData: json['inlineData'] == null
           ? null
           : Blob.fromJson(json['inlineData'] as Map<String, dynamic>),
       text: json['text'] as String?,
     );
 
-Map<String, dynamic> _$$PartImplToJson(_$PartImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$PartToJson(_Part instance) => <String, dynamic>{
+      if (instance.inlineData?.toJson() case final value?) 'inlineData': value,
+      if (instance.text case final value?) 'text': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('inlineData', instance.inlineData?.toJson());
-  writeNotNull('text', instance.text);
-  return val;
-}
-
-_$OperationImpl _$$OperationImplFromJson(Map<String, dynamic> json) =>
-    _$OperationImpl(
+_Operation _$OperationFromJson(Map<String, dynamic> json) => _Operation(
       name: json['name'] as String?,
       response: json['response'] as Map<String, dynamic>?,
       done: json['done'] as bool?,
@@ -216,24 +173,16 @@ _$OperationImpl _$$OperationImplFromJson(Map<String, dynamic> json) =>
           : Status.fromJson(json['error'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$OperationImplToJson(_$OperationImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$OperationToJson(_Operation instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'name': value,
+      if (instance.response case final value?) 'response': value,
+      if (instance.done case final value?) 'done': value,
+      if (instance.metadata case final value?) 'metadata': value,
+      if (instance.error?.toJson() case final value?) 'error': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('name', instance.name);
-  writeNotNull('response', instance.response);
-  writeNotNull('done', instance.done);
-  writeNotNull('metadata', instance.metadata);
-  writeNotNull('error', instance.error?.toJson());
-  return val;
-}
-
-_$StatusImpl _$$StatusImplFromJson(Map<String, dynamic> json) => _$StatusImpl(
+_Status _$StatusFromJson(Map<String, dynamic> json) => _Status(
       code: (json['code'] as num?)?.toInt(),
       message: json['message'] as String?,
       details: (json['details'] as List<dynamic>?)
@@ -241,46 +190,28 @@ _$StatusImpl _$$StatusImplFromJson(Map<String, dynamic> json) => _$StatusImpl(
           .toList(),
     );
 
-Map<String, dynamic> _$$StatusImplToJson(_$StatusImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$StatusToJson(_Status instance) => <String, dynamic>{
+      if (instance.code case final value?) 'code': value,
+      if (instance.message case final value?) 'message': value,
+      if (instance.details case final value?) 'details': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('code', instance.code);
-  writeNotNull('message', instance.message);
-  writeNotNull('details', instance.details);
-  return val;
-}
-
-_$CitationMetadataImpl _$$CitationMetadataImplFromJson(
-        Map<String, dynamic> json) =>
-    _$CitationMetadataImpl(
+_CitationMetadata _$CitationMetadataFromJson(Map<String, dynamic> json) =>
+    _CitationMetadata(
       citationSources: (json['citationSources'] as List<dynamic>?)
           ?.map((e) => CitationSource.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$$CitationMetadataImplToJson(
-    _$CitationMetadataImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$CitationMetadataToJson(_CitationMetadata instance) =>
+    <String, dynamic>{
+      if (instance.citationSources?.map((e) => e.toJson()).toList()
+          case final value?)
+        'citationSources': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('citationSources',
-      instance.citationSources?.map((e) => e.toJson()).toList());
-  return val;
-}
-
-_$SafetySettingImpl _$$SafetySettingImplFromJson(Map<String, dynamic> json) =>
-    _$SafetySettingImpl(
+_SafetySetting _$SafetySettingFromJson(Map<String, dynamic> json) =>
+    _SafetySetting(
       category: $enumDecodeNullable(
           _$SafetySettingCategoryEnumMap, json['category'],
           unknownValue: JsonKey.nullForUndefinedEnumValue),
@@ -289,20 +220,13 @@ _$SafetySettingImpl _$$SafetySettingImplFromJson(Map<String, dynamic> json) =>
           unknownValue: JsonKey.nullForUndefinedEnumValue),
     );
 
-Map<String, dynamic> _$$SafetySettingImplToJson(_$SafetySettingImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('category', _$SafetySettingCategoryEnumMap[instance.category]);
-  writeNotNull(
-      'threshold', _$SafetySettingThresholdEnumMap[instance.threshold]);
-  return val;
-}
+Map<String, dynamic> _$SafetySettingToJson(_SafetySetting instance) =>
+    <String, dynamic>{
+      if (_$SafetySettingCategoryEnumMap[instance.category] case final value?)
+        'category': value,
+      if (_$SafetySettingThresholdEnumMap[instance.threshold] case final value?)
+        'threshold': value,
+    };
 
 const _$SafetySettingCategoryEnumMap = {
   SafetySettingCategory.harmCategoryUnspecified: 'HARM_CATEGORY_UNSPECIFIED',
@@ -329,34 +253,24 @@ const _$SafetySettingThresholdEnumMap = {
   SafetySettingThreshold.blockNone: 'BLOCK_NONE',
 };
 
-_$CitationSourceImpl _$$CitationSourceImplFromJson(Map<String, dynamic> json) =>
-    _$CitationSourceImpl(
+_CitationSource _$CitationSourceFromJson(Map<String, dynamic> json) =>
+    _CitationSource(
       license: json['license'] as String?,
       uri: json['uri'] as String?,
       endIndex: (json['endIndex'] as num?)?.toInt(),
       startIndex: (json['startIndex'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$$CitationSourceImplToJson(
-    _$CitationSourceImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$CitationSourceToJson(_CitationSource instance) =>
+    <String, dynamic>{
+      if (instance.license case final value?) 'license': value,
+      if (instance.uri case final value?) 'uri': value,
+      if (instance.endIndex case final value?) 'endIndex': value,
+      if (instance.startIndex case final value?) 'startIndex': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('license', instance.license);
-  writeNotNull('uri', instance.uri);
-  writeNotNull('endIndex', instance.endIndex);
-  writeNotNull('startIndex', instance.startIndex);
-  return val;
-}
-
-_$GenerationConfigImpl _$$GenerationConfigImplFromJson(
-        Map<String, dynamic> json) =>
-    _$GenerationConfigImpl(
+_GenerationConfig _$GenerationConfigFromJson(Map<String, dynamic> json) =>
+    _GenerationConfig(
       temperature: (json['temperature'] as num?)?.toDouble(),
       stopSequences: (json['stopSequences'] as List<dynamic>?)
           ?.map((e) => e as String)
@@ -367,139 +281,84 @@ _$GenerationConfigImpl _$$GenerationConfigImplFromJson(
       maxOutputTokens: (json['maxOutputTokens'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$$GenerationConfigImplToJson(
-    _$GenerationConfigImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$GenerationConfigToJson(_GenerationConfig instance) =>
+    <String, dynamic>{
+      if (instance.temperature case final value?) 'temperature': value,
+      if (instance.stopSequences case final value?) 'stopSequences': value,
+      if (instance.topK case final value?) 'topK': value,
+      if (instance.topP case final value?) 'topP': value,
+      if (instance.candidateCount case final value?) 'candidateCount': value,
+      if (instance.maxOutputTokens case final value?) 'maxOutputTokens': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('temperature', instance.temperature);
-  writeNotNull('stopSequences', instance.stopSequences);
-  writeNotNull('topK', instance.topK);
-  writeNotNull('topP', instance.topP);
-  writeNotNull('candidateCount', instance.candidateCount);
-  writeNotNull('maxOutputTokens', instance.maxOutputTokens);
-  return val;
-}
-
-_$CountTokensRequestImpl _$$CountTokensRequestImplFromJson(
-        Map<String, dynamic> json) =>
-    _$CountTokensRequestImpl(
+_CountTokensRequest _$CountTokensRequestFromJson(Map<String, dynamic> json) =>
+    _CountTokensRequest(
       contents: (json['contents'] as List<dynamic>?)
           ?.map((e) => Content.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$$CountTokensRequestImplToJson(
-    _$CountTokensRequestImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$CountTokensRequestToJson(_CountTokensRequest instance) =>
+    <String, dynamic>{
+      if (instance.contents?.map((e) => e.toJson()).toList() case final value?)
+        'contents': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('contents', instance.contents?.map((e) => e.toJson()).toList());
-  return val;
-}
-
-_$TuningSnapshotImpl _$$TuningSnapshotImplFromJson(Map<String, dynamic> json) =>
-    _$TuningSnapshotImpl(
+_TuningSnapshot _$TuningSnapshotFromJson(Map<String, dynamic> json) =>
+    _TuningSnapshot(
       step: (json['step'] as num?)?.toInt(),
       computeTime: json['computeTime'] as String?,
       epoch: (json['epoch'] as num?)?.toInt(),
       meanLoss: (json['meanLoss'] as num?)?.toDouble(),
     );
 
-Map<String, dynamic> _$$TuningSnapshotImplToJson(
-    _$TuningSnapshotImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$TuningSnapshotToJson(_TuningSnapshot instance) =>
+    <String, dynamic>{
+      if (instance.step case final value?) 'step': value,
+      if (instance.computeTime case final value?) 'computeTime': value,
+      if (instance.epoch case final value?) 'epoch': value,
+      if (instance.meanLoss case final value?) 'meanLoss': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('step', instance.step);
-  writeNotNull('computeTime', instance.computeTime);
-  writeNotNull('epoch', instance.epoch);
-  writeNotNull('meanLoss', instance.meanLoss);
-  return val;
-}
-
-_$BlobImpl _$$BlobImplFromJson(Map<String, dynamic> json) => _$BlobImpl(
+_Blob _$BlobFromJson(Map<String, dynamic> json) => _Blob(
       mimeType: json['mimeType'] as String?,
       data: json['data'] as String?,
     );
 
-Map<String, dynamic> _$$BlobImplToJson(_$BlobImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$BlobToJson(_Blob instance) => <String, dynamic>{
+      if (instance.mimeType case final value?) 'mimeType': value,
+      if (instance.data case final value?) 'data': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('mimeType', instance.mimeType);
-  writeNotNull('data', instance.data);
-  return val;
-}
-
-_$ListModelsResponseImpl _$$ListModelsResponseImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ListModelsResponseImpl(
+_ListModelsResponse _$ListModelsResponseFromJson(Map<String, dynamic> json) =>
+    _ListModelsResponse(
       models: (json['models'] as List<dynamic>?)
           ?.map((e) => Model.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextPageToken: json['nextPageToken'] as String?,
     );
 
-Map<String, dynamic> _$$ListModelsResponseImplToJson(
-    _$ListModelsResponseImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$ListModelsResponseToJson(_ListModelsResponse instance) =>
+    <String, dynamic>{
+      if (instance.models?.map((e) => e.toJson()).toList() case final value?)
+        'models': value,
+      if (instance.nextPageToken case final value?) 'nextPageToken': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('models', instance.models?.map((e) => e.toJson()).toList());
-  writeNotNull('nextPageToken', instance.nextPageToken);
-  return val;
-}
-
-_$ContentEmbeddingImpl _$$ContentEmbeddingImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ContentEmbeddingImpl(
+_ContentEmbedding _$ContentEmbeddingFromJson(Map<String, dynamic> json) =>
+    _ContentEmbedding(
       values: (json['values'] as List<dynamic>?)
           ?.map((e) => (e as num).toDouble())
           .toList(),
     );
 
-Map<String, dynamic> _$$ContentEmbeddingImplToJson(
-    _$ContentEmbeddingImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$ContentEmbeddingToJson(_ContentEmbedding instance) =>
+    <String, dynamic>{
+      if (instance.values case final value?) 'values': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('values', instance.values);
-  return val;
-}
-
-_$PromptFeedbackImpl _$$PromptFeedbackImplFromJson(Map<String, dynamic> json) =>
-    _$PromptFeedbackImpl(
+_PromptFeedback _$PromptFeedbackFromJson(Map<String, dynamic> json) =>
+    _PromptFeedback(
       safetyRatings: (json['safetyRatings'] as List<dynamic>?)
           ?.map((e) => SafetyRating.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -508,22 +367,15 @@ _$PromptFeedbackImpl _$$PromptFeedbackImplFromJson(Map<String, dynamic> json) =>
           unknownValue: JsonKey.nullForUndefinedEnumValue),
     );
 
-Map<String, dynamic> _$$PromptFeedbackImplToJson(
-    _$PromptFeedbackImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'safetyRatings', instance.safetyRatings?.map((e) => e.toJson()).toList());
-  writeNotNull(
-      'blockReason', _$PromptFeedbackBlockReasonEnumMap[instance.blockReason]);
-  return val;
-}
+Map<String, dynamic> _$PromptFeedbackToJson(_PromptFeedback instance) =>
+    <String, dynamic>{
+      if (instance.safetyRatings?.map((e) => e.toJson()).toList()
+          case final value?)
+        'safetyRatings': value,
+      if (_$PromptFeedbackBlockReasonEnumMap[instance.blockReason]
+          case final value?)
+        'blockReason': value,
+    };
 
 const _$PromptFeedbackBlockReasonEnumMap = {
   PromptFeedbackBlockReason.blockReasonUnspecified: 'BLOCK_REASON_UNSPECIFIED',
@@ -531,9 +383,8 @@ const _$PromptFeedbackBlockReasonEnumMap = {
   PromptFeedbackBlockReason.other: 'OTHER',
 };
 
-_$EmbedContentRequestImpl _$$EmbedContentRequestImplFromJson(
-        Map<String, dynamic> json) =>
-    _$EmbedContentRequestImpl(
+_EmbedContentRequest _$EmbedContentRequestFromJson(Map<String, dynamic> json) =>
+    _EmbedContentRequest(
       title: json['title'] as String?,
       content: json['content'] == null
           ? null
@@ -545,24 +396,18 @@ _$EmbedContentRequestImpl _$$EmbedContentRequestImplFromJson(
       outputDimensionality: (json['outputDimensionality'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$$EmbedContentRequestImplToJson(
-    _$EmbedContentRequestImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('title', instance.title);
-  writeNotNull('content', instance.content?.toJson());
-  writeNotNull(
-      'taskType', _$EmbedContentRequestTaskTypeEnumMap[instance.taskType]);
-  writeNotNull('model', instance.model);
-  writeNotNull('outputDimensionality', instance.outputDimensionality);
-  return val;
-}
+Map<String, dynamic> _$EmbedContentRequestToJson(
+        _EmbedContentRequest instance) =>
+    <String, dynamic>{
+      if (instance.title case final value?) 'title': value,
+      if (instance.content?.toJson() case final value?) 'content': value,
+      if (_$EmbedContentRequestTaskTypeEnumMap[instance.taskType]
+          case final value?)
+        'taskType': value,
+      if (instance.model case final value?) 'model': value,
+      if (instance.outputDimensionality case final value?)
+        'outputDimensionality': value,
+    };
 
 const _$EmbedContentRequestTaskTypeEnumMap = {
   EmbedContentRequestTaskType.taskTypeUnspecified: 'TASK_TYPE_UNSPECIFIED',
@@ -575,112 +420,78 @@ const _$EmbedContentRequestTaskTypeEnumMap = {
   EmbedContentRequestTaskType.factVerification: 'FACT_VERIFICATION',
 };
 
-_$ListOperationsResponseImpl _$$ListOperationsResponseImplFromJson(
+_ListOperationsResponse _$ListOperationsResponseFromJson(
         Map<String, dynamic> json) =>
-    _$ListOperationsResponseImpl(
+    _ListOperationsResponse(
       operations: (json['operations'] as List<dynamic>?)
           ?.map((e) => Operation.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextPageToken: json['nextPageToken'] as String?,
     );
 
-Map<String, dynamic> _$$ListOperationsResponseImplToJson(
-    _$ListOperationsResponseImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$ListOperationsResponseToJson(
+        _ListOperationsResponse instance) =>
+    <String, dynamic>{
+      if (instance.operations?.map((e) => e.toJson()).toList()
+          case final value?)
+        'operations': value,
+      if (instance.nextPageToken case final value?) 'nextPageToken': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
+_Empty _$EmptyFromJson(Map<String, dynamic> json) => _Empty();
 
-  writeNotNull(
-      'operations', instance.operations?.map((e) => e.toJson()).toList());
-  writeNotNull('nextPageToken', instance.nextPageToken);
-  return val;
-}
+Map<String, dynamic> _$EmptyToJson(_Empty instance) => <String, dynamic>{};
 
-_$EmptyImpl _$$EmptyImplFromJson(Map<String, dynamic> json) => _$EmptyImpl();
-
-Map<String, dynamic> _$$EmptyImplToJson(_$EmptyImpl instance) =>
-    <String, dynamic>{};
-
-_$ContentImpl _$$ContentImplFromJson(Map<String, dynamic> json) =>
-    _$ContentImpl(
+_Content _$ContentFromJson(Map<String, dynamic> json) => _Content(
       role: json['role'] as String?,
       parts: (json['parts'] as List<dynamic>?)
           ?.map((e) => Part.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$$ContentImplToJson(_$ContentImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$ContentToJson(_Content instance) => <String, dynamic>{
+      if (instance.role case final value?) 'role': value,
+      if (instance.parts?.map((e) => e.toJson()).toList() case final value?)
+        'parts': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('role', instance.role);
-  writeNotNull('parts', instance.parts?.map((e) => e.toJson()).toList());
-  return val;
-}
-
-_$CancelOperationRequestImpl _$$CancelOperationRequestImplFromJson(
+_CancelOperationRequest _$CancelOperationRequestFromJson(
         Map<String, dynamic> json) =>
-    _$CancelOperationRequestImpl();
+    _CancelOperationRequest();
 
-Map<String, dynamic> _$$CancelOperationRequestImplToJson(
-        _$CancelOperationRequestImpl instance) =>
+Map<String, dynamic> _$CancelOperationRequestToJson(
+        _CancelOperationRequest instance) =>
     <String, dynamic>{};
 
-_$EmbedContentResponseImpl _$$EmbedContentResponseImplFromJson(
+_EmbedContentResponse _$EmbedContentResponseFromJson(
         Map<String, dynamic> json) =>
-    _$EmbedContentResponseImpl(
+    _EmbedContentResponse(
       embedding: json['embedding'] == null
           ? null
           : ContentEmbedding.fromJson(
               json['embedding'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$EmbedContentResponseImplToJson(
-    _$EmbedContentResponseImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$EmbedContentResponseToJson(
+        _EmbedContentResponse instance) =>
+    <String, dynamic>{
+      if (instance.embedding?.toJson() case final value?) 'embedding': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('embedding', instance.embedding?.toJson());
-  return val;
-}
-
-_$CountTokensResponseImpl _$$CountTokensResponseImplFromJson(
-        Map<String, dynamic> json) =>
-    _$CountTokensResponseImpl(
+_CountTokensResponse _$CountTokensResponseFromJson(Map<String, dynamic> json) =>
+    _CountTokensResponse(
       totalTokens: (json['totalTokens'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$$CountTokensResponseImplToJson(
-    _$CountTokensResponseImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$CountTokensResponseToJson(
+        _CountTokensResponse instance) =>
+    <String, dynamic>{
+      if (instance.totalTokens case final value?) 'totalTokens': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('totalTokens', instance.totalTokens);
-  return val;
-}
-
-_$GenerateContentResponseImpl _$$GenerateContentResponseImplFromJson(
+_GenerateContentResponse _$GenerateContentResponseFromJson(
         Map<String, dynamic> json) =>
-    _$GenerateContentResponseImpl(
+    _GenerateContentResponse(
       promptFeedback: json['promptFeedback'] == null
           ? null
           : PromptFeedback.fromJson(
@@ -690,23 +501,17 @@ _$GenerateContentResponseImpl _$$GenerateContentResponseImplFromJson(
           .toList(),
     );
 
-Map<String, dynamic> _$$GenerateContentResponseImplToJson(
-    _$GenerateContentResponseImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$GenerateContentResponseToJson(
+        _GenerateContentResponse instance) =>
+    <String, dynamic>{
+      if (instance.promptFeedback?.toJson() case final value?)
+        'promptFeedback': value,
+      if (instance.candidates?.map((e) => e.toJson()).toList()
+          case final value?)
+        'candidates': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('promptFeedback', instance.promptFeedback?.toJson());
-  writeNotNull(
-      'candidates', instance.candidates?.map((e) => e.toJson()).toList());
-  return val;
-}
-
-_$ModelImpl _$$ModelImplFromJson(Map<String, dynamic> json) => _$ModelImpl(
+_Model _$ModelFromJson(Map<String, dynamic> json) => _Model(
       name: json['name'] as String?,
       displayName: json['displayName'] as String?,
       description: json['description'] as String?,
@@ -723,33 +528,25 @@ _$ModelImpl _$$ModelImplFromJson(Map<String, dynamic> json) => _$ModelImpl(
               .toList(),
     );
 
-Map<String, dynamic> _$$ModelImplToJson(_$ModelImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$ModelToJson(_Model instance) => <String, dynamic>{
+      if (instance.name case final value?) 'name': value,
+      if (instance.displayName case final value?) 'displayName': value,
+      if (instance.description case final value?) 'description': value,
+      if (instance.version case final value?) 'version': value,
+      if (instance.baseModelId case final value?) 'baseModelId': value,
+      if (instance.temperature case final value?) 'temperature': value,
+      if (instance.topK case final value?) 'topK': value,
+      if (instance.topP case final value?) 'topP': value,
+      if (instance.inputTokenLimit case final value?) 'inputTokenLimit': value,
+      if (instance.outputTokenLimit case final value?)
+        'outputTokenLimit': value,
+      if (instance.supportedGenerationMethods case final value?)
+        'supportedGenerationMethods': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('name', instance.name);
-  writeNotNull('displayName', instance.displayName);
-  writeNotNull('description', instance.description);
-  writeNotNull('version', instance.version);
-  writeNotNull('baseModelId', instance.baseModelId);
-  writeNotNull('temperature', instance.temperature);
-  writeNotNull('topK', instance.topK);
-  writeNotNull('topP', instance.topP);
-  writeNotNull('inputTokenLimit', instance.inputTokenLimit);
-  writeNotNull('outputTokenLimit', instance.outputTokenLimit);
-  writeNotNull(
-      'supportedGenerationMethods', instance.supportedGenerationMethods);
-  return val;
-}
-
-_$GenerateContentRequestImpl _$$GenerateContentRequestImplFromJson(
+_GenerateContentRequest _$GenerateContentRequestFromJson(
         Map<String, dynamic> json) =>
-    _$GenerateContentRequestImpl(
+    _GenerateContentRequest(
       generationConfig: json['generationConfig'] == null
           ? null
           : GenerationConfig.fromJson(
@@ -762,19 +559,14 @@ _$GenerateContentRequestImpl _$$GenerateContentRequestImplFromJson(
           .toList(),
     );
 
-Map<String, dynamic> _$$GenerateContentRequestImplToJson(
-    _$GenerateContentRequestImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('generationConfig', instance.generationConfig?.toJson());
-  writeNotNull('contents', instance.contents?.map((e) => e.toJson()).toList());
-  writeNotNull('safetySettings',
-      instance.safetySettings?.map((e) => e.toJson()).toList());
-  return val;
-}
+Map<String, dynamic> _$GenerateContentRequestToJson(
+        _GenerateContentRequest instance) =>
+    <String, dynamic>{
+      if (instance.generationConfig?.toJson() case final value?)
+        'generationConfig': value,
+      if (instance.contents?.map((e) => e.toJson()).toList() case final value?)
+        'contents': value,
+      if (instance.safetySettings?.map((e) => e.toJson()).toList()
+          case final value?)
+        'safetySettings': value,
+    };

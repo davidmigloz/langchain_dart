@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Represents a list of fine-tuning jobs.
 @freezed
-class ListPaginatedFineTuningJobsResponse
+abstract class ListPaginatedFineTuningJobsResponse
     with _$ListPaginatedFineTuningJobsResponse {
   const ListPaginatedFineTuningJobsResponse._();
 

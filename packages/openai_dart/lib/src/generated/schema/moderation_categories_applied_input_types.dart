@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// A list of the categories along with the input type(s) that the score applies to.
 @freezed
-class ModerationCategoriesAppliedInputTypes
+abstract class ModerationCategoriesAppliedInputTypes
     with _$ModerationCategoriesAppliedInputTypes {
   const ModerationCategoriesAppliedInputTypes._();
 

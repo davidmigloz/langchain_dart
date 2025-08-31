@@ -10,7 +10,7 @@ part of ollama_schema;
 
 /// Generate embeddings from a model.
 @freezed
-class GenerateEmbeddingRequest with _$GenerateEmbeddingRequest {
+abstract class GenerateEmbeddingRequest with _$GenerateEmbeddingRequest {
   const GenerateEmbeddingRequest._();
 
   /// Factory constructor for GenerateEmbeddingRequest

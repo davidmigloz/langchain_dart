@@ -10,7 +10,7 @@ part of google_a_i_schema;
 
 /// Safety rating for a piece of content. The safety rating contains the category of harm and the harm probability level in that category for a piece of content. Content is classified for safety across a number of harm categories and the probability of the harm classification is included here.
 @freezed
-class SafetyRating with _$SafetyRating {
+abstract class SafetyRating with _$SafetyRating {
   const SafetyRating._();
 
   /// Factory constructor for SafetyRating

@@ -10,7 +10,7 @@ part of google_a_i_schema;
 
 /// A response candidate generated from the model.
 @freezed
-class Candidate with _$Candidate {
+abstract class Candidate with _$Candidate {
   const Candidate._();
 
   /// Factory constructor for Candidate

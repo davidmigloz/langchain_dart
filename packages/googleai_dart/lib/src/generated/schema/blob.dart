@@ -10,7 +10,7 @@ part of google_a_i_schema;
 
 /// Raw media bytes. Text should not be sent as raw bytes, use the 'text' field.
 @freezed
-class Blob with _$Blob {
+abstract class Blob with _$Blob {
   const Blob._();
 
   /// Factory constructor for Blob

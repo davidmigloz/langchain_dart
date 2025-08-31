@@ -10,7 +10,7 @@ part of google_a_i_schema;
 
 /// Request containing the `Content` for the model to embed.
 @freezed
-class EmbedContentRequest with _$EmbedContentRequest {
+abstract class EmbedContentRequest with _$EmbedContentRequest {
   const EmbedContentRequest._();
 
   /// Factory constructor for EmbedContentRequest

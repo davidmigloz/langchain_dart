@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Request object for the Modify assistant endpoint.
 @freezed
-class ModifyAssistantRequest with _$ModifyAssistantRequest {
+abstract class ModifyAssistantRequest with _$ModifyAssistantRequest {
   const ModifyAssistantRequest._();
 
   /// Factory constructor for ModifyAssistantRequest

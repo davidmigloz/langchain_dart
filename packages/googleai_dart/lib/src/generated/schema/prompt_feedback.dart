@@ -10,7 +10,7 @@ part of google_a_i_schema;
 
 /// A set of the feedback metadata the prompt specified in `GenerateContentRequest.content`.
 @freezed
-class PromptFeedback with _$PromptFeedback {
+abstract class PromptFeedback with _$PromptFeedback {
   const PromptFeedback._();
 
   /// Factory constructor for PromptFeedback

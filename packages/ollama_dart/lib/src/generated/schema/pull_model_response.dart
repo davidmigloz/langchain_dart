@@ -14,7 +14,7 @@ part of ollama_schema;
 ///
 /// The number of files to be downloaded depends on the number of layers specified in the manifest.
 @freezed
-class PullModelResponse with _$PullModelResponse {
+abstract class PullModelResponse with _$PullModelResponse {
   const PullModelResponse._();
 
   /// Factory constructor for PullModelResponse

@@ -10,7 +10,7 @@ part of mistral_a_i_schema;
 
 /// A message in a chat conversation.
 @freezed
-class ChatCompletionMessage with _$ChatCompletionMessage {
+abstract class ChatCompletionMessage with _$ChatCompletionMessage {
   const ChatCompletionMessage._();
 
   /// Factory constructor for ChatCompletionMessage

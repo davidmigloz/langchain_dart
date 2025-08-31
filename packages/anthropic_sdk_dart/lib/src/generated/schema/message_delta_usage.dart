@@ -21,7 +21,7 @@ part of anthropic_schema;
 /// For example, `output_tokens` will be non-zero, even for an empty string response
 /// from Claude.
 @freezed
-class MessageDeltaUsage with _$MessageDeltaUsage {
+abstract class MessageDeltaUsage with _$MessageDeltaUsage {
   const MessageDeltaUsage._();
 
   /// Factory constructor for MessageDeltaUsage

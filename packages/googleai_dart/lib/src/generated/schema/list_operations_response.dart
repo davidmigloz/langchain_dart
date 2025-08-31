@@ -10,7 +10,7 @@ part of google_a_i_schema;
 
 /// The response message for Operations.ListOperations.
 @freezed
-class ListOperationsResponse with _$ListOperationsResponse {
+abstract class ListOperationsResponse with _$ListOperationsResponse {
   const ListOperationsResponse._();
 
   /// Factory constructor for ListOperationsResponse

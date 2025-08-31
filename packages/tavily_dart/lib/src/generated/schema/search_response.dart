@@ -10,7 +10,7 @@ part of tavily_schema;
 
 /// The response data from the search query.
 @freezed
-class SearchResponse with _$SearchResponse {
+abstract class SearchResponse with _$SearchResponse {
   const SearchResponse._();
 
   /// Factory constructor for SearchResponse

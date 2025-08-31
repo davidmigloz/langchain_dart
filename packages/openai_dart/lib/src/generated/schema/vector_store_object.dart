@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// A vector store is a collection of processed files can be used by the `file_search` tool.
 @freezed
-class VectorStoreObject with _$VectorStoreObject {
+abstract class VectorStoreObject with _$VectorStoreObject {
   const VectorStoreObject._();
 
   /// Factory constructor for VectorStoreObject
@@ -101,7 +101,7 @@ class VectorStoreObject with _$VectorStoreObject {
 
 /// The number of files in the vector store.
 @freezed
-class VectorStoreObjectFileCounts with _$VectorStoreObjectFileCounts {
+abstract class VectorStoreObjectFileCounts with _$VectorStoreObjectFileCounts {
   const VectorStoreObjectFileCounts._();
 
   /// Factory constructor for VectorStoreObjectFileCounts

@@ -10,7 +10,7 @@ part of google_a_i_schema;
 
 /// A datatype containing media that is part of a multi-part `Content` message. A `Part` consists of data which has an associated datatype. A `Part` can only contain one of the accepted types in `Part.data`. A `Part` must have a fixed IANA MIME type identifying the type and subtype of the media if the `inline_data` field is filled with raw bytes.
 @freezed
-class Part with _$Part {
+abstract class Part with _$Part {
   const Part._();
 
   /// Factory constructor for Part

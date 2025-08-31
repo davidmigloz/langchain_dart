@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// An object representing a list of chat completions.
 @freezed
-class ChatCompletionList with _$ChatCompletionList {
+abstract class ChatCompletionList with _$ChatCompletionList {
   const ChatCompletionList._();
 
   /// Factory constructor for ChatCompletionList

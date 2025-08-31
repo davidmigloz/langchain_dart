@@ -10,7 +10,7 @@ part of openai_realtime_schema;
 
 /// The definition of a tool the model may use.
 @freezed
-class ToolDefinition with _$ToolDefinition {
+abstract class ToolDefinition with _$ToolDefinition {
   const ToolDefinition._();
 
   /// Factory constructor for ToolDefinition

@@ -10,7 +10,7 @@ part of anthropic_schema;
 
 /// An error object.
 @freezed
-class Error with _$Error {
+abstract class Error with _$Error {
   const Error._();
 
   /// Factory constructor for Error

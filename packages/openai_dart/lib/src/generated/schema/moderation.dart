@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Represents policy compliance report by OpenAI's content moderation model against a given input.
 @freezed
-class Moderation with _$Moderation {
+abstract class Moderation with _$Moderation {
   const Moderation._();
 
   /// Factory constructor for Moderation

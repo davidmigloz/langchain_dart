@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Represents a list of fine-tuning job checkpoints.
 @freezed
-class ListFineTuningJobCheckpointsResponse
+abstract class ListFineTuningJobCheckpointsResponse
     with _$ListFineTuningJobCheckpointsResponse {
   const ListFineTuningJobCheckpointsResponse._();
 

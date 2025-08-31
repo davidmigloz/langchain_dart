@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// The `fine_tuning.job.checkpoint` object represents a model checkpoint for a fine-tuning job that is ready to use.
 @freezed
-class FineTuningJobCheckpoint with _$FineTuningJobCheckpoint {
+abstract class FineTuningJobCheckpoint with _$FineTuningJobCheckpoint {
   const FineTuningJobCheckpoint._();
 
   /// Factory constructor for FineTuningJobCheckpoint
@@ -78,7 +78,8 @@ class FineTuningJobCheckpoint with _$FineTuningJobCheckpoint {
 
 /// Metrics at the step number during the fine-tuning job.
 @freezed
-class FineTuningJobCheckpointMetrics with _$FineTuningJobCheckpointMetrics {
+abstract class FineTuningJobCheckpointMetrics
+    with _$FineTuningJobCheckpointMetrics {
   const FineTuningJobCheckpointMetrics._();
 
   /// Factory constructor for FineTuningJobCheckpointMetrics

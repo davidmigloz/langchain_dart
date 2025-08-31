@@ -66,7 +66,7 @@ enum ModerationInputObjectEnumType {
 
 /// Contains either an image URL or a data URL for a base64 encoded image.
 @freezed
-class ModerationInputObjectImageUrlImageUrl
+abstract class ModerationInputObjectImageUrlImageUrl
     with _$ModerationInputObjectImageUrlImageUrl {
   const ModerationInputObjectImageUrlImageUrl._();
 

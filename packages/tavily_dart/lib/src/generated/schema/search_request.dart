@@ -10,7 +10,7 @@ part of tavily_schema;
 
 /// The search request object.
 @freezed
-class SearchRequest with _$SearchRequest {
+abstract class SearchRequest with _$SearchRequest {
   const SearchRequest._();
 
   /// Factory constructor for SearchRequest

@@ -10,7 +10,7 @@ part of google_a_i_schema;
 
 /// A response from `CountTokens`. It returns the model's `token_count` for the `prompt`.
 @freezed
-class CountTokensResponse with _$CountTokensResponse {
+abstract class CountTokensResponse with _$CountTokensResponse {
   const CountTokensResponse._();
 
   /// Factory constructor for CountTokensResponse

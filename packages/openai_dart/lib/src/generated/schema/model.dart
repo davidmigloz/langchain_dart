@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Describes an OpenAI model offering that can be used with the API.
 @freezed
-class Model with _$Model {
+abstract class Model with _$Model {
   const Model._();
 
   /// Factory constructor for Model

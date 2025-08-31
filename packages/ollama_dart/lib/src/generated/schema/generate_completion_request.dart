@@ -10,7 +10,7 @@ part of ollama_schema;
 
 /// Request class for the generate endpoint.
 @freezed
-class GenerateCompletionRequest with _$GenerateCompletionRequest {
+abstract class GenerateCompletionRequest with _$GenerateCompletionRequest {
   const GenerateCompletionRequest._();
 
   /// Factory constructor for GenerateCompletionRequest

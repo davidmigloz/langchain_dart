@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Specifies a tool the model should use. Use to force the model to call a specific tool.
 @freezed
-class AssistantsNamedToolChoice with _$AssistantsNamedToolChoice {
+abstract class AssistantsNamedToolChoice with _$AssistantsNamedToolChoice {
   const AssistantsNamedToolChoice._();
 
   /// Factory constructor for AssistantsNamedToolChoice

@@ -10,7 +10,7 @@ part of ollama_schema;
 
 /// Request class for the show model info endpoint.
 @freezed
-class ModelInfoRequest with _$ModelInfoRequest {
+abstract class ModelInfoRequest with _$ModelInfoRequest {
   const ModelInfoRequest._();
 
   /// Factory constructor for ModelInfoRequest
