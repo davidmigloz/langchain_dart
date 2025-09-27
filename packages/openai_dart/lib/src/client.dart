@@ -200,8 +200,10 @@ class _OpenAIStreamTransformer
     return stream //
         .transform(utf8.decoder) //
         .transform(const LineSplitter()) //
-        .where((final i) => i.startsWith('data: ') && !i.endsWith('[DONE]'))
-        .map((final item) => item.substring(6));
+        .where((final i) =>
+            (i.startsWith('data: ') || i.startsWith('data:')) &&
+            !i.endsWith('[DONE]'))
+        .map((final item) => item.startsWith('data: ') ? item.substring(6) : item.substring(5));
   }
 }
 
@@ -279,6 +281,10 @@ class _PairwiseTransformer
               event = data.substring(7);
             } else if (data.startsWith('data: ')) {
               final dataStr = data.substring(6);
+              controller.add((event, dataStr));
+            }
+            else if (data.startsWith('data:')) {
+              final dataStr = data.substring(5);
               controller.add((event, dataStr));
             }
           },
