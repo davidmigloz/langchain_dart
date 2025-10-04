@@ -200,8 +200,8 @@ class _OpenAIStreamTransformer
     return stream //
         .transform(utf8.decoder) //
         .transform(const LineSplitter()) //
-        .where((final i) => i.startsWith('data: ') && !i.endsWith('[DONE]'))
-        .map((final item) => item.substring(6));
+        .where((final i) => i.startsWith('data:') && !i.endsWith('[DONE]'))
+        .map((final item) => item.substring(5).trim());
   }
 }
 
@@ -275,10 +275,10 @@ class _PairwiseTransformer
       onListen: () {
         subscription = stream.listen(
           (final String data) {
-            if (data.startsWith('event: ')) {
-              event = data.substring(7);
-            } else if (data.startsWith('data: ')) {
-              final dataStr = data.substring(6);
+            if (data.startsWith('event:')) {
+              event = data.substring(6).trim();
+            } else if (data.startsWith('data:')) {
+              final dataStr = data.substring(5).trim();
               controller.add((event, dataStr));
             }
           },
