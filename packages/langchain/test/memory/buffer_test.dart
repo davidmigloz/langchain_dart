@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_async
+
 import 'package:langchain/langchain.dart';
 import 'package:test/test.dart';
 
@@ -126,7 +128,7 @@ void main() {
 
     test(
         'Test error is thrown if inputKey not specified when using with '
-        'multiple input values', () async {
+        'multiple input values', () {
       final memory = ConversationBufferMemory(returnMessages: true);
 
       // expect throws exception if no input keys are selected

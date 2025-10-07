@@ -10,7 +10,7 @@ part of google_a_i_schema;
 
 /// Record for a single tuning step.
 @freezed
-class TuningSnapshot with _$TuningSnapshot {
+abstract class TuningSnapshot with _$TuningSnapshot {
   const TuningSnapshot._();
 
   /// Factory constructor for TuningSnapshot

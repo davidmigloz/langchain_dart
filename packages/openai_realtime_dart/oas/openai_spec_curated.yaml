@@ -60,6 +60,7 @@ components:
       enum:
         - input_text
         - input_audio
+        - item_reference
         - text
         - audio
     ObjectType:
@@ -145,6 +146,20 @@ components:
         transcript:
           type: string
           description: The transcript of the audio.
+    ContentPartItemReference:
+      type: object
+      description: A part of the item reference content.
+      properties:
+        type:
+          $ref: "#/components/schemas/ContentType"
+          description: The content type.
+          default: item_reference
+        id:
+          type: string
+          description: |
+            ID of a previous conversation item to reference (for `item_reference`
+            content types in `response.create` events). These can reference both
+            client and server created items.
     ContentPartText:
       type: object
       description: A part of the text content.
@@ -290,16 +305,38 @@ components:
         - output
     InputAudioTranscriptionConfig:
       type: object
-      description: Configuration for input audio transcription.
+      description: |
+        Configuration for input audio transcription, defaults to off and can be  set to `null` to turn off
+        once on. Input audio transcription is not native to the model, since the model consumes audio
+        directly. Transcription runs  asynchronously through [the /audio/transcriptions
+        endpoint](https://platform.openai.com/docs/api-reference/audio/createTranscription) and should be
+        treated as guidance of input audio content rather than precisely what the model heard. The client
+        can optionally set the language and prompt for transcription, these offer additional guidance to
+        the transcription service.
       properties:
-        enabled:
-          type: boolean
-          description: Whether input audio transcription is enabled.
         model:
           type: string
+          description: >
+            The model to use for transcription, current options are `gpt-4o-transcribe`,
+            `gpt-4o-mini-transcribe`, and `whisper-1`.
+        language:
+          type: string
           description: |
-            The model to use for transcription, `whisper-1` is the only currently 
-            supported model.
+            The language of the input audio. Supplying the input language in
+            [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) (e.g. `en`) format
+            will improve accuracy and latency.
+        prompt:
+          type: string
+          description: >
+            An optional text to guide the model's style or continue a previous audio
+            
+            segment.
+            
+            For `whisper-1`, the [prompt is a list of
+            keywords](https://platform.openai.com/docs/guides/speech-to-text#prompting).
+            
+            For `gpt-4o-transcribe` models, the prompt is a free text string, for example "expect words
+            related to technology".
     TurnDetection:
       type: object
       description: |
@@ -328,6 +365,12 @@ components:
             Duration of silence to detect speech stop (in milliseconds). Defaults 
             to 500ms. With shorter values the model will respond more quickly, 
             but may jump in on short pauses from the user.
+        create_response:
+          type: boolean
+          default: true
+          description: |
+            Whether or not to automatically generate a response when VAD is
+            enabled. `true` by default.
       required:
         - type
     TurnDetectionType:
@@ -388,6 +431,12 @@ components:
           items:
             $ref: "#/components/schemas/Item"
             description: An item in the response output.
+        metadata:
+          description: |
+            Developer-provided string key-value pairs associated with this response.
+          type: object
+          additionalProperties: true
+          nullable: true
         usage:
           $ref: "#/components/schemas/Usage"
       required:
@@ -404,8 +453,12 @@ components:
         - failed
         - incomplete
     ResponseStatusDetails:
-      description: Additional details about the status.
+      description: |
+        The type of error that caused the response to fail, corresponding 
+        with the `status` field (`completed`, `cancelled`, `incomplete`, 
+        `failed`).
       oneOf:
+        - $ref: "#/components/schemas/ResponseStatusDetailsCompleted"
         - $ref: "#/components/schemas/ResponseStatusDetailsCancelled"
         - $ref: "#/components/schemas/ResponseStatusDetailsIncomplete"
         - $ref: "#/components/schemas/ResponseStatusDetailsFailed"
@@ -415,9 +468,19 @@ components:
       type: string
       description: The type of error that caused the response to fail.
       enum:
+        - completed
         - cancelled
         - incomplete
         - failed
+    ResponseStatusDetailsCompleted:
+      type: object
+      description: Details about the completed response.
+      properties:
+        type:
+          $ref: "#/components/schemas/ResponseStatusType"
+          default: completed
+        reason:
+          $ref: "#/components/schemas/ResponseStatusReason"
     ResponseStatusDetailsCancelled:
       type: object
       description: Details about the cancelled response.
@@ -426,7 +489,7 @@ components:
           $ref: "#/components/schemas/ResponseStatusType"
           default: cancelled
         reason:
-          $ref: "#/components/schemas/ResponseStatusIncompleteReason"
+          $ref: "#/components/schemas/ResponseStatusReason"
     ResponseStatusDetailsIncomplete:
       type: object
       description: Details about the incomplete response.
@@ -435,8 +498,8 @@ components:
           $ref: "#/components/schemas/ResponseStatusType"
           default: incomplete
         reason:
-          $ref: "#/components/schemas/ResponseStatusIncompleteReason"
-    ResponseStatusIncompleteReason:
+          $ref: "#/components/schemas/ResponseStatusReason"
+    ResponseStatusReason:
       type: string
       description: |
         The reason the Response did not complete. For a `cancelled` Response, one of `turn_detected`
@@ -506,6 +569,37 @@ components:
             - type: string
               description: Use inf for the maximum available tokens for a given model.
               default: inf
+        conversation:
+          description: |
+            Controls which conversation the response is added to. Currently supports
+            `auto` and `none`, with `auto` as the default value. The `auto` value
+            means that the contents of the response will be added to the default
+            conversation. Set this to `none` to create an out-of-band response which 
+            will not add items to default conversation.
+          oneOf:
+            - type: string
+            - type: string
+              default: auto
+              enum:
+                - auto
+                - none
+        metadata:
+          description: |
+            Set of 16 key-value pairs that can be attached to an object. This can be
+            useful for storing additional information about the object in a structured
+            format. Keys can be a maximum of 64 characters long and values can be a
+            maximum of 512 characters long.
+          type: object
+          additionalProperties: true
+          nullable: true
+        input:
+          type: array
+          description: |
+            Input items to include in the prompt for the model. Creates a new context
+            for this response, without including the default conversation. Can include
+            references to items from the default conversation.
+          items:
+            $ref: '#/components/schemas/Item'
     Usage:
       type: object
       description: |
@@ -572,8 +666,11 @@ components:
           description: The default system instructions.
         voice:
           $ref: "#/components/schemas/Voice"
-          description: The voice the model uses to respond - one of `alloy`, `echo`, or
-            `shimmer`.
+          description: |
+            The voice the model uses to respond. Voice cannot be changed during the 
+            session once the model has responded with audio at least once. Current 
+            voice options are `alloy`, `ash`, `ballad`, `coral`, `echo` `sage`, 
+            `shimmer` and `verse`.
         input_audio_format:
           $ref: "#/components/schemas/AudioFormat"
           description: The format of input audio.
@@ -604,8 +701,11 @@ components:
           type: number
           description: Sampling temperature.
         max_response_output_tokens:
-          description: Maximum number of output tokens for a single assistant response,
-            inclusive of tool calls. Defaults to "inf".
+          description: |
+            Maximum number of output tokens for a single assistant response,
+            inclusive of tool calls. Provide an integer between 1 and 4096 to
+            limit output tokens, or `inf` for the maximum available tokens for a
+            given model. Defaults to `inf`.
           oneOf:
             - type: integer
               description: Provide an integer between 1 and 4096 to limit output tokens.
@@ -616,6 +716,21 @@ components:
       type: object
       description: Session configuration to update.
       properties:
+        client_secret:
+          type: object
+          description: Ephemeral key returned by the API.
+          properties:
+            value:
+              type: string
+              description: |
+                Ephemeral key usable in client environments to authenticate connections
+                to the Realtime API. Use this in client-side environments rather than
+                a standard API token, which should only be used server-side.
+            expires_at:
+              type: integer
+              description: |
+                Timestamp for when the token expires. Currently, all tokens expire
+                after one minute.
         modalities:
           type: array
           items:
@@ -640,9 +755,10 @@ components:
         voice:
           $ref: "#/components/schemas/Voice"
           description: |
-            The voice the model uses to respond. Supported voices are `alloy`, `ash`,
-            `ballad`, `coral`, `echo`, `sage`, `shimmer`, and `verse`. Cannot be 
-            changed once the model has responded with audio at least once.
+            The voice the model uses to respond. Voice cannot be changed during the 
+            session once the model has responded with audio at least once. Current 
+            voice options are `alloy`, `ash`, `ballad`, `coral`, `echo` `sage`, 
+            `shimmer` and `verse`.
         input_audio_format:
           $ref: "#/components/schemas/AudioFormat"
           description: |
@@ -653,16 +769,11 @@ components:
             The format of output audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.
         input_audio_transcription:
           $ref: "#/components/schemas/InputAudioTranscriptionConfig"
-          description: |
-            Configuration for input audio transcription, defaults to off and can be 
-            set to `null` to turn off once on. Input audio transcription is not native 
-            to the model, since the model consumes audio directly. Transcription runs 
-            asynchronously through Whisper and should be treated as rough guidance 
-            rather than the representation understood by the model.
           nullable: true
         turn_detection:
           $ref: "#/components/schemas/TurnDetection"
           nullable: true
+          default: null
         tools:
           type: array
           description: Tools (functions) available to the model.
@@ -697,6 +808,8 @@ components:
             - type: string
               description: Use inf for the maximum available tokens for a given model.
               default: inf
+      required:
+        - turn_detection
     Conversation:
       type: object
       description: The conversation resource.
@@ -862,16 +975,18 @@ components:
         code:
           type: string
           description: Error code, if any.
+          nullable: true
         message:
           type: string
           description: A human-readable error message.
         param:
           type: string
           description: Parameter related to the error, if any.
+          nullable: true
         event_id:
           type: string
-          description: The event_id of the client event that caused the error, if
-            applicable.
+          description: The event_id of the client event that caused the error, if applicable.
+          nullable: true
     RealtimeEvent:
       type: object
       description: A Realtime API event.
@@ -890,6 +1005,7 @@ components:
         - $ref: "#/components/schemas/RealtimeEventConversationItemDeleted"
         - $ref: "#/components/schemas/RealtimeEventConversationItemInputAudioTranscriptionCompleted"
         - $ref: "#/components/schemas/RealtimeEventConversationItemInputAudioTranscriptionFailed"
+        - $ref: "#/components/schemas/RealtimeEventConversationItemInputAudioTranscriptionDelta"
         - $ref: "#/components/schemas/RealtimeEventConversationItemTruncated"
         - $ref: "#/components/schemas/RealtimeEventError"
         - $ref: "#/components/schemas/RealtimeEventInputAudioBufferCleared"
@@ -939,6 +1055,7 @@ components:
         - conversation.item.deleted
         - conversation.item.input_audio_transcription.completed
         - conversation.item.input_audio_transcription.failed
+        - conversation.item.input_audio_transcription.delta
         - conversation.item.truncated
         - error
         - input_audio_buffer.cleared
@@ -1133,6 +1250,11 @@ components:
           $ref: "#/components/schemas/RealtimeEventType"
           description: The type of the event.
           default: response.cancel
+        response_id:
+          type: string
+          description: |
+            A specific response ID to cancel - if not provided, will cancel an 
+            in-progress response in the default conversation.
       required:
         - event_id
     RealtimeEventResponseCreate:
@@ -1225,7 +1347,6 @@ components:
           $ref: "#/components/schemas/Item"
       required:
         - event_id
-        - previous_item_id
         - item
     RealtimeEventConversationItemDeleted:
       type: object
@@ -1307,6 +1428,30 @@ components:
         - item_id
         - content_index
         - error
+    RealtimeEventConversationItemInputAudioTranscriptionDelta:
+      type: object
+      description: |
+        Returned when the text value of an input audio transcription content part is updated.
+      properties:
+        event_id:
+          type: string
+          description: The unique ID of the server event.
+        type:
+          $ref: "#/components/schemas/RealtimeEventType"
+          description: The type of the event.
+          default: conversation.item.input_audio_transcription.delta
+        item_id:
+          type: string
+          description: The ID of the user message item containing the audio.
+        content_index:
+          type: integer
+          description: The index of the content part containing the audio.
+        delta:
+          type: string
+          description: The text delta.
+      required:
+        - event_id
+        - item_id
     RealtimeEventConversationItemTruncated:
       type: object
       description: |
@@ -1394,7 +1539,6 @@ components:
           description: The ID of the user message item that will be created.
       required:
         - event_id
-        - previous_item_id
         - item_id
     RealtimeEventInputAudioBufferSpeechStarted:
       type: object

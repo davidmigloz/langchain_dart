@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Log probability information for a token.
 @freezed
-class ChatCompletionTokenLogprob with _$ChatCompletionTokenLogprob {
+abstract class ChatCompletionTokenLogprob with _$ChatCompletionTokenLogprob {
   const ChatCompletionTokenLogprob._();
 
   /// Factory constructor for ChatCompletionTokenLogprob

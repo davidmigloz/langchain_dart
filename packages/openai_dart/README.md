@@ -18,7 +18,7 @@ Unofficial Dart client for [OpenAI](https://platform.openai.com/docs/api-referen
 - Custom base URL, headers and query params support (e.g. HTTP proxies)
 - Custom HTTP client support (e.g. SOCKS5 proxies or advanced use cases)
 - Partial Azure OpenAI API support
-- It can be used to consume OpenAI-compatible APIs like [OpenRouter](https://openrouter.ai), [xAI](https://docs.x.ai/), [Groq](https://groq.com/),[GitHub Models](https://github.com/marketplace/models), [TogetherAI](https://www.together.ai/), [Anyscale](https://www.anyscale.com/), [One API](https://github.com/songquanpeng/one-api), [Llamafile](https://llamafile.ai/), [GPT4All](https://gpt4all.io/), [FastChat](https://github.com/lm-sys/FastChat), etc.
+- It can be used to consume OpenAI-compatible APIs like [Gemini](https://ai.google.dev/gemini-api/docs/openai), [OpenRouter](https://openrouter.ai), [xAI](https://docs.x.ai/), [Groq](https://groq.com/), [GitHub Models](https://github.com/marketplace/models), [TogetherAI](https://www.together.ai/), [Anyscale](https://www.anyscale.com/), [One API](https://github.com/songquanpeng/one-api), [Llamafile](https://llamafile.ai/), [GPT4All](https://gpt4all.io/), [FastChat](https://github.com/lm-sys/FastChat), etc.
 
 **Supported endpoints:**
 
@@ -106,16 +106,15 @@ Related guide: [Chat Completions](https://platform.openai.com/docs/guides/chat-c
 ```dart
 final res = await client.createChatCompletion(
   request: CreateChatCompletionRequest(
-    model: ChatCompletionModel.modelId('gpt-4o'),
+    model: ChatCompletionModel.modelId('gpt-5'),
     messages: [
-      ChatCompletionMessage.system(
+      ChatCompletionMessage.developer(
         content: 'You are a helpful assistant.',
       ),
       ChatCompletionMessage.user(
         content: ChatCompletionUserMessageContent.string('Hello!'),
       ),
     ],
-    temperature: 0,
   ),
 );
 print(res.choices.first.message.content);
@@ -123,11 +122,11 @@ print(res.choices.first.message.content);
 ```
 
 `ChatCompletionModel` is a sealed class that offers two ways to specify the model:
-- `ChatCompletionModel.modelId('model-id')`: the model ID as string (e.g. `'gpt-4o'` or your fine-tuned model ID).
-- `ChatCompletionModel.model(ChatCompletionModels.gpt4o)`: a value from `ChatCompletionModels` enum which lists all of the available models.
+- `ChatCompletionModel.modelId('model-id')`: the model ID as string (e.g. `'gpt-5'` or your fine-tuned model ID).
+- `ChatCompletionModel.model(ChatCompletionModels.gpt5)`: a value from `ChatCompletionModels` enum which lists all of the available models.
 
 `ChatCompletionMessage` is a sealed class that supports the following message types:
-- `ChatCompletionMessage.system()`: a system message.
+- `ChatCompletionMessage.developer()`: a developer message.
 - `ChatCompletionMessage.user()`: a user message.
 - `ChatCompletionMessage.assistant()`: an assistant message.
 - `ChatCompletionMessage.tool()`: a tool message.
@@ -144,9 +143,9 @@ print(res.choices.first.message.content);
 ```dart
 final stream = client.createChatCompletionStream(
   request: CreateChatCompletionRequest(
-    model: ChatCompletionModel.modelId('gpt-4o'),
+    model: ChatCompletionModel.modelId('gpt-5'),
     messages: [
-      ChatCompletionMessage.system(
+      ChatCompletionMessage.developer(
         content:
             'You are a helpful assistant that replies only with numbers '
             'in order without any spaces or commas',
@@ -175,10 +174,10 @@ You can either provide the image URL:
 final res = await client.createChatCompletion(
   request: CreateChatCompletionRequest(
     model: ChatCompletionModel.model(
-      ChatCompletionModels.gpt4VisionPreview,
+      ChatCompletionModels.gpt5,
     ),
     messages: [
-      ChatCompletionMessage.system(
+      ChatCompletionMessage.developer(
         content: 'You are a helpful assistant.',
       ),
       ChatCompletionMessage.user(
@@ -299,6 +298,8 @@ print(audio?.transcript);
 print(audio?.data);
 ```
 
+Streaming responses when using audio is also supported, use `client.createChatCompletionStream(...)` instead.
+
 Check the [Audio generation](https://platform.openai.com/docs/guides/audio) guide for more information.
 
 **Structured output: ([docs](https://platform.openai.com/docs/guides/structured-outputs))**
@@ -309,10 +310,10 @@ Structured Outputs is a feature that ensures the model will always generate resp
 final res = await client.createChatCompletion(
   request: CreateChatCompletionRequest(
     model: ChatCompletionModel.model(
-      ChatCompletionModels.gpt4oMini,
+      ChatCompletionModels.gpt5Mini,
     ),
     messages: [
-      ChatCompletionMessage.system(
+      ChatCompletionMessage.developer(
         content: 'You are a helpful assistant. That extracts names from text.',
       ),
       ChatCompletionMessage.user(
@@ -321,7 +322,6 @@ final res = await client.createChatCompletion(
         ),
       ),
     ],
-    temperature: 0,
     responseFormat: ResponseFormat.jsonSchema(
       jsonSchema: JsonSchemaObject(
         name: 'Names',
@@ -347,6 +347,59 @@ final res = await client.createChatCompletion(
 // {"names":["John","Mary","Peter"]}
 ```
 
+**Predicted Outputs:** ([docs](https://platform.openai.com/docs/guides/predicted-outputs))
+
+> Predicted Outputs enable you to speed up API responses from Chat Completions when many of the output tokens are known ahead of time. This is most common when you are regenerating a text or code file with minor modifications.
+
+```dart
+const codeContent = '''
+class User {
+  firstName: string = "";
+  lastName: string = "";
+  username: string = "";
+}
+
+export default User;
+''';
+
+const request = CreateChatCompletionRequest(
+  model: ChatCompletionModel.model(
+    ChatCompletionModels.gpt5,
+  ),
+  messages: [
+    ChatCompletionMessage.user(
+      content: ChatCompletionUserMessageContent.string(
+        'Replace the username property with an email property. '
+        'Respond only with code, and with no markdown formatting.',
+      ),
+    ),
+    ChatCompletionMessage.user(
+      content: ChatCompletionUserMessageContent.string(codeContent),
+    ),
+  ],
+  prediction: PredictionContent(
+    content: PredictionContentContent.text(codeContent),
+  ),
+);
+final res1 = await client.createChatCompletion(request: request);
+final choice1 = res1.choices.first;
+print(choice1.message.content);
+// class User {
+//   firstName: string = "";
+//   lastName: string = "";
+//   email: string = "";
+// }
+// 
+// export default User;
+
+print(res1.usage?.completionTokensDetails?.acceptedPredictionTokens)
+// 18
+print(res1.usage?.completionTokensDetails?.rejectedPredictionTokens)
+// 10
+```
+
+You can either pass a single prediction content using `PredictionContentContent.text('...')` or multiple predictions using `PredictionContentContent.textParts([...])`.
+
 **JSON mode:** ([docs](https://platform.openai.com/docs/guides/structured-outputs/json-mode))
 
 > JSON mode is a more basic version of the Structured Outputs feature. While JSON mode ensures that model output is valid JSON, Structured Outputs reliably matches the model's output to the schema you specify. It us recommended to use Structured Outputs if it is supported for your use case.
@@ -358,7 +411,7 @@ final res = await client.createChatCompletion(
       ChatCompletionModels.gpt41106Preview,
     ),
     messages: [
-      ChatCompletionMessage.system(
+      ChatCompletionMessage.developer(
         content:
           'You are a helpful assistant. That extracts names from text '
           'and returns them in a JSON array.',
@@ -369,7 +422,6 @@ final res = await client.createChatCompletion(
         ),
       ),
     ],
-    temperature: 0,
     responseFormat: ChatCompletionResponseFormat(
       type: ChatCompletionResponseFormatType.jsonObject,
     ),
@@ -410,10 +462,10 @@ const tool = ChatCompletionTool(
 final res1 = await client.createChatCompletion(
   request: CreateChatCompletionRequest(
     model: ChatCompletionModel.model(
-      ChatCompletionModels.gpt4oMini,
+      ChatCompletionModels.gpt5Mini,
     ),
     messages: [
-      ChatCompletionMessage.system(
+      ChatCompletionMessage.developer(
         content: 'You are a helpful assistant.',
       ),
       ChatCompletionMessage.user(
@@ -441,7 +493,7 @@ final res2 = await client.createChatCompletion(
   request: CreateChatCompletionRequest(
     model: ChatCompletionModel.modelId('gpt-4-turbo'),
     messages: [
-      ChatCompletionMessage.system(
+      ChatCompletionMessage.developer(
         content: 'You are a helpful assistant.',
       ),
       ChatCompletionMessage.user(
@@ -470,7 +522,7 @@ You can store the output of a chat completion request for use in [model distilla
 ```dart
 final stream = client.createChatCompletionStream(
   request: CreateChatCompletionRequest(
-    model: ChatCompletionModel.modelId('gpt-4o'),
+    model: ChatCompletionModel.modelId('gpt-5'),
     store: true,
     messages: [
       //...
@@ -485,7 +537,7 @@ You can also attach metadata to the request to help you filter and search for st
 
 final stream = client.createChatCompletionStream(
   request: CreateChatCompletionRequest(
-    model: ChatCompletionModel.modelId('gpt-4o'),
+    model: ChatCompletionModel.modelId('gpt-5'),
     store: true,
     metadata: {
       'customer_id': '12345',
@@ -496,6 +548,12 @@ final stream = client.createChatCompletionStream(
     ],
   ),
 );
+```
+
+**List stored completions:**
+
+```dart
+final res = await client.listChatCompletions();
 ```
 
 **Function calling:** (deprecated in favor of tools)
@@ -523,9 +581,9 @@ const function = FunctionObject(
 
 final res1 = await client.createChatCompletion(
   request: CreateChatCompletionRequest(
-    model: ChatCompletionModel.modelId('gpt-4o-mini'),
+    model: ChatCompletionModel.modelId('gpt-5-mini'),
     messages: [
-      ChatCompletionMessage.system(
+      ChatCompletionMessage.developer(
         content: 'You are a helpful assistant.',
       ),
       ChatCompletionMessage.user(
@@ -545,9 +603,9 @@ final functionResult = getCurrentWeather(arguments['location'], arguments['unit'
 
 final res2 = await client.createChatCompletion(
   request: CreateChatCompletionRequest(
-    model: ChatCompletionModel.modelId('gpt-4o-mini'),
+    model: ChatCompletionModel.modelId('gpt-5-mini'),
     messages: [
-      ChatCompletionMessage.system(
+      ChatCompletionMessage.developer(
         content: 'You are a helpful assistant.',
       ),
       ChatCompletionMessage.user(
@@ -581,8 +639,7 @@ final res = await client.createCompletion(
   request: CreateCompletionRequest(
     model: CompletionModel.modelId('gpt-3.5-turbo-instruct'),
     prompt: CompletionPrompt.string('Say this is a test'),
-    maxTokens: 7,
-    temperature: 0,
+    maxCompletionTokens: 7,
   ),
 );
 print(res.choices.first.text);
@@ -608,8 +665,7 @@ final stream = client.createCompletionStream(
     prompt: [
       'Say this is a test',
     ],
-    maxTokens: 7,
-    temperature: 0,
+    maxCompletionTokens: 7,
   ),
 );
 await for (final res in stream) {
@@ -670,7 +726,7 @@ Related guide: [Fine-tune models](https://platform.openai.com/docs/guides/fine-t
 
 ```dart
 const request = CreateFineTuningJobRequest(
-  model: FineTuningModel.modelId('gpt-4o-mini'),
+  model: FineTuningModel.modelId('gpt-5-mini'),
   trainingFile: 'file-abc123',
   validationFile: 'file-abc123',
   hyperparameters: FineTuningJobHyperparameters(
@@ -768,15 +824,11 @@ Related guide: [Image generation](https://platform.openai.com/docs/guides/images
 ```dart
 final res = await client.createImage(
   request: CreateImageRequest(
-    model: CreateImageRequestModel.model(ImageModels.dallE3),
+    model: CreateImageRequestModel.model(ImageModels.gptImage1),
     prompt: 'A cute baby sea otter',
-    quality: ImageQuality.hd,
-    size: ImageSize.v1024x1792,
-    style: ImageStyle.natural,
   ),
 );
-print(res.data.first.url);
-// https://oaidalleapiprodscus.blob.core.windows.net/private/...
+print(res.data.first.b64Json);
 ```
 
 ### Models
@@ -1045,7 +1097,7 @@ final res = await client.createThreadRun(
   request: CreateRunRequest(
     assistantId: assistantId,
     instructions: 'You are a helpful assistant that extracts names from text.',
-    model: CreateRunRequestModel.modelId('gpt-4o'),
+    model: CreateRunRequestModel.modelId('gpt-5'),
     responseFormat: CreateRunRequestResponseFormat.responseFormat(
         ResponseFormat.jsonSchema(
           jsonSchema: JsonSchemaObject(
@@ -1331,7 +1383,17 @@ final client = OpenAIClient(
 - `YOUR_RESOURCE_NAME`: This value can be found in the Keys & Endpoint section when examining your resource from the Azure portal.
 - `YOUR_DEPLOYMENT_NAME`: This value will correspond to the custom name you chose for your deployment when you deployed a model. This value can be found under Resource Management > Deployments in the Azure portal.
 - `YOUR_API_KEY`: This value can be found in the Keys & Endpoint section when examining your resource from the Azure portal.
-- `API_VERSION`: The Azure OpenAI API version to use (e.g. `2023-05-15`). Try to use the [latest version available](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cognitiveservices/data-plane/AzureOpenAI/inference), it will probably be the closest to the official OpenAI API.
+- `API_VERSION`: The Azure OpenAI API version to use (e.g. `2024-10-21`). Try to use the [latest version available](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cognitiveservices/data-plane/AzureOpenAI/inference), it will probably be the closest to the official OpenAI API.
+
+For the [Assistants API](https://learn.microsoft.com/en-us/azure/ai-services/openai/assistants-reference-threads), the `baseUrl` differs slightly:
+
+```dart
+final client = OpenAIClient(
+  baseUrl: 'https://YOUR_RESOURCE_NAME.openai.azure.com/openai',
+  headers: { 'api-key': 'YOUR_API_KEY' },
+  queryParams: { 'api-version': 'API_VERSION' },
+);
+```
 
 ### OpenAI-compatible APIs
 

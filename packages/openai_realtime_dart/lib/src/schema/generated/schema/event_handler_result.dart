@@ -10,7 +10,7 @@ part of openai_realtime_schema;
 
 /// No Description
 @freezed
-class EventHandlerResult with _$EventHandlerResult {
+abstract class EventHandlerResult with _$EventHandlerResult {
   const EventHandlerResult._();
 
   /// Factory constructor for EventHandlerResult

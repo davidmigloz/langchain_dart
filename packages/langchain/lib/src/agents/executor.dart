@@ -84,7 +84,7 @@ class AgentExecutor extends BaseChain {
     final agent = this.agent;
     final tools = _internalTools;
     if (agent is BaseMultiActionAgent) {
-      for (final Tool tool in tools) {
+      for (final tool in tools) {
         if (tool.returnDirect) {
           return false;
         }
@@ -101,7 +101,7 @@ class AgentExecutor extends BaseChain {
     final nameToToolMap = {for (final tool in _internalTools) tool.name: tool};
 
     // Let's start tracking the number of iterations and time elapsed
-    int iterations = 0;
+    var iterations = 0;
     final stopwatch = Stopwatch()..start();
 
     ChainValues onAgentFinished(final AgentFinish result) {

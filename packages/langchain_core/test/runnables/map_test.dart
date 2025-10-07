@@ -25,6 +25,34 @@ void main() {
       );
     });
 
+    test('RunnableMap runs tasks in parallel', () async {
+      final longTask = Runnable.fromFunction(
+        invoke: (_, __) async {
+          await Future<void>.delayed(const Duration(seconds: 2));
+          return 'long';
+        },
+      );
+      final shortTask = Runnable.fromFunction(
+        invoke: (_, __) async {
+          await Future<void>.delayed(const Duration(seconds: 1));
+          return 'short';
+        },
+      );
+
+      final chain = Runnable.fromMap({
+        'long': longTask,
+        'short': shortTask,
+      });
+
+      final stopwatch = Stopwatch()..start();
+      final result = await chain.invoke({});
+      stopwatch.stop();
+
+      expect(stopwatch.elapsed, lessThan(const Duration(seconds: 3)));
+      expect(result['long'], 'long');
+      expect(result['short'], 'short');
+    });
+
     test('Streaming RunnableMap', () async {
       final prompt1 = PromptTemplate.fromTemplate('Hello {input}!');
       final prompt2 = PromptTemplate.fromTemplate('Bye {input}!');

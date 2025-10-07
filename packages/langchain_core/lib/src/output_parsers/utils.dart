@@ -18,13 +18,13 @@ dynamic parsePartialJson(final String s) {
   }
 
   // Initialize variables
-  String newStr = '';
+  var newStr = '';
   final stack = <String>[];
-  bool isInsideString = false;
-  bool escaped = false;
+  var isInsideString = false;
+  var escaped = false;
 
   // Process each character in the string one at a time
-  for (int i = 0; i < s.length; i++) {
+  for (var i = 0; i < s.length; i++) {
     var char = s[i];
     if (isInsideString) {
       if (char == '"' && !escaped) {

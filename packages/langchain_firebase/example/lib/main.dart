@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, avoid_print
+// ignore_for_file: public_member_api_docs, avoid_print, unnecessary_async
 // Copyright 2024 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -97,12 +97,11 @@ class _ChatWidgetState extends State<ChatWidget> {
   late final ConversationBufferMemory _memory;
   late final Tool exchangeRateTool;
 
-  final ScrollController _scrollController = ScrollController();
-  final TextEditingController _textController = TextEditingController();
-  final FocusNode _textFieldFocus = FocusNode();
-  final List<({Image? image, String? text, bool fromUser})> _generatedContent =
-      <({Image? image, String? text, bool fromUser})>[];
-  bool _loading = false;
+  final _scrollController = ScrollController();
+  final _textController = TextEditingController();
+  final _textFieldFocus = FocusNode();
+  final _generatedContent = <({Image? image, String? text, bool fromUser})>[];
+  var _loading = false;
 
   @override
   void initState() {

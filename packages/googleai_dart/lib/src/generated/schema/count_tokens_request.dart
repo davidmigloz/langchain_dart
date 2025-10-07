@@ -10,7 +10,7 @@ part of google_a_i_schema;
 
 /// Counts the number of tokens in the `prompt` sent to a model. Models may tokenize text differently, so each model may return a different `token_count`.
 @freezed
-class CountTokensRequest with _$CountTokensRequest {
+abstract class CountTokensRequest with _$CountTokensRequest {
   const CountTokensRequest._();
 
   /// Factory constructor for CountTokensRequest

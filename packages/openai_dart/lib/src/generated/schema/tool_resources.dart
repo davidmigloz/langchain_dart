@@ -12,7 +12,7 @@ part of open_a_i_schema;
 /// to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the
 /// `file_search` tool requires a list of vector store IDs.
 @freezed
-class ToolResources with _$ToolResources {
+abstract class ToolResources with _$ToolResources {
   const ToolResources._();
 
   /// Factory constructor for ToolResources
@@ -53,7 +53,8 @@ class ToolResources with _$ToolResources {
 
 /// No Description
 @freezed
-class ToolResourcesCodeInterpreter with _$ToolResourcesCodeInterpreter {
+abstract class ToolResourcesCodeInterpreter
+    with _$ToolResourcesCodeInterpreter {
   const ToolResourcesCodeInterpreter._();
 
   /// Factory constructor for ToolResourcesCodeInterpreter
@@ -89,7 +90,7 @@ class ToolResourcesCodeInterpreter with _$ToolResourcesCodeInterpreter {
 
 /// No Description
 @freezed
-class ToolResourcesFileSearch with _$ToolResourcesFileSearch {
+abstract class ToolResourcesFileSearch with _$ToolResourcesFileSearch {
   const ToolResourcesFileSearch._();
 
   /// Factory constructor for ToolResourcesFileSearch

@@ -62,7 +62,7 @@ abstract class BaseChain<MemoryType extends BaseMemory>
   }
 
   /// Default input key for the input of the chain.
-  static const String defaultInputKey = 'input';
+  static const defaultInputKey = 'input';
 
   /// Default output key for the output of the chain.
   static const defaultOutputKey = 'output';
@@ -161,7 +161,7 @@ abstract class BaseChain<MemoryType extends BaseMemory>
   Future<ChainValues> callInternal(final ChainValues inputs);
 
   /// Call the chain on all inputs in the list.
-  Future<List<ChainValues>> apply(final List<ChainValues> inputs) async {
+  Future<List<ChainValues>> apply(final List<ChainValues> inputs) {
     return Future.wait(inputs.map(call));
   }
 

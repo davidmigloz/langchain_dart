@@ -100,7 +100,7 @@ await stream.forEach(print);
 
 OpenRouter supports [tool calling](https://openrouter.ai/docs#tool-calls). 
 
-Check the [docs](/modules/model_io/models/chat_models/how_to/tools.md) for more information on how to use tools.
+Check the [docs](docs/04-how_to/03-tools.md) for more information on how to use tools.
 
 In the following example we use the `joke` tool to generate jokes. We stream the joke generation using the `ToolsOutputParser' which tries to "auto-complete" the partial json from each chunk into a valid state.
 

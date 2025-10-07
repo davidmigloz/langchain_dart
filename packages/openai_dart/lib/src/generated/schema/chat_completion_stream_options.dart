@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Options for streaming response. Only set this when you set `stream: true`.
 @freezed
-class ChatCompletionStreamOptions with _$ChatCompletionStreamOptions {
+abstract class ChatCompletionStreamOptions with _$ChatCompletionStreamOptions {
   const ChatCompletionStreamOptions._();
 
   /// Factory constructor for ChatCompletionStreamOptions

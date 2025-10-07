@@ -208,10 +208,10 @@ class SimpleSequentialChain extends BaseChain {
   Set<String> outputKeys;
 
   /// Default input key for the input of the chain.
-  static const String defaultInputKey = 'input';
+  static const defaultInputKey = 'input';
 
   /// Default output key for the output of the chain.
-  static const String defaultOutputKey = 'output';
+  static const defaultOutputKey = 'output';
 
   /// Checks if the chain is valid.
   bool _isChainValid() {

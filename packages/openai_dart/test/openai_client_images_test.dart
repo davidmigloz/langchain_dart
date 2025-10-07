@@ -25,9 +25,7 @@ void main() {
       const request = CreateImageRequest(
         model: CreateImageRequestModel.model(ImageModels.dallE2),
         prompt: 'A cute baby sea otter',
-        quality: ImageQuality.standard,
         size: ImageSize.v1024x1024,
-        style: ImageStyle.natural,
       );
       final res = await client.createImage(request: request);
       expect(res.created, greaterThan(0));

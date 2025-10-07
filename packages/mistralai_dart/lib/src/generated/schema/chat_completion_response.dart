@@ -10,7 +10,7 @@ part of mistral_a_i_schema;
 
 /// Response class for the chat completion endpoint.
 @freezed
-class ChatCompletionResponse with _$ChatCompletionResponse {
+abstract class ChatCompletionResponse with _$ChatCompletionResponse {
   const ChatCompletionResponse._();
 
   /// Factory constructor for ChatCompletionResponse
@@ -72,7 +72,7 @@ class ChatCompletionResponse with _$ChatCompletionResponse {
 
 /// A choice in a chat completion.
 @freezed
-class ChatCompletionResponseChoicesInner
+abstract class ChatCompletionResponseChoicesInner
     with _$ChatCompletionResponseChoicesInner {
   const ChatCompletionResponseChoicesInner._();
 

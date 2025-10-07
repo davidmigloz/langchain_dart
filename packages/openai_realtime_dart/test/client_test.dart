@@ -6,6 +6,24 @@ import 'package:test/test.dart';
 
 void main() {
   group('RealtimeClient Tests', () {
+    test('RealtimeClient connect with custom model', () async {
+      final client = RealtimeClient(
+        apiKey: Platform.environment['OPENAI_API_KEY'],
+        debug: true,
+      );
+
+      // Connect with a custom model
+      const customModel = 'gpt-4o-mini-realtime-preview';
+      final isConnected = await client.connect(model: customModel);
+
+      expect(isConnected, isTrue);
+      expect(client.isConnected(), isTrue);
+
+      // Clean up
+      await client.disconnect();
+      expect(client.isConnected(), isFalse);
+    });
+
     test('RealtimeClient test', () async {
       final realtimeEvents = <RealtimeEvent>[];
       final client = RealtimeClient(
@@ -88,7 +106,7 @@ void main() {
     test('Tool calling test', timeout: const Timeout(Duration(minutes: 5)),
         () async {
       final realtimeEvents = <RealtimeEvent>[];
-      bool toolCalled = false;
+      var toolCalled = false;
       final client = RealtimeClient(
         apiKey: Platform.environment['OPENAI_API_KEY'],
         debug: true,

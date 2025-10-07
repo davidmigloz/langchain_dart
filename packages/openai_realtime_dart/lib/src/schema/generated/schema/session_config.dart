@@ -10,11 +10,15 @@ part of openai_realtime_schema;
 
 /// Session configuration to update.
 @freezed
-class SessionConfig with _$SessionConfig {
+abstract class SessionConfig with _$SessionConfig {
   const SessionConfig._();
 
   /// Factory constructor for SessionConfig
   const factory SessionConfig({
+    /// Ephemeral key returned by the API.
+    @JsonKey(name: 'client_secret', includeIfNull: false)
+    SessionConfigClientSecret? clientSecret,
+
     /// The set of modalities the model can respond with. To disable audio, set this to ["text"].
     @JsonKey(includeIfNull: false) List<Modality>? modalities,
 
@@ -32,9 +36,10 @@ class SessionConfig with _$SessionConfig {
     /// start of the session.
     @JsonKey(includeIfNull: false) String? instructions,
 
-    /// The voice the model uses to respond. Supported voices are `alloy`, `ash`,
-    /// `ballad`, `coral`, `echo`, `sage`, `shimmer`, and `verse`. Cannot be
-    /// changed once the model has responded with audio at least once.
+    /// The voice the model uses to respond. Voice cannot be changed during the
+    /// session once the model has responded with audio at least once. Current
+    /// voice options are `alloy`, `ash`, `ballad`, `coral`, `echo` `sage`,
+    /// `shimmer` and `verse`.
     @JsonKey(
       includeIfNull: false,
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue,
@@ -57,19 +62,20 @@ class SessionConfig with _$SessionConfig {
     )
     AudioFormat? outputAudioFormat,
 
-    /// Configuration for input audio transcription, defaults to off and can be
-    /// set to `null` to turn off once on. Input audio transcription is not native
-    /// to the model, since the model consumes audio directly. Transcription runs
-    /// asynchronously through Whisper and should be treated as rough guidance
-    /// rather than the representation understood by the model.
+    /// Configuration for input audio transcription, defaults to off and can be  set to `null` to turn off
+    /// once on. Input audio transcription is not native to the model, since the model consumes audio
+    /// directly. Transcription runs  asynchronously through [the /audio/transcriptions
+    /// endpoint](https://platform.openai.com/docs/api-reference/audio/createTranscription) and should be
+    /// treated as guidance of input audio content rather than precisely what the model heard. The client
+    /// can optionally set the language and prompt for transcription, these offer additional guidance to
+    /// the transcription service.
     @JsonKey(name: 'input_audio_transcription', includeIfNull: false)
     InputAudioTranscriptionConfig? inputAudioTranscription,
 
     /// Configuration for turn detection. Can be set to `null` to turn off. Server
     /// VAD means that the model will detect the start and end of speech based on
     /// audio volume and respond at the end of user speech.
-    @JsonKey(name: 'turn_detection', includeIfNull: false)
-    TurnDetection? turnDetection,
+    @JsonKey(name: 'turn_detection') required TurnDetection? turnDetection,
 
     /// Tools (functions) available to the model.
     @JsonKey(includeIfNull: false) List<ToolDefinition>? tools,
@@ -98,6 +104,7 @@ class SessionConfig with _$SessionConfig {
 
   /// List of all property names of schema
   static const List<String> propertyNames = [
+    'client_secret',
     'modalities',
     'instructions',
     'voice',
@@ -119,6 +126,7 @@ class SessionConfig with _$SessionConfig {
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
     return {
+      'client_secret': clientSecret,
       'modalities': modalities,
       'instructions': instructions,
       'voice': voice,
@@ -130,6 +138,48 @@ class SessionConfig with _$SessionConfig {
       'tool_choice': toolChoice,
       'temperature': temperature,
       'max_response_output_tokens': maxResponseOutputTokens,
+    };
+  }
+}
+
+// ==========================================
+// CLASS: SessionConfigClientSecret
+// ==========================================
+
+/// Ephemeral key returned by the API.
+@freezed
+abstract class SessionConfigClientSecret with _$SessionConfigClientSecret {
+  const SessionConfigClientSecret._();
+
+  /// Factory constructor for SessionConfigClientSecret
+  const factory SessionConfigClientSecret({
+    /// Ephemeral key usable in client environments to authenticate connections
+    /// to the Realtime API. Use this in client-side environments rather than
+    /// a standard API token, which should only be used server-side.
+    @JsonKey(includeIfNull: false) String? value,
+
+    /// Timestamp for when the token expires. Currently, all tokens expire
+    /// after one minute.
+    @JsonKey(name: 'expires_at', includeIfNull: false) int? expiresAt,
+  }) = _SessionConfigClientSecret;
+
+  /// Object construction from a JSON representation
+  factory SessionConfigClientSecret.fromJson(Map<String, dynamic> json) =>
+      _$SessionConfigClientSecretFromJson(json);
+
+  /// List of all property names of schema
+  static const List<String> propertyNames = ['value', 'expires_at'];
+
+  /// Perform validations on the schema property values
+  String? validateSchema() {
+    return null;
+  }
+
+  /// Map representation of object (not serialized)
+  Map<String, dynamic> toMap() {
+    return {
+      'value': value,
+      'expires_at': expiresAt,
     };
   }
 }

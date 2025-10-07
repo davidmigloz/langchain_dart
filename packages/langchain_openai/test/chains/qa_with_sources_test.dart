@@ -137,8 +137,8 @@ Question: {question}
 
       final stream = chain.stream('What did President Biden say about Russia?');
 
-      String content = '';
-      int count = 0;
+      var content = '';
+      var count = 0;
       await for (final res in stream) {
         content += res;
         count++;

@@ -31,7 +31,8 @@ final class CalculatorTool extends StringTool<ToolOptions> {
               'For example: "(x^2 + cos(y)) / 3".',
         );
 
-  final _parser = Parser();
+  final _parser = GrammarParser();
+  final _evaluator = RealEvaluator();
 
   @override
   Future<String> invokeInternal(
@@ -39,10 +40,8 @@ final class CalculatorTool extends StringTool<ToolOptions> {
     final ToolOptions? options,
   }) async {
     try {
-      return _parser
-          .parse(toolInput)
-          .evaluate(EvaluationType.REAL, ContextModel())
-          .toString();
+      final exp = _parser.parse(toolInput);
+      return _evaluator.evaluate(exp).toString();
     } catch (e) {
       return "I don't know how to do that.";
     }

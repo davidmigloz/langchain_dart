@@ -21,7 +21,7 @@ part of anthropic_schema;
 /// For example, `output_tokens` will be non-zero, even for an empty string response
 /// from Claude.
 @freezed
-class Usage with _$Usage {
+abstract class Usage with _$Usage {
   const Usage._();
 
   /// Factory constructor for Usage

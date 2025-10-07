@@ -10,7 +10,7 @@ part of ollama_schema;
 
 /// The response class for the generate endpoint.
 @freezed
-class GenerateCompletionResponse with _$GenerateCompletionResponse {
+abstract class GenerateCompletionResponse with _$GenerateCompletionResponse {
   const GenerateCompletionResponse._();
 
   /// Factory constructor for GenerateCompletionResponse
@@ -25,6 +25,9 @@ class GenerateCompletionResponse with _$GenerateCompletionResponse {
 
     /// The response for a given prompt with a provided model.
     @JsonKey(includeIfNull: false) String? response,
+
+    /// Contains the text that was inside thinking tags in the original model output when `think` is enabled.
+    @JsonKey(includeIfNull: false) String? thinking,
 
     /// Whether the response has completed.
     @JsonKey(includeIfNull: false) bool? done,
@@ -62,6 +65,7 @@ class GenerateCompletionResponse with _$GenerateCompletionResponse {
     'model',
     'created_at',
     'response',
+    'thinking',
     'done',
     'context',
     'total_duration',
@@ -83,6 +87,7 @@ class GenerateCompletionResponse with _$GenerateCompletionResponse {
       'model': model,
       'created_at': createdAt,
       'response': response,
+      'thinking': thinking,
       'done': done,
       'context': context,
       'total_duration': totalDuration,

@@ -1,6 +1,29 @@
-📣 Check out the [releases page](https://github.com/davidmigloz/langchain_dart/releases) or the [#announcements](https://discord.com/channels/1123158322812555295/1123250594644242534) channel on the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details.
+## 0.2.2+4
 
----
+ - **FIX**: depend_on_referenced_packages error ([#772](https://github.com/davidmigloz/langchain_dart/issues/772)). ([ef57d530](https://github.com/davidmigloz/langchain_dart/commit/ef57d5303331c7cb85fdb077a50e040a819ec94e))
+
+## 0.2.2+3
+
+ - **FIX**: Breaking change in firebase_vertexai package ([#770](https://github.com/davidmigloz/langchain_dart/issues/770)). ([6a21546e](https://github.com/davidmigloz/langchain_dart/commit/6a21546e889956cc8e0f9282073757e8aa2abeb3))
+
+## 0.2.2+2
+
+ - **FIX**: Batch sequential tool responses in GoogleAI & Firebase VertexAI ([#757](https://github.com/davidmigloz/langchain_dart/issues/757)). ([8ff44486](https://github.com/davidmigloz/langchain_dart/commit/8ff4448665d26b49c1e1077d0822703e7d853d39))
+
+## 0.2.2+1
+
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+## 0.2.2
+
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **REFACTOR**: Fix linter issues ([#708](https://github.com/davidmigloz/langchain_dart/issues/708)). ([652e7c64](https://github.com/davidmigloz/langchain_dart/commit/652e7c64776d92d309cbd708d9e477fc2ee1391c))
+ - **REFACTOR**: Migrate firebase_vertexai dep to 1.4.0 ([#663](https://github.com/davidmigloz/langchain_dart/issues/663)). ([4fca38c5](https://github.com/davidmigloz/langchain_dart/commit/4fca38c5599c4c5a058ece1a7d9c4e276b716432))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+
+## 0.2.1+4
+
+ - **REFACTOR**: Add new lint rules and fix issues ([#621](https://github.com/davidmigloz/langchain_dart/issues/621)). ([60b10e00](https://github.com/davidmigloz/langchain_dart/commit/60b10e008acf55ebab90789ad08d2449a44b69d8))
 
 ## 0.2.1+3
 

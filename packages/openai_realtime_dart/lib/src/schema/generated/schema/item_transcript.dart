@@ -10,7 +10,7 @@ part of openai_realtime_schema;
 
 /// The transcript item.
 @freezed
-class ItemTranscript with _$ItemTranscript {
+abstract class ItemTranscript with _$ItemTranscript {
   const ItemTranscript._();
 
   /// Factory constructor for ItemTranscript

@@ -19,6 +19,7 @@ sealed class RunStepDetailsToolCallsCodeOutput
   // ------------------------------------------
 
   /// Text output from the Code Interpreter tool call as part of a run step.
+
   const factory RunStepDetailsToolCallsCodeOutput.logs({
     /// Always `logs`.
     required String type,
@@ -32,6 +33,7 @@ sealed class RunStepDetailsToolCallsCodeOutput
   // ------------------------------------------
 
   /// Code Interpreter image output
+
   const factory RunStepDetailsToolCallsCodeOutput.image({
     /// Always `image`.
     required String type,

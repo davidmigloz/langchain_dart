@@ -8,21 +8,21 @@ part of 'schema.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$CreateCompletionRequestImpl _$$CreateCompletionRequestImplFromJson(
+_CreateCompletionRequest _$CreateCompletionRequestFromJson(
         Map<String, dynamic> json) =>
-    _$CreateCompletionRequestImpl(
+    _CreateCompletionRequest(
       model: const _CompletionModelConverter().fromJson(json['model']),
       prompt: const _CompletionPromptConverter().fromJson(json['prompt']),
       bestOf: (json['best_of'] as num?)?.toInt(),
       echo: json['echo'] as bool? ?? false,
-      frequencyPenalty: (json['frequency_penalty'] as num?)?.toDouble() ?? 0.0,
+      frequencyPenalty: (json['frequency_penalty'] as num?)?.toDouble(),
       logitBias: (json['logit_bias'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, (e as num).toInt()),
       ),
       logprobs: (json['logprobs'] as num?)?.toInt(),
       maxTokens: (json['max_tokens'] as num?)?.toInt() ?? 16,
-      n: (json['n'] as num?)?.toInt() ?? 1,
-      presencePenalty: (json['presence_penalty'] as num?)?.toDouble() ?? 0.0,
+      n: (json['n'] as num?)?.toInt(),
+      presencePenalty: (json['presence_penalty'] as num?)?.toDouble(),
       seed: (json['seed'] as num?)?.toInt(),
       stop: const _CompletionStopConverter().fromJson(json['stop']),
       stream: json['stream'] as bool? ?? false,
@@ -31,43 +31,38 @@ _$CreateCompletionRequestImpl _$$CreateCompletionRequestImplFromJson(
           : ChatCompletionStreamOptions.fromJson(
               json['stream_options'] as Map<String, dynamic>),
       suffix: json['suffix'] as String?,
-      temperature: (json['temperature'] as num?)?.toDouble() ?? 1.0,
-      topP: (json['top_p'] as num?)?.toDouble() ?? 1.0,
+      temperature: (json['temperature'] as num?)?.toDouble(),
+      topP: (json['top_p'] as num?)?.toDouble(),
       user: json['user'] as String?,
     );
 
-Map<String, dynamic> _$$CreateCompletionRequestImplToJson(
-    _$CreateCompletionRequestImpl instance) {
-  final val = <String, dynamic>{
-    'model': const _CompletionModelConverter().toJson(instance.model),
-    'prompt': _$JsonConverterToJson<Object?, CompletionPrompt>(
-        instance.prompt, const _CompletionPromptConverter().toJson),
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('best_of', instance.bestOf);
-  writeNotNull('echo', instance.echo);
-  writeNotNull('frequency_penalty', instance.frequencyPenalty);
-  writeNotNull('logit_bias', instance.logitBias);
-  writeNotNull('logprobs', instance.logprobs);
-  writeNotNull('max_tokens', instance.maxTokens);
-  writeNotNull('n', instance.n);
-  writeNotNull('presence_penalty', instance.presencePenalty);
-  writeNotNull('seed', instance.seed);
-  writeNotNull('stop', const _CompletionStopConverter().toJson(instance.stop));
-  writeNotNull('stream', instance.stream);
-  writeNotNull('stream_options', instance.streamOptions?.toJson());
-  writeNotNull('suffix', instance.suffix);
-  writeNotNull('temperature', instance.temperature);
-  writeNotNull('top_p', instance.topP);
-  writeNotNull('user', instance.user);
-  return val;
-}
+Map<String, dynamic> _$CreateCompletionRequestToJson(
+        _CreateCompletionRequest instance) =>
+    <String, dynamic>{
+      'model': const _CompletionModelConverter().toJson(instance.model),
+      'prompt': _$JsonConverterToJson<Object?, CompletionPrompt>(
+          instance.prompt, const _CompletionPromptConverter().toJson),
+      if (instance.bestOf case final value?) 'best_of': value,
+      if (instance.echo case final value?) 'echo': value,
+      if (instance.frequencyPenalty case final value?)
+        'frequency_penalty': value,
+      if (instance.logitBias case final value?) 'logit_bias': value,
+      if (instance.logprobs case final value?) 'logprobs': value,
+      if (instance.maxTokens case final value?) 'max_tokens': value,
+      if (instance.n case final value?) 'n': value,
+      if (instance.presencePenalty case final value?) 'presence_penalty': value,
+      if (instance.seed case final value?) 'seed': value,
+      if (const _CompletionStopConverter().toJson(instance.stop)
+          case final value?)
+        'stop': value,
+      if (instance.stream case final value?) 'stream': value,
+      if (instance.streamOptions?.toJson() case final value?)
+        'stream_options': value,
+      if (instance.suffix case final value?) 'suffix': value,
+      if (instance.temperature case final value?) 'temperature': value,
+      if (instance.topP case final value?) 'top_p': value,
+      if (instance.user case final value?) 'user': value,
+    };
 
 Json? _$JsonConverterToJson<Json, Value>(
   Value? value,
@@ -75,15 +70,15 @@ Json? _$JsonConverterToJson<Json, Value>(
 ) =>
     value == null ? null : toJson(value);
 
-_$CompletionModelEnumerationImpl _$$CompletionModelEnumerationImplFromJson(
+CompletionModelEnumeration _$CompletionModelEnumerationFromJson(
         Map<String, dynamic> json) =>
-    _$CompletionModelEnumerationImpl(
+    CompletionModelEnumeration(
       $enumDecode(_$CompletionModelsEnumMap, json['value']),
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$CompletionModelEnumerationImplToJson(
-        _$CompletionModelEnumerationImpl instance) =>
+Map<String, dynamic> _$CompletionModelEnumerationToJson(
+        CompletionModelEnumeration instance) =>
     <String, dynamic>{
       'value': _$CompletionModelsEnumMap[instance.value]!,
       'runtimeType': instance.$type,
@@ -95,23 +90,23 @@ const _$CompletionModelsEnumMap = {
   CompletionModels.babbage002: 'babbage-002',
 };
 
-_$CompletionModelStringImpl _$$CompletionModelStringImplFromJson(
+CompletionModelString _$CompletionModelStringFromJson(
         Map<String, dynamic> json) =>
-    _$CompletionModelStringImpl(
+    CompletionModelString(
       json['value'] as String,
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$CompletionModelStringImplToJson(
-        _$CompletionModelStringImpl instance) =>
+Map<String, dynamic> _$CompletionModelStringToJson(
+        CompletionModelString instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$CompletionPromptListListIntImpl _$$CompletionPromptListListIntImplFromJson(
+CompletionPromptListListInt _$CompletionPromptListListIntFromJson(
         Map<String, dynamic> json) =>
-    _$CompletionPromptListListIntImpl(
+    CompletionPromptListListInt(
       (json['value'] as List<dynamic>)
           .map((e) =>
               (e as List<dynamic>).map((e) => (e as num).toInt()).toList())
@@ -119,86 +114,86 @@ _$CompletionPromptListListIntImpl _$$CompletionPromptListListIntImplFromJson(
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$CompletionPromptListListIntImplToJson(
-        _$CompletionPromptListListIntImpl instance) =>
+Map<String, dynamic> _$CompletionPromptListListIntToJson(
+        CompletionPromptListListInt instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$CompletionPromptListIntImpl _$$CompletionPromptListIntImplFromJson(
+CompletionPromptListInt _$CompletionPromptListIntFromJson(
         Map<String, dynamic> json) =>
-    _$CompletionPromptListIntImpl(
+    CompletionPromptListInt(
       (json['value'] as List<dynamic>).map((e) => (e as num).toInt()).toList(),
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$CompletionPromptListIntImplToJson(
-        _$CompletionPromptListIntImpl instance) =>
+Map<String, dynamic> _$CompletionPromptListIntToJson(
+        CompletionPromptListInt instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$CompletionPromptListStringImpl _$$CompletionPromptListStringImplFromJson(
+CompletionPromptListString _$CompletionPromptListStringFromJson(
         Map<String, dynamic> json) =>
-    _$CompletionPromptListStringImpl(
+    CompletionPromptListString(
       (json['value'] as List<dynamic>).map((e) => e as String).toList(),
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$CompletionPromptListStringImplToJson(
-        _$CompletionPromptListStringImpl instance) =>
+Map<String, dynamic> _$CompletionPromptListStringToJson(
+        CompletionPromptListString instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$CompletionPromptStringImpl _$$CompletionPromptStringImplFromJson(
+CompletionPromptString _$CompletionPromptStringFromJson(
         Map<String, dynamic> json) =>
-    _$CompletionPromptStringImpl(
+    CompletionPromptString(
       json['value'] as String,
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$CompletionPromptStringImplToJson(
-        _$CompletionPromptStringImpl instance) =>
+Map<String, dynamic> _$CompletionPromptStringToJson(
+        CompletionPromptString instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$CompletionStopListStringImpl _$$CompletionStopListStringImplFromJson(
+CompletionStopListString _$CompletionStopListStringFromJson(
         Map<String, dynamic> json) =>
-    _$CompletionStopListStringImpl(
+    CompletionStopListString(
       (json['value'] as List<dynamic>).map((e) => e as String).toList(),
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$CompletionStopListStringImplToJson(
-        _$CompletionStopListStringImpl instance) =>
+Map<String, dynamic> _$CompletionStopListStringToJson(
+        CompletionStopListString instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$CompletionStopStringImpl _$$CompletionStopStringImplFromJson(
+CompletionStopString _$CompletionStopStringFromJson(
         Map<String, dynamic> json) =>
-    _$CompletionStopStringImpl(
+    CompletionStopString(
       json['value'] as String?,
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$CompletionStopStringImplToJson(
-        _$CompletionStopStringImpl instance) =>
+Map<String, dynamic> _$CompletionStopStringToJson(
+        CompletionStopString instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$CreateCompletionResponseImpl _$$CreateCompletionResponseImplFromJson(
+_CreateCompletionResponse _$CreateCompletionResponseFromJson(
         Map<String, dynamic> json) =>
-    _$CreateCompletionResponseImpl(
+    _CreateCompletionResponse(
       id: json['id'] as String,
       choices: (json['choices'] as List<dynamic>)
           .map((e) => CompletionChoice.fromJson(e as Map<String, dynamic>))
@@ -213,34 +208,25 @@ _$CreateCompletionResponseImpl _$$CreateCompletionResponseImplFromJson(
           : CompletionUsage.fromJson(json['usage'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$CreateCompletionResponseImplToJson(
-    _$CreateCompletionResponseImpl instance) {
-  final val = <String, dynamic>{
-    'id': instance.id,
-    'choices': instance.choices.map((e) => e.toJson()).toList(),
-    'created': instance.created,
-    'model': instance.model,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('system_fingerprint', instance.systemFingerprint);
-  val['object'] = _$CreateCompletionResponseObjectEnumMap[instance.object]!;
-  writeNotNull('usage', instance.usage?.toJson());
-  return val;
-}
+Map<String, dynamic> _$CreateCompletionResponseToJson(
+        _CreateCompletionResponse instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'choices': instance.choices.map((e) => e.toJson()).toList(),
+      'created': instance.created,
+      'model': instance.model,
+      if (instance.systemFingerprint case final value?)
+        'system_fingerprint': value,
+      'object': _$CreateCompletionResponseObjectEnumMap[instance.object]!,
+      if (instance.usage?.toJson() case final value?) 'usage': value,
+    };
 
 const _$CreateCompletionResponseObjectEnumMap = {
   CreateCompletionResponseObject.textCompletion: 'text_completion',
 };
 
-_$CompletionChoiceImpl _$$CompletionChoiceImplFromJson(
-        Map<String, dynamic> json) =>
-    _$CompletionChoiceImpl(
+_CompletionChoice _$CompletionChoiceFromJson(Map<String, dynamic> json) =>
+    _CompletionChoice(
       finishReason: $enumDecodeNullable(
           _$CompletionFinishReasonEnumMap, json['finish_reason'],
           unknownValue: JsonKey.nullForUndefinedEnumValue),
@@ -252,8 +238,7 @@ _$CompletionChoiceImpl _$$CompletionChoiceImplFromJson(
       text: json['text'] as String,
     );
 
-Map<String, dynamic> _$$CompletionChoiceImplToJson(
-        _$CompletionChoiceImpl instance) =>
+Map<String, dynamic> _$CompletionChoiceToJson(_CompletionChoice instance) =>
     <String, dynamic>{
       'finish_reason': _$CompletionFinishReasonEnumMap[instance.finishReason],
       'index': instance.index,
@@ -267,9 +252,8 @@ const _$CompletionFinishReasonEnumMap = {
   CompletionFinishReason.contentFilter: 'content_filter',
 };
 
-_$CompletionLogprobsImpl _$$CompletionLogprobsImplFromJson(
-        Map<String, dynamic> json) =>
-    _$CompletionLogprobsImpl(
+_CompletionLogprobs _$CompletionLogprobsFromJson(Map<String, dynamic> json) =>
+    _CompletionLogprobs(
       textOffset: (json['text_offset'] as List<dynamic>?)
           ?.map((e) => (e as num).toInt())
           .toList(),
@@ -285,35 +269,29 @@ _$CompletionLogprobsImpl _$$CompletionLogprobsImplFromJson(
           .toList(),
     );
 
-Map<String, dynamic> _$$CompletionLogprobsImplToJson(
-    _$CompletionLogprobsImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$CompletionLogprobsToJson(_CompletionLogprobs instance) =>
+    <String, dynamic>{
+      if (instance.textOffset case final value?) 'text_offset': value,
+      if (instance.tokenLogprobs case final value?) 'token_logprobs': value,
+      if (instance.tokens case final value?) 'tokens': value,
+      if (instance.topLogprobs case final value?) 'top_logprobs': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('text_offset', instance.textOffset);
-  writeNotNull('token_logprobs', instance.tokenLogprobs);
-  writeNotNull('tokens', instance.tokens);
-  writeNotNull('top_logprobs', instance.topLogprobs);
-  return val;
-}
-
-_$CreateChatCompletionRequestImpl _$$CreateChatCompletionRequestImplFromJson(
+_CreateChatCompletionRequest _$CreateChatCompletionRequestFromJson(
         Map<String, dynamic> json) =>
-    _$CreateChatCompletionRequestImpl(
+    _CreateChatCompletionRequest(
       model: const _ChatCompletionModelConverter().fromJson(json['model']),
       messages: (json['messages'] as List<dynamic>)
           .map((e) => ChatCompletionMessage.fromJson(e as Map<String, dynamic>))
           .toList(),
-      store: json['store'] as bool? ?? false,
+      store: json['store'] as bool?,
+      reasoningEffort: $enumDecodeNullable(
+          _$ReasoningEffortEnumMap, json['reasoning_effort'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
       metadata: (json['metadata'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),
-      frequencyPenalty: (json['frequency_penalty'] as num?)?.toDouble() ?? 0.0,
+      frequencyPenalty: (json['frequency_penalty'] as num?)?.toDouble(),
       logitBias: (json['logit_bias'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, (e as num).toInt()),
       ),
@@ -321,15 +299,23 @@ _$CreateChatCompletionRequestImpl _$$CreateChatCompletionRequestImplFromJson(
       topLogprobs: (json['top_logprobs'] as num?)?.toInt(),
       maxTokens: (json['max_tokens'] as num?)?.toInt(),
       maxCompletionTokens: (json['max_completion_tokens'] as num?)?.toInt(),
-      n: (json['n'] as num?)?.toInt() ?? 1,
+      n: (json['n'] as num?)?.toInt(),
       modalities: (json['modalities'] as List<dynamic>?)
           ?.map((e) => $enumDecode(_$ChatCompletionModalityEnumMap, e))
           .toList(),
+      prediction: json['prediction'] == null
+          ? null
+          : PredictionContent.fromJson(
+              json['prediction'] as Map<String, dynamic>),
       audio: json['audio'] == null
           ? null
           : ChatCompletionAudioOptions.fromJson(
               json['audio'] as Map<String, dynamic>),
-      presencePenalty: (json['presence_penalty'] as num?)?.toDouble() ?? 0.0,
+      presencePenalty: (json['presence_penalty'] as num?)?.toDouble(),
+      webSearchOptions: json['web_search_options'] == null
+          ? null
+          : WebSearchOptions.fromJson(
+              json['web_search_options'] as Map<String, dynamic>),
       responseFormat: json['response_format'] == null
           ? null
           : ResponseFormat.fromJson(
@@ -344,8 +330,8 @@ _$CreateChatCompletionRequestImpl _$$CreateChatCompletionRequestImplFromJson(
           ? null
           : ChatCompletionStreamOptions.fromJson(
               json['stream_options'] as Map<String, dynamic>),
-      temperature: (json['temperature'] as num?)?.toDouble() ?? 1.0,
-      topP: (json['top_p'] as num?)?.toDouble() ?? 1.0,
+      temperature: (json['temperature'] as num?)?.toDouble(),
+      topP: (json['top_p'] as num?)?.toDouble(),
       tools: (json['tools'] as List<dynamic>?)
           ?.map((e) => ChatCompletionTool.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -358,62 +344,77 @@ _$CreateChatCompletionRequestImpl _$$CreateChatCompletionRequestImplFromJson(
       functions: (json['functions'] as List<dynamic>?)
           ?.map((e) => FunctionObject.fromJson(e as Map<String, dynamic>))
           .toList(),
+      verbosity: $enumDecodeNullable(_$VerbosityEnumMap, json['verbosity'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
     );
 
-Map<String, dynamic> _$$CreateChatCompletionRequestImplToJson(
-    _$CreateChatCompletionRequestImpl instance) {
-  final val = <String, dynamic>{
-    'model': const _ChatCompletionModelConverter().toJson(instance.model),
-    'messages': instance.messages.map((e) => e.toJson()).toList(),
-  };
+Map<String, dynamic> _$CreateChatCompletionRequestToJson(
+        _CreateChatCompletionRequest instance) =>
+    <String, dynamic>{
+      'model': const _ChatCompletionModelConverter().toJson(instance.model),
+      'messages': instance.messages.map((e) => e.toJson()).toList(),
+      if (instance.store case final value?) 'store': value,
+      if (_$ReasoningEffortEnumMap[instance.reasoningEffort] case final value?)
+        'reasoning_effort': value,
+      if (instance.metadata case final value?) 'metadata': value,
+      if (instance.frequencyPenalty case final value?)
+        'frequency_penalty': value,
+      if (instance.logitBias case final value?) 'logit_bias': value,
+      if (instance.logprobs case final value?) 'logprobs': value,
+      if (instance.topLogprobs case final value?) 'top_logprobs': value,
+      if (instance.maxTokens case final value?) 'max_tokens': value,
+      if (instance.maxCompletionTokens case final value?)
+        'max_completion_tokens': value,
+      if (instance.n case final value?) 'n': value,
+      if (instance.modalities
+              ?.map((e) => _$ChatCompletionModalityEnumMap[e]!)
+              .toList()
+          case final value?)
+        'modalities': value,
+      if (instance.prediction?.toJson() case final value?) 'prediction': value,
+      if (instance.audio?.toJson() case final value?) 'audio': value,
+      if (instance.presencePenalty case final value?) 'presence_penalty': value,
+      if (instance.webSearchOptions?.toJson() case final value?)
+        'web_search_options': value,
+      if (instance.responseFormat?.toJson() case final value?)
+        'response_format': value,
+      if (instance.seed case final value?) 'seed': value,
+      if (_$CreateChatCompletionRequestServiceTierEnumMap[instance.serviceTier]
+          case final value?)
+        'service_tier': value,
+      if (const _ChatCompletionStopConverter().toJson(instance.stop)
+          case final value?)
+        'stop': value,
+      if (instance.stream case final value?) 'stream': value,
+      if (instance.streamOptions?.toJson() case final value?)
+        'stream_options': value,
+      if (instance.temperature case final value?) 'temperature': value,
+      if (instance.topP case final value?) 'top_p': value,
+      if (instance.tools?.map((e) => e.toJson()).toList() case final value?)
+        'tools': value,
+      if (const _ChatCompletionToolChoiceOptionConverter()
+              .toJson(instance.toolChoice)
+          case final value?)
+        'tool_choice': value,
+      if (instance.parallelToolCalls case final value?)
+        'parallel_tool_calls': value,
+      if (instance.user case final value?) 'user': value,
+      if (const _ChatCompletionFunctionCallConverter()
+              .toJson(instance.functionCall)
+          case final value?)
+        'function_call': value,
+      if (instance.functions?.map((e) => e.toJson()).toList() case final value?)
+        'functions': value,
+      if (_$VerbosityEnumMap[instance.verbosity] case final value?)
+        'verbosity': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('store', instance.store);
-  writeNotNull('metadata', instance.metadata);
-  writeNotNull('frequency_penalty', instance.frequencyPenalty);
-  writeNotNull('logit_bias', instance.logitBias);
-  writeNotNull('logprobs', instance.logprobs);
-  writeNotNull('top_logprobs', instance.topLogprobs);
-  writeNotNull('max_tokens', instance.maxTokens);
-  writeNotNull('max_completion_tokens', instance.maxCompletionTokens);
-  writeNotNull('n', instance.n);
-  writeNotNull(
-      'modalities',
-      instance.modalities
-          ?.map((e) => _$ChatCompletionModalityEnumMap[e]!)
-          .toList());
-  writeNotNull('audio', instance.audio?.toJson());
-  writeNotNull('presence_penalty', instance.presencePenalty);
-  writeNotNull('response_format', instance.responseFormat?.toJson());
-  writeNotNull('seed', instance.seed);
-  writeNotNull('service_tier',
-      _$CreateChatCompletionRequestServiceTierEnumMap[instance.serviceTier]);
-  writeNotNull(
-      'stop', const _ChatCompletionStopConverter().toJson(instance.stop));
-  writeNotNull('stream', instance.stream);
-  writeNotNull('stream_options', instance.streamOptions?.toJson());
-  writeNotNull('temperature', instance.temperature);
-  writeNotNull('top_p', instance.topP);
-  writeNotNull('tools', instance.tools?.map((e) => e.toJson()).toList());
-  writeNotNull(
-      'tool_choice',
-      const _ChatCompletionToolChoiceOptionConverter()
-          .toJson(instance.toolChoice));
-  writeNotNull('parallel_tool_calls', instance.parallelToolCalls);
-  writeNotNull('user', instance.user);
-  writeNotNull(
-      'function_call',
-      const _ChatCompletionFunctionCallConverter()
-          .toJson(instance.functionCall));
-  writeNotNull(
-      'functions', instance.functions?.map((e) => e.toJson()).toList());
-  return val;
-}
+const _$ReasoningEffortEnumMap = {
+  ReasoningEffort.minimal: 'minimal',
+  ReasoningEffort.low: 'low',
+  ReasoningEffort.medium: 'medium',
+  ReasoningEffort.high: 'high',
+};
 
 const _$ChatCompletionModalityEnumMap = {
   ChatCompletionModality.text: 'text',
@@ -423,112 +424,154 @@ const _$ChatCompletionModalityEnumMap = {
 const _$CreateChatCompletionRequestServiceTierEnumMap = {
   CreateChatCompletionRequestServiceTier.auto: 'auto',
   CreateChatCompletionRequestServiceTier.vDefault: 'default',
+  CreateChatCompletionRequestServiceTier.flex: 'flex',
 };
 
-_$ChatCompletionModelEnumerationImpl
-    _$$ChatCompletionModelEnumerationImplFromJson(Map<String, dynamic> json) =>
-        _$ChatCompletionModelEnumerationImpl(
-          $enumDecode(_$ChatCompletionModelsEnumMap, json['value']),
-          $type: json['runtimeType'] as String?,
-        );
+const _$VerbosityEnumMap = {
+  Verbosity.low: 'low',
+  Verbosity.medium: 'medium',
+  Verbosity.high: 'high',
+};
 
-Map<String, dynamic> _$$ChatCompletionModelEnumerationImplToJson(
-        _$ChatCompletionModelEnumerationImpl instance) =>
+ChatCompletionModelEnumeration _$ChatCompletionModelEnumerationFromJson(
+        Map<String, dynamic> json) =>
+    ChatCompletionModelEnumeration(
+      $enumDecode(_$ChatCompletionModelsEnumMap, json['value']),
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$ChatCompletionModelEnumerationToJson(
+        ChatCompletionModelEnumeration instance) =>
     <String, dynamic>{
       'value': _$ChatCompletionModelsEnumMap[instance.value]!,
       'runtimeType': instance.$type,
     };
 
 const _$ChatCompletionModelsEnumMap = {
-  ChatCompletionModels.chatgpt4oLatest: 'chatgpt-4o-latest',
-  ChatCompletionModels.gpt4: 'gpt-4',
-  ChatCompletionModels.gpt432k: 'gpt-4-32k',
-  ChatCompletionModels.gpt432k0314: 'gpt-4-32k-0314',
-  ChatCompletionModels.gpt432k0613: 'gpt-4-32k-0613',
-  ChatCompletionModels.gpt40125Preview: 'gpt-4-0125-preview',
-  ChatCompletionModels.gpt40314: 'gpt-4-0314',
-  ChatCompletionModels.gpt40613: 'gpt-4-0613',
-  ChatCompletionModels.gpt41106Preview: 'gpt-4-1106-preview',
-  ChatCompletionModels.gpt4Turbo: 'gpt-4-turbo',
-  ChatCompletionModels.gpt4Turbo20240409: 'gpt-4-turbo-2024-04-09',
-  ChatCompletionModels.gpt4TurboPreview: 'gpt-4-turbo-preview',
-  ChatCompletionModels.gpt4VisionPreview: 'gpt-4-vision-preview',
+  ChatCompletionModels.gpt5: 'gpt-5',
+  ChatCompletionModels.gpt5Mini: 'gpt-5-mini',
+  ChatCompletionModels.gpt5Nano: 'gpt-5-nano',
+  ChatCompletionModels.gpt520250807: 'gpt-5-2025-08-07',
+  ChatCompletionModels.gpt5Mini20250807: 'gpt-5-mini-2025-08-07',
+  ChatCompletionModels.gpt5Nano20250807: 'gpt-5-nano-2025-08-07',
+  ChatCompletionModels.gpt5ChatLatest: 'gpt-5-chat-latest',
+  ChatCompletionModels.gpt41: 'gpt-4.1',
+  ChatCompletionModels.gpt41Mini: 'gpt-4.1-mini',
+  ChatCompletionModels.gpt41Nano: 'gpt-4.1-nano',
+  ChatCompletionModels.gpt4120250414: 'gpt-4.1-2025-04-14',
+  ChatCompletionModels.gpt41Mini20250414: 'gpt-4.1-mini-2025-04-14',
+  ChatCompletionModels.gpt41Nano20250414: 'gpt-4.1-nano-2025-04-14',
+  ChatCompletionModels.o4Mini: 'o4-mini',
+  ChatCompletionModels.o4Mini20250416: 'o4-mini-2025-04-16',
+  ChatCompletionModels.o3: 'o3',
+  ChatCompletionModels.o320250416: 'o3-2025-04-16',
+  ChatCompletionModels.o3Mini: 'o3-mini',
+  ChatCompletionModels.o3Mini20250131: 'o3-mini-2025-01-31',
+  ChatCompletionModels.o1: 'o1',
+  ChatCompletionModels.o120241217: 'o1-2024-12-17',
+  ChatCompletionModels.o1Preview: 'o1-preview',
+  ChatCompletionModels.o1Preview20240912: 'o1-preview-2024-09-12',
+  ChatCompletionModels.o1Mini: 'o1-mini',
+  ChatCompletionModels.o1Mini20240912: 'o1-mini-2024-09-12',
   ChatCompletionModels.gpt4o: 'gpt-4o',
-  ChatCompletionModels.gpt4o20240513: 'gpt-4o-2024-05-13',
+  ChatCompletionModels.gpt4o20241120: 'gpt-4o-2024-11-20',
   ChatCompletionModels.gpt4o20240806: 'gpt-4o-2024-08-06',
+  ChatCompletionModels.gpt4o20240513: 'gpt-4o-2024-05-13',
   ChatCompletionModels.gpt4oAudioPreview: 'gpt-4o-audio-preview',
   ChatCompletionModels.gpt4oAudioPreview20241001:
       'gpt-4o-audio-preview-2024-10-01',
+  ChatCompletionModels.gpt4oAudioPreview20241217:
+      'gpt-4o-audio-preview-2024-12-17',
+  ChatCompletionModels.gpt4oAudioPreview20250603:
+      'gpt-4o-audio-preview-2025-06-03',
+  ChatCompletionModels.gpt4oMiniAudioPreview: 'gpt-4o-mini-audio-preview',
+  ChatCompletionModels.gpt4oMiniAudioPreview20241217:
+      'gpt-4o-mini-audio-preview-2024-12-17',
+  ChatCompletionModels.gpt4oSearchPreview: 'gpt-4o-search-preview',
+  ChatCompletionModels.gpt4oMiniSearchPreview: 'gpt-4o-mini-search-preview',
+  ChatCompletionModels.gpt4oSearchPreview20250311:
+      'gpt-4o-search-preview-2025-03-11',
+  ChatCompletionModels.gpt4oMiniSearchPreview20250311:
+      'gpt-4o-mini-search-preview-2025-03-11',
+  ChatCompletionModels.chatgpt4oLatest: 'chatgpt-4o-latest',
+  ChatCompletionModels.codexMiniLatest: 'codex-mini-latest',
   ChatCompletionModels.gpt4oMini: 'gpt-4o-mini',
   ChatCompletionModels.gpt4oMini20240718: 'gpt-4o-mini-2024-07-18',
-  ChatCompletionModels.gpt4oRealtimePreview: 'gpt-4o-realtime-preview',
-  ChatCompletionModels.gpt4oRealtimePreview20241001:
-      'gpt-4o-realtime-preview-2024-10-01',
+  ChatCompletionModels.gpt45Preview: 'gpt-4.5-preview',
+  ChatCompletionModels.gpt45Preview20250227: 'gpt-4.5-preview-2025-02-27',
+  ChatCompletionModels.gpt4Turbo: 'gpt-4-turbo',
+  ChatCompletionModels.gpt4Turbo20240409: 'gpt-4-turbo-2024-04-09',
+  ChatCompletionModels.gpt40125Preview: 'gpt-4-0125-preview',
+  ChatCompletionModels.gpt4TurboPreview: 'gpt-4-turbo-preview',
+  ChatCompletionModels.gpt41106Preview: 'gpt-4-1106-preview',
+  ChatCompletionModels.gpt4VisionPreview: 'gpt-4-vision-preview',
+  ChatCompletionModels.gpt4: 'gpt-4',
+  ChatCompletionModels.gpt40314: 'gpt-4-0314',
+  ChatCompletionModels.gpt40613: 'gpt-4-0613',
+  ChatCompletionModels.gpt432k: 'gpt-4-32k',
+  ChatCompletionModels.gpt432k0314: 'gpt-4-32k-0314',
+  ChatCompletionModels.gpt432k0613: 'gpt-4-32k-0613',
   ChatCompletionModels.gpt35Turbo: 'gpt-3.5-turbo',
   ChatCompletionModels.gpt35Turbo16k: 'gpt-3.5-turbo-16k',
-  ChatCompletionModels.gpt35Turbo16k0613: 'gpt-3.5-turbo-16k-0613',
-  ChatCompletionModels.gpt35Turbo0125: 'gpt-3.5-turbo-0125',
   ChatCompletionModels.gpt35Turbo0301: 'gpt-3.5-turbo-0301',
   ChatCompletionModels.gpt35Turbo0613: 'gpt-3.5-turbo-0613',
   ChatCompletionModels.gpt35Turbo1106: 'gpt-3.5-turbo-1106',
-  ChatCompletionModels.o1Mini: 'o1-mini',
-  ChatCompletionModels.o1Mini20240912: 'o1-mini-2024-09-12',
-  ChatCompletionModels.o1Preview: 'o1-preview',
-  ChatCompletionModels.o1Preview20240912: 'o1-preview-2024-09-12',
+  ChatCompletionModels.gpt35Turbo0125: 'gpt-3.5-turbo-0125',
+  ChatCompletionModels.gpt35Turbo16k0613: 'gpt-3.5-turbo-16k-0613',
 };
 
-_$ChatCompletionModelStringImpl _$$ChatCompletionModelStringImplFromJson(
+ChatCompletionModelString _$ChatCompletionModelStringFromJson(
         Map<String, dynamic> json) =>
-    _$ChatCompletionModelStringImpl(
+    ChatCompletionModelString(
       json['value'] as String,
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$ChatCompletionModelStringImplToJson(
-        _$ChatCompletionModelStringImpl instance) =>
+Map<String, dynamic> _$ChatCompletionModelStringToJson(
+        ChatCompletionModelString instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$ChatCompletionStopListStringImpl _$$ChatCompletionStopListStringImplFromJson(
+ChatCompletionStopListString _$ChatCompletionStopListStringFromJson(
         Map<String, dynamic> json) =>
-    _$ChatCompletionStopListStringImpl(
+    ChatCompletionStopListString(
       (json['value'] as List<dynamic>).map((e) => e as String).toList(),
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$ChatCompletionStopListStringImplToJson(
-        _$ChatCompletionStopListStringImpl instance) =>
+Map<String, dynamic> _$ChatCompletionStopListStringToJson(
+        ChatCompletionStopListString instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$ChatCompletionStopStringImpl _$$ChatCompletionStopStringImplFromJson(
+ChatCompletionStopString _$ChatCompletionStopStringFromJson(
         Map<String, dynamic> json) =>
-    _$ChatCompletionStopStringImpl(
+    ChatCompletionStopString(
       json['value'] as String?,
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$ChatCompletionStopStringImplToJson(
-        _$ChatCompletionStopStringImpl instance) =>
+Map<String, dynamic> _$ChatCompletionStopStringToJson(
+        ChatCompletionStopString instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$ChatCompletionToolChoiceOptionEnumerationImpl
-    _$$ChatCompletionToolChoiceOptionEnumerationImplFromJson(
+ChatCompletionToolChoiceOptionEnumeration
+    _$ChatCompletionToolChoiceOptionEnumerationFromJson(
             Map<String, dynamic> json) =>
-        _$ChatCompletionToolChoiceOptionEnumerationImpl(
+        ChatCompletionToolChoiceOptionEnumeration(
           $enumDecode(_$ChatCompletionToolChoiceModeEnumMap, json['value']),
           $type: json['runtimeType'] as String?,
         );
 
-Map<String, dynamic> _$$ChatCompletionToolChoiceOptionEnumerationImplToJson(
-        _$ChatCompletionToolChoiceOptionEnumerationImpl instance) =>
+Map<String, dynamic> _$ChatCompletionToolChoiceOptionEnumerationToJson(
+        ChatCompletionToolChoiceOptionEnumeration instance) =>
     <String, dynamic>{
       'value': _$ChatCompletionToolChoiceModeEnumMap[instance.value]!,
       'runtimeType': instance.$type,
@@ -540,34 +583,34 @@ const _$ChatCompletionToolChoiceModeEnumMap = {
   ChatCompletionToolChoiceMode.required: 'required',
 };
 
-_$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl
-    _$$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImplFromJson(
+ChatCompletionToolChoiceOptionChatCompletionNamedToolChoice
+    _$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceFromJson(
             Map<String, dynamic> json) =>
-        _$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl(
+        ChatCompletionToolChoiceOptionChatCompletionNamedToolChoice(
           ChatCompletionNamedToolChoice.fromJson(
               json['value'] as Map<String, dynamic>),
           $type: json['runtimeType'] as String?,
         );
 
 Map<String, dynamic>
-    _$$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImplToJson(
-            _$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl
+    _$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceToJson(
+            ChatCompletionToolChoiceOptionChatCompletionNamedToolChoice
                 instance) =>
         <String, dynamic>{
           'value': instance.value.toJson(),
           'runtimeType': instance.$type,
         };
 
-_$ChatCompletionFunctionCallEnumerationImpl
-    _$$ChatCompletionFunctionCallEnumerationImplFromJson(
+ChatCompletionFunctionCallEnumeration
+    _$ChatCompletionFunctionCallEnumerationFromJson(
             Map<String, dynamic> json) =>
-        _$ChatCompletionFunctionCallEnumerationImpl(
+        ChatCompletionFunctionCallEnumeration(
           $enumDecode(_$ChatCompletionFunctionCallModeEnumMap, json['value']),
           $type: json['runtimeType'] as String?,
         );
 
-Map<String, dynamic> _$$ChatCompletionFunctionCallEnumerationImplToJson(
-        _$ChatCompletionFunctionCallEnumerationImpl instance) =>
+Map<String, dynamic> _$ChatCompletionFunctionCallEnumerationToJson(
+        ChatCompletionFunctionCallEnumeration instance) =>
     <String, dynamic>{
       'value': _$ChatCompletionFunctionCallModeEnumMap[instance.value]!,
       'runtimeType': instance.$type,
@@ -578,115 +621,89 @@ const _$ChatCompletionFunctionCallModeEnumMap = {
   ChatCompletionFunctionCallMode.auto: 'auto',
 };
 
-_$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl
-    _$$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImplFromJson(
+ChatCompletionFunctionCallChatCompletionFunctionCallOption
+    _$ChatCompletionFunctionCallChatCompletionFunctionCallOptionFromJson(
             Map<String, dynamic> json) =>
-        _$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl(
+        ChatCompletionFunctionCallChatCompletionFunctionCallOption(
           ChatCompletionFunctionCallOption.fromJson(
               json['value'] as Map<String, dynamic>),
           $type: json['runtimeType'] as String?,
         );
 
-Map<String, dynamic>
-    _$$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImplToJson(
-            _$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl
-                instance) =>
-        <String, dynamic>{
-          'value': instance.value.toJson(),
-          'runtimeType': instance.$type,
-        };
+Map<String,
+    dynamic> _$ChatCompletionFunctionCallChatCompletionFunctionCallOptionToJson(
+        ChatCompletionFunctionCallChatCompletionFunctionCallOption instance) =>
+    <String, dynamic>{
+      'value': instance.value.toJson(),
+      'runtimeType': instance.$type,
+    };
 
-_$ChatCompletionMessageFunctionCallImpl
-    _$$ChatCompletionMessageFunctionCallImplFromJson(
-            Map<String, dynamic> json) =>
-        _$ChatCompletionMessageFunctionCallImpl(
-          name: json['name'] as String,
-          arguments: json['arguments'] as String,
-        );
+_ChatCompletionMessageFunctionCall _$ChatCompletionMessageFunctionCallFromJson(
+        Map<String, dynamic> json) =>
+    _ChatCompletionMessageFunctionCall(
+      name: json['name'] as String,
+      arguments: json['arguments'] as String,
+    );
 
-Map<String, dynamic> _$$ChatCompletionMessageFunctionCallImplToJson(
-        _$ChatCompletionMessageFunctionCallImpl instance) =>
+Map<String, dynamic> _$ChatCompletionMessageFunctionCallToJson(
+        _ChatCompletionMessageFunctionCall instance) =>
     <String, dynamic>{
       'name': instance.name,
       'arguments': instance.arguments,
     };
 
-_$ChatCompletionFunctionCallOptionImpl
-    _$$ChatCompletionFunctionCallOptionImplFromJson(
-            Map<String, dynamic> json) =>
-        _$ChatCompletionFunctionCallOptionImpl(
-          name: json['name'] as String,
-        );
+_ChatCompletionFunctionCallOption _$ChatCompletionFunctionCallOptionFromJson(
+        Map<String, dynamic> json) =>
+    _ChatCompletionFunctionCallOption(
+      name: json['name'] as String,
+    );
 
-Map<String, dynamic> _$$ChatCompletionFunctionCallOptionImplToJson(
-        _$ChatCompletionFunctionCallOptionImpl instance) =>
+Map<String, dynamic> _$ChatCompletionFunctionCallOptionToJson(
+        _ChatCompletionFunctionCallOption instance) =>
     <String, dynamic>{
       'name': instance.name,
     };
 
-_$FunctionObjectImpl _$$FunctionObjectImplFromJson(Map<String, dynamic> json) =>
-    _$FunctionObjectImpl(
+_FunctionObject _$FunctionObjectFromJson(Map<String, dynamic> json) =>
+    _FunctionObject(
       name: json['name'] as String,
       description: json['description'] as String?,
       parameters: json['parameters'] as Map<String, dynamic>?,
       strict: json['strict'] as bool? ?? false,
     );
 
-Map<String, dynamic> _$$FunctionObjectImplToJson(
-    _$FunctionObjectImpl instance) {
-  final val = <String, dynamic>{
-    'name': instance.name,
-  };
+Map<String, dynamic> _$FunctionObjectToJson(_FunctionObject instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      if (instance.description case final value?) 'description': value,
+      if (instance.parameters case final value?) 'parameters': value,
+      if (instance.strict case final value?) 'strict': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('description', instance.description);
-  writeNotNull('parameters', instance.parameters);
-  writeNotNull('strict', instance.strict);
-  return val;
-}
-
-_$JsonSchemaObjectImpl _$$JsonSchemaObjectImplFromJson(
-        Map<String, dynamic> json) =>
-    _$JsonSchemaObjectImpl(
+_JsonSchemaObject _$JsonSchemaObjectFromJson(Map<String, dynamic> json) =>
+    _JsonSchemaObject(
       name: json['name'] as String,
       description: json['description'] as String?,
       schema: json['schema'] as Map<String, dynamic>,
       strict: json['strict'] as bool? ?? false,
     );
 
-Map<String, dynamic> _$$JsonSchemaObjectImplToJson(
-    _$JsonSchemaObjectImpl instance) {
-  final val = <String, dynamic>{
-    'name': instance.name,
-  };
+Map<String, dynamic> _$JsonSchemaObjectToJson(_JsonSchemaObject instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      if (instance.description case final value?) 'description': value,
+      'schema': instance.schema,
+      if (instance.strict case final value?) 'strict': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('description', instance.description);
-  val['schema'] = instance.schema;
-  writeNotNull('strict', instance.strict);
-  return val;
-}
-
-_$ChatCompletionToolImpl _$$ChatCompletionToolImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ChatCompletionToolImpl(
+_ChatCompletionTool _$ChatCompletionToolFromJson(Map<String, dynamic> json) =>
+    _ChatCompletionTool(
       type: $enumDecode(_$ChatCompletionToolTypeEnumMap, json['type']),
       function:
           FunctionObject.fromJson(json['function'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$ChatCompletionToolImplToJson(
-        _$ChatCompletionToolImpl instance) =>
+Map<String, dynamic> _$ChatCompletionToolToJson(_ChatCompletionTool instance) =>
     <String, dynamic>{
       'type': _$ChatCompletionToolTypeEnumMap[instance.type]!,
       'function': instance.function.toJson(),
@@ -696,17 +713,17 @@ const _$ChatCompletionToolTypeEnumMap = {
   ChatCompletionToolType.function: 'function',
 };
 
-_$ChatCompletionNamedToolChoiceImpl
-    _$$ChatCompletionNamedToolChoiceImplFromJson(Map<String, dynamic> json) =>
-        _$ChatCompletionNamedToolChoiceImpl(
-          type: $enumDecode(
-              _$ChatCompletionNamedToolChoiceTypeEnumMap, json['type']),
-          function: ChatCompletionFunctionCallOption.fromJson(
-              json['function'] as Map<String, dynamic>),
-        );
+_ChatCompletionNamedToolChoice _$ChatCompletionNamedToolChoiceFromJson(
+        Map<String, dynamic> json) =>
+    _ChatCompletionNamedToolChoice(
+      type:
+          $enumDecode(_$ChatCompletionNamedToolChoiceTypeEnumMap, json['type']),
+      function: ChatCompletionFunctionCallOption.fromJson(
+          json['function'] as Map<String, dynamic>),
+    );
 
-Map<String, dynamic> _$$ChatCompletionNamedToolChoiceImplToJson(
-        _$ChatCompletionNamedToolChoiceImpl instance) =>
+Map<String, dynamic> _$ChatCompletionNamedToolChoiceToJson(
+        _ChatCompletionNamedToolChoice instance) =>
     <String, dynamic>{
       'type': _$ChatCompletionNamedToolChoiceTypeEnumMap[instance.type]!,
       'function': instance.function.toJson(),
@@ -716,18 +733,18 @@ const _$ChatCompletionNamedToolChoiceTypeEnumMap = {
   ChatCompletionNamedToolChoiceType.function: 'function',
 };
 
-_$ChatCompletionMessageToolCallImpl
-    _$$ChatCompletionMessageToolCallImplFromJson(Map<String, dynamic> json) =>
-        _$ChatCompletionMessageToolCallImpl(
-          id: json['id'] as String,
-          type: $enumDecode(
-              _$ChatCompletionMessageToolCallTypeEnumMap, json['type']),
-          function: ChatCompletionMessageFunctionCall.fromJson(
-              json['function'] as Map<String, dynamic>),
-        );
+_ChatCompletionMessageToolCall _$ChatCompletionMessageToolCallFromJson(
+        Map<String, dynamic> json) =>
+    _ChatCompletionMessageToolCall(
+      id: json['id'] as String,
+      type:
+          $enumDecode(_$ChatCompletionMessageToolCallTypeEnumMap, json['type']),
+      function: ChatCompletionMessageFunctionCall.fromJson(
+          json['function'] as Map<String, dynamic>),
+    );
 
-Map<String, dynamic> _$$ChatCompletionMessageToolCallImplToJson(
-        _$ChatCompletionMessageToolCallImpl instance) =>
+Map<String, dynamic> _$ChatCompletionMessageToolCallToJson(
+        _ChatCompletionMessageToolCall instance) =>
     <String, dynamic>{
       'id': instance.id,
       'type': _$ChatCompletionMessageToolCallTypeEnumMap[instance.type]!,
@@ -738,15 +755,97 @@ const _$ChatCompletionMessageToolCallTypeEnumMap = {
   ChatCompletionMessageToolCallType.function: 'function',
 };
 
-_$ChatCompletionAudioOptionsImpl _$$ChatCompletionAudioOptionsImplFromJson(
+_Annotation _$AnnotationFromJson(Map<String, dynamic> json) => _Annotation(
+      type: $enumDecode(_$AnnotationTypeEnumMap, json['type']),
+      urlCitation: AnnotationUrlCitation.fromJson(
+          json['url_citation'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$AnnotationToJson(_Annotation instance) =>
+    <String, dynamic>{
+      'type': _$AnnotationTypeEnumMap[instance.type]!,
+      'url_citation': instance.urlCitation.toJson(),
+    };
+
+const _$AnnotationTypeEnumMap = {
+  AnnotationType.urlCitation: 'url_citation',
+};
+
+_AnnotationUrlCitation _$AnnotationUrlCitationFromJson(
         Map<String, dynamic> json) =>
-    _$ChatCompletionAudioOptionsImpl(
+    _AnnotationUrlCitation(
+      endIndex: (json['end_index'] as num?)?.toInt(),
+      startIndex: (json['start_index'] as num?)?.toInt(),
+      url: json['url'] as String?,
+      title: json['title'] as String?,
+    );
+
+Map<String, dynamic> _$AnnotationUrlCitationToJson(
+        _AnnotationUrlCitation instance) =>
+    <String, dynamic>{
+      if (instance.endIndex case final value?) 'end_index': value,
+      if (instance.startIndex case final value?) 'start_index': value,
+      if (instance.url case final value?) 'url': value,
+      if (instance.title case final value?) 'title': value,
+    };
+
+_PredictionContent _$PredictionContentFromJson(Map<String, dynamic> json) =>
+    _PredictionContent(
+      type: json['type'] as String? ?? 'content',
+      content:
+          const _PredictionContentContentConverter().fromJson(json['content']),
+    );
+
+Map<String, dynamic> _$PredictionContentToJson(_PredictionContent instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      'content':
+          const _PredictionContentContentConverter().toJson(instance.content),
+    };
+
+PredictionContentContentListChatCompletionMessageContentPartText
+    _$PredictionContentContentListChatCompletionMessageContentPartTextFromJson(
+            Map<String, dynamic> json) =>
+        PredictionContentContentListChatCompletionMessageContentPartText(
+          (json['value'] as List<dynamic>)
+              .map((e) => ChatCompletionMessageContentPartText.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+          $type: json['runtimeType'] as String?,
+        );
+
+Map<String, dynamic>
+    _$PredictionContentContentListChatCompletionMessageContentPartTextToJson(
+            PredictionContentContentListChatCompletionMessageContentPartText
+                instance) =>
+        <String, dynamic>{
+          'value': instance.value.map((e) => e.toJson()).toList(),
+          'runtimeType': instance.$type,
+        };
+
+PredictionContentContentString _$PredictionContentContentStringFromJson(
+        Map<String, dynamic> json) =>
+    PredictionContentContentString(
+      json['value'] as String,
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$PredictionContentContentStringToJson(
+        PredictionContentContentString instance) =>
+    <String, dynamic>{
+      'value': instance.value,
+      'runtimeType': instance.$type,
+    };
+
+_ChatCompletionAudioOptions _$ChatCompletionAudioOptionsFromJson(
+        Map<String, dynamic> json) =>
+    _ChatCompletionAudioOptions(
       voice: $enumDecode(_$ChatCompletionAudioVoiceEnumMap, json['voice']),
       format: $enumDecode(_$ChatCompletionAudioFormatEnumMap, json['format']),
     );
 
-Map<String, dynamic> _$$ChatCompletionAudioOptionsImplToJson(
-        _$ChatCompletionAudioOptionsImpl instance) =>
+Map<String, dynamic> _$ChatCompletionAudioOptionsToJson(
+        _ChatCompletionAudioOptions instance) =>
     <String, dynamic>{
       'voice': _$ChatCompletionAudioVoiceEnumMap[instance.voice]!,
       'format': _$ChatCompletionAudioFormatEnumMap[instance.format]!,
@@ -771,29 +870,21 @@ const _$ChatCompletionAudioFormatEnumMap = {
   ChatCompletionAudioFormat.pcm16: 'pcm16',
 };
 
-_$ChatCompletionStreamOptionsImpl _$$ChatCompletionStreamOptionsImplFromJson(
+_ChatCompletionStreamOptions _$ChatCompletionStreamOptionsFromJson(
         Map<String, dynamic> json) =>
-    _$ChatCompletionStreamOptionsImpl(
+    _ChatCompletionStreamOptions(
       includeUsage: json['include_usage'] as bool?,
     );
 
-Map<String, dynamic> _$$ChatCompletionStreamOptionsImplToJson(
-    _$ChatCompletionStreamOptionsImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$ChatCompletionStreamOptionsToJson(
+        _ChatCompletionStreamOptions instance) =>
+    <String, dynamic>{
+      if (instance.includeUsage case final value?) 'include_usage': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('include_usage', instance.includeUsage);
-  return val;
-}
-
-_$CreateChatCompletionResponseImpl _$$CreateChatCompletionResponseImplFromJson(
+_CreateChatCompletionResponse _$CreateChatCompletionResponseFromJson(
         Map<String, dynamic> json) =>
-    _$CreateChatCompletionResponseImpl(
+    _CreateChatCompletionResponse(
       id: json['id'] as String?,
       choices: (json['choices'] as List<dynamic>)
           .map((e) =>
@@ -811,35 +902,30 @@ _$CreateChatCompletionResponseImpl _$$CreateChatCompletionResponseImplFromJson(
           : CompletionUsage.fromJson(json['usage'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$CreateChatCompletionResponseImplToJson(
-    _$CreateChatCompletionResponseImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('id', instance.id);
-  val['choices'] = instance.choices.map((e) => e.toJson()).toList();
-  val['created'] = instance.created;
-  val['model'] = instance.model;
-  writeNotNull('service_tier', _$ServiceTierEnumMap[instance.serviceTier]);
-  writeNotNull('system_fingerprint', instance.systemFingerprint);
-  val['object'] = instance.object;
-  writeNotNull('usage', instance.usage?.toJson());
-  return val;
-}
+Map<String, dynamic> _$CreateChatCompletionResponseToJson(
+        _CreateChatCompletionResponse instance) =>
+    <String, dynamic>{
+      if (instance.id case final value?) 'id': value,
+      'choices': instance.choices.map((e) => e.toJson()).toList(),
+      'created': instance.created,
+      'model': instance.model,
+      if (_$ServiceTierEnumMap[instance.serviceTier] case final value?)
+        'service_tier': value,
+      if (instance.systemFingerprint case final value?)
+        'system_fingerprint': value,
+      'object': instance.object,
+      if (instance.usage?.toJson() case final value?) 'usage': value,
+    };
 
 const _$ServiceTierEnumMap = {
-  ServiceTier.scale: 'scale',
+  ServiceTier.auto: 'auto',
   ServiceTier.vDefault: 'default',
+  ServiceTier.flex: 'flex',
 };
 
-_$ChatCompletionResponseChoiceImpl _$$ChatCompletionResponseChoiceImplFromJson(
+_ChatCompletionResponseChoice _$ChatCompletionResponseChoiceFromJson(
         Map<String, dynamic> json) =>
-    _$ChatCompletionResponseChoiceImpl(
+    _ChatCompletionResponseChoice(
       finishReason: $enumDecodeNullable(
           _$ChatCompletionFinishReasonEnumMap, json['finish_reason'],
           unknownValue: JsonKey.nullForUndefinedEnumValue),
@@ -852,23 +938,15 @@ _$ChatCompletionResponseChoiceImpl _$$ChatCompletionResponseChoiceImplFromJson(
               json['logprobs'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$ChatCompletionResponseChoiceImplToJson(
-    _$ChatCompletionResponseChoiceImpl instance) {
-  final val = <String, dynamic>{
-    'finish_reason': _$ChatCompletionFinishReasonEnumMap[instance.finishReason],
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('index', instance.index);
-  val['message'] = instance.message.toJson();
-  val['logprobs'] = instance.logprobs?.toJson();
-  return val;
-}
+Map<String, dynamic> _$ChatCompletionResponseChoiceToJson(
+        _ChatCompletionResponseChoice instance) =>
+    <String, dynamic>{
+      'finish_reason':
+          _$ChatCompletionFinishReasonEnumMap[instance.finishReason],
+      if (instance.index case final value?) 'index': value,
+      'message': instance.message.toJson(),
+      'logprobs': instance.logprobs?.toJson(),
+    };
 
 const _$ChatCompletionFinishReasonEnumMap = {
   ChatCompletionFinishReason.stop: 'stop',
@@ -878,9 +956,9 @@ const _$ChatCompletionFinishReasonEnumMap = {
   ChatCompletionFinishReason.functionCall: 'function_call',
 };
 
-_$ChatCompletionLogprobsImpl _$$ChatCompletionLogprobsImplFromJson(
+_ChatCompletionLogprobs _$ChatCompletionLogprobsFromJson(
         Map<String, dynamic> json) =>
-    _$ChatCompletionLogprobsImpl(
+    _ChatCompletionLogprobs(
       content: (json['content'] as List<dynamic>?)
           ?.map((e) =>
               ChatCompletionTokenLogprob.fromJson(e as Map<String, dynamic>))
@@ -891,24 +969,18 @@ _$ChatCompletionLogprobsImpl _$$ChatCompletionLogprobsImplFromJson(
           .toList(),
     );
 
-Map<String, dynamic> _$$ChatCompletionLogprobsImplToJson(
-    _$ChatCompletionLogprobsImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$ChatCompletionLogprobsToJson(
+        _ChatCompletionLogprobs instance) =>
+    <String, dynamic>{
+      if (instance.content?.map((e) => e.toJson()).toList() case final value?)
+        'content': value,
+      if (instance.refusal?.map((e) => e.toJson()).toList() case final value?)
+        'refusal': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('content', instance.content?.map((e) => e.toJson()).toList());
-  writeNotNull('refusal', instance.refusal?.map((e) => e.toJson()).toList());
-  return val;
-}
-
-_$ChatCompletionTokenLogprobImpl _$$ChatCompletionTokenLogprobImplFromJson(
+_ChatCompletionTokenLogprob _$ChatCompletionTokenLogprobFromJson(
         Map<String, dynamic> json) =>
-    _$ChatCompletionTokenLogprobImpl(
+    _ChatCompletionTokenLogprob(
       token: json['token'] as String,
       logprob: (json['logprob'] as num).toDouble(),
       bytes: (json['bytes'] as List<dynamic>?)
@@ -920,8 +992,8 @@ _$ChatCompletionTokenLogprobImpl _$$ChatCompletionTokenLogprobImplFromJson(
           .toList(),
     );
 
-Map<String, dynamic> _$$ChatCompletionTokenLogprobImplToJson(
-        _$ChatCompletionTokenLogprobImpl instance) =>
+Map<String, dynamic> _$ChatCompletionTokenLogprobToJson(
+        _ChatCompletionTokenLogprob instance) =>
     <String, dynamic>{
       'token': instance.token,
       'logprob': instance.logprob,
@@ -929,31 +1001,30 @@ Map<String, dynamic> _$$ChatCompletionTokenLogprobImplToJson(
       'top_logprobs': instance.topLogprobs.map((e) => e.toJson()).toList(),
     };
 
-_$ChatCompletionTokenTopLogprobImpl
-    _$$ChatCompletionTokenTopLogprobImplFromJson(Map<String, dynamic> json) =>
-        _$ChatCompletionTokenTopLogprobImpl(
-          token: json['token'] as String,
-          logprob: (json['logprob'] as num).toDouble(),
-          bytes: (json['bytes'] as List<dynamic>?)
-              ?.map((e) => (e as num).toInt())
-              .toList(),
-        );
+_ChatCompletionTokenTopLogprob _$ChatCompletionTokenTopLogprobFromJson(
+        Map<String, dynamic> json) =>
+    _ChatCompletionTokenTopLogprob(
+      token: json['token'] as String,
+      logprob: (json['logprob'] as num).toDouble(),
+      bytes: (json['bytes'] as List<dynamic>?)
+          ?.map((e) => (e as num).toInt())
+          .toList(),
+    );
 
-Map<String, dynamic> _$$ChatCompletionTokenTopLogprobImplToJson(
-        _$ChatCompletionTokenTopLogprobImpl instance) =>
+Map<String, dynamic> _$ChatCompletionTokenTopLogprobToJson(
+        _ChatCompletionTokenTopLogprob instance) =>
     <String, dynamic>{
       'token': instance.token,
       'logprob': instance.logprob,
       'bytes': instance.bytes,
     };
 
-_$CreateChatCompletionStreamResponseImpl
-    _$$CreateChatCompletionStreamResponseImplFromJson(
-            Map<String, dynamic> json) =>
-        _$CreateChatCompletionStreamResponseImpl(
+_CreateChatCompletionStreamResponse
+    _$CreateChatCompletionStreamResponseFromJson(Map<String, dynamic> json) =>
+        _CreateChatCompletionStreamResponse(
           id: json['id'] as String?,
-          choices: (json['choices'] as List<dynamic>)
-              .map((e) => ChatCompletionStreamResponseChoice.fromJson(
+          choices: (json['choices'] as List<dynamic>?)
+              ?.map((e) => ChatCompletionStreamResponseChoice.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
           created: (json['created'] as num?)?.toInt(),
@@ -968,33 +1039,29 @@ _$CreateChatCompletionStreamResponseImpl
               : CompletionUsage.fromJson(json['usage'] as Map<String, dynamic>),
         );
 
-Map<String, dynamic> _$$CreateChatCompletionStreamResponseImplToJson(
-    _$CreateChatCompletionStreamResponseImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$CreateChatCompletionStreamResponseToJson(
+        _CreateChatCompletionStreamResponse instance) =>
+    <String, dynamic>{
+      if (instance.id case final value?) 'id': value,
+      if (instance.choices?.map((e) => e.toJson()).toList() case final value?)
+        'choices': value,
+      if (instance.created case final value?) 'created': value,
+      if (instance.model case final value?) 'model': value,
+      if (_$ServiceTierEnumMap[instance.serviceTier] case final value?)
+        'service_tier': value,
+      if (instance.systemFingerprint case final value?)
+        'system_fingerprint': value,
+      if (instance.object case final value?) 'object': value,
+      if (instance.usage?.toJson() case final value?) 'usage': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('id', instance.id);
-  val['choices'] = instance.choices.map((e) => e.toJson()).toList();
-  writeNotNull('created', instance.created);
-  writeNotNull('model', instance.model);
-  writeNotNull('service_tier', _$ServiceTierEnumMap[instance.serviceTier]);
-  writeNotNull('system_fingerprint', instance.systemFingerprint);
-  writeNotNull('object', instance.object);
-  writeNotNull('usage', instance.usage?.toJson());
-  return val;
-}
-
-_$ChatCompletionStreamResponseChoiceImpl
-    _$$ChatCompletionStreamResponseChoiceImplFromJson(
-            Map<String, dynamic> json) =>
-        _$ChatCompletionStreamResponseChoiceImpl(
-          delta: ChatCompletionStreamResponseDelta.fromJson(
-              json['delta'] as Map<String, dynamic>),
+_ChatCompletionStreamResponseChoice
+    _$ChatCompletionStreamResponseChoiceFromJson(Map<String, dynamic> json) =>
+        _ChatCompletionStreamResponseChoice(
+          delta: json['delta'] == null
+              ? null
+              : ChatCompletionStreamResponseDelta.fromJson(
+                  json['delta'] as Map<String, dynamic>),
           logprobs: json['logprobs'] == null
               ? null
               : ChatCompletionStreamResponseChoiceLogprobs.fromJson(
@@ -1005,29 +1072,21 @@ _$ChatCompletionStreamResponseChoiceImpl
           index: (json['index'] as num?)?.toInt(),
         );
 
-Map<String, dynamic> _$$ChatCompletionStreamResponseChoiceImplToJson(
-    _$ChatCompletionStreamResponseChoiceImpl instance) {
-  final val = <String, dynamic>{
-    'delta': instance.delta.toJson(),
-  };
+Map<String, dynamic> _$ChatCompletionStreamResponseChoiceToJson(
+        _ChatCompletionStreamResponseChoice instance) =>
+    <String, dynamic>{
+      if (instance.delta?.toJson() case final value?) 'delta': value,
+      if (instance.logprobs?.toJson() case final value?) 'logprobs': value,
+      if (_$ChatCompletionFinishReasonEnumMap[instance.finishReason]
+          case final value?)
+        'finish_reason': value,
+      if (instance.index case final value?) 'index': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('logprobs', instance.logprobs?.toJson());
-  val['finish_reason'] =
-      _$ChatCompletionFinishReasonEnumMap[instance.finishReason];
-  writeNotNull('index', instance.index);
-  return val;
-}
-
-_$ChatCompletionStreamResponseChoiceLogprobsImpl
-    _$$ChatCompletionStreamResponseChoiceLogprobsImplFromJson(
+_ChatCompletionStreamResponseChoiceLogprobs
+    _$ChatCompletionStreamResponseChoiceLogprobsFromJson(
             Map<String, dynamic> json) =>
-        _$ChatCompletionStreamResponseChoiceLogprobsImpl(
+        _ChatCompletionStreamResponseChoiceLogprobs(
           content: (json['content'] as List<dynamic>?)
               ?.map((e) => ChatCompletionTokenLogprob.fromJson(
                   e as Map<String, dynamic>))
@@ -1038,95 +1097,99 @@ _$ChatCompletionStreamResponseChoiceLogprobsImpl
               .toList(),
         );
 
-Map<String, dynamic> _$$ChatCompletionStreamResponseChoiceLogprobsImplToJson(
-    _$ChatCompletionStreamResponseChoiceLogprobsImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$ChatCompletionStreamResponseChoiceLogprobsToJson(
+        _ChatCompletionStreamResponseChoiceLogprobs instance) =>
+    <String, dynamic>{
+      if (instance.content?.map((e) => e.toJson()).toList() case final value?)
+        'content': value,
+      if (instance.refusal?.map((e) => e.toJson()).toList() case final value?)
+        'refusal': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
+_ChatCompletionStreamResponseDelta _$ChatCompletionStreamResponseDeltaFromJson(
+        Map<String, dynamic> json) =>
+    _ChatCompletionStreamResponseDelta(
+      role: $enumDecodeNullable(
+          _$ChatCompletionMessageRoleEnumMap, json['role'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      content: json['content'] as String?,
+      refusal: json['refusal'] as String?,
+      toolCalls: (json['tool_calls'] as List<dynamic>?)
+          ?.map((e) => ChatCompletionStreamMessageToolCallChunk.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      functionCall: json['function_call'] == null
+          ? null
+          : ChatCompletionStreamMessageFunctionCall.fromJson(
+              json['function_call'] as Map<String, dynamic>),
+      audio: json['audio'] == null
+          ? null
+          : ChatCompletionStreamResponseDeltaAudio.fromJson(
+              json['audio'] as Map<String, dynamic>),
+    );
 
-  writeNotNull('content', instance.content?.map((e) => e.toJson()).toList());
-  writeNotNull('refusal', instance.refusal?.map((e) => e.toJson()).toList());
-  return val;
-}
-
-_$ChatCompletionStreamResponseDeltaImpl
-    _$$ChatCompletionStreamResponseDeltaImplFromJson(
-            Map<String, dynamic> json) =>
-        _$ChatCompletionStreamResponseDeltaImpl(
-          content: json['content'] as String?,
-          refusal: json['refusal'] as String?,
-          functionCall: json['function_call'] == null
-              ? null
-              : ChatCompletionStreamMessageFunctionCall.fromJson(
-                  json['function_call'] as Map<String, dynamic>),
-          toolCalls: (json['tool_calls'] as List<dynamic>?)
-              ?.map((e) => ChatCompletionStreamMessageToolCallChunk.fromJson(
-                  e as Map<String, dynamic>))
-              .toList(),
-          role: $enumDecodeNullable(
-              _$ChatCompletionMessageRoleEnumMap, json['role'],
-              unknownValue: JsonKey.nullForUndefinedEnumValue),
-        );
-
-Map<String, dynamic> _$$ChatCompletionStreamResponseDeltaImplToJson(
-    _$ChatCompletionStreamResponseDeltaImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('content', instance.content);
-  writeNotNull('refusal', instance.refusal);
-  writeNotNull('function_call', instance.functionCall?.toJson());
-  writeNotNull(
-      'tool_calls', instance.toolCalls?.map((e) => e.toJson()).toList());
-  writeNotNull('role', _$ChatCompletionMessageRoleEnumMap[instance.role]);
-  return val;
-}
+Map<String, dynamic> _$ChatCompletionStreamResponseDeltaToJson(
+        _ChatCompletionStreamResponseDelta instance) =>
+    <String, dynamic>{
+      if (_$ChatCompletionMessageRoleEnumMap[instance.role] case final value?)
+        'role': value,
+      if (instance.content case final value?) 'content': value,
+      if (instance.refusal case final value?) 'refusal': value,
+      if (instance.toolCalls?.map((e) => e.toJson()).toList() case final value?)
+        'tool_calls': value,
+      if (instance.functionCall?.toJson() case final value?)
+        'function_call': value,
+      if (instance.audio?.toJson() case final value?) 'audio': value,
+    };
 
 const _$ChatCompletionMessageRoleEnumMap = {
-  ChatCompletionMessageRole.system: 'system',
+  ChatCompletionMessageRole.developer: 'developer',
   ChatCompletionMessageRole.user: 'user',
   ChatCompletionMessageRole.assistant: 'assistant',
   ChatCompletionMessageRole.tool: 'tool',
+  ChatCompletionMessageRole.system: 'system',
   ChatCompletionMessageRole.function: 'function',
 };
 
-_$ChatCompletionStreamMessageFunctionCallImpl
-    _$$ChatCompletionStreamMessageFunctionCallImplFromJson(
+_ChatCompletionStreamResponseDeltaAudio
+    _$ChatCompletionStreamResponseDeltaAudioFromJson(
             Map<String, dynamic> json) =>
-        _$ChatCompletionStreamMessageFunctionCallImpl(
+        _ChatCompletionStreamResponseDeltaAudio(
+          id: json['id'] as String?,
+          expiresAt: (json['expires_at'] as num?)?.toInt(),
+          data: json['data'] as String?,
+          transcript: json['transcript'] as String?,
+        );
+
+Map<String, dynamic> _$ChatCompletionStreamResponseDeltaAudioToJson(
+        _ChatCompletionStreamResponseDeltaAudio instance) =>
+    <String, dynamic>{
+      if (instance.id case final value?) 'id': value,
+      if (instance.expiresAt case final value?) 'expires_at': value,
+      if (instance.data case final value?) 'data': value,
+      if (instance.transcript case final value?) 'transcript': value,
+    };
+
+_ChatCompletionStreamMessageFunctionCall
+    _$ChatCompletionStreamMessageFunctionCallFromJson(
+            Map<String, dynamic> json) =>
+        _ChatCompletionStreamMessageFunctionCall(
           name: json['name'] as String?,
           arguments: json['arguments'] as String?,
         );
 
-Map<String, dynamic> _$$ChatCompletionStreamMessageFunctionCallImplToJson(
-    _$ChatCompletionStreamMessageFunctionCallImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$ChatCompletionStreamMessageFunctionCallToJson(
+        _ChatCompletionStreamMessageFunctionCall instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'name': value,
+      if (instance.arguments case final value?) 'arguments': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('name', instance.name);
-  writeNotNull('arguments', instance.arguments);
-  return val;
-}
-
-_$ChatCompletionStreamMessageToolCallChunkImpl
-    _$$ChatCompletionStreamMessageToolCallChunkImplFromJson(
+_ChatCompletionStreamMessageToolCallChunk
+    _$ChatCompletionStreamMessageToolCallChunkFromJson(
             Map<String, dynamic> json) =>
-        _$ChatCompletionStreamMessageToolCallChunkImpl(
-          index: (json['index'] as num).toInt(),
+        _ChatCompletionStreamMessageToolCallChunk(
+          index: (json['index'] as num?)?.toInt(),
           id: json['id'] as String?,
           type: $enumDecodeNullable(
               _$ChatCompletionStreamMessageToolCallChunkTypeEnumMap,
@@ -1138,83 +1201,92 @@ _$ChatCompletionStreamMessageToolCallChunkImpl
                   json['function'] as Map<String, dynamic>),
         );
 
-Map<String, dynamic> _$$ChatCompletionStreamMessageToolCallChunkImplToJson(
-    _$ChatCompletionStreamMessageToolCallChunkImpl instance) {
-  final val = <String, dynamic>{
-    'index': instance.index,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('id', instance.id);
-  writeNotNull('type',
-      _$ChatCompletionStreamMessageToolCallChunkTypeEnumMap[instance.type]);
-  writeNotNull('function', instance.function?.toJson());
-  return val;
-}
+Map<String, dynamic> _$ChatCompletionStreamMessageToolCallChunkToJson(
+        _ChatCompletionStreamMessageToolCallChunk instance) =>
+    <String, dynamic>{
+      if (instance.index case final value?) 'index': value,
+      if (instance.id case final value?) 'id': value,
+      if (_$ChatCompletionStreamMessageToolCallChunkTypeEnumMap[instance.type]
+          case final value?)
+        'type': value,
+      if (instance.function?.toJson() case final value?) 'function': value,
+    };
 
 const _$ChatCompletionStreamMessageToolCallChunkTypeEnumMap = {
   ChatCompletionStreamMessageToolCallChunkType.function: 'function',
 };
 
-_$CompletionUsageImpl _$$CompletionUsageImplFromJson(
-        Map<String, dynamic> json) =>
-    _$CompletionUsageImpl(
+_ChatCompletionList _$ChatCompletionListFromJson(Map<String, dynamic> json) =>
+    _ChatCompletionList(
+      object: $enumDecode(_$ChatCompletionListObjectEnumMap, json['object']),
+      data: (json['data'] as List<dynamic>)
+          .map((e) =>
+              CreateChatCompletionResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      firstId: json['first_id'] as String?,
+      lastId: json['last_id'] as String?,
+      hasMore: json['has_more'] as bool,
+    );
+
+Map<String, dynamic> _$ChatCompletionListToJson(_ChatCompletionList instance) =>
+    <String, dynamic>{
+      'object': _$ChatCompletionListObjectEnumMap[instance.object]!,
+      'data': instance.data.map((e) => e.toJson()).toList(),
+      if (instance.firstId case final value?) 'first_id': value,
+      if (instance.lastId case final value?) 'last_id': value,
+      'has_more': instance.hasMore,
+    };
+
+const _$ChatCompletionListObjectEnumMap = {
+  ChatCompletionListObject.list: 'list',
+};
+
+_CompletionUsage _$CompletionUsageFromJson(Map<String, dynamic> json) =>
+    _CompletionUsage(
       completionTokens: (json['completion_tokens'] as num?)?.toInt(),
-      promptTokens: (json['prompt_tokens'] as num).toInt(),
-      totalTokens: (json['total_tokens'] as num).toInt(),
+      promptTokens: (json['prompt_tokens'] as num?)?.toInt(),
+      totalTokens: (json['total_tokens'] as num?)?.toInt(),
       completionTokensDetails: json['completion_tokens_details'] == null
           ? null
           : CompletionTokensDetails.fromJson(
               json['completion_tokens_details'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$CompletionUsageImplToJson(
-    _$CompletionUsageImpl instance) {
-  final val = <String, dynamic>{
-    'completion_tokens': instance.completionTokens,
-    'prompt_tokens': instance.promptTokens,
-    'total_tokens': instance.totalTokens,
-  };
+Map<String, dynamic> _$CompletionUsageToJson(_CompletionUsage instance) =>
+    <String, dynamic>{
+      if (instance.completionTokens case final value?)
+        'completion_tokens': value,
+      if (instance.promptTokens case final value?) 'prompt_tokens': value,
+      if (instance.totalTokens case final value?) 'total_tokens': value,
+      if (instance.completionTokensDetails?.toJson() case final value?)
+        'completion_tokens_details': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'completion_tokens_details', instance.completionTokensDetails?.toJson());
-  return val;
-}
-
-_$CompletionTokensDetailsImpl _$$CompletionTokensDetailsImplFromJson(
+_CompletionTokensDetails _$CompletionTokensDetailsFromJson(
         Map<String, dynamic> json) =>
-    _$CompletionTokensDetailsImpl(
+    _CompletionTokensDetails(
+      acceptedPredictionTokens:
+          (json['accepted_prediction_tokens'] as num?)?.toInt(),
+      audioTokens: (json['audio_tokens'] as num?)?.toInt(),
       reasoningTokens: (json['reasoning_tokens'] as num?)?.toInt(),
+      rejectedPredictionTokens:
+          (json['rejected_prediction_tokens'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$$CompletionTokensDetailsImplToJson(
-    _$CompletionTokensDetailsImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$CompletionTokensDetailsToJson(
+        _CompletionTokensDetails instance) =>
+    <String, dynamic>{
+      if (instance.acceptedPredictionTokens case final value?)
+        'accepted_prediction_tokens': value,
+      if (instance.audioTokens case final value?) 'audio_tokens': value,
+      if (instance.reasoningTokens case final value?) 'reasoning_tokens': value,
+      if (instance.rejectedPredictionTokens case final value?)
+        'rejected_prediction_tokens': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('reasoning_tokens', instance.reasoningTokens);
-  return val;
-}
-
-_$CreateEmbeddingRequestImpl _$$CreateEmbeddingRequestImplFromJson(
+_CreateEmbeddingRequest _$CreateEmbeddingRequestFromJson(
         Map<String, dynamic> json) =>
-    _$CreateEmbeddingRequestImpl(
+    _CreateEmbeddingRequest(
       model: const _EmbeddingModelConverter().fromJson(json['model']),
       input: const _EmbeddingInputConverter().fromJson(json['input']),
       encodingFormat: $enumDecodeNullable(
@@ -1224,40 +1296,31 @@ _$CreateEmbeddingRequestImpl _$$CreateEmbeddingRequestImplFromJson(
       user: json['user'] as String?,
     );
 
-Map<String, dynamic> _$$CreateEmbeddingRequestImplToJson(
-    _$CreateEmbeddingRequestImpl instance) {
-  final val = <String, dynamic>{
-    'model': const _EmbeddingModelConverter().toJson(instance.model),
-    'input': const _EmbeddingInputConverter().toJson(instance.input),
-    'encoding_format':
-        _$EmbeddingEncodingFormatEnumMap[instance.encodingFormat]!,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('dimensions', instance.dimensions);
-  writeNotNull('user', instance.user);
-  return val;
-}
+Map<String, dynamic> _$CreateEmbeddingRequestToJson(
+        _CreateEmbeddingRequest instance) =>
+    <String, dynamic>{
+      'model': const _EmbeddingModelConverter().toJson(instance.model),
+      'input': const _EmbeddingInputConverter().toJson(instance.input),
+      'encoding_format':
+          _$EmbeddingEncodingFormatEnumMap[instance.encodingFormat]!,
+      if (instance.dimensions case final value?) 'dimensions': value,
+      if (instance.user case final value?) 'user': value,
+    };
 
 const _$EmbeddingEncodingFormatEnumMap = {
   EmbeddingEncodingFormat.float: 'float',
   EmbeddingEncodingFormat.base64: 'base64',
 };
 
-_$EmbeddingModelEnumerationImpl _$$EmbeddingModelEnumerationImplFromJson(
+EmbeddingModelEnumeration _$EmbeddingModelEnumerationFromJson(
         Map<String, dynamic> json) =>
-    _$EmbeddingModelEnumerationImpl(
+    EmbeddingModelEnumeration(
       $enumDecode(_$EmbeddingModelsEnumMap, json['value']),
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$EmbeddingModelEnumerationImplToJson(
-        _$EmbeddingModelEnumerationImpl instance) =>
+Map<String, dynamic> _$EmbeddingModelEnumerationToJson(
+        EmbeddingModelEnumeration instance) =>
     <String, dynamic>{
       'value': _$EmbeddingModelsEnumMap[instance.value]!,
       'runtimeType': instance.$type,
@@ -1269,23 +1332,23 @@ const _$EmbeddingModelsEnumMap = {
   EmbeddingModels.textEmbedding3Large: 'text-embedding-3-large',
 };
 
-_$EmbeddingModelStringImpl _$$EmbeddingModelStringImplFromJson(
+EmbeddingModelString _$EmbeddingModelStringFromJson(
         Map<String, dynamic> json) =>
-    _$EmbeddingModelStringImpl(
+    EmbeddingModelString(
       json['value'] as String,
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$EmbeddingModelStringImplToJson(
-        _$EmbeddingModelStringImpl instance) =>
+Map<String, dynamic> _$EmbeddingModelStringToJson(
+        EmbeddingModelString instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$EmbeddingInputListListIntImpl _$$EmbeddingInputListListIntImplFromJson(
+EmbeddingInputListListInt _$EmbeddingInputListListIntFromJson(
         Map<String, dynamic> json) =>
-    _$EmbeddingInputListListIntImpl(
+    EmbeddingInputListListInt(
       (json['value'] as List<dynamic>)
           .map((e) =>
               (e as List<dynamic>).map((e) => (e as num).toInt()).toList())
@@ -1293,58 +1356,58 @@ _$EmbeddingInputListListIntImpl _$$EmbeddingInputListListIntImplFromJson(
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$EmbeddingInputListListIntImplToJson(
-        _$EmbeddingInputListListIntImpl instance) =>
+Map<String, dynamic> _$EmbeddingInputListListIntToJson(
+        EmbeddingInputListListInt instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$EmbeddingInputListIntImpl _$$EmbeddingInputListIntImplFromJson(
+EmbeddingInputListInt _$EmbeddingInputListIntFromJson(
         Map<String, dynamic> json) =>
-    _$EmbeddingInputListIntImpl(
+    EmbeddingInputListInt(
       (json['value'] as List<dynamic>).map((e) => (e as num).toInt()).toList(),
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$EmbeddingInputListIntImplToJson(
-        _$EmbeddingInputListIntImpl instance) =>
+Map<String, dynamic> _$EmbeddingInputListIntToJson(
+        EmbeddingInputListInt instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$EmbeddingInputListStringImpl _$$EmbeddingInputListStringImplFromJson(
+EmbeddingInputListString _$EmbeddingInputListStringFromJson(
         Map<String, dynamic> json) =>
-    _$EmbeddingInputListStringImpl(
+    EmbeddingInputListString(
       (json['value'] as List<dynamic>).map((e) => e as String).toList(),
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$EmbeddingInputListStringImplToJson(
-        _$EmbeddingInputListStringImpl instance) =>
+Map<String, dynamic> _$EmbeddingInputListStringToJson(
+        EmbeddingInputListString instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$EmbeddingInputStringImpl _$$EmbeddingInputStringImplFromJson(
+EmbeddingInputString _$EmbeddingInputStringFromJson(
         Map<String, dynamic> json) =>
-    _$EmbeddingInputStringImpl(
+    EmbeddingInputString(
       json['value'] as String,
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$EmbeddingInputStringImplToJson(
-        _$EmbeddingInputStringImpl instance) =>
+Map<String, dynamic> _$EmbeddingInputStringToJson(
+        EmbeddingInputString instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$CreateEmbeddingResponseImpl _$$CreateEmbeddingResponseImplFromJson(
+_CreateEmbeddingResponse _$CreateEmbeddingResponseFromJson(
         Map<String, dynamic> json) =>
-    _$CreateEmbeddingResponseImpl(
+    _CreateEmbeddingResponse(
       data: (json['data'] as List<dynamic>)
           .map((e) => Embedding.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1356,38 +1419,28 @@ _$CreateEmbeddingResponseImpl _$$CreateEmbeddingResponseImplFromJson(
           : EmbeddingUsage.fromJson(json['usage'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$CreateEmbeddingResponseImplToJson(
-    _$CreateEmbeddingResponseImpl instance) {
-  final val = <String, dynamic>{
-    'data': instance.data.map((e) => e.toJson()).toList(),
-    'model': instance.model,
-    'object': _$CreateEmbeddingResponseObjectEnumMap[instance.object]!,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('usage', instance.usage?.toJson());
-  return val;
-}
+Map<String, dynamic> _$CreateEmbeddingResponseToJson(
+        _CreateEmbeddingResponse instance) =>
+    <String, dynamic>{
+      'data': instance.data.map((e) => e.toJson()).toList(),
+      'model': instance.model,
+      'object': _$CreateEmbeddingResponseObjectEnumMap[instance.object]!,
+      if (instance.usage?.toJson() case final value?) 'usage': value,
+    };
 
 const _$CreateEmbeddingResponseObjectEnumMap = {
   CreateEmbeddingResponseObject.list: 'list',
 };
 
-_$EmbeddingImpl _$$EmbeddingImplFromJson(Map<String, dynamic> json) =>
-    _$EmbeddingImpl(
-      index: (json['index'] as num).toInt(),
+_Embedding _$EmbeddingFromJson(Map<String, dynamic> json) => _Embedding(
+      index: (json['index'] as num?)?.toInt(),
       embedding: const _EmbeddingVectorConverter().fromJson(json['embedding']),
       object: $enumDecode(_$EmbeddingObjectEnumMap, json['object']),
     );
 
-Map<String, dynamic> _$$EmbeddingImplToJson(_$EmbeddingImpl instance) =>
+Map<String, dynamic> _$EmbeddingToJson(_Embedding instance) =>
     <String, dynamic>{
-      'index': instance.index,
+      if (instance.index case final value?) 'index': value,
       'embedding': const _EmbeddingVectorConverter().toJson(instance.embedding),
       'object': _$EmbeddingObjectEnumMap[instance.object]!,
     };
@@ -1396,52 +1449,51 @@ const _$EmbeddingObjectEnumMap = {
   EmbeddingObject.embedding: 'embedding',
 };
 
-_$EmbeddingVectorListDoubleImpl _$$EmbeddingVectorListDoubleImplFromJson(
+EmbeddingVectorListDouble _$EmbeddingVectorListDoubleFromJson(
         Map<String, dynamic> json) =>
-    _$EmbeddingVectorListDoubleImpl(
+    EmbeddingVectorListDouble(
       (json['value'] as List<dynamic>)
           .map((e) => (e as num).toDouble())
           .toList(),
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$EmbeddingVectorListDoubleImplToJson(
-        _$EmbeddingVectorListDoubleImpl instance) =>
+Map<String, dynamic> _$EmbeddingVectorListDoubleToJson(
+        EmbeddingVectorListDouble instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$EmbeddingVectorStringImpl _$$EmbeddingVectorStringImplFromJson(
+EmbeddingVectorString _$EmbeddingVectorStringFromJson(
         Map<String, dynamic> json) =>
-    _$EmbeddingVectorStringImpl(
+    EmbeddingVectorString(
       json['value'] as String,
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$EmbeddingVectorStringImplToJson(
-        _$EmbeddingVectorStringImpl instance) =>
+Map<String, dynamic> _$EmbeddingVectorStringToJson(
+        EmbeddingVectorString instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$EmbeddingUsageImpl _$$EmbeddingUsageImplFromJson(Map<String, dynamic> json) =>
-    _$EmbeddingUsageImpl(
+_EmbeddingUsage _$EmbeddingUsageFromJson(Map<String, dynamic> json) =>
+    _EmbeddingUsage(
       promptTokens: (json['prompt_tokens'] as num).toInt(),
       totalTokens: (json['total_tokens'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$EmbeddingUsageImplToJson(
-        _$EmbeddingUsageImpl instance) =>
+Map<String, dynamic> _$EmbeddingUsageToJson(_EmbeddingUsage instance) =>
     <String, dynamic>{
       'prompt_tokens': instance.promptTokens,
       'total_tokens': instance.totalTokens,
     };
 
-_$CreateFineTuningJobRequestImpl _$$CreateFineTuningJobRequestImplFromJson(
+_CreateFineTuningJobRequest _$CreateFineTuningJobRequestFromJson(
         Map<String, dynamic> json) =>
-    _$CreateFineTuningJobRequestImpl(
+    _CreateFineTuningJobRequest(
       model: const _FineTuningModelConverter().fromJson(json['model']),
       trainingFile: json['training_file'] as String,
       hyperparameters: json['hyperparameters'] == null
@@ -1457,37 +1509,30 @@ _$CreateFineTuningJobRequestImpl _$$CreateFineTuningJobRequestImplFromJson(
       seed: (json['seed'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$$CreateFineTuningJobRequestImplToJson(
-    _$CreateFineTuningJobRequestImpl instance) {
-  final val = <String, dynamic>{
-    'model': const _FineTuningModelConverter().toJson(instance.model),
-    'training_file': instance.trainingFile,
-  };
+Map<String, dynamic> _$CreateFineTuningJobRequestToJson(
+        _CreateFineTuningJobRequest instance) =>
+    <String, dynamic>{
+      'model': const _FineTuningModelConverter().toJson(instance.model),
+      'training_file': instance.trainingFile,
+      if (instance.hyperparameters?.toJson() case final value?)
+        'hyperparameters': value,
+      if (instance.suffix case final value?) 'suffix': value,
+      if (instance.validationFile case final value?) 'validation_file': value,
+      if (instance.integrations?.map((e) => e.toJson()).toList()
+          case final value?)
+        'integrations': value,
+      if (instance.seed case final value?) 'seed': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('hyperparameters', instance.hyperparameters?.toJson());
-  writeNotNull('suffix', instance.suffix);
-  writeNotNull('validation_file', instance.validationFile);
-  writeNotNull(
-      'integrations', instance.integrations?.map((e) => e.toJson()).toList());
-  writeNotNull('seed', instance.seed);
-  return val;
-}
-
-_$FineTuningModelEnumerationImpl _$$FineTuningModelEnumerationImplFromJson(
+FineTuningModelEnumeration _$FineTuningModelEnumerationFromJson(
         Map<String, dynamic> json) =>
-    _$FineTuningModelEnumerationImpl(
+    FineTuningModelEnumeration(
       $enumDecode(_$FineTuningModelsEnumMap, json['value']),
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$FineTuningModelEnumerationImplToJson(
-        _$FineTuningModelEnumerationImpl instance) =>
+Map<String, dynamic> _$FineTuningModelEnumerationToJson(
+        FineTuningModelEnumeration instance) =>
     <String, dynamic>{
       'value': _$FineTuningModelsEnumMap[instance.value]!,
       'runtimeType': instance.$type,
@@ -1500,22 +1545,22 @@ const _$FineTuningModelsEnumMap = {
   FineTuningModels.gpt4oMini: 'gpt-4o-mini',
 };
 
-_$FineTuningModelStringImpl _$$FineTuningModelStringImplFromJson(
+FineTuningModelString _$FineTuningModelStringFromJson(
         Map<String, dynamic> json) =>
-    _$FineTuningModelStringImpl(
+    FineTuningModelString(
       json['value'] as String,
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$FineTuningModelStringImplToJson(
-        _$FineTuningModelStringImpl instance) =>
+Map<String, dynamic> _$FineTuningModelStringToJson(
+        FineTuningModelString instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$FineTuningJobImpl _$$FineTuningJobImplFromJson(Map<String, dynamic> json) =>
-    _$FineTuningJobImpl(
+_FineTuningJob _$FineTuningJobFromJson(Map<String, dynamic> json) =>
+    _FineTuningJob(
       id: json['id'] as String,
       createdAt: (json['created_at'] as num).toInt(),
       error: json['error'] == null
@@ -1541,34 +1586,26 @@ _$FineTuningJobImpl _$$FineTuningJobImplFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$$FineTuningJobImplToJson(_$FineTuningJobImpl instance) {
-  final val = <String, dynamic>{
-    'id': instance.id,
-    'created_at': instance.createdAt,
-    'error': instance.error?.toJson(),
-    'fine_tuned_model': instance.fineTunedModel,
-    'finished_at': instance.finishedAt,
-    'hyperparameters': instance.hyperparameters.toJson(),
-    'model': instance.model,
-    'object': _$FineTuningJobObjectEnumMap[instance.object]!,
-    'organization_id': instance.organizationId,
-    'result_files': instance.resultFiles,
-    'status': _$FineTuningJobStatusEnumMap[instance.status]!,
-    'trained_tokens': instance.trainedTokens,
-    'training_file': instance.trainingFile,
-    'validation_file': instance.validationFile,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'integrations', instance.integrations?.map((e) => e.toJson()).toList());
-  return val;
-}
+Map<String, dynamic> _$FineTuningJobToJson(_FineTuningJob instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'created_at': instance.createdAt,
+      'error': instance.error?.toJson(),
+      'fine_tuned_model': instance.fineTunedModel,
+      'finished_at': instance.finishedAt,
+      'hyperparameters': instance.hyperparameters.toJson(),
+      'model': instance.model,
+      'object': _$FineTuningJobObjectEnumMap[instance.object]!,
+      'organization_id': instance.organizationId,
+      'result_files': instance.resultFiles,
+      'status': _$FineTuningJobStatusEnumMap[instance.status]!,
+      'trained_tokens': instance.trainedTokens,
+      'training_file': instance.trainingFile,
+      'validation_file': instance.validationFile,
+      if (instance.integrations?.map((e) => e.toJson()).toList()
+          case final value?)
+        'integrations': value,
+    };
 
 const _$FineTuningJobObjectEnumMap = {
   FineTuningJobObject.fineTuningJob: 'fine_tuning.job',
@@ -1583,16 +1620,16 @@ const _$FineTuningJobStatusEnumMap = {
   FineTuningJobStatus.cancelled: 'cancelled',
 };
 
-_$FineTuningIntegrationImpl _$$FineTuningIntegrationImplFromJson(
+_FineTuningIntegration _$FineTuningIntegrationFromJson(
         Map<String, dynamic> json) =>
-    _$FineTuningIntegrationImpl(
+    _FineTuningIntegration(
       type: $enumDecode(_$FineTuningIntegrationTypeEnumMap, json['type']),
       wandb: FineTuningIntegrationWandb.fromJson(
           json['wandb'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$FineTuningIntegrationImplToJson(
-        _$FineTuningIntegrationImpl instance) =>
+Map<String, dynamic> _$FineTuningIntegrationToJson(
+        _FineTuningIntegration instance) =>
     <String, dynamic>{
       'type': _$FineTuningIntegrationTypeEnumMap[instance.type]!,
       'wandb': instance.wandb.toJson(),
@@ -1602,70 +1639,59 @@ const _$FineTuningIntegrationTypeEnumMap = {
   FineTuningIntegrationType.wandb: 'wandb',
 };
 
-_$FineTuningIntegrationWandbImpl _$$FineTuningIntegrationWandbImplFromJson(
+_FineTuningIntegrationWandb _$FineTuningIntegrationWandbFromJson(
         Map<String, dynamic> json) =>
-    _$FineTuningIntegrationWandbImpl(
+    _FineTuningIntegrationWandb(
       project: json['project'] as String,
       name: json['name'] as String?,
       entity: json['entity'] as String?,
       tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
     );
 
-Map<String, dynamic> _$$FineTuningIntegrationWandbImplToJson(
-    _$FineTuningIntegrationWandbImpl instance) {
-  final val = <String, dynamic>{
-    'project': instance.project,
-  };
+Map<String, dynamic> _$FineTuningIntegrationWandbToJson(
+        _FineTuningIntegrationWandb instance) =>
+    <String, dynamic>{
+      'project': instance.project,
+      if (instance.name case final value?) 'name': value,
+      if (instance.entity case final value?) 'entity': value,
+      if (instance.tags case final value?) 'tags': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('name', instance.name);
-  writeNotNull('entity', instance.entity);
-  writeNotNull('tags', instance.tags);
-  return val;
-}
-
-_$FineTuningJobErrorImpl _$$FineTuningJobErrorImplFromJson(
-        Map<String, dynamic> json) =>
-    _$FineTuningJobErrorImpl(
+_FineTuningJobError _$FineTuningJobErrorFromJson(Map<String, dynamic> json) =>
+    _FineTuningJobError(
       code: json['code'] as String,
       message: json['message'] as String,
       param: json['param'] as String?,
     );
 
-Map<String, dynamic> _$$FineTuningJobErrorImplToJson(
-        _$FineTuningJobErrorImpl instance) =>
+Map<String, dynamic> _$FineTuningJobErrorToJson(_FineTuningJobError instance) =>
     <String, dynamic>{
       'code': instance.code,
       'message': instance.message,
       'param': instance.param,
     };
 
-_$FineTuningJobHyperparametersImpl _$$FineTuningJobHyperparametersImplFromJson(
+_FineTuningJobHyperparameters _$FineTuningJobHyperparametersFromJson(
         Map<String, dynamic> json) =>
-    _$FineTuningJobHyperparametersImpl(
+    _FineTuningJobHyperparameters(
       nEpochs: const _FineTuningNEpochsConverter().fromJson(json['n_epochs']),
     );
 
-Map<String, dynamic> _$$FineTuningJobHyperparametersImplToJson(
-        _$FineTuningJobHyperparametersImpl instance) =>
+Map<String, dynamic> _$FineTuningJobHyperparametersToJson(
+        _FineTuningJobHyperparameters instance) =>
     <String, dynamic>{
       'n_epochs': const _FineTuningNEpochsConverter().toJson(instance.nEpochs),
     };
 
-_$FineTuningNEpochsEnumerationImpl _$$FineTuningNEpochsEnumerationImplFromJson(
+FineTuningNEpochsEnumeration _$FineTuningNEpochsEnumerationFromJson(
         Map<String, dynamic> json) =>
-    _$FineTuningNEpochsEnumerationImpl(
+    FineTuningNEpochsEnumeration(
       $enumDecode(_$FineTuningNEpochsOptionsEnumMap, json['value']),
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$FineTuningNEpochsEnumerationImplToJson(
-        _$FineTuningNEpochsEnumerationImpl instance) =>
+Map<String, dynamic> _$FineTuningNEpochsEnumerationToJson(
+        FineTuningNEpochsEnumeration instance) =>
     <String, dynamic>{
       'value': _$FineTuningNEpochsOptionsEnumMap[instance.value]!,
       'runtimeType': instance.$type,
@@ -1675,24 +1701,23 @@ const _$FineTuningNEpochsOptionsEnumMap = {
   FineTuningNEpochsOptions.auto: 'auto',
 };
 
-_$FineTuningNEpochsIntImpl _$$FineTuningNEpochsIntImplFromJson(
+FineTuningNEpochsInt _$FineTuningNEpochsIntFromJson(
         Map<String, dynamic> json) =>
-    _$FineTuningNEpochsIntImpl(
+    FineTuningNEpochsInt(
       (json['value'] as num).toInt(),
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$FineTuningNEpochsIntImplToJson(
-        _$FineTuningNEpochsIntImpl instance) =>
+Map<String, dynamic> _$FineTuningNEpochsIntToJson(
+        FineTuningNEpochsInt instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$ListPaginatedFineTuningJobsResponseImpl
-    _$$ListPaginatedFineTuningJobsResponseImplFromJson(
-            Map<String, dynamic> json) =>
-        _$ListPaginatedFineTuningJobsResponseImpl(
+_ListPaginatedFineTuningJobsResponse
+    _$ListPaginatedFineTuningJobsResponseFromJson(Map<String, dynamic> json) =>
+        _ListPaginatedFineTuningJobsResponse(
           data: (json['data'] as List<dynamic>)
               .map((e) => FineTuningJob.fromJson(e as Map<String, dynamic>))
               .toList(),
@@ -1702,8 +1727,8 @@ _$ListPaginatedFineTuningJobsResponseImpl
               json['object']),
         );
 
-Map<String, dynamic> _$$ListPaginatedFineTuningJobsResponseImplToJson(
-        _$ListPaginatedFineTuningJobsResponseImpl instance) =>
+Map<String, dynamic> _$ListPaginatedFineTuningJobsResponseToJson(
+        _ListPaginatedFineTuningJobsResponse instance) =>
     <String, dynamic>{
       'data': instance.data.map((e) => e.toJson()).toList(),
       'has_more': instance.hasMore,
@@ -1715,19 +1740,18 @@ const _$ListPaginatedFineTuningJobsResponseObjectEnumMap = {
   ListPaginatedFineTuningJobsResponseObject.list: 'list',
 };
 
-_$ListFineTuningJobEventsResponseImpl
-    _$$ListFineTuningJobEventsResponseImplFromJson(Map<String, dynamic> json) =>
-        _$ListFineTuningJobEventsResponseImpl(
-          data: (json['data'] as List<dynamic>)
-              .map(
-                  (e) => FineTuningJobEvent.fromJson(e as Map<String, dynamic>))
-              .toList(),
-          object: $enumDecode(
-              _$ListFineTuningJobEventsResponseObjectEnumMap, json['object']),
-        );
+_ListFineTuningJobEventsResponse _$ListFineTuningJobEventsResponseFromJson(
+        Map<String, dynamic> json) =>
+    _ListFineTuningJobEventsResponse(
+      data: (json['data'] as List<dynamic>)
+          .map((e) => FineTuningJobEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      object: $enumDecode(
+          _$ListFineTuningJobEventsResponseObjectEnumMap, json['object']),
+    );
 
-Map<String, dynamic> _$$ListFineTuningJobEventsResponseImplToJson(
-        _$ListFineTuningJobEventsResponseImpl instance) =>
+Map<String, dynamic> _$ListFineTuningJobEventsResponseToJson(
+        _ListFineTuningJobEventsResponse instance) =>
     <String, dynamic>{
       'data': instance.data.map((e) => e.toJson()).toList(),
       'object':
@@ -1738,10 +1762,9 @@ const _$ListFineTuningJobEventsResponseObjectEnumMap = {
   ListFineTuningJobEventsResponseObject.list: 'list',
 };
 
-_$ListFineTuningJobCheckpointsResponseImpl
-    _$$ListFineTuningJobCheckpointsResponseImplFromJson(
-            Map<String, dynamic> json) =>
-        _$ListFineTuningJobCheckpointsResponseImpl(
+_ListFineTuningJobCheckpointsResponse
+    _$ListFineTuningJobCheckpointsResponseFromJson(Map<String, dynamic> json) =>
+        _ListFineTuningJobCheckpointsResponse(
           data: (json['data'] as List<dynamic>)
               .map((e) =>
                   FineTuningJobCheckpoint.fromJson(e as Map<String, dynamic>))
@@ -1754,33 +1777,23 @@ _$ListFineTuningJobCheckpointsResponseImpl
           hasMore: json['has_more'] as bool,
         );
 
-Map<String, dynamic> _$$ListFineTuningJobCheckpointsResponseImplToJson(
-    _$ListFineTuningJobCheckpointsResponseImpl instance) {
-  final val = <String, dynamic>{
-    'data': instance.data.map((e) => e.toJson()).toList(),
-    'object':
-        _$ListFineTuningJobCheckpointsResponseObjectEnumMap[instance.object]!,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('first_id', instance.firstId);
-  writeNotNull('last_id', instance.lastId);
-  val['has_more'] = instance.hasMore;
-  return val;
-}
+Map<String, dynamic> _$ListFineTuningJobCheckpointsResponseToJson(
+        _ListFineTuningJobCheckpointsResponse instance) =>
+    <String, dynamic>{
+      'data': instance.data.map((e) => e.toJson()).toList(),
+      'object':
+          _$ListFineTuningJobCheckpointsResponseObjectEnumMap[instance.object]!,
+      if (instance.firstId case final value?) 'first_id': value,
+      if (instance.lastId case final value?) 'last_id': value,
+      'has_more': instance.hasMore,
+    };
 
 const _$ListFineTuningJobCheckpointsResponseObjectEnumMap = {
   ListFineTuningJobCheckpointsResponseObject.list: 'list',
 };
 
-_$FineTuningJobEventImpl _$$FineTuningJobEventImplFromJson(
-        Map<String, dynamic> json) =>
-    _$FineTuningJobEventImpl(
+_FineTuningJobEvent _$FineTuningJobEventFromJson(Map<String, dynamic> json) =>
+    _FineTuningJobEvent(
       id: json['id'] as String,
       createdAt: (json['created_at'] as num).toInt(),
       level: $enumDecode(_$FineTuningJobEventLevelEnumMap, json['level']),
@@ -1788,8 +1801,7 @@ _$FineTuningJobEventImpl _$$FineTuningJobEventImplFromJson(
       object: $enumDecode(_$FineTuningJobEventObjectEnumMap, json['object']),
     );
 
-Map<String, dynamic> _$$FineTuningJobEventImplToJson(
-        _$FineTuningJobEventImpl instance) =>
+Map<String, dynamic> _$FineTuningJobEventToJson(_FineTuningJobEvent instance) =>
     <String, dynamic>{
       'id': instance.id,
       'created_at': instance.createdAt,
@@ -1808,9 +1820,9 @@ const _$FineTuningJobEventObjectEnumMap = {
   FineTuningJobEventObject.fineTuningJobEvent: 'fine_tuning.job.event',
 };
 
-_$FineTuningJobCheckpointImpl _$$FineTuningJobCheckpointImplFromJson(
+_FineTuningJobCheckpoint _$FineTuningJobCheckpointFromJson(
         Map<String, dynamic> json) =>
-    _$FineTuningJobCheckpointImpl(
+    _FineTuningJobCheckpoint(
       id: json['id'] as String,
       createdAt: (json['created_at'] as num).toInt(),
       fineTunedModelCheckpoint: json['fine_tuned_model_checkpoint'] as String,
@@ -1822,8 +1834,8 @@ _$FineTuningJobCheckpointImpl _$$FineTuningJobCheckpointImplFromJson(
           $enumDecode(_$FineTuningJobCheckpointObjectEnumMap, json['object']),
     );
 
-Map<String, dynamic> _$$FineTuningJobCheckpointImplToJson(
-        _$FineTuningJobCheckpointImpl instance) =>
+Map<String, dynamic> _$FineTuningJobCheckpointToJson(
+        _FineTuningJobCheckpoint instance) =>
     <String, dynamic>{
       'id': instance.id,
       'created_at': instance.createdAt,
@@ -1839,92 +1851,95 @@ const _$FineTuningJobCheckpointObjectEnumMap = {
       'fine_tuning.job.checkpoint',
 };
 
-_$FineTuningJobCheckpointMetricsImpl
-    _$$FineTuningJobCheckpointMetricsImplFromJson(Map<String, dynamic> json) =>
-        _$FineTuningJobCheckpointMetricsImpl(
-          step: (json['step'] as num?)?.toDouble(),
-          trainLoss: (json['train_loss'] as num?)?.toDouble(),
-          trainMeanTokenAccuracy:
-              (json['train_mean_token_accuracy'] as num?)?.toDouble(),
-          validLoss: (json['valid_loss'] as num?)?.toDouble(),
-          validMeanTokenAccuracy:
-              (json['valid_mean_token_accuracy'] as num?)?.toDouble(),
-          fullValidLoss: (json['full_valid_loss'] as num?)?.toDouble(),
-          fullValidMeanTokenAccuracy:
-              (json['full_valid_mean_token_accuracy'] as num?)?.toDouble(),
-        );
-
-Map<String, dynamic> _$$FineTuningJobCheckpointMetricsImplToJson(
-    _$FineTuningJobCheckpointMetricsImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('step', instance.step);
-  writeNotNull('train_loss', instance.trainLoss);
-  writeNotNull('train_mean_token_accuracy', instance.trainMeanTokenAccuracy);
-  writeNotNull('valid_loss', instance.validLoss);
-  writeNotNull('valid_mean_token_accuracy', instance.validMeanTokenAccuracy);
-  writeNotNull('full_valid_loss', instance.fullValidLoss);
-  writeNotNull(
-      'full_valid_mean_token_accuracy', instance.fullValidMeanTokenAccuracy);
-  return val;
-}
-
-_$CreateImageRequestImpl _$$CreateImageRequestImplFromJson(
+_FineTuningJobCheckpointMetrics _$FineTuningJobCheckpointMetricsFromJson(
         Map<String, dynamic> json) =>
-    _$CreateImageRequestImpl(
+    _FineTuningJobCheckpointMetrics(
+      step: (json['step'] as num?)?.toDouble(),
+      trainLoss: (json['train_loss'] as num?)?.toDouble(),
+      trainMeanTokenAccuracy:
+          (json['train_mean_token_accuracy'] as num?)?.toDouble(),
+      validLoss: (json['valid_loss'] as num?)?.toDouble(),
+      validMeanTokenAccuracy:
+          (json['valid_mean_token_accuracy'] as num?)?.toDouble(),
+      fullValidLoss: (json['full_valid_loss'] as num?)?.toDouble(),
+      fullValidMeanTokenAccuracy:
+          (json['full_valid_mean_token_accuracy'] as num?)?.toDouble(),
+    );
+
+Map<String, dynamic> _$FineTuningJobCheckpointMetricsToJson(
+        _FineTuningJobCheckpointMetrics instance) =>
+    <String, dynamic>{
+      if (instance.step case final value?) 'step': value,
+      if (instance.trainLoss case final value?) 'train_loss': value,
+      if (instance.trainMeanTokenAccuracy case final value?)
+        'train_mean_token_accuracy': value,
+      if (instance.validLoss case final value?) 'valid_loss': value,
+      if (instance.validMeanTokenAccuracy case final value?)
+        'valid_mean_token_accuracy': value,
+      if (instance.fullValidLoss case final value?) 'full_valid_loss': value,
+      if (instance.fullValidMeanTokenAccuracy case final value?)
+        'full_valid_mean_token_accuracy': value,
+    };
+
+_CreateImageRequest _$CreateImageRequestFromJson(Map<String, dynamic> json) =>
+    _CreateImageRequest(
       prompt: json['prompt'] as String,
-      model: json['model'] == null
-          ? const CreateImageRequestModelString('dall-e-2')
-          : const _CreateImageRequestModelConverter().fromJson(json['model']),
-      n: (json['n'] as num?)?.toInt() ?? 1,
-      quality: $enumDecodeNullable(_$ImageQualityEnumMap, json['quality']) ??
-          ImageQuality.standard,
+      model: const _CreateImageRequestModelConverter().fromJson(json['model']),
+      n: (json['n'] as num?)?.toInt(),
+      quality: $enumDecodeNullable(_$ImageQualityEnumMap, json['quality'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
       responseFormat: $enumDecodeNullable(
-              _$ImageResponseFormatEnumMap, json['response_format'],
-              unknownValue: JsonKey.nullForUndefinedEnumValue) ??
-          ImageResponseFormat.url,
+          _$ImageResponseFormatEnumMap, json['response_format'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      outputFormat: $enumDecodeNullable(
+          _$ImageOutputFormatEnumMap, json['output_format'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      outputCompression: (json['output_compression'] as num?)?.toInt(),
       size: $enumDecodeNullable(_$ImageSizeEnumMap, json['size'],
-              unknownValue: JsonKey.nullForUndefinedEnumValue) ??
-          ImageSize.v1024x1024,
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      moderation: $enumDecodeNullable(
+          _$ImageModerationEnumMap, json['moderation'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      background: $enumDecodeNullable(
+          _$ImageBackgroundEnumMap, json['background'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
       style: $enumDecodeNullable(_$ImageStyleEnumMap, json['style'],
-              unknownValue: JsonKey.nullForUndefinedEnumValue) ??
-          ImageStyle.vivid,
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
       user: json['user'] as String?,
     );
 
-Map<String, dynamic> _$$CreateImageRequestImplToJson(
-    _$CreateImageRequestImpl instance) {
-  final val = <String, dynamic>{
-    'prompt': instance.prompt,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('model',
-      const _CreateImageRequestModelConverter().toJson(instance.model));
-  writeNotNull('n', instance.n);
-  val['quality'] = _$ImageQualityEnumMap[instance.quality]!;
-  writeNotNull(
-      'response_format', _$ImageResponseFormatEnumMap[instance.responseFormat]);
-  writeNotNull('size', _$ImageSizeEnumMap[instance.size]);
-  writeNotNull('style', _$ImageStyleEnumMap[instance.style]);
-  writeNotNull('user', instance.user);
-  return val;
-}
+Map<String, dynamic> _$CreateImageRequestToJson(_CreateImageRequest instance) =>
+    <String, dynamic>{
+      'prompt': instance.prompt,
+      if (const _CreateImageRequestModelConverter().toJson(instance.model)
+          case final value?)
+        'model': value,
+      if (instance.n case final value?) 'n': value,
+      if (_$ImageQualityEnumMap[instance.quality] case final value?)
+        'quality': value,
+      if (_$ImageResponseFormatEnumMap[instance.responseFormat]
+          case final value?)
+        'response_format': value,
+      if (_$ImageOutputFormatEnumMap[instance.outputFormat] case final value?)
+        'output_format': value,
+      if (instance.outputCompression case final value?)
+        'output_compression': value,
+      if (_$ImageSizeEnumMap[instance.size] case final value?) 'size': value,
+      if (_$ImageModerationEnumMap[instance.moderation] case final value?)
+        'moderation': value,
+      if (_$ImageBackgroundEnumMap[instance.background] case final value?)
+        'background': value,
+      if (_$ImageStyleEnumMap[instance.style] case final value?) 'style': value,
+      if (instance.user case final value?) 'user': value,
+    };
 
 const _$ImageQualityEnumMap = {
   ImageQuality.standard: 'standard',
   ImageQuality.hd: 'hd',
+  ImageQuality.low: 'low',
+  ImageQuality.medium: 'medium',
+  ImageQuality.high: 'high',
+  ImageQuality.auto: 'auto',
 };
 
 const _$ImageResponseFormatEnumMap = {
@@ -1932,12 +1947,32 @@ const _$ImageResponseFormatEnumMap = {
   ImageResponseFormat.b64Json: 'b64_json',
 };
 
+const _$ImageOutputFormatEnumMap = {
+  ImageOutputFormat.png: 'png',
+  ImageOutputFormat.jpeg: 'jpeg',
+  ImageOutputFormat.webp: 'webp',
+};
+
 const _$ImageSizeEnumMap = {
+  ImageSize.auto: 'auto',
+  ImageSize.v1024x1024: '1024x1024',
+  ImageSize.v1536x1024: '1536x1024',
+  ImageSize.v1024x1536: '1024x1536',
   ImageSize.v256x256: '256x256',
   ImageSize.v512x512: '512x512',
-  ImageSize.v1024x1024: '1024x1024',
   ImageSize.v1792x1024: '1792x1024',
   ImageSize.v1024x1792: '1024x1792',
+};
+
+const _$ImageModerationEnumMap = {
+  ImageModeration.low: 'low',
+  ImageModeration.auto: 'auto',
+};
+
+const _$ImageBackgroundEnumMap = {
+  ImageBackground.transparent: 'transparent',
+  ImageBackground.opaque: 'opaque',
+  ImageBackground.auto: 'auto',
 };
 
 const _$ImageStyleEnumMap = {
@@ -1945,16 +1980,15 @@ const _$ImageStyleEnumMap = {
   ImageStyle.natural: 'natural',
 };
 
-_$CreateImageRequestModelEnumerationImpl
-    _$$CreateImageRequestModelEnumerationImplFromJson(
-            Map<String, dynamic> json) =>
-        _$CreateImageRequestModelEnumerationImpl(
-          $enumDecode(_$ImageModelsEnumMap, json['value']),
-          $type: json['runtimeType'] as String?,
-        );
+CreateImageRequestModelEnumeration _$CreateImageRequestModelEnumerationFromJson(
+        Map<String, dynamic> json) =>
+    CreateImageRequestModelEnumeration(
+      $enumDecode(_$ImageModelsEnumMap, json['value']),
+      $type: json['runtimeType'] as String?,
+    );
 
-Map<String, dynamic> _$$CreateImageRequestModelEnumerationImplToJson(
-        _$CreateImageRequestModelEnumerationImpl instance) =>
+Map<String, dynamic> _$CreateImageRequestModelEnumerationToJson(
+        CreateImageRequestModelEnumeration instance) =>
     <String, dynamic>{
       'value': _$ImageModelsEnumMap[instance.value]!,
       'runtimeType': instance.$type,
@@ -1963,90 +1997,83 @@ Map<String, dynamic> _$$CreateImageRequestModelEnumerationImplToJson(
 const _$ImageModelsEnumMap = {
   ImageModels.dallE2: 'dall-e-2',
   ImageModels.dallE3: 'dall-e-3',
+  ImageModels.gptImage1: 'gpt-image-1',
 };
 
-_$CreateImageRequestModelStringImpl
-    _$$CreateImageRequestModelStringImplFromJson(Map<String, dynamic> json) =>
-        _$CreateImageRequestModelStringImpl(
-          json['value'] as String,
-          $type: json['runtimeType'] as String?,
-        );
+CreateImageRequestModelString _$CreateImageRequestModelStringFromJson(
+        Map<String, dynamic> json) =>
+    CreateImageRequestModelString(
+      json['value'] as String,
+      $type: json['runtimeType'] as String?,
+    );
 
-Map<String, dynamic> _$$CreateImageRequestModelStringImplToJson(
-        _$CreateImageRequestModelStringImpl instance) =>
+Map<String, dynamic> _$CreateImageRequestModelStringToJson(
+        CreateImageRequestModelString instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$ImagesResponseImpl _$$ImagesResponseImplFromJson(Map<String, dynamic> json) =>
-    _$ImagesResponseImpl(
+_ImagesResponse _$ImagesResponseFromJson(Map<String, dynamic> json) =>
+    _ImagesResponse(
       created: (json['created'] as num).toInt(),
       data: (json['data'] as List<dynamic>)
           .map((e) => Image.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$$ImagesResponseImplToJson(
-        _$ImagesResponseImpl instance) =>
+Map<String, dynamic> _$ImagesResponseToJson(_ImagesResponse instance) =>
     <String, dynamic>{
       'created': instance.created,
       'data': instance.data.map((e) => e.toJson()).toList(),
     };
 
-_$ImageImpl _$$ImageImplFromJson(Map<String, dynamic> json) => _$ImageImpl(
+_Image _$ImageFromJson(Map<String, dynamic> json) => _Image(
       b64Json: json['b64_json'] as String?,
       url: json['url'] as String?,
       revisedPrompt: json['revised_prompt'] as String?,
     );
 
-Map<String, dynamic> _$$ImageImplToJson(_$ImageImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$ImageToJson(_Image instance) => <String, dynamic>{
+      if (instance.b64Json case final value?) 'b64_json': value,
+      if (instance.url case final value?) 'url': value,
+      if (instance.revisedPrompt case final value?) 'revised_prompt': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('b64_json', instance.b64Json);
-  writeNotNull('url', instance.url);
-  writeNotNull('revised_prompt', instance.revisedPrompt);
-  return val;
-}
-
-_$ModelImpl _$$ModelImplFromJson(Map<String, dynamic> json) => _$ModelImpl(
+_Model _$ModelFromJson(Map<String, dynamic> json) => _Model(
       id: json['id'] as String,
-      created: (json['created'] as num).toInt(),
-      object: $enumDecode(_$ModelObjectEnumMap, json['object']),
-      ownedBy: json['owned_by'] as String,
+      created: (json['created'] as num?)?.toInt(),
+      object: $enumDecodeNullable(_$ModelObjectEnumMap, json['object'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      ownedBy: json['owned_by'] as String?,
     );
 
-Map<String, dynamic> _$$ModelImplToJson(_$ModelImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$ModelToJson(_Model instance) => <String, dynamic>{
       'id': instance.id,
-      'created': instance.created,
-      'object': _$ModelObjectEnumMap[instance.object]!,
-      'owned_by': instance.ownedBy,
+      if (instance.created case final value?) 'created': value,
+      if (_$ModelObjectEnumMap[instance.object] case final value?)
+        'object': value,
+      if (instance.ownedBy case final value?) 'owned_by': value,
     };
 
 const _$ModelObjectEnumMap = {
   ModelObject.model: 'model',
 };
 
-_$ListModelsResponseImpl _$$ListModelsResponseImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ListModelsResponseImpl(
-      object: $enumDecode(_$ListModelsResponseObjectEnumMap, json['object']),
+_ListModelsResponse _$ListModelsResponseFromJson(Map<String, dynamic> json) =>
+    _ListModelsResponse(
+      object: $enumDecodeNullable(
+          _$ListModelsResponseObjectEnumMap, json['object'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
       data: (json['data'] as List<dynamic>)
           .map((e) => Model.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$$ListModelsResponseImplToJson(
-        _$ListModelsResponseImpl instance) =>
+Map<String, dynamic> _$ListModelsResponseToJson(_ListModelsResponse instance) =>
     <String, dynamic>{
-      'object': _$ListModelsResponseObjectEnumMap[instance.object]!,
+      if (_$ListModelsResponseObjectEnumMap[instance.object] case final value?)
+        'object': value,
       'data': instance.data.map((e) => e.toJson()).toList(),
     };
 
@@ -2054,56 +2081,48 @@ const _$ListModelsResponseObjectEnumMap = {
   ListModelsResponseObject.list: 'list',
 };
 
-_$DeleteModelResponseImpl _$$DeleteModelResponseImplFromJson(
-        Map<String, dynamic> json) =>
-    _$DeleteModelResponseImpl(
+_DeleteModelResponse _$DeleteModelResponseFromJson(Map<String, dynamic> json) =>
+    _DeleteModelResponse(
       id: json['id'] as String,
       deleted: json['deleted'] as bool,
       object: json['object'] as String,
     );
 
-Map<String, dynamic> _$$DeleteModelResponseImplToJson(
-        _$DeleteModelResponseImpl instance) =>
+Map<String, dynamic> _$DeleteModelResponseToJson(
+        _DeleteModelResponse instance) =>
     <String, dynamic>{
       'id': instance.id,
       'deleted': instance.deleted,
       'object': instance.object,
     };
 
-_$CreateModerationRequestImpl _$$CreateModerationRequestImplFromJson(
+_CreateModerationRequest _$CreateModerationRequestFromJson(
         Map<String, dynamic> json) =>
-    _$CreateModerationRequestImpl(
+    _CreateModerationRequest(
       model: json['model'] == null
           ? const ModerationModelString('omni-moderation-latest')
           : const _ModerationModelConverter().fromJson(json['model']),
       input: const _ModerationInputConverter().fromJson(json['input']),
     );
 
-Map<String, dynamic> _$$CreateModerationRequestImplToJson(
-    _$CreateModerationRequestImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$CreateModerationRequestToJson(
+        _CreateModerationRequest instance) =>
+    <String, dynamic>{
+      if (const _ModerationModelConverter().toJson(instance.model)
+          case final value?)
+        'model': value,
+      'input': const _ModerationInputConverter().toJson(instance.input),
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'model', const _ModerationModelConverter().toJson(instance.model));
-  val['input'] = const _ModerationInputConverter().toJson(instance.input);
-  return val;
-}
-
-_$ModerationModelEnumerationImpl _$$ModerationModelEnumerationImplFromJson(
+ModerationModelEnumeration _$ModerationModelEnumerationFromJson(
         Map<String, dynamic> json) =>
-    _$ModerationModelEnumerationImpl(
+    ModerationModelEnumeration(
       $enumDecode(_$ModerationModelsEnumMap, json['value']),
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$ModerationModelEnumerationImplToJson(
-        _$ModerationModelEnumerationImpl instance) =>
+Map<String, dynamic> _$ModerationModelEnumerationToJson(
+        ModerationModelEnumeration instance) =>
     <String, dynamic>{
       'value': _$ModerationModelsEnumMap[instance.value]!,
       'runtimeType': instance.$type,
@@ -2116,24 +2135,24 @@ const _$ModerationModelsEnumMap = {
   ModerationModels.textModerationStable: 'text-moderation-stable',
 };
 
-_$ModerationModelStringImpl _$$ModerationModelStringImplFromJson(
+ModerationModelString _$ModerationModelStringFromJson(
         Map<String, dynamic> json) =>
-    _$ModerationModelStringImpl(
+    ModerationModelString(
       json['value'] as String,
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$ModerationModelStringImplToJson(
-        _$ModerationModelStringImpl instance) =>
+Map<String, dynamic> _$ModerationModelStringToJson(
+        ModerationModelString instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$ModerationInputListModerationInputObjectImpl
-    _$$ModerationInputListModerationInputObjectImplFromJson(
+ModerationInputListModerationInputObject
+    _$ModerationInputListModerationInputObjectFromJson(
             Map<String, dynamic> json) =>
-        _$ModerationInputListModerationInputObjectImpl(
+        ModerationInputListModerationInputObject(
           (json['value'] as List<dynamic>)
               .map((e) =>
                   ModerationInputObject.fromJson(e as Map<String, dynamic>))
@@ -2141,44 +2160,44 @@ _$ModerationInputListModerationInputObjectImpl
           $type: json['runtimeType'] as String?,
         );
 
-Map<String, dynamic> _$$ModerationInputListModerationInputObjectImplToJson(
-        _$ModerationInputListModerationInputObjectImpl instance) =>
+Map<String, dynamic> _$ModerationInputListModerationInputObjectToJson(
+        ModerationInputListModerationInputObject instance) =>
     <String, dynamic>{
       'value': instance.value.map((e) => e.toJson()).toList(),
       'runtimeType': instance.$type,
     };
 
-_$ModerationInputListStringImpl _$$ModerationInputListStringImplFromJson(
+ModerationInputListString _$ModerationInputListStringFromJson(
         Map<String, dynamic> json) =>
-    _$ModerationInputListStringImpl(
+    ModerationInputListString(
       (json['value'] as List<dynamic>).map((e) => e as String).toList(),
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$ModerationInputListStringImplToJson(
-        _$ModerationInputListStringImpl instance) =>
+Map<String, dynamic> _$ModerationInputListStringToJson(
+        ModerationInputListString instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$ModerationInputStringImpl _$$ModerationInputStringImplFromJson(
+ModerationInputString _$ModerationInputStringFromJson(
         Map<String, dynamic> json) =>
-    _$ModerationInputStringImpl(
+    ModerationInputString(
       json['value'] as String,
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$ModerationInputStringImplToJson(
-        _$ModerationInputStringImpl instance) =>
+Map<String, dynamic> _$ModerationInputStringToJson(
+        ModerationInputString instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$CreateModerationResponseImpl _$$CreateModerationResponseImplFromJson(
+_CreateModerationResponse _$CreateModerationResponseFromJson(
         Map<String, dynamic> json) =>
-    _$CreateModerationResponseImpl(
+    _CreateModerationResponse(
       id: json['id'] as String,
       model: json['model'] as String,
       results: (json['results'] as List<dynamic>)
@@ -2186,16 +2205,15 @@ _$CreateModerationResponseImpl _$$CreateModerationResponseImplFromJson(
           .toList(),
     );
 
-Map<String, dynamic> _$$CreateModerationResponseImplToJson(
-        _$CreateModerationResponseImpl instance) =>
+Map<String, dynamic> _$CreateModerationResponseToJson(
+        _CreateModerationResponse instance) =>
     <String, dynamic>{
       'id': instance.id,
       'model': instance.model,
       'results': instance.results.map((e) => e.toJson()).toList(),
     };
 
-_$ModerationImpl _$$ModerationImplFromJson(Map<String, dynamic> json) =>
-    _$ModerationImpl(
+_Moderation _$ModerationFromJson(Map<String, dynamic> json) => _Moderation(
       flagged: json['flagged'] as bool,
       categories: ModerationCategories.fromJson(
           json['categories'] as Map<String, dynamic>),
@@ -2205,7 +2223,7 @@ _$ModerationImpl _$$ModerationImplFromJson(Map<String, dynamic> json) =>
           json['category_applied_input_types'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$ModerationImplToJson(_$ModerationImpl instance) =>
+Map<String, dynamic> _$ModerationToJson(_Moderation instance) =>
     <String, dynamic>{
       'flagged': instance.flagged,
       'categories': instance.categories.toJson(),
@@ -2214,9 +2232,9 @@ Map<String, dynamic> _$$ModerationImplToJson(_$ModerationImpl instance) =>
           instance.categoryAppliedInputTypes.toJson(),
     };
 
-_$ModerationCategoriesImpl _$$ModerationCategoriesImplFromJson(
+_ModerationCategories _$ModerationCategoriesFromJson(
         Map<String, dynamic> json) =>
-    _$ModerationCategoriesImpl(
+    _ModerationCategories(
       hate: json['hate'] as bool,
       hateThreatening: json['hate/threatening'] as bool,
       harassment: json['harassment'] as bool,
@@ -2232,8 +2250,8 @@ _$ModerationCategoriesImpl _$$ModerationCategoriesImplFromJson(
       violenceGraphic: json['violence/graphic'] as bool,
     );
 
-Map<String, dynamic> _$$ModerationCategoriesImplToJson(
-        _$ModerationCategoriesImpl instance) =>
+Map<String, dynamic> _$ModerationCategoriesToJson(
+        _ModerationCategories instance) =>
     <String, dynamic>{
       'hate': instance.hate,
       'hate/threatening': instance.hateThreatening,
@@ -2250,9 +2268,9 @@ Map<String, dynamic> _$$ModerationCategoriesImplToJson(
       'violence/graphic': instance.violenceGraphic,
     };
 
-_$ModerationCategoriesScoresImpl _$$ModerationCategoriesScoresImplFromJson(
+_ModerationCategoriesScores _$ModerationCategoriesScoresFromJson(
         Map<String, dynamic> json) =>
-    _$ModerationCategoriesScoresImpl(
+    _ModerationCategoriesScores(
       hate: (json['hate'] as num).toDouble(),
       hateThreatening: (json['hate/threatening'] as num).toDouble(),
       harassment: (json['harassment'] as num).toDouble(),
@@ -2268,8 +2286,8 @@ _$ModerationCategoriesScoresImpl _$$ModerationCategoriesScoresImplFromJson(
       violenceGraphic: (json['violence/graphic'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$$ModerationCategoriesScoresImplToJson(
-        _$ModerationCategoriesScoresImpl instance) =>
+Map<String, dynamic> _$ModerationCategoriesScoresToJson(
+        _ModerationCategoriesScores instance) =>
     <String, dynamic>{
       'hate': instance.hate,
       'hate/threatening': instance.hateThreatening,
@@ -2286,10 +2304,10 @@ Map<String, dynamic> _$$ModerationCategoriesScoresImplToJson(
       'violence/graphic': instance.violenceGraphic,
     };
 
-_$ModerationCategoriesAppliedInputTypesImpl
-    _$$ModerationCategoriesAppliedInputTypesImplFromJson(
+_ModerationCategoriesAppliedInputTypes
+    _$ModerationCategoriesAppliedInputTypesFromJson(
             Map<String, dynamic> json) =>
-        _$ModerationCategoriesAppliedInputTypesImpl(
+        _ModerationCategoriesAppliedInputTypes(
           hate:
               (json['hate'] as List<dynamic>).map((e) => e as String).toList(),
           hateThreatening: (json['hate/threatening'] as List<dynamic>)
@@ -2332,8 +2350,8 @@ _$ModerationCategoriesAppliedInputTypesImpl
               .toList(),
         );
 
-Map<String, dynamic> _$$ModerationCategoriesAppliedInputTypesImplToJson(
-        _$ModerationCategoriesAppliedInputTypesImpl instance) =>
+Map<String, dynamic> _$ModerationCategoriesAppliedInputTypesToJson(
+        _ModerationCategoriesAppliedInputTypes instance) =>
     <String, dynamic>{
       'hate': instance.hate,
       'hate/threatening': instance.hateThreatening,
@@ -2350,9 +2368,8 @@ Map<String, dynamic> _$$ModerationCategoriesAppliedInputTypesImplToJson(
       'violence/graphic': instance.violenceGraphic,
     };
 
-_$AssistantObjectImpl _$$AssistantObjectImplFromJson(
-        Map<String, dynamic> json) =>
-    _$AssistantObjectImpl(
+_AssistantObject _$AssistantObjectFromJson(Map<String, dynamic> json) =>
+    _AssistantObject(
       id: json['id'] as String,
       object: $enumDecode(_$AssistantObjectObjectEnumMap, json['object']),
       createdAt: (json['created_at'] as num).toInt(),
@@ -2374,50 +2391,41 @@ _$AssistantObjectImpl _$$AssistantObjectImplFromJson(
           .fromJson(json['response_format']),
     );
 
-Map<String, dynamic> _$$AssistantObjectImplToJson(
-    _$AssistantObjectImpl instance) {
-  final val = <String, dynamic>{
-    'id': instance.id,
-    'object': _$AssistantObjectObjectEnumMap[instance.object]!,
-    'created_at': instance.createdAt,
-    'name': instance.name,
-    'description': instance.description,
-    'model': instance.model,
-    'instructions': instance.instructions,
-    'tools': instance.tools.map((e) => e.toJson()).toList(),
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('tool_resources', instance.toolResources?.toJson());
-  val['metadata'] = instance.metadata;
-  writeNotNull('temperature', instance.temperature);
-  writeNotNull('top_p', instance.topP);
-  writeNotNull(
-      'response_format',
-      const _AssistantObjectResponseFormatConverter()
-          .toJson(instance.responseFormat));
-  return val;
-}
+Map<String, dynamic> _$AssistantObjectToJson(_AssistantObject instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'object': _$AssistantObjectObjectEnumMap[instance.object]!,
+      'created_at': instance.createdAt,
+      'name': instance.name,
+      'description': instance.description,
+      'model': instance.model,
+      'instructions': instance.instructions,
+      'tools': instance.tools.map((e) => e.toJson()).toList(),
+      if (instance.toolResources?.toJson() case final value?)
+        'tool_resources': value,
+      'metadata': instance.metadata,
+      if (instance.temperature case final value?) 'temperature': value,
+      if (instance.topP case final value?) 'top_p': value,
+      if (const _AssistantObjectResponseFormatConverter()
+              .toJson(instance.responseFormat)
+          case final value?)
+        'response_format': value,
+    };
 
 const _$AssistantObjectObjectEnumMap = {
   AssistantObjectObject.assistant: 'assistant',
 };
 
-_$AssistantObjectResponseFormatEnumerationImpl
-    _$$AssistantObjectResponseFormatEnumerationImplFromJson(
+AssistantObjectResponseFormatEnumeration
+    _$AssistantObjectResponseFormatEnumerationFromJson(
             Map<String, dynamic> json) =>
-        _$AssistantObjectResponseFormatEnumerationImpl(
+        AssistantObjectResponseFormatEnumeration(
           $enumDecode(_$AssistantResponseFormatModeEnumMap, json['value']),
           $type: json['runtimeType'] as String?,
         );
 
-Map<String, dynamic> _$$AssistantObjectResponseFormatEnumerationImplToJson(
-        _$AssistantObjectResponseFormatEnumerationImpl instance) =>
+Map<String, dynamic> _$AssistantObjectResponseFormatEnumerationToJson(
+        AssistantObjectResponseFormatEnumeration instance) =>
     <String, dynamic>{
       'value': _$AssistantResponseFormatModeEnumMap[instance.value]!,
       'runtimeType': instance.$type,
@@ -2427,24 +2435,24 @@ const _$AssistantResponseFormatModeEnumMap = {
   AssistantResponseFormatMode.auto: 'auto',
 };
 
-_$AssistantObjectResponseFormatResponseFormatImpl
-    _$$AssistantObjectResponseFormatResponseFormatImplFromJson(
+AssistantObjectResponseFormatResponseFormat
+    _$AssistantObjectResponseFormatResponseFormatFromJson(
             Map<String, dynamic> json) =>
-        _$AssistantObjectResponseFormatResponseFormatImpl(
+        AssistantObjectResponseFormatResponseFormat(
           ResponseFormat.fromJson(json['value'] as Map<String, dynamic>),
           $type: json['runtimeType'] as String?,
         );
 
-Map<String, dynamic> _$$AssistantObjectResponseFormatResponseFormatImplToJson(
-        _$AssistantObjectResponseFormatResponseFormatImpl instance) =>
+Map<String, dynamic> _$AssistantObjectResponseFormatResponseFormatToJson(
+        AssistantObjectResponseFormatResponseFormat instance) =>
     <String, dynamic>{
       'value': instance.value.toJson(),
       'runtimeType': instance.$type,
     };
 
-_$CreateAssistantRequestImpl _$$CreateAssistantRequestImplFromJson(
+_CreateAssistantRequest _$CreateAssistantRequestFromJson(
         Map<String, dynamic> json) =>
-    _$CreateAssistantRequestImpl(
+    _CreateAssistantRequest(
       model: const _AssistantModelConverter().fromJson(json['model']),
       name: json['name'] as String?,
       description: json['description'] as String?,
@@ -2464,133 +2472,161 @@ _$CreateAssistantRequestImpl _$$CreateAssistantRequestImplFromJson(
           .fromJson(json['response_format']),
     );
 
-Map<String, dynamic> _$$CreateAssistantRequestImplToJson(
-    _$CreateAssistantRequestImpl instance) {
-  final val = <String, dynamic>{
-    'model': const _AssistantModelConverter().toJson(instance.model),
-  };
+Map<String, dynamic> _$CreateAssistantRequestToJson(
+        _CreateAssistantRequest instance) =>
+    <String, dynamic>{
+      'model': const _AssistantModelConverter().toJson(instance.model),
+      if (instance.name case final value?) 'name': value,
+      if (instance.description case final value?) 'description': value,
+      if (instance.instructions case final value?) 'instructions': value,
+      'tools': instance.tools.map((e) => e.toJson()).toList(),
+      if (instance.toolResources?.toJson() case final value?)
+        'tool_resources': value,
+      if (instance.metadata case final value?) 'metadata': value,
+      if (instance.temperature case final value?) 'temperature': value,
+      if (instance.topP case final value?) 'top_p': value,
+      if (const _CreateAssistantRequestResponseFormatConverter()
+              .toJson(instance.responseFormat)
+          case final value?)
+        'response_format': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('name', instance.name);
-  writeNotNull('description', instance.description);
-  writeNotNull('instructions', instance.instructions);
-  val['tools'] = instance.tools.map((e) => e.toJson()).toList();
-  writeNotNull('tool_resources', instance.toolResources?.toJson());
-  writeNotNull('metadata', instance.metadata);
-  writeNotNull('temperature', instance.temperature);
-  writeNotNull('top_p', instance.topP);
-  writeNotNull(
-      'response_format',
-      const _CreateAssistantRequestResponseFormatConverter()
-          .toJson(instance.responseFormat));
-  return val;
-}
-
-_$AssistantModelEnumerationImpl _$$AssistantModelEnumerationImplFromJson(
+AssistantModelEnumeration _$AssistantModelEnumerationFromJson(
         Map<String, dynamic> json) =>
-    _$AssistantModelEnumerationImpl(
+    AssistantModelEnumeration(
       $enumDecode(_$AssistantModelsEnumMap, json['value']),
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$AssistantModelEnumerationImplToJson(
-        _$AssistantModelEnumerationImpl instance) =>
+Map<String, dynamic> _$AssistantModelEnumerationToJson(
+        AssistantModelEnumeration instance) =>
     <String, dynamic>{
       'value': _$AssistantModelsEnumMap[instance.value]!,
       'runtimeType': instance.$type,
     };
 
 const _$AssistantModelsEnumMap = {
+  AssistantModels.gpt5: 'gpt-5',
+  AssistantModels.gpt5Mini: 'gpt-5-mini',
+  AssistantModels.gpt5Nano: 'gpt-5-nano',
+  AssistantModels.gpt520250807: 'gpt-5-2025-08-07',
+  AssistantModels.gpt5Mini20250807: 'gpt-5-mini-2025-08-07',
+  AssistantModels.gpt5Nano20250807: 'gpt-5-nano-2025-08-07',
+  AssistantModels.gpt5ChatLatest: 'gpt-5-chat-latest',
+  AssistantModels.gpt41: 'gpt-4.1',
+  AssistantModels.gpt41Mini: 'gpt-4.1-mini',
+  AssistantModels.gpt41Nano: 'gpt-4.1-nano',
+  AssistantModels.gpt4120250414: 'gpt-4.1-2025-04-14',
+  AssistantModels.gpt41Mini20250414: 'gpt-4.1-mini-2025-04-14',
+  AssistantModels.gpt41Nano20250414: 'gpt-4.1-nano-2025-04-14',
+  AssistantModels.o4Mini: 'o4-mini',
+  AssistantModels.o4Mini20250416: 'o4-mini-2025-04-16',
+  AssistantModels.o3: 'o3',
+  AssistantModels.o320250416: 'o3-2025-04-16',
+  AssistantModels.o3Mini: 'o3-mini',
+  AssistantModels.o3Mini20250131: 'o3-mini-2025-01-31',
+  AssistantModels.o1: 'o1',
+  AssistantModels.o120241217: 'o1-2024-12-17',
+  AssistantModels.o1Preview: 'o1-preview',
+  AssistantModels.o1Preview20240912: 'o1-preview-2024-09-12',
+  AssistantModels.o1Mini: 'o1-mini',
+  AssistantModels.o1Mini20240912: 'o1-mini-2024-09-12',
+  AssistantModels.gpt4o: 'gpt-4o',
+  AssistantModels.gpt4o20241120: 'gpt-4o-2024-11-20',
+  AssistantModels.gpt4o20240806: 'gpt-4o-2024-08-06',
+  AssistantModels.gpt4o20240513: 'gpt-4o-2024-05-13',
+  AssistantModels.gpt4oAudioPreview: 'gpt-4o-audio-preview',
+  AssistantModels.gpt4oAudioPreview20241001: 'gpt-4o-audio-preview-2024-10-01',
+  AssistantModels.gpt4oAudioPreview20241217: 'gpt-4o-audio-preview-2024-12-17',
+  AssistantModels.gpt4oAudioPreview20250603: 'gpt-4o-audio-preview-2025-06-03',
+  AssistantModels.gpt4oMiniAudioPreview: 'gpt-4o-mini-audio-preview',
+  AssistantModels.gpt4oMiniAudioPreview20241217:
+      'gpt-4o-mini-audio-preview-2024-12-17',
+  AssistantModels.gpt4oSearchPreview: 'gpt-4o-search-preview',
+  AssistantModels.gpt4oMiniSearchPreview: 'gpt-4o-mini-search-preview',
+  AssistantModels.gpt4oSearchPreview20250311:
+      'gpt-4o-search-preview-2025-03-11',
+  AssistantModels.gpt4oMiniSearchPreview20250311:
+      'gpt-4o-mini-search-preview-2025-03-11',
   AssistantModels.chatgpt4oLatest: 'chatgpt-4o-latest',
+  AssistantModels.codexMiniLatest: 'codex-mini-latest',
+  AssistantModels.gpt4oMini: 'gpt-4o-mini',
+  AssistantModels.gpt4oMini20240718: 'gpt-4o-mini-2024-07-18',
+  AssistantModels.gpt45Preview: 'gpt-4.5-preview',
+  AssistantModels.gpt45Preview20250227: 'gpt-4.5-preview-2025-02-27',
+  AssistantModels.gpt4Turbo: 'gpt-4-turbo',
+  AssistantModels.gpt4Turbo20240409: 'gpt-4-turbo-2024-04-09',
+  AssistantModels.gpt40125Preview: 'gpt-4-0125-preview',
+  AssistantModels.gpt4TurboPreview: 'gpt-4-turbo-preview',
+  AssistantModels.gpt41106Preview: 'gpt-4-1106-preview',
+  AssistantModels.gpt4VisionPreview: 'gpt-4-vision-preview',
   AssistantModels.gpt4: 'gpt-4',
+  AssistantModels.gpt40314: 'gpt-4-0314',
+  AssistantModels.gpt40613: 'gpt-4-0613',
   AssistantModels.gpt432k: 'gpt-4-32k',
   AssistantModels.gpt432k0314: 'gpt-4-32k-0314',
   AssistantModels.gpt432k0613: 'gpt-4-32k-0613',
-  AssistantModels.gpt40125Preview: 'gpt-4-0125-preview',
-  AssistantModels.gpt40314: 'gpt-4-0314',
-  AssistantModels.gpt40613: 'gpt-4-0613',
-  AssistantModels.gpt41106Preview: 'gpt-4-1106-preview',
-  AssistantModels.gpt4Turbo: 'gpt-4-turbo',
-  AssistantModels.gpt4Turbo20240409: 'gpt-4-turbo-2024-04-09',
-  AssistantModels.gpt4TurboPreview: 'gpt-4-turbo-preview',
-  AssistantModels.gpt4VisionPreview: 'gpt-4-vision-preview',
-  AssistantModels.gpt4o: 'gpt-4o',
-  AssistantModels.gpt4o20240513: 'gpt-4o-2024-05-13',
-  AssistantModels.gpt4o20240806: 'gpt-4o-2024-08-06',
-  AssistantModels.gpt4oMini: 'gpt-4o-mini',
-  AssistantModels.gpt4oMini20240718: 'gpt-4o-mini-2024-07-18',
   AssistantModels.gpt35Turbo: 'gpt-3.5-turbo',
   AssistantModels.gpt35Turbo16k: 'gpt-3.5-turbo-16k',
-  AssistantModels.gpt35Turbo16k0613: 'gpt-3.5-turbo-16k-0613',
-  AssistantModels.gpt35Turbo0125: 'gpt-3.5-turbo-0125',
   AssistantModels.gpt35Turbo0301: 'gpt-3.5-turbo-0301',
   AssistantModels.gpt35Turbo0613: 'gpt-3.5-turbo-0613',
   AssistantModels.gpt35Turbo1106: 'gpt-3.5-turbo-1106',
-  AssistantModels.o1Mini: 'o1-mini',
-  AssistantModels.o1Mini20240912: 'o1-mini-2024-09-12',
-  AssistantModels.o1Preview: 'o1-preview',
-  AssistantModels.o1Preview20240912: 'o1-preview-2024-09-12',
+  AssistantModels.gpt35Turbo0125: 'gpt-3.5-turbo-0125',
+  AssistantModels.gpt35Turbo16k0613: 'gpt-3.5-turbo-16k-0613',
 };
 
-_$AssistantModelStringImpl _$$AssistantModelStringImplFromJson(
+AssistantModelString _$AssistantModelStringFromJson(
         Map<String, dynamic> json) =>
-    _$AssistantModelStringImpl(
+    AssistantModelString(
       json['value'] as String,
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$AssistantModelStringImplToJson(
-        _$AssistantModelStringImpl instance) =>
+Map<String, dynamic> _$AssistantModelStringToJson(
+        AssistantModelString instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$CreateAssistantRequestResponseFormatEnumerationImpl
-    _$$CreateAssistantRequestResponseFormatEnumerationImplFromJson(
+CreateAssistantRequestResponseFormatEnumeration
+    _$CreateAssistantRequestResponseFormatEnumerationFromJson(
             Map<String, dynamic> json) =>
-        _$CreateAssistantRequestResponseFormatEnumerationImpl(
+        CreateAssistantRequestResponseFormatEnumeration(
           $enumDecode(
               _$CreateAssistantResponseFormatModeEnumMap, json['value']),
           $type: json['runtimeType'] as String?,
         );
 
-Map<String, dynamic>
-    _$$CreateAssistantRequestResponseFormatEnumerationImplToJson(
-            _$CreateAssistantRequestResponseFormatEnumerationImpl instance) =>
-        <String, dynamic>{
-          'value': _$CreateAssistantResponseFormatModeEnumMap[instance.value]!,
-          'runtimeType': instance.$type,
-        };
+Map<String, dynamic> _$CreateAssistantRequestResponseFormatEnumerationToJson(
+        CreateAssistantRequestResponseFormatEnumeration instance) =>
+    <String, dynamic>{
+      'value': _$CreateAssistantResponseFormatModeEnumMap[instance.value]!,
+      'runtimeType': instance.$type,
+    };
 
 const _$CreateAssistantResponseFormatModeEnumMap = {
   CreateAssistantResponseFormatMode.auto: 'auto',
 };
 
-_$CreateAssistantRequestResponseFormatResponseFormatImpl
-    _$$CreateAssistantRequestResponseFormatResponseFormatImplFromJson(
+CreateAssistantRequestResponseFormatResponseFormat
+    _$CreateAssistantRequestResponseFormatResponseFormatFromJson(
             Map<String, dynamic> json) =>
-        _$CreateAssistantRequestResponseFormatResponseFormatImpl(
+        CreateAssistantRequestResponseFormatResponseFormat(
           ResponseFormat.fromJson(json['value'] as Map<String, dynamic>),
           $type: json['runtimeType'] as String?,
         );
 
-Map<String,
-    dynamic> _$$CreateAssistantRequestResponseFormatResponseFormatImplToJson(
-        _$CreateAssistantRequestResponseFormatResponseFormatImpl instance) =>
+Map<String, dynamic> _$CreateAssistantRequestResponseFormatResponseFormatToJson(
+        CreateAssistantRequestResponseFormatResponseFormat instance) =>
     <String, dynamic>{
       'value': instance.value.toJson(),
       'runtimeType': instance.$type,
     };
 
-_$ModifyAssistantRequestImpl _$$ModifyAssistantRequestImplFromJson(
+_ModifyAssistantRequest _$ModifyAssistantRequestFromJson(
         Map<String, dynamic> json) =>
-    _$ModifyAssistantRequestImpl(
+    _ModifyAssistantRequest(
       model: json['model'] as String?,
       name: json['name'] as String?,
       description: json['description'] as String?,
@@ -2614,81 +2650,72 @@ _$ModifyAssistantRequestImpl _$$ModifyAssistantRequestImplFromJson(
           .fromJson(json['response_format']),
     );
 
-Map<String, dynamic> _$$ModifyAssistantRequestImplToJson(
-    _$ModifyAssistantRequestImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$ModifyAssistantRequestToJson(
+        _ModifyAssistantRequest instance) =>
+    <String, dynamic>{
+      if (instance.model case final value?) 'model': value,
+      if (instance.name case final value?) 'name': value,
+      if (instance.description case final value?) 'description': value,
+      if (instance.instructions case final value?) 'instructions': value,
+      'tools': instance.tools.map((e) => e.toJson()).toList(),
+      'file_ids': instance.fileIds,
+      if (instance.toolResources?.toJson() case final value?)
+        'tool_resources': value,
+      if (instance.metadata case final value?) 'metadata': value,
+      if (instance.temperature case final value?) 'temperature': value,
+      if (instance.topP case final value?) 'top_p': value,
+      if (const _ModifyAssistantRequestResponseFormatConverter()
+              .toJson(instance.responseFormat)
+          case final value?)
+        'response_format': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('model', instance.model);
-  writeNotNull('name', instance.name);
-  writeNotNull('description', instance.description);
-  writeNotNull('instructions', instance.instructions);
-  val['tools'] = instance.tools.map((e) => e.toJson()).toList();
-  val['file_ids'] = instance.fileIds;
-  writeNotNull('tool_resources', instance.toolResources?.toJson());
-  writeNotNull('metadata', instance.metadata);
-  writeNotNull('temperature', instance.temperature);
-  writeNotNull('top_p', instance.topP);
-  writeNotNull(
-      'response_format',
-      const _ModifyAssistantRequestResponseFormatConverter()
-          .toJson(instance.responseFormat));
-  return val;
-}
-
-_$ModifyAssistantRequestResponseFormatEnumerationImpl
-    _$$ModifyAssistantRequestResponseFormatEnumerationImplFromJson(
+ModifyAssistantRequestResponseFormatEnumeration
+    _$ModifyAssistantRequestResponseFormatEnumerationFromJson(
             Map<String, dynamic> json) =>
-        _$ModifyAssistantRequestResponseFormatEnumerationImpl(
+        ModifyAssistantRequestResponseFormatEnumeration(
           $enumDecode(
               _$ModifyAssistantResponseFormatModeEnumMap, json['value']),
           $type: json['runtimeType'] as String?,
         );
 
-Map<String, dynamic>
-    _$$ModifyAssistantRequestResponseFormatEnumerationImplToJson(
-            _$ModifyAssistantRequestResponseFormatEnumerationImpl instance) =>
-        <String, dynamic>{
-          'value': _$ModifyAssistantResponseFormatModeEnumMap[instance.value]!,
-          'runtimeType': instance.$type,
-        };
+Map<String, dynamic> _$ModifyAssistantRequestResponseFormatEnumerationToJson(
+        ModifyAssistantRequestResponseFormatEnumeration instance) =>
+    <String, dynamic>{
+      'value': _$ModifyAssistantResponseFormatModeEnumMap[instance.value]!,
+      'runtimeType': instance.$type,
+    };
 
 const _$ModifyAssistantResponseFormatModeEnumMap = {
   ModifyAssistantResponseFormatMode.auto: 'auto',
 };
 
-_$ModifyAssistantRequestResponseFormatResponseFormatImpl
-    _$$ModifyAssistantRequestResponseFormatResponseFormatImplFromJson(
+ModifyAssistantRequestResponseFormatResponseFormat
+    _$ModifyAssistantRequestResponseFormatResponseFormatFromJson(
             Map<String, dynamic> json) =>
-        _$ModifyAssistantRequestResponseFormatResponseFormatImpl(
+        ModifyAssistantRequestResponseFormatResponseFormat(
           ResponseFormat.fromJson(json['value'] as Map<String, dynamic>),
           $type: json['runtimeType'] as String?,
         );
 
-Map<String,
-    dynamic> _$$ModifyAssistantRequestResponseFormatResponseFormatImplToJson(
-        _$ModifyAssistantRequestResponseFormatResponseFormatImpl instance) =>
+Map<String, dynamic> _$ModifyAssistantRequestResponseFormatResponseFormatToJson(
+        ModifyAssistantRequestResponseFormatResponseFormat instance) =>
     <String, dynamic>{
       'value': instance.value.toJson(),
       'runtimeType': instance.$type,
     };
 
-_$DeleteAssistantResponseImpl _$$DeleteAssistantResponseImplFromJson(
+_DeleteAssistantResponse _$DeleteAssistantResponseFromJson(
         Map<String, dynamic> json) =>
-    _$DeleteAssistantResponseImpl(
+    _DeleteAssistantResponse(
       id: json['id'] as String,
       deleted: json['deleted'] as bool,
       object:
           $enumDecode(_$DeleteAssistantResponseObjectEnumMap, json['object']),
     );
 
-Map<String, dynamic> _$$DeleteAssistantResponseImplToJson(
-        _$DeleteAssistantResponseImpl instance) =>
+Map<String, dynamic> _$DeleteAssistantResponseToJson(
+        _DeleteAssistantResponse instance) =>
     <String, dynamic>{
       'id': instance.id,
       'deleted': instance.deleted,
@@ -2699,59 +2726,52 @@ const _$DeleteAssistantResponseObjectEnumMap = {
   DeleteAssistantResponseObject.assistantDeleted: 'assistant.deleted',
 };
 
-_$ListAssistantsResponseImpl _$$ListAssistantsResponseImplFromJson(
+_ListAssistantsResponse _$ListAssistantsResponseFromJson(
         Map<String, dynamic> json) =>
-    _$ListAssistantsResponseImpl(
+    _ListAssistantsResponse(
       object: json['object'] as String,
       data: (json['data'] as List<dynamic>)
           .map((e) => AssistantObject.fromJson(e as Map<String, dynamic>))
           .toList(),
-      firstId: json['first_id'] as String,
-      lastId: json['last_id'] as String,
+      firstId: json['first_id'] as String?,
+      lastId: json['last_id'] as String?,
       hasMore: json['has_more'] as bool,
     );
 
-Map<String, dynamic> _$$ListAssistantsResponseImplToJson(
-        _$ListAssistantsResponseImpl instance) =>
+Map<String, dynamic> _$ListAssistantsResponseToJson(
+        _ListAssistantsResponse instance) =>
     <String, dynamic>{
       'object': instance.object,
       'data': instance.data.map((e) => e.toJson()).toList(),
-      'first_id': instance.firstId,
-      'last_id': instance.lastId,
+      if (instance.firstId case final value?) 'first_id': value,
+      if (instance.lastId case final value?) 'last_id': value,
       'has_more': instance.hasMore,
     };
 
-_$FileSearchRankingOptionsImpl _$$FileSearchRankingOptionsImplFromJson(
+_FileSearchRankingOptions _$FileSearchRankingOptionsFromJson(
         Map<String, dynamic> json) =>
-    _$FileSearchRankingOptionsImpl(
+    _FileSearchRankingOptions(
       ranker: $enumDecodeNullable(_$FileSearchRankerEnumMap, json['ranker'],
           unknownValue: JsonKey.nullForUndefinedEnumValue),
       scoreThreshold: (json['score_threshold'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$$FileSearchRankingOptionsImplToJson(
-    _$FileSearchRankingOptionsImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ranker', _$FileSearchRankerEnumMap[instance.ranker]);
-  val['score_threshold'] = instance.scoreThreshold;
-  return val;
-}
+Map<String, dynamic> _$FileSearchRankingOptionsToJson(
+        _FileSearchRankingOptions instance) =>
+    <String, dynamic>{
+      if (_$FileSearchRankerEnumMap[instance.ranker] case final value?)
+        'ranker': value,
+      'score_threshold': instance.scoreThreshold,
+    };
 
 const _$FileSearchRankerEnumMap = {
   FileSearchRanker.auto: 'auto',
   FileSearchRanker.default20240821: 'default_2024_08_21',
 };
 
-_$AssistantsNamedToolChoiceImpl _$$AssistantsNamedToolChoiceImplFromJson(
+_AssistantsNamedToolChoice _$AssistantsNamedToolChoiceFromJson(
         Map<String, dynamic> json) =>
-    _$AssistantsNamedToolChoiceImpl(
+    _AssistantsNamedToolChoice(
       type: $enumDecode(_$AssistantsToolTypeEnumMap, json['type']),
       function: json['function'] == null
           ? null
@@ -2759,21 +2779,12 @@ _$AssistantsNamedToolChoiceImpl _$$AssistantsNamedToolChoiceImplFromJson(
               json['function'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$AssistantsNamedToolChoiceImplToJson(
-    _$AssistantsNamedToolChoiceImpl instance) {
-  final val = <String, dynamic>{
-    'type': _$AssistantsToolTypeEnumMap[instance.type]!,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('function', instance.function?.toJson());
-  return val;
-}
+Map<String, dynamic> _$AssistantsNamedToolChoiceToJson(
+        _AssistantsNamedToolChoice instance) =>
+    <String, dynamic>{
+      'type': _$AssistantsToolTypeEnumMap[instance.type]!,
+      if (instance.function?.toJson() case final value?) 'function': value,
+    };
 
 const _$AssistantsToolTypeEnumMap = {
   AssistantsToolType.function: 'function',
@@ -2781,48 +2792,36 @@ const _$AssistantsToolTypeEnumMap = {
   AssistantsToolType.fileSearch: 'file_search',
 };
 
-_$AssistantsFunctionCallOptionImpl _$$AssistantsFunctionCallOptionImplFromJson(
+_AssistantsFunctionCallOption _$AssistantsFunctionCallOptionFromJson(
         Map<String, dynamic> json) =>
-    _$AssistantsFunctionCallOptionImpl(
+    _AssistantsFunctionCallOption(
       name: json['name'] as String,
     );
 
-Map<String, dynamic> _$$AssistantsFunctionCallOptionImplToJson(
-        _$AssistantsFunctionCallOptionImpl instance) =>
+Map<String, dynamic> _$AssistantsFunctionCallOptionToJson(
+        _AssistantsFunctionCallOption instance) =>
     <String, dynamic>{
       'name': instance.name,
     };
 
-_$TruncationObjectImpl _$$TruncationObjectImplFromJson(
-        Map<String, dynamic> json) =>
-    _$TruncationObjectImpl(
+_TruncationObject _$TruncationObjectFromJson(Map<String, dynamic> json) =>
+    _TruncationObject(
       type: $enumDecode(_$TruncationObjectTypeEnumMap, json['type']),
       lastMessages: (json['last_messages'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$$TruncationObjectImplToJson(
-    _$TruncationObjectImpl instance) {
-  final val = <String, dynamic>{
-    'type': _$TruncationObjectTypeEnumMap[instance.type]!,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('last_messages', instance.lastMessages);
-  return val;
-}
+Map<String, dynamic> _$TruncationObjectToJson(_TruncationObject instance) =>
+    <String, dynamic>{
+      'type': _$TruncationObjectTypeEnumMap[instance.type]!,
+      if (instance.lastMessages case final value?) 'last_messages': value,
+    };
 
 const _$TruncationObjectTypeEnumMap = {
   TruncationObjectType.auto: 'auto',
   TruncationObjectType.lastMessages: 'last_messages',
 };
 
-_$RunObjectImpl _$$RunObjectImplFromJson(Map<String, dynamic> json) =>
-    _$RunObjectImpl(
+_RunObject _$RunObjectFromJson(Map<String, dynamic> json) => _RunObject(
       id: json['id'] as String,
       object: $enumDecode(_$RunObjectObjectEnumMap, json['object']),
       createdAt: (json['created_at'] as num).toInt(),
@@ -2869,47 +2868,38 @@ _$RunObjectImpl _$$RunObjectImplFromJson(Map<String, dynamic> json) =>
           .fromJson(json['response_format']),
     );
 
-Map<String, dynamic> _$$RunObjectImplToJson(_$RunObjectImpl instance) {
-  final val = <String, dynamic>{
-    'id': instance.id,
-    'object': _$RunObjectObjectEnumMap[instance.object]!,
-    'created_at': instance.createdAt,
-    'thread_id': instance.threadId,
-    'assistant_id': instance.assistantId,
-    'status': _$RunStatusEnumMap[instance.status]!,
-    'required_action': instance.requiredAction?.toJson(),
-    'last_error': instance.lastError?.toJson(),
-    'expires_at': instance.expiresAt,
-    'started_at': instance.startedAt,
-    'cancelled_at': instance.cancelledAt,
-    'failed_at': instance.failedAt,
-    'completed_at': instance.completedAt,
-    'incomplete_details': instance.incompleteDetails?.toJson(),
-    'model': instance.model,
-    'instructions': instance.instructions,
-    'tools': instance.tools.map((e) => e.toJson()).toList(),
-    'metadata': instance.metadata,
-    'usage': instance.usage?.toJson(),
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('temperature', instance.temperature);
-  writeNotNull('top_p', instance.topP);
-  val['max_prompt_tokens'] = instance.maxPromptTokens;
-  val['max_completion_tokens'] = instance.maxCompletionTokens;
-  val['truncation_strategy'] = instance.truncationStrategy?.toJson();
-  val['tool_choice'] = _$JsonConverterToJson<Object?, RunObjectToolChoice>(
-      instance.toolChoice, const _RunObjectToolChoiceConverter().toJson);
-  val['parallel_tool_calls'] = instance.parallelToolCalls;
-  val['response_format'] =
-      const _RunObjectResponseFormatConverter().toJson(instance.responseFormat);
-  return val;
-}
+Map<String, dynamic> _$RunObjectToJson(_RunObject instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'object': _$RunObjectObjectEnumMap[instance.object]!,
+      'created_at': instance.createdAt,
+      'thread_id': instance.threadId,
+      'assistant_id': instance.assistantId,
+      'status': _$RunStatusEnumMap[instance.status]!,
+      'required_action': instance.requiredAction?.toJson(),
+      'last_error': instance.lastError?.toJson(),
+      'expires_at': instance.expiresAt,
+      'started_at': instance.startedAt,
+      'cancelled_at': instance.cancelledAt,
+      'failed_at': instance.failedAt,
+      'completed_at': instance.completedAt,
+      'incomplete_details': instance.incompleteDetails?.toJson(),
+      'model': instance.model,
+      'instructions': instance.instructions,
+      'tools': instance.tools.map((e) => e.toJson()).toList(),
+      'metadata': instance.metadata,
+      'usage': instance.usage?.toJson(),
+      if (instance.temperature case final value?) 'temperature': value,
+      if (instance.topP case final value?) 'top_p': value,
+      'max_prompt_tokens': instance.maxPromptTokens,
+      'max_completion_tokens': instance.maxCompletionTokens,
+      'truncation_strategy': instance.truncationStrategy?.toJson(),
+      'tool_choice': _$JsonConverterToJson<Object?, RunObjectToolChoice>(
+          instance.toolChoice, const _RunObjectToolChoiceConverter().toJson),
+      'parallel_tool_calls': instance.parallelToolCalls,
+      'response_format': const _RunObjectResponseFormatConverter()
+          .toJson(instance.responseFormat),
+    };
 
 const _$RunObjectObjectEnumMap = {
   RunObjectObject.threadRun: 'thread.run',
@@ -2927,16 +2917,14 @@ const _$RunStatusEnumMap = {
   RunStatus.expired: 'expired',
 };
 
-_$RunRequiredActionImpl _$$RunRequiredActionImplFromJson(
-        Map<String, dynamic> json) =>
-    _$RunRequiredActionImpl(
+_RunRequiredAction _$RunRequiredActionFromJson(Map<String, dynamic> json) =>
+    _RunRequiredAction(
       type: $enumDecode(_$RunRequiredActionTypeEnumMap, json['type']),
       submitToolOutputs: RunSubmitToolOutputs.fromJson(
           json['submit_tool_outputs'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$RunRequiredActionImplToJson(
-        _$RunRequiredActionImpl instance) =>
+Map<String, dynamic> _$RunRequiredActionToJson(_RunRequiredAction instance) =>
     <String, dynamic>{
       'type': _$RunRequiredActionTypeEnumMap[instance.type]!,
       'submit_tool_outputs': instance.submitToolOutputs.toJson(),
@@ -2946,13 +2934,13 @@ const _$RunRequiredActionTypeEnumMap = {
   RunRequiredActionType.submitToolOutputs: 'submit_tool_outputs',
 };
 
-_$RunLastErrorImpl _$$RunLastErrorImplFromJson(Map<String, dynamic> json) =>
-    _$RunLastErrorImpl(
+_RunLastError _$RunLastErrorFromJson(Map<String, dynamic> json) =>
+    _RunLastError(
       code: $enumDecode(_$RunLastErrorCodeEnumMap, json['code']),
       message: json['message'] as String,
     );
 
-Map<String, dynamic> _$$RunLastErrorImplToJson(_$RunLastErrorImpl instance) =>
+Map<String, dynamic> _$RunLastErrorToJson(_RunLastError instance) =>
     <String, dynamic>{
       'code': _$RunLastErrorCodeEnumMap[instance.code]!,
       'message': instance.message,
@@ -2964,43 +2952,36 @@ const _$RunLastErrorCodeEnumMap = {
   RunLastErrorCode.invalidPrompt: 'invalid_prompt',
 };
 
-_$RunObjectIncompleteDetailsImpl _$$RunObjectIncompleteDetailsImplFromJson(
+_RunObjectIncompleteDetails _$RunObjectIncompleteDetailsFromJson(
         Map<String, dynamic> json) =>
-    _$RunObjectIncompleteDetailsImpl(
+    _RunObjectIncompleteDetails(
       reason: $enumDecodeNullable(
           _$RunObjectIncompleteDetailsReasonEnumMap, json['reason'],
           unknownValue: JsonKey.nullForUndefinedEnumValue),
     );
 
-Map<String, dynamic> _$$RunObjectIncompleteDetailsImplToJson(
-    _$RunObjectIncompleteDetailsImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'reason', _$RunObjectIncompleteDetailsReasonEnumMap[instance.reason]);
-  return val;
-}
+Map<String, dynamic> _$RunObjectIncompleteDetailsToJson(
+        _RunObjectIncompleteDetails instance) =>
+    <String, dynamic>{
+      if (_$RunObjectIncompleteDetailsReasonEnumMap[instance.reason]
+          case final value?)
+        'reason': value,
+    };
 
 const _$RunObjectIncompleteDetailsReasonEnumMap = {
   RunObjectIncompleteDetailsReason.maxCompletionTokens: 'max_completion_tokens',
   RunObjectIncompleteDetailsReason.maxPromptTokens: 'max_prompt_tokens',
 };
 
-_$RunObjectToolChoiceEnumerationImpl
-    _$$RunObjectToolChoiceEnumerationImplFromJson(Map<String, dynamic> json) =>
-        _$RunObjectToolChoiceEnumerationImpl(
-          $enumDecode(_$RunObjectToolChoiceModeEnumMap, json['value']),
-          $type: json['runtimeType'] as String?,
-        );
+RunObjectToolChoiceEnumeration _$RunObjectToolChoiceEnumerationFromJson(
+        Map<String, dynamic> json) =>
+    RunObjectToolChoiceEnumeration(
+      $enumDecode(_$RunObjectToolChoiceModeEnumMap, json['value']),
+      $type: json['runtimeType'] as String?,
+    );
 
-Map<String, dynamic> _$$RunObjectToolChoiceEnumerationImplToJson(
-        _$RunObjectToolChoiceEnumerationImpl instance) =>
+Map<String, dynamic> _$RunObjectToolChoiceEnumerationToJson(
+        RunObjectToolChoiceEnumeration instance) =>
     <String, dynamic>{
       'value': _$RunObjectToolChoiceModeEnumMap[instance.value]!,
       'runtimeType': instance.$type,
@@ -3012,32 +2993,31 @@ const _$RunObjectToolChoiceModeEnumMap = {
   RunObjectToolChoiceMode.required: 'required',
 };
 
-_$RunObjectToolChoiceAssistantsNamedToolChoiceImpl
-    _$$RunObjectToolChoiceAssistantsNamedToolChoiceImplFromJson(
+RunObjectToolChoiceAssistantsNamedToolChoice
+    _$RunObjectToolChoiceAssistantsNamedToolChoiceFromJson(
             Map<String, dynamic> json) =>
-        _$RunObjectToolChoiceAssistantsNamedToolChoiceImpl(
+        RunObjectToolChoiceAssistantsNamedToolChoice(
           AssistantsNamedToolChoice.fromJson(
               json['value'] as Map<String, dynamic>),
           $type: json['runtimeType'] as String?,
         );
 
-Map<String, dynamic> _$$RunObjectToolChoiceAssistantsNamedToolChoiceImplToJson(
-        _$RunObjectToolChoiceAssistantsNamedToolChoiceImpl instance) =>
+Map<String, dynamic> _$RunObjectToolChoiceAssistantsNamedToolChoiceToJson(
+        RunObjectToolChoiceAssistantsNamedToolChoice instance) =>
     <String, dynamic>{
       'value': instance.value.toJson(),
       'runtimeType': instance.$type,
     };
 
-_$RunObjectResponseFormatEnumerationImpl
-    _$$RunObjectResponseFormatEnumerationImplFromJson(
-            Map<String, dynamic> json) =>
-        _$RunObjectResponseFormatEnumerationImpl(
-          $enumDecode(_$RunObjectResponseFormatModeEnumMap, json['value']),
-          $type: json['runtimeType'] as String?,
-        );
+RunObjectResponseFormatEnumeration _$RunObjectResponseFormatEnumerationFromJson(
+        Map<String, dynamic> json) =>
+    RunObjectResponseFormatEnumeration(
+      $enumDecode(_$RunObjectResponseFormatModeEnumMap, json['value']),
+      $type: json['runtimeType'] as String?,
+    );
 
-Map<String, dynamic> _$$RunObjectResponseFormatEnumerationImplToJson(
-        _$RunObjectResponseFormatEnumerationImpl instance) =>
+Map<String, dynamic> _$RunObjectResponseFormatEnumerationToJson(
+        RunObjectResponseFormatEnumeration instance) =>
     <String, dynamic>{
       'value': _$RunObjectResponseFormatModeEnumMap[instance.value]!,
       'runtimeType': instance.$type,
@@ -3047,54 +3027,51 @@ const _$RunObjectResponseFormatModeEnumMap = {
   RunObjectResponseFormatMode.auto: 'auto',
 };
 
-_$RunObjectResponseFormatResponseFormatImpl
-    _$$RunObjectResponseFormatResponseFormatImplFromJson(
+RunObjectResponseFormatResponseFormat
+    _$RunObjectResponseFormatResponseFormatFromJson(
             Map<String, dynamic> json) =>
-        _$RunObjectResponseFormatResponseFormatImpl(
+        RunObjectResponseFormatResponseFormat(
           ResponseFormat.fromJson(json['value'] as Map<String, dynamic>),
           $type: json['runtimeType'] as String?,
         );
 
-Map<String, dynamic> _$$RunObjectResponseFormatResponseFormatImplToJson(
-        _$RunObjectResponseFormatResponseFormatImpl instance) =>
+Map<String, dynamic> _$RunObjectResponseFormatResponseFormatToJson(
+        RunObjectResponseFormatResponseFormat instance) =>
     <String, dynamic>{
       'value': instance.value.toJson(),
       'runtimeType': instance.$type,
     };
 
-_$RunSubmitToolOutputsImpl _$$RunSubmitToolOutputsImplFromJson(
+_RunSubmitToolOutputs _$RunSubmitToolOutputsFromJson(
         Map<String, dynamic> json) =>
-    _$RunSubmitToolOutputsImpl(
+    _RunSubmitToolOutputs(
       toolCalls: (json['tool_calls'] as List<dynamic>)
           .map((e) => RunToolCallObject.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$$RunSubmitToolOutputsImplToJson(
-        _$RunSubmitToolOutputsImpl instance) =>
+Map<String, dynamic> _$RunSubmitToolOutputsToJson(
+        _RunSubmitToolOutputs instance) =>
     <String, dynamic>{
       'tool_calls': instance.toolCalls.map((e) => e.toJson()).toList(),
     };
 
-_$RunCompletionUsageImpl _$$RunCompletionUsageImplFromJson(
-        Map<String, dynamic> json) =>
-    _$RunCompletionUsageImpl(
+_RunCompletionUsage _$RunCompletionUsageFromJson(Map<String, dynamic> json) =>
+    _RunCompletionUsage(
       completionTokens: (json['completion_tokens'] as num).toInt(),
       promptTokens: (json['prompt_tokens'] as num).toInt(),
       totalTokens: (json['total_tokens'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$RunCompletionUsageImplToJson(
-        _$RunCompletionUsageImpl instance) =>
+Map<String, dynamic> _$RunCompletionUsageToJson(_RunCompletionUsage instance) =>
     <String, dynamic>{
       'completion_tokens': instance.completionTokens,
       'prompt_tokens': instance.promptTokens,
       'total_tokens': instance.totalTokens,
     };
 
-_$CreateRunRequestImpl _$$CreateRunRequestImplFromJson(
-        Map<String, dynamic> json) =>
-    _$CreateRunRequestImpl(
+_CreateRunRequest _$CreateRunRequestFromJson(Map<String, dynamic> json) =>
+    _CreateRunRequest(
       assistantId: json['assistant_id'] as String,
       model: const _CreateRunRequestModelConverter().fromJson(json['model']),
       instructions: json['instructions'] as String?,
@@ -3122,113 +3099,149 @@ _$CreateRunRequestImpl _$$CreateRunRequestImplFromJson(
       stream: json['stream'] as bool?,
     );
 
-Map<String, dynamic> _$$CreateRunRequestImplToJson(
-    _$CreateRunRequestImpl instance) {
-  final val = <String, dynamic>{
-    'assistant_id': instance.assistantId,
-  };
+Map<String, dynamic> _$CreateRunRequestToJson(_CreateRunRequest instance) =>
+    <String, dynamic>{
+      'assistant_id': instance.assistantId,
+      if (const _CreateRunRequestModelConverter().toJson(instance.model)
+          case final value?)
+        'model': value,
+      if (instance.instructions case final value?) 'instructions': value,
+      if (instance.additionalInstructions case final value?)
+        'additional_instructions': value,
+      if (instance.additionalMessages?.map((e) => e.toJson()).toList()
+          case final value?)
+        'additional_messages': value,
+      if (instance.tools?.map((e) => e.toJson()).toList() case final value?)
+        'tools': value,
+      if (instance.metadata case final value?) 'metadata': value,
+      if (instance.temperature case final value?) 'temperature': value,
+      if (instance.topP case final value?) 'top_p': value,
+      if (instance.maxPromptTokens case final value?)
+        'max_prompt_tokens': value,
+      if (instance.maxCompletionTokens case final value?)
+        'max_completion_tokens': value,
+      if (instance.truncationStrategy?.toJson() case final value?)
+        'truncation_strategy': value,
+      if (const _CreateRunRequestToolChoiceConverter()
+              .toJson(instance.toolChoice)
+          case final value?)
+        'tool_choice': value,
+      if (instance.parallelToolCalls case final value?)
+        'parallel_tool_calls': value,
+      if (const _CreateRunRequestResponseFormatConverter()
+              .toJson(instance.responseFormat)
+          case final value?)
+        'response_format': value,
+      if (instance.stream case final value?) 'stream': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
+CreateRunRequestModelEnumeration _$CreateRunRequestModelEnumerationFromJson(
+        Map<String, dynamic> json) =>
+    CreateRunRequestModelEnumeration(
+      $enumDecode(_$RunModelsEnumMap, json['value']),
+      $type: json['runtimeType'] as String?,
+    );
 
-  writeNotNull(
-      'model', const _CreateRunRequestModelConverter().toJson(instance.model));
-  writeNotNull('instructions', instance.instructions);
-  writeNotNull('additional_instructions', instance.additionalInstructions);
-  writeNotNull('additional_messages',
-      instance.additionalMessages?.map((e) => e.toJson()).toList());
-  writeNotNull('tools', instance.tools?.map((e) => e.toJson()).toList());
-  writeNotNull('metadata', instance.metadata);
-  writeNotNull('temperature', instance.temperature);
-  writeNotNull('top_p', instance.topP);
-  writeNotNull('max_prompt_tokens', instance.maxPromptTokens);
-  writeNotNull('max_completion_tokens', instance.maxCompletionTokens);
-  writeNotNull('truncation_strategy', instance.truncationStrategy?.toJson());
-  writeNotNull('tool_choice',
-      const _CreateRunRequestToolChoiceConverter().toJson(instance.toolChoice));
-  writeNotNull('parallel_tool_calls', instance.parallelToolCalls);
-  writeNotNull(
-      'response_format',
-      const _CreateRunRequestResponseFormatConverter()
-          .toJson(instance.responseFormat));
-  writeNotNull('stream', instance.stream);
-  return val;
-}
-
-_$CreateRunRequestModelEnumerationImpl
-    _$$CreateRunRequestModelEnumerationImplFromJson(
-            Map<String, dynamic> json) =>
-        _$CreateRunRequestModelEnumerationImpl(
-          $enumDecode(_$RunModelsEnumMap, json['value']),
-          $type: json['runtimeType'] as String?,
-        );
-
-Map<String, dynamic> _$$CreateRunRequestModelEnumerationImplToJson(
-        _$CreateRunRequestModelEnumerationImpl instance) =>
+Map<String, dynamic> _$CreateRunRequestModelEnumerationToJson(
+        CreateRunRequestModelEnumeration instance) =>
     <String, dynamic>{
       'value': _$RunModelsEnumMap[instance.value]!,
       'runtimeType': instance.$type,
     };
 
 const _$RunModelsEnumMap = {
+  RunModels.gpt5: 'gpt-5',
+  RunModels.gpt5Mini: 'gpt-5-mini',
+  RunModels.gpt5Nano: 'gpt-5-nano',
+  RunModels.gpt520250807: 'gpt-5-2025-08-07',
+  RunModels.gpt5Mini20250807: 'gpt-5-mini-2025-08-07',
+  RunModels.gpt5Nano20250807: 'gpt-5-nano-2025-08-07',
+  RunModels.gpt5ChatLatest: 'gpt-5-chat-latest',
+  RunModels.gpt41: 'gpt-4.1',
+  RunModels.gpt41Mini: 'gpt-4.1-mini',
+  RunModels.gpt41Nano: 'gpt-4.1-nano',
+  RunModels.gpt4120250414: 'gpt-4.1-2025-04-14',
+  RunModels.gpt41Mini20250414: 'gpt-4.1-mini-2025-04-14',
+  RunModels.gpt41Nano20250414: 'gpt-4.1-nano-2025-04-14',
+  RunModels.o4Mini: 'o4-mini',
+  RunModels.o4Mini20250416: 'o4-mini-2025-04-16',
+  RunModels.o3: 'o3',
+  RunModels.o320250416: 'o3-2025-04-16',
+  RunModels.o3Mini: 'o3-mini',
+  RunModels.o3Mini20250131: 'o3-mini-2025-01-31',
+  RunModels.o1: 'o1',
+  RunModels.o120241217: 'o1-2024-12-17',
+  RunModels.o1Preview: 'o1-preview',
+  RunModels.o1Preview20240912: 'o1-preview-2024-09-12',
+  RunModels.o1Mini: 'o1-mini',
+  RunModels.o1Mini20240912: 'o1-mini-2024-09-12',
+  RunModels.gpt4o: 'gpt-4o',
+  RunModels.gpt4o20241120: 'gpt-4o-2024-11-20',
+  RunModels.gpt4o20240806: 'gpt-4o-2024-08-06',
+  RunModels.gpt4o20240513: 'gpt-4o-2024-05-13',
+  RunModels.gpt4oAudioPreview: 'gpt-4o-audio-preview',
+  RunModels.gpt4oAudioPreview20241001: 'gpt-4o-audio-preview-2024-10-01',
+  RunModels.gpt4oAudioPreview20241217: 'gpt-4o-audio-preview-2024-12-17',
+  RunModels.gpt4oAudioPreview20250603: 'gpt-4o-audio-preview-2025-06-03',
+  RunModels.gpt4oMiniAudioPreview: 'gpt-4o-mini-audio-preview',
+  RunModels.gpt4oMiniAudioPreview20241217:
+      'gpt-4o-mini-audio-preview-2024-12-17',
+  RunModels.gpt4oSearchPreview: 'gpt-4o-search-preview',
+  RunModels.gpt4oMiniSearchPreview: 'gpt-4o-mini-search-preview',
+  RunModels.gpt4oSearchPreview20250311: 'gpt-4o-search-preview-2025-03-11',
+  RunModels.gpt4oMiniSearchPreview20250311:
+      'gpt-4o-mini-search-preview-2025-03-11',
   RunModels.chatgpt4oLatest: 'chatgpt-4o-latest',
+  RunModels.codexMiniLatest: 'codex-mini-latest',
+  RunModels.gpt4oMini: 'gpt-4o-mini',
+  RunModels.gpt4oMini20240718: 'gpt-4o-mini-2024-07-18',
+  RunModels.gpt45Preview: 'gpt-4.5-preview',
+  RunModels.gpt45Preview20250227: 'gpt-4.5-preview-2025-02-27',
+  RunModels.gpt4Turbo: 'gpt-4-turbo',
+  RunModels.gpt4Turbo20240409: 'gpt-4-turbo-2024-04-09',
+  RunModels.gpt40125Preview: 'gpt-4-0125-preview',
+  RunModels.gpt4TurboPreview: 'gpt-4-turbo-preview',
+  RunModels.gpt41106Preview: 'gpt-4-1106-preview',
+  RunModels.gpt4VisionPreview: 'gpt-4-vision-preview',
   RunModels.gpt4: 'gpt-4',
+  RunModels.gpt40314: 'gpt-4-0314',
+  RunModels.gpt40613: 'gpt-4-0613',
   RunModels.gpt432k: 'gpt-4-32k',
   RunModels.gpt432k0314: 'gpt-4-32k-0314',
   RunModels.gpt432k0613: 'gpt-4-32k-0613',
-  RunModels.gpt40125Preview: 'gpt-4-0125-preview',
-  RunModels.gpt40314: 'gpt-4-0314',
-  RunModels.gpt40613: 'gpt-4-0613',
-  RunModels.gpt41106Preview: 'gpt-4-1106-preview',
-  RunModels.gpt4Turbo: 'gpt-4-turbo',
-  RunModels.gpt4Turbo20240409: 'gpt-4-turbo-2024-04-09',
-  RunModels.gpt4TurboPreview: 'gpt-4-turbo-preview',
-  RunModels.gpt4VisionPreview: 'gpt-4-vision-preview',
-  RunModels.gpt4o: 'gpt-4o',
-  RunModels.gpt4o20240513: 'gpt-4o-2024-05-13',
-  RunModels.gpt4o20240806: 'gpt-4o-2024-08-06',
-  RunModels.gpt4oMini: 'gpt-4o-mini',
-  RunModels.gpt4oMini20240718: 'gpt-4o-mini-2024-07-18',
   RunModels.gpt35Turbo: 'gpt-3.5-turbo',
   RunModels.gpt35Turbo16k: 'gpt-3.5-turbo-16k',
-  RunModels.gpt35Turbo16k0613: 'gpt-3.5-turbo-16k-0613',
-  RunModels.gpt35Turbo0125: 'gpt-3.5-turbo-0125',
   RunModels.gpt35Turbo0301: 'gpt-3.5-turbo-0301',
   RunModels.gpt35Turbo0613: 'gpt-3.5-turbo-0613',
   RunModels.gpt35Turbo1106: 'gpt-3.5-turbo-1106',
-  RunModels.o1Mini: 'o1-mini',
-  RunModels.o1Mini20240912: 'o1-mini-2024-09-12',
-  RunModels.o1Preview: 'o1-preview',
-  RunModels.o1Preview20240912: 'o1-preview-2024-09-12',
+  RunModels.gpt35Turbo0125: 'gpt-3.5-turbo-0125',
+  RunModels.gpt35Turbo16k0613: 'gpt-3.5-turbo-16k-0613',
 };
 
-_$CreateRunRequestModelStringImpl _$$CreateRunRequestModelStringImplFromJson(
+CreateRunRequestModelString _$CreateRunRequestModelStringFromJson(
         Map<String, dynamic> json) =>
-    _$CreateRunRequestModelStringImpl(
+    CreateRunRequestModelString(
       json['value'] as String,
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$CreateRunRequestModelStringImplToJson(
-        _$CreateRunRequestModelStringImpl instance) =>
+Map<String, dynamic> _$CreateRunRequestModelStringToJson(
+        CreateRunRequestModelString instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$CreateRunRequestToolChoiceEnumerationImpl
-    _$$CreateRunRequestToolChoiceEnumerationImplFromJson(
+CreateRunRequestToolChoiceEnumeration
+    _$CreateRunRequestToolChoiceEnumerationFromJson(
             Map<String, dynamic> json) =>
-        _$CreateRunRequestToolChoiceEnumerationImpl(
+        CreateRunRequestToolChoiceEnumeration(
           $enumDecode(_$CreateRunRequestToolChoiceModeEnumMap, json['value']),
           $type: json['runtimeType'] as String?,
         );
 
-Map<String, dynamic> _$$CreateRunRequestToolChoiceEnumerationImplToJson(
-        _$CreateRunRequestToolChoiceEnumerationImpl instance) =>
+Map<String, dynamic> _$CreateRunRequestToolChoiceEnumerationToJson(
+        CreateRunRequestToolChoiceEnumeration instance) =>
     <String, dynamic>{
       'value': _$CreateRunRequestToolChoiceModeEnumMap[instance.value]!,
       'runtimeType': instance.$type,
@@ -3240,34 +3253,34 @@ const _$CreateRunRequestToolChoiceModeEnumMap = {
   CreateRunRequestToolChoiceMode.required: 'required',
 };
 
-_$CreateRunRequestToolChoiceAssistantsNamedToolChoiceImpl
-    _$$CreateRunRequestToolChoiceAssistantsNamedToolChoiceImplFromJson(
+CreateRunRequestToolChoiceAssistantsNamedToolChoice
+    _$CreateRunRequestToolChoiceAssistantsNamedToolChoiceFromJson(
             Map<String, dynamic> json) =>
-        _$CreateRunRequestToolChoiceAssistantsNamedToolChoiceImpl(
+        CreateRunRequestToolChoiceAssistantsNamedToolChoice(
           AssistantsNamedToolChoice.fromJson(
               json['value'] as Map<String, dynamic>),
           $type: json['runtimeType'] as String?,
         );
 
-Map<String,
-    dynamic> _$$CreateRunRequestToolChoiceAssistantsNamedToolChoiceImplToJson(
-        _$CreateRunRequestToolChoiceAssistantsNamedToolChoiceImpl instance) =>
-    <String, dynamic>{
-      'value': instance.value.toJson(),
-      'runtimeType': instance.$type,
-    };
+Map<String, dynamic>
+    _$CreateRunRequestToolChoiceAssistantsNamedToolChoiceToJson(
+            CreateRunRequestToolChoiceAssistantsNamedToolChoice instance) =>
+        <String, dynamic>{
+          'value': instance.value.toJson(),
+          'runtimeType': instance.$type,
+        };
 
-_$CreateRunRequestResponseFormatEnumerationImpl
-    _$$CreateRunRequestResponseFormatEnumerationImplFromJson(
+CreateRunRequestResponseFormatEnumeration
+    _$CreateRunRequestResponseFormatEnumerationFromJson(
             Map<String, dynamic> json) =>
-        _$CreateRunRequestResponseFormatEnumerationImpl(
+        CreateRunRequestResponseFormatEnumeration(
           $enumDecode(
               _$CreateRunRequestResponseFormatModeEnumMap, json['value']),
           $type: json['runtimeType'] as String?,
         );
 
-Map<String, dynamic> _$$CreateRunRequestResponseFormatEnumerationImplToJson(
-        _$CreateRunRequestResponseFormatEnumerationImpl instance) =>
+Map<String, dynamic> _$CreateRunRequestResponseFormatEnumerationToJson(
+        CreateRunRequestResponseFormatEnumeration instance) =>
     <String, dynamic>{
       'value': _$CreateRunRequestResponseFormatModeEnumMap[instance.value]!,
       'runtimeType': instance.$type,
@@ -3277,121 +3290,89 @@ const _$CreateRunRequestResponseFormatModeEnumMap = {
   CreateRunRequestResponseFormatMode.auto: 'auto',
 };
 
-_$CreateRunRequestResponseFormatResponseFormatImpl
-    _$$CreateRunRequestResponseFormatResponseFormatImplFromJson(
+CreateRunRequestResponseFormatResponseFormat
+    _$CreateRunRequestResponseFormatResponseFormatFromJson(
             Map<String, dynamic> json) =>
-        _$CreateRunRequestResponseFormatResponseFormatImpl(
+        CreateRunRequestResponseFormatResponseFormat(
           ResponseFormat.fromJson(json['value'] as Map<String, dynamic>),
           $type: json['runtimeType'] as String?,
         );
 
-Map<String, dynamic> _$$CreateRunRequestResponseFormatResponseFormatImplToJson(
-        _$CreateRunRequestResponseFormatResponseFormatImpl instance) =>
+Map<String, dynamic> _$CreateRunRequestResponseFormatResponseFormatToJson(
+        CreateRunRequestResponseFormatResponseFormat instance) =>
     <String, dynamic>{
       'value': instance.value.toJson(),
       'runtimeType': instance.$type,
     };
 
-_$ListRunsResponseImpl _$$ListRunsResponseImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ListRunsResponseImpl(
+_ListRunsResponse _$ListRunsResponseFromJson(Map<String, dynamic> json) =>
+    _ListRunsResponse(
       object: json['object'] as String,
       data: (json['data'] as List<dynamic>)
           .map((e) => RunObject.fromJson(e as Map<String, dynamic>))
           .toList(),
-      firstId: json['first_id'] as String,
-      lastId: json['last_id'] as String,
+      firstId: json['first_id'] as String?,
+      lastId: json['last_id'] as String?,
       hasMore: json['has_more'] as bool,
     );
 
-Map<String, dynamic> _$$ListRunsResponseImplToJson(
-        _$ListRunsResponseImpl instance) =>
+Map<String, dynamic> _$ListRunsResponseToJson(_ListRunsResponse instance) =>
     <String, dynamic>{
       'object': instance.object,
       'data': instance.data.map((e) => e.toJson()).toList(),
-      'first_id': instance.firstId,
-      'last_id': instance.lastId,
+      if (instance.firstId case final value?) 'first_id': value,
+      if (instance.lastId case final value?) 'last_id': value,
       'has_more': instance.hasMore,
     };
 
-_$ModifyRunRequestImpl _$$ModifyRunRequestImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ModifyRunRequestImpl(
+_ModifyRunRequest _$ModifyRunRequestFromJson(Map<String, dynamic> json) =>
+    _ModifyRunRequest(
       metadata: json['metadata'] as Map<String, dynamic>?,
     );
 
-Map<String, dynamic> _$$ModifyRunRequestImplToJson(
-    _$ModifyRunRequestImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$ModifyRunRequestToJson(_ModifyRunRequest instance) =>
+    <String, dynamic>{
+      if (instance.metadata case final value?) 'metadata': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('metadata', instance.metadata);
-  return val;
-}
-
-_$SubmitToolOutputsRunRequestImpl _$$SubmitToolOutputsRunRequestImplFromJson(
+_SubmitToolOutputsRunRequest _$SubmitToolOutputsRunRequestFromJson(
         Map<String, dynamic> json) =>
-    _$SubmitToolOutputsRunRequestImpl(
+    _SubmitToolOutputsRunRequest(
       toolOutputs: (json['tool_outputs'] as List<dynamic>)
           .map((e) => RunSubmitToolOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
       stream: json['stream'] as bool?,
     );
 
-Map<String, dynamic> _$$SubmitToolOutputsRunRequestImplToJson(
-    _$SubmitToolOutputsRunRequestImpl instance) {
-  final val = <String, dynamic>{
-    'tool_outputs': instance.toolOutputs.map((e) => e.toJson()).toList(),
-  };
+Map<String, dynamic> _$SubmitToolOutputsRunRequestToJson(
+        _SubmitToolOutputsRunRequest instance) =>
+    <String, dynamic>{
+      'tool_outputs': instance.toolOutputs.map((e) => e.toJson()).toList(),
+      if (instance.stream case final value?) 'stream': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('stream', instance.stream);
-  return val;
-}
-
-_$RunSubmitToolOutputImpl _$$RunSubmitToolOutputImplFromJson(
-        Map<String, dynamic> json) =>
-    _$RunSubmitToolOutputImpl(
+_RunSubmitToolOutput _$RunSubmitToolOutputFromJson(Map<String, dynamic> json) =>
+    _RunSubmitToolOutput(
       toolCallId: json['tool_call_id'] as String?,
       output: json['output'] as String?,
     );
 
-Map<String, dynamic> _$$RunSubmitToolOutputImplToJson(
-    _$RunSubmitToolOutputImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$RunSubmitToolOutputToJson(
+        _RunSubmitToolOutput instance) =>
+    <String, dynamic>{
+      if (instance.toolCallId case final value?) 'tool_call_id': value,
+      if (instance.output case final value?) 'output': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('tool_call_id', instance.toolCallId);
-  writeNotNull('output', instance.output);
-  return val;
-}
-
-_$RunToolCallObjectImpl _$$RunToolCallObjectImplFromJson(
-        Map<String, dynamic> json) =>
-    _$RunToolCallObjectImpl(
+_RunToolCallObject _$RunToolCallObjectFromJson(Map<String, dynamic> json) =>
+    _RunToolCallObject(
       id: json['id'] as String,
       type: $enumDecode(_$RunToolCallObjectTypeEnumMap, json['type']),
       function: RunToolCallFunction.fromJson(
           json['function'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$RunToolCallObjectImplToJson(
-        _$RunToolCallObjectImpl instance) =>
+Map<String, dynamic> _$RunToolCallObjectToJson(_RunToolCallObject instance) =>
     <String, dynamic>{
       'id': instance.id,
       'type': _$RunToolCallObjectTypeEnumMap[instance.type]!,
@@ -3402,23 +3383,22 @@ const _$RunToolCallObjectTypeEnumMap = {
   RunToolCallObjectType.function: 'function',
 };
 
-_$RunToolCallFunctionImpl _$$RunToolCallFunctionImplFromJson(
-        Map<String, dynamic> json) =>
-    _$RunToolCallFunctionImpl(
+_RunToolCallFunction _$RunToolCallFunctionFromJson(Map<String, dynamic> json) =>
+    _RunToolCallFunction(
       name: json['name'] as String,
       arguments: json['arguments'] as String,
     );
 
-Map<String, dynamic> _$$RunToolCallFunctionImplToJson(
-        _$RunToolCallFunctionImpl instance) =>
+Map<String, dynamic> _$RunToolCallFunctionToJson(
+        _RunToolCallFunction instance) =>
     <String, dynamic>{
       'name': instance.name,
       'arguments': instance.arguments,
     };
 
-_$CreateThreadAndRunRequestImpl _$$CreateThreadAndRunRequestImplFromJson(
+_CreateThreadAndRunRequest _$CreateThreadAndRunRequestFromJson(
         Map<String, dynamic> json) =>
-    _$CreateThreadAndRunRequestImpl(
+    _CreateThreadAndRunRequest(
       assistantId: json['assistant_id'] as String,
       thread: json['thread'] == null
           ? null
@@ -3450,120 +3430,158 @@ _$CreateThreadAndRunRequestImpl _$$CreateThreadAndRunRequestImplFromJson(
       stream: json['stream'] as bool?,
     );
 
-Map<String, dynamic> _$$CreateThreadAndRunRequestImplToJson(
-    _$CreateThreadAndRunRequestImpl instance) {
-  final val = <String, dynamic>{
-    'assistant_id': instance.assistantId,
-  };
+Map<String, dynamic> _$CreateThreadAndRunRequestToJson(
+        _CreateThreadAndRunRequest instance) =>
+    <String, dynamic>{
+      'assistant_id': instance.assistantId,
+      if (instance.thread?.toJson() case final value?) 'thread': value,
+      if (const _ThreadAndRunModelConverter().toJson(instance.model)
+          case final value?)
+        'model': value,
+      if (instance.instructions case final value?) 'instructions': value,
+      if (instance.tools?.map((e) => e.toJson()).toList() case final value?)
+        'tools': value,
+      if (instance.toolResources?.toJson() case final value?)
+        'tool_resources': value,
+      if (instance.metadata case final value?) 'metadata': value,
+      if (instance.temperature case final value?) 'temperature': value,
+      if (instance.topP case final value?) 'top_p': value,
+      if (instance.maxPromptTokens case final value?)
+        'max_prompt_tokens': value,
+      if (instance.maxCompletionTokens case final value?)
+        'max_completion_tokens': value,
+      if (instance.truncationStrategy?.toJson() case final value?)
+        'truncation_strategy': value,
+      if (const _CreateThreadAndRunRequestToolChoiceConverter()
+              .toJson(instance.toolChoice)
+          case final value?)
+        'tool_choice': value,
+      if (instance.parallelToolCalls case final value?)
+        'parallel_tool_calls': value,
+      if (const _CreateThreadAndRunRequestResponseFormatConverter()
+              .toJson(instance.responseFormat)
+          case final value?)
+        'response_format': value,
+      if (instance.stream case final value?) 'stream': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('thread', instance.thread?.toJson());
-  writeNotNull(
-      'model', const _ThreadAndRunModelConverter().toJson(instance.model));
-  writeNotNull('instructions', instance.instructions);
-  writeNotNull('tools', instance.tools?.map((e) => e.toJson()).toList());
-  writeNotNull('tool_resources', instance.toolResources?.toJson());
-  writeNotNull('metadata', instance.metadata);
-  writeNotNull('temperature', instance.temperature);
-  writeNotNull('top_p', instance.topP);
-  writeNotNull('max_prompt_tokens', instance.maxPromptTokens);
-  writeNotNull('max_completion_tokens', instance.maxCompletionTokens);
-  writeNotNull('truncation_strategy', instance.truncationStrategy?.toJson());
-  writeNotNull(
-      'tool_choice',
-      const _CreateThreadAndRunRequestToolChoiceConverter()
-          .toJson(instance.toolChoice));
-  writeNotNull('parallel_tool_calls', instance.parallelToolCalls);
-  writeNotNull(
-      'response_format',
-      const _CreateThreadAndRunRequestResponseFormatConverter()
-          .toJson(instance.responseFormat));
-  writeNotNull('stream', instance.stream);
-  return val;
-}
-
-_$ThreadAndRunModelEnumerationImpl _$$ThreadAndRunModelEnumerationImplFromJson(
+ThreadAndRunModelEnumeration _$ThreadAndRunModelEnumerationFromJson(
         Map<String, dynamic> json) =>
-    _$ThreadAndRunModelEnumerationImpl(
+    ThreadAndRunModelEnumeration(
       $enumDecode(_$ThreadAndRunModelsEnumMap, json['value']),
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$ThreadAndRunModelEnumerationImplToJson(
-        _$ThreadAndRunModelEnumerationImpl instance) =>
+Map<String, dynamic> _$ThreadAndRunModelEnumerationToJson(
+        ThreadAndRunModelEnumeration instance) =>
     <String, dynamic>{
       'value': _$ThreadAndRunModelsEnumMap[instance.value]!,
       'runtimeType': instance.$type,
     };
 
 const _$ThreadAndRunModelsEnumMap = {
+  ThreadAndRunModels.gpt5: 'gpt-5',
+  ThreadAndRunModels.gpt5Mini: 'gpt-5-mini',
+  ThreadAndRunModels.gpt5Nano: 'gpt-5-nano',
+  ThreadAndRunModels.gpt520250807: 'gpt-5-2025-08-07',
+  ThreadAndRunModels.gpt5Mini20250807: 'gpt-5-mini-2025-08-07',
+  ThreadAndRunModels.gpt5Nano20250807: 'gpt-5-nano-2025-08-07',
+  ThreadAndRunModels.gpt5ChatLatest: 'gpt-5-chat-latest',
+  ThreadAndRunModels.gpt41: 'gpt-4.1',
+  ThreadAndRunModels.gpt41Mini: 'gpt-4.1-mini',
+  ThreadAndRunModels.gpt41Nano: 'gpt-4.1-nano',
+  ThreadAndRunModels.gpt4120250414: 'gpt-4.1-2025-04-14',
+  ThreadAndRunModels.gpt41Mini20250414: 'gpt-4.1-mini-2025-04-14',
+  ThreadAndRunModels.gpt41Nano20250414: 'gpt-4.1-nano-2025-04-14',
+  ThreadAndRunModels.o4Mini: 'o4-mini',
+  ThreadAndRunModels.o4Mini20250416: 'o4-mini-2025-04-16',
+  ThreadAndRunModels.o3: 'o3',
+  ThreadAndRunModels.o320250416: 'o3-2025-04-16',
+  ThreadAndRunModels.o3Mini: 'o3-mini',
+  ThreadAndRunModels.o3Mini20250131: 'o3-mini-2025-01-31',
+  ThreadAndRunModels.o1: 'o1',
+  ThreadAndRunModels.o120241217: 'o1-2024-12-17',
+  ThreadAndRunModels.o1Preview: 'o1-preview',
+  ThreadAndRunModels.o1Preview20240912: 'o1-preview-2024-09-12',
+  ThreadAndRunModels.o1Mini: 'o1-mini',
+  ThreadAndRunModels.o1Mini20240912: 'o1-mini-2024-09-12',
+  ThreadAndRunModels.gpt4o: 'gpt-4o',
+  ThreadAndRunModels.gpt4o20241120: 'gpt-4o-2024-11-20',
+  ThreadAndRunModels.gpt4o20240806: 'gpt-4o-2024-08-06',
+  ThreadAndRunModels.gpt4o20240513: 'gpt-4o-2024-05-13',
+  ThreadAndRunModels.gpt4oAudioPreview: 'gpt-4o-audio-preview',
+  ThreadAndRunModels.gpt4oAudioPreview20241001:
+      'gpt-4o-audio-preview-2024-10-01',
+  ThreadAndRunModels.gpt4oAudioPreview20241217:
+      'gpt-4o-audio-preview-2024-12-17',
+  ThreadAndRunModels.gpt4oAudioPreview20250603:
+      'gpt-4o-audio-preview-2025-06-03',
+  ThreadAndRunModels.gpt4oMiniAudioPreview: 'gpt-4o-mini-audio-preview',
+  ThreadAndRunModels.gpt4oMiniAudioPreview20241217:
+      'gpt-4o-mini-audio-preview-2024-12-17',
+  ThreadAndRunModels.gpt4oSearchPreview: 'gpt-4o-search-preview',
+  ThreadAndRunModels.gpt4oMiniSearchPreview: 'gpt-4o-mini-search-preview',
+  ThreadAndRunModels.gpt4oSearchPreview20250311:
+      'gpt-4o-search-preview-2025-03-11',
+  ThreadAndRunModels.gpt4oMiniSearchPreview20250311:
+      'gpt-4o-mini-search-preview-2025-03-11',
   ThreadAndRunModels.chatgpt4oLatest: 'chatgpt-4o-latest',
+  ThreadAndRunModels.codexMiniLatest: 'codex-mini-latest',
+  ThreadAndRunModels.gpt4oMini: 'gpt-4o-mini',
+  ThreadAndRunModels.gpt4oMini20240718: 'gpt-4o-mini-2024-07-18',
+  ThreadAndRunModels.gpt45Preview: 'gpt-4.5-preview',
+  ThreadAndRunModels.gpt45Preview20250227: 'gpt-4.5-preview-2025-02-27',
+  ThreadAndRunModels.gpt4Turbo: 'gpt-4-turbo',
+  ThreadAndRunModels.gpt4Turbo20240409: 'gpt-4-turbo-2024-04-09',
+  ThreadAndRunModels.gpt40125Preview: 'gpt-4-0125-preview',
+  ThreadAndRunModels.gpt4TurboPreview: 'gpt-4-turbo-preview',
+  ThreadAndRunModels.gpt41106Preview: 'gpt-4-1106-preview',
+  ThreadAndRunModels.gpt4VisionPreview: 'gpt-4-vision-preview',
   ThreadAndRunModels.gpt4: 'gpt-4',
+  ThreadAndRunModels.gpt40314: 'gpt-4-0314',
+  ThreadAndRunModels.gpt40613: 'gpt-4-0613',
   ThreadAndRunModels.gpt432k: 'gpt-4-32k',
   ThreadAndRunModels.gpt432k0314: 'gpt-4-32k-0314',
   ThreadAndRunModels.gpt432k0613: 'gpt-4-32k-0613',
-  ThreadAndRunModels.gpt40125Preview: 'gpt-4-0125-preview',
-  ThreadAndRunModels.gpt40314: 'gpt-4-0314',
-  ThreadAndRunModels.gpt40613: 'gpt-4-0613',
-  ThreadAndRunModels.gpt41106Preview: 'gpt-4-1106-preview',
-  ThreadAndRunModels.gpt4Turbo: 'gpt-4-turbo',
-  ThreadAndRunModels.gpt4Turbo20240409: 'gpt-4-turbo-2024-04-09',
-  ThreadAndRunModels.gpt4TurboPreview: 'gpt-4-turbo-preview',
-  ThreadAndRunModels.gpt4VisionPreview: 'gpt-4-vision-preview',
-  ThreadAndRunModels.gpt4o: 'gpt-4o',
-  ThreadAndRunModels.gpt4o20240513: 'gpt-4o-2024-05-13',
-  ThreadAndRunModels.gpt4o20240806: 'gpt-4o-2024-08-06',
-  ThreadAndRunModels.gpt4oMini: 'gpt-4o-mini',
-  ThreadAndRunModels.gpt4oMini20240718: 'gpt-4o-mini-2024-07-18',
   ThreadAndRunModels.gpt35Turbo: 'gpt-3.5-turbo',
   ThreadAndRunModels.gpt35Turbo16k: 'gpt-3.5-turbo-16k',
-  ThreadAndRunModels.gpt35Turbo16k0613: 'gpt-3.5-turbo-16k-0613',
-  ThreadAndRunModels.gpt35Turbo0125: 'gpt-3.5-turbo-0125',
   ThreadAndRunModels.gpt35Turbo0301: 'gpt-3.5-turbo-0301',
   ThreadAndRunModels.gpt35Turbo0613: 'gpt-3.5-turbo-0613',
   ThreadAndRunModels.gpt35Turbo1106: 'gpt-3.5-turbo-1106',
-  ThreadAndRunModels.o1Mini: 'o1-mini',
-  ThreadAndRunModels.o1Mini20240912: 'o1-mini-2024-09-12',
-  ThreadAndRunModels.o1Preview: 'o1-preview',
-  ThreadAndRunModels.o1Preview20240912: 'o1-preview-2024-09-12',
+  ThreadAndRunModels.gpt35Turbo0125: 'gpt-3.5-turbo-0125',
+  ThreadAndRunModels.gpt35Turbo16k0613: 'gpt-3.5-turbo-16k-0613',
 };
 
-_$ThreadAndRunModelStringImpl _$$ThreadAndRunModelStringImplFromJson(
+ThreadAndRunModelString _$ThreadAndRunModelStringFromJson(
         Map<String, dynamic> json) =>
-    _$ThreadAndRunModelStringImpl(
+    ThreadAndRunModelString(
       json['value'] as String,
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$ThreadAndRunModelStringImplToJson(
-        _$ThreadAndRunModelStringImpl instance) =>
+Map<String, dynamic> _$ThreadAndRunModelStringToJson(
+        ThreadAndRunModelString instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$CreateThreadAndRunRequestToolChoiceEnumerationImpl
-    _$$CreateThreadAndRunRequestToolChoiceEnumerationImplFromJson(
+CreateThreadAndRunRequestToolChoiceEnumeration
+    _$CreateThreadAndRunRequestToolChoiceEnumerationFromJson(
             Map<String, dynamic> json) =>
-        _$CreateThreadAndRunRequestToolChoiceEnumerationImpl(
+        CreateThreadAndRunRequestToolChoiceEnumeration(
           $enumDecode(
               _$CreateThreadAndRunRequestToolChoiceModeEnumMap, json['value']),
           $type: json['runtimeType'] as String?,
         );
 
-Map<String, dynamic>
-    _$$CreateThreadAndRunRequestToolChoiceEnumerationImplToJson(
-            _$CreateThreadAndRunRequestToolChoiceEnumerationImpl instance) =>
-        <String, dynamic>{
-          'value':
-              _$CreateThreadAndRunRequestToolChoiceModeEnumMap[instance.value]!,
-          'runtimeType': instance.$type,
-        };
+Map<String, dynamic> _$CreateThreadAndRunRequestToolChoiceEnumerationToJson(
+        CreateThreadAndRunRequestToolChoiceEnumeration instance) =>
+    <String, dynamic>{
+      'value':
+          _$CreateThreadAndRunRequestToolChoiceModeEnumMap[instance.value]!,
+      'runtimeType': instance.$type,
+    };
 
 const _$CreateThreadAndRunRequestToolChoiceModeEnumMap = {
   CreateThreadAndRunRequestToolChoiceMode.none: 'none',
@@ -3571,36 +3589,35 @@ const _$CreateThreadAndRunRequestToolChoiceModeEnumMap = {
   CreateThreadAndRunRequestToolChoiceMode.required: 'required',
 };
 
-_$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceImpl
-    _$$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceImplFromJson(
+CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoice
+    _$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceFromJson(
             Map<String, dynamic> json) =>
-        _$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceImpl(
+        CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoice(
           AssistantsNamedToolChoice.fromJson(
               json['value'] as Map<String, dynamic>),
           $type: json['runtimeType'] as String?,
         );
 
 Map<String, dynamic>
-    _$$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceImplToJson(
-            _$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceImpl
+    _$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceToJson(
+            CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoice
                 instance) =>
         <String, dynamic>{
           'value': instance.value.toJson(),
           'runtimeType': instance.$type,
         };
 
-_$CreateThreadAndRunRequestResponseFormatEnumerationImpl
-    _$$CreateThreadAndRunRequestResponseFormatEnumerationImplFromJson(
+CreateThreadAndRunRequestResponseFormatEnumeration
+    _$CreateThreadAndRunRequestResponseFormatEnumerationFromJson(
             Map<String, dynamic> json) =>
-        _$CreateThreadAndRunRequestResponseFormatEnumerationImpl(
+        CreateThreadAndRunRequestResponseFormatEnumeration(
           $enumDecode(_$CreateThreadAndRunRequestResponseFormatModeEnumMap,
               json['value']),
           $type: json['runtimeType'] as String?,
         );
 
-Map<String,
-    dynamic> _$$CreateThreadAndRunRequestResponseFormatEnumerationImplToJson(
-        _$CreateThreadAndRunRequestResponseFormatEnumerationImpl instance) =>
+Map<String, dynamic> _$CreateThreadAndRunRequestResponseFormatEnumerationToJson(
+        CreateThreadAndRunRequestResponseFormatEnumeration instance) =>
     <String, dynamic>{
       'value':
           _$CreateThreadAndRunRequestResponseFormatModeEnumMap[instance.value]!,
@@ -3611,24 +3628,24 @@ const _$CreateThreadAndRunRequestResponseFormatModeEnumMap = {
   CreateThreadAndRunRequestResponseFormatMode.auto: 'auto',
 };
 
-_$CreateThreadAndRunRequestResponseFormatResponseFormatImpl
-    _$$CreateThreadAndRunRequestResponseFormatResponseFormatImplFromJson(
+CreateThreadAndRunRequestResponseFormatResponseFormat
+    _$CreateThreadAndRunRequestResponseFormatResponseFormatFromJson(
             Map<String, dynamic> json) =>
-        _$CreateThreadAndRunRequestResponseFormatResponseFormatImpl(
+        CreateThreadAndRunRequestResponseFormatResponseFormat(
           ResponseFormat.fromJson(json['value'] as Map<String, dynamic>),
           $type: json['runtimeType'] as String?,
         );
 
-Map<String,
-    dynamic> _$$CreateThreadAndRunRequestResponseFormatResponseFormatImplToJson(
-        _$CreateThreadAndRunRequestResponseFormatResponseFormatImpl instance) =>
-    <String, dynamic>{
-      'value': instance.value.toJson(),
-      'runtimeType': instance.$type,
-    };
+Map<String, dynamic>
+    _$CreateThreadAndRunRequestResponseFormatResponseFormatToJson(
+            CreateThreadAndRunRequestResponseFormatResponseFormat instance) =>
+        <String, dynamic>{
+          'value': instance.value.toJson(),
+          'runtimeType': instance.$type,
+        };
 
-_$ThreadObjectImpl _$$ThreadObjectImplFromJson(Map<String, dynamic> json) =>
-    _$ThreadObjectImpl(
+_ThreadObject _$ThreadObjectFromJson(Map<String, dynamic> json) =>
+    _ThreadObject(
       id: json['id'] as String,
       object: $enumDecode(_$ThreadObjectObjectEnumMap, json['object']),
       createdAt: (json['created_at'] as num).toInt(),
@@ -3639,7 +3656,7 @@ _$ThreadObjectImpl _$$ThreadObjectImplFromJson(Map<String, dynamic> json) =>
       metadata: json['metadata'] as Map<String, dynamic>?,
     );
 
-Map<String, dynamic> _$$ThreadObjectImplToJson(_$ThreadObjectImpl instance) =>
+Map<String, dynamic> _$ThreadObjectToJson(_ThreadObject instance) =>
     <String, dynamic>{
       'id': instance.id,
       'object': _$ThreadObjectObjectEnumMap[instance.object]!,
@@ -3652,9 +3669,8 @@ const _$ThreadObjectObjectEnumMap = {
   ThreadObjectObject.thread: 'thread',
 };
 
-_$CreateThreadRequestImpl _$$CreateThreadRequestImplFromJson(
-        Map<String, dynamic> json) =>
-    _$CreateThreadRequestImpl(
+_CreateThreadRequest _$CreateThreadRequestFromJson(Map<String, dynamic> json) =>
+    _CreateThreadRequest(
       messages: (json['messages'] as List<dynamic>?)
           ?.map((e) => CreateMessageRequest.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3665,25 +3681,18 @@ _$CreateThreadRequestImpl _$$CreateThreadRequestImplFromJson(
       metadata: json['metadata'] as Map<String, dynamic>?,
     );
 
-Map<String, dynamic> _$$CreateThreadRequestImplToJson(
-    _$CreateThreadRequestImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$CreateThreadRequestToJson(
+        _CreateThreadRequest instance) =>
+    <String, dynamic>{
+      if (instance.messages?.map((e) => e.toJson()).toList() case final value?)
+        'messages': value,
+      if (instance.toolResources?.toJson() case final value?)
+        'tool_resources': value,
+      if (instance.metadata case final value?) 'metadata': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('messages', instance.messages?.map((e) => e.toJson()).toList());
-  writeNotNull('tool_resources', instance.toolResources?.toJson());
-  writeNotNull('metadata', instance.metadata);
-  return val;
-}
-
-_$ModifyThreadRequestImpl _$$ModifyThreadRequestImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ModifyThreadRequestImpl(
+_ModifyThreadRequest _$ModifyThreadRequestFromJson(Map<String, dynamic> json) =>
+    _ModifyThreadRequest(
       toolResources: json['tool_resources'] == null
           ? null
           : ToolResources.fromJson(
@@ -3691,23 +3700,16 @@ _$ModifyThreadRequestImpl _$$ModifyThreadRequestImplFromJson(
       metadata: json['metadata'] as Map<String, dynamic>?,
     );
 
-Map<String, dynamic> _$$ModifyThreadRequestImplToJson(
-    _$ModifyThreadRequestImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$ModifyThreadRequestToJson(
+        _ModifyThreadRequest instance) =>
+    <String, dynamic>{
+      if (instance.toolResources?.toJson() case final value?)
+        'tool_resources': value,
+      if (instance.metadata case final value?) 'metadata': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('tool_resources', instance.toolResources?.toJson());
-  writeNotNull('metadata', instance.metadata);
-  return val;
-}
-
-_$ToolResourcesImpl _$$ToolResourcesImplFromJson(Map<String, dynamic> json) =>
-    _$ToolResourcesImpl(
+_ToolResources _$ToolResourcesFromJson(Map<String, dynamic> json) =>
+    _ToolResources(
       codeInterpreter: json['code_interpreter'] == null
           ? null
           : ToolResourcesCodeInterpreter.fromJson(
@@ -3718,38 +3720,31 @@ _$ToolResourcesImpl _$$ToolResourcesImplFromJson(Map<String, dynamic> json) =>
               json['file_search'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$ToolResourcesImplToJson(_$ToolResourcesImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$ToolResourcesToJson(_ToolResources instance) =>
+    <String, dynamic>{
+      if (instance.codeInterpreter?.toJson() case final value?)
+        'code_interpreter': value,
+      if (instance.fileSearch?.toJson() case final value?) 'file_search': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('code_interpreter', instance.codeInterpreter?.toJson());
-  writeNotNull('file_search', instance.fileSearch?.toJson());
-  return val;
-}
-
-_$ToolResourcesCodeInterpreterImpl _$$ToolResourcesCodeInterpreterImplFromJson(
+_ToolResourcesCodeInterpreter _$ToolResourcesCodeInterpreterFromJson(
         Map<String, dynamic> json) =>
-    _$ToolResourcesCodeInterpreterImpl(
+    _ToolResourcesCodeInterpreter(
       fileIds: (json['file_ids'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           const [],
     );
 
-Map<String, dynamic> _$$ToolResourcesCodeInterpreterImplToJson(
-        _$ToolResourcesCodeInterpreterImpl instance) =>
+Map<String, dynamic> _$ToolResourcesCodeInterpreterToJson(
+        _ToolResourcesCodeInterpreter instance) =>
     <String, dynamic>{
       'file_ids': instance.fileIds,
     };
 
-_$ToolResourcesFileSearchImpl _$$ToolResourcesFileSearchImplFromJson(
+_ToolResourcesFileSearch _$ToolResourcesFileSearchFromJson(
         Map<String, dynamic> json) =>
-    _$ToolResourcesFileSearchImpl(
+    _ToolResourcesFileSearch(
       vectorStoreIds: (json['vector_store_ids'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
@@ -3759,26 +3754,18 @@ _$ToolResourcesFileSearchImpl _$$ToolResourcesFileSearchImplFromJson(
           .toList(),
     );
 
-Map<String, dynamic> _$$ToolResourcesFileSearchImplToJson(
-    _$ToolResourcesFileSearchImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$ToolResourcesFileSearchToJson(
+        _ToolResourcesFileSearch instance) =>
+    <String, dynamic>{
+      if (instance.vectorStoreIds case final value?) 'vector_store_ids': value,
+      if (instance.vectorStores?.map((e) => e.toJson()).toList()
+          case final value?)
+        'vector_stores': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('vector_store_ids', instance.vectorStoreIds);
-  writeNotNull(
-      'vector_stores', instance.vectorStores?.map((e) => e.toJson()).toList());
-  return val;
-}
-
-_$ToolResourcesFileSearchVectorStoreImpl
-    _$$ToolResourcesFileSearchVectorStoreImplFromJson(
-            Map<String, dynamic> json) =>
-        _$ToolResourcesFileSearchVectorStoreImpl(
+_ToolResourcesFileSearchVectorStore
+    _$ToolResourcesFileSearchVectorStoreFromJson(Map<String, dynamic> json) =>
+        _ToolResourcesFileSearchVectorStore(
           fileIds: (json['file_ids'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList(),
@@ -3789,32 +3776,25 @@ _$ToolResourcesFileSearchVectorStoreImpl
           metadata: json['metadata'],
         );
 
-Map<String, dynamic> _$$ToolResourcesFileSearchVectorStoreImplToJson(
-    _$ToolResourcesFileSearchVectorStoreImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$ToolResourcesFileSearchVectorStoreToJson(
+        _ToolResourcesFileSearchVectorStore instance) =>
+    <String, dynamic>{
+      if (instance.fileIds case final value?) 'file_ids': value,
+      if (instance.chunkingStrategy?.toJson() case final value?)
+        'chunking_strategy': value,
+      if (instance.metadata case final value?) 'metadata': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('file_ids', instance.fileIds);
-  writeNotNull('chunking_strategy', instance.chunkingStrategy?.toJson());
-  writeNotNull('metadata', instance.metadata);
-  return val;
-}
-
-_$DeleteThreadResponseImpl _$$DeleteThreadResponseImplFromJson(
+_DeleteThreadResponse _$DeleteThreadResponseFromJson(
         Map<String, dynamic> json) =>
-    _$DeleteThreadResponseImpl(
+    _DeleteThreadResponse(
       id: json['id'] as String,
       deleted: json['deleted'] as bool,
       object: $enumDecode(_$DeleteThreadResponseObjectEnumMap, json['object']),
     );
 
-Map<String, dynamic> _$$DeleteThreadResponseImplToJson(
-        _$DeleteThreadResponseImpl instance) =>
+Map<String, dynamic> _$DeleteThreadResponseToJson(
+        _DeleteThreadResponse instance) =>
     <String, dynamic>{
       'id': instance.id,
       'deleted': instance.deleted,
@@ -3825,30 +3805,29 @@ const _$DeleteThreadResponseObjectEnumMap = {
   DeleteThreadResponseObject.threadDeleted: 'thread.deleted',
 };
 
-_$ListThreadsResponseImpl _$$ListThreadsResponseImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ListThreadsResponseImpl(
+_ListThreadsResponse _$ListThreadsResponseFromJson(Map<String, dynamic> json) =>
+    _ListThreadsResponse(
       object: json['object'] as String,
       data: (json['data'] as List<dynamic>)
           .map((e) => ThreadObject.fromJson(e as Map<String, dynamic>))
           .toList(),
-      firstId: json['first_id'] as String,
-      lastId: json['last_id'] as String,
+      firstId: json['first_id'] as String?,
+      lastId: json['last_id'] as String?,
       hasMore: json['has_more'] as bool,
     );
 
-Map<String, dynamic> _$$ListThreadsResponseImplToJson(
-        _$ListThreadsResponseImpl instance) =>
+Map<String, dynamic> _$ListThreadsResponseToJson(
+        _ListThreadsResponse instance) =>
     <String, dynamic>{
       'object': instance.object,
       'data': instance.data.map((e) => e.toJson()).toList(),
-      'first_id': instance.firstId,
-      'last_id': instance.lastId,
+      if (instance.firstId case final value?) 'first_id': value,
+      if (instance.lastId case final value?) 'last_id': value,
       'has_more': instance.hasMore,
     };
 
-_$MessageObjectImpl _$$MessageObjectImplFromJson(Map<String, dynamic> json) =>
-    _$MessageObjectImpl(
+_MessageObject _$MessageObjectFromJson(Map<String, dynamic> json) =>
+    _MessageObject(
       id: json['id'] as String,
       object: $enumDecode(_$MessageObjectObjectEnumMap, json['object']),
       createdAt: (json['created_at'] as num).toInt(),
@@ -3873,7 +3852,7 @@ _$MessageObjectImpl _$$MessageObjectImplFromJson(Map<String, dynamic> json) =>
       metadata: json['metadata'] as Map<String, dynamic>?,
     );
 
-Map<String, dynamic> _$$MessageObjectImplToJson(_$MessageObjectImpl instance) =>
+Map<String, dynamic> _$MessageObjectToJson(_MessageObject instance) =>
     <String, dynamic>{
       'id': instance.id,
       'object': _$MessageObjectObjectEnumMap[instance.object]!,
@@ -3906,15 +3885,15 @@ const _$MessageRoleEnumMap = {
   MessageRole.assistant: 'assistant',
 };
 
-_$MessageObjectIncompleteDetailsImpl
-    _$$MessageObjectIncompleteDetailsImplFromJson(Map<String, dynamic> json) =>
-        _$MessageObjectIncompleteDetailsImpl(
-          reason: $enumDecode(
-              _$MessageObjectIncompleteDetailsReasonEnumMap, json['reason']),
-        );
+_MessageObjectIncompleteDetails _$MessageObjectIncompleteDetailsFromJson(
+        Map<String, dynamic> json) =>
+    _MessageObjectIncompleteDetails(
+      reason: $enumDecode(
+          _$MessageObjectIncompleteDetailsReasonEnumMap, json['reason']),
+    );
 
-Map<String, dynamic> _$$MessageObjectIncompleteDetailsImplToJson(
-        _$MessageObjectIncompleteDetailsImpl instance) =>
+Map<String, dynamic> _$MessageObjectIncompleteDetailsToJson(
+        _MessageObjectIncompleteDetails instance) =>
     <String, dynamic>{
       'reason': _$MessageObjectIncompleteDetailsReasonEnumMap[instance.reason]!,
     };
@@ -3927,40 +3906,29 @@ const _$MessageObjectIncompleteDetailsReasonEnumMap = {
   MessageObjectIncompleteDetailsReason.runFailed: 'run_failed',
 };
 
-_$MessageAttachmentImpl _$$MessageAttachmentImplFromJson(
-        Map<String, dynamic> json) =>
-    _$MessageAttachmentImpl(
+_MessageAttachment _$MessageAttachmentFromJson(Map<String, dynamic> json) =>
+    _MessageAttachment(
       fileId: json['file_id'] as String?,
       tools: (json['tools'] as List<dynamic>?)
           ?.map((e) => AssistantTools.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$$MessageAttachmentImplToJson(
-    _$MessageAttachmentImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$MessageAttachmentToJson(_MessageAttachment instance) =>
+    <String, dynamic>{
+      if (instance.fileId case final value?) 'file_id': value,
+      if (instance.tools?.map((e) => e.toJson()).toList() case final value?)
+        'tools': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('file_id', instance.fileId);
-  writeNotNull('tools', instance.tools?.map((e) => e.toJson()).toList());
-  return val;
-}
-
-_$MessageDeltaObjectImpl _$$MessageDeltaObjectImplFromJson(
-        Map<String, dynamic> json) =>
-    _$MessageDeltaObjectImpl(
+_MessageDeltaObject _$MessageDeltaObjectFromJson(Map<String, dynamic> json) =>
+    _MessageDeltaObject(
       id: json['id'] as String,
       object: $enumDecode(_$MessageDeltaObjectObjectEnumMap, json['object']),
       delta: MessageDelta.fromJson(json['delta'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$MessageDeltaObjectImplToJson(
-        _$MessageDeltaObjectImpl instance) =>
+Map<String, dynamic> _$MessageDeltaObjectToJson(_MessageDeltaObject instance) =>
     <String, dynamic>{
       'id': instance.id,
       'object': _$MessageDeltaObjectObjectEnumMap[instance.object]!,
@@ -3971,8 +3939,8 @@ const _$MessageDeltaObjectObjectEnumMap = {
   MessageDeltaObjectObject.threadMessageDelta: 'thread.message.delta',
 };
 
-_$MessageDeltaImpl _$$MessageDeltaImplFromJson(Map<String, dynamic> json) =>
-    _$MessageDeltaImpl(
+_MessageDelta _$MessageDeltaFromJson(Map<String, dynamic> json) =>
+    _MessageDelta(
       role: $enumDecodeNullable(_$MessageRoleEnumMap, json['role'],
           unknownValue: JsonKey.nullForUndefinedEnumValue),
       content: (json['content'] as List<dynamic>?)
@@ -3980,23 +3948,16 @@ _$MessageDeltaImpl _$$MessageDeltaImplFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$$MessageDeltaImplToJson(_$MessageDeltaImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$MessageDeltaToJson(_MessageDelta instance) =>
+    <String, dynamic>{
+      if (_$MessageRoleEnumMap[instance.role] case final value?) 'role': value,
+      if (instance.content?.map((e) => e.toJson()).toList() case final value?)
+        'content': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('role', _$MessageRoleEnumMap[instance.role]);
-  writeNotNull('content', instance.content?.map((e) => e.toJson()).toList());
-  return val;
-}
-
-_$CreateMessageRequestImpl _$$CreateMessageRequestImplFromJson(
+_CreateMessageRequest _$CreateMessageRequestFromJson(
         Map<String, dynamic> json) =>
-    _$CreateMessageRequestImpl(
+    _CreateMessageRequest(
       role: $enumDecode(_$MessageRoleEnumMap, json['role']),
       content: const _CreateMessageRequestContentConverter()
           .fromJson(json['content']),
@@ -4006,88 +3967,71 @@ _$CreateMessageRequestImpl _$$CreateMessageRequestImplFromJson(
       metadata: json['metadata'] as Map<String, dynamic>?,
     );
 
-Map<String, dynamic> _$$CreateMessageRequestImplToJson(
-    _$CreateMessageRequestImpl instance) {
-  final val = <String, dynamic>{
-    'role': _$MessageRoleEnumMap[instance.role]!,
-    'content':
-        const _CreateMessageRequestContentConverter().toJson(instance.content),
-  };
+Map<String, dynamic> _$CreateMessageRequestToJson(
+        _CreateMessageRequest instance) =>
+    <String, dynamic>{
+      'role': _$MessageRoleEnumMap[instance.role]!,
+      'content': const _CreateMessageRequestContentConverter()
+          .toJson(instance.content),
+      if (instance.attachments?.map((e) => e.toJson()).toList()
+          case final value?)
+        'attachments': value,
+      if (instance.metadata case final value?) 'metadata': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'attachments', instance.attachments?.map((e) => e.toJson()).toList());
-  writeNotNull('metadata', instance.metadata);
-  return val;
-}
-
-_$CreateMessageRequestContentListMessageContentImpl
-    _$$CreateMessageRequestContentListMessageContentImplFromJson(
+CreateMessageRequestContentListMessageContent
+    _$CreateMessageRequestContentListMessageContentFromJson(
             Map<String, dynamic> json) =>
-        _$CreateMessageRequestContentListMessageContentImpl(
+        CreateMessageRequestContentListMessageContent(
           (json['value'] as List<dynamic>)
               .map((e) => MessageContent.fromJson(e as Map<String, dynamic>))
               .toList(),
           $type: json['runtimeType'] as String?,
         );
 
-Map<String, dynamic> _$$CreateMessageRequestContentListMessageContentImplToJson(
-        _$CreateMessageRequestContentListMessageContentImpl instance) =>
+Map<String, dynamic> _$CreateMessageRequestContentListMessageContentToJson(
+        CreateMessageRequestContentListMessageContent instance) =>
     <String, dynamic>{
       'value': instance.value.map((e) => e.toJson()).toList(),
       'runtimeType': instance.$type,
     };
 
-_$CreateMessageRequestContentStringImpl
-    _$$CreateMessageRequestContentStringImplFromJson(
-            Map<String, dynamic> json) =>
-        _$CreateMessageRequestContentStringImpl(
-          json['value'] as String,
-          $type: json['runtimeType'] as String?,
-        );
+CreateMessageRequestContentString _$CreateMessageRequestContentStringFromJson(
+        Map<String, dynamic> json) =>
+    CreateMessageRequestContentString(
+      json['value'] as String,
+      $type: json['runtimeType'] as String?,
+    );
 
-Map<String, dynamic> _$$CreateMessageRequestContentStringImplToJson(
-        _$CreateMessageRequestContentStringImpl instance) =>
+Map<String, dynamic> _$CreateMessageRequestContentStringToJson(
+        CreateMessageRequestContentString instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$ModifyMessageRequestImpl _$$ModifyMessageRequestImplFromJson(
+_ModifyMessageRequest _$ModifyMessageRequestFromJson(
         Map<String, dynamic> json) =>
-    _$ModifyMessageRequestImpl(
+    _ModifyMessageRequest(
       metadata: json['metadata'] as Map<String, dynamic>?,
     );
 
-Map<String, dynamic> _$$ModifyMessageRequestImplToJson(
-    _$ModifyMessageRequestImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$ModifyMessageRequestToJson(
+        _ModifyMessageRequest instance) =>
+    <String, dynamic>{
+      if (instance.metadata case final value?) 'metadata': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('metadata', instance.metadata);
-  return val;
-}
-
-_$DeleteMessageResponseImpl _$$DeleteMessageResponseImplFromJson(
+_DeleteMessageResponse _$DeleteMessageResponseFromJson(
         Map<String, dynamic> json) =>
-    _$DeleteMessageResponseImpl(
+    _DeleteMessageResponse(
       id: json['id'] as String,
       deleted: json['deleted'] as bool,
       object: $enumDecode(_$DeleteMessageResponseObjectEnumMap, json['object']),
     );
 
-Map<String, dynamic> _$$DeleteMessageResponseImplToJson(
-        _$DeleteMessageResponseImpl instance) =>
+Map<String, dynamic> _$DeleteMessageResponseToJson(
+        _DeleteMessageResponse instance) =>
     <String, dynamic>{
       'id': instance.id,
       'deleted': instance.deleted,
@@ -4098,39 +4042,39 @@ const _$DeleteMessageResponseObjectEnumMap = {
   DeleteMessageResponseObject.threadMessageDeleted: 'thread.message.deleted',
 };
 
-_$ListMessagesResponseImpl _$$ListMessagesResponseImplFromJson(
+_ListMessagesResponse _$ListMessagesResponseFromJson(
         Map<String, dynamic> json) =>
-    _$ListMessagesResponseImpl(
+    _ListMessagesResponse(
       object: json['object'] as String,
       data: (json['data'] as List<dynamic>)
           .map((e) => MessageObject.fromJson(e as Map<String, dynamic>))
           .toList(),
-      firstId: json['first_id'] as String,
-      lastId: json['last_id'] as String,
+      firstId: json['first_id'] as String?,
+      lastId: json['last_id'] as String?,
       hasMore: json['has_more'] as bool,
     );
 
-Map<String, dynamic> _$$ListMessagesResponseImplToJson(
-        _$ListMessagesResponseImpl instance) =>
+Map<String, dynamic> _$ListMessagesResponseToJson(
+        _ListMessagesResponse instance) =>
     <String, dynamic>{
       'object': instance.object,
       'data': instance.data.map((e) => e.toJson()).toList(),
-      'first_id': instance.firstId,
-      'last_id': instance.lastId,
+      if (instance.firstId case final value?) 'first_id': value,
+      if (instance.lastId case final value?) 'last_id': value,
       'has_more': instance.hasMore,
     };
 
-_$MessageContentImageFileImpl _$$MessageContentImageFileImplFromJson(
+_MessageContentImageFile _$MessageContentImageFileFromJson(
         Map<String, dynamic> json) =>
-    _$MessageContentImageFileImpl(
+    _MessageContentImageFile(
       fileId: json['file_id'] as String,
       detail: $enumDecodeNullable(
               _$MessageContentImageDetailEnumMap, json['detail']) ??
           MessageContentImageDetail.auto,
     );
 
-Map<String, dynamic> _$$MessageContentImageFileImplToJson(
-        _$MessageContentImageFileImpl instance) =>
+Map<String, dynamic> _$MessageContentImageFileToJson(
+        _MessageContentImageFile instance) =>
     <String, dynamic>{
       'file_id': instance.fileId,
       'detail': _$MessageContentImageDetailEnumMap[instance.detail]!,
@@ -4142,39 +4086,38 @@ const _$MessageContentImageDetailEnumMap = {
   MessageContentImageDetail.high: 'high',
 };
 
-_$MessageContentImageUrlImpl _$$MessageContentImageUrlImplFromJson(
+_MessageContentImageUrl _$MessageContentImageUrlFromJson(
         Map<String, dynamic> json) =>
-    _$MessageContentImageUrlImpl(
+    _MessageContentImageUrl(
       url: json['url'] as String,
       detail: $enumDecodeNullable(
               _$MessageContentImageDetailEnumMap, json['detail']) ??
           MessageContentImageDetail.auto,
     );
 
-Map<String, dynamic> _$$MessageContentImageUrlImplToJson(
-        _$MessageContentImageUrlImpl instance) =>
+Map<String, dynamic> _$MessageContentImageUrlToJson(
+        _MessageContentImageUrl instance) =>
     <String, dynamic>{
       'url': instance.url,
       'detail': _$MessageContentImageDetailEnumMap[instance.detail]!,
     };
 
-_$MessageRequestContentTextObjectImpl
-    _$$MessageRequestContentTextObjectImplFromJson(Map<String, dynamic> json) =>
-        _$MessageRequestContentTextObjectImpl(
-          type: json['type'] as String,
-          text: json['text'] as String,
-        );
+_MessageRequestContentTextObject _$MessageRequestContentTextObjectFromJson(
+        Map<String, dynamic> json) =>
+    _MessageRequestContentTextObject(
+      type: json['type'] as String,
+      text: json['text'] as String,
+    );
 
-Map<String, dynamic> _$$MessageRequestContentTextObjectImplToJson(
-        _$MessageRequestContentTextObjectImpl instance) =>
+Map<String, dynamic> _$MessageRequestContentTextObjectToJson(
+        _MessageRequestContentTextObject instance) =>
     <String, dynamic>{
       'type': instance.type,
       'text': instance.text,
     };
 
-_$MessageContentTextImpl _$$MessageContentTextImplFromJson(
-        Map<String, dynamic> json) =>
-    _$MessageContentTextImpl(
+_MessageContentText _$MessageContentTextFromJson(Map<String, dynamic> json) =>
+    _MessageContentText(
       value: json['value'] as String,
       annotations: (json['annotations'] as List<dynamic>?)
           ?.map((e) =>
@@ -4182,39 +4125,30 @@ _$MessageContentTextImpl _$$MessageContentTextImplFromJson(
           .toList(),
     );
 
-Map<String, dynamic> _$$MessageContentTextImplToJson(
-    _$MessageContentTextImpl instance) {
-  final val = <String, dynamic>{
-    'value': instance.value,
-  };
+Map<String, dynamic> _$MessageContentTextToJson(_MessageContentText instance) =>
+    <String, dynamic>{
+      'value': instance.value,
+      if (instance.annotations?.map((e) => e.toJson()).toList()
+          case final value?)
+        'annotations': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'annotations', instance.annotations?.map((e) => e.toJson()).toList());
-  return val;
-}
-
-_$MessageContentTextAnnotationsFileCitationImpl
-    _$$MessageContentTextAnnotationsFileCitationImplFromJson(
+_MessageContentTextAnnotationsFileCitation
+    _$MessageContentTextAnnotationsFileCitationFromJson(
             Map<String, dynamic> json) =>
-        _$MessageContentTextAnnotationsFileCitationImpl(
+        _MessageContentTextAnnotationsFileCitation(
           fileId: json['file_id'] as String,
         );
 
-Map<String, dynamic> _$$MessageContentTextAnnotationsFileCitationImplToJson(
-        _$MessageContentTextAnnotationsFileCitationImpl instance) =>
+Map<String, dynamic> _$MessageContentTextAnnotationsFileCitationToJson(
+        _MessageContentTextAnnotationsFileCitation instance) =>
     <String, dynamic>{
       'file_id': instance.fileId,
     };
 
-_$MessageDeltaContentTextImpl _$$MessageDeltaContentTextImplFromJson(
+_MessageDeltaContentText _$MessageDeltaContentTextFromJson(
         Map<String, dynamic> json) =>
-    _$MessageDeltaContentTextImpl(
+    _MessageDeltaContentText(
       value: json['value'] as String?,
       annotations: (json['annotations'] as List<dynamic>?)
           ?.map((e) => MessageDeltaContentTextAnnotations.fromJson(
@@ -4222,48 +4156,32 @@ _$MessageDeltaContentTextImpl _$$MessageDeltaContentTextImplFromJson(
           .toList(),
     );
 
-Map<String, dynamic> _$$MessageDeltaContentTextImplToJson(
-    _$MessageDeltaContentTextImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$MessageDeltaContentTextToJson(
+        _MessageDeltaContentText instance) =>
+    <String, dynamic>{
+      if (instance.value case final value?) 'value': value,
+      if (instance.annotations?.map((e) => e.toJson()).toList()
+          case final value?)
+        'annotations': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('value', instance.value);
-  writeNotNull(
-      'annotations', instance.annotations?.map((e) => e.toJson()).toList());
-  return val;
-}
-
-_$MessageDeltaContentTextAnnotationsFileCitationImpl
-    _$$MessageDeltaContentTextAnnotationsFileCitationImplFromJson(
+_MessageDeltaContentTextAnnotationsFileCitation
+    _$MessageDeltaContentTextAnnotationsFileCitationFromJson(
             Map<String, dynamic> json) =>
-        _$MessageDeltaContentTextAnnotationsFileCitationImpl(
+        _MessageDeltaContentTextAnnotationsFileCitation(
           fileId: json['file_id'] as String?,
           quote: json['quote'] as String?,
         );
 
-Map<String, dynamic>
-    _$$MessageDeltaContentTextAnnotationsFileCitationImplToJson(
-        _$MessageDeltaContentTextAnnotationsFileCitationImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$MessageDeltaContentTextAnnotationsFileCitationToJson(
+        _MessageDeltaContentTextAnnotationsFileCitation instance) =>
+    <String, dynamic>{
+      if (instance.fileId case final value?) 'file_id': value,
+      if (instance.quote case final value?) 'quote': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('file_id', instance.fileId);
-  writeNotNull('quote', instance.quote);
-  return val;
-}
-
-_$RunStepObjectImpl _$$RunStepObjectImplFromJson(Map<String, dynamic> json) =>
-    _$RunStepObjectImpl(
+_RunStepObject _$RunStepObjectFromJson(Map<String, dynamic> json) =>
+    _RunStepObject(
       id: json['id'] as String,
       object: $enumDecode(_$RunStepObjectObjectEnumMap, json['object']),
       createdAt: (json['created_at'] as num).toInt(),
@@ -4289,7 +4207,7 @@ _$RunStepObjectImpl _$$RunStepObjectImplFromJson(Map<String, dynamic> json) =>
               json['usage'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$RunStepObjectImplToJson(_$RunStepObjectImpl instance) =>
+Map<String, dynamic> _$RunStepObjectToJson(_RunStepObject instance) =>
     <String, dynamic>{
       'id': instance.id,
       'object': _$RunStepObjectObjectEnumMap[instance.object]!,
@@ -4326,15 +4244,13 @@ const _$RunStepStatusEnumMap = {
   RunStepStatus.expired: 'expired',
 };
 
-_$RunStepLastErrorImpl _$$RunStepLastErrorImplFromJson(
-        Map<String, dynamic> json) =>
-    _$RunStepLastErrorImpl(
+_RunStepLastError _$RunStepLastErrorFromJson(Map<String, dynamic> json) =>
+    _RunStepLastError(
       code: $enumDecode(_$RunStepLastErrorCodeEnumMap, json['code']),
       message: json['message'] as String,
     );
 
-Map<String, dynamic> _$$RunStepLastErrorImplToJson(
-        _$RunStepLastErrorImpl instance) =>
+Map<String, dynamic> _$RunStepLastErrorToJson(_RunStepLastError instance) =>
     <String, dynamic>{
       'code': _$RunStepLastErrorCodeEnumMap[instance.code]!,
       'message': instance.message,
@@ -4345,16 +4261,14 @@ const _$RunStepLastErrorCodeEnumMap = {
   RunStepLastErrorCode.rateLimitExceeded: 'rate_limit_exceeded',
 };
 
-_$RunStepDeltaObjectImpl _$$RunStepDeltaObjectImplFromJson(
-        Map<String, dynamic> json) =>
-    _$RunStepDeltaObjectImpl(
+_RunStepDeltaObject _$RunStepDeltaObjectFromJson(Map<String, dynamic> json) =>
+    _RunStepDeltaObject(
       id: json['id'] as String,
       object: $enumDecode(_$RunStepDeltaObjectObjectEnumMap, json['object']),
       delta: RunStepDelta.fromJson(json['delta'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$RunStepDeltaObjectImplToJson(
-        _$RunStepDeltaObjectImpl instance) =>
+Map<String, dynamic> _$RunStepDeltaObjectToJson(_RunStepDeltaObject instance) =>
     <String, dynamic>{
       'id': instance.id,
       'object': _$RunStepDeltaObjectObjectEnumMap[instance.object]!,
@@ -4365,86 +4279,71 @@ const _$RunStepDeltaObjectObjectEnumMap = {
   RunStepDeltaObjectObject.threadRunStepDelta: 'thread.run.step.delta',
 };
 
-_$RunStepDeltaImpl _$$RunStepDeltaImplFromJson(Map<String, dynamic> json) =>
-    _$RunStepDeltaImpl(
+_RunStepDelta _$RunStepDeltaFromJson(Map<String, dynamic> json) =>
+    _RunStepDelta(
       stepDetails: json['step_details'] == null
           ? null
           : RunStepDeltaDetails.fromJson(
               json['step_details'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$RunStepDeltaImplToJson(_$RunStepDeltaImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$RunStepDeltaToJson(_RunStepDelta instance) =>
+    <String, dynamic>{
+      if (instance.stepDetails?.toJson() case final value?)
+        'step_details': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('step_details', instance.stepDetails?.toJson());
-  return val;
-}
-
-_$ListRunStepsResponseImpl _$$ListRunStepsResponseImplFromJson(
+_ListRunStepsResponse _$ListRunStepsResponseFromJson(
         Map<String, dynamic> json) =>
-    _$ListRunStepsResponseImpl(
+    _ListRunStepsResponse(
       object: json['object'] as String,
       data: (json['data'] as List<dynamic>)
           .map((e) => RunStepObject.fromJson(e as Map<String, dynamic>))
           .toList(),
-      firstId: json['first_id'] as String,
-      lastId: json['last_id'] as String,
+      firstId: json['first_id'] as String?,
+      lastId: json['last_id'] as String?,
       hasMore: json['has_more'] as bool,
     );
 
-Map<String, dynamic> _$$ListRunStepsResponseImplToJson(
-        _$ListRunStepsResponseImpl instance) =>
+Map<String, dynamic> _$ListRunStepsResponseToJson(
+        _ListRunStepsResponse instance) =>
     <String, dynamic>{
       'object': instance.object,
       'data': instance.data.map((e) => e.toJson()).toList(),
-      'first_id': instance.firstId,
-      'last_id': instance.lastId,
+      if (instance.firstId case final value?) 'first_id': value,
+      if (instance.lastId case final value?) 'last_id': value,
       'has_more': instance.hasMore,
     };
 
-_$RunStepDetailsMessageCreationImpl
-    _$$RunStepDetailsMessageCreationImplFromJson(Map<String, dynamic> json) =>
-        _$RunStepDetailsMessageCreationImpl(
-          messageId: json['message_id'] as String,
-        );
+_RunStepDetailsMessageCreation _$RunStepDetailsMessageCreationFromJson(
+        Map<String, dynamic> json) =>
+    _RunStepDetailsMessageCreation(
+      messageId: json['message_id'] as String,
+    );
 
-Map<String, dynamic> _$$RunStepDetailsMessageCreationImplToJson(
-        _$RunStepDetailsMessageCreationImpl instance) =>
+Map<String, dynamic> _$RunStepDetailsMessageCreationToJson(
+        _RunStepDetailsMessageCreation instance) =>
     <String, dynamic>{
       'message_id': instance.messageId,
     };
 
-_$RunStepDeltaStepDetailsMessageCreationImpl
-    _$$RunStepDeltaStepDetailsMessageCreationImplFromJson(
+_RunStepDeltaStepDetailsMessageCreation
+    _$RunStepDeltaStepDetailsMessageCreationFromJson(
             Map<String, dynamic> json) =>
-        _$RunStepDeltaStepDetailsMessageCreationImpl(
+        _RunStepDeltaStepDetailsMessageCreation(
           messageId: json['message_id'] as String?,
         );
 
-Map<String, dynamic> _$$RunStepDeltaStepDetailsMessageCreationImplToJson(
-    _$RunStepDeltaStepDetailsMessageCreationImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$RunStepDeltaStepDetailsMessageCreationToJson(
+        _RunStepDeltaStepDetailsMessageCreation instance) =>
+    <String, dynamic>{
+      if (instance.messageId case final value?) 'message_id': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('message_id', instance.messageId);
-  return val;
-}
-
-_$RunStepDetailsToolCallsCodeObjectCodeInterpreterImpl
-    _$$RunStepDetailsToolCallsCodeObjectCodeInterpreterImplFromJson(
+_RunStepDetailsToolCallsCodeObjectCodeInterpreter
+    _$RunStepDetailsToolCallsCodeObjectCodeInterpreterFromJson(
             Map<String, dynamic> json) =>
-        _$RunStepDetailsToolCallsCodeObjectCodeInterpreterImpl(
+        _RunStepDetailsToolCallsCodeObjectCodeInterpreter(
           input: json['input'] as String,
           outputs: (json['outputs'] as List<dynamic>)
               .map((e) => RunStepDetailsToolCallsCodeOutput.fromJson(
@@ -4452,18 +4351,17 @@ _$RunStepDetailsToolCallsCodeObjectCodeInterpreterImpl
               .toList(),
         );
 
-Map<String, dynamic>
-    _$$RunStepDetailsToolCallsCodeObjectCodeInterpreterImplToJson(
-            _$RunStepDetailsToolCallsCodeObjectCodeInterpreterImpl instance) =>
-        <String, dynamic>{
-          'input': instance.input,
-          'outputs': instance.outputs.map((e) => e.toJson()).toList(),
-        };
+Map<String, dynamic> _$RunStepDetailsToolCallsCodeObjectCodeInterpreterToJson(
+        _RunStepDetailsToolCallsCodeObjectCodeInterpreter instance) =>
+    <String, dynamic>{
+      'input': instance.input,
+      'outputs': instance.outputs.map((e) => e.toJson()).toList(),
+    };
 
-_$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImpl
-    _$$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImplFromJson(
+_RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter
+    _$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterFromJson(
             Map<String, dynamic> json) =>
-        _$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImpl(
+        _RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter(
           input: json['input'] as String?,
           outputs: (json['outputs'] as List<dynamic>?)
               ?.map((e) => RunStepDeltaStepDetailsToolCallsCodeOutput.fromJson(
@@ -4471,108 +4369,83 @@ _$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImpl
               .toList(),
         );
 
-Map<String, dynamic>
-    _$$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImplToJson(
-        _$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImpl
-            instance) {
-  final val = <String, dynamic>{};
+Map<String,
+    dynamic> _$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterToJson(
+        _RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter instance) =>
+    <String, dynamic>{
+      if (instance.input case final value?) 'input': value,
+      if (instance.outputs?.map((e) => e.toJson()).toList() case final value?)
+        'outputs': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('input', instance.input);
-  writeNotNull('outputs', instance.outputs?.map((e) => e.toJson()).toList());
-  return val;
-}
-
-_$RunStepDetailsToolCallsCodeOutputImageImpl
-    _$$RunStepDetailsToolCallsCodeOutputImageImplFromJson(
+_RunStepDetailsToolCallsCodeOutputImage
+    _$RunStepDetailsToolCallsCodeOutputImageFromJson(
             Map<String, dynamic> json) =>
-        _$RunStepDetailsToolCallsCodeOutputImageImpl(
+        _RunStepDetailsToolCallsCodeOutputImage(
           fileId: json['file_id'] as String,
         );
 
-Map<String, dynamic> _$$RunStepDetailsToolCallsCodeOutputImageImplToJson(
-        _$RunStepDetailsToolCallsCodeOutputImageImpl instance) =>
+Map<String, dynamic> _$RunStepDetailsToolCallsCodeOutputImageToJson(
+        _RunStepDetailsToolCallsCodeOutputImage instance) =>
     <String, dynamic>{
       'file_id': instance.fileId,
     };
 
-_$RunStepDeltaStepDetailsToolCallsCodeOutputImageImpl
-    _$$RunStepDeltaStepDetailsToolCallsCodeOutputImageImplFromJson(
+_RunStepDeltaStepDetailsToolCallsCodeOutputImage
+    _$RunStepDeltaStepDetailsToolCallsCodeOutputImageFromJson(
             Map<String, dynamic> json) =>
-        _$RunStepDeltaStepDetailsToolCallsCodeOutputImageImpl(
+        _RunStepDeltaStepDetailsToolCallsCodeOutputImage(
           fileId: json['file_id'] as String?,
         );
 
-Map<String, dynamic>
-    _$$RunStepDeltaStepDetailsToolCallsCodeOutputImageImplToJson(
-        _$RunStepDeltaStepDetailsToolCallsCodeOutputImageImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$RunStepDeltaStepDetailsToolCallsCodeOutputImageToJson(
+        _RunStepDeltaStepDetailsToolCallsCodeOutputImage instance) =>
+    <String, dynamic>{
+      if (instance.fileId case final value?) 'file_id': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
+_RunStepDetailsToolCallsFileSearch _$RunStepDetailsToolCallsFileSearchFromJson(
+        Map<String, dynamic> json) =>
+    _RunStepDetailsToolCallsFileSearch(
+      rankingOptions: json['ranking_options'] == null
+          ? null
+          : RunStepDetailsToolCallsFileSearchRankingOptionsObject.fromJson(
+              json['ranking_options'] as Map<String, dynamic>),
+      results: (json['results'] as List<dynamic>?)
+          ?.map((e) => RunStepDetailsToolCallsFileSearchResultObject.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
 
-  writeNotNull('file_id', instance.fileId);
-  return val;
-}
+Map<String, dynamic> _$RunStepDetailsToolCallsFileSearchToJson(
+        _RunStepDetailsToolCallsFileSearch instance) =>
+    <String, dynamic>{
+      if (instance.rankingOptions?.toJson() case final value?)
+        'ranking_options': value,
+      if (instance.results?.map((e) => e.toJson()).toList() case final value?)
+        'results': value,
+    };
 
-_$RunStepDetailsToolCallsFileSearchImpl
-    _$$RunStepDetailsToolCallsFileSearchImplFromJson(
+_RunStepDetailsToolCallsFileSearchRankingOptionsObject
+    _$RunStepDetailsToolCallsFileSearchRankingOptionsObjectFromJson(
             Map<String, dynamic> json) =>
-        _$RunStepDetailsToolCallsFileSearchImpl(
-          rankingOptions: json['ranking_options'] == null
-              ? null
-              : RunStepDetailsToolCallsFileSearchRankingOptionsObject.fromJson(
-                  json['ranking_options'] as Map<String, dynamic>),
-          results: (json['results'] as List<dynamic>?)
-              ?.map((e) =>
-                  RunStepDetailsToolCallsFileSearchResultObject.fromJson(
-                      e as Map<String, dynamic>))
-              .toList(),
-        );
-
-Map<String, dynamic> _$$RunStepDetailsToolCallsFileSearchImplToJson(
-    _$RunStepDetailsToolCallsFileSearchImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ranking_options', instance.rankingOptions?.toJson());
-  writeNotNull('results', instance.results?.map((e) => e.toJson()).toList());
-  return val;
-}
-
-_$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImpl
-    _$$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImplFromJson(
-            Map<String, dynamic> json) =>
-        _$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImpl(
+        _RunStepDetailsToolCallsFileSearchRankingOptionsObject(
           ranker: $enumDecode(_$FileSearchRankerEnumMap, json['ranker']),
           scoreThreshold: (json['score_threshold'] as num).toDouble(),
         );
 
-Map<String,
-    dynamic> _$$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImplToJson(
-        _$RunStepDetailsToolCallsFileSearchRankingOptionsObjectImpl instance) =>
-    <String, dynamic>{
-      'ranker': _$FileSearchRankerEnumMap[instance.ranker]!,
-      'score_threshold': instance.scoreThreshold,
-    };
+Map<String, dynamic>
+    _$RunStepDetailsToolCallsFileSearchRankingOptionsObjectToJson(
+            _RunStepDetailsToolCallsFileSearchRankingOptionsObject instance) =>
+        <String, dynamic>{
+          'ranker': _$FileSearchRankerEnumMap[instance.ranker]!,
+          'score_threshold': instance.scoreThreshold,
+        };
 
-_$RunStepDetailsToolCallsFileSearchResultObjectImpl
-    _$$RunStepDetailsToolCallsFileSearchResultObjectImplFromJson(
+_RunStepDetailsToolCallsFileSearchResultObject
+    _$RunStepDetailsToolCallsFileSearchResultObjectFromJson(
             Map<String, dynamic> json) =>
-        _$RunStepDetailsToolCallsFileSearchResultObjectImpl(
+        _RunStepDetailsToolCallsFileSearchResultObject(
           fileId: json['file_id'] as String,
           fileName: json['file_name'] as String,
           score: (json['score'] as num).toDouble(),
@@ -4583,75 +4456,57 @@ _$RunStepDetailsToolCallsFileSearchResultObjectImpl
               .toList(),
         );
 
-Map<String, dynamic> _$$RunStepDetailsToolCallsFileSearchResultObjectImplToJson(
-    _$RunStepDetailsToolCallsFileSearchResultObjectImpl instance) {
-  final val = <String, dynamic>{
-    'file_id': instance.fileId,
-    'file_name': instance.fileName,
-    'score': instance.score,
-  };
+Map<String, dynamic> _$RunStepDetailsToolCallsFileSearchResultObjectToJson(
+        _RunStepDetailsToolCallsFileSearchResultObject instance) =>
+    <String, dynamic>{
+      'file_id': instance.fileId,
+      'file_name': instance.fileName,
+      'score': instance.score,
+      if (instance.content?.map((e) => e.toJson()).toList() case final value?)
+        'content': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('content', instance.content?.map((e) => e.toJson()).toList());
-  return val;
-}
-
-_$RunStepDetailsToolCallsFileSearchResultContentImpl
-    _$$RunStepDetailsToolCallsFileSearchResultContentImplFromJson(
+_RunStepDetailsToolCallsFileSearchResultContent
+    _$RunStepDetailsToolCallsFileSearchResultContentFromJson(
             Map<String, dynamic> json) =>
-        _$RunStepDetailsToolCallsFileSearchResultContentImpl(
+        _RunStepDetailsToolCallsFileSearchResultContent(
           type: json['type'] as String? ?? 'text',
           text: json['text'] as String?,
         );
 
-Map<String, dynamic>
-    _$$RunStepDetailsToolCallsFileSearchResultContentImplToJson(
-        _$RunStepDetailsToolCallsFileSearchResultContentImpl instance) {
-  final val = <String, dynamic>{
-    'type': instance.type,
-  };
+Map<String, dynamic> _$RunStepDetailsToolCallsFileSearchResultContentToJson(
+        _RunStepDetailsToolCallsFileSearchResultContent instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      if (instance.text case final value?) 'text': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('text', instance.text);
-  return val;
-}
-
-_$RunStepCompletionUsageImpl _$$RunStepCompletionUsageImplFromJson(
+_RunStepCompletionUsage _$RunStepCompletionUsageFromJson(
         Map<String, dynamic> json) =>
-    _$RunStepCompletionUsageImpl(
+    _RunStepCompletionUsage(
       completionTokens: (json['completion_tokens'] as num).toInt(),
       promptTokens: (json['prompt_tokens'] as num).toInt(),
       totalTokens: (json['total_tokens'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$RunStepCompletionUsageImplToJson(
-        _$RunStepCompletionUsageImpl instance) =>
+Map<String, dynamic> _$RunStepCompletionUsageToJson(
+        _RunStepCompletionUsage instance) =>
     <String, dynamic>{
       'completion_tokens': instance.completionTokens,
       'prompt_tokens': instance.promptTokens,
       'total_tokens': instance.totalTokens,
     };
 
-_$VectorStoreExpirationAfterImpl _$$VectorStoreExpirationAfterImplFromJson(
+_VectorStoreExpirationAfter _$VectorStoreExpirationAfterFromJson(
         Map<String, dynamic> json) =>
-    _$VectorStoreExpirationAfterImpl(
+    _VectorStoreExpirationAfter(
       anchor: $enumDecode(
           _$VectorStoreExpirationAfterAnchorEnumMap, json['anchor']),
       days: (json['days'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$VectorStoreExpirationAfterImplToJson(
-        _$VectorStoreExpirationAfterImpl instance) =>
+Map<String, dynamic> _$VectorStoreExpirationAfterToJson(
+        _VectorStoreExpirationAfter instance) =>
     <String, dynamic>{
       'anchor': _$VectorStoreExpirationAfterAnchorEnumMap[instance.anchor]!,
       'days': instance.days,
@@ -4661,9 +4516,8 @@ const _$VectorStoreExpirationAfterAnchorEnumMap = {
   VectorStoreExpirationAfterAnchor.lastActiveAt: 'last_active_at',
 };
 
-_$VectorStoreObjectImpl _$$VectorStoreObjectImplFromJson(
-        Map<String, dynamic> json) =>
-    _$VectorStoreObjectImpl(
+_VectorStoreObject _$VectorStoreObjectFromJson(Map<String, dynamic> json) =>
+    _VectorStoreObject(
       id: json['id'] as String,
       object: json['object'] as String,
       createdAt: (json['created_at'] as num).toInt(),
@@ -4681,30 +4535,21 @@ _$VectorStoreObjectImpl _$$VectorStoreObjectImplFromJson(
       metadata: json['metadata'],
     );
 
-Map<String, dynamic> _$$VectorStoreObjectImplToJson(
-    _$VectorStoreObjectImpl instance) {
-  final val = <String, dynamic>{
-    'id': instance.id,
-    'object': instance.object,
-    'created_at': instance.createdAt,
-    'name': instance.name,
-    'usage_bytes': instance.usageBytes,
-    'file_counts': instance.fileCounts.toJson(),
-    'status': _$VectorStoreObjectStatusEnumMap[instance.status]!,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('expires_after', instance.expiresAfter?.toJson());
-  writeNotNull('expires_at', instance.expiresAt);
-  val['last_active_at'] = instance.lastActiveAt;
-  val['metadata'] = instance.metadata;
-  return val;
-}
+Map<String, dynamic> _$VectorStoreObjectToJson(_VectorStoreObject instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'object': instance.object,
+      'created_at': instance.createdAt,
+      'name': instance.name,
+      'usage_bytes': instance.usageBytes,
+      'file_counts': instance.fileCounts.toJson(),
+      'status': _$VectorStoreObjectStatusEnumMap[instance.status]!,
+      if (instance.expiresAfter?.toJson() case final value?)
+        'expires_after': value,
+      if (instance.expiresAt case final value?) 'expires_at': value,
+      'last_active_at': instance.lastActiveAt,
+      'metadata': instance.metadata,
+    };
 
 const _$VectorStoreObjectStatusEnumMap = {
   VectorStoreObjectStatus.expired: 'expired',
@@ -4712,9 +4557,9 @@ const _$VectorStoreObjectStatusEnumMap = {
   VectorStoreObjectStatus.completed: 'completed',
 };
 
-_$VectorStoreObjectFileCountsImpl _$$VectorStoreObjectFileCountsImplFromJson(
+_VectorStoreObjectFileCounts _$VectorStoreObjectFileCountsFromJson(
         Map<String, dynamic> json) =>
-    _$VectorStoreObjectFileCountsImpl(
+    _VectorStoreObjectFileCounts(
       inProgress: (json['in_progress'] as num).toInt(),
       completed: (json['completed'] as num).toInt(),
       failed: (json['failed'] as num).toInt(),
@@ -4722,8 +4567,8 @@ _$VectorStoreObjectFileCountsImpl _$$VectorStoreObjectFileCountsImplFromJson(
       total: (json['total'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$VectorStoreObjectFileCountsImplToJson(
-        _$VectorStoreObjectFileCountsImpl instance) =>
+Map<String, dynamic> _$VectorStoreObjectFileCountsToJson(
+        _VectorStoreObjectFileCounts instance) =>
     <String, dynamic>{
       'in_progress': instance.inProgress,
       'completed': instance.completed,
@@ -4732,9 +4577,9 @@ Map<String, dynamic> _$$VectorStoreObjectFileCountsImplToJson(
       'total': instance.total,
     };
 
-_$CreateVectorStoreRequestImpl _$$CreateVectorStoreRequestImplFromJson(
+_CreateVectorStoreRequest _$CreateVectorStoreRequestFromJson(
         Map<String, dynamic> json) =>
-    _$CreateVectorStoreRequestImpl(
+    _CreateVectorStoreRequest(
       name: json['name'] as String?,
       fileIds: (json['file_ids'] as List<dynamic>?)
           ?.map((e) => e as String)
@@ -4750,27 +4595,21 @@ _$CreateVectorStoreRequestImpl _$$CreateVectorStoreRequestImplFromJson(
       metadata: json['metadata'],
     );
 
-Map<String, dynamic> _$$CreateVectorStoreRequestImplToJson(
-    _$CreateVectorStoreRequestImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$CreateVectorStoreRequestToJson(
+        _CreateVectorStoreRequest instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'name': value,
+      if (instance.fileIds case final value?) 'file_ids': value,
+      if (instance.expiresAfter?.toJson() case final value?)
+        'expires_after': value,
+      if (instance.chunkingStrategy?.toJson() case final value?)
+        'chunking_strategy': value,
+      if (instance.metadata case final value?) 'metadata': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('name', instance.name);
-  writeNotNull('file_ids', instance.fileIds);
-  writeNotNull('expires_after', instance.expiresAfter?.toJson());
-  writeNotNull('chunking_strategy', instance.chunkingStrategy?.toJson());
-  writeNotNull('metadata', instance.metadata);
-  return val;
-}
-
-_$UpdateVectorStoreRequestImpl _$$UpdateVectorStoreRequestImplFromJson(
+_UpdateVectorStoreRequest _$UpdateVectorStoreRequestFromJson(
         Map<String, dynamic> json) =>
-    _$UpdateVectorStoreRequestImpl(
+    _UpdateVectorStoreRequest(
       name: json['name'] as String?,
       expiresAfter: json['expires_after'] == null
           ? null
@@ -4779,25 +4618,18 @@ _$UpdateVectorStoreRequestImpl _$$UpdateVectorStoreRequestImplFromJson(
       metadata: json['metadata'],
     );
 
-Map<String, dynamic> _$$UpdateVectorStoreRequestImplToJson(
-    _$UpdateVectorStoreRequestImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$UpdateVectorStoreRequestToJson(
+        _UpdateVectorStoreRequest instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'name': value,
+      if (instance.expiresAfter?.toJson() case final value?)
+        'expires_after': value,
+      if (instance.metadata case final value?) 'metadata': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('name', instance.name);
-  writeNotNull('expires_after', instance.expiresAfter?.toJson());
-  writeNotNull('metadata', instance.metadata);
-  return val;
-}
-
-_$ListVectorStoresResponseImpl _$$ListVectorStoresResponseImplFromJson(
+_ListVectorStoresResponse _$ListVectorStoresResponseFromJson(
         Map<String, dynamic> json) =>
-    _$ListVectorStoresResponseImpl(
+    _ListVectorStoresResponse(
       object: json['object'] as String,
       data: (json['data'] as List<dynamic>)
           .map((e) => VectorStoreObject.fromJson(e as Map<String, dynamic>))
@@ -4807,35 +4639,35 @@ _$ListVectorStoresResponseImpl _$$ListVectorStoresResponseImplFromJson(
       hasMore: json['has_more'] as bool,
     );
 
-Map<String, dynamic> _$$ListVectorStoresResponseImplToJson(
-        _$ListVectorStoresResponseImpl instance) =>
+Map<String, dynamic> _$ListVectorStoresResponseToJson(
+        _ListVectorStoresResponse instance) =>
     <String, dynamic>{
       'object': instance.object,
       'data': instance.data.map((e) => e.toJson()).toList(),
-      'first_id': instance.firstId,
-      'last_id': instance.lastId,
+      if (instance.firstId case final value?) 'first_id': value,
+      if (instance.lastId case final value?) 'last_id': value,
       'has_more': instance.hasMore,
     };
 
-_$DeleteVectorStoreResponseImpl _$$DeleteVectorStoreResponseImplFromJson(
+_DeleteVectorStoreResponse _$DeleteVectorStoreResponseFromJson(
         Map<String, dynamic> json) =>
-    _$DeleteVectorStoreResponseImpl(
+    _DeleteVectorStoreResponse(
       id: json['id'] as String,
       deleted: json['deleted'] as bool,
       object: json['object'] as String,
     );
 
-Map<String, dynamic> _$$DeleteVectorStoreResponseImplToJson(
-        _$DeleteVectorStoreResponseImpl instance) =>
+Map<String, dynamic> _$DeleteVectorStoreResponseToJson(
+        _DeleteVectorStoreResponse instance) =>
     <String, dynamic>{
       'id': instance.id,
       'deleted': instance.deleted,
       'object': instance.object,
     };
 
-_$VectorStoreFileObjectImpl _$$VectorStoreFileObjectImplFromJson(
+_VectorStoreFileObject _$VectorStoreFileObjectFromJson(
         Map<String, dynamic> json) =>
-    _$VectorStoreFileObjectImpl(
+    _VectorStoreFileObject(
       id: json['id'] as String,
       object: json['object'] as String,
       usageBytes: (json['usage_bytes'] as num).toInt(),
@@ -4852,27 +4684,19 @@ _$VectorStoreFileObjectImpl _$$VectorStoreFileObjectImplFromJson(
               json['chunking_strategy'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$VectorStoreFileObjectImplToJson(
-    _$VectorStoreFileObjectImpl instance) {
-  final val = <String, dynamic>{
-    'id': instance.id,
-    'object': instance.object,
-    'usage_bytes': instance.usageBytes,
-    'created_at': instance.createdAt,
-    'vector_store_id': instance.vectorStoreId,
-    'status': _$VectorStoreFileStatusEnumMap[instance.status]!,
-    'last_error': instance.lastError?.toJson(),
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('chunking_strategy', instance.chunkingStrategy?.toJson());
-  return val;
-}
+Map<String, dynamic> _$VectorStoreFileObjectToJson(
+        _VectorStoreFileObject instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'object': instance.object,
+      'usage_bytes': instance.usageBytes,
+      'created_at': instance.createdAt,
+      'vector_store_id': instance.vectorStoreId,
+      'status': _$VectorStoreFileStatusEnumMap[instance.status]!,
+      'last_error': instance.lastError?.toJson(),
+      if (instance.chunkingStrategy?.toJson() case final value?)
+        'chunking_strategy': value,
+    };
 
 const _$VectorStoreFileStatusEnumMap = {
   VectorStoreFileStatus.inProgress: 'in_progress',
@@ -4881,16 +4705,16 @@ const _$VectorStoreFileStatusEnumMap = {
   VectorStoreFileStatus.failed: 'failed',
 };
 
-_$VectorStoreFileObjectLastErrorImpl
-    _$$VectorStoreFileObjectLastErrorImplFromJson(Map<String, dynamic> json) =>
-        _$VectorStoreFileObjectLastErrorImpl(
-          code: $enumDecode(
-              _$VectorStoreFileObjectLastErrorCodeEnumMap, json['code']),
-          message: json['message'] as String,
-        );
+_VectorStoreFileObjectLastError _$VectorStoreFileObjectLastErrorFromJson(
+        Map<String, dynamic> json) =>
+    _VectorStoreFileObjectLastError(
+      code: $enumDecode(
+          _$VectorStoreFileObjectLastErrorCodeEnumMap, json['code']),
+      message: json['message'] as String,
+    );
 
-Map<String, dynamic> _$$VectorStoreFileObjectLastErrorImplToJson(
-        _$VectorStoreFileObjectLastErrorImpl instance) =>
+Map<String, dynamic> _$VectorStoreFileObjectLastErrorToJson(
+        _VectorStoreFileObjectLastError instance) =>
     <String, dynamic>{
       'code': _$VectorStoreFileObjectLastErrorCodeEnumMap[instance.code]!,
       'message': instance.message,
@@ -4902,23 +4726,23 @@ const _$VectorStoreFileObjectLastErrorCodeEnumMap = {
   VectorStoreFileObjectLastErrorCode.invalidFile: 'invalid_file',
 };
 
-_$StaticChunkingStrategyImpl _$$StaticChunkingStrategyImplFromJson(
+_StaticChunkingStrategy _$StaticChunkingStrategyFromJson(
         Map<String, dynamic> json) =>
-    _$StaticChunkingStrategyImpl(
+    _StaticChunkingStrategy(
       maxChunkSizeTokens: (json['max_chunk_size_tokens'] as num).toInt(),
       chunkOverlapTokens: (json['chunk_overlap_tokens'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$StaticChunkingStrategyImplToJson(
-        _$StaticChunkingStrategyImpl instance) =>
+Map<String, dynamic> _$StaticChunkingStrategyToJson(
+        _StaticChunkingStrategy instance) =>
     <String, dynamic>{
       'max_chunk_size_tokens': instance.maxChunkSizeTokens,
       'chunk_overlap_tokens': instance.chunkOverlapTokens,
     };
 
-_$CreateVectorStoreFileRequestImpl _$$CreateVectorStoreFileRequestImplFromJson(
+_CreateVectorStoreFileRequest _$CreateVectorStoreFileRequestFromJson(
         Map<String, dynamic> json) =>
-    _$CreateVectorStoreFileRequestImpl(
+    _CreateVectorStoreFileRequest(
       fileId: json['file_id'] as String,
       chunkingStrategy: json['chunking_strategy'] == null
           ? null
@@ -4926,63 +4750,55 @@ _$CreateVectorStoreFileRequestImpl _$$CreateVectorStoreFileRequestImplFromJson(
               json['chunking_strategy'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$CreateVectorStoreFileRequestImplToJson(
-    _$CreateVectorStoreFileRequestImpl instance) {
-  final val = <String, dynamic>{
-    'file_id': instance.fileId,
-  };
+Map<String, dynamic> _$CreateVectorStoreFileRequestToJson(
+        _CreateVectorStoreFileRequest instance) =>
+    <String, dynamic>{
+      'file_id': instance.fileId,
+      if (instance.chunkingStrategy?.toJson() case final value?)
+        'chunking_strategy': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('chunking_strategy', instance.chunkingStrategy?.toJson());
-  return val;
-}
-
-_$ListVectorStoreFilesResponseImpl _$$ListVectorStoreFilesResponseImplFromJson(
+_ListVectorStoreFilesResponse _$ListVectorStoreFilesResponseFromJson(
         Map<String, dynamic> json) =>
-    _$ListVectorStoreFilesResponseImpl(
+    _ListVectorStoreFilesResponse(
       object: json['object'] as String,
       data: (json['data'] as List<dynamic>)
           .map((e) => VectorStoreFileObject.fromJson(e as Map<String, dynamic>))
           .toList(),
-      firstId: json['first_id'] as String,
-      lastId: json['last_id'] as String,
+      firstId: json['first_id'] as String?,
+      lastId: json['last_id'] as String?,
       hasMore: json['has_more'] as bool,
     );
 
-Map<String, dynamic> _$$ListVectorStoreFilesResponseImplToJson(
-        _$ListVectorStoreFilesResponseImpl instance) =>
+Map<String, dynamic> _$ListVectorStoreFilesResponseToJson(
+        _ListVectorStoreFilesResponse instance) =>
     <String, dynamic>{
       'object': instance.object,
       'data': instance.data.map((e) => e.toJson()).toList(),
-      'first_id': instance.firstId,
-      'last_id': instance.lastId,
+      if (instance.firstId case final value?) 'first_id': value,
+      if (instance.lastId case final value?) 'last_id': value,
       'has_more': instance.hasMore,
     };
 
-_$DeleteVectorStoreFileResponseImpl
-    _$$DeleteVectorStoreFileResponseImplFromJson(Map<String, dynamic> json) =>
-        _$DeleteVectorStoreFileResponseImpl(
-          id: json['id'] as String,
-          deleted: json['deleted'] as bool,
-          object: json['object'] as String,
-        );
+_DeleteVectorStoreFileResponse _$DeleteVectorStoreFileResponseFromJson(
+        Map<String, dynamic> json) =>
+    _DeleteVectorStoreFileResponse(
+      id: json['id'] as String,
+      deleted: json['deleted'] as bool,
+      object: json['object'] as String,
+    );
 
-Map<String, dynamic> _$$DeleteVectorStoreFileResponseImplToJson(
-        _$DeleteVectorStoreFileResponseImpl instance) =>
+Map<String, dynamic> _$DeleteVectorStoreFileResponseToJson(
+        _DeleteVectorStoreFileResponse instance) =>
     <String, dynamic>{
       'id': instance.id,
       'deleted': instance.deleted,
       'object': instance.object,
     };
 
-_$VectorStoreFileBatchObjectImpl _$$VectorStoreFileBatchObjectImplFromJson(
+_VectorStoreFileBatchObject _$VectorStoreFileBatchObjectFromJson(
         Map<String, dynamic> json) =>
-    _$VectorStoreFileBatchObjectImpl(
+    _VectorStoreFileBatchObject(
       id: json['id'] as String,
       object: json['object'] as String,
       createdAt: (json['created_at'] as num).toInt(),
@@ -4993,8 +4809,8 @@ _$VectorStoreFileBatchObjectImpl _$$VectorStoreFileBatchObjectImplFromJson(
           json['file_counts'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$VectorStoreFileBatchObjectImplToJson(
-        _$VectorStoreFileBatchObjectImpl instance) =>
+Map<String, dynamic> _$VectorStoreFileBatchObjectToJson(
+        _VectorStoreFileBatchObject instance) =>
     <String, dynamic>{
       'id': instance.id,
       'object': instance.object,
@@ -5011,10 +4827,9 @@ const _$VectorStoreFileBatchObjectStatusEnumMap = {
   VectorStoreFileBatchObjectStatus.failed: 'failed',
 };
 
-_$VectorStoreFileBatchObjectFileCountsImpl
-    _$$VectorStoreFileBatchObjectFileCountsImplFromJson(
-            Map<String, dynamic> json) =>
-        _$VectorStoreFileBatchObjectFileCountsImpl(
+_VectorStoreFileBatchObjectFileCounts
+    _$VectorStoreFileBatchObjectFileCountsFromJson(Map<String, dynamic> json) =>
+        _VectorStoreFileBatchObjectFileCounts(
           inProgress: (json['in_progress'] as num).toInt(),
           completed: (json['completed'] as num).toInt(),
           failed: (json['failed'] as num).toInt(),
@@ -5022,8 +4837,8 @@ _$VectorStoreFileBatchObjectFileCountsImpl
           total: (json['total'] as num).toInt(),
         );
 
-Map<String, dynamic> _$$VectorStoreFileBatchObjectFileCountsImplToJson(
-        _$VectorStoreFileBatchObjectFileCountsImpl instance) =>
+Map<String, dynamic> _$VectorStoreFileBatchObjectFileCountsToJson(
+        _VectorStoreFileBatchObjectFileCounts instance) =>
     <String, dynamic>{
       'in_progress': instance.inProgress,
       'completed': instance.completed,
@@ -5032,53 +4847,41 @@ Map<String, dynamic> _$$VectorStoreFileBatchObjectFileCountsImplToJson(
       'total': instance.total,
     };
 
-_$CreateVectorStoreFileBatchRequestImpl
-    _$$CreateVectorStoreFileBatchRequestImplFromJson(
-            Map<String, dynamic> json) =>
-        _$CreateVectorStoreFileBatchRequestImpl(
-          fileIds: (json['file_ids'] as List<dynamic>)
-              .map((e) => e as String)
-              .toList(),
-          chunkingStrategy: json['chunking_strategy'] == null
-              ? null
-              : ChunkingStrategyRequestParam.fromJson(
-                  json['chunking_strategy'] as Map<String, dynamic>),
-        );
+_CreateVectorStoreFileBatchRequest _$CreateVectorStoreFileBatchRequestFromJson(
+        Map<String, dynamic> json) =>
+    _CreateVectorStoreFileBatchRequest(
+      fileIds:
+          (json['file_ids'] as List<dynamic>).map((e) => e as String).toList(),
+      chunkingStrategy: json['chunking_strategy'] == null
+          ? null
+          : ChunkingStrategyRequestParam.fromJson(
+              json['chunking_strategy'] as Map<String, dynamic>),
+    );
 
-Map<String, dynamic> _$$CreateVectorStoreFileBatchRequestImplToJson(
-    _$CreateVectorStoreFileBatchRequestImpl instance) {
-  final val = <String, dynamic>{
-    'file_ids': instance.fileIds,
-  };
+Map<String, dynamic> _$CreateVectorStoreFileBatchRequestToJson(
+        _CreateVectorStoreFileBatchRequest instance) =>
+    <String, dynamic>{
+      'file_ids': instance.fileIds,
+      if (instance.chunkingStrategy?.toJson() case final value?)
+        'chunking_strategy': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('chunking_strategy', instance.chunkingStrategy?.toJson());
-  return val;
-}
-
-_$ErrorImpl _$$ErrorImplFromJson(Map<String, dynamic> json) => _$ErrorImpl(
+_Error _$ErrorFromJson(Map<String, dynamic> json) => _Error(
       code: json['code'] as String?,
       message: json['message'] as String,
       param: json['param'] as String?,
       type: json['type'] as String,
     );
 
-Map<String, dynamic> _$$ErrorImplToJson(_$ErrorImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$ErrorToJson(_Error instance) => <String, dynamic>{
       'code': instance.code,
       'message': instance.message,
       'param': instance.param,
       'type': instance.type,
     };
 
-_$CreateBatchRequestImpl _$$CreateBatchRequestImplFromJson(
-        Map<String, dynamic> json) =>
-    _$CreateBatchRequestImpl(
+_CreateBatchRequest _$CreateBatchRequestFromJson(Map<String, dynamic> json) =>
+    _CreateBatchRequest(
       inputFileId: json['input_file_id'] as String,
       endpoint: $enumDecode(_$BatchEndpointEnumMap, json['endpoint']),
       completionWindow: $enumDecode(
@@ -5088,24 +4891,14 @@ _$CreateBatchRequestImpl _$$CreateBatchRequestImplFromJson(
       ),
     );
 
-Map<String, dynamic> _$$CreateBatchRequestImplToJson(
-    _$CreateBatchRequestImpl instance) {
-  final val = <String, dynamic>{
-    'input_file_id': instance.inputFileId,
-    'endpoint': _$BatchEndpointEnumMap[instance.endpoint]!,
-    'completion_window':
-        _$BatchCompletionWindowEnumMap[instance.completionWindow]!,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('metadata', instance.metadata);
-  return val;
-}
+Map<String, dynamic> _$CreateBatchRequestToJson(_CreateBatchRequest instance) =>
+    <String, dynamic>{
+      'input_file_id': instance.inputFileId,
+      'endpoint': _$BatchEndpointEnumMap[instance.endpoint]!,
+      'completion_window':
+          _$BatchCompletionWindowEnumMap[instance.completionWindow]!,
+      if (instance.metadata case final value?) 'metadata': value,
+    };
 
 const _$BatchEndpointEnumMap = {
   BatchEndpoint.v1ChatCompletions: '/v1/chat/completions',
@@ -5117,7 +4910,7 @@ const _$BatchCompletionWindowEnumMap = {
   BatchCompletionWindow.v24h: '24h',
 };
 
-_$BatchImpl _$$BatchImplFromJson(Map<String, dynamic> json) => _$BatchImpl(
+_Batch _$BatchFromJson(Map<String, dynamic> json) => _Batch(
       id: json['id'] as String,
       object: $enumDecode(_$BatchObjectEnumMap, json['object']),
       endpoint: $enumDecode(_$BatchEndpointEnumMap, json['endpoint']),
@@ -5146,39 +4939,30 @@ _$BatchImpl _$$BatchImplFromJson(Map<String, dynamic> json) => _$BatchImpl(
       metadata: json['metadata'],
     );
 
-Map<String, dynamic> _$$BatchImplToJson(_$BatchImpl instance) {
-  final val = <String, dynamic>{
-    'id': instance.id,
-    'object': _$BatchObjectEnumMap[instance.object]!,
-    'endpoint': _$BatchEndpointEnumMap[instance.endpoint]!,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('errors', instance.errors?.toJson());
-  val['input_file_id'] = instance.inputFileId;
-  val['completion_window'] =
-      _$BatchCompletionWindowEnumMap[instance.completionWindow]!;
-  val['status'] = _$BatchStatusEnumMap[instance.status]!;
-  writeNotNull('output_file_id', instance.outputFileId);
-  writeNotNull('error_file_id', instance.errorFileId);
-  val['created_at'] = instance.createdAt;
-  writeNotNull('in_progress_at', instance.inProgressAt);
-  writeNotNull('expires_at', instance.expiresAt);
-  writeNotNull('finalizing_at', instance.finalizingAt);
-  writeNotNull('completed_at', instance.completedAt);
-  writeNotNull('failed_at', instance.failedAt);
-  writeNotNull('expired_at', instance.expiredAt);
-  writeNotNull('cancelling_at', instance.cancellingAt);
-  writeNotNull('cancelled_at', instance.cancelledAt);
-  writeNotNull('request_counts', instance.requestCounts?.toJson());
-  writeNotNull('metadata', instance.metadata);
-  return val;
-}
+Map<String, dynamic> _$BatchToJson(_Batch instance) => <String, dynamic>{
+      'id': instance.id,
+      'object': _$BatchObjectEnumMap[instance.object]!,
+      'endpoint': _$BatchEndpointEnumMap[instance.endpoint]!,
+      if (instance.errors?.toJson() case final value?) 'errors': value,
+      'input_file_id': instance.inputFileId,
+      'completion_window':
+          _$BatchCompletionWindowEnumMap[instance.completionWindow]!,
+      'status': _$BatchStatusEnumMap[instance.status]!,
+      if (instance.outputFileId case final value?) 'output_file_id': value,
+      if (instance.errorFileId case final value?) 'error_file_id': value,
+      'created_at': instance.createdAt,
+      if (instance.inProgressAt case final value?) 'in_progress_at': value,
+      if (instance.expiresAt case final value?) 'expires_at': value,
+      if (instance.finalizingAt case final value?) 'finalizing_at': value,
+      if (instance.completedAt case final value?) 'completed_at': value,
+      if (instance.failedAt case final value?) 'failed_at': value,
+      if (instance.expiredAt case final value?) 'expired_at': value,
+      if (instance.cancellingAt case final value?) 'cancelling_at': value,
+      if (instance.cancelledAt case final value?) 'cancelled_at': value,
+      if (instance.requestCounts?.toJson() case final value?)
+        'request_counts': value,
+      if (instance.metadata case final value?) 'metadata': value,
+    };
 
 const _$BatchObjectEnumMap = {
   BatchObject.batch: 'batch',
@@ -5195,73 +4979,54 @@ const _$BatchStatusEnumMap = {
   BatchStatus.cancelled: 'cancelled',
 };
 
-_$BatchErrorsImpl _$$BatchErrorsImplFromJson(Map<String, dynamic> json) =>
-    _$BatchErrorsImpl(
+_BatchErrors _$BatchErrorsFromJson(Map<String, dynamic> json) => _BatchErrors(
       object: json['object'] as String?,
       data: (json['data'] as List<dynamic>?)
           ?.map((e) => BatchErrorsDataInner.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$$BatchErrorsImplToJson(_$BatchErrorsImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$BatchErrorsToJson(_BatchErrors instance) =>
+    <String, dynamic>{
+      if (instance.object case final value?) 'object': value,
+      if (instance.data?.map((e) => e.toJson()).toList() case final value?)
+        'data': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('object', instance.object);
-  writeNotNull('data', instance.data?.map((e) => e.toJson()).toList());
-  return val;
-}
-
-_$BatchRequestCountsImpl _$$BatchRequestCountsImplFromJson(
-        Map<String, dynamic> json) =>
-    _$BatchRequestCountsImpl(
+_BatchRequestCounts _$BatchRequestCountsFromJson(Map<String, dynamic> json) =>
+    _BatchRequestCounts(
       total: (json['total'] as num).toInt(),
       completed: (json['completed'] as num).toInt(),
       failed: (json['failed'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$BatchRequestCountsImplToJson(
-        _$BatchRequestCountsImpl instance) =>
+Map<String, dynamic> _$BatchRequestCountsToJson(_BatchRequestCounts instance) =>
     <String, dynamic>{
       'total': instance.total,
       'completed': instance.completed,
       'failed': instance.failed,
     };
 
-_$BatchErrorsDataInnerImpl _$$BatchErrorsDataInnerImplFromJson(
+_BatchErrorsDataInner _$BatchErrorsDataInnerFromJson(
         Map<String, dynamic> json) =>
-    _$BatchErrorsDataInnerImpl(
+    _BatchErrorsDataInner(
       code: json['code'] as String?,
       message: json['message'] as String?,
       param: json['param'] as String?,
       line: (json['line'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$$BatchErrorsDataInnerImplToJson(
-    _$BatchErrorsDataInnerImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$BatchErrorsDataInnerToJson(
+        _BatchErrorsDataInner instance) =>
+    <String, dynamic>{
+      if (instance.code case final value?) 'code': value,
+      if (instance.message case final value?) 'message': value,
+      if (instance.param case final value?) 'param': value,
+      if (instance.line case final value?) 'line': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('code', instance.code);
-  writeNotNull('message', instance.message);
-  writeNotNull('param', instance.param);
-  writeNotNull('line', instance.line);
-  return val;
-}
-
-_$ListBatchesResponseImpl _$$ListBatchesResponseImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ListBatchesResponseImpl(
+_ListBatchesResponse _$ListBatchesResponseFromJson(Map<String, dynamic> json) =>
+    _ListBatchesResponse(
       data: (json['data'] as List<dynamic>)
           .map((e) => Batch.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5271,32 +5036,104 @@ _$ListBatchesResponseImpl _$$ListBatchesResponseImplFromJson(
       object: $enumDecode(_$ListBatchesResponseObjectEnumMap, json['object']),
     );
 
-Map<String, dynamic> _$$ListBatchesResponseImplToJson(
-    _$ListBatchesResponseImpl instance) {
-  final val = <String, dynamic>{
-    'data': instance.data.map((e) => e.toJson()).toList(),
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('first_id', instance.firstId);
-  writeNotNull('last_id', instance.lastId);
-  val['has_more'] = instance.hasMore;
-  val['object'] = _$ListBatchesResponseObjectEnumMap[instance.object]!;
-  return val;
-}
+Map<String, dynamic> _$ListBatchesResponseToJson(
+        _ListBatchesResponse instance) =>
+    <String, dynamic>{
+      'data': instance.data.map((e) => e.toJson()).toList(),
+      if (instance.firstId case final value?) 'first_id': value,
+      if (instance.lastId case final value?) 'last_id': value,
+      'has_more': instance.hasMore,
+      'object': _$ListBatchesResponseObjectEnumMap[instance.object]!,
+    };
 
 const _$ListBatchesResponseObjectEnumMap = {
   ListBatchesResponseObject.list: 'list',
 };
 
-_$ChatCompletionSystemMessageImpl _$$ChatCompletionSystemMessageImplFromJson(
+_WebSearchOptions _$WebSearchOptionsFromJson(Map<String, dynamic> json) =>
+    _WebSearchOptions(
+      userLocation: json['user_location'] == null
+          ? null
+          : WebSearchOptionsUserLocation.fromJson(
+              json['user_location'] as Map<String, dynamic>),
+      searchContextSize: $enumDecodeNullable(
+              _$WebSearchContextSizeEnumMap, json['search_context_size']) ??
+          WebSearchContextSize.medium,
+    );
+
+Map<String, dynamic> _$WebSearchOptionsToJson(_WebSearchOptions instance) =>
+    <String, dynamic>{
+      if (instance.userLocation?.toJson() case final value?)
+        'user_location': value,
+      'search_context_size':
+          _$WebSearchContextSizeEnumMap[instance.searchContextSize]!,
+    };
+
+const _$WebSearchContextSizeEnumMap = {
+  WebSearchContextSize.low: 'low',
+  WebSearchContextSize.medium: 'medium',
+  WebSearchContextSize.high: 'high',
+};
+
+_WebSearchOptionsUserLocation _$WebSearchOptionsUserLocationFromJson(
         Map<String, dynamic> json) =>
-    _$ChatCompletionSystemMessageImpl(
+    _WebSearchOptionsUserLocation(
+      type:
+          $enumDecode(_$WebSearchOptionsUserLocationTypeEnumMap, json['type']),
+      approximate: WebSearchLocation.fromJson(
+          json['approximate'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$WebSearchOptionsUserLocationToJson(
+        _WebSearchOptionsUserLocation instance) =>
+    <String, dynamic>{
+      'type': _$WebSearchOptionsUserLocationTypeEnumMap[instance.type]!,
+      'approximate': instance.approximate.toJson(),
+    };
+
+const _$WebSearchOptionsUserLocationTypeEnumMap = {
+  WebSearchOptionsUserLocationType.approximate: 'approximate',
+};
+
+_WebSearchLocation _$WebSearchLocationFromJson(Map<String, dynamic> json) =>
+    _WebSearchLocation(
+      country: json['country'] as String?,
+      region: json['region'] as String?,
+      city: json['city'] as String?,
+      timezone: json['timezone'] as String?,
+    );
+
+Map<String, dynamic> _$WebSearchLocationToJson(_WebSearchLocation instance) =>
+    <String, dynamic>{
+      if (instance.country case final value?) 'country': value,
+      if (instance.region case final value?) 'region': value,
+      if (instance.city case final value?) 'city': value,
+      if (instance.timezone case final value?) 'timezone': value,
+    };
+
+ChatCompletionDeveloperMessage _$ChatCompletionDeveloperMessageFromJson(
+        Map<String, dynamic> json) =>
+    ChatCompletionDeveloperMessage(
+      role: $enumDecodeNullable(
+              _$ChatCompletionMessageRoleEnumMap, json['role']) ??
+          ChatCompletionMessageRole.developer,
+      content: const _ChatCompletionDeveloperMessageContentConverter()
+          .fromJson(json['content']),
+      name: json['name'] as String?,
+    );
+
+Map<String, dynamic> _$ChatCompletionDeveloperMessageToJson(
+        ChatCompletionDeveloperMessage instance) =>
+    <String, dynamic>{
+      'role': _$ChatCompletionMessageRoleEnumMap[instance.role]!,
+      'content': const _ChatCompletionDeveloperMessageContentConverter()
+          .toJson(instance.content),
+      if (instance.name case final value?) 'name': value,
+    };
+
+ChatCompletionSystemMessage _$ChatCompletionSystemMessageFromJson(
+        Map<String, dynamic> json) =>
+    ChatCompletionSystemMessage(
       role: $enumDecodeNullable(
               _$ChatCompletionMessageRoleEnumMap, json['role']) ??
           ChatCompletionMessageRole.system,
@@ -5304,26 +5141,17 @@ _$ChatCompletionSystemMessageImpl _$$ChatCompletionSystemMessageImplFromJson(
       name: json['name'] as String?,
     );
 
-Map<String, dynamic> _$$ChatCompletionSystemMessageImplToJson(
-    _$ChatCompletionSystemMessageImpl instance) {
-  final val = <String, dynamic>{
-    'role': _$ChatCompletionMessageRoleEnumMap[instance.role]!,
-    'content': instance.content,
-  };
+Map<String, dynamic> _$ChatCompletionSystemMessageToJson(
+        ChatCompletionSystemMessage instance) =>
+    <String, dynamic>{
+      'role': _$ChatCompletionMessageRoleEnumMap[instance.role]!,
+      'content': instance.content,
+      if (instance.name case final value?) 'name': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('name', instance.name);
-  return val;
-}
-
-_$ChatCompletionUserMessageImpl _$$ChatCompletionUserMessageImplFromJson(
+ChatCompletionUserMessage _$ChatCompletionUserMessageFromJson(
         Map<String, dynamic> json) =>
-    _$ChatCompletionUserMessageImpl(
+    ChatCompletionUserMessage(
       role: $enumDecodeNullable(
               _$ChatCompletionMessageRoleEnumMap, json['role']) ??
           ChatCompletionMessageRole.user,
@@ -5332,72 +5160,61 @@ _$ChatCompletionUserMessageImpl _$$ChatCompletionUserMessageImplFromJson(
       name: json['name'] as String?,
     );
 
-Map<String, dynamic> _$$ChatCompletionUserMessageImplToJson(
-    _$ChatCompletionUserMessageImpl instance) {
-  final val = <String, dynamic>{
-    'role': _$ChatCompletionMessageRoleEnumMap[instance.role]!,
-    'content': const _ChatCompletionUserMessageContentConverter()
-        .toJson(instance.content),
-  };
+Map<String, dynamic> _$ChatCompletionUserMessageToJson(
+        ChatCompletionUserMessage instance) =>
+    <String, dynamic>{
+      'role': _$ChatCompletionMessageRoleEnumMap[instance.role]!,
+      'content': const _ChatCompletionUserMessageContentConverter()
+          .toJson(instance.content),
+      if (instance.name case final value?) 'name': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('name', instance.name);
-  return val;
-}
-
-_$ChatCompletionAssistantMessageImpl
-    _$$ChatCompletionAssistantMessageImplFromJson(Map<String, dynamic> json) =>
-        _$ChatCompletionAssistantMessageImpl(
-          role: $enumDecodeNullable(
-                  _$ChatCompletionMessageRoleEnumMap, json['role']) ??
-              ChatCompletionMessageRole.assistant,
-          content: json['content'] as String?,
-          refusal: json['refusal'] as String?,
-          name: json['name'] as String?,
-          toolCalls: (json['tool_calls'] as List<dynamic>?)
-              ?.map((e) => ChatCompletionMessageToolCall.fromJson(
-                  e as Map<String, dynamic>))
-              .toList(),
-          functionCall: json['function_call'] == null
-              ? null
-              : ChatCompletionMessageFunctionCall.fromJson(
-                  json['function_call'] as Map<String, dynamic>),
-          audio: json['audio'] == null
-              ? null
-              : ChatCompletionAssistantMessageAudio.fromJson(
-                  json['audio'] as Map<String, dynamic>),
-        );
-
-Map<String, dynamic> _$$ChatCompletionAssistantMessageImplToJson(
-    _$ChatCompletionAssistantMessageImpl instance) {
-  final val = <String, dynamic>{
-    'role': _$ChatCompletionMessageRoleEnumMap[instance.role]!,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('content', instance.content);
-  writeNotNull('refusal', instance.refusal);
-  writeNotNull('name', instance.name);
-  writeNotNull(
-      'tool_calls', instance.toolCalls?.map((e) => e.toJson()).toList());
-  writeNotNull('function_call', instance.functionCall?.toJson());
-  writeNotNull('audio', instance.audio?.toJson());
-  return val;
-}
-
-_$ChatCompletionToolMessageImpl _$$ChatCompletionToolMessageImplFromJson(
+ChatCompletionAssistantMessage _$ChatCompletionAssistantMessageFromJson(
         Map<String, dynamic> json) =>
-    _$ChatCompletionToolMessageImpl(
+    ChatCompletionAssistantMessage(
+      role: $enumDecodeNullable(
+              _$ChatCompletionMessageRoleEnumMap, json['role']) ??
+          ChatCompletionMessageRole.assistant,
+      content: json['content'] as String?,
+      refusal: json['refusal'] as String?,
+      name: json['name'] as String?,
+      toolCalls: (json['tool_calls'] as List<dynamic>?)
+          ?.map((e) =>
+              ChatCompletionMessageToolCall.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      annotations: (json['annotations'] as List<dynamic>?)
+          ?.map((e) => Annotation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      functionCall: json['function_call'] == null
+          ? null
+          : ChatCompletionMessageFunctionCall.fromJson(
+              json['function_call'] as Map<String, dynamic>),
+      audio: json['audio'] == null
+          ? null
+          : ChatCompletionAssistantMessageAudio.fromJson(
+              json['audio'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$ChatCompletionAssistantMessageToJson(
+        ChatCompletionAssistantMessage instance) =>
+    <String, dynamic>{
+      'role': _$ChatCompletionMessageRoleEnumMap[instance.role]!,
+      if (instance.content case final value?) 'content': value,
+      if (instance.refusal case final value?) 'refusal': value,
+      if (instance.name case final value?) 'name': value,
+      if (instance.toolCalls?.map((e) => e.toJson()).toList() case final value?)
+        'tool_calls': value,
+      if (instance.annotations?.map((e) => e.toJson()).toList()
+          case final value?)
+        'annotations': value,
+      if (instance.functionCall?.toJson() case final value?)
+        'function_call': value,
+      if (instance.audio?.toJson() case final value?) 'audio': value,
+    };
+
+ChatCompletionToolMessage _$ChatCompletionToolMessageFromJson(
+        Map<String, dynamic> json) =>
+    ChatCompletionToolMessage(
       role: $enumDecodeNullable(
               _$ChatCompletionMessageRoleEnumMap, json['role']) ??
           ChatCompletionMessageRole.tool,
@@ -5405,36 +5222,36 @@ _$ChatCompletionToolMessageImpl _$$ChatCompletionToolMessageImplFromJson(
       toolCallId: json['tool_call_id'] as String,
     );
 
-Map<String, dynamic> _$$ChatCompletionToolMessageImplToJson(
-        _$ChatCompletionToolMessageImpl instance) =>
+Map<String, dynamic> _$ChatCompletionToolMessageToJson(
+        ChatCompletionToolMessage instance) =>
     <String, dynamic>{
       'role': _$ChatCompletionMessageRoleEnumMap[instance.role]!,
       'content': instance.content,
       'tool_call_id': instance.toolCallId,
     };
 
-_$ChatCompletionFunctionMessageImpl
-    _$$ChatCompletionFunctionMessageImplFromJson(Map<String, dynamic> json) =>
-        _$ChatCompletionFunctionMessageImpl(
-          role: $enumDecodeNullable(
-                  _$ChatCompletionMessageRoleEnumMap, json['role']) ??
-              ChatCompletionMessageRole.function,
-          content: json['content'] as String?,
-          name: json['name'] as String,
-        );
+ChatCompletionFunctionMessage _$ChatCompletionFunctionMessageFromJson(
+        Map<String, dynamic> json) =>
+    ChatCompletionFunctionMessage(
+      role: $enumDecodeNullable(
+              _$ChatCompletionMessageRoleEnumMap, json['role']) ??
+          ChatCompletionMessageRole.function,
+      content: json['content'] as String?,
+      name: json['name'] as String,
+    );
 
-Map<String, dynamic> _$$ChatCompletionFunctionMessageImplToJson(
-        _$ChatCompletionFunctionMessageImpl instance) =>
+Map<String, dynamic> _$ChatCompletionFunctionMessageToJson(
+        ChatCompletionFunctionMessage instance) =>
     <String, dynamic>{
       'role': _$ChatCompletionMessageRoleEnumMap[instance.role]!,
       'content': instance.content,
       'name': instance.name,
     };
 
-_$ChatCompletionMessageContentPartsImpl
-    _$$ChatCompletionMessageContentPartsImplFromJson(
+ChatCompletionDeveloperMessageContentParts
+    _$ChatCompletionDeveloperMessageContentPartsFromJson(
             Map<String, dynamic> json) =>
-        _$ChatCompletionMessageContentPartsImpl(
+        ChatCompletionDeveloperMessageContentParts(
           (json['value'] as List<dynamic>)
               .map((e) => ChatCompletionMessageContentPart.fromJson(
                   e as Map<String, dynamic>))
@@ -5442,40 +5259,71 @@ _$ChatCompletionMessageContentPartsImpl
           $type: json['runtimeType'] as String?,
         );
 
-Map<String, dynamic> _$$ChatCompletionMessageContentPartsImplToJson(
-        _$ChatCompletionMessageContentPartsImpl instance) =>
+Map<String, dynamic> _$ChatCompletionDeveloperMessageContentPartsToJson(
+        ChatCompletionDeveloperMessageContentParts instance) =>
     <String, dynamic>{
       'value': instance.value.map((e) => e.toJson()).toList(),
       'runtimeType': instance.$type,
     };
 
-_$ChatCompletionUserMessageContentStringImpl
-    _$$ChatCompletionUserMessageContentStringImplFromJson(
+ChatCompletionDeveloperMessageContentString
+    _$ChatCompletionDeveloperMessageContentStringFromJson(
             Map<String, dynamic> json) =>
-        _$ChatCompletionUserMessageContentStringImpl(
+        ChatCompletionDeveloperMessageContentString(
           json['value'] as String,
           $type: json['runtimeType'] as String?,
         );
 
-Map<String, dynamic> _$$ChatCompletionUserMessageContentStringImplToJson(
-        _$ChatCompletionUserMessageContentStringImpl instance) =>
+Map<String, dynamic> _$ChatCompletionDeveloperMessageContentStringToJson(
+        ChatCompletionDeveloperMessageContentString instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$ChatCompletionAssistantMessageAudioImpl
-    _$$ChatCompletionAssistantMessageAudioImplFromJson(
+ChatCompletionMessageContentParts _$ChatCompletionMessageContentPartsFromJson(
+        Map<String, dynamic> json) =>
+    ChatCompletionMessageContentParts(
+      (json['value'] as List<dynamic>)
+          .map((e) => ChatCompletionMessageContentPart.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$ChatCompletionMessageContentPartsToJson(
+        ChatCompletionMessageContentParts instance) =>
+    <String, dynamic>{
+      'value': instance.value.map((e) => e.toJson()).toList(),
+      'runtimeType': instance.$type,
+    };
+
+ChatCompletionUserMessageContentString
+    _$ChatCompletionUserMessageContentStringFromJson(
             Map<String, dynamic> json) =>
-        _$ChatCompletionAssistantMessageAudioImpl(
+        ChatCompletionUserMessageContentString(
+          json['value'] as String,
+          $type: json['runtimeType'] as String?,
+        );
+
+Map<String, dynamic> _$ChatCompletionUserMessageContentStringToJson(
+        ChatCompletionUserMessageContentString instance) =>
+    <String, dynamic>{
+      'value': instance.value,
+      'runtimeType': instance.$type,
+    };
+
+_ChatCompletionAssistantMessageAudio
+    _$ChatCompletionAssistantMessageAudioFromJson(Map<String, dynamic> json) =>
+        _ChatCompletionAssistantMessageAudio(
           id: json['id'] as String,
           expiresAt: (json['expires_at'] as num).toInt(),
           data: json['data'] as String,
           transcript: json['transcript'] as String,
         );
 
-Map<String, dynamic> _$$ChatCompletionAssistantMessageAudioImplToJson(
-        _$ChatCompletionAssistantMessageAudioImpl instance) =>
+Map<String, dynamic> _$ChatCompletionAssistantMessageAudioToJson(
+        _ChatCompletionAssistantMessageAudio instance) =>
     <String, dynamic>{
       'id': instance.id,
       'expires_at': instance.expiresAt,
@@ -5483,10 +5331,9 @@ Map<String, dynamic> _$$ChatCompletionAssistantMessageAudioImplToJson(
       'transcript': instance.transcript,
     };
 
-_$ChatCompletionMessageContentPartTextImpl
-    _$$ChatCompletionMessageContentPartTextImplFromJson(
-            Map<String, dynamic> json) =>
-        _$ChatCompletionMessageContentPartTextImpl(
+ChatCompletionMessageContentPartText
+    _$ChatCompletionMessageContentPartTextFromJson(Map<String, dynamic> json) =>
+        ChatCompletionMessageContentPartText(
           type: $enumDecodeNullable(
                   _$ChatCompletionMessageContentPartTypeEnumMap,
                   json['type']) ??
@@ -5494,8 +5341,8 @@ _$ChatCompletionMessageContentPartTextImpl
           text: json['text'] as String,
         );
 
-Map<String, dynamic> _$$ChatCompletionMessageContentPartTextImplToJson(
-        _$ChatCompletionMessageContentPartTextImpl instance) =>
+Map<String, dynamic> _$ChatCompletionMessageContentPartTextToJson(
+        ChatCompletionMessageContentPartText instance) =>
     <String, dynamic>{
       'type': _$ChatCompletionMessageContentPartTypeEnumMap[instance.type]!,
       'text': instance.text,
@@ -5508,10 +5355,10 @@ const _$ChatCompletionMessageContentPartTypeEnumMap = {
   ChatCompletionMessageContentPartType.refusal: 'refusal',
 };
 
-_$ChatCompletionMessageContentPartImageImpl
-    _$$ChatCompletionMessageContentPartImageImplFromJson(
+ChatCompletionMessageContentPartImage
+    _$ChatCompletionMessageContentPartImageFromJson(
             Map<String, dynamic> json) =>
-        _$ChatCompletionMessageContentPartImageImpl(
+        ChatCompletionMessageContentPartImage(
           type: $enumDecodeNullable(
                   _$ChatCompletionMessageContentPartTypeEnumMap,
                   json['type']) ??
@@ -5520,17 +5367,17 @@ _$ChatCompletionMessageContentPartImageImpl
               json['image_url'] as Map<String, dynamic>),
         );
 
-Map<String, dynamic> _$$ChatCompletionMessageContentPartImageImplToJson(
-        _$ChatCompletionMessageContentPartImageImpl instance) =>
+Map<String, dynamic> _$ChatCompletionMessageContentPartImageToJson(
+        ChatCompletionMessageContentPartImage instance) =>
     <String, dynamic>{
       'type': _$ChatCompletionMessageContentPartTypeEnumMap[instance.type]!,
       'image_url': instance.imageUrl.toJson(),
     };
 
-_$ChatCompletionMessageContentPartAudioImpl
-    _$$ChatCompletionMessageContentPartAudioImplFromJson(
+ChatCompletionMessageContentPartAudio
+    _$ChatCompletionMessageContentPartAudioFromJson(
             Map<String, dynamic> json) =>
-        _$ChatCompletionMessageContentPartAudioImpl(
+        ChatCompletionMessageContentPartAudio(
           type: $enumDecodeNullable(
                   _$ChatCompletionMessageContentPartTypeEnumMap,
                   json['type']) ??
@@ -5539,17 +5386,17 @@ _$ChatCompletionMessageContentPartAudioImpl
               json['input_audio'] as Map<String, dynamic>),
         );
 
-Map<String, dynamic> _$$ChatCompletionMessageContentPartAudioImplToJson(
-        _$ChatCompletionMessageContentPartAudioImpl instance) =>
+Map<String, dynamic> _$ChatCompletionMessageContentPartAudioToJson(
+        ChatCompletionMessageContentPartAudio instance) =>
     <String, dynamic>{
       'type': _$ChatCompletionMessageContentPartTypeEnumMap[instance.type]!,
       'input_audio': instance.inputAudio.toJson(),
     };
 
-_$ChatCompletionMessageContentPartRefusalImpl
-    _$$ChatCompletionMessageContentPartRefusalImplFromJson(
+ChatCompletionMessageContentPartRefusal
+    _$ChatCompletionMessageContentPartRefusalFromJson(
             Map<String, dynamic> json) =>
-        _$ChatCompletionMessageContentPartRefusalImpl(
+        ChatCompletionMessageContentPartRefusal(
           type: $enumDecodeNullable(
                   _$ChatCompletionMessageContentPartTypeEnumMap,
                   json['type']) ??
@@ -5557,24 +5404,24 @@ _$ChatCompletionMessageContentPartRefusalImpl
           refusal: json['refusal'] as String,
         );
 
-Map<String, dynamic> _$$ChatCompletionMessageContentPartRefusalImplToJson(
-        _$ChatCompletionMessageContentPartRefusalImpl instance) =>
+Map<String, dynamic> _$ChatCompletionMessageContentPartRefusalToJson(
+        ChatCompletionMessageContentPartRefusal instance) =>
     <String, dynamic>{
       'type': _$ChatCompletionMessageContentPartTypeEnumMap[instance.type]!,
       'refusal': instance.refusal,
     };
 
-_$ChatCompletionMessageImageUrlImpl
-    _$$ChatCompletionMessageImageUrlImplFromJson(Map<String, dynamic> json) =>
-        _$ChatCompletionMessageImageUrlImpl(
-          url: json['url'] as String,
-          detail: $enumDecodeNullable(
-                  _$ChatCompletionMessageImageDetailEnumMap, json['detail']) ??
-              ChatCompletionMessageImageDetail.auto,
-        );
+_ChatCompletionMessageImageUrl _$ChatCompletionMessageImageUrlFromJson(
+        Map<String, dynamic> json) =>
+    _ChatCompletionMessageImageUrl(
+      url: json['url'] as String,
+      detail: $enumDecodeNullable(
+              _$ChatCompletionMessageImageDetailEnumMap, json['detail']) ??
+          ChatCompletionMessageImageDetail.auto,
+    );
 
-Map<String, dynamic> _$$ChatCompletionMessageImageUrlImplToJson(
-        _$ChatCompletionMessageImageUrlImpl instance) =>
+Map<String, dynamic> _$ChatCompletionMessageImageUrlToJson(
+        _ChatCompletionMessageImageUrl instance) =>
     <String, dynamic>{
       'url': instance.url,
       'detail': _$ChatCompletionMessageImageDetailEnumMap[instance.detail]!,
@@ -5586,16 +5433,16 @@ const _$ChatCompletionMessageImageDetailEnumMap = {
   ChatCompletionMessageImageDetail.high: 'high',
 };
 
-_$ChatCompletionMessageInputAudioImpl
-    _$$ChatCompletionMessageInputAudioImplFromJson(Map<String, dynamic> json) =>
-        _$ChatCompletionMessageInputAudioImpl(
-          data: json['data'] as String,
-          format: $enumDecode(
-              _$ChatCompletionMessageInputAudioFormatEnumMap, json['format']),
-        );
+_ChatCompletionMessageInputAudio _$ChatCompletionMessageInputAudioFromJson(
+        Map<String, dynamic> json) =>
+    _ChatCompletionMessageInputAudio(
+      data: json['data'] as String,
+      format: $enumDecode(
+          _$ChatCompletionMessageInputAudioFormatEnumMap, json['format']),
+    );
 
-Map<String, dynamic> _$$ChatCompletionMessageInputAudioImplToJson(
-        _$ChatCompletionMessageInputAudioImpl instance) =>
+Map<String, dynamic> _$ChatCompletionMessageInputAudioToJson(
+        _ChatCompletionMessageInputAudio instance) =>
     <String, dynamic>{
       'data': instance.data,
       'format':
@@ -5607,15 +5454,13 @@ const _$ChatCompletionMessageInputAudioFormatEnumMap = {
   ChatCompletionMessageInputAudioFormat.mp3: 'mp3',
 };
 
-_$ResponseFormatTextImpl _$$ResponseFormatTextImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ResponseFormatTextImpl(
+ResponseFormatText _$ResponseFormatTextFromJson(Map<String, dynamic> json) =>
+    ResponseFormatText(
       type: $enumDecodeNullable(_$ResponseFormatTypeEnumMap, json['type']) ??
           ResponseFormatType.text,
     );
 
-Map<String, dynamic> _$$ResponseFormatTextImplToJson(
-        _$ResponseFormatTextImpl instance) =>
+Map<String, dynamic> _$ResponseFormatTextToJson(ResponseFormatText instance) =>
     <String, dynamic>{
       'type': _$ResponseFormatTypeEnumMap[instance.type]!,
     };
@@ -5626,47 +5471,47 @@ const _$ResponseFormatTypeEnumMap = {
   ResponseFormatType.jsonSchema: 'json_schema',
 };
 
-_$ResponseFormatJsonObjectImpl _$$ResponseFormatJsonObjectImplFromJson(
+ResponseFormatJsonObject _$ResponseFormatJsonObjectFromJson(
         Map<String, dynamic> json) =>
-    _$ResponseFormatJsonObjectImpl(
+    ResponseFormatJsonObject(
       type: $enumDecodeNullable(_$ResponseFormatTypeEnumMap, json['type']) ??
           ResponseFormatType.jsonObject,
     );
 
-Map<String, dynamic> _$$ResponseFormatJsonObjectImplToJson(
-        _$ResponseFormatJsonObjectImpl instance) =>
+Map<String, dynamic> _$ResponseFormatJsonObjectToJson(
+        ResponseFormatJsonObject instance) =>
     <String, dynamic>{
       'type': _$ResponseFormatTypeEnumMap[instance.type]!,
     };
 
-_$ResponseFormatJsonSchemaImpl _$$ResponseFormatJsonSchemaImplFromJson(
+ResponseFormatJsonSchema _$ResponseFormatJsonSchemaFromJson(
         Map<String, dynamic> json) =>
-    _$ResponseFormatJsonSchemaImpl(
+    ResponseFormatJsonSchema(
       type: $enumDecodeNullable(_$ResponseFormatTypeEnumMap, json['type']) ??
           ResponseFormatType.jsonSchema,
       jsonSchema: JsonSchemaObject.fromJson(
           json['json_schema'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$ResponseFormatJsonSchemaImplToJson(
-        _$ResponseFormatJsonSchemaImpl instance) =>
+Map<String, dynamic> _$ResponseFormatJsonSchemaToJson(
+        ResponseFormatJsonSchema instance) =>
     <String, dynamic>{
       'type': _$ResponseFormatTypeEnumMap[instance.type]!,
       'json_schema': instance.jsonSchema.toJson(),
     };
 
-_$ModerationInputObjectImageUrlImpl
-    _$$ModerationInputObjectImageUrlImplFromJson(Map<String, dynamic> json) =>
-        _$ModerationInputObjectImageUrlImpl(
-          type: $enumDecodeNullable(
-                  _$ModerationInputObjectTypeEnumMap, json['type']) ??
-              ModerationInputObjectType.imageUrl,
-          imageUrl: ModerationInputObjectImageUrlImageUrl.fromJson(
-              json['image_url'] as Map<String, dynamic>),
-        );
+ModerationInputObjectImageUrl _$ModerationInputObjectImageUrlFromJson(
+        Map<String, dynamic> json) =>
+    ModerationInputObjectImageUrl(
+      type: $enumDecodeNullable(
+              _$ModerationInputObjectTypeEnumMap, json['type']) ??
+          ModerationInputObjectType.imageUrl,
+      imageUrl: ModerationInputObjectImageUrlImageUrl.fromJson(
+          json['image_url'] as Map<String, dynamic>),
+    );
 
-Map<String, dynamic> _$$ModerationInputObjectImageUrlImplToJson(
-        _$ModerationInputObjectImageUrlImpl instance) =>
+Map<String, dynamic> _$ModerationInputObjectImageUrlToJson(
+        ModerationInputObjectImageUrl instance) =>
     <String, dynamic>{
       'type': _$ModerationInputObjectTypeEnumMap[instance.type]!,
       'image_url': instance.imageUrl.toJson(),
@@ -5677,50 +5522,50 @@ const _$ModerationInputObjectTypeEnumMap = {
   ModerationInputObjectType.text: 'text',
 };
 
-_$ModerationInputObjectTextImpl _$$ModerationInputObjectTextImplFromJson(
+ModerationInputObjectText _$ModerationInputObjectTextFromJson(
         Map<String, dynamic> json) =>
-    _$ModerationInputObjectTextImpl(
+    ModerationInputObjectText(
       type: $enumDecodeNullable(
               _$ModerationInputObjectTypeEnumMap, json['type']) ??
           ModerationInputObjectType.text,
       text: json['text'] as String,
     );
 
-Map<String, dynamic> _$$ModerationInputObjectTextImplToJson(
-        _$ModerationInputObjectTextImpl instance) =>
+Map<String, dynamic> _$ModerationInputObjectTextToJson(
+        ModerationInputObjectText instance) =>
     <String, dynamic>{
       'type': _$ModerationInputObjectTypeEnumMap[instance.type]!,
       'text': instance.text,
     };
 
-_$ModerationInputObjectImageUrlImageUrlImpl
-    _$$ModerationInputObjectImageUrlImageUrlImplFromJson(
+_ModerationInputObjectImageUrlImageUrl
+    _$ModerationInputObjectImageUrlImageUrlFromJson(
             Map<String, dynamic> json) =>
-        _$ModerationInputObjectImageUrlImageUrlImpl(
+        _ModerationInputObjectImageUrlImageUrl(
           url: json['url'] as String,
         );
 
-Map<String, dynamic> _$$ModerationInputObjectImageUrlImageUrlImplToJson(
-        _$ModerationInputObjectImageUrlImageUrlImpl instance) =>
+Map<String, dynamic> _$ModerationInputObjectImageUrlImageUrlToJson(
+        _ModerationInputObjectImageUrlImageUrl instance) =>
     <String, dynamic>{
       'url': instance.url,
     };
 
-_$AssistantToolsCodeInterpreterImpl
-    _$$AssistantToolsCodeInterpreterImplFromJson(Map<String, dynamic> json) =>
-        _$AssistantToolsCodeInterpreterImpl(
-          type: json['type'] as String? ?? 'code_interpreter',
-        );
+AssistantToolsCodeInterpreter _$AssistantToolsCodeInterpreterFromJson(
+        Map<String, dynamic> json) =>
+    AssistantToolsCodeInterpreter(
+      type: json['type'] as String? ?? 'code_interpreter',
+    );
 
-Map<String, dynamic> _$$AssistantToolsCodeInterpreterImplToJson(
-        _$AssistantToolsCodeInterpreterImpl instance) =>
+Map<String, dynamic> _$AssistantToolsCodeInterpreterToJson(
+        AssistantToolsCodeInterpreter instance) =>
     <String, dynamic>{
       'type': instance.type,
     };
 
-_$AssistantToolsFileSearchImpl _$$AssistantToolsFileSearchImplFromJson(
+AssistantToolsFileSearch _$AssistantToolsFileSearchFromJson(
         Map<String, dynamic> json) =>
-    _$AssistantToolsFileSearchImpl(
+    AssistantToolsFileSearch(
       type: json['type'] as String,
       fileSearch: json['file_search'] == null
           ? null
@@ -5728,41 +5573,31 @@ _$AssistantToolsFileSearchImpl _$$AssistantToolsFileSearchImplFromJson(
               json['file_search'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$AssistantToolsFileSearchImplToJson(
-    _$AssistantToolsFileSearchImpl instance) {
-  final val = <String, dynamic>{
-    'type': instance.type,
-  };
+Map<String, dynamic> _$AssistantToolsFileSearchToJson(
+        AssistantToolsFileSearch instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      if (instance.fileSearch?.toJson() case final value?) 'file_search': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('file_search', instance.fileSearch?.toJson());
-  return val;
-}
-
-_$AssistantToolsFunctionImpl _$$AssistantToolsFunctionImplFromJson(
+AssistantToolsFunction _$AssistantToolsFunctionFromJson(
         Map<String, dynamic> json) =>
-    _$AssistantToolsFunctionImpl(
+    AssistantToolsFunction(
       type: json['type'] as String? ?? 'function',
       function:
           FunctionObject.fromJson(json['function'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$AssistantToolsFunctionImplToJson(
-        _$AssistantToolsFunctionImpl instance) =>
+Map<String, dynamic> _$AssistantToolsFunctionToJson(
+        AssistantToolsFunction instance) =>
     <String, dynamic>{
       'type': instance.type,
       'function': instance.function.toJson(),
     };
 
-_$AssistantToolsFileSearchFileSearchImpl
-    _$$AssistantToolsFileSearchFileSearchImplFromJson(
-            Map<String, dynamic> json) =>
-        _$AssistantToolsFileSearchFileSearchImpl(
+_AssistantToolsFileSearchFileSearch
+    _$AssistantToolsFileSearchFileSearchFromJson(Map<String, dynamic> json) =>
+        _AssistantToolsFileSearchFileSearch(
           maxNumResults: (json['max_num_results'] as num?)?.toInt(),
           rankingOptions: json['ranking_options'] == null
               ? null
@@ -5770,195 +5605,149 @@ _$AssistantToolsFileSearchFileSearchImpl
                   json['ranking_options'] as Map<String, dynamic>),
         );
 
-Map<String, dynamic> _$$AssistantToolsFileSearchFileSearchImplToJson(
-    _$AssistantToolsFileSearchFileSearchImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$AssistantToolsFileSearchFileSearchToJson(
+        _AssistantToolsFileSearchFileSearch instance) =>
+    <String, dynamic>{
+      if (instance.maxNumResults case final value?) 'max_num_results': value,
+      if (instance.rankingOptions?.toJson() case final value?)
+        'ranking_options': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
+MessageContentImageFileObject _$MessageContentImageFileObjectFromJson(
+        Map<String, dynamic> json) =>
+    MessageContentImageFileObject(
+      type: json['type'] as String? ?? 'image_file',
+      imageFile: MessageContentImageFile.fromJson(
+          json['image_file'] as Map<String, dynamic>),
+    );
 
-  writeNotNull('max_num_results', instance.maxNumResults);
-  writeNotNull('ranking_options', instance.rankingOptions?.toJson());
-  return val;
-}
-
-_$MessageContentImageFileObjectImpl
-    _$$MessageContentImageFileObjectImplFromJson(Map<String, dynamic> json) =>
-        _$MessageContentImageFileObjectImpl(
-          type: json['type'] as String? ?? 'image_file',
-          imageFile: MessageContentImageFile.fromJson(
-              json['image_file'] as Map<String, dynamic>),
-        );
-
-Map<String, dynamic> _$$MessageContentImageFileObjectImplToJson(
-        _$MessageContentImageFileObjectImpl instance) =>
+Map<String, dynamic> _$MessageContentImageFileObjectToJson(
+        MessageContentImageFileObject instance) =>
     <String, dynamic>{
       'type': instance.type,
       'image_file': instance.imageFile.toJson(),
     };
 
-_$MessageContentImageUrlObjectImpl _$$MessageContentImageUrlObjectImplFromJson(
+MessageContentImageUrlObject _$MessageContentImageUrlObjectFromJson(
         Map<String, dynamic> json) =>
-    _$MessageContentImageUrlObjectImpl(
+    MessageContentImageUrlObject(
       type: json['type'] as String? ?? 'image_url',
       imageUrl: MessageContentImageUrl.fromJson(
           json['image_url'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$MessageContentImageUrlObjectImplToJson(
-        _$MessageContentImageUrlObjectImpl instance) =>
+Map<String, dynamic> _$MessageContentImageUrlObjectToJson(
+        MessageContentImageUrlObject instance) =>
     <String, dynamic>{
       'type': instance.type,
       'image_url': instance.imageUrl.toJson(),
     };
 
-_$MessageContentTextObjectImpl _$$MessageContentTextObjectImplFromJson(
+MessageContentTextObject _$MessageContentTextObjectFromJson(
         Map<String, dynamic> json) =>
-    _$MessageContentTextObjectImpl(
+    MessageContentTextObject(
       type: json['type'] as String? ?? 'text',
       text: MessageContentText.fromJson(json['text'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$MessageContentTextObjectImplToJson(
-        _$MessageContentTextObjectImpl instance) =>
+Map<String, dynamic> _$MessageContentTextObjectToJson(
+        MessageContentTextObject instance) =>
     <String, dynamic>{
       'type': instance.type,
       'text': instance.text.toJson(),
     };
 
-_$MessageContentRefusalObjectImpl _$$MessageContentRefusalObjectImplFromJson(
+MessageContentRefusalObject _$MessageContentRefusalObjectFromJson(
         Map<String, dynamic> json) =>
-    _$MessageContentRefusalObjectImpl(
+    MessageContentRefusalObject(
       type: json['type'] as String,
       refusal: json['refusal'] as String,
     );
 
-Map<String, dynamic> _$$MessageContentRefusalObjectImplToJson(
-        _$MessageContentRefusalObjectImpl instance) =>
+Map<String, dynamic> _$MessageContentRefusalObjectToJson(
+        MessageContentRefusalObject instance) =>
     <String, dynamic>{
       'type': instance.type,
       'refusal': instance.refusal,
     };
 
-_$MessageDeltaContentImageFileObjectImpl
-    _$$MessageDeltaContentImageFileObjectImplFromJson(
+MessageDeltaContentImageFileObject _$MessageDeltaContentImageFileObjectFromJson(
+        Map<String, dynamic> json) =>
+    MessageDeltaContentImageFileObject(
+      index: (json['index'] as num).toInt(),
+      type: json['type'] as String,
+      imageFile: json['image_file'] == null
+          ? null
+          : MessageContentImageFile.fromJson(
+              json['image_file'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$MessageDeltaContentImageFileObjectToJson(
+        MessageDeltaContentImageFileObject instance) =>
+    <String, dynamic>{
+      'index': instance.index,
+      'type': instance.type,
+      if (instance.imageFile?.toJson() case final value?) 'image_file': value,
+    };
+
+MessageDeltaContentTextObject _$MessageDeltaContentTextObjectFromJson(
+        Map<String, dynamic> json) =>
+    MessageDeltaContentTextObject(
+      index: (json['index'] as num).toInt(),
+      type: json['type'] as String,
+      text: json['text'] == null
+          ? null
+          : MessageDeltaContentText.fromJson(
+              json['text'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$MessageDeltaContentTextObjectToJson(
+        MessageDeltaContentTextObject instance) =>
+    <String, dynamic>{
+      'index': instance.index,
+      'type': instance.type,
+      if (instance.text?.toJson() case final value?) 'text': value,
+    };
+
+MessageDeltaContentRefusalObject _$MessageDeltaContentRefusalObjectFromJson(
+        Map<String, dynamic> json) =>
+    MessageDeltaContentRefusalObject(
+      index: (json['index'] as num).toInt(),
+      type: json['type'] as String,
+      refusal: json['refusal'] as String?,
+    );
+
+Map<String, dynamic> _$MessageDeltaContentRefusalObjectToJson(
+        MessageDeltaContentRefusalObject instance) =>
+    <String, dynamic>{
+      'index': instance.index,
+      'type': instance.type,
+      if (instance.refusal case final value?) 'refusal': value,
+    };
+
+MessageDeltaContentImageUrlObject _$MessageDeltaContentImageUrlObjectFromJson(
+        Map<String, dynamic> json) =>
+    MessageDeltaContentImageUrlObject(
+      index: (json['index'] as num).toInt(),
+      type: json['type'] as String,
+      imageUrl: json['image_url'] == null
+          ? null
+          : MessageContentImageUrl.fromJson(
+              json['image_url'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$MessageDeltaContentImageUrlObjectToJson(
+        MessageDeltaContentImageUrlObject instance) =>
+    <String, dynamic>{
+      'index': instance.index,
+      'type': instance.type,
+      if (instance.imageUrl?.toJson() case final value?) 'image_url': value,
+    };
+
+MessageContentTextAnnotationsFileCitationObject
+    _$MessageContentTextAnnotationsFileCitationObjectFromJson(
             Map<String, dynamic> json) =>
-        _$MessageDeltaContentImageFileObjectImpl(
-          index: (json['index'] as num).toInt(),
-          type: json['type'] as String,
-          imageFile: json['image_file'] == null
-              ? null
-              : MessageContentImageFile.fromJson(
-                  json['image_file'] as Map<String, dynamic>),
-        );
-
-Map<String, dynamic> _$$MessageDeltaContentImageFileObjectImplToJson(
-    _$MessageDeltaContentImageFileObjectImpl instance) {
-  final val = <String, dynamic>{
-    'index': instance.index,
-    'type': instance.type,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('image_file', instance.imageFile?.toJson());
-  return val;
-}
-
-_$MessageDeltaContentTextObjectImpl
-    _$$MessageDeltaContentTextObjectImplFromJson(Map<String, dynamic> json) =>
-        _$MessageDeltaContentTextObjectImpl(
-          index: (json['index'] as num).toInt(),
-          type: json['type'] as String,
-          text: json['text'] == null
-              ? null
-              : MessageDeltaContentText.fromJson(
-                  json['text'] as Map<String, dynamic>),
-        );
-
-Map<String, dynamic> _$$MessageDeltaContentTextObjectImplToJson(
-    _$MessageDeltaContentTextObjectImpl instance) {
-  final val = <String, dynamic>{
-    'index': instance.index,
-    'type': instance.type,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('text', instance.text?.toJson());
-  return val;
-}
-
-_$MessageDeltaContentRefusalObjectImpl
-    _$$MessageDeltaContentRefusalObjectImplFromJson(
-            Map<String, dynamic> json) =>
-        _$MessageDeltaContentRefusalObjectImpl(
-          index: (json['index'] as num).toInt(),
-          type: json['type'] as String,
-          refusal: json['refusal'] as String?,
-        );
-
-Map<String, dynamic> _$$MessageDeltaContentRefusalObjectImplToJson(
-    _$MessageDeltaContentRefusalObjectImpl instance) {
-  final val = <String, dynamic>{
-    'index': instance.index,
-    'type': instance.type,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('refusal', instance.refusal);
-  return val;
-}
-
-_$MessageDeltaContentImageUrlObjectImpl
-    _$$MessageDeltaContentImageUrlObjectImplFromJson(
-            Map<String, dynamic> json) =>
-        _$MessageDeltaContentImageUrlObjectImpl(
-          index: (json['index'] as num).toInt(),
-          type: json['type'] as String,
-          imageUrl: json['image_url'] == null
-              ? null
-              : MessageContentImageUrl.fromJson(
-                  json['image_url'] as Map<String, dynamic>),
-        );
-
-Map<String, dynamic> _$$MessageDeltaContentImageUrlObjectImplToJson(
-    _$MessageDeltaContentImageUrlObjectImpl instance) {
-  final val = <String, dynamic>{
-    'index': instance.index,
-    'type': instance.type,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('image_url', instance.imageUrl?.toJson());
-  return val;
-}
-
-_$MessageContentTextAnnotationsFileCitationObjectImpl
-    _$$MessageContentTextAnnotationsFileCitationObjectImplFromJson(
-            Map<String, dynamic> json) =>
-        _$MessageContentTextAnnotationsFileCitationObjectImpl(
+        MessageContentTextAnnotationsFileCitationObject(
           type: json['type'] as String,
           text: json['text'] as String,
           fileCitation: MessageContentTextAnnotationsFileCitation.fromJson(
@@ -5967,21 +5756,20 @@ _$MessageContentTextAnnotationsFileCitationObjectImpl
           endIndex: (json['end_index'] as num).toInt(),
         );
 
-Map<String, dynamic>
-    _$$MessageContentTextAnnotationsFileCitationObjectImplToJson(
-            _$MessageContentTextAnnotationsFileCitationObjectImpl instance) =>
-        <String, dynamic>{
-          'type': instance.type,
-          'text': instance.text,
-          'file_citation': instance.fileCitation.toJson(),
-          'start_index': instance.startIndex,
-          'end_index': instance.endIndex,
-        };
+Map<String, dynamic> _$MessageContentTextAnnotationsFileCitationObjectToJson(
+        MessageContentTextAnnotationsFileCitationObject instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      'text': instance.text,
+      'file_citation': instance.fileCitation.toJson(),
+      'start_index': instance.startIndex,
+      'end_index': instance.endIndex,
+    };
 
-_$MessageContentTextAnnotationsFilePathObjectImpl
-    _$$MessageContentTextAnnotationsFilePathObjectImplFromJson(
+MessageContentTextAnnotationsFilePathObject
+    _$MessageContentTextAnnotationsFilePathObjectFromJson(
             Map<String, dynamic> json) =>
-        _$MessageContentTextAnnotationsFilePathObjectImpl(
+        MessageContentTextAnnotationsFilePathObject(
           type: json['type'] as String,
           text: json['text'] as String,
           filePath: MessageContentTextAnnotationsFilePath.fromJson(
@@ -5990,8 +5778,8 @@ _$MessageContentTextAnnotationsFilePathObjectImpl
           endIndex: (json['end_index'] as num).toInt(),
         );
 
-Map<String, dynamic> _$$MessageContentTextAnnotationsFilePathObjectImplToJson(
-        _$MessageContentTextAnnotationsFilePathObjectImpl instance) =>
+Map<String, dynamic> _$MessageContentTextAnnotationsFilePathObjectToJson(
+        MessageContentTextAnnotationsFilePathObject instance) =>
     <String, dynamic>{
       'type': instance.type,
       'text': instance.text,
@@ -6000,23 +5788,23 @@ Map<String, dynamic> _$$MessageContentTextAnnotationsFilePathObjectImplToJson(
       'end_index': instance.endIndex,
     };
 
-_$MessageContentTextAnnotationsFilePathImpl
-    _$$MessageContentTextAnnotationsFilePathImplFromJson(
+_MessageContentTextAnnotationsFilePath
+    _$MessageContentTextAnnotationsFilePathFromJson(
             Map<String, dynamic> json) =>
-        _$MessageContentTextAnnotationsFilePathImpl(
+        _MessageContentTextAnnotationsFilePath(
           fileId: json['file_id'] as String,
         );
 
-Map<String, dynamic> _$$MessageContentTextAnnotationsFilePathImplToJson(
-        _$MessageContentTextAnnotationsFilePathImpl instance) =>
+Map<String, dynamic> _$MessageContentTextAnnotationsFilePathToJson(
+        _MessageContentTextAnnotationsFilePath instance) =>
     <String, dynamic>{
       'file_id': instance.fileId,
     };
 
-_$MessageDeltaContentTextAnnotationsFileCitationObjectImpl
-    _$$MessageDeltaContentTextAnnotationsFileCitationObjectImplFromJson(
+MessageDeltaContentTextAnnotationsFileCitationObject
+    _$MessageDeltaContentTextAnnotationsFileCitationObjectFromJson(
             Map<String, dynamic> json) =>
-        _$MessageDeltaContentTextAnnotationsFileCitationObjectImpl(
+        MessageDeltaContentTextAnnotationsFileCitationObject(
           index: (json['index'] as num).toInt(),
           type: json['type'] as String,
           text: json['text'] as String?,
@@ -6029,30 +5817,22 @@ _$MessageDeltaContentTextAnnotationsFileCitationObjectImpl
         );
 
 Map<String, dynamic>
-    _$$MessageDeltaContentTextAnnotationsFileCitationObjectImplToJson(
-        _$MessageDeltaContentTextAnnotationsFileCitationObjectImpl instance) {
-  final val = <String, dynamic>{
-    'index': instance.index,
-    'type': instance.type,
-  };
+    _$MessageDeltaContentTextAnnotationsFileCitationObjectToJson(
+            MessageDeltaContentTextAnnotationsFileCitationObject instance) =>
+        <String, dynamic>{
+          'index': instance.index,
+          'type': instance.type,
+          if (instance.text case final value?) 'text': value,
+          if (instance.fileCitation?.toJson() case final value?)
+            'file_citation': value,
+          if (instance.startIndex case final value?) 'start_index': value,
+          if (instance.endIndex case final value?) 'end_index': value,
+        };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('text', instance.text);
-  writeNotNull('file_citation', instance.fileCitation?.toJson());
-  writeNotNull('start_index', instance.startIndex);
-  writeNotNull('end_index', instance.endIndex);
-  return val;
-}
-
-_$MessageDeltaContentTextAnnotationsFilePathObjectImpl
-    _$$MessageDeltaContentTextAnnotationsFilePathObjectImplFromJson(
+MessageDeltaContentTextAnnotationsFilePathObject
+    _$MessageDeltaContentTextAnnotationsFilePathObjectFromJson(
             Map<String, dynamic> json) =>
-        _$MessageDeltaContentTextAnnotationsFilePathObjectImpl(
+        MessageDeltaContentTextAnnotationsFilePathObject(
           index: (json['index'] as num).toInt(),
           type: json['type'] as String,
           text: json['text'] as String?,
@@ -6064,87 +5844,67 @@ _$MessageDeltaContentTextAnnotationsFilePathObjectImpl
           endIndex: (json['end_index'] as num?)?.toInt(),
         );
 
-Map<String, dynamic>
-    _$$MessageDeltaContentTextAnnotationsFilePathObjectImplToJson(
-        _$MessageDeltaContentTextAnnotationsFilePathObjectImpl instance) {
-  final val = <String, dynamic>{
-    'index': instance.index,
-    'type': instance.type,
-  };
+Map<String, dynamic> _$MessageDeltaContentTextAnnotationsFilePathObjectToJson(
+        MessageDeltaContentTextAnnotationsFilePathObject instance) =>
+    <String, dynamic>{
+      'index': instance.index,
+      'type': instance.type,
+      if (instance.text case final value?) 'text': value,
+      if (instance.filePath?.toJson() case final value?) 'file_path': value,
+      if (instance.startIndex case final value?) 'start_index': value,
+      if (instance.endIndex case final value?) 'end_index': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('text', instance.text);
-  writeNotNull('file_path', instance.filePath?.toJson());
-  writeNotNull('start_index', instance.startIndex);
-  writeNotNull('end_index', instance.endIndex);
-  return val;
-}
-
-_$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImpl
-    _$$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImplFromJson(
+_MessageDeltaContentTextAnnotationsFilePathObjectFilePath
+    _$MessageDeltaContentTextAnnotationsFilePathObjectFilePathFromJson(
             Map<String, dynamic> json) =>
-        _$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImpl(
+        _MessageDeltaContentTextAnnotationsFilePathObjectFilePath(
           fileId: json['file_id'] as String?,
         );
 
-Map<String, dynamic>
-    _$$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImplToJson(
-        _$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImpl
-            instance) {
-  final val = <String, dynamic>{};
+Map<String,
+    dynamic> _$MessageDeltaContentTextAnnotationsFilePathObjectFilePathToJson(
+        _MessageDeltaContentTextAnnotationsFilePathObjectFilePath instance) =>
+    <String, dynamic>{
+      if (instance.fileId case final value?) 'file_id': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('file_id', instance.fileId);
-  return val;
-}
-
-_$RunStepDetailsMessageCreationObjectImpl
-    _$$RunStepDetailsMessageCreationObjectImplFromJson(
-            Map<String, dynamic> json) =>
-        _$RunStepDetailsMessageCreationObjectImpl(
+RunStepDetailsMessageCreationObject
+    _$RunStepDetailsMessageCreationObjectFromJson(Map<String, dynamic> json) =>
+        RunStepDetailsMessageCreationObject(
           type: json['type'] as String,
           messageCreation: RunStepDetailsMessageCreation.fromJson(
               json['message_creation'] as Map<String, dynamic>),
         );
 
-Map<String, dynamic> _$$RunStepDetailsMessageCreationObjectImplToJson(
-        _$RunStepDetailsMessageCreationObjectImpl instance) =>
+Map<String, dynamic> _$RunStepDetailsMessageCreationObjectToJson(
+        RunStepDetailsMessageCreationObject instance) =>
     <String, dynamic>{
       'type': instance.type,
       'message_creation': instance.messageCreation.toJson(),
     };
 
-_$RunStepDetailsToolCallsObjectImpl
-    _$$RunStepDetailsToolCallsObjectImplFromJson(Map<String, dynamic> json) =>
-        _$RunStepDetailsToolCallsObjectImpl(
-          type: json['type'] as String,
-          toolCalls: (json['tool_calls'] as List<dynamic>)
-              .map((e) =>
-                  RunStepDetailsToolCalls.fromJson(e as Map<String, dynamic>))
-              .toList(),
-        );
+RunStepDetailsToolCallsObject _$RunStepDetailsToolCallsObjectFromJson(
+        Map<String, dynamic> json) =>
+    RunStepDetailsToolCallsObject(
+      type: json['type'] as String,
+      toolCalls: (json['tool_calls'] as List<dynamic>)
+          .map((e) =>
+              RunStepDetailsToolCalls.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
 
-Map<String, dynamic> _$$RunStepDetailsToolCallsObjectImplToJson(
-        _$RunStepDetailsToolCallsObjectImpl instance) =>
+Map<String, dynamic> _$RunStepDetailsToolCallsObjectToJson(
+        RunStepDetailsToolCallsObject instance) =>
     <String, dynamic>{
       'type': instance.type,
       'tool_calls': instance.toolCalls.map((e) => e.toJson()).toList(),
     };
 
-_$RunStepDeltaStepDetailsMessageCreationObjectImpl
-    _$$RunStepDeltaStepDetailsMessageCreationObjectImplFromJson(
+RunStepDeltaStepDetailsMessageCreationObject
+    _$RunStepDeltaStepDetailsMessageCreationObjectFromJson(
             Map<String, dynamic> json) =>
-        _$RunStepDeltaStepDetailsMessageCreationObjectImpl(
+        RunStepDeltaStepDetailsMessageCreationObject(
           type: json['type'] as String,
           messageCreation: json['message_creation'] == null
               ? null
@@ -6152,26 +5912,18 @@ _$RunStepDeltaStepDetailsMessageCreationObjectImpl
                   json['message_creation'] as Map<String, dynamic>),
         );
 
-Map<String, dynamic> _$$RunStepDeltaStepDetailsMessageCreationObjectImplToJson(
-    _$RunStepDeltaStepDetailsMessageCreationObjectImpl instance) {
-  final val = <String, dynamic>{
-    'type': instance.type,
-  };
+Map<String, dynamic> _$RunStepDeltaStepDetailsMessageCreationObjectToJson(
+        RunStepDeltaStepDetailsMessageCreationObject instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      if (instance.messageCreation?.toJson() case final value?)
+        'message_creation': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('message_creation', instance.messageCreation?.toJson());
-  return val;
-}
-
-_$RunStepDeltaStepDetailsToolCallsObjectImpl
-    _$$RunStepDeltaStepDetailsToolCallsObjectImplFromJson(
+RunStepDeltaStepDetailsToolCallsObject
+    _$RunStepDeltaStepDetailsToolCallsObjectFromJson(
             Map<String, dynamic> json) =>
-        _$RunStepDeltaStepDetailsToolCallsObjectImpl(
+        RunStepDeltaStepDetailsToolCallsObject(
           type: json['type'] as String,
           toolCalls: (json['tool_calls'] as List<dynamic>?)
               ?.map((e) => RunStepDeltaStepDetailsToolCalls.fromJson(
@@ -6179,98 +5931,88 @@ _$RunStepDeltaStepDetailsToolCallsObjectImpl
               .toList(),
         );
 
-Map<String, dynamic> _$$RunStepDeltaStepDetailsToolCallsObjectImplToJson(
-    _$RunStepDeltaStepDetailsToolCallsObjectImpl instance) {
-  final val = <String, dynamic>{
-    'type': instance.type,
-  };
+Map<String, dynamic> _$RunStepDeltaStepDetailsToolCallsObjectToJson(
+        RunStepDeltaStepDetailsToolCallsObject instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      if (instance.toolCalls?.map((e) => e.toJson()).toList() case final value?)
+        'tool_calls': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
+RunStepDetailsToolCallsCodeObject _$RunStepDetailsToolCallsCodeObjectFromJson(
+        Map<String, dynamic> json) =>
+    RunStepDetailsToolCallsCodeObject(
+      id: json['id'] as String,
+      type: json['type'] as String,
+      codeInterpreter:
+          RunStepDetailsToolCallsCodeObjectCodeInterpreter.fromJson(
+              json['code_interpreter'] as Map<String, dynamic>),
+    );
 
-  writeNotNull(
-      'tool_calls', instance.toolCalls?.map((e) => e.toJson()).toList());
-  return val;
-}
-
-_$RunStepDetailsToolCallsCodeObjectImpl
-    _$$RunStepDetailsToolCallsCodeObjectImplFromJson(
-            Map<String, dynamic> json) =>
-        _$RunStepDetailsToolCallsCodeObjectImpl(
-          id: json['id'] as String,
-          type: json['type'] as String,
-          codeInterpreter:
-              RunStepDetailsToolCallsCodeObjectCodeInterpreter.fromJson(
-                  json['code_interpreter'] as Map<String, dynamic>),
-        );
-
-Map<String, dynamic> _$$RunStepDetailsToolCallsCodeObjectImplToJson(
-        _$RunStepDetailsToolCallsCodeObjectImpl instance) =>
+Map<String, dynamic> _$RunStepDetailsToolCallsCodeObjectToJson(
+        RunStepDetailsToolCallsCodeObject instance) =>
     <String, dynamic>{
       'id': instance.id,
       'type': instance.type,
       'code_interpreter': instance.codeInterpreter.toJson(),
     };
 
-_$RunStepDetailsToolCallsFileSearchObjectImpl
-    _$$RunStepDetailsToolCallsFileSearchObjectImplFromJson(
+RunStepDetailsToolCallsFileSearchObject
+    _$RunStepDetailsToolCallsFileSearchObjectFromJson(
             Map<String, dynamic> json) =>
-        _$RunStepDetailsToolCallsFileSearchObjectImpl(
+        RunStepDetailsToolCallsFileSearchObject(
           id: json['id'] as String,
           type: json['type'] as String,
           fileSearch: RunStepDetailsToolCallsFileSearch.fromJson(
               json['file_search'] as Map<String, dynamic>),
         );
 
-Map<String, dynamic> _$$RunStepDetailsToolCallsFileSearchObjectImplToJson(
-        _$RunStepDetailsToolCallsFileSearchObjectImpl instance) =>
+Map<String, dynamic> _$RunStepDetailsToolCallsFileSearchObjectToJson(
+        RunStepDetailsToolCallsFileSearchObject instance) =>
     <String, dynamic>{
       'id': instance.id,
       'type': instance.type,
       'file_search': instance.fileSearch.toJson(),
     };
 
-_$RunStepDetailsToolCallsFunctionObjectImpl
-    _$$RunStepDetailsToolCallsFunctionObjectImplFromJson(
+RunStepDetailsToolCallsFunctionObject
+    _$RunStepDetailsToolCallsFunctionObjectFromJson(
             Map<String, dynamic> json) =>
-        _$RunStepDetailsToolCallsFunctionObjectImpl(
+        RunStepDetailsToolCallsFunctionObject(
           id: json['id'] as String,
           type: json['type'] as String,
           function: RunStepDetailsToolCallsFunction.fromJson(
               json['function'] as Map<String, dynamic>),
         );
 
-Map<String, dynamic> _$$RunStepDetailsToolCallsFunctionObjectImplToJson(
-        _$RunStepDetailsToolCallsFunctionObjectImpl instance) =>
+Map<String, dynamic> _$RunStepDetailsToolCallsFunctionObjectToJson(
+        RunStepDetailsToolCallsFunctionObject instance) =>
     <String, dynamic>{
       'id': instance.id,
       'type': instance.type,
       'function': instance.function.toJson(),
     };
 
-_$RunStepDetailsToolCallsFunctionImpl
-    _$$RunStepDetailsToolCallsFunctionImplFromJson(Map<String, dynamic> json) =>
-        _$RunStepDetailsToolCallsFunctionImpl(
-          name: json['name'] as String,
-          arguments: json['arguments'] as String,
-          output: json['output'] as String?,
-        );
+_RunStepDetailsToolCallsFunction _$RunStepDetailsToolCallsFunctionFromJson(
+        Map<String, dynamic> json) =>
+    _RunStepDetailsToolCallsFunction(
+      name: json['name'] as String,
+      arguments: json['arguments'] as String,
+      output: json['output'] as String?,
+    );
 
-Map<String, dynamic> _$$RunStepDetailsToolCallsFunctionImplToJson(
-        _$RunStepDetailsToolCallsFunctionImpl instance) =>
+Map<String, dynamic> _$RunStepDetailsToolCallsFunctionToJson(
+        _RunStepDetailsToolCallsFunction instance) =>
     <String, dynamic>{
       'name': instance.name,
       'arguments': instance.arguments,
       'output': instance.output,
     };
 
-_$RunStepDeltaStepDetailsToolCallsCodeObjectImpl
-    _$$RunStepDeltaStepDetailsToolCallsCodeObjectImplFromJson(
+RunStepDeltaStepDetailsToolCallsCodeObject
+    _$RunStepDeltaStepDetailsToolCallsCodeObjectFromJson(
             Map<String, dynamic> json) =>
-        _$RunStepDeltaStepDetailsToolCallsCodeObjectImpl(
+        RunStepDeltaStepDetailsToolCallsCodeObject(
           index: (json['index'] as num).toInt(),
           id: json['id'] as String?,
           type: json['type'] as String,
@@ -6280,57 +6022,39 @@ _$RunStepDeltaStepDetailsToolCallsCodeObjectImpl
                   .fromJson(json['code_interpreter'] as Map<String, dynamic>),
         );
 
-Map<String, dynamic> _$$RunStepDeltaStepDetailsToolCallsCodeObjectImplToJson(
-    _$RunStepDeltaStepDetailsToolCallsCodeObjectImpl instance) {
-  final val = <String, dynamic>{
-    'index': instance.index,
-  };
+Map<String, dynamic> _$RunStepDeltaStepDetailsToolCallsCodeObjectToJson(
+        RunStepDeltaStepDetailsToolCallsCodeObject instance) =>
+    <String, dynamic>{
+      'index': instance.index,
+      if (instance.id case final value?) 'id': value,
+      'type': instance.type,
+      if (instance.codeInterpreter?.toJson() case final value?)
+        'code_interpreter': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('id', instance.id);
-  val['type'] = instance.type;
-  writeNotNull('code_interpreter', instance.codeInterpreter?.toJson());
-  return val;
-}
-
-_$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl
-    _$$RunStepDeltaStepDetailsToolCallsFileSearchObjectImplFromJson(
+RunStepDeltaStepDetailsToolCallsFileSearchObject
+    _$RunStepDeltaStepDetailsToolCallsFileSearchObjectFromJson(
             Map<String, dynamic> json) =>
-        _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl(
+        RunStepDeltaStepDetailsToolCallsFileSearchObject(
           index: (json['index'] as num).toInt(),
           id: json['id'] as String?,
           type: json['type'] as String,
           fileSearch: json['file_search'] as Map<String, dynamic>,
         );
 
-Map<String, dynamic>
-    _$$RunStepDeltaStepDetailsToolCallsFileSearchObjectImplToJson(
-        _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl instance) {
-  final val = <String, dynamic>{
-    'index': instance.index,
-  };
+Map<String, dynamic> _$RunStepDeltaStepDetailsToolCallsFileSearchObjectToJson(
+        RunStepDeltaStepDetailsToolCallsFileSearchObject instance) =>
+    <String, dynamic>{
+      'index': instance.index,
+      if (instance.id case final value?) 'id': value,
+      'type': instance.type,
+      'file_search': instance.fileSearch,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('id', instance.id);
-  val['type'] = instance.type;
-  val['file_search'] = instance.fileSearch;
-  return val;
-}
-
-_$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl
-    _$$RunStepDeltaStepDetailsToolCallsFunctionObjectImplFromJson(
+RunStepDeltaStepDetailsToolCallsFunctionObject
+    _$RunStepDeltaStepDetailsToolCallsFunctionObjectFromJson(
             Map<String, dynamic> json) =>
-        _$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl(
+        RunStepDeltaStepDetailsToolCallsFunctionObject(
           index: (json['index'] as num).toInt(),
           id: json['id'] as String?,
           type: json['type'] as String,
@@ -6340,112 +6064,85 @@ _$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl
                   json['function'] as Map<String, dynamic>),
         );
 
-Map<String, dynamic>
-    _$$RunStepDeltaStepDetailsToolCallsFunctionObjectImplToJson(
-        _$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl instance) {
-  final val = <String, dynamic>{
-    'index': instance.index,
-  };
+Map<String, dynamic> _$RunStepDeltaStepDetailsToolCallsFunctionObjectToJson(
+        RunStepDeltaStepDetailsToolCallsFunctionObject instance) =>
+    <String, dynamic>{
+      'index': instance.index,
+      if (instance.id case final value?) 'id': value,
+      'type': instance.type,
+      if (instance.function?.toJson() case final value?) 'function': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('id', instance.id);
-  val['type'] = instance.type;
-  writeNotNull('function', instance.function?.toJson());
-  return val;
-}
-
-_$RunStepDeltaStepDetailsToolCallsFunctionImpl
-    _$$RunStepDeltaStepDetailsToolCallsFunctionImplFromJson(
+_RunStepDeltaStepDetailsToolCallsFunction
+    _$RunStepDeltaStepDetailsToolCallsFunctionFromJson(
             Map<String, dynamic> json) =>
-        _$RunStepDeltaStepDetailsToolCallsFunctionImpl(
+        _RunStepDeltaStepDetailsToolCallsFunction(
           name: json['name'] as String?,
           arguments: json['arguments'] as String?,
           output: json['output'] as String?,
         );
 
-Map<String, dynamic> _$$RunStepDeltaStepDetailsToolCallsFunctionImplToJson(
-    _$RunStepDeltaStepDetailsToolCallsFunctionImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$RunStepDeltaStepDetailsToolCallsFunctionToJson(
+        _RunStepDeltaStepDetailsToolCallsFunction instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'name': value,
+      if (instance.arguments case final value?) 'arguments': value,
+      if (instance.output case final value?) 'output': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('name', instance.name);
-  writeNotNull('arguments', instance.arguments);
-  writeNotNull('output', instance.output);
-  return val;
-}
-
-_$RunStepDetailsToolCallsCodeOutputLogsObjectImpl
-    _$$RunStepDetailsToolCallsCodeOutputLogsObjectImplFromJson(
+RunStepDetailsToolCallsCodeOutputLogsObject
+    _$RunStepDetailsToolCallsCodeOutputLogsObjectFromJson(
             Map<String, dynamic> json) =>
-        _$RunStepDetailsToolCallsCodeOutputLogsObjectImpl(
+        RunStepDetailsToolCallsCodeOutputLogsObject(
           type: json['type'] as String,
           logs: json['logs'] as String,
         );
 
-Map<String, dynamic> _$$RunStepDetailsToolCallsCodeOutputLogsObjectImplToJson(
-        _$RunStepDetailsToolCallsCodeOutputLogsObjectImpl instance) =>
+Map<String, dynamic> _$RunStepDetailsToolCallsCodeOutputLogsObjectToJson(
+        RunStepDetailsToolCallsCodeOutputLogsObject instance) =>
     <String, dynamic>{
       'type': instance.type,
       'logs': instance.logs,
     };
 
-_$RunStepDetailsToolCallsCodeOutputImageObjectImpl
-    _$$RunStepDetailsToolCallsCodeOutputImageObjectImplFromJson(
+RunStepDetailsToolCallsCodeOutputImageObject
+    _$RunStepDetailsToolCallsCodeOutputImageObjectFromJson(
             Map<String, dynamic> json) =>
-        _$RunStepDetailsToolCallsCodeOutputImageObjectImpl(
+        RunStepDetailsToolCallsCodeOutputImageObject(
           type: json['type'] as String,
           image: RunStepDetailsToolCallsCodeOutputImage.fromJson(
               json['image'] as Map<String, dynamic>),
         );
 
-Map<String, dynamic> _$$RunStepDetailsToolCallsCodeOutputImageObjectImplToJson(
-        _$RunStepDetailsToolCallsCodeOutputImageObjectImpl instance) =>
+Map<String, dynamic> _$RunStepDetailsToolCallsCodeOutputImageObjectToJson(
+        RunStepDetailsToolCallsCodeOutputImageObject instance) =>
     <String, dynamic>{
       'type': instance.type,
       'image': instance.image.toJson(),
     };
 
-_$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImpl
-    _$$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImplFromJson(
+RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject
+    _$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectFromJson(
             Map<String, dynamic> json) =>
-        _$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImpl(
+        RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject(
           index: (json['index'] as num).toInt(),
           type: json['type'] as String,
           logs: json['logs'] as String?,
         );
 
 Map<String, dynamic>
-    _$$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImplToJson(
-        _$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImpl instance) {
-  final val = <String, dynamic>{
-    'index': instance.index,
-    'type': instance.type,
-  };
+    _$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectToJson(
+            RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject instance) =>
+        <String, dynamic>{
+          'index': instance.index,
+          'type': instance.type,
+          if (instance.logs case final value?) 'logs': value,
+        };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('logs', instance.logs);
-  return val;
-}
-
-_$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImpl
-    _$$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImplFromJson(
+RunStepDeltaStepDetailsToolCallsCodeOutputImageObject
+    _$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectFromJson(
             Map<String, dynamic> json) =>
-        _$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImpl(
+        RunStepDeltaStepDetailsToolCallsCodeOutputImageObject(
           index: (json['index'] as num).toInt(),
           type: json['type'] as String,
           image: json['image'] == null
@@ -6455,90 +6152,75 @@ _$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImpl
         );
 
 Map<String, dynamic>
-    _$$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImplToJson(
-        _$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImpl instance) {
-  final val = <String, dynamic>{
-    'index': instance.index,
-    'type': instance.type,
-  };
+    _$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectToJson(
+            RunStepDeltaStepDetailsToolCallsCodeOutputImageObject instance) =>
+        <String, dynamic>{
+          'index': instance.index,
+          'type': instance.type,
+          if (instance.image?.toJson() case final value?) 'image': value,
+        };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('image', instance.image?.toJson());
-  return val;
-}
-
-_$AutoChunkingStrategyRequestParamImpl
-    _$$AutoChunkingStrategyRequestParamImplFromJson(
-            Map<String, dynamic> json) =>
-        _$AutoChunkingStrategyRequestParamImpl(
-          type: json['type'] as String,
-        );
-
-Map<String, dynamic> _$$AutoChunkingStrategyRequestParamImplToJson(
-        _$AutoChunkingStrategyRequestParamImpl instance) =>
-    <String, dynamic>{
-      'type': instance.type,
-    };
-
-_$StaticChunkingStrategyRequestParamImpl
-    _$$StaticChunkingStrategyRequestParamImplFromJson(
-            Map<String, dynamic> json) =>
-        _$StaticChunkingStrategyRequestParamImpl(
-          type: json['type'] as String,
-          static: StaticChunkingStrategy.fromJson(
-              json['static'] as Map<String, dynamic>),
-        );
-
-Map<String, dynamic> _$$StaticChunkingStrategyRequestParamImplToJson(
-        _$StaticChunkingStrategyRequestParamImpl instance) =>
-    <String, dynamic>{
-      'type': instance.type,
-      'static': instance.static.toJson(),
-    };
-
-_$StaticChunkingStrategyResponseParamImpl
-    _$$StaticChunkingStrategyResponseParamImplFromJson(
-            Map<String, dynamic> json) =>
-        _$StaticChunkingStrategyResponseParamImpl(
-          type: json['type'] as String,
-          static: StaticChunkingStrategy.fromJson(
-              json['static'] as Map<String, dynamic>),
-        );
-
-Map<String, dynamic> _$$StaticChunkingStrategyResponseParamImplToJson(
-        _$StaticChunkingStrategyResponseParamImpl instance) =>
-    <String, dynamic>{
-      'type': instance.type,
-      'static': instance.static.toJson(),
-    };
-
-_$OtherChunkingStrategyResponseParamImpl
-    _$$OtherChunkingStrategyResponseParamImplFromJson(
-            Map<String, dynamic> json) =>
-        _$OtherChunkingStrategyResponseParamImpl(
-          type: json['type'] as String,
-        );
-
-Map<String, dynamic> _$$OtherChunkingStrategyResponseParamImplToJson(
-        _$OtherChunkingStrategyResponseParamImpl instance) =>
-    <String, dynamic>{
-      'type': instance.type,
-    };
-
-_$ThreadStreamEventImpl _$$ThreadStreamEventImplFromJson(
+AutoChunkingStrategyRequestParam _$AutoChunkingStrategyRequestParamFromJson(
         Map<String, dynamic> json) =>
-    _$ThreadStreamEventImpl(
+    AutoChunkingStrategyRequestParam(
+      type: json['type'] as String,
+    );
+
+Map<String, dynamic> _$AutoChunkingStrategyRequestParamToJson(
+        AutoChunkingStrategyRequestParam instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+    };
+
+StaticChunkingStrategyRequestParam _$StaticChunkingStrategyRequestParamFromJson(
+        Map<String, dynamic> json) =>
+    StaticChunkingStrategyRequestParam(
+      type: json['type'] as String,
+      static: StaticChunkingStrategy.fromJson(
+          json['static'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$StaticChunkingStrategyRequestParamToJson(
+        StaticChunkingStrategyRequestParam instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      'static': instance.static.toJson(),
+    };
+
+StaticChunkingStrategyResponseParam
+    _$StaticChunkingStrategyResponseParamFromJson(Map<String, dynamic> json) =>
+        StaticChunkingStrategyResponseParam(
+          type: json['type'] as String,
+          static: StaticChunkingStrategy.fromJson(
+              json['static'] as Map<String, dynamic>),
+        );
+
+Map<String, dynamic> _$StaticChunkingStrategyResponseParamToJson(
+        StaticChunkingStrategyResponseParam instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      'static': instance.static.toJson(),
+    };
+
+OtherChunkingStrategyResponseParam _$OtherChunkingStrategyResponseParamFromJson(
+        Map<String, dynamic> json) =>
+    OtherChunkingStrategyResponseParam(
+      type: json['type'] as String,
+    );
+
+Map<String, dynamic> _$OtherChunkingStrategyResponseParamToJson(
+        OtherChunkingStrategyResponseParam instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+    };
+
+ThreadStreamEvent _$ThreadStreamEventFromJson(Map<String, dynamic> json) =>
+    ThreadStreamEvent(
       event: $enumDecode(_$EventTypeEnumMap, json['event']),
       data: ThreadObject.fromJson(json['data'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$ThreadStreamEventImplToJson(
-        _$ThreadStreamEventImpl instance) =>
+Map<String, dynamic> _$ThreadStreamEventToJson(ThreadStreamEvent instance) =>
     <String, dynamic>{
       'event': _$EventTypeEnumMap[instance.event]!,
       'data': instance.data.toJson(),
@@ -6571,95 +6253,87 @@ const _$EventTypeEnumMap = {
   EventType.done: 'done',
 };
 
-_$RunStreamEventImpl _$$RunStreamEventImplFromJson(Map<String, dynamic> json) =>
-    _$RunStreamEventImpl(
+RunStreamEvent _$RunStreamEventFromJson(Map<String, dynamic> json) =>
+    RunStreamEvent(
       event: $enumDecode(_$EventTypeEnumMap, json['event']),
       data: RunObject.fromJson(json['data'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$RunStreamEventImplToJson(
-        _$RunStreamEventImpl instance) =>
+Map<String, dynamic> _$RunStreamEventToJson(RunStreamEvent instance) =>
     <String, dynamic>{
       'event': _$EventTypeEnumMap[instance.event]!,
       'data': instance.data.toJson(),
     };
 
-_$RunStepStreamEventImpl _$$RunStepStreamEventImplFromJson(
-        Map<String, dynamic> json) =>
-    _$RunStepStreamEventImpl(
+RunStepStreamEvent _$RunStepStreamEventFromJson(Map<String, dynamic> json) =>
+    RunStepStreamEvent(
       event: $enumDecode(_$EventTypeEnumMap, json['event']),
       data: RunStepObject.fromJson(json['data'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$RunStepStreamEventImplToJson(
-        _$RunStepStreamEventImpl instance) =>
+Map<String, dynamic> _$RunStepStreamEventToJson(RunStepStreamEvent instance) =>
     <String, dynamic>{
       'event': _$EventTypeEnumMap[instance.event]!,
       'data': instance.data.toJson(),
     };
 
-_$RunStepStreamDeltaEventImpl _$$RunStepStreamDeltaEventImplFromJson(
+RunStepStreamDeltaEvent _$RunStepStreamDeltaEventFromJson(
         Map<String, dynamic> json) =>
-    _$RunStepStreamDeltaEventImpl(
+    RunStepStreamDeltaEvent(
       event: $enumDecode(_$EventTypeEnumMap, json['event']),
       data: RunStepDeltaObject.fromJson(json['data'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$RunStepStreamDeltaEventImplToJson(
-        _$RunStepStreamDeltaEventImpl instance) =>
+Map<String, dynamic> _$RunStepStreamDeltaEventToJson(
+        RunStepStreamDeltaEvent instance) =>
     <String, dynamic>{
       'event': _$EventTypeEnumMap[instance.event]!,
       'data': instance.data.toJson(),
     };
 
-_$MessageStreamEventImpl _$$MessageStreamEventImplFromJson(
-        Map<String, dynamic> json) =>
-    _$MessageStreamEventImpl(
+MessageStreamEvent _$MessageStreamEventFromJson(Map<String, dynamic> json) =>
+    MessageStreamEvent(
       event: $enumDecode(_$EventTypeEnumMap, json['event']),
       data: MessageObject.fromJson(json['data'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$MessageStreamEventImplToJson(
-        _$MessageStreamEventImpl instance) =>
+Map<String, dynamic> _$MessageStreamEventToJson(MessageStreamEvent instance) =>
     <String, dynamic>{
       'event': _$EventTypeEnumMap[instance.event]!,
       'data': instance.data.toJson(),
     };
 
-_$MessageStreamDeltaEventImpl _$$MessageStreamDeltaEventImplFromJson(
+MessageStreamDeltaEvent _$MessageStreamDeltaEventFromJson(
         Map<String, dynamic> json) =>
-    _$MessageStreamDeltaEventImpl(
+    MessageStreamDeltaEvent(
       event: $enumDecode(_$EventTypeEnumMap, json['event']),
       data: MessageDeltaObject.fromJson(json['data'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$MessageStreamDeltaEventImplToJson(
-        _$MessageStreamDeltaEventImpl instance) =>
+Map<String, dynamic> _$MessageStreamDeltaEventToJson(
+        MessageStreamDeltaEvent instance) =>
     <String, dynamic>{
       'event': _$EventTypeEnumMap[instance.event]!,
       'data': instance.data.toJson(),
     };
 
-_$ErrorEventImpl _$$ErrorEventImplFromJson(Map<String, dynamic> json) =>
-    _$ErrorEventImpl(
+ErrorEvent _$ErrorEventFromJson(Map<String, dynamic> json) => ErrorEvent(
       event: $enumDecode(_$EventTypeEnumMap, json['event']),
       data: Error.fromJson(json['data'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$ErrorEventImplToJson(_$ErrorEventImpl instance) =>
+Map<String, dynamic> _$ErrorEventToJson(ErrorEvent instance) =>
     <String, dynamic>{
       'event': _$EventTypeEnumMap[instance.event]!,
       'data': instance.data.toJson(),
     };
 
-_$DoneEventImpl _$$DoneEventImplFromJson(Map<String, dynamic> json) =>
-    _$DoneEventImpl(
+DoneEvent _$DoneEventFromJson(Map<String, dynamic> json) => DoneEvent(
       event: $enumDecode(_$EventTypeEnumMap, json['event']),
       data: json['data'] as String,
     );
 
-Map<String, dynamic> _$$DoneEventImplToJson(_$DoneEventImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$DoneEventToJson(DoneEvent instance) => <String, dynamic>{
       'event': _$EventTypeEnumMap[instance.event]!,
       'data': instance.data,
     };

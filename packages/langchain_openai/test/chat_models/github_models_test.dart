@@ -15,7 +15,7 @@ void main() {
   group('GitHub Models tests', () {
     late ChatOpenAI chatModel;
 
-    setUp(() async {
+    setUp(() {
       chatModel = ChatOpenAI(
         apiKey: Platform.environment['GITHUB_TOKEN'],
         baseUrl: 'https://models.inference.ai.azure.com',
@@ -80,8 +80,8 @@ void main() {
           ),
         );
 
-        String content = '';
-        int count = 0;
+        var content = '';
+        var count = 0;
         await for (final res in stream) {
           content += res.output.content.replaceAll(RegExp(r'[\s\n]'), '');
           count++;

@@ -59,7 +59,7 @@ class RunnableBinding<RunInput extends Object?,
   Future<RunOutput> invoke(
     final RunInput input, {
     final CallOptions? options,
-  }) async {
+  }) {
     final finalOptions =
         options?.merge(this.options) as CallOptions? ?? this.options;
     return bound.invoke(input, options: finalOptions);

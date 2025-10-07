@@ -32,11 +32,18 @@ CreateChatCompletionRequest createChatCompletionRequest(
       options?.model ?? defaultOptions.model ?? ChatOpenAI.defaultModel,
     ),
     messages: messagesDtos,
+    store: options?.store ?? defaultOptions.store,
+    reasoningEffort:
+        (options?.reasoningEffort ?? defaultOptions.reasoningEffort)
+            .toReasoningEffort(),
+    metadata: options?.metadata ?? defaultOptions.metadata,
     tools: toolsDtos,
     toolChoice: toolChoice,
     frequencyPenalty:
         options?.frequencyPenalty ?? defaultOptions.frequencyPenalty,
     logitBias: options?.logitBias ?? defaultOptions.logitBias,
+    logprobs: options?.logprobs ?? defaultOptions.logprobs,
+    topLogprobs: options?.topLogprobs ?? defaultOptions.topLogprobs,
     maxCompletionTokens: options?.maxTokens ?? defaultOptions.maxTokens,
     n: options?.n ?? defaultOptions.n,
     presencePenalty: options?.presencePenalty ?? defaultOptions.presencePenalty,
@@ -51,6 +58,7 @@ CreateChatCompletionRequest createChatCompletionRequest(
         options?.parallelToolCalls ?? defaultOptions.parallelToolCalls,
     serviceTier: serviceTierDto,
     user: options?.user ?? defaultOptions.user,
+    verbosity: (options?.verbosity ?? defaultOptions.verbosity).toVerbosity(),
     streamOptions:
         stream ? const ChatCompletionStreamOptions(includeUsage: true) : null,
   );
@@ -218,7 +226,7 @@ extension CreateChatCompletionResponseMapper on CreateChatCompletionResponse {
   AIChatMessageToolCall _mapMessageToolCall(
     final ChatCompletionMessageToolCall tooCall,
   ) {
-    Map<String, dynamic> args = {};
+    var args = <String, dynamic>{};
     try {
       args = tooCall.function.arguments.isEmpty
           ? {}
@@ -283,7 +291,7 @@ extension ChatToolChoiceMapper on ChatToolChoice {
 extension CreateChatCompletionStreamResponseMapper
     on CreateChatCompletionStreamResponse {
   ChatResult toChatResult(final String id) {
-    final choice = choices.firstOrNull;
+    final choice = choices?.firstOrNull;
     final delta = choice?.delta;
 
     if (delta?.refusal != null && delta!.refusal!.isNotEmpty) {
@@ -313,7 +321,7 @@ extension CreateChatCompletionStreamResponseMapper
   AIChatMessageToolCall _mapMessageToolCall(
     final ChatCompletionStreamMessageToolCallChunk toolCall,
   ) {
-    Map<String, dynamic> args = {};
+    var args = <String, dynamic>{};
     try {
       args = json.decode(toolCall.function?.arguments ?? '');
     } catch (_) {}
@@ -341,6 +349,25 @@ extension ChatOpenAIResponseFormatMapper on ChatOpenAIResponseFormat {
         ),
     };
   }
+}
+
+extension ChatOpenAIReasoningEffortX on ChatOpenAIReasoningEffort? {
+  ReasoningEffort? toReasoningEffort() => switch (this) {
+        ChatOpenAIReasoningEffort.minimal => ReasoningEffort.minimal,
+        ChatOpenAIReasoningEffort.low => ReasoningEffort.low,
+        ChatOpenAIReasoningEffort.medium => ReasoningEffort.medium,
+        ChatOpenAIReasoningEffort.high => ReasoningEffort.high,
+        null => null,
+      };
+}
+
+extension ChatOpenAIVerbosityX on ChatOpenAIVerbosity? {
+  Verbosity? toVerbosity() => switch (this) {
+        ChatOpenAIVerbosity.low => Verbosity.low,
+        ChatOpenAIVerbosity.medium => Verbosity.medium,
+        ChatOpenAIVerbosity.high => Verbosity.high,
+        null => null,
+      };
 }
 
 extension ChatOpenAIServiceTierX on ChatOpenAIServiceTier? {

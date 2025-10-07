@@ -10,7 +10,8 @@ part of mistral_a_i_schema;
 
 /// Represents a streamed chunk of a chat completion response returned by model, based on the provided input.
 @freezed
-class ChatCompletionStreamResponse with _$ChatCompletionStreamResponse {
+abstract class ChatCompletionStreamResponse
+    with _$ChatCompletionStreamResponse {
   const ChatCompletionStreamResponse._();
 
   /// Factory constructor for ChatCompletionStreamResponse
@@ -67,7 +68,7 @@ class ChatCompletionStreamResponse with _$ChatCompletionStreamResponse {
 
 /// A choice in a chat completion stream.
 @freezed
-class ChatCompletionStreamResponseChoicesInner
+abstract class ChatCompletionStreamResponseChoicesInner
     with _$ChatCompletionStreamResponseChoicesInner {
   const ChatCompletionStreamResponseChoicesInner._();
 

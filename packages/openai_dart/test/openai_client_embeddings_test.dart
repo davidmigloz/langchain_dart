@@ -39,7 +39,10 @@ void main() {
         expect(res.data.first.index, 0);
         expect(res.data.first.embeddingVector, hasLength(modelDim));
         expect(res.data.first.object, EmbeddingObject.embedding);
-        expect(res.model.replaceAll('-', ''), model.name.toLowerCase());
+        expect(
+          res.model.replaceAll('-', ''),
+          startsWith(model.name.toLowerCase()),
+        );
         expect(res.object, CreateEmbeddingResponseObject.list);
         expect(res.usage?.promptTokens, greaterThan(0));
         expect(res.usage?.totalTokens, greaterThan(0));

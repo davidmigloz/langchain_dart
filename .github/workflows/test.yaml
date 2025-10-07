@@ -22,13 +22,13 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
         with:
           ref: "${{ github.event.pull_request.base.sha }}" # Required for pull_request_target
           fetch-depth: 0
 
       - name: Install Flutter
-        uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
+        uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
           channel: 'stable'
 
@@ -37,16 +37,14 @@ jobs:
           flutter config --no-analytics
           dart --disable-analytics
 
-      - name: Clear pub cache
-        run: flutter pub cache clean
-
       - name: Install Melos
-        uses: bluefireteam/melos-action@68b03fa391f4242e956f7e39e9ee27c096b901e4
+        uses: bluefireteam/melos-action@8cca19067d5bc4021b5a9f4656955d8b386583bf
         with:
+          melos-version: '7.0.0-dev.9'
           run-bootstrap: false
 
       - name: Bootstrap
-        uses: nick-invision/retry@7152eba30c6575329ac0576536151aca5a72780e
+        uses: nick-invision/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08
         with:
           timeout_minutes: 5
           max_attempts: 5

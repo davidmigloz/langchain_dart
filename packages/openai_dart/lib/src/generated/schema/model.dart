@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Describes an OpenAI model offering that can be used with the API.
 @freezed
-class Model with _$Model {
+abstract class Model with _$Model {
   const Model._();
 
   /// Factory constructor for Model
@@ -19,13 +19,17 @@ class Model with _$Model {
     required String id,
 
     /// The Unix timestamp (in seconds) when the model was created.
-    required int created,
+    @JsonKey(includeIfNull: false) int? created,
 
     /// The object type, which is always "model".
-    required ModelObject object,
+    @JsonKey(
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue,
+    )
+    ModelObject? object,
 
     /// The organization that owns the model.
-    @JsonKey(name: 'owned_by') required String ownedBy,
+    @JsonKey(name: 'owned_by', includeIfNull: false) String? ownedBy,
   }) = _Model;
 
   /// Object construction from a JSON representation

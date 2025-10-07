@@ -10,7 +10,7 @@ part of google_a_i_schema;
 
 /// The base structured datatype containing multi-part content of a message. A `Content` includes a `role` field designating the producer of the `Content` and a `parts` field containing multi-part data that contains the content of the message turn.
 @freezed
-class Content with _$Content {
+abstract class Content with _$Content {
   const Content._();
 
   /// Factory constructor for Content

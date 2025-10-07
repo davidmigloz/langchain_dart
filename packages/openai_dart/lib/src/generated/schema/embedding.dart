@@ -10,13 +10,13 @@ part of open_a_i_schema;
 
 /// Represents an embedding vector returned by embedding endpoint.
 @freezed
-class Embedding with _$Embedding {
+abstract class Embedding with _$Embedding {
   const Embedding._();
 
   /// Factory constructor for Embedding
   const factory Embedding({
     /// The index of the embedding in the list of embeddings.
-    required int index,
+    @JsonKey(includeIfNull: false) int? index,
 
     /// The embedding vector, which is a list of floats. The length of vector depends on the model as listed in the [embedding guide](https://platform.openai.com/docs/guides/embeddings).
     @_EmbeddingVectorConverter() required EmbeddingVector embedding,

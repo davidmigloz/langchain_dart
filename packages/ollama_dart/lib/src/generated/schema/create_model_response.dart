@@ -10,7 +10,7 @@ part of ollama_schema;
 
 /// Response object for creating a model. When finished, `status` is `success`.
 @freezed
-class CreateModelResponse with _$CreateModelResponse {
+abstract class CreateModelResponse with _$CreateModelResponse {
   const CreateModelResponse._();
 
   /// Factory constructor for CreateModelResponse

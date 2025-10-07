@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 
 void main() {
   group('TextLoader tests', () {
-    test('Test that a text file can be loaded', () async {
+    test('Test that a text file can be loaded', () {
       const filePath = './test/document_loaders/assets/example.txt';
       const loader = TextLoader(filePath);
       expect(

@@ -18,6 +18,8 @@ sealed class AssistantTools with _$AssistantTools {
   // ------------------------------------------
 
   /// Code interpreter tool
+
+  @FreezedUnionValue('code_interpreter')
   const factory AssistantTools.codeInterpreter({
     /// The type of tool being defined: `code_interpreter`
     @Default('code_interpreter') String type,
@@ -28,6 +30,8 @@ sealed class AssistantTools with _$AssistantTools {
   // ------------------------------------------
 
   /// FileSearch tool
+
+  @FreezedUnionValue('file_search')
   const factory AssistantTools.fileSearch({
     /// The type of tool being defined: `file_search`
     required String type,
@@ -42,6 +46,8 @@ sealed class AssistantTools with _$AssistantTools {
   // ------------------------------------------
 
   /// Function tool
+
+  @FreezedUnionValue('function')
   const factory AssistantTools.function({
     /// The type of tool being defined: `function`
     @Default('function') String type,
@@ -74,7 +80,7 @@ enum AssistantToolsEnumType {
 
 /// Overrides for the file search tool.
 @freezed
-class AssistantToolsFileSearchFileSearch
+abstract class AssistantToolsFileSearchFileSearch
     with _$AssistantToolsFileSearchFileSearch {
   const AssistantToolsFileSearchFileSearch._();
 
@@ -84,14 +90,14 @@ class AssistantToolsFileSearchFileSearch
     /// and 5 for gpt-3.5-turbo. This number should be between 1 and 50 inclusive.
     ///
     /// Note that the file search tool may output fewer than `max_num_results` results. See the
-    /// [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/customizing-file-search-settings)
+    /// [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search#customizing-file-search-settings)
     /// for more information.
     @JsonKey(name: 'max_num_results', includeIfNull: false) int? maxNumResults,
 
     /// The ranking options for the file search. If not specified, the file search tool will use the `auto` ranker and
     /// a score_threshold of 0.
     ///
-    /// See the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/customizing-file-search-settings)
+    /// See the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search#customizing-file-search-settings)
     /// for more information.
     @JsonKey(name: 'ranking_options', includeIfNull: false)
     FileSearchRankingOptions? rankingOptions,

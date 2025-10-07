@@ -54,7 +54,7 @@ final class TavilySearchResultsTool
   /// - `client`: the HTTP client to use. You can set your own HTTP client if
   ///   you need further customization (e.g. to use a Socks5 proxy).
   TavilySearchResultsTool({
-    required this.apiKey,
+    this.apiKey,
     final String? baseUrl,
     final Map<String, String> headers = const {},
     final Map<String, dynamic> queryParams = const {},
@@ -89,7 +89,7 @@ final class TavilySearchResultsTool
   final TavilyClient _client;
 
   /// Your Tavily API key.
-  String apiKey;
+  String? apiKey;
 
   @override
   Future<TavilySearchResults> invokeInternal(

@@ -10,7 +10,7 @@ part of openai_realtime_schema;
 
 /// Rate limit information.
 @freezed
-class RateLimit with _$RateLimit {
+abstract class RateLimit with _$RateLimit {
   const RateLimit._();
 
   /// Factory constructor for RateLimit

@@ -62,16 +62,16 @@ class RunnableMap<RunInput extends Object>
     final RunInput input, {
     final RunnableOptions? options,
   }) async {
-    final output = <String, dynamic>{};
-
-    await Future.forEach(steps.entries, (final entry) async {
-      output[entry.key] = await entry.value.invoke(
+    final futures = steps.entries.map((entry) async {
+      final result = await entry.value.invoke(
         input,
         options: entry.value.getCompatibleOptions(options),
       );
+      return MapEntry(entry.key, result);
     });
 
-    return output;
+    final results = await Future.wait(futures);
+    return Map.fromEntries(results);
   }
 
   @override

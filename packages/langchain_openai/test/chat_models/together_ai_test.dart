@@ -12,7 +12,7 @@ void main() {
   group('TogetherAI tests', () {
     late ChatOpenAI chatModel;
 
-    setUp(() async {
+    setUp(() {
       chatModel = ChatOpenAI(
         apiKey: Platform.environment['TOGETHER_AI_API_KEY'],
         baseUrl: 'https://api.together.xyz/v1',
@@ -71,8 +71,8 @@ void main() {
           options: ChatOpenAIOptions(model: model),
         );
 
-        String content = '';
-        int count = 0;
+        var content = '';
+        var count = 0;
         await for (final res in stream) {
           content += res.output.content.replaceAll(RegExp(r'[\s\n]'), '');
           count++;

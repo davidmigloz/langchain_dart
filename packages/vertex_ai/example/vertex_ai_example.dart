@@ -18,7 +18,7 @@ void main() async {
   print(res);
 }
 
-Future<AuthClient> _getAuthHttpClient() async {
+Future<AuthClient> _getAuthHttpClient() {
   final serviceAccountCredentials = ServiceAccountCredentials.fromJson(
     json.decode(Platform.environment['VERTEX_AI_SERVICE_ACCOUNT']!),
   );

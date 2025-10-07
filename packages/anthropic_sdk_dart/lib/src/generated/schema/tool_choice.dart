@@ -15,7 +15,7 @@ part of anthropic_schema;
 /// - `any`: tells Claude that it must use one of the provided tools, but doesn’t force a particular tool.
 /// - `tool`: allows us to force Claude to always use a particular tool specified in the `name` field.
 @freezed
-class ToolChoice with _$ToolChoice {
+abstract class ToolChoice with _$ToolChoice {
   const ToolChoice._();
 
   /// Factory constructor for ToolChoice

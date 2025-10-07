@@ -19,6 +19,7 @@ sealed class RunStepDeltaStepDetailsToolCalls
   // ------------------------------------------
 
   /// Details of the Code Interpreter tool call the run step was involved in.
+
   const factory RunStepDeltaStepDetailsToolCalls.codeInterpreter({
     /// The index of the tool call in the tool calls array.
     required int index,
@@ -39,6 +40,7 @@ sealed class RunStepDeltaStepDetailsToolCalls
   // ------------------------------------------
 
   /// File search tool call
+
   const factory RunStepDeltaStepDetailsToolCalls.fileSearch({
     /// The index of the tool call in the tool calls array.
     required int index,
@@ -58,6 +60,7 @@ sealed class RunStepDeltaStepDetailsToolCalls
   // ------------------------------------------
 
   /// Function tool call
+
   const factory RunStepDeltaStepDetailsToolCalls.function({
     /// The index of the tool call in the tool calls array.
     required int index,
@@ -85,7 +88,7 @@ sealed class RunStepDeltaStepDetailsToolCalls
 
 /// The definition of the function that was called.
 @freezed
-class RunStepDeltaStepDetailsToolCallsFunction
+abstract class RunStepDeltaStepDetailsToolCallsFunction
     with _$RunStepDeltaStepDetailsToolCallsFunction {
   const RunStepDeltaStepDetailsToolCallsFunction._();
 

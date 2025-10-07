@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:langchain_core/documents.dart';
+import 'package:langchain_core/embeddings.dart';
 import 'package:objectbox/objectbox.dart'
     show
         Condition,
@@ -21,7 +22,7 @@ import 'types.dart';
 ///
 /// ```dart
 /// final embeddings = OllamaEmbeddings(model: 'llama3.2');
-/// final vectorStore = ObjectBoxVectorStore(embeddings: embeddings);
+/// final vectorStore = ObjectBoxVectorStore.open(embeddings: embeddings);
 /// ```
 ///
 /// This vector stores creates a [Store] with an [ObjectBoxDocument] entity
@@ -46,7 +47,7 @@ import 'types.dart';
 ///
 /// For example:
 /// ```dart
-/// final vectorStore = ObjectBoxVectorStore(...);
+/// final vectorStore = ObjectBoxVectorStore.open(...);
 /// final res = await vectorStore.similaritySearch(
 ///   query: 'What should I feed my cat?',
 ///   config: ObjectBoxSimilaritySearch(
@@ -58,7 +59,24 @@ import 'types.dart';
 /// );
 /// ```
 class ObjectBoxVectorStore extends BaseObjectBoxVectorStore<ObjectBoxDocument> {
-  /// Creates an [ObjectBoxVectorStore] instance.
+  ObjectBoxVectorStore._(
+    Store store, {
+    required super.embeddings,
+  })  : _store = store,
+        super(
+          box: store.box<ObjectBoxDocument>(),
+          createEntity: _createObjectBoxDocument,
+          createDocument: _createDoc,
+          getIdProperty: () => obxg.ObjectBoxDocument_.id,
+          getEmbeddingProperty: () => obxg.ObjectBoxDocument_.embedding,
+        );
+
+  Store? _store;
+
+  /// The ObjectBox store.
+  Store? get store => _store;
+
+  /// Creates an [ObjectBoxVectorStore] instance and opens the ObjectBox store.
   ///
   /// Main configuration options:
   /// - [embeddings]  The embeddings model to use.
@@ -67,38 +85,8 @@ class ObjectBoxVectorStore extends BaseObjectBoxVectorStore<ObjectBoxDocument> {
   /// ObjectBox-specific options:
   /// - Check the ObjectBox's [Store] documentation for more details on the
   ///   different options.
-  ObjectBoxVectorStore({
-    required super.embeddings,
-    required final int dimensions,
-    final String? directory,
-    final int? maxDBSizeInKB,
-    final int? maxDataSizeInKB,
-    final int? fileMode,
-    final int? maxReaders,
-    final bool queriesCaseSensitiveDefault = true,
-    final String? macosApplicationGroup,
-  }) : super(
-          box: _openStore(
-            dimensions: dimensions,
-            directory: directory,
-            maxDBSizeInKB: maxDBSizeInKB,
-            maxDataSizeInKB: maxDataSizeInKB,
-            fileMode: fileMode,
-            maxReaders: maxReaders,
-            queriesCaseSensitiveDefault: queriesCaseSensitiveDefault,
-            macosApplicationGroup: macosApplicationGroup,
-          ).box<ObjectBoxDocument>(),
-          createEntity: _createObjectBoxDocument,
-          createDocument: _createDoc,
-          getIdProperty: () => obxg.ObjectBoxDocument_.id,
-          getEmbeddingProperty: () => obxg.ObjectBoxDocument_.embedding,
-        );
-
-  /// The ObjectBox store.
-  static Store? _store;
-
-  /// Opens the ObjectBox store.
-  static Store _openStore({
+  factory ObjectBoxVectorStore.open({
+    required Embeddings embeddings,
     required final int dimensions,
     final String? directory,
     final int? maxDBSizeInKB,
@@ -108,7 +96,7 @@ class ObjectBoxVectorStore extends BaseObjectBoxVectorStore<ObjectBoxDocument> {
     final bool queriesCaseSensitiveDefault = true,
     final String? macosApplicationGroup,
   }) {
-    return _store ??= obxg.openStore(
+    final store = obxg.openStore(
       dimensions: dimensions,
       directory: directory,
       maxDBSizeInKB: maxDBSizeInKB,
@@ -118,6 +106,8 @@ class ObjectBoxVectorStore extends BaseObjectBoxVectorStore<ObjectBoxDocument> {
       queriesCaseSensitiveDefault: queriesCaseSensitiveDefault,
       macosApplicationGroup: macosApplicationGroup,
     );
+
+    return ObjectBoxVectorStore._(store, embeddings: embeddings);
   }
 
   /// Creates an [ObjectBoxDocument] entity.
@@ -131,7 +121,7 @@ class ObjectBoxVectorStore extends BaseObjectBoxVectorStore<ObjectBoxDocument> {
 
   /// Creates a [Document] from an [ObjectBoxDocument] entity.
   static Document _createDoc(ObjectBoxDocument entity) {
-    Map<String, dynamic> metadata = const {};
+    var metadata = const <String, dynamic>{};
     try {
       metadata = jsonDecode(entity.metadata);
     } catch (_) {}

@@ -1,10 +1,13 @@
 name: openai_dart
-description: Dart client for the OpenAI API. Supports chat (GPT-4o, o1, etc.), completions, embeddings, images (DALL·E 3), assistants (threads, vector stores, etc.), batch, fine-tuning, etc.
-version: 0.4.4
+description: Dart client for the OpenAI API. Supports chat (GPT-5, GPT-4.1, o4-mini, o3, etc.), completions, embeddings, images (gpt-image-1), assistants v2, batch, fine-tuning, etc.
+version: 0.5.5
 repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/openai_dart
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues?q=label:p:openai_dart
 homepage: https://github.com/davidmigloz/langchain_dart
 documentation: https://langchaindart.dev
+
+funding:
+  - https://github.com/sponsors/davidmigloz
 
 topics:
   - ai
@@ -13,22 +16,22 @@ topics:
   - gpt
 
 environment:
-  sdk: ">=3.4.0 <4.0.0"
+  sdk: ">=3.6.0 <4.0.0"
+resolution: workspace
 
 dependencies:
-  fetch_client: ^1.1.2
-  freezed_annotation: ^2.4.2
-  http: ^1.2.2
+  freezed_annotation: ^3.1.0
+  http: ^1.4.0
   json_annotation: ^4.9.0
-  meta: ^1.11.0
+  meta: ^1.16.0
 
 dev_dependencies:
-  build_runner: ^2.4.11
-  freezed: ^2.5.7
-  json_serializable: ^6.8.0
+  build_runner: ^2.5.4
+  freezed: ^3.1.0
+  json_serializable: ^6.9.5
 #  openapi_spec: ^0.7.8
   openapi_spec:
     git:
       url: https://github.com/davidmigloz/openapi_spec.git
-      ref: 93230a5e346b02789f0f727da8eecea9c7bdf118
-  test: ^1.25.8
+      ref: 4fbc3c3841faf90c6799cb6d871a4f3b0ef82624
+  test: ^1.25.15

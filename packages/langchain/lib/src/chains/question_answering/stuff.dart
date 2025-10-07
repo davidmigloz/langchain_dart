@@ -23,7 +23,7 @@ If you don't know the answer, just say that you don't know, don't try to make up
 ----------------
 {context}''';
 
-const _messages = [
+const List<StringMessagePromptTemplate> _messages = [
   SystemChatMessagePromptTemplate(
     prompt: PromptTemplate(
       template: _systemTemplate,

@@ -14,7 +14,7 @@ void main() {
   group('OpenRouter tests', () {
     late ChatOpenAI chatModel;
 
-    setUp(() async {
+    setUp(() {
       chatModel = ChatOpenAI(
         apiKey: Platform.environment['OPEN_ROUTER_API_KEY'],
         baseUrl: 'https://openrouter.ai/api/v1',
@@ -75,8 +75,8 @@ void main() {
           options: ChatOpenAIOptions(model: model),
         );
 
-        String content = '';
-        int count = 0;
+        var content = '';
+        var count = 0;
         await for (final res in stream) {
           content += res.output.content.replaceAll(RegExp(r'[\s\n]'), '');
           count++;

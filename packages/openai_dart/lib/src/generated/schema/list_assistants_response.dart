@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Represents a list of assistants returned by the List assistants endpoint.
 @freezed
-class ListAssistantsResponse with _$ListAssistantsResponse {
+abstract class ListAssistantsResponse with _$ListAssistantsResponse {
   const ListAssistantsResponse._();
 
   /// Factory constructor for ListAssistantsResponse
@@ -22,10 +22,10 @@ class ListAssistantsResponse with _$ListAssistantsResponse {
     required List<AssistantObject> data,
 
     /// The ID of the first assistant in the list.
-    @JsonKey(name: 'first_id') required String firstId,
+    @JsonKey(name: 'first_id', includeIfNull: false) String? firstId,
 
     /// The ID of the last assistant in the list.
-    @JsonKey(name: 'last_id') required String lastId,
+    @JsonKey(name: 'last_id', includeIfNull: false) String? lastId,
 
     /// Whether there are more assistants to retrieve.
     @JsonKey(name: 'has_more') required bool hasMore,

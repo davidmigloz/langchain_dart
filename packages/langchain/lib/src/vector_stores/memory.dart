@@ -63,7 +63,7 @@ class MemoryVectorStore extends VectorStore {
   final List<MemoryVector> memoryVectors;
 
   /// UUID generator.
-  final Uuid _uuid = const Uuid();
+  final _uuid = const Uuid();
 
   /// Creates a vector store from a list of documents.
   ///

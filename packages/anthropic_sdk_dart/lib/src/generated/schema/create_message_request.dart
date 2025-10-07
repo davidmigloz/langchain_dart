@@ -10,7 +10,7 @@ part of anthropic_schema;
 
 /// The request parameters for creating a message.
 @freezed
-class CreateMessageRequest with _$CreateMessageRequest {
+abstract class CreateMessageRequest with _$CreateMessageRequest {
   const CreateMessageRequest._();
 
   /// Factory constructor for CreateMessageRequest
@@ -327,8 +327,6 @@ enum Models {
   claude21,
   @JsonValue('claude-2.0')
   claude20,
-  @JsonValue('claude-instant-1.2')
-  claudeInstant12,
 }
 
 // ==========================================

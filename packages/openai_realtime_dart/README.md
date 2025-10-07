@@ -5,7 +5,7 @@
 [![](https://dcbadge.vercel.app/api/server/x4qbhqecVR?style=flat)](https://discord.gg/x4qbhqecVR)
 [![MIT](https://img.shields.io/badge/license-MIT-purple.svg)](https://github.com/davidmigloz/langchain_dart/blob/main/LICENSE)
 
-Unofficial Dart client for the [OpenAI Realtime API](https://platform.openai.com/docs/guides/realtime), a stateful, event-based API that communicates over a WebSocket.
+Unofficial strongly-typed Dart client for the [OpenAI Realtime API](https://platform.openai.com/docs/guides/realtime), a stateful, event-based API that communicates over a WebSocket.
 
 > Note: If you are looking for a client for the [REST OpenAI API](https://platform.openai.com/docs/api-reference), please check the [openai_dart](https://pub.dev/packages/openai_dart) package.
 
@@ -59,6 +59,9 @@ client.on(RealtimeEventType.conversationUpdated, (event) {
 
 // Connect to Realtime API
 await client.connect();
+
+// You can optionally specify a custom model
+// await client.connect(model: 'gpt-4o-mini-realtime-preview');
 
 // Send a item and triggers a generation
 await client.sendUserMessageContent([

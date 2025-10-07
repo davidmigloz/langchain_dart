@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Represents a list of threads returned by the List threads endpoint.
 @freezed
-class ListThreadsResponse with _$ListThreadsResponse {
+abstract class ListThreadsResponse with _$ListThreadsResponse {
   const ListThreadsResponse._();
 
   /// Factory constructor for ListThreadsResponse
@@ -22,10 +22,10 @@ class ListThreadsResponse with _$ListThreadsResponse {
     required List<ThreadObject> data,
 
     /// The ID of the first thread in the list.
-    @JsonKey(name: 'first_id') required String firstId,
+    @JsonKey(name: 'first_id', includeIfNull: false) String? firstId,
 
     /// The ID of the last thread in the list.
-    @JsonKey(name: 'last_id') required String lastId,
+    @JsonKey(name: 'last_id', includeIfNull: false) String? lastId,
 
     /// Whether there are more threads to retrieve.
     @JsonKey(name: 'has_more') required bool hasMore,

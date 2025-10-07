@@ -16,7 +16,7 @@ void main() {
     final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
     const defaultModel = 'gpt-4o-mini';
 
-    test('Test ChatOpenAI parameters', () async {
+    test('Test ChatOpenAI parameters', () {
       final chat = ChatOpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const ChatOpenAIOptions(
@@ -252,7 +252,7 @@ void main() {
       final stream = chain.stream({'max_num': '9'});
 
       ChatResult? result;
-      int count = 0;
+      var count = 0;
       await for (final ChatResult res in stream) {
         result = result?.concat(res) ?? res;
         count++;
@@ -309,7 +309,7 @@ void main() {
       final stream = chain.stream({'foo': 'bears'});
 
       List<ParsedToolCall> lastResult = [];
-      int count = 0;
+      var count = 0;
       await for (final res in stream) {
         lastResult = res;
         count++;

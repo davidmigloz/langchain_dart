@@ -281,13 +281,6 @@ components:
         suffix:
           type: string
           description: The text that comes after the inserted text.
-        images:
-          type: array
-          description: (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
-          items:
-            type: string
-            description: Base64-encoded image (for multimodal models such as llava)
-            example: iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAIAAAD0YtNRAAAABnRSTlMA/AD+APzoM1ogAAAAWklEQVR4AWP48+8PLkR7uUdzcMvtU8EhdykHKAciEXL3pvw5FQIURaBDJkARoDhY3zEXiCgCHbNBmAlUiyaBkENoxZSDWnOtBmoAQu7TnT+3WuDOA7KBIkAGAGwiNeqjusp/AAAAAElFTkSuQmCC
         system:
           type: string
           description: The system prompt to (overrides what is defined in the Modelfile).
@@ -300,21 +293,19 @@ components:
           items:
             type: integer
             format: int64
-        options:
-          $ref: '#/components/schemas/RequestOptions'
-        format:
-          $ref: '#/components/schemas/ResponseFormat'
+        stream:
+          type: boolean
+          description: &stream |
+            If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
+          default: false
         raw:
           type: boolean
           description: |
             If `true` no formatting will be applied to the prompt and no context will be returned. 
             
             You may choose to use the `raw` parameter if you are specifying a full templated prompt in your request to the API, and are managing history yourself.
-        stream:
-          type: boolean
-          description: &stream |
-            If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
-          default: false
+        format:
+          $ref: '#/components/schemas/ResponseFormat'
         keep_alive: &keep_alive
           type: integer
           nullable: true
@@ -325,6 +316,23 @@ components:
             - If set to a negative duration (e.g. -1), the model will stay loaded indefinitely.
             - If set to 0, the model will be unloaded immediately once finished.
             - If not set, the model will stay loaded for 5 minutes by default
+        images:
+          type: array
+          description: (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
+          items:
+            type: string
+            description: Base64-encoded image (for multimodal models such as llava)
+            example: iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAIAAAD0YtNRAAAABnRSTlMA/AD+APzoM1ogAAAAWklEQVR4AWP48+8PLkR7uUdzcMvtU8EhdykHKAciEXL3pvw5FQIURaBDJkARoDhY3zEXiCgCHbNBmAlUiyaBkENoxZSDWnOtBmoAQu7TnT+3WuDOA7KBIkAGAGwiNeqjusp/AAAAAElFTkSuQmCC
+        options:
+          $ref: '#/components/schemas/RequestOptions'
+        think:
+          type: boolean
+          nullable: true
+          description: &think |
+            Think controls whether thinking/reasoning models will think before
+            responding. Needs to be a pointer so we can distinguish between false
+            (request that thinking _not_ be used) and unset (use the old behavior
+            before this option was introduced).
       required:
         - model
         - prompt
@@ -549,6 +557,10 @@ components:
           type: string
           description: The response for a given prompt with a provided model.
           example: The sky appears blue because of a phenomenon called Rayleigh scattering.
+        thinking:
+          type: string
+          description: &thinking |
+            Contains the text that was inside thinking tags in the original model output when `think` is enabled.
         done:
           type: boolean
           description: Whether the response has completed.
@@ -602,20 +614,24 @@ components:
           description: The messages of the chat, this can be used to keep a chat memory
           items:
             $ref: '#/components/schemas/Message'
-        format:
-          $ref: '#/components/schemas/ResponseFormat'
-        options:
-          $ref: '#/components/schemas/RequestOptions'
         stream:
           type: boolean
           description: *stream
           default: false
+        format:
+          $ref: '#/components/schemas/ResponseFormat'
         keep_alive: *keep_alive
         tools:
           type: array
           description: A list of tools the model may call.
           items:
             $ref: '#/components/schemas/Tool'
+        options:
+          $ref: '#/components/schemas/RequestOptions'
+        think:
+          type: boolean
+          nullable: true
+          description: *think
       required:
         - model
         - messages
@@ -692,6 +708,9 @@ components:
           type: string
           description: The content of the message
           example: Why is the sky blue?
+        thinking:
+          type: string
+          description: *thinking
         images:
           type: array
           description: (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
@@ -907,6 +926,32 @@ components:
           type: integer
           nullable: true
           description: The number of parameters in the model.
+    Tensor:
+      type: object
+      description: Metadata for a given tensor.
+      properties:
+        name:
+          type: string
+          description: The name of the tensor.
+        type:
+          type: string
+          description: The type of the tensor.
+        shape:
+          type: array
+          items:
+            type: integer
+            format: int64
+          description: The shape of the tensor.
+    Capability:
+      type: string
+      description: Capability of a model.
+      enum:
+        - completion
+        - tools
+        - insert
+        - vision
+        - embedding
+        - thinking
     ProcessResponse:
       type: object
       description: Response class for the list running models endpoint.
@@ -984,14 +1029,35 @@ components:
           description: The system prompt for the model.
         details:
           $ref: '#/components/schemas/ModelDetails'
-        model_info:
-          $ref: '#/components/schemas/ModelInformation'
         messages:
           type: array
           nullable: true
           description: The default messages for the model.
           items:
             $ref: '#/components/schemas/Message'
+        model_info:
+          $ref: '#/components/schemas/ModelInformation'
+        projector_info:
+          type: object
+          description: Projector info.
+          additionalProperties: true
+        tensors:
+          type: array
+          nullable: true
+          description: The tensors of the model.
+          items:
+              $ref: '#/components/schemas/Tensor'
+        capabilities:
+          type: array
+          nullable: true
+          description: The capabilities of the model.
+          items:
+            $ref: '#/components/schemas/Capability'
+        modified_at:
+          type: string
+          format: date-time
+          description: Date on which a model was created.
+          example: 2023-08-04T19:22:45.499127Z
     CopyModelRequest:
       description: Request class for copying a model.
       type: object

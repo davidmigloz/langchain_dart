@@ -10,7 +10,7 @@ part of openai_realtime_schema;
 
 /// The session resource.
 @freezed
-class Session with _$Session {
+abstract class Session with _$Session {
   const Session._();
 
   /// Factory constructor for Session
@@ -33,7 +33,10 @@ class Session with _$Session {
     /// The default system instructions.
     @JsonKey(includeIfNull: false) String? instructions,
 
-    /// The voice the model uses to respond - one of `alloy`, `echo`, or `shimmer`.
+    /// The voice the model uses to respond. Voice cannot be changed during the
+    /// session once the model has responded with audio at least once. Current
+    /// voice options are `alloy`, `ash`, `ballad`, `coral`, `echo` `sage`,
+    /// `shimmer` and `verse`.
     @JsonKey(
       includeIfNull: false,
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue,
@@ -56,7 +59,13 @@ class Session with _$Session {
     )
     AudioFormat? outputAudioFormat,
 
-    /// Configuration for input audio transcription.
+    /// Configuration for input audio transcription, defaults to off and can be  set to `null` to turn off
+    /// once on. Input audio transcription is not native to the model, since the model consumes audio
+    /// directly. Transcription runs  asynchronously through [the /audio/transcriptions
+    /// endpoint](https://platform.openai.com/docs/api-reference/audio/createTranscription) and should be
+    /// treated as guidance of input audio content rather than precisely what the model heard. The client
+    /// can optionally set the language and prompt for transcription, these offer additional guidance to
+    /// the transcription service.
     @JsonKey(name: 'input_audio_transcription', includeIfNull: false)
     InputAudioTranscriptionConfig? inputAudioTranscription,
 
@@ -77,7 +86,10 @@ class Session with _$Session {
     /// Sampling temperature.
     @JsonKey(includeIfNull: false) double? temperature,
 
-    /// Maximum number of output tokens for a single assistant response, inclusive of tool calls. Defaults to "inf".
+    /// Maximum number of output tokens for a single assistant response,
+    /// inclusive of tool calls. Provide an integer between 1 and 4096 to
+    /// limit output tokens, or `inf` for the maximum available tokens for a
+    /// given model. Defaults to `inf`.
     @_SessionMaxResponseOutputTokensConverter()
     @JsonKey(name: 'max_response_output_tokens', includeIfNull: false)
     SessionMaxResponseOutputTokens? maxResponseOutputTokens,
@@ -216,7 +228,10 @@ class _SessionToolChoiceConverter
 // CLASS: SessionMaxResponseOutputTokens
 // ==========================================
 
-/// Maximum number of output tokens for a single assistant response, inclusive of tool calls. Defaults to "inf".
+/// Maximum number of output tokens for a single assistant response,
+/// inclusive of tool calls. Provide an integer between 1 and 4096 to
+/// limit output tokens, or `inf` for the maximum available tokens for a
+/// given model. Defaults to `inf`.
 @freezed
 sealed class SessionMaxResponseOutputTokens
     with _$SessionMaxResponseOutputTokens {

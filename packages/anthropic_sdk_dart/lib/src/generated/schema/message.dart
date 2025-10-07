@@ -10,7 +10,7 @@ part of anthropic_schema;
 
 /// A message in a chat conversation.
 @freezed
-class Message with _$Message {
+abstract class Message with _$Message {
   const Message._();
 
   /// Factory constructor for Message

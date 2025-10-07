@@ -8,16 +8,19 @@ part of open_a_i_schema;
 // ENUM: ChatCompletionMessageRole
 // ==========================================
 
-/// The role of the messages author. One of `system`, `user`, `assistant`, or `tool` (`function` is deprecated).
+/// The role of the messages author.
+/// One of `developer`, `user`, `assistant`, or `tool` (`function` and `system` are deprecated).
 enum ChatCompletionMessageRole {
-  @JsonValue('system')
-  system,
+  @JsonValue('developer')
+  developer,
   @JsonValue('user')
   user,
   @JsonValue('assistant')
   assistant,
   @JsonValue('tool')
   tool,
+  @JsonValue('system')
+  system,
   @JsonValue('function')
   function,
 }

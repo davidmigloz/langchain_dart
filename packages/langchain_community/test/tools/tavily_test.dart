@@ -8,7 +8,7 @@ void main() {
   group('TavilySearchResultsTool tests', () {
     test('Calculate expressions', () async {
       final tool = TavilySearchResultsTool(
-        apiKey: Platform.environment['TAVILY_API_KEY']!,
+        apiKey: Platform.environment['TAVILY_API_KEY'],
       );
       final res = await tool.invoke('What is the weather like in New York?');
       expect(res.results, isNotEmpty);
@@ -21,7 +21,7 @@ void main() {
   group('TavilyAnswerTool tests', () {
     test('Invoke TavilyAnswerTool', () async {
       final tool = TavilyAnswerTool(
-        apiKey: Platform.environment['TAVILY_API_KEY']!,
+        apiKey: Platform.environment['TAVILY_API_KEY'],
       );
       final res = await tool.invoke('What is the weather like in New York?');
       expect(res, isNotEmpty);

@@ -24,8 +24,8 @@ void main() {
     });
 
     test('Test create model', () async {
-      const String modelName = 'mario';
-      const String modelfile =
+      const modelName = 'mario';
+      const modelfile =
           'FROM $defaultModel\nSYSTEM You are mario from Super Mario Bros.';
 
       final res = await client.createModel(
@@ -39,8 +39,8 @@ void main() {
     });
 
     test('Test create model stream', () async {
-      const String modelName = 'mario-stream';
-      const String modelfile =
+      const modelName = 'mario-stream';
+      const modelfile =
           'FROM $defaultModel\nSYSTEM You are mario from Super Mario Bros.';
 
       final stream = client.createModelStream(
@@ -50,7 +50,7 @@ void main() {
         ),
       );
 
-      int count = 0;
+      var count = 0;
       CreateModelStatus? lastStatus;
       await for (final res in stream) {
         lastStatus = res.status;
@@ -143,7 +143,7 @@ void main() {
         request: const PullModelRequest(model: 'yarn-llama3:13b-128k-q4_1'),
       );
 
-      int count = 0;
+      var count = 0;
       PullModelStatus? lastStatus;
       await for (final res in stream) {
         lastStatus = res.status;
@@ -166,7 +166,7 @@ void main() {
         request: const PushModelRequest(model: 'mattw/pygmalion:latest'),
       );
 
-      int count = 0;
+      var count = 0;
       String? lastStatus;
       await for (final res in stream) {
         lastStatus = res.status;

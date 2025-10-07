@@ -10,7 +10,7 @@ void main() {
   group('Together AI Embeddings tests', () {
     late OpenAIEmbeddings embeddings;
 
-    setUp(() async {
+    setUp(() {
       embeddings = OpenAIEmbeddings(
         apiKey: Platform.environment['TOGETHER_AI_API_KEY'],
         baseUrl: 'https://api.together.xyz/v1',

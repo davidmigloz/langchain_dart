@@ -10,7 +10,7 @@ part of anthropic_schema;
 
 /// Tallies requests within the Message Batch, categorized by their status.
 @freezed
-class MessageBatchRequestCounts with _$MessageBatchRequestCounts {
+abstract class MessageBatchRequestCounts with _$MessageBatchRequestCounts {
   const MessageBatchRequestCounts._();
 
   /// Factory constructor for MessageBatchRequestCounts

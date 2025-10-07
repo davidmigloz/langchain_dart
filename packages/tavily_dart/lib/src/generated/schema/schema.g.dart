@@ -8,9 +8,9 @@ part of 'schema.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$SearchRequestImpl _$$SearchRequestImplFromJson(Map<String, dynamic> json) =>
-    _$SearchRequestImpl(
-      apiKey: json['api_key'] as String,
+_SearchRequest _$SearchRequestFromJson(Map<String, dynamic> json) =>
+    _SearchRequest(
+      apiKey: json['api_key'] as String?,
       query: json['query'] as String,
       searchDepth: $enumDecodeNullable(
               _$SearchRequestSearchDepthEnumMap, json['search_depth']) ??
@@ -27,35 +27,26 @@ _$SearchRequestImpl _$$SearchRequestImplFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$$SearchRequestImplToJson(_$SearchRequestImpl instance) {
-  final val = <String, dynamic>{
-    'api_key': instance.apiKey,
-    'query': instance.query,
-    'search_depth': _$SearchRequestSearchDepthEnumMap[instance.searchDepth]!,
-    'include_images': instance.includeImages,
-    'include_answer': instance.includeAnswer,
-    'include_raw_content': instance.includeRawContent,
-    'max_results': instance.maxResults,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('include_domains', instance.includeDomains);
-  writeNotNull('exclude_domains', instance.excludeDomains);
-  return val;
-}
+Map<String, dynamic> _$SearchRequestToJson(_SearchRequest instance) =>
+    <String, dynamic>{
+      if (instance.apiKey case final value?) 'api_key': value,
+      'query': instance.query,
+      'search_depth': _$SearchRequestSearchDepthEnumMap[instance.searchDepth]!,
+      'include_images': instance.includeImages,
+      'include_answer': instance.includeAnswer,
+      'include_raw_content': instance.includeRawContent,
+      'max_results': instance.maxResults,
+      if (instance.includeDomains case final value?) 'include_domains': value,
+      if (instance.excludeDomains case final value?) 'exclude_domains': value,
+    };
 
 const _$SearchRequestSearchDepthEnumMap = {
   SearchRequestSearchDepth.basic: 'basic',
   SearchRequestSearchDepth.advanced: 'advanced',
 };
 
-_$SearchResponseImpl _$$SearchResponseImplFromJson(Map<String, dynamic> json) =>
-    _$SearchResponseImpl(
+_SearchResponse _$SearchResponseFromJson(Map<String, dynamic> json) =>
+    _SearchResponse(
       answer: json['answer'] as String?,
       query: json['query'] as String,
       responseTime: (json['response_time'] as num).toDouble(),
@@ -69,27 +60,19 @@ _$SearchResponseImpl _$$SearchResponseImplFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$$SearchResponseImplToJson(
-    _$SearchResponseImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$SearchResponseToJson(_SearchResponse instance) =>
+    <String, dynamic>{
+      if (instance.answer case final value?) 'answer': value,
+      'query': instance.query,
+      'response_time': instance.responseTime,
+      if (instance.images case final value?) 'images': value,
+      if (instance.followUpQuestions case final value?)
+        'follow_up_questions': value,
+      'results': instance.results.map((e) => e.toJson()).toList(),
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('answer', instance.answer);
-  val['query'] = instance.query;
-  val['response_time'] = instance.responseTime;
-  writeNotNull('images', instance.images);
-  writeNotNull('follow_up_questions', instance.followUpQuestions);
-  val['results'] = instance.results.map((e) => e.toJson()).toList();
-  return val;
-}
-
-_$SearchResultImpl _$$SearchResultImplFromJson(Map<String, dynamic> json) =>
-    _$SearchResultImpl(
+_SearchResult _$SearchResultFromJson(Map<String, dynamic> json) =>
+    _SearchResult(
       title: json['title'] as String,
       url: json['url'] as String,
       content: json['content'] as String,
@@ -97,20 +80,11 @@ _$SearchResultImpl _$$SearchResultImplFromJson(Map<String, dynamic> json) =>
       score: (json['score'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$$SearchResultImplToJson(_$SearchResultImpl instance) {
-  final val = <String, dynamic>{
-    'title': instance.title,
-    'url': instance.url,
-    'content': instance.content,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('raw_content', instance.rawContent);
-  val['score'] = instance.score;
-  return val;
-}
+Map<String, dynamic> _$SearchResultToJson(_SearchResult instance) =>
+    <String, dynamic>{
+      'title': instance.title,
+      'url': instance.url,
+      'content': instance.content,
+      if (instance.rawContent case final value?) 'raw_content': value,
+      'score': instance.score,
+    };

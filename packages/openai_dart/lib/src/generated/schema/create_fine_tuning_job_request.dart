@@ -10,13 +10,13 @@ part of open_a_i_schema;
 
 /// Request object for the Create fine-tuning job endpoint.
 @freezed
-class CreateFineTuningJobRequest with _$CreateFineTuningJobRequest {
+abstract class CreateFineTuningJobRequest with _$CreateFineTuningJobRequest {
   const CreateFineTuningJobRequest._();
 
   /// Factory constructor for CreateFineTuningJobRequest
   const factory CreateFineTuningJobRequest({
     /// The name of the model to fine-tune. You can select one of the
-    /// [supported models](https://platform.openai.com/docs/guides/fine-tuning/what-models-can-be-fine-tuned).
+    /// [supported models](https://platform.openai.com/docs/guides/fine-tuning#what-models-can-be-fine-tuned).
     @_FineTuningModelConverter() required FineTuningModel model,
 
     /// The ID of an uploaded file that contains training data.
@@ -27,13 +27,19 @@ class CreateFineTuningJobRequest with _$CreateFineTuningJobRequest {
     /// `fine-tune`.
     ///
     /// The contents of the file should differ depending on if the model uses the
-    /// [chat](https://platform.openai.com/docs/api-reference/fine-tuning/chat-input) or
-    /// [completions](https://platform.openai.com/docs/api-reference/fine-tuning/completions-input) format.
+    /// [chat](https://platform.openai.com/docs/api-reference/fine-tuning/chat-input),
+    /// [completions](https://platform.openai.com/docs/api-reference/fine-tuning/completions-input)
+    /// format, or if the fine-tuning method uses the
+    /// [preference](https://platform.openai.com/docs/api-reference/fine-tuning/preference-input) format.
     ///
     /// See the [fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning) for more details.
     @JsonKey(name: 'training_file') required String trainingFile,
 
-    /// The hyperparameters used for the fine-tuning job. See the [fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning) for more details.
+    /// The hyperparameters used for the fine-tuning job. This value will only be returned when running
+    /// `supervised` jobs.
+    ///
+    /// This value is now deprecated in favor of `method`, and should be passed in under the `method`
+    /// parameter.
     @JsonKey(includeIfNull: false)
     FineTuningJobHyperparameters? hyperparameters,
 
@@ -136,7 +142,7 @@ enum FineTuningModels {
 // ==========================================
 
 /// The name of the model to fine-tune. You can select one of the
-/// [supported models](https://platform.openai.com/docs/guides/fine-tuning/what-models-can-be-fine-tuned).
+/// [supported models](https://platform.openai.com/docs/guides/fine-tuning#what-models-can-be-fine-tuned).
 @freezed
 sealed class FineTuningModel with _$FineTuningModel {
   const FineTuningModel._();

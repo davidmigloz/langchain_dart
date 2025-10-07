@@ -10,7 +10,8 @@ part of open_a_i_schema;
 
 /// Most likely tokens and their log probability, at this token position.
 @freezed
-class ChatCompletionTokenTopLogprob with _$ChatCompletionTokenTopLogprob {
+abstract class ChatCompletionTokenTopLogprob
+    with _$ChatCompletionTokenTopLogprob {
   const ChatCompletionTokenTopLogprob._();
 
   /// Factory constructor for ChatCompletionTokenTopLogprob

@@ -3,10 +3,10 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:http/retry.dart' show RetryClient;
 
 import '../mistralai_dart.dart';
 import 'generated/client.dart' as g;
-import 'http_client/http_client.dart';
 
 /// Client for Mistral AI API.
 ///
@@ -25,6 +25,7 @@ class MistralAIClient extends g.MistralAIClient {
   ///   this to set custom headers, or to override the default headers.
   /// - `queryParams`: global query parameters to send with every request. You
   ///   can use this to set custom query parameters.
+  /// - `retries`: the number of retries to attempt if a request fails.
   /// - `client`: the HTTP client to use. You can set your own HTTP client if
   ///   you need further customization (e.g. to use a Socks5 proxy).
   MistralAIClient({
@@ -32,13 +33,14 @@ class MistralAIClient extends g.MistralAIClient {
     final String? baseUrl,
     final Map<String, String>? headers,
     final Map<String, dynamic>? queryParams,
+    final int retries = 3,
     final http.Client? client,
   }) : super(
           bearerToken: apiKey ?? '',
           baseUrl: baseUrl,
           headers: headers ?? const {},
           queryParams: queryParams ?? const {},
-          client: client ?? createDefaultHttpClient(),
+          client: client ?? RetryClient(http.Client(), retries: retries),
         );
 
   // ------------------------------------------
@@ -66,11 +68,6 @@ class MistralAIClient extends g.MistralAIClient {
         .map(
           (final d) => ChatCompletionStreamResponse.fromJson(json.decode(d)),
         );
-  }
-
-  @override
-  Future<http.BaseRequest> onRequest(final http.BaseRequest request) {
-    return onRequestHandler(request);
   }
 }
 

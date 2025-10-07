@@ -7,7 +7,7 @@ import 'package:chromadb/chromadb.dart';
 import 'package:test/test.dart';
 
 // docker run -p 8000:8000 -e "ALLOW_RESET=TRUE" chromadb/chroma
-void main() async {
+void main() {
   group('ChromaClient tests', skip: Platform.environment.containsKey('CI'), () {
     final client = ChromaClient();
 
@@ -175,7 +175,7 @@ void main() async {
         [6.0, 7.0, 8.0, 9.0, 10.0],
         [11.0, 12.0, 13.0, 14.0, 15.0],
       ];
-      final List<Map<String, String>> metadata = [
+      final metadata = <Map<String, String>>[
         {'test': 'test1'},
         {'test': 'test2'},
         {'test': 'test3'},

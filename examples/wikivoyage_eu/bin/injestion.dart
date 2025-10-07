@@ -9,7 +9,7 @@ void main() async {
   final embeddings = OllamaEmbeddings(
     model: 'jina/jina-embeddings-v2-small-en',
   );
-  final vectorStore = ObjectBoxVectorStore(
+  final vectorStore = ObjectBoxVectorStore.open(
     embeddings: embeddings,
     dimensions: 512,
   );

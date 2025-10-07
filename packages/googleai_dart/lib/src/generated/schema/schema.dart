@@ -6,6 +6,7 @@
 library google_a_i_schema;
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'dart:typed_data';
 
 part 'schema.g.dart';
 part 'schema.freezed.dart';
@@ -38,3 +39,17 @@ part 'count_tokens_response.dart';
 part 'generate_content_response.dart';
 part 'model.dart';
 part 'generate_content_request.dart';
+
+class Uint8ListConverter implements JsonConverter<Uint8List, List<int>> {
+  const Uint8ListConverter();
+
+  @override
+  Uint8List fromJson(List<int> json) {
+    return Uint8List.fromList(json);
+  }
+
+  @override
+  List<int> toJson(Uint8List object) {
+    return object.toList();
+  }
+}

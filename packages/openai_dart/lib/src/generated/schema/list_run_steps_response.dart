@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Represents a list of run steps returned by the List run steps endpoint.
 @freezed
-class ListRunStepsResponse with _$ListRunStepsResponse {
+abstract class ListRunStepsResponse with _$ListRunStepsResponse {
   const ListRunStepsResponse._();
 
   /// Factory constructor for ListRunStepsResponse
@@ -22,10 +22,10 @@ class ListRunStepsResponse with _$ListRunStepsResponse {
     required List<RunStepObject> data,
 
     /// The ID of the first run step in the list.
-    @JsonKey(name: 'first_id') required String firstId,
+    @JsonKey(name: 'first_id', includeIfNull: false) String? firstId,
 
     /// The ID of the last run step in the list.
-    @JsonKey(name: 'last_id') required String lastId,
+    @JsonKey(name: 'last_id', includeIfNull: false) String? lastId,
 
     /// Whether there are more run steps to retrieve.
     @JsonKey(name: 'has_more') required bool hasMore,

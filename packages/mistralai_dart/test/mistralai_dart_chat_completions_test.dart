@@ -10,7 +10,7 @@ void main() {
   group('Mistral AI Chat Completions API tests', () {
     late MistralAIClient client;
 
-    setUp(() async {
+    setUp(() {
       client = MistralAIClient(
         apiKey: Platform.environment['MISTRAL_API_KEY'],
       );
@@ -79,7 +79,7 @@ void main() {
           ],
         ),
       );
-      String text = '';
+      var text = '';
       ChatCompletionStreamResponse? lastResponse;
       await for (final res in stream) {
         expect(res.id, isNotEmpty);

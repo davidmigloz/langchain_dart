@@ -6,15 +6,15 @@ import 'package:langchain_openai/langchain_openai.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:test/test.dart';
 
-void main() async {
+void main() {
   late final OpenAIEmbeddings embeddings;
   late final ObjectBoxVectorStore vectorStore;
 
-  setUpAll(() async {
+  setUpAll(() {
     embeddings = OpenAIEmbeddings(
       apiKey: Platform.environment['OPENAI_API_KEY'],
     );
-    vectorStore = ObjectBoxVectorStore(
+    vectorStore = ObjectBoxVectorStore.open(
       embeddings: embeddings,
       dimensions: 1536,
       directory: 'test/vector_stores/objectbox',

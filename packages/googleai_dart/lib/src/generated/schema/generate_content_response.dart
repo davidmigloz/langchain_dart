@@ -10,7 +10,7 @@ part of google_a_i_schema;
 
 /// Response from the model supporting multiple candidates. Note on safety ratings and content filtering. They are reported for both prompt in `GenerateContentResponse.prompt_feedback` and for each candidate in `finish_reason` and in `safety_ratings`. The API contract is that: - either all requested candidates are returned or no candidates at all - no candidates are returned only if there was something wrong with the prompt (see `prompt_feedback`) - feedback on each candidate is reported on `finish_reason` and `safety_ratings`.
 @freezed
-class GenerateContentResponse with _$GenerateContentResponse {
+abstract class GenerateContentResponse with _$GenerateContentResponse {
   const GenerateContentResponse._();
 
   /// Factory constructor for GenerateContentResponse

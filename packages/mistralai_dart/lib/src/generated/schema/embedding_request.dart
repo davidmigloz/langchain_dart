@@ -10,7 +10,7 @@ part of mistral_a_i_schema;
 
 /// Request class for the embedding endpoint.
 @freezed
-class EmbeddingRequest with _$EmbeddingRequest {
+abstract class EmbeddingRequest with _$EmbeddingRequest {
   const EmbeddingRequest._();
 
   /// Factory constructor for EmbeddingRequest

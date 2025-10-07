@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_equals_and_hash_code_on_mutable_classes, avoid_implementing_value_types
+// ignore_for_file: avoid_equals_and_hash_code_on_mutable_classes, avoid_implementing_value_types, unsafe_variance
 import 'dart:async';
 
 import 'package:collection/collection.dart';
@@ -182,7 +182,13 @@ abstract base class Tool<Input extends Object, Options extends ToolOptions,
       inputJsonSchema: inputJsonSchema,
       strict: strict,
       function: func,
-      getInputFromJson: getInputFromJson ?? (json) => json['input'] as Input,
+      getInputFromJson: getInputFromJson ??
+          (json) {
+            if (json.containsKey('input')) {
+              return json['input'] as Input;
+            }
+            return json as Input;
+          },
       returnDirect: returnDirect,
       handleToolError: handleToolError,
     );

@@ -1,6 +1,31 @@
-📣 Check out the [releases page](https://github.com/davidmigloz/langchain_dart/releases) or the [#announcements](https://discord.com/channels/1123158322812555295/1123250594644242534) channel on the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details.
+## 0.3.4+3
 
----
+ - Update a dependency to the latest release.
+
+## 0.3.4+2
+
+ - Update a dependency to the latest release.
+
+## 0.3.4+1
+
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+## 0.3.4
+
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **REFACTOR**: Remove fetch_client dependency in favor of http v1.3.0 ([#659](https://github.com/davidmigloz/langchain_dart/issues/659)). ([0e0a685c](https://github.com/davidmigloz/langchain_dart/commit/0e0a685c376895425dbddb0f9b83758c700bb0c7))
+ - **FIX**: Fix static instance of ObjectBoxVectorStore ([#684](https://github.com/davidmigloz/langchain_dart/issues/684)). ([719ead93](https://github.com/davidmigloz/langchain_dart/commit/719ead93c6e91d42bb8e45910ccf0da4e3e51afd))
+ - **FIX**: Fix langchain_community  WASM compatibility ([#660](https://github.com/davidmigloz/langchain_dart/issues/660)). ([0be8aae4](https://github.com/davidmigloz/langchain_dart/commit/0be8aae44950fddd9ac9538ccfa5d017e6f585a0))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+ - **FIX**: Made apiKey optional for `TavilyAnswerTool` and `TavilySearchResultsTool` ([#646](https://github.com/davidmigloz/langchain_dart/issues/646)). ([5085ea4a](https://github.com/davidmigloz/langchain_dart/commit/5085ea4ad8b5cd072832e73afcbb7075a6375307))
+
+## 0.3.3
+
+ - **FEAT**: Add support for DirectoryLoader ([#620](https://github.com/davidmigloz/langchain_dart/issues/620)). ([4730f2a3](https://github.com/davidmigloz/langchain_dart/commit/4730f2a376b152ea38e5204125209ef01f29cab9))
+ - **FEAT**: Expose internal store in ObjectBoxVectorStore ([#611](https://github.com/davidmigloz/langchain_dart/issues/611)). ([c33f2e07](https://github.com/davidmigloz/langchain_dart/commit/c33f2e07c31ddd91dae16856df3b6c8ffddc45e9))
+ - **FIX**: Chinese character support on web loader ([#600](https://github.com/davidmigloz/langchain_dart/issues/600)). ([48e64d5b](https://github.com/davidmigloz/langchain_dart/commit/48e64d5b01aa8469dbf7a973350eeac26b43df8f))
+ - **REFACTOR**: Add new lint rules and fix issues ([#621](https://github.com/davidmigloz/langchain_dart/issues/621)). ([60b10e00](https://github.com/davidmigloz/langchain_dart/commit/60b10e008acf55ebab90789ad08d2449a44b69d8))
+ - **REFACTOR**: Upgrade api clients generator version ([#610](https://github.com/davidmigloz/langchain_dart/issues/610)). ([0c8750e8](https://github.com/davidmigloz/langchain_dart/commit/0c8750e85b34764f99b6e34cc531776ffe8fba7c))
 
 ## 0.3.2+2
 

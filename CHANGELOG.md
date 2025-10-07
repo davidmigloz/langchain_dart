@@ -2,6 +2,718 @@
 
 📣 Check out the [releases page](https://github.com/davidmigloz/langchain_dart/releases) or the [#announcements](https://discord.com/channels/1123158322812555295/1123250594644242534) channel on the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details.
 
+## 2025-08-31
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`anthropic_sdk_dart` - `v0.2.3`](#anthropic_sdk_dart---v023)
+ - [`chromadb` - `v0.2.3`](#chromadb---v023)
+ - [`googleai_dart` - `v0.1.3`](#googleai_dart---v013)
+ - [`mistralai_dart` - `v0.0.6`](#mistralai_dart---v006)
+ - [`ollama_dart` - `v0.2.5`](#ollama_dart---v025)
+ - [`openai_dart` - `v0.5.5`](#openai_dart---v055)
+ - [`openai_realtime_dart` - `v0.0.6`](#openai_realtime_dart---v006)
+ - [`tavily_dart` - `v0.1.3`](#tavily_dart---v013)
+ - [`langchain_anthropic` - `v0.2.1+3`](#langchain_anthropic---v0213)
+ - [`langchain_chroma` - `v0.2.2+3`](#langchain_chroma---v0223)
+ - [`langchain_mistralai` - `v0.2.4+3`](#langchain_mistralai---v0243)
+ - [`langchain_ollama` - `v0.3.3+3`](#langchain_ollama---v0333)
+ - [`langchain_openai` - `v0.7.6+2`](#langchain_openai---v0762)
+ - [`langchain_community` - `v0.3.4+3`](#langchain_community---v0343)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `langchain_anthropic` - `v0.2.1+3`
+ - `langchain_chroma` - `v0.2.2+3`
+ - `langchain_mistralai` - `v0.2.4+3`
+ - `langchain_ollama` - `v0.3.3+3`
+ - `langchain_openai` - `v0.7.6+2`
+ - `langchain_community` - `v0.3.4+3`
+
+---
+
+#### `anthropic_sdk_dart` - `v0.2.3`
+
+ - **FEAT**: Migrate to Freezed v3 ([#773](https://github.com/davidmigloz/langchain_dart/issues/773)). ([f87c8c03](https://github.com/davidmigloz/langchain_dart/commit/f87c8c03711ef382d2c9de19d378bee92e7631c1))
+
+#### `chromadb` - `v0.2.3`
+
+ - **FEAT**: Migrate to Freezed v3 ([#773](https://github.com/davidmigloz/langchain_dart/issues/773)). ([f87c8c03](https://github.com/davidmigloz/langchain_dart/commit/f87c8c03711ef382d2c9de19d378bee92e7631c1))
+
+#### `googleai_dart` - `v0.1.3`
+
+ - **FEAT**: Migrate to Freezed v3 ([#773](https://github.com/davidmigloz/langchain_dart/issues/773)). ([f87c8c03](https://github.com/davidmigloz/langchain_dart/commit/f87c8c03711ef382d2c9de19d378bee92e7631c1))
+
+#### `mistralai_dart` - `v0.0.6`
+
+ - **FEAT**: Migrate to Freezed v3 ([#773](https://github.com/davidmigloz/langchain_dart/issues/773)). ([f87c8c03](https://github.com/davidmigloz/langchain_dart/commit/f87c8c03711ef382d2c9de19d378bee92e7631c1))
+
+#### `ollama_dart` - `v0.2.5`
+
+ - **FEAT**: Migrate to Freezed v3 ([#773](https://github.com/davidmigloz/langchain_dart/issues/773)). ([f87c8c03](https://github.com/davidmigloz/langchain_dart/commit/f87c8c03711ef382d2c9de19d378bee92e7631c1))
+
+#### `openai_dart` - `v0.5.5`
+
+ - **FEAT**: Migrate to Freezed v3 ([#773](https://github.com/davidmigloz/langchain_dart/issues/773)). ([f87c8c03](https://github.com/davidmigloz/langchain_dart/commit/f87c8c03711ef382d2c9de19d378bee92e7631c1))
+
+#### `openai_realtime_dart` - `v0.0.6`
+
+ - **FEAT**: Migrate to Freezed v3 ([#773](https://github.com/davidmigloz/langchain_dart/issues/773)). ([f87c8c03](https://github.com/davidmigloz/langchain_dart/commit/f87c8c03711ef382d2c9de19d378bee92e7631c1))
+
+#### `tavily_dart` - `v0.1.3`
+
+ - **FEAT**: Migrate to Freezed v3 ([#773](https://github.com/davidmigloz/langchain_dart/issues/773)). ([f87c8c03](https://github.com/davidmigloz/langchain_dart/commit/f87c8c03711ef382d2c9de19d378bee92e7631c1))
+
+
+## 2025-08-26
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`langchain_firebase` - `v0.2.2+4`](#langchain_firebase---v0224)
+
+---
+
+#### `langchain_firebase` - `v0.2.2+4`
+
+ - **FIX**: depend_on_referenced_packages error ([#772](https://github.com/davidmigloz/langchain_dart/issues/772)). ([ef57d530](https://github.com/davidmigloz/langchain_dart/commit/ef57d5303331c7cb85fdb077a50e040a819ec94e))
+
+
+## 2025-08-25
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`langchain_firebase` - `v0.2.2+3`](#langchain_firebase---v0223)
+ - [`openai_dart` - `v0.5.4+1`](#openai_dart---v0541)
+ - [`langchain_openai` - `v0.7.6+1`](#langchain_openai---v0761)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `langchain_openai` - `v0.7.6+1`
+
+---
+
+#### `langchain_firebase` - `v0.2.2+3`
+
+ - **FIX**: Breaking change in firebase_vertexai package ([#770](https://github.com/davidmigloz/langchain_dart/issues/770)). ([6a21546e](https://github.com/davidmigloz/langchain_dart/commit/6a21546e889956cc8e0f9282073757e8aa2abeb3))
+
+#### `openai_dart` - `v0.5.4+1`
+
+ - **FIX**: Change CreateChatCompletionRequest.verbosity default value to null ([#771](https://github.com/davidmigloz/langchain_dart/issues/771)). ([46d22905](https://github.com/davidmigloz/langchain_dart/commit/46d22905fee42dd7f1b149d676323d8bce57630f))
+
+
+## 2025-08-10
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`langchain` - `v0.7.9`](#langchain---v079)
+ - [`langchain_core` - `v0.3.9`](#langchain_core---v039)
+ - [`langchain_firebase` - `v0.2.2+2`](#langchain_firebase---v0222)
+ - [`langchain_google` - `v0.6.5+2`](#langchain_google---v0652)
+ - [`langchain_openai` - `v0.7.6`](#langchain_openai---v076)
+ - [`openai_dart` - `v0.5.4`](#openai_dart---v054)
+ - [`langchain_anthropic` - `v0.2.1+2`](#langchain_anthropic---v0212)
+ - [`langchain_chroma` - `v0.2.2+2`](#langchain_chroma---v0222)
+ - [`langchain_community` - `v0.3.4+2`](#langchain_community---v0342)
+ - [`langchain_mistralai` - `v0.2.4+2`](#langchain_mistralai---v0242)
+ - [`langchain_ollama` - `v0.3.3+2`](#langchain_ollama---v0332)
+ - [`langchain_pinecone` - `v0.1.1+2`](#langchain_pinecone---v0112)
+ - [`langchain_supabase` - `v0.1.2+2`](#langchain_supabase---v0122)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `langchain_anthropic` - `v0.2.1+2`
+ - `langchain_chroma` - `v0.2.2+2`
+ - `langchain_community` - `v0.3.4+2`
+ - `langchain_mistralai` - `v0.2.4+2`
+ - `langchain_ollama` - `v0.3.3+2`
+ - `langchain_pinecone` - `v0.1.1+2`
+ - `langchain_supabase` - `v0.1.2+2`
+
+---
+
+#### `langchain` - `v0.7.9`
+
+ - **DOCS**: Remove Code Assist AI badge ([#752](https://github.com/davidmigloz/langchain_dart/issues/752)). ([dc0e70df](https://github.com/davidmigloz/langchain_dart/commit/dc0e70dfd9866267456b6caf0b76bf0cc646a425))
+
+#### `langchain_openai` - `v0.7.6`
+
+ - **FEAT**: Support reasoningEffort, verbosity and other new fields in ChatOpenAI ([#762](https://github.com/davidmigloz/langchain_dart/issues/762)). ([9cc5d591](https://github.com/davidmigloz/langchain_dart/commit/9cc5d591e868bd5dd3e0a926e564d797dd602dab))
+ - **FEAT**: Update ChatOpenAI default model to gpt-5-mini ([#761](https://github.com/davidmigloz/langchain_dart/issues/761)). ([b38ce320](https://github.com/davidmigloz/langchain_dart/commit/b38ce320971373454e10506e79ff75479b0391cd))
+
+#### `langchain_firebase` - `v0.2.2+2`
+
+ - **FIX**: Batch sequential tool responses in GoogleAI & Firebase VertexAI ([#757](https://github.com/davidmigloz/langchain_dart/issues/757)). ([8ff44486](https://github.com/davidmigloz/langchain_dart/commit/8ff4448665d26b49c1e1077d0822703e7d853d39))
+
+#### `langchain_google` - `v0.6.5+2`
+
+ - **FIX**: Batch sequential tool responses in GoogleAI & Firebase VertexAI ([#757](https://github.com/davidmigloz/langchain_dart/issues/757)). ([8ff44486](https://github.com/davidmigloz/langchain_dart/commit/8ff4448665d26b49c1e1077d0822703e7d853d39))
+
+#### `openai_dart` - `v0.5.4`
+
+ - **FEAT**: Add gpt-5 to model catalog in openai_dart ([#758](https://github.com/davidmigloz/langchain_dart/issues/758)). ([f92c94ed](https://github.com/davidmigloz/langchain_dart/commit/f92c94ed799ab49e988f97880017f041522216a6))
+ - **FEAT**: Add support for minimal reasoning effort in openai_dart ([#760](https://github.com/davidmigloz/langchain_dart/issues/760)). ([2ebc5506](https://github.com/davidmigloz/langchain_dart/commit/2ebc5506505e07f3d9b85ef60e1c54ed171a7480))
+ - **FEAT**: Add Verbosity support in openai_dart ([#759](https://github.com/davidmigloz/langchain_dart/issues/759)). ([3894da76](https://github.com/davidmigloz/langchain_dart/commit/3894da76229bb0fd4a5124b68cd02e2996a6854a))
+
+
+## 2025-07-30
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`anthropic_sdk_dart` - `v0.2.2`](#anthropic_sdk_dart---v022)
+ - [`chromadb` - `v0.2.2`](#chromadb---v022)
+ - [`googleai_dart` - `v0.1.2`](#googleai_dart---v012)
+ - [`langchain` - `v0.7.8+1`](#langchain---v0781)
+ - [`langchain_anthropic` - `v0.2.1+1`](#langchain_anthropic---v0211)
+ - [`langchain_chroma` - `v0.2.2+1`](#langchain_chroma---v0221)
+ - [`langchain_community` - `v0.3.4+1`](#langchain_community---v0341)
+ - [`langchain_core` - `v0.3.8`](#langchain_core---v038)
+ - [`langchain_firebase` - `v0.2.2+1`](#langchain_firebase---v0221)
+ - [`langchain_google` - `v0.6.5+1`](#langchain_google---v0651)
+ - [`langchain_mistralai` - `v0.2.4+1`](#langchain_mistralai---v0241)
+ - [`langchain_ollama` - `v0.3.3+1`](#langchain_ollama---v0331)
+ - [`langchain_openai` - `v0.7.5`](#langchain_openai---v075)
+ - [`langchain_pinecone` - `v0.1.1+1`](#langchain_pinecone---v0111)
+ - [`langchain_supabase` - `v0.1.2+1`](#langchain_supabase---v0121)
+ - [`mistralai_dart` - `v0.0.5`](#mistralai_dart---v005)
+ - [`ollama_dart` - `v0.2.4`](#ollama_dart---v024)
+ - [`openai_dart` - `v0.5.3`](#openai_dart---v053)
+ - [`openai_realtime_dart` - `v0.0.5`](#openai_realtime_dart---v005)
+ - [`tavily_dart` - `v0.1.2`](#tavily_dart---v012)
+ - [`vertex_ai` - `v0.1.2`](#vertex_ai---v012)
+
+---
+
+#### `anthropic_sdk_dart` - `v0.2.2`
+
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+#### `chromadb` - `v0.2.2`
+
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015)
+
+#### `googleai_dart` - `v0.1.2`
+
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+#### `langchain` - `v0.7.8+1`
+
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+#### `langchain_anthropic` - `v0.2.1+1`
+
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+#### `langchain_chroma` - `v0.2.2+1`
+
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+#### `langchain_community` - `v0.3.4+1`
+
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+#### `langchain_core` - `v0.3.8`
+
+ - **FEAT**: Make CreateChatCompletionStreamResponse.choices field nullable to support Groq's OpenAI-compatible API ([#742](https://github.com/davidmigloz/langchain_dart/issues/742)). ([76fbbdc6](https://github.com/davidmigloz/langchain_dart/commit/76fbbdc6f78e83f1f622ed73ff4b27b37a4f744b))
+ - **FIX**: Add multi-LLM compatibility for Tool.fromFunction getInputFromJson ([#738](https://github.com/davidmigloz/langchain_dart/issues/738)). ([291a0efc](https://github.com/davidmigloz/langchain_dart/commit/291a0efcebe1696f609ecbd0b803cc9324474db5))
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+#### `langchain_firebase` - `v0.2.2+1`
+
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+#### `langchain_google` - `v0.6.5+1`
+
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+#### `langchain_mistralai` - `v0.2.4+1`
+
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+#### `langchain_ollama` - `v0.3.3+1`
+
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+#### `langchain_openai` - `v0.7.5`
+
+ - **FEAT**: Make CreateChatCompletionStreamResponse.choices field nullable to support Groq's OpenAI-compatible API ([#742](https://github.com/davidmigloz/langchain_dart/issues/742)). ([76fbbdc6](https://github.com/davidmigloz/langchain_dart/commit/76fbbdc6f78e83f1f622ed73ff4b27b37a4f744b))
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+#### `langchain_pinecone` - `v0.1.1+1`
+
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+#### `langchain_supabase` - `v0.1.2+1`
+
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+#### `mistralai_dart` - `v0.0.5`
+
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+#### `ollama_dart` - `v0.2.4`
+
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+#### `openai_dart` - `v0.5.3`
+
+ - **FEAT**: Make CreateChatCompletionStreamResponse.choices field nullable to support Groq's OpenAI-compatible API ([#742](https://github.com/davidmigloz/langchain_dart/issues/742)). ([76fbbdc6](https://github.com/davidmigloz/langchain_dart/commit/76fbbdc6f78e83f1f622ed73ff4b27b37a4f744b))
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+#### `openai_realtime_dart` - `v0.0.5`
+
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+#### `tavily_dart` - `v0.1.2`
+
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+#### `vertex_ai` - `v0.1.2`
+
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+
+## 2025-06-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`openai_dart` - `v0.5.2`](#openai_dart---v052)
+ - [`langchain_openai` - `v0.7.4+2`](#langchain_openai---v0742)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `langchain_openai` - `v0.7.4+2`
+
+---
+
+#### `openai_dart` - `v0.5.2`
+
+ - **FEAT**: Make Model.object/owned_by  fields nullable to support OpenRouter's OpenAI-compatible API ([#736](https://github.com/davidmigloz/langchain_dart/issues/736)). ([afa98b8c](https://github.com/davidmigloz/langchain_dart/commit/afa98b8c44c612126f2f6ee32d6aecdad41663b4))
+ - **FEAT**: Make Model.created field nullable to support Google's OpenAI-compatible API ([#735](https://github.com/davidmigloz/langchain_dart/issues/735)). ([d617e49f](https://github.com/davidmigloz/langchain_dart/commit/d617e49f9d5760e2714d27d76cf699364e9cfe51))
+
+
+## 2025-06-18
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`openai_dart` - `v0.5.1`](#openai_dart---v051)
+ - [`openai_realtime_dart` - `v0.0.4+1`](#openai_realtime_dart---v0041)
+ - [`langchain_openai` - `v0.7.4+1`](#langchain_openai---v0741)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `langchain_openai` - `v0.7.4+1`
+
+---
+
+#### `openai_dart` - `v0.5.1`
+
+ - **FEAT**: Make ToolCallChunk.index field nullable to support Gemini OpenAI-compatible API ([#733](https://github.com/davidmigloz/langchain_dart/issues/733)). ([19cb49c0](https://github.com/davidmigloz/langchain_dart/commit/19cb49c09e42204cc523fbbdd3941b3070146063))
+ - **FEAT**: Make Embedding.index field nullable to support Gemini OpenAI-compatible API ([#729](https://github.com/davidmigloz/langchain_dart/issues/729)). ([9d22f197](https://github.com/davidmigloz/langchain_dart/commit/9d22f1972d99b8b1f6dbcfcb3f7bfba2257fca5b))
+
+#### `openai_realtime_dart` - `v0.0.4+1`
+
+ - **FIX**: toolChoice required infinite loop in openai_realtime_dart ([#723](https://github.com/davidmigloz/langchain_dart/issues/723)). ([f52211cc](https://github.com/davidmigloz/langchain_dart/commit/f52211cca063d64e346a4ed023c337a351ca3e33))
+
+
+## 2025-06-12
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - [`openai_dart` - `v0.5.0`](#openai_dart---v050)
+
+Packages with other changes:
+
+ - [`anthropic_sdk_dart` - `v0.2.1`](#anthropic_sdk_dart---v021)
+ - [`chromadb` - `v0.2.1`](#chromadb---v021)
+ - [`googleai_dart` - `v0.1.1`](#googleai_dart---v011)
+ - [`langchain` - `v0.7.8`](#langchain---v078)
+ - [`langchain_anthropic` - `v0.2.1`](#langchain_anthropic---v021)
+ - [`langchain_chroma` - `v0.2.2`](#langchain_chroma---v022)
+ - [`langchain_community` - `v0.3.4`](#langchain_community---v034)
+ - [`langchain_core` - `v0.3.7`](#langchain_core---v037)
+ - [`langchain_firebase` - `v0.2.2`](#langchain_firebase---v022)
+ - [`langchain_google` - `v0.6.5`](#langchain_google---v065)
+ - [`langchain_mistralai` - `v0.2.4`](#langchain_mistralai---v024)
+ - [`langchain_ollama` - `v0.3.3`](#langchain_ollama---v033)
+ - [`langchain_openai` - `v0.7.4`](#langchain_openai---v074)
+ - [`langchain_pinecone` - `v0.1.1`](#langchain_pinecone---v011)
+ - [`langchain_supabase` - `v0.1.2`](#langchain_supabase---v012)
+ - [`langgraph` - `v0.0.1-dev.2`](#langgraph---v001-dev2)
+ - [`mistralai_dart` - `v0.0.4`](#mistralai_dart---v004)
+ - [`ollama_dart` - `v0.2.3`](#ollama_dart---v023)
+ - [`openai_realtime_dart` - `v0.0.4`](#openai_realtime_dart---v004)
+ - [`tavily_dart` - `v0.1.1`](#tavily_dart---v011)
+ - [`vertex_ai` - `v0.1.1`](#vertex_ai---v011)
+
+---
+
+#### `openai_dart` - `v0.5.0`
+
+ - **BREAKING** **FEAT**: Align OpenAI API changes ([#706](https://github.com/davidmigloz/langchain_dart/issues/706)). ([b8b04ca6](https://github.com/davidmigloz/langchain_dart/commit/b8b04ca618ffbc6f84b935a89852767479da1611))
+ - **FEAT**: Add support for web search, gpt-image-1 and list chat completions ([#716](https://github.com/davidmigloz/langchain_dart/issues/716)). ([269dea03](https://github.com/davidmigloz/langchain_dart/commit/269dea035be679c8d2fcc03f526703c76c72c5d4))
+ - **FEAT**: Update OpenAI model catalog ([#714](https://github.com/davidmigloz/langchain_dart/issues/714)). ([68df4558](https://github.com/davidmigloz/langchain_dart/commit/68df4558a01e872c73ad465f4b85f1b5c61ddd50))
+ - **FEAT**: Change the default value of 'reasoning_effort' from medium to null ([#713](https://github.com/davidmigloz/langchain_dart/issues/713)). ([f224572e](https://github.com/davidmigloz/langchain_dart/commit/f224572eff249daa1971a7f287c150ee3779a6b2))
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **REFACTOR**: Remove fetch_client dependency in favor of http v1.3.0 ([#659](https://github.com/davidmigloz/langchain_dart/issues/659)). ([0e0a685c](https://github.com/davidmigloz/langchain_dart/commit/0e0a685c376895425dbddb0f9b83758c700bb0c7))
+ - **REFACTOR**: Fix linter issues ([#708](https://github.com/davidmigloz/langchain_dart/issues/708)). ([652e7c64](https://github.com/davidmigloz/langchain_dart/commit/652e7c64776d92d309cbd708d9e477fc2ee1391c))
+ - **DOCS**: Fix TruncationObject docs typo in openai_dart. ([ee5ed4fd](https://github.com/davidmigloz/langchain_dart/commit/ee5ed4fdfdf4213ceec05d7a5a2b24cca95ae386))
+ - **DOCS**: Document Azure Assistants API base url ([#626](https://github.com/davidmigloz/langchain_dart/issues/626)). ([c3459eea](https://github.com/davidmigloz/langchain_dart/commit/c3459eea354f36a11f69145a7313b3feda7a15eb))
+
+#### `anthropic_sdk_dart` - `v0.2.1`
+
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **REFACTOR**: Remove fetch_client dependency in favor of http v1.3.0 ([#659](https://github.com/davidmigloz/langchain_dart/issues/659)). ([0e0a685c](https://github.com/davidmigloz/langchain_dart/commit/0e0a685c376895425dbddb0f9b83758c700bb0c7))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+
+#### `chromadb` - `v0.2.1`
+
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **REFACTOR**: Remove fetch_client dependency in favor of http v1.3.0 ([#659](https://github.com/davidmigloz/langchain_dart/issues/659)). ([0e0a685c](https://github.com/davidmigloz/langchain_dart/commit/0e0a685c376895425dbddb0f9b83758c700bb0c7))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+
+#### `googleai_dart` - `v0.1.1`
+
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **REFACTOR**: Remove fetch_client dependency in favor of http v1.3.0 ([#659](https://github.com/davidmigloz/langchain_dart/issues/659)). ([0e0a685c](https://github.com/davidmigloz/langchain_dart/commit/0e0a685c376895425dbddb0f9b83758c700bb0c7))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+
+#### `langchain` - `v0.7.8`
+
+ - **FEAT**: Implement Markdown text splitter ([#635](https://github.com/davidmigloz/langchain_dart/issues/635)). ([242e4be2](https://github.com/davidmigloz/langchain_dart/commit/242e4be227503f93120b209bca350ed6a055f362))
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **FEAT**: Add to/fromMap serialization to ChatMessage, PromptValue & ChatHistory ([#681](https://github.com/davidmigloz/langchain_dart/issues/681)). ([d239c7c7](https://github.com/davidmigloz/langchain_dart/commit/d239c7c7b4a1504559e475466be7f176521a0473))
+ - **FIX**: Correctly calculate start_index when using chunkOverlap in TextSplitter ([#640](https://github.com/davidmigloz/langchain_dart/issues/640)). ([71dd5ac3](https://github.com/davidmigloz/langchain_dart/commit/71dd5ac31351d0ea45989c43a250a35668cb01b6))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+ - **FIX**: Made apiKey optional for `TavilyAnswerTool` and `TavilySearchResultsTool` ([#646](https://github.com/davidmigloz/langchain_dart/issues/646)). ([5085ea4a](https://github.com/davidmigloz/langchain_dart/commit/5085ea4ad8b5cd072832e73afcbb7075a6375307))
+
+#### `langchain_anthropic` - `v0.2.1`
+
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **REFACTOR**: Remove fetch_client dependency in favor of http v1.3.0 ([#659](https://github.com/davidmigloz/langchain_dart/issues/659)). ([0e0a685c](https://github.com/davidmigloz/langchain_dart/commit/0e0a685c376895425dbddb0f9b83758c700bb0c7))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+
+#### `langchain_chroma` - `v0.2.2`
+
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **REFACTOR**: Remove fetch_client dependency in favor of http v1.3.0 ([#659](https://github.com/davidmigloz/langchain_dart/issues/659)). ([0e0a685c](https://github.com/davidmigloz/langchain_dart/commit/0e0a685c376895425dbddb0f9b83758c700bb0c7))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+
+#### `langchain_community` - `v0.3.4`
+
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **REFACTOR**: Remove fetch_client dependency in favor of http v1.3.0 ([#659](https://github.com/davidmigloz/langchain_dart/issues/659)). ([0e0a685c](https://github.com/davidmigloz/langchain_dart/commit/0e0a685c376895425dbddb0f9b83758c700bb0c7))
+ - **FIX**: Fix static instance of ObjectBoxVectorStore ([#684](https://github.com/davidmigloz/langchain_dart/issues/684)). ([719ead93](https://github.com/davidmigloz/langchain_dart/commit/719ead93c6e91d42bb8e45910ccf0da4e3e51afd))
+ - **FIX**: Fix langchain_community  WASM compatibility ([#660](https://github.com/davidmigloz/langchain_dart/issues/660)). ([0be8aae4](https://github.com/davidmigloz/langchain_dart/commit/0be8aae44950fddd9ac9538ccfa5d017e6f585a0))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+ - **FIX**: Made apiKey optional for `TavilyAnswerTool` and `TavilySearchResultsTool` ([#646](https://github.com/davidmigloz/langchain_dart/issues/646)). ([5085ea4a](https://github.com/davidmigloz/langchain_dart/commit/5085ea4ad8b5cd072832e73afcbb7075a6375307))
+
+#### `langchain_core` - `v0.3.7`
+
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **FEAT**: Add to/fromMap serialization to ChatMessage, PromptValue & ChatHistory ([#681](https://github.com/davidmigloz/langchain_dart/issues/681)). ([d239c7c7](https://github.com/davidmigloz/langchain_dart/commit/d239c7c7b4a1504559e475466be7f176521a0473))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+ - **FIX**: RunnableMap doesn't invoke multiple Runnables in parallel ([#649](https://github.com/davidmigloz/langchain_dart/issues/649)). ([fc722d85](https://github.com/davidmigloz/langchain_dart/commit/fc722d85eef6644f7593dd26c7fd55a56615595b))
+
+#### `langchain_firebase` - `v0.2.2`
+
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **REFACTOR**: Fix linter issues ([#708](https://github.com/davidmigloz/langchain_dart/issues/708)). ([652e7c64](https://github.com/davidmigloz/langchain_dart/commit/652e7c64776d92d309cbd708d9e477fc2ee1391c))
+ - **REFACTOR**: Migrate firebase_vertexai dep to 1.4.0 ([#663](https://github.com/davidmigloz/langchain_dart/issues/663)). ([4fca38c5](https://github.com/davidmigloz/langchain_dart/commit/4fca38c5599c4c5a058ece1a7d9c4e276b716432))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+
+#### `langchain_google` - `v0.6.5`
+
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **REFACTOR**: Remove fetch_client dependency in favor of http v1.3.0 ([#659](https://github.com/davidmigloz/langchain_dart/issues/659)). ([0e0a685c](https://github.com/davidmigloz/langchain_dart/commit/0e0a685c376895425dbddb0f9b83758c700bb0c7))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+
+#### `langchain_mistralai` - `v0.2.4`
+
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **REFACTOR**: Fix linter issues ([#708](https://github.com/davidmigloz/langchain_dart/issues/708)). ([652e7c64](https://github.com/davidmigloz/langchain_dart/commit/652e7c64776d92d309cbd708d9e477fc2ee1391c))
+ - **REFACTOR**: Remove fetch_client dependency in favor of http v1.3.0 ([#659](https://github.com/davidmigloz/langchain_dart/issues/659)). ([0e0a685c](https://github.com/davidmigloz/langchain_dart/commit/0e0a685c376895425dbddb0f9b83758c700bb0c7))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+ - **DOCS**: Add langchain_mistralai example ([#662](https://github.com/davidmigloz/langchain_dart/issues/662)). ([eca7a24d](https://github.com/davidmigloz/langchain_dart/commit/eca7a24d50629b9ce7d61a197bfd9acfb74a1261))
+
+#### `langchain_ollama` - `v0.3.3`
+
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **REFACTOR**: Fix linter issues ([#708](https://github.com/davidmigloz/langchain_dart/issues/708)). ([652e7c64](https://github.com/davidmigloz/langchain_dart/commit/652e7c64776d92d309cbd708d9e477fc2ee1391c))
+ - **REFACTOR**: Remove fetch_client dependency in favor of http v1.3.0 ([#659](https://github.com/davidmigloz/langchain_dart/issues/659)). ([0e0a685c](https://github.com/davidmigloz/langchain_dart/commit/0e0a685c376895425dbddb0f9b83758c700bb0c7))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+ - **DOCS**: Add langchain_ollama example ([#661](https://github.com/davidmigloz/langchain_dart/issues/661)). ([0bba6cb4](https://github.com/davidmigloz/langchain_dart/commit/0bba6cb4ebe4386ad53b1aa02836d375d5f59cbe))
+
+#### `langchain_openai` - `v0.7.4`
+
+ - **FEAT**: Update OpenAI model catalog ([#714](https://github.com/davidmigloz/langchain_dart/issues/714)). ([68df4558](https://github.com/davidmigloz/langchain_dart/commit/68df4558a01e872c73ad465f4b85f1b5c61ddd50))
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **REFACTOR**: Remove fetch_client dependency in favor of http v1.3.0 ([#659](https://github.com/davidmigloz/langchain_dart/issues/659)). ([0e0a685c](https://github.com/davidmigloz/langchain_dart/commit/0e0a685c376895425dbddb0f9b83758c700bb0c7))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+
+#### `langchain_pinecone` - `v0.1.1`
+
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **REFACTOR**: Remove fetch_client dependency in favor of http v1.3.0 ([#659](https://github.com/davidmigloz/langchain_dart/issues/659)). ([0e0a685c](https://github.com/davidmigloz/langchain_dart/commit/0e0a685c376895425dbddb0f9b83758c700bb0c7))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+
+#### `langchain_supabase` - `v0.1.2`
+
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **REFACTOR**: Remove fetch_client dependency in favor of http v1.3.0 ([#659](https://github.com/davidmigloz/langchain_dart/issues/659)). ([0e0a685c](https://github.com/davidmigloz/langchain_dart/commit/0e0a685c376895425dbddb0f9b83758c700bb0c7))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+
+#### `langgraph` - `v0.0.1-dev.2`
+
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+
+#### `mistralai_dart` - `v0.0.4`
+
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **REFACTOR**: Remove fetch_client dependency in favor of http v1.3.0 ([#659](https://github.com/davidmigloz/langchain_dart/issues/659)). ([0e0a685c](https://github.com/davidmigloz/langchain_dart/commit/0e0a685c376895425dbddb0f9b83758c700bb0c7))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+
+#### `ollama_dart` - `v0.2.3`
+
+ - **FEAT**: Add think/thinking params to ollama_dart ([#721](https://github.com/davidmigloz/langchain_dart/issues/721)). ([701d7968](https://github.com/davidmigloz/langchain_dart/commit/701d7968baaa07f5612a25d74a1d19c2c24e7077))
+ - **FEAT**: Add capabilities, projector_info, tensors and modified_at to Ollama's ModelInfo ([#690](https://github.com/davidmigloz/langchain_dart/issues/690)). ([c5e247db](https://github.com/davidmigloz/langchain_dart/commit/c5e247db6aadedaa6ec668652e416477a6c03b51))
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **REFACTOR**: Remove fetch_client dependency in favor of http v1.3.0 ([#659](https://github.com/davidmigloz/langchain_dart/issues/659)). ([0e0a685c](https://github.com/davidmigloz/langchain_dart/commit/0e0a685c376895425dbddb0f9b83758c700bb0c7))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+
+#### `openai_realtime_dart` - `v0.0.4`
+
+ - **FEAT**: Align latest OpenAI Realtime API changes ([#707](https://github.com/davidmigloz/langchain_dart/issues/707)). ([c2fc4f53](https://github.com/davidmigloz/langchain_dart/commit/c2fc4f53492726ec78639d4a9ef55dfc054c2fae))
+ - **FEAT**: Add language and prompt properties to InputAudioTranscriptionConfig ([#698](https://github.com/davidmigloz/langchain_dart/issues/698)). ([5daf6e60](https://github.com/davidmigloz/langchain_dart/commit/5daf6e603f18be7e330155d32648356ae05872bd))
+ - **FEAT**: Add RealtimeEvent for input audio transcription delta updates ([#710](https://github.com/davidmigloz/langchain_dart/issues/710)). ([0848a253](https://github.com/davidmigloz/langchain_dart/commit/0848a253c36c0ab9f7e9b2bc0db5f000c6952ef5))
+ - **FEAT**: Add support for custom headers in WebSocket connections ([#693](https://github.com/davidmigloz/langchain_dart/issues/693)). ([de81ef89](https://github.com/davidmigloz/langchain_dart/commit/de81ef89b33e54f1671ccf244fe1d088b203f76a))
+ - **FEAT**: Allow to pass a custom model in OpenAI RealtimeClient ([#654](https://github.com/davidmigloz/langchain_dart/issues/654)). ([60feae46](https://github.com/davidmigloz/langchain_dart/commit/60feae46a6dc6bcaf1779d512d0d599fdcd0e1a4))
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **FIX**: Server VAD is enabled after setting turnDetection to null ([#668](https://github.com/davidmigloz/langchain_dart/issues/668)). ([39c21ba4](https://github.com/davidmigloz/langchain_dart/commit/39c21ba4b2f40d3622ab492d1661a0a09424f393))
+ - **FIX**: previous_item_id should be nullable in openai_realtime_dart ([#639](https://github.com/davidmigloz/langchain_dart/issues/639)). ([0f84850f](https://github.com/davidmigloz/langchain_dart/commit/0f84850f822b0872ad9c2b0abf87d14e2a5b29dd))
+ - **REFACTOR**: Remove fetch_client dependency in favor of http v1.3.0 ([#659](https://github.com/davidmigloz/langchain_dart/issues/659)). ([0e0a685c](https://github.com/davidmigloz/langchain_dart/commit/0e0a685c376895425dbddb0f9b83758c700bb0c7))
+ - **REFACTOR**: Remove unused property in openai_realtime_dart ([#625](https://github.com/davidmigloz/langchain_dart/issues/625)). ([231ccab2](https://github.com/davidmigloz/langchain_dart/commit/231ccab2d3f3cef3487d214b88c4ee983a62f362))
+ - **REFACTOR**: Fix linter issues ([#708](https://github.com/davidmigloz/langchain_dart/issues/708)). ([652e7c64](https://github.com/davidmigloz/langchain_dart/commit/652e7c64776d92d309cbd708d9e477fc2ee1391c))
+
+#### `tavily_dart` - `v0.1.1`
+
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **FIX**: Made apiKey optional for `TavilyAnswerTool` and `TavilySearchResultsTool` ([#646](https://github.com/davidmigloz/langchain_dart/issues/646)). ([5085ea4a](https://github.com/davidmigloz/langchain_dart/commit/5085ea4ad8b5cd072832e73afcbb7075a6375307))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+ - **REFACTOR**: Remove fetch_client dependency in favor of http v1.3.0 ([#659](https://github.com/davidmigloz/langchain_dart/issues/659)). ([0e0a685c](https://github.com/davidmigloz/langchain_dart/commit/0e0a685c376895425dbddb0f9b83758c700bb0c7))
+
+#### `vertex_ai` - `v0.1.1`
+
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **REFACTOR**: Remove fetch_client dependency in favor of http v1.3.0 ([#659](https://github.com/davidmigloz/langchain_dart/issues/659)). ([0e0a685c](https://github.com/davidmigloz/langchain_dart/commit/0e0a685c376895425dbddb0f9b83758c700bb0c7))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+
+
+## 2024-12-16
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`anthropic_sdk_dart` - `v0.2.0+1`](#anthropic_sdk_dart---v0201)
+ - [`chromadb` - `v0.2.0+2`](#chromadb---v0202)
+ - [`googleai_dart` - `v0.1.0+3`](#googleai_dart---v0103)
+ - [`langchain` - `v0.7.7+2`](#langchain---v0772)
+ - [`langchain_anthropic` - `v0.2.0+1`](#langchain_anthropic---v0201)
+ - [`langchain_community` - `v0.3.3`](#langchain_community---v033)
+ - [`langchain_core` - `v0.3.6+1`](#langchain_core---v0361)
+ - [`langchain_firebase` - `v0.2.1+4`](#langchain_firebase---v0214)
+ - [`langchain_google` - `v0.6.4+2`](#langchain_google---v0642)
+ - [`langchain_mistralai` - `v0.2.3+2`](#langchain_mistralai---v0232)
+ - [`langchain_ollama` - `v0.3.2+2`](#langchain_ollama---v0322)
+ - [`langchain_openai` - `v0.7.3`](#langchain_openai---v073)
+ - [`mistralai_dart` - `v0.0.3+4`](#mistralai_dart---v0034)
+ - [`ollama_dart` - `v0.2.2+1`](#ollama_dart---v0221)
+ - [`openai_dart` - `v0.4.5`](#openai_dart---v045)
+ - [`openai_realtime_dart` - `v0.0.3+1`](#openai_realtime_dart---v0031)
+ - [`tavily_dart` - `v0.1.0+1`](#tavily_dart---v0101)
+ - [`vertex_ai` - `v0.1.0+3`](#vertex_ai---v0103)
+ - [`langchain_chroma` - `v0.2.1+5`](#langchain_chroma---v0215)
+ - [`langchain_pinecone` - `v0.1.0+11`](#langchain_pinecone---v01011)
+ - [`langchain_supabase` - `v0.1.1+4`](#langchain_supabase---v0114)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `langchain_chroma` - `v0.2.1+5`
+ - `langchain_pinecone` - `v0.1.0+11`
+ - `langchain_supabase` - `v0.1.1+4`
+
+---
+
+#### `langchain` - `v0.7.7+2`
+
+ - **REFACTOR**: Add new lint rules and fix issues ([#621](https://github.com/davidmigloz/langchain_dart/issues/621)). ([60b10e00](https://github.com/davidmigloz/langchain_dart/commit/60b10e008acf55ebab90789ad08d2449a44b69d8))
+
+#### `langchain_core` - `v0.3.6+1`
+
+ - **REFACTOR**: Add new lint rules and fix issues ([#621](https://github.com/davidmigloz/langchain_dart/issues/621)). ([60b10e00](https://github.com/davidmigloz/langchain_dart/commit/60b10e008acf55ebab90789ad08d2449a44b69d8))
+
+#### `langchain_community` - `v0.3.3`
+
+ - **FEAT**: Add support for DirectoryLoader ([#620](https://github.com/davidmigloz/langchain_dart/issues/620)). ([4730f2a3](https://github.com/davidmigloz/langchain_dart/commit/4730f2a376b152ea38e5204125209ef01f29cab9))
+ - **FEAT**: Expose internal store in ObjectBoxVectorStore ([#611](https://github.com/davidmigloz/langchain_dart/issues/611)). ([c33f2e07](https://github.com/davidmigloz/langchain_dart/commit/c33f2e07c31ddd91dae16856df3b6c8ffddc45e9))
+ - **FIX**: Chinese character support on web loader ([#600](https://github.com/davidmigloz/langchain_dart/issues/600)). ([48e64d5b](https://github.com/davidmigloz/langchain_dart/commit/48e64d5b01aa8469dbf7a973350eeac26b43df8f))
+ - **REFACTOR**: Add new lint rules and fix issues ([#621](https://github.com/davidmigloz/langchain_dart/issues/621)). ([60b10e00](https://github.com/davidmigloz/langchain_dart/commit/60b10e008acf55ebab90789ad08d2449a44b69d8))
+ - **REFACTOR**: Upgrade api clients generator version ([#610](https://github.com/davidmigloz/langchain_dart/issues/610)). ([0c8750e8](https://github.com/davidmigloz/langchain_dart/commit/0c8750e85b34764f99b6e34cc531776ffe8fba7c))
+
+#### `langchain_openai` - `v0.7.3`
+
+ - **FEAT**: Add gpt-4o-2024-11-20 to model catalog in openai_dart ([#614](https://github.com/davidmigloz/langchain_dart/issues/614)). ([bf333081](https://github.com/davidmigloz/langchain_dart/commit/bf33308165869792446c3897db95e6ad7a7cb519))
+ - **REFACTOR**: Add new lint rules and fix issues ([#621](https://github.com/davidmigloz/langchain_dart/issues/621)). ([60b10e00](https://github.com/davidmigloz/langchain_dart/commit/60b10e008acf55ebab90789ad08d2449a44b69d8))
+
+#### `langchain_anthropic` - `v0.2.0+1`
+
+ - **REFACTOR**: Add new lint rules and fix issues ([#621](https://github.com/davidmigloz/langchain_dart/issues/621)). ([60b10e00](https://github.com/davidmigloz/langchain_dart/commit/60b10e008acf55ebab90789ad08d2449a44b69d8))
+
+#### `langchain_firebase` - `v0.2.1+4`
+
+ - **REFACTOR**: Add new lint rules and fix issues ([#621](https://github.com/davidmigloz/langchain_dart/issues/621)). ([60b10e00](https://github.com/davidmigloz/langchain_dart/commit/60b10e008acf55ebab90789ad08d2449a44b69d8))
+
+#### `langchain_google` - `v0.6.4+2`
+
+ - **REFACTOR**: Add new lint rules and fix issues ([#621](https://github.com/davidmigloz/langchain_dart/issues/621)). ([60b10e00](https://github.com/davidmigloz/langchain_dart/commit/60b10e008acf55ebab90789ad08d2449a44b69d8))
+
+#### `langchain_mistralai` - `v0.2.3+2`
+
+ - **REFACTOR**: Add new lint rules and fix issues ([#621](https://github.com/davidmigloz/langchain_dart/issues/621)). ([60b10e00](https://github.com/davidmigloz/langchain_dart/commit/60b10e008acf55ebab90789ad08d2449a44b69d8))
+
+#### `langchain_ollama` - `v0.3.2+2`
+
+ - **REFACTOR**: Add new lint rules and fix issues ([#621](https://github.com/davidmigloz/langchain_dart/issues/621)). ([60b10e00](https://github.com/davidmigloz/langchain_dart/commit/60b10e008acf55ebab90789ad08d2449a44b69d8))
+
+#### `openai_dart` - `v0.4.5`
+
+ - **FEAT**: Support Predicted Outputs in openai_dart ([#613](https://github.com/davidmigloz/langchain_dart/issues/613)). ([315fe0fd](https://github.com/davidmigloz/langchain_dart/commit/315fe0fd3227e2c5a1a874be7fd01e25dcd7b33c))
+ - **FEAT**: Support streaming audio responses in chat completions in openai_dart ([#615](https://github.com/davidmigloz/langchain_dart/issues/615)). ([6da756a8](https://github.com/davidmigloz/langchain_dart/commit/6da756a87be35a34048c6671f7629b553bf0699e))
+ - **FEAT**: Add gpt-4o-2024-11-20 to model catalog in openai_dart ([#614](https://github.com/davidmigloz/langchain_dart/issues/614)). ([bf333081](https://github.com/davidmigloz/langchain_dart/commit/bf33308165869792446c3897db95e6ad7a7cb519))
+ - **FIX**: Default store field to null in openai_dart to support Azure and Groq APIs ([#608](https://github.com/davidmigloz/langchain_dart/issues/608)). ([21332960](https://github.com/davidmigloz/langchain_dart/commit/21332960c2c9928873b5b2948b86af31245f9312))
+ - **FIX**: Make first_id and last_id nullable in list endpoints in openai_dart ([#607](https://github.com/davidmigloz/langchain_dart/issues/607)). ([7cfc4ddf](https://github.com/davidmigloz/langchain_dart/commit/7cfc4ddf469846624d3dd6f3f86cab54c5333395))
+ - **DOCS**: Update OpenAI endpoints descriptions ([#612](https://github.com/davidmigloz/langchain_dart/issues/612)). ([10c66888](https://github.com/davidmigloz/langchain_dart/commit/10c6688884f8bc42ddaa771996030a42125333de))
+ - **REFACTOR**: Add new lint rules and fix issues ([#621](https://github.com/davidmigloz/langchain_dart/issues/621)). ([60b10e00](https://github.com/davidmigloz/langchain_dart/commit/60b10e008acf55ebab90789ad08d2449a44b69d8))
+ - **REFACTOR**: Upgrade api clients generator version ([#610](https://github.com/davidmigloz/langchain_dart/issues/610)). ([0c8750e8](https://github.com/davidmigloz/langchain_dart/commit/0c8750e85b34764f99b6e34cc531776ffe8fba7c))
+
+#### `openai_realtime_dart` - `v0.0.3+1`
+
+ - **REFACTOR**: Add new lint rules and fix issues ([#621](https://github.com/davidmigloz/langchain_dart/issues/621)). ([60b10e00](https://github.com/davidmigloz/langchain_dart/commit/60b10e008acf55ebab90789ad08d2449a44b69d8))
+ - **REFACTOR**: Upgrade api clients generator version ([#610](https://github.com/davidmigloz/langchain_dart/issues/610)). ([0c8750e8](https://github.com/davidmigloz/langchain_dart/commit/0c8750e85b34764f99b6e34cc531776ffe8fba7c))
+ - **DOCS**: Update openai_spec_official.yaml. ([ee2eb35b](https://github.com/davidmigloz/langchain_dart/commit/ee2eb35b983afdb504ae52d3dfca5fea11a1dadb))
+ - **DOCS**: Update README.md. ([44291a06](https://github.com/davidmigloz/langchain_dart/commit/44291a06af7ae26f0a5beadfec23f2128f5e2415))
+
+#### `anthropic_sdk_dart` - `v0.2.0+1`
+
+ - **REFACTOR**: Add new lint rules and fix issues ([#621](https://github.com/davidmigloz/langchain_dart/issues/621)). ([60b10e00](https://github.com/davidmigloz/langchain_dart/commit/60b10e008acf55ebab90789ad08d2449a44b69d8))
+ - **REFACTOR**: Upgrade api clients generator version ([#610](https://github.com/davidmigloz/langchain_dart/issues/610)). ([0c8750e8](https://github.com/davidmigloz/langchain_dart/commit/0c8750e85b34764f99b6e34cc531776ffe8fba7c))
+
+#### `chromadb` - `v0.2.0+2`
+
+ - **REFACTOR**: Add new lint rules and fix issues ([#621](https://github.com/davidmigloz/langchain_dart/issues/621)). ([60b10e00](https://github.com/davidmigloz/langchain_dart/commit/60b10e008acf55ebab90789ad08d2449a44b69d8))
+ - **REFACTOR**: Upgrade api clients generator version ([#610](https://github.com/davidmigloz/langchain_dart/issues/610)). ([0c8750e8](https://github.com/davidmigloz/langchain_dart/commit/0c8750e85b34764f99b6e34cc531776ffe8fba7c))
+
+#### `googleai_dart` - `v0.1.0+3`
+
+ - **REFACTOR**: Upgrade api clients generator version ([#610](https://github.com/davidmigloz/langchain_dart/issues/610)). ([0c8750e8](https://github.com/davidmigloz/langchain_dart/commit/0c8750e85b34764f99b6e34cc531776ffe8fba7c))
+
+#### `mistralai_dart` - `v0.0.3+4`
+
+ - **REFACTOR**: Add new lint rules and fix issues ([#621](https://github.com/davidmigloz/langchain_dart/issues/621)). ([60b10e00](https://github.com/davidmigloz/langchain_dart/commit/60b10e008acf55ebab90789ad08d2449a44b69d8))
+ - **REFACTOR**: Upgrade api clients generator version ([#610](https://github.com/davidmigloz/langchain_dart/issues/610)). ([0c8750e8](https://github.com/davidmigloz/langchain_dart/commit/0c8750e85b34764f99b6e34cc531776ffe8fba7c))
+
+#### `ollama_dart` - `v0.2.2+1`
+
+ - **REFACTOR**: Add new lint rules and fix issues ([#621](https://github.com/davidmigloz/langchain_dart/issues/621)). ([60b10e00](https://github.com/davidmigloz/langchain_dart/commit/60b10e008acf55ebab90789ad08d2449a44b69d8))
+ - **REFACTOR**: Upgrade api clients generator version ([#610](https://github.com/davidmigloz/langchain_dart/issues/610)). ([0c8750e8](https://github.com/davidmigloz/langchain_dart/commit/0c8750e85b34764f99b6e34cc531776ffe8fba7c))
+
+#### `tavily_dart` - `v0.1.0+1`
+
+ - **REFACTOR**: Upgrade api clients generator version ([#610](https://github.com/davidmigloz/langchain_dart/issues/610)). ([0c8750e8](https://github.com/davidmigloz/langchain_dart/commit/0c8750e85b34764f99b6e34cc531776ffe8fba7c))
+
+#### `vertex_ai` - `v0.1.0+3`
+
+ - **REFACTOR**: Add new lint rules and fix issues ([#621](https://github.com/davidmigloz/langchain_dart/issues/621)). ([60b10e00](https://github.com/davidmigloz/langchain_dart/commit/60b10e008acf55ebab90789ad08d2449a44b69d8))
+
+
 ## 2024-10-31
 
 ### Changes

@@ -8,279 +8,240 @@ part of 'schema.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$GenerateCompletionRequestImpl _$$GenerateCompletionRequestImplFromJson(
+_GenerateCompletionRequest _$GenerateCompletionRequestFromJson(
         Map<String, dynamic> json) =>
-    _$GenerateCompletionRequestImpl(
+    _GenerateCompletionRequest(
       model: json['model'] as String,
       prompt: json['prompt'] as String,
       suffix: json['suffix'] as String?,
-      images:
-          (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
       system: json['system'] as String?,
       template: json['template'] as String?,
-      context:
-          (json['context'] as List<dynamic>?)?.map((e) => e as int).toList(),
+      context: (json['context'] as List<dynamic>?)
+          ?.map((e) => (e as num).toInt())
+          .toList(),
+      stream: json['stream'] as bool? ?? false,
+      raw: json['raw'] as bool?,
+      format: $enumDecodeNullable(_$ResponseFormatEnumMap, json['format'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      keepAlive: (json['keep_alive'] as num?)?.toInt(),
+      images:
+          (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
       options: json['options'] == null
           ? null
           : RequestOptions.fromJson(json['options'] as Map<String, dynamic>),
-      format: $enumDecodeNullable(_$ResponseFormatEnumMap, json['format'],
-          unknownValue: JsonKey.nullForUndefinedEnumValue),
-      raw: json['raw'] as bool?,
-      stream: json['stream'] as bool? ?? false,
-      keepAlive: json['keep_alive'] as int?,
+      think: json['think'] as bool?,
     );
 
-Map<String, dynamic> _$$GenerateCompletionRequestImplToJson(
-    _$GenerateCompletionRequestImpl instance) {
-  final val = <String, dynamic>{
-    'model': instance.model,
-    'prompt': instance.prompt,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('suffix', instance.suffix);
-  writeNotNull('images', instance.images);
-  writeNotNull('system', instance.system);
-  writeNotNull('template', instance.template);
-  writeNotNull('context', instance.context);
-  writeNotNull('options', instance.options?.toJson());
-  writeNotNull('format', _$ResponseFormatEnumMap[instance.format]);
-  writeNotNull('raw', instance.raw);
-  val['stream'] = instance.stream;
-  writeNotNull('keep_alive', instance.keepAlive);
-  return val;
-}
+Map<String, dynamic> _$GenerateCompletionRequestToJson(
+        _GenerateCompletionRequest instance) =>
+    <String, dynamic>{
+      'model': instance.model,
+      'prompt': instance.prompt,
+      if (instance.suffix case final value?) 'suffix': value,
+      if (instance.system case final value?) 'system': value,
+      if (instance.template case final value?) 'template': value,
+      if (instance.context case final value?) 'context': value,
+      'stream': instance.stream,
+      if (instance.raw case final value?) 'raw': value,
+      if (_$ResponseFormatEnumMap[instance.format] case final value?)
+        'format': value,
+      if (instance.keepAlive case final value?) 'keep_alive': value,
+      if (instance.images case final value?) 'images': value,
+      if (instance.options?.toJson() case final value?) 'options': value,
+      if (instance.think case final value?) 'think': value,
+    };
 
 const _$ResponseFormatEnumMap = {
   ResponseFormat.json: 'json',
 };
 
-_$RequestOptionsImpl _$$RequestOptionsImplFromJson(Map<String, dynamic> json) =>
-    _$RequestOptionsImpl(
-      numKeep: json['num_keep'] as int?,
-      seed: json['seed'] as int?,
-      numPredict: json['num_predict'] as int?,
-      topK: json['top_k'] as int?,
+_RequestOptions _$RequestOptionsFromJson(Map<String, dynamic> json) =>
+    _RequestOptions(
+      numKeep: (json['num_keep'] as num?)?.toInt(),
+      seed: (json['seed'] as num?)?.toInt(),
+      numPredict: (json['num_predict'] as num?)?.toInt(),
+      topK: (json['top_k'] as num?)?.toInt(),
       topP: (json['top_p'] as num?)?.toDouble(),
       minP: (json['min_p'] as num?)?.toDouble(),
       tfsZ: (json['tfs_z'] as num?)?.toDouble(),
       typicalP: (json['typical_p'] as num?)?.toDouble(),
-      repeatLastN: json['repeat_last_n'] as int?,
+      repeatLastN: (json['repeat_last_n'] as num?)?.toInt(),
       temperature: (json['temperature'] as num?)?.toDouble(),
       repeatPenalty: (json['repeat_penalty'] as num?)?.toDouble(),
       presencePenalty: (json['presence_penalty'] as num?)?.toDouble(),
       frequencyPenalty: (json['frequency_penalty'] as num?)?.toDouble(),
-      mirostat: json['mirostat'] as int?,
+      mirostat: (json['mirostat'] as num?)?.toInt(),
       mirostatTau: (json['mirostat_tau'] as num?)?.toDouble(),
       mirostatEta: (json['mirostat_eta'] as num?)?.toDouble(),
       penalizeNewline: json['penalize_newline'] as bool?,
       stop: (json['stop'] as List<dynamic>?)?.map((e) => e as String).toList(),
       numa: json['numa'] as bool?,
-      numCtx: json['num_ctx'] as int?,
-      numBatch: json['num_batch'] as int?,
-      numGpu: json['num_gpu'] as int?,
-      mainGpu: json['main_gpu'] as int?,
+      numCtx: (json['num_ctx'] as num?)?.toInt(),
+      numBatch: (json['num_batch'] as num?)?.toInt(),
+      numGpu: (json['num_gpu'] as num?)?.toInt(),
+      mainGpu: (json['main_gpu'] as num?)?.toInt(),
       lowVram: json['low_vram'] as bool?,
       f16Kv: json['f16_kv'] as bool?,
       logitsAll: json['logits_all'] as bool?,
       vocabOnly: json['vocab_only'] as bool?,
       useMmap: json['use_mmap'] as bool?,
       useMlock: json['use_mlock'] as bool?,
-      numThread: json['num_thread'] as int?,
+      numThread: (json['num_thread'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$$RequestOptionsImplToJson(
-    _$RequestOptionsImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$RequestOptionsToJson(_RequestOptions instance) =>
+    <String, dynamic>{
+      if (instance.numKeep case final value?) 'num_keep': value,
+      if (instance.seed case final value?) 'seed': value,
+      if (instance.numPredict case final value?) 'num_predict': value,
+      if (instance.topK case final value?) 'top_k': value,
+      if (instance.topP case final value?) 'top_p': value,
+      if (instance.minP case final value?) 'min_p': value,
+      if (instance.tfsZ case final value?) 'tfs_z': value,
+      if (instance.typicalP case final value?) 'typical_p': value,
+      if (instance.repeatLastN case final value?) 'repeat_last_n': value,
+      if (instance.temperature case final value?) 'temperature': value,
+      if (instance.repeatPenalty case final value?) 'repeat_penalty': value,
+      if (instance.presencePenalty case final value?) 'presence_penalty': value,
+      if (instance.frequencyPenalty case final value?)
+        'frequency_penalty': value,
+      if (instance.mirostat case final value?) 'mirostat': value,
+      if (instance.mirostatTau case final value?) 'mirostat_tau': value,
+      if (instance.mirostatEta case final value?) 'mirostat_eta': value,
+      if (instance.penalizeNewline case final value?) 'penalize_newline': value,
+      if (instance.stop case final value?) 'stop': value,
+      if (instance.numa case final value?) 'numa': value,
+      if (instance.numCtx case final value?) 'num_ctx': value,
+      if (instance.numBatch case final value?) 'num_batch': value,
+      if (instance.numGpu case final value?) 'num_gpu': value,
+      if (instance.mainGpu case final value?) 'main_gpu': value,
+      if (instance.lowVram case final value?) 'low_vram': value,
+      if (instance.f16Kv case final value?) 'f16_kv': value,
+      if (instance.logitsAll case final value?) 'logits_all': value,
+      if (instance.vocabOnly case final value?) 'vocab_only': value,
+      if (instance.useMmap case final value?) 'use_mmap': value,
+      if (instance.useMlock case final value?) 'use_mlock': value,
+      if (instance.numThread case final value?) 'num_thread': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('num_keep', instance.numKeep);
-  writeNotNull('seed', instance.seed);
-  writeNotNull('num_predict', instance.numPredict);
-  writeNotNull('top_k', instance.topK);
-  writeNotNull('top_p', instance.topP);
-  writeNotNull('min_p', instance.minP);
-  writeNotNull('tfs_z', instance.tfsZ);
-  writeNotNull('typical_p', instance.typicalP);
-  writeNotNull('repeat_last_n', instance.repeatLastN);
-  writeNotNull('temperature', instance.temperature);
-  writeNotNull('repeat_penalty', instance.repeatPenalty);
-  writeNotNull('presence_penalty', instance.presencePenalty);
-  writeNotNull('frequency_penalty', instance.frequencyPenalty);
-  writeNotNull('mirostat', instance.mirostat);
-  writeNotNull('mirostat_tau', instance.mirostatTau);
-  writeNotNull('mirostat_eta', instance.mirostatEta);
-  writeNotNull('penalize_newline', instance.penalizeNewline);
-  writeNotNull('stop', instance.stop);
-  writeNotNull('numa', instance.numa);
-  writeNotNull('num_ctx', instance.numCtx);
-  writeNotNull('num_batch', instance.numBatch);
-  writeNotNull('num_gpu', instance.numGpu);
-  writeNotNull('main_gpu', instance.mainGpu);
-  writeNotNull('low_vram', instance.lowVram);
-  writeNotNull('f16_kv', instance.f16Kv);
-  writeNotNull('logits_all', instance.logitsAll);
-  writeNotNull('vocab_only', instance.vocabOnly);
-  writeNotNull('use_mmap', instance.useMmap);
-  writeNotNull('use_mlock', instance.useMlock);
-  writeNotNull('num_thread', instance.numThread);
-  return val;
-}
-
-_$VersionResponseImpl _$$VersionResponseImplFromJson(
-        Map<String, dynamic> json) =>
-    _$VersionResponseImpl(
+_VersionResponse _$VersionResponseFromJson(Map<String, dynamic> json) =>
+    _VersionResponse(
       version: json['version'] as String?,
     );
 
-Map<String, dynamic> _$$VersionResponseImplToJson(
-    _$VersionResponseImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$VersionResponseToJson(_VersionResponse instance) =>
+    <String, dynamic>{
+      if (instance.version case final value?) 'version': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('version', instance.version);
-  return val;
-}
-
-_$GenerateCompletionResponseImpl _$$GenerateCompletionResponseImplFromJson(
+_GenerateCompletionResponse _$GenerateCompletionResponseFromJson(
         Map<String, dynamic> json) =>
-    _$GenerateCompletionResponseImpl(
+    _GenerateCompletionResponse(
       model: json['model'] as String?,
       createdAt: json['created_at'] as String?,
       response: json['response'] as String?,
+      thinking: json['thinking'] as String?,
       done: json['done'] as bool?,
-      context:
-          (json['context'] as List<dynamic>?)?.map((e) => e as int).toList(),
-      totalDuration: json['total_duration'] as int?,
-      loadDuration: json['load_duration'] as int?,
-      promptEvalCount: json['prompt_eval_count'] as int?,
-      promptEvalDuration: json['prompt_eval_duration'] as int?,
-      evalCount: json['eval_count'] as int?,
-      evalDuration: json['eval_duration'] as int?,
+      context: (json['context'] as List<dynamic>?)
+          ?.map((e) => (e as num).toInt())
+          .toList(),
+      totalDuration: (json['total_duration'] as num?)?.toInt(),
+      loadDuration: (json['load_duration'] as num?)?.toInt(),
+      promptEvalCount: (json['prompt_eval_count'] as num?)?.toInt(),
+      promptEvalDuration: (json['prompt_eval_duration'] as num?)?.toInt(),
+      evalCount: (json['eval_count'] as num?)?.toInt(),
+      evalDuration: (json['eval_duration'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$$GenerateCompletionResponseImplToJson(
-    _$GenerateCompletionResponseImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$GenerateCompletionResponseToJson(
+        _GenerateCompletionResponse instance) =>
+    <String, dynamic>{
+      if (instance.model case final value?) 'model': value,
+      if (instance.createdAt case final value?) 'created_at': value,
+      if (instance.response case final value?) 'response': value,
+      if (instance.thinking case final value?) 'thinking': value,
+      if (instance.done case final value?) 'done': value,
+      if (instance.context case final value?) 'context': value,
+      if (instance.totalDuration case final value?) 'total_duration': value,
+      if (instance.loadDuration case final value?) 'load_duration': value,
+      if (instance.promptEvalCount case final value?)
+        'prompt_eval_count': value,
+      if (instance.promptEvalDuration case final value?)
+        'prompt_eval_duration': value,
+      if (instance.evalCount case final value?) 'eval_count': value,
+      if (instance.evalDuration case final value?) 'eval_duration': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
+_GenerateChatCompletionRequest _$GenerateChatCompletionRequestFromJson(
+        Map<String, dynamic> json) =>
+    _GenerateChatCompletionRequest(
+      model: json['model'] as String,
+      messages: (json['messages'] as List<dynamic>)
+          .map((e) => Message.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      stream: json['stream'] as bool? ?? false,
+      format: $enumDecodeNullable(_$ResponseFormatEnumMap, json['format'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      keepAlive: (json['keep_alive'] as num?)?.toInt(),
+      tools: (json['tools'] as List<dynamic>?)
+          ?.map((e) => Tool.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      options: json['options'] == null
+          ? null
+          : RequestOptions.fromJson(json['options'] as Map<String, dynamic>),
+      think: json['think'] as bool?,
+    );
 
-  writeNotNull('model', instance.model);
-  writeNotNull('created_at', instance.createdAt);
-  writeNotNull('response', instance.response);
-  writeNotNull('done', instance.done);
-  writeNotNull('context', instance.context);
-  writeNotNull('total_duration', instance.totalDuration);
-  writeNotNull('load_duration', instance.loadDuration);
-  writeNotNull('prompt_eval_count', instance.promptEvalCount);
-  writeNotNull('prompt_eval_duration', instance.promptEvalDuration);
-  writeNotNull('eval_count', instance.evalCount);
-  writeNotNull('eval_duration', instance.evalDuration);
-  return val;
-}
+Map<String, dynamic> _$GenerateChatCompletionRequestToJson(
+        _GenerateChatCompletionRequest instance) =>
+    <String, dynamic>{
+      'model': instance.model,
+      'messages': instance.messages.map((e) => e.toJson()).toList(),
+      'stream': instance.stream,
+      if (_$ResponseFormatEnumMap[instance.format] case final value?)
+        'format': value,
+      if (instance.keepAlive case final value?) 'keep_alive': value,
+      if (instance.tools?.map((e) => e.toJson()).toList() case final value?)
+        'tools': value,
+      if (instance.options?.toJson() case final value?) 'options': value,
+      if (instance.think case final value?) 'think': value,
+    };
 
-_$GenerateChatCompletionRequestImpl
-    _$$GenerateChatCompletionRequestImplFromJson(Map<String, dynamic> json) =>
-        _$GenerateChatCompletionRequestImpl(
-          model: json['model'] as String,
-          messages: (json['messages'] as List<dynamic>)
-              .map((e) => Message.fromJson(e as Map<String, dynamic>))
-              .toList(),
-          format: $enumDecodeNullable(_$ResponseFormatEnumMap, json['format'],
-              unknownValue: JsonKey.nullForUndefinedEnumValue),
-          options: json['options'] == null
-              ? null
-              : RequestOptions.fromJson(
-                  json['options'] as Map<String, dynamic>),
-          stream: json['stream'] as bool? ?? false,
-          keepAlive: json['keep_alive'] as int?,
-          tools: (json['tools'] as List<dynamic>?)
-              ?.map((e) => Tool.fromJson(e as Map<String, dynamic>))
-              .toList(),
-        );
+_GenerateChatCompletionResponse _$GenerateChatCompletionResponseFromJson(
+        Map<String, dynamic> json) =>
+    _GenerateChatCompletionResponse(
+      message: Message.fromJson(json['message'] as Map<String, dynamic>),
+      model: json['model'] as String,
+      createdAt: json['created_at'] as String,
+      done: json['done'] as bool,
+      doneReason: $enumDecodeNullable(_$DoneReasonEnumMap, json['done_reason'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      totalDuration: (json['total_duration'] as num?)?.toInt(),
+      loadDuration: (json['load_duration'] as num?)?.toInt(),
+      promptEvalCount: (json['prompt_eval_count'] as num?)?.toInt(),
+      promptEvalDuration: (json['prompt_eval_duration'] as num?)?.toInt(),
+      evalCount: (json['eval_count'] as num?)?.toInt(),
+      evalDuration: (json['eval_duration'] as num?)?.toInt(),
+    );
 
-Map<String, dynamic> _$$GenerateChatCompletionRequestImplToJson(
-    _$GenerateChatCompletionRequestImpl instance) {
-  final val = <String, dynamic>{
-    'model': instance.model,
-    'messages': instance.messages.map((e) => e.toJson()).toList(),
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('format', _$ResponseFormatEnumMap[instance.format]);
-  writeNotNull('options', instance.options?.toJson());
-  val['stream'] = instance.stream;
-  writeNotNull('keep_alive', instance.keepAlive);
-  writeNotNull('tools', instance.tools?.map((e) => e.toJson()).toList());
-  return val;
-}
-
-_$GenerateChatCompletionResponseImpl
-    _$$GenerateChatCompletionResponseImplFromJson(Map<String, dynamic> json) =>
-        _$GenerateChatCompletionResponseImpl(
-          message: Message.fromJson(json['message'] as Map<String, dynamic>),
-          model: json['model'] as String,
-          createdAt: json['created_at'] as String,
-          done: json['done'] as bool,
-          doneReason: $enumDecodeNullable(
-              _$DoneReasonEnumMap, json['done_reason'],
-              unknownValue: JsonKey.nullForUndefinedEnumValue),
-          totalDuration: json['total_duration'] as int?,
-          loadDuration: json['load_duration'] as int?,
-          promptEvalCount: json['prompt_eval_count'] as int?,
-          promptEvalDuration: json['prompt_eval_duration'] as int?,
-          evalCount: json['eval_count'] as int?,
-          evalDuration: json['eval_duration'] as int?,
-        );
-
-Map<String, dynamic> _$$GenerateChatCompletionResponseImplToJson(
-    _$GenerateChatCompletionResponseImpl instance) {
-  final val = <String, dynamic>{
-    'message': instance.message.toJson(),
-    'model': instance.model,
-    'created_at': instance.createdAt,
-    'done': instance.done,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('done_reason', _$DoneReasonEnumMap[instance.doneReason]);
-  writeNotNull('total_duration', instance.totalDuration);
-  writeNotNull('load_duration', instance.loadDuration);
-  writeNotNull('prompt_eval_count', instance.promptEvalCount);
-  writeNotNull('prompt_eval_duration', instance.promptEvalDuration);
-  writeNotNull('eval_count', instance.evalCount);
-  writeNotNull('eval_duration', instance.evalDuration);
-  return val;
-}
+Map<String, dynamic> _$GenerateChatCompletionResponseToJson(
+        _GenerateChatCompletionResponse instance) =>
+    <String, dynamic>{
+      'message': instance.message.toJson(),
+      'model': instance.model,
+      'created_at': instance.createdAt,
+      'done': instance.done,
+      if (_$DoneReasonEnumMap[instance.doneReason] case final value?)
+        'done_reason': value,
+      if (instance.totalDuration case final value?) 'total_duration': value,
+      if (instance.loadDuration case final value?) 'load_duration': value,
+      if (instance.promptEvalCount case final value?)
+        'prompt_eval_count': value,
+      if (instance.promptEvalDuration case final value?)
+        'prompt_eval_duration': value,
+      if (instance.evalCount case final value?) 'eval_count': value,
+      if (instance.evalDuration case final value?) 'eval_duration': value,
+    };
 
 const _$DoneReasonEnumMap = {
   DoneReason.stop: 'stop',
@@ -288,10 +249,10 @@ const _$DoneReasonEnumMap = {
   DoneReason.load: 'load',
 };
 
-_$MessageImpl _$$MessageImplFromJson(Map<String, dynamic> json) =>
-    _$MessageImpl(
+_Message _$MessageFromJson(Map<String, dynamic> json) => _Message(
       role: $enumDecode(_$MessageRoleEnumMap, json['role']),
       content: json['content'] as String,
+      thinking: json['thinking'] as String?,
       images:
           (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
       toolCalls: (json['tool_calls'] as List<dynamic>?)
@@ -299,23 +260,14 @@ _$MessageImpl _$$MessageImplFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$$MessageImplToJson(_$MessageImpl instance) {
-  final val = <String, dynamic>{
-    'role': _$MessageRoleEnumMap[instance.role]!,
-    'content': instance.content,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('images', instance.images);
-  writeNotNull(
-      'tool_calls', instance.toolCalls?.map((e) => e.toJson()).toList());
-  return val;
-}
+Map<String, dynamic> _$MessageToJson(_Message instance) => <String, dynamic>{
+      'role': _$MessageRoleEnumMap[instance.role]!,
+      'content': instance.content,
+      if (instance.thinking case final value?) 'thinking': value,
+      if (instance.images case final value?) 'images': value,
+      if (instance.toolCalls?.map((e) => e.toJson()).toList() case final value?)
+        'tool_calls': value,
+    };
 
 const _$MessageRoleEnumMap = {
   MessageRole.system: 'system',
@@ -324,7 +276,7 @@ const _$MessageRoleEnumMap = {
   MessageRole.tool: 'tool',
 };
 
-_$ToolImpl _$$ToolImplFromJson(Map<String, dynamic> json) => _$ToolImpl(
+_Tool _$ToolFromJson(Map<String, dynamic> json) => _Tool(
       type: $enumDecodeNullable(_$ToolTypeEnumMap, json['type']) ??
           ToolType.function,
       function: json['function'] == null
@@ -332,127 +284,87 @@ _$ToolImpl _$$ToolImplFromJson(Map<String, dynamic> json) => _$ToolImpl(
           : ToolFunction.fromJson(json['function'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$ToolImplToJson(_$ToolImpl instance) {
-  final val = <String, dynamic>{
-    'type': _$ToolTypeEnumMap[instance.type]!,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('function', instance.function?.toJson());
-  return val;
-}
+Map<String, dynamic> _$ToolToJson(_Tool instance) => <String, dynamic>{
+      'type': _$ToolTypeEnumMap[instance.type]!,
+      if (instance.function?.toJson() case final value?) 'function': value,
+    };
 
 const _$ToolTypeEnumMap = {
   ToolType.function: 'function',
 };
 
-_$ToolFunctionImpl _$$ToolFunctionImplFromJson(Map<String, dynamic> json) =>
-    _$ToolFunctionImpl(
+_ToolFunction _$ToolFunctionFromJson(Map<String, dynamic> json) =>
+    _ToolFunction(
       name: json['name'] as String,
       description: json['description'] as String,
       parameters: json['parameters'] as Map<String, dynamic>,
     );
 
-Map<String, dynamic> _$$ToolFunctionImplToJson(_$ToolFunctionImpl instance) =>
+Map<String, dynamic> _$ToolFunctionToJson(_ToolFunction instance) =>
     <String, dynamic>{
       'name': instance.name,
       'description': instance.description,
       'parameters': instance.parameters,
     };
 
-_$ToolCallImpl _$$ToolCallImplFromJson(Map<String, dynamic> json) =>
-    _$ToolCallImpl(
+_ToolCall _$ToolCallFromJson(Map<String, dynamic> json) => _ToolCall(
       function: json['function'] == null
           ? null
           : ToolCallFunction.fromJson(json['function'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$ToolCallImplToJson(_$ToolCallImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$ToolCallToJson(_ToolCall instance) => <String, dynamic>{
+      if (instance.function?.toJson() case final value?) 'function': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('function', instance.function?.toJson());
-  return val;
-}
-
-_$ToolCallFunctionImpl _$$ToolCallFunctionImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ToolCallFunctionImpl(
+_ToolCallFunction _$ToolCallFunctionFromJson(Map<String, dynamic> json) =>
+    _ToolCallFunction(
       name: json['name'] as String,
       arguments: json['arguments'] as Map<String, dynamic>,
     );
 
-Map<String, dynamic> _$$ToolCallFunctionImplToJson(
-        _$ToolCallFunctionImpl instance) =>
+Map<String, dynamic> _$ToolCallFunctionToJson(_ToolCallFunction instance) =>
     <String, dynamic>{
       'name': instance.name,
       'arguments': instance.arguments,
     };
 
-_$GenerateEmbeddingRequestImpl _$$GenerateEmbeddingRequestImplFromJson(
+_GenerateEmbeddingRequest _$GenerateEmbeddingRequestFromJson(
         Map<String, dynamic> json) =>
-    _$GenerateEmbeddingRequestImpl(
+    _GenerateEmbeddingRequest(
       model: json['model'] as String,
       prompt: json['prompt'] as String,
       options: json['options'] == null
           ? null
           : RequestOptions.fromJson(json['options'] as Map<String, dynamic>),
-      keepAlive: json['keep_alive'] as int?,
+      keepAlive: (json['keep_alive'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$$GenerateEmbeddingRequestImplToJson(
-    _$GenerateEmbeddingRequestImpl instance) {
-  final val = <String, dynamic>{
-    'model': instance.model,
-    'prompt': instance.prompt,
-  };
+Map<String, dynamic> _$GenerateEmbeddingRequestToJson(
+        _GenerateEmbeddingRequest instance) =>
+    <String, dynamic>{
+      'model': instance.model,
+      'prompt': instance.prompt,
+      if (instance.options?.toJson() case final value?) 'options': value,
+      if (instance.keepAlive case final value?) 'keep_alive': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('options', instance.options?.toJson());
-  writeNotNull('keep_alive', instance.keepAlive);
-  return val;
-}
-
-_$GenerateEmbeddingResponseImpl _$$GenerateEmbeddingResponseImplFromJson(
+_GenerateEmbeddingResponse _$GenerateEmbeddingResponseFromJson(
         Map<String, dynamic> json) =>
-    _$GenerateEmbeddingResponseImpl(
+    _GenerateEmbeddingResponse(
       embedding: (json['embedding'] as List<dynamic>?)
           ?.map((e) => (e as num).toDouble())
           .toList(),
     );
 
-Map<String, dynamic> _$$GenerateEmbeddingResponseImplToJson(
-    _$GenerateEmbeddingResponseImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$GenerateEmbeddingResponseToJson(
+        _GenerateEmbeddingResponse instance) =>
+    <String, dynamic>{
+      if (instance.embedding case final value?) 'embedding': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('embedding', instance.embedding);
-  return val;
-}
-
-_$CreateModelRequestImpl _$$CreateModelRequestImplFromJson(
-        Map<String, dynamic> json) =>
-    _$CreateModelRequestImpl(
+_CreateModelRequest _$CreateModelRequestFromJson(Map<String, dynamic> json) =>
+    _CreateModelRequest(
       model: json['model'] as String,
       modelfile: json['modelfile'] as String,
       path: json['path'] as String?,
@@ -460,45 +372,27 @@ _$CreateModelRequestImpl _$$CreateModelRequestImplFromJson(
       stream: json['stream'] as bool? ?? false,
     );
 
-Map<String, dynamic> _$$CreateModelRequestImplToJson(
-    _$CreateModelRequestImpl instance) {
-  final val = <String, dynamic>{
-    'model': instance.model,
-    'modelfile': instance.modelfile,
-  };
+Map<String, dynamic> _$CreateModelRequestToJson(_CreateModelRequest instance) =>
+    <String, dynamic>{
+      'model': instance.model,
+      'modelfile': instance.modelfile,
+      if (instance.path case final value?) 'path': value,
+      if (instance.quantize case final value?) 'quantize': value,
+      'stream': instance.stream,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('path', instance.path);
-  writeNotNull('quantize', instance.quantize);
-  val['stream'] = instance.stream;
-  return val;
-}
-
-_$CreateModelResponseImpl _$$CreateModelResponseImplFromJson(
-        Map<String, dynamic> json) =>
-    _$CreateModelResponseImpl(
+_CreateModelResponse _$CreateModelResponseFromJson(Map<String, dynamic> json) =>
+    _CreateModelResponse(
       status: $enumDecodeNullable(_$CreateModelStatusEnumMap, json['status'],
           unknownValue: JsonKey.nullForUndefinedEnumValue),
     );
 
-Map<String, dynamic> _$$CreateModelResponseImplToJson(
-    _$CreateModelResponseImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('status', _$CreateModelStatusEnumMap[instance.status]);
-  return val;
-}
+Map<String, dynamic> _$CreateModelResponseToJson(
+        _CreateModelResponse instance) =>
+    <String, dynamic>{
+      if (_$CreateModelStatusEnumMap[instance.status] case final value?)
+        'status': value,
+    };
 
 const _$CreateModelStatusEnumMap = {
   CreateModelStatus.creatingSystemLayer: 'creating system layer',
@@ -506,56 +400,39 @@ const _$CreateModelStatusEnumMap = {
   CreateModelStatus.success: 'success',
 };
 
-_$ModelsResponseImpl _$$ModelsResponseImplFromJson(Map<String, dynamic> json) =>
-    _$ModelsResponseImpl(
+_ModelsResponse _$ModelsResponseFromJson(Map<String, dynamic> json) =>
+    _ModelsResponse(
       models: (json['models'] as List<dynamic>?)
           ?.map((e) => Model.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$$ModelsResponseImplToJson(
-    _$ModelsResponseImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$ModelsResponseToJson(_ModelsResponse instance) =>
+    <String, dynamic>{
+      if (instance.models?.map((e) => e.toJson()).toList() case final value?)
+        'models': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('models', instance.models?.map((e) => e.toJson()).toList());
-  return val;
-}
-
-_$ModelImpl _$$ModelImplFromJson(Map<String, dynamic> json) => _$ModelImpl(
+_Model _$ModelFromJson(Map<String, dynamic> json) => _Model(
       model: json['model'] as String?,
       modifiedAt: json['modified_at'] as String?,
-      size: json['size'] as int?,
+      size: (json['size'] as num?)?.toInt(),
       digest: json['digest'] as String?,
       details: json['details'] == null
           ? null
           : ModelDetails.fromJson(json['details'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$ModelImplToJson(_$ModelImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$ModelToJson(_Model instance) => <String, dynamic>{
+      if (instance.model case final value?) 'model': value,
+      if (instance.modifiedAt case final value?) 'modified_at': value,
+      if (instance.size case final value?) 'size': value,
+      if (instance.digest case final value?) 'digest': value,
+      if (instance.details?.toJson() case final value?) 'details': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('model', instance.model);
-  writeNotNull('modified_at', instance.modifiedAt);
-  writeNotNull('size', instance.size);
-  writeNotNull('digest', instance.digest);
-  writeNotNull('details', instance.details?.toJson());
-  return val;
-}
-
-_$ModelDetailsImpl _$$ModelDetailsImplFromJson(Map<String, dynamic> json) =>
-    _$ModelDetailsImpl(
+_ModelDetails _$ModelDetailsFromJson(Map<String, dynamic> json) =>
+    _ModelDetails(
       parentModel: json['parent_model'] as String?,
       format: json['format'] as String?,
       family: json['family'] as String?,
@@ -566,117 +443,98 @@ _$ModelDetailsImpl _$$ModelDetailsImplFromJson(Map<String, dynamic> json) =>
       quantizationLevel: json['quantization_level'] as String?,
     );
 
-Map<String, dynamic> _$$ModelDetailsImplToJson(_$ModelDetailsImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$ModelDetailsToJson(_ModelDetails instance) =>
+    <String, dynamic>{
+      if (instance.parentModel case final value?) 'parent_model': value,
+      if (instance.format case final value?) 'format': value,
+      if (instance.family case final value?) 'family': value,
+      if (instance.families case final value?) 'families': value,
+      if (instance.parameterSize case final value?) 'parameter_size': value,
+      if (instance.quantizationLevel case final value?)
+        'quantization_level': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('parent_model', instance.parentModel);
-  writeNotNull('format', instance.format);
-  writeNotNull('family', instance.family);
-  writeNotNull('families', instance.families);
-  writeNotNull('parameter_size', instance.parameterSize);
-  writeNotNull('quantization_level', instance.quantizationLevel);
-  return val;
-}
-
-_$ModelInformationImpl _$$ModelInformationImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ModelInformationImpl(
+_ModelInformation _$ModelInformationFromJson(Map<String, dynamic> json) =>
+    _ModelInformation(
       generalArchitecture: json['general.architecture'] as String?,
-      generalFileType: json['general.file_type'] as int?,
-      generalParameterCount: json['general.parameter_count'] as int?,
-      generalQuantizationVersion: json['general.quantization_version'] as int?,
+      generalFileType: (json['general.file_type'] as num?)?.toInt(),
+      generalParameterCount: (json['general.parameter_count'] as num?)?.toInt(),
+      generalQuantizationVersion:
+          (json['general.quantization_version'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$$ModelInformationImplToJson(
-    _$ModelInformationImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$ModelInformationToJson(_ModelInformation instance) =>
+    <String, dynamic>{
+      if (instance.generalArchitecture case final value?)
+        'general.architecture': value,
+      if (instance.generalFileType case final value?)
+        'general.file_type': value,
+      if (instance.generalParameterCount case final value?)
+        'general.parameter_count': value,
+      if (instance.generalQuantizationVersion case final value?)
+        'general.quantization_version': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
+_Tensor _$TensorFromJson(Map<String, dynamic> json) => _Tensor(
+      name: json['name'] as String?,
+      type: json['type'] as String?,
+      shape: (json['shape'] as List<dynamic>?)
+          ?.map((e) => (e as num).toInt())
+          .toList(),
+    );
 
-  writeNotNull('general.architecture', instance.generalArchitecture);
-  writeNotNull('general.file_type', instance.generalFileType);
-  writeNotNull('general.parameter_count', instance.generalParameterCount);
-  writeNotNull(
-      'general.quantization_version', instance.generalQuantizationVersion);
-  return val;
-}
+Map<String, dynamic> _$TensorToJson(_Tensor instance) => <String, dynamic>{
+      if (instance.name case final value?) 'name': value,
+      if (instance.type case final value?) 'type': value,
+      if (instance.shape case final value?) 'shape': value,
+    };
 
-_$ProcessResponseImpl _$$ProcessResponseImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ProcessResponseImpl(
+_ProcessResponse _$ProcessResponseFromJson(Map<String, dynamic> json) =>
+    _ProcessResponse(
       models: (json['models'] as List<dynamic>?)
           ?.map((e) => ProcessModel.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$$ProcessResponseImplToJson(
-    _$ProcessResponseImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$ProcessResponseToJson(_ProcessResponse instance) =>
+    <String, dynamic>{
+      if (instance.models?.map((e) => e.toJson()).toList() case final value?)
+        'models': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('models', instance.models?.map((e) => e.toJson()).toList());
-  return val;
-}
-
-_$ProcessModelImpl _$$ProcessModelImplFromJson(Map<String, dynamic> json) =>
-    _$ProcessModelImpl(
+_ProcessModel _$ProcessModelFromJson(Map<String, dynamic> json) =>
+    _ProcessModel(
       model: json['model'] as String?,
-      size: json['size'] as int?,
+      size: (json['size'] as num?)?.toInt(),
       digest: json['digest'] as String?,
       details: json['details'] == null
           ? null
           : ModelDetails.fromJson(json['details'] as Map<String, dynamic>),
       expiresAt: json['expires_at'] as String?,
-      sizeVram: json['size_vram'] as int?,
+      sizeVram: (json['size_vram'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$$ProcessModelImplToJson(_$ProcessModelImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$ProcessModelToJson(_ProcessModel instance) =>
+    <String, dynamic>{
+      if (instance.model case final value?) 'model': value,
+      if (instance.size case final value?) 'size': value,
+      if (instance.digest case final value?) 'digest': value,
+      if (instance.details?.toJson() case final value?) 'details': value,
+      if (instance.expiresAt case final value?) 'expires_at': value,
+      if (instance.sizeVram case final value?) 'size_vram': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('model', instance.model);
-  writeNotNull('size', instance.size);
-  writeNotNull('digest', instance.digest);
-  writeNotNull('details', instance.details?.toJson());
-  writeNotNull('expires_at', instance.expiresAt);
-  writeNotNull('size_vram', instance.sizeVram);
-  return val;
-}
-
-_$ModelInfoRequestImpl _$$ModelInfoRequestImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ModelInfoRequestImpl(
+_ModelInfoRequest _$ModelInfoRequestFromJson(Map<String, dynamic> json) =>
+    _ModelInfoRequest(
       model: json['model'] as String,
     );
 
-Map<String, dynamic> _$$ModelInfoRequestImplToJson(
-        _$ModelInfoRequestImpl instance) =>
+Map<String, dynamic> _$ModelInfoRequestToJson(_ModelInfoRequest instance) =>
     <String, dynamic>{
       'model': instance.model,
     };
 
-_$ModelInfoImpl _$$ModelInfoImplFromJson(Map<String, dynamic> json) =>
-    _$ModelInfoImpl(
+_ModelInfo _$ModelInfoFromJson(Map<String, dynamic> json) => _ModelInfo(
       license: json['license'] as String?,
       modelfile: json['modelfile'] as String?,
       parameters: json['parameters'] as String?,
@@ -685,64 +543,76 @@ _$ModelInfoImpl _$$ModelInfoImplFromJson(Map<String, dynamic> json) =>
       details: json['details'] == null
           ? null
           : ModelDetails.fromJson(json['details'] as Map<String, dynamic>),
+      messages: (json['messages'] as List<dynamic>?)
+          ?.map((e) => Message.fromJson(e as Map<String, dynamic>))
+          .toList(),
       modelInfo: json['model_info'] == null
           ? null
           : ModelInformation.fromJson(
               json['model_info'] as Map<String, dynamic>),
-      messages: (json['messages'] as List<dynamic>?)
-          ?.map((e) => Message.fromJson(e as Map<String, dynamic>))
+      projectorInfo: json['projector_info'] as Map<String, dynamic>?,
+      tensors: (json['tensors'] as List<dynamic>?)
+          ?.map((e) => Tensor.fromJson(e as Map<String, dynamic>))
           .toList(),
+      capabilities: (json['capabilities'] as List<dynamic>?)
+          ?.map((e) => $enumDecode(_$CapabilityEnumMap, e))
+          .toList(),
+      modifiedAt: json['modified_at'] as String?,
     );
 
-Map<String, dynamic> _$$ModelInfoImplToJson(_$ModelInfoImpl instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$ModelInfoToJson(_ModelInfo instance) =>
+    <String, dynamic>{
+      if (instance.license case final value?) 'license': value,
+      if (instance.modelfile case final value?) 'modelfile': value,
+      if (instance.parameters case final value?) 'parameters': value,
+      if (instance.template case final value?) 'template': value,
+      if (instance.system case final value?) 'system': value,
+      if (instance.details?.toJson() case final value?) 'details': value,
+      if (instance.messages?.map((e) => e.toJson()).toList() case final value?)
+        'messages': value,
+      if (instance.modelInfo?.toJson() case final value?) 'model_info': value,
+      if (instance.projectorInfo case final value?) 'projector_info': value,
+      if (instance.tensors?.map((e) => e.toJson()).toList() case final value?)
+        'tensors': value,
+      if (instance.capabilities?.map((e) => _$CapabilityEnumMap[e]!).toList()
+          case final value?)
+        'capabilities': value,
+      if (instance.modifiedAt case final value?) 'modified_at': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
+const _$CapabilityEnumMap = {
+  Capability.completion: 'completion',
+  Capability.tools: 'tools',
+  Capability.insert: 'insert',
+  Capability.vision: 'vision',
+  Capability.embedding: 'embedding',
+  Capability.thinking: 'thinking',
+};
 
-  writeNotNull('license', instance.license);
-  writeNotNull('modelfile', instance.modelfile);
-  writeNotNull('parameters', instance.parameters);
-  writeNotNull('template', instance.template);
-  writeNotNull('system', instance.system);
-  writeNotNull('details', instance.details?.toJson());
-  writeNotNull('model_info', instance.modelInfo?.toJson());
-  writeNotNull('messages', instance.messages?.map((e) => e.toJson()).toList());
-  return val;
-}
-
-_$CopyModelRequestImpl _$$CopyModelRequestImplFromJson(
-        Map<String, dynamic> json) =>
-    _$CopyModelRequestImpl(
+_CopyModelRequest _$CopyModelRequestFromJson(Map<String, dynamic> json) =>
+    _CopyModelRequest(
       source: json['source'] as String,
       destination: json['destination'] as String,
     );
 
-Map<String, dynamic> _$$CopyModelRequestImplToJson(
-        _$CopyModelRequestImpl instance) =>
+Map<String, dynamic> _$CopyModelRequestToJson(_CopyModelRequest instance) =>
     <String, dynamic>{
       'source': instance.source,
       'destination': instance.destination,
     };
 
-_$DeleteModelRequestImpl _$$DeleteModelRequestImplFromJson(
-        Map<String, dynamic> json) =>
-    _$DeleteModelRequestImpl(
+_DeleteModelRequest _$DeleteModelRequestFromJson(Map<String, dynamic> json) =>
+    _DeleteModelRequest(
       model: json['model'] as String,
     );
 
-Map<String, dynamic> _$$DeleteModelRequestImplToJson(
-        _$DeleteModelRequestImpl instance) =>
+Map<String, dynamic> _$DeleteModelRequestToJson(_DeleteModelRequest instance) =>
     <String, dynamic>{
       'model': instance.model,
     };
 
-_$PullModelRequestImpl _$$PullModelRequestImplFromJson(
-        Map<String, dynamic> json) =>
-    _$PullModelRequestImpl(
+_PullModelRequest _$PullModelRequestFromJson(Map<String, dynamic> json) =>
+    _PullModelRequest(
       model: json['model'] as String,
       insecure: json['insecure'] as bool? ?? false,
       username: json['username'] as String?,
@@ -750,51 +620,32 @@ _$PullModelRequestImpl _$$PullModelRequestImplFromJson(
       stream: json['stream'] as bool? ?? false,
     );
 
-Map<String, dynamic> _$$PullModelRequestImplToJson(
-    _$PullModelRequestImpl instance) {
-  final val = <String, dynamic>{
-    'model': instance.model,
-    'insecure': instance.insecure,
-  };
+Map<String, dynamic> _$PullModelRequestToJson(_PullModelRequest instance) =>
+    <String, dynamic>{
+      'model': instance.model,
+      'insecure': instance.insecure,
+      if (instance.username case final value?) 'username': value,
+      if (instance.password case final value?) 'password': value,
+      'stream': instance.stream,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('username', instance.username);
-  writeNotNull('password', instance.password);
-  val['stream'] = instance.stream;
-  return val;
-}
-
-_$PullModelResponseImpl _$$PullModelResponseImplFromJson(
-        Map<String, dynamic> json) =>
-    _$PullModelResponseImpl(
+_PullModelResponse _$PullModelResponseFromJson(Map<String, dynamic> json) =>
+    _PullModelResponse(
       status: $enumDecodeNullable(_$PullModelStatusEnumMap, json['status'],
           unknownValue: JsonKey.nullForUndefinedEnumValue),
       digest: json['digest'] as String?,
-      total: json['total'] as int?,
-      completed: json['completed'] as int?,
+      total: (json['total'] as num?)?.toInt(),
+      completed: (json['completed'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$$PullModelResponseImplToJson(
-    _$PullModelResponseImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('status', _$PullModelStatusEnumMap[instance.status]);
-  writeNotNull('digest', instance.digest);
-  writeNotNull('total', instance.total);
-  writeNotNull('completed', instance.completed);
-  return val;
-}
+Map<String, dynamic> _$PullModelResponseToJson(_PullModelResponse instance) =>
+    <String, dynamic>{
+      if (_$PullModelStatusEnumMap[instance.status] case final value?)
+        'status': value,
+      if (instance.digest case final value?) 'digest': value,
+      if (instance.total case final value?) 'total': value,
+      if (instance.completed case final value?) 'completed': value,
+    };
 
 const _$PullModelStatusEnumMap = {
   PullModelStatus.pullingManifest: 'pulling manifest',
@@ -805,9 +656,8 @@ const _$PullModelStatusEnumMap = {
   PullModelStatus.success: 'success',
 };
 
-_$PushModelRequestImpl _$$PushModelRequestImplFromJson(
-        Map<String, dynamic> json) =>
-    _$PushModelRequestImpl(
+_PushModelRequest _$PushModelRequestFromJson(Map<String, dynamic> json) =>
+    _PushModelRequest(
       model: json['model'] as String,
       insecure: json['insecure'] as bool? ?? false,
       username: json['username'] as String?,
@@ -815,47 +665,27 @@ _$PushModelRequestImpl _$$PushModelRequestImplFromJson(
       stream: json['stream'] as bool? ?? false,
     );
 
-Map<String, dynamic> _$$PushModelRequestImplToJson(
-    _$PushModelRequestImpl instance) {
-  final val = <String, dynamic>{
-    'model': instance.model,
-    'insecure': instance.insecure,
-  };
+Map<String, dynamic> _$PushModelRequestToJson(_PushModelRequest instance) =>
+    <String, dynamic>{
+      'model': instance.model,
+      'insecure': instance.insecure,
+      if (instance.username case final value?) 'username': value,
+      if (instance.password case final value?) 'password': value,
+      'stream': instance.stream,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('username', instance.username);
-  writeNotNull('password', instance.password);
-  val['stream'] = instance.stream;
-  return val;
-}
-
-_$PushModelResponseImpl _$$PushModelResponseImplFromJson(
-        Map<String, dynamic> json) =>
-    _$PushModelResponseImpl(
+_PushModelResponse _$PushModelResponseFromJson(Map<String, dynamic> json) =>
+    _PushModelResponse(
       status: json['status'] as String?,
       digest: json['digest'] as String?,
-      total: json['total'] as int?,
-      completed: json['completed'] as int?,
+      total: (json['total'] as num?)?.toInt(),
+      completed: (json['completed'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$$PushModelResponseImplToJson(
-    _$PushModelResponseImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('status', instance.status);
-  writeNotNull('digest', instance.digest);
-  writeNotNull('total', instance.total);
-  writeNotNull('completed', instance.completed);
-  return val;
-}
+Map<String, dynamic> _$PushModelResponseToJson(_PushModelResponse instance) =>
+    <String, dynamic>{
+      if (instance.status case final value?) 'status': value,
+      if (instance.digest case final value?) 'digest': value,
+      if (instance.total case final value?) 'total': value,
+      if (instance.completed case final value?) 'completed': value,
+    };

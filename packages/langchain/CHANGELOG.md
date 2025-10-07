@@ -1,6 +1,25 @@
-📣 Check out the [releases page](https://github.com/davidmigloz/langchain_dart/releases) or the [#announcements](https://discord.com/channels/1123158322812555295/1123250594644242534) channel on the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details.
+## 0.7.9
 
----
+ - Update a dependency to the latest release.
+ - **DOCS**: Remove Code Assist AI badge ([#752](https://github.com/davidmigloz/langchain_dart/issues/752)). ([dc0e70df](https://github.com/davidmigloz/langchain_dart/commit/dc0e70dfd9866267456b6caf0b76bf0cc646a425))
+
+## 0.7.8+1
+
+ - **BUILD**: Update dependencies ([#751](https://github.com/davidmigloz/langchain_dart/issues/751)). ([250a3c6](https://github.com/davidmigloz/langchain_dart/commit/250a3c6a6c1815703a61a142ba839c0392a31015))
+
+## 0.7.8
+
+ - **FEAT**: Implement Markdown text splitter ([#635](https://github.com/davidmigloz/langchain_dart/issues/635)). ([242e4be2](https://github.com/davidmigloz/langchain_dart/commit/242e4be227503f93120b209bca350ed6a055f362))
+ - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
+ - **FEAT**: Add to/fromMap serialization to ChatMessage, PromptValue & ChatHistory ([#681](https://github.com/davidmigloz/langchain_dart/issues/681)). ([d239c7c7](https://github.com/davidmigloz/langchain_dart/commit/d239c7c7b4a1504559e475466be7f176521a0473))
+ - **FIX**: Correctly calculate start_index when using chunkOverlap in TextSplitter ([#640](https://github.com/davidmigloz/langchain_dart/issues/640)). ([71dd5ac3](https://github.com/davidmigloz/langchain_dart/commit/71dd5ac31351d0ea45989c43a250a35668cb01b6))
+ - **FIX**: Fix linter issues ([#656](https://github.com/davidmigloz/langchain_dart/issues/656)). ([88a79c65](https://github.com/davidmigloz/langchain_dart/commit/88a79c65aad23bcf5859e58a7375a4b686cf02ef))
+ - **FIX**: Made apiKey optional for `TavilyAnswerTool` and `TavilySearchResultsTool` ([#646](https://github.com/davidmigloz/langchain_dart/issues/646)). ([5085ea4a](https://github.com/davidmigloz/langchain_dart/commit/5085ea4ad8b5cd072832e73afcbb7075a6375307))
+
+## 0.7.7+2
+
+ - **FEAT**: Add support for DirectoryLoader ([#620](https://github.com/davidmigloz/langchain_dart/issues/620)). ([4730f2a3](https://github.com/davidmigloz/langchain_dart/commit/4730f2a376b152ea38e5204125209ef01f29cab9))
+ - **REFACTOR**: Add new lint rules and fix issues ([#621](https://github.com/davidmigloz/langchain_dart/issues/621)). ([60b10e00](https://github.com/davidmigloz/langchain_dart/commit/60b10e008acf55ebab90789ad08d2449a44b69d8))
 
 ## 0.7.7+1
 

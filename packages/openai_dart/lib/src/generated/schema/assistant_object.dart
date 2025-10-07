@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Represents an `assistant` that can call the model and use tools.
 @freezed
-class AssistantObject with _$AssistantObject {
+abstract class AssistantObject with _$AssistantObject {
   const AssistantObject._();
 
   /// Factory constructor for AssistantObject
@@ -30,7 +30,9 @@ class AssistantObject with _$AssistantObject {
     /// The description of the assistant. The maximum length is 512 characters.
     required String? description,
 
-    /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
+    /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list)
+    /// API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models) for
+    /// descriptions of them.
     required String model,
 
     /// The system instructions that the assistant uses. The maximum length is 256,000 characters.
@@ -63,8 +65,8 @@ class AssistantObject with _$AssistantObject {
     @JsonKey(name: 'top_p', includeIfNull: false) @Default(1.0) double? topP,
 
     /// Specifies the format that the model must output. Compatible with
-    /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
-    /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+    /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
+    /// [GPT-4 Turbo](https://platform.openai.com/docs/models#gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
     /// since `gpt-3.5-turbo-1106`.
     ///
     /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures
@@ -189,8 +191,8 @@ enum AssistantResponseFormatMode {
 // ==========================================
 
 /// Specifies the format that the model must output. Compatible with
-/// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
-/// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+/// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
+/// [GPT-4 Turbo](https://platform.openai.com/docs/models#gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
 /// since `gpt-3.5-turbo-1106`.
 ///
 /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures

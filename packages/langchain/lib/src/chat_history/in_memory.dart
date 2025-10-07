@@ -19,6 +19,20 @@ final class ChatMessageHistory extends BaseChatMessageHistory {
     return Future.value(_messages.toList(growable: false));
   }
 
+  /// Convert the history to a map.
+  Map<String, dynamic> toMap() => {
+        'messages': _messages.map((message) => message.toMap()).toList(),
+      };
+
+  /// Convert the history from a map.
+  factory ChatMessageHistory.fromMap(Map<String, dynamic> map) =>
+      ChatMessageHistory(
+        messages: (map['messages'] as List<dynamic>)
+            .whereType<Map<String, dynamic>>()
+            .map(ChatMessage.fromMap)
+            .toList(),
+      );
+
   @override
   Future<void> addChatMessage(final ChatMessage message) async {
     _messages.add(message);

@@ -10,7 +10,7 @@ part of ollama_schema;
 
 /// Response class for the list models endpoint.
 @freezed
-class ModelsResponse with _$ModelsResponse {
+abstract class ModelsResponse with _$ModelsResponse {
   const ModelsResponse._();
 
   /// Factory constructor for ModelsResponse

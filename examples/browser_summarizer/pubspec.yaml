@@ -4,19 +4,20 @@ version: 1.0.0
 publish_to: none
 
 environment:
-  sdk: ">=3.4.0 <4.0.0"
+  sdk: ">=3.6.0 <4.0.0"
+resolution: workspace
 
 dependencies:
   flutter:
     sdk: flutter
-  equatable: ^2.0.5
-  flutter_bloc: ^8.1.6
-  flutter_markdown: ^0.7.3
-  js: ^0.7.1
-  langchain: ^0.7.7+1
-  langchain_community: 0.3.2+2
-  langchain_openai: ^0.7.2+5
-  shared_preferences: ^2.3.0
+  chrome_extension: ^0.4.0
+  equatable: ^2.0.7
+  flutter_bloc: ^9.1.1
+  flutter_markdown: ^0.7.7
+  langchain: ^0.7.9
+  langchain_community: 0.3.4+3
+  langchain_openai: ^0.7.6+2
+  shared_preferences: ^2.5.3
 
 flutter:
   uses-material-design: true

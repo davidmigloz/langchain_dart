@@ -149,7 +149,7 @@ print(res);
 
 However, the advantages of using these over raw string formatting are several. You can "partial" out variables - e.g. you can format only some of the variables at a time. You can compose them together, easily combining different templates into a single prompt. 
 <!-- For explanations of these functionalities, see the [prompts](/modules/model_io/prompts/prompts.md) for more detail. -->
-For specifics on how to use prompt templates, see the [relevant how-to guides here](/docs/how_to/#prompt-templates).
+For specifics on how to use prompt templates, see the [relevant how-to guides here](#prompt-templates).
 
 `PromptTemplates` can also be used to produce a list of messages. In this case, the prompt not only contains information about the content, but also each message (its role, its position in the list, etc) Here, what happens most often is a `ChatPromptTemplate` is a list of `ChatMessagePromptTemplates`. Each `ChatMessagePromptTemplate` contains instructions for how to format that `ChatMessage` - its role, and then also its content. Let's take a look at this below:
 
@@ -184,7 +184,7 @@ print(res);
 The information here refers to parsers that take a text output from a model try to parse it into a more structured representation.
 More and more models are supporting function (or tool) calling, which handles this automatically.
 It is recommended to use function/tool calling rather than output parsing.
-See documentation for that [here](/docs/concepts/#function-tool-calling).
+See documentation for that [here](/docs/how_to/#function-tool-calling).
 
 :::
 `OutputParsers` convert the raw output of an LLM into a format that can be used downstream. There are few main type of `OutputParsers`, including:

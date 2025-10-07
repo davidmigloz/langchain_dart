@@ -91,6 +91,21 @@ sealed class ChatMessage {
   /// {@macro chat_message}
   const ChatMessage();
 
+  /// Converts this ChatMessage to a map along with a type hint for deserialization.
+  Map<String, dynamic> toMap() => {};
+
+  /// Converts a map to a [ChatMessage]. Requires at least a type hint.
+  factory ChatMessage.fromMap(Map<String, dynamic> map) =>
+      switch (map['type']) {
+        'system' => SystemChatMessage.fromMap(map),
+        'human' => HumanChatMessage.fromMap(map),
+        'ai' => AIChatMessage.fromMap(map),
+        'tool' => ToolChatMessage.fromMap(map),
+        'custom' => CustomChatMessage.fromMap(map),
+        null => throw ArgumentError('Type is required'),
+        _ => throw UnimplementedError('Unknown type: ${map['type']}'),
+      };
+
   /// Type of message that is a system message.
   factory ChatMessage.system(final String content) =>
       SystemChatMessage(content: content);
@@ -169,11 +184,23 @@ class SystemChatMessage extends ChatMessage {
     required this.content,
   });
 
+  /// Converts a map to a [SystemChatMessage].
+  factory SystemChatMessage.fromMap(Map<String, dynamic> map) =>
+      SystemChatMessage(content: map['content'] as String);
+
+  /// Converts this ChatMessage to a map along with a type hint for deserialization.
+  @override
+  Map<String, dynamic> toMap() => {
+        ...super.toMap(),
+        'content': content,
+        'type': 'system',
+      };
+
   /// The content of the message.
   final String content;
 
   /// Default prefix for [SystemChatMessage].
-  static const String defaultPrefix = 'System';
+  static const defaultPrefix = 'System';
 
   @override
   bool operator ==(covariant final SystemChatMessage other) =>
@@ -209,11 +236,23 @@ class HumanChatMessage extends ChatMessage {
     required this.content,
   });
 
+  /// Converts a map to a [HumanChatMessage].
+  factory HumanChatMessage.fromMap(Map<String, dynamic> map) =>
+      HumanChatMessage(content: ChatMessageContent.fromMap(map['content']));
+
+  /// Converts this ChatMessage to a map along with a type hint for deserialization.
+  @override
+  Map<String, dynamic> toMap() => {
+        ...super.toMap(),
+        'content': content.toMap(),
+        'type': 'human',
+      };
+
   /// The content of the message.
   final ChatMessageContent content;
 
   /// Default prefix for [HumanChatMessage].
-  static const String defaultPrefix = 'Human';
+  static const defaultPrefix = 'Human';
 
   @override
   bool operator ==(covariant final HumanChatMessage other) =>
@@ -302,6 +341,24 @@ class AIChatMessage extends ChatMessage {
     this.toolCalls = const [],
   });
 
+  /// Converts a map to a [AIChatMessage].
+  factory AIChatMessage.fromMap(Map<String, dynamic> map) => AIChatMessage(
+        content: map['content'] as String,
+        toolCalls: (map['toolCalls'] as List<dynamic>)
+            .map((i) => i as Map<String, dynamic>)
+            .map(AIChatMessageToolCall.fromMap)
+            .toList(growable: false),
+      );
+
+  /// Converts this ChatMessage to a map along with a type hint for deserialization.
+  @override
+  Map<String, dynamic> toMap() => {
+        ...super.toMap(),
+        'content': content,
+        'toolCalls': toolCalls.map((t) => t.toMap()).toList(growable: false),
+        'type': 'ai',
+      };
+
   /// The content of the message.
   final String content;
 
@@ -310,7 +367,7 @@ class AIChatMessage extends ChatMessage {
   final List<AIChatMessageToolCall> toolCalls;
 
   /// Default prefix for [AIChatMessage].
-  static const String defaultPrefix = 'AI';
+  static const defaultPrefix = 'AI';
 
   @override
   bool operator ==(covariant final AIChatMessage other) {
@@ -422,6 +479,15 @@ class AIChatMessageToolCall {
     };
   }
 
+  /// Converts a map to a [AIChatMessageToolCall].
+  factory AIChatMessageToolCall.fromMap(Map<String, dynamic> map) =>
+      AIChatMessageToolCall(
+        id: map['id'] as String,
+        name: map['name'] as String,
+        argumentsRaw: map['argumentsRaw'] as String,
+        arguments: (map['arguments'] as Map<String, dynamic>?) ?? {},
+      );
+
   @override
   bool operator ==(covariant final AIChatMessageToolCall other) {
     final mapEquals = const DeepCollectionEquality().equals;
@@ -459,6 +525,21 @@ class ToolChatMessage extends ChatMessage {
     required this.content,
   });
 
+  /// Converts a map to a [ToolChatMessage].
+  factory ToolChatMessage.fromMap(Map<String, dynamic> map) => ToolChatMessage(
+        toolCallId: map['toolCallId'] as String,
+        content: map['content'] as String,
+      );
+
+  /// Converts this ChatMessage to a map along with a type hint for deserialization.
+  @override
+  Map<String, dynamic> toMap() => {
+        ...super.toMap(),
+        'content': content,
+        'toolCallId': toolCallId,
+        'type': 'tool',
+      };
+
   /// The id of the tool that was called.
   final String toolCallId;
 
@@ -466,7 +547,7 @@ class ToolChatMessage extends ChatMessage {
   final String content;
 
   /// Default prefix for [ToolChatMessage].
-  static const String defaultPrefix = 'Tool';
+  static const defaultPrefix = 'Tool';
 
   @override
   bool operator ==(covariant final ToolChatMessage other) =>
@@ -508,6 +589,22 @@ class CustomChatMessage extends ChatMessage {
     required this.content,
     required this.role,
   });
+
+  /// Converts a map to a [CustomChatMessage].
+  factory CustomChatMessage.fromMap(Map<String, dynamic> map) =>
+      CustomChatMessage(
+        content: map['content'] as String,
+        role: map['role'] as String,
+      );
+
+  /// Converts this ChatMessage to a map along with a type hint for deserialization.
+  @override
+  Map<String, dynamic> toMap() => {
+        ...super.toMap(),
+        'content': content,
+        'role': role,
+        'type': 'custom',
+      };
 
   /// The content of the message.
   final String content;
@@ -565,6 +662,18 @@ enum ChatMessageRole {
 sealed class ChatMessageContent {
   const ChatMessageContent();
 
+  /// Converts this ChatMessageContent to a map
+  Map<String, dynamic> toMap() => {};
+
+  factory ChatMessageContent.fromMap(Map<String, dynamic> map) =>
+      switch (map['type']) {
+        'text' => ChatMessageContentText.fromMap(map),
+        'image' => ChatMessageContentImage.fromMap(map),
+        'multi_modal' => ChatMessageContentMultiModal.fromMap(map),
+        null => throw ArgumentError('Type is required'),
+        _ => throw UnimplementedError('Unknown type: ${map['type']}'),
+      };
+
   /// The content of a message that is text.
   factory ChatMessageContent.text(final String text) =>
       ChatMessageContentText(text: text);
@@ -605,6 +714,19 @@ class ChatMessageContentText extends ChatMessageContent {
 
   /// The text content.
   final String text;
+
+  /// Converts a map to a [ChatMessageContentText].
+  factory ChatMessageContentText.fromMap(Map<String, dynamic> map) =>
+      ChatMessageContentText(text: map['content'] as String);
+
+  @override
+
+  /// Converts this ChatMessageContent to a map along with a type hint for deserialization.
+  Map<String, dynamic> toMap() => {
+        ...super.toMap(),
+        'type': 'text',
+        'content': text,
+      };
 
   @override
   bool operator ==(covariant final ChatMessageContentText other) =>
@@ -652,10 +774,33 @@ class ChatMessageContentImage extends ChatMessageContent {
   /// Specifies the detail level of the image.
   final ChatMessageContentImageDetail detail;
 
+  /// Converts a map to a [ChatMessageContentImage].
+  factory ChatMessageContentImage.fromMap(Map<String, dynamic> map) =>
+      ChatMessageContentImage(
+        data: map['data'] as String,
+        mimeType: map['mimeType'] as String?,
+        detail: ChatMessageContentImageDetail.values.firstWhere(
+          (i) => map['detail'] == i.name,
+          orElse: () => ChatMessageContentImageDetail.auto,
+        ),
+      );
+
+  /// Converts this ChatMessageContent to a map along with a type hint for deserialization.
+  @override
+  Map<String, dynamic> toMap() => {
+        ...super.toMap(),
+        'type': 'image',
+        'data': data,
+        'mimeType': mimeType,
+        'detail': detail.name,
+      };
+
   @override
   bool operator ==(covariant final ChatMessageContentImage other) =>
       identical(this, other) ||
-      data == other.data && data == other.data && detail == other.detail;
+      data == other.data &&
+          mimeType == other.mimeType &&
+          detail == other.detail;
 
   @override
   int get hashCode => data.hashCode ^ mimeType.hashCode ^ detail.hashCode;
@@ -683,6 +828,23 @@ class ChatMessageContentMultiModal extends ChatMessageContent {
           !parts.any((final p) => p is ChatMessageContentMultiModal),
           'Multi-modal messages cannot contain other multi-modal messages.',
         );
+
+  /// Converts a map to a [ChatMessageContentMultiModal].
+  factory ChatMessageContentMultiModal.fromMap(Map<String, dynamic> map) =>
+      ChatMessageContentMultiModal(
+        parts: (map['parts'] as List<dynamic>)
+            .whereType<Map<String, dynamic>>()
+            .map(ChatMessageContent.fromMap)
+            .toList(growable: false),
+      );
+
+  /// Converts [ChatMessageContentMultiModal] to a map along with a type hint for deserialization.
+  @override
+  Map<String, dynamic> toMap() => {
+        ...super.toMap(),
+        'type': 'multi_modal',
+        'parts': parts.map((p) => p.toMap()).toList(growable: false),
+      };
 
   /// The parts of the multi-modal message.
   final List<ChatMessageContent> parts;
@@ -728,12 +890,26 @@ sealed class ChatToolChoice {
   /// The model can pick between responding to the end-user or calling a tool.
   static const auto = ChatToolChoiceAuto();
 
-  /// The model must call at least one tool, but doesn’t force a particular tool.
+  /// The model must call at least one tool, but doesn't force a particular tool.
   static const required = ChatToolChoiceRequired();
 
   /// The model is forced to to call the specified tool.
   factory ChatToolChoice.forced({required final String name}) =>
       ChatToolChoiceForced(name: name);
+
+  /// Converts this ChatToolChoice to a map along with a type hint for deserialization.
+  Map<String, dynamic> toMap() => {};
+
+  /// Converts a map to a [ChatToolChoice]. Requires at least a type hint.
+  factory ChatToolChoice.fromMap(Map<String, dynamic> map) =>
+      switch (map['type']) {
+        'none' => ChatToolChoiceNone.fromMap(map),
+        'auto' => ChatToolChoiceAuto.fromMap(map),
+        'required' => ChatToolChoiceRequired.fromMap(map),
+        'forced' => ChatToolChoiceForced.fromMap(map),
+        null => throw ArgumentError('Type is required'),
+        _ => throw UnimplementedError('Unknown type: ${map['type']}'),
+      };
 }
 
 /// {@template chat_tool_choice_none}
@@ -742,6 +918,18 @@ sealed class ChatToolChoice {
 final class ChatToolChoiceNone extends ChatToolChoice {
   /// {@macro chat_tool_choice_none}
   const ChatToolChoiceNone();
+
+  /// Converts this ChatToolChoice to a map along with a type hint for deserialization.
+  @override
+  Map<String, dynamic> toMap() => {
+        ...super.toMap(),
+        'type': 'none',
+      };
+
+  /// Converts a map to a [ChatToolChoiceNone].
+  // ignore: avoid_unused_constructor_parameters
+  factory ChatToolChoiceNone.fromMap(Map<String, dynamic> map) =>
+      const ChatToolChoiceNone();
 }
 
 /// {@template chat_tool_choice_auto}
@@ -750,14 +938,38 @@ final class ChatToolChoiceNone extends ChatToolChoice {
 final class ChatToolChoiceAuto extends ChatToolChoice {
   /// {@macro chat_tool_choice_auto}
   const ChatToolChoiceAuto();
+
+  /// Converts this ChatToolChoice to a map along with a type hint for deserialization.
+  @override
+  Map<String, dynamic> toMap() => {
+        ...super.toMap(),
+        'type': 'auto',
+      };
+
+  /// Converts a map to a [ChatToolChoiceAuto].
+  // ignore: avoid_unused_constructor_parameters
+  factory ChatToolChoiceAuto.fromMap(Map<String, dynamic> map) =>
+      const ChatToolChoiceAuto();
 }
 
 /// {@template chat_tool_choice_required}
-/// The model must call at least one tool, but doesn’t force a particular tool.
+/// The model must call at least one tool, but doesn't force a particular tool.
 /// {@endtemplate}
 final class ChatToolChoiceRequired extends ChatToolChoice {
   /// {@macro chat_tool_choice_none}
   const ChatToolChoiceRequired();
+
+  /// Converts this ChatToolChoice to a map along with a type hint for deserialization.
+  @override
+  Map<String, dynamic> toMap() => {
+        ...super.toMap(),
+        'type': 'required',
+      };
+
+  /// Converts a map to a [ChatToolChoiceRequired].
+  // ignore: avoid_unused_constructor_parameters
+  factory ChatToolChoiceRequired.fromMap(Map<String, dynamic> map) =>
+      const ChatToolChoiceRequired();
 }
 
 /// {@template chat_tool_choice_forced}
@@ -772,6 +984,18 @@ final class ChatToolChoiceForced extends ChatToolChoice {
 
   /// The name of the tool to call.
   final String name;
+
+  /// Converts this ChatToolChoice to a map along with a type hint for deserialization.
+  @override
+  Map<String, dynamic> toMap() => {
+        ...super.toMap(),
+        'type': 'forced',
+        'name': name,
+      };
+
+  /// Converts a map to a [ChatToolChoiceForced].
+  factory ChatToolChoiceForced.fromMap(Map<String, dynamic> map) =>
+      ChatToolChoiceForced(name: map['name'] as String);
 
   @override
   bool operator ==(covariant final ChatToolChoiceForced other) =>

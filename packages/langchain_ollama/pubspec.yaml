@@ -1,10 +1,13 @@
 name: langchain_ollama
 description: LangChain.dart integration module for Ollama (run Llama 3.2, Gemma 2, Phi-3.5, Mistral nemo, Qwen2 and other models locally).
-version: 0.3.2+1
+version: 0.3.3+3
 repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/langchain_ollama
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues?q=label:p:langchain_ollama
 homepage: https://github.com/davidmigloz/langchain_dart
 documentation: https://langchaindart.dev
+
+funding:
+  - https://github.com/sponsors/davidmigloz
 
 topics:
   - ai
@@ -14,16 +17,18 @@ topics:
   - ollama
 
 environment:
-  sdk: ">=3.4.0 <4.0.0"
+  sdk: ">=3.6.0 <4.0.0"
+resolution: workspace
 
 dependencies:
-  collection: ^1.18.0
-  http: ^1.2.2
-  langchain_core: 0.3.6
+  collection: ^1.19.1
+  http: ^1.4.0
+  langchain_core: 0.3.9
   langchain_tiktoken: ^1.0.1
-  meta: ^1.11.0
-  ollama_dart: ^0.2.2
+  meta: ^1.16.0
+  ollama_dart: ^0.2.5
   uuid: ^4.5.1
 
 dev_dependencies:
-  test: ^1.25.8
+  langchain: ^0.7.9
+  test: ^1.25.15

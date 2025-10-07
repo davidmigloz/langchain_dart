@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// The delta containing the fields that have changed on the run step.
 @freezed
-class RunStepDelta with _$RunStepDelta {
+abstract class RunStepDelta with _$RunStepDelta {
   const RunStepDelta._();
 
   /// Factory constructor for RunStepDelta

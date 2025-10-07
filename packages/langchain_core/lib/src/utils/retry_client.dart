@@ -54,7 +54,7 @@ FutureOr<T> retryClient<T>({
 }) async {
   const defaultDelay = Duration(seconds: 1);
 
-  for (int attempt = 0; attempt < options.maxRetries; attempt++) {
+  for (var attempt = 0; attempt < options.maxRetries; attempt++) {
     try {
       return await fn();
     } catch (e) {

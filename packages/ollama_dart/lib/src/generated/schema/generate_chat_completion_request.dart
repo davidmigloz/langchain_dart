@@ -10,7 +10,8 @@ part of ollama_schema;
 
 /// Request class for the chat endpoint.
 @freezed
-class GenerateChatCompletionRequest with _$GenerateChatCompletionRequest {
+abstract class GenerateChatCompletionRequest
+    with _$GenerateChatCompletionRequest {
   const GenerateChatCompletionRequest._();
 
   /// Factory constructor for GenerateChatCompletionRequest
@@ -23,6 +24,9 @@ class GenerateChatCompletionRequest with _$GenerateChatCompletionRequest {
     /// The messages of the chat, this can be used to keep a chat memory
     required List<Message> messages,
 
+    /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
+    @Default(false) bool stream,
+
     /// The format to return a response in. Currently the only accepted value is json.
     ///
     /// Enable JSON mode by setting the format parameter to json. This will structure the response as valid JSON.
@@ -34,12 +38,6 @@ class GenerateChatCompletionRequest with _$GenerateChatCompletionRequest {
     )
     ResponseFormat? format,
 
-    /// Additional model parameters listed in the documentation for the Modelfile such as `temperature`.
-    @JsonKey(includeIfNull: false) RequestOptions? options,
-
-    /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
-    @Default(false) bool stream,
-
     /// How long (in minutes) to keep the model loaded in memory.
     ///
     /// - If set to a positive duration (e.g. 20), the model will stay loaded for the provided duration.
@@ -50,6 +48,15 @@ class GenerateChatCompletionRequest with _$GenerateChatCompletionRequest {
 
     /// A list of tools the model may call.
     @JsonKey(includeIfNull: false) List<Tool>? tools,
+
+    /// Additional model parameters listed in the documentation for the Modelfile such as `temperature`.
+    @JsonKey(includeIfNull: false) RequestOptions? options,
+
+    /// Think controls whether thinking/reasoning models will think before
+    /// responding. Needs to be a pointer so we can distinguish between false
+    /// (request that thinking _not_ be used) and unset (use the old behavior
+    /// before this option was introduced).
+    @JsonKey(includeIfNull: false) bool? think,
   }) = _GenerateChatCompletionRequest;
 
   /// Object construction from a JSON representation
@@ -60,11 +67,12 @@ class GenerateChatCompletionRequest with _$GenerateChatCompletionRequest {
   static const List<String> propertyNames = [
     'model',
     'messages',
-    'format',
-    'options',
     'stream',
+    'format',
     'keep_alive',
-    'tools'
+    'tools',
+    'options',
+    'think'
   ];
 
   /// Perform validations on the schema property values
@@ -77,11 +85,12 @@ class GenerateChatCompletionRequest with _$GenerateChatCompletionRequest {
     return {
       'model': model,
       'messages': messages,
-      'format': format,
-      'options': options,
       'stream': stream,
+      'format': format,
       'keep_alive': keepAlive,
       'tools': tools,
+      'options': options,
+      'think': think,
     };
   }
 }

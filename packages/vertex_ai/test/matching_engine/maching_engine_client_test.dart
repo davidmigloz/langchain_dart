@@ -32,7 +32,7 @@ void main() async {
         ),
       );
       // 2. Poll for operation completion (takes around 30min)
-      VertexAIOperation operation = res;
+      var operation = res;
       while (!operation.done) {
         print('Index creation operation not done yet...');
         await Future<void>.delayed(const Duration(seconds: 10));
@@ -51,7 +51,7 @@ void main() async {
         publicEndpointEnabled: true,
       );
       // 2. Poll for operation completion (takes around 10s)
-      VertexAIOperation operation = res;
+      var operation = res;
       while (!operation.done) {
         print('Index endpoint creation operation not done yet...');
         await Future<void>.delayed(const Duration(seconds: 10));
@@ -71,7 +71,7 @@ void main() async {
         deployedIndexDisplayName: 'test-deployed-index',
       );
       // 2. Poll for operation completion (takes around 30min)
-      VertexAIOperation operation = res;
+      var operation = res;
       while (!operation.done) {
         print('Index deployment operation not done yet...');
         await Future<void>.delayed(const Duration(seconds: 10));
@@ -167,7 +167,7 @@ void main() async {
   });
 }
 
-Future<AuthClient> _getAuthenticatedClient() async {
+Future<AuthClient> _getAuthenticatedClient() {
   final serviceAccountCredentials = ServiceAccountCredentials.fromJson(
     json.decode(Platform.environment['VERTEX_AI_SERVICE_ACCOUNT']!),
   );
@@ -177,7 +177,7 @@ Future<AuthClient> _getAuthenticatedClient() async {
   );
 }
 
-const _queryVector = [
+const List<double> _queryVector = [
   -0.0024800552055239677,
   0.011974085122346878,
   0.027945270761847496,

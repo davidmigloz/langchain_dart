@@ -7,6 +7,9 @@ homepage: https://github.com/davidmigloz/langchain_dart
 documentation: https://langchaindart.dev
 publish_to: none # Remove when the package is ready to be published
 
+funding:
+  - https://github.com/sponsors/davidmigloz
+
 topics:
   - ai
   - nlp
@@ -14,4 +17,5 @@ topics:
   - langchain
 
 environment:
-  sdk: ">=3.4.0 <4.0.0"
+  sdk: ">=3.6.0 <4.0.0"
+resolution: workspace

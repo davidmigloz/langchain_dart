@@ -10,7 +10,7 @@ part of anthropic_schema;
 
 /// A delta in a streaming message.
 @freezed
-class MessageDelta with _$MessageDelta {
+abstract class MessageDelta with _$MessageDelta {
   const MessageDelta._();
 
   /// Factory constructor for MessageDelta

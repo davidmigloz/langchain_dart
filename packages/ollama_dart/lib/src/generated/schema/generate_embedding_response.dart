@@ -10,7 +10,7 @@ part of ollama_schema;
 
 /// Returns the embedding information.
 @freezed
-class GenerateEmbeddingResponse with _$GenerateEmbeddingResponse {
+abstract class GenerateEmbeddingResponse with _$GenerateEmbeddingResponse {
   const GenerateEmbeddingResponse._();
 
   /// Factory constructor for GenerateEmbeddingResponse

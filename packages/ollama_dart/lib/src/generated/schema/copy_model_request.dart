@@ -10,7 +10,7 @@ part of ollama_schema;
 
 /// Request class for copying a model.
 @freezed
-class CopyModelRequest with _$CopyModelRequest {
+abstract class CopyModelRequest with _$CopyModelRequest {
   const CopyModelRequest._();
 
   /// Factory constructor for CopyModelRequest

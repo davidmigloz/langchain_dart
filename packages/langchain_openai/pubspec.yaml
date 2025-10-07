@@ -1,10 +1,13 @@
 name: langchain_openai
 description: LangChain.dart integration module for OpenAI (GPT-4o, o1, Embeddings, DALL·E, etc.).
-version: 0.7.2+5
+version: 0.7.6+2
 repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/langchain_openai
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues?q=label:p:langchain_openai
 homepage: https://github.com/davidmigloz/langchain_dart
 documentation: https://langchaindart.dev
+
+funding:
+  - https://github.com/sponsors/davidmigloz
 
 topics:
   - ai
@@ -14,18 +17,19 @@ topics:
   - gpt
 
 environment:
-  sdk: ">=3.4.0 <4.0.0"
+  sdk: ">=3.6.0 <4.0.0"
+resolution: workspace
 
 dependencies:
-  collection: ^1.18.0
-  http: ^1.2.2
-  langchain_core: 0.3.6
+  collection: ^1.19.1
+  http: ^1.4.0
+  langchain_core: 0.3.9
   langchain_tiktoken: ^1.0.1
-  meta: ^1.11.0
-  openai_dart: ^0.4.4
+  meta: ^1.16.0
+  openai_dart: ^0.5.5
   uuid: ^4.5.1
 
 dev_dependencies:
-  langchain: ^0.7.7+1
-  langchain_community: 0.3.2+2
-  test: ^1.25.8
+  langchain: ^0.7.9
+  langchain_community: 0.3.4+3
+  test: ^1.25.15

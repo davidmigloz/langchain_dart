@@ -10,19 +10,20 @@ part of open_a_i_schema;
 
 /// Usage statistics for the completion request.
 @freezed
-class CompletionUsage with _$CompletionUsage {
+abstract class CompletionUsage with _$CompletionUsage {
   const CompletionUsage._();
 
   /// Factory constructor for CompletionUsage
   const factory CompletionUsage({
     /// Number of tokens in the generated completion.
-    @JsonKey(name: 'completion_tokens') required int? completionTokens,
+    @JsonKey(name: 'completion_tokens', includeIfNull: false)
+    int? completionTokens,
 
     /// Number of tokens in the prompt.
-    @JsonKey(name: 'prompt_tokens') required int promptTokens,
+    @JsonKey(name: 'prompt_tokens', includeIfNull: false) int? promptTokens,
 
     /// Total number of tokens used in the request (prompt + completion).
-    @JsonKey(name: 'total_tokens') required int totalTokens,
+    @JsonKey(name: 'total_tokens', includeIfNull: false) int? totalTokens,
 
     /// Breakdown of tokens used in a completion.
     @JsonKey(name: 'completion_tokens_details', includeIfNull: false)

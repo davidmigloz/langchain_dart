@@ -366,10 +366,66 @@ class OpenAIClient {
   }
 
   // ------------------------------------------
+  // METHOD: listChatCompletions
+  // ------------------------------------------
+
+  /// List chat completions
+  ///
+  /// List stored Chat Completions. Only Chat Completions that have been stored
+  /// with the `store` parameter set to `true` will be returned.
+  ///
+  /// `model`: The model used to generate the Chat Completions.
+  ///
+  /// `metadata`: A list of metadata keys to filter the Chat Completions by. Example: `metadata[key1]=value1&metadata[key2]=value2`
+  ///
+  /// `after`: Identifier for the last chat completion from the previous pagination request.
+  ///
+  /// `limit`: Number of Chat Completions to retrieve.
+  ///
+  /// `order`: Sort order for Chat Completions by timestamp. Use `asc` for ascending order or `desc` for descending order. Defaults to `asc`.
+  ///
+  /// `GET` `https://api.openai.com/v1/chat/completions`
+  Future<ChatCompletionList> listChatCompletions({
+    String? model,
+    ChatCompletionMetadata? metadata,
+    String? after,
+    int limit = 20,
+    String order = 'asc',
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/chat/completions',
+      method: HttpMethod.get,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+      queryParams: {
+        if (model != null) 'model': model,
+        if (metadata != null) 'metadata': metadata,
+        if (after != null) 'after': after,
+        'limit': limit,
+        'order': order,
+      },
+    );
+    return ChatCompletionList.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
   // METHOD: createChatCompletion
   // ------------------------------------------
 
-  /// Creates a model response for the given chat conversation.
+  /// Create chat completion
+  ///
+  /// Creates a model response for the given chat conversation. Learn more in the
+  /// [text generation](https://platform.openai.com/docs/guides/text-generation),
+  /// [vision](https://platform.openai.com/docs/guides/vision), and
+  /// [audio](https://platform.openai.com/docs/guides/audio) guides.
+  ///
+  /// Parameter support can differ depending on the model used to generate the
+  /// response, particularly for newer reasoning models. Parameters that are only
+  /// supported for reasoning models are noted below. For the current state of
+  /// unsupported parameters in reasoning models,
+  /// [refer to the reasoning guide](https://platform.openai.com/docs/guides/reasoning).
   ///
   /// `request`: Request object for the Create chat completion endpoint.
   ///
@@ -393,6 +449,8 @@ class OpenAIClient {
   // METHOD: createCompletion
   // ------------------------------------------
 
+  /// Create completion
+  ///
   /// Creates a completion for the provided prompt and parameters.
   ///
   /// `request`: Request object for the Create completion endpoint.
@@ -417,6 +475,8 @@ class OpenAIClient {
   // METHOD: createEmbedding
   // ------------------------------------------
 
+  /// Create embeddings
+  ///
   /// Creates an embedding vector representing the input text.
   ///
   /// `request`: Request object for the Create embedding endpoint.
@@ -441,6 +501,8 @@ class OpenAIClient {
   // METHOD: listPaginatedFineTuningJobs
   // ------------------------------------------
 
+  /// List fine-tuning jobs
+  ///
   /// List your organization's fine-tuning jobs.
   ///
   /// `after`: Identifier for the last job from the previous pagination request.
@@ -471,7 +533,14 @@ class OpenAIClient {
   // METHOD: createFineTuningJob
   // ------------------------------------------
 
-  /// Creates a fine-tuning job which begins the process of creating a new model from a given dataset.  Response includes details of the enqueued job including job status and the name of the fine-tuned models once complete.  [Learn more about fine-tuning](https://platform.openai.com/docs/guides/fine-tuning).
+  /// Create fine-tuning job
+  ///
+  /// Creates a fine-tuning job which begins the process of creating a new model from a given dataset.
+  ///
+  /// Response includes details of the enqueued job including job status and the name of the fine-tuned models
+  /// once complete.
+  ///
+  /// [Learn more about fine-tuning](https://platform.openai.com/docs/guides/fine-tuning).
   ///
   /// `request`: Request object for the Create fine-tuning job endpoint.
   ///
@@ -495,7 +564,11 @@ class OpenAIClient {
   // METHOD: retrieveFineTuningJob
   // ------------------------------------------
 
-  /// Get info about a fine-tuning job.  [Learn more about fine-tuning](https://platform.openai.com/docs/guides/fine-tuning).
+  /// Retrieve fine-tuning job
+  ///
+  /// Get info about a fine-tuning job.
+  ///
+  /// [Learn more about fine-tuning](https://platform.openai.com/docs/guides/fine-tuning).
   ///
   /// `fineTuningJobId`: The ID of the fine-tuning job.
   ///
@@ -518,6 +591,8 @@ class OpenAIClient {
   // METHOD: listFineTuningEvents
   // ------------------------------------------
 
+  /// List fine-tuning events
+  ///
   /// Get status updates for a fine-tuning job.
   ///
   /// `fineTuningJobId`: The ID of the fine-tuning job to get events for.
@@ -551,6 +626,8 @@ class OpenAIClient {
   // METHOD: cancelFineTuningJob
   // ------------------------------------------
 
+  /// Cancel fine-tuning
+  ///
   /// Immediately cancel a fine-tune job.
   ///
   /// `fineTuningJobId`: The ID of the fine-tuning job to cancel.
@@ -574,6 +651,8 @@ class OpenAIClient {
   // METHOD: listFineTuningJobCheckpoints
   // ------------------------------------------
 
+  /// List fine-tuning checkpoints
+  ///
   /// List checkpoints for a fine-tuning job.
   ///
   /// `fineTuningJobId`: The ID of the fine-tuning job to get checkpoints for.
@@ -607,6 +686,8 @@ class OpenAIClient {
   // METHOD: createImage
   // ------------------------------------------
 
+  /// Create image
+  ///
   /// Creates an image given a prompt.
   ///
   /// `request`: Request object for the Create image endpoint.
@@ -631,7 +712,10 @@ class OpenAIClient {
   // METHOD: listModels
   // ------------------------------------------
 
-  /// Lists the currently available models, and provides basic information about each one such as the owner and availability.
+  /// List models
+  ///
+  /// Lists the currently available models, and provides basic information about each one such as the owner
+  /// and availability.
   ///
   /// `GET` `https://api.openai.com/v1/models`
   Future<ListModelsResponse> listModels() async {
@@ -650,7 +734,10 @@ class OpenAIClient {
   // METHOD: retrieveModel
   // ------------------------------------------
 
-  /// Retrieves a model instance, providing basic information about the model such as the owner and permissioning.
+  /// Retrieve model
+  ///
+  /// Retrieves a model instance, providing basic information about the model such as the owner
+  /// and permissioning.
   ///
   /// `model`: The ID of the model to use for this request
   ///
@@ -673,6 +760,8 @@ class OpenAIClient {
   // METHOD: deleteModel
   // ------------------------------------------
 
+  /// Delete a fine-tuned model
+  ///
   /// Delete a fine-tuned model. You must have the Owner role in your organization to delete a model.
   ///
   /// `model`: The model to delete
@@ -696,7 +785,10 @@ class OpenAIClient {
   // METHOD: createModeration
   // ------------------------------------------
 
-  /// Classifies if text is potentially harmful.
+  /// Create moderation
+  ///
+  /// Classifies if text and/or image inputs are potentially harmful. Learn
+  /// more in the [moderation guide](https://platform.openai.com/docs/guides/moderation).
   ///
   /// `request`: Request object for the Create moderation endpoint.
   ///
@@ -720,6 +812,8 @@ class OpenAIClient {
   // METHOD: listAssistants
   // ------------------------------------------
 
+  /// List assistants.
+  ///
   /// Returns a list of assistants.
   ///
   /// `limit`: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.
@@ -728,7 +822,7 @@ class OpenAIClient {
   ///
   /// `after`: A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.
   ///
-  /// `before`: A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list.
+  /// `before`: A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list.
   ///
   /// `GET` `https://api.openai.com/v1/assistants`
   Future<ListAssistantsResponse> listAssistants({
@@ -758,6 +852,8 @@ class OpenAIClient {
   // METHOD: createAssistant
   // ------------------------------------------
 
+  /// Create assistant
+  ///
   /// Create an assistant with a model and instructions.
   ///
   /// `request`: Request object for the Create assistant endpoint.
@@ -782,6 +878,8 @@ class OpenAIClient {
   // METHOD: getAssistant
   // ------------------------------------------
 
+  /// Retrieve assistant
+  ///
   /// Retrieves an assistant.
   ///
   /// `assistantId`: The ID of the assistant to retrieve.
@@ -805,6 +903,8 @@ class OpenAIClient {
   // METHOD: modifyAssistant
   // ------------------------------------------
 
+  /// Modify assistant
+  ///
   /// Modifies an assistant.
   ///
   /// `assistantId`: The ID of the assistant to modify.
@@ -832,6 +932,8 @@ class OpenAIClient {
   // METHOD: deleteAssistant
   // ------------------------------------------
 
+  /// Delete assistant
+  ///
   /// Delete an assistant.
   ///
   /// `assistantId`: The ID of the assistant to delete.
@@ -855,6 +957,8 @@ class OpenAIClient {
   // METHOD: createThread
   // ------------------------------------------
 
+  /// Create thread
+  ///
   /// Create a thread.
   ///
   /// `request`: Request object for the Create thread endpoint.
@@ -929,6 +1033,8 @@ class OpenAIClient {
   // METHOD: deleteThread
   // ------------------------------------------
 
+  /// Delete thread
+  ///
   /// Delete a thread.
   ///
   /// `threadId`: The ID of the thread to delete.
@@ -952,6 +1058,8 @@ class OpenAIClient {
   // METHOD: listThreadMessages
   // ------------------------------------------
 
+  /// List thread messages
+  ///
   /// Returns a list of messages for a given thread.
   ///
   /// `threadId`: The ID of the [thread](https://platform.openai.com/docs/api-reference/threads) the messages belong to.
@@ -962,7 +1070,7 @@ class OpenAIClient {
   ///
   /// `after`: A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.
   ///
-  /// `before`: A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list.
+  /// `before`: A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list.
   ///
   /// `runId`: Filter messages by the run ID that generated them.
   ///
@@ -997,6 +1105,8 @@ class OpenAIClient {
   // METHOD: createThreadMessage
   // ------------------------------------------
 
+  /// Create message
+  ///
   /// Create a message.
   ///
   /// `threadId`: The ID of the [thread](https://platform.openai.com/docs/api-reference/threads) to create a message for.
@@ -1024,6 +1134,8 @@ class OpenAIClient {
   // METHOD: getThreadMessage
   // ------------------------------------------
 
+  /// Retrieve message
+  ///
   /// Retrieve a message.
   ///
   /// `threadId`: The ID of the [thread](https://platform.openai.com/docs/api-reference/threads) to which this message belongs.
@@ -1050,6 +1162,8 @@ class OpenAIClient {
   // METHOD: modifyThreadMessage
   // ------------------------------------------
 
+  /// Modify message
+  ///
   /// Modifies a message.
   ///
   /// `threadId`: The ID of the thread to which this message belongs.
@@ -1080,6 +1194,8 @@ class OpenAIClient {
   // METHOD: deleteThreadMessage
   // ------------------------------------------
 
+  /// Delete message
+  ///
   /// Deletes a message.
   ///
   /// `threadId`: The ID of the thread to which this message belongs.
@@ -1106,6 +1222,8 @@ class OpenAIClient {
   // METHOD: createThreadAndRun
   // ------------------------------------------
 
+  /// Create thread and run
+  ///
   /// Create a thread and run it in one request.
   ///
   /// `request`: Request object for the Create thread and run endpoint.
@@ -1130,6 +1248,8 @@ class OpenAIClient {
   // METHOD: listThreadRuns
   // ------------------------------------------
 
+  /// List runs
+  ///
   /// Returns a list of runs belonging to a thread.
   ///
   /// `threadId`: The ID of the thread the run belongs to.
@@ -1140,7 +1260,7 @@ class OpenAIClient {
   ///
   /// `after`: A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.
   ///
-  /// `before`: A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list.
+  /// `before`: A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list.
   ///
   /// `GET` `https://api.openai.com/v1/threads/{thread_id}/runs`
   Future<ListRunsResponse> listThreadRuns({
@@ -1171,11 +1291,13 @@ class OpenAIClient {
   // METHOD: createThreadRun
   // ------------------------------------------
 
+  /// Create run
+  ///
   /// Create a run.
   ///
   /// `threadId`: The ID of the thread to run.
   ///
-  /// `include`: A list of additional fields to include in the response. Currently the only supported value is  `step_details.tool_calls[*].file_search.results[*].content` to fetch the file search result content.  See the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/customizing-file-search-settings)  for more information.
+  /// `include`: A list of additional fields to include in the response. Currently the only supported value is  `step_details.tool_calls[*].file_search.results[*].content` to fetch the file search result content.  See the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search#customizing-file-search-settings)  for more information.
   ///
   /// `request`: Request object for the Create run endpoint.
   ///
@@ -1204,6 +1326,8 @@ class OpenAIClient {
   // METHOD: getThreadRun
   // ------------------------------------------
 
+  /// Retrieve run
+  ///
   /// Retrieves a run.
   ///
   /// `threadId`: The ID of the [thread](https://platform.openai.com/docs/api-reference/threads) that was run.
@@ -1230,6 +1354,8 @@ class OpenAIClient {
   // METHOD: modifyThreadRun
   // ------------------------------------------
 
+  /// Modify run
+  ///
   /// Modifies a run.
   ///
   /// `threadId`: The ID of the [thread](https://platform.openai.com/docs/api-reference/threads) that was run.
@@ -1260,7 +1386,11 @@ class OpenAIClient {
   // METHOD: submitThreadToolOutputsToRun
   // ------------------------------------------
 
-  /// When a run has the `status: "requires_action"` and `required_action.type` is `submit_tool_outputs`, this endpoint can be used to submit the outputs from the tool calls once they're all completed. All outputs must be submitted in a single request.
+  /// Submit tool outputs to run
+  ///
+  /// When a run has the `status: "requires_action"` and `required_action.type` is `submit_tool_outputs`,
+  /// this endpoint can be used to submit the outputs from the tool calls once they're all completed.
+  /// All outputs must be submitted in a single request.
   ///
   /// `threadId`: The ID of the [thread](https://platform.openai.com/docs/api-reference/threads) to which this run belongs.
   ///
@@ -1290,6 +1420,8 @@ class OpenAIClient {
   // METHOD: cancelThreadRun
   // ------------------------------------------
 
+  /// Cancel a run
+  ///
   /// Cancels a run that is `in_progress`.
   ///
   /// `threadId`: The ID of the thread to which this run belongs.
@@ -1316,6 +1448,8 @@ class OpenAIClient {
   // METHOD: listThreadRunSteps
   // ------------------------------------------
 
+  /// List run steps
+  ///
   /// Returns a list of run steps belonging to a run.
   ///
   /// `threadId`: The ID of the thread the run and run steps belong to.
@@ -1328,9 +1462,9 @@ class OpenAIClient {
   ///
   /// `after`: A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.
   ///
-  /// `before`: A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list.
+  /// `before`: A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list.
   ///
-  /// `include`: A list of additional fields to include in the response. Currently the only supported value is  `step_details.tool_calls[*].file_search.results[*].content` to fetch the file search result content.  See the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/customizing-file-search-settings)  for more information.
+  /// `include`: A list of additional fields to include in the response. Currently the only supported value is  `step_details.tool_calls[*].file_search.results[*].content` to fetch the file search result content.  See the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search#customizing-file-search-settings)  for more information.
   ///
   /// `GET` `https://api.openai.com/v1/threads/{thread_id}/runs/{run_id}/steps`
   Future<ListRunStepsResponse> listThreadRunSteps({
@@ -1364,6 +1498,8 @@ class OpenAIClient {
   // METHOD: getThreadRunStep
   // ------------------------------------------
 
+  /// Retrieve run step
+  ///
   /// Retrieves a run step.
   ///
   /// `threadId`: The ID of the thread to which the run and run step belongs.
@@ -1372,7 +1508,7 @@ class OpenAIClient {
   ///
   /// `stepId`: The ID of the run step to retrieve.
   ///
-  /// `include`: A list of additional fields to include in the response. Currently the only supported value is  `step_details.tool_calls[*].file_search.results[*].content` to fetch the file search result content.  See the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search/customizing-file-search-settings)  for more information.
+  /// `include`: A list of additional fields to include in the response. Currently the only supported value is  `step_details.tool_calls[*].file_search.results[*].content` to fetch the file search result content.  See the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search#customizing-file-search-settings)  for more information.
   ///
   /// `GET` `https://api.openai.com/v1/threads/{thread_id}/runs/{run_id}/steps/{step_id}`
   Future<RunStepObject> getThreadRunStep({
@@ -1399,6 +1535,8 @@ class OpenAIClient {
   // METHOD: listVectorStores
   // ------------------------------------------
 
+  /// List vector stores
+  ///
   /// Returns a list of vector stores.
   ///
   /// `limit`: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.
@@ -1407,7 +1545,7 @@ class OpenAIClient {
   ///
   /// `after`: A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.
   ///
-  /// `before`: A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list.
+  /// `before`: A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list.
   ///
   /// `GET` `https://api.openai.com/v1/vector_stores`
   Future<ListVectorStoresResponse> listVectorStores({
@@ -1437,6 +1575,8 @@ class OpenAIClient {
   // METHOD: createVectorStore
   // ------------------------------------------
 
+  /// Create vector store
+  ///
   /// Create a vector store.
   ///
   /// `request`: Request object for the Create assistant file endpoint.
@@ -1461,6 +1601,8 @@ class OpenAIClient {
   // METHOD: getVectorStore
   // ------------------------------------------
 
+  /// Retrieve vector store
+  ///
   /// Retrieves a vector store.
   ///
   /// `vectorStoreId`: The ID of the vector store to retrieve.
@@ -1484,6 +1626,8 @@ class OpenAIClient {
   // METHOD: modifyVectorStore
   // ------------------------------------------
 
+  /// Modifies a vector store.
+  ///
   /// Modifies a vector store.
   ///
   /// `vectorStoreId`: The ID of the vector store to modify.
@@ -1511,6 +1655,8 @@ class OpenAIClient {
   // METHOD: deleteVectorStore
   // ------------------------------------------
 
+  /// Delete vector store
+  ///
   /// Delete a vector store.
   ///
   /// `vectorStoreId`: The ID of the vector store to delete.
@@ -1534,6 +1680,8 @@ class OpenAIClient {
   // METHOD: listVectorStoreFiles
   // ------------------------------------------
 
+  /// List vector store files
+  ///
   /// Returns a list of vector store files.
   ///
   /// `vectorStoreId`: The ID of the vector store that the files belong to.
@@ -1544,7 +1692,7 @@ class OpenAIClient {
   ///
   /// `after`: A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.
   ///
-  /// `before`: A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list.
+  /// `before`: A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list.
   ///
   /// `filter`: Filter by file status. One of `in_progress`, `completed`, `failed`, `cancelled`.
   ///
@@ -1579,7 +1727,10 @@ class OpenAIClient {
   // METHOD: createVectorStoreFile
   // ------------------------------------------
 
-  /// Create a vector store file by attaching a [File](https://platform.openai.com/docs/api-reference/files) to a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object).
+  /// Create vector store file
+  ///
+  /// Create a vector store file by attaching a [File](https://platform.openai.com/docs/api-reference/files)
+  /// to a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object).
   ///
   /// `vectorStoreId`: The ID of the vector store for which to create a File.
   ///
@@ -1606,6 +1757,8 @@ class OpenAIClient {
   // METHOD: getVectorStoreFile
   // ------------------------------------------
 
+  /// Retrieve vector store file
+  ///
   /// Retrieves a vector store file.
   ///
   /// `vectorStoreId`: The ID of the vector store that the file belongs to.
@@ -1632,7 +1785,11 @@ class OpenAIClient {
   // METHOD: deleteVectorStoreFile
   // ------------------------------------------
 
-  /// Delete a vector store file. This will remove the file from the vector store but the file itself will not be deleted. To delete the file, use the [delete file](https://platform.openai.com/docs/api-reference/files/delete) endpoint.
+  /// Delete vector store file
+  ///
+  /// Delete a vector store file. This will remove the file from the vector store but the file itself will
+  /// not be deleted. To delete the file, use the [delete file](https://platform.openai.com/docs/api-reference/files/delete)
+  /// endpoint.
   ///
   /// `vectorStoreId`: The ID of the vector store that the file belongs to.
   ///
@@ -1658,6 +1815,8 @@ class OpenAIClient {
   // METHOD: createVectorStoreFileBatch
   // ------------------------------------------
 
+  /// Create vector store file batch
+  ///
   /// Create a vector store file batch.
   ///
   /// `vectorStoreId`: The ID of the vector store for which to create a File Batch.
@@ -1685,6 +1844,8 @@ class OpenAIClient {
   // METHOD: getVectorStoreFileBatch
   // ------------------------------------------
 
+  /// Retrieve vector store file batch
+  ///
   /// Retrieves a vector store file batch.
   ///
   /// `vectorStoreId`: The ID of the vector store that the file batch belongs to.
@@ -1711,7 +1872,10 @@ class OpenAIClient {
   // METHOD: cancelVectorStoreFileBatch
   // ------------------------------------------
 
-  /// Cancel a vector store file batch. This attempts to cancel the processing of files in this batch as soon as possible.
+  /// Cancel vector store file batch
+  ///
+  /// Cancel a vector store file batch. This attempts to cancel the processing of files in this batch
+  /// as soon as possible.
   ///
   /// `vectorStoreId`: The ID of the vector store that the file batch belongs to.
   ///
@@ -1737,6 +1901,8 @@ class OpenAIClient {
   // METHOD: listFilesInVectorStoreBatch
   // ------------------------------------------
 
+  /// List vector store files in a batch
+  ///
   /// Returns a list of vector store files in a batch.
   ///
   /// `vectorStoreId`: The ID of the vector store that the files belong to.
@@ -1749,7 +1915,7 @@ class OpenAIClient {
   ///
   /// `after`: A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.
   ///
-  /// `before`: A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list.
+  /// `before`: A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list.
   ///
   /// `filter`: Filter by file status. One of `in_progress`, `completed`, `failed`, `cancelled`.
   ///
@@ -1785,6 +1951,8 @@ class OpenAIClient {
   // METHOD: listBatches
   // ------------------------------------------
 
+  /// List batch
+  ///
   /// List your organization's batches.
   ///
   /// `after`: A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.
@@ -1815,6 +1983,8 @@ class OpenAIClient {
   // METHOD: createBatch
   // ------------------------------------------
 
+  /// Create batch
+  ///
   /// Creates and executes a batch from an uploaded file of requests
   ///
   /// `request`: Represents a request to create a new batch.
@@ -1839,6 +2009,8 @@ class OpenAIClient {
   // METHOD: retrieveBatch
   // ------------------------------------------
 
+  /// Retrieve batch
+  ///
   /// Retrieves a batch.
   ///
   /// `batchId`: The ID of the batch to retrieve.
@@ -1862,7 +2034,10 @@ class OpenAIClient {
   // METHOD: cancelBatch
   // ------------------------------------------
 
-  /// Cancels an in-progress batch. The batch will be in status `cancelling` for up to 10 minutes, before changing to `cancelled`, where it will have partial results (if any) available in the output file.
+  /// Cancel batch
+  ///
+  /// Cancels an in-progress batch. The batch will be in status `cancelling` for up to 10 minutes, before changing
+  /// to `cancelled`, where it will have partial results (if any) available in the output file.
   ///
   /// `batchId`: The ID of the batch to cancel.
   ///

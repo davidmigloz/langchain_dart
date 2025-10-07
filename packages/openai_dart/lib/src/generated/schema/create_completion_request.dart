@@ -10,12 +10,14 @@ part of open_a_i_schema;
 
 /// Request object for the Create completion endpoint.
 @freezed
-class CreateCompletionRequest with _$CreateCompletionRequest {
+abstract class CreateCompletionRequest with _$CreateCompletionRequest {
   const CreateCompletionRequest._();
 
   /// Factory constructor for CreateCompletionRequest
   const factory CreateCompletionRequest({
-    /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
+    /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list)
+    /// API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models) for
+    /// descriptions of them.
     @_CompletionModelConverter() required CompletionModel model,
 
     /// The prompt(s) to generate completions for, encoded as a string, array of strings, array of tokens, or array of token arrays.
@@ -33,12 +35,10 @@ class CreateCompletionRequest with _$CreateCompletionRequest {
     /// Echo back the prompt in addition to the completion
     @JsonKey(includeIfNull: false) @Default(false) bool? echo,
 
-    /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the
-    /// text so far, decreasing the model's likelihood to repeat the same line verbatim.
-    ///
-    /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
+    /// Number between -2.0 and 2.0. Positive values penalize new tokens based on
+    /// their existing frequency in the text so far, decreasing the model's
+    /// likelihood to repeat the same line verbatim.
     @JsonKey(name: 'frequency_penalty', includeIfNull: false)
-    @Default(0.0)
     double? frequencyPenalty,
 
     /// Modify the likelihood of specified tokens appearing in the completion.
@@ -64,13 +64,12 @@ class CreateCompletionRequest with _$CreateCompletionRequest {
     /// How many completions to generate for each prompt.
     ///
     /// **Note:** Because this parameter generates many completions, it can quickly consume your token quota. Use carefully and ensure that you have reasonable settings for `max_tokens` and `stop`.
-    @JsonKey(includeIfNull: false) @Default(1) int? n,
+    @JsonKey(includeIfNull: false) int? n,
 
-    /// Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
-    ///
-    /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
+    /// Number between -2.0 and 2.0. Positive values penalize new tokens based on
+    /// whether they appear in the text so far, increasing the model's likelihood
+    /// to talk about new topics.
     @JsonKey(name: 'presence_penalty', includeIfNull: false)
-    @Default(0.0)
     double? presencePenalty,
 
     /// If specified, our system will make a best effort to sample deterministically, such that repeated requests with the same `seed` and parameters should return the same result.
@@ -98,14 +97,17 @@ class CreateCompletionRequest with _$CreateCompletionRequest {
     /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
     ///
     /// We generally recommend altering this or `top_p` but not both.
-    @JsonKey(includeIfNull: false) @Default(1.0) double? temperature,
+    @JsonKey(includeIfNull: false) double? temperature,
 
-    /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+    /// An alternative to sampling with temperature, called nucleus sampling,
+    /// where the model considers the results of the tokens with top_p probability
+    /// mass. So 0.1 means only the tokens comprising the top 10% probability mass
+    /// are considered.
     ///
     /// We generally recommend altering this or `temperature` but not both.
-    @JsonKey(name: 'top_p', includeIfNull: false) @Default(1.0) double? topP,
+    @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
 
-    /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).
+    /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#end-user-ids).
     @JsonKey(includeIfNull: false) String? user,
   }) = _CreateCompletionRequest;
 
@@ -138,23 +140,18 @@ class CreateCompletionRequest with _$CreateCompletionRequest {
   /// Validation constants
   static const bestOfMinValue = 0;
   static const bestOfMaxValue = 20;
-  static const frequencyPenaltyDefaultValue = 0.0;
   static const frequencyPenaltyMinValue = -2.0;
   static const frequencyPenaltyMaxValue = 2.0;
   static const logprobsMinValue = 0;
   static const logprobsMaxValue = 5;
   static const maxTokensDefaultValue = 16;
   static const maxTokensMinValue = 0;
-  static const nDefaultValue = 1;
   static const nMinValue = 1;
   static const nMaxValue = 128;
-  static const presencePenaltyDefaultValue = 0.0;
   static const presencePenaltyMinValue = -2.0;
   static const presencePenaltyMaxValue = 2.0;
-  static const temperatureDefaultValue = 1.0;
   static const temperatureMinValue = 0.0;
   static const temperatureMaxValue = 2.0;
-  static const topPDefaultValue = 1.0;
   static const topPMinValue = 0.0;
   static const topPMaxValue = 1.0;
 
@@ -253,7 +250,9 @@ enum CompletionModels {
 // CLASS: CompletionModel
 // ==========================================
 
-/// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
+/// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list)
+/// API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models) for
+/// descriptions of them.
 @freezed
 sealed class CompletionModel with _$CompletionModel {
   const CompletionModel._();

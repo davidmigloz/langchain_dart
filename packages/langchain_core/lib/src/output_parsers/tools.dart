@@ -89,7 +89,7 @@ class ToolsOutputParser extends BaseOutputParser<ChatResult,
   Future<List<ParsedToolCall>> invoke(
     final ChatResult input, {
     final OutputParserOptions? options,
-  }) async {
+  }) {
     return _parseInvoke(input, options: options);
   }
 
@@ -144,7 +144,7 @@ class ToolsOutputParser extends BaseOutputParser<ChatResult,
     List<ParsedToolCall> fallback = const [],
   }) {
     final List<ParsedToolCall> output = [];
-    for (int i = 0; i < (toolCalls?.length ?? 0); i++) {
+    for (var i = 0; i < (toolCalls?.length ?? 0); i++) {
       final toolCall = toolCalls![i];
       final arguments = toolCall.arguments.isNotEmpty
           ? toolCall.arguments

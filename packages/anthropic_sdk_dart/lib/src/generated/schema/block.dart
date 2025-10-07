@@ -18,6 +18,8 @@ sealed class Block with _$Block {
   // ------------------------------------------
 
   /// A block of text content.
+
+  @FreezedUnionValue('text')
   const factory Block.text({
     /// The text content.
     required String text,
@@ -35,6 +37,8 @@ sealed class Block with _$Block {
   // ------------------------------------------
 
   /// A block of image content.
+
+  @FreezedUnionValue('image')
   const factory Block.image({
     /// The source of an image block.
     required ImageBlockSource source,
@@ -52,6 +56,8 @@ sealed class Block with _$Block {
   // ------------------------------------------
 
   /// The tool the model wants to use.
+
+  @FreezedUnionValue('tool_use')
   const factory Block.toolUse({
     /// A unique identifier for this particular tool use block.
     /// This will be used to match up the tool results later.
@@ -76,6 +82,8 @@ sealed class Block with _$Block {
   // ------------------------------------------
 
   /// The result of using a tool.
+
+  @FreezedUnionValue('tool_result')
   const factory Block.toolResult({
     /// The `id` of the tool use request this is a result for.
     @JsonKey(name: 'tool_use_id') required String toolUseId,

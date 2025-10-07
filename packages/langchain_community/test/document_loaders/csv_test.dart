@@ -1,10 +1,12 @@
+// ignore_for_file: unnecessary_async
+
 import 'package:langchain_community/langchain_community.dart';
 import 'package:langchain_core/documents.dart';
 import 'package:test/test.dart';
 
 void main() {
   group('CsvLoader tests', () {
-    test('Test that a csv file can be loaded', () async {
+    test('Test that a csv file can be loaded', () {
       const filePath = './test/document_loaders/assets/example_1.csv';
 
       const expectedDoc = Document(
@@ -23,7 +25,7 @@ void main() {
       );
     });
 
-    test('Test field names override', () async {
+    test('Test field names override', () {
       const filePath = './test/document_loaders/assets/example_2.csv';
 
       final loader = CsvLoader(
@@ -67,7 +69,7 @@ void main() {
       );
     });
 
-    test('Test extracting field', () async {
+    test('Test extracting field', () {
       const filePath = './test/document_loaders/assets/example_2.csv';
 
       final loader = CsvLoader(
@@ -86,7 +88,7 @@ void main() {
       );
     });
 
-    test('Test extracting field and override name', () async {
+    test('Test extracting field and override name', () {
       const filePath = './test/document_loaders/assets/example_2.csv';
 
       final loader = CsvLoader(
@@ -106,7 +108,7 @@ void main() {
       );
     });
 
-    test('test invalid column throws exception', () async {
+    test('test invalid column throws exception', () {
       const filePath = './test/document_loaders/assets/example_2.csv';
 
       final loader = CsvLoader(
@@ -117,7 +119,7 @@ void main() {
       expect(() async => loader.load(), throwsA(isA<AssertionError>()));
     });
 
-    test('test custom source metadata', () async {
+    test('test custom source metadata', () {
       const filePath = './test/document_loaders/assets/example_2.csv';
 
       final loader = CsvLoader(
@@ -145,7 +147,7 @@ void main() {
       );
     });
 
-    test('Test metadata builder', () async {
+    test('Test metadata builder', () {
       const filePath = './test/document_loaders/assets/example_2.csv';
 
       final loader = CsvLoader(
@@ -169,7 +171,7 @@ void main() {
       );
     });
 
-    test('Test TSV file', () async {
+    test('Test TSV file', () {
       const filePath = './test/document_loaders/assets/example_2.tsv';
 
       final loader = CsvLoader(

@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_async
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
@@ -30,11 +32,13 @@ class RealtimeClient extends RealtimeEventHandler {
   RealtimeClient({
     final String url = 'wss://api.openai.com/v1/realtime',
     final String? apiKey,
+    final Map<String, String>? headers,
     final bool debug = false,
     final bool dangerouslyAllowAPIKeyInBrowser = true,
   })  : realtime = RealtimeAPI(
           url: url,
           apiKey: apiKey,
+          headers: headers,
           debug: debug,
           dangerouslyAllowAPIKeyInBrowser: dangerouslyAllowAPIKeyInBrowser,
         ),
@@ -90,7 +94,7 @@ class RealtimeClient extends RealtimeEventHandler {
         ((e) async => dispatch(RealtimeEventType.all, e)),
       );
 
-    FutureOr<EventHandlerResult> handler(
+    Future<EventHandlerResult> handler(
       RealtimeEvent event, [
       dynamic args,
     ]) async {
@@ -227,7 +231,22 @@ class RealtimeClient extends RealtimeEventHandler {
         ),
       );
     }
-    await createResponse();
+    ResponseConfig? responseConfig;
+    final tc = sessionConfig.toolChoice;
+    if (tc != null) {
+      tc.mapOrNull(
+        mode: (m) {
+          if (m.value == SessionConfigToolChoiceMode.required) {
+            responseConfig = const ResponseConfig(
+              toolChoice: ResponseConfigToolChoice.mode(
+                ResponseConfigToolChoiceMode.auto,
+              ),
+            );
+          }
+        },
+      );
+    }
+    await createResponse(responseConfig: responseConfig);
   }
 
   /// Tells us whether the realtime socket is connected and the session has
@@ -245,11 +264,16 @@ class RealtimeClient extends RealtimeEventHandler {
 
   /// Connects to the Realtime WebSocket API.
   /// Updates session config and conversation config.
-  Future<bool> connect() async {
+  ///
+  /// [model] specifies which model to use. You can find the list of available
+  /// models [here](https://platform.openai.com/docs/models).
+  Future<bool> connect({
+    final String model = RealtimeUtils.defaultModel,
+  }) async {
     if (isConnected()) {
       throw Exception('Already connected, use .disconnect() first');
     }
-    final connected = await realtime.connect();
+    final connected = await realtime.connect(model: model);
     if (connected) {
       await updateSession();
     }
@@ -319,6 +343,19 @@ class RealtimeClient extends RealtimeEventHandler {
     return true;
   }
 
+  /// A sentinel value for turn detection to indicate that the turn detection
+  /// should not be updated.
+  /// That is because `null` is a valid value to disable turn detection, and in dart we
+  /// can't tell if the value is `null` or not provided.
+  /// As reference, in the javascript implementation, `undefined` is used for that:
+  /// https://github.com/openai/openai-realtime-api-beta//blob/main/lib/client.js#L507-L508
+  static const _turnDetectionSentinelValue = TurnDetection(
+    type: TurnDetectionType.serverVad,
+    threshold: -1,
+    prefixPaddingMs: -1,
+    silenceDurationMs: -1,
+  );
+
   /// Updates session configuration.
   /// If the client is not yet connected, will save details and instantiate
   /// upon connection.
@@ -329,7 +366,7 @@ class RealtimeClient extends RealtimeEventHandler {
     AudioFormat? inputAudioFormat,
     AudioFormat? outputAudioFormat,
     InputAudioTranscriptionConfig? inputAudioTranscription,
-    TurnDetection? turnDetection,
+    TurnDetection? turnDetection = _turnDetectionSentinelValue,
     List<ToolDefinition>? tools,
     SessionConfigToolChoice? toolChoice,
     double? temperature,
@@ -349,7 +386,9 @@ class RealtimeClient extends RealtimeEventHandler {
       outputAudioFormat: outputAudioFormat ?? sessionConfig.outputAudioFormat,
       inputAudioTranscription:
           inputAudioTranscription ?? sessionConfig.inputAudioTranscription,
-      turnDetection: turnDetection ?? sessionConfig.turnDetection,
+      turnDetection: turnDetection == _turnDetectionSentinelValue
+          ? sessionConfig.turnDetection
+          : turnDetection,
       tools: useTools,
       toolChoice: toolChoice ?? sessionConfig.toolChoice,
       temperature: temperature ?? sessionConfig.temperature,
@@ -401,7 +440,7 @@ class RealtimeClient extends RealtimeEventHandler {
   }
 
   /// Forces a model response generation.
-  Future<bool> createResponse() async {
+  Future<bool> createResponse({ResponseConfig? responseConfig}) async {
     if (getTurnDetectionType() == null && inputAudioBuffer.isNotEmpty) {
       await realtime.send(
         RealtimeEvent.inputAudioBufferCommit(
@@ -414,6 +453,7 @@ class RealtimeClient extends RealtimeEventHandler {
     await realtime.send(
       RealtimeEvent.responseCreate(
         eventId: RealtimeUtils.generateId(),
+        response: responseConfig,
       ),
     );
     return true;

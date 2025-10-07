@@ -19,6 +19,7 @@ sealed class MessageContentTextAnnotations
   // ------------------------------------------
 
   /// A citation within the message that points to a specific quote from a specific File associated with the assistant or the message. Generated when the assistant uses the "file_search" tool to search files.
+
   const factory MessageContentTextAnnotations.fileCitation({
     /// Always `file_citation`.
     required String type,
@@ -42,6 +43,7 @@ sealed class MessageContentTextAnnotations
   // ------------------------------------------
 
   /// A URL for the file that's generated when the assistant used the `code_interpreter` tool to generate a file.
+
   const factory MessageContentTextAnnotations.filePath({
     /// Always `file_path`.
     required String type,
@@ -71,7 +73,7 @@ sealed class MessageContentTextAnnotations
 
 /// No Description
 @freezed
-class MessageContentTextAnnotationsFilePath
+abstract class MessageContentTextAnnotationsFilePath
     with _$MessageContentTextAnnotationsFilePath {
   const MessageContentTextAnnotationsFilePath._();
 

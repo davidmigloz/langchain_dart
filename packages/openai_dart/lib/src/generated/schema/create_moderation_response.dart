@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Represents if a given text input is potentially harmful.
 @freezed
-class CreateModerationResponse with _$CreateModerationResponse {
+abstract class CreateModerationResponse with _$CreateModerationResponse {
   const CreateModerationResponse._();
 
   /// Factory constructor for CreateModerationResponse

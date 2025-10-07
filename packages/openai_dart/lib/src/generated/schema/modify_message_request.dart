@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Request object for the Modify message endpoint.
 @freezed
-class ModifyMessageRequest with _$ModifyMessageRequest {
+abstract class ModifyMessageRequest with _$ModifyMessageRequest {
   const ModifyMessageRequest._();
 
   /// Factory constructor for ModifyMessageRequest

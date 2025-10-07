@@ -112,7 +112,7 @@ await stream.forEach(print);
 
 `ChatAnthropic` supports tool calling.
 
-Check the [docs](/modules/model_io/models/chat_models/how_to/tools.md) for more information on how to use tools.
+Check the [docs](docs/04-how_to/03-tools.md) for more information on how to use tools.
 
 Example:
 ```dart

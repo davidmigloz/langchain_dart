@@ -8,9 +8,9 @@ part of open_a_i_schema;
 // CLASS: TruncationObject
 // ==========================================
 
-/// Controls for how a thread will be truncated prior to the run. Use this to control the intial context window of the run.
+/// Controls for how a thread will be truncated prior to the run. Use this to control the initial context window of the run.
 @freezed
-class TruncationObject with _$TruncationObject {
+abstract class TruncationObject with _$TruncationObject {
   const TruncationObject._();
 
   /// Factory constructor for TruncationObject

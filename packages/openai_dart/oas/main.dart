@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:openapi_spec/openapi_spec.dart';
 
 /// Generates OpenAI API client Dart code from the OpenAPI spec.
-/// Official spec: https://github.com/openai/openai-openapi/blob/master/openapi.yaml
+/// Official spec: https://github.com/openai/openai-python/blob/cacd374b850407b211d1f1e7740da0cf4e4d68d1/.stats.yml
 void main() async {
   final spec = OpenApi.fromFile(source: 'oas/openapi_curated.yaml');
   await spec.generate(
@@ -30,6 +30,8 @@ void main() async {
 String? _onSchemaName(final String schemaName) => switch (schemaName) {
       'ChatCompletionUserMessageContentListChatCompletionMessageContentPart' =>
         'ChatCompletionMessageContentParts',
+      'ChatCompletionDeveloperMessageContentListChatCompletionMessageContentPart' =>
+        'ChatCompletionDeveloperMessageContentParts',
       _ => schemaName,
     };
 
@@ -41,6 +43,7 @@ String? _onSchemaUnionFactoryName(
       // Chat Completion
       'ChatCompletionModelEnumeration' => 'model',
       'ChatCompletionModelString' => 'modelId',
+      'ChatCompletionDeveloperMessage' => 'developer',
       'ChatCompletionSystemMessage' => 'system',
       'ChatCompletionUserMessage' => 'user',
       'ChatCompletionAssistantMessage' => 'assistant',
@@ -51,11 +54,16 @@ String? _onSchemaUnionFactoryName(
       'ChatCompletionMessageContentPartImage' => 'image',
       'ChatCompletionMessageContentPartAudio' => 'audio',
       'ChatCompletionMessageContentPartRefusal' => 'refusal',
+      'ChatCompletionDeveloperMessageContentParts' => 'parts',
+      'ChatCompletionDeveloperMessageContentString' => 'text',
       'ChatCompletionToolChoiceOptionEnumeration' => 'mode',
       'ChatCompletionToolChoiceOptionChatCompletionNamedToolChoice' => 'tool',
       'ChatCompletionFunctionCallEnumeration' => 'mode',
       'ChatCompletionFunctionCallChatCompletionFunctionCallOption' =>
         'function',
+      'PredictionContentContentListChatCompletionMessageContentPartText' =>
+        'textParts',
+      'PredictionContentContentString' => 'text',
       'ResponseFormatText' => 'text',
       'ResponseFormatJsonObject' => 'jsonObject',
       'ResponseFormatJsonSchema' => 'jsonSchema',

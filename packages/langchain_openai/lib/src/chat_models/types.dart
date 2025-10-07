@@ -7,36 +7,70 @@ import 'package:meta/meta.dart';
 /// Options to pass into the OpenAI Chat Model.
 ///
 /// Available [ChatOpenAIOptions.model]s:
+/// - `gpt-5`
+/// - `gpt-5-mini`
+/// - `gpt-5-nano`
+/// - `gpt-5-2025-08-07`
+/// - `gpt-5-mini-2025-08-07`
+/// - `gpt-5-nano-2025-08-07`
+/// - `gpt-5-chat-latest`
+/// - `gpt-4.1`
+/// - `gpt-4.1-mini`
+/// - `gpt-4.1-nano`
+/// - `gpt-4.1-2025-04-14`
+/// - `gpt-4.1-mini-2025-04-14`
+/// - `gpt-4.1-nano-2025-04-14`
+/// - `o4-mini`
+/// - `o4-mini-2025-04-16`
+/// - `o3`
+/// - `o3-2025-04-16`
+/// - `o3-mini`
+/// - `o3-mini-2025-01-31`
+/// - `o1`
+/// - `o1-2024-12-17`
+/// - `o1-preview`
+/// - `o1-preview-2024-09-12`
+/// - `o1-mini`
+/// - `o1-mini-2024-09-12`
+/// - `gpt-4o`
+/// - `gpt-4o-2024-11-20`
+/// - `gpt-4o-2024-08-06`
+/// - `gpt-4o-2024-05-13`
+/// - `gpt-4o-audio-preview`
+/// - `gpt-4o-audio-preview-2024-10-01`
+/// - `gpt-4o-audio-preview-2024-12-17`
+/// - `gpt-4o-audio-preview-2025-06-03`
+/// - `gpt-4o-mini-audio-preview`
+/// - `gpt-4o-mini-audio-preview-2024-12-17`
+/// - `gpt-4o-search-preview`
+/// - `gpt-4o-mini-search-preview`
+/// - `gpt-4o-search-preview-2025-03-11`
+/// - `gpt-4o-mini-search-preview-2025-03-11`
 /// - `chatgpt-4o-latest`
+/// - `codex-mini-latest`
+/// - `gpt-4o-mini`
+/// - `gpt-4o-mini-2024-07-18`
+/// - `gpt-4.5-preview`
+/// - `gpt-4.5-preview-2025-02-27`
+/// - `gpt-4-turbo`
+/// - `gpt-4-turbo-2024-04-09`
+/// - `gpt-4-0125-preview`
+/// - `gpt-4-turbo-preview`
+/// - `gpt-4-1106-preview`
+/// - `gpt-4-vision-preview`
 /// - `gpt-4`
+/// - `gpt-4-0314`
+/// - `gpt-4-0613`
 /// - `gpt-4-32k`
 /// - `gpt-4-32k-0314`
 /// - `gpt-4-32k-0613`
-/// - `gpt-4-0125-preview`
-/// - `gpt-4-0314`
-/// - `gpt-4-0613`
-/// - `gpt-4-1106-preview`
-/// - `gpt-4-turbo`
-/// - `gpt-4-turbo-2024-04-09`
-/// - `gpt-4-turbo-preview`
-/// - `gpt-4-vision-preview`
-/// - `gpt-4o`
-/// - `gpt-4o-2024-05-13`
-/// - `gpt-4o-2024-08-06`
-/// - `gpt-4o-2024-08-06`
-/// - `gpt-4o-mini`
-/// - `gpt-4o-mini-2024-07-18`
 /// - `gpt-3.5-turbo`
 /// - `gpt-3.5-turbo-16k`
-/// - `gpt-3.5-turbo-16k-0613`
-/// - `gpt-3.5-turbo-0125`
 /// - `gpt-3.5-turbo-0301`
 /// - `gpt-3.5-turbo-0613`
 /// - `gpt-3.5-turbo-1106`
-/// - `o1-mini`
-/// - `o1-mini-2024-09-12`
-/// - `o1-preview`
-/// - `o1-preview-2024-09-12`
+/// - `gpt-3.5-turbo-0125`
+/// - `gpt-3.5-turbo-16k-0613`
 ///
 /// Mind that the list may be outdated.
 /// See https://platform.openai.com/docs/models for the latest list.
@@ -46,8 +80,13 @@ class ChatOpenAIOptions extends ChatModelOptions {
   /// {@macro chat_openai_options}
   const ChatOpenAIOptions({
     super.model,
+    this.store,
+    this.reasoningEffort,
+    this.metadata,
     this.frequencyPenalty,
     this.logitBias,
+    this.logprobs,
+    this.topLogprobs,
     this.maxTokens,
     this.n,
     this.presencePenalty,
@@ -61,6 +100,7 @@ class ChatOpenAIOptions extends ChatModelOptions {
     this.parallelToolCalls,
     this.serviceTier,
     this.user,
+    this.verbosity,
     super.concurrencyLimit,
   });
 
@@ -75,6 +115,33 @@ class ChatOpenAIOptions extends ChatModelOptions {
   ///
   /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-logit_bias
   final Map<String, int>? logitBias;
+
+  /// Whether or not to store the output of this chat completion request.
+  ///
+  /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-store
+  final bool? store;
+
+  /// Constrains effort on reasoning for reasoning models.
+  /// Supported values are `minimal`, `low`, `medium`, and `high`.
+  ///
+  /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-reasoning_effort
+  final ChatOpenAIReasoningEffort? reasoningEffort;
+
+  /// Developer-defined tags and values used for filtering completions.
+  ///
+  /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-metadata
+  final Map<String, String>? metadata;
+
+  /// Whether to return log probabilities of the output tokens.
+  ///
+  /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-logprobs
+  final bool? logprobs;
+
+  /// Number of most likely tokens to return at each token position when
+  /// [logprobs] is set to true.
+  ///
+  /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-top_logprobs
+  final int? topLogprobs;
 
   /// The maximum number of tokens to generate in the chat completion.
   /// Defaults to inf.
@@ -154,11 +221,23 @@ class ChatOpenAIOptions extends ChatModelOptions {
   /// Ref: https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids
   final String? user;
 
+  /// Constrains the verbosity of the model's response. Lower values will result
+  /// in more concise responses, while higher values will be more verbose.
+  /// Supported values are `low`, `medium`, and `high`.
+  ///
+  /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-verbosity
+  final ChatOpenAIVerbosity? verbosity;
+
   @override
   ChatOpenAIOptions copyWith({
     final String? model,
+    final bool? store,
+    final ChatOpenAIReasoningEffort? reasoningEffort,
+    final Map<String, String>? metadata,
     final double? frequencyPenalty,
     final Map<String, int>? logitBias,
+    final bool? logprobs,
+    final int? topLogprobs,
     final int? maxTokens,
     final int? n,
     final double? presencePenalty,
@@ -172,12 +251,18 @@ class ChatOpenAIOptions extends ChatModelOptions {
     final bool? parallelToolCalls,
     final ChatOpenAIServiceTier? serviceTier,
     final String? user,
+    final ChatOpenAIVerbosity? verbosity,
     final int? concurrencyLimit,
   }) {
     return ChatOpenAIOptions(
       model: model ?? this.model,
+      store: store ?? this.store,
+      reasoningEffort: reasoningEffort ?? this.reasoningEffort,
+      metadata: metadata ?? this.metadata,
       frequencyPenalty: frequencyPenalty ?? this.frequencyPenalty,
       logitBias: logitBias ?? this.logitBias,
+      logprobs: logprobs ?? this.logprobs,
+      topLogprobs: topLogprobs ?? this.topLogprobs,
       maxTokens: maxTokens ?? this.maxTokens,
       n: n ?? this.n,
       presencePenalty: presencePenalty ?? this.presencePenalty,
@@ -191,6 +276,7 @@ class ChatOpenAIOptions extends ChatModelOptions {
       parallelToolCalls: parallelToolCalls ?? this.parallelToolCalls,
       serviceTier: serviceTier ?? this.serviceTier,
       user: user ?? this.user,
+      verbosity: verbosity ?? this.verbosity,
       concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
     );
   }
@@ -199,8 +285,13 @@ class ChatOpenAIOptions extends ChatModelOptions {
   ChatOpenAIOptions merge(covariant final ChatOpenAIOptions? other) {
     return copyWith(
       model: other?.model,
+      store: other?.store,
+      reasoningEffort: other?.reasoningEffort,
+      metadata: other?.metadata,
       frequencyPenalty: other?.frequencyPenalty,
       logitBias: other?.logitBias,
+      logprobs: other?.logprobs,
+      topLogprobs: other?.topLogprobs,
       maxTokens: other?.maxTokens,
       n: other?.n,
       presencePenalty: other?.presencePenalty,
@@ -214,6 +305,7 @@ class ChatOpenAIOptions extends ChatModelOptions {
       parallelToolCalls: other?.parallelToolCalls,
       serviceTier: other?.serviceTier,
       user: other?.user,
+      verbosity: other?.verbosity,
       concurrencyLimit: other?.concurrencyLimit,
     );
   }
@@ -223,9 +315,15 @@ class ChatOpenAIOptions extends ChatModelOptions {
     return identical(this, other) ||
         runtimeType == other.runtimeType &&
             model == other.model &&
+            store == other.store &&
+            reasoningEffort == other.reasoningEffort &&
+            const MapEquality<String, String>()
+                .equals(metadata, other.metadata) &&
             frequencyPenalty == other.frequencyPenalty &&
             const MapEquality<String, int>()
                 .equals(logitBias, other.logitBias) &&
+            logprobs == other.logprobs &&
+            topLogprobs == other.topLogprobs &&
             maxTokens == other.maxTokens &&
             n == other.n &&
             presencePenalty == other.presencePenalty &&
@@ -239,14 +337,20 @@ class ChatOpenAIOptions extends ChatModelOptions {
             parallelToolCalls == other.parallelToolCalls &&
             serviceTier == other.serviceTier &&
             user == other.user &&
+            verbosity == other.verbosity &&
             concurrencyLimit == other.concurrencyLimit;
   }
 
   @override
   int get hashCode {
     return model.hashCode ^
+        store.hashCode ^
+        reasoningEffort.hashCode ^
+        const MapEquality<String, String>().hash(metadata) ^
         frequencyPenalty.hashCode ^
         const MapEquality<String, int>().hash(logitBias) ^
+        logprobs.hashCode ^
+        topLogprobs.hashCode ^
         maxTokens.hashCode ^
         n.hashCode ^
         presencePenalty.hashCode ^
@@ -260,6 +364,7 @@ class ChatOpenAIOptions extends ChatModelOptions {
         parallelToolCalls.hashCode ^
         serviceTier.hashCode ^
         user.hashCode ^
+        verbosity.hashCode ^
         concurrencyLimit.hashCode;
   }
 }
@@ -372,6 +477,33 @@ class ChatOpenAIJsonSchema {
         const MapEquality<String, dynamic>().hash(schema) ^
         strict.hashCode;
   }
+}
+
+/// Constrains effort on reasoning for reasoning models.
+enum ChatOpenAIReasoningEffort {
+  /// Minimal effort
+  minimal,
+
+  /// Low effort
+  low,
+
+  /// Medium effort
+  medium,
+
+  /// High effort
+  high
+}
+
+/// Constrains the verbosity of the model's response.
+enum ChatOpenAIVerbosity {
+  /// More concise responses
+  low,
+
+  /// Medium verbosity responses
+  medium,
+
+  /// More verbose responses
+  high
 }
 
 /// Specifies the latency tier to use for processing the request.

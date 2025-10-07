@@ -1,10 +1,13 @@
 name: langchain_core
 description: Contains core abstractions of LangChain.dart and the LangChain Expression Language (LCEL).
-version: 0.3.6
+version: 0.3.9
 repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/langchain_core
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues?q=label:p:langchain_core
 homepage: https://github.com/davidmigloz/langchain_dart
 documentation: https://langchaindart.dev
+
+funding:
+  - https://github.com/sponsors/davidmigloz
 
 topics:
   - ai
@@ -13,15 +16,16 @@ topics:
   - langchain
 
 environment:
-  sdk: ">=3.4.0 <4.0.0"
+  sdk: ">=3.6.0 <4.0.0"
+resolution: workspace
 
 dependencies:
-  async: ^2.11.0
-  collection: ^1.18.0
+  async: ^2.13.0
+  collection: ^1.19.1
   cross_file: ^0.3.4+2
-  crypto: ^3.0.3
-  meta: ^1.11.0
+  crypto: ^3.0.6
+  meta: ^1.16.0
   rxdart: ">=0.27.7 <0.29.0"
 
 dev_dependencies:
-  test: ^1.25.8
+  test: ^1.25.15

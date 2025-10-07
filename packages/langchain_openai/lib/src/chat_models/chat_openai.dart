@@ -228,7 +228,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   String? encoding;
 
   /// A UUID generator.
-  late final Uuid _uuid = const Uuid();
+  late final _uuid = const Uuid();
 
   /// Set or replace the API key.
   set apiKey(final String value) => _client.apiKey = value;
@@ -240,7 +240,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   String get modelType => 'openai-chat';
 
   /// The default model to use unless another is specified.
-  static const defaultModel = 'gpt-4o-mini';
+  static const defaultModel = 'gpt-5-mini';
 
   @override
   Future<ChatResult> invoke(
@@ -328,7 +328,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
         }
     }
 
-    int numTokens = 0;
+    var numTokens = 0;
     for (final message in messages) {
       numTokens += tokensPerMessage;
       numTokens += tiktoken.encode(message.contentAsString).length;

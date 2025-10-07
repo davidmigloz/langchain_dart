@@ -19,7 +19,7 @@ void main() {
 
     late ChatAnthropic chatModel;
 
-    setUp(() async {
+    setUp(() {
       chatModel = ChatAnthropic(
         apiKey: Platform.environment['ANTHROPIC_API_KEY'],
         defaultOptions: const ChatAnthropicOptions(
@@ -144,8 +144,8 @@ void main() {
         ),
       );
 
-      String content = '';
-      int count = 0;
+      var content = '';
+      var count = 0;
       await for (final res in stream) {
         content += res.output.content;
         count++;
@@ -276,7 +276,7 @@ void main() {
       final stream = chain.stream({'foo': 'bears'});
 
       List<ParsedToolCall> lastResult = [];
-      int count = 0;
+      var count = 0;
       await for (final res in stream) {
         print(res);
         lastResult = res;

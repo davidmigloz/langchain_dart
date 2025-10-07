@@ -11,7 +11,7 @@ void main() {
   group('GoogleGenerativeAIEmbeddings tests', () {
     late GoogleGenerativeAIEmbeddings embeddings;
 
-    setUp(() async {
+    setUp(() {
       embeddings = GoogleGenerativeAIEmbeddings(
         apiKey: Platform.environment['GOOGLEAI_API_KEY'],
       );

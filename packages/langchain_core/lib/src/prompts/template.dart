@@ -150,7 +150,7 @@ List<ParsedFStringNode> parseFStringTemplate(final String template) {
   final List<ParsedFStringNode> nodes = [];
 
   int nextBracket(final String bracket, final int start) {
-    for (int i = start; i < chars.length; i += 1) {
+    for (var i = start; i < chars.length; i += 1) {
       if (bracket.contains(chars[i])) {
         return i;
       }
@@ -158,7 +158,7 @@ List<ParsedFStringNode> parseFStringTemplate(final String template) {
     return -1;
   }
 
-  int i = 0;
+  var i = 0;
   while (i < chars.length) {
     if (chars[i] == '{' && i + 1 < chars.length && chars[i + 1] == '{') {
       nodes.add(const ParsedFStringLiteralNode(text: '{'));

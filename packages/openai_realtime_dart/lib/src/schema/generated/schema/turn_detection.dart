@@ -12,7 +12,7 @@ part of openai_realtime_schema;
 /// VAD means that the model will detect the start and end of speech based on
 /// audio volume and respond at the end of user speech.
 @freezed
-class TurnDetection with _$TurnDetection {
+abstract class TurnDetection with _$TurnDetection {
   const TurnDetection._();
 
   /// Factory constructor for TurnDetection
@@ -35,6 +35,10 @@ class TurnDetection with _$TurnDetection {
     /// but may jump in on short pauses from the user.
     @JsonKey(name: 'silence_duration_ms', includeIfNull: false)
     int? silenceDurationMs,
+
+    /// Whether or not to automatically generate a response when VAD is
+    /// enabled. `true` by default.
+    @JsonKey(name: 'create_response') @Default(true) bool createResponse,
   }) = _TurnDetection;
 
   /// Object construction from a JSON representation
@@ -46,7 +50,8 @@ class TurnDetection with _$TurnDetection {
     'type',
     'threshold',
     'prefix_padding_ms',
-    'silence_duration_ms'
+    'silence_duration_ms',
+    'create_response'
   ];
 
   /// Perform validations on the schema property values
@@ -61,6 +66,7 @@ class TurnDetection with _$TurnDetection {
       'threshold': threshold,
       'prefix_padding_ms': prefixPaddingMs,
       'silence_duration_ms': silenceDurationMs,
+      'create_response': createResponse,
     };
   }
 }

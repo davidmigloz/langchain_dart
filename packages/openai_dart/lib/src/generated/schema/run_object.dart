@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Represents an execution run on a [thread](https://platform.openai.com/docs/api-reference/threads).
 @freezed
-class RunObject with _$RunObject {
+abstract class RunObject with _$RunObject {
   const RunObject._();
 
   /// Factory constructor for RunObject
@@ -88,7 +88,7 @@ class RunObject with _$RunObject {
     /// The maximum number of completion tokens specified to have been used over the course of the run.
     @JsonKey(name: 'max_completion_tokens') required int? maxCompletionTokens,
 
-    /// Controls for how a thread will be truncated prior to the run. Use this to control the intial context window of the run.
+    /// Controls for how a thread will be truncated prior to the run. Use this to control the initial context window of the run.
     @JsonKey(name: 'truncation_strategy')
     required TruncationObject? truncationStrategy,
 
@@ -101,13 +101,13 @@ class RunObject with _$RunObject {
     @JsonKey(name: 'tool_choice')
     required RunObjectToolChoice? toolChoice,
 
-    /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+    /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling#configuring-parallel-function-calling)
     /// during tool use.
     @JsonKey(name: 'parallel_tool_calls') required bool? parallelToolCalls,
 
     /// Specifies the format that the model must output. Compatible with
-    /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
-    /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+    /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
+    /// [GPT-4 Turbo](https://platform.openai.com/docs/models#gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
     /// since `gpt-3.5-turbo-1106`.
     ///
     /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures
@@ -254,7 +254,7 @@ enum RunStatus {
 
 /// Details on the action required to continue the run. Will be `null` if no action is required.
 @freezed
-class RunRequiredAction with _$RunRequiredAction {
+abstract class RunRequiredAction with _$RunRequiredAction {
   const RunRequiredAction._();
 
   /// Factory constructor for RunRequiredAction
@@ -294,7 +294,7 @@ class RunRequiredAction with _$RunRequiredAction {
 
 /// The last error associated with this run. Will be `null` if there are no errors.
 @freezed
-class RunLastError with _$RunLastError {
+abstract class RunLastError with _$RunLastError {
   const RunLastError._();
 
   /// Factory constructor for RunLastError
@@ -333,7 +333,7 @@ class RunLastError with _$RunLastError {
 
 /// Details on why the run is incomplete. Will be `null` if the run is not incomplete.
 @freezed
-class RunObjectIncompleteDetails with _$RunObjectIncompleteDetails {
+abstract class RunObjectIncompleteDetails with _$RunObjectIncompleteDetails {
   const RunObjectIncompleteDetails._();
 
   /// Factory constructor for RunObjectIncompleteDetails
@@ -461,8 +461,8 @@ enum RunObjectResponseFormatMode {
 // ==========================================
 
 /// Specifies the format that the model must output. Compatible with
-/// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
-/// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+/// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
+/// [GPT-4 Turbo](https://platform.openai.com/docs/models#gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
 /// since `gpt-3.5-turbo-1106`.
 ///
 /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures
@@ -549,7 +549,7 @@ enum RunRequiredActionType {
 
 /// Details on the tool outputs needed for this run to continue.
 @freezed
-class RunSubmitToolOutputs with _$RunSubmitToolOutputs {
+abstract class RunSubmitToolOutputs with _$RunSubmitToolOutputs {
   const RunSubmitToolOutputs._();
 
   /// Factory constructor for RunSubmitToolOutputs

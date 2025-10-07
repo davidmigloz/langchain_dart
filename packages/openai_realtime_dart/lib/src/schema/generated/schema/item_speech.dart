@@ -10,7 +10,7 @@ part of openai_realtime_schema;
 
 /// The speech item.
 @freezed
-class ItemSpeech with _$ItemSpeech {
+abstract class ItemSpeech with _$ItemSpeech {
   const ItemSpeech._();
 
   /// Factory constructor for ItemSpeech

@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Represents a message within a [thread](https://platform.openai.com/docs/api-reference/threads).
 @freezed
-class MessageObject with _$MessageObject {
+abstract class MessageObject with _$MessageObject {
   const MessageObject._();
 
   /// Factory constructor for MessageObject
@@ -142,7 +142,8 @@ enum MessageObjectStatus {
 
 /// On an incomplete message, details about why the message is incomplete.
 @freezed
-class MessageObjectIncompleteDetails with _$MessageObjectIncompleteDetails {
+abstract class MessageObjectIncompleteDetails
+    with _$MessageObjectIncompleteDetails {
   const MessageObjectIncompleteDetails._();
 
   /// Factory constructor for MessageObjectIncompleteDetails

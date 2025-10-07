@@ -10,7 +10,7 @@ part of ollama_schema;
 
 /// Response class for the list running models endpoint.
 @freezed
-class ProcessResponse with _$ProcessResponse {
+abstract class ProcessResponse with _$ProcessResponse {
   const ProcessResponse._();
 
   /// Factory constructor for ProcessResponse

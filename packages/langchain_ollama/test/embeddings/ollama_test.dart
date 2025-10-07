@@ -10,7 +10,7 @@ void main() {
     late OllamaEmbeddings embeddings;
     const defaultModel = 'llama3.2';
 
-    setUp(() async {
+    setUp(() {
       embeddings = OllamaEmbeddings(
         model: defaultModel,
       );

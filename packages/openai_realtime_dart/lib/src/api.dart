@@ -23,6 +23,7 @@ class RealtimeAPI extends RealtimeEventHandler {
   RealtimeAPI({
     this.url = 'wss://api.openai.com/v1/realtime',
     this.apiKey,
+    this.headers,
     this.debug = false,
     this.dangerouslyAllowAPIKeyInBrowser = true,
   }) {
@@ -40,6 +41,9 @@ class RealtimeAPI extends RealtimeEventHandler {
   /// The API key to authenticate with the Realtime API.
   final String? apiKey;
 
+  /// The custom headers to include in the WebSocket connection.
+  final Map<String, String>? headers;
+
   /// Whether to log debug messages.
   final bool debug;
 
@@ -47,15 +51,18 @@ class RealtimeAPI extends RealtimeEventHandler {
   final bool dangerouslyAllowAPIKeyInBrowser;
 
   WebSocketChannel? _ws;
-  String _model = '';
+  var _model = '';
   StreamSubscription<dynamic>? _logSubscription;
 
   /// Tells us whether or not the WebSocket is connected.
   bool isConnected() => _ws != null;
 
   /// Connects to Realtime API Websocket Server.
+  ///
+  /// [model] specifies which model to use. You can find the list of available
+  /// models [here](https://platform.openai.com/docs/models).
   Future<bool> connect({
-    final String model = 'gpt-4o-realtime-preview-2024-10-01',
+    final String model = RealtimeUtils.defaultModel,
   }) async {
     if (isConnected()) {
       throw Exception('Already connected');
@@ -67,7 +74,7 @@ class RealtimeAPI extends RealtimeEventHandler {
     final uri = Uri.parse('$url?model=$_model');
 
     try {
-      _ws = connectWebSocket(uri, apiKey);
+      _ws = connectWebSocket(uri, apiKey, headers);
 
       // Wait for the connection to be established
       await _ws!.ready;
@@ -77,25 +84,29 @@ class RealtimeAPI extends RealtimeEventHandler {
       _ws!.stream.listen(
         (data) {
           final message = json.decode(data) as Map<String, dynamic>;
-          receive(message);
+          unawaited(receive(message));
         },
         onError: (dynamic error) {
           _log.severe('Error', error);
-          dispatch(
-            RealtimeEventType.close,
-            RealtimeEvent.close(
-              eventId: RealtimeUtils.generateId(),
-              error: true,
+          unawaited(
+            dispatch(
+              RealtimeEventType.close,
+              RealtimeEvent.close(
+                eventId: RealtimeUtils.generateId(),
+                error: true,
+              ),
             ),
           );
         },
         onDone: () {
           _log.info('Disconnected from "$url"');
-          dispatch(
-            RealtimeEventType.close,
-            RealtimeEvent.close(
-              eventId: RealtimeUtils.generateId(),
-              error: false,
+          unawaited(
+            dispatch(
+              RealtimeEventType.close,
+              RealtimeEvent.close(
+                eventId: RealtimeUtils.generateId(),
+                error: false,
+              ),
             ),
           );
         },

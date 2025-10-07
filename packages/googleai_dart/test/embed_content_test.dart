@@ -10,7 +10,7 @@ void main() {
   group('Google AI embed content API tests', () {
     late GoogleAIClient client;
 
-    setUp(() async {
+    setUp(() {
       client = GoogleAIClient(
         apiKey: Platform.environment['GOOGLEAI_API_KEY'],
       );

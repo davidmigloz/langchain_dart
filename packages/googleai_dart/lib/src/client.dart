@@ -3,10 +3,10 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:http/retry.dart' show RetryClient;
 
 import 'generated/client.dart' as g;
 import 'generated/schema/schema.dart';
-import 'http_client/http_client.dart';
 
 /// Client for Google AI API (Gemini API).
 ///
@@ -25,6 +25,7 @@ class GoogleAIClient extends g.GoogleAIClient {
   ///   this to set custom headers, or to override the default headers.
   /// - `queryParams`: global query parameters to send with every request. You
   ///   can use this to set custom query parameters.
+  /// - `retries`: the number of retries to attempt if a request fails.
   /// - `client`: the HTTP client to use. You can set your own HTTP client if
   ///   you need further customization (e.g. to use a Socks5 proxy).
   GoogleAIClient({
@@ -32,6 +33,7 @@ class GoogleAIClient extends g.GoogleAIClient {
     final String? baseUrl,
     final Map<String, String>? headers,
     final Map<String, dynamic>? queryParams,
+    final int retries = 3,
     final http.Client? client,
   }) : super(
           baseUrl: baseUrl,
@@ -40,7 +42,7 @@ class GoogleAIClient extends g.GoogleAIClient {
             'key': apiKey,
             ...?queryParams,
           },
-          client: client ?? createDefaultHttpClient(),
+          client: client ?? RetryClient(http.Client(), retries: retries),
         );
 
   /// Set or replace the API key.
@@ -79,11 +81,6 @@ class GoogleAIClient extends g.GoogleAIClient {
     yield* streamedResponse.stream
         .transform(const _GoogleAIStreamTransformer())
         .map((final d) => GenerateContentResponse.fromJson(json.decode(d)));
-  }
-
-  @override
-  Future<http.BaseRequest> onRequest(final http.BaseRequest request) {
-    return onRequestHandler(request);
   }
 }
 

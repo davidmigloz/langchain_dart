@@ -82,10 +82,12 @@ class ReduceDocumentsChain extends BaseCombineDocumentsChain {
   final int tokenMax;
 
   /// Default [inputKey] value.
-  static const defaultInputKey = BaseCombineDocumentsChain.defaultInputKey;
+  static const String defaultInputKey =
+      BaseCombineDocumentsChain.defaultInputKey;
 
   /// Default [outputKey] value.
-  static const defaultOutputKey = BaseCombineDocumentsChain.defaultOutputKey;
+  static const String defaultOutputKey =
+      BaseCombineDocumentsChain.defaultOutputKey;
 
   /// Default [tokenMax] value.
   static const defaultTokenMax = 3000;
@@ -130,7 +132,7 @@ class ReduceDocumentsChain extends BaseCombineDocumentsChain {
   }) async {
     final lengthFunc = combineDocumentsChain.promptLength;
 
-    List<Document> resultDocs = docs;
+    var resultDocs = docs;
     int? numTokens = await lengthFunc(resultDocs, inputs: inputs);
 
     while (numTokens != null && numTokens > tokenMax) {

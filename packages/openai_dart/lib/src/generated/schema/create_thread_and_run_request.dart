@@ -10,7 +10,7 @@ part of open_a_i_schema;
 
 /// Request object for the Create thread and run endpoint.
 @freezed
-class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
+abstract class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
   const CreateThreadAndRunRequest._();
 
   /// Factory constructor for CreateThreadAndRunRequest
@@ -73,7 +73,7 @@ class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
     @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
     int? maxCompletionTokens,
 
-    /// Controls for how a thread will be truncated prior to the run. Use this to control the intial context window of the run.
+    /// Controls for how a thread will be truncated prior to the run. Use this to control the initial context window of the run.
     @JsonKey(name: 'truncation_strategy', includeIfNull: false)
     TruncationObject? truncationStrategy,
 
@@ -88,14 +88,14 @@ class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
     @JsonKey(name: 'tool_choice', includeIfNull: false)
     CreateThreadAndRunRequestToolChoice? toolChoice,
 
-    /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+    /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling#configuring-parallel-function-calling)
     /// during tool use.
     @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
     bool? parallelToolCalls,
 
     /// Specifies the format that the model must output. Compatible with
-    /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
-    /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+    /// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
+    /// [GPT-4 Turbo](https://platform.openai.com/docs/models#gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
     /// since `gpt-3.5-turbo-1106`.
     ///
     /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures
@@ -206,64 +206,134 @@ class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
 
 /// Available models. Mind that the list may not be exhaustive nor up-to-date.
 enum ThreadAndRunModels {
+  @JsonValue('gpt-5')
+  gpt5,
+  @JsonValue('gpt-5-mini')
+  gpt5Mini,
+  @JsonValue('gpt-5-nano')
+  gpt5Nano,
+  @JsonValue('gpt-5-2025-08-07')
+  gpt520250807,
+  @JsonValue('gpt-5-mini-2025-08-07')
+  gpt5Mini20250807,
+  @JsonValue('gpt-5-nano-2025-08-07')
+  gpt5Nano20250807,
+  @JsonValue('gpt-5-chat-latest')
+  gpt5ChatLatest,
+  @JsonValue('gpt-4.1')
+  gpt41,
+  @JsonValue('gpt-4.1-mini')
+  gpt41Mini,
+  @JsonValue('gpt-4.1-nano')
+  gpt41Nano,
+  @JsonValue('gpt-4.1-2025-04-14')
+  gpt4120250414,
+  @JsonValue('gpt-4.1-mini-2025-04-14')
+  gpt41Mini20250414,
+  @JsonValue('gpt-4.1-nano-2025-04-14')
+  gpt41Nano20250414,
+  @JsonValue('o4-mini')
+  o4Mini,
+  @JsonValue('o4-mini-2025-04-16')
+  o4Mini20250416,
+  @JsonValue('o3')
+  o3,
+  @JsonValue('o3-2025-04-16')
+  o320250416,
+  @JsonValue('o3-mini')
+  o3Mini,
+  @JsonValue('o3-mini-2025-01-31')
+  o3Mini20250131,
+  @JsonValue('o1')
+  o1,
+  @JsonValue('o1-2024-12-17')
+  o120241217,
+  @JsonValue('o1-preview')
+  o1Preview,
+  @JsonValue('o1-preview-2024-09-12')
+  o1Preview20240912,
+  @JsonValue('o1-mini')
+  o1Mini,
+  @JsonValue('o1-mini-2024-09-12')
+  o1Mini20240912,
+  @JsonValue('gpt-4o')
+  gpt4o,
+  @JsonValue('gpt-4o-2024-11-20')
+  gpt4o20241120,
+  @JsonValue('gpt-4o-2024-08-06')
+  gpt4o20240806,
+  @JsonValue('gpt-4o-2024-05-13')
+  gpt4o20240513,
+  @JsonValue('gpt-4o-audio-preview')
+  gpt4oAudioPreview,
+  @JsonValue('gpt-4o-audio-preview-2024-10-01')
+  gpt4oAudioPreview20241001,
+  @JsonValue('gpt-4o-audio-preview-2024-12-17')
+  gpt4oAudioPreview20241217,
+  @JsonValue('gpt-4o-audio-preview-2025-06-03')
+  gpt4oAudioPreview20250603,
+  @JsonValue('gpt-4o-mini-audio-preview')
+  gpt4oMiniAudioPreview,
+  @JsonValue('gpt-4o-mini-audio-preview-2024-12-17')
+  gpt4oMiniAudioPreview20241217,
+  @JsonValue('gpt-4o-search-preview')
+  gpt4oSearchPreview,
+  @JsonValue('gpt-4o-mini-search-preview')
+  gpt4oMiniSearchPreview,
+  @JsonValue('gpt-4o-search-preview-2025-03-11')
+  gpt4oSearchPreview20250311,
+  @JsonValue('gpt-4o-mini-search-preview-2025-03-11')
+  gpt4oMiniSearchPreview20250311,
   @JsonValue('chatgpt-4o-latest')
   chatgpt4oLatest,
+  @JsonValue('codex-mini-latest')
+  codexMiniLatest,
+  @JsonValue('gpt-4o-mini')
+  gpt4oMini,
+  @JsonValue('gpt-4o-mini-2024-07-18')
+  gpt4oMini20240718,
+  @JsonValue('gpt-4.5-preview')
+  gpt45Preview,
+  @JsonValue('gpt-4.5-preview-2025-02-27')
+  gpt45Preview20250227,
+  @JsonValue('gpt-4-turbo')
+  gpt4Turbo,
+  @JsonValue('gpt-4-turbo-2024-04-09')
+  gpt4Turbo20240409,
+  @JsonValue('gpt-4-0125-preview')
+  gpt40125Preview,
+  @JsonValue('gpt-4-turbo-preview')
+  gpt4TurboPreview,
+  @JsonValue('gpt-4-1106-preview')
+  gpt41106Preview,
+  @JsonValue('gpt-4-vision-preview')
+  gpt4VisionPreview,
   @JsonValue('gpt-4')
   gpt4,
+  @JsonValue('gpt-4-0314')
+  gpt40314,
+  @JsonValue('gpt-4-0613')
+  gpt40613,
   @JsonValue('gpt-4-32k')
   gpt432k,
   @JsonValue('gpt-4-32k-0314')
   gpt432k0314,
   @JsonValue('gpt-4-32k-0613')
   gpt432k0613,
-  @JsonValue('gpt-4-0125-preview')
-  gpt40125Preview,
-  @JsonValue('gpt-4-0314')
-  gpt40314,
-  @JsonValue('gpt-4-0613')
-  gpt40613,
-  @JsonValue('gpt-4-1106-preview')
-  gpt41106Preview,
-  @JsonValue('gpt-4-turbo')
-  gpt4Turbo,
-  @JsonValue('gpt-4-turbo-2024-04-09')
-  gpt4Turbo20240409,
-  @JsonValue('gpt-4-turbo-preview')
-  gpt4TurboPreview,
-  @JsonValue('gpt-4-vision-preview')
-  gpt4VisionPreview,
-  @JsonValue('gpt-4o')
-  gpt4o,
-  @JsonValue('gpt-4o-2024-05-13')
-  gpt4o20240513,
-  @JsonValue('gpt-4o-2024-08-06')
-  gpt4o20240806,
-  @JsonValue('gpt-4o-mini')
-  gpt4oMini,
-  @JsonValue('gpt-4o-mini-2024-07-18')
-  gpt4oMini20240718,
   @JsonValue('gpt-3.5-turbo')
   gpt35Turbo,
   @JsonValue('gpt-3.5-turbo-16k')
   gpt35Turbo16k,
-  @JsonValue('gpt-3.5-turbo-16k-0613')
-  gpt35Turbo16k0613,
-  @JsonValue('gpt-3.5-turbo-0125')
-  gpt35Turbo0125,
   @JsonValue('gpt-3.5-turbo-0301')
   gpt35Turbo0301,
   @JsonValue('gpt-3.5-turbo-0613')
   gpt35Turbo0613,
   @JsonValue('gpt-3.5-turbo-1106')
   gpt35Turbo1106,
-  @JsonValue('o1-mini')
-  o1Mini,
-  @JsonValue('o1-mini-2024-09-12')
-  o1Mini20240912,
-  @JsonValue('o1-preview')
-  o1Preview,
-  @JsonValue('o1-preview-2024-09-12')
-  o1Preview20240912,
+  @JsonValue('gpt-3.5-turbo-0125')
+  gpt35Turbo0125,
+  @JsonValue('gpt-3.5-turbo-16k-0613')
+  gpt35Turbo16k0613,
 }
 
 // ==========================================
@@ -436,8 +506,8 @@ enum CreateThreadAndRunRequestResponseFormatMode {
 // ==========================================
 
 /// Specifies the format that the model must output. Compatible with
-/// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
-/// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+/// [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
+/// [GPT-4 Turbo](https://platform.openai.com/docs/models#gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
 /// since `gpt-3.5-turbo-1106`.
 ///
 /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures

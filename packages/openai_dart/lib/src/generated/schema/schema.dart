@@ -6,6 +6,7 @@
 library open_a_i_schema;
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'dart:typed_data';
 
 part 'schema.g.dart';
 part 'schema.freezed.dart';
@@ -22,6 +23,8 @@ part 'chat_completion_message_function_call.dart';
 part 'chat_completion_function_call_option.dart';
 part 'function_object.dart';
 part 'function_parameters.dart';
+part 'reasoning_effort.dart';
+part 'verbosity.dart';
 part 'response_format_type.dart';
 part 'json_schema_object.dart';
 part 'chat_completion_tool.dart';
@@ -29,6 +32,8 @@ part 'chat_completion_named_tool_choice.dart';
 part 'chat_completion_message_tool_calls.dart';
 part 'chat_completion_message_tool_call.dart';
 part 'chat_completion_modality.dart';
+part 'annotation.dart';
+part 'prediction_content.dart';
 part 'chat_completion_audio_options.dart';
 part 'chat_completion_audio_voice.dart';
 part 'chat_completion_audio_format.dart';
@@ -45,6 +50,7 @@ part 'chat_completion_stream_response_choice.dart';
 part 'chat_completion_stream_response_delta.dart';
 part 'chat_completion_stream_message_function_call.dart';
 part 'chat_completion_stream_message_tool_call_chunk.dart';
+part 'chat_completion_list.dart';
 part 'completion_usage.dart';
 part 'completion_tokens_details.dart';
 part 'create_embedding_request.dart';
@@ -153,6 +159,10 @@ part 'batch_endpoint.dart';
 part 'batch_completion_window.dart';
 part 'batch.dart';
 part 'list_batches_response.dart';
+part 'chat_completion_metadata.dart';
+part 'web_search_options.dart';
+part 'web_search_context_size.dart';
+part 'web_search_location.dart';
 part 'chat_completion_message.dart';
 part 'chat_completion_message_content_part.dart';
 part 'response_format.dart';
@@ -171,3 +181,17 @@ part 'run_step_delta_step_details_tool_calls_code_output.dart';
 part 'chunking_strategy_request_param.dart';
 part 'chunking_strategy_response_param.dart';
 part 'assistant_stream_event.dart';
+
+class Uint8ListConverter implements JsonConverter<Uint8List, List<int>> {
+  const Uint8ListConverter();
+
+  @override
+  Uint8List fromJson(List<int> json) {
+    return Uint8List.fromList(json);
+  }
+
+  @override
+  List<int> toJson(Uint8List object) {
+    return object.toList();
+  }
+}

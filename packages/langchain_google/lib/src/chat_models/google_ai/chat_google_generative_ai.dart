@@ -1,5 +1,6 @@
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/retry.dart' show RetryClient;
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/prompts.dart';
 import 'package:uuid/uuid.dart';
@@ -203,6 +204,7 @@ class ChatGoogleGenerativeAI
   ///   this to set custom headers, or to override the default headers.
   /// - `queryParams`: global query parameters to send with every request. You
   ///   can use this to set custom query parameters.
+  /// - `retries`: the number of retries to attempt if a request fails.
   /// - `client`: the HTTP client to use. You can set your own HTTP client if
   ///   you need further customization (e.g. to use a Socks5 proxy).
   ChatGoogleGenerativeAI({
@@ -210,15 +212,21 @@ class ChatGoogleGenerativeAI
     final String? baseUrl,
     final Map<String, String>? headers,
     final Map<String, dynamic>? queryParams,
+    final int retries = 3,
     final http.Client? client,
     super.defaultOptions = const ChatGoogleGenerativeAIOptions(
       model: defaultModel,
     ),
   })  : _currentModel = defaultOptions.model ?? '',
-        _httpClient = createDefaultHttpClient(
-          baseHttpClient: client,
-          baseUrl:
-              baseUrl ?? 'https://generativelanguage.googleapis.com/v1beta',
+        _httpClient = CustomHttpClient(
+          baseHttpClient: client ??
+              RetryClient(
+                http.Client(),
+                retries: retries,
+              ),
+          baseUrl: Uri.parse(
+            baseUrl ?? 'https://generativelanguage.googleapis.com/v1beta',
+          ),
           headers: {
             if (apiKey != null) 'x-goog-api-key': apiKey,
             ...?headers,
@@ -239,7 +247,7 @@ class ChatGoogleGenerativeAI
   late GenerativeModel _googleAiClient;
 
   /// A UUID generator.
-  late final Uuid _uuid = const Uuid();
+  late final _uuid = const Uuid();
 
   /// Set or replace the API key.
   set apiKey(final String value) =>
@@ -345,7 +353,7 @@ class ChatGoogleGenerativeAI
   Future<List<int>> tokenize(
     final PromptValue promptValue, {
     final ChatGoogleGenerativeAIOptions? options,
-  }) async {
+  }) {
     throw UnsupportedError(
       'Google AI does not expose a tokenizer, only counting tokens is supported.',
     );
@@ -403,7 +411,7 @@ class ChatGoogleGenerativeAI
         ? messages.firstOrNull?.contentAsString
         : null;
 
-    bool recreate = false;
+    var recreate = false;
     if (model != _currentModel) {
       _currentModel = model;
       recreate = true;

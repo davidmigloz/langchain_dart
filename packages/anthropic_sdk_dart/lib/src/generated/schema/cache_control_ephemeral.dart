@@ -10,7 +10,7 @@ part of anthropic_schema;
 
 /// The cache control settings.
 @freezed
-class CacheControlEphemeral with _$CacheControlEphemeral {
+abstract class CacheControlEphemeral with _$CacheControlEphemeral {
   const CacheControlEphemeral._();
 
   /// Factory constructor for CacheControlEphemeral

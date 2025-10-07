@@ -10,7 +10,7 @@ part of ollama_schema;
 
 /// A tool the model may call.
 @freezed
-class Tool with _$Tool {
+abstract class Tool with _$Tool {
   const Tool._();
 
   /// Factory constructor for Tool
