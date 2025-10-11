@@ -23,8 +23,8 @@ dependencies:
   collection: ^1.19.1
   googleapis: ^14.0.0
   googleapis_auth: ^2.0.0
-  http: ^1.4.0
+  http: ^1.5.0
   meta: ^1.16.0
 
 dev_dependencies:
-  test: ^1.25.15
+  test: ^1.26.2

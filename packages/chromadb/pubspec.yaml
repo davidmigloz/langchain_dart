@@ -20,7 +20,7 @@ resolution: workspace
 
 dependencies:
   freezed_annotation: ^3.1.0
-  http: ^1.4.0
+  http: ^1.5.0
   json_annotation: ^4.9.0
   meta: ^1.16.0
 
@@ -32,4 +32,4 @@ dev_dependencies:
     git:
       url: https://github.com/davidmigloz/openapi_spec.git
       ref: 4fbc3c3841faf90c6799cb6d871a4f3b0ef82624
-  test: ^1.25.15
+  test: ^1.26.2
