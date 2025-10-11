@@ -28,4 +28,4 @@ dependencies:
   rxdart: ">=0.27.7 <0.29.0"
 
 dev_dependencies:
-  test: ^1.25.15
+  test: ^1.26.2
