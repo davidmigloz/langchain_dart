@@ -128,6 +128,8 @@ extension GenerateContentResponseMapper on f.GenerateContentResponse {
                 final f.InlineDataPart p => base64Encode(p.bytes),
                 final f.FileData p => p.fileUri,
                 f.FunctionResponse() || f.FunctionCall() => '',
+                ExecutableCodePart() => '',
+                CodeExecutionResultPart() => '',
                 UnknownPart() => '',
               },
             )
