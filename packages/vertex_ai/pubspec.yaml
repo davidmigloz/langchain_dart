@@ -21,7 +21,7 @@ resolution: workspace
 
 dependencies:
   collection: ^1.19.1
-  googleapis: ^14.0.0
+  googleapis: ^15.0.0
   googleapis_auth: ^2.0.0
   http: ^1.5.0
   meta: ^1.16.0
