@@ -31,7 +31,7 @@ void main() {
       chatModel.close();
     });
 
-    test('Test Text-only input with gemini-pro', () async {
+    test('Test Text-only input', () async {
       const models = [
         'gemini-2.5-pro',
         'gemini-2.5-flash',
@@ -119,8 +119,7 @@ void main() {
         ),
       );
       expect(res.output.content.length, lessThan(20));
-      // It seems the gemini-1.5 doesn't return length reason anymore
-      // expect(res.finishReason, FinishReason.length);
+      expect(res.finishReason, FinishReason.length);
     });
 
     test('Test Multi-turn conversations with gemini-pro', () async {

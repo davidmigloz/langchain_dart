@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs
 import 'dart:convert';
 
-import 'package:google_generative_ai/google_generative_ai.dart' as g;
+import 'package:googleai_dart/googleai_dart.dart' as g;
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/tools.dart';
@@ -16,29 +16,32 @@ extension ChatMessagesMapper on List<ChatMessage> {
     // The API requires the next turn to be ONE Content.functionResponses that
     // includes the SAME number of FunctionResponse parts, in the SAME order.
     // If we send each ToolChatMessage separately, the counts won't match and
-    // google_generative_ai throws:
-    // "Please ensure that the number of function response parts is equal to the number
-    // of function call parts of the function call turn."
+    // the API throws an error.
     // Therefore we batch consecutive ToolChatMessage instances into a single
-    // g.Content.functionResponses([...]).
-    List<g.FunctionResponse>? pendingToolResponses;
+    // Content with multiple FunctionResponseParts.
+    List<g.FunctionResponsePart>? pendingToolResponses;
 
     void flushToolResponses() {
       if (pendingToolResponses != null && pendingToolResponses!.isNotEmpty) {
-        result.add(g.Content.functionResponses(pendingToolResponses!));
+        result.add(
+          g.Content(
+            role: 'user',
+            parts: pendingToolResponses!,
+          ),
+        );
         pendingToolResponses = null;
       }
     }
 
     for (final message in this) {
       if (message is SystemChatMessage) {
-        continue; // System messages are ignored
+        continue; // System messages are handled separately
       }
 
       if (message is ToolChatMessage) {
         // Start (or continue) a batch of tool responses
-        pendingToolResponses ??= <g.FunctionResponse>[];
-        pendingToolResponses!.add(_toolMsgToFunctionResponse(message));
+        pendingToolResponses ??= <g.FunctionResponsePart>[];
+        pendingToolResponses!.add(_toolMsgToFunctionResponsePart(message));
         continue;
       }
 
@@ -68,17 +71,27 @@ extension ChatMessagesMapper on List<ChatMessage> {
       final ChatMessageContentText c => [g.TextPart(c.text)],
       final ChatMessageContentImage c => [
           if (c.data.startsWith('http'))
-            g.FilePart(Uri.parse(c.data))
+            g.FileDataPart(g.FileData(fileUri: c.data))
           else
-            g.DataPart(c.mimeType ?? '', base64Decode(c.data)),
+            g.InlineDataPart(
+              g.Blob.fromBytes(
+                c.mimeType ?? 'image/jpeg',
+                base64Decode(c.data),
+              ),
+            ),
         ],
       final ChatMessageContentMultiModal c => c.parts
           .map(
             (final p) => switch (p) {
               final ChatMessageContentText c => g.TextPart(c.text),
               final ChatMessageContentImage c => c.data.startsWith('http')
-                  ? g.FilePart(Uri.parse(c.data))
-                  : g.DataPart(c.mimeType ?? '', base64Decode(c.data)),
+                  ? g.FileDataPart(g.FileData(fileUri: c.data))
+                  : g.InlineDataPart(
+                      g.Blob.fromBytes(
+                        c.mimeType ?? 'image/jpeg',
+                        base64Decode(c.data),
+                      ),
+                    ),
               ChatMessageContentMultiModal() => throw UnsupportedError(
                   'Cannot have multimodal content in multimodal content',
                 ),
@@ -86,7 +99,7 @@ extension ChatMessagesMapper on List<ChatMessage> {
           )
           .toList(growable: false),
     };
-    return g.Content.multi(contentParts);
+    return g.Content(role: 'user', parts: contentParts);
   }
 
   g.Content _mapAIChatMessage(final AIChatMessage msg) {
@@ -94,64 +107,79 @@ extension ChatMessagesMapper on List<ChatMessage> {
       if (msg.content.isNotEmpty) g.TextPart(msg.content),
       if (msg.toolCalls.isNotEmpty)
         ...msg.toolCalls.map(
-          (final call) => g.FunctionCall(call.name, call.arguments),
+          (final call) => g.FunctionCallPart(
+            g.FunctionCall(name: call.name, args: call.arguments),
+          ),
         ),
     ];
-    return g.Content.model(contentParts);
+    return g.Content(role: 'model', parts: contentParts);
   }
 
-  g.FunctionResponse _toolMsgToFunctionResponse(final ToolChatMessage msg) {
+  g.FunctionResponsePart _toolMsgToFunctionResponsePart(
+    final ToolChatMessage msg,
+  ) {
     Map<String, Object?> response;
     try {
       response = jsonDecode(msg.content) as Map<String, Object?>;
     } catch (_) {
       response = {'result': msg.content};
     }
-    return g.FunctionResponse(msg.toolCallId, response);
+    return g.FunctionResponsePart(
+      g.FunctionResponse(name: msg.toolCallId, response: response),
+    );
   }
 
   g.Content _mapCustomChatMessage(final CustomChatMessage msg) {
-    return g.Content(msg.role, [g.TextPart(msg.content)]);
+    return g.Content(role: msg.role, parts: [g.TextPart(msg.content)]);
   }
 }
 
 extension GenerateContentResponseMapper on g.GenerateContentResponse {
   ChatResult toChatResult(final String id, final String model) {
-    final candidate = candidates.first;
+    final candidate = candidates?.first;
+    if (candidate == null) {
+      throw StateError('No candidates in response');
+    }
+
     return ChatResult(
       id: id,
       output: AIChatMessage(
-        content: candidate.content.parts
-            .map(
-              (p) => switch (p) {
-                final g.TextPart p => p.text,
-                final g.DataPart p => base64Encode(p.bytes),
-                final g.FilePart p => p.uri.toString(),
-                g.FunctionResponse() || g.FunctionCall() => '',
-                g.ExecutableCode() => '',
-                g.CodeExecutionResult() => '',
-                _ => throw AssertionError('Unknown part type: $p'),
-              },
-            )
-            .nonNulls
-            .join('\n'),
-        toolCalls: candidate.content.parts
-            .whereType<g.FunctionCall>()
-            .map(
-              (final call) => AIChatMessageToolCall(
-                id: call.name,
-                name: call.name,
-                argumentsRaw: jsonEncode(call.args),
-                arguments: call.args,
-              ),
-            )
-            .toList(growable: false),
+        content: candidate.content?.parts
+                .map(
+                  (p) => switch (p) {
+                    final g.TextPart p => p.text,
+                    final g.InlineDataPart p => p.inlineData.data,
+                    final g.FileDataPart p => p.fileData.fileUri,
+                    g.FunctionResponsePart() => '',
+                    g.FunctionCallPart() => '',
+                    g.ExecutableCodePart() => '',
+                    g.CodeExecutionResultPart() => '',
+                    g.VideoMetadataPart() => '',
+                    g.ThoughtPart() => '',
+                    g.ThoughtSignaturePart() => '',
+                    g.PartMetadataPart() => '',
+                  },
+                )
+                .nonNulls
+                .join('\n') ??
+            '',
+        toolCalls: candidate.content?.parts
+                .whereType<g.FunctionCallPart>()
+                .map(
+                  (final part) => AIChatMessageToolCall(
+                    id: part.functionCall.name,
+                    name: part.functionCall.name,
+                    argumentsRaw: jsonEncode(part.functionCall.args ?? {}),
+                    arguments: part.functionCall.args ?? {},
+                  ),
+                )
+                .toList(growable: false) ??
+            [],
       ),
       finishReason: _mapFinishReason(candidate.finishReason),
       metadata: {
         'model': model,
         'block_reason': promptFeedback?.blockReason?.name,
-        'block_reason_message': promptFeedback?.blockReasonMessage,
         'safety_ratings': candidate.safetyRatings
             ?.map(
               (r) => {
@@ -161,23 +189,34 @@ extension GenerateContentResponseMapper on g.GenerateContentResponse {
             )
             .toList(growable: false),
         'citation_metadata': candidate.citationMetadata?.citationSources
-            .map(
-              (s) => {
+            ?.map(
+              (final g.CitationSource s) => {
                 'start_index': s.startIndex,
                 'end_index': s.endIndex,
-                'uri': s.uri.toString(),
+                'uri': s.uri,
+                'title': s.title,
                 'license': s.license,
+                'publication_date': s.publicationDate?.toIso8601String(),
               },
             )
             .toList(growable: false),
-        'finish_message': candidate.finishMessage,
-        'executable_code': candidate.content.parts
-            .whereType<g.ExecutableCode>()
-            .map((code) => code.toJson())
+        'executable_code': candidate.content?.parts
+            .whereType<g.ExecutableCodePart>()
+            .map(
+              (code) => {
+                'language': code.executableCode.language.name,
+                'code': code.executableCode.code,
+              },
+            )
             .toList(growable: false),
-        'code_execution_result': candidate.content.parts
-            .whereType<g.CodeExecutionResult>()
-            .map((result) => result.toJson())
+        'code_execution_result': candidate.content?.parts
+            .whereType<g.CodeExecutionResultPart>()
+            .map(
+              (result) => {
+                'outcome': result.codeExecutionResult.outcome.name,
+                'output': result.codeExecutionResult.output,
+              },
+            )
             .toList(growable: false),
       },
       usage: LanguageModelUsage(
@@ -198,6 +237,10 @@ extension GenerateContentResponseMapper on g.GenerateContentResponse {
         g.FinishReason.safety => FinishReason.contentFilter,
         g.FinishReason.recitation => FinishReason.recitation,
         g.FinishReason.other => FinishReason.unspecified,
+        g.FinishReason.blocklist => FinishReason.contentFilter,
+        g.FinishReason.prohibitedContent => FinishReason.contentFilter,
+        g.FinishReason.spii => FinishReason.contentFilter,
+        g.FinishReason.malformedFunctionCall => FinishReason.unspecified,
         null => FinishReason.unspecified,
       };
 }
@@ -206,7 +249,7 @@ extension SafetySettingsMapper on List<ChatGoogleGenerativeAISafetySetting> {
   List<g.SafetySetting> toSafetySettings() {
     return map(
       (final setting) => g.SafetySetting(
-        switch (setting.category) {
+        category: switch (setting.category) {
           ChatGoogleGenerativeAISafetySettingCategory.unspecified =>
             g.HarmCategory.unspecified,
           ChatGoogleGenerativeAISafetySettingCategory.harassment =>
@@ -218,17 +261,17 @@ extension SafetySettingsMapper on List<ChatGoogleGenerativeAISafetySetting> {
           ChatGoogleGenerativeAISafetySettingCategory.dangerousContent =>
             g.HarmCategory.dangerousContent,
         },
-        switch (setting.threshold) {
+        threshold: switch (setting.threshold) {
           ChatGoogleGenerativeAISafetySettingThreshold.unspecified =>
             g.HarmBlockThreshold.unspecified,
           ChatGoogleGenerativeAISafetySettingThreshold.blockLowAndAbove =>
-            g.HarmBlockThreshold.low,
+            g.HarmBlockThreshold.blockLowAndAbove,
           ChatGoogleGenerativeAISafetySettingThreshold.blockMediumAndAbove =>
-            g.HarmBlockThreshold.medium,
+            g.HarmBlockThreshold.blockMediumAndAbove,
           ChatGoogleGenerativeAISafetySettingThreshold.blockOnlyHigh =>
-            g.HarmBlockThreshold.high,
+            g.HarmBlockThreshold.blockOnlyHigh,
           ChatGoogleGenerativeAISafetySettingThreshold.blockNone =>
-            g.HarmBlockThreshold.none,
+            g.HarmBlockThreshold.blockNone,
         },
       ),
     ).toList(growable: false);
@@ -246,13 +289,13 @@ extension ChatToolListMapper on List<ToolSpec>? {
         functionDeclarations: this
             ?.map(
               (tool) => g.FunctionDeclaration(
-                tool.name,
-                tool.description,
-                tool.inputJsonSchema.toSchema(),
+                name: tool.name,
+                description: tool.description,
+                parameters: tool.inputJsonSchema.toSchema(),
               ),
             )
             .toList(growable: false),
-        codeExecution: enableCodeExecution ? g.CodeExecution() : null,
+        codeExecution: enableCodeExecution ? <String, dynamic>{} : null,
       ),
     ];
   }
@@ -264,47 +307,46 @@ extension SchemaMapper on Map<String, dynamic> {
     final type = jsonSchema['type'] as String;
     final description = jsonSchema['description'] as String?;
     final nullable = jsonSchema['nullable'] as bool?;
-    final enumValues = jsonSchema['enum'] as List<String>?;
+    final enumValues = (jsonSchema['enum'] as List?)?.cast<String>();
     final format = jsonSchema['format'] as String?;
     final items = jsonSchema['items'] as Map<String, dynamic>?;
     final properties = jsonSchema['properties'] as Map<String, dynamic>?;
-    final requiredProperties = jsonSchema['required'] as List<String>?;
+    final requiredProperties =
+        (jsonSchema['required'] as List?)?.cast<String>();
 
     switch (type) {
       case 'string':
-        if (enumValues != null) {
-          return g.Schema.enumString(
-            enumValues: enumValues,
-            description: description,
-            nullable: nullable,
-          );
-        } else {
-          return g.Schema.string(
-            description: description,
-            nullable: nullable,
-          );
-        }
+        return g.Schema(
+          type: g.SchemaType.string,
+          description: description,
+          nullable: nullable,
+          enumValues: enumValues,
+        );
       case 'number':
-        return g.Schema.number(
+        return g.Schema(
+          type: g.SchemaType.number,
           description: description,
           nullable: nullable,
           format: format,
         );
       case 'integer':
-        return g.Schema.integer(
+        return g.Schema(
+          type: g.SchemaType.integer,
           description: description,
           nullable: nullable,
           format: format,
         );
       case 'boolean':
-        return g.Schema.boolean(
+        return g.Schema(
+          type: g.SchemaType.boolean,
           description: description,
           nullable: nullable,
         );
       case 'array':
         if (items != null) {
           final itemsSchema = items.toSchema();
-          return g.Schema.array(
+          return g.Schema(
+            type: g.SchemaType.array,
             items: itemsSchema,
             description: description,
             nullable: nullable,
@@ -319,9 +361,10 @@ extension SchemaMapper on Map<String, dynamic> {
               (value as Map<String, dynamic>).toSchema(),
             ),
           );
-          return g.Schema.object(
+          return g.Schema(
+            type: g.SchemaType.object,
             properties: propertiesSchema,
-            requiredProperties: requiredProperties,
+            required: requiredProperties,
             description: description,
             nullable: nullable,
           );
@@ -334,29 +377,29 @@ extension SchemaMapper on Map<String, dynamic> {
 }
 
 extension ChatToolChoiceMapper on ChatToolChoice {
-  g.ToolConfig toToolConfig() {
+  Map<String, dynamic> toToolConfig() {
     return switch (this) {
-      ChatToolChoiceNone _ => g.ToolConfig(
-          functionCallingConfig: g.FunctionCallingConfig(
-            mode: g.FunctionCallingMode.none,
-          ),
-        ),
-      ChatToolChoiceAuto _ => g.ToolConfig(
-          functionCallingConfig: g.FunctionCallingConfig(
-            mode: g.FunctionCallingMode.auto,
-          ),
-        ),
-      ChatToolChoiceRequired() => g.ToolConfig(
-          functionCallingConfig: g.FunctionCallingConfig(
-            mode: g.FunctionCallingMode.any,
-          ),
-        ),
-      final ChatToolChoiceForced t => g.ToolConfig(
-          functionCallingConfig: g.FunctionCallingConfig(
-            mode: g.FunctionCallingMode.any,
-            allowedFunctionNames: {t.name},
-          ),
-        ),
+      ChatToolChoiceNone _ => {
+          'functionCallingConfig': {
+            'mode': 'NONE',
+          },
+        },
+      ChatToolChoiceAuto _ => {
+          'functionCallingConfig': {
+            'mode': 'AUTO',
+          },
+        },
+      ChatToolChoiceRequired() => {
+          'functionCallingConfig': {
+            'mode': 'ANY',
+          },
+        },
+      final ChatToolChoiceForced t => {
+          'functionCallingConfig': {
+            'mode': 'ANY',
+            'allowedFunctionNames': [t.name],
+          },
+        },
     };
   }
 }

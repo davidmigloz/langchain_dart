@@ -3,16 +3,15 @@ import 'package:langchain_core/llms.dart';
 import 'package:meta/meta.dart';
 
 /// {@template vertex_ai_options}
-/// Options to pass into the Vertex AI LLM.
+/// Options to pass into the Vertex AI LLM (Gemini API).
 ///
 /// You can find a list of available models here:
-/// https://cloud.google.com/vertex-ai/docs/generative-ai/learn/models
+/// https://cloud.google.com/vertex-ai/generative-ai/docs/learn/model-versions#latest-stable
 /// {@endtemplate}
 @immutable
 class VertexAIOptions extends LLMOptions {
   /// {@macro vertex_ai_options}
   const VertexAIOptions({
-    this.publisher,
     super.model,
     this.maxOutputTokens,
     this.temperature,
@@ -23,79 +22,57 @@ class VertexAIOptions extends LLMOptions {
     super.concurrencyLimit,
   });
 
-  /// The publisher of the model.
+  /// Maximum number of tokens that can be generated in the response.
   ///
-  /// Use `google` for first-party models.
-  final String? publisher;
-
-  /// Maximum number of tokens that can be generated in the response. A token
-  /// is approximately four characters. 100 tokens correspond to roughly
-  /// 60-80 words.
-  ///
-  /// Specify a lower value for shorter responses and a higher value for longer
-  /// responses.
-  ///
-  /// Range: `[1, 1024]`
+  /// If unset, this will default to `output_token_limit` specified in the `Model`
+  /// specification.
   final int? maxOutputTokens;
 
-  /// The temperature is used for sampling during response generation, which
-  /// occurs when topP and topK are applied. Temperature controls the degree of
-  /// randomness in token selection. Lower temperatures are good for prompts
-  /// that require a more deterministic and less open-ended or creative
-  /// response, while higher temperatures can lead to more diverse or creative
-  /// results. A temperature of 0 is deterministic, meaning that the highest
-  /// probability response is always selected.
+  /// Controls the randomness of the output.
   ///
-  /// For most use cases, try starting with a temperature of 0.2. If the model
-  /// returns a response that's too generic, too short, or the model gives a
-  /// fallback response, try increasing the temperature.
+  /// Note: The default value varies by model, see the `Model.temperature`
+  /// attribute of the `Model` returned the `getModel` function.
   ///
-  /// Range: `[0.0, 1.0]`
+  /// Values can range from [0.0,1.0], inclusive. A value closer to 1.0 will
+  /// produce responses that are more varied and creative, while a value
+  /// closer to 0.0 will typically result in more straightforward responses
+  /// from the model.
   final double? temperature;
 
-  /// Top-P changes how the model selects tokens for output. Tokens are
-  /// selected from the most (see top-K) to least probable until the sum of
-  /// their probabilities equals the top-P value. For example, if tokens A, B,
-  /// and C have a probability of 0.3, 0.2, and 0.1 and the top-P value is 0.5,
-  /// then the model will select either A or B as the next token by using
-  /// temperature and excludes C as a candidate.
+  /// The maximum cumulative probability of tokens to consider when sampling.
   ///
-  /// Specify a lower value for less random responses and a higher value for
-  /// more random responses.
+  /// The model uses combined Top-k and nucleus sampling. Tokens are sorted
+  /// based on their assigned probabilities so that only the most likely
+  /// tokens are considered. Top-k sampling directly limits the maximum
+  /// number of tokens to consider, while Nucleus sampling limits number of
+  /// tokens based on the cumulative probability.
   ///
-  /// Range: `[0.0, 1.0]`
+  /// Note: The default value varies by model, see the `Model.top_p`
+  /// attribute of the `Model` returned the `getModel` function.
   final double? topP;
 
-  /// Top-K changes how the model selects tokens for output. A top-K of 1 means
-  /// the next selected token is the most probable among all tokens in the
-  /// model's vocabulary (also called greedy decoding), while a top-K of 3
-  /// means that the next token is selected from among the three most probable
-  /// tokens by using temperature.
+  /// The maximum number of tokens to consider when sampling.
   ///
-  /// For each token selection step, the top-K tokens with the highest
-  /// probabilities are sampled. Then tokens are further filtered based on
-  /// top-P with the final token selected using temperature sampling.
+  /// The model uses combined Top-k and nucleus sampling. Top-k sampling considers
+  /// the set of `top_k` most probable tokens. Defaults to 40.
   ///
-  /// Specify a lower value for less random responses and a higher value for
-  /// more random responses.
-  ///
-  /// Range: `[1, 40]`
+  /// Note: The default value varies by model, see the `Model.top_k` attribute
+  /// of the `Model` returned the `getModel` function.
   final int? topK;
 
-  /// Specifies a list of strings that tells the model to stop generating text
-  /// if one of the strings is encountered in the response. If a string appears
-  /// multiple times in the response, then the response truncates where it's
-  /// first encountered. The strings are case-sensitive.
+  /// The set of character sequences (up to 5) that will stop output generation.
+  ///
+  /// If specified, the API will stop at the first appearance of a stop sequence.
+  /// The stop sequence will not be included as part of the response.
   final List<String>? stopSequences;
 
-  /// The number of response variations to return.
+  /// Number of generated responses to return.
   ///
-  /// Range: `[1–8]`
+  /// This value must be between [1, 8], inclusive. If unset, this will default to 1.
   final int? candidateCount;
 
   @override
   VertexAIOptions copyWith({
-    final String? publisher,
     final String? model,
     final int? maxOutputTokens,
     final double? temperature,
@@ -106,7 +83,6 @@ class VertexAIOptions extends LLMOptions {
     final int? concurrencyLimit,
   }) {
     return VertexAIOptions(
-      publisher: publisher ?? this.publisher,
       model: model ?? this.model,
       maxOutputTokens: maxOutputTokens ?? this.maxOutputTokens,
       temperature: temperature ?? this.temperature,
@@ -121,7 +97,6 @@ class VertexAIOptions extends LLMOptions {
   @override
   VertexAIOptions merge(covariant final VertexAIOptions? other) {
     return copyWith(
-      publisher: other?.publisher,
       model: other?.model,
       maxOutputTokens: other?.maxOutputTokens,
       temperature: other?.temperature,
@@ -135,8 +110,7 @@ class VertexAIOptions extends LLMOptions {
 
   @override
   bool operator ==(covariant final VertexAIOptions other) {
-    return publisher == other.publisher &&
-        model == other.model &&
+    return model == other.model &&
         maxOutputTokens == other.maxOutputTokens &&
         temperature == other.temperature &&
         topP == other.topP &&
@@ -149,8 +123,7 @@ class VertexAIOptions extends LLMOptions {
 
   @override
   int get hashCode {
-    return publisher.hashCode ^
-        model.hashCode ^
+    return model.hashCode ^
         maxOutputTokens.hashCode ^
         temperature.hashCode ^
         topP.hashCode ^

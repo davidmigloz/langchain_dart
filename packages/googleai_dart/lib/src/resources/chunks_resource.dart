@@ -148,7 +148,8 @@ class ChunksResource extends ResourceBase {
   Future<BatchCreateChunksResponse> batchCreate({
     required BatchCreateChunksRequest request,
   }) async {
-    final url = requestBuilder.buildUrl('/{version}/$document/chunks:batchCreate');
+    final url =
+        requestBuilder.buildUrl('/{version}/$document/chunks:batchCreate');
 
     final headers = requestBuilder.buildHeaders(
       additionalHeaders: {
@@ -172,7 +173,8 @@ class ChunksResource extends ResourceBase {
   Future<BatchUpdateChunksResponse> batchUpdate({
     required BatchUpdateChunksRequest request,
   }) async {
-    final url = requestBuilder.buildUrl('/{version}/$document/chunks:batchUpdate');
+    final url =
+        requestBuilder.buildUrl('/{version}/$document/chunks:batchUpdate');
 
     final headers = requestBuilder.buildHeaders(
       additionalHeaders: {
@@ -196,7 +198,8 @@ class ChunksResource extends ResourceBase {
   Future<void> batchDelete({
     required BatchDeleteChunksRequest request,
   }) async {
-    final url = requestBuilder.buildUrl('/{version}/$document/chunks:batchDelete');
+    final url =
+        requestBuilder.buildUrl('/{version}/$document/chunks:batchDelete');
 
     final headers = requestBuilder.buildHeaders(
       additionalHeaders: {

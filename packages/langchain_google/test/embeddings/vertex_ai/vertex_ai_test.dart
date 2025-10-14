@@ -9,12 +9,12 @@ import 'package:test/test.dart';
 
 import '../../utils/auth.dart';
 
-void main() async {
-  final authHttpClient = await getAuthHttpClient();
+void main() {
+  final authProvider = getAuthProvider();
   group('VertexAIEmbeddings tests', () {
     test('Test VertexAIEmbeddings.embedQuery', () async {
       final embeddings = VertexAIEmbeddings(
-        httpClient: authHttpClient,
+        authProvider: authProvider,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
       );
       final res = await embeddings.embedQuery('Hello world');
@@ -23,7 +23,7 @@ void main() async {
 
     test('Test VertexAIEmbeddings.embedDocuments', () async {
       final embeddings = VertexAIEmbeddings(
-        httpClient: authHttpClient,
+        authProvider: authProvider,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
         batchSize: 1,
       );

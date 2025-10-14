@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/tools.dart';
 import 'package:meta/meta.dart';
@@ -22,6 +23,9 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
     this.responseSchema,
     this.safetySettings,
     this.enableCodeExecution,
+    this.presencePenalty,
+    this.frequencyPenalty,
+    this.cachedContent,
     super.tools,
     super.toolChoice,
     super.concurrencyLimit,
@@ -122,6 +126,35 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
   /// as `metadata['executable_code']` and `metadata['code_execution_result']`.
   final bool? enableCodeExecution;
 
+  /// Presence penalty applied to the next token's logprobs if the token has
+  /// already been seen in the generated text.
+  ///
+  /// Positive values discourage tokens that have already appeared, making the
+  /// model more likely to introduce new topics.
+  ///
+  /// Values typically range from -1.0 to 1.0.
+  final double? presencePenalty;
+
+  /// Frequency penalty applied to the next token's logprobs, multiplied by the
+  /// number of times the token has been seen in the generated text.
+  ///
+  /// Positive values discourage tokens that have appeared frequently, making the
+  /// model less likely to repeat the same content verbatim.
+  ///
+  /// Values typically range from -1.0 to 1.0.
+  final double? frequencyPenalty;
+
+  /// The name of the cached content to use as context for prediction.
+  ///
+  /// Caching can significantly reduce costs and latency for requests that reuse
+  /// the same long context (like system instructions or large documents).
+  ///
+  /// Format: `cachedContents/{id}`
+  ///
+  /// To create cached content, use the Google AI API's caching endpoints.
+  /// See: https://ai.google.dev/gemini-api/docs/caching
+  final String? cachedContent;
+
   @override
   ChatGoogleGenerativeAIOptions copyWith({
     final String? model,
@@ -131,8 +164,13 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
     final int? maxOutputTokens,
     final double? temperature,
     final List<String>? stopSequences,
+    final String? responseMimeType,
+    final Map<String, dynamic>? responseSchema,
     final List<ChatGoogleGenerativeAISafetySetting>? safetySettings,
     final bool? enableCodeExecution,
+    final double? presencePenalty,
+    final double? frequencyPenalty,
+    final String? cachedContent,
     final List<ToolSpec>? tools,
     final ChatToolChoice? toolChoice,
     final int? concurrencyLimit,
@@ -145,8 +183,13 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
       maxOutputTokens: maxOutputTokens ?? this.maxOutputTokens,
       temperature: temperature ?? this.temperature,
       stopSequences: stopSequences ?? this.stopSequences,
+      responseMimeType: responseMimeType ?? this.responseMimeType,
+      responseSchema: responseSchema ?? this.responseSchema,
       safetySettings: safetySettings ?? this.safetySettings,
       enableCodeExecution: enableCodeExecution ?? this.enableCodeExecution,
+      presencePenalty: presencePenalty ?? this.presencePenalty,
+      frequencyPenalty: frequencyPenalty ?? this.frequencyPenalty,
+      cachedContent: cachedContent ?? this.cachedContent,
       tools: tools ?? this.tools,
       toolChoice: toolChoice ?? this.toolChoice,
       concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
@@ -165,8 +208,13 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
       maxOutputTokens: other?.maxOutputTokens,
       temperature: other?.temperature,
       stopSequences: other?.stopSequences,
+      responseMimeType: other?.responseMimeType,
+      responseSchema: other?.responseSchema,
       safetySettings: other?.safetySettings,
       enableCodeExecution: other?.enableCodeExecution,
+      presencePenalty: other?.presencePenalty,
+      frequencyPenalty: other?.frequencyPenalty,
+      cachedContent: other?.cachedContent,
       tools: other?.tools,
       toolChoice: other?.toolChoice,
       concurrencyLimit: other?.concurrencyLimit,
@@ -181,10 +229,17 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
         candidateCount == other.candidateCount &&
         maxOutputTokens == other.maxOutputTokens &&
         temperature == other.temperature &&
-        stopSequences == other.stopSequences &&
-        safetySettings == other.safetySettings &&
+        const ListEquality<String>()
+            .equals(stopSequences, other.stopSequences) &&
+        responseMimeType == other.responseMimeType &&
+        responseSchema == other.responseSchema &&
+        const ListEquality<ChatGoogleGenerativeAISafetySetting>()
+            .equals(safetySettings, other.safetySettings) &&
         enableCodeExecution == other.enableCodeExecution &&
-        tools == other.tools &&
+        presencePenalty == other.presencePenalty &&
+        frequencyPenalty == other.frequencyPenalty &&
+        cachedContent == other.cachedContent &&
+        const ListEquality<ToolSpec>().equals(tools, other.tools) &&
         toolChoice == other.toolChoice &&
         concurrencyLimit == other.concurrencyLimit;
   }
@@ -197,10 +252,16 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
         candidateCount.hashCode ^
         maxOutputTokens.hashCode ^
         temperature.hashCode ^
-        stopSequences.hashCode ^
-        safetySettings.hashCode ^
+        const ListEquality<String>().hash(stopSequences) ^
+        responseMimeType.hashCode ^
+        responseSchema.hashCode ^
+        const ListEquality<ChatGoogleGenerativeAISafetySetting>()
+            .hash(safetySettings) ^
         enableCodeExecution.hashCode ^
-        tools.hashCode ^
+        presencePenalty.hashCode ^
+        frequencyPenalty.hashCode ^
+        cachedContent.hashCode ^
+        const ListEquality<ToolSpec>().hash(tools) ^
         toolChoice.hashCode ^
         concurrencyLimit.hashCode;
   }

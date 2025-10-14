@@ -22,14 +22,13 @@ void main() {
     });
 
     test('Test GoogleGenerativeAIEmbeddings.embedQuery', () async {
-      const models = ['text-embedding-004', 'embedding-001'];
+      const models = ['gemini-embedding-001'];
       for (final model in models) {
         embeddings.model = model;
         final res = await embeddings.embedQuery(
           'Hello world',
         );
-        expect(res.length, 768);
-        embeddings.close();
+        expect(res.length, 3072);
       }
     });
 
@@ -45,8 +44,8 @@ void main() {
         ),
       ]);
       expect(res.length, 2);
-      expect(res[0].length, 768);
-      expect(res[1].length, 768);
+      expect(res[0].length, 3072);
+      expect(res[1].length, 3072);
     });
 
     test('Test shortening embeddings', () async {

@@ -1,26 +1,30 @@
-import 'package:http/http.dart' as http;
+import 'package:googleai_dart/googleai_dart.dart' as g;
 import 'package:langchain_core/llms.dart';
 import 'package:langchain_core/prompts.dart';
 import 'package:uuid/uuid.dart';
-import 'package:vertex_ai/vertex_ai.dart';
 
+import '../../utils/auth/http_client_auth_provider.dart';
 import 'mappers.dart';
 import 'types.dart';
 
 /// {@template vertex_ai}
-/// Wrapper around GCP Vertex AI text models API (aka PaLM API for text).
+/// Wrapper around GCP Vertex AI text models API (Gemini API).
 ///
 /// Example:
 /// ```dart
+/// final authProvider = HttpClientAuthProvider(
+///   credentials: ServiceAccountCredentials.fromJson({...}),
+///   scopes: ['https://www.googleapis.com/auth/cloud-platform'],
+/// );
 /// final llm = VertexAI(
-///   authHttpClient: authClient,
+///   authProvider: authProvider,
 ///   project: 'your-project-id',
 /// );
 /// final result = await llm('Hello world!');
 /// ```
 ///
 /// Vertex AI documentation:
-/// https://cloud.google.com/vertex-ai/docs/generative-ai/language-model-overview
+/// https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/overview
 ///
 /// ### Set up your Google Cloud Platform project
 ///
@@ -32,18 +36,7 @@ import 'types.dart';
 /// ### Authentication
 ///
 /// To create an instance of `VertexAI` you need to provide an
-/// HTTP client that handles authentication. The easiest way to do this is to
-/// use [`AuthClient`](https://pub.dev/documentation/googleapis_auth/latest/googleapis_auth/AuthClient-class.html)
-/// from the [googleapis_auth](https://pub.dev/packages/googleapis_auth)
-/// package.
-///
-/// To create an instance of `VertexAI` you need to provide an
-/// [`AuthClient`](https://pub.dev/documentation/googleapis_auth/latest/googleapis_auth/AuthClient-class.html)
-/// instance.
-///
-/// There are several ways to obtain an `AuthClient` depending on your use case.
-/// Check out the [googleapis_auth](https://pub.dev/packages/googleapis_auth)
-/// package documentation for more details.
+/// [HttpClientAuthProvider] that wraps your service account credentials.
 ///
 /// Example using a service account JSON:
 ///
@@ -51,12 +44,12 @@ import 'types.dart';
 /// final serviceAccountCredentials = ServiceAccountCredentials.fromJson(
 ///   json.decode(serviceAccountJson),
 /// );
-/// final authClient = await clientViaServiceAccount(
-///   serviceAccountCredentials,
-///   [VertexAI.cloudPlatformScope],
+/// final authProvider = HttpClientAuthProvider(
+///   credentials: serviceAccountCredentials,
+///   scopes: ['https://www.googleapis.com/auth/cloud-platform'],
 /// );
-/// final vertexAi = VertexAI(
-///   httpClient: authClient,
+/// final llm = VertexAI(
+///   authProvider: authProvider,
 ///   project: 'your-project-id',
 /// );
 /// ```
@@ -65,35 +58,45 @@ import 'types.dart';
 /// [permission](https://cloud.google.com/vertex-ai/docs/general/iam-permissions):
 /// - `aiplatform.endpoints.predict`
 ///
-/// The required[OAuth2 scope](https://developers.google.com/identity/protocols/oauth2/scopes)
+/// The required [OAuth2 scope](https://developers.google.com/identity/protocols/oauth2/scopes)
 /// is:
 /// - `https://www.googleapis.com/auth/cloud-platform` (you can use the
-///   constant `VertexAI.cloudPlatformScope`)
+///   constant [VertexAI.cloudPlatformScope])
 ///
 /// See: https://cloud.google.com/vertex-ai/docs/generative-ai/access-control
 ///
 /// ### Available models
 ///
-/// - `text-bison`
-///   * Max input token: 8192
-///   * Max output tokens: 1024
-///   * Training data: Up to Feb 2023
-/// - `text-bison-32k`
-///   * Max input and output tokens combined: 32k
-///   * Training data: Up to Aug 2023
-/// - `text-unicorn`
-///   * Max input token: 8192
-///   * Max output tokens: 1024
-///   * Training data: Up to Feb 2023
+/// **Latest stable models:**
+///
+/// - `gemini-2.5-flash` (recommended):
+///   * Multimodal input and text output
+///   * Context window: 1M tokens
+///   * Max output: 8,192 tokens
+///
+/// - `gemini-2.0-flash-exp`:
+///   * Multimodal input and output
+///   * Context window: 1M tokens
+///   * Max output: 8,192 tokens
+///
+/// - `gemini-1.5-pro`:
+///   * Multimodal input and text output
+///   * Context window: 2M tokens
+///   * Max output: 8,192 tokens
+///
+/// - `gemini-1.5-flash`:
+///   * Multimodal input and text output
+///   * Context window: 1M tokens
+///   * Max output: 8,192 tokens
 ///
 /// The previous list of models may not be exhaustive or up-to-date. Check out
-/// the [Vertex AI documentation](https://cloud.google.com/vertex-ai/docs/generative-ai/learn/models)
-/// for the latest list of available models.
+/// the [Vertex AI documentation](https://cloud.google.com/vertex-ai/generative-ai/docs/learn/model-versions#latest-stable)
+/// for the latest stable models.
 ///
 /// ### Model options
 ///
 /// You can define default options to use when calling the model (e.g.
-/// temperature, stop sequences, etc. ) using the [defaultOptions] parameter.
+/// temperature, stop sequences, etc.) using the [defaultOptions] parameter.
 ///
 /// The default options can be overridden when calling the model using the
 /// `options` parameter.
@@ -101,7 +104,7 @@ import 'types.dart';
 /// Example:
 /// ```dart
 /// final llm = VertexAI(
-///   httpClient: authClient,
+///   authProvider: authProvider,
 ///   project: 'your-project-id',
 ///   defaultOptions: VertexAIOptions(
 ///     temperature: 0.9,
@@ -111,46 +114,47 @@ import 'types.dart';
 ///   'Hello world!',
 ///   options: VertexAIOptions(
 ///     temperature: 0.5,
-///    ),
+///   ),
 /// );
 /// ```
 /// {@endtemplate}
 class VertexAI extends BaseLLM<VertexAIOptions> {
   /// {@macro vertex_ai}
   VertexAI({
-    required final http.Client httpClient,
+    required final HttpClientAuthProvider authProvider,
     required final String project,
     final String location = 'us-central1',
-    final String? rootUrl,
     super.defaultOptions = const VertexAIOptions(
-      publisher: defaultPublisher,
       model: defaultModel,
     ),
-  }) : client = VertexAIGenAIClient(
-          httpClient: httpClient,
-          project: project,
-          location: location,
-          rootUrl: rootUrl ?? 'https://$location-aiplatform.googleapis.com/',
-        );
+  }) : _currentModel = defaultOptions.model ?? defaultModel {
+    _googleAiClient = g.GoogleAIClient(
+      config: g.GoogleAIConfig.vertexAI(
+        projectId: project,
+        location: location,
+        authProvider: authProvider,
+      ),
+    );
+  }
 
   /// A client for interacting with Vertex AI API.
-  final VertexAIGenAIClient client;
+  late g.GoogleAIClient _googleAiClient;
 
   /// Scope required for Vertex AI API calls.
   static const String cloudPlatformScope =
-      VertexAIGenAIClient.cloudPlatformScope;
+      'https://www.googleapis.com/auth/cloud-platform';
 
   /// A UUID generator.
   late final _uuid = const Uuid();
 
+  /// The current model.
+  String _currentModel;
+
   @override
   String get modelType => 'vertex-ai';
 
-  /// The default publisher to use unless another is specified.
-  static const defaultPublisher = 'google';
-
   /// The default model to use unless another is specified.
-  static const defaultModel = 'text-bison';
+  static const defaultModel = 'gemini-2.5-flash';
 
   @override
   Future<LLMResult> invoke(
@@ -158,26 +162,34 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
     final VertexAIOptions? options,
   }) async {
     final id = _uuid.v4();
-    final publisher =
-        options?.publisher ?? defaultOptions.publisher ?? defaultPublisher;
-    final model = options?.model ?? defaultOptions.model ?? defaultModel;
-    final result = await client.text.predict(
-      prompt: input.toString(),
-      publisher: publisher,
-      model: model,
-      parameters: VertexAITextModelRequestParams(
-        maxOutputTokens:
-            options?.maxOutputTokens ?? defaultOptions.maxOutputTokens ?? 1024,
-        temperature: options?.temperature ?? defaultOptions.temperature ?? 0.2,
-        topP: options?.topP ?? defaultOptions.topP ?? 0.95,
-        topK: options?.topK ?? defaultOptions.topK ?? 40,
-        stopSequences:
-            options?.stopSequences ?? defaultOptions.stopSequences ?? const [],
-        candidateCount:
-            options?.candidateCount ?? defaultOptions.candidateCount ?? 1,
-      ),
+    _updateCurrentModel(options);
+
+    final request =
+        _generateCompletionRequest(input.toString(), options: options);
+    final response = await _googleAiClient.models.generateContent(
+      model: _currentModel,
+      request: request,
     );
-    return result.toLLMResult(id, model);
+
+    return response.toLLMResult(id, _currentModel);
+  }
+
+  @override
+  Stream<LLMResult> stream(
+    final PromptValue input, {
+    final VertexAIOptions? options,
+  }) {
+    final id = _uuid.v4();
+    _updateCurrentModel(options);
+
+    final request =
+        _generateCompletionRequest(input.toString(), options: options);
+    return _googleAiClient.models
+        .streamGenerateContent(
+          model: _currentModel,
+          request: request,
+        )
+        .map((final response) => response.toLLMResult(id, _currentModel));
   }
 
   @override
@@ -186,7 +198,7 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
     final VertexAIOptions? options,
   }) {
     throw UnsupportedError(
-      'VertexAI does not support tokenize, only countTokens',
+      'Vertex AI does not expose a tokenizer, only counting tokens is supported.',
     );
   }
 
@@ -195,14 +207,56 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
     final PromptValue promptValue, {
     final VertexAIOptions? options,
   }) async {
-    final publisher =
-        options?.publisher ?? defaultOptions.publisher ?? defaultPublisher;
-    final model = options?.model ?? defaultOptions.model ?? defaultModel;
-    final res = await client.text.countTokens(
-      prompt: promptValue.toString(),
-      publisher: publisher,
-      model: model,
+    _updateCurrentModel(options);
+
+    final request =
+        _generateCompletionRequest(promptValue.toString(), options: options);
+    final response = await _googleAiClient.models.countTokens(
+      model: _currentModel,
+      request: g.CountTokensRequest(
+        contents: request.contents,
+        systemInstruction: request.systemInstruction,
+      ),
     );
-    return res.totalTokens;
+    return response.totalTokens;
+  }
+
+  /// Creates a [g.GenerateContentRequest] from the given input.
+  g.GenerateContentRequest _generateCompletionRequest(
+    final String prompt, {
+    final VertexAIOptions? options,
+  }) {
+    final mergedOptions =
+        options != null ? defaultOptions.merge(options) : defaultOptions;
+
+    return g.GenerateContentRequest(
+      contents: [
+        g.Content(
+          parts: [g.TextPart(prompt)],
+        ),
+      ],
+      generationConfig: g.GenerationConfig(
+        temperature: mergedOptions.temperature,
+        topP: mergedOptions.topP,
+        topK: mergedOptions.topK,
+        candidateCount: mergedOptions.candidateCount,
+        maxOutputTokens: mergedOptions.maxOutputTokens,
+        stopSequences: mergedOptions.stopSequences ?? const [],
+      ),
+    );
+  }
+
+  /// Updates the current model if needed.
+  void _updateCurrentModel(final VertexAIOptions? options) {
+    final model = options?.model ?? defaultOptions.model ?? defaultModel;
+    if (model != _currentModel) {
+      _currentModel = model;
+    }
+  }
+
+  /// Closes the client and cleans up any resources associated with it.
+  @override
+  void close() {
+    _googleAiClient.close();
   }
 }

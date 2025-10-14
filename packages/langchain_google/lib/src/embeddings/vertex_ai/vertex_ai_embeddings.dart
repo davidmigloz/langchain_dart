@@ -1,23 +1,28 @@
-import 'package:http/http.dart' as http;
+import 'package:googleai_dart/googleai_dart.dart' as g;
 import 'package:langchain_core/documents.dart';
 import 'package:langchain_core/embeddings.dart';
 import 'package:langchain_core/utils.dart';
-import 'package:vertex_ai/vertex_ai.dart';
+
+import '../../utils/auth/http_client_auth_provider.dart';
 
 /// {@template vertex_ai_embeddings}
-/// Wrapper around GCP Vertex AI text embedding models API
+/// Wrapper around GCP Vertex AI text embedding models API (Gemini embeddings).
 ///
 /// Example:
 /// ```dart
+/// final authProvider = HttpClientAuthProvider(
+///   credentials: ServiceAccountCredentials.fromJson({...}),
+///   scopes: ['https://www.googleapis.com/auth/cloud-platform'],
+/// );
 /// final embeddings = VertexAIEmbeddings(
-///   httpClient: authClient,
+///   authProvider: authProvider,
 ///   project: 'your-project-id',
 /// );
 /// final result = await embeddings.embedQuery('Hello world');
 /// ```
 ///
 /// Vertex AI documentation:
-/// https://cloud.google.com/vertex-ai/docs/generative-ai/language-model-overview
+/// https://cloud.google.com/vertex-ai/generative-ai/docs/embeddings/get-text-embeddings
 ///
 /// ### Set up your Google Cloud Platform project
 ///
@@ -29,18 +34,7 @@ import 'package:vertex_ai/vertex_ai.dart';
 /// ### Authentication
 ///
 /// To create an instance of `VertexAIEmbeddings` you need to provide an
-/// HTTP client that handles authentication. The easiest way to do this is to
-/// use [`AuthClient`](https://pub.dev/documentation/googleapis_auth/latest/googleapis_auth/AuthClient-class.html)
-/// from the [googleapis_auth](https://pub.dev/packages/googleapis_auth)
-/// package.
-///
-/// To create an instance of `VertexAIEmbeddings` you need to provide an
-/// [`AuthClient`](https://pub.dev/documentation/googleapis_auth/latest/googleapis_auth/AuthClient-class.html)
-/// instance.
-///
-/// There are several ways to obtain an `AuthClient` depending on your use case.
-/// Check out the [googleapis_auth](https://pub.dev/packages/googleapis_auth)
-/// package documentation for more details.
+/// [HttpClientAuthProvider] that wraps your service account credentials.
 ///
 /// Example using a service account JSON:
 ///
@@ -48,12 +42,12 @@ import 'package:vertex_ai/vertex_ai.dart';
 /// final serviceAccountCredentials = ServiceAccountCredentials.fromJson(
 ///   json.decode(serviceAccountJson),
 /// );
-/// final authClient = await clientViaServiceAccount(
-///   serviceAccountCredentials,
-///   [VertexAIEmbeddings.cloudPlatformScope],
+/// final authProvider = HttpClientAuthProvider(
+///   credentials: serviceAccountCredentials,
+///   scopes: ['https://www.googleapis.com/auth/cloud-platform'],
 /// );
-/// final vertexAi = VertexAIEmbeddings(
-///   httpClient: authClient,
+/// final embeddings = VertexAIEmbeddings(
+///   authProvider: authProvider,
 ///   project: 'your-project-id',
 /// );
 /// ```
@@ -62,41 +56,56 @@ import 'package:vertex_ai/vertex_ai.dart';
 /// [permission](https://cloud.google.com/vertex-ai/docs/general/iam-permissions):
 /// - `aiplatform.endpoints.predict`
 ///
-/// The required[OAuth2 scope](https://developers.google.com/identity/protocols/oauth2/scopes)
+/// The required [OAuth2 scope](https://developers.google.com/identity/protocols/oauth2/scopes)
 /// is:
 /// - `https://www.googleapis.com/auth/cloud-platform` (you can use the
-///   constant `VertexAIEmbeddings.cloudPlatformScope`)
+///   constant [VertexAIEmbeddings.cloudPlatformScope])
 ///
 /// See: https://cloud.google.com/vertex-ai/docs/generative-ai/access-control
 ///
 /// ### Available models
 ///
-/// - `textembedding-gecko`
-///   * Max input token: 3072
-///   * Output: 768-dimensional vector embeddings
-/// - `textembedding-gecko-multilingual`: support over 100 non-English languages
-///   * Max input token: 3072
-///   * Output: 768-dimensional vector embeddings
+/// **Latest stable models:**
 ///
-/// The previous list of models may not be exhaustive or up-to-date. Check out
-/// the [Vertex AI documentation](https://cloud.google.com/vertex-ai/docs/generative-ai/learn/models)
-/// for the latest list of available models.
+/// - `text-embedding-005` (recommended):
+///   * Output dimensions: 768 (default)
+///   * Max input tokens: 3,072
+///   * Supports task types and custom output dimensions
+///
+/// - `text-multilingual-embedding-002`:
+///   * Supports 100+ languages
+///   * Output dimensions: 768
+///   * Max input tokens: 2,048
+///
+/// **Legacy models:**
+/// - `textembedding-gecko@003`
+/// - `textembedding-gecko@002`
+/// - `textembedding-gecko@001`
+///
+/// The previous list may not be exhaustive or up-to-date. Check out
+/// the [Vertex AI documentation](https://cloud.google.com/vertex-ai/generative-ai/docs/learn/model-versions)
+/// for the latest stable models.
 ///
 /// ### Task type
 ///
-/// Embedding models released after August 2023 support specifying a
-/// 'task type' when embedding documents. The task type is then used by the
-/// model to improve the quality of the embeddings.
+/// Embedding models support specifying a 'task type' when embedding documents.
+/// The task type is used by the model to improve the quality of the embeddings.
 ///
-/// This class uses the specifies the following task type:
-/// - `retrievalDocument`: for embedding documents
-/// - `retrievalQuery`: for embedding queries
+/// This class automatically uses:
+/// - `RETRIEVAL_DOCUMENT`: for [embedDocuments]
+/// - `RETRIEVAL_QUERY`: for [embedQuery]
+///
+/// ### Output dimensionality
+///
+/// Some models support specifying a smaller number of dimensions for the
+/// resulting embeddings. This can reduce storage costs with minimal
+/// performance loss. Use the [dimensions] parameter to specify custom
+/// dimensions.
 ///
 /// ### Title
 ///
-/// Embedding models released after August 2023 support specifying a document
-/// title when embedding documents. The title is then used by the model to
-/// improve the quality of the embeddings.
+/// Embedding models support specifying a document title when embedding
+/// documents. The title is used by the model to improve embedding quality.
 ///
 /// To specify a document title, add the title to the document's metadata.
 /// Then, specify the metadata key in the [docTitleKey] parameter.
@@ -104,7 +113,7 @@ import 'package:vertex_ai/vertex_ai.dart';
 /// Example:
 /// ```dart
 /// final embeddings = VertexAIEmbeddings(
-///   httpClient: authClient,
+///   authProvider: authProvider,
 ///   project: 'your-project-id',
 ///   docTitleKey: 'title',
 /// );
@@ -119,43 +128,44 @@ import 'package:vertex_ai/vertex_ai.dart';
 class VertexAIEmbeddings implements Embeddings {
   /// {@macro vertex_ai_embeddings}
   VertexAIEmbeddings({
-    required final http.Client httpClient,
+    required final HttpClientAuthProvider authProvider,
     required final String project,
     final String location = 'us-central1',
-    final String? rootUrl,
-    this.publisher = 'google',
-    this.model = 'textembedding-gecko',
-    this.batchSize = 5,
+    this.model = 'text-embedding-005',
+    this.dimensions,
+    this.batchSize = 100,
     this.docTitleKey = 'title',
-  }) : client = VertexAIGenAIClient(
-          httpClient: httpClient,
-          project: project,
-          location: location,
-          rootUrl: rootUrl ?? 'https://$location-aiplatform.googleapis.com/',
+  }) : _client = g.GoogleAIClient(
+          config: g.GoogleAIConfig.vertexAI(
+            projectId: project,
+            location: location,
+            authProvider: authProvider,
+          ),
         );
 
   /// A client for interacting with Vertex AI API.
-  final VertexAIGenAIClient client;
-
-  /// The publisher of the model.
-  ///
-  /// Use `google` for first-party models.
-  final String publisher;
+  final g.GoogleAIClient _client;
 
   /// The embeddings model to use.
   ///
-  /// To use the latest model version, specify the model name without a version
-  /// number (e.g. `textembedding-gecko`).
-  /// To use a stable model version, specify the model version number
-  /// (e.g. `textembedding-gecko@001`).
+  /// To use the latest stable model version, specify the model name without
+  /// a version number (e.g. `text-embedding-005`).
+  /// To use a specific model version, specify the model version number
+  /// (e.g. `text-embedding-004`).
   ///
   /// You can find a list of available models here:
-  /// https://cloud.google.com/vertex-ai/docs/generative-ai/learn/models
+  /// https://cloud.google.com/vertex-ai/generative-ai/docs/learn/model-versions#latest-stable
   final String model;
 
-  /// The maximum number of documents to embed in a single request.
+  /// The number of dimensions the resulting output embeddings should have.
   ///
-  /// `textembedding-gecko` has a limit of up to 5 input texts per request.
+  /// Supported in newer models like `text-embedding-005`.
+  /// If not specified, the model's default dimensions will be used.
+  final int? dimensions;
+
+  /// The maximum number of documents to embed in a single batch request.
+  ///
+  /// Newer models support up to 100 or more texts per request.
   final int batchSize;
 
   /// The metadata key used to store the document's (optional) title.
@@ -163,7 +173,7 @@ class VertexAIEmbeddings implements Embeddings {
 
   /// Scope required for Vertex AI API calls.
   static const String cloudPlatformScope =
-      VertexAIGenAIClient.cloudPlatformScope;
+      'https://www.googleapis.com/auth/cloud-platform';
 
   @override
   Future<List<List<double>>> embedDocuments(
@@ -171,32 +181,54 @@ class VertexAIEmbeddings implements Embeddings {
   ) async {
     final batches = chunkList(documents, chunkSize: batchSize);
 
-    final embeddings = await Future.wait(
+    final List<List<List<double>>> embeddings = await Future.wait(
       batches.map((final batch) async {
-        final data = await client.textEmbeddings.predict(
-          content: batch.map(
-            (final doc) {
-              final taskType = _getTaskType(
-                defaultTaskType:
-                    VertexAITextEmbeddingsModelTaskType.retrievalDocument,
-              );
-              final title = taskType ==
-                      VertexAITextEmbeddingsModelTaskType.retrievalDocument
-                  ? doc.metadata[docTitleKey]
-                  : null;
-              return VertexAITextEmbeddingsModelContent(
-                taskType: taskType,
-                title: title,
-                content: doc.pageContent,
-              );
-            },
-          ).toList(growable: false),
-          publisher: publisher,
-          model: model,
-        );
-        return data.predictions
-            .map((final p) => p.values)
-            .toList(growable: false);
+        // Use batch API for better performance
+        try {
+          final response = await _client.models.batchEmbedContents(
+            model: model,
+            request: g.BatchEmbedContentsRequest(
+              requests: batch
+                  .map(
+                    (final doc) => g.EmbedContentRequest(
+                      content: g.Content(
+                        parts: [g.TextPart(doc.pageContent)],
+                      ),
+                      taskType: g.TaskType.retrievalDocument,
+                      title: doc.metadata[docTitleKey] as String?,
+                      outputDimensionality: dimensions,
+                    ),
+                  )
+                  .toList(),
+            ),
+          );
+          return response.embeddings.map((e) => e.values).toList();
+        } on g.ApiException catch (e) {
+          // Fallback to sequential requests if batch API fails
+          if (e.code == 400 &&
+              (e.message.contains('model is not specified') ||
+                  e.message.contains('model'))) {
+            final results = await Future.wait(
+              batch.map((final doc) async {
+                final response = await _client.models.embedContent(
+                  model: model,
+                  request: g.EmbedContentRequest(
+                    content: g.Content(
+                      parts: [g.TextPart(doc.pageContent)],
+                    ),
+                    taskType: g.TaskType.retrievalDocument,
+                    title: doc.metadata[docTitleKey] as String?,
+                    outputDimensionality: dimensions,
+                  ),
+                );
+                return response.embedding.values;
+              }),
+            );
+            return results;
+          } else {
+            rethrow;
+          }
+        }
       }),
     );
 
@@ -205,31 +237,21 @@ class VertexAIEmbeddings implements Embeddings {
 
   @override
   Future<List<double>> embedQuery(final String query) async {
-    final data = await client.textEmbeddings.predict(
-      content: [
-        VertexAITextEmbeddingsModelContent(
-          taskType: _getTaskType(
-            defaultTaskType: VertexAITextEmbeddingsModelTaskType.retrievalQuery,
-          ),
-          content: query,
-        ),
-      ],
-      publisher: publisher,
+    final response = await _client.models.embedContent(
       model: model,
+      request: g.EmbedContentRequest(
+        content: g.Content(
+          parts: [g.TextPart(query)],
+        ),
+        taskType: g.TaskType.retrievalQuery,
+        outputDimensionality: dimensions,
+      ),
     );
-    return data.predictions.first.values;
+    return response.embedding.values;
   }
 
-  VertexAITextEmbeddingsModelTaskType? _getTaskType({
-    required final VertexAITextEmbeddingsModelTaskType defaultTaskType,
-  }) {
-    // Models released before August 2023 do not support taskType.
-    // Currently 'textembedding-gecko' points to 'textembedding-gecko@001'
-    // Ref: https://cloud.google.com/vertex-ai/docs/generative-ai/learn/model-versioning
-    if (model == 'textembedding-gecko' || model == 'textembedding-gecko@001') {
-      return null;
-    }
-
-    return defaultTaskType;
+  /// Closes the client and cleans up any resources associated with it.
+  void close() {
+    _client.close();
   }
 }

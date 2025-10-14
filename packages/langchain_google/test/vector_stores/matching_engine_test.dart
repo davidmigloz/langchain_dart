@@ -1,8 +1,10 @@
 @TestOn('vm')
 library; // Uses dart:io
 
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:googleapis_auth/auth_io.dart';
 import 'package:langchain_core/documents.dart';
 import 'package:langchain_core/vector_stores.dart';
 import 'package:langchain_google/langchain_google.dart';
@@ -11,12 +13,22 @@ import 'package:test/test.dart';
 import '../utils/auth.dart';
 
 void main() async {
-  final authHttpClient = await getAuthHttpClient();
+  final authProvider = getAuthProvider();
   final embeddings = VertexAIEmbeddings(
-    httpClient: authHttpClient,
+    authProvider: authProvider,
     project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
-    model: 'textembedding-gecko-multilingual',
+    model: 'text-embedding-005',
   );
+
+  // VertexAIMatchingEngine still needs an AuthClient (http.Client)
+  final serviceAccountCredentials = ServiceAccountCredentials.fromJson(
+    json.decode(Platform.environment['VERTEX_AI_SERVICE_ACCOUNT']!),
+  );
+  final authHttpClient = await clientViaServiceAccount(
+    serviceAccountCredentials,
+    ['https://www.googleapis.com/auth/cloud-platform'],
+  );
+
   final vectorStore = VertexAIMatchingEngine(
     httpClient: authHttpClient,
     project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
