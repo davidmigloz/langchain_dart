@@ -71,6 +71,25 @@ class MistralAIClient extends g.MistralAIClient {
   }
 }
 
+/// Transforms SSE (Server-Sent Events) byte streams into data strings.
+///
+/// Implements parsing according to the WHATWG SSE specification:
+/// https://html.spec.whatwg.org/multipage/server-sent-events.html
+///
+/// SSE Format: Each line can be one of:
+/// - `data: value` (standard format with space after colon)
+/// - `data:value` (format without space, used by some providers)
+/// - `data:[DONE]` (termination signal, filtered out)
+///
+/// Per the WHATWG spec, the space after the colon is optional. When present,
+/// exactly one leading space should be removed from the value. We use `.trim()`
+/// to handle both formats and any additional whitespace variations robustly.
+///
+/// This transformer:
+/// 1. Decodes UTF-8 bytes to strings
+/// 2. Splits on line boundaries
+/// 3. Filters for lines starting with 'data:' (excluding '[DONE]' markers)
+/// 4. Extracts the value after 'data:' and trims whitespace
 class _MistralAIStreamTransformer
     extends StreamTransformerBase<List<int>, String> {
   const _MistralAIStreamTransformer();
@@ -80,7 +99,7 @@ class _MistralAIStreamTransformer
     return stream //
         .transform(utf8.decoder) //
         .transform(const LineSplitter()) //
-        .where((final i) => i.startsWith('data: ') && !i.endsWith('[DONE]'))
-        .map((final item) => item.substring(6));
+        .where((final i) => i.startsWith('data:') && !i.endsWith('[DONE]'))
+        .map((final item) => item.substring(5).trim());
   }
 }
