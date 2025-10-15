@@ -70,8 +70,8 @@ sealed class CreateMessageRequestContent with _$CreateMessageRequestContent {
 
   /// An array of content parts with a defined type, each can be of type `text` or images can be passed with `image_url` or `image_file`. Image types are only supported on [Vision-compatible models](https://platform.openai.com/docs/models).
   const factory CreateMessageRequestContent.parts(
-    List<MessageContent> value,
-  ) = CreateMessageRequestContentListMessageContent;
+    List<MessageRequestContent> value,
+  ) = CreateMessageRequestContentListMessageRequestContent;
 
   /// The text contents of the message.
   const factory CreateMessageRequestContent.text(
@@ -91,9 +91,11 @@ class _CreateMessageRequestContentConverter
   @override
   CreateMessageRequestContent fromJson(Object? data) {
     if (data is List && data.every((item) => item is Map)) {
-      return CreateMessageRequestContentListMessageContent(
+      return CreateMessageRequestContentListMessageRequestContent(
         data
-            .map((i) => MessageContent.fromJson(i as Map<String, dynamic>))
+            .map(
+              (i) => MessageRequestContent.fromJson(i as Map<String, dynamic>),
+            )
             .toList(growable: false),
       );
     }
@@ -108,7 +110,7 @@ class _CreateMessageRequestContentConverter
   @override
   Object? toJson(CreateMessageRequestContent data) {
     return switch (data) {
-      CreateMessageRequestContentListMessageContent(value: final v) => v,
+      CreateMessageRequestContentListMessageRequestContent(value: final v) => v,
       CreateMessageRequestContentString(value: final v) => v,
     };
   }

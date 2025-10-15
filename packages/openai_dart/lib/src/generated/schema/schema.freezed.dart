@@ -42807,7 +42807,7 @@ CreateMessageRequestContent _$CreateMessageRequestContentFromJson(
 ) {
         switch (json['runtimeType']) {
                   case 'parts':
-          return CreateMessageRequestContentListMessageContent.fromJson(
+          return CreateMessageRequestContentListMessageRequestContent.fromJson(
             json
           );
                 case 'text':
@@ -42872,10 +42872,10 @@ extension CreateMessageRequestContentPatterns on CreateMessageRequestContent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( CreateMessageRequestContentListMessageContent value)?  parts,TResult Function( CreateMessageRequestContentString value)?  text,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( CreateMessageRequestContentListMessageRequestContent value)?  parts,TResult Function( CreateMessageRequestContentString value)?  text,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case CreateMessageRequestContentListMessageContent() when parts != null:
+case CreateMessageRequestContentListMessageRequestContent() when parts != null:
 return parts(_that);case CreateMessageRequestContentString() when text != null:
 return text(_that);case _:
   return orElse();
@@ -42895,10 +42895,10 @@ return text(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( CreateMessageRequestContentListMessageContent value)  parts,required TResult Function( CreateMessageRequestContentString value)  text,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( CreateMessageRequestContentListMessageRequestContent value)  parts,required TResult Function( CreateMessageRequestContentString value)  text,}){
 final _that = this;
 switch (_that) {
-case CreateMessageRequestContentListMessageContent():
+case CreateMessageRequestContentListMessageRequestContent():
 return parts(_that);case CreateMessageRequestContentString():
 return text(_that);}
 }
@@ -42914,10 +42914,10 @@ return text(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( CreateMessageRequestContentListMessageContent value)?  parts,TResult? Function( CreateMessageRequestContentString value)?  text,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( CreateMessageRequestContentListMessageRequestContent value)?  parts,TResult? Function( CreateMessageRequestContentString value)?  text,}){
 final _that = this;
 switch (_that) {
-case CreateMessageRequestContentListMessageContent() when parts != null:
+case CreateMessageRequestContentListMessageRequestContent() when parts != null:
 return parts(_that);case CreateMessageRequestContentString() when text != null:
 return text(_that);case _:
   return null;
@@ -42936,9 +42936,9 @@ return text(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( List<MessageContent> value)?  parts,TResult Function( String value)?  text,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( List<MessageRequestContent> value)?  parts,TResult Function( String value)?  text,required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case CreateMessageRequestContentListMessageContent() when parts != null:
+case CreateMessageRequestContentListMessageRequestContent() when parts != null:
 return parts(_that.value);case CreateMessageRequestContentString() when text != null:
 return text(_that.value);case _:
   return orElse();
@@ -42958,9 +42958,9 @@ return text(_that.value);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( List<MessageContent> value)  parts,required TResult Function( String value)  text,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( List<MessageRequestContent> value)  parts,required TResult Function( String value)  text,}) {final _that = this;
 switch (_that) {
-case CreateMessageRequestContentListMessageContent():
+case CreateMessageRequestContentListMessageRequestContent():
 return parts(_that.value);case CreateMessageRequestContentString():
 return text(_that.value);}
 }
@@ -42976,9 +42976,9 @@ return text(_that.value);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( List<MessageContent> value)?  parts,TResult? Function( String value)?  text,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( List<MessageRequestContent> value)?  parts,TResult? Function( String value)?  text,}) {final _that = this;
 switch (_that) {
-case CreateMessageRequestContentListMessageContent() when parts != null:
+case CreateMessageRequestContentListMessageRequestContent() when parts != null:
 return parts(_that.value);case CreateMessageRequestContentString() when text != null:
 return text(_that.value);case _:
   return null;
@@ -42991,12 +42991,12 @@ return text(_that.value);case _:
 /// @nodoc
 @JsonSerializable()
 
-class CreateMessageRequestContentListMessageContent extends CreateMessageRequestContent {
-  const CreateMessageRequestContentListMessageContent(final  List<MessageContent> value, {final  String? $type}): _value = value,$type = $type ?? 'parts',super._();
-  factory CreateMessageRequestContentListMessageContent.fromJson(Map<String, dynamic> json) => _$CreateMessageRequestContentListMessageContentFromJson(json);
+class CreateMessageRequestContentListMessageRequestContent extends CreateMessageRequestContent {
+  const CreateMessageRequestContentListMessageRequestContent(final  List<MessageRequestContent> value, {final  String? $type}): _value = value,$type = $type ?? 'parts',super._();
+  factory CreateMessageRequestContentListMessageRequestContent.fromJson(Map<String, dynamic> json) => _$CreateMessageRequestContentListMessageRequestContentFromJson(json);
 
- final  List<MessageContent> _value;
-@override List<MessageContent> get value {
+ final  List<MessageRequestContent> _value;
+@override List<MessageRequestContent> get value {
   if (_value is EqualUnmodifiableListView) return _value;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_value);
@@ -43011,16 +43011,16 @@ final String $type;
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$CreateMessageRequestContentListMessageContentCopyWith<CreateMessageRequestContentListMessageContent> get copyWith => _$CreateMessageRequestContentListMessageContentCopyWithImpl<CreateMessageRequestContentListMessageContent>(this, _$identity);
+$CreateMessageRequestContentListMessageRequestContentCopyWith<CreateMessageRequestContentListMessageRequestContent> get copyWith => _$CreateMessageRequestContentListMessageRequestContentCopyWithImpl<CreateMessageRequestContentListMessageRequestContent>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$CreateMessageRequestContentListMessageContentToJson(this, );
+  return _$CreateMessageRequestContentListMessageRequestContentToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateMessageRequestContentListMessageContent&&const DeepCollectionEquality().equals(other._value, _value));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateMessageRequestContentListMessageRequestContent&&const DeepCollectionEquality().equals(other._value, _value));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -43036,11 +43036,11 @@ String toString() {
 }
 
 /// @nodoc
-abstract mixin class $CreateMessageRequestContentListMessageContentCopyWith<$Res> implements $CreateMessageRequestContentCopyWith<$Res> {
-  factory $CreateMessageRequestContentListMessageContentCopyWith(CreateMessageRequestContentListMessageContent value, $Res Function(CreateMessageRequestContentListMessageContent) _then) = _$CreateMessageRequestContentListMessageContentCopyWithImpl;
+abstract mixin class $CreateMessageRequestContentListMessageRequestContentCopyWith<$Res> implements $CreateMessageRequestContentCopyWith<$Res> {
+  factory $CreateMessageRequestContentListMessageRequestContentCopyWith(CreateMessageRequestContentListMessageRequestContent value, $Res Function(CreateMessageRequestContentListMessageRequestContent) _then) = _$CreateMessageRequestContentListMessageRequestContentCopyWithImpl;
 @useResult
 $Res call({
- List<MessageContent> value
+ List<MessageRequestContent> value
 });
 
 
@@ -43048,19 +43048,19 @@ $Res call({
 
 }
 /// @nodoc
-class _$CreateMessageRequestContentListMessageContentCopyWithImpl<$Res>
-    implements $CreateMessageRequestContentListMessageContentCopyWith<$Res> {
-  _$CreateMessageRequestContentListMessageContentCopyWithImpl(this._self, this._then);
+class _$CreateMessageRequestContentListMessageRequestContentCopyWithImpl<$Res>
+    implements $CreateMessageRequestContentListMessageRequestContentCopyWith<$Res> {
+  _$CreateMessageRequestContentListMessageRequestContentCopyWithImpl(this._self, this._then);
 
-  final CreateMessageRequestContentListMessageContent _self;
-  final $Res Function(CreateMessageRequestContentListMessageContent) _then;
+  final CreateMessageRequestContentListMessageRequestContent _self;
+  final $Res Function(CreateMessageRequestContentListMessageRequestContent) _then;
 
 /// Create a copy of CreateMessageRequestContent
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
-  return _then(CreateMessageRequestContentListMessageContent(
+  return _then(CreateMessageRequestContentListMessageRequestContent(
 null == value ? _self._value : value // ignore: cast_nullable_to_non_nullable
-as List<MessageContent>,
+as List<MessageRequestContent>,
   ));
 }
 
@@ -44521,276 +44521,6 @@ class __$MessageContentImageUrlCopyWithImpl<$Res>
 url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
 as String,detail: null == detail ? _self.detail : detail // ignore: cast_nullable_to_non_nullable
 as MessageContentImageDetail,
-  ));
-}
-
-
-}
-
-
-/// @nodoc
-mixin _$MessageRequestContentTextObject {
-
-/// Always `text`.
- String get type;/// Text content to be sent to the model
- String get text;
-/// Create a copy of MessageRequestContentTextObject
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$MessageRequestContentTextObjectCopyWith<MessageRequestContentTextObject> get copyWith => _$MessageRequestContentTextObjectCopyWithImpl<MessageRequestContentTextObject>(this as MessageRequestContentTextObject, _$identity);
-
-  /// Serializes this MessageRequestContentTextObject to a JSON map.
-  Map<String, dynamic> toJson();
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MessageRequestContentTextObject&&(identical(other.type, type) || other.type == type)&&(identical(other.text, text) || other.text == text));
-}
-
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-int get hashCode => Object.hash(runtimeType,type,text);
-
-@override
-String toString() {
-  return 'MessageRequestContentTextObject(type: $type, text: $text)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class $MessageRequestContentTextObjectCopyWith<$Res>  {
-  factory $MessageRequestContentTextObjectCopyWith(MessageRequestContentTextObject value, $Res Function(MessageRequestContentTextObject) _then) = _$MessageRequestContentTextObjectCopyWithImpl;
-@useResult
-$Res call({
- String type, String text
-});
-
-
-
-
-}
-/// @nodoc
-class _$MessageRequestContentTextObjectCopyWithImpl<$Res>
-    implements $MessageRequestContentTextObjectCopyWith<$Res> {
-  _$MessageRequestContentTextObjectCopyWithImpl(this._self, this._then);
-
-  final MessageRequestContentTextObject _self;
-  final $Res Function(MessageRequestContentTextObject) _then;
-
-/// Create a copy of MessageRequestContentTextObject
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? type = null,Object? text = null,}) {
-  return _then(_self.copyWith(
-type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
-as String,text: null == text ? _self.text : text // ignore: cast_nullable_to_non_nullable
-as String,
-  ));
-}
-
-}
-
-
-/// Adds pattern-matching-related methods to [MessageRequestContentTextObject].
-extension MessageRequestContentTextObjectPatterns on MessageRequestContentTextObject {
-/// A variant of `map` that fallback to returning `orElse`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _MessageRequestContentTextObject value)?  $default,{required TResult orElse(),}){
-final _that = this;
-switch (_that) {
-case _MessageRequestContentTextObject() when $default != null:
-return $default(_that);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// Callbacks receives the raw object, upcasted.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case final Subclass2 value:
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _MessageRequestContentTextObject value)  $default,){
-final _that = this;
-switch (_that) {
-case _MessageRequestContentTextObject():
-return $default(_that);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `map` that fallback to returning `null`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _MessageRequestContentTextObject value)?  $default,){
-final _that = this;
-switch (_that) {
-case _MessageRequestContentTextObject() when $default != null:
-return $default(_that);case _:
-  return null;
-
-}
-}
-/// A variant of `when` that fallback to an `orElse` callback.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String type,  String text)?  $default,{required TResult orElse(),}) {final _that = this;
-switch (_that) {
-case _MessageRequestContentTextObject() when $default != null:
-return $default(_that.type,_that.text);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// As opposed to `map`, this offers destructuring.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case Subclass2(:final field2):
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String type,  String text)  $default,) {final _that = this;
-switch (_that) {
-case _MessageRequestContentTextObject():
-return $default(_that.type,_that.text);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `when` that fallback to returning `null`
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String type,  String text)?  $default,) {final _that = this;
-switch (_that) {
-case _MessageRequestContentTextObject() when $default != null:
-return $default(_that.type,_that.text);case _:
-  return null;
-
-}
-}
-
-}
-
-/// @nodoc
-@JsonSerializable()
-
-class _MessageRequestContentTextObject extends MessageRequestContentTextObject {
-  const _MessageRequestContentTextObject({required this.type, required this.text}): super._();
-  factory _MessageRequestContentTextObject.fromJson(Map<String, dynamic> json) => _$MessageRequestContentTextObjectFromJson(json);
-
-/// Always `text`.
-@override final  String type;
-/// Text content to be sent to the model
-@override final  String text;
-
-/// Create a copy of MessageRequestContentTextObject
-/// with the given fields replaced by the non-null parameter values.
-@override @JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-_$MessageRequestContentTextObjectCopyWith<_MessageRequestContentTextObject> get copyWith => __$MessageRequestContentTextObjectCopyWithImpl<_MessageRequestContentTextObject>(this, _$identity);
-
-@override
-Map<String, dynamic> toJson() {
-  return _$MessageRequestContentTextObjectToJson(this, );
-}
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MessageRequestContentTextObject&&(identical(other.type, type) || other.type == type)&&(identical(other.text, text) || other.text == text));
-}
-
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-int get hashCode => Object.hash(runtimeType,type,text);
-
-@override
-String toString() {
-  return 'MessageRequestContentTextObject(type: $type, text: $text)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class _$MessageRequestContentTextObjectCopyWith<$Res> implements $MessageRequestContentTextObjectCopyWith<$Res> {
-  factory _$MessageRequestContentTextObjectCopyWith(_MessageRequestContentTextObject value, $Res Function(_MessageRequestContentTextObject) _then) = __$MessageRequestContentTextObjectCopyWithImpl;
-@override @useResult
-$Res call({
- String type, String text
-});
-
-
-
-
-}
-/// @nodoc
-class __$MessageRequestContentTextObjectCopyWithImpl<$Res>
-    implements _$MessageRequestContentTextObjectCopyWith<$Res> {
-  __$MessageRequestContentTextObjectCopyWithImpl(this._self, this._then);
-
-  final _MessageRequestContentTextObject _self;
-  final $Res Function(_MessageRequestContentTextObject) _then;
-
-/// Create a copy of MessageRequestContentTextObject
-/// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? type = null,Object? text = null,}) {
-  return _then(_MessageRequestContentTextObject(
-type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
-as String,text: null == text ? _self.text : text // ignore: cast_nullable_to_non_nullable
-as String,
   ));
 }
 
@@ -64138,6 +63868,471 @@ $MessageContentImageUrlCopyWith<$Res>? get imageUrl {
     return _then(_self.copyWith(imageUrl: value));
   });
 }
+}
+
+MessageRequestContent _$MessageRequestContentFromJson(
+  Map<String, dynamic> json
+) {
+        switch (json['type']) {
+                  case 'image_file':
+          return MessageRequestContentImageFileObject.fromJson(
+            json
+          );
+                case 'image_url':
+          return MessageRequestContentImageUrlObject.fromJson(
+            json
+          );
+                case 'text':
+          return MessageRequestContentTextObject.fromJson(
+            json
+          );
+        
+          default:
+            throw CheckedFromJsonException(
+  json,
+  'type',
+  'MessageRequestContent',
+  'Invalid union type "${json['type']}"!'
+);
+        }
+      
+}
+
+/// @nodoc
+mixin _$MessageRequestContent {
+
+/// Always `image_file`.
+ String get type;
+/// Create a copy of MessageRequestContent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$MessageRequestContentCopyWith<MessageRequestContent> get copyWith => _$MessageRequestContentCopyWithImpl<MessageRequestContent>(this as MessageRequestContent, _$identity);
+
+  /// Serializes this MessageRequestContent to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MessageRequestContent&&(identical(other.type, type) || other.type == type));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,type);
+
+@override
+String toString() {
+  return 'MessageRequestContent(type: $type)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $MessageRequestContentCopyWith<$Res>  {
+  factory $MessageRequestContentCopyWith(MessageRequestContent value, $Res Function(MessageRequestContent) _then) = _$MessageRequestContentCopyWithImpl;
+@useResult
+$Res call({
+ String type
+});
+
+
+
+
+}
+/// @nodoc
+class _$MessageRequestContentCopyWithImpl<$Res>
+    implements $MessageRequestContentCopyWith<$Res> {
+  _$MessageRequestContentCopyWithImpl(this._self, this._then);
+
+  final MessageRequestContent _self;
+  final $Res Function(MessageRequestContent) _then;
+
+/// Create a copy of MessageRequestContent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? type = null,}) {
+  return _then(_self.copyWith(
+type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [MessageRequestContent].
+extension MessageRequestContentPatterns on MessageRequestContent {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( MessageRequestContentImageFileObject value)?  imageFile,TResult Function( MessageRequestContentImageUrlObject value)?  imageUrl,TResult Function( MessageRequestContentTextObject value)?  text,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case MessageRequestContentImageFileObject() when imageFile != null:
+return imageFile(_that);case MessageRequestContentImageUrlObject() when imageUrl != null:
+return imageUrl(_that);case MessageRequestContentTextObject() when text != null:
+return text(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( MessageRequestContentImageFileObject value)  imageFile,required TResult Function( MessageRequestContentImageUrlObject value)  imageUrl,required TResult Function( MessageRequestContentTextObject value)  text,}){
+final _that = this;
+switch (_that) {
+case MessageRequestContentImageFileObject():
+return imageFile(_that);case MessageRequestContentImageUrlObject():
+return imageUrl(_that);case MessageRequestContentTextObject():
+return text(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( MessageRequestContentImageFileObject value)?  imageFile,TResult? Function( MessageRequestContentImageUrlObject value)?  imageUrl,TResult? Function( MessageRequestContentTextObject value)?  text,}){
+final _that = this;
+switch (_that) {
+case MessageRequestContentImageFileObject() when imageFile != null:
+return imageFile(_that);case MessageRequestContentImageUrlObject() when imageUrl != null:
+return imageUrl(_that);case MessageRequestContentTextObject() when text != null:
+return text(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String type, @JsonKey(name: 'image_file')  MessageContentImageFile imageFile)?  imageFile,TResult Function( String type, @JsonKey(name: 'image_url')  MessageContentImageUrl imageUrl)?  imageUrl,TResult Function( String type,  String text)?  text,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case MessageRequestContentImageFileObject() when imageFile != null:
+return imageFile(_that.type,_that.imageFile);case MessageRequestContentImageUrlObject() when imageUrl != null:
+return imageUrl(_that.type,_that.imageUrl);case MessageRequestContentTextObject() when text != null:
+return text(_that.type,_that.text);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String type, @JsonKey(name: 'image_file')  MessageContentImageFile imageFile)  imageFile,required TResult Function( String type, @JsonKey(name: 'image_url')  MessageContentImageUrl imageUrl)  imageUrl,required TResult Function( String type,  String text)  text,}) {final _that = this;
+switch (_that) {
+case MessageRequestContentImageFileObject():
+return imageFile(_that.type,_that.imageFile);case MessageRequestContentImageUrlObject():
+return imageUrl(_that.type,_that.imageUrl);case MessageRequestContentTextObject():
+return text(_that.type,_that.text);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String type, @JsonKey(name: 'image_file')  MessageContentImageFile imageFile)?  imageFile,TResult? Function( String type, @JsonKey(name: 'image_url')  MessageContentImageUrl imageUrl)?  imageUrl,TResult? Function( String type,  String text)?  text,}) {final _that = this;
+switch (_that) {
+case MessageRequestContentImageFileObject() when imageFile != null:
+return imageFile(_that.type,_that.imageFile);case MessageRequestContentImageUrlObject() when imageUrl != null:
+return imageUrl(_that.type,_that.imageUrl);case MessageRequestContentTextObject() when text != null:
+return text(_that.type,_that.text);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class MessageRequestContentImageFileObject extends MessageRequestContent {
+  const MessageRequestContentImageFileObject({this.type = 'image_file', @JsonKey(name: 'image_file') required this.imageFile}): super._();
+  factory MessageRequestContentImageFileObject.fromJson(Map<String, dynamic> json) => _$MessageRequestContentImageFileObjectFromJson(json);
+
+/// Always `image_file`.
+@override@JsonKey() final  String type;
+/// The image file that is part of a message.
+@JsonKey(name: 'image_file') final  MessageContentImageFile imageFile;
+
+/// Create a copy of MessageRequestContent
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$MessageRequestContentImageFileObjectCopyWith<MessageRequestContentImageFileObject> get copyWith => _$MessageRequestContentImageFileObjectCopyWithImpl<MessageRequestContentImageFileObject>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$MessageRequestContentImageFileObjectToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MessageRequestContentImageFileObject&&(identical(other.type, type) || other.type == type)&&(identical(other.imageFile, imageFile) || other.imageFile == imageFile));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,type,imageFile);
+
+@override
+String toString() {
+  return 'MessageRequestContent.imageFile(type: $type, imageFile: $imageFile)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $MessageRequestContentImageFileObjectCopyWith<$Res> implements $MessageRequestContentCopyWith<$Res> {
+  factory $MessageRequestContentImageFileObjectCopyWith(MessageRequestContentImageFileObject value, $Res Function(MessageRequestContentImageFileObject) _then) = _$MessageRequestContentImageFileObjectCopyWithImpl;
+@override @useResult
+$Res call({
+ String type,@JsonKey(name: 'image_file') MessageContentImageFile imageFile
+});
+
+
+$MessageContentImageFileCopyWith<$Res> get imageFile;
+
+}
+/// @nodoc
+class _$MessageRequestContentImageFileObjectCopyWithImpl<$Res>
+    implements $MessageRequestContentImageFileObjectCopyWith<$Res> {
+  _$MessageRequestContentImageFileObjectCopyWithImpl(this._self, this._then);
+
+  final MessageRequestContentImageFileObject _self;
+  final $Res Function(MessageRequestContentImageFileObject) _then;
+
+/// Create a copy of MessageRequestContent
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? type = null,Object? imageFile = null,}) {
+  return _then(MessageRequestContentImageFileObject(
+type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as String,imageFile: null == imageFile ? _self.imageFile : imageFile // ignore: cast_nullable_to_non_nullable
+as MessageContentImageFile,
+  ));
+}
+
+/// Create a copy of MessageRequestContent
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$MessageContentImageFileCopyWith<$Res> get imageFile {
+  
+  return $MessageContentImageFileCopyWith<$Res>(_self.imageFile, (value) {
+    return _then(_self.copyWith(imageFile: value));
+  });
+}
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class MessageRequestContentImageUrlObject extends MessageRequestContent {
+  const MessageRequestContentImageUrlObject({this.type = 'image_url', @JsonKey(name: 'image_url') required this.imageUrl}): super._();
+  factory MessageRequestContentImageUrlObject.fromJson(Map<String, dynamic> json) => _$MessageRequestContentImageUrlObjectFromJson(json);
+
+/// The type of the content part. Always `image_url`.
+@override@JsonKey() final  String type;
+/// The image URL part of a message.
+@JsonKey(name: 'image_url') final  MessageContentImageUrl imageUrl;
+
+/// Create a copy of MessageRequestContent
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$MessageRequestContentImageUrlObjectCopyWith<MessageRequestContentImageUrlObject> get copyWith => _$MessageRequestContentImageUrlObjectCopyWithImpl<MessageRequestContentImageUrlObject>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$MessageRequestContentImageUrlObjectToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MessageRequestContentImageUrlObject&&(identical(other.type, type) || other.type == type)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,type,imageUrl);
+
+@override
+String toString() {
+  return 'MessageRequestContent.imageUrl(type: $type, imageUrl: $imageUrl)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $MessageRequestContentImageUrlObjectCopyWith<$Res> implements $MessageRequestContentCopyWith<$Res> {
+  factory $MessageRequestContentImageUrlObjectCopyWith(MessageRequestContentImageUrlObject value, $Res Function(MessageRequestContentImageUrlObject) _then) = _$MessageRequestContentImageUrlObjectCopyWithImpl;
+@override @useResult
+$Res call({
+ String type,@JsonKey(name: 'image_url') MessageContentImageUrl imageUrl
+});
+
+
+$MessageContentImageUrlCopyWith<$Res> get imageUrl;
+
+}
+/// @nodoc
+class _$MessageRequestContentImageUrlObjectCopyWithImpl<$Res>
+    implements $MessageRequestContentImageUrlObjectCopyWith<$Res> {
+  _$MessageRequestContentImageUrlObjectCopyWithImpl(this._self, this._then);
+
+  final MessageRequestContentImageUrlObject _self;
+  final $Res Function(MessageRequestContentImageUrlObject) _then;
+
+/// Create a copy of MessageRequestContent
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? type = null,Object? imageUrl = null,}) {
+  return _then(MessageRequestContentImageUrlObject(
+type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as String,imageUrl: null == imageUrl ? _self.imageUrl : imageUrl // ignore: cast_nullable_to_non_nullable
+as MessageContentImageUrl,
+  ));
+}
+
+/// Create a copy of MessageRequestContent
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$MessageContentImageUrlCopyWith<$Res> get imageUrl {
+  
+  return $MessageContentImageUrlCopyWith<$Res>(_self.imageUrl, (value) {
+    return _then(_self.copyWith(imageUrl: value));
+  });
+}
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class MessageRequestContentTextObject extends MessageRequestContent {
+  const MessageRequestContentTextObject({required this.type, required this.text}): super._();
+  factory MessageRequestContentTextObject.fromJson(Map<String, dynamic> json) => _$MessageRequestContentTextObjectFromJson(json);
+
+/// Always `text`.
+@override final  String type;
+/// Text content to be sent to the model
+ final  String text;
+
+/// Create a copy of MessageRequestContent
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$MessageRequestContentTextObjectCopyWith<MessageRequestContentTextObject> get copyWith => _$MessageRequestContentTextObjectCopyWithImpl<MessageRequestContentTextObject>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$MessageRequestContentTextObjectToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MessageRequestContentTextObject&&(identical(other.type, type) || other.type == type)&&(identical(other.text, text) || other.text == text));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,type,text);
+
+@override
+String toString() {
+  return 'MessageRequestContent.text(type: $type, text: $text)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $MessageRequestContentTextObjectCopyWith<$Res> implements $MessageRequestContentCopyWith<$Res> {
+  factory $MessageRequestContentTextObjectCopyWith(MessageRequestContentTextObject value, $Res Function(MessageRequestContentTextObject) _then) = _$MessageRequestContentTextObjectCopyWithImpl;
+@override @useResult
+$Res call({
+ String type, String text
+});
+
+
+
+
+}
+/// @nodoc
+class _$MessageRequestContentTextObjectCopyWithImpl<$Res>
+    implements $MessageRequestContentTextObjectCopyWith<$Res> {
+  _$MessageRequestContentTextObjectCopyWithImpl(this._self, this._then);
+
+  final MessageRequestContentTextObject _self;
+  final $Res Function(MessageRequestContentTextObject) _then;
+
+/// Create a copy of MessageRequestContent
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? type = null,Object? text = null,}) {
+  return _then(MessageRequestContentTextObject(
+type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as String,text: null == text ? _self.text : text // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
 }
 
 MessageContentTextAnnotations _$MessageContentTextAnnotationsFromJson(

@@ -370,6 +370,38 @@ void main() {
           await cleanUp(assistantId, threadId);
         }
       });
+
+      test('Create message with mixed content (text + image)', () async {
+        final threadId = await createThread();
+        try {
+          // Test creating a message with both text and image URL
+          // This tests the fix for issue #619
+          final res = await client.createThreadMessage(
+            threadId: threadId,
+            request: CreateMessageRequest(
+              role: MessageRole.user,
+              content: CreateMessageRequestContent.parts([
+                const MessageRequestContent.text(
+                  type: 'text',
+                  text: 'What is in this image?',
+                ),
+                const MessageRequestContent.imageUrl(
+                  imageUrl: MessageContentImageUrl(
+                    url:
+                        'https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg',
+                  ),
+                ),
+              ]),
+            ),
+          );
+          expect(res.id, isNotNull);
+          expect(res.object, MessageObjectObject.threadMessage);
+          expect(res.role, MessageRole.user);
+          expect(res.content, hasLength(2));
+        } finally {
+          await client.deleteThread(threadId: threadId);
+        }
+      });
     },
   );
 }
