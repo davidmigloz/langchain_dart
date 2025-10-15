@@ -30,6 +30,9 @@ abstract class ChatCompletionStreamResponse
 
     /// The list of choices for this completion.
     required List<ChatCompletionStreamResponseChoicesInner> choices,
+
+    /// Token usage statistics for this completion. Only present in the final chunk of a streaming response.
+    @JsonKey(includeIfNull: false) ChatCompletionUsage? usage,
   }) = _ChatCompletionStreamResponse;
 
   /// Object construction from a JSON representation
@@ -43,6 +46,7 @@ abstract class ChatCompletionStreamResponse
     'created',
     'model',
     'choices',
+    'usage',
   ];
 
   /// Perform validations on the schema property values
@@ -58,6 +62,7 @@ abstract class ChatCompletionStreamResponse
       'created': created,
       'model': model,
       'choices': choices,
+      'usage': usage,
     };
   }
 }
