@@ -1,7 +1,95 @@
+import 'package:anthropic_sdk_dart/anthropic_sdk_dart.dart' as a;
 import 'package:collection/collection.dart';
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/tools.dart';
 import 'package:meta/meta.dart';
+
+/// {@template chat_anthropic_thinking}
+/// Configuration for enabling Claude's extended thinking feature.
+///
+/// When enabled, responses include thinking content blocks showing Claude's
+/// internal reasoning process before the final answer.
+///
+/// Example:
+/// ```dart
+/// // Enable thinking with a 4096 token budget
+/// final thinking = ChatAnthropicThinking.enabled(budgetTokens: 4096);
+///
+/// // Disable thinking
+/// final thinking = ChatAnthropicThinking.disabled();
+/// ```
+/// {@endtemplate}
+@immutable
+sealed class ChatAnthropicThinking {
+  const ChatAnthropicThinking();
+
+  /// Enable extended thinking with the specified token budget.
+  ///
+  /// - [budgetTokens]: Maximum tokens for internal reasoning (minimum 1024).
+  ///   Must be less than the model's max_tokens. Larger budgets enable
+  ///   more comprehensive reasoning.
+  const factory ChatAnthropicThinking.enabled({
+    required int budgetTokens,
+  }) = ChatAnthropicThinkingEnabled;
+
+  /// Disable extended thinking.
+  const factory ChatAnthropicThinking.disabled() =
+      ChatAnthropicThinkingDisabled;
+
+  /// Converts this thinking configuration to the API format.
+  a.ThinkingConfig toThinkingConfig();
+}
+
+/// Enabled thinking configuration.
+@immutable
+class ChatAnthropicThinkingEnabled extends ChatAnthropicThinking {
+  /// {@macro chat_anthropic_thinking}
+  const ChatAnthropicThinkingEnabled({required this.budgetTokens});
+
+  /// Maximum tokens for internal reasoning (minimum 1024).
+  final int budgetTokens;
+
+  @override
+  a.ThinkingConfig toThinkingConfig() {
+    return a.ThinkingConfig.enabled(
+      type: a.ThinkingConfigEnabledType.enabled,
+      budgetTokens: budgetTokens,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ChatAnthropicThinkingEnabled &&
+          runtimeType == other.runtimeType &&
+          budgetTokens == other.budgetTokens;
+
+  @override
+  int get hashCode => budgetTokens.hashCode;
+}
+
+/// Disabled thinking configuration.
+@immutable
+class ChatAnthropicThinkingDisabled extends ChatAnthropicThinking {
+  /// {@macro chat_anthropic_thinking}
+  const ChatAnthropicThinkingDisabled();
+
+  @override
+  a.ThinkingConfig toThinkingConfig() {
+    return const a.ThinkingConfig.disabled(
+      type: a.ThinkingConfigDisabledType.disabled,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ChatAnthropicThinkingDisabled &&
+          runtimeType == other.runtimeType;
+
+  @override
+  int get hashCode => 0;
+}
 
 /// {@template chat_anthropic_options}
 /// Options to pass into the Anthropic Chat Model.
@@ -32,6 +120,7 @@ class ChatAnthropicOptions extends ChatModelOptions {
     this.topK,
     this.topP,
     this.userId,
+    this.thinking,
     super.tools,
     super.toolChoice,
     super.concurrencyLimit,
@@ -90,6 +179,20 @@ class ChatAnthropicOptions extends ChatModelOptions {
   /// name, email address, or phone number.
   final String? userId;
 
+  /// Configuration for enabling Claude's extended thinking.
+  ///
+  /// When enabled, responses include thinking content blocks showing Claude's
+  /// internal reasoning process before the final answer. Requires a minimum
+  /// budget of 1,024 tokens and counts towards your `max_tokens` limit.
+  ///
+  /// Example:
+  /// ```dart
+  /// ChatAnthropicOptions(
+  ///   thinking: ChatAnthropicThinking.enabled(budgetTokens: 4096),
+  /// )
+  /// ```
+  final ChatAnthropicThinking? thinking;
+
   @override
   ChatAnthropicOptions copyWith({
     final String? model,
@@ -99,6 +202,7 @@ class ChatAnthropicOptions extends ChatModelOptions {
     final int? topK,
     final double? topP,
     final String? userId,
+    final ChatAnthropicThinking? thinking,
     final List<ToolSpec>? tools,
     final ChatToolChoice? toolChoice,
     final int? concurrencyLimit,
@@ -111,6 +215,7 @@ class ChatAnthropicOptions extends ChatModelOptions {
       topK: topK ?? this.topK,
       topP: topP ?? this.topP,
       userId: userId ?? this.userId,
+      thinking: thinking ?? this.thinking,
       tools: tools ?? this.tools,
       toolChoice: toolChoice ?? this.toolChoice,
       concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
@@ -127,6 +232,7 @@ class ChatAnthropicOptions extends ChatModelOptions {
       topK: other?.topK,
       topP: other?.topP,
       userId: other?.userId,
+      thinking: other?.thinking,
       tools: other?.tools,
       toolChoice: other?.toolChoice,
       concurrencyLimit: other?.concurrencyLimit,
@@ -145,6 +251,7 @@ class ChatAnthropicOptions extends ChatModelOptions {
         topK == other.topK &&
         topP == other.topP &&
         userId == other.userId &&
+        thinking == other.thinking &&
         const ListEquality<ToolSpec>().equals(tools, other.tools) &&
         toolChoice == other.toolChoice &&
         concurrencyLimit == other.concurrencyLimit;
@@ -159,6 +266,7 @@ class ChatAnthropicOptions extends ChatModelOptions {
         topK.hashCode ^
         topP.hashCode ^
         userId.hashCode ^
+        thinking.hashCode ^
         const ListEquality<ToolSpec>().hash(tools) ^
         toolChoice.hashCode ^
         concurrencyLimit.hashCode;

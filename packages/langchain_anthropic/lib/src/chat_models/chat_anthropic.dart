@@ -93,6 +93,32 @@ import 'types.dart';
 /// final res = await chain.invoke({'name': 'David'});
 /// ```
 ///
+/// ### Extended Thinking
+///
+/// Claude's extended thinking feature enables the model to show its internal
+/// reasoning process before providing the final answer. This is particularly
+/// useful for complex reasoning tasks.
+///
+/// ```dart
+/// final chatModel = ChatAnthropic(
+///   apiKey: anthropicApiKey,
+///   defaultOptions: ChatAnthropicOptions(
+///     model: 'claude-3-5-sonnet-20241022',
+///     maxTokens: 8192,
+///     thinking: ChatAnthropicThinking.enabled(budgetTokens: 4096),
+///   ),
+/// );
+///
+/// final prompt = PromptValue.string('Solve this complex problem: ...');
+/// final res = await chatModel.invoke(prompt);
+/// // The response will include thinking blocks showing Claude's reasoning
+/// ```
+///
+/// The thinking blocks will appear in the response content and can be
+/// accessed through the message's content blocks. The `budgetTokens` parameter
+/// controls how many tokens Claude can use for thinking (minimum 1024), and
+/// counts towards your `maxTokens` limit.
+///
 /// ### Advance
 ///
 /// #### Custom HTTP client
