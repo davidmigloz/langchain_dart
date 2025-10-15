@@ -52,6 +52,12 @@ abstract class ModelInfo with _$ModelInfo {
 
     /// Date on which a model was created.
     @JsonKey(name: 'modified_at', includeIfNull: false) String? modifiedAt,
+
+    /// Name of the upstream remote model (when model is federated from another Ollama instance)
+    @JsonKey(name: 'remote_model', includeIfNull: false) String? remoteModel,
+
+    /// URL of the upstream Ollama host (when model is federated from another instance)
+    @JsonKey(name: 'remote_host', includeIfNull: false) String? remoteHost,
   }) = _ModelInfo;
 
   /// Object construction from a JSON representation
@@ -72,6 +78,8 @@ abstract class ModelInfo with _$ModelInfo {
     'tensors',
     'capabilities',
     'modified_at',
+    'remote_model',
+    'remote_host',
   ];
 
   /// Perform validations on the schema property values
@@ -94,6 +102,8 @@ abstract class ModelInfo with _$ModelInfo {
       'tensors': tensors,
       'capabilities': capabilities,
       'modified_at': modifiedAt,
+      'remote_model': remoteModel,
+      'remote_host': remoteHost,
     };
   }
 }
