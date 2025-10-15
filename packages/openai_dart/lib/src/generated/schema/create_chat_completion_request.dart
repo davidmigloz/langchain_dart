@@ -249,6 +249,60 @@ abstract class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     /// - OpenRouter
     @JsonKey(includeIfNull: false)
     CreateChatCompletionRequestReasoning? reasoning,
+
+    /// Provider routing preferences for controlling how requests are routed to different model providers.
+    ///
+    /// **NOT part of the official OpenAI API.**
+    ///
+    /// **Provider:** OpenRouter
+    @JsonKey(includeIfNull: false) OpenRouterProviderPreferences? provider,
+
+    /// Multiple model options for automatic fallback. If the primary model's providers are down,
+    /// rate-limited, or refuse due to content moderation, automatically tries other models.
+    ///
+    /// **NOT part of the official OpenAI API.**
+    ///
+    /// **Provider:** OpenRouter
+    ///
+    /// Requests are priced using the model that was actually used. The actual model used is
+    /// returned in the `model` attribute of the response.
+    ///
+    /// Example: `["anthropic/claude-sonnet-4", "openai/gpt-4o", "deepseek/deepseek-r1"]`
+    @JsonKey(includeIfNull: false) List<String>? models,
+
+    /// Routing strategy to use with the `models` array. Set to `"fallback"` to enable
+    /// model fallback functionality.
+    ///
+    /// **NOT part of the official OpenAI API.**
+    ///
+    /// **Provider:** OpenRouter
+    @JsonKey(
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue,
+    )
+    CreateChatCompletionRequestRoute? route,
+
+    /// List of prompt transforms applied to messages before sending to the model.
+    /// Transformations are applied in order.
+    ///
+    /// **NOT part of the official OpenAI API.**
+    ///
+    /// **Provider:** OpenRouter
+    ///
+    /// Available transforms:
+    /// - `"middle-out"`: Compresses prompts that exceed the maximum context size by removing
+    ///   content from the middle (keeps half from start and half from end). Automatically
+    ///   enabled for models with ≤8k context length.
+    ///
+    /// To disable all transforms, set to empty array: `[]`
+    @JsonKey(includeIfNull: false) List<String>? transforms,
+
+    /// Usage accounting configuration for detailed token usage information.
+    ///
+    /// **NOT part of the official OpenAI API.**
+    ///
+    /// **Provider:** OpenRouter
+    @JsonKey(includeIfNull: false) OpenRouterUsageConfig? usage,
   }) = _CreateChatCompletionRequest;
 
   /// Object construction from a JSON representation
@@ -290,6 +344,11 @@ abstract class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     'functions',
     'verbosity',
     'reasoning',
+    'provider',
+    'models',
+    'route',
+    'transforms',
+    'usage',
   ];
 
   /// Validation constants
@@ -385,6 +444,11 @@ abstract class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
       'functions': functions,
       'verbosity': verbosity,
       'reasoning': reasoning,
+      'provider': provider,
+      'models': models,
+      'route': route,
+      'transforms': transforms,
+      'usage': usage,
     };
   }
 }
@@ -925,6 +989,21 @@ abstract class CreateChatCompletionRequestReasoning
       'enabled': enabled,
     };
   }
+}
+
+// ==========================================
+// ENUM: CreateChatCompletionRequestRoute
+// ==========================================
+
+/// Routing strategy to use with the `models` array. Set to `"fallback"` to enable
+/// model fallback functionality.
+///
+/// **NOT part of the official OpenAI API.**
+///
+/// **Provider:** OpenRouter
+enum CreateChatCompletionRequestRoute {
+  @JsonValue('fallback')
+  fallback,
 }
 
 // ==========================================

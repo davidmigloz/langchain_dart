@@ -20,6 +20,8 @@ part 'create_chat_completion_request.dart';
 part 'chat_completion_message_content_part_type.dart';
 part 'chat_completion_message_role.dart';
 part 'reasoning_detail.dart';
+part 'open_router_provider_preferences.dart';
+part 'open_router_usage_config.dart';
 part 'chat_completion_message_function_call.dart';
 part 'chat_completion_function_call_option.dart';
 part 'function_object.dart';

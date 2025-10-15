@@ -343,6 +343,23 @@ _CreateChatCompletionRequest _$CreateChatCompletionRequestFromJson(
       : CreateChatCompletionRequestReasoning.fromJson(
           json['reasoning'] as Map<String, dynamic>,
         ),
+  provider: json['provider'] == null
+      ? null
+      : OpenRouterProviderPreferences.fromJson(
+          json['provider'] as Map<String, dynamic>,
+        ),
+  models: (json['models'] as List<dynamic>?)?.map((e) => e as String).toList(),
+  route: $enumDecodeNullable(
+    _$CreateChatCompletionRequestRouteEnumMap,
+    json['route'],
+    unknownValue: JsonKey.nullForUndefinedEnumValue,
+  ),
+  transforms: (json['transforms'] as List<dynamic>?)
+      ?.map((e) => e as String)
+      .toList(),
+  usage: json['usage'] == null
+      ? null
+      : OpenRouterUsageConfig.fromJson(json['usage'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$CreateChatCompletionRequestToJson(
@@ -388,6 +405,11 @@ Map<String, dynamic> _$CreateChatCompletionRequestToJson(
   'functions': ?instance.functions?.map((e) => e.toJson()).toList(),
   'verbosity': ?_$VerbosityEnumMap[instance.verbosity],
   'reasoning': ?instance.reasoning?.toJson(),
+  'provider': ?instance.provider?.toJson(),
+  'models': ?instance.models,
+  'route': ?_$CreateChatCompletionRequestRouteEnumMap[instance.route],
+  'transforms': ?instance.transforms,
+  'usage': ?instance.usage?.toJson(),
 };
 
 const _$ReasoningEffortEnumMap = {
@@ -412,6 +434,10 @@ const _$VerbosityEnumMap = {
   Verbosity.low: 'low',
   Verbosity.medium: 'medium',
   Verbosity.high: 'high',
+};
+
+const _$CreateChatCompletionRequestRouteEnumMap = {
+  CreateChatCompletionRequestRoute.fallback: 'fallback',
 };
 
 ChatCompletionModelEnumeration _$ChatCompletionModelEnumerationFromJson(
@@ -656,6 +682,64 @@ const _$ReasoningDetailTypeEnumMap = {
   ReasoningDetailType.encrypted: 'encrypted',
   ReasoningDetailType.text: 'text',
 };
+
+_OpenRouterProviderPreferences _$OpenRouterProviderPreferencesFromJson(
+  Map<String, dynamic> json,
+) => _OpenRouterProviderPreferences(
+  order: (json['order'] as List<dynamic>?)?.map((e) => e as String).toList(),
+  allowFallbacks: json['allow_fallbacks'] as bool? ?? true,
+  requireParameters: json['require_parameters'] as bool? ?? false,
+  dataCollection:
+      $enumDecodeNullable(
+        _$OpenRouterProviderPreferencesDataCollectionEnumMap,
+        json['data_collection'],
+      ) ??
+      OpenRouterProviderPreferencesDataCollection.allow,
+  zdr: json['zdr'] as bool? ?? false,
+  ignore: (json['ignore'] as List<dynamic>?)?.map((e) => e as String).toList(),
+  quantizations: (json['quantizations'] as List<dynamic>?)
+      ?.map((e) => e as String)
+      .toList(),
+  sort: $enumDecodeNullable(
+    _$OpenRouterProviderPreferencesSortEnumMap,
+    json['sort'],
+    unknownValue: JsonKey.nullForUndefinedEnumValue,
+  ),
+);
+
+Map<String, dynamic> _$OpenRouterProviderPreferencesToJson(
+  _OpenRouterProviderPreferences instance,
+) => <String, dynamic>{
+  'order': ?instance.order,
+  'allow_fallbacks': instance.allowFallbacks,
+  'require_parameters': instance.requireParameters,
+  'data_collection':
+      _$OpenRouterProviderPreferencesDataCollectionEnumMap[instance
+          .dataCollection]!,
+  'zdr': instance.zdr,
+  'ignore': ?instance.ignore,
+  'quantizations': ?instance.quantizations,
+  'sort': ?_$OpenRouterProviderPreferencesSortEnumMap[instance.sort],
+};
+
+const _$OpenRouterProviderPreferencesDataCollectionEnumMap = {
+  OpenRouterProviderPreferencesDataCollection.allow: 'allow',
+  OpenRouterProviderPreferencesDataCollection.deny: 'deny',
+};
+
+const _$OpenRouterProviderPreferencesSortEnumMap = {
+  OpenRouterProviderPreferencesSort.price: 'price',
+  OpenRouterProviderPreferencesSort.throughput: 'throughput',
+  OpenRouterProviderPreferencesSort.latency: 'latency',
+};
+
+_OpenRouterUsageConfig _$OpenRouterUsageConfigFromJson(
+  Map<String, dynamic> json,
+) => _OpenRouterUsageConfig(include: json['include'] as bool?);
+
+Map<String, dynamic> _$OpenRouterUsageConfigToJson(
+  _OpenRouterUsageConfig instance,
+) => <String, dynamic>{'include': ?instance.include};
 
 _ChatCompletionMessageFunctionCall _$ChatCompletionMessageFunctionCallFromJson(
   Map<String, dynamic> json,
