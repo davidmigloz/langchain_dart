@@ -887,6 +887,7 @@ components:
           example: mario
         modelfile:
           type: string
+          nullable: true
           description: The contents of the Modelfile.
           example: FROM llama3\nSYSTEM You are mario from Super Mario Bros.
         path:
@@ -900,9 +901,37 @@ components:
           type: boolean
           description: *stream
           default: false
+        from:
+          type: string
+          nullable: true
+          description: Name of the model or file to use as the source
+        files:
+          type: object
+          additionalProperties:
+            type: string
+          nullable: true
+          description: Map of files to include when creating the model
+        adapters:
+          type: object
+          additionalProperties:
+            type: string
+          nullable: true
+          description: Map of LoRA adapters to include when creating the model
+        template:
+          type: string
+          nullable: true
+          description: Template used when constructing a request to the model
+        system:
+          type: string
+          nullable: true
+          description: System prompt for the model
+        parameters:
+          type: object
+          additionalProperties: true
+          nullable: true
+          description: Map of hyper-parameters which are applied to the model
       required:
         - model
-        - modelfile
     CreateModelResponse:
       description: Response object for creating a model. When finished, `status` is `success`.
       type: object
