@@ -2814,7 +2814,47 @@ mixin _$CreateChatCompletionRequest {
 ///
 /// **Supported by:**
 /// - OpenRouter
-@JsonKey(includeIfNull: false) CreateChatCompletionRequestReasoning? get reasoning;
+@JsonKey(includeIfNull: false) CreateChatCompletionRequestReasoning? get reasoning;/// Provider routing preferences for controlling how requests are routed to different model providers.
+///
+/// **NOT part of the official OpenAI API.**
+///
+/// **Provider:** OpenRouter
+@JsonKey(includeIfNull: false) OpenRouterProviderPreferences? get provider;/// Multiple model options for automatic fallback. If the primary model's providers are down,
+/// rate-limited, or refuse due to content moderation, automatically tries other models.
+///
+/// **NOT part of the official OpenAI API.**
+///
+/// **Provider:** OpenRouter
+///
+/// Requests are priced using the model that was actually used. The actual model used is
+/// returned in the `model` attribute of the response.
+///
+/// Example: `["anthropic/claude-sonnet-4", "openai/gpt-4o", "deepseek/deepseek-r1"]`
+@JsonKey(includeIfNull: false) List<String>? get models;/// Routing strategy to use with the `models` array. Set to `"fallback"` to enable
+/// model fallback functionality.
+///
+/// **NOT part of the official OpenAI API.**
+///
+/// **Provider:** OpenRouter
+@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) CreateChatCompletionRequestRoute? get route;/// List of prompt transforms applied to messages before sending to the model.
+/// Transformations are applied in order.
+///
+/// **NOT part of the official OpenAI API.**
+///
+/// **Provider:** OpenRouter
+///
+/// Available transforms:
+/// - `"middle-out"`: Compresses prompts that exceed the maximum context size by removing
+///   content from the middle (keeps half from start and half from end). Automatically
+///   enabled for models with ≤8k context length.
+///
+/// To disable all transforms, set to empty array: `[]`
+@JsonKey(includeIfNull: false) List<String>? get transforms;/// Usage accounting configuration for detailed token usage information.
+///
+/// **NOT part of the official OpenAI API.**
+///
+/// **Provider:** OpenRouter
+@JsonKey(includeIfNull: false) OpenRouterUsageConfig? get usage;
 /// Create a copy of CreateChatCompletionRequest
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -2827,16 +2867,16 @@ $CreateChatCompletionRequestCopyWith<CreateChatCompletionRequest> get copyWith =
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateChatCompletionRequest&&(identical(other.model, model) || other.model == model)&&const DeepCollectionEquality().equals(other.messages, messages)&&(identical(other.store, store) || other.store == store)&&(identical(other.reasoningEffort, reasoningEffort) || other.reasoningEffort == reasoningEffort)&&const DeepCollectionEquality().equals(other.metadata, metadata)&&(identical(other.frequencyPenalty, frequencyPenalty) || other.frequencyPenalty == frequencyPenalty)&&const DeepCollectionEquality().equals(other.logitBias, logitBias)&&(identical(other.logprobs, logprobs) || other.logprobs == logprobs)&&(identical(other.topLogprobs, topLogprobs) || other.topLogprobs == topLogprobs)&&(identical(other.maxTokens, maxTokens) || other.maxTokens == maxTokens)&&(identical(other.maxCompletionTokens, maxCompletionTokens) || other.maxCompletionTokens == maxCompletionTokens)&&(identical(other.n, n) || other.n == n)&&const DeepCollectionEquality().equals(other.modalities, modalities)&&(identical(other.prediction, prediction) || other.prediction == prediction)&&(identical(other.audio, audio) || other.audio == audio)&&(identical(other.presencePenalty, presencePenalty) || other.presencePenalty == presencePenalty)&&(identical(other.webSearchOptions, webSearchOptions) || other.webSearchOptions == webSearchOptions)&&(identical(other.responseFormat, responseFormat) || other.responseFormat == responseFormat)&&(identical(other.seed, seed) || other.seed == seed)&&(identical(other.serviceTier, serviceTier) || other.serviceTier == serviceTier)&&(identical(other.stop, stop) || other.stop == stop)&&(identical(other.stream, stream) || other.stream == stream)&&(identical(other.streamOptions, streamOptions) || other.streamOptions == streamOptions)&&(identical(other.temperature, temperature) || other.temperature == temperature)&&(identical(other.topP, topP) || other.topP == topP)&&const DeepCollectionEquality().equals(other.tools, tools)&&(identical(other.toolChoice, toolChoice) || other.toolChoice == toolChoice)&&(identical(other.parallelToolCalls, parallelToolCalls) || other.parallelToolCalls == parallelToolCalls)&&(identical(other.user, user) || other.user == user)&&(identical(other.functionCall, functionCall) || other.functionCall == functionCall)&&const DeepCollectionEquality().equals(other.functions, functions)&&(identical(other.verbosity, verbosity) || other.verbosity == verbosity)&&(identical(other.reasoning, reasoning) || other.reasoning == reasoning));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateChatCompletionRequest&&(identical(other.model, model) || other.model == model)&&const DeepCollectionEquality().equals(other.messages, messages)&&(identical(other.store, store) || other.store == store)&&(identical(other.reasoningEffort, reasoningEffort) || other.reasoningEffort == reasoningEffort)&&const DeepCollectionEquality().equals(other.metadata, metadata)&&(identical(other.frequencyPenalty, frequencyPenalty) || other.frequencyPenalty == frequencyPenalty)&&const DeepCollectionEquality().equals(other.logitBias, logitBias)&&(identical(other.logprobs, logprobs) || other.logprobs == logprobs)&&(identical(other.topLogprobs, topLogprobs) || other.topLogprobs == topLogprobs)&&(identical(other.maxTokens, maxTokens) || other.maxTokens == maxTokens)&&(identical(other.maxCompletionTokens, maxCompletionTokens) || other.maxCompletionTokens == maxCompletionTokens)&&(identical(other.n, n) || other.n == n)&&const DeepCollectionEquality().equals(other.modalities, modalities)&&(identical(other.prediction, prediction) || other.prediction == prediction)&&(identical(other.audio, audio) || other.audio == audio)&&(identical(other.presencePenalty, presencePenalty) || other.presencePenalty == presencePenalty)&&(identical(other.webSearchOptions, webSearchOptions) || other.webSearchOptions == webSearchOptions)&&(identical(other.responseFormat, responseFormat) || other.responseFormat == responseFormat)&&(identical(other.seed, seed) || other.seed == seed)&&(identical(other.serviceTier, serviceTier) || other.serviceTier == serviceTier)&&(identical(other.stop, stop) || other.stop == stop)&&(identical(other.stream, stream) || other.stream == stream)&&(identical(other.streamOptions, streamOptions) || other.streamOptions == streamOptions)&&(identical(other.temperature, temperature) || other.temperature == temperature)&&(identical(other.topP, topP) || other.topP == topP)&&const DeepCollectionEquality().equals(other.tools, tools)&&(identical(other.toolChoice, toolChoice) || other.toolChoice == toolChoice)&&(identical(other.parallelToolCalls, parallelToolCalls) || other.parallelToolCalls == parallelToolCalls)&&(identical(other.user, user) || other.user == user)&&(identical(other.functionCall, functionCall) || other.functionCall == functionCall)&&const DeepCollectionEquality().equals(other.functions, functions)&&(identical(other.verbosity, verbosity) || other.verbosity == verbosity)&&(identical(other.reasoning, reasoning) || other.reasoning == reasoning)&&(identical(other.provider, provider) || other.provider == provider)&&const DeepCollectionEquality().equals(other.models, models)&&(identical(other.route, route) || other.route == route)&&const DeepCollectionEquality().equals(other.transforms, transforms)&&(identical(other.usage, usage) || other.usage == usage));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,model,const DeepCollectionEquality().hash(messages),store,reasoningEffort,const DeepCollectionEquality().hash(metadata),frequencyPenalty,const DeepCollectionEquality().hash(logitBias),logprobs,topLogprobs,maxTokens,maxCompletionTokens,n,const DeepCollectionEquality().hash(modalities),prediction,audio,presencePenalty,webSearchOptions,responseFormat,seed,serviceTier,stop,stream,streamOptions,temperature,topP,const DeepCollectionEquality().hash(tools),toolChoice,parallelToolCalls,user,functionCall,const DeepCollectionEquality().hash(functions),verbosity,reasoning]);
+int get hashCode => Object.hashAll([runtimeType,model,const DeepCollectionEquality().hash(messages),store,reasoningEffort,const DeepCollectionEquality().hash(metadata),frequencyPenalty,const DeepCollectionEquality().hash(logitBias),logprobs,topLogprobs,maxTokens,maxCompletionTokens,n,const DeepCollectionEquality().hash(modalities),prediction,audio,presencePenalty,webSearchOptions,responseFormat,seed,serviceTier,stop,stream,streamOptions,temperature,topP,const DeepCollectionEquality().hash(tools),toolChoice,parallelToolCalls,user,functionCall,const DeepCollectionEquality().hash(functions),verbosity,reasoning,provider,const DeepCollectionEquality().hash(models),route,const DeepCollectionEquality().hash(transforms),usage]);
 
 @override
 String toString() {
-  return 'CreateChatCompletionRequest(model: $model, messages: $messages, store: $store, reasoningEffort: $reasoningEffort, metadata: $metadata, frequencyPenalty: $frequencyPenalty, logitBias: $logitBias, logprobs: $logprobs, topLogprobs: $topLogprobs, maxTokens: $maxTokens, maxCompletionTokens: $maxCompletionTokens, n: $n, modalities: $modalities, prediction: $prediction, audio: $audio, presencePenalty: $presencePenalty, webSearchOptions: $webSearchOptions, responseFormat: $responseFormat, seed: $seed, serviceTier: $serviceTier, stop: $stop, stream: $stream, streamOptions: $streamOptions, temperature: $temperature, topP: $topP, tools: $tools, toolChoice: $toolChoice, parallelToolCalls: $parallelToolCalls, user: $user, functionCall: $functionCall, functions: $functions, verbosity: $verbosity, reasoning: $reasoning)';
+  return 'CreateChatCompletionRequest(model: $model, messages: $messages, store: $store, reasoningEffort: $reasoningEffort, metadata: $metadata, frequencyPenalty: $frequencyPenalty, logitBias: $logitBias, logprobs: $logprobs, topLogprobs: $topLogprobs, maxTokens: $maxTokens, maxCompletionTokens: $maxCompletionTokens, n: $n, modalities: $modalities, prediction: $prediction, audio: $audio, presencePenalty: $presencePenalty, webSearchOptions: $webSearchOptions, responseFormat: $responseFormat, seed: $seed, serviceTier: $serviceTier, stop: $stop, stream: $stream, streamOptions: $streamOptions, temperature: $temperature, topP: $topP, tools: $tools, toolChoice: $toolChoice, parallelToolCalls: $parallelToolCalls, user: $user, functionCall: $functionCall, functions: $functions, verbosity: $verbosity, reasoning: $reasoning, provider: $provider, models: $models, route: $route, transforms: $transforms, usage: $usage)';
 }
 
 
@@ -2847,11 +2887,11 @@ abstract mixin class $CreateChatCompletionRequestCopyWith<$Res>  {
   factory $CreateChatCompletionRequestCopyWith(CreateChatCompletionRequest value, $Res Function(CreateChatCompletionRequest) _then) = _$CreateChatCompletionRequestCopyWithImpl;
 @useResult
 $Res call({
-@_ChatCompletionModelConverter() ChatCompletionModel model, List<ChatCompletionMessage> messages,@JsonKey(includeIfNull: false) bool? store,@JsonKey(name: 'reasoning_effort', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ReasoningEffort? reasoningEffort,@JsonKey(includeIfNull: false) Map<String, String>? metadata,@JsonKey(name: 'frequency_penalty', includeIfNull: false) double? frequencyPenalty,@JsonKey(name: 'logit_bias', includeIfNull: false) Map<String, int>? logitBias,@JsonKey(includeIfNull: false) bool? logprobs,@JsonKey(name: 'top_logprobs', includeIfNull: false) int? topLogprobs,@JsonKey(name: 'max_tokens', includeIfNull: false) int? maxTokens,@JsonKey(name: 'max_completion_tokens', includeIfNull: false) int? maxCompletionTokens,@JsonKey(includeIfNull: false) int? n,@JsonKey(includeIfNull: false) List<ChatCompletionModality>? modalities,@JsonKey(includeIfNull: false) PredictionContent? prediction,@JsonKey(includeIfNull: false) ChatCompletionAudioOptions? audio,@JsonKey(name: 'presence_penalty', includeIfNull: false) double? presencePenalty,@JsonKey(name: 'web_search_options', includeIfNull: false) WebSearchOptions? webSearchOptions,@JsonKey(name: 'response_format', includeIfNull: false) ResponseFormat? responseFormat,@JsonKey(includeIfNull: false) int? seed,@JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) CreateChatCompletionRequestServiceTier? serviceTier,@_ChatCompletionStopConverter()@JsonKey(includeIfNull: false) ChatCompletionStop? stop,@JsonKey(includeIfNull: false) bool? stream,@JsonKey(name: 'stream_options', includeIfNull: false) ChatCompletionStreamOptions? streamOptions,@JsonKey(includeIfNull: false) double? temperature,@JsonKey(name: 'top_p', includeIfNull: false) double? topP,@JsonKey(includeIfNull: false) List<ChatCompletionTool>? tools,@_ChatCompletionToolChoiceOptionConverter()@JsonKey(name: 'tool_choice', includeIfNull: false) ChatCompletionToolChoiceOption? toolChoice,@JsonKey(name: 'parallel_tool_calls', includeIfNull: false) bool? parallelToolCalls,@JsonKey(includeIfNull: false) String? user,@_ChatCompletionFunctionCallConverter()@JsonKey(name: 'function_call', includeIfNull: false) ChatCompletionFunctionCall? functionCall,@JsonKey(includeIfNull: false) List<FunctionObject>? functions,@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) Verbosity? verbosity,@JsonKey(includeIfNull: false) CreateChatCompletionRequestReasoning? reasoning
+@_ChatCompletionModelConverter() ChatCompletionModel model, List<ChatCompletionMessage> messages,@JsonKey(includeIfNull: false) bool? store,@JsonKey(name: 'reasoning_effort', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ReasoningEffort? reasoningEffort,@JsonKey(includeIfNull: false) Map<String, String>? metadata,@JsonKey(name: 'frequency_penalty', includeIfNull: false) double? frequencyPenalty,@JsonKey(name: 'logit_bias', includeIfNull: false) Map<String, int>? logitBias,@JsonKey(includeIfNull: false) bool? logprobs,@JsonKey(name: 'top_logprobs', includeIfNull: false) int? topLogprobs,@JsonKey(name: 'max_tokens', includeIfNull: false) int? maxTokens,@JsonKey(name: 'max_completion_tokens', includeIfNull: false) int? maxCompletionTokens,@JsonKey(includeIfNull: false) int? n,@JsonKey(includeIfNull: false) List<ChatCompletionModality>? modalities,@JsonKey(includeIfNull: false) PredictionContent? prediction,@JsonKey(includeIfNull: false) ChatCompletionAudioOptions? audio,@JsonKey(name: 'presence_penalty', includeIfNull: false) double? presencePenalty,@JsonKey(name: 'web_search_options', includeIfNull: false) WebSearchOptions? webSearchOptions,@JsonKey(name: 'response_format', includeIfNull: false) ResponseFormat? responseFormat,@JsonKey(includeIfNull: false) int? seed,@JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) CreateChatCompletionRequestServiceTier? serviceTier,@_ChatCompletionStopConverter()@JsonKey(includeIfNull: false) ChatCompletionStop? stop,@JsonKey(includeIfNull: false) bool? stream,@JsonKey(name: 'stream_options', includeIfNull: false) ChatCompletionStreamOptions? streamOptions,@JsonKey(includeIfNull: false) double? temperature,@JsonKey(name: 'top_p', includeIfNull: false) double? topP,@JsonKey(includeIfNull: false) List<ChatCompletionTool>? tools,@_ChatCompletionToolChoiceOptionConverter()@JsonKey(name: 'tool_choice', includeIfNull: false) ChatCompletionToolChoiceOption? toolChoice,@JsonKey(name: 'parallel_tool_calls', includeIfNull: false) bool? parallelToolCalls,@JsonKey(includeIfNull: false) String? user,@_ChatCompletionFunctionCallConverter()@JsonKey(name: 'function_call', includeIfNull: false) ChatCompletionFunctionCall? functionCall,@JsonKey(includeIfNull: false) List<FunctionObject>? functions,@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) Verbosity? verbosity,@JsonKey(includeIfNull: false) CreateChatCompletionRequestReasoning? reasoning,@JsonKey(includeIfNull: false) OpenRouterProviderPreferences? provider,@JsonKey(includeIfNull: false) List<String>? models,@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) CreateChatCompletionRequestRoute? route,@JsonKey(includeIfNull: false) List<String>? transforms,@JsonKey(includeIfNull: false) OpenRouterUsageConfig? usage
 });
 
 
-$ChatCompletionModelCopyWith<$Res> get model;$PredictionContentCopyWith<$Res>? get prediction;$ChatCompletionAudioOptionsCopyWith<$Res>? get audio;$WebSearchOptionsCopyWith<$Res>? get webSearchOptions;$ResponseFormatCopyWith<$Res>? get responseFormat;$ChatCompletionStopCopyWith<$Res>? get stop;$ChatCompletionStreamOptionsCopyWith<$Res>? get streamOptions;$ChatCompletionToolChoiceOptionCopyWith<$Res>? get toolChoice;$ChatCompletionFunctionCallCopyWith<$Res>? get functionCall;$CreateChatCompletionRequestReasoningCopyWith<$Res>? get reasoning;
+$ChatCompletionModelCopyWith<$Res> get model;$PredictionContentCopyWith<$Res>? get prediction;$ChatCompletionAudioOptionsCopyWith<$Res>? get audio;$WebSearchOptionsCopyWith<$Res>? get webSearchOptions;$ResponseFormatCopyWith<$Res>? get responseFormat;$ChatCompletionStopCopyWith<$Res>? get stop;$ChatCompletionStreamOptionsCopyWith<$Res>? get streamOptions;$ChatCompletionToolChoiceOptionCopyWith<$Res>? get toolChoice;$ChatCompletionFunctionCallCopyWith<$Res>? get functionCall;$CreateChatCompletionRequestReasoningCopyWith<$Res>? get reasoning;$OpenRouterProviderPreferencesCopyWith<$Res>? get provider;$OpenRouterUsageConfigCopyWith<$Res>? get usage;
 
 }
 /// @nodoc
@@ -2864,7 +2904,7 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res>
 
 /// Create a copy of CreateChatCompletionRequest
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? model = null,Object? messages = null,Object? store = freezed,Object? reasoningEffort = freezed,Object? metadata = freezed,Object? frequencyPenalty = freezed,Object? logitBias = freezed,Object? logprobs = freezed,Object? topLogprobs = freezed,Object? maxTokens = freezed,Object? maxCompletionTokens = freezed,Object? n = freezed,Object? modalities = freezed,Object? prediction = freezed,Object? audio = freezed,Object? presencePenalty = freezed,Object? webSearchOptions = freezed,Object? responseFormat = freezed,Object? seed = freezed,Object? serviceTier = freezed,Object? stop = freezed,Object? stream = freezed,Object? streamOptions = freezed,Object? temperature = freezed,Object? topP = freezed,Object? tools = freezed,Object? toolChoice = freezed,Object? parallelToolCalls = freezed,Object? user = freezed,Object? functionCall = freezed,Object? functions = freezed,Object? verbosity = freezed,Object? reasoning = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? model = null,Object? messages = null,Object? store = freezed,Object? reasoningEffort = freezed,Object? metadata = freezed,Object? frequencyPenalty = freezed,Object? logitBias = freezed,Object? logprobs = freezed,Object? topLogprobs = freezed,Object? maxTokens = freezed,Object? maxCompletionTokens = freezed,Object? n = freezed,Object? modalities = freezed,Object? prediction = freezed,Object? audio = freezed,Object? presencePenalty = freezed,Object? webSearchOptions = freezed,Object? responseFormat = freezed,Object? seed = freezed,Object? serviceTier = freezed,Object? stop = freezed,Object? stream = freezed,Object? streamOptions = freezed,Object? temperature = freezed,Object? topP = freezed,Object? tools = freezed,Object? toolChoice = freezed,Object? parallelToolCalls = freezed,Object? user = freezed,Object? functionCall = freezed,Object? functions = freezed,Object? verbosity = freezed,Object? reasoning = freezed,Object? provider = freezed,Object? models = freezed,Object? route = freezed,Object? transforms = freezed,Object? usage = freezed,}) {
   return _then(_self.copyWith(
 model: null == model ? _self.model : model // ignore: cast_nullable_to_non_nullable
 as ChatCompletionModel,messages: null == messages ? _self.messages : messages // ignore: cast_nullable_to_non_nullable
@@ -2899,7 +2939,12 @@ as String?,functionCall: freezed == functionCall ? _self.functionCall : function
 as ChatCompletionFunctionCall?,functions: freezed == functions ? _self.functions : functions // ignore: cast_nullable_to_non_nullable
 as List<FunctionObject>?,verbosity: freezed == verbosity ? _self.verbosity : verbosity // ignore: cast_nullable_to_non_nullable
 as Verbosity?,reasoning: freezed == reasoning ? _self.reasoning : reasoning // ignore: cast_nullable_to_non_nullable
-as CreateChatCompletionRequestReasoning?,
+as CreateChatCompletionRequestReasoning?,provider: freezed == provider ? _self.provider : provider // ignore: cast_nullable_to_non_nullable
+as OpenRouterProviderPreferences?,models: freezed == models ? _self.models : models // ignore: cast_nullable_to_non_nullable
+as List<String>?,route: freezed == route ? _self.route : route // ignore: cast_nullable_to_non_nullable
+as CreateChatCompletionRequestRoute?,transforms: freezed == transforms ? _self.transforms : transforms // ignore: cast_nullable_to_non_nullable
+as List<String>?,usage: freezed == usage ? _self.usage : usage // ignore: cast_nullable_to_non_nullable
+as OpenRouterUsageConfig?,
   ));
 }
 /// Create a copy of CreateChatCompletionRequest
@@ -3019,6 +3064,30 @@ $CreateChatCompletionRequestReasoningCopyWith<$Res>? get reasoning {
   return $CreateChatCompletionRequestReasoningCopyWith<$Res>(_self.reasoning!, (value) {
     return _then(_self.copyWith(reasoning: value));
   });
+}/// Create a copy of CreateChatCompletionRequest
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$OpenRouterProviderPreferencesCopyWith<$Res>? get provider {
+    if (_self.provider == null) {
+    return null;
+  }
+
+  return $OpenRouterProviderPreferencesCopyWith<$Res>(_self.provider!, (value) {
+    return _then(_self.copyWith(provider: value));
+  });
+}/// Create a copy of CreateChatCompletionRequest
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$OpenRouterUsageConfigCopyWith<$Res>? get usage {
+    if (_self.usage == null) {
+    return null;
+  }
+
+  return $OpenRouterUsageConfigCopyWith<$Res>(_self.usage!, (value) {
+    return _then(_self.copyWith(usage: value));
+  });
 }
 }
 
@@ -3101,10 +3170,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@_ChatCompletionModelConverter()  ChatCompletionModel model,  List<ChatCompletionMessage> messages, @JsonKey(includeIfNull: false)  bool? store, @JsonKey(name: 'reasoning_effort', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ReasoningEffort? reasoningEffort, @JsonKey(includeIfNull: false)  Map<String, String>? metadata, @JsonKey(name: 'frequency_penalty', includeIfNull: false)  double? frequencyPenalty, @JsonKey(name: 'logit_bias', includeIfNull: false)  Map<String, int>? logitBias, @JsonKey(includeIfNull: false)  bool? logprobs, @JsonKey(name: 'top_logprobs', includeIfNull: false)  int? topLogprobs, @JsonKey(name: 'max_tokens', includeIfNull: false)  int? maxTokens, @JsonKey(name: 'max_completion_tokens', includeIfNull: false)  int? maxCompletionTokens, @JsonKey(includeIfNull: false)  int? n, @JsonKey(includeIfNull: false)  List<ChatCompletionModality>? modalities, @JsonKey(includeIfNull: false)  PredictionContent? prediction, @JsonKey(includeIfNull: false)  ChatCompletionAudioOptions? audio, @JsonKey(name: 'presence_penalty', includeIfNull: false)  double? presencePenalty, @JsonKey(name: 'web_search_options', includeIfNull: false)  WebSearchOptions? webSearchOptions, @JsonKey(name: 'response_format', includeIfNull: false)  ResponseFormat? responseFormat, @JsonKey(includeIfNull: false)  int? seed, @JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  CreateChatCompletionRequestServiceTier? serviceTier, @_ChatCompletionStopConverter()@JsonKey(includeIfNull: false)  ChatCompletionStop? stop, @JsonKey(includeIfNull: false)  bool? stream, @JsonKey(name: 'stream_options', includeIfNull: false)  ChatCompletionStreamOptions? streamOptions, @JsonKey(includeIfNull: false)  double? temperature, @JsonKey(name: 'top_p', includeIfNull: false)  double? topP, @JsonKey(includeIfNull: false)  List<ChatCompletionTool>? tools, @_ChatCompletionToolChoiceOptionConverter()@JsonKey(name: 'tool_choice', includeIfNull: false)  ChatCompletionToolChoiceOption? toolChoice, @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)  bool? parallelToolCalls, @JsonKey(includeIfNull: false)  String? user, @_ChatCompletionFunctionCallConverter()@JsonKey(name: 'function_call', includeIfNull: false)  ChatCompletionFunctionCall? functionCall, @JsonKey(includeIfNull: false)  List<FunctionObject>? functions, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  Verbosity? verbosity, @JsonKey(includeIfNull: false)  CreateChatCompletionRequestReasoning? reasoning)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@_ChatCompletionModelConverter()  ChatCompletionModel model,  List<ChatCompletionMessage> messages, @JsonKey(includeIfNull: false)  bool? store, @JsonKey(name: 'reasoning_effort', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ReasoningEffort? reasoningEffort, @JsonKey(includeIfNull: false)  Map<String, String>? metadata, @JsonKey(name: 'frequency_penalty', includeIfNull: false)  double? frequencyPenalty, @JsonKey(name: 'logit_bias', includeIfNull: false)  Map<String, int>? logitBias, @JsonKey(includeIfNull: false)  bool? logprobs, @JsonKey(name: 'top_logprobs', includeIfNull: false)  int? topLogprobs, @JsonKey(name: 'max_tokens', includeIfNull: false)  int? maxTokens, @JsonKey(name: 'max_completion_tokens', includeIfNull: false)  int? maxCompletionTokens, @JsonKey(includeIfNull: false)  int? n, @JsonKey(includeIfNull: false)  List<ChatCompletionModality>? modalities, @JsonKey(includeIfNull: false)  PredictionContent? prediction, @JsonKey(includeIfNull: false)  ChatCompletionAudioOptions? audio, @JsonKey(name: 'presence_penalty', includeIfNull: false)  double? presencePenalty, @JsonKey(name: 'web_search_options', includeIfNull: false)  WebSearchOptions? webSearchOptions, @JsonKey(name: 'response_format', includeIfNull: false)  ResponseFormat? responseFormat, @JsonKey(includeIfNull: false)  int? seed, @JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  CreateChatCompletionRequestServiceTier? serviceTier, @_ChatCompletionStopConverter()@JsonKey(includeIfNull: false)  ChatCompletionStop? stop, @JsonKey(includeIfNull: false)  bool? stream, @JsonKey(name: 'stream_options', includeIfNull: false)  ChatCompletionStreamOptions? streamOptions, @JsonKey(includeIfNull: false)  double? temperature, @JsonKey(name: 'top_p', includeIfNull: false)  double? topP, @JsonKey(includeIfNull: false)  List<ChatCompletionTool>? tools, @_ChatCompletionToolChoiceOptionConverter()@JsonKey(name: 'tool_choice', includeIfNull: false)  ChatCompletionToolChoiceOption? toolChoice, @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)  bool? parallelToolCalls, @JsonKey(includeIfNull: false)  String? user, @_ChatCompletionFunctionCallConverter()@JsonKey(name: 'function_call', includeIfNull: false)  ChatCompletionFunctionCall? functionCall, @JsonKey(includeIfNull: false)  List<FunctionObject>? functions, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  Verbosity? verbosity, @JsonKey(includeIfNull: false)  CreateChatCompletionRequestReasoning? reasoning, @JsonKey(includeIfNull: false)  OpenRouterProviderPreferences? provider, @JsonKey(includeIfNull: false)  List<String>? models, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  CreateChatCompletionRequestRoute? route, @JsonKey(includeIfNull: false)  List<String>? transforms, @JsonKey(includeIfNull: false)  OpenRouterUsageConfig? usage)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CreateChatCompletionRequest() when $default != null:
-return $default(_that.model,_that.messages,_that.store,_that.reasoningEffort,_that.metadata,_that.frequencyPenalty,_that.logitBias,_that.logprobs,_that.topLogprobs,_that.maxTokens,_that.maxCompletionTokens,_that.n,_that.modalities,_that.prediction,_that.audio,_that.presencePenalty,_that.webSearchOptions,_that.responseFormat,_that.seed,_that.serviceTier,_that.stop,_that.stream,_that.streamOptions,_that.temperature,_that.topP,_that.tools,_that.toolChoice,_that.parallelToolCalls,_that.user,_that.functionCall,_that.functions,_that.verbosity,_that.reasoning);case _:
+return $default(_that.model,_that.messages,_that.store,_that.reasoningEffort,_that.metadata,_that.frequencyPenalty,_that.logitBias,_that.logprobs,_that.topLogprobs,_that.maxTokens,_that.maxCompletionTokens,_that.n,_that.modalities,_that.prediction,_that.audio,_that.presencePenalty,_that.webSearchOptions,_that.responseFormat,_that.seed,_that.serviceTier,_that.stop,_that.stream,_that.streamOptions,_that.temperature,_that.topP,_that.tools,_that.toolChoice,_that.parallelToolCalls,_that.user,_that.functionCall,_that.functions,_that.verbosity,_that.reasoning,_that.provider,_that.models,_that.route,_that.transforms,_that.usage);case _:
   return orElse();
 
 }
@@ -3122,10 +3191,10 @@ return $default(_that.model,_that.messages,_that.store,_that.reasoningEffort,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@_ChatCompletionModelConverter()  ChatCompletionModel model,  List<ChatCompletionMessage> messages, @JsonKey(includeIfNull: false)  bool? store, @JsonKey(name: 'reasoning_effort', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ReasoningEffort? reasoningEffort, @JsonKey(includeIfNull: false)  Map<String, String>? metadata, @JsonKey(name: 'frequency_penalty', includeIfNull: false)  double? frequencyPenalty, @JsonKey(name: 'logit_bias', includeIfNull: false)  Map<String, int>? logitBias, @JsonKey(includeIfNull: false)  bool? logprobs, @JsonKey(name: 'top_logprobs', includeIfNull: false)  int? topLogprobs, @JsonKey(name: 'max_tokens', includeIfNull: false)  int? maxTokens, @JsonKey(name: 'max_completion_tokens', includeIfNull: false)  int? maxCompletionTokens, @JsonKey(includeIfNull: false)  int? n, @JsonKey(includeIfNull: false)  List<ChatCompletionModality>? modalities, @JsonKey(includeIfNull: false)  PredictionContent? prediction, @JsonKey(includeIfNull: false)  ChatCompletionAudioOptions? audio, @JsonKey(name: 'presence_penalty', includeIfNull: false)  double? presencePenalty, @JsonKey(name: 'web_search_options', includeIfNull: false)  WebSearchOptions? webSearchOptions, @JsonKey(name: 'response_format', includeIfNull: false)  ResponseFormat? responseFormat, @JsonKey(includeIfNull: false)  int? seed, @JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  CreateChatCompletionRequestServiceTier? serviceTier, @_ChatCompletionStopConverter()@JsonKey(includeIfNull: false)  ChatCompletionStop? stop, @JsonKey(includeIfNull: false)  bool? stream, @JsonKey(name: 'stream_options', includeIfNull: false)  ChatCompletionStreamOptions? streamOptions, @JsonKey(includeIfNull: false)  double? temperature, @JsonKey(name: 'top_p', includeIfNull: false)  double? topP, @JsonKey(includeIfNull: false)  List<ChatCompletionTool>? tools, @_ChatCompletionToolChoiceOptionConverter()@JsonKey(name: 'tool_choice', includeIfNull: false)  ChatCompletionToolChoiceOption? toolChoice, @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)  bool? parallelToolCalls, @JsonKey(includeIfNull: false)  String? user, @_ChatCompletionFunctionCallConverter()@JsonKey(name: 'function_call', includeIfNull: false)  ChatCompletionFunctionCall? functionCall, @JsonKey(includeIfNull: false)  List<FunctionObject>? functions, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  Verbosity? verbosity, @JsonKey(includeIfNull: false)  CreateChatCompletionRequestReasoning? reasoning)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@_ChatCompletionModelConverter()  ChatCompletionModel model,  List<ChatCompletionMessage> messages, @JsonKey(includeIfNull: false)  bool? store, @JsonKey(name: 'reasoning_effort', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ReasoningEffort? reasoningEffort, @JsonKey(includeIfNull: false)  Map<String, String>? metadata, @JsonKey(name: 'frequency_penalty', includeIfNull: false)  double? frequencyPenalty, @JsonKey(name: 'logit_bias', includeIfNull: false)  Map<String, int>? logitBias, @JsonKey(includeIfNull: false)  bool? logprobs, @JsonKey(name: 'top_logprobs', includeIfNull: false)  int? topLogprobs, @JsonKey(name: 'max_tokens', includeIfNull: false)  int? maxTokens, @JsonKey(name: 'max_completion_tokens', includeIfNull: false)  int? maxCompletionTokens, @JsonKey(includeIfNull: false)  int? n, @JsonKey(includeIfNull: false)  List<ChatCompletionModality>? modalities, @JsonKey(includeIfNull: false)  PredictionContent? prediction, @JsonKey(includeIfNull: false)  ChatCompletionAudioOptions? audio, @JsonKey(name: 'presence_penalty', includeIfNull: false)  double? presencePenalty, @JsonKey(name: 'web_search_options', includeIfNull: false)  WebSearchOptions? webSearchOptions, @JsonKey(name: 'response_format', includeIfNull: false)  ResponseFormat? responseFormat, @JsonKey(includeIfNull: false)  int? seed, @JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  CreateChatCompletionRequestServiceTier? serviceTier, @_ChatCompletionStopConverter()@JsonKey(includeIfNull: false)  ChatCompletionStop? stop, @JsonKey(includeIfNull: false)  bool? stream, @JsonKey(name: 'stream_options', includeIfNull: false)  ChatCompletionStreamOptions? streamOptions, @JsonKey(includeIfNull: false)  double? temperature, @JsonKey(name: 'top_p', includeIfNull: false)  double? topP, @JsonKey(includeIfNull: false)  List<ChatCompletionTool>? tools, @_ChatCompletionToolChoiceOptionConverter()@JsonKey(name: 'tool_choice', includeIfNull: false)  ChatCompletionToolChoiceOption? toolChoice, @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)  bool? parallelToolCalls, @JsonKey(includeIfNull: false)  String? user, @_ChatCompletionFunctionCallConverter()@JsonKey(name: 'function_call', includeIfNull: false)  ChatCompletionFunctionCall? functionCall, @JsonKey(includeIfNull: false)  List<FunctionObject>? functions, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  Verbosity? verbosity, @JsonKey(includeIfNull: false)  CreateChatCompletionRequestReasoning? reasoning, @JsonKey(includeIfNull: false)  OpenRouterProviderPreferences? provider, @JsonKey(includeIfNull: false)  List<String>? models, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  CreateChatCompletionRequestRoute? route, @JsonKey(includeIfNull: false)  List<String>? transforms, @JsonKey(includeIfNull: false)  OpenRouterUsageConfig? usage)  $default,) {final _that = this;
 switch (_that) {
 case _CreateChatCompletionRequest():
-return $default(_that.model,_that.messages,_that.store,_that.reasoningEffort,_that.metadata,_that.frequencyPenalty,_that.logitBias,_that.logprobs,_that.topLogprobs,_that.maxTokens,_that.maxCompletionTokens,_that.n,_that.modalities,_that.prediction,_that.audio,_that.presencePenalty,_that.webSearchOptions,_that.responseFormat,_that.seed,_that.serviceTier,_that.stop,_that.stream,_that.streamOptions,_that.temperature,_that.topP,_that.tools,_that.toolChoice,_that.parallelToolCalls,_that.user,_that.functionCall,_that.functions,_that.verbosity,_that.reasoning);case _:
+return $default(_that.model,_that.messages,_that.store,_that.reasoningEffort,_that.metadata,_that.frequencyPenalty,_that.logitBias,_that.logprobs,_that.topLogprobs,_that.maxTokens,_that.maxCompletionTokens,_that.n,_that.modalities,_that.prediction,_that.audio,_that.presencePenalty,_that.webSearchOptions,_that.responseFormat,_that.seed,_that.serviceTier,_that.stop,_that.stream,_that.streamOptions,_that.temperature,_that.topP,_that.tools,_that.toolChoice,_that.parallelToolCalls,_that.user,_that.functionCall,_that.functions,_that.verbosity,_that.reasoning,_that.provider,_that.models,_that.route,_that.transforms,_that.usage);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -3142,10 +3211,10 @@ return $default(_that.model,_that.messages,_that.store,_that.reasoningEffort,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@_ChatCompletionModelConverter()  ChatCompletionModel model,  List<ChatCompletionMessage> messages, @JsonKey(includeIfNull: false)  bool? store, @JsonKey(name: 'reasoning_effort', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ReasoningEffort? reasoningEffort, @JsonKey(includeIfNull: false)  Map<String, String>? metadata, @JsonKey(name: 'frequency_penalty', includeIfNull: false)  double? frequencyPenalty, @JsonKey(name: 'logit_bias', includeIfNull: false)  Map<String, int>? logitBias, @JsonKey(includeIfNull: false)  bool? logprobs, @JsonKey(name: 'top_logprobs', includeIfNull: false)  int? topLogprobs, @JsonKey(name: 'max_tokens', includeIfNull: false)  int? maxTokens, @JsonKey(name: 'max_completion_tokens', includeIfNull: false)  int? maxCompletionTokens, @JsonKey(includeIfNull: false)  int? n, @JsonKey(includeIfNull: false)  List<ChatCompletionModality>? modalities, @JsonKey(includeIfNull: false)  PredictionContent? prediction, @JsonKey(includeIfNull: false)  ChatCompletionAudioOptions? audio, @JsonKey(name: 'presence_penalty', includeIfNull: false)  double? presencePenalty, @JsonKey(name: 'web_search_options', includeIfNull: false)  WebSearchOptions? webSearchOptions, @JsonKey(name: 'response_format', includeIfNull: false)  ResponseFormat? responseFormat, @JsonKey(includeIfNull: false)  int? seed, @JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  CreateChatCompletionRequestServiceTier? serviceTier, @_ChatCompletionStopConverter()@JsonKey(includeIfNull: false)  ChatCompletionStop? stop, @JsonKey(includeIfNull: false)  bool? stream, @JsonKey(name: 'stream_options', includeIfNull: false)  ChatCompletionStreamOptions? streamOptions, @JsonKey(includeIfNull: false)  double? temperature, @JsonKey(name: 'top_p', includeIfNull: false)  double? topP, @JsonKey(includeIfNull: false)  List<ChatCompletionTool>? tools, @_ChatCompletionToolChoiceOptionConverter()@JsonKey(name: 'tool_choice', includeIfNull: false)  ChatCompletionToolChoiceOption? toolChoice, @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)  bool? parallelToolCalls, @JsonKey(includeIfNull: false)  String? user, @_ChatCompletionFunctionCallConverter()@JsonKey(name: 'function_call', includeIfNull: false)  ChatCompletionFunctionCall? functionCall, @JsonKey(includeIfNull: false)  List<FunctionObject>? functions, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  Verbosity? verbosity, @JsonKey(includeIfNull: false)  CreateChatCompletionRequestReasoning? reasoning)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@_ChatCompletionModelConverter()  ChatCompletionModel model,  List<ChatCompletionMessage> messages, @JsonKey(includeIfNull: false)  bool? store, @JsonKey(name: 'reasoning_effort', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ReasoningEffort? reasoningEffort, @JsonKey(includeIfNull: false)  Map<String, String>? metadata, @JsonKey(name: 'frequency_penalty', includeIfNull: false)  double? frequencyPenalty, @JsonKey(name: 'logit_bias', includeIfNull: false)  Map<String, int>? logitBias, @JsonKey(includeIfNull: false)  bool? logprobs, @JsonKey(name: 'top_logprobs', includeIfNull: false)  int? topLogprobs, @JsonKey(name: 'max_tokens', includeIfNull: false)  int? maxTokens, @JsonKey(name: 'max_completion_tokens', includeIfNull: false)  int? maxCompletionTokens, @JsonKey(includeIfNull: false)  int? n, @JsonKey(includeIfNull: false)  List<ChatCompletionModality>? modalities, @JsonKey(includeIfNull: false)  PredictionContent? prediction, @JsonKey(includeIfNull: false)  ChatCompletionAudioOptions? audio, @JsonKey(name: 'presence_penalty', includeIfNull: false)  double? presencePenalty, @JsonKey(name: 'web_search_options', includeIfNull: false)  WebSearchOptions? webSearchOptions, @JsonKey(name: 'response_format', includeIfNull: false)  ResponseFormat? responseFormat, @JsonKey(includeIfNull: false)  int? seed, @JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  CreateChatCompletionRequestServiceTier? serviceTier, @_ChatCompletionStopConverter()@JsonKey(includeIfNull: false)  ChatCompletionStop? stop, @JsonKey(includeIfNull: false)  bool? stream, @JsonKey(name: 'stream_options', includeIfNull: false)  ChatCompletionStreamOptions? streamOptions, @JsonKey(includeIfNull: false)  double? temperature, @JsonKey(name: 'top_p', includeIfNull: false)  double? topP, @JsonKey(includeIfNull: false)  List<ChatCompletionTool>? tools, @_ChatCompletionToolChoiceOptionConverter()@JsonKey(name: 'tool_choice', includeIfNull: false)  ChatCompletionToolChoiceOption? toolChoice, @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)  bool? parallelToolCalls, @JsonKey(includeIfNull: false)  String? user, @_ChatCompletionFunctionCallConverter()@JsonKey(name: 'function_call', includeIfNull: false)  ChatCompletionFunctionCall? functionCall, @JsonKey(includeIfNull: false)  List<FunctionObject>? functions, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  Verbosity? verbosity, @JsonKey(includeIfNull: false)  CreateChatCompletionRequestReasoning? reasoning, @JsonKey(includeIfNull: false)  OpenRouterProviderPreferences? provider, @JsonKey(includeIfNull: false)  List<String>? models, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  CreateChatCompletionRequestRoute? route, @JsonKey(includeIfNull: false)  List<String>? transforms, @JsonKey(includeIfNull: false)  OpenRouterUsageConfig? usage)?  $default,) {final _that = this;
 switch (_that) {
 case _CreateChatCompletionRequest() when $default != null:
-return $default(_that.model,_that.messages,_that.store,_that.reasoningEffort,_that.metadata,_that.frequencyPenalty,_that.logitBias,_that.logprobs,_that.topLogprobs,_that.maxTokens,_that.maxCompletionTokens,_that.n,_that.modalities,_that.prediction,_that.audio,_that.presencePenalty,_that.webSearchOptions,_that.responseFormat,_that.seed,_that.serviceTier,_that.stop,_that.stream,_that.streamOptions,_that.temperature,_that.topP,_that.tools,_that.toolChoice,_that.parallelToolCalls,_that.user,_that.functionCall,_that.functions,_that.verbosity,_that.reasoning);case _:
+return $default(_that.model,_that.messages,_that.store,_that.reasoningEffort,_that.metadata,_that.frequencyPenalty,_that.logitBias,_that.logprobs,_that.topLogprobs,_that.maxTokens,_that.maxCompletionTokens,_that.n,_that.modalities,_that.prediction,_that.audio,_that.presencePenalty,_that.webSearchOptions,_that.responseFormat,_that.seed,_that.serviceTier,_that.stop,_that.stream,_that.streamOptions,_that.temperature,_that.topP,_that.tools,_that.toolChoice,_that.parallelToolCalls,_that.user,_that.functionCall,_that.functions,_that.verbosity,_that.reasoning,_that.provider,_that.models,_that.route,_that.transforms,_that.usage);case _:
   return null;
 
 }
@@ -3157,7 +3226,7 @@ return $default(_that.model,_that.messages,_that.store,_that.reasoningEffort,_th
 @JsonSerializable()
 
 class _CreateChatCompletionRequest extends CreateChatCompletionRequest {
-  const _CreateChatCompletionRequest({@_ChatCompletionModelConverter() required this.model, required final  List<ChatCompletionMessage> messages, @JsonKey(includeIfNull: false) this.store, @JsonKey(name: 'reasoning_effort', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.reasoningEffort, @JsonKey(includeIfNull: false) final  Map<String, String>? metadata, @JsonKey(name: 'frequency_penalty', includeIfNull: false) this.frequencyPenalty, @JsonKey(name: 'logit_bias', includeIfNull: false) final  Map<String, int>? logitBias, @JsonKey(includeIfNull: false) this.logprobs, @JsonKey(name: 'top_logprobs', includeIfNull: false) this.topLogprobs, @JsonKey(name: 'max_tokens', includeIfNull: false) this.maxTokens, @JsonKey(name: 'max_completion_tokens', includeIfNull: false) this.maxCompletionTokens, @JsonKey(includeIfNull: false) this.n, @JsonKey(includeIfNull: false) final  List<ChatCompletionModality>? modalities, @JsonKey(includeIfNull: false) this.prediction, @JsonKey(includeIfNull: false) this.audio, @JsonKey(name: 'presence_penalty', includeIfNull: false) this.presencePenalty, @JsonKey(name: 'web_search_options', includeIfNull: false) this.webSearchOptions, @JsonKey(name: 'response_format', includeIfNull: false) this.responseFormat, @JsonKey(includeIfNull: false) this.seed, @JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.serviceTier, @_ChatCompletionStopConverter()@JsonKey(includeIfNull: false) this.stop, @JsonKey(includeIfNull: false) this.stream = false, @JsonKey(name: 'stream_options', includeIfNull: false) this.streamOptions, @JsonKey(includeIfNull: false) this.temperature, @JsonKey(name: 'top_p', includeIfNull: false) this.topP, @JsonKey(includeIfNull: false) final  List<ChatCompletionTool>? tools, @_ChatCompletionToolChoiceOptionConverter()@JsonKey(name: 'tool_choice', includeIfNull: false) this.toolChoice, @JsonKey(name: 'parallel_tool_calls', includeIfNull: false) this.parallelToolCalls, @JsonKey(includeIfNull: false) this.user, @_ChatCompletionFunctionCallConverter()@JsonKey(name: 'function_call', includeIfNull: false) this.functionCall, @JsonKey(includeIfNull: false) final  List<FunctionObject>? functions, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.verbosity, @JsonKey(includeIfNull: false) this.reasoning}): _messages = messages,_metadata = metadata,_logitBias = logitBias,_modalities = modalities,_tools = tools,_functions = functions,super._();
+  const _CreateChatCompletionRequest({@_ChatCompletionModelConverter() required this.model, required final  List<ChatCompletionMessage> messages, @JsonKey(includeIfNull: false) this.store, @JsonKey(name: 'reasoning_effort', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.reasoningEffort, @JsonKey(includeIfNull: false) final  Map<String, String>? metadata, @JsonKey(name: 'frequency_penalty', includeIfNull: false) this.frequencyPenalty, @JsonKey(name: 'logit_bias', includeIfNull: false) final  Map<String, int>? logitBias, @JsonKey(includeIfNull: false) this.logprobs, @JsonKey(name: 'top_logprobs', includeIfNull: false) this.topLogprobs, @JsonKey(name: 'max_tokens', includeIfNull: false) this.maxTokens, @JsonKey(name: 'max_completion_tokens', includeIfNull: false) this.maxCompletionTokens, @JsonKey(includeIfNull: false) this.n, @JsonKey(includeIfNull: false) final  List<ChatCompletionModality>? modalities, @JsonKey(includeIfNull: false) this.prediction, @JsonKey(includeIfNull: false) this.audio, @JsonKey(name: 'presence_penalty', includeIfNull: false) this.presencePenalty, @JsonKey(name: 'web_search_options', includeIfNull: false) this.webSearchOptions, @JsonKey(name: 'response_format', includeIfNull: false) this.responseFormat, @JsonKey(includeIfNull: false) this.seed, @JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.serviceTier, @_ChatCompletionStopConverter()@JsonKey(includeIfNull: false) this.stop, @JsonKey(includeIfNull: false) this.stream = false, @JsonKey(name: 'stream_options', includeIfNull: false) this.streamOptions, @JsonKey(includeIfNull: false) this.temperature, @JsonKey(name: 'top_p', includeIfNull: false) this.topP, @JsonKey(includeIfNull: false) final  List<ChatCompletionTool>? tools, @_ChatCompletionToolChoiceOptionConverter()@JsonKey(name: 'tool_choice', includeIfNull: false) this.toolChoice, @JsonKey(name: 'parallel_tool_calls', includeIfNull: false) this.parallelToolCalls, @JsonKey(includeIfNull: false) this.user, @_ChatCompletionFunctionCallConverter()@JsonKey(name: 'function_call', includeIfNull: false) this.functionCall, @JsonKey(includeIfNull: false) final  List<FunctionObject>? functions, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.verbosity, @JsonKey(includeIfNull: false) this.reasoning, @JsonKey(includeIfNull: false) this.provider, @JsonKey(includeIfNull: false) final  List<String>? models, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.route, @JsonKey(includeIfNull: false) final  List<String>? transforms, @JsonKey(includeIfNull: false) this.usage}): _messages = messages,_metadata = metadata,_logitBias = logitBias,_modalities = modalities,_tools = tools,_functions = functions,_models = models,_transforms = transforms,super._();
   factory _CreateChatCompletionRequest.fromJson(Map<String, dynamic> json) => _$CreateChatCompletionRequestFromJson(json);
 
 /// ID of the model to use. See the [model endpoint compatibility](https://platform.openai.com/docs/models#model-endpoint-compatibility)
@@ -3399,6 +3468,91 @@ class _CreateChatCompletionRequest extends CreateChatCompletionRequest {
 /// **Supported by:**
 /// - OpenRouter
 @override@JsonKey(includeIfNull: false) final  CreateChatCompletionRequestReasoning? reasoning;
+/// Provider routing preferences for controlling how requests are routed to different model providers.
+///
+/// **NOT part of the official OpenAI API.**
+///
+/// **Provider:** OpenRouter
+@override@JsonKey(includeIfNull: false) final  OpenRouterProviderPreferences? provider;
+/// Multiple model options for automatic fallback. If the primary model's providers are down,
+/// rate-limited, or refuse due to content moderation, automatically tries other models.
+///
+/// **NOT part of the official OpenAI API.**
+///
+/// **Provider:** OpenRouter
+///
+/// Requests are priced using the model that was actually used. The actual model used is
+/// returned in the `model` attribute of the response.
+///
+/// Example: `["anthropic/claude-sonnet-4", "openai/gpt-4o", "deepseek/deepseek-r1"]`
+ final  List<String>? _models;
+/// Multiple model options for automatic fallback. If the primary model's providers are down,
+/// rate-limited, or refuse due to content moderation, automatically tries other models.
+///
+/// **NOT part of the official OpenAI API.**
+///
+/// **Provider:** OpenRouter
+///
+/// Requests are priced using the model that was actually used. The actual model used is
+/// returned in the `model` attribute of the response.
+///
+/// Example: `["anthropic/claude-sonnet-4", "openai/gpt-4o", "deepseek/deepseek-r1"]`
+@override@JsonKey(includeIfNull: false) List<String>? get models {
+  final value = _models;
+  if (value == null) return null;
+  if (_models is EqualUnmodifiableListView) return _models;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
+/// Routing strategy to use with the `models` array. Set to `"fallback"` to enable
+/// model fallback functionality.
+///
+/// **NOT part of the official OpenAI API.**
+///
+/// **Provider:** OpenRouter
+@override@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) final  CreateChatCompletionRequestRoute? route;
+/// List of prompt transforms applied to messages before sending to the model.
+/// Transformations are applied in order.
+///
+/// **NOT part of the official OpenAI API.**
+///
+/// **Provider:** OpenRouter
+///
+/// Available transforms:
+/// - `"middle-out"`: Compresses prompts that exceed the maximum context size by removing
+///   content from the middle (keeps half from start and half from end). Automatically
+///   enabled for models with ≤8k context length.
+///
+/// To disable all transforms, set to empty array: `[]`
+ final  List<String>? _transforms;
+/// List of prompt transforms applied to messages before sending to the model.
+/// Transformations are applied in order.
+///
+/// **NOT part of the official OpenAI API.**
+///
+/// **Provider:** OpenRouter
+///
+/// Available transforms:
+/// - `"middle-out"`: Compresses prompts that exceed the maximum context size by removing
+///   content from the middle (keeps half from start and half from end). Automatically
+///   enabled for models with ≤8k context length.
+///
+/// To disable all transforms, set to empty array: `[]`
+@override@JsonKey(includeIfNull: false) List<String>? get transforms {
+  final value = _transforms;
+  if (value == null) return null;
+  if (_transforms is EqualUnmodifiableListView) return _transforms;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
+/// Usage accounting configuration for detailed token usage information.
+///
+/// **NOT part of the official OpenAI API.**
+///
+/// **Provider:** OpenRouter
+@override@JsonKey(includeIfNull: false) final  OpenRouterUsageConfig? usage;
 
 /// Create a copy of CreateChatCompletionRequest
 /// with the given fields replaced by the non-null parameter values.
@@ -3413,16 +3567,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateChatCompletionRequest&&(identical(other.model, model) || other.model == model)&&const DeepCollectionEquality().equals(other._messages, _messages)&&(identical(other.store, store) || other.store == store)&&(identical(other.reasoningEffort, reasoningEffort) || other.reasoningEffort == reasoningEffort)&&const DeepCollectionEquality().equals(other._metadata, _metadata)&&(identical(other.frequencyPenalty, frequencyPenalty) || other.frequencyPenalty == frequencyPenalty)&&const DeepCollectionEquality().equals(other._logitBias, _logitBias)&&(identical(other.logprobs, logprobs) || other.logprobs == logprobs)&&(identical(other.topLogprobs, topLogprobs) || other.topLogprobs == topLogprobs)&&(identical(other.maxTokens, maxTokens) || other.maxTokens == maxTokens)&&(identical(other.maxCompletionTokens, maxCompletionTokens) || other.maxCompletionTokens == maxCompletionTokens)&&(identical(other.n, n) || other.n == n)&&const DeepCollectionEquality().equals(other._modalities, _modalities)&&(identical(other.prediction, prediction) || other.prediction == prediction)&&(identical(other.audio, audio) || other.audio == audio)&&(identical(other.presencePenalty, presencePenalty) || other.presencePenalty == presencePenalty)&&(identical(other.webSearchOptions, webSearchOptions) || other.webSearchOptions == webSearchOptions)&&(identical(other.responseFormat, responseFormat) || other.responseFormat == responseFormat)&&(identical(other.seed, seed) || other.seed == seed)&&(identical(other.serviceTier, serviceTier) || other.serviceTier == serviceTier)&&(identical(other.stop, stop) || other.stop == stop)&&(identical(other.stream, stream) || other.stream == stream)&&(identical(other.streamOptions, streamOptions) || other.streamOptions == streamOptions)&&(identical(other.temperature, temperature) || other.temperature == temperature)&&(identical(other.topP, topP) || other.topP == topP)&&const DeepCollectionEquality().equals(other._tools, _tools)&&(identical(other.toolChoice, toolChoice) || other.toolChoice == toolChoice)&&(identical(other.parallelToolCalls, parallelToolCalls) || other.parallelToolCalls == parallelToolCalls)&&(identical(other.user, user) || other.user == user)&&(identical(other.functionCall, functionCall) || other.functionCall == functionCall)&&const DeepCollectionEquality().equals(other._functions, _functions)&&(identical(other.verbosity, verbosity) || other.verbosity == verbosity)&&(identical(other.reasoning, reasoning) || other.reasoning == reasoning));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateChatCompletionRequest&&(identical(other.model, model) || other.model == model)&&const DeepCollectionEquality().equals(other._messages, _messages)&&(identical(other.store, store) || other.store == store)&&(identical(other.reasoningEffort, reasoningEffort) || other.reasoningEffort == reasoningEffort)&&const DeepCollectionEquality().equals(other._metadata, _metadata)&&(identical(other.frequencyPenalty, frequencyPenalty) || other.frequencyPenalty == frequencyPenalty)&&const DeepCollectionEquality().equals(other._logitBias, _logitBias)&&(identical(other.logprobs, logprobs) || other.logprobs == logprobs)&&(identical(other.topLogprobs, topLogprobs) || other.topLogprobs == topLogprobs)&&(identical(other.maxTokens, maxTokens) || other.maxTokens == maxTokens)&&(identical(other.maxCompletionTokens, maxCompletionTokens) || other.maxCompletionTokens == maxCompletionTokens)&&(identical(other.n, n) || other.n == n)&&const DeepCollectionEquality().equals(other._modalities, _modalities)&&(identical(other.prediction, prediction) || other.prediction == prediction)&&(identical(other.audio, audio) || other.audio == audio)&&(identical(other.presencePenalty, presencePenalty) || other.presencePenalty == presencePenalty)&&(identical(other.webSearchOptions, webSearchOptions) || other.webSearchOptions == webSearchOptions)&&(identical(other.responseFormat, responseFormat) || other.responseFormat == responseFormat)&&(identical(other.seed, seed) || other.seed == seed)&&(identical(other.serviceTier, serviceTier) || other.serviceTier == serviceTier)&&(identical(other.stop, stop) || other.stop == stop)&&(identical(other.stream, stream) || other.stream == stream)&&(identical(other.streamOptions, streamOptions) || other.streamOptions == streamOptions)&&(identical(other.temperature, temperature) || other.temperature == temperature)&&(identical(other.topP, topP) || other.topP == topP)&&const DeepCollectionEquality().equals(other._tools, _tools)&&(identical(other.toolChoice, toolChoice) || other.toolChoice == toolChoice)&&(identical(other.parallelToolCalls, parallelToolCalls) || other.parallelToolCalls == parallelToolCalls)&&(identical(other.user, user) || other.user == user)&&(identical(other.functionCall, functionCall) || other.functionCall == functionCall)&&const DeepCollectionEquality().equals(other._functions, _functions)&&(identical(other.verbosity, verbosity) || other.verbosity == verbosity)&&(identical(other.reasoning, reasoning) || other.reasoning == reasoning)&&(identical(other.provider, provider) || other.provider == provider)&&const DeepCollectionEquality().equals(other._models, _models)&&(identical(other.route, route) || other.route == route)&&const DeepCollectionEquality().equals(other._transforms, _transforms)&&(identical(other.usage, usage) || other.usage == usage));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,model,const DeepCollectionEquality().hash(_messages),store,reasoningEffort,const DeepCollectionEquality().hash(_metadata),frequencyPenalty,const DeepCollectionEquality().hash(_logitBias),logprobs,topLogprobs,maxTokens,maxCompletionTokens,n,const DeepCollectionEquality().hash(_modalities),prediction,audio,presencePenalty,webSearchOptions,responseFormat,seed,serviceTier,stop,stream,streamOptions,temperature,topP,const DeepCollectionEquality().hash(_tools),toolChoice,parallelToolCalls,user,functionCall,const DeepCollectionEquality().hash(_functions),verbosity,reasoning]);
+int get hashCode => Object.hashAll([runtimeType,model,const DeepCollectionEquality().hash(_messages),store,reasoningEffort,const DeepCollectionEquality().hash(_metadata),frequencyPenalty,const DeepCollectionEquality().hash(_logitBias),logprobs,topLogprobs,maxTokens,maxCompletionTokens,n,const DeepCollectionEquality().hash(_modalities),prediction,audio,presencePenalty,webSearchOptions,responseFormat,seed,serviceTier,stop,stream,streamOptions,temperature,topP,const DeepCollectionEquality().hash(_tools),toolChoice,parallelToolCalls,user,functionCall,const DeepCollectionEquality().hash(_functions),verbosity,reasoning,provider,const DeepCollectionEquality().hash(_models),route,const DeepCollectionEquality().hash(_transforms),usage]);
 
 @override
 String toString() {
-  return 'CreateChatCompletionRequest(model: $model, messages: $messages, store: $store, reasoningEffort: $reasoningEffort, metadata: $metadata, frequencyPenalty: $frequencyPenalty, logitBias: $logitBias, logprobs: $logprobs, topLogprobs: $topLogprobs, maxTokens: $maxTokens, maxCompletionTokens: $maxCompletionTokens, n: $n, modalities: $modalities, prediction: $prediction, audio: $audio, presencePenalty: $presencePenalty, webSearchOptions: $webSearchOptions, responseFormat: $responseFormat, seed: $seed, serviceTier: $serviceTier, stop: $stop, stream: $stream, streamOptions: $streamOptions, temperature: $temperature, topP: $topP, tools: $tools, toolChoice: $toolChoice, parallelToolCalls: $parallelToolCalls, user: $user, functionCall: $functionCall, functions: $functions, verbosity: $verbosity, reasoning: $reasoning)';
+  return 'CreateChatCompletionRequest(model: $model, messages: $messages, store: $store, reasoningEffort: $reasoningEffort, metadata: $metadata, frequencyPenalty: $frequencyPenalty, logitBias: $logitBias, logprobs: $logprobs, topLogprobs: $topLogprobs, maxTokens: $maxTokens, maxCompletionTokens: $maxCompletionTokens, n: $n, modalities: $modalities, prediction: $prediction, audio: $audio, presencePenalty: $presencePenalty, webSearchOptions: $webSearchOptions, responseFormat: $responseFormat, seed: $seed, serviceTier: $serviceTier, stop: $stop, stream: $stream, streamOptions: $streamOptions, temperature: $temperature, topP: $topP, tools: $tools, toolChoice: $toolChoice, parallelToolCalls: $parallelToolCalls, user: $user, functionCall: $functionCall, functions: $functions, verbosity: $verbosity, reasoning: $reasoning, provider: $provider, models: $models, route: $route, transforms: $transforms, usage: $usage)';
 }
 
 
@@ -3433,11 +3587,11 @@ abstract mixin class _$CreateChatCompletionRequestCopyWith<$Res> implements $Cre
   factory _$CreateChatCompletionRequestCopyWith(_CreateChatCompletionRequest value, $Res Function(_CreateChatCompletionRequest) _then) = __$CreateChatCompletionRequestCopyWithImpl;
 @override @useResult
 $Res call({
-@_ChatCompletionModelConverter() ChatCompletionModel model, List<ChatCompletionMessage> messages,@JsonKey(includeIfNull: false) bool? store,@JsonKey(name: 'reasoning_effort', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ReasoningEffort? reasoningEffort,@JsonKey(includeIfNull: false) Map<String, String>? metadata,@JsonKey(name: 'frequency_penalty', includeIfNull: false) double? frequencyPenalty,@JsonKey(name: 'logit_bias', includeIfNull: false) Map<String, int>? logitBias,@JsonKey(includeIfNull: false) bool? logprobs,@JsonKey(name: 'top_logprobs', includeIfNull: false) int? topLogprobs,@JsonKey(name: 'max_tokens', includeIfNull: false) int? maxTokens,@JsonKey(name: 'max_completion_tokens', includeIfNull: false) int? maxCompletionTokens,@JsonKey(includeIfNull: false) int? n,@JsonKey(includeIfNull: false) List<ChatCompletionModality>? modalities,@JsonKey(includeIfNull: false) PredictionContent? prediction,@JsonKey(includeIfNull: false) ChatCompletionAudioOptions? audio,@JsonKey(name: 'presence_penalty', includeIfNull: false) double? presencePenalty,@JsonKey(name: 'web_search_options', includeIfNull: false) WebSearchOptions? webSearchOptions,@JsonKey(name: 'response_format', includeIfNull: false) ResponseFormat? responseFormat,@JsonKey(includeIfNull: false) int? seed,@JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) CreateChatCompletionRequestServiceTier? serviceTier,@_ChatCompletionStopConverter()@JsonKey(includeIfNull: false) ChatCompletionStop? stop,@JsonKey(includeIfNull: false) bool? stream,@JsonKey(name: 'stream_options', includeIfNull: false) ChatCompletionStreamOptions? streamOptions,@JsonKey(includeIfNull: false) double? temperature,@JsonKey(name: 'top_p', includeIfNull: false) double? topP,@JsonKey(includeIfNull: false) List<ChatCompletionTool>? tools,@_ChatCompletionToolChoiceOptionConverter()@JsonKey(name: 'tool_choice', includeIfNull: false) ChatCompletionToolChoiceOption? toolChoice,@JsonKey(name: 'parallel_tool_calls', includeIfNull: false) bool? parallelToolCalls,@JsonKey(includeIfNull: false) String? user,@_ChatCompletionFunctionCallConverter()@JsonKey(name: 'function_call', includeIfNull: false) ChatCompletionFunctionCall? functionCall,@JsonKey(includeIfNull: false) List<FunctionObject>? functions,@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) Verbosity? verbosity,@JsonKey(includeIfNull: false) CreateChatCompletionRequestReasoning? reasoning
+@_ChatCompletionModelConverter() ChatCompletionModel model, List<ChatCompletionMessage> messages,@JsonKey(includeIfNull: false) bool? store,@JsonKey(name: 'reasoning_effort', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ReasoningEffort? reasoningEffort,@JsonKey(includeIfNull: false) Map<String, String>? metadata,@JsonKey(name: 'frequency_penalty', includeIfNull: false) double? frequencyPenalty,@JsonKey(name: 'logit_bias', includeIfNull: false) Map<String, int>? logitBias,@JsonKey(includeIfNull: false) bool? logprobs,@JsonKey(name: 'top_logprobs', includeIfNull: false) int? topLogprobs,@JsonKey(name: 'max_tokens', includeIfNull: false) int? maxTokens,@JsonKey(name: 'max_completion_tokens', includeIfNull: false) int? maxCompletionTokens,@JsonKey(includeIfNull: false) int? n,@JsonKey(includeIfNull: false) List<ChatCompletionModality>? modalities,@JsonKey(includeIfNull: false) PredictionContent? prediction,@JsonKey(includeIfNull: false) ChatCompletionAudioOptions? audio,@JsonKey(name: 'presence_penalty', includeIfNull: false) double? presencePenalty,@JsonKey(name: 'web_search_options', includeIfNull: false) WebSearchOptions? webSearchOptions,@JsonKey(name: 'response_format', includeIfNull: false) ResponseFormat? responseFormat,@JsonKey(includeIfNull: false) int? seed,@JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) CreateChatCompletionRequestServiceTier? serviceTier,@_ChatCompletionStopConverter()@JsonKey(includeIfNull: false) ChatCompletionStop? stop,@JsonKey(includeIfNull: false) bool? stream,@JsonKey(name: 'stream_options', includeIfNull: false) ChatCompletionStreamOptions? streamOptions,@JsonKey(includeIfNull: false) double? temperature,@JsonKey(name: 'top_p', includeIfNull: false) double? topP,@JsonKey(includeIfNull: false) List<ChatCompletionTool>? tools,@_ChatCompletionToolChoiceOptionConverter()@JsonKey(name: 'tool_choice', includeIfNull: false) ChatCompletionToolChoiceOption? toolChoice,@JsonKey(name: 'parallel_tool_calls', includeIfNull: false) bool? parallelToolCalls,@JsonKey(includeIfNull: false) String? user,@_ChatCompletionFunctionCallConverter()@JsonKey(name: 'function_call', includeIfNull: false) ChatCompletionFunctionCall? functionCall,@JsonKey(includeIfNull: false) List<FunctionObject>? functions,@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) Verbosity? verbosity,@JsonKey(includeIfNull: false) CreateChatCompletionRequestReasoning? reasoning,@JsonKey(includeIfNull: false) OpenRouterProviderPreferences? provider,@JsonKey(includeIfNull: false) List<String>? models,@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) CreateChatCompletionRequestRoute? route,@JsonKey(includeIfNull: false) List<String>? transforms,@JsonKey(includeIfNull: false) OpenRouterUsageConfig? usage
 });
 
 
-@override $ChatCompletionModelCopyWith<$Res> get model;@override $PredictionContentCopyWith<$Res>? get prediction;@override $ChatCompletionAudioOptionsCopyWith<$Res>? get audio;@override $WebSearchOptionsCopyWith<$Res>? get webSearchOptions;@override $ResponseFormatCopyWith<$Res>? get responseFormat;@override $ChatCompletionStopCopyWith<$Res>? get stop;@override $ChatCompletionStreamOptionsCopyWith<$Res>? get streamOptions;@override $ChatCompletionToolChoiceOptionCopyWith<$Res>? get toolChoice;@override $ChatCompletionFunctionCallCopyWith<$Res>? get functionCall;@override $CreateChatCompletionRequestReasoningCopyWith<$Res>? get reasoning;
+@override $ChatCompletionModelCopyWith<$Res> get model;@override $PredictionContentCopyWith<$Res>? get prediction;@override $ChatCompletionAudioOptionsCopyWith<$Res>? get audio;@override $WebSearchOptionsCopyWith<$Res>? get webSearchOptions;@override $ResponseFormatCopyWith<$Res>? get responseFormat;@override $ChatCompletionStopCopyWith<$Res>? get stop;@override $ChatCompletionStreamOptionsCopyWith<$Res>? get streamOptions;@override $ChatCompletionToolChoiceOptionCopyWith<$Res>? get toolChoice;@override $ChatCompletionFunctionCallCopyWith<$Res>? get functionCall;@override $CreateChatCompletionRequestReasoningCopyWith<$Res>? get reasoning;@override $OpenRouterProviderPreferencesCopyWith<$Res>? get provider;@override $OpenRouterUsageConfigCopyWith<$Res>? get usage;
 
 }
 /// @nodoc
@@ -3450,7 +3604,7 @@ class __$CreateChatCompletionRequestCopyWithImpl<$Res>
 
 /// Create a copy of CreateChatCompletionRequest
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? model = null,Object? messages = null,Object? store = freezed,Object? reasoningEffort = freezed,Object? metadata = freezed,Object? frequencyPenalty = freezed,Object? logitBias = freezed,Object? logprobs = freezed,Object? topLogprobs = freezed,Object? maxTokens = freezed,Object? maxCompletionTokens = freezed,Object? n = freezed,Object? modalities = freezed,Object? prediction = freezed,Object? audio = freezed,Object? presencePenalty = freezed,Object? webSearchOptions = freezed,Object? responseFormat = freezed,Object? seed = freezed,Object? serviceTier = freezed,Object? stop = freezed,Object? stream = freezed,Object? streamOptions = freezed,Object? temperature = freezed,Object? topP = freezed,Object? tools = freezed,Object? toolChoice = freezed,Object? parallelToolCalls = freezed,Object? user = freezed,Object? functionCall = freezed,Object? functions = freezed,Object? verbosity = freezed,Object? reasoning = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? model = null,Object? messages = null,Object? store = freezed,Object? reasoningEffort = freezed,Object? metadata = freezed,Object? frequencyPenalty = freezed,Object? logitBias = freezed,Object? logprobs = freezed,Object? topLogprobs = freezed,Object? maxTokens = freezed,Object? maxCompletionTokens = freezed,Object? n = freezed,Object? modalities = freezed,Object? prediction = freezed,Object? audio = freezed,Object? presencePenalty = freezed,Object? webSearchOptions = freezed,Object? responseFormat = freezed,Object? seed = freezed,Object? serviceTier = freezed,Object? stop = freezed,Object? stream = freezed,Object? streamOptions = freezed,Object? temperature = freezed,Object? topP = freezed,Object? tools = freezed,Object? toolChoice = freezed,Object? parallelToolCalls = freezed,Object? user = freezed,Object? functionCall = freezed,Object? functions = freezed,Object? verbosity = freezed,Object? reasoning = freezed,Object? provider = freezed,Object? models = freezed,Object? route = freezed,Object? transforms = freezed,Object? usage = freezed,}) {
   return _then(_CreateChatCompletionRequest(
 model: null == model ? _self.model : model // ignore: cast_nullable_to_non_nullable
 as ChatCompletionModel,messages: null == messages ? _self._messages : messages // ignore: cast_nullable_to_non_nullable
@@ -3485,7 +3639,12 @@ as String?,functionCall: freezed == functionCall ? _self.functionCall : function
 as ChatCompletionFunctionCall?,functions: freezed == functions ? _self._functions : functions // ignore: cast_nullable_to_non_nullable
 as List<FunctionObject>?,verbosity: freezed == verbosity ? _self.verbosity : verbosity // ignore: cast_nullable_to_non_nullable
 as Verbosity?,reasoning: freezed == reasoning ? _self.reasoning : reasoning // ignore: cast_nullable_to_non_nullable
-as CreateChatCompletionRequestReasoning?,
+as CreateChatCompletionRequestReasoning?,provider: freezed == provider ? _self.provider : provider // ignore: cast_nullable_to_non_nullable
+as OpenRouterProviderPreferences?,models: freezed == models ? _self._models : models // ignore: cast_nullable_to_non_nullable
+as List<String>?,route: freezed == route ? _self.route : route // ignore: cast_nullable_to_non_nullable
+as CreateChatCompletionRequestRoute?,transforms: freezed == transforms ? _self._transforms : transforms // ignore: cast_nullable_to_non_nullable
+as List<String>?,usage: freezed == usage ? _self.usage : usage // ignore: cast_nullable_to_non_nullable
+as OpenRouterUsageConfig?,
   ));
 }
 
@@ -3605,6 +3764,30 @@ $CreateChatCompletionRequestReasoningCopyWith<$Res>? get reasoning {
 
   return $CreateChatCompletionRequestReasoningCopyWith<$Res>(_self.reasoning!, (value) {
     return _then(_self.copyWith(reasoning: value));
+  });
+}/// Create a copy of CreateChatCompletionRequest
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$OpenRouterProviderPreferencesCopyWith<$Res>? get provider {
+    if (_self.provider == null) {
+    return null;
+  }
+
+  return $OpenRouterProviderPreferencesCopyWith<$Res>(_self.provider!, (value) {
+    return _then(_self.copyWith(provider: value));
+  });
+}/// Create a copy of CreateChatCompletionRequest
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$OpenRouterUsageConfigCopyWith<$Res>? get usage {
+    if (_self.usage == null) {
+    return null;
+  }
+
+  return $OpenRouterUsageConfigCopyWith<$Res>(_self.usage!, (value) {
+    return _then(_self.copyWith(usage: value));
   });
 }
 }
@@ -5532,6 +5715,695 @@ type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as ReasoningDetailType,text: freezed == text ? _self.text : text // ignore: cast_nullable_to_non_nullable
 as String?,data: freezed == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
 as String?,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$OpenRouterProviderPreferences {
+
+/// Provider routing order. Determines which providers are tried first.
+/// When specified, disables load balancing and tries providers in order.
+///
+/// **Provider:** OpenRouter
+///
+/// Example: `["Anthropic", "OpenAI", "Together"]`
+@JsonKey(includeIfNull: false) List<String>? get order;/// Controls whether alternative providers can be used if the primary fails.
+/// Set to `false` with `order` to guarantee requests are only served by the top provider.
+///
+/// **Provider:** OpenRouter
+@JsonKey(name: 'allow_fallbacks') bool get allowFallbacks;/// Ensures only providers supporting all request parameters are used.
+/// When `true`, won't route to providers that don't support all parameters.
+///
+/// **Provider:** OpenRouter
+@JsonKey(name: 'require_parameters') bool get requireParameters;/// Controls usage of providers that may store user data for training.
+/// Set to `"deny"` to exclude providers that don't comply with data policies.
+///
+/// **Provider:** OpenRouter
+@JsonKey(name: 'data_collection') OpenRouterProviderPreferencesDataCollection get dataCollection;/// Enforces Zero Data Retention endpoints. Ensures providers do not retain prompt data.
+/// When `true`, only routes to endpoints with Zero Data Retention policy.
+/// Works as OR with account-wide ZDR settings (can only enable, not disable).
+///
+/// **Provider:** OpenRouter
+ bool get zdr;/// Exclude specific providers from routing. Merged with account-wide ignored providers.
+///
+/// **Provider:** OpenRouter
+///
+/// **Warning:** Ignoring multiple providers may reduce fallback options significantly.
+///
+/// Example: `["deepinfra"]`
+@JsonKey(includeIfNull: false) List<String>? get ignore;/// Filter providers by quantization levels for performance/quality tradeoffs.
+///
+/// **Provider:** OpenRouter
+///
+/// Valid values: `"int4"`, `"int8"`, `"fp8"`, `"fp16"`, `"bf16"`, `"unknown"`
+@JsonKey(includeIfNull: false) List<String>? get quantizations;/// Prioritize providers by specific attribute:
+/// - `"price"`: Always prioritize lowest prices
+/// - `"throughput"`: Prioritize high-speed responses
+/// - `"latency"`: Prioritize low time to first token
+///
+/// **Provider:** OpenRouter
+///
+/// Can combine with other fields like filtering for complex requirements.
+@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) OpenRouterProviderPreferencesSort? get sort;
+/// Create a copy of OpenRouterProviderPreferences
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$OpenRouterProviderPreferencesCopyWith<OpenRouterProviderPreferences> get copyWith => _$OpenRouterProviderPreferencesCopyWithImpl<OpenRouterProviderPreferences>(this as OpenRouterProviderPreferences, _$identity);
+
+  /// Serializes this OpenRouterProviderPreferences to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is OpenRouterProviderPreferences&&const DeepCollectionEquality().equals(other.order, order)&&(identical(other.allowFallbacks, allowFallbacks) || other.allowFallbacks == allowFallbacks)&&(identical(other.requireParameters, requireParameters) || other.requireParameters == requireParameters)&&(identical(other.dataCollection, dataCollection) || other.dataCollection == dataCollection)&&(identical(other.zdr, zdr) || other.zdr == zdr)&&const DeepCollectionEquality().equals(other.ignore, ignore)&&const DeepCollectionEquality().equals(other.quantizations, quantizations)&&(identical(other.sort, sort) || other.sort == sort));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(order),allowFallbacks,requireParameters,dataCollection,zdr,const DeepCollectionEquality().hash(ignore),const DeepCollectionEquality().hash(quantizations),sort);
+
+@override
+String toString() {
+  return 'OpenRouterProviderPreferences(order: $order, allowFallbacks: $allowFallbacks, requireParameters: $requireParameters, dataCollection: $dataCollection, zdr: $zdr, ignore: $ignore, quantizations: $quantizations, sort: $sort)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $OpenRouterProviderPreferencesCopyWith<$Res>  {
+  factory $OpenRouterProviderPreferencesCopyWith(OpenRouterProviderPreferences value, $Res Function(OpenRouterProviderPreferences) _then) = _$OpenRouterProviderPreferencesCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(includeIfNull: false) List<String>? order,@JsonKey(name: 'allow_fallbacks') bool allowFallbacks,@JsonKey(name: 'require_parameters') bool requireParameters,@JsonKey(name: 'data_collection') OpenRouterProviderPreferencesDataCollection dataCollection, bool zdr,@JsonKey(includeIfNull: false) List<String>? ignore,@JsonKey(includeIfNull: false) List<String>? quantizations,@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) OpenRouterProviderPreferencesSort? sort
+});
+
+
+
+
+}
+/// @nodoc
+class _$OpenRouterProviderPreferencesCopyWithImpl<$Res>
+    implements $OpenRouterProviderPreferencesCopyWith<$Res> {
+  _$OpenRouterProviderPreferencesCopyWithImpl(this._self, this._then);
+
+  final OpenRouterProviderPreferences _self;
+  final $Res Function(OpenRouterProviderPreferences) _then;
+
+/// Create a copy of OpenRouterProviderPreferences
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? order = freezed,Object? allowFallbacks = null,Object? requireParameters = null,Object? dataCollection = null,Object? zdr = null,Object? ignore = freezed,Object? quantizations = freezed,Object? sort = freezed,}) {
+  return _then(_self.copyWith(
+order: freezed == order ? _self.order : order // ignore: cast_nullable_to_non_nullable
+as List<String>?,allowFallbacks: null == allowFallbacks ? _self.allowFallbacks : allowFallbacks // ignore: cast_nullable_to_non_nullable
+as bool,requireParameters: null == requireParameters ? _self.requireParameters : requireParameters // ignore: cast_nullable_to_non_nullable
+as bool,dataCollection: null == dataCollection ? _self.dataCollection : dataCollection // ignore: cast_nullable_to_non_nullable
+as OpenRouterProviderPreferencesDataCollection,zdr: null == zdr ? _self.zdr : zdr // ignore: cast_nullable_to_non_nullable
+as bool,ignore: freezed == ignore ? _self.ignore : ignore // ignore: cast_nullable_to_non_nullable
+as List<String>?,quantizations: freezed == quantizations ? _self.quantizations : quantizations // ignore: cast_nullable_to_non_nullable
+as List<String>?,sort: freezed == sort ? _self.sort : sort // ignore: cast_nullable_to_non_nullable
+as OpenRouterProviderPreferencesSort?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [OpenRouterProviderPreferences].
+extension OpenRouterProviderPreferencesPatterns on OpenRouterProviderPreferences {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _OpenRouterProviderPreferences value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _OpenRouterProviderPreferences() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _OpenRouterProviderPreferences value)  $default,){
+final _that = this;
+switch (_that) {
+case _OpenRouterProviderPreferences():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _OpenRouterProviderPreferences value)?  $default,){
+final _that = this;
+switch (_that) {
+case _OpenRouterProviderPreferences() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false)  List<String>? order, @JsonKey(name: 'allow_fallbacks')  bool allowFallbacks, @JsonKey(name: 'require_parameters')  bool requireParameters, @JsonKey(name: 'data_collection')  OpenRouterProviderPreferencesDataCollection dataCollection,  bool zdr, @JsonKey(includeIfNull: false)  List<String>? ignore, @JsonKey(includeIfNull: false)  List<String>? quantizations, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  OpenRouterProviderPreferencesSort? sort)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _OpenRouterProviderPreferences() when $default != null:
+return $default(_that.order,_that.allowFallbacks,_that.requireParameters,_that.dataCollection,_that.zdr,_that.ignore,_that.quantizations,_that.sort);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false)  List<String>? order, @JsonKey(name: 'allow_fallbacks')  bool allowFallbacks, @JsonKey(name: 'require_parameters')  bool requireParameters, @JsonKey(name: 'data_collection')  OpenRouterProviderPreferencesDataCollection dataCollection,  bool zdr, @JsonKey(includeIfNull: false)  List<String>? ignore, @JsonKey(includeIfNull: false)  List<String>? quantizations, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  OpenRouterProviderPreferencesSort? sort)  $default,) {final _that = this;
+switch (_that) {
+case _OpenRouterProviderPreferences():
+return $default(_that.order,_that.allowFallbacks,_that.requireParameters,_that.dataCollection,_that.zdr,_that.ignore,_that.quantizations,_that.sort);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(includeIfNull: false)  List<String>? order, @JsonKey(name: 'allow_fallbacks')  bool allowFallbacks, @JsonKey(name: 'require_parameters')  bool requireParameters, @JsonKey(name: 'data_collection')  OpenRouterProviderPreferencesDataCollection dataCollection,  bool zdr, @JsonKey(includeIfNull: false)  List<String>? ignore, @JsonKey(includeIfNull: false)  List<String>? quantizations, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  OpenRouterProviderPreferencesSort? sort)?  $default,) {final _that = this;
+switch (_that) {
+case _OpenRouterProviderPreferences() when $default != null:
+return $default(_that.order,_that.allowFallbacks,_that.requireParameters,_that.dataCollection,_that.zdr,_that.ignore,_that.quantizations,_that.sort);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _OpenRouterProviderPreferences extends OpenRouterProviderPreferences {
+  const _OpenRouterProviderPreferences({@JsonKey(includeIfNull: false) final  List<String>? order, @JsonKey(name: 'allow_fallbacks') this.allowFallbacks = true, @JsonKey(name: 'require_parameters') this.requireParameters = false, @JsonKey(name: 'data_collection') this.dataCollection = OpenRouterProviderPreferencesDataCollection.allow, this.zdr = false, @JsonKey(includeIfNull: false) final  List<String>? ignore, @JsonKey(includeIfNull: false) final  List<String>? quantizations, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.sort}): _order = order,_ignore = ignore,_quantizations = quantizations,super._();
+  factory _OpenRouterProviderPreferences.fromJson(Map<String, dynamic> json) => _$OpenRouterProviderPreferencesFromJson(json);
+
+/// Provider routing order. Determines which providers are tried first.
+/// When specified, disables load balancing and tries providers in order.
+///
+/// **Provider:** OpenRouter
+///
+/// Example: `["Anthropic", "OpenAI", "Together"]`
+ final  List<String>? _order;
+/// Provider routing order. Determines which providers are tried first.
+/// When specified, disables load balancing and tries providers in order.
+///
+/// **Provider:** OpenRouter
+///
+/// Example: `["Anthropic", "OpenAI", "Together"]`
+@override@JsonKey(includeIfNull: false) List<String>? get order {
+  final value = _order;
+  if (value == null) return null;
+  if (_order is EqualUnmodifiableListView) return _order;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
+/// Controls whether alternative providers can be used if the primary fails.
+/// Set to `false` with `order` to guarantee requests are only served by the top provider.
+///
+/// **Provider:** OpenRouter
+@override@JsonKey(name: 'allow_fallbacks') final  bool allowFallbacks;
+/// Ensures only providers supporting all request parameters are used.
+/// When `true`, won't route to providers that don't support all parameters.
+///
+/// **Provider:** OpenRouter
+@override@JsonKey(name: 'require_parameters') final  bool requireParameters;
+/// Controls usage of providers that may store user data for training.
+/// Set to `"deny"` to exclude providers that don't comply with data policies.
+///
+/// **Provider:** OpenRouter
+@override@JsonKey(name: 'data_collection') final  OpenRouterProviderPreferencesDataCollection dataCollection;
+/// Enforces Zero Data Retention endpoints. Ensures providers do not retain prompt data.
+/// When `true`, only routes to endpoints with Zero Data Retention policy.
+/// Works as OR with account-wide ZDR settings (can only enable, not disable).
+///
+/// **Provider:** OpenRouter
+@override@JsonKey() final  bool zdr;
+/// Exclude specific providers from routing. Merged with account-wide ignored providers.
+///
+/// **Provider:** OpenRouter
+///
+/// **Warning:** Ignoring multiple providers may reduce fallback options significantly.
+///
+/// Example: `["deepinfra"]`
+ final  List<String>? _ignore;
+/// Exclude specific providers from routing. Merged with account-wide ignored providers.
+///
+/// **Provider:** OpenRouter
+///
+/// **Warning:** Ignoring multiple providers may reduce fallback options significantly.
+///
+/// Example: `["deepinfra"]`
+@override@JsonKey(includeIfNull: false) List<String>? get ignore {
+  final value = _ignore;
+  if (value == null) return null;
+  if (_ignore is EqualUnmodifiableListView) return _ignore;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
+/// Filter providers by quantization levels for performance/quality tradeoffs.
+///
+/// **Provider:** OpenRouter
+///
+/// Valid values: `"int4"`, `"int8"`, `"fp8"`, `"fp16"`, `"bf16"`, `"unknown"`
+ final  List<String>? _quantizations;
+/// Filter providers by quantization levels for performance/quality tradeoffs.
+///
+/// **Provider:** OpenRouter
+///
+/// Valid values: `"int4"`, `"int8"`, `"fp8"`, `"fp16"`, `"bf16"`, `"unknown"`
+@override@JsonKey(includeIfNull: false) List<String>? get quantizations {
+  final value = _quantizations;
+  if (value == null) return null;
+  if (_quantizations is EqualUnmodifiableListView) return _quantizations;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
+/// Prioritize providers by specific attribute:
+/// - `"price"`: Always prioritize lowest prices
+/// - `"throughput"`: Prioritize high-speed responses
+/// - `"latency"`: Prioritize low time to first token
+///
+/// **Provider:** OpenRouter
+///
+/// Can combine with other fields like filtering for complex requirements.
+@override@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) final  OpenRouterProviderPreferencesSort? sort;
+
+/// Create a copy of OpenRouterProviderPreferences
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$OpenRouterProviderPreferencesCopyWith<_OpenRouterProviderPreferences> get copyWith => __$OpenRouterProviderPreferencesCopyWithImpl<_OpenRouterProviderPreferences>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$OpenRouterProviderPreferencesToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OpenRouterProviderPreferences&&const DeepCollectionEquality().equals(other._order, _order)&&(identical(other.allowFallbacks, allowFallbacks) || other.allowFallbacks == allowFallbacks)&&(identical(other.requireParameters, requireParameters) || other.requireParameters == requireParameters)&&(identical(other.dataCollection, dataCollection) || other.dataCollection == dataCollection)&&(identical(other.zdr, zdr) || other.zdr == zdr)&&const DeepCollectionEquality().equals(other._ignore, _ignore)&&const DeepCollectionEquality().equals(other._quantizations, _quantizations)&&(identical(other.sort, sort) || other.sort == sort));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_order),allowFallbacks,requireParameters,dataCollection,zdr,const DeepCollectionEquality().hash(_ignore),const DeepCollectionEquality().hash(_quantizations),sort);
+
+@override
+String toString() {
+  return 'OpenRouterProviderPreferences(order: $order, allowFallbacks: $allowFallbacks, requireParameters: $requireParameters, dataCollection: $dataCollection, zdr: $zdr, ignore: $ignore, quantizations: $quantizations, sort: $sort)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$OpenRouterProviderPreferencesCopyWith<$Res> implements $OpenRouterProviderPreferencesCopyWith<$Res> {
+  factory _$OpenRouterProviderPreferencesCopyWith(_OpenRouterProviderPreferences value, $Res Function(_OpenRouterProviderPreferences) _then) = __$OpenRouterProviderPreferencesCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(includeIfNull: false) List<String>? order,@JsonKey(name: 'allow_fallbacks') bool allowFallbacks,@JsonKey(name: 'require_parameters') bool requireParameters,@JsonKey(name: 'data_collection') OpenRouterProviderPreferencesDataCollection dataCollection, bool zdr,@JsonKey(includeIfNull: false) List<String>? ignore,@JsonKey(includeIfNull: false) List<String>? quantizations,@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) OpenRouterProviderPreferencesSort? sort
+});
+
+
+
+
+}
+/// @nodoc
+class __$OpenRouterProviderPreferencesCopyWithImpl<$Res>
+    implements _$OpenRouterProviderPreferencesCopyWith<$Res> {
+  __$OpenRouterProviderPreferencesCopyWithImpl(this._self, this._then);
+
+  final _OpenRouterProviderPreferences _self;
+  final $Res Function(_OpenRouterProviderPreferences) _then;
+
+/// Create a copy of OpenRouterProviderPreferences
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? order = freezed,Object? allowFallbacks = null,Object? requireParameters = null,Object? dataCollection = null,Object? zdr = null,Object? ignore = freezed,Object? quantizations = freezed,Object? sort = freezed,}) {
+  return _then(_OpenRouterProviderPreferences(
+order: freezed == order ? _self._order : order // ignore: cast_nullable_to_non_nullable
+as List<String>?,allowFallbacks: null == allowFallbacks ? _self.allowFallbacks : allowFallbacks // ignore: cast_nullable_to_non_nullable
+as bool,requireParameters: null == requireParameters ? _self.requireParameters : requireParameters // ignore: cast_nullable_to_non_nullable
+as bool,dataCollection: null == dataCollection ? _self.dataCollection : dataCollection // ignore: cast_nullable_to_non_nullable
+as OpenRouterProviderPreferencesDataCollection,zdr: null == zdr ? _self.zdr : zdr // ignore: cast_nullable_to_non_nullable
+as bool,ignore: freezed == ignore ? _self._ignore : ignore // ignore: cast_nullable_to_non_nullable
+as List<String>?,quantizations: freezed == quantizations ? _self._quantizations : quantizations // ignore: cast_nullable_to_non_nullable
+as List<String>?,sort: freezed == sort ? _self.sort : sort // ignore: cast_nullable_to_non_nullable
+as OpenRouterProviderPreferencesSort?,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$OpenRouterUsageConfig {
+
+/// Whether to include detailed token usage information in the response.
+/// When enabled, response includes prompt tokens, completion tokens, cached tokens,
+/// and reasoning tokens (using model's native tokenizer).
+///
+/// **Provider:** OpenRouter
+///
+/// Location: `usage` field in non-streaming responses, last SSE message in streaming.
+@JsonKey(includeIfNull: false) bool? get include;
+/// Create a copy of OpenRouterUsageConfig
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$OpenRouterUsageConfigCopyWith<OpenRouterUsageConfig> get copyWith => _$OpenRouterUsageConfigCopyWithImpl<OpenRouterUsageConfig>(this as OpenRouterUsageConfig, _$identity);
+
+  /// Serializes this OpenRouterUsageConfig to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is OpenRouterUsageConfig&&(identical(other.include, include) || other.include == include));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,include);
+
+@override
+String toString() {
+  return 'OpenRouterUsageConfig(include: $include)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $OpenRouterUsageConfigCopyWith<$Res>  {
+  factory $OpenRouterUsageConfigCopyWith(OpenRouterUsageConfig value, $Res Function(OpenRouterUsageConfig) _then) = _$OpenRouterUsageConfigCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(includeIfNull: false) bool? include
+});
+
+
+
+
+}
+/// @nodoc
+class _$OpenRouterUsageConfigCopyWithImpl<$Res>
+    implements $OpenRouterUsageConfigCopyWith<$Res> {
+  _$OpenRouterUsageConfigCopyWithImpl(this._self, this._then);
+
+  final OpenRouterUsageConfig _self;
+  final $Res Function(OpenRouterUsageConfig) _then;
+
+/// Create a copy of OpenRouterUsageConfig
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? include = freezed,}) {
+  return _then(_self.copyWith(
+include: freezed == include ? _self.include : include // ignore: cast_nullable_to_non_nullable
+as bool?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [OpenRouterUsageConfig].
+extension OpenRouterUsageConfigPatterns on OpenRouterUsageConfig {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _OpenRouterUsageConfig value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _OpenRouterUsageConfig() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _OpenRouterUsageConfig value)  $default,){
+final _that = this;
+switch (_that) {
+case _OpenRouterUsageConfig():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _OpenRouterUsageConfig value)?  $default,){
+final _that = this;
+switch (_that) {
+case _OpenRouterUsageConfig() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false)  bool? include)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _OpenRouterUsageConfig() when $default != null:
+return $default(_that.include);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false)  bool? include)  $default,) {final _that = this;
+switch (_that) {
+case _OpenRouterUsageConfig():
+return $default(_that.include);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(includeIfNull: false)  bool? include)?  $default,) {final _that = this;
+switch (_that) {
+case _OpenRouterUsageConfig() when $default != null:
+return $default(_that.include);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _OpenRouterUsageConfig extends OpenRouterUsageConfig {
+  const _OpenRouterUsageConfig({@JsonKey(includeIfNull: false) this.include}): super._();
+  factory _OpenRouterUsageConfig.fromJson(Map<String, dynamic> json) => _$OpenRouterUsageConfigFromJson(json);
+
+/// Whether to include detailed token usage information in the response.
+/// When enabled, response includes prompt tokens, completion tokens, cached tokens,
+/// and reasoning tokens (using model's native tokenizer).
+///
+/// **Provider:** OpenRouter
+///
+/// Location: `usage` field in non-streaming responses, last SSE message in streaming.
+@override@JsonKey(includeIfNull: false) final  bool? include;
+
+/// Create a copy of OpenRouterUsageConfig
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$OpenRouterUsageConfigCopyWith<_OpenRouterUsageConfig> get copyWith => __$OpenRouterUsageConfigCopyWithImpl<_OpenRouterUsageConfig>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$OpenRouterUsageConfigToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OpenRouterUsageConfig&&(identical(other.include, include) || other.include == include));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,include);
+
+@override
+String toString() {
+  return 'OpenRouterUsageConfig(include: $include)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$OpenRouterUsageConfigCopyWith<$Res> implements $OpenRouterUsageConfigCopyWith<$Res> {
+  factory _$OpenRouterUsageConfigCopyWith(_OpenRouterUsageConfig value, $Res Function(_OpenRouterUsageConfig) _then) = __$OpenRouterUsageConfigCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(includeIfNull: false) bool? include
+});
+
+
+
+
+}
+/// @nodoc
+class __$OpenRouterUsageConfigCopyWithImpl<$Res>
+    implements _$OpenRouterUsageConfigCopyWith<$Res> {
+  __$OpenRouterUsageConfigCopyWithImpl(this._self, this._then);
+
+  final _OpenRouterUsageConfig _self;
+  final $Res Function(_OpenRouterUsageConfig) _then;
+
+/// Create a copy of OpenRouterUsageConfig
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? include = freezed,}) {
+  return _then(_OpenRouterUsageConfig(
+include: freezed == include ? _self.include : include // ignore: cast_nullable_to_non_nullable
+as bool?,
   ));
 }
 

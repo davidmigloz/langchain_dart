@@ -2339,6 +2339,73 @@ components:
                 Enable or disable reasoning output.
 
                 **Provider:** OpenRouter
+        provider:
+          $ref: "#/components/schemas/OpenRouterProviderPreferences"
+          description: |
+            Provider routing preferences for controlling how requests are routed to different model providers.
+
+            **NOT part of the official OpenAI API.**
+
+            **Provider:** OpenRouter
+        models:
+          type: array
+          nullable: true
+          items:
+            type: string
+          description: |
+            Multiple model options for automatic fallback. If the primary model's providers are down,
+            rate-limited, or refuse due to content moderation, automatically tries other models.
+
+            **NOT part of the official OpenAI API.**
+
+            **Provider:** OpenRouter
+
+            Requests are priced using the model that was actually used. The actual model used is
+            returned in the `model` attribute of the response.
+
+            Example: `["anthropic/claude-sonnet-4", "openai/gpt-4o", "deepseek/deepseek-r1"]`
+          x-openai-compatible: false
+        route:
+          type: string
+          nullable: true
+          enum: [fallback]
+          description: |
+            Routing strategy to use with the `models` array. Set to `"fallback"` to enable
+            model fallback functionality.
+
+            **NOT part of the official OpenAI API.**
+
+            **Provider:** OpenRouter
+          x-openai-compatible: false
+        transforms:
+          type: array
+          nullable: true
+          items:
+            type: string
+            enum: [middle-out]
+          description: |
+            List of prompt transforms applied to messages before sending to the model.
+            Transformations are applied in order.
+
+            **NOT part of the official OpenAI API.**
+
+            **Provider:** OpenRouter
+
+            Available transforms:
+            - `"middle-out"`: Compresses prompts that exceed the maximum context size by removing
+              content from the middle (keeps half from start and half from end). Automatically
+              enabled for models with ≤8k context length.
+
+            To disable all transforms, set to empty array: `[]`
+          x-openai-compatible: false
+        usage:
+          $ref: "#/components/schemas/OpenRouterUsageConfig"
+          description: |
+            Usage accounting configuration for detailed token usage information.
+
+            **NOT part of the official OpenAI API.**
+
+            **Provider:** OpenRouter
       required:
         - model
         - messages
@@ -2699,6 +2766,119 @@ components:
           description: Encrypted data (for encrypted type)
       required:
         - type
+    OpenRouterProviderPreferences:
+      type: object
+      description: |
+        Provider routing preferences for controlling how requests are routed to different model providers.
+
+        **NOT part of the official OpenAI API.**
+
+        **Provider:** OpenRouter
+
+        All fields are optional. When not specified, OpenRouter uses default load balancing
+        across available providers (~40ms latency).
+      x-openai-compatible: false
+      properties:
+        order:
+          type: array
+          items:
+            type: string
+          description: |
+            Provider routing order. Determines which providers are tried first.
+            When specified, disables load balancing and tries providers in order.
+
+            **Provider:** OpenRouter
+
+            Example: `["Anthropic", "OpenAI", "Together"]`
+        allow_fallbacks:
+          type: boolean
+          default: true
+          description: |
+            Controls whether alternative providers can be used if the primary fails.
+            Set to `false` with `order` to guarantee requests are only served by the top provider.
+
+            **Provider:** OpenRouter
+        require_parameters:
+          type: boolean
+          default: false
+          description: |
+            Ensures only providers supporting all request parameters are used.
+            When `true`, won't route to providers that don't support all parameters.
+
+            **Provider:** OpenRouter
+        data_collection:
+          type: string
+          enum: [allow, deny]
+          default: allow
+          description: |
+            Controls usage of providers that may store user data for training.
+            Set to `"deny"` to exclude providers that don't comply with data policies.
+
+            **Provider:** OpenRouter
+        zdr:
+          type: boolean
+          default: false
+          description: |
+            Enforces Zero Data Retention endpoints. Ensures providers do not retain prompt data.
+            When `true`, only routes to endpoints with Zero Data Retention policy.
+            Works as OR with account-wide ZDR settings (can only enable, not disable).
+
+            **Provider:** OpenRouter
+        ignore:
+          type: array
+          items:
+            type: string
+          description: |
+            Exclude specific providers from routing. Merged with account-wide ignored providers.
+
+            **Provider:** OpenRouter
+
+            **Warning:** Ignoring multiple providers may reduce fallback options significantly.
+
+            Example: `["deepinfra"]`
+        quantizations:
+          type: array
+          items:
+            type: string
+            enum: [int4, int8, fp8, fp16, bf16, unknown]
+          description: |
+            Filter providers by quantization levels for performance/quality tradeoffs.
+
+            **Provider:** OpenRouter
+
+            Valid values: `"int4"`, `"int8"`, `"fp8"`, `"fp16"`, `"bf16"`, `"unknown"`
+        sort:
+          type: string
+          enum: [price, throughput, latency]
+          description: |
+            Prioritize providers by specific attribute:
+            - `"price"`: Always prioritize lowest prices
+            - `"throughput"`: Prioritize high-speed responses
+            - `"latency"`: Prioritize low time to first token
+
+            **Provider:** OpenRouter
+
+            Can combine with other fields like filtering for complex requirements.
+    OpenRouterUsageConfig:
+      type: object
+      description: |
+        Usage accounting configuration for detailed token usage information.
+
+        **NOT part of the official OpenAI API.**
+
+        **Provider:** OpenRouter
+      x-openai-compatible: false
+      properties:
+        include:
+          type: boolean
+          description: |
+            Whether to include detailed token usage information in the response.
+            When enabled, response includes prompt tokens, completion tokens, cached tokens,
+            and reasoning tokens (using model's native tokenizer).
+
+            **Provider:** OpenRouter
+
+            Location: `usage` field in non-streaming responses, last SSE message in streaming.
     ChatCompletionMessageFunctionCall:
       type: object
       description: The name and arguments of a function that should be called, as generated by the model.
