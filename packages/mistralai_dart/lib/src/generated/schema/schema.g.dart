@@ -28,12 +28,12 @@ Map<String, dynamic> _$ChatCompletionRequestToJson(
 ) => <String, dynamic>{
   'model': const _ChatCompletionModelConverter().toJson(instance.model),
   'messages': instance.messages.map((e) => e.toJson()).toList(),
-  if (instance.temperature case final value?) 'temperature': value,
-  if (instance.topP case final value?) 'top_p': value,
-  if (instance.maxTokens case final value?) 'max_tokens': value,
-  if (instance.stream case final value?) 'stream': value,
-  if (instance.safePrompt case final value?) 'safe_prompt': value,
-  if (instance.randomSeed case final value?) 'random_seed': value,
+  'temperature': ?instance.temperature,
+  'top_p': ?instance.topP,
+  'max_tokens': ?instance.maxTokens,
+  'stream': ?instance.stream,
+  'safe_prompt': ?instance.safePrompt,
+  'random_seed': ?instance.randomSeed,
 };
 
 ChatCompletionModelEnumeration _$ChatCompletionModelEnumerationFromJson(
@@ -65,10 +65,7 @@ ChatCompletionModelString _$ChatCompletionModelStringFromJson(
 
 Map<String, dynamic> _$ChatCompletionModelStringToJson(
   ChatCompletionModelString instance,
-) => <String, dynamic>{
-  'value': instance.value,
-  'runtimeType': instance.$type,
-};
+) => <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};
 
 _ChatCompletionResponse _$ChatCompletionResponseFromJson(
   Map<String, dynamic> json,
@@ -117,7 +114,7 @@ Map<String, dynamic> _$ChatCompletionResponseChoicesInnerToJson(
   _ChatCompletionResponseChoicesInner instance,
 ) => <String, dynamic>{
   'index': instance.index,
-  if (instance.message?.toJson() case final value?) 'message': value,
+  'message': ?instance.message?.toJson(),
   'finish_reason': _$ChatCompletionFinishReasonEnumMap[instance.finishReason]!,
 };
 
@@ -176,16 +173,20 @@ _ChatCompletionStreamResponse _$ChatCompletionStreamResponseFromJson(
         ),
       )
       .toList(),
+  usage: json['usage'] == null
+      ? null
+      : ChatCompletionUsage.fromJson(json['usage'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$ChatCompletionStreamResponseToJson(
   _ChatCompletionStreamResponse instance,
 ) => <String, dynamic>{
   'id': instance.id,
-  if (instance.object case final value?) 'object': value,
-  if (instance.created case final value?) 'created': value,
+  'object': ?instance.object,
+  'created': ?instance.created,
   'model': instance.model,
   'choices': instance.choices.map((e) => e.toJson()).toList(),
+  'usage': ?instance.usage?.toJson(),
 };
 
 _ChatCompletionStreamResponseChoicesInner
@@ -207,9 +208,7 @@ Map<String, dynamic> _$ChatCompletionStreamResponseChoicesInnerToJson(
 ) => <String, dynamic>{
   'index': instance.index,
   'delta': instance.delta.toJson(),
-  if (_$ChatCompletionFinishReasonEnumMap[instance.finishReason]
-      case final value?)
-    'finish_reason': value,
+  'finish_reason': ?_$ChatCompletionFinishReasonEnumMap[instance.finishReason],
 };
 
 _ChatCompletionStreamDelta _$ChatCompletionStreamDeltaFromJson(
@@ -226,9 +225,8 @@ _ChatCompletionStreamDelta _$ChatCompletionStreamDeltaFromJson(
 Map<String, dynamic> _$ChatCompletionStreamDeltaToJson(
   _ChatCompletionStreamDelta instance,
 ) => <String, dynamic>{
-  if (_$ChatCompletionMessageRoleEnumMap[instance.role] case final value?)
-    'role': value,
-  if (instance.content case final value?) 'content': value,
+  'role': ?_$ChatCompletionMessageRoleEnumMap[instance.role],
+  'content': ?instance.content,
 };
 
 _EmbeddingRequest _$EmbeddingRequestFromJson(Map<String, dynamic> json) =>
@@ -282,10 +280,7 @@ EmbeddingModelString _$EmbeddingModelStringFromJson(
 
 Map<String, dynamic> _$EmbeddingModelStringToJson(
   EmbeddingModelString instance,
-) => <String, dynamic>{
-  'value': instance.value,
-  'runtimeType': instance.$type,
-};
+) => <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};
 
 _EmbeddingResponse _$EmbeddingResponseFromJson(Map<String, dynamic> json) =>
     _EmbeddingResponse(

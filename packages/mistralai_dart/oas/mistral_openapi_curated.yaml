@@ -309,6 +309,10 @@ components:
                 $ref: '#/components/schemas/ChatCompletionStreamDelta'
               finish_reason:
                 $ref: '#/components/schemas/ChatCompletionFinishReason'
+        usage:
+          $ref: '#/components/schemas/ChatCompletionUsage'
+          description: |
+            Token usage statistics for this completion. Only present in the final chunk of a streaming response.
       required:
         - id
         - model
