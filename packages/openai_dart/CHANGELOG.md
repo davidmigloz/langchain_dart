@@ -1,3 +1,14 @@
+## 0.6.0
+
+> Note: This release has breaking changes.
+
+ - **FIX**: Correct text content serialization in CreateMessageRequest ([#805](https://github.com/davidmigloz/langchain_dart/issues/805)). ([e4569c96](https://github.com/davidmigloz/langchain_dart/commit/e4569c96ede23223ca23711579d2415bd05b4e27))
+ - **FIX**: Handle optional space after colon in SSE parser ([#779](https://github.com/davidmigloz/langchain_dart/issues/779)). ([9defa827](https://github.com/davidmigloz/langchain_dart/commit/9defa827ce145533a85ead2bccfc25f5fa069358))
+ - **FEAT**: Add OpenRouter provider routing support ([#794](https://github.com/davidmigloz/langchain_dart/issues/794)). ([6d306bc1](https://github.com/davidmigloz/langchain_dart/commit/6d306bc1f8e8fda8dcf581ec993eea0c755f9433))
+ - **FEAT**: Add OpenAI-compatible vendor reasoning content support ([#793](https://github.com/davidmigloz/langchain_dart/issues/793)). ([e0712c38](https://github.com/davidmigloz/langchain_dart/commit/e0712c3851377fae10a0b35606e1b5098abc575b))
+ - **FEAT**: Upgrade to http v1.5.0 ([#785](https://github.com/davidmigloz/langchain_dart/issues/785)). ([f7c87790](https://github.com/davidmigloz/langchain_dart/commit/f7c8779011015b5a4a7f3a07dca32bde1bb2ea88))
+ - **BREAKING** **BUILD**: Require Dart >=3.8.0 ([#792](https://github.com/davidmigloz/langchain_dart/issues/792)). ([b887f5c6](https://github.com/davidmigloz/langchain_dart/commit/b887f5c62e307b3a510c5049e3d1fbe7b7b4f4c9))
+
 ## 0.5.5
 
  - **FEAT**: Migrate to Freezed v3 ([#773](https://github.com/davidmigloz/langchain_dart/issues/773)). ([f87c8c03](https://github.com/davidmigloz/langchain_dart/commit/f87c8c03711ef382d2c9de19d378bee92e7631c1))
@@ -36,23 +47,23 @@
  - **FEAT**: Update dependencies (requires Dart 3.6.0) ([#709](https://github.com/davidmigloz/langchain_dart/issues/709)). ([9e3467f7](https://github.com/davidmigloz/langchain_dart/commit/9e3467f7caabe051a43c0eb3c1110bc4a9b77b81))
  - **REFACTOR**: Remove fetch_client dependency in favor of http v1.3.0 ([#659](https://github.com/davidmigloz/langchain_dart/issues/659)). ([0e0a685c](https://github.com/davidmigloz/langchain_dart/commit/0e0a685c376895425dbddb0f9b83758c700bb0c7))
  - **REFACTOR**: Fix linter issues ([#708](https://github.com/davidmigloz/langchain_dart/issues/708)). ([652e7c64](https://github.com/davidmigloz/langchain_dart/commit/652e7c64776d92d309cbd708d9e477fc2ee1391c))
- - **DOCS**: Fix TruncationObject docs typo in openai_dart. ([ee5ed4fd](https://github.com/davidmigloz/langchain_dart/commit/ee5ed4fdfdf4213ceec05d7a5a2b24cca95ae386))
+ - **DOCS**: Fix TruncationObject docs typo. ([ee5ed4fd](https://github.com/davidmigloz/langchain_dart/commit/ee5ed4fdfdf4213ceec05d7a5a2b24cca95ae386))
  - **DOCS**: Document Azure Assistants API base url ([#626](https://github.com/davidmigloz/langchain_dart/issues/626)). ([c3459eea](https://github.com/davidmigloz/langchain_dart/commit/c3459eea354f36a11f69145a7313b3feda7a15eb))
 
 ## 0.4.5
 
- - **FEAT**: Support Predicted Outputs in openai_dart ([#613](https://github.com/davidmigloz/langchain_dart/issues/613)). ([315fe0fd](https://github.com/davidmigloz/langchain_dart/commit/315fe0fd3227e2c5a1a874be7fd01e25dcd7b33c))
- - **FEAT**: Support streaming audio responses in chat completions in openai_dart ([#615](https://github.com/davidmigloz/langchain_dart/issues/615)). ([6da756a8](https://github.com/davidmigloz/langchain_dart/commit/6da756a87be35a34048c6671f7629b553bf0699e))
- - **FEAT**: Add gpt-4o-2024-11-20 to model catalog in openai_dart ([#614](https://github.com/davidmigloz/langchain_dart/issues/614)). ([bf333081](https://github.com/davidmigloz/langchain_dart/commit/bf33308165869792446c3897db95e6ad7a7cb519))
- - **FIX**: Default store field to null in openai_dart to support Azure and Groq APIs ([#608](https://github.com/davidmigloz/langchain_dart/issues/608)). ([21332960](https://github.com/davidmigloz/langchain_dart/commit/21332960c2c9928873b5b2948b86af31245f9312))
- - **FIX**: Make first_id and last_id nullable in list endpoints in openai_dart ([#607](https://github.com/davidmigloz/langchain_dart/issues/607)). ([7cfc4ddf](https://github.com/davidmigloz/langchain_dart/commit/7cfc4ddf469846624d3dd6f3f86cab54c5333395))
+ - **FEAT**: Support Predicted Outputs ([#613](https://github.com/davidmigloz/langchain_dart/issues/613)). ([315fe0fd](https://github.com/davidmigloz/langchain_dart/commit/315fe0fd3227e2c5a1a874be7fd01e25dcd7b33c))
+ - **FEAT**: Support streaming audio responses in chat completions ([#615](https://github.com/davidmigloz/langchain_dart/issues/615)). ([6da756a8](https://github.com/davidmigloz/langchain_dart/commit/6da756a87be35a34048c6671f7629b553bf0699e))
+ - **FEAT**: Add gpt-4o-2024-11-20 to model catalog ([#614](https://github.com/davidmigloz/langchain_dart/issues/614)). ([bf333081](https://github.com/davidmigloz/langchain_dart/commit/bf33308165869792446c3897db95e6ad7a7cb519))
+ - **FIX**: Default store field to null to support Azure and Groq APIs ([#608](https://github.com/davidmigloz/langchain_dart/issues/608)). ([21332960](https://github.com/davidmigloz/langchain_dart/commit/21332960c2c9928873b5b2948b86af31245f9312))
+ - **FIX**: Make first_id and last_id nullable in list endpoints ([#607](https://github.com/davidmigloz/langchain_dart/issues/607)). ([7cfc4ddf](https://github.com/davidmigloz/langchain_dart/commit/7cfc4ddf469846624d3dd6f3f86cab54c5333395))
  - **DOCS**: Update OpenAI endpoints descriptions ([#612](https://github.com/davidmigloz/langchain_dart/issues/612)). ([10c66888](https://github.com/davidmigloz/langchain_dart/commit/10c6688884f8bc42ddaa771996030a42125333de))
  - **REFACTOR**: Add new lint rules and fix issues ([#621](https://github.com/davidmigloz/langchain_dart/issues/621)). ([60b10e00](https://github.com/davidmigloz/langchain_dart/commit/60b10e008acf55ebab90789ad08d2449a44b69d8))
  - **REFACTOR**: Upgrade api clients generator version ([#610](https://github.com/davidmigloz/langchain_dart/issues/610)). ([0c8750e8](https://github.com/davidmigloz/langchain_dart/commit/0c8750e85b34764f99b6e34cc531776ffe8fba7c))
 
 ## 0.4.4
 
- - **FEAT**: Add five new voice types to Chat Completions API in openai_dart ([#594](https://github.com/davidmigloz/langchain_dart/issues/594)). ([543f2977](https://github.com/davidmigloz/langchain_dart/commit/543f2977ea1e6dd6e49fa4a2ae9a084ae525003e))
+ - **FEAT**: Add five new voice types to Chat Completions API ([#594](https://github.com/davidmigloz/langchain_dart/issues/594)). ([543f2977](https://github.com/davidmigloz/langchain_dart/commit/543f2977ea1e6dd6e49fa4a2ae9a084ae525003e))
 
 ## 0.4.3
 
@@ -100,7 +111,7 @@
 ## 0.3.3
 
  - **FEAT**: Support FastChat OpenAI-compatible API ([#444](https://github.com/davidmigloz/langchain_dart/issues/444)). ([ddaf1f69](https://github.com/davidmigloz/langchain_dart/commit/ddaf1f69d8262210637999367690bf362f2dc5c3))
- - **FIX**: Make vector store name optional in openai_dart ([#436](https://github.com/davidmigloz/langchain_dart/issues/436)). ([29a46c7f](https://github.com/davidmigloz/langchain_dart/commit/29a46c7fa645439e8f4acc10a16da904e7cf14ff))
+ - **FIX**: Make vector store name optional ([#436](https://github.com/davidmigloz/langchain_dart/issues/436)). ([29a46c7f](https://github.com/davidmigloz/langchain_dart/commit/29a46c7fa645439e8f4acc10a16da904e7cf14ff))
  - **FIX**: Fix deserialization of sealed classes ([#435](https://github.com/davidmigloz/langchain_dart/issues/435)). ([7b9cf223](https://github.com/davidmigloz/langchain_dart/commit/7b9cf223e42eae8496f864ad7ef2f8d0dca45678))
 
 ## 0.3.2+1
@@ -112,12 +123,12 @@
 
  - **FEAT**: Add GPT-4o to model catalog ([#420](https://github.com/davidmigloz/langchain_dart/issues/420)). ([96214307](https://github.com/davidmigloz/langchain_dart/commit/96214307ec8ae045dade687d4c623bd4dc1be896))
  - **FEAT**: Add support for different content types in Assistants API and other fixes ([#412](https://github.com/davidmigloz/langchain_dart/issues/412)). ([97acab45](https://github.com/davidmigloz/langchain_dart/commit/97acab45a5770422c666795ad3443c083fa08895))
- - **FEAT**: Add support for completions and embeddings in batch API in openai_dart ([#425](https://github.com/davidmigloz/langchain_dart/issues/425)). ([16fe4c68](https://github.com/davidmigloz/langchain_dart/commit/16fe4c6814a828fb0d271a6793598f8369da259d))
- - **FEAT**: Add incomplete status to RunObject in openai_dart ([#424](https://github.com/davidmigloz/langchain_dart/issues/424)). ([71b116e6](https://github.com/davidmigloz/langchain_dart/commit/71b116e6252a9dce5a92e979164e0af8fe96efc3))
+ - **FEAT**: Add support for completions and embeddings in batch API ([#425](https://github.com/davidmigloz/langchain_dart/issues/425)). ([16fe4c68](https://github.com/davidmigloz/langchain_dart/commit/16fe4c6814a828fb0d271a6793598f8369da259d))
+ - **FEAT**: Add incomplete status to RunObject ([#424](https://github.com/davidmigloz/langchain_dart/issues/424)). ([71b116e6](https://github.com/davidmigloz/langchain_dart/commit/71b116e6252a9dce5a92e979164e0af8fe96efc3))
 
 ## 0.3.1
 
- - **FEAT**: Add support for stream_options in openai_dart ([#405](https://github.com/davidmigloz/langchain_dart/issues/405)). ([c15714ca](https://github.com/davidmigloz/langchain_dart/commit/c15714ca2df9e30873bc8e4901482faa2d858d8a))
+ - **FEAT**: Add support for stream_options ([#405](https://github.com/davidmigloz/langchain_dart/issues/405)). ([c15714ca](https://github.com/davidmigloz/langchain_dart/commit/c15714ca2df9e30873bc8e4901482faa2d858d8a))
  - **FIX**: RunStepDetailsToolCalls deserialization in Assistants API v2 ([#404](https://github.com/davidmigloz/langchain_dart/issues/404)). ([d76c6aba](https://github.com/davidmigloz/langchain_dart/commit/d76c6aba321e666940614cbc90726500aa370c87))
 
 ## 0.3.0
@@ -166,10 +177,10 @@
 
 ## 0.1.5
 
- - **FEAT**: Support Anyscale API in openai_dart client ([#303](https://github.com/davidmigloz/langchain_dart/issues/303)). ([e0a3651c](https://github.com/davidmigloz/langchain_dart/commit/e0a3651c1457065808e1306c7f498eb716159583))
+ - **FEAT**: Support Anyscale API client ([#303](https://github.com/davidmigloz/langchain_dart/issues/303)). ([e0a3651c](https://github.com/davidmigloz/langchain_dart/commit/e0a3651c1457065808e1306c7f498eb716159583))
  - **FEAT**: Support Together AI API ([#296](https://github.com/davidmigloz/langchain_dart/issues/296)). ([ca6f23d5](https://github.com/davidmigloz/langchain_dart/commit/ca6f23d53baebe8679b4bc67a7de9a705692dde3))
- - **FEAT**: Support Together AI Embeddings API in openai_dart client ([#301](https://github.com/davidmigloz/langchain_dart/issues/301)). ([4a6e1045](https://github.com/davidmigloz/langchain_dart/commit/4a6e1045c13d712ec4da992dcaa097a7b5c2a626))
- - **FEAT**: Add usage to Run/RunStep in openai_dart client ([#302](https://github.com/davidmigloz/langchain_dart/issues/302)). ([cc6538b5](https://github.com/davidmigloz/langchain_dart/commit/cc6538b53394d04084276d8687ec5d7cbb5b5506))
+ - **FEAT**: Support Together AI Embeddings API client ([#301](https://github.com/davidmigloz/langchain_dart/issues/301)). ([4a6e1045](https://github.com/davidmigloz/langchain_dart/commit/4a6e1045c13d712ec4da992dcaa097a7b5c2a626))
+ - **FEAT**: Add usage to Run/RunStep client ([#302](https://github.com/davidmigloz/langchain_dart/issues/302)). ([cc6538b5](https://github.com/davidmigloz/langchain_dart/commit/cc6538b53394d04084276d8687ec5d7cbb5b5506))
 
 ## 0.1.4
 

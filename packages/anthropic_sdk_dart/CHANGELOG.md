@@ -1,3 +1,12 @@
+## 0.3.0
+
+> Note: This release has breaking changes.
+
+ - **FIX**: Handle optional space after colon in SSE parser ([#790](https://github.com/davidmigloz/langchain_dart/issues/790)). ([b31fbead](https://github.com/davidmigloz/langchain_dart/commit/b31fbead3ad4cb3ca9aabd6d8fee5e523df82d65))
+ - **FEAT**: Add extended thinking support ([#803](https://github.com/davidmigloz/langchain_dart/issues/803)). ([1ccb74a6](https://github.com/davidmigloz/langchain_dart/commit/1ccb74a639d63325a7fcac8474ed0500dedd657e))
+ - **FEAT**: Upgrade to http v1.5.0 ([#785](https://github.com/davidmigloz/langchain_dart/issues/785)). ([f7c87790](https://github.com/davidmigloz/langchain_dart/commit/f7c8779011015b5a4a7f3a07dca32bde1bb2ea88))
+ - **BREAKING** **BUILD**: Require Dart >=3.8.0 ([#792](https://github.com/davidmigloz/langchain_dart/issues/792)). ([b887f5c6](https://github.com/davidmigloz/langchain_dart/commit/b887f5c62e307b3a510c5049e3d1fbe7b7b4f4c9))
+
 ## 0.2.3
 
  - **FEAT**: Migrate to Freezed v3 ([#773](https://github.com/davidmigloz/langchain_dart/issues/773)). ([f87c8c03](https://github.com/davidmigloz/langchain_dart/commit/f87c8c03711ef382d2c9de19d378bee92e7631c1))

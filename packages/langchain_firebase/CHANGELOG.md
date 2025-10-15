@@ -1,3 +1,9 @@
+## 0.3.0
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **BUILD**: Require Dart >=3.8.0 ([#792](https://github.com/davidmigloz/langchain_dart/issues/792)). ([b887f5c6](https://github.com/davidmigloz/langchain_dart/commit/b887f5c62e307b3a510c5049e3d1fbe7b7b4f4c9))
+
 ## 0.2.2+4
 
  - **FIX**: depend_on_referenced_packages error ([#772](https://github.com/davidmigloz/langchain_dart/issues/772)). ([ef57d530](https://github.com/davidmigloz/langchain_dart/commit/ef57d5303331c7cb85fdb077a50e040a819ec94e))

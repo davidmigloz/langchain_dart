@@ -1,3 +1,12 @@
+## 0.4.0
+
+> Note: This release has breaking changes.
+
+ - **FEAT**: Add think support to Ollama and ChatOllama ([#801](https://github.com/davidmigloz/langchain_dart/issues/801)). ([553c7282](https://github.com/davidmigloz/langchain_dart/commit/553c72829073584b428770139939bd790da5c6aa))
+ - **FEAT**: Upgrade to http v1.5.0 ([#785](https://github.com/davidmigloz/langchain_dart/issues/785)). ([f7c87790](https://github.com/davidmigloz/langchain_dart/commit/f7c8779011015b5a4a7f3a07dca32bde1bb2ea88))
+ - **BREAKING** **REFACTOR**: Improve factory names in ollama_dart ([#806](https://github.com/davidmigloz/langchain_dart/issues/806)). ([fbfa7acb](https://github.com/davidmigloz/langchain_dart/commit/fbfa7acb071a8c2271a6cfb6506e9f6d8b863ca4))
+ - **BREAKING** **BUILD**: Require Dart >=3.8.0 ([#792](https://github.com/davidmigloz/langchain_dart/issues/792)). ([b887f5c6](https://github.com/davidmigloz/langchain_dart/commit/b887f5c62e307b3a510c5049e3d1fbe7b7b4f4c9))
+
 ## 0.3.3+3
 
  - Update a dependency to the latest release.

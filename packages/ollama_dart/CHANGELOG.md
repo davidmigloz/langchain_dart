@@ -1,3 +1,17 @@
+## 0.3.0
+
+> Note: This release has breaking changes.
+
+ - **FEAT**: Enhance CreateModelRequest with new fields ([#802](https://github.com/davidmigloz/langchain_dart/issues/802)). ([c5c73549](https://github.com/davidmigloz/langchain_dart/commit/c5c73549c51354996b2ca6bbce9d4c4c721fc159))
+ - **FEAT**: Add tool_name and index support ([#800](https://github.com/davidmigloz/langchain_dart/issues/800)). ([f0f77286](https://github.com/davidmigloz/langchain_dart/commit/f0f77286c02c64ea7b75a011761e677fc168ffff))
+ - **FEAT**: Add remote_model and remote_host support ([#799](https://github.com/davidmigloz/langchain_dart/issues/799)). ([36b9d5f2](https://github.com/davidmigloz/langchain_dart/commit/36b9d5f2ba26df6dd79f7105903cdbdd25711ebe))
+ - **FEAT**: Add truncate and shift support ([#798](https://github.com/davidmigloz/langchain_dart/issues/798)). ([098a0815](https://github.com/davidmigloz/langchain_dart/commit/098a08150f2607bf283bb5d2aef82593c91cf221))
+ - **FEAT**: Support high, medium, low for think ([#797](https://github.com/davidmigloz/langchain_dart/issues/797)). ([1cbe3fcf](https://github.com/davidmigloz/langchain_dart/commit/1cbe3fcf96926eb2e81b9f9a7aec8f37797c76d3))
+ - **FEAT**: Support JSON schema in ResponseFormat ([#796](https://github.com/davidmigloz/langchain_dart/issues/796)). ([2f399465](https://github.com/davidmigloz/langchain_dart/commit/2f3994656c32f32a79bb0b613bf38b9fd2e83b3d))
+ - **FEAT**: Upgrade to http v1.5.0 ([#785](https://github.com/davidmigloz/langchain_dart/issues/785)). ([f7c87790](https://github.com/davidmigloz/langchain_dart/commit/f7c8779011015b5a4a7f3a07dca32bde1bb2ea88))
+ - **BREAKING** **REFACTOR**: Improve factory names ([#806](https://github.com/davidmigloz/langchain_dart/issues/806)). ([fbfa7acb](https://github.com/davidmigloz/langchain_dart/commit/fbfa7acb071a8c2271a6cfb6506e9f6d8b863ca4))
+ - **BREAKING** **BUILD**: Require Dart >=3.8.0 ([#792](https://github.com/davidmigloz/langchain_dart/issues/792)). ([b887f5c6](https://github.com/davidmigloz/langchain_dart/commit/b887f5c62e307b3a510c5049e3d1fbe7b7b4f4c9))
+
 ## 0.2.5
 
  - **FEAT**: Migrate to Freezed v3 ([#773](https://github.com/davidmigloz/langchain_dart/issues/773)). ([f87c8c03](https://github.com/davidmigloz/langchain_dart/commit/f87c8c03711ef382d2c9de19d378bee92e7631c1))
@@ -31,10 +45,10 @@
 
 > Note: This release has breaking changes.
 
- - **FEAT**: Add tool calling support in ollama_dart ([#504](https://github.com/davidmigloz/langchain_dart/issues/504)). ([1ffdb41b](https://github.com/davidmigloz/langchain_dart/commit/1ffdb41b8f19941336c1cd911c73f0b3d46af975))
+ - **FEAT**: Add tool calling support ([#504](https://github.com/davidmigloz/langchain_dart/issues/504)). ([1ffdb41b](https://github.com/davidmigloz/langchain_dart/commit/1ffdb41b8f19941336c1cd911c73f0b3d46af975))
  - **BREAKING** **FEAT**: Update Ollama default model to llama-3.1 ([#506](https://github.com/davidmigloz/langchain_dart/issues/506)). ([b1134bf1](https://github.com/davidmigloz/langchain_dart/commit/b1134bf1163cdcea26a9f1e65fee5c515be3857c))
  - **FEAT**: Add support for Ollama version and model info ([#488](https://github.com/davidmigloz/langchain_dart/issues/488)). ([a110ecb7](https://github.com/davidmigloz/langchain_dart/commit/a110ecb7f10e7975bd2416aa65add98984c6efb8))
- - **FEAT**: Add suffix support in Ollama completions API in ollama_dart ([#503](https://github.com/davidmigloz/langchain_dart/issues/503)). ([30d05a69](https://github.com/davidmigloz/langchain_dart/commit/30d05a69b07f88f803b9abfdf2fded9348a73490))
+ - **FEAT**: Add suffix support in Ollama completions API ([#503](https://github.com/davidmigloz/langchain_dart/issues/503)). ([30d05a69](https://github.com/davidmigloz/langchain_dart/commit/30d05a69b07f88f803b9abfdf2fded9348a73490))
  - **BREAKING** **REFACTOR**: Change Ollama push model status type from enum to String ([#489](https://github.com/davidmigloz/langchain_dart/issues/489)). ([90c9ccd9](https://github.com/davidmigloz/langchain_dart/commit/90c9ccd986c7b679ed30225d2380120e17dfec41))
  - **DOCS**: Update Ollama request options default values in API docs ([#479](https://github.com/davidmigloz/langchain_dart/issues/479)). ([e1f93366](https://github.com/davidmigloz/langchain_dart/commit/e1f9336619ee12624a7b045ca18a3118ead0158f))
 
@@ -45,7 +59,7 @@
 
 ## 0.1.1
 
- - **FEAT**: Support buffered stream responses in ollama_dart ([#445](https://github.com/davidmigloz/langchain_dart/issues/445)). ([ce2ef30c](https://github.com/davidmigloz/langchain_dart/commit/ce2ef30c9a9a0dfe8f3059988b7007c94c45b9bd))
+ - **FEAT**: Support buffered stream responses ([#445](https://github.com/davidmigloz/langchain_dart/issues/445)). ([ce2ef30c](https://github.com/davidmigloz/langchain_dart/commit/ce2ef30c9a9a0dfe8f3059988b7007c94c45b9bd))
  - **FIX**: Fix deserialization of sealed classes ([#435](https://github.com/davidmigloz/langchain_dart/issues/435)). ([7b9cf223](https://github.com/davidmigloz/langchain_dart/commit/7b9cf223e42eae8496f864ad7ef2f8d0dca45678))
 
 ## 0.1.0+1

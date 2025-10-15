@@ -1,3 +1,11 @@
+## 0.7.0
+
+> Note: This release has breaking changes.
+
+ - **REFACTOR**: Migrate langchain_google to the new googleai_dart client ([#788](https://github.com/davidmigloz/langchain_dart/issues/788)). ([f28edec9](https://github.com/davidmigloz/langchain_dart/commit/f28edec9206450d753db181f8af254df339d8290))
+ - **FEAT**: Upgrade to http v1.5.0 ([#785](https://github.com/davidmigloz/langchain_dart/issues/785)). ([f7c87790](https://github.com/davidmigloz/langchain_dart/commit/f7c8779011015b5a4a7f3a07dca32bde1bb2ea88))
+ - **BREAKING** **BUILD**: Require Dart >=3.8.0 ([#792](https://github.com/davidmigloz/langchain_dart/issues/792)). ([b887f5c6](https://github.com/davidmigloz/langchain_dart/commit/b887f5c62e307b3a510c5049e3d1fbe7b7b4f4c9))
+
 ## NEXT
 
  - **BREAKING**: Migrated from deprecated `google_generative_ai` to `googleai_dart` package
