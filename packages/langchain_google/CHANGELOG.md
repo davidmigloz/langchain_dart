@@ -1,3 +1,17 @@
+## NEXT
+
+ - **BREAKING**: Migrated from deprecated `google_generative_ai` to `googleai_dart` package
+   - Updated ChatGoogleGenerativeAI to use the new googleai_dart client with resource-based API structure
+   - Updated GoogleGenerativeAIEmbeddings to use the new googleai_dart client with synchronous batch embeddings API and resource-based structure
+   - API calls now use resource organization (e.g., `client.models.generateContent()` instead of `client.generateContent()`)
+   - Changed default embeddings model to `gemini-embedding-001` (recommended stable model)
+   - Removed CustomHttpClient utility (replaced by GoogleAIConfig)
+   - Restored support for reduced dimensionality via `dimensions` parameter
+ - **FEAT**: Added support for `presencePenalty`, `frequencyPenalty`, and `cachedContent` parameters in ChatGoogleGenerativeAIOptions
+ - **DOCS**: Updated model documentation to include Gemini 2.5 series models (gemini-2.5-pro, gemini-2.5-flash, gemini-2.5-flash-lite)
+ - **DOCS**: Added documentation for embeddings models including gemini-embedding-001 and flexible dimensions support
+ - **FIX**: Improved error handling in embeddings batch API with specific fallback for model field validation errors
+
 ## 0.6.5+2
 
  - **FIX**: Batch sequential tool responses in GoogleAI & Firebase VertexAI ([#757](https://github.com/davidmigloz/langchain_dart/issues/757)). ([8ff44486](https://github.com/davidmigloz/langchain_dart/commit/8ff4448665d26b49c1e1077d0822703e7d853d39))

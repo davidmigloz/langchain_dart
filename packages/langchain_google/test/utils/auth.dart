@@ -5,12 +5,14 @@ import 'package:gcloud/storage.dart';
 import 'package:googleapis_auth/auth_io.dart';
 import 'package:langchain_google/langchain_google.dart';
 
-Future<AuthClient> getAuthHttpClient() {
-  final serviceAccountCredentials = ServiceAccountCredentials.fromJson(
-    json.decode(Platform.environment['VERTEX_AI_SERVICE_ACCOUNT']!),
-  );
-  return clientViaServiceAccount(
-    serviceAccountCredentials,
-    [VertexAI.cloudPlatformScope, ...Storage.SCOPES],
+HttpClientAuthProvider getAuthProvider() {
+  return HttpClientAuthProvider(
+    credentials: ServiceAccountCredentials.fromJson(
+      json.decode(Platform.environment['VERTEX_AI_SERVICE_ACCOUNT']!),
+    ),
+    scopes: [
+      'https://www.googleapis.com/auth/cloud-platform',
+      ...Storage.SCOPES,
+    ],
   );
 }

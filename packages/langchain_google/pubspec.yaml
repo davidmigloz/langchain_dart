@@ -10,8 +10,8 @@ funding:
   - https://github.com/sponsors/davidmigloz
 
 topics:
-  - ai
   - nlp
+  - gen-ai
   - llms
   - langchain
   - vertex-ai
@@ -23,7 +23,7 @@ resolution: workspace
 dependencies:
   collection: ^1.19.1
   gcloud: ^0.9.0
-  google_generative_ai: ^0.4.7
+  googleai_dart: ^0.1.3
   googleapis: ^15.0.0
   googleapis_auth: ^2.0.0
   http: ^1.5.0

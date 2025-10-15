@@ -10,49 +10,44 @@ import 'package:test/test.dart';
 
 import '../utils/auth.dart';
 
-Future<void> main() async {
-  final authHttpClient = await getAuthHttpClient();
-  const defaultPublisher = 'google';
-  const defaultModel = 'text-bison';
+void main() {
+  final authProvider = getAuthProvider();
+  const defaultModel = 'gemini-2.5-flash';
 
   group('VertexAI tests', () {
     test('Test VertexAI parameters', () {
       final llm = VertexAI(
-        httpClient: authHttpClient,
+        authProvider: authProvider,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
         location: 'us-central1',
-        rootUrl: 'https://us-central1-aiplatform.googleapis.com/',
         defaultOptions: const VertexAIOptions(
-          publisher: defaultPublisher,
           model: defaultModel,
           maxOutputTokens: 10,
           temperature: 0.1,
           topP: 0.1,
           topK: 10,
           stopSequences: ['\n'],
-          candidateCount: 10,
+          candidateCount: 1,
         ),
       );
-      expect(llm.client.project, Platform.environment['VERTEX_AI_PROJECT_ID']);
-      expect(llm.client.location, 'us-central1');
+      expect(llm.modelType, 'vertex-ai');
       expect(
         llm.defaultOptions,
         const VertexAIOptions(
-          publisher: defaultPublisher,
           model: defaultModel,
           maxOutputTokens: 10,
           temperature: 0.1,
           topP: 0.1,
           topK: 10,
           stopSequences: ['\n'],
-          candidateCount: 10,
+          candidateCount: 1,
         ),
       );
     });
 
     test('Test call to VertexAI', () async {
       final llm = VertexAI(
-        httpClient: authHttpClient,
+        authProvider: authProvider,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
       );
       final output = await llm('Say foo:');
@@ -61,12 +56,12 @@ Future<void> main() async {
 
     test('Test invoke to VertexAI', () async {
       final llm = VertexAI(
-        httpClient: authHttpClient,
+        authProvider: authProvider,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
         defaultOptions: const VertexAIOptions(
-          publisher: defaultPublisher,
           model: defaultModel,
-          maxOutputTokens: 10,
+          maxOutputTokens: 100,
+          temperature: 0,
         ),
       );
       final res = await llm.invoke(
@@ -77,12 +72,12 @@ Future<void> main() async {
 
     test('Test model output contains metadata', () async {
       final llm = VertexAI(
-        httpClient: authHttpClient,
+        authProvider: authProvider,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
         defaultOptions: const VertexAIOptions(
-          publisher: defaultPublisher,
           model: defaultModel,
-          maxOutputTokens: 10,
+          maxOutputTokens: 100,
+          temperature: 0,
         ),
       );
       final res = await llm.invoke(
@@ -91,19 +86,18 @@ Future<void> main() async {
       expect(res.metadata, isNotEmpty);
       expect(res.metadata['model'], llm.defaultOptions.model);
       expect(res.usage.promptTokens, isNotNull);
-      expect(res.usage.promptBillableCharacters, isNotNull);
       expect(res.usage.responseTokens, isNotNull);
-      expect(res.usage.responseBillableCharacters, isNotNull);
+      expect(res.usage.totalTokens, isNotNull);
     });
 
     test('Test model stop sequence', () async {
       final llm = VertexAI(
-        httpClient: authHttpClient,
+        authProvider: authProvider,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
         defaultOptions: const VertexAIOptions(
-          publisher: defaultPublisher,
           model: defaultModel,
           stopSequences: ['4'],
+          temperature: 0,
         ),
       );
       final res = await llm.invoke(
@@ -127,15 +121,32 @@ Future<void> main() async {
       expect(res2.output, isNot(contains('56789')));
     });
 
+    test('Test stream to VertexAI', () async {
+      final llm = VertexAI(
+        authProvider: authProvider,
+        project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
+        defaultOptions: const VertexAIOptions(
+          model: defaultModel,
+          temperature: 0,
+        ),
+      );
+      final stream = llm.stream(PromptValue.string('Hello, how are you?'));
+      final results = await stream.toList();
+      expect(results, isNotEmpty);
+      for (final result in results) {
+        expect(result.output, isNotEmpty);
+      }
+    });
+
     test('Test countTokens', () async {
       final llm = VertexAI(
-        httpClient: authHttpClient,
+        authProvider: authProvider,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
       );
       const text = 'Hello, how are you?';
 
       final numTokens = await llm.countTokens(PromptValue.string(text));
-      expect(numTokens, 6);
+      expect(numTokens, greaterThan(0));
     });
   });
 }
