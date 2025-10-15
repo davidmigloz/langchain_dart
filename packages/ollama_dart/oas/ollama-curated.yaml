@@ -337,13 +337,16 @@ components:
         options:
           $ref: '#/components/schemas/RequestOptions'
         think:
-          type: boolean
+          oneOf:
+            - type: boolean
+            - type: string
+              enum: [high, medium, low]
           nullable: true
           description: &think |
-            Think controls whether thinking/reasoning models will think before
-            responding. Needs to be a pointer so we can distinguish between false
-            (request that thinking _not_ be used) and unset (use the old behavior
-            before this option was introduced).
+            Controls whether thinking/reasoning models will think before responding.
+            Can be:
+            - boolean: true/false to enable/disable thinking
+            - string: "high", "medium", "low" to set thinking intensity level
       required:
         - model
         - prompt
@@ -651,7 +654,10 @@ components:
         options:
           $ref: '#/components/schemas/RequestOptions'
         think:
-          type: boolean
+          oneOf:
+            - type: boolean
+            - type: string
+              enum: [high, medium, low]
           nullable: true
           description: *think
       required:

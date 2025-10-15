@@ -29,7 +29,9 @@ _GenerateCompletionRequest _$GenerateCompletionRequestFromJson(
   options: json['options'] == null
       ? null
       : RequestOptions.fromJson(json['options'] as Map<String, dynamic>),
-  think: json['think'] as bool?,
+  think: const _GenerateCompletionRequestThinkConverter().fromJson(
+    json['think'],
+  ),
 );
 
 Map<String, dynamic> _$GenerateCompletionRequestToJson(
@@ -49,7 +51,9 @@ Map<String, dynamic> _$GenerateCompletionRequestToJson(
   'keep_alive': ?instance.keepAlive,
   'images': ?instance.images,
   'options': ?instance.options?.toJson(),
-  'think': ?instance.think,
+  'think': ?const _GenerateCompletionRequestThinkConverter().toJson(
+    instance.think,
+  ),
 };
 
 GenerateCompletionRequestFormatEnumeration
@@ -82,6 +86,25 @@ _$GenerateCompletionRequestFormatMapStringDynamicFromJson(
 Map<String, dynamic> _$GenerateCompletionRequestFormatMapStringDynamicToJson(
   GenerateCompletionRequestFormatMapStringDynamic instance,
 ) => <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};
+
+GenerateCompletionRequestThinkEnumeration
+_$GenerateCompletionRequestThinkEnumerationFromJson(
+  Map<String, dynamic> json,
+) => GenerateCompletionRequestThinkEnumeration(
+  $enumDecode(_$GenerateCompletionRequestThinkEnumEnumMap, json['value']),
+);
+
+Map<String, dynamic> _$GenerateCompletionRequestThinkEnumerationToJson(
+  GenerateCompletionRequestThinkEnumeration instance,
+) => <String, dynamic>{
+  'value': _$GenerateCompletionRequestThinkEnumEnumMap[instance.value]!,
+};
+
+const _$GenerateCompletionRequestThinkEnumEnumMap = {
+  GenerateCompletionRequestThinkEnum.high: 'high',
+  GenerateCompletionRequestThinkEnum.medium: 'medium',
+  GenerateCompletionRequestThinkEnum.low: 'low',
+};
 
 _RequestOptions _$RequestOptionsFromJson(Map<String, dynamic> json) =>
     _RequestOptions(
@@ -211,7 +234,9 @@ _GenerateChatCompletionRequest _$GenerateChatCompletionRequestFromJson(
   options: json['options'] == null
       ? null
       : RequestOptions.fromJson(json['options'] as Map<String, dynamic>),
-  think: json['think'] as bool?,
+  think: const _GenerateChatCompletionRequestThinkConverter().fromJson(
+    json['think'],
+  ),
 );
 
 Map<String, dynamic> _$GenerateChatCompletionRequestToJson(
@@ -226,7 +251,9 @@ Map<String, dynamic> _$GenerateChatCompletionRequestToJson(
   'keep_alive': ?instance.keepAlive,
   'tools': ?instance.tools?.map((e) => e.toJson()).toList(),
   'options': ?instance.options?.toJson(),
-  'think': ?instance.think,
+  'think': ?const _GenerateChatCompletionRequestThinkConverter().toJson(
+    instance.think,
+  ),
 };
 
 GenerateChatCompletionRequestFormatEnumeration
@@ -260,6 +287,25 @@ Map<String, dynamic>
 _$GenerateChatCompletionRequestFormatMapStringDynamicToJson(
   GenerateChatCompletionRequestFormatMapStringDynamic instance,
 ) => <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};
+
+GenerateChatCompletionRequestThinkEnumeration
+_$GenerateChatCompletionRequestThinkEnumerationFromJson(
+  Map<String, dynamic> json,
+) => GenerateChatCompletionRequestThinkEnumeration(
+  $enumDecode(_$GenerateChatCompletionRequestThinkEnumEnumMap, json['value']),
+);
+
+Map<String, dynamic> _$GenerateChatCompletionRequestThinkEnumerationToJson(
+  GenerateChatCompletionRequestThinkEnumeration instance,
+) => <String, dynamic>{
+  'value': _$GenerateChatCompletionRequestThinkEnumEnumMap[instance.value]!,
+};
+
+const _$GenerateChatCompletionRequestThinkEnumEnumMap = {
+  GenerateChatCompletionRequestThinkEnum.high: 'high',
+  GenerateChatCompletionRequestThinkEnum.medium: 'medium',
+  GenerateChatCompletionRequestThinkEnum.low: 'low',
+};
 
 _GenerateChatCompletionResponse _$GenerateChatCompletionResponseFromJson(
   Map<String, dynamic> json,

@@ -48,11 +48,13 @@ abstract class GenerateChatCompletionRequest
     /// Additional model parameters listed in the documentation for the Modelfile such as `temperature`.
     @JsonKey(includeIfNull: false) RequestOptions? options,
 
-    /// Think controls whether thinking/reasoning models will think before
-    /// responding. Needs to be a pointer so we can distinguish between false
-    /// (request that thinking _not_ be used) and unset (use the old behavior
-    /// before this option was introduced).
-    @JsonKey(includeIfNull: false) bool? think,
+    /// Controls whether thinking/reasoning models will think before responding.
+    /// Can be:
+    /// - boolean: true/false to enable/disable thinking
+    /// - string: "high", "medium", "low" to set thinking intensity level
+    @_GenerateChatCompletionRequestThinkConverter()
+    @JsonKey(includeIfNull: false)
+    GenerateChatCompletionRequestThink? think,
   }) = _GenerateChatCompletionRequest;
 
   /// Object construction from a JSON representation
@@ -165,6 +167,79 @@ class _GenerateChatCompletionRequestFormatConverter
       GenerateChatCompletionRequestFormatEnumeration(value: final v) =>
         _$GenerateChatCompletionRequestFormatEnumEnumMap[v]!,
       GenerateChatCompletionRequestFormatMapStringDynamic(value: final v) => v,
+      null => null,
+    };
+  }
+}
+
+// ==========================================
+// ENUM: GenerateChatCompletionRequestThinkEnum
+// ==========================================
+
+/// No Description
+enum GenerateChatCompletionRequestThinkEnum {
+  @JsonValue('high')
+  high,
+  @JsonValue('medium')
+  medium,
+  @JsonValue('low')
+  low,
+}
+
+// ==========================================
+// CLASS: GenerateChatCompletionRequestThink
+// ==========================================
+
+/// Controls whether thinking/reasoning models will think before responding.
+/// Can be:
+/// - boolean: true/false to enable/disable thinking
+/// - string: "high", "medium", "low" to set thinking intensity level
+@freezed
+sealed class GenerateChatCompletionRequestThink
+    with _$GenerateChatCompletionRequestThink {
+  const GenerateChatCompletionRequestThink._();
+
+  /// No Description
+  const factory GenerateChatCompletionRequestThink.enumeration(
+    GenerateChatCompletionRequestThinkEnum value,
+  ) = GenerateChatCompletionRequestThinkEnumeration;
+
+  /// Object construction from a JSON representation
+  factory GenerateChatCompletionRequestThink.fromJson(
+    Map<String, dynamic> json,
+  ) => _$GenerateChatCompletionRequestThinkFromJson(json);
+}
+
+/// Custom JSON converter for [GenerateChatCompletionRequestThink]
+class _GenerateChatCompletionRequestThinkConverter
+    implements JsonConverter<GenerateChatCompletionRequestThink?, Object?> {
+  const _GenerateChatCompletionRequestThinkConverter();
+
+  @override
+  GenerateChatCompletionRequestThink? fromJson(Object? data) {
+    if (data == null) {
+      return null;
+    }
+    if (data is String &&
+        _$GenerateChatCompletionRequestThinkEnumEnumMap.values.contains(data)) {
+      return GenerateChatCompletionRequestThinkEnumeration(
+        _$GenerateChatCompletionRequestThinkEnumEnumMap.keys.elementAt(
+          _$GenerateChatCompletionRequestThinkEnumEnumMap.values
+              .toList()
+              .indexOf(data),
+        ),
+      );
+    }
+    throw Exception(
+      'Unexpected value for GenerateChatCompletionRequestThink: $data',
+    );
+  }
+
+  @override
+  Object? toJson(GenerateChatCompletionRequestThink? data) {
+    return switch (data) {
+      GenerateChatCompletionRequestThinkEnumeration(value: final v) =>
+        _$GenerateChatCompletionRequestThinkEnumEnumMap[v]!,
       null => null,
     };
   }
