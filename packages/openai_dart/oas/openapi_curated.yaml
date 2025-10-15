@@ -2299,6 +2299,46 @@ components:
             $ref: "#/components/schemas/FunctionObject"
         verbosity:
           $ref: "#/components/schemas/Verbosity"
+        reasoning:
+          type: object
+          nullable: true
+          description: |
+            Reasoning configuration for controlling how the model generates and exposes
+            its chain-of-thought reasoning.
+
+            **NOT part of the official OpenAI API.**
+
+            **Supported by:**
+            - OpenRouter
+          x-openai-compatible: false
+          properties:
+            effort:
+              type: string
+              enum: [high, medium, low]
+              description: |
+                Reasoning effort level (high ~80%, medium ~50%, low ~20% of max tokens).
+
+                **Provider:** OpenRouter
+            max_tokens:
+              type: integer
+              minimum: 1024
+              maximum: 32000
+              description: |
+                Maximum tokens for reasoning (alternative to effort level).
+
+                **Provider:** OpenRouter
+            exclude:
+              type: boolean
+              description: |
+                Exclude reasoning from output if true.
+
+                **Provider:** OpenRouter
+            enabled:
+              type: boolean
+              description: |
+                Enable or disable reasoning output.
+
+                **Provider:** OpenRouter
       required:
         - model
         - messages
@@ -2428,7 +2468,7 @@ components:
         audio:
           type: object
           description: |
-            If the audio output modality is requested, this object contains data about the audio response from the model. 
+            If the audio output modality is requested, this object contains data about the audio response from the model.
             [Learn more](https://platform.openai.com/docs/guides/audio).
           properties:
             id:
@@ -2437,7 +2477,7 @@ components:
             expires_at:
               type: integer
               description: |
-                The Unix timestamp (in seconds) for when this audio response will no longer be accessible on the server 
+                The Unix timestamp (in seconds) for when this audio response will no longer be accessible on the server
                 for use in multi-turn conversations.
             data:
               type: string
@@ -2451,6 +2491,45 @@ components:
             - expires_at
             - data
             - transcript
+        reasoning_content:
+          type: string
+          nullable: true
+          description: |
+            Chain-of-thought reasoning content from the model's internal reasoning process.
+
+            **NOT part of the official OpenAI API.**
+
+            **Supported by:**
+            - DeepSeek R1 (native API)
+            - vLLM (with --enable-reasoning flag)
+
+            **Important:** This field must be removed before sending the message back to the API
+            in subsequent requests, as including it will cause a 400 error with some providers.
+          x-openai-compatible: false
+        reasoning:
+          type: string
+          nullable: true
+          description: |
+            Reasoning content from the model's chain-of-thought process.
+
+            **NOT part of the official OpenAI API.**
+
+            **Supported by:**
+            - OpenRouter (for compatible models like DeepSeek R1, o-series, Claude, Grok, etc.)
+          x-openai-compatible: false
+        reasoning_details:
+          type: array
+          nullable: true
+          description: |
+            Structured reasoning information with different types (summary, encrypted, text).
+
+            **NOT part of the official OpenAI API.**
+
+            **Supported by:**
+            - OpenRouter
+          items:
+            $ref: "#/components/schemas/ReasoningDetail"
+          x-openai-compatible: false
     ChatCompletionToolMessage:
       type: object
       description: A tool message in a chat conversation.
@@ -2592,9 +2671,34 @@ components:
     ChatCompletionMessageRole:
       type: string
       description: |
-        The role of the messages author. 
+        The role of the messages author.
         One of `developer`, `user`, `assistant`, or `tool` (`function` and `system` are deprecated).
       enum: [ "developer", "user", "assistant", "tool", "system", "function" ]
+    ReasoningDetail:
+      type: object
+      description: |
+        Structured reasoning detail item containing different types of reasoning information.
+
+        **Provider:** OpenRouter
+      properties:
+        type:
+          type: string
+          enum: [summary, encrypted, text]
+          description: |
+            The type of reasoning detail:
+            - `summary`: A natural-language summary of reasoning
+            - `encrypted`: Encrypted reasoning content for stateless workflows
+            - `text`: Raw reasoning text
+        text:
+          type: string
+          nullable: true
+          description: Text content (for summary and text types)
+        data:
+          type: string
+          nullable: true
+          description: Encrypted data (for encrypted type)
+      required:
+        - type
     ChatCompletionMessageFunctionCall:
       type: object
       description: The name and arguments of a function that should be called, as generated by the model.
@@ -3142,7 +3246,7 @@ components:
         audio:
           type: object
           description: |
-            If the audio output modality is requested, this object contains data about the audio response from the model. 
+            If the audio output modality is requested, this object contains data about the audio response from the model.
             [Learn more](https://platform.openai.com/docs/guides/audio).
           properties:
             id:
@@ -3151,7 +3255,7 @@ components:
             expires_at:
               type: integer
               description: |
-                The Unix timestamp (in seconds) for when this audio response will no longer be accessible on the server 
+                The Unix timestamp (in seconds) for when this audio response will no longer be accessible on the server
                 for use in multi-turn conversations.
             data:
               type: string
@@ -3160,6 +3264,42 @@ components:
             transcript:
               type: string
               description: Transcript of the audio generated by the model.
+        reasoning_content:
+          type: string
+          nullable: true
+          description: |
+            Chain-of-thought reasoning content delta in streaming mode.
+
+            **NOT part of the official OpenAI API.**
+
+            **Supported by:**
+            - DeepSeek R1 (native API)
+            - vLLM (with --enable-reasoning flag)
+          x-openai-compatible: false
+        reasoning:
+          type: string
+          nullable: true
+          description: |
+            Reasoning content delta in streaming mode.
+
+            **NOT part of the official OpenAI API.**
+
+            **Supported by:**
+            - OpenRouter
+          x-openai-compatible: false
+        reasoning_details:
+          type: array
+          nullable: true
+          description: |
+            Structured reasoning information deltas in streaming mode.
+
+            **NOT part of the official OpenAI API.**
+
+            **Supported by:**
+            - OpenRouter
+          items:
+            $ref: "#/components/schemas/ReasoningDetail"
+          x-openai-compatible: false
     ChatCompletionStreamMessageFunctionCall:
       type: object
       description: The name and arguments of a function that should be called, as generated by the model.

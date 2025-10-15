@@ -43,7 +43,7 @@ abstract class FunctionObject with _$FunctionObject {
     'name',
     'description',
     'parameters',
-    'strict'
+    'strict',
   ];
 
   /// Perform validations on the schema property values

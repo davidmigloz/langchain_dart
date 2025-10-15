@@ -43,16 +43,16 @@ class OpenAIClient extends g.OpenAIClient {
     final int retries = 3,
     final http.Client? client,
   }) : super(
-          bearerToken: apiKey ?? '',
-          baseUrl: baseUrl,
-          headers: {
-            if (organization != null) 'OpenAI-Organization': organization,
-            if (beta != null) 'OpenAI-Beta': beta,
-            ...?headers,
-          },
-          queryParams: queryParams ?? const {},
-          client: client ?? RetryClient(http.Client(), retries: retries),
-        );
+         bearerToken: apiKey ?? '',
+         baseUrl: baseUrl,
+         headers: {
+           if (organization != null) 'OpenAI-Organization': organization,
+           if (beta != null) 'OpenAI-Beta': beta,
+           ...?headers,
+         },
+         queryParams: queryParams ?? const {},
+         client: client ?? RetryClient(http.Client(), retries: retries),
+       );
 
   /// Set or replace the API key.
   set apiKey(final String value) => bearerToken = value;
@@ -236,50 +236,50 @@ class _OpenAIAssistantStreamTransformer
         .transform(const LineSplitter())
         .transform(_PairwiseTransformer())
         .map((final item) {
-      final (event, data) = item;
+          final (event, data) = item;
 
-      Map<String, dynamic> getEventDataMap({final bool decode = true}) => {
+          Map<String, dynamic> getEventDataMap({final bool decode = true}) => {
             'event': event,
             'data': decode ? json.decode(data) : data,
           };
 
-      switch (event) {
-        case 'thread.created':
-          return ThreadStreamEvent.fromJson(getEventDataMap());
-        case 'thread.run.created':
-        case 'thread.run.queued':
-        case 'thread.run.in_progress':
-        case 'thread.run.requires_action':
-        case 'thread.run.completed':
-        case 'thread.run.failed':
-        case 'thread.run.cancelling':
-        case 'thread.run.cancelled':
-        case 'thread.run.expired':
-          return RunStreamEvent.fromJson(getEventDataMap());
-        case 'thread.run.step.created':
-        case 'thread.run.step.in_progress':
-        case 'thread.run.step.completed':
-        case 'thread.run.step.failed':
-        case 'thread.run.step.cancelled':
-        case 'thread.run.step.expired':
-          return RunStepStreamEvent.fromJson(getEventDataMap());
-        case 'thread.run.step.delta':
-          return RunStepStreamDeltaEvent.fromJson(getEventDataMap());
-        case 'thread.message.created':
-        case 'thread.message.in_progress':
-        case 'thread.message.completed':
-        case 'thread.message.incomplete':
-          return MessageStreamEvent.fromJson(getEventDataMap());
-        case 'thread.message.delta':
-          return MessageStreamDeltaEvent.fromJson(getEventDataMap());
-        case 'error':
-          return ErrorEvent.fromJson(getEventDataMap());
-        case 'done':
-          return DoneEvent.fromJson(getEventDataMap(decode: false));
-        default:
-          throw Exception('Unknown event: $event');
-      }
-    });
+          switch (event) {
+            case 'thread.created':
+              return ThreadStreamEvent.fromJson(getEventDataMap());
+            case 'thread.run.created':
+            case 'thread.run.queued':
+            case 'thread.run.in_progress':
+            case 'thread.run.requires_action':
+            case 'thread.run.completed':
+            case 'thread.run.failed':
+            case 'thread.run.cancelling':
+            case 'thread.run.cancelled':
+            case 'thread.run.expired':
+              return RunStreamEvent.fromJson(getEventDataMap());
+            case 'thread.run.step.created':
+            case 'thread.run.step.in_progress':
+            case 'thread.run.step.completed':
+            case 'thread.run.step.failed':
+            case 'thread.run.step.cancelled':
+            case 'thread.run.step.expired':
+              return RunStepStreamEvent.fromJson(getEventDataMap());
+            case 'thread.run.step.delta':
+              return RunStepStreamDeltaEvent.fromJson(getEventDataMap());
+            case 'thread.message.created':
+            case 'thread.message.in_progress':
+            case 'thread.message.completed':
+            case 'thread.message.incomplete':
+              return MessageStreamEvent.fromJson(getEventDataMap());
+            case 'thread.message.delta':
+              return MessageStreamDeltaEvent.fromJson(getEventDataMap());
+            case 'error':
+              return ErrorEvent.fromJson(getEventDataMap());
+            case 'done':
+              return DoneEvent.fromJson(getEventDataMap(decode: false));
+            default:
+              throw Exception('Unknown event: $event');
+          }
+        });
   }
 }
 

@@ -41,7 +41,7 @@ abstract class ListBatchesResponse with _$ListBatchesResponse {
     'first_id',
     'last_id',
     'has_more',
-    'object'
+    'object',
   ];
 
   /// Perform validations on the schema property values

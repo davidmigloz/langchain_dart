@@ -70,8 +70,8 @@ sealed class MessageDeltaContentTextAnnotations
 
   /// Object construction from a JSON representation
   factory MessageDeltaContentTextAnnotations.fromJson(
-          Map<String, dynamic> json) =>
-      _$MessageDeltaContentTextAnnotationsFromJson(json);
+    Map<String, dynamic> json,
+  ) => _$MessageDeltaContentTextAnnotationsFromJson(json);
 }
 
 // ==========================================
@@ -92,8 +92,8 @@ abstract class MessageDeltaContentTextAnnotationsFilePathObjectFilePath
 
   /// Object construction from a JSON representation
   factory MessageDeltaContentTextAnnotationsFilePathObjectFilePath.fromJson(
-          Map<String, dynamic> json) =>
-      _$MessageDeltaContentTextAnnotationsFilePathObjectFilePathFromJson(json);
+    Map<String, dynamic> json,
+  ) => _$MessageDeltaContentTextAnnotationsFilePathObjectFilePathFromJson(json);
 
   /// List of all property names of schema
   static const List<String> propertyNames = ['file_id'];

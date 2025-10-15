@@ -36,7 +36,7 @@ abstract class UpdateVectorStoreRequest with _$UpdateVectorStoreRequest {
   static const List<String> propertyNames = [
     'name',
     'expires_after',
-    'metadata'
+    'metadata',
   ];
 
   /// Perform validations on the schema property values

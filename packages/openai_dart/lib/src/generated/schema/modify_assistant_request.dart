@@ -96,7 +96,7 @@ abstract class ModifyAssistantRequest with _$ModifyAssistantRequest {
     'metadata',
     'temperature',
     'top_p',
-    'response_format'
+    'response_format',
   ];
 
   /// Validation constants
@@ -204,8 +204,8 @@ sealed class ModifyAssistantRequestResponseFormat
 
   /// Object construction from a JSON representation
   factory ModifyAssistantRequestResponseFormat.fromJson(
-          Map<String, dynamic> json) =>
-      _$ModifyAssistantRequestResponseFormatFromJson(json);
+    Map<String, dynamic> json,
+  ) => _$ModifyAssistantRequestResponseFormatFromJson(json);
 }
 
 /// Custom JSON converter for [ModifyAssistantRequestResponseFormat]
@@ -222,9 +222,9 @@ class _ModifyAssistantRequestResponseFormatConverter
         _$ModifyAssistantResponseFormatModeEnumMap.values.contains(data)) {
       return ModifyAssistantRequestResponseFormatEnumeration(
         _$ModifyAssistantResponseFormatModeEnumMap.keys.elementAt(
-          _$ModifyAssistantResponseFormatModeEnumMap.values
-              .toList()
-              .indexOf(data),
+          _$ModifyAssistantResponseFormatModeEnumMap.values.toList().indexOf(
+            data,
+          ),
         ),
       );
     }

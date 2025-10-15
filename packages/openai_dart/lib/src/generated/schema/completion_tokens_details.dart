@@ -45,7 +45,7 @@ abstract class CompletionTokensDetails with _$CompletionTokensDetails {
     'accepted_prediction_tokens',
     'audio_tokens',
     'reasoning_tokens',
-    'rejected_prediction_tokens'
+    'rejected_prediction_tokens',
   ];
 
   /// Perform validations on the schema property values

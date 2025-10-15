@@ -85,7 +85,7 @@ abstract class FineTuningJob with _$FineTuningJob {
     'trained_tokens',
     'training_file',
     'validation_file',
-    'integrations'
+    'integrations',
   ];
 
   /// Perform validations on the schema property values

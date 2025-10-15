@@ -33,7 +33,7 @@ abstract class WebSearchOptions with _$WebSearchOptions {
   /// List of all property names of schema
   static const List<String> propertyNames = [
     'user_location',
-    'search_context_size'
+    'search_context_size',
   ];
 
   /// Perform validations on the schema property values

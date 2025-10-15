@@ -111,6 +111,36 @@ sealed class ChatCompletionMessage with _$ChatCompletionMessage {
     /// If the audio output modality is requested, this object contains data about the audio response from the model.
     /// [Learn more](https://platform.openai.com/docs/guides/audio).
     @JsonKey(includeIfNull: false) ChatCompletionAssistantMessageAudio? audio,
+
+    /// Chain-of-thought reasoning content from the model's internal reasoning process.
+    ///
+    /// **NOT part of the official OpenAI API.**
+    ///
+    /// **Supported by:**
+    /// - DeepSeek R1 (native API)
+    /// - vLLM (with --enable-reasoning flag)
+    ///
+    /// **Important:** This field must be removed before sending the message back to the API
+    /// in subsequent requests, as including it will cause a 400 error with some providers.
+    @JsonKey(name: 'reasoning_content', includeIfNull: false)
+    String? reasoningContent,
+
+    /// Reasoning content from the model's chain-of-thought process.
+    ///
+    /// **NOT part of the official OpenAI API.**
+    ///
+    /// **Supported by:**
+    /// - OpenRouter (for compatible models like DeepSeek R1, o-series, Claude, Grok, etc.)
+    @JsonKey(includeIfNull: false) String? reasoning,
+
+    /// Structured reasoning information with different types (summary, encrypted, text).
+    ///
+    /// **NOT part of the official OpenAI API.**
+    ///
+    /// **Supported by:**
+    /// - OpenRouter
+    @JsonKey(name: 'reasoning_details', includeIfNull: false)
+    List<ReasoningDetail>? reasoningDetails,
   }) = ChatCompletionAssistantMessage;
 
   // ------------------------------------------
@@ -195,8 +225,8 @@ sealed class ChatCompletionDeveloperMessageContent
 
   /// Object construction from a JSON representation
   factory ChatCompletionDeveloperMessageContent.fromJson(
-          Map<String, dynamic> json) =>
-      _$ChatCompletionDeveloperMessageContentFromJson(json);
+    Map<String, dynamic> json,
+  ) => _$ChatCompletionDeveloperMessageContentFromJson(json);
 }
 
 /// Custom JSON converter for [ChatCompletionDeveloperMessageContent]
@@ -207,10 +237,15 @@ class _ChatCompletionDeveloperMessageContentConverter
   @override
   ChatCompletionDeveloperMessageContent fromJson(Object? data) {
     if (data is List && data.every((item) => item is Map)) {
-      return ChatCompletionDeveloperMessageContentParts(data
-          .map((i) => ChatCompletionMessageContentPart.fromJson(
-              i as Map<String, dynamic>))
-          .toList(growable: false));
+      return ChatCompletionDeveloperMessageContentParts(
+        data
+            .map(
+              (i) => ChatCompletionMessageContentPart.fromJson(
+                i as Map<String, dynamic>,
+              ),
+            )
+            .toList(growable: false),
+      );
     }
     if (data is String) {
       return ChatCompletionDeveloperMessageContentString(data);
@@ -253,8 +288,8 @@ sealed class ChatCompletionUserMessageContent
 
   /// Object construction from a JSON representation
   factory ChatCompletionUserMessageContent.fromJson(
-          Map<String, dynamic> json) =>
-      _$ChatCompletionUserMessageContentFromJson(json);
+    Map<String, dynamic> json,
+  ) => _$ChatCompletionUserMessageContentFromJson(json);
 }
 
 /// Custom JSON converter for [ChatCompletionUserMessageContent]
@@ -265,10 +300,15 @@ class _ChatCompletionUserMessageContentConverter
   @override
   ChatCompletionUserMessageContent fromJson(Object? data) {
     if (data is List && data.every((item) => item is Map)) {
-      return ChatCompletionMessageContentParts(data
-          .map((i) => ChatCompletionMessageContentPart.fromJson(
-              i as Map<String, dynamic>))
-          .toList(growable: false));
+      return ChatCompletionMessageContentParts(
+        data
+            .map(
+              (i) => ChatCompletionMessageContentPart.fromJson(
+                i as Map<String, dynamic>,
+              ),
+            )
+            .toList(growable: false),
+      );
     }
     if (data is String) {
       return ChatCompletionUserMessageContentString(data);
@@ -316,15 +356,15 @@ abstract class ChatCompletionAssistantMessageAudio
 
   /// Object construction from a JSON representation
   factory ChatCompletionAssistantMessageAudio.fromJson(
-          Map<String, dynamic> json) =>
-      _$ChatCompletionAssistantMessageAudioFromJson(json);
+    Map<String, dynamic> json,
+  ) => _$ChatCompletionAssistantMessageAudioFromJson(json);
 
   /// List of all property names of schema
   static const List<String> propertyNames = [
     'id',
     'expires_at',
     'data',
-    'transcript'
+    'transcript',
   ];
 
   /// Perform validations on the schema property values

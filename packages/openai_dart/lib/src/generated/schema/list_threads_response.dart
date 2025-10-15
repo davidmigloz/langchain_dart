@@ -41,7 +41,7 @@ abstract class ListThreadsResponse with _$ListThreadsResponse {
     'data',
     'first_id',
     'last_id',
-    'has_more'
+    'has_more',
   ];
 
   /// Perform validations on the schema property values

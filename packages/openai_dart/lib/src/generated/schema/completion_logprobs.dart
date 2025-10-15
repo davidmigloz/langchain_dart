@@ -39,7 +39,7 @@ abstract class CompletionLogprobs with _$CompletionLogprobs {
     'text_offset',
     'token_logprobs',
     'tokens',
-    'top_logprobs'
+    'top_logprobs',
   ];
 
   /// Perform validations on the schema property values

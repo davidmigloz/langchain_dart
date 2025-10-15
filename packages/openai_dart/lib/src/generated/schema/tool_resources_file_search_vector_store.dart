@@ -34,14 +34,14 @@ abstract class ToolResourcesFileSearchVectorStore
 
   /// Object construction from a JSON representation
   factory ToolResourcesFileSearchVectorStore.fromJson(
-          Map<String, dynamic> json) =>
-      _$ToolResourcesFileSearchVectorStoreFromJson(json);
+    Map<String, dynamic> json,
+  ) => _$ToolResourcesFileSearchVectorStoreFromJson(json);
 
   /// List of all property names of schema
   static const List<String> propertyNames = [
     'file_ids',
     'chunking_strategy',
-    'metadata'
+    'metadata',
   ];
 
   /// Perform validations on the schema property values

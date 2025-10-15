@@ -40,7 +40,7 @@ abstract class Model with _$Model {
     'id',
     'created',
     'object',
-    'owned_by'
+    'owned_by',
   ];
 
   /// Perform validations on the schema property values

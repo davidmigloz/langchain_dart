@@ -33,7 +33,7 @@ abstract class RunStepCompletionUsage with _$RunStepCompletionUsage {
   static const List<String> propertyNames = [
     'completion_tokens',
     'prompt_tokens',
-    'total_tokens'
+    'total_tokens',
   ];
 
   /// Perform validations on the schema property values

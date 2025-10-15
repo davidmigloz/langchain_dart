@@ -43,7 +43,7 @@ abstract class CompletionChoice with _$CompletionChoice {
     'finish_reason',
     'index',
     'logprobs',
-    'text'
+    'text',
   ];
 
   /// Perform validations on the schema property values

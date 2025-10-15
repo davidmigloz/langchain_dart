@@ -44,6 +44,6 @@ sealed class RunStepDetailsToolCallsCodeOutput
 
   /// Object construction from a JSON representation
   factory RunStepDetailsToolCallsCodeOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$RunStepDetailsToolCallsCodeOutputFromJson(json);
+    Map<String, dynamic> json,
+  ) => _$RunStepDetailsToolCallsCodeOutputFromJson(json);
 }

@@ -82,8 +82,8 @@ sealed class ChatCompletionMessageContentPart
 
   /// Object construction from a JSON representation
   factory ChatCompletionMessageContentPart.fromJson(
-          Map<String, dynamic> json) =>
-      _$ChatCompletionMessageContentPartFromJson(json);
+    Map<String, dynamic> json,
+  ) => _$ChatCompletionMessageContentPartFromJson(json);
 }
 
 // ==========================================

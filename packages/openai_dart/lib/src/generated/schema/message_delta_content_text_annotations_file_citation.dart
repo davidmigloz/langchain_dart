@@ -25,8 +25,8 @@ abstract class MessageDeltaContentTextAnnotationsFileCitation
 
   /// Object construction from a JSON representation
   factory MessageDeltaContentTextAnnotationsFileCitation.fromJson(
-          Map<String, dynamic> json) =>
-      _$MessageDeltaContentTextAnnotationsFileCitationFromJson(json);
+    Map<String, dynamic> json,
+  ) => _$MessageDeltaContentTextAnnotationsFileCitationFromJson(json);
 
   /// List of all property names of schema
   static const List<String> propertyNames = ['file_id', 'quote'];

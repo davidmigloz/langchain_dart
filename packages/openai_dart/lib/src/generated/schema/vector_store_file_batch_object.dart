@@ -46,7 +46,7 @@ abstract class VectorStoreFileBatchObject with _$VectorStoreFileBatchObject {
     'created_at',
     'vector_store_id',
     'status',
-    'file_counts'
+    'file_counts',
   ];
 
   /// Perform validations on the schema property values
@@ -113,8 +113,8 @@ abstract class VectorStoreFileBatchObjectFileCounts
 
   /// Object construction from a JSON representation
   factory VectorStoreFileBatchObjectFileCounts.fromJson(
-          Map<String, dynamic> json) =>
-      _$VectorStoreFileBatchObjectFileCountsFromJson(json);
+    Map<String, dynamic> json,
+  ) => _$VectorStoreFileBatchObjectFileCountsFromJson(json);
 
   /// List of all property names of schema
   static const List<String> propertyNames = [
@@ -122,7 +122,7 @@ abstract class VectorStoreFileBatchObjectFileCounts
     'completed',
     'failed',
     'cancelled',
-    'total'
+    'total',
   ];
 
   /// Perform validations on the schema property values

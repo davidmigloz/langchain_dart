@@ -52,7 +52,7 @@ abstract class CreateCompletionResponse with _$CreateCompletionResponse {
     'model',
     'system_fingerprint',
     'object',
-    'usage'
+    'usage',
   ];
 
   /// Perform validations on the schema property values

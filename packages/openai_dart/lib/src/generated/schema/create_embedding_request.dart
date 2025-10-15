@@ -45,7 +45,7 @@ abstract class CreateEmbeddingRequest with _$CreateEmbeddingRequest {
     'input',
     'encoding_format',
     'dimensions',
-    'user'
+    'user',
   ];
 
   /// Validation constants

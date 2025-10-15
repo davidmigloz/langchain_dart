@@ -140,7 +140,7 @@ abstract class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
     'tool_choice',
     'parallel_tool_calls',
     'response_format',
-    'stream'
+    'stream',
   ];
 
   /// Validation constants
@@ -440,8 +440,8 @@ sealed class CreateThreadAndRunRequestToolChoice
 
   /// Object construction from a JSON representation
   factory CreateThreadAndRunRequestToolChoice.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateThreadAndRunRequestToolChoiceFromJson(json);
+    Map<String, dynamic> json,
+  ) => _$CreateThreadAndRunRequestToolChoiceFromJson(json);
 }
 
 /// Custom JSON converter for [CreateThreadAndRunRequestToolChoice]
@@ -455,8 +455,9 @@ class _CreateThreadAndRunRequestToolChoiceConverter
       return null;
     }
     if (data is String &&
-        _$CreateThreadAndRunRequestToolChoiceModeEnumMap.values
-            .contains(data)) {
+        _$CreateThreadAndRunRequestToolChoiceModeEnumMap.values.contains(
+          data,
+        )) {
       return CreateThreadAndRunRequestToolChoiceEnumeration(
         _$CreateThreadAndRunRequestToolChoiceModeEnumMap.keys.elementAt(
           _$CreateThreadAndRunRequestToolChoiceModeEnumMap.values
@@ -483,7 +484,7 @@ class _CreateThreadAndRunRequestToolChoiceConverter
       CreateThreadAndRunRequestToolChoiceEnumeration(value: final v) =>
         _$CreateThreadAndRunRequestToolChoiceModeEnumMap[v]!,
       CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoice(
-        value: final v
+        value: final v,
       ) =>
         v.toJson(),
       null => null,
@@ -539,8 +540,8 @@ sealed class CreateThreadAndRunRequestResponseFormat
 
   /// Object construction from a JSON representation
   factory CreateThreadAndRunRequestResponseFormat.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateThreadAndRunRequestResponseFormatFromJson(json);
+    Map<String, dynamic> json,
+  ) => _$CreateThreadAndRunRequestResponseFormatFromJson(json);
 }
 
 /// Custom JSON converter for [CreateThreadAndRunRequestResponseFormat]
@@ -555,8 +556,9 @@ class _CreateThreadAndRunRequestResponseFormatConverter
       return null;
     }
     if (data is String &&
-        _$CreateThreadAndRunRequestResponseFormatModeEnumMap.values
-            .contains(data)) {
+        _$CreateThreadAndRunRequestResponseFormatModeEnumMap.values.contains(
+          data,
+        )) {
       return CreateThreadAndRunRequestResponseFormatEnumeration(
         _$CreateThreadAndRunRequestResponseFormatModeEnumMap.keys.elementAt(
           _$CreateThreadAndRunRequestResponseFormatModeEnumMap.values

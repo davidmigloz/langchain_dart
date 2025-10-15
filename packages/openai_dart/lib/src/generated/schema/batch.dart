@@ -104,7 +104,7 @@ abstract class Batch with _$Batch {
     'cancelling_at',
     'cancelled_at',
     'request_counts',
-    'metadata'
+    'metadata',
   ];
 
   /// Perform validations on the schema property values
@@ -288,7 +288,7 @@ abstract class BatchErrorsDataInner with _$BatchErrorsDataInner {
     'code',
     'message',
     'param',
-    'line'
+    'line',
   ];
 
   /// Perform validations on the schema property values

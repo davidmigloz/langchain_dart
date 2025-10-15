@@ -63,7 +63,7 @@ abstract class CreateChatCompletionResponse
     'service_tier',
     'system_fingerprint',
     'object',
-    'usage'
+    'usage',
   ];
 
   /// Perform validations on the schema property values

@@ -42,7 +42,7 @@ abstract class JsonSchemaObject with _$JsonSchemaObject {
     'name',
     'description',
     'schema',
-    'strict'
+    'strict',
   ];
 
   /// Perform validations on the schema property values

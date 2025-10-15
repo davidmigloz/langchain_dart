@@ -56,7 +56,7 @@ abstract class VectorStoreFileObject with _$VectorStoreFileObject {
     'vector_store_id',
     'status',
     'last_error',
-    'chunking_strategy'
+    'chunking_strategy',
   ];
 
   /// Perform validations on the schema property values

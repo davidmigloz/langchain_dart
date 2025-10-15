@@ -74,15 +74,15 @@ class OpenAIClient {
     this.headers = const {},
     this.queryParams = const {},
     http.Client? client,
-  })  : assert(
-          baseUrl == null || baseUrl.startsWith('http'),
-          'baseUrl must start with http',
-        ),
-        assert(
-          baseUrl == null || !baseUrl.endsWith('/'),
-          'baseUrl must not end with /',
-        ),
-        client = RetryClient(client ?? http.Client());
+  }) : assert(
+         baseUrl == null || baseUrl.startsWith('http'),
+         'baseUrl must start with http',
+       ),
+       assert(
+         baseUrl == null || !baseUrl.endsWith('/'),
+         'baseUrl must not end with /',
+       ),
+       client = RetryClient(client ?? http.Client());
 
   /// Override base URL (default: server url defined in spec)
   final String? baseUrl;
@@ -399,6 +399,7 @@ class OpenAIClient {
       isMultipart: false,
       requestType: '',
       responseType: 'application/json',
+
       queryParams: {
         if (model != null) 'model': model,
         if (metadata != null) 'metadata': metadata,
@@ -521,6 +522,7 @@ class OpenAIClient {
       isMultipart: false,
       requestType: '',
       responseType: 'application/json',
+
       queryParams: {
         if (after != null) 'after': after,
         'limit': limit,
@@ -614,6 +616,7 @@ class OpenAIClient {
       isMultipart: false,
       requestType: '',
       responseType: 'application/json',
+
       queryParams: {
         if (after != null) 'after': after,
         'limit': limit,
@@ -674,6 +677,7 @@ class OpenAIClient {
       isMultipart: false,
       requestType: '',
       responseType: 'application/json',
+
       queryParams: {
         if (after != null) 'after': after,
         'limit': limit,
@@ -838,6 +842,7 @@ class OpenAIClient {
       isMultipart: false,
       requestType: '',
       responseType: 'application/json',
+
       queryParams: {
         'limit': limit,
         'order': order,
@@ -1090,6 +1095,7 @@ class OpenAIClient {
       isMultipart: false,
       requestType: '',
       responseType: 'application/json',
+
       queryParams: {
         'limit': limit,
         'order': order,
@@ -1277,6 +1283,7 @@ class OpenAIClient {
       isMultipart: false,
       requestType: '',
       responseType: 'application/json',
+
       queryParams: {
         'limit': limit,
         'order': order,
@@ -1315,6 +1322,7 @@ class OpenAIClient {
       requestType: 'application/json',
       responseType: 'application/json',
       body: request,
+
       queryParams: {
         if (include != null) 'include': include,
       },
@@ -1483,6 +1491,7 @@ class OpenAIClient {
       isMultipart: false,
       requestType: '',
       responseType: 'application/json',
+
       queryParams: {
         'limit': limit,
         'order': order,
@@ -1524,6 +1533,7 @@ class OpenAIClient {
       isMultipart: false,
       requestType: '',
       responseType: 'application/json',
+
       queryParams: {
         if (include != null) 'include': include,
       },
@@ -1561,6 +1571,7 @@ class OpenAIClient {
       isMultipart: false,
       requestType: '',
       responseType: 'application/json',
+
       queryParams: {
         'limit': limit,
         'order': order,
@@ -1712,6 +1723,7 @@ class OpenAIClient {
       isMultipart: false,
       requestType: '',
       responseType: 'application/json',
+
       queryParams: {
         'limit': limit,
         'order': order,
@@ -1936,6 +1948,7 @@ class OpenAIClient {
       isMultipart: false,
       requestType: '',
       responseType: 'application/json',
+
       queryParams: {
         'limit': limit,
         'order': order,
@@ -1971,6 +1984,7 @@ class OpenAIClient {
       isMultipart: false,
       requestType: '',
       responseType: 'application/json',
+
       queryParams: {
         if (after != null) 'after': after,
         'limit': limit,

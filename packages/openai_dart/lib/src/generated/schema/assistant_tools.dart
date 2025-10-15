@@ -105,13 +105,13 @@ abstract class AssistantToolsFileSearchFileSearch
 
   /// Object construction from a JSON representation
   factory AssistantToolsFileSearchFileSearch.fromJson(
-          Map<String, dynamic> json) =>
-      _$AssistantToolsFileSearchFileSearchFromJson(json);
+    Map<String, dynamic> json,
+  ) => _$AssistantToolsFileSearchFileSearchFromJson(json);
 
   /// List of all property names of schema
   static const List<String> propertyNames = [
     'max_num_results',
-    'ranking_options'
+    'ranking_options',
   ];
 
   /// Validation constants

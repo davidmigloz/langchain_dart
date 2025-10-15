@@ -36,7 +36,7 @@ abstract class Error with _$Error {
     'code',
     'message',
     'param',
-    'type'
+    'type',
   ];
 
   /// Perform validations on the schema property values

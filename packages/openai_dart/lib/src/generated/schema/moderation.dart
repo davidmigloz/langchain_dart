@@ -39,7 +39,7 @@ abstract class Moderation with _$Moderation {
     'flagged',
     'categories',
     'category_scores',
-    'category_applied_input_types'
+    'category_applied_input_types',
   ];
 
   /// Perform validations on the schema property values

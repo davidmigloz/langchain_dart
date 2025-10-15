@@ -41,7 +41,7 @@ abstract class FineTuningJobEvent with _$FineTuningJobEvent {
     'created_at',
     'level',
     'message',
-    'object'
+    'object',
   ];
 
   /// Perform validations on the schema property values
