@@ -21,7 +21,7 @@ abstract class CreateModelRequest with _$CreateModelRequest {
     required String model,
 
     /// The contents of the Modelfile.
-    required String modelfile,
+    @JsonKey(includeIfNull: false) String? modelfile,
 
     /// Path to the Modelfile (optional)
     @JsonKey(includeIfNull: false) String? path,
@@ -31,6 +31,24 @@ abstract class CreateModelRequest with _$CreateModelRequest {
 
     /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
     @Default(false) bool stream,
+
+    /// Name of the model or file to use as the source
+    @JsonKey(includeIfNull: false) String? from,
+
+    /// Map of files to include when creating the model
+    @JsonKey(includeIfNull: false) Map<String, String>? files,
+
+    /// Map of LoRA adapters to include when creating the model
+    @JsonKey(includeIfNull: false) Map<String, String>? adapters,
+
+    /// Template used when constructing a request to the model
+    @JsonKey(includeIfNull: false) String? template,
+
+    /// System prompt for the model
+    @JsonKey(includeIfNull: false) String? system,
+
+    /// Map of hyper-parameters which are applied to the model
+    @JsonKey(includeIfNull: false) Map<String, dynamic>? parameters,
   }) = _CreateModelRequest;
 
   /// Object construction from a JSON representation
@@ -44,6 +62,12 @@ abstract class CreateModelRequest with _$CreateModelRequest {
     'path',
     'quantize',
     'stream',
+    'from',
+    'files',
+    'adapters',
+    'template',
+    'system',
+    'parameters',
   ];
 
   /// Perform validations on the schema property values
@@ -59,6 +83,12 @@ abstract class CreateModelRequest with _$CreateModelRequest {
       'path': path,
       'quantize': quantize,
       'stream': stream,
+      'from': from,
+      'files': files,
+      'adapters': adapters,
+      'template': template,
+      'system': system,
+      'parameters': parameters,
     };
   }
 }

@@ -106,7 +106,9 @@ void main() {
           request: const GenerateCompletionRequest(
             model: defaultModel,
             prompt: testPrompt,
-            format: ResponseFormat.json,
+            format: GenerateCompletionRequestFormat.enumeration(
+              GenerateCompletionRequestFormatEnum.json,
+            ),
           ),
         );
         final generation = res.response?.replaceAll(RegExp(r'[\s\n]'), '');

@@ -106,7 +106,9 @@ void main() {
                     'NUMBERS: ',
               ),
             ],
-            format: ResponseFormat.json,
+            format: GenerateChatCompletionRequestFormat.enumeration(
+              GenerateChatCompletionRequestFormatEnum.json,
+            ),
           ),
         );
         final generation = res.message.content.replaceAll(

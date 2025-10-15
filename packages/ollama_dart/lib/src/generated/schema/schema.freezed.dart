@@ -5562,10 +5562,16 @@ mixin _$CreateModelRequest {
 ///
 /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
  String get model;/// The contents of the Modelfile.
- String get modelfile;/// Path to the Modelfile (optional)
+@JsonKey(includeIfNull: false) String? get modelfile;/// Path to the Modelfile (optional)
 @JsonKey(includeIfNull: false) String? get path;/// The quantization level of the model.
 @JsonKey(includeIfNull: false) String? get quantize;/// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
- bool get stream;
+ bool get stream;/// Name of the model or file to use as the source
+@JsonKey(includeIfNull: false) String? get from;/// Map of files to include when creating the model
+@JsonKey(includeIfNull: false) Map<String, String>? get files;/// Map of LoRA adapters to include when creating the model
+@JsonKey(includeIfNull: false) Map<String, String>? get adapters;/// Template used when constructing a request to the model
+@JsonKey(includeIfNull: false) String? get template;/// System prompt for the model
+@JsonKey(includeIfNull: false) String? get system;/// Map of hyper-parameters which are applied to the model
+@JsonKey(includeIfNull: false) Map<String, dynamic>? get parameters;
 /// Create a copy of CreateModelRequest
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -5578,16 +5584,16 @@ $CreateModelRequestCopyWith<CreateModelRequest> get copyWith => _$CreateModelReq
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateModelRequest&&(identical(other.model, model) || other.model == model)&&(identical(other.modelfile, modelfile) || other.modelfile == modelfile)&&(identical(other.path, path) || other.path == path)&&(identical(other.quantize, quantize) || other.quantize == quantize)&&(identical(other.stream, stream) || other.stream == stream));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateModelRequest&&(identical(other.model, model) || other.model == model)&&(identical(other.modelfile, modelfile) || other.modelfile == modelfile)&&(identical(other.path, path) || other.path == path)&&(identical(other.quantize, quantize) || other.quantize == quantize)&&(identical(other.stream, stream) || other.stream == stream)&&(identical(other.from, from) || other.from == from)&&const DeepCollectionEquality().equals(other.files, files)&&const DeepCollectionEquality().equals(other.adapters, adapters)&&(identical(other.template, template) || other.template == template)&&(identical(other.system, system) || other.system == system)&&const DeepCollectionEquality().equals(other.parameters, parameters));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,model,modelfile,path,quantize,stream);
+int get hashCode => Object.hash(runtimeType,model,modelfile,path,quantize,stream,from,const DeepCollectionEquality().hash(files),const DeepCollectionEquality().hash(adapters),template,system,const DeepCollectionEquality().hash(parameters));
 
 @override
 String toString() {
-  return 'CreateModelRequest(model: $model, modelfile: $modelfile, path: $path, quantize: $quantize, stream: $stream)';
+  return 'CreateModelRequest(model: $model, modelfile: $modelfile, path: $path, quantize: $quantize, stream: $stream, from: $from, files: $files, adapters: $adapters, template: $template, system: $system, parameters: $parameters)';
 }
 
 
@@ -5598,7 +5604,7 @@ abstract mixin class $CreateModelRequestCopyWith<$Res>  {
   factory $CreateModelRequestCopyWith(CreateModelRequest value, $Res Function(CreateModelRequest) _then) = _$CreateModelRequestCopyWithImpl;
 @useResult
 $Res call({
- String model, String modelfile,@JsonKey(includeIfNull: false) String? path,@JsonKey(includeIfNull: false) String? quantize, bool stream
+ String model,@JsonKey(includeIfNull: false) String? modelfile,@JsonKey(includeIfNull: false) String? path,@JsonKey(includeIfNull: false) String? quantize, bool stream,@JsonKey(includeIfNull: false) String? from,@JsonKey(includeIfNull: false) Map<String, String>? files,@JsonKey(includeIfNull: false) Map<String, String>? adapters,@JsonKey(includeIfNull: false) String? template,@JsonKey(includeIfNull: false) String? system,@JsonKey(includeIfNull: false) Map<String, dynamic>? parameters
 });
 
 
@@ -5615,14 +5621,20 @@ class _$CreateModelRequestCopyWithImpl<$Res>
 
 /// Create a copy of CreateModelRequest
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? model = null,Object? modelfile = null,Object? path = freezed,Object? quantize = freezed,Object? stream = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? model = null,Object? modelfile = freezed,Object? path = freezed,Object? quantize = freezed,Object? stream = null,Object? from = freezed,Object? files = freezed,Object? adapters = freezed,Object? template = freezed,Object? system = freezed,Object? parameters = freezed,}) {
   return _then(_self.copyWith(
 model: null == model ? _self.model : model // ignore: cast_nullable_to_non_nullable
-as String,modelfile: null == modelfile ? _self.modelfile : modelfile // ignore: cast_nullable_to_non_nullable
-as String,path: freezed == path ? _self.path : path // ignore: cast_nullable_to_non_nullable
+as String,modelfile: freezed == modelfile ? _self.modelfile : modelfile // ignore: cast_nullable_to_non_nullable
+as String?,path: freezed == path ? _self.path : path // ignore: cast_nullable_to_non_nullable
 as String?,quantize: freezed == quantize ? _self.quantize : quantize // ignore: cast_nullable_to_non_nullable
 as String?,stream: null == stream ? _self.stream : stream // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,from: freezed == from ? _self.from : from // ignore: cast_nullable_to_non_nullable
+as String?,files: freezed == files ? _self.files : files // ignore: cast_nullable_to_non_nullable
+as Map<String, String>?,adapters: freezed == adapters ? _self.adapters : adapters // ignore: cast_nullable_to_non_nullable
+as Map<String, String>?,template: freezed == template ? _self.template : template // ignore: cast_nullable_to_non_nullable
+as String?,system: freezed == system ? _self.system : system // ignore: cast_nullable_to_non_nullable
+as String?,parameters: freezed == parameters ? _self.parameters : parameters // ignore: cast_nullable_to_non_nullable
+as Map<String, dynamic>?,
   ));
 }
 
@@ -5707,10 +5719,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String model,  String modelfile, @JsonKey(includeIfNull: false)  String? path, @JsonKey(includeIfNull: false)  String? quantize,  bool stream)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String model, @JsonKey(includeIfNull: false)  String? modelfile, @JsonKey(includeIfNull: false)  String? path, @JsonKey(includeIfNull: false)  String? quantize,  bool stream, @JsonKey(includeIfNull: false)  String? from, @JsonKey(includeIfNull: false)  Map<String, String>? files, @JsonKey(includeIfNull: false)  Map<String, String>? adapters, @JsonKey(includeIfNull: false)  String? template, @JsonKey(includeIfNull: false)  String? system, @JsonKey(includeIfNull: false)  Map<String, dynamic>? parameters)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CreateModelRequest() when $default != null:
-return $default(_that.model,_that.modelfile,_that.path,_that.quantize,_that.stream);case _:
+return $default(_that.model,_that.modelfile,_that.path,_that.quantize,_that.stream,_that.from,_that.files,_that.adapters,_that.template,_that.system,_that.parameters);case _:
   return orElse();
 
 }
@@ -5728,10 +5740,10 @@ return $default(_that.model,_that.modelfile,_that.path,_that.quantize,_that.stre
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String model,  String modelfile, @JsonKey(includeIfNull: false)  String? path, @JsonKey(includeIfNull: false)  String? quantize,  bool stream)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String model, @JsonKey(includeIfNull: false)  String? modelfile, @JsonKey(includeIfNull: false)  String? path, @JsonKey(includeIfNull: false)  String? quantize,  bool stream, @JsonKey(includeIfNull: false)  String? from, @JsonKey(includeIfNull: false)  Map<String, String>? files, @JsonKey(includeIfNull: false)  Map<String, String>? adapters, @JsonKey(includeIfNull: false)  String? template, @JsonKey(includeIfNull: false)  String? system, @JsonKey(includeIfNull: false)  Map<String, dynamic>? parameters)  $default,) {final _that = this;
 switch (_that) {
 case _CreateModelRequest():
-return $default(_that.model,_that.modelfile,_that.path,_that.quantize,_that.stream);case _:
+return $default(_that.model,_that.modelfile,_that.path,_that.quantize,_that.stream,_that.from,_that.files,_that.adapters,_that.template,_that.system,_that.parameters);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -5748,10 +5760,10 @@ return $default(_that.model,_that.modelfile,_that.path,_that.quantize,_that.stre
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String model,  String modelfile, @JsonKey(includeIfNull: false)  String? path, @JsonKey(includeIfNull: false)  String? quantize,  bool stream)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String model, @JsonKey(includeIfNull: false)  String? modelfile, @JsonKey(includeIfNull: false)  String? path, @JsonKey(includeIfNull: false)  String? quantize,  bool stream, @JsonKey(includeIfNull: false)  String? from, @JsonKey(includeIfNull: false)  Map<String, String>? files, @JsonKey(includeIfNull: false)  Map<String, String>? adapters, @JsonKey(includeIfNull: false)  String? template, @JsonKey(includeIfNull: false)  String? system, @JsonKey(includeIfNull: false)  Map<String, dynamic>? parameters)?  $default,) {final _that = this;
 switch (_that) {
 case _CreateModelRequest() when $default != null:
-return $default(_that.model,_that.modelfile,_that.path,_that.quantize,_that.stream);case _:
+return $default(_that.model,_that.modelfile,_that.path,_that.quantize,_that.stream,_that.from,_that.files,_that.adapters,_that.template,_that.system,_that.parameters);case _:
   return null;
 
 }
@@ -5763,7 +5775,7 @@ return $default(_that.model,_that.modelfile,_that.path,_that.quantize,_that.stre
 @JsonSerializable()
 
 class _CreateModelRequest extends CreateModelRequest {
-  const _CreateModelRequest({required this.model, required this.modelfile, @JsonKey(includeIfNull: false) this.path, @JsonKey(includeIfNull: false) this.quantize, this.stream = false}): super._();
+  const _CreateModelRequest({required this.model, @JsonKey(includeIfNull: false) this.modelfile, @JsonKey(includeIfNull: false) this.path, @JsonKey(includeIfNull: false) this.quantize, this.stream = false, @JsonKey(includeIfNull: false) this.from, @JsonKey(includeIfNull: false) final  Map<String, String>? files, @JsonKey(includeIfNull: false) final  Map<String, String>? adapters, @JsonKey(includeIfNull: false) this.template, @JsonKey(includeIfNull: false) this.system, @JsonKey(includeIfNull: false) final  Map<String, dynamic>? parameters}): _files = files,_adapters = adapters,_parameters = parameters,super._();
   factory _CreateModelRequest.fromJson(Map<String, dynamic> json) => _$CreateModelRequestFromJson(json);
 
 /// The model name.
@@ -5771,13 +5783,52 @@ class _CreateModelRequest extends CreateModelRequest {
 /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
 @override final  String model;
 /// The contents of the Modelfile.
-@override final  String modelfile;
+@override@JsonKey(includeIfNull: false) final  String? modelfile;
 /// Path to the Modelfile (optional)
 @override@JsonKey(includeIfNull: false) final  String? path;
 /// The quantization level of the model.
 @override@JsonKey(includeIfNull: false) final  String? quantize;
 /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
 @override@JsonKey() final  bool stream;
+/// Name of the model or file to use as the source
+@override@JsonKey(includeIfNull: false) final  String? from;
+/// Map of files to include when creating the model
+ final  Map<String, String>? _files;
+/// Map of files to include when creating the model
+@override@JsonKey(includeIfNull: false) Map<String, String>? get files {
+  final value = _files;
+  if (value == null) return null;
+  if (_files is EqualUnmodifiableMapView) return _files;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(value);
+}
+
+/// Map of LoRA adapters to include when creating the model
+ final  Map<String, String>? _adapters;
+/// Map of LoRA adapters to include when creating the model
+@override@JsonKey(includeIfNull: false) Map<String, String>? get adapters {
+  final value = _adapters;
+  if (value == null) return null;
+  if (_adapters is EqualUnmodifiableMapView) return _adapters;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(value);
+}
+
+/// Template used when constructing a request to the model
+@override@JsonKey(includeIfNull: false) final  String? template;
+/// System prompt for the model
+@override@JsonKey(includeIfNull: false) final  String? system;
+/// Map of hyper-parameters which are applied to the model
+ final  Map<String, dynamic>? _parameters;
+/// Map of hyper-parameters which are applied to the model
+@override@JsonKey(includeIfNull: false) Map<String, dynamic>? get parameters {
+  final value = _parameters;
+  if (value == null) return null;
+  if (_parameters is EqualUnmodifiableMapView) return _parameters;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(value);
+}
+
 
 /// Create a copy of CreateModelRequest
 /// with the given fields replaced by the non-null parameter values.
@@ -5792,16 +5843,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateModelRequest&&(identical(other.model, model) || other.model == model)&&(identical(other.modelfile, modelfile) || other.modelfile == modelfile)&&(identical(other.path, path) || other.path == path)&&(identical(other.quantize, quantize) || other.quantize == quantize)&&(identical(other.stream, stream) || other.stream == stream));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateModelRequest&&(identical(other.model, model) || other.model == model)&&(identical(other.modelfile, modelfile) || other.modelfile == modelfile)&&(identical(other.path, path) || other.path == path)&&(identical(other.quantize, quantize) || other.quantize == quantize)&&(identical(other.stream, stream) || other.stream == stream)&&(identical(other.from, from) || other.from == from)&&const DeepCollectionEquality().equals(other._files, _files)&&const DeepCollectionEquality().equals(other._adapters, _adapters)&&(identical(other.template, template) || other.template == template)&&(identical(other.system, system) || other.system == system)&&const DeepCollectionEquality().equals(other._parameters, _parameters));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,model,modelfile,path,quantize,stream);
+int get hashCode => Object.hash(runtimeType,model,modelfile,path,quantize,stream,from,const DeepCollectionEquality().hash(_files),const DeepCollectionEquality().hash(_adapters),template,system,const DeepCollectionEquality().hash(_parameters));
 
 @override
 String toString() {
-  return 'CreateModelRequest(model: $model, modelfile: $modelfile, path: $path, quantize: $quantize, stream: $stream)';
+  return 'CreateModelRequest(model: $model, modelfile: $modelfile, path: $path, quantize: $quantize, stream: $stream, from: $from, files: $files, adapters: $adapters, template: $template, system: $system, parameters: $parameters)';
 }
 
 
@@ -5812,7 +5863,7 @@ abstract mixin class _$CreateModelRequestCopyWith<$Res> implements $CreateModelR
   factory _$CreateModelRequestCopyWith(_CreateModelRequest value, $Res Function(_CreateModelRequest) _then) = __$CreateModelRequestCopyWithImpl;
 @override @useResult
 $Res call({
- String model, String modelfile,@JsonKey(includeIfNull: false) String? path,@JsonKey(includeIfNull: false) String? quantize, bool stream
+ String model,@JsonKey(includeIfNull: false) String? modelfile,@JsonKey(includeIfNull: false) String? path,@JsonKey(includeIfNull: false) String? quantize, bool stream,@JsonKey(includeIfNull: false) String? from,@JsonKey(includeIfNull: false) Map<String, String>? files,@JsonKey(includeIfNull: false) Map<String, String>? adapters,@JsonKey(includeIfNull: false) String? template,@JsonKey(includeIfNull: false) String? system,@JsonKey(includeIfNull: false) Map<String, dynamic>? parameters
 });
 
 
@@ -5829,14 +5880,20 @@ class __$CreateModelRequestCopyWithImpl<$Res>
 
 /// Create a copy of CreateModelRequest
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? model = null,Object? modelfile = null,Object? path = freezed,Object? quantize = freezed,Object? stream = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? model = null,Object? modelfile = freezed,Object? path = freezed,Object? quantize = freezed,Object? stream = null,Object? from = freezed,Object? files = freezed,Object? adapters = freezed,Object? template = freezed,Object? system = freezed,Object? parameters = freezed,}) {
   return _then(_CreateModelRequest(
 model: null == model ? _self.model : model // ignore: cast_nullable_to_non_nullable
-as String,modelfile: null == modelfile ? _self.modelfile : modelfile // ignore: cast_nullable_to_non_nullable
-as String,path: freezed == path ? _self.path : path // ignore: cast_nullable_to_non_nullable
+as String,modelfile: freezed == modelfile ? _self.modelfile : modelfile // ignore: cast_nullable_to_non_nullable
+as String?,path: freezed == path ? _self.path : path // ignore: cast_nullable_to_non_nullable
 as String?,quantize: freezed == quantize ? _self.quantize : quantize // ignore: cast_nullable_to_non_nullable
 as String?,stream: null == stream ? _self.stream : stream // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,from: freezed == from ? _self.from : from // ignore: cast_nullable_to_non_nullable
+as String?,files: freezed == files ? _self._files : files // ignore: cast_nullable_to_non_nullable
+as Map<String, String>?,adapters: freezed == adapters ? _self._adapters : adapters // ignore: cast_nullable_to_non_nullable
+as Map<String, String>?,template: freezed == template ? _self.template : template // ignore: cast_nullable_to_non_nullable
+as String?,system: freezed == system ? _self.system : system // ignore: cast_nullable_to_non_nullable
+as String?,parameters: freezed == parameters ? _self._parameters : parameters // ignore: cast_nullable_to_non_nullable
+as Map<String, dynamic>?,
   ));
 }
 

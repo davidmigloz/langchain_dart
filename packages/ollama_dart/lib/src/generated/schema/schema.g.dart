@@ -480,19 +480,35 @@ Map<String, dynamic> _$GenerateEmbeddingResponseToJson(
 _CreateModelRequest _$CreateModelRequestFromJson(Map<String, dynamic> json) =>
     _CreateModelRequest(
       model: json['model'] as String,
-      modelfile: json['modelfile'] as String,
+      modelfile: json['modelfile'] as String?,
       path: json['path'] as String?,
       quantize: json['quantize'] as String?,
       stream: json['stream'] as bool? ?? false,
+      from: json['from'] as String?,
+      files: (json['files'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, e as String),
+      ),
+      adapters: (json['adapters'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, e as String),
+      ),
+      template: json['template'] as String?,
+      system: json['system'] as String?,
+      parameters: json['parameters'] as Map<String, dynamic>?,
     );
 
 Map<String, dynamic> _$CreateModelRequestToJson(_CreateModelRequest instance) =>
     <String, dynamic>{
       'model': instance.model,
-      'modelfile': instance.modelfile,
+      'modelfile': ?instance.modelfile,
       'path': ?instance.path,
       'quantize': ?instance.quantize,
       'stream': instance.stream,
+      'from': ?instance.from,
+      'files': ?instance.files,
+      'adapters': ?instance.adapters,
+      'template': ?instance.template,
+      'system': ?instance.system,
+      'parameters': ?instance.parameters,
     };
 
 _CreateModelResponse _$CreateModelResponseFromJson(Map<String, dynamic> json) =>
