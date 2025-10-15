@@ -8,9 +8,33 @@ import 'package:langchain_core/tools.dart';
 import 'package:ollama_dart/ollama_dart.dart' as o;
 import 'package:uuid/uuid.dart';
 
-import '../../llms/mappers.dart' show OllamaResponseFormatMapper;
+import '../../llms/types.dart';
 import 'chat_ollama.dart';
 import 'types.dart';
+
+extension _OllamaResponseFormatChatMapper on OllamaResponseFormat {
+  o.GenerateChatCompletionRequestFormat? toChatResponseFormat() {
+    final format = o.ResponseFormat.values
+        .where((final f) => f.name.toLowerCase() == name.toLowerCase())
+        .firstOrNull;
+    if (format == null) return null;
+    return o.GenerateChatCompletionRequestFormat.enumeration(
+      o.GenerateChatCompletionRequestFormatEnum.values.firstWhere(
+        (final e) => e.name == format.name,
+      ),
+    );
+  }
+}
+
+extension _OllamaThinkingLevelChatMapper on OllamaThinkingLevel {
+  o.GenerateChatCompletionRequestThink toThinkRequest() {
+    return o.GenerateChatCompletionRequestThink.enumeration(
+      o.GenerateChatCompletionRequestThinkEnum.values.firstWhere(
+        (final e) => e.name == name,
+      ),
+    );
+  }
+}
 
 /// Creates a [GenerateChatCompletionRequest] from the given input.
 o.GenerateChatCompletionRequest generateChatCompletionRequest(
@@ -22,8 +46,9 @@ o.GenerateChatCompletionRequest generateChatCompletionRequest(
   return o.GenerateChatCompletionRequest(
     model: options?.model ?? defaultOptions.model ?? ChatOllama.defaultModel,
     messages: messages.toMessages(),
-    format: (options?.format ?? defaultOptions.format)?.toResponseFormat(),
+    format: (options?.format ?? defaultOptions.format)?.toChatResponseFormat(),
     keepAlive: options?.keepAlive ?? defaultOptions.keepAlive,
+    think: (options?.think ?? defaultOptions.think)?.toThinkRequest(),
     tools: _mapTools(
       tools: options?.tools ?? defaultOptions.tools,
       toolChoice: options?.toolChoice ?? defaultOptions.toolChoice,

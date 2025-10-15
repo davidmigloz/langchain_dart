@@ -20,6 +20,7 @@ class OllamaOptions extends LLMOptions {
     this.format,
     this.raw,
     this.keepAlive,
+    this.think,
     this.numKeep,
     this.seed,
     this.numPredict,
@@ -93,6 +94,14 @@ class OllamaOptions extends LLMOptions {
   /// - If set to 0, the model will be unloaded immediately once finished.
   /// - If not set, the model will stay loaded for 5 minutes by default
   final int? keepAlive;
+
+  /// Controls whether thinking/reasoning models will think before responding.
+  ///
+  /// Can be set to a [OllamaThinkingLevel] to control the intensity level:
+  /// - [OllamaThinkingLevel.high]: Maximum reasoning depth
+  /// - [OllamaThinkingLevel.medium]: Balanced reasoning
+  /// - [OllamaThinkingLevel.low]: Minimal reasoning
+  final OllamaThinkingLevel? think;
 
   /// Number of tokens to keep from the prompt.
   /// (Default: 0)
@@ -245,6 +254,7 @@ class OllamaOptions extends LLMOptions {
     final OllamaResponseFormat? format,
     final bool? raw,
     final int? keepAlive,
+    final OllamaThinkingLevel? think,
     final int? numKeep,
     final int? seed,
     final int? numPredict,
@@ -286,6 +296,7 @@ class OllamaOptions extends LLMOptions {
       format: format ?? this.format,
       raw: raw ?? this.raw,
       keepAlive: keepAlive ?? this.keepAlive,
+      think: think ?? this.think,
       numKeep: numKeep ?? this.numKeep,
       seed: seed ?? this.seed,
       numPredict: numPredict ?? this.numPredict,
@@ -331,6 +342,7 @@ class OllamaOptions extends LLMOptions {
       format: other?.format,
       raw: other?.raw,
       keepAlive: other?.keepAlive,
+      think: other?.think,
       numKeep: other?.numKeep,
       seed: other?.seed,
       numPredict: other?.numPredict,
@@ -377,6 +389,7 @@ class OllamaOptions extends LLMOptions {
             format == other.format &&
             raw == other.raw &&
             keepAlive == other.keepAlive &&
+            think == other.think &&
             numKeep == other.numKeep &&
             seed == other.seed &&
             numPredict == other.numPredict &&
@@ -420,6 +433,7 @@ class OllamaOptions extends LLMOptions {
         format.hashCode ^
         raw.hashCode ^
         keepAlive.hashCode ^
+        think.hashCode ^
         numKeep.hashCode ^
         seed.hashCode ^
         numPredict.hashCode ^
@@ -464,4 +478,16 @@ enum OllamaResponseFormat {
   /// Note: it's important to instruct the model to use JSON in the prompt.
   /// Otherwise, the model may generate large amounts whitespace.
   json,
+}
+
+/// The thinking intensity level for reasoning models.
+enum OllamaThinkingLevel {
+  /// High thinking intensity - maximum reasoning depth
+  high,
+
+  /// Medium thinking intensity - balanced reasoning
+  medium,
+
+  /// Low thinking intensity - minimal reasoning
+  low,
 }
