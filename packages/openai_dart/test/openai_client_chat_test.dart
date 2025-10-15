@@ -43,8 +43,8 @@ void main() {
           ],
           temperature: 1,
         );
-        final CreateChatCompletionResponse res =
-            await client.createChatCompletion(request: request);
+        final CreateChatCompletionResponse res = await client
+            .createChatCompletion(request: request);
         expect(res.choices, hasLength(1));
         final choice = res.choices.first;
         expect(choice.index, 0);
@@ -263,9 +263,11 @@ void main() {
       final functionCall = toolCall.function;
       expect(functionCall.name, function.name);
       expect(functionCall.arguments, isNotEmpty);
-      final arguments = json.decode(
-        functionCall.arguments,
-      ) as Map<String, dynamic>;
+      final arguments =
+          json.decode(
+                functionCall.arguments,
+              )
+              as Map<String, dynamic>;
       expect(arguments.containsKey('location'), isTrue);
       expect(arguments['location'], contains('Boston'));
 

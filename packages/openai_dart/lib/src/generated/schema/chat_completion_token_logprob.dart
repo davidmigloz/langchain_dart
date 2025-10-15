@@ -38,7 +38,7 @@ abstract class ChatCompletionTokenLogprob with _$ChatCompletionTokenLogprob {
     'token',
     'logprob',
     'bytes',
-    'top_logprobs'
+    'top_logprobs',
   ];
 
   /// Perform validations on the schema property values

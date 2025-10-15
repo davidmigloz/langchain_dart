@@ -27,8 +27,8 @@ abstract class RunStepDetailsToolCallsFileSearch
 
   /// Object construction from a JSON representation
   factory RunStepDetailsToolCallsFileSearch.fromJson(
-          Map<String, dynamic> json) =>
-      _$RunStepDetailsToolCallsFileSearchFromJson(json);
+    Map<String, dynamic> json,
+  ) => _$RunStepDetailsToolCallsFileSearchFromJson(json);
 
   /// List of all property names of schema
   static const List<String> propertyNames = ['ranking_options', 'results'];

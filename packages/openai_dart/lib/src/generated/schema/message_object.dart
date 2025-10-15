@@ -83,7 +83,7 @@ abstract class MessageObject with _$MessageObject {
     'assistant_id',
     'run_id',
     'attachments',
-    'metadata'
+    'metadata',
   ];
 
   /// Perform validations on the schema property values

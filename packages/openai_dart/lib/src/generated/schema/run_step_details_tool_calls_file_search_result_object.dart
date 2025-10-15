@@ -33,15 +33,15 @@ abstract class RunStepDetailsToolCallsFileSearchResultObject
 
   /// Object construction from a JSON representation
   factory RunStepDetailsToolCallsFileSearchResultObject.fromJson(
-          Map<String, dynamic> json) =>
-      _$RunStepDetailsToolCallsFileSearchResultObjectFromJson(json);
+    Map<String, dynamic> json,
+  ) => _$RunStepDetailsToolCallsFileSearchResultObjectFromJson(json);
 
   /// List of all property names of schema
   static const List<String> propertyNames = [
     'file_id',
     'file_name',
     'score',
-    'content'
+    'content',
   ];
 
   /// Validation constants

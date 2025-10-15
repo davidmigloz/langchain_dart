@@ -33,7 +33,7 @@ abstract class Image with _$Image {
   static const List<String> propertyNames = [
     'b64_json',
     'url',
-    'revised_prompt'
+    'revised_prompt',
   ];
 
   /// Perform validations on the schema property values

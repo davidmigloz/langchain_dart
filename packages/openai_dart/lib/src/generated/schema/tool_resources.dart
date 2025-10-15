@@ -114,7 +114,7 @@ abstract class ToolResourcesFileSearch with _$ToolResourcesFileSearch {
   /// List of all property names of schema
   static const List<String> propertyNames = [
     'vector_store_ids',
-    'vector_stores'
+    'vector_stores',
   ];
 
   /// Perform validations on the schema property values

@@ -60,8 +60,8 @@ abstract class ModerationCategoriesAppliedInputTypes
 
   /// Object construction from a JSON representation
   factory ModerationCategoriesAppliedInputTypes.fromJson(
-          Map<String, dynamic> json) =>
-      _$ModerationCategoriesAppliedInputTypesFromJson(json);
+    Map<String, dynamic> json,
+  ) => _$ModerationCategoriesAppliedInputTypesFromJson(json);
 
   /// List of all property names of schema
   static const List<String> propertyNames = [
@@ -77,7 +77,7 @@ abstract class ModerationCategoriesAppliedInputTypes
     'sexual',
     'sexual/minors',
     'violence',
-    'violence/graphic'
+    'violence/graphic',
   ];
 
   /// Perform validations on the schema property values

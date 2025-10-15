@@ -40,7 +40,7 @@ abstract class CreateMessageRequest with _$CreateMessageRequest {
     'role',
     'content',
     'attachments',
-    'metadata'
+    'metadata',
   ];
 
   /// Perform validations on the schema property values
@@ -91,9 +91,11 @@ class _CreateMessageRequestContentConverter
   @override
   CreateMessageRequestContent fromJson(Object? data) {
     if (data is List && data.every((item) => item is Map)) {
-      return CreateMessageRequestContentListMessageContent(data
-          .map((i) => MessageContent.fromJson(i as Map<String, dynamic>))
-          .toList(growable: false));
+      return CreateMessageRequestContentListMessageContent(
+        data
+            .map((i) => MessageContent.fromJson(i as Map<String, dynamic>))
+            .toList(growable: false),
+      );
     }
     if (data is String) {
       return CreateMessageRequestContentString(data);

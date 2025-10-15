@@ -69,7 +69,7 @@ abstract class VectorStoreObject with _$VectorStoreObject {
     'expires_after',
     'expires_at',
     'last_active_at',
-    'metadata'
+    'metadata',
   ];
 
   /// Perform validations on the schema property values
@@ -132,7 +132,7 @@ abstract class VectorStoreObjectFileCounts with _$VectorStoreObjectFileCounts {
     'completed',
     'failed',
     'cancelled',
-    'total'
+    'total',
   ];
 
   /// Perform validations on the schema property values

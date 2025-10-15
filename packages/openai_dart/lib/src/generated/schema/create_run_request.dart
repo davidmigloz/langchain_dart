@@ -125,7 +125,7 @@ abstract class CreateRunRequest with _$CreateRunRequest {
     'tool_choice',
     'parallel_tool_calls',
     'response_format',
-    'stream'
+    'stream',
   ];
 
   /// Validation constants
@@ -530,9 +530,9 @@ class _CreateRunRequestResponseFormatConverter
         _$CreateRunRequestResponseFormatModeEnumMap.values.contains(data)) {
       return CreateRunRequestResponseFormatEnumeration(
         _$CreateRunRequestResponseFormatModeEnumMap.keys.elementAt(
-          _$CreateRunRequestResponseFormatModeEnumMap.values
-              .toList()
-              .indexOf(data),
+          _$CreateRunRequestResponseFormatModeEnumMap.values.toList().indexOf(
+            data,
+          ),
         ),
       );
     }

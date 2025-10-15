@@ -165,9 +165,13 @@ class _ModerationInputConverter
   @override
   ModerationInput fromJson(Object? data) {
     if (data is List && data.every((item) => item is Map)) {
-      return ModerationInputListModerationInputObject(data
-          .map((i) => ModerationInputObject.fromJson(i as Map<String, dynamic>))
-          .toList(growable: false));
+      return ModerationInputListModerationInputObject(
+        data
+            .map(
+              (i) => ModerationInputObject.fromJson(i as Map<String, dynamic>),
+            )
+            .toList(growable: false),
+      );
     }
     if (data is List && data.every((item) => item is String)) {
       return ModerationInputListString(data.cast());

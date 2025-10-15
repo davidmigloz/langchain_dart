@@ -43,7 +43,7 @@ abstract class CreateBatchRequest with _$CreateBatchRequest {
     'input_file_id',
     'endpoint',
     'completion_window',
-    'metadata'
+    'metadata',
   ];
 
   /// Perform validations on the schema property values

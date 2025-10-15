@@ -159,7 +159,7 @@ abstract class RunObject with _$RunObject {
     'truncation_strategy',
     'tool_choice',
     'parallel_tool_calls',
-    'response_format'
+    'response_format',
   ];
 
   /// Validation constants

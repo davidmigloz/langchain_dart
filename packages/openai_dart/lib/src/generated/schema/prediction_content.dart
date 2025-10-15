@@ -86,10 +86,14 @@ class _PredictionContentContentConverter
   PredictionContentContent fromJson(Object? data) {
     if (data is List && data.every((item) => item is Map)) {
       return PredictionContentContentListChatCompletionMessageContentPartText(
-          data
-              .map((i) => ChatCompletionMessageContentPartText.fromJson(
-                  i as Map<String, dynamic>))
-              .toList(growable: false));
+        data
+            .map(
+              (i) => ChatCompletionMessageContentPartText.fromJson(
+                i as Map<String, dynamic>,
+              ),
+            )
+            .toList(growable: false),
+      );
     }
     if (data is String) {
       return PredictionContentContentString(data);
@@ -103,7 +107,7 @@ class _PredictionContentContentConverter
   Object? toJson(PredictionContentContent data) {
     return switch (data) {
       PredictionContentContentListChatCompletionMessageContentPartText(
-        value: final v
+        value: final v,
       ) =>
         v,
       PredictionContentContentString(value: final v) => v,

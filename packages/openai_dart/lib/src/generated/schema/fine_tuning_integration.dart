@@ -92,7 +92,7 @@ abstract class FineTuningIntegrationWandb with _$FineTuningIntegrationWandb {
     'project',
     'name',
     'entity',
-    'tags'
+    'tags',
   ];
 
   /// Perform validations on the schema property values

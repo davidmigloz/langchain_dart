@@ -40,15 +40,15 @@ abstract class ChatCompletionStreamResponseChoice
 
   /// Object construction from a JSON representation
   factory ChatCompletionStreamResponseChoice.fromJson(
-          Map<String, dynamic> json) =>
-      _$ChatCompletionStreamResponseChoiceFromJson(json);
+    Map<String, dynamic> json,
+  ) => _$ChatCompletionStreamResponseChoiceFromJson(json);
 
   /// List of all property names of schema
   static const List<String> propertyNames = [
     'delta',
     'logprobs',
     'finish_reason',
-    'index'
+    'index',
   ];
 
   /// Perform validations on the schema property values
@@ -88,8 +88,8 @@ abstract class ChatCompletionStreamResponseChoiceLogprobs
 
   /// Object construction from a JSON representation
   factory ChatCompletionStreamResponseChoiceLogprobs.fromJson(
-          Map<String, dynamic> json) =>
-      _$ChatCompletionStreamResponseChoiceLogprobsFromJson(json);
+    Map<String, dynamic> json,
+  ) => _$ChatCompletionStreamResponseChoiceLogprobsFromJson(json);
 
   /// List of all property names of schema
   static const List<String> propertyNames = ['content', 'refusal'];

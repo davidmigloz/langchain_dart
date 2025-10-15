@@ -46,7 +46,7 @@ abstract class CreateVectorStoreRequest with _$CreateVectorStoreRequest {
     'file_ids',
     'expires_after',
     'chunking_strategy',
-    'metadata'
+    'metadata',
   ];
 
   /// Perform validations on the schema property values

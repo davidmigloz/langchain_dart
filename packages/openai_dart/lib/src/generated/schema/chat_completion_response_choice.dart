@@ -45,7 +45,7 @@ abstract class ChatCompletionResponseChoice
     'finish_reason',
     'index',
     'message',
-    'logprobs'
+    'logprobs',
   ];
 
   /// Perform validations on the schema property values

@@ -239,6 +239,16 @@ abstract class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue,
     )
     Verbosity? verbosity,
+
+    /// Reasoning configuration for controlling how the model generates and exposes
+    /// its chain-of-thought reasoning.
+    ///
+    /// **NOT part of the official OpenAI API.**
+    ///
+    /// **Supported by:**
+    /// - OpenRouter
+    @JsonKey(includeIfNull: false)
+    CreateChatCompletionRequestReasoning? reasoning,
   }) = _CreateChatCompletionRequest;
 
   /// Object construction from a JSON representation
@@ -278,7 +288,8 @@ abstract class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     'user',
     'function_call',
     'functions',
-    'verbosity'
+    'verbosity',
+    'reasoning',
   ];
 
   /// Validation constants
@@ -373,6 +384,7 @@ abstract class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
       'function_call': functionCall,
       'functions': functions,
       'verbosity': verbosity,
+      'reasoning': reasoning,
     };
   }
 }
@@ -731,7 +743,7 @@ class _ChatCompletionToolChoiceOptionConverter
       ChatCompletionToolChoiceOptionEnumeration(value: final v) =>
         _$ChatCompletionToolChoiceModeEnumMap[v]!,
       ChatCompletionToolChoiceOptionChatCompletionNamedToolChoice(
-        value: final v
+        value: final v,
       ) =>
         v.toJson(),
       null => null,
@@ -825,10 +837,108 @@ class _ChatCompletionFunctionCallConverter
       ChatCompletionFunctionCallEnumeration(value: final v) =>
         _$ChatCompletionFunctionCallModeEnumMap[v]!,
       ChatCompletionFunctionCallChatCompletionFunctionCallOption(
-        value: final v
+        value: final v,
       ) =>
         v.toJson(),
       null => null,
     };
   }
+}
+
+// ==========================================
+// CLASS: CreateChatCompletionRequestReasoning
+// ==========================================
+
+/// Reasoning configuration for controlling how the model generates and exposes
+/// its chain-of-thought reasoning.
+///
+/// **NOT part of the official OpenAI API.**
+///
+/// **Supported by:**
+/// - OpenRouter
+@freezed
+abstract class CreateChatCompletionRequestReasoning
+    with _$CreateChatCompletionRequestReasoning {
+  const CreateChatCompletionRequestReasoning._();
+
+  /// Factory constructor for CreateChatCompletionRequestReasoning
+  const factory CreateChatCompletionRequestReasoning({
+    /// Reasoning effort level (high ~80%, medium ~50%, low ~20% of max tokens).
+    ///
+    /// **Provider:** OpenRouter
+    @JsonKey(
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue,
+    )
+    CreateChatCompletionRequestReasoningEffort? effort,
+
+    /// Maximum tokens for reasoning (alternative to effort level).
+    ///
+    /// **Provider:** OpenRouter
+    @JsonKey(name: 'max_tokens', includeIfNull: false) int? maxTokens,
+
+    /// Exclude reasoning from output if true.
+    ///
+    /// **Provider:** OpenRouter
+    @JsonKey(includeIfNull: false) bool? exclude,
+
+    /// Enable or disable reasoning output.
+    ///
+    /// **Provider:** OpenRouter
+    @JsonKey(includeIfNull: false) bool? enabled,
+  }) = _CreateChatCompletionRequestReasoning;
+
+  /// Object construction from a JSON representation
+  factory CreateChatCompletionRequestReasoning.fromJson(
+    Map<String, dynamic> json,
+  ) => _$CreateChatCompletionRequestReasoningFromJson(json);
+
+  /// List of all property names of schema
+  static const List<String> propertyNames = [
+    'effort',
+    'max_tokens',
+    'exclude',
+    'enabled',
+  ];
+
+  /// Validation constants
+  static const maxTokensMinValue = 1024;
+  static const maxTokensMaxValue = 32000;
+
+  /// Perform validations on the schema property values
+  String? validateSchema() {
+    if (maxTokens != null && maxTokens! < maxTokensMinValue) {
+      return "The value of 'maxTokens' cannot be < $maxTokensMinValue";
+    }
+    if (maxTokens != null && maxTokens! > maxTokensMaxValue) {
+      return "The value of 'maxTokens' cannot be > $maxTokensMaxValue";
+    }
+    return null;
+  }
+
+  /// Map representation of object (not serialized)
+  Map<String, dynamic> toMap() {
+    return {
+      'effort': effort,
+      'max_tokens': maxTokens,
+      'exclude': exclude,
+      'enabled': enabled,
+    };
+  }
+}
+
+// ==========================================
+// ENUM: CreateChatCompletionRequestReasoningEffort
+// ==========================================
+
+/// Reasoning effort level (high ~80%, medium ~50%, low ~20% of max tokens).
+///
+/// **Provider:** OpenRouter
+enum CreateChatCompletionRequestReasoningEffort {
+  @JsonValue('high')
+  high,
+  @JsonValue('medium')
+  medium,
+  @JsonValue('low')
+  low,
 }

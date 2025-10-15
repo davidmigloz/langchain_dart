@@ -51,6 +51,6 @@ sealed class RunStepDeltaStepDetailsToolCallsCodeOutput
 
   /// Object construction from a JSON representation
   factory RunStepDeltaStepDetailsToolCallsCodeOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$RunStepDeltaStepDetailsToolCallsCodeOutputFromJson(json);
+    Map<String, dynamic> json,
+  ) => _$RunStepDeltaStepDetailsToolCallsCodeOutputFromJson(json);
 }

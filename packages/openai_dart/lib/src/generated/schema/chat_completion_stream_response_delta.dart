@@ -42,12 +42,39 @@ abstract class ChatCompletionStreamResponseDelta
     /// [Learn more](https://platform.openai.com/docs/guides/audio).
     @JsonKey(includeIfNull: false)
     ChatCompletionStreamResponseDeltaAudio? audio,
+
+    /// Chain-of-thought reasoning content delta in streaming mode.
+    ///
+    /// **NOT part of the official OpenAI API.**
+    ///
+    /// **Supported by:**
+    /// - DeepSeek R1 (native API)
+    /// - vLLM (with --enable-reasoning flag)
+    @JsonKey(name: 'reasoning_content', includeIfNull: false)
+    String? reasoningContent,
+
+    /// Reasoning content delta in streaming mode.
+    ///
+    /// **NOT part of the official OpenAI API.**
+    ///
+    /// **Supported by:**
+    /// - OpenRouter
+    @JsonKey(includeIfNull: false) String? reasoning,
+
+    /// Structured reasoning information deltas in streaming mode.
+    ///
+    /// **NOT part of the official OpenAI API.**
+    ///
+    /// **Supported by:**
+    /// - OpenRouter
+    @JsonKey(name: 'reasoning_details', includeIfNull: false)
+    List<ReasoningDetail>? reasoningDetails,
   }) = _ChatCompletionStreamResponseDelta;
 
   /// Object construction from a JSON representation
   factory ChatCompletionStreamResponseDelta.fromJson(
-          Map<String, dynamic> json) =>
-      _$ChatCompletionStreamResponseDeltaFromJson(json);
+    Map<String, dynamic> json,
+  ) => _$ChatCompletionStreamResponseDeltaFromJson(json);
 
   /// List of all property names of schema
   static const List<String> propertyNames = [
@@ -56,7 +83,10 @@ abstract class ChatCompletionStreamResponseDelta
     'refusal',
     'tool_calls',
     'function_call',
-    'audio'
+    'audio',
+    'reasoning_content',
+    'reasoning',
+    'reasoning_details',
   ];
 
   /// Perform validations on the schema property values
@@ -73,6 +103,9 @@ abstract class ChatCompletionStreamResponseDelta
       'tool_calls': toolCalls,
       'function_call': functionCall,
       'audio': audio,
+      'reasoning_content': reasoningContent,
+      'reasoning': reasoning,
+      'reasoning_details': reasoningDetails,
     };
   }
 }
@@ -106,15 +139,15 @@ abstract class ChatCompletionStreamResponseDeltaAudio
 
   /// Object construction from a JSON representation
   factory ChatCompletionStreamResponseDeltaAudio.fromJson(
-          Map<String, dynamic> json) =>
-      _$ChatCompletionStreamResponseDeltaAudioFromJson(json);
+    Map<String, dynamic> json,
+  ) => _$ChatCompletionStreamResponseDeltaAudioFromJson(json);
 
   /// List of all property names of schema
   static const List<String> propertyNames = [
     'id',
     'expires_at',
     'data',
-    'transcript'
+    'transcript',
   ];
 
   /// Perform validations on the schema property values

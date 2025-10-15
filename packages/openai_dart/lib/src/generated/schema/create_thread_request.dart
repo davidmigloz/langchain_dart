@@ -38,7 +38,7 @@ abstract class CreateThreadRequest with _$CreateThreadRequest {
   static const List<String> propertyNames = [
     'messages',
     'tool_resources',
-    'metadata'
+    'metadata',
   ];
 
   /// Perform validations on the schema property values

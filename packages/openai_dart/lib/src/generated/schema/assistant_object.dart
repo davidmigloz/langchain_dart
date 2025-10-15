@@ -104,7 +104,7 @@ abstract class AssistantObject with _$AssistantObject {
     'metadata',
     'temperature',
     'top_p',
-    'response_format'
+    'response_format',
   ];
 
   /// Validation constants

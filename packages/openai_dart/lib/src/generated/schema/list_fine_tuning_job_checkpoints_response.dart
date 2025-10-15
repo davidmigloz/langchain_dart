@@ -34,8 +34,8 @@ abstract class ListFineTuningJobCheckpointsResponse
 
   /// Object construction from a JSON representation
   factory ListFineTuningJobCheckpointsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListFineTuningJobCheckpointsResponseFromJson(json);
+    Map<String, dynamic> json,
+  ) => _$ListFineTuningJobCheckpointsResponseFromJson(json);
 
   /// List of all property names of schema
   static const List<String> propertyNames = [
@@ -43,7 +43,7 @@ abstract class ListFineTuningJobCheckpointsResponse
     'object',
     'first_id',
     'last_id',
-    'has_more'
+    'has_more',
   ];
 
   /// Perform validations on the schema property values

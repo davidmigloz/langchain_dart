@@ -113,7 +113,7 @@ abstract class CreateImageRequest with _$CreateImageRequest {
     'moderation',
     'background',
     'style',
-    'user'
+    'user',
   ];
 
   /// Validation constants

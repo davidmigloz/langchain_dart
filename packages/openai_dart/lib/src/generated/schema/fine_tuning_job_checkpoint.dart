@@ -50,7 +50,7 @@ abstract class FineTuningJobCheckpoint with _$FineTuningJobCheckpoint {
     'step_number',
     'metrics',
     'fine_tuning_job_id',
-    'object'
+    'object',
   ];
 
   /// Perform validations on the schema property values
@@ -122,7 +122,7 @@ abstract class FineTuningJobCheckpointMetrics
     'valid_loss',
     'valid_mean_token_accuracy',
     'full_valid_loss',
-    'full_valid_mean_token_accuracy'
+    'full_valid_mean_token_accuracy',
   ];
 
   /// Perform validations on the schema property values

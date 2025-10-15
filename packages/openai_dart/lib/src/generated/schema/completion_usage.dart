@@ -39,7 +39,7 @@ abstract class CompletionUsage with _$CompletionUsage {
     'completion_tokens',
     'prompt_tokens',
     'total_tokens',
-    'completion_tokens_details'
+    'completion_tokens_details',
   ];
 
   /// Perform validations on the schema property values

@@ -86,7 +86,7 @@ abstract class AnnotationUrlCitation with _$AnnotationUrlCitation {
     'end_index',
     'start_index',
     'url',
-    'title'
+    'title',
   ];
 
   /// Perform validations on the schema property values

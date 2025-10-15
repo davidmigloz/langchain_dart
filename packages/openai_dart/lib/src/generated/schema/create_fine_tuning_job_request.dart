@@ -81,7 +81,7 @@ abstract class CreateFineTuningJobRequest with _$CreateFineTuningJobRequest {
     'suffix',
     'validation_file',
     'integrations',
-    'seed'
+    'seed',
   ];
 
   /// Validation constants

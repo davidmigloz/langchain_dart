@@ -32,7 +32,7 @@ abstract class StaticChunkingStrategy with _$StaticChunkingStrategy {
   /// List of all property names of schema
   static const List<String> propertyNames = [
     'max_chunk_size_tokens',
-    'chunk_overlap_tokens'
+    'chunk_overlap_tokens',
   ];
 
   /// Validation constants

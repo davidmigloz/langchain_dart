@@ -25,8 +25,8 @@ abstract class RunStepDetailsToolCallsCodeObjectCodeInterpreter
 
   /// Object construction from a JSON representation
   factory RunStepDetailsToolCallsCodeObjectCodeInterpreter.fromJson(
-          Map<String, dynamic> json) =>
-      _$RunStepDetailsToolCallsCodeObjectCodeInterpreterFromJson(json);
+    Map<String, dynamic> json,
+  ) => _$RunStepDetailsToolCallsCodeObjectCodeInterpreterFromJson(json);
 
   /// List of all property names of schema
   static const List<String> propertyNames = ['input', 'outputs'];

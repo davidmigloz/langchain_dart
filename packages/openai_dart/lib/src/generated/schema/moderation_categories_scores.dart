@@ -75,7 +75,7 @@ abstract class ModerationCategoriesScores with _$ModerationCategoriesScores {
     'sexual',
     'sexual/minors',
     'violence',
-    'violence/graphic'
+    'violence/graphic',
   ];
 
   /// Perform validations on the schema property values

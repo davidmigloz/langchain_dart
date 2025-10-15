@@ -134,7 +134,7 @@ abstract class CreateCompletionRequest with _$CreateCompletionRequest {
     'suffix',
     'temperature',
     'top_p',
-    'user'
+    'user',
   ];
 
   /// Validation constants

@@ -22,8 +22,8 @@ abstract class ChatCompletionFunctionCallOption
 
   /// Object construction from a JSON representation
   factory ChatCompletionFunctionCallOption.fromJson(
-          Map<String, dynamic> json) =>
-      _$ChatCompletionFunctionCallOptionFromJson(json);
+    Map<String, dynamic> json,
+  ) => _$ChatCompletionFunctionCallOptionFromJson(json);
 
   /// List of all property names of schema
   static const List<String> propertyNames = ['name'];

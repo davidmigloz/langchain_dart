@@ -45,7 +45,7 @@ abstract class ThreadObject with _$ThreadObject {
     'object',
     'created_at',
     'tool_resources',
-    'metadata'
+    'metadata',
   ];
 
   /// Perform validations on the schema property values

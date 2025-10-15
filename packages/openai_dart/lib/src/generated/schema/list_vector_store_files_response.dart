@@ -42,7 +42,7 @@ abstract class ListVectorStoreFilesResponse
     'data',
     'first_id',
     'last_id',
-    'has_more'
+    'has_more',
   ];
 
   /// Perform validations on the schema property values

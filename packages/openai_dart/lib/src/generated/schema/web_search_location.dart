@@ -37,7 +37,7 @@ abstract class WebSearchLocation with _$WebSearchLocation {
     'country',
     'region',
     'city',
-    'timezone'
+    'timezone',
   ];
 
   /// Perform validations on the schema property values
