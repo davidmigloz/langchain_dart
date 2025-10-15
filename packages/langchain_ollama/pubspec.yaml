@@ -1,5 +1,5 @@
 name: langchain_ollama
-description: LangChain.dart integration module for Ollama (run Llama 3.2, Gemma 2, Phi-3.5, Mistral nemo, Qwen2 and other models locally).
+description: LangChain.dart integration module for Ollama (run Llama 4, Gemma 3, Phi4, Mistral, Qwen3 and other models locally).
 version: 0.3.3+3
 repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/langchain_ollama
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues?q=label:p:langchain_ollama
@@ -10,8 +10,8 @@ funding:
   - https://github.com/sponsors/davidmigloz
 
 topics:
-  - ai
   - nlp
+  - gen-ai
   - llms
   - langchain
   - ollama

@@ -1,5 +1,5 @@
 name: langchain_openai
-description: LangChain.dart integration module for OpenAI (GPT-4o, o1, Embeddings, DALL·E, etc.).
+description: LangChain.dart integration module for OpenAI (GPT-5, o3, Embeddings, DALL·E, etc.).
 version: 0.7.6+2
 repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/langchain_openai
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues?q=label:p:langchain_openai
@@ -10,8 +10,8 @@ funding:
   - https://github.com/sponsors/davidmigloz
 
 topics:
-  - ai
   - nlp
+  - gen-ai
   - llms
   - langchain
   - gpt

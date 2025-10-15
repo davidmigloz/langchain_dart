@@ -1,5 +1,5 @@
 name: langchain_anthropic
-description: Anthropic module for LangChain.dart (Claude 3.5 Sonnet, Opus, Haiku, Instant, etc.).
+description: Anthropic module for LangChain.dart (Claude 4.5 Sonnet, Opus, Haiku, Instant, etc.).
 version: 0.2.1+3
 repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/langchain_anthropic
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues?q=label:p:langchain_anthropic
@@ -10,8 +10,8 @@ funding:
   - https://github.com/sponsors/davidmigloz
 
 topics:
-  - ai
   - nlp
+  - gen-ai
   - llms
   - langchain
 
