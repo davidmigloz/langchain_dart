@@ -64,11 +64,13 @@ abstract class GenerateCompletionRequest with _$GenerateCompletionRequest {
     /// Additional model parameters listed in the documentation for the Modelfile such as `temperature`.
     @JsonKey(includeIfNull: false) RequestOptions? options,
 
-    /// Think controls whether thinking/reasoning models will think before
-    /// responding. Needs to be a pointer so we can distinguish between false
-    /// (request that thinking _not_ be used) and unset (use the old behavior
-    /// before this option was introduced).
-    @JsonKey(includeIfNull: false) bool? think,
+    /// Controls whether thinking/reasoning models will think before responding.
+    /// Can be:
+    /// - boolean: true/false to enable/disable thinking
+    /// - string: "high", "medium", "low" to set thinking intensity level
+    @_GenerateCompletionRequestThinkConverter()
+    @JsonKey(includeIfNull: false)
+    GenerateCompletionRequestThink? think,
   }) = _GenerateCompletionRequest;
 
   /// Object construction from a JSON representation
@@ -188,6 +190,78 @@ class _GenerateCompletionRequestFormatConverter
       GenerateCompletionRequestFormatEnumeration(value: final v) =>
         _$GenerateCompletionRequestFormatEnumEnumMap[v]!,
       GenerateCompletionRequestFormatMapStringDynamic(value: final v) => v,
+      null => null,
+    };
+  }
+}
+
+// ==========================================
+// ENUM: GenerateCompletionRequestThinkEnum
+// ==========================================
+
+/// No Description
+enum GenerateCompletionRequestThinkEnum {
+  @JsonValue('high')
+  high,
+  @JsonValue('medium')
+  medium,
+  @JsonValue('low')
+  low,
+}
+
+// ==========================================
+// CLASS: GenerateCompletionRequestThink
+// ==========================================
+
+/// Controls whether thinking/reasoning models will think before responding.
+/// Can be:
+/// - boolean: true/false to enable/disable thinking
+/// - string: "high", "medium", "low" to set thinking intensity level
+@freezed
+sealed class GenerateCompletionRequestThink
+    with _$GenerateCompletionRequestThink {
+  const GenerateCompletionRequestThink._();
+
+  /// No Description
+  const factory GenerateCompletionRequestThink.enumeration(
+    GenerateCompletionRequestThinkEnum value,
+  ) = GenerateCompletionRequestThinkEnumeration;
+
+  /// Object construction from a JSON representation
+  factory GenerateCompletionRequestThink.fromJson(Map<String, dynamic> json) =>
+      _$GenerateCompletionRequestThinkFromJson(json);
+}
+
+/// Custom JSON converter for [GenerateCompletionRequestThink]
+class _GenerateCompletionRequestThinkConverter
+    implements JsonConverter<GenerateCompletionRequestThink?, Object?> {
+  const _GenerateCompletionRequestThinkConverter();
+
+  @override
+  GenerateCompletionRequestThink? fromJson(Object? data) {
+    if (data == null) {
+      return null;
+    }
+    if (data is String &&
+        _$GenerateCompletionRequestThinkEnumEnumMap.values.contains(data)) {
+      return GenerateCompletionRequestThinkEnumeration(
+        _$GenerateCompletionRequestThinkEnumEnumMap.keys.elementAt(
+          _$GenerateCompletionRequestThinkEnumEnumMap.values.toList().indexOf(
+            data,
+          ),
+        ),
+      );
+    }
+    throw Exception(
+      'Unexpected value for GenerateCompletionRequestThink: $data',
+    );
+  }
+
+  @override
+  Object? toJson(GenerateCompletionRequestThink? data) {
+    return switch (data) {
+      GenerateCompletionRequestThinkEnumeration(value: final v) =>
+        _$GenerateCompletionRequestThinkEnumEnumMap[v]!,
       null => null,
     };
   }

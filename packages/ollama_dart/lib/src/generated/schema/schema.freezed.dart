@@ -38,11 +38,11 @@ mixin _$GenerateCompletionRequest {
 /// - If not set, the model will stay loaded for 5 minutes by default
 @JsonKey(name: 'keep_alive', includeIfNull: false) int? get keepAlive;/// (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
 @JsonKey(includeIfNull: false) List<String>? get images;/// Additional model parameters listed in the documentation for the Modelfile such as `temperature`.
-@JsonKey(includeIfNull: false) RequestOptions? get options;/// Think controls whether thinking/reasoning models will think before
-/// responding. Needs to be a pointer so we can distinguish between false
-/// (request that thinking _not_ be used) and unset (use the old behavior
-/// before this option was introduced).
-@JsonKey(includeIfNull: false) bool? get think;
+@JsonKey(includeIfNull: false) RequestOptions? get options;/// Controls whether thinking/reasoning models will think before responding.
+/// Can be:
+/// - boolean: true/false to enable/disable thinking
+/// - string: "high", "medium", "low" to set thinking intensity level
+@_GenerateCompletionRequestThinkConverter()@JsonKey(includeIfNull: false) GenerateCompletionRequestThink? get think;
 /// Create a copy of GenerateCompletionRequest
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -75,11 +75,11 @@ abstract mixin class $GenerateCompletionRequestCopyWith<$Res>  {
   factory $GenerateCompletionRequestCopyWith(GenerateCompletionRequest value, $Res Function(GenerateCompletionRequest) _then) = _$GenerateCompletionRequestCopyWithImpl;
 @useResult
 $Res call({
- String model, String prompt,@JsonKey(includeIfNull: false) String? suffix,@JsonKey(includeIfNull: false) String? system,@JsonKey(includeIfNull: false) String? template,@JsonKey(includeIfNull: false) List<int>? context, bool stream,@JsonKey(includeIfNull: false) bool? raw,@_GenerateCompletionRequestFormatConverter()@JsonKey(includeIfNull: false) GenerateCompletionRequestFormat? format,@JsonKey(name: 'keep_alive', includeIfNull: false) int? keepAlive,@JsonKey(includeIfNull: false) List<String>? images,@JsonKey(includeIfNull: false) RequestOptions? options,@JsonKey(includeIfNull: false) bool? think
+ String model, String prompt,@JsonKey(includeIfNull: false) String? suffix,@JsonKey(includeIfNull: false) String? system,@JsonKey(includeIfNull: false) String? template,@JsonKey(includeIfNull: false) List<int>? context, bool stream,@JsonKey(includeIfNull: false) bool? raw,@_GenerateCompletionRequestFormatConverter()@JsonKey(includeIfNull: false) GenerateCompletionRequestFormat? format,@JsonKey(name: 'keep_alive', includeIfNull: false) int? keepAlive,@JsonKey(includeIfNull: false) List<String>? images,@JsonKey(includeIfNull: false) RequestOptions? options,@_GenerateCompletionRequestThinkConverter()@JsonKey(includeIfNull: false) GenerateCompletionRequestThink? think
 });
 
 
-$GenerateCompletionRequestFormatCopyWith<$Res>? get format;$RequestOptionsCopyWith<$Res>? get options;
+$GenerateCompletionRequestFormatCopyWith<$Res>? get format;$RequestOptionsCopyWith<$Res>? get options;$GenerateCompletionRequestThinkCopyWith<$Res>? get think;
 
 }
 /// @nodoc
@@ -107,7 +107,7 @@ as GenerateCompletionRequestFormat?,keepAlive: freezed == keepAlive ? _self.keep
 as int?,images: freezed == images ? _self.images : images // ignore: cast_nullable_to_non_nullable
 as List<String>?,options: freezed == options ? _self.options : options // ignore: cast_nullable_to_non_nullable
 as RequestOptions?,think: freezed == think ? _self.think : think // ignore: cast_nullable_to_non_nullable
-as bool?,
+as GenerateCompletionRequestThink?,
   ));
 }
 /// Create a copy of GenerateCompletionRequest
@@ -133,6 +133,18 @@ $RequestOptionsCopyWith<$Res>? get options {
 
   return $RequestOptionsCopyWith<$Res>(_self.options!, (value) {
     return _then(_self.copyWith(options: value));
+  });
+}/// Create a copy of GenerateCompletionRequest
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$GenerateCompletionRequestThinkCopyWith<$Res>? get think {
+    if (_self.think == null) {
+    return null;
+  }
+
+  return $GenerateCompletionRequestThinkCopyWith<$Res>(_self.think!, (value) {
+    return _then(_self.copyWith(think: value));
   });
 }
 }
@@ -216,7 +228,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String model,  String prompt, @JsonKey(includeIfNull: false)  String? suffix, @JsonKey(includeIfNull: false)  String? system, @JsonKey(includeIfNull: false)  String? template, @JsonKey(includeIfNull: false)  List<int>? context,  bool stream, @JsonKey(includeIfNull: false)  bool? raw, @_GenerateCompletionRequestFormatConverter()@JsonKey(includeIfNull: false)  GenerateCompletionRequestFormat? format, @JsonKey(name: 'keep_alive', includeIfNull: false)  int? keepAlive, @JsonKey(includeIfNull: false)  List<String>? images, @JsonKey(includeIfNull: false)  RequestOptions? options, @JsonKey(includeIfNull: false)  bool? think)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String model,  String prompt, @JsonKey(includeIfNull: false)  String? suffix, @JsonKey(includeIfNull: false)  String? system, @JsonKey(includeIfNull: false)  String? template, @JsonKey(includeIfNull: false)  List<int>? context,  bool stream, @JsonKey(includeIfNull: false)  bool? raw, @_GenerateCompletionRequestFormatConverter()@JsonKey(includeIfNull: false)  GenerateCompletionRequestFormat? format, @JsonKey(name: 'keep_alive', includeIfNull: false)  int? keepAlive, @JsonKey(includeIfNull: false)  List<String>? images, @JsonKey(includeIfNull: false)  RequestOptions? options, @_GenerateCompletionRequestThinkConverter()@JsonKey(includeIfNull: false)  GenerateCompletionRequestThink? think)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _GenerateCompletionRequest() when $default != null:
 return $default(_that.model,_that.prompt,_that.suffix,_that.system,_that.template,_that.context,_that.stream,_that.raw,_that.format,_that.keepAlive,_that.images,_that.options,_that.think);case _:
@@ -237,7 +249,7 @@ return $default(_that.model,_that.prompt,_that.suffix,_that.system,_that.templat
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String model,  String prompt, @JsonKey(includeIfNull: false)  String? suffix, @JsonKey(includeIfNull: false)  String? system, @JsonKey(includeIfNull: false)  String? template, @JsonKey(includeIfNull: false)  List<int>? context,  bool stream, @JsonKey(includeIfNull: false)  bool? raw, @_GenerateCompletionRequestFormatConverter()@JsonKey(includeIfNull: false)  GenerateCompletionRequestFormat? format, @JsonKey(name: 'keep_alive', includeIfNull: false)  int? keepAlive, @JsonKey(includeIfNull: false)  List<String>? images, @JsonKey(includeIfNull: false)  RequestOptions? options, @JsonKey(includeIfNull: false)  bool? think)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String model,  String prompt, @JsonKey(includeIfNull: false)  String? suffix, @JsonKey(includeIfNull: false)  String? system, @JsonKey(includeIfNull: false)  String? template, @JsonKey(includeIfNull: false)  List<int>? context,  bool stream, @JsonKey(includeIfNull: false)  bool? raw, @_GenerateCompletionRequestFormatConverter()@JsonKey(includeIfNull: false)  GenerateCompletionRequestFormat? format, @JsonKey(name: 'keep_alive', includeIfNull: false)  int? keepAlive, @JsonKey(includeIfNull: false)  List<String>? images, @JsonKey(includeIfNull: false)  RequestOptions? options, @_GenerateCompletionRequestThinkConverter()@JsonKey(includeIfNull: false)  GenerateCompletionRequestThink? think)  $default,) {final _that = this;
 switch (_that) {
 case _GenerateCompletionRequest():
 return $default(_that.model,_that.prompt,_that.suffix,_that.system,_that.template,_that.context,_that.stream,_that.raw,_that.format,_that.keepAlive,_that.images,_that.options,_that.think);case _:
@@ -257,7 +269,7 @@ return $default(_that.model,_that.prompt,_that.suffix,_that.system,_that.templat
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String model,  String prompt, @JsonKey(includeIfNull: false)  String? suffix, @JsonKey(includeIfNull: false)  String? system, @JsonKey(includeIfNull: false)  String? template, @JsonKey(includeIfNull: false)  List<int>? context,  bool stream, @JsonKey(includeIfNull: false)  bool? raw, @_GenerateCompletionRequestFormatConverter()@JsonKey(includeIfNull: false)  GenerateCompletionRequestFormat? format, @JsonKey(name: 'keep_alive', includeIfNull: false)  int? keepAlive, @JsonKey(includeIfNull: false)  List<String>? images, @JsonKey(includeIfNull: false)  RequestOptions? options, @JsonKey(includeIfNull: false)  bool? think)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String model,  String prompt, @JsonKey(includeIfNull: false)  String? suffix, @JsonKey(includeIfNull: false)  String? system, @JsonKey(includeIfNull: false)  String? template, @JsonKey(includeIfNull: false)  List<int>? context,  bool stream, @JsonKey(includeIfNull: false)  bool? raw, @_GenerateCompletionRequestFormatConverter()@JsonKey(includeIfNull: false)  GenerateCompletionRequestFormat? format, @JsonKey(name: 'keep_alive', includeIfNull: false)  int? keepAlive, @JsonKey(includeIfNull: false)  List<String>? images, @JsonKey(includeIfNull: false)  RequestOptions? options, @_GenerateCompletionRequestThinkConverter()@JsonKey(includeIfNull: false)  GenerateCompletionRequestThink? think)?  $default,) {final _that = this;
 switch (_that) {
 case _GenerateCompletionRequest() when $default != null:
 return $default(_that.model,_that.prompt,_that.suffix,_that.system,_that.template,_that.context,_that.stream,_that.raw,_that.format,_that.keepAlive,_that.images,_that.options,_that.think);case _:
@@ -272,7 +284,7 @@ return $default(_that.model,_that.prompt,_that.suffix,_that.system,_that.templat
 @JsonSerializable()
 
 class _GenerateCompletionRequest extends GenerateCompletionRequest {
-  const _GenerateCompletionRequest({required this.model, required this.prompt, @JsonKey(includeIfNull: false) this.suffix, @JsonKey(includeIfNull: false) this.system, @JsonKey(includeIfNull: false) this.template, @JsonKey(includeIfNull: false) final  List<int>? context, this.stream = false, @JsonKey(includeIfNull: false) this.raw, @_GenerateCompletionRequestFormatConverter()@JsonKey(includeIfNull: false) this.format, @JsonKey(name: 'keep_alive', includeIfNull: false) this.keepAlive, @JsonKey(includeIfNull: false) final  List<String>? images, @JsonKey(includeIfNull: false) this.options, @JsonKey(includeIfNull: false) this.think}): _context = context,_images = images,super._();
+  const _GenerateCompletionRequest({required this.model, required this.prompt, @JsonKey(includeIfNull: false) this.suffix, @JsonKey(includeIfNull: false) this.system, @JsonKey(includeIfNull: false) this.template, @JsonKey(includeIfNull: false) final  List<int>? context, this.stream = false, @JsonKey(includeIfNull: false) this.raw, @_GenerateCompletionRequestFormatConverter()@JsonKey(includeIfNull: false) this.format, @JsonKey(name: 'keep_alive', includeIfNull: false) this.keepAlive, @JsonKey(includeIfNull: false) final  List<String>? images, @JsonKey(includeIfNull: false) this.options, @_GenerateCompletionRequestThinkConverter()@JsonKey(includeIfNull: false) this.think}): _context = context,_images = images,super._();
   factory _GenerateCompletionRequest.fromJson(Map<String, dynamic> json) => _$GenerateCompletionRequestFromJson(json);
 
 /// The model name.
@@ -328,11 +340,11 @@ class _GenerateCompletionRequest extends GenerateCompletionRequest {
 
 /// Additional model parameters listed in the documentation for the Modelfile such as `temperature`.
 @override@JsonKey(includeIfNull: false) final  RequestOptions? options;
-/// Think controls whether thinking/reasoning models will think before
-/// responding. Needs to be a pointer so we can distinguish between false
-/// (request that thinking _not_ be used) and unset (use the old behavior
-/// before this option was introduced).
-@override@JsonKey(includeIfNull: false) final  bool? think;
+/// Controls whether thinking/reasoning models will think before responding.
+/// Can be:
+/// - boolean: true/false to enable/disable thinking
+/// - string: "high", "medium", "low" to set thinking intensity level
+@override@_GenerateCompletionRequestThinkConverter()@JsonKey(includeIfNull: false) final  GenerateCompletionRequestThink? think;
 
 /// Create a copy of GenerateCompletionRequest
 /// with the given fields replaced by the non-null parameter values.
@@ -367,11 +379,11 @@ abstract mixin class _$GenerateCompletionRequestCopyWith<$Res> implements $Gener
   factory _$GenerateCompletionRequestCopyWith(_GenerateCompletionRequest value, $Res Function(_GenerateCompletionRequest) _then) = __$GenerateCompletionRequestCopyWithImpl;
 @override @useResult
 $Res call({
- String model, String prompt,@JsonKey(includeIfNull: false) String? suffix,@JsonKey(includeIfNull: false) String? system,@JsonKey(includeIfNull: false) String? template,@JsonKey(includeIfNull: false) List<int>? context, bool stream,@JsonKey(includeIfNull: false) bool? raw,@_GenerateCompletionRequestFormatConverter()@JsonKey(includeIfNull: false) GenerateCompletionRequestFormat? format,@JsonKey(name: 'keep_alive', includeIfNull: false) int? keepAlive,@JsonKey(includeIfNull: false) List<String>? images,@JsonKey(includeIfNull: false) RequestOptions? options,@JsonKey(includeIfNull: false) bool? think
+ String model, String prompt,@JsonKey(includeIfNull: false) String? suffix,@JsonKey(includeIfNull: false) String? system,@JsonKey(includeIfNull: false) String? template,@JsonKey(includeIfNull: false) List<int>? context, bool stream,@JsonKey(includeIfNull: false) bool? raw,@_GenerateCompletionRequestFormatConverter()@JsonKey(includeIfNull: false) GenerateCompletionRequestFormat? format,@JsonKey(name: 'keep_alive', includeIfNull: false) int? keepAlive,@JsonKey(includeIfNull: false) List<String>? images,@JsonKey(includeIfNull: false) RequestOptions? options,@_GenerateCompletionRequestThinkConverter()@JsonKey(includeIfNull: false) GenerateCompletionRequestThink? think
 });
 
 
-@override $GenerateCompletionRequestFormatCopyWith<$Res>? get format;@override $RequestOptionsCopyWith<$Res>? get options;
+@override $GenerateCompletionRequestFormatCopyWith<$Res>? get format;@override $RequestOptionsCopyWith<$Res>? get options;@override $GenerateCompletionRequestThinkCopyWith<$Res>? get think;
 
 }
 /// @nodoc
@@ -399,7 +411,7 @@ as GenerateCompletionRequestFormat?,keepAlive: freezed == keepAlive ? _self.keep
 as int?,images: freezed == images ? _self._images : images // ignore: cast_nullable_to_non_nullable
 as List<String>?,options: freezed == options ? _self.options : options // ignore: cast_nullable_to_non_nullable
 as RequestOptions?,think: freezed == think ? _self.think : think // ignore: cast_nullable_to_non_nullable
-as bool?,
+as GenerateCompletionRequestThink?,
   ));
 }
 
@@ -426,6 +438,18 @@ $RequestOptionsCopyWith<$Res>? get options {
 
   return $RequestOptionsCopyWith<$Res>(_self.options!, (value) {
     return _then(_self.copyWith(options: value));
+  });
+}/// Create a copy of GenerateCompletionRequest
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$GenerateCompletionRequestThinkCopyWith<$Res>? get think {
+    if (_self.think == null) {
+    return null;
+  }
+
+  return $GenerateCompletionRequestThinkCopyWith<$Res>(_self.think!, (value) {
+    return _then(_self.copyWith(think: value));
   });
 }
 }
@@ -762,6 +786,270 @@ class _$GenerateCompletionRequestFormatMapStringDynamicCopyWithImpl<$Res>
   return _then(GenerateCompletionRequestFormatMapStringDynamic(
 null == value ? _self._value : value // ignore: cast_nullable_to_non_nullable
 as Map<String, dynamic>,
+  ));
+}
+
+
+}
+
+GenerateCompletionRequestThink _$GenerateCompletionRequestThinkFromJson(
+  Map<String, dynamic> json
+) {
+    return GenerateCompletionRequestThinkEnumeration.fromJson(
+      json
+    );
+}
+
+/// @nodoc
+mixin _$GenerateCompletionRequestThink {
+
+ GenerateCompletionRequestThinkEnum get value;
+/// Create a copy of GenerateCompletionRequestThink
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$GenerateCompletionRequestThinkCopyWith<GenerateCompletionRequestThink> get copyWith => _$GenerateCompletionRequestThinkCopyWithImpl<GenerateCompletionRequestThink>(this as GenerateCompletionRequestThink, _$identity);
+
+  /// Serializes this GenerateCompletionRequestThink to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GenerateCompletionRequestThink&&(identical(other.value, value) || other.value == value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,value);
+
+@override
+String toString() {
+  return 'GenerateCompletionRequestThink(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $GenerateCompletionRequestThinkCopyWith<$Res>  {
+  factory $GenerateCompletionRequestThinkCopyWith(GenerateCompletionRequestThink value, $Res Function(GenerateCompletionRequestThink) _then) = _$GenerateCompletionRequestThinkCopyWithImpl;
+@useResult
+$Res call({
+ GenerateCompletionRequestThinkEnum value
+});
+
+
+
+
+}
+/// @nodoc
+class _$GenerateCompletionRequestThinkCopyWithImpl<$Res>
+    implements $GenerateCompletionRequestThinkCopyWith<$Res> {
+  _$GenerateCompletionRequestThinkCopyWithImpl(this._self, this._then);
+
+  final GenerateCompletionRequestThink _self;
+  final $Res Function(GenerateCompletionRequestThink) _then;
+
+/// Create a copy of GenerateCompletionRequestThink
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? value = null,}) {
+  return _then(_self.copyWith(
+value: null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as GenerateCompletionRequestThinkEnum,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [GenerateCompletionRequestThink].
+extension GenerateCompletionRequestThinkPatterns on GenerateCompletionRequestThink {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( GenerateCompletionRequestThinkEnumeration value)?  enumeration,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case GenerateCompletionRequestThinkEnumeration() when enumeration != null:
+return enumeration(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( GenerateCompletionRequestThinkEnumeration value)  enumeration,}){
+final _that = this;
+switch (_that) {
+case GenerateCompletionRequestThinkEnumeration():
+return enumeration(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( GenerateCompletionRequestThinkEnumeration value)?  enumeration,}){
+final _that = this;
+switch (_that) {
+case GenerateCompletionRequestThinkEnumeration() when enumeration != null:
+return enumeration(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( GenerateCompletionRequestThinkEnum value)?  enumeration,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case GenerateCompletionRequestThinkEnumeration() when enumeration != null:
+return enumeration(_that.value);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( GenerateCompletionRequestThinkEnum value)  enumeration,}) {final _that = this;
+switch (_that) {
+case GenerateCompletionRequestThinkEnumeration():
+return enumeration(_that.value);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( GenerateCompletionRequestThinkEnum value)?  enumeration,}) {final _that = this;
+switch (_that) {
+case GenerateCompletionRequestThinkEnumeration() when enumeration != null:
+return enumeration(_that.value);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class GenerateCompletionRequestThinkEnumeration extends GenerateCompletionRequestThink {
+  const GenerateCompletionRequestThinkEnumeration(this.value): super._();
+  factory GenerateCompletionRequestThinkEnumeration.fromJson(Map<String, dynamic> json) => _$GenerateCompletionRequestThinkEnumerationFromJson(json);
+
+@override final  GenerateCompletionRequestThinkEnum value;
+
+/// Create a copy of GenerateCompletionRequestThink
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$GenerateCompletionRequestThinkEnumerationCopyWith<GenerateCompletionRequestThinkEnumeration> get copyWith => _$GenerateCompletionRequestThinkEnumerationCopyWithImpl<GenerateCompletionRequestThinkEnumeration>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$GenerateCompletionRequestThinkEnumerationToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GenerateCompletionRequestThinkEnumeration&&(identical(other.value, value) || other.value == value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,value);
+
+@override
+String toString() {
+  return 'GenerateCompletionRequestThink.enumeration(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $GenerateCompletionRequestThinkEnumerationCopyWith<$Res> implements $GenerateCompletionRequestThinkCopyWith<$Res> {
+  factory $GenerateCompletionRequestThinkEnumerationCopyWith(GenerateCompletionRequestThinkEnumeration value, $Res Function(GenerateCompletionRequestThinkEnumeration) _then) = _$GenerateCompletionRequestThinkEnumerationCopyWithImpl;
+@override @useResult
+$Res call({
+ GenerateCompletionRequestThinkEnum value
+});
+
+
+
+
+}
+/// @nodoc
+class _$GenerateCompletionRequestThinkEnumerationCopyWithImpl<$Res>
+    implements $GenerateCompletionRequestThinkEnumerationCopyWith<$Res> {
+  _$GenerateCompletionRequestThinkEnumerationCopyWithImpl(this._self, this._then);
+
+  final GenerateCompletionRequestThinkEnumeration _self;
+  final $Res Function(GenerateCompletionRequestThinkEnumeration) _then;
+
+/// Create a copy of GenerateCompletionRequestThink
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
+  return _then(GenerateCompletionRequestThinkEnumeration(
+null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as GenerateCompletionRequestThinkEnum,
   ));
 }
 
@@ -1848,11 +2136,11 @@ mixin _$GenerateChatCompletionRequest {
 /// - If not set, the model will stay loaded for 5 minutes by default
 @JsonKey(name: 'keep_alive', includeIfNull: false) int? get keepAlive;/// A list of tools the model may call.
 @JsonKey(includeIfNull: false) List<Tool>? get tools;/// Additional model parameters listed in the documentation for the Modelfile such as `temperature`.
-@JsonKey(includeIfNull: false) RequestOptions? get options;/// Think controls whether thinking/reasoning models will think before
-/// responding. Needs to be a pointer so we can distinguish between false
-/// (request that thinking _not_ be used) and unset (use the old behavior
-/// before this option was introduced).
-@JsonKey(includeIfNull: false) bool? get think;
+@JsonKey(includeIfNull: false) RequestOptions? get options;/// Controls whether thinking/reasoning models will think before responding.
+/// Can be:
+/// - boolean: true/false to enable/disable thinking
+/// - string: "high", "medium", "low" to set thinking intensity level
+@_GenerateChatCompletionRequestThinkConverter()@JsonKey(includeIfNull: false) GenerateChatCompletionRequestThink? get think;
 /// Create a copy of GenerateChatCompletionRequest
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1885,11 +2173,11 @@ abstract mixin class $GenerateChatCompletionRequestCopyWith<$Res>  {
   factory $GenerateChatCompletionRequestCopyWith(GenerateChatCompletionRequest value, $Res Function(GenerateChatCompletionRequest) _then) = _$GenerateChatCompletionRequestCopyWithImpl;
 @useResult
 $Res call({
- String model, List<Message> messages, bool stream,@_GenerateChatCompletionRequestFormatConverter()@JsonKey(includeIfNull: false) GenerateChatCompletionRequestFormat? format,@JsonKey(name: 'keep_alive', includeIfNull: false) int? keepAlive,@JsonKey(includeIfNull: false) List<Tool>? tools,@JsonKey(includeIfNull: false) RequestOptions? options,@JsonKey(includeIfNull: false) bool? think
+ String model, List<Message> messages, bool stream,@_GenerateChatCompletionRequestFormatConverter()@JsonKey(includeIfNull: false) GenerateChatCompletionRequestFormat? format,@JsonKey(name: 'keep_alive', includeIfNull: false) int? keepAlive,@JsonKey(includeIfNull: false) List<Tool>? tools,@JsonKey(includeIfNull: false) RequestOptions? options,@_GenerateChatCompletionRequestThinkConverter()@JsonKey(includeIfNull: false) GenerateChatCompletionRequestThink? think
 });
 
 
-$GenerateChatCompletionRequestFormatCopyWith<$Res>? get format;$RequestOptionsCopyWith<$Res>? get options;
+$GenerateChatCompletionRequestFormatCopyWith<$Res>? get format;$RequestOptionsCopyWith<$Res>? get options;$GenerateChatCompletionRequestThinkCopyWith<$Res>? get think;
 
 }
 /// @nodoc
@@ -1912,7 +2200,7 @@ as GenerateChatCompletionRequestFormat?,keepAlive: freezed == keepAlive ? _self.
 as int?,tools: freezed == tools ? _self.tools : tools // ignore: cast_nullable_to_non_nullable
 as List<Tool>?,options: freezed == options ? _self.options : options // ignore: cast_nullable_to_non_nullable
 as RequestOptions?,think: freezed == think ? _self.think : think // ignore: cast_nullable_to_non_nullable
-as bool?,
+as GenerateChatCompletionRequestThink?,
   ));
 }
 /// Create a copy of GenerateChatCompletionRequest
@@ -1938,6 +2226,18 @@ $RequestOptionsCopyWith<$Res>? get options {
 
   return $RequestOptionsCopyWith<$Res>(_self.options!, (value) {
     return _then(_self.copyWith(options: value));
+  });
+}/// Create a copy of GenerateChatCompletionRequest
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$GenerateChatCompletionRequestThinkCopyWith<$Res>? get think {
+    if (_self.think == null) {
+    return null;
+  }
+
+  return $GenerateChatCompletionRequestThinkCopyWith<$Res>(_self.think!, (value) {
+    return _then(_self.copyWith(think: value));
   });
 }
 }
@@ -2021,7 +2321,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String model,  List<Message> messages,  bool stream, @_GenerateChatCompletionRequestFormatConverter()@JsonKey(includeIfNull: false)  GenerateChatCompletionRequestFormat? format, @JsonKey(name: 'keep_alive', includeIfNull: false)  int? keepAlive, @JsonKey(includeIfNull: false)  List<Tool>? tools, @JsonKey(includeIfNull: false)  RequestOptions? options, @JsonKey(includeIfNull: false)  bool? think)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String model,  List<Message> messages,  bool stream, @_GenerateChatCompletionRequestFormatConverter()@JsonKey(includeIfNull: false)  GenerateChatCompletionRequestFormat? format, @JsonKey(name: 'keep_alive', includeIfNull: false)  int? keepAlive, @JsonKey(includeIfNull: false)  List<Tool>? tools, @JsonKey(includeIfNull: false)  RequestOptions? options, @_GenerateChatCompletionRequestThinkConverter()@JsonKey(includeIfNull: false)  GenerateChatCompletionRequestThink? think)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _GenerateChatCompletionRequest() when $default != null:
 return $default(_that.model,_that.messages,_that.stream,_that.format,_that.keepAlive,_that.tools,_that.options,_that.think);case _:
@@ -2042,7 +2342,7 @@ return $default(_that.model,_that.messages,_that.stream,_that.format,_that.keepA
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String model,  List<Message> messages,  bool stream, @_GenerateChatCompletionRequestFormatConverter()@JsonKey(includeIfNull: false)  GenerateChatCompletionRequestFormat? format, @JsonKey(name: 'keep_alive', includeIfNull: false)  int? keepAlive, @JsonKey(includeIfNull: false)  List<Tool>? tools, @JsonKey(includeIfNull: false)  RequestOptions? options, @JsonKey(includeIfNull: false)  bool? think)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String model,  List<Message> messages,  bool stream, @_GenerateChatCompletionRequestFormatConverter()@JsonKey(includeIfNull: false)  GenerateChatCompletionRequestFormat? format, @JsonKey(name: 'keep_alive', includeIfNull: false)  int? keepAlive, @JsonKey(includeIfNull: false)  List<Tool>? tools, @JsonKey(includeIfNull: false)  RequestOptions? options, @_GenerateChatCompletionRequestThinkConverter()@JsonKey(includeIfNull: false)  GenerateChatCompletionRequestThink? think)  $default,) {final _that = this;
 switch (_that) {
 case _GenerateChatCompletionRequest():
 return $default(_that.model,_that.messages,_that.stream,_that.format,_that.keepAlive,_that.tools,_that.options,_that.think);case _:
@@ -2062,7 +2362,7 @@ return $default(_that.model,_that.messages,_that.stream,_that.format,_that.keepA
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String model,  List<Message> messages,  bool stream, @_GenerateChatCompletionRequestFormatConverter()@JsonKey(includeIfNull: false)  GenerateChatCompletionRequestFormat? format, @JsonKey(name: 'keep_alive', includeIfNull: false)  int? keepAlive, @JsonKey(includeIfNull: false)  List<Tool>? tools, @JsonKey(includeIfNull: false)  RequestOptions? options, @JsonKey(includeIfNull: false)  bool? think)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String model,  List<Message> messages,  bool stream, @_GenerateChatCompletionRequestFormatConverter()@JsonKey(includeIfNull: false)  GenerateChatCompletionRequestFormat? format, @JsonKey(name: 'keep_alive', includeIfNull: false)  int? keepAlive, @JsonKey(includeIfNull: false)  List<Tool>? tools, @JsonKey(includeIfNull: false)  RequestOptions? options, @_GenerateChatCompletionRequestThinkConverter()@JsonKey(includeIfNull: false)  GenerateChatCompletionRequestThink? think)?  $default,) {final _that = this;
 switch (_that) {
 case _GenerateChatCompletionRequest() when $default != null:
 return $default(_that.model,_that.messages,_that.stream,_that.format,_that.keepAlive,_that.tools,_that.options,_that.think);case _:
@@ -2077,7 +2377,7 @@ return $default(_that.model,_that.messages,_that.stream,_that.format,_that.keepA
 @JsonSerializable()
 
 class _GenerateChatCompletionRequest extends GenerateChatCompletionRequest {
-  const _GenerateChatCompletionRequest({required this.model, required final  List<Message> messages, this.stream = false, @_GenerateChatCompletionRequestFormatConverter()@JsonKey(includeIfNull: false) this.format, @JsonKey(name: 'keep_alive', includeIfNull: false) this.keepAlive, @JsonKey(includeIfNull: false) final  List<Tool>? tools, @JsonKey(includeIfNull: false) this.options, @JsonKey(includeIfNull: false) this.think}): _messages = messages,_tools = tools,super._();
+  const _GenerateChatCompletionRequest({required this.model, required final  List<Message> messages, this.stream = false, @_GenerateChatCompletionRequestFormatConverter()@JsonKey(includeIfNull: false) this.format, @JsonKey(name: 'keep_alive', includeIfNull: false) this.keepAlive, @JsonKey(includeIfNull: false) final  List<Tool>? tools, @JsonKey(includeIfNull: false) this.options, @_GenerateChatCompletionRequestThinkConverter()@JsonKey(includeIfNull: false) this.think}): _messages = messages,_tools = tools,super._();
   factory _GenerateChatCompletionRequest.fromJson(Map<String, dynamic> json) => _$GenerateChatCompletionRequestFromJson(json);
 
 /// The model name.
@@ -2119,11 +2419,11 @@ class _GenerateChatCompletionRequest extends GenerateChatCompletionRequest {
 
 /// Additional model parameters listed in the documentation for the Modelfile such as `temperature`.
 @override@JsonKey(includeIfNull: false) final  RequestOptions? options;
-/// Think controls whether thinking/reasoning models will think before
-/// responding. Needs to be a pointer so we can distinguish between false
-/// (request that thinking _not_ be used) and unset (use the old behavior
-/// before this option was introduced).
-@override@JsonKey(includeIfNull: false) final  bool? think;
+/// Controls whether thinking/reasoning models will think before responding.
+/// Can be:
+/// - boolean: true/false to enable/disable thinking
+/// - string: "high", "medium", "low" to set thinking intensity level
+@override@_GenerateChatCompletionRequestThinkConverter()@JsonKey(includeIfNull: false) final  GenerateChatCompletionRequestThink? think;
 
 /// Create a copy of GenerateChatCompletionRequest
 /// with the given fields replaced by the non-null parameter values.
@@ -2158,11 +2458,11 @@ abstract mixin class _$GenerateChatCompletionRequestCopyWith<$Res> implements $G
   factory _$GenerateChatCompletionRequestCopyWith(_GenerateChatCompletionRequest value, $Res Function(_GenerateChatCompletionRequest) _then) = __$GenerateChatCompletionRequestCopyWithImpl;
 @override @useResult
 $Res call({
- String model, List<Message> messages, bool stream,@_GenerateChatCompletionRequestFormatConverter()@JsonKey(includeIfNull: false) GenerateChatCompletionRequestFormat? format,@JsonKey(name: 'keep_alive', includeIfNull: false) int? keepAlive,@JsonKey(includeIfNull: false) List<Tool>? tools,@JsonKey(includeIfNull: false) RequestOptions? options,@JsonKey(includeIfNull: false) bool? think
+ String model, List<Message> messages, bool stream,@_GenerateChatCompletionRequestFormatConverter()@JsonKey(includeIfNull: false) GenerateChatCompletionRequestFormat? format,@JsonKey(name: 'keep_alive', includeIfNull: false) int? keepAlive,@JsonKey(includeIfNull: false) List<Tool>? tools,@JsonKey(includeIfNull: false) RequestOptions? options,@_GenerateChatCompletionRequestThinkConverter()@JsonKey(includeIfNull: false) GenerateChatCompletionRequestThink? think
 });
 
 
-@override $GenerateChatCompletionRequestFormatCopyWith<$Res>? get format;@override $RequestOptionsCopyWith<$Res>? get options;
+@override $GenerateChatCompletionRequestFormatCopyWith<$Res>? get format;@override $RequestOptionsCopyWith<$Res>? get options;@override $GenerateChatCompletionRequestThinkCopyWith<$Res>? get think;
 
 }
 /// @nodoc
@@ -2185,7 +2485,7 @@ as GenerateChatCompletionRequestFormat?,keepAlive: freezed == keepAlive ? _self.
 as int?,tools: freezed == tools ? _self._tools : tools // ignore: cast_nullable_to_non_nullable
 as List<Tool>?,options: freezed == options ? _self.options : options // ignore: cast_nullable_to_non_nullable
 as RequestOptions?,think: freezed == think ? _self.think : think // ignore: cast_nullable_to_non_nullable
-as bool?,
+as GenerateChatCompletionRequestThink?,
   ));
 }
 
@@ -2212,6 +2512,18 @@ $RequestOptionsCopyWith<$Res>? get options {
 
   return $RequestOptionsCopyWith<$Res>(_self.options!, (value) {
     return _then(_self.copyWith(options: value));
+  });
+}/// Create a copy of GenerateChatCompletionRequest
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$GenerateChatCompletionRequestThinkCopyWith<$Res>? get think {
+    if (_self.think == null) {
+    return null;
+  }
+
+  return $GenerateChatCompletionRequestThinkCopyWith<$Res>(_self.think!, (value) {
+    return _then(_self.copyWith(think: value));
   });
 }
 }
@@ -2548,6 +2860,270 @@ class _$GenerateChatCompletionRequestFormatMapStringDynamicCopyWithImpl<$Res>
   return _then(GenerateChatCompletionRequestFormatMapStringDynamic(
 null == value ? _self._value : value // ignore: cast_nullable_to_non_nullable
 as Map<String, dynamic>,
+  ));
+}
+
+
+}
+
+GenerateChatCompletionRequestThink _$GenerateChatCompletionRequestThinkFromJson(
+  Map<String, dynamic> json
+) {
+    return GenerateChatCompletionRequestThinkEnumeration.fromJson(
+      json
+    );
+}
+
+/// @nodoc
+mixin _$GenerateChatCompletionRequestThink {
+
+ GenerateChatCompletionRequestThinkEnum get value;
+/// Create a copy of GenerateChatCompletionRequestThink
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$GenerateChatCompletionRequestThinkCopyWith<GenerateChatCompletionRequestThink> get copyWith => _$GenerateChatCompletionRequestThinkCopyWithImpl<GenerateChatCompletionRequestThink>(this as GenerateChatCompletionRequestThink, _$identity);
+
+  /// Serializes this GenerateChatCompletionRequestThink to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GenerateChatCompletionRequestThink&&(identical(other.value, value) || other.value == value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,value);
+
+@override
+String toString() {
+  return 'GenerateChatCompletionRequestThink(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $GenerateChatCompletionRequestThinkCopyWith<$Res>  {
+  factory $GenerateChatCompletionRequestThinkCopyWith(GenerateChatCompletionRequestThink value, $Res Function(GenerateChatCompletionRequestThink) _then) = _$GenerateChatCompletionRequestThinkCopyWithImpl;
+@useResult
+$Res call({
+ GenerateChatCompletionRequestThinkEnum value
+});
+
+
+
+
+}
+/// @nodoc
+class _$GenerateChatCompletionRequestThinkCopyWithImpl<$Res>
+    implements $GenerateChatCompletionRequestThinkCopyWith<$Res> {
+  _$GenerateChatCompletionRequestThinkCopyWithImpl(this._self, this._then);
+
+  final GenerateChatCompletionRequestThink _self;
+  final $Res Function(GenerateChatCompletionRequestThink) _then;
+
+/// Create a copy of GenerateChatCompletionRequestThink
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? value = null,}) {
+  return _then(_self.copyWith(
+value: null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as GenerateChatCompletionRequestThinkEnum,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [GenerateChatCompletionRequestThink].
+extension GenerateChatCompletionRequestThinkPatterns on GenerateChatCompletionRequestThink {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( GenerateChatCompletionRequestThinkEnumeration value)?  enumeration,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case GenerateChatCompletionRequestThinkEnumeration() when enumeration != null:
+return enumeration(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( GenerateChatCompletionRequestThinkEnumeration value)  enumeration,}){
+final _that = this;
+switch (_that) {
+case GenerateChatCompletionRequestThinkEnumeration():
+return enumeration(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( GenerateChatCompletionRequestThinkEnumeration value)?  enumeration,}){
+final _that = this;
+switch (_that) {
+case GenerateChatCompletionRequestThinkEnumeration() when enumeration != null:
+return enumeration(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( GenerateChatCompletionRequestThinkEnum value)?  enumeration,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case GenerateChatCompletionRequestThinkEnumeration() when enumeration != null:
+return enumeration(_that.value);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( GenerateChatCompletionRequestThinkEnum value)  enumeration,}) {final _that = this;
+switch (_that) {
+case GenerateChatCompletionRequestThinkEnumeration():
+return enumeration(_that.value);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( GenerateChatCompletionRequestThinkEnum value)?  enumeration,}) {final _that = this;
+switch (_that) {
+case GenerateChatCompletionRequestThinkEnumeration() when enumeration != null:
+return enumeration(_that.value);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class GenerateChatCompletionRequestThinkEnumeration extends GenerateChatCompletionRequestThink {
+  const GenerateChatCompletionRequestThinkEnumeration(this.value): super._();
+  factory GenerateChatCompletionRequestThinkEnumeration.fromJson(Map<String, dynamic> json) => _$GenerateChatCompletionRequestThinkEnumerationFromJson(json);
+
+@override final  GenerateChatCompletionRequestThinkEnum value;
+
+/// Create a copy of GenerateChatCompletionRequestThink
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$GenerateChatCompletionRequestThinkEnumerationCopyWith<GenerateChatCompletionRequestThinkEnumeration> get copyWith => _$GenerateChatCompletionRequestThinkEnumerationCopyWithImpl<GenerateChatCompletionRequestThinkEnumeration>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$GenerateChatCompletionRequestThinkEnumerationToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GenerateChatCompletionRequestThinkEnumeration&&(identical(other.value, value) || other.value == value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,value);
+
+@override
+String toString() {
+  return 'GenerateChatCompletionRequestThink.enumeration(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $GenerateChatCompletionRequestThinkEnumerationCopyWith<$Res> implements $GenerateChatCompletionRequestThinkCopyWith<$Res> {
+  factory $GenerateChatCompletionRequestThinkEnumerationCopyWith(GenerateChatCompletionRequestThinkEnumeration value, $Res Function(GenerateChatCompletionRequestThinkEnumeration) _then) = _$GenerateChatCompletionRequestThinkEnumerationCopyWithImpl;
+@override @useResult
+$Res call({
+ GenerateChatCompletionRequestThinkEnum value
+});
+
+
+
+
+}
+/// @nodoc
+class _$GenerateChatCompletionRequestThinkEnumerationCopyWithImpl<$Res>
+    implements $GenerateChatCompletionRequestThinkEnumerationCopyWith<$Res> {
+  _$GenerateChatCompletionRequestThinkEnumerationCopyWithImpl(this._self, this._then);
+
+  final GenerateChatCompletionRequestThinkEnumeration _self;
+  final $Res Function(GenerateChatCompletionRequestThinkEnumeration) _then;
+
+/// Create a copy of GenerateChatCompletionRequestThink
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
+  return _then(GenerateChatCompletionRequestThinkEnumeration(
+null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as GenerateChatCompletionRequestThinkEnum,
   ));
 }
 
