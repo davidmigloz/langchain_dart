@@ -8,7 +8,7 @@ import 'package:test/test.dart';
 
 void main() {
   group('parseSSE', () {
-    test('parses valid SSE data lines', () async {
+    test('parses valid SSE data lines with space (standard format)', () async {
       final input = Stream.fromIterable([
         'data: {"message": "hello"}',
         'data: {"message": "world"}',
@@ -19,6 +19,35 @@ void main() {
       expect(results, hasLength(2));
       expect(results[0]['message'], equals('hello'));
       expect(results[1]['message'], equals('world'));
+    });
+
+    test('parses SSE data lines without space (alternative format)', () async {
+      // Some providers omit the space after the colon
+      final input = Stream.fromIterable([
+        'data:{"message": "hello"}',
+        'data:{"message": "world"}',
+      ]);
+
+      final results = await parseSSE(input).toList();
+
+      expect(results, hasLength(2));
+      expect(results[0]['message'], equals('hello'));
+      expect(results[1]['message'], equals('world'));
+    });
+
+    test('parses mixed SSE formats (with and without spaces)', () async {
+      final input = Stream.fromIterable([
+        'data: {"format": "with-space"}',
+        'data:{"format": "no-space"}',
+        'data:  {"format": "multiple-spaces"}',
+      ]);
+
+      final results = await parseSSE(input).toList();
+
+      expect(results, hasLength(3));
+      expect(results[0]['format'], equals('with-space'));
+      expect(results[1]['format'], equals('no-space'));
+      expect(results[2]['format'], equals('multiple-spaces'));
     });
 
     test('ignores lines without data prefix', () async {
@@ -133,6 +162,29 @@ void main() {
       final results = await parseSSE(input).toList();
 
       expect(results, isEmpty);
+    });
+
+    test('WHATWG spec compliance: space after colon is optional', () async {
+      // Per WHATWG spec: space after colon is optional and should be stripped
+      // Both "data:value" and "data: value" should result in same parsed value
+      final testCases = [
+        ('data:{"test":true}', true),
+        ('data: {"test":true}', true),
+        ('data:  {"test":true}', true), // Multiple spaces
+        ('data:\t{"test":true}', true), // Tab after colon
+      ];
+
+      for (final (input, expectedValue) in testCases) {
+        final stream = Stream.fromIterable([input]);
+        final results = await parseSSE(stream).toList();
+
+        expect(results, hasLength(1), reason: 'Failed for input: $input');
+        expect(
+          results[0]['test'],
+          expectedValue,
+          reason: 'Failed for input: $input',
+        );
+      }
     });
   });
 
