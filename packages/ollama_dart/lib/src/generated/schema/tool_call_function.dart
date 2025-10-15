@@ -20,6 +20,9 @@ abstract class ToolCallFunction with _$ToolCallFunction {
 
     /// The arguments to pass to the function.
     required ToolCallFunctionArgs arguments,
+
+    /// The index of the tool call in the list of tool calls
+    @JsonKey(includeIfNull: false) int? index,
   }) = _ToolCallFunction;
 
   /// Object construction from a JSON representation
@@ -27,7 +30,7 @@ abstract class ToolCallFunction with _$ToolCallFunction {
       _$ToolCallFunctionFromJson(json);
 
   /// List of all property names of schema
-  static const List<String> propertyNames = ['name', 'arguments'];
+  static const List<String> propertyNames = ['name', 'arguments', 'index'];
 
   /// Perform validations on the schema property values
   String? validateSchema() {
@@ -39,6 +42,7 @@ abstract class ToolCallFunction with _$ToolCallFunction {
     return {
       'name': name,
       'arguments': arguments,
+      'index': index,
     };
   }
 }
