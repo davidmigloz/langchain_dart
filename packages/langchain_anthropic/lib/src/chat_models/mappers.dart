@@ -29,6 +29,8 @@ a.CreateMessageRequest createMessageRequest(
   final toolsDtos = (options?.tools ?? defaultOptions.tools)?.toTool(
     toolChoice,
   );
+  final thinking = options?.thinking ?? defaultOptions.thinking;
+  final thinkingDto = thinking?.toThinkingConfig();
 
   return a.CreateMessageRequest(
     model: a.Model.modelId(
@@ -51,6 +53,7 @@ a.CreateMessageRequest createMessageRequest(
     ),
     tools: toolsDtos,
     toolChoice: toolChoiceDto,
+    thinking: thinkingDto,
     stream: stream,
   );
 }
@@ -345,6 +348,7 @@ class MessageStreamEventTransformer
     ),
   ),
   final a.ToolResultBlock tr => (tr.content.text, null),
+  final a.ThinkingBlock t => (t.thinking, null),
 };
 
 (String content, List<AIChatMessageToolCall> toolCalls) _mapContentBlockDelta(
@@ -363,6 +367,7 @@ class MessageStreamEventTransformer
       ),
     ],
   ),
+  final a.ThinkingBlockDelta t => (t.thinking, const <AIChatMessageToolCall>[]),
 };
 
 extension ToolSpecListMapper on List<ToolSpec> {
