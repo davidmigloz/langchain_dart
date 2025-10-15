@@ -11,6 +11,9 @@ void main() async {
     package: 'Ollama',
     destination: 'lib/src/generated/',
     replace: true,
+    schemaOptions: const SchemaGeneratorOptions(
+      onSchemaUnionFactoryName: _onSchemaUnionFactoryName,
+    ),
     clientOptions: const ClientGeneratorOptions(
       enabled: true,
     ),
@@ -21,3 +24,20 @@ void main() async {
     ['run', 'build_runner', 'build', 'lib', '--delete-conflicting-outputs'],
   );
 }
+
+String? _onSchemaUnionFactoryName(
+  final String union,
+  final String unionSubclass,
+) => switch (unionSubclass) {
+  // Format field for chat completion
+  'GenerateChatCompletionRequestFormatEnumeration' => 'json',
+  'GenerateChatCompletionRequestFormatMapStringDynamic' => 'schema',
+  // Format field for completion
+  'GenerateCompletionRequestFormatEnumeration' => 'json',
+  'GenerateCompletionRequestFormatMapStringDynamic' => 'schema',
+  // Think field for chat completion
+  'GenerateChatCompletionRequestThinkEnumeration' => 'level',
+  // Think field for completion
+  'GenerateCompletionRequestThinkEnumeration' => 'level',
+  _ => null,
+};

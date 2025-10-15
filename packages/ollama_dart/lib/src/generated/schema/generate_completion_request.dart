@@ -152,12 +152,12 @@ sealed class GenerateCompletionRequestFormat
   const GenerateCompletionRequestFormat._();
 
   /// Enable JSON mode
-  const factory GenerateCompletionRequestFormat.enumeration(
+  const factory GenerateCompletionRequestFormat.json(
     GenerateCompletionRequestFormatEnum value,
   ) = GenerateCompletionRequestFormatEnumeration;
 
   /// JSON schema object for structured output validation
-  const factory GenerateCompletionRequestFormat.mapStringDynamic(
+  const factory GenerateCompletionRequestFormat.schema(
     Map<String, dynamic> value,
   ) = GenerateCompletionRequestFormatMapStringDynamic;
 
@@ -233,7 +233,7 @@ sealed class GenerateCompletionRequestThink
   const GenerateCompletionRequestThink._();
 
   /// No Description
-  const factory GenerateCompletionRequestThink.enumeration(
+  const factory GenerateCompletionRequestThink.level(
     GenerateCompletionRequestThinkEnum value,
   ) = GenerateCompletionRequestThinkEnumeration;
 

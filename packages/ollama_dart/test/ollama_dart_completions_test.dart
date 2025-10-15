@@ -106,7 +106,7 @@ void main() {
           request: const GenerateCompletionRequest(
             model: defaultModel,
             prompt: testPrompt,
-            format: GenerateCompletionRequestFormat.enumeration(
+            format: GenerateCompletionRequestFormat.json(
               GenerateCompletionRequestFormatEnum.json,
             ),
           ),

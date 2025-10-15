@@ -468,11 +468,11 @@ GenerateCompletionRequestFormat _$GenerateCompletionRequestFormatFromJson(
   Map<String, dynamic> json
 ) {
         switch (json['runtimeType']) {
-                  case 'enumeration':
+                  case 'json':
           return GenerateCompletionRequestFormatEnumeration.fromJson(
             json
           );
-                case 'mapStringDynamic':
+                case 'schema':
           return GenerateCompletionRequestFormatMapStringDynamic.fromJson(
             json
           );
@@ -534,12 +534,12 @@ extension GenerateCompletionRequestFormatPatterns on GenerateCompletionRequestFo
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( GenerateCompletionRequestFormatEnumeration value)?  enumeration,TResult Function( GenerateCompletionRequestFormatMapStringDynamic value)?  mapStringDynamic,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( GenerateCompletionRequestFormatEnumeration value)?  json,TResult Function( GenerateCompletionRequestFormatMapStringDynamic value)?  schema,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case GenerateCompletionRequestFormatEnumeration() when enumeration != null:
-return enumeration(_that);case GenerateCompletionRequestFormatMapStringDynamic() when mapStringDynamic != null:
-return mapStringDynamic(_that);case _:
+case GenerateCompletionRequestFormatEnumeration() when json != null:
+return json(_that);case GenerateCompletionRequestFormatMapStringDynamic() when schema != null:
+return schema(_that);case _:
   return orElse();
 
 }
@@ -557,12 +557,12 @@ return mapStringDynamic(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( GenerateCompletionRequestFormatEnumeration value)  enumeration,required TResult Function( GenerateCompletionRequestFormatMapStringDynamic value)  mapStringDynamic,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( GenerateCompletionRequestFormatEnumeration value)  json,required TResult Function( GenerateCompletionRequestFormatMapStringDynamic value)  schema,}){
 final _that = this;
 switch (_that) {
 case GenerateCompletionRequestFormatEnumeration():
-return enumeration(_that);case GenerateCompletionRequestFormatMapStringDynamic():
-return mapStringDynamic(_that);}
+return json(_that);case GenerateCompletionRequestFormatMapStringDynamic():
+return schema(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -576,12 +576,12 @@ return mapStringDynamic(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( GenerateCompletionRequestFormatEnumeration value)?  enumeration,TResult? Function( GenerateCompletionRequestFormatMapStringDynamic value)?  mapStringDynamic,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( GenerateCompletionRequestFormatEnumeration value)?  json,TResult? Function( GenerateCompletionRequestFormatMapStringDynamic value)?  schema,}){
 final _that = this;
 switch (_that) {
-case GenerateCompletionRequestFormatEnumeration() when enumeration != null:
-return enumeration(_that);case GenerateCompletionRequestFormatMapStringDynamic() when mapStringDynamic != null:
-return mapStringDynamic(_that);case _:
+case GenerateCompletionRequestFormatEnumeration() when json != null:
+return json(_that);case GenerateCompletionRequestFormatMapStringDynamic() when schema != null:
+return schema(_that);case _:
   return null;
 
 }
@@ -598,11 +598,11 @@ return mapStringDynamic(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( GenerateCompletionRequestFormatEnum value)?  enumeration,TResult Function( Map<String, dynamic> value)?  mapStringDynamic,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( GenerateCompletionRequestFormatEnum value)?  json,TResult Function( Map<String, dynamic> value)?  schema,required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case GenerateCompletionRequestFormatEnumeration() when enumeration != null:
-return enumeration(_that.value);case GenerateCompletionRequestFormatMapStringDynamic() when mapStringDynamic != null:
-return mapStringDynamic(_that.value);case _:
+case GenerateCompletionRequestFormatEnumeration() when json != null:
+return json(_that.value);case GenerateCompletionRequestFormatMapStringDynamic() when schema != null:
+return schema(_that.value);case _:
   return orElse();
 
 }
@@ -620,11 +620,11 @@ return mapStringDynamic(_that.value);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( GenerateCompletionRequestFormatEnum value)  enumeration,required TResult Function( Map<String, dynamic> value)  mapStringDynamic,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( GenerateCompletionRequestFormatEnum value)  json,required TResult Function( Map<String, dynamic> value)  schema,}) {final _that = this;
 switch (_that) {
 case GenerateCompletionRequestFormatEnumeration():
-return enumeration(_that.value);case GenerateCompletionRequestFormatMapStringDynamic():
-return mapStringDynamic(_that.value);}
+return json(_that.value);case GenerateCompletionRequestFormatMapStringDynamic():
+return schema(_that.value);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -638,11 +638,11 @@ return mapStringDynamic(_that.value);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( GenerateCompletionRequestFormatEnum value)?  enumeration,TResult? Function( Map<String, dynamic> value)?  mapStringDynamic,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( GenerateCompletionRequestFormatEnum value)?  json,TResult? Function( Map<String, dynamic> value)?  schema,}) {final _that = this;
 switch (_that) {
-case GenerateCompletionRequestFormatEnumeration() when enumeration != null:
-return enumeration(_that.value);case GenerateCompletionRequestFormatMapStringDynamic() when mapStringDynamic != null:
-return mapStringDynamic(_that.value);case _:
+case GenerateCompletionRequestFormatEnumeration() when json != null:
+return json(_that.value);case GenerateCompletionRequestFormatMapStringDynamic() when schema != null:
+return schema(_that.value);case _:
   return null;
 
 }
@@ -654,7 +654,7 @@ return mapStringDynamic(_that.value);case _:
 @JsonSerializable()
 
 class GenerateCompletionRequestFormatEnumeration extends GenerateCompletionRequestFormat {
-  const GenerateCompletionRequestFormatEnumeration(this.value, {final  String? $type}): $type = $type ?? 'enumeration',super._();
+  const GenerateCompletionRequestFormatEnumeration(this.value, {final  String? $type}): $type = $type ?? 'json',super._();
   factory GenerateCompletionRequestFormatEnumeration.fromJson(Map<String, dynamic> json) => _$GenerateCompletionRequestFormatEnumerationFromJson(json);
 
 @override final  GenerateCompletionRequestFormatEnum value;
@@ -685,7 +685,7 @@ int get hashCode => Object.hash(runtimeType,value);
 
 @override
 String toString() {
-  return 'GenerateCompletionRequestFormat.enumeration(value: $value)';
+  return 'GenerateCompletionRequestFormat.json(value: $value)';
 }
 
 
@@ -727,7 +727,7 @@ as GenerateCompletionRequestFormatEnum,
 @JsonSerializable()
 
 class GenerateCompletionRequestFormatMapStringDynamic extends GenerateCompletionRequestFormat {
-  const GenerateCompletionRequestFormatMapStringDynamic(final  Map<String, dynamic> value, {final  String? $type}): _value = value,$type = $type ?? 'mapStringDynamic',super._();
+  const GenerateCompletionRequestFormatMapStringDynamic(final  Map<String, dynamic> value, {final  String? $type}): _value = value,$type = $type ?? 'schema',super._();
   factory GenerateCompletionRequestFormatMapStringDynamic.fromJson(Map<String, dynamic> json) => _$GenerateCompletionRequestFormatMapStringDynamicFromJson(json);
 
  final  Map<String, dynamic> _value;
@@ -764,7 +764,7 @@ int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(
 
 @override
 String toString() {
-  return 'GenerateCompletionRequestFormat.mapStringDynamic(value: $value)';
+  return 'GenerateCompletionRequestFormat.schema(value: $value)';
 }
 
 
@@ -887,11 +887,11 @@ extension GenerateCompletionRequestThinkPatterns on GenerateCompletionRequestThi
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( GenerateCompletionRequestThinkEnumeration value)?  enumeration,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( GenerateCompletionRequestThinkEnumeration value)?  level,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case GenerateCompletionRequestThinkEnumeration() when enumeration != null:
-return enumeration(_that);case _:
+case GenerateCompletionRequestThinkEnumeration() when level != null:
+return level(_that);case _:
   return orElse();
 
 }
@@ -909,11 +909,11 @@ return enumeration(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( GenerateCompletionRequestThinkEnumeration value)  enumeration,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( GenerateCompletionRequestThinkEnumeration value)  level,}){
 final _that = this;
 switch (_that) {
 case GenerateCompletionRequestThinkEnumeration():
-return enumeration(_that);}
+return level(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -927,11 +927,11 @@ return enumeration(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( GenerateCompletionRequestThinkEnumeration value)?  enumeration,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( GenerateCompletionRequestThinkEnumeration value)?  level,}){
 final _that = this;
 switch (_that) {
-case GenerateCompletionRequestThinkEnumeration() when enumeration != null:
-return enumeration(_that);case _:
+case GenerateCompletionRequestThinkEnumeration() when level != null:
+return level(_that);case _:
   return null;
 
 }
@@ -948,10 +948,10 @@ return enumeration(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( GenerateCompletionRequestThinkEnum value)?  enumeration,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( GenerateCompletionRequestThinkEnum value)?  level,required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case GenerateCompletionRequestThinkEnumeration() when enumeration != null:
-return enumeration(_that.value);case _:
+case GenerateCompletionRequestThinkEnumeration() when level != null:
+return level(_that.value);case _:
   return orElse();
 
 }
@@ -969,10 +969,10 @@ return enumeration(_that.value);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( GenerateCompletionRequestThinkEnum value)  enumeration,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( GenerateCompletionRequestThinkEnum value)  level,}) {final _that = this;
 switch (_that) {
 case GenerateCompletionRequestThinkEnumeration():
-return enumeration(_that.value);}
+return level(_that.value);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -986,10 +986,10 @@ return enumeration(_that.value);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( GenerateCompletionRequestThinkEnum value)?  enumeration,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( GenerateCompletionRequestThinkEnum value)?  level,}) {final _that = this;
 switch (_that) {
-case GenerateCompletionRequestThinkEnumeration() when enumeration != null:
-return enumeration(_that.value);case _:
+case GenerateCompletionRequestThinkEnumeration() when level != null:
+return level(_that.value);case _:
   return null;
 
 }
@@ -1028,7 +1028,7 @@ int get hashCode => Object.hash(runtimeType,value);
 
 @override
 String toString() {
-  return 'GenerateCompletionRequestThink.enumeration(value: $value)';
+  return 'GenerateCompletionRequestThink.level(value: $value)';
 }
 
 
@@ -2562,11 +2562,11 @@ GenerateChatCompletionRequestFormat _$GenerateChatCompletionRequestFormatFromJso
   Map<String, dynamic> json
 ) {
         switch (json['runtimeType']) {
-                  case 'enumeration':
+                  case 'json':
           return GenerateChatCompletionRequestFormatEnumeration.fromJson(
             json
           );
-                case 'mapStringDynamic':
+                case 'schema':
           return GenerateChatCompletionRequestFormatMapStringDynamic.fromJson(
             json
           );
@@ -2628,12 +2628,12 @@ extension GenerateChatCompletionRequestFormatPatterns on GenerateChatCompletionR
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( GenerateChatCompletionRequestFormatEnumeration value)?  enumeration,TResult Function( GenerateChatCompletionRequestFormatMapStringDynamic value)?  mapStringDynamic,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( GenerateChatCompletionRequestFormatEnumeration value)?  json,TResult Function( GenerateChatCompletionRequestFormatMapStringDynamic value)?  schema,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case GenerateChatCompletionRequestFormatEnumeration() when enumeration != null:
-return enumeration(_that);case GenerateChatCompletionRequestFormatMapStringDynamic() when mapStringDynamic != null:
-return mapStringDynamic(_that);case _:
+case GenerateChatCompletionRequestFormatEnumeration() when json != null:
+return json(_that);case GenerateChatCompletionRequestFormatMapStringDynamic() when schema != null:
+return schema(_that);case _:
   return orElse();
 
 }
@@ -2651,12 +2651,12 @@ return mapStringDynamic(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( GenerateChatCompletionRequestFormatEnumeration value)  enumeration,required TResult Function( GenerateChatCompletionRequestFormatMapStringDynamic value)  mapStringDynamic,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( GenerateChatCompletionRequestFormatEnumeration value)  json,required TResult Function( GenerateChatCompletionRequestFormatMapStringDynamic value)  schema,}){
 final _that = this;
 switch (_that) {
 case GenerateChatCompletionRequestFormatEnumeration():
-return enumeration(_that);case GenerateChatCompletionRequestFormatMapStringDynamic():
-return mapStringDynamic(_that);}
+return json(_that);case GenerateChatCompletionRequestFormatMapStringDynamic():
+return schema(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -2670,12 +2670,12 @@ return mapStringDynamic(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( GenerateChatCompletionRequestFormatEnumeration value)?  enumeration,TResult? Function( GenerateChatCompletionRequestFormatMapStringDynamic value)?  mapStringDynamic,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( GenerateChatCompletionRequestFormatEnumeration value)?  json,TResult? Function( GenerateChatCompletionRequestFormatMapStringDynamic value)?  schema,}){
 final _that = this;
 switch (_that) {
-case GenerateChatCompletionRequestFormatEnumeration() when enumeration != null:
-return enumeration(_that);case GenerateChatCompletionRequestFormatMapStringDynamic() when mapStringDynamic != null:
-return mapStringDynamic(_that);case _:
+case GenerateChatCompletionRequestFormatEnumeration() when json != null:
+return json(_that);case GenerateChatCompletionRequestFormatMapStringDynamic() when schema != null:
+return schema(_that);case _:
   return null;
 
 }
@@ -2692,11 +2692,11 @@ return mapStringDynamic(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( GenerateChatCompletionRequestFormatEnum value)?  enumeration,TResult Function( Map<String, dynamic> value)?  mapStringDynamic,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( GenerateChatCompletionRequestFormatEnum value)?  json,TResult Function( Map<String, dynamic> value)?  schema,required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case GenerateChatCompletionRequestFormatEnumeration() when enumeration != null:
-return enumeration(_that.value);case GenerateChatCompletionRequestFormatMapStringDynamic() when mapStringDynamic != null:
-return mapStringDynamic(_that.value);case _:
+case GenerateChatCompletionRequestFormatEnumeration() when json != null:
+return json(_that.value);case GenerateChatCompletionRequestFormatMapStringDynamic() when schema != null:
+return schema(_that.value);case _:
   return orElse();
 
 }
@@ -2714,11 +2714,11 @@ return mapStringDynamic(_that.value);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( GenerateChatCompletionRequestFormatEnum value)  enumeration,required TResult Function( Map<String, dynamic> value)  mapStringDynamic,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( GenerateChatCompletionRequestFormatEnum value)  json,required TResult Function( Map<String, dynamic> value)  schema,}) {final _that = this;
 switch (_that) {
 case GenerateChatCompletionRequestFormatEnumeration():
-return enumeration(_that.value);case GenerateChatCompletionRequestFormatMapStringDynamic():
-return mapStringDynamic(_that.value);}
+return json(_that.value);case GenerateChatCompletionRequestFormatMapStringDynamic():
+return schema(_that.value);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -2732,11 +2732,11 @@ return mapStringDynamic(_that.value);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( GenerateChatCompletionRequestFormatEnum value)?  enumeration,TResult? Function( Map<String, dynamic> value)?  mapStringDynamic,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( GenerateChatCompletionRequestFormatEnum value)?  json,TResult? Function( Map<String, dynamic> value)?  schema,}) {final _that = this;
 switch (_that) {
-case GenerateChatCompletionRequestFormatEnumeration() when enumeration != null:
-return enumeration(_that.value);case GenerateChatCompletionRequestFormatMapStringDynamic() when mapStringDynamic != null:
-return mapStringDynamic(_that.value);case _:
+case GenerateChatCompletionRequestFormatEnumeration() when json != null:
+return json(_that.value);case GenerateChatCompletionRequestFormatMapStringDynamic() when schema != null:
+return schema(_that.value);case _:
   return null;
 
 }
@@ -2748,7 +2748,7 @@ return mapStringDynamic(_that.value);case _:
 @JsonSerializable()
 
 class GenerateChatCompletionRequestFormatEnumeration extends GenerateChatCompletionRequestFormat {
-  const GenerateChatCompletionRequestFormatEnumeration(this.value, {final  String? $type}): $type = $type ?? 'enumeration',super._();
+  const GenerateChatCompletionRequestFormatEnumeration(this.value, {final  String? $type}): $type = $type ?? 'json',super._();
   factory GenerateChatCompletionRequestFormatEnumeration.fromJson(Map<String, dynamic> json) => _$GenerateChatCompletionRequestFormatEnumerationFromJson(json);
 
 @override final  GenerateChatCompletionRequestFormatEnum value;
@@ -2779,7 +2779,7 @@ int get hashCode => Object.hash(runtimeType,value);
 
 @override
 String toString() {
-  return 'GenerateChatCompletionRequestFormat.enumeration(value: $value)';
+  return 'GenerateChatCompletionRequestFormat.json(value: $value)';
 }
 
 
@@ -2821,7 +2821,7 @@ as GenerateChatCompletionRequestFormatEnum,
 @JsonSerializable()
 
 class GenerateChatCompletionRequestFormatMapStringDynamic extends GenerateChatCompletionRequestFormat {
-  const GenerateChatCompletionRequestFormatMapStringDynamic(final  Map<String, dynamic> value, {final  String? $type}): _value = value,$type = $type ?? 'mapStringDynamic',super._();
+  const GenerateChatCompletionRequestFormatMapStringDynamic(final  Map<String, dynamic> value, {final  String? $type}): _value = value,$type = $type ?? 'schema',super._();
   factory GenerateChatCompletionRequestFormatMapStringDynamic.fromJson(Map<String, dynamic> json) => _$GenerateChatCompletionRequestFormatMapStringDynamicFromJson(json);
 
  final  Map<String, dynamic> _value;
@@ -2858,7 +2858,7 @@ int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(
 
 @override
 String toString() {
-  return 'GenerateChatCompletionRequestFormat.mapStringDynamic(value: $value)';
+  return 'GenerateChatCompletionRequestFormat.schema(value: $value)';
 }
 
 
@@ -2981,11 +2981,11 @@ extension GenerateChatCompletionRequestThinkPatterns on GenerateChatCompletionRe
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( GenerateChatCompletionRequestThinkEnumeration value)?  enumeration,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( GenerateChatCompletionRequestThinkEnumeration value)?  level,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case GenerateChatCompletionRequestThinkEnumeration() when enumeration != null:
-return enumeration(_that);case _:
+case GenerateChatCompletionRequestThinkEnumeration() when level != null:
+return level(_that);case _:
   return orElse();
 
 }
@@ -3003,11 +3003,11 @@ return enumeration(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( GenerateChatCompletionRequestThinkEnumeration value)  enumeration,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( GenerateChatCompletionRequestThinkEnumeration value)  level,}){
 final _that = this;
 switch (_that) {
 case GenerateChatCompletionRequestThinkEnumeration():
-return enumeration(_that);}
+return level(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -3021,11 +3021,11 @@ return enumeration(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( GenerateChatCompletionRequestThinkEnumeration value)?  enumeration,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( GenerateChatCompletionRequestThinkEnumeration value)?  level,}){
 final _that = this;
 switch (_that) {
-case GenerateChatCompletionRequestThinkEnumeration() when enumeration != null:
-return enumeration(_that);case _:
+case GenerateChatCompletionRequestThinkEnumeration() when level != null:
+return level(_that);case _:
   return null;
 
 }
@@ -3042,10 +3042,10 @@ return enumeration(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( GenerateChatCompletionRequestThinkEnum value)?  enumeration,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( GenerateChatCompletionRequestThinkEnum value)?  level,required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case GenerateChatCompletionRequestThinkEnumeration() when enumeration != null:
-return enumeration(_that.value);case _:
+case GenerateChatCompletionRequestThinkEnumeration() when level != null:
+return level(_that.value);case _:
   return orElse();
 
 }
@@ -3063,10 +3063,10 @@ return enumeration(_that.value);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( GenerateChatCompletionRequestThinkEnum value)  enumeration,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( GenerateChatCompletionRequestThinkEnum value)  level,}) {final _that = this;
 switch (_that) {
 case GenerateChatCompletionRequestThinkEnumeration():
-return enumeration(_that.value);}
+return level(_that.value);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -3080,10 +3080,10 @@ return enumeration(_that.value);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( GenerateChatCompletionRequestThinkEnum value)?  enumeration,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( GenerateChatCompletionRequestThinkEnum value)?  level,}) {final _that = this;
 switch (_that) {
-case GenerateChatCompletionRequestThinkEnumeration() when enumeration != null:
-return enumeration(_that.value);case _:
+case GenerateChatCompletionRequestThinkEnumeration() when level != null:
+return level(_that.value);case _:
   return null;
 
 }
@@ -3122,7 +3122,7 @@ int get hashCode => Object.hash(runtimeType,value);
 
 @override
 String toString() {
-  return 'GenerateChatCompletionRequestThink.enumeration(value: $value)';
+  return 'GenerateChatCompletionRequestThink.level(value: $value)';
 }
 
 

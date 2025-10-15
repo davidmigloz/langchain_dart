@@ -18,7 +18,7 @@ extension _OllamaResponseFormatChatMapper on OllamaResponseFormat {
         .where((final f) => f.name.toLowerCase() == name.toLowerCase())
         .firstOrNull;
     if (format == null) return null;
-    return o.GenerateChatCompletionRequestFormat.enumeration(
+    return o.GenerateChatCompletionRequestFormat.json(
       o.GenerateChatCompletionRequestFormatEnum.values.firstWhere(
         (final e) => e.name == format.name,
       ),
@@ -28,7 +28,7 @@ extension _OllamaResponseFormatChatMapper on OllamaResponseFormat {
 
 extension _OllamaThinkingLevelChatMapper on OllamaThinkingLevel {
   o.GenerateChatCompletionRequestThink toThinkRequest() {
-    return o.GenerateChatCompletionRequestThink.enumeration(
+    return o.GenerateChatCompletionRequestThink.level(
       o.GenerateChatCompletionRequestThinkEnum.values.firstWhere(
         (final e) => e.name == name,
       ),

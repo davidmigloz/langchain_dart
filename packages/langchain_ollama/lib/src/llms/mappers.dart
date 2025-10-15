@@ -47,7 +47,7 @@ extension OllamaResponseFormatMapper on OllamaResponseFormat {
         .where((final f) => f.name.toLowerCase() == name.toLowerCase())
         .firstOrNull;
     if (format == null) return null;
-    return GenerateCompletionRequestFormat.enumeration(
+    return GenerateCompletionRequestFormat.json(
       GenerateCompletionRequestFormatEnum.values.firstWhere(
         (final e) => e.name == format.name,
       ),
@@ -57,7 +57,7 @@ extension OllamaResponseFormatMapper on OllamaResponseFormat {
 
 extension OllamaThinkingLevelMapper on OllamaThinkingLevel {
   GenerateCompletionRequestThink toThinkRequest() {
-    return GenerateCompletionRequestThink.enumeration(
+    return GenerateCompletionRequestThink.level(
       GenerateCompletionRequestThinkEnum.values.firstWhere(
         (final e) => e.name == name,
       ),
