@@ -55,6 +55,12 @@ abstract class GenerateChatCompletionRequest
     @_GenerateChatCompletionRequestThinkConverter()
     @JsonKey(includeIfNull: false)
     GenerateChatCompletionRequestThink? think,
+
+    /// Truncates the end of the chat history if it exceeds the context length
+    @JsonKey(includeIfNull: false) bool? truncate,
+
+    /// Shifts the oldest messages out of the context window when the context limit is reached
+    @JsonKey(includeIfNull: false) bool? shift,
   }) = _GenerateChatCompletionRequest;
 
   /// Object construction from a JSON representation
@@ -71,6 +77,8 @@ abstract class GenerateChatCompletionRequest
     'tools',
     'options',
     'think',
+    'truncate',
+    'shift',
   ];
 
   /// Perform validations on the schema property values
@@ -89,6 +97,8 @@ abstract class GenerateChatCompletionRequest
       'tools': tools,
       'options': options,
       'think': think,
+      'truncate': truncate,
+      'shift': shift,
     };
   }
 }

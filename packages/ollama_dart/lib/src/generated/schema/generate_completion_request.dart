@@ -71,6 +71,12 @@ abstract class GenerateCompletionRequest with _$GenerateCompletionRequest {
     @_GenerateCompletionRequestThinkConverter()
     @JsonKey(includeIfNull: false)
     GenerateCompletionRequestThink? think,
+
+    /// Truncates the end of the prompt if it exceeds the context length
+    @JsonKey(includeIfNull: false) bool? truncate,
+
+    /// Shifts the oldest parts out of the context window when the context limit is reached
+    @JsonKey(includeIfNull: false) bool? shift,
   }) = _GenerateCompletionRequest;
 
   /// Object construction from a JSON representation
@@ -92,6 +98,8 @@ abstract class GenerateCompletionRequest with _$GenerateCompletionRequest {
     'images',
     'options',
     'think',
+    'truncate',
+    'shift',
   ];
 
   /// Perform validations on the schema property values
@@ -115,6 +123,8 @@ abstract class GenerateCompletionRequest with _$GenerateCompletionRequest {
       'images': images,
       'options': options,
       'think': think,
+      'truncate': truncate,
+      'shift': shift,
     };
   }
 }
