@@ -623,6 +623,14 @@ components:
           format: int64
           description: Time in nanoseconds spent generating the response.
           example: 1325948000
+        remote_model:
+          type: string
+          nullable: true
+          description: Name of the upstream remote model that generated the response (when using federated models)
+        remote_host:
+          type: string
+          nullable: true
+          description: URL of the upstream Ollama host that served the request (when proxying to remote instances)
     GenerateChatCompletionRequest:
       type: object
       description: Request class for the chat endpoint.
@@ -728,6 +736,14 @@ components:
           format: int64
           description: Time in nanoseconds spent generating the response.
           example: 1325948000
+        remote_model:
+          type: string
+          nullable: true
+          description: Name of the upstream remote model that generated the response (when using federated models)
+        remote_host:
+          type: string
+          nullable: true
+          description: URL of the upstream Ollama host that served the request (when proxying to remote instances)
       required:
         - model
         - created_at
@@ -926,6 +942,14 @@ components:
           example: 'sha256:bc07c81de745696fdf5afca05e065818a8149fb0c77266fb584d9b2cba3711a'
         details:
           $ref: '#/components/schemas/ModelDetails'
+        remote_model:
+          type: string
+          nullable: true
+          description: Name of the upstream remote model (when model is federated from another Ollama instance)
+        remote_host:
+          type: string
+          nullable: true
+          description: URL of the upstream Ollama host (when model is federated from another instance)
     ModelDetails:
       type: object
       description: Details about a model.
@@ -1102,6 +1126,14 @@ components:
           format: date-time
           description: Date on which a model was created.
           example: 2023-08-04T19:22:45.499127Z
+        remote_model:
+          type: string
+          nullable: true
+          description: Name of the upstream remote model (when model is federated from another Ollama instance)
+        remote_host:
+          type: string
+          nullable: true
+          description: URL of the upstream Ollama host (when model is federated from another instance)
     CopyModelRequest:
       description: Request class for copying a model.
       type: object

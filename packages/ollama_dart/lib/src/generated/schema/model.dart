@@ -31,6 +31,12 @@ abstract class Model with _$Model {
 
     /// Details about a model.
     @JsonKey(includeIfNull: false) ModelDetails? details,
+
+    /// Name of the upstream remote model (when model is federated from another Ollama instance)
+    @JsonKey(name: 'remote_model', includeIfNull: false) String? remoteModel,
+
+    /// URL of the upstream Ollama host (when model is federated from another instance)
+    @JsonKey(name: 'remote_host', includeIfNull: false) String? remoteHost,
   }) = _Model;
 
   /// Object construction from a JSON representation
@@ -43,6 +49,8 @@ abstract class Model with _$Model {
     'size',
     'digest',
     'details',
+    'remote_model',
+    'remote_host',
   ];
 
   /// Perform validations on the schema property values
@@ -58,6 +66,8 @@ abstract class Model with _$Model {
       'size': size,
       'digest': digest,
       'details': details,
+      'remote_model': remoteModel,
+      'remote_host': remoteHost,
     };
   }
 }

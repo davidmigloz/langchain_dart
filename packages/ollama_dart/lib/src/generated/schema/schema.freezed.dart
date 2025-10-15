@@ -1811,7 +1811,9 @@ mixin _$GenerateCompletionResponse {
 @JsonKey(name: 'prompt_eval_count', includeIfNull: false) int? get promptEvalCount;/// Time spent in nanoseconds evaluating the prompt.
 @JsonKey(name: 'prompt_eval_duration', includeIfNull: false) int? get promptEvalDuration;/// Number of tokens the response.
 @JsonKey(name: 'eval_count', includeIfNull: false) int? get evalCount;/// Time in nanoseconds spent generating the response.
-@JsonKey(name: 'eval_duration', includeIfNull: false) int? get evalDuration;
+@JsonKey(name: 'eval_duration', includeIfNull: false) int? get evalDuration;/// Name of the upstream remote model that generated the response (when using federated models)
+@JsonKey(name: 'remote_model', includeIfNull: false) String? get remoteModel;/// URL of the upstream Ollama host that served the request (when proxying to remote instances)
+@JsonKey(name: 'remote_host', includeIfNull: false) String? get remoteHost;
 /// Create a copy of GenerateCompletionResponse
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1824,16 +1826,16 @@ $GenerateCompletionResponseCopyWith<GenerateCompletionResponse> get copyWith => 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is GenerateCompletionResponse&&(identical(other.model, model) || other.model == model)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.response, response) || other.response == response)&&(identical(other.thinking, thinking) || other.thinking == thinking)&&(identical(other.done, done) || other.done == done)&&const DeepCollectionEquality().equals(other.context, context)&&(identical(other.totalDuration, totalDuration) || other.totalDuration == totalDuration)&&(identical(other.loadDuration, loadDuration) || other.loadDuration == loadDuration)&&(identical(other.promptEvalCount, promptEvalCount) || other.promptEvalCount == promptEvalCount)&&(identical(other.promptEvalDuration, promptEvalDuration) || other.promptEvalDuration == promptEvalDuration)&&(identical(other.evalCount, evalCount) || other.evalCount == evalCount)&&(identical(other.evalDuration, evalDuration) || other.evalDuration == evalDuration));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GenerateCompletionResponse&&(identical(other.model, model) || other.model == model)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.response, response) || other.response == response)&&(identical(other.thinking, thinking) || other.thinking == thinking)&&(identical(other.done, done) || other.done == done)&&const DeepCollectionEquality().equals(other.context, context)&&(identical(other.totalDuration, totalDuration) || other.totalDuration == totalDuration)&&(identical(other.loadDuration, loadDuration) || other.loadDuration == loadDuration)&&(identical(other.promptEvalCount, promptEvalCount) || other.promptEvalCount == promptEvalCount)&&(identical(other.promptEvalDuration, promptEvalDuration) || other.promptEvalDuration == promptEvalDuration)&&(identical(other.evalCount, evalCount) || other.evalCount == evalCount)&&(identical(other.evalDuration, evalDuration) || other.evalDuration == evalDuration)&&(identical(other.remoteModel, remoteModel) || other.remoteModel == remoteModel)&&(identical(other.remoteHost, remoteHost) || other.remoteHost == remoteHost));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,model,createdAt,response,thinking,done,const DeepCollectionEquality().hash(context),totalDuration,loadDuration,promptEvalCount,promptEvalDuration,evalCount,evalDuration);
+int get hashCode => Object.hash(runtimeType,model,createdAt,response,thinking,done,const DeepCollectionEquality().hash(context),totalDuration,loadDuration,promptEvalCount,promptEvalDuration,evalCount,evalDuration,remoteModel,remoteHost);
 
 @override
 String toString() {
-  return 'GenerateCompletionResponse(model: $model, createdAt: $createdAt, response: $response, thinking: $thinking, done: $done, context: $context, totalDuration: $totalDuration, loadDuration: $loadDuration, promptEvalCount: $promptEvalCount, promptEvalDuration: $promptEvalDuration, evalCount: $evalCount, evalDuration: $evalDuration)';
+  return 'GenerateCompletionResponse(model: $model, createdAt: $createdAt, response: $response, thinking: $thinking, done: $done, context: $context, totalDuration: $totalDuration, loadDuration: $loadDuration, promptEvalCount: $promptEvalCount, promptEvalDuration: $promptEvalDuration, evalCount: $evalCount, evalDuration: $evalDuration, remoteModel: $remoteModel, remoteHost: $remoteHost)';
 }
 
 
@@ -1844,7 +1846,7 @@ abstract mixin class $GenerateCompletionResponseCopyWith<$Res>  {
   factory $GenerateCompletionResponseCopyWith(GenerateCompletionResponse value, $Res Function(GenerateCompletionResponse) _then) = _$GenerateCompletionResponseCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(includeIfNull: false) String? model,@JsonKey(name: 'created_at', includeIfNull: false) String? createdAt,@JsonKey(includeIfNull: false) String? response,@JsonKey(includeIfNull: false) String? thinking,@JsonKey(includeIfNull: false) bool? done,@JsonKey(includeIfNull: false) List<int>? context,@JsonKey(name: 'total_duration', includeIfNull: false) int? totalDuration,@JsonKey(name: 'load_duration', includeIfNull: false) int? loadDuration,@JsonKey(name: 'prompt_eval_count', includeIfNull: false) int? promptEvalCount,@JsonKey(name: 'prompt_eval_duration', includeIfNull: false) int? promptEvalDuration,@JsonKey(name: 'eval_count', includeIfNull: false) int? evalCount,@JsonKey(name: 'eval_duration', includeIfNull: false) int? evalDuration
+@JsonKey(includeIfNull: false) String? model,@JsonKey(name: 'created_at', includeIfNull: false) String? createdAt,@JsonKey(includeIfNull: false) String? response,@JsonKey(includeIfNull: false) String? thinking,@JsonKey(includeIfNull: false) bool? done,@JsonKey(includeIfNull: false) List<int>? context,@JsonKey(name: 'total_duration', includeIfNull: false) int? totalDuration,@JsonKey(name: 'load_duration', includeIfNull: false) int? loadDuration,@JsonKey(name: 'prompt_eval_count', includeIfNull: false) int? promptEvalCount,@JsonKey(name: 'prompt_eval_duration', includeIfNull: false) int? promptEvalDuration,@JsonKey(name: 'eval_count', includeIfNull: false) int? evalCount,@JsonKey(name: 'eval_duration', includeIfNull: false) int? evalDuration,@JsonKey(name: 'remote_model', includeIfNull: false) String? remoteModel,@JsonKey(name: 'remote_host', includeIfNull: false) String? remoteHost
 });
 
 
@@ -1861,7 +1863,7 @@ class _$GenerateCompletionResponseCopyWithImpl<$Res>
 
 /// Create a copy of GenerateCompletionResponse
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? model = freezed,Object? createdAt = freezed,Object? response = freezed,Object? thinking = freezed,Object? done = freezed,Object? context = freezed,Object? totalDuration = freezed,Object? loadDuration = freezed,Object? promptEvalCount = freezed,Object? promptEvalDuration = freezed,Object? evalCount = freezed,Object? evalDuration = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? model = freezed,Object? createdAt = freezed,Object? response = freezed,Object? thinking = freezed,Object? done = freezed,Object? context = freezed,Object? totalDuration = freezed,Object? loadDuration = freezed,Object? promptEvalCount = freezed,Object? promptEvalDuration = freezed,Object? evalCount = freezed,Object? evalDuration = freezed,Object? remoteModel = freezed,Object? remoteHost = freezed,}) {
   return _then(_self.copyWith(
 model: freezed == model ? _self.model : model // ignore: cast_nullable_to_non_nullable
 as String?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
@@ -1875,7 +1877,9 @@ as int?,promptEvalCount: freezed == promptEvalCount ? _self.promptEvalCount : pr
 as int?,promptEvalDuration: freezed == promptEvalDuration ? _self.promptEvalDuration : promptEvalDuration // ignore: cast_nullable_to_non_nullable
 as int?,evalCount: freezed == evalCount ? _self.evalCount : evalCount // ignore: cast_nullable_to_non_nullable
 as int?,evalDuration: freezed == evalDuration ? _self.evalDuration : evalDuration // ignore: cast_nullable_to_non_nullable
-as int?,
+as int?,remoteModel: freezed == remoteModel ? _self.remoteModel : remoteModel // ignore: cast_nullable_to_non_nullable
+as String?,remoteHost: freezed == remoteHost ? _self.remoteHost : remoteHost // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -1960,10 +1964,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false)  String? model, @JsonKey(name: 'created_at', includeIfNull: false)  String? createdAt, @JsonKey(includeIfNull: false)  String? response, @JsonKey(includeIfNull: false)  String? thinking, @JsonKey(includeIfNull: false)  bool? done, @JsonKey(includeIfNull: false)  List<int>? context, @JsonKey(name: 'total_duration', includeIfNull: false)  int? totalDuration, @JsonKey(name: 'load_duration', includeIfNull: false)  int? loadDuration, @JsonKey(name: 'prompt_eval_count', includeIfNull: false)  int? promptEvalCount, @JsonKey(name: 'prompt_eval_duration', includeIfNull: false)  int? promptEvalDuration, @JsonKey(name: 'eval_count', includeIfNull: false)  int? evalCount, @JsonKey(name: 'eval_duration', includeIfNull: false)  int? evalDuration)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false)  String? model, @JsonKey(name: 'created_at', includeIfNull: false)  String? createdAt, @JsonKey(includeIfNull: false)  String? response, @JsonKey(includeIfNull: false)  String? thinking, @JsonKey(includeIfNull: false)  bool? done, @JsonKey(includeIfNull: false)  List<int>? context, @JsonKey(name: 'total_duration', includeIfNull: false)  int? totalDuration, @JsonKey(name: 'load_duration', includeIfNull: false)  int? loadDuration, @JsonKey(name: 'prompt_eval_count', includeIfNull: false)  int? promptEvalCount, @JsonKey(name: 'prompt_eval_duration', includeIfNull: false)  int? promptEvalDuration, @JsonKey(name: 'eval_count', includeIfNull: false)  int? evalCount, @JsonKey(name: 'eval_duration', includeIfNull: false)  int? evalDuration, @JsonKey(name: 'remote_model', includeIfNull: false)  String? remoteModel, @JsonKey(name: 'remote_host', includeIfNull: false)  String? remoteHost)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _GenerateCompletionResponse() when $default != null:
-return $default(_that.model,_that.createdAt,_that.response,_that.thinking,_that.done,_that.context,_that.totalDuration,_that.loadDuration,_that.promptEvalCount,_that.promptEvalDuration,_that.evalCount,_that.evalDuration);case _:
+return $default(_that.model,_that.createdAt,_that.response,_that.thinking,_that.done,_that.context,_that.totalDuration,_that.loadDuration,_that.promptEvalCount,_that.promptEvalDuration,_that.evalCount,_that.evalDuration,_that.remoteModel,_that.remoteHost);case _:
   return orElse();
 
 }
@@ -1981,10 +1985,10 @@ return $default(_that.model,_that.createdAt,_that.response,_that.thinking,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false)  String? model, @JsonKey(name: 'created_at', includeIfNull: false)  String? createdAt, @JsonKey(includeIfNull: false)  String? response, @JsonKey(includeIfNull: false)  String? thinking, @JsonKey(includeIfNull: false)  bool? done, @JsonKey(includeIfNull: false)  List<int>? context, @JsonKey(name: 'total_duration', includeIfNull: false)  int? totalDuration, @JsonKey(name: 'load_duration', includeIfNull: false)  int? loadDuration, @JsonKey(name: 'prompt_eval_count', includeIfNull: false)  int? promptEvalCount, @JsonKey(name: 'prompt_eval_duration', includeIfNull: false)  int? promptEvalDuration, @JsonKey(name: 'eval_count', includeIfNull: false)  int? evalCount, @JsonKey(name: 'eval_duration', includeIfNull: false)  int? evalDuration)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false)  String? model, @JsonKey(name: 'created_at', includeIfNull: false)  String? createdAt, @JsonKey(includeIfNull: false)  String? response, @JsonKey(includeIfNull: false)  String? thinking, @JsonKey(includeIfNull: false)  bool? done, @JsonKey(includeIfNull: false)  List<int>? context, @JsonKey(name: 'total_duration', includeIfNull: false)  int? totalDuration, @JsonKey(name: 'load_duration', includeIfNull: false)  int? loadDuration, @JsonKey(name: 'prompt_eval_count', includeIfNull: false)  int? promptEvalCount, @JsonKey(name: 'prompt_eval_duration', includeIfNull: false)  int? promptEvalDuration, @JsonKey(name: 'eval_count', includeIfNull: false)  int? evalCount, @JsonKey(name: 'eval_duration', includeIfNull: false)  int? evalDuration, @JsonKey(name: 'remote_model', includeIfNull: false)  String? remoteModel, @JsonKey(name: 'remote_host', includeIfNull: false)  String? remoteHost)  $default,) {final _that = this;
 switch (_that) {
 case _GenerateCompletionResponse():
-return $default(_that.model,_that.createdAt,_that.response,_that.thinking,_that.done,_that.context,_that.totalDuration,_that.loadDuration,_that.promptEvalCount,_that.promptEvalDuration,_that.evalCount,_that.evalDuration);case _:
+return $default(_that.model,_that.createdAt,_that.response,_that.thinking,_that.done,_that.context,_that.totalDuration,_that.loadDuration,_that.promptEvalCount,_that.promptEvalDuration,_that.evalCount,_that.evalDuration,_that.remoteModel,_that.remoteHost);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -2001,10 +2005,10 @@ return $default(_that.model,_that.createdAt,_that.response,_that.thinking,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(includeIfNull: false)  String? model, @JsonKey(name: 'created_at', includeIfNull: false)  String? createdAt, @JsonKey(includeIfNull: false)  String? response, @JsonKey(includeIfNull: false)  String? thinking, @JsonKey(includeIfNull: false)  bool? done, @JsonKey(includeIfNull: false)  List<int>? context, @JsonKey(name: 'total_duration', includeIfNull: false)  int? totalDuration, @JsonKey(name: 'load_duration', includeIfNull: false)  int? loadDuration, @JsonKey(name: 'prompt_eval_count', includeIfNull: false)  int? promptEvalCount, @JsonKey(name: 'prompt_eval_duration', includeIfNull: false)  int? promptEvalDuration, @JsonKey(name: 'eval_count', includeIfNull: false)  int? evalCount, @JsonKey(name: 'eval_duration', includeIfNull: false)  int? evalDuration)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(includeIfNull: false)  String? model, @JsonKey(name: 'created_at', includeIfNull: false)  String? createdAt, @JsonKey(includeIfNull: false)  String? response, @JsonKey(includeIfNull: false)  String? thinking, @JsonKey(includeIfNull: false)  bool? done, @JsonKey(includeIfNull: false)  List<int>? context, @JsonKey(name: 'total_duration', includeIfNull: false)  int? totalDuration, @JsonKey(name: 'load_duration', includeIfNull: false)  int? loadDuration, @JsonKey(name: 'prompt_eval_count', includeIfNull: false)  int? promptEvalCount, @JsonKey(name: 'prompt_eval_duration', includeIfNull: false)  int? promptEvalDuration, @JsonKey(name: 'eval_count', includeIfNull: false)  int? evalCount, @JsonKey(name: 'eval_duration', includeIfNull: false)  int? evalDuration, @JsonKey(name: 'remote_model', includeIfNull: false)  String? remoteModel, @JsonKey(name: 'remote_host', includeIfNull: false)  String? remoteHost)?  $default,) {final _that = this;
 switch (_that) {
 case _GenerateCompletionResponse() when $default != null:
-return $default(_that.model,_that.createdAt,_that.response,_that.thinking,_that.done,_that.context,_that.totalDuration,_that.loadDuration,_that.promptEvalCount,_that.promptEvalDuration,_that.evalCount,_that.evalDuration);case _:
+return $default(_that.model,_that.createdAt,_that.response,_that.thinking,_that.done,_that.context,_that.totalDuration,_that.loadDuration,_that.promptEvalCount,_that.promptEvalDuration,_that.evalCount,_that.evalDuration,_that.remoteModel,_that.remoteHost);case _:
   return null;
 
 }
@@ -2016,7 +2020,7 @@ return $default(_that.model,_that.createdAt,_that.response,_that.thinking,_that.
 @JsonSerializable()
 
 class _GenerateCompletionResponse extends GenerateCompletionResponse {
-  const _GenerateCompletionResponse({@JsonKey(includeIfNull: false) this.model, @JsonKey(name: 'created_at', includeIfNull: false) this.createdAt, @JsonKey(includeIfNull: false) this.response, @JsonKey(includeIfNull: false) this.thinking, @JsonKey(includeIfNull: false) this.done, @JsonKey(includeIfNull: false) final  List<int>? context, @JsonKey(name: 'total_duration', includeIfNull: false) this.totalDuration, @JsonKey(name: 'load_duration', includeIfNull: false) this.loadDuration, @JsonKey(name: 'prompt_eval_count', includeIfNull: false) this.promptEvalCount, @JsonKey(name: 'prompt_eval_duration', includeIfNull: false) this.promptEvalDuration, @JsonKey(name: 'eval_count', includeIfNull: false) this.evalCount, @JsonKey(name: 'eval_duration', includeIfNull: false) this.evalDuration}): _context = context,super._();
+  const _GenerateCompletionResponse({@JsonKey(includeIfNull: false) this.model, @JsonKey(name: 'created_at', includeIfNull: false) this.createdAt, @JsonKey(includeIfNull: false) this.response, @JsonKey(includeIfNull: false) this.thinking, @JsonKey(includeIfNull: false) this.done, @JsonKey(includeIfNull: false) final  List<int>? context, @JsonKey(name: 'total_duration', includeIfNull: false) this.totalDuration, @JsonKey(name: 'load_duration', includeIfNull: false) this.loadDuration, @JsonKey(name: 'prompt_eval_count', includeIfNull: false) this.promptEvalCount, @JsonKey(name: 'prompt_eval_duration', includeIfNull: false) this.promptEvalDuration, @JsonKey(name: 'eval_count', includeIfNull: false) this.evalCount, @JsonKey(name: 'eval_duration', includeIfNull: false) this.evalDuration, @JsonKey(name: 'remote_model', includeIfNull: false) this.remoteModel, @JsonKey(name: 'remote_host', includeIfNull: false) this.remoteHost}): _context = context,super._();
   factory _GenerateCompletionResponse.fromJson(Map<String, dynamic> json) => _$GenerateCompletionResponseFromJson(json);
 
 /// The model name.
@@ -2054,6 +2058,10 @@ class _GenerateCompletionResponse extends GenerateCompletionResponse {
 @override@JsonKey(name: 'eval_count', includeIfNull: false) final  int? evalCount;
 /// Time in nanoseconds spent generating the response.
 @override@JsonKey(name: 'eval_duration', includeIfNull: false) final  int? evalDuration;
+/// Name of the upstream remote model that generated the response (when using federated models)
+@override@JsonKey(name: 'remote_model', includeIfNull: false) final  String? remoteModel;
+/// URL of the upstream Ollama host that served the request (when proxying to remote instances)
+@override@JsonKey(name: 'remote_host', includeIfNull: false) final  String? remoteHost;
 
 /// Create a copy of GenerateCompletionResponse
 /// with the given fields replaced by the non-null parameter values.
@@ -2068,16 +2076,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GenerateCompletionResponse&&(identical(other.model, model) || other.model == model)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.response, response) || other.response == response)&&(identical(other.thinking, thinking) || other.thinking == thinking)&&(identical(other.done, done) || other.done == done)&&const DeepCollectionEquality().equals(other._context, _context)&&(identical(other.totalDuration, totalDuration) || other.totalDuration == totalDuration)&&(identical(other.loadDuration, loadDuration) || other.loadDuration == loadDuration)&&(identical(other.promptEvalCount, promptEvalCount) || other.promptEvalCount == promptEvalCount)&&(identical(other.promptEvalDuration, promptEvalDuration) || other.promptEvalDuration == promptEvalDuration)&&(identical(other.evalCount, evalCount) || other.evalCount == evalCount)&&(identical(other.evalDuration, evalDuration) || other.evalDuration == evalDuration));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GenerateCompletionResponse&&(identical(other.model, model) || other.model == model)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.response, response) || other.response == response)&&(identical(other.thinking, thinking) || other.thinking == thinking)&&(identical(other.done, done) || other.done == done)&&const DeepCollectionEquality().equals(other._context, _context)&&(identical(other.totalDuration, totalDuration) || other.totalDuration == totalDuration)&&(identical(other.loadDuration, loadDuration) || other.loadDuration == loadDuration)&&(identical(other.promptEvalCount, promptEvalCount) || other.promptEvalCount == promptEvalCount)&&(identical(other.promptEvalDuration, promptEvalDuration) || other.promptEvalDuration == promptEvalDuration)&&(identical(other.evalCount, evalCount) || other.evalCount == evalCount)&&(identical(other.evalDuration, evalDuration) || other.evalDuration == evalDuration)&&(identical(other.remoteModel, remoteModel) || other.remoteModel == remoteModel)&&(identical(other.remoteHost, remoteHost) || other.remoteHost == remoteHost));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,model,createdAt,response,thinking,done,const DeepCollectionEquality().hash(_context),totalDuration,loadDuration,promptEvalCount,promptEvalDuration,evalCount,evalDuration);
+int get hashCode => Object.hash(runtimeType,model,createdAt,response,thinking,done,const DeepCollectionEquality().hash(_context),totalDuration,loadDuration,promptEvalCount,promptEvalDuration,evalCount,evalDuration,remoteModel,remoteHost);
 
 @override
 String toString() {
-  return 'GenerateCompletionResponse(model: $model, createdAt: $createdAt, response: $response, thinking: $thinking, done: $done, context: $context, totalDuration: $totalDuration, loadDuration: $loadDuration, promptEvalCount: $promptEvalCount, promptEvalDuration: $promptEvalDuration, evalCount: $evalCount, evalDuration: $evalDuration)';
+  return 'GenerateCompletionResponse(model: $model, createdAt: $createdAt, response: $response, thinking: $thinking, done: $done, context: $context, totalDuration: $totalDuration, loadDuration: $loadDuration, promptEvalCount: $promptEvalCount, promptEvalDuration: $promptEvalDuration, evalCount: $evalCount, evalDuration: $evalDuration, remoteModel: $remoteModel, remoteHost: $remoteHost)';
 }
 
 
@@ -2088,7 +2096,7 @@ abstract mixin class _$GenerateCompletionResponseCopyWith<$Res> implements $Gene
   factory _$GenerateCompletionResponseCopyWith(_GenerateCompletionResponse value, $Res Function(_GenerateCompletionResponse) _then) = __$GenerateCompletionResponseCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(includeIfNull: false) String? model,@JsonKey(name: 'created_at', includeIfNull: false) String? createdAt,@JsonKey(includeIfNull: false) String? response,@JsonKey(includeIfNull: false) String? thinking,@JsonKey(includeIfNull: false) bool? done,@JsonKey(includeIfNull: false) List<int>? context,@JsonKey(name: 'total_duration', includeIfNull: false) int? totalDuration,@JsonKey(name: 'load_duration', includeIfNull: false) int? loadDuration,@JsonKey(name: 'prompt_eval_count', includeIfNull: false) int? promptEvalCount,@JsonKey(name: 'prompt_eval_duration', includeIfNull: false) int? promptEvalDuration,@JsonKey(name: 'eval_count', includeIfNull: false) int? evalCount,@JsonKey(name: 'eval_duration', includeIfNull: false) int? evalDuration
+@JsonKey(includeIfNull: false) String? model,@JsonKey(name: 'created_at', includeIfNull: false) String? createdAt,@JsonKey(includeIfNull: false) String? response,@JsonKey(includeIfNull: false) String? thinking,@JsonKey(includeIfNull: false) bool? done,@JsonKey(includeIfNull: false) List<int>? context,@JsonKey(name: 'total_duration', includeIfNull: false) int? totalDuration,@JsonKey(name: 'load_duration', includeIfNull: false) int? loadDuration,@JsonKey(name: 'prompt_eval_count', includeIfNull: false) int? promptEvalCount,@JsonKey(name: 'prompt_eval_duration', includeIfNull: false) int? promptEvalDuration,@JsonKey(name: 'eval_count', includeIfNull: false) int? evalCount,@JsonKey(name: 'eval_duration', includeIfNull: false) int? evalDuration,@JsonKey(name: 'remote_model', includeIfNull: false) String? remoteModel,@JsonKey(name: 'remote_host', includeIfNull: false) String? remoteHost
 });
 
 
@@ -2105,7 +2113,7 @@ class __$GenerateCompletionResponseCopyWithImpl<$Res>
 
 /// Create a copy of GenerateCompletionResponse
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? model = freezed,Object? createdAt = freezed,Object? response = freezed,Object? thinking = freezed,Object? done = freezed,Object? context = freezed,Object? totalDuration = freezed,Object? loadDuration = freezed,Object? promptEvalCount = freezed,Object? promptEvalDuration = freezed,Object? evalCount = freezed,Object? evalDuration = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? model = freezed,Object? createdAt = freezed,Object? response = freezed,Object? thinking = freezed,Object? done = freezed,Object? context = freezed,Object? totalDuration = freezed,Object? loadDuration = freezed,Object? promptEvalCount = freezed,Object? promptEvalDuration = freezed,Object? evalCount = freezed,Object? evalDuration = freezed,Object? remoteModel = freezed,Object? remoteHost = freezed,}) {
   return _then(_GenerateCompletionResponse(
 model: freezed == model ? _self.model : model // ignore: cast_nullable_to_non_nullable
 as String?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
@@ -2119,7 +2127,9 @@ as int?,promptEvalCount: freezed == promptEvalCount ? _self.promptEvalCount : pr
 as int?,promptEvalDuration: freezed == promptEvalDuration ? _self.promptEvalDuration : promptEvalDuration // ignore: cast_nullable_to_non_nullable
 as int?,evalCount: freezed == evalCount ? _self.evalCount : evalCount // ignore: cast_nullable_to_non_nullable
 as int?,evalDuration: freezed == evalDuration ? _self.evalDuration : evalDuration // ignore: cast_nullable_to_non_nullable
-as int?,
+as int?,remoteModel: freezed == remoteModel ? _self.remoteModel : remoteModel // ignore: cast_nullable_to_non_nullable
+as String?,remoteHost: freezed == remoteHost ? _self.remoteHost : remoteHost // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -3167,7 +3177,9 @@ mixin _$GenerateChatCompletionResponse {
 @JsonKey(name: 'prompt_eval_count', includeIfNull: false) int? get promptEvalCount;/// Time spent in nanoseconds evaluating the prompt.
 @JsonKey(name: 'prompt_eval_duration', includeIfNull: false) int? get promptEvalDuration;/// Number of tokens the response.
 @JsonKey(name: 'eval_count', includeIfNull: false) int? get evalCount;/// Time in nanoseconds spent generating the response.
-@JsonKey(name: 'eval_duration', includeIfNull: false) int? get evalDuration;
+@JsonKey(name: 'eval_duration', includeIfNull: false) int? get evalDuration;/// Name of the upstream remote model that generated the response (when using federated models)
+@JsonKey(name: 'remote_model', includeIfNull: false) String? get remoteModel;/// URL of the upstream Ollama host that served the request (when proxying to remote instances)
+@JsonKey(name: 'remote_host', includeIfNull: false) String? get remoteHost;
 /// Create a copy of GenerateChatCompletionResponse
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -3180,16 +3192,16 @@ $GenerateChatCompletionResponseCopyWith<GenerateChatCompletionResponse> get copy
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is GenerateChatCompletionResponse&&(identical(other.message, message) || other.message == message)&&(identical(other.model, model) || other.model == model)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.done, done) || other.done == done)&&(identical(other.doneReason, doneReason) || other.doneReason == doneReason)&&(identical(other.totalDuration, totalDuration) || other.totalDuration == totalDuration)&&(identical(other.loadDuration, loadDuration) || other.loadDuration == loadDuration)&&(identical(other.promptEvalCount, promptEvalCount) || other.promptEvalCount == promptEvalCount)&&(identical(other.promptEvalDuration, promptEvalDuration) || other.promptEvalDuration == promptEvalDuration)&&(identical(other.evalCount, evalCount) || other.evalCount == evalCount)&&(identical(other.evalDuration, evalDuration) || other.evalDuration == evalDuration));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GenerateChatCompletionResponse&&(identical(other.message, message) || other.message == message)&&(identical(other.model, model) || other.model == model)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.done, done) || other.done == done)&&(identical(other.doneReason, doneReason) || other.doneReason == doneReason)&&(identical(other.totalDuration, totalDuration) || other.totalDuration == totalDuration)&&(identical(other.loadDuration, loadDuration) || other.loadDuration == loadDuration)&&(identical(other.promptEvalCount, promptEvalCount) || other.promptEvalCount == promptEvalCount)&&(identical(other.promptEvalDuration, promptEvalDuration) || other.promptEvalDuration == promptEvalDuration)&&(identical(other.evalCount, evalCount) || other.evalCount == evalCount)&&(identical(other.evalDuration, evalDuration) || other.evalDuration == evalDuration)&&(identical(other.remoteModel, remoteModel) || other.remoteModel == remoteModel)&&(identical(other.remoteHost, remoteHost) || other.remoteHost == remoteHost));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,message,model,createdAt,done,doneReason,totalDuration,loadDuration,promptEvalCount,promptEvalDuration,evalCount,evalDuration);
+int get hashCode => Object.hash(runtimeType,message,model,createdAt,done,doneReason,totalDuration,loadDuration,promptEvalCount,promptEvalDuration,evalCount,evalDuration,remoteModel,remoteHost);
 
 @override
 String toString() {
-  return 'GenerateChatCompletionResponse(message: $message, model: $model, createdAt: $createdAt, done: $done, doneReason: $doneReason, totalDuration: $totalDuration, loadDuration: $loadDuration, promptEvalCount: $promptEvalCount, promptEvalDuration: $promptEvalDuration, evalCount: $evalCount, evalDuration: $evalDuration)';
+  return 'GenerateChatCompletionResponse(message: $message, model: $model, createdAt: $createdAt, done: $done, doneReason: $doneReason, totalDuration: $totalDuration, loadDuration: $loadDuration, promptEvalCount: $promptEvalCount, promptEvalDuration: $promptEvalDuration, evalCount: $evalCount, evalDuration: $evalDuration, remoteModel: $remoteModel, remoteHost: $remoteHost)';
 }
 
 
@@ -3200,7 +3212,7 @@ abstract mixin class $GenerateChatCompletionResponseCopyWith<$Res>  {
   factory $GenerateChatCompletionResponseCopyWith(GenerateChatCompletionResponse value, $Res Function(GenerateChatCompletionResponse) _then) = _$GenerateChatCompletionResponseCopyWithImpl;
 @useResult
 $Res call({
- Message message, String model,@JsonKey(name: 'created_at') String createdAt, bool done,@JsonKey(name: 'done_reason', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) DoneReason? doneReason,@JsonKey(name: 'total_duration', includeIfNull: false) int? totalDuration,@JsonKey(name: 'load_duration', includeIfNull: false) int? loadDuration,@JsonKey(name: 'prompt_eval_count', includeIfNull: false) int? promptEvalCount,@JsonKey(name: 'prompt_eval_duration', includeIfNull: false) int? promptEvalDuration,@JsonKey(name: 'eval_count', includeIfNull: false) int? evalCount,@JsonKey(name: 'eval_duration', includeIfNull: false) int? evalDuration
+ Message message, String model,@JsonKey(name: 'created_at') String createdAt, bool done,@JsonKey(name: 'done_reason', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) DoneReason? doneReason,@JsonKey(name: 'total_duration', includeIfNull: false) int? totalDuration,@JsonKey(name: 'load_duration', includeIfNull: false) int? loadDuration,@JsonKey(name: 'prompt_eval_count', includeIfNull: false) int? promptEvalCount,@JsonKey(name: 'prompt_eval_duration', includeIfNull: false) int? promptEvalDuration,@JsonKey(name: 'eval_count', includeIfNull: false) int? evalCount,@JsonKey(name: 'eval_duration', includeIfNull: false) int? evalDuration,@JsonKey(name: 'remote_model', includeIfNull: false) String? remoteModel,@JsonKey(name: 'remote_host', includeIfNull: false) String? remoteHost
 });
 
 
@@ -3217,7 +3229,7 @@ class _$GenerateChatCompletionResponseCopyWithImpl<$Res>
 
 /// Create a copy of GenerateChatCompletionResponse
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? message = null,Object? model = null,Object? createdAt = null,Object? done = null,Object? doneReason = freezed,Object? totalDuration = freezed,Object? loadDuration = freezed,Object? promptEvalCount = freezed,Object? promptEvalDuration = freezed,Object? evalCount = freezed,Object? evalDuration = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? message = null,Object? model = null,Object? createdAt = null,Object? done = null,Object? doneReason = freezed,Object? totalDuration = freezed,Object? loadDuration = freezed,Object? promptEvalCount = freezed,Object? promptEvalDuration = freezed,Object? evalCount = freezed,Object? evalDuration = freezed,Object? remoteModel = freezed,Object? remoteHost = freezed,}) {
   return _then(_self.copyWith(
 message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as Message,model: null == model ? _self.model : model // ignore: cast_nullable_to_non_nullable
@@ -3230,7 +3242,9 @@ as int?,promptEvalCount: freezed == promptEvalCount ? _self.promptEvalCount : pr
 as int?,promptEvalDuration: freezed == promptEvalDuration ? _self.promptEvalDuration : promptEvalDuration // ignore: cast_nullable_to_non_nullable
 as int?,evalCount: freezed == evalCount ? _self.evalCount : evalCount // ignore: cast_nullable_to_non_nullable
 as int?,evalDuration: freezed == evalDuration ? _self.evalDuration : evalDuration // ignore: cast_nullable_to_non_nullable
-as int?,
+as int?,remoteModel: freezed == remoteModel ? _self.remoteModel : remoteModel // ignore: cast_nullable_to_non_nullable
+as String?,remoteHost: freezed == remoteHost ? _self.remoteHost : remoteHost // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 /// Create a copy of GenerateChatCompletionResponse
@@ -3324,10 +3338,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Message message,  String model, @JsonKey(name: 'created_at')  String createdAt,  bool done, @JsonKey(name: 'done_reason', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  DoneReason? doneReason, @JsonKey(name: 'total_duration', includeIfNull: false)  int? totalDuration, @JsonKey(name: 'load_duration', includeIfNull: false)  int? loadDuration, @JsonKey(name: 'prompt_eval_count', includeIfNull: false)  int? promptEvalCount, @JsonKey(name: 'prompt_eval_duration', includeIfNull: false)  int? promptEvalDuration, @JsonKey(name: 'eval_count', includeIfNull: false)  int? evalCount, @JsonKey(name: 'eval_duration', includeIfNull: false)  int? evalDuration)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Message message,  String model, @JsonKey(name: 'created_at')  String createdAt,  bool done, @JsonKey(name: 'done_reason', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  DoneReason? doneReason, @JsonKey(name: 'total_duration', includeIfNull: false)  int? totalDuration, @JsonKey(name: 'load_duration', includeIfNull: false)  int? loadDuration, @JsonKey(name: 'prompt_eval_count', includeIfNull: false)  int? promptEvalCount, @JsonKey(name: 'prompt_eval_duration', includeIfNull: false)  int? promptEvalDuration, @JsonKey(name: 'eval_count', includeIfNull: false)  int? evalCount, @JsonKey(name: 'eval_duration', includeIfNull: false)  int? evalDuration, @JsonKey(name: 'remote_model', includeIfNull: false)  String? remoteModel, @JsonKey(name: 'remote_host', includeIfNull: false)  String? remoteHost)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _GenerateChatCompletionResponse() when $default != null:
-return $default(_that.message,_that.model,_that.createdAt,_that.done,_that.doneReason,_that.totalDuration,_that.loadDuration,_that.promptEvalCount,_that.promptEvalDuration,_that.evalCount,_that.evalDuration);case _:
+return $default(_that.message,_that.model,_that.createdAt,_that.done,_that.doneReason,_that.totalDuration,_that.loadDuration,_that.promptEvalCount,_that.promptEvalDuration,_that.evalCount,_that.evalDuration,_that.remoteModel,_that.remoteHost);case _:
   return orElse();
 
 }
@@ -3345,10 +3359,10 @@ return $default(_that.message,_that.model,_that.createdAt,_that.done,_that.doneR
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Message message,  String model, @JsonKey(name: 'created_at')  String createdAt,  bool done, @JsonKey(name: 'done_reason', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  DoneReason? doneReason, @JsonKey(name: 'total_duration', includeIfNull: false)  int? totalDuration, @JsonKey(name: 'load_duration', includeIfNull: false)  int? loadDuration, @JsonKey(name: 'prompt_eval_count', includeIfNull: false)  int? promptEvalCount, @JsonKey(name: 'prompt_eval_duration', includeIfNull: false)  int? promptEvalDuration, @JsonKey(name: 'eval_count', includeIfNull: false)  int? evalCount, @JsonKey(name: 'eval_duration', includeIfNull: false)  int? evalDuration)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Message message,  String model, @JsonKey(name: 'created_at')  String createdAt,  bool done, @JsonKey(name: 'done_reason', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  DoneReason? doneReason, @JsonKey(name: 'total_duration', includeIfNull: false)  int? totalDuration, @JsonKey(name: 'load_duration', includeIfNull: false)  int? loadDuration, @JsonKey(name: 'prompt_eval_count', includeIfNull: false)  int? promptEvalCount, @JsonKey(name: 'prompt_eval_duration', includeIfNull: false)  int? promptEvalDuration, @JsonKey(name: 'eval_count', includeIfNull: false)  int? evalCount, @JsonKey(name: 'eval_duration', includeIfNull: false)  int? evalDuration, @JsonKey(name: 'remote_model', includeIfNull: false)  String? remoteModel, @JsonKey(name: 'remote_host', includeIfNull: false)  String? remoteHost)  $default,) {final _that = this;
 switch (_that) {
 case _GenerateChatCompletionResponse():
-return $default(_that.message,_that.model,_that.createdAt,_that.done,_that.doneReason,_that.totalDuration,_that.loadDuration,_that.promptEvalCount,_that.promptEvalDuration,_that.evalCount,_that.evalDuration);case _:
+return $default(_that.message,_that.model,_that.createdAt,_that.done,_that.doneReason,_that.totalDuration,_that.loadDuration,_that.promptEvalCount,_that.promptEvalDuration,_that.evalCount,_that.evalDuration,_that.remoteModel,_that.remoteHost);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -3365,10 +3379,10 @@ return $default(_that.message,_that.model,_that.createdAt,_that.done,_that.doneR
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Message message,  String model, @JsonKey(name: 'created_at')  String createdAt,  bool done, @JsonKey(name: 'done_reason', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  DoneReason? doneReason, @JsonKey(name: 'total_duration', includeIfNull: false)  int? totalDuration, @JsonKey(name: 'load_duration', includeIfNull: false)  int? loadDuration, @JsonKey(name: 'prompt_eval_count', includeIfNull: false)  int? promptEvalCount, @JsonKey(name: 'prompt_eval_duration', includeIfNull: false)  int? promptEvalDuration, @JsonKey(name: 'eval_count', includeIfNull: false)  int? evalCount, @JsonKey(name: 'eval_duration', includeIfNull: false)  int? evalDuration)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Message message,  String model, @JsonKey(name: 'created_at')  String createdAt,  bool done, @JsonKey(name: 'done_reason', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  DoneReason? doneReason, @JsonKey(name: 'total_duration', includeIfNull: false)  int? totalDuration, @JsonKey(name: 'load_duration', includeIfNull: false)  int? loadDuration, @JsonKey(name: 'prompt_eval_count', includeIfNull: false)  int? promptEvalCount, @JsonKey(name: 'prompt_eval_duration', includeIfNull: false)  int? promptEvalDuration, @JsonKey(name: 'eval_count', includeIfNull: false)  int? evalCount, @JsonKey(name: 'eval_duration', includeIfNull: false)  int? evalDuration, @JsonKey(name: 'remote_model', includeIfNull: false)  String? remoteModel, @JsonKey(name: 'remote_host', includeIfNull: false)  String? remoteHost)?  $default,) {final _that = this;
 switch (_that) {
 case _GenerateChatCompletionResponse() when $default != null:
-return $default(_that.message,_that.model,_that.createdAt,_that.done,_that.doneReason,_that.totalDuration,_that.loadDuration,_that.promptEvalCount,_that.promptEvalDuration,_that.evalCount,_that.evalDuration);case _:
+return $default(_that.message,_that.model,_that.createdAt,_that.done,_that.doneReason,_that.totalDuration,_that.loadDuration,_that.promptEvalCount,_that.promptEvalDuration,_that.evalCount,_that.evalDuration,_that.remoteModel,_that.remoteHost);case _:
   return null;
 
 }
@@ -3380,7 +3394,7 @@ return $default(_that.message,_that.model,_that.createdAt,_that.done,_that.doneR
 @JsonSerializable()
 
 class _GenerateChatCompletionResponse extends GenerateChatCompletionResponse {
-  const _GenerateChatCompletionResponse({required this.message, required this.model, @JsonKey(name: 'created_at') required this.createdAt, required this.done, @JsonKey(name: 'done_reason', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.doneReason, @JsonKey(name: 'total_duration', includeIfNull: false) this.totalDuration, @JsonKey(name: 'load_duration', includeIfNull: false) this.loadDuration, @JsonKey(name: 'prompt_eval_count', includeIfNull: false) this.promptEvalCount, @JsonKey(name: 'prompt_eval_duration', includeIfNull: false) this.promptEvalDuration, @JsonKey(name: 'eval_count', includeIfNull: false) this.evalCount, @JsonKey(name: 'eval_duration', includeIfNull: false) this.evalDuration}): super._();
+  const _GenerateChatCompletionResponse({required this.message, required this.model, @JsonKey(name: 'created_at') required this.createdAt, required this.done, @JsonKey(name: 'done_reason', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.doneReason, @JsonKey(name: 'total_duration', includeIfNull: false) this.totalDuration, @JsonKey(name: 'load_duration', includeIfNull: false) this.loadDuration, @JsonKey(name: 'prompt_eval_count', includeIfNull: false) this.promptEvalCount, @JsonKey(name: 'prompt_eval_duration', includeIfNull: false) this.promptEvalDuration, @JsonKey(name: 'eval_count', includeIfNull: false) this.evalCount, @JsonKey(name: 'eval_duration', includeIfNull: false) this.evalDuration, @JsonKey(name: 'remote_model', includeIfNull: false) this.remoteModel, @JsonKey(name: 'remote_host', includeIfNull: false) this.remoteHost}): super._();
   factory _GenerateChatCompletionResponse.fromJson(Map<String, dynamic> json) => _$GenerateChatCompletionResponseFromJson(json);
 
 /// A message in the chat endpoint
@@ -3407,6 +3421,10 @@ class _GenerateChatCompletionResponse extends GenerateChatCompletionResponse {
 @override@JsonKey(name: 'eval_count', includeIfNull: false) final  int? evalCount;
 /// Time in nanoseconds spent generating the response.
 @override@JsonKey(name: 'eval_duration', includeIfNull: false) final  int? evalDuration;
+/// Name of the upstream remote model that generated the response (when using federated models)
+@override@JsonKey(name: 'remote_model', includeIfNull: false) final  String? remoteModel;
+/// URL of the upstream Ollama host that served the request (when proxying to remote instances)
+@override@JsonKey(name: 'remote_host', includeIfNull: false) final  String? remoteHost;
 
 /// Create a copy of GenerateChatCompletionResponse
 /// with the given fields replaced by the non-null parameter values.
@@ -3421,16 +3439,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GenerateChatCompletionResponse&&(identical(other.message, message) || other.message == message)&&(identical(other.model, model) || other.model == model)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.done, done) || other.done == done)&&(identical(other.doneReason, doneReason) || other.doneReason == doneReason)&&(identical(other.totalDuration, totalDuration) || other.totalDuration == totalDuration)&&(identical(other.loadDuration, loadDuration) || other.loadDuration == loadDuration)&&(identical(other.promptEvalCount, promptEvalCount) || other.promptEvalCount == promptEvalCount)&&(identical(other.promptEvalDuration, promptEvalDuration) || other.promptEvalDuration == promptEvalDuration)&&(identical(other.evalCount, evalCount) || other.evalCount == evalCount)&&(identical(other.evalDuration, evalDuration) || other.evalDuration == evalDuration));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GenerateChatCompletionResponse&&(identical(other.message, message) || other.message == message)&&(identical(other.model, model) || other.model == model)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.done, done) || other.done == done)&&(identical(other.doneReason, doneReason) || other.doneReason == doneReason)&&(identical(other.totalDuration, totalDuration) || other.totalDuration == totalDuration)&&(identical(other.loadDuration, loadDuration) || other.loadDuration == loadDuration)&&(identical(other.promptEvalCount, promptEvalCount) || other.promptEvalCount == promptEvalCount)&&(identical(other.promptEvalDuration, promptEvalDuration) || other.promptEvalDuration == promptEvalDuration)&&(identical(other.evalCount, evalCount) || other.evalCount == evalCount)&&(identical(other.evalDuration, evalDuration) || other.evalDuration == evalDuration)&&(identical(other.remoteModel, remoteModel) || other.remoteModel == remoteModel)&&(identical(other.remoteHost, remoteHost) || other.remoteHost == remoteHost));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,message,model,createdAt,done,doneReason,totalDuration,loadDuration,promptEvalCount,promptEvalDuration,evalCount,evalDuration);
+int get hashCode => Object.hash(runtimeType,message,model,createdAt,done,doneReason,totalDuration,loadDuration,promptEvalCount,promptEvalDuration,evalCount,evalDuration,remoteModel,remoteHost);
 
 @override
 String toString() {
-  return 'GenerateChatCompletionResponse(message: $message, model: $model, createdAt: $createdAt, done: $done, doneReason: $doneReason, totalDuration: $totalDuration, loadDuration: $loadDuration, promptEvalCount: $promptEvalCount, promptEvalDuration: $promptEvalDuration, evalCount: $evalCount, evalDuration: $evalDuration)';
+  return 'GenerateChatCompletionResponse(message: $message, model: $model, createdAt: $createdAt, done: $done, doneReason: $doneReason, totalDuration: $totalDuration, loadDuration: $loadDuration, promptEvalCount: $promptEvalCount, promptEvalDuration: $promptEvalDuration, evalCount: $evalCount, evalDuration: $evalDuration, remoteModel: $remoteModel, remoteHost: $remoteHost)';
 }
 
 
@@ -3441,7 +3459,7 @@ abstract mixin class _$GenerateChatCompletionResponseCopyWith<$Res> implements $
   factory _$GenerateChatCompletionResponseCopyWith(_GenerateChatCompletionResponse value, $Res Function(_GenerateChatCompletionResponse) _then) = __$GenerateChatCompletionResponseCopyWithImpl;
 @override @useResult
 $Res call({
- Message message, String model,@JsonKey(name: 'created_at') String createdAt, bool done,@JsonKey(name: 'done_reason', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) DoneReason? doneReason,@JsonKey(name: 'total_duration', includeIfNull: false) int? totalDuration,@JsonKey(name: 'load_duration', includeIfNull: false) int? loadDuration,@JsonKey(name: 'prompt_eval_count', includeIfNull: false) int? promptEvalCount,@JsonKey(name: 'prompt_eval_duration', includeIfNull: false) int? promptEvalDuration,@JsonKey(name: 'eval_count', includeIfNull: false) int? evalCount,@JsonKey(name: 'eval_duration', includeIfNull: false) int? evalDuration
+ Message message, String model,@JsonKey(name: 'created_at') String createdAt, bool done,@JsonKey(name: 'done_reason', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) DoneReason? doneReason,@JsonKey(name: 'total_duration', includeIfNull: false) int? totalDuration,@JsonKey(name: 'load_duration', includeIfNull: false) int? loadDuration,@JsonKey(name: 'prompt_eval_count', includeIfNull: false) int? promptEvalCount,@JsonKey(name: 'prompt_eval_duration', includeIfNull: false) int? promptEvalDuration,@JsonKey(name: 'eval_count', includeIfNull: false) int? evalCount,@JsonKey(name: 'eval_duration', includeIfNull: false) int? evalDuration,@JsonKey(name: 'remote_model', includeIfNull: false) String? remoteModel,@JsonKey(name: 'remote_host', includeIfNull: false) String? remoteHost
 });
 
 
@@ -3458,7 +3476,7 @@ class __$GenerateChatCompletionResponseCopyWithImpl<$Res>
 
 /// Create a copy of GenerateChatCompletionResponse
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? message = null,Object? model = null,Object? createdAt = null,Object? done = null,Object? doneReason = freezed,Object? totalDuration = freezed,Object? loadDuration = freezed,Object? promptEvalCount = freezed,Object? promptEvalDuration = freezed,Object? evalCount = freezed,Object? evalDuration = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? message = null,Object? model = null,Object? createdAt = null,Object? done = null,Object? doneReason = freezed,Object? totalDuration = freezed,Object? loadDuration = freezed,Object? promptEvalCount = freezed,Object? promptEvalDuration = freezed,Object? evalCount = freezed,Object? evalDuration = freezed,Object? remoteModel = freezed,Object? remoteHost = freezed,}) {
   return _then(_GenerateChatCompletionResponse(
 message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as Message,model: null == model ? _self.model : model // ignore: cast_nullable_to_non_nullable
@@ -3471,7 +3489,9 @@ as int?,promptEvalCount: freezed == promptEvalCount ? _self.promptEvalCount : pr
 as int?,promptEvalDuration: freezed == promptEvalDuration ? _self.promptEvalDuration : promptEvalDuration // ignore: cast_nullable_to_non_nullable
 as int?,evalCount: freezed == evalCount ? _self.evalCount : evalCount // ignore: cast_nullable_to_non_nullable
 as int?,evalDuration: freezed == evalDuration ? _self.evalDuration : evalDuration // ignore: cast_nullable_to_non_nullable
-as int?,
+as int?,remoteModel: freezed == remoteModel ? _self.remoteModel : remoteModel // ignore: cast_nullable_to_non_nullable
+as String?,remoteHost: freezed == remoteHost ? _self.remoteHost : remoteHost // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -6363,7 +6383,9 @@ mixin _$Model {
 @JsonKey(name: 'modified_at', includeIfNull: false) String? get modifiedAt;/// Size of the model on disk.
 @JsonKey(includeIfNull: false) int? get size;/// The model's digest.
 @JsonKey(includeIfNull: false) String? get digest;/// Details about a model.
-@JsonKey(includeIfNull: false) ModelDetails? get details;
+@JsonKey(includeIfNull: false) ModelDetails? get details;/// Name of the upstream remote model (when model is federated from another Ollama instance)
+@JsonKey(name: 'remote_model', includeIfNull: false) String? get remoteModel;/// URL of the upstream Ollama host (when model is federated from another instance)
+@JsonKey(name: 'remote_host', includeIfNull: false) String? get remoteHost;
 /// Create a copy of Model
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -6376,16 +6398,16 @@ $ModelCopyWith<Model> get copyWith => _$ModelCopyWithImpl<Model>(this as Model, 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Model&&(identical(other.model, model) || other.model == model)&&(identical(other.modifiedAt, modifiedAt) || other.modifiedAt == modifiedAt)&&(identical(other.size, size) || other.size == size)&&(identical(other.digest, digest) || other.digest == digest)&&(identical(other.details, details) || other.details == details));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Model&&(identical(other.model, model) || other.model == model)&&(identical(other.modifiedAt, modifiedAt) || other.modifiedAt == modifiedAt)&&(identical(other.size, size) || other.size == size)&&(identical(other.digest, digest) || other.digest == digest)&&(identical(other.details, details) || other.details == details)&&(identical(other.remoteModel, remoteModel) || other.remoteModel == remoteModel)&&(identical(other.remoteHost, remoteHost) || other.remoteHost == remoteHost));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,model,modifiedAt,size,digest,details);
+int get hashCode => Object.hash(runtimeType,model,modifiedAt,size,digest,details,remoteModel,remoteHost);
 
 @override
 String toString() {
-  return 'Model(model: $model, modifiedAt: $modifiedAt, size: $size, digest: $digest, details: $details)';
+  return 'Model(model: $model, modifiedAt: $modifiedAt, size: $size, digest: $digest, details: $details, remoteModel: $remoteModel, remoteHost: $remoteHost)';
 }
 
 
@@ -6396,7 +6418,7 @@ abstract mixin class $ModelCopyWith<$Res>  {
   factory $ModelCopyWith(Model value, $Res Function(Model) _then) = _$ModelCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(includeIfNull: false) String? model,@JsonKey(name: 'modified_at', includeIfNull: false) String? modifiedAt,@JsonKey(includeIfNull: false) int? size,@JsonKey(includeIfNull: false) String? digest,@JsonKey(includeIfNull: false) ModelDetails? details
+@JsonKey(includeIfNull: false) String? model,@JsonKey(name: 'modified_at', includeIfNull: false) String? modifiedAt,@JsonKey(includeIfNull: false) int? size,@JsonKey(includeIfNull: false) String? digest,@JsonKey(includeIfNull: false) ModelDetails? details,@JsonKey(name: 'remote_model', includeIfNull: false) String? remoteModel,@JsonKey(name: 'remote_host', includeIfNull: false) String? remoteHost
 });
 
 
@@ -6413,14 +6435,16 @@ class _$ModelCopyWithImpl<$Res>
 
 /// Create a copy of Model
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? model = freezed,Object? modifiedAt = freezed,Object? size = freezed,Object? digest = freezed,Object? details = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? model = freezed,Object? modifiedAt = freezed,Object? size = freezed,Object? digest = freezed,Object? details = freezed,Object? remoteModel = freezed,Object? remoteHost = freezed,}) {
   return _then(_self.copyWith(
 model: freezed == model ? _self.model : model // ignore: cast_nullable_to_non_nullable
 as String?,modifiedAt: freezed == modifiedAt ? _self.modifiedAt : modifiedAt // ignore: cast_nullable_to_non_nullable
 as String?,size: freezed == size ? _self.size : size // ignore: cast_nullable_to_non_nullable
 as int?,digest: freezed == digest ? _self.digest : digest // ignore: cast_nullable_to_non_nullable
 as String?,details: freezed == details ? _self.details : details // ignore: cast_nullable_to_non_nullable
-as ModelDetails?,
+as ModelDetails?,remoteModel: freezed == remoteModel ? _self.remoteModel : remoteModel // ignore: cast_nullable_to_non_nullable
+as String?,remoteHost: freezed == remoteHost ? _self.remoteHost : remoteHost // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 /// Create a copy of Model
@@ -6517,10 +6541,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false)  String? model, @JsonKey(name: 'modified_at', includeIfNull: false)  String? modifiedAt, @JsonKey(includeIfNull: false)  int? size, @JsonKey(includeIfNull: false)  String? digest, @JsonKey(includeIfNull: false)  ModelDetails? details)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false)  String? model, @JsonKey(name: 'modified_at', includeIfNull: false)  String? modifiedAt, @JsonKey(includeIfNull: false)  int? size, @JsonKey(includeIfNull: false)  String? digest, @JsonKey(includeIfNull: false)  ModelDetails? details, @JsonKey(name: 'remote_model', includeIfNull: false)  String? remoteModel, @JsonKey(name: 'remote_host', includeIfNull: false)  String? remoteHost)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Model() when $default != null:
-return $default(_that.model,_that.modifiedAt,_that.size,_that.digest,_that.details);case _:
+return $default(_that.model,_that.modifiedAt,_that.size,_that.digest,_that.details,_that.remoteModel,_that.remoteHost);case _:
   return orElse();
 
 }
@@ -6538,10 +6562,10 @@ return $default(_that.model,_that.modifiedAt,_that.size,_that.digest,_that.detai
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false)  String? model, @JsonKey(name: 'modified_at', includeIfNull: false)  String? modifiedAt, @JsonKey(includeIfNull: false)  int? size, @JsonKey(includeIfNull: false)  String? digest, @JsonKey(includeIfNull: false)  ModelDetails? details)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false)  String? model, @JsonKey(name: 'modified_at', includeIfNull: false)  String? modifiedAt, @JsonKey(includeIfNull: false)  int? size, @JsonKey(includeIfNull: false)  String? digest, @JsonKey(includeIfNull: false)  ModelDetails? details, @JsonKey(name: 'remote_model', includeIfNull: false)  String? remoteModel, @JsonKey(name: 'remote_host', includeIfNull: false)  String? remoteHost)  $default,) {final _that = this;
 switch (_that) {
 case _Model():
-return $default(_that.model,_that.modifiedAt,_that.size,_that.digest,_that.details);case _:
+return $default(_that.model,_that.modifiedAt,_that.size,_that.digest,_that.details,_that.remoteModel,_that.remoteHost);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -6558,10 +6582,10 @@ return $default(_that.model,_that.modifiedAt,_that.size,_that.digest,_that.detai
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(includeIfNull: false)  String? model, @JsonKey(name: 'modified_at', includeIfNull: false)  String? modifiedAt, @JsonKey(includeIfNull: false)  int? size, @JsonKey(includeIfNull: false)  String? digest, @JsonKey(includeIfNull: false)  ModelDetails? details)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(includeIfNull: false)  String? model, @JsonKey(name: 'modified_at', includeIfNull: false)  String? modifiedAt, @JsonKey(includeIfNull: false)  int? size, @JsonKey(includeIfNull: false)  String? digest, @JsonKey(includeIfNull: false)  ModelDetails? details, @JsonKey(name: 'remote_model', includeIfNull: false)  String? remoteModel, @JsonKey(name: 'remote_host', includeIfNull: false)  String? remoteHost)?  $default,) {final _that = this;
 switch (_that) {
 case _Model() when $default != null:
-return $default(_that.model,_that.modifiedAt,_that.size,_that.digest,_that.details);case _:
+return $default(_that.model,_that.modifiedAt,_that.size,_that.digest,_that.details,_that.remoteModel,_that.remoteHost);case _:
   return null;
 
 }
@@ -6573,7 +6597,7 @@ return $default(_that.model,_that.modifiedAt,_that.size,_that.digest,_that.detai
 @JsonSerializable()
 
 class _Model extends Model {
-  const _Model({@JsonKey(includeIfNull: false) this.model, @JsonKey(name: 'modified_at', includeIfNull: false) this.modifiedAt, @JsonKey(includeIfNull: false) this.size, @JsonKey(includeIfNull: false) this.digest, @JsonKey(includeIfNull: false) this.details}): super._();
+  const _Model({@JsonKey(includeIfNull: false) this.model, @JsonKey(name: 'modified_at', includeIfNull: false) this.modifiedAt, @JsonKey(includeIfNull: false) this.size, @JsonKey(includeIfNull: false) this.digest, @JsonKey(includeIfNull: false) this.details, @JsonKey(name: 'remote_model', includeIfNull: false) this.remoteModel, @JsonKey(name: 'remote_host', includeIfNull: false) this.remoteHost}): super._();
   factory _Model.fromJson(Map<String, dynamic> json) => _$ModelFromJson(json);
 
 /// The model name.
@@ -6588,6 +6612,10 @@ class _Model extends Model {
 @override@JsonKey(includeIfNull: false) final  String? digest;
 /// Details about a model.
 @override@JsonKey(includeIfNull: false) final  ModelDetails? details;
+/// Name of the upstream remote model (when model is federated from another Ollama instance)
+@override@JsonKey(name: 'remote_model', includeIfNull: false) final  String? remoteModel;
+/// URL of the upstream Ollama host (when model is federated from another instance)
+@override@JsonKey(name: 'remote_host', includeIfNull: false) final  String? remoteHost;
 
 /// Create a copy of Model
 /// with the given fields replaced by the non-null parameter values.
@@ -6602,16 +6630,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Model&&(identical(other.model, model) || other.model == model)&&(identical(other.modifiedAt, modifiedAt) || other.modifiedAt == modifiedAt)&&(identical(other.size, size) || other.size == size)&&(identical(other.digest, digest) || other.digest == digest)&&(identical(other.details, details) || other.details == details));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Model&&(identical(other.model, model) || other.model == model)&&(identical(other.modifiedAt, modifiedAt) || other.modifiedAt == modifiedAt)&&(identical(other.size, size) || other.size == size)&&(identical(other.digest, digest) || other.digest == digest)&&(identical(other.details, details) || other.details == details)&&(identical(other.remoteModel, remoteModel) || other.remoteModel == remoteModel)&&(identical(other.remoteHost, remoteHost) || other.remoteHost == remoteHost));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,model,modifiedAt,size,digest,details);
+int get hashCode => Object.hash(runtimeType,model,modifiedAt,size,digest,details,remoteModel,remoteHost);
 
 @override
 String toString() {
-  return 'Model(model: $model, modifiedAt: $modifiedAt, size: $size, digest: $digest, details: $details)';
+  return 'Model(model: $model, modifiedAt: $modifiedAt, size: $size, digest: $digest, details: $details, remoteModel: $remoteModel, remoteHost: $remoteHost)';
 }
 
 
@@ -6622,7 +6650,7 @@ abstract mixin class _$ModelCopyWith<$Res> implements $ModelCopyWith<$Res> {
   factory _$ModelCopyWith(_Model value, $Res Function(_Model) _then) = __$ModelCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(includeIfNull: false) String? model,@JsonKey(name: 'modified_at', includeIfNull: false) String? modifiedAt,@JsonKey(includeIfNull: false) int? size,@JsonKey(includeIfNull: false) String? digest,@JsonKey(includeIfNull: false) ModelDetails? details
+@JsonKey(includeIfNull: false) String? model,@JsonKey(name: 'modified_at', includeIfNull: false) String? modifiedAt,@JsonKey(includeIfNull: false) int? size,@JsonKey(includeIfNull: false) String? digest,@JsonKey(includeIfNull: false) ModelDetails? details,@JsonKey(name: 'remote_model', includeIfNull: false) String? remoteModel,@JsonKey(name: 'remote_host', includeIfNull: false) String? remoteHost
 });
 
 
@@ -6639,14 +6667,16 @@ class __$ModelCopyWithImpl<$Res>
 
 /// Create a copy of Model
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? model = freezed,Object? modifiedAt = freezed,Object? size = freezed,Object? digest = freezed,Object? details = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? model = freezed,Object? modifiedAt = freezed,Object? size = freezed,Object? digest = freezed,Object? details = freezed,Object? remoteModel = freezed,Object? remoteHost = freezed,}) {
   return _then(_Model(
 model: freezed == model ? _self.model : model // ignore: cast_nullable_to_non_nullable
 as String?,modifiedAt: freezed == modifiedAt ? _self.modifiedAt : modifiedAt // ignore: cast_nullable_to_non_nullable
 as String?,size: freezed == size ? _self.size : size // ignore: cast_nullable_to_non_nullable
 as int?,digest: freezed == digest ? _self.digest : digest // ignore: cast_nullable_to_non_nullable
 as String?,details: freezed == details ? _self.details : details // ignore: cast_nullable_to_non_nullable
-as ModelDetails?,
+as ModelDetails?,remoteModel: freezed == remoteModel ? _self.remoteModel : remoteModel // ignore: cast_nullable_to_non_nullable
+as String?,remoteHost: freezed == remoteHost ? _self.remoteHost : remoteHost // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -8405,7 +8435,9 @@ mixin _$ModelInfo {
 @JsonKey(name: 'projector_info', includeIfNull: false) Map<String, dynamic>? get projectorInfo;/// The tensors of the model.
 @JsonKey(includeIfNull: false) List<Tensor>? get tensors;/// The capabilities of the model.
 @JsonKey(includeIfNull: false) List<Capability>? get capabilities;/// Date on which a model was created.
-@JsonKey(name: 'modified_at', includeIfNull: false) String? get modifiedAt;
+@JsonKey(name: 'modified_at', includeIfNull: false) String? get modifiedAt;/// Name of the upstream remote model (when model is federated from another Ollama instance)
+@JsonKey(name: 'remote_model', includeIfNull: false) String? get remoteModel;/// URL of the upstream Ollama host (when model is federated from another instance)
+@JsonKey(name: 'remote_host', includeIfNull: false) String? get remoteHost;
 /// Create a copy of ModelInfo
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -8418,16 +8450,16 @@ $ModelInfoCopyWith<ModelInfo> get copyWith => _$ModelInfoCopyWithImpl<ModelInfo>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ModelInfo&&(identical(other.license, license) || other.license == license)&&(identical(other.modelfile, modelfile) || other.modelfile == modelfile)&&(identical(other.parameters, parameters) || other.parameters == parameters)&&(identical(other.template, template) || other.template == template)&&(identical(other.system, system) || other.system == system)&&(identical(other.details, details) || other.details == details)&&const DeepCollectionEquality().equals(other.messages, messages)&&(identical(other.modelInfo, modelInfo) || other.modelInfo == modelInfo)&&const DeepCollectionEquality().equals(other.projectorInfo, projectorInfo)&&const DeepCollectionEquality().equals(other.tensors, tensors)&&const DeepCollectionEquality().equals(other.capabilities, capabilities)&&(identical(other.modifiedAt, modifiedAt) || other.modifiedAt == modifiedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ModelInfo&&(identical(other.license, license) || other.license == license)&&(identical(other.modelfile, modelfile) || other.modelfile == modelfile)&&(identical(other.parameters, parameters) || other.parameters == parameters)&&(identical(other.template, template) || other.template == template)&&(identical(other.system, system) || other.system == system)&&(identical(other.details, details) || other.details == details)&&const DeepCollectionEquality().equals(other.messages, messages)&&(identical(other.modelInfo, modelInfo) || other.modelInfo == modelInfo)&&const DeepCollectionEquality().equals(other.projectorInfo, projectorInfo)&&const DeepCollectionEquality().equals(other.tensors, tensors)&&const DeepCollectionEquality().equals(other.capabilities, capabilities)&&(identical(other.modifiedAt, modifiedAt) || other.modifiedAt == modifiedAt)&&(identical(other.remoteModel, remoteModel) || other.remoteModel == remoteModel)&&(identical(other.remoteHost, remoteHost) || other.remoteHost == remoteHost));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,license,modelfile,parameters,template,system,details,const DeepCollectionEquality().hash(messages),modelInfo,const DeepCollectionEquality().hash(projectorInfo),const DeepCollectionEquality().hash(tensors),const DeepCollectionEquality().hash(capabilities),modifiedAt);
+int get hashCode => Object.hash(runtimeType,license,modelfile,parameters,template,system,details,const DeepCollectionEquality().hash(messages),modelInfo,const DeepCollectionEquality().hash(projectorInfo),const DeepCollectionEquality().hash(tensors),const DeepCollectionEquality().hash(capabilities),modifiedAt,remoteModel,remoteHost);
 
 @override
 String toString() {
-  return 'ModelInfo(license: $license, modelfile: $modelfile, parameters: $parameters, template: $template, system: $system, details: $details, messages: $messages, modelInfo: $modelInfo, projectorInfo: $projectorInfo, tensors: $tensors, capabilities: $capabilities, modifiedAt: $modifiedAt)';
+  return 'ModelInfo(license: $license, modelfile: $modelfile, parameters: $parameters, template: $template, system: $system, details: $details, messages: $messages, modelInfo: $modelInfo, projectorInfo: $projectorInfo, tensors: $tensors, capabilities: $capabilities, modifiedAt: $modifiedAt, remoteModel: $remoteModel, remoteHost: $remoteHost)';
 }
 
 
@@ -8438,7 +8470,7 @@ abstract mixin class $ModelInfoCopyWith<$Res>  {
   factory $ModelInfoCopyWith(ModelInfo value, $Res Function(ModelInfo) _then) = _$ModelInfoCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(includeIfNull: false) String? license,@JsonKey(includeIfNull: false) String? modelfile,@JsonKey(includeIfNull: false) String? parameters,@JsonKey(includeIfNull: false) String? template,@JsonKey(includeIfNull: false) String? system,@JsonKey(includeIfNull: false) ModelDetails? details,@JsonKey(includeIfNull: false) List<Message>? messages,@JsonKey(name: 'model_info', includeIfNull: false) ModelInformation? modelInfo,@JsonKey(name: 'projector_info', includeIfNull: false) Map<String, dynamic>? projectorInfo,@JsonKey(includeIfNull: false) List<Tensor>? tensors,@JsonKey(includeIfNull: false) List<Capability>? capabilities,@JsonKey(name: 'modified_at', includeIfNull: false) String? modifiedAt
+@JsonKey(includeIfNull: false) String? license,@JsonKey(includeIfNull: false) String? modelfile,@JsonKey(includeIfNull: false) String? parameters,@JsonKey(includeIfNull: false) String? template,@JsonKey(includeIfNull: false) String? system,@JsonKey(includeIfNull: false) ModelDetails? details,@JsonKey(includeIfNull: false) List<Message>? messages,@JsonKey(name: 'model_info', includeIfNull: false) ModelInformation? modelInfo,@JsonKey(name: 'projector_info', includeIfNull: false) Map<String, dynamic>? projectorInfo,@JsonKey(includeIfNull: false) List<Tensor>? tensors,@JsonKey(includeIfNull: false) List<Capability>? capabilities,@JsonKey(name: 'modified_at', includeIfNull: false) String? modifiedAt,@JsonKey(name: 'remote_model', includeIfNull: false) String? remoteModel,@JsonKey(name: 'remote_host', includeIfNull: false) String? remoteHost
 });
 
 
@@ -8455,7 +8487,7 @@ class _$ModelInfoCopyWithImpl<$Res>
 
 /// Create a copy of ModelInfo
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? license = freezed,Object? modelfile = freezed,Object? parameters = freezed,Object? template = freezed,Object? system = freezed,Object? details = freezed,Object? messages = freezed,Object? modelInfo = freezed,Object? projectorInfo = freezed,Object? tensors = freezed,Object? capabilities = freezed,Object? modifiedAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? license = freezed,Object? modelfile = freezed,Object? parameters = freezed,Object? template = freezed,Object? system = freezed,Object? details = freezed,Object? messages = freezed,Object? modelInfo = freezed,Object? projectorInfo = freezed,Object? tensors = freezed,Object? capabilities = freezed,Object? modifiedAt = freezed,Object? remoteModel = freezed,Object? remoteHost = freezed,}) {
   return _then(_self.copyWith(
 license: freezed == license ? _self.license : license // ignore: cast_nullable_to_non_nullable
 as String?,modelfile: freezed == modelfile ? _self.modelfile : modelfile // ignore: cast_nullable_to_non_nullable
@@ -8469,6 +8501,8 @@ as ModelInformation?,projectorInfo: freezed == projectorInfo ? _self.projectorIn
 as Map<String, dynamic>?,tensors: freezed == tensors ? _self.tensors : tensors // ignore: cast_nullable_to_non_nullable
 as List<Tensor>?,capabilities: freezed == capabilities ? _self.capabilities : capabilities // ignore: cast_nullable_to_non_nullable
 as List<Capability>?,modifiedAt: freezed == modifiedAt ? _self.modifiedAt : modifiedAt // ignore: cast_nullable_to_non_nullable
+as String?,remoteModel: freezed == remoteModel ? _self.remoteModel : remoteModel // ignore: cast_nullable_to_non_nullable
+as String?,remoteHost: freezed == remoteHost ? _self.remoteHost : remoteHost // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -8578,10 +8612,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false)  String? license, @JsonKey(includeIfNull: false)  String? modelfile, @JsonKey(includeIfNull: false)  String? parameters, @JsonKey(includeIfNull: false)  String? template, @JsonKey(includeIfNull: false)  String? system, @JsonKey(includeIfNull: false)  ModelDetails? details, @JsonKey(includeIfNull: false)  List<Message>? messages, @JsonKey(name: 'model_info', includeIfNull: false)  ModelInformation? modelInfo, @JsonKey(name: 'projector_info', includeIfNull: false)  Map<String, dynamic>? projectorInfo, @JsonKey(includeIfNull: false)  List<Tensor>? tensors, @JsonKey(includeIfNull: false)  List<Capability>? capabilities, @JsonKey(name: 'modified_at', includeIfNull: false)  String? modifiedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false)  String? license, @JsonKey(includeIfNull: false)  String? modelfile, @JsonKey(includeIfNull: false)  String? parameters, @JsonKey(includeIfNull: false)  String? template, @JsonKey(includeIfNull: false)  String? system, @JsonKey(includeIfNull: false)  ModelDetails? details, @JsonKey(includeIfNull: false)  List<Message>? messages, @JsonKey(name: 'model_info', includeIfNull: false)  ModelInformation? modelInfo, @JsonKey(name: 'projector_info', includeIfNull: false)  Map<String, dynamic>? projectorInfo, @JsonKey(includeIfNull: false)  List<Tensor>? tensors, @JsonKey(includeIfNull: false)  List<Capability>? capabilities, @JsonKey(name: 'modified_at', includeIfNull: false)  String? modifiedAt, @JsonKey(name: 'remote_model', includeIfNull: false)  String? remoteModel, @JsonKey(name: 'remote_host', includeIfNull: false)  String? remoteHost)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ModelInfo() when $default != null:
-return $default(_that.license,_that.modelfile,_that.parameters,_that.template,_that.system,_that.details,_that.messages,_that.modelInfo,_that.projectorInfo,_that.tensors,_that.capabilities,_that.modifiedAt);case _:
+return $default(_that.license,_that.modelfile,_that.parameters,_that.template,_that.system,_that.details,_that.messages,_that.modelInfo,_that.projectorInfo,_that.tensors,_that.capabilities,_that.modifiedAt,_that.remoteModel,_that.remoteHost);case _:
   return orElse();
 
 }
@@ -8599,10 +8633,10 @@ return $default(_that.license,_that.modelfile,_that.parameters,_that.template,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false)  String? license, @JsonKey(includeIfNull: false)  String? modelfile, @JsonKey(includeIfNull: false)  String? parameters, @JsonKey(includeIfNull: false)  String? template, @JsonKey(includeIfNull: false)  String? system, @JsonKey(includeIfNull: false)  ModelDetails? details, @JsonKey(includeIfNull: false)  List<Message>? messages, @JsonKey(name: 'model_info', includeIfNull: false)  ModelInformation? modelInfo, @JsonKey(name: 'projector_info', includeIfNull: false)  Map<String, dynamic>? projectorInfo, @JsonKey(includeIfNull: false)  List<Tensor>? tensors, @JsonKey(includeIfNull: false)  List<Capability>? capabilities, @JsonKey(name: 'modified_at', includeIfNull: false)  String? modifiedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false)  String? license, @JsonKey(includeIfNull: false)  String? modelfile, @JsonKey(includeIfNull: false)  String? parameters, @JsonKey(includeIfNull: false)  String? template, @JsonKey(includeIfNull: false)  String? system, @JsonKey(includeIfNull: false)  ModelDetails? details, @JsonKey(includeIfNull: false)  List<Message>? messages, @JsonKey(name: 'model_info', includeIfNull: false)  ModelInformation? modelInfo, @JsonKey(name: 'projector_info', includeIfNull: false)  Map<String, dynamic>? projectorInfo, @JsonKey(includeIfNull: false)  List<Tensor>? tensors, @JsonKey(includeIfNull: false)  List<Capability>? capabilities, @JsonKey(name: 'modified_at', includeIfNull: false)  String? modifiedAt, @JsonKey(name: 'remote_model', includeIfNull: false)  String? remoteModel, @JsonKey(name: 'remote_host', includeIfNull: false)  String? remoteHost)  $default,) {final _that = this;
 switch (_that) {
 case _ModelInfo():
-return $default(_that.license,_that.modelfile,_that.parameters,_that.template,_that.system,_that.details,_that.messages,_that.modelInfo,_that.projectorInfo,_that.tensors,_that.capabilities,_that.modifiedAt);case _:
+return $default(_that.license,_that.modelfile,_that.parameters,_that.template,_that.system,_that.details,_that.messages,_that.modelInfo,_that.projectorInfo,_that.tensors,_that.capabilities,_that.modifiedAt,_that.remoteModel,_that.remoteHost);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -8619,10 +8653,10 @@ return $default(_that.license,_that.modelfile,_that.parameters,_that.template,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(includeIfNull: false)  String? license, @JsonKey(includeIfNull: false)  String? modelfile, @JsonKey(includeIfNull: false)  String? parameters, @JsonKey(includeIfNull: false)  String? template, @JsonKey(includeIfNull: false)  String? system, @JsonKey(includeIfNull: false)  ModelDetails? details, @JsonKey(includeIfNull: false)  List<Message>? messages, @JsonKey(name: 'model_info', includeIfNull: false)  ModelInformation? modelInfo, @JsonKey(name: 'projector_info', includeIfNull: false)  Map<String, dynamic>? projectorInfo, @JsonKey(includeIfNull: false)  List<Tensor>? tensors, @JsonKey(includeIfNull: false)  List<Capability>? capabilities, @JsonKey(name: 'modified_at', includeIfNull: false)  String? modifiedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(includeIfNull: false)  String? license, @JsonKey(includeIfNull: false)  String? modelfile, @JsonKey(includeIfNull: false)  String? parameters, @JsonKey(includeIfNull: false)  String? template, @JsonKey(includeIfNull: false)  String? system, @JsonKey(includeIfNull: false)  ModelDetails? details, @JsonKey(includeIfNull: false)  List<Message>? messages, @JsonKey(name: 'model_info', includeIfNull: false)  ModelInformation? modelInfo, @JsonKey(name: 'projector_info', includeIfNull: false)  Map<String, dynamic>? projectorInfo, @JsonKey(includeIfNull: false)  List<Tensor>? tensors, @JsonKey(includeIfNull: false)  List<Capability>? capabilities, @JsonKey(name: 'modified_at', includeIfNull: false)  String? modifiedAt, @JsonKey(name: 'remote_model', includeIfNull: false)  String? remoteModel, @JsonKey(name: 'remote_host', includeIfNull: false)  String? remoteHost)?  $default,) {final _that = this;
 switch (_that) {
 case _ModelInfo() when $default != null:
-return $default(_that.license,_that.modelfile,_that.parameters,_that.template,_that.system,_that.details,_that.messages,_that.modelInfo,_that.projectorInfo,_that.tensors,_that.capabilities,_that.modifiedAt);case _:
+return $default(_that.license,_that.modelfile,_that.parameters,_that.template,_that.system,_that.details,_that.messages,_that.modelInfo,_that.projectorInfo,_that.tensors,_that.capabilities,_that.modifiedAt,_that.remoteModel,_that.remoteHost);case _:
   return null;
 
 }
@@ -8634,7 +8668,7 @@ return $default(_that.license,_that.modelfile,_that.parameters,_that.template,_t
 @JsonSerializable()
 
 class _ModelInfo extends ModelInfo {
-  const _ModelInfo({@JsonKey(includeIfNull: false) this.license, @JsonKey(includeIfNull: false) this.modelfile, @JsonKey(includeIfNull: false) this.parameters, @JsonKey(includeIfNull: false) this.template, @JsonKey(includeIfNull: false) this.system, @JsonKey(includeIfNull: false) this.details, @JsonKey(includeIfNull: false) final  List<Message>? messages, @JsonKey(name: 'model_info', includeIfNull: false) this.modelInfo, @JsonKey(name: 'projector_info', includeIfNull: false) final  Map<String, dynamic>? projectorInfo, @JsonKey(includeIfNull: false) final  List<Tensor>? tensors, @JsonKey(includeIfNull: false) final  List<Capability>? capabilities, @JsonKey(name: 'modified_at', includeIfNull: false) this.modifiedAt}): _messages = messages,_projectorInfo = projectorInfo,_tensors = tensors,_capabilities = capabilities,super._();
+  const _ModelInfo({@JsonKey(includeIfNull: false) this.license, @JsonKey(includeIfNull: false) this.modelfile, @JsonKey(includeIfNull: false) this.parameters, @JsonKey(includeIfNull: false) this.template, @JsonKey(includeIfNull: false) this.system, @JsonKey(includeIfNull: false) this.details, @JsonKey(includeIfNull: false) final  List<Message>? messages, @JsonKey(name: 'model_info', includeIfNull: false) this.modelInfo, @JsonKey(name: 'projector_info', includeIfNull: false) final  Map<String, dynamic>? projectorInfo, @JsonKey(includeIfNull: false) final  List<Tensor>? tensors, @JsonKey(includeIfNull: false) final  List<Capability>? capabilities, @JsonKey(name: 'modified_at', includeIfNull: false) this.modifiedAt, @JsonKey(name: 'remote_model', includeIfNull: false) this.remoteModel, @JsonKey(name: 'remote_host', includeIfNull: false) this.remoteHost}): _messages = messages,_projectorInfo = projectorInfo,_tensors = tensors,_capabilities = capabilities,super._();
   factory _ModelInfo.fromJson(Map<String, dynamic> json) => _$ModelInfoFromJson(json);
 
 /// The model's license.
@@ -8697,6 +8731,10 @@ class _ModelInfo extends ModelInfo {
 
 /// Date on which a model was created.
 @override@JsonKey(name: 'modified_at', includeIfNull: false) final  String? modifiedAt;
+/// Name of the upstream remote model (when model is federated from another Ollama instance)
+@override@JsonKey(name: 'remote_model', includeIfNull: false) final  String? remoteModel;
+/// URL of the upstream Ollama host (when model is federated from another instance)
+@override@JsonKey(name: 'remote_host', includeIfNull: false) final  String? remoteHost;
 
 /// Create a copy of ModelInfo
 /// with the given fields replaced by the non-null parameter values.
@@ -8711,16 +8749,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ModelInfo&&(identical(other.license, license) || other.license == license)&&(identical(other.modelfile, modelfile) || other.modelfile == modelfile)&&(identical(other.parameters, parameters) || other.parameters == parameters)&&(identical(other.template, template) || other.template == template)&&(identical(other.system, system) || other.system == system)&&(identical(other.details, details) || other.details == details)&&const DeepCollectionEquality().equals(other._messages, _messages)&&(identical(other.modelInfo, modelInfo) || other.modelInfo == modelInfo)&&const DeepCollectionEquality().equals(other._projectorInfo, _projectorInfo)&&const DeepCollectionEquality().equals(other._tensors, _tensors)&&const DeepCollectionEquality().equals(other._capabilities, _capabilities)&&(identical(other.modifiedAt, modifiedAt) || other.modifiedAt == modifiedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ModelInfo&&(identical(other.license, license) || other.license == license)&&(identical(other.modelfile, modelfile) || other.modelfile == modelfile)&&(identical(other.parameters, parameters) || other.parameters == parameters)&&(identical(other.template, template) || other.template == template)&&(identical(other.system, system) || other.system == system)&&(identical(other.details, details) || other.details == details)&&const DeepCollectionEquality().equals(other._messages, _messages)&&(identical(other.modelInfo, modelInfo) || other.modelInfo == modelInfo)&&const DeepCollectionEquality().equals(other._projectorInfo, _projectorInfo)&&const DeepCollectionEquality().equals(other._tensors, _tensors)&&const DeepCollectionEquality().equals(other._capabilities, _capabilities)&&(identical(other.modifiedAt, modifiedAt) || other.modifiedAt == modifiedAt)&&(identical(other.remoteModel, remoteModel) || other.remoteModel == remoteModel)&&(identical(other.remoteHost, remoteHost) || other.remoteHost == remoteHost));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,license,modelfile,parameters,template,system,details,const DeepCollectionEquality().hash(_messages),modelInfo,const DeepCollectionEquality().hash(_projectorInfo),const DeepCollectionEquality().hash(_tensors),const DeepCollectionEquality().hash(_capabilities),modifiedAt);
+int get hashCode => Object.hash(runtimeType,license,modelfile,parameters,template,system,details,const DeepCollectionEquality().hash(_messages),modelInfo,const DeepCollectionEquality().hash(_projectorInfo),const DeepCollectionEquality().hash(_tensors),const DeepCollectionEquality().hash(_capabilities),modifiedAt,remoteModel,remoteHost);
 
 @override
 String toString() {
-  return 'ModelInfo(license: $license, modelfile: $modelfile, parameters: $parameters, template: $template, system: $system, details: $details, messages: $messages, modelInfo: $modelInfo, projectorInfo: $projectorInfo, tensors: $tensors, capabilities: $capabilities, modifiedAt: $modifiedAt)';
+  return 'ModelInfo(license: $license, modelfile: $modelfile, parameters: $parameters, template: $template, system: $system, details: $details, messages: $messages, modelInfo: $modelInfo, projectorInfo: $projectorInfo, tensors: $tensors, capabilities: $capabilities, modifiedAt: $modifiedAt, remoteModel: $remoteModel, remoteHost: $remoteHost)';
 }
 
 
@@ -8731,7 +8769,7 @@ abstract mixin class _$ModelInfoCopyWith<$Res> implements $ModelInfoCopyWith<$Re
   factory _$ModelInfoCopyWith(_ModelInfo value, $Res Function(_ModelInfo) _then) = __$ModelInfoCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(includeIfNull: false) String? license,@JsonKey(includeIfNull: false) String? modelfile,@JsonKey(includeIfNull: false) String? parameters,@JsonKey(includeIfNull: false) String? template,@JsonKey(includeIfNull: false) String? system,@JsonKey(includeIfNull: false) ModelDetails? details,@JsonKey(includeIfNull: false) List<Message>? messages,@JsonKey(name: 'model_info', includeIfNull: false) ModelInformation? modelInfo,@JsonKey(name: 'projector_info', includeIfNull: false) Map<String, dynamic>? projectorInfo,@JsonKey(includeIfNull: false) List<Tensor>? tensors,@JsonKey(includeIfNull: false) List<Capability>? capabilities,@JsonKey(name: 'modified_at', includeIfNull: false) String? modifiedAt
+@JsonKey(includeIfNull: false) String? license,@JsonKey(includeIfNull: false) String? modelfile,@JsonKey(includeIfNull: false) String? parameters,@JsonKey(includeIfNull: false) String? template,@JsonKey(includeIfNull: false) String? system,@JsonKey(includeIfNull: false) ModelDetails? details,@JsonKey(includeIfNull: false) List<Message>? messages,@JsonKey(name: 'model_info', includeIfNull: false) ModelInformation? modelInfo,@JsonKey(name: 'projector_info', includeIfNull: false) Map<String, dynamic>? projectorInfo,@JsonKey(includeIfNull: false) List<Tensor>? tensors,@JsonKey(includeIfNull: false) List<Capability>? capabilities,@JsonKey(name: 'modified_at', includeIfNull: false) String? modifiedAt,@JsonKey(name: 'remote_model', includeIfNull: false) String? remoteModel,@JsonKey(name: 'remote_host', includeIfNull: false) String? remoteHost
 });
 
 
@@ -8748,7 +8786,7 @@ class __$ModelInfoCopyWithImpl<$Res>
 
 /// Create a copy of ModelInfo
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? license = freezed,Object? modelfile = freezed,Object? parameters = freezed,Object? template = freezed,Object? system = freezed,Object? details = freezed,Object? messages = freezed,Object? modelInfo = freezed,Object? projectorInfo = freezed,Object? tensors = freezed,Object? capabilities = freezed,Object? modifiedAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? license = freezed,Object? modelfile = freezed,Object? parameters = freezed,Object? template = freezed,Object? system = freezed,Object? details = freezed,Object? messages = freezed,Object? modelInfo = freezed,Object? projectorInfo = freezed,Object? tensors = freezed,Object? capabilities = freezed,Object? modifiedAt = freezed,Object? remoteModel = freezed,Object? remoteHost = freezed,}) {
   return _then(_ModelInfo(
 license: freezed == license ? _self.license : license // ignore: cast_nullable_to_non_nullable
 as String?,modelfile: freezed == modelfile ? _self.modelfile : modelfile // ignore: cast_nullable_to_non_nullable
@@ -8762,6 +8800,8 @@ as ModelInformation?,projectorInfo: freezed == projectorInfo ? _self._projectorI
 as Map<String, dynamic>?,tensors: freezed == tensors ? _self._tensors : tensors // ignore: cast_nullable_to_non_nullable
 as List<Tensor>?,capabilities: freezed == capabilities ? _self._capabilities : capabilities // ignore: cast_nullable_to_non_nullable
 as List<Capability>?,modifiedAt: freezed == modifiedAt ? _self.modifiedAt : modifiedAt // ignore: cast_nullable_to_non_nullable
+as String?,remoteModel: freezed == remoteModel ? _self.remoteModel : remoteModel // ignore: cast_nullable_to_non_nullable
+as String?,remoteHost: freezed == remoteHost ? _self.remoteHost : remoteHost // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }

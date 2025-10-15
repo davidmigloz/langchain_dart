@@ -57,6 +57,12 @@ abstract class GenerateChatCompletionResponse
 
     /// Time in nanoseconds spent generating the response.
     @JsonKey(name: 'eval_duration', includeIfNull: false) int? evalDuration,
+
+    /// Name of the upstream remote model that generated the response (when using federated models)
+    @JsonKey(name: 'remote_model', includeIfNull: false) String? remoteModel,
+
+    /// URL of the upstream Ollama host that served the request (when proxying to remote instances)
+    @JsonKey(name: 'remote_host', includeIfNull: false) String? remoteHost,
   }) = _GenerateChatCompletionResponse;
 
   /// Object construction from a JSON representation
@@ -76,6 +82,8 @@ abstract class GenerateChatCompletionResponse
     'prompt_eval_duration',
     'eval_count',
     'eval_duration',
+    'remote_model',
+    'remote_host',
   ];
 
   /// Perform validations on the schema property values
@@ -97,6 +105,8 @@ abstract class GenerateChatCompletionResponse
       'prompt_eval_duration': promptEvalDuration,
       'eval_count': evalCount,
       'eval_duration': evalDuration,
+      'remote_model': remoteModel,
+      'remote_host': remoteHost,
     };
   }
 }

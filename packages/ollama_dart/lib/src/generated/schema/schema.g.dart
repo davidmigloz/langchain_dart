@@ -201,6 +201,8 @@ _GenerateCompletionResponse _$GenerateCompletionResponseFromJson(
   promptEvalDuration: (json['prompt_eval_duration'] as num?)?.toInt(),
   evalCount: (json['eval_count'] as num?)?.toInt(),
   evalDuration: (json['eval_duration'] as num?)?.toInt(),
+  remoteModel: json['remote_model'] as String?,
+  remoteHost: json['remote_host'] as String?,
 );
 
 Map<String, dynamic> _$GenerateCompletionResponseToJson(
@@ -218,6 +220,8 @@ Map<String, dynamic> _$GenerateCompletionResponseToJson(
   'prompt_eval_duration': ?instance.promptEvalDuration,
   'eval_count': ?instance.evalCount,
   'eval_duration': ?instance.evalDuration,
+  'remote_model': ?instance.remoteModel,
+  'remote_host': ?instance.remoteHost,
 };
 
 _GenerateChatCompletionRequest _$GenerateChatCompletionRequestFromJson(
@@ -333,6 +337,8 @@ _GenerateChatCompletionResponse _$GenerateChatCompletionResponseFromJson(
   promptEvalDuration: (json['prompt_eval_duration'] as num?)?.toInt(),
   evalCount: (json['eval_count'] as num?)?.toInt(),
   evalDuration: (json['eval_duration'] as num?)?.toInt(),
+  remoteModel: json['remote_model'] as String?,
+  remoteHost: json['remote_host'] as String?,
 );
 
 Map<String, dynamic> _$GenerateChatCompletionResponseToJson(
@@ -349,6 +355,8 @@ Map<String, dynamic> _$GenerateChatCompletionResponseToJson(
   'prompt_eval_duration': ?instance.promptEvalDuration,
   'eval_count': ?instance.evalCount,
   'eval_duration': ?instance.evalDuration,
+  'remote_model': ?instance.remoteModel,
+  'remote_host': ?instance.remoteHost,
 };
 
 const _$DoneReasonEnumMap = {
@@ -519,6 +527,8 @@ _Model _$ModelFromJson(Map<String, dynamic> json) => _Model(
   details: json['details'] == null
       ? null
       : ModelDetails.fromJson(json['details'] as Map<String, dynamic>),
+  remoteModel: json['remote_model'] as String?,
+  remoteHost: json['remote_host'] as String?,
 );
 
 Map<String, dynamic> _$ModelToJson(_Model instance) => <String, dynamic>{
@@ -527,6 +537,8 @@ Map<String, dynamic> _$ModelToJson(_Model instance) => <String, dynamic>{
   'size': ?instance.size,
   'digest': ?instance.digest,
   'details': ?instance.details?.toJson(),
+  'remote_model': ?instance.remoteModel,
+  'remote_host': ?instance.remoteHost,
 };
 
 _ModelDetails _$ModelDetailsFromJson(Map<String, dynamic> json) =>
@@ -645,6 +657,8 @@ _ModelInfo _$ModelInfoFromJson(Map<String, dynamic> json) => _ModelInfo(
       ?.map((e) => $enumDecode(_$CapabilityEnumMap, e))
       .toList(),
   modifiedAt: json['modified_at'] as String?,
+  remoteModel: json['remote_model'] as String?,
+  remoteHost: json['remote_host'] as String?,
 );
 
 Map<String, dynamic> _$ModelInfoToJson(_ModelInfo instance) =>
@@ -663,6 +677,8 @@ Map<String, dynamic> _$ModelInfoToJson(_ModelInfo instance) =>
           ?.map((e) => _$CapabilityEnumMap[e]!)
           .toList(),
       'modified_at': ?instance.modifiedAt,
+      'remote_model': ?instance.remoteModel,
+      'remote_host': ?instance.remoteHost,
     };
 
 const _$CapabilityEnumMap = {
