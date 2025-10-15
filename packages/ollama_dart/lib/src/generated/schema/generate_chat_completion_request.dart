@@ -126,12 +126,12 @@ sealed class GenerateChatCompletionRequestFormat
   const GenerateChatCompletionRequestFormat._();
 
   /// Enable JSON mode
-  const factory GenerateChatCompletionRequestFormat.enumeration(
+  const factory GenerateChatCompletionRequestFormat.json(
     GenerateChatCompletionRequestFormatEnum value,
   ) = GenerateChatCompletionRequestFormatEnumeration;
 
   /// JSON schema object for structured output validation
-  const factory GenerateChatCompletionRequestFormat.mapStringDynamic(
+  const factory GenerateChatCompletionRequestFormat.schema(
     Map<String, dynamic> value,
   ) = GenerateChatCompletionRequestFormatMapStringDynamic;
 
@@ -210,7 +210,7 @@ sealed class GenerateChatCompletionRequestThink
   const GenerateChatCompletionRequestThink._();
 
   /// No Description
-  const factory GenerateChatCompletionRequestThink.enumeration(
+  const factory GenerateChatCompletionRequestThink.level(
     GenerateChatCompletionRequestThinkEnum value,
   ) = GenerateChatCompletionRequestThinkEnumeration;
 

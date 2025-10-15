@@ -106,7 +106,7 @@ void main() {
                     'NUMBERS: ',
               ),
             ],
-            format: GenerateChatCompletionRequestFormat.enumeration(
+            format: GenerateChatCompletionRequestFormat.json(
               GenerateChatCompletionRequestFormatEnum.json,
             ),
           ),

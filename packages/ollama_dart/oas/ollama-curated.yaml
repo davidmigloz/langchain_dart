@@ -308,6 +308,7 @@ components:
           oneOf:
             - type: string
               enum: [json]
+              default: json
               description: Enable JSON mode
             - type: object
               additionalProperties: true
@@ -652,6 +653,7 @@ components:
           oneOf:
             - type: string
               enum: [json]
+              default: json
               description: Enable JSON mode
             - type: object
               additionalProperties: true
