@@ -6179,6 +6179,39 @@ components:
         - $ref: "#/components/schemas/MessageDeltaContentImageUrlObject"
       discriminator:
         propertyName: type
+    MessageRequestContent:
+      type: object
+      description: The content of a message in a request.
+      oneOf:
+        - $ref: "#/components/schemas/MessageRequestContentImageFileObject"
+        - $ref: "#/components/schemas/MessageRequestContentImageUrlObject"
+        - $ref: "#/components/schemas/MessageRequestContentTextObject"
+      discriminator:
+        propertyName: type
+    MessageRequestContentImageFileObject:
+      type: object
+      description: References an image [File](https://platform.openai.com/docs/api-reference/files) in the content of a message request.
+      properties:
+        type:
+          type: string
+          description: Always `image_file`.
+          default: image_file
+        image_file:
+          $ref: "#/components/schemas/MessageContentImageFile"
+      required:
+        - image_file
+    MessageRequestContentImageUrlObject:
+      type: object
+      description: References an image URL in the content of a message request.
+      properties:
+        type:
+          type: string
+          description: The type of the content part. Always `image_url`.
+          default: image_url
+        image_url:
+          $ref: "#/components/schemas/MessageContentImageUrl"
+      required:
+        - image_url
     CreateMessageRequest:
       type: object
       description: Request object for the Create message endpoint.
@@ -6199,7 +6232,7 @@ components:
               title: CreateMessageRequestContents
               description: An array of content parts with a defined type, each can be of type `text` or images can be passed with `image_url` or `image_file`. Image types are only supported on [Vision-compatible models](https://platform.openai.com/docs/models).
               items:
-                $ref: "#/components/schemas/MessageContent"
+                $ref: "#/components/schemas/MessageRequestContent"
               minItems: 1
         attachments:
           description: A list of files attached to the message, and the tools they were added to.

@@ -4008,18 +4008,19 @@ Map<String, dynamic> _$CreateMessageRequestToJson(
   'metadata': ?instance.metadata,
 };
 
-CreateMessageRequestContentListMessageContent
-_$CreateMessageRequestContentListMessageContentFromJson(
+CreateMessageRequestContentListMessageRequestContent
+_$CreateMessageRequestContentListMessageRequestContentFromJson(
   Map<String, dynamic> json,
-) => CreateMessageRequestContentListMessageContent(
+) => CreateMessageRequestContentListMessageRequestContent(
   (json['value'] as List<dynamic>)
-      .map((e) => MessageContent.fromJson(e as Map<String, dynamic>))
+      .map((e) => MessageRequestContent.fromJson(e as Map<String, dynamic>))
       .toList(),
   $type: json['runtimeType'] as String?,
 );
 
-Map<String, dynamic> _$CreateMessageRequestContentListMessageContentToJson(
-  CreateMessageRequestContentListMessageContent instance,
+Map<String, dynamic>
+_$CreateMessageRequestContentListMessageRequestContentToJson(
+  CreateMessageRequestContentListMessageRequestContent instance,
 ) => <String, dynamic>{
   'value': instance.value.map((e) => e.toJson()).toList(),
   'runtimeType': instance.$type,
@@ -4123,17 +4124,6 @@ Map<String, dynamic> _$MessageContentImageUrlToJson(
   'url': instance.url,
   'detail': _$MessageContentImageDetailEnumMap[instance.detail]!,
 };
-
-_MessageRequestContentTextObject _$MessageRequestContentTextObjectFromJson(
-  Map<String, dynamic> json,
-) => _MessageRequestContentTextObject(
-  type: json['type'] as String,
-  text: json['text'] as String,
-);
-
-Map<String, dynamic> _$MessageRequestContentTextObjectToJson(
-  _MessageRequestContentTextObject instance,
-) => <String, dynamic>{'type': instance.type, 'text': instance.text};
 
 _MessageContentText _$MessageContentTextFromJson(Map<String, dynamic> json) =>
     _MessageContentText(
@@ -5770,6 +5760,49 @@ Map<String, dynamic> _$MessageDeltaContentImageUrlObjectToJson(
   'type': instance.type,
   'image_url': ?instance.imageUrl?.toJson(),
 };
+
+MessageRequestContentImageFileObject
+_$MessageRequestContentImageFileObjectFromJson(Map<String, dynamic> json) =>
+    MessageRequestContentImageFileObject(
+      type: json['type'] as String? ?? 'image_file',
+      imageFile: MessageContentImageFile.fromJson(
+        json['image_file'] as Map<String, dynamic>,
+      ),
+    );
+
+Map<String, dynamic> _$MessageRequestContentImageFileObjectToJson(
+  MessageRequestContentImageFileObject instance,
+) => <String, dynamic>{
+  'type': instance.type,
+  'image_file': instance.imageFile.toJson(),
+};
+
+MessageRequestContentImageUrlObject
+_$MessageRequestContentImageUrlObjectFromJson(Map<String, dynamic> json) =>
+    MessageRequestContentImageUrlObject(
+      type: json['type'] as String? ?? 'image_url',
+      imageUrl: MessageContentImageUrl.fromJson(
+        json['image_url'] as Map<String, dynamic>,
+      ),
+    );
+
+Map<String, dynamic> _$MessageRequestContentImageUrlObjectToJson(
+  MessageRequestContentImageUrlObject instance,
+) => <String, dynamic>{
+  'type': instance.type,
+  'image_url': instance.imageUrl.toJson(),
+};
+
+MessageRequestContentTextObject _$MessageRequestContentTextObjectFromJson(
+  Map<String, dynamic> json,
+) => MessageRequestContentTextObject(
+  type: json['type'] as String,
+  text: json['text'] as String,
+);
+
+Map<String, dynamic> _$MessageRequestContentTextObjectToJson(
+  MessageRequestContentTextObject instance,
+) => <String, dynamic>{'type': instance.type, 'text': instance.text};
 
 MessageContentTextAnnotationsFileCitationObject
 _$MessageContentTextAnnotationsFileCitationObjectFromJson(
