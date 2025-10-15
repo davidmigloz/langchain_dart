@@ -347,6 +347,14 @@ components:
             Can be:
             - boolean: true/false to enable/disable thinking
             - string: "high", "medium", "low" to set thinking intensity level
+        truncate:
+          type: boolean
+          nullable: true
+          description: Truncates the end of the prompt if it exceeds the context length
+        shift:
+          type: boolean
+          nullable: true
+          description: Shifts the oldest parts out of the context window when the context limit is reached
       required:
         - model
         - prompt
@@ -660,6 +668,14 @@ components:
               enum: [high, medium, low]
           nullable: true
           description: *think
+        truncate:
+          type: boolean
+          nullable: true
+          description: Truncates the end of the chat history if it exceeds the context length
+        shift:
+          type: boolean
+          nullable: true
+          description: Shifts the oldest messages out of the context window when the context limit is reached
       required:
         - model
         - messages

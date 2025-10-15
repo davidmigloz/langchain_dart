@@ -42,7 +42,9 @@ mixin _$GenerateCompletionRequest {
 /// Can be:
 /// - boolean: true/false to enable/disable thinking
 /// - string: "high", "medium", "low" to set thinking intensity level
-@_GenerateCompletionRequestThinkConverter()@JsonKey(includeIfNull: false) GenerateCompletionRequestThink? get think;
+@_GenerateCompletionRequestThinkConverter()@JsonKey(includeIfNull: false) GenerateCompletionRequestThink? get think;/// Truncates the end of the prompt if it exceeds the context length
+@JsonKey(includeIfNull: false) bool? get truncate;/// Shifts the oldest parts out of the context window when the context limit is reached
+@JsonKey(includeIfNull: false) bool? get shift;
 /// Create a copy of GenerateCompletionRequest
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -55,16 +57,16 @@ $GenerateCompletionRequestCopyWith<GenerateCompletionRequest> get copyWith => _$
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is GenerateCompletionRequest&&(identical(other.model, model) || other.model == model)&&(identical(other.prompt, prompt) || other.prompt == prompt)&&(identical(other.suffix, suffix) || other.suffix == suffix)&&(identical(other.system, system) || other.system == system)&&(identical(other.template, template) || other.template == template)&&const DeepCollectionEquality().equals(other.context, context)&&(identical(other.stream, stream) || other.stream == stream)&&(identical(other.raw, raw) || other.raw == raw)&&(identical(other.format, format) || other.format == format)&&(identical(other.keepAlive, keepAlive) || other.keepAlive == keepAlive)&&const DeepCollectionEquality().equals(other.images, images)&&(identical(other.options, options) || other.options == options)&&(identical(other.think, think) || other.think == think));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GenerateCompletionRequest&&(identical(other.model, model) || other.model == model)&&(identical(other.prompt, prompt) || other.prompt == prompt)&&(identical(other.suffix, suffix) || other.suffix == suffix)&&(identical(other.system, system) || other.system == system)&&(identical(other.template, template) || other.template == template)&&const DeepCollectionEquality().equals(other.context, context)&&(identical(other.stream, stream) || other.stream == stream)&&(identical(other.raw, raw) || other.raw == raw)&&(identical(other.format, format) || other.format == format)&&(identical(other.keepAlive, keepAlive) || other.keepAlive == keepAlive)&&const DeepCollectionEquality().equals(other.images, images)&&(identical(other.options, options) || other.options == options)&&(identical(other.think, think) || other.think == think)&&(identical(other.truncate, truncate) || other.truncate == truncate)&&(identical(other.shift, shift) || other.shift == shift));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,model,prompt,suffix,system,template,const DeepCollectionEquality().hash(context),stream,raw,format,keepAlive,const DeepCollectionEquality().hash(images),options,think);
+int get hashCode => Object.hash(runtimeType,model,prompt,suffix,system,template,const DeepCollectionEquality().hash(context),stream,raw,format,keepAlive,const DeepCollectionEquality().hash(images),options,think,truncate,shift);
 
 @override
 String toString() {
-  return 'GenerateCompletionRequest(model: $model, prompt: $prompt, suffix: $suffix, system: $system, template: $template, context: $context, stream: $stream, raw: $raw, format: $format, keepAlive: $keepAlive, images: $images, options: $options, think: $think)';
+  return 'GenerateCompletionRequest(model: $model, prompt: $prompt, suffix: $suffix, system: $system, template: $template, context: $context, stream: $stream, raw: $raw, format: $format, keepAlive: $keepAlive, images: $images, options: $options, think: $think, truncate: $truncate, shift: $shift)';
 }
 
 
@@ -75,7 +77,7 @@ abstract mixin class $GenerateCompletionRequestCopyWith<$Res>  {
   factory $GenerateCompletionRequestCopyWith(GenerateCompletionRequest value, $Res Function(GenerateCompletionRequest) _then) = _$GenerateCompletionRequestCopyWithImpl;
 @useResult
 $Res call({
- String model, String prompt,@JsonKey(includeIfNull: false) String? suffix,@JsonKey(includeIfNull: false) String? system,@JsonKey(includeIfNull: false) String? template,@JsonKey(includeIfNull: false) List<int>? context, bool stream,@JsonKey(includeIfNull: false) bool? raw,@_GenerateCompletionRequestFormatConverter()@JsonKey(includeIfNull: false) GenerateCompletionRequestFormat? format,@JsonKey(name: 'keep_alive', includeIfNull: false) int? keepAlive,@JsonKey(includeIfNull: false) List<String>? images,@JsonKey(includeIfNull: false) RequestOptions? options,@_GenerateCompletionRequestThinkConverter()@JsonKey(includeIfNull: false) GenerateCompletionRequestThink? think
+ String model, String prompt,@JsonKey(includeIfNull: false) String? suffix,@JsonKey(includeIfNull: false) String? system,@JsonKey(includeIfNull: false) String? template,@JsonKey(includeIfNull: false) List<int>? context, bool stream,@JsonKey(includeIfNull: false) bool? raw,@_GenerateCompletionRequestFormatConverter()@JsonKey(includeIfNull: false) GenerateCompletionRequestFormat? format,@JsonKey(name: 'keep_alive', includeIfNull: false) int? keepAlive,@JsonKey(includeIfNull: false) List<String>? images,@JsonKey(includeIfNull: false) RequestOptions? options,@_GenerateCompletionRequestThinkConverter()@JsonKey(includeIfNull: false) GenerateCompletionRequestThink? think,@JsonKey(includeIfNull: false) bool? truncate,@JsonKey(includeIfNull: false) bool? shift
 });
 
 
@@ -92,7 +94,7 @@ class _$GenerateCompletionRequestCopyWithImpl<$Res>
 
 /// Create a copy of GenerateCompletionRequest
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? model = null,Object? prompt = null,Object? suffix = freezed,Object? system = freezed,Object? template = freezed,Object? context = freezed,Object? stream = null,Object? raw = freezed,Object? format = freezed,Object? keepAlive = freezed,Object? images = freezed,Object? options = freezed,Object? think = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? model = null,Object? prompt = null,Object? suffix = freezed,Object? system = freezed,Object? template = freezed,Object? context = freezed,Object? stream = null,Object? raw = freezed,Object? format = freezed,Object? keepAlive = freezed,Object? images = freezed,Object? options = freezed,Object? think = freezed,Object? truncate = freezed,Object? shift = freezed,}) {
   return _then(_self.copyWith(
 model: null == model ? _self.model : model // ignore: cast_nullable_to_non_nullable
 as String,prompt: null == prompt ? _self.prompt : prompt // ignore: cast_nullable_to_non_nullable
@@ -107,7 +109,9 @@ as GenerateCompletionRequestFormat?,keepAlive: freezed == keepAlive ? _self.keep
 as int?,images: freezed == images ? _self.images : images // ignore: cast_nullable_to_non_nullable
 as List<String>?,options: freezed == options ? _self.options : options // ignore: cast_nullable_to_non_nullable
 as RequestOptions?,think: freezed == think ? _self.think : think // ignore: cast_nullable_to_non_nullable
-as GenerateCompletionRequestThink?,
+as GenerateCompletionRequestThink?,truncate: freezed == truncate ? _self.truncate : truncate // ignore: cast_nullable_to_non_nullable
+as bool?,shift: freezed == shift ? _self.shift : shift // ignore: cast_nullable_to_non_nullable
+as bool?,
   ));
 }
 /// Create a copy of GenerateCompletionRequest
@@ -228,10 +232,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String model,  String prompt, @JsonKey(includeIfNull: false)  String? suffix, @JsonKey(includeIfNull: false)  String? system, @JsonKey(includeIfNull: false)  String? template, @JsonKey(includeIfNull: false)  List<int>? context,  bool stream, @JsonKey(includeIfNull: false)  bool? raw, @_GenerateCompletionRequestFormatConverter()@JsonKey(includeIfNull: false)  GenerateCompletionRequestFormat? format, @JsonKey(name: 'keep_alive', includeIfNull: false)  int? keepAlive, @JsonKey(includeIfNull: false)  List<String>? images, @JsonKey(includeIfNull: false)  RequestOptions? options, @_GenerateCompletionRequestThinkConverter()@JsonKey(includeIfNull: false)  GenerateCompletionRequestThink? think)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String model,  String prompt, @JsonKey(includeIfNull: false)  String? suffix, @JsonKey(includeIfNull: false)  String? system, @JsonKey(includeIfNull: false)  String? template, @JsonKey(includeIfNull: false)  List<int>? context,  bool stream, @JsonKey(includeIfNull: false)  bool? raw, @_GenerateCompletionRequestFormatConverter()@JsonKey(includeIfNull: false)  GenerateCompletionRequestFormat? format, @JsonKey(name: 'keep_alive', includeIfNull: false)  int? keepAlive, @JsonKey(includeIfNull: false)  List<String>? images, @JsonKey(includeIfNull: false)  RequestOptions? options, @_GenerateCompletionRequestThinkConverter()@JsonKey(includeIfNull: false)  GenerateCompletionRequestThink? think, @JsonKey(includeIfNull: false)  bool? truncate, @JsonKey(includeIfNull: false)  bool? shift)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _GenerateCompletionRequest() when $default != null:
-return $default(_that.model,_that.prompt,_that.suffix,_that.system,_that.template,_that.context,_that.stream,_that.raw,_that.format,_that.keepAlive,_that.images,_that.options,_that.think);case _:
+return $default(_that.model,_that.prompt,_that.suffix,_that.system,_that.template,_that.context,_that.stream,_that.raw,_that.format,_that.keepAlive,_that.images,_that.options,_that.think,_that.truncate,_that.shift);case _:
   return orElse();
 
 }
@@ -249,10 +253,10 @@ return $default(_that.model,_that.prompt,_that.suffix,_that.system,_that.templat
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String model,  String prompt, @JsonKey(includeIfNull: false)  String? suffix, @JsonKey(includeIfNull: false)  String? system, @JsonKey(includeIfNull: false)  String? template, @JsonKey(includeIfNull: false)  List<int>? context,  bool stream, @JsonKey(includeIfNull: false)  bool? raw, @_GenerateCompletionRequestFormatConverter()@JsonKey(includeIfNull: false)  GenerateCompletionRequestFormat? format, @JsonKey(name: 'keep_alive', includeIfNull: false)  int? keepAlive, @JsonKey(includeIfNull: false)  List<String>? images, @JsonKey(includeIfNull: false)  RequestOptions? options, @_GenerateCompletionRequestThinkConverter()@JsonKey(includeIfNull: false)  GenerateCompletionRequestThink? think)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String model,  String prompt, @JsonKey(includeIfNull: false)  String? suffix, @JsonKey(includeIfNull: false)  String? system, @JsonKey(includeIfNull: false)  String? template, @JsonKey(includeIfNull: false)  List<int>? context,  bool stream, @JsonKey(includeIfNull: false)  bool? raw, @_GenerateCompletionRequestFormatConverter()@JsonKey(includeIfNull: false)  GenerateCompletionRequestFormat? format, @JsonKey(name: 'keep_alive', includeIfNull: false)  int? keepAlive, @JsonKey(includeIfNull: false)  List<String>? images, @JsonKey(includeIfNull: false)  RequestOptions? options, @_GenerateCompletionRequestThinkConverter()@JsonKey(includeIfNull: false)  GenerateCompletionRequestThink? think, @JsonKey(includeIfNull: false)  bool? truncate, @JsonKey(includeIfNull: false)  bool? shift)  $default,) {final _that = this;
 switch (_that) {
 case _GenerateCompletionRequest():
-return $default(_that.model,_that.prompt,_that.suffix,_that.system,_that.template,_that.context,_that.stream,_that.raw,_that.format,_that.keepAlive,_that.images,_that.options,_that.think);case _:
+return $default(_that.model,_that.prompt,_that.suffix,_that.system,_that.template,_that.context,_that.stream,_that.raw,_that.format,_that.keepAlive,_that.images,_that.options,_that.think,_that.truncate,_that.shift);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -269,10 +273,10 @@ return $default(_that.model,_that.prompt,_that.suffix,_that.system,_that.templat
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String model,  String prompt, @JsonKey(includeIfNull: false)  String? suffix, @JsonKey(includeIfNull: false)  String? system, @JsonKey(includeIfNull: false)  String? template, @JsonKey(includeIfNull: false)  List<int>? context,  bool stream, @JsonKey(includeIfNull: false)  bool? raw, @_GenerateCompletionRequestFormatConverter()@JsonKey(includeIfNull: false)  GenerateCompletionRequestFormat? format, @JsonKey(name: 'keep_alive', includeIfNull: false)  int? keepAlive, @JsonKey(includeIfNull: false)  List<String>? images, @JsonKey(includeIfNull: false)  RequestOptions? options, @_GenerateCompletionRequestThinkConverter()@JsonKey(includeIfNull: false)  GenerateCompletionRequestThink? think)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String model,  String prompt, @JsonKey(includeIfNull: false)  String? suffix, @JsonKey(includeIfNull: false)  String? system, @JsonKey(includeIfNull: false)  String? template, @JsonKey(includeIfNull: false)  List<int>? context,  bool stream, @JsonKey(includeIfNull: false)  bool? raw, @_GenerateCompletionRequestFormatConverter()@JsonKey(includeIfNull: false)  GenerateCompletionRequestFormat? format, @JsonKey(name: 'keep_alive', includeIfNull: false)  int? keepAlive, @JsonKey(includeIfNull: false)  List<String>? images, @JsonKey(includeIfNull: false)  RequestOptions? options, @_GenerateCompletionRequestThinkConverter()@JsonKey(includeIfNull: false)  GenerateCompletionRequestThink? think, @JsonKey(includeIfNull: false)  bool? truncate, @JsonKey(includeIfNull: false)  bool? shift)?  $default,) {final _that = this;
 switch (_that) {
 case _GenerateCompletionRequest() when $default != null:
-return $default(_that.model,_that.prompt,_that.suffix,_that.system,_that.template,_that.context,_that.stream,_that.raw,_that.format,_that.keepAlive,_that.images,_that.options,_that.think);case _:
+return $default(_that.model,_that.prompt,_that.suffix,_that.system,_that.template,_that.context,_that.stream,_that.raw,_that.format,_that.keepAlive,_that.images,_that.options,_that.think,_that.truncate,_that.shift);case _:
   return null;
 
 }
@@ -284,7 +288,7 @@ return $default(_that.model,_that.prompt,_that.suffix,_that.system,_that.templat
 @JsonSerializable()
 
 class _GenerateCompletionRequest extends GenerateCompletionRequest {
-  const _GenerateCompletionRequest({required this.model, required this.prompt, @JsonKey(includeIfNull: false) this.suffix, @JsonKey(includeIfNull: false) this.system, @JsonKey(includeIfNull: false) this.template, @JsonKey(includeIfNull: false) final  List<int>? context, this.stream = false, @JsonKey(includeIfNull: false) this.raw, @_GenerateCompletionRequestFormatConverter()@JsonKey(includeIfNull: false) this.format, @JsonKey(name: 'keep_alive', includeIfNull: false) this.keepAlive, @JsonKey(includeIfNull: false) final  List<String>? images, @JsonKey(includeIfNull: false) this.options, @_GenerateCompletionRequestThinkConverter()@JsonKey(includeIfNull: false) this.think}): _context = context,_images = images,super._();
+  const _GenerateCompletionRequest({required this.model, required this.prompt, @JsonKey(includeIfNull: false) this.suffix, @JsonKey(includeIfNull: false) this.system, @JsonKey(includeIfNull: false) this.template, @JsonKey(includeIfNull: false) final  List<int>? context, this.stream = false, @JsonKey(includeIfNull: false) this.raw, @_GenerateCompletionRequestFormatConverter()@JsonKey(includeIfNull: false) this.format, @JsonKey(name: 'keep_alive', includeIfNull: false) this.keepAlive, @JsonKey(includeIfNull: false) final  List<String>? images, @JsonKey(includeIfNull: false) this.options, @_GenerateCompletionRequestThinkConverter()@JsonKey(includeIfNull: false) this.think, @JsonKey(includeIfNull: false) this.truncate, @JsonKey(includeIfNull: false) this.shift}): _context = context,_images = images,super._();
   factory _GenerateCompletionRequest.fromJson(Map<String, dynamic> json) => _$GenerateCompletionRequestFromJson(json);
 
 /// The model name.
@@ -345,6 +349,10 @@ class _GenerateCompletionRequest extends GenerateCompletionRequest {
 /// - boolean: true/false to enable/disable thinking
 /// - string: "high", "medium", "low" to set thinking intensity level
 @override@_GenerateCompletionRequestThinkConverter()@JsonKey(includeIfNull: false) final  GenerateCompletionRequestThink? think;
+/// Truncates the end of the prompt if it exceeds the context length
+@override@JsonKey(includeIfNull: false) final  bool? truncate;
+/// Shifts the oldest parts out of the context window when the context limit is reached
+@override@JsonKey(includeIfNull: false) final  bool? shift;
 
 /// Create a copy of GenerateCompletionRequest
 /// with the given fields replaced by the non-null parameter values.
@@ -359,16 +367,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GenerateCompletionRequest&&(identical(other.model, model) || other.model == model)&&(identical(other.prompt, prompt) || other.prompt == prompt)&&(identical(other.suffix, suffix) || other.suffix == suffix)&&(identical(other.system, system) || other.system == system)&&(identical(other.template, template) || other.template == template)&&const DeepCollectionEquality().equals(other._context, _context)&&(identical(other.stream, stream) || other.stream == stream)&&(identical(other.raw, raw) || other.raw == raw)&&(identical(other.format, format) || other.format == format)&&(identical(other.keepAlive, keepAlive) || other.keepAlive == keepAlive)&&const DeepCollectionEquality().equals(other._images, _images)&&(identical(other.options, options) || other.options == options)&&(identical(other.think, think) || other.think == think));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GenerateCompletionRequest&&(identical(other.model, model) || other.model == model)&&(identical(other.prompt, prompt) || other.prompt == prompt)&&(identical(other.suffix, suffix) || other.suffix == suffix)&&(identical(other.system, system) || other.system == system)&&(identical(other.template, template) || other.template == template)&&const DeepCollectionEquality().equals(other._context, _context)&&(identical(other.stream, stream) || other.stream == stream)&&(identical(other.raw, raw) || other.raw == raw)&&(identical(other.format, format) || other.format == format)&&(identical(other.keepAlive, keepAlive) || other.keepAlive == keepAlive)&&const DeepCollectionEquality().equals(other._images, _images)&&(identical(other.options, options) || other.options == options)&&(identical(other.think, think) || other.think == think)&&(identical(other.truncate, truncate) || other.truncate == truncate)&&(identical(other.shift, shift) || other.shift == shift));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,model,prompt,suffix,system,template,const DeepCollectionEquality().hash(_context),stream,raw,format,keepAlive,const DeepCollectionEquality().hash(_images),options,think);
+int get hashCode => Object.hash(runtimeType,model,prompt,suffix,system,template,const DeepCollectionEquality().hash(_context),stream,raw,format,keepAlive,const DeepCollectionEquality().hash(_images),options,think,truncate,shift);
 
 @override
 String toString() {
-  return 'GenerateCompletionRequest(model: $model, prompt: $prompt, suffix: $suffix, system: $system, template: $template, context: $context, stream: $stream, raw: $raw, format: $format, keepAlive: $keepAlive, images: $images, options: $options, think: $think)';
+  return 'GenerateCompletionRequest(model: $model, prompt: $prompt, suffix: $suffix, system: $system, template: $template, context: $context, stream: $stream, raw: $raw, format: $format, keepAlive: $keepAlive, images: $images, options: $options, think: $think, truncate: $truncate, shift: $shift)';
 }
 
 
@@ -379,7 +387,7 @@ abstract mixin class _$GenerateCompletionRequestCopyWith<$Res> implements $Gener
   factory _$GenerateCompletionRequestCopyWith(_GenerateCompletionRequest value, $Res Function(_GenerateCompletionRequest) _then) = __$GenerateCompletionRequestCopyWithImpl;
 @override @useResult
 $Res call({
- String model, String prompt,@JsonKey(includeIfNull: false) String? suffix,@JsonKey(includeIfNull: false) String? system,@JsonKey(includeIfNull: false) String? template,@JsonKey(includeIfNull: false) List<int>? context, bool stream,@JsonKey(includeIfNull: false) bool? raw,@_GenerateCompletionRequestFormatConverter()@JsonKey(includeIfNull: false) GenerateCompletionRequestFormat? format,@JsonKey(name: 'keep_alive', includeIfNull: false) int? keepAlive,@JsonKey(includeIfNull: false) List<String>? images,@JsonKey(includeIfNull: false) RequestOptions? options,@_GenerateCompletionRequestThinkConverter()@JsonKey(includeIfNull: false) GenerateCompletionRequestThink? think
+ String model, String prompt,@JsonKey(includeIfNull: false) String? suffix,@JsonKey(includeIfNull: false) String? system,@JsonKey(includeIfNull: false) String? template,@JsonKey(includeIfNull: false) List<int>? context, bool stream,@JsonKey(includeIfNull: false) bool? raw,@_GenerateCompletionRequestFormatConverter()@JsonKey(includeIfNull: false) GenerateCompletionRequestFormat? format,@JsonKey(name: 'keep_alive', includeIfNull: false) int? keepAlive,@JsonKey(includeIfNull: false) List<String>? images,@JsonKey(includeIfNull: false) RequestOptions? options,@_GenerateCompletionRequestThinkConverter()@JsonKey(includeIfNull: false) GenerateCompletionRequestThink? think,@JsonKey(includeIfNull: false) bool? truncate,@JsonKey(includeIfNull: false) bool? shift
 });
 
 
@@ -396,7 +404,7 @@ class __$GenerateCompletionRequestCopyWithImpl<$Res>
 
 /// Create a copy of GenerateCompletionRequest
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? model = null,Object? prompt = null,Object? suffix = freezed,Object? system = freezed,Object? template = freezed,Object? context = freezed,Object? stream = null,Object? raw = freezed,Object? format = freezed,Object? keepAlive = freezed,Object? images = freezed,Object? options = freezed,Object? think = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? model = null,Object? prompt = null,Object? suffix = freezed,Object? system = freezed,Object? template = freezed,Object? context = freezed,Object? stream = null,Object? raw = freezed,Object? format = freezed,Object? keepAlive = freezed,Object? images = freezed,Object? options = freezed,Object? think = freezed,Object? truncate = freezed,Object? shift = freezed,}) {
   return _then(_GenerateCompletionRequest(
 model: null == model ? _self.model : model // ignore: cast_nullable_to_non_nullable
 as String,prompt: null == prompt ? _self.prompt : prompt // ignore: cast_nullable_to_non_nullable
@@ -411,7 +419,9 @@ as GenerateCompletionRequestFormat?,keepAlive: freezed == keepAlive ? _self.keep
 as int?,images: freezed == images ? _self._images : images // ignore: cast_nullable_to_non_nullable
 as List<String>?,options: freezed == options ? _self.options : options // ignore: cast_nullable_to_non_nullable
 as RequestOptions?,think: freezed == think ? _self.think : think // ignore: cast_nullable_to_non_nullable
-as GenerateCompletionRequestThink?,
+as GenerateCompletionRequestThink?,truncate: freezed == truncate ? _self.truncate : truncate // ignore: cast_nullable_to_non_nullable
+as bool?,shift: freezed == shift ? _self.shift : shift // ignore: cast_nullable_to_non_nullable
+as bool?,
   ));
 }
 
@@ -2140,7 +2150,9 @@ mixin _$GenerateChatCompletionRequest {
 /// Can be:
 /// - boolean: true/false to enable/disable thinking
 /// - string: "high", "medium", "low" to set thinking intensity level
-@_GenerateChatCompletionRequestThinkConverter()@JsonKey(includeIfNull: false) GenerateChatCompletionRequestThink? get think;
+@_GenerateChatCompletionRequestThinkConverter()@JsonKey(includeIfNull: false) GenerateChatCompletionRequestThink? get think;/// Truncates the end of the chat history if it exceeds the context length
+@JsonKey(includeIfNull: false) bool? get truncate;/// Shifts the oldest messages out of the context window when the context limit is reached
+@JsonKey(includeIfNull: false) bool? get shift;
 /// Create a copy of GenerateChatCompletionRequest
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -2153,16 +2165,16 @@ $GenerateChatCompletionRequestCopyWith<GenerateChatCompletionRequest> get copyWi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is GenerateChatCompletionRequest&&(identical(other.model, model) || other.model == model)&&const DeepCollectionEquality().equals(other.messages, messages)&&(identical(other.stream, stream) || other.stream == stream)&&(identical(other.format, format) || other.format == format)&&(identical(other.keepAlive, keepAlive) || other.keepAlive == keepAlive)&&const DeepCollectionEquality().equals(other.tools, tools)&&(identical(other.options, options) || other.options == options)&&(identical(other.think, think) || other.think == think));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GenerateChatCompletionRequest&&(identical(other.model, model) || other.model == model)&&const DeepCollectionEquality().equals(other.messages, messages)&&(identical(other.stream, stream) || other.stream == stream)&&(identical(other.format, format) || other.format == format)&&(identical(other.keepAlive, keepAlive) || other.keepAlive == keepAlive)&&const DeepCollectionEquality().equals(other.tools, tools)&&(identical(other.options, options) || other.options == options)&&(identical(other.think, think) || other.think == think)&&(identical(other.truncate, truncate) || other.truncate == truncate)&&(identical(other.shift, shift) || other.shift == shift));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,model,const DeepCollectionEquality().hash(messages),stream,format,keepAlive,const DeepCollectionEquality().hash(tools),options,think);
+int get hashCode => Object.hash(runtimeType,model,const DeepCollectionEquality().hash(messages),stream,format,keepAlive,const DeepCollectionEquality().hash(tools),options,think,truncate,shift);
 
 @override
 String toString() {
-  return 'GenerateChatCompletionRequest(model: $model, messages: $messages, stream: $stream, format: $format, keepAlive: $keepAlive, tools: $tools, options: $options, think: $think)';
+  return 'GenerateChatCompletionRequest(model: $model, messages: $messages, stream: $stream, format: $format, keepAlive: $keepAlive, tools: $tools, options: $options, think: $think, truncate: $truncate, shift: $shift)';
 }
 
 
@@ -2173,7 +2185,7 @@ abstract mixin class $GenerateChatCompletionRequestCopyWith<$Res>  {
   factory $GenerateChatCompletionRequestCopyWith(GenerateChatCompletionRequest value, $Res Function(GenerateChatCompletionRequest) _then) = _$GenerateChatCompletionRequestCopyWithImpl;
 @useResult
 $Res call({
- String model, List<Message> messages, bool stream,@_GenerateChatCompletionRequestFormatConverter()@JsonKey(includeIfNull: false) GenerateChatCompletionRequestFormat? format,@JsonKey(name: 'keep_alive', includeIfNull: false) int? keepAlive,@JsonKey(includeIfNull: false) List<Tool>? tools,@JsonKey(includeIfNull: false) RequestOptions? options,@_GenerateChatCompletionRequestThinkConverter()@JsonKey(includeIfNull: false) GenerateChatCompletionRequestThink? think
+ String model, List<Message> messages, bool stream,@_GenerateChatCompletionRequestFormatConverter()@JsonKey(includeIfNull: false) GenerateChatCompletionRequestFormat? format,@JsonKey(name: 'keep_alive', includeIfNull: false) int? keepAlive,@JsonKey(includeIfNull: false) List<Tool>? tools,@JsonKey(includeIfNull: false) RequestOptions? options,@_GenerateChatCompletionRequestThinkConverter()@JsonKey(includeIfNull: false) GenerateChatCompletionRequestThink? think,@JsonKey(includeIfNull: false) bool? truncate,@JsonKey(includeIfNull: false) bool? shift
 });
 
 
@@ -2190,7 +2202,7 @@ class _$GenerateChatCompletionRequestCopyWithImpl<$Res>
 
 /// Create a copy of GenerateChatCompletionRequest
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? model = null,Object? messages = null,Object? stream = null,Object? format = freezed,Object? keepAlive = freezed,Object? tools = freezed,Object? options = freezed,Object? think = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? model = null,Object? messages = null,Object? stream = null,Object? format = freezed,Object? keepAlive = freezed,Object? tools = freezed,Object? options = freezed,Object? think = freezed,Object? truncate = freezed,Object? shift = freezed,}) {
   return _then(_self.copyWith(
 model: null == model ? _self.model : model // ignore: cast_nullable_to_non_nullable
 as String,messages: null == messages ? _self.messages : messages // ignore: cast_nullable_to_non_nullable
@@ -2200,7 +2212,9 @@ as GenerateChatCompletionRequestFormat?,keepAlive: freezed == keepAlive ? _self.
 as int?,tools: freezed == tools ? _self.tools : tools // ignore: cast_nullable_to_non_nullable
 as List<Tool>?,options: freezed == options ? _self.options : options // ignore: cast_nullable_to_non_nullable
 as RequestOptions?,think: freezed == think ? _self.think : think // ignore: cast_nullable_to_non_nullable
-as GenerateChatCompletionRequestThink?,
+as GenerateChatCompletionRequestThink?,truncate: freezed == truncate ? _self.truncate : truncate // ignore: cast_nullable_to_non_nullable
+as bool?,shift: freezed == shift ? _self.shift : shift // ignore: cast_nullable_to_non_nullable
+as bool?,
   ));
 }
 /// Create a copy of GenerateChatCompletionRequest
@@ -2321,10 +2335,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String model,  List<Message> messages,  bool stream, @_GenerateChatCompletionRequestFormatConverter()@JsonKey(includeIfNull: false)  GenerateChatCompletionRequestFormat? format, @JsonKey(name: 'keep_alive', includeIfNull: false)  int? keepAlive, @JsonKey(includeIfNull: false)  List<Tool>? tools, @JsonKey(includeIfNull: false)  RequestOptions? options, @_GenerateChatCompletionRequestThinkConverter()@JsonKey(includeIfNull: false)  GenerateChatCompletionRequestThink? think)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String model,  List<Message> messages,  bool stream, @_GenerateChatCompletionRequestFormatConverter()@JsonKey(includeIfNull: false)  GenerateChatCompletionRequestFormat? format, @JsonKey(name: 'keep_alive', includeIfNull: false)  int? keepAlive, @JsonKey(includeIfNull: false)  List<Tool>? tools, @JsonKey(includeIfNull: false)  RequestOptions? options, @_GenerateChatCompletionRequestThinkConverter()@JsonKey(includeIfNull: false)  GenerateChatCompletionRequestThink? think, @JsonKey(includeIfNull: false)  bool? truncate, @JsonKey(includeIfNull: false)  bool? shift)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _GenerateChatCompletionRequest() when $default != null:
-return $default(_that.model,_that.messages,_that.stream,_that.format,_that.keepAlive,_that.tools,_that.options,_that.think);case _:
+return $default(_that.model,_that.messages,_that.stream,_that.format,_that.keepAlive,_that.tools,_that.options,_that.think,_that.truncate,_that.shift);case _:
   return orElse();
 
 }
@@ -2342,10 +2356,10 @@ return $default(_that.model,_that.messages,_that.stream,_that.format,_that.keepA
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String model,  List<Message> messages,  bool stream, @_GenerateChatCompletionRequestFormatConverter()@JsonKey(includeIfNull: false)  GenerateChatCompletionRequestFormat? format, @JsonKey(name: 'keep_alive', includeIfNull: false)  int? keepAlive, @JsonKey(includeIfNull: false)  List<Tool>? tools, @JsonKey(includeIfNull: false)  RequestOptions? options, @_GenerateChatCompletionRequestThinkConverter()@JsonKey(includeIfNull: false)  GenerateChatCompletionRequestThink? think)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String model,  List<Message> messages,  bool stream, @_GenerateChatCompletionRequestFormatConverter()@JsonKey(includeIfNull: false)  GenerateChatCompletionRequestFormat? format, @JsonKey(name: 'keep_alive', includeIfNull: false)  int? keepAlive, @JsonKey(includeIfNull: false)  List<Tool>? tools, @JsonKey(includeIfNull: false)  RequestOptions? options, @_GenerateChatCompletionRequestThinkConverter()@JsonKey(includeIfNull: false)  GenerateChatCompletionRequestThink? think, @JsonKey(includeIfNull: false)  bool? truncate, @JsonKey(includeIfNull: false)  bool? shift)  $default,) {final _that = this;
 switch (_that) {
 case _GenerateChatCompletionRequest():
-return $default(_that.model,_that.messages,_that.stream,_that.format,_that.keepAlive,_that.tools,_that.options,_that.think);case _:
+return $default(_that.model,_that.messages,_that.stream,_that.format,_that.keepAlive,_that.tools,_that.options,_that.think,_that.truncate,_that.shift);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -2362,10 +2376,10 @@ return $default(_that.model,_that.messages,_that.stream,_that.format,_that.keepA
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String model,  List<Message> messages,  bool stream, @_GenerateChatCompletionRequestFormatConverter()@JsonKey(includeIfNull: false)  GenerateChatCompletionRequestFormat? format, @JsonKey(name: 'keep_alive', includeIfNull: false)  int? keepAlive, @JsonKey(includeIfNull: false)  List<Tool>? tools, @JsonKey(includeIfNull: false)  RequestOptions? options, @_GenerateChatCompletionRequestThinkConverter()@JsonKey(includeIfNull: false)  GenerateChatCompletionRequestThink? think)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String model,  List<Message> messages,  bool stream, @_GenerateChatCompletionRequestFormatConverter()@JsonKey(includeIfNull: false)  GenerateChatCompletionRequestFormat? format, @JsonKey(name: 'keep_alive', includeIfNull: false)  int? keepAlive, @JsonKey(includeIfNull: false)  List<Tool>? tools, @JsonKey(includeIfNull: false)  RequestOptions? options, @_GenerateChatCompletionRequestThinkConverter()@JsonKey(includeIfNull: false)  GenerateChatCompletionRequestThink? think, @JsonKey(includeIfNull: false)  bool? truncate, @JsonKey(includeIfNull: false)  bool? shift)?  $default,) {final _that = this;
 switch (_that) {
 case _GenerateChatCompletionRequest() when $default != null:
-return $default(_that.model,_that.messages,_that.stream,_that.format,_that.keepAlive,_that.tools,_that.options,_that.think);case _:
+return $default(_that.model,_that.messages,_that.stream,_that.format,_that.keepAlive,_that.tools,_that.options,_that.think,_that.truncate,_that.shift);case _:
   return null;
 
 }
@@ -2377,7 +2391,7 @@ return $default(_that.model,_that.messages,_that.stream,_that.format,_that.keepA
 @JsonSerializable()
 
 class _GenerateChatCompletionRequest extends GenerateChatCompletionRequest {
-  const _GenerateChatCompletionRequest({required this.model, required final  List<Message> messages, this.stream = false, @_GenerateChatCompletionRequestFormatConverter()@JsonKey(includeIfNull: false) this.format, @JsonKey(name: 'keep_alive', includeIfNull: false) this.keepAlive, @JsonKey(includeIfNull: false) final  List<Tool>? tools, @JsonKey(includeIfNull: false) this.options, @_GenerateChatCompletionRequestThinkConverter()@JsonKey(includeIfNull: false) this.think}): _messages = messages,_tools = tools,super._();
+  const _GenerateChatCompletionRequest({required this.model, required final  List<Message> messages, this.stream = false, @_GenerateChatCompletionRequestFormatConverter()@JsonKey(includeIfNull: false) this.format, @JsonKey(name: 'keep_alive', includeIfNull: false) this.keepAlive, @JsonKey(includeIfNull: false) final  List<Tool>? tools, @JsonKey(includeIfNull: false) this.options, @_GenerateChatCompletionRequestThinkConverter()@JsonKey(includeIfNull: false) this.think, @JsonKey(includeIfNull: false) this.truncate, @JsonKey(includeIfNull: false) this.shift}): _messages = messages,_tools = tools,super._();
   factory _GenerateChatCompletionRequest.fromJson(Map<String, dynamic> json) => _$GenerateChatCompletionRequestFromJson(json);
 
 /// The model name.
@@ -2424,6 +2438,10 @@ class _GenerateChatCompletionRequest extends GenerateChatCompletionRequest {
 /// - boolean: true/false to enable/disable thinking
 /// - string: "high", "medium", "low" to set thinking intensity level
 @override@_GenerateChatCompletionRequestThinkConverter()@JsonKey(includeIfNull: false) final  GenerateChatCompletionRequestThink? think;
+/// Truncates the end of the chat history if it exceeds the context length
+@override@JsonKey(includeIfNull: false) final  bool? truncate;
+/// Shifts the oldest messages out of the context window when the context limit is reached
+@override@JsonKey(includeIfNull: false) final  bool? shift;
 
 /// Create a copy of GenerateChatCompletionRequest
 /// with the given fields replaced by the non-null parameter values.
@@ -2438,16 +2456,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GenerateChatCompletionRequest&&(identical(other.model, model) || other.model == model)&&const DeepCollectionEquality().equals(other._messages, _messages)&&(identical(other.stream, stream) || other.stream == stream)&&(identical(other.format, format) || other.format == format)&&(identical(other.keepAlive, keepAlive) || other.keepAlive == keepAlive)&&const DeepCollectionEquality().equals(other._tools, _tools)&&(identical(other.options, options) || other.options == options)&&(identical(other.think, think) || other.think == think));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GenerateChatCompletionRequest&&(identical(other.model, model) || other.model == model)&&const DeepCollectionEquality().equals(other._messages, _messages)&&(identical(other.stream, stream) || other.stream == stream)&&(identical(other.format, format) || other.format == format)&&(identical(other.keepAlive, keepAlive) || other.keepAlive == keepAlive)&&const DeepCollectionEquality().equals(other._tools, _tools)&&(identical(other.options, options) || other.options == options)&&(identical(other.think, think) || other.think == think)&&(identical(other.truncate, truncate) || other.truncate == truncate)&&(identical(other.shift, shift) || other.shift == shift));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,model,const DeepCollectionEquality().hash(_messages),stream,format,keepAlive,const DeepCollectionEquality().hash(_tools),options,think);
+int get hashCode => Object.hash(runtimeType,model,const DeepCollectionEquality().hash(_messages),stream,format,keepAlive,const DeepCollectionEquality().hash(_tools),options,think,truncate,shift);
 
 @override
 String toString() {
-  return 'GenerateChatCompletionRequest(model: $model, messages: $messages, stream: $stream, format: $format, keepAlive: $keepAlive, tools: $tools, options: $options, think: $think)';
+  return 'GenerateChatCompletionRequest(model: $model, messages: $messages, stream: $stream, format: $format, keepAlive: $keepAlive, tools: $tools, options: $options, think: $think, truncate: $truncate, shift: $shift)';
 }
 
 
@@ -2458,7 +2476,7 @@ abstract mixin class _$GenerateChatCompletionRequestCopyWith<$Res> implements $G
   factory _$GenerateChatCompletionRequestCopyWith(_GenerateChatCompletionRequest value, $Res Function(_GenerateChatCompletionRequest) _then) = __$GenerateChatCompletionRequestCopyWithImpl;
 @override @useResult
 $Res call({
- String model, List<Message> messages, bool stream,@_GenerateChatCompletionRequestFormatConverter()@JsonKey(includeIfNull: false) GenerateChatCompletionRequestFormat? format,@JsonKey(name: 'keep_alive', includeIfNull: false) int? keepAlive,@JsonKey(includeIfNull: false) List<Tool>? tools,@JsonKey(includeIfNull: false) RequestOptions? options,@_GenerateChatCompletionRequestThinkConverter()@JsonKey(includeIfNull: false) GenerateChatCompletionRequestThink? think
+ String model, List<Message> messages, bool stream,@_GenerateChatCompletionRequestFormatConverter()@JsonKey(includeIfNull: false) GenerateChatCompletionRequestFormat? format,@JsonKey(name: 'keep_alive', includeIfNull: false) int? keepAlive,@JsonKey(includeIfNull: false) List<Tool>? tools,@JsonKey(includeIfNull: false) RequestOptions? options,@_GenerateChatCompletionRequestThinkConverter()@JsonKey(includeIfNull: false) GenerateChatCompletionRequestThink? think,@JsonKey(includeIfNull: false) bool? truncate,@JsonKey(includeIfNull: false) bool? shift
 });
 
 
@@ -2475,7 +2493,7 @@ class __$GenerateChatCompletionRequestCopyWithImpl<$Res>
 
 /// Create a copy of GenerateChatCompletionRequest
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? model = null,Object? messages = null,Object? stream = null,Object? format = freezed,Object? keepAlive = freezed,Object? tools = freezed,Object? options = freezed,Object? think = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? model = null,Object? messages = null,Object? stream = null,Object? format = freezed,Object? keepAlive = freezed,Object? tools = freezed,Object? options = freezed,Object? think = freezed,Object? truncate = freezed,Object? shift = freezed,}) {
   return _then(_GenerateChatCompletionRequest(
 model: null == model ? _self.model : model // ignore: cast_nullable_to_non_nullable
 as String,messages: null == messages ? _self._messages : messages // ignore: cast_nullable_to_non_nullable
@@ -2485,7 +2503,9 @@ as GenerateChatCompletionRequestFormat?,keepAlive: freezed == keepAlive ? _self.
 as int?,tools: freezed == tools ? _self._tools : tools // ignore: cast_nullable_to_non_nullable
 as List<Tool>?,options: freezed == options ? _self.options : options // ignore: cast_nullable_to_non_nullable
 as RequestOptions?,think: freezed == think ? _self.think : think // ignore: cast_nullable_to_non_nullable
-as GenerateChatCompletionRequestThink?,
+as GenerateChatCompletionRequestThink?,truncate: freezed == truncate ? _self.truncate : truncate // ignore: cast_nullable_to_non_nullable
+as bool?,shift: freezed == shift ? _self.shift : shift // ignore: cast_nullable_to_non_nullable
+as bool?,
   ));
 }
 

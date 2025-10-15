@@ -32,6 +32,8 @@ _GenerateCompletionRequest _$GenerateCompletionRequestFromJson(
   think: const _GenerateCompletionRequestThinkConverter().fromJson(
     json['think'],
   ),
+  truncate: json['truncate'] as bool?,
+  shift: json['shift'] as bool?,
 );
 
 Map<String, dynamic> _$GenerateCompletionRequestToJson(
@@ -54,6 +56,8 @@ Map<String, dynamic> _$GenerateCompletionRequestToJson(
   'think': ?const _GenerateCompletionRequestThinkConverter().toJson(
     instance.think,
   ),
+  'truncate': ?instance.truncate,
+  'shift': ?instance.shift,
 };
 
 GenerateCompletionRequestFormatEnumeration
@@ -237,6 +241,8 @@ _GenerateChatCompletionRequest _$GenerateChatCompletionRequestFromJson(
   think: const _GenerateChatCompletionRequestThinkConverter().fromJson(
     json['think'],
   ),
+  truncate: json['truncate'] as bool?,
+  shift: json['shift'] as bool?,
 );
 
 Map<String, dynamic> _$GenerateChatCompletionRequestToJson(
@@ -254,6 +260,8 @@ Map<String, dynamic> _$GenerateChatCompletionRequestToJson(
   'think': ?const _GenerateChatCompletionRequestThinkConverter().toJson(
     instance.think,
   ),
+  'truncate': ?instance.truncate,
+  'shift': ?instance.shift,
 };
 
 GenerateChatCompletionRequestFormatEnumeration
