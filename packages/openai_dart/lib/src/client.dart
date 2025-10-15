@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:http/retry.dart' show RetryClient;
+import 'package:meta/meta.dart';
 
 import 'generated/client.dart' as g;
 import 'generated/schema/schema.dart';
@@ -191,6 +192,25 @@ class OpenAIClient extends g.OpenAIClient {
   }
 }
 
+/// Transforms SSE (Server-Sent Events) byte streams into data strings.
+///
+/// Implements parsing according to the WHATWG SSE specification:
+/// https://html.spec.whatwg.org/multipage/server-sent-events.html
+///
+/// SSE Format: Each line can be one of:
+/// - `data: value` (standard format with space after colon)
+/// - `data:value` (format without space, used by some providers like LongCat)
+/// - `data:[DONE]` (termination signal, filtered out)
+///
+/// Per the WHATWG spec, the space after the colon is optional. When present,
+/// exactly one leading space should be removed from the value. We use `.trim()`
+/// to handle both formats and any additional whitespace variations robustly.
+///
+/// This transformer:
+/// 1. Decodes UTF-8 bytes to strings
+/// 2. Splits on line boundaries
+/// 3. Filters for lines starting with 'data:' (excluding '[DONE]' markers)
+/// 4. Extracts the value after 'data:' and trims whitespace
 class _OpenAIStreamTransformer
     extends StreamTransformerBase<List<int>, String> {
   const _OpenAIStreamTransformer();
@@ -263,13 +283,37 @@ class _OpenAIAssistantStreamTransformer
   }
 }
 
+/// Pairs SSE 'event:' and 'data:' lines for the Assistant streaming API.
+///
+/// The Assistant API uses a more complex SSE format where events are typed:
+/// ```text
+/// event: thread.run.created
+/// data: {"id":"run_abc123","status":"queued"}
+///
+/// event: thread.run.step.delta
+/// data: {"id":"step_xyz789","delta":{...}}
+/// ```
+///
+/// SSE Format Handling:
+/// - Both `event: type` and `event:type` are valid (space is optional)
+/// - Both `data: value` and `data:value` are valid (space is optional)
+/// - Per WHATWG spec, leading space after colon should be stripped
+/// - We use `.trim()` to handle both formats and additional whitespace
+///
+/// This transformer:
+/// 1. Receives pre-split lines from upstream LineSplitter
+/// 2. Buffers 'event:' lines to determine the event type
+/// 3. Pairs each 'data:' line with its preceding event type
+/// 4. Emits (eventType, dataValue) tuples for downstream processing
 class _PairwiseTransformer
     extends StreamTransformerBase<String, (String, String)> {
   @override
   Stream<(String, String)> bind(final Stream<String> stream) {
     late StreamController<(String, String)> controller;
     late StreamSubscription<String> subscription;
-    late String event;
+    // Initialize to empty string as a safety measure, though OpenAI API
+    // always sends 'event:' before 'data:' according to the specification.
+    var event = '';
 
     controller = StreamController<(String, String)>(
       onListen: () {
@@ -294,4 +338,22 @@ class _PairwiseTransformer
 
     return controller.stream;
   }
+}
+
+// ============================================================================
+// Test Helpers (visible for testing only)
+// ============================================================================
+
+/// Test helper to expose [_OpenAIStreamTransformer] for unit testing.
+/// This transformer parses SSE (Server-Sent Events) format for OpenAI streaming APIs.
+@visibleForTesting
+StreamTransformer<List<int>, String> createOpenAIStreamTransformer() {
+  return const _OpenAIStreamTransformer();
+}
+
+/// Test helper to expose [_PairwiseTransformer] for unit testing.
+/// This transformer pairs SSE event and data fields for Assistant API streaming.
+@visibleForTesting
+StreamTransformer<String, (String, String)> createPairwiseTransformer() {
+  return _PairwiseTransformer();
 }
