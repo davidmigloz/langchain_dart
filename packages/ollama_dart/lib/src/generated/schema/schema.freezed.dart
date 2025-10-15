@@ -3516,7 +3516,8 @@ mixin _$Message {
  String get content;/// Contains the text that was inside thinking tags in the original model output when `think` is enabled.
 @JsonKey(includeIfNull: false) String? get thinking;/// (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
 @JsonKey(includeIfNull: false) List<String>? get images;/// A list of tools the model wants to call.
-@JsonKey(name: 'tool_calls', includeIfNull: false) List<ToolCall>? get toolCalls;
+@JsonKey(name: 'tool_calls', includeIfNull: false) List<ToolCall>? get toolCalls;/// The name of the tool when role is "tool" (used in tool response messages)
+@JsonKey(name: 'tool_name', includeIfNull: false) String? get toolName;
 /// Create a copy of Message
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -3529,16 +3530,16 @@ $MessageCopyWith<Message> get copyWith => _$MessageCopyWithImpl<Message>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Message&&(identical(other.role, role) || other.role == role)&&(identical(other.content, content) || other.content == content)&&(identical(other.thinking, thinking) || other.thinking == thinking)&&const DeepCollectionEquality().equals(other.images, images)&&const DeepCollectionEquality().equals(other.toolCalls, toolCalls));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Message&&(identical(other.role, role) || other.role == role)&&(identical(other.content, content) || other.content == content)&&(identical(other.thinking, thinking) || other.thinking == thinking)&&const DeepCollectionEquality().equals(other.images, images)&&const DeepCollectionEquality().equals(other.toolCalls, toolCalls)&&(identical(other.toolName, toolName) || other.toolName == toolName));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,role,content,thinking,const DeepCollectionEquality().hash(images),const DeepCollectionEquality().hash(toolCalls));
+int get hashCode => Object.hash(runtimeType,role,content,thinking,const DeepCollectionEquality().hash(images),const DeepCollectionEquality().hash(toolCalls),toolName);
 
 @override
 String toString() {
-  return 'Message(role: $role, content: $content, thinking: $thinking, images: $images, toolCalls: $toolCalls)';
+  return 'Message(role: $role, content: $content, thinking: $thinking, images: $images, toolCalls: $toolCalls, toolName: $toolName)';
 }
 
 
@@ -3549,7 +3550,7 @@ abstract mixin class $MessageCopyWith<$Res>  {
   factory $MessageCopyWith(Message value, $Res Function(Message) _then) = _$MessageCopyWithImpl;
 @useResult
 $Res call({
- MessageRole role, String content,@JsonKey(includeIfNull: false) String? thinking,@JsonKey(includeIfNull: false) List<String>? images,@JsonKey(name: 'tool_calls', includeIfNull: false) List<ToolCall>? toolCalls
+ MessageRole role, String content,@JsonKey(includeIfNull: false) String? thinking,@JsonKey(includeIfNull: false) List<String>? images,@JsonKey(name: 'tool_calls', includeIfNull: false) List<ToolCall>? toolCalls,@JsonKey(name: 'tool_name', includeIfNull: false) String? toolName
 });
 
 
@@ -3566,14 +3567,15 @@ class _$MessageCopyWithImpl<$Res>
 
 /// Create a copy of Message
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? role = null,Object? content = null,Object? thinking = freezed,Object? images = freezed,Object? toolCalls = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? role = null,Object? content = null,Object? thinking = freezed,Object? images = freezed,Object? toolCalls = freezed,Object? toolName = freezed,}) {
   return _then(_self.copyWith(
 role: null == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
 as MessageRole,content: null == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as String,thinking: freezed == thinking ? _self.thinking : thinking // ignore: cast_nullable_to_non_nullable
 as String?,images: freezed == images ? _self.images : images // ignore: cast_nullable_to_non_nullable
 as List<String>?,toolCalls: freezed == toolCalls ? _self.toolCalls : toolCalls // ignore: cast_nullable_to_non_nullable
-as List<ToolCall>?,
+as List<ToolCall>?,toolName: freezed == toolName ? _self.toolName : toolName // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -3658,10 +3660,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( MessageRole role,  String content, @JsonKey(includeIfNull: false)  String? thinking, @JsonKey(includeIfNull: false)  List<String>? images, @JsonKey(name: 'tool_calls', includeIfNull: false)  List<ToolCall>? toolCalls)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( MessageRole role,  String content, @JsonKey(includeIfNull: false)  String? thinking, @JsonKey(includeIfNull: false)  List<String>? images, @JsonKey(name: 'tool_calls', includeIfNull: false)  List<ToolCall>? toolCalls, @JsonKey(name: 'tool_name', includeIfNull: false)  String? toolName)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Message() when $default != null:
-return $default(_that.role,_that.content,_that.thinking,_that.images,_that.toolCalls);case _:
+return $default(_that.role,_that.content,_that.thinking,_that.images,_that.toolCalls,_that.toolName);case _:
   return orElse();
 
 }
@@ -3679,10 +3681,10 @@ return $default(_that.role,_that.content,_that.thinking,_that.images,_that.toolC
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( MessageRole role,  String content, @JsonKey(includeIfNull: false)  String? thinking, @JsonKey(includeIfNull: false)  List<String>? images, @JsonKey(name: 'tool_calls', includeIfNull: false)  List<ToolCall>? toolCalls)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( MessageRole role,  String content, @JsonKey(includeIfNull: false)  String? thinking, @JsonKey(includeIfNull: false)  List<String>? images, @JsonKey(name: 'tool_calls', includeIfNull: false)  List<ToolCall>? toolCalls, @JsonKey(name: 'tool_name', includeIfNull: false)  String? toolName)  $default,) {final _that = this;
 switch (_that) {
 case _Message():
-return $default(_that.role,_that.content,_that.thinking,_that.images,_that.toolCalls);case _:
+return $default(_that.role,_that.content,_that.thinking,_that.images,_that.toolCalls,_that.toolName);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -3699,10 +3701,10 @@ return $default(_that.role,_that.content,_that.thinking,_that.images,_that.toolC
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( MessageRole role,  String content, @JsonKey(includeIfNull: false)  String? thinking, @JsonKey(includeIfNull: false)  List<String>? images, @JsonKey(name: 'tool_calls', includeIfNull: false)  List<ToolCall>? toolCalls)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( MessageRole role,  String content, @JsonKey(includeIfNull: false)  String? thinking, @JsonKey(includeIfNull: false)  List<String>? images, @JsonKey(name: 'tool_calls', includeIfNull: false)  List<ToolCall>? toolCalls, @JsonKey(name: 'tool_name', includeIfNull: false)  String? toolName)?  $default,) {final _that = this;
 switch (_that) {
 case _Message() when $default != null:
-return $default(_that.role,_that.content,_that.thinking,_that.images,_that.toolCalls);case _:
+return $default(_that.role,_that.content,_that.thinking,_that.images,_that.toolCalls,_that.toolName);case _:
   return null;
 
 }
@@ -3714,7 +3716,7 @@ return $default(_that.role,_that.content,_that.thinking,_that.images,_that.toolC
 @JsonSerializable()
 
 class _Message extends Message {
-  const _Message({required this.role, required this.content, @JsonKey(includeIfNull: false) this.thinking, @JsonKey(includeIfNull: false) final  List<String>? images, @JsonKey(name: 'tool_calls', includeIfNull: false) final  List<ToolCall>? toolCalls}): _images = images,_toolCalls = toolCalls,super._();
+  const _Message({required this.role, required this.content, @JsonKey(includeIfNull: false) this.thinking, @JsonKey(includeIfNull: false) final  List<String>? images, @JsonKey(name: 'tool_calls', includeIfNull: false) final  List<ToolCall>? toolCalls, @JsonKey(name: 'tool_name', includeIfNull: false) this.toolName}): _images = images,_toolCalls = toolCalls,super._();
   factory _Message.fromJson(Map<String, dynamic> json) => _$MessageFromJson(json);
 
 /// The role of the message
@@ -3745,6 +3747,8 @@ class _Message extends Message {
   return EqualUnmodifiableListView(value);
 }
 
+/// The name of the tool when role is "tool" (used in tool response messages)
+@override@JsonKey(name: 'tool_name', includeIfNull: false) final  String? toolName;
 
 /// Create a copy of Message
 /// with the given fields replaced by the non-null parameter values.
@@ -3759,16 +3763,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Message&&(identical(other.role, role) || other.role == role)&&(identical(other.content, content) || other.content == content)&&(identical(other.thinking, thinking) || other.thinking == thinking)&&const DeepCollectionEquality().equals(other._images, _images)&&const DeepCollectionEquality().equals(other._toolCalls, _toolCalls));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Message&&(identical(other.role, role) || other.role == role)&&(identical(other.content, content) || other.content == content)&&(identical(other.thinking, thinking) || other.thinking == thinking)&&const DeepCollectionEquality().equals(other._images, _images)&&const DeepCollectionEquality().equals(other._toolCalls, _toolCalls)&&(identical(other.toolName, toolName) || other.toolName == toolName));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,role,content,thinking,const DeepCollectionEquality().hash(_images),const DeepCollectionEquality().hash(_toolCalls));
+int get hashCode => Object.hash(runtimeType,role,content,thinking,const DeepCollectionEquality().hash(_images),const DeepCollectionEquality().hash(_toolCalls),toolName);
 
 @override
 String toString() {
-  return 'Message(role: $role, content: $content, thinking: $thinking, images: $images, toolCalls: $toolCalls)';
+  return 'Message(role: $role, content: $content, thinking: $thinking, images: $images, toolCalls: $toolCalls, toolName: $toolName)';
 }
 
 
@@ -3779,7 +3783,7 @@ abstract mixin class _$MessageCopyWith<$Res> implements $MessageCopyWith<$Res> {
   factory _$MessageCopyWith(_Message value, $Res Function(_Message) _then) = __$MessageCopyWithImpl;
 @override @useResult
 $Res call({
- MessageRole role, String content,@JsonKey(includeIfNull: false) String? thinking,@JsonKey(includeIfNull: false) List<String>? images,@JsonKey(name: 'tool_calls', includeIfNull: false) List<ToolCall>? toolCalls
+ MessageRole role, String content,@JsonKey(includeIfNull: false) String? thinking,@JsonKey(includeIfNull: false) List<String>? images,@JsonKey(name: 'tool_calls', includeIfNull: false) List<ToolCall>? toolCalls,@JsonKey(name: 'tool_name', includeIfNull: false) String? toolName
 });
 
 
@@ -3796,14 +3800,15 @@ class __$MessageCopyWithImpl<$Res>
 
 /// Create a copy of Message
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? role = null,Object? content = null,Object? thinking = freezed,Object? images = freezed,Object? toolCalls = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? role = null,Object? content = null,Object? thinking = freezed,Object? images = freezed,Object? toolCalls = freezed,Object? toolName = freezed,}) {
   return _then(_Message(
 role: null == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
 as MessageRole,content: null == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as String,thinking: freezed == thinking ? _self.thinking : thinking // ignore: cast_nullable_to_non_nullable
 as String?,images: freezed == images ? _self._images : images // ignore: cast_nullable_to_non_nullable
 as List<String>?,toolCalls: freezed == toolCalls ? _self._toolCalls : toolCalls // ignore: cast_nullable_to_non_nullable
-as List<ToolCall>?,
+as List<ToolCall>?,toolName: freezed == toolName ? _self.toolName : toolName // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -4681,7 +4686,8 @@ mixin _$ToolCallFunction {
 
 /// The name of the function to be called.
  String get name;/// The arguments to pass to the function.
- ToolCallFunctionArgs get arguments;
+ ToolCallFunctionArgs get arguments;/// The index of the tool call in the list of tool calls
+@JsonKey(includeIfNull: false) int? get index;
 /// Create a copy of ToolCallFunction
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -4694,16 +4700,16 @@ $ToolCallFunctionCopyWith<ToolCallFunction> get copyWith => _$ToolCallFunctionCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ToolCallFunction&&(identical(other.name, name) || other.name == name)&&const DeepCollectionEquality().equals(other.arguments, arguments));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ToolCallFunction&&(identical(other.name, name) || other.name == name)&&const DeepCollectionEquality().equals(other.arguments, arguments)&&(identical(other.index, index) || other.index == index));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,const DeepCollectionEquality().hash(arguments));
+int get hashCode => Object.hash(runtimeType,name,const DeepCollectionEquality().hash(arguments),index);
 
 @override
 String toString() {
-  return 'ToolCallFunction(name: $name, arguments: $arguments)';
+  return 'ToolCallFunction(name: $name, arguments: $arguments, index: $index)';
 }
 
 
@@ -4714,7 +4720,7 @@ abstract mixin class $ToolCallFunctionCopyWith<$Res>  {
   factory $ToolCallFunctionCopyWith(ToolCallFunction value, $Res Function(ToolCallFunction) _then) = _$ToolCallFunctionCopyWithImpl;
 @useResult
 $Res call({
- String name, ToolCallFunctionArgs arguments
+ String name, ToolCallFunctionArgs arguments,@JsonKey(includeIfNull: false) int? index
 });
 
 
@@ -4731,11 +4737,12 @@ class _$ToolCallFunctionCopyWithImpl<$Res>
 
 /// Create a copy of ToolCallFunction
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? arguments = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? arguments = null,Object? index = freezed,}) {
   return _then(_self.copyWith(
 name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,arguments: null == arguments ? _self.arguments : arguments // ignore: cast_nullable_to_non_nullable
-as ToolCallFunctionArgs,
+as ToolCallFunctionArgs,index: freezed == index ? _self.index : index // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 
@@ -4820,10 +4827,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String name,  ToolCallFunctionArgs arguments)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String name,  ToolCallFunctionArgs arguments, @JsonKey(includeIfNull: false)  int? index)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ToolCallFunction() when $default != null:
-return $default(_that.name,_that.arguments);case _:
+return $default(_that.name,_that.arguments,_that.index);case _:
   return orElse();
 
 }
@@ -4841,10 +4848,10 @@ return $default(_that.name,_that.arguments);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name,  ToolCallFunctionArgs arguments)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name,  ToolCallFunctionArgs arguments, @JsonKey(includeIfNull: false)  int? index)  $default,) {final _that = this;
 switch (_that) {
 case _ToolCallFunction():
-return $default(_that.name,_that.arguments);case _:
+return $default(_that.name,_that.arguments,_that.index);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -4861,10 +4868,10 @@ return $default(_that.name,_that.arguments);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String name,  ToolCallFunctionArgs arguments)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String name,  ToolCallFunctionArgs arguments, @JsonKey(includeIfNull: false)  int? index)?  $default,) {final _that = this;
 switch (_that) {
 case _ToolCallFunction() when $default != null:
-return $default(_that.name,_that.arguments);case _:
+return $default(_that.name,_that.arguments,_that.index);case _:
   return null;
 
 }
@@ -4876,7 +4883,7 @@ return $default(_that.name,_that.arguments);case _:
 @JsonSerializable()
 
 class _ToolCallFunction extends ToolCallFunction {
-  const _ToolCallFunction({required this.name, required final  ToolCallFunctionArgs arguments}): _arguments = arguments,super._();
+  const _ToolCallFunction({required this.name, required final  ToolCallFunctionArgs arguments, @JsonKey(includeIfNull: false) this.index}): _arguments = arguments,super._();
   factory _ToolCallFunction.fromJson(Map<String, dynamic> json) => _$ToolCallFunctionFromJson(json);
 
 /// The name of the function to be called.
@@ -4890,6 +4897,8 @@ class _ToolCallFunction extends ToolCallFunction {
   return EqualUnmodifiableMapView(_arguments);
 }
 
+/// The index of the tool call in the list of tool calls
+@override@JsonKey(includeIfNull: false) final  int? index;
 
 /// Create a copy of ToolCallFunction
 /// with the given fields replaced by the non-null parameter values.
@@ -4904,16 +4913,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ToolCallFunction&&(identical(other.name, name) || other.name == name)&&const DeepCollectionEquality().equals(other._arguments, _arguments));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ToolCallFunction&&(identical(other.name, name) || other.name == name)&&const DeepCollectionEquality().equals(other._arguments, _arguments)&&(identical(other.index, index) || other.index == index));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,const DeepCollectionEquality().hash(_arguments));
+int get hashCode => Object.hash(runtimeType,name,const DeepCollectionEquality().hash(_arguments),index);
 
 @override
 String toString() {
-  return 'ToolCallFunction(name: $name, arguments: $arguments)';
+  return 'ToolCallFunction(name: $name, arguments: $arguments, index: $index)';
 }
 
 
@@ -4924,7 +4933,7 @@ abstract mixin class _$ToolCallFunctionCopyWith<$Res> implements $ToolCallFuncti
   factory _$ToolCallFunctionCopyWith(_ToolCallFunction value, $Res Function(_ToolCallFunction) _then) = __$ToolCallFunctionCopyWithImpl;
 @override @useResult
 $Res call({
- String name, ToolCallFunctionArgs arguments
+ String name, ToolCallFunctionArgs arguments,@JsonKey(includeIfNull: false) int? index
 });
 
 
@@ -4941,11 +4950,12 @@ class __$ToolCallFunctionCopyWithImpl<$Res>
 
 /// Create a copy of ToolCallFunction
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? arguments = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? arguments = null,Object? index = freezed,}) {
   return _then(_ToolCallFunction(
 name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,arguments: null == arguments ? _self._arguments : arguments // ignore: cast_nullable_to_non_nullable
-as ToolCallFunctionArgs,
+as ToolCallFunctionArgs,index: freezed == index ? _self.index : index // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 

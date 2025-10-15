@@ -30,6 +30,9 @@ abstract class Message with _$Message {
     /// A list of tools the model wants to call.
     @JsonKey(name: 'tool_calls', includeIfNull: false)
     List<ToolCall>? toolCalls,
+
+    /// The name of the tool when role is "tool" (used in tool response messages)
+    @JsonKey(name: 'tool_name', includeIfNull: false) String? toolName,
   }) = _Message;
 
   /// Object construction from a JSON representation
@@ -43,6 +46,7 @@ abstract class Message with _$Message {
     'thinking',
     'images',
     'tool_calls',
+    'tool_name',
   ];
 
   /// Perform validations on the schema property values
@@ -58,6 +62,7 @@ abstract class Message with _$Message {
       'thinking': thinking,
       'images': images,
       'tool_calls': toolCalls,
+      'tool_name': toolName,
     };
   }
 }

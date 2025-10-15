@@ -783,6 +783,10 @@ components:
           description: A list of tools the model wants to call.
           items:
             $ref: '#/components/schemas/ToolCall'
+        tool_name:
+          type: string
+          nullable: true
+          description: The name of the tool when role is "tool" (used in tool response messages)
       required:
         - role
         - content
@@ -834,6 +838,9 @@ components:
           description: The name of the function to be called.
         arguments:
           $ref: '#/components/schemas/ToolCallFunctionArgs'
+        index:
+          type: integer
+          description: The index of the tool call in the list of tool calls
       required:
         - name
         - arguments

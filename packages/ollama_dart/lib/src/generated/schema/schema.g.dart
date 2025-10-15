@@ -373,6 +373,7 @@ _Message _$MessageFromJson(Map<String, dynamic> json) => _Message(
   toolCalls: (json['tool_calls'] as List<dynamic>?)
       ?.map((e) => ToolCall.fromJson(e as Map<String, dynamic>))
       .toList(),
+  toolName: json['tool_name'] as String?,
 );
 
 Map<String, dynamic> _$MessageToJson(_Message instance) => <String, dynamic>{
@@ -381,6 +382,7 @@ Map<String, dynamic> _$MessageToJson(_Message instance) => <String, dynamic>{
   'thinking': ?instance.thinking,
   'images': ?instance.images,
   'tool_calls': ?instance.toolCalls?.map((e) => e.toJson()).toList(),
+  'tool_name': ?instance.toolName,
 };
 
 const _$MessageRoleEnumMap = {
@@ -433,10 +435,15 @@ _ToolCallFunction _$ToolCallFunctionFromJson(Map<String, dynamic> json) =>
     _ToolCallFunction(
       name: json['name'] as String,
       arguments: json['arguments'] as Map<String, dynamic>,
+      index: (json['index'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$ToolCallFunctionToJson(_ToolCallFunction instance) =>
-    <String, dynamic>{'name': instance.name, 'arguments': instance.arguments};
+    <String, dynamic>{
+      'name': instance.name,
+      'arguments': instance.arguments,
+      'index': ?instance.index,
+    };
 
 _GenerateEmbeddingRequest _$GenerateEmbeddingRequestFromJson(
   Map<String, dynamic> json,
