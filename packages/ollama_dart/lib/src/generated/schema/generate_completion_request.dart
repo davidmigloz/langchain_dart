@@ -43,16 +43,12 @@ abstract class GenerateCompletionRequest with _$GenerateCompletionRequest {
     /// You may choose to use the `raw` parameter if you are specifying a full templated prompt in your request to the API, and are managing history yourself.
     @JsonKey(includeIfNull: false) bool? raw,
 
-    /// The format to return a response in. Currently the only accepted value is json.
-    ///
-    /// Enable JSON mode by setting the format parameter to json. This will structure the response as valid JSON.
-    ///
-    /// Note: it's important to instruct the model to use JSON in the prompt. Otherwise, the model may generate large amounts whitespace.
-    @JsonKey(
-      includeIfNull: false,
-      unknownEnumValue: JsonKey.nullForUndefinedEnumValue,
-    )
-    ResponseFormat? format,
+    /// The format to return a response in. Can be:
+    /// - "json" string to enable JSON mode
+    /// - JSON schema object for structured output validation
+    @_GenerateCompletionRequestFormatConverter()
+    @JsonKey(includeIfNull: false)
+    GenerateCompletionRequestFormat? format,
 
     /// How long (in minutes) to keep the model loaded in memory.
     ///
@@ -117,6 +113,82 @@ abstract class GenerateCompletionRequest with _$GenerateCompletionRequest {
       'images': images,
       'options': options,
       'think': think,
+    };
+  }
+}
+
+// ==========================================
+// ENUM: GenerateCompletionRequestFormatEnum
+// ==========================================
+
+/// Enable JSON mode
+enum GenerateCompletionRequestFormatEnum {
+  @JsonValue('json')
+  json,
+}
+
+// ==========================================
+// CLASS: GenerateCompletionRequestFormat
+// ==========================================
+
+/// The format to return a response in. Can be:
+/// - "json" string to enable JSON mode
+/// - JSON schema object for structured output validation
+@freezed
+sealed class GenerateCompletionRequestFormat
+    with _$GenerateCompletionRequestFormat {
+  const GenerateCompletionRequestFormat._();
+
+  /// Enable JSON mode
+  const factory GenerateCompletionRequestFormat.enumeration(
+    GenerateCompletionRequestFormatEnum value,
+  ) = GenerateCompletionRequestFormatEnumeration;
+
+  /// JSON schema object for structured output validation
+  const factory GenerateCompletionRequestFormat.mapStringDynamic(
+    Map<String, dynamic> value,
+  ) = GenerateCompletionRequestFormatMapStringDynamic;
+
+  /// Object construction from a JSON representation
+  factory GenerateCompletionRequestFormat.fromJson(Map<String, dynamic> json) =>
+      _$GenerateCompletionRequestFormatFromJson(json);
+}
+
+/// Custom JSON converter for [GenerateCompletionRequestFormat]
+class _GenerateCompletionRequestFormatConverter
+    implements JsonConverter<GenerateCompletionRequestFormat?, Object?> {
+  const _GenerateCompletionRequestFormatConverter();
+
+  @override
+  GenerateCompletionRequestFormat? fromJson(Object? data) {
+    if (data == null) {
+      return null;
+    }
+    if (data is String &&
+        _$GenerateCompletionRequestFormatEnumEnumMap.values.contains(data)) {
+      return GenerateCompletionRequestFormatEnumeration(
+        _$GenerateCompletionRequestFormatEnumEnumMap.keys.elementAt(
+          _$GenerateCompletionRequestFormatEnumEnumMap.values.toList().indexOf(
+            data,
+          ),
+        ),
+      );
+    }
+    if (data is Map<String, dynamic>) {
+      return GenerateCompletionRequestFormatMapStringDynamic(data);
+    }
+    throw Exception(
+      'Unexpected value for GenerateCompletionRequestFormat: $data',
+    );
+  }
+
+  @override
+  Object? toJson(GenerateCompletionRequestFormat? data) {
+    return switch (data) {
+      GenerateCompletionRequestFormatEnumeration(value: final v) =>
+        _$GenerateCompletionRequestFormatEnumEnumMap[v]!,
+      GenerateCompletionRequestFormatMapStringDynamic(value: final v) => v,
+      null => null,
     };
   }
 }

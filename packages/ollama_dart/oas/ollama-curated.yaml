@@ -301,11 +301,22 @@ components:
         raw:
           type: boolean
           description: |
-            If `true` no formatting will be applied to the prompt and no context will be returned. 
-            
+            If `true` no formatting will be applied to the prompt and no context will be returned.
+
             You may choose to use the `raw` parameter if you are specifying a full templated prompt in your request to the API, and are managing history yourself.
         format:
-          $ref: '#/components/schemas/ResponseFormat'
+          oneOf:
+            - type: string
+              enum: [json]
+              description: Enable JSON mode
+            - type: object
+              additionalProperties: true
+              description: JSON schema object for structured output validation
+          nullable: true
+          description: |
+            The format to return a response in. Can be:
+            - "json" string to enable JSON mode
+            - JSON schema object for structured output validation
         keep_alive: &keep_alive
           type: integer
           nullable: true
@@ -619,7 +630,18 @@ components:
           description: *stream
           default: false
         format:
-          $ref: '#/components/schemas/ResponseFormat'
+          oneOf:
+            - type: string
+              enum: [json]
+              description: Enable JSON mode
+            - type: object
+              additionalProperties: true
+              description: JSON schema object for structured output validation
+          nullable: true
+          description: |
+            The format to return a response in. Can be:
+            - "json" string to enable JSON mode
+            - JSON schema object for structured output validation
         keep_alive: *keep_alive
         tools:
           type: array

@@ -27,16 +27,12 @@ abstract class GenerateChatCompletionRequest
     /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
     @Default(false) bool stream,
 
-    /// The format to return a response in. Currently the only accepted value is json.
-    ///
-    /// Enable JSON mode by setting the format parameter to json. This will structure the response as valid JSON.
-    ///
-    /// Note: it's important to instruct the model to use JSON in the prompt. Otherwise, the model may generate large amounts whitespace.
-    @JsonKey(
-      includeIfNull: false,
-      unknownEnumValue: JsonKey.nullForUndefinedEnumValue,
-    )
-    ResponseFormat? format,
+    /// The format to return a response in. Can be:
+    /// - "json" string to enable JSON mode
+    /// - JSON schema object for structured output validation
+    @_GenerateChatCompletionRequestFormatConverter()
+    @JsonKey(includeIfNull: false)
+    GenerateChatCompletionRequestFormat? format,
 
     /// How long (in minutes) to keep the model loaded in memory.
     ///
@@ -91,6 +87,85 @@ abstract class GenerateChatCompletionRequest
       'tools': tools,
       'options': options,
       'think': think,
+    };
+  }
+}
+
+// ==========================================
+// ENUM: GenerateChatCompletionRequestFormatEnum
+// ==========================================
+
+/// Enable JSON mode
+enum GenerateChatCompletionRequestFormatEnum {
+  @JsonValue('json')
+  json,
+}
+
+// ==========================================
+// CLASS: GenerateChatCompletionRequestFormat
+// ==========================================
+
+/// The format to return a response in. Can be:
+/// - "json" string to enable JSON mode
+/// - JSON schema object for structured output validation
+@freezed
+sealed class GenerateChatCompletionRequestFormat
+    with _$GenerateChatCompletionRequestFormat {
+  const GenerateChatCompletionRequestFormat._();
+
+  /// Enable JSON mode
+  const factory GenerateChatCompletionRequestFormat.enumeration(
+    GenerateChatCompletionRequestFormatEnum value,
+  ) = GenerateChatCompletionRequestFormatEnumeration;
+
+  /// JSON schema object for structured output validation
+  const factory GenerateChatCompletionRequestFormat.mapStringDynamic(
+    Map<String, dynamic> value,
+  ) = GenerateChatCompletionRequestFormatMapStringDynamic;
+
+  /// Object construction from a JSON representation
+  factory GenerateChatCompletionRequestFormat.fromJson(
+    Map<String, dynamic> json,
+  ) => _$GenerateChatCompletionRequestFormatFromJson(json);
+}
+
+/// Custom JSON converter for [GenerateChatCompletionRequestFormat]
+class _GenerateChatCompletionRequestFormatConverter
+    implements JsonConverter<GenerateChatCompletionRequestFormat?, Object?> {
+  const _GenerateChatCompletionRequestFormatConverter();
+
+  @override
+  GenerateChatCompletionRequestFormat? fromJson(Object? data) {
+    if (data == null) {
+      return null;
+    }
+    if (data is String &&
+        _$GenerateChatCompletionRequestFormatEnumEnumMap.values.contains(
+          data,
+        )) {
+      return GenerateChatCompletionRequestFormatEnumeration(
+        _$GenerateChatCompletionRequestFormatEnumEnumMap.keys.elementAt(
+          _$GenerateChatCompletionRequestFormatEnumEnumMap.values
+              .toList()
+              .indexOf(data),
+        ),
+      );
+    }
+    if (data is Map<String, dynamic>) {
+      return GenerateChatCompletionRequestFormatMapStringDynamic(data);
+    }
+    throw Exception(
+      'Unexpected value for GenerateChatCompletionRequestFormat: $data',
+    );
+  }
+
+  @override
+  Object? toJson(GenerateChatCompletionRequestFormat? data) {
+    return switch (data) {
+      GenerateChatCompletionRequestFormatEnumeration(value: final v) =>
+        _$GenerateChatCompletionRequestFormatEnumEnumMap[v]!,
+      GenerateChatCompletionRequestFormatMapStringDynamic(value: final v) => v,
+      null => null,
     };
   }
 }
