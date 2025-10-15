@@ -52,7 +52,8 @@ abstract class BaseChain<MemoryType extends BaseMemory>
   String get runOutputKey {
     if (outputKeys.length != 1) {
       throw LangChainException(
-        message: '`chain.run` method can only be used with chains that return '
+        message:
+            '`chain.run` method can only be used with chains that return '
             'a single string output. $chainType chain returns '
             '${outputKeys.length} output: $outputKeys. '
             'Use `chain.call` method instead.',

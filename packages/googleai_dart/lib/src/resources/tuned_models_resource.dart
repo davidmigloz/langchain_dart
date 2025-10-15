@@ -486,8 +486,11 @@ class TunedModelsResource extends ResourceBase {
     if (credentials == null) return request;
 
     return switch (credentials) {
-      ApiKeyCredentials(:final apiKey, :final placement) =>
-        _addApiKey(request, apiKey, placement),
+      ApiKeyCredentials(:final apiKey, :final placement) => _addApiKey(
+        request,
+        apiKey,
+        placement,
+      ),
       BearerTokenCredentials(:final token) => _addBearerToken(request, token),
       NoAuthCredentials() => request,
     };
@@ -553,8 +556,9 @@ class TunedModelsResource extends ResourceBase {
 
       // Log request if logging is enabled
       if (config.logLevel.value <= Level.INFO.value) {
-        Logger('GoogleAI.HTTP')
-            .info('REQUEST [$requestId] ${request.method} ${request.url}');
+        Logger(
+          'GoogleAI.HTTP',
+        ).info('REQUEST [$requestId] ${request.method} ${request.url}');
       }
 
       return updatedRequest;

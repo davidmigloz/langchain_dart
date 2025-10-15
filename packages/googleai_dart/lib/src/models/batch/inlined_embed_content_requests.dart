@@ -25,8 +25,8 @@ class InlinedEmbedContentRequests {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        'requests': requests.map((e) => e.toJson()).toList(),
-      };
+    'requests': requests.map((e) => e.toJson()).toList(),
+  };
 
   /// Creates a copy with replaced values.
   InlinedEmbedContentRequests copyWith({

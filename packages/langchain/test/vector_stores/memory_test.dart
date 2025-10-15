@@ -193,8 +193,9 @@ void main() {
       ];
       expect(map, expectedMap);
 
-      final newMap =
-          expectedMap.map(MemoryVector.fromMap).toList(growable: false);
+      final newMap = expectedMap
+          .map(MemoryVector.fromMap)
+          .toList(growable: false);
       expect(newMap, store.memoryVectors);
     });
   });

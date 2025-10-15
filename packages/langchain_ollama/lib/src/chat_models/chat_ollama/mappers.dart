@@ -79,11 +79,10 @@ List<o.Tool>? _mapTools({
     ChatToolChoiceNone() => null,
     ChatToolChoiceAuto() ||
     ChatToolChoiceRequired() ||
-    null =>
-      tools.map(_mapTool).toList(growable: false),
+    null => tools.map(_mapTool).toList(growable: false),
     final ChatToolChoiceForced f => [
-        _mapTool(tools.firstWhere((t) => t.name == f.name)),
-      ]
+      _mapTool(tools.firstWhere((t) => t.name == f.name)),
+    ],
   };
 }
 
@@ -105,38 +104,39 @@ extension OllamaChatMessagesMapper on List<ChatMessage> {
   List<o.Message> _mapMessage(final ChatMessage msg) {
     return switch (msg) {
       final SystemChatMessage msg => [
-          o.Message(
-            role: o.MessageRole.system,
-            content: msg.content,
-          ),
-        ],
+        o.Message(
+          role: o.MessageRole.system,
+          content: msg.content,
+        ),
+      ],
       final HumanChatMessage msg => _mapHumanMessage(msg),
       final AIChatMessage msg => _mapAIMessage(msg),
       final ToolChatMessage msg => [
-          o.Message(
-            role: o.MessageRole.tool,
-            content: msg.content,
-          ),
-        ],
-      CustomChatMessage() =>
-        throw UnsupportedError('Ollama does not support custom messages'),
+        o.Message(
+          role: o.MessageRole.tool,
+          content: msg.content,
+        ),
+      ],
+      CustomChatMessage() => throw UnsupportedError(
+        'Ollama does not support custom messages',
+      ),
     };
   }
 
   List<o.Message> _mapHumanMessage(final HumanChatMessage message) {
     return switch (message.content) {
       final ChatMessageContentText c => [
-          o.Message(
-            role: o.MessageRole.user,
-            content: c.text,
-          ),
-        ],
+        o.Message(
+          role: o.MessageRole.user,
+          content: c.text,
+        ),
+      ],
       final ChatMessageContentImage c => [
-          o.Message(
-            role: o.MessageRole.user,
-            content: c.data,
-          ),
-        ],
+        o.Message(
+          role: o.MessageRole.user,
+          content: c.data,
+        ),
+      ],
       final ChatMessageContentMultiModal c => _mapContentMultiModal(c),
     };
   }
@@ -172,16 +172,16 @@ extension OllamaChatMessagesMapper on List<ChatMessage> {
         .map(
           (final p) => switch (p) {
             final ChatMessageContentText c => o.Message(
-                role: o.MessageRole.user,
-                content: c.text,
-              ),
+              role: o.MessageRole.user,
+              content: c.text,
+            ),
             final ChatMessageContentImage c => o.Message(
-                role: o.MessageRole.user,
-                content: c.data,
-              ),
+              role: o.MessageRole.user,
+              content: c.data,
+            ),
             ChatMessageContentMultiModal() => throw UnsupportedError(
-                'Cannot have multimodal content in multimodal content',
-              ),
+              'Cannot have multimodal content in multimodal content',
+            ),
           },
         )
         .toList(growable: false);
@@ -217,7 +217,7 @@ extension ChatResultMapper on o.GenerateChatCompletionResponse {
         content: message.content,
         toolCalls:
             message.toolCalls?.map(_mapToolCall).toList(growable: false) ??
-                const [],
+            const [],
       ),
       finishReason: _mapFinishReason(doneReason),
       metadata: {
@@ -257,11 +257,10 @@ extension ChatResultMapper on o.GenerateChatCompletionResponse {
 
   FinishReason _mapFinishReason(
     final o.DoneReason? reason,
-  ) =>
-      switch (reason) {
-        o.DoneReason.stop => FinishReason.stop,
-        o.DoneReason.length => FinishReason.length,
-        o.DoneReason.load => FinishReason.unspecified,
-        null => FinishReason.unspecified,
-      };
+  ) => switch (reason) {
+    o.DoneReason.stop => FinishReason.stop,
+    o.DoneReason.length => FinishReason.length,
+    o.DoneReason.load => FinishReason.unspecified,
+    null => FinishReason.unspecified,
+  };
 }

@@ -90,13 +90,16 @@ abstract class BaseCombineDocumentsChain extends BaseChain {
       ...doc.metadata,
     };
 
-    final missingMetadata =
-        prompt.inputVariables.difference(baseInfo.keys.toSet());
+    final missingMetadata = prompt.inputVariables.difference(
+      baseInfo.keys.toSet(),
+    );
     if (missingMetadata.isNotEmpty) {
-      final requiredMetadata =
-          prompt.inputVariables.difference({pageContentPromptVar});
+      final requiredMetadata = prompt.inputVariables.difference({
+        pageContentPromptVar,
+      });
       throw PromptException(
-        message: 'Document prompt requires documents to have metadata '
+        message:
+            'Document prompt requires documents to have metadata '
             'variables: $requiredMetadata. Received document with missing '
             'metadata: $missingMetadata',
       );

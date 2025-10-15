@@ -28,7 +28,7 @@ Future<void> _modelWithFallbacks() async {
 
   final res = await modelWithFallbacks.invoke(prompt);
   print(res);
-/*
+  /*
 {
   "ChatResult": {
     "id": "chatcmpl-9nKBcFNkzo5qUrdNB92b36J0d1meA",
@@ -62,19 +62,23 @@ Future<void> _modelWithFallbacks() async {
 Future<void> _modelWithMultipleFallbacks() async {
   final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
 
-  final fakeOpenAIModel1 =
-      ChatOpenAI(defaultOptions: const ChatOpenAIOptions(model: 'tomato'));
+  final fakeOpenAIModel1 = ChatOpenAI(
+    defaultOptions: const ChatOpenAIOptions(model: 'tomato'),
+  );
 
-  final fakeOpenAIModel2 =
-      ChatOpenAI(defaultOptions: const ChatOpenAIOptions(model: 'potato'));
+  final fakeOpenAIModel2 = ChatOpenAI(
+    defaultOptions: const ChatOpenAIOptions(model: 'potato'),
+  );
 
   final latestModel = ChatOpenAI(
     apiKey: openaiApiKey,
     defaultOptions: const ChatOpenAIOptions(model: 'gpt-4o'),
   );
 
-  final modelWithFallbacks =
-      fakeOpenAIModel1.withFallbacks([fakeOpenAIModel2, latestModel]);
+  final modelWithFallbacks = fakeOpenAIModel1.withFallbacks([
+    fakeOpenAIModel2,
+    latestModel,
+  ]);
 
   final prompt = PromptValue.string('Explain why sky is blue in 2 lines');
 
@@ -117,8 +121,9 @@ Future<void> _chainWithFallbacks() async {
     defaultOptions: const ChatOpenAIOptions(model: 'gpt-4o'),
   );
 
-  final promptTemplate =
-      ChatPromptTemplate.fromTemplate('tell me a joke about {topic}');
+  final promptTemplate = ChatPromptTemplate.fromTemplate(
+    'tell me a joke about {topic}',
+  );
 
   final badChain = promptTemplate.pipe(fakeOpenAIModel);
   final goodChain = promptTemplate.pipe(latestModel);
@@ -132,7 +137,7 @@ Future<void> _chainWithFallbacks() async {
     ],
   );
   print(res);
-/*
+  /*
 [
   {
     "id": "chatcmpl-9nKncT4IpAxbUxrEqEKGB0XUeyGRI",

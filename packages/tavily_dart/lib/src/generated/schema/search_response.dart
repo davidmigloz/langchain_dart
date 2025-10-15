@@ -46,7 +46,7 @@ abstract class SearchResponse with _$SearchResponse {
     'response_time',
     'images',
     'follow_up_questions',
-    'results'
+    'results',
   ];
 
   /// Perform validations on the schema property values

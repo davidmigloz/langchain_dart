@@ -80,11 +80,11 @@ class Supabase extends VectorStore {
     final http.Client? client,
     required super.embeddings,
   }) : _client = SupabaseClient(
-          supabaseUrl,
-          supabaseKey,
-          headers: headers,
-          httpClient: client,
-        );
+         supabaseUrl,
+         supabaseKey,
+         headers: headers,
+         httpClient: client,
+       );
 
   /// The Supabase client.
   final SupabaseClient _client;

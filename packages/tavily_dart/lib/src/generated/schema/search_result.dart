@@ -41,7 +41,7 @@ abstract class SearchResult with _$SearchResult {
     'url',
     'content',
     'raw_content',
-    'score'
+    'score',
   ];
 
   /// Perform validations on the schema property values

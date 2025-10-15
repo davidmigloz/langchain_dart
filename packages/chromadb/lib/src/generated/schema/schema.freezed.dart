@@ -12,7 +12,8 @@ part of 'schema.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 AddEmbedding _$AddEmbeddingFromJson(Map<String, dynamic> json) {
   return _AddEmbedding.fromJson(json);
@@ -53,15 +54,17 @@ mixin _$AddEmbedding {
 /// @nodoc
 abstract class $AddEmbeddingCopyWith<$Res> {
   factory $AddEmbeddingCopyWith(
-          AddEmbedding value, $Res Function(AddEmbedding) then) =
-      _$AddEmbeddingCopyWithImpl<$Res, AddEmbedding>;
+    AddEmbedding value,
+    $Res Function(AddEmbedding) then,
+  ) = _$AddEmbeddingCopyWithImpl<$Res, AddEmbedding>;
   @useResult
-  $Res call(
-      {@JsonKey(includeIfNull: false) List<List<double>?>? embeddings,
-      @JsonKey(includeIfNull: false) List<Map<String, dynamic>?>? metadatas,
-      @JsonKey(includeIfNull: false) List<String?>? documents,
-      @JsonKey(includeIfNull: false) List<String?>? uris,
-      List<String> ids});
+  $Res call({
+    @JsonKey(includeIfNull: false) List<List<double>?>? embeddings,
+    @JsonKey(includeIfNull: false) List<Map<String, dynamic>?>? metadatas,
+    @JsonKey(includeIfNull: false) List<String?>? documents,
+    @JsonKey(includeIfNull: false) List<String?>? uris,
+    List<String> ids,
+  });
 }
 
 /// @nodoc
@@ -85,28 +88,31 @@ class _$AddEmbeddingCopyWithImpl<$Res, $Val extends AddEmbedding>
     Object? uris = freezed,
     Object? ids = null,
   }) {
-    return _then(_value.copyWith(
-      embeddings: freezed == embeddings
-          ? _value.embeddings
-          : embeddings // ignore: cast_nullable_to_non_nullable
-              as List<List<double>?>?,
-      metadatas: freezed == metadatas
-          ? _value.metadatas
-          : metadatas // ignore: cast_nullable_to_non_nullable
-              as List<Map<String, dynamic>?>?,
-      documents: freezed == documents
-          ? _value.documents
-          : documents // ignore: cast_nullable_to_non_nullable
-              as List<String?>?,
-      uris: freezed == uris
-          ? _value.uris
-          : uris // ignore: cast_nullable_to_non_nullable
-              as List<String?>?,
-      ids: null == ids
-          ? _value.ids
-          : ids // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            embeddings: freezed == embeddings
+                ? _value.embeddings
+                : embeddings // ignore: cast_nullable_to_non_nullable
+                      as List<List<double>?>?,
+            metadatas: freezed == metadatas
+                ? _value.metadatas
+                : metadatas // ignore: cast_nullable_to_non_nullable
+                      as List<Map<String, dynamic>?>?,
+            documents: freezed == documents
+                ? _value.documents
+                : documents // ignore: cast_nullable_to_non_nullable
+                      as List<String?>?,
+            uris: freezed == uris
+                ? _value.uris
+                : uris // ignore: cast_nullable_to_non_nullable
+                      as List<String?>?,
+            ids: null == ids
+                ? _value.ids
+                : ids // ignore: cast_nullable_to_non_nullable
+                      as List<String>,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -114,16 +120,18 @@ class _$AddEmbeddingCopyWithImpl<$Res, $Val extends AddEmbedding>
 abstract class _$$AddEmbeddingImplCopyWith<$Res>
     implements $AddEmbeddingCopyWith<$Res> {
   factory _$$AddEmbeddingImplCopyWith(
-          _$AddEmbeddingImpl value, $Res Function(_$AddEmbeddingImpl) then) =
-      __$$AddEmbeddingImplCopyWithImpl<$Res>;
+    _$AddEmbeddingImpl value,
+    $Res Function(_$AddEmbeddingImpl) then,
+  ) = __$$AddEmbeddingImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {@JsonKey(includeIfNull: false) List<List<double>?>? embeddings,
-      @JsonKey(includeIfNull: false) List<Map<String, dynamic>?>? metadatas,
-      @JsonKey(includeIfNull: false) List<String?>? documents,
-      @JsonKey(includeIfNull: false) List<String?>? uris,
-      List<String> ids});
+  $Res call({
+    @JsonKey(includeIfNull: false) List<List<double>?>? embeddings,
+    @JsonKey(includeIfNull: false) List<Map<String, dynamic>?>? metadatas,
+    @JsonKey(includeIfNull: false) List<String?>? documents,
+    @JsonKey(includeIfNull: false) List<String?>? uris,
+    List<String> ids,
+  });
 }
 
 /// @nodoc
@@ -131,8 +139,9 @@ class __$$AddEmbeddingImplCopyWithImpl<$Res>
     extends _$AddEmbeddingCopyWithImpl<$Res, _$AddEmbeddingImpl>
     implements _$$AddEmbeddingImplCopyWith<$Res> {
   __$$AddEmbeddingImplCopyWithImpl(
-      _$AddEmbeddingImpl _value, $Res Function(_$AddEmbeddingImpl) _then)
-      : super(_value, _then);
+    _$AddEmbeddingImpl _value,
+    $Res Function(_$AddEmbeddingImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of AddEmbedding
   /// with the given fields replaced by the non-null parameter values.
@@ -145,47 +154,48 @@ class __$$AddEmbeddingImplCopyWithImpl<$Res>
     Object? uris = freezed,
     Object? ids = null,
   }) {
-    return _then(_$AddEmbeddingImpl(
-      embeddings: freezed == embeddings
-          ? _value._embeddings
-          : embeddings // ignore: cast_nullable_to_non_nullable
-              as List<List<double>?>?,
-      metadatas: freezed == metadatas
-          ? _value._metadatas
-          : metadatas // ignore: cast_nullable_to_non_nullable
-              as List<Map<String, dynamic>?>?,
-      documents: freezed == documents
-          ? _value._documents
-          : documents // ignore: cast_nullable_to_non_nullable
-              as List<String?>?,
-      uris: freezed == uris
-          ? _value._uris
-          : uris // ignore: cast_nullable_to_non_nullable
-              as List<String?>?,
-      ids: null == ids
-          ? _value._ids
-          : ids // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-    ));
+    return _then(
+      _$AddEmbeddingImpl(
+        embeddings: freezed == embeddings
+            ? _value._embeddings
+            : embeddings // ignore: cast_nullable_to_non_nullable
+                  as List<List<double>?>?,
+        metadatas: freezed == metadatas
+            ? _value._metadatas
+            : metadatas // ignore: cast_nullable_to_non_nullable
+                  as List<Map<String, dynamic>?>?,
+        documents: freezed == documents
+            ? _value._documents
+            : documents // ignore: cast_nullable_to_non_nullable
+                  as List<String?>?,
+        uris: freezed == uris
+            ? _value._uris
+            : uris // ignore: cast_nullable_to_non_nullable
+                  as List<String?>?,
+        ids: null == ids
+            ? _value._ids
+            : ids // ignore: cast_nullable_to_non_nullable
+                  as List<String>,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$AddEmbeddingImpl extends _AddEmbedding {
-  const _$AddEmbeddingImpl(
-      {@JsonKey(includeIfNull: false) final List<List<double>?>? embeddings,
-      @JsonKey(includeIfNull: false)
-      final List<Map<String, dynamic>?>? metadatas,
-      @JsonKey(includeIfNull: false) final List<String?>? documents,
-      @JsonKey(includeIfNull: false) final List<String?>? uris,
-      required final List<String> ids})
-      : _embeddings = embeddings,
-        _metadatas = metadatas,
-        _documents = documents,
-        _uris = uris,
-        _ids = ids,
-        super._();
+  const _$AddEmbeddingImpl({
+    @JsonKey(includeIfNull: false) final List<List<double>?>? embeddings,
+    @JsonKey(includeIfNull: false) final List<Map<String, dynamic>?>? metadatas,
+    @JsonKey(includeIfNull: false) final List<String?>? documents,
+    @JsonKey(includeIfNull: false) final List<String?>? uris,
+    required final List<String> ids,
+  }) : _embeddings = embeddings,
+       _metadatas = metadatas,
+       _documents = documents,
+       _uris = uris,
+       _ids = ids,
+       super._();
 
   factory _$AddEmbeddingImpl.fromJson(Map<String, dynamic> json) =>
       _$$AddEmbeddingImplFromJson(json);
@@ -267,12 +277,18 @@ class _$AddEmbeddingImpl extends _AddEmbedding {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AddEmbeddingImpl &&
-            const DeepCollectionEquality()
-                .equals(other._embeddings, _embeddings) &&
-            const DeepCollectionEquality()
-                .equals(other._metadatas, _metadatas) &&
-            const DeepCollectionEquality()
-                .equals(other._documents, _documents) &&
+            const DeepCollectionEquality().equals(
+              other._embeddings,
+              _embeddings,
+            ) &&
+            const DeepCollectionEquality().equals(
+              other._metadatas,
+              _metadatas,
+            ) &&
+            const DeepCollectionEquality().equals(
+              other._documents,
+              _documents,
+            ) &&
             const DeepCollectionEquality().equals(other._uris, _uris) &&
             const DeepCollectionEquality().equals(other._ids, _ids));
   }
@@ -280,12 +296,13 @@ class _$AddEmbeddingImpl extends _AddEmbedding {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(_embeddings),
-      const DeepCollectionEquality().hash(_metadatas),
-      const DeepCollectionEquality().hash(_documents),
-      const DeepCollectionEquality().hash(_uris),
-      const DeepCollectionEquality().hash(_ids));
+    runtimeType,
+    const DeepCollectionEquality().hash(_embeddings),
+    const DeepCollectionEquality().hash(_metadatas),
+    const DeepCollectionEquality().hash(_documents),
+    const DeepCollectionEquality().hash(_uris),
+    const DeepCollectionEquality().hash(_ids),
+  );
 
   /// Create a copy of AddEmbedding
   /// with the given fields replaced by the non-null parameter values.
@@ -304,13 +321,13 @@ class _$AddEmbeddingImpl extends _AddEmbedding {
 }
 
 abstract class _AddEmbedding extends AddEmbedding {
-  const factory _AddEmbedding(
-      {@JsonKey(includeIfNull: false) final List<List<double>?>? embeddings,
-      @JsonKey(includeIfNull: false)
-      final List<Map<String, dynamic>?>? metadatas,
-      @JsonKey(includeIfNull: false) final List<String?>? documents,
-      @JsonKey(includeIfNull: false) final List<String?>? uris,
-      required final List<String> ids}) = _$AddEmbeddingImpl;
+  const factory _AddEmbedding({
+    @JsonKey(includeIfNull: false) final List<List<double>?>? embeddings,
+    @JsonKey(includeIfNull: false) final List<Map<String, dynamic>?>? metadatas,
+    @JsonKey(includeIfNull: false) final List<String?>? documents,
+    @JsonKey(includeIfNull: false) final List<String?>? uris,
+    required final List<String> ids,
+  }) = _$AddEmbeddingImpl;
   const _AddEmbedding._() : super._();
 
   factory _AddEmbedding.fromJson(Map<String, dynamic> json) =
@@ -377,13 +394,15 @@ mixin _$CollectionType {
 /// @nodoc
 abstract class $CollectionTypeCopyWith<$Res> {
   factory $CollectionTypeCopyWith(
-          CollectionType value, $Res Function(CollectionType) then) =
-      _$CollectionTypeCopyWithImpl<$Res, CollectionType>;
+    CollectionType value,
+    $Res Function(CollectionType) then,
+  ) = _$CollectionTypeCopyWithImpl<$Res, CollectionType>;
   @useResult
-  $Res call(
-      {String name,
-      String id,
-      @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
+  $Res call({
+    String name,
+    String id,
+    @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
+  });
 }
 
 /// @nodoc
@@ -405,35 +424,40 @@ class _$CollectionTypeCopyWithImpl<$Res, $Val extends CollectionType>
     Object? id = null,
     Object? metadata = freezed,
   }) {
-    return _then(_value.copyWith(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      metadata: freezed == metadata
-          ? _value.metadata
-          : metadata // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            name: null == name
+                ? _value.name
+                : name // ignore: cast_nullable_to_non_nullable
+                      as String,
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as String,
+            metadata: freezed == metadata
+                ? _value.metadata
+                : metadata // ignore: cast_nullable_to_non_nullable
+                      as Map<String, dynamic>?,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$CollectionTypeImplCopyWith<$Res>
     implements $CollectionTypeCopyWith<$Res> {
-  factory _$$CollectionTypeImplCopyWith(_$CollectionTypeImpl value,
-          $Res Function(_$CollectionTypeImpl) then) =
-      __$$CollectionTypeImplCopyWithImpl<$Res>;
+  factory _$$CollectionTypeImplCopyWith(
+    _$CollectionTypeImpl value,
+    $Res Function(_$CollectionTypeImpl) then,
+  ) = __$$CollectionTypeImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String name,
-      String id,
-      @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
+  $Res call({
+    String name,
+    String id,
+    @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
+  });
 }
 
 /// @nodoc
@@ -441,8 +465,9 @@ class __$$CollectionTypeImplCopyWithImpl<$Res>
     extends _$CollectionTypeCopyWithImpl<$Res, _$CollectionTypeImpl>
     implements _$$CollectionTypeImplCopyWith<$Res> {
   __$$CollectionTypeImplCopyWithImpl(
-      _$CollectionTypeImpl _value, $Res Function(_$CollectionTypeImpl) _then)
-      : super(_value, _then);
+    _$CollectionTypeImpl _value,
+    $Res Function(_$CollectionTypeImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of CollectionType
   /// with the given fields replaced by the non-null parameter values.
@@ -453,32 +478,34 @@ class __$$CollectionTypeImplCopyWithImpl<$Res>
     Object? id = null,
     Object? metadata = freezed,
   }) {
-    return _then(_$CollectionTypeImpl(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      metadata: freezed == metadata
-          ? _value._metadata
-          : metadata // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>?,
-    ));
+    return _then(
+      _$CollectionTypeImpl(
+        name: null == name
+            ? _value.name
+            : name // ignore: cast_nullable_to_non_nullable
+                  as String,
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as String,
+        metadata: freezed == metadata
+            ? _value._metadata
+            : metadata // ignore: cast_nullable_to_non_nullable
+                  as Map<String, dynamic>?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$CollectionTypeImpl extends _CollectionType {
-  const _$CollectionTypeImpl(
-      {required this.name,
-      required this.id,
-      @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata})
-      : _metadata = metadata,
-        super._();
+  const _$CollectionTypeImpl({
+    required this.name,
+    required this.id,
+    @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata,
+  }) : _metadata = metadata,
+       super._();
 
   factory _$CollectionTypeImpl.fromJson(Map<String, dynamic> json) =>
       _$$CollectionTypeImplFromJson(json);
@@ -523,7 +550,11 @@ class _$CollectionTypeImpl extends _CollectionType {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType, name, id, const DeepCollectionEquality().hash(_metadata));
+    runtimeType,
+    name,
+    id,
+    const DeepCollectionEquality().hash(_metadata),
+  );
 
   /// Create a copy of CollectionType
   /// with the given fields replaced by the non-null parameter values.
@@ -532,7 +563,9 @@ class _$CollectionTypeImpl extends _CollectionType {
   @pragma('vm:prefer-inline')
   _$$CollectionTypeImplCopyWith<_$CollectionTypeImpl> get copyWith =>
       __$$CollectionTypeImplCopyWithImpl<_$CollectionTypeImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
@@ -543,11 +576,11 @@ class _$CollectionTypeImpl extends _CollectionType {
 }
 
 abstract class _CollectionType extends CollectionType {
-  const factory _CollectionType(
-      {required final String name,
-      required final String id,
-      @JsonKey(includeIfNull: false)
-      final Map<String, dynamic>? metadata}) = _$CollectionTypeImpl;
+  const factory _CollectionType({
+    required final String name,
+    required final String id,
+    @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata,
+  }) = _$CollectionTypeImpl;
   const _CollectionType._() : super._();
 
   factory _CollectionType.fromJson(Map<String, dynamic> json) =
@@ -604,13 +637,15 @@ mixin _$CreateCollection {
 /// @nodoc
 abstract class $CreateCollectionCopyWith<$Res> {
   factory $CreateCollectionCopyWith(
-          CreateCollection value, $Res Function(CreateCollection) then) =
-      _$CreateCollectionCopyWithImpl<$Res, CreateCollection>;
+    CreateCollection value,
+    $Res Function(CreateCollection) then,
+  ) = _$CreateCollectionCopyWithImpl<$Res, CreateCollection>;
   @useResult
-  $Res call(
-      {String name,
-      @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
-      @JsonKey(name: 'get_or_create') bool getOrCreate});
+  $Res call({
+    String name,
+    @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
+    @JsonKey(name: 'get_or_create') bool getOrCreate,
+  });
 }
 
 /// @nodoc
@@ -632,44 +667,50 @@ class _$CreateCollectionCopyWithImpl<$Res, $Val extends CreateCollection>
     Object? metadata = freezed,
     Object? getOrCreate = null,
   }) {
-    return _then(_value.copyWith(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      metadata: freezed == metadata
-          ? _value.metadata
-          : metadata // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>?,
-      getOrCreate: null == getOrCreate
-          ? _value.getOrCreate
-          : getOrCreate // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            name: null == name
+                ? _value.name
+                : name // ignore: cast_nullable_to_non_nullable
+                      as String,
+            metadata: freezed == metadata
+                ? _value.metadata
+                : metadata // ignore: cast_nullable_to_non_nullable
+                      as Map<String, dynamic>?,
+            getOrCreate: null == getOrCreate
+                ? _value.getOrCreate
+                : getOrCreate // ignore: cast_nullable_to_non_nullable
+                      as bool,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$CreateCollectionImplCopyWith<$Res>
     implements $CreateCollectionCopyWith<$Res> {
-  factory _$$CreateCollectionImplCopyWith(_$CreateCollectionImpl value,
-          $Res Function(_$CreateCollectionImpl) then) =
-      __$$CreateCollectionImplCopyWithImpl<$Res>;
+  factory _$$CreateCollectionImplCopyWith(
+    _$CreateCollectionImpl value,
+    $Res Function(_$CreateCollectionImpl) then,
+  ) = __$$CreateCollectionImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String name,
-      @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
-      @JsonKey(name: 'get_or_create') bool getOrCreate});
+  $Res call({
+    String name,
+    @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
+    @JsonKey(name: 'get_or_create') bool getOrCreate,
+  });
 }
 
 /// @nodoc
 class __$$CreateCollectionImplCopyWithImpl<$Res>
     extends _$CreateCollectionCopyWithImpl<$Res, _$CreateCollectionImpl>
     implements _$$CreateCollectionImplCopyWith<$Res> {
-  __$$CreateCollectionImplCopyWithImpl(_$CreateCollectionImpl _value,
-      $Res Function(_$CreateCollectionImpl) _then)
-      : super(_value, _then);
+  __$$CreateCollectionImplCopyWithImpl(
+    _$CreateCollectionImpl _value,
+    $Res Function(_$CreateCollectionImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of CreateCollection
   /// with the given fields replaced by the non-null parameter values.
@@ -680,32 +721,34 @@ class __$$CreateCollectionImplCopyWithImpl<$Res>
     Object? metadata = freezed,
     Object? getOrCreate = null,
   }) {
-    return _then(_$CreateCollectionImpl(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      metadata: freezed == metadata
-          ? _value._metadata
-          : metadata // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>?,
-      getOrCreate: null == getOrCreate
-          ? _value.getOrCreate
-          : getOrCreate // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
+    return _then(
+      _$CreateCollectionImpl(
+        name: null == name
+            ? _value.name
+            : name // ignore: cast_nullable_to_non_nullable
+                  as String,
+        metadata: freezed == metadata
+            ? _value._metadata
+            : metadata // ignore: cast_nullable_to_non_nullable
+                  as Map<String, dynamic>?,
+        getOrCreate: null == getOrCreate
+            ? _value.getOrCreate
+            : getOrCreate // ignore: cast_nullable_to_non_nullable
+                  as bool,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$CreateCollectionImpl extends _CreateCollection {
-  const _$CreateCollectionImpl(
-      {required this.name,
-      @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata,
-      @JsonKey(name: 'get_or_create') this.getOrCreate = false})
-      : _metadata = metadata,
-        super._();
+  const _$CreateCollectionImpl({
+    required this.name,
+    @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata,
+    @JsonKey(name: 'get_or_create') this.getOrCreate = false,
+  }) : _metadata = metadata,
+       super._();
 
   factory _$CreateCollectionImpl.fromJson(Map<String, dynamic> json) =>
       _$$CreateCollectionImplFromJson(json);
@@ -751,8 +794,12 @@ class _$CreateCollectionImpl extends _CreateCollection {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, name,
-      const DeepCollectionEquality().hash(_metadata), getOrCreate);
+  int get hashCode => Object.hash(
+    runtimeType,
+    name,
+    const DeepCollectionEquality().hash(_metadata),
+    getOrCreate,
+  );
 
   /// Create a copy of CreateCollection
   /// with the given fields replaced by the non-null parameter values.
@@ -761,7 +808,9 @@ class _$CreateCollectionImpl extends _CreateCollection {
   @pragma('vm:prefer-inline')
   _$$CreateCollectionImplCopyWith<_$CreateCollectionImpl> get copyWith =>
       __$$CreateCollectionImplCopyWithImpl<_$CreateCollectionImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
@@ -772,11 +821,11 @@ class _$CreateCollectionImpl extends _CreateCollection {
 }
 
 abstract class _CreateCollection extends CreateCollection {
-  const factory _CreateCollection(
-          {required final String name,
-          @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata,
-          @JsonKey(name: 'get_or_create') final bool getOrCreate}) =
-      _$CreateCollectionImpl;
+  const factory _CreateCollection({
+    required final String name,
+    @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata,
+    @JsonKey(name: 'get_or_create') final bool getOrCreate,
+  }) = _$CreateCollectionImpl;
   const _CreateCollection._() : super._();
 
   factory _CreateCollection.fromJson(Map<String, dynamic> json) =
@@ -833,11 +882,15 @@ mixin _$DatabaseType {
 /// @nodoc
 abstract class $DatabaseTypeCopyWith<$Res> {
   factory $DatabaseTypeCopyWith(
-          DatabaseType value, $Res Function(DatabaseType) then) =
-      _$DatabaseTypeCopyWithImpl<$Res, DatabaseType>;
+    DatabaseType value,
+    $Res Function(DatabaseType) then,
+  ) = _$DatabaseTypeCopyWithImpl<$Res, DatabaseType>;
   @useResult
-  $Res call(
-      {String id, String name, @JsonKey(includeIfNull: false) String? tenant});
+  $Res call({
+    String id,
+    String name,
+    @JsonKey(includeIfNull: false) String? tenant,
+  });
 }
 
 /// @nodoc
@@ -859,20 +912,23 @@ class _$DatabaseTypeCopyWithImpl<$Res, $Val extends DatabaseType>
     Object? name = null,
     Object? tenant = freezed,
   }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      tenant: freezed == tenant
-          ? _value.tenant
-          : tenant // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as String,
+            name: null == name
+                ? _value.name
+                : name // ignore: cast_nullable_to_non_nullable
+                      as String,
+            tenant: freezed == tenant
+                ? _value.tenant
+                : tenant // ignore: cast_nullable_to_non_nullable
+                      as String?,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -880,12 +936,16 @@ class _$DatabaseTypeCopyWithImpl<$Res, $Val extends DatabaseType>
 abstract class _$$DatabaseTypeImplCopyWith<$Res>
     implements $DatabaseTypeCopyWith<$Res> {
   factory _$$DatabaseTypeImplCopyWith(
-          _$DatabaseTypeImpl value, $Res Function(_$DatabaseTypeImpl) then) =
-      __$$DatabaseTypeImplCopyWithImpl<$Res>;
+    _$DatabaseTypeImpl value,
+    $Res Function(_$DatabaseTypeImpl) then,
+  ) = __$$DatabaseTypeImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String id, String name, @JsonKey(includeIfNull: false) String? tenant});
+  $Res call({
+    String id,
+    String name,
+    @JsonKey(includeIfNull: false) String? tenant,
+  });
 }
 
 /// @nodoc
@@ -893,8 +953,9 @@ class __$$DatabaseTypeImplCopyWithImpl<$Res>
     extends _$DatabaseTypeCopyWithImpl<$Res, _$DatabaseTypeImpl>
     implements _$$DatabaseTypeImplCopyWith<$Res> {
   __$$DatabaseTypeImplCopyWithImpl(
-      _$DatabaseTypeImpl _value, $Res Function(_$DatabaseTypeImpl) _then)
-      : super(_value, _then);
+    _$DatabaseTypeImpl _value,
+    $Res Function(_$DatabaseTypeImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of DatabaseType
   /// with the given fields replaced by the non-null parameter values.
@@ -905,31 +966,33 @@ class __$$DatabaseTypeImplCopyWithImpl<$Res>
     Object? name = null,
     Object? tenant = freezed,
   }) {
-    return _then(_$DatabaseTypeImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      tenant: freezed == tenant
-          ? _value.tenant
-          : tenant // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
+    return _then(
+      _$DatabaseTypeImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as String,
+        name: null == name
+            ? _value.name
+            : name // ignore: cast_nullable_to_non_nullable
+                  as String,
+        tenant: freezed == tenant
+            ? _value.tenant
+            : tenant // ignore: cast_nullable_to_non_nullable
+                  as String?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$DatabaseTypeImpl extends _DatabaseType {
-  const _$DatabaseTypeImpl(
-      {required this.id,
-      required this.name,
-      @JsonKey(includeIfNull: false) this.tenant})
-      : super._();
+  const _$DatabaseTypeImpl({
+    required this.id,
+    required this.name,
+    @JsonKey(includeIfNull: false) this.tenant,
+  }) : super._();
 
   factory _$DatabaseTypeImpl.fromJson(Map<String, dynamic> json) =>
       _$$DatabaseTypeImplFromJson(json);
@@ -983,11 +1046,11 @@ class _$DatabaseTypeImpl extends _DatabaseType {
 }
 
 abstract class _DatabaseType extends DatabaseType {
-  const factory _DatabaseType(
-          {required final String id,
-          required final String name,
-          @JsonKey(includeIfNull: false) final String? tenant}) =
-      _$DatabaseTypeImpl;
+  const factory _DatabaseType({
+    required final String id,
+    required final String name,
+    @JsonKey(includeIfNull: false) final String? tenant,
+  }) = _$DatabaseTypeImpl;
   const _DatabaseType._() : super._();
 
   factory _DatabaseType.fromJson(Map<String, dynamic> json) =
@@ -1036,8 +1099,9 @@ mixin _$CreateDatabase {
 /// @nodoc
 abstract class $CreateDatabaseCopyWith<$Res> {
   factory $CreateDatabaseCopyWith(
-          CreateDatabase value, $Res Function(CreateDatabase) then) =
-      _$CreateDatabaseCopyWithImpl<$Res, CreateDatabase>;
+    CreateDatabase value,
+    $Res Function(CreateDatabase) then,
+  ) = _$CreateDatabaseCopyWithImpl<$Res, CreateDatabase>;
   @useResult
   $Res call({String name});
 }
@@ -1059,21 +1123,25 @@ class _$CreateDatabaseCopyWithImpl<$Res, $Val extends CreateDatabase>
   $Res call({
     Object? name = null,
   }) {
-    return _then(_value.copyWith(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            name: null == name
+                ? _value.name
+                : name // ignore: cast_nullable_to_non_nullable
+                      as String,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$CreateDatabaseImplCopyWith<$Res>
     implements $CreateDatabaseCopyWith<$Res> {
-  factory _$$CreateDatabaseImplCopyWith(_$CreateDatabaseImpl value,
-          $Res Function(_$CreateDatabaseImpl) then) =
-      __$$CreateDatabaseImplCopyWithImpl<$Res>;
+  factory _$$CreateDatabaseImplCopyWith(
+    _$CreateDatabaseImpl value,
+    $Res Function(_$CreateDatabaseImpl) then,
+  ) = __$$CreateDatabaseImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String name});
@@ -1084,8 +1152,9 @@ class __$$CreateDatabaseImplCopyWithImpl<$Res>
     extends _$CreateDatabaseCopyWithImpl<$Res, _$CreateDatabaseImpl>
     implements _$$CreateDatabaseImplCopyWith<$Res> {
   __$$CreateDatabaseImplCopyWithImpl(
-      _$CreateDatabaseImpl _value, $Res Function(_$CreateDatabaseImpl) _then)
-      : super(_value, _then);
+    _$CreateDatabaseImpl _value,
+    $Res Function(_$CreateDatabaseImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of CreateDatabase
   /// with the given fields replaced by the non-null parameter values.
@@ -1094,12 +1163,14 @@ class __$$CreateDatabaseImplCopyWithImpl<$Res>
   $Res call({
     Object? name = null,
   }) {
-    return _then(_$CreateDatabaseImpl(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+    return _then(
+      _$CreateDatabaseImpl(
+        name: null == name
+            ? _value.name
+            : name // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
   }
 }
 
@@ -1139,7 +1210,9 @@ class _$CreateDatabaseImpl extends _CreateDatabase {
   @pragma('vm:prefer-inline')
   _$$CreateDatabaseImplCopyWith<_$CreateDatabaseImpl> get copyWith =>
       __$$CreateDatabaseImplCopyWithImpl<_$CreateDatabaseImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
@@ -1191,8 +1264,9 @@ mixin _$TenantType {
 /// @nodoc
 abstract class $TenantTypeCopyWith<$Res> {
   factory $TenantTypeCopyWith(
-          TenantType value, $Res Function(TenantType) then) =
-      _$TenantTypeCopyWithImpl<$Res, TenantType>;
+    TenantType value,
+    $Res Function(TenantType) then,
+  ) = _$TenantTypeCopyWithImpl<$Res, TenantType>;
   @useResult
   $Res call({String name});
 }
@@ -1214,12 +1288,15 @@ class _$TenantTypeCopyWithImpl<$Res, $Val extends TenantType>
   $Res call({
     Object? name = null,
   }) {
-    return _then(_value.copyWith(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            name: null == name
+                ? _value.name
+                : name // ignore: cast_nullable_to_non_nullable
+                      as String,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -1227,8 +1304,9 @@ class _$TenantTypeCopyWithImpl<$Res, $Val extends TenantType>
 abstract class _$$TenantTypeImplCopyWith<$Res>
     implements $TenantTypeCopyWith<$Res> {
   factory _$$TenantTypeImplCopyWith(
-          _$TenantTypeImpl value, $Res Function(_$TenantTypeImpl) then) =
-      __$$TenantTypeImplCopyWithImpl<$Res>;
+    _$TenantTypeImpl value,
+    $Res Function(_$TenantTypeImpl) then,
+  ) = __$$TenantTypeImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String name});
@@ -1239,8 +1317,9 @@ class __$$TenantTypeImplCopyWithImpl<$Res>
     extends _$TenantTypeCopyWithImpl<$Res, _$TenantTypeImpl>
     implements _$$TenantTypeImplCopyWith<$Res> {
   __$$TenantTypeImplCopyWithImpl(
-      _$TenantTypeImpl _value, $Res Function(_$TenantTypeImpl) _then)
-      : super(_value, _then);
+    _$TenantTypeImpl _value,
+    $Res Function(_$TenantTypeImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of TenantType
   /// with the given fields replaced by the non-null parameter values.
@@ -1249,12 +1328,14 @@ class __$$TenantTypeImplCopyWithImpl<$Res>
   $Res call({
     Object? name = null,
   }) {
-    return _then(_$TenantTypeImpl(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+    return _then(
+      _$TenantTypeImpl(
+        name: null == name
+            ? _value.name
+            : name // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
   }
 }
 
@@ -1344,8 +1425,9 @@ mixin _$CreateTenant {
 /// @nodoc
 abstract class $CreateTenantCopyWith<$Res> {
   factory $CreateTenantCopyWith(
-          CreateTenant value, $Res Function(CreateTenant) then) =
-      _$CreateTenantCopyWithImpl<$Res, CreateTenant>;
+    CreateTenant value,
+    $Res Function(CreateTenant) then,
+  ) = _$CreateTenantCopyWithImpl<$Res, CreateTenant>;
   @useResult
   $Res call({String name});
 }
@@ -1367,12 +1449,15 @@ class _$CreateTenantCopyWithImpl<$Res, $Val extends CreateTenant>
   $Res call({
     Object? name = null,
   }) {
-    return _then(_value.copyWith(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            name: null == name
+                ? _value.name
+                : name // ignore: cast_nullable_to_non_nullable
+                      as String,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -1380,8 +1465,9 @@ class _$CreateTenantCopyWithImpl<$Res, $Val extends CreateTenant>
 abstract class _$$CreateTenantImplCopyWith<$Res>
     implements $CreateTenantCopyWith<$Res> {
   factory _$$CreateTenantImplCopyWith(
-          _$CreateTenantImpl value, $Res Function(_$CreateTenantImpl) then) =
-      __$$CreateTenantImplCopyWithImpl<$Res>;
+    _$CreateTenantImpl value,
+    $Res Function(_$CreateTenantImpl) then,
+  ) = __$$CreateTenantImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String name});
@@ -1392,8 +1478,9 @@ class __$$CreateTenantImplCopyWithImpl<$Res>
     extends _$CreateTenantCopyWithImpl<$Res, _$CreateTenantImpl>
     implements _$$CreateTenantImplCopyWith<$Res> {
   __$$CreateTenantImplCopyWithImpl(
-      _$CreateTenantImpl _value, $Res Function(_$CreateTenantImpl) _then)
-      : super(_value, _then);
+    _$CreateTenantImpl _value,
+    $Res Function(_$CreateTenantImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of CreateTenant
   /// with the given fields replaced by the non-null parameter values.
@@ -1402,12 +1489,14 @@ class __$$CreateTenantImplCopyWithImpl<$Res>
   $Res call({
     Object? name = null,
   }) {
-    return _then(_$CreateTenantImpl(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+    return _then(
+      _$CreateTenantImpl(
+        name: null == name
+            ? _value.name
+            : name // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
   }
 }
 
@@ -1507,14 +1596,16 @@ mixin _$DeleteEmbedding {
 /// @nodoc
 abstract class $DeleteEmbeddingCopyWith<$Res> {
   factory $DeleteEmbeddingCopyWith(
-          DeleteEmbedding value, $Res Function(DeleteEmbedding) then) =
-      _$DeleteEmbeddingCopyWithImpl<$Res, DeleteEmbedding>;
+    DeleteEmbedding value,
+    $Res Function(DeleteEmbedding) then,
+  ) = _$DeleteEmbeddingCopyWithImpl<$Res, DeleteEmbedding>;
   @useResult
-  $Res call(
-      {@JsonKey(includeIfNull: false) List<String>? ids,
-      @JsonKey(includeIfNull: false) Map<String, dynamic>? where,
-      @JsonKey(name: 'where_document', includeIfNull: false)
-      Map<String, dynamic>? whereDocument});
+  $Res call({
+    @JsonKey(includeIfNull: false) List<String>? ids,
+    @JsonKey(includeIfNull: false) Map<String, dynamic>? where,
+    @JsonKey(name: 'where_document', includeIfNull: false)
+    Map<String, dynamic>? whereDocument,
+  });
 }
 
 /// @nodoc
@@ -1536,36 +1627,41 @@ class _$DeleteEmbeddingCopyWithImpl<$Res, $Val extends DeleteEmbedding>
     Object? where = freezed,
     Object? whereDocument = freezed,
   }) {
-    return _then(_value.copyWith(
-      ids: freezed == ids
-          ? _value.ids
-          : ids // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
-      where: freezed == where
-          ? _value.where
-          : where // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>?,
-      whereDocument: freezed == whereDocument
-          ? _value.whereDocument
-          : whereDocument // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            ids: freezed == ids
+                ? _value.ids
+                : ids // ignore: cast_nullable_to_non_nullable
+                      as List<String>?,
+            where: freezed == where
+                ? _value.where
+                : where // ignore: cast_nullable_to_non_nullable
+                      as Map<String, dynamic>?,
+            whereDocument: freezed == whereDocument
+                ? _value.whereDocument
+                : whereDocument // ignore: cast_nullable_to_non_nullable
+                      as Map<String, dynamic>?,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$DeleteEmbeddingImplCopyWith<$Res>
     implements $DeleteEmbeddingCopyWith<$Res> {
-  factory _$$DeleteEmbeddingImplCopyWith(_$DeleteEmbeddingImpl value,
-          $Res Function(_$DeleteEmbeddingImpl) then) =
-      __$$DeleteEmbeddingImplCopyWithImpl<$Res>;
+  factory _$$DeleteEmbeddingImplCopyWith(
+    _$DeleteEmbeddingImpl value,
+    $Res Function(_$DeleteEmbeddingImpl) then,
+  ) = __$$DeleteEmbeddingImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {@JsonKey(includeIfNull: false) List<String>? ids,
-      @JsonKey(includeIfNull: false) Map<String, dynamic>? where,
-      @JsonKey(name: 'where_document', includeIfNull: false)
-      Map<String, dynamic>? whereDocument});
+  $Res call({
+    @JsonKey(includeIfNull: false) List<String>? ids,
+    @JsonKey(includeIfNull: false) Map<String, dynamic>? where,
+    @JsonKey(name: 'where_document', includeIfNull: false)
+    Map<String, dynamic>? whereDocument,
+  });
 }
 
 /// @nodoc
@@ -1573,8 +1669,9 @@ class __$$DeleteEmbeddingImplCopyWithImpl<$Res>
     extends _$DeleteEmbeddingCopyWithImpl<$Res, _$DeleteEmbeddingImpl>
     implements _$$DeleteEmbeddingImplCopyWith<$Res> {
   __$$DeleteEmbeddingImplCopyWithImpl(
-      _$DeleteEmbeddingImpl _value, $Res Function(_$DeleteEmbeddingImpl) _then)
-      : super(_value, _then);
+    _$DeleteEmbeddingImpl _value,
+    $Res Function(_$DeleteEmbeddingImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of DeleteEmbedding
   /// with the given fields replaced by the non-null parameter values.
@@ -1585,35 +1682,37 @@ class __$$DeleteEmbeddingImplCopyWithImpl<$Res>
     Object? where = freezed,
     Object? whereDocument = freezed,
   }) {
-    return _then(_$DeleteEmbeddingImpl(
-      ids: freezed == ids
-          ? _value._ids
-          : ids // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
-      where: freezed == where
-          ? _value._where
-          : where // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>?,
-      whereDocument: freezed == whereDocument
-          ? _value._whereDocument
-          : whereDocument // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>?,
-    ));
+    return _then(
+      _$DeleteEmbeddingImpl(
+        ids: freezed == ids
+            ? _value._ids
+            : ids // ignore: cast_nullable_to_non_nullable
+                  as List<String>?,
+        where: freezed == where
+            ? _value._where
+            : where // ignore: cast_nullable_to_non_nullable
+                  as Map<String, dynamic>?,
+        whereDocument: freezed == whereDocument
+            ? _value._whereDocument
+            : whereDocument // ignore: cast_nullable_to_non_nullable
+                  as Map<String, dynamic>?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$DeleteEmbeddingImpl extends _DeleteEmbedding {
-  const _$DeleteEmbeddingImpl(
-      {@JsonKey(includeIfNull: false) final List<String>? ids,
-      @JsonKey(includeIfNull: false) final Map<String, dynamic>? where,
-      @JsonKey(name: 'where_document', includeIfNull: false)
-      final Map<String, dynamic>? whereDocument})
-      : _ids = ids,
-        _where = where,
-        _whereDocument = whereDocument,
-        super._();
+  const _$DeleteEmbeddingImpl({
+    @JsonKey(includeIfNull: false) final List<String>? ids,
+    @JsonKey(includeIfNull: false) final Map<String, dynamic>? where,
+    @JsonKey(name: 'where_document', includeIfNull: false)
+    final Map<String, dynamic>? whereDocument,
+  }) : _ids = ids,
+       _where = where,
+       _whereDocument = whereDocument,
+       super._();
 
   factory _$DeleteEmbeddingImpl.fromJson(Map<String, dynamic> json) =>
       _$$DeleteEmbeddingImplFromJson(json);
@@ -1672,17 +1771,20 @@ class _$DeleteEmbeddingImpl extends _DeleteEmbedding {
             other is _$DeleteEmbeddingImpl &&
             const DeepCollectionEquality().equals(other._ids, _ids) &&
             const DeepCollectionEquality().equals(other._where, _where) &&
-            const DeepCollectionEquality()
-                .equals(other._whereDocument, _whereDocument));
+            const DeepCollectionEquality().equals(
+              other._whereDocument,
+              _whereDocument,
+            ));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(_ids),
-      const DeepCollectionEquality().hash(_where),
-      const DeepCollectionEquality().hash(_whereDocument));
+    runtimeType,
+    const DeepCollectionEquality().hash(_ids),
+    const DeepCollectionEquality().hash(_where),
+    const DeepCollectionEquality().hash(_whereDocument),
+  );
 
   /// Create a copy of DeleteEmbedding
   /// with the given fields replaced by the non-null parameter values.
@@ -1691,7 +1793,9 @@ class _$DeleteEmbeddingImpl extends _DeleteEmbedding {
   @pragma('vm:prefer-inline')
   _$$DeleteEmbeddingImplCopyWith<_$DeleteEmbeddingImpl> get copyWith =>
       __$$DeleteEmbeddingImplCopyWithImpl<_$DeleteEmbeddingImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
@@ -1702,11 +1806,12 @@ class _$DeleteEmbeddingImpl extends _DeleteEmbedding {
 }
 
 abstract class _DeleteEmbedding extends DeleteEmbedding {
-  const factory _DeleteEmbedding(
-      {@JsonKey(includeIfNull: false) final List<String>? ids,
-      @JsonKey(includeIfNull: false) final Map<String, dynamic>? where,
-      @JsonKey(name: 'where_document', includeIfNull: false)
-      final Map<String, dynamic>? whereDocument}) = _$DeleteEmbeddingImpl;
+  const factory _DeleteEmbedding({
+    @JsonKey(includeIfNull: false) final List<String>? ids,
+    @JsonKey(includeIfNull: false) final Map<String, dynamic>? where,
+    @JsonKey(name: 'where_document', includeIfNull: false)
+    final Map<String, dynamic>? whereDocument,
+  }) = _$DeleteEmbeddingImpl;
   const _DeleteEmbedding._() : super._();
 
   factory _DeleteEmbedding.fromJson(Map<String, dynamic> json) =
@@ -1782,18 +1887,20 @@ mixin _$GetEmbedding {
 /// @nodoc
 abstract class $GetEmbeddingCopyWith<$Res> {
   factory $GetEmbeddingCopyWith(
-          GetEmbedding value, $Res Function(GetEmbedding) then) =
-      _$GetEmbeddingCopyWithImpl<$Res, GetEmbedding>;
+    GetEmbedding value,
+    $Res Function(GetEmbedding) then,
+  ) = _$GetEmbeddingCopyWithImpl<$Res, GetEmbedding>;
   @useResult
-  $Res call(
-      {@JsonKey(includeIfNull: false) List<String>? ids,
-      @JsonKey(includeIfNull: false) Map<String, dynamic>? where,
-      @JsonKey(name: 'where_document', includeIfNull: false)
-      Map<String, dynamic>? whereDocument,
-      @JsonKey(includeIfNull: false) String? sort,
-      @JsonKey(includeIfNull: false) int? limit,
-      @JsonKey(includeIfNull: false) int? offset,
-      @JsonKey(includeIfNull: false) List<String>? include});
+  $Res call({
+    @JsonKey(includeIfNull: false) List<String>? ids,
+    @JsonKey(includeIfNull: false) Map<String, dynamic>? where,
+    @JsonKey(name: 'where_document', includeIfNull: false)
+    Map<String, dynamic>? whereDocument,
+    @JsonKey(includeIfNull: false) String? sort,
+    @JsonKey(includeIfNull: false) int? limit,
+    @JsonKey(includeIfNull: false) int? offset,
+    @JsonKey(includeIfNull: false) List<String>? include,
+  });
 }
 
 /// @nodoc
@@ -1819,36 +1926,39 @@ class _$GetEmbeddingCopyWithImpl<$Res, $Val extends GetEmbedding>
     Object? offset = freezed,
     Object? include = freezed,
   }) {
-    return _then(_value.copyWith(
-      ids: freezed == ids
-          ? _value.ids
-          : ids // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
-      where: freezed == where
-          ? _value.where
-          : where // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>?,
-      whereDocument: freezed == whereDocument
-          ? _value.whereDocument
-          : whereDocument // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>?,
-      sort: freezed == sort
-          ? _value.sort
-          : sort // ignore: cast_nullable_to_non_nullable
-              as String?,
-      limit: freezed == limit
-          ? _value.limit
-          : limit // ignore: cast_nullable_to_non_nullable
-              as int?,
-      offset: freezed == offset
-          ? _value.offset
-          : offset // ignore: cast_nullable_to_non_nullable
-              as int?,
-      include: freezed == include
-          ? _value.include
-          : include // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            ids: freezed == ids
+                ? _value.ids
+                : ids // ignore: cast_nullable_to_non_nullable
+                      as List<String>?,
+            where: freezed == where
+                ? _value.where
+                : where // ignore: cast_nullable_to_non_nullable
+                      as Map<String, dynamic>?,
+            whereDocument: freezed == whereDocument
+                ? _value.whereDocument
+                : whereDocument // ignore: cast_nullable_to_non_nullable
+                      as Map<String, dynamic>?,
+            sort: freezed == sort
+                ? _value.sort
+                : sort // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            limit: freezed == limit
+                ? _value.limit
+                : limit // ignore: cast_nullable_to_non_nullable
+                      as int?,
+            offset: freezed == offset
+                ? _value.offset
+                : offset // ignore: cast_nullable_to_non_nullable
+                      as int?,
+            include: freezed == include
+                ? _value.include
+                : include // ignore: cast_nullable_to_non_nullable
+                      as List<String>?,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -1856,19 +1966,21 @@ class _$GetEmbeddingCopyWithImpl<$Res, $Val extends GetEmbedding>
 abstract class _$$GetEmbeddingImplCopyWith<$Res>
     implements $GetEmbeddingCopyWith<$Res> {
   factory _$$GetEmbeddingImplCopyWith(
-          _$GetEmbeddingImpl value, $Res Function(_$GetEmbeddingImpl) then) =
-      __$$GetEmbeddingImplCopyWithImpl<$Res>;
+    _$GetEmbeddingImpl value,
+    $Res Function(_$GetEmbeddingImpl) then,
+  ) = __$$GetEmbeddingImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {@JsonKey(includeIfNull: false) List<String>? ids,
-      @JsonKey(includeIfNull: false) Map<String, dynamic>? where,
-      @JsonKey(name: 'where_document', includeIfNull: false)
-      Map<String, dynamic>? whereDocument,
-      @JsonKey(includeIfNull: false) String? sort,
-      @JsonKey(includeIfNull: false) int? limit,
-      @JsonKey(includeIfNull: false) int? offset,
-      @JsonKey(includeIfNull: false) List<String>? include});
+  $Res call({
+    @JsonKey(includeIfNull: false) List<String>? ids,
+    @JsonKey(includeIfNull: false) Map<String, dynamic>? where,
+    @JsonKey(name: 'where_document', includeIfNull: false)
+    Map<String, dynamic>? whereDocument,
+    @JsonKey(includeIfNull: false) String? sort,
+    @JsonKey(includeIfNull: false) int? limit,
+    @JsonKey(includeIfNull: false) int? offset,
+    @JsonKey(includeIfNull: false) List<String>? include,
+  });
 }
 
 /// @nodoc
@@ -1876,8 +1988,9 @@ class __$$GetEmbeddingImplCopyWithImpl<$Res>
     extends _$GetEmbeddingCopyWithImpl<$Res, _$GetEmbeddingImpl>
     implements _$$GetEmbeddingImplCopyWith<$Res> {
   __$$GetEmbeddingImplCopyWithImpl(
-      _$GetEmbeddingImpl _value, $Res Function(_$GetEmbeddingImpl) _then)
-      : super(_value, _then);
+    _$GetEmbeddingImpl _value,
+    $Res Function(_$GetEmbeddingImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of GetEmbedding
   /// with the given fields replaced by the non-null parameter values.
@@ -1892,56 +2005,58 @@ class __$$GetEmbeddingImplCopyWithImpl<$Res>
     Object? offset = freezed,
     Object? include = freezed,
   }) {
-    return _then(_$GetEmbeddingImpl(
-      ids: freezed == ids
-          ? _value._ids
-          : ids // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
-      where: freezed == where
-          ? _value._where
-          : where // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>?,
-      whereDocument: freezed == whereDocument
-          ? _value._whereDocument
-          : whereDocument // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>?,
-      sort: freezed == sort
-          ? _value.sort
-          : sort // ignore: cast_nullable_to_non_nullable
-              as String?,
-      limit: freezed == limit
-          ? _value.limit
-          : limit // ignore: cast_nullable_to_non_nullable
-              as int?,
-      offset: freezed == offset
-          ? _value.offset
-          : offset // ignore: cast_nullable_to_non_nullable
-              as int?,
-      include: freezed == include
-          ? _value._include
-          : include // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
-    ));
+    return _then(
+      _$GetEmbeddingImpl(
+        ids: freezed == ids
+            ? _value._ids
+            : ids // ignore: cast_nullable_to_non_nullable
+                  as List<String>?,
+        where: freezed == where
+            ? _value._where
+            : where // ignore: cast_nullable_to_non_nullable
+                  as Map<String, dynamic>?,
+        whereDocument: freezed == whereDocument
+            ? _value._whereDocument
+            : whereDocument // ignore: cast_nullable_to_non_nullable
+                  as Map<String, dynamic>?,
+        sort: freezed == sort
+            ? _value.sort
+            : sort // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        limit: freezed == limit
+            ? _value.limit
+            : limit // ignore: cast_nullable_to_non_nullable
+                  as int?,
+        offset: freezed == offset
+            ? _value.offset
+            : offset // ignore: cast_nullable_to_non_nullable
+                  as int?,
+        include: freezed == include
+            ? _value._include
+            : include // ignore: cast_nullable_to_non_nullable
+                  as List<String>?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$GetEmbeddingImpl extends _GetEmbedding {
-  const _$GetEmbeddingImpl(
-      {@JsonKey(includeIfNull: false) final List<String>? ids,
-      @JsonKey(includeIfNull: false) final Map<String, dynamic>? where,
-      @JsonKey(name: 'where_document', includeIfNull: false)
-      final Map<String, dynamic>? whereDocument,
-      @JsonKey(includeIfNull: false) this.sort,
-      @JsonKey(includeIfNull: false) this.limit,
-      @JsonKey(includeIfNull: false) this.offset,
-      @JsonKey(includeIfNull: false) final List<String>? include})
-      : _ids = ids,
-        _where = where,
-        _whereDocument = whereDocument,
-        _include = include,
-        super._();
+  const _$GetEmbeddingImpl({
+    @JsonKey(includeIfNull: false) final List<String>? ids,
+    @JsonKey(includeIfNull: false) final Map<String, dynamic>? where,
+    @JsonKey(name: 'where_document', includeIfNull: false)
+    final Map<String, dynamic>? whereDocument,
+    @JsonKey(includeIfNull: false) this.sort,
+    @JsonKey(includeIfNull: false) this.limit,
+    @JsonKey(includeIfNull: false) this.offset,
+    @JsonKey(includeIfNull: false) final List<String>? include,
+  }) : _ids = ids,
+       _where = where,
+       _whereDocument = whereDocument,
+       _include = include,
+       super._();
 
   factory _$GetEmbeddingImpl.fromJson(Map<String, dynamic> json) =>
       _$$GetEmbeddingImplFromJson(json);
@@ -2029,8 +2144,10 @@ class _$GetEmbeddingImpl extends _GetEmbedding {
             other is _$GetEmbeddingImpl &&
             const DeepCollectionEquality().equals(other._ids, _ids) &&
             const DeepCollectionEquality().equals(other._where, _where) &&
-            const DeepCollectionEquality()
-                .equals(other._whereDocument, _whereDocument) &&
+            const DeepCollectionEquality().equals(
+              other._whereDocument,
+              _whereDocument,
+            ) &&
             (identical(other.sort, sort) || other.sort == sort) &&
             (identical(other.limit, limit) || other.limit == limit) &&
             (identical(other.offset, offset) || other.offset == offset) &&
@@ -2040,14 +2157,15 @@ class _$GetEmbeddingImpl extends _GetEmbedding {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(_ids),
-      const DeepCollectionEquality().hash(_where),
-      const DeepCollectionEquality().hash(_whereDocument),
-      sort,
-      limit,
-      offset,
-      const DeepCollectionEquality().hash(_include));
+    runtimeType,
+    const DeepCollectionEquality().hash(_ids),
+    const DeepCollectionEquality().hash(_where),
+    const DeepCollectionEquality().hash(_whereDocument),
+    sort,
+    limit,
+    offset,
+    const DeepCollectionEquality().hash(_include),
+  );
 
   /// Create a copy of GetEmbedding
   /// with the given fields replaced by the non-null parameter values.
@@ -2066,16 +2184,16 @@ class _$GetEmbeddingImpl extends _GetEmbedding {
 }
 
 abstract class _GetEmbedding extends GetEmbedding {
-  const factory _GetEmbedding(
-          {@JsonKey(includeIfNull: false) final List<String>? ids,
-          @JsonKey(includeIfNull: false) final Map<String, dynamic>? where,
-          @JsonKey(name: 'where_document', includeIfNull: false)
-          final Map<String, dynamic>? whereDocument,
-          @JsonKey(includeIfNull: false) final String? sort,
-          @JsonKey(includeIfNull: false) final int? limit,
-          @JsonKey(includeIfNull: false) final int? offset,
-          @JsonKey(includeIfNull: false) final List<String>? include}) =
-      _$GetEmbeddingImpl;
+  const factory _GetEmbedding({
+    @JsonKey(includeIfNull: false) final List<String>? ids,
+    @JsonKey(includeIfNull: false) final Map<String, dynamic>? where,
+    @JsonKey(name: 'where_document', includeIfNull: false)
+    final Map<String, dynamic>? whereDocument,
+    @JsonKey(includeIfNull: false) final String? sort,
+    @JsonKey(includeIfNull: false) final int? limit,
+    @JsonKey(includeIfNull: false) final int? offset,
+    @JsonKey(includeIfNull: false) final List<String>? include,
+  }) = _$GetEmbeddingImpl;
   const _GetEmbedding._() : super._();
 
   factory _GetEmbedding.fromJson(Map<String, dynamic> json) =
@@ -2159,14 +2277,16 @@ mixin _$GetResponse {
 /// @nodoc
 abstract class $GetResponseCopyWith<$Res> {
   factory $GetResponseCopyWith(
-          GetResponse value, $Res Function(GetResponse) then) =
-      _$GetResponseCopyWithImpl<$Res, GetResponse>;
+    GetResponse value,
+    $Res Function(GetResponse) then,
+  ) = _$GetResponseCopyWithImpl<$Res, GetResponse>;
   @useResult
-  $Res call(
-      {List<String> ids,
-      @JsonKey(includeIfNull: false) List<List<double>>? embeddings,
-      @JsonKey(includeIfNull: false) List<Map<String, dynamic>?>? metadatas,
-      @JsonKey(includeIfNull: false) List<String?>? documents});
+  $Res call({
+    List<String> ids,
+    @JsonKey(includeIfNull: false) List<List<double>>? embeddings,
+    @JsonKey(includeIfNull: false) List<Map<String, dynamic>?>? metadatas,
+    @JsonKey(includeIfNull: false) List<String?>? documents,
+  });
 }
 
 /// @nodoc
@@ -2189,24 +2309,27 @@ class _$GetResponseCopyWithImpl<$Res, $Val extends GetResponse>
     Object? metadatas = freezed,
     Object? documents = freezed,
   }) {
-    return _then(_value.copyWith(
-      ids: null == ids
-          ? _value.ids
-          : ids // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      embeddings: freezed == embeddings
-          ? _value.embeddings
-          : embeddings // ignore: cast_nullable_to_non_nullable
-              as List<List<double>>?,
-      metadatas: freezed == metadatas
-          ? _value.metadatas
-          : metadatas // ignore: cast_nullable_to_non_nullable
-              as List<Map<String, dynamic>?>?,
-      documents: freezed == documents
-          ? _value.documents
-          : documents // ignore: cast_nullable_to_non_nullable
-              as List<String?>?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            ids: null == ids
+                ? _value.ids
+                : ids // ignore: cast_nullable_to_non_nullable
+                      as List<String>,
+            embeddings: freezed == embeddings
+                ? _value.embeddings
+                : embeddings // ignore: cast_nullable_to_non_nullable
+                      as List<List<double>>?,
+            metadatas: freezed == metadatas
+                ? _value.metadatas
+                : metadatas // ignore: cast_nullable_to_non_nullable
+                      as List<Map<String, dynamic>?>?,
+            documents: freezed == documents
+                ? _value.documents
+                : documents // ignore: cast_nullable_to_non_nullable
+                      as List<String?>?,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -2214,15 +2337,17 @@ class _$GetResponseCopyWithImpl<$Res, $Val extends GetResponse>
 abstract class _$$GetResponseImplCopyWith<$Res>
     implements $GetResponseCopyWith<$Res> {
   factory _$$GetResponseImplCopyWith(
-          _$GetResponseImpl value, $Res Function(_$GetResponseImpl) then) =
-      __$$GetResponseImplCopyWithImpl<$Res>;
+    _$GetResponseImpl value,
+    $Res Function(_$GetResponseImpl) then,
+  ) = __$$GetResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {List<String> ids,
-      @JsonKey(includeIfNull: false) List<List<double>>? embeddings,
-      @JsonKey(includeIfNull: false) List<Map<String, dynamic>?>? metadatas,
-      @JsonKey(includeIfNull: false) List<String?>? documents});
+  $Res call({
+    List<String> ids,
+    @JsonKey(includeIfNull: false) List<List<double>>? embeddings,
+    @JsonKey(includeIfNull: false) List<Map<String, dynamic>?>? metadatas,
+    @JsonKey(includeIfNull: false) List<String?>? documents,
+  });
 }
 
 /// @nodoc
@@ -2230,8 +2355,9 @@ class __$$GetResponseImplCopyWithImpl<$Res>
     extends _$GetResponseCopyWithImpl<$Res, _$GetResponseImpl>
     implements _$$GetResponseImplCopyWith<$Res> {
   __$$GetResponseImplCopyWithImpl(
-      _$GetResponseImpl _value, $Res Function(_$GetResponseImpl) _then)
-      : super(_value, _then);
+    _$GetResponseImpl _value,
+    $Res Function(_$GetResponseImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of GetResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -2243,41 +2369,42 @@ class __$$GetResponseImplCopyWithImpl<$Res>
     Object? metadatas = freezed,
     Object? documents = freezed,
   }) {
-    return _then(_$GetResponseImpl(
-      ids: null == ids
-          ? _value._ids
-          : ids // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      embeddings: freezed == embeddings
-          ? _value._embeddings
-          : embeddings // ignore: cast_nullable_to_non_nullable
-              as List<List<double>>?,
-      metadatas: freezed == metadatas
-          ? _value._metadatas
-          : metadatas // ignore: cast_nullable_to_non_nullable
-              as List<Map<String, dynamic>?>?,
-      documents: freezed == documents
-          ? _value._documents
-          : documents // ignore: cast_nullable_to_non_nullable
-              as List<String?>?,
-    ));
+    return _then(
+      _$GetResponseImpl(
+        ids: null == ids
+            ? _value._ids
+            : ids // ignore: cast_nullable_to_non_nullable
+                  as List<String>,
+        embeddings: freezed == embeddings
+            ? _value._embeddings
+            : embeddings // ignore: cast_nullable_to_non_nullable
+                  as List<List<double>>?,
+        metadatas: freezed == metadatas
+            ? _value._metadatas
+            : metadatas // ignore: cast_nullable_to_non_nullable
+                  as List<Map<String, dynamic>?>?,
+        documents: freezed == documents
+            ? _value._documents
+            : documents // ignore: cast_nullable_to_non_nullable
+                  as List<String?>?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$GetResponseImpl extends _GetResponse {
-  const _$GetResponseImpl(
-      {required final List<String> ids,
-      @JsonKey(includeIfNull: false) final List<List<double>>? embeddings,
-      @JsonKey(includeIfNull: false)
-      final List<Map<String, dynamic>?>? metadatas,
-      @JsonKey(includeIfNull: false) final List<String?>? documents})
-      : _ids = ids,
-        _embeddings = embeddings,
-        _metadatas = metadatas,
-        _documents = documents,
-        super._();
+  const _$GetResponseImpl({
+    required final List<String> ids,
+    @JsonKey(includeIfNull: false) final List<List<double>>? embeddings,
+    @JsonKey(includeIfNull: false) final List<Map<String, dynamic>?>? metadatas,
+    @JsonKey(includeIfNull: false) final List<String?>? documents,
+  }) : _ids = ids,
+       _embeddings = embeddings,
+       _metadatas = metadatas,
+       _documents = documents,
+       super._();
 
   factory _$GetResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$GetResponseImplFromJson(json);
@@ -2346,22 +2473,29 @@ class _$GetResponseImpl extends _GetResponse {
         (other.runtimeType == runtimeType &&
             other is _$GetResponseImpl &&
             const DeepCollectionEquality().equals(other._ids, _ids) &&
-            const DeepCollectionEquality()
-                .equals(other._embeddings, _embeddings) &&
-            const DeepCollectionEquality()
-                .equals(other._metadatas, _metadatas) &&
-            const DeepCollectionEquality()
-                .equals(other._documents, _documents));
+            const DeepCollectionEquality().equals(
+              other._embeddings,
+              _embeddings,
+            ) &&
+            const DeepCollectionEquality().equals(
+              other._metadatas,
+              _metadatas,
+            ) &&
+            const DeepCollectionEquality().equals(
+              other._documents,
+              _documents,
+            ));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(_ids),
-      const DeepCollectionEquality().hash(_embeddings),
-      const DeepCollectionEquality().hash(_metadatas),
-      const DeepCollectionEquality().hash(_documents));
+    runtimeType,
+    const DeepCollectionEquality().hash(_ids),
+    const DeepCollectionEquality().hash(_embeddings),
+    const DeepCollectionEquality().hash(_metadatas),
+    const DeepCollectionEquality().hash(_documents),
+  );
 
   /// Create a copy of GetResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -2380,13 +2514,12 @@ class _$GetResponseImpl extends _GetResponse {
 }
 
 abstract class _GetResponse extends GetResponse {
-  const factory _GetResponse(
-          {required final List<String> ids,
-          @JsonKey(includeIfNull: false) final List<List<double>>? embeddings,
-          @JsonKey(includeIfNull: false)
-          final List<Map<String, dynamic>?>? metadatas,
-          @JsonKey(includeIfNull: false) final List<String?>? documents}) =
-      _$GetResponseImpl;
+  const factory _GetResponse({
+    required final List<String> ids,
+    @JsonKey(includeIfNull: false) final List<List<double>>? embeddings,
+    @JsonKey(includeIfNull: false) final List<Map<String, dynamic>?>? metadatas,
+    @JsonKey(includeIfNull: false) final List<String?>? documents,
+  }) = _$GetResponseImpl;
   const _GetResponse._() : super._();
 
   factory _GetResponse.fromJson(Map<String, dynamic> json) =
@@ -2442,8 +2575,9 @@ mixin _$HTTPValidationError {
 /// @nodoc
 abstract class $HTTPValidationErrorCopyWith<$Res> {
   factory $HTTPValidationErrorCopyWith(
-          HTTPValidationError value, $Res Function(HTTPValidationError) then) =
-      _$HTTPValidationErrorCopyWithImpl<$Res, HTTPValidationError>;
+    HTTPValidationError value,
+    $Res Function(HTTPValidationError) then,
+  ) = _$HTTPValidationErrorCopyWithImpl<$Res, HTTPValidationError>;
   @useResult
   $Res call({@JsonKey(includeIfNull: false) List<ValidationError>? detail});
 }
@@ -2465,21 +2599,25 @@ class _$HTTPValidationErrorCopyWithImpl<$Res, $Val extends HTTPValidationError>
   $Res call({
     Object? detail = freezed,
   }) {
-    return _then(_value.copyWith(
-      detail: freezed == detail
-          ? _value.detail
-          : detail // ignore: cast_nullable_to_non_nullable
-              as List<ValidationError>?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            detail: freezed == detail
+                ? _value.detail
+                : detail // ignore: cast_nullable_to_non_nullable
+                      as List<ValidationError>?,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$HTTPValidationErrorImplCopyWith<$Res>
     implements $HTTPValidationErrorCopyWith<$Res> {
-  factory _$$HTTPValidationErrorImplCopyWith(_$HTTPValidationErrorImpl value,
-          $Res Function(_$HTTPValidationErrorImpl) then) =
-      __$$HTTPValidationErrorImplCopyWithImpl<$Res>;
+  factory _$$HTTPValidationErrorImplCopyWith(
+    _$HTTPValidationErrorImpl value,
+    $Res Function(_$HTTPValidationErrorImpl) then,
+  ) = __$$HTTPValidationErrorImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({@JsonKey(includeIfNull: false) List<ValidationError>? detail});
@@ -2489,9 +2627,10 @@ abstract class _$$HTTPValidationErrorImplCopyWith<$Res>
 class __$$HTTPValidationErrorImplCopyWithImpl<$Res>
     extends _$HTTPValidationErrorCopyWithImpl<$Res, _$HTTPValidationErrorImpl>
     implements _$$HTTPValidationErrorImplCopyWith<$Res> {
-  __$$HTTPValidationErrorImplCopyWithImpl(_$HTTPValidationErrorImpl _value,
-      $Res Function(_$HTTPValidationErrorImpl) _then)
-      : super(_value, _then);
+  __$$HTTPValidationErrorImplCopyWithImpl(
+    _$HTTPValidationErrorImpl _value,
+    $Res Function(_$HTTPValidationErrorImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of HTTPValidationError
   /// with the given fields replaced by the non-null parameter values.
@@ -2500,22 +2639,24 @@ class __$$HTTPValidationErrorImplCopyWithImpl<$Res>
   $Res call({
     Object? detail = freezed,
   }) {
-    return _then(_$HTTPValidationErrorImpl(
-      detail: freezed == detail
-          ? _value._detail
-          : detail // ignore: cast_nullable_to_non_nullable
-              as List<ValidationError>?,
-    ));
+    return _then(
+      _$HTTPValidationErrorImpl(
+        detail: freezed == detail
+            ? _value._detail
+            : detail // ignore: cast_nullable_to_non_nullable
+                  as List<ValidationError>?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$HTTPValidationErrorImpl extends _HTTPValidationError {
-  const _$HTTPValidationErrorImpl(
-      {@JsonKey(includeIfNull: false) final List<ValidationError>? detail})
-      : _detail = detail,
-        super._();
+  const _$HTTPValidationErrorImpl({
+    @JsonKey(includeIfNull: false) final List<ValidationError>? detail,
+  }) : _detail = detail,
+       super._();
 
   factory _$HTTPValidationErrorImpl.fromJson(Map<String, dynamic> json) =>
       _$$HTTPValidationErrorImplFromJson(json);
@@ -2559,7 +2700,9 @@ class _$HTTPValidationErrorImpl extends _HTTPValidationError {
   @pragma('vm:prefer-inline')
   _$$HTTPValidationErrorImplCopyWith<_$HTTPValidationErrorImpl> get copyWith =>
       __$$HTTPValidationErrorImplCopyWithImpl<_$HTTPValidationErrorImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
@@ -2570,9 +2713,9 @@ class _$HTTPValidationErrorImpl extends _HTTPValidationError {
 }
 
 abstract class _HTTPValidationError extends HTTPValidationError {
-  const factory _HTTPValidationError(
-      {@JsonKey(includeIfNull: false)
-      final List<ValidationError>? detail}) = _$HTTPValidationErrorImpl;
+  const factory _HTTPValidationError({
+    @JsonKey(includeIfNull: false) final List<ValidationError>? detail,
+  }) = _$HTTPValidationErrorImpl;
   const _HTTPValidationError._() : super._();
 
   factory _HTTPValidationError.fromJson(Map<String, dynamic> json) =
@@ -2630,16 +2773,18 @@ mixin _$QueryEmbedding {
 /// @nodoc
 abstract class $QueryEmbeddingCopyWith<$Res> {
   factory $QueryEmbeddingCopyWith(
-          QueryEmbedding value, $Res Function(QueryEmbedding) then) =
-      _$QueryEmbeddingCopyWithImpl<$Res, QueryEmbedding>;
+    QueryEmbedding value,
+    $Res Function(QueryEmbedding) then,
+  ) = _$QueryEmbeddingCopyWithImpl<$Res, QueryEmbedding>;
   @useResult
-  $Res call(
-      {@JsonKey(includeIfNull: false) Map<String, dynamic>? where,
-      @JsonKey(name: 'where_document', includeIfNull: false)
-      Map<String, dynamic>? whereDocument,
-      @JsonKey(name: 'query_embeddings') List<List<double>> queryEmbeddings,
-      @JsonKey(name: 'n_results') int nResults,
-      @JsonKey(includeIfNull: false) List<String>? include});
+  $Res call({
+    @JsonKey(includeIfNull: false) Map<String, dynamic>? where,
+    @JsonKey(name: 'where_document', includeIfNull: false)
+    Map<String, dynamic>? whereDocument,
+    @JsonKey(name: 'query_embeddings') List<List<double>> queryEmbeddings,
+    @JsonKey(name: 'n_results') int nResults,
+    @JsonKey(includeIfNull: false) List<String>? include,
+  });
 }
 
 /// @nodoc
@@ -2663,46 +2808,51 @@ class _$QueryEmbeddingCopyWithImpl<$Res, $Val extends QueryEmbedding>
     Object? nResults = null,
     Object? include = freezed,
   }) {
-    return _then(_value.copyWith(
-      where: freezed == where
-          ? _value.where
-          : where // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>?,
-      whereDocument: freezed == whereDocument
-          ? _value.whereDocument
-          : whereDocument // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>?,
-      queryEmbeddings: null == queryEmbeddings
-          ? _value.queryEmbeddings
-          : queryEmbeddings // ignore: cast_nullable_to_non_nullable
-              as List<List<double>>,
-      nResults: null == nResults
-          ? _value.nResults
-          : nResults // ignore: cast_nullable_to_non_nullable
-              as int,
-      include: freezed == include
-          ? _value.include
-          : include // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            where: freezed == where
+                ? _value.where
+                : where // ignore: cast_nullable_to_non_nullable
+                      as Map<String, dynamic>?,
+            whereDocument: freezed == whereDocument
+                ? _value.whereDocument
+                : whereDocument // ignore: cast_nullable_to_non_nullable
+                      as Map<String, dynamic>?,
+            queryEmbeddings: null == queryEmbeddings
+                ? _value.queryEmbeddings
+                : queryEmbeddings // ignore: cast_nullable_to_non_nullable
+                      as List<List<double>>,
+            nResults: null == nResults
+                ? _value.nResults
+                : nResults // ignore: cast_nullable_to_non_nullable
+                      as int,
+            include: freezed == include
+                ? _value.include
+                : include // ignore: cast_nullable_to_non_nullable
+                      as List<String>?,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$QueryEmbeddingImplCopyWith<$Res>
     implements $QueryEmbeddingCopyWith<$Res> {
-  factory _$$QueryEmbeddingImplCopyWith(_$QueryEmbeddingImpl value,
-          $Res Function(_$QueryEmbeddingImpl) then) =
-      __$$QueryEmbeddingImplCopyWithImpl<$Res>;
+  factory _$$QueryEmbeddingImplCopyWith(
+    _$QueryEmbeddingImpl value,
+    $Res Function(_$QueryEmbeddingImpl) then,
+  ) = __$$QueryEmbeddingImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {@JsonKey(includeIfNull: false) Map<String, dynamic>? where,
-      @JsonKey(name: 'where_document', includeIfNull: false)
-      Map<String, dynamic>? whereDocument,
-      @JsonKey(name: 'query_embeddings') List<List<double>> queryEmbeddings,
-      @JsonKey(name: 'n_results') int nResults,
-      @JsonKey(includeIfNull: false) List<String>? include});
+  $Res call({
+    @JsonKey(includeIfNull: false) Map<String, dynamic>? where,
+    @JsonKey(name: 'where_document', includeIfNull: false)
+    Map<String, dynamic>? whereDocument,
+    @JsonKey(name: 'query_embeddings') List<List<double>> queryEmbeddings,
+    @JsonKey(name: 'n_results') int nResults,
+    @JsonKey(includeIfNull: false) List<String>? include,
+  });
 }
 
 /// @nodoc
@@ -2710,8 +2860,9 @@ class __$$QueryEmbeddingImplCopyWithImpl<$Res>
     extends _$QueryEmbeddingCopyWithImpl<$Res, _$QueryEmbeddingImpl>
     implements _$$QueryEmbeddingImplCopyWith<$Res> {
   __$$QueryEmbeddingImplCopyWithImpl(
-      _$QueryEmbeddingImpl _value, $Res Function(_$QueryEmbeddingImpl) _then)
-      : super(_value, _then);
+    _$QueryEmbeddingImpl _value,
+    $Res Function(_$QueryEmbeddingImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of QueryEmbedding
   /// with the given fields replaced by the non-null parameter values.
@@ -2724,47 +2875,49 @@ class __$$QueryEmbeddingImplCopyWithImpl<$Res>
     Object? nResults = null,
     Object? include = freezed,
   }) {
-    return _then(_$QueryEmbeddingImpl(
-      where: freezed == where
-          ? _value._where
-          : where // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>?,
-      whereDocument: freezed == whereDocument
-          ? _value._whereDocument
-          : whereDocument // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>?,
-      queryEmbeddings: null == queryEmbeddings
-          ? _value._queryEmbeddings
-          : queryEmbeddings // ignore: cast_nullable_to_non_nullable
-              as List<List<double>>,
-      nResults: null == nResults
-          ? _value.nResults
-          : nResults // ignore: cast_nullable_to_non_nullable
-              as int,
-      include: freezed == include
-          ? _value._include
-          : include // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
-    ));
+    return _then(
+      _$QueryEmbeddingImpl(
+        where: freezed == where
+            ? _value._where
+            : where // ignore: cast_nullable_to_non_nullable
+                  as Map<String, dynamic>?,
+        whereDocument: freezed == whereDocument
+            ? _value._whereDocument
+            : whereDocument // ignore: cast_nullable_to_non_nullable
+                  as Map<String, dynamic>?,
+        queryEmbeddings: null == queryEmbeddings
+            ? _value._queryEmbeddings
+            : queryEmbeddings // ignore: cast_nullable_to_non_nullable
+                  as List<List<double>>,
+        nResults: null == nResults
+            ? _value.nResults
+            : nResults // ignore: cast_nullable_to_non_nullable
+                  as int,
+        include: freezed == include
+            ? _value._include
+            : include // ignore: cast_nullable_to_non_nullable
+                  as List<String>?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$QueryEmbeddingImpl extends _QueryEmbedding {
-  const _$QueryEmbeddingImpl(
-      {@JsonKey(includeIfNull: false) final Map<String, dynamic>? where,
-      @JsonKey(name: 'where_document', includeIfNull: false)
-      final Map<String, dynamic>? whereDocument,
-      @JsonKey(name: 'query_embeddings')
-      required final List<List<double>> queryEmbeddings,
-      @JsonKey(name: 'n_results') this.nResults = 10,
-      @JsonKey(includeIfNull: false) final List<String>? include})
-      : _where = where,
-        _whereDocument = whereDocument,
-        _queryEmbeddings = queryEmbeddings,
-        _include = include,
-        super._();
+  const _$QueryEmbeddingImpl({
+    @JsonKey(includeIfNull: false) final Map<String, dynamic>? where,
+    @JsonKey(name: 'where_document', includeIfNull: false)
+    final Map<String, dynamic>? whereDocument,
+    @JsonKey(name: 'query_embeddings')
+    required final List<List<double>> queryEmbeddings,
+    @JsonKey(name: 'n_results') this.nResults = 10,
+    @JsonKey(includeIfNull: false) final List<String>? include,
+  }) : _where = where,
+       _whereDocument = whereDocument,
+       _queryEmbeddings = queryEmbeddings,
+       _include = include,
+       super._();
 
   factory _$QueryEmbeddingImpl.fromJson(Map<String, dynamic> json) =>
       _$$QueryEmbeddingImplFromJson(json);
@@ -2839,10 +2992,14 @@ class _$QueryEmbeddingImpl extends _QueryEmbedding {
         (other.runtimeType == runtimeType &&
             other is _$QueryEmbeddingImpl &&
             const DeepCollectionEquality().equals(other._where, _where) &&
-            const DeepCollectionEquality()
-                .equals(other._whereDocument, _whereDocument) &&
-            const DeepCollectionEquality()
-                .equals(other._queryEmbeddings, _queryEmbeddings) &&
+            const DeepCollectionEquality().equals(
+              other._whereDocument,
+              _whereDocument,
+            ) &&
+            const DeepCollectionEquality().equals(
+              other._queryEmbeddings,
+              _queryEmbeddings,
+            ) &&
             (identical(other.nResults, nResults) ||
                 other.nResults == nResults) &&
             const DeepCollectionEquality().equals(other._include, _include));
@@ -2851,12 +3008,13 @@ class _$QueryEmbeddingImpl extends _QueryEmbedding {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(_where),
-      const DeepCollectionEquality().hash(_whereDocument),
-      const DeepCollectionEquality().hash(_queryEmbeddings),
-      nResults,
-      const DeepCollectionEquality().hash(_include));
+    runtimeType,
+    const DeepCollectionEquality().hash(_where),
+    const DeepCollectionEquality().hash(_whereDocument),
+    const DeepCollectionEquality().hash(_queryEmbeddings),
+    nResults,
+    const DeepCollectionEquality().hash(_include),
+  );
 
   /// Create a copy of QueryEmbedding
   /// with the given fields replaced by the non-null parameter values.
@@ -2865,7 +3023,9 @@ class _$QueryEmbeddingImpl extends _QueryEmbedding {
   @pragma('vm:prefer-inline')
   _$$QueryEmbeddingImplCopyWith<_$QueryEmbeddingImpl> get copyWith =>
       __$$QueryEmbeddingImplCopyWithImpl<_$QueryEmbeddingImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
@@ -2876,15 +3036,15 @@ class _$QueryEmbeddingImpl extends _QueryEmbedding {
 }
 
 abstract class _QueryEmbedding extends QueryEmbedding {
-  const factory _QueryEmbedding(
-          {@JsonKey(includeIfNull: false) final Map<String, dynamic>? where,
-          @JsonKey(name: 'where_document', includeIfNull: false)
-          final Map<String, dynamic>? whereDocument,
-          @JsonKey(name: 'query_embeddings')
-          required final List<List<double>> queryEmbeddings,
-          @JsonKey(name: 'n_results') final int nResults,
-          @JsonKey(includeIfNull: false) final List<String>? include}) =
-      _$QueryEmbeddingImpl;
+  const factory _QueryEmbedding({
+    @JsonKey(includeIfNull: false) final Map<String, dynamic>? where,
+    @JsonKey(name: 'where_document', includeIfNull: false)
+    final Map<String, dynamic>? whereDocument,
+    @JsonKey(name: 'query_embeddings')
+    required final List<List<double>> queryEmbeddings,
+    @JsonKey(name: 'n_results') final int nResults,
+    @JsonKey(includeIfNull: false) final List<String>? include,
+  }) = _$QueryEmbeddingImpl;
   const _QueryEmbedding._() : super._();
 
   factory _QueryEmbedding.fromJson(Map<String, dynamic> json) =
@@ -2971,18 +3131,19 @@ mixin _$QueryResponse {
 /// @nodoc
 abstract class $QueryResponseCopyWith<$Res> {
   factory $QueryResponseCopyWith(
-          QueryResponse value, $Res Function(QueryResponse) then) =
-      _$QueryResponseCopyWithImpl<$Res, QueryResponse>;
+    QueryResponse value,
+    $Res Function(QueryResponse) then,
+  ) = _$QueryResponseCopyWithImpl<$Res, QueryResponse>;
   @useResult
-  $Res call(
-      {@JsonKey(includeIfNull: false) List<List<List<double>>>? embeddings,
-      @JsonKey(includeIfNull: false)
-      List<List<Map<String, dynamic>?>>? metadatas,
-      @JsonKey(includeIfNull: false) List<List<String?>>? documents,
-      @JsonKey(includeIfNull: false) List<List<String?>>? data,
-      @JsonKey(includeIfNull: false) List<List<String?>>? uris,
-      List<List<String>> ids,
-      @JsonKey(includeIfNull: false) List<List<double>>? distances});
+  $Res call({
+    @JsonKey(includeIfNull: false) List<List<List<double>>>? embeddings,
+    @JsonKey(includeIfNull: false) List<List<Map<String, dynamic>?>>? metadatas,
+    @JsonKey(includeIfNull: false) List<List<String?>>? documents,
+    @JsonKey(includeIfNull: false) List<List<String?>>? data,
+    @JsonKey(includeIfNull: false) List<List<String?>>? uris,
+    List<List<String>> ids,
+    @JsonKey(includeIfNull: false) List<List<double>>? distances,
+  });
 }
 
 /// @nodoc
@@ -3008,36 +3169,39 @@ class _$QueryResponseCopyWithImpl<$Res, $Val extends QueryResponse>
     Object? ids = null,
     Object? distances = freezed,
   }) {
-    return _then(_value.copyWith(
-      embeddings: freezed == embeddings
-          ? _value.embeddings
-          : embeddings // ignore: cast_nullable_to_non_nullable
-              as List<List<List<double>>>?,
-      metadatas: freezed == metadatas
-          ? _value.metadatas
-          : metadatas // ignore: cast_nullable_to_non_nullable
-              as List<List<Map<String, dynamic>?>>?,
-      documents: freezed == documents
-          ? _value.documents
-          : documents // ignore: cast_nullable_to_non_nullable
-              as List<List<String?>>?,
-      data: freezed == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as List<List<String?>>?,
-      uris: freezed == uris
-          ? _value.uris
-          : uris // ignore: cast_nullable_to_non_nullable
-              as List<List<String?>>?,
-      ids: null == ids
-          ? _value.ids
-          : ids // ignore: cast_nullable_to_non_nullable
-              as List<List<String>>,
-      distances: freezed == distances
-          ? _value.distances
-          : distances // ignore: cast_nullable_to_non_nullable
-              as List<List<double>>?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            embeddings: freezed == embeddings
+                ? _value.embeddings
+                : embeddings // ignore: cast_nullable_to_non_nullable
+                      as List<List<List<double>>>?,
+            metadatas: freezed == metadatas
+                ? _value.metadatas
+                : metadatas // ignore: cast_nullable_to_non_nullable
+                      as List<List<Map<String, dynamic>?>>?,
+            documents: freezed == documents
+                ? _value.documents
+                : documents // ignore: cast_nullable_to_non_nullable
+                      as List<List<String?>>?,
+            data: freezed == data
+                ? _value.data
+                : data // ignore: cast_nullable_to_non_nullable
+                      as List<List<String?>>?,
+            uris: freezed == uris
+                ? _value.uris
+                : uris // ignore: cast_nullable_to_non_nullable
+                      as List<List<String?>>?,
+            ids: null == ids
+                ? _value.ids
+                : ids // ignore: cast_nullable_to_non_nullable
+                      as List<List<String>>,
+            distances: freezed == distances
+                ? _value.distances
+                : distances // ignore: cast_nullable_to_non_nullable
+                      as List<List<double>>?,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -3045,19 +3209,20 @@ class _$QueryResponseCopyWithImpl<$Res, $Val extends QueryResponse>
 abstract class _$$QueryResponseImplCopyWith<$Res>
     implements $QueryResponseCopyWith<$Res> {
   factory _$$QueryResponseImplCopyWith(
-          _$QueryResponseImpl value, $Res Function(_$QueryResponseImpl) then) =
-      __$$QueryResponseImplCopyWithImpl<$Res>;
+    _$QueryResponseImpl value,
+    $Res Function(_$QueryResponseImpl) then,
+  ) = __$$QueryResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {@JsonKey(includeIfNull: false) List<List<List<double>>>? embeddings,
-      @JsonKey(includeIfNull: false)
-      List<List<Map<String, dynamic>?>>? metadatas,
-      @JsonKey(includeIfNull: false) List<List<String?>>? documents,
-      @JsonKey(includeIfNull: false) List<List<String?>>? data,
-      @JsonKey(includeIfNull: false) List<List<String?>>? uris,
-      List<List<String>> ids,
-      @JsonKey(includeIfNull: false) List<List<double>>? distances});
+  $Res call({
+    @JsonKey(includeIfNull: false) List<List<List<double>>>? embeddings,
+    @JsonKey(includeIfNull: false) List<List<Map<String, dynamic>?>>? metadatas,
+    @JsonKey(includeIfNull: false) List<List<String?>>? documents,
+    @JsonKey(includeIfNull: false) List<List<String?>>? data,
+    @JsonKey(includeIfNull: false) List<List<String?>>? uris,
+    List<List<String>> ids,
+    @JsonKey(includeIfNull: false) List<List<double>>? distances,
+  });
 }
 
 /// @nodoc
@@ -3065,8 +3230,9 @@ class __$$QueryResponseImplCopyWithImpl<$Res>
     extends _$QueryResponseCopyWithImpl<$Res, _$QueryResponseImpl>
     implements _$$QueryResponseImplCopyWith<$Res> {
   __$$QueryResponseImplCopyWithImpl(
-      _$QueryResponseImpl _value, $Res Function(_$QueryResponseImpl) _then)
-      : super(_value, _then);
+    _$QueryResponseImpl _value,
+    $Res Function(_$QueryResponseImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of QueryResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -3081,60 +3247,61 @@ class __$$QueryResponseImplCopyWithImpl<$Res>
     Object? ids = null,
     Object? distances = freezed,
   }) {
-    return _then(_$QueryResponseImpl(
-      embeddings: freezed == embeddings
-          ? _value._embeddings
-          : embeddings // ignore: cast_nullable_to_non_nullable
-              as List<List<List<double>>>?,
-      metadatas: freezed == metadatas
-          ? _value._metadatas
-          : metadatas // ignore: cast_nullable_to_non_nullable
-              as List<List<Map<String, dynamic>?>>?,
-      documents: freezed == documents
-          ? _value._documents
-          : documents // ignore: cast_nullable_to_non_nullable
-              as List<List<String?>>?,
-      data: freezed == data
-          ? _value._data
-          : data // ignore: cast_nullable_to_non_nullable
-              as List<List<String?>>?,
-      uris: freezed == uris
-          ? _value._uris
-          : uris // ignore: cast_nullable_to_non_nullable
-              as List<List<String?>>?,
-      ids: null == ids
-          ? _value._ids
-          : ids // ignore: cast_nullable_to_non_nullable
-              as List<List<String>>,
-      distances: freezed == distances
-          ? _value._distances
-          : distances // ignore: cast_nullable_to_non_nullable
-              as List<List<double>>?,
-    ));
+    return _then(
+      _$QueryResponseImpl(
+        embeddings: freezed == embeddings
+            ? _value._embeddings
+            : embeddings // ignore: cast_nullable_to_non_nullable
+                  as List<List<List<double>>>?,
+        metadatas: freezed == metadatas
+            ? _value._metadatas
+            : metadatas // ignore: cast_nullable_to_non_nullable
+                  as List<List<Map<String, dynamic>?>>?,
+        documents: freezed == documents
+            ? _value._documents
+            : documents // ignore: cast_nullable_to_non_nullable
+                  as List<List<String?>>?,
+        data: freezed == data
+            ? _value._data
+            : data // ignore: cast_nullable_to_non_nullable
+                  as List<List<String?>>?,
+        uris: freezed == uris
+            ? _value._uris
+            : uris // ignore: cast_nullable_to_non_nullable
+                  as List<List<String?>>?,
+        ids: null == ids
+            ? _value._ids
+            : ids // ignore: cast_nullable_to_non_nullable
+                  as List<List<String>>,
+        distances: freezed == distances
+            ? _value._distances
+            : distances // ignore: cast_nullable_to_non_nullable
+                  as List<List<double>>?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$QueryResponseImpl extends _QueryResponse {
-  const _$QueryResponseImpl(
-      {@JsonKey(includeIfNull: false)
-      final List<List<List<double>>>? embeddings,
-      @JsonKey(includeIfNull: false)
-      final List<List<Map<String, dynamic>?>>? metadatas,
-      @JsonKey(includeIfNull: false) final List<List<String?>>? documents,
-      @JsonKey(includeIfNull: false) final List<List<String?>>? data,
-      @JsonKey(includeIfNull: false) final List<List<String?>>? uris,
-      required final List<List<String>> ids,
-      @JsonKey(includeIfNull: false) final List<List<double>>? distances})
-      : _embeddings = embeddings,
-        _metadatas = metadatas,
-        _documents = documents,
-        _data = data,
-        _uris = uris,
-        _ids = ids,
-        _distances = distances,
-        super._();
+  const _$QueryResponseImpl({
+    @JsonKey(includeIfNull: false) final List<List<List<double>>>? embeddings,
+    @JsonKey(includeIfNull: false)
+    final List<List<Map<String, dynamic>?>>? metadatas,
+    @JsonKey(includeIfNull: false) final List<List<String?>>? documents,
+    @JsonKey(includeIfNull: false) final List<List<String?>>? data,
+    @JsonKey(includeIfNull: false) final List<List<String?>>? uris,
+    required final List<List<String>> ids,
+    @JsonKey(includeIfNull: false) final List<List<double>>? distances,
+  }) : _embeddings = embeddings,
+       _metadatas = metadatas,
+       _documents = documents,
+       _data = data,
+       _uris = uris,
+       _ids = ids,
+       _distances = distances,
+       super._();
 
   factory _$QueryResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$QueryResponseImplFromJson(json);
@@ -3244,30 +3411,39 @@ class _$QueryResponseImpl extends _QueryResponse {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$QueryResponseImpl &&
-            const DeepCollectionEquality()
-                .equals(other._embeddings, _embeddings) &&
-            const DeepCollectionEquality()
-                .equals(other._metadatas, _metadatas) &&
-            const DeepCollectionEquality()
-                .equals(other._documents, _documents) &&
+            const DeepCollectionEquality().equals(
+              other._embeddings,
+              _embeddings,
+            ) &&
+            const DeepCollectionEquality().equals(
+              other._metadatas,
+              _metadatas,
+            ) &&
+            const DeepCollectionEquality().equals(
+              other._documents,
+              _documents,
+            ) &&
             const DeepCollectionEquality().equals(other._data, _data) &&
             const DeepCollectionEquality().equals(other._uris, _uris) &&
             const DeepCollectionEquality().equals(other._ids, _ids) &&
-            const DeepCollectionEquality()
-                .equals(other._distances, _distances));
+            const DeepCollectionEquality().equals(
+              other._distances,
+              _distances,
+            ));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(_embeddings),
-      const DeepCollectionEquality().hash(_metadatas),
-      const DeepCollectionEquality().hash(_documents),
-      const DeepCollectionEquality().hash(_data),
-      const DeepCollectionEquality().hash(_uris),
-      const DeepCollectionEquality().hash(_ids),
-      const DeepCollectionEquality().hash(_distances));
+    runtimeType,
+    const DeepCollectionEquality().hash(_embeddings),
+    const DeepCollectionEquality().hash(_metadatas),
+    const DeepCollectionEquality().hash(_documents),
+    const DeepCollectionEquality().hash(_data),
+    const DeepCollectionEquality().hash(_uris),
+    const DeepCollectionEquality().hash(_ids),
+    const DeepCollectionEquality().hash(_distances),
+  );
 
   /// Create a copy of QueryResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -3286,17 +3462,16 @@ class _$QueryResponseImpl extends _QueryResponse {
 }
 
 abstract class _QueryResponse extends QueryResponse {
-  const factory _QueryResponse(
-          {@JsonKey(includeIfNull: false)
-          final List<List<List<double>>>? embeddings,
-          @JsonKey(includeIfNull: false)
-          final List<List<Map<String, dynamic>?>>? metadatas,
-          @JsonKey(includeIfNull: false) final List<List<String?>>? documents,
-          @JsonKey(includeIfNull: false) final List<List<String?>>? data,
-          @JsonKey(includeIfNull: false) final List<List<String?>>? uris,
-          required final List<List<String>> ids,
-          @JsonKey(includeIfNull: false) final List<List<double>>? distances}) =
-      _$QueryResponseImpl;
+  const factory _QueryResponse({
+    @JsonKey(includeIfNull: false) final List<List<List<double>>>? embeddings,
+    @JsonKey(includeIfNull: false)
+    final List<List<Map<String, dynamic>?>>? metadatas,
+    @JsonKey(includeIfNull: false) final List<List<String?>>? documents,
+    @JsonKey(includeIfNull: false) final List<List<String?>>? data,
+    @JsonKey(includeIfNull: false) final List<List<String?>>? uris,
+    required final List<List<String>> ids,
+    @JsonKey(includeIfNull: false) final List<List<double>>? distances,
+  }) = _$QueryResponseImpl;
   const _QueryResponse._() : super._();
 
   factory _QueryResponse.fromJson(Map<String, dynamic> json) =
@@ -3371,13 +3546,15 @@ mixin _$UpdateCollection {
 /// @nodoc
 abstract class $UpdateCollectionCopyWith<$Res> {
   factory $UpdateCollectionCopyWith(
-          UpdateCollection value, $Res Function(UpdateCollection) then) =
-      _$UpdateCollectionCopyWithImpl<$Res, UpdateCollection>;
+    UpdateCollection value,
+    $Res Function(UpdateCollection) then,
+  ) = _$UpdateCollectionCopyWithImpl<$Res, UpdateCollection>;
   @useResult
-  $Res call(
-      {@JsonKey(name: 'new_name', includeIfNull: false) String? newName,
-      @JsonKey(name: 'new_metadata', includeIfNull: false)
-      Map<String, dynamic>? newMetadata});
+  $Res call({
+    @JsonKey(name: 'new_name', includeIfNull: false) String? newName,
+    @JsonKey(name: 'new_metadata', includeIfNull: false)
+    Map<String, dynamic>? newMetadata,
+  });
 }
 
 /// @nodoc
@@ -3398,40 +3575,46 @@ class _$UpdateCollectionCopyWithImpl<$Res, $Val extends UpdateCollection>
     Object? newName = freezed,
     Object? newMetadata = freezed,
   }) {
-    return _then(_value.copyWith(
-      newName: freezed == newName
-          ? _value.newName
-          : newName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      newMetadata: freezed == newMetadata
-          ? _value.newMetadata
-          : newMetadata // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            newName: freezed == newName
+                ? _value.newName
+                : newName // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            newMetadata: freezed == newMetadata
+                ? _value.newMetadata
+                : newMetadata // ignore: cast_nullable_to_non_nullable
+                      as Map<String, dynamic>?,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$UpdateCollectionImplCopyWith<$Res>
     implements $UpdateCollectionCopyWith<$Res> {
-  factory _$$UpdateCollectionImplCopyWith(_$UpdateCollectionImpl value,
-          $Res Function(_$UpdateCollectionImpl) then) =
-      __$$UpdateCollectionImplCopyWithImpl<$Res>;
+  factory _$$UpdateCollectionImplCopyWith(
+    _$UpdateCollectionImpl value,
+    $Res Function(_$UpdateCollectionImpl) then,
+  ) = __$$UpdateCollectionImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {@JsonKey(name: 'new_name', includeIfNull: false) String? newName,
-      @JsonKey(name: 'new_metadata', includeIfNull: false)
-      Map<String, dynamic>? newMetadata});
+  $Res call({
+    @JsonKey(name: 'new_name', includeIfNull: false) String? newName,
+    @JsonKey(name: 'new_metadata', includeIfNull: false)
+    Map<String, dynamic>? newMetadata,
+  });
 }
 
 /// @nodoc
 class __$$UpdateCollectionImplCopyWithImpl<$Res>
     extends _$UpdateCollectionCopyWithImpl<$Res, _$UpdateCollectionImpl>
     implements _$$UpdateCollectionImplCopyWith<$Res> {
-  __$$UpdateCollectionImplCopyWithImpl(_$UpdateCollectionImpl _value,
-      $Res Function(_$UpdateCollectionImpl) _then)
-      : super(_value, _then);
+  __$$UpdateCollectionImplCopyWithImpl(
+    _$UpdateCollectionImpl _value,
+    $Res Function(_$UpdateCollectionImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of UpdateCollection
   /// with the given fields replaced by the non-null parameter values.
@@ -3441,28 +3624,30 @@ class __$$UpdateCollectionImplCopyWithImpl<$Res>
     Object? newName = freezed,
     Object? newMetadata = freezed,
   }) {
-    return _then(_$UpdateCollectionImpl(
-      newName: freezed == newName
-          ? _value.newName
-          : newName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      newMetadata: freezed == newMetadata
-          ? _value._newMetadata
-          : newMetadata // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>?,
-    ));
+    return _then(
+      _$UpdateCollectionImpl(
+        newName: freezed == newName
+            ? _value.newName
+            : newName // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        newMetadata: freezed == newMetadata
+            ? _value._newMetadata
+            : newMetadata // ignore: cast_nullable_to_non_nullable
+                  as Map<String, dynamic>?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$UpdateCollectionImpl extends _UpdateCollection {
-  const _$UpdateCollectionImpl(
-      {@JsonKey(name: 'new_name', includeIfNull: false) this.newName,
-      @JsonKey(name: 'new_metadata', includeIfNull: false)
-      final Map<String, dynamic>? newMetadata})
-      : _newMetadata = newMetadata,
-        super._();
+  const _$UpdateCollectionImpl({
+    @JsonKey(name: 'new_name', includeIfNull: false) this.newName,
+    @JsonKey(name: 'new_metadata', includeIfNull: false)
+    final Map<String, dynamic>? newMetadata,
+  }) : _newMetadata = newMetadata,
+       super._();
 
   factory _$UpdateCollectionImpl.fromJson(Map<String, dynamic> json) =>
       _$$UpdateCollectionImplFromJson(json);
@@ -3497,14 +3682,19 @@ class _$UpdateCollectionImpl extends _UpdateCollection {
         (other.runtimeType == runtimeType &&
             other is _$UpdateCollectionImpl &&
             (identical(other.newName, newName) || other.newName == newName) &&
-            const DeepCollectionEquality()
-                .equals(other._newMetadata, _newMetadata));
+            const DeepCollectionEquality().equals(
+              other._newMetadata,
+              _newMetadata,
+            ));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType, newName, const DeepCollectionEquality().hash(_newMetadata));
+    runtimeType,
+    newName,
+    const DeepCollectionEquality().hash(_newMetadata),
+  );
 
   /// Create a copy of UpdateCollection
   /// with the given fields replaced by the non-null parameter values.
@@ -3513,7 +3703,9 @@ class _$UpdateCollectionImpl extends _UpdateCollection {
   @pragma('vm:prefer-inline')
   _$$UpdateCollectionImplCopyWith<_$UpdateCollectionImpl> get copyWith =>
       __$$UpdateCollectionImplCopyWithImpl<_$UpdateCollectionImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
@@ -3524,10 +3716,11 @@ class _$UpdateCollectionImpl extends _UpdateCollection {
 }
 
 abstract class _UpdateCollection extends UpdateCollection {
-  const factory _UpdateCollection(
-      {@JsonKey(name: 'new_name', includeIfNull: false) final String? newName,
-      @JsonKey(name: 'new_metadata', includeIfNull: false)
-      final Map<String, dynamic>? newMetadata}) = _$UpdateCollectionImpl;
+  const factory _UpdateCollection({
+    @JsonKey(name: 'new_name', includeIfNull: false) final String? newName,
+    @JsonKey(name: 'new_metadata', includeIfNull: false)
+    final Map<String, dynamic>? newMetadata,
+  }) = _$UpdateCollectionImpl;
   const _UpdateCollection._() : super._();
 
   factory _UpdateCollection.fromJson(Map<String, dynamic> json) =
@@ -3590,15 +3783,17 @@ mixin _$UpdateEmbedding {
 /// @nodoc
 abstract class $UpdateEmbeddingCopyWith<$Res> {
   factory $UpdateEmbeddingCopyWith(
-          UpdateEmbedding value, $Res Function(UpdateEmbedding) then) =
-      _$UpdateEmbeddingCopyWithImpl<$Res, UpdateEmbedding>;
+    UpdateEmbedding value,
+    $Res Function(UpdateEmbedding) then,
+  ) = _$UpdateEmbeddingCopyWithImpl<$Res, UpdateEmbedding>;
   @useResult
-  $Res call(
-      {@JsonKey(includeIfNull: false) List<List<double>?>? embeddings,
-      @JsonKey(includeIfNull: false) List<Map<String, dynamic>?>? metadatas,
-      @JsonKey(includeIfNull: false) List<String?>? documents,
-      @JsonKey(includeIfNull: false) List<String?>? uris,
-      List<String> ids});
+  $Res call({
+    @JsonKey(includeIfNull: false) List<List<double>?>? embeddings,
+    @JsonKey(includeIfNull: false) List<Map<String, dynamic>?>? metadatas,
+    @JsonKey(includeIfNull: false) List<String?>? documents,
+    @JsonKey(includeIfNull: false) List<String?>? uris,
+    List<String> ids,
+  });
 }
 
 /// @nodoc
@@ -3622,45 +3817,50 @@ class _$UpdateEmbeddingCopyWithImpl<$Res, $Val extends UpdateEmbedding>
     Object? uris = freezed,
     Object? ids = null,
   }) {
-    return _then(_value.copyWith(
-      embeddings: freezed == embeddings
-          ? _value.embeddings
-          : embeddings // ignore: cast_nullable_to_non_nullable
-              as List<List<double>?>?,
-      metadatas: freezed == metadatas
-          ? _value.metadatas
-          : metadatas // ignore: cast_nullable_to_non_nullable
-              as List<Map<String, dynamic>?>?,
-      documents: freezed == documents
-          ? _value.documents
-          : documents // ignore: cast_nullable_to_non_nullable
-              as List<String?>?,
-      uris: freezed == uris
-          ? _value.uris
-          : uris // ignore: cast_nullable_to_non_nullable
-              as List<String?>?,
-      ids: null == ids
-          ? _value.ids
-          : ids // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            embeddings: freezed == embeddings
+                ? _value.embeddings
+                : embeddings // ignore: cast_nullable_to_non_nullable
+                      as List<List<double>?>?,
+            metadatas: freezed == metadatas
+                ? _value.metadatas
+                : metadatas // ignore: cast_nullable_to_non_nullable
+                      as List<Map<String, dynamic>?>?,
+            documents: freezed == documents
+                ? _value.documents
+                : documents // ignore: cast_nullable_to_non_nullable
+                      as List<String?>?,
+            uris: freezed == uris
+                ? _value.uris
+                : uris // ignore: cast_nullable_to_non_nullable
+                      as List<String?>?,
+            ids: null == ids
+                ? _value.ids
+                : ids // ignore: cast_nullable_to_non_nullable
+                      as List<String>,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$UpdateEmbeddingImplCopyWith<$Res>
     implements $UpdateEmbeddingCopyWith<$Res> {
-  factory _$$UpdateEmbeddingImplCopyWith(_$UpdateEmbeddingImpl value,
-          $Res Function(_$UpdateEmbeddingImpl) then) =
-      __$$UpdateEmbeddingImplCopyWithImpl<$Res>;
+  factory _$$UpdateEmbeddingImplCopyWith(
+    _$UpdateEmbeddingImpl value,
+    $Res Function(_$UpdateEmbeddingImpl) then,
+  ) = __$$UpdateEmbeddingImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {@JsonKey(includeIfNull: false) List<List<double>?>? embeddings,
-      @JsonKey(includeIfNull: false) List<Map<String, dynamic>?>? metadatas,
-      @JsonKey(includeIfNull: false) List<String?>? documents,
-      @JsonKey(includeIfNull: false) List<String?>? uris,
-      List<String> ids});
+  $Res call({
+    @JsonKey(includeIfNull: false) List<List<double>?>? embeddings,
+    @JsonKey(includeIfNull: false) List<Map<String, dynamic>?>? metadatas,
+    @JsonKey(includeIfNull: false) List<String?>? documents,
+    @JsonKey(includeIfNull: false) List<String?>? uris,
+    List<String> ids,
+  });
 }
 
 /// @nodoc
@@ -3668,8 +3868,9 @@ class __$$UpdateEmbeddingImplCopyWithImpl<$Res>
     extends _$UpdateEmbeddingCopyWithImpl<$Res, _$UpdateEmbeddingImpl>
     implements _$$UpdateEmbeddingImplCopyWith<$Res> {
   __$$UpdateEmbeddingImplCopyWithImpl(
-      _$UpdateEmbeddingImpl _value, $Res Function(_$UpdateEmbeddingImpl) _then)
-      : super(_value, _then);
+    _$UpdateEmbeddingImpl _value,
+    $Res Function(_$UpdateEmbeddingImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of UpdateEmbedding
   /// with the given fields replaced by the non-null parameter values.
@@ -3682,47 +3883,48 @@ class __$$UpdateEmbeddingImplCopyWithImpl<$Res>
     Object? uris = freezed,
     Object? ids = null,
   }) {
-    return _then(_$UpdateEmbeddingImpl(
-      embeddings: freezed == embeddings
-          ? _value._embeddings
-          : embeddings // ignore: cast_nullable_to_non_nullable
-              as List<List<double>?>?,
-      metadatas: freezed == metadatas
-          ? _value._metadatas
-          : metadatas // ignore: cast_nullable_to_non_nullable
-              as List<Map<String, dynamic>?>?,
-      documents: freezed == documents
-          ? _value._documents
-          : documents // ignore: cast_nullable_to_non_nullable
-              as List<String?>?,
-      uris: freezed == uris
-          ? _value._uris
-          : uris // ignore: cast_nullable_to_non_nullable
-              as List<String?>?,
-      ids: null == ids
-          ? _value._ids
-          : ids // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-    ));
+    return _then(
+      _$UpdateEmbeddingImpl(
+        embeddings: freezed == embeddings
+            ? _value._embeddings
+            : embeddings // ignore: cast_nullable_to_non_nullable
+                  as List<List<double>?>?,
+        metadatas: freezed == metadatas
+            ? _value._metadatas
+            : metadatas // ignore: cast_nullable_to_non_nullable
+                  as List<Map<String, dynamic>?>?,
+        documents: freezed == documents
+            ? _value._documents
+            : documents // ignore: cast_nullable_to_non_nullable
+                  as List<String?>?,
+        uris: freezed == uris
+            ? _value._uris
+            : uris // ignore: cast_nullable_to_non_nullable
+                  as List<String?>?,
+        ids: null == ids
+            ? _value._ids
+            : ids // ignore: cast_nullable_to_non_nullable
+                  as List<String>,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$UpdateEmbeddingImpl extends _UpdateEmbedding {
-  const _$UpdateEmbeddingImpl(
-      {@JsonKey(includeIfNull: false) final List<List<double>?>? embeddings,
-      @JsonKey(includeIfNull: false)
-      final List<Map<String, dynamic>?>? metadatas,
-      @JsonKey(includeIfNull: false) final List<String?>? documents,
-      @JsonKey(includeIfNull: false) final List<String?>? uris,
-      required final List<String> ids})
-      : _embeddings = embeddings,
-        _metadatas = metadatas,
-        _documents = documents,
-        _uris = uris,
-        _ids = ids,
-        super._();
+  const _$UpdateEmbeddingImpl({
+    @JsonKey(includeIfNull: false) final List<List<double>?>? embeddings,
+    @JsonKey(includeIfNull: false) final List<Map<String, dynamic>?>? metadatas,
+    @JsonKey(includeIfNull: false) final List<String?>? documents,
+    @JsonKey(includeIfNull: false) final List<String?>? uris,
+    required final List<String> ids,
+  }) : _embeddings = embeddings,
+       _metadatas = metadatas,
+       _documents = documents,
+       _uris = uris,
+       _ids = ids,
+       super._();
 
   factory _$UpdateEmbeddingImpl.fromJson(Map<String, dynamic> json) =>
       _$$UpdateEmbeddingImplFromJson(json);
@@ -3804,12 +4006,18 @@ class _$UpdateEmbeddingImpl extends _UpdateEmbedding {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UpdateEmbeddingImpl &&
-            const DeepCollectionEquality()
-                .equals(other._embeddings, _embeddings) &&
-            const DeepCollectionEquality()
-                .equals(other._metadatas, _metadatas) &&
-            const DeepCollectionEquality()
-                .equals(other._documents, _documents) &&
+            const DeepCollectionEquality().equals(
+              other._embeddings,
+              _embeddings,
+            ) &&
+            const DeepCollectionEquality().equals(
+              other._metadatas,
+              _metadatas,
+            ) &&
+            const DeepCollectionEquality().equals(
+              other._documents,
+              _documents,
+            ) &&
             const DeepCollectionEquality().equals(other._uris, _uris) &&
             const DeepCollectionEquality().equals(other._ids, _ids));
   }
@@ -3817,12 +4025,13 @@ class _$UpdateEmbeddingImpl extends _UpdateEmbedding {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(_embeddings),
-      const DeepCollectionEquality().hash(_metadatas),
-      const DeepCollectionEquality().hash(_documents),
-      const DeepCollectionEquality().hash(_uris),
-      const DeepCollectionEquality().hash(_ids));
+    runtimeType,
+    const DeepCollectionEquality().hash(_embeddings),
+    const DeepCollectionEquality().hash(_metadatas),
+    const DeepCollectionEquality().hash(_documents),
+    const DeepCollectionEquality().hash(_uris),
+    const DeepCollectionEquality().hash(_ids),
+  );
 
   /// Create a copy of UpdateEmbedding
   /// with the given fields replaced by the non-null parameter values.
@@ -3831,7 +4040,9 @@ class _$UpdateEmbeddingImpl extends _UpdateEmbedding {
   @pragma('vm:prefer-inline')
   _$$UpdateEmbeddingImplCopyWith<_$UpdateEmbeddingImpl> get copyWith =>
       __$$UpdateEmbeddingImplCopyWithImpl<_$UpdateEmbeddingImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
@@ -3842,13 +4053,13 @@ class _$UpdateEmbeddingImpl extends _UpdateEmbedding {
 }
 
 abstract class _UpdateEmbedding extends UpdateEmbedding {
-  const factory _UpdateEmbedding(
-      {@JsonKey(includeIfNull: false) final List<List<double>?>? embeddings,
-      @JsonKey(includeIfNull: false)
-      final List<Map<String, dynamic>?>? metadatas,
-      @JsonKey(includeIfNull: false) final List<String?>? documents,
-      @JsonKey(includeIfNull: false) final List<String?>? uris,
-      required final List<String> ids}) = _$UpdateEmbeddingImpl;
+  const factory _UpdateEmbedding({
+    @JsonKey(includeIfNull: false) final List<List<double>?>? embeddings,
+    @JsonKey(includeIfNull: false) final List<Map<String, dynamic>?>? metadatas,
+    @JsonKey(includeIfNull: false) final List<String?>? documents,
+    @JsonKey(includeIfNull: false) final List<String?>? uris,
+    required final List<String> ids,
+  }) = _$UpdateEmbeddingImpl;
   const _UpdateEmbedding._() : super._();
 
   factory _UpdateEmbedding.fromJson(Map<String, dynamic> json) =
@@ -3914,8 +4125,9 @@ mixin _$ValidationError {
 /// @nodoc
 abstract class $ValidationErrorCopyWith<$Res> {
   factory $ValidationErrorCopyWith(
-          ValidationError value, $Res Function(ValidationError) then) =
-      _$ValidationErrorCopyWithImpl<$Res, ValidationError>;
+    ValidationError value,
+    $Res Function(ValidationError) then,
+  ) = _$ValidationErrorCopyWithImpl<$Res, ValidationError>;
   @useResult
   $Res call({List<dynamic> loc, String msg, String type});
 }
@@ -3939,29 +4151,33 @@ class _$ValidationErrorCopyWithImpl<$Res, $Val extends ValidationError>
     Object? msg = null,
     Object? type = null,
   }) {
-    return _then(_value.copyWith(
-      loc: null == loc
-          ? _value.loc
-          : loc // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>,
-      msg: null == msg
-          ? _value.msg
-          : msg // ignore: cast_nullable_to_non_nullable
-              as String,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            loc: null == loc
+                ? _value.loc
+                : loc // ignore: cast_nullable_to_non_nullable
+                      as List<dynamic>,
+            msg: null == msg
+                ? _value.msg
+                : msg // ignore: cast_nullable_to_non_nullable
+                      as String,
+            type: null == type
+                ? _value.type
+                : type // ignore: cast_nullable_to_non_nullable
+                      as String,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$ValidationErrorImplCopyWith<$Res>
     implements $ValidationErrorCopyWith<$Res> {
-  factory _$$ValidationErrorImplCopyWith(_$ValidationErrorImpl value,
-          $Res Function(_$ValidationErrorImpl) then) =
-      __$$ValidationErrorImplCopyWithImpl<$Res>;
+  factory _$$ValidationErrorImplCopyWith(
+    _$ValidationErrorImpl value,
+    $Res Function(_$ValidationErrorImpl) then,
+  ) = __$$ValidationErrorImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<dynamic> loc, String msg, String type});
@@ -3972,8 +4188,9 @@ class __$$ValidationErrorImplCopyWithImpl<$Res>
     extends _$ValidationErrorCopyWithImpl<$Res, _$ValidationErrorImpl>
     implements _$$ValidationErrorImplCopyWith<$Res> {
   __$$ValidationErrorImplCopyWithImpl(
-      _$ValidationErrorImpl _value, $Res Function(_$ValidationErrorImpl) _then)
-      : super(_value, _then);
+    _$ValidationErrorImpl _value,
+    $Res Function(_$ValidationErrorImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of ValidationError
   /// with the given fields replaced by the non-null parameter values.
@@ -3984,30 +4201,34 @@ class __$$ValidationErrorImplCopyWithImpl<$Res>
     Object? msg = null,
     Object? type = null,
   }) {
-    return _then(_$ValidationErrorImpl(
-      loc: null == loc
-          ? _value._loc
-          : loc // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>,
-      msg: null == msg
-          ? _value.msg
-          : msg // ignore: cast_nullable_to_non_nullable
-              as String,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+    return _then(
+      _$ValidationErrorImpl(
+        loc: null == loc
+            ? _value._loc
+            : loc // ignore: cast_nullable_to_non_nullable
+                  as List<dynamic>,
+        msg: null == msg
+            ? _value.msg
+            : msg // ignore: cast_nullable_to_non_nullable
+                  as String,
+        type: null == type
+            ? _value.type
+            : type // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$ValidationErrorImpl extends _ValidationError {
-  const _$ValidationErrorImpl(
-      {required final List<dynamic> loc, required this.msg, required this.type})
-      : _loc = loc,
-        super._();
+  const _$ValidationErrorImpl({
+    required final List<dynamic> loc,
+    required this.msg,
+    required this.type,
+  }) : _loc = loc,
+       super._();
 
   factory _$ValidationErrorImpl.fromJson(Map<String, dynamic> json) =>
       _$$ValidationErrorImplFromJson(json);
@@ -4049,7 +4270,11 @@ class _$ValidationErrorImpl extends _ValidationError {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_loc), msg, type);
+    runtimeType,
+    const DeepCollectionEquality().hash(_loc),
+    msg,
+    type,
+  );
 
   /// Create a copy of ValidationError
   /// with the given fields replaced by the non-null parameter values.
@@ -4058,7 +4283,9 @@ class _$ValidationErrorImpl extends _ValidationError {
   @pragma('vm:prefer-inline')
   _$$ValidationErrorImplCopyWith<_$ValidationErrorImpl> get copyWith =>
       __$$ValidationErrorImplCopyWithImpl<_$ValidationErrorImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
@@ -4069,10 +4296,11 @@ class _$ValidationErrorImpl extends _ValidationError {
 }
 
 abstract class _ValidationError extends ValidationError {
-  const factory _ValidationError(
-      {required final List<dynamic> loc,
-      required final String msg,
-      required final String type}) = _$ValidationErrorImpl;
+  const factory _ValidationError({
+    required final List<dynamic> loc,
+    required final String msg,
+    required final String type,
+  }) = _$ValidationErrorImpl;
   const _ValidationError._() : super._();
 
   factory _ValidationError.fromJson(Map<String, dynamic> json) =

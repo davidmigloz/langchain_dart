@@ -136,12 +136,12 @@ class VertexAIEmbeddings implements Embeddings {
     this.batchSize = 100,
     this.docTitleKey = 'title',
   }) : _client = g.GoogleAIClient(
-          config: g.GoogleAIConfig.vertexAI(
-            projectId: project,
-            location: location,
-            authProvider: authProvider,
-          ),
-        );
+         config: g.GoogleAIConfig.vertexAI(
+           projectId: project,
+           location: location,
+           authProvider: authProvider,
+         ),
+       );
 
   /// A client for interacting with Vertex AI API.
   final g.GoogleAIClient _client;

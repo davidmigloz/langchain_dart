@@ -16,8 +16,8 @@ class BatchUpdateChunksResponse {
     return BatchUpdateChunksResponse(
       chunks: json['chunks'] != null
           ? (json['chunks'] as List)
-              .map((e) => Chunk.fromJson(e as Map<String, dynamic>))
-              .toList()
+                .map((e) => Chunk.fromJson(e as Map<String, dynamic>))
+                .toList()
           : null,
     );
   }
@@ -34,8 +34,9 @@ class BatchUpdateChunksResponse {
     Object? chunks = unsetCopyWithValue,
   }) {
     return BatchUpdateChunksResponse(
-      chunks:
-          chunks == unsetCopyWithValue ? this.chunks : chunks as List<Chunk>?,
+      chunks: chunks == unsetCopyWithValue
+          ? this.chunks
+          : chunks as List<Chunk>?,
     );
   }
 

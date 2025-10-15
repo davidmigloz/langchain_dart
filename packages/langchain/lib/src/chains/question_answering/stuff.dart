@@ -61,9 +61,9 @@ class StuffDocumentsQAChain extends StuffDocumentsChain {
     super.documentPrompt = StuffDocumentsChain.defaultDocumentPrompt,
     super.documentSeparator = StuffDocumentsChain.defaultDocumentSeparator,
   }) : super(
-          llmChain: LLMChain(
-            prompt: prompt ?? _promptSelector.getPrompt(llm),
-            llm: llm,
-          ),
-        );
+         llmChain: LLMChain(
+           prompt: prompt ?? _promptSelector.getPrompt(llm),
+           llm: llm,
+         ),
+       );
 }

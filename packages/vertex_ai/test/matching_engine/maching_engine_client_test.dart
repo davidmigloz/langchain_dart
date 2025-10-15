@@ -104,14 +104,16 @@ void main() async {
     });
 
     test('Test delete index', () async {
-      final res =
-          await marchingEngine.indexes.delete(id: '5209908304867753984');
+      final res = await marchingEngine.indexes.delete(
+        id: '5209908304867753984',
+      );
       expect(res, isNotNull);
     });
 
     test('Test list index operations', () async {
-      final res = await marchingEngine.indexes.operations
-          .list(indexId: '5209908304867753984');
+      final res = await marchingEngine.indexes.operations.list(
+        indexId: '5209908304867753984',
+      );
       expect(res, isNotNull);
     });
 
@@ -121,14 +123,16 @@ void main() async {
     });
 
     test('Test get index endpoint', () async {
-      final res =
-          await marchingEngine.indexEndpoints.get(id: '8572232454792806400');
+      final res = await marchingEngine.indexEndpoints.get(
+        id: '8572232454792806400',
+      );
       expect(res, isNotNull);
     });
 
     test('Test delete index endpoint', () async {
-      final res =
-          await marchingEngine.indexEndpoints.delete(id: '8572232454792806400');
+      final res = await marchingEngine.indexEndpoints.delete(
+        id: '8572232454792806400',
+      );
       expect(res, isNotNull);
     });
 

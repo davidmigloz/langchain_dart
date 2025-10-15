@@ -35,10 +35,10 @@ class EmbedContentBatchOutput {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (responsesFile != null) 'responsesFile': responsesFile,
-        if (inlinedResponses != null)
-          'inlinedResponses': inlinedResponses!.toJson(),
-      };
+    if (responsesFile != null) 'responsesFile': responsesFile,
+    if (inlinedResponses != null)
+      'inlinedResponses': inlinedResponses!.toJson(),
+  };
 
   /// Creates a copy with replaced values.
   EmbedContentBatchOutput copyWith({

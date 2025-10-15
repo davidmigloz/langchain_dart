@@ -198,14 +198,14 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     ),
     this.encoding,
   }) : _client = OpenAIClient(
-          apiKey: apiKey ?? '',
-          organization: organization,
-          beta: null,
-          baseUrl: baseUrl,
-          headers: headers,
-          queryParams: queryParams,
-          client: client,
-        );
+         apiKey: apiKey ?? '',
+         organization: organization,
+         beta: null,
+         baseUrl: baseUrl,
+         headers: headers,
+         queryParams: queryParams,
+         client: client,
+       );
 
   /// A client for interacting with OpenAI API.
   final OpenAIClient _client;
@@ -335,17 +335,18 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
       numTokens += switch (message) {
         final SystemChatMessage _ => tiktoken.encode('system').length,
         final HumanChatMessage _ => tiktoken.encode('user').length,
-        final AIChatMessage msg => tiktoken.encode('assistant').length +
-            (msg.toolCalls.isNotEmpty
-                ? tiktoken
-                        .encode(msg.toolCalls.map((c) => c.name).join())
-                        .length +
-                    tiktoken
-                        .encode(
-                          msg.toolCalls.map((c) => c.argumentsRaw).join(),
-                        )
-                        .length
-                : 0),
+        final AIChatMessage msg =>
+          tiktoken.encode('assistant').length +
+              (msg.toolCalls.isNotEmpty
+                  ? tiktoken
+                            .encode(msg.toolCalls.map((c) => c.name).join())
+                            .length +
+                        tiktoken
+                            .encode(
+                              msg.toolCalls.map((c) => c.argumentsRaw).join(),
+                            )
+                            .length
+                  : 0),
         final ToolChatMessage msg =>
           tiktoken.encode(msg.toolCallId).length + tokensPerName,
         final CustomChatMessage msg => tiktoken.encode(msg.role).length,

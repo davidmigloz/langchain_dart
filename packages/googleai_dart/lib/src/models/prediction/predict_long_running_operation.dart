@@ -54,12 +54,12 @@ class PredictLongRunningOperation {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (name != null) 'name': name,
-        if (metadata != null) 'metadata': metadata!.toJson(),
-        'done': done,
-        if (error != null) 'error': error!.toJson(),
-        if (response != null) 'response': response!.toJson(),
-      };
+    if (name != null) 'name': name,
+    if (metadata != null) 'metadata': metadata!.toJson(),
+    'done': done,
+    if (error != null) 'error': error!.toJson(),
+    if (response != null) 'response': response!.toJson(),
+  };
 
   /// Creates a copy with replaced values.
   PredictLongRunningOperation copyWith({
@@ -75,8 +75,9 @@ class PredictLongRunningOperation {
           ? this.metadata
           : metadata as PredictLongRunningMetadata?,
       done: done == unsetCopyWithValue ? this.done : done! as bool,
-      error:
-          error == unsetCopyWithValue ? this.error : error as OperationError?,
+      error: error == unsetCopyWithValue
+          ? this.error
+          : error as OperationError?,
       response: response == unsetCopyWithValue
           ? this.response
           : response as PredictLongRunningResponse?,

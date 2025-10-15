@@ -25,15 +25,15 @@ class ExecutableCode {
 
   /// Creates an [ExecutableCode] from JSON.
   factory ExecutableCode.fromJson(Map<String, dynamic> json) => ExecutableCode(
-        language: _languageFromString(json['language'] as String?),
-        code: json['code'] as String,
-      );
+    language: _languageFromString(json['language'] as String?),
+    code: json['code'] as String,
+  );
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        'language': _languageToString(language),
-        'code': code,
-      };
+    'language': _languageToString(language),
+    'code': code,
+  };
 
   /// Creates a copy with replaced values.
   ExecutableCode copyWith({

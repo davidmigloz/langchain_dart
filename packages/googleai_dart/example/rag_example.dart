@@ -25,16 +25,17 @@ void main() async {
 
     // 2. Create a document
     print('2. Creating document...');
-    final document =
-        await client.corpora.documents(corpus: corpus.name!).create(
-              document: const Document(
-                displayName: 'Product Features',
-                customMetadata: [
-                  CustomMetadata(key: 'category', stringValue: 'documentation'),
-                  CustomMetadata(key: 'year', numericValue: 2024.0),
-                ],
-              ),
-            );
+    final document = await client.corpora
+        .documents(corpus: corpus.name!)
+        .create(
+          document: const Document(
+            displayName: 'Product Features',
+            customMetadata: [
+              CustomMetadata(key: 'category', stringValue: 'documentation'),
+              CustomMetadata(key: 'year', numericValue: 2024.0),
+            ],
+          ),
+        );
     print('   ✓ Created document: ${document.name}\n');
 
     // 3. Populate with knowledge chunks
@@ -206,14 +207,15 @@ void main() async {
     const docQuery = 'Tell me about analytics';
     print('   Query: "$docQuery"\n');
 
-    final docResponse =
-        await client.corpora.documents(corpus: corpus.name!).query(
-              name: document.name!,
-              request: const QueryDocumentRequest(
-                query: docQuery,
-                resultsCount: 2,
-              ),
-            );
+    final docResponse = await client.corpora
+        .documents(corpus: corpus.name!)
+        .query(
+          name: document.name!,
+          request: const QueryDocumentRequest(
+            query: docQuery,
+            resultsCount: 2,
+          ),
+        );
 
     print(
       '   Document-specific results (${docResponse.relevantChunks?.length ?? 0}):',
@@ -235,7 +237,8 @@ void main() async {
           .map((rc) => rc.chunk?.data.stringValue ?? '')
           .join('\n\n');
 
-      final augmentedPrompt = '''
+      final augmentedPrompt =
+          '''
 Context from knowledge base:
 $contextChunks
 

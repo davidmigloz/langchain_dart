@@ -63,17 +63,17 @@ class GenerationConfig {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (candidateCount != null) 'candidateCount': candidateCount,
-        if (stopSequences != null) 'stopSequences': stopSequences,
-        if (maxOutputTokens != null) 'maxOutputTokens': maxOutputTokens,
-        if (temperature != null) 'temperature': temperature,
-        if (topP != null) 'topP': topP,
-        if (topK != null) 'topK': topK,
-        if (presencePenalty != null) 'presencePenalty': presencePenalty,
-        if (frequencyPenalty != null) 'frequencyPenalty': frequencyPenalty,
-        if (responseMimeType != null) 'responseMimeType': responseMimeType,
-        if (responseSchema != null) 'responseSchema': responseSchema,
-      };
+    if (candidateCount != null) 'candidateCount': candidateCount,
+    if (stopSequences != null) 'stopSequences': stopSequences,
+    if (maxOutputTokens != null) 'maxOutputTokens': maxOutputTokens,
+    if (temperature != null) 'temperature': temperature,
+    if (topP != null) 'topP': topP,
+    if (topK != null) 'topK': topK,
+    if (presencePenalty != null) 'presencePenalty': presencePenalty,
+    if (frequencyPenalty != null) 'frequencyPenalty': frequencyPenalty,
+    if (responseMimeType != null) 'responseMimeType': responseMimeType,
+    if (responseSchema != null) 'responseSchema': responseSchema,
+  };
 
   /// Creates a copy with replaced values.
   GenerationConfig copyWith({

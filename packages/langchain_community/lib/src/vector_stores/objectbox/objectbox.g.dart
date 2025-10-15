@@ -33,44 +33,50 @@ List<obx_int.ModelEntity> _getEntities(int dimensions) {
 
   return _entities ??= <obx_int.ModelEntity>[
     obx_int.ModelEntity(
-        id: const obx_int.IdUid(1, 4662034750769022750),
-        name: 'ObjectBoxDocument',
-        lastPropertyId: const obx_int.IdUid(5, 5762998900965066008),
-        flags: 0,
-        properties: <obx_int.ModelProperty>[
-          obx_int.ModelProperty(
-              id: const obx_int.IdUid(1, 328437667364158177),
-              name: 'internalId',
-              type: 6,
-              flags: 1),
-          obx_int.ModelProperty(
-              id: const obx_int.IdUid(2, 3766173764062654800),
-              name: 'id',
-              type: 9,
-              flags: 34848,
-              indexId: const obx_int.IdUid(1, 8818474670164842374)),
-          obx_int.ModelProperty(
-              id: const obx_int.IdUid(3, 7972539540824041325),
-              name: 'content',
-              type: 9,
-              flags: 0),
-          obx_int.ModelProperty(
-              id: const obx_int.IdUid(4, 866532944790310363),
-              name: 'metadata',
-              type: 9,
-              flags: 0),
-          obx_int.ModelProperty(
-              id: const obx_int.IdUid(5, 5762998900965066008),
-              name: 'embedding',
-              type: 28,
-              flags: 8,
-              indexId: const obx_int.IdUid(2, 3016727589204567263),
-              hnswParams: obx_int.ModelHnswParams(
-                dimensions: dimensions,
-              ))
-        ],
-        relations: <obx_int.ModelRelation>[],
-        backlinks: <obx_int.ModelBacklink>[])
+      id: const obx_int.IdUid(1, 4662034750769022750),
+      name: 'ObjectBoxDocument',
+      lastPropertyId: const obx_int.IdUid(5, 5762998900965066008),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+          id: const obx_int.IdUid(1, 328437667364158177),
+          name: 'internalId',
+          type: 6,
+          flags: 1,
+        ),
+        obx_int.ModelProperty(
+          id: const obx_int.IdUid(2, 3766173764062654800),
+          name: 'id',
+          type: 9,
+          flags: 34848,
+          indexId: const obx_int.IdUid(1, 8818474670164842374),
+        ),
+        obx_int.ModelProperty(
+          id: const obx_int.IdUid(3, 7972539540824041325),
+          name: 'content',
+          type: 9,
+          flags: 0,
+        ),
+        obx_int.ModelProperty(
+          id: const obx_int.IdUid(4, 866532944790310363),
+          name: 'metadata',
+          type: 9,
+          flags: 0,
+        ),
+        obx_int.ModelProperty(
+          id: const obx_int.IdUid(5, 5762998900965066008),
+          name: 'embedding',
+          type: 28,
+          flags: 8,
+          indexId: const obx_int.IdUid(2, 3016727589204567263),
+          hnswParams: obx_int.ModelHnswParams(
+            dimensions: dimensions,
+          ),
+        ),
+      ],
+      relations: <obx_int.ModelRelation>[],
+      backlinks: <obx_int.ModelBacklink>[],
+    ),
   ];
 }
 
@@ -85,23 +91,26 @@ List<obx_int.ModelEntity> _getEntities(int dimensions) {
 /// For Flutter apps, also calls `loadObjectBoxLibraryAndroidCompat()` from
 /// the ObjectBox Flutter library to fix loading the native ObjectBox library
 /// on Android 6 and older.
-obx.Store openStore(
-    {required int dimensions,
-    String? directory,
-    int? maxDBSizeInKB,
-    int? maxDataSizeInKB,
-    int? fileMode,
-    int? maxReaders,
-    bool queriesCaseSensitiveDefault = true,
-    String? macosApplicationGroup}) {
-  return obx.Store(getObjectBoxModel(dimensions),
-      directory: directory,
-      maxDBSizeInKB: maxDBSizeInKB,
-      maxDataSizeInKB: maxDataSizeInKB,
-      fileMode: fileMode,
-      maxReaders: maxReaders,
-      queriesCaseSensitiveDefault: queriesCaseSensitiveDefault,
-      macosApplicationGroup: macosApplicationGroup);
+obx.Store openStore({
+  required int dimensions,
+  String? directory,
+  int? maxDBSizeInKB,
+  int? maxDataSizeInKB,
+  int? fileMode,
+  int? maxReaders,
+  bool queriesCaseSensitiveDefault = true,
+  String? macosApplicationGroup,
+}) {
+  return obx.Store(
+    getObjectBoxModel(dimensions),
+    directory: directory,
+    maxDBSizeInKB: maxDBSizeInKB,
+    maxDataSizeInKB: maxDataSizeInKB,
+    fileMode: fileMode,
+    maxReaders: maxReaders,
+    queriesCaseSensitiveDefault: queriesCaseSensitiveDefault,
+    macosApplicationGroup: macosApplicationGroup,
+  );
 }
 
 /// Returns the ObjectBox model definition for this project for use with
@@ -109,61 +118,76 @@ obx.Store openStore(
 obx_int.ModelDefinition getObjectBoxModel(int dimensions) {
   final entities = _getEntities(dimensions);
   final model = obx_int.ModelInfo(
-      entities: _getEntities(dimensions),
-      lastEntityId: const obx_int.IdUid(1, 4662034750769022750),
-      lastIndexId: const obx_int.IdUid(2, 3016727589204567263),
-      lastRelationId: const obx_int.IdUid(0, 0),
-      lastSequenceId: const obx_int.IdUid(0, 0),
-      retiredEntityUids: const [],
-      retiredIndexUids: const [],
-      retiredPropertyUids: const [],
-      retiredRelationUids: const [],
-      modelVersion: 5,
-      modelVersionParserMinimum: 5,
-      version: 1);
+    entities: _getEntities(dimensions),
+    lastEntityId: const obx_int.IdUid(1, 4662034750769022750),
+    lastIndexId: const obx_int.IdUid(2, 3016727589204567263),
+    lastRelationId: const obx_int.IdUid(0, 0),
+    lastSequenceId: const obx_int.IdUid(0, 0),
+    retiredEntityUids: const [],
+    retiredIndexUids: const [],
+    retiredPropertyUids: const [],
+    retiredRelationUids: const [],
+    modelVersion: 5,
+    modelVersionParserMinimum: 5,
+    version: 1,
+  );
 
   final bindings = <Type, obx_int.EntityDefinition>{
     ObjectBoxDocument: obx_int.EntityDefinition<ObjectBoxDocument>(
-        model: entities[0],
-        toOneRelations: (ObjectBoxDocument object) => [],
-        toManyRelations: (ObjectBoxDocument object) => {},
-        getId: (ObjectBoxDocument object) => object.internalId,
-        setId: (ObjectBoxDocument object, int id) {
-          object.internalId = id;
-        },
-        objectToFB: (ObjectBoxDocument object, fb.Builder fbb) {
-          final idOffset = fbb.writeString(object.id);
-          final contentOffset = fbb.writeString(object.content);
-          final metadataOffset = fbb.writeString(object.metadata);
-          final embeddingOffset = fbb.writeListFloat32(object.embedding);
-          fbb.startTable(6);
-          fbb.addInt64(0, object.internalId);
-          fbb.addOffset(1, idOffset);
-          fbb.addOffset(2, contentOffset);
-          fbb.addOffset(3, metadataOffset);
-          fbb.addOffset(4, embeddingOffset);
-          fbb.finish(fbb.endTable());
-          return object.internalId;
-        },
-        objectFromFB: (obx.Store store, ByteData fbData) {
-          final buffer = fb.BufferContext(fbData);
-          final rootOffset = buffer.derefObject(0);
-          final internalIdParam =
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
-          final idParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 6, '');
-          final contentParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 8, '');
-          final metadataParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 10, '');
-          final embeddingParam =
-              const fb.ListReader<double>(fb.Float32Reader(), lazy: false)
-                  .vTableGet(buffer, rootOffset, 12, []);
-          final object = ObjectBoxDocument(internalIdParam, idParam,
-              contentParam, metadataParam, embeddingParam);
+      model: entities[0],
+      toOneRelations: (ObjectBoxDocument object) => [],
+      toManyRelations: (ObjectBoxDocument object) => {},
+      getId: (ObjectBoxDocument object) => object.internalId,
+      setId: (ObjectBoxDocument object, int id) {
+        object.internalId = id;
+      },
+      objectToFB: (ObjectBoxDocument object, fb.Builder fbb) {
+        final idOffset = fbb.writeString(object.id);
+        final contentOffset = fbb.writeString(object.content);
+        final metadataOffset = fbb.writeString(object.metadata);
+        final embeddingOffset = fbb.writeListFloat32(object.embedding);
+        fbb.startTable(6);
+        fbb.addInt64(0, object.internalId);
+        fbb.addOffset(1, idOffset);
+        fbb.addOffset(2, contentOffset);
+        fbb.addOffset(3, metadataOffset);
+        fbb.addOffset(4, embeddingOffset);
+        fbb.finish(fbb.endTable());
+        return object.internalId;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
+        final internalIdParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          4,
+          0,
+        );
+        final idParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 6, '');
+        final contentParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 8, '');
+        final metadataParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 10, '');
+        final embeddingParam = const fb.ListReader<double>(
+          fb.Float32Reader(),
+          lazy: false,
+        ).vTableGet(buffer, rootOffset, 12, []);
+        final object = ObjectBoxDocument(
+          internalIdParam,
+          idParam,
+          contentParam,
+          metadataParam,
+          embeddingParam,
+        );
 
-          return object;
-        })
+        return object;
+      },
+    ),
   };
 
   return obx_int.ModelDefinition(model, bindings);
@@ -172,22 +196,27 @@ obx_int.ModelDefinition getObjectBoxModel(int dimensions) {
 /// [ObjectBoxDocument] entity fields to define ObjectBox queries.
 class ObjectBoxDocument_ {
   /// See [ObjectBoxDocument.internalId].
-  static final internalId =
-      obx.QueryIntegerProperty<ObjectBoxDocument>(_entities![0].properties[0]);
+  static final internalId = obx.QueryIntegerProperty<ObjectBoxDocument>(
+    _entities![0].properties[0],
+  );
 
   /// See [ObjectBoxDocument.id].
-  static final id =
-      obx.QueryStringProperty<ObjectBoxDocument>(_entities![0].properties[1]);
+  static final id = obx.QueryStringProperty<ObjectBoxDocument>(
+    _entities![0].properties[1],
+  );
 
   /// See [ObjectBoxDocument.content].
-  static final content =
-      obx.QueryStringProperty<ObjectBoxDocument>(_entities![0].properties[2]);
+  static final content = obx.QueryStringProperty<ObjectBoxDocument>(
+    _entities![0].properties[2],
+  );
 
   /// See [ObjectBoxDocument.metadata].
-  static final metadata =
-      obx.QueryStringProperty<ObjectBoxDocument>(_entities![0].properties[3]);
+  static final metadata = obx.QueryStringProperty<ObjectBoxDocument>(
+    _entities![0].properties[3],
+  );
 
   /// See [ObjectBoxDocument.embedding].
-  static final embedding =
-      obx.QueryHnswProperty<ObjectBoxDocument>(_entities![0].properties[4]);
+  static final embedding = obx.QueryHnswProperty<ObjectBoxDocument>(
+    _entities![0].properties[4],
+  );
 }

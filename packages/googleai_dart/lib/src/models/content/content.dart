@@ -17,17 +17,17 @@ class Content {
 
   /// Creates a [Content] from JSON.
   factory Content.fromJson(Map<String, dynamic> json) => Content(
-        role: json['role'] as String?,
-        parts: ((json['parts'] as List?) ?? [])
-            .map((e) => Part.fromJson(e as Map<String, dynamic>))
-            .toList(),
-      );
+    role: json['role'] as String?,
+    parts: ((json['parts'] as List?) ?? [])
+        .map((e) => Part.fromJson(e as Map<String, dynamic>))
+        .toList(),
+  );
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (role != null) 'role': role,
-        'parts': parts.map((e) => e.toJson()).toList(),
-      };
+    if (role != null) 'role': role,
+    'parts': parts.map((e) => e.toJson()).toList(),
+  };
 
   /// Creates a copy with replaced values.
   Content copyWith({

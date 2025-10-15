@@ -67,8 +67,7 @@ class VertexAIIndexEndpointsApi {
         description: description,
         network: network,
         privateServiceConnectConfig: privateServiceConnectConfig != null
-            ? VertexAIIndexEndpointsGoogleApisMapper
-                .mapPrivateServiceConnectConfig(
+            ? VertexAIIndexEndpointsGoogleApisMapper.mapPrivateServiceConnectConfig(
                 privateServiceConnectConfig,
               )
             : null,

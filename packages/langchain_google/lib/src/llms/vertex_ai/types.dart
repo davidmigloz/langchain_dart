@@ -115,8 +115,10 @@ class VertexAIOptions extends LLMOptions {
         temperature == other.temperature &&
         topP == other.topP &&
         topK == other.topK &&
-        const ListEquality<String>()
-            .equals(stopSequences, other.stopSequences) &&
+        const ListEquality<String>().equals(
+          stopSequences,
+          other.stopSequences,
+        ) &&
         candidateCount == other.candidateCount &&
         concurrencyLimit == other.concurrencyLimit;
   }

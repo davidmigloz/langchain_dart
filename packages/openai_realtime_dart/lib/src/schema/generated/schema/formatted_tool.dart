@@ -37,7 +37,7 @@ abstract class FormattedTool with _$FormattedTool {
     'type',
     'name',
     'call_id',
-    'arguments'
+    'arguments',
   ];
 
   /// Perform validations on the schema property values

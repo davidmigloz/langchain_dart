@@ -62,14 +62,14 @@ class ObjectBoxVectorStore extends BaseObjectBoxVectorStore<ObjectBoxDocument> {
   ObjectBoxVectorStore._(
     Store store, {
     required super.embeddings,
-  })  : _store = store,
-        super(
-          box: store.box<ObjectBoxDocument>(),
-          createEntity: _createObjectBoxDocument,
-          createDocument: _createDoc,
-          getIdProperty: () => obxg.ObjectBoxDocument_.id,
-          getEmbeddingProperty: () => obxg.ObjectBoxDocument_.embedding,
-        );
+  }) : _store = store,
+       super(
+         box: store.box<ObjectBoxDocument>(),
+         createEntity: _createObjectBoxDocument,
+         createDocument: _createDoc,
+         getIdProperty: () => obxg.ObjectBoxDocument_.id,
+         getEmbeddingProperty: () => obxg.ObjectBoxDocument_.embedding,
+       );
 
   Store? _store;
 
@@ -116,8 +116,7 @@ class ObjectBoxVectorStore extends BaseObjectBoxVectorStore<ObjectBoxDocument> {
     String content,
     String metadata,
     List<double> embedding,
-  ) =>
-      ObjectBoxDocument(0, id, content, metadata, embedding);
+  ) => ObjectBoxDocument(0, id, content, metadata, embedding);
 
   /// Creates a [Document] from an [ObjectBoxDocument] entity.
   static Document _createDoc(ObjectBoxDocument entity) {

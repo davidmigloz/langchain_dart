@@ -4,8 +4,11 @@ import 'types.dart';
 /// {@template base_llm_output_parser}
 /// Class to parse the output of a [Runnable] invocation.
 /// {@endtemplate}
-abstract class BaseOutputParser<ParserInput extends Object?,
-        CallOptions extends OutputParserOptions, ParserOutput extends Object?>
+abstract class BaseOutputParser<
+  ParserInput extends Object?,
+  CallOptions extends OutputParserOptions,
+  ParserOutput extends Object?
+>
     extends Runnable<ParserInput, CallOptions, ParserOutput> {
   /// {@macro base_llm_output_parser}
   const BaseOutputParser({

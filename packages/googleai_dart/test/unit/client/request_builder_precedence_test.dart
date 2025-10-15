@@ -194,8 +194,9 @@ void main() {
         );
         const builder = RequestBuilder(config: config);
 
-        final url =
-            builder.buildUrl('/{version}/models/gemini-pro:generateContent');
+        final url = builder.buildUrl(
+          '/{version}/models/gemini-pro:generateContent',
+        );
 
         // URL toString may append '?' even with no query params - check parts separately
         expect(url.scheme, equals('https'));

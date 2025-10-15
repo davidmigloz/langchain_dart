@@ -115,7 +115,7 @@ abstract class SessionConfig with _$SessionConfig {
     'tools',
     'tool_choice',
     'temperature',
-    'max_response_output_tokens'
+    'max_response_output_tokens',
   ];
 
   /// Perform validations on the schema property values
@@ -289,8 +289,8 @@ sealed class SessionConfigMaxResponseOutputTokens
 
   /// Object construction from a JSON representation
   factory SessionConfigMaxResponseOutputTokens.fromJson(
-          Map<String, dynamic> json) =>
-      _$SessionConfigMaxResponseOutputTokensFromJson(json);
+    Map<String, dynamic> json,
+  ) => _$SessionConfigMaxResponseOutputTokensFromJson(json);
 }
 
 /// Custom JSON converter for [SessionConfigMaxResponseOutputTokens]

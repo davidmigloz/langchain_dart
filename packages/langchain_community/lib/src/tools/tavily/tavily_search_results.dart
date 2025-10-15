@@ -60,30 +60,31 @@ final class TavilySearchResultsTool
     final Map<String, dynamic> queryParams = const {},
     final http.Client? client,
     super.defaultOptions = const TavilySearchResultsToolOptions(),
-  })  : _client = TavilyClient(
-          baseUrl: baseUrl,
-          headers: headers,
-          queryParams: queryParams,
-          client: client,
-        ),
-        super(
-          name: 'tavily_search_results',
-          description:
-              'A search engine optimized for comprehensive, accurate, and trusted results. '
-              'Useful for when you need to answer questions about current events. '
-              'The tool returns a JSON object with search results.',
-          inputJsonSchema: {
-            'type': 'object',
-            'properties': {
-              'query': {
-                'type': 'string',
-                'description': 'The search query to look up. '
-                    'Eg: "What is the weather like in New York?"',
-              },
-            },
-            'required': ['query'],
-          },
-        );
+  }) : _client = TavilyClient(
+         baseUrl: baseUrl,
+         headers: headers,
+         queryParams: queryParams,
+         client: client,
+       ),
+       super(
+         name: 'tavily_search_results',
+         description:
+             'A search engine optimized for comprehensive, accurate, and trusted results. '
+             'Useful for when you need to answer questions about current events. '
+             'The tool returns a JSON object with search results.',
+         inputJsonSchema: {
+           'type': 'object',
+           'properties': {
+             'query': {
+               'type': 'string',
+               'description':
+                   'The search query to look up. '
+                   'Eg: "What is the weather like in New York?"',
+             },
+           },
+           'required': ['query'],
+         },
+       );
 
   /// A client for interacting with Tavily API.
   final TavilyClient _client;

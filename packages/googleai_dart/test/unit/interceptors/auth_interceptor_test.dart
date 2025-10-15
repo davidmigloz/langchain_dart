@@ -21,8 +21,10 @@ void main() {
           return http.Response('{}', 200);
         }
 
-        final request =
-            http.Request('POST', Uri.parse('https://example.com/api'));
+        final request = http.Request(
+          'POST',
+          Uri.parse('https://example.com/api'),
+        );
         final context = RequestContext(request: request, metadata: {});
 
         await interceptor.intercept(context, mockNext);
@@ -96,8 +98,10 @@ void main() {
     group('API Key - Header', () {
       test('adds API key as X-Goog-Api-Key header', () async {
         const config = GoogleAIConfig(
-          authProvider:
-              ApiKeyProvider('test-api-key', placement: AuthPlacement.header),
+          authProvider: ApiKeyProvider(
+            'test-api-key',
+            placement: AuthPlacement.header,
+          ),
         );
 
         const interceptor = AuthInterceptor(config: config);
@@ -108,8 +112,10 @@ void main() {
           return http.Response('{}', 200);
         }
 
-        final request =
-            http.Request('POST', Uri.parse('https://example.com/api'));
+        final request = http.Request(
+          'POST',
+          Uri.parse('https://example.com/api'),
+        );
         final context = RequestContext(request: request, metadata: {});
 
         await interceptor.intercept(context, mockNext);
@@ -123,8 +129,10 @@ void main() {
 
       test('does not overwrite existing X-Goog-Api-Key header', () async {
         const config = GoogleAIConfig(
-          authProvider:
-              ApiKeyProvider('new-api-key', placement: AuthPlacement.header),
+          authProvider: ApiKeyProvider(
+            'new-api-key',
+            placement: AuthPlacement.header,
+          ),
         );
 
         const interceptor = AuthInterceptor(config: config);
@@ -135,9 +143,10 @@ void main() {
           return http.Response('{}', 200);
         }
 
-        final request =
-            http.Request('POST', Uri.parse('https://example.com/api'))
-              ..headers['X-Goog-Api-Key'] = 'existing-key';
+        final request = http.Request(
+          'POST',
+          Uri.parse('https://example.com/api'),
+        )..headers['X-Goog-Api-Key'] = 'existing-key';
 
         final context = RequestContext(request: request, metadata: {});
 
@@ -152,8 +161,10 @@ void main() {
 
       test('preserves existing headers', () async {
         const config = GoogleAIConfig(
-          authProvider:
-              ApiKeyProvider('test-api-key', placement: AuthPlacement.header),
+          authProvider: ApiKeyProvider(
+            'test-api-key',
+            placement: AuthPlacement.header,
+          ),
         );
 
         const interceptor = AuthInterceptor(config: config);
@@ -201,8 +212,10 @@ void main() {
           return http.Response('{}', 200);
         }
 
-        final request =
-            http.Request('POST', Uri.parse('https://example.com/api'));
+        final request = http.Request(
+          'POST',
+          Uri.parse('https://example.com/api'),
+        );
         final context = RequestContext(request: request, metadata: {});
 
         await interceptor.intercept(context, mockNext);
@@ -227,9 +240,10 @@ void main() {
           return http.Response('{}', 200);
         }
 
-        final request =
-            http.Request('POST', Uri.parse('https://example.com/api'))
-              ..headers['Authorization'] = 'Bearer existing-token';
+        final request = http.Request(
+          'POST',
+          Uri.parse('https://example.com/api'),
+        )..headers['Authorization'] = 'Bearer existing-token';
 
         final context = RequestContext(request: request, metadata: {});
 
@@ -255,8 +269,10 @@ void main() {
           return http.Response('{}', 200);
         }
 
-        final request =
-            http.Request('POST', Uri.parse('https://example.com/api'));
+        final request = http.Request(
+          'POST',
+          Uri.parse('https://example.com/api'),
+        );
         final context = RequestContext(request: request, metadata: {});
 
         await interceptor.intercept(context, mockNext);
@@ -270,32 +286,42 @@ void main() {
     });
 
     group('No Auth', () {
-      test('passes through request unchanged when no auth configured',
-          () async {
-        const config = GoogleAIConfig(); // No apiKey or bearerToken
+      test(
+        'passes through request unchanged when no auth configured',
+        () async {
+          const config = GoogleAIConfig(); // No apiKey or bearerToken
 
-        const interceptor = AuthInterceptor(config: config);
+          const interceptor = AuthInterceptor(config: config);
 
-        http.BaseRequest? capturedRequest;
-        Future<http.Response> mockNext(RequestContext context) async {
-          capturedRequest = context.request;
-          return http.Response('{}', 200);
-        }
+          http.BaseRequest? capturedRequest;
+          Future<http.Response> mockNext(RequestContext context) async {
+            capturedRequest = context.request;
+            return http.Response('{}', 200);
+          }
 
-        final request =
-            http.Request('POST', Uri.parse('https://example.com/api'));
-        final context = RequestContext(request: request, metadata: {});
+          final request = http.Request(
+            'POST',
+            Uri.parse('https://example.com/api'),
+          );
+          final context = RequestContext(request: request, metadata: {});
 
-        await interceptor.intercept(context, mockNext);
+          await interceptor.intercept(context, mockNext);
 
-        expect(capturedRequest, isNotNull);
-        expect(capturedRequest!.headers.containsKey('Authorization'), isFalse);
-        expect(capturedRequest!.headers.containsKey('X-Goog-Api-Key'), isFalse);
-        expect(
-          capturedRequest!.url.queryParameters.containsKey('key'),
-          isFalse,
-        );
-      });
+          expect(capturedRequest, isNotNull);
+          expect(
+            capturedRequest!.headers.containsKey('Authorization'),
+            isFalse,
+          );
+          expect(
+            capturedRequest!.headers.containsKey('X-Goog-Api-Key'),
+            isFalse,
+          );
+          expect(
+            capturedRequest!.url.queryParameters.containsKey('key'),
+            isFalse,
+          );
+        },
+      );
     });
   });
 }

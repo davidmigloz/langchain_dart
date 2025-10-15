@@ -237,8 +237,9 @@ void main() {
               ChatMessageContent.image(
                 mimeType: 'image/jpeg',
                 data: base64.encode(
-                  await File('./test/chat_models/assets/apple.jpeg')
-                      .readAsBytes(),
+                  await File(
+                    './test/chat_models/assets/apple.jpeg',
+                  ).readAsBytes(),
                 ),
               ),
             ]),
@@ -290,70 +291,73 @@ void main() {
       },
     );
 
-    test('Test tool calling', timeout: const Timeout(Duration(minutes: 1)),
-        () async {
-      final model = chatModel.bind(
-        const ChatOllamaOptions(
-          model: defaultModel,
-          tools: [tool1],
-        ),
-      );
+    test(
+      'Test tool calling',
+      timeout: const Timeout(Duration(minutes: 1)),
+      () async {
+        final model = chatModel.bind(
+          const ChatOllamaOptions(
+            model: defaultModel,
+            tools: [tool1],
+          ),
+        );
 
-      final humanMessage = ChatMessage.humanText(
-        "What's the weather like in Boston and Madrid right now in celsius?",
-      );
-      final res1 = await model.invoke(PromptValue.chat([humanMessage]));
+        final humanMessage = ChatMessage.humanText(
+          "What's the weather like in Boston and Madrid right now in celsius?",
+        );
+        final res1 = await model.invoke(PromptValue.chat([humanMessage]));
 
-      final aiMessage1 = res1.output;
-      expect(aiMessage1.toolCalls, hasLength(2));
+        final aiMessage1 = res1.output;
+        expect(aiMessage1.toolCalls, hasLength(2));
 
-      final toolCall1 = aiMessage1.toolCalls.first;
-      expect(toolCall1.name, tool1.name);
-      expect(toolCall1.arguments.containsKey('location'), isTrue);
-      expect(toolCall1.arguments['location'], contains('Boston'));
-      expect(toolCall1.arguments['unit'], 'celsius');
+        final toolCall1 = aiMessage1.toolCalls.first;
+        expect(toolCall1.name, tool1.name);
+        expect(toolCall1.arguments.containsKey('location'), isTrue);
+        expect(toolCall1.arguments['location'], contains('Boston'));
+        expect(toolCall1.arguments['unit'], 'celsius');
 
-      final toolCall2 = aiMessage1.toolCalls.last;
-      expect(toolCall2.name, tool1.name);
-      expect(toolCall2.arguments.containsKey('location'), isTrue);
-      expect(toolCall2.arguments['location'], contains('Madrid'));
-      expect(toolCall2.arguments['unit'], 'celsius');
+        final toolCall2 = aiMessage1.toolCalls.last;
+        expect(toolCall2.name, tool1.name);
+        expect(toolCall2.arguments.containsKey('location'), isTrue);
+        expect(toolCall2.arguments['location'], contains('Madrid'));
+        expect(toolCall2.arguments['unit'], 'celsius');
 
-      final functionResult1 = {
-        'temperature': '22',
-        'unit': 'celsius',
-        'description': 'Sunny',
-      };
-      final functionMessage1 = ChatMessage.tool(
-        toolCallId: toolCall1.id,
-        content: json.encode(functionResult1),
-      );
+        final functionResult1 = {
+          'temperature': '22',
+          'unit': 'celsius',
+          'description': 'Sunny',
+        };
+        final functionMessage1 = ChatMessage.tool(
+          toolCallId: toolCall1.id,
+          content: json.encode(functionResult1),
+        );
 
-      final functionResult2 = {
-        'temperature': '25',
-        'unit': 'celsius',
-        'description': 'Cloudy',
-      };
-      final functionMessage2 = ChatMessage.tool(
-        toolCallId: toolCall2.id,
-        content: json.encode(functionResult2),
-      );
+        final functionResult2 = {
+          'temperature': '25',
+          'unit': 'celsius',
+          'description': 'Cloudy',
+        };
+        final functionMessage2 = ChatMessage.tool(
+          toolCallId: toolCall2.id,
+          content: json.encode(functionResult2),
+        );
 
-      final res2 = await model.invoke(
-        PromptValue.chat([
-          humanMessage,
-          aiMessage1,
-          functionMessage1,
-          functionMessage2,
-        ]),
-      );
+        final res2 = await model.invoke(
+          PromptValue.chat([
+            humanMessage,
+            aiMessage1,
+            functionMessage1,
+            functionMessage2,
+          ]),
+        );
 
-      final aiMessage2 = res2.output;
+        final aiMessage2 = res2.output;
 
-      expect(aiMessage2.toolCalls, isEmpty);
-      expect(aiMessage2.content, contains('22'));
-      expect(aiMessage2.content, contains('25'));
-    });
+        expect(aiMessage2.toolCalls, isEmpty);
+        expect(aiMessage2.content, contains('22'));
+        expect(aiMessage2.content, contains('25'));
+      },
+    );
 
     test('Test multi tool call', () async {
       final res = await chatModel.invoke(

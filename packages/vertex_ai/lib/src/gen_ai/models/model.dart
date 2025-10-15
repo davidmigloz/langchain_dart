@@ -122,39 +122,45 @@ class VertexAIPredictionSafetyAttributes {
     final Map<String, dynamic> safetyAttributesJson,
   ) {
     return VertexAIPredictionSafetyAttributes(
-      categories: (safetyAttributesJson['categories'] as List<dynamic>? ??
-              const [])
-          .map(
-            (final category) => switch (category) {
-              'Derogatory' =>
-                VertexAIPredictionSafetyAttributesCategory.derogatory,
-              'Toxic' => VertexAIPredictionSafetyAttributesCategory.toxic,
-              'Sexual' => VertexAIPredictionSafetyAttributesCategory.sexual,
-              'Violent' => VertexAIPredictionSafetyAttributesCategory.violent,
-              'Insult' => VertexAIPredictionSafetyAttributesCategory.insult,
-              'Profanity' =>
-                VertexAIPredictionSafetyAttributesCategory.profanity,
-              'Death, Harm & Tragedy' =>
-                VertexAIPredictionSafetyAttributesCategory.deathHarmAndTragedy,
-              'Firearms & Weapons' =>
-                VertexAIPredictionSafetyAttributesCategory.firearmsAndWeapons,
-              'Public Safety' =>
-                VertexAIPredictionSafetyAttributesCategory.publicSafety,
-              'Health' => VertexAIPredictionSafetyAttributesCategory.health,
-              'Religion & Belief' =>
-                VertexAIPredictionSafetyAttributesCategory.religionAndBelief,
-              'Drugs' => VertexAIPredictionSafetyAttributesCategory.drugs,
-              'War & Conflict' =>
-                VertexAIPredictionSafetyAttributesCategory.warAndConflict,
-              'Finance' => VertexAIPredictionSafetyAttributesCategory.finance,
-              'Politics' => VertexAIPredictionSafetyAttributesCategory.politics,
-              'Legal' => VertexAIPredictionSafetyAttributesCategory.legal,
-              _ => VertexAIPredictionSafetyAttributesCategory.unknown,
-            },
-          )
-          .toList(growable: false),
-      scores:
-          (safetyAttributesJson['scores'] as List<dynamic>? ?? const []).cast(),
+      categories:
+          (safetyAttributesJson['categories'] as List<dynamic>? ?? const [])
+              .map(
+                (final category) => switch (category) {
+                  'Derogatory' =>
+                    VertexAIPredictionSafetyAttributesCategory.derogatory,
+                  'Toxic' => VertexAIPredictionSafetyAttributesCategory.toxic,
+                  'Sexual' => VertexAIPredictionSafetyAttributesCategory.sexual,
+                  'Violent' =>
+                    VertexAIPredictionSafetyAttributesCategory.violent,
+                  'Insult' => VertexAIPredictionSafetyAttributesCategory.insult,
+                  'Profanity' =>
+                    VertexAIPredictionSafetyAttributesCategory.profanity,
+                  'Death, Harm & Tragedy' =>
+                    VertexAIPredictionSafetyAttributesCategory
+                        .deathHarmAndTragedy,
+                  'Firearms & Weapons' =>
+                    VertexAIPredictionSafetyAttributesCategory
+                        .firearmsAndWeapons,
+                  'Public Safety' =>
+                    VertexAIPredictionSafetyAttributesCategory.publicSafety,
+                  'Health' => VertexAIPredictionSafetyAttributesCategory.health,
+                  'Religion & Belief' =>
+                    VertexAIPredictionSafetyAttributesCategory
+                        .religionAndBelief,
+                  'Drugs' => VertexAIPredictionSafetyAttributesCategory.drugs,
+                  'War & Conflict' =>
+                    VertexAIPredictionSafetyAttributesCategory.warAndConflict,
+                  'Finance' =>
+                    VertexAIPredictionSafetyAttributesCategory.finance,
+                  'Politics' =>
+                    VertexAIPredictionSafetyAttributesCategory.politics,
+                  'Legal' => VertexAIPredictionSafetyAttributesCategory.legal,
+                  _ => VertexAIPredictionSafetyAttributesCategory.unknown,
+                },
+              )
+              .toList(growable: false),
+      scores: (safetyAttributesJson['scores'] as List<dynamic>? ?? const [])
+          .cast(),
       blocked: safetyAttributesJson['blocked'] as bool? ?? false,
     );
   }
@@ -211,8 +217,9 @@ class VertexAIPredictionSafetyAttributes {
 
   @override
   int get hashCode =>
-      const ListEquality<VertexAIPredictionSafetyAttributesCategory>()
-          .hash(categories) ^
+      const ListEquality<VertexAIPredictionSafetyAttributesCategory>().hash(
+        categories,
+      ) ^
       const ListEquality<double>().hash(scores) ^
       blocked.hashCode;
 

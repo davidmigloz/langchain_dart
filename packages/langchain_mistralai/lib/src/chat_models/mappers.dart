@@ -11,21 +11,23 @@ extension ChatMessageListMapper on List<ChatMessage> {
   ChatCompletionMessage _mapMessage(final ChatMessage msg) {
     return switch (msg) {
       final SystemChatMessage systemChatMessage => ChatCompletionMessage(
-          role: ChatCompletionMessageRole.system,
-          content: systemChatMessage.content,
-        ),
+        role: ChatCompletionMessageRole.system,
+        content: systemChatMessage.content,
+      ),
       final HumanChatMessage humanChatMessage => ChatCompletionMessage(
-          role: ChatCompletionMessageRole.user,
-          content: humanChatMessage.contentAsString,
-        ),
+        role: ChatCompletionMessageRole.user,
+        content: humanChatMessage.contentAsString,
+      ),
       final AIChatMessage aiChatMessage => ChatCompletionMessage(
-          role: ChatCompletionMessageRole.assistant,
-          content: aiChatMessage.content,
-        ),
-      ToolChatMessage() =>
-        throw UnsupportedError('Mistral AI does not support tool calls'),
-      CustomChatMessage() =>
-        throw UnsupportedError('Mistral AI does not support custom messages'),
+        role: ChatCompletionMessageRole.assistant,
+        content: aiChatMessage.content,
+      ),
+      ToolChatMessage() => throw UnsupportedError(
+        'Mistral AI does not support tool calls',
+      ),
+      CustomChatMessage() => throw UnsupportedError(
+        'Mistral AI does not support custom messages',
+      ),
     };
   }
 }
@@ -77,10 +79,9 @@ extension CreateChatCompletionStreamResponseMapper
 
 FinishReason _mapFinishReason(
   final ChatCompletionFinishReason? reason,
-) =>
-    switch (reason) {
-      ChatCompletionFinishReason.stop => FinishReason.stop,
-      ChatCompletionFinishReason.length => FinishReason.length,
-      ChatCompletionFinishReason.modelLength => FinishReason.length,
-      null => FinishReason.unspecified,
-    };
+) => switch (reason) {
+  ChatCompletionFinishReason.stop => FinishReason.stop,
+  ChatCompletionFinishReason.length => FinishReason.length,
+  ChatCompletionFinishReason.modelLength => FinishReason.length,
+  null => FinishReason.unspecified,
+};

@@ -44,7 +44,7 @@ abstract class Usage with _$Usage {
     'input_tokens',
     'output_tokens',
     'input_token_details',
-    'output_token_details'
+    'output_token_details',
   ];
 
   /// Perform validations on the schema property values
@@ -93,7 +93,7 @@ abstract class UsageInputTokenDetails with _$UsageInputTokenDetails {
   static const List<String> propertyNames = [
     'cached_tokens',
     'text_tokens',
-    'audio_tokens'
+    'audio_tokens',
   ];
 
   /// Perform validations on the schema property values

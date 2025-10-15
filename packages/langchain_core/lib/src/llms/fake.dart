@@ -155,7 +155,8 @@ class FakeHandlerLLM extends SimpleLLM<FakeLLMOptions> {
     String prompt,
     LLMOptions? options,
     int callCount,
-  ) handler;
+  )
+  handler;
 
   var _callCount = 0;
 

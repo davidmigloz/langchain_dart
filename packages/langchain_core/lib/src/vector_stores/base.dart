@@ -59,11 +59,13 @@ abstract class VectorStore {
   }) {
     return switch (searchType) {
       final VectorStoreSimilaritySearch config => similaritySearch(
-          query: query,
-          config: config,
-        ),
-      final VectorStoreMMRSearch config =>
-        maxMarginalRelevanceSearch(query: query, config: config),
+        query: query,
+        config: config,
+      ),
+      final VectorStoreMMRSearch config => maxMarginalRelevanceSearch(
+        query: query,
+        config: config,
+      ),
     };
   }
 

@@ -337,8 +337,9 @@ class _BaseTextFieldState extends State<_BaseTextField> {
             prefixIcon: Icon(widget.prefixIcon),
             labelText: widget.labelText,
             filled: true,
-            errorText:
-                state.error == widget.errorType ? widget.errorText : null,
+            errorText: state.error == widget.errorType
+                ? widget.errorText
+                : null,
           ),
           onChanged: widget.onTextChanged,
         );

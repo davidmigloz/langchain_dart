@@ -72,8 +72,10 @@ abstract class LanguageModelResult<O extends Object> {
           id == other.id &&
           output == other.output &&
           finishReason == other.finishReason &&
-          const MapEquality<String, dynamic>()
-              .equals(metadata, other.metadata) &&
+          const MapEquality<String, dynamic>().equals(
+            metadata,
+            other.metadata,
+          ) &&
           usage == other.usage &&
           streaming == other.streaming;
 
@@ -152,19 +154,21 @@ class LanguageModelUsage {
       promptTokens: promptTokens == null && other.promptTokens == null
           ? null
           : (promptTokens ?? 0) + (other.promptTokens ?? 0),
-      promptBillableCharacters: promptBillableCharacters == null &&
+      promptBillableCharacters:
+          promptBillableCharacters == null &&
               other.promptBillableCharacters == null
           ? null
           : (promptBillableCharacters ?? 0) +
-              (other.promptBillableCharacters ?? 0),
+                (other.promptBillableCharacters ?? 0),
       responseTokens: responseTokens == null && other.responseTokens == null
           ? null
           : (responseTokens ?? 0) + (other.responseTokens ?? 0),
-      responseBillableCharacters: responseBillableCharacters == null &&
+      responseBillableCharacters:
+          responseBillableCharacters == null &&
               other.responseBillableCharacters == null
           ? null
           : (responseBillableCharacters ?? 0) +
-              (other.responseBillableCharacters ?? 0),
+                (other.responseBillableCharacters ?? 0),
       totalTokens: totalTokens == null && other.totalTokens == null
           ? null
           : (totalTokens ?? 0) + (other.totalTokens ?? 0),

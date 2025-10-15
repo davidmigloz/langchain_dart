@@ -3,9 +3,10 @@ import 'dart:async';
 import 'schema/schema.dart';
 
 /// EventHandler callback.
-typedef EventHandlerCallback = FutureOr<void> Function(
-  RealtimeEvent event,
-);
+typedef EventHandlerCallback =
+    FutureOr<void> Function(
+      RealtimeEvent event,
+    );
 
 /// Inherited class for RealtimeAPI and RealtimeClient.
 /// Adds basic event handling.

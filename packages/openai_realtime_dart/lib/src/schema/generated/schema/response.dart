@@ -53,7 +53,7 @@ abstract class Response with _$Response {
     'status_details',
     'output',
     'metadata',
-    'usage'
+    'usage',
   ];
 
   /// Perform validations on the schema property values

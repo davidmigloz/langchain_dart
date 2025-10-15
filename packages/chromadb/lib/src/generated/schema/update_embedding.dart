@@ -41,7 +41,7 @@ class UpdateEmbedding with _$UpdateEmbedding {
     'metadatas',
     'documents',
     'uris',
-    'ids'
+    'ids',
   ];
 
   /// Perform validations on the schema property values

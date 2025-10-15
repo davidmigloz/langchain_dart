@@ -236,12 +236,16 @@ class ChatVertexAIOptions extends ChatModelOptions {
         candidateCount == other.candidateCount &&
         maxOutputTokens == other.maxOutputTokens &&
         temperature == other.temperature &&
-        const ListEquality<String>()
-            .equals(stopSequences, other.stopSequences) &&
+        const ListEquality<String>().equals(
+          stopSequences,
+          other.stopSequences,
+        ) &&
         responseMimeType == other.responseMimeType &&
         responseSchema == other.responseSchema &&
-        const ListEquality<ChatVertexAISafetySetting>()
-            .equals(safetySettings, other.safetySettings) &&
+        const ListEquality<ChatVertexAISafetySetting>().equals(
+          safetySettings,
+          other.safetySettings,
+        ) &&
         enableCodeExecution == other.enableCodeExecution &&
         presencePenalty == other.presencePenalty &&
         frequencyPenalty == other.frequencyPenalty &&

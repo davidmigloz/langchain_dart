@@ -41,12 +41,12 @@ class EmbedContentRequest {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        'content': content.toJson(),
-        if (taskType != null) 'taskType': taskTypeToString(taskType!),
-        if (title != null) 'title': title,
-        if (outputDimensionality != null)
-          'outputDimensionality': outputDimensionality,
-      };
+    'content': content.toJson(),
+    if (taskType != null) 'taskType': taskTypeToString(taskType!),
+    if (title != null) 'title': title,
+    if (outputDimensionality != null)
+      'outputDimensionality': outputDimensionality,
+  };
 
   /// Creates a copy with replaced values.
   EmbedContentRequest copyWith({
@@ -56,8 +56,9 @@ class EmbedContentRequest {
     Object? outputDimensionality = unsetCopyWithValue,
   }) {
     return EmbedContentRequest(
-      content:
-          content == unsetCopyWithValue ? this.content : content! as Content,
+      content: content == unsetCopyWithValue
+          ? this.content
+          : content! as Content,
       taskType: taskType == unsetCopyWithValue
           ? this.taskType
           : taskType as TaskType?,

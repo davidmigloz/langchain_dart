@@ -44,7 +44,7 @@ abstract class ToolChoice with _$ToolChoice {
   static const List<String> propertyNames = [
     'type',
     'name',
-    'disable_parallel_tool_use'
+    'disable_parallel_tool_use',
   ];
 
   /// Perform validations on the schema property values

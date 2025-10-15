@@ -55,20 +55,21 @@ final class OpenAIDallETool extends StringTool<OpenAIDallEToolOptions> {
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
     super.defaultOptions = const OpenAIDallEToolOptions(),
-  })  : _client = OpenAIClient(
-          apiKey: apiKey ?? '',
-          organization: organization,
-          baseUrl: baseUrl,
-          headers: headers,
-          queryParams: queryParams,
-          client: client,
-        ),
-        super(
-          name: 'Dall-E-Image-Generator',
-          description: 'A wrapper around OpenAI DALL-E API. '
-              'Useful for when you need to generate images from a text '
-              'description. Input should be an image description.',
-        );
+  }) : _client = OpenAIClient(
+         apiKey: apiKey ?? '',
+         organization: organization,
+         baseUrl: baseUrl,
+         headers: headers,
+         queryParams: queryParams,
+         client: client,
+       ),
+       super(
+         name: 'Dall-E-Image-Generator',
+         description:
+             'A wrapper around OpenAI DALL-E API. '
+             'Useful for when you need to generate images from a text '
+             'description. Input should be an image description.',
+       );
 
   /// A client for interacting with OpenAI API.
   final OpenAIClient _client;

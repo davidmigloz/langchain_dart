@@ -22,27 +22,25 @@ class PredictLongRunningGeneratedVideoResponse {
   /// Creates a [PredictLongRunningGeneratedVideoResponse] from JSON.
   factory PredictLongRunningGeneratedVideoResponse.fromJson(
     Map<String, dynamic> json,
-  ) =>
-      PredictLongRunningGeneratedVideoResponse(
-        generatedSamples: (json['generatedSamples'] as List<dynamic>?)
-            ?.map((e) => Media.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        raiMediaFilteredCount: json['raiMediaFilteredCount'] as int?,
-        raiMediaFilteredReasons:
-            (json['raiMediaFilteredReasons'] as List<dynamic>?)
-                ?.map((e) => e as String)
-                .toList(),
-      );
+  ) => PredictLongRunningGeneratedVideoResponse(
+    generatedSamples: (json['generatedSamples'] as List<dynamic>?)
+        ?.map((e) => Media.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    raiMediaFilteredCount: json['raiMediaFilteredCount'] as int?,
+    raiMediaFilteredReasons: (json['raiMediaFilteredReasons'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+  );
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (generatedSamples != null)
-          'generatedSamples': generatedSamples!.map((e) => e.toJson()).toList(),
-        if (raiMediaFilteredCount != null)
-          'raiMediaFilteredCount': raiMediaFilteredCount,
-        if (raiMediaFilteredReasons != null)
-          'raiMediaFilteredReasons': raiMediaFilteredReasons,
-      };
+    if (generatedSamples != null)
+      'generatedSamples': generatedSamples!.map((e) => e.toJson()).toList(),
+    if (raiMediaFilteredCount != null)
+      'raiMediaFilteredCount': raiMediaFilteredCount,
+    if (raiMediaFilteredReasons != null)
+      'raiMediaFilteredReasons': raiMediaFilteredReasons,
+  };
 
   /// Creates a copy with replaced values.
   PredictLongRunningGeneratedVideoResponse copyWith({

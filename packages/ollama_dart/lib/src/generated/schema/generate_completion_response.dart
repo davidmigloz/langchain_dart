@@ -73,7 +73,7 @@ abstract class GenerateCompletionResponse with _$GenerateCompletionResponse {
     'prompt_eval_count',
     'prompt_eval_duration',
     'eval_count',
-    'eval_duration'
+    'eval_duration',
   ];
 
   /// Perform validations on the schema property values

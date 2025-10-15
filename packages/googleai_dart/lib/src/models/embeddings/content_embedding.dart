@@ -18,16 +18,17 @@ class ContentEmbedding {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        'values': values,
-      };
+    'values': values,
+  };
 
   /// Creates a copy with replaced values.
   ContentEmbedding copyWith({
     Object? values = unsetCopyWithValue,
   }) {
     return ContentEmbedding(
-      values:
-          values == unsetCopyWithValue ? this.values : values! as List<double>,
+      values: values == unsetCopyWithValue
+          ? this.values
+          : values! as List<double>,
     );
   }
 }

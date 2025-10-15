@@ -9,8 +9,9 @@ void main() {
   group('Runnable Retry Test', () {
     late FakeEchoChatModel model;
     final input = PromptValue.string('why is the sky blue');
-    final promptTemplate =
-        ChatPromptTemplate.fromTemplate('tell me a joke about {topic}');
+    final promptTemplate = ChatPromptTemplate.fromTemplate(
+      'tell me a joke about {topic}',
+    );
 
     setUp(() {
       model = const FakeEchoChatModel();
@@ -48,16 +49,18 @@ void main() {
 
     test('Should return the output after successful retry', () async {
       var count = 0;
-      final modelWithRetry = model.pipe(
-        Runnable.fromFunction(
-          invoke: (input, opt) {
-            if (count++ < 1) {
-              throw Exception('Random error');
-            }
-            return input;
-          },
-        ),
-      ).withRetry(maxRetries: 2);
+      final modelWithRetry = model
+          .pipe(
+            Runnable.fromFunction(
+              invoke: (input, opt) {
+                if (count++ < 1) {
+                  throw Exception('Random error');
+                }
+                return input;
+              },
+            ),
+          )
+          .withRetry(maxRetries: 2);
       final res = await modelWithRetry.invoke(input);
       expect(res.outputAsString, input.toString());
       expect(count, 2);

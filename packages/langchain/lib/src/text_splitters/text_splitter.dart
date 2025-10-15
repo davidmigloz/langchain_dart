@@ -46,37 +46,44 @@ abstract class TextSplitter extends BaseDocumentTransformer {
   }) {
     final meta = metadatas ?? List.filled(texts.length, <String, dynamic>{});
 
-    return texts.asMap().entries.expand((final entry) {
-      final textIndex = entry.key;
-      final text = entry.value;
-      final chunks = splitText(text);
-      var index = -1;
-      var previousChunkLen = 0;
-      return chunks.map((final chunk) {
-        String? id = ids?[textIndex];
-        if (id != null && id.isEmpty) {
-          id = null;
-        }
-        final metadata = {...meta[textIndex]};
-        if (addStartIndex) {
-          final offset = index + previousChunkLen - chunkOverlap;
-          index = text.indexOf(chunk, offset > 0 ? offset : 0);
-          metadata['start_index'] = index;
-          previousChunkLen = chunk.length;
-        }
-        return Document(id: id, pageContent: chunk, metadata: metadata);
-      });
-    }).toList(growable: false);
+    return texts
+        .asMap()
+        .entries
+        .expand((final entry) {
+          final textIndex = entry.key;
+          final text = entry.value;
+          final chunks = splitText(text);
+          var index = -1;
+          var previousChunkLen = 0;
+          return chunks.map((final chunk) {
+            String? id = ids?[textIndex];
+            if (id != null && id.isEmpty) {
+              id = null;
+            }
+            final metadata = {...meta[textIndex]};
+            if (addStartIndex) {
+              final offset = index + previousChunkLen - chunkOverlap;
+              index = text.indexOf(chunk, offset > 0 ? offset : 0);
+              metadata['start_index'] = index;
+              previousChunkLen = chunk.length;
+            }
+            return Document(id: id, pageContent: chunk, metadata: metadata);
+          });
+        })
+        .toList(growable: false);
   }
 
   /// Splits documents.
   List<Document> splitDocuments(final List<Document> documents) {
-    final ids =
-        documents.map((final doc) => doc.id ?? '').toList(growable: false);
-    final texts =
-        documents.map((final doc) => doc.pageContent).toList(growable: false);
-    final metadatas =
-        documents.map((final doc) => doc.metadata).toList(growable: false);
+    final ids = documents
+        .map((final doc) => doc.id ?? '')
+        .toList(growable: false);
+    final texts = documents
+        .map((final doc) => doc.pageContent)
+        .toList(growable: false);
+    final metadatas = documents
+        .map((final doc) => doc.metadata)
+        .toList(growable: false);
     return createDocuments(texts, ids: ids, metadatas: metadatas);
   }
 
@@ -124,7 +131,8 @@ abstract class TextSplitter extends BaseDocumentTransformer {
               (total + len + (currentDoc.isNotEmpty ? separatorLen : 0) >
                       chunkSize &&
                   total > 0)) {
-            total -= lengthFunction(currentDoc[0]) +
+            total -=
+                lengthFunction(currentDoc[0]) +
                 (currentDoc.length > 1 ? separatorLen : 0);
             currentDoc = currentDoc.sublist(1);
           }

@@ -32,8 +32,8 @@ class QueryDocumentRequest {
       resultsCount: json['resultsCount'] as int?,
       metadataFilters: json['metadataFilters'] != null
           ? (json['metadataFilters'] as List)
-              .map((e) => MetadataFilter.fromJson(e as Map<String, dynamic>))
-              .toList()
+                .map((e) => MetadataFilter.fromJson(e as Map<String, dynamic>))
+                .toList()
           : null,
     );
   }
@@ -66,7 +66,8 @@ class QueryDocumentRequest {
   }
 
   @override
-  String toString() => 'QueryDocumentRequest('
+  String toString() =>
+      'QueryDocumentRequest('
       'query: $query, '
       'resultsCount: $resultsCount, '
       'metadataFilters: $metadataFilters)';

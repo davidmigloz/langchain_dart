@@ -20,27 +20,28 @@ void main() {
     });
 
     test(
-        'embedDocuments returns correct embeddings, and fills missing embeddings',
-        () async {
-      final preStoreRes = await store.get(['testDoc']);
-      expect(preStoreRes.first, isNull);
-      final res1 = await cacheBackedEmbeddings.embedDocuments(
-        [const Document(pageContent: 'testDoc')],
-      );
-      final storeRes1 = await store.get(['testDoc']);
-      expect(res1, storeRes1);
-      final res2 = await cacheBackedEmbeddings.embedDocuments(
-        [const Document(pageContent: 'testDoc')],
-      );
-      expect(res2, storeRes1);
-      final newDocStoreRes = await store.get(['newDoc']);
-      expect(newDocStoreRes.first, isNull);
-      final res3 = await cacheBackedEmbeddings.embedDocuments(
-        [const Document(pageContent: 'newDoc')],
-      );
-      final storeRes3 = await store.get(['newDoc']);
-      expect(res3, storeRes3);
-    });
+      'embedDocuments returns correct embeddings, and fills missing embeddings',
+      () async {
+        final preStoreRes = await store.get(['testDoc']);
+        expect(preStoreRes.first, isNull);
+        final res1 = await cacheBackedEmbeddings.embedDocuments(
+          [const Document(pageContent: 'testDoc')],
+        );
+        final storeRes1 = await store.get(['testDoc']);
+        expect(res1, storeRes1);
+        final res2 = await cacheBackedEmbeddings.embedDocuments(
+          [const Document(pageContent: 'testDoc')],
+        );
+        expect(res2, storeRes1);
+        final newDocStoreRes = await store.get(['newDoc']);
+        expect(newDocStoreRes.first, isNull);
+        final res3 = await cacheBackedEmbeddings.embedDocuments(
+          [const Document(pageContent: 'newDoc')],
+        );
+        final storeRes3 = await store.get(['newDoc']);
+        expect(res3, storeRes3);
+      },
+    );
 
     test('embedQuery is not cached', () async {
       final result = await cacheBackedEmbeddings.embedQuery('testQuery');
@@ -63,20 +64,21 @@ void main() {
     });
 
     test(
-        'embedDocuments returns correct embeddings, and fills missing embeddings',
-        () async {
-      final res1 = await cacheBackedEmbeddings.embedDocuments(
-        [const Document(pageContent: 'testDoc')],
-      );
-      final res2 = await cacheBackedEmbeddings.embedDocuments(
-        [const Document(pageContent: 'testDoc')],
-      );
-      expect(res1, res2);
-      final res3 = await cacheBackedEmbeddings.embedDocuments(
-        [const Document(pageContent: 'newDoc')],
-      );
-      expect(res3, isNot(res2));
-    });
+      'embedDocuments returns correct embeddings, and fills missing embeddings',
+      () async {
+        final res1 = await cacheBackedEmbeddings.embedDocuments(
+          [const Document(pageContent: 'testDoc')],
+        );
+        final res2 = await cacheBackedEmbeddings.embedDocuments(
+          [const Document(pageContent: 'testDoc')],
+        );
+        expect(res1, res2);
+        final res3 = await cacheBackedEmbeddings.embedDocuments(
+          [const Document(pageContent: 'newDoc')],
+        );
+        expect(res3, isNot(res2));
+      },
+    );
 
     test('embedQuery is not cached', () async {
       final result = await cacheBackedEmbeddings.embedQuery('testQuery');
@@ -93,8 +95,9 @@ void main() {
     final keyHash = sha1.convert(utf8.encode(key)).toString();
     final expectedEncodedKey = uuid.v5(Namespace.url.value, keyHash);
     final value = [0.1, 0.2, 0.3];
-    final expectedEncodedValue =
-        Uint8List.fromList(utf8.encode(json.encode(value)));
+    final expectedEncodedValue = Uint8List.fromList(
+      utf8.encode(json.encode(value)),
+    );
 
     const encoder = EmbeddingsByteStoreEncoder(namespace: namespace);
 

@@ -57,8 +57,9 @@ void main() {
         ],
       );
 
-      final req =
-          VertexAITextEmbeddingsModelGoogleApisMapper.mapRequest(request);
+      final req = VertexAITextEmbeddingsModelGoogleApisMapper.mapRequest(
+        request,
+      );
       expect(req.instances, expected.instances);
       expect(req.parameters, expected.parameters);
     });
@@ -111,8 +112,9 @@ void main() {
         ),
       );
 
-      final res =
-          VertexAITextEmbeddingsModelGoogleApisMapper.mapResponse(response);
+      final res = VertexAITextEmbeddingsModelGoogleApisMapper.mapResponse(
+        response,
+      );
       expect(res, expected);
     });
   });

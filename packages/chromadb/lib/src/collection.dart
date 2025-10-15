@@ -375,13 +375,15 @@ class Collection {
 
   /// Validates the inputs to the add, upsert, and update methods.
   Future<
-      (
-        List<String> ids,
-        List<List<double>>? embeddings,
-        List<Map<String, dynamic>>? metadatas,
-        List<String>? documents,
-        List<String>? uris,
-      )> _validate(
+    (
+      List<String> ids,
+      List<List<double>>? embeddings,
+      List<Map<String, dynamic>>? metadatas,
+      List<String>? documents,
+      List<String>? uris,
+    )
+  >
+  _validate(
     final List<String> ids,
     final List<List<double>>? embeddings,
     final List<Map<String, dynamic>>? metadatas,

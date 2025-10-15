@@ -10,7 +10,7 @@ import 'package:langchain_core/chat_models.dart';
 final class ChatMessageHistory extends BaseChatMessageHistory {
   /// {@macro chat_message_history}
   ChatMessageHistory({final List<ChatMessage>? messages})
-      : _messages = Queue.from(messages ?? <ChatMessage>[]);
+    : _messages = Queue.from(messages ?? <ChatMessage>[]);
 
   final Queue<ChatMessage> _messages;
 
@@ -21,8 +21,8 @@ final class ChatMessageHistory extends BaseChatMessageHistory {
 
   /// Convert the history to a map.
   Map<String, dynamic> toMap() => {
-        'messages': _messages.map((message) => message.toMap()).toList(),
-      };
+    'messages': _messages.map((message) => message.toMap()).toList(),
+  };
 
   /// Convert the history from a map.
   factory ChatMessageHistory.fromMap(Map<String, dynamic> map) =>

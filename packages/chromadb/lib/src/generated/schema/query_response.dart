@@ -49,7 +49,7 @@ class QueryResponse with _$QueryResponse {
     'data',
     'uris',
     'ids',
-    'distances'
+    'distances',
   ];
 
   /// Perform validations on the schema property values

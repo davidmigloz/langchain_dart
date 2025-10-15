@@ -43,7 +43,7 @@ abstract class CreateModelRequest with _$CreateModelRequest {
     'modelfile',
     'path',
     'quantize',
-    'stream'
+    'stream',
   ];
 
   /// Perform validations on the schema property values

@@ -44,7 +44,7 @@ For example, `\x1B[1m<text>\x1B[0m` will make "<text>" bold.
 If the user's question is not about Europe, just respond with:
 "I can only help you with vacation planning in Europe."
 Do not provide any other suggestion if the question is not about Europe.
-'''
+''',
     ),
     (ChatMessageType.human, '{question}'),
   ]);
@@ -55,10 +55,11 @@ Do not provide any other suggestion if the question is not about Europe.
     ),
   );
   const outputParser = StringOutputParser<ChatResult>();
-  final chain = setupAndRetrieval //
-      .pipe(promptTemplate)
-      .pipe(model)
-      .pipe(outputParser);
+  final chain =
+      setupAndRetrieval //
+          .pipe(promptTemplate)
+          .pipe(model)
+          .pipe(outputParser);
 
   stdout.writeln(
     'Hello! Ask me anything about your vacation plans in Europe, '

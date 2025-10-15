@@ -115,7 +115,7 @@ abstract class Session with _$Session {
     'tools',
     'tool_choice',
     'temperature',
-    'max_response_output_tokens'
+    'max_response_output_tokens',
   ];
 
   /// Perform validations on the schema property values

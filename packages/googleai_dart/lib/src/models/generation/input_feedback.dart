@@ -27,21 +27,20 @@ class InputFeedback {
 
   /// Creates an [InputFeedback] from JSON.
   factory InputFeedback.fromJson(Map<String, dynamic> json) => InputFeedback(
-        blockReason: json['blockReason'] != null
-            ? blockReasonFromString(json['blockReason'] as String?)
-            : null,
-        safetyRatings: json['safetyRatings'] != null
-            ? (json['safetyRatings'] as List)
-                .map((e) => SafetyRating.fromJson(e as Map<String, dynamic>))
-                .toList()
-            : null,
-      );
+    blockReason: json['blockReason'] != null
+        ? blockReasonFromString(json['blockReason'] as String?)
+        : null,
+    safetyRatings: json['safetyRatings'] != null
+        ? (json['safetyRatings'] as List)
+              .map((e) => SafetyRating.fromJson(e as Map<String, dynamic>))
+              .toList()
+        : null,
+  );
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (blockReason != null)
-          'blockReason': blockReasonToString(blockReason!),
-        if (safetyRatings != null)
-          'safetyRatings': safetyRatings!.map((e) => e.toJson()).toList(),
-      };
+    if (blockReason != null) 'blockReason': blockReasonToString(blockReason!),
+    if (safetyRatings != null)
+      'safetyRatings': safetyRatings!.map((e) => e.toJson()).toList(),
+  };
 }

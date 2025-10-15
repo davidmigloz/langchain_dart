@@ -74,7 +74,8 @@ class ErrorInterceptor implements Interceptor {
     }
 
     // Extract request metadata from context
-    final correlationId = context.metadata['correlationId'] as String? ??
+    final correlationId =
+        context.metadata['correlationId'] as String? ??
         context.request.headers['X-Request-ID'] ??
         generateRequestId();
     final timestamp =

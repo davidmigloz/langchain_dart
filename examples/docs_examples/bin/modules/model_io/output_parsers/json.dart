@@ -53,8 +53,9 @@ Future<void> _streaming() async {
     ),
   );
 
-  final noJsonParser =
-      promptTemplate.pipe(model).pipe(const StringOutputParser());
+  final noJsonParser = promptTemplate
+      .pipe(model)
+      .pipe(const StringOutputParser());
   final stream1 = noJsonParser.stream({
     'countries': ['France', 'Spain', 'Japan'].join(', '),
   });

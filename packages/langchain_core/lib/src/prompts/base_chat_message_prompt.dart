@@ -16,7 +16,7 @@ abstract base class ChatMessagePromptTemplate
     extends Runnable<InputValues, BaseLangChainOptions, List<ChatMessage>> {
   /// {@macro chat_message_prompt_template}
   const ChatMessagePromptTemplate({required this.prompt})
-      : super(defaultOptions: const BaseLangChainOptions());
+    : super(defaultOptions: const BaseLangChainOptions());
 
   /// The prompt template for the message.
   final BasePromptTemplate prompt;

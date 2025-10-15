@@ -75,21 +75,21 @@ class GenerateAnswerRequest {
             : null,
         safetySettings: json['safetySettings'] != null
             ? (json['safetySettings'] as List)
-                .map((e) => SafetySetting.fromJson(e as Map<String, dynamic>))
-                .toList()
+                  .map((e) => SafetySetting.fromJson(e as Map<String, dynamic>))
+                  .toList()
             : null,
         temperature: json['temperature'] as double?,
       );
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        'contents': contents.map((e) => e.toJson()).toList(),
-        'answerStyle': answerStyleToString(answerStyle),
-        if (inlinePassages != null) 'inlinePassages': inlinePassages!.toJson(),
-        if (semanticRetriever != null)
-          'semanticRetriever': semanticRetriever!.toJson(),
-        if (safetySettings != null)
-          'safetySettings': safetySettings!.map((e) => e.toJson()).toList(),
-        if (temperature != null) 'temperature': temperature,
-      };
+    'contents': contents.map((e) => e.toJson()).toList(),
+    'answerStyle': answerStyleToString(answerStyle),
+    if (inlinePassages != null) 'inlinePassages': inlinePassages!.toJson(),
+    if (semanticRetriever != null)
+      'semanticRetriever': semanticRetriever!.toJson(),
+    if (safetySettings != null)
+      'safetySettings': safetySettings!.map((e) => e.toJson()).toList(),
+    if (temperature != null) 'temperature': temperature,
+  };
 }

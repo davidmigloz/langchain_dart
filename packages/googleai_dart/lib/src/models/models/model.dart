@@ -60,41 +60,41 @@ class Model {
 
   /// Creates a [Model] from JSON.
   factory Model.fromJson(Map<String, dynamic> json) => Model(
-        name: json['name'] as String,
-        baseModelId: json['baseModelId'] as String?,
-        displayName: json['displayName'] as String?,
-        description: json['description'] as String?,
-        version: json['version'] as String?,
-        inputTokenLimit: json['inputTokenLimit'] as int?,
-        outputTokenLimit: json['outputTokenLimit'] as int?,
-        supportedGenerationMethods:
-            (json['supportedGenerationMethods'] as List<dynamic>?)
-                ?.map((e) => e as String)
-                .toList(),
-        temperature: (json['temperature'] as num?)?.toDouble(),
-        maxTemperature: (json['maxTemperature'] as num?)?.toDouble(),
-        topP: (json['topP'] as num?)?.toDouble(),
-        topK: json['topK'] as int?,
-        thinking: json['thinking'] as bool?,
-      );
+    name: json['name'] as String,
+    baseModelId: json['baseModelId'] as String?,
+    displayName: json['displayName'] as String?,
+    description: json['description'] as String?,
+    version: json['version'] as String?,
+    inputTokenLimit: json['inputTokenLimit'] as int?,
+    outputTokenLimit: json['outputTokenLimit'] as int?,
+    supportedGenerationMethods:
+        (json['supportedGenerationMethods'] as List<dynamic>?)
+            ?.map((e) => e as String)
+            .toList(),
+    temperature: (json['temperature'] as num?)?.toDouble(),
+    maxTemperature: (json['maxTemperature'] as num?)?.toDouble(),
+    topP: (json['topP'] as num?)?.toDouble(),
+    topK: json['topK'] as int?,
+    thinking: json['thinking'] as bool?,
+  );
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        'name': name,
-        if (baseModelId != null) 'baseModelId': baseModelId,
-        if (displayName != null) 'displayName': displayName,
-        if (description != null) 'description': description,
-        if (version != null) 'version': version,
-        if (inputTokenLimit != null) 'inputTokenLimit': inputTokenLimit,
-        if (outputTokenLimit != null) 'outputTokenLimit': outputTokenLimit,
-        if (supportedGenerationMethods != null)
-          'supportedGenerationMethods': supportedGenerationMethods,
-        if (temperature != null) 'temperature': temperature,
-        if (maxTemperature != null) 'maxTemperature': maxTemperature,
-        if (topP != null) 'topP': topP,
-        if (topK != null) 'topK': topK,
-        if (thinking != null) 'thinking': thinking,
-      };
+    'name': name,
+    if (baseModelId != null) 'baseModelId': baseModelId,
+    if (displayName != null) 'displayName': displayName,
+    if (description != null) 'description': description,
+    if (version != null) 'version': version,
+    if (inputTokenLimit != null) 'inputTokenLimit': inputTokenLimit,
+    if (outputTokenLimit != null) 'outputTokenLimit': outputTokenLimit,
+    if (supportedGenerationMethods != null)
+      'supportedGenerationMethods': supportedGenerationMethods,
+    if (temperature != null) 'temperature': temperature,
+    if (maxTemperature != null) 'maxTemperature': maxTemperature,
+    if (topP != null) 'topP': topP,
+    if (topK != null) 'topK': topK,
+    if (thinking != null) 'thinking': thinking,
+  };
 
   /// Creates a copy with replaced values.
   Model copyWith({
@@ -123,8 +123,9 @@ class Model {
       description: description == unsetCopyWithValue
           ? this.description
           : description as String?,
-      version:
-          version == unsetCopyWithValue ? this.version : version as String?,
+      version: version == unsetCopyWithValue
+          ? this.version
+          : version as String?,
       inputTokenLimit: inputTokenLimit == unsetCopyWithValue
           ? this.inputTokenLimit
           : inputTokenLimit as int?,
@@ -133,8 +134,8 @@ class Model {
           : outputTokenLimit as int?,
       supportedGenerationMethods:
           supportedGenerationMethods == unsetCopyWithValue
-              ? this.supportedGenerationMethods
-              : supportedGenerationMethods as List<String>?,
+          ? this.supportedGenerationMethods
+          : supportedGenerationMethods as List<String>?,
       temperature: temperature == unsetCopyWithValue
           ? this.temperature
           : temperature as double?,
@@ -143,8 +144,9 @@ class Model {
           : maxTemperature as double?,
       topP: topP == unsetCopyWithValue ? this.topP : topP as double?,
       topK: topK == unsetCopyWithValue ? this.topK : topK as int?,
-      thinking:
-          thinking == unsetCopyWithValue ? this.thinking : thinking as bool?,
+      thinking: thinking == unsetCopyWithValue
+          ? this.thinking
+          : thinking as bool?,
     );
   }
 }

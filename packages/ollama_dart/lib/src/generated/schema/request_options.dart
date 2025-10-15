@@ -166,7 +166,7 @@ abstract class RequestOptions with _$RequestOptions {
     'vocab_only',
     'use_mmap',
     'use_mlock',
-    'num_thread'
+    'num_thread',
   ];
 
   /// Perform validations on the schema property values

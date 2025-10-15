@@ -16,16 +16,18 @@ class InlinedResponses {
       InlinedResponses(
         inlinedResponses: json['inlinedResponses'] != null
             ? (json['inlinedResponses'] as List)
-                .map((e) => InlinedResponse.fromJson(e as Map<String, dynamic>))
-                .toList()
+                  .map(
+                    (e) => InlinedResponse.fromJson(e as Map<String, dynamic>),
+                  )
+                  .toList()
             : null,
       );
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (inlinedResponses != null)
-          'inlinedResponses': inlinedResponses!.map((e) => e.toJson()).toList(),
-      };
+    if (inlinedResponses != null)
+      'inlinedResponses': inlinedResponses!.map((e) => e.toJson()).toList(),
+  };
 
   /// Creates a copy with replaced values.
   InlinedResponses copyWith({

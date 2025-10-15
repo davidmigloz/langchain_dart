@@ -28,23 +28,23 @@ class Operation {
 
   /// Creates an [Operation] from JSON.
   factory Operation.fromJson(Map<String, dynamic> json) => Operation(
-        name: json['name'] as String?,
-        metadata: json['metadata'] as Map<String, dynamic>?,
-        done: json['done'] as bool? ?? false,
-        error: json['error'] != null
-            ? OperationError.fromJson(json['error'] as Map<String, dynamic>)
-            : null,
-        response: json['response'] as Map<String, dynamic>?,
-      );
+    name: json['name'] as String?,
+    metadata: json['metadata'] as Map<String, dynamic>?,
+    done: json['done'] as bool? ?? false,
+    error: json['error'] != null
+        ? OperationError.fromJson(json['error'] as Map<String, dynamic>)
+        : null,
+    response: json['response'] as Map<String, dynamic>?,
+  );
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (name != null) 'name': name,
-        if (metadata != null) 'metadata': metadata,
-        'done': done,
-        if (error != null) 'error': error!.toJson(),
-        if (response != null) 'response': response,
-      };
+    if (name != null) 'name': name,
+    if (metadata != null) 'metadata': metadata,
+    'done': done,
+    if (error != null) 'error': error!.toJson(),
+    if (response != null) 'response': response,
+  };
 
   /// Creates a copy with replaced values.
   Operation copyWith({
@@ -60,8 +60,9 @@ class Operation {
           ? this.metadata
           : metadata as Map<String, dynamic>?,
       done: done == unsetCopyWithValue ? this.done : done! as bool,
-      error:
-          error == unsetCopyWithValue ? this.error : error as OperationError?,
+      error: error == unsetCopyWithValue
+          ? this.error
+          : error as OperationError?,
       response: response == unsetCopyWithValue
           ? this.response
           : response as Map<String, dynamic>?,
@@ -89,17 +90,17 @@ class OperationError {
 
   /// Creates an [OperationError] from JSON.
   factory OperationError.fromJson(Map<String, dynamic> json) => OperationError(
-        code: json['code'] as int,
-        message: json['message'] as String,
-        details: json['details'] as List<dynamic>?,
-      );
+    code: json['code'] as int,
+    message: json['message'] as String,
+    details: json['details'] as List<dynamic>?,
+  );
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        'code': code,
-        'message': message,
-        if (details != null) 'details': details,
-      };
+    'code': code,
+    'message': message,
+    if (details != null) 'details': details,
+  };
 
   /// Creates a copy with replaced values.
   OperationError copyWith({
@@ -109,8 +110,9 @@ class OperationError {
   }) {
     return OperationError(
       code: code == unsetCopyWithValue ? this.code : code! as int,
-      message:
-          message == unsetCopyWithValue ? this.message : message! as String,
+      message: message == unsetCopyWithValue
+          ? this.message
+          : message! as String,
       details: details == unsetCopyWithValue
           ? this.details
           : details as List<dynamic>?,

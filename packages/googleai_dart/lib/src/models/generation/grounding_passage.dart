@@ -26,7 +26,7 @@ class GroundingPassage {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (id != null) 'id': id,
-        if (content != null) 'content': content!.toJson(),
-      };
+    if (id != null) 'id': id,
+    if (content != null) 'content': content!.toJson(),
+  };
 }

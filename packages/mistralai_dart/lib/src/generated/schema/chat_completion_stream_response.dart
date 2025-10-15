@@ -42,7 +42,7 @@ abstract class ChatCompletionStreamResponse
     'object',
     'created',
     'model',
-    'choices'
+    'choices',
   ];
 
   /// Perform validations on the schema property values
@@ -91,8 +91,8 @@ abstract class ChatCompletionStreamResponseChoicesInner
 
   /// Object construction from a JSON representation
   factory ChatCompletionStreamResponseChoicesInner.fromJson(
-          Map<String, dynamic> json) =>
-      _$ChatCompletionStreamResponseChoicesInnerFromJson(json);
+    Map<String, dynamic> json,
+  ) => _$ChatCompletionStreamResponseChoicesInnerFromJson(json);
 
   /// List of all property names of schema
   static const List<String> propertyNames = ['index', 'delta', 'finish_reason'];

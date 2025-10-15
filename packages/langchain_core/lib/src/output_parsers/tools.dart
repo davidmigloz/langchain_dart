@@ -60,14 +60,19 @@ import 'utils.dart';
 /// // }]
 /// ```
 /// {@endtemplate}
-class ToolsOutputParser extends BaseOutputParser<ChatResult,
-    OutputParserOptions, List<ParsedToolCall>> {
+class ToolsOutputParser
+    extends
+        BaseOutputParser<
+          ChatResult,
+          OutputParserOptions,
+          List<ParsedToolCall>
+        > {
   /// {@macro tools_output_parser}
   ToolsOutputParser({
     this.reduceOutputStream = false,
   }) : super(
-          defaultOptions: const OutputParserOptions(),
-        );
+         defaultOptions: const OutputParserOptions(),
+       );
 
   /// When invoking this parser with [Runnable.stream], every item from the
   /// input stream will be parsed and emitted by default.
@@ -149,9 +154,9 @@ class ToolsOutputParser extends BaseOutputParser<ChatResult,
       final arguments = toolCall.arguments.isNotEmpty
           ? toolCall.arguments
           : parsePartialJson(toolCall.argumentsRaw) ??
-              (i < fallback.length
-                  ? fallback[i].arguments
-                  : const <String, dynamic>{});
+                (i < fallback.length
+                    ? fallback[i].arguments
+                    : const <String, dynamic>{});
       output.add(
         ParsedToolCall(
           id: toolCall.id,

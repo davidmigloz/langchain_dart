@@ -64,8 +64,8 @@ class Chunk {
       data: ChunkData.fromJson(json['data'] as Map<String, dynamic>),
       customMetadata: json['customMetadata'] != null
           ? (json['customMetadata'] as List)
-              .map((e) => CustomMetadata.fromJson(e as Map<String, dynamic>))
-              .toList()
+                .map((e) => CustomMetadata.fromJson(e as Map<String, dynamic>))
+                .toList()
           : null,
       createTime: json['createTime'] != null
           ? DateTime.parse(json['createTime'] as String)
@@ -118,7 +118,8 @@ class Chunk {
   }
 
   @override
-  String toString() => 'Chunk('
+  String toString() =>
+      'Chunk('
       'name: $name, '
       'data: $data, '
       'customMetadata: $customMetadata, '

@@ -24,8 +24,8 @@ class ListChunksResponse {
     return ListChunksResponse(
       chunks: json['chunks'] != null
           ? (json['chunks'] as List)
-              .map((e) => Chunk.fromJson(e as Map<String, dynamic>))
-              .toList()
+                .map((e) => Chunk.fromJson(e as Map<String, dynamic>))
+                .toList()
           : null,
       nextPageToken: json['nextPageToken'] as String?,
     );
@@ -45,8 +45,9 @@ class ListChunksResponse {
     Object? nextPageToken = unsetCopyWithValue,
   }) {
     return ListChunksResponse(
-      chunks:
-          chunks == unsetCopyWithValue ? this.chunks : chunks as List<Chunk>?,
+      chunks: chunks == unsetCopyWithValue
+          ? this.chunks
+          : chunks as List<Chunk>?,
       nextPageToken: nextPageToken == unsetCopyWithValue
           ? this.nextPageToken
           : nextPageToken as String?,
@@ -54,7 +55,8 @@ class ListChunksResponse {
   }
 
   @override
-  String toString() => 'ListChunksResponse('
+  String toString() =>
+      'ListChunksResponse('
       'chunks: $chunks, '
       'nextPageToken: $nextPageToken)';
 }

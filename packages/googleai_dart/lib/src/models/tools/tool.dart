@@ -21,26 +21,26 @@ class Tool {
 
   /// Creates a [Tool] from JSON.
   factory Tool.fromJson(Map<String, dynamic> json) => Tool(
-        functionDeclarations: json['functionDeclarations'] != null
-            ? (json['functionDeclarations'] as List)
-                .map(
-                  (e) =>
-                      FunctionDeclaration.fromJson(e as Map<String, dynamic>),
-                )
-                .toList()
-            : null,
-        codeExecution: json['codeExecution'] as Map<String, dynamic>?,
-        googleSearch: json['googleSearch'] as Map<String, dynamic>?,
-      );
+    functionDeclarations: json['functionDeclarations'] != null
+        ? (json['functionDeclarations'] as List)
+              .map(
+                (e) => FunctionDeclaration.fromJson(e as Map<String, dynamic>),
+              )
+              .toList()
+        : null,
+    codeExecution: json['codeExecution'] as Map<String, dynamic>?,
+    googleSearch: json['googleSearch'] as Map<String, dynamic>?,
+  );
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (functionDeclarations != null)
-          'functionDeclarations':
-              functionDeclarations!.map((e) => e.toJson()).toList(),
-        if (codeExecution != null) 'codeExecution': codeExecution,
-        if (googleSearch != null) 'googleSearch': googleSearch,
-      };
+    if (functionDeclarations != null)
+      'functionDeclarations': functionDeclarations!
+          .map((e) => e.toJson())
+          .toList(),
+    if (codeExecution != null) 'codeExecution': codeExecution,
+    if (googleSearch != null) 'googleSearch': googleSearch,
+  };
 
   /// Creates a copy with replaced values.
   Tool copyWith({

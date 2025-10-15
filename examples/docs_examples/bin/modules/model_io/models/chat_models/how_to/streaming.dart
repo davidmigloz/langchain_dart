@@ -14,7 +14,7 @@ Future<void> _chatOpenAIStreaming() async {
   final promptTemplate = ChatPromptTemplate.fromTemplates(const [
     (
       ChatMessageType.system,
-      'You are a helpful assistant that replies only with numbers in order without any spaces or commas'
+      'You are a helpful assistant that replies only with numbers in order without any spaces or commas',
     ),
     (ChatMessageType.human, 'List the numbers from 1 to {max_num}'),
   ]);

@@ -28,10 +28,10 @@ class Hyperparameters {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (epochCount != null) 'epochCount': epochCount,
-        if (batchSize != null) 'batchSize': batchSize,
-        if (learningRate != null) 'learningRate': learningRate,
-      };
+    if (epochCount != null) 'epochCount': epochCount,
+    if (batchSize != null) 'batchSize': batchSize,
+    if (learningRate != null) 'learningRate': learningRate,
+  };
 
   /// Creates a copy with replaced values.
   Hyperparameters copyWith({
@@ -43,8 +43,9 @@ class Hyperparameters {
       epochCount: epochCount == unsetCopyWithValue
           ? this.epochCount
           : epochCount as int?,
-      batchSize:
-          batchSize == unsetCopyWithValue ? this.batchSize : batchSize as int?,
+      batchSize: batchSize == unsetCopyWithValue
+          ? this.batchSize
+          : batchSize as int?,
       learningRate: learningRate == unsetCopyWithValue
           ? this.learningRate
           : learningRate as double?,

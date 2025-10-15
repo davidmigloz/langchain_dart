@@ -33,7 +33,7 @@ class RunnableMapInput<RunInput extends Object, RunOutput extends Object>
     extends Runnable<RunInput, RunnableOptions, RunOutput> {
   /// {@macro runnable_map_input}
   const RunnableMapInput(this.inputMapper)
-      : super(defaultOptions: const RunnableOptions());
+    : super(defaultOptions: const RunnableOptions());
 
   /// A function that maps [RunInput] to [RunOutput].
   final FutureOr<RunOutput> Function(RunInput input) inputMapper;

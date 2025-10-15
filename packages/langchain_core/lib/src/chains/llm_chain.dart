@@ -24,9 +24,11 @@ import 'types.dart';
 /// ```
 /// {@endtemplate}
 class LLMChain<
-    LLMType extends BaseLanguageModel,
-    LLMOptions extends LanguageModelOptions,
-    MemoryType extends BaseMemory> extends BaseChain<MemoryType> {
+  LLMType extends BaseLanguageModel,
+  LLMOptions extends LanguageModelOptions,
+  MemoryType extends BaseMemory
+>
+    extends BaseChain<MemoryType> {
   /// {@macro llm_chain}
   const LLMChain({
     required this.llm,

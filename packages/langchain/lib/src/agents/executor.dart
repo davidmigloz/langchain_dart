@@ -65,7 +65,7 @@ class AgentExecutor extends BaseChain {
   /// Handles errors raised by the agent's output parser.
   /// The response from this handler will be used as the tool input.
   final Map<String, dynamic> Function(OutputParserException)?
-      handleParsingErrors;
+  handleParsingErrors;
 
   /// Output key for the agent's intermediate steps output.
   static const intermediateStepsOutputKey = 'intermediate_steps';
@@ -75,9 +75,9 @@ class AgentExecutor extends BaseChain {
 
   @override
   Set<String> get outputKeys => {
-        ...agent.returnValues,
-        if (returnIntermediateSteps) intermediateStepsOutputKey,
-      };
+    ...agent.returnValues,
+    if (returnIntermediateSteps) intermediateStepsOutputKey,
+  };
 
   /// Validate that tools are compatible with multi action agent.
   bool _validateMultiActionAgentTools() {

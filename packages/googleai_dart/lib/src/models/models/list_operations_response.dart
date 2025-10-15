@@ -25,7 +25,8 @@ class ListOperationsResponse {
   /// Creates a [ListOperationsResponse] from JSON.
   factory ListOperationsResponse.fromJson(Map<String, dynamic> json) =>
       ListOperationsResponse(
-        operations: (json['operations'] as List<dynamic>?)
+        operations:
+            (json['operations'] as List<dynamic>?)
                 ?.map((e) => Operation.fromJson(e as Map<String, dynamic>))
                 .toList() ??
             [],
@@ -37,10 +38,10 @@ class ListOperationsResponse {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        'operations': operations.map((e) => e.toJson()).toList(),
-        if (nextPageToken != null) 'nextPageToken': nextPageToken,
-        if (unreachable != null) 'unreachable': unreachable,
-      };
+    'operations': operations.map((e) => e.toJson()).toList(),
+    if (nextPageToken != null) 'nextPageToken': nextPageToken,
+    if (unreachable != null) 'unreachable': unreachable,
+  };
 
   /// Creates a copy with replaced values.
   ListOperationsResponse copyWith({

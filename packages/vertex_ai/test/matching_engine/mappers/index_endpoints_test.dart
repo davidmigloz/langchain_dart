@@ -7,27 +7,28 @@ import 'package:vertex_ai/vertex_ai.dart';
 void main() {
   group('VertexAIIndexEndpointsGoogleApisMapper tests', () {
     test(
-        'VertexAIIndexEndpointsGoogleApisMapper.mapPrivateServiceConnectConfig',
-        () {
-      const config = VertexAIPrivateServiceConnectConfig(
-        enablePrivateServiceConnect: true,
-        projectAllowlist: ['projectAllowlist'],
-      );
-      final expected = GoogleCloudAiplatformV1PrivateServiceConnectConfig(
-        enablePrivateServiceConnect: true,
-        projectAllowlist: ['projectAllowlist'],
-      );
+      'VertexAIIndexEndpointsGoogleApisMapper.mapPrivateServiceConnectConfig',
+      () {
+        const config = VertexAIPrivateServiceConnectConfig(
+          enablePrivateServiceConnect: true,
+          projectAllowlist: ['projectAllowlist'],
+        );
+        final expected = GoogleCloudAiplatformV1PrivateServiceConnectConfig(
+          enablePrivateServiceConnect: true,
+          projectAllowlist: ['projectAllowlist'],
+        );
 
-      final res =
-          VertexAIIndexEndpointsGoogleApisMapper.mapPrivateServiceConnectConfig(
-        config,
-      );
-      expect(
-        res.enablePrivateServiceConnect,
-        expected.enablePrivateServiceConnect,
-      );
-      expect(res.projectAllowlist, expected.projectAllowlist);
-    });
+        final res =
+            VertexAIIndexEndpointsGoogleApisMapper.mapPrivateServiceConnectConfig(
+              config,
+            );
+        expect(
+          res.enablePrivateServiceConnect,
+          expected.enablePrivateServiceConnect,
+        );
+        expect(res.projectAllowlist, expected.projectAllowlist);
+      },
+    );
 
     test('VertexAIIndexEndpointsGoogleApisMapper.mapAutomaticResources', () {
       const resources = VertexAIAutomaticResources(
@@ -104,9 +105,9 @@ void main() {
         network: 'network',
         privateServiceConnectConfig:
             GoogleCloudAiplatformV1PrivateServiceConnectConfig(
-          enablePrivateServiceConnect: true,
-          projectAllowlist: ['projectAllowlist'],
-        ),
+              enablePrivateServiceConnect: true,
+              projectAllowlist: ['projectAllowlist'],
+            ),
         publicEndpointEnabled: true,
         publicEndpointDomainName: 'publicEndpointDomainName',
         deployedIndexes: [
@@ -137,12 +138,12 @@ void main() {
             ),
             deployedIndexAuthConfig:
                 GoogleCloudAiplatformV1DeployedIndexAuthConfig(
-              authProvider:
-                  GoogleCloudAiplatformV1DeployedIndexAuthConfigAuthProvider(
-                allowedIssuers: ['allowedIssuers'],
-                audiences: ['audiences'],
-              ),
-            ),
+                  authProvider:
+                      GoogleCloudAiplatformV1DeployedIndexAuthConfigAuthProvider(
+                        allowedIssuers: ['allowedIssuers'],
+                        audiences: ['audiences'],
+                      ),
+                ),
             privateEndpoints: GoogleCloudAiplatformV1IndexPrivateEndpoints(
               matchGrpcAddress: 'matchGrpcAddress',
               serviceAttachment: 'serviceAttachment',
@@ -265,8 +266,8 @@ void main() {
 
       final res =
           VertexAIIndexEndpointsGoogleApisMapper.mapFindNeighborsResponse(
-        response,
-      );
+            response,
+          );
       expect(res, expected);
     });
   });

@@ -242,7 +242,8 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
     GenerationConfig? generationConfig,
     List<Tool>? tools,
     ToolConfig? toolConfig,
-  ) _generateCompletionRequest(
+  )
+  _generateCompletionRequest(
     final List<ChatMessage> messages, {
     final ChatFirebaseVertexAIOptions? options,
   }) {
@@ -306,8 +307,9 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
       location: location,
     ).generativeModel(
       model: model,
-      systemInstruction:
-          systemInstruction != null ? Content.system(systemInstruction) : null,
+      systemInstruction: systemInstruction != null
+          ? Content.system(systemInstruction)
+          : null,
     );
   }
 

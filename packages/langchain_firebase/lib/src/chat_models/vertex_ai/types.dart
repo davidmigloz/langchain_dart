@@ -176,11 +176,15 @@ class ChatFirebaseVertexAIOptions extends ChatModelOptions {
         candidateCount == other.candidateCount &&
         maxOutputTokens == other.maxOutputTokens &&
         temperature == other.temperature &&
-        const ListEquality<String>()
-            .equals(stopSequences, other.stopSequences) &&
+        const ListEquality<String>().equals(
+          stopSequences,
+          other.stopSequences,
+        ) &&
         responseMimeType == other.responseMimeType &&
-        const ListEquality<ChatFirebaseVertexAISafetySetting>()
-            .equals(safetySettings, other.safetySettings) &&
+        const ListEquality<ChatFirebaseVertexAISafetySetting>().equals(
+          safetySettings,
+          other.safetySettings,
+        ) &&
         const ListEquality<ToolSpec>().equals(tools, other.tools) &&
         toolChoice == other.toolChoice &&
         concurrencyLimit == other.concurrencyLimit;
@@ -196,8 +200,9 @@ class ChatFirebaseVertexAIOptions extends ChatModelOptions {
         temperature.hashCode ^
         const ListEquality<String>().hash(stopSequences) ^
         responseMimeType.hashCode ^
-        const ListEquality<ChatFirebaseVertexAISafetySetting>()
-            .hash(safetySettings) ^
+        const ListEquality<ChatFirebaseVertexAISafetySetting>().hash(
+          safetySettings,
+        ) ^
         const ListEquality<ToolSpec>().hash(tools) ^
         toolChoice.hashCode ^
         concurrencyLimit.hashCode;

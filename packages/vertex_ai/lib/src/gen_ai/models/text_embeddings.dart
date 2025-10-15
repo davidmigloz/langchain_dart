@@ -47,10 +47,10 @@ class VertexAITextEmbeddingsModelContent {
     this.title,
     required this.content,
   }) : assert(
-          title == null ||
-              taskType == VertexAITextEmbeddingsModelTaskType.retrievalDocument,
-          'title can only be used with retrievalDocument taskType',
-        );
+         title == null ||
+             taskType == VertexAITextEmbeddingsModelTaskType.retrievalDocument,
+         'title can only be used with retrievalDocument taskType',
+       );
 
   /// Type of task where the embeddings will be used.
   /// It helps the model produce better quality embeddings.
@@ -159,8 +159,9 @@ class VertexAITextEmbeddingsModelResponse {
 
   @override
   int get hashCode =>
-      const ListEquality<VertexAITextEmbeddingsModelPrediction>()
-          .hash(predictions) ^
+      const ListEquality<VertexAITextEmbeddingsModelPrediction>().hash(
+        predictions,
+      ) ^
       metadata.hashCode;
 
   @override
@@ -196,7 +197,8 @@ class VertexAITextEmbeddingsModelPrediction {
   ) {
     final embeddings = predictionJson['embeddings'] as Map<String, dynamic>;
     final values = embeddings['values'] as List<dynamic>? ?? const [];
-    final statistics = embeddings['statistics'] as Map<String, dynamic>? ??
+    final statistics =
+        embeddings['statistics'] as Map<String, dynamic>? ??
         const <String, dynamic>{};
     return VertexAITextEmbeddingsModelPrediction(
       values: values.cast(),
@@ -254,7 +256,8 @@ class VertexAITextEmbeddingsModelResponseStatistics {
   ) {
     return VertexAITextEmbeddingsModelResponseStatistics(
       truncated: statisticsJson['truncated'] as bool? ?? false,
-      tokenCount: statisticsJson['tokenCount'] as int? ??
+      tokenCount:
+          statisticsJson['tokenCount'] as int? ??
           statisticsJson['token_count'] as int? ?? // Typo in API
           0,
     );

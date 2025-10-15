@@ -57,7 +57,7 @@ void main() {
                 'content': 'Hello',
               },
             ],
-          }
+          },
         ],
         parameters: {
           'temperature': 0.1,
@@ -162,9 +162,9 @@ void main() {
                 'categories': [
                   'Derogatory',
                 ],
-              }
+              },
             ],
-          }
+          },
         ],
         metadata: {
           'tokenMetadata': {
@@ -212,7 +212,7 @@ void main() {
                   license: 'CC BY-SA 3.0',
                   publicationDate: DateTime(2021),
                 ),
-              ]
+              ],
             ],
             safetyAttributes: const [
               VertexAIPredictionSafetyAttributes(

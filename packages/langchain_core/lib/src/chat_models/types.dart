@@ -56,7 +56,8 @@ class ChatResult extends LanguageModelResult<AIChatMessage> {
     return ChatResult(
       id: other.id.isNotEmpty ? other.id : id,
       output: output.concat(other.output),
-      finishReason: finishReason != FinishReason.unspecified &&
+      finishReason:
+          finishReason != FinishReason.unspecified &&
               other.finishReason == FinishReason.unspecified
           ? finishReason
           : other.finishReason,
@@ -123,52 +124,50 @@ sealed class ChatMessage {
   factory ChatMessage.ai(
     final String content, {
     final List<AIChatMessageToolCall> toolCalls = const [],
-  }) =>
-      AIChatMessage(
-        content: content,
-        toolCalls: toolCalls,
-      );
+  }) => AIChatMessage(
+    content: content,
+    toolCalls: toolCalls,
+  );
 
   /// Type of message that is the response of calling a tool.
   factory ChatMessage.tool({
     required final String toolCallId,
     required final String content,
-  }) =>
-      ToolChatMessage(
-        toolCallId: toolCallId,
-        content: content,
-      );
+  }) => ToolChatMessage(
+    toolCallId: toolCallId,
+    content: content,
+  );
 
   /// Chat message with custom role.
   factory ChatMessage.custom(
     final String content, {
     required final String role,
-  }) =>
-      CustomChatMessage(
-        content: content,
-        role: role,
-      );
+  }) => CustomChatMessage(
+    content: content,
+    role: role,
+  );
 
   /// Returns to content of the message as a string.
   String get contentAsString => switch (this) {
-        final SystemChatMessage system => system.content,
-        final HumanChatMessage human => switch (human.content) {
-            final ChatMessageContentText text => text.text,
-            final ChatMessageContentImage image => image.data,
-            final ChatMessageContentMultiModal multiModal => multiModal.parts
-                .map(
-                  (final p) => switch (p) {
-                    final ChatMessageContentText text => text.text,
-                    final ChatMessageContentImage image => image.data,
-                    ChatMessageContentMultiModal _ => '',
-                  },
-                )
-                .join('\n'),
-          },
-        final AIChatMessage ai => ai.content,
-        final ToolChatMessage tool => tool.content,
-        final CustomChatMessage custom => custom.content,
-      };
+    final SystemChatMessage system => system.content,
+    final HumanChatMessage human => switch (human.content) {
+      final ChatMessageContentText text => text.text,
+      final ChatMessageContentImage image => image.data,
+      final ChatMessageContentMultiModal multiModal =>
+        multiModal.parts
+            .map(
+              (final p) => switch (p) {
+                final ChatMessageContentText text => text.text,
+                final ChatMessageContentImage image => image.data,
+                ChatMessageContentMultiModal _ => '',
+              },
+            )
+            .join('\n'),
+    },
+    final AIChatMessage ai => ai.content,
+    final ToolChatMessage tool => tool.content,
+    final CustomChatMessage custom => custom.content,
+  };
 
   /// Merges this message with another by concatenating the content.
   ChatMessage concat(final ChatMessage other);
@@ -191,10 +190,10 @@ class SystemChatMessage extends ChatMessage {
   /// Converts this ChatMessage to a map along with a type hint for deserialization.
   @override
   Map<String, dynamic> toMap() => {
-        ...super.toMap(),
-        'content': content,
-        'type': 'system',
-      };
+    ...super.toMap(),
+    'content': content,
+    'type': 'system',
+  };
 
   /// The content of the message.
   final String content;
@@ -243,10 +242,10 @@ class HumanChatMessage extends ChatMessage {
   /// Converts this ChatMessage to a map along with a type hint for deserialization.
   @override
   Map<String, dynamic> toMap() => {
-        ...super.toMap(),
-        'content': content.toMap(),
-        'type': 'human',
-      };
+    ...super.toMap(),
+    'content': content.toMap(),
+    'type': 'human',
+  };
 
   /// The content of the message.
   final ChatMessageContent content;
@@ -273,48 +272,48 @@ class HumanChatMessage extends ChatMessage {
     if (thisContent is ChatMessageContentText) {
       return switch (otherContent) {
         ChatMessageContentText(text: final text) => HumanChatMessage(
-            content: ChatMessageContent.text(thisContent.text + text),
-          ),
+          content: ChatMessageContent.text(thisContent.text + text),
+        ),
         final ChatMessageContentImage image => HumanChatMessage(
-            content: ChatMessageContentMultiModal(parts: [thisContent, image]),
-          ),
+          content: ChatMessageContentMultiModal(parts: [thisContent, image]),
+        ),
         final ChatMessageContentMultiModal multiModal => HumanChatMessage(
-            content: ChatMessageContentMultiModal(
-              parts: [thisContent, ...multiModal.parts],
-            ),
+          content: ChatMessageContentMultiModal(
+            parts: [thisContent, ...multiModal.parts],
           ),
+        ),
       };
     } else if (thisContent is ChatMessageContentImage) {
       return switch (otherContent) {
         final ChatMessageContentText text => HumanChatMessage(
-            content: ChatMessageContentMultiModal(parts: [thisContent, text]),
-          ),
+          content: ChatMessageContentMultiModal(parts: [thisContent, text]),
+        ),
         final ChatMessageContentImage image => HumanChatMessage(
-            content: ChatMessageContentMultiModal(parts: [thisContent, image]),
-          ),
+          content: ChatMessageContentMultiModal(parts: [thisContent, image]),
+        ),
         final ChatMessageContentMultiModal multiModal => HumanChatMessage(
-            content: ChatMessageContentMultiModal(
-              parts: [thisContent, ...multiModal.parts],
-            ),
+          content: ChatMessageContentMultiModal(
+            parts: [thisContent, ...multiModal.parts],
           ),
+        ),
       };
     } else if (thisContent is ChatMessageContentMultiModal) {
       return switch (otherContent) {
         final ChatMessageContentText text => HumanChatMessage(
-            content: ChatMessageContentMultiModal(
-              parts: [...thisContent.parts, text],
-            ),
+          content: ChatMessageContentMultiModal(
+            parts: [...thisContent.parts, text],
           ),
+        ),
         final ChatMessageContentImage image => HumanChatMessage(
-            content: ChatMessageContentMultiModal(
-              parts: [...thisContent.parts, image],
-            ),
+          content: ChatMessageContentMultiModal(
+            parts: [...thisContent.parts, image],
           ),
+        ),
         final ChatMessageContentMultiModal multiModal => HumanChatMessage(
-            content: ChatMessageContentMultiModal(
-              parts: [...thisContent.parts, ...multiModal.parts],
-            ),
+          content: ChatMessageContentMultiModal(
+            parts: [...thisContent.parts, ...multiModal.parts],
           ),
+        ),
       };
     } else {
       throw ArgumentError('Unknown ChatMessageContent type: $thisContent');
@@ -343,21 +342,21 @@ class AIChatMessage extends ChatMessage {
 
   /// Converts a map to a [AIChatMessage].
   factory AIChatMessage.fromMap(Map<String, dynamic> map) => AIChatMessage(
-        content: map['content'] as String,
-        toolCalls: (map['toolCalls'] as List<dynamic>)
-            .map((i) => i as Map<String, dynamic>)
-            .map(AIChatMessageToolCall.fromMap)
-            .toList(growable: false),
-      );
+    content: map['content'] as String,
+    toolCalls: (map['toolCalls'] as List<dynamic>)
+        .map((i) => i as Map<String, dynamic>)
+        .map(AIChatMessageToolCall.fromMap)
+        .toList(growable: false),
+  );
 
   /// Converts this ChatMessage to a map along with a type hint for deserialization.
   @override
   Map<String, dynamic> toMap() => {
-        ...super.toMap(),
-        'content': content,
-        'toolCalls': toolCalls.map((t) => t.toMap()).toList(growable: false),
-        'type': 'ai',
-      };
+    ...super.toMap(),
+    'content': content,
+    'toolCalls': toolCalls.map((t) => t.toMap()).toList(growable: false),
+    'type': 'ai',
+  };
 
   /// The content of the message.
   final String content;
@@ -393,8 +392,9 @@ class AIChatMessage extends ChatMessage {
       final otherToolCallsById = {
         for (final toolCall in other.toolCalls)
           (toolCall.id.isNotEmpty
-              ? toolCall.id
-              : (this.toolCalls.lastOrNull?.id ?? '')): toolCall,
+                  ? toolCall.id
+                  : (this.toolCalls.lastOrNull?.id ?? '')):
+              toolCall,
       };
       final toolCallsIds = {
         ...thisToolCallsById.keys,
@@ -408,7 +408,8 @@ class AIChatMessage extends ChatMessage {
           AIChatMessageToolCall(
             id: id,
             name: (thisToolCall?.name ?? '') + (otherToolCall?.name ?? ''),
-            argumentsRaw: (thisToolCall?.argumentsRaw ?? '') +
+            argumentsRaw:
+                (thisToolCall?.argumentsRaw ?? '') +
                 (otherToolCall?.argumentsRaw ?? ''),
             arguments: {
               ...?thisToolCall?.arguments,
@@ -527,18 +528,18 @@ class ToolChatMessage extends ChatMessage {
 
   /// Converts a map to a [ToolChatMessage].
   factory ToolChatMessage.fromMap(Map<String, dynamic> map) => ToolChatMessage(
-        toolCallId: map['toolCallId'] as String,
-        content: map['content'] as String,
-      );
+    toolCallId: map['toolCallId'] as String,
+    content: map['content'] as String,
+  );
 
   /// Converts this ChatMessage to a map along with a type hint for deserialization.
   @override
   Map<String, dynamic> toMap() => {
-        ...super.toMap(),
-        'content': content,
-        'toolCallId': toolCallId,
-        'type': 'tool',
-      };
+    ...super.toMap(),
+    'content': content,
+    'toolCallId': toolCallId,
+    'type': 'tool',
+  };
 
   /// The id of the tool that was called.
   final String toolCallId;
@@ -600,11 +601,11 @@ class CustomChatMessage extends ChatMessage {
   /// Converts this ChatMessage to a map along with a type hint for deserialization.
   @override
   Map<String, dynamic> toMap() => {
-        ...super.toMap(),
-        'content': content,
-        'role': role,
-        'type': 'custom',
-      };
+    ...super.toMap(),
+    'content': content,
+    'role': role,
+    'type': 'custom',
+  };
 
   /// The content of the message.
   final String content;
@@ -689,18 +690,16 @@ sealed class ChatMessageContent {
     final String? mimeType,
     final ChatMessageContentImageDetail imageDetail =
         ChatMessageContentImageDetail.auto,
-  }) =>
-      ChatMessageContentImage(
-        data: data,
-        mimeType: mimeType,
-        detail: imageDetail,
-      );
+  }) => ChatMessageContentImage(
+    data: data,
+    mimeType: mimeType,
+    detail: imageDetail,
+  );
 
   /// The content of a message that is multi-modal.
   factory ChatMessageContent.multiModal(
     final List<ChatMessageContent> parts,
-  ) =>
-      ChatMessageContentMultiModal(parts: parts);
+  ) => ChatMessageContentMultiModal(parts: parts);
 }
 
 /// {@template chat_message_content_text}
@@ -720,13 +719,12 @@ class ChatMessageContentText extends ChatMessageContent {
       ChatMessageContentText(text: map['content'] as String);
 
   @override
-
   /// Converts this ChatMessageContent to a map along with a type hint for deserialization.
   Map<String, dynamic> toMap() => {
-        ...super.toMap(),
-        'type': 'text',
-        'content': text,
-      };
+    ...super.toMap(),
+    'type': 'text',
+    'content': text,
+  };
 
   @override
   bool operator ==(covariant final ChatMessageContentText other) =>
@@ -788,12 +786,12 @@ class ChatMessageContentImage extends ChatMessageContent {
   /// Converts this ChatMessageContent to a map along with a type hint for deserialization.
   @override
   Map<String, dynamic> toMap() => {
-        ...super.toMap(),
-        'type': 'image',
-        'data': data,
-        'mimeType': mimeType,
-        'detail': detail.name,
-      };
+    ...super.toMap(),
+    'type': 'image',
+    'data': data,
+    'mimeType': mimeType,
+    'detail': detail.name,
+  };
 
   @override
   bool operator ==(covariant final ChatMessageContentImage other) =>
@@ -825,9 +823,9 @@ class ChatMessageContentMultiModal extends ChatMessageContent {
   ChatMessageContentMultiModal({
     required this.parts,
   }) : assert(
-          !parts.any((final p) => p is ChatMessageContentMultiModal),
-          'Multi-modal messages cannot contain other multi-modal messages.',
-        );
+         !parts.any((final p) => p is ChatMessageContentMultiModal),
+         'Multi-modal messages cannot contain other multi-modal messages.',
+       );
 
   /// Converts a map to a [ChatMessageContentMultiModal].
   factory ChatMessageContentMultiModal.fromMap(Map<String, dynamic> map) =>
@@ -841,10 +839,10 @@ class ChatMessageContentMultiModal extends ChatMessageContent {
   /// Converts [ChatMessageContentMultiModal] to a map along with a type hint for deserialization.
   @override
   Map<String, dynamic> toMap() => {
-        ...super.toMap(),
-        'type': 'multi_modal',
-        'parts': parts.map((p) => p.toMap()).toList(growable: false),
-      };
+    ...super.toMap(),
+    'type': 'multi_modal',
+    'parts': parts.map((p) => p.toMap()).toList(growable: false),
+  };
 
   /// The parts of the multi-modal message.
   final List<ChatMessageContent> parts;
@@ -922,9 +920,9 @@ final class ChatToolChoiceNone extends ChatToolChoice {
   /// Converts this ChatToolChoice to a map along with a type hint for deserialization.
   @override
   Map<String, dynamic> toMap() => {
-        ...super.toMap(),
-        'type': 'none',
-      };
+    ...super.toMap(),
+    'type': 'none',
+  };
 
   /// Converts a map to a [ChatToolChoiceNone].
   // ignore: avoid_unused_constructor_parameters
@@ -942,9 +940,9 @@ final class ChatToolChoiceAuto extends ChatToolChoice {
   /// Converts this ChatToolChoice to a map along with a type hint for deserialization.
   @override
   Map<String, dynamic> toMap() => {
-        ...super.toMap(),
-        'type': 'auto',
-      };
+    ...super.toMap(),
+    'type': 'auto',
+  };
 
   /// Converts a map to a [ChatToolChoiceAuto].
   // ignore: avoid_unused_constructor_parameters
@@ -962,9 +960,9 @@ final class ChatToolChoiceRequired extends ChatToolChoice {
   /// Converts this ChatToolChoice to a map along with a type hint for deserialization.
   @override
   Map<String, dynamic> toMap() => {
-        ...super.toMap(),
-        'type': 'required',
-      };
+    ...super.toMap(),
+    'type': 'required',
+  };
 
   /// Converts a map to a [ChatToolChoiceRequired].
   // ignore: avoid_unused_constructor_parameters
@@ -988,10 +986,10 @@ final class ChatToolChoiceForced extends ChatToolChoice {
   /// Converts this ChatToolChoice to a map along with a type hint for deserialization.
   @override
   Map<String, dynamic> toMap() => {
-        ...super.toMap(),
-        'type': 'forced',
-        'name': name,
-      };
+    ...super.toMap(),
+    'type': 'forced',
+    'name': name,
+  };
 
   /// Converts a map to a [ChatToolChoiceForced].
   factory ChatToolChoiceForced.fromMap(Map<String, dynamic> map) =>

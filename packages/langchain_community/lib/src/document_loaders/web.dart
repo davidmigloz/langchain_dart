@@ -66,10 +66,12 @@ class WebBaseLoader extends BaseDocumentLoader {
     final BeautifulSoup soup,
   ) {
     final title = soup.title;
-    final description = soup.find(
-      'meta',
-      attrs: {'name': 'description'},
-    )?.getAttrValue('content');
+    final description = soup
+        .find(
+          'meta',
+          attrs: {'name': 'description'},
+        )
+        ?.getAttrValue('content');
     final language = soup.find('html')?.getAttrValue('lang');
     return {
       'source': url,

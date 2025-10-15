@@ -9,8 +9,9 @@ void main() {
   group('RunnableFallback tests', () {
     late FakeEchoChatModel model;
     late FakeChatModel fallbackModel;
-    final promptTemplate =
-        ChatPromptTemplate.fromTemplate('tell me a joke about {topic}');
+    final promptTemplate = ChatPromptTemplate.fromTemplate(
+      'tell me a joke about {topic}',
+    );
     final input = PromptValue.string('why is the sky blue');
 
     setUp(() {
@@ -37,8 +38,9 @@ void main() {
       const model = FakeEchoChatModel();
       const fallbackModel = FakeEchoChatModel();
       final fallbackChain = promptTemplate.pipe(fallbackModel);
-      final chainWithFallbacks =
-          promptTemplate.pipe(model).withFallbacks([fallbackChain]);
+      final chainWithFallbacks = promptTemplate.pipe(model).withFallbacks([
+        fallbackChain,
+      ]);
       final res = await chainWithFallbacks.batch(
         [
           {'topic': 'bears'},
@@ -54,8 +56,9 @@ void main() {
         const FakeEchoChatModelOptions(throwRandomError: true),
       );
       final fallbackChain = promptTemplate.pipe(fallbackModel);
-      final chainWithFallbacks =
-          promptTemplate.pipe(brokenModel).withFallbacks([fallbackChain]);
+      final chainWithFallbacks = promptTemplate.pipe(brokenModel).withFallbacks(
+        [fallbackChain],
+      );
       final res = await chainWithFallbacks.batch(
         [
           {'topic': 'bears'},
@@ -72,8 +75,9 @@ void main() {
         const FakeEchoChatModelOptions(throwRandomError: true),
       );
       final fallbackChain = promptTemplate.pipe(brokenModel2);
-      final chainWithFallbacks =
-          promptTemplate.pipe(brokenModel1).withFallbacks([fallbackChain]);
+      final chainWithFallbacks = promptTemplate
+          .pipe(brokenModel1)
+          .withFallbacks([fallbackChain]);
       expect(
         () async => chainWithFallbacks.batch(
           [

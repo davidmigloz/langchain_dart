@@ -161,7 +161,8 @@ class ReduceDocumentsChain extends BaseCombineDocumentsChain {
     final Future<int?> Function(
       List<Document> docs, {
       InputValues inputs,
-    }) lengthFunc,
+    })
+    lengthFunc,
     final int tokenMax,
   ) async {
     final List<List<Document>> newResultDocList = [];

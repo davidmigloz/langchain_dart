@@ -105,7 +105,8 @@ void main() async {
         messages: const [
           VertexAITextChatModelMessage(
             author: 'USER',
-            content: 'List the numbers from 1 to 9 '
+            content:
+                'List the numbers from 1 to 9 '
                 'in order without any spaces or commas.',
           ),
         ],

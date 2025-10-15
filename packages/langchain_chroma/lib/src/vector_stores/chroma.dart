@@ -110,12 +110,12 @@ class Chroma extends VectorStore {
     final Map<String, String> headers = const {},
     final http.Client? client,
   }) : _client = ChromaClient(
-          tenant: tenant,
-          database: database,
-          baseUrl: baseUrl,
-          headers: headers,
-          client: client,
-        );
+         tenant: tenant,
+         database: database,
+         baseUrl: baseUrl,
+         headers: headers,
+         client: client,
+       );
 
   /// Name of the collection to use.
   final String collectionName;
@@ -181,8 +181,9 @@ class Chroma extends VectorStore {
       queryEmbeddings: [embedding],
       nResults: config.k,
       where: config.filter,
-      whereDocument:
-          config is ChromaSimilaritySearch ? config.whereDocument : null,
+      whereDocument: config is ChromaSimilaritySearch
+          ? config.whereDocument
+          : null,
       include: const [
         Include.documents,
         Include.metadatas,

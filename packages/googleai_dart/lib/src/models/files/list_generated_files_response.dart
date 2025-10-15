@@ -19,7 +19,8 @@ class ListGeneratedFilesResponse {
   /// Creates a [ListGeneratedFilesResponse] from JSON.
   factory ListGeneratedFilesResponse.fromJson(Map<String, dynamic> json) =>
       ListGeneratedFilesResponse(
-        generatedFiles: (json['generatedFiles'] as List<dynamic>?)
+        generatedFiles:
+            (json['generatedFiles'] as List<dynamic>?)
                 ?.map(
                   (e) => GeneratedFile.fromJson(e as Map<String, dynamic>),
                 )
@@ -30,9 +31,9 @@ class ListGeneratedFilesResponse {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        'generatedFiles': generatedFiles.map((e) => e.toJson()).toList(),
-        if (nextPageToken != null) 'nextPageToken': nextPageToken,
-      };
+    'generatedFiles': generatedFiles.map((e) => e.toJson()).toList(),
+    if (nextPageToken != null) 'nextPageToken': nextPageToken,
+  };
 
   /// Creates a copy with replaced values.
   ListGeneratedFilesResponse copyWith({

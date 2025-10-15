@@ -98,10 +98,11 @@ class RetryInterceptor implements Interceptor {
 
   /// Delays with jitter to avoid thundering herd.
   Future<void> _delayWithJitter(Duration delay) async {
-    final jitterMs = (_random.nextDouble() *
-            config.retryPolicy.jitter *
-            delay.inMilliseconds)
-        .round();
+    final jitterMs =
+        (_random.nextDouble() *
+                config.retryPolicy.jitter *
+                delay.inMilliseconds)
+            .round();
 
     final finalDelay = delay + Duration(milliseconds: jitterMs);
     await Future<void>.delayed(finalDelay);

@@ -73,12 +73,12 @@ void main(final List<String> arguments) async {
   // Create index endpoint
   print('\n> Creating index endpoint (takes around 1min)...');
   const indexEndpointName = '${indexName}_endpoint';
-  VertexAIOperation indexEndpointOperation =
-      await marchingEngine.indexEndpoints.create(
-    displayName: indexEndpointName,
-    description: 'Index endpoint of $indexName',
-    publicEndpointEnabled: true,
-  );
+  VertexAIOperation indexEndpointOperation = await marchingEngine.indexEndpoints
+      .create(
+        displayName: indexEndpointName,
+        description: 'Index endpoint of $indexName',
+        publicEndpointEnabled: true,
+      );
 
   // Poll for operation completion
   while (!indexEndpointOperation.done) {
@@ -92,8 +92,9 @@ void main(final List<String> arguments) async {
   // Get created index and endpoint
   print('\n> Getting index and endpoint...');
   final indexes = await marchingEngine.indexes.list();
-  final index =
-      indexes.firstWhere((final index) => index.displayName == indexName);
+  final index = indexes.firstWhere(
+    (final index) => index.displayName == indexName,
+  );
   final indexId = index.id;
   final indexEndpoints = await marchingEngine.indexEndpoints.list();
   final indexEndpoint = indexEndpoints.firstWhere(
@@ -105,13 +106,13 @@ void main(final List<String> arguments) async {
 
   // Deploy index to endpoint
   print('\n> Deploying index to endpoint (takes around 30min)...');
-  VertexAIOperation deployOperation =
-      await marchingEngine.indexEndpoints.deployIndex(
-    indexId: indexId,
-    indexEndpointId: indexEndpointId,
-    deployedIndexId: '${indexName}_deployed',
-    deployedIndexDisplayName: '${indexName}_deployed',
-  );
+  VertexAIOperation deployOperation = await marchingEngine.indexEndpoints
+      .deployIndex(
+        indexId: indexId,
+        indexEndpointId: indexEndpointId,
+        deployedIndexId: '${indexName}_deployed',
+        deployedIndexDisplayName: '${indexName}_deployed',
+      );
 
   // Poll for operation completion
   while (!deployOperation.done) {

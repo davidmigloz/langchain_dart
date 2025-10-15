@@ -23,16 +23,16 @@ class OpenAIQAWithStructureChain<S extends Object>
     required super.llm,
     required final ToolSpec tool,
     required BaseOutputParser<ChatResult, OutputParserOptions, S>
-        super.outputParser,
+    super.outputParser,
     final BasePromptTemplate? prompt,
   }) : super(
-          prompt: prompt ?? _getPrompt(),
-          llmOptions: ChatOpenAIOptions(
-            model: llm.defaultOptions.model,
-            tools: [tool],
-            toolChoice: ChatToolChoice.forced(name: tool.name),
-          ),
-        );
+         prompt: prompt ?? _getPrompt(),
+         llmOptions: ChatOpenAIOptions(
+           model: llm.defaultOptions.model,
+           tools: [tool],
+           toolChoice: ChatToolChoice.forced(name: tool.name),
+         ),
+       );
 
   static BasePromptTemplate _getPrompt() {
     return ChatPromptTemplate.fromPromptMessages([

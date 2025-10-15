@@ -15,16 +15,15 @@ class GroundingPassages {
       GroundingPassages(
         passages: json['passages'] != null
             ? (json['passages'] as List)
-                .map(
-                  (e) => GroundingPassage.fromJson(e as Map<String, dynamic>),
-                )
-                .toList()
+                  .map(
+                    (e) => GroundingPassage.fromJson(e as Map<String, dynamic>),
+                  )
+                  .toList()
             : null,
       );
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (passages != null)
-          'passages': passages!.map((e) => e.toJson()).toList(),
-      };
+    if (passages != null) 'passages': passages!.map((e) => e.toJson()).toList(),
+  };
 }

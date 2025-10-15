@@ -316,12 +316,13 @@ class ChatGoogleGenerativeAI
             options?.responseSchema ?? defaultOptions.responseSchema,
       ),
       tools: (options?.tools ?? defaultOptions.tools).toToolList(
-        enableCodeExecution: options?.enableCodeExecution ??
+        enableCodeExecution:
+            options?.enableCodeExecution ??
             defaultOptions.enableCodeExecution ??
             false,
       ),
-      toolConfig:
-          (options?.toolChoice ?? defaultOptions.toolChoice)?.toToolConfig(),
+      toolConfig: (options?.toolChoice ?? defaultOptions.toolChoice)
+          ?.toToolConfig(),
       cachedContent: options?.cachedContent ?? defaultOptions.cachedContent,
     );
   }

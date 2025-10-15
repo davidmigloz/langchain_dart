@@ -26,9 +26,9 @@ class PredictLongRunningRequest {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        'instances': instances,
-        if (parameters != null) 'parameters': parameters,
-      };
+    'instances': instances,
+    if (parameters != null) 'parameters': parameters,
+  };
 
   /// Creates a copy with replaced values.
   PredictLongRunningRequest copyWith({
@@ -39,8 +39,9 @@ class PredictLongRunningRequest {
       instances: instances == unsetCopyWithValue
           ? this.instances
           : instances! as List<dynamic>,
-      parameters:
-          parameters == unsetCopyWithValue ? this.parameters : parameters,
+      parameters: parameters == unsetCopyWithValue
+          ? this.parameters
+          : parameters,
     );
   }
 }

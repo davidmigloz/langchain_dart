@@ -8,10 +8,10 @@ void main() {
     test('Invoke RunnableMapInput', () async {
       final chain =
           Runnable.mapInput<Map<String, dynamic>, Map<String, dynamic>>(
-        (final input) => {
-          'input': '${input['foo']}${input['bar']}',
-        },
-      );
+            (final input) => {
+              'input': '${input['foo']}${input['bar']}',
+            },
+          );
 
       final res = await chain.invoke({'foo': 'foo1', 'bar': 'bar1'});
       expect(res, {'input': 'foo1bar1'});
@@ -34,10 +34,10 @@ void main() {
     test('Streaming RunnableMapInput', () async {
       final chain =
           Runnable.mapInput<Map<String, dynamic>, Map<String, dynamic>>(
-        (final input) => {
-          'input': '${input['foo']}${input['bar']}',
-        },
-      );
+            (final input) => {
+              'input': '${input['foo']}${input['bar']}',
+            },
+          );
       final stream = chain.stream({'foo': 'foo1', 'bar': 'bar1'});
 
       final streamList = await stream.toList();

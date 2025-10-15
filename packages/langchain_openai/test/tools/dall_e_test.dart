@@ -41,40 +41,44 @@ void main() {
       tool.close();
     });
 
-    test('Test OpenAIDallETool in an agent',
-        timeout: const Timeout(Duration(minutes: 2)), skip: false, () async {
-      final llm = ChatOpenAI(
-        apiKey: openAiKey,
-        defaultOptions: const ChatOpenAIOptions(
-          model: 'gpt-4',
-          temperature: 0,
-        ),
-      );
-
-      final List<Tool> tools = [
-        CalculatorTool(),
-        OpenAIDallETool(
+    test(
+      'Test OpenAIDallETool in an agent',
+      timeout: const Timeout(Duration(minutes: 2)),
+      skip: false,
+      () async {
+        final llm = ChatOpenAI(
           apiKey: openAiKey,
-          defaultOptions: const OpenAIDallEToolOptions(
-            model: 'dall-e-2',
-            size: ImageSize.v256x256,
+          defaultOptions: const ChatOpenAIOptions(
+            model: 'gpt-4',
+            temperature: 0,
           ),
-        ),
-      ];
+        );
 
-      final agent = ToolsAgent.fromLLMAndTools(
-        llm: llm,
-        tools: tools,
-      );
+        final List<Tool> tools = [
+          CalculatorTool(),
+          OpenAIDallETool(
+            apiKey: openAiKey,
+            defaultOptions: const OpenAIDallEToolOptions(
+              model: 'dall-e-2',
+              size: ImageSize.v256x256,
+            ),
+          ),
+        ];
 
-      final executor = AgentExecutor(agent: agent);
+        final agent = ToolsAgent.fromLLMAndTools(
+          llm: llm,
+          tools: tools,
+        );
 
-      final res = await executor.run(
-        'Calculate the result of 40 raised to the power of 0.43 and generate a funny illustration with it. '
-        'Return ONLY the URL of the image. Do not add any explanation.',
-      );
+        final executor = AgentExecutor(agent: agent);
 
-      expect(res, startsWith('https://'));
-    });
+        final res = await executor.run(
+          'Calculate the result of 40 raised to the power of 0.43 and generate a funny illustration with it. '
+          'Return ONLY the URL of the image. Do not add any explanation.',
+        );
+
+        expect(res, startsWith('https://'));
+      },
+    );
   });
 }

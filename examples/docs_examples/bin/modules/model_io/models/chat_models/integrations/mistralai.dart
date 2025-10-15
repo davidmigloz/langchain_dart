@@ -21,11 +21,13 @@ Future<void> _chatMistralAI(final String apiKey) async {
 
   const template =
       'You are a helpful assistant that translates {input_language} to {output_language}.';
-  final systemMessagePrompt =
-      SystemChatMessagePromptTemplate.fromTemplate(template);
+  final systemMessagePrompt = SystemChatMessagePromptTemplate.fromTemplate(
+    template,
+  );
   const humanTemplate = '{text}';
-  final humanMessagePrompt =
-      HumanChatMessagePromptTemplate.fromTemplate(humanTemplate);
+  final humanMessagePrompt = HumanChatMessagePromptTemplate.fromTemplate(
+    humanTemplate,
+  );
   final chatPrompt = ChatPromptTemplate.fromPromptMessages(
     [systemMessagePrompt, humanMessagePrompt],
   );

@@ -109,10 +109,10 @@ class SearchInput {
   final int n;
 
   SearchInput.fromJson(final Map<String, dynamic> json)
-      : this(
-          query: json['query'] as String,
-          n: json['n'] as int,
-        );
+    : this(
+        query: json['query'] as String,
+        n: json['n'] as int,
+      );
 }
 
 Future<void> _toolResponse() async {
@@ -342,7 +342,7 @@ Future<void> _fewShotPrompting() async {
     (
       ChatMessageType.system,
       'You are bad at math but are an expert at using a calculator. '
-          'Use past tool usage as an example of how to correctly use the tools.'
+          'Use past tool usage as an example of how to correctly use the tools.',
     ),
     (ChatMessageType.messagesPlaceholder, 'examples'),
     (ChatMessageType.human, '{query}'),

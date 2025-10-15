@@ -45,42 +45,45 @@ void main() async {
 
     // 4. Create a document in the corpus
     print('4. Creating a document...');
-    final document =
-        await client.corpora.documents(corpus: corpus.name!).create(
-              document: const Document(
-                displayName: 'Getting Started Guide',
-                customMetadata: [
-                  CustomMetadata(key: 'category', stringValue: 'tutorial'),
-                  CustomMetadata(key: 'version', numericValue: 1.0),
-                ],
-              ),
-            );
+    final document = await client.corpora
+        .documents(corpus: corpus.name!)
+        .create(
+          document: const Document(
+            displayName: 'Getting Started Guide',
+            customMetadata: [
+              CustomMetadata(key: 'category', stringValue: 'tutorial'),
+              CustomMetadata(key: 'version', numericValue: 1.0),
+            ],
+          ),
+        );
     print('   ✓ Created document: ${document.name}');
     print('   Display name: ${document.displayName}');
     print('   Metadata: ${document.customMetadata?.length ?? 0} entries\n');
 
     // 5. List documents in corpus
     print('5. Listing documents in corpus...');
-    final docsResponse =
-        await client.corpora.documents(corpus: corpus.name!).list(
-              pageSize: 10,
-            );
+    final docsResponse = await client.corpora
+        .documents(corpus: corpus.name!)
+        .list(
+          pageSize: 10,
+        );
     print('   ✓ Found ${docsResponse.documents?.length ?? 0} documents\n');
 
     // 6. Update document metadata
     print('6. Updating document...');
-    final updatedDocument =
-        await client.corpora.documents(corpus: corpus.name!).update(
-              name: document.name!,
-              document: const Document(
-                displayName: 'Getting Started Guide v2',
-                customMetadata: [
-                  CustomMetadata(key: 'version', numericValue: 2.0),
-                  CustomMetadata(key: 'status', stringValue: 'reviewed'),
-                ],
-              ),
-              updateMask: 'displayName,customMetadata',
-            );
+    final updatedDocument = await client.corpora
+        .documents(corpus: corpus.name!)
+        .update(
+          name: document.name!,
+          document: const Document(
+            displayName: 'Getting Started Guide v2',
+            customMetadata: [
+              CustomMetadata(key: 'version', numericValue: 2.0),
+              CustomMetadata(key: 'status', stringValue: 'reviewed'),
+            ],
+          ),
+          updateMask: 'displayName,customMetadata',
+        );
     print('   ✓ Updated document: ${updatedDocument.displayName}');
     final version = updatedDocument.customMetadata
         ?.firstWhere((m) => m.key == 'version')

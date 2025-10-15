@@ -12,7 +12,8 @@ class VertexAITextChatModelGoogleApisMapper {
       instances: [
         {
           'context': request.context ?? '',
-          'examples': request.examples
+          'examples':
+              request.examples
                   ?.map((final e) => e.toMap())
                   .toList(growable: false) ??
               const [],
@@ -31,7 +32,8 @@ class VertexAITextChatModelGoogleApisMapper {
     final GoogleCloudAiplatformV1PredictResponse response,
   ) {
     return VertexAITextChatModelResponse(
-      predictions: response.predictions
+      predictions:
+          response.predictions
               ?.map(
                 (final p) => VertexAITextChatModelPrediction.fromMap(
                   p as Map<String, dynamic>? ?? const {},

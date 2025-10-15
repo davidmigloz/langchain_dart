@@ -21,47 +21,50 @@ void main() {
       expect(reduce(['Hello', 'World']), equals('HelloWorld'));
     });
 
-    test('concatenates chat messages when the input is a list of chat messages',
-        () {
-      final messages = [
-        ChatMessage.humanText('Hello'),
-        ChatMessage.humanText('World'),
-      ];
-      expect(reduce(messages), equals(ChatMessage.humanText('HelloWorld')));
-    });
+    test(
+      'concatenates chat messages when the input is a list of chat messages',
+      () {
+        final messages = [
+          ChatMessage.humanText('Hello'),
+          ChatMessage.humanText('World'),
+        ];
+        expect(reduce(messages), equals(ChatMessage.humanText('HelloWorld')));
+      },
+    );
 
     test(
-        'concatenates language model results when the input is a list of language model results',
-        () {
-      const results = [
-        LLMResult(
-          id: 'id',
-          output: 'Hello',
-          finishReason: FinishReason.stop,
-          metadata: {},
-          usage: LanguageModelUsage(),
-        ),
-        LLMResult(
-          id: 'id',
-          output: 'World',
-          finishReason: FinishReason.stop,
-          metadata: {},
-          usage: LanguageModelUsage(),
-        ),
-      ];
-      expect(
-        reduce(results),
-        equals(
-          const LLMResult(
+      'concatenates language model results when the input is a list of language model results',
+      () {
+        const results = [
+          LLMResult(
             id: 'id',
-            output: 'HelloWorld',
+            output: 'Hello',
             finishReason: FinishReason.stop,
             metadata: {},
             usage: LanguageModelUsage(),
           ),
-        ),
-      );
-    });
+          LLMResult(
+            id: 'id',
+            output: 'World',
+            finishReason: FinishReason.stop,
+            metadata: {},
+            usage: LanguageModelUsage(),
+          ),
+        ];
+        expect(
+          reduce(results),
+          equals(
+            const LLMResult(
+              id: 'id',
+              output: 'HelloWorld',
+              finishReason: FinishReason.stop,
+              metadata: {},
+              usage: LanguageModelUsage(),
+            ),
+          ),
+        );
+      },
+    );
 
     test('concatenates documents when the input is a list of documents', () {
       const documents = [
@@ -95,9 +98,11 @@ void main() {
       );
     });
 
-    test('returns the last element when the input is a list of unknown types',
-        () {
-      expect(reduce([Stopwatch(), Queue<int>()]), equals(Queue<int>()));
-    });
+    test(
+      'returns the last element when the input is a list of unknown types',
+      () {
+        expect(reduce([Stopwatch(), Queue<int>()]), equals(Queue<int>()));
+      },
+    );
   });
 }

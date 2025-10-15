@@ -27,13 +27,13 @@ void main() {
 
     test('RunnableMap runs tasks in parallel', () async {
       final longTask = Runnable.fromFunction(
-        invoke: (_, __) async {
+        invoke: (_, _) async {
           await Future<void>.delayed(const Duration(seconds: 2));
           return 'long';
         },
       );
       final shortTask = Runnable.fromFunction(
-        invoke: (_, __) async {
+        invoke: (_, _) async {
           await Future<void>.delayed(const Duration(seconds: 1));
           return 'short';
         },

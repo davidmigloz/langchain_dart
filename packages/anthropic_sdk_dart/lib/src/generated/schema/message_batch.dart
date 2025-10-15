@@ -51,7 +51,7 @@ abstract class MessageBatch with _$MessageBatch {
     'processing_status',
     'request_counts',
     'results_url',
-    'type'
+    'type',
   ];
 
   /// Perform validations on the schema property values

@@ -24,30 +24,30 @@ class BatchStats {
 
   /// Creates a [BatchStats] from JSON.
   factory BatchStats.fromJson(Map<String, dynamic> json) => BatchStats(
-        requestCount: json['requestCount'] != null
-            ? int.parse(json['requestCount'] as String)
-            : null,
-        successfulRequestCount: json['successfulRequestCount'] != null
-            ? int.parse(json['successfulRequestCount'] as String)
-            : null,
-        failedRequestCount: json['failedRequestCount'] != null
-            ? int.parse(json['failedRequestCount'] as String)
-            : null,
-        pendingRequestCount: json['pendingRequestCount'] != null
-            ? int.parse(json['pendingRequestCount'] as String)
-            : null,
-      );
+    requestCount: json['requestCount'] != null
+        ? int.parse(json['requestCount'] as String)
+        : null,
+    successfulRequestCount: json['successfulRequestCount'] != null
+        ? int.parse(json['successfulRequestCount'] as String)
+        : null,
+    failedRequestCount: json['failedRequestCount'] != null
+        ? int.parse(json['failedRequestCount'] as String)
+        : null,
+    pendingRequestCount: json['pendingRequestCount'] != null
+        ? int.parse(json['pendingRequestCount'] as String)
+        : null,
+  );
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (requestCount != null) 'requestCount': requestCount.toString(),
-        if (successfulRequestCount != null)
-          'successfulRequestCount': successfulRequestCount.toString(),
-        if (failedRequestCount != null)
-          'failedRequestCount': failedRequestCount.toString(),
-        if (pendingRequestCount != null)
-          'pendingRequestCount': pendingRequestCount.toString(),
-      };
+    if (requestCount != null) 'requestCount': requestCount.toString(),
+    if (successfulRequestCount != null)
+      'successfulRequestCount': successfulRequestCount.toString(),
+    if (failedRequestCount != null)
+      'failedRequestCount': failedRequestCount.toString(),
+    if (pendingRequestCount != null)
+      'pendingRequestCount': pendingRequestCount.toString(),
+  };
 
   /// Creates a copy with replaced values.
   BatchStats copyWith({

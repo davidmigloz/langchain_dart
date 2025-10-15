@@ -81,9 +81,9 @@ class VertexAIMatchingEngineClient {
     this.location = 'us-central1',
     final String? rootUrl,
   }) : _vertexAiApi = AiplatformApi(
-          httpClient,
-          rootUrl: rootUrl ?? 'https://$location-aiplatform.googleapis.com/',
-        );
+         httpClient,
+         rootUrl: rootUrl ?? 'https://$location-aiplatform.googleapis.com/',
+       );
 
   /// The Google Cloud project to use for interacting with Vertex AI.
   final String project;
@@ -101,15 +101,15 @@ class VertexAIMatchingEngineClient {
 
   /// Indexes API client.
   VertexAIIndexesApi get indexes => VertexAIIndexesApi(
-        indexesApi: _vertexAiApi.projects.locations.indexes,
-        project: project,
-        location: location,
-      );
+    indexesApi: _vertexAiApi.projects.locations.indexes,
+    project: project,
+    location: location,
+  );
 
   /// Index Endpoints API client.
   VertexAIIndexEndpointsApi get indexEndpoints => VertexAIIndexEndpointsApi(
-        indexEndpointsApi: _vertexAiApi.projects.locations.indexEndpoints,
-        project: project,
-        location: location,
-      );
+    indexEndpointsApi: _vertexAiApi.projects.locations.indexEndpoints,
+    project: project,
+    location: location,
+  );
 }

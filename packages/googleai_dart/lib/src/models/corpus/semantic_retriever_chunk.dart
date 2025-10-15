@@ -50,7 +50,8 @@ class SemanticRetrieverChunk {
   }
 
   @override
-  String toString() => 'SemanticRetrieverChunk('
+  String toString() =>
+      'SemanticRetrieverChunk('
       'source: $source, '
       'chunk: $chunk)';
 }

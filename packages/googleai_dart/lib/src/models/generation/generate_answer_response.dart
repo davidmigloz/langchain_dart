@@ -59,9 +59,9 @@ class GenerateAnswerResponse {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (answer != null) 'answer': answer!.toJson(),
-        if (answerableProbability != null)
-          'answerableProbability': answerableProbability,
-        if (inputFeedback != null) 'inputFeedback': inputFeedback!.toJson(),
-      };
+    if (answer != null) 'answer': answer!.toJson(),
+    if (answerableProbability != null)
+      'answerableProbability': answerableProbability,
+    if (inputFeedback != null) 'inputFeedback': inputFeedback!.toJson(),
+  };
 }

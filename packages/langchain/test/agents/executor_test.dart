@@ -93,34 +93,35 @@ void main() {
     });
 
     test(
-        'should handle OutputParserException with handleParsingErrors function',
-        () async {
-      final tool = _MockTool();
-      final agent = _SingleActionMockAgent(
-        throwOutputParserException: true,
-        tools: [tool],
-        actions: [
-          const AgentAction(
-            id: 'id',
-            tool: 'invalid_tool',
-            toolInput: {'input': 'mock'},
-          ),
-        ],
-      );
-      final executor = AgentExecutor(
-        agent: agent,
-        handleParsingErrors: (final _) => {'input': 'fallback'},
-        maxIterations: 1,
-        returnIntermediateSteps: true,
-      );
-      final result = await executor.call('test');
-      final intermediateSteps =
-          result[AgentExecutor.intermediateStepsOutputKey] as List<AgentStep>;
-      expect(
-        intermediateSteps.first.observation,
-        'fallback',
-      );
-    });
+      'should handle OutputParserException with handleParsingErrors function',
+      () async {
+        final tool = _MockTool();
+        final agent = _SingleActionMockAgent(
+          throwOutputParserException: true,
+          tools: [tool],
+          actions: [
+            const AgentAction(
+              id: 'id',
+              tool: 'invalid_tool',
+              toolInput: {'input': 'mock'},
+            ),
+          ],
+        );
+        final executor = AgentExecutor(
+          agent: agent,
+          handleParsingErrors: (final _) => {'input': 'fallback'},
+          maxIterations: 1,
+          returnIntermediateSteps: true,
+        );
+        final result = await executor.call('test');
+        final intermediateSteps =
+            result[AgentExecutor.intermediateStepsOutputKey] as List<AgentStep>;
+        expect(
+          intermediateSteps.first.observation,
+          'fallback',
+        );
+      },
+    );
 
     test('Test RunnableAgent', () async {
       final agent = Agent.fromRunnable(

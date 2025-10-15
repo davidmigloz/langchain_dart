@@ -76,8 +76,10 @@ void main() {
           return createSuccessResponse(body: {'result': 'ok'});
         }
 
-        final request =
-            http.Request('POST', Uri.parse('https://example.com/api'));
+        final request = http.Request(
+          'POST',
+          Uri.parse('https://example.com/api'),
+        );
         final context = RequestContext(request: request, metadata: {});
 
         await interceptor.intercept(context, mockNext);
@@ -197,8 +199,9 @@ void main() {
 
         // Check that headers are logged but Authorization is redacted
         final fineLogs = logRecords.where((r) => r.level == Level.FINE);
-        final headerLogs =
-            fineLogs.where((r) => r.message.contains('Headers:')).toList();
+        final headerLogs = fineLogs
+            .where((r) => r.message.contains('Headers:'))
+            .toList();
         expect(headerLogs, isNotEmpty);
 
         // Should not contain actual token
@@ -231,8 +234,9 @@ void main() {
         await interceptor.intercept(context, mockNext);
 
         final fineLogs = logRecords.where((r) => r.level == Level.FINE);
-        final headerLogs =
-            fineLogs.where((r) => r.message.contains('Headers:')).toList();
+        final headerLogs = fineLogs
+            .where((r) => r.message.contains('Headers:'))
+            .toList();
 
         // Should not contain actual API key
         expect(
@@ -265,8 +269,9 @@ void main() {
         await interceptor.intercept(context, mockNext);
 
         final fineLogs = logRecords.where((r) => r.level == Level.FINE);
-        final bodyLogs =
-            fineLogs.where((r) => r.message.contains('Body:')).toList();
+        final bodyLogs = fineLogs
+            .where((r) => r.message.contains('Body:'))
+            .toList();
 
         expect(bodyLogs, isNotEmpty);
         // Should not contain actual token value
@@ -314,13 +319,15 @@ void main() {
 
         await interceptor.intercept(context, mockNext);
 
-        final responseLogs =
-            logRecords.where((r) => r.message.contains('RESPONSE'));
+        final responseLogs = logRecords.where(
+          (r) => r.message.contains('RESPONSE'),
+        );
         expect(responseLogs, isNotEmpty);
 
         // Duration should be at least 50ms
-        final durationMatch =
-            RegExp(r'\((\d+)ms\)').firstMatch(responseLogs.first.message);
+        final durationMatch = RegExp(
+          r'\((\d+)ms\)',
+        ).firstMatch(responseLogs.first.message);
         expect(durationMatch, isNotNull);
         final duration = int.parse(durationMatch!.group(1)!);
         expect(duration, greaterThanOrEqualTo(50));

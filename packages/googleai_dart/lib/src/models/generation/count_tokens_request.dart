@@ -30,8 +30,8 @@ class CountTokensRequest {
       CountTokensRequest(
         contents: json['contents'] != null
             ? (json['contents'] as List)
-                .map((e) => Content.fromJson(e as Map<String, dynamic>))
-                .toList()
+                  .map((e) => Content.fromJson(e as Map<String, dynamic>))
+                  .toList()
             : null,
         generateContentRequest: json['generateContentRequest'] != null
             ? GenerateContentRequest.fromJson(
@@ -47,13 +47,12 @@ class CountTokensRequest {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (contents != null)
-          'contents': contents!.map((e) => e.toJson()).toList(),
-        if (generateContentRequest != null)
-          'generateContentRequest': generateContentRequest!.toJson(),
-        if (systemInstruction != null)
-          'system_instruction': systemInstruction!.toJson(),
-      };
+    if (contents != null) 'contents': contents!.map((e) => e.toJson()).toList(),
+    if (generateContentRequest != null)
+      'generateContentRequest': generateContentRequest!.toJson(),
+    if (systemInstruction != null)
+      'system_instruction': systemInstruction!.toJson(),
+  };
 
   /// Creates a copy with replaced values.
   CountTokensRequest copyWith({

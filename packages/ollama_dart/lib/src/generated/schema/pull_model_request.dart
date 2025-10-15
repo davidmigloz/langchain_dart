@@ -45,7 +45,7 @@ abstract class PullModelRequest with _$PullModelRequest {
     'insecure',
     'username',
     'password',
-    'stream'
+    'stream',
   ];
 
   /// Perform validations on the schema property values

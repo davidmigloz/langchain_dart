@@ -7,7 +7,7 @@ import 'indexes.dart';
 class VertexAIIndexEndpointsGoogleApisMapper {
   /// Maps a VertexAIIndexEndpoint to a GoogleCloudAiplatformV1IndexEndpoint.
   static GoogleCloudAiplatformV1PrivateServiceConnectConfig
-      mapPrivateServiceConnectConfig(
+  mapPrivateServiceConnectConfig(
     final VertexAIPrivateServiceConnectConfig privateServiceConnectConfig,
   ) {
     return GoogleCloudAiplatformV1PrivateServiceConnectConfig(
@@ -32,8 +32,9 @@ class VertexAIIndexEndpointsGoogleApisMapper {
     final VertexAIFindNeighborsRequestQuery query,
   ) {
     return GoogleCloudAiplatformV1FindNeighborsRequestQuery(
-      datapoint:
-          VertexAIIndexGoogleApisMapper.mapIndexDatapoint(query.datapoint),
+      datapoint: VertexAIIndexGoogleApisMapper.mapIndexDatapoint(
+        query.datapoint,
+      ),
       neighborCount: query.neighborCount,
       approximateNeighborCount: query.approximateNeighborCount,
       fractionLeafNodesToSearchOverride:
@@ -54,16 +55,16 @@ class VertexAIIndexEndpointsGoogleApisMapper {
       network: indexEndpoint.network,
       privateServiceConnectConfig:
           indexEndpoint.privateServiceConnectConfig != null
-              ? _mapPrivateServiceConnectConfig(
-                  indexEndpoint.privateServiceConnectConfig!,
-                )
-              : null,
+          ? _mapPrivateServiceConnectConfig(
+              indexEndpoint.privateServiceConnectConfig!,
+            )
+          : null,
       publicEndpointEnabled: indexEndpoint.publicEndpointEnabled ?? false,
       publicEndpointDomainName: indexEndpoint.publicEndpointDomainName,
       deployedIndexes: indexEndpoint.deployedIndexes != null
           ? indexEndpoint.deployedIndexes!
-              .map(_mapDeployedIndex)
-              .toList(growable: false)
+                .map(_mapDeployedIndex)
+                .toList(growable: false)
           : [],
       labels: indexEndpoint.labels,
       etag: indexEndpoint.etag,
@@ -76,7 +77,7 @@ class VertexAIIndexEndpointsGoogleApisMapper {
 
   static VertexAIPrivateServiceConnectConfig _mapPrivateServiceConnectConfig(
     final GoogleCloudAiplatformV1PrivateServiceConnectConfig
-        privateServiceConnectConfig,
+    privateServiceConnectConfig,
   ) {
     return VertexAIPrivateServiceConnectConfig(
       enablePrivateServiceConnect:
@@ -94,10 +95,12 @@ class VertexAIIndexEndpointsGoogleApisMapper {
       displayName: deployedIndex.displayName ?? '',
       createTime:
           DateTime.tryParse(deployedIndex.createTime ?? '') ?? DateTime.now(),
-      indexSyncTime: DateTime.tryParse(deployedIndex.indexSyncTime ?? '') ??
+      indexSyncTime:
+          DateTime.tryParse(deployedIndex.indexSyncTime ?? '') ??
           DateTime.now(),
-      automaticResources:
-          _mapAutomaticResources(deployedIndex.automaticResources),
+      automaticResources: _mapAutomaticResources(
+        deployedIndex.automaticResources,
+      ),
       dedicatedResources: deployedIndex.dedicatedResources != null
           ? _mapDedicatedResources(deployedIndex.dedicatedResources)
           : null,
@@ -126,7 +129,8 @@ class VertexAIIndexEndpointsGoogleApisMapper {
     final GoogleCloudAiplatformV1DedicatedResources? dedicatedResources,
   ) {
     return VertexAIDedicatedResources(
-      autoscalingMetricSpecs: dedicatedResources?.autoscalingMetricSpecs
+      autoscalingMetricSpecs:
+          dedicatedResources?.autoscalingMetricSpecs
               ?.map(_mapAutoscalingMetricSpec)
               .toList(growable: false) ??
           [],
@@ -165,7 +169,7 @@ class VertexAIIndexEndpointsGoogleApisMapper {
 
   static VertexAIDeployedIndexAuthConfigAuthProvider _mapAuthProvider(
     final GoogleCloudAiplatformV1DeployedIndexAuthConfigAuthProvider?
-        authProvider,
+    authProvider,
   ) {
     return VertexAIDeployedIndexAuthConfigAuthProvider(
       allowedIssuers: authProvider?.allowedIssuers ?? [],
@@ -189,22 +193,22 @@ class VertexAIIndexEndpointsGoogleApisMapper {
     return VertexAIFindNeighborsResponse(
       nearestNeighbors: response.nearestNeighbors != null
           ? response.nearestNeighbors!
-              .map(_mapNearestNeighbors)
-              .toList(growable: false)
+                .map(_mapNearestNeighbors)
+                .toList(growable: false)
           : [],
     );
   }
 
   static VertexAIFindNeighborsResponseNearestNeighbors _mapNearestNeighbors(
     final GoogleCloudAiplatformV1FindNeighborsResponseNearestNeighbors
-        nearestNeighbors,
+    nearestNeighbors,
   ) {
     return VertexAIFindNeighborsResponseNearestNeighbors(
       id: nearestNeighbors.id ?? '',
       neighbors: nearestNeighbors.neighbors != null
           ? nearestNeighbors.neighbors!
-              .map(_mapNeighbor)
-              .toList(growable: false)
+                .map(_mapNeighbor)
+                .toList(growable: false)
           : [],
     );
   }

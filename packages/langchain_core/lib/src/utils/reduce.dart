@@ -22,25 +22,33 @@ T reduce<T>(final Iterable<T> input) {
 
   final first = input.first;
   return switch (first) {
-    String() => input.cast<String>().join(),
-    ChatMessage() =>
-      input.cast<ChatMessage>().reduce((final a, final b) => a.concat(b)),
-    PromptValue() =>
-      input.cast<PromptValue>().reduce((final a, final b) => a.concat(b)),
-    LanguageModelResult() => input
-        .cast<LanguageModelResult>()
-        .reduce((final a, final b) => a.concat(b)),
-    Document() =>
-      input.cast<Document>().reduce((final a, final b) => a.concat(b)),
-    Iterable<String>() => _reduceIterable(input.cast<Iterable<String>>()),
-    Iterable<Object>() => _reduceIterable(input.cast<Iterable<Object>>()),
-    Iterable<dynamic>() => _reduceIterable(input.cast<Iterable<dynamic>>()),
-    Map<String, String>() => _reduceMap(input.cast<Map<String, String>>()),
-    Map<String, Object>() => _reduceMap(input.cast<Map<String, Object>>()),
-    Map<String, dynamic>() => _reduceMap(input.cast<Map<String, dynamic>>()),
-    Map<dynamic, dynamic>() => _reduceMap(input.cast<Map<dynamic, dynamic>>()),
-    _ => input.last,
-  } as T;
+        String() => input.cast<String>().join(),
+        ChatMessage() => input.cast<ChatMessage>().reduce(
+          (final a, final b) => a.concat(b),
+        ),
+        PromptValue() => input.cast<PromptValue>().reduce(
+          (final a, final b) => a.concat(b),
+        ),
+        LanguageModelResult() => input.cast<LanguageModelResult>().reduce(
+          (final a, final b) => a.concat(b),
+        ),
+        Document() => input.cast<Document>().reduce(
+          (final a, final b) => a.concat(b),
+        ),
+        Iterable<String>() => _reduceIterable(input.cast<Iterable<String>>()),
+        Iterable<Object>() => _reduceIterable(input.cast<Iterable<Object>>()),
+        Iterable<dynamic>() => _reduceIterable(input.cast<Iterable<dynamic>>()),
+        Map<String, String>() => _reduceMap(input.cast<Map<String, String>>()),
+        Map<String, Object>() => _reduceMap(input.cast<Map<String, Object>>()),
+        Map<String, dynamic>() => _reduceMap(
+          input.cast<Map<String, dynamic>>(),
+        ),
+        Map<dynamic, dynamic>() => _reduceMap(
+          input.cast<Map<dynamic, dynamic>>(),
+        ),
+        _ => input.last,
+      }
+      as T;
 }
 
 Iterable<V> _reduceIterable<V>(final Iterable<Iterable<V>> input) {

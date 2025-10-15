@@ -31,11 +31,11 @@ class OllamaClient extends g.OllamaClient {
     final int retries = 3,
     final http.Client? client,
   }) : super(
-          baseUrl: baseUrl,
-          headers: headers ?? const {},
-          queryParams: queryParams ?? const {},
-          client: client ?? RetryClient(http.Client(), retries: retries),
-        );
+         baseUrl: baseUrl,
+         headers: headers ?? const {},
+         queryParams: queryParams ?? const {},
+         client: client ?? RetryClient(http.Client(), retries: retries),
+       );
 
   // ------------------------------------------
   // METHOD: generateCompletionStream

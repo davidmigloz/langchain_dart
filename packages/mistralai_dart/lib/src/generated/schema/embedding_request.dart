@@ -35,7 +35,7 @@ abstract class EmbeddingRequest with _$EmbeddingRequest {
   static const List<String> propertyNames = [
     'model',
     'input',
-    'encoding_format'
+    'encoding_format',
   ];
 
   /// Perform validations on the schema property values

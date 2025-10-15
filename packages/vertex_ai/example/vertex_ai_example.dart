@@ -12,7 +12,8 @@ void main() async {
   );
 
   final res = await vertexAi.text.predict(
-    prompt: 'List the numbers from 1 to 9 in order '
+    prompt:
+        'List the numbers from 1 to 9 in order '
         'without any spaces or commas.',
   );
   print(res);

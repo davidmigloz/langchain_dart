@@ -146,7 +146,8 @@ class DirectoryLoader extends BaseDocumentLoader {
   final Map<String, dynamic> Function(
     XFile file,
     Map<String, dynamic> defaultMetadata,
-  )? metadataBuilder;
+  )?
+  metadataBuilder;
 
   /// Default loader map with common file type loaders.
   ///

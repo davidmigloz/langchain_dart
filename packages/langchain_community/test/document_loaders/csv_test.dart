@@ -37,28 +37,32 @@ void main() {
         loader.lazyLoad(),
         emitsInOrder([
           const Document(
-            pageContent: 'cat: reference\n'
+            pageContent:
+                'cat: reference\n'
                 'auth: Nigel Rees\n'
                 'tit: Sayings of the Century\n'
                 'cost: 8.95',
             metadata: {'source': filePath},
           ),
           const Document(
-            pageContent: 'cat: fiction\n'
+            pageContent:
+                'cat: fiction\n'
                 'auth: Evelyn Waugh\n'
                 'tit: Sword of Honour\n'
                 'cost: 12.99',
             metadata: {'source': filePath},
           ),
           const Document(
-            pageContent: 'cat: fiction\n'
+            pageContent:
+                'cat: fiction\n'
                 'auth: Herman Melville\n'
                 'tit: Moby Dick\n'
                 'cost: 8.99',
             metadata: {'source': filePath},
           ),
           const Document(
-            pageContent: 'cat: fiction\n'
+            pageContent:
+                'cat: fiction\n'
                 'auth: J. R. R. Tolkien\n'
                 'tit: The Lord of the Rings\n'
                 'cost: 22.99',
@@ -183,28 +187,32 @@ void main() {
         loader.lazyLoad(),
         emitsInOrder([
           const Document(
-            pageContent: 'category: reference\n'
+            pageContent:
+                'category: reference\n'
                 'author: Nigel Rees\n'
                 'title: Sayings of the Century\n'
                 'price: 8.95',
             metadata: {'source': filePath},
           ),
           const Document(
-            pageContent: 'category: fiction\n'
+            pageContent:
+                'category: fiction\n'
                 'author: Evelyn Waugh\n'
                 'title: Sword of Honour\n'
                 'price: 12.99',
             metadata: {'source': filePath},
           ),
           const Document(
-            pageContent: 'category: fiction\n'
+            pageContent:
+                'category: fiction\n'
                 'author: Herman Melville\n'
                 'title: Moby Dick\n'
                 'price: 8.99',
             metadata: {'source': filePath},
           ),
           const Document(
-            pageContent: 'category: fiction\n'
+            pageContent:
+                'category: fiction\n'
                 'author: J. R. R. Tolkien\n'
                 'title: The Lord of the Rings\n'
                 'price: 22.99',

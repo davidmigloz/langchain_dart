@@ -93,8 +93,10 @@ void main() {
           }
         },
       );
-      final memory =
-          ConversationSummaryMemory(llm: model, returnMessages: true);
+      final memory = ConversationSummaryMemory(
+        llm: model,
+        returnMessages: true,
+      );
       final result1 = await memory.loadMemoryVariables();
       expect(result1, {BaseMemory.defaultMemoryKey: <ChatMessage>[]});
 

@@ -35,12 +35,13 @@ void checkValidPromptTemplate({
     }
     // Check variables in text
     final allVariables = [...inputVariables, ...?partialVariables];
-    final variablesNodes = parseFStringTemplate(template)
-        .whereType<ParsedFStringVariableNode>()
-        .toSet();
+    final variablesNodes = parseFStringTemplate(
+      template,
+    ).whereType<ParsedFStringVariableNode>().toSet();
     if (variablesNodes.length != allVariables.length) {
       throw TemplateValidationException(
-        message: '${variablesNodes.length} variables found, '
+        message:
+            '${variablesNodes.length} variables found, '
             'but ${inputVariables.length} expected.',
       );
     }
@@ -82,7 +83,8 @@ void checkValidChatPromptTemplate({
         .union(inputVariablesInstance.difference(inputVariablesMessages));
     if (inputVariablesDiff.isNotEmpty) {
       throw TemplateValidationException(
-        message: 'Mismatch between input variables and prompt messages input '
+        message:
+            'Mismatch between input variables and prompt messages input '
             'variables. Diff: $inputVariablesDiff',
       );
     }
@@ -93,7 +95,8 @@ void checkValidChatPromptTemplate({
         .union(partialVariablesInstance.difference(partialVariablesSet));
     if (partialVariablesDiff.isNotEmpty) {
       throw TemplateValidationException(
-        message: 'Mismatch between partial variables and prompt messages input '
+        message:
+            'Mismatch between partial variables and prompt messages input '
             'variables. Diff: $partialVariablesDiff',
       );
     }
@@ -173,8 +176,9 @@ List<ParsedFStringNode> parseFStringTemplate(final String template) {
           message: "Unclosed '{' in template.",
         );
       }
-      nodes
-          .add(ParsedFStringVariableNode(name: chars.sublist(i + 1, j).join()));
+      nodes.add(
+        ParsedFStringVariableNode(name: chars.sublist(i + 1, j).join()),
+      );
       i = j + 1;
     } else if (chars[i] == '}') {
       throw const TemplateValidationException(
@@ -182,8 +186,8 @@ List<ParsedFStringNode> parseFStringTemplate(final String template) {
       );
     } else {
       final next = nextBracket('{}', i);
-      final text =
-          (next < 0 ? chars.sublist(i) : chars.sublist(i, next)).join();
+      final text = (next < 0 ? chars.sublist(i) : chars.sublist(i, next))
+          .join();
       nodes.add(ParsedFStringLiteralNode(text: text));
       i = next < 0 ? chars.length : next;
     }

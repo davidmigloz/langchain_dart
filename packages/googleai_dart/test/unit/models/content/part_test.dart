@@ -37,15 +37,19 @@ void main() {
 
     group('InlineDataPart', () {
       test('creates with Blob', () {
-        final blob =
-            Blob(mimeType: 'image/png', data: base64.encode([1, 2, 3]));
+        final blob = Blob(
+          mimeType: 'image/png',
+          data: base64.encode([1, 2, 3]),
+        );
         final part = InlineDataPart(blob);
         expect(part.inlineData, equals(blob));
       });
 
       test('serializes to JSON', () {
-        final blob =
-            Blob(mimeType: 'image/png', data: base64.encode([1, 2, 3]));
+        final blob = Blob(
+          mimeType: 'image/png',
+          data: base64.encode([1, 2, 3]),
+        );
         final part = InlineDataPart(blob);
         final json = part.toJson();
         expect(json.containsKey('inlineData'), isTrue);
@@ -128,8 +132,10 @@ void main() {
 
     group('FunctionCallPart', () {
       test('creates with FunctionCall', () {
-        const functionCall =
-            FunctionCall(name: 'get_weather', args: {'city': 'SF'});
+        const functionCall = FunctionCall(
+          name: 'get_weather',
+          args: {'city': 'SF'},
+        );
         const part = FunctionCallPart(functionCall);
         expect(part.functionCall, equals(functionCall));
       });
@@ -174,8 +180,10 @@ void main() {
 
     group('FunctionResponsePart', () {
       test('creates with FunctionResponse', () {
-        const response =
-            FunctionResponse(name: 'get_weather', response: {'temp': 72});
+        const response = FunctionResponse(
+          name: 'get_weather',
+          response: {'temp': 72},
+        );
         const part = FunctionResponsePart(response);
         expect(part.functionResponse, equals(response));
       });
@@ -220,8 +228,10 @@ void main() {
 
     group('ExecutableCodePart', () {
       test('creates with ExecutableCode', () {
-        const code =
-            ExecutableCode(language: Language.python, code: 'print("hello")');
+        const code = ExecutableCode(
+          language: Language.python,
+          code: 'print("hello")',
+        );
         const part = ExecutableCodePart(code);
         expect(part.executableCode, equals(code));
       });

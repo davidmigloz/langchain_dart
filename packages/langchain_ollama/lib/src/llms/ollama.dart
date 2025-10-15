@@ -156,11 +156,11 @@ class Ollama extends BaseLLM<OllamaOptions> {
     ),
     this.encoding = 'cl100k_base',
   }) : _client = OllamaClient(
-          baseUrl: baseUrl,
-          headers: headers,
-          queryParams: queryParams,
-          client: client,
-        );
+         baseUrl: baseUrl,
+         headers: headers,
+         queryParams: queryParams,
+         client: client,
+       );
 
   /// A client for interacting with Ollama API.
   final OllamaClient _client;
@@ -200,8 +200,10 @@ class Ollama extends BaseLLM<OllamaOptions> {
     final id = _uuid.v4();
     return _client
         .generateCompletionStream(
-          request:
-              _generateCompletionRequest(input.toString(), options: options),
+          request: _generateCompletionRequest(
+            input.toString(),
+            options: options,
+          ),
         )
         .map((final completion) => completion.toLLMResult(id, streaming: true));
   }

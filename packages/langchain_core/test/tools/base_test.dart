@@ -101,36 +101,38 @@ void main() {
         expect(result, 'Weather in San Francisco, CA: 20°C, sunny');
       });
 
-      test('Google AI format compatibility - direct arguments format',
-          () async {
-        final weatherTool = Tool.fromFunction<Map<String, dynamic>, String>(
-          name: 'get_current_weather',
-          description: 'Get the current weather in a given location',
-          inputJsonSchema: const {
-            'type': 'object',
-            'properties': {
-              'location': {
-                'type': 'string',
-                'description': 'The city and state, e.g. San Francisco, CA',
+      test(
+        'Google AI format compatibility - direct arguments format',
+        () async {
+          final weatherTool = Tool.fromFunction<Map<String, dynamic>, String>(
+            name: 'get_current_weather',
+            description: 'Get the current weather in a given location',
+            inputJsonSchema: const {
+              'type': 'object',
+              'properties': {
+                'location': {
+                  'type': 'string',
+                  'description': 'The city and state, e.g. San Francisco, CA',
+                },
               },
+              'required': ['location'],
             },
-            'required': ['location'],
-          },
-          func: (final Map<String, dynamic> toolInput) {
-            final location = toolInput['location'] as String;
-            return 'Weather in $location: 15°C, cloudy';
-          },
-        );
+            func: (final Map<String, dynamic> toolInput) {
+              final location = toolInput['location'] as String;
+              return 'Weather in $location: 15°C, cloudy';
+            },
+          );
 
-        // Google AI format: {location: "..."} (direct arguments)
-        final googleAiFormat = {'location': 'Boston, MA'};
+          // Google AI format: {location: "..."} (direct arguments)
+          final googleAiFormat = {'location': 'Boston, MA'};
 
-        final parsedInput = weatherTool.getInputFromJson(googleAiFormat);
-        expect(parsedInput, {'location': 'Boston, MA'});
+          final parsedInput = weatherTool.getInputFromJson(googleAiFormat);
+          expect(parsedInput, {'location': 'Boston, MA'});
 
-        final result = await weatherTool.invoke(parsedInput);
-        expect(result, 'Weather in Boston, MA: 15°C, cloudy');
-      });
+          final result = await weatherTool.invoke(parsedInput);
+          expect(result, 'Weather in Boston, MA: 15°C, cloudy');
+        },
+      );
     });
   });
 }
@@ -146,10 +148,10 @@ class _SearchInput {
   final int n;
 
   _SearchInput.fromJson(final Map<String, dynamic> json)
-      : this(
-          query: json['query'] as String,
-          n: json['n'] as int,
-        );
+    : this(
+        query: json['query'] as String,
+        n: json['n'] as int,
+      );
 
   @override
   bool operator ==(covariant _SearchInput other) =>

@@ -41,24 +41,23 @@ class Permission {
 
   /// Creates a [Permission] from JSON.
   factory Permission.fromJson(Map<String, dynamic> json) => Permission(
-        name: json['name'] as String?,
-        granteeType: json['granteeType'] != null
-            ? granteeTypeFromString(json['granteeType'] as String)
-            : null,
-        emailAddress: json['emailAddress'] as String?,
-        role: json['role'] != null
-            ? permissionRoleFromString(json['role'] as String)
-            : null,
-      );
+    name: json['name'] as String?,
+    granteeType: json['granteeType'] != null
+        ? granteeTypeFromString(json['granteeType'] as String)
+        : null,
+    emailAddress: json['emailAddress'] as String?,
+    role: json['role'] != null
+        ? permissionRoleFromString(json['role'] as String)
+        : null,
+  );
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (name != null) 'name': name,
-        if (granteeType != null)
-          'granteeType': granteeTypeToString(granteeType!),
-        if (emailAddress != null) 'emailAddress': emailAddress,
-        if (role != null) 'role': permissionRoleToString(role!),
-      };
+    if (name != null) 'name': name,
+    if (granteeType != null) 'granteeType': granteeTypeToString(granteeType!),
+    if (emailAddress != null) 'emailAddress': emailAddress,
+    if (role != null) 'role': permissionRoleToString(role!),
+  };
 
   @override
   String toString() =>

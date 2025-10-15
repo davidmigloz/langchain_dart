@@ -41,8 +41,9 @@ Future<void> _modelWithRetry() async {
 
 Future<void> _chainWithRetry() async {
   final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
-  final promptTemplate =
-      ChatPromptTemplate.fromTemplate('tell me a joke about {topic}');
+  final promptTemplate = ChatPromptTemplate.fromTemplate(
+    'tell me a joke about {topic}',
+  );
   final model = ChatOpenAI(
     apiKey: openaiApiKey,
     defaultOptions: const ChatOpenAIOptions(model: 'gpt-4o'),

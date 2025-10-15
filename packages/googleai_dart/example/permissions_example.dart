@@ -21,51 +21,55 @@ void main() async {
 
     // 1. Grant reader permission to a user
     print('1. Granting reader permission to a user...');
-    final readerPermission =
-        await client.tunedModels.permissions(parent: resourceName).create(
-              permission: const Permission(
-                granteeType: GranteeType.user,
-                emailAddress: 'reader@example.com',
-                role: PermissionRole.reader,
-              ),
-            );
+    final readerPermission = await client.tunedModels
+        .permissions(parent: resourceName)
+        .create(
+          permission: const Permission(
+            granteeType: GranteeType.user,
+            emailAddress: 'reader@example.com',
+            role: PermissionRole.reader,
+          ),
+        );
     print('   ✓ Permission created: ${readerPermission.name}');
     print('   Grantee: ${readerPermission.emailAddress}');
     print('   Role: ${readerPermission.role}\n');
 
     // 2. Grant writer permission to a group
     print('2. Granting writer permission to a group...');
-    final writerPermission =
-        await client.tunedModels.permissions(parent: resourceName).create(
-              permission: const Permission(
-                granteeType: GranteeType.group,
-                emailAddress: 'editors@example.com',
-                role: PermissionRole.writer,
-              ),
-            );
+    final writerPermission = await client.tunedModels
+        .permissions(parent: resourceName)
+        .create(
+          permission: const Permission(
+            granteeType: GranteeType.group,
+            emailAddress: 'editors@example.com',
+            role: PermissionRole.writer,
+          ),
+        );
     print('   ✓ Permission created: ${writerPermission.name}');
     print('   Grantee: ${writerPermission.emailAddress}');
     print('   Role: ${writerPermission.role}\n');
 
     // 3. Grant public read access to everyone
     print('3. Granting public read access...');
-    final everyonePermission =
-        await client.tunedModels.permissions(parent: resourceName).create(
-              permission: const Permission(
-                granteeType: GranteeType.everyone,
-                role: PermissionRole.reader,
-              ),
-            );
+    final everyonePermission = await client.tunedModels
+        .permissions(parent: resourceName)
+        .create(
+          permission: const Permission(
+            granteeType: GranteeType.everyone,
+            role: PermissionRole.reader,
+          ),
+        );
     print('   ✓ Public permission created: ${everyonePermission.name}');
     print('   Grantee: Everyone');
     print('   Role: ${everyonePermission.role}\n');
 
     // 4. List all permissions for the resource
     print('4. Listing all permissions...');
-    final listResponse =
-        await client.tunedModels.permissions(parent: resourceName).list(
-              pageSize: 10,
-            );
+    final listResponse = await client.tunedModels
+        .permissions(parent: resourceName)
+        .list(
+          pageSize: 10,
+        );
     print('   ✓ Found ${listResponse.permissions?.length ?? 0} permissions:');
     for (final perm in listResponse.permissions ?? const <Permission>[]) {
       final grantee = perm.granteeType == GranteeType.everyone
@@ -82,23 +86,25 @@ void main() async {
 
     // 5. Get a specific permission
     print('5. Retrieving specific permission...');
-    final retrievedPermission =
-        await client.tunedModels.permissions(parent: resourceName).get(
-              name: readerPermission.name!,
-            );
+    final retrievedPermission = await client.tunedModels
+        .permissions(parent: resourceName)
+        .get(
+          name: readerPermission.name!,
+        );
     print('   ✓ Retrieved: ${retrievedPermission.name}');
     print('   Grantee: ${retrievedPermission.emailAddress}');
     print('   Role: ${retrievedPermission.role}\n');
 
     // 6. Update a permission (upgrade user from reader to writer)
     print('6. Upgrading user from reader to writer...');
-    final updatedPermission =
-        await client.tunedModels.permissions(parent: resourceName).update(
-              name: readerPermission.name!,
-              permission: const Permission(
-                role: PermissionRole.writer,
-              ),
-            );
+    final updatedPermission = await client.tunedModels
+        .permissions(parent: resourceName)
+        .update(
+          name: readerPermission.name!,
+          permission: const Permission(
+            role: PermissionRole.writer,
+          ),
+        );
     print('   ✓ Permission updated');
     print('   New role: ${updatedPermission.role}\n');
 

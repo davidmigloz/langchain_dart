@@ -13,7 +13,7 @@ class VertexAIIndexEndpointsOperationsApi {
   /// {@macro vertex_ai_index_endpoints_operations_api}
   VertexAIIndexEndpointsOperationsApi({
     required final ProjectsLocationsIndexEndpointsOperationsResource
-        indexEndpointsOperationsApi,
+    indexEndpointsOperationsApi,
     required this.project,
     required this.location,
   }) : _indexEndpointsOperationsApi = indexEndpointsOperationsApi;
@@ -26,7 +26,7 @@ class VertexAIIndexEndpointsOperationsApi {
 
   /// Index Endpoints Operations API client.
   final ProjectsLocationsIndexEndpointsOperationsResource
-      _indexEndpointsOperationsApi;
+  _indexEndpointsOperationsApi;
 
   /// Returns the list of operations for the specified index endpoint.
   ///

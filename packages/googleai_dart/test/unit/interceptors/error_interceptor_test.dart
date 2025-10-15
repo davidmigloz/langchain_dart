@@ -378,7 +378,9 @@ void main() {
         expect(
           () => interceptor.intercept(context, mockNext),
           throwsA(
-            isA<ApiException>().having((e) => e.code, 'code', equals(0)).having(
+            isA<ApiException>()
+                .having((e) => e.code, 'code', equals(0))
+                .having(
                   (e) => e.message,
                   'message',
                   contains('Unexpected error'),

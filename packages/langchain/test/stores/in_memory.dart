@@ -22,8 +22,9 @@ void main() {
     test('yieldKeys', () async {
       await store.set([('key4', 4)]);
       await store.set([('prefixKey5', 5)]);
-      final List<String> keys =
-          await store.yieldKeys(prefix: 'prefix').toList();
+      final List<String> keys = await store
+          .yieldKeys(prefix: 'prefix')
+          .toList();
       expect(keys, equals(['prefixKey5']));
     });
   });

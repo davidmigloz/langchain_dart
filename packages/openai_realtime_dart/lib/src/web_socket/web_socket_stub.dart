@@ -5,7 +5,6 @@ WebSocketChannel connectWebSocket(
   Uri uri,
   String? apiKey,
   Map<String, String>? headers,
-) =>
-    throw UnsupportedError(
-      'Cannot create a WebSocket connection without dart:html or dart:io.',
-    );
+) => throw UnsupportedError(
+  'Cannot create a WebSocket connection without dart:html or dart:io.',
+);

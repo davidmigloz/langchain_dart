@@ -137,8 +137,10 @@ class ChatAnthropicOptions extends ChatModelOptions {
   bool operator ==(covariant final ChatAnthropicOptions other) {
     return model == other.model &&
         maxTokens == other.maxTokens &&
-        const ListEquality<String>()
-            .equals(stopSequences, other.stopSequences) &&
+        const ListEquality<String>().equals(
+          stopSequences,
+          other.stopSequences,
+        ) &&
         temperature == other.temperature &&
         topK == other.topK &&
         topP == other.topP &&

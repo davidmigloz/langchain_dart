@@ -175,8 +175,9 @@ class MemoryVectorStore extends VectorStore {
         .take(config.k);
 
     if (config.scoreThreshold != null) {
-      searches =
-          searches.where((final search) => search.$2 >= config.scoreThreshold!);
+      searches = searches.where(
+        (final search) => search.$2 >= config.scoreThreshold!,
+      );
     }
 
     return searches.toList(growable: false);

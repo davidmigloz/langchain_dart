@@ -72,7 +72,7 @@ abstract class GenerateChatCompletionRequest
     'keep_alive',
     'tools',
     'options',
-    'think'
+    'think',
   ];
 
   /// Perform validations on the schema property values

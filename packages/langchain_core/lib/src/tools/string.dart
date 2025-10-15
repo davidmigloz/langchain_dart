@@ -19,17 +19,17 @@ abstract base class StringTool<Options extends ToolOptions>
     super.handleToolError,
     super.defaultOptions,
   }) : super(
-          inputJsonSchema: {
-            'type': 'object',
-            'properties': {
-              'input': {
-                'type': 'string',
-                'description': inputDescription,
-              },
-            },
-            'required': ['input'],
-          },
-        );
+         inputJsonSchema: {
+           'type': 'object',
+           'properties': {
+             'input': {
+               'type': 'string',
+               'description': inputDescription,
+             },
+           },
+           'required': ['input'],
+         },
+       );
 
   /// Creates a [StringTool] from a function.
   ///

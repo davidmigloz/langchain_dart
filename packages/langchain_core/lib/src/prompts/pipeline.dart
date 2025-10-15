@@ -32,8 +32,8 @@ final class PipelinePromptTemplate extends BasePromptTemplate {
     required this.finalPrompt,
     required this.pipelinePrompts,
   }) : super(
-          inputVariables: _computeInputValues(finalPrompt, pipelinePrompts),
-        );
+         inputVariables: _computeInputValues(finalPrompt, pipelinePrompts),
+       );
 
   /// The final prompt that is returned.
   final BasePromptTemplate finalPrompt;
@@ -82,8 +82,9 @@ final class PipelinePromptTemplate extends BasePromptTemplate {
         prompt.inputVariables,
       );
       allValues[name] = switch (prompt) {
-        final ChatPromptTemplate p =>
-          p.formatMessages(pipelinePromptInputValues),
+        final ChatPromptTemplate p => p.formatMessages(
+          pipelinePromptInputValues,
+        ),
         final PromptTemplate p => p.format(pipelinePromptInputValues),
         _ => throw UnsupportedError('Unsupported prompt type: $prompt'),
       };
@@ -95,8 +96,10 @@ final class PipelinePromptTemplate extends BasePromptTemplate {
     final Map<String, dynamic> allValues,
     final Set<String> requiredValueNames,
   ) {
-    return requiredValueNames.fold(<String, dynamic>{},
-        (final requiredValues, final valueName) {
+    return requiredValueNames.fold(<String, dynamic>{}, (
+      final requiredValues,
+      final valueName,
+    ) {
       requiredValues[valueName] = allValues[valueName];
       return requiredValues;
     });

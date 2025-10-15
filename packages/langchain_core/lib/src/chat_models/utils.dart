@@ -15,11 +15,14 @@ extension ChatMessagesX on List<ChatMessage> {
         return switch (m) {
           SystemChatMessage _ => '$systemPrefix: ${m.contentAsString}',
           HumanChatMessage _ => '$humanPrefix: ${m.contentAsString}',
-          AIChatMessage _ => m.toolCalls.isEmpty
-              ? '$aiPrefix: ${m.contentAsString}'
-              : m.toolCalls
-                  .map((c) => '$aiPrefix: ${c.id} ${c.name}(${c.arguments})')
-                  .join('\n'),
+          AIChatMessage _ =>
+            m.toolCalls.isEmpty
+                ? '$aiPrefix: ${m.contentAsString}'
+                : m.toolCalls
+                      .map(
+                        (c) => '$aiPrefix: ${c.id} ${c.name}(${c.arguments})',
+                      )
+                      .join('\n'),
           ToolChatMessage(toolCallId: final id, content: final c) =>
             '$toolPrefix: $id=$c',
           final CustomChatMessage m => '${m.role}: ${m.contentAsString}',

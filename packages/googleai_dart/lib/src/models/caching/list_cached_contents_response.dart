@@ -18,7 +18,8 @@ class ListCachedContentsResponse {
   /// Creates a [ListCachedContentsResponse] from JSON.
   factory ListCachedContentsResponse.fromJson(Map<String, dynamic> json) =>
       ListCachedContentsResponse(
-        cachedContents: (json['cachedContents'] as List<dynamic>?)
+        cachedContents:
+            (json['cachedContents'] as List<dynamic>?)
                 ?.map((e) => CachedContent.fromJson(e as Map<String, dynamic>))
                 .toList() ??
             [],
@@ -27,9 +28,9 @@ class ListCachedContentsResponse {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        'cachedContents': cachedContents.map((e) => e.toJson()).toList(),
-        if (nextPageToken != null) 'nextPageToken': nextPageToken,
-      };
+    'cachedContents': cachedContents.map((e) => e.toJson()).toList(),
+    if (nextPageToken != null) 'nextPageToken': nextPageToken,
+  };
 
   /// Creates a copy with replaced values.
   ListCachedContentsResponse copyWith({

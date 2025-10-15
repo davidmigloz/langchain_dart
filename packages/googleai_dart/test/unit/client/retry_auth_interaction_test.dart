@@ -19,40 +19,42 @@ import 'package:test/test.dart';
 /// verify their individual behaviors correctly.
 void main() {
   group('Retry/Auth Interaction - Phase 2 Limitation', () {
-    test('DOCUMENTED: Auth token applied once, NOT refreshed during retries',
-        () {
-      // This test documents the Phase 2 limitation through its description.
-      //
-      // CURRENT BEHAVIOR:
-      // 1. AuthInterceptor adds auth headers/params before request
-      // 2. Request enters retry wrapper with auth already applied
-      // 3. If retry happens, same auth is used for all attempts
-      // 4. No token refresh mechanism exists in Phase 2
-      //
-      // EXAMPLE SCENARIO:
-      // - Initial request: API key "key123" added by AuthInterceptor
-      // - Request fails with 429 rate limit
-      // - Retry attempt 1: Uses same "key123" (no refresh)
-      // - Retry attempt 2: Uses same "key123" (no refresh)
-      // - If "key123" expired between attempts, all retries fail
-      //
-      // DOCUMENTED IN:
-      // - lib/src/client/googleai_client.dart lines 45-48
-      // - README.md (Phase 2 limitations section)
-      // - implementation_plan.md (Phase 2 status)
-      //
-      // VERIFIED BY:
-      // - test/unit/interceptors/auth_interceptor_test.dart (auth behavior)
-      // - test/unit/interceptors/retry_interceptor_test.dart (retry behavior)
-      //
-      // This is INTENTIONAL and spec-compliant for Phase 2.
-      expect(
-        true,
-        isTrue,
-        reason:
-            'Phase 2 limitation documented: Auth NOT refreshed during retries',
-      );
-    });
+    test(
+      'DOCUMENTED: Auth token applied once, NOT refreshed during retries',
+      () {
+        // This test documents the Phase 2 limitation through its description.
+        //
+        // CURRENT BEHAVIOR:
+        // 1. AuthInterceptor adds auth headers/params before request
+        // 2. Request enters retry wrapper with auth already applied
+        // 3. If retry happens, same auth is used for all attempts
+        // 4. No token refresh mechanism exists in Phase 2
+        //
+        // EXAMPLE SCENARIO:
+        // - Initial request: API key "key123" added by AuthInterceptor
+        // - Request fails with 429 rate limit
+        // - Retry attempt 1: Uses same "key123" (no refresh)
+        // - Retry attempt 2: Uses same "key123" (no refresh)
+        // - If "key123" expired between attempts, all retries fail
+        //
+        // DOCUMENTED IN:
+        // - lib/src/client/googleai_client.dart lines 45-48
+        // - README.md (Phase 2 limitations section)
+        // - implementation_plan.md (Phase 2 status)
+        //
+        // VERIFIED BY:
+        // - test/unit/interceptors/auth_interceptor_test.dart (auth behavior)
+        // - test/unit/interceptors/retry_interceptor_test.dart (retry behavior)
+        //
+        // This is INTENTIONAL and spec-compliant for Phase 2.
+        expect(
+          true,
+          isTrue,
+          reason:
+              'Phase 2 limitation documented: Auth NOT refreshed during retries',
+        );
+      },
+    );
 
     test('FUTURE (Phase 3+): Token refresh would require arch changes', () {
       // This test documents the planned Phase 3+ enhancement.

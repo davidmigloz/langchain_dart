@@ -43,13 +43,14 @@ class RunnableRouter<RunInput extends Object, RunOutput extends Object>
     extends Runnable<RunInput, RunnableOptions, RunOutput> {
   /// {@macro runnable_router}
   const RunnableRouter(this.router)
-      : super(defaultOptions: const RunnableOptions());
+    : super(defaultOptions: const RunnableOptions());
 
   /// The function that will be called to determine the runnable to use.
   final FutureOr<Runnable<RunInput, RunnableOptions, RunOutput>> Function(
     RunInput input,
     RunnableOptions? options,
-  ) router;
+  )
+  router;
 
   @override
   Future<RunOutput> invoke(

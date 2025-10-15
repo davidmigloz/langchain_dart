@@ -10,11 +10,11 @@ import 'types.dart';
 final class FakeTool extends StringTool<ToolOptions> {
   /// {@macro fake_tool}
   FakeTool()
-      : super(
-          name: 'take',
-          description: 'Returns the input string as is.',
-          inputDescription: 'A string',
-        );
+    : super(
+        name: 'take',
+        description: 'Returns the input string as is.',
+        inputDescription: 'A string',
+      );
 
   @override
   Future<String> invokeInternal(

@@ -42,7 +42,7 @@ abstract class Model with _$Model {
     'modified_at',
     'size',
     'digest',
-    'details'
+    'details',
   ];
 
   /// Perform validations on the schema property values

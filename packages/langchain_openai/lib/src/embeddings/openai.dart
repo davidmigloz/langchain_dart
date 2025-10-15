@@ -137,13 +137,13 @@ class OpenAIEmbeddings implements Embeddings {
     this.batchSize = 512,
     this.user,
   }) : _client = OpenAIClient(
-          apiKey: apiKey ?? '',
-          organization: organization,
-          baseUrl: baseUrl,
-          headers: headers,
-          queryParams: queryParams,
-          client: client,
-        );
+         apiKey: apiKey ?? '',
+         organization: organization,
+         baseUrl: baseUrl,
+         headers: headers,
+         queryParams: queryParams,
+         client: client,
+       );
 
   /// A client for interacting with OpenAI API.
   final OpenAIClient _client;

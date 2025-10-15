@@ -33,8 +33,10 @@ void main() {
 
     test('Test iterative text splitter keep separator', () {
       const chunkSize = 5;
-      final output =
-          testIterativeTextSplitter(chunkSize: chunkSize, keepSeparator: true);
+      final output = testIterativeTextSplitter(
+        chunkSize: chunkSize,
+        keepSeparator: true,
+      );
 
       expect(output, [
         '....5',
@@ -47,8 +49,10 @@ void main() {
 
     test('Test iterative text splitter discard separator', () {
       const chunkSize = 5;
-      final output =
-          testIterativeTextSplitter(chunkSize: chunkSize, keepSeparator: false);
+      final output = testIterativeTextSplitter(
+        chunkSize: chunkSize,
+        keepSeparator: false,
+      );
 
       expect(output, [
         '....5',
@@ -94,7 +98,8 @@ void main() {
           expect(
             overlap.length,
             splitter.chunkOverlap,
-            reason: 'Overlap between chunks $i and ${i + 1}, '
+            reason:
+                'Overlap between chunks $i and ${i + 1}, '
                 'should be ${splitter.chunkOverlap} characters',
           );
         }

@@ -11,8 +11,11 @@ part of 'schema.dart';
 _$AddEmbeddingImpl _$$AddEmbeddingImplFromJson(Map<String, dynamic> json) =>
     _$AddEmbeddingImpl(
       embeddings: (json['embeddings'] as List<dynamic>?)
-          ?.map((e) =>
-              (e as List<dynamic>?)?.map((e) => (e as num).toDouble()).toList())
+          ?.map(
+            (e) => (e as List<dynamic>?)
+                ?.map((e) => (e as num).toDouble())
+                .toList(),
+          )
           .toList(),
       metadatas: (json['metadatas'] as List<dynamic>?)
           ?.map((e) => e as Map<String, dynamic>?)
@@ -49,7 +52,8 @@ _$CollectionTypeImpl _$$CollectionTypeImplFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$$CollectionTypeImplToJson(
-    _$CollectionTypeImpl instance) {
+  _$CollectionTypeImpl instance,
+) {
   final val = <String, dynamic>{
     'name': instance.name,
     'id': instance.id,
@@ -66,15 +70,16 @@ Map<String, dynamic> _$$CollectionTypeImplToJson(
 }
 
 _$CreateCollectionImpl _$$CreateCollectionImplFromJson(
-        Map<String, dynamic> json) =>
-    _$CreateCollectionImpl(
-      name: json['name'] as String,
-      metadata: json['metadata'] as Map<String, dynamic>?,
-      getOrCreate: json['get_or_create'] as bool? ?? false,
-    );
+  Map<String, dynamic> json,
+) => _$CreateCollectionImpl(
+  name: json['name'] as String,
+  metadata: json['metadata'] as Map<String, dynamic>?,
+  getOrCreate: json['get_or_create'] as bool? ?? false,
+);
 
 Map<String, dynamic> _$$CreateCollectionImplToJson(
-    _$CreateCollectionImpl instance) {
+  _$CreateCollectionImpl instance,
+) {
   final val = <String, dynamic>{
     'name': instance.name,
   };
@@ -119,10 +124,10 @@ _$CreateDatabaseImpl _$$CreateDatabaseImplFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$$CreateDatabaseImplToJson(
-        _$CreateDatabaseImpl instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-    };
+  _$CreateDatabaseImpl instance,
+) => <String, dynamic>{
+  'name': instance.name,
+};
 
 _$TenantTypeImpl _$$TenantTypeImplFromJson(Map<String, dynamic> json) =>
     _$TenantTypeImpl(
@@ -145,15 +150,16 @@ Map<String, dynamic> _$$CreateTenantImplToJson(_$CreateTenantImpl instance) =>
     };
 
 _$DeleteEmbeddingImpl _$$DeleteEmbeddingImplFromJson(
-        Map<String, dynamic> json) =>
-    _$DeleteEmbeddingImpl(
-      ids: (json['ids'] as List<dynamic>?)?.map((e) => e as String).toList(),
-      where: json['where'] as Map<String, dynamic>?,
-      whereDocument: json['where_document'] as Map<String, dynamic>?,
-    );
+  Map<String, dynamic> json,
+) => _$DeleteEmbeddingImpl(
+  ids: (json['ids'] as List<dynamic>?)?.map((e) => e as String).toList(),
+  where: json['where'] as Map<String, dynamic>?,
+  whereDocument: json['where_document'] as Map<String, dynamic>?,
+);
 
 Map<String, dynamic> _$$DeleteEmbeddingImplToJson(
-    _$DeleteEmbeddingImpl instance) {
+  _$DeleteEmbeddingImpl instance,
+) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -176,8 +182,9 @@ _$GetEmbeddingImpl _$$GetEmbeddingImplFromJson(Map<String, dynamic> json) =>
       sort: json['sort'] as String?,
       limit: (json['limit'] as num?)?.toInt(),
       offset: (json['offset'] as num?)?.toInt(),
-      include:
-          (json['include'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      include: (json['include'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
     );
 
 Map<String, dynamic> _$$GetEmbeddingImplToJson(_$GetEmbeddingImpl instance) {
@@ -203,8 +210,10 @@ _$GetResponseImpl _$$GetResponseImplFromJson(Map<String, dynamic> json) =>
     _$GetResponseImpl(
       ids: (json['ids'] as List<dynamic>).map((e) => e as String).toList(),
       embeddings: (json['embeddings'] as List<dynamic>?)
-          ?.map((e) =>
-              (e as List<dynamic>).map((e) => (e as num).toDouble()).toList())
+          ?.map(
+            (e) =>
+                (e as List<dynamic>).map((e) => (e as num).toDouble()).toList(),
+          )
           .toList(),
       metadatas: (json['metadatas'] as List<dynamic>?)
           ?.map((e) => e as Map<String, dynamic>?)
@@ -232,15 +241,16 @@ Map<String, dynamic> _$$GetResponseImplToJson(_$GetResponseImpl instance) {
 }
 
 _$HTTPValidationErrorImpl _$$HTTPValidationErrorImplFromJson(
-        Map<String, dynamic> json) =>
-    _$HTTPValidationErrorImpl(
-      detail: (json['detail'] as List<dynamic>?)
-          ?.map((e) => ValidationError.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
+  Map<String, dynamic> json,
+) => _$HTTPValidationErrorImpl(
+  detail: (json['detail'] as List<dynamic>?)
+      ?.map((e) => ValidationError.fromJson(e as Map<String, dynamic>))
+      .toList(),
+);
 
 Map<String, dynamic> _$$HTTPValidationErrorImplToJson(
-    _$HTTPValidationErrorImpl instance) {
+  _$HTTPValidationErrorImpl instance,
+) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -258,16 +268,20 @@ _$QueryEmbeddingImpl _$$QueryEmbeddingImplFromJson(Map<String, dynamic> json) =>
       where: json['where'] as Map<String, dynamic>?,
       whereDocument: json['where_document'] as Map<String, dynamic>?,
       queryEmbeddings: (json['query_embeddings'] as List<dynamic>)
-          .map((e) =>
-              (e as List<dynamic>).map((e) => (e as num).toDouble()).toList())
+          .map(
+            (e) =>
+                (e as List<dynamic>).map((e) => (e as num).toDouble()).toList(),
+          )
           .toList(),
       nResults: (json['n_results'] as num?)?.toInt() ?? 10,
-      include:
-          (json['include'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      include: (json['include'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
     );
 
 Map<String, dynamic> _$$QueryEmbeddingImplToJson(
-    _$QueryEmbeddingImpl instance) {
+  _$QueryEmbeddingImpl instance,
+) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -287,16 +301,22 @@ Map<String, dynamic> _$$QueryEmbeddingImplToJson(
 _$QueryResponseImpl _$$QueryResponseImplFromJson(Map<String, dynamic> json) =>
     _$QueryResponseImpl(
       embeddings: (json['embeddings'] as List<dynamic>?)
-          ?.map((e) => (e as List<dynamic>)
-              .map((e) => (e as List<dynamic>)
-                  .map((e) => (e as num).toDouble())
-                  .toList())
-              .toList())
+          ?.map(
+            (e) => (e as List<dynamic>)
+                .map(
+                  (e) => (e as List<dynamic>)
+                      .map((e) => (e as num).toDouble())
+                      .toList(),
+                )
+                .toList(),
+          )
           .toList(),
       metadatas: (json['metadatas'] as List<dynamic>?)
-          ?.map((e) => (e as List<dynamic>)
-              .map((e) => e as Map<String, dynamic>?)
-              .toList())
+          ?.map(
+            (e) => (e as List<dynamic>)
+                .map((e) => e as Map<String, dynamic>?)
+                .toList(),
+          )
           .toList(),
       documents: (json['documents'] as List<dynamic>?)
           ?.map((e) => (e as List<dynamic>).map((e) => e as String?).toList())
@@ -311,8 +331,10 @@ _$QueryResponseImpl _$$QueryResponseImplFromJson(Map<String, dynamic> json) =>
           .map((e) => (e as List<dynamic>).map((e) => e as String).toList())
           .toList(),
       distances: (json['distances'] as List<dynamic>?)
-          ?.map((e) =>
-              (e as List<dynamic>).map((e) => (e as num).toDouble()).toList())
+          ?.map(
+            (e) =>
+                (e as List<dynamic>).map((e) => (e as num).toDouble()).toList(),
+          )
           .toList(),
     );
 
@@ -336,14 +358,15 @@ Map<String, dynamic> _$$QueryResponseImplToJson(_$QueryResponseImpl instance) {
 }
 
 _$UpdateCollectionImpl _$$UpdateCollectionImplFromJson(
-        Map<String, dynamic> json) =>
-    _$UpdateCollectionImpl(
-      newName: json['new_name'] as String?,
-      newMetadata: json['new_metadata'] as Map<String, dynamic>?,
-    );
+  Map<String, dynamic> json,
+) => _$UpdateCollectionImpl(
+  newName: json['new_name'] as String?,
+  newMetadata: json['new_metadata'] as Map<String, dynamic>?,
+);
 
 Map<String, dynamic> _$$UpdateCollectionImplToJson(
-    _$UpdateCollectionImpl instance) {
+  _$UpdateCollectionImpl instance,
+) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -358,24 +381,27 @@ Map<String, dynamic> _$$UpdateCollectionImplToJson(
 }
 
 _$UpdateEmbeddingImpl _$$UpdateEmbeddingImplFromJson(
-        Map<String, dynamic> json) =>
-    _$UpdateEmbeddingImpl(
-      embeddings: (json['embeddings'] as List<dynamic>?)
-          ?.map((e) =>
-              (e as List<dynamic>?)?.map((e) => (e as num).toDouble()).toList())
-          .toList(),
-      metadatas: (json['metadatas'] as List<dynamic>?)
-          ?.map((e) => e as Map<String, dynamic>?)
-          .toList(),
-      documents: (json['documents'] as List<dynamic>?)
-          ?.map((e) => e as String?)
-          .toList(),
-      uris: (json['uris'] as List<dynamic>?)?.map((e) => e as String?).toList(),
-      ids: (json['ids'] as List<dynamic>).map((e) => e as String).toList(),
-    );
+  Map<String, dynamic> json,
+) => _$UpdateEmbeddingImpl(
+  embeddings: (json['embeddings'] as List<dynamic>?)
+      ?.map(
+        (e) =>
+            (e as List<dynamic>?)?.map((e) => (e as num).toDouble()).toList(),
+      )
+      .toList(),
+  metadatas: (json['metadatas'] as List<dynamic>?)
+      ?.map((e) => e as Map<String, dynamic>?)
+      .toList(),
+  documents: (json['documents'] as List<dynamic>?)
+      ?.map((e) => e as String?)
+      .toList(),
+  uris: (json['uris'] as List<dynamic>?)?.map((e) => e as String?).toList(),
+  ids: (json['ids'] as List<dynamic>).map((e) => e as String).toList(),
+);
 
 Map<String, dynamic> _$$UpdateEmbeddingImplToJson(
-    _$UpdateEmbeddingImpl instance) {
+  _$UpdateEmbeddingImpl instance,
+) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -393,17 +419,17 @@ Map<String, dynamic> _$$UpdateEmbeddingImplToJson(
 }
 
 _$ValidationErrorImpl _$$ValidationErrorImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ValidationErrorImpl(
-      loc: json['loc'] as List<dynamic>,
-      msg: json['msg'] as String,
-      type: json['type'] as String,
-    );
+  Map<String, dynamic> json,
+) => _$ValidationErrorImpl(
+  loc: json['loc'] as List<dynamic>,
+  msg: json['msg'] as String,
+  type: json['type'] as String,
+);
 
 Map<String, dynamic> _$$ValidationErrorImplToJson(
-        _$ValidationErrorImpl instance) =>
-    <String, dynamic>{
-      'loc': instance.loc,
-      'msg': instance.msg,
-      'type': instance.type,
-    };
+  _$ValidationErrorImpl instance,
+) => <String, dynamic>{
+  'loc': instance.loc,
+  'msg': instance.msg,
+  'type': instance.type,
+};

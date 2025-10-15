@@ -16,8 +16,10 @@ void main() {
 
     test('creates with custom values', () {
       const config = GoogleAIConfig(
-        authProvider:
-            ApiKeyProvider('test-key', placement: AuthPlacement.header),
+        authProvider: ApiKeyProvider(
+          'test-key',
+          placement: AuthPlacement.header,
+        ),
         timeout: Duration(seconds: 30),
       );
 

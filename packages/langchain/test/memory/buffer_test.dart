@@ -86,24 +86,26 @@ void main() {
       expect(result2, {BaseMemory.defaultMemoryKey: ''});
     });
 
-    test('Test reserved keys are ignored when selecting prompt input keys',
-        () async {
-      final memory = ConversationBufferMemory(returnMessages: true);
-      await memory.saveContext(
-        inputValues: {
-          'foo': 'bar',
-          'stop': 'stop',
-          BaseActionAgent.agentScratchpadInputKey: 'baz',
-        },
-        outputValues: {'bar': 'foo'},
-      );
-      final expectedResult = [
-        ChatMessage.humanText('bar'),
-        ChatMessage.ai('foo'),
-      ];
-      final result1 = await memory.loadMemoryVariables();
-      expect(result1, {BaseMemory.defaultMemoryKey: expectedResult});
-    });
+    test(
+      'Test reserved keys are ignored when selecting prompt input keys',
+      () async {
+        final memory = ConversationBufferMemory(returnMessages: true);
+        await memory.saveContext(
+          inputValues: {
+            'foo': 'bar',
+            'stop': 'stop',
+            BaseActionAgent.agentScratchpadInputKey: 'baz',
+          },
+          outputValues: {'bar': 'foo'},
+        );
+        final expectedResult = [
+          ChatMessage.humanText('bar'),
+          ChatMessage.ai('foo'),
+        ];
+        final result1 = await memory.loadMemoryVariables();
+        expect(result1, {BaseMemory.defaultMemoryKey: expectedResult});
+      },
+    );
 
     test('Test multiple input values with inputKey specified', () async {
       final memory = ConversationBufferMemory(
@@ -126,8 +128,7 @@ void main() {
       expect(result1, {BaseMemory.defaultMemoryKey: expectedResult});
     });
 
-    test(
-        'Test error is thrown if inputKey not specified when using with '
+    test('Test error is thrown if inputKey not specified when using with '
         'multiple input values', () {
       final memory = ConversationBufferMemory(returnMessages: true);
 

@@ -41,7 +41,7 @@ abstract class FormattedProperty with _$FormattedProperty {
     'text',
     'transcript',
     'tool',
-    'output'
+    'output',
   ];
 
   /// Perform validations on the schema property values

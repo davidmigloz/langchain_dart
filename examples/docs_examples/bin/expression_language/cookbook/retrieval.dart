@@ -40,7 +40,8 @@ Answer the question based only on the following context:
 
 Question: {question}''');
 
-  final chain = Runnable.fromMap<String>({
+  final chain =
+      Runnable.fromMap<String>({
         'context': retriever | Runnable.mapInput((docs) => docs.join('\n')),
         'question': Runnable.passthrough(),
       }) |
@@ -72,8 +73,10 @@ Question: {question}
 
 Answer in the following language: {language}''');
 
-  final chain = Runnable.fromMap({
-        'context': Runnable.getItemFromMap<String>('question') |
+  final chain =
+      Runnable.fromMap({
+        'context':
+            Runnable.getItemFromMap<String>('question') |
             (retriever | Runnable.mapInput((docs) => docs.join('\n'))),
         'question': Runnable.getItemFromMap('question'),
         'language': Runnable.getItemFromMap('language'),
@@ -90,10 +93,12 @@ Answer in the following language: {language}''');
   // Aceptamos los siguientes métodos de pago: iDEAL, PayPal y tarjeta de
   // crédito.
 
-  await chain.stream({
-    'question': 'How can I get free shipping?',
-    'language': 'nl_NL',
-  }).forEach(stdout.write);
+  await chain
+      .stream({
+        'question': 'How can I get free shipping?',
+        'language': 'nl_NL',
+      })
+      .forEach(stdout.write);
   // Om gratis verzending te krijgen, moet je bestellingen plaatsen van meer
   // dan 30€.
 }
@@ -136,11 +141,12 @@ Question: {question}''');
   }
 
   final inputs = Runnable.fromMap({
-    'standalone_question': Runnable.fromMap({
+    'standalone_question':
+        Runnable.fromMap({
           'question': Runnable.getItemFromMap('question'),
           'chat_history':
               Runnable.getItemFromMap<List<(String, String)>>('chat_history') |
-                  Runnable.mapInput(formatChatHistory),
+              Runnable.mapInput(formatChatHistory),
         }) |
         condenseQuestionPrompt |
         model |
@@ -148,7 +154,8 @@ Question: {question}''');
   });
 
   final context = Runnable.fromMap({
-    'context': Runnable.getItemFromMap<String>('standalone_question') |
+    'context':
+        Runnable.getItemFromMap<String>('standalone_question') |
         retriever |
         Runnable.mapInput<List<Document>, String>(combineDocuments),
     'question': Runnable.getItemFromMap('standalone_question'),
@@ -165,10 +172,12 @@ Question: {question}''');
   // The methods of payment that are currently accepted are iDEAL, PayPal, and
   // credit card.
 
-  await conversationalQaChain.stream({
-    'question': 'Do I get free shipping?',
-    'chat_history': [('How much did you spend?', 'I spent 100€')],
-  }).forEach(stdout.write);
+  await conversationalQaChain
+      .stream({
+        'question': 'Do I get free shipping?',
+        'chat_history': [('How much did you spend?', 'I spent 100€')],
+      })
+      .forEach(stdout.write);
   // Yes, shipping is free on orders over 30€.
 }
 
@@ -208,8 +217,7 @@ Question: {question}''');
   String combineDocuments(
     final List<Document> documents, {
     final String separator = '\n\n',
-  }) =>
-      documents.map((final d) => d.pageContent).join(separator);
+  }) => documents.map((final d) => d.pageContent).join(separator);
 
   String formatChatHistory(final List<ChatMessage> chatHistory) {
     final formattedDialogueTurns = chatHistory
@@ -233,7 +241,8 @@ Question: {question}''');
   // Next, we get the chat history from the memory
   final expandedMemory = Runnable.fromMap({
     'question': Runnable.getItemFromMap('question'),
-    'chat_history': Runnable.getItemFromMap('memory') |
+    'chat_history':
+        Runnable.getItemFromMap('memory') |
         Runnable.mapInput<MemoryVariables, List<ChatMessage>>(
           (final input) => input['history'],
         ),
@@ -242,11 +251,12 @@ Question: {question}''');
   // Now, we generate a standalone question that includes the
   // necessary details from the chat history
   final standaloneQuestion = Runnable.fromMap({
-    'standalone_question': Runnable.fromMap({
+    'standalone_question':
+        Runnable.fromMap({
           'question': Runnable.getItemFromMap('question'),
           'chat_history':
               Runnable.getItemFromMap<List<ChatMessage>>('chat_history') |
-                  Runnable.mapInput(formatChatHistory),
+              Runnable.mapInput(formatChatHistory),
         }) |
         condenseQuestionPrompt |
         model |
@@ -261,7 +271,8 @@ Question: {question}''');
 
   // Construct the inputs for the answer prompt
   final finalInputs = Runnable.fromMap({
-    'context': Runnable.getItemFromMap('docs') |
+    'context':
+        Runnable.getItemFromMap('docs') |
         Runnable.mapInput<List<Document>, String>(combineDocuments),
     'question': Runnable.getItemFromMap('question'),
   });
@@ -273,7 +284,8 @@ Question: {question}''');
   });
 
   // And finally, we put it all together
-  final conversationalQaChain = loadedMemory |
+  final conversationalQaChain =
+      loadedMemory |
       expandedMemory |
       standaloneQuestion |
       retrievedDocs |

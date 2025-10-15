@@ -19,11 +19,11 @@ class ChromaClient {
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
   }) : _api = ChromaApiClient(
-          baseUrl: baseUrl,
-          headers: headers ?? const {},
-          queryParams: queryParams ?? const {},
-          client: client,
-        );
+         baseUrl: baseUrl,
+         headers: headers ?? const {},
+         queryParams: queryParams ?? const {},
+         client: client,
+       );
 
   /// The API client.
   final ChromaApiClient _api;

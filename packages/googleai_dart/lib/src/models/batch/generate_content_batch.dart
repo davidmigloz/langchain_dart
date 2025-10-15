@@ -99,18 +99,18 @@ class GenerateContentBatch {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (name != null) 'name': name,
-        if (displayName != null) 'displayName': displayName,
-        if (model != null) 'model': model,
-        if (inputConfig != null) 'inputConfig': inputConfig!.toJson(),
-        if (output != null) 'output': output!.toJson(),
-        if (createTime != null) 'createTime': createTime!.toIso8601String(),
-        if (endTime != null) 'endTime': endTime!.toIso8601String(),
-        if (updateTime != null) 'updateTime': updateTime!.toIso8601String(),
-        if (batchStats != null) 'batchStats': batchStats!.toJson(),
-        if (state != null) 'state': batchStateToString(state!),
-        if (priority != null) 'priority': priority.toString(),
-      };
+    if (name != null) 'name': name,
+    if (displayName != null) 'displayName': displayName,
+    if (model != null) 'model': model,
+    if (inputConfig != null) 'inputConfig': inputConfig!.toJson(),
+    if (output != null) 'output': output!.toJson(),
+    if (createTime != null) 'createTime': createTime!.toIso8601String(),
+    if (endTime != null) 'endTime': endTime!.toIso8601String(),
+    if (updateTime != null) 'updateTime': updateTime!.toIso8601String(),
+    if (batchStats != null) 'batchStats': batchStats!.toJson(),
+    if (state != null) 'state': batchStateToString(state!),
+    if (priority != null) 'priority': priority.toString(),
+  };
 
   /// Creates a copy with replaced values.
   GenerateContentBatch copyWith({
@@ -141,8 +141,9 @@ class GenerateContentBatch {
       createTime: createTime == unsetCopyWithValue
           ? this.createTime
           : createTime as DateTime?,
-      endTime:
-          endTime == unsetCopyWithValue ? this.endTime : endTime as DateTime?,
+      endTime: endTime == unsetCopyWithValue
+          ? this.endTime
+          : endTime as DateTime?,
       updateTime: updateTime == unsetCopyWithValue
           ? this.updateTime
           : updateTime as DateTime?,
@@ -150,8 +151,9 @@ class GenerateContentBatch {
           ? this.batchStats
           : batchStats as BatchStats?,
       state: state == unsetCopyWithValue ? this.state : state as BatchState?,
-      priority:
-          priority == unsetCopyWithValue ? this.priority : priority as int?,
+      priority: priority == unsetCopyWithValue
+          ? this.priority
+          : priority as int?,
     );
   }
 }

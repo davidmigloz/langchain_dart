@@ -157,9 +157,11 @@ class _ToolResultBlockContentConverter
   @override
   ToolResultBlockContent fromJson(Object? data) {
     if (data is List && data.every((item) => item is Map)) {
-      return ToolResultBlockContentBlocks(data
-          .map((i) => Block.fromJson(i as Map<String, dynamic>))
-          .toList(growable: false));
+      return ToolResultBlockContentBlocks(
+        data
+            .map((i) => Block.fromJson(i as Map<String, dynamic>))
+            .toList(growable: false),
+      );
     }
     if (data is String) {
       return ToolResultBlockContentText(data);

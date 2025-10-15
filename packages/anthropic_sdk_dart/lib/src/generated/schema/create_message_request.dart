@@ -276,7 +276,7 @@ abstract class CreateMessageRequest with _$CreateMessageRequest {
     'tools',
     'top_k',
     'top_p',
-    'stream'
+    'stream',
   ];
 
   /// Perform validations on the schema property values
@@ -424,9 +424,11 @@ class _CreateMessageRequestSystemConverter
       return null;
     }
     if (data is List && data.every((item) => item is Map)) {
-      return SystemMessageContentBlocks(data
-          .map((i) => Block.fromJson(i as Map<String, dynamic>))
-          .toList(growable: false));
+      return SystemMessageContentBlocks(
+        data
+            .map((i) => Block.fromJson(i as Map<String, dynamic>))
+            .toList(growable: false),
+      );
     }
     if (data is String) {
       return SystemMessageContentText(data);

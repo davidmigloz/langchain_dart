@@ -153,7 +153,8 @@ void main() {
     test(
       'Document operations are not available',
       () {},
-      skip: 'Document operations require Vertex AI. '
+      skip:
+          'Document operations require Vertex AI. '
           'Google AI only supports corpus CRUD operations. '
           'See: https://cloud.google.com/vertex-ai/docs/vector-search',
     );
@@ -163,7 +164,8 @@ void main() {
     test(
       'Chunk operations are not available',
       () {},
-      skip: 'Chunk operations require Vertex AI. '
+      skip:
+          'Chunk operations require Vertex AI. '
           'Google AI only supports corpus CRUD operations. '
           'See: https://cloud.google.com/vertex-ai/docs/vector-search',
     );
@@ -173,7 +175,8 @@ void main() {
     test(
       'Query operations are not available',
       () {},
-      skip: 'Query operations require Vertex AI. '
+      skip:
+          'Query operations require Vertex AI. '
           'Google AI only supports corpus CRUD operations. '
           'See: https://cloud.google.com/vertex-ai/docs/vector-search',
     );
@@ -183,7 +186,8 @@ void main() {
     test(
       'Document query operations are not available',
       () {},
-      skip: 'Document query operations require Vertex AI. '
+      skip:
+          'Document query operations require Vertex AI. '
           'Google AI only supports corpus CRUD operations. '
           'See: https://cloud.google.com/vertex-ai/docs/vector-search',
     );

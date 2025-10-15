@@ -17,8 +17,8 @@ CreateChatCompletionRequest createChatCompletionRequest(
   final bool stream = false,
 }) {
   final messagesDtos = messages.toChatCompletionMessages();
-  final toolsDtos =
-      (options?.tools ?? defaultOptions.tools)?.toChatCompletionTool();
+  final toolsDtos = (options?.tools ?? defaultOptions.tools)
+      ?.toChatCompletionTool();
   final toolChoice = (options?.toolChoice ?? defaultOptions.toolChoice)
       ?.toChatCompletionToolChoice();
   final responseFormatDto =
@@ -59,8 +59,9 @@ CreateChatCompletionRequest createChatCompletionRequest(
     serviceTier: serviceTierDto,
     user: options?.user ?? defaultOptions.user,
     verbosity: (options?.verbosity ?? defaultOptions.verbosity).toVerbosity(),
-    streamOptions:
-        stream ? const ChatCompletionStreamOptions(includeUsage: true) : null,
+    streamOptions: stream
+        ? const ChatCompletionStreamOptions(includeUsage: true)
+        : null,
   );
 }
 
@@ -75,8 +76,9 @@ extension ChatMessageListMapper on List<ChatMessage> {
       final HumanChatMessage msg => _mapHumanMessage(msg),
       final AIChatMessage msg => _mapAIMessage(msg),
       final ToolChatMessage msg => _mapToolMessage(msg),
-      CustomChatMessage() =>
-        throw UnsupportedError('OpenAI does not support custom messages'),
+      CustomChatMessage() => throw UnsupportedError(
+        'OpenAI does not support custom messages',
+      ),
     };
   }
 
@@ -147,13 +149,14 @@ extension ChatMessageListMapper on List<ChatMessage> {
         .map(
           (final part) => switch (part) {
             final ChatMessageContentText c => [
-                ChatCompletionMessageContentPartText(text: c.text),
-              ],
+              ChatCompletionMessageContentPartText(text: c.text),
+            ],
             final ChatMessageContentImage img => [
-                _mapMessageContentPartImage(img),
-              ],
-            final ChatMessageContentMultiModal c =>
-              _mapMessageContentPart(c).value,
+              _mapMessageContentPartImage(img),
+            ],
+            final ChatMessageContentMultiModal c => _mapMessageContentPart(
+              c,
+            ).value,
           },
         )
         .expand((final parts) => parts)
@@ -166,8 +169,8 @@ extension ChatMessageListMapper on List<ChatMessage> {
       content: aiChatMessage.content,
       toolCalls: aiChatMessage.toolCalls.isNotEmpty
           ? aiChatMessage.toolCalls
-              .map(_mapMessageToolCall)
-              .toList(growable: false)
+                .map(_mapMessageToolCall)
+                .toList(growable: false)
           : null,
     );
   }
@@ -210,7 +213,7 @@ extension CreateChatCompletionResponseMapper on CreateChatCompletionResponse {
         content: msg.content ?? '',
         toolCalls:
             msg.toolCalls?.map(_mapMessageToolCall).toList(growable: false) ??
-                const [],
+            const [],
       ),
       finishReason: _mapFinishReason(choice.finishReason),
       metadata: {
@@ -270,20 +273,20 @@ extension ChatToolChoiceMapper on ChatToolChoice {
   ChatCompletionToolChoiceOption toChatCompletionToolChoice() {
     return switch (this) {
       ChatToolChoiceNone _ => const ChatCompletionToolChoiceOption.mode(
-          ChatCompletionToolChoiceMode.none,
-        ),
+        ChatCompletionToolChoiceMode.none,
+      ),
       ChatToolChoiceAuto _ => const ChatCompletionToolChoiceOption.mode(
-          ChatCompletionToolChoiceMode.auto,
-        ),
+        ChatCompletionToolChoiceMode.auto,
+      ),
       ChatToolChoiceRequired() => const ChatCompletionToolChoiceOption.mode(
-          ChatCompletionToolChoiceMode.required,
-        ),
+        ChatCompletionToolChoiceMode.required,
+      ),
       final ChatToolChoiceForced t => ChatCompletionToolChoiceOption.tool(
-          ChatCompletionNamedToolChoice(
-            type: ChatCompletionNamedToolChoiceType.function,
-            function: ChatCompletionFunctionCallOption(name: t.name),
-          ),
+        ChatCompletionNamedToolChoice(
+          type: ChatCompletionNamedToolChoiceType.function,
+          function: ChatCompletionFunctionCallOption(name: t.name),
         ),
+      ),
     };
   }
 }
@@ -302,7 +305,8 @@ extension CreateChatCompletionStreamResponseMapper
       id: id,
       output: AIChatMessage(
         content: delta?.content ?? '',
-        toolCalls: delta?.toolCalls
+        toolCalls:
+            delta?.toolCalls
                 ?.map(_mapMessageToolCall)
                 .toList(growable: false) ??
             const [],
@@ -340,55 +344,53 @@ extension ChatOpenAIResponseFormatMapper on ChatOpenAIResponseFormat {
       ChatOpenAIResponseFormatText() => const ResponseFormat.text(),
       ChatOpenAIResponseFormatJsonObject() => const ResponseFormat.jsonObject(),
       final ChatOpenAIResponseFormatJsonSchema res => ResponseFormat.jsonSchema(
-          jsonSchema: JsonSchemaObject(
-            name: res.jsonSchema.name,
-            description: res.jsonSchema.description,
-            schema: res.jsonSchema.schema,
-            strict: res.jsonSchema.strict,
-          ),
+        jsonSchema: JsonSchemaObject(
+          name: res.jsonSchema.name,
+          description: res.jsonSchema.description,
+          schema: res.jsonSchema.schema,
+          strict: res.jsonSchema.strict,
         ),
+      ),
     };
   }
 }
 
 extension ChatOpenAIReasoningEffortX on ChatOpenAIReasoningEffort? {
   ReasoningEffort? toReasoningEffort() => switch (this) {
-        ChatOpenAIReasoningEffort.minimal => ReasoningEffort.minimal,
-        ChatOpenAIReasoningEffort.low => ReasoningEffort.low,
-        ChatOpenAIReasoningEffort.medium => ReasoningEffort.medium,
-        ChatOpenAIReasoningEffort.high => ReasoningEffort.high,
-        null => null,
-      };
+    ChatOpenAIReasoningEffort.minimal => ReasoningEffort.minimal,
+    ChatOpenAIReasoningEffort.low => ReasoningEffort.low,
+    ChatOpenAIReasoningEffort.medium => ReasoningEffort.medium,
+    ChatOpenAIReasoningEffort.high => ReasoningEffort.high,
+    null => null,
+  };
 }
 
 extension ChatOpenAIVerbosityX on ChatOpenAIVerbosity? {
   Verbosity? toVerbosity() => switch (this) {
-        ChatOpenAIVerbosity.low => Verbosity.low,
-        ChatOpenAIVerbosity.medium => Verbosity.medium,
-        ChatOpenAIVerbosity.high => Verbosity.high,
-        null => null,
-      };
+    ChatOpenAIVerbosity.low => Verbosity.low,
+    ChatOpenAIVerbosity.medium => Verbosity.medium,
+    ChatOpenAIVerbosity.high => Verbosity.high,
+    null => null,
+  };
 }
 
 extension ChatOpenAIServiceTierX on ChatOpenAIServiceTier? {
   CreateChatCompletionRequestServiceTier?
-      toCreateChatCompletionRequestServiceTier() => switch (this) {
-            ChatOpenAIServiceTier.auto =>
-              CreateChatCompletionRequestServiceTier.auto,
-            ChatOpenAIServiceTier.vDefault =>
-              CreateChatCompletionRequestServiceTier.vDefault,
-            null => null,
-          };
+  toCreateChatCompletionRequestServiceTier() => switch (this) {
+    ChatOpenAIServiceTier.auto => CreateChatCompletionRequestServiceTier.auto,
+    ChatOpenAIServiceTier.vDefault =>
+      CreateChatCompletionRequestServiceTier.vDefault,
+    null => null,
+  };
 }
 
 FinishReason _mapFinishReason(
   final ChatCompletionFinishReason? reason,
-) =>
-    switch (reason) {
-      ChatCompletionFinishReason.stop => FinishReason.stop,
-      ChatCompletionFinishReason.length => FinishReason.length,
-      ChatCompletionFinishReason.toolCalls => FinishReason.toolCalls,
-      ChatCompletionFinishReason.contentFilter => FinishReason.contentFilter,
-      ChatCompletionFinishReason.functionCall => FinishReason.toolCalls,
-      null => FinishReason.unspecified,
-    };
+) => switch (reason) {
+  ChatCompletionFinishReason.stop => FinishReason.stop,
+  ChatCompletionFinishReason.length => FinishReason.length,
+  ChatCompletionFinishReason.toolCalls => FinishReason.toolCalls,
+  ChatCompletionFinishReason.contentFilter => FinishReason.contentFilter,
+  ChatCompletionFinishReason.functionCall => FinishReason.toolCalls,
+  null => FinishReason.unspecified,
+};

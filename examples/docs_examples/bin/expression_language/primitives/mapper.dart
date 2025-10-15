@@ -48,8 +48,10 @@ Future<void> _mapInput() async {
   // 4. Define the final chain
   final model = ChatOpenAI(apiKey: openaiApiKey);
   const outputParser = StringOutputParser<ChatResult>();
-  final chain =
-      setupAndRetrieval.pipe(promptTemplate).pipe(model).pipe(outputParser);
+  final chain = setupAndRetrieval
+      .pipe(promptTemplate)
+      .pipe(model)
+      .pipe(outputParser);
 
   // 5. Run the pipeline
   final res = await chain.invoke('Who created LangChain.dart?');
@@ -67,8 +69,9 @@ Future<void> _mapInputStream() async {
     ),
   );
   final parser = JsonOutputParser<ChatResult>();
-  final mapper = Runnable.mapInputStream(
-      (Stream<Map<String, dynamic>> inputStream) async* {
+  final mapper = Runnable.mapInputStream((
+    Stream<Map<String, dynamic>> inputStream,
+  ) async* {
     yield await inputStream.last;
   });
 
@@ -140,10 +143,9 @@ Future<void> _getMapFromInput() async {
     (ChatMessageType.human, '{equation_statement}'),
   ]);
 
-  final chain = Runnable.getMapFromInput<String>('equation_statement')
-      .pipe(promptTemplate)
-      .pipe(model)
-      .pipe(outputParser);
+  final chain = Runnable.getMapFromInput<String>(
+    'equation_statement',
+  ).pipe(promptTemplate).pipe(model).pipe(outputParser);
 
   final res = await chain.invoke('x raised to the third plus seven equals 12');
   print(res);

@@ -35,8 +35,9 @@ void main() {
 
       final executor = AgentExecutor(agent: agent);
 
-      final res = await executor
-          .run('What is 40 raised to the 0.43 power with 3 decimals? ');
+      final res = await executor.run(
+        'What is 40 raised to the 0.43 power with 3 decimals? ',
+      );
 
       expect(res, contains('4.88'));
     });
@@ -180,10 +181,10 @@ class _SearchInput {
   final int n;
 
   _SearchInput.fromJson(final Map<String, dynamic> json)
-      : this(
-          query: json['query'] as String,
-          n: json['n'] as int,
-        );
+    : this(
+        query: json['query'] as String,
+        n: json['n'] as int,
+      );
 
   @override
   bool operator ==(covariant _SearchInput other) =>

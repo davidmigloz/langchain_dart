@@ -24,14 +24,16 @@ void main() {
       expect(res, equals({'input': 'test', 'output': 'test'}));
     });
 
-    test('Test base chain input logic - explicit input keys - invalid input',
-        () {
-      final chain = _FakeChain(inputVariables: {'input'});
-      expect(
-        () async => chain.call({'inputInvalid': 'test'}),
-        throwsA(isA<ArgumentError>()),
-      );
-    });
+    test(
+      'Test base chain input logic - explicit input keys - invalid input',
+      () {
+        final chain = _FakeChain(inputVariables: {'input'});
+        expect(
+          () async => chain.call({'inputInvalid': 'test'}),
+          throwsA(isA<ArgumentError>()),
+        );
+      },
+    );
 
     test('Test base chain input logic - explicit output keys', () async {
       final chain = _FakeChain(outputVariables: {'output'});
@@ -39,14 +41,16 @@ void main() {
       expect(res, equals({'input': 'test', 'output': 'test'}));
     });
 
-    test('Test base chain input logic - explicit output keys - invalid output',
-        () {
-      final chain = _FakeChain(outputVariables: {'outputOther'});
-      expect(
-        () async => chain.call({'input': 'test'}),
-        throwsA(isA<ArgumentError>()),
-      );
-    });
+    test(
+      'Test base chain input logic - explicit output keys - invalid output',
+      () {
+        final chain = _FakeChain(outputVariables: {'outputOther'});
+        expect(
+          () async => chain.call({'input': 'test'}),
+          throwsA(isA<ArgumentError>()),
+        );
+      },
+    );
 
     test('Test base chain input logic - direct input', () async {
       final chain = _FakeChain();
@@ -54,12 +58,14 @@ void main() {
       expect(res, equals({'input': 'test', 'output': 'test'}));
     });
 
-    test('Test base chain input logic - direct input with explicit input key',
-        () async {
-      final chain = _FakeChain(inputVariables: {'inputDirect'});
-      final res = await chain.call('test');
-      expect(res, equals({'inputDirect': 'test', 'output': 'test'}));
-    });
+    test(
+      'Test base chain input logic - direct input with explicit input key',
+      () async {
+        final chain = _FakeChain(inputVariables: {'inputDirect'});
+        final res = await chain.call('test');
+        expect(res, equals({'inputDirect': 'test', 'output': 'test'}));
+      },
+    );
 
     test('Test base chain input logic - with memory', () async {
       final memory = ConversationBufferMemory();
@@ -85,7 +91,8 @@ void main() {
         equals(
           {
             'input': 'test3',
-            'history': 'Human: test1\nAI: test1\n'
+            'history':
+                'Human: test1\nAI: test1\n'
                 'Human: test2\nAI: test2',
             'output': 'test3',
           },

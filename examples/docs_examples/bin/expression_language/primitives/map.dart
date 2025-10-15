@@ -90,13 +90,12 @@ Future<void> _concurrency() async {
   final model = ChatOpenAI(apiKey: openaiApiKey);
   const outputParser = StringOutputParser<ChatResult>();
 
-  final jokeChain = PromptTemplate.fromTemplate('tell me a joke about {topic}')
-      .pipe(model)
-      .pipe(outputParser);
-  final poemChain =
-      PromptTemplate.fromTemplate('write a 2-line poem about {topic}')
-          .pipe(model)
-          .pipe(outputParser);
+  final jokeChain = PromptTemplate.fromTemplate(
+    'tell me a joke about {topic}',
+  ).pipe(model).pipe(outputParser);
+  final poemChain = PromptTemplate.fromTemplate(
+    'write a 2-line poem about {topic}',
+  ).pipe(model).pipe(outputParser);
 
   final mapChain = Runnable.fromMap<Map<String, dynamic>>({
     'joke': jokeChain,

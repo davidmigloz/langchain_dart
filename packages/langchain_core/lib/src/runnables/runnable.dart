@@ -45,8 +45,11 @@ import 'types.dart';
 ///  returned by the router function.
 /// - [bind] allows you to bind the runnable to a set of options.
 /// {@endtemplate}
-abstract class Runnable<RunInput extends Object?,
-    CallOptions extends RunnableOptions, RunOutput extends Object?> {
+abstract class Runnable<
+  RunInput extends Object?,
+  CallOptions extends RunnableOptions,
+  RunOutput extends Object?
+> {
   /// {@macro runnable}
   const Runnable({
     required this.defaultOptions,
@@ -75,7 +78,7 @@ abstract class Runnable<RunInput extends Object?,
   ///
   /// - [steps] - the map of [Runnable] objects to run in parallel.
   static Runnable<RunInput, RunnableOptions, Map<String, dynamic>>
-      fromMap<RunInput extends Object>(
+  fromMap<RunInput extends Object>(
     final Map<String, Runnable<RunInput, RunnableOptions, Object>> steps,
   ) {
     return RunnableMap<RunInput>(steps);
@@ -87,15 +90,17 @@ abstract class Runnable<RunInput extends Object?,
   ///
   /// - [function] - the function to run.
   static Runnable<RunInput, RunnableOptions, RunOutput>
-      fromFunction<RunInput extends Object, RunOutput extends Object>({
+  fromFunction<RunInput extends Object, RunOutput extends Object>({
     final FutureOr<RunOutput> Function(
       RunInput input,
       RunnableOptions? options,
-    )? invoke,
+    )?
+    invoke,
     final Stream<RunOutput> Function(
       Stream<RunInput> inputStream,
       RunnableOptions? options,
-    )? stream,
+    )?
+    stream,
   }) {
     return RunnableFunction<RunInput, RunOutput>(
       invoke: invoke,
@@ -110,11 +115,12 @@ abstract class Runnable<RunInput extends Object?,
   ///
   /// - [router] - the function that will be called to determine the runnable to use.
   static Runnable<RunInput, RunnableOptions, RunOutput>
-      fromRouter<RunInput extends Object, RunOutput extends Object>(
+  fromRouter<RunInput extends Object, RunOutput extends Object>(
     final FutureOr<Runnable<RunInput, RunnableOptions, RunOutput>> Function(
       RunInput input,
       RunnableOptions? options,
-    ) router,
+    )
+    router,
   ) {
     return RunnableRouter<RunInput, RunOutput>(router);
   }
@@ -124,7 +130,7 @@ abstract class Runnable<RunInput extends Object?,
   /// A [RunnablePassthrough] takes the input it receives and passes it through
   /// as output.
   static Runnable<RunInput, RunnableOptions, RunInput>
-      passthrough<RunInput extends Object>() {
+  passthrough<RunInput extends Object>() {
     return RunnablePassthrough<RunInput>();
   }
 
@@ -134,7 +140,7 @@ abstract class Runnable<RunInput extends Object?,
   ///
   /// - [inputMapper] - a function that maps [RunInput] to [RunOutput].
   static Runnable<RunInput, RunnableOptions, RunOutput>
-      mapInput<RunInput extends Object, RunOutput extends Object>(
+  mapInput<RunInput extends Object, RunOutput extends Object>(
     final FutureOr<RunOutput> Function(RunInput input) inputMapper,
   ) {
     return RunnableMapInput<RunInput, RunOutput>(inputMapper);
@@ -147,9 +153,9 @@ abstract class Runnable<RunInput extends Object?,
   ///
   /// - [inputStreamMapper] - the stream transformer to run.
   static Runnable<RunInput, RunnableOptions, RunOutput>
-      mapInputStream<RunInput extends Object, RunOutput extends Object>(
+  mapInputStream<RunInput extends Object, RunOutput extends Object>(
     final Stream<RunOutput> Function(Stream<RunInput> inputStream)
-        inputStreamMapper,
+    inputStreamMapper,
   ) {
     return RunnableMapInputStream<RunInput, RunOutput>(inputStreamMapper);
   }
@@ -158,7 +164,7 @@ abstract class Runnable<RunInput extends Object?,
   ///
   /// - [key] - the key of the item to get from the input map.
   static Runnable<Map<String, dynamic>, RunnableOptions, RunOutput>
-      getItemFromMap<RunOutput extends Object>(
+  getItemFromMap<RunOutput extends Object>(
     final String key,
   ) {
     return Runnable.mapInput<Map<String, dynamic>, RunOutput>(
@@ -171,7 +177,7 @@ abstract class Runnable<RunInput extends Object?,
   ///
   /// - [key] - the key where to place the input in the output map.
   static Runnable<RunInput, RunnableOptions, Map<String, dynamic>>
-      getMapFromInput<RunInput extends Object>([final String key = 'input']) {
+  getMapFromInput<RunInput extends Object>([final String key = 'input']) {
     return Runnable.mapInput<RunInput, Map<String, dynamic>>(
       (input) => {key: input},
     );
@@ -262,8 +268,8 @@ abstract class Runnable<RunInput extends Object?,
   /// sequentially, passing the output of the previous [Runnable] to the next one.
   ///
   /// - [next] - the [Runnable] to pipe the output into.
-  RunnableSequence<RunInput, NewRunOutput> pipe<NewRunOutput extends Object?,
-      NewCallOptions extends RunnableOptions>(
+  RunnableSequence<RunInput, NewRunOutput>
+  pipe<NewRunOutput extends Object?, NewCallOptions extends RunnableOptions>(
     final Runnable<RunOutput, NewCallOptions, NewRunOutput> next,
   ) {
     return RunnableSequence<RunInput, NewRunOutput>(

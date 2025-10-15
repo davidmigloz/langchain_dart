@@ -73,15 +73,15 @@ class ChromaApiClient {
     this.headers = const {},
     this.queryParams = const {},
     http.Client? client,
-  })  : assert(
-          baseUrl == null || baseUrl.startsWith('http'),
-          'baseUrl must start with http',
-        ),
-        assert(
-          baseUrl == null || !baseUrl.endsWith('/'),
-          'baseUrl must not end with /',
-        ),
-        client = RetryClient(client ?? http.Client());
+  }) : assert(
+         baseUrl == null || baseUrl.startsWith('http'),
+         'baseUrl must start with http',
+       ),
+       assert(
+         baseUrl == null || !baseUrl.endsWith('/'),
+         'baseUrl must not end with /',
+       ),
+       client = RetryClient(client ?? http.Client());
 
   /// Override base URL (default: server url defined in spec)
   final String? baseUrl;

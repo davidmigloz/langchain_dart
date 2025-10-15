@@ -18,7 +18,8 @@ class ListTunedModelsResponse {
   /// Creates a [ListTunedModelsResponse] from JSON.
   factory ListTunedModelsResponse.fromJson(Map<String, dynamic> json) =>
       ListTunedModelsResponse(
-        tunedModels: (json['tunedModels'] as List<dynamic>?)
+        tunedModels:
+            (json['tunedModels'] as List<dynamic>?)
                 ?.map((e) => TunedModel.fromJson(e as Map<String, dynamic>))
                 .toList() ??
             [],
@@ -27,9 +28,9 @@ class ListTunedModelsResponse {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        'tunedModels': tunedModels.map((e) => e.toJson()).toList(),
-        if (nextPageToken != null) 'nextPageToken': nextPageToken,
-      };
+    'tunedModels': tunedModels.map((e) => e.toJson()).toList(),
+    if (nextPageToken != null) 'nextPageToken': nextPageToken,
+  };
 
   /// Creates a copy with replaced values.
   ListTunedModelsResponse copyWith({

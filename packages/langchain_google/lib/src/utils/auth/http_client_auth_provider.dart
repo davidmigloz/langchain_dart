@@ -30,9 +30,9 @@ class HttpClientAuthProvider implements g.AuthProvider {
     required auth.ServiceAccountCredentials credentials,
     required List<String> scopes,
     http.Client? httpClient,
-  })  : _credentials = credentials,
-        _scopes = scopes,
-        _httpClient = httpClient ?? http.Client();
+  }) : _credentials = credentials,
+       _scopes = scopes,
+       _httpClient = httpClient ?? http.Client();
 
   /// Creates an auth provider from a JSON service account key.
   ///

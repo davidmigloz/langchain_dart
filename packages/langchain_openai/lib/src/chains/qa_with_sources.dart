@@ -36,28 +36,27 @@ class OpenAIQAWithSourcesChain extends OpenAIQAWithStructureChain {
   OpenAIQAWithSourcesChain({
     required super.llm,
   }) : super(
-          tool: const ToolSpec(
-            name: 'answer_with_sources',
-            description:
-                'Answers a question with the sources used to answer it',
-            inputJsonSchema: {
-              'type': 'object',
-              'properties': {
-                'answer': {
-                  'type': 'string',
-                  'description': 'The answer to the question being asked',
-                },
-                'sources': {
-                  'type': 'array',
-                  'items': {'type': 'string'},
-                  'description': 'The sources used to answer the question',
-                },
-              },
-              'required': ['answer', 'sources'],
-            },
-          ),
-          outputParser: QAWithSourcesOutputParser(),
-        );
+         tool: const ToolSpec(
+           name: 'answer_with_sources',
+           description: 'Answers a question with the sources used to answer it',
+           inputJsonSchema: {
+             'type': 'object',
+             'properties': {
+               'answer': {
+                 'type': 'string',
+                 'description': 'The answer to the question being asked',
+               },
+               'sources': {
+                 'type': 'array',
+                 'items': {'type': 'string'},
+                 'description': 'The sources used to answer the question',
+               },
+             },
+             'required': ['answer', 'sources'],
+           },
+         ),
+         outputParser: QAWithSourcesOutputParser(),
+       );
 }
 
 /// {@template qa_with_sources}
@@ -95,10 +94,10 @@ class QAWithSourcesOutputParser
     extends BaseOutputParser<ChatResult, OutputParserOptions, QAWithSources> {
   /// {@macro qa_with_sources_output_parser}
   QAWithSourcesOutputParser()
-      : _toolsOutputParser = ToolsOutputParser(),
-        super(
-          defaultOptions: const OutputParserOptions(),
-        );
+    : _toolsOutputParser = ToolsOutputParser(),
+      super(
+        defaultOptions: const OutputParserOptions(),
+      );
 
   final ToolsOutputParser _toolsOutputParser;
 

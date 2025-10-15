@@ -43,7 +43,7 @@ class QueryEmbedding with _$QueryEmbedding {
     'where_document',
     'query_embeddings',
     'n_results',
-    'include'
+    'include',
   ];
 
   /// Validation constants

@@ -89,8 +89,9 @@ void main() async {
 
     // 3. Get specific batch status
     print('3. Checking batch status...');
-    final batchStatus =
-        await client.batches.getGenerateContentBatch(name: generateBatch.name!);
+    final batchStatus = await client.batches.getGenerateContentBatch(
+      name: generateBatch.name!,
+    );
     print('   ✓ Batch: ${batchStatus.name}');
     print('   State: ${batchStatus.state}');
     print('   Created: ${batchStatus.createTime}');
@@ -185,8 +186,9 @@ void main() async {
     // Simulate monitoring
     for (var i = 1; i <= 3; i++) {
       await Future<void>.delayed(const Duration(seconds: 2));
-      final status = await client.batches
-          .getGenerateContentBatch(name: generateBatch.name!);
+      final status = await client.batches.getGenerateContentBatch(
+        name: generateBatch.name!,
+      );
       print('   Check $i: State = ${status.state}');
 
       if (status.state == BatchState.succeeded) {
@@ -205,14 +207,16 @@ void main() async {
     print('');
 
     // 7. Cancel a batch (if still running)
-    final currentStatus =
-        await client.batches.getEmbedBatch(name: embedBatch.name!);
+    final currentStatus = await client.batches.getEmbedBatch(
+      name: embedBatch.name!,
+    );
     if (currentStatus.state == BatchState.running ||
         currentStatus.state == BatchState.pending) {
       print('7. Canceling embedding batch...');
       await client.batches.cancel(name: embedBatch.name!);
-      final canceledBatch =
-          await client.batches.getEmbedBatch(name: embedBatch.name!);
+      final canceledBatch = await client.batches.getEmbedBatch(
+        name: embedBatch.name!,
+      );
       print('   ✓ Batch canceled: ${canceledBatch.state}\n');
     } else {
       print('7. Embedding batch already completed or failed');

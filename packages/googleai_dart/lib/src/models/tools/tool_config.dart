@@ -14,18 +14,18 @@ class ToolConfig {
 
   /// Creates a [ToolConfig] from JSON.
   factory ToolConfig.fromJson(Map<String, dynamic> json) => ToolConfig(
-        functionCallingConfig: json['functionCallingConfig'] != null
-            ? FunctionCallingConfig.fromJson(
-                json['functionCallingConfig'] as Map<String, dynamic>,
-              )
-            : null,
-      );
+    functionCallingConfig: json['functionCallingConfig'] != null
+        ? FunctionCallingConfig.fromJson(
+            json['functionCallingConfig'] as Map<String, dynamic>,
+          )
+        : null,
+  );
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (functionCallingConfig != null)
-          'functionCallingConfig': functionCallingConfig!.toJson(),
-      };
+    if (functionCallingConfig != null)
+      'functionCallingConfig': functionCallingConfig!.toJson(),
+  };
 
   /// Creates a copy with replaced values.
   ToolConfig copyWith({

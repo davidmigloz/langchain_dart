@@ -116,8 +116,9 @@ class ApiException extends GoogleAIException {
         ..write('\n  Request ID: ${requestMetadata!.correlationId}');
     }
     if (responseMetadata != null) {
-      buffer
-          .write('\n  Latency: ${responseMetadata!.latency.inMilliseconds}ms');
+      buffer.write(
+        '\n  Latency: ${responseMetadata!.latency.inMilliseconds}ms',
+      );
     }
     if (cause != null) {
       buffer.write('\n  Caused by: $cause');

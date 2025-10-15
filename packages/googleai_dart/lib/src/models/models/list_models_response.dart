@@ -18,7 +18,8 @@ class ListModelsResponse {
   /// Creates a [ListModelsResponse] from JSON.
   factory ListModelsResponse.fromJson(Map<String, dynamic> json) =>
       ListModelsResponse(
-        models: (json['models'] as List<dynamic>?)
+        models:
+            (json['models'] as List<dynamic>?)
                 ?.map((e) => Model.fromJson(e as Map<String, dynamic>))
                 .toList() ??
             [],
@@ -27,9 +28,9 @@ class ListModelsResponse {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        'models': models.map((e) => e.toJson()).toList(),
-        if (nextPageToken != null) 'nextPageToken': nextPageToken,
-      };
+    'models': models.map((e) => e.toJson()).toList(),
+    if (nextPageToken != null) 'nextPageToken': nextPageToken,
+  };
 
   /// Creates a copy with replaced values.
   ListModelsResponse copyWith({
@@ -37,8 +38,9 @@ class ListModelsResponse {
     Object? nextPageToken = unsetCopyWithValue,
   }) {
     return ListModelsResponse(
-      models:
-          models == unsetCopyWithValue ? this.models : models! as List<Model>,
+      models: models == unsetCopyWithValue
+          ? this.models
+          : models! as List<Model>,
       nextPageToken: nextPageToken == unsetCopyWithValue
           ? this.nextPageToken
           : nextPageToken as String?,

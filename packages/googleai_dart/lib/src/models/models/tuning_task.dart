@@ -24,24 +24,23 @@ class TuningTask {
 
   /// Creates a [TuningTask] from JSON.
   factory TuningTask.fromJson(Map<String, dynamic> json) => TuningTask(
-        startTime: json['startTime'] != null
-            ? DateTime.parse(json['startTime'] as String)
-            : null,
-        completeTime: json['completeTime'] != null
-            ? DateTime.parse(json['completeTime'] as String)
-            : null,
-        snapshots: json['snapshots'] as int?,
-        hyperparameters: json['hyperparameters'] as Map<String, dynamic>?,
-      );
+    startTime: json['startTime'] != null
+        ? DateTime.parse(json['startTime'] as String)
+        : null,
+    completeTime: json['completeTime'] != null
+        ? DateTime.parse(json['completeTime'] as String)
+        : null,
+    snapshots: json['snapshots'] as int?,
+    hyperparameters: json['hyperparameters'] as Map<String, dynamic>?,
+  );
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (startTime != null) 'startTime': startTime!.toIso8601String(),
-        if (completeTime != null)
-          'completeTime': completeTime!.toIso8601String(),
-        if (snapshots != null) 'snapshots': snapshots,
-        if (hyperparameters != null) 'hyperparameters': hyperparameters,
-      };
+    if (startTime != null) 'startTime': startTime!.toIso8601String(),
+    if (completeTime != null) 'completeTime': completeTime!.toIso8601String(),
+    if (snapshots != null) 'snapshots': snapshots,
+    if (hyperparameters != null) 'hyperparameters': hyperparameters,
+  };
 
   /// Creates a copy with replaced values.
   TuningTask copyWith({
@@ -57,8 +56,9 @@ class TuningTask {
       completeTime: completeTime == unsetCopyWithValue
           ? this.completeTime
           : completeTime as DateTime?,
-      snapshots:
-          snapshots == unsetCopyWithValue ? this.snapshots : snapshots as int?,
+      snapshots: snapshots == unsetCopyWithValue
+          ? this.snapshots
+          : snapshots as int?,
       hyperparameters: hyperparameters == unsetCopyWithValue
           ? this.hyperparameters
           : hyperparameters as Map<String, dynamic>?,

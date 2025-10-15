@@ -160,12 +160,12 @@ class ChatMistralAI extends BaseChatModel<ChatMistralAIOptions> {
     ),
     this.encoding = 'cl100k_base',
   }) : _client = MistralAIClient(
-          apiKey: apiKey,
-          baseUrl: baseUrl,
-          headers: headers,
-          queryParams: queryParams,
-          client: client,
-        );
+         apiKey: apiKey,
+         baseUrl: baseUrl,
+         headers: headers,
+         queryParams: queryParams,
+         client: client,
+       );
 
   /// A client for interacting with Mistral AI API.
   final MistralAIClient _client;

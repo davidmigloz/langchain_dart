@@ -70,34 +70,36 @@ extension ChatMessagesMapper on List<ChatMessage> {
     final contentParts = switch (msg.content) {
       final ChatMessageContentText c => [g.TextPart(c.text)],
       final ChatMessageContentImage c => [
-          if (c.data.startsWith('http'))
-            g.FileDataPart(g.FileData(fileUri: c.data))
-          else
-            g.InlineDataPart(
-              g.Blob.fromBytes(
-                c.mimeType ?? 'image/jpeg',
-                base64Decode(c.data),
-              ),
+        if (c.data.startsWith('http'))
+          g.FileDataPart(g.FileData(fileUri: c.data))
+        else
+          g.InlineDataPart(
+            g.Blob.fromBytes(
+              c.mimeType ?? 'image/jpeg',
+              base64Decode(c.data),
             ),
-        ],
-      final ChatMessageContentMultiModal c => c.parts
-          .map(
-            (final p) => switch (p) {
-              final ChatMessageContentText c => g.TextPart(c.text),
-              final ChatMessageContentImage c => c.data.startsWith('http')
-                  ? g.FileDataPart(g.FileData(fileUri: c.data))
-                  : g.InlineDataPart(
-                      g.Blob.fromBytes(
-                        c.mimeType ?? 'image/jpeg',
-                        base64Decode(c.data),
-                      ),
-                    ),
-              ChatMessageContentMultiModal() => throw UnsupportedError(
+          ),
+      ],
+      final ChatMessageContentMultiModal c =>
+        c.parts
+            .map(
+              (final p) => switch (p) {
+                final ChatMessageContentText c => g.TextPart(c.text),
+                final ChatMessageContentImage c =>
+                  c.data.startsWith('http')
+                      ? g.FileDataPart(g.FileData(fileUri: c.data))
+                      : g.InlineDataPart(
+                          g.Blob.fromBytes(
+                            c.mimeType ?? 'image/jpeg',
+                            base64Decode(c.data),
+                          ),
+                        ),
+                ChatMessageContentMultiModal() => throw UnsupportedError(
                   'Cannot have multimodal content in multimodal content',
                 ),
-            },
-          )
-          .toList(growable: false),
+              },
+            )
+            .toList(growable: false),
     };
     return g.Content(role: 'user', parts: contentParts);
   }
@@ -144,7 +146,8 @@ extension GenerateContentResponseMapper on g.GenerateContentResponse {
     return ChatResult(
       id: id,
       output: AIChatMessage(
-        content: candidate.content?.parts
+        content:
+            candidate.content?.parts
                 .map(
                   (p) => switch (p) {
                     final g.TextPart p => p.text,
@@ -163,7 +166,8 @@ extension GenerateContentResponseMapper on g.GenerateContentResponse {
                 .nonNulls
                 .join('\n') ??
             '',
-        toolCalls: candidate.content?.parts
+        toolCalls:
+            candidate.content?.parts
                 .whereType<g.FunctionCallPart>()
                 .map(
                   (final part) => AIChatMessageToolCall(
@@ -229,20 +233,19 @@ extension GenerateContentResponseMapper on g.GenerateContentResponse {
 
   FinishReason _mapFinishReason(
     final g.FinishReason? reason,
-  ) =>
-      switch (reason) {
-        g.FinishReason.unspecified => FinishReason.unspecified,
-        g.FinishReason.stop => FinishReason.stop,
-        g.FinishReason.maxTokens => FinishReason.length,
-        g.FinishReason.safety => FinishReason.contentFilter,
-        g.FinishReason.recitation => FinishReason.recitation,
-        g.FinishReason.other => FinishReason.unspecified,
-        g.FinishReason.blocklist => FinishReason.contentFilter,
-        g.FinishReason.prohibitedContent => FinishReason.contentFilter,
-        g.FinishReason.spii => FinishReason.contentFilter,
-        g.FinishReason.malformedFunctionCall => FinishReason.unspecified,
-        null => FinishReason.unspecified,
-      };
+  ) => switch (reason) {
+    g.FinishReason.unspecified => FinishReason.unspecified,
+    g.FinishReason.stop => FinishReason.stop,
+    g.FinishReason.maxTokens => FinishReason.length,
+    g.FinishReason.safety => FinishReason.contentFilter,
+    g.FinishReason.recitation => FinishReason.recitation,
+    g.FinishReason.other => FinishReason.unspecified,
+    g.FinishReason.blocklist => FinishReason.contentFilter,
+    g.FinishReason.prohibitedContent => FinishReason.contentFilter,
+    g.FinishReason.spii => FinishReason.contentFilter,
+    g.FinishReason.malformedFunctionCall => FinishReason.unspecified,
+    null => FinishReason.unspecified,
+  };
 }
 
 extension SafetySettingsMapper on List<ChatGoogleGenerativeAISafetySetting> {
@@ -311,8 +314,8 @@ extension SchemaMapper on Map<String, dynamic> {
     final format = jsonSchema['format'] as String?;
     final items = jsonSchema['items'] as Map<String, dynamic>?;
     final properties = jsonSchema['properties'] as Map<String, dynamic>?;
-    final requiredProperties =
-        (jsonSchema['required'] as List?)?.cast<String>();
+    final requiredProperties = (jsonSchema['required'] as List?)
+        ?.cast<String>();
 
     switch (type) {
       case 'string':
@@ -380,26 +383,26 @@ extension ChatToolChoiceMapper on ChatToolChoice {
   Map<String, dynamic> toToolConfig() {
     return switch (this) {
       ChatToolChoiceNone _ => {
-          'functionCallingConfig': {
-            'mode': 'NONE',
-          },
+        'functionCallingConfig': {
+          'mode': 'NONE',
         },
+      },
       ChatToolChoiceAuto _ => {
-          'functionCallingConfig': {
-            'mode': 'AUTO',
-          },
+        'functionCallingConfig': {
+          'mode': 'AUTO',
         },
+      },
       ChatToolChoiceRequired() => {
-          'functionCallingConfig': {
-            'mode': 'ANY',
-          },
+        'functionCallingConfig': {
+          'mode': 'ANY',
         },
+      },
       final ChatToolChoiceForced t => {
-          'functionCallingConfig': {
-            'mode': 'ANY',
-            'allowedFunctionNames': [t.name],
-          },
+        'functionCallingConfig': {
+          'mode': 'ANY',
+          'allowedFunctionNames': [t.name],
         },
+      },
     };
   }
 }

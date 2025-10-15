@@ -26,23 +26,23 @@ class GeneratedFile {
 
   /// Creates a [GeneratedFile] from JSON.
   factory GeneratedFile.fromJson(Map<String, dynamic> json) => GeneratedFile(
-        name: json['name'] as String?,
-        mimeType: json['mimeType'] as String?,
-        state: json['state'] != null
-            ? generatedFileStateFromString(json['state'] as String?)
-            : null,
-        error: json['error'] != null
-            ? Status.fromJson(json['error'] as Map<String, dynamic>)
-            : null,
-      );
+    name: json['name'] as String?,
+    mimeType: json['mimeType'] as String?,
+    state: json['state'] != null
+        ? generatedFileStateFromString(json['state'] as String?)
+        : null,
+    error: json['error'] != null
+        ? Status.fromJson(json['error'] as Map<String, dynamic>)
+        : null,
+  );
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (name != null) 'name': name,
-        if (mimeType != null) 'mimeType': mimeType,
-        if (state != null) 'state': generatedFileStateToString(state),
-        if (error != null) 'error': error!.toJson(),
-      };
+    if (name != null) 'name': name,
+    if (mimeType != null) 'mimeType': mimeType,
+    if (state != null) 'state': generatedFileStateToString(state),
+    if (error != null) 'error': error!.toJson(),
+  };
 
   /// Creates a copy with replaced values.
   GeneratedFile copyWith({
@@ -53,8 +53,9 @@ class GeneratedFile {
   }) {
     return GeneratedFile(
       name: name == unsetCopyWithValue ? this.name : name as String?,
-      mimeType:
-          mimeType == unsetCopyWithValue ? this.mimeType : mimeType as String?,
+      mimeType: mimeType == unsetCopyWithValue
+          ? this.mimeType
+          : mimeType as String?,
       state: state == unsetCopyWithValue
           ? this.state
           : state as GeneratedFileState?,

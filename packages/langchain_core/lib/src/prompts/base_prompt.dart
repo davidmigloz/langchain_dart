@@ -75,8 +75,9 @@ abstract base class BasePromptTemplate
     final BaseLangChainOptions? options,
   }) async* {
     final List<InputValues> input = await inputStream.toList();
-    final InputValues reduced =
-        input.isEmpty ? const {} : reduce<InputValues>(input);
+    final InputValues reduced = input.isEmpty
+        ? const {}
+        : reduce<InputValues>(input);
     yield* stream(reduced, options: options);
   }
 

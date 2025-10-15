@@ -34,8 +34,8 @@ class GenerateContentResponse {
       GenerateContentResponse(
         candidates: json['candidates'] != null
             ? (json['candidates'] as List)
-                .map((e) => Candidate.fromJson(e as Map<String, dynamic>))
-                .toList()
+                  .map((e) => Candidate.fromJson(e as Map<String, dynamic>))
+                  .toList()
             : null,
         promptFeedback: json['promptFeedback'] != null
             ? PromptFeedback.fromJson(
@@ -53,13 +53,13 @@ class GenerateContentResponse {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (candidates != null)
-          'candidates': candidates!.map((e) => e.toJson()).toList(),
-        if (promptFeedback != null) 'promptFeedback': promptFeedback!.toJson(),
-        if (usageMetadata != null) 'usageMetadata': usageMetadata!.toJson(),
-        if (modelVersion != null) 'modelVersion': modelVersion,
-        if (responseId != null) 'responseId': responseId,
-      };
+    if (candidates != null)
+      'candidates': candidates!.map((e) => e.toJson()).toList(),
+    if (promptFeedback != null) 'promptFeedback': promptFeedback!.toJson(),
+    if (usageMetadata != null) 'usageMetadata': usageMetadata!.toJson(),
+    if (modelVersion != null) 'modelVersion': modelVersion,
+    if (responseId != null) 'responseId': responseId,
+  };
 
   /// Creates a copy with replaced values.
   GenerateContentResponse copyWith({

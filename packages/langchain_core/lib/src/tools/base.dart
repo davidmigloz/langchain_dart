@@ -110,8 +110,12 @@ ToolSpec{
 /// If you want to create a tool that accepts a single string input and returns
 /// a string output, you can use [StringTool] or [StringTool.fromFunction].
 /// {@endtemplate}
-abstract base class Tool<Input extends Object, Options extends ToolOptions,
-        Output extends Object> extends BaseLangChain<Input, Options, Output>
+abstract base class Tool<
+  Input extends Object,
+  Options extends ToolOptions,
+  Output extends Object
+>
+    extends BaseLangChain<Input, Options, Output>
     implements ToolSpec {
   /// {@macro tool}
   Tool({
@@ -122,9 +126,9 @@ abstract base class Tool<Input extends Object, Options extends ToolOptions,
     this.returnDirect = false,
     this.handleToolError,
     final Options? defaultOptions,
-  })  : assert(name.isNotEmpty, 'Tool name cannot be empty.'),
-        assert(description.isNotEmpty, 'Tool description cannot be empty.'),
-        super(defaultOptions: defaultOptions ?? const ToolOptions() as Options);
+  }) : assert(name.isNotEmpty, 'Tool name cannot be empty.'),
+       assert(description.isNotEmpty, 'Tool description cannot be empty.'),
+       super(defaultOptions: defaultOptions ?? const ToolOptions() as Options);
 
   @override
   final String name;
@@ -182,7 +186,8 @@ abstract base class Tool<Input extends Object, Options extends ToolOptions,
       inputJsonSchema: inputJsonSchema,
       strict: strict,
       function: func,
-      getInputFromJson: getInputFromJson ??
+      getInputFromJson:
+          getInputFromJson ??
           (json) {
             if (json.containsKey('input')) {
               return json['input'] as Input;
@@ -286,8 +291,8 @@ final class _ToolFunc<Input extends Object, Output extends Object>
     super.returnDirect = false,
     super.handleToolError,
     super.defaultOptions,
-  })  : _getInputFromJson = getInputFromJson,
-        _function = function;
+  }) : _getInputFromJson = getInputFromJson,
+       _function = function;
 
   /// The function to run when the tool is called.
   final FutureOr<Output> Function(Input toolInput) _function;

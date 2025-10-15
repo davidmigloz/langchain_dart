@@ -54,8 +54,8 @@ class Document {
       displayName: json['displayName'] as String?,
       customMetadata: json['customMetadata'] != null
           ? (json['customMetadata'] as List)
-              .map((e) => CustomMetadata.fromJson(e as Map<String, dynamic>))
-              .toList()
+                .map((e) => CustomMetadata.fromJson(e as Map<String, dynamic>))
+                .toList()
           : null,
       createTime: json['createTime'] != null
           ? DateTime.parse(json['createTime'] as String)
@@ -104,7 +104,8 @@ class Document {
   }
 
   @override
-  String toString() => 'Document('
+  String toString() =>
+      'Document('
       'name: $name, '
       'displayName: $displayName, '
       'customMetadata: $customMetadata, '

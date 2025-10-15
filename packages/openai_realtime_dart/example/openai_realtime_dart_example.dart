@@ -13,8 +13,9 @@ Future<void> main() async {
   await client.updateSession(voice: Voice.alloy);
   await client.updateSession(
     turnDetection: null,
-    inputAudioTranscription:
-        const InputAudioTranscriptionConfig(model: 'whisper-1'),
+    inputAudioTranscription: const InputAudioTranscriptionConfig(
+      model: 'whisper-1',
+    ),
   );
 
   // Set up event handling

@@ -41,7 +41,7 @@ class AddEmbedding with _$AddEmbedding {
     'metadatas',
     'documents',
     'uris',
-    'ids'
+    'ids',
   ];
 
   /// Perform validations on the schema property values

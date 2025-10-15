@@ -280,17 +280,19 @@ class VertexAITextChatModelPrediction {
         predictionJson['candidates'] as List<dynamic>? ?? const [];
     final citationMetadataList =
         predictionJson['citationMetadata'] as List<dynamic>? ?? const [];
-    final citationsList = citationMetadataList.map((final cm) {
-      final metadata = cm as Map<String, dynamic>? ?? const {};
-      final citations = metadata['citations'] as List<dynamic>? ?? const [];
-      return citations
-          .map(
-            (final c) => VertexAIPredictionCitation.fromMap(
-              c as Map<String, dynamic>? ?? const {},
-            ),
-          )
-          .toList(growable: false);
-    }).toList(growable: false);
+    final citationsList = citationMetadataList
+        .map((final cm) {
+          final metadata = cm as Map<String, dynamic>? ?? const {};
+          final citations = metadata['citations'] as List<dynamic>? ?? const [];
+          return citations
+              .map(
+                (final c) => VertexAIPredictionCitation.fromMap(
+                  c as Map<String, dynamic>? ?? const {},
+                ),
+              )
+              .toList(growable: false);
+        })
+        .toList(growable: false);
     final safetyAttributesList =
         predictionJson['safetyAttributes'] as List<dynamic>? ?? const [];
     final safetyAttributes = safetyAttributesList
@@ -333,8 +335,9 @@ class VertexAITextChatModelPrediction {
   int get hashCode =>
       const ListEquality<VertexAITextChatModelMessage>().hash(candidates) ^
       const DeepCollectionEquality().hash(citations) ^
-      const ListEquality<VertexAIPredictionSafetyAttributes>()
-          .hash(safetyAttributes);
+      const ListEquality<VertexAIPredictionSafetyAttributes>().hash(
+        safetyAttributes,
+      );
 
   @override
   String toString() {

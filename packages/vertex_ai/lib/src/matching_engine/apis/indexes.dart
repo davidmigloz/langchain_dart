@@ -29,10 +29,10 @@ class VertexAIIndexesApi {
 
   /// Indexes Operations API client.
   VertexAIIndexesOperationsApi get operations => VertexAIIndexesOperationsApi(
-        indexesOperationsApi: _indexesApi.operations,
-        project: project,
-        location: location,
-      );
+    indexesOperationsApi: _indexesApi.operations,
+    project: project,
+    location: location,
+  );
 
   /// Creates an Index.
   ///

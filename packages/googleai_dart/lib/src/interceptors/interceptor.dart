@@ -39,9 +39,10 @@ class RequestContext {
 }
 
 /// Function signature for interceptor chain continuation.
-typedef InterceptorNext = Future<http.Response> Function(
-  RequestContext context,
-);
+typedef InterceptorNext =
+    Future<http.Response> Function(
+      RequestContext context,
+    );
 
 /// Base interceptor interface for HTTP requests.
 abstract interface class Interceptor {

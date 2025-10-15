@@ -80,8 +80,9 @@ void main() {
       final executionOrder = <String>[];
 
       final interceptor1 = MockInterceptor();
-      when(() => interceptor1.intercept(any(), any()))
-          .thenAnswer((invocation) async {
+      when(() => interceptor1.intercept(any(), any())).thenAnswer((
+        invocation,
+      ) async {
         executionOrder.add('interceptor1');
         // Short-circuit - return response without calling next
         return http.Response('{"cached": true}', 200);

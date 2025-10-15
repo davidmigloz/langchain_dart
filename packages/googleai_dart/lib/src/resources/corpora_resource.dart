@@ -169,8 +169,9 @@ class CorporaResource extends ResourceBase {
   }) async {
     _validateGoogleAIOnly();
 
-    final queryParams =
-        force != null ? {'force': force.toString()} : <String, String>{};
+    final queryParams = force != null
+        ? {'force': force.toString()}
+        : <String, String>{};
 
     final url = requestBuilder.buildUrl(
       '/{version}/$name',

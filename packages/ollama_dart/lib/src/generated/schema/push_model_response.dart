@@ -37,7 +37,7 @@ abstract class PushModelResponse with _$PushModelResponse {
     'status',
     'digest',
     'total',
-    'completed'
+    'completed',
   ];
 
   /// Perform validations on the schema property values

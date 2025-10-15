@@ -137,7 +137,7 @@ Future<void> _chatOllamaJsonMode() async {
   final promptTemplate = ChatPromptTemplate.fromTemplates(const [
     (
       ChatMessageType.system,
-      'You are an assistant that respond question using JSON format.'
+      'You are an assistant that respond question using JSON format.',
     ),
     (ChatMessageType.human, '{question}'),
   ]);
@@ -149,10 +149,9 @@ Future<void> _chatOllamaJsonMode() async {
     ),
   );
 
-  final chain = Runnable.getMapFromInput<String>('question')
-      .pipe(promptTemplate)
-      .pipe(chat)
-      .pipe(JsonOutputParser());
+  final chain = Runnable.getMapFromInput<String>(
+    'question',
+  ).pipe(promptTemplate).pipe(chat).pipe(JsonOutputParser());
 
   final res = await chain.invoke(
     'What is the population of Spain, The Netherlands, and France?',

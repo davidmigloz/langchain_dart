@@ -105,7 +105,8 @@ Future<void> _attachingToolCallInformation() async {
     },
   );
 
-  final chain = promptTemplate |
+  final chain =
+      promptTemplate |
       model.bind(
         ChatOpenAIOptions(
           tools: const [tool],
@@ -188,7 +189,8 @@ Future<void> _promptTemplateLLMToolsOutputParser() async {
     },
   );
 
-  final chain = promptTemplate |
+  final chain =
+      promptTemplate |
       model.bind(
         ChatOpenAIOptions(
           tools: const [tool],
@@ -217,7 +219,8 @@ Future<void> _simplifyingInput() async {
     'Tell me a joke about {foo}',
   );
 
-  final chain = Runnable.getMapFromInput('foo') |
+  final chain =
+      Runnable.getMapFromInput('foo') |
       promptTemplate |
       model |
       const StringOutputParser();

@@ -19,7 +19,8 @@ String getPromptInputKey(
   });
   if (promptInputKeys.length != 1) {
     throw LangChainException(
-      message: 'One input key expected got $promptInputKeys. '
+      message:
+          'One input key expected got $promptInputKeys. '
           'If you have multiple input keys in your prompt you need to specify '
           'the input key to use for the memory using the `inputKey` parameter.',
     );

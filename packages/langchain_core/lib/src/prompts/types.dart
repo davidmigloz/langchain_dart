@@ -69,9 +69,9 @@ class StringPromptValue implements PromptValue {
   /// Convert the prompt value to a map.
   @override
   Map<String, dynamic> toMap() => {
-        'value': value,
-        'type': 'string',
-      };
+    'value': value,
+    'type': 'string',
+  };
 
   /// Convert the prompt value from a map.
   factory StringPromptValue.fromMap(Map<String, dynamic> map) =>
@@ -90,14 +90,13 @@ class StringPromptValue implements PromptValue {
   @override
   PromptValue concat(
     final PromptValue other,
-  ) =>
-      switch (other) {
-        final StringPromptValue other => StringPromptValue(value + other.value),
-        final ChatPromptValue other => ChatPromptValue([
-            ChatMessage.humanText(value),
-            ...other.messages,
-          ]),
-      };
+  ) => switch (other) {
+    final StringPromptValue other => StringPromptValue(value + other.value),
+    final ChatPromptValue other => ChatPromptValue([
+      ChatMessage.humanText(value),
+      ...other.messages,
+    ]),
+  };
 
   @override
   bool operator ==(covariant final StringPromptValue other) =>
@@ -144,49 +143,48 @@ class ChatPromptValue implements PromptValue {
   /// Convert the prompt value to a map.
   @override
   Map<String, dynamic> toMap() => {
-        'value': messages.map((message) => message.toMap()).toList(),
-        'type': 'chat',
-      };
+    'value': messages.map((message) => message.toMap()).toList(),
+    'type': 'chat',
+  };
 
   /// Convert the prompt value from a map.
   factory ChatPromptValue.fromMap(Map<String, dynamic> map) => ChatPromptValue(
-        (map['value'] as List<dynamic>)
-            .whereType<Map<String, dynamic>>()
-            .map(ChatMessage.fromMap)
-            .toList(),
-      );
+    (map['value'] as List<dynamic>)
+        .whereType<Map<String, dynamic>>()
+        .map(ChatMessage.fromMap)
+        .toList(),
+  );
 
   @override
   PromptValue concat(
     final PromptValue other,
-  ) =>
-      switch (other) {
-        final StringPromptValue other => ChatPromptValue([
-            ...messages,
-            ChatMessage.humanText(other.value),
-          ]),
-        final ChatPromptValue other => ChatPromptValue(
-            List.generate(
-              max(messages.length, other.messages.length),
-              (index) => (
-                index < messages.length ? messages[index] : null,
-                index < other.messages.length ? other.messages[index] : null,
-              ),
-            )
-                .map((final pair) {
-                  final (message, otherMessage) = pair;
-                  if (message == null) {
-                    return otherMessage;
-                  } else if (otherMessage == null) {
-                    return message;
-                  } else {
-                    return message.concat(otherMessage);
-                  }
-                })
-                .nonNulls
-                .toList(growable: false),
-          ),
-      };
+  ) => switch (other) {
+    final StringPromptValue other => ChatPromptValue([
+      ...messages,
+      ChatMessage.humanText(other.value),
+    ]),
+    final ChatPromptValue other => ChatPromptValue(
+      List.generate(
+            max(messages.length, other.messages.length),
+            (index) => (
+              index < messages.length ? messages[index] : null,
+              index < other.messages.length ? other.messages[index] : null,
+            ),
+          )
+          .map((final pair) {
+            final (message, otherMessage) = pair;
+            if (message == null) {
+              return otherMessage;
+            } else if (otherMessage == null) {
+              return message;
+            } else {
+              return message.concat(otherMessage);
+            }
+          })
+          .nonNulls
+          .toList(growable: false),
+    ),
+  };
 
   @override
   bool operator ==(covariant final ChatPromptValue other) {

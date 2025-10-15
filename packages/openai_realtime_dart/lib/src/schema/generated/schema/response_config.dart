@@ -89,7 +89,7 @@ abstract class ResponseConfig with _$ResponseConfig {
     'max_response_output_tokens',
     'conversation',
     'metadata',
-    'input'
+    'input',
   ];
 
   /// Perform validations on the schema property values
@@ -216,8 +216,8 @@ sealed class ResponseConfigMaxResponseOutputTokens
 
   /// Object construction from a JSON representation
   factory ResponseConfigMaxResponseOutputTokens.fromJson(
-          Map<String, dynamic> json) =>
-      _$ResponseConfigMaxResponseOutputTokensFromJson(json);
+    Map<String, dynamic> json,
+  ) => _$ResponseConfigMaxResponseOutputTokensFromJson(json);
 }
 
 /// Custom JSON converter for [ResponseConfigMaxResponseOutputTokens]

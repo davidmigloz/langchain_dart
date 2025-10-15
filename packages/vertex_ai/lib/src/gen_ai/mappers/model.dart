@@ -25,7 +25,8 @@ class VertexAICountTokensGoogleApisMapper {
       instances: [
         {
           'context': request.context ?? '',
-          'examples': request.examples
+          'examples':
+              request.examples
                   ?.map((final e) => e.toMap())
                   .toList(growable: false) ??
               const [],

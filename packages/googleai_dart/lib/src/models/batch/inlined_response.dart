@@ -36,10 +36,10 @@ class InlinedResponse {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (error != null) 'error': error!.toJson(),
-        if (response != null) 'response': response!.toJson(),
-        if (metadata != null) 'metadata': metadata,
-      };
+    if (error != null) 'error': error!.toJson(),
+    if (response != null) 'response': response!.toJson(),
+    if (metadata != null) 'metadata': metadata,
+  };
 
   /// Creates a copy with replaced values.
   InlinedResponse copyWith({

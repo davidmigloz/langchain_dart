@@ -71,8 +71,9 @@ void main() {
               ChatMessageContent.image(
                 mimeType: 'image/jpeg',
                 data: base64.encode(
-                  await File('./test/chat_models/assets/apple.jpeg')
-                      .readAsBytes(),
+                  await File(
+                    './test/chat_models/assets/apple.jpeg',
+                  ).readAsBytes(),
                 ),
               ),
             ]),
@@ -154,140 +155,146 @@ void main() {
       expect(content, contains('123456789'));
     });
 
-    test('Test tool calling', timeout: const Timeout(Duration(minutes: 1)),
-        () async {
-      const tool = ToolSpec(
-        name: 'get_current_weather',
-        description: 'Get the current weather in a given location',
-        inputJsonSchema: {
-          'type': 'object',
-          'properties': {
-            'location': {
-              'type': 'string',
-              'description': 'The city and state, e.g. San Francisco, CA',
+    test(
+      'Test tool calling',
+      timeout: const Timeout(Duration(minutes: 1)),
+      () async {
+        const tool = ToolSpec(
+          name: 'get_current_weather',
+          description: 'Get the current weather in a given location',
+          inputJsonSchema: {
+            'type': 'object',
+            'properties': {
+              'location': {
+                'type': 'string',
+                'description': 'The city and state, e.g. San Francisco, CA',
+              },
+              'unit': {
+                'type': 'string',
+                'description': 'The unit of temperature to return',
+                'enum': ['celsius', 'fahrenheit'],
+              },
             },
-            'unit': {
-              'type': 'string',
-              'description': 'The unit of temperature to return',
-              'enum': ['celsius', 'fahrenheit'],
-            },
+            'required': ['location'],
           },
-          'required': ['location'],
-        },
-      );
-      final model = chatModel.bind(
-        const ChatAnthropicOptions(
-          model: defaultModel,
-          tools: [tool],
-        ),
-      );
+        );
+        final model = chatModel.bind(
+          const ChatAnthropicOptions(
+            model: defaultModel,
+            tools: [tool],
+          ),
+        );
 
-      final humanMessage = ChatMessage.humanText(
-        "What's the weather like in Boston and Madrid right now in celsius?",
-      );
-      final res1 = await model.invoke(PromptValue.chat([humanMessage]));
+        final humanMessage = ChatMessage.humanText(
+          "What's the weather like in Boston and Madrid right now in celsius?",
+        );
+        final res1 = await model.invoke(PromptValue.chat([humanMessage]));
 
-      final aiMessage1 = res1.output;
-      expect(aiMessage1.toolCalls, hasLength(2));
+        final aiMessage1 = res1.output;
+        expect(aiMessage1.toolCalls, hasLength(2));
 
-      final toolCall1 = aiMessage1.toolCalls.first;
-      expect(toolCall1.name, tool.name);
-      expect(toolCall1.arguments.containsKey('location'), isTrue);
-      expect(toolCall1.arguments['location'], contains('Boston'));
-      expect(toolCall1.arguments['unit'], 'celsius');
+        final toolCall1 = aiMessage1.toolCalls.first;
+        expect(toolCall1.name, tool.name);
+        expect(toolCall1.arguments.containsKey('location'), isTrue);
+        expect(toolCall1.arguments['location'], contains('Boston'));
+        expect(toolCall1.arguments['unit'], 'celsius');
 
-      final toolCall2 = aiMessage1.toolCalls.last;
-      expect(toolCall2.name, tool.name);
-      expect(toolCall2.arguments.containsKey('location'), isTrue);
-      expect(toolCall2.arguments['location'], contains('Madrid'));
-      expect(toolCall2.arguments['unit'], 'celsius');
+        final toolCall2 = aiMessage1.toolCalls.last;
+        expect(toolCall2.name, tool.name);
+        expect(toolCall2.arguments.containsKey('location'), isTrue);
+        expect(toolCall2.arguments['location'], contains('Madrid'));
+        expect(toolCall2.arguments['unit'], 'celsius');
 
-      final functionResult1 = {
-        'temperature': '22',
-        'unit': 'celsius',
-        'description': 'Sunny',
-      };
-      final functionMessage1 = ChatMessage.tool(
-        toolCallId: toolCall1.id,
-        content: json.encode(functionResult1),
-      );
+        final functionResult1 = {
+          'temperature': '22',
+          'unit': 'celsius',
+          'description': 'Sunny',
+        };
+        final functionMessage1 = ChatMessage.tool(
+          toolCallId: toolCall1.id,
+          content: json.encode(functionResult1),
+        );
 
-      final functionResult2 = {
-        'temperature': '25',
-        'unit': 'celsius',
-        'description': 'Cloudy',
-      };
-      final functionMessage2 = ChatMessage.tool(
-        toolCallId: toolCall2.id,
-        content: json.encode(functionResult2),
-      );
+        final functionResult2 = {
+          'temperature': '25',
+          'unit': 'celsius',
+          'description': 'Cloudy',
+        };
+        final functionMessage2 = ChatMessage.tool(
+          toolCallId: toolCall2.id,
+          content: json.encode(functionResult2),
+        );
 
-      final res2 = await model.invoke(
-        PromptValue.chat([
-          humanMessage,
-          aiMessage1,
-          functionMessage1,
-          functionMessage2,
-        ]),
-      );
+        final res2 = await model.invoke(
+          PromptValue.chat([
+            humanMessage,
+            aiMessage1,
+            functionMessage1,
+            functionMessage2,
+          ]),
+        );
 
-      final aiMessage2 = res2.output;
+        final aiMessage2 = res2.output;
 
-      expect(aiMessage2.toolCalls, isEmpty);
-      expect(aiMessage2.content, contains('22'));
-      expect(aiMessage2.content, contains('25'));
-    });
+        expect(aiMessage2.toolCalls, isEmpty);
+        expect(aiMessage2.content, contains('22'));
+        expect(aiMessage2.content, contains('25'));
+      },
+    );
 
-    test('Test streaming with tools',
-        timeout: const Timeout(Duration(minutes: 5)), () async {
-      const tool = ToolSpec(
-        name: 'joke',
-        description: 'A joke',
-        inputJsonSchema: {
-          'type': 'object',
-          'properties': {
-            'setup': {
-              'type': 'string',
-              'description': 'The setup for the joke',
+    test(
+      'Test streaming with tools',
+      timeout: const Timeout(Duration(minutes: 5)),
+      () async {
+        const tool = ToolSpec(
+          name: 'joke',
+          description: 'A joke',
+          inputJsonSchema: {
+            'type': 'object',
+            'properties': {
+              'setup': {
+                'type': 'string',
+                'description': 'The setup for the joke',
+              },
+              'punchline': {
+                'type': 'string',
+                'description': 'The punchline to the joke',
+              },
             },
-            'punchline': {
-              'type': 'string',
-              'description': 'The punchline to the joke',
-            },
+            'required': ['location', 'punchline'],
           },
-          'required': ['location', 'punchline'],
-        },
-      );
+        );
 
-      final promptTemplate = ChatPromptTemplate.fromTemplate(
-        'tell me a long joke about {foo}',
-      );
-      final chat = chatModel.bind(
-        ChatAnthropicOptions(
-          model: defaultModel,
-          tools: const [tool],
-          toolChoice: ChatToolChoice.forced(name: 'joke'),
-        ),
-      );
-      final jsonOutputParser = ToolsOutputParser();
+        final promptTemplate = ChatPromptTemplate.fromTemplate(
+          'tell me a long joke about {foo}',
+        );
+        final chat = chatModel.bind(
+          ChatAnthropicOptions(
+            model: defaultModel,
+            tools: const [tool],
+            toolChoice: ChatToolChoice.forced(name: 'joke'),
+          ),
+        );
+        final jsonOutputParser = ToolsOutputParser();
 
-      final chain = promptTemplate.pipe(chat).pipe(jsonOutputParser);
+        final chain = promptTemplate.pipe(chat).pipe(jsonOutputParser);
 
-      final stream = chain.stream({'foo': 'bears'});
+        final stream = chain.stream({'foo': 'bears'});
 
-      List<ParsedToolCall> lastResult = [];
-      var count = 0;
-      await for (final res in stream) {
-        print(res);
-        lastResult = res;
-        count++;
-      }
+        List<ParsedToolCall> lastResult = [];
+        var count = 0;
+        await for (final res in stream) {
+          print(res);
+          lastResult = res;
+          count++;
+        }
 
-      expect(count, greaterThan(1));
-      expect(lastResult, hasLength(1));
-      final toolCall = lastResult.first;
-      expect(toolCall.arguments['setup'], isNotEmpty);
-      expect(toolCall.arguments['punchline'], isNotEmpty);
-    });
+        expect(count, greaterThan(1));
+        expect(lastResult, hasLength(1));
+        final toolCall = lastResult.first;
+        expect(toolCall.arguments['setup'], isNotEmpty);
+        expect(toolCall.arguments['punchline'], isNotEmpty);
+      },
+    );
   });
 }

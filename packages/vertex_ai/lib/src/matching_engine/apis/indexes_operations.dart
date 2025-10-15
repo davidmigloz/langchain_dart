@@ -13,7 +13,7 @@ class VertexAIIndexesOperationsApi {
   /// {@macro vertex_ai_indexes_operations_api}
   VertexAIIndexesOperationsApi({
     required final ProjectsLocationsIndexesOperationsResource
-        indexesOperationsApi,
+    indexesOperationsApi,
     required this.project,
     required this.location,
   }) : _indexesOperationsApi = indexesOperationsApi;

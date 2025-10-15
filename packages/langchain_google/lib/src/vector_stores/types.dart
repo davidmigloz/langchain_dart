@@ -31,16 +31,16 @@ class VertexAIMatchingEngineSimilaritySearch
     final List<VertexAIMatchingEngineFilter>? filters,
     super.scoreThreshold,
   }) : super(
-          filter: filters != null
-              ? {
-                  filterKey: filters
-                      .map(
-                        VertexAIMatchingEngineFilterMapper.toDto,
-                      )
-                      .toList(growable: false),
-                }
-              : null,
-        );
+         filter: filters != null
+             ? {
+                 filterKey: filters
+                     .map(
+                       VertexAIMatchingEngineFilterMapper.toDto,
+                     )
+                     .toList(growable: false),
+               }
+             : null,
+       );
 
   /// The key for the filter.
   static const filterKey = 'restricts';

@@ -491,8 +491,9 @@ class VertexAIDedicatedResources {
 
   @override
   int get hashCode =>
-      const ListEquality<VertexAIAutoscalingMetricSpec>()
-          .hash(autoscalingMetricSpecs) ^
+      const ListEquality<VertexAIAutoscalingMetricSpec>().hash(
+        autoscalingMetricSpecs,
+      ) ^
       machineSpec.hashCode ^
       maxReplicaCount.hashCode ^
       minReplicaCount.hashCode;
@@ -848,8 +849,9 @@ class VertexAIFindNeighborsResponse {
 
   @override
   int get hashCode =>
-      const ListEquality<VertexAIFindNeighborsResponseNearestNeighbors>()
-          .hash(nearestNeighbors);
+      const ListEquality<VertexAIFindNeighborsResponseNearestNeighbors>().hash(
+        nearestNeighbors,
+      );
 
   @override
   String toString() {
@@ -889,8 +891,9 @@ class VertexAIFindNeighborsResponseNearestNeighbors {
   @override
   int get hashCode =>
       id.hashCode ^
-      const ListEquality<VertexAIFindNeighborsResponseNeighbor>()
-          .hash(neighbors);
+      const ListEquality<VertexAIFindNeighborsResponseNeighbor>().hash(
+        neighbors,
+      );
 
   @override
   String toString() {

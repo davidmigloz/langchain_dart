@@ -28,16 +28,17 @@ class OAuthProvider implements AuthProvider {
     required this.refreshToken,
     String? initialAccessToken,
     DateTime? initialExpiresAt,
-  })  : _cachedToken = initialAccessToken,
-        _expiresAt = initialExpiresAt;
+  }) : _cachedToken = initialAccessToken,
+       _expiresAt = initialExpiresAt;
 
   @override
   Future<AuthCredentials> getCredentials() async {
     // Return cached token if still valid (with 5-minute buffer)
     if (_cachedToken != null &&
         _expiresAt != null &&
-        DateTime.now()
-            .isBefore(_expiresAt!.subtract(const Duration(minutes: 5)))) {
+        DateTime.now().isBefore(
+          _expiresAt!.subtract(const Duration(minutes: 5)),
+        )) {
       print('   [Auth] Using cached token (expires: $_expiresAt)');
       return BearerTokenCredentials(_cachedToken!);
     }

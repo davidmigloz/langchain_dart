@@ -75,19 +75,22 @@ class CacheBackedEmbeddings implements Embeddings {
   Future<List<List<double>>> embedDocuments(
     final List<Document> documents,
   ) async {
-    final texts =
-        documents.map((final doc) => doc.pageContent).toList(growable: false);
+    final texts = documents
+        .map((final doc) => doc.pageContent)
+        .toList(growable: false);
     final vectors = await documentEmbeddingsStore.get(texts);
     final missingIndices = [
       for (var i = 0; i < texts.length; i++)
         if (vectors[i] == null) i,
     ];
-    final missingDocs =
-        missingIndices.map((final i) => documents[i]).toList(growable: false);
+    final missingDocs = missingIndices
+        .map((final i) => documents[i])
+        .toList(growable: false);
 
     if (missingDocs.isNotEmpty) {
-      final missingVectors =
-          await underlyingEmbeddings.embedDocuments(missingDocs);
+      final missingVectors = await underlyingEmbeddings.embedDocuments(
+        missingDocs,
+      );
       final missingVectorPairs = missingIndices
           .map((final i) => (texts[i], missingVectors[i]))
           .toList(growable: false);
@@ -145,8 +148,8 @@ class EmbeddingsByteStoreEncoder
 
   @override
   String decodeKey(final String encodedKey) => throw UnimplementedError(
-        'Decoding keys is not supported for the _ByteStoreEncoder.',
-      );
+    'Decoding keys is not supported for the _ByteStoreEncoder.',
+  );
 
   @override
   List<double> decodeValue(final Uint8List encodedValue) {

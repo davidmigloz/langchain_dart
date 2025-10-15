@@ -49,7 +49,8 @@ class UpdateChunkRequest {
   }
 
   @override
-  String toString() => 'UpdateChunkRequest('
+  String toString() =>
+      'UpdateChunkRequest('
       'chunk: $chunk, '
       'updateMask: $updateMask)';
 }

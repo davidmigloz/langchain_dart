@@ -23,7 +23,8 @@ Future<void> _chatbotWithMemory() async {
 
   final memory = ConversationBufferMemory(returnMessages: true);
 
-  final chain = Runnable.fromMap({
+  final chain =
+      Runnable.fromMap({
         'input': Runnable.passthrough(),
         'history': Runnable.mapInput(
           (_) async {

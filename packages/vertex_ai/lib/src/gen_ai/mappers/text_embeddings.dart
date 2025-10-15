@@ -21,7 +21,8 @@ class VertexAITextEmbeddingsModelGoogleApisMapper {
     final GoogleCloudAiplatformV1PredictResponse response,
   ) {
     return VertexAITextEmbeddingsModelResponse(
-      predictions: response.predictions
+      predictions:
+          response.predictions
               ?.map(
                 (final p) => VertexAITextEmbeddingsModelPrediction.fromMap(
                   p as Map<String, dynamic>? ?? const {},

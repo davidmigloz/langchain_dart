@@ -12,8 +12,9 @@ class VertexAIOperationGoogleApisMapper {
       name: operation.name ?? '',
       done: operation.done ?? false,
       response: operation.response,
-      error:
-          operation.error != null ? _mapOperationError(operation.error!) : null,
+      error: operation.error != null
+          ? _mapOperationError(operation.error!)
+          : null,
       metadata: operation.metadata,
     );
   }

@@ -21,7 +21,7 @@ void main() {
         instances: [
           {
             'prompt': 'PROMPT',
-          }
+          },
         ],
         parameters: {
           'temperature': 0.1,
@@ -94,7 +94,7 @@ void main() {
                 'Legal',
               ],
             },
-          }
+          },
         ],
         metadata: {
           'tokenMetadata': {

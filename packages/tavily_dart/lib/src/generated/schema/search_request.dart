@@ -63,7 +63,7 @@ abstract class SearchRequest with _$SearchRequest {
     'include_raw_content',
     'max_results',
     'include_domains',
-    'exclude_domains'
+    'exclude_domains',
   ];
 
   /// Validation constants

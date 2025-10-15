@@ -77,8 +77,8 @@ final class ConversationSummaryMemory<LLMType extends BaseLanguageModel>
     this.humanPrefix = HumanChatMessage.defaultPrefix,
     this.aiPrefix = AIChatMessage.defaultPrefix,
     this.toolPrefix = ToolChatMessage.defaultPrefix,
-  })  : _buffer = initialSummary,
-        super(chatHistory: chatHistory ?? ChatMessageHistory());
+  }) : _buffer = initialSummary,
+       super(chatHistory: chatHistory ?? ChatMessageHistory());
 
   /// Language model to use for summarizing the conversation.
   final LLMType llm;

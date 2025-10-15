@@ -108,35 +108,37 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
       final model = state.model;
       final apiKey = state.apiKey;
 
-      final chatModel = switch (provider) {
-        Provider.googleAI => ChatGoogleGenerativeAI(
-            apiKey: apiKey[provider] ?? '',
-            baseUrl: state.baseUrl[provider] ?? provider.defaultBaseUrl,
-            defaultOptions: ChatGoogleGenerativeAIOptions(
-              model: model[provider] ?? provider.defaultModel,
-            ),
-          ),
-        Provider.mistral => ChatMistralAI(
-            apiKey: apiKey[provider] ?? '',
-            baseUrl: state.baseUrl[provider] ?? provider.defaultBaseUrl,
-            defaultOptions: ChatMistralAIOptions(
-              model: model[provider] ?? provider.defaultModel,
-            ),
-          ),
-        Provider.openAI => ChatOpenAI(
-            apiKey: apiKey[provider] ?? '',
-            baseUrl: state.baseUrl[provider] ?? provider.defaultBaseUrl,
-            defaultOptions: ChatOpenAIOptions(
-              model: model[provider] ?? provider.defaultModel,
-            ),
-          ),
-        Provider.ollama => ChatOllama(
-            baseUrl: state.baseUrl[provider] ?? provider.defaultBaseUrl,
-            defaultOptions: ChatOllamaOptions(
-              model: model[provider] ?? provider.defaultModel,
-            ),
-          ),
-      } as BaseChatModel<ChatModelOptions>;
+      final chatModel =
+          switch (provider) {
+                Provider.googleAI => ChatGoogleGenerativeAI(
+                  apiKey: apiKey[provider] ?? '',
+                  baseUrl: state.baseUrl[provider] ?? provider.defaultBaseUrl,
+                  defaultOptions: ChatGoogleGenerativeAIOptions(
+                    model: model[provider] ?? provider.defaultModel,
+                  ),
+                ),
+                Provider.mistral => ChatMistralAI(
+                  apiKey: apiKey[provider] ?? '',
+                  baseUrl: state.baseUrl[provider] ?? provider.defaultBaseUrl,
+                  defaultOptions: ChatMistralAIOptions(
+                    model: model[provider] ?? provider.defaultModel,
+                  ),
+                ),
+                Provider.openAI => ChatOpenAI(
+                  apiKey: apiKey[provider] ?? '',
+                  baseUrl: state.baseUrl[provider] ?? provider.defaultBaseUrl,
+                  defaultOptions: ChatOpenAIOptions(
+                    model: model[provider] ?? provider.defaultModel,
+                  ),
+                ),
+                Provider.ollama => ChatOllama(
+                  baseUrl: state.baseUrl[provider] ?? provider.defaultBaseUrl,
+                  defaultOptions: ChatOllamaOptions(
+                    model: model[provider] ?? provider.defaultModel,
+                  ),
+                ),
+              }
+              as BaseChatModel<ChatModelOptions>;
 
       chain?.close();
       chain = Runnable.getMapFromInput<String>('query')

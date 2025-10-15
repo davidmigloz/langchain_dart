@@ -20,8 +20,8 @@ class TransferOwnershipRequest {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        'emailAddress': emailAddress,
-      };
+    'emailAddress': emailAddress,
+  };
 
   @override
   String toString() => 'TransferOwnershipRequest(emailAddress: $emailAddress)';

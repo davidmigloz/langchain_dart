@@ -51,7 +51,7 @@ abstract class TurnDetection with _$TurnDetection {
     'threshold',
     'prefix_padding_ms',
     'silence_duration_ms',
-    'create_response'
+    'create_response',
   ];
 
   /// Perform validations on the schema property values

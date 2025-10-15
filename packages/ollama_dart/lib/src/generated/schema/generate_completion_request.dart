@@ -93,7 +93,7 @@ abstract class GenerateCompletionRequest with _$GenerateCompletionRequest {
     'keep_alive',
     'images',
     'options',
-    'think'
+    'think',
   ];
 
   /// Perform validations on the schema property values

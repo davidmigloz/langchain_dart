@@ -26,20 +26,23 @@ a.CreateMessageRequest createMessageRequest(
   final messagesDtos = messages.toMessages();
   final toolChoice = options?.toolChoice ?? defaultOptions.toolChoice;
   final toolChoiceDto = toolChoice?.toToolChoice();
-  final toolsDtos =
-      (options?.tools ?? defaultOptions.tools)?.toTool(toolChoice);
+  final toolsDtos = (options?.tools ?? defaultOptions.tools)?.toTool(
+    toolChoice,
+  );
 
   return a.CreateMessageRequest(
     model: a.Model.modelId(
       options?.model ?? defaultOptions.model ?? ChatAnthropic.defaultModel,
     ),
     messages: messagesDtos,
-    maxTokens: options?.maxTokens ??
+    maxTokens:
+        options?.maxTokens ??
         defaultOptions.maxTokens ??
         ChatAnthropic.defaultMaxTokens,
     stopSequences: options?.stopSequences ?? defaultOptions.stopSequences,
-    system:
-        systemMsg != null ? a.CreateMessageRequestSystem.text(systemMsg) : null,
+    system: systemMsg != null
+        ? a.CreateMessageRequestSystem.text(systemMsg)
+        : null,
     temperature: options?.temperature ?? defaultOptions.temperature,
     topK: options?.topK ?? defaultOptions.topK,
     topP: options?.topP ?? defaultOptions.topP,
@@ -94,23 +97,22 @@ extension ChatMessageListMapper on List<ChatMessage> {
       content: switch (msg.content) {
         final ChatMessageContentText t => a.MessageContent.text(t.text),
         final ChatMessageContentImage i => a.MessageContent.blocks([
-            _mapHumanChatMessageContentImage(i),
-          ]),
+          _mapHumanChatMessageContentImage(i),
+        ]),
         final ChatMessageContentMultiModal mm => a.MessageContent.blocks(
-            mm.parts
-                .map(
-                  (final part) => switch (part) {
-                    final ChatMessageContentText t =>
-                      a.Block.text(text: t.text),
-                    final ChatMessageContentImage i =>
-                      _mapHumanChatMessageContentImage(i),
-                    ChatMessageContentMultiModal() => throw ArgumentError(
-                        'Cannot have multimodal content in multimodal content',
-                      ),
-                  },
-                )
-                .toList(growable: false),
-          ),
+          mm.parts
+              .map(
+                (final part) => switch (part) {
+                  final ChatMessageContentText t => a.Block.text(text: t.text),
+                  final ChatMessageContentImage i =>
+                    _mapHumanChatMessageContentImage(i),
+                  ChatMessageContentMultiModal() => throw ArgumentError(
+                    'Cannot have multimodal content in multimodal content',
+                  ),
+                },
+              )
+              .toList(growable: false),
+        ),
       },
     );
   }
@@ -124,8 +126,9 @@ extension ChatMessageListMapper on List<ChatMessage> {
           'image/png' => a.ImageBlockSourceMediaType.imagePng,
           'image/gif' => a.ImageBlockSourceMediaType.imageGif,
           'image/webp' => a.ImageBlockSourceMediaType.imageWebp,
-          _ =>
-            throw AssertionError('Unsupported image MIME type: ${i.mimeType}'),
+          _ => throw AssertionError(
+            'Unsupported image MIME type: ${i.mimeType}',
+          ),
         },
         data: i.data.startsWith('http')
             ? throw AssertionError(
@@ -307,66 +310,60 @@ class MessageStreamEventTransformer
 
 (String content, List<AIChatMessageToolCall> toolCalls) _mapMessageContent(
   final a.MessageContent content,
-) =>
-    switch (content) {
-      final a.MessageContentText t => (
-          t.value,
-          const <AIChatMessageToolCall>[]
-        ),
-      final a.MessageContentBlocks b => (
-          b.text,
-          b.value
-              .whereType<a.ToolUseBlock>()
-              .map(
-                (toolUse) => AIChatMessageToolCall(
-                  id: toolUse.id,
-                  name: toolUse.name,
-                  argumentsRaw: toolUse.input.isNotEmpty
-                      ? json.encode(toolUse.input)
-                      : '',
-                  arguments: toolUse.input,
-                ),
-              )
-              .toList(growable: false),
-        ),
-    };
+) => switch (content) {
+  final a.MessageContentText t => (t.value, const <AIChatMessageToolCall>[]),
+  final a.MessageContentBlocks b => (
+    b.text,
+    b.value
+        .whereType<a.ToolUseBlock>()
+        .map(
+          (toolUse) => AIChatMessageToolCall(
+            id: toolUse.id,
+            name: toolUse.name,
+            argumentsRaw: toolUse.input.isNotEmpty
+                ? json.encode(toolUse.input)
+                : '',
+            arguments: toolUse.input,
+          ),
+        )
+        .toList(growable: false),
+  ),
+};
 
 (String content, AIChatMessageToolCall? toolCall) _mapContentBlock(
   final a.Block contentBlock,
-) =>
-    switch (contentBlock) {
-      final a.TextBlock t => (t.text, null),
-      final a.ImageBlock i => (i.source.data, null),
-      final a.ToolUseBlock tu => (
-          '',
-          AIChatMessageToolCall(
-            id: tu.id,
-            name: tu.name,
-            argumentsRaw: tu.input.isNotEmpty ? json.encode(tu.input) : '',
-            arguments: tu.input,
-          ),
-        ),
-      final a.ToolResultBlock tr => (tr.content.text, null),
-    };
+) => switch (contentBlock) {
+  final a.TextBlock t => (t.text, null),
+  final a.ImageBlock i => (i.source.data, null),
+  final a.ToolUseBlock tu => (
+    '',
+    AIChatMessageToolCall(
+      id: tu.id,
+      name: tu.name,
+      argumentsRaw: tu.input.isNotEmpty ? json.encode(tu.input) : '',
+      arguments: tu.input,
+    ),
+  ),
+  final a.ToolResultBlock tr => (tr.content.text, null),
+};
 
 (String content, List<AIChatMessageToolCall> toolCalls) _mapContentBlockDelta(
   final String? lastToolId,
   final a.BlockDelta blockDelta,
-) =>
-    switch (blockDelta) {
-      final a.TextBlockDelta t => (t.text, const <AIChatMessageToolCall>[]),
-      final a.InputJsonBlockDelta jb => (
-          '',
-          [
-            AIChatMessageToolCall(
-              id: lastToolId ?? '',
-              name: '',
-              argumentsRaw: jb.partialJson ?? '',
-              arguments: const {},
-            ),
-          ],
-        ),
-    };
+) => switch (blockDelta) {
+  final a.TextBlockDelta t => (t.text, const <AIChatMessageToolCall>[]),
+  final a.InputJsonBlockDelta jb => (
+    '',
+    [
+      AIChatMessageToolCall(
+        id: lastToolId ?? '',
+        name: '',
+        argumentsRaw: jb.partialJson ?? '',
+        arguments: const {},
+      ),
+    ],
+  ),
+};
 
 extension ToolSpecListMapper on List<ToolSpec> {
   List<a.Tool> toTool(final ChatToolChoice? toolChoice) {
@@ -396,26 +393,26 @@ extension ChatToolChoiceMapper on ChatToolChoice {
     return switch (this) {
       ChatToolChoiceNone _ => const a.ToolChoice(type: a.ToolChoiceType.auto),
       ChatToolChoiceAuto _ => const a.ToolChoice(type: a.ToolChoiceType.auto),
-      ChatToolChoiceRequired _ =>
-        const a.ToolChoice(type: a.ToolChoiceType.any),
+      ChatToolChoiceRequired _ => const a.ToolChoice(
+        type: a.ToolChoiceType.any,
+      ),
       final ChatToolChoiceForced t => a.ToolChoice(
-          type: a.ToolChoiceType.tool,
-          name: t.name,
-        ),
+        type: a.ToolChoiceType.tool,
+        name: t.name,
+      ),
     };
   }
 }
 
 FinishReason _mapFinishReason(
   final a.StopReason? reason,
-) =>
-    switch (reason) {
-      a.StopReason.endTurn => FinishReason.stop,
-      a.StopReason.maxTokens => FinishReason.length,
-      a.StopReason.stopSequence => FinishReason.stop,
-      a.StopReason.toolUse => FinishReason.toolCalls,
-      null => FinishReason.unspecified,
-    };
+) => switch (reason) {
+  a.StopReason.endTurn => FinishReason.stop,
+  a.StopReason.maxTokens => FinishReason.length,
+  a.StopReason.stopSequence => FinishReason.stop,
+  a.StopReason.toolUse => FinishReason.toolCalls,
+  null => FinishReason.unspecified,
+};
 
 LanguageModelUsage _mapUsage(final a.Usage? usage) {
   return LanguageModelUsage(

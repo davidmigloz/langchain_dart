@@ -15,10 +15,10 @@ class MarkdownTextSplitter extends RecursiveCharacterTextSplitter {
     super.keepSeparator,
     super.addStartIndex,
   }) : super(
-          separators: RecursiveCharacterTextSplitter.getSeparatorsForLanguage(
-            CodeLanguage.markdown,
-          ),
-        );
+         separators: RecursiveCharacterTextSplitter.getSeparatorsForLanguage(
+           CodeLanguage.markdown,
+         ),
+       );
 }
 
 /// {@template markdown_header_text_splitter}
@@ -200,13 +200,13 @@ class MarkdownHeaderTextSplitter {
 
     return returnEachLine
         ? linesWithMetadata
-            .map(
-              (chunk) => Document(
-                pageContent: chunk.content,
-                metadata: chunk.metadata,
-              ),
-            )
-            .toList()
+              .map(
+                (chunk) => Document(
+                  pageContent: chunk.content,
+                  metadata: chunk.metadata,
+                ),
+              )
+              .toList()
         : _aggregateLinesToChunks(linesWithMetadata);
   }
 }

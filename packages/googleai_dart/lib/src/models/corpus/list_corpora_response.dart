@@ -24,8 +24,8 @@ class ListCorporaResponse {
     return ListCorporaResponse(
       corpora: json['corpora'] != null
           ? (json['corpora'] as List)
-              .map((e) => Corpus.fromJson(e as Map<String, dynamic>))
-              .toList()
+                .map((e) => Corpus.fromJson(e as Map<String, dynamic>))
+                .toList()
           : null,
       nextPageToken: json['nextPageToken'] as String?,
     );
@@ -55,7 +55,8 @@ class ListCorporaResponse {
   }
 
   @override
-  String toString() => 'ListCorporaResponse('
+  String toString() =>
+      'ListCorporaResponse('
       'corpora: $corpora, '
       'nextPageToken: $nextPageToken)';
 }

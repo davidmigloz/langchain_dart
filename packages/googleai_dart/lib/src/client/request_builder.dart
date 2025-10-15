@@ -63,7 +63,8 @@ class RequestBuilder {
         final afterVersion = transformedPath.substring(versionPattern.length);
 
         // Insert project/location path
-        transformedPath = '$versionPattern'
+        transformedPath =
+            '$versionPattern'
             'projects/${config.projectId}/'
             'locations/${config.location}/'
             'publishers/google/$afterVersion';

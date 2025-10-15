@@ -17,7 +17,7 @@ void main() {
                 {'text': 'Hello'},
               ],
               'role': 'user',
-            }
+            },
           ],
         },
         'metadata': {
@@ -44,7 +44,7 @@ void main() {
                 {'text': 'Test'},
               ],
               'role': 'user',
-            }
+            },
           ],
         },
       };

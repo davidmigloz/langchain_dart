@@ -64,7 +64,8 @@ class Condition {
   }
 
   @override
-  String toString() => 'Condition('
+  String toString() =>
+      'Condition('
       'operation: $operation, '
       'stringValue: $stringValue, '
       'numericValue: $numericValue)';

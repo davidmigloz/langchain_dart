@@ -10,10 +10,10 @@ import 'package:langchain_core/tools.dart';
 final class ExceptionTool extends StringTool<ToolOptions> {
   /// {@macro exception_tool}
   ExceptionTool()
-      : super(
-          name: toolName,
-          description: 'Called when the agent throws an OutputParserException',
-        );
+    : super(
+        name: toolName,
+        description: 'Called when the agent throws an OutputParserException',
+      );
 
   /// The name of the tool.
   static const toolName = '_exception';

@@ -111,71 +111,74 @@ void main() {
       }
     });
 
-    test('Test tool calling', timeout: const Timeout(Duration(minutes: 1)),
-        () async {
-      const tool = ToolSpec(
-        name: 'get_current_weather',
-        description: 'Get the current weather in a given location',
-        inputJsonSchema: {
-          'type': 'object',
-          'properties': {
-            'location': {
-              'type': 'string',
-              'description': 'The city and state, e.g. San Francisco, CA',
+    test(
+      'Test tool calling',
+      timeout: const Timeout(Duration(minutes: 1)),
+      () async {
+        const tool = ToolSpec(
+          name: 'get_current_weather',
+          description: 'Get the current weather in a given location',
+          inputJsonSchema: {
+            'type': 'object',
+            'properties': {
+              'location': {
+                'type': 'string',
+                'description': 'The city and state, e.g. San Francisco, CA',
+              },
+              'unit': {
+                'type': 'string',
+                'description': 'The unit of temperature to return',
+                'enum': ['celsius', 'fahrenheit'],
+              },
             },
-            'unit': {
-              'type': 'string',
-              'description': 'The unit of temperature to return',
-              'enum': ['celsius', 'fahrenheit'],
-            },
+            'required': ['location'],
           },
-          'required': ['location'],
-        },
-      );
+        );
 
-      final humanMessage = ChatMessage.humanText(
-        'What’s the weather like in Boston right now?',
-      );
-      final res1 = await chatModel.invoke(
-        PromptValue.chat([humanMessage]),
-        options: const ChatOpenAIOptions(
-          model: 'gpt-4o',
-          tools: [tool],
-        ),
-      );
+        final humanMessage = ChatMessage.humanText(
+          'What’s the weather like in Boston right now?',
+        );
+        final res1 = await chatModel.invoke(
+          PromptValue.chat([humanMessage]),
+          options: const ChatOpenAIOptions(
+            model: 'gpt-4o',
+            tools: [tool],
+          ),
+        );
 
-      final aiMessage1 = res1.output;
+        final aiMessage1 = res1.output;
 
-      expect(aiMessage1.content, isEmpty);
-      expect(aiMessage1.toolCalls, isNotEmpty);
-      final toolCall = aiMessage1.toolCalls.first;
+        expect(aiMessage1.content, isEmpty);
+        expect(aiMessage1.toolCalls, isNotEmpty);
+        final toolCall = aiMessage1.toolCalls.first;
 
-      expect(toolCall.name, tool.name);
-      expect(toolCall.arguments.containsKey('location'), isTrue);
-      expect(toolCall.arguments['location'], contains('Boston'));
+        expect(toolCall.name, tool.name);
+        expect(toolCall.arguments.containsKey('location'), isTrue);
+        expect(toolCall.arguments['location'], contains('Boston'));
 
-      final functionResult = {
-        'temperature': '22',
-        'unit': 'celsius',
-        'description': 'Sunny',
-      };
-      final functionMessage = ChatMessage.tool(
-        toolCallId: toolCall.id,
-        content: json.encode(functionResult),
-      );
+        final functionResult = {
+          'temperature': '22',
+          'unit': 'celsius',
+          'description': 'Sunny',
+        };
+        final functionMessage = ChatMessage.tool(
+          toolCallId: toolCall.id,
+          content: json.encode(functionResult),
+        );
 
-      final res2 = await chatModel.invoke(
-        PromptValue.chat([humanMessage, aiMessage1, functionMessage]),
-        options: const ChatOpenAIOptions(
-          model: 'gpt-4o',
-          tools: [tool],
-        ),
-      );
+        final res2 = await chatModel.invoke(
+          PromptValue.chat([humanMessage, aiMessage1, functionMessage]),
+          options: const ChatOpenAIOptions(
+            model: 'gpt-4o',
+            tools: [tool],
+          ),
+        );
 
-      final aiMessage2 = res2.output;
+        final aiMessage2 = res2.output;
 
-      expect(aiMessage2.toolCalls, isEmpty);
-      expect(aiMessage2.content, contains('22'));
-    });
+        expect(aiMessage2.toolCalls, isEmpty);
+        expect(aiMessage2.content, contains('22'));
+      },
+    );
   });
 }

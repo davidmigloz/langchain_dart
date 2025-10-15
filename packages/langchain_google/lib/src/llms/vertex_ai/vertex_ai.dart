@@ -164,8 +164,10 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
     final id = _uuid.v4();
     _updateCurrentModel(options);
 
-    final request =
-        _generateCompletionRequest(input.toString(), options: options);
+    final request = _generateCompletionRequest(
+      input.toString(),
+      options: options,
+    );
     final response = await _googleAiClient.models.generateContent(
       model: _currentModel,
       request: request,
@@ -182,8 +184,10 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
     final id = _uuid.v4();
     _updateCurrentModel(options);
 
-    final request =
-        _generateCompletionRequest(input.toString(), options: options);
+    final request = _generateCompletionRequest(
+      input.toString(),
+      options: options,
+    );
     return _googleAiClient.models
         .streamGenerateContent(
           model: _currentModel,
@@ -209,8 +213,10 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
   }) async {
     _updateCurrentModel(options);
 
-    final request =
-        _generateCompletionRequest(promptValue.toString(), options: options);
+    final request = _generateCompletionRequest(
+      promptValue.toString(),
+      options: options,
+    );
     final response = await _googleAiClient.models.countTokens(
       model: _currentModel,
       request: g.CountTokensRequest(
@@ -226,8 +232,9 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
     final String prompt, {
     final VertexAIOptions? options,
   }) {
-    final mergedOptions =
-        options != null ? defaultOptions.merge(options) : defaultOptions;
+    final mergedOptions = options != null
+        ? defaultOptions.merge(options)
+        : defaultOptions;
 
     return g.GenerateContentRequest(
       contents: [

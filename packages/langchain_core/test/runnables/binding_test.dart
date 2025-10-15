@@ -13,7 +13,8 @@ void main() {
       final prompt = PromptTemplate.fromTemplate('Hello {input}');
       const model = _FakeOptionsChatModel();
       const outputParser = StringOutputParser<ChatResult>();
-      final chain = prompt |
+      final chain =
+          prompt |
           model.bind(const _FakeOptionsChatModelOptions('world')) |
           outputParser;
 
@@ -70,7 +71,7 @@ void main() {
 class _FakeOptionsChatModel
     extends SimpleChatModel<_FakeOptionsChatModelOptions> {
   const _FakeOptionsChatModel()
-      : super(defaultOptions: const _FakeOptionsChatModelOptions(''));
+    : super(defaultOptions: const _FakeOptionsChatModelOptions(''));
 
   @override
   String get modelType => 'fake-options-chat-model';

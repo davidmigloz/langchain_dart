@@ -112,8 +112,9 @@ void main() {
         'raiMediaFilteredReasons': ['violence', 'adult_content'],
       };
 
-      final response =
-          PredictLongRunningGeneratedVideoResponse.fromJson(original);
+      final response = PredictLongRunningGeneratedVideoResponse.fromJson(
+        original,
+      );
       final serialized = response.toJson();
 
       expect(

@@ -47,7 +47,7 @@ abstract class ProcessModel with _$ProcessModel {
     'digest',
     'details',
     'expires_at',
-    'size_vram'
+    'size_vram',
   ];
 
   /// Perform validations on the schema property values

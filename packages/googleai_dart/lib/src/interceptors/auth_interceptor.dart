@@ -47,8 +47,11 @@ class AuthInterceptor implements Interceptor {
     AuthCredentials credentials,
   ) {
     return switch (credentials) {
-      ApiKeyCredentials(:final apiKey, :final placement) =>
-        _addApiKey(request, apiKey, placement),
+      ApiKeyCredentials(:final apiKey, :final placement) => _addApiKey(
+        request,
+        apiKey,
+        placement,
+      ),
       BearerTokenCredentials(:final token) => _addBearerToken(request, token),
       NoAuthCredentials() => request,
     };

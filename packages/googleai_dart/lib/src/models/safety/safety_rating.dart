@@ -22,17 +22,17 @@ class SafetyRating {
 
   /// Creates a [SafetyRating] from JSON.
   factory SafetyRating.fromJson(Map<String, dynamic> json) => SafetyRating(
-        category: harmCategoryFromString(json['category'] as String?),
-        probability: harmProbabilityFromString(json['probability'] as String?),
-        blocked: json['blocked'] as bool?,
-      );
+    category: harmCategoryFromString(json['category'] as String?),
+    probability: harmProbabilityFromString(json['probability'] as String?),
+    blocked: json['blocked'] as bool?,
+  );
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        'category': harmCategoryToString(category),
-        'probability': harmProbabilityToString(probability),
-        if (blocked != null) 'blocked': blocked,
-      };
+    'category': harmCategoryToString(category),
+    'probability': harmProbabilityToString(probability),
+    if (blocked != null) 'blocked': blocked,
+  };
 
   /// Creates a copy with replaced values.
   SafetyRating copyWith({

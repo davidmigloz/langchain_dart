@@ -160,57 +160,56 @@ class CachedContent {
 
   /// Creates a [CachedContent] from JSON.
   factory CachedContent.fromJson(Map<String, dynamic> json) => CachedContent(
-        name: json['name'] as String?,
-        displayName: json['displayName'] as String?,
-        model: json['model'] as String?,
-        systemInstruction: json['systemInstruction'] != null
-            ? Content.fromJson(
-                json['systemInstruction'] as Map<String, dynamic>,
-              )
-            : null,
-        contents: (json['contents'] as List<dynamic>?)
-            ?.map((e) => Content.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        tools: (json['tools'] as List<dynamic>?)
-            ?.map((e) => Tool.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        toolConfig: json['toolConfig'] != null
-            ? ToolConfig.fromJson(json['toolConfig'] as Map<String, dynamic>)
-            : null,
-        expireTime: json['expireTime'] != null
-            ? DateTime.parse(json['expireTime'] as String)
-            : null,
-        ttl: json['ttl'] as String?,
-        createTime: json['createTime'] != null
-            ? DateTime.parse(json['createTime'] as String)
-            : null,
-        updateTime: json['updateTime'] != null
-            ? DateTime.parse(json['updateTime'] as String)
-            : null,
-        usageMetadata: json['usageMetadata'] != null
-            ? CachedContentUsageMetadata.fromJson(
-                json['usageMetadata'] as Map<String, dynamic>,
-              )
-            : null,
-      );
+    name: json['name'] as String?,
+    displayName: json['displayName'] as String?,
+    model: json['model'] as String?,
+    systemInstruction: json['systemInstruction'] != null
+        ? Content.fromJson(
+            json['systemInstruction'] as Map<String, dynamic>,
+          )
+        : null,
+    contents: (json['contents'] as List<dynamic>?)
+        ?.map((e) => Content.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    tools: (json['tools'] as List<dynamic>?)
+        ?.map((e) => Tool.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    toolConfig: json['toolConfig'] != null
+        ? ToolConfig.fromJson(json['toolConfig'] as Map<String, dynamic>)
+        : null,
+    expireTime: json['expireTime'] != null
+        ? DateTime.parse(json['expireTime'] as String)
+        : null,
+    ttl: json['ttl'] as String?,
+    createTime: json['createTime'] != null
+        ? DateTime.parse(json['createTime'] as String)
+        : null,
+    updateTime: json['updateTime'] != null
+        ? DateTime.parse(json['updateTime'] as String)
+        : null,
+    usageMetadata: json['usageMetadata'] != null
+        ? CachedContentUsageMetadata.fromJson(
+            json['usageMetadata'] as Map<String, dynamic>,
+          )
+        : null,
+  );
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (name != null) 'name': name,
-        if (displayName != null) 'displayName': displayName,
-        if (model != null) 'model': model,
-        if (systemInstruction != null)
-          'systemInstruction': systemInstruction!.toJson(),
-        if (contents != null)
-          'contents': contents!.map((e) => e.toJson()).toList(),
-        if (tools != null) 'tools': tools!.map((e) => e.toJson()).toList(),
-        if (toolConfig != null) 'toolConfig': toolConfig!.toJson(),
-        if (expireTime != null) 'expireTime': expireTime!.toIso8601String(),
-        if (ttl != null) 'ttl': ttl,
-        if (createTime != null) 'createTime': createTime!.toIso8601String(),
-        if (updateTime != null) 'updateTime': updateTime!.toIso8601String(),
-        if (usageMetadata != null) 'usageMetadata': usageMetadata!.toJson(),
-      };
+    if (name != null) 'name': name,
+    if (displayName != null) 'displayName': displayName,
+    if (model != null) 'model': model,
+    if (systemInstruction != null)
+      'systemInstruction': systemInstruction!.toJson(),
+    if (contents != null) 'contents': contents!.map((e) => e.toJson()).toList(),
+    if (tools != null) 'tools': tools!.map((e) => e.toJson()).toList(),
+    if (toolConfig != null) 'toolConfig': toolConfig!.toJson(),
+    if (expireTime != null) 'expireTime': expireTime!.toIso8601String(),
+    if (ttl != null) 'ttl': ttl,
+    if (createTime != null) 'createTime': createTime!.toIso8601String(),
+    if (updateTime != null) 'updateTime': updateTime!.toIso8601String(),
+    if (usageMetadata != null) 'usageMetadata': usageMetadata!.toJson(),
+  };
 
   /// Creates a copy with replaced values.
   CachedContent copyWith({

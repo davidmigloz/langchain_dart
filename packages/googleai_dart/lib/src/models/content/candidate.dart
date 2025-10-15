@@ -45,46 +45,46 @@ class Candidate {
 
   /// Creates a [Candidate] from JSON.
   factory Candidate.fromJson(Map<String, dynamic> json) => Candidate(
-        content: json['content'] != null
-            ? Content.fromJson(json['content'] as Map<String, dynamic>)
-            : null,
-        finishReason: json['finishReason'] != null
-            ? finishReasonFromString(json['finishReason'] as String?)
-            : null,
-        safetyRatings: json['safetyRatings'] != null
-            ? (json['safetyRatings'] as List)
-                .map((e) => SafetyRating.fromJson(e as Map<String, dynamic>))
-                .toList()
-            : null,
-        citationMetadata: json['citationMetadata'] != null
-            ? CitationMetadata.fromJson(
-                json['citationMetadata'] as Map<String, dynamic>,
-              )
-            : null,
-        tokenCount: json['tokenCount'] as int?,
-        index: json['index'] as int?,
-        avgLogprobs: (json['avgLogprobs'] as num?)?.toDouble(),
-        logprobsResult: json['logprobsResult'] != null
-            ? LogprobsResult.fromJson(
-                json['logprobsResult'] as Map<String, dynamic>,
-              )
-            : null,
-      );
+    content: json['content'] != null
+        ? Content.fromJson(json['content'] as Map<String, dynamic>)
+        : null,
+    finishReason: json['finishReason'] != null
+        ? finishReasonFromString(json['finishReason'] as String?)
+        : null,
+    safetyRatings: json['safetyRatings'] != null
+        ? (json['safetyRatings'] as List)
+              .map((e) => SafetyRating.fromJson(e as Map<String, dynamic>))
+              .toList()
+        : null,
+    citationMetadata: json['citationMetadata'] != null
+        ? CitationMetadata.fromJson(
+            json['citationMetadata'] as Map<String, dynamic>,
+          )
+        : null,
+    tokenCount: json['tokenCount'] as int?,
+    index: json['index'] as int?,
+    avgLogprobs: (json['avgLogprobs'] as num?)?.toDouble(),
+    logprobsResult: json['logprobsResult'] != null
+        ? LogprobsResult.fromJson(
+            json['logprobsResult'] as Map<String, dynamic>,
+          )
+        : null,
+  );
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (content != null) 'content': content!.toJson(),
-        if (finishReason != null)
-          'finishReason': finishReasonToString(finishReason!),
-        if (safetyRatings != null)
-          'safetyRatings': safetyRatings!.map((e) => e.toJson()).toList(),
-        if (citationMetadata != null)
-          'citationMetadata': citationMetadata!.toJson(),
-        if (tokenCount != null) 'tokenCount': tokenCount,
-        if (index != null) 'index': index,
-        if (avgLogprobs != null) 'avgLogprobs': avgLogprobs,
-        if (logprobsResult != null) 'logprobsResult': logprobsResult!.toJson(),
-      };
+    if (content != null) 'content': content!.toJson(),
+    if (finishReason != null)
+      'finishReason': finishReasonToString(finishReason!),
+    if (safetyRatings != null)
+      'safetyRatings': safetyRatings!.map((e) => e.toJson()).toList(),
+    if (citationMetadata != null)
+      'citationMetadata': citationMetadata!.toJson(),
+    if (tokenCount != null) 'tokenCount': tokenCount,
+    if (index != null) 'index': index,
+    if (avgLogprobs != null) 'avgLogprobs': avgLogprobs,
+    if (logprobsResult != null) 'logprobsResult': logprobsResult!.toJson(),
+  };
 
   /// Creates a copy with replaced values.
   Candidate copyWith({
@@ -98,8 +98,9 @@ class Candidate {
     Object? logprobsResult = unsetCopyWithValue,
   }) {
     return Candidate(
-      content:
-          content == unsetCopyWithValue ? this.content : content as Content?,
+      content: content == unsetCopyWithValue
+          ? this.content
+          : content as Content?,
       finishReason: finishReason == unsetCopyWithValue
           ? this.finishReason
           : finishReason as FinishReason?,

@@ -16,8 +16,8 @@ class QueryCorpusResponse {
     return QueryCorpusResponse(
       relevantChunks: json['relevantChunks'] != null
           ? (json['relevantChunks'] as List)
-              .map((e) => RelevantChunk.fromJson(e as Map<String, dynamic>))
-              .toList()
+                .map((e) => RelevantChunk.fromJson(e as Map<String, dynamic>))
+                .toList()
           : null,
     );
   }

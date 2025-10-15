@@ -35,14 +35,14 @@ class RealtimeClient extends RealtimeEventHandler {
     final Map<String, String>? headers,
     final bool debug = false,
     final bool dangerouslyAllowAPIKeyInBrowser = true,
-  })  : realtime = RealtimeAPI(
-          url: url,
-          apiKey: apiKey,
-          headers: headers,
-          debug: debug,
-          dangerouslyAllowAPIKeyInBrowser: dangerouslyAllowAPIKeyInBrowser,
-        ),
-        conversation = RealtimeConversation() {
+  }) : realtime = RealtimeAPI(
+         url: url,
+         apiKey: apiKey,
+         headers: headers,
+         debug: debug,
+         dangerouslyAllowAPIKeyInBrowser: dangerouslyAllowAPIKeyInBrowser,
+       ),
+       conversation = RealtimeConversation() {
     _resetConfig();
     _addApiEventHandlers();
   }
@@ -500,8 +500,8 @@ class RealtimeClient extends RealtimeEventHandler {
           eventId: RealtimeUtils.generateId(),
           itemId: id,
           contentIndex: audioIndex,
-          audioEndMs:
-              (sampleCount / conversation.defaultFrequency * 1000).floor(),
+          audioEndMs: (sampleCount / conversation.defaultFrequency * 1000)
+              .floor(),
         ),
       );
       return item;
@@ -513,10 +513,12 @@ class RealtimeClient extends RealtimeEventHandler {
   Future<FormattedItem?> waitForNextItem({
     Duration? timeout,
   }) async {
-    final res = await waitForNext(
-      RealtimeEventType.conversationItemAppended,
-      timeout: timeout,
-    ) as RealtimeEventConversationItemAppended?;
+    final res =
+        await waitForNext(
+              RealtimeEventType.conversationItemAppended,
+              timeout: timeout,
+            )
+            as RealtimeEventConversationItemAppended?;
     return res?.item;
   }
 
@@ -525,15 +527,18 @@ class RealtimeClient extends RealtimeEventHandler {
   Future<FormattedItem?> waitForNextCompletedItem({
     Duration? timeout,
   }) async {
-    final res = await waitForNext(
-      RealtimeEventType.conversationItemCompleted,
-      timeout: timeout,
-    ) as RealtimeEventConversationItemCompleted?;
+    final res =
+        await waitForNext(
+              RealtimeEventType.conversationItemCompleted,
+              timeout: timeout,
+            )
+            as RealtimeEventConversationItemCompleted?;
     return res?.item;
   }
 }
 
 /// The handler for a tool.
-typedef ToolHandler = FutureOr<Map<String, dynamic>> Function(
-  Map<String, dynamic>,
-);
+typedef ToolHandler =
+    FutureOr<Map<String, dynamic>> Function(
+      Map<String, dynamic>,
+    );

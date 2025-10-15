@@ -21,7 +21,8 @@ class VertexAITextModelGoogleApisMapper {
     final GoogleCloudAiplatformV1PredictResponse response,
   ) {
     return VertexAITextModelResponse(
-      predictions: response.predictions
+      predictions:
+          response.predictions
               ?.map(
                 (final p) => VertexAITextModelPrediction.fromMap(
                   p as Map<String, dynamic>? ?? const {},

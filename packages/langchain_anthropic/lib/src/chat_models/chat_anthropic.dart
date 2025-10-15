@@ -159,12 +159,12 @@ class ChatAnthropic extends BaseChatModel<ChatAnthropicOptions> {
     ),
     this.encoding = 'cl100k_base',
   }) : _client = a.AnthropicClient(
-          apiKey: apiKey ?? '',
-          baseUrl: baseUrl,
-          headers: headers,
-          queryParams: queryParams,
-          client: client,
-        );
+         apiKey: apiKey ?? '',
+         baseUrl: baseUrl,
+         headers: headers,
+         queryParams: queryParams,
+         client: client,
+       );
 
   /// A client for interacting with Anthropic API.
   final a.AnthropicClient _client;

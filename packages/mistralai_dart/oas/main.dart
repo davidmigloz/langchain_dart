@@ -28,13 +28,12 @@ void main() async {
 String? _onSchemaUnionFactoryName(
   final String union,
   final String unionSubclass,
-) =>
-    switch (unionSubclass) {
-      // Chat Completion
-      'ChatCompletionModelEnumeration' => 'model',
-      'ChatCompletionModelString' => 'modelId',
-      // Embeddings
-      'EmbeddingModelEnumeration' => 'model',
-      'EmbeddingModelString' => 'modelId',
-      _ => null,
-    };
+) => switch (unionSubclass) {
+  // Chat Completion
+  'ChatCompletionModelEnumeration' => 'model',
+  'ChatCompletionModelString' => 'modelId',
+  // Embeddings
+  'EmbeddingModelEnumeration' => 'model',
+  'EmbeddingModelString' => 'modelId',
+  _ => null,
+};

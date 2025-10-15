@@ -18,8 +18,8 @@ class CachedContentUsageMetadata {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (totalTokenCount != null) 'totalTokenCount': totalTokenCount,
-      };
+    if (totalTokenCount != null) 'totalTokenCount': totalTokenCount,
+  };
 
   /// Creates a copy with replaced values.
   CachedContentUsageMetadata copyWith({

@@ -11,9 +11,10 @@ import 'types.dart';
 ///   chat message.
 /// {@endtemplate}
 abstract class BaseLanguageModel<
-        Input extends Object,
-        Options extends LanguageModelOptions,
-        Output extends LanguageModelResult>
+  Input extends Object,
+  Options extends LanguageModelOptions,
+  Output extends LanguageModelResult
+>
     extends BaseLangChain<PromptValue, Options, Output> {
   /// {@macro base_language_model}
   const BaseLanguageModel({

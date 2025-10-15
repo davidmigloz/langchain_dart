@@ -123,9 +123,9 @@ void main() {
     });
 
     test('ToolsOutputParser reduce input stream', () async {
-      final res = await ToolsOutputParser(reduceOutputStream: true)
-          .streamFromInputStream(Stream.fromIterable(streamingResult))
-          .toList();
+      final res = await ToolsOutputParser(
+        reduceOutputStream: true,
+      ).streamFromInputStream(Stream.fromIterable(streamingResult)).toList();
       expect(res, const [
         [
           ParsedToolCall(

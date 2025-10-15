@@ -43,7 +43,7 @@ abstract class PushModelRequest with _$PushModelRequest {
     'insecure',
     'username',
     'password',
-    'stream'
+    'stream',
   ];
 
   /// Perform validations on the schema property values

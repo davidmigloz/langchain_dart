@@ -103,9 +103,9 @@ class RetrievalQAChain extends BaseChain {
 
   @override
   Set<String> get outputKeys => {
-        outputKey,
-        sourceDocumentsOutputKey,
-      };
+    outputKey,
+    sourceDocumentsOutputKey,
+  };
 
   @override
   String get chainType => 'retrieval_qa';

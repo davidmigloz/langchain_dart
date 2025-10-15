@@ -37,7 +37,7 @@ void main() {
                 'role': 'model',
               },
               'finishReason': 'STOP',
-            }
+            },
           ],
         },
       };
@@ -49,20 +49,22 @@ void main() {
       expect(response.response!.candidates!.length, 1);
     });
 
-    test('fromJson creates InlinedResponse with neither error nor response',
-        () {
-      final json = {
-        'metadata': {
-          'info': 'test',
-        },
-      };
+    test(
+      'fromJson creates InlinedResponse with neither error nor response',
+      () {
+        final json = {
+          'metadata': {
+            'info': 'test',
+          },
+        };
 
-      final response = InlinedResponse.fromJson(json);
+        final response = InlinedResponse.fromJson(json);
 
-      expect(response.error, isNull);
-      expect(response.response, isNull);
-      expect(response.metadata, isNotNull);
-    });
+        expect(response.error, isNull);
+        expect(response.response, isNull);
+        expect(response.metadata, isNotNull);
+      },
+    );
 
     test('toJson creates JSON with error', () {
       const response = InlinedResponse(

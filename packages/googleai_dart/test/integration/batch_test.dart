@@ -93,8 +93,9 @@ void main() {
       }
 
       // Get the batch by name
-      final retrievedBatch =
-          await client!.batches.getGenerateContentBatch(name: batch.name!);
+      final retrievedBatch = await client!.batches.getGenerateContentBatch(
+        name: batch.name!,
+      );
       expect(retrievedBatch, isNotNull);
       expect(retrievedBatch.name, batch.name);
 
@@ -330,8 +331,9 @@ void main() {
         await client!.batches.cancel(name: batch.name!);
 
         // Check if canceled - need to fetch the batch again
-        final canceledBatch =
-            await client!.batches.getGenerateContentBatch(name: batch.name!);
+        final canceledBatch = await client!.batches.getGenerateContentBatch(
+          name: batch.name!,
+        );
         // State should be cancelled, failed, or succeeded (if it finished too quickly)
         // Note: API may not return state in response
         if (canceledBatch.state != null) {

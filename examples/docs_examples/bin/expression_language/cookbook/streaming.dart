@@ -16,8 +16,9 @@ Future<void> _languageModels() async {
   final openAiApiKey = Platform.environment['OPENAI_API_KEY'];
   final model = ChatOpenAI(apiKey: openAiApiKey);
 
-  final stream =
-      model.stream(PromptValue.string('Hello! Tell me about yourself.'));
+  final stream = model.stream(
+    PromptValue.string('Hello! Tell me about yourself.'),
+  );
   final chunks = <ChatResult>[];
   await for (final chunk in stream) {
     chunks.add(chunk);
@@ -61,8 +62,9 @@ Future<void> _chains() async {
   final openAiApiKey = Platform.environment['OPENAI_API_KEY'];
 
   final model = ChatOpenAI(apiKey: openAiApiKey);
-  final prompt =
-      ChatPromptTemplate.fromTemplate('Tell me a joke about {topic}');
+  final prompt = ChatPromptTemplate.fromTemplate(
+    'Tell me a joke about {topic}',
+  );
   const parser = StringOutputParser<ChatResult>();
 
   final chain = prompt.pipe(model).pipe(parser);
@@ -127,8 +129,9 @@ Future<void> _inputStreamMapper() async {
     ),
   );
   final parser = JsonOutputParser<ChatResult>();
-  final mapper =
-      Runnable.mapInputStream((Stream<Map<String, dynamic>> inputStream) {
+  final mapper = Runnable.mapInputStream((
+    Stream<Map<String, dynamic>> inputStream,
+  ) {
     return inputStream.map((input) {
       final countries =
           (input['countries'] as List?)?.cast<Map<String, dynamic>>() ?? [];

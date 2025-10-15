@@ -17,17 +17,17 @@ class InlinedRequest {
 
   /// Creates an [InlinedRequest] from JSON.
   factory InlinedRequest.fromJson(Map<String, dynamic> json) => InlinedRequest(
-        request: GenerateContentRequest.fromJson(
-          json['request'] as Map<String, dynamic>,
-        ),
-        metadata: json['metadata'] as Map<String, dynamic>?,
-      );
+    request: GenerateContentRequest.fromJson(
+      json['request'] as Map<String, dynamic>,
+    ),
+    metadata: json['metadata'] as Map<String, dynamic>?,
+  );
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        'request': request.toJson(),
-        if (metadata != null) 'metadata': metadata,
-      };
+    'request': request.toJson(),
+    if (metadata != null) 'metadata': metadata,
+  };
 
   /// Creates a copy with replaced values.
   InlinedRequest copyWith({

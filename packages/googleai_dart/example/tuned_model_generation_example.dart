@@ -6,8 +6,9 @@ void main() async {
   // Initialize the client with your API key
   final client = GoogleAIClient(
     config: const GoogleAIConfig(
-      authProvider:
-          ApiKeyProvider('YOUR_API_KEY'), // Replace with your actual API key
+      authProvider: ApiKeyProvider(
+        'YOUR_API_KEY',
+      ), // Replace with your actual API key
     ),
   );
 

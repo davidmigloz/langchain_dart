@@ -78,18 +78,19 @@ class ToolsAgent extends BaseSingleActionAgent {
   ToolsAgent({
     required this.llmChain,
     required super.tools,
-  })  : _parser = const ToolsAgentOutputParser(),
-        assert(
-          llmChain.memory != null ||
-              llmChain.prompt.inputVariables
-                  .contains(BaseActionAgent.agentScratchpadInputKey),
-          '`${BaseActionAgent.agentScratchpadInputKey}` should be one of the '
-          'variables in the prompt, got ${llmChain.prompt.inputVariables}',
-        ),
-        assert(
-          llmChain.memory == null || llmChain.memory!.returnMessages,
-          'The memory must have `returnMessages` set to true',
-        );
+  }) : _parser = const ToolsAgentOutputParser(),
+       assert(
+         llmChain.memory != null ||
+             llmChain.prompt.inputVariables.contains(
+               BaseActionAgent.agentScratchpadInputKey,
+             ),
+         '`${BaseActionAgent.agentScratchpadInputKey}` should be one of the '
+         'variables in the prompt, got ${llmChain.prompt.inputVariables}',
+       ),
+       assert(
+         llmChain.memory == null || llmChain.memory!.returnMessages,
+         'The memory must have `returnMessages` set to true',
+       );
 
   /// Chain to use to call the LLM.
   ///
@@ -191,9 +192,10 @@ class ToolsAgent extends BaseSingleActionAgent {
         final ChatMessage inputMsg => inputMsg,
         final List<ChatMessage> inputMsgs => inputMsgs,
         _ => throw LangChainException(
-            message: 'Agent expected a String or ChatMessage as input,'
-                ' got ${inputs[agentInputKey]}',
-          ),
+          message:
+              'Agent expected a String or ChatMessage as input,'
+              ' got ${inputs[agentInputKey]}',
+        ),
       };
     }
 
@@ -201,8 +203,9 @@ class ToolsAgent extends BaseSingleActionAgent {
       ...inputs,
       agentInputKey: agentInput,
       if (llmChain.memory == null)
-        BaseActionAgent.agentScratchpadInputKey:
-            _constructScratchPad(intermediateSteps),
+        BaseActionAgent.agentScratchpadInputKey: _constructScratchPad(
+          intermediateSteps,
+        ),
     };
   }
 
@@ -210,15 +213,17 @@ class ToolsAgent extends BaseSingleActionAgent {
     final List<AgentStep> intermediateSteps,
   ) {
     return [
-      ...intermediateSteps.map((final s) {
-        return s.action.messageLog +
-            [
-              ChatMessage.tool(
-                toolCallId: s.action.id,
-                content: s.observation,
-              ),
-            ];
-      }).expand((final m) => m),
+      ...intermediateSteps
+          .map((final s) {
+            return s.action.messageLog +
+                [
+                  ChatMessage.tool(
+                    toolCallId: s.action.id,
+                    content: s.observation,
+                  ),
+                ];
+          })
+          .expand((final m) => m),
     ];
   }
 
@@ -261,11 +266,16 @@ class ToolsAgent extends BaseSingleActionAgent {
 /// It parses the output of the LLM and returns the corresponding
 /// [BaseAgentAction] to be executed.
 /// {@endtemplate}
-class ToolsAgentOutputParser extends BaseOutputParser<ChatResult,
-    OutputParserOptions, List<BaseAgentAction>> {
+class ToolsAgentOutputParser
+    extends
+        BaseOutputParser<
+          ChatResult,
+          OutputParserOptions,
+          List<BaseAgentAction>
+        > {
   /// {@macro tools_agent_output_parser}
   const ToolsAgentOutputParser()
-      : super(defaultOptions: const OutputParserOptions());
+    : super(defaultOptions: const OutputParserOptions());
 
   @override
   Future<List<BaseAgentAction>> invoke(
@@ -281,17 +291,20 @@ class ToolsAgentOutputParser extends BaseOutputParser<ChatResult,
   ) async {
     final toolCalls = message.toolCalls;
     if (toolCalls.isNotEmpty) {
-      return toolCalls.map((final toolCall) {
-        return AgentAction(
-          id: toolCall.id,
-          tool: toolCall.name,
-          toolInput: toolCall.arguments,
-          log: 'Invoking: `${toolCall.name}` '
-              'with `${toolCall.arguments}`\n'
-              'Responded: ${message.content}\n',
-          messageLog: [message],
-        );
-      }).toList(growable: false);
+      return toolCalls
+          .map((final toolCall) {
+            return AgentAction(
+              id: toolCall.id,
+              tool: toolCall.name,
+              toolInput: toolCall.arguments,
+              log:
+                  'Invoking: `${toolCall.name}` '
+                  'with `${toolCall.arguments}`\n'
+                  'Responded: ${message.content}\n',
+              messageLog: [message],
+            );
+          })
+          .toList(growable: false);
     } else {
       return [
         AgentFinish(

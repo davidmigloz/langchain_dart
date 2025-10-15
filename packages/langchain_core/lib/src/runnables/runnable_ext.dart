@@ -4,10 +4,12 @@ import 'types.dart';
 
 /// Extension methods for [Runnable]s.
 extension RunnableX<
-    RunInput extends Object,
-    CallOptions extends RunnableOptions,
-    RunOutput extends Object,
-    NewRunOutput extends Object> on Runnable<RunInput, CallOptions, RunOutput> {
+  RunInput extends Object,
+  CallOptions extends RunnableOptions,
+  RunOutput extends Object,
+  NewRunOutput extends Object
+>
+    on Runnable<RunInput, CallOptions, RunOutput> {
   /// Pipes the output of this [Runnable] into another [Runnable].
   ///
   /// This is a convenience operator for [Runnable.pipe].

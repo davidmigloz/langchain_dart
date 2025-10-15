@@ -45,7 +45,7 @@ abstract class PullModelResponse with _$PullModelResponse {
     'status',
     'digest',
     'total',
-    'completed'
+    'completed',
   ];
 
   /// Perform validations on the schema property values

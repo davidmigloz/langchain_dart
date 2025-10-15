@@ -35,10 +35,12 @@ void main() {
     test('Test reduceOutputStream', () async {
       final chat = FakeChatModel(responses: ['ABC']);
 
-      final chain1 =
-          chat.pipe(const StringOutputParser(reduceOutputStream: false));
-      final chain2 =
-          chat.pipe(const StringOutputParser(reduceOutputStream: true));
+      final chain1 = chat.pipe(
+        const StringOutputParser(reduceOutputStream: false),
+      );
+      final chain2 = chat.pipe(
+        const StringOutputParser(reduceOutputStream: true),
+      );
 
       final res1 = await chain1.stream(PromptValue.string('test')).toList();
       final res2 = await chain2.stream(PromptValue.string('test')).toList();

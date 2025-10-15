@@ -24,8 +24,8 @@ class ListDocumentsResponse {
     return ListDocumentsResponse(
       documents: json['documents'] != null
           ? (json['documents'] as List)
-              .map((e) => Document.fromJson(e as Map<String, dynamic>))
-              .toList()
+                .map((e) => Document.fromJson(e as Map<String, dynamic>))
+                .toList()
           : null,
       nextPageToken: json['nextPageToken'] as String?,
     );
@@ -56,7 +56,8 @@ class ListDocumentsResponse {
   }
 
   @override
-  String toString() => 'ListDocumentsResponse('
+  String toString() =>
+      'ListDocumentsResponse('
       'documents: $documents, '
       'nextPageToken: $nextPageToken)';
 }

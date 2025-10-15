@@ -21,10 +21,10 @@ void main() {
                         {'text': 'Hello'},
                       ],
                       'role': 'user',
-                    }
+                    },
                   ],
                 },
-              }
+              },
             ],
           },
         },
@@ -42,10 +42,10 @@ void main() {
                         'role': 'model',
                       },
                       'finishReason': 'STOP',
-                    }
+                    },
                   ],
                 },
-              }
+              },
             ],
           },
         },
@@ -78,30 +78,32 @@ void main() {
       expect(batch.priority, 5);
     });
 
-    test('fromJson creates GenerateContentBatch with minimal required fields',
-        () {
-      final json = {
-        'displayName': 'Minimal Batch',
-        'model': 'models/gemini-pro',
-        'inputConfig': {
-          'fileName': 'gs://bucket/input.jsonl',
-        },
-      };
+    test(
+      'fromJson creates GenerateContentBatch with minimal required fields',
+      () {
+        final json = {
+          'displayName': 'Minimal Batch',
+          'model': 'models/gemini-pro',
+          'inputConfig': {
+            'fileName': 'gs://bucket/input.jsonl',
+          },
+        };
 
-      final batch = GenerateContentBatch.fromJson(json);
+        final batch = GenerateContentBatch.fromJson(json);
 
-      expect(batch.displayName, 'Minimal Batch');
-      expect(batch.model, 'models/gemini-pro');
-      expect(batch.inputConfig, isNotNull);
-      expect(batch.name, isNull);
-      expect(batch.output, isNull);
-      expect(batch.createTime, isNull);
-      expect(batch.endTime, isNull);
-      expect(batch.updateTime, isNull);
-      expect(batch.batchStats, isNull);
-      expect(batch.state, isNull);
-      expect(batch.priority, isNull);
-    });
+        expect(batch.displayName, 'Minimal Batch');
+        expect(batch.model, 'models/gemini-pro');
+        expect(batch.inputConfig, isNotNull);
+        expect(batch.name, isNull);
+        expect(batch.output, isNull);
+        expect(batch.createTime, isNull);
+        expect(batch.endTime, isNull);
+        expect(batch.updateTime, isNull);
+        expect(batch.batchStats, isNull);
+        expect(batch.state, isNull);
+        expect(batch.priority, isNull);
+      },
+    );
 
     test('fromJson handles file-based input config', () {
       final json = {
@@ -133,10 +135,10 @@ void main() {
                         {'text': 'Test'},
                       ],
                       'role': 'user',
-                    }
+                    },
                   ],
                 },
-              }
+              },
             ],
           },
         },

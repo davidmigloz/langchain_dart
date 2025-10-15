@@ -6,8 +6,9 @@ void main() async {
   // Initialize the client with your API key
   final client = GoogleAIClient(
     config: const GoogleAIConfig(
-      authProvider:
-          ApiKeyProvider('YOUR_API_KEY'), // Replace with your actual API key
+      authProvider: ApiKeyProvider(
+        'YOUR_API_KEY',
+      ), // Replace with your actual API key
     ),
   );
 
@@ -42,8 +43,9 @@ void main() async {
     print('Created corpus: ${corpus.name}');
 
     // List existing permissions on the corpus
-    final permissions =
-        await client.corpora.permissions(parent: corpus.name!).list();
+    final permissions = await client.corpora
+        .permissions(parent: corpus.name!)
+        .list();
     print('Current permissions: ${permissions.permissions?.length ?? 0}');
 
     final perms = permissions.permissions;
@@ -60,10 +62,11 @@ void main() async {
         permissions.permissions!.isNotEmpty) {
       final firstPerm = permissions.permissions!.first;
       if (firstPerm.name != null) {
-        final permDetails =
-            await client.corpora.permissions(parent: corpus.name!).get(
-                  name: firstPerm.name!,
-                );
+        final permDetails = await client.corpora
+            .permissions(parent: corpus.name!)
+            .get(
+              name: firstPerm.name!,
+            );
         print('\nPermission details:');
         print('  Name: ${permDetails.name}');
         print('  Grantee: ${permDetails.granteeType}');

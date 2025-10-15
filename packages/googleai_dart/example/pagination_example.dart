@@ -5,8 +5,9 @@ import 'package:googleai_dart/googleai_dart.dart';
 void main() async {
   final client = GoogleAIClient(
     config: const GoogleAIConfig(
-      authProvider:
-          ApiKeyProvider('YOUR_API_KEY'), // Replace with your actual API key
+      authProvider: ApiKeyProvider(
+        'YOUR_API_KEY',
+      ), // Replace with your actual API key
     ),
   );
 

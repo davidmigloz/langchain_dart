@@ -59,7 +59,7 @@ Sources:
 [1] https://example.com/1
 [2] https://example.com/2
 """
-'''
+''',
     ),
     (ChatMessageType.human, '{question}'),
   ]);
@@ -74,7 +74,8 @@ Sources:
   final docCombiner = Runnable.mapInput<List<Document>, String>((docs) {
     return docs
         .map(
-          (final d) => '''
+          (final d) =>
+              '''
 Source: ${d.metadata['source']}
 Title: ${d.metadata['title']}
 Content: ${d.pageContent}

@@ -4,21 +4,24 @@ import 'package:ollama_dart/ollama_dart.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('Ollama Version API tests',
-      skip: Platform.environment.containsKey('CI'), () {
-    late OllamaClient client;
+  group(
+    'Ollama Version API tests',
+    skip: Platform.environment.containsKey('CI'),
+    () {
+      late OllamaClient client;
 
-    setUp(() {
-      client = OllamaClient();
-    });
+      setUp(() {
+        client = OllamaClient();
+      });
 
-    tearDown(() {
-      client.endSession();
-    });
+      tearDown(() {
+        client.endSession();
+      });
 
-    test('Test get version', () async {
-      final res = await client.getVersion();
-      expect(res.version, isNotEmpty);
-    });
-  });
+      test('Test get version', () async {
+        final res = await client.getVersion();
+        expect(res.version, isNotEmpty);
+      });
+    },
+  );
 }

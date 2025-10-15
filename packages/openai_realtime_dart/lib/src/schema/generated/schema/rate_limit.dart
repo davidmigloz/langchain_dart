@@ -37,7 +37,7 @@ abstract class RateLimit with _$RateLimit {
     'name',
     'limit',
     'remaining',
-    'reset_seconds'
+    'reset_seconds',
   ];
 
   /// Perform validations on the schema property values

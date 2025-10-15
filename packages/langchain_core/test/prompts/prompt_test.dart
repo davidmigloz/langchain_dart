@@ -15,18 +15,20 @@ void main() {
       expect(prompt.inputVariables, inputVariables);
     });
 
-    test('Test error is raised when input variables are using reserved names',
-        () {
-      const template = 'This is a {stop} test.';
-      const inputVariables = {'stop', ''};
-      expect(
-        () => const PromptTemplate(
-          inputVariables: inputVariables,
-          template: template,
-        ).validateTemplate(),
-        throwsA(isA<TemplateValidationException>()),
-      );
-    });
+    test(
+      'Test error is raised when input variables are using reserved names',
+      () {
+        const template = 'This is a {stop} test.';
+        const inputVariables = {'stop', ''};
+        expect(
+          () => const PromptTemplate(
+            inputVariables: inputVariables,
+            template: template,
+          ).validateTemplate(),
+          throwsA(isA<TemplateValidationException>()),
+        );
+      },
+    );
 
     test('Test prompts can be constructed from a template', () {
       // Single input variable.

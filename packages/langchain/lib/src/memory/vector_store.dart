@@ -82,9 +82,11 @@ class VectorStoreMemory implements BaseMemory {
         if (!excludeKeys.contains(entry.key)) entry.key: entry.value,
     };
     final inputsOutputs = {...filteredInputs, ...outputValues};
-    final pageContent = inputsOutputs.entries.map((final entry) {
-      return '${entry.key}: ${entry.value}';
-    }).join('\n');
+    final pageContent = inputsOutputs.entries
+        .map((final entry) {
+          return '${entry.key}: ${entry.value}';
+        })
+        .join('\n');
     return [Document(pageContent: pageContent)];
   }
 

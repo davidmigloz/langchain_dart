@@ -42,7 +42,7 @@ abstract class Message with _$Message {
     'content',
     'thinking',
     'images',
-    'tool_calls'
+    'tool_calls',
   ];
 
   /// Perform validations on the schema property values

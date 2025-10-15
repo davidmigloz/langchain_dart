@@ -159,17 +159,17 @@ class GoogleAIConfig {
       'bearer',
     ],
   }) : this(
-          baseUrl: 'https://generativelanguage.googleapis.com',
-          apiMode: ApiMode.googleAI,
-          apiVersion: apiVersion,
-          authProvider: authProvider,
-          defaultHeaders: defaultHeaders,
-          defaultQueryParams: defaultQueryParams,
-          timeout: timeout,
-          retryPolicy: retryPolicy,
-          logLevel: logLevel,
-          redactionList: redactionList,
-        );
+         baseUrl: 'https://generativelanguage.googleapis.com',
+         apiMode: ApiMode.googleAI,
+         apiVersion: apiVersion,
+         authProvider: authProvider,
+         defaultHeaders: defaultHeaders,
+         defaultQueryParams: defaultQueryParams,
+         timeout: timeout,
+         retryPolicy: retryPolicy,
+         logLevel: logLevel,
+         redactionList: redactionList,
+       );
 
   /// Creates a config for Vertex AI.
   ///
@@ -206,19 +206,19 @@ class GoogleAIConfig {
       'bearer',
     ],
   }) : this(
-          baseUrl: 'https://$location-aiplatform.googleapis.com',
-          apiMode: ApiMode.vertexAI,
-          apiVersion: apiVersion,
-          projectId: projectId,
-          location: location,
-          authProvider: authProvider,
-          defaultHeaders: defaultHeaders,
-          defaultQueryParams: defaultQueryParams,
-          timeout: timeout,
-          retryPolicy: retryPolicy,
-          logLevel: logLevel,
-          redactionList: redactionList,
-        );
+         baseUrl: 'https://$location-aiplatform.googleapis.com',
+         apiMode: ApiMode.vertexAI,
+         apiVersion: apiVersion,
+         projectId: projectId,
+         location: location,
+         authProvider: authProvider,
+         defaultHeaders: defaultHeaders,
+         defaultQueryParams: defaultQueryParams,
+         timeout: timeout,
+         retryPolicy: retryPolicy,
+         logLevel: logLevel,
+         redactionList: redactionList,
+       );
 
   /// Creates a copy with overridden values.
   GoogleAIConfig copyWith({

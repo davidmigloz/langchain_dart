@@ -11,7 +11,8 @@ void main() {
       final prompt = PromptTemplate.fromTemplate('Hello {input}!');
       const model = FakeEchoChatModel();
       const outputParser = StringOutputParser<ChatResult>();
-      final chain = prompt |
+      final chain =
+          prompt |
           model |
           outputParser |
           Runnable.fromFunction<String, int>(

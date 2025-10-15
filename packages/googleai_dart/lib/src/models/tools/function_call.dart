@@ -16,15 +16,15 @@ class FunctionCall {
 
   /// Creates a [FunctionCall] from JSON.
   factory FunctionCall.fromJson(Map<String, dynamic> json) => FunctionCall(
-        name: json['name'] as String,
-        args: json['args'] as Map<String, dynamic>?,
-      );
+    name: json['name'] as String,
+    args: json['args'] as Map<String, dynamic>?,
+  );
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        'name': name,
-        if (args != null) 'args': args,
-      };
+    'name': name,
+    if (args != null) 'args': args,
+  };
 
   /// Creates a copy with replaced values.
   FunctionCall copyWith({

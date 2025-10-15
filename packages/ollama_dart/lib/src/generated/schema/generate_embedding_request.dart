@@ -44,7 +44,7 @@ abstract class GenerateEmbeddingRequest with _$GenerateEmbeddingRequest {
     'model',
     'prompt',
     'options',
-    'keep_alive'
+    'keep_alive',
   ];
 
   /// Perform validations on the schema property values

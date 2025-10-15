@@ -82,18 +82,19 @@ class OpenAIToolsAgent extends BaseSingleActionAgent {
   OpenAIToolsAgent({
     required this.llmChain,
     required super.tools,
-  })  : _parser = const OpenAIToolsAgentOutputParser(),
-        assert(
-          llmChain.memory != null ||
-              llmChain.prompt.inputVariables
-                  .contains(BaseActionAgent.agentScratchpadInputKey),
-          '`${BaseActionAgent.agentScratchpadInputKey}` should be one of the '
-          'variables in the prompt, got ${llmChain.prompt.inputVariables}',
-        ),
-        assert(
-          llmChain.memory == null || llmChain.memory!.returnMessages,
-          'The memory must have `returnMessages` set to true',
-        );
+  }) : _parser = const OpenAIToolsAgentOutputParser(),
+       assert(
+         llmChain.memory != null ||
+             llmChain.prompt.inputVariables.contains(
+               BaseActionAgent.agentScratchpadInputKey,
+             ),
+         '`${BaseActionAgent.agentScratchpadInputKey}` should be one of the '
+         'variables in the prompt, got ${llmChain.prompt.inputVariables}',
+       ),
+       assert(
+         llmChain.memory == null || llmChain.memory!.returnMessages,
+         'The memory must have `returnMessages` set to true',
+       );
 
   /// Chain to use to call the LLM.
   ///
@@ -185,9 +186,10 @@ class OpenAIToolsAgent extends BaseSingleActionAgent {
         final ChatMessage inputMsg => inputMsg,
         final List<ChatMessage> inputMsgs => inputMsgs,
         _ => throw LangChainException(
-            message: 'Agent expected a String or ChatMessage as input,'
-                ' got ${inputs[agentInputKey]}',
-          ),
+          message:
+              'Agent expected a String or ChatMessage as input,'
+              ' got ${inputs[agentInputKey]}',
+        ),
       };
     }
 
@@ -195,8 +197,9 @@ class OpenAIToolsAgent extends BaseSingleActionAgent {
       ...inputs,
       agentInputKey: agentInput,
       if (llmChain.memory == null)
-        BaseActionAgent.agentScratchpadInputKey:
-            _constructScratchPad(intermediateSteps),
+        BaseActionAgent.agentScratchpadInputKey: _constructScratchPad(
+          intermediateSteps,
+        ),
     };
   }
 
@@ -204,15 +207,17 @@ class OpenAIToolsAgent extends BaseSingleActionAgent {
     final List<AgentStep> intermediateSteps,
   ) {
     return [
-      ...intermediateSteps.map((final s) {
-        return s.action.messageLog +
-            [
-              ChatMessage.tool(
-                toolCallId: s.action.id,
-                content: s.observation,
-              ),
-            ];
-      }).expand((final m) => m),
+      ...intermediateSteps
+          .map((final s) {
+            return s.action.messageLog +
+                [
+                  ChatMessage.tool(
+                    toolCallId: s.action.id,
+                    content: s.observation,
+                  ),
+                ];
+          })
+          .expand((final m) => m),
     ];
   }
 
@@ -261,12 +266,17 @@ class OpenAIToolsAgent extends BaseSingleActionAgent {
 /// [BaseAgentAction] to be executed.
 /// {@endtemplate}
 @Deprecated('Use ToolsAgentOutputParser instead')
-class OpenAIToolsAgentOutputParser extends BaseOutputParser<ChatResult,
-    OutputParserOptions, List<BaseAgentAction>> {
+class OpenAIToolsAgentOutputParser
+    extends
+        BaseOutputParser<
+          ChatResult,
+          OutputParserOptions,
+          List<BaseAgentAction>
+        > {
   /// {@macro openai_tools_agent_output_parser}
   @Deprecated('Use ToolsAgentOutputParser instead')
   const OpenAIToolsAgentOutputParser()
-      : super(defaultOptions: const OutputParserOptions());
+    : super(defaultOptions: const OutputParserOptions());
 
   @override
   Future<List<BaseAgentAction>> invoke(
@@ -283,17 +293,20 @@ class OpenAIToolsAgentOutputParser extends BaseOutputParser<ChatResult,
     final toolCalls = message.toolCalls;
 
     if (toolCalls.isNotEmpty) {
-      return toolCalls.map((final toolCall) {
-        return AgentAction(
-          id: toolCall.id,
-          tool: toolCall.name,
-          toolInput: toolCall.arguments,
-          log: 'Invoking: `${toolCall.name}` '
-              'with `${toolCall.arguments}`\n'
-              'Responded: ${message.content}\n',
-          messageLog: [message],
-        );
-      }).toList(growable: false);
+      return toolCalls
+          .map((final toolCall) {
+            return AgentAction(
+              id: toolCall.id,
+              tool: toolCall.name,
+              toolInput: toolCall.arguments,
+              log:
+                  'Invoking: `${toolCall.name}` '
+                  'with `${toolCall.arguments}`\n'
+                  'Responded: ${message.content}\n',
+              messageLog: [message],
+            );
+          })
+          .toList(growable: false);
     } else {
       return [
         AgentFinish(

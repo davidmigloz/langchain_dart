@@ -12,13 +12,13 @@ class VideoMetadata {
 
   /// Creates a [VideoMetadata] from JSON.
   factory VideoMetadata.fromJson(Map<String, dynamic> json) => VideoMetadata(
-        videoDuration: json['videoDuration'] as String?,
-      );
+    videoDuration: json['videoDuration'] as String?,
+  );
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (videoDuration != null) 'videoDuration': videoDuration,
-      };
+    if (videoDuration != null) 'videoDuration': videoDuration,
+  };
 
   /// Creates a copy with replaced values.
   VideoMetadata copyWith({

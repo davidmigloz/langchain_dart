@@ -16,27 +16,27 @@ class LogprobsResult {
 
   /// Creates a [LogprobsResult] from JSON.
   factory LogprobsResult.fromJson(Map<String, dynamic> json) => LogprobsResult(
-        topCandidates: json['topCandidates'] != null
-            ? (json['topCandidates'] as List)
-                .map((e) => TopCandidates.fromJson(e as Map<String, dynamic>))
-                .toList()
-            : null,
-        chosenCandidates: json['chosenCandidates'] != null
-            ? (json['chosenCandidates'] as List)
-                .map(
-                  (e) => LogprobCandidate.fromJson(e as Map<String, dynamic>),
-                )
-                .toList()
-            : null,
-      );
+    topCandidates: json['topCandidates'] != null
+        ? (json['topCandidates'] as List)
+              .map((e) => TopCandidates.fromJson(e as Map<String, dynamic>))
+              .toList()
+        : null,
+    chosenCandidates: json['chosenCandidates'] != null
+        ? (json['chosenCandidates'] as List)
+              .map(
+                (e) => LogprobCandidate.fromJson(e as Map<String, dynamic>),
+              )
+              .toList()
+        : null,
+  );
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (topCandidates != null)
-          'topCandidates': topCandidates!.map((e) => e.toJson()).toList(),
-        if (chosenCandidates != null)
-          'chosenCandidates': chosenCandidates!.map((e) => e.toJson()).toList(),
-      };
+    if (topCandidates != null)
+      'topCandidates': topCandidates!.map((e) => e.toJson()).toList(),
+    if (chosenCandidates != null)
+      'chosenCandidates': chosenCandidates!.map((e) => e.toJson()).toList(),
+  };
 
   /// Creates a copy with replaced values.
   LogprobsResult copyWith({
@@ -64,20 +64,20 @@ class TopCandidates {
 
   /// Creates a [TopCandidates] from JSON.
   factory TopCandidates.fromJson(Map<String, dynamic> json) => TopCandidates(
-        candidates: json['candidates'] != null
-            ? (json['candidates'] as List)
-                .map(
-                  (e) => LogprobCandidate.fromJson(e as Map<String, dynamic>),
-                )
-                .toList()
-            : null,
-      );
+    candidates: json['candidates'] != null
+        ? (json['candidates'] as List)
+              .map(
+                (e) => LogprobCandidate.fromJson(e as Map<String, dynamic>),
+              )
+              .toList()
+        : null,
+  );
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (candidates != null)
-          'candidates': candidates!.map((e) => e.toJson()).toList(),
-      };
+    if (candidates != null)
+      'candidates': candidates!.map((e) => e.toJson()).toList(),
+  };
 
   /// Creates a copy with replaced values.
   TopCandidates copyWith({
@@ -111,9 +111,9 @@ class LogprobCandidate {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (token != null) 'token': token,
-        if (logProbability != null) 'logProbability': logProbability,
-      };
+    if (token != null) 'token': token,
+    if (logProbability != null) 'logProbability': logProbability,
+  };
 
   /// Creates a copy with replaced values.
   LogprobCandidate copyWith({

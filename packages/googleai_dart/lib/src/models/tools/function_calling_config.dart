@@ -83,10 +83,10 @@ class FunctionCallingConfig {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (mode != null) 'mode': functionCallingModeToString(mode!),
-        if (allowedFunctionNames != null)
-          'allowedFunctionNames': allowedFunctionNames,
-      };
+    if (mode != null) 'mode': functionCallingModeToString(mode!),
+    if (allowedFunctionNames != null)
+      'allowedFunctionNames': allowedFunctionNames,
+  };
 
   /// Creates a copy with replaced values.
   FunctionCallingConfig copyWith({
@@ -94,8 +94,9 @@ class FunctionCallingConfig {
     Object? allowedFunctionNames = unsetCopyWithValue,
   }) {
     return FunctionCallingConfig(
-      mode:
-          mode == unsetCopyWithValue ? this.mode : mode as FunctionCallingMode?,
+      mode: mode == unsetCopyWithValue
+          ? this.mode
+          : mode as FunctionCallingMode?,
       allowedFunctionNames: allowedFunctionNames == unsetCopyWithValue
           ? this.allowedFunctionNames
           : allowedFunctionNames as List<String>?,

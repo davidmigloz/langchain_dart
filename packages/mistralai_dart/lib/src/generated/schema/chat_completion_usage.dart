@@ -33,7 +33,7 @@ abstract class ChatCompletionUsage with _$ChatCompletionUsage {
   static const List<String> propertyNames = [
     'prompt_tokens',
     'completion_tokens',
-    'total_tokens'
+    'total_tokens',
   ];
 
   /// Perform validations on the schema property values

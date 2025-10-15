@@ -22,18 +22,18 @@ class ListPermissionsResponse {
       ListPermissionsResponse(
         permissions: json['permissions'] != null
             ? (json['permissions'] as List)
-                .map((e) => Permission.fromJson(e as Map<String, dynamic>))
-                .toList()
+                  .map((e) => Permission.fromJson(e as Map<String, dynamic>))
+                  .toList()
             : null,
         nextPageToken: json['nextPageToken'] as String?,
       );
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (permissions != null)
-          'permissions': permissions!.map((e) => e.toJson()).toList(),
-        if (nextPageToken != null) 'nextPageToken': nextPageToken,
-      };
+    if (permissions != null)
+      'permissions': permissions!.map((e) => e.toJson()).toList(),
+    if (nextPageToken != null) 'nextPageToken': nextPageToken,
+  };
 
   @override
   String toString() =>

@@ -237,25 +237,25 @@ void main() {
 
         final subscription = client!.models
             .streamGenerateContent(
-          model: defaultGenerativeModel,
-          request: const GenerateContentRequest(
-            contents: [
-              Content(
-                parts: [
-                  TextPart(
-                    'Write a very long and detailed story about space '
-                    'exploration covering multiple topics.',
+              model: defaultGenerativeModel,
+              request: const GenerateContentRequest(
+                contents: [
+                  Content(
+                    parts: [
+                      TextPart(
+                        'Write a very long and detailed story about space '
+                        'exploration covering multiple topics.',
+                      ),
+                    ],
+                    role: 'user',
                   ),
                 ],
-                role: 'user',
               ),
-            ],
-          ),
-          abortTrigger: abortController.future,
-        )
+              abortTrigger: abortController.future,
+            )
             .listen((chunk) {
-          // Consume chunks
-        });
+              // Consume chunks
+            });
 
         // Wait a bit then cancel subscription (without using abort)
         await Future<void>.delayed(const Duration(seconds: 1));

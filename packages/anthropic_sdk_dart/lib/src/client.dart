@@ -36,18 +36,19 @@ class AnthropicClient extends g.AnthropicClient {
     final int retries = 3,
     final http.Client? client,
   }) : super(
-          apiKey: apiKey ?? '',
-          baseUrl: baseUrl,
-          headers: {
-            'anthropic-version': '2023-06-01',
-            'anthropic-beta': 'message-batches-2024-09-24,'
-                'prompt-caching-2024-07-31,'
-                'computer-use-2024-10-22',
-            ...?headers,
-          },
-          queryParams: queryParams ?? const {},
-          client: client ?? RetryClient(http.Client(), retries: retries),
-        );
+         apiKey: apiKey ?? '',
+         baseUrl: baseUrl,
+         headers: {
+           'anthropic-version': '2023-06-01',
+           'anthropic-beta':
+               'message-batches-2024-09-24,'
+               'prompt-caching-2024-07-31,'
+               'computer-use-2024-10-22',
+           ...?headers,
+         },
+         queryParams: queryParams ?? const {},
+         client: client ?? RetryClient(http.Client(), retries: retries),
+       );
 
   // ------------------------------------------
   // METHOD: createMessageStream
@@ -81,11 +82,11 @@ class AnthropicClient extends g.AnthropicClient {
     yield* r.stream
         .transform(const _AnthropicStreamTransformer()) //
         .map(
-      (final d) {
-        final j = json.decode(d) as Map<String, dynamic>;
-        return MessageStreamEvent.fromJson(j);
-      },
-    );
+          (final d) {
+            final j = json.decode(d) as Map<String, dynamic>;
+            return MessageStreamEvent.fromJson(j);
+          },
+        );
   }
 }
 

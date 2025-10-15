@@ -79,7 +79,7 @@ Future<void> _commaSeparatedListOutputParser() async {
 class CommaSeparatedListOutputParser
     extends BaseOutputParser<ChatResult, OutputParserOptions, List<String>> {
   const CommaSeparatedListOutputParser()
-      : super(defaultOptions: const OutputParserOptions());
+    : super(defaultOptions: const OutputParserOptions());
 
   @override
   Future<List<String>> invoke(
@@ -108,8 +108,9 @@ ONLY return a comma separated list, and nothing more.
 
   final chatModel = ChatOpenAI(apiKey: openAiApiKey);
 
-  final chain =
-      chatPrompt.pipe(chatModel).pipe(const CommaSeparatedListOutputParser());
+  final chain = chatPrompt
+      .pipe(chatModel)
+      .pipe(const CommaSeparatedListOutputParser());
 
   // Alternative syntax:
   // final chain = chatPrompt | chatModel | CommaSeparatedListOutputParser();

@@ -51,21 +51,22 @@ final class TavilyAnswerTool extends StringTool<TavilyAnswerToolOptions> {
     final Map<String, dynamic> queryParams = const {},
     final http.Client? client,
     super.defaultOptions = const TavilyAnswerToolOptions(),
-  })  : _client = TavilyClient(
-          baseUrl: baseUrl,
-          headers: headers,
-          queryParams: queryParams,
-          client: client,
-        ),
-        super(
-          name: 'tavily_answer',
-          description:
-              'A search engine optimized for comprehensive, accurate, and trusted answers. '
-              'Useful for when you need to answer questions about current events. '
-              'The tool returns an answer to the search query - not the search results.',
-          inputDescription: 'The search query to get an answer to. '
-              'Eg: "What is the weather like in New York?"',
-        );
+  }) : _client = TavilyClient(
+         baseUrl: baseUrl,
+         headers: headers,
+         queryParams: queryParams,
+         client: client,
+       ),
+       super(
+         name: 'tavily_answer',
+         description:
+             'A search engine optimized for comprehensive, accurate, and trusted answers. '
+             'Useful for when you need to answer questions about current events. '
+             'The tool returns an answer to the search query - not the search results.',
+         inputDescription:
+             'The search query to get an answer to. '
+             'Eg: "What is the weather like in New York?"',
+       );
 
   /// A client for interacting with Tavily API.
   final TavilyClient _client;

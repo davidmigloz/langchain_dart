@@ -15,11 +15,14 @@ class VertexAIIndexGoogleApisMapper {
       metadata: VertexAIIndexMetadata.fromMap(
         index.metadata as Map<String, dynamic>? ?? const {},
       ),
-      indexUpdateMethod: VertexAIIndexUpdateMethod.values
-              .firstWhereOrNull((final m) => m.id == index.indexUpdateMethod) ??
+      indexUpdateMethod:
+          VertexAIIndexUpdateMethod.values.firstWhereOrNull(
+            (final m) => m.id == index.indexUpdateMethod,
+          ) ??
           VertexAIIndexUpdateMethod.batchUpdate,
       indexStats: index.indexStats != null ? mapStats(index.indexStats!) : null,
-      deployedIndexes: index.deployedIndexes
+      deployedIndexes:
+          index.deployedIndexes
               ?.map(_mapDeployedIndexRef)
               .toList(growable: false) ??
           const [],
@@ -60,8 +63,9 @@ class VertexAIIndexGoogleApisMapper {
       crowdingTag: datapoint.crowdingTag != null
           ? _mapCrowdingTag(datapoint.crowdingTag!)
           : null,
-      restricts:
-          datapoint.restricts?.map(_mapRestriction).toList(growable: false),
+      restricts: datapoint.restricts
+          ?.map(_mapRestriction)
+          .toList(growable: false),
     );
   }
 
@@ -93,8 +97,9 @@ class VertexAIIndexGoogleApisMapper {
       crowdingTag: datapoint.crowdingTag != null
           ? _mapCrowdingTagDto(datapoint.crowdingTag!)
           : null,
-      restricts:
-          datapoint.restricts?.map(_mapRestrictionDto).toList(growable: false),
+      restricts: datapoint.restricts
+          ?.map(_mapRestrictionDto)
+          .toList(growable: false),
     );
   }
 

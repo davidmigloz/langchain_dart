@@ -33,9 +33,10 @@ class SequentialChain extends BaseChain {
     final Set<String>? inputKeys,
     final Set<String>? outputKeys,
     this.returnIntermediateOutputs = false,
-  })  : inputKeys = inputKeys ?? _inferInputKeys(chains, memory),
-        outputKeys = outputKeys ??
-            _inferOutputKeys(chains, returnIntermediateOutputs, memory) {
+  }) : inputKeys = inputKeys ?? _inferInputKeys(chains, memory),
+       outputKeys =
+           outputKeys ??
+           _inferOutputKeys(chains, returnIntermediateOutputs, memory) {
     assert(_isChainValid());
   }
 
@@ -186,8 +187,8 @@ class SimpleSequentialChain extends BaseChain {
     final String inputKey = defaultInputKey,
     final String outputKey = defaultOutputKey,
     this.trimOutputs = false,
-  })  : inputKeys = {inputKey},
-        outputKeys = {outputKey} {
+  }) : inputKeys = {inputKey},
+       outputKeys = {outputKey} {
     assert(_isChainValid());
   }
 

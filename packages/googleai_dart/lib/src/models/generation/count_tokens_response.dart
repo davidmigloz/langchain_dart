@@ -30,32 +30,34 @@ class CountTokensResponse {
         cachedContentTokenCount: json['cachedContentTokenCount'] as int?,
         promptTokensDetails: json['promptTokensDetails'] != null
             ? (json['promptTokensDetails'] as List)
-                .map(
-                  (e) => ModalityTokenCount.fromJson(e as Map<String, dynamic>),
-                )
-                .toList()
+                  .map(
+                    (e) =>
+                        ModalityTokenCount.fromJson(e as Map<String, dynamic>),
+                  )
+                  .toList()
             : null,
         cacheTokensDetails: json['cacheTokensDetails'] != null
             ? (json['cacheTokensDetails'] as List)
-                .map(
-                  (e) => ModalityTokenCount.fromJson(e as Map<String, dynamic>),
-                )
-                .toList()
+                  .map(
+                    (e) =>
+                        ModalityTokenCount.fromJson(e as Map<String, dynamic>),
+                  )
+                  .toList()
             : null,
       );
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        'totalTokens': totalTokens,
-        if (cachedContentTokenCount != null)
-          'cachedContentTokenCount': cachedContentTokenCount,
-        if (promptTokensDetails != null)
-          'promptTokensDetails':
-              promptTokensDetails!.map((e) => e.toJson()).toList(),
-        if (cacheTokensDetails != null)
-          'cacheTokensDetails':
-              cacheTokensDetails!.map((e) => e.toJson()).toList(),
-      };
+    'totalTokens': totalTokens,
+    if (cachedContentTokenCount != null)
+      'cachedContentTokenCount': cachedContentTokenCount,
+    if (promptTokensDetails != null)
+      'promptTokensDetails': promptTokensDetails!
+          .map((e) => e.toJson())
+          .toList(),
+    if (cacheTokensDetails != null)
+      'cacheTokensDetails': cacheTokensDetails!.map((e) => e.toJson()).toList(),
+  };
 
   /// Creates a copy with replaced values.
   CountTokensResponse copyWith({

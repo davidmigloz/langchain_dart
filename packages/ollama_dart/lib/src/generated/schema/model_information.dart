@@ -41,7 +41,7 @@ abstract class ModelInformation with _$ModelInformation {
     'general.architecture',
     'general.file_type',
     'general.parameter_count',
-    'general.quantization_version'
+    'general.quantization_version',
   ];
 
   /// Perform validations on the schema property values

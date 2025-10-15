@@ -61,7 +61,7 @@ abstract class ChatCompletionRequest with _$ChatCompletionRequest {
     'max_tokens',
     'stream',
     'safe_prompt',
-    'random_seed'
+    'random_seed',
   ];
 
   /// Validation constants

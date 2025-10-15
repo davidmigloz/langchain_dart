@@ -11,7 +11,8 @@ extension GenerateContentResponseMapper on g.GenerateContentResponse {
     }
 
     // Extract text content from all text parts
-    final output = candidate.content?.parts
+    final output =
+        candidate.content?.parts
             .whereType<g.TextPart>()
             .map((p) => p.text)
             .join('\n') ??
@@ -55,18 +56,17 @@ extension GenerateContentResponseMapper on g.GenerateContentResponse {
 
   FinishReason _mapFinishReason(
     final g.FinishReason? reason,
-  ) =>
-      switch (reason) {
-        g.FinishReason.unspecified => FinishReason.unspecified,
-        g.FinishReason.stop => FinishReason.stop,
-        g.FinishReason.maxTokens => FinishReason.length,
-        g.FinishReason.safety => FinishReason.contentFilter,
-        g.FinishReason.recitation => FinishReason.recitation,
-        g.FinishReason.other => FinishReason.unspecified,
-        g.FinishReason.blocklist => FinishReason.contentFilter,
-        g.FinishReason.prohibitedContent => FinishReason.contentFilter,
-        g.FinishReason.spii => FinishReason.contentFilter,
-        g.FinishReason.malformedFunctionCall => FinishReason.unspecified,
-        null => FinishReason.unspecified,
-      };
+  ) => switch (reason) {
+    g.FinishReason.unspecified => FinishReason.unspecified,
+    g.FinishReason.stop => FinishReason.stop,
+    g.FinishReason.maxTokens => FinishReason.length,
+    g.FinishReason.safety => FinishReason.contentFilter,
+    g.FinishReason.recitation => FinishReason.recitation,
+    g.FinishReason.other => FinishReason.unspecified,
+    g.FinishReason.blocklist => FinishReason.contentFilter,
+    g.FinishReason.prohibitedContent => FinishReason.contentFilter,
+    g.FinishReason.spii => FinishReason.contentFilter,
+    g.FinishReason.malformedFunctionCall => FinishReason.unspecified,
+    null => FinishReason.unspecified,
+  };
 }

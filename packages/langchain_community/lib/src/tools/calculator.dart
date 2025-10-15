@@ -23,13 +23,15 @@ import 'package:math_expressions/math_expressions.dart';
 final class CalculatorTool extends StringTool<ToolOptions> {
   /// {@macro calculator_tool}
   CalculatorTool()
-      : super(
-          name: 'calculator',
-          description: 'Useful for getting the result of a math expression '
-              'that could be executed by a simple calculator.',
-          inputDescription: 'A valid mathematical expression to evaluate. '
-              'For example: "(x^2 + cos(y)) / 3".',
-        );
+    : super(
+        name: 'calculator',
+        description:
+            'Useful for getting the result of a math expression '
+            'that could be executed by a simple calculator.',
+        inputDescription:
+            'A valid mathematical expression to evaluate. '
+            'For example: "(x^2 + cos(y)) / 3".',
+      );
 
   final _parser = GrammarParser();
   final _evaluator = RealEvaluator();

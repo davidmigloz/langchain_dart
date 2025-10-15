@@ -31,10 +31,10 @@ class FunctionDeclaration {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        'name': name,
-        'description': description,
-        if (parameters != null) 'parameters': parameters!.toJson(),
-      };
+    'name': name,
+    'description': description,
+    if (parameters != null) 'parameters': parameters!.toJson(),
+  };
 
   /// Creates a copy with replaced values.
   FunctionDeclaration copyWith({

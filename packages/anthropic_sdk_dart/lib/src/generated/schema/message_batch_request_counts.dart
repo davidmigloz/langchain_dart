@@ -41,7 +41,7 @@ abstract class MessageBatchRequestCounts with _$MessageBatchRequestCounts {
     'succeeded',
     'errored',
     'canceled',
-    'expired'
+    'expired',
   ];
 
   /// Perform validations on the schema property values

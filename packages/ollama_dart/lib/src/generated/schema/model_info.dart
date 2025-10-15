@@ -71,7 +71,7 @@ abstract class ModelInfo with _$ModelInfo {
     'projector_info',
     'tensors',
     'capabilities',
-    'modified_at'
+    'modified_at',
   ];
 
   /// Perform validations on the schema property values

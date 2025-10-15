@@ -21,19 +21,19 @@ class InputConfig {
 
   /// Creates an [InputConfig] from JSON.
   factory InputConfig.fromJson(Map<String, dynamic> json) => InputConfig(
-        fileName: json['fileName'] as String?,
-        requests: json['requests'] != null
-            ? InlinedRequests.fromJson(
-                json['requests'] as Map<String, dynamic>,
-              )
-            : null,
-      );
+    fileName: json['fileName'] as String?,
+    requests: json['requests'] != null
+        ? InlinedRequests.fromJson(
+            json['requests'] as Map<String, dynamic>,
+          )
+        : null,
+  );
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (fileName != null) 'fileName': fileName,
-        if (requests != null) 'requests': requests!.toJson(),
-      };
+    if (fileName != null) 'fileName': fileName,
+    if (requests != null) 'requests': requests!.toJson(),
+  };
 
   /// Creates a copy with replaced values.
   InputConfig copyWith({
@@ -41,8 +41,9 @@ class InputConfig {
     Object? requests = unsetCopyWithValue,
   }) {
     return InputConfig(
-      fileName:
-          fileName == unsetCopyWithValue ? this.fileName : fileName as String?,
+      fileName: fileName == unsetCopyWithValue
+          ? this.fileName
+          : fileName as String?,
       requests: requests == unsetCopyWithValue
           ? this.requests
           : requests as InlinedRequests?,

@@ -39,7 +39,7 @@ abstract class ToolDefinition with _$ToolDefinition {
     'type',
     'name',
     'description',
-    'parameters'
+    'parameters',
   ];
 
   /// Perform validations on the schema property values

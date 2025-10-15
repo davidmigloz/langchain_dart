@@ -47,7 +47,7 @@ abstract class ModelDetails with _$ModelDetails {
     'family',
     'families',
     'parameter_size',
-    'quantization_level'
+    'quantization_level',
   ];
 
   /// Perform validations on the schema property values

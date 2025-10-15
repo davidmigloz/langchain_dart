@@ -165,8 +165,8 @@ class RunnableSequence<RunInput extends Object?, RunOutput extends Object?>
   ///
   /// - [next] - the [Runnable] to pipe the output into.
   @override
-  RunnableSequence<RunInput, NewRunOutput> pipe<NewRunOutput extends Object?,
-      NewCallOptions extends RunnableOptions>(
+  RunnableSequence<RunInput, NewRunOutput>
+  pipe<NewRunOutput extends Object?, NewCallOptions extends RunnableOptions>(
     final Runnable<RunOutput, NewCallOptions, NewRunOutput> next,
   ) {
     if (next is RunnableSequence<RunOutput, NewRunOutput>) {
@@ -198,7 +198,8 @@ class RunnableSequence<RunInput extends Object?, RunOutput extends Object?>
     final match = pattern.firstMatch(error);
     final actualInputType = match?.namedGroup('BroadcastType') ?? 'Unknown';
     final expectedInputType = match?.namedGroup('StreamType') ?? 'Unknown';
-    final errorMessage = '''
+    final errorMessage =
+        '''
 ${runnable.runtimeType} runnable expects an input type of $expectedInputType, but received an instance of type $actualInputType instead.
 
 Please ensure that the output of the previous runnable in the sequence matches the expected input type of the current runnable. 

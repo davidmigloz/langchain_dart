@@ -37,7 +37,7 @@ abstract class TranscriptionError with _$TranscriptionError {
     'type',
     'code',
     'message',
-    'param'
+    'param',
   ];
 
   /// Perform validations on the schema property values

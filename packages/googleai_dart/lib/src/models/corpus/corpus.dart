@@ -86,7 +86,8 @@ class Corpus {
   }
 
   @override
-  String toString() => 'Corpus('
+  String toString() =>
+      'Corpus('
       'name: $name, '
       'displayName: $displayName, '
       'createTime: $createTime, '

@@ -190,8 +190,9 @@ void main() {
       expect(listResponse.cachedContents.length, greaterThanOrEqualTo(1));
 
       // Should find the one we just created
-      final found =
-          listResponse.cachedContents.any((c) => c.name == cachedContent.name);
+      final found = listResponse.cachedContents.any(
+        (c) => c.name == cachedContent.name,
+      );
       expect(found, isTrue);
 
       // Clean up

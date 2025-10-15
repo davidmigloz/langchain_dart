@@ -33,7 +33,7 @@ abstract class ToolFunction with _$ToolFunction {
   static const List<String> propertyNames = [
     'name',
     'description',
-    'parameters'
+    'parameters',
   ];
 
   /// Perform validations on the schema property values

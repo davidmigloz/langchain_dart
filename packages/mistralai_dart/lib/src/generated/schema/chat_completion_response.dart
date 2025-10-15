@@ -45,7 +45,7 @@ abstract class ChatCompletionResponse with _$ChatCompletionResponse {
     'created',
     'model',
     'choices',
-    'usage'
+    'usage',
   ];
 
   /// Perform validations on the schema property values
@@ -91,14 +91,14 @@ abstract class ChatCompletionResponseChoicesInner
 
   /// Object construction from a JSON representation
   factory ChatCompletionResponseChoicesInner.fromJson(
-          Map<String, dynamic> json) =>
-      _$ChatCompletionResponseChoicesInnerFromJson(json);
+    Map<String, dynamic> json,
+  ) => _$ChatCompletionResponseChoicesInnerFromJson(json);
 
   /// List of all property names of schema
   static const List<String> propertyNames = [
     'index',
     'message',
-    'finish_reason'
+    'finish_reason',
   ];
 
   /// Perform validations on the schema property values

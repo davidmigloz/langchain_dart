@@ -90,15 +90,15 @@ class MapReduceDocumentsChain extends BaseCombineDocumentsChain {
 
   @override
   Set<String> get inputKeys => {
-        inputKey,
-        ...reduceDocumentsChain.inputKeys,
-      };
+    inputKey,
+    ...reduceDocumentsChain.inputKeys,
+  };
 
   @override
   Set<String> get outputKeys => {
-        outputKey,
-        if (returnIntermediateSteps) intermediateStepsOutputKey,
-      };
+    outputKey,
+    if (returnIntermediateSteps) intermediateStepsOutputKey,
+  };
 
   void _initLlmChainDocumentPromptVar() {
     // If only one variable is present in the llmChain.prompt,
@@ -182,7 +182,7 @@ class MapReduceDocumentsChain extends BaseCombineDocumentsChain {
   }
 
   String _getContent(final dynamic content) => switch (content) {
-        final AIChatMessage resultMsg => resultMsg.content,
-        _ => content,
-      };
+    final AIChatMessage resultMsg => resultMsg.content,
+    _ => content,
+  };
 }

@@ -42,8 +42,8 @@ class SemanticRetrieverConfig {
       query: Content.fromJson(json['query'] as Map<String, dynamic>),
       metadataFilters: json['metadataFilters'] != null
           ? (json['metadataFilters'] as List)
-              .map((e) => MetadataFilter.fromJson(e as Map<String, dynamic>))
-              .toList()
+                .map((e) => MetadataFilter.fromJson(e as Map<String, dynamic>))
+                .toList()
           : null,
       maxChunksCount: json['maxChunksCount'] as int?,
       minimumRelevanceScore: json['minimumRelevanceScore'] != null
@@ -89,7 +89,8 @@ class SemanticRetrieverConfig {
   }
 
   @override
-  String toString() => 'SemanticRetrieverConfig('
+  String toString() =>
+      'SemanticRetrieverConfig('
       'source: $source, '
       'query: $query, '
       'metadataFilters: $metadataFilters, '

@@ -15,18 +15,20 @@ void main() {
       expect(output, expectedOutput);
     });
 
-    test('Test splitting by character count does not create empty documents',
-        () {
-      const text = 'foo  bar';
-      const splitter = CharacterTextSplitter(
-        separator: ' ',
-        chunkSize: 2,
-        chunkOverlap: 0,
-      );
-      final output = splitter.splitText(text);
-      final expectedOutput = ['foo', 'bar'];
-      expect(output, expectedOutput);
-    });
+    test(
+      'Test splitting by character count does not create empty documents',
+      () {
+        const text = 'foo  bar';
+        const splitter = CharacterTextSplitter(
+          separator: ' ',
+          chunkSize: 2,
+          chunkOverlap: 0,
+        );
+        final output = splitter.splitText(text);
+        final expectedOutput = ['foo', 'bar'];
+        expect(output, expectedOutput);
+      },
+    );
 
     test('Test edge cases are separators', () {
       const text = 'f b';
@@ -307,18 +309,20 @@ void main() {
       expect(output, expectedOutput);
     });
 
-    test("Test splitting by character count doesn't create empty documents.",
-        () {
-      const text = 'foo  bar';
-      const splitter = CharacterTextSplitter(
-        separator: ' ',
-        chunkSize: 2,
-        chunkOverlap: 0,
-      );
-      final output = splitter.splitText(text);
-      final expectedOutput = ['foo', 'bar'];
-      expect(output, expectedOutput);
-    });
+    test(
+      "Test splitting by character count doesn't create empty documents.",
+      () {
+        const text = 'foo  bar';
+        const splitter = CharacterTextSplitter(
+          separator: ' ',
+          chunkSize: 2,
+          chunkOverlap: 0,
+        );
+        final output = splitter.splitText(text);
+        final expectedOutput = ['foo', 'bar'];
+        expect(output, expectedOutput);
+      },
+    );
 
     test('Test splitting by character count on long words.', () {
       const text = 'foo bar baz a a';

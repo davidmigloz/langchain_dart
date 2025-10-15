@@ -90,37 +90,36 @@ class Schema {
 
   /// Creates a [Schema] from JSON.
   factory Schema.fromJson(Map<String, dynamic> json) => Schema(
-        type: json['type'] != null
-            ? schemaTypeFromString(json['type'] as String?)
-            : null,
-        format: json['format'] as String?,
-        description: json['description'] as String?,
-        nullable: json['nullable'] as bool?,
-        enumValues: (json['enum'] as List?)?.cast<String>(),
-        items: json['items'] != null
-            ? Schema.fromJson(json['items'] as Map<String, dynamic>)
-            : null,
-        properties: json['properties'] != null
-            ? (json['properties'] as Map<String, dynamic>).map(
-                (k, v) =>
-                    MapEntry(k, Schema.fromJson(v as Map<String, dynamic>)),
-              )
-            : null,
-        required: (json['required'] as List?)?.cast<String>(),
-      );
+    type: json['type'] != null
+        ? schemaTypeFromString(json['type'] as String?)
+        : null,
+    format: json['format'] as String?,
+    description: json['description'] as String?,
+    nullable: json['nullable'] as bool?,
+    enumValues: (json['enum'] as List?)?.cast<String>(),
+    items: json['items'] != null
+        ? Schema.fromJson(json['items'] as Map<String, dynamic>)
+        : null,
+    properties: json['properties'] != null
+        ? (json['properties'] as Map<String, dynamic>).map(
+            (k, v) => MapEntry(k, Schema.fromJson(v as Map<String, dynamic>)),
+          )
+        : null,
+    required: (json['required'] as List?)?.cast<String>(),
+  );
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (type != null) 'type': schemaTypeToString(type!),
-        if (format != null) 'format': format,
-        if (description != null) 'description': description,
-        if (nullable != null) 'nullable': nullable,
-        if (enumValues != null) 'enum': enumValues,
-        if (items != null) 'items': items!.toJson(),
-        if (properties != null)
-          'properties': properties!.map((k, v) => MapEntry(k, v.toJson())),
-        if (required != null) 'required': required,
-      };
+    if (type != null) 'type': schemaTypeToString(type!),
+    if (format != null) 'format': format,
+    if (description != null) 'description': description,
+    if (nullable != null) 'nullable': nullable,
+    if (enumValues != null) 'enum': enumValues,
+    if (items != null) 'items': items!.toJson(),
+    if (properties != null)
+      'properties': properties!.map((k, v) => MapEntry(k, v.toJson())),
+    if (required != null) 'required': required,
+  };
 
   /// Creates a copy with replaced values.
   Schema copyWith({
@@ -139,8 +138,9 @@ class Schema {
       description: description == unsetCopyWithValue
           ? this.description
           : description as String?,
-      nullable:
-          nullable == unsetCopyWithValue ? this.nullable : nullable as bool?,
+      nullable: nullable == unsetCopyWithValue
+          ? this.nullable
+          : nullable as bool?,
       enumValues: enumValues == unsetCopyWithValue
           ? this.enumValues
           : enumValues as List<String>?,

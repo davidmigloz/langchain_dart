@@ -18,7 +18,8 @@ class ListFilesResponse {
   /// Creates a [ListFilesResponse] from JSON.
   factory ListFilesResponse.fromJson(Map<String, dynamic> json) =>
       ListFilesResponse(
-        files: (json['files'] as List<dynamic>?)
+        files:
+            (json['files'] as List<dynamic>?)
                 ?.map((e) => File.fromJson(e as Map<String, dynamic>))
                 .toList() ??
             [],
@@ -27,9 +28,9 @@ class ListFilesResponse {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        'files': files.map((e) => e.toJson()).toList(),
-        if (nextPageToken != null) 'nextPageToken': nextPageToken,
-      };
+    'files': files.map((e) => e.toJson()).toList(),
+    if (nextPageToken != null) 'nextPageToken': nextPageToken,
+  };
 
   /// Creates a copy with replaced values.
   ListFilesResponse copyWith({

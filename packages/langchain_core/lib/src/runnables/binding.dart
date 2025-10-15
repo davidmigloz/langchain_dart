@@ -36,8 +36,11 @@ import 'types.dart';
 /// // }
 /// ```
 /// {@endtemplate}
-class RunnableBinding<RunInput extends Object?,
-        CallOptions extends RunnableOptions, RunOutput extends Object?>
+class RunnableBinding<
+  RunInput extends Object?,
+  CallOptions extends RunnableOptions,
+  RunOutput extends Object?
+>
     extends Runnable<RunInput, CallOptions, RunOutput> {
   /// {@macro runnable_binding}
   const RunnableBinding({

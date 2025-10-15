@@ -27,10 +27,12 @@ void main() async {
         contents: [
           Content(
             parts: [
-              TextPart('Write a very long and detailed essay about the '
-                  'history of computing, including early mechanical '
-                  'computers, the development of electronic computers, '
-                  'and modern computer architecture.'),
+              TextPart(
+                'Write a very long and detailed essay about the '
+                'history of computing, including early mechanical '
+                'computers, the development of electronic computers, '
+                'and modern computer architecture.',
+              ),
             ],
             role: 'user',
           ),

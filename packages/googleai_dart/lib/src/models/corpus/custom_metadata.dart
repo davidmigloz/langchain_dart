@@ -74,7 +74,8 @@ class CustomMetadata {
   }
 
   @override
-  String toString() => 'CustomMetadata('
+  String toString() =>
+      'CustomMetadata('
       'key: $key, '
       'stringValue: $stringValue, '
       'stringListValue: $stringListValue, '

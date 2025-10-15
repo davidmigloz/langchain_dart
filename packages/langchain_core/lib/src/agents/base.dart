@@ -14,7 +14,7 @@ abstract class Agent {
   /// Creates an agent from a [Runnable].
   static BaseMultiActionAgent fromRunnable(
     final Runnable<AgentPlanInput, RunnableOptions, List<BaseAgentAction>>
-        runnable, {
+    runnable, {
     required final List<Tool> tools,
   }) {
     return RunnableAgent(runnable, tools: tools);
@@ -62,15 +62,13 @@ abstract class BaseActionAgent extends Agent {
   ) {
     return switch (earlyStoppingMethod) {
       AgentEarlyStoppingMethod.force => const AgentFinish(
-          returnValues: {
-            agentReturnKey:
-                'Agent stopped due to iteration limit or time limit.',
-          },
-        ),
+        returnValues: {
+          agentReturnKey: 'Agent stopped due to iteration limit or time limit.',
+        },
+      ),
       _ => throw LangChainException(
-          message:
-              'Got unsupported early stopping method: $earlyStoppingMethod.',
-        ),
+        message: 'Got unsupported early stopping method: $earlyStoppingMethod.',
+      ),
     };
   }
 }
@@ -100,7 +98,7 @@ class RunnableAgent extends BaseMultiActionAgent {
 
   /// The runnable that implements the agent.
   final Runnable<AgentPlanInput, RunnableOptions, List<BaseAgentAction>>
-      runnable;
+  runnable;
 
   @override
   String get agentType => 'runnable-agent';

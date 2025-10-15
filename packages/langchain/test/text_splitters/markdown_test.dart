@@ -4,7 +4,8 @@ import 'package:test/test.dart';
 void main() {
   group('MarkdownHeaderTextSplitter', () {
     test('Test markdown splitter by header: Case 1', () {
-      const markdownDocument = '# Foo\n\n'
+      const markdownDocument =
+          '# Foo\n\n'
           '    ## Bar\n\n'
           'Hi this is Jim\n\n'
           'Hi this is Joe\n\n'
@@ -37,7 +38,8 @@ void main() {
     });
 
     test('Test markdown splitter by header: Case 2', () {
-      const markdownDocument = '# Foo\n\n'
+      const markdownDocument =
+          '# Foo\n\n'
           '    ## Bar\n\n'
           'Hi this is Jim\n\n'
           'Hi this is Joe\n\n'
@@ -77,7 +79,8 @@ void main() {
     });
 
     test('Test markdown splitter by header: Case 3', () {
-      const markdownDocument = '# Foo\n\n'
+      const markdownDocument =
+          '# Foo\n\n'
           '    ## Bar\n\n'
           'Hi this is Jim\n\n'
           'Hi this is Joe\n\n'
@@ -129,7 +132,8 @@ void main() {
     });
 
     test('Test markdown splitter by header: Preserve Headers 1', () {
-      const markdownDocument = '# Foo\n\n'
+      const markdownDocument =
+          '# Foo\n\n'
           '    ## Bat\n\n'
           'Hi this is Jim\n\n'
           'Hi Joe\n\n'
@@ -164,7 +168,8 @@ void main() {
     });
 
     test('Test markdown splitter by header: Preserve Headers 2', () {
-      const markdownDocument = '# Foo\n\n'
+      const markdownDocument =
+          '# Foo\n\n'
           '    ## Bar\n\n'
           'Hi this is Jim\n\n'
           'Hi this is Joe\n\n'
@@ -215,7 +220,8 @@ void main() {
     });
 
     test('Test markdown splitter by header: Fenced code block', () {
-      const markdownDocument = '# This is a Header\n\n'
+      const markdownDocument =
+          '# This is a Header\n\n'
           '```\n'
           'foo()\n'
           '# Not a header\n'
@@ -244,7 +250,8 @@ void main() {
     });
 
     test('Test markdown splitter by header: Interleaved fenced code block', () {
-      const markdownDocument = '# This is a Header\n\n'
+      const markdownDocument =
+          '# This is a Header\n\n'
           '```\n'
           'foo\n'
           '# Not a header\n'

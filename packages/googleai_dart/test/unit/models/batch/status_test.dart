@@ -11,7 +11,7 @@ void main() {
           {
             '@type': 'type.googleapis.com/google.rpc.ErrorInfo',
             'reason': 'TEST',
-          }
+          },
         ],
       };
 
@@ -52,7 +52,7 @@ void main() {
           {
             '@type': 'type.googleapis.com/google.rpc.ErrorInfo',
             'reason': 'TEST',
-          }
+          },
         ],
       );
 

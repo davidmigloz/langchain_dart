@@ -38,7 +38,8 @@ class LLMResult extends LanguageModelResult<String> {
     return LLMResult(
       id: other.id,
       output: output + other.output,
-      finishReason: finishReason != FinishReason.unspecified &&
+      finishReason:
+          finishReason != FinishReason.unspecified &&
               other.finishReason == FinishReason.unspecified
           ? finishReason
           : other.finishReason,

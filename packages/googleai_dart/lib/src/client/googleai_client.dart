@@ -112,8 +112,8 @@ class GoogleAIClient {
   GoogleAIClient({
     GoogleAIConfig? config,
     http.Client? httpClient,
-  })  : config = config ?? const GoogleAIConfig(),
-        _httpClient = httpClient ?? http.Client() {
+  }) : config = config ?? const GoogleAIConfig(),
+       _httpClient = httpClient ?? http.Client() {
     _requestBuilder = RequestBuilder(config: this.config);
 
     // Interceptor order is Auth → Logging → Error

@@ -24,21 +24,21 @@ class UsageMetadata {
 
   /// Creates a [UsageMetadata] from JSON.
   factory UsageMetadata.fromJson(Map<String, dynamic> json) => UsageMetadata(
-        promptTokenCount: json['promptTokenCount'] as int?,
-        candidatesTokenCount: json['candidatesTokenCount'] as int?,
-        totalTokenCount: json['totalTokenCount'] as int?,
-        cachedContentTokenCount: json['cachedContentTokenCount'] as int?,
-      );
+    promptTokenCount: json['promptTokenCount'] as int?,
+    candidatesTokenCount: json['candidatesTokenCount'] as int?,
+    totalTokenCount: json['totalTokenCount'] as int?,
+    cachedContentTokenCount: json['cachedContentTokenCount'] as int?,
+  );
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (promptTokenCount != null) 'promptTokenCount': promptTokenCount,
-        if (candidatesTokenCount != null)
-          'candidatesTokenCount': candidatesTokenCount,
-        if (totalTokenCount != null) 'totalTokenCount': totalTokenCount,
-        if (cachedContentTokenCount != null)
-          'cachedContentTokenCount': cachedContentTokenCount,
-      };
+    if (promptTokenCount != null) 'promptTokenCount': promptTokenCount,
+    if (candidatesTokenCount != null)
+      'candidatesTokenCount': candidatesTokenCount,
+    if (totalTokenCount != null) 'totalTokenCount': totalTokenCount,
+    if (cachedContentTokenCount != null)
+      'cachedContentTokenCount': cachedContentTokenCount,
+  };
 
   /// Creates a copy with replaced values.
   UsageMetadata copyWith({

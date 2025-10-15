@@ -100,21 +100,25 @@ class CsvLoader extends BaseDocumentLoader {
   final Map<String, dynamic> Function(
     Map<String, dynamic> row,
     Map<String, dynamic> rowMetadata,
-  )? metadataBuilder;
+  )?
+  metadataBuilder;
 
   @override
   Stream<Document> lazyLoad() async* {
     final file = XFile(filePath);
 
-    final csvLinesStream =
-        file.openRead().cast<List<int>>().transform(utf8.decoder).transform(
-              CsvToListConverter(
-                fieldDelimiter: fieldDelimiter,
-                textDelimiter: fieldTextDelimiter,
-                textEndDelimiter: fieldTextEndDelimiter,
-                eol: eol,
-              ),
-            );
+    final csvLinesStream = file
+        .openRead()
+        .cast<List<int>>()
+        .transform(utf8.decoder)
+        .transform(
+          CsvToListConverter(
+            fieldDelimiter: fieldDelimiter,
+            textDelimiter: fieldTextDelimiter,
+            textEndDelimiter: fieldTextEndDelimiter,
+            eol: eol,
+          ),
+        );
 
     final fieldsToPositions = <String, int>{};
     final pageContentFields = <String>[];

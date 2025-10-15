@@ -88,10 +88,10 @@ class SearchInput {
   final int n;
 
   SearchInput.fromJson(final Map<String, dynamic> json)
-      : this(
-          query: json['query'] as String,
-          n: json['n'] as int,
-        );
+    : this(
+        query: json['query'] as String,
+        n: json['n'] as int,
+      );
 }
 
 String callYourSearchFunction(final SearchInput input) {
@@ -152,7 +152,8 @@ Future<void> _toolsAgentLCEL() async {
   final executor = AgentExecutor(agent: agent);
 
   final res = await executor.invoke({
-    'input': 'What is 40 raised to the power of 0.43? '
+    'input':
+        'What is 40 raised to the power of 0.43? '
         'Return the result with 3 decimals.',
   });
   print(res['output']);

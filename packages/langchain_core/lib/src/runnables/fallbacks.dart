@@ -64,8 +64,9 @@ class RunnableWithFallback<RunInput extends Object?, RunOutput extends Object?>
       if (firstError == null) {
         currentOptions = options;
       } else {
-        final compatibleOptions =
-            options?.map(runnable.getCompatibleOptions).toList(growable: false);
+        final compatibleOptions = options
+            ?.map(runnable.getCompatibleOptions)
+            .toList(growable: false);
         final hasNullOptions =
             compatibleOptions?.any((o) => o == null) ?? false;
         if (!hasNullOptions) {

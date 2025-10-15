@@ -10,15 +10,15 @@ class Dataset {
 
   /// Creates a [Dataset] from JSON.
   factory Dataset.fromJson(Map<String, dynamic> json) => Dataset(
-        examples: json['examples'] != null
-            ? TuningExamples.fromJson(json['examples'] as Map<String, dynamic>)
-            : null,
-      );
+    examples: json['examples'] != null
+        ? TuningExamples.fromJson(json['examples'] as Map<String, dynamic>)
+        : null,
+  );
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (examples != null) 'examples': examples!.toJson(),
-      };
+    if (examples != null) 'examples': examples!.toJson(),
+  };
 
   /// Creates a copy with replaced values.
   Dataset copyWith({
@@ -42,16 +42,15 @@ class TuningExamples {
 
   /// Creates a [TuningExamples] from JSON.
   factory TuningExamples.fromJson(Map<String, dynamic> json) => TuningExamples(
-        examples: (json['examples'] as List<dynamic>?)
-            ?.map((e) => TuningExample.fromJson(e as Map<String, dynamic>))
-            .toList(),
-      );
+    examples: (json['examples'] as List<dynamic>?)
+        ?.map((e) => TuningExample.fromJson(e as Map<String, dynamic>))
+        .toList(),
+  );
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (examples != null)
-          'examples': examples!.map((e) => e.toJson()).toList(),
-      };
+    if (examples != null) 'examples': examples!.map((e) => e.toJson()).toList(),
+  };
 
   /// Creates a copy with replaced values.
   TuningExamples copyWith({
@@ -81,15 +80,15 @@ class TuningExample {
 
   /// Creates a [TuningExample] from JSON.
   factory TuningExample.fromJson(Map<String, dynamic> json) => TuningExample(
-        textInput: json['textInput'] as String?,
-        output: json['output'] as String?,
-      );
+    textInput: json['textInput'] as String?,
+    output: json['output'] as String?,
+  );
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (textInput != null) 'textInput': textInput,
-        if (output != null) 'output': output,
-      };
+    if (textInput != null) 'textInput': textInput,
+    if (output != null) 'output': output,
+  };
 
   /// Creates a copy with replaced values.
   TuningExample copyWith({

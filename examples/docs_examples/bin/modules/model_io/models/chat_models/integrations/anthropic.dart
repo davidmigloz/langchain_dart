@@ -25,7 +25,7 @@ Future<void> _invokeModel() async {
   final chatPrompt = ChatPromptTemplate.fromTemplates(const [
     (
       ChatMessageType.system,
-      'You are a helpful assistant that translates {input_language} to {output_language}.'
+      'You are a helpful assistant that translates {input_language} to {output_language}.',
     ),
     (ChatMessageType.human, 'Text to translate:\n{text}'),
   ]);

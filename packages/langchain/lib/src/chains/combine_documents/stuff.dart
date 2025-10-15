@@ -90,9 +90,9 @@ class StuffDocumentsChain extends BaseCombineDocumentsChain {
 
   @override
   Set<String> get inputKeys => {
-        inputKey,
-        ...llmChain.inputKeys.difference({llmChainStuffedDocumentPromptVar}),
-      };
+    inputKey,
+    ...llmChain.inputKeys.difference({llmChainStuffedDocumentPromptVar}),
+  };
 
   @override
   String get chainType => 'stuff_documents_chain';
@@ -109,8 +109,9 @@ class StuffDocumentsChain extends BaseCombineDocumentsChain {
         'llmChainStuffedDocumentPromptVar must be provided if there are '
         'multiple llmChain input variables',
       );
-    } else if (!llmChainInputVariables
-        .contains(llmChainStuffedDocumentPromptVar)) {
+    } else if (!llmChainInputVariables.contains(
+      llmChainStuffedDocumentPromptVar,
+    )) {
       throw ArgumentError(
         'llmChainStuffedDocumentPromptVar ($llmChainStuffedDocumentPromptVar) '
         'was not found in llmChain input variables',

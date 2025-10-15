@@ -65,7 +65,8 @@ class RelevantChunk {
   }
 
   @override
-  String toString() => 'RelevantChunk('
+  String toString() =>
+      'RelevantChunk('
       'chunkRelevanceScore: $chunkRelevanceScore, '
       'chunk: $chunk, '
       'document: $document)';

@@ -36,7 +36,7 @@ abstract class Delta with _$Delta {
     'transcript',
     'audio',
     'text',
-    'arguments'
+    'arguments',
   ];
 
   /// Perform validations on the schema property values

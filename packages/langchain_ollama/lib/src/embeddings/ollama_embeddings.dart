@@ -83,11 +83,11 @@ class OllamaEmbeddings implements Embeddings {
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
   }) : _client = OllamaClient(
-          baseUrl: baseUrl,
-          headers: headers,
-          queryParams: queryParams,
-          client: client,
-        );
+         baseUrl: baseUrl,
+         headers: headers,
+         queryParams: queryParams,
+         client: client,
+       );
 
   /// A client for interacting with Ollama API.
   final OllamaClient _client;

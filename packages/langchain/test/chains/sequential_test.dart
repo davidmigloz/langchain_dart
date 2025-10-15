@@ -43,27 +43,29 @@ void main() {
       expect(output, equals(expectedOutput));
     });
 
-    test('Test input and output keys are infer correctly if not provided',
-        () async {
-      final chain1 = _FakeChain(
-        inputVariables: {'foo', 'test'},
-        outputVariables: {'bar'},
-      );
-      final chain2 = _FakeChain(
-        inputVariables: {'bar', 'foo'},
-        outputVariables: {'baz'},
-      );
-      final chain = SequentialChain(
-        chains: [chain1, chain2],
-      );
-      final output = await chain({'foo': '123', 'test': '456'});
-      final expectedOutput = {
-        'baz': '123 456foo 123foo',
-        'foo': '123',
-        'test': '456',
-      };
-      expect(output, equals(expectedOutput));
-    });
+    test(
+      'Test input and output keys are infer correctly if not provided',
+      () async {
+        final chain1 = _FakeChain(
+          inputVariables: {'foo', 'test'},
+          outputVariables: {'bar'},
+        );
+        final chain2 = _FakeChain(
+          inputVariables: {'bar', 'foo'},
+          outputVariables: {'baz'},
+        );
+        final chain = SequentialChain(
+          chains: [chain1, chain2],
+        );
+        final output = await chain({'foo': '123', 'test': '456'});
+        final expectedOutput = {
+          'baz': '123 456foo 123foo',
+          'foo': '123',
+          'test': '456',
+        };
+        expect(output, equals(expectedOutput));
+      },
+    );
 
     test('Test sequential usage with memory', () async {
       const memory = SimpleMemory(memories: {'zab': 'rab'});

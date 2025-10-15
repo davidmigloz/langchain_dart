@@ -66,25 +66,29 @@ extension ChatMessagesMapper on List<ChatMessage> {
     final contentParts = switch (msg.content) {
       final ChatMessageContentText c => [f.TextPart(c.text)],
       final ChatMessageContentImage c => [
-          if (c.data.startsWith('gs:') || c.data.startsWith('http'))
-            f.FileData(c.mimeType ?? '', c.data)
-          else
-            f.InlineDataPart(c.mimeType ?? '', base64Decode(c.data)),
-        ],
-      final ChatMessageContentMultiModal c => c.parts
-          .map(
-            (final p) => switch (p) {
-              final ChatMessageContentText c => f.TextPart(c.text),
-              final ChatMessageContentImage c =>
-                c.data.startsWith('gs:') || c.data.startsWith('http')
-                    ? f.FileData(c.mimeType ?? '', c.data)
-                    : f.InlineDataPart(c.mimeType ?? '', base64Decode(c.data)),
-              ChatMessageContentMultiModal() => throw UnsupportedError(
+        if (c.data.startsWith('gs:') || c.data.startsWith('http'))
+          f.FileData(c.mimeType ?? '', c.data)
+        else
+          f.InlineDataPart(c.mimeType ?? '', base64Decode(c.data)),
+      ],
+      final ChatMessageContentMultiModal c =>
+        c.parts
+            .map(
+              (final p) => switch (p) {
+                final ChatMessageContentText c => f.TextPart(c.text),
+                final ChatMessageContentImage c =>
+                  c.data.startsWith('gs:') || c.data.startsWith('http')
+                      ? f.FileData(c.mimeType ?? '', c.data)
+                      : f.InlineDataPart(
+                          c.mimeType ?? '',
+                          base64Decode(c.data),
+                        ),
+                ChatMessageContentMultiModal() => throw UnsupportedError(
                   'Cannot have multimodal content in multimodal content',
                 ),
-            },
-          )
-          .toList(growable: false),
+              },
+            )
+            .toList(growable: false),
     };
     return f.Content.multi(contentParts);
   }
@@ -182,16 +186,15 @@ extension GenerateContentResponseMapper on f.GenerateContentResponse {
 
   FinishReason _mapFinishReason(
     final f.FinishReason? reason,
-  ) =>
-      switch (reason) {
-        f.FinishReason.unknown => FinishReason.unspecified,
-        f.FinishReason.stop => FinishReason.stop,
-        f.FinishReason.maxTokens => FinishReason.length,
-        f.FinishReason.safety => FinishReason.contentFilter,
-        f.FinishReason.recitation => FinishReason.recitation,
-        f.FinishReason.other => FinishReason.unspecified,
-        null => FinishReason.unspecified,
-      };
+  ) => switch (reason) {
+    f.FinishReason.unknown => FinishReason.unspecified,
+    f.FinishReason.stop => FinishReason.stop,
+    f.FinishReason.maxTokens => FinishReason.length,
+    f.FinishReason.safety => FinishReason.contentFilter,
+    f.FinishReason.recitation => FinishReason.recitation,
+    f.FinishReason.other => FinishReason.unspecified,
+    null => FinishReason.unspecified,
+  };
 }
 
 extension SafetySettingsMapper on List<ChatFirebaseVertexAISafetySetting> {
@@ -311,8 +314,8 @@ extension SchemaMapper on Map<String, dynamic> {
             properties: propertiesSchema,
             optionalProperties: requiredProperties != null
                 ? propertiesSchema.keys
-                    .where((key) => !requiredProperties.contains(key))
-                    .toList(growable: false)
+                      .where((key) => !requiredProperties.contains(key))
+                      .toList(growable: false)
                 : propertiesSchema.keys.toList(growable: false),
             description: description,
             nullable: nullable,
@@ -329,17 +332,17 @@ extension ChatToolChoiceMapper on ChatToolChoice {
   f.ToolConfig toToolConfig() {
     return switch (this) {
       ChatToolChoiceNone _ => f.ToolConfig(
-          functionCallingConfig: f.FunctionCallingConfig.none(),
-        ),
+        functionCallingConfig: f.FunctionCallingConfig.none(),
+      ),
       ChatToolChoiceAuto _ => f.ToolConfig(
-          functionCallingConfig: f.FunctionCallingConfig.auto(),
-        ),
+        functionCallingConfig: f.FunctionCallingConfig.auto(),
+      ),
       ChatToolChoiceRequired() => f.ToolConfig(
-          functionCallingConfig: f.FunctionCallingConfig.auto(),
-        ),
+        functionCallingConfig: f.FunctionCallingConfig.auto(),
+      ),
       final ChatToolChoiceForced t => f.ToolConfig(
-          functionCallingConfig: f.FunctionCallingConfig.any({t.name}),
-        ),
+        functionCallingConfig: f.FunctionCallingConfig.any({t.name}),
+      ),
     };
   }
 }

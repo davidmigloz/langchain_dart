@@ -702,8 +702,10 @@ class VertexAIIndexDatapoint {
             datapointId == other.datapointId &&
             listEquals(featureVector, other.featureVector) &&
             crowdingTag == other.crowdingTag &&
-            const ListEquality<VertexAIIndexDatapointRestriction>()
-                .equals(restricts, other.restricts);
+            const ListEquality<VertexAIIndexDatapointRestriction>().equals(
+              restricts,
+              other.restricts,
+            );
   }
 
   @override

@@ -50,7 +50,7 @@ class GetEmbedding with _$GetEmbedding {
     'sort',
     'limit',
     'offset',
-    'include'
+    'include',
   ];
 
   /// Perform validations on the schema property values

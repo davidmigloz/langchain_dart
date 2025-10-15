@@ -41,7 +41,7 @@ abstract class EmbeddingResponse with _$EmbeddingResponse {
     'object',
     'data',
     'model',
-    'usage'
+    'usage',
   ];
 
   /// Perform validations on the schema property values

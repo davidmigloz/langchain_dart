@@ -33,7 +33,7 @@ class CreateCollection with _$CreateCollection {
   static const List<String> propertyNames = [
     'name',
     'metadata',
-    'get_or_create'
+    'get_or_create',
   ];
 
   /// Perform validations on the schema property values

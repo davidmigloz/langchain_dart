@@ -8,8 +8,7 @@ import 'package:test/test.dart';
 import 'utils.dart';
 
 void main() {
-  group('Audio samples tests', timeout: const Timeout(Duration(minutes: 5)),
-      () {
+  group('Audio samples tests', timeout: const Timeout(Duration(minutes: 5)), () {
     test('Toronto Audio sample test', () async {
       final realtimeEvents = <RealtimeEvent>[];
       final client = RealtimeClient(

@@ -32,8 +32,8 @@ class QueryCorpusRequest {
       query: json['query'] as String,
       metadataFilters: json['metadataFilters'] != null
           ? (json['metadataFilters'] as List)
-              .map((e) => MetadataFilter.fromJson(e as Map<String, dynamic>))
-              .toList()
+                .map((e) => MetadataFilter.fromJson(e as Map<String, dynamic>))
+                .toList()
           : null,
       resultsCount: json['resultsCount'] as int?,
     );
@@ -67,7 +67,8 @@ class QueryCorpusRequest {
   }
 
   @override
-  String toString() => 'QueryCorpusRequest('
+  String toString() =>
+      'QueryCorpusRequest('
       'query: $query, '
       'metadataFilters: $metadataFilters, '
       'resultsCount: $resultsCount)';

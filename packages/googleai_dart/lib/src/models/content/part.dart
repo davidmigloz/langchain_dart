@@ -174,8 +174,8 @@ class FunctionResponsePart extends Part {
 
   @override
   Map<String, dynamic> toJson() => {
-        'functionResponse': functionResponse.toJson(),
-      };
+    'functionResponse': functionResponse.toJson(),
+  };
 
   /// Creates a copy with replaced values.
   FunctionResponsePart copyWith({
@@ -199,8 +199,8 @@ class ExecutableCodePart extends Part {
 
   @override
   Map<String, dynamic> toJson() => {
-        'executableCode': executableCode.toJson(),
-      };
+    'executableCode': executableCode.toJson(),
+  };
 
   /// Creates a copy with replaced values.
   ExecutableCodePart copyWith({
@@ -224,8 +224,8 @@ class CodeExecutionResultPart extends Part {
 
   @override
   Map<String, dynamic> toJson() => {
-        'codeExecutionResult': codeExecutionResult.toJson(),
-      };
+    'codeExecutionResult': codeExecutionResult.toJson(),
+  };
 
   /// Creates a copy with replaced values.
   CodeExecutionResultPart copyWith({
@@ -249,8 +249,8 @@ class VideoMetadataPart extends Part {
 
   @override
   Map<String, dynamic> toJson() => {
-        'videoMetadata': videoMetadata.toJson(),
-      };
+    'videoMetadata': videoMetadata.toJson(),
+  };
 
   /// Creates a copy with replaced values.
   VideoMetadataPart copyWith({
@@ -295,8 +295,8 @@ class ThoughtSignaturePart extends Part {
 
   @override
   Map<String, dynamic> toJson() => {
-        'thoughtSignature': base64Encode(thoughtSignature),
-      };
+    'thoughtSignature': base64Encode(thoughtSignature),
+  };
 
   /// Creates a copy with replaced values.
   ThoughtSignaturePart copyWith({

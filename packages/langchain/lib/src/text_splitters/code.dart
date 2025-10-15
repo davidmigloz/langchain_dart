@@ -16,10 +16,10 @@ class CodeTextSplitter extends RecursiveCharacterTextSplitter {
     super.keepSeparator = true,
     super.addStartIndex,
   }) : super(
-          separators: RecursiveCharacterTextSplitter.getSeparatorsForLanguage(
-            language,
-          ),
-        );
+         separators: RecursiveCharacterTextSplitter.getSeparatorsForLanguage(
+           language,
+         ),
+       );
 }
 
 /// Supported programming languages for [CodeTextSplitter].

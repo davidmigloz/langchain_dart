@@ -47,15 +47,15 @@ class HomeScreenState extends Equatable {
 
   @override
   List<Object?> get props => [
-        status,
-        error,
-        provider,
-        model,
-        apiKey,
-        baseUrl,
-        query,
-        response,
-      ];
+    status,
+    error,
+    provider,
+    model,
+    apiKey,
+    baseUrl,
+    query,
+    response,
+  ];
 }
 
 enum HomeScreenStatus {

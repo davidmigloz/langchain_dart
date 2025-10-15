@@ -190,17 +190,17 @@ class VertexAIMatchingEngine extends VectorStore {
     this.gcsIndexesFolder = 'indexes',
     this.completeOverwriteWhenAdding = false,
     required super.embeddings,
-  })  : _httpClient = httpClient,
-        _managementClient = VertexAIMatchingEngineClient(
-          httpClient: httpClient,
-          project: project,
-          location: location,
-          rootUrl: rootUrl ?? 'https://$location-aiplatform.googleapis.com/',
-        ),
-        _storageClient = Storage(httpClient, project),
-        _queryRootUrl = queryRootUrl,
-        _indexEndpointId = indexEndpointId,
-        _deployedIndexId = deployedIndexId;
+  }) : _httpClient = httpClient,
+       _managementClient = VertexAIMatchingEngineClient(
+         httpClient: httpClient,
+         project: project,
+         location: location,
+         rootUrl: rootUrl ?? 'https://$location-aiplatform.googleapis.com/',
+       ),
+       _storageClient = Storage(httpClient, project),
+       _queryRootUrl = queryRootUrl,
+       _indexEndpointId = indexEndpointId,
+       _deployedIndexId = deployedIndexId;
 
   /// An authenticated HTTP client.
   final http.Client _httpClient;
@@ -361,8 +361,9 @@ class VertexAIMatchingEngine extends VectorStore {
 
     if (config.scoreThreshold != null) {
       final threshold = config.scoreThreshold!;
-      neighbors =
-          neighbors.where((final neighbor) => neighbor.distance >= threshold);
+      neighbors = neighbors.where(
+        (final neighbor) => neighbor.distance >= threshold,
+      );
     }
 
     final List<(Document, double)> results = [];
@@ -378,7 +379,7 @@ class VertexAIMatchingEngine extends VectorStore {
 
   /// Returns the index endpoint and deployed index ids.
   Future<(String queryRootUrl, String indexEndpointId, String deployedIndexId)>
-      _getIndexIds() async {
+  _getIndexIds() async {
     if (_queryRootUrl != null &&
         _indexEndpointId != null &&
         _deployedIndexId != null) {
@@ -392,14 +393,16 @@ class VertexAIMatchingEngine extends VectorStore {
       );
     } else if (index.deployedIndexes.length > 1) {
       throw LangChainException(
-        message: 'Multiple deployed indexes found for index $indexId. '
+        message:
+            'Multiple deployed indexes found for index $indexId. '
             'Please specify the `indexEndpointId` and `deployedIndexId` '
             'that you want to use.',
       );
     }
     final deployedIndex = index.deployedIndexes.first;
-    final indexEndpoint = await _managementClient.indexEndpoints
-        .get(id: deployedIndex.indexEndpointId);
+    final indexEndpoint = await _managementClient.indexEndpoints.get(
+      id: deployedIndex.indexEndpointId,
+    );
 
     _queryRootUrl = 'http://${indexEndpoint.publicEndpointDomainName}/';
     _indexEndpointId = deployedIndex.indexEndpointId;
@@ -421,12 +424,13 @@ class VertexAIMatchingEngine extends VectorStore {
   Future<Document> _getDocument(final String id) async {
     final bucket = _storageClient.bucket(gcsBucketName);
     final path = '$gcsDocumentsFolder/$id.json';
-    final jsonFile = (await bucket
-            .read('documents/$id.json')
-            .transform(utf8.decoder)
-            .transform(json.decoder)
-            .toList())
-        .firstOrNull;
+    final jsonFile =
+        (await bucket
+                .read('documents/$id.json')
+                .transform(utf8.decoder)
+                .transform(json.decoder)
+                .toList())
+            .firstOrNull;
     if (jsonFile == null) {
       throw LangChainException(
         message: 'No document found in gs://$gcsBucketName/$path',

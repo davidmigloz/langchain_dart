@@ -139,38 +139,43 @@ final class ChatPromptTemplate extends BaseChatPromptTemplate {
     final PartialValues? partialVariables,
     final bool validateTemplate = true,
   }) {
-    final chatMessagePromptTemplates = messages.map((final message) {
-      final (role, template) = message;
-      return switch (role) {
-        ChatMessageType.human => HumanChatMessagePromptTemplate.fromTemplate(
-            template,
-            partialVariables: partialVariables,
-            validateTemplate: false,
-          ),
-        ChatMessageType.ai => AIChatMessagePromptTemplate.fromTemplate(
-            template,
-            partialVariables: partialVariables,
-            validateTemplate: false,
-          ),
-        ChatMessageType.system => SystemChatMessagePromptTemplate.fromTemplate(
-            template,
-            partialVariables: partialVariables,
-            validateTemplate: false,
-          ),
-        ChatMessageType.custom => CustomChatMessagePromptTemplate.fromTemplate(
-            template,
-            role: ArgumentError.checkNotNull(customRole, 'customRole'),
-            partialVariables: partialVariables,
-            validateTemplate: false,
-          ),
-        ChatMessageType.messagePlaceholder => MessagePlaceholder(
-            variableName: template,
-          ),
-        ChatMessageType.messagesPlaceholder => MessagesPlaceholder(
-            variableName: template,
-          ),
-      };
-    }).toList(growable: false);
+    final chatMessagePromptTemplates = messages
+        .map((final message) {
+          final (role, template) = message;
+          return switch (role) {
+            ChatMessageType.human =>
+              HumanChatMessagePromptTemplate.fromTemplate(
+                template,
+                partialVariables: partialVariables,
+                validateTemplate: false,
+              ),
+            ChatMessageType.ai => AIChatMessagePromptTemplate.fromTemplate(
+              template,
+              partialVariables: partialVariables,
+              validateTemplate: false,
+            ),
+            ChatMessageType.system =>
+              SystemChatMessagePromptTemplate.fromTemplate(
+                template,
+                partialVariables: partialVariables,
+                validateTemplate: false,
+              ),
+            ChatMessageType.custom =>
+              CustomChatMessagePromptTemplate.fromTemplate(
+                template,
+                role: ArgumentError.checkNotNull(customRole, 'customRole'),
+                partialVariables: partialVariables,
+                validateTemplate: false,
+              ),
+            ChatMessageType.messagePlaceholder => MessagePlaceholder(
+              variableName: template,
+            ),
+            ChatMessageType.messagesPlaceholder => MessagesPlaceholder(
+              variableName: template,
+            ),
+          };
+        })
+        .toList(growable: false);
     return ChatPromptTemplate.fromPromptMessages(
       chatMessagePromptTemplates,
       validateTemplate: validateTemplate,
@@ -745,7 +750,9 @@ CustomChatMessagePromptTemplate{
 final class MessagePlaceholder extends ChatMessagePromptTemplate {
   /// {@macro message_placeholder}
   const MessagePlaceholder({required this.variableName})
-      : super(prompt: const PromptTemplate(inputVariables: {}, template: ''));
+    : super(
+        prompt: const PromptTemplate(inputVariables: {}, template: ''),
+      );
 
   /// The name of the placeholder variable.
   final String variableName;
@@ -816,7 +823,9 @@ MessagePlaceholder{
 final class MessagesPlaceholder extends ChatMessagePromptTemplate {
   /// {@macro messages_placeholder}
   const MessagesPlaceholder({required this.variableName})
-      : super(prompt: const PromptTemplate(inputVariables: {}, template: ''));
+    : super(
+        prompt: const PromptTemplate(inputVariables: {}, template: ''),
+      );
 
   /// The name of the placeholder variable.
   final String variableName;

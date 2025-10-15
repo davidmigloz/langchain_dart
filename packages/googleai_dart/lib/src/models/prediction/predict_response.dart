@@ -20,8 +20,8 @@ class PredictResponse {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        'predictions': predictions,
-      };
+    'predictions': predictions,
+  };
 
   /// Creates a copy with replaced values.
   PredictResponse copyWith({

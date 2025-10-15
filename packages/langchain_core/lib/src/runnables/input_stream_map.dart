@@ -49,11 +49,11 @@ class RunnableMapInputStream<RunInput extends Object, RunOutput extends Object>
     extends Runnable<RunInput, RunnableOptions, RunOutput> {
   /// {@macro runnable_map_input_stream}
   const RunnableMapInputStream(this.inputStreamMapper)
-      : super(defaultOptions: const RunnableOptions());
+    : super(defaultOptions: const RunnableOptions());
 
   /// The stream transformer to run.
   final Stream<RunOutput> Function(Stream<RunInput> inputStream)
-      inputStreamMapper;
+  inputStreamMapper;
 
   /// Invokes the [RunnableMapInputStream] on the given [input].
   ///

@@ -26,9 +26,9 @@ class InlinedEmbedContentRequest {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        'request': request.toJson(),
-        if (metadata != null) 'metadata': metadata,
-      };
+    'request': request.toJson(),
+    if (metadata != null) 'metadata': metadata,
+  };
 
   /// Creates a copy with replaced values.
   InlinedEmbedContentRequest copyWith({

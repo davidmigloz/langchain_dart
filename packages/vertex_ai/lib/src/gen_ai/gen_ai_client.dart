@@ -79,9 +79,9 @@ class VertexAIGenAIClient {
     this.location = 'us-central1',
     final String? rootUrl,
   }) : _vertexAiApi = AiplatformApi(
-          httpClient,
-          rootUrl: rootUrl ?? 'https://$location-aiplatform.googleapis.com/',
-        );
+         httpClient,
+         rootUrl: rootUrl ?? 'https://$location-aiplatform.googleapis.com/',
+       );
 
   /// The Google Cloud project to use for interacting with Vertex AI.
   final String project;
@@ -102,20 +102,20 @@ class VertexAIGenAIClient {
   /// Models fine-tuned to follow natural language instructions and suitable
   /// for a variety of language tasks (e.g. `text-bison`).
   VertexAITextModelApi get text => VertexAITextModelApi(
-        modelsApi: _vertexAiApi.projects.locations.publishers.models,
-        project: project,
-        location: location,
-      );
+    modelsApi: _vertexAiApi.projects.locations.publishers.models,
+    project: project,
+    location: location,
+  );
 
   /// Chat model API.
   ///
   /// Models fine-tuned for multi-turn conversation use cases
   /// (e.g. `chat-bison`).
   VertexAITextChatModelApi get chat => VertexAITextChatModelApi(
-        modelsApi: _vertexAiApi.projects.locations.publishers.models,
-        project: project,
-        location: location,
-      );
+    modelsApi: _vertexAiApi.projects.locations.publishers.models,
+    project: project,
+    location: location,
+  );
 
   /// Text embeddings model API.
   ///

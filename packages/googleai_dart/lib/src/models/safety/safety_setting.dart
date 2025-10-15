@@ -62,15 +62,15 @@ class SafetySetting {
 
   /// Creates a [SafetySetting] from JSON.
   factory SafetySetting.fromJson(Map<String, dynamic> json) => SafetySetting(
-        category: harmCategoryFromString(json['category'] as String?),
-        threshold: harmBlockThresholdFromString(json['threshold'] as String?),
-      );
+    category: harmCategoryFromString(json['category'] as String?),
+    threshold: harmBlockThresholdFromString(json['threshold'] as String?),
+  );
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        'category': harmCategoryToString(category),
-        'threshold': harmBlockThresholdToString(threshold),
-      };
+    'category': harmCategoryToString(category),
+    'threshold': harmBlockThresholdToString(threshold),
+  };
 
   /// Creates a copy with replaced values.
   SafetySetting copyWith({

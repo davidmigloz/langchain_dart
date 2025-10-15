@@ -31,8 +31,9 @@ class StringList {
     Object? values = unsetCopyWithValue,
   }) {
     return StringList(
-      values:
-          values == unsetCopyWithValue ? this.values : values as List<String>?,
+      values: values == unsetCopyWithValue
+          ? this.values
+          : values as List<String>?,
     );
   }
 

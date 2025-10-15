@@ -186,8 +186,10 @@ class OpenAIOptions extends LLMOptions {
             model == other.model &&
             bestOf == other.bestOf &&
             frequencyPenalty == other.frequencyPenalty &&
-            const MapEquality<String, int>()
-                .equals(logitBias, other.logitBias) &&
+            const MapEquality<String, int>().equals(
+              logitBias,
+              other.logitBias,
+            ) &&
             logprobs == other.logprobs &&
             maxTokens == other.maxTokens &&
             n == other.n &&

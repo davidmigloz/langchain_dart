@@ -37,7 +37,7 @@ class GetResponse with _$GetResponse {
     'ids',
     'embeddings',
     'metadatas',
-    'documents'
+    'documents',
   ];
 
   /// Perform validations on the schema property values

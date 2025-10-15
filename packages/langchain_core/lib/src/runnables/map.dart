@@ -48,7 +48,7 @@ class RunnableMap<RunInput extends Object>
     extends Runnable<RunInput, RunnableOptions, Map<String, dynamic>> {
   /// {@macro runnable_map}
   const RunnableMap(this.steps)
-      : super(defaultOptions: const RunnableOptions());
+    : super(defaultOptions: const RunnableOptions());
 
   /// The map of [Runnable] objects to run in parallel.
   final Map<String, Runnable<RunInput, RunnableOptions, Object>> steps;

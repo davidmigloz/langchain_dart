@@ -194,13 +194,13 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
     ),
     this.encoding,
   }) : _client = OpenAIClient(
-          apiKey: apiKey ?? '',
-          organization: organization,
-          baseUrl: baseUrl,
-          headers: headers,
-          queryParams: queryParams,
-          client: client,
-        );
+         apiKey: apiKey ?? '',
+         organization: organization,
+         baseUrl: baseUrl,
+         headers: headers,
+         queryParams: queryParams,
+         client: client,
+       );
 
   /// A client for interacting with OpenAI API.
   final OpenAIClient _client;
@@ -271,8 +271,10 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
 
     // Otherwise, we can batch the calls to the API
     final finalOptions = options?.first ?? defaultOptions;
-    final concurrencyLimit =
-        min(finalOptions.concurrencyLimit, defaultConcurrencyLimit);
+    final concurrencyLimit = min(
+      finalOptions.concurrencyLimit,
+      defaultConcurrencyLimit,
+    );
 
     var index = 0;
     final results = <LLMResult>[];
@@ -336,8 +338,9 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
       temperature: options?.temperature ?? defaultOptions.temperature,
       topP: options?.topP ?? defaultOptions.topP,
       user: options?.user ?? defaultOptions.user,
-      streamOptions:
-          stream ? const ChatCompletionStreamOptions(includeUsage: true) : null,
+      streamOptions: stream
+          ? const ChatCompletionStreamOptions(includeUsage: true)
+          : null,
     );
   }
 

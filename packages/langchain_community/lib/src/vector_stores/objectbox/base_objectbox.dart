@@ -122,15 +122,16 @@ class BaseObjectBoxVectorStore<T> extends VectorStore {
       String content,
       String metadata,
       List<double> embedding,
-    ) createEntity,
+    )
+    createEntity,
     required final Document Function(T) createDocument,
     required final QueryStringProperty<T> Function() getIdProperty,
     required final QueryHnswProperty<T> Function() getEmbeddingProperty,
-  })  : _box = box,
-        _createEntity = createEntity,
-        _createDocument = createDocument,
-        _getIdProperty = getIdProperty,
-        _getEmbeddingProperty = getEmbeddingProperty;
+  }) : _box = box,
+       _createEntity = createEntity,
+       _createDocument = createDocument,
+       _getIdProperty = getIdProperty,
+       _getEmbeddingProperty = getEmbeddingProperty;
 
   /// The [Box] to store the entities in.
   final Box<T> _box;
@@ -141,7 +142,8 @@ class BaseObjectBoxVectorStore<T> extends VectorStore {
     String content,
     String metadata,
     List<double> embedding,
-  ) _createEntity;
+  )
+  _createEntity;
 
   /// The function to create a [Document] from the given entity [T].
   final Document Function(T) _createDocument;
@@ -199,8 +201,10 @@ class BaseObjectBoxVectorStore<T> extends VectorStore {
     final VectorStoreSimilaritySearch config =
         const VectorStoreSimilaritySearch(),
   }) async {
-    var filter =
-        _getEmbeddingProperty().nearestNeighborsF32(embedding, config.k);
+    var filter = _getEmbeddingProperty().nearestNeighborsF32(
+      embedding,
+      config.k,
+    );
 
     final filterCondition = config.filter?.values.firstOrNull;
     if (filterCondition != null && filterCondition is Condition<T>) {

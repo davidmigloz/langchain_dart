@@ -12,15 +12,15 @@ class Media {
 
   /// Creates a [Media] from JSON.
   factory Media.fromJson(Map<String, dynamic> json) => Media(
-        video: json['video'] != null
-            ? Video.fromJson(json['video'] as Map<String, dynamic>)
-            : null,
-      );
+    video: json['video'] != null
+        ? Video.fromJson(json['video'] as Map<String, dynamic>)
+        : null,
+  );
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (video != null) 'video': video!.toJson(),
-      };
+    if (video != null) 'video': video!.toJson(),
+  };
 
   /// Creates a copy with replaced values.
   Media copyWith({
@@ -48,15 +48,15 @@ class Video {
 
   /// Creates a [Video] from JSON.
   factory Video.fromJson(Map<String, dynamic> json) => Video(
-        video: json['video'] as String?,
-        uri: json['uri'] as String?,
-      );
+    video: json['video'] as String?,
+    uri: json['uri'] as String?,
+  );
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (video != null) 'video': video,
-        if (uri != null) 'uri': uri,
-      };
+    if (video != null) 'video': video,
+    if (uri != null) 'uri': uri,
+  };
 
   /// Creates a copy with replaced values.
   Video copyWith({

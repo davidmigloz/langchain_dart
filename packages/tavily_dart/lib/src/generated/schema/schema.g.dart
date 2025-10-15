@@ -12,8 +12,11 @@ _SearchRequest _$SearchRequestFromJson(Map<String, dynamic> json) =>
     _SearchRequest(
       apiKey: json['api_key'] as String?,
       query: json['query'] as String,
-      searchDepth: $enumDecodeNullable(
-              _$SearchRequestSearchDepthEnumMap, json['search_depth']) ??
+      searchDepth:
+          $enumDecodeNullable(
+            _$SearchRequestSearchDepthEnumMap,
+            json['search_depth'],
+          ) ??
           SearchRequestSearchDepth.basic,
       includeImages: json['include_images'] as bool? ?? false,
       includeAnswer: json['include_answer'] as bool? ?? false,
@@ -50,8 +53,9 @@ _SearchResponse _$SearchResponseFromJson(Map<String, dynamic> json) =>
       answer: json['answer'] as String?,
       query: json['query'] as String,
       responseTime: (json['response_time'] as num).toDouble(),
-      images:
-          (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      images: (json['images'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
       followUpQuestions: (json['follow_up_questions'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),

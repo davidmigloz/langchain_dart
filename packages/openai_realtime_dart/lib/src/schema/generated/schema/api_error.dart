@@ -41,7 +41,7 @@ abstract class APIError with _$APIError {
     'code',
     'message',
     'param',
-    'event_id'
+    'event_id',
   ];
 
   /// Perform validations on the schema property values

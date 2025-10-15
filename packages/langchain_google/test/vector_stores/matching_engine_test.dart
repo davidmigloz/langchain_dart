@@ -43,12 +43,14 @@ void main() async {
       final res = await vectorStore.addDocuments(
         documents: const [
           Document(
-            pageContent: 'Updating your indexes is important to always having '
+            pageContent:
+                'Updating your indexes is important to always having '
                 'the most accurate information',
             metadata: {'test': '1'},
           ),
           Document(
-            pageContent: 'You can also add optional tags to your index to help '
+            pageContent:
+                'You can also add optional tags to your index to help '
                 'with diversifying results or filtering pre index query',
             metadata: {'test': '2'},
           ),

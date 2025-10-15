@@ -30,10 +30,12 @@ void main() {
       final apiWithoutKey = RealtimeAPI(debug: false);
       await apiWithoutKey.connect();
 
-      final event = await apiWithoutKey.waitForNext(
-        RealtimeEventType.error,
-        timeout: const Duration(seconds: 5),
-      ) as RealtimeEventError?;
+      final event =
+          await apiWithoutKey.waitForNext(
+                RealtimeEventType.error,
+                timeout: const Duration(seconds: 5),
+              )
+              as RealtimeEventError?;
 
       expect(event, isNotNull);
       expect(event!.error, isNotNull);
@@ -77,8 +79,9 @@ void main() {
     test('Should receive server events', () async {
       await realtime.connect();
 
-      final event = await realtime.waitForNext(RealtimeEventType.sessionCreated)
-          as RealtimeEventSessionCreated?;
+      final event =
+          await realtime.waitForNext(RealtimeEventType.sessionCreated)
+              as RealtimeEventSessionCreated?;
       expect(event, isNotNull);
       expect(event!.session, isNotNull);
       expect(event.session.id, isNotNull);

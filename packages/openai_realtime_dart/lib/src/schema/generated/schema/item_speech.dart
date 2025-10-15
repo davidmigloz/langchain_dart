@@ -33,7 +33,7 @@ abstract class ItemSpeech with _$ItemSpeech {
   static const List<String> propertyNames = [
     'audioStartMs',
     'audioEndMs',
-    'audio'
+    'audio',
   ];
 
   /// Perform validations on the schema property values

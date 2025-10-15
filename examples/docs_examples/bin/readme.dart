@@ -56,8 +56,10 @@ Future<void> _rag() async {
   // 4. Define the final chain
   final model = ChatOpenAI(apiKey: openaiApiKey);
   const outputParser = StringOutputParser<ChatResult>();
-  final chain =
-      setupAndRetrieval.pipe(promptTemplate).pipe(model).pipe(outputParser);
+  final chain = setupAndRetrieval
+      .pipe(promptTemplate)
+      .pipe(model)
+      .pipe(outputParser);
 
   // 5. Run the pipeline
   final res = await chain.invoke('Who created LangChain.dart?');

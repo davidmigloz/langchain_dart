@@ -23,6 +23,6 @@ class BatchEmbedContentsRequest {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        'requests': requests.map((e) => e.toJson()).toList(),
-      };
+    'requests': requests.map((e) => e.toJson()).toList(),
+  };
 }

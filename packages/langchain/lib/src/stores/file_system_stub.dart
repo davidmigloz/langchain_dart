@@ -44,6 +44,6 @@ class LocalFileStore implements BaseStore<String, Uint8List> {
   }
 
   UnimplementedError get _unimplementedError => throw UnimplementedError(
-        'LocalFileStore is not supported for web.',
-      );
+    'LocalFileStore is not supported for web.',
+  );
 }

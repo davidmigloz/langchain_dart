@@ -39,9 +39,9 @@ class CodeExecutionResult {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        'outcome': _outcomeToString(outcome),
-        'output': output,
-      };
+    'outcome': _outcomeToString(outcome),
+    'output': output,
+  };
 
   /// Creates a copy with replaced values.
   CodeExecutionResult copyWith({
@@ -49,8 +49,9 @@ class CodeExecutionResult {
     Object? output = unsetCopyWithValue,
   }) {
     return CodeExecutionResult(
-      outcome:
-          outcome == unsetCopyWithValue ? this.outcome : outcome! as Outcome,
+      outcome: outcome == unsetCopyWithValue
+          ? this.outcome
+          : outcome! as Outcome,
       output: output == unsetCopyWithValue ? this.output : output! as String,
     );
   }

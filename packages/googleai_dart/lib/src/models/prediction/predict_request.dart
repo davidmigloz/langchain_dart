@@ -18,15 +18,15 @@ class PredictRequest {
 
   /// Creates a [PredictRequest] from JSON.
   factory PredictRequest.fromJson(Map<String, dynamic> json) => PredictRequest(
-        instances: json['instances'] as List<dynamic>? ?? [],
-        parameters: json['parameters'],
-      );
+    instances: json['instances'] as List<dynamic>? ?? [],
+    parameters: json['parameters'],
+  );
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        'instances': instances,
-        if (parameters != null) 'parameters': parameters,
-      };
+    'instances': instances,
+    if (parameters != null) 'parameters': parameters,
+  };
 
   /// Creates a copy with replaced values.
   PredictRequest copyWith({
@@ -37,8 +37,9 @@ class PredictRequest {
       instances: instances == unsetCopyWithValue
           ? this.instances
           : instances! as List<dynamic>,
-      parameters:
-          parameters == unsetCopyWithValue ? this.parameters : parameters,
+      parameters: parameters == unsetCopyWithValue
+          ? this.parameters
+          : parameters,
     );
   }
 }

@@ -12,7 +12,8 @@ Future<void> _runnableRouter() async {
     defaultOptions: const ChatOllamaOptions(model: 'llama3.2'),
   );
 
-  final classificationChain = PromptTemplate.fromTemplate('''
+  final classificationChain =
+      PromptTemplate.fromTemplate('''
 Given the user question below, classify it as either being about `LangChain`, `Anthropic`, or `Other`.
 
 Do not respond with more than one word.
@@ -22,7 +23,9 @@ Do not respond with more than one word.
 </question>
 
 Classification:
-  ''') | chatModel | const StringOutputParser();
+  ''') |
+      chatModel |
+      const StringOutputParser();
 
   final res1 = await classificationChain.invoke({
     'question': 'how do I call Anthropic?',
@@ -30,30 +33,39 @@ Classification:
   print(res1);
   // Anthropic
 
-  final langchainChain = PromptTemplate.fromTemplate('''
+  final langchainChain =
+      PromptTemplate.fromTemplate('''
 You are an expert in langchain.
 Always answer questions starting with "As Harrison Chase told me".
 Respond to the following question:
 
 Question: {question}
 Answer:
-  ''') | chatModel | const StringOutputParser();
+  ''') |
+      chatModel |
+      const StringOutputParser();
 
-  final anthropicChain = PromptTemplate.fromTemplate('''
+  final anthropicChain =
+      PromptTemplate.fromTemplate('''
 You are an expert in anthropic.
 Always answer questions starting with "As Dario Amodei told me".
 Respond to the following question:
 
 Question: {question}
 Answer:
-  ''') | chatModel | const StringOutputParser();
+  ''') |
+      chatModel |
+      const StringOutputParser();
 
-  final generalChain = PromptTemplate.fromTemplate('''
+  final generalChain =
+      PromptTemplate.fromTemplate('''
 Respond to the following question:
 
 Question: {question}
 Answer:
-  ''') | chatModel | const StringOutputParser();
+  ''') |
+      chatModel |
+      const StringOutputParser();
 
   final router = Runnable.fromRouter((Map<String, dynamic> input, _) {
     final topic = (input['topic'] as String).toLowerCase();
@@ -66,7 +78,8 @@ Answer:
     }
   });
 
-  final fullChain = Runnable.fromMap({
+  final fullChain =
+      Runnable.fromMap({
         'topic': classificationChain,
         'question': Runnable.getItemFromMap('question'),
       }) |
@@ -121,13 +134,15 @@ Here is a question:
     promptTemplates.map((final pt) => Document(pageContent: pt)).toList(),
   );
 
-  final chain = Runnable.fromMap<String>({'query': Runnable.passthrough()}) |
+  final chain =
+      Runnable.fromMap<String>({'query': Runnable.passthrough()}) |
       Runnable.fromRouter((input, _) async {
         final query = input['query'] as String;
         final queryEmbedding = await embeddings.embedQuery(query);
-        final mostSimilarIndex =
-            getIndexesMostSimilarEmbeddings(queryEmbedding, promptEmbeddings)
-                .first;
+        final mostSimilarIndex = getIndexesMostSimilarEmbeddings(
+          queryEmbedding,
+          promptEmbeddings,
+        ).first;
         print('Using ${mostSimilarIndex == 0 ? 'Physicist' : 'Historian'}');
         return PromptTemplate.fromTemplate(promptTemplates[mostSimilarIndex]);
       }) |

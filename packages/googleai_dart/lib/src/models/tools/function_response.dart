@@ -23,9 +23,9 @@ class FunctionResponse {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        'name': name,
-        'response': response,
-      };
+    'name': name,
+    'response': response,
+  };
 
   /// Creates a copy with replaced values.
   FunctionResponse copyWith({

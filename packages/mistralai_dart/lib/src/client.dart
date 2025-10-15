@@ -36,12 +36,12 @@ class MistralAIClient extends g.MistralAIClient {
     final int retries = 3,
     final http.Client? client,
   }) : super(
-          bearerToken: apiKey ?? '',
-          baseUrl: baseUrl,
-          headers: headers ?? const {},
-          queryParams: queryParams ?? const {},
-          client: client ?? RetryClient(http.Client(), retries: retries),
-        );
+         bearerToken: apiKey ?? '',
+         baseUrl: baseUrl,
+         headers: headers ?? const {},
+         queryParams: queryParams ?? const {},
+         client: client ?? RetryClient(http.Client(), retries: retries),
+       );
 
   // ------------------------------------------
   // METHOD: createChatCompletionStream

@@ -317,11 +317,15 @@ class ChatOpenAIOptions extends ChatModelOptions {
             model == other.model &&
             store == other.store &&
             reasoningEffort == other.reasoningEffort &&
-            const MapEquality<String, String>()
-                .equals(metadata, other.metadata) &&
+            const MapEquality<String, String>().equals(
+              metadata,
+              other.metadata,
+            ) &&
             frequencyPenalty == other.frequencyPenalty &&
-            const MapEquality<String, int>()
-                .equals(logitBias, other.logitBias) &&
+            const MapEquality<String, int>().equals(
+              logitBias,
+              other.logitBias,
+            ) &&
             logprobs == other.logprobs &&
             topLogprobs == other.topLogprobs &&
             maxTokens == other.maxTokens &&
@@ -385,8 +389,7 @@ sealed class ChatOpenAIResponseFormat {
   /// specified schema.
   factory ChatOpenAIResponseFormat.jsonSchema(
     final ChatOpenAIJsonSchema jsonSchema,
-  ) =>
-      ChatOpenAIResponseFormatJsonSchema(jsonSchema: jsonSchema);
+  ) => ChatOpenAIResponseFormatJsonSchema(jsonSchema: jsonSchema);
 }
 
 /// {@template chat_openai_response_format_text}
@@ -491,7 +494,7 @@ enum ChatOpenAIReasoningEffort {
   medium,
 
   /// High effort
-  high
+  high,
 }
 
 /// Constrains the verbosity of the model's response.
@@ -503,7 +506,7 @@ enum ChatOpenAIVerbosity {
   medium,
 
   /// More verbose responses
-  high
+  high,
 }
 
 /// Specifies the latency tier to use for processing the request.

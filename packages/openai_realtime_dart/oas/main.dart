@@ -26,10 +26,9 @@ void main() async {
 String? _onSchemaUnionFactoryName(
   final String union,
   final String unionSubclass,
-) =>
-    switch (unionSubclass) {
-      'SessionToolChoiceEnumeration' => 'mode',
-      'SessionConfigToolChoiceEnumeration' => 'mode',
-      'ResponseConfigToolChoiceEnumeration' => 'mode',
-      _ => null,
-    };
+) => switch (unionSubclass) {
+  'SessionToolChoiceEnumeration' => 'mode',
+  'SessionConfigToolChoiceEnumeration' => 'mode',
+  'ResponseConfigToolChoiceEnumeration' => 'mode',
+  _ => null,
+};

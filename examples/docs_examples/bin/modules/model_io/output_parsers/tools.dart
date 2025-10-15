@@ -32,17 +32,18 @@ Future<void> _toolsOutputParser() async {
   final promptTemplate = ChatPromptTemplate.fromTemplate(
     'tell me a long joke about {foo}',
   );
-  final chat = ChatOpenAI(
-    apiKey: openaiApiKey,
-    defaultOptions: const ChatOpenAIOptions(
-      temperature: 0,
-    ),
-  ).bind(
-    ChatOpenAIOptions(
-      tools: const [tool],
-      toolChoice: ChatToolChoice.forced(name: 'joke'),
-    ),
-  );
+  final chat =
+      ChatOpenAI(
+        apiKey: openaiApiKey,
+        defaultOptions: const ChatOpenAIOptions(
+          temperature: 0,
+        ),
+      ).bind(
+        ChatOpenAIOptions(
+          tools: const [tool],
+          toolChoice: ChatToolChoice.forced(name: 'joke'),
+        ),
+      );
   final outputParser = ToolsOutputParser();
   final chain = promptTemplate.pipe(chat).pipe(outputParser);
   final res = await chain.invoke({'foo': 'bears'});

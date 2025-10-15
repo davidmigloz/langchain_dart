@@ -32,9 +32,9 @@ class InputEmbedContentConfig {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (fileName != null) 'fileName': fileName,
-        if (requests != null) 'requests': requests!.toJson(),
-      };
+    if (fileName != null) 'fileName': fileName,
+    if (requests != null) 'requests': requests!.toJson(),
+  };
 
   /// Creates a copy with replaced values.
   InputEmbedContentConfig copyWith({
@@ -42,8 +42,9 @@ class InputEmbedContentConfig {
     Object? requests = unsetCopyWithValue,
   }) {
     return InputEmbedContentConfig(
-      fileName:
-          fileName == unsetCopyWithValue ? this.fileName : fileName as String?,
+      fileName: fileName == unsetCopyWithValue
+          ? this.fileName
+          : fileName as String?,
       requests: requests == unsetCopyWithValue
           ? this.requests
           : requests as InlinedEmbedContentRequests?,

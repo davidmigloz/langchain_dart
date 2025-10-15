@@ -23,9 +23,9 @@ class PredictLongRunningResponse {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (generateVideoResponse != null)
-          'generateVideoResponse': generateVideoResponse!.toJson(),
-      };
+    if (generateVideoResponse != null)
+      'generateVideoResponse': generateVideoResponse!.toJson(),
+  };
 
   /// Creates a copy with replaced values.
   PredictLongRunningResponse copyWith({

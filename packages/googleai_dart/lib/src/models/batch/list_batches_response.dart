@@ -24,8 +24,8 @@ class ListBatchesResponse {
       ListBatchesResponse(
         operations: json['operations'] != null
             ? (json['operations'] as List)
-                .map((e) => Operation.fromJson(e as Map<String, dynamic>))
-                .toList()
+                  .map((e) => Operation.fromJson(e as Map<String, dynamic>))
+                  .toList()
             : null,
         nextPageToken: json['nextPageToken'] as String?,
         unreachable: json['unreachable'] != null
@@ -35,11 +35,11 @@ class ListBatchesResponse {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (operations != null)
-          'operations': operations!.map((e) => e.toJson()).toList(),
-        if (nextPageToken != null) 'nextPageToken': nextPageToken,
-        if (unreachable != null) 'unreachable': unreachable,
-      };
+    if (operations != null)
+      'operations': operations!.map((e) => e.toJson()).toList(),
+    if (nextPageToken != null) 'nextPageToken': nextPageToken,
+    if (unreachable != null) 'unreachable': unreachable,
+  };
 
   /// Creates a copy with replaced values.
   ListBatchesResponse copyWith({

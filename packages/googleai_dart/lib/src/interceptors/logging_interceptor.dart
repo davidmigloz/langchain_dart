@@ -19,8 +19,8 @@ class LoggingInterceptor implements Interceptor {
   /// Creates a [LoggingInterceptor].
   LoggingInterceptor({
     required this.config,
-  })  : logger = Logger('GoogleAI.HTTP'),
-        redactor = Redactor(redactionList: config.redactionList) {
+  }) : logger = Logger('GoogleAI.HTTP'),
+       redactor = Redactor(redactionList: config.redactionList) {
     // Only set level if hierarchical logging is enabled
     // or if this is the root logger
     if (hierarchicalLoggingEnabled || logger.parent == null) {

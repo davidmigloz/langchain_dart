@@ -290,8 +290,9 @@ class ChatVertexAI extends BaseChatModel<ChatVertexAIOptions> {
     final List<ChatMessage> messages, {
     final ChatVertexAIOptions? options,
   }) {
-    final mergedOptions =
-        options != null ? defaultOptions.merge(options) : defaultOptions;
+    final mergedOptions = options != null
+        ? defaultOptions.merge(options)
+        : defaultOptions;
 
     final firstMessage = messages.firstOrNull;
     final systemInstruction = firstMessage is SystemChatMessage

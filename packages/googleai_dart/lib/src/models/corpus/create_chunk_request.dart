@@ -49,7 +49,8 @@ class CreateChunkRequest {
   }
 
   @override
-  String toString() => 'CreateChunkRequest('
+  String toString() =>
+      'CreateChunkRequest('
       'parent: $parent, '
       'chunk: $chunk)';
 }

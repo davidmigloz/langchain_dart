@@ -53,17 +53,19 @@ void main() {
         expect(updated.parts, newParts);
       });
 
-      test('copyWith supports explicit null assignment for nullable fields',
-          () {
-        const original = Content(
-          parts: [TextPart('hello')],
-          role: 'user',
-        );
-        final updated = original.copyWith(role: null);
+      test(
+        'copyWith supports explicit null assignment for nullable fields',
+        () {
+          const original = Content(
+            parts: [TextPart('hello')],
+            role: 'user',
+          );
+          final updated = original.copyWith(role: null);
 
-        expect(updated.role, isNull);
-        expect(updated.parts, original.parts);
-      });
+          expect(updated.role, isNull);
+          expect(updated.parts, original.parts);
+        },
+      );
     });
 
     group('GenerationConfig', () {
@@ -146,8 +148,9 @@ void main() {
           category: HarmCategory.hateSpeech,
           threshold: HarmBlockThreshold.blockMediumAndAbove,
         );
-        final updated =
-            original.copyWith(threshold: HarmBlockThreshold.blockOnlyHigh);
+        final updated = original.copyWith(
+          threshold: HarmBlockThreshold.blockOnlyHigh,
+        );
 
         expect(updated.category, original.category);
         expect(updated.threshold, HarmBlockThreshold.blockOnlyHigh);

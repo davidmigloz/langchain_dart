@@ -52,7 +52,8 @@ class JsonLoader extends BaseDocumentLoader {
   final Map<String, dynamic> Function(
     Object? matchValue,
     Map<String, dynamic> fileMetadata,
-  )? metadataBuilder;
+  )?
+  metadataBuilder;
 
   @override
   Stream<Document> lazyLoad() async* {

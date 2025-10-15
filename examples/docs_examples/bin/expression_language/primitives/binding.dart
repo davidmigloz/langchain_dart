@@ -24,10 +24,9 @@ Future<void> _binding() async {
     (ChatMessageType.human, '{equation_statement}'),
   ]);
 
-  final chain = Runnable.getMapFromInput<String>('equation_statement')
-      .pipe(promptTemplate)
-      .pipe(model)
-      .pipe(outputParser);
+  final chain = Runnable.getMapFromInput<String>(
+    'equation_statement',
+  ).pipe(promptTemplate).pipe(model).pipe(outputParser);
 
   final res = await chain.invoke('x raised to the third plus seven equals 12');
   print(res);
@@ -44,8 +43,9 @@ Future<void> _binding() async {
       .pipe(promptTemplate)
       .pipe(model.bind(const ChatOpenAIOptions(stop: ['SOLUTION'])))
       .pipe(outputParser);
-  final res2 =
-      await chain2.invoke('x raised to the third plus seven equals 12');
+  final res2 = await chain2.invoke(
+    'x raised to the third plus seven equals 12',
+  );
   print(res2);
   // EQUATION: \( x^3 + 7 = 12 \)
 }
@@ -59,10 +59,12 @@ Future<void> _differentModels() async {
   final prompt1 = PromptTemplate.fromTemplate('How are you {name}?');
   final prompt2 = PromptTemplate.fromTemplate('How old are you {name}?');
   final chain = Runnable.fromMap({
-    'q1': prompt1 |
+    'q1':
+        prompt1 |
         chatModel.bind(const ChatOpenAIOptions(model: 'gpt-4-turbo')) |
         outputParser,
-    'q2': prompt2 |
+    'q2':
+        prompt2 |
         chatModel.bind(const ChatOpenAIOptions(model: 'gpt-4o-mini')) |
         outputParser,
   });
@@ -80,7 +82,7 @@ Future<void> _toolCalling() async {
   final promptTemplate = ChatPromptTemplate.fromTemplates(const [
     (
       ChatMessageType.system,
-      'Write out the following equation using algebraic symbols then solve it.'
+      'Write out the following equation using algebraic symbols then solve it.',
     ),
     (ChatMessageType.human, '{equation_statement}'),
   ]);

@@ -91,8 +91,10 @@ Future<void> demonstrateCaching(GoogleAIClient client) async {
   if (response.candidates != null && response.candidates!.isNotEmpty) {
     final content = response.candidates!.first.content;
     if (content != null) {
-      final text =
-          content.parts.whereType<TextPart>().map((p) => p.text).join('\n');
+      final text = content.parts
+          .whereType<TextPart>()
+          .map((p) => p.text)
+          .join('\n');
       print('  ${text.substring(0, text.length > 200 ? 200 : text.length)}...');
     }
   }

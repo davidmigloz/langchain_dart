@@ -85,8 +85,9 @@ void main() {
     });
 
     test('Test stop logic on valid configuration', () async {
-      final query =
-          ChatMessage.humanText('write an ordered list of five items');
+      final query = ChatMessage.humanText(
+        'write an ordered list of five items',
+      );
       final chat = ChatOpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const ChatOpenAIOptions(
@@ -110,10 +111,12 @@ void main() {
           maxTokens: 10,
         ),
       );
-      final systemMessage =
-          ChatMessage.system('You are to chat with the user.');
-      final humanMessage =
-          ChatMessage.humanText('write an ordered list of five items');
+      final systemMessage = ChatMessage.system(
+        'You are to chat with the user.',
+      );
+      final humanMessage = ChatMessage.humanText(
+        'write an ordered list of five items',
+      );
       final res = await chat([systemMessage, humanMessage]);
       expect(res.content, isNotEmpty);
     });
@@ -138,48 +141,51 @@ void main() {
       },
     );
 
-    test('Test ChatOpenAI tool calling',
-        timeout: const Timeout(Duration(minutes: 1)), () async {
-      final chat = ChatOpenAI(apiKey: openaiApiKey);
+    test(
+      'Test ChatOpenAI tool calling',
+      timeout: const Timeout(Duration(minutes: 1)),
+      () async {
+        final chat = ChatOpenAI(apiKey: openaiApiKey);
 
-      final humanMessage = ChatMessage.humanText(
-        'What’s the weather like in Boston right now?',
-      );
-      final res1 = await chat.invoke(
-        PromptValue.chat([humanMessage]),
-        options: const ChatOpenAIOptions(tools: [getCurrentWeatherTool]),
-      );
+        final humanMessage = ChatMessage.humanText(
+          'What’s the weather like in Boston right now?',
+        );
+        final res1 = await chat.invoke(
+          PromptValue.chat([humanMessage]),
+          options: const ChatOpenAIOptions(tools: [getCurrentWeatherTool]),
+        );
 
-      final aiMessage1 = res1.output;
+        final aiMessage1 = res1.output;
 
-      expect(aiMessage1.content, isEmpty);
-      expect(aiMessage1.toolCalls, isNotEmpty);
-      final toolCall = aiMessage1.toolCalls.first;
+        expect(aiMessage1.content, isEmpty);
+        expect(aiMessage1.toolCalls, isNotEmpty);
+        final toolCall = aiMessage1.toolCalls.first;
 
-      expect(toolCall.name, getCurrentWeatherTool.name);
-      expect(toolCall.arguments.containsKey('location'), isTrue);
-      expect(toolCall.arguments['location'], contains('Boston'));
+        expect(toolCall.name, getCurrentWeatherTool.name);
+        expect(toolCall.arguments.containsKey('location'), isTrue);
+        expect(toolCall.arguments['location'], contains('Boston'));
 
-      final functionResult = {
-        'temperature': '22',
-        'unit': 'celsius',
-        'description': 'Sunny',
-      };
-      final functionMessage = ChatMessage.tool(
-        toolCallId: toolCall.id,
-        content: json.encode(functionResult),
-      );
+        final functionResult = {
+          'temperature': '22',
+          'unit': 'celsius',
+          'description': 'Sunny',
+        };
+        final functionMessage = ChatMessage.tool(
+          toolCallId: toolCall.id,
+          content: json.encode(functionResult),
+        );
 
-      final res2 = await chat.invoke(
-        PromptValue.chat([humanMessage, aiMessage1, functionMessage]),
-        options: const ChatOpenAIOptions(tools: [getCurrentWeatherTool]),
-      );
+        final res2 = await chat.invoke(
+          PromptValue.chat([humanMessage, aiMessage1, functionMessage]),
+          options: const ChatOpenAIOptions(tools: [getCurrentWeatherTool]),
+        );
 
-      final aiMessage2 = res2.output;
+        final aiMessage2 = res2.output;
 
-      expect(aiMessage2.toolCalls, isEmpty);
-      expect(aiMessage2.content, contains('22'));
-    });
+        expect(aiMessage2.toolCalls, isEmpty);
+        expect(aiMessage2.content, contains('22'));
+      },
+    );
 
     test('Test tokenize', () async {
       final chat = ChatOpenAI(apiKey: openaiApiKey);
@@ -290,18 +296,19 @@ void main() {
       final promptTemplate = ChatPromptTemplate.fromTemplate(
         'tell me a long joke about {foo}',
       );
-      final chat = ChatOpenAI(
-        apiKey: openaiApiKey,
-        defaultOptions: const ChatOpenAIOptions(
-          model: defaultModel,
-          temperature: 0,
-        ),
-      ).bind(
-        ChatOpenAIOptions(
-          tools: const [jokeTool],
-          toolChoice: ChatToolChoice.forced(name: 'joke'),
-        ),
-      );
+      final chat =
+          ChatOpenAI(
+            apiKey: openaiApiKey,
+            defaultOptions: const ChatOpenAIOptions(
+              model: defaultModel,
+              temperature: 0,
+            ),
+          ).bind(
+            ChatOpenAIOptions(
+              tools: const [jokeTool],
+              toolChoice: ChatToolChoice.forced(name: 'joke'),
+            ),
+          );
       final jsonOutputParser = ToolsOutputParser();
 
       final chain = promptTemplate.pipe(chat).pipe(jsonOutputParser);

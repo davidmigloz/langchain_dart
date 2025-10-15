@@ -44,14 +44,15 @@ void main() {
       final promptTemplate = ChatPromptTemplate.fromTemplate('{question}');
       const model = FakeEchoChatModel();
 
-      final classificationChain =
-          promptTemplate.pipe(model).pipe(const StringOutputParser());
-      final generalChain = ChatPromptTemplate.fromTemplate('GENERAL CHAIN')
+      final classificationChain = promptTemplate
           .pipe(model)
           .pipe(const StringOutputParser());
-      final langChainChain = ChatPromptTemplate.fromTemplate('LANGCHAIN CHAIN')
-          .pipe(model)
-          .pipe(const StringOutputParser());
+      final generalChain = ChatPromptTemplate.fromTemplate(
+        'GENERAL CHAIN',
+      ).pipe(model).pipe(const StringOutputParser());
+      final langChainChain = ChatPromptTemplate.fromTemplate(
+        'LANGCHAIN CHAIN',
+      ).pipe(model).pipe(const StringOutputParser());
 
       final router = Runnable.fromRouter((Map<String, dynamic> input, _) {
         final topic = (input['topic'] as String).toLowerCase();

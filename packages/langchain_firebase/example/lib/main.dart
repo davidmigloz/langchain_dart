@@ -116,17 +116,20 @@ class _ChatWidgetState extends State<ChatWidget> {
         'properties': {
           'currencyDate': {
             'type': 'string',
-            'description': 'A date in YYYY-MM-DD format or '
+            'description':
+                'A date in YYYY-MM-DD format or '
                 'the exact value "latest" if a time period is not specified.',
           },
           'currencyFrom': {
             'type': 'string',
-            'description': 'The currency code of the currency to convert from, '
+            'description':
+                'The currency code of the currency to convert from, '
                 'such as "USD".',
           },
           'currencyTo': {
             'type': 'string',
-            'description': 'The currency code of the currency to convert to, '
+            'description':
+                'The currency code of the currency to convert to, '
                 'such as "USD".',
           },
         },
@@ -362,8 +365,9 @@ class _ChatWidgetState extends State<ChatWidget> {
     });
     try {
       final ByteData catBytes = await rootBundle.load('assets/images/cat.jpg');
-      final ByteData sconeBytes =
-          await rootBundle.load('assets/images/scones.jpg');
+      final ByteData sconeBytes = await rootBundle.load(
+        'assets/images/scones.jpg',
+      );
       final chatMessage = ChatMessage.human(
         ChatMessageContent.multiModal([
           ChatMessageContent.text(message),
@@ -492,8 +496,8 @@ class _ChatWidgetState extends State<ChatWidget> {
         // Throw an exception if the model attempted to call a function that was
         // not declared.
         _ => throw UnimplementedError(
-            'Function not implemented: ${toolCall.name}',
-          )
+          'Function not implemented: ${toolCall.name}',
+        ),
       };
       // Send the response to the model so that it can use the result to generate
       // text for the user.
@@ -510,8 +514,11 @@ class _ChatWidgetState extends State<ChatWidget> {
     }
     // When the model responds with non-null text content, print it.
     if (response.output.content.isNotEmpty) {
-      _generatedContent
-          .add((image: null, text: response.output.content, fromUser: false));
+      _generatedContent.add((
+        image: null,
+        text: response.output.content,
+        fromUser: false,
+      ));
       setState(() {
         _loading = false;
       });
@@ -570,8 +577,9 @@ class MessageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment:
-          isFromUser ? MainAxisAlignment.end : MainAxisAlignment.start,
+      mainAxisAlignment: isFromUser
+          ? MainAxisAlignment.end
+          : MainAxisAlignment.start,
       children: [
         Flexible(
           child: Container(

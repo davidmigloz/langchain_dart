@@ -9,7 +9,7 @@ abstract class BaseDocumentTransformer
     extends Runnable<List<Document>, BaseLangChainOptions, List<Document>> {
   /// {@macro base_document_transformer}
   const BaseDocumentTransformer()
-      : super(defaultOptions: const BaseLangChainOptions());
+    : super(defaultOptions: const BaseLangChainOptions());
 
   /// Transform a list of documents.
   ///

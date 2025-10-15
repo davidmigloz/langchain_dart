@@ -29,29 +29,31 @@ void main() {
       );
     });
 
-    test('parses SSE data without space after colon (alternative format)',
-        () async {
-      // Non-standard format used by some providers: "data:{json}"
-      final sseData = [
-        'data:{"id":"1","object":"chat.completion.chunk","choices":[]}',
-        'data:{"id":"2","object":"chat.completion.chunk","choices":[]}',
-      ].join('\n');
+    test(
+      'parses SSE data without space after colon (alternative format)',
+      () async {
+        // Non-standard format used by some providers: "data:{json}"
+        final sseData = [
+          'data:{"id":"1","object":"chat.completion.chunk","choices":[]}',
+          'data:{"id":"2","object":"chat.completion.chunk","choices":[]}',
+        ].join('\n');
 
-      final bytes = utf8.encode(sseData);
-      final stream = Stream<List<int>>.value(bytes);
-      final transformer = createMistralAIStreamTransformer();
-      final results = await stream.transform(transformer).toList();
+        final bytes = utf8.encode(sseData);
+        final stream = Stream<List<int>>.value(bytes);
+        final transformer = createMistralAIStreamTransformer();
+        final results = await stream.transform(transformer).toList();
 
-      expect(results, hasLength(2));
-      expect(
-        results[0],
-        '{"id":"1","object":"chat.completion.chunk","choices":[]}',
-      );
-      expect(
-        results[1],
-        '{"id":"2","object":"chat.completion.chunk","choices":[]}',
-      );
-    });
+        expect(results, hasLength(2));
+        expect(
+          results[0],
+          '{"id":"1","object":"chat.completion.chunk","choices":[]}',
+        );
+        expect(
+          results[1],
+          '{"id":"2","object":"chat.completion.chunk","choices":[]}',
+        );
+      },
+    );
 
     test('parses SSE data with multiple spaces after colon', () async {
       // Edge case: multiple spaces after colon

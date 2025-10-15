@@ -23,7 +23,8 @@ INPUT:
 
 MATH EXPRESSION:''');
 
-  final chain = Runnable.getMapFromInput() |
+  final chain =
+      Runnable.getMapFromInput() |
       promptTemplate |
       model |
       stringOutputParser |

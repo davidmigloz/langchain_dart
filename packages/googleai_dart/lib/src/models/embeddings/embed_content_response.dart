@@ -19,8 +19,8 @@ class EmbedContentResponse {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        'embedding': embedding.toJson(),
-      };
+    'embedding': embedding.toJson(),
+  };
 
   /// Creates a copy with replaced values.
   EmbedContentResponse copyWith({

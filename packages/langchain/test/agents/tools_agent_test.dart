@@ -19,43 +19,47 @@ void main() {
   const defaultOllamaModel = 'llama3-groq-tool-use';
   const defaultOpenAIModel = 'gpt-4o-mini';
 
-  group('ChatToolsAgent using Ollama tests',
-      skip: Platform.environment.containsKey('CI'), () {
-    setUp(() {
-      llm = ChatOllama(
-        defaultOptions: ChatOllamaOptions(
-          model: defaultOllamaModel,
-          temperature: 0,
-          tools: [CalculatorTool(), searchTool],
-          keepAlive: 1,
-        ),
-      );
-    });
-
-    test('Test ChatToolsAgent with calculator tool', () async {
-      await testAgentWithCalculator(llm);
-    });
-
-    test('Test ToolsAgent with messages memory', () async {
-      await testMemory(llm, returnMessages: true);
-    });
-
-    test('Test ToolsAgent with string memory throws error', () {
-      expect(
-        () async => testMemory(llm, returnMessages: false),
-        throwsA(isA<AssertionError>()),
-      );
-    });
-
-    test('Test ToolsAgent LCEL equivalent using Ollama', () async {
-      final res =
-          await testLCDLEquivalent(llm: llm, tool: CalculatorTool()).invoke({
-        'input': 'What is 40 raised to the power of 0.43? '
-            'Return the result with 3 decimals.',
+  group(
+    'ChatToolsAgent using Ollama tests',
+    skip: Platform.environment.containsKey('CI'),
+    () {
+      setUp(() {
+        llm = ChatOllama(
+          defaultOptions: ChatOllamaOptions(
+            model: defaultOllamaModel,
+            temperature: 0,
+            tools: [CalculatorTool(), searchTool],
+            keepAlive: 1,
+          ),
+        );
       });
-      expect(res['output'], contains('4.88'));
-    });
-  });
+
+      test('Test ChatToolsAgent with calculator tool', () async {
+        await testAgentWithCalculator(llm);
+      });
+
+      test('Test ToolsAgent with messages memory', () async {
+        await testMemory(llm, returnMessages: true);
+      });
+
+      test('Test ToolsAgent with string memory throws error', () {
+        expect(
+          () async => testMemory(llm, returnMessages: false),
+          throwsA(isA<AssertionError>()),
+        );
+      });
+
+      test('Test ToolsAgent LCEL equivalent using Ollama', () async {
+        final res = await testLCDLEquivalent(llm: llm, tool: CalculatorTool())
+            .invoke({
+              'input':
+                  'What is 40 raised to the power of 0.43? '
+                  'Return the result with 3 decimals.',
+            });
+        expect(res['output'], contains('4.88'));
+      });
+    },
+  );
 
   group('ChatToolsAgent using OpenAi tests', () {
     setUp(() {
@@ -85,11 +89,12 @@ void main() {
     });
 
     test('Test ToolsAgent LCEL equivalent using OpenAi', () async {
-      final res =
-          await testLCDLEquivalent(llm: llm, tool: CalculatorTool()).invoke({
-        'input': 'What is 40 raised to the power of 0.43? '
-            'Return the result with 3 decimals.',
-      });
+      final res = await testLCDLEquivalent(llm: llm, tool: CalculatorTool())
+          .invoke({
+            'input':
+                'What is 40 raised to the power of 0.43? '
+                'Return the result with 3 decimals.',
+          });
       expect(res['output'], contains('4.88'));
     });
   });
@@ -187,10 +192,10 @@ class _SearchInput {
   final int n;
 
   _SearchInput.fromJson(final Map<String, dynamic> json)
-      : this(
-          query: json['query'] as String,
-          n: json['n'] as int,
-        );
+    : this(
+        query: json['query'] as String,
+        n: json['n'] as int,
+      );
 
   @override
   bool operator ==(covariant _SearchInput other) =>
@@ -202,29 +207,29 @@ class _SearchInput {
 
 final Tool<Object, ToolOptions, Object> searchTool =
     Tool.fromFunction<_SearchInput, String>(
-  name: 'search',
-  description: 'Tool for searching the web.',
-  inputJsonSchema: const {
-    'type': 'object',
-    'properties': {
-      'query': {
-        'type': 'string',
-        'description': 'The query to search for',
+      name: 'search',
+      description: 'Tool for searching the web.',
+      inputJsonSchema: const {
+        'type': 'object',
+        'properties': {
+          'query': {
+            'type': 'string',
+            'description': 'The query to search for',
+          },
+          'n': {
+            'type': 'integer',
+            'description': 'The number of results to return',
+          },
+        },
+        'required': ['query'],
       },
-      'n': {
-        'type': 'integer',
-        'description': 'The number of results to return',
+      func: (final _SearchInput toolInput) {
+        final n = toolInput.n;
+        final res = List<String>.generate(
+          n,
+          (i) => 'Result ${i + 1}: ${String.fromCharCode(65 + i) * 3}',
+        );
+        return 'Results:\n${res.join('\n')}';
       },
-    },
-    'required': ['query'],
-  },
-  func: (final _SearchInput toolInput) {
-    final n = toolInput.n;
-    final res = List<String>.generate(
-      n,
-      (i) => 'Result ${i + 1}: ${String.fromCharCode(65 + i) * 3}',
+      getInputFromJson: _SearchInput.fromJson,
     );
-    return 'Results:\n${res.join('\n')}';
-  },
-  getInputFromJson: _SearchInput.fromJson,
-);

@@ -56,30 +56,34 @@ class RunnableFunction<RunInput extends Object, RunOutput extends Object>
     final FutureOr<RunOutput> Function(
       RunInput input,
       RunnableOptions? options,
-    )? invoke,
+    )?
+    invoke,
     final Stream<RunOutput> Function(
       Stream<RunInput> inputStream,
       RunnableOptions? options,
-    )? stream,
+    )?
+    stream,
     super.defaultOptions = const RunnableOptions(),
-  })  : _invokeFunc = invoke,
-        _streamFunc = stream,
-        assert(
-          invoke != null || stream != null,
-          'Either invoke or stream must be provided',
-        );
+  }) : _invokeFunc = invoke,
+       _streamFunc = stream,
+       assert(
+         invoke != null || stream != null,
+         'Either invoke or stream must be provided',
+       );
 
   /// The function to run.
   final FutureOr<RunOutput> Function(
     RunInput input,
     RunnableOptions? options,
-  )? _invokeFunc;
+  )?
+  _invokeFunc;
 
   /// The stream transformer to run.
   final Stream<RunOutput> Function(
     Stream<RunInput> inputStream,
     RunnableOptions? options,
-  )? _streamFunc;
+  )?
+  _streamFunc;
 
   /// Invokes the [RunnableFunction] on the given [input].
   ///

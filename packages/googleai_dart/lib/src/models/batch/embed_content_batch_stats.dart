@@ -41,14 +41,14 @@ class EmbedContentBatchStats {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (requestCount != null) 'requestCount': requestCount.toString(),
-        if (successfulRequestCount != null)
-          'successfulRequestCount': successfulRequestCount.toString(),
-        if (failedRequestCount != null)
-          'failedRequestCount': failedRequestCount.toString(),
-        if (pendingRequestCount != null)
-          'pendingRequestCount': pendingRequestCount.toString(),
-      };
+    if (requestCount != null) 'requestCount': requestCount.toString(),
+    if (successfulRequestCount != null)
+      'successfulRequestCount': successfulRequestCount.toString(),
+    if (failedRequestCount != null)
+      'failedRequestCount': failedRequestCount.toString(),
+    if (pendingRequestCount != null)
+      'pendingRequestCount': pendingRequestCount.toString(),
+  };
 
   /// Creates a copy with replaced values.
   EmbedContentBatchStats copyWith({

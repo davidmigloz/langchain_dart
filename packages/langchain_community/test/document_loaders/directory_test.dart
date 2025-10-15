@@ -8,66 +8,70 @@ import 'package:test/test.dart';
 void main() {
   group('DirectoryLoader tests', () {
     test(
-        'Test loading directory with multiple file types and multiple documents per file',
-        () async {
-      const filePath = './test/document_loaders/assets';
-      const loader = DirectoryLoader(filePath, glob: '*.{txt,json,csv,tsv}');
+      'Test loading directory with multiple file types and multiple documents per file',
+      () async {
+        const filePath = './test/document_loaders/assets';
+        const loader = DirectoryLoader(filePath, glob: '*.{txt,json,csv,tsv}');
 
-      final List<Document> docs = await loader.lazyLoad().toList();
+        final List<Document> docs = await loader.lazyLoad().toList();
 
-      expect(docs, isNotEmpty);
+        expect(docs, isNotEmpty);
 
-      final Set<String> processedFiles =
-          docs.map((doc) => doc.metadata['source'] as String).toSet();
+        final Set<String> processedFiles = docs
+            .map((doc) => doc.metadata['source'] as String)
+            .toSet();
 
-      final directory = Directory(filePath);
+        final directory = Directory(filePath);
 
-      final Set<String> expectedFiles = directory
-          .listSync()
-          .where(
-            (entity) {
-              return entity is File &&
-                  RegExp(r'\.(txt|json|csv|tsv)$').hasMatch(entity.path);
-            },
-          )
-          .map((file) => file.path)
-          .toSet();
+        final Set<String> expectedFiles = directory
+            .listSync()
+            .where(
+              (entity) {
+                return entity is File &&
+                    RegExp(r'\.(txt|json|csv|tsv)$').hasMatch(entity.path);
+              },
+            )
+            .map((file) => file.path)
+            .toSet();
 
-      expect(
-        processedFiles,
-        equals(expectedFiles),
-      );
+        expect(
+          processedFiles,
+          equals(expectedFiles),
+        );
 
-      final textDocs =
-          docs.where((doc) => doc.metadata['name'] == 'example.txt').toList();
+        final textDocs = docs
+            .where((doc) => doc.metadata['name'] == 'example.txt')
+            .toList();
 
-      expect(
-        textDocs.length,
-        greaterThanOrEqualTo(1),
-      );
+        expect(
+          textDocs.length,
+          greaterThanOrEqualTo(1),
+        );
 
-      expect(
-        textDocs.any((doc) => doc.pageContent.contains('Foo\nBar\nBaz\n')),
-        isTrue,
-        reason: 'Text content should match for example.txt',
-      );
+        expect(
+          textDocs.any((doc) => doc.pageContent.contains('Foo\nBar\nBaz\n')),
+          isTrue,
+          reason: 'Text content should match for example.txt',
+        );
 
-      final jsonDocs = docs
-          .where((doc) => doc.metadata['name'] == 'example_2.json')
-          .toList();
+        final jsonDocs = docs
+            .where((doc) => doc.metadata['name'] == 'example_2.json')
+            .toList();
 
-      expect(
-        jsonDocs.length,
-        greaterThanOrEqualTo(1),
-      );
+        expect(
+          jsonDocs.length,
+          greaterThanOrEqualTo(1),
+        );
 
-      expect(
-        jsonDocs
-            .any((doc) => doc.pageContent.contains('Sayings of the Century')),
-        isTrue,
-        reason: 'JSON content should match for example_2.json',
-      );
-    });
+        expect(
+          jsonDocs.any(
+            (doc) => doc.pageContent.contains('Sayings of the Century'),
+          ),
+          isTrue,
+          reason: 'JSON content should match for example_2.json',
+        );
+      },
+    );
 
     test('Test directory loader with specific loader map', () {
       const filePath = './test/document_loaders/assets';
@@ -280,11 +284,13 @@ void main() {
       final tempDir = await Directory.systemTemp.createTemp('mixed_files_test');
 
       try {
-        await File('${tempDir.path}/.hidden.txt')
-            .writeAsString('hidden content');
+        await File(
+          '${tempDir.path}/.hidden.txt',
+        ).writeAsString('hidden content');
 
-        await File('${tempDir.path}/visible.txt')
-            .writeAsString('visible content');
+        await File(
+          '${tempDir.path}/visible.txt',
+        ).writeAsString('visible content');
 
         final loader1 = DirectoryLoader(
           tempDir.path,

@@ -71,7 +71,8 @@ class MetadataFilter {
   }
 
   @override
-  String toString() => 'MetadataFilter('
+  String toString() =>
+      'MetadataFilter('
       'key: $key, '
       'conditions: $conditions)';
 }

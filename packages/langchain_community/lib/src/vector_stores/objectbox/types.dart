@@ -24,6 +24,6 @@ class ObjectBoxSimilaritySearch extends VectorStoreSimilaritySearch {
     super.scoreThreshold,
     final Condition<Object>? filterCondition,
   }) : super(
-          filter: filterCondition != null ? {'filter': filterCondition} : null,
-        );
+         filter: filterCondition != null ? {'filter': filterCondition} : null,
+       );
 }

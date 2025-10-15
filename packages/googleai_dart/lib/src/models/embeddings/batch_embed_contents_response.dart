@@ -21,6 +21,6 @@ class BatchEmbedContentsResponse {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        'embeddings': embeddings.map((e) => e.toJson()).toList(),
-      };
+    'embeddings': embeddings.map((e) => e.toJson()).toList(),
+  };
 }

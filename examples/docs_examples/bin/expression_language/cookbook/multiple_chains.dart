@@ -24,7 +24,8 @@ Future<void> _multipleChains1() async {
   );
 
   final cityChain = promptTemplate1 | model | stringOutputParser;
-  final combinedChain = Runnable.fromMap({
+  final combinedChain =
+      Runnable.fromMap({
         'city': cityChain,
         'language': Runnable.getItemFromMap('language'),
       }) |
@@ -62,14 +63,16 @@ Future<void> _multipleChains2() async {
 
   final modelParser = model | const StringOutputParser();
 
-  final colorGenerator = Runnable.getMapFromInput('attribute') |
+  final colorGenerator =
+      Runnable.getMapFromInput('attribute') |
       promptTemplate1 |
       Runnable.fromMap({
         'color': modelParser,
       });
   final colorToFruit = promptTemplate2 | modelParser;
   final colorToCountry = promptTemplate3 | modelParser;
-  final questionGenerator = colorGenerator |
+  final questionGenerator =
+      colorGenerator |
       Runnable.fromMap({
         'fruit': colorToFruit,
         'country': colorToCountry,
@@ -79,9 +82,9 @@ Future<void> _multipleChains2() async {
 
   final res = await questionGenerator.invoke('warm');
   print(res);
-// The color of Apple is typically depicted as silver or gray for their logo
-// and products. The flag of Armenia consists of three horizontal stripes of
-// red, blue, and orange from top to bottom.
+  // The color of Apple is typically depicted as silver or gray for their logo
+  // and products. The flag of Armenia consists of three horizontal stripes of
+  // red, blue, and orange from top to bottom.
 }
 
 Future<void> _branchingAndMerging() async {
@@ -89,25 +92,29 @@ Future<void> _branchingAndMerging() async {
   final model = ChatOpenAI(apiKey: openaiApiKey);
   const stringOutputParser = StringOutputParser<ChatResult>();
 
-  final planner = Runnable.getMapFromInput() |
+  final planner =
+      Runnable.getMapFromInput() |
       ChatPromptTemplate.fromTemplate('Generate an argument about: {input}') |
       model |
       stringOutputParser |
       Runnable.getMapFromInput('base_response');
 
-  final argumentsFor = ChatPromptTemplate.fromTemplate(
+  final argumentsFor =
+      ChatPromptTemplate.fromTemplate(
         'List the pros or positive aspects of {base_response}',
       ) |
       model |
       stringOutputParser;
 
-  final argumentsAgainst = ChatPromptTemplate.fromTemplate(
+  final argumentsAgainst =
+      ChatPromptTemplate.fromTemplate(
         'List the cons or negative aspects of {base_response}',
       ) |
       model |
       stringOutputParser;
 
-  final finalResponder = ChatPromptTemplate.fromPromptMessages([
+  final finalResponder =
+      ChatPromptTemplate.fromPromptMessages([
         AIChatMessagePromptTemplate.fromTemplate('{original_response}'),
         HumanChatMessagePromptTemplate.fromTemplate(
           'Pros:\n{results_1}\n\nCons:\n{results_2}',
@@ -119,7 +126,8 @@ Future<void> _branchingAndMerging() async {
       model |
       stringOutputParser;
 
-  final chain = planner |
+  final chain =
+      planner |
       Runnable.fromMap({
         'results_1': argumentsFor,
         'results_2': argumentsAgainst,

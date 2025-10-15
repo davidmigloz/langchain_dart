@@ -229,12 +229,16 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
         candidateCount == other.candidateCount &&
         maxOutputTokens == other.maxOutputTokens &&
         temperature == other.temperature &&
-        const ListEquality<String>()
-            .equals(stopSequences, other.stopSequences) &&
+        const ListEquality<String>().equals(
+          stopSequences,
+          other.stopSequences,
+        ) &&
         responseMimeType == other.responseMimeType &&
         responseSchema == other.responseSchema &&
-        const ListEquality<ChatGoogleGenerativeAISafetySetting>()
-            .equals(safetySettings, other.safetySettings) &&
+        const ListEquality<ChatGoogleGenerativeAISafetySetting>().equals(
+          safetySettings,
+          other.safetySettings,
+        ) &&
         enableCodeExecution == other.enableCodeExecution &&
         presencePenalty == other.presencePenalty &&
         frequencyPenalty == other.frequencyPenalty &&
@@ -255,8 +259,9 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
         const ListEquality<String>().hash(stopSequences) ^
         responseMimeType.hashCode ^
         responseSchema.hashCode ^
-        const ListEquality<ChatGoogleGenerativeAISafetySetting>()
-            .hash(safetySettings) ^
+        const ListEquality<ChatGoogleGenerativeAISafetySetting>().hash(
+          safetySettings,
+        ) ^
         enableCodeExecution.hashCode ^
         presencePenalty.hashCode ^
         frequencyPenalty.hashCode ^
