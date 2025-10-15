@@ -257,6 +257,13 @@ abstract class CreateMessageRequest with _$CreateMessageRequest {
     /// See [streaming](https://docs.anthropic.com/en/api/messages-streaming) for
     /// details.
     @Default(false) bool stream,
+
+    /// Configuration for enabling Claude's extended thinking. When enabled, responses
+    /// include `thinking` content blocks showing Claude's thinking process before the
+    /// final answer. Requires a minimum budget of 1,024 tokens and counts towards your
+    /// `max_tokens` limit.
+    /// Any of: [ThinkingConfigEnabled], [ThinkingConfigDisabled]
+    @JsonKey(includeIfNull: false) ThinkingConfig? thinking,
   }) = _CreateMessageRequest;
 
   /// Object construction from a JSON representation
@@ -277,6 +284,7 @@ abstract class CreateMessageRequest with _$CreateMessageRequest {
     'top_k',
     'top_p',
     'stream',
+    'thinking',
   ];
 
   /// Perform validations on the schema property values
@@ -299,6 +307,7 @@ abstract class CreateMessageRequest with _$CreateMessageRequest {
       'top_k': topK,
       'top_p': topP,
       'stream': stream,
+      'thinking': thinking,
     };
   }
 }

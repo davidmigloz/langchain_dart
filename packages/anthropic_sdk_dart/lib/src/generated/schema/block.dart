@@ -104,6 +104,31 @@ sealed class Block with _$Block {
     CacheControlEphemeral? cacheControl,
   }) = ToolResultBlock;
 
+  // ------------------------------------------
+  // UNION: ThinkingBlock
+  // ------------------------------------------
+
+  /// A block containing Claude's internal thinking process. This block type
+  /// appears when extended thinking is enabled via the `thinking` parameter.
+
+  @FreezedUnionValue('thinking')
+  const factory Block.thinking({
+    /// The type of content block.
+    required ThinkingBlockType type,
+
+    /// The text of Claude's internal reasoning and thinking process. This shows
+    /// how Claude approached and analyzed the problem before providing a final answer.
+    required String thinking,
+
+    /// Optional cryptographic signature for the thinking block to verify its
+    /// authenticity and integrity.
+    @JsonKey(includeIfNull: false) String? signature,
+
+    /// The cache control settings.
+    @JsonKey(name: 'cache_control', includeIfNull: false)
+    CacheControlEphemeral? cacheControl,
+  }) = ThinkingBlock;
+
   /// Object construction from a JSON representation
   factory Block.fromJson(Map<String, dynamic> json) => _$BlockFromJson(json);
 }
@@ -121,6 +146,8 @@ enum BlockEnumType {
   toolUse,
   @JsonValue('tool_result')
   toolResult,
+  @JsonValue('thinking')
+  thinking,
 }
 
 // ==========================================
@@ -178,4 +205,14 @@ class _ToolResultBlockContentConverter
       ToolResultBlockContentText(value: final v) => v,
     };
   }
+}
+
+// ==========================================
+// ENUM: ThinkingBlockType
+// ==========================================
+
+/// The type of content block.
+enum ThinkingBlockType {
+  @JsonValue('thinking')
+  thinking,
 }

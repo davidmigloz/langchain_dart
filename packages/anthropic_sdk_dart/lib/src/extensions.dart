@@ -79,6 +79,7 @@ extension BlockDeltaX on BlockDelta {
     return map(
       textDelta: (text) => text.text,
       inputJsonDelta: (inputJson) => '',
+      thinking: (thinking) => thinking.thinking,
     );
   }
 
@@ -87,6 +88,7 @@ extension BlockDeltaX on BlockDelta {
     return map(
       textDelta: (text) => '',
       inputJsonDelta: (inputJson) => inputJson.partialJson ?? '',
+      thinking: (thinking) => '',
     );
   }
 }

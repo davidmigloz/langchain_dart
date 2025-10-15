@@ -35,6 +35,9 @@ _CreateMessageRequest _$CreateMessageRequestFromJson(
   topK: (json['top_k'] as num?)?.toInt(),
   topP: (json['top_p'] as num?)?.toDouble(),
   stream: json['stream'] as bool? ?? false,
+  thinking: json['thinking'] == null
+      ? null
+      : ThinkingConfig.fromJson(json['thinking'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$CreateMessageRequestToJson(
@@ -43,18 +46,18 @@ Map<String, dynamic> _$CreateMessageRequestToJson(
   'model': const _ModelConverter().toJson(instance.model),
   'messages': instance.messages.map((e) => e.toJson()).toList(),
   'max_tokens': instance.maxTokens,
-  if (instance.metadata?.toJson() case final value?) 'metadata': value,
-  if (instance.stopSequences case final value?) 'stop_sequences': value,
-  if (const _CreateMessageRequestSystemConverter().toJson(instance.system)
-      case final value?)
-    'system': value,
-  if (instance.temperature case final value?) 'temperature': value,
-  if (instance.toolChoice?.toJson() case final value?) 'tool_choice': value,
-  if (instance.tools?.map((e) => e.toJson()).toList() case final value?)
-    'tools': value,
-  if (instance.topK case final value?) 'top_k': value,
-  if (instance.topP case final value?) 'top_p': value,
+  'metadata': ?instance.metadata?.toJson(),
+  'stop_sequences': ?instance.stopSequences,
+  'system': ?const _CreateMessageRequestSystemConverter().toJson(
+    instance.system,
+  ),
+  'temperature': ?instance.temperature,
+  'tool_choice': ?instance.toolChoice?.toJson(),
+  'tools': ?instance.tools?.map((e) => e.toJson()).toList(),
+  'top_k': ?instance.topK,
+  'top_p': ?instance.topP,
   'stream': instance.stream,
+  'thinking': ?instance.thinking?.toJson(),
 };
 
 ModelCatalog _$ModelCatalogFromJson(Map<String, dynamic> json) => ModelCatalog(
@@ -80,10 +83,8 @@ const _$ModelsEnumMap = {
   Models.claude20: 'claude-2.0',
 };
 
-ModelId _$ModelIdFromJson(Map<String, dynamic> json) => ModelId(
-  json['value'] as String,
-  $type: json['runtimeType'] as String?,
-);
+ModelId _$ModelIdFromJson(Map<String, dynamic> json) =>
+    ModelId(json['value'] as String, $type: json['runtimeType'] as String?);
 
 Map<String, dynamic> _$ModelIdToJson(ModelId instance) => <String, dynamic>{
   'value': instance.value,
@@ -115,22 +116,15 @@ SystemMessageContentText _$SystemMessageContentTextFromJson(
 
 Map<String, dynamic> _$SystemMessageContentTextToJson(
   SystemMessageContentText instance,
-) => <String, dynamic>{
-  'value': instance.value,
-  'runtimeType': instance.$type,
-};
+) => <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};
 
 _CreateMessageRequestMetadata _$CreateMessageRequestMetadataFromJson(
   Map<String, dynamic> json,
-) => _CreateMessageRequestMetadata(
-  userId: json['user_id'] as String?,
-);
+) => _CreateMessageRequestMetadata(userId: json['user_id'] as String?);
 
 Map<String, dynamic> _$CreateMessageRequestMetadataToJson(
   _CreateMessageRequestMetadata instance,
-) => <String, dynamic>{
-  if (instance.userId case final value?) 'user_id': value,
-};
+) => <String, dynamic>{'user_id': ?instance.userId};
 
 _ToolChoice _$ToolChoiceFromJson(Map<String, dynamic> json) => _ToolChoice(
   type: $enumDecode(_$ToolChoiceTypeEnumMap, json['type']),
@@ -141,9 +135,8 @@ _ToolChoice _$ToolChoiceFromJson(Map<String, dynamic> json) => _ToolChoice(
 Map<String, dynamic> _$ToolChoiceToJson(_ToolChoice instance) =>
     <String, dynamic>{
       'type': _$ToolChoiceTypeEnumMap[instance.type]!,
-      if (instance.name case final value?) 'name': value,
-      if (instance.disableParallelToolUse case final value?)
-        'disable_parallel_tool_use': value,
+      'name': ?instance.name,
+      'disable_parallel_tool_use': ?instance.disableParallelToolUse,
     };
 
 const _$ToolChoiceTypeEnumMap = {
@@ -170,15 +163,14 @@ _Message _$MessageFromJson(Map<String, dynamic> json) => _Message(
 );
 
 Map<String, dynamic> _$MessageToJson(_Message instance) => <String, dynamic>{
-  if (instance.id case final value?) 'id': value,
+  'id': ?instance.id,
   'content': const _MessageContentConverter().toJson(instance.content),
   'role': _$MessageRoleEnumMap[instance.role]!,
-  if (instance.model case final value?) 'model': value,
-  if (_$StopReasonEnumMap[instance.stopReason] case final value?)
-    'stop_reason': value,
-  if (instance.stopSequence case final value?) 'stop_sequence': value,
-  if (instance.type case final value?) 'type': value,
-  if (instance.usage?.toJson() case final value?) 'usage': value,
+  'model': ?instance.model,
+  'stop_reason': ?_$StopReasonEnumMap[instance.stopReason],
+  'stop_sequence': ?instance.stopSequence,
+  'type': ?instance.type,
+  'usage': ?instance.usage?.toJson(),
 };
 
 const _$MessageRoleEnumMap = {
@@ -216,10 +208,7 @@ MessageContentText _$MessageContentTextFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$MessageContentTextToJson(MessageContentText instance) =>
-    <String, dynamic>{
-      'value': instance.value,
-      'runtimeType': instance.$type,
-    };
+    <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};
 
 _ImageBlockSource _$ImageBlockSourceFromJson(Map<String, dynamic> json) =>
     _ImageBlockSource(
@@ -245,9 +234,7 @@ const _$ImageBlockSourceMediaTypeEnumMap = {
   ImageBlockSourceMediaType.imageWebp: 'image/webp',
 };
 
-const _$ImageBlockSourceTypeEnumMap = {
-  ImageBlockSourceType.base64: 'base64',
-};
+const _$ImageBlockSourceTypeEnumMap = {ImageBlockSourceType.base64: 'base64'};
 
 _CacheControlEphemeral _$CacheControlEphemeralFromJson(
   Map<String, dynamic> json,
@@ -278,10 +265,8 @@ _Usage _$UsageFromJson(Map<String, dynamic> json) => _Usage(
 Map<String, dynamic> _$UsageToJson(_Usage instance) => <String, dynamic>{
   'input_tokens': instance.inputTokens,
   'output_tokens': instance.outputTokens,
-  if (instance.cacheCreationInputTokens case final value?)
-    'cache_creation_input_tokens': value,
-  if (instance.cacheReadInputTokens case final value?)
-    'cache_read_input_tokens': value,
+  'cache_creation_input_tokens': ?instance.cacheCreationInputTokens,
+  'cache_read_input_tokens': ?instance.cacheReadInputTokens,
 };
 
 _CreateMessageBatchRequest _$CreateMessageBatchRequestFromJson(
@@ -337,7 +322,7 @@ Map<String, dynamic> _$MessageBatchToJson(_MessageBatch instance) =>
       'processing_status':
           _$MessageBatchProcessingStatusEnumMap[instance.processingStatus]!,
       'request_counts': instance.requestCounts.toJson(),
-      if (instance.resultsUrl case final value?) 'results_url': value,
+      'results_url': ?instance.resultsUrl,
       'type': _$MessageBatchTypeEnumMap[instance.type]!,
     };
 
@@ -383,29 +368,56 @@ _MessageDelta _$MessageDeltaFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$MessageDeltaToJson(_MessageDelta instance) =>
     <String, dynamic>{
-      if (_$StopReasonEnumMap[instance.stopReason] case final value?)
-        'stop_reason': value,
-      if (instance.stopSequence case final value?) 'stop_sequence': value,
+      'stop_reason': ?_$StopReasonEnumMap[instance.stopReason],
+      'stop_sequence': ?instance.stopSequence,
     };
 
 _MessageDeltaUsage _$MessageDeltaUsageFromJson(Map<String, dynamic> json) =>
-    _MessageDeltaUsage(
-      outputTokens: (json['output_tokens'] as num).toInt(),
-    );
+    _MessageDeltaUsage(outputTokens: (json['output_tokens'] as num).toInt());
 
 Map<String, dynamic> _$MessageDeltaUsageToJson(_MessageDeltaUsage instance) =>
-    <String, dynamic>{
-      'output_tokens': instance.outputTokens,
-    };
+    <String, dynamic>{'output_tokens': instance.outputTokens};
 
-_Error _$ErrorFromJson(Map<String, dynamic> json) => _Error(
-  type: json['type'] as String,
-  message: json['message'] as String,
-);
+_Error _$ErrorFromJson(Map<String, dynamic> json) =>
+    _Error(type: json['type'] as String, message: json['message'] as String);
 
 Map<String, dynamic> _$ErrorToJson(_Error instance) => <String, dynamic>{
   'type': instance.type,
   'message': instance.message,
+};
+
+ThinkingConfigEnabled _$ThinkingConfigEnabledFromJson(
+  Map<String, dynamic> json,
+) => ThinkingConfigEnabled(
+  type: $enumDecode(_$ThinkingConfigEnabledTypeEnumMap, json['type']),
+  budgetTokens: (json['budget_tokens'] as num).toInt(),
+);
+
+Map<String, dynamic> _$ThinkingConfigEnabledToJson(
+  ThinkingConfigEnabled instance,
+) => <String, dynamic>{
+  'type': _$ThinkingConfigEnabledTypeEnumMap[instance.type]!,
+  'budget_tokens': instance.budgetTokens,
+};
+
+const _$ThinkingConfigEnabledTypeEnumMap = {
+  ThinkingConfigEnabledType.enabled: 'enabled',
+};
+
+ThinkingConfigDisabled _$ThinkingConfigDisabledFromJson(
+  Map<String, dynamic> json,
+) => ThinkingConfigDisabled(
+  type: $enumDecode(_$ThinkingConfigDisabledTypeEnumMap, json['type']),
+);
+
+Map<String, dynamic> _$ThinkingConfigDisabledToJson(
+  ThinkingConfigDisabled instance,
+) => <String, dynamic>{
+  'type': _$ThinkingConfigDisabledTypeEnumMap[instance.type]!,
+};
+
+const _$ThinkingConfigDisabledTypeEnumMap = {
+  ThinkingConfigDisabledType.disabled: 'disabled',
 };
 
 ToolCustom _$ToolCustomFromJson(Map<String, dynamic> json) => ToolCustom(
@@ -417,9 +429,9 @@ ToolCustom _$ToolCustomFromJson(Map<String, dynamic> json) => ToolCustom(
 
 Map<String, dynamic> _$ToolCustomToJson(ToolCustom instance) =>
     <String, dynamic>{
-      if (instance.type case final value?) 'type': value,
+      'type': ?instance.type,
       'name': instance.name,
-      if (instance.description case final value?) 'description': value,
+      'description': ?instance.description,
       'input_schema': instance.inputSchema,
     };
 
@@ -437,16 +449,15 @@ ToolComputerUse _$ToolComputerUseFromJson(Map<String, dynamic> json) =>
       displayNumber: (json['display_number'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$ToolComputerUseToJson(
-  ToolComputerUse instance,
-) => <String, dynamic>{
-  'type': instance.type,
-  'name': instance.name,
-  if (instance.cacheControl?.toJson() case final value?) 'cache_control': value,
-  'display_width_px': instance.displayWidthPx,
-  'display_height_px': instance.displayHeightPx,
-  if (instance.displayNumber case final value?) 'display_number': value,
-};
+Map<String, dynamic> _$ToolComputerUseToJson(ToolComputerUse instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      'name': instance.name,
+      'cache_control': ?instance.cacheControl?.toJson(),
+      'display_width_px': instance.displayWidthPx,
+      'display_height_px': instance.displayHeightPx,
+      'display_number': ?instance.displayNumber,
+    };
 
 ToolTextEditor _$ToolTextEditorFromJson(Map<String, dynamic> json) =>
     ToolTextEditor(
@@ -459,13 +470,12 @@ ToolTextEditor _$ToolTextEditorFromJson(Map<String, dynamic> json) =>
             ),
     );
 
-Map<String, dynamic> _$ToolTextEditorToJson(
-  ToolTextEditor instance,
-) => <String, dynamic>{
-  'type': instance.type,
-  'name': instance.name,
-  if (instance.cacheControl?.toJson() case final value?) 'cache_control': value,
-};
+Map<String, dynamic> _$ToolTextEditorToJson(ToolTextEditor instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      'name': instance.name,
+      'cache_control': ?instance.cacheControl?.toJson(),
+    };
 
 ToolBash _$ToolBashFromJson(Map<String, dynamic> json) => ToolBash(
   type: json['type'] as String? ?? 'bash_20241022',
@@ -480,7 +490,7 @@ ToolBash _$ToolBashFromJson(Map<String, dynamic> json) => ToolBash(
 Map<String, dynamic> _$ToolBashToJson(ToolBash instance) => <String, dynamic>{
   'type': instance.type,
   'name': instance.name,
-  if (instance.cacheControl?.toJson() case final value?) 'cache_control': value,
+  'cache_control': ?instance.cacheControl?.toJson(),
 };
 
 TextBlock _$TextBlockFromJson(Map<String, dynamic> json) => TextBlock(
@@ -496,7 +506,7 @@ TextBlock _$TextBlockFromJson(Map<String, dynamic> json) => TextBlock(
 Map<String, dynamic> _$TextBlockToJson(TextBlock instance) => <String, dynamic>{
   'text': instance.text,
   'type': instance.type,
-  if (instance.cacheControl?.toJson() case final value?) 'cache_control': value,
+  'cache_control': ?instance.cacheControl?.toJson(),
 };
 
 ImageBlock _$ImageBlockFromJson(Map<String, dynamic> json) => ImageBlock(
@@ -509,13 +519,12 @@ ImageBlock _$ImageBlockFromJson(Map<String, dynamic> json) => ImageBlock(
         ),
 );
 
-Map<String, dynamic> _$ImageBlockToJson(
-  ImageBlock instance,
-) => <String, dynamic>{
-  'source': instance.source.toJson(),
-  'type': instance.type,
-  if (instance.cacheControl?.toJson() case final value?) 'cache_control': value,
-};
+Map<String, dynamic> _$ImageBlockToJson(ImageBlock instance) =>
+    <String, dynamic>{
+      'source': instance.source.toJson(),
+      'type': instance.type,
+      'cache_control': ?instance.cacheControl?.toJson(),
+    };
 
 ToolUseBlock _$ToolUseBlockFromJson(Map<String, dynamic> json) => ToolUseBlock(
   id: json['id'] as String,
@@ -529,15 +538,14 @@ ToolUseBlock _$ToolUseBlockFromJson(Map<String, dynamic> json) => ToolUseBlock(
         ),
 );
 
-Map<String, dynamic> _$ToolUseBlockToJson(
-  ToolUseBlock instance,
-) => <String, dynamic>{
-  'id': instance.id,
-  'name': instance.name,
-  'input': instance.input,
-  'type': instance.type,
-  if (instance.cacheControl?.toJson() case final value?) 'cache_control': value,
-};
+Map<String, dynamic> _$ToolUseBlockToJson(ToolUseBlock instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'input': instance.input,
+      'type': instance.type,
+      'cache_control': ?instance.cacheControl?.toJson(),
+    };
 
 ToolResultBlock _$ToolResultBlockFromJson(Map<String, dynamic> json) =>
     ToolResultBlock(
@@ -559,10 +567,32 @@ Map<String, dynamic> _$ToolResultBlockToJson(
 ) => <String, dynamic>{
   'tool_use_id': instance.toolUseId,
   'content': const _ToolResultBlockContentConverter().toJson(instance.content),
-  if (instance.isError case final value?) 'is_error': value,
+  'is_error': ?instance.isError,
   'type': instance.type,
-  if (instance.cacheControl?.toJson() case final value?) 'cache_control': value,
+  'cache_control': ?instance.cacheControl?.toJson(),
 };
+
+ThinkingBlock _$ThinkingBlockFromJson(Map<String, dynamic> json) =>
+    ThinkingBlock(
+      type: $enumDecode(_$ThinkingBlockTypeEnumMap, json['type']),
+      thinking: json['thinking'] as String,
+      signature: json['signature'] as String?,
+      cacheControl: json['cache_control'] == null
+          ? null
+          : CacheControlEphemeral.fromJson(
+              json['cache_control'] as Map<String, dynamic>,
+            ),
+    );
+
+Map<String, dynamic> _$ThinkingBlockToJson(ThinkingBlock instance) =>
+    <String, dynamic>{
+      'type': _$ThinkingBlockTypeEnumMap[instance.type]!,
+      'thinking': instance.thinking,
+      'signature': ?instance.signature,
+      'cache_control': ?instance.cacheControl?.toJson(),
+    };
+
+const _$ThinkingBlockTypeEnumMap = {ThinkingBlockType.thinking: 'thinking'};
 
 ToolResultBlockContentBlocks _$ToolResultBlockContentBlocksFromJson(
   Map<String, dynamic> json,
@@ -589,10 +619,7 @@ ToolResultBlockContentText _$ToolResultBlockContentTextFromJson(
 
 Map<String, dynamic> _$ToolResultBlockContentTextToJson(
   ToolResultBlockContentText instance,
-) => <String, dynamic>{
-  'value': instance.value,
-  'runtimeType': instance.$type,
-};
+) => <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};
 
 MessageStartEvent _$MessageStartEventFromJson(Map<String, dynamic> json) =>
     MessageStartEvent(
@@ -637,9 +664,7 @@ MessageStopEvent _$MessageStopEventFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$MessageStopEventToJson(MessageStopEvent instance) =>
-    <String, dynamic>{
-      'type': _$MessageStreamEventTypeEnumMap[instance.type]!,
-    };
+    <String, dynamic>{'type': _$MessageStreamEventTypeEnumMap[instance.type]!};
 
 ContentBlockStartEvent _$ContentBlockStartEventFromJson(
   Map<String, dynamic> json,
@@ -687,9 +712,8 @@ Map<String, dynamic> _$ContentBlockStopEventToJson(
   'type': _$MessageStreamEventTypeEnumMap[instance.type]!,
 };
 
-PingEvent _$PingEventFromJson(Map<String, dynamic> json) => PingEvent(
-  type: $enumDecode(_$MessageStreamEventTypeEnumMap, json['type']),
-);
+PingEvent _$PingEventFromJson(Map<String, dynamic> json) =>
+    PingEvent(type: $enumDecode(_$MessageStreamEventTypeEnumMap, json['type']));
 
 Map<String, dynamic> _$PingEventToJson(PingEvent instance) => <String, dynamic>{
   'type': _$MessageStreamEventTypeEnumMap[instance.type]!,
@@ -707,16 +731,10 @@ Map<String, dynamic> _$ErrorEventToJson(ErrorEvent instance) =>
     };
 
 TextBlockDelta _$TextBlockDeltaFromJson(Map<String, dynamic> json) =>
-    TextBlockDelta(
-      text: json['text'] as String,
-      type: json['type'] as String,
-    );
+    TextBlockDelta(text: json['text'] as String, type: json['type'] as String);
 
 Map<String, dynamic> _$TextBlockDeltaToJson(TextBlockDelta instance) =>
-    <String, dynamic>{
-      'text': instance.text,
-      'type': instance.type,
-    };
+    <String, dynamic>{'text': instance.text, 'type': instance.type};
 
 InputJsonBlockDelta _$InputJsonBlockDeltaFromJson(Map<String, dynamic> json) =>
     InputJsonBlockDelta(
@@ -727,6 +745,22 @@ InputJsonBlockDelta _$InputJsonBlockDeltaFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$InputJsonBlockDeltaToJson(
   InputJsonBlockDelta instance,
 ) => <String, dynamic>{
-  if (instance.partialJson case final value?) 'partial_json': value,
+  'partial_json': ?instance.partialJson,
   'type': instance.type,
+};
+
+ThinkingBlockDelta _$ThinkingBlockDeltaFromJson(Map<String, dynamic> json) =>
+    ThinkingBlockDelta(
+      thinking: json['thinking'] as String,
+      type: $enumDecode(_$ThinkingBlockDeltaTypeEnumMap, json['type']),
+    );
+
+Map<String, dynamic> _$ThinkingBlockDeltaToJson(ThinkingBlockDelta instance) =>
+    <String, dynamic>{
+      'thinking': instance.thinking,
+      'type': _$ThinkingBlockDeltaTypeEnumMap[instance.type]!,
+    };
+
+const _$ThinkingBlockDeltaTypeEnumMap = {
+  ThinkingBlockDeltaType.thinkingDelta: 'thinking_delta',
 };

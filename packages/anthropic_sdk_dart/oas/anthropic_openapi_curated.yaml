@@ -371,6 +371,8 @@ components:
 
             See [streaming](https://docs.anthropic.com/en/api/messages-streaming) for
             details.
+        thinking:
+          $ref: '#/components/schemas/ThinkingConfig'
       required:
         - model
         - messages
@@ -410,9 +412,9 @@ components:
     ToolChoiceType:
       type: string
       description: |
-        How the model should use the provided tools. The model can use a specific tool, 
+        How the model should use the provided tools. The model can use a specific tool,
         any available tool, or decide by itself.
-        
+
         - `auto`: allows Claude to decide whether to call any provided tools or not. This is the default value.
         - `any`: tells Claude that it must use one of the provided tools, but doesn't force a particular tool.
         - `tool`: allows us to force Claude to always use a particular tool specified in the `name` field.
@@ -420,6 +422,53 @@ components:
         - auto
         - any
         - tool
+    ThinkingConfig:
+      type: object
+      description: |
+        Configuration for enabling Claude's extended thinking. When enabled, responses
+        include `thinking` content blocks showing Claude's thinking process before the
+        final answer. Requires a minimum budget of 1,024 tokens and counts towards your
+        `max_tokens` limit.
+      oneOf:
+        - $ref: "#/components/schemas/ThinkingConfigEnabled"
+        - $ref: "#/components/schemas/ThinkingConfigDisabled"
+      discriminator:
+        propertyName: type
+        mapping:
+          enabled: "#/components/schemas/ThinkingConfigEnabled"
+          disabled: "#/components/schemas/ThinkingConfigDisabled"
+    ThinkingConfigEnabled:
+      type: object
+      description: Configuration for enabling Claude's extended thinking.
+      properties:
+        type:
+          type: string
+          description: The type of thinking configuration.
+          enum:
+            - enabled
+          default: enabled
+        budget_tokens:
+          type: integer
+          description: |
+            The maximum number of tokens Claude can use for internal reasoning.
+            Must be at least 1,024 and less than `max_tokens`. Larger budgets
+            enable more comprehensive reasoning.
+          minimum: 1024
+      required:
+        - type
+        - budget_tokens
+    ThinkingConfigDisabled:
+      type: object
+      description: Configuration for disabling Claude's extended thinking.
+      properties:
+        type:
+          type: string
+          description: The type of thinking configuration.
+          enum:
+            - disabled
+          default: disabled
+      required:
+        - type
     Message:
       type: object
       description: A message in a chat conversation.
@@ -572,6 +621,7 @@ components:
         - $ref: "#/components/schemas/ImageBlock"
         - $ref: "#/components/schemas/ToolUseBlock"
         - $ref: "#/components/schemas/ToolResultBlock"
+        - $ref: "#/components/schemas/ThinkingBlock"
       discriminator:
         propertyName: type
         mapping:
@@ -579,6 +629,7 @@ components:
           image: "#/components/schemas/ImageBlock"
           tool_use: "#/components/schemas/ToolUseBlock"
           tool_result: "#/components/schemas/ToolResultBlock"
+          thinking: "#/components/schemas/ThinkingBlock"
     TextBlock:
       type: object
       description: A block of text content.
@@ -691,6 +742,33 @@ components:
       required:
         - tool_use_id
         - content
+    ThinkingBlock:
+      type: object
+      description: |
+        A block containing Claude's internal thinking process. This block type
+        appears when extended thinking is enabled via the `thinking` parameter.
+      properties:
+        type:
+          type: string
+          description: The type of content block.
+          enum:
+            - thinking
+          default: thinking
+        thinking:
+          type: string
+          description: |
+            The text of Claude's internal reasoning and thinking process. This shows
+            how Claude approached and analyzed the problem before providing a final answer.
+        signature:
+          type: string
+          description: |
+            Optional cryptographic signature for the thinking block to verify its
+            authenticity and integrity.
+        cache_control:
+          $ref: "#/components/schemas/CacheControlEphemeral"
+      required:
+        - type
+        - thinking
     CacheControlEphemeral:
       type: object
       description: The cache control settings.
@@ -980,11 +1058,13 @@ components:
       oneOf:
         - $ref: "#/components/schemas/TextBlockDelta"
         - $ref: "#/components/schemas/InputJsonBlockDelta"
+        - $ref: "#/components/schemas/ThinkingBlockDelta"
       discriminator:
         propertyName: type
         mapping:
           text_delta: "#/components/schemas/TextBlockDelta"
           input_json_delta: "#/components/schemas/InputJsonBlockDelta"
+          thinking_delta: "#/components/schemas/ThinkingBlockDelta"
     TextBlockDelta:
       type: object
       description: A delta in a streaming text block.
@@ -1012,6 +1092,24 @@ components:
           default: input_json_delta
       required:
         - text
+        - type
+    ThinkingBlockDelta:
+      type: object
+      description: |
+        A delta in a streaming thinking block. This represents incremental updates to
+        Claude's internal thinking process as it is being generated.
+      properties:
+        thinking:
+          type: string
+          description: The thinking text delta.
+        type:
+          type: string
+          description: The type of content block delta.
+          enum:
+            - thinking_delta
+          default: thinking_delta
+      required:
+        - thinking
         - type
     ContentBlockStopEvent:
       type: object
