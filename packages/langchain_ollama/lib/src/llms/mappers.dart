@@ -42,7 +42,25 @@ extension LLMResultMapper on GenerateCompletionResponse {
 }
 
 extension OllamaResponseFormatMapper on OllamaResponseFormat {
-  ResponseFormat? toResponseFormat() => ResponseFormat.values
-      .where((final f) => f.name.toLowerCase() == name.toLowerCase())
-      .firstOrNull;
+  GenerateCompletionRequestFormat? toResponseFormat() {
+    final format = ResponseFormat.values
+        .where((final f) => f.name.toLowerCase() == name.toLowerCase())
+        .firstOrNull;
+    if (format == null) return null;
+    return GenerateCompletionRequestFormat.enumeration(
+      GenerateCompletionRequestFormatEnum.values.firstWhere(
+        (final e) => e.name == format.name,
+      ),
+    );
+  }
+}
+
+extension OllamaThinkingLevelMapper on OllamaThinkingLevel {
+  GenerateCompletionRequestThink toThinkRequest() {
+    return GenerateCompletionRequestThink.enumeration(
+      GenerateCompletionRequestThinkEnum.values.firstWhere(
+        (final e) => e.name == name,
+      ),
+    );
+  }
 }

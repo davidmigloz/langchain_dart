@@ -19,6 +19,7 @@ class ChatOllamaOptions extends ChatModelOptions {
     super.model,
     this.format,
     this.keepAlive,
+    this.think,
     this.numKeep,
     this.seed,
     this.numPredict,
@@ -71,6 +72,14 @@ class ChatOllamaOptions extends ChatModelOptions {
   /// - If set to 0, the model will be unloaded immediately once finished.
   /// - If not set, the model will stay loaded for 5 minutes by default
   final int? keepAlive;
+
+  /// Controls whether thinking/reasoning models will think before responding.
+  ///
+  /// Can be set to a [OllamaThinkingLevel] to control the intensity level:
+  /// - [OllamaThinkingLevel.high]: Maximum reasoning depth
+  /// - [OllamaThinkingLevel.medium]: Balanced reasoning
+  /// - [OllamaThinkingLevel.low]: Minimal reasoning
+  final OllamaThinkingLevel? think;
 
   /// Number of tokens to keep from the prompt.
   /// (Default: 0)
@@ -218,6 +227,7 @@ class ChatOllamaOptions extends ChatModelOptions {
     final String? model,
     final OllamaResponseFormat? format,
     final int? keepAlive,
+    final OllamaThinkingLevel? think,
     final int? numKeep,
     final int? seed,
     final int? numPredict,
@@ -256,6 +266,7 @@ class ChatOllamaOptions extends ChatModelOptions {
       model: model ?? this.model,
       format: format ?? this.format,
       keepAlive: keepAlive ?? this.keepAlive,
+      think: think ?? this.think,
       numKeep: numKeep ?? this.numKeep,
       seed: seed ?? this.seed,
       numPredict: numPredict ?? this.numPredict,
@@ -298,6 +309,7 @@ class ChatOllamaOptions extends ChatModelOptions {
       model: other?.model,
       format: other?.format,
       keepAlive: other?.keepAlive,
+      think: other?.think,
       numKeep: other?.numKeep,
       seed: other?.seed,
       numPredict: other?.numPredict,
@@ -337,6 +349,7 @@ class ChatOllamaOptions extends ChatModelOptions {
     return model == other.model &&
         format == other.format &&
         keepAlive == other.keepAlive &&
+        think == other.think &&
         numKeep == other.numKeep &&
         seed == other.seed &&
         numPredict == other.numPredict &&
@@ -375,6 +388,7 @@ class ChatOllamaOptions extends ChatModelOptions {
     return model.hashCode ^
         format.hashCode ^
         keepAlive.hashCode ^
+        think.hashCode ^
         numKeep.hashCode ^
         seed.hashCode ^
         numPredict.hashCode ^
