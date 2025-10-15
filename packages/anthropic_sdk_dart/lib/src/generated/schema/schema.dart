@@ -29,6 +29,7 @@ part 'message_stream_event_type.dart';
 part 'message_delta.dart';
 part 'message_delta_usage.dart';
 part 'error.dart';
+part 'thinking_config.dart';
 part 'tool.dart';
 part 'block.dart';
 part 'message_stream_event.dart';

@@ -43,6 +43,22 @@ sealed class BlockDelta with _$BlockDelta {
     required String type,
   }) = InputJsonBlockDelta;
 
+  // ------------------------------------------
+  // UNION: ThinkingBlockDelta
+  // ------------------------------------------
+
+  /// A delta in a streaming thinking block. This represents incremental updates to
+  /// Claude's internal thinking process as it is being generated.
+
+  @FreezedUnionValue('thinking_delta')
+  const factory BlockDelta.thinking({
+    /// The thinking text delta.
+    required String thinking,
+
+    /// The type of content block delta.
+    required ThinkingBlockDeltaType type,
+  }) = ThinkingBlockDelta;
+
   /// Object construction from a JSON representation
   factory BlockDelta.fromJson(Map<String, dynamic> json) =>
       _$BlockDeltaFromJson(json);
@@ -57,4 +73,16 @@ enum BlockDeltaEnumType {
   textDelta,
   @JsonValue('input_json_delta')
   inputJsonDelta,
+  @JsonValue('thinking_delta')
+  thinkingDelta,
+}
+
+// ==========================================
+// ENUM: ThinkingBlockDeltaType
+// ==========================================
+
+/// The type of content block delta.
+enum ThinkingBlockDeltaType {
+  @JsonValue('thinking_delta')
+  thinkingDelta,
 }
