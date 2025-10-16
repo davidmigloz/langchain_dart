@@ -19,6 +19,16 @@ This document defines the **governing principles** and **development guidelines*
 - Prefer pure Dart/SDK; add third‑party runtime dependencies only when there is a clear, documented benefit.
 - Any new dependency requires a short **trade‑off note** (security, maintenance, alternatives) and approval.
 
+**Platform Compatibility**
+
+- All packages must support **all Dart-supported compilation targets**: native (JIT/AOT), web (JS), and WASM.
+- Avoid platform-specific code (`dart:io`, `dart:html`, `dart:js`) in core library code.
+- When platform-specific functionality is needed:
+  - Use conditional imports with stub/IO/web implementations
+  - Provide clear error messages on unsupported platforms
+  - Document platform limitations in API docs and README
+- Test on multiple platforms when possible; at minimum, ensure `dart analyze` passes without platform-specific warnings.
+
 **Type Safety & Null Safety**
 
 - Avoid `dynamic` and unchecked casts. Prefer explicit types, non‑nullable by default.

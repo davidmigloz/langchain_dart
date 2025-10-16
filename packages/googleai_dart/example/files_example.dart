@@ -25,8 +25,8 @@ void main() async {
 
     print('📁 File Management Example\n');
 
-    // 1. Upload a file
-    print('1️⃣  Uploading file...\n');
+    // 1. Upload a file (using file path - IO platforms only)
+    print('1️⃣  Uploading file using file path...\n');
 
     final uploadedFile = await client.files.upload(
       filePath: testFile.path,
@@ -35,6 +35,15 @@ void main() async {
     );
 
     uploadedFileName = uploadedFile.name;
+
+    // Alternative: Upload using bytes (works on all platforms including WASM)
+    // final bytes = testFile.readAsBytesSync();
+    // final uploadedFile = await client.files.upload(
+    //   bytes: bytes,
+    //   fileName: 'example_image.txt',
+    //   mimeType: 'text/plain',
+    //   displayName: 'Example File',
+    // );
 
     print('✅ File uploaded successfully!');
     print('   Name: ${uploadedFile.name}');
@@ -149,6 +158,14 @@ void main() async {
     print('   - Supported file types: images, audio, video, documents');
     print('   - Maximum file size: 20MB per file');
     print('   - Use files with models that support multimodal input');
+    print('\n💡 Upload Methods:');
+    print(
+      '   - filePath: Read from file system (IO platforms only, streaming)',
+    );
+    print('   - bytes: Upload from memory (all platforms including WASM)');
+    print(
+      '   - contentStream: Stream large files (IO platforms only, memory efficient)',
+    );
   } catch (e) {
     print('❌ Error: $e');
   } finally {

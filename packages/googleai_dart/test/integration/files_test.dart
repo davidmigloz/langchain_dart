@@ -43,7 +43,7 @@ void main() {
   });
 
   group('File Operations - Integration', () {
-    test('uploads a file', () async {
+    test('uploads a file using filePath', () async {
       if (apiKey == null) {
         markTestSkipped('API key not available');
         return;
@@ -74,7 +74,63 @@ void main() {
         expect(file.updateTime, isNotNull);
         expect(file.expirationTime, isNotNull);
 
-        print('✅ Uploaded file: ${file.name}');
+        print('✅ Uploaded file using filePath: ${file.name}');
+        print('   Display Name: ${file.displayName}');
+        print('   MIME Type: ${file.mimeType}');
+        print('   State: ${file.state}');
+        print('   Size: ${file.sizeBytes} bytes');
+      } finally {
+        // Clean up test file
+        if (testFile.existsSync()) {
+          testFile.deleteSync();
+        }
+      }
+    });
+
+    test('uploads a file using bytes', () async {
+      if (apiKey == null) {
+        markTestSkipped('API key not available');
+        return;
+      }
+
+      // Clean up previous file first
+      if (uploadedFileName != null) {
+        try {
+          await client!.files.delete(name: uploadedFileName!);
+        } catch (_) {
+          // Ignore errors
+        }
+      }
+
+      // Create a temporary test file and read as bytes
+      final tempDir = io.Directory.systemTemp;
+      final testFile = io.File('${tempDir.path}/test_image_bytes.txt')
+        ..writeAsStringSync('This is a test file uploaded as bytes');
+
+      try {
+        final bytes = testFile.readAsBytesSync();
+
+        final file = await client!.files.upload(
+          bytes: bytes,
+          fileName: 'test_image_bytes.txt',
+          mimeType: 'text/plain',
+          displayName: 'Test File (Bytes)',
+        );
+
+        // Store for cleanup
+        uploadedFileName = file.name;
+
+        expect(file, isNotNull);
+        expect(file.name, isNotEmpty);
+        expect(file.displayName, equals('Test File (Bytes)'));
+        expect(file.mimeType, equals('text/plain'));
+        expect(file.state, isNotNull);
+        expect(file.uri, isNotEmpty);
+        expect(file.createTime, isNotNull);
+        expect(file.updateTime, isNotNull);
+        expect(file.expirationTime, isNotNull);
+
+        print('✅ Uploaded file using bytes: ${file.name}');
         print('   Display Name: ${file.displayName}');
         print('   MIME Type: ${file.mimeType}');
         print('   State: ${file.state}');
@@ -120,7 +176,7 @@ void main() {
 
       expect(file, isNotNull);
       expect(file.name, equals(uploadedFileName));
-      expect(file.displayName, equals('Test File'));
+      expect(file.displayName, equals('Test File (Bytes)'));
       expect(file.mimeType, equals('text/plain'));
       expect(file.state, isNotNull);
       expect(file.uri, isNotEmpty);
