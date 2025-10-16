@@ -15,14 +15,15 @@ void main() async {
       onSchemaName: _onSchemaName,
       onSchemaUnionFactoryName: _onSchemaUnionFactoryName,
     ),
-    clientOptions: const ClientGeneratorOptions(
-      enabled: true,
-    ),
+    clientOptions: const ClientGeneratorOptions(enabled: true),
   );
-  final res = await Process.run(
-    'dart',
-    ['run', 'build_runner', 'build', 'lib', '--delete-conflicting-outputs'],
-  );
+  final res = await Process.run('dart', [
+    'run',
+    'build_runner',
+    'build',
+    'lib',
+    '--delete-conflicting-outputs',
+  ]);
   print(res.stdout);
   print(res.stderr);
 }

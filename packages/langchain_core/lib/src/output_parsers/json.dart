@@ -52,10 +52,9 @@ class JsonOutputParser<ParserInput extends Object?>
           Map<String, dynamic>
         > {
   /// {@macro json_output_parser}
-  JsonOutputParser({
-    this.reduceOutputStream = false,
-  }) : _stringOutputParser = StringOutputParser<ParserInput>(),
-       super(defaultOptions: const OutputParserOptions());
+  JsonOutputParser({this.reduceOutputStream = false})
+    : _stringOutputParser = StringOutputParser<ParserInput>(),
+      super(defaultOptions: const OutputParserOptions());
 
   /// When invoking this parser with [Runnable.stream], every item from the
   /// input stream will be parsed and emitted by default.

@@ -17,10 +17,9 @@ class LoggingInterceptor implements Interceptor {
   final GoogleAIConfig config;
 
   /// Creates a [LoggingInterceptor].
-  LoggingInterceptor({
-    required this.config,
-  }) : logger = Logger('GoogleAI.HTTP'),
-       redactor = Redactor(redactionList: config.redactionList) {
+  LoggingInterceptor({required this.config})
+    : logger = Logger('GoogleAI.HTTP'),
+      redactor = Redactor(redactionList: config.redactionList) {
     // Only set level if hierarchical logging is enabled
     // or if this is the root logger
     if (hierarchicalLoggingEnabled || logger.parent == null) {
@@ -123,25 +122,17 @@ class LoggingInterceptor implements Interceptor {
     if (logger.level <= Level.INFO) {
       final headers = redactor.redactMap(request.headers);
       logger
-        ..info(
-          'REQUEST [$requestId] ${request.method} ${request.url}',
-        )
+        ..info('REQUEST [$requestId] ${request.method} ${request.url}')
         ..fine('Headers: $headers');
     }
   }
 
   /// Logs HTTP response.
-  void _logResponse(
-    http.Response response,
-    String requestId,
-    int durationMs,
-  ) {
+  void _logResponse(http.Response response, String requestId, int durationMs) {
     if (logger.level <= Level.INFO) {
       final headers = redactor.redactMap(response.headers);
       logger
-        ..info(
-          'RESPONSE [$requestId] ${response.statusCode} (${durationMs}ms)',
-        )
+        ..info('RESPONSE [$requestId] ${response.statusCode} (${durationMs}ms)')
         ..fine('Headers: $headers');
 
       if (logger.level <= Level.FINE) {

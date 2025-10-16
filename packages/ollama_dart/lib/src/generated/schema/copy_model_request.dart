@@ -36,9 +36,6 @@ abstract class CopyModelRequest with _$CopyModelRequest {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'source': source,
-      'destination': destination,
-    };
+    return {'source': source, 'destination': destination};
   }
 }

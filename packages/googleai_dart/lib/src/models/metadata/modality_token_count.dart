@@ -9,10 +9,7 @@ class ModalityTokenCount {
   final int? tokenCount;
 
   /// Creates a [ModalityTokenCount].
-  const ModalityTokenCount({
-    this.modality,
-    this.tokenCount,
-  });
+  const ModalityTokenCount({this.modality, this.tokenCount});
 
   /// Creates a [ModalityTokenCount] from JSON.
   factory ModalityTokenCount.fromJson(Map<String, dynamic> json) =>

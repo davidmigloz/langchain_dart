@@ -24,10 +24,8 @@ import 'types.dart';
 class RunnableWithFallback<RunInput extends Object?, RunOutput extends Object?>
     extends Runnable<RunInput, RunnableOptions, RunOutput> {
   /// {@macro runnable_fallback}
-  RunnableWithFallback({
-    required this.mainRunnable,
-    required this.fallbacks,
-  }) : super(defaultOptions: const RunnableOptions());
+  RunnableWithFallback({required this.mainRunnable, required this.fallbacks})
+    : super(defaultOptions: const RunnableOptions());
 
   /// The Runnable to run first.
   final Runnable<RunInput, RunnableOptions, RunOutput> mainRunnable;
@@ -75,10 +73,7 @@ class RunnableWithFallback<RunInput extends Object?, RunOutput extends Object?>
       }
 
       try {
-        return await runnable.batch(
-          inputs,
-          options: currentOptions,
-        );
+        return await runnable.batch(inputs, options: currentOptions);
       } catch (e) {
         firstError ??= e;
       }
@@ -87,10 +82,7 @@ class RunnableWithFallback<RunInput extends Object?, RunOutput extends Object?>
   }
 
   @override
-  Stream<RunOutput> stream(
-    RunInput input, {
-    RunnableOptions? options,
-  }) async* {
+  Stream<RunOutput> stream(RunInput input, {RunnableOptions? options}) async* {
     Object? firstError;
     for (final runnable in [mainRunnable, ...fallbacks]) {
       try {

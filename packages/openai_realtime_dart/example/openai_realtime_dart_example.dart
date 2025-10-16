@@ -4,9 +4,7 @@ import 'dart:io';
 import 'package:openai_realtime_dart/openai_realtime_dart.dart';
 
 Future<void> main() async {
-  final client = RealtimeClient(
-    apiKey: Platform.environment['OPENAI_API_KEY'],
-  );
+  final client = RealtimeClient(apiKey: Platform.environment['OPENAI_API_KEY']);
 
   // Can set parameters ahead of connecting, either separately or all at once
   await client.updateSession(instructions: 'You are a great, upbeat friend.');

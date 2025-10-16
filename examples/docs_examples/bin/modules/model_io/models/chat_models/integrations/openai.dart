@@ -24,9 +24,7 @@ Future<void> _chatOpenAI() async {
 
   final chatModel = ChatOpenAI(
     apiKey: openaiApiKey,
-    defaultOptions: const ChatOpenAIOptions(
-      temperature: 0,
-    ),
+    defaultOptions: const ChatOpenAIOptions(temperature: 0),
   );
 
   final chain = promptTemplate | chatModel | const StringOutputParser();
@@ -72,10 +70,7 @@ Future<void> _chatOpenAIStreamingTools() async {
     inputJsonSchema: {
       'type': 'object',
       'properties': {
-        'setup': {
-          'type': 'string',
-          'description': 'The setup for the joke',
-        },
+        'setup': {'type': 'string', 'description': 'The setup for the joke'},
         'punchline': {
           'type': 'string',
           'description': 'The punchline to the joke',

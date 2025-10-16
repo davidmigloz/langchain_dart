@@ -9,10 +9,7 @@ class FunctionResponse {
   final Map<String, dynamic> response;
 
   /// Creates a [FunctionResponse].
-  const FunctionResponse({
-    required this.name,
-    required this.response,
-  });
+  const FunctionResponse({required this.name, required this.response});
 
   /// Creates a [FunctionResponse] from JSON.
   factory FunctionResponse.fromJson(Map<String, dynamic> json) =>
@@ -22,10 +19,7 @@ class FunctionResponse {
       );
 
   /// Converts to JSON.
-  Map<String, dynamic> toJson() => {
-    'name': name,
-    'response': response,
-  };
+  Map<String, dynamic> toJson() => {'name': name, 'response': response};
 
   /// Creates a copy with replaced values.
   FunctionResponse copyWith({

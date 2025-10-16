@@ -31,9 +31,7 @@ final class PipelinePromptTemplate extends BasePromptTemplate {
   PipelinePromptTemplate({
     required this.finalPrompt,
     required this.pipelinePrompts,
-  }) : super(
-         inputVariables: _computeInputValues(finalPrompt, pipelinePrompts),
-       );
+  }) : super(inputVariables: _computeInputValues(finalPrompt, pipelinePrompts));
 
   /// The final prompt that is returned.
   final BasePromptTemplate finalPrompt;
@@ -51,14 +49,12 @@ final class PipelinePromptTemplate extends BasePromptTemplate {
       return name;
     }).toSet();
 
-    return pipelinePrompts.expand(
-      (final pipelinePrompt) {
-        final (_, prompt) = pipelinePrompt;
-        return prompt.inputVariables.where(
-          (final inputValue) => !intermediateValues.contains(inputValue),
-        );
-      },
-    ).toSet();
+    return pipelinePrompts.expand((final pipelinePrompt) {
+      final (_, prompt) = pipelinePrompt;
+      return prompt.inputVariables.where(
+        (final inputValue) => !intermediateValues.contains(inputValue),
+      );
+    }).toSet();
   }
 
   @override
@@ -71,9 +67,7 @@ final class PipelinePromptTemplate extends BasePromptTemplate {
     return finalPrompt.formatPrompt(_formatPipelinePrompts(values));
   }
 
-  Map<String, dynamic> _formatPipelinePrompts(
-    final InputValues values,
-  ) {
+  Map<String, dynamic> _formatPipelinePrompts(final InputValues values) {
     final allValues = mergePartialAndUserVariables(values);
     for (final pipelinePrompt in pipelinePrompts) {
       final (name, prompt) = pipelinePrompt;

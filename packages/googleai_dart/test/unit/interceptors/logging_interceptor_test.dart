@@ -210,16 +210,11 @@ void main() {
           isFalse,
         );
         // Should contain redacted marker
-        expect(
-          headerLogs.any((r) => r.message.contains('REDACTED')),
-          isTrue,
-        );
+        expect(headerLogs.any((r) => r.message.contains('REDACTED')), isTrue);
       });
 
       test('redacts api-key in headers', () async {
-        const config = GoogleAIConfig(
-          logLevel: Level.FINE,
-        );
+        const config = GoogleAIConfig(logLevel: Level.FINE);
         final interceptor = LoggingInterceptor(config: config);
 
         Future<http.Response> mockNext(RequestContext context) async {
@@ -244,10 +239,7 @@ void main() {
           isFalse,
         );
         // Should contain redacted marker
-        expect(
-          headerLogs.any((r) => r.message.contains('REDACTED')),
-          isTrue,
-        );
+        expect(headerLogs.any((r) => r.message.contains('REDACTED')), isTrue);
       });
 
       test('redacts response body with sensitive data', () async {

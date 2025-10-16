@@ -39,10 +39,6 @@ class DatabaseType with _$DatabaseType {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'name': name,
-      'tenant': tenant,
-    };
+    return {'id': id, 'name': name, 'tenant': tenant};
   }
 }

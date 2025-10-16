@@ -66,17 +66,12 @@ Future<void> _multipleChains2() async {
   final colorGenerator =
       Runnable.getMapFromInput('attribute') |
       promptTemplate1 |
-      Runnable.fromMap({
-        'color': modelParser,
-      });
+      Runnable.fromMap({'color': modelParser});
   final colorToFruit = promptTemplate2 | modelParser;
   final colorToCountry = promptTemplate3 | modelParser;
   final questionGenerator =
       colorGenerator |
-      Runnable.fromMap({
-        'fruit': colorToFruit,
-        'country': colorToCountry,
-      }) |
+      Runnable.fromMap({'fruit': colorToFruit, 'country': colorToCountry}) |
       promptTemplate4 |
       modelParser;
 

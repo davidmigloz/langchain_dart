@@ -46,10 +46,7 @@ void main() async {
     request: const GenerateChatCompletionRequest(
       model: 'llama3.2',
       messages: [
-        Message(
-          role: MessageRole.user,
-          content: 'Tell me about Paris.',
-        ),
+        Message(role: MessageRole.user, content: 'Tell me about Paris.'),
       ],
       format: GenerateChatCompletionRequestFormat.schema({
         'type': 'object',

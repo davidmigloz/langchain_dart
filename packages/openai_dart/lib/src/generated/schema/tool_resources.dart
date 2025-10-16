@@ -40,10 +40,7 @@ abstract class ToolResources with _$ToolResources {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'code_interpreter': codeInterpreter,
-      'file_search': fileSearch,
-    };
+    return {'code_interpreter': codeInterpreter, 'file_search': fileSearch};
   }
 }
 
@@ -78,9 +75,7 @@ abstract class ToolResourcesCodeInterpreter
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'file_ids': fileIds,
-    };
+    return {'file_ids': fileIds};
   }
 }
 
@@ -124,9 +119,6 @@ abstract class ToolResourcesFileSearch with _$ToolResourcesFileSearch {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'vector_store_ids': vectorStoreIds,
-      'vector_stores': vectorStores,
-    };
+    return {'vector_store_ids': vectorStoreIds, 'vector_stores': vectorStores};
   }
 }

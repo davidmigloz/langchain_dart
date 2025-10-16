@@ -20,10 +20,7 @@ void main() {
   group('copyWith - Regular Classes', () {
     group('Content', () {
       test('copyWith with no parameters returns instance with same values', () {
-        const original = Content(
-          parts: [TextPart('hello')],
-          role: 'user',
-        );
+        const original = Content(parts: [TextPart('hello')], role: 'user');
         final copied = original.copyWith();
 
         expect(copied.role, original.role);
@@ -31,10 +28,7 @@ void main() {
       });
 
       test('copyWith updates specified fields only', () {
-        const original = Content(
-          parts: [TextPart('hello')],
-          role: 'user',
-        );
+        const original = Content(parts: [TextPart('hello')], role: 'user');
         final updated = original.copyWith(role: 'model');
 
         expect(updated.role, 'model');
@@ -42,10 +36,7 @@ void main() {
       });
 
       test('copyWith updates all fields', () {
-        const original = Content(
-          parts: [TextPart('hello')],
-          role: 'user',
-        );
+        const original = Content(parts: [TextPart('hello')], role: 'user');
         final newParts = [const TextPart('goodbye')];
         final updated = original.copyWith(role: 'model', parts: newParts);
 
@@ -56,10 +47,7 @@ void main() {
       test(
         'copyWith supports explicit null assignment for nullable fields',
         () {
-          const original = Content(
-            parts: [TextPart('hello')],
-            role: 'user',
-          );
+          const original = Content(parts: [TextPart('hello')], role: 'user');
           final updated = original.copyWith(role: null);
 
           expect(updated.role, isNull);
@@ -96,10 +84,7 @@ void main() {
       });
 
       test('copyWith supports explicit null assignment', () {
-        const original = GenerationConfig(
-          temperature: 0.7,
-          topP: 0.9,
-        );
+        const original = GenerationConfig(temperature: 0.7, topP: 0.9);
         final updated = original.copyWith(temperature: null);
 
         expect(updated.temperature, isNull);
@@ -159,10 +144,7 @@ void main() {
 
     group('CustomMetadata', () {
       test('copyWith with no parameters returns instance with same values', () {
-        const original = CustomMetadata(
-          key: 'myKey',
-          stringValue: 'myValue',
-        );
+        const original = CustomMetadata(key: 'myKey', stringValue: 'myValue');
         final copied = original.copyWith();
 
         expect(copied.key, original.key);
@@ -170,10 +152,7 @@ void main() {
       });
 
       test('copyWith updates required and optional fields', () {
-        const original = CustomMetadata(
-          key: 'oldKey',
-          stringValue: 'oldValue',
-        );
+        const original = CustomMetadata(key: 'oldKey', stringValue: 'oldValue');
         final updated = original.copyWith(
           key: 'newKey',
           stringValue: 'newValue',
@@ -223,10 +202,7 @@ void main() {
 
     group('Blob', () {
       test('copyWith with no parameters returns instance with same values', () {
-        const original = Blob(
-          mimeType: 'image/png',
-          data: 'base64data',
-        );
+        const original = Blob(mimeType: 'image/png', data: 'base64data');
         final copied = original.copyWith();
 
         expect(copied.mimeType, original.mimeType);
@@ -234,10 +210,7 @@ void main() {
       });
 
       test('copyWith updates all required fields', () {
-        const original = Blob(
-          mimeType: 'image/png',
-          data: 'oldData',
-        );
+        const original = Blob(mimeType: 'image/png', data: 'oldData');
         final updated = original.copyWith(
           mimeType: 'image/jpeg',
           data: 'newData',
@@ -373,10 +346,7 @@ void main() {
 
   group('copyWith - Complex Scenarios', () {
     test('copyWith chains work correctly', () {
-      const original = Content(
-        parts: [TextPart('hello')],
-        role: 'user',
-      );
+      const original = Content(parts: [TextPart('hello')], role: 'user');
       final updated = original
           .copyWith(role: 'model')
           .copyWith(parts: [const TextPart('goodbye')]);

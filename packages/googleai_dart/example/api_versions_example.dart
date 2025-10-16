@@ -143,9 +143,7 @@ Future<void> usingDefault(String apiKey) async {
 
   // Using the default GoogleAIConfig constructor (no explicit version)
   final client = GoogleAIClient(
-    config: GoogleAIConfig(
-      authProvider: ApiKeyProvider(apiKey),
-    ),
+    config: GoogleAIConfig(authProvider: ApiKeyProvider(apiKey)),
   );
 
   try {
@@ -155,10 +153,7 @@ Future<void> usingDefault(String apiKey) async {
       model: 'gemini-2.5-flash',
       request: const GenerateContentRequest(
         contents: [
-          Content(
-            parts: [TextPart('What is machine learning?')],
-            role: 'user',
-          ),
+          Content(parts: [TextPart('What is machine learning?')], role: 'user'),
         ],
       ),
     );

@@ -159,9 +159,7 @@ class RealtimeAPI extends RealtimeEventHandler {
       throw Exception('RealtimeAPI is not connected');
     }
 
-    final finalEvent = event.copyWith(
-      eventId: RealtimeUtils.generateId(),
-    );
+    final finalEvent = event.copyWith(eventId: RealtimeUtils.generateId());
 
     _logEvent(finalEvent, fromClient: true);
     await dispatch(finalEvent.type, finalEvent);
@@ -172,10 +170,7 @@ class RealtimeAPI extends RealtimeEventHandler {
     _ws!.sink.add(data);
   }
 
-  void _logEvent(
-    RealtimeEvent event, {
-    required bool fromClient,
-  }) {
+  void _logEvent(RealtimeEvent event, {required bool fromClient}) {
     if (!debug) {
       return;
     }

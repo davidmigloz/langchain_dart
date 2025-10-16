@@ -15,11 +15,7 @@ class Status {
   final List<Map<String, dynamic>>? details;
 
   /// Creates a [Status].
-  const Status({
-    this.code,
-    this.message,
-    this.details,
-  });
+  const Status({this.code, this.message, this.details});
 
   /// Creates a [Status] from JSON.
   factory Status.fromJson(Map<String, dynamic> json) => Status(

@@ -119,14 +119,10 @@ sealed class MessageContent with _$MessageContent {
   const MessageContent._();
 
   /// An array of content blocks.
-  const factory MessageContent.blocks(
-    List<Block> value,
-  ) = MessageContentBlocks;
+  const factory MessageContent.blocks(List<Block> value) = MessageContentBlocks;
 
   /// A single text block.
-  const factory MessageContent.text(
-    String value,
-  ) = MessageContentText;
+  const factory MessageContent.text(String value) = MessageContentText;
 
   /// Object construction from a JSON representation
   factory MessageContent.fromJson(Map<String, dynamic> json) =>
@@ -150,9 +146,7 @@ class _MessageContentConverter
     if (data is String) {
       return MessageContentText(data);
     }
-    throw Exception(
-      'Unexpected value for MessageContent: $data',
-    );
+    throw Exception('Unexpected value for MessageContent: $data');
   }
 
   @override

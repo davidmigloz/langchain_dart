@@ -41,12 +41,10 @@ void main() {
       final chainWithFallbacks = promptTemplate.pipe(model).withFallbacks([
         fallbackChain,
       ]);
-      final res = await chainWithFallbacks.batch(
-        [
-          {'topic': 'bears'},
-          {'topic': 'cats'},
-        ],
-      );
+      final res = await chainWithFallbacks.batch([
+        {'topic': 'bears'},
+        {'topic': 'cats'},
+      ]);
       expect(res[0].output.content, 'tell me a joke about bears');
       expect(res[1].output.content, 'tell me a joke about cats');
     });
@@ -59,11 +57,9 @@ void main() {
       final chainWithFallbacks = promptTemplate.pipe(brokenModel).withFallbacks(
         [fallbackChain],
       );
-      final res = await chainWithFallbacks.batch(
-        [
-          {'topic': 'bears'},
-        ],
-      );
+      final res = await chainWithFallbacks.batch([
+        {'topic': 'bears'},
+      ]);
       expect(res.first.output.content, 'fallback response');
     });
 
@@ -79,11 +75,9 @@ void main() {
           .pipe(brokenModel1)
           .withFallbacks([fallbackChain]);
       expect(
-        () async => chainWithFallbacks.batch(
-          [
-            {'topic': 'bears'},
-          ],
-        ),
+        () async => chainWithFallbacks.batch([
+          {'topic': 'bears'},
+        ]),
         throwsException,
       );
     });

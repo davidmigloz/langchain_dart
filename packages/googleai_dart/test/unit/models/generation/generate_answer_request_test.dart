@@ -148,9 +148,7 @@ void main() {
       test('converts GenerateAnswerRequest with inline passages to JSON', () {
         const request = GenerateAnswerRequest(
           contents: [
-            Content(
-              parts: [TextPart('Who founded Google?')],
-            ),
+            Content(parts: [TextPart('Who founded Google?')]),
           ],
           answerStyle: AnswerStyle.extractive,
           inlinePassages: GroundingPassages(
@@ -211,10 +209,7 @@ void main() {
     test('round-trip conversion with required fields preserves data', () {
       const original = GenerateAnswerRequest(
         contents: [
-          Content(
-            parts: [TextPart('Test')],
-            role: 'user',
-          ),
+          Content(parts: [TextPart('Test')], role: 'user'),
         ],
         answerStyle: AnswerStyle.extractive,
       );
@@ -230,19 +225,14 @@ void main() {
     test('round-trip conversion with all fields preserves data', () {
       const original = GenerateAnswerRequest(
         contents: [
-          Content(
-            parts: [TextPart('Comprehensive question')],
-            role: 'user',
-          ),
+          Content(parts: [TextPart('Comprehensive question')], role: 'user'),
         ],
         answerStyle: AnswerStyle.verbose,
         inlinePassages: GroundingPassages(
           passages: [
             GroundingPassage(
               id: 'passage-1',
-              content: Content(
-                parts: [TextPart('Some passage text')],
-              ),
+              content: Content(parts: [TextPart('Some passage text')]),
             ),
           ],
         ),

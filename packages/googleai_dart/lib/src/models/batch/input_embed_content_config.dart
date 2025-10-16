@@ -14,10 +14,7 @@ class InputEmbedContentConfig {
   final InlinedEmbedContentRequests? requests;
 
   /// Creates an [InputEmbedContentConfig].
-  const InputEmbedContentConfig({
-    this.fileName,
-    this.requests,
-  });
+  const InputEmbedContentConfig({this.fileName, this.requests});
 
   /// Creates an [InputEmbedContentConfig] from JSON.
   factory InputEmbedContentConfig.fromJson(Map<String, dynamic> json) =>

@@ -6,9 +6,7 @@ import 'package:googleai_dart/googleai_dart.dart';
 
 void main() async {
   final client = GoogleAIClient(
-    config: const GoogleAIConfig(
-      authProvider: ApiKeyProvider('YOUR_API_KEY'),
-    ),
+    config: const GoogleAIConfig(authProvider: ApiKeyProvider('YOUR_API_KEY')),
   );
 
   try {
@@ -17,10 +15,7 @@ void main() async {
       model: 'gemini-2.5-flash',
       request: const GenerateContentRequest(
         contents: [
-          Content(
-            parts: [TextPart('Hello!')],
-            role: 'user',
-          ),
+          Content(parts: [TextPart('Hello!')], role: 'user'),
         ],
       ),
     );

@@ -41,11 +41,7 @@ abstract class ListPaginatedFineTuningJobsResponse
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'data': data,
-      'has_more': hasMore,
-      'object': object,
-    };
+    return {'data': data, 'has_more': hasMore, 'object': object};
   }
 }
 

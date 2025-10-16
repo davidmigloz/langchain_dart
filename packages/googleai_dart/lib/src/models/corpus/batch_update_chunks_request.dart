@@ -4,9 +4,7 @@ import 'update_chunk_request.dart';
 /// Request to batch update Chunks.
 class BatchUpdateChunksRequest {
   /// Creates a new [BatchUpdateChunksRequest] instance.
-  const BatchUpdateChunksRequest({
-    required this.requests,
-  });
+  const BatchUpdateChunksRequest({required this.requests});
 
   /// The request messages specifying the Chunks to update.
   ///
@@ -24,15 +22,11 @@ class BatchUpdateChunksRequest {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() {
-    return {
-      'requests': requests.map((e) => e.toJson()).toList(),
-    };
+    return {'requests': requests.map((e) => e.toJson()).toList()};
   }
 
   /// Creates a copy with replaced values.
-  BatchUpdateChunksRequest copyWith({
-    Object? requests = unsetCopyWithValue,
-  }) {
+  BatchUpdateChunksRequest copyWith({Object? requests = unsetCopyWithValue}) {
     return BatchUpdateChunksRequest(
       requests: requests == unsetCopyWithValue
           ? this.requests

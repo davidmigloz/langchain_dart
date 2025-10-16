@@ -39,10 +39,6 @@ abstract class DeleteModelResponse with _$DeleteModelResponse {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'deleted': deleted,
-      'object': object,
-    };
+    return {'id': id, 'deleted': deleted, 'object': object};
   }
 }

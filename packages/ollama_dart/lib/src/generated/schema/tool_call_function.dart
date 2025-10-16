@@ -39,10 +39,6 @@ abstract class ToolCallFunction with _$ToolCallFunction {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'name': name,
-      'arguments': arguments,
-      'index': index,
-    };
+    return {'name': name, 'arguments': arguments, 'index': index};
   }
 }

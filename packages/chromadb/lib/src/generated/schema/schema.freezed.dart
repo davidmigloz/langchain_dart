@@ -314,9 +314,7 @@ class _$AddEmbeddingImpl extends _AddEmbedding {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$AddEmbeddingImplToJson(
-      this,
-    );
+    return _$$AddEmbeddingImplToJson(this);
   }
 }
 
@@ -569,9 +567,7 @@ class _$CollectionTypeImpl extends _CollectionType {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$CollectionTypeImplToJson(
-      this,
-    );
+    return _$$CollectionTypeImplToJson(this);
   }
 }
 
@@ -814,9 +810,7 @@ class _$CreateCollectionImpl extends _CreateCollection {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$CreateCollectionImplToJson(
-      this,
-    );
+    return _$$CreateCollectionImplToJson(this);
   }
 }
 
@@ -1039,9 +1033,7 @@ class _$DatabaseTypeImpl extends _DatabaseType {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$DatabaseTypeImplToJson(
-      this,
-    );
+    return _$$DatabaseTypeImplToJson(this);
   }
 }
 
@@ -1120,9 +1112,7 @@ class _$CreateDatabaseCopyWithImpl<$Res, $Val extends CreateDatabase>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? name = null,
-  }) {
+  $Res call({Object? name = null}) {
     return _then(
       _value.copyWith(
             name: null == name
@@ -1160,9 +1150,7 @@ class __$$CreateDatabaseImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? name = null,
-  }) {
+  $Res call({Object? name = null}) {
     return _then(
       _$CreateDatabaseImpl(
         name: null == name
@@ -1216,9 +1204,7 @@ class _$CreateDatabaseImpl extends _CreateDatabase {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$CreateDatabaseImplToJson(
-      this,
-    );
+    return _$$CreateDatabaseImplToJson(this);
   }
 }
 
@@ -1285,9 +1271,7 @@ class _$TenantTypeCopyWithImpl<$Res, $Val extends TenantType>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? name = null,
-  }) {
+  $Res call({Object? name = null}) {
     return _then(
       _value.copyWith(
             name: null == name
@@ -1325,9 +1309,7 @@ class __$$TenantTypeImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? name = null,
-  }) {
+  $Res call({Object? name = null}) {
     return _then(
       _$TenantTypeImpl(
         name: null == name
@@ -1378,9 +1360,7 @@ class _$TenantTypeImpl extends _TenantType {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$TenantTypeImplToJson(
-      this,
-    );
+    return _$$TenantTypeImplToJson(this);
   }
 }
 
@@ -1446,9 +1426,7 @@ class _$CreateTenantCopyWithImpl<$Res, $Val extends CreateTenant>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? name = null,
-  }) {
+  $Res call({Object? name = null}) {
     return _then(
       _value.copyWith(
             name: null == name
@@ -1486,9 +1464,7 @@ class __$$CreateTenantImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? name = null,
-  }) {
+  $Res call({Object? name = null}) {
     return _then(
       _$CreateTenantImpl(
         name: null == name
@@ -1539,9 +1515,7 @@ class _$CreateTenantImpl extends _CreateTenant {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$CreateTenantImplToJson(
-      this,
-    );
+    return _$$CreateTenantImplToJson(this);
   }
 }
 
@@ -1799,9 +1773,7 @@ class _$DeleteEmbeddingImpl extends _DeleteEmbedding {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$DeleteEmbeddingImplToJson(
-      this,
-    );
+    return _$$DeleteEmbeddingImplToJson(this);
   }
 }
 
@@ -2177,9 +2149,7 @@ class _$GetEmbeddingImpl extends _GetEmbedding {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$GetEmbeddingImplToJson(
-      this,
-    );
+    return _$$GetEmbeddingImplToJson(this);
   }
 }
 
@@ -2507,9 +2477,7 @@ class _$GetResponseImpl extends _GetResponse {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$GetResponseImplToJson(
-      this,
-    );
+    return _$$GetResponseImplToJson(this);
   }
 }
 
@@ -2596,9 +2564,7 @@ class _$HTTPValidationErrorCopyWithImpl<$Res, $Val extends HTTPValidationError>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? detail = freezed,
-  }) {
+  $Res call({Object? detail = freezed}) {
     return _then(
       _value.copyWith(
             detail: freezed == detail
@@ -2636,9 +2602,7 @@ class __$$HTTPValidationErrorImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? detail = freezed,
-  }) {
+  $Res call({Object? detail = freezed}) {
     return _then(
       _$HTTPValidationErrorImpl(
         detail: freezed == detail
@@ -2706,9 +2670,7 @@ class _$HTTPValidationErrorImpl extends _HTTPValidationError {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$HTTPValidationErrorImplToJson(
-      this,
-    );
+    return _$$HTTPValidationErrorImplToJson(this);
   }
 }
 
@@ -3029,9 +2991,7 @@ class _$QueryEmbeddingImpl extends _QueryEmbedding {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$QueryEmbeddingImplToJson(
-      this,
-    );
+    return _$$QueryEmbeddingImplToJson(this);
   }
 }
 
@@ -3455,9 +3415,7 @@ class _$QueryResponseImpl extends _QueryResponse {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$QueryResponseImplToJson(
-      this,
-    );
+    return _$$QueryResponseImplToJson(this);
   }
 }
 
@@ -3571,10 +3529,7 @@ class _$UpdateCollectionCopyWithImpl<$Res, $Val extends UpdateCollection>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? newName = freezed,
-    Object? newMetadata = freezed,
-  }) {
+  $Res call({Object? newName = freezed, Object? newMetadata = freezed}) {
     return _then(
       _value.copyWith(
             newName: freezed == newName
@@ -3620,10 +3575,7 @@ class __$$UpdateCollectionImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? newName = freezed,
-    Object? newMetadata = freezed,
-  }) {
+  $Res call({Object? newName = freezed, Object? newMetadata = freezed}) {
     return _then(
       _$UpdateCollectionImpl(
         newName: freezed == newName
@@ -3709,9 +3661,7 @@ class _$UpdateCollectionImpl extends _UpdateCollection {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UpdateCollectionImplToJson(
-      this,
-    );
+    return _$$UpdateCollectionImplToJson(this);
   }
 }
 
@@ -4046,9 +3996,7 @@ class _$UpdateEmbeddingImpl extends _UpdateEmbedding {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UpdateEmbeddingImplToJson(
-      this,
-    );
+    return _$$UpdateEmbeddingImplToJson(this);
   }
 }
 
@@ -4146,11 +4094,7 @@ class _$ValidationErrorCopyWithImpl<$Res, $Val extends ValidationError>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? loc = null,
-    Object? msg = null,
-    Object? type = null,
-  }) {
+  $Res call({Object? loc = null, Object? msg = null, Object? type = null}) {
     return _then(
       _value.copyWith(
             loc: null == loc
@@ -4196,11 +4140,7 @@ class __$$ValidationErrorImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? loc = null,
-    Object? msg = null,
-    Object? type = null,
-  }) {
+  $Res call({Object? loc = null, Object? msg = null, Object? type = null}) {
     return _then(
       _$ValidationErrorImpl(
         loc: null == loc
@@ -4289,9 +4229,7 @@ class _$ValidationErrorImpl extends _ValidationError {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ValidationErrorImplToJson(
-      this,
-    );
+    return _$$ValidationErrorImplToJson(this);
   }
 }
 

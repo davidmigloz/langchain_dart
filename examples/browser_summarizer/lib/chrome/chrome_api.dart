@@ -27,8 +27,5 @@ class ParameterQueryTabs {
   final bool active;
   final bool lastFocusedWindow;
 
-  ParameterQueryTabs({
-    required this.active,
-    required this.lastFocusedWindow,
-  });
+  ParameterQueryTabs({required this.active, required this.lastFocusedWindow});
 }

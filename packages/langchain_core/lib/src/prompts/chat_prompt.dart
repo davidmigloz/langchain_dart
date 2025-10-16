@@ -358,9 +358,7 @@ enum ChatMessageType {
 final class SystemChatMessagePromptTemplate
     extends StringMessagePromptTemplate {
   /// {@macro system_chat_message_prompt_template}
-  const SystemChatMessagePromptTemplate({
-    required super.prompt,
-  });
+  const SystemChatMessagePromptTemplate({required super.prompt});
 
   /// Creates a [SystemChatMessagePromptTemplate] from a string template.
   /// It considers the prompt a [SystemChatMessage].
@@ -429,9 +427,7 @@ SystemChatMessagePromptTemplate{
   }
 
   @override
-  StringMessagePromptTemplate copyWith({
-    final BasePromptTemplate? prompt,
-  }) {
+  StringMessagePromptTemplate copyWith({final BasePromptTemplate? prompt}) {
     return SystemChatMessagePromptTemplate(
       prompt: prompt as PromptTemplate? ?? this.prompt,
     );
@@ -444,9 +440,7 @@ SystemChatMessagePromptTemplate{
 @immutable
 final class HumanChatMessagePromptTemplate extends StringMessagePromptTemplate {
   /// {@macro human_chat_message_prompt_template}
-  const HumanChatMessagePromptTemplate({
-    required super.prompt,
-  });
+  const HumanChatMessagePromptTemplate({required super.prompt});
 
   /// Creates a [HumanChatMessagePromptTemplate] from a string template.
   /// It considers the prompt a [HumanChatMessage].
@@ -519,9 +513,7 @@ HumanChatMessagePromptTemplate{
   }
 
   @override
-  StringMessagePromptTemplate copyWith({
-    final BasePromptTemplate? prompt,
-  }) {
+  StringMessagePromptTemplate copyWith({final BasePromptTemplate? prompt}) {
     return HumanChatMessagePromptTemplate(
       prompt: prompt as PromptTemplate? ?? this.prompt,
     );
@@ -534,9 +526,7 @@ HumanChatMessagePromptTemplate{
 @immutable
 final class AIChatMessagePromptTemplate extends StringMessagePromptTemplate {
   /// {@macro ai_chat_message_prompt_template}
-  const AIChatMessagePromptTemplate({
-    required super.prompt,
-  });
+  const AIChatMessagePromptTemplate({required super.prompt});
 
   /// Creates a [AIChatMessagePromptTemplate] from a string template.
   /// It considers the prompt a [AIChatMessage].
@@ -605,9 +595,7 @@ AIChatMessagePromptTemplate{
   }
 
   @override
-  StringMessagePromptTemplate copyWith({
-    final BasePromptTemplate? prompt,
-  }) {
+  StringMessagePromptTemplate copyWith({final BasePromptTemplate? prompt}) {
     return AIChatMessagePromptTemplate(
       prompt: prompt as PromptTemplate? ?? this.prompt,
     );
@@ -708,9 +696,7 @@ CustomChatMessagePromptTemplate{
   }
 
   @override
-  StringMessagePromptTemplate copyWith({
-    final BasePromptTemplate? prompt,
-  }) {
+  StringMessagePromptTemplate copyWith({final BasePromptTemplate? prompt}) {
     return CustomChatMessagePromptTemplate(
       prompt: prompt as PromptTemplate? ?? this.prompt,
       role: role,
@@ -786,9 +772,7 @@ MessagePlaceholder{
     final BasePromptTemplate? prompt,
     final String? variableName,
   }) {
-    return MessagePlaceholder(
-      variableName: variableName ?? this.variableName,
-    );
+    return MessagePlaceholder(variableName: variableName ?? this.variableName);
   }
 }
 
@@ -858,8 +842,6 @@ MessagesPlaceholder{
     final BasePromptTemplate? prompt,
     final String? variableName,
   }) {
-    return MessagesPlaceholder(
-      variableName: variableName ?? this.variableName,
-    );
+    return MessagesPlaceholder(variableName: variableName ?? this.variableName);
   }
 }

@@ -90,10 +90,7 @@ void main() {
         shardsCount: 2,
         vectorsCount: '1000',
       );
-      const expected = VertexAIIndexStats(
-        shardsCount: 2,
-        vectorsCount: 1000,
-      );
+      const expected = VertexAIIndexStats(shardsCount: 2, vectorsCount: 1000);
 
       final res = VertexAIIndexGoogleApisMapper.mapStats(stats);
       expect(res, expected);
@@ -130,10 +127,7 @@ void main() {
       );
 
       final res = VertexAIIndexGoogleApisMapper.mapIndexDatapoint(datapoint);
-      expect(
-        res.datapointId,
-        expected.datapointId,
-      );
+      expect(res.datapointId, expected.datapointId);
       expect(
         res.crowdingTag?.crowdingAttribute,
         expected.crowdingTag?.crowdingAttribute,
@@ -146,10 +140,7 @@ void main() {
         res.restricts?.first.allowList,
         expected.restricts?.first.allowList,
       );
-      expect(
-        res.restricts?.first.denyList,
-        expected.restricts?.first.denyList,
-      );
+      expect(res.restricts?.first.denyList, expected.restricts?.first.denyList);
     });
 
     test('VertexAIIndexGoogleApisMapper.mapIndexDatapointDto', () {

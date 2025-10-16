@@ -35,8 +35,6 @@ abstract class RunStepDeltaStepDetailsMessageCreation
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'message_id': messageId,
-    };
+    return {'message_id': messageId};
   }
 }

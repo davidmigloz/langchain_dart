@@ -66,9 +66,7 @@ void main() {
       expect(serverEvent1.session.id, isNotNull);
 
       // Should send a simple hello message (text)
-      final content1 = [
-        const ContentPart.text(text: 'How are you?'),
-      ];
+      final content1 = [const ContentPart.text(text: 'How are you?')];
       await client.sendUserMessageContent(content1);
 
       expect(realtimeEvents.length, equals(4));

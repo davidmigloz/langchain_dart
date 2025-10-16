@@ -21,9 +21,7 @@ class Dataset {
   };
 
   /// Creates a copy with replaced values.
-  Dataset copyWith({
-    Object? examples = unsetCopyWithValue,
-  }) {
+  Dataset copyWith({Object? examples = unsetCopyWithValue}) {
     return Dataset(
       examples: examples == unsetCopyWithValue
           ? this.examples
@@ -53,9 +51,7 @@ class TuningExamples {
   };
 
   /// Creates a copy with replaced values.
-  TuningExamples copyWith({
-    Object? examples = unsetCopyWithValue,
-  }) {
+  TuningExamples copyWith({Object? examples = unsetCopyWithValue}) {
     return TuningExamples(
       examples: examples == unsetCopyWithValue
           ? this.examples
@@ -73,10 +69,7 @@ class TuningExample {
   final String? output;
 
   /// Creates a [TuningExample].
-  const TuningExample({
-    this.textInput,
-    this.output,
-  });
+  const TuningExample({this.textInput, this.output});
 
   /// Creates a [TuningExample] from JSON.
   factory TuningExample.fromJson(Map<String, dynamic> json) => TuningExample(

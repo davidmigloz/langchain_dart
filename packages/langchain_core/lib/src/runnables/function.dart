@@ -72,10 +72,7 @@ class RunnableFunction<RunInput extends Object, RunOutput extends Object>
        );
 
   /// The function to run.
-  final FutureOr<RunOutput> Function(
-    RunInput input,
-    RunnableOptions? options,
-  )?
+  final FutureOr<RunOutput> Function(RunInput input, RunnableOptions? options)?
   _invokeFunc;
 
   /// The stream transformer to run.

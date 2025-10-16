@@ -7,10 +7,7 @@ void main() {
     test('fromJson creates ListBatchesResponse with all fields', () {
       final json = {
         'operations': [
-          {
-            'name': 'operations/abc123',
-            'done': false,
-          },
+          {'name': 'operations/abc123', 'done': false},
           {
             'name': 'operations/def456',
             'done': true,
@@ -44,9 +41,7 @@ void main() {
     });
 
     test('fromJson handles empty operations list', () {
-      final json = {
-        'operations': <dynamic>[],
-      };
+      final json = {'operations': <dynamic>[]};
 
       final response = ListBatchesResponse.fromJson(json);
 
@@ -56,9 +51,7 @@ void main() {
 
     test('toJson creates JSON with all fields', () {
       const response = ListBatchesResponse(
-        operations: [
-          Operation(name: 'operations/abc123', done: false),
-        ],
+        operations: [Operation(name: 'operations/abc123', done: false)],
         nextPageToken: 'token123',
         unreachable: ['operations/ghi789'],
       );
@@ -80,9 +73,7 @@ void main() {
 
     test('round-trip conversion preserves values', () {
       const original = ListBatchesResponse(
-        operations: [
-          Operation(name: 'operations/abc', done: true),
-        ],
+        operations: [Operation(name: 'operations/abc', done: true)],
         nextPageToken: 'next',
       );
 

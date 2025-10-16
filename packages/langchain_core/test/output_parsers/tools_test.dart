@@ -13,10 +13,7 @@ void main() {
           id: 'id',
           name: 'test',
           argumentsRaw: '{"foo":"bar","bar":"foo"}',
-          arguments: {
-            'foo': 'bar',
-            'bar': 'foo',
-          },
+          arguments: {'foo': 'bar', 'bar': 'foo'},
         ),
       ],
     ),
@@ -89,10 +86,7 @@ void main() {
         ParsedToolCall(
           id: 'id',
           name: 'test',
-          arguments: {
-            'foo': 'bar',
-            'bar': 'foo',
-          },
+          arguments: {'foo': 'bar', 'bar': 'foo'},
         ),
       ]);
     });
@@ -103,20 +97,13 @@ void main() {
           .toList();
       expect(res, const [
         [
-          ParsedToolCall(
-            id: 'id',
-            name: 'test',
-            arguments: {'foo': 'bar'},
-          ),
+          ParsedToolCall(id: 'id', name: 'test', arguments: {'foo': 'bar'}),
         ],
         [
           ParsedToolCall(
             id: 'id',
             name: 'test',
-            arguments: {
-              'foo': 'bar',
-              'bar': 'foo',
-            },
+            arguments: {'foo': 'bar', 'bar': 'foo'},
           ),
         ],
       ]);
@@ -131,10 +118,7 @@ void main() {
           ParsedToolCall(
             id: 'id',
             name: 'test',
-            arguments: {
-              'foo': 'bar',
-              'bar': 'foo',
-            },
+            arguments: {'foo': 'bar', 'bar': 'foo'},
           ),
         ],
       ]);

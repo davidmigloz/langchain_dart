@@ -9,9 +9,7 @@ void main() {
   group('QueryCorpusRequest', () {
     group('fromJson', () {
       test('creates QueryCorpusRequest with only query', () {
-        final json = {
-          'query': 'What is semantic search?',
-        };
+        final json = {'query': 'What is semantic search?'};
 
         final request = QueryCorpusRequest.fromJson(json);
 
@@ -67,10 +65,7 @@ void main() {
       });
 
       test('creates QueryCorpusRequest with empty metadataFilters', () {
-        final json = {
-          'query': 'test query',
-          'metadataFilters': <dynamic>[],
-        };
+        final json = {'query': 'test query', 'metadataFilters': <dynamic>[]};
 
         final request = QueryCorpusRequest.fromJson(json);
 
@@ -95,9 +90,7 @@ void main() {
 
     group('toJson', () {
       test('converts QueryCorpusRequest with only query to JSON', () {
-        const request = QueryCorpusRequest(
-          query: 'What is Dart?',
-        );
+        const request = QueryCorpusRequest(query: 'What is Dart?');
 
         final json = request.toJson();
 
@@ -164,9 +157,7 @@ void main() {
       });
 
       test('omits null fields from JSON', () {
-        const request = QueryCorpusRequest(
-          query: 'minimal query',
-        );
+        const request = QueryCorpusRequest(query: 'minimal query');
 
         final json = request.toJson();
 
@@ -176,10 +167,7 @@ void main() {
       });
 
       test('includes empty metadataFilters in JSON', () {
-        const request = QueryCorpusRequest(
-          query: 'test',
-          metadataFilters: [],
-        );
+        const request = QueryCorpusRequest(query: 'test', metadataFilters: []);
 
         final json = request.toJson();
 
@@ -188,9 +176,7 @@ void main() {
     });
 
     test('round-trip conversion with minimal fields preserves data', () {
-      const original = QueryCorpusRequest(
-        query: 'test query',
-      );
+      const original = QueryCorpusRequest(query: 'test query');
 
       final json = original.toJson();
       final restored = QueryCorpusRequest.fromJson(json);

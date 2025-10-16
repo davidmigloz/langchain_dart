@@ -6,9 +6,7 @@ import 'package:langchain_google/langchain_google.dart';
 
 void main(final List<String> arguments) async {
   final apiKey = Platform.environment['GOOGLEAI_API_KEY'];
-  final embeddings = GoogleGenerativeAIEmbeddings(
-    apiKey: apiKey,
-  );
+  final embeddings = GoogleGenerativeAIEmbeddings(apiKey: apiKey);
 
   // Embedding a document
   const doc = Document(pageContent: 'This is a test document.');

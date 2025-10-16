@@ -50,9 +50,7 @@ void main() {
     });
 
     test('toJson omits null parameters', () {
-      const request = PredictRequest(
-        instances: ['test'],
-      );
+      const request = PredictRequest(instances: ['test']);
 
       final json = request.toJson();
 
@@ -66,9 +64,7 @@ void main() {
         parameters: {'key': 'value'},
       );
 
-      final updated = original.copyWith(
-        instances: ['updated'],
-      );
+      final updated = original.copyWith(instances: ['updated']);
 
       expect(updated.instances, ['updated']);
       expect(updated.parameters, {'key': 'value'});

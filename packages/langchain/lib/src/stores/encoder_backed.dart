@@ -9,10 +9,7 @@ import 'package:langchain_core/stores.dart';
 /// {@endtemplate}
 class EncoderBackedStore<K, V, EK, EV> implements BaseStore<K, V> {
   /// {@macro encoder_backed_store}
-  EncoderBackedStore({
-    required this.store,
-    required this.encoder,
-  });
+  EncoderBackedStore({required this.store, required this.encoder});
 
   /// The underlying store.
   final BaseStore<EK, EV> store;
@@ -33,10 +30,8 @@ class EncoderBackedStore<K, V, EK, EV> implements BaseStore<K, V> {
   Future<void> set(final List<(K, V)> keyValuePairs) async {
     final encodedKeyValuePairs = keyValuePairs
         .map(
-          (final pair) => (
-            encoder.encodeKey(pair.$1),
-            encoder.encodeValue(pair.$2),
-          ),
+          (final pair) =>
+              (encoder.encodeKey(pair.$1), encoder.encodeValue(pair.$2)),
         )
         .toList(growable: false);
     await store.set(encodedKeyValuePairs);

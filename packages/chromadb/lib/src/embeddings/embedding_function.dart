@@ -30,9 +30,7 @@ sealed class Embeddable {
 /// {@endtemplate}
 class EmbeddableDocument extends Embeddable {
   /// {@macro embeddable_document}
-  const EmbeddableDocument({
-    required this.document,
-  });
+  const EmbeddableDocument({required this.document});
 
   /// The text document to embed.
   final String document;
@@ -43,9 +41,7 @@ class EmbeddableDocument extends Embeddable {
 /// {@endtemplate}
 class EmbeddableImage extends Embeddable {
   /// {@macro embeddable_image}
-  const EmbeddableImage({
-    required this.image,
-  });
+  const EmbeddableImage({required this.image});
 
   /// The image to embed.
   final String image;

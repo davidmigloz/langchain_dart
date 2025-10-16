@@ -22,9 +22,7 @@ void main() {
       );
     } else {
       client = GoogleAIClient(
-        config: GoogleAIConfig(
-          authProvider: ApiKeyProvider(apiKey!),
-        ),
+        config: GoogleAIConfig(authProvider: ApiKeyProvider(apiKey!)),
       );
     }
   });

@@ -126,9 +126,7 @@ class VertexAIIndexesApi {
   /// Gets an Index.
   ///
   /// - [id] The id of the index
-  Future<VertexAIIndex> get({
-    required final String id,
-  }) async {
+  Future<VertexAIIndex> get({required final String id}) async {
     final response = await _indexesApi.get(
       'projects/$project/locations/$location/indexes/$id',
     );
@@ -141,9 +139,7 @@ class VertexAIIndexesApi {
   /// undeployed.
   ///
   /// - [id] The id of the index
-  Future<VertexAIOperation> delete({
-    required final String id,
-  }) async {
+  Future<VertexAIOperation> delete({required final String id}) async {
     final res = await _indexesApi.delete(
       'projects/$project/locations/$location/indexes/$id',
     );

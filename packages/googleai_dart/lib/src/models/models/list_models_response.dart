@@ -10,10 +10,7 @@ class ListModelsResponse {
   final String? nextPageToken;
 
   /// Creates a [ListModelsResponse].
-  const ListModelsResponse({
-    required this.models,
-    this.nextPageToken,
-  });
+  const ListModelsResponse({required this.models, this.nextPageToken});
 
   /// Creates a [ListModelsResponse] from JSON.
   factory ListModelsResponse.fromJson(Map<String, dynamic> json) =>

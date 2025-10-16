@@ -35,8 +35,6 @@ abstract class ChatCompletionFunctionCallOption
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'name': name,
-    };
+    return {'name': name};
   }
 }

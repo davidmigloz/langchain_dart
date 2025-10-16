@@ -6,9 +6,7 @@ import '../langchain/types.dart';
 /// {@endtemplate}
 class ToolOptions extends BaseLangChainOptions {
   /// {@macro tool_options}
-  const ToolOptions({
-    super.concurrencyLimit,
-  });
+  const ToolOptions({super.concurrencyLimit});
 }
 
 /// {@template tool_exception}
@@ -21,7 +19,5 @@ class ToolOptions extends BaseLangChainOptions {
 /// {@endtemplate}
 final class ToolException extends LangChainException {
   /// {@macro tool_exception}
-  const ToolException({
-    super.message = '',
-  }) : super(code: 'tool');
+  const ToolException({super.message = ''}) : super(code: 'tool');
 }

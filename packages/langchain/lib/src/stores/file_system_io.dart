@@ -26,12 +26,10 @@ class LocalFileStore implements BaseStore<String, Uint8List> {
   @override
   Future<List<Uint8List?>> get(final List<String> keys) {
     return Future.wait(
-      keys.map(
-        (final key) async {
-          final file = _getLocalFile(key);
-          return file.existsSync() ? file.readAsBytes() : null;
-        },
-      ),
+      keys.map((final key) async {
+        final file = _getLocalFile(key);
+        return file.existsSync() ? file.readAsBytes() : null;
+      }),
     );
   }
 

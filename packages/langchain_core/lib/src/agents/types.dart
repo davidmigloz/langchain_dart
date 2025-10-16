@@ -5,10 +5,7 @@ import '../chat_models/types.dart';
 /// {@endtemplate}
 class AgentPlanInput {
   /// {@macro agent_plan_input}
-  const AgentPlanInput(
-    this.inputs,
-    this.intermediateSteps,
-  );
+  const AgentPlanInput(this.inputs, this.intermediateSteps);
 
   /// The input values to the agent.
   final Map<String, dynamic> inputs;
@@ -59,10 +56,7 @@ class AgentAction extends BaseAgentAction {
 /// {@endtemplate}
 class AgentFinish extends BaseAgentAction {
   /// {@macro agent_finish}
-  const AgentFinish({
-    required this.returnValues,
-    this.log = '',
-  });
+  const AgentFinish({required this.returnValues, this.log = ''});
 
   /// The return values of the agent.
   final Map<String, dynamic> returnValues;
@@ -76,10 +70,7 @@ class AgentFinish extends BaseAgentAction {
 /// {@endtemplate}
 class AgentStep {
   /// {@macro agent_step}
-  const AgentStep({
-    required this.action,
-    required this.observation,
-  });
+  const AgentStep({required this.action, required this.observation});
 
   /// The action taken by the agent.
   final AgentAction action;

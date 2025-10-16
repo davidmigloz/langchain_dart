@@ -95,9 +95,9 @@ extension ChatMessageListMapper on List<ChatMessage> {
       content: switch (humanChatMessage.content) {
         final ChatMessageContentText c => _mapMessageContentString(c),
         final ChatMessageContentImage c =>
-          ChatCompletionUserMessageContent.parts(
-            [_mapMessageContentPartImage(c)],
-          ),
+          ChatCompletionUserMessageContent.parts([
+            _mapMessageContentPartImage(c),
+          ]),
         final ChatMessageContentMultiModal c => _mapMessageContentPart(c),
       },
     );
@@ -188,9 +188,7 @@ extension ChatMessageListMapper on List<ChatMessage> {
     );
   }
 
-  ChatCompletionMessage _mapToolMessage(
-    final ToolChatMessage toolChatMessage,
-  ) {
+  ChatCompletionMessage _mapToolMessage(final ToolChatMessage toolChatMessage) {
     return ChatCompletionMessage.tool(
       toolCallId: toolChatMessage.toolCallId,
       content: toolChatMessage.content,
@@ -384,13 +382,12 @@ extension ChatOpenAIServiceTierX on ChatOpenAIServiceTier? {
   };
 }
 
-FinishReason _mapFinishReason(
-  final ChatCompletionFinishReason? reason,
-) => switch (reason) {
-  ChatCompletionFinishReason.stop => FinishReason.stop,
-  ChatCompletionFinishReason.length => FinishReason.length,
-  ChatCompletionFinishReason.toolCalls => FinishReason.toolCalls,
-  ChatCompletionFinishReason.contentFilter => FinishReason.contentFilter,
-  ChatCompletionFinishReason.functionCall => FinishReason.toolCalls,
-  null => FinishReason.unspecified,
-};
+FinishReason _mapFinishReason(final ChatCompletionFinishReason? reason) =>
+    switch (reason) {
+      ChatCompletionFinishReason.stop => FinishReason.stop,
+      ChatCompletionFinishReason.length => FinishReason.length,
+      ChatCompletionFinishReason.toolCalls => FinishReason.toolCalls,
+      ChatCompletionFinishReason.contentFilter => FinishReason.contentFilter,
+      ChatCompletionFinishReason.functionCall => FinishReason.toolCalls,
+      null => FinishReason.unspecified,
+    };

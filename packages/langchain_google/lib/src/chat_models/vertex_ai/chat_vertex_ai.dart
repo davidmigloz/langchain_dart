@@ -191,9 +191,7 @@ class ChatVertexAI extends BaseChatModel<ChatVertexAIOptions> {
     required final HttpClientAuthProvider authProvider,
     required final String project,
     final String location = 'us-central1',
-    super.defaultOptions = const ChatVertexAIOptions(
-      model: defaultModel,
-    ),
+    super.defaultOptions = const ChatVertexAIOptions(model: defaultModel),
   }) {
     _googleAiClient = g.GoogleAIClient(
       config: g.GoogleAIConfig.vertexAI(
@@ -249,10 +247,7 @@ class ChatVertexAI extends BaseChatModel<ChatVertexAIOptions> {
 
     final request = _generateCompletionRequest(messages, options: options);
     return _googleAiClient.models
-        .streamGenerateContent(
-          model: model,
-          request: request,
-        )
+        .streamGenerateContent(model: model, request: request)
         .map((final response) => response.toChatResult(id, model));
   }
 

@@ -33,8 +33,6 @@ abstract class ToolCall with _$ToolCall {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'function': function,
-    };
+    return {'function': function};
   }
 }

@@ -90,12 +90,8 @@ class TextPart extends Part {
   Map<String, dynamic> toJson() => {'text': text};
 
   /// Creates a copy with replaced values.
-  TextPart copyWith({
-    Object? text = unsetCopyWithValue,
-  }) {
-    return TextPart(
-      text == unsetCopyWithValue ? this.text : text! as String,
-    );
+  TextPart copyWith({Object? text = unsetCopyWithValue}) {
+    return TextPart(text == unsetCopyWithValue ? this.text : text! as String);
   }
 }
 
@@ -111,9 +107,7 @@ class InlineDataPart extends Part {
   Map<String, dynamic> toJson() => {'inlineData': inlineData.toJson()};
 
   /// Creates a copy with replaced values.
-  InlineDataPart copyWith({
-    Object? inlineData = unsetCopyWithValue,
-  }) {
+  InlineDataPart copyWith({Object? inlineData = unsetCopyWithValue}) {
     return InlineDataPart(
       inlineData == unsetCopyWithValue ? this.inlineData : inlineData! as Blob,
     );
@@ -132,9 +126,7 @@ class FileDataPart extends Part {
   Map<String, dynamic> toJson() => {'fileData': fileData.toJson()};
 
   /// Creates a copy with replaced values.
-  FileDataPart copyWith({
-    Object? fileData = unsetCopyWithValue,
-  }) {
+  FileDataPart copyWith({Object? fileData = unsetCopyWithValue}) {
     return FileDataPart(
       fileData == unsetCopyWithValue ? this.fileData : fileData! as FileData,
     );
@@ -153,9 +145,7 @@ class FunctionCallPart extends Part {
   Map<String, dynamic> toJson() => {'functionCall': functionCall.toJson()};
 
   /// Creates a copy with replaced values.
-  FunctionCallPart copyWith({
-    Object? functionCall = unsetCopyWithValue,
-  }) {
+  FunctionCallPart copyWith({Object? functionCall = unsetCopyWithValue}) {
     return FunctionCallPart(
       functionCall == unsetCopyWithValue
           ? this.functionCall
@@ -198,14 +188,10 @@ class ExecutableCodePart extends Part {
   const ExecutableCodePart(this.executableCode);
 
   @override
-  Map<String, dynamic> toJson() => {
-    'executableCode': executableCode.toJson(),
-  };
+  Map<String, dynamic> toJson() => {'executableCode': executableCode.toJson()};
 
   /// Creates a copy with replaced values.
-  ExecutableCodePart copyWith({
-    Object? executableCode = unsetCopyWithValue,
-  }) {
+  ExecutableCodePart copyWith({Object? executableCode = unsetCopyWithValue}) {
     return ExecutableCodePart(
       executableCode == unsetCopyWithValue
           ? this.executableCode
@@ -248,14 +234,10 @@ class VideoMetadataPart extends Part {
   const VideoMetadataPart(this.videoMetadata);
 
   @override
-  Map<String, dynamic> toJson() => {
-    'videoMetadata': videoMetadata.toJson(),
-  };
+  Map<String, dynamic> toJson() => {'videoMetadata': videoMetadata.toJson()};
 
   /// Creates a copy with replaced values.
-  VideoMetadataPart copyWith({
-    Object? videoMetadata = unsetCopyWithValue,
-  }) {
+  VideoMetadataPart copyWith({Object? videoMetadata = unsetCopyWithValue}) {
     return VideoMetadataPart(
       videoMetadata == unsetCopyWithValue
           ? this.videoMetadata
@@ -276,9 +258,7 @@ class ThoughtPart extends Part {
   Map<String, dynamic> toJson() => {'thought': thought};
 
   /// Creates a copy with replaced values.
-  ThoughtPart copyWith({
-    Object? thought = unsetCopyWithValue,
-  }) {
+  ThoughtPart copyWith({Object? thought = unsetCopyWithValue}) {
     return ThoughtPart(
       thought: thought == unsetCopyWithValue ? this.thought : thought! as bool,
     );
@@ -322,9 +302,7 @@ class PartMetadataPart extends Part {
   Map<String, dynamic> toJson() => {'partMetadata': partMetadata};
 
   /// Creates a copy with replaced values.
-  PartMetadataPart copyWith({
-    Object? partMetadata = unsetCopyWithValue,
-  }) {
+  PartMetadataPart copyWith({Object? partMetadata = unsetCopyWithValue}) {
     return PartMetadataPart(
       partMetadata == unsetCopyWithValue
           ? this.partMetadata

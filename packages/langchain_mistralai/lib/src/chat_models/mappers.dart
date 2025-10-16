@@ -39,10 +39,7 @@ extension ChatResultMapper on ChatCompletionResponse {
       id: id,
       output: AIChatMessage(content: choice.message?.content ?? ''),
       finishReason: _mapFinishReason(choice.finishReason),
-      metadata: {
-        'model': model,
-        'created': created,
-      },
+      metadata: {'model': model, 'created': created},
       usage: _mapUsage(usage),
       streaming: streaming,
     );
@@ -67,21 +64,17 @@ extension CreateChatCompletionStreamResponseMapper
       id: id,
       output: AIChatMessage(content: choice.delta.content ?? ''),
       finishReason: _mapFinishReason(choice.finishReason),
-      metadata: {
-        'model': model,
-        'created': created,
-      },
+      metadata: {'model': model, 'created': created},
       usage: const LanguageModelUsage(),
       streaming: true,
     );
   }
 }
 
-FinishReason _mapFinishReason(
-  final ChatCompletionFinishReason? reason,
-) => switch (reason) {
-  ChatCompletionFinishReason.stop => FinishReason.stop,
-  ChatCompletionFinishReason.length => FinishReason.length,
-  ChatCompletionFinishReason.modelLength => FinishReason.length,
-  null => FinishReason.unspecified,
-};
+FinishReason _mapFinishReason(final ChatCompletionFinishReason? reason) =>
+    switch (reason) {
+      ChatCompletionFinishReason.stop => FinishReason.stop,
+      ChatCompletionFinishReason.length => FinishReason.length,
+      ChatCompletionFinishReason.modelLength => FinishReason.length,
+      null => FinishReason.unspecified,
+    };

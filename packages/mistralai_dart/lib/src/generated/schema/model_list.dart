@@ -36,9 +36,6 @@ abstract class ModelList with _$ModelList {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'object': object,
-      'data': data,
-    };
+    return {'object': object, 'data': data};
   }
 }

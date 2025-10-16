@@ -36,9 +36,6 @@ abstract class RunSubmitToolOutput with _$RunSubmitToolOutput {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'tool_call_id': toolCallId,
-      'output': output,
-    };
+    return {'tool_call_id': toolCallId, 'output': output};
   }
 }

@@ -21,9 +21,7 @@ Future<void> _mapInput() async {
   await vectorStore.addDocuments(
     documents: const [
       Document(pageContent: 'LangChain was created by Harrison'),
-      Document(
-        pageContent: 'David ported LangChain to Dart in LangChain.dart',
-      ),
+      Document(pageContent: 'David ported LangChain to Dart in LangChain.dart'),
     ],
   );
 
@@ -98,9 +96,7 @@ Future<void> _getItemFromMap() async {
   await vectorStore.addDocuments(
     documents: const [
       Document(pageContent: 'LangChain was created by Harrison'),
-      Document(
-        pageContent: 'David ported LangChain to Dart in LangChain.dart',
-      ),
+      Document(pageContent: 'David ported LangChain to Dart in LangChain.dart'),
     ],
   );
   final retriever = vectorStore.asRetriever();

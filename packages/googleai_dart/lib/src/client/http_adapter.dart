@@ -10,10 +10,7 @@ class HttpAdapter {
   const HttpAdapter({required this.client});
 
   /// Sends a GET request.
-  Future<http.Response> get(
-    Uri url, {
-    Map<String, String>? headers,
-  }) {
+  Future<http.Response> get(Uri url, {Map<String, String>? headers}) {
     return client.get(url, headers: headers);
   }
 
@@ -36,10 +33,7 @@ class HttpAdapter {
   }
 
   /// Sends a DELETE request.
-  Future<http.Response> delete(
-    Uri url, {
-    Map<String, String>? headers,
-  }) {
+  Future<http.Response> delete(Uri url, {Map<String, String>? headers}) {
     return client.delete(url, headers: headers);
   }
 
@@ -49,10 +43,7 @@ class HttpAdapter {
     Map<String, String>? headers,
     Map<String, dynamic>? body,
   }) {
-    final mergedHeaders = {
-      'Content-Type': 'application/json',
-      ...?headers,
-    };
+    final mergedHeaders = {'Content-Type': 'application/json', ...?headers};
 
     return post(
       url,

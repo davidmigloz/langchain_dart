@@ -9,9 +9,7 @@ class VertexAITextEmbeddingsModelGoogleApisMapper {
     final VertexAITextEmbeddingsModelRequest request,
   ) {
     return GoogleCloudAiplatformV1PredictRequest(
-      instances: [
-        for (final c in request.content) c.toMap(),
-      ],
+      instances: [for (final c in request.content) c.toMap()],
     );
   }
 

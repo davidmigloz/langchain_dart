@@ -32,12 +32,7 @@ class Permission {
   final PermissionRole? role;
 
   /// Creates a [Permission].
-  const Permission({
-    this.name,
-    this.granteeType,
-    this.emailAddress,
-    this.role,
-  });
+  const Permission({this.name, this.granteeType, this.emailAddress, this.role});
 
   /// Creates a [Permission] from JSON.
   factory Permission.fromJson(Map<String, dynamic> json) => Permission(

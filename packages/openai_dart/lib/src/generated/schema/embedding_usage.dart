@@ -36,9 +36,6 @@ abstract class EmbeddingUsage with _$EmbeddingUsage {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'prompt_tokens': promptTokens,
-      'total_tokens': totalTokens,
-    };
+    return {'prompt_tokens': promptTokens, 'total_tokens': totalTokens};
   }
 }

@@ -89,10 +89,7 @@ class MapReduceDocumentsChain extends BaseCombineDocumentsChain {
   String get chainType => 'map_reduce_documents_chain';
 
   @override
-  Set<String> get inputKeys => {
-    inputKey,
-    ...reduceDocumentsChain.inputKeys,
-  };
+  Set<String> get inputKeys => {inputKey, ...reduceDocumentsChain.inputKeys};
 
   @override
   Set<String> get outputKeys => {
@@ -172,10 +169,7 @@ class MapReduceDocumentsChain extends BaseCombineDocumentsChain {
       final intermediateSteps = mapResults
           .map((final r) => _getContent(r[questionResultKey]))
           .toList(growable: false);
-      return {
-        ...output,
-        intermediateStepsOutputKey: intermediateSteps,
-      };
+      return {...output, intermediateStepsOutputKey: intermediateSteps};
     }
 
     return output;

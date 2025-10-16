@@ -24,20 +24,20 @@ void main() {
       () async {
         final preStoreRes = await store.get(['testDoc']);
         expect(preStoreRes.first, isNull);
-        final res1 = await cacheBackedEmbeddings.embedDocuments(
-          [const Document(pageContent: 'testDoc')],
-        );
+        final res1 = await cacheBackedEmbeddings.embedDocuments([
+          const Document(pageContent: 'testDoc'),
+        ]);
         final storeRes1 = await store.get(['testDoc']);
         expect(res1, storeRes1);
-        final res2 = await cacheBackedEmbeddings.embedDocuments(
-          [const Document(pageContent: 'testDoc')],
-        );
+        final res2 = await cacheBackedEmbeddings.embedDocuments([
+          const Document(pageContent: 'testDoc'),
+        ]);
         expect(res2, storeRes1);
         final newDocStoreRes = await store.get(['newDoc']);
         expect(newDocStoreRes.first, isNull);
-        final res3 = await cacheBackedEmbeddings.embedDocuments(
-          [const Document(pageContent: 'newDoc')],
-        );
+        final res3 = await cacheBackedEmbeddings.embedDocuments([
+          const Document(pageContent: 'newDoc'),
+        ]);
         final storeRes3 = await store.get(['newDoc']);
         expect(res3, storeRes3);
       },
@@ -66,16 +66,16 @@ void main() {
     test(
       'embedDocuments returns correct embeddings, and fills missing embeddings',
       () async {
-        final res1 = await cacheBackedEmbeddings.embedDocuments(
-          [const Document(pageContent: 'testDoc')],
-        );
-        final res2 = await cacheBackedEmbeddings.embedDocuments(
-          [const Document(pageContent: 'testDoc')],
-        );
+        final res1 = await cacheBackedEmbeddings.embedDocuments([
+          const Document(pageContent: 'testDoc'),
+        ]);
+        final res2 = await cacheBackedEmbeddings.embedDocuments([
+          const Document(pageContent: 'testDoc'),
+        ]);
         expect(res1, res2);
-        final res3 = await cacheBackedEmbeddings.embedDocuments(
-          [const Document(pageContent: 'newDoc')],
-        );
+        final res3 = await cacheBackedEmbeddings.embedDocuments([
+          const Document(pageContent: 'newDoc'),
+        ]);
         expect(res3, isNot(res2));
       },
     );

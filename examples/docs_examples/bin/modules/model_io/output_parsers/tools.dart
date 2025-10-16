@@ -17,10 +17,7 @@ Future<void> _toolsOutputParser() async {
     inputJsonSchema: {
       'type': 'object',
       'properties': {
-        'setup': {
-          'type': 'string',
-          'description': 'The setup for the joke',
-        },
+        'setup': {'type': 'string', 'description': 'The setup for the joke'},
         'punchline': {
           'type': 'string',
           'description': 'The punchline to the joke',
@@ -35,9 +32,7 @@ Future<void> _toolsOutputParser() async {
   final chat =
       ChatOpenAI(
         apiKey: openaiApiKey,
-        defaultOptions: const ChatOpenAIOptions(
-          temperature: 0,
-        ),
+        defaultOptions: const ChatOpenAIOptions(temperature: 0),
       ).bind(
         ChatOpenAIOptions(
           tools: const [tool],

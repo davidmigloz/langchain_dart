@@ -6,9 +6,7 @@ import 'package:langchain_ollama/langchain_ollama.dart';
 
 void main() async {
   final vectorStore = ObjectBoxVectorStore.open(
-    embeddings: OllamaEmbeddings(
-      model: 'jina/jina-embeddings-v2-small-en',
-    ),
+    embeddings: OllamaEmbeddings(model: 'jina/jina-embeddings-v2-small-en'),
     dimensions: 512,
   );
 
@@ -50,9 +48,7 @@ Do not provide any other suggestion if the question is not about Europe.
   ]);
 
   final model = ChatOllama(
-    defaultOptions: const ChatOllamaOptions(
-      model: 'llama3.2',
-    ),
+    defaultOptions: const ChatOllamaOptions(model: 'llama3.2'),
   );
   const outputParser = StringOutputParser<ChatResult>();
   final chain =

@@ -184,17 +184,16 @@ extension GenerateContentResponseMapper on f.GenerateContentResponse {
     );
   }
 
-  FinishReason _mapFinishReason(
-    final f.FinishReason? reason,
-  ) => switch (reason) {
-    f.FinishReason.unknown => FinishReason.unspecified,
-    f.FinishReason.stop => FinishReason.stop,
-    f.FinishReason.maxTokens => FinishReason.length,
-    f.FinishReason.safety => FinishReason.contentFilter,
-    f.FinishReason.recitation => FinishReason.recitation,
-    f.FinishReason.other => FinishReason.unspecified,
-    null => FinishReason.unspecified,
-  };
+  FinishReason _mapFinishReason(final f.FinishReason? reason) =>
+      switch (reason) {
+        f.FinishReason.unknown => FinishReason.unspecified,
+        f.FinishReason.stop => FinishReason.stop,
+        f.FinishReason.maxTokens => FinishReason.length,
+        f.FinishReason.safety => FinishReason.contentFilter,
+        f.FinishReason.recitation => FinishReason.recitation,
+        f.FinishReason.other => FinishReason.unspecified,
+        null => FinishReason.unspecified,
+      };
 }
 
 extension SafetySettingsMapper on List<ChatFirebaseVertexAISafetySetting> {
@@ -270,10 +269,7 @@ extension SchemaMapper on Map<String, dynamic> {
             nullable: nullable,
           );
         } else {
-          return f.Schema.string(
-            description: description,
-            nullable: nullable,
-          );
+          return f.Schema.string(description: description, nullable: nullable);
         }
       case 'number':
         return f.Schema.number(
@@ -288,10 +284,7 @@ extension SchemaMapper on Map<String, dynamic> {
           format: format,
         );
       case 'boolean':
-        return f.Schema.boolean(
-          description: description,
-          nullable: nullable,
-        );
+        return f.Schema.boolean(description: description, nullable: nullable);
       case 'array':
         if (items != null) {
           final itemsSchema = items.toSchema();
@@ -305,10 +298,8 @@ extension SchemaMapper on Map<String, dynamic> {
       case 'object':
         if (properties != null) {
           final propertiesSchema = properties.map(
-            (key, value) => MapEntry(
-              key,
-              (value as Map<String, dynamic>).toSchema(),
-            ),
+            (key, value) =>
+                MapEntry(key, (value as Map<String, dynamic>).toSchema()),
           );
           return f.Schema.object(
             properties: propertiesSchema,

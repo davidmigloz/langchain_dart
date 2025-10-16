@@ -4,10 +4,7 @@ import 'chunk.dart';
 /// Request to update a Chunk.
 class UpdateChunkRequest {
   /// Creates a new [UpdateChunkRequest] instance.
-  const UpdateChunkRequest({
-    required this.chunk,
-    required this.updateMask,
-  });
+  const UpdateChunkRequest({required this.chunk, required this.updateMask});
 
   /// The Chunk to update.
   ///
@@ -29,10 +26,7 @@ class UpdateChunkRequest {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() {
-    return {
-      'chunk': chunk.toJson(),
-      'updateMask': updateMask,
-    };
+    return {'chunk': chunk.toJson(), 'updateMask': updateMask};
   }
 
   /// Creates a copy with replaced values.

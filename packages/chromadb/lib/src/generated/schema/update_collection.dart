@@ -37,9 +37,6 @@ class UpdateCollection with _$UpdateCollection {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'new_name': newName,
-      'new_metadata': newMetadata,
-    };
+    return {'new_name': newName, 'new_metadata': newMetadata};
   }
 }

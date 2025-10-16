@@ -474,9 +474,7 @@ class ChromaApiClient {
       requestType: 'application/json',
       responseType: 'application/json',
       body: request,
-      queryParams: {
-        'tenant': tenant,
-      },
+      queryParams: {'tenant': tenant},
     );
     final list = _jsonDecode(r) as List;
     return list.map((e) => DatabaseType.fromJson(e)).toList();
@@ -504,9 +502,7 @@ class ChromaApiClient {
       isMultipart: false,
       requestType: '',
       responseType: 'application/json',
-      queryParams: {
-        'tenant': tenant,
-      },
+      queryParams: {'tenant': tenant},
     );
     return DatabaseType.fromJson(_jsonDecode(r));
   }
@@ -520,9 +516,7 @@ class ChromaApiClient {
   /// `request`: Request model for create tenant.
   ///
   /// `POST` `http://localhost:8000/api/v1/tenants`
-  Future<List<TenantType>> createTenant({
-    required CreateTenant request,
-  }) async {
+  Future<List<TenantType>> createTenant({required CreateTenant request}) async {
     final r = await makeRequest(
       baseUrl: 'http://localhost:8000',
       path: '/api/v1/tenants',
@@ -545,9 +539,7 @@ class ChromaApiClient {
   /// `tenant`: No description
   ///
   /// `GET` `http://localhost:8000/api/v1/tenants/{tenant}`
-  Future<TenantType> getTenant({
-    required String tenant,
-  }) async {
+  Future<TenantType> getTenant({required String tenant}) async {
     final r = await makeRequest(
       baseUrl: 'http://localhost:8000',
       path: '/api/v1/tenants/$tenant',
@@ -581,10 +573,7 @@ class ChromaApiClient {
       isMultipart: false,
       requestType: '',
       responseType: 'application/json',
-      queryParams: {
-        'tenant': tenant,
-        'database': database,
-      },
+      queryParams: {'tenant': tenant, 'database': database},
     );
     final list = _jsonDecode(r) as List;
     return list.map((e) => CollectionType.fromJson(e)).toList();
@@ -616,10 +605,7 @@ class ChromaApiClient {
       requestType: 'application/json',
       responseType: 'application/json',
       body: request,
-      queryParams: {
-        'tenant': tenant,
-        'database': database,
-      },
+      queryParams: {'tenant': tenant, 'database': database},
     );
     return CollectionType.fromJson(_jsonDecode(r));
   }
@@ -768,9 +754,7 @@ class ChromaApiClient {
   /// `collectionId`: No description
   ///
   /// `GET` `http://localhost:8000/api/v1/collections/{collection_id}/count`
-  Future<int> count({
-    required String collectionId,
-  }) async {
+  Future<int> count({required String collectionId}) async {
     final r = await makeRequest(
       baseUrl: 'http://localhost:8000',
       path: '/api/v1/collections/$collectionId/count',
@@ -834,10 +818,7 @@ class ChromaApiClient {
       isMultipart: false,
       requestType: '',
       responseType: 'application/json',
-      queryParams: {
-        'tenant': tenant,
-        'database': database,
-      },
+      queryParams: {'tenant': tenant, 'database': database},
     );
     return CollectionType.fromJson(_jsonDecode(r));
   }
@@ -867,10 +848,7 @@ class ChromaApiClient {
       isMultipart: false,
       requestType: '',
       responseType: 'application/json',
-      queryParams: {
-        'tenant': tenant,
-        'database': database,
-      },
+      queryParams: {'tenant': tenant, 'database': database},
     );
     return r;
   }

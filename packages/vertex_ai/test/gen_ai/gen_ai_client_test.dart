@@ -36,9 +36,7 @@ void main() async {
       final res = await vertexAi.text.predict(
         prompt:
             'List the numbers from 1 to 9 in order without any spaces or commas.',
-        parameters: const VertexAITextModelRequestParams(
-          stopSequences: ['4'],
-        ),
+        parameters: const VertexAITextModelRequestParams(stopSequences: ['4']),
       );
       expect(res.predictions.first.content, contains('123'));
     });
@@ -114,10 +112,7 @@ void main() async {
           stopSequences: ['4'],
         ),
       );
-      expect(
-        res.predictions.first.candidates.first.content,
-        contains('123'),
-      );
+      expect(res.predictions.first.candidates.first.content, contains('123'));
       expect(
         res.predictions.first.candidates.first.content,
         isNot(contains('456789')),
@@ -187,8 +182,7 @@ Future<AuthClient> _getAuthenticatedClient() {
   final serviceAccountCredentials = ServiceAccountCredentials.fromJson(
     json.decode(Platform.environment['VERTEX_AI_SERVICE_ACCOUNT']!),
   );
-  return clientViaServiceAccount(
-    serviceAccountCredentials,
-    [VertexAIGenAIClient.cloudPlatformScope],
-  );
+  return clientViaServiceAccount(serviceAccountCredentials, [
+    VertexAIGenAIClient.cloudPlatformScope,
+  ]);
 }

@@ -28,9 +28,7 @@ abstract class MessageObject with _$MessageObject {
     @JsonKey(name: 'thread_id') required String threadId,
 
     /// The status of the message, which can be either `in_progress`, `incomplete`, or `completed`.
-    @JsonKey(
-      unknownEnumValue: JsonKey.nullForUndefinedEnumValue,
-    )
+    @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
     required MessageObjectStatus? status,
 
     /// On an incomplete message, details about why the message is incomplete.
@@ -166,9 +164,7 @@ abstract class MessageObjectIncompleteDetails
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'reason': reason,
-    };
+    return {'reason': reason};
   }
 }
 

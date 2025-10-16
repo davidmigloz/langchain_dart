@@ -24,9 +24,7 @@ void main() {
 
     setUp(() {
       client = GoogleAIClient(
-        config: GoogleAIConfig(
-          authProvider: ApiKeyProvider(apiKey!),
-        ),
+        config: GoogleAIConfig(authProvider: ApiKeyProvider(apiKey!)),
       );
     });
 
@@ -50,21 +48,14 @@ void main() {
             model: defaultGenerativeModel,
             request: const GenerateContentRequest(
               contents: [
-                Content(
-                  parts: [TextPart('test')],
-                  role: 'user',
-                ),
+                Content(parts: [TextPart('test')], role: 'user'),
               ],
             ),
           ),
           throwsA(
             isA<ApiException>()
                 .having((e) => e.code, 'code', equals(400))
-                .having(
-                  (e) => e.message,
-                  'message',
-                  contains('API key'),
-                ),
+                .having((e) => e.message, 'message', contains('API key')),
           ),
         );
       });
@@ -77,19 +68,12 @@ void main() {
             model: 'invalid-model-xyz-999',
             request: const GenerateContentRequest(
               contents: [
-                Content(
-                  parts: [TextPart('test')],
-                  role: 'user',
-                ),
+                Content(parts: [TextPart('test')], role: 'user'),
               ],
             ),
           ),
           throwsA(
-            isA<ApiException>().having(
-              (e) => e.code,
-              'code',
-              equals(404),
-            ),
+            isA<ApiException>().having((e) => e.code, 'code', equals(404)),
           ),
         );
       });
@@ -101,12 +85,7 @@ void main() {
           client!.models.generateContent(
             model: defaultGenerativeModel,
             request: const GenerateContentRequest(
-              contents: [
-                Content(
-                  parts: [],
-                  role: 'user',
-                ),
-              ],
+              contents: [Content(parts: [], role: 'user')],
             ),
           ),
           throwsA(isA<ApiException>()),
@@ -121,10 +100,7 @@ void main() {
             model: defaultGenerativeModel,
             request: const GenerateContentRequest(
               contents: [
-                Content(
-                  parts: [TextPart('')],
-                  role: 'user',
-                ),
+                Content(parts: [TextPart('')], role: 'user'),
               ],
             ),
           );
@@ -280,10 +256,7 @@ void main() {
             model: defaultGenerativeModel,
             request: const GenerateContentRequest(
               contents: [
-                Content(
-                  parts: [TextPart('test')],
-                  role: 'user',
-                ),
+                Content(parts: [TextPart('test')], role: 'user'),
               ],
             ),
             abortTrigger: abortController.future,
@@ -338,10 +311,7 @@ void main() {
             model: defaultGenerativeModel,
             request: const GenerateContentRequest(
               contents: [
-                Content(
-                  parts: [TextPart('Write a long essay')],
-                  role: 'user',
-                ),
+                Content(parts: [TextPart('Write a long essay')], role: 'user'),
               ],
             ),
             abortTrigger: abortController.future,
@@ -365,10 +335,7 @@ void main() {
             model: defaultGenerativeModel,
             request: const GenerateContentRequest(
               contents: [
-                Content(
-                  parts: [TextPart('test')],
-                  role: 'user',
-                ),
+                Content(parts: [TextPart('test')], role: 'user'),
               ],
               generationConfig: GenerationConfig(
                 temperature: 999.0, // Invalid - should be 0.0-2.0
@@ -395,10 +362,7 @@ void main() {
             model: defaultGenerativeModel,
             request: const GenerateContentRequest(
               contents: [
-                Content(
-                  parts: [TextPart('test')],
-                  role: 'user',
-                ),
+                Content(parts: [TextPart('test')], role: 'user'),
               ],
             ),
           );

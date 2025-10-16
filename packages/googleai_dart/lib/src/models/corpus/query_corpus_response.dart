@@ -4,9 +4,7 @@ import 'relevant_chunk.dart';
 /// Response from QueryCorpus containing a list of relevant chunks.
 class QueryCorpusResponse {
   /// Creates a new [QueryCorpusResponse] instance.
-  const QueryCorpusResponse({
-    this.relevantChunks,
-  });
+  const QueryCorpusResponse({this.relevantChunks});
 
   /// The relevant chunks.
   final List<RelevantChunk>? relevantChunks;
@@ -31,9 +29,7 @@ class QueryCorpusResponse {
   }
 
   /// Creates a copy with replaced values.
-  QueryCorpusResponse copyWith({
-    Object? relevantChunks = unsetCopyWithValue,
-  }) {
+  QueryCorpusResponse copyWith({Object? relevantChunks = unsetCopyWithValue}) {
     return QueryCorpusResponse(
       relevantChunks: relevantChunks == unsetCopyWithValue
           ? this.relevantChunks

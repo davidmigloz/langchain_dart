@@ -36,9 +36,6 @@ abstract class Conversation with _$Conversation {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'object': object,
-    };
+    return {'id': id, 'object': object};
   }
 }

@@ -75,9 +75,7 @@ void main() {
         ),
       );
       final res = await chat.invoke(
-        PromptValue.chat(
-          [ChatMessage.humanText('Hello, how are you?')],
-        ),
+        PromptValue.chat([ChatMessage.humanText('Hello, how are you?')]),
       );
       expect(res.metadata, isNotNull);
       expect(res.metadata['created'], isNotNull);
@@ -95,10 +93,9 @@ void main() {
           temperature: 0,
         ),
       );
-      final res = await chat(
-        [query],
-        options: const ChatOpenAIOptions(stop: ['3']),
-      );
+      final res = await chat([
+        query,
+      ], options: const ChatOpenAIOptions(stop: ['3']));
       expect(res.content.contains('2.'), isTrue);
       expect(res.content.contains('3.'), isFalse);
     });
@@ -213,10 +210,7 @@ void main() {
     });
 
     test('Test countTokens messages', () async {
-      final models = [
-        'gpt-4-0314',
-        'gpt-4-0613',
-      ];
+      final models = ['gpt-4-0314', 'gpt-4-0613'];
       for (final model in models) {
         final chat = ChatOpenAI(
           apiKey: openaiApiKey,
@@ -279,10 +273,7 @@ void main() {
       inputJsonSchema: {
         'type': 'object',
         'properties': {
-          'setup': {
-            'type': 'string',
-            'description': 'The setup for the joke',
-          },
+          'setup': {'type': 'string', 'description': 'The setup for the joke'},
           'punchline': {
             'type': 'string',
             'description': 'The punchline to the joke',
@@ -445,9 +436,7 @@ void main() {
 
     test('Test multi-modal GPT-4 Vision with URL image', () async {
       final prompt = PromptValue.chat([
-        ChatMessage.system(
-          'You are a helpful assistant.',
-        ),
+        ChatMessage.system('You are a helpful assistant.'),
         ChatMessage.human(
           ChatMessageContent.multiModal([
             ChatMessageContent.text('What fruit is this?'),
@@ -460,9 +449,7 @@ void main() {
       ]);
       final chatModel = ChatOpenAI(
         apiKey: openaiApiKey,
-        defaultOptions: const ChatOpenAIOptions(
-          model: defaultModel,
-        ),
+        defaultOptions: const ChatOpenAIOptions(model: defaultModel),
       );
 
       final res = await chatModel.invoke(prompt);
@@ -471,9 +458,7 @@ void main() {
 
     test('Test multi-modal GPT-4 Vision with base64 image', () async {
       final prompt = PromptValue.chat([
-        ChatMessage.system(
-          'You are a helpful assistant.',
-        ),
+        ChatMessage.system('You are a helpful assistant.'),
         ChatMessage.human(
           ChatMessageContent.multiModal([
             ChatMessageContent.text('What fruit is this?'),
@@ -487,9 +472,7 @@ void main() {
       ]);
       final chatModel = ChatOpenAI(
         apiKey: openaiApiKey,
-        defaultOptions: const ChatOpenAIOptions(
-          model: defaultModel,
-        ),
+        defaultOptions: const ChatOpenAIOptions(model: defaultModel),
       );
 
       final res = await chatModel.invoke(prompt);
@@ -506,9 +489,7 @@ void main() {
       );
 
       final chatModelWithTools = chatModel.bind(
-        const ChatOpenAIOptions(
-          tools: [getCurrentWeatherTool, jokeTool],
-        ),
+        const ChatOpenAIOptions(tools: [getCurrentWeatherTool, jokeTool]),
       );
 
       final res1 = await chatModelWithTools.invoke(
@@ -516,10 +497,10 @@ void main() {
           'Tell me the weather in Barcelona, Spain and a joke about bears',
         ),
       );
-      expect(
-        res1.output.toolCalls.map((tc) => tc.name).toSet(),
-        {getCurrentWeatherTool.name, jokeTool.name},
-      );
+      expect(res1.output.toolCalls.map((tc) => tc.name).toSet(), {
+        getCurrentWeatherTool.name,
+        jokeTool.name,
+      });
 
       final chatModelForceWeatherTool = chatModelWithTools.bind(
         ChatOpenAIOptions(
@@ -532,10 +513,9 @@ void main() {
           'Tell me the weather in Barcelona, Spain and a joke about bears',
         ),
       );
-      expect(
-        res2.output.toolCalls.map((tc) => tc.name).toSet(),
-        {getCurrentWeatherTool.name},
-      );
+      expect(res2.output.toolCalls.map((tc) => tc.name).toSet(), {
+        getCurrentWeatherTool.name,
+      });
 
       final chatModelForceJokeTool = chatModelWithTools.bind(
         ChatOpenAIOptions(
@@ -548,10 +528,9 @@ void main() {
           'Tell me the weather in Barcelona, Spain and a joke about bears',
         ),
       );
-      expect(
-        res3.output.toolCalls.map((tc) => tc.name).toSet(),
-        {jokeTool.name},
-      );
+      expect(res3.output.toolCalls.map((tc) => tc.name).toSet(), {
+        jokeTool.name,
+      });
     });
   });
 }

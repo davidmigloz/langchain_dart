@@ -11,9 +11,7 @@ void main() {
     late OpenAIClient client;
 
     setUp(() {
-      client = OpenAIClient(
-        apiKey: Platform.environment['OPENAI_API_KEY'],
-      );
+      client = OpenAIClient(apiKey: Platform.environment['OPENAI_API_KEY']);
     });
 
     tearDown(() {
@@ -38,16 +36,12 @@ void main() {
     });
 
     test('Test retrieve batch job', skip: true, () async {
-      final res = await client.retrieveBatch(
-        batchId: 'batch_abc123',
-      );
+      final res = await client.retrieveBatch(batchId: 'batch_abc123');
       expect(res.id, 'batch_abc123');
     });
 
     test('Test cancel fine-tuning jobs', skip: true, () async {
-      final res = await client.cancelBatch(
-        batchId: 'batch_abc123',
-      );
+      final res = await client.cancelBatch(batchId: 'batch_abc123');
       expect(res.status, BatchStatus.cancelled);
     });
   });

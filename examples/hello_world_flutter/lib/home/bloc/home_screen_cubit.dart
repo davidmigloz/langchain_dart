@@ -31,28 +31,19 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
   }
 
   void onModelChanged(final String model) {
-    final newModel = {
-      ...state.model,
-      state.provider: model,
-    };
+    final newModel = {...state.model, state.provider: model};
     emit(state.copyWith(model: newModel));
     _updateChain();
   }
 
   void onApiKeyChanged(final String apiKey) {
-    final newApiKey = {
-      ...state.apiKey,
-      state.provider: apiKey,
-    };
+    final newApiKey = {...state.apiKey, state.provider: apiKey};
     emit(state.copyWith(apiKey: newApiKey));
     _updateChain();
   }
 
   void onBaseUrlChanged(final String baseUrl) {
-    final newBaseUrl = {
-      ...state.baseUrl,
-      state.provider: baseUrl,
-    };
+    final newBaseUrl = {...state.baseUrl, state.provider: baseUrl};
     emit(state.copyWith(baseUrl: newBaseUrl));
     _updateChain();
   }

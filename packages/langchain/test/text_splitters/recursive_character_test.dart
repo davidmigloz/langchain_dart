@@ -38,13 +38,7 @@ void main() {
         keepSeparator: true,
       );
 
-      expect(output, [
-        '....5',
-        'X..3',
-        'Y...4',
-        'X....5',
-        'Y...',
-      ]);
+      expect(output, ['....5', 'X..3', 'Y...4', 'X....5', 'Y...']);
     });
 
     test('Test iterative text splitter discard separator', () {
@@ -54,13 +48,7 @@ void main() {
         keepSeparator: false,
       );
 
-      expect(output, [
-        '....5',
-        '..3',
-        '...4',
-        '....5',
-        '...',
-      ]);
+      expect(output, ['....5', '..3', '...4', '....5', '...']);
     });
 
     test('Test chunk overlap', () {

@@ -13,9 +13,7 @@ void main() {
       const defaultModel = 'llama3.2';
 
       setUp(() {
-        embeddings = OllamaEmbeddings(
-          model: defaultModel,
-        );
+        embeddings = OllamaEmbeddings(model: defaultModel);
       });
 
       tearDown(() {
@@ -29,14 +27,8 @@ void main() {
 
       test('Test OllamaEmbeddings.embedDocuments', () async {
         final res = await embeddings.embedDocuments([
-          const Document(
-            id: '1',
-            pageContent: 'Hello world',
-          ),
-          const Document(
-            id: '2',
-            pageContent: 'Bye bye',
-          ),
+          const Document(id: '1', pageContent: 'Hello world'),
+          const Document(id: '2', pageContent: 'Bye bye'),
         ]);
         expect(res.length, 2);
         expect(res[0].length, 4096);

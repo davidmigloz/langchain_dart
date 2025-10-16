@@ -9,10 +9,7 @@ void main() {
     test('Test that a json file can be loaded', () {
       const filePath = './test/document_loaders/assets/example_1.json';
 
-      const loader = JsonLoader(
-        filePath,
-        jpSchema: r'$..text',
-      );
+      const loader = JsonLoader(filePath, jpSchema: r'$..text');
 
       expect(
         loader.lazyLoad(),
@@ -33,10 +30,7 @@ void main() {
     test('test extracting numeric field', () {
       const filePath = './test/document_loaders/assets/example_2.json';
 
-      const loader = JsonLoader(
-        filePath,
-        jpSchema: r'$..price',
-      );
+      const loader = JsonLoader(filePath, jpSchema: r'$..price');
 
       expect(
         loader.lazyLoad(),
@@ -53,10 +47,7 @@ void main() {
     test('test extracting string field', () {
       const filePath = './test/document_loaders/assets/example_2.json';
 
-      const loader = JsonLoader(
-        filePath,
-        jpSchema: r'$..category',
-      );
+      const loader = JsonLoader(filePath, jpSchema: r'$..category');
 
       expect(
         loader.lazyLoad(),
@@ -72,10 +63,7 @@ void main() {
     test('test invalid jpSchema throws exception', () {
       const filePath = './test/documents/loaders/assets/example_2.json';
 
-      const loader = JsonLoader(
-        filePath,
-        jpSchema: r'.[]',
-      );
+      const loader = JsonLoader(filePath, jpSchema: r'.[]');
 
       expect(() async => loader.load(), throwsException);
     });

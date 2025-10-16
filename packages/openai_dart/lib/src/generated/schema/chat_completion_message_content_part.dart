@@ -136,10 +136,7 @@ abstract class ChatCompletionMessageImageUrl
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'url': url,
-      'detail': detail,
-    };
+    return {'url': url, 'detail': detail};
   }
 }
 
@@ -191,10 +188,7 @@ abstract class ChatCompletionMessageInputAudio
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'data': data,
-      'format': format,
-    };
+    return {'data': data, 'format': format};
   }
 }
 

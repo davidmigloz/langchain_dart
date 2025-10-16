@@ -26,16 +26,7 @@ class PopUpScreenState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [
-    status,
-    openAiKey,
-    summary,
-  ];
+  List<Object?> get props => [status, openAiKey, summary];
 }
 
-enum PopUpScreenStatus {
-  loading,
-  setUp,
-  idle,
-  summarizing,
-}
+enum PopUpScreenStatus { loading, setUp, idle, summarizing }

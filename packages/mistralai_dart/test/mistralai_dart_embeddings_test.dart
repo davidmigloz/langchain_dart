@@ -11,9 +11,7 @@ void main() {
     late MistralAIClient client;
 
     setUp(() {
-      client = MistralAIClient(
-        apiKey: Platform.environment['MISTRAL_API_KEY'],
-      );
+      client = MistralAIClient(apiKey: Platform.environment['MISTRAL_API_KEY']);
     });
 
     tearDown(() {

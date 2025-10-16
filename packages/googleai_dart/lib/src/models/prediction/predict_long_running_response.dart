@@ -7,9 +7,7 @@ class PredictLongRunningResponse {
   final PredictLongRunningGeneratedVideoResponse? generateVideoResponse;
 
   /// Creates a [PredictLongRunningResponse].
-  const PredictLongRunningResponse({
-    this.generateVideoResponse,
-  });
+  const PredictLongRunningResponse({this.generateVideoResponse});
 
   /// Creates a [PredictLongRunningResponse] from JSON.
   factory PredictLongRunningResponse.fromJson(Map<String, dynamic> json) =>

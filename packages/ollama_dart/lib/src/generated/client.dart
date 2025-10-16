@@ -464,9 +464,7 @@ class OllamaClient {
   /// `request`: Create a new model from a Modelfile.
   ///
   /// `POST` `http://localhost:11434/api/create`
-  Future<CreateModelResponse> createModel({
-    CreateModelRequest? request,
-  }) async {
+  Future<CreateModelResponse> createModel({CreateModelRequest? request}) async {
     final r = await makeRequest(
       baseUrl: 'http://localhost:11434/api',
       path: '/create',
@@ -526,9 +524,7 @@ class OllamaClient {
   /// `request`: Request class for the show model info endpoint.
   ///
   /// `POST` `http://localhost:11434/api/show`
-  Future<ModelInfo> showModelInfo({
-    ModelInfoRequest? request,
-  }) async {
+  Future<ModelInfo> showModelInfo({ModelInfoRequest? request}) async {
     final r = await makeRequest(
       baseUrl: 'http://localhost:11434/api',
       path: '/show',
@@ -550,9 +546,7 @@ class OllamaClient {
   /// `request`: Request class for copying a model.
   ///
   /// `POST` `http://localhost:11434/api/copy`
-  Future<void> copyModel({
-    CopyModelRequest? request,
-  }) async {
+  Future<void> copyModel({CopyModelRequest? request}) async {
     final _ = await makeRequest(
       baseUrl: 'http://localhost:11434/api',
       path: '/copy',
@@ -573,9 +567,7 @@ class OllamaClient {
   /// `request`: Request class for deleting a model.
   ///
   /// `DELETE` `http://localhost:11434/api/delete`
-  Future<void> deleteModel({
-    DeleteModelRequest? request,
-  }) async {
+  Future<void> deleteModel({DeleteModelRequest? request}) async {
     final _ = await makeRequest(
       baseUrl: 'http://localhost:11434/api',
       path: '/delete',
@@ -598,9 +590,7 @@ class OllamaClient {
   /// `request`: Request class for pulling a model.
   ///
   /// `POST` `http://localhost:11434/api/pull`
-  Future<PullModelResponse> pullModel({
-    PullModelRequest? request,
-  }) async {
+  Future<PullModelResponse> pullModel({PullModelRequest? request}) async {
     final r = await makeRequest(
       baseUrl: 'http://localhost:11434/api',
       path: '/pull',
@@ -624,9 +614,7 @@ class OllamaClient {
   /// `request`: Request class for pushing a model.
   ///
   /// `POST` `http://localhost:11434/api/push`
-  Future<PushModelResponse> pushModel({
-    PushModelRequest? request,
-  }) async {
+  Future<PushModelResponse> pushModel({PushModelRequest? request}) async {
     final r = await makeRequest(
       baseUrl: 'http://localhost:11434/api',
       path: '/push',
@@ -650,10 +638,7 @@ class OllamaClient {
   /// `request`: No description
   ///
   /// `POST` `http://localhost:11434/api/blobs/{digest}`
-  Future<void> createBlob({
-    required String digest,
-    String? request,
-  }) async {
+  Future<void> createBlob({required String digest, String? request}) async {
     final _ = await makeRequest(
       baseUrl: 'http://localhost:11434/api',
       path: '/blobs/$digest',
@@ -676,9 +661,7 @@ class OllamaClient {
   /// `digest`: the SHA256 digest of the blob
   ///
   /// `HEAD` `http://localhost:11434/api/blobs/{digest}`
-  Future<void> checkBlob({
-    required String digest,
-  }) async {
+  Future<void> checkBlob({required String digest}) async {
     final _ = await makeRequest(
       baseUrl: 'http://localhost:11434/api',
       path: '/blobs/$digest',

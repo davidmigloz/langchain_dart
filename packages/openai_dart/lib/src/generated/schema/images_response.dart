@@ -36,9 +36,6 @@ abstract class ImagesResponse with _$ImagesResponse {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'created': created,
-      'data': data,
-    };
+    return {'created': created, 'data': data};
   }
 }

@@ -14,10 +14,7 @@ void main() async {
       temperature: 0,
     ),
   );
-  final tools = <Tool>[
-    CalculatorTool(),
-    OpenAIDallETool(apiKey: openAiKey),
-  ];
+  final tools = <Tool>[CalculatorTool(), OpenAIDallETool(apiKey: openAiKey)];
   final agent = ToolsAgent.fromLLMAndTools(llm: llm, tools: tools);
   final executor = AgentExecutor(agent: agent);
   final res = await executor.run(

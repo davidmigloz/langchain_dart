@@ -9,10 +9,7 @@ class FileData {
   final String? mimeType;
 
   /// Creates a [FileData].
-  const FileData({
-    required this.fileUri,
-    this.mimeType,
-  });
+  const FileData({required this.fileUri, this.mimeType});
 
   /// Creates a [FileData] from JSON.
   factory FileData.fromJson(Map<String, dynamic> json) => FileData(

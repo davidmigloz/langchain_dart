@@ -99,10 +99,7 @@ abstract class TextSplitter extends BaseDocumentTransformer {
   /// Merges smaller pieces into medium size chunks to send to the LLM.
   @protected
   @visibleForTesting
-  List<String> mergeSplits(
-    final List<String> splits,
-    final String separator,
-  ) {
+  List<String> mergeSplits(final List<String> splits, final String separator) {
     final separatorLen = lengthFunction(separator);
 
     final docs = <String>[];

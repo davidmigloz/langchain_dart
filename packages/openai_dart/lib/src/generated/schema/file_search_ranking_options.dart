@@ -54,9 +54,6 @@ abstract class FileSearchRankingOptions with _$FileSearchRankingOptions {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'ranker': ranker,
-      'score_threshold': scoreThreshold,
-    };
+    return {'ranker': ranker, 'score_threshold': scoreThreshold};
   }
 }

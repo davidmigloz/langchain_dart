@@ -15,9 +15,7 @@ Future<void> _example1() async {
   final mistralAiApiKey = Platform.environment['MISTRAL_API_KEY'];
   final chatModel = ChatMistralAI(
     apiKey: mistralAiApiKey,
-    defaultOptions: const ChatMistralAIOptions(
-      temperature: 0.9,
-    ),
+    defaultOptions: const ChatMistralAIOptions(temperature: 0.9),
   );
   final ChatResult res = await chatModel.invoke(
     PromptValue.string('Tell me a joke'),
@@ -32,9 +30,7 @@ Future<void> _example2() async {
   final mistralAiApiKey = Platform.environment['MISTRAL_API_KEY'];
   final chatModel = ChatMistralAI(
     apiKey: mistralAiApiKey,
-    defaultOptions: const ChatMistralAIOptions(
-      temperature: 0,
-    ),
+    defaultOptions: const ChatMistralAIOptions(temperature: 0),
   );
 
   try {

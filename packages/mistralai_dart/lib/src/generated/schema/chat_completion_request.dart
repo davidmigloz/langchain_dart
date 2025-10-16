@@ -132,14 +132,12 @@ sealed class ChatCompletionModel with _$ChatCompletionModel {
   const ChatCompletionModel._();
 
   /// Available chat completion models. Mind that the list may not be exhaustive nor up-to-date.
-  const factory ChatCompletionModel.model(
-    ChatCompletionModels value,
-  ) = ChatCompletionModelEnumeration;
+  const factory ChatCompletionModel.model(ChatCompletionModels value) =
+      ChatCompletionModelEnumeration;
 
   /// The ID of the model to use for this request.
-  const factory ChatCompletionModel.modelId(
-    String value,
-  ) = ChatCompletionModelString;
+  const factory ChatCompletionModel.modelId(String value) =
+      ChatCompletionModelString;
 
   /// Object construction from a JSON representation
   factory ChatCompletionModel.fromJson(Map<String, dynamic> json) =>
@@ -163,9 +161,7 @@ class _ChatCompletionModelConverter
     if (data is String) {
       return ChatCompletionModelString(data);
     }
-    throw Exception(
-      'Unexpected value for ChatCompletionModel: $data',
-    );
+    throw Exception('Unexpected value for ChatCompletionModel: $data');
   }
 
   @override

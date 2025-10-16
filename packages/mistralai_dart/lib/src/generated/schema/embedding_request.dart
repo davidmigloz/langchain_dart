@@ -45,11 +45,7 @@ abstract class EmbeddingRequest with _$EmbeddingRequest {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'model': model,
-      'input': input,
-      'encoding_format': encodingFormat,
-    };
+    return {'model': model, 'input': input, 'encoding_format': encodingFormat};
   }
 }
 
@@ -73,14 +69,11 @@ sealed class EmbeddingModel with _$EmbeddingModel {
   const EmbeddingModel._();
 
   /// Available embedding models. Mind that the list may not be exhaustive nor up-to-date.
-  const factory EmbeddingModel.model(
-    EmbeddingModels value,
-  ) = EmbeddingModelEnumeration;
+  const factory EmbeddingModel.model(EmbeddingModels value) =
+      EmbeddingModelEnumeration;
 
   /// The ID of the model to use for this request.
-  const factory EmbeddingModel.modelId(
-    String value,
-  ) = EmbeddingModelString;
+  const factory EmbeddingModel.modelId(String value) = EmbeddingModelString;
 
   /// Object construction from a JSON representation
   factory EmbeddingModel.fromJson(Map<String, dynamic> json) =>
@@ -104,9 +97,7 @@ class _EmbeddingModelConverter
     if (data is String) {
       return EmbeddingModelString(data);
     }
-    throw Exception(
-      'Unexpected value for EmbeddingModel: $data',
-    );
+    throw Exception('Unexpected value for EmbeddingModel: $data');
   }
 
   @override

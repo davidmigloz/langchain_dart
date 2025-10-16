@@ -37,9 +37,6 @@ abstract class MessageDeltaContentText with _$MessageDeltaContentText {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'value': value,
-      'annotations': annotations,
-    };
+    return {'value': value, 'annotations': annotations};
   }
 }

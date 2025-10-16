@@ -28,12 +28,8 @@ void main() {
     });
 
     test('copyWith overrides values', () {
-      const original = GoogleAIConfig(
-        authProvider: ApiKeyProvider('key1'),
-      );
-      const updated = GoogleAIConfig(
-        authProvider: ApiKeyProvider('key2'),
-      );
+      const original = GoogleAIConfig(authProvider: ApiKeyProvider('key1'));
+      const updated = GoogleAIConfig(authProvider: ApiKeyProvider('key2'));
 
       expect(original.authProvider, isA<ApiKeyProvider>());
       expect(updated.authProvider, isA<ApiKeyProvider>());

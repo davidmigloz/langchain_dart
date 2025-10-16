@@ -34,9 +34,7 @@ void main() {
     });
 
     test('fromJson creates response with empty models list', () {
-      final json = {
-        'models': <Map<String, dynamic>>[],
-      };
+      final json = {'models': <Map<String, dynamic>>[]};
 
       final response = ListModelsResponse.fromJson(json);
 

@@ -23,9 +23,7 @@ Future<void> _chatCompletions(final OpenAIClient client) async {
     request: const CreateChatCompletionRequest(
       model: ChatCompletionModel.modelId('gpt-4'),
       messages: [
-        ChatCompletionMessage.system(
-          content: 'You are a helpful assistant.',
-        ),
+        ChatCompletionMessage.system(content: 'You are a helpful assistant.'),
         ChatCompletionMessage.user(
           content: ChatCompletionUserMessageContent.string('Hello!'),
         ),

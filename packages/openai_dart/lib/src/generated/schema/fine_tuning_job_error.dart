@@ -39,10 +39,6 @@ abstract class FineTuningJobError with _$FineTuningJobError {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'code': code,
-      'message': message,
-      'param': param,
-    };
+    return {'code': code, 'message': message, 'param': param};
   }
 }

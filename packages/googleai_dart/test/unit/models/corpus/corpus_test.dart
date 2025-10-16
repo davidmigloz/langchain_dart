@@ -89,10 +89,7 @@ void main() {
       });
 
       test('omits null fields from JSON', () {
-        const corpus = Corpus(
-          name: 'corpora/test-123',
-          displayName: null,
-        );
+        const corpus = Corpus(name: 'corpora/test-123', displayName: null);
 
         final json = corpus.toJson();
 

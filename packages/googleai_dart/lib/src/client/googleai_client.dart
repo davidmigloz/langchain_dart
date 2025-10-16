@@ -109,11 +109,9 @@ class GoogleAIClient {
   ///
   /// Optionally accepts custom [config] for authentication and endpoint settings,
   /// and a custom [httpClient] for testing or advanced use cases.
-  GoogleAIClient({
-    GoogleAIConfig? config,
-    http.Client? httpClient,
-  }) : config = config ?? const GoogleAIConfig(),
-       _httpClient = httpClient ?? http.Client() {
+  GoogleAIClient({GoogleAIConfig? config, http.Client? httpClient})
+    : config = config ?? const GoogleAIConfig(),
+      _httpClient = httpClient ?? http.Client() {
     _requestBuilder = RequestBuilder(config: this.config);
 
     // Interceptor order is Auth → Logging → Error

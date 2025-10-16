@@ -331,14 +331,12 @@ sealed class CreateRunRequestModel with _$CreateRunRequestModel {
   const CreateRunRequestModel._();
 
   /// Available models. Mind that the list may not be exhaustive nor up-to-date.
-  const factory CreateRunRequestModel.model(
-    RunModels value,
-  ) = CreateRunRequestModelEnumeration;
+  const factory CreateRunRequestModel.model(RunModels value) =
+      CreateRunRequestModelEnumeration;
 
   /// The ID of the model to use for this request.
-  const factory CreateRunRequestModel.modelId(
-    String value,
-  ) = CreateRunRequestModelString;
+  const factory CreateRunRequestModel.modelId(String value) =
+      CreateRunRequestModelString;
 
   /// Object construction from a JSON representation
   factory CreateRunRequestModel.fromJson(Map<String, dynamic> json) =>
@@ -365,9 +363,7 @@ class _CreateRunRequestModelConverter
     if (data is String) {
       return CreateRunRequestModelString(data);
     }
-    throw Exception(
-      'Unexpected value for CreateRunRequestModel: $data',
-    );
+    throw Exception('Unexpected value for CreateRunRequestModel: $data');
   }
 
   @override
@@ -448,9 +444,7 @@ class _CreateRunRequestToolChoiceConverter
         );
       } catch (e) {}
     }
-    throw Exception(
-      'Unexpected value for CreateRunRequestToolChoice: $data',
-    );
+    throw Exception('Unexpected value for CreateRunRequestToolChoice: $data');
   }
 
   @override

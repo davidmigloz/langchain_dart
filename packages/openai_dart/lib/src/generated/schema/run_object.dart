@@ -281,10 +281,7 @@ abstract class RunRequiredAction with _$RunRequiredAction {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'type': type,
-      'submit_tool_outputs': submitToolOutputs,
-    };
+    return {'type': type, 'submit_tool_outputs': submitToolOutputs};
   }
 }
 
@@ -320,10 +317,7 @@ abstract class RunLastError with _$RunLastError {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'code': code,
-      'message': message,
-    };
+    return {'code': code, 'message': message};
   }
 }
 
@@ -360,9 +354,7 @@ abstract class RunObjectIncompleteDetails with _$RunObjectIncompleteDetails {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'reason': reason,
-    };
+    return {'reason': reason};
   }
 }
 
@@ -394,14 +386,12 @@ sealed class RunObjectToolChoice with _$RunObjectToolChoice {
   const RunObjectToolChoice._();
 
   /// `none` means the model will not call any tools and instead generates a message. `auto` means the model can pick between generating a message or calling one or more tools. `required` means the model must call one or more tools before responding to the user.
-  const factory RunObjectToolChoice.mode(
-    RunObjectToolChoiceMode value,
-  ) = RunObjectToolChoiceEnumeration;
+  const factory RunObjectToolChoice.mode(RunObjectToolChoiceMode value) =
+      RunObjectToolChoiceEnumeration;
 
   /// No Description
-  const factory RunObjectToolChoice.tool(
-    AssistantsNamedToolChoice value,
-  ) = RunObjectToolChoiceAssistantsNamedToolChoice;
+  const factory RunObjectToolChoice.tool(AssistantsNamedToolChoice value) =
+      RunObjectToolChoiceAssistantsNamedToolChoice;
 
   /// Object construction from a JSON representation
   factory RunObjectToolChoice.fromJson(Map<String, dynamic> json) =>
@@ -430,9 +420,7 @@ class _RunObjectToolChoiceConverter
         );
       } catch (e) {}
     }
-    throw Exception(
-      'Unexpected value for RunObjectToolChoice: $data',
-    );
+    throw Exception('Unexpected value for RunObjectToolChoice: $data');
   }
 
   @override
@@ -487,9 +475,8 @@ sealed class RunObjectResponseFormat with _$RunObjectResponseFormat {
   ) = RunObjectResponseFormatEnumeration;
 
   /// No Description
-  const factory RunObjectResponseFormat.responseFormat(
-    ResponseFormat value,
-  ) = RunObjectResponseFormatResponseFormat;
+  const factory RunObjectResponseFormat.responseFormat(ResponseFormat value) =
+      RunObjectResponseFormatResponseFormat;
 
   /// Object construction from a JSON representation
   factory RunObjectResponseFormat.fromJson(Map<String, dynamic> json) =>
@@ -518,9 +505,7 @@ class _RunObjectResponseFormatConverter
         );
       } catch (e) {}
     }
-    throw Exception(
-      'Unexpected value for RunObjectResponseFormat: $data',
-    );
+    throw Exception('Unexpected value for RunObjectResponseFormat: $data');
   }
 
   @override
@@ -572,9 +557,7 @@ abstract class RunSubmitToolOutputs with _$RunSubmitToolOutputs {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'tool_calls': toolCalls,
-    };
+    return {'tool_calls': toolCalls};
   }
 }
 

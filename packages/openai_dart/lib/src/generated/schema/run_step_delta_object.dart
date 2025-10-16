@@ -39,11 +39,7 @@ abstract class RunStepDeltaObject with _$RunStepDeltaObject {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'object': object,
-      'delta': delta,
-    };
+    return {'id': id, 'object': object, 'delta': delta};
   }
 }
 

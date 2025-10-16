@@ -7,9 +7,7 @@ import 'package:googleai_dart/googleai_dart.dart';
 
 void main() async {
   final client = GoogleAIClient(
-    config: const GoogleAIConfig(
-      authProvider: ApiKeyProvider('YOUR_API_KEY'),
-    ),
+    config: const GoogleAIConfig(authProvider: ApiKeyProvider('YOUR_API_KEY')),
   );
 
   String? uploadedFileName;
@@ -90,9 +88,7 @@ void main() async {
     print('   Expires: ${fileDetails.expirationTime}');
 
     if (fileDetails.videoMetadata != null) {
-      print(
-        '   Video Duration: ${fileDetails.videoMetadata!.videoDuration}',
-      );
+      print('   Video Duration: ${fileDetails.videoMetadata!.videoDuration}');
     }
 
     if (fileDetails.error != null) {

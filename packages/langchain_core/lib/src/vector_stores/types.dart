@@ -15,10 +15,7 @@
 /// {@endtemplate}
 sealed class VectorStoreSearchType {
   /// {@macro vector_store_search_type}
-  const VectorStoreSearchType({
-    required this.k,
-    this.filter,
-  });
+  const VectorStoreSearchType({required this.k, this.filter});
 
   /// The number of documents to return.
   final int k;

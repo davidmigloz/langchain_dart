@@ -130,12 +130,10 @@ Future<void> _chainWithFallbacks() async {
 
   final chainWithFallbacks = badChain.withFallbacks([goodChain]);
 
-  final res = await chainWithFallbacks.batch(
-    [
-      {'topic': 'bears'},
-      {'topic': 'cats'},
-    ],
-  );
+  final res = await chainWithFallbacks.batch([
+    {'topic': 'bears'},
+    {'topic': 'cats'},
+  ]);
   print(res);
   /*
 [

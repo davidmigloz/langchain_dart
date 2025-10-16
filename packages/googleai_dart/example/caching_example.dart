@@ -22,9 +22,7 @@ Future<void> main() async {
   }
 
   final client = GoogleAIClient(
-    config: GoogleAIConfig(
-      authProvider: ApiKeyProvider(apiKey),
-    ),
+    config: GoogleAIConfig(authProvider: ApiKeyProvider(apiKey)),
   );
 
   try {
@@ -64,9 +62,7 @@ Future<void> demonstrateCaching(GoogleAIClient client) async {
   print('  Model: ${cachedContent.model}');
   print('  Expires: ${cachedContent.expireTime}');
   if (cachedContent.usageMetadata != null) {
-    print(
-      '  Cached tokens: ${cachedContent.usageMetadata!.totalTokenCount}',
-    );
+    print('  Cached tokens: ${cachedContent.usageMetadata!.totalTokenCount}');
   }
   print('');
 

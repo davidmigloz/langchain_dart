@@ -152,9 +152,7 @@ class GoogleGenerativeAIEmbeddings implements Embeddings {
               requests: batch
                   .map(
                     (final doc) => g.EmbedContentRequest(
-                      content: g.Content(
-                        parts: [g.TextPart(doc.pageContent)],
-                      ),
+                      content: g.Content(parts: [g.TextPart(doc.pageContent)]),
                       taskType: g.TaskType.retrievalDocument,
                       title: doc.metadata[docTitleKey] as String?,
                       outputDimensionality: dimensions,
@@ -177,9 +175,7 @@ class GoogleGenerativeAIEmbeddings implements Embeddings {
                 final response = await _googleAiClient.models.embedContent(
                   model: model,
                   request: g.EmbedContentRequest(
-                    content: g.Content(
-                      parts: [g.TextPart(doc.pageContent)],
-                    ),
+                    content: g.Content(parts: [g.TextPart(doc.pageContent)]),
                     taskType: g.TaskType.retrievalDocument,
                     title: doc.metadata[docTitleKey] as String?,
                     outputDimensionality: dimensions,
@@ -205,9 +201,7 @@ class GoogleGenerativeAIEmbeddings implements Embeddings {
     final response = await _googleAiClient.models.embedContent(
       model: model,
       request: g.EmbedContentRequest(
-        content: g.Content(
-          parts: [g.TextPart(query)],
-        ),
+        content: g.Content(parts: [g.TextPart(query)]),
         taskType: g.TaskType.retrievalQuery,
         outputDimensionality: dimensions,
       ),

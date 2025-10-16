@@ -204,17 +204,13 @@ class VertexAIIndexRequestMetadata {
 @immutable
 class VertexAIIndexMetadata {
   /// {@macro vertex_ai_index_metadata}
-  const VertexAIIndexMetadata({
-    required this.config,
-  });
+  const VertexAIIndexMetadata({required this.config});
 
   /// The configuration of the Matching Engine Index.
   final VertexAINearestNeighborSearchConfig config;
 
   /// Factory method to create a [VertexAIIndexMetadata].
-  factory VertexAIIndexMetadata.fromMap(
-    final Map<String, dynamic> map,
-  ) {
+  factory VertexAIIndexMetadata.fromMap(final Map<String, dynamic> map) {
     return VertexAIIndexMetadata(
       config: VertexAINearestNeighborSearchConfig.fromMap(
         map['config'] as Map<String, dynamic>? ?? const {},
@@ -451,9 +447,7 @@ sealed class VertexAIAlgorithmConfig {
 
   /// Converts the [VertexAIAlgorithmConfig] to a [Map].
   Map<String, dynamic> toMap() {
-    return {
-      type: toConfigMap(),
-    };
+    return {type: toConfigMap()};
   }
 
   /// Converts the actual config to a [Map].
@@ -733,9 +727,7 @@ class VertexAIIndexDatapoint {
 @immutable
 class VertexAIIndexDatapointCrowdingTag {
   /// {@macro vertex_ai_index_datapoint_crowding_tag}
-  const VertexAIIndexDatapointCrowdingTag({
-    required this.crowdingAttribute,
-  });
+  const VertexAIIndexDatapointCrowdingTag({required this.crowdingAttribute});
 
   /// The attribute value used for crowding.
   ///

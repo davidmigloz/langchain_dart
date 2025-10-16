@@ -7,9 +7,7 @@ class InlinedRequests {
   final List<InlinedRequest> requests;
 
   /// Creates an [InlinedRequests].
-  const InlinedRequests({
-    required this.requests,
-  });
+  const InlinedRequests({required this.requests});
 
   /// Creates an [InlinedRequests] from JSON.
   factory InlinedRequests.fromJson(Map<String, dynamic> json) =>
@@ -25,9 +23,7 @@ class InlinedRequests {
   };
 
   /// Creates a copy with replaced values.
-  InlinedRequests copyWith({
-    Object? requests = unsetCopyWithValue,
-  }) {
+  InlinedRequests copyWith({Object? requests = unsetCopyWithValue}) {
     return InlinedRequests(
       requests: requests == unsetCopyWithValue
           ? this.requests

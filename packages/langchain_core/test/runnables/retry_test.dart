@@ -26,12 +26,10 @@ void main() {
     test('Runnable retry should return output for batch', () async {
       final chain = promptTemplate.pipe(model);
       final chainWithRetry = chain.withRetry();
-      final res = await chainWithRetry.batch(
-        [
-          {'topic': 'bears'},
-          {'topic': 'cats'},
-        ],
-      );
+      final res = await chainWithRetry.batch([
+        {'topic': 'bears'},
+        {'topic': 'cats'},
+      ]);
       expect(res[0].output.content, 'tell me a joke about bears');
       expect(res[1].output.content, 'tell me a joke about cats');
     });

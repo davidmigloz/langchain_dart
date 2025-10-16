@@ -151,9 +151,7 @@ class Ollama extends BaseLLM<OllamaOptions> {
     final Map<String, String>? headers,
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
-    super.defaultOptions = const OllamaOptions(
-      model: defaultModel,
-    ),
+    super.defaultOptions = const OllamaOptions(model: defaultModel),
     this.encoding = 'cl100k_base',
   }) : _client = OllamaClient(
          baseUrl: baseUrl,

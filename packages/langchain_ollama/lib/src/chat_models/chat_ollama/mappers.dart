@@ -129,18 +129,12 @@ extension OllamaChatMessagesMapper on List<ChatMessage> {
   List<o.Message> _mapMessage(final ChatMessage msg) {
     return switch (msg) {
       final SystemChatMessage msg => [
-        o.Message(
-          role: o.MessageRole.system,
-          content: msg.content,
-        ),
+        o.Message(role: o.MessageRole.system, content: msg.content),
       ],
       final HumanChatMessage msg => _mapHumanMessage(msg),
       final AIChatMessage msg => _mapAIMessage(msg),
       final ToolChatMessage msg => [
-        o.Message(
-          role: o.MessageRole.tool,
-          content: msg.content,
-        ),
+        o.Message(role: o.MessageRole.tool, content: msg.content),
       ],
       CustomChatMessage() => throw UnsupportedError(
         'Ollama does not support custom messages',
@@ -151,16 +145,10 @@ extension OllamaChatMessagesMapper on List<ChatMessage> {
   List<o.Message> _mapHumanMessage(final HumanChatMessage message) {
     return switch (message.content) {
       final ChatMessageContentText c => [
-        o.Message(
-          role: o.MessageRole.user,
-          content: c.text,
-        ),
+        o.Message(role: o.MessageRole.user, content: c.text),
       ],
       final ChatMessageContentImage c => [
-        o.Message(
-          role: o.MessageRole.user,
-          content: c.data,
-        ),
+        o.Message(role: o.MessageRole.user, content: c.data),
       ],
       final ChatMessageContentMultiModal c => _mapContentMultiModal(c),
     };
@@ -280,9 +268,7 @@ extension ChatResultMapper on o.GenerateChatCompletionResponse {
     );
   }
 
-  FinishReason _mapFinishReason(
-    final o.DoneReason? reason,
-  ) => switch (reason) {
+  FinishReason _mapFinishReason(final o.DoneReason? reason) => switch (reason) {
     o.DoneReason.stop => FinishReason.stop,
     o.DoneReason.length => FinishReason.length,
     o.DoneReason.load => FinishReason.unspecified,

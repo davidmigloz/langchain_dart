@@ -9,9 +9,7 @@ import '../langchain/types.dart';
 @immutable
 class OutputParserOptions extends BaseLangChainOptions {
   /// {@macro output_parser_options}
-  const OutputParserOptions({
-    super.concurrencyLimit,
-  });
+  const OutputParserOptions({super.concurrencyLimit});
 }
 
 /// {@template parsed_tool_call}
@@ -43,11 +41,7 @@ class ParsedToolCall {
 
   /// Converts the [ParsedToolCall] to a [Map].
   Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'name': name,
-      'arguments': arguments,
-    };
+    return {'id': id, 'name': name, 'arguments': arguments};
   }
 
   @override

@@ -102,9 +102,7 @@ class VertexAIIndexEndpointsApi {
   /// Gets an Index Endpoint.
   ///
   /// - [id] The id of the index endpoint
-  Future<VertexAIIndexEndpoint> get({
-    required final String id,
-  }) async {
+  Future<VertexAIIndexEndpoint> get({required final String id}) async {
     final response = await _indexEndpointsApi.get(
       'projects/$project/locations/$location/indexEndpoints/$id',
     );
@@ -114,9 +112,7 @@ class VertexAIIndexEndpointsApi {
   /// Deletes an Index Endpoint.
   ///
   /// - [id] The id of the index endpoint
-  Future<VertexAIOperation> delete({
-    required final String id,
-  }) async {
+  Future<VertexAIOperation> delete({required final String id}) async {
     final res = await _indexEndpointsApi.delete(
       'projects/$project/locations/$location/indexEndpoints/$id',
     );
@@ -240,9 +236,7 @@ class VertexAIIndexEndpointsApi {
       GoogleCloudAiplatformV1FindNeighborsRequest(
         deployedIndexId: deployedIndexId,
         queries: queries
-            .map(
-              VertexAIIndexEndpointsGoogleApisMapper.mapRequestQuery,
-            )
+            .map(VertexAIIndexEndpointsGoogleApisMapper.mapRequestQuery)
             .toList(growable: false),
         returnFullDatapoint: returnFullDatapoint,
       ),

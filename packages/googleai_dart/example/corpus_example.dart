@@ -6,9 +6,7 @@ import 'package:googleai_dart/googleai_dart.dart';
 
 void main() async {
   final client = GoogleAIClient(
-    config: const GoogleAIConfig(
-      authProvider: ApiKeyProvider('YOUR_API_KEY'),
-    ),
+    config: const GoogleAIConfig(authProvider: ApiKeyProvider('YOUR_API_KEY')),
   );
 
   try {
@@ -17,9 +15,7 @@ void main() async {
     // 1. Create a corpus
     print('1. Creating a corpus...');
     final corpus = await client.corpora.create(
-      corpus: const Corpus(
-        displayName: 'Product Documentation',
-      ),
+      corpus: const Corpus(displayName: 'Product Documentation'),
     );
     print('   ✓ Created corpus: ${corpus.name}');
     print('   Display name: ${corpus.displayName}\n');
@@ -36,9 +32,7 @@ void main() async {
     print('3. Updating corpus display name...');
     final updatedCorpus = await client.corpora.update(
       name: corpus.name!,
-      corpus: const Corpus(
-        displayName: 'Product Documentation v2',
-      ),
+      corpus: const Corpus(displayName: 'Product Documentation v2'),
       updateMask: 'displayName',
     );
     print('   ✓ Updated display name: ${updatedCorpus.displayName}\n');
@@ -64,9 +58,7 @@ void main() async {
     print('5. Listing documents in corpus...');
     final docsResponse = await client.corpora
         .documents(corpus: corpus.name!)
-        .list(
-          pageSize: 10,
-        );
+        .list(pageSize: 10);
     print('   ✓ Found ${docsResponse.documents?.length ?? 0} documents\n');
 
     // 6. Update document metadata
@@ -171,9 +163,7 @@ void main() async {
     final chunksResponse = await client.corpora
         .documents(corpus: corpus.name!)
         .chunks(document: document.name!)
-        .list(
-          pageSize: 10,
-        );
+        .list(pageSize: 10);
     print('   ✓ Found ${chunksResponse.chunks?.length ?? 0} chunks');
     for (final chunk in chunksResponse.chunks ?? []) {
       print(

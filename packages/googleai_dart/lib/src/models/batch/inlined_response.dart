@@ -14,11 +14,7 @@ class InlinedResponse {
   final Map<String, dynamic>? metadata;
 
   /// Creates an [InlinedResponse].
-  const InlinedResponse({
-    this.error,
-    this.response,
-    this.metadata,
-  });
+  const InlinedResponse({this.error, this.response, this.metadata});
 
   /// Creates an [InlinedResponse] from JSON.
   factory InlinedResponse.fromJson(Map<String, dynamic> json) =>

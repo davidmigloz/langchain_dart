@@ -31,9 +31,7 @@ void main() {
     });
 
     test('fromJson creates response with empty tunedModels list', () {
-      final json = {
-        'tunedModels': <Map<String, dynamic>>[],
-      };
+      final json = {'tunedModels': <Map<String, dynamic>>[]};
 
       final response = ListTunedModelsResponse.fromJson(json);
 
@@ -123,9 +121,7 @@ void main() {
         nextPageToken: 'token-1',
       );
 
-      final copy = original.copyWith(
-        nextPageToken: 'token-2',
-      );
+      final copy = original.copyWith(nextPageToken: 'token-2');
 
       expect(copy.tunedModels, same(original.tunedModels));
       expect(copy.nextPageToken, 'token-2');

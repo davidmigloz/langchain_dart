@@ -20,10 +20,7 @@ void main() {
             },
           ],
         },
-        'metadata': {
-          'requestId': 'req-123',
-          'customField': 'value',
-        },
+        'metadata': {'requestId': 'req-123', 'customField': 'value'},
       };
 
       final inlinedRequest = InlinedRequest.fromJson(json);
@@ -62,9 +59,7 @@ void main() {
             Content(parts: [TextPart('Hello')], role: 'user'),
           ],
         ),
-        metadata: {
-          'requestId': 'req-456',
-        },
+        metadata: {'requestId': 'req-456'},
       );
 
       final json = inlinedRequest.toJson();
@@ -96,9 +91,7 @@ void main() {
             Content(parts: [TextPart('Round trip')], role: 'user'),
           ],
         ),
-        metadata: {
-          'test': 'value',
-        },
+        metadata: {'test': 'value'},
       );
 
       final json = original.toJson();

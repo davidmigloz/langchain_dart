@@ -79,10 +79,7 @@ class RunnableMap<RunInput extends Object>
     final RunInput input, {
     final RunnableOptions? options,
   }) {
-    return streamFromInputStream(
-      Stream.value(input),
-      options: options,
-    );
+    return streamFromInputStream(Stream.value(input), options: options);
   }
 
   @override

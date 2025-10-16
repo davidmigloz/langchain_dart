@@ -10,10 +10,7 @@ class GroundingPassage {
   final Content? content;
 
   /// Creates a [GroundingPassage].
-  const GroundingPassage({
-    this.id,
-    this.content,
-  });
+  const GroundingPassage({this.id, this.content});
 
   /// Creates a [GroundingPassage] from JSON.
   factory GroundingPassage.fromJson(Map<String, dynamic> json) =>

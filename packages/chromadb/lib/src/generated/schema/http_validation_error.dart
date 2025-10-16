@@ -33,8 +33,6 @@ class HTTPValidationError with _$HTTPValidationError {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'detail': detail,
-    };
+    return {'detail': detail};
   }
 }

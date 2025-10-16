@@ -51,8 +51,6 @@ class SampleEncoder implements StoreEncoder<int, String, String, String> {
   int decodeKey(final String encodedKey) => int.parse(encodedKey);
 
   @override
-  String decodeValue(final String encodedValue) => encodedValue.substring(
-    1,
-    encodedValue.length - 1,
-  );
+  String decodeValue(final String encodedValue) =>
+      encodedValue.substring(1, encodedValue.length - 1);
 }

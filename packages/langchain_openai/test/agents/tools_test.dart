@@ -23,9 +23,7 @@ void main() {
     test('Test OpenAIToolsAgent with calculator tool', () async {
       final llm = ChatOpenAI(
         apiKey: openaiApiKey,
-        defaultOptions: const ChatOpenAIOptions(
-          temperature: 0,
-        ),
+        defaultOptions: const ChatOpenAIOptions(temperature: 0),
       );
 
       final tool = CalculatorTool();
@@ -45,9 +43,7 @@ void main() {
     Future<void> testMemory({required final bool returnMessages}) async {
       final llm = ChatOpenAI(
         apiKey: openaiApiKey,
-        defaultOptions: const ChatOpenAIOptions(
-          temperature: 0,
-        ),
+        defaultOptions: const ChatOpenAIOptions(temperature: 0),
       );
 
       final tool = Tool.fromFunction<_SearchInput, String>(
@@ -133,9 +129,7 @@ void main() {
 
     final model = ChatOpenAI(
       apiKey: openaiApiKey,
-      defaultOptions: const ChatOpenAIOptions(
-        temperature: 0,
-      ),
+      defaultOptions: const ChatOpenAIOptions(temperature: 0),
     ).bind(ChatOpenAIOptions(tools: [tool]));
 
     final agent = Agent.fromRunnable(
@@ -172,19 +166,13 @@ void main() {
 
 @immutable
 class _SearchInput {
-  const _SearchInput({
-    required this.query,
-    required this.n,
-  });
+  const _SearchInput({required this.query, required this.n});
 
   final String query;
   final int n;
 
   _SearchInput.fromJson(final Map<String, dynamic> json)
-    : this(
-        query: json['query'] as String,
-        n: json['n'] as int,
-      );
+    : this(query: json['query'] as String, n: json['n'] as int);
 
   @override
   bool operator ==(covariant _SearchInput other) =>

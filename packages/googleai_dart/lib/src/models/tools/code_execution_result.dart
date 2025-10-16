@@ -25,10 +25,7 @@ class CodeExecutionResult {
   final String output;
 
   /// Creates a [CodeExecutionResult].
-  const CodeExecutionResult({
-    required this.outcome,
-    required this.output,
-  });
+  const CodeExecutionResult({required this.outcome, required this.output});
 
   /// Creates a [CodeExecutionResult] from JSON.
   factory CodeExecutionResult.fromJson(Map<String, dynamic> json) =>

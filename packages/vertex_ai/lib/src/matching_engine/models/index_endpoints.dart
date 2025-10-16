@@ -629,9 +629,7 @@ class VertexAIMachineSpec {
 @immutable
 class VertexAIDeployedIndexAuthConfig {
   /// {@macro vertex_ai_deployed_index_auth_config}
-  const VertexAIDeployedIndexAuthConfig({
-    required this.authProvider,
-  });
+  const VertexAIDeployedIndexAuthConfig({required this.authProvider});
 
   /// Defines the authentication provider that the DeployedIndex uses.
   final VertexAIDeployedIndexAuthConfigAuthProvider authProvider;
@@ -831,9 +829,7 @@ class VertexAIFindNeighborsRequestQuery {
 @immutable
 class VertexAIFindNeighborsResponse {
   /// {@macro vertex_ai_find_neighbors_response}
-  const VertexAIFindNeighborsResponse({
-    required this.nearestNeighbors,
-  });
+  const VertexAIFindNeighborsResponse({required this.nearestNeighbors});
 
   /// The nearest neighbors of the query datapoints.
   final List<VertexAIFindNeighborsResponseNearestNeighbors> nearestNeighbors;

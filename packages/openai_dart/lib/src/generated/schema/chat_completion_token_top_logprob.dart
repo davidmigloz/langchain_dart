@@ -40,10 +40,6 @@ abstract class ChatCompletionTokenTopLogprob
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'token': token,
-      'logprob': logprob,
-      'bytes': bytes,
-    };
+    return {'token': token, 'logprob': logprob, 'bytes': bytes};
   }
 }

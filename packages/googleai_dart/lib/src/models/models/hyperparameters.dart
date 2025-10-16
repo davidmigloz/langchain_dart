@@ -12,11 +12,7 @@ class Hyperparameters {
   final double? learningRate;
 
   /// Creates a [Hyperparameters].
-  const Hyperparameters({
-    this.epochCount,
-    this.batchSize,
-    this.learningRate,
-  });
+  const Hyperparameters({this.epochCount, this.batchSize, this.learningRate});
 
   /// Creates a [Hyperparameters] from JSON.
   factory Hyperparameters.fromJson(Map<String, dynamic> json) =>

@@ -23,9 +23,7 @@ void main() {
       );
     } else {
       client = GoogleAIClient(
-        config: GoogleAIConfig(
-          authProvider: ApiKeyProvider(apiKey!),
-        ),
+        config: GoogleAIConfig(authProvider: ApiKeyProvider(apiKey!)),
       );
     }
   });
@@ -44,9 +42,7 @@ void main() {
       final response = await client!.models.embedContent(
         model: defaultEmbeddingModel,
         request: const EmbedContentRequest(
-          content: Content(
-            parts: [TextPart('Hello, world!')],
-          ),
+          content: Content(parts: [TextPart('Hello, world!')]),
         ),
       );
 
@@ -92,18 +88,14 @@ void main() {
       final response1 = await client!.models.embedContent(
         model: defaultEmbeddingModel,
         request: const EmbedContentRequest(
-          content: Content(
-            parts: [TextPart('I love programming')],
-          ),
+          content: Content(parts: [TextPart('I love programming')]),
         ),
       );
 
       final response2 = await client!.models.embedContent(
         model: defaultEmbeddingModel,
         request: const EmbedContentRequest(
-          content: Content(
-            parts: [TextPart('The weather is nice today')],
-          ),
+          content: Content(parts: [TextPart('The weather is nice today')]),
         ),
       );
 
@@ -132,18 +124,14 @@ void main() {
       final response1 = await client!.models.embedContent(
         model: defaultEmbeddingModel,
         request: const EmbedContentRequest(
-          content: Content(
-            parts: [TextPart('The cat is sleeping')],
-          ),
+          content: Content(parts: [TextPart('The cat is sleeping')]),
         ),
       );
 
       final response2 = await client!.models.embedContent(
         model: defaultEmbeddingModel,
         request: const EmbedContentRequest(
-          content: Content(
-            parts: [TextPart('A cat is taking a nap')],
-          ),
+          content: Content(parts: [TextPart('A cat is taking a nap')]),
         ),
       );
 
@@ -227,9 +215,7 @@ void main() {
         () => client!.models.embedContent(
           model: 'invalid-embedding-model-xyz',
           request: const EmbedContentRequest(
-            content: Content(
-              parts: [TextPart('Hello')],
-            ),
+            content: Content(parts: [TextPart('Hello')]),
           ),
         ),
         throwsA(isA<ApiException>()),
@@ -248,9 +234,7 @@ void main() {
         final response = await client!.models.embedContent(
           model: defaultEmbeddingModel,
           request: const EmbedContentRequest(
-            content: Content(
-              parts: [TextPart('')],
-            ),
+            content: Content(parts: [TextPart('')]),
           ),
         );
         // If it succeeds, embedding should still be valid

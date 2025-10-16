@@ -14,9 +14,7 @@ Future<void> _chatbotWithMemory() async {
   const stringOutputParser = StringOutputParser<ChatResult>();
 
   final promptTemplate = ChatPromptTemplate.fromPromptMessages([
-    SystemChatMessagePromptTemplate.fromTemplate(
-      'You are a helpful chatbot',
-    ),
+    SystemChatMessagePromptTemplate.fromTemplate('You are a helpful chatbot'),
     const MessagesPlaceholder(variableName: 'history'),
     HumanChatMessagePromptTemplate.fromTemplate('{input}'),
   ]);
@@ -26,12 +24,10 @@ Future<void> _chatbotWithMemory() async {
   final chain =
       Runnable.fromMap({
         'input': Runnable.passthrough(),
-        'history': Runnable.mapInput(
-          (_) async {
-            final m = await memory.loadMemoryVariables();
-            return m['history'];
-          },
-        ),
+        'history': Runnable.mapInput((_) async {
+          final m = await memory.loadMemoryVariables();
+          return m['history'];
+        }),
       }) |
       promptTemplate |
       model |

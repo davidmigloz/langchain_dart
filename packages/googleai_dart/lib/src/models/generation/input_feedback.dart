@@ -20,10 +20,7 @@ class InputFeedback {
   final List<SafetyRating>? safetyRatings;
 
   /// Creates an [InputFeedback].
-  const InputFeedback({
-    this.blockReason,
-    this.safetyRatings,
-  });
+  const InputFeedback({this.blockReason, this.safetyRatings});
 
   /// Creates an [InputFeedback] from JSON.
   factory InputFeedback.fromJson(Map<String, dynamic> json) => InputFeedback(

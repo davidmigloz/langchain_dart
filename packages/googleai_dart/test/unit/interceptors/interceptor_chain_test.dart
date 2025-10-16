@@ -120,9 +120,9 @@ void main() {
       });
 
       final interceptor2 = MockInterceptor();
-      when(() => interceptor2.intercept(any(), any())).thenThrow(
-        const ApiException(code: 500, message: 'Internal error'),
-      );
+      when(
+        () => interceptor2.intercept(any(), any()),
+      ).thenThrow(const ApiException(code: 500, message: 'Internal error'));
 
       final chain = InterceptorChain(
         interceptors: [interceptor1, interceptor2],
@@ -131,10 +131,7 @@ void main() {
 
       final request = http.Request('POST', Uri.parse('https://example.com'));
 
-      expect(
-        () => chain.execute(request),
-        throwsA(isA<ApiException>()),
-      );
+      expect(() => chain.execute(request), throwsA(isA<ApiException>()));
     });
 
     test('creates request context with metadata', () async {

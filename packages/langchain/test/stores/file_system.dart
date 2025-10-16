@@ -36,11 +36,7 @@ void main() {
     final store = LocalFileStore(tempDirPath);
     final data = Uint8List.fromList([1, 2, 3]);
 
-    await store.set([
-      ('keyA', data),
-      ('keyB', data),
-      ('prefixKeyC', data),
-    ]);
+    await store.set([('keyA', data), ('keyB', data), ('prefixKeyC', data)]);
 
     final keys = await store.yieldKeys().toList();
     expect(keys, containsAll(<String>['keyA', 'keyB', 'prefixKeyC']));

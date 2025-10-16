@@ -40,9 +40,6 @@ abstract class ChatCompletionStreamDelta with _$ChatCompletionStreamDelta {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'role': role,
-      'content': content,
-    };
+    return {'role': role, 'content': content};
   }
 }

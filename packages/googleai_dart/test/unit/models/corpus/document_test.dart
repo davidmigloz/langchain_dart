@@ -63,9 +63,7 @@ void main() {
       });
 
       test('creates Document with empty customMetadata list', () {
-        final json = {
-          'customMetadata': <dynamic>[],
-        };
+        final json = {'customMetadata': <dynamic>[]};
 
         final document = Document.fromJson(json);
 

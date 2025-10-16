@@ -10,12 +10,13 @@ void main() async {
     package: 'chroma_api',
     destination: 'lib/src/generated/',
     replace: true,
-    clientOptions: const ClientGeneratorOptions(
-      enabled: true,
-    ),
+    clientOptions: const ClientGeneratorOptions(enabled: true),
   );
-  await Process.run(
-    'dart',
-    ['run', 'build_runner', 'build', 'lib', '--delete-conflicting-outputs'],
-  );
+  await Process.run('dart', [
+    'run',
+    'build_runner',
+    'build',
+    'lib',
+    '--delete-conflicting-outputs',
+  ]);
 }

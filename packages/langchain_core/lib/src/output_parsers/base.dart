@@ -11,9 +11,7 @@ abstract class BaseOutputParser<
 >
     extends Runnable<ParserInput, CallOptions, ParserOutput> {
   /// {@macro base_llm_output_parser}
-  const BaseOutputParser({
-    required super.defaultOptions,
-  });
+  const BaseOutputParser({required super.defaultOptions});
 
   /// Invokes the output parser on the given input.
   ///

@@ -30,10 +30,10 @@ void main() {
       final model = FakeLLM(responses: ['Hello world! again!']);
       final prompt = PromptTemplate.fromTemplate('Print {foo} {bar}');
       final chain = LLMChain(prompt: prompt, llm: model);
-      final res = await chain.call(
-        {'foo': 'Hello world!, ', 'bar': 'again!'},
-        returnOnlyOutputs: true,
-      );
+      final res = await chain.call({
+        'foo': 'Hello world!, ',
+        'bar': 'again!',
+      }, returnOnlyOutputs: true);
       expect(res.length, 1);
       expect(res[LLMChain.defaultOutputKey], 'Hello world! again!');
     });
@@ -42,10 +42,10 @@ void main() {
       final model = FakeLLM(responses: ['Hello world! again!']);
       final prompt = PromptTemplate.fromTemplate('Print {foo} {bar}');
       final chain = LLMChain(prompt: prompt, llm: model, outputKey: 'xxx');
-      final res = await chain.call(
-        {'foo': 'Hello world!, ', 'bar': 'again!'},
-        returnOnlyOutputs: true,
-      );
+      final res = await chain.call({
+        'foo': 'Hello world!, ',
+        'bar': 'again!',
+      }, returnOnlyOutputs: true);
       expect(res.length, 1);
       expect(res['xxx'], 'Hello world! again!');
     });

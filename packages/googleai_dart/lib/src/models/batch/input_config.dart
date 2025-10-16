@@ -14,18 +14,13 @@ class InputConfig {
   final InlinedRequests? requests;
 
   /// Creates an [InputConfig].
-  const InputConfig({
-    this.fileName,
-    this.requests,
-  });
+  const InputConfig({this.fileName, this.requests});
 
   /// Creates an [InputConfig] from JSON.
   factory InputConfig.fromJson(Map<String, dynamic> json) => InputConfig(
     fileName: json['fileName'] as String?,
     requests: json['requests'] != null
-        ? InlinedRequests.fromJson(
-            json['requests'] as Map<String, dynamic>,
-          )
+        ? InlinedRequests.fromJson(json['requests'] as Map<String, dynamic>)
         : null,
   );
 

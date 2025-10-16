@@ -175,10 +175,9 @@ Future<AuthClient> _getAuthenticatedClient() {
   final serviceAccountCredentials = ServiceAccountCredentials.fromJson(
     json.decode(Platform.environment['VERTEX_AI_SERVICE_ACCOUNT']!),
   );
-  return clientViaServiceAccount(
-    serviceAccountCredentials,
-    [VertexAIGenAIClient.cloudPlatformScope],
-  );
+  return clientViaServiceAccount(serviceAccountCredentials, [
+    VertexAIGenAIClient.cloudPlatformScope,
+  ]);
 }
 
 const List<double> _queryVector = [

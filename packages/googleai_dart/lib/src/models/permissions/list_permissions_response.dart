@@ -12,10 +12,7 @@ class ListPermissionsResponse {
   final String? nextPageToken;
 
   /// Creates a [ListPermissionsResponse].
-  const ListPermissionsResponse({
-    this.permissions,
-    this.nextPageToken,
-  });
+  const ListPermissionsResponse({this.permissions, this.nextPageToken});
 
   /// Creates a [ListPermissionsResponse] from JSON.
   factory ListPermissionsResponse.fromJson(Map<String, dynamic> json) =>

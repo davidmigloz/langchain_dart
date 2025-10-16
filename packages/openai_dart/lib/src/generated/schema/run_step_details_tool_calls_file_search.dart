@@ -40,9 +40,6 @@ abstract class RunStepDetailsToolCallsFileSearch
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'ranking_options': rankingOptions,
-      'results': results,
-    };
+    return {'ranking_options': rankingOptions, 'results': results};
   }
 }

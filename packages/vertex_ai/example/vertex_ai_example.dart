@@ -23,10 +23,9 @@ Future<AuthClient> _getAuthHttpClient() {
   final serviceAccountCredentials = ServiceAccountCredentials.fromJson(
     json.decode(Platform.environment['VERTEX_AI_SERVICE_ACCOUNT']!),
   );
-  return clientViaServiceAccount(
-    serviceAccountCredentials,
-    [VertexAIGenAIClient.cloudPlatformScope],
-  );
+  return clientViaServiceAccount(serviceAccountCredentials, [
+    VertexAIGenAIClient.cloudPlatformScope,
+  ]);
 }
 
 String _getProjectId() {

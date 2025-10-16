@@ -77,26 +77,22 @@ void main() {
       final res1 = await chain.call({'input': 'test2'});
       expect(
         res1,
-        equals(
-          {
-            'input': 'test2',
-            'history': 'Human: test1\nAI: test1',
-            'output': 'test2',
-          },
-        ),
+        equals({
+          'input': 'test2',
+          'history': 'Human: test1\nAI: test1',
+          'output': 'test2',
+        }),
       );
       final res2 = await chain.call({'input': 'test3'});
       expect(
         res2,
-        equals(
-          {
-            'input': 'test3',
-            'history':
-                'Human: test1\nAI: test1\n'
-                'Human: test2\nAI: test2',
-            'output': 'test3',
-          },
-        ),
+        equals({
+          'input': 'test3',
+          'history':
+              'Human: test1\nAI: test1\n'
+              'Human: test2\nAI: test2',
+          'output': 'test3',
+        }),
       );
     });
   });

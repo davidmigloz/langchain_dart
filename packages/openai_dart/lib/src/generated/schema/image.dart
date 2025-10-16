@@ -43,10 +43,6 @@ abstract class Image with _$Image {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'b64_json': b64Json,
-      'url': url,
-      'revised_prompt': revisedPrompt,
-    };
+    return {'b64_json': b64Json, 'url': url, 'revised_prompt': revisedPrompt};
   }
 }

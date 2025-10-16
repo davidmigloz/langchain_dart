@@ -53,13 +53,9 @@ void main() {
     });
 
     test('copyWith creates new instance with replaced values', () {
-      const original = PredictResponse(
-        predictions: ['original'],
-      );
+      const original = PredictResponse(predictions: ['original']);
 
-      final updated = original.copyWith(
-        predictions: ['updated'],
-      );
+      final updated = original.copyWith(predictions: ['updated']);
 
       expect(updated.predictions, ['updated']);
       expect(original.predictions, ['original']);

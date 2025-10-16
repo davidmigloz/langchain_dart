@@ -42,10 +42,7 @@ abstract class TruncationObject with _$TruncationObject {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'type': type,
-      'last_messages': lastMessages,
-    };
+    return {'type': type, 'last_messages': lastMessages};
   }
 }
 

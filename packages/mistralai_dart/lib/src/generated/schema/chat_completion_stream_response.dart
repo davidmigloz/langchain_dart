@@ -109,10 +109,6 @@ abstract class ChatCompletionStreamResponseChoicesInner
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'index': index,
-      'delta': delta,
-      'finish_reason': finishReason,
-    };
+    return {'index': index, 'delta': delta, 'finish_reason': finishReason};
   }
 }

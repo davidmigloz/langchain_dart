@@ -37,10 +37,7 @@ abstract base class BasePromptTemplate
     final newInputVariables = inputVariables
         .where((final variable) => !values.keys.contains(variable))
         .toSet();
-    final newPartialVariables = {
-      ...?partialVariables,
-      ...values,
-    };
+    final newPartialVariables = {...?partialVariables, ...values};
     return copyWith(
       inputVariables: newInputVariables,
       partialVariables: newPartialVariables,

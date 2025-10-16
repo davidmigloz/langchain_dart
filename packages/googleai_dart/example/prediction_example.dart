@@ -18,9 +18,7 @@ void main() async {
     final predictResponse = await client.models.predict(
       model: 'veo-3.0-generate-001',
       instances: [
-        {
-          'prompt': 'A cat playing piano in a jazz club',
-        },
+        {'prompt': 'A cat playing piano in a jazz club'},
       ],
     );
 
@@ -35,13 +33,9 @@ void main() async {
     final operation = await client.models.predictLongRunning(
       model: 'veo-3.0-generate-001',
       instances: [
-        {
-          'prompt': 'A golden retriever running on a beach at sunset',
-        },
+        {'prompt': 'A golden retriever running on a beach at sunset'},
       ],
-      parameters: {
-        'aspectRatio': '16:9',
-      },
+      parameters: {'aspectRatio': '16:9'},
     );
 
     print('Operation created: ${operation.name}');

@@ -6,26 +6,17 @@ void main() {
     test('Test vector store memory', () async {
       final embeddings = _FakeEmbeddings();
       final vectorStore = MemoryVectorStore(embeddings: embeddings);
-      final memory = VectorStoreMemory(
-        vectorStore: vectorStore,
-      );
+      final memory = VectorStoreMemory(vectorStore: vectorStore);
 
       final result1 = await memory.loadMemoryVariables({'input': 'foo'});
       expect(result1[VectorStoreMemory.defaultMemoryKey], '');
 
       await memory.saveContext(
-        inputValues: {
-          'foo': 'bar',
-        },
-        outputValues: {
-          'bar': 'foo',
-        },
+        inputValues: {'foo': 'bar'},
+        outputValues: {'bar': 'foo'},
       );
       final result2 = await memory.loadMemoryVariables({'input': 'foo'});
-      expect(
-        result2[VectorStoreMemory.defaultMemoryKey],
-        'foo: bar\nbar: foo',
-      );
+      expect(result2[VectorStoreMemory.defaultMemoryKey], 'foo: bar\nbar: foo');
     });
 
     test('Test returnDocs', () async {
@@ -37,19 +28,12 @@ void main() {
       );
 
       await memory.saveContext(
-        inputValues: {
-          'foo': 'bar',
-        },
-        outputValues: {
-          'bar': 'foo',
-        },
+        inputValues: {'foo': 'bar'},
+        outputValues: {'bar': 'foo'},
       );
       final result = await memory.loadMemoryVariables({'input': 'foo'});
       const expectedDoc = Document(pageContent: 'foo: bar\nbar: foo');
-      expect(
-        result[VectorStoreMemory.defaultMemoryKey],
-        [expectedDoc],
-      );
+      expect(result[VectorStoreMemory.defaultMemoryKey], [expectedDoc]);
     });
 
     test('Test excludeInputKeys', () async {
@@ -64,18 +48,11 @@ void main() {
       expect(result1[VectorStoreMemory.defaultMemoryKey], '');
 
       await memory.saveContext(
-        inputValues: {
-          'foo': 'bar',
-        },
-        outputValues: {
-          'bar': 'foo',
-        },
+        inputValues: {'foo': 'bar'},
+        outputValues: {'bar': 'foo'},
       );
       final result2 = await memory.loadMemoryVariables({'input': 'foo'});
-      expect(
-        result2[VectorStoreMemory.defaultMemoryKey],
-        'bar: foo',
-      );
+      expect(result2[VectorStoreMemory.defaultMemoryKey], 'bar: foo');
     });
   });
 }
@@ -91,9 +68,7 @@ class _FakeEmbeddings implements Embeddings {
   }
 
   @override
-  Future<List<double>> embedQuery(
-    final String query,
-  ) async {
+  Future<List<double>> embedQuery(final String query) async {
     return _embed(query);
   }
 

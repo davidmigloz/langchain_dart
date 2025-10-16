@@ -160,10 +160,7 @@ class RealtimeClient extends RealtimeEventHandler {
         RealtimeEventType.conversationItemInputAudioTranscriptionCompleted,
         handlerWithDispatch,
       )
-      ..on(
-        RealtimeEventType.responseAudioTranscriptDelta,
-        handlerWithDispatch,
-      )
+      ..on(RealtimeEventType.responseAudioTranscriptDelta, handlerWithDispatch)
       ..on(RealtimeEventType.responseAudioDelta, handlerWithDispatch)
       ..on(RealtimeEventType.responseTextDelta, handlerWithDispatch)
       ..on(
@@ -373,10 +370,7 @@ class RealtimeClient extends RealtimeEventHandler {
     SessionConfigMaxResponseOutputTokens? maxResponseOutputTokens,
   }) async {
     // Load tools from tool definitions + already loaded tools
-    final useTools = [
-      ...?tools,
-      ...this.tools.values.map((tool) => tool.$1),
-    ];
+    final useTools = [...?tools, ...this.tools.values.map((tool) => tool.$1)];
 
     sessionConfig = sessionConfig.copyWith(
       modalities: modalities ?? sessionConfig.modalities,
@@ -465,9 +459,7 @@ class RealtimeClient extends RealtimeEventHandler {
   Future<ItemMessage?> cancelResponse(String? id, [int sampleCount = 0]) async {
     if (id == null) {
       await realtime.send(
-        RealtimeEvent.responseCancel(
-          eventId: RealtimeUtils.generateId(),
-        ),
+        RealtimeEvent.responseCancel(eventId: RealtimeUtils.generateId()),
       );
       return null;
     } else {
@@ -486,9 +478,7 @@ class RealtimeClient extends RealtimeEventHandler {
         );
       }
       await realtime.send(
-        RealtimeEvent.responseCancel(
-          eventId: RealtimeUtils.generateId(),
-        ),
+        RealtimeEvent.responseCancel(eventId: RealtimeUtils.generateId()),
       );
 
       final audioIndex = item.content.indexWhere((c) => c is ContentPartAudio);
@@ -510,9 +500,7 @@ class RealtimeClient extends RealtimeEventHandler {
 
   /// Utility for waiting for the next `conversation.item.appended` event to
   /// be triggered by the server.
-  Future<FormattedItem?> waitForNextItem({
-    Duration? timeout,
-  }) async {
+  Future<FormattedItem?> waitForNextItem({Duration? timeout}) async {
     final res =
         await waitForNext(
               RealtimeEventType.conversationItemAppended,
@@ -524,9 +512,7 @@ class RealtimeClient extends RealtimeEventHandler {
 
   /// Utility for waiting for the next `conversation.item.completed` event to
   /// be triggered by the server.
-  Future<FormattedItem?> waitForNextCompletedItem({
-    Duration? timeout,
-  }) async {
+  Future<FormattedItem?> waitForNextCompletedItem({Duration? timeout}) async {
     final res =
         await waitForNext(
               RealtimeEventType.conversationItemCompleted,
@@ -539,6 +525,4 @@ class RealtimeClient extends RealtimeEventHandler {
 
 /// The handler for a tool.
 typedef ToolHandler =
-    FutureOr<Map<String, dynamic>> Function(
-      Map<String, dynamic>,
-    );
+    FutureOr<Map<String, dynamic>> Function(Map<String, dynamic>);

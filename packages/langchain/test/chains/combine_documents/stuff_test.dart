@@ -15,10 +15,7 @@ void main() {
         Document(pageContent: 'Hello 1!'),
         Document(pageContent: 'Hello 2!'),
       ];
-      final res = await stuffChain.call({
-        'foo': foo,
-        'input_documents': docs,
-      });
+      final res = await stuffChain.call({'foo': foo, 'input_documents': docs});
       expect(res['foo'], foo);
       expect(res[StuffDocumentsChain.defaultInputKey], docs);
       expect(

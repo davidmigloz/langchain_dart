@@ -86,9 +86,7 @@ class File {
         ? Status.fromJson(json['error'] as Map<String, dynamic>)
         : null,
     videoMetadata: json['videoMetadata'] != null
-        ? VideoMetadata.fromJson(
-            json['videoMetadata'] as Map<String, dynamic>,
-          )
+        ? VideoMetadata.fromJson(json['videoMetadata'] as Map<String, dynamic>)
         : null,
   );
 

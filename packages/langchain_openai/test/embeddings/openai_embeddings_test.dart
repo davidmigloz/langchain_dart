@@ -31,14 +31,8 @@ void main() {
     test('Test OpenAIEmbeddings.embedDocuments', () async {
       final embeddings = OpenAIEmbeddings(apiKey: openaiApiKey, batchSize: 1);
       final res = await embeddings.embedDocuments([
-        const Document(
-          id: '1',
-          pageContent: 'Hello world',
-        ),
-        const Document(
-          id: '2',
-          pageContent: 'Bye bye',
-        ),
+        const Document(id: '1', pageContent: 'Hello world'),
+        const Document(id: '2', pageContent: 'Bye bye'),
       ]);
       expect(res.length, 2);
       expect(res[0].length, 1536);

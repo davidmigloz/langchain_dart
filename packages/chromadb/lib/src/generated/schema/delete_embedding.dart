@@ -40,10 +40,6 @@ class DeleteEmbedding with _$DeleteEmbedding {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'ids': ids,
-      'where': where,
-      'where_document': whereDocument,
-    };
+    return {'ids': ids, 'where': where, 'where_document': whereDocument};
   }
 }

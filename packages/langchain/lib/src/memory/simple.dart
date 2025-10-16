@@ -6,9 +6,7 @@ import 'package:langchain_core/memory.dart';
 /// {@endtemplate}
 final class SimpleMemory implements BaseMemory {
   /// {@macro simple_memory}
-  const SimpleMemory({
-    this.memories = const {},
-  });
+  const SimpleMemory({this.memories = const {}});
 
   /// The memories to store.
   final Map<String, dynamic> memories;

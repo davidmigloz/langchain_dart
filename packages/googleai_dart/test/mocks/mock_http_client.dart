@@ -36,10 +36,7 @@ http.Response createErrorResponse({
 }) {
   return http.Response(
     jsonEncode({
-      'error': {
-        'message': message,
-        'code': statusCode,
-      },
+      'error': {'message': message, 'code': statusCode},
     }),
     statusCode,
     headers: headers ?? {'content-type': 'application/json'},
@@ -58,10 +55,7 @@ http.Response createRateLimitResponse({
 
   return http.Response(
     jsonEncode({
-      'error': {
-        'message': message,
-        'code': 429,
-      },
+      'error': {'message': message, 'code': 429},
     }),
     429,
     headers: headers,

@@ -65,10 +65,7 @@ void main() {
           ),
         ];
 
-        final agent = ToolsAgent.fromLLMAndTools(
-          llm: llm,
-          tools: tools,
-        );
+        final agent = ToolsAgent.fromLLMAndTools(llm: llm, tools: tools);
 
         final executor = AgentExecutor(agent: agent);
 

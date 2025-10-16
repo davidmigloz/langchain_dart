@@ -35,9 +35,7 @@ void main() {
       });
 
       test('creates ListCorporaResponse with empty corpora list', () {
-        final json = {
-          'corpora': <dynamic>[],
-        };
+        final json = {'corpora': <dynamic>[]};
 
         final response = ListCorporaResponse.fromJson(json);
 
@@ -55,10 +53,7 @@ void main() {
       });
 
       test('creates ListCorporaResponse with null fields', () {
-        final json = {
-          'corpora': null,
-          'nextPageToken': null,
-        };
+        final json = {'corpora': null, 'nextPageToken': null};
 
         final response = ListCorporaResponse.fromJson(json);
 
@@ -80,9 +75,7 @@ void main() {
       });
 
       test('creates ListCorporaResponse with only nextPageToken', () {
-        final json = {
-          'nextPageToken': 'token-xyz789',
-        };
+        final json = {'nextPageToken': 'token-xyz789'};
 
         final response = ListCorporaResponse.fromJson(json);
 
@@ -140,9 +133,7 @@ void main() {
       });
 
       test('omits null fields from JSON', () {
-        const response = ListCorporaResponse(
-          nextPageToken: 'token-only',
-        );
+        const response = ListCorporaResponse(nextPageToken: 'token-only');
 
         final json = response.toJson();
 

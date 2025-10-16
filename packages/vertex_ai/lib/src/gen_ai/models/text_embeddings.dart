@@ -7,9 +7,7 @@ import 'package:meta/meta.dart';
 @immutable
 class VertexAITextEmbeddingsModelRequest {
   /// {@macro vertex_ai_text_embeddings_model_request}
-  const VertexAITextEmbeddingsModelRequest({
-    required this.content,
-  });
+  const VertexAITextEmbeddingsModelRequest({required this.content});
 
   /// The content you want to generate embeddings for.
   ///

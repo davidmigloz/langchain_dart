@@ -9,9 +9,7 @@ import '../vector_stores/types.dart';
 @immutable
 class RetrieverOptions extends BaseLangChainOptions {
   /// {@macro retriever_options}
-  const RetrieverOptions({
-    super.concurrencyLimit,
-  });
+  const RetrieverOptions({super.concurrencyLimit});
 }
 
 /// {@template vector_store_retriever_options}

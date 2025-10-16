@@ -38,10 +38,6 @@ abstract class Tensor with _$Tensor {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'name': name,
-      'type': type,
-      'shape': shape,
-    };
+    return {'name': name, 'type': type, 'shape': shape};
   }
 }

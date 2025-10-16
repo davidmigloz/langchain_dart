@@ -39,10 +39,6 @@ abstract class Embedding with _$Embedding {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'object': object,
-      'embedding': embedding,
-      'index': index,
-    };
+    return {'object': object, 'embedding': embedding, 'index': index};
   }
 }

@@ -51,9 +51,7 @@ abstract class Runnable<
   RunOutput extends Object?
 > {
   /// {@macro runnable}
-  const Runnable({
-    required this.defaultOptions,
-  });
+  const Runnable({required this.defaultOptions});
 
   /// The default options to use when invoking the [Runnable].
   ///
@@ -77,10 +75,9 @@ abstract class Runnable<
   /// on the same input returning a map of the results.
   ///
   /// - [steps] - the map of [Runnable] objects to run in parallel.
-  static Runnable<RunInput, RunnableOptions, Map<String, dynamic>>
-  fromMap<RunInput extends Object>(
-    final Map<String, Runnable<RunInput, RunnableOptions, Object>> steps,
-  ) {
+  static Runnable<RunInput, RunnableOptions, Map<String, dynamic>> fromMap<
+    RunInput extends Object
+  >(final Map<String, Runnable<RunInput, RunnableOptions, Object>> steps) {
     return RunnableMap<RunInput>(steps);
   }
 
@@ -139,10 +136,10 @@ abstract class Runnable<
   /// A [RunnableMapInput] allows you to map the input to a different value.
   ///
   /// - [inputMapper] - a function that maps [RunInput] to [RunOutput].
-  static Runnable<RunInput, RunnableOptions, RunOutput>
-  mapInput<RunInput extends Object, RunOutput extends Object>(
-    final FutureOr<RunOutput> Function(RunInput input) inputMapper,
-  ) {
+  static Runnable<RunInput, RunnableOptions, RunOutput> mapInput<
+    RunInput extends Object,
+    RunOutput extends Object
+  >(final FutureOr<RunOutput> Function(RunInput input) inputMapper) {
     return RunnableMapInput<RunInput, RunOutput>(inputMapper);
   }
 
@@ -164,9 +161,7 @@ abstract class Runnable<
   ///
   /// - [key] - the key of the item to get from the input map.
   static Runnable<Map<String, dynamic>, RunnableOptions, RunOutput>
-  getItemFromMap<RunOutput extends Object>(
-    final String key,
-  ) {
+  getItemFromMap<RunOutput extends Object>(final String key) {
     return Runnable.mapInput<Map<String, dynamic>, RunOutput>(
       (input) => input[key],
     );
@@ -187,10 +182,7 @@ abstract class Runnable<
   ///
   /// - [input] - the input to invoke the [Runnable] on.
   /// - [options] - the options to use when invoking the [Runnable].
-  Future<RunOutput> invoke(
-    final RunInput input, {
-    final CallOptions? options,
-  });
+  Future<RunOutput> invoke(final RunInput input, {final CallOptions? options});
 
   /// Batches the invocation of the [Runnable] on the given [inputs].
   ///
@@ -268,14 +260,11 @@ abstract class Runnable<
   /// sequentially, passing the output of the previous [Runnable] to the next one.
   ///
   /// - [next] - the [Runnable] to pipe the output into.
-  RunnableSequence<RunInput, NewRunOutput>
-  pipe<NewRunOutput extends Object?, NewCallOptions extends RunnableOptions>(
-    final Runnable<RunOutput, NewCallOptions, NewRunOutput> next,
-  ) {
-    return RunnableSequence<RunInput, NewRunOutput>(
-      first: this,
-      last: next,
-    );
+  RunnableSequence<RunInput, NewRunOutput> pipe<
+    NewRunOutput extends Object?,
+    NewCallOptions extends RunnableOptions
+  >(final Runnable<RunOutput, NewCallOptions, NewRunOutput> next) {
+    return RunnableSequence<RunInput, NewRunOutput>(first: this, last: next);
   }
 
   /// Binds the [Runnable] to the given [options].
@@ -343,9 +332,7 @@ abstract class Runnable<
 
   /// Returns the given [options] if they are compatible with the [Runnable],
   /// otherwise returns `null`.
-  CallOptions? getCompatibleOptions(
-    final RunnableOptions? options,
-  ) {
+  CallOptions? getCompatibleOptions(final RunnableOptions? options) {
     return options is CallOptions ? options : null;
   }
 

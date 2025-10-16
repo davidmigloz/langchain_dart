@@ -19,10 +19,7 @@ void main() {
       });
 
       final res = await chain.invoke({'input': 'world'});
-      expect(
-        res,
-        {'left': 'Hello world!', 'right': 'Bye world!'},
-      );
+      expect(res, {'left': 'Hello world!', 'right': 'Bye world!'});
     });
 
     test('RunnableMap runs tasks in parallel', () async {
@@ -39,10 +36,7 @@ void main() {
         },
       );
 
-      final chain = Runnable.fromMap({
-        'long': longTask,
-        'short': shortTask,
-      });
+      final chain = Runnable.fromMap({'long': longTask, 'short': shortTask});
 
       final stopwatch = Stopwatch()..start();
       final result = await chain.invoke({});

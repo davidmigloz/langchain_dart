@@ -25,18 +25,17 @@ void main() {
 
     test('Valid JSON stream should be parsed correctly', () async {
       final parser = JsonOutputParser<String>();
-      final inputStream = Stream.fromIterable(
-        ['{"name": "John"', ', "age": 30}'],
-      );
+      final inputStream = Stream.fromIterable([
+        '{"name": "John"',
+        ', "age": 30}',
+      ]);
       final result = await parser.streamFromInputStream(inputStream).toList();
       expect(
         result,
-        equals(
-          [
-            {'name': 'John'},
-            {'name': 'John', 'age': 30},
-          ],
-        ),
+        equals([
+          {'name': 'John'},
+          {'name': 'John', 'age': 30},
+        ]),
       );
     });
 
@@ -46,37 +45,32 @@ void main() {
       final result1 = await parser.streamFromInputStream(inputStream1).toList();
       expect(
         result1,
-        equals(
-          [
-            {'name': 'John', 'age': 30},
-          ],
-        ),
+        equals([
+          {'name': 'John', 'age': 30},
+        ]),
       );
       final inputStream2 = Stream.fromIterable(['{"name": "Ana", "age": 40}']);
       final result2 = await parser.streamFromInputStream(inputStream2).toList();
       expect(
         result2,
-        equals(
-          [
-            {'name': 'Ana', 'age': 40},
-          ],
-        ),
+        equals([
+          {'name': 'Ana', 'age': 40},
+        ]),
       );
     });
 
     test('Test reduceOutputStream', () async {
       final parser = JsonOutputParser<String>(reduceOutputStream: true);
-      final inputStream = Stream.fromIterable(
-        ['{"name": "John"', ', "age": 30}'],
-      );
+      final inputStream = Stream.fromIterable([
+        '{"name": "John"',
+        ', "age": 30}',
+      ]);
       final result = await parser.streamFromInputStream(inputStream).toList();
       expect(
         result,
-        equals(
-          [
-            {'name': 'John', 'age': 30},
-          ],
-        ),
+        equals([
+          {'name': 'John', 'age': 30},
+        ]),
       );
     });
   });

@@ -193,9 +193,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     final Map<String, String>? headers,
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
-    super.defaultOptions = const ChatOpenAIOptions(
-      model: defaultModel,
-    ),
+    super.defaultOptions = const ChatOpenAIOptions(model: defaultModel),
     this.encoding,
   }) : _client = OpenAIClient(
          apiKey: apiKey ?? '',

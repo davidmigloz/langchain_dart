@@ -74,18 +74,14 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
+      appBar: AppBar(title: Text(widget.title)),
       body: const ChatWidget(),
     );
   }
 }
 
 class ChatWidget extends StatefulWidget {
-  const ChatWidget({
-    super.key,
-  });
+  const ChatWidget({super.key});
 
   @override
   State<ChatWidget> createState() => _ChatWidgetState();
@@ -169,9 +165,7 @@ class _ChatWidgetState extends State<ChatWidget> {
     WidgetsBinding.instance.addPostFrameCallback(
       (_) async => _scrollController.animateTo(
         _scrollController.position.maxScrollExtent,
-        duration: const Duration(
-          milliseconds: 750,
-        ),
+        duration: const Duration(milliseconds: 750),
         curve: Curves.easeOutCirc,
       ),
     );
@@ -183,20 +177,12 @@ class _ChatWidgetState extends State<ChatWidget> {
       contentPadding: const EdgeInsets.all(15),
       hintText: 'Enter a prompt...',
       border: OutlineInputBorder(
-        borderRadius: const BorderRadius.all(
-          Radius.circular(14),
-        ),
-        borderSide: BorderSide(
-          color: Theme.of(context).colorScheme.secondary,
-        ),
+        borderRadius: const BorderRadius.all(Radius.circular(14)),
+        borderSide: BorderSide(color: Theme.of(context).colorScheme.secondary),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: const BorderRadius.all(
-          Radius.circular(14),
-        ),
-        borderSide: BorderSide(
-          color: Theme.of(context).colorScheme.secondary,
-        ),
+        borderRadius: const BorderRadius.all(Radius.circular(14)),
+        borderSide: BorderSide(color: Theme.of(context).colorScheme.secondary),
       ),
     );
 
@@ -221,10 +207,7 @@ class _ChatWidgetState extends State<ChatWidget> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 25,
-              horizontal: 15,
-            ),
+            padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 15),
             child: Row(
               children: [
                 Expanded(
@@ -236,9 +219,7 @@ class _ChatWidgetState extends State<ChatWidget> {
                     onSubmitted: _sendChatMessage,
                   ),
                 ),
-                const SizedBox.square(
-                  dimension: 15,
-                ),
+                const SizedBox.square(dimension: 15),
                 IconButton(
                   tooltip: 'tokenCount Test',
                   onPressed: !_loading
@@ -383,20 +364,16 @@ class _ChatWidgetState extends State<ChatWidget> {
       );
 
       _generatedContent
-        ..add(
-          (
-            image: Image.asset('assets/images/cat.jpg'),
-            text: message,
-            fromUser: true,
-          ),
-        )
-        ..add(
-          (
-            image: Image.asset('assets/images/scones.jpg'),
-            text: null,
-            fromUser: true,
-          ),
-        );
+        ..add((
+          image: Image.asset('assets/images/cat.jpg'),
+          text: message,
+          fromUser: true,
+        ))
+        ..add((
+          image: Image.asset('assets/images/scones.jpg'),
+          text: null,
+          fromUser: true,
+        ));
 
       final response = await _chain.invoke(chatMessage);
 
@@ -545,9 +522,7 @@ class _ChatWidgetState extends State<ChatWidget> {
       builder: (context) {
         return AlertDialog(
           title: const Text('Something went wrong'),
-          content: SingleChildScrollView(
-            child: SelectableText(message),
-          ),
+          content: SingleChildScrollView(child: SelectableText(message)),
           actions: [
             TextButton(
               onPressed: () {
@@ -590,10 +565,7 @@ class MessageWidget extends StatelessWidget {
                   : Theme.of(context).colorScheme.surfaceContainerHighest,
               borderRadius: BorderRadius.circular(18),
             ),
-            padding: const EdgeInsets.symmetric(
-              vertical: 15,
-              horizontal: 20,
-            ),
+            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
             margin: const EdgeInsets.only(bottom: 8),
             child: Column(
               children: [

@@ -43,8 +43,6 @@ abstract class OpenRouterUsageConfig with _$OpenRouterUsageConfig {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'include': include,
-    };
+    return {'include': include};
   }
 }

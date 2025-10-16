@@ -41,20 +41,14 @@ void main() {
                 role: MessageRole.system,
                 content: 'You are a helpful assistant.',
               ),
-              Message(
-                role: MessageRole.user,
-                content: 'Hello!',
-              ),
+              Message(role: MessageRole.user, content: 'Hello!'),
             ],
             keepAlive: 1,
           ),
         );
         expect(response.model, defaultModel);
         expect(response.createdAt, isNotNull);
-        expect(
-          response.message.content,
-          isNotEmpty,
-        );
+        expect(response.message.content, isNotEmpty);
         expect(response.done, isTrue);
         expect(response.doneReason, DoneReason.stop);
         expect(response.totalDuration, greaterThan(0));

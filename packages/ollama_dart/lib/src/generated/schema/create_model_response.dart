@@ -37,8 +37,6 @@ abstract class CreateModelResponse with _$CreateModelResponse {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'status': status,
-    };
+    return {'status': status};
   }
 }

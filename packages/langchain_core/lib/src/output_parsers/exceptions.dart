@@ -10,7 +10,6 @@ import '../exceptions/base.dart';
 /// {@endtemplate}
 final class OutputParserException extends LangChainException {
   /// {@macro output_parser_exception}
-  const OutputParserException({
-    super.message = '',
-  }) : super(code: 'output_parser');
+  const OutputParserException({super.message = ''})
+    : super(code: 'output_parser');
 }

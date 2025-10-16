@@ -6,14 +6,11 @@ class VideoMetadata {
   final String? videoDuration;
 
   /// Creates a [VideoMetadata].
-  const VideoMetadata({
-    this.videoDuration,
-  });
+  const VideoMetadata({this.videoDuration});
 
   /// Creates a [VideoMetadata] from JSON.
-  factory VideoMetadata.fromJson(Map<String, dynamic> json) => VideoMetadata(
-    videoDuration: json['videoDuration'] as String?,
-  );
+  factory VideoMetadata.fromJson(Map<String, dynamic> json) =>
+      VideoMetadata(videoDuration: json['videoDuration'] as String?);
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
@@ -21,9 +18,7 @@ class VideoMetadata {
   };
 
   /// Creates a copy with replaced values.
-  VideoMetadata copyWith({
-    Object? videoDuration = unsetCopyWithValue,
-  }) {
+  VideoMetadata copyWith({Object? videoDuration = unsetCopyWithValue}) {
     return VideoMetadata(
       videoDuration: videoDuration == unsetCopyWithValue
           ? this.videoDuration

@@ -108,11 +108,7 @@ void main() {
     });
 
     test('handles empty data fields', () async {
-      final sseData = [
-        'data:',
-        'data: ',
-        'data: {"id":"1"}',
-      ].join('\n');
+      final sseData = ['data:', 'data: ', 'data: {"id":"1"}'].join('\n');
 
       final bytes = utf8.encode(sseData);
       final stream = Stream<List<int>>.value(bytes);

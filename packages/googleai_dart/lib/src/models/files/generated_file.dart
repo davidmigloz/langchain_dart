@@ -17,12 +17,7 @@ class GeneratedFile {
   final Status? error;
 
   /// Creates a [GeneratedFile].
-  const GeneratedFile({
-    this.name,
-    this.mimeType,
-    this.state,
-    this.error,
-  });
+  const GeneratedFile({this.name, this.mimeType, this.state, this.error});
 
   /// Creates a [GeneratedFile] from JSON.
   factory GeneratedFile.fromJson(Map<String, dynamic> json) => GeneratedFile(

@@ -5,9 +5,7 @@ void main() {
   group('ConversationChain tests', () {
     test('Test conversation chain works', () async {
       const llm = FakeEchoLLM();
-      final chain = ConversationChain(
-        llm: llm,
-      );
+      final chain = ConversationChain(llm: llm);
 
       final prompt = chain.prompt as PromptTemplate;
       final template = prompt.template;

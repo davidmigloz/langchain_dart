@@ -79,11 +79,7 @@ class VertexAIOperation {
 @immutable
 class VertexAIOperationError {
   /// {@macro vertex_ai_operation_error}
-  const VertexAIOperationError({
-    this.code,
-    this.details,
-    this.message,
-  });
+  const VertexAIOperationError({this.code, this.details, this.message});
 
   /// The status code
   final int? code;

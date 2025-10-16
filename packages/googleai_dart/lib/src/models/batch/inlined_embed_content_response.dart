@@ -14,11 +14,7 @@ class InlinedEmbedContentResponse {
   final Map<String, dynamic>? metadata;
 
   /// Creates an [InlinedEmbedContentResponse].
-  const InlinedEmbedContentResponse({
-    this.error,
-    this.response,
-    this.metadata,
-  });
+  const InlinedEmbedContentResponse({this.error, this.response, this.metadata});
 
   /// Creates an [InlinedEmbedContentResponse] from JSON.
   factory InlinedEmbedContentResponse.fromJson(Map<String, dynamic> json) =>

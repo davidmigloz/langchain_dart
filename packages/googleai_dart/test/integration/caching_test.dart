@@ -73,9 +73,7 @@ void main() {
       );
     } else {
       client = GoogleAIClient(
-        config: GoogleAIConfig(
-          authProvider: ApiKeyProvider(apiKey!),
-        ),
+        config: GoogleAIConfig(authProvider: ApiKeyProvider(apiKey!)),
       );
     }
   });
@@ -105,10 +103,7 @@ void main() {
             ],
           ),
           contents: [
-            Content(
-              parts: [TextPart(largeContentText)],
-              role: 'user',
-            ),
+            Content(parts: [TextPart(largeContentText)], role: 'user'),
           ],
           ttl: '3600s', // 1 hour
         ),
@@ -146,10 +141,7 @@ void main() {
           model: 'models/$defaultGenerativeModel',
           displayName: 'Test Cache - With Contents',
           contents: [
-            Content(
-              parts: [TextPart(largeContentText)],
-              role: 'user',
-            ),
+            Content(parts: [TextPart(largeContentText)], role: 'user'),
           ],
           ttl: '3600s',
         ),
@@ -174,10 +166,7 @@ void main() {
           model: 'models/$defaultGenerativeModel',
           displayName: 'Test Cache for Listing',
           contents: [
-            Content(
-              parts: [TextPart(largeContentText)],
-              role: 'user',
-            ),
+            Content(parts: [TextPart(largeContentText)], role: 'user'),
           ],
           ttl: '3600s',
         ),
@@ -211,10 +200,7 @@ void main() {
           model: 'models/$defaultGenerativeModel',
           displayName: 'Test Cache for Update',
           contents: [
-            Content(
-              parts: [TextPart(largeContentText)],
-              role: 'user',
-            ),
+            Content(parts: [TextPart(largeContentText)], role: 'user'),
           ],
           ttl: '3600s',
         ),
@@ -236,10 +222,7 @@ void main() {
       expect(updated, isNotNull);
       expect(updated.expireTime, isNotNull);
       // The new expire time should be later than the original
-      expect(
-        updated.expireTime!.isAfter(originalExpireTime!),
-        isTrue,
-      );
+      expect(updated.expireTime!.isAfter(originalExpireTime!), isTrue);
 
       // Clean up
       await client!.cachedContents.delete(name: cachedContent.name!);
@@ -257,10 +240,7 @@ void main() {
           model: 'models/$defaultGenerativeModel',
           displayName: 'Test Cache for Deletion',
           contents: [
-            Content(
-              parts: [TextPart(largeContentText)],
-              role: 'user',
-            ),
+            Content(parts: [TextPart(largeContentText)], role: 'user'),
           ],
           ttl: '3600s',
         ),
@@ -290,10 +270,7 @@ void main() {
           model: 'models/$defaultGenerativeModel',
           displayName: 'Test Cache - Usage Metadata',
           contents: [
-            Content(
-              parts: [TextPart(largeContentText)],
-              role: 'user',
-            ),
+            Content(parts: [TextPart(largeContentText)], role: 'user'),
           ],
           ttl: '3600s',
         ),

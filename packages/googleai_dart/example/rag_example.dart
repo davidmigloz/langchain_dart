@@ -6,9 +6,7 @@ import 'package:googleai_dart/googleai_dart.dart';
 
 void main() async {
   final client = GoogleAIClient(
-    config: const GoogleAIConfig(
-      authProvider: ApiKeyProvider('YOUR_API_KEY'),
-    ),
+    config: const GoogleAIConfig(authProvider: ApiKeyProvider('YOUR_API_KEY')),
   );
 
   try {
@@ -17,9 +15,7 @@ void main() async {
     // 1. Create a knowledge base (corpus)
     print('1. Creating knowledge base corpus...');
     final corpus = await client.corpora.create(
-      corpus: const Corpus(
-        displayName: 'Company Knowledge Base',
-      ),
+      corpus: const Corpus(displayName: 'Company Knowledge Base'),
     );
     print('   ✓ Created corpus: ${corpus.name}\n');
 
@@ -133,10 +129,7 @@ void main() async {
 
     final queryResponse = await client.corpora.query(
       name: corpus.name!,
-      request: const QueryCorpusRequest(
-        query: userQuery,
-        resultsCount: 3,
-      ),
+      request: const QueryCorpusRequest(query: userQuery, resultsCount: 3),
     );
 
     print(
@@ -211,10 +204,7 @@ void main() async {
         .documents(corpus: corpus.name!)
         .query(
           name: document.name!,
-          request: const QueryDocumentRequest(
-            query: docQuery,
-            resultsCount: 2,
-          ),
+          request: const QueryDocumentRequest(query: docQuery, resultsCount: 2),
         );
 
     print(

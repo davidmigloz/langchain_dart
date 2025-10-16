@@ -59,9 +59,7 @@ void main() {
 
     test('toJson serializes response with all fields', () {
       const response = PredictLongRunningGeneratedVideoResponse(
-        generatedSamples: [
-          Media(video: Video(uri: 'gs://test.mp4')),
-        ],
+        generatedSamples: [Media(video: Video(uri: 'gs://test.mp4'))],
         raiMediaFilteredCount: 1,
         raiMediaFilteredReasons: ['reason1'],
       );
@@ -85,16 +83,12 @@ void main() {
 
     test('copyWith creates new instance with replaced values', () {
       const original = PredictLongRunningGeneratedVideoResponse(
-        generatedSamples: [
-          Media(video: Video(uri: 'original.mp4')),
-        ],
+        generatedSamples: [Media(video: Video(uri: 'original.mp4'))],
         raiMediaFilteredCount: 0,
         raiMediaFilteredReasons: [],
       );
 
-      final updated = original.copyWith(
-        raiMediaFilteredCount: 5,
-      );
+      final updated = original.copyWith(raiMediaFilteredCount: 5);
 
       expect(updated.raiMediaFilteredCount, 5);
       expect(updated.generatedSamples, hasLength(1));

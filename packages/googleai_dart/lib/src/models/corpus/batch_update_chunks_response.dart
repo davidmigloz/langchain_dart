@@ -4,9 +4,7 @@ import 'chunk.dart';
 /// Response from BatchUpdateChunks containing a list of updated Chunks.
 class BatchUpdateChunksResponse {
   /// Creates a new [BatchUpdateChunksResponse] instance.
-  const BatchUpdateChunksResponse({
-    this.chunks,
-  });
+  const BatchUpdateChunksResponse({this.chunks});
 
   /// Chunks updated.
   final List<Chunk>? chunks;
@@ -30,9 +28,7 @@ class BatchUpdateChunksResponse {
   }
 
   /// Creates a copy with replaced values.
-  BatchUpdateChunksResponse copyWith({
-    Object? chunks = unsetCopyWithValue,
-  }) {
+  BatchUpdateChunksResponse copyWith({Object? chunks = unsetCopyWithValue}) {
     return BatchUpdateChunksResponse(
       chunks: chunks == unsetCopyWithValue
           ? this.chunks

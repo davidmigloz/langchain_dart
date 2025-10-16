@@ -375,9 +375,7 @@ class AnthropicClient {
   /// `request`: The request parameters for creating a message.
   ///
   /// `POST` `https://api.anthropic.com/v1/messages`
-  Future<Message> createMessage({
-    required CreateMessageRequest request,
-  }) async {
+  Future<Message> createMessage({required CreateMessageRequest request}) async {
     final r = await makeRequest(
       baseUrl: 'https://api.anthropic.com/v1',
       path: '/messages',
@@ -386,9 +384,7 @@ class AnthropicClient {
       requestType: 'application/json',
       responseType: 'application/json',
       body: request,
-      headerParams: {
-        if (apiKey.isNotEmpty) 'x-api-key': apiKey,
-      },
+      headerParams: {if (apiKey.isNotEmpty) 'x-api-key': apiKey},
     );
     return Message.fromJson(_jsonDecode(r));
   }
@@ -415,9 +411,7 @@ class AnthropicClient {
       requestType: 'application/json',
       responseType: 'application/json',
       body: request,
-      headerParams: {
-        if (apiKey.isNotEmpty) 'x-api-key': apiKey,
-      },
+      headerParams: {if (apiKey.isNotEmpty) 'x-api-key': apiKey},
     );
     return MessageBatch.fromJson(_jsonDecode(r));
   }
@@ -435,9 +429,7 @@ class AnthropicClient {
   /// `id`: The ID of the message batch to retrieve.
   ///
   /// `GET` `https://api.anthropic.com/v1/messages/batches/{id}`
-  Future<MessageBatch> retrieveMessageBatch({
-    required String id,
-  }) async {
+  Future<MessageBatch> retrieveMessageBatch({required String id}) async {
     final r = await makeRequest(
       baseUrl: 'https://api.anthropic.com/v1',
       path: '/messages/batches/$id',
@@ -445,9 +437,7 @@ class AnthropicClient {
       isMultipart: false,
       requestType: '',
       responseType: 'application/json',
-      headerParams: {
-        if (apiKey.isNotEmpty) 'x-api-key': apiKey,
-      },
+      headerParams: {if (apiKey.isNotEmpty) 'x-api-key': apiKey},
     );
     return MessageBatch.fromJson(_jsonDecode(r));
   }

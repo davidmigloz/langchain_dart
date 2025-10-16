@@ -126,10 +126,7 @@ void main() {
     test('Test stop logic on valid configuration', () async {
       final res = await chatModel.invoke(
         PromptValue.string('write an ordered list of five items'),
-        options: const ChatOllamaOptions(
-          temperature: 0,
-          stop: ['3'],
-        ),
+        options: const ChatOllamaOptions(temperature: 0, stop: ['3']),
       );
       expect(res.output.content.contains('2.'), isTrue);
       expect(res.output.content.contains('3.'), isFalse);
@@ -139,9 +136,7 @@ void main() {
     test('Test max tokens', () async {
       final res = await chatModel.invoke(
         PromptValue.string('write an ordered list of five items'),
-        options: const ChatOllamaOptions(
-          numPredict: 2,
-        ),
+        options: const ChatOllamaOptions(numPredict: 2),
       );
       expect(res.finishReason, FinishReason.length);
     });
@@ -196,15 +191,9 @@ void main() {
       );
       const options = ChatOllamaOptions(seed: 9999);
 
-      final res1 = await chatModel.invoke(
-        prompt,
-        options: options,
-      );
+      final res1 = await chatModel.invoke(prompt, options: options);
 
-      final res2 = await chatModel.invoke(
-        prompt,
-        options: options,
-      );
+      final res2 = await chatModel.invoke(prompt, options: options);
       expect(res1.output, res2.output);
     });
 
@@ -218,9 +207,7 @@ void main() {
       ]);
       final res = await chatModel.invoke(
         prompt,
-        options: const ChatOllamaOptions(
-          temperature: 0,
-        ),
+        options: const ChatOllamaOptions(temperature: 0),
       );
       expect(
         res.output.content.replaceAll(RegExp(r'[\s\n]'), ''),
@@ -245,10 +232,7 @@ void main() {
             ]),
           ),
         ]),
-        options: const ChatOllamaOptions(
-          model: visionModel,
-          temperature: 0,
-        ),
+        options: const ChatOllamaOptions(model: visionModel, temperature: 0),
       );
 
       expect(res.output.content.toLowerCase(), contains('apple'));
@@ -296,10 +280,7 @@ void main() {
       timeout: const Timeout(Duration(minutes: 1)),
       () async {
         final model = chatModel.bind(
-          const ChatOllamaOptions(
-            model: defaultModel,
-            tools: [tool1],
-          ),
+          const ChatOllamaOptions(model: defaultModel, tools: [tool1]),
         );
 
         final humanMessage = ChatMessage.humanText(

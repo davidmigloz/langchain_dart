@@ -43,10 +43,7 @@ void main() {
             'List the numbers from 1 to 9 in order '
             'without any spaces, commas or additional explanations.',
           ),
-          options: ChatGoogleGenerativeAIOptions(
-            model: model,
-            temperature: 0,
-          ),
+          options: ChatGoogleGenerativeAIOptions(model: model, temperature: 0),
         );
         expect(res.id, isNotEmpty);
         expect(res.finishReason, isNot(FinishReason.unspecified));
@@ -130,9 +127,7 @@ void main() {
           'without any spaces, commas or additional explanations.',
         ),
         ChatMessage.ai('123456789'),
-        ChatMessage.humanText(
-          'Remove the number 4 from the list',
-        ),
+        ChatMessage.humanText('Remove the number 4 from the list'),
       ]);
       final res = await chatModel.invoke(
         prompt,
@@ -141,10 +136,7 @@ void main() {
           temperature: 0,
         ),
       );
-      expect(
-        res.output.content,
-        contains('12356789'),
-      );
+      expect(res.output.content, contains('12356789'));
     });
 
     test('Test streaming', () async {
@@ -324,11 +316,7 @@ void main() {
 
       // If batching works, a single functionResponses turn will be sent and this call succeeds
       final res2 = await model.invoke(
-        PromptValue.chat([
-          humanMessage,
-          aiMessage1,
-          ...functionMessages,
-        ]),
+        PromptValue.chat([humanMessage, aiMessage1, ...functionMessages]),
       );
 
       final aiMessage2 = res2.output;

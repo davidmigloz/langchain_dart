@@ -4,10 +4,7 @@ import 'chunk.dart';
 /// Request to create a Chunk.
 class CreateChunkRequest {
   /// Creates a new [CreateChunkRequest] instance.
-  const CreateChunkRequest({
-    required this.parent,
-    required this.chunk,
-  });
+  const CreateChunkRequest({required this.parent, required this.chunk});
 
   /// The name of the Document where this Chunk will be created.
   ///
@@ -31,10 +28,7 @@ class CreateChunkRequest {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() {
-    return {
-      'parent': parent,
-      'chunk': chunk.toJson(),
-    };
+    return {'parent': parent, 'chunk': chunk.toJson()};
   }
 
   /// Creates a copy with replaced values.

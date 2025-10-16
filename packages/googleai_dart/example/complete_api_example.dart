@@ -21,9 +21,7 @@ void main() async {
     // This is useful for monitoring async tasks like batch processing
     final modelOps = await client.models
         .operations(model: 'models/gemini-2.0-flash-exp')
-        .list(
-          pageSize: 5,
-        );
+        .list(pageSize: 5);
     final ops = modelOps.operations;
     print('Operations for model: ${ops.length}');
     if (ops.isNotEmpty) {
@@ -36,9 +34,7 @@ void main() async {
 
     // Create a corpus for demonstration
     final corpus = await client.corpora.create(
-      corpus: const Corpus(
-        displayName: 'Shared Knowledge Base',
-      ),
+      corpus: const Corpus(displayName: 'Shared Knowledge Base'),
     );
     print('Created corpus: ${corpus.name}');
 
@@ -51,9 +47,7 @@ void main() async {
     final perms = permissions.permissions;
     if (perms != null) {
       for (final perm in perms) {
-        print(
-          '  - ${perm.granteeType}: ${perm.role} (${perm.name})',
-        );
+        print('  - ${perm.granteeType}: ${perm.role} (${perm.name})');
       }
     }
 
@@ -64,9 +58,7 @@ void main() async {
       if (firstPerm.name != null) {
         final permDetails = await client.corpora
             .permissions(parent: corpus.name!)
-            .get(
-              name: firstPerm.name!,
-            );
+            .get(name: firstPerm.name!);
         print('\nPermission details:');
         print('  Name: ${permDetails.name}');
         print('  Grantee: ${permDetails.granteeType}');

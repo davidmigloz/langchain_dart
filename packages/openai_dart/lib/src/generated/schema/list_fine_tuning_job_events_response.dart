@@ -37,10 +37,7 @@ abstract class ListFineTuningJobEventsResponse
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'data': data,
-      'object': object,
-    };
+    return {'data': data, 'object': object};
   }
 }
 

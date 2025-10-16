@@ -81,9 +81,7 @@ class _FakeEmbeddings implements Embeddings {
   _FakeEmbeddings();
 
   @override
-  Future<List<double>> embedQuery(
-    final String query,
-  ) async {
+  Future<List<double>> embedQuery(final String query) async {
     return [0, 1];
   }
 

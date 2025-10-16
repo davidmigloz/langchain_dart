@@ -17,9 +17,7 @@ void main() async {
     const request = GenerateContentRequest(
       contents: [
         Content(
-          parts: [
-            TextPart('Explain quantum computing in simple terms'),
-          ],
+          parts: [TextPart('Explain quantum computing in simple terms')],
           role: 'user',
         ),
       ],

@@ -9,10 +9,7 @@ import 'model.dart';
 @immutable
 class VertexAITextModelRequest {
   /// {@macro vertex_ai_text_model_request}
-  const VertexAITextModelRequest({
-    required this.prompt,
-    required this.params,
-  });
+  const VertexAITextModelRequest({required this.prompt, required this.params});
 
   /// A prompt is a natural language request submitted to a language model to
   /// receive a response back. Prompts can contain questions, instructions,
@@ -280,9 +277,7 @@ class VertexAITextModelPrediction {
 @immutable
 class VertexAITextModelResponseMetadata {
   /// {@macro vertex_ai_text_model_response_metadata}
-  const VertexAITextModelResponseMetadata({
-    required this.token,
-  });
+  const VertexAITextModelResponseMetadata({required this.token});
 
   /// The token metadata for the response.
   final VertexAITextModelResponseMetadataToken token;

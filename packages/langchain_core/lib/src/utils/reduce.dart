@@ -56,17 +56,14 @@ Iterable<V> _reduceIterable<V>(final Iterable<Iterable<V>> input) {
 }
 
 Map<K, V> _reduceMap<K, V>(final Iterable<Map<K, V>> input) {
-  return input.fold<Map<K, V>>(
-    {},
-    (final a, final b) {
-      final keys = a.keys.toSet()..addAll(b.keys);
-      return {
-        for (final key in keys)
-          key: reduce([
-            if (a[key] != null) a[key] as V,
-            if (b[key] != null) b[key] as V,
-          ]),
-      };
-    },
-  );
+  return input.fold<Map<K, V>>({}, (final a, final b) {
+    final keys = a.keys.toSet()..addAll(b.keys);
+    return {
+      for (final key in keys)
+        key: reduce([
+          if (a[key] != null) a[key] as V,
+          if (b[key] != null) b[key] as V,
+        ]),
+    };
+  });
 }

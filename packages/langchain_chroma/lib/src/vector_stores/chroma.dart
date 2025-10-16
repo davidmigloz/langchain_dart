@@ -163,9 +163,7 @@ class Chroma extends VectorStore {
   }
 
   @override
-  Future<void> delete({
-    required final List<String> ids,
-  }) async {
+  Future<void> delete({required final List<String> ids}) async {
     final collection = await _getCollection();
     await collection.delete(ids: ids);
   }
@@ -184,11 +182,7 @@ class Chroma extends VectorStore {
       whereDocument: config is ChromaSimilaritySearch
           ? config.whereDocument
           : null,
-      include: const [
-        Include.documents,
-        Include.metadatas,
-        Include.distances,
-      ],
+      include: const [Include.documents, Include.metadatas, Include.distances],
     );
     final ids = result.ids.first;
     final metadatas = result.metadatas?.first;

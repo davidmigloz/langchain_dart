@@ -8,10 +8,7 @@ void main() {
   group('CustomMetadata', () {
     group('fromJson', () {
       test('creates CustomMetadata with string value', () {
-        final json = {
-          'key': 'author',
-          'stringValue': 'Alice',
-        };
+        final json = {'key': 'author', 'stringValue': 'Alice'};
 
         final metadata = CustomMetadata.fromJson(json);
 
@@ -22,10 +19,7 @@ void main() {
       });
 
       test('creates CustomMetadata with numeric value', () {
-        final json = {
-          'key': 'rating',
-          'numericValue': 4.5,
-        };
+        final json = {'key': 'rating', 'numericValue': 4.5};
 
         final metadata = CustomMetadata.fromJson(json);
 
@@ -48,17 +42,16 @@ void main() {
         expect(metadata.key, 'tags');
         expect(metadata.stringValue, isNull);
         expect(metadata.stringListValue, isNotNull);
-        expect(
-          metadata.stringListValue!.values,
-          ['science', 'technology', 'ai'],
-        );
+        expect(metadata.stringListValue!.values, [
+          'science',
+          'technology',
+          'ai',
+        ]);
         expect(metadata.numericValue, isNull);
       });
 
       test('creates CustomMetadata with only key', () {
-        final json = {
-          'key': 'empty_metadata',
-        };
+        final json = {'key': 'empty_metadata'};
 
         final metadata = CustomMetadata.fromJson(json);
 
@@ -69,10 +62,7 @@ void main() {
       });
 
       test('converts integer to double for numeric value', () {
-        final json = {
-          'key': 'count',
-          'numericValue': 42,
-        };
+        final json = {'key': 'count', 'numericValue': 42};
 
         final metadata = CustomMetadata.fromJson(json);
 
@@ -113,10 +103,7 @@ void main() {
       });
 
       test('converts CustomMetadata with numeric value to JSON', () {
-        const metadata = CustomMetadata(
-          key: 'priority',
-          numericValue: 8.7,
-        );
+        const metadata = CustomMetadata(key: 'priority', numericValue: 8.7);
 
         final json = metadata.toJson();
 
@@ -169,10 +156,7 @@ void main() {
     });
 
     test('round-trip conversion with string value preserves data', () {
-      const original = CustomMetadata(
-        key: 'author',
-        stringValue: 'Bob',
-      );
+      const original = CustomMetadata(key: 'author', stringValue: 'Bob');
 
       final json = original.toJson();
       final restored = CustomMetadata.fromJson(json);
@@ -184,10 +168,7 @@ void main() {
     });
 
     test('round-trip conversion with numeric value preserves data', () {
-      const original = CustomMetadata(
-        key: 'score',
-        numericValue: 95.5,
-      );
+      const original = CustomMetadata(key: 'score', numericValue: 95.5);
 
       final json = original.toJson();
       final restored = CustomMetadata.fromJson(json);
@@ -233,10 +214,7 @@ void main() {
       });
 
       test('includes all fields for numeric value', () {
-        const metadata = CustomMetadata(
-          key: 'version',
-          numericValue: 2.1,
-        );
+        const metadata = CustomMetadata(key: 'version', numericValue: 2.1);
 
         final str = metadata.toString();
 

@@ -69,9 +69,7 @@ List<obx_int.ModelEntity> _getEntities(int dimensions) {
           type: 28,
           flags: 8,
           indexId: const obx_int.IdUid(2, 3016727589204567263),
-          hnswParams: obx_int.ModelHnswParams(
-            dimensions: dimensions,
-          ),
+          hnswParams: obx_int.ModelHnswParams(dimensions: dimensions),
         ),
       ],
       relations: <obx_int.ModelRelation>[],

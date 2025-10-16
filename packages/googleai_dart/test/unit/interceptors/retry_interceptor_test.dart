@@ -11,9 +11,7 @@ void main() {
   group('RetryInterceptor', () {
     group('Success Cases', () {
       test('passes through successful responses without retry', () async {
-        const config = GoogleAIConfig(
-          retryPolicy: RetryPolicy.defaultPolicy,
-        );
+        const config = GoogleAIConfig(retryPolicy: RetryPolicy.defaultPolicy);
         final interceptor = RetryInterceptor(config: config);
 
         var callCount = 0;
@@ -117,9 +115,7 @@ void main() {
 
     group('No Retry on 4xx Errors', () {
       test('does not retry on 400 Bad Request', () {
-        const config = GoogleAIConfig(
-          retryPolicy: RetryPolicy.defaultPolicy,
-        );
+        const config = GoogleAIConfig(retryPolicy: RetryPolicy.defaultPolicy);
         final interceptor = RetryInterceptor(config: config);
 
         var callCount = 0;
@@ -140,9 +136,7 @@ void main() {
       });
 
       test('does not retry on 401 Unauthorized', () {
-        const config = GoogleAIConfig(
-          retryPolicy: RetryPolicy.defaultPolicy,
-        );
+        const config = GoogleAIConfig(retryPolicy: RetryPolicy.defaultPolicy);
         final interceptor = RetryInterceptor(config: config);
 
         var callCount = 0;
@@ -163,9 +157,7 @@ void main() {
       });
 
       test('does not retry on 404 Not Found', () {
-        const config = GoogleAIConfig(
-          retryPolicy: RetryPolicy.defaultPolicy,
-        );
+        const config = GoogleAIConfig(retryPolicy: RetryPolicy.defaultPolicy);
         final interceptor = RetryInterceptor(config: config);
 
         var callCount = 0;

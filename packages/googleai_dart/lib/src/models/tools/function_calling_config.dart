@@ -65,10 +65,7 @@ class FunctionCallingConfig {
   final List<String>? allowedFunctionNames;
 
   /// Creates a [FunctionCallingConfig].
-  const FunctionCallingConfig({
-    this.mode,
-    this.allowedFunctionNames,
-  });
+  const FunctionCallingConfig({this.mode, this.allowedFunctionNames});
 
   /// Creates a [FunctionCallingConfig] from JSON.
   factory FunctionCallingConfig.fromJson(Map<String, dynamic> json) =>

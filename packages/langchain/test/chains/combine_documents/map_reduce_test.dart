@@ -30,10 +30,11 @@ void main() {
       ];
       final res = await reduceChain(docs);
       expect(res[MapReduceDocumentsChain.defaultOutputKey], 'Hello 123!');
-      expect(
-        res[MapReduceDocumentsChain.intermediateStepsOutputKey],
-        ['1', '2', '3'],
-      );
+      expect(res[MapReduceDocumentsChain.intermediateStepsOutputKey], [
+        '1',
+        '2',
+        '3',
+      ]);
     }
 
     test('Test MapReduceDocumentsChain with LLM', () async {

@@ -108,9 +108,7 @@ class CitationMetadata {
   };
 
   /// Creates a copy with replaced values.
-  CitationMetadata copyWith({
-    Object? citationSources = unsetCopyWithValue,
-  }) {
+  CitationMetadata copyWith({Object? citationSources = unsetCopyWithValue}) {
     return CitationMetadata(
       citationSources: citationSources == unsetCopyWithValue
           ? this.citationSources

@@ -50,9 +50,7 @@ void main() {
 
     test('Test invoke to ChatMistralAI', () async {
       final res = await chatModel.invoke(
-        PromptValue.chat(
-          [ChatMessage.humanText('Hello, how are you?')],
-        ),
+        PromptValue.chat([ChatMessage.humanText('Hello, how are you?')]),
       );
       expect(res.output.content, isNotEmpty);
     });
@@ -132,20 +130,11 @@ void main() {
       final prompt = PromptValue.string(
         'Why is the sky blue? Reply in one sentence.',
       );
-      const options = ChatMistralAIOptions(
-        temperature: 0,
-        randomSeed: 9999,
-      );
+      const options = ChatMistralAIOptions(temperature: 0, randomSeed: 9999);
 
-      final res1 = await chatModel.invoke(
-        prompt,
-        options: options,
-      );
+      final res1 = await chatModel.invoke(prompt, options: options);
 
-      final res2 = await chatModel.invoke(
-        prompt,
-        options: options,
-      );
+      final res2 = await chatModel.invoke(prompt, options: options);
       expect(res1.output, res2.output);
     });
   });

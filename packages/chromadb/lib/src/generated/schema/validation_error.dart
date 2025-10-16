@@ -39,10 +39,6 @@ class ValidationError with _$ValidationError {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'loc': loc,
-      'msg': msg,
-      'type': type,
-    };
+    return {'loc': loc, 'msg': msg, 'type': type};
   }
 }

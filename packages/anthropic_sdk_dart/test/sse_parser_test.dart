@@ -79,11 +79,7 @@ void main() {
     });
 
     test('handles empty data fields', () async {
-      final sseData = [
-        'data:',
-        'data: ',
-        'data: {"id":"1"}',
-      ].join('\n');
+      final sseData = ['data:', 'data: ', 'data: {"id":"1"}'].join('\n');
 
       final bytes = utf8.encode(sseData);
       final stream = Stream<List<int>>.value(bytes);
@@ -159,9 +155,7 @@ void main() {
       // Test with large data
       final largeJson = jsonEncode({
         'type': 'content_block_delta',
-        'delta': {
-          'text': 'word' * 1000,
-        },
+        'delta': {'text': 'word' * 1000},
       });
 
       final sseData = 'data: $largeJson';

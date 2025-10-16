@@ -47,10 +47,7 @@ void main() {
     });
 
     test('Test streaming', () async {
-      const doc = Document(
-        id: '1',
-        pageContent: 'This is a test',
-      );
+      const doc = Document(id: '1', pageContent: 'This is a test');
       const run = FakeRetriever([doc]);
       final stream = run.stream('test');
 
@@ -179,9 +176,9 @@ void main() {
     expect(count, 1);
     expect(
       output,
-      PromptValue.chat(
-        [ChatMessage.humanText('Spell the following text Hello World')],
-      ),
+      PromptValue.chat([
+        ChatMessage.humanText('Spell the following text Hello World'),
+      ]),
     );
   });
 
@@ -281,10 +278,7 @@ void main() {
       'd',
     ]);
 
-    const doc = Document(
-      id: '1',
-      pageContent: 'Hello World',
-    );
+    const doc = Document(id: '1', pageContent: 'Hello World');
     const retriever = FakeRetriever([doc]);
     final stream = retriever.streamFromInputStream(inputStream);
     var count = 0;

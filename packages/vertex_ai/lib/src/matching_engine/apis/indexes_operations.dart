@@ -30,9 +30,7 @@ class VertexAIIndexesOperationsApi {
   /// Returns the list of operations for the specified index.
   ///
   /// - [indexId] The ID of the index whose operations you want to list.
-  Future<List<VertexAIOperation>> list({
-    required final String indexId,
-  }) async {
+  Future<List<VertexAIOperation>> list({required final String indexId}) async {
     final operations = <VertexAIOperation>[];
     String? pageToken;
     do {
@@ -55,9 +53,7 @@ class VertexAIIndexesOperationsApi {
   ///
   /// - [name] The name of the operation resource (e.g.
   ///   `projects/{project}/locations/{location}/indexes/{index}/operations/{operation}`).
-  Future<VertexAIOperation> get({
-    required final String name,
-  }) async {
+  Future<VertexAIOperation> get({required final String name}) async {
     final res = await _indexesOperationsApi.get(name);
     return VertexAIOperationGoogleApisMapper.mapOperation(res);
   }
@@ -71,9 +67,7 @@ class VertexAIIndexesOperationsApi {
   ///
   /// - [name] The name of the operation resource (e.g.
   ///   `projects/{project}/locations/{location}/indexes/{index}/operations/{operation}`).
-  Future<void> cancel({
-    required final String name,
-  }) async {
+  Future<void> cancel({required final String name}) async {
     await _indexesOperationsApi.cancel(name);
   }
 
@@ -84,9 +78,7 @@ class VertexAIIndexesOperationsApi {
   ///
   /// - [name] The name of the operation resource (e.g.
   ///   `projects/{project}/locations/{location}/indexes/{index}/operations/{operation}`).
-  Future<void> delete({
-    required final String name,
-  }) async {
+  Future<void> delete({required final String name}) async {
     await _indexesOperationsApi.delete(name);
   }
 }

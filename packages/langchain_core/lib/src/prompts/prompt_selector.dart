@@ -72,10 +72,7 @@ class ConditionalPromptSelector implements BasePromptSelector {
 /// {@endtemplate}
 class PromptCondition {
   /// {@macro prompt_condition}
-  const PromptCondition({
-    required this.condition,
-    required this.prompt,
-  });
+  const PromptCondition({required this.condition, required this.prompt});
 
   /// Condition for a prompt.
   final bool Function(BaseLanguageModel llm) condition;

@@ -35,16 +35,10 @@ void main() {
     });
 
     test('Retriever as Runnable', () async {
-      const doc = Document(
-        id: '1',
-        pageContent: 'This is a test',
-      );
+      const doc = Document(id: '1', pageContent: 'This is a test');
       const run = FakeRetriever([doc]);
       final res = await run.invoke('test');
-      expect(
-        res,
-        equals([doc]),
-      );
+      expect(res, equals([doc]));
     });
 
     test('LLM as Runnable', () async {

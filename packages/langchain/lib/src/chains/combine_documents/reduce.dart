@@ -117,10 +117,7 @@ class ReduceDocumentsChain extends BaseCombineDocumentsChain {
     final List<Document> docs, {
     final InputValues inputs = const {},
   }) async {
-    final resultDocs = await _splitAndCollapseDocs(
-      docs,
-      inputs: inputs,
-    );
+    final resultDocs = await _splitAndCollapseDocs(docs, inputs: inputs);
     return combineDocumentsChain.combineDocs(resultDocs, inputs: inputs);
   }
 
@@ -158,10 +155,7 @@ class ReduceDocumentsChain extends BaseCombineDocumentsChain {
   Future<List<List<Document>>> _splitDocs(
     final List<Document> docs,
     final InputValues inputs,
-    final Future<int?> Function(
-      List<Document> docs, {
-      InputValues inputs,
-    })
+    final Future<int?> Function(List<Document> docs, {InputValues inputs})
     lengthFunc,
     final int tokenMax,
   ) async {

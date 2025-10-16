@@ -15,15 +15,16 @@ void main() async {
       onSchemaName: _onSchemaName,
       onSchemaUnionFactoryName: _onSchemaUnionFactoryName,
     ),
-    clientOptions: const ClientGeneratorOptions(
-      enabled: true,
-    ),
+    clientOptions: const ClientGeneratorOptions(enabled: true),
   );
 
-  await Process.run(
-    'dart',
-    ['run', 'build_runner', 'build', 'lib', '--delete-conflicting-outputs'],
-  );
+  await Process.run('dart', [
+    'run',
+    'build_runner',
+    'build',
+    'lib',
+    '--delete-conflicting-outputs',
+  ]);
 }
 
 String? _onSchemaName(final String schemaName) => switch (schemaName) {

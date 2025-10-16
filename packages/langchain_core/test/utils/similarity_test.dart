@@ -10,26 +10,11 @@ void main() {
         cosineSimilarity([1, 2, 3], [4, 5, 6]),
         closeTo(0.9746, precision),
       );
-      expect(
-        cosineSimilarity([1, 0], [0, 1]),
-        closeTo(0.0, precision),
-      );
-      expect(
-        cosineSimilarity([1, 2], [2, 4]),
-        closeTo(1.0, precision),
-      );
-      expect(
-        cosineSimilarity([1], [2]),
-        closeTo(1.0, precision),
-      );
-      expect(
-        cosineSimilarity([1], [1]),
-        closeTo(1.0, precision),
-      );
-      expect(
-        cosineSimilarity([], []),
-        isNaN,
-      );
+      expect(cosineSimilarity([1, 0], [0, 1]), closeTo(0.0, precision));
+      expect(cosineSimilarity([1, 2], [2, 4]), closeTo(1.0, precision));
+      expect(cosineSimilarity([1], [2]), closeTo(1.0, precision));
+      expect(cosineSimilarity([1], [1]), closeTo(1.0, precision));
+      expect(cosineSimilarity([], []), isNaN);
     });
   });
 
@@ -39,11 +24,7 @@ void main() {
     test('Calculates similarity for non-empty vectors', () {
       expect(
         calculateSimilarity(
-          [
-            1,
-            2,
-            3,
-          ],
+          [1, 2, 3],
           [
             [4, 5, 6],
             [7, 8, 9],
@@ -56,10 +37,7 @@ void main() {
     test('Calculates similarity for orthogonal vectors', () {
       expect(
         calculateSimilarity(
-          [
-            1,
-            0,
-          ],
+          [1, 0],
           [
             [0, 1],
             [0, -1],
@@ -72,10 +50,7 @@ void main() {
     test('Calculates similarity for identical vectors', () {
       expect(
         calculateSimilarity(
-          [
-            1,
-            2,
-          ],
+          [1, 2],
           [
             [1, 2],
             [2, 4],
@@ -86,10 +61,7 @@ void main() {
     });
 
     test('Calculates similarity for empty vectors', () {
-      expect(
-        calculateSimilarity([], [[]]).first,
-        isNaN,
-      );
+      expect(calculateSimilarity([], [[]]).first, isNaN);
     });
 
     test('Calculates similarity with custom similarity function', () {
@@ -113,11 +85,7 @@ void main() {
       () {
         expect(
           getIndexesMostSimilarEmbeddings(
-            [
-              1,
-              2,
-              3,
-            ],
+            [1, 2, 3],
             [
               [4, 5, 6],
               [7, 8, 9],
@@ -133,10 +101,7 @@ void main() {
       () {
         expect(
           getIndexesMostSimilarEmbeddings(
-            [
-              1,
-              0,
-            ],
+            [1, 0],
             [
               [0, 1],
               [0, -1],
@@ -152,10 +117,7 @@ void main() {
       () {
         expect(
           getIndexesMostSimilarEmbeddings(
-            [
-              1,
-              2,
-            ],
+            [1, 2],
             [
               [1, 2],
               [2, 4],

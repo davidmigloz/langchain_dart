@@ -4,9 +4,7 @@ import 'delete_chunk_request.dart';
 /// Request to batch delete Chunks.
 class BatchDeleteChunksRequest {
   /// Creates a new [BatchDeleteChunksRequest] instance.
-  const BatchDeleteChunksRequest({
-    required this.requests,
-  });
+  const BatchDeleteChunksRequest({required this.requests});
 
   /// The request messages specifying the Chunks to delete.
   ///
@@ -24,15 +22,11 @@ class BatchDeleteChunksRequest {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() {
-    return {
-      'requests': requests.map((e) => e.toJson()).toList(),
-    };
+    return {'requests': requests.map((e) => e.toJson()).toList()};
   }
 
   /// Creates a copy with replaced values.
-  BatchDeleteChunksRequest copyWith({
-    Object? requests = unsetCopyWithValue,
-  }) {
+  BatchDeleteChunksRequest copyWith({Object? requests = unsetCopyWithValue}) {
     return BatchDeleteChunksRequest(
       requests: requests == unsetCopyWithValue
           ? this.requests

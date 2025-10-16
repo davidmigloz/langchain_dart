@@ -31,10 +31,7 @@ abstract base class BaseChatMessageHistory {
     required final String content,
   }) {
     return addChatMessage(
-      ChatMessage.tool(
-        toolCallId: toolCallId,
-        content: content,
-      ),
+      ChatMessage.tool(toolCallId: toolCallId, content: content),
     );
   }
 

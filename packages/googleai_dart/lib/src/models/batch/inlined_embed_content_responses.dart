@@ -7,9 +7,7 @@ class InlinedEmbedContentResponses {
   final List<InlinedEmbedContentResponse>? inlinedResponses;
 
   /// Creates an [InlinedEmbedContentResponses].
-  const InlinedEmbedContentResponses({
-    this.inlinedResponses,
-  });
+  const InlinedEmbedContentResponses({this.inlinedResponses});
 
   /// Creates an [InlinedEmbedContentResponses] from JSON.
   factory InlinedEmbedContentResponses.fromJson(Map<String, dynamic> json) =>

@@ -44,11 +44,7 @@ abstract class ReasoningDetail with _$ReasoningDetail {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'type': type,
-      'text': text,
-      'data': data,
-    };
+    return {'type': type, 'text': text, 'data': data};
   }
 }
 

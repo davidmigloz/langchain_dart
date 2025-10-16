@@ -127,16 +127,8 @@ void main() {
             pageContent: 'hello',
             metadata: {'type': 'a'},
           ),
-          const Document(
-            id: '2',
-            pageContent: 'hi',
-            metadata: {'type': 'a'},
-          ),
-          const Document(
-            id: '3',
-            pageContent: 'bye',
-            metadata: {'type': 'b'},
-          ),
+          const Document(id: '2', pageContent: 'hi', metadata: {'type': 'a'}),
+          const Document(id: '3', pageContent: 'bye', metadata: {'type': 'b'}),
           const Document(
             id: '4',
             pageContent: "what's this",
@@ -205,9 +197,7 @@ class _FakeEmbeddings implements Embeddings {
   const _FakeEmbeddings();
 
   @override
-  Future<List<double>> embedQuery(
-    final String query,
-  ) async {
+  Future<List<double>> embedQuery(final String query) async {
     return embedText(query);
   }
 
@@ -215,9 +205,7 @@ class _FakeEmbeddings implements Embeddings {
   Future<List<List<double>>> embedDocuments(
     final List<Document> documents,
   ) async {
-    return [
-      for (final document in documents) embedText(document.pageContent),
-    ];
+    return [for (final document in documents) embedText(document.pageContent)];
   }
 
   List<double> embedText(final String text) {

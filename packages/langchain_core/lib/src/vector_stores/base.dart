@@ -10,9 +10,7 @@ import 'types.dart';
 /// {@endtemplate}
 abstract class VectorStore {
   /// {@macro vector_store}
-  const VectorStore({
-    required this.embeddings,
-  });
+  const VectorStore({required this.embeddings});
 
   /// The embeddings model used to embed documents.
   final Embeddings embeddings;

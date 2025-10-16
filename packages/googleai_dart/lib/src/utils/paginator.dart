@@ -9,10 +9,7 @@ class PaginatedResponse<T> {
   final String? nextPageToken;
 
   /// Creates a [PaginatedResponse].
-  const PaginatedResponse({
-    required this.items,
-    this.nextPageToken,
-  });
+  const PaginatedResponse({required this.items, this.nextPageToken});
 }
 
 /// Helper for paginated API responses.

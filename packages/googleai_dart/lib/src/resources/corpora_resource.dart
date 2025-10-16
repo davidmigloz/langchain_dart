@@ -45,17 +45,13 @@ class CorporaResource extends ResourceBase {
   /// A project can create up to 10 corpora.
   ///
   /// POST /v1beta/corpora
-  Future<Corpus> create({
-    required Corpus corpus,
-  }) async {
+  Future<Corpus> create({required Corpus corpus}) async {
     _validateGoogleAIOnly();
 
     final url = requestBuilder.buildUrl('/{version}/corpora');
 
     final headers = requestBuilder.buildHeaders(
-      additionalHeaders: {
-        'Content-Type': 'application/json',
-      },
+      additionalHeaders: {'Content-Type': 'application/json'},
     );
 
     final httpRequest = http.Request('POST', url)
@@ -71,10 +67,7 @@ class CorporaResource extends ResourceBase {
   /// Lists all corpora with pagination support.
   ///
   /// GET /v1beta/corpora
-  Future<ListCorporaResponse> list({
-    int? pageSize,
-    String? pageToken,
-  }) async {
+  Future<ListCorporaResponse> list({int? pageSize, String? pageToken}) async {
     _validateGoogleAIOnly();
 
     final queryParams = <String, String>{};
@@ -99,9 +92,7 @@ class CorporaResource extends ResourceBase {
   /// Gets information about a specific corpus.
   ///
   /// GET /v1beta/{name}
-  Future<Corpus> get({
-    required String name,
-  }) async {
+  Future<Corpus> get({required String name}) async {
     _validateGoogleAIOnly();
 
     final url = requestBuilder.buildUrl('/{version}/$name');
@@ -131,9 +122,7 @@ class CorporaResource extends ResourceBase {
   }) async {
     _validateGoogleAIOnly();
 
-    final queryParams = <String, String>{
-      'updateMask': updateMask,
-    };
+    final queryParams = <String, String>{'updateMask': updateMask};
 
     final url = requestBuilder.buildUrl(
       '/{version}/$name',
@@ -141,9 +130,7 @@ class CorporaResource extends ResourceBase {
     );
 
     final headers = requestBuilder.buildHeaders(
-      additionalHeaders: {
-        'Content-Type': 'application/json',
-      },
+      additionalHeaders: {'Content-Type': 'application/json'},
     );
 
     final httpRequest = http.Request('PATCH', url)
@@ -163,10 +150,7 @@ class CorporaResource extends ResourceBase {
   /// be returned if the corpus contains any Documents.
   ///
   /// DELETE /v1beta/{name}
-  Future<void> delete({
-    required String name,
-    bool? force,
-  }) async {
+  Future<void> delete({required String name, bool? force}) async {
     _validateGoogleAIOnly();
 
     final queryParams = force != null
@@ -197,9 +181,7 @@ class CorporaResource extends ResourceBase {
     final url = requestBuilder.buildUrl('/{version}/$name:query');
 
     final headers = requestBuilder.buildHeaders(
-      additionalHeaders: {
-        'Content-Type': 'application/json',
-      },
+      additionalHeaders: {'Content-Type': 'application/json'},
     );
 
     final httpRequest = http.Request('POST', url)

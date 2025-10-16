@@ -46,17 +46,14 @@ void checkValidPromptTemplate({
       );
     }
     // Try to render
-    final dummyInputs = allVariables.fold(
-      <String, Object>{},
-      (final acc, final v) {
-        acc[v] = 'foo';
-        return acc;
-      },
-    );
-    renderTemplate(
-      template: template,
-      inputValues: dummyInputs,
-    );
+    final dummyInputs = allVariables.fold(<String, Object>{}, (
+      final acc,
+      final v,
+    ) {
+      acc[v] = 'foo';
+      return acc;
+    });
+    renderTemplate(template: template, inputValues: dummyInputs);
   } on TemplateValidationException {
     rethrow;
   } catch (e) {
@@ -115,9 +112,8 @@ void checkValidChatPromptTemplate({
 /// {@endtemplate}
 final class TemplateValidationException extends LangChainException {
   /// {@macro template_validation_exception}
-  const TemplateValidationException({
-    super.message = '',
-  }) : super(code: 'template_validation');
+  const TemplateValidationException({super.message = ''})
+    : super(code: 'template_validation');
 }
 
 /// Renders a template with the given values.
@@ -210,9 +206,7 @@ sealed class ParsedFStringNode {
 @immutable
 class ParsedFStringLiteralNode extends ParsedFStringNode {
   /// {@macro parsed_f_string_literal_node}
-  const ParsedFStringLiteralNode({
-    required this.text,
-  });
+  const ParsedFStringLiteralNode({required this.text});
 
   /// The text of the literal.
   final String text;
@@ -232,9 +226,7 @@ class ParsedFStringLiteralNode extends ParsedFStringNode {
 @immutable
 class ParsedFStringVariableNode extends ParsedFStringNode {
   /// {@macro parsed_f_string_variable_node}
-  const ParsedFStringVariableNode({
-    required this.name,
-  });
+  const ParsedFStringVariableNode({required this.name});
 
   /// The name of the variable.
   final String name;

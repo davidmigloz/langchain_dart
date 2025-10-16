@@ -51,10 +51,6 @@ abstract class InputAudioTranscriptionConfig
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'model': model,
-      'language': language,
-      'prompt': prompt,
-    };
+    return {'model': model, 'language': language, 'prompt': prompt};
   }
 }

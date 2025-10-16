@@ -40,9 +40,8 @@ extension MessageContentX on MessageContent {
   String get text {
     return mapOrNull(
       text: (final MessageContentTextObject c) => c.text.value,
-      imageFile: (final a) => throw ArgumentError(
-        'Message content is not of type `text`',
-      ),
+      imageFile: (final a) =>
+          throw ArgumentError('Message content is not of type `text`'),
     )!;
   }
 
@@ -52,9 +51,8 @@ extension MessageContentX on MessageContent {
   /// [MessageContentImage].
   String get imageFile {
     return mapOrNull(
-      text: (final s) => throw ArgumentError(
-        'Message content is not of type `imageFile`',
-      ),
+      text: (final s) =>
+          throw ArgumentError('Message content is not of type `imageFile`'),
       imageFile: (final c) => c.imageFile.fileId,
     )!;
   }

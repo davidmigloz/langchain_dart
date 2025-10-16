@@ -60,10 +60,7 @@ void main() {
         'Results:\nResult 1\nResult 2\nResult 3',
       );
       expect(
-        tool.getInputFromJson({
-          'query': 'cats',
-          'n': 3,
-        }),
+        tool.getInputFromJson({'query': 'cats', 'n': 3}),
         const _SearchInput(query: 'cats', n: 3),
       );
     });
@@ -139,19 +136,13 @@ void main() {
 
 @immutable
 class _SearchInput {
-  const _SearchInput({
-    required this.query,
-    required this.n,
-  });
+  const _SearchInput({required this.query, required this.n});
 
   final String query;
   final int n;
 
   _SearchInput.fromJson(final Map<String, dynamic> json)
-    : this(
-        query: json['query'] as String,
-        n: json['n'] as int,
-      );
+    : this(query: json['query'] as String, n: json['n'] as int);
 
   @override
   bool operator ==(covariant _SearchInput other) =>

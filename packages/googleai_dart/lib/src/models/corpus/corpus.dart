@@ -7,12 +7,7 @@ import '../copy_with_sentinel.dart';
 /// Example name: `corpora/my-awesome-corpora-123a456b789c`
 class Corpus {
   /// Creates a new [Corpus] instance.
-  const Corpus({
-    this.name,
-    this.displayName,
-    this.createTime,
-    this.updateTime,
-  });
+  const Corpus({this.name, this.displayName, this.createTime, this.updateTime});
 
   /// The Corpus resource name.
   ///

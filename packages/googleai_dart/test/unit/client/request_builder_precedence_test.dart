@@ -47,10 +47,7 @@ void main() {
 
       test('preserves headers not in conflict', () {
         const config = GoogleAIConfig(
-          defaultHeaders: {
-            'X-Global-1': 'value1',
-            'X-Global-2': 'value2',
-          },
+          defaultHeaders: {'X-Global-1': 'value1', 'X-Global-2': 'value2'},
         );
         const builder = RequestBuilder(config: config);
 
@@ -69,9 +66,7 @@ void main() {
 
       test('empty additional headers does not affect global', () {
         const config = GoogleAIConfig(
-          defaultHeaders: {
-            'X-Global': 'global-value',
-          },
+          defaultHeaders: {'X-Global': 'global-value'},
         );
         const builder = RequestBuilder(config: config);
 
@@ -82,9 +77,7 @@ void main() {
 
       test('null additional headers uses only global', () {
         const config = GoogleAIConfig(
-          defaultHeaders: {
-            'X-Global': 'global-value',
-          },
+          defaultHeaders: {'X-Global': 'global-value'},
         );
         const builder = RequestBuilder(config: config);
 
@@ -98,10 +91,7 @@ void main() {
       test('global query parameters are included by default', () {
         const config = GoogleAIConfig(
           baseUrl: 'https://api.example.com',
-          defaultQueryParams: {
-            'global_param': 'global_value',
-            'version': 'v1',
-          },
+          defaultQueryParams: {'global_param': 'global_value', 'version': 'v1'},
         );
         const builder = RequestBuilder(config: config);
 
@@ -114,10 +104,7 @@ void main() {
       test('endpoint query parameters override global (last-write-wins)', () {
         const config = GoogleAIConfig(
           baseUrl: 'https://api.example.com',
-          defaultQueryParams: {
-            'version': 'v1',
-            'mode': 'default',
-          },
+          defaultQueryParams: {'version': 'v1', 'mode': 'default'},
         );
         const builder = RequestBuilder(config: config);
 
@@ -138,19 +125,13 @@ void main() {
       test('preserves query parameters not in conflict', () {
         const config = GoogleAIConfig(
           baseUrl: 'https://api.example.com',
-          defaultQueryParams: {
-            'global1': 'value1',
-            'global2': 'value2',
-          },
+          defaultQueryParams: {'global1': 'value1', 'global2': 'value2'},
         );
         const builder = RequestBuilder(config: config);
 
         final url = builder.buildUrl(
           '/endpoint',
-          queryParams: {
-            'endpoint1': 'value3',
-            'endpoint2': 'value4',
-          },
+          queryParams: {'endpoint1': 'value3', 'endpoint2': 'value4'},
         );
 
         expect(url.queryParameters['global1'], equals('value1'));
@@ -162,9 +143,7 @@ void main() {
       test('empty endpoint parameters does not affect global', () {
         const config = GoogleAIConfig(
           baseUrl: 'https://api.example.com',
-          defaultQueryParams: {
-            'global': 'value',
-          },
+          defaultQueryParams: {'global': 'value'},
         );
         const builder = RequestBuilder(config: config);
 
@@ -176,9 +155,7 @@ void main() {
       test('null endpoint parameters uses only global', () {
         const config = GoogleAIConfig(
           baseUrl: 'https://api.example.com',
-          defaultQueryParams: {
-            'global': 'value',
-          },
+          defaultQueryParams: {'global': 'value'},
         );
         const builder = RequestBuilder(config: config);
 
@@ -205,9 +182,7 @@ void main() {
       });
 
       test('handles baseUrl with trailing slash', () {
-        const config = GoogleAIConfig(
-          baseUrl: 'https://api.example.com/',
-        );
+        const config = GoogleAIConfig(baseUrl: 'https://api.example.com/');
         const builder = RequestBuilder(config: config);
 
         final url = builder.buildUrl('/endpoint');
@@ -225,10 +200,7 @@ void main() {
             'X-Global-Header': 'global',
             'Content-Type': 'text/plain',
           },
-          defaultQueryParams: {
-            'global_query': 'global',
-            'version': 'v1',
-          },
+          defaultQueryParams: {'global_query': 'global', 'version': 'v1'},
         );
         const builder = RequestBuilder(config: config);
 
@@ -271,9 +243,7 @@ void main() {
       test('verifies last-write-wins semantic', () {
         const config = GoogleAIConfig(
           baseUrl: 'https://api.example.com',
-          defaultHeaders: {
-            'X-Test': 'first',
-          },
+          defaultHeaders: {'X-Test': 'first'},
         );
         const builder = RequestBuilder(config: config);
 

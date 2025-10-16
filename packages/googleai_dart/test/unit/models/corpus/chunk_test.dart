@@ -144,9 +144,7 @@ void main() {
       });
 
       test('converts Chunk with minimal required fields to JSON', () {
-        const chunk = Chunk(
-          data: ChunkData(stringValue: 'Required data'),
-        );
+        const chunk = Chunk(data: ChunkData(stringValue: 'Required data'));
 
         final json = chunk.toJson();
 

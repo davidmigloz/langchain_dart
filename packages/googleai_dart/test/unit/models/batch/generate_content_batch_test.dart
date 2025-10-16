@@ -84,9 +84,7 @@ void main() {
         final json = {
           'displayName': 'Minimal Batch',
           'model': 'models/gemini-pro',
-          'inputConfig': {
-            'fileName': 'gs://bucket/input.jsonl',
-          },
+          'inputConfig': {'fileName': 'gs://bucket/input.jsonl'},
         };
 
         final batch = GenerateContentBatch.fromJson(json);
@@ -109,9 +107,7 @@ void main() {
       final json = {
         'displayName': 'File Batch',
         'model': 'models/gemini-pro',
-        'inputConfig': {
-          'fileName': 'gs://my-bucket/requests.jsonl',
-        },
+        'inputConfig': {'fileName': 'gs://my-bucket/requests.jsonl'},
       };
 
       final batch = GenerateContentBatch.fromJson(json);

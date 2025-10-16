@@ -51,10 +51,7 @@ void main() {
         function: FunctionObject(
           name: 'get_time',
           description: 'Get current time',
-          parameters: {
-            'type': 'object',
-            'properties': <String, dynamic>{},
-          },
+          parameters: {'type': 'object', 'properties': <String, dynamic>{}},
         ),
       );
 

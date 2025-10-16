@@ -56,10 +56,7 @@ void main() {
     });
 
     test('Retriever batch', () async {
-      const doc = Document(
-        id: '1',
-        pageContent: 'This is a test',
-      );
+      const doc = Document(id: '1', pageContent: 'This is a test');
       const run = FakeRetriever([doc]);
       final res = await run.batch(['test1', 'test2', 'test3']);
       expect(
@@ -73,9 +70,7 @@ void main() {
     });
 
     test('LLM batch', () async {
-      final run = FakeLLM(
-        responses: ['test1', 'test2', 'test3'],
-      );
+      final run = FakeLLM(responses: ['test1', 'test2', 'test3']);
       final res = await run.batch([
         PromptValue.string('test1'),
         PromptValue.string('test2'),
@@ -88,9 +83,7 @@ void main() {
     });
 
     test('ChatModel batch', () async {
-      final run = FakeChatModel(
-        responses: ['test1', 'test2', 'test3'],
-      );
+      final run = FakeChatModel(responses: ['test1', 'test2', 'test3']);
       final res = await run.batch([
         PromptValue.string('test1'),
         PromptValue.string('test2'),
@@ -123,11 +116,7 @@ void main() {
 
     test('Tool batch', () async {
       final run = FakeTool();
-      final res = await run.batch([
-        'hello1',
-        'hello2',
-        'hello3',
-      ]);
+      final res = await run.batch(['hello1', 'hello2', 'hello3']);
       expect(
         res.map((final e) => e).toList(),
         equals(['hello1', 'hello2', 'hello3']),

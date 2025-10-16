@@ -1,10 +1,7 @@
 import 'package:collection/collection.dart';
 
 /// Chunk a list into smaller list of a specified size.
-List<List<T>> chunkList<T>(
-  final List<T> arr, {
-  required final int chunkSize,
-}) {
+List<List<T>> chunkList<T>(final List<T> arr, {required final int chunkSize}) {
   return List<List<T>>.generate(
         (arr.length / chunkSize).ceil(),
         (final int index) => [],

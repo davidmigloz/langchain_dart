@@ -43,10 +43,7 @@ abstract class PredictionContent with _$PredictionContent {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'type': type,
-      'content': content,
-    };
+    return {'type': type, 'content': content};
   }
 }
 
@@ -68,9 +65,8 @@ sealed class PredictionContentContent with _$PredictionContentContent {
 
   /// The content used for a Predicted Output. This is often the
   /// text of a file you are regenerating with minor changes.
-  const factory PredictionContentContent.text(
-    String value,
-  ) = PredictionContentContentString;
+  const factory PredictionContentContent.text(String value) =
+      PredictionContentContentString;
 
   /// Object construction from a JSON representation
   factory PredictionContentContent.fromJson(Map<String, dynamic> json) =>
@@ -98,9 +94,7 @@ class _PredictionContentContentConverter
     if (data is String) {
       return PredictionContentContentString(data);
     }
-    throw Exception(
-      'Unexpected value for PredictionContentContent: $data',
-    );
+    throw Exception('Unexpected value for PredictionContentContent: $data');
   }
 
   @override

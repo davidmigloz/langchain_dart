@@ -43,14 +43,13 @@ extension CreateCompletionResponseMapper on CreateCompletionResponse {
         .toList(growable: false);
   }
 
-  FinishReason _mapFinishReason(
-    final CompletionFinishReason? reason,
-  ) => switch (reason) {
-    CompletionFinishReason.stop => FinishReason.stop,
-    CompletionFinishReason.length => FinishReason.length,
-    CompletionFinishReason.contentFilter => FinishReason.contentFilter,
-    null => FinishReason.unspecified,
-  };
+  FinishReason _mapFinishReason(final CompletionFinishReason? reason) =>
+      switch (reason) {
+        CompletionFinishReason.stop => FinishReason.stop,
+        CompletionFinishReason.length => FinishReason.length,
+        CompletionFinishReason.contentFilter => FinishReason.contentFilter,
+        null => FinishReason.unspecified,
+      };
 
   LanguageModelUsage _mapUsage(final CompletionUsage? usage) {
     return LanguageModelUsage(

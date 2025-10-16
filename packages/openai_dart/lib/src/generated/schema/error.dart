@@ -46,11 +46,6 @@ abstract class Error with _$Error {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'code': code,
-      'message': message,
-      'param': param,
-      'type': type,
-    };
+    return {'code': code, 'message': message, 'param': param, 'type': type};
   }
 }

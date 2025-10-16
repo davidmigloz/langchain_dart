@@ -100,9 +100,7 @@ void main() async {
   );
 
   final client = GoogleAIClient(
-    config: GoogleAIConfig(
-      authProvider: authProvider,
-    ),
+    config: GoogleAIConfig(authProvider: authProvider),
   );
 
   try {
@@ -118,10 +116,7 @@ void main() async {
         model: 'gemini-2.5-flash',
         request: const GenerateContentRequest(
           contents: [
-            Content(
-              parts: [TextPart('Say hello')],
-              role: 'user',
-            ),
+            Content(parts: [TextPart('Say hello')], role: 'user'),
           ],
         ),
       );
@@ -147,10 +142,7 @@ void main() async {
         model: 'gemini-2.5-flash',
         request: const GenerateContentRequest(
           contents: [
-            Content(
-              parts: [TextPart('Say hello again')],
-              role: 'user',
-            ),
+            Content(parts: [TextPart('Say hello again')], role: 'user'),
           ],
         ),
       );

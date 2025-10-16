@@ -12,10 +12,7 @@ void main() {
           ' ## Baz\n\n'
           ' Hi this is Molly';
 
-      final headersToSplitOn = [
-        ('#', 'Header 1'),
-        ('##', 'Header 2'),
-      ];
+      final headersToSplitOn = [('#', 'Header 1'), ('##', 'Header 2')];
 
       final markdownSplitter = MarkdownHeaderTextSplitter(
         headersToSplitOn: headersToSplitOn,
@@ -142,9 +139,7 @@ void main() {
           'This is Alice\n\n'
           'This is Bob';
 
-      final headersToSplitOn = [
-        ('#', 'Header 1'),
-      ];
+      final headersToSplitOn = [('#', 'Header 1')];
 
       final markdownSplitter = MarkdownHeaderTextSplitter(
         headersToSplitOn: headersToSplitOn,
@@ -210,10 +205,7 @@ void main() {
           pageContent: '## Buz',
           metadata: {'Header 1': 'Foo', 'Header 2': 'Buz'},
         ),
-        const Document(
-          pageContent: '# Bop',
-          metadata: {'Header 1': 'Bop'},
-        ),
+        const Document(pageContent: '# Bop', metadata: {'Header 1': 'Bop'}),
       ];
 
       expect(output, equals(expectedOutput));
@@ -228,10 +220,7 @@ void main() {
           'bar()\n'
           '```';
 
-      final headersToSplitOn = [
-        ('#', 'Header 1'),
-        ('##', 'Header 2'),
-      ];
+      final headersToSplitOn = [('#', 'Header 1'), ('##', 'Header 2')];
 
       final markdownSplitter = MarkdownHeaderTextSplitter(
         headersToSplitOn: headersToSplitOn,
@@ -259,10 +248,7 @@ void main() {
           '# Not a header\n'
           '```';
 
-      final headersToSplitOn = [
-        ('#', 'Header 1'),
-        ('##', 'Header 2'),
-      ];
+      final headersToSplitOn = [('#', 'Header 1'), ('##', 'Header 2')];
 
       final markdownSplitter = MarkdownHeaderTextSplitter(
         headersToSplitOn: headersToSplitOn,
@@ -283,10 +269,7 @@ void main() {
     test('Test markdown splitter by header: With invisible characters', () {
       const markdownDocument = '\uFEFF# Foo\n\nfoo()\n\uFEFF## Bar\n\nbar()';
 
-      final headersToSplitOn = [
-        ('#', 'Header 1'),
-        ('##', 'Header 2'),
-      ];
+      final headersToSplitOn = [('#', 'Header 1'), ('##', 'Header 2')];
 
       final markdownSplitter = MarkdownHeaderTextSplitter(
         headersToSplitOn: headersToSplitOn,
@@ -295,10 +278,7 @@ void main() {
       final output = markdownSplitter.splitText(markdownDocument);
 
       final expectedOutput = [
-        const Document(
-          pageContent: 'foo()',
-          metadata: {'Header 1': 'Foo'},
-        ),
+        const Document(pageContent: 'foo()', metadata: {'Header 1': 'Foo'}),
         const Document(
           pageContent: 'bar()',
           metadata: {'Header 1': 'Foo', 'Header 2': 'Bar'},

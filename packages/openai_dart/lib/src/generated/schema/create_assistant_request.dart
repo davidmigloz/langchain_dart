@@ -299,14 +299,11 @@ sealed class AssistantModel with _$AssistantModel {
   const AssistantModel._();
 
   /// Available assistant models. Mind that the list may not be exhaustive nor up-to-date.
-  const factory AssistantModel.model(
-    AssistantModels value,
-  ) = AssistantModelEnumeration;
+  const factory AssistantModel.model(AssistantModels value) =
+      AssistantModelEnumeration;
 
   /// The ID of the model to use.
-  const factory AssistantModel.modelId(
-    String value,
-  ) = AssistantModelString;
+  const factory AssistantModel.modelId(String value) = AssistantModelString;
 
   /// Object construction from a JSON representation
   factory AssistantModel.fromJson(Map<String, dynamic> json) =>
@@ -330,9 +327,7 @@ class _AssistantModelConverter
     if (data is String) {
       return AssistantModelString(data);
     }
-    throw Exception(
-      'Unexpected value for AssistantModel: $data',
-    );
+    throw Exception('Unexpected value for AssistantModel: $data');
   }
 
   @override

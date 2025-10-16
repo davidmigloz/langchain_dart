@@ -33,8 +33,6 @@ abstract class ChatCompletionStreamOptions with _$ChatCompletionStreamOptions {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'include_usage': includeUsage,
-    };
+    return {'include_usage': includeUsage};
   }
 }

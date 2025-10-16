@@ -162,9 +162,7 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
     this.auth,
     this.location,
   }) : _currentModel = defaultOptions.model ?? '' {
-    _firebaseClient = _createFirebaseClient(
-      _currentModel,
-    );
+    _firebaseClient = _createFirebaseClient(_currentModel);
   }
 
   /// The [FirebaseApp] to use. If not provided, the default app will be used.

@@ -50,12 +50,10 @@ Future<void> _chainWithRetry() async {
   );
   final chain = promptTemplate.pipe(model).withRetry();
 
-  final res = await chain.batch(
-    [
-      {'topic': 'bears'},
-      {'topic': 'cats'},
-    ],
-  );
+  final res = await chain.batch([
+    {'topic': 'bears'},
+    {'topic': 'cats'},
+  ]);
   print(res);
   /*
   [ChatResult{
@@ -109,10 +107,7 @@ Future<void> _withRetryOptions() async {
     apiKey: openaiApiKey,
     defaultOptions: const ChatOpenAIOptions(model: 'fake-model'),
   );
-  final modelWithRetry = model.withRetry(
-    maxRetries: 3,
-    addJitter: true,
-  );
+  final modelWithRetry = model.withRetry(maxRetries: 3, addJitter: true);
   final res = await modelWithRetry.invoke(input);
   print(res);
   /*

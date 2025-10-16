@@ -10,10 +10,7 @@ class Content {
   final List<Part> parts;
 
   /// Creates a [Content].
-  const Content({
-    required this.parts,
-    this.role,
-  });
+  const Content({required this.parts, this.role});
 
   /// Creates a [Content] from JSON.
   factory Content.fromJson(Map<String, dynamic> json) => Content(

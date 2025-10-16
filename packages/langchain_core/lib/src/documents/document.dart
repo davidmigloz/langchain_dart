@@ -35,11 +35,7 @@ class Document {
 
   /// Converts the document to a map.
   Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'pageContent': pageContent,
-      'metadata': metadata,
-    };
+    return {'id': id, 'pageContent': pageContent, 'metadata': metadata};
   }
 
   /// Creates a copy of the document.
@@ -72,10 +68,7 @@ class Document {
     return Document(
       id: id ?? other.id,
       pageContent: '$pageContent${other.pageContent}',
-      metadata: {
-        ...metadata,
-        ...other.metadata,
-      },
+      metadata: {...metadata, ...other.metadata},
     );
   }
 

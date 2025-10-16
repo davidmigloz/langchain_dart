@@ -33,8 +33,6 @@ abstract class VersionResponse with _$VersionResponse {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'version': version,
-    };
+    return {'version': version};
   }
 }

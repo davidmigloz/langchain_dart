@@ -17,10 +17,7 @@ class GenerateContentBatchOutput {
   final InlinedResponses? inlinedResponses;
 
   /// Creates a [GenerateContentBatchOutput].
-  const GenerateContentBatchOutput({
-    this.responsesFile,
-    this.inlinedResponses,
-  });
+  const GenerateContentBatchOutput({this.responsesFile, this.inlinedResponses});
 
   /// Creates a [GenerateContentBatchOutput] from JSON.
   factory GenerateContentBatchOutput.fromJson(Map<String, dynamic> json) =>

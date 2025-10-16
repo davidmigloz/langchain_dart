@@ -68,10 +68,7 @@ class StringPromptValue implements PromptValue {
 
   /// Convert the prompt value to a map.
   @override
-  Map<String, dynamic> toMap() => {
-    'value': value,
-    'type': 'string',
-  };
+  Map<String, dynamic> toMap() => {'value': value, 'type': 'string'};
 
   /// Convert the prompt value from a map.
   factory StringPromptValue.fromMap(Map<String, dynamic> map) =>
@@ -88,9 +85,7 @@ class StringPromptValue implements PromptValue {
   }
 
   @override
-  PromptValue concat(
-    final PromptValue other,
-  ) => switch (other) {
+  PromptValue concat(final PromptValue other) => switch (other) {
     final StringPromptValue other => StringPromptValue(value + other.value),
     final ChatPromptValue other => ChatPromptValue([
       ChatMessage.humanText(value),
@@ -156,9 +151,7 @@ class ChatPromptValue implements PromptValue {
   );
 
   @override
-  PromptValue concat(
-    final PromptValue other,
-  ) => switch (other) {
+  PromptValue concat(final PromptValue other) => switch (other) {
     final StringPromptValue other => ChatPromptValue([
       ...messages,
       ChatMessage.humanText(other.value),
@@ -212,7 +205,5 @@ typedef PartialValues = Map<String, dynamic>;
 /// {@endtemplate}
 final class PromptException extends LangChainException {
   /// {@macro prompt_exception}
-  const PromptException({
-    super.message = '',
-  }) : super(code: 'prompt');
+  const PromptException({super.message = ''}) : super(code: 'prompt');
 }

@@ -18,10 +18,7 @@ class ExecutableCode {
   final String code;
 
   /// Creates an [ExecutableCode].
-  const ExecutableCode({
-    required this.language,
-    required this.code,
-  });
+  const ExecutableCode({required this.language, required this.code});
 
   /// Creates an [ExecutableCode] from JSON.
   factory ExecutableCode.fromJson(Map<String, dynamic> json) => ExecutableCode(

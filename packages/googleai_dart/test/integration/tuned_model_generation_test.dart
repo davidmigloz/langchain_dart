@@ -33,9 +33,7 @@ void main() {
       );
     } else {
       client = GoogleAIClient(
-        config: GoogleAIConfig(
-          authProvider: ApiKeyProvider(apiKey!),
-        ),
+        config: GoogleAIConfig(authProvider: ApiKeyProvider(apiKey!)),
       );
     }
   });
@@ -79,10 +77,7 @@ void main() {
           tunedModel: 'invalid-model-xyz',
           request: const GenerateContentRequest(
             contents: [
-              Content(
-                parts: [TextPart('Test')],
-                role: 'user',
-              ),
+              Content(parts: [TextPart('Test')], role: 'user'),
             ],
           ),
         ),
@@ -102,10 +97,7 @@ void main() {
         tunedModel: tunedModel!,
         request: const GenerateContentRequest(
           contents: [
-            Content(
-              parts: [TextPart('Count from 1 to 3')],
-              role: 'user',
-            ),
+            Content(parts: [TextPart('Count from 1 to 3')], role: 'user'),
           ],
         ),
       );

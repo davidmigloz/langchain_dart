@@ -18,14 +18,10 @@ class EmbedContentResponse {
       );
 
   /// Converts to JSON.
-  Map<String, dynamic> toJson() => {
-    'embedding': embedding.toJson(),
-  };
+  Map<String, dynamic> toJson() => {'embedding': embedding.toJson()};
 
   /// Creates a copy with replaced values.
-  EmbedContentResponse copyWith({
-    Object? embedding = unsetCopyWithValue,
-  }) {
+  EmbedContentResponse copyWith({Object? embedding = unsetCopyWithValue}) {
     return EmbedContentResponse(
       embedding: embedding == unsetCopyWithValue
           ? this.embedding

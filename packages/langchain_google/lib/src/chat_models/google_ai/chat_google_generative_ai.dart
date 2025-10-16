@@ -273,10 +273,7 @@ class ChatGoogleGenerativeAI
 
     final request = _generateCompletionRequest(messages, options: options);
     return _googleAiClient.models
-        .streamGenerateContent(
-          model: model,
-          request: request,
-        )
+        .streamGenerateContent(model: model, request: request)
         .map((final response) => response.toChatResult(id, model));
   }
 
@@ -287,9 +284,7 @@ class ChatGoogleGenerativeAI
   }) {
     // Extract system instruction if present
     final systemInstruction = messages.firstOrNull is SystemChatMessage
-        ? g.Content(
-            parts: [g.TextPart(messages.firstOrNull!.contentAsString)],
-          )
+        ? g.Content(parts: [g.TextPart(messages.firstOrNull!.contentAsString)])
         : null;
 
     return g.GenerateContentRequest(
@@ -347,9 +342,7 @@ class ChatGoogleGenerativeAI
 
     final result = await _googleAiClient.models.countTokens(
       model: model,
-      request: g.CountTokensRequest(
-        contents: messages.toContentList(),
-      ),
+      request: g.CountTokensRequest(contents: messages.toContentList()),
     );
 
     return result.totalTokens;

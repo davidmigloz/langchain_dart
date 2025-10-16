@@ -4,10 +4,7 @@ import 'package:test/test.dart';
 void main() {
   group('ApiException', () {
     test('creates with required fields', () {
-      const exception = ApiException(
-        code: 404,
-        message: 'Not found',
-      );
+      const exception = ApiException(code: 404, message: 'Not found');
 
       expect(exception.code, 404);
       expect(exception.message, 'Not found');
@@ -16,10 +13,7 @@ void main() {
     });
 
     test('toString includes code and message', () {
-      const exception = ApiException(
-        code: 500,
-        message: 'Internal error',
-      );
+      const exception = ApiException(code: 500, message: 'Internal error');
 
       expect(exception.toString(), 'ApiException(500): Internal error');
     });

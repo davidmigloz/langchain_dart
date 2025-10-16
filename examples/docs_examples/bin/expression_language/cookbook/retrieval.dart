@@ -94,10 +94,7 @@ Answer in the following language: {language}''');
   // crédito.
 
   await chain
-      .stream({
-        'question': 'How can I get free shipping?',
-        'language': 'nl_NL',
-      })
+      .stream({'question': 'How can I get free shipping?', 'language': 'nl_NL'})
       .forEach(stdout.write);
   // Om gratis verzending te krijgen, moet je bestellingen plaatsen van meer
   // dan 30€.

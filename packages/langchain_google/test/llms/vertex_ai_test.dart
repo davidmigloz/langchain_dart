@@ -64,9 +64,7 @@ void main() {
           temperature: 0,
         ),
       );
-      final res = await llm.invoke(
-        PromptValue.string('Hello, how are you?'),
-      );
+      final res = await llm.invoke(PromptValue.string('Hello, how are you?'));
       expect(res.output, isNotEmpty);
     });
 
@@ -80,9 +78,7 @@ void main() {
           temperature: 0,
         ),
       );
-      final res = await llm.invoke(
-        PromptValue.string('Hello, how are you?'),
-      );
+      final res = await llm.invoke(PromptValue.string('Hello, how are you?'));
       expect(res.metadata, isNotEmpty);
       expect(res.metadata['model'], llm.defaultOptions.model);
       expect(res.usage.promptTokens, isNotNull);
@@ -113,9 +109,7 @@ void main() {
         PromptValue.string(
           'List the numbers from 1 to 9 in order without any spaces or commas',
         ),
-        options: const VertexAIOptions(
-          stopSequences: ['5'],
-        ),
+        options: const VertexAIOptions(stopSequences: ['5']),
       );
       expect(res2.output, contains('1234'));
       expect(res2.output, isNot(contains('56789')));

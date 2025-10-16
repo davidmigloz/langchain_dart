@@ -258,14 +258,11 @@ sealed class CompletionModel with _$CompletionModel {
   const CompletionModel._();
 
   /// Available completion models. Mind that the list may not be exhaustive nor up-to-date.
-  const factory CompletionModel.model(
-    CompletionModels value,
-  ) = CompletionModelEnumeration;
+  const factory CompletionModel.model(CompletionModels value) =
+      CompletionModelEnumeration;
 
   /// The ID of the model to use for this request.
-  const factory CompletionModel.modelId(
-    String value,
-  ) = CompletionModelString;
+  const factory CompletionModel.modelId(String value) = CompletionModelString;
 
   /// Object construction from a JSON representation
   factory CompletionModel.fromJson(Map<String, dynamic> json) =>
@@ -289,9 +286,7 @@ class _CompletionModelConverter
     if (data is String) {
       return CompletionModelString(data);
     }
-    throw Exception(
-      'Unexpected value for CompletionModel: $data',
-    );
+    throw Exception('Unexpected value for CompletionModel: $data');
   }
 
   @override
@@ -316,24 +311,19 @@ sealed class CompletionPrompt with _$CompletionPrompt {
   const CompletionPrompt._();
 
   /// A list of tokenized prompts.
-  const factory CompletionPrompt.listTokens(
-    List<List<int>> value,
-  ) = CompletionPromptListListInt;
+  const factory CompletionPrompt.listTokens(List<List<int>> value) =
+      CompletionPromptListListInt;
 
   /// A tokenized prompt.
-  const factory CompletionPrompt.tokens(
-    List<int> value,
-  ) = CompletionPromptListInt;
+  const factory CompletionPrompt.tokens(List<int> value) =
+      CompletionPromptListInt;
 
   /// A list of string prompts.
-  const factory CompletionPrompt.listString(
-    List<String> value,
-  ) = CompletionPromptListString;
+  const factory CompletionPrompt.listString(List<String> value) =
+      CompletionPromptListString;
 
   /// A string prompt.
-  const factory CompletionPrompt.string(
-    String value,
-  ) = CompletionPromptString;
+  const factory CompletionPrompt.string(String value) = CompletionPromptString;
 
   /// Object construction from a JSON representation
   factory CompletionPrompt.fromJson(Map<String, dynamic> json) =>
@@ -383,14 +373,11 @@ sealed class CompletionStop with _$CompletionStop {
   const CompletionStop._();
 
   /// A list of string stop sequences.
-  const factory CompletionStop.listString(
-    List<String> value,
-  ) = CompletionStopListString;
+  const factory CompletionStop.listString(List<String> value) =
+      CompletionStopListString;
 
   /// A string stop sequence.
-  const factory CompletionStop.string(
-    String? value,
-  ) = CompletionStopString;
+  const factory CompletionStop.string(String? value) = CompletionStopString;
 
   /// Object construction from a JSON representation
   factory CompletionStop.fromJson(Map<String, dynamic> json) =>
@@ -413,9 +400,7 @@ class _CompletionStopConverter
     if (data is String) {
       return CompletionStopString(data);
     }
-    throw Exception(
-      'Unexpected value for CompletionStop: $data',
-    );
+    throw Exception('Unexpected value for CompletionStop: $data');
   }
 
   @override

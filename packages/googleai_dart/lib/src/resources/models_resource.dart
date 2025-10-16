@@ -66,9 +66,7 @@ class ModelsResource extends ResourceBase {
     );
 
     final headers = requestBuilder.buildHeaders(
-      additionalHeaders: {
-        'Content-Type': 'application/json',
-      },
+      additionalHeaders: {'Content-Type': 'application/json'},
     );
 
     final httpRequest = http.Request('POST', url)
@@ -111,9 +109,7 @@ class ModelsResource extends ResourceBase {
     );
 
     final headers = requestBuilder.buildHeaders(
-      additionalHeaders: {
-        'Content-Type': 'application/json',
-      },
+      additionalHeaders: {'Content-Type': 'application/json'},
     );
 
     // Create request
@@ -252,14 +248,10 @@ class ModelsResource extends ResourceBase {
     required CountTokensRequest request,
     Future<void>? abortTrigger,
   }) async {
-    final url = requestBuilder.buildUrl(
-      '/{version}/models/$model:countTokens',
-    );
+    final url = requestBuilder.buildUrl('/{version}/models/$model:countTokens');
 
     final headers = requestBuilder.buildHeaders(
-      additionalHeaders: {
-        'Content-Type': 'application/json',
-      },
+      additionalHeaders: {'Content-Type': 'application/json'},
     );
 
     final httpRequest = http.Request('POST', url)
@@ -297,9 +289,7 @@ class ModelsResource extends ResourceBase {
     );
 
     final headers = requestBuilder.buildHeaders(
-      additionalHeaders: {
-        'Content-Type': 'application/json',
-      },
+      additionalHeaders: {'Content-Type': 'application/json'},
     );
 
     final httpRequest = http.Request('POST', url)
@@ -339,9 +329,7 @@ class ModelsResource extends ResourceBase {
     );
 
     final headers = requestBuilder.buildHeaders(
-      additionalHeaders: {
-        'Content-Type': 'application/json',
-      },
+      additionalHeaders: {'Content-Type': 'application/json'},
     );
 
     // Create request
@@ -425,9 +413,7 @@ class ModelsResource extends ResourceBase {
     );
 
     final headers = requestBuilder.buildHeaders(
-      additionalHeaders: {
-        'Content-Type': 'application/json',
-      },
+      additionalHeaders: {'Content-Type': 'application/json'},
     );
 
     final httpRequest = http.Request('POST', url)
@@ -494,9 +480,7 @@ class ModelsResource extends ResourceBase {
     final valuesList = embeddings['values'] as List;
     final values = valuesList.map((e) => (e as num).toDouble()).toList();
 
-    return EmbedContentResponse(
-      embedding: ContentEmbedding(values: values),
-    );
+    return EmbedContentResponse(embedding: ContentEmbedding(values: values));
   }
 
   /// Generates multiple embedding vectors from the input content.
@@ -533,9 +517,7 @@ class ModelsResource extends ResourceBase {
     );
 
     final headers = requestBuilder.buildHeaders(
-      additionalHeaders: {
-        'Content-Type': 'application/json',
-      },
+      additionalHeaders: {'Content-Type': 'application/json'},
     );
 
     // Add model to each request as required by the API
@@ -576,9 +558,7 @@ class ModelsResource extends ResourceBase {
     );
 
     final headers = requestBuilder.buildHeaders(
-      additionalHeaders: {
-        'Content-Type': 'application/json',
-      },
+      additionalHeaders: {'Content-Type': 'application/json'},
     );
 
     final httpRequest = http.Request('POST', url)
@@ -624,9 +604,7 @@ class ModelsResource extends ResourceBase {
     );
 
     final headers = requestBuilder.buildHeaders(
-      additionalHeaders: {
-        'Content-Type': 'application/json',
-      },
+      additionalHeaders: {'Content-Type': 'application/json'},
     );
 
     final httpRequest = http.Request('POST', url)
@@ -717,10 +695,7 @@ class ModelsResource extends ResourceBase {
   /// (default is 50). The [pageToken] is used for pagination.
   ///
   /// Returns a [ListModelsResponse] with the list of models and a next page token.
-  Future<ListModelsResponse> list({
-    int? pageSize,
-    String? pageToken,
-  }) async {
+  Future<ListModelsResponse> list({int? pageSize, String? pageToken}) async {
     final queryParams = <String, String>{
       if (pageSize != null) 'pageSize': pageSize.toString(),
       if (pageToken != null) 'pageToken': pageToken,
@@ -774,9 +749,7 @@ class ModelsResource extends ResourceBase {
     );
 
     final headers = requestBuilder.buildHeaders(
-      additionalHeaders: {
-        'Content-Type': 'application/json',
-      },
+      additionalHeaders: {'Content-Type': 'application/json'},
     );
 
     final httpRequest = http.Request('POST', url)
@@ -940,11 +913,7 @@ class ModelsResource extends ResourceBase {
       );
     }
 
-    return ApiException(
-      code: statusCode,
-      message: message,
-      details: details,
-    );
+    return ApiException(code: statusCode, message: message, details: details);
   }
 
   /// Logs streaming errors.

@@ -177,10 +177,7 @@ abstract class SessionConfigClientSecret with _$SessionConfigClientSecret {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'value': value,
-      'expires_at': expiresAt,
-    };
+    return {'value': value, 'expires_at': expiresAt};
   }
 }
 
@@ -248,9 +245,7 @@ class _SessionConfigToolChoiceConverter
         );
       } catch (e) {}
     }
-    throw Exception(
-      'Unexpected value for SessionConfigToolChoice: $data',
-    );
+    throw Exception('Unexpected value for SessionConfigToolChoice: $data');
   }
 
   @override
@@ -278,14 +273,12 @@ sealed class SessionConfigMaxResponseOutputTokens
   const SessionConfigMaxResponseOutputTokens._();
 
   /// Provide an integer between 1 and 4096 to limit output tokens.
-  const factory SessionConfigMaxResponseOutputTokens.int(
-    int value,
-  ) = SessionConfigMaxResponseOutputTokensInt;
+  const factory SessionConfigMaxResponseOutputTokens.int(int value) =
+      SessionConfigMaxResponseOutputTokensInt;
 
   /// Use inf for the maximum available tokens for a given model.
-  const factory SessionConfigMaxResponseOutputTokens.string(
-    String value,
-  ) = SessionConfigMaxResponseOutputTokensString;
+  const factory SessionConfigMaxResponseOutputTokens.string(String value) =
+      SessionConfigMaxResponseOutputTokensString;
 
   /// Object construction from a JSON representation
   factory SessionConfigMaxResponseOutputTokens.fromJson(
