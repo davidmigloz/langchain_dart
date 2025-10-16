@@ -169,14 +169,12 @@ sealed class SessionToolChoice with _$SessionToolChoice {
   const SessionToolChoice._();
 
   /// `none` means the model will not call any tool and instead generates a message. `auto` means the model can pick between generating a message or calling one or more tools. `required` means the model must call one or more tools.
-  const factory SessionToolChoice.mode(
-    SessionToolChoiceMode value,
-  ) = SessionToolChoiceEnumeration;
+  const factory SessionToolChoice.mode(SessionToolChoiceMode value) =
+      SessionToolChoiceEnumeration;
 
   /// No Description
-  const factory SessionToolChoice.toolChoiceForced(
-    ToolChoiceForced value,
-  ) = SessionToolChoiceToolChoiceForced;
+  const factory SessionToolChoice.toolChoiceForced(ToolChoiceForced value) =
+      SessionToolChoiceToolChoiceForced;
 
   /// Object construction from a JSON representation
   factory SessionToolChoice.fromJson(Map<String, dynamic> json) =>
@@ -208,9 +206,7 @@ class _SessionToolChoiceConverter
         );
       } catch (e) {}
     }
-    throw Exception(
-      'Unexpected value for SessionToolChoice: $data',
-    );
+    throw Exception('Unexpected value for SessionToolChoice: $data');
   }
 
   @override
@@ -238,14 +234,12 @@ sealed class SessionMaxResponseOutputTokens
   const SessionMaxResponseOutputTokens._();
 
   /// Provide an integer between 1 and 4096 to limit output tokens.
-  const factory SessionMaxResponseOutputTokens.int(
-    int value,
-  ) = SessionMaxResponseOutputTokensInt;
+  const factory SessionMaxResponseOutputTokens.int(int value) =
+      SessionMaxResponseOutputTokensInt;
 
   /// Use inf for the maximum available tokens for a given model.
-  const factory SessionMaxResponseOutputTokens.string(
-    String value,
-  ) = SessionMaxResponseOutputTokensString;
+  const factory SessionMaxResponseOutputTokens.string(String value) =
+      SessionMaxResponseOutputTokensString;
 
   /// Object construction from a JSON representation
   factory SessionMaxResponseOutputTokens.fromJson(Map<String, dynamic> json) =>

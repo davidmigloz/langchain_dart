@@ -85,21 +85,15 @@ Answer:
       }) |
       router;
 
-  final res2 = await fullChain.invoke({
-    'question': 'how do I use Anthropic?',
-  });
+  final res2 = await fullChain.invoke({'question': 'how do I use Anthropic?'});
   print(res2);
   // As Dario Amodei told me, using Anthropic is a straightforward process that...
 
-  final res3 = await fullChain.invoke({
-    'question': 'how do I use LangChain?',
-  });
+  final res3 = await fullChain.invoke({'question': 'how do I use LangChain?'});
   print(res3);
   // As Harrison Chase told me, using LangChain is a breeze!
 
-  final res4 = await fullChain.invoke({
-    'question': 'whats 2 + 2',
-  });
+  final res4 = await fullChain.invoke({'question': 'whats 2 + 2'});
   print(res4);
   // The answer is... 4!
 }
@@ -126,9 +120,7 @@ Here is a question:
 {query}
 ''';
 
-  final embeddings = OllamaEmbeddings(
-    model: 'llama3.2',
-  );
+  final embeddings = OllamaEmbeddings(model: 'llama3.2');
   final promptTemplates = [physicsTemplate, historyTemplate];
   final promptEmbeddings = await embeddings.embedDocuments(
     promptTemplates.map((final pt) => Document(pageContent: pt)).toList(),
@@ -146,9 +138,7 @@ Here is a question:
         print('Using ${mostSimilarIndex == 0 ? 'Physicist' : 'Historian'}');
         return PromptTemplate.fromTemplate(promptTemplates[mostSimilarIndex]);
       }) |
-      ChatOllama(
-        defaultOptions: const ChatOllamaOptions(model: 'llama3.2'),
-      ) |
+      ChatOllama(defaultOptions: const ChatOllamaOptions(model: 'llama3.2')) |
       const StringOutputParser();
 
   final res1 = await chain.invoke("What's a black hole?");

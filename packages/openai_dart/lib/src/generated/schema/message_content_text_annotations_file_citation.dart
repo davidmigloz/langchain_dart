@@ -35,8 +35,6 @@ abstract class MessageContentTextAnnotationsFileCitation
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'file_id': fileId,
-    };
+    return {'file_id': fileId};
   }
 }

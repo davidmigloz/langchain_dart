@@ -43,10 +43,6 @@ class CreateCollection with _$CreateCollection {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'name': name,
-      'metadata': metadata,
-      'get_or_create': getOrCreate,
-    };
+    return {'name': name, 'metadata': metadata, 'get_or_create': getOrCreate};
   }
 }

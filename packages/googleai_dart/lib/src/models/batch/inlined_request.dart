@@ -10,10 +10,7 @@ class InlinedRequest {
   final Map<String, dynamic>? metadata;
 
   /// Creates an [InlinedRequest].
-  const InlinedRequest({
-    required this.request,
-    this.metadata,
-  });
+  const InlinedRequest({required this.request, this.metadata});
 
   /// Creates an [InlinedRequest] from JSON.
   factory InlinedRequest.fromJson(Map<String, dynamic> json) => InlinedRequest(

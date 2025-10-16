@@ -15,9 +15,7 @@ class SonnetsService {
     }
     _llm = ChatOpenAI(
       apiKey: openAiApiKey,
-      defaultOptions: const ChatOpenAIOptions(
-        temperature: 0.9,
-      ),
+      defaultOptions: const ChatOpenAIOptions(temperature: 0.9),
     );
   }
 

@@ -43,10 +43,7 @@ void main() {
       final json = {
         'name': 'operations/predict-error',
         'done': true,
-        'error': {
-          'code': 500,
-          'message': 'Internal error',
-        },
+        'error': {'code': 500, 'message': 'Internal error'},
       };
 
       final operation = PredictLongRunningOperation.fromJson(json);
@@ -75,9 +72,7 @@ void main() {
     });
 
     test('fromJson creates operation with minimal fields', () {
-      final json = {
-        'done': false,
-      };
+      final json = {'done': false};
 
       final operation = PredictLongRunningOperation.fromJson(json);
 
@@ -95,9 +90,7 @@ void main() {
         done: true,
         response: PredictLongRunningResponse(
           generateVideoResponse: PredictLongRunningGeneratedVideoResponse(
-            generatedSamples: [
-              Media(video: Video(uri: 'gs://test.mp4')),
-            ],
+            generatedSamples: [Media(video: Video(uri: 'gs://test.mp4'))],
           ),
         ),
       );
@@ -115,10 +108,7 @@ void main() {
       const operation = PredictLongRunningOperation(
         name: 'operations/error',
         done: true,
-        error: OperationError(
-          code: 400,
-          message: 'Bad request',
-        ),
+        error: OperationError(code: 400, message: 'Bad request'),
       );
 
       final json = operation.toJson();
@@ -131,9 +121,7 @@ void main() {
     });
 
     test('toJson omits null fields', () {
-      const operation = PredictLongRunningOperation(
-        done: false,
-      );
+      const operation = PredictLongRunningOperation(done: false);
 
       final json = operation.toJson();
 

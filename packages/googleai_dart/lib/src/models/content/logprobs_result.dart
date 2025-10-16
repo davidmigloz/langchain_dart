@@ -9,10 +9,7 @@ class LogprobsResult {
   final List<LogprobCandidate>? chosenCandidates;
 
   /// Creates a [LogprobsResult].
-  const LogprobsResult({
-    this.topCandidates,
-    this.chosenCandidates,
-  });
+  const LogprobsResult({this.topCandidates, this.chosenCandidates});
 
   /// Creates a [LogprobsResult] from JSON.
   factory LogprobsResult.fromJson(Map<String, dynamic> json) => LogprobsResult(
@@ -23,9 +20,7 @@ class LogprobsResult {
         : null,
     chosenCandidates: json['chosenCandidates'] != null
         ? (json['chosenCandidates'] as List)
-              .map(
-                (e) => LogprobCandidate.fromJson(e as Map<String, dynamic>),
-              )
+              .map((e) => LogprobCandidate.fromJson(e as Map<String, dynamic>))
               .toList()
         : null,
   );
@@ -66,9 +61,7 @@ class TopCandidates {
   factory TopCandidates.fromJson(Map<String, dynamic> json) => TopCandidates(
     candidates: json['candidates'] != null
         ? (json['candidates'] as List)
-              .map(
-                (e) => LogprobCandidate.fromJson(e as Map<String, dynamic>),
-              )
+              .map((e) => LogprobCandidate.fromJson(e as Map<String, dynamic>))
               .toList()
         : null,
   );
@@ -80,9 +73,7 @@ class TopCandidates {
   };
 
   /// Creates a copy with replaced values.
-  TopCandidates copyWith({
-    Object? candidates = unsetCopyWithValue,
-  }) {
+  TopCandidates copyWith({Object? candidates = unsetCopyWithValue}) {
     return TopCandidates(
       candidates: candidates == unsetCopyWithValue
           ? this.candidates

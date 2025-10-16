@@ -54,9 +54,7 @@ Future<void> _getItem() async {
   await vectorStore.addDocuments(
     documents: const [
       Document(pageContent: 'LangChain was created by Harrison'),
-      Document(
-        pageContent: 'David ported LangChain to Dart in LangChain.dart',
-      ),
+      Document(pageContent: 'David ported LangChain to Dart in LangChain.dart'),
     ],
   );
   final retriever = vectorStore.asRetriever();
@@ -102,9 +100,7 @@ Future<void> _concurrency() async {
     'poem': poemChain,
   });
 
-  final res = await mapChain.invoke({
-    'topic': 'bear',
-  });
+  final res = await mapChain.invoke({'topic': 'bear'});
   print(res);
   // {joke: Why did the bear bring a flashlight to the party? Because he wanted to be the "light" of the party!,
   //  poem: In the forest's hush, the bear prowls wide, A silent guardian, a force of nature's pride.}

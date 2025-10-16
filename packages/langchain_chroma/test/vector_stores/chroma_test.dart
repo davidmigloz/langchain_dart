@@ -76,10 +76,7 @@ void main() {
         config: const ChromaSimilaritySearch(k: 1),
       );
       expect(res.length, 1);
-      expect(
-        res.first.id,
-        '5',
-      );
+      expect(res.first.id, '5');
     });
 
     test('Test Chroma query with scoreThreshold', () async {
@@ -95,10 +92,7 @@ void main() {
     test('Test Chroma query with where filter', () async {
       final res = await vectorStore.similaritySearch(
         query: 'What are they eating?',
-        config: const ChromaSimilaritySearch(
-          k: 10,
-          where: {'cat': 'person'},
-        ),
+        config: const ChromaSimilaritySearch(k: 10, where: {'cat': 'person'}),
       );
       for (final doc in res) {
         expect(doc.metadata['cat'], 'person');
@@ -128,9 +122,7 @@ void main() {
       );
       final res1 = await vectorStore.similaritySearch(
         query: 'Deleted doc',
-        config: const ChromaSimilaritySearch(
-          where: {'cat': 'xxx'},
-        ),
+        config: const ChromaSimilaritySearch(where: {'cat': 'xxx'}),
       );
       expect(res1.length, 1);
       expect(res1.first.id, 'delete');
@@ -138,9 +130,7 @@ void main() {
       await vectorStore.delete(ids: ['delete']);
       final res2 = await vectorStore.similaritySearch(
         query: 'Deleted doc',
-        config: const ChromaSimilaritySearch(
-          where: {'cat': 'xxx'},
-        ),
+        config: const ChromaSimilaritySearch(where: {'cat': 'xxx'}),
       );
       expect(res2.length, 0);
     });

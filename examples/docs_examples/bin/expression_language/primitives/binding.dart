@@ -52,9 +52,7 @@ Future<void> _binding() async {
 
 Future<void> _differentModels() async {
   final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
-  final chatModel = ChatOpenAI(
-    apiKey: openaiApiKey,
-  );
+  final chatModel = ChatOpenAI(apiKey: openaiApiKey);
   const outputParser = StringOutputParser<ChatResult>();
   final prompt1 = PromptTemplate.fromTemplate('How are you {name}?');
   final prompt2 = PromptTemplate.fromTemplate('How old are you {name}?');

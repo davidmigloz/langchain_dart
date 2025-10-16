@@ -23,9 +23,7 @@ void main() {
       );
     } else {
       client = GoogleAIClient(
-        config: GoogleAIConfig(
-          authProvider: ApiKeyProvider(apiKey!),
-        ),
+        config: GoogleAIConfig(authProvider: ApiKeyProvider(apiKey!)),
       );
     }
   });
@@ -74,10 +72,7 @@ void main() {
         model: defaultGenerativeModel,
         request: const GenerateContentRequest(
           contents: [
-            Content(
-              parts: [TextPart('Count from 1 to 3.')],
-              role: 'user',
-            ),
+            Content(parts: [TextPart('Count from 1 to 3.')], role: 'user'),
           ],
           generationConfig: GenerationConfig(
             temperature: 0.1,
@@ -103,18 +98,12 @@ void main() {
         model: defaultGenerativeModel,
         request: const GenerateContentRequest(
           contents: [
-            Content(
-              parts: [TextPart('My name is Alice.')],
-              role: 'user',
-            ),
+            Content(parts: [TextPart('My name is Alice.')], role: 'user'),
             Content(
               parts: [TextPart('Hello Alice! Nice to meet you.')],
               role: 'model',
             ),
-            Content(
-              parts: [TextPart('What is my name?')],
-              role: 'user',
-            ),
+            Content(parts: [TextPart('What is my name?')], role: 'user'),
           ],
         ),
       );
@@ -141,10 +130,7 @@ void main() {
           model: 'invalid-model-name-xyz',
           request: const GenerateContentRequest(
             contents: [
-              Content(
-                parts: [TextPart('Hello')],
-                role: 'user',
-              ),
+              Content(parts: [TextPart('Hello')], role: 'user'),
             ],
           ),
         ),
@@ -162,10 +148,7 @@ void main() {
         model: defaultGenerativeModel,
         request: const GenerateContentRequest(
           contents: [
-            Content(
-              parts: [TextPart('Tell me a safe joke.')],
-              role: 'user',
-            ),
+            Content(parts: [TextPart('Tell me a safe joke.')], role: 'user'),
           ],
           safetySettings: [
             SafetySetting(
@@ -192,10 +175,7 @@ void main() {
         model: defaultGenerativeModel,
         request: const CountTokensRequest(
           contents: [
-            Content(
-              parts: [TextPart('Hello, world!')],
-              role: 'user',
-            ),
+            Content(parts: [TextPart('Hello, world!')], role: 'user'),
           ],
         ),
       );
@@ -214,18 +194,9 @@ void main() {
         model: defaultGenerativeModel,
         request: const CountTokensRequest(
           contents: [
-            Content(
-              parts: [TextPart('What is 2+2?')],
-              role: 'user',
-            ),
-            Content(
-              parts: [TextPart('The answer is 4.')],
-              role: 'model',
-            ),
-            Content(
-              parts: [TextPart('What about 3+3?')],
-              role: 'user',
-            ),
+            Content(parts: [TextPart('What is 2+2?')], role: 'user'),
+            Content(parts: [TextPart('The answer is 4.')], role: 'model'),
+            Content(parts: [TextPart('What about 3+3?')], role: 'user'),
           ],
         ),
       );

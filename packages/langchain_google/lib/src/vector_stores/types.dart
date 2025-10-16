@@ -34,9 +34,7 @@ class VertexAIMatchingEngineSimilaritySearch
          filter: filters != null
              ? {
                  filterKey: filters
-                     .map(
-                       VertexAIMatchingEngineFilterMapper.toDto,
-                     )
+                     .map(VertexAIMatchingEngineFilterMapper.toDto)
                      .toList(growable: false),
                }
              : null,

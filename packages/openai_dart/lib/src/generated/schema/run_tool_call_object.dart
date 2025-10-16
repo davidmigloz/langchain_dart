@@ -39,11 +39,7 @@ abstract class RunToolCallObject with _$RunToolCallObject {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'type': type,
-      'function': function,
-    };
+    return {'id': id, 'type': type, 'function': function};
   }
 }
 
@@ -89,9 +85,6 @@ abstract class RunToolCallFunction with _$RunToolCallFunction {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'name': name,
-      'arguments': arguments,
-    };
+    return {'name': name, 'arguments': arguments};
   }
 }

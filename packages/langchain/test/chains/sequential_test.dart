@@ -54,9 +54,7 @@ void main() {
           inputVariables: {'bar', 'foo'},
           outputVariables: {'baz'},
         );
-        final chain = SequentialChain(
-          chains: [chain1, chain2],
-        );
+        final chain = SequentialChain(chains: [chain1, chain2]);
         final output = await chain({'foo': '123', 'test': '456'});
         final expectedOutput = {
           'baz': '123 456foo 123foo',
@@ -149,10 +147,7 @@ void main() {
         inputKeys: {'foo'},
       );
       final output = await chain({'foo': '123'});
-      final expectedOutput = {
-        'baz': '123foo 123foo',
-        'foo': '123',
-      };
+      final expectedOutput = {'baz': '123foo 123foo', 'foo': '123'};
       expect(output, equals(expectedOutput));
     });
 
@@ -166,10 +161,7 @@ void main() {
         outputVariables: {'baz'},
       );
       expect(
-        () => SequentialChain(
-          chains: [chain1, chain2],
-          inputKeys: {'foo'},
-        ),
+        () => SequentialChain(chains: [chain1, chain2], inputKeys: {'foo'}),
         throwsA(isA<AssertionError>()),
       );
     });

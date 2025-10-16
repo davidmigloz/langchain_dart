@@ -10,10 +10,7 @@ class ListFilesResponse {
   final String? nextPageToken;
 
   /// Creates a [ListFilesResponse].
-  const ListFilesResponse({
-    required this.files,
-    this.nextPageToken,
-  });
+  const ListFilesResponse({required this.files, this.nextPageToken});
 
   /// Creates a [ListFilesResponse] from JSON.
   factory ListFilesResponse.fromJson(Map<String, dynamic> json) =>

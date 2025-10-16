@@ -196,10 +196,7 @@ final class ConversationSummaryMemory<LLMType extends BaseLanguageModel>
       outputValues: outputValues,
     );
     final messages = await chatHistory.getChatMessages();
-    _buffer = await _summarize(
-      messages.sublist(messages.length - 2),
-      _buffer,
-    );
+    _buffer = await _summarize(messages.sublist(messages.length - 2), _buffer);
   }
 
   Future<String> _summarize(
@@ -212,10 +209,10 @@ final class ConversationSummaryMemory<LLMType extends BaseLanguageModel>
       aiPrefix: aiPrefix,
       toolPrefix: toolPrefix,
     );
-    return LLMChain(llm: llm, prompt: summaryPromptTemplate).run({
-      'new_lines': input,
-      'summary': currentSummary,
-    });
+    return LLMChain(
+      llm: llm,
+      prompt: summaryPromptTemplate,
+    ).run({'new_lines': input, 'summary': currentSummary});
   }
 
   @override

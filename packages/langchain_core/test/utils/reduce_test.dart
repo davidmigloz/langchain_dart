@@ -92,10 +92,7 @@ void main() {
         {'a': 'Hello', 'b': 'foo'},
         {'a': 'World', 'c': 'bar'},
       ];
-      expect(
-        reduce(maps),
-        equals({'a': 'HelloWorld', 'b': 'foo', 'c': 'bar'}),
-      );
+      expect(reduce(maps), equals({'a': 'HelloWorld', 'b': 'foo', 'c': 'bar'}));
     });
 
     test(

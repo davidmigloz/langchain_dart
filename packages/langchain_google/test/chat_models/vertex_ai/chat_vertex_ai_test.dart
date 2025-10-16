@@ -55,9 +55,7 @@ void main() {
           temperature: 0,
         ),
       );
-      final messages = [
-        ChatMessage.humanText('Tell me a joke.'),
-      ];
+      final messages = [ChatMessage.humanText('Tell me a joke.')];
       final res = await chat(messages);
       expect(res.content, isNotEmpty);
     });
@@ -103,9 +101,7 @@ void main() {
       final chat = ChatVertexAI(
         authProvider: authProvider,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
-        defaultOptions: const ChatVertexAIOptions(
-          model: defaultModel,
-        ),
+        defaultOptions: const ChatVertexAIOptions(model: defaultModel),
       );
       final prompt = PromptValue.string('Hello world');
       final tokenCount = await chat.countTokens(prompt);

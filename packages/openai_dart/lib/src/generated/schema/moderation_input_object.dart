@@ -91,8 +91,6 @@ abstract class ModerationInputObjectImageUrlImageUrl
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'url': url,
-    };
+    return {'url': url};
   }
 }

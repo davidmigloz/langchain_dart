@@ -5,15 +5,14 @@ import 'base_objectbox_stub.dart';
 
 // This is a stub class
 class ObjectBoxVectorStore extends BaseObjectBoxVectorStore<ObjectBoxDocument> {
-  ObjectBoxVectorStore._({
-    required super.embeddings,
-  }) : super(
-         box: null,
-         createEntity: null,
-         createDocument: null,
-         getIdProperty: null,
-         getEmbeddingProperty: null,
-       );
+  ObjectBoxVectorStore._({required super.embeddings})
+    : super(
+        box: null,
+        createEntity: null,
+        createDocument: null,
+        getIdProperty: null,
+        getEmbeddingProperty: null,
+      );
 
   factory ObjectBoxVectorStore.open({
     required Embeddings embeddings,

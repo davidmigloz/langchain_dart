@@ -38,9 +38,6 @@ abstract class ContentPartItemReference with _$ContentPartItemReference {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'type': type,
-      'id': id,
-    };
+    return {'type': type, 'id': id};
   }
 }

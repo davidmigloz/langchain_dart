@@ -250,10 +250,7 @@ void main() {
 
       test('deserializes from JSON', () {
         final json = {
-          'executableCode': {
-            'language': 'PYTHON',
-            'code': 'x = 5',
-          },
+          'executableCode': {'language': 'PYTHON', 'code': 'x = 5'},
         };
         final part = Part.fromJson(json);
         expect(part, isA<ExecutableCodePart>());
@@ -336,9 +333,7 @@ void main() {
       });
 
       test('serializes to JSON', () {
-        const part = VideoMetadataPart(
-          VideoMetadata(videoDuration: '15s'),
-        );
+        const part = VideoMetadataPart(VideoMetadata(videoDuration: '15s'));
         final json = part.toJson();
         expect(json.containsKey('videoMetadata'), isTrue);
         expect(json['videoMetadata']['videoDuration'], equals('15s'));
@@ -346,9 +341,7 @@ void main() {
 
       test('deserializes from JSON', () {
         final json = {
-          'videoMetadata': {
-            'videoDuration': '30s',
-          },
+          'videoMetadata': {'videoDuration': '30s'},
         };
         final part = Part.fromJson(json);
         expect(part, isA<VideoMetadataPart>());
@@ -359,9 +352,7 @@ void main() {
       });
 
       test('roundtrip serialization', () {
-        const original = VideoMetadataPart(
-          VideoMetadata(videoDuration: '20s'),
-        );
+        const original = VideoMetadataPart(VideoMetadata(videoDuration: '20s'));
         final json = original.toJson();
         final deserialized = Part.fromJson(json);
         expect(deserialized, isA<VideoMetadataPart>());
@@ -481,10 +472,7 @@ void main() {
     group('Exhaustive Matching', () {
       test('throws FormatException for unknown Part type', () {
         final json = {'unknownField': 'value'};
-        expect(
-          () => Part.fromJson(json),
-          throwsA(isA<FormatException>()),
-        );
+        expect(() => Part.fromJson(json), throwsA(isA<FormatException>()));
       });
 
       test('all 11 Part variants can be deserialized', () {

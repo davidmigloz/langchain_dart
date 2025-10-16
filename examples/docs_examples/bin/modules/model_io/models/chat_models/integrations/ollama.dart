@@ -26,10 +26,7 @@ Future<void> _chatOllama() async {
   ]);
 
   final chatModel = ChatOllama(
-    defaultOptions: const ChatOllamaOptions(
-      model: 'llama3.2',
-      temperature: 0,
-    ),
+    defaultOptions: const ChatOllamaOptions(model: 'llama3.2', temperature: 0),
   );
 
   final chain = promptTemplate | chatModel | const StringOutputParser();
@@ -53,10 +50,7 @@ Future<void> _chatOllamaStreaming() async {
     (ChatMessageType.human, 'List the numbers from 1 to {max_num}'),
   ]);
   final chat = ChatOllama(
-    defaultOptions: const ChatOllamaOptions(
-      model: 'llama3.2',
-      temperature: 0,
-    ),
+    defaultOptions: const ChatOllamaOptions(model: 'llama3.2', temperature: 0),
   );
   final chain = promptTemplate.pipe(chat).pipe(const StringOutputParser());
 
@@ -71,10 +65,7 @@ Future<void> _chatOllamaStreaming() async {
 
 Future<void> _chatOllamaMultimodal() async {
   final chatModel = ChatOllama(
-    defaultOptions: const ChatOllamaOptions(
-      model: 'llava',
-      temperature: 0,
-    ),
+    defaultOptions: const ChatOllamaOptions(model: 'llava', temperature: 0),
   );
   final prompt = ChatMessage.human(
     ChatMessageContent.multiModal([
@@ -172,10 +163,7 @@ Future<void> _extraction() async {
           'items': {
             'type': 'object',
             'properties': {
-              'name': {
-                'type': 'string',
-                'description': 'The name of a person',
-              },
+              'name': {'type': 'string', 'description': 'The name of a person'},
               'height': {
                 'type': 'number',
                 'description': 'The height of the person in cm',
@@ -331,10 +319,7 @@ Future<void> _flights() async {
     );
     // Add function response to the conversation
     messages.add(
-      ChatMessage.tool(
-        toolCallId: toolCall.id,
-        content: functionResponse,
-      ),
+      ChatMessage.tool(toolCallId: toolCall.id, content: functionResponse),
     );
   }
 

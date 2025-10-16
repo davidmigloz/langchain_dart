@@ -73,13 +73,8 @@ void main() {
         perCrowdingAttributeNeighborCount: 1,
       );
 
-      final res = VertexAIIndexEndpointsGoogleApisMapper.mapRequestQuery(
-        query,
-      );
-      expect(
-        res.approximateNeighborCount,
-        expected.approximateNeighborCount,
-      );
+      final res = VertexAIIndexEndpointsGoogleApisMapper.mapRequestQuery(query);
+      expect(res.approximateNeighborCount, expected.approximateNeighborCount);
       expect(res.datapoint?.datapointId, expected.datapoint?.datapointId);
       expect(res.datapoint?.featureVector, expected.datapoint?.featureVector);
       expect(
@@ -148,9 +143,7 @@ void main() {
               matchGrpcAddress: 'matchGrpcAddress',
               serviceAttachment: 'serviceAttachment',
             ),
-            reservedIpRanges: [
-              'reservedIpRanges',
-            ],
+            reservedIpRanges: ['reservedIpRanges'],
             deploymentGroup: 'deploymentGroup',
             enableAccessLogging: true,
           ),
@@ -207,9 +200,7 @@ void main() {
               matchGrpcAddress: 'matchGrpcAddress',
               serviceAttachment: 'serviceAttachment',
             ),
-            reservedIpRanges: const [
-              'reservedIpRanges',
-            ],
+            reservedIpRanges: const ['reservedIpRanges'],
             deploymentGroup: 'deploymentGroup',
             enableAccessLogging: true,
           ),

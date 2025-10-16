@@ -37,10 +37,7 @@ abstract class ChatCompletionNamedToolChoice
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'type': type,
-      'function': function,
-    };
+    return {'type': type, 'function': function};
   }
 }
 

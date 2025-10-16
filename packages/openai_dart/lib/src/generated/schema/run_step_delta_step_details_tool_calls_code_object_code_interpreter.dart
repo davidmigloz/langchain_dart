@@ -40,9 +40,6 @@ abstract class RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'input': input,
-      'outputs': outputs,
-    };
+    return {'input': input, 'outputs': outputs};
   }
 }

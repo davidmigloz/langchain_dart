@@ -124,10 +124,7 @@ class OllamaEmbeddings implements Embeddings {
   @override
   Future<List<double>> embedQuery(final String query) async {
     final data = await _client.generateEmbedding(
-      request: GenerateEmbeddingRequest(
-        model: model,
-        prompt: query,
-      ),
+      request: GenerateEmbeddingRequest(model: model, prompt: query),
     );
     return data.embedding ?? [];
   }

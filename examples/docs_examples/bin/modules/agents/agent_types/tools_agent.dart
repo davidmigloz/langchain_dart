@@ -14,10 +14,7 @@ void main() async {
 
 Future<void> _toolsAgent() async {
   final llm = ChatOllama(
-    defaultOptions: const ChatOllamaOptions(
-      model: 'llama3.2',
-      temperature: 0,
-    ),
+    defaultOptions: const ChatOllamaOptions(model: 'llama3.2', temperature: 0),
   );
   final tool = CalculatorTool();
   final agent = ToolsAgent.fromLLMAndTools(llm: llm, tools: [tool]);
@@ -37,10 +34,7 @@ Future<void> _toolsAgentCustomToolsMemory() async {
     inputJsonSchema: const {
       'type': 'object',
       'properties': {
-        'query': {
-          'type': 'string',
-          'description': 'The query to search for',
-        },
+        'query': {'type': 'string', 'description': 'The query to search for'},
         'n': {
           'type': 'integer',
           'description': 'The number of results to return',
@@ -79,19 +73,13 @@ Future<void> _toolsAgentCustomToolsMemory() async {
 }
 
 class SearchInput {
-  const SearchInput({
-    required this.query,
-    required this.n,
-  });
+  const SearchInput({required this.query, required this.n});
 
   final String query;
   final int n;
 
   SearchInput.fromJson(final Map<String, dynamic> json)
-    : this(
-        query: json['query'] as String,
-        n: json['n'] as int,
-      );
+    : this(query: json['query'] as String, n: json['n'] as int);
 }
 
 String callYourSearchFunction(final SearchInput input) {

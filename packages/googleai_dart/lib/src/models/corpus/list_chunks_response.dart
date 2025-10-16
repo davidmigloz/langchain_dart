@@ -6,10 +6,7 @@ import 'chunk.dart';
 /// Results are sorted by ascending chunk.create_time.
 class ListChunksResponse {
   /// Creates a new [ListChunksResponse] instance.
-  const ListChunksResponse({
-    this.chunks,
-    this.nextPageToken,
-  });
+  const ListChunksResponse({this.chunks, this.nextPageToken});
 
   /// The returned Chunks.
   final List<Chunk>? chunks;

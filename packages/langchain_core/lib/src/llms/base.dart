@@ -12,9 +12,7 @@ import 'types.dart';
 abstract class BaseLLM<Options extends LLMOptions>
     extends BaseLanguageModel<String, Options, LLMResult> {
   /// {@macro base_llm}
-  const BaseLLM({
-    required super.defaultOptions,
-  });
+  const BaseLLM({required super.defaultOptions});
 
   /// Runs the LLM on the given String prompt and returns a String with the
   /// generated text.
@@ -26,10 +24,7 @@ abstract class BaseLLM<Options extends LLMOptions>
   /// ```dart
   /// final result = await openai('Tell me a joke.');
   /// ```
-  Future<String> call(
-    final String prompt, {
-    final Options? options,
-  }) async {
+  Future<String> call(final String prompt, {final Options? options}) async {
     final result = await invoke(PromptValue.string(prompt), options: options);
     return result.output;
   }
@@ -42,9 +37,7 @@ abstract class BaseLLM<Options extends LLMOptions>
 /// {@endtemplate}
 abstract class SimpleLLM<Options extends LLMOptions> extends BaseLLM<Options> {
   /// {@macro simple_llm}
-  const SimpleLLM({
-    required super.defaultOptions,
-  });
+  const SimpleLLM({required super.defaultOptions});
 
   @override
   Future<LLMResult> invoke(
@@ -63,8 +56,5 @@ abstract class SimpleLLM<Options extends LLMOptions> extends BaseLLM<Options> {
 
   /// Method which should be implemented by subclasses to run the model.
   @visibleForOverriding
-  Future<String> callInternal(
-    final String prompt, {
-    final Options? options,
-  });
+  Future<String> callInternal(final String prompt, {final Options? options});
 }

@@ -57,9 +57,7 @@ class VertexAIIndexEndpointsOperationsApi {
   ///
   /// - [name] - The name of the operation resource (e.g.
   ///   `projects/{project}/locations/{location}/indexEndpoints/{indexEndpoints}/operations/{operation}`).
-  Future<VertexAIOperation> get({
-    required final String name,
-  }) async {
+  Future<VertexAIOperation> get({required final String name}) async {
     final res = await _indexEndpointsOperationsApi.get(name);
     return VertexAIOperationGoogleApisMapper.mapOperation(res);
   }
@@ -73,9 +71,7 @@ class VertexAIIndexEndpointsOperationsApi {
   ///
   /// - [name] - The name of the operation resource (e.g.
   ///   `projects/{project}/locations/{location}/indexEndpoints/{indexEndpoints}/operations/{operation}`).
-  Future<void> cancel({
-    required final String name,
-  }) async {
+  Future<void> cancel({required final String name}) async {
     await _indexEndpointsOperationsApi.cancel(name);
   }
 
@@ -86,9 +82,7 @@ class VertexAIIndexEndpointsOperationsApi {
   ///
   /// - [name] - The name of the operation resource (e.g.
   ///   `projects/{project}/locations/{location}/indexEndpoints/{indexEndpoints}/operations/{operation}`).
-  Future<void> delete({
-    required final String name,
-  }) async {
+  Future<void> delete({required final String name}) async {
     await _indexEndpointsOperationsApi.delete(name);
   }
 }

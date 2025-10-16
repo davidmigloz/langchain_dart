@@ -7,9 +7,7 @@ import 'package:googleai_dart/googleai_dart.dart';
 
 void main() async {
   final client = GoogleAIClient(
-    config: const GoogleAIConfig(
-      authProvider: ApiKeyProvider('YOUR_API_KEY'),
-    ),
+    config: const GoogleAIConfig(authProvider: ApiKeyProvider('YOUR_API_KEY')),
   );
 
   try {
@@ -67,9 +65,7 @@ void main() async {
     print('4. Listing all permissions...');
     final listResponse = await client.tunedModels
         .permissions(parent: resourceName)
-        .list(
-          pageSize: 10,
-        );
+        .list(pageSize: 10);
     print('   ✓ Found ${listResponse.permissions?.length ?? 0} permissions:');
     for (final perm in listResponse.permissions ?? const <Permission>[]) {
       final grantee = perm.granteeType == GranteeType.everyone
@@ -88,9 +84,7 @@ void main() async {
     print('5. Retrieving specific permission...');
     final retrievedPermission = await client.tunedModels
         .permissions(parent: resourceName)
-        .get(
-          name: readerPermission.name!,
-        );
+        .get(name: readerPermission.name!);
     print('   ✓ Retrieved: ${retrievedPermission.name}');
     print('   Grantee: ${retrievedPermission.emailAddress}');
     print('   Role: ${retrievedPermission.role}\n');
@@ -101,9 +95,7 @@ void main() async {
         .permissions(parent: resourceName)
         .update(
           name: readerPermission.name!,
-          permission: const Permission(
-            role: PermissionRole.writer,
-          ),
+          permission: const Permission(role: PermissionRole.writer),
         );
     print('   ✓ Permission updated');
     print('   New role: ${updatedPermission.role}\n');

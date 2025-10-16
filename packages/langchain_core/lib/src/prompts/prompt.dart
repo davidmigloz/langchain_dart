@@ -156,10 +156,7 @@ final class PromptTemplate extends BasePromptTemplate {
   @override
   String format([final InputValues values = const {}]) {
     final allValues = mergePartialAndUserVariables(values);
-    return renderTemplate(
-      template: template,
-      inputValues: allValues,
-    );
+    return renderTemplate(template: template, inputValues: allValues);
   }
 
   @override

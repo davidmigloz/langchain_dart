@@ -37,9 +37,7 @@ void main() {
     test('toJson serializes response with generateVideoResponse', () {
       const response = PredictLongRunningResponse(
         generateVideoResponse: PredictLongRunningGeneratedVideoResponse(
-          generatedSamples: [
-            Media(video: Video(uri: 'gs://test.mp4')),
-          ],
+          generatedSamples: [Media(video: Video(uri: 'gs://test.mp4'))],
         ),
       );
 
@@ -95,10 +93,9 @@ void main() {
       final serialized = response.toJson();
 
       expect(serialized['generateVideoResponse']['raiMediaFilteredCount'], 2);
-      expect(
-        serialized['generateVideoResponse']['raiMediaFilteredReasons'],
-        ['test'],
-      );
+      expect(serialized['generateVideoResponse']['raiMediaFilteredReasons'], [
+        'test',
+      ]);
     });
   });
 }

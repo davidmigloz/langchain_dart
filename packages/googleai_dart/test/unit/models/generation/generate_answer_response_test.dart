@@ -132,10 +132,7 @@ void main() {
           'answerableProbability': 0.87,
           'inputFeedback': {
             'safetyRatings': [
-              {
-                'category': 'HARM_CATEGORY_HARASSMENT',
-                'probability': 'LOW',
-              },
+              {'category': 'HARM_CATEGORY_HARASSMENT', 'probability': 'LOW'},
             ],
           },
         };
@@ -152,10 +149,7 @@ void main() {
       test('converts GenerateAnswerResponse with answer to JSON', () {
         const response = GenerateAnswerResponse(
           answer: Candidate(
-            content: Content(
-              parts: [TextPart('Answer text')],
-              role: 'model',
-            ),
+            content: Content(parts: [TextPart('Answer text')], role: 'model'),
           ),
         );
 
@@ -169,11 +163,7 @@ void main() {
 
       test('converts GenerateAnswerResponse with probability to JSON', () {
         const response = GenerateAnswerResponse(
-          answer: Candidate(
-            content: Content(
-              parts: [TextPart('Text')],
-            ),
-          ),
+          answer: Candidate(content: Content(parts: [TextPart('Text')])),
           answerableProbability: 0.75,
         );
 
@@ -184,9 +174,7 @@ void main() {
 
       test('converts GenerateAnswerResponse with input feedback to JSON', () {
         const response = GenerateAnswerResponse(
-          inputFeedback: InputFeedback(
-            blockReason: BlockReason.other,
-          ),
+          inputFeedback: InputFeedback(blockReason: BlockReason.other),
         );
 
         final json = response.toJson();
@@ -235,10 +223,7 @@ void main() {
     test('round-trip conversion with answer preserves data', () {
       const original = GenerateAnswerResponse(
         answer: Candidate(
-          content: Content(
-            parts: [TextPart('Test answer')],
-            role: 'model',
-          ),
+          content: Content(parts: [TextPart('Test answer')], role: 'model'),
         ),
       );
 

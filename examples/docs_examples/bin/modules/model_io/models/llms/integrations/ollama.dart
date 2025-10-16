@@ -11,11 +11,7 @@ Future<void> _ollama() async {
   final prompt = PromptTemplate.fromTemplate(
     'What is a good name for a company that makes {product}?',
   );
-  final llm = Ollama(
-    defaultOptions: const OllamaOptions(
-      model: 'llama3.2',
-    ),
-  );
+  final llm = Ollama(defaultOptions: const OllamaOptions(model: 'llama3.2'));
 
   final chain = prompt | llm | const StringOutputParser();
   final res = await chain.invoke({'product': 'colorful socks'});
@@ -27,11 +23,7 @@ Future<void> _ollamaStreaming() async {
   final promptTemplate = PromptTemplate.fromTemplate(
     'List the numbers from 1 to {max_num} in order without any spaces or commas',
   );
-  final llm = Ollama(
-    defaultOptions: const OllamaOptions(
-      model: 'llama3.2',
-    ),
-  );
+  final llm = Ollama(defaultOptions: const OllamaOptions(model: 'llama3.2'));
   const stringOutputParser = StringOutputParser<LLMResult>();
   final chain = promptTemplate | llm | stringOutputParser;
 

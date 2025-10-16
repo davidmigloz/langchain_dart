@@ -167,9 +167,7 @@ Future<void> _nonStreamingComponents() async {
   await vectorStore.addDocuments(
     documents: const [
       Document(pageContent: 'LangChain was created by Harrison'),
-      Document(
-        pageContent: 'David ported LangChain to Dart in LangChain.dart',
-      ),
+      Document(pageContent: 'David ported LangChain to Dart in LangChain.dart'),
     ],
   );
   final retriever = vectorStore.asRetriever();

@@ -61,9 +61,7 @@ void main() {
       });
 
       test('converts integer to double for relevance score', () {
-        final json = {
-          'chunkRelevanceScore': 1,
-        };
+        final json = {'chunkRelevanceScore': 1};
 
         final relevantChunk = RelevantChunk.fromJson(json);
 
@@ -72,9 +70,7 @@ void main() {
       });
 
       test('creates RelevantChunk with only relevance score', () {
-        final json = {
-          'chunkRelevanceScore': 0.87,
-        };
+        final json = {'chunkRelevanceScore': 0.87};
 
         final relevantChunk = RelevantChunk.fromJson(json);
 
@@ -135,9 +131,7 @@ void main() {
       });
 
       test('omits null fields from JSON', () {
-        const relevantChunk = RelevantChunk(
-          chunkRelevanceScore: 0.5,
-        );
+        const relevantChunk = RelevantChunk(chunkRelevanceScore: 0.5);
 
         final json = relevantChunk.toJson();
 
@@ -204,9 +198,7 @@ void main() {
     });
 
     test('round-trip conversion with minimal fields preserves data', () {
-      const original = RelevantChunk(
-        chunkRelevanceScore: 0.75,
-      );
+      const original = RelevantChunk(chunkRelevanceScore: 0.75);
 
       final json = original.toJson();
       final restored = RelevantChunk.fromJson(json);

@@ -46,10 +46,7 @@ abstract class VectorStoreExpirationAfter with _$VectorStoreExpirationAfter {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'anchor': anchor,
-      'days': days,
-    };
+    return {'anchor': anchor, 'days': days};
   }
 }
 

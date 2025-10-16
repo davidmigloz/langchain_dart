@@ -22,9 +22,7 @@ void main() {
     setUp(() {
       chatModel = ChatAnthropic(
         apiKey: Platform.environment['ANTHROPIC_API_KEY'],
-        defaultOptions: const ChatAnthropicOptions(
-          model: defaultModel,
-        ),
+        defaultOptions: const ChatAnthropicOptions(model: defaultModel),
       );
     });
 
@@ -46,10 +44,7 @@ void main() {
             'List the numbers from 1 to 9 in order '
             'without any spaces, commas or additional explanations.',
           ),
-          options: ChatAnthropicOptions(
-            model: model,
-            temperature: 0,
-          ),
+          options: ChatAnthropicOptions(model: model, temperature: 0),
         );
         expect(res.id, isNotEmpty);
         expect(res.finishReason, isNot(FinishReason.unspecified));
@@ -104,10 +99,7 @@ void main() {
     test('Test max tokens', () async {
       final res = await chatModel.invoke(
         PromptValue.string('Tell me a joke'),
-        options: const ChatAnthropicOptions(
-          model: defaultModel,
-          maxTokens: 10,
-        ),
+        options: const ChatAnthropicOptions(model: defaultModel, maxTokens: 10),
       );
       expect(res.output.content.length, lessThan(50));
       expect(res.finishReason, FinishReason.length);
@@ -120,9 +112,7 @@ void main() {
           'without any spaces, commas or additional explanations.',
         ),
         ChatMessage.ai('123456789'),
-        ChatMessage.humanText(
-          'Remove the number 4 from the list',
-        ),
+        ChatMessage.humanText('Remove the number 4 from the list'),
       ]);
       final res = await chatModel.invoke(
         prompt,
@@ -131,10 +121,7 @@ void main() {
           temperature: 0,
         ),
       );
-      expect(
-        res.output.content,
-        contains('12356789'),
-      );
+      expect(res.output.content, contains('12356789'));
     });
 
     test('Test streaming', () async {
@@ -179,10 +166,7 @@ void main() {
           },
         );
         final model = chatModel.bind(
-          const ChatAnthropicOptions(
-            model: defaultModel,
-            tools: [tool],
-          ),
+          const ChatAnthropicOptions(model: defaultModel, tools: [tool]),
         );
 
         final humanMessage = ChatMessage.humanText(

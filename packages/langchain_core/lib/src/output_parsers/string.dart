@@ -35,9 +35,8 @@ import 'types.dart';
 class StringOutputParser<ParserInput extends Object?>
     extends BaseOutputParser<ParserInput, OutputParserOptions, String> {
   /// {@macro string_output_parser}
-  const StringOutputParser({
-    this.reduceOutputStream = false,
-  }) : super(defaultOptions: const OutputParserOptions());
+  const StringOutputParser({this.reduceOutputStream = false})
+    : super(defaultOptions: const OutputParserOptions());
 
   /// When invoking this parser with [Runnable.stream], every item from the
   /// input stream will be parsed and emitted by default.

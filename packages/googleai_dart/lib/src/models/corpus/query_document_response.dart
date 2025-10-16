@@ -4,9 +4,7 @@ import 'relevant_chunk.dart';
 /// Response from QueryDocument containing a list of relevant chunks.
 class QueryDocumentResponse {
   /// Creates a new [QueryDocumentResponse] instance.
-  const QueryDocumentResponse({
-    this.relevantChunks,
-  });
+  const QueryDocumentResponse({this.relevantChunks});
 
   /// The returned relevant chunks.
   final List<RelevantChunk>? relevantChunks;

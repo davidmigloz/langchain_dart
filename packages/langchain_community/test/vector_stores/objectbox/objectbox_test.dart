@@ -62,10 +62,7 @@ void main() {
         config: ObjectBoxSimilaritySearch(k: 1),
       );
       expect(res.length, 1);
-      expect(
-        res.first.id,
-        '5',
-      );
+      expect(res.first.id, '5');
     });
 
     test('Test query with scoreThreshold', () async {

@@ -12,12 +12,8 @@ void main() async {
 
 /// The most basic building block of LangChain is calling an LLM on some input.
 Future<void> _example1() async {
-  final llm = Ollama(
-    defaultOptions: const OllamaOptions(model: 'llama3.2'),
-  );
-  final LLMResult res = await llm.invoke(
-    PromptValue.string('Tell me a joke'),
-  );
+  final llm = Ollama(defaultOptions: const OllamaOptions(model: 'llama3.2'));
+  final LLMResult res = await llm.invoke(PromptValue.string('Tell me a joke'));
   print(res);
   llm.close();
 }

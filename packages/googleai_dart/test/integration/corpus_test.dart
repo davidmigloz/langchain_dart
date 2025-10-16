@@ -21,9 +21,7 @@ void main() {
       );
     } else {
       client = GoogleAIClient(
-        config: GoogleAIConfig(
-          authProvider: ApiKeyProvider(apiKey!),
-        ),
+        config: GoogleAIConfig(authProvider: ApiKeyProvider(apiKey!)),
       );
     }
   });
@@ -55,9 +53,7 @@ void main() {
 
       // Create corpus
       final corpus = await client!.corpora.create(
-        corpus: const Corpus(
-          displayName: 'Test Corpus for Integration',
-        ),
+        corpus: const Corpus(displayName: 'Test Corpus for Integration'),
       );
 
       expect(corpus, isNotNull);
@@ -82,18 +78,14 @@ void main() {
 
       // Create corpus
       final corpus = await client!.corpora.create(
-        corpus: const Corpus(
-          displayName: 'Original Name',
-        ),
+        corpus: const Corpus(displayName: 'Original Name'),
       );
       createdCorpusName = corpus.name;
 
       // Update corpus
       final updated = await client!.corpora.update(
         name: corpus.name!,
-        corpus: const Corpus(
-          displayName: 'Updated Name',
-        ),
+        corpus: const Corpus(displayName: 'Updated Name'),
         updateMask: 'displayName',
       );
 
@@ -109,9 +101,7 @@ void main() {
 
       // Create a corpus to ensure list is not empty
       final corpus = await client!.corpora.create(
-        corpus: const Corpus(
-          displayName: 'List Test Corpus',
-        ),
+        corpus: const Corpus(displayName: 'List Test Corpus'),
       );
       createdCorpusName = corpus.name;
 
@@ -131,9 +121,7 @@ void main() {
 
       // Create corpus
       final corpus = await client!.corpora.create(
-        corpus: const Corpus(
-          displayName: 'Delete Test Corpus',
-        ),
+        corpus: const Corpus(displayName: 'Delete Test Corpus'),
       );
 
       // Delete corpus

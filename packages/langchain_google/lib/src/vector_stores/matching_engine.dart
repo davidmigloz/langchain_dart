@@ -318,9 +318,7 @@ class VertexAIMatchingEngine extends VectorStore {
   }
 
   @override
-  Future<void> delete({
-    required final List<String> ids,
-  }) {
+  Future<void> delete({required final List<String> ids}) {
     throw UnimplementedError(
       'To delete vectors from Matching Engine you just need to sets '
       '`completeOverwriteWhenAdding` to true and add new ones. '

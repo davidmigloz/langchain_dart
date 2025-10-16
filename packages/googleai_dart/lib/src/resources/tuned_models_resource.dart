@@ -68,9 +68,7 @@ class TunedModelsResource extends ResourceBase {
     );
 
     final headers = requestBuilder.buildHeaders(
-      additionalHeaders: {
-        'Content-Type': 'application/json',
-      },
+      additionalHeaders: {'Content-Type': 'application/json'},
     );
 
     final httpRequest = http.Request('POST', url)
@@ -113,9 +111,7 @@ class TunedModelsResource extends ResourceBase {
     );
 
     final headers = requestBuilder.buildHeaders(
-      additionalHeaders: {
-        'Content-Type': 'application/json',
-      },
+      additionalHeaders: {'Content-Type': 'application/json'},
     );
 
     // Create request
@@ -255,9 +251,7 @@ class TunedModelsResource extends ResourceBase {
     );
 
     final headers = requestBuilder.buildHeaders(
-      additionalHeaders: {
-        'Content-Type': 'application/json',
-      },
+      additionalHeaders: {'Content-Type': 'application/json'},
     );
 
     final httpRequest = http.Request('POST', url)
@@ -290,9 +284,7 @@ class TunedModelsResource extends ResourceBase {
     );
 
     final headers = requestBuilder.buildHeaders(
-      additionalHeaders: {
-        'Content-Type': 'application/json',
-      },
+      additionalHeaders: {'Content-Type': 'application/json'},
     );
 
     final httpRequest = http.Request('POST', url)
@@ -327,9 +319,7 @@ class TunedModelsResource extends ResourceBase {
     );
 
     final headers = requestBuilder.buildHeaders(
-      additionalHeaders: {
-        'Content-Type': 'application/json',
-      },
+      additionalHeaders: {'Content-Type': 'application/json'},
     );
 
     final httpRequest = http.Request('POST', url)
@@ -366,9 +356,7 @@ class TunedModelsResource extends ResourceBase {
     );
 
     final headers = requestBuilder.buildHeaders(
-      additionalHeaders: {
-        'Content-Type': 'application/json',
-      },
+      additionalHeaders: {'Content-Type': 'application/json'},
     );
 
     final httpRequest = http.Request('PATCH', url)
@@ -613,11 +601,7 @@ class TunedModelsResource extends ResourceBase {
       );
     }
 
-    return ApiException(
-      code: statusCode,
-      message: message,
-      details: details,
-    );
+    return ApiException(code: statusCode, message: message, details: details);
   }
 
   /// Logs streaming errors.

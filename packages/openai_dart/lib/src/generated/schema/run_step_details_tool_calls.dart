@@ -107,10 +107,6 @@ abstract class RunStepDetailsToolCallsFunction
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'name': name,
-      'arguments': arguments,
-      'output': output,
-    };
+    return {'name': name, 'arguments': arguments, 'output': output};
   }
 }

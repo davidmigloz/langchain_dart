@@ -66,10 +66,7 @@ void main() async {
         config: const VectorStoreSimilaritySearch(k: 1),
       );
       expect(res.length, 1);
-      expect(
-        res.first.id,
-        'faq_621656c96b5ff317d867d019',
-      );
+      expect(res.first.id, 'faq_621656c96b5ff317d867d019');
     });
 
     test('Test VertexAIMatchingEngine query with scoreThreshold', () async {

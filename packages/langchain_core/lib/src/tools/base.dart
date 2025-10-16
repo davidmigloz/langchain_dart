@@ -204,10 +204,7 @@ abstract base class Tool<
   /// - [input] is the input to the tool.
   /// - [options] is the options to pass to the tool.
   @override
-  Future<Output> invoke(
-    final Input input, {
-    final Options? options,
-  }) async {
+  Future<Output> invoke(final Input input, {final Options? options}) async {
     try {
       return invokeInternal(input, options: options);
     } on ToolException catch (e) {
@@ -223,10 +220,7 @@ abstract base class Tool<
 
   /// Actual implementation of [invoke] method logic.
   @protected
-  Future<Output> invokeInternal(
-    final Input input, {
-    final Options? options,
-  });
+  Future<Output> invokeInternal(final Input input, {final Options? options});
 
   /// Streams the tool's output for the input resulting from
   /// reducing the input stream.

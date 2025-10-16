@@ -11,28 +11,18 @@ class Blob {
   final String data;
 
   /// Creates a [Blob].
-  const Blob({
-    required this.mimeType,
-    required this.data,
-  });
+  const Blob({required this.mimeType, required this.data});
 
   /// Creates a [Blob] from JSON.
-  factory Blob.fromJson(Map<String, dynamic> json) => Blob(
-    mimeType: json['mimeType'] as String,
-    data: json['data'] as String,
-  );
+  factory Blob.fromJson(Map<String, dynamic> json) =>
+      Blob(mimeType: json['mimeType'] as String, data: json['data'] as String);
 
   /// Converts to JSON.
-  Map<String, dynamic> toJson() => {
-    'mimeType': mimeType,
-    'data': data,
-  };
+  Map<String, dynamic> toJson() => {'mimeType': mimeType, 'data': data};
 
   /// Creates a [Blob] from bytes.
-  factory Blob.fromBytes(String mimeType, List<int> bytes) => Blob(
-    mimeType: mimeType,
-    data: base64Encode(bytes),
-  );
+  factory Blob.fromBytes(String mimeType, List<int> bytes) =>
+      Blob(mimeType: mimeType, data: base64Encode(bytes));
 
   /// Decodes to bytes.
   List<int> toBytes() => base64Decode(data);

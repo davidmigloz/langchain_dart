@@ -68,9 +68,7 @@ class GenerateContentBatch {
         displayName: json['displayName'] as String?,
         model: json['model'] as String?,
         inputConfig: json['inputConfig'] != null
-            ? InputConfig.fromJson(
-                json['inputConfig'] as Map<String, dynamic>,
-              )
+            ? InputConfig.fromJson(json['inputConfig'] as Map<String, dynamic>)
             : null,
         output: json['output'] != null
             ? GenerateContentBatchOutput.fromJson(

@@ -10,10 +10,7 @@ class InlinedEmbedContentRequest {
   final Map<String, dynamic>? metadata;
 
   /// Creates an [InlinedEmbedContentRequest].
-  const InlinedEmbedContentRequest({
-    required this.request,
-    this.metadata,
-  });
+  const InlinedEmbedContentRequest({required this.request, this.metadata});
 
   /// Creates an [InlinedEmbedContentRequest] from JSON.
   factory InlinedEmbedContentRequest.fromJson(Map<String, dynamic> json) =>

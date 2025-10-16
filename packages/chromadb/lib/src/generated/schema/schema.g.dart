@@ -54,10 +54,7 @@ _$CollectionTypeImpl _$$CollectionTypeImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$CollectionTypeImplToJson(
   _$CollectionTypeImpl instance,
 ) {
-  final val = <String, dynamic>{
-    'name': instance.name,
-    'id': instance.id,
-  };
+  final val = <String, dynamic>{'name': instance.name, 'id': instance.id};
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -80,9 +77,7 @@ _$CreateCollectionImpl _$$CreateCollectionImplFromJson(
 Map<String, dynamic> _$$CreateCollectionImplToJson(
   _$CreateCollectionImpl instance,
 ) {
-  final val = <String, dynamic>{
-    'name': instance.name,
-  };
+  final val = <String, dynamic>{'name': instance.name};
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -103,10 +98,7 @@ _$DatabaseTypeImpl _$$DatabaseTypeImplFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$$DatabaseTypeImplToJson(_$DatabaseTypeImpl instance) {
-  final val = <String, dynamic>{
-    'id': instance.id,
-    'name': instance.name,
-  };
+  final val = <String, dynamic>{'id': instance.id, 'name': instance.name};
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -119,35 +111,23 @@ Map<String, dynamic> _$$DatabaseTypeImplToJson(_$DatabaseTypeImpl instance) {
 }
 
 _$CreateDatabaseImpl _$$CreateDatabaseImplFromJson(Map<String, dynamic> json) =>
-    _$CreateDatabaseImpl(
-      name: json['name'] as String,
-    );
+    _$CreateDatabaseImpl(name: json['name'] as String);
 
 Map<String, dynamic> _$$CreateDatabaseImplToJson(
   _$CreateDatabaseImpl instance,
-) => <String, dynamic>{
-  'name': instance.name,
-};
+) => <String, dynamic>{'name': instance.name};
 
 _$TenantTypeImpl _$$TenantTypeImplFromJson(Map<String, dynamic> json) =>
-    _$TenantTypeImpl(
-      name: json['name'] as String,
-    );
+    _$TenantTypeImpl(name: json['name'] as String);
 
 Map<String, dynamic> _$$TenantTypeImplToJson(_$TenantTypeImpl instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-    };
+    <String, dynamic>{'name': instance.name};
 
 _$CreateTenantImpl _$$CreateTenantImplFromJson(Map<String, dynamic> json) =>
-    _$CreateTenantImpl(
-      name: json['name'] as String,
-    );
+    _$CreateTenantImpl(name: json['name'] as String);
 
 Map<String, dynamic> _$$CreateTenantImplToJson(_$CreateTenantImpl instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-    };
+    <String, dynamic>{'name': instance.name};
 
 _$DeleteEmbeddingImpl _$$DeleteEmbeddingImplFromJson(
   Map<String, dynamic> json,
@@ -224,9 +204,7 @@ _$GetResponseImpl _$$GetResponseImplFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$$GetResponseImplToJson(_$GetResponseImpl instance) {
-  final val = <String, dynamic>{
-    'ids': instance.ids,
-  };
+  final val = <String, dynamic>{'ids': instance.ids};
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {

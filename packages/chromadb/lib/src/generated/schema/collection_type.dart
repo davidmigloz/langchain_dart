@@ -39,10 +39,6 @@ class CollectionType with _$CollectionType {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'name': name,
-      'id': id,
-      'metadata': metadata,
-    };
+    return {'name': name, 'id': id, 'metadata': metadata};
   }
 }

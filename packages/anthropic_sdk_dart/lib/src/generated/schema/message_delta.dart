@@ -54,9 +54,6 @@ abstract class MessageDelta with _$MessageDelta {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'stop_reason': stopReason,
-      'stop_sequence': stopSequence,
-    };
+    return {'stop_reason': stopReason, 'stop_sequence': stopSequence};
   }
 }

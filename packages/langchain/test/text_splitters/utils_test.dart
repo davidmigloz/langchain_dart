@@ -6,29 +6,13 @@ void main() {
     test('Test splitTextWithRegex keepSeparator=false', () {
       const text = 'This is a weird text to write';
       final output = splitTextWithRegex(text, ' ', false);
-      expect(output, [
-        'This',
-        'is',
-        'a',
-        'weird',
-        'text',
-        'to',
-        'write',
-      ]);
+      expect(output, ['This', 'is', 'a', 'weird', 'text', 'to', 'write']);
     });
 
     test('Test splitTextWithRegex keepSeparator=true', () {
       const text = 'This is a weird text to write';
       final output = splitTextWithRegex(text, ' ', true);
-      expect(output, [
-        'This',
-        ' is',
-        ' a',
-        ' weird',
-        ' text',
-        ' to',
-        ' write',
-      ]);
+      expect(output, ['This', ' is', ' a', ' weird', ' text', ' to', ' write']);
     });
 
     test('Test splitTextWithRegex empty string separator', () {

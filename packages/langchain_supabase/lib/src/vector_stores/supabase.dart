@@ -105,14 +105,12 @@ class Supabase extends VectorStore {
     final List<Map<String, dynamic>> records = [];
     for (var i = 0; i < documents.length; i++) {
       final doc = documents[i];
-      records.add(
-        {
-          if (doc.id != null) 'id': doc.id,
-          'metadata': doc.metadata,
-          'content': doc.pageContent,
-          'embedding': vectors[i],
-        },
-      );
+      records.add({
+        if (doc.id != null) 'id': doc.id,
+        'metadata': doc.metadata,
+        'content': doc.pageContent,
+        'embedding': vectors[i],
+      });
     }
 
     final ids = await _client.from(tableName).upsert(records).select('id');

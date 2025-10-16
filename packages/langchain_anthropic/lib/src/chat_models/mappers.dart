@@ -188,15 +188,9 @@ extension MessageMapper on a.Message {
     final (content, toolCalls) = _mapMessageContent(this.content);
     return ChatResult(
       id: id ?? '',
-      output: AIChatMessage(
-        content: content,
-        toolCalls: toolCalls,
-      ),
+      output: AIChatMessage(content: content, toolCalls: toolCalls),
       finishReason: _mapFinishReason(stopReason),
-      metadata: {
-        'model': model,
-        'stop_sequence': stopSequence,
-      },
+      metadata: {'model': model, 'stop_sequence': stopSequence},
       usage: _mapUsage(usage),
     );
   }
@@ -236,10 +230,7 @@ class MessageStreamEventTransformer
 
     return ChatResult(
       id: msgId,
-      output: AIChatMessage(
-        content: content,
-        toolCalls: toolCalls,
-      ),
+      output: AIChatMessage(content: content, toolCalls: toolCalls),
       finishReason: _mapFinishReason(e.message.stopReason),
       metadata: {
         if (e.message.model != null) 'model': e.message.model,
@@ -287,14 +278,9 @@ class MessageStreamEventTransformer
     final (content, toolCals) = _mapContentBlockDelta(lastToolCallId, e.delta);
     return ChatResult(
       id: lastMessageId ?? '',
-      output: AIChatMessage(
-        content: content,
-        toolCalls: toolCals,
-      ),
+      output: AIChatMessage(content: content, toolCalls: toolCals),
       finishReason: FinishReason.unspecified,
-      metadata: {
-        'index': e.index,
-      },
+      metadata: {'index': e.index},
       usage: const LanguageModelUsage(),
       streaming: true,
     );
@@ -409,9 +395,7 @@ extension ChatToolChoiceMapper on ChatToolChoice {
   }
 }
 
-FinishReason _mapFinishReason(
-  final a.StopReason? reason,
-) => switch (reason) {
+FinishReason _mapFinishReason(final a.StopReason? reason) => switch (reason) {
   a.StopReason.endTurn => FinishReason.stop,
   a.StopReason.maxTokens => FinishReason.length,
   a.StopReason.stopSequence => FinishReason.stop,

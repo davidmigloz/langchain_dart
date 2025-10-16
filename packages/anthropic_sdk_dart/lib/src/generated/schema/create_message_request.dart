@@ -351,14 +351,10 @@ sealed class Model with _$Model {
   const Model._();
 
   /// Available models. Mind that the list may not be exhaustive nor up-to-date.
-  const factory Model.model(
-    Models value,
-  ) = ModelCatalog;
+  const factory Model.model(Models value) = ModelCatalog;
 
   /// The ID of the model to use for this request.
-  const factory Model.modelId(
-    String value,
-  ) = ModelId;
+  const factory Model.modelId(String value) = ModelId;
 
   /// Object construction from a JSON representation
   factory Model.fromJson(Map<String, dynamic> json) => _$ModelFromJson(json);
@@ -380,9 +376,7 @@ class _ModelConverter implements JsonConverter<Model, Object?> {
     if (data is String) {
       return ModelId(data);
     }
-    throw Exception(
-      'Unexpected value for Model: $data',
-    );
+    throw Exception('Unexpected value for Model: $data');
   }
 
   @override
@@ -408,14 +402,12 @@ sealed class CreateMessageRequestSystem with _$CreateMessageRequestSystem {
   const CreateMessageRequestSystem._();
 
   /// An array of content blocks.
-  const factory CreateMessageRequestSystem.blocks(
-    List<Block> value,
-  ) = SystemMessageContentBlocks;
+  const factory CreateMessageRequestSystem.blocks(List<Block> value) =
+      SystemMessageContentBlocks;
 
   /// A single text block.
-  const factory CreateMessageRequestSystem.text(
-    String value,
-  ) = SystemMessageContentText;
+  const factory CreateMessageRequestSystem.text(String value) =
+      SystemMessageContentText;
 
   /// Object construction from a JSON representation
   factory CreateMessageRequestSystem.fromJson(Map<String, dynamic> json) =>
@@ -442,9 +434,7 @@ class _CreateMessageRequestSystemConverter
     if (data is String) {
       return SystemMessageContentText(data);
     }
-    throw Exception(
-      'Unexpected value for CreateMessageRequestSystem: $data',
-    );
+    throw Exception('Unexpected value for CreateMessageRequestSystem: $data');
   }
 
   @override

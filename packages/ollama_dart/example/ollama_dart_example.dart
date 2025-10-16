@@ -72,14 +72,8 @@ Future<void> _generateChatCompletion(final OllamaClient client) async {
     request: const GenerateChatCompletionRequest(
       model: 'llama3.2',
       messages: [
-        Message(
-          role: MessageRole.system,
-          content: 'why is the sky blue?',
-        ),
-        Message(
-          role: MessageRole.user,
-          content: 'due to rayleigh scattering.',
-        ),
+        Message(role: MessageRole.system, content: 'why is the sky blue?'),
+        Message(role: MessageRole.user, content: 'due to rayleigh scattering.'),
         Message(
           role: MessageRole.user,
           content: 'how is that different than mie scattering?',
@@ -101,10 +95,7 @@ Future<void> _generateChatCompletionWithHistory(
           role: MessageRole.user,
           content: 'You are a helpful assistant.',
         ),
-        Message(
-          role: MessageRole.assistant,
-          content: 'Why is the sky blue?',
-        ),
+        Message(role: MessageRole.assistant, content: 'Why is the sky blue?'),
         Message(
           role: MessageRole.user,
           content: 'You are a helpful assistant.',
@@ -124,10 +115,7 @@ Future<void> _generateChatCompletionStream(final OllamaClient client) async {
           role: MessageRole.system,
           content: 'You are a helpful assistant.',
         ),
-        Message(
-          role: MessageRole.user,
-          content: 'Why is the sky blue?',
-        ),
+        Message(role: MessageRole.user, content: 'Why is the sky blue?'),
       ],
     ),
   );
@@ -200,10 +188,7 @@ Future<void> _generateChatToolCalling(final OllamaClient client) async {
       messages: [
         userMsg,
         res1.message,
-        const Message(
-          role: MessageRole.tool,
-          content: toolResult,
-        ),
+        const Message(role: MessageRole.tool, content: toolResult),
       ],
     ),
   );

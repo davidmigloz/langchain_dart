@@ -103,11 +103,7 @@ void main() {
     });
 
     test('handles empty data fields', () async {
-      final sseData = [
-        'data:',
-        'data: ',
-        'data: {"id":"1"}',
-      ].join('\n');
+      final sseData = ['data:', 'data: ', 'data: {"id":"1"}'].join('\n');
 
       final bytes = utf8.encode(sseData) as List<int>;
       final stream = Stream<List<int>>.value(bytes);
@@ -311,10 +307,7 @@ void main() {
     });
 
     test('handles UTF-8 in event-data pairs', () async {
-      final lines = [
-        'event: message.delta',
-        'data: {"text":"Hello 世界 🌍"}',
-      ];
+      final lines = ['event: message.delta', 'data: {"text":"Hello 世界 🌍"}'];
 
       final stream = Stream.fromIterable(lines);
       final transformer = createPairwiseTransformer();

@@ -30,15 +30,11 @@ class ChunksResource extends ResourceBase {
   /// Creates a new [Chunk] in a document.
   ///
   /// POST /v1beta/{parent}/chunks
-  Future<Chunk> create({
-    required Chunk chunk,
-  }) async {
+  Future<Chunk> create({required Chunk chunk}) async {
     final url = requestBuilder.buildUrl('/{version}/$document/chunks');
 
     final headers = requestBuilder.buildHeaders(
-      additionalHeaders: {
-        'Content-Type': 'application/json',
-      },
+      additionalHeaders: {'Content-Type': 'application/json'},
     );
 
     final httpRequest = http.Request('POST', url)
@@ -54,10 +50,7 @@ class ChunksResource extends ResourceBase {
   /// Lists chunks in a document with pagination support.
   ///
   /// GET /v1beta/{parent}/chunks
-  Future<ListChunksResponse> list({
-    int? pageSize,
-    String? pageToken,
-  }) async {
+  Future<ListChunksResponse> list({int? pageSize, String? pageToken}) async {
     final queryParams = <String, String>{};
     if (pageSize != null) queryParams['pageSize'] = pageSize.toString();
     if (pageToken != null) queryParams['pageToken'] = pageToken;
@@ -80,9 +73,7 @@ class ChunksResource extends ResourceBase {
   /// Gets information about a specific chunk.
   ///
   /// GET /v1beta/{name}
-  Future<Chunk> get({
-    required String name,
-  }) async {
+  Future<Chunk> get({required String name}) async {
     final url = requestBuilder.buildUrl('/{version}/$name');
 
     final headers = requestBuilder.buildHeaders();
@@ -112,9 +103,7 @@ class ChunksResource extends ResourceBase {
     );
 
     final headers = requestBuilder.buildHeaders(
-      additionalHeaders: {
-        'Content-Type': 'application/json',
-      },
+      additionalHeaders: {'Content-Type': 'application/json'},
     );
 
     final httpRequest = http.Request('PATCH', url)
@@ -130,9 +119,7 @@ class ChunksResource extends ResourceBase {
   /// Deletes a chunk.
   ///
   /// DELETE /v1beta/{name}
-  Future<void> delete({
-    required String name,
-  }) async {
+  Future<void> delete({required String name}) async {
     final url = requestBuilder.buildUrl('/{version}/$name');
 
     final headers = requestBuilder.buildHeaders();
@@ -153,9 +140,7 @@ class ChunksResource extends ResourceBase {
     );
 
     final headers = requestBuilder.buildHeaders(
-      additionalHeaders: {
-        'Content-Type': 'application/json',
-      },
+      additionalHeaders: {'Content-Type': 'application/json'},
     );
 
     final httpRequest = http.Request('POST', url)
@@ -179,9 +164,7 @@ class ChunksResource extends ResourceBase {
     );
 
     final headers = requestBuilder.buildHeaders(
-      additionalHeaders: {
-        'Content-Type': 'application/json',
-      },
+      additionalHeaders: {'Content-Type': 'application/json'},
     );
 
     final httpRequest = http.Request('POST', url)
@@ -197,17 +180,13 @@ class ChunksResource extends ResourceBase {
   /// Batch deletes chunks in a document.
   ///
   /// POST /v1beta/{parent}/chunks:batchDelete
-  Future<void> batchDelete({
-    required BatchDeleteChunksRequest request,
-  }) async {
+  Future<void> batchDelete({required BatchDeleteChunksRequest request}) async {
     final url = requestBuilder.buildUrl(
       '/{version}/$document/chunks:batchDelete',
     );
 
     final headers = requestBuilder.buildHeaders(
-      additionalHeaders: {
-        'Content-Type': 'application/json',
-      },
+      additionalHeaders: {'Content-Type': 'application/json'},
     );
 
     final httpRequest = http.Request('POST', url)

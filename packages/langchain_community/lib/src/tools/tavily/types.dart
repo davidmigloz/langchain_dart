@@ -21,9 +21,7 @@ enum TavilySearchDepth {
 @immutable
 class TavilySearchResults {
   /// {@macro tavily_search_results}
-  const TavilySearchResults({
-    required this.results,
-  });
+  const TavilySearchResults({required this.results});
 
   /// The search results.
   final List<TavilySearchResult> results;

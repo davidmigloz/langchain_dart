@@ -5,10 +5,7 @@ void main() {
   group('Condition', () {
     group('fromJson', () {
       test('creates Condition with string value', () {
-        final json = {
-          'operation': 'EQUAL',
-          'stringValue': 'test',
-        };
+        final json = {'operation': 'EQUAL', 'stringValue': 'test'};
 
         final condition = Condition.fromJson(json);
 
@@ -18,10 +15,7 @@ void main() {
       });
 
       test('creates Condition with numeric value', () {
-        final json = {
-          'operation': 'GREATER',
-          'numericValue': 42.5,
-        };
+        final json = {'operation': 'GREATER', 'numericValue': 42.5};
 
         final condition = Condition.fromJson(json);
 
@@ -31,9 +25,7 @@ void main() {
       });
 
       test('creates Condition with only operation', () {
-        final json = {
-          'operation': 'NOT_EQUAL',
-        };
+        final json = {'operation': 'NOT_EQUAL'};
 
         final condition = Condition.fromJson(json);
 
@@ -43,10 +35,7 @@ void main() {
       });
 
       test('converts integer to double for numeric value', () {
-        final json = {
-          'operation': 'LESS',
-          'numericValue': 100,
-        };
+        final json = {'operation': 'LESS', 'numericValue': 100};
 
         final condition = Condition.fromJson(json);
 
@@ -253,14 +242,8 @@ void main() {
       });
 
       test('is case insensitive', () {
-        expect(
-          conditionOperatorFromString('equal'),
-          ConditionOperator.equal,
-        );
-        expect(
-          conditionOperatorFromString('Equal'),
-          ConditionOperator.equal,
-        );
+        expect(conditionOperatorFromString('equal'), ConditionOperator.equal);
+        expect(conditionOperatorFromString('Equal'), ConditionOperator.equal);
         expect(
           conditionOperatorFromString('greater_equal'),
           ConditionOperator.greaterEqual,
@@ -299,10 +282,7 @@ void main() {
       });
 
       test('converts greater to GREATER', () {
-        expect(
-          conditionOperatorToString(ConditionOperator.greater),
-          'GREATER',
-        );
+        expect(conditionOperatorToString(ConditionOperator.greater), 'GREATER');
       });
 
       test('converts notEqual to NOT_EQUAL', () {

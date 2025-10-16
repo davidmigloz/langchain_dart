@@ -25,15 +25,11 @@ class CachedContentsResource extends ResourceBase {
   /// cache expiration (default TTL is 1 hour, max 24 hours).
   ///
   /// Returns the created [CachedContent] with its resource name.
-  Future<CachedContent> create({
-    required CachedContent cachedContent,
-  }) async {
+  Future<CachedContent> create({required CachedContent cachedContent}) async {
     final url = requestBuilder.buildUrl('/{version}/cachedContents');
 
     final headers = requestBuilder.buildHeaders(
-      additionalHeaders: {
-        'Content-Type': 'application/json',
-      },
+      additionalHeaders: {'Content-Type': 'application/json'},
     );
 
     final httpRequest = http.Request('POST', url)
@@ -52,9 +48,7 @@ class CachedContentsResource extends ResourceBase {
   /// (e.g., "cachedContents/abc123").
   ///
   /// Returns the [CachedContent] with its current metadata.
-  Future<CachedContent> get({
-    required String name,
-  }) async {
+  Future<CachedContent> get({required String name}) async {
     final url = requestBuilder.buildUrl('/{version}/$name');
 
     final headers = requestBuilder.buildHeaders();
@@ -119,9 +113,7 @@ class CachedContentsResource extends ResourceBase {
     );
 
     final headers = requestBuilder.buildHeaders(
-      additionalHeaders: {
-        'Content-Type': 'application/json',
-      },
+      additionalHeaders: {'Content-Type': 'application/json'},
     );
 
     final httpRequest = http.Request('PATCH', url)
@@ -138,9 +130,7 @@ class CachedContentsResource extends ResourceBase {
   ///
   /// The [name] is the resource name of the cached content to delete
   /// (e.g., "cachedContents/abc123").
-  Future<void> delete({
-    required String name,
-  }) async {
+  Future<void> delete({required String name}) async {
     final url = requestBuilder.buildUrl('/{version}/$name');
 
     final headers = requestBuilder.buildHeaders();

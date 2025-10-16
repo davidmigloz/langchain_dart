@@ -6,10 +6,7 @@ import 'popup/pop_up_screen.dart';
 import 'settings/settings_repository.dart';
 
 class App extends StatelessWidget {
-  const App({
-    super.key,
-    required this.settingsRepository,
-  });
+  const App({super.key, required this.settingsRepository});
 
   final SettingsRepository settingsRepository;
 

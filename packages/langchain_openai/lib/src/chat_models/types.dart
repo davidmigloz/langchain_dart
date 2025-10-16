@@ -415,9 +415,7 @@ class ChatOpenAIResponseFormatJsonObject extends ChatOpenAIResponseFormat {
 @immutable
 class ChatOpenAIResponseFormatJsonSchema extends ChatOpenAIResponseFormat {
   /// {@macro chat_openai_response_format_json_schema}
-  const ChatOpenAIResponseFormatJsonSchema({
-    required this.jsonSchema,
-  });
+  const ChatOpenAIResponseFormatJsonSchema({required this.jsonSchema});
 
   /// The JSON schema that the model must adhere to.
   final ChatOpenAIJsonSchema jsonSchema;

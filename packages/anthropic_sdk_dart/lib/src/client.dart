@@ -75,18 +75,14 @@ class AnthropicClient extends g.AnthropicClient {
       requestType: 'application/json',
       responseType: 'application/json',
       body: request.copyWith(stream: true),
-      headerParams: {
-        if (apiKey.isNotEmpty) 'x-api-key': apiKey,
-      },
+      headerParams: {if (apiKey.isNotEmpty) 'x-api-key': apiKey},
     );
     yield* r.stream
         .transform(const _AnthropicStreamTransformer()) //
-        .map(
-          (final d) {
-            final j = json.decode(d) as Map<String, dynamic>;
-            return MessageStreamEvent.fromJson(j);
-          },
-        );
+        .map((final d) {
+          final j = json.decode(d) as Map<String, dynamic>;
+          return MessageStreamEvent.fromJson(j);
+        });
   }
 }
 

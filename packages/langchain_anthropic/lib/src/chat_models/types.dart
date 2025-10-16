@@ -28,9 +28,8 @@ sealed class ChatAnthropicThinking {
   /// - [budgetTokens]: Maximum tokens for internal reasoning (minimum 1024).
   ///   Must be less than the model's max_tokens. Larger budgets enable
   ///   more comprehensive reasoning.
-  const factory ChatAnthropicThinking.enabled({
-    required int budgetTokens,
-  }) = ChatAnthropicThinkingEnabled;
+  const factory ChatAnthropicThinking.enabled({required int budgetTokens}) =
+      ChatAnthropicThinkingEnabled;
 
   /// Disable extended thinking.
   const factory ChatAnthropicThinking.disabled() =

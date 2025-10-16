@@ -20,9 +20,7 @@ Future<void> _example1() async {
     apiKey: openAiApiKey,
     defaultOptions: const ChatAnthropicOptions(temperature: 1),
   );
-  final ChatResult res = await llm.invoke(
-    PromptValue.string('Tell me a joke'),
-  );
+  final ChatResult res = await llm.invoke(PromptValue.string('Tell me a joke'));
   print(res);
 }
 

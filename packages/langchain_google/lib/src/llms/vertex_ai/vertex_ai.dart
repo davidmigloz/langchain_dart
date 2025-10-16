@@ -124,9 +124,7 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
     required final HttpClientAuthProvider authProvider,
     required final String project,
     final String location = 'us-central1',
-    super.defaultOptions = const VertexAIOptions(
-      model: defaultModel,
-    ),
+    super.defaultOptions = const VertexAIOptions(model: defaultModel),
   }) : _currentModel = defaultOptions.model ?? defaultModel {
     _googleAiClient = g.GoogleAIClient(
       config: g.GoogleAIConfig.vertexAI(
@@ -189,10 +187,7 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
       options: options,
     );
     return _googleAiClient.models
-        .streamGenerateContent(
-          model: _currentModel,
-          request: request,
-        )
+        .streamGenerateContent(model: _currentModel, request: request)
         .map((final response) => response.toLLMResult(id, _currentModel));
   }
 
@@ -238,9 +233,7 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
 
     return g.GenerateContentRequest(
       contents: [
-        g.Content(
-          parts: [g.TextPart(prompt)],
-        ),
+        g.Content(parts: [g.TextPart(prompt)]),
       ],
       generationConfig: g.GenerationConfig(
         temperature: mergedOptions.temperature,

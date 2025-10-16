@@ -33,30 +33,29 @@ import 'qa_with_structure.dart';
 /// {@endtemplate}
 class OpenAIQAWithSourcesChain extends OpenAIQAWithStructureChain {
   /// {@macro openai_qa_with_sources_chain}
-  OpenAIQAWithSourcesChain({
-    required super.llm,
-  }) : super(
-         tool: const ToolSpec(
-           name: 'answer_with_sources',
-           description: 'Answers a question with the sources used to answer it',
-           inputJsonSchema: {
-             'type': 'object',
-             'properties': {
-               'answer': {
-                 'type': 'string',
-                 'description': 'The answer to the question being asked',
-               },
-               'sources': {
-                 'type': 'array',
-                 'items': {'type': 'string'},
-                 'description': 'The sources used to answer the question',
-               },
-             },
-             'required': ['answer', 'sources'],
-           },
-         ),
-         outputParser: QAWithSourcesOutputParser(),
-       );
+  OpenAIQAWithSourcesChain({required super.llm})
+    : super(
+        tool: const ToolSpec(
+          name: 'answer_with_sources',
+          description: 'Answers a question with the sources used to answer it',
+          inputJsonSchema: {
+            'type': 'object',
+            'properties': {
+              'answer': {
+                'type': 'string',
+                'description': 'The answer to the question being asked',
+              },
+              'sources': {
+                'type': 'array',
+                'items': {'type': 'string'},
+                'description': 'The sources used to answer the question',
+              },
+            },
+            'required': ['answer', 'sources'],
+          },
+        ),
+        outputParser: QAWithSourcesOutputParser(),
+      );
 }
 
 /// {@template qa_with_sources}
@@ -64,10 +63,7 @@ class OpenAIQAWithSourcesChain extends OpenAIQAWithStructureChain {
 /// {@endtemplate}
 class QAWithSources {
   /// {@macro qa_with_sources}
-  const QAWithSources({
-    required this.answer,
-    required this.sources,
-  });
+  const QAWithSources({required this.answer, required this.sources});
 
   /// The answer to the question.
   final String answer;
@@ -95,9 +91,7 @@ class QAWithSourcesOutputParser
   /// {@macro qa_with_sources_output_parser}
   QAWithSourcesOutputParser()
     : _toolsOutputParser = ToolsOutputParser(),
-      super(
-        defaultOptions: const OutputParserOptions(),
-      );
+      super(defaultOptions: const OutputParserOptions());
 
   final ToolsOutputParser _toolsOutputParser;
 

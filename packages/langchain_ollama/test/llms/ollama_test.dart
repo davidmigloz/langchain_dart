@@ -14,10 +14,7 @@ void main() {
 
     setUp(() {
       llm = Ollama(
-        defaultOptions: const OllamaOptions(
-          model: defaultModel,
-          keepAlive: 1,
-        ),
+        defaultOptions: const OllamaOptions(model: defaultModel, keepAlive: 1),
       );
     });
 
@@ -107,9 +104,7 @@ void main() {
     });
 
     test('Test invoke to Ollama', () async {
-      final res = await llm.invoke(
-        PromptValue.string('Hello, how are you?'),
-      );
+      final res = await llm.invoke(PromptValue.string('Hello, how are you?'));
       expect(res.output, isNotEmpty);
     });
 
@@ -140,10 +135,7 @@ void main() {
       const query = 'write an ordered list of five items';
       final res = await llm(
         query,
-        options: const OllamaOptions(
-          temperature: 0,
-          stop: ['3'],
-        ),
+        options: const OllamaOptions(temperature: 0, stop: ['3']),
       );
       expect(res.contains('2.'), isTrue);
       expect(res.contains('3.'), isFalse);
@@ -234,15 +226,9 @@ List the numbers from 1 to 9 in order. Output ONLY the numbers on one line witho
       );
       const options = OllamaOptions(seed: 9999);
 
-      final res1 = await llm.invoke(
-        prompt,
-        options: options,
-      );
+      final res1 = await llm.invoke(prompt, options: options);
 
-      final res2 = await llm.invoke(
-        prompt,
-        options: options,
-      );
+      final res2 = await llm.invoke(prompt, options: options);
 
       expect(res1.output, res2.output);
     });

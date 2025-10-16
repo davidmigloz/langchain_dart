@@ -39,11 +39,7 @@ abstract class ImageBlockSource with _$ImageBlockSource {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'data': data,
-      'media_type': mediaType,
-      'type': type,
-    };
+    return {'data': data, 'media_type': mediaType, 'type': type};
   }
 }
 

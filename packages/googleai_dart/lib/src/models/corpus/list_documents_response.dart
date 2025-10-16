@@ -6,10 +6,7 @@ import 'document.dart';
 /// Results are sorted by ascending document.create_time.
 class ListDocumentsResponse {
   /// Creates a new [ListDocumentsResponse] instance.
-  const ListDocumentsResponse({
-    this.documents,
-    this.nextPageToken,
-  });
+  const ListDocumentsResponse({this.documents, this.nextPageToken});
 
   /// The returned Documents.
   final List<Document>? documents;

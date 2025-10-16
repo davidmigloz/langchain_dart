@@ -43,10 +43,7 @@ void main() {
 
       await memory.saveContext(
         inputValues: {
-          'foo': ChatMessage.tool(
-            toolCallId: 'foo',
-            content: 'bar',
-          ),
+          'foo': ChatMessage.tool(toolCallId: 'foo', content: 'bar'),
         },
         outputValues: {'bar': ChatMessage.ai('baz')},
       );
@@ -135,10 +132,7 @@ void main() {
       // expect throws exception if no input keys are selected
       expect(
         () async => memory.saveContext(
-          inputValues: {
-            'foo1': 'bar1',
-            'foo2': 'bar2',
-          },
+          inputValues: {'foo1': 'bar1', 'foo2': 'bar2'},
           outputValues: {'bar': 'foo'},
         ),
         throwsException,

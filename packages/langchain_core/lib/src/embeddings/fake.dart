@@ -15,10 +15,7 @@ import 'base.dart';
 /// {@endtemplate}
 class FakeEmbeddings implements Embeddings {
   /// {@macro fake_embeddings}
-  FakeEmbeddings({
-    this.size = 10,
-    this.deterministic = true,
-  });
+  FakeEmbeddings({this.size = 10, this.deterministic = true});
 
   /// The size of the embedding vector.
   final int size;

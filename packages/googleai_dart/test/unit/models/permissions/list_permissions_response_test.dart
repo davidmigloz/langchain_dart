@@ -42,9 +42,7 @@ void main() {
       });
 
       test('creates response with empty permissions list', () {
-        final json = {
-          'permissions': <Map<String, dynamic>>[],
-        };
+        final json = {'permissions': <Map<String, dynamic>>[]};
 
         final response = ListPermissionsResponse.fromJson(json);
 
@@ -115,10 +113,7 @@ void main() {
       test('omits null fields from JSON', () {
         const response = ListPermissionsResponse(
           permissions: [
-            Permission(
-              name: 'test/permissions/1',
-              role: PermissionRole.owner,
-            ),
+            Permission(name: 'test/permissions/1', role: PermissionRole.owner),
           ],
         );
 

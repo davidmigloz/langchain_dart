@@ -17,10 +17,7 @@ class EmbedContentBatchOutput {
   final InlinedEmbedContentResponses? inlinedResponses;
 
   /// Creates an [EmbedContentBatchOutput].
-  const EmbedContentBatchOutput({
-    this.responsesFile,
-    this.inlinedResponses,
-  });
+  const EmbedContentBatchOutput({this.responsesFile, this.inlinedResponses});
 
   /// Creates an [EmbedContentBatchOutput] from JSON.
   factory EmbedContentBatchOutput.fromJson(Map<String, dynamic> json) =>

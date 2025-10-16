@@ -6,9 +6,7 @@ class CachedContentUsageMetadata {
   final int? totalTokenCount;
 
   /// Creates a [CachedContentUsageMetadata].
-  const CachedContentUsageMetadata({
-    this.totalTokenCount,
-  });
+  const CachedContentUsageMetadata({this.totalTokenCount});
 
   /// Creates a [CachedContentUsageMetadata] from JSON.
   factory CachedContentUsageMetadata.fromJson(Map<String, dynamic> json) =>

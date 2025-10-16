@@ -7,9 +7,7 @@ class InlinedResponses {
   final List<InlinedResponse>? inlinedResponses;
 
   /// Creates an [InlinedResponses].
-  const InlinedResponses({
-    this.inlinedResponses,
-  });
+  const InlinedResponses({this.inlinedResponses});
 
   /// Creates an [InlinedResponses] from JSON.
   factory InlinedResponses.fromJson(Map<String, dynamic> json) =>
@@ -30,9 +28,7 @@ class InlinedResponses {
   };
 
   /// Creates a copy with replaced values.
-  InlinedResponses copyWith({
-    Object? inlinedResponses = unsetCopyWithValue,
-  }) {
+  InlinedResponses copyWith({Object? inlinedResponses = unsetCopyWithValue}) {
     return InlinedResponses(
       inlinedResponses: inlinedResponses == unsetCopyWithValue
           ? this.inlinedResponses

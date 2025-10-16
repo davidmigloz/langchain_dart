@@ -348,14 +348,12 @@ sealed class ThreadAndRunModel with _$ThreadAndRunModel {
   const ThreadAndRunModel._();
 
   /// Available models. Mind that the list may not be exhaustive nor up-to-date.
-  const factory ThreadAndRunModel.model(
-    ThreadAndRunModels value,
-  ) = ThreadAndRunModelEnumeration;
+  const factory ThreadAndRunModel.model(ThreadAndRunModels value) =
+      ThreadAndRunModelEnumeration;
 
   /// The ID of the model to use for this request.
-  const factory ThreadAndRunModel.modelId(
-    String value,
-  ) = ThreadAndRunModelString;
+  const factory ThreadAndRunModel.modelId(String value) =
+      ThreadAndRunModelString;
 
   /// Object construction from a JSON representation
   factory ThreadAndRunModel.fromJson(Map<String, dynamic> json) =>
@@ -382,9 +380,7 @@ class _ThreadAndRunModelConverter
     if (data is String) {
       return ThreadAndRunModelString(data);
     }
-    throw Exception(
-      'Unexpected value for ThreadAndRunModel: $data',
-    );
+    throw Exception('Unexpected value for ThreadAndRunModel: $data');
   }
 
   @override

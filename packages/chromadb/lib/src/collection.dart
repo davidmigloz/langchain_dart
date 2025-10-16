@@ -61,20 +61,8 @@ class Collection {
     final List<String>? images,
     final List<String>? uris,
   }) async {
-    final (
-      idsList,
-      embeddingsList,
-      metadatasList,
-      documentsList,
-      urisList,
-    ) = await _validate(
-      ids,
-      embeddings,
-      metadatas,
-      documents,
-      images,
-      uris,
-    );
+    final (idsList, embeddingsList, metadatasList, documentsList, urisList) =
+        await _validate(ids, embeddings, metadatas, documents, images, uris);
 
     await _api.add(
       collectionId: id,
@@ -148,20 +136,8 @@ class Collection {
     final List<String>? images,
     final List<String>? uris,
   }) async {
-    final (
-      idsList,
-      embeddingsList,
-      metadatasList,
-      documentsList,
-      urisList,
-    ) = await _validate(
-      ids,
-      embeddings,
-      metadatas,
-      documents,
-      images,
-      uris,
-    );
+    final (idsList, embeddingsList, metadatasList, documentsList, urisList) =
+        await _validate(ids, embeddings, metadatas, documents, images, uris);
 
     await _api.upsert(
       collectionId: id,
@@ -366,10 +342,7 @@ class Collection {
   }) async {
     await _api.updateCollection(
       collectionId: id,
-      request: UpdateCollection(
-        newName: name,
-        newMetadata: metadata,
-      ),
+      request: UpdateCollection(newName: name, newMetadata: metadata),
     );
   }
 
@@ -452,9 +425,7 @@ class Collection {
     final uniqueIds = ids.toSet();
     if (uniqueIds.length != ids.length) {
       final duplicateIds = ids
-          .where(
-            (final id1) => ids.where((final id2) => id1 == id2).length > 1,
-          )
+          .where((final id1) => ids.where((final id2) => id1 == id2).length > 1)
           .toSet();
       throw ArgumentError(
         'Expected IDs to be unique, found duplicates for: $duplicateIds',

@@ -148,14 +148,11 @@ sealed class FineTuningModel with _$FineTuningModel {
   const FineTuningModel._();
 
   /// Available fine-tuning models. Mind that the list may not be exhaustive nor up-to-date.
-  const factory FineTuningModel.model(
-    FineTuningModels value,
-  ) = FineTuningModelEnumeration;
+  const factory FineTuningModel.model(FineTuningModels value) =
+      FineTuningModelEnumeration;
 
   /// The ID of the model to use for this request.
-  const factory FineTuningModel.modelId(
-    String value,
-  ) = FineTuningModelString;
+  const factory FineTuningModel.modelId(String value) = FineTuningModelString;
 
   /// Object construction from a JSON representation
   factory FineTuningModel.fromJson(Map<String, dynamic> json) =>
@@ -179,9 +176,7 @@ class _FineTuningModelConverter
     if (data is String) {
       return FineTuningModelString(data);
     }
-    throw Exception(
-      'Unexpected value for FineTuningModel: $data',
-    );
+    throw Exception('Unexpected value for FineTuningModel: $data');
   }
 
   @override

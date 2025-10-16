@@ -25,28 +25,20 @@ void main() {
 
         final Set<String> expectedFiles = directory
             .listSync()
-            .where(
-              (entity) {
-                return entity is File &&
-                    RegExp(r'\.(txt|json|csv|tsv)$').hasMatch(entity.path);
-              },
-            )
+            .where((entity) {
+              return entity is File &&
+                  RegExp(r'\.(txt|json|csv|tsv)$').hasMatch(entity.path);
+            })
             .map((file) => file.path)
             .toSet();
 
-        expect(
-          processedFiles,
-          equals(expectedFiles),
-        );
+        expect(processedFiles, equals(expectedFiles));
 
         final textDocs = docs
             .where((doc) => doc.metadata['name'] == 'example.txt')
             .toList();
 
-        expect(
-          textDocs.length,
-          greaterThanOrEqualTo(1),
-        );
+        expect(textDocs.length, greaterThanOrEqualTo(1));
 
         expect(
           textDocs.any((doc) => doc.pageContent.contains('Foo\nBar\nBaz\n')),
@@ -58,10 +50,7 @@ void main() {
             .where((doc) => doc.metadata['name'] == 'example_2.json')
             .toList();
 
-        expect(
-          jsonDocs.length,
-          greaterThanOrEqualTo(1),
-        );
+        expect(jsonDocs.length, greaterThanOrEqualTo(1));
 
         expect(
           jsonDocs.any(
@@ -79,9 +68,7 @@ void main() {
       final loader = DirectoryLoader(
         filePath,
         glob: '*.json',
-        loaderMap: {
-          '.json': (path) => JsonLoader(path, jpSchema: r'$..text'),
-        },
+        loaderMap: {'.json': (path) => JsonLoader(path, jpSchema: r'$..text')},
       );
 
       expect(
@@ -116,10 +103,7 @@ void main() {
         filePath,
         glob: '*.txt',
         metadataBuilder: (file, defaultMetadata) {
-          return {
-            ...defaultMetadata,
-            'custom_info': 'custom_value',
-          };
+          return {...defaultMetadata, 'custom_info': 'custom_value'};
         },
       );
 
@@ -151,10 +135,7 @@ void main() {
       final tempDir = await Directory.systemTemp.createTemp('empty_test_dir');
 
       try {
-        final loader = DirectoryLoader(
-          tempDir.path,
-          glob: '*.txt',
-        );
+        final loader = DirectoryLoader(tempDir.path, glob: '*.txt');
 
         final loadedDocs = await loader.load();
 

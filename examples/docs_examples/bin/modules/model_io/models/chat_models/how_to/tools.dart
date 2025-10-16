@@ -21,10 +21,7 @@ Future<void> _definingTools() async {
     inputJsonSchema: {
       'type': 'object',
       'properties': {
-        'setup': {
-          'type': 'string',
-          'description': 'The setup for the joke',
-        },
+        'setup': {'type': 'string', 'description': 'The setup for the joke'},
         'punchline': {
           'type': 'string',
           'description': 'The punchline for the joke',
@@ -40,10 +37,7 @@ Future<void> _definingTools() async {
     inputJsonSchema: const {
       'type': 'object',
       'properties': {
-        'query': {
-          'type': 'string',
-          'description': 'The query to search for',
-        },
+        'query': {'type': 'string', 'description': 'The query to search for'},
         'n': {
           'type': 'number',
           'description': 'The number of results to return',
@@ -57,28 +51,18 @@ Future<void> _definingTools() async {
 
   final model = ChatOpenAI(
     apiKey: openaiApiKey,
-    defaultOptions: ChatOpenAIOptions(
-      tools: [tool1, tool2, tool3],
-    ),
+    defaultOptions: ChatOpenAIOptions(tools: [tool1, tool2, tool3]),
   );
 
-  final chain = model.bind(
-    ChatOpenAIOptions(
-      tools: [tool1, tool2, tool3],
-    ),
-  );
+  final chain = model.bind(ChatOpenAIOptions(tools: [tool1, tool2, tool3]));
 
   final res = await model.invoke(
     PromptValue.string('input'),
-    options: ChatOpenAIOptions(
-      tools: [tool1, tool2, tool3],
-    ),
+    options: ChatOpenAIOptions(tools: [tool1, tool2, tool3]),
   );
   final stream = model.stream(
     PromptValue.string('input'),
-    options: ChatOpenAIOptions(
-      tools: [tool1, tool2, tool3],
-    ),
+    options: ChatOpenAIOptions(tools: [tool1, tool2, tool3]),
   );
 
   ChatOpenAIOptions(
@@ -100,19 +84,13 @@ String callYourSearchFunction(final SearchInput input) {
 }
 
 class SearchInput {
-  const SearchInput({
-    required this.query,
-    required this.n,
-  });
+  const SearchInput({required this.query, required this.n});
 
   final String query;
   final int n;
 
   SearchInput.fromJson(final Map<String, dynamic> json)
-    : this(
-        query: json['query'] as String,
-        n: json['n'] as int,
-      );
+    : this(query: json['query'] as String, n: json['n'] as int);
 }
 
 Future<void> _toolResponse() async {
@@ -233,13 +211,9 @@ Future<void> _toolMessage() async {
     ),
   );
 
-  final messages = [
-    ChatMessage.humanText('Calculate 3 * 12 and 11 + 49'),
-  ];
+  final messages = [ChatMessage.humanText('Calculate 3 * 12 and 11 + 49')];
 
-  final res = await model.invoke(
-    PromptValue.chat(messages),
-  );
+  final res = await model.invoke(PromptValue.chat(messages));
   print(res);
   // ChatResult{
   //   id: chatcmpl-9LYl0AecfrQClqOS4PNfczOvsBNvt,
@@ -290,9 +264,7 @@ Future<void> _toolMessage() async {
     messages.add(toolMessage);
   }
 
-  final res2 = await model.invoke(
-    PromptValue.chat(messages),
-  );
+  final res2 = await model.invoke(PromptValue.chat(messages));
   print(res2.output.content);
   // The calculations yield the following results:
   // - 3 * 12 = 36

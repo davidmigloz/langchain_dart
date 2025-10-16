@@ -6,10 +6,7 @@ import 'corpus.dart';
 /// Results are sorted by ascending corpus.create_time.
 class ListCorporaResponse {
   /// Creates a new [ListCorporaResponse] instance.
-  const ListCorporaResponse({
-    this.corpora,
-    this.nextPageToken,
-  });
+  const ListCorporaResponse({this.corpora, this.nextPageToken});
 
   /// The returned corpora.
   final List<Corpus>? corpora;

@@ -11,9 +11,7 @@ void main() {
     late OpenAIClient client;
 
     setUp(() {
-      client = OpenAIClient(
-        apiKey: Platform.environment['OPENAI_API_KEY'],
-      );
+      client = OpenAIClient(apiKey: Platform.environment['OPENAI_API_KEY']);
     });
 
     tearDown(() {
@@ -21,9 +19,7 @@ void main() {
     });
 
     test('Test call completions API', () async {
-      final models = [
-        CompletionModels.gpt35TurboInstruct,
-      ];
+      final models = [CompletionModels.gpt35TurboInstruct];
 
       for (final model in models) {
         final request = CreateCompletionRequest(
@@ -37,10 +33,7 @@ void main() {
         final res = await client.createCompletion(request: request);
         expect(res.choices, hasLength(1));
         expect(res.choices.first.text.trim(), contains('123456789'));
-        expect(
-          res.choices.first.finishReason,
-          CompletionFinishReason.stop,
-        );
+        expect(res.choices.first.finishReason, CompletionFinishReason.stop);
         expect(res.id, isNotEmpty);
         expect(
           res.model.replaceAll(RegExp('[-.:]'), '').toLowerCase(),
@@ -67,10 +60,7 @@ void main() {
       expect(res.choices, hasLength(1));
       expect(res.choices.first.text.trim(), contains('123'));
       expect(res.choices.first.text.trim(), isNot(contains('456789')));
-      expect(
-        res.choices.first.finishReason,
-        CompletionFinishReason.stop,
-      );
+      expect(res.choices.first.finishReason, CompletionFinishReason.stop);
     });
 
     test('Test call completions API with max tokens', () async {
@@ -81,10 +71,7 @@ void main() {
       );
       final res = await client.createCompletion(request: request);
       expect(res.choices, isNotEmpty);
-      expect(
-        res.choices.first.finishReason,
-        CompletionFinishReason.length,
-      );
+      expect(res.choices.first.finishReason, CompletionFinishReason.length);
     });
 
     test('Test call completions API with suffix', () async {

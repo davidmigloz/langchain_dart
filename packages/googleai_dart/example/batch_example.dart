@@ -7,9 +7,7 @@ import 'package:googleai_dart/googleai_dart.dart';
 
 void main() async {
   final client = GoogleAIClient(
-    config: const GoogleAIConfig(
-      authProvider: ApiKeyProvider('YOUR_API_KEY'),
-    ),
+    config: const GoogleAIConfig(authProvider: ApiKeyProvider('YOUR_API_KEY')),
   );
 
   try {
@@ -28,10 +26,7 @@ void main() async {
               InlinedRequest(
                 request: GenerateContentRequest(
                   contents: [
-                    Content(
-                      parts: [TextPart('What is 2 + 2?')],
-                      role: 'user',
-                    ),
+                    Content(parts: [TextPart('What is 2 + 2?')], role: 'user'),
                   ],
                 ),
                 metadata: {'question_id': 'q1', 'difficulty': 'easy'},
@@ -39,10 +34,7 @@ void main() async {
               InlinedRequest(
                 request: GenerateContentRequest(
                   contents: [
-                    Content(
-                      parts: [TextPart('What is 15 * 7?')],
-                      role: 'user',
-                    ),
+                    Content(parts: [TextPart('What is 15 * 7?')], role: 'user'),
                   ],
                 ),
                 metadata: {'question_id': 'q2', 'difficulty': 'medium'},

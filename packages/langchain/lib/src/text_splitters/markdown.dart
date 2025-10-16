@@ -80,10 +80,8 @@ class MarkdownHeaderTextSplitter {
 
     return aggregatedChunks
         .map(
-          (chunk) => Document(
-            pageContent: chunk.content,
-            metadata: chunk.metadata,
-          ),
+          (chunk) =>
+              Document(pageContent: chunk.content, metadata: chunk.metadata),
         )
         .toList();
   }

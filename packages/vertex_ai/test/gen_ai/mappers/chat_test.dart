@@ -21,10 +21,7 @@ void main() {
           ),
         ],
         messages: [
-          VertexAITextChatModelMessage(
-            author: 'USER',
-            content: 'Hello',
-          ),
+          VertexAITextChatModelMessage(author: 'USER', content: 'Hello'),
         ],
         params: VertexAITextChatModelRequestParams(
           temperature: 0.1,
@@ -41,21 +38,12 @@ void main() {
             'context': 'CONTEXT',
             'examples': [
               {
-                'input': {
-                  'author': 'USER',
-                  'content': 'Hello',
-                },
-                'output': {
-                  'author': 'AI',
-                  'content': 'World',
-                },
+                'input': {'author': 'USER', 'content': 'Hello'},
+                'output': {'author': 'AI', 'content': 'World'},
               },
             ],
             'messages': [
-              {
-                'author': 'USER',
-                'content': 'Hello',
-              },
+              {'author': 'USER', 'content': 'Hello'},
             ],
           },
         ],
@@ -79,14 +67,8 @@ void main() {
         predictions: [
           {
             'candidates': [
-              {
-                'author': 'AI',
-                'content': 'Hello world!',
-              },
-              {
-                'author': 'AI',
-                'content': 'Hello world! v2',
-              },
+              {'author': 'AI', 'content': 'Hello world!'},
+              {'author': 'AI', 'content': 'Hello world! v2'},
             ],
             'citationMetadata': [
               {
@@ -155,13 +137,9 @@ void main() {
                 ],
               },
               {
-                'scores': [
-                  0.1,
-                ],
+                'scores': [0.1],
                 'blocked': false,
-                'categories': [
-                  'Derogatory',
-                ],
+                'categories': ['Derogatory'],
               },
             ],
           },
@@ -259,9 +237,7 @@ void main() {
                 categories: [
                   VertexAIPredictionSafetyAttributesCategory.derogatory,
                 ],
-                scores: [
-                  0.1,
-                ],
+                scores: [0.1],
                 blocked: false,
               ),
             ],

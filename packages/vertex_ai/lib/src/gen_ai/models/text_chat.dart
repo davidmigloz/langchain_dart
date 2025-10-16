@@ -356,10 +356,7 @@ class VertexAITextChatModelPrediction {
 @immutable
 class VertexAITextChatModelMessage {
   /// {@macro vertex_ai_text_chat_model_message}
-  const VertexAITextChatModelMessage({
-    this.author,
-    required this.content,
-  });
+  const VertexAITextChatModelMessage({this.author, required this.content});
 
   /// The author of this message. This serves as a key for tagging the content
   /// of this message when it is fed to the model as text.
@@ -380,10 +377,7 @@ class VertexAITextChatModelMessage {
 
   /// Converts this message to a JSON map.
   Map<String, dynamic> toMap() {
-    return {
-      'author': author,
-      'content': content,
-    };
+    return {'author': author, 'content': content};
   }
 
   @override
@@ -426,10 +420,7 @@ class VertexAITextChatModelExample {
 
   /// Converts this example to a JSON map.
   Map<String, dynamic> toMap() {
-    return {
-      'input': input.toMap(),
-      'output': output.toMap(),
-    };
+    return {'input': input.toMap(), 'output': output.toMap()};
   }
 
   @override
@@ -456,9 +447,7 @@ class VertexAITextChatModelExample {
 @immutable
 class VertexAITextChatModelResponseMetadata {
   /// {@macro vertex_ai_text_chat_model_response_metadata}
-  const VertexAITextChatModelResponseMetadata({
-    required this.token,
-  });
+  const VertexAITextChatModelResponseMetadata({required this.token});
 
   /// The token metadata for the response.
   final VertexAITextChatModelResponseMetadataToken token;

@@ -26,9 +26,7 @@ Map<String, dynamic> _$ToolDefinitionToJson(_ToolDefinition instance) =>
       if (instance.parameters case final value?) 'parameters': value,
     };
 
-const _$ToolTypeEnumMap = {
-  ToolType.function: 'function',
-};
+const _$ToolTypeEnumMap = {ToolType.function: 'function'};
 
 _ToolChoiceForced _$ToolChoiceForcedFromJson(Map<String, dynamic> json) =>
     _ToolChoiceForced(
@@ -104,9 +102,7 @@ Map<String, dynamic> _$TurnDetectionToJson(
   'create_response': instance.createResponse,
 };
 
-const _$TurnDetectionTypeEnumMap = {
-  TurnDetectionType.serverVad: 'server_vad',
-};
+const _$TurnDetectionTypeEnumMap = {TurnDetectionType.serverVad: 'server_vad'};
 
 _RateLimit _$RateLimitFromJson(Map<String, dynamic> json) => _RateLimit(
   name: $enumDecode(_$RateLimitNameEnumMap, json['name']),
@@ -241,10 +237,7 @@ Map<String, dynamic> _$ResponseConfigToJson(
     'input': value,
 };
 
-const _$ModalityEnumMap = {
-  Modality.text: 'text',
-  Modality.audio: 'audio',
-};
+const _$ModalityEnumMap = {Modality.text: 'text', Modality.audio: 'audio'};
 
 const _$VoiceEnumMap = {
   Voice.alloy: 'alloy',
@@ -306,10 +299,7 @@ _$ResponseConfigMaxResponseOutputTokensIntFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$ResponseConfigMaxResponseOutputTokensIntToJson(
   ResponseConfigMaxResponseOutputTokensInt instance,
-) => <String, dynamic>{
-  'value': instance.value,
-  'runtimeType': instance.$type,
-};
+) => <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};
 
 ResponseConfigMaxResponseOutputTokensString
 _$ResponseConfigMaxResponseOutputTokensStringFromJson(
@@ -321,10 +311,7 @@ _$ResponseConfigMaxResponseOutputTokensStringFromJson(
 
 Map<String, dynamic> _$ResponseConfigMaxResponseOutputTokensStringToJson(
   ResponseConfigMaxResponseOutputTokensString instance,
-) => <String, dynamic>{
-  'value': instance.value,
-  'runtimeType': instance.$type,
-};
+) => <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};
 
 ResponseConfigConversationEnumeration
 _$ResponseConfigConversationEnumerationFromJson(Map<String, dynamic> json) =>
@@ -354,10 +341,7 @@ ResponseConfigConversationString _$ResponseConfigConversationStringFromJson(
 
 Map<String, dynamic> _$ResponseConfigConversationStringToJson(
   ResponseConfigConversationString instance,
-) => <String, dynamic>{
-  'value': instance.value,
-  'runtimeType': instance.$type,
-};
+) => <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};
 
 _Usage _$UsageFromJson(Map<String, dynamic> json) => _Usage(
   totalTokens: (json['total_tokens'] as num?)?.toInt(),
@@ -532,10 +516,7 @@ SessionMaxResponseOutputTokensInt _$SessionMaxResponseOutputTokensIntFromJson(
 
 Map<String, dynamic> _$SessionMaxResponseOutputTokensIntToJson(
   SessionMaxResponseOutputTokensInt instance,
-) => <String, dynamic>{
-  'value': instance.value,
-  'runtimeType': instance.$type,
-};
+) => <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};
 
 SessionMaxResponseOutputTokensString
 _$SessionMaxResponseOutputTokensStringFromJson(Map<String, dynamic> json) =>
@@ -546,10 +527,7 @@ _$SessionMaxResponseOutputTokensStringFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$SessionMaxResponseOutputTokensStringToJson(
   SessionMaxResponseOutputTokensString instance,
-) => <String, dynamic>{
-  'value': instance.value,
-  'runtimeType': instance.$type,
-};
+) => <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};
 
 _SessionConfig _$SessionConfigFromJson(Map<String, dynamic> json) =>
     _SessionConfig(
@@ -686,10 +664,7 @@ _$SessionConfigMaxResponseOutputTokensIntFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$SessionConfigMaxResponseOutputTokensIntToJson(
   SessionConfigMaxResponseOutputTokensInt instance,
-) => <String, dynamic>{
-  'value': instance.value,
-  'runtimeType': instance.$type,
-};
+) => <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};
 
 SessionConfigMaxResponseOutputTokensString
 _$SessionConfigMaxResponseOutputTokensStringFromJson(
@@ -701,10 +676,7 @@ _$SessionConfigMaxResponseOutputTokensStringFromJson(
 
 Map<String, dynamic> _$SessionConfigMaxResponseOutputTokensStringToJson(
   SessionConfigMaxResponseOutputTokensString instance,
-) => <String, dynamic>{
-  'value': instance.value,
-  'runtimeType': instance.$type,
-};
+) => <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};
 
 _Conversation _$ConversationFromJson(Map<String, dynamic> json) =>
     _Conversation(
@@ -828,14 +800,10 @@ Map<String, dynamic> _$ItemSpeechToJson(_ItemSpeech instance) =>
     };
 
 _ItemTranscript _$ItemTranscriptFromJson(Map<String, dynamic> json) =>
-    _ItemTranscript(
-      transcript: json['transcript'] as String,
-    );
+    _ItemTranscript(transcript: json['transcript'] as String);
 
 Map<String, dynamic> _$ItemTranscriptToJson(_ItemTranscript instance) =>
-    <String, dynamic>{
-      'transcript': instance.transcript,
-    };
+    <String, dynamic>{'transcript': instance.transcript};
 
 _EventHandlerResult _$EventHandlerResultFromJson(Map<String, dynamic> json) =>
     _EventHandlerResult(

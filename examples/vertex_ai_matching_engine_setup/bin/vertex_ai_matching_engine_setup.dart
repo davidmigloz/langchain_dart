@@ -33,10 +33,10 @@ void main(final List<String> arguments) async {
   final serviceAccountCredentials = ServiceAccountCredentials.fromJson(
     json.decode(Platform.environment['VERTEX_AI_SERVICE_ACCOUNT']!),
   );
-  final authClient = await clientViaServiceAccount(
-    serviceAccountCredentials,
-    [VertexAIGenAIClient.cloudPlatformScope, ...Storage.SCOPES],
-  );
+  final authClient = await clientViaServiceAccount(serviceAccountCredentials, [
+    VertexAIGenAIClient.cloudPlatformScope,
+    ...Storage.SCOPES,
+  ]);
 
   // Get Vertex AI client
   print('\n> Creating client...');

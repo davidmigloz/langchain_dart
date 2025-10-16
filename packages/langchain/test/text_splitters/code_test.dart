@@ -46,12 +46,7 @@ void main() {
 ''';
       final chunks = splitter.splitText(code);
 
-      expect(chunks, [
-        'void main() {',
-        'print("Hello,',
-        'World!");',
-        '}',
-      ]);
+      expect(chunks, ['void main() {', 'print("Hello,', 'World!");', '}']);
     });
 
     test('Test Golang code', () {
@@ -461,13 +456,7 @@ fn main() {
 }''';
       final chunks = splitter.splitText(code);
 
-      expect(chunks, [
-        'fn main() {',
-        'println!("Hello',
-        ',',
-        'World!");',
-        '}',
-      ]);
+      expect(chunks, ['fn main() {', 'println!("Hello', ',', 'World!");', '}']);
     });
 
     test('Test Scala code splitter', () {

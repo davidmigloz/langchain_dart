@@ -130,10 +130,7 @@ class MemoryVectorStore extends VectorStore {
     memoryVectors.addAll(
       vectors.mapIndexed((final i, final vector) {
         final doc = documents[i];
-        return MemoryVector(
-          document: doc,
-          embedding: vector,
-        );
+        return MemoryVector(document: doc, embedding: vector);
       }),
     );
     return const [];
@@ -166,10 +163,8 @@ class MemoryVectorStore extends VectorStore {
 
     var searches = entries
         .map(
-          (final entry) => (
-            entry.document,
-            similarityFunction(embedding, entry.embedding),
-          ),
+          (final entry) =>
+              (entry.document, similarityFunction(embedding, entry.embedding)),
         )
         .sorted((final a, final b) => (a.$2 > b.$2 ? -1 : 1))
         .take(config.k);
@@ -190,10 +185,7 @@ class MemoryVectorStore extends VectorStore {
 @immutable
 class MemoryVector {
   /// {@macro memory_vector}
-  const MemoryVector({
-    required this.document,
-    required this.embedding,
-  });
+  const MemoryVector({required this.document, required this.embedding});
 
   /// Document associated with the vector.
   final Document document;
@@ -211,10 +203,7 @@ class MemoryVector {
 
   /// Converts the vector to a map.
   Map<String, dynamic> toMap() {
-    return {
-      'document': document.toMap(),
-      'embedding': embedding,
-    };
+    return {'document': document.toMap(), 'embedding': embedding};
   }
 
   @override

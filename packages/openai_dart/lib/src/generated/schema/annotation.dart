@@ -36,10 +36,7 @@ abstract class Annotation with _$Annotation {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'type': type,
-      'url_citation': urlCitation,
-    };
+    return {'type': type, 'url_citation': urlCitation};
   }
 }
 

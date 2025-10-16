@@ -33,8 +33,6 @@ abstract class ItemTranscript with _$ItemTranscript {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'transcript': transcript,
-    };
+    return {'transcript': transcript};
   }
 }

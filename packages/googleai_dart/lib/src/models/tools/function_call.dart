@@ -9,10 +9,7 @@ class FunctionCall {
   final Map<String, dynamic>? args;
 
   /// Creates a [FunctionCall].
-  const FunctionCall({
-    required this.name,
-    this.args,
-  });
+  const FunctionCall({required this.name, this.args});
 
   /// Creates a [FunctionCall] from JSON.
   factory FunctionCall.fromJson(Map<String, dynamic> json) => FunctionCall(

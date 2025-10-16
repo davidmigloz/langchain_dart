@@ -178,9 +178,7 @@ class _ResponseConfigToolChoiceConverter
         );
       } catch (e) {}
     }
-    throw Exception(
-      'Unexpected value for ResponseConfigToolChoice: $data',
-    );
+    throw Exception('Unexpected value for ResponseConfigToolChoice: $data');
   }
 
   @override
@@ -205,14 +203,12 @@ sealed class ResponseConfigMaxResponseOutputTokens
   const ResponseConfigMaxResponseOutputTokens._();
 
   /// Provide an integer between 1 and 4096 to limit output tokens.
-  const factory ResponseConfigMaxResponseOutputTokens.int(
-    int value,
-  ) = ResponseConfigMaxResponseOutputTokensInt;
+  const factory ResponseConfigMaxResponseOutputTokens.int(int value) =
+      ResponseConfigMaxResponseOutputTokensInt;
 
   /// Use inf for the maximum available tokens for a given model.
-  const factory ResponseConfigMaxResponseOutputTokens.string(
-    String value,
-  ) = ResponseConfigMaxResponseOutputTokensString;
+  const factory ResponseConfigMaxResponseOutputTokens.string(String value) =
+      ResponseConfigMaxResponseOutputTokensString;
 
   /// Object construction from a JSON representation
   factory ResponseConfigMaxResponseOutputTokens.fromJson(
@@ -282,9 +278,8 @@ sealed class ResponseConfigConversation with _$ResponseConfigConversation {
   ) = ResponseConfigConversationEnumeration;
 
   /// No Description
-  const factory ResponseConfigConversation.string(
-    String value,
-  ) = ResponseConfigConversationString;
+  const factory ResponseConfigConversation.string(String value) =
+      ResponseConfigConversationString;
 
   /// Object construction from a JSON representation
   factory ResponseConfigConversation.fromJson(Map<String, dynamic> json) =>
@@ -312,9 +307,7 @@ class _ResponseConfigConversationConverter
     if (data is String) {
       return ResponseConfigConversationString(data);
     }
-    throw Exception(
-      'Unexpected value for ResponseConfigConversation: $data',
-    );
+    throw Exception('Unexpected value for ResponseConfigConversation: $data');
   }
 
   @override

@@ -20,10 +20,7 @@ import 'package:langchain_core/documents.dart';
 /// {@endtemplate}
 class WebBaseLoader extends BaseDocumentLoader {
   /// {@macro web_base_loader}
-  const WebBaseLoader(
-    this.urls, {
-    this.requestHeaders,
-  });
+  const WebBaseLoader(this.urls, {this.requestHeaders});
 
   /// The URLs to the web pages to load.
   final List<String> urls;
@@ -50,10 +47,7 @@ class WebBaseLoader extends BaseDocumentLoader {
     body.findAll('style').forEach((final element) => element.extract());
     body.findAll('script').forEach((final element) => element.extract());
     final content = body.getText(strip: true);
-    return Document(
-      pageContent: content,
-      metadata: _buildMetadata(url, soup),
-    );
+    return Document(pageContent: content, metadata: _buildMetadata(url, soup));
   }
 
   Future<String> _fetchUrl(final String url) async {
@@ -67,10 +61,7 @@ class WebBaseLoader extends BaseDocumentLoader {
   ) {
     final title = soup.title;
     final description = soup
-        .find(
-          'meta',
-          attrs: {'name': 'description'},
-        )
+        .find('meta', attrs: {'name': 'description'})
         ?.getAttrValue('content');
     final language = soup.find('html')?.getAttrValue('lang');
     return {

@@ -23,12 +23,7 @@ extension ChatMessagesMapper on List<ChatMessage> {
 
     void flushToolResponses() {
       if (pendingToolResponses != null && pendingToolResponses!.isNotEmpty) {
-        result.add(
-          g.Content(
-            role: 'user',
-            parts: pendingToolResponses!,
-          ),
-        );
+        result.add(g.Content(role: 'user', parts: pendingToolResponses!));
         pendingToolResponses = null;
       }
     }
@@ -74,10 +69,7 @@ extension ChatMessagesMapper on List<ChatMessage> {
           g.FileDataPart(g.FileData(fileUri: c.data))
         else
           g.InlineDataPart(
-            g.Blob.fromBytes(
-              c.mimeType ?? 'image/jpeg',
-              base64Decode(c.data),
-            ),
+            g.Blob.fromBytes(c.mimeType ?? 'image/jpeg', base64Decode(c.data)),
           ),
       ],
       final ChatMessageContentMultiModal c =>
@@ -231,21 +223,20 @@ extension GenerateContentResponseMapper on g.GenerateContentResponse {
     );
   }
 
-  FinishReason _mapFinishReason(
-    final g.FinishReason? reason,
-  ) => switch (reason) {
-    g.FinishReason.unspecified => FinishReason.unspecified,
-    g.FinishReason.stop => FinishReason.stop,
-    g.FinishReason.maxTokens => FinishReason.length,
-    g.FinishReason.safety => FinishReason.contentFilter,
-    g.FinishReason.recitation => FinishReason.recitation,
-    g.FinishReason.other => FinishReason.unspecified,
-    g.FinishReason.blocklist => FinishReason.contentFilter,
-    g.FinishReason.prohibitedContent => FinishReason.contentFilter,
-    g.FinishReason.spii => FinishReason.contentFilter,
-    g.FinishReason.malformedFunctionCall => FinishReason.unspecified,
-    null => FinishReason.unspecified,
-  };
+  FinishReason _mapFinishReason(final g.FinishReason? reason) =>
+      switch (reason) {
+        g.FinishReason.unspecified => FinishReason.unspecified,
+        g.FinishReason.stop => FinishReason.stop,
+        g.FinishReason.maxTokens => FinishReason.length,
+        g.FinishReason.safety => FinishReason.contentFilter,
+        g.FinishReason.recitation => FinishReason.recitation,
+        g.FinishReason.other => FinishReason.unspecified,
+        g.FinishReason.blocklist => FinishReason.contentFilter,
+        g.FinishReason.prohibitedContent => FinishReason.contentFilter,
+        g.FinishReason.spii => FinishReason.contentFilter,
+        g.FinishReason.malformedFunctionCall => FinishReason.unspecified,
+        null => FinishReason.unspecified,
+      };
 }
 
 extension SafetySettingsMapper on List<ChatVertexAISafetySetting> {
@@ -359,10 +350,8 @@ extension SchemaMapper on Map<String, dynamic> {
       case 'object':
         if (properties != null) {
           final propertiesSchema = properties.map(
-            (key, value) => MapEntry(
-              key,
-              (value as Map<String, dynamic>).toSchema(),
-            ),
+            (key, value) =>
+                MapEntry(key, (value as Map<String, dynamic>).toSchema()),
           );
           return g.Schema(
             type: g.SchemaType.object,
@@ -383,19 +372,13 @@ extension ChatToolChoiceMapper on ChatToolChoice {
   Map<String, dynamic> toToolConfig() {
     return switch (this) {
       ChatToolChoiceNone _ => {
-        'functionCallingConfig': {
-          'mode': 'NONE',
-        },
+        'functionCallingConfig': {'mode': 'NONE'},
       },
       ChatToolChoiceAuto _ => {
-        'functionCallingConfig': {
-          'mode': 'AUTO',
-        },
+        'functionCallingConfig': {'mode': 'AUTO'},
       },
       ChatToolChoiceRequired() => {
-        'functionCallingConfig': {
-          'mode': 'ANY',
-        },
+        'functionCallingConfig': {'mode': 'ANY'},
       },
       final ChatToolChoiceForced t => {
         'functionCallingConfig': {

@@ -22,10 +22,7 @@ abstract base class StringTool<Options extends ToolOptions>
          inputJsonSchema: {
            'type': 'object',
            'properties': {
-             'input': {
-               'type': 'string',
-               'description': inputDescription,
-             },
+             'input': {'type': 'string', 'description': inputDescription},
            },
            'required': ['input'],
          },

@@ -20,9 +20,7 @@ Future<void> main() async {
 
   // Create client
   final client = GoogleAIClient(
-    config: GoogleAIConfig(
-      authProvider: ApiKeyProvider(apiKey),
-    ),
+    config: GoogleAIConfig(authProvider: ApiKeyProvider(apiKey)),
   );
 
   try {
@@ -213,9 +211,7 @@ Future<void> handleLowAnswerability(GoogleAIClient client) async {
           GroundingPassage(
             id: 'unrelated',
             content: Content(
-              parts: [
-                TextPart('The weather today is sunny and pleasant.'),
-              ],
+              parts: [TextPart('The weather today is sunny and pleasant.')],
             ),
           ),
         ],

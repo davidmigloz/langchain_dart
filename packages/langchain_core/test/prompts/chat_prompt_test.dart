@@ -7,10 +7,9 @@ void main() {
   group('ChatPromptTemplate tests', () {
     test('Create a chat prompt template', () {
       final prompt = ChatPromptTemplate.fromTemplate('hi {foo} {bar}');
-      expect(
-        prompt.promptMessages,
-        [HumanChatMessagePromptTemplate.fromTemplate('hi {foo} {bar}')],
-      );
+      expect(prompt.promptMessages, [
+        HumanChatMessagePromptTemplate.fromTemplate('hi {foo} {bar}'),
+      ]);
     });
 
     test('Test format', () {
@@ -34,21 +33,18 @@ void main() {
     });
 
     test('Test ChatPromptTemplate.fromTemplates', () {
-      final chatPrompt = ChatPromptTemplate.fromTemplates(
-        const [
-          (ChatMessageType.system, "Here's some context: {context}"),
-          (
-            ChatMessageType.human,
-            "Hello {foo}, I'm {bar}. Thanks for the {context}",
-          ),
-          (ChatMessageType.ai, "I'm an AI. I'm {foo}. I'm {bar}."),
-          (
-            ChatMessageType.custom,
-            "I'm a generic message. I'm {foo}. I'm {bar}.",
-          ),
-        ],
-        customRole: 'test',
-      );
+      final chatPrompt = ChatPromptTemplate.fromTemplates(const [
+        (ChatMessageType.system, "Here's some context: {context}"),
+        (
+          ChatMessageType.human,
+          "Hello {foo}, I'm {bar}. Thanks for the {context}",
+        ),
+        (ChatMessageType.ai, "I'm an AI. I'm {foo}. I'm {bar}."),
+        (
+          ChatMessageType.custom,
+          "I'm a generic message. I'm {foo}. I'm {bar}.",
+        ),
+      ], customRole: 'test');
       final messages = chatPrompt.formatPrompt({
         'context': 'This is a context',
         'foo': 'Foo',
@@ -70,23 +66,17 @@ void main() {
     test(
       'Test ChatPromptTemplate.fromPromptMessages with factory constructors',
       () {
-        final chatPrompt = ChatPromptTemplate.fromPromptMessages(
-          [
-            ChatMessagePromptTemplate.system(
-              "Here's some context: {context}",
-            ),
-            ChatMessagePromptTemplate.human(
-              "Hello {foo}, I'm {bar}. Thanks for the {context}",
-            ),
-            ChatMessagePromptTemplate.ai(
-              "I'm an AI. I'm {foo}. I'm {bar}.",
-            ),
-            ChatMessagePromptTemplate.custom(
-              "I'm a generic message. I'm {foo}. I'm {bar}.",
-              role: 'test',
-            ),
-          ],
-        );
+        final chatPrompt = ChatPromptTemplate.fromPromptMessages([
+          ChatMessagePromptTemplate.system("Here's some context: {context}"),
+          ChatMessagePromptTemplate.human(
+            "Hello {foo}, I'm {bar}. Thanks for the {context}",
+          ),
+          ChatMessagePromptTemplate.ai("I'm an AI. I'm {foo}. I'm {bar}."),
+          ChatMessagePromptTemplate.custom(
+            "I'm a generic message. I'm {foo}. I'm {bar}.",
+            role: 'test',
+          ),
+        ]);
         final messages = chatPrompt.formatPrompt({
           'context': 'This is a context',
           'foo': 'Foo',
@@ -232,28 +222,20 @@ void main() {
 
     test('Test chat prompt template', () {
       final promptTemplate = _createChatPromptTemplate();
-      final prompt = promptTemplate.formatPrompt(
-        {
-          'foo': 'foo',
-          'bar': 'bar',
-          'context': 'context',
-        },
-      );
+      final prompt = promptTemplate.formatPrompt({
+        'foo': 'foo',
+        'bar': 'bar',
+        'context': 'context',
+      });
       expect(prompt is ChatPromptValue, true);
       final messages = prompt.toChatMessages();
       expect(messages.length, 4);
-      expect(
-        messages[0].contentAsString,
-        "Here's some context: context",
-      );
+      expect(messages[0].contentAsString, "Here's some context: context");
       expect(
         messages[1].contentAsString,
         "Hello foo, I'm bar. Thanks for the context",
       );
-      expect(
-        messages[2].contentAsString,
-        "I'm an AI. I'm foo. I'm bar.",
-      );
+      expect(messages[2].contentAsString, "I'm an AI. I'm foo. I'm bar.");
       expect(
         messages[3].contentAsString,
         "I'm a generic message. I'm foo. I'm bar.",
@@ -266,13 +248,11 @@ void main() {
           "test: I'm a generic message. I'm foo. I'm bar.";
       expect(string, expected);
 
-      final string2 = promptTemplate.format(
-        {
-          'foo': 'foo',
-          'bar': 'bar',
-          'context': 'context',
-        },
-      );
+      final string2 = promptTemplate.format({
+        'foo': 'foo',
+        'bar': 'bar',
+        'context': 'context',
+      });
       expect(string2, expected);
     });
 
@@ -280,10 +260,7 @@ void main() {
       final chatPromptTemplate = ChatPromptTemplate.fromPromptMessages(
         _createMessages(),
       );
-      expect(
-        chatPromptTemplate.inputVariables,
-        {'context', 'foo', 'bar'},
-      );
+      expect(chatPromptTemplate.inputVariables, {'context', 'foo', 'bar'});
       expect(chatPromptTemplate.promptMessages.length, 4);
     });
 
@@ -329,10 +306,7 @@ void main() {
         ),
       ]);
 
-      expect(
-        chatPromptTemplate.inputVariables,
-        {'conversation', 'word_count'},
-      );
+      expect(chatPromptTemplate.inputVariables, {'conversation', 'word_count'});
 
       final humanMessage = ChatMessage.humanText(
         'What is the best way to learn programming?',
@@ -345,12 +319,10 @@ void main() {
 3. Practice, practice, practice: The best way to learn programming is through hands-on experience
         ''');
 
-      final promptValue = chatPromptTemplate.formatPrompt(
-        {
-          'conversation': [humanMessage, aiMessage],
-          'word_count': 10,
-        },
-      );
+      final promptValue = chatPromptTemplate.formatPrompt({
+        'conversation': [humanMessage, aiMessage],
+        'word_count': 10,
+      });
 
       expect(promptValue is ChatPromptValue, true);
       final chatPromptValue = promptValue as ChatPromptValue;

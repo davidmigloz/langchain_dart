@@ -68,11 +68,8 @@ class ToolsOutputParser
           List<ParsedToolCall>
         > {
   /// {@macro tools_output_parser}
-  ToolsOutputParser({
-    this.reduceOutputStream = false,
-  }) : super(
-         defaultOptions: const OutputParserOptions(),
-       );
+  ToolsOutputParser({this.reduceOutputStream = false})
+    : super(defaultOptions: const OutputParserOptions());
 
   /// When invoking this parser with [Runnable.stream], every item from the
   /// input stream will be parsed and emitted by default.

@@ -27,10 +27,7 @@ void main() {
     expect(supabaseApiKey, isNotNull);
 
     try {
-      supabaseClient = sp.SupabaseClient(
-        supabaseUrl!,
-        supabaseApiKey!,
-      );
+      supabaseClient = sp.SupabaseClient(supabaseUrl!, supabaseApiKey!);
     } catch (e) {
       fail('Expected SupabaseClient to be initialized');
     }
@@ -133,10 +130,7 @@ void main() {
         config: const SupabaseSimilaritySearch(k: 1),
       );
       expect(res.length, 1);
-      expect(
-        res.first.id,
-        '5',
-      );
+      expect(res.first.id, '5');
     });
 
     test('Test Supabase query with scoreThreshold', () async {
@@ -189,9 +183,7 @@ void main() {
       );
       final res1 = await vectorStore.similaritySearch(
         query: 'Deleted doc',
-        config: const SupabaseSimilaritySearch(
-          filter: {'cat': 'xxx'},
-        ),
+        config: const SupabaseSimilaritySearch(filter: {'cat': 'xxx'}),
       );
       expect(res1.length, 1);
       expect(res1.first.id, '9999');
@@ -199,9 +191,7 @@ void main() {
       await vectorStore.delete(ids: ['9999']);
       final res2 = await vectorStore.similaritySearch(
         query: 'Deleted doc',
-        config: const SupabaseSimilaritySearch(
-          filter: {'cat': 'xxx'},
-        ),
+        config: const SupabaseSimilaritySearch(filter: {'cat': 'xxx'}),
       );
       expect(res2.length, 0);
     });

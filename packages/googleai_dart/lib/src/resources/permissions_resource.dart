@@ -28,15 +28,11 @@ class PermissionsResource extends ResourceBase {
   /// [permission] - The permission to create
   ///
   /// POST /v1beta/{parent}/permissions
-  Future<Permission> create({
-    required Permission permission,
-  }) async {
+  Future<Permission> create({required Permission permission}) async {
     final url = requestBuilder.buildUrl('/{version}/$parent/permissions');
 
     final headers = requestBuilder.buildHeaders(
-      additionalHeaders: {
-        'Content-Type': 'application/json',
-      },
+      additionalHeaders: {'Content-Type': 'application/json'},
     );
 
     final httpRequest = http.Request('POST', url)
@@ -84,9 +80,7 @@ class PermissionsResource extends ResourceBase {
   /// [name] - Permission resource name (e.g., `tunedModels/{model}/permissions/{permission}`)
   ///
   /// GET /v1beta/{name}
-  Future<Permission> get({
-    required String name,
-  }) async {
+  Future<Permission> get({required String name}) async {
     final url = requestBuilder.buildUrl('/{version}/$name');
 
     final headers = requestBuilder.buildHeaders();
@@ -112,9 +106,7 @@ class PermissionsResource extends ResourceBase {
     final url = requestBuilder.buildUrl('/{version}/$name');
 
     final headers = requestBuilder.buildHeaders(
-      additionalHeaders: {
-        'Content-Type': 'application/json',
-      },
+      additionalHeaders: {'Content-Type': 'application/json'},
     );
 
     final httpRequest = http.Request('PATCH', url)
@@ -132,9 +124,7 @@ class PermissionsResource extends ResourceBase {
   /// [name] - Permission resource name (e.g., `tunedModels/{model}/permissions/{permission}`)
   ///
   /// DELETE /v1beta/{name}
-  Future<void> delete({
-    required String name,
-  }) async {
+  Future<void> delete({required String name}) async {
     final url = requestBuilder.buildUrl('/{version}/$name');
 
     final headers = requestBuilder.buildHeaders();
@@ -157,9 +147,7 @@ class PermissionsResource extends ResourceBase {
     final url = requestBuilder.buildUrl('/{version}/$name:transferOwnership');
 
     final headers = requestBuilder.buildHeaders(
-      additionalHeaders: {
-        'Content-Type': 'application/json',
-      },
+      additionalHeaders: {'Content-Type': 'application/json'},
     );
 
     final request = TransferOwnershipRequest(emailAddress: emailAddress);

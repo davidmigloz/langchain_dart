@@ -155,9 +155,7 @@ class ChatMistralAI extends BaseChatModel<ChatMistralAIOptions> {
     final Map<String, String>? headers,
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
-    super.defaultOptions = const ChatMistralAIOptions(
-      model: defaultModel,
-    ),
+    super.defaultOptions = const ChatMistralAIOptions(model: defaultModel),
     this.encoding = 'cl100k_base',
   }) : _client = MistralAIClient(
          apiKey: apiKey,

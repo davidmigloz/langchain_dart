@@ -134,9 +134,7 @@ class AgentExecutor extends BaseChain {
           if (tool != null && tool.returnDirect) {
             return onAgentFinished(
               AgentFinish(
-                returnValues: {
-                  agent.returnValues.first: nextStep.observation,
-                },
+                returnValues: {agent.returnValues.first: nextStep.observation},
               ),
             );
           }
@@ -206,10 +204,7 @@ class AgentExecutor extends BaseChain {
         observation =
             '${agentAction.tool} is not a valid tool, try another one.';
       }
-      final step = AgentStep(
-        action: action,
-        observation: observation,
-      );
+      final step = AgentStep(action: action, observation: observation);
       result.add(step);
     }
     return (null, result);

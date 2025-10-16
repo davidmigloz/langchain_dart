@@ -6,13 +6,8 @@ void main() {
   group('InlinedResponse', () {
     test('fromJson creates InlinedResponse with error', () {
       final json = {
-        'error': {
-          'code': 400,
-          'message': 'Bad Request',
-        },
-        'metadata': {
-          'requestId': 'req-123',
-        },
+        'error': {'code': 400, 'message': 'Bad Request'},
+        'metadata': {'requestId': 'req-123'},
       };
 
       final response = InlinedResponse.fromJson(json);
@@ -53,9 +48,7 @@ void main() {
       'fromJson creates InlinedResponse with neither error nor response',
       () {
         final json = {
-          'metadata': {
-            'info': 'test',
-          },
+          'metadata': {'info': 'test'},
         };
 
         final response = InlinedResponse.fromJson(json);

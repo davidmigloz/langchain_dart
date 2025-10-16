@@ -143,9 +143,6 @@ abstract class UsageOutputTokenDetails with _$UsageOutputTokenDetails {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'text_tokens': textTokens,
-      'audio_tokens': audioTokens,
-    };
+    return {'text_tokens': textTokens, 'audio_tokens': audioTokens};
   }
 }

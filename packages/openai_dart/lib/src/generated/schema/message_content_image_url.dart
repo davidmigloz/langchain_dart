@@ -36,9 +36,6 @@ abstract class MessageContentImageUrl with _$MessageContentImageUrl {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'url': url,
-      'detail': detail,
-    };
+    return {'url': url, 'detail': detail};
   }
 }

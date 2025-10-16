@@ -92,10 +92,7 @@ Future<void> _attachingToolCallInformation() async {
     inputJsonSchema: {
       'type': 'object',
       'properties': {
-        'setup': {
-          'type': 'string',
-          'description': 'The setup for the joke',
-        },
+        'setup': {'type': 'string', 'description': 'The setup for the joke'},
         'punchline': {
           'type': 'string',
           'description': 'The punchline for the joke',
@@ -176,10 +173,7 @@ Future<void> _promptTemplateLLMToolsOutputParser() async {
     inputJsonSchema: {
       'type': 'object',
       'properties': {
-        'setup': {
-          'type': 'string',
-          'description': 'The setup for the joke',
-        },
+        'setup': {'type': 'string', 'description': 'The setup for the joke'},
         'punchline': {
           'type': 'string',
           'description': 'The punchline for the joke',

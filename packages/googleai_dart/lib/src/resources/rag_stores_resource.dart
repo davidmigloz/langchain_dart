@@ -101,10 +101,7 @@ class RagStoresResource extends ResourceBase {
   /// If [force] is true, any Chunks and objects related to this Document will also be deleted.
   ///
   /// Returns nothing on success.
-  Future<void> deleteDocument({
-    required String name,
-    bool? force,
-  }) async {
+  Future<void> deleteDocument({required String name, bool? force}) async {
     final queryParams = <String, String>{
       if (force != null) 'force': force.toString(),
     };

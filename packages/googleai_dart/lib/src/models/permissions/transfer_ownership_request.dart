@@ -8,20 +8,14 @@ class TransferOwnershipRequest {
   final String emailAddress;
 
   /// Creates a [TransferOwnershipRequest].
-  const TransferOwnershipRequest({
-    required this.emailAddress,
-  });
+  const TransferOwnershipRequest({required this.emailAddress});
 
   /// Creates a [TransferOwnershipRequest] from JSON.
   factory TransferOwnershipRequest.fromJson(Map<String, dynamic> json) =>
-      TransferOwnershipRequest(
-        emailAddress: json['emailAddress'] as String,
-      );
+      TransferOwnershipRequest(emailAddress: json['emailAddress'] as String);
 
   /// Converts to JSON.
-  Map<String, dynamic> toJson() => {
-    'emailAddress': emailAddress,
-  };
+  Map<String, dynamic> toJson() => {'emailAddress': emailAddress};
 
   @override
   String toString() => 'TransferOwnershipRequest(emailAddress: $emailAddress)';

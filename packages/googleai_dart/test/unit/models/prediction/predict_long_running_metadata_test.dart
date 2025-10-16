@@ -12,10 +12,7 @@ void main() {
     });
 
     test('fromJson ignores any fields (future compatibility)', () {
-      final json = {
-        'futureField': 'value',
-        'anotherField': 123,
-      };
+      final json = {'futureField': 'value', 'anotherField': 123};
 
       final metadata = PredictLongRunningMetadata.fromJson(json);
 

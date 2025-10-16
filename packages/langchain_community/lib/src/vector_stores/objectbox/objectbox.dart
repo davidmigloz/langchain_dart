@@ -59,17 +59,15 @@ import 'types.dart';
 /// );
 /// ```
 class ObjectBoxVectorStore extends BaseObjectBoxVectorStore<ObjectBoxDocument> {
-  ObjectBoxVectorStore._(
-    Store store, {
-    required super.embeddings,
-  }) : _store = store,
-       super(
-         box: store.box<ObjectBoxDocument>(),
-         createEntity: _createObjectBoxDocument,
-         createDocument: _createDoc,
-         getIdProperty: () => obxg.ObjectBoxDocument_.id,
-         getEmbeddingProperty: () => obxg.ObjectBoxDocument_.embedding,
-       );
+  ObjectBoxVectorStore._(Store store, {required super.embeddings})
+    : _store = store,
+      super(
+        box: store.box<ObjectBoxDocument>(),
+        createEntity: _createObjectBoxDocument,
+        createDocument: _createDoc,
+        getIdProperty: () => obxg.ObjectBoxDocument_.id,
+        getEmbeddingProperty: () => obxg.ObjectBoxDocument_.embedding,
+      );
 
   Store? _store;
 

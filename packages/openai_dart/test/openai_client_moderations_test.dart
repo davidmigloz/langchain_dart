@@ -11,9 +11,7 @@ void main() {
     late OpenAIClient client;
 
     setUp(() {
-      client = OpenAIClient(
-        apiKey: Platform.environment['OPENAI_API_KEY'],
-      );
+      client = OpenAIClient(apiKey: Platform.environment['OPENAI_API_KEY']);
     });
 
     tearDown(() {
@@ -22,9 +20,7 @@ void main() {
 
     test('Test call moderations API', () async {
       const request = CreateModerationRequest(
-        model: ModerationModel.model(
-          ModerationModels.omniModerationLatest,
-        ),
+        model: ModerationModel.model(ModerationModels.omniModerationLatest),
         input: ModerationInput.string('I want to kill them.'),
       );
       final res = await client.createModeration(request: request);
@@ -42,20 +38,16 @@ void main() {
 
     test('Test multi-modal moderation', () async {
       const request = CreateModerationRequest(
-        model: ModerationModel.model(
-          ModerationModels.omniModerationLatest,
-        ),
-        input: ModerationInput.listModerationInputObject(
-          [
-            ModerationInputObject.imageUrl(
-              imageUrl: ModerationInputObjectImageUrlImageUrl(
-                url:
-                    'https://upload.wikimedia.org/wikipedia/commons/9/92/95apple.jpeg',
-              ),
+        model: ModerationModel.model(ModerationModels.omniModerationLatest),
+        input: ModerationInput.listModerationInputObject([
+          ModerationInputObject.imageUrl(
+            imageUrl: ModerationInputObjectImageUrlImageUrl(
+              url:
+                  'https://upload.wikimedia.org/wikipedia/commons/9/92/95apple.jpeg',
             ),
-            ModerationInputObject.text(text: 'I want to kill the apple.'),
-          ],
-        ),
+          ),
+          ModerationInputObject.text(text: 'I want to kill the apple.'),
+        ]),
       );
       final res = await client.createModeration(request: request);
       expect(res.id, isNotEmpty);

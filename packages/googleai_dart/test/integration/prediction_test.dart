@@ -24,9 +24,7 @@ void main() {
     setUp(() {
       if (apiKey != null) {
         client = GoogleAIClient(
-          config: GoogleAIConfig(
-            authProvider: ApiKeyProvider(apiKey),
-          ),
+          config: GoogleAIConfig(authProvider: ApiKeyProvider(apiKey)),
         );
       }
     });
@@ -50,9 +48,7 @@ void main() {
           final operation = await client.models.predictLongRunning(
             model: 'veo-3.0-generate-001',
             instances: [
-              {
-                'prompt': 'A dog running on the beach',
-              },
+              {'prompt': 'A dog running on the beach'},
             ],
           );
 
@@ -99,22 +95,16 @@ void main() {
           final operation = await client.models.predictLongRunning(
             model: 'veo-3.0-generate-001',
             instances: [
-              {
-                'prompt': 'A sunset over mountains',
-              },
+              {'prompt': 'A sunset over mountains'},
             ],
-            parameters: {
-              'aspectRatio': '16:9',
-            },
+            parameters: {'aspectRatio': '16:9'},
           );
 
           expect(operation.name, isNotNull);
           print('✅ PredictLongRunning with parameters successful');
           print('   Operation: ${operation.name}');
         } catch (e) {
-          print(
-            '⚠️  PredictLongRunning with parameters test skipped: $e',
-          );
+          print('⚠️  PredictLongRunning with parameters test skipped: $e');
         }
       },
       tags: ['integration'],

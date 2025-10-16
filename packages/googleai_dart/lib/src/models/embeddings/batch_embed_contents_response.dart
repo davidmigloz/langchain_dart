@@ -7,9 +7,7 @@ class BatchEmbedContentsResponse {
   final List<ContentEmbedding> embeddings;
 
   /// Creates a [BatchEmbedContentsResponse].
-  const BatchEmbedContentsResponse({
-    required this.embeddings,
-  });
+  const BatchEmbedContentsResponse({required this.embeddings});
 
   /// Creates a [BatchEmbedContentsResponse] from JSON.
   factory BatchEmbedContentsResponse.fromJson(Map<String, dynamic> json) =>

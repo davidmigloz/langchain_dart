@@ -17,9 +17,7 @@ Future<void> _example1() async {
     apiKey: openAiApiKey,
     defaultOptions: const OpenAIOptions(temperature: 0.9),
   );
-  final LLMResult res = await llm.invoke(
-    PromptValue.string('Tell me a joke'),
-  );
+  final LLMResult res = await llm.invoke(PromptValue.string('Tell me a joke'));
   print(res);
 }
 
@@ -29,9 +27,7 @@ Future<void> _example2() async {
   final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
   final chat = ChatOpenAI(
     apiKey: openaiApiKey,
-    defaultOptions: const ChatOpenAIOptions(
-      temperature: 0,
-    ),
+    defaultOptions: const ChatOpenAIOptions(temperature: 0),
   );
 
   while (true) {

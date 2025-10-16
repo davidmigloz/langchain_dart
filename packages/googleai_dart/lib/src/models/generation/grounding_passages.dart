@@ -6,9 +6,7 @@ class GroundingPassages {
   final List<GroundingPassage>? passages;
 
   /// Creates a [GroundingPassages].
-  const GroundingPassages({
-    this.passages,
-  });
+  const GroundingPassages({this.passages});
 
   /// Creates a [GroundingPassages] from JSON.
   factory GroundingPassages.fromJson(Map<String, dynamic> json) =>

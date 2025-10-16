@@ -152,9 +152,9 @@ void main() {
         throwsUnimplementedError,
       );
       expect(
-        () => ChatMessageContent.fromMap(
-          const <String, dynamic>{'type': 'unknown'},
-        ),
+        () => ChatMessageContent.fromMap(const <String, dynamic>{
+          'type': 'unknown',
+        }),
         throwsUnimplementedError,
       );
       expect(

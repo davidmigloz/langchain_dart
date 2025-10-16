@@ -35,8 +35,6 @@ abstract class ModifyMessageRequest with _$ModifyMessageRequest {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'metadata': metadata,
-    };
+    return {'metadata': metadata};
   }
 }

@@ -191,10 +191,7 @@ abstract class RunStepLastError with _$RunStepLastError {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'code': code,
-      'message': message,
-    };
+    return {'code': code, 'message': message};
   }
 }
 

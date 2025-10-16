@@ -41,9 +41,6 @@ abstract class ModifyThreadRequest with _$ModifyThreadRequest {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'tool_resources': toolResources,
-      'metadata': metadata,
-    };
+    return {'tool_resources': toolResources, 'metadata': metadata};
   }
 }

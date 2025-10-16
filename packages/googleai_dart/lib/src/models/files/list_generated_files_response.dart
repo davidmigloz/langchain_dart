@@ -21,9 +21,7 @@ class ListGeneratedFilesResponse {
       ListGeneratedFilesResponse(
         generatedFiles:
             (json['generatedFiles'] as List<dynamic>?)
-                ?.map(
-                  (e) => GeneratedFile.fromJson(e as Map<String, dynamic>),
-                )
+                ?.map((e) => GeneratedFile.fromJson(e as Map<String, dynamic>))
                 .toList() ??
             [],
         nextPageToken: json['nextPageToken'] as String?,

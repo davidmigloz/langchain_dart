@@ -35,8 +35,6 @@ abstract class DeleteModelRequest with _$DeleteModelRequest {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'model': model,
-    };
+    return {'model': model};
   }
 }

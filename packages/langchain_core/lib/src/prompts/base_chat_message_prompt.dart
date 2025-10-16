@@ -218,9 +218,7 @@ BaseChatMessagePromptTemplate{
 
   /// Return a new [ChatMessagePromptTemplate] instance with the given
   /// values.
-  ChatMessagePromptTemplate copyWith({
-    final BasePromptTemplate? prompt,
-  });
+  ChatMessagePromptTemplate copyWith({final BasePromptTemplate? prompt});
 }
 
 /// {@template string_message_prompt_template}
@@ -230,9 +228,8 @@ BaseChatMessagePromptTemplate{
 abstract base class StringMessagePromptTemplate
     extends ChatMessagePromptTemplate {
   /// {@macro string_message_prompt_template}
-  const StringMessagePromptTemplate({
-    required final PromptTemplate prompt,
-  }) : super(prompt: prompt);
+  const StringMessagePromptTemplate({required final PromptTemplate prompt})
+    : super(prompt: prompt);
 
   @override
   PromptTemplate get prompt => super.prompt as PromptTemplate;
@@ -256,7 +253,5 @@ abstract base class StringMessagePromptTemplate
   /// Return a new [StringMessagePromptTemplate] instance with the given
   /// values.
   @override
-  StringMessagePromptTemplate copyWith({
-    final BasePromptTemplate? prompt,
-  });
+  StringMessagePromptTemplate copyWith({final BasePromptTemplate? prompt});
 }

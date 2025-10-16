@@ -42,10 +42,7 @@ void main() {
             'Output ONLY the numbers in one line without any spaces or commas. '
             'NUMBERS:',
           ),
-          options: ChatOpenAIOptions(
-            model: model,
-            temperature: 0,
-          ),
+          options: ChatOpenAIOptions(model: model, temperature: 0),
         );
 
         expect(res.id, isNotEmpty);
@@ -74,10 +71,7 @@ void main() {
             'Output ONLY the numbers in one line without any spaces or commas. '
             'NUMBERS:',
           ),
-          options: ChatOpenAIOptions(
-            model: model,
-            temperature: 0,
-          ),
+          options: ChatOpenAIOptions(model: model, temperature: 0),
         );
 
         var content = '';
@@ -140,10 +134,7 @@ void main() {
         );
         final res1 = await chatModel.invoke(
           PromptValue.chat([humanMessage]),
-          options: const ChatOpenAIOptions(
-            model: 'gpt-4o',
-            tools: [tool],
-          ),
+          options: const ChatOpenAIOptions(model: 'gpt-4o', tools: [tool]),
         );
 
         final aiMessage1 = res1.output;
@@ -168,10 +159,7 @@ void main() {
 
         final res2 = await chatModel.invoke(
           PromptValue.chat([humanMessage, aiMessage1, functionMessage]),
-          options: const ChatOpenAIOptions(
-            model: 'gpt-4o',
-            tools: [tool],
-          ),
+          options: const ChatOpenAIOptions(model: 'gpt-4o', tools: [tool]),
         );
 
         final aiMessage2 = res2.output;

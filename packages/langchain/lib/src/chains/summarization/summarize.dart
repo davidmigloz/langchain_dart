@@ -71,10 +71,7 @@ abstract class SummarizeChain {
     final String documentSeparator =
         StuffDocumentsChain.defaultDocumentSeparator,
   }) {
-    final llmChain = LLMChain(
-      llm: llm,
-      prompt: promptTemplate,
-    );
+    final llmChain = LLMChain(llm: llm, prompt: promptTemplate);
 
     return StuffDocumentsChain(
       llmChain: llmChain,

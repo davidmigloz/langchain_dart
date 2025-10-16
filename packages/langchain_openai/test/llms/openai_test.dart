@@ -18,9 +18,7 @@ void main() {
     setUp(() {
       llm = OpenAI(
         apiKey: openaiApiKey,
-        defaultOptions: const OpenAIOptions(
-          model: defaultModel,
-        ),
+        defaultOptions: const OpenAIOptions(model: defaultModel),
       );
     });
 
@@ -70,16 +68,12 @@ void main() {
     });
 
     test('Test invoke to OpenAI', () async {
-      final res = await llm.invoke(
-        PromptValue.string('Hello, how are you?'),
-      );
+      final res = await llm.invoke(PromptValue.string('Hello, how are you?'));
       expect(res.output, isNotEmpty);
     });
 
     test('Test model output contains metadata', () async {
-      final res = await llm.invoke(
-        PromptValue.string('Hello, how are you?'),
-      );
+      final res = await llm.invoke(PromptValue.string('Hello, how are you?'));
       expect(res.id, isNotEmpty);
       expect(res.metadata, isNotNull);
       expect(res.metadata['created'], isNotNull);
@@ -89,10 +83,7 @@ void main() {
     test('Test stop logic on valid configuration', () async {
       final res = await llm.invoke(
         PromptValue.string('write an ordered list of five items'),
-        options: const OpenAIOptions(
-          stop: ['3'],
-          temperature: 0,
-        ),
+        options: const OpenAIOptions(stop: ['3'], temperature: 0),
       );
       expect(res.output.contains('2.'), isTrue);
       expect(res.output.contains('3.'), isFalse);
@@ -184,9 +175,7 @@ void main() {
       );
       final options = List.generate(
         count,
-        (final i) => OpenAIOptions(
-          temperature: 0 + (i / 10),
-        ),
+        (final i) => OpenAIOptions(temperature: 0 + (i / 10)),
       );
 
       final res = await llm.batch(prompts, options: options);

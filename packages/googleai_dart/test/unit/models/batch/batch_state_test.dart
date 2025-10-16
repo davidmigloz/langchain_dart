@@ -50,14 +50,8 @@ void main() {
       });
 
       test('is case insensitive', () {
-        expect(
-          batchStateFromString('batch_state_running'),
-          BatchState.running,
-        );
-        expect(
-          batchStateFromString('Batch_State_Running'),
-          BatchState.running,
-        );
+        expect(batchStateFromString('batch_state_running'), BatchState.running);
+        expect(batchStateFromString('Batch_State_Running'), BatchState.running);
       });
     });
 

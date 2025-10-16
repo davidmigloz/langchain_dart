@@ -11,13 +11,14 @@ void main() async {
     package: 'Tavily',
     destination: 'lib/src/generated/',
     replace: true,
-    clientOptions: const ClientGeneratorOptions(
-      enabled: true,
-    ),
+    clientOptions: const ClientGeneratorOptions(enabled: true),
   );
 
-  await Process.run(
-    'dart',
-    ['run', 'build_runner', 'build', 'lib', '--delete-conflicting-outputs'],
-  );
+  await Process.run('dart', [
+    'run',
+    'build_runner',
+    'build',
+    'lib',
+    '--delete-conflicting-outputs',
+  ]);
 }

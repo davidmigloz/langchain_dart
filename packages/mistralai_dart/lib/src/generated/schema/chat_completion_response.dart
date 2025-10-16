@@ -108,10 +108,6 @@ abstract class ChatCompletionResponseChoicesInner
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'index': index,
-      'message': message,
-      'finish_reason': finishReason,
-    };
+    return {'index': index, 'message': message, 'finish_reason': finishReason};
   }
 }

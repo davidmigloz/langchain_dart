@@ -6,9 +6,7 @@ import 'package:googleai_dart/googleai_dart.dart';
 
 void main() async {
   final client = GoogleAIClient(
-    config: const GoogleAIConfig(
-      authProvider: ApiKeyProvider('YOUR_API_KEY'),
-    ),
+    config: const GoogleAIConfig(authProvider: ApiKeyProvider('YOUR_API_KEY')),
   );
 
   try {
@@ -18,9 +16,7 @@ void main() async {
     final response = await client.models.embedContent(
       model: 'gemini-embedding-001',
       request: const EmbedContentRequest(
-        content: Content(
-          parts: [TextPart('Hello, world!')],
-        ),
+        content: Content(parts: [TextPart('Hello, world!')]),
         taskType: TaskType.retrievalDocument,
       ),
     );
@@ -46,9 +42,7 @@ void main() async {
         requests: texts
             .map(
               (text) => EmbedContentRequest(
-                content: Content(
-                  parts: [TextPart(text)],
-                ),
+                content: Content(parts: [TextPart(text)]),
                 taskType: TaskType.retrievalDocument,
               ),
             )

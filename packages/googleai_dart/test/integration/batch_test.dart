@@ -23,9 +23,7 @@ void main() {
       );
     } else {
       client = GoogleAIClient(
-        config: GoogleAIConfig(
-          authProvider: ApiKeyProvider(apiKey!),
-        ),
+        config: GoogleAIConfig(authProvider: ApiKeyProvider(apiKey!)),
       );
     }
   });
@@ -84,11 +82,7 @@ void main() {
       if (batch.state != null) {
         expect(
           batch.state,
-          isIn([
-            BatchState.pending,
-            BatchState.running,
-            BatchState.succeeded,
-          ]),
+          isIn([BatchState.pending, BatchState.running, BatchState.succeeded]),
         );
       }
 
@@ -126,10 +120,7 @@ void main() {
                 InlinedRequest(
                   request: GenerateContentRequest(
                     contents: [
-                      Content(
-                        parts: [TextPart('Hello')],
-                        role: 'user',
-                      ),
+                      Content(parts: [TextPart('Hello')], role: 'user'),
                     ],
                   ),
                 ),
@@ -171,17 +162,13 @@ void main() {
               requests: [
                 InlinedEmbedContentRequest(
                   request: EmbedContentRequest(
-                    content: Content(
-                      parts: [TextPart('Hello world')],
-                    ),
+                    content: Content(parts: [TextPart('Hello world')]),
                     taskType: TaskType.retrievalDocument,
                   ),
                 ),
                 InlinedEmbedContentRequest(
                   request: EmbedContentRequest(
-                    content: Content(
-                      parts: [TextPart('Goodbye world')],
-                    ),
+                    content: Content(parts: [TextPart('Goodbye world')]),
                     taskType: TaskType.retrievalDocument,
                   ),
                 ),
@@ -198,11 +185,7 @@ void main() {
       if (batch.state != null) {
         expect(
           batch.state,
-          isIn([
-            BatchState.pending,
-            BatchState.running,
-            BatchState.succeeded,
-          ]),
+          isIn([BatchState.pending, BatchState.running, BatchState.succeeded]),
         );
       }
     });
@@ -218,15 +201,11 @@ void main() {
         request: const BatchEmbedContentsRequest(
           requests: [
             EmbedContentRequest(
-              content: Content(
-                parts: [TextPart('Hello world')],
-              ),
+              content: Content(parts: [TextPart('Hello world')]),
               taskType: TaskType.retrievalDocument,
             ),
             EmbedContentRequest(
-              content: Content(
-                parts: [TextPart('Goodbye world')],
-              ),
+              content: Content(parts: [TextPart('Goodbye world')]),
               taskType: TaskType.retrievalDocument,
             ),
           ],
@@ -258,10 +237,7 @@ void main() {
                 InlinedRequest(
                   request: GenerateContentRequest(
                     contents: [
-                      Content(
-                        parts: [TextPart('Test')],
-                        role: 'user',
-                      ),
+                      Content(parts: [TextPart('Test')], role: 'user'),
                     ],
                   ),
                 ),
@@ -274,9 +250,7 @@ void main() {
       // Update the batch priority (only priority can be updated)
       final updatedBatch = await client!.batches.updateGenerateContentBatch(
         name: batch.name!,
-        batch: const GenerateContentBatch(
-          priority: 10,
-        ),
+        batch: const GenerateContentBatch(priority: 10),
         updateMask: 'priority',
       );
 

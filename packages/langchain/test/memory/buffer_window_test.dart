@@ -80,10 +80,7 @@ void main() {
         chatHistory: ChatMessageHistory(messages: pastMessages),
       );
       final res1 = await memory1.loadMemoryVariables();
-      expect(
-        res1[BaseMemory.defaultMemoryKey],
-        equals([m3, m4]),
-      );
+      expect(res1[BaseMemory.defaultMemoryKey], equals([m3, m4]));
       // k = 2
       final memory2 = ConversationBufferWindowMemory(
         returnMessages: true,
@@ -91,10 +88,7 @@ void main() {
         chatHistory: ChatMessageHistory(messages: pastMessages),
       );
       final res2 = await memory2.loadMemoryVariables();
-      expect(
-        res2[BaseMemory.defaultMemoryKey],
-        equals([m1, m2, m3, m4]),
-      );
+      expect(res2[BaseMemory.defaultMemoryKey], equals([m1, m2, m3, m4]));
       // k = 3
       final memory3 = ConversationBufferWindowMemory(
         returnMessages: true,
@@ -102,10 +96,7 @@ void main() {
         chatHistory: ChatMessageHistory(messages: pastMessages),
       );
       final res3 = await memory3.loadMemoryVariables();
-      expect(
-        res3[BaseMemory.defaultMemoryKey],
-        equals([m1, m2, m3, m4]),
-      );
+      expect(res3[BaseMemory.defaultMemoryKey], equals([m1, m2, m3, m4]));
     });
 
     test('Test clear memory', () async {

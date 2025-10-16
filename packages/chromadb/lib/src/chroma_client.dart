@@ -44,10 +44,7 @@ class ChromaClient {
 
   /// Lists all collections.
   Future<List<CollectionType>> listCollections() {
-    return _api.listCollections(
-      tenant: tenant,
-      database: database,
-    );
+    return _api.listCollections(tenant: tenant, database: database);
   }
 
   /// Creates a new collection with the specified properties.
@@ -67,10 +64,7 @@ class ChromaClient {
     final res = await _api.createCollection(
       tenant: tenant,
       database: database,
-      request: CreateCollection(
-        name: name,
-        metadata: metadata,
-      ),
+      request: CreateCollection(name: name, metadata: metadata),
     );
     return Collection(
       name: res.name,
@@ -151,9 +145,7 @@ class ChromaClient {
   /// Deletes a collection with the specified name.
   ///
   /// - [name] - The name of the collection.
-  Future<void> deleteCollection({
-    required final String name,
-  }) async {
+  Future<void> deleteCollection({required final String name}) async {
     await _api.deleteCollection(
       collectionName: name,
       tenant: tenant,

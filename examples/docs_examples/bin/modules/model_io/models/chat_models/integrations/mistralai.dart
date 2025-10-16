@@ -28,9 +28,10 @@ Future<void> _chatMistralAI(final String apiKey) async {
   final humanMessagePrompt = HumanChatMessagePromptTemplate.fromTemplate(
     humanTemplate,
   );
-  final chatPrompt = ChatPromptTemplate.fromPromptMessages(
-    [systemMessagePrompt, humanMessagePrompt],
-  );
+  final chatPrompt = ChatPromptTemplate.fromPromptMessages([
+    systemMessagePrompt,
+    humanMessagePrompt,
+  ]);
 
   final chain = chatPrompt | chatModel | const StringOutputParser();
 

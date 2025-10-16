@@ -39,9 +39,6 @@ abstract class CreateVectorStoreFileRequest
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'file_id': fileId,
-      'chunking_strategy': chunkingStrategy,
-    };
+    return {'file_id': fileId, 'chunking_strategy': chunkingStrategy};
   }
 }

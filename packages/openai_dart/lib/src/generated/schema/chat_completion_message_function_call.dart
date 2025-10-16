@@ -38,9 +38,6 @@ abstract class ChatCompletionMessageFunctionCall
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'name': name,
-      'arguments': arguments,
-    };
+    return {'name': name, 'arguments': arguments};
   }
 }

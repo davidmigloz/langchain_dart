@@ -3,10 +3,7 @@ import '../copy_with_sentinel.dart';
 /// Identifier for a Chunk retrieved via Semantic Retriever.
 class SemanticRetrieverChunk {
   /// Creates a new [SemanticRetrieverChunk] instance.
-  const SemanticRetrieverChunk({
-    this.source,
-    this.chunk,
-  });
+  const SemanticRetrieverChunk({this.source, this.chunk});
 
   /// Name of the source matching the request's SemanticRetrieverConfig.source.
   ///

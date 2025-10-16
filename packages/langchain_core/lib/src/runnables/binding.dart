@@ -43,10 +43,8 @@ class RunnableBinding<
 >
     extends Runnable<RunInput, CallOptions, RunOutput> {
   /// {@macro runnable_binding}
-  const RunnableBinding({
-    required this.bound,
-    required this.options,
-  }) : super(defaultOptions: options);
+  const RunnableBinding({required this.bound, required this.options})
+    : super(defaultOptions: options);
 
   /// The [Runnable] to bind.
   final Runnable<RunInput, CallOptions, RunOutput> bound;
@@ -59,10 +57,7 @@ class RunnableBinding<
   /// - [input] - the input to invoke the [RunnableBinding] on.
   /// - [options] - the options to use when invoking the [RunnableBinding].
   @override
-  Future<RunOutput> invoke(
-    final RunInput input, {
-    final CallOptions? options,
-  }) {
+  Future<RunOutput> invoke(final RunInput input, {final CallOptions? options}) {
     final finalOptions =
         options?.merge(this.options) as CallOptions? ?? this.options;
     return bound.invoke(input, options: finalOptions);
@@ -70,10 +65,7 @@ class RunnableBinding<
 
   @override
   Stream<RunOutput> stream(final RunInput input, {final CallOptions? options}) {
-    return bound.stream(
-      input,
-      options: options ?? this.options,
-    );
+    return bound.stream(input, options: options ?? this.options);
   }
 
   @override

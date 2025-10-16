@@ -35,27 +35,15 @@ void main() {
       });
 
       test('is case insensitive', () {
-        expect(
-          chunkStateFromString('state_active'),
-          ChunkState.active,
-        );
-        expect(
-          chunkStateFromString('State_Active'),
-          ChunkState.active,
-        );
-        expect(
-          chunkStateFromString('STATE_active'),
-          ChunkState.active,
-        );
+        expect(chunkStateFromString('state_active'), ChunkState.active);
+        expect(chunkStateFromString('State_Active'), ChunkState.active);
+        expect(chunkStateFromString('STATE_active'), ChunkState.active);
       });
     });
 
     group('chunkStateToString', () {
       test('converts unspecified to STATE_UNSPECIFIED', () {
-        expect(
-          chunkStateToString(ChunkState.unspecified),
-          'STATE_UNSPECIFIED',
-        );
+        expect(chunkStateToString(ChunkState.unspecified), 'STATE_UNSPECIFIED');
       });
 
       test('converts pendingProcessing to STATE_PENDING_PROCESSING', () {

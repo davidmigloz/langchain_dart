@@ -8,10 +8,7 @@ import '../language_models/types.dart';
 @immutable
 abstract class LLMOptions extends LanguageModelOptions {
   /// {@macro llm_options}
-  const LLMOptions({
-    super.model,
-    super.concurrencyLimit,
-  });
+  const LLMOptions({super.model, super.concurrencyLimit});
 }
 
 /// {@template llm_result}
@@ -32,9 +29,7 @@ class LLMResult extends LanguageModelResult<String> {
   String get outputAsString => output;
 
   @override
-  LLMResult concat(
-    final LanguageModelResult<String> other,
-  ) {
+  LLMResult concat(final LanguageModelResult<String> other) {
     return LLMResult(
       id: other.id,
       output: output + other.output,
@@ -43,10 +38,7 @@ class LLMResult extends LanguageModelResult<String> {
               other.finishReason == FinishReason.unspecified
           ? finishReason
           : other.finishReason,
-      metadata: {
-        ...metadata,
-        ...other.metadata,
-      },
+      metadata: {...metadata, ...other.metadata},
       usage: usage.concat(other.usage),
       streaming: other.streaming,
     );

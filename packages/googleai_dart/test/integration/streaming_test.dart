@@ -24,9 +24,7 @@ void main() {
       );
     } else {
       client = GoogleAIClient(
-        config: GoogleAIConfig(
-          authProvider: ApiKeyProvider(apiKey!),
-        ),
+        config: GoogleAIConfig(authProvider: ApiKeyProvider(apiKey!)),
       );
     }
   });
@@ -103,62 +101,54 @@ void main() {
       expect(chunks.length, greaterThan(0));
     });
 
-    test(
-      'can abort streaming request',
-      () async {
-        if (apiKey == null) {
-          markTestSkipped('API key not available');
-          return;
-        }
+    test('can abort streaming request', () async {
+      if (apiKey == null) {
+        markTestSkipped('API key not available');
+        return;
+      }
 
-        final abortController = Completer<void>();
-        final chunks = <GenerateContentResponse>[];
+      final abortController = Completer<void>();
+      final chunks = <GenerateContentResponse>[];
 
-        final stream = client!.models.streamGenerateContent(
-          model: defaultGenerativeModel,
-          request: const GenerateContentRequest(
-            contents: [
-              Content(
-                parts: [
-                  TextPart(
-                    'Write a very long story about space exploration. '
-                    'Include many details and make it at least 500 words.',
-                  ),
-                ],
-                role: 'user',
-              ),
-            ],
-          ),
-          abortTrigger: abortController.future,
-        );
+      final stream = client!.models.streamGenerateContent(
+        model: defaultGenerativeModel,
+        request: const GenerateContentRequest(
+          contents: [
+            Content(
+              parts: [
+                TextPart(
+                  'Write a very long story about space exploration. '
+                  'Include many details and make it at least 500 words.',
+                ),
+              ],
+              role: 'user',
+            ),
+          ],
+        ),
+        abortTrigger: abortController.future,
+      );
 
-        var abortWasCalled = false;
+      var abortWasCalled = false;
 
-        try {
-          await for (final chunk in stream) {
-            chunks.add(chunk);
-            // Abort after receiving first chunk
-            if (chunks.length == 1 && !abortWasCalled) {
-              abortWasCalled = true;
-              abortController.complete();
-            }
+      try {
+        await for (final chunk in stream) {
+          chunks.add(chunk);
+          // Abort after receiving first chunk
+          if (chunks.length == 1 && !abortWasCalled) {
+            abortWasCalled = true;
+            abortController.complete();
           }
-        } on AbortedException catch (e) {
-          expect(e.message, contains('abort'));
-          expect(e.stage, equals(AbortionStage.duringStream));
         }
+      } on AbortedException catch (e) {
+        expect(e.message, contains('abort'));
+        expect(e.stage, equals(AbortionStage.duringStream));
+      }
 
-        // Either the stream aborted OR it completed quickly (both are acceptable)
-        expect(
-          abortWasCalled,
-          isTrue,
-          reason: 'Should have attempted to abort',
-        );
-        expect(chunks.length, greaterThanOrEqualTo(1));
-        // Note: abortedCorrectly may be false if stream completed before abort took effect
-      },
-      timeout: const Timeout(Duration(seconds: 60)),
-    );
+      // Either the stream aborted OR it completed quickly (both are acceptable)
+      expect(abortWasCalled, isTrue, reason: 'Should have attempted to abort');
+      expect(chunks.length, greaterThanOrEqualTo(1));
+      // Note: abortedCorrectly may be false if stream completed before abort took effect
+    }, timeout: const Timeout(Duration(seconds: 60)));
 
     test('handles streaming errors', () {
       if (apiKey == null) {
@@ -170,22 +160,16 @@ void main() {
         model: 'invalid-model-for-streaming',
         request: const GenerateContentRequest(
           contents: [
-            Content(
-              parts: [TextPart('Hello')],
-              role: 'user',
-            ),
+            Content(parts: [TextPart('Hello')], role: 'user'),
           ],
         ),
       );
 
-      expect(
-        () async {
-          await for (final _ in stream) {
-            // Should throw before yielding anything
-          }
-        },
-        throwsA(isA<ApiException>()),
-      );
+      expect(() async {
+        await for (final _ in stream) {
+          // Should throw before yielding anything
+        }
+      }, throwsA(isA<ApiException>()));
     });
 
     test('accumulates complete response from chunks', () async {
@@ -232,10 +216,7 @@ void main() {
         model: defaultGenerativeModel,
         request: const GenerateContentRequest(
           contents: [
-            Content(
-              parts: [TextPart('Say "done".')],
-              role: 'user',
-            ),
+            Content(parts: [TextPart('Say "done".')], role: 'user'),
           ],
         ),
       );

@@ -11,10 +11,7 @@ class EndpointConfig {
   final Map<String, String> queryParams;
 
   /// Creates an [EndpointConfig].
-  const EndpointConfig({
-    this.headers = const {},
-    this.queryParams = const {},
-  });
+  const EndpointConfig({this.headers = const {}, this.queryParams = const {}});
 
   /// Empty endpoint config (no defaults).
   static const empty = EndpointConfig();

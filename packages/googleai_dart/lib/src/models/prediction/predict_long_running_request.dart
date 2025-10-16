@@ -12,10 +12,7 @@ class PredictLongRunningRequest {
   final dynamic parameters;
 
   /// Creates a [PredictLongRunningRequest].
-  const PredictLongRunningRequest({
-    required this.instances,
-    this.parameters,
-  });
+  const PredictLongRunningRequest({required this.instances, this.parameters});
 
   /// Creates a [PredictLongRunningRequest] from JSON.
   factory PredictLongRunningRequest.fromJson(Map<String, dynamic> json) =>

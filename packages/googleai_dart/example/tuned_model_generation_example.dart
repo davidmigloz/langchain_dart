@@ -23,9 +23,7 @@ void main() async {
     const request = GenerateContentRequest(
       contents: [
         Content(
-          parts: [
-            TextPart('Explain quantum computing in simple terms'),
-          ],
+          parts: [TextPart('Explain quantum computing in simple terms')],
           role: 'user',
         ),
       ],
@@ -62,9 +60,7 @@ void main() async {
       request: const GenerateContentRequest(
         contents: [
           Content(
-            parts: [
-              TextPart('Write a haiku about programming'),
-            ],
+            parts: [TextPart('Write a haiku about programming')],
             role: 'user',
           ),
         ],
@@ -148,10 +144,7 @@ void main() async {
         tunedModel: 'invalid-model-id',
         request: const GenerateContentRequest(
           contents: [
-            Content(
-              parts: [TextPart('Test')],
-              role: 'user',
-            ),
+            Content(parts: [TextPart('Test')], role: 'user'),
           ],
         ),
       );

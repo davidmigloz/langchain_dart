@@ -6,9 +6,7 @@ class Media {
   final Video? video;
 
   /// Creates a [Media].
-  const Media({
-    this.video,
-  });
+  const Media({this.video});
 
   /// Creates a [Media] from JSON.
   factory Media.fromJson(Map<String, dynamic> json) => Media(
@@ -23,9 +21,7 @@ class Media {
   };
 
   /// Creates a copy with replaced values.
-  Media copyWith({
-    Object? video = unsetCopyWithValue,
-  }) {
+  Media copyWith({Object? video = unsetCopyWithValue}) {
     return Media(
       video: video == unsetCopyWithValue ? this.video : video as Video?,
     );
@@ -41,16 +37,11 @@ class Video {
   final String? uri;
 
   /// Creates a [Video].
-  const Video({
-    this.video,
-    this.uri,
-  });
+  const Video({this.video, this.uri});
 
   /// Creates a [Video] from JSON.
-  factory Video.fromJson(Map<String, dynamic> json) => Video(
-    video: json['video'] as String?,
-    uri: json['uri'] as String?,
-  );
+  factory Video.fromJson(Map<String, dynamic> json) =>
+      Video(video: json['video'] as String?, uri: json['uri'] as String?);
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {

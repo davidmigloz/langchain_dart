@@ -10,9 +10,7 @@ void main() {
         'name': 'batches/embed123',
         'displayName': 'My Embed Batch',
         'model': 'models/text-embedding-004',
-        'inputConfig': {
-          'fileName': 'gs://bucket/embeds.jsonl',
-        },
+        'inputConfig': {'fileName': 'gs://bucket/embeds.jsonl'},
         'createTime': '2025-01-15T10:30:00Z',
         'endTime': '2025-01-15T10:35:00Z',
         'updateTime': '2025-01-15T10:34:59Z',
@@ -45,9 +43,7 @@ void main() {
       final json = {
         'displayName': 'Minimal Embed',
         'model': 'models/text-embedding-004',
-        'inputConfig': {
-          'fileName': 'embeds.jsonl',
-        },
+        'inputConfig': {'fileName': 'embeds.jsonl'},
       };
 
       final batch = EmbedContentBatch.fromJson(json);
@@ -65,9 +61,7 @@ void main() {
       final batch = EmbedContentBatch(
         displayName: 'Test Embed',
         model: 'models/text-embedding-004',
-        inputConfig: const InputEmbedContentConfig(
-          fileName: 'embeds.jsonl',
-        ),
+        inputConfig: const InputEmbedContentConfig(fileName: 'embeds.jsonl'),
         name: 'batches/test',
         createTime: DateTime.parse('2025-01-15T10:00:00Z'),
         state: BatchState.running,

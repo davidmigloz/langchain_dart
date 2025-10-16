@@ -65,10 +65,7 @@ void main() {
     });
 
     test('toJson includes only non-null fields', () {
-      const stats = BatchStats(
-        requestCount: 100,
-        successfulRequestCount: 80,
-      );
+      const stats = BatchStats(requestCount: 100, successfulRequestCount: 80);
 
       final json = stats.toJson();
 

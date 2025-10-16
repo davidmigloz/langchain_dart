@@ -25,23 +25,15 @@ void main() {
       const models = ['gemini-embedding-001'];
       for (final model in models) {
         embeddings.model = model;
-        final res = await embeddings.embedQuery(
-          'Hello world',
-        );
+        final res = await embeddings.embedQuery('Hello world');
         expect(res.length, 3072);
       }
     });
 
     test('Test GoogleGenerativeAIEmbeddings.embedDocuments', () async {
       final res = await embeddings.embedDocuments([
-        const Document(
-          id: '1',
-          pageContent: 'Hello world',
-        ),
-        const Document(
-          id: '2',
-          pageContent: 'Bye bye',
-        ),
+        const Document(id: '1', pageContent: 'Hello world'),
+        const Document(id: '2', pageContent: 'Bye bye'),
       ]);
       expect(res.length, 2);
       expect(res[0].length, 3072);

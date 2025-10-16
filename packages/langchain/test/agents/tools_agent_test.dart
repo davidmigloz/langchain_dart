@@ -103,9 +103,7 @@ void main() {
 Future<void> testAgentWithCalculator(
   BaseChatModel<ChatModelOptions> llm,
 ) async {
-  final agent = ToolsAgent.fromLLMAndTools(
-    llm: llm,
-  );
+  final agent = ToolsAgent.fromLLMAndTools(llm: llm);
   final executor = AgentExecutor(agent: agent);
   final res = await executor.run(
     'What is 40 raised to the power of 0.43? '
@@ -119,10 +117,7 @@ Future<void> testMemory(
   required final bool returnMessages,
 }) async {
   final memory = ConversationBufferMemory(returnMessages: returnMessages);
-  final agent = ToolsAgent.fromLLMAndTools(
-    llm: llm,
-    memory: memory,
-  );
+  final agent = ToolsAgent.fromLLMAndTools(llm: llm, memory: memory);
 
   final executor = AgentExecutor(agent: agent);
 
@@ -183,19 +178,13 @@ AgentExecutor testLCDLEquivalent({
 
 @immutable
 class _SearchInput {
-  const _SearchInput({
-    required this.query,
-    required this.n,
-  });
+  const _SearchInput({required this.query, required this.n});
 
   final String query;
   final int n;
 
   _SearchInput.fromJson(final Map<String, dynamic> json)
-    : this(
-        query: json['query'] as String,
-        n: json['n'] as int,
-      );
+    : this(query: json['query'] as String, n: json['n'] as int);
 
   @override
   bool operator ==(covariant _SearchInput other) =>
@@ -212,10 +201,7 @@ final Tool<Object, ToolOptions, Object> searchTool =
       inputJsonSchema: const {
         'type': 'object',
         'properties': {
-          'query': {
-            'type': 'string',
-            'description': 'The query to search for',
-          },
+          'query': {'type': 'string', 'description': 'The query to search for'},
           'n': {
             'type': 'integer',
             'description': 'The number of results to return',

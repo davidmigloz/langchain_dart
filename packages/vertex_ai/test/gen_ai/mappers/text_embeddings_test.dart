@@ -38,22 +38,10 @@ void main() {
             'title': 'TITLE 1',
             'content': 'CONTENT 1',
           },
-          {
-            'task_type': 'RETRIEVAL_QUERY',
-            'content': 'CONTENT 2',
-          },
-          {
-            'task_type': 'SEMANTIC_SIMILARITY',
-            'content': 'CONTENT 3',
-          },
-          {
-            'task_type': 'CLASSIFICATION',
-            'content': 'CONTENT 4',
-          },
-          {
-            'task_type': 'CLUSTERING',
-            'content': 'CONTENT 5',
-          },
+          {'task_type': 'RETRIEVAL_QUERY', 'content': 'CONTENT 2'},
+          {'task_type': 'SEMANTIC_SIMILARITY', 'content': 'CONTENT 3'},
+          {'task_type': 'CLASSIFICATION', 'content': 'CONTENT 4'},
+          {'task_type': 'CLUSTERING', 'content': 'CONTENT 5'},
         ],
       );
 
@@ -70,25 +58,17 @@ void main() {
           {
             'embeddings': {
               'values': [0.1, 0.2, 0.3],
-              'statistics': {
-                'truncated': false,
-                'token_count': 17,
-              },
+              'statistics': {'truncated': false, 'token_count': 17},
             },
           },
           {
             'embeddings': {
               'values': [0.3, 0.2, 0.1],
-              'statistics': {
-                'truncated': false,
-                'token_count': 5,
-              },
+              'statistics': {'truncated': false, 'token_count': 5},
             },
           },
         ],
-        metadata: {
-          'billableCharacterCount': 274,
-        },
+        metadata: {'billableCharacterCount': 274},
       );
       const expected = VertexAITextEmbeddingsModelResponse(
         predictions: [

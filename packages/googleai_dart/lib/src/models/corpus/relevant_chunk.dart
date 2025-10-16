@@ -5,11 +5,7 @@ import 'document.dart';
 /// Information for a chunk relevant to a query.
 class RelevantChunk {
   /// Creates a new [RelevantChunk] instance.
-  const RelevantChunk({
-    this.chunkRelevanceScore,
-    this.chunk,
-    this.document,
-  });
+  const RelevantChunk({this.chunkRelevanceScore, this.chunk, this.document});
 
   /// Chunk relevance to the query.
   ///

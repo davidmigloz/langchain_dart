@@ -127,10 +127,7 @@ void main() {
       );
       expect(collection.name, 'test');
       expect(collection.metadata, {'test': 'test'});
-      await collection.modify(
-        name: 'test2',
-        metadata: {'test': 'test2'},
-      );
+      await collection.modify(name: 'test2', metadata: {'test': 'test2'});
 
       collections = await client.listCollections();
       expect(collections, hasLength(1));
@@ -202,10 +199,7 @@ void main() {
         [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0],
         [10.0, 9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0],
       ];
-      await collection.add(
-        ids: ids,
-        embeddings: embeddings,
-      );
+      await collection.add(ids: ids, embeddings: embeddings);
       expect(collection.count(), completion(equals(3)));
 
       final queryResponse = await collection.query(
@@ -228,10 +222,7 @@ void main() {
         [6.0, 7.0, 8.0, 9.0, 10.0],
         [11.0, 12.0, 13.0, 14.0, 15.0],
       ];
-      await collection.add(
-        ids: ids,
-        embeddings: embeddings,
-      );
+      await collection.add(ids: ids, embeddings: embeddings);
       expect(collection.count(), completion(equals(3)));
 
       final peekResponse = await collection.peek(limit: 2);

@@ -7,9 +7,7 @@ void main() {
   group('Media', () {
     test('fromJson creates media with video', () {
       final json = {
-        'video': {
-          'uri': 'gs://bucket/video.mp4',
-        },
+        'video': {'uri': 'gs://bucket/video.mp4'},
       };
 
       final media = Media.fromJson(json);
@@ -27,9 +25,7 @@ void main() {
     });
 
     test('toJson serializes media with video', () {
-      const media = Media(
-        video: Video(uri: 'gs://test.mp4'),
-      );
+      const media = Media(video: Video(uri: 'gs://test.mp4'));
 
       final json = media.toJson();
 
@@ -46,13 +42,9 @@ void main() {
     });
 
     test('copyWith creates new instance', () {
-      const original = Media(
-        video: Video(uri: 'original.mp4'),
-      );
+      const original = Media(video: Video(uri: 'original.mp4'));
 
-      final updated = original.copyWith(
-        video: const Video(uri: 'updated.mp4'),
-      );
+      final updated = original.copyWith(video: const Video(uri: 'updated.mp4'));
 
       expect(updated.video!.uri, 'updated.mp4');
       expect(original.video!.uri, 'original.mp4');
@@ -61,9 +53,7 @@ void main() {
 
   group('Video', () {
     test('fromJson creates video with uri', () {
-      final json = {
-        'uri': 'gs://bucket/video.mp4',
-      };
+      final json = {'uri': 'gs://bucket/video.mp4'};
 
       final video = Video.fromJson(json);
 
@@ -72,9 +62,7 @@ void main() {
     });
 
     test('fromJson creates video with base64 data', () {
-      final json = {
-        'video': 'base64EncodedVideoData==',
-      };
+      final json = {'video': 'base64EncodedVideoData=='};
 
       final video = Video.fromJson(json);
 
@@ -83,10 +71,7 @@ void main() {
     });
 
     test('fromJson creates video with both fields', () {
-      final json = {
-        'video': 'base64Data',
-        'uri': 'gs://backup.mp4',
-      };
+      final json = {'video': 'base64Data', 'uri': 'gs://backup.mp4'};
 
       final video = Video.fromJson(json);
 
@@ -122,14 +107,9 @@ void main() {
     });
 
     test('copyWith creates new instance with replaced values', () {
-      const original = Video(
-        uri: 'original.mp4',
-        video: 'originalData',
-      );
+      const original = Video(uri: 'original.mp4', video: 'originalData');
 
-      final updated = original.copyWith(
-        uri: 'updated.mp4',
-      );
+      final updated = original.copyWith(uri: 'updated.mp4');
 
       expect(updated.uri, 'updated.mp4');
       expect(updated.video, 'originalData');

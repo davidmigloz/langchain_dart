@@ -219,9 +219,8 @@ sealed class ChatCompletionDeveloperMessageContent
   ) = ChatCompletionDeveloperMessageContentParts;
 
   /// The text contents of the developer message.
-  const factory ChatCompletionDeveloperMessageContent.text(
-    String value,
-  ) = ChatCompletionDeveloperMessageContentString;
+  const factory ChatCompletionDeveloperMessageContent.text(String value) =
+      ChatCompletionDeveloperMessageContentString;
 
   /// Object construction from a JSON representation
   factory ChatCompletionDeveloperMessageContent.fromJson(
@@ -282,9 +281,8 @@ sealed class ChatCompletionUserMessageContent
   ) = ChatCompletionMessageContentParts;
 
   /// The text contents of the user message.
-  const factory ChatCompletionUserMessageContent.string(
-    String value,
-  ) = ChatCompletionUserMessageContentString;
+  const factory ChatCompletionUserMessageContent.string(String value) =
+      ChatCompletionUserMessageContentString;
 
   /// Object construction from a JSON representation
   factory ChatCompletionUserMessageContent.fromJson(

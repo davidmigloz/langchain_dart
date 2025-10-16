@@ -97,14 +97,11 @@ sealed class EmbeddingModel with _$EmbeddingModel {
   const EmbeddingModel._();
 
   /// Available completion models. Mind that the list may not be exhaustive nor up-to-date.
-  const factory EmbeddingModel.model(
-    EmbeddingModels value,
-  ) = EmbeddingModelEnumeration;
+  const factory EmbeddingModel.model(EmbeddingModels value) =
+      EmbeddingModelEnumeration;
 
   /// The ID of the model to use for this request.
-  const factory EmbeddingModel.modelId(
-    String value,
-  ) = EmbeddingModelString;
+  const factory EmbeddingModel.modelId(String value) = EmbeddingModelString;
 
   /// Object construction from a JSON representation
   factory EmbeddingModel.fromJson(Map<String, dynamic> json) =>
@@ -128,9 +125,7 @@ class _EmbeddingModelConverter
     if (data is String) {
       return EmbeddingModelString(data);
     }
-    throw Exception(
-      'Unexpected value for EmbeddingModel: $data',
-    );
+    throw Exception('Unexpected value for EmbeddingModel: $data');
   }
 
   @override
@@ -152,24 +147,18 @@ sealed class EmbeddingInput with _$EmbeddingInput {
   const EmbeddingInput._();
 
   /// A list of tokenized prompts.
-  const factory EmbeddingInput.listTokens(
-    List<List<int>> value,
-  ) = EmbeddingInputListListInt;
+  const factory EmbeddingInput.listTokens(List<List<int>> value) =
+      EmbeddingInputListListInt;
 
   /// A tokenized prompt.
-  const factory EmbeddingInput.tokens(
-    List<int> value,
-  ) = EmbeddingInputListInt;
+  const factory EmbeddingInput.tokens(List<int> value) = EmbeddingInputListInt;
 
   /// A list of string prompts.
-  const factory EmbeddingInput.listString(
-    List<String> value,
-  ) = EmbeddingInputListString;
+  const factory EmbeddingInput.listString(List<String> value) =
+      EmbeddingInputListString;
 
   /// A string prompt.
-  const factory EmbeddingInput.string(
-    String value,
-  ) = EmbeddingInputString;
+  const factory EmbeddingInput.string(String value) = EmbeddingInputString;
 
   /// Object construction from a JSON representation
   factory EmbeddingInput.fromJson(Map<String, dynamic> json) =>
@@ -195,9 +184,7 @@ class _EmbeddingInputConverter
     if (data is String) {
       return EmbeddingInputString(data);
     }
-    throw Exception(
-      'Unexpected value for EmbeddingInput: $data',
-    );
+    throw Exception('Unexpected value for EmbeddingInput: $data');
   }
 
   @override

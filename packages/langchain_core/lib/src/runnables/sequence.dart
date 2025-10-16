@@ -165,10 +165,10 @@ class RunnableSequence<RunInput extends Object?, RunOutput extends Object?>
   ///
   /// - [next] - the [Runnable] to pipe the output into.
   @override
-  RunnableSequence<RunInput, NewRunOutput>
-  pipe<NewRunOutput extends Object?, NewCallOptions extends RunnableOptions>(
-    final Runnable<RunOutput, NewCallOptions, NewRunOutput> next,
-  ) {
+  RunnableSequence<RunInput, NewRunOutput> pipe<
+    NewRunOutput extends Object?,
+    NewCallOptions extends RunnableOptions
+  >(final Runnable<RunOutput, NewCallOptions, NewRunOutput> next) {
     if (next is RunnableSequence<RunOutput, NewRunOutput>) {
       final nextSeq = next as RunnableSequence<RunOutput, NewRunOutput>;
       return RunnableSequence(

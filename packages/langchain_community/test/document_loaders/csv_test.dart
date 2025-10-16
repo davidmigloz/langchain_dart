@@ -16,13 +16,7 @@ void main() {
 
       final loader = CsvLoader(filePath);
 
-      expect(
-        loader.lazyLoad(),
-        emitsInOrder([
-          expectedDoc,
-          emitsDone,
-        ]),
-      );
+      expect(loader.lazyLoad(), emitsInOrder([expectedDoc, emitsDone]));
     });
 
     test('Test field names override', () {
@@ -76,10 +70,7 @@ void main() {
     test('Test extracting field', () {
       const filePath = './test/document_loaders/assets/example_2.csv';
 
-      final loader = CsvLoader(
-        filePath,
-        fields: ['category'],
-      );
+      final loader = CsvLoader(filePath, fields: ['category']);
 
       expect(
         loader.lazyLoad(),
@@ -115,10 +106,7 @@ void main() {
     test('test invalid column throws exception', () {
       const filePath = './test/document_loaders/assets/example_2.csv';
 
-      final loader = CsvLoader(
-        filePath,
-        fields: ['isbn'],
-      );
+      final loader = CsvLoader(filePath, fields: ['isbn']);
 
       expect(() async => loader.load(), throwsA(isA<AssertionError>()));
     });
@@ -178,10 +166,7 @@ void main() {
     test('Test TSV file', () {
       const filePath = './test/document_loaders/assets/example_2.tsv';
 
-      final loader = CsvLoader(
-        filePath,
-        fieldDelimiter: '\t',
-      );
+      final loader = CsvLoader(filePath, fieldDelimiter: '\t');
 
       expect(
         loader.lazyLoad(),

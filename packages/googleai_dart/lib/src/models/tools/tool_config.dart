@@ -8,9 +8,7 @@ class ToolConfig {
   final FunctionCallingConfig? functionCallingConfig;
 
   /// Creates a [ToolConfig].
-  const ToolConfig({
-    this.functionCallingConfig,
-  });
+  const ToolConfig({this.functionCallingConfig});
 
   /// Creates a [ToolConfig] from JSON.
   factory ToolConfig.fromJson(Map<String, dynamic> json) => ToolConfig(
@@ -28,9 +26,7 @@ class ToolConfig {
   };
 
   /// Creates a copy with replaced values.
-  ToolConfig copyWith({
-    Object? functionCallingConfig = unsetCopyWithValue,
-  }) {
+  ToolConfig copyWith({Object? functionCallingConfig = unsetCopyWithValue}) {
     return ToolConfig(
       functionCallingConfig: functionCallingConfig == unsetCopyWithValue
           ? this.functionCallingConfig

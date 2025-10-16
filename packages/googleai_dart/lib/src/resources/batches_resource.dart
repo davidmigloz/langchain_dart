@@ -120,9 +120,7 @@ class BatchesResource extends ResourceBase {
     );
 
     final headers = requestBuilder.buildHeaders(
-      additionalHeaders: {
-        'Content-Type': 'application/json',
-      },
+      additionalHeaders: {'Content-Type': 'application/json'},
     );
 
     final httpRequest = http.Request('PATCH', url)
@@ -157,9 +155,7 @@ class BatchesResource extends ResourceBase {
     );
 
     final headers = requestBuilder.buildHeaders(
-      additionalHeaders: {
-        'Content-Type': 'application/json',
-      },
+      additionalHeaders: {'Content-Type': 'application/json'},
     );
 
     final httpRequest = http.Request('PATCH', url)
@@ -194,9 +190,7 @@ class BatchesResource extends ResourceBase {
     final url = requestBuilder.buildUrl('/{version}/$name:cancel');
 
     final headers = requestBuilder.buildHeaders(
-      additionalHeaders: {
-        'Content-Type': 'application/json',
-      },
+      additionalHeaders: {'Content-Type': 'application/json'},
     );
 
     final httpRequest = http.Request('POST', url)

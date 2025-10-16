@@ -58,10 +58,7 @@ class HomeScreenState extends Equatable {
   ];
 }
 
-enum HomeScreenStatus {
-  idle,
-  generating,
-}
+enum HomeScreenStatus { idle, generating }
 
 enum HomeScreenError {
   modelEmpty,

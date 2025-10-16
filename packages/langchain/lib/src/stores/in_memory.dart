@@ -5,9 +5,7 @@ import 'package:langchain_core/stores.dart';
 /// {@endtemplate}
 class InMemoryStore<K, V> implements BaseStore<K, V> {
   /// {@macro in_memory_store}
-  InMemoryStore({
-    final Map<K, V>? initialData,
-  }) : _store = {...?initialData};
+  InMemoryStore({final Map<K, V>? initialData}) : _store = {...?initialData};
 
   final Map<K, V> _store;
 

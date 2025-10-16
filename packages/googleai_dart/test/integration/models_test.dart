@@ -24,9 +24,7 @@ void main() {
     setUp(() {
       if (apiKey != null) {
         client = GoogleAIClient(
-          config: GoogleAIConfig(
-            authProvider: ApiKeyProvider(apiKey),
-          ),
+          config: GoogleAIConfig(authProvider: ApiKeyProvider(apiKey)),
         );
       }
     });

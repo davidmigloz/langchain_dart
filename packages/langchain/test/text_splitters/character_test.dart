@@ -441,14 +441,11 @@ void main() {
       expect(streamList.first, isA<List<Document>>());
 
       final item = streamList.first;
-      expect(
-        item,
-        [
-          const Document(pageContent: 'foo bar'),
-          const Document(pageContent: 'bar baz'),
-          const Document(pageContent: 'baz 123'),
-        ],
-      );
+      expect(item, [
+        const Document(pageContent: 'foo bar'),
+        const Document(pageContent: 'bar baz'),
+        const Document(pageContent: 'baz 123'),
+      ]);
     });
   });
 }

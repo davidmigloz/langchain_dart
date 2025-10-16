@@ -12,9 +12,8 @@ import '../../settings/settings_repository.dart';
 part 'pop_up_screen_state.dart';
 
 class PopUpScreenCubit extends Cubit<PopUpScreenState> {
-  PopUpScreenCubit({
-    required this.settingsRepository,
-  }) : super(const PopUpScreenState()) {
+  PopUpScreenCubit({required this.settingsRepository})
+    : super(const PopUpScreenState()) {
     _init();
   }
 

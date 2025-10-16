@@ -12,9 +12,7 @@ import 'types.dart';
 abstract class BaseChatModel<Options extends ChatModelOptions>
     extends BaseLanguageModel<List<ChatMessage>, Options, ChatResult> {
   /// {@macro base_chat_model}
-  const BaseChatModel({
-    required super.defaultOptions,
-  });
+  const BaseChatModel({required super.defaultOptions});
 
   @override
   Stream<ChatResult> streamFromInputStream(
@@ -52,9 +50,7 @@ abstract class BaseChatModel<Options extends ChatModelOptions>
 abstract class SimpleChatModel<Options extends ChatModelOptions>
     extends BaseChatModel<Options> {
   /// {@macro simple_chat_model}
-  const SimpleChatModel({
-    required super.defaultOptions,
-  });
+  const SimpleChatModel({required super.defaultOptions});
 
   @override
   Future<ChatResult> invoke(

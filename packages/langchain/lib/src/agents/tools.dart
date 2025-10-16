@@ -75,22 +75,20 @@ const _systemChatMessagePromptTemplate = SystemChatMessagePromptTemplate(
 /// {@endtemplate}
 class ToolsAgent extends BaseSingleActionAgent {
   /// {@macro tools_agent}
-  ToolsAgent({
-    required this.llmChain,
-    required super.tools,
-  }) : _parser = const ToolsAgentOutputParser(),
-       assert(
-         llmChain.memory != null ||
-             llmChain.prompt.inputVariables.contains(
-               BaseActionAgent.agentScratchpadInputKey,
-             ),
-         '`${BaseActionAgent.agentScratchpadInputKey}` should be one of the '
-         'variables in the prompt, got ${llmChain.prompt.inputVariables}',
-       ),
-       assert(
-         llmChain.memory == null || llmChain.memory!.returnMessages,
-         'The memory must have `returnMessages` set to true',
-       );
+  ToolsAgent({required this.llmChain, required super.tools})
+    : _parser = const ToolsAgentOutputParser(),
+      assert(
+        llmChain.memory != null ||
+            llmChain.prompt.inputVariables.contains(
+              BaseActionAgent.agentScratchpadInputKey,
+            ),
+        '`${BaseActionAgent.agentScratchpadInputKey}` should be one of the '
+        'variables in the prompt, got ${llmChain.prompt.inputVariables}',
+      ),
+      assert(
+        llmChain.memory == null || llmChain.memory!.returnMessages,
+        'The memory must have `returnMessages` set to true',
+      );
 
   /// Chain to use to call the LLM.
   ///
@@ -146,9 +144,7 @@ class ToolsAgent extends BaseSingleActionAgent {
     return ToolsAgent(
       llmChain: LLMChain(
         llm: llm,
-        llmOptions: llm.defaultOptions.copyWith(
-          tools: actualTools,
-        ),
+        llmOptions: llm.defaultOptions.copyWith(tools: actualTools),
         prompt: createPrompt(
           systemChatMessage: systemChatMessage,
           extraPromptMessages: extraPromptMessages,

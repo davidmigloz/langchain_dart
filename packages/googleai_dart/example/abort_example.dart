@@ -8,9 +8,7 @@ import 'package:googleai_dart/googleai_dart.dart';
 
 void main() async {
   final client = GoogleAIClient(
-    config: const GoogleAIConfig(
-      authProvider: ApiKeyProvider('YOUR_API_KEY'),
-    ),
+    config: const GoogleAIConfig(authProvider: ApiKeyProvider('YOUR_API_KEY')),
   );
 
   try {
@@ -77,9 +75,7 @@ void main() async {
   print('\n--- Streaming Abort Example ---\n');
 
   final streamingClient = GoogleAIClient(
-    config: const GoogleAIConfig(
-      authProvider: ApiKeyProvider('YOUR_API_KEY'),
-    ),
+    config: const GoogleAIConfig(authProvider: ApiKeyProvider('YOUR_API_KEY')),
   );
 
   try {

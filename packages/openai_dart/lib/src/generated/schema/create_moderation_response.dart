@@ -39,10 +39,6 @@ abstract class CreateModerationResponse with _$CreateModerationResponse {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'model': model,
-      'results': results,
-    };
+    return {'id': id, 'model': model, 'results': results};
   }
 }

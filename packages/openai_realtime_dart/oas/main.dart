@@ -15,10 +15,13 @@ void main() async {
       onSchemaUnionFactoryName: _onSchemaUnionFactoryName,
     ),
   );
-  final res = await Process.run(
-    'dart',
-    ['run', 'build_runner', 'build', 'lib', '--delete-conflicting-outputs'],
-  );
+  final res = await Process.run('dart', [
+    'run',
+    'build_runner',
+    'build',
+    'lib',
+    '--delete-conflicting-outputs',
+  ]);
   print(res.stdout);
   print(res.stderr);
 }

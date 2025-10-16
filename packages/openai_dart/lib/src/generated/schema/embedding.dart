@@ -39,11 +39,7 @@ abstract class Embedding with _$Embedding {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'index': index,
-      'embedding': embedding,
-      'object': object,
-    };
+    return {'index': index, 'embedding': embedding, 'object': object};
   }
 }
 
@@ -57,14 +53,12 @@ sealed class EmbeddingVector with _$EmbeddingVector {
   const EmbeddingVector._();
 
   /// The embedding vector as a list of floats.
-  const factory EmbeddingVector.vector(
-    List<double> value,
-  ) = EmbeddingVectorListDouble;
+  const factory EmbeddingVector.vector(List<double> value) =
+      EmbeddingVectorListDouble;
 
   /// The embedding vector as a base64-encoded string.
-  const factory EmbeddingVector.vectorBase64(
-    String value,
-  ) = EmbeddingVectorString;
+  const factory EmbeddingVector.vectorBase64(String value) =
+      EmbeddingVectorString;
 
   /// Object construction from a JSON representation
   factory EmbeddingVector.fromJson(Map<String, dynamic> json) =>
@@ -84,9 +78,7 @@ class _EmbeddingVectorConverter
     if (data is String) {
       return EmbeddingVectorString(data);
     }
-    throw Exception(
-      'Unexpected value for EmbeddingVector: $data',
-    );
+    throw Exception('Unexpected value for EmbeddingVector: $data');
   }
 
   @override

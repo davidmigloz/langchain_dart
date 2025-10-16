@@ -18,10 +18,7 @@ import 'condition.dart';
 /// The above filter retrieves documents where genre is 'drama' OR 'action'.
 class MetadataFilter {
   /// Creates a new [MetadataFilter] instance.
-  const MetadataFilter({
-    required this.key,
-    required this.conditions,
-  });
+  const MetadataFilter({required this.key, required this.conditions});
 
   /// The key of the metadata to filter on.
   ///

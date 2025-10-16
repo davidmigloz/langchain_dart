@@ -174,14 +174,12 @@ sealed class CreateImageRequestModel with _$CreateImageRequestModel {
   const CreateImageRequestModel._();
 
   /// Available models for image generation. Mind that the list may not be exhaustive nor up-to-date.
-  const factory CreateImageRequestModel.model(
-    ImageModels value,
-  ) = CreateImageRequestModelEnumeration;
+  const factory CreateImageRequestModel.model(ImageModels value) =
+      CreateImageRequestModelEnumeration;
 
   /// The ID of the model to use for this request.
-  const factory CreateImageRequestModel.modelId(
-    String value,
-  ) = CreateImageRequestModelString;
+  const factory CreateImageRequestModel.modelId(String value) =
+      CreateImageRequestModelString;
 
   /// Object construction from a JSON representation
   factory CreateImageRequestModel.fromJson(Map<String, dynamic> json) =>
@@ -208,9 +206,7 @@ class _CreateImageRequestModelConverter
     if (data is String) {
       return CreateImageRequestModelString(data);
     }
-    throw Exception(
-      'Unexpected value for CreateImageRequestModel: $data',
-    );
+    throw Exception('Unexpected value for CreateImageRequestModel: $data');
   }
 
   @override

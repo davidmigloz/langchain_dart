@@ -44,31 +44,22 @@ extension ToolResultBlockContentX on ToolResultBlockContent {
 extension BlockX on Block {
   /// Returns the text content of the block.
   String get text {
-    return mapOrNull(
-          text: (text) => text.text,
-        ) ??
-        '';
+    return mapOrNull(text: (text) => text.text) ?? '';
   }
 
   /// Returns the image source of the block.
   ImageBlock? get image {
-    return mapOrNull(
-      image: (image) => image,
-    );
+    return mapOrNull(image: (image) => image);
   }
 
   /// Returns the tool use block.
   ToolUseBlock? get toolUse {
-    return mapOrNull(
-      toolUse: (toolUse) => toolUse,
-    );
+    return mapOrNull(toolUse: (toolUse) => toolUse);
   }
 
   /// Returns the tool result block.
   ToolResultBlock? get toolResult {
-    return mapOrNull(
-      toolResult: (toolResult) => toolResult,
-    );
+    return mapOrNull(toolResult: (toolResult) => toolResult);
   }
 }
 

@@ -8,7 +8,5 @@ import '../runnables/types.dart';
 @immutable
 class BaseLangChainOptions extends RunnableOptions {
   /// {@macro base_lang_chain_options}
-  const BaseLangChainOptions({
-    super.concurrencyLimit,
-  });
+  const BaseLangChainOptions({super.concurrencyLimit});
 }

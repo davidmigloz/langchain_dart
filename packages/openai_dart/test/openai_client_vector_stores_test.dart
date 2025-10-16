@@ -14,9 +14,7 @@ void main() {
       late OpenAIClient client;
 
       setUp(() {
-        client = OpenAIClient(
-          apiKey: Platform.environment['OPENAI_API_KEY'],
-        );
+        client = OpenAIClient(apiKey: Platform.environment['OPENAI_API_KEY']);
       });
 
       tearDown(() {
@@ -25,9 +23,7 @@ void main() {
 
       test('Test vector stores', () async {
         final res1 = await client.createVectorStore(
-          request: const CreateVectorStoreRequest(
-            name: 'test_vs',
-          ),
+          request: const CreateVectorStoreRequest(name: 'test_vs'),
         );
         final id = res1.id;
         expect(res1.id, isNotEmpty);
@@ -58,9 +54,7 @@ void main() {
 
         final res4 = await client.modifyVectorStore(
           vectorStoreId: id,
-          request: const UpdateVectorStoreRequest(
-            name: 'test_vs_new',
-          ),
+          request: const UpdateVectorStoreRequest(name: 'test_vs_new'),
         );
         expect(res4.id, id);
         expect(res4.name, 'test_vs_new');

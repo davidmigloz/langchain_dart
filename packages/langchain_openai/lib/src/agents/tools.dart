@@ -79,22 +79,20 @@ const _systemChatMessagePromptTemplate = SystemChatMessagePromptTemplate(
 class OpenAIToolsAgent extends BaseSingleActionAgent {
   /// {@macro openai_functions_agent}
   @Deprecated('Use ToolsAgent instead')
-  OpenAIToolsAgent({
-    required this.llmChain,
-    required super.tools,
-  }) : _parser = const OpenAIToolsAgentOutputParser(),
-       assert(
-         llmChain.memory != null ||
-             llmChain.prompt.inputVariables.contains(
-               BaseActionAgent.agentScratchpadInputKey,
-             ),
-         '`${BaseActionAgent.agentScratchpadInputKey}` should be one of the '
-         'variables in the prompt, got ${llmChain.prompt.inputVariables}',
-       ),
-       assert(
-         llmChain.memory == null || llmChain.memory!.returnMessages,
-         'The memory must have `returnMessages` set to true',
-       );
+  OpenAIToolsAgent({required this.llmChain, required super.tools})
+    : _parser = const OpenAIToolsAgentOutputParser(),
+      assert(
+        llmChain.memory != null ||
+            llmChain.prompt.inputVariables.contains(
+              BaseActionAgent.agentScratchpadInputKey,
+            ),
+        '`${BaseActionAgent.agentScratchpadInputKey}` should be one of the '
+        'variables in the prompt, got ${llmChain.prompt.inputVariables}',
+      ),
+      assert(
+        llmChain.memory == null || llmChain.memory!.returnMessages,
+        'The memory must have `returnMessages` set to true',
+      );
 
   /// Chain to use to call the LLM.
   ///

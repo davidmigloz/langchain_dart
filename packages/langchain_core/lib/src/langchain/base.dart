@@ -11,7 +11,5 @@ abstract class BaseLangChain<
 >
     extends Runnable<RunInput, CallOptions, RunOutput> {
   /// {@macro base_lang_chain}
-  const BaseLangChain({
-    required super.defaultOptions,
-  });
+  const BaseLangChain({required super.defaultOptions});
 }

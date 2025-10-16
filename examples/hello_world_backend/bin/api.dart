@@ -22,9 +22,7 @@ class Api {
 
     return Response.ok(
       headers: {'Content-type': 'application/json'},
-      jsonEncode({
-        'sonnet': sonnet,
-      }),
+      jsonEncode({'sonnet': sonnet}),
     );
   }
 }

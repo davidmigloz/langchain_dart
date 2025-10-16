@@ -7,9 +7,7 @@ class InlinedEmbedContentRequests {
   final List<InlinedEmbedContentRequest> requests;
 
   /// Creates an [InlinedEmbedContentRequests].
-  const InlinedEmbedContentRequests({
-    required this.requests,
-  });
+  const InlinedEmbedContentRequests({required this.requests});
 
   /// Creates an [InlinedEmbedContentRequests] from JSON.
   factory InlinedEmbedContentRequests.fromJson(Map<String, dynamic> json) =>

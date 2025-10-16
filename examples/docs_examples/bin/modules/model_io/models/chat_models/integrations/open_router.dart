@@ -24,9 +24,7 @@ Future<void> _openRouter() async {
   final chatModel = ChatOpenAI(
     apiKey: openRouterApiKey,
     baseUrl: 'https://openrouter.ai/api/v1',
-    defaultOptions: const ChatOpenAIOptions(
-      model: 'mistralai/mistral-small',
-    ),
+    defaultOptions: const ChatOpenAIOptions(model: 'mistralai/mistral-small'),
   );
 
   final chain = promptTemplate | chatModel | const StringOutputParser();
@@ -55,9 +53,7 @@ Future<void> _openRouterStreaming() async {
   final chatModel = ChatOpenAI(
     apiKey: openRouterApiKey,
     baseUrl: 'https://openrouter.ai/api/v1',
-    defaultOptions: const ChatOpenAIOptions(
-      model: 'mistralai/mistral-small',
-    ),
+    defaultOptions: const ChatOpenAIOptions(model: 'mistralai/mistral-small'),
   );
 
   final chain = promptTemplate.pipe(chatModel).pipe(const StringOutputParser());
@@ -77,10 +73,7 @@ Future<void> _openRouterStreamingTools() async {
     inputJsonSchema: {
       'type': 'object',
       'properties': {
-        'setup': {
-          'type': 'string',
-          'description': 'The setup for the joke',
-        },
+        'setup': {'type': 'string', 'description': 'The setup for the joke'},
         'punchline': {
           'type': 'string',
           'description': 'The punchline to the joke',

@@ -11,22 +11,14 @@ void main() {
         name: 'projects/PROJECT_NUMBER/locations/LOCATION/indexes/INDEX_ID',
         done: true,
         response: {},
-        error: GoogleRpcStatus(
-          code: 0,
-          details: const [],
-          message: 'message',
-        ),
+        error: GoogleRpcStatus(code: 0, details: const [], message: 'message'),
         metadata: {},
       );
       const expected = VertexAIOperation(
         name: 'projects/PROJECT_NUMBER/locations/LOCATION/indexes/INDEX_ID',
         done: true,
         response: {},
-        error: VertexAIOperationError(
-          code: 0,
-          details: [],
-          message: 'message',
-        ),
+        error: VertexAIOperationError(code: 0, details: [], message: 'message'),
         metadata: {},
       );
 

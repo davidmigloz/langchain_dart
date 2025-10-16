@@ -33,8 +33,6 @@ abstract class GenerateEmbeddingResponse with _$GenerateEmbeddingResponse {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'embedding': embedding,
-    };
+    return {'embedding': embedding};
   }
 }

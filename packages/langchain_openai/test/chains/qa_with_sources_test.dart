@@ -35,12 +35,8 @@ void main() {
       final texts = textSplitter.splitDocuments(documents);
       final textsWithSources = texts
           .mapIndexed(
-            (final i, final d) => d.copyWith(
-              metadata: {
-                ...d.metadata,
-                'source': '$i-pl',
-              },
-            ),
+            (final i, final d) =>
+                d.copyWith(metadata: {...d.metadata, 'source': '$i-pl'}),
           )
           .toList(growable: false);
 
@@ -52,9 +48,7 @@ void main() {
 
       final llm = ChatOpenAI(
         apiKey: openaiApiKey,
-        defaultOptions: const ChatOpenAIOptions(
-          temperature: 0,
-        ),
+        defaultOptions: const ChatOpenAIOptions(temperature: 0),
       );
 
       final qaChain = OpenAIQAWithSourcesChain(llm: llm);
@@ -124,9 +118,7 @@ Question: {question}
 
       final chatModel = ChatOpenAI(
         apiKey: openaiApiKey,
-        defaultOptions: const ChatOpenAIOptions(
-          temperature: 0,
-        ),
+        defaultOptions: const ChatOpenAIOptions(temperature: 0),
       );
       const outputParser = StringOutputParser<ChatResult>();
 

@@ -11,17 +11,10 @@ void main() {
       final agent = _SingleActionMockAgent(
         tools: [tool],
         actions: [
-          AgentAction(
-            id: 'id',
-            tool: tool.name,
-            toolInput: {'input': 'mock'},
-          ),
+          AgentAction(id: 'id', tool: tool.name, toolInput: {'input': 'mock'}),
         ],
       );
-      final executor = AgentExecutor(
-        agent: agent,
-        maxIterations: 1,
-      );
+      final executor = AgentExecutor(agent: agent, maxIterations: 1);
       final result = await executor.run('test');
       expect(result, 'Agent stopped due to iteration limit or time limit.');
     });
@@ -31,11 +24,7 @@ void main() {
       final agent = _SingleActionMockAgent(
         tools: [tool],
         actions: [
-          AgentAction(
-            id: 'id',
-            tool: tool.name,
-            toolInput: {'input': 'mock'},
-          ),
+          AgentAction(id: 'id', tool: tool.name, toolInput: {'input': 'mock'}),
         ],
       );
       final executor = AgentExecutor(
@@ -51,11 +40,7 @@ void main() {
       final agent = _SingleActionMockAgent(
         tools: [tool],
         actions: [
-          AgentAction(
-            id: 'id',
-            tool: tool.name,
-            toolInput: {'input': 'mock'},
-          ),
+          AgentAction(id: 'id', tool: tool.name, toolInput: {'input': 'mock'}),
           const AgentFinish(
             returnValues: {BaseActionAgent.agentReturnKey: 'mock'},
           ),
@@ -116,10 +101,7 @@ void main() {
         final result = await executor.call('test');
         final intermediateSteps =
             result[AgentExecutor.intermediateStepsOutputKey] as List<AgentStep>;
-        expect(
-          intermediateSteps.first.observation,
-          'fallback',
-        );
+        expect(intermediateSteps.first.observation, 'fallback');
       },
     );
 
@@ -150,10 +132,8 @@ void main() {
 }
 
 final class _MockTool extends StringTool {
-  _MockTool({
-    super.name = 'tool',
-    super.returnDirect = false,
-  }) : super(description: '$name-description');
+  _MockTool({super.name = 'tool', super.returnDirect = false})
+    : super(description: '$name-description');
 
   @override
   Future<String> invokeInternal(
@@ -193,10 +173,7 @@ final class _SingleActionMockAgent extends BaseActionAgent {
 }
 
 final class _MultiActionMockAgent extends BaseMultiActionAgent {
-  _MultiActionMockAgent({
-    super.tools = const [],
-    this.actions = const [],
-  });
+  _MultiActionMockAgent({super.tools = const [], this.actions = const []});
 
   final List<BaseAgentAction> actions;
 

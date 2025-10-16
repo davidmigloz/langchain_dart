@@ -343,9 +343,7 @@ void main() {
 
     test('handles single byte chunks', () async {
       const text = 'ab\ncd\n';
-      final input = Stream.fromIterable(
-        text.codeUnits.map((c) => [c]),
-      );
+      final input = Stream.fromIterable(text.codeUnits.map((c) => [c]));
 
       final results = await bytesToLines(input).toList();
 

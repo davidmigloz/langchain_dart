@@ -49,9 +49,7 @@ void main() {
 
       // Should send an audio file about toronto
       final audioDataBase64 = base64.encode(audioData);
-      final content = [
-        ContentPart.inputAudio(audio: audioDataBase64),
-      ];
+      final content = [ContentPart.inputAudio(audio: audioDataBase64)];
 
       await client.sendUserMessageContent(content);
 

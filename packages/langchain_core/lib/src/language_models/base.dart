@@ -17,9 +17,7 @@ abstract class BaseLanguageModel<
 >
     extends BaseLangChain<PromptValue, Options, Output> {
   /// {@macro base_language_model}
-  const BaseLanguageModel({
-    required super.defaultOptions,
-  });
+  const BaseLanguageModel({required super.defaultOptions});
 
   /// Return type of language model.
   String get modelType;

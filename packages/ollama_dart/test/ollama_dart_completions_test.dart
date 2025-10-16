@@ -137,9 +137,7 @@ void main() {
         const request = GenerateCompletionRequest(
           model: defaultModel,
           prompt: 'Why is the sky blue? Reply in one sentence.',
-          options: RequestOptions(
-            seed: 9999,
-          ),
+          options: RequestOptions(seed: 9999),
         );
 
         final res1 = await client.generateCompletion(request: request);

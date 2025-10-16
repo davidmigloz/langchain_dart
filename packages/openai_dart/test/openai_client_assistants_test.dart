@@ -17,9 +17,7 @@ void main() {
       late OpenAIClient client;
 
       setUp(() {
-        client = OpenAIClient(
-          apiKey: Platform.environment['OPENAI_API_KEY'],
-        );
+        client = OpenAIClient(apiKey: Platform.environment['OPENAI_API_KEY']);
       });
 
       tearDown(() {
@@ -87,9 +85,7 @@ void main() {
       }
 
       Future<void> listMessagesInThread(final String threadId) async {
-        final res = await client.listThreadMessages(
-          threadId: threadId,
-        );
+        final res = await client.listThreadMessages(threadId: threadId);
         expect(res.object, 'list');
         expect(res.firstId, isNotNull);
         expect(res.lastId, isNotNull);
@@ -146,10 +142,7 @@ void main() {
       ) async {
         RunObject res;
         do {
-          res = await client.getThreadRun(
-            threadId: threadId,
-            runId: runId,
-          );
+          res = await client.getThreadRun(threadId: threadId, runId: runId);
           expect(res.id, isNotNull);
         } while (res.status != RunStatus.completed);
         expect(res.id, runId);
@@ -174,9 +167,7 @@ void main() {
         expect(res.usage?.promptTokens, greaterThan(0));
       }
 
-      Future<void> checkAssistantResponse(
-        final String threadId,
-      ) async {
+      Future<void> checkAssistantResponse(final String threadId) async {
         final res = await client.listThreadMessages(threadId: threadId);
         expect(res.object, 'list');
         expect(res.firstId, isNotNull);
@@ -258,20 +249,14 @@ void main() {
         expect(toolCalls, hasLength(1));
         final toolCall = toolCalls?.first;
         expect(toolCall?.id, isNotEmpty);
-        expect(
-          toolCall?.type,
-          'code_interpreter',
-        );
+        expect(toolCall?.type, 'code_interpreter');
         final codeInterpreter = toolCall?.mapOrNull(
           codeInterpreter: (final c) => c.codeInterpreter,
         );
         expect(codeInterpreter?.input, isNotEmpty);
         expect(codeInterpreter?.outputs, hasLength(1));
         final output = codeInterpreter?.outputs.first;
-        expect(
-          output?.type,
-          'logs',
-        );
+        expect(output?.type, 'logs');
         expect(step2.lastError, isNull);
         expect(step2.expiredAt, isNull);
         expect(step2.cancelledAt, isNull);

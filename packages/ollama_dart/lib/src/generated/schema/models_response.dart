@@ -33,8 +33,6 @@ abstract class ModelsResponse with _$ModelsResponse {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'models': models,
-    };
+    return {'models': models};
   }
 }

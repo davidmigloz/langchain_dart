@@ -3,9 +3,7 @@ import '../copy_with_sentinel.dart';
 /// User-provided string values assigned to a single metadata key.
 class StringList {
   /// Creates a new [StringList] instance.
-  const StringList({
-    this.values,
-  });
+  const StringList({this.values});
 
   /// The string values of the metadata.
   final List<String>? values;
@@ -21,15 +19,11 @@ class StringList {
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() {
-    return {
-      if (values != null) 'values': values,
-    };
+    return {if (values != null) 'values': values};
   }
 
   /// Creates a copy with replaced values.
-  StringList copyWith({
-    Object? values = unsetCopyWithValue,
-  }) {
+  StringList copyWith({Object? values = unsetCopyWithValue}) {
     return StringList(
       values: values == unsetCopyWithValue
           ? this.values

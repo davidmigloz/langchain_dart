@@ -12,9 +12,7 @@ void main() {
     late OpenAIClient client;
 
     setUp(() {
-      client = OpenAIClient(
-        apiKey: Platform.environment['OPENAI_API_KEY'],
-      );
+      client = OpenAIClient(apiKey: Platform.environment['OPENAI_API_KEY']);
     });
 
     tearDown(() {
@@ -65,9 +63,7 @@ void main() {
 
     test('Test call chat completion API with stop sequence', () async {
       const request = CreateChatCompletionRequest(
-        model: ChatCompletionModel.model(
-          ChatCompletionModels.gpt4o,
-        ),
+        model: ChatCompletionModel.model(ChatCompletionModels.gpt4o),
         messages: [
           ChatCompletionMessage.developer(
             content: ChatCompletionDeveloperMessageContent.text(
@@ -90,17 +86,12 @@ void main() {
       final message = res.choices.first.message;
       expect(message.content?.trim(), contains('123'));
       expect(message.content?.trim(), isNot(contains('456789')));
-      expect(
-        res.choices.first.finishReason,
-        ChatCompletionFinishReason.stop,
-      );
+      expect(res.choices.first.finishReason, ChatCompletionFinishReason.stop);
     });
 
     test('Test call chat completions API with max tokens', () async {
       const request = CreateChatCompletionRequest(
-        model: ChatCompletionModel.model(
-          ChatCompletionModels.gpt4o,
-        ),
+        model: ChatCompletionModel.model(ChatCompletionModels.gpt4o),
         messages: [
           ChatCompletionMessage.developer(
             content: ChatCompletionDeveloperMessageContent.text(
@@ -115,21 +106,13 @@ void main() {
       );
       final res = await client.createChatCompletion(request: request);
       expect(res.choices, isNotEmpty);
-      expect(
-        res.choices.first.finishReason,
-        ChatCompletionFinishReason.length,
-      );
-      expect(
-        res.usage?.completionTokensDetails?.reasoningTokens,
-        0,
-      );
+      expect(res.choices.first.finishReason, ChatCompletionFinishReason.length);
+      expect(res.usage?.completionTokensDetails?.reasoningTokens, 0);
     });
 
     test('Test call chat completions API with other parameters', () async {
       const request = CreateChatCompletionRequest(
-        model: ChatCompletionModel.model(
-          ChatCompletionModels.gpt4o,
-        ),
+        model: ChatCompletionModel.model(ChatCompletionModels.gpt4o),
         messages: [
           ChatCompletionMessage.developer(
             content: ChatCompletionDeveloperMessageContent.text(
@@ -155,9 +138,7 @@ void main() {
 
     test('Test call chat completions streaming API', () async {
       const request = CreateChatCompletionRequest(
-        model: ChatCompletionModel.model(
-          ChatCompletionModels.gpt5Nano,
-        ),
+        model: ChatCompletionModel.model(ChatCompletionModels.gpt5Nano),
         messages: [
           ChatCompletionMessage.developer(
             content: ChatCompletionDeveloperMessageContent.text(
@@ -171,9 +152,7 @@ void main() {
             ),
           ),
         ],
-        streamOptions: ChatCompletionStreamOptions(
-          includeUsage: true,
-        ),
+        streamOptions: ChatCompletionStreamOptions(includeUsage: true),
       );
       final stream = client.createChatCompletionStream(request: request);
       var text = '';
@@ -226,9 +205,7 @@ void main() {
       );
 
       final request1 = CreateChatCompletionRequest(
-        model: const ChatCompletionModel.model(
-          ChatCompletionModels.gpt5Nano,
-        ),
+        model: const ChatCompletionModel.model(ChatCompletionModels.gpt5Nano),
         messages: [
           const ChatCompletionMessage.developer(
             content: ChatCompletionDeveloperMessageContent.text(
@@ -264,10 +241,7 @@ void main() {
       expect(functionCall.name, function.name);
       expect(functionCall.arguments, isNotEmpty);
       final arguments =
-          json.decode(
-                functionCall.arguments,
-              )
-              as Map<String, dynamic>;
+          json.decode(functionCall.arguments) as Map<String, dynamic>;
       expect(arguments.containsKey('location'), isTrue);
       expect(arguments['location'], contains('Boston'));
 
@@ -278,9 +252,7 @@ void main() {
       };
 
       final request2 = CreateChatCompletionRequest(
-        model: const ChatCompletionModel.model(
-          ChatCompletionModels.gpt5Nano,
-        ),
+        model: const ChatCompletionModel.model(ChatCompletionModels.gpt5Nano),
         messages: [
           const ChatCompletionMessage.developer(
             content: ChatCompletionDeveloperMessageContent.text(
@@ -338,9 +310,7 @@ void main() {
       );
 
       final request1 = CreateChatCompletionRequest(
-        model: const ChatCompletionModel.model(
-          ChatCompletionModels.gpt5,
-        ),
+        model: const ChatCompletionModel.model(ChatCompletionModels.gpt5),
         messages: const [
           ChatCompletionMessage.developer(
             content: ChatCompletionDeveloperMessageContent.text(
@@ -367,10 +337,7 @@ void main() {
       await for (final res in stream) {
         expect(res.id, isNotEmpty);
         expect(res.created, greaterThan(0));
-        expect(
-          res.object,
-          isNotEmpty,
-        );
+        expect(res.object, isNotEmpty);
         expect(res.model, startsWith('gpt-5-nano'));
         expect(res.choices, hasLength(1));
         final choice = res.choices!.first;
@@ -399,9 +366,7 @@ void main() {
 
     test('Test jsonObject response format', () async {
       const request = CreateChatCompletionRequest(
-        model: ChatCompletionModel.model(
-          ChatCompletionModels.gpt5Nano,
-        ),
+        model: ChatCompletionModel.model(ChatCompletionModels.gpt5Nano),
         messages: [
           ChatCompletionMessage.developer(
             content: ChatCompletionDeveloperMessageContent.text(
@@ -435,9 +400,7 @@ void main() {
 
     test('Test jsonSchema response format', () async {
       const request = CreateChatCompletionRequest(
-        model: ChatCompletionModel.model(
-          ChatCompletionModels.gpt5Nano,
-        ),
+        model: ChatCompletionModel.model(ChatCompletionModels.gpt5Nano),
         messages: [
           ChatCompletionMessage.developer(
             content: ChatCompletionDeveloperMessageContent.text(
@@ -461,9 +424,7 @@ void main() {
               'properties': {
                 'names': {
                   'type': 'array',
-                  'items': {
-                    'type': 'string',
-                  },
+                  'items': {'type': 'string'},
                 },
               },
               'additionalProperties': false,
@@ -489,9 +450,7 @@ void main() {
 
     test('Test response seed', () async {
       const request = CreateChatCompletionRequest(
-        model: ChatCompletionModel.model(
-          ChatCompletionModels.gpt5,
-        ),
+        model: ChatCompletionModel.model(ChatCompletionModels.gpt5),
         messages: [
           ChatCompletionMessage.developer(
             content: ChatCompletionDeveloperMessageContent.text(
@@ -519,9 +478,7 @@ void main() {
 
     test('Test multi-modal vision', () async {
       const request = CreateChatCompletionRequest(
-        model: ChatCompletionModel.model(
-          ChatCompletionModels.gpt5,
-        ),
+        model: ChatCompletionModel.model(ChatCompletionModels.gpt5),
         messages: [
           ChatCompletionMessage.developer(
             content: ChatCompletionDeveloperMessageContent.text(
@@ -529,19 +486,17 @@ void main() {
             ),
           ),
           ChatCompletionMessage.user(
-            content: ChatCompletionUserMessageContent.parts(
-              [
-                ChatCompletionMessageContentPart.text(
-                  text: 'What fruit is this?',
+            content: ChatCompletionUserMessageContent.parts([
+              ChatCompletionMessageContentPart.text(
+                text: 'What fruit is this?',
+              ),
+              ChatCompletionMessageContentPart.image(
+                imageUrl: ChatCompletionMessageImageUrl(
+                  url:
+                      'https://upload.wikimedia.org/wikipedia/commons/9/92/95apple.jpeg',
                 ),
-                ChatCompletionMessageContentPart.image(
-                  imageUrl: ChatCompletionMessageImageUrl(
-                    url:
-                        'https://upload.wikimedia.org/wikipedia/commons/9/92/95apple.jpeg',
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ]),
           ),
         ],
       );
@@ -556,10 +511,7 @@ void main() {
         model: ChatCompletionModel.model(
           ChatCompletionModels.gpt4oAudioPreview,
         ),
-        modalities: [
-          ChatCompletionModality.text,
-          ChatCompletionModality.audio,
-        ],
+        modalities: [ChatCompletionModality.text, ChatCompletionModality.audio],
         audio: ChatCompletionAudioOptions(
           voice: ChatCompletionAudioVoice.alloy,
           format: ChatCompletionAudioFormat.wav,
@@ -588,10 +540,7 @@ void main() {
         model: ChatCompletionModel.model(
           ChatCompletionModels.gpt4oAudioPreview,
         ),
-        modalities: [
-          ChatCompletionModality.text,
-          ChatCompletionModality.audio,
-        ],
+        modalities: [ChatCompletionModality.text, ChatCompletionModality.audio],
         audio: ChatCompletionAudioOptions(
           voice: ChatCompletionAudioVoice.alloy,
           format: ChatCompletionAudioFormat.pcm16,
@@ -626,10 +575,7 @@ void main() {
         model: ChatCompletionModel.model(
           ChatCompletionModels.gpt4oAudioPreview,
         ),
-        modalities: [
-          ChatCompletionModality.text,
-          ChatCompletionModality.audio,
-        ],
+        modalities: [ChatCompletionModality.text, ChatCompletionModality.audio],
         audio: ChatCompletionAudioOptions(
           voice: ChatCompletionAudioVoice.alloy,
           format: ChatCompletionAudioFormat.wav,
@@ -675,9 +621,7 @@ class User {
 
 export default User;''';
       const request = CreateChatCompletionRequest(
-        model: ChatCompletionModel.model(
-          ChatCompletionModels.gpt4o,
-        ),
+        model: ChatCompletionModel.model(ChatCompletionModels.gpt4o),
         messages: [
           ChatCompletionMessage.user(
             content: ChatCompletionUserMessageContent.string(
@@ -740,9 +684,7 @@ export default User;''';
 
     test('Test store', () async {
       const request = CreateChatCompletionRequest(
-        model: ChatCompletionModel.model(
-          ChatCompletionModels.gpt5Nano,
-        ),
+        model: ChatCompletionModel.model(ChatCompletionModels.gpt5Nano),
         store: true,
         messages: [
           ChatCompletionMessage.user(
@@ -758,10 +700,7 @@ export default User;''';
       expect(choice1.message.content, isNotEmpty);
 
       final res2 = await client.listChatCompletions();
-      expect(
-        res2.data.any((chatCompletion) => res1.id == res1.id),
-        isTrue,
-      );
+      expect(res2.data.any((chatCompletion) => res1.id == res1.id), isTrue);
     });
   });
 }

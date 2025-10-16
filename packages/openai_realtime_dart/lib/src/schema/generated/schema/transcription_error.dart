@@ -47,11 +47,6 @@ abstract class TranscriptionError with _$TranscriptionError {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'type': type,
-      'code': code,
-      'message': message,
-      'param': param,
-    };
+    return {'type': type, 'code': code, 'message': message, 'param': param};
   }
 }

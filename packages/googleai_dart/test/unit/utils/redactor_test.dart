@@ -5,9 +5,7 @@ void main() {
   group('Redactor', () {
     group('redactMap', () {
       test('redacts matching keys (case-insensitive)', () {
-        const redactor = Redactor(
-          redactionList: ['api-key', 'password'],
-        );
+        const redactor = Redactor(redactionList: ['api-key', 'password']);
 
         final input = {
           'api-key': 'secret123',
@@ -29,9 +27,7 @@ void main() {
       });
 
       test('preserves non-matching keys', () {
-        const redactor = Redactor(
-          redactionList: ['secret'],
-        );
+        const redactor = Redactor(redactionList: ['secret']);
 
         final input = {
           'public': 'value1',
@@ -52,10 +48,7 @@ void main() {
           replacement: '[HIDDEN]',
         );
 
-        final input = {
-          'token': 'abc123',
-          'other': 'visible',
-        };
+        final input = {'token': 'abc123', 'other': 'visible'};
 
         final result = redactor.redactMap(input);
 
@@ -64,9 +57,7 @@ void main() {
       });
 
       test('handles empty map', () {
-        const redactor = Redactor(
-          redactionList: ['key'],
-        );
+        const redactor = Redactor(redactionList: ['key']);
 
         final result = redactor.redactMap({});
 
@@ -74,14 +65,9 @@ void main() {
       });
 
       test('handles empty redaction list', () {
-        const redactor = Redactor(
-          redactionList: [],
-        );
+        const redactor = Redactor(redactionList: []);
 
-        final input = {
-          'field1': 'value1',
-          'field2': 'value2',
-        };
+        final input = {'field1': 'value1', 'field2': 'value2'};
 
         final result = redactor.redactMap(input);
 
@@ -90,9 +76,7 @@ void main() {
       });
 
       test('handles partial key matches (should not redact)', () {
-        const redactor = Redactor(
-          redactionList: ['key'],
-        );
+        const redactor = Redactor(redactionList: ['key']);
 
         final input = {
           'api-key': 'secret',
@@ -109,9 +93,7 @@ void main() {
       });
 
       test('handles X-Goog-Api-Key header', () {
-        const redactor = Redactor(
-          redactionList: ['x-goog-api-key'],
-        );
+        const redactor = Redactor(redactionList: ['x-goog-api-key']);
 
         final input = {
           'X-Goog-Api-Key': 'secret123',
@@ -127,9 +109,7 @@ void main() {
 
     group('redactString', () {
       test('redacts JSON-style field', () {
-        const redactor = Redactor(
-          redactionList: ['apiKey'],
-        );
+        const redactor = Redactor(redactionList: ['apiKey']);
 
         const input = '{"apiKey": "secret123", "data": "visible"}';
         final result = redactor.redactString(input);
@@ -139,9 +119,7 @@ void main() {
       });
 
       test('redacts query param style', () {
-        const redactor = Redactor(
-          redactionList: ['key'],
-        );
+        const redactor = Redactor(redactionList: ['key']);
 
         const input = 'https://api.example.com?key=secret123&data=visible';
         final result = redactor.redactString(input);
@@ -151,9 +129,7 @@ void main() {
       });
 
       test('redacts header style', () {
-        const redactor = Redactor(
-          redactionList: ['authorization'],
-        );
+        const redactor = Redactor(redactionList: ['authorization']);
 
         const input =
             'Authorization: Bearer token123\nContent-Type: application/json';
@@ -165,9 +141,7 @@ void main() {
       });
 
       test('handles case-insensitive matching', () {
-        const redactor = Redactor(
-          redactionList: ['password'],
-        );
+        const redactor = Redactor(redactionList: ['password']);
 
         const input =
             '"PASSWORD": "secret", "Password": "hidden", "password": "concealed"';
@@ -182,9 +156,7 @@ void main() {
       });
 
       test('handles multiple occurrences', () {
-        const redactor = Redactor(
-          redactionList: ['token'],
-        );
+        const redactor = Redactor(redactionList: ['token']);
 
         const input = '"token": "abc", "token": "def", "token": "ghi"';
         final result = redactor.redactString(input);
@@ -208,9 +180,7 @@ void main() {
       });
 
       test('handles empty string', () {
-        const redactor = Redactor(
-          redactionList: ['key'],
-        );
+        const redactor = Redactor(redactionList: ['key']);
 
         final result = redactor.redactString('');
 
@@ -218,9 +188,7 @@ void main() {
       });
 
       test('handles string with no matches', () {
-        const redactor = Redactor(
-          redactionList: ['secret'],
-        );
+        const redactor = Redactor(redactionList: ['secret']);
 
         const input = 'This is public data';
         final result = redactor.redactString(input);
@@ -229,9 +197,7 @@ void main() {
       });
 
       test('handles complex JSON with nested fields', () {
-        const redactor = Redactor(
-          redactionList: ['apiKey', 'password'],
-        );
+        const redactor = Redactor(redactionList: ['apiKey', 'password']);
 
         const input = '''
 {
@@ -251,9 +217,7 @@ void main() {
       });
 
       test('handles URL with multiple query params', () {
-        const redactor = Redactor(
-          redactionList: ['api_key', 'token'],
-        );
+        const redactor = Redactor(redactionList: ['api_key', 'token']);
 
         const input =
             'https://api.example.com?api_key=secret&data=visible&token=hidden';
@@ -343,9 +307,7 @@ Content-Type: application/json
 
     group('Integration Tests', () {
       test('redacts and truncates together', () {
-        const redactor = Redactor(
-          redactionList: ['apiKey'],
-        );
+        const redactor = Redactor(redactionList: ['apiKey']);
 
         final input = '{"apiKey": "secret123", "data": "${'x' * 1000}"}';
         final redacted = redactor.redactString(input);

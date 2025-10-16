@@ -47,9 +47,7 @@ class _Body extends StatelessWidget {
         if (state.error == HomeScreenError.generationError) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text(
-                'An error occurred while generating the response',
-              ),
+              content: Text('An error occurred while generating the response'),
             ),
           );
         }
@@ -276,10 +274,7 @@ class _Response extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Response',
-              style: theme.textTheme.headlineSmall,
-            ),
+            Text('Response', style: theme.textTheme.headlineSmall),
             Markdown(
               data: state.response,
               shrinkWrap: true,

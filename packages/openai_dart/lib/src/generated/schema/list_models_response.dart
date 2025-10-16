@@ -40,10 +40,7 @@ abstract class ListModelsResponse with _$ListModelsResponse {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'object': object,
-      'data': data,
-    };
+    return {'object': object, 'data': data};
   }
 }
 

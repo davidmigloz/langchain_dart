@@ -9,9 +9,7 @@ class BatchEmbedContentsRequest {
   final List<EmbedContentRequest> requests;
 
   /// Creates a [BatchEmbedContentsRequest].
-  const BatchEmbedContentsRequest({
-    required this.requests,
-  });
+  const BatchEmbedContentsRequest({required this.requests});
 
   /// Creates a [BatchEmbedContentsRequest] from JSON.
   factory BatchEmbedContentsRequest.fromJson(Map<String, dynamic> json) =>

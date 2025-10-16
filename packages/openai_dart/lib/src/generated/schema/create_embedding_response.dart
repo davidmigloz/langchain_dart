@@ -47,12 +47,7 @@ abstract class CreateEmbeddingResponse with _$CreateEmbeddingResponse {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'data': data,
-      'model': model,
-      'object': object,
-      'usage': usage,
-    };
+    return {'data': data, 'model': model, 'object': object, 'usage': usage};
   }
 }
 

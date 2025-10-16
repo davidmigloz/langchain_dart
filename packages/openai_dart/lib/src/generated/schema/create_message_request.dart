@@ -74,9 +74,8 @@ sealed class CreateMessageRequestContent with _$CreateMessageRequestContent {
   ) = CreateMessageRequestContentListMessageRequestContent;
 
   /// The text contents of the message.
-  const factory CreateMessageRequestContent.text(
-    String value,
-  ) = CreateMessageRequestContentString;
+  const factory CreateMessageRequestContent.text(String value) =
+      CreateMessageRequestContentString;
 
   /// Object construction from a JSON representation
   factory CreateMessageRequestContent.fromJson(Map<String, dynamic> json) =>
@@ -102,9 +101,7 @@ class _CreateMessageRequestContentConverter
     if (data is String) {
       return CreateMessageRequestContentString(data);
     }
-    throw Exception(
-      'Unexpected value for CreateMessageRequestContent: $data',
-    );
+    throw Exception('Unexpected value for CreateMessageRequestContent: $data');
   }
 
   @override

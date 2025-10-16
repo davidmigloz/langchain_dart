@@ -154,9 +154,7 @@ void main() {
         messages: [
           Message(
             role: MessageRole.user,
-            content: MessageContent.text(
-              'Tell me a joke.',
-            ),
+            content: MessageContent.text('Tell me a joke.'),
           ),
         ],
       );
@@ -197,10 +195,7 @@ void main() {
           ),
         ],
         tools: [tool],
-        toolChoice: ToolChoice(
-          type: ToolChoiceType.tool,
-          name: tool.name,
-        ),
+        toolChoice: ToolChoice(type: ToolChoiceType.tool, name: tool.name),
         maxTokens: 1024,
       );
       final aiMessage1 = await client.createMessage(request: request1);
@@ -230,10 +225,7 @@ void main() {
               'What’s the weather like in Boston right now?',
             ),
           ),
-          Message(
-            role: MessageRole.assistant,
-            content: aiMessage1.content,
-          ),
+          Message(role: MessageRole.assistant, content: aiMessage1.content),
           Message(
             role: MessageRole.user,
             content: MessageContent.blocks([
@@ -268,15 +260,10 @@ void main() {
             ),
           ],
           tools: [tool],
-          toolChoice: ToolChoice(
-            type: ToolChoiceType.tool,
-            name: tool.name,
-          ),
+          toolChoice: ToolChoice(type: ToolChoiceType.tool, name: tool.name),
           maxTokens: 1024,
         );
-        final stream = client.createMessageStream(
-          request: request1,
-        );
+        final stream = client.createMessageStream(request: request1);
         var inputJson = '';
         await for (final res in stream) {
           res.map(
@@ -447,10 +434,7 @@ void main() {
                 'You are an AI assistant tasked with analyzing literary works. '
                 'Your goal is to provide insightful commentary on themes, characters, and writing style.',
           ),
-          Block.text(
-            cacheControl: const CacheControlEphemeral(),
-            text: work,
-          ),
+          Block.text(cacheControl: const CacheControlEphemeral(), text: work),
         ]),
         messages: [
           const Message(

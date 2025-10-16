@@ -55,10 +55,7 @@ class SafetySetting {
   final HarmBlockThreshold threshold;
 
   /// Creates a [SafetySetting].
-  const SafetySetting({
-    required this.category,
-    required this.threshold,
-  });
+  const SafetySetting({required this.category, required this.threshold});
 
   /// Creates a [SafetySetting] from JSON.
   factory SafetySetting.fromJson(Map<String, dynamic> json) => SafetySetting(

@@ -49,12 +49,7 @@ abstract class ChatCompletionStreamMessageToolCallChunk
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'index': index,
-      'id': id,
-      'type': type,
-      'function': function,
-    };
+    return {'index': index, 'id': id, 'type': type, 'function': function};
   }
 }
 

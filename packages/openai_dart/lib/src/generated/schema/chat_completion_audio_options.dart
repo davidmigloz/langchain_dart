@@ -38,9 +38,6 @@ abstract class ChatCompletionAudioOptions with _$ChatCompletionAudioOptions {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'voice': voice,
-      'format': format,
-    };
+    return {'voice': voice, 'format': format};
   }
 }

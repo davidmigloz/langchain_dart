@@ -61,9 +61,7 @@ class _LoadingBody extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    return const Center(
-      child: CircularProgressIndicator(),
-    );
+    return const Center(child: CircularProgressIndicator());
   }
 }
 
@@ -133,10 +131,7 @@ class _IdleBody extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (state.summary != null) ...[
-                  Text(
-                    'Summary:',
-                    style: theme.textTheme.titleMedium,
-                  ),
+                  Text('Summary:', style: theme.textTheme.titleMedium),
                   const SizedBox(height: 8),
                   MarkdownBody(data: cubit.state.summary ?? ''),
                   const SizedBox(height: 16),

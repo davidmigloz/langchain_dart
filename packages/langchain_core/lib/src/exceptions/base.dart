@@ -6,11 +6,8 @@ import 'package:meta/meta.dart';
 @immutable
 base class LangChainException implements Exception {
   /// {@macro lang_chain_exception}
-  const LangChainException({
-    this.message,
-    final String? code,
-    this.stackTrace,
-  }) : code = code ?? 'exception';
+  const LangChainException({this.message, final String? code, this.stackTrace})
+    : code = code ?? 'exception';
 
   /// The long form message of the exception.
   final String? message;

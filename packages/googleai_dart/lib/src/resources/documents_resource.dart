@@ -28,15 +28,11 @@ class DocumentsResource extends ResourceBase {
   /// Creates a new [Document] in a corpus.
   ///
   /// POST /v1beta/{parent}/documents
-  Future<Document> create({
-    required Document document,
-  }) async {
+  Future<Document> create({required Document document}) async {
     final url = requestBuilder.buildUrl('/{version}/$corpus/documents');
 
     final headers = requestBuilder.buildHeaders(
-      additionalHeaders: {
-        'Content-Type': 'application/json',
-      },
+      additionalHeaders: {'Content-Type': 'application/json'},
     );
 
     final httpRequest = http.Request('POST', url)
@@ -52,10 +48,7 @@ class DocumentsResource extends ResourceBase {
   /// Lists documents in a corpus with pagination support.
   ///
   /// GET /v1beta/{parent}/documents
-  Future<ListDocumentsResponse> list({
-    int? pageSize,
-    String? pageToken,
-  }) async {
+  Future<ListDocumentsResponse> list({int? pageSize, String? pageToken}) async {
     final queryParams = <String, String>{};
     if (pageSize != null) queryParams['pageSize'] = pageSize.toString();
     if (pageToken != null) queryParams['pageToken'] = pageToken;
@@ -78,9 +71,7 @@ class DocumentsResource extends ResourceBase {
   /// Gets information about a specific document.
   ///
   /// GET /v1beta/{name}
-  Future<Document> get({
-    required String name,
-  }) async {
+  Future<Document> get({required String name}) async {
     final url = requestBuilder.buildUrl('/{version}/$name');
 
     final headers = requestBuilder.buildHeaders();
@@ -106,9 +97,7 @@ class DocumentsResource extends ResourceBase {
     required Document document,
     required String updateMask,
   }) async {
-    final queryParams = <String, String>{
-      'updateMask': updateMask,
-    };
+    final queryParams = <String, String>{'updateMask': updateMask};
 
     final url = requestBuilder.buildUrl(
       '/{version}/$name',
@@ -116,9 +105,7 @@ class DocumentsResource extends ResourceBase {
     );
 
     final headers = requestBuilder.buildHeaders(
-      additionalHeaders: {
-        'Content-Type': 'application/json',
-      },
+      additionalHeaders: {'Content-Type': 'application/json'},
     );
 
     final httpRequest = http.Request('PATCH', url)
@@ -138,10 +125,7 @@ class DocumentsResource extends ResourceBase {
   /// be returned if the document contains any chunks.
   ///
   /// DELETE /v1beta/{name}
-  Future<void> delete({
-    required String name,
-    bool? force,
-  }) async {
+  Future<void> delete({required String name, bool? force}) async {
     final queryParams = force != null
         ? {'force': force.toString()}
         : <String, String>{};
@@ -168,9 +152,7 @@ class DocumentsResource extends ResourceBase {
     final url = requestBuilder.buildUrl('/{version}/$name:query');
 
     final headers = requestBuilder.buildHeaders(
-      additionalHeaders: {
-        'Content-Type': 'application/json',
-      },
+      additionalHeaders: {'Content-Type': 'application/json'},
     );
 
     final httpRequest = http.Request('POST', url)

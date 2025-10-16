@@ -9,19 +9,14 @@ import 'types.dart';
 abstract class Retriever<Options extends RetrieverOptions>
     extends Runnable<String, Options, List<Document>> {
   /// {@macro base_retriever}
-  const Retriever({
-    required super.defaultOptions,
-  });
+  const Retriever({required super.defaultOptions});
 
   /// Get the most relevant documents for a given query.
   ///
   /// - [input] - The query to search for.
   /// - [options] - Retrieval options.
   @override
-  Future<List<Document>> invoke(
-    final String input, {
-    final Options? options,
-  }) {
+  Future<List<Document>> invoke(final String input, {final Options? options}) {
     return getRelevantDocuments(input, options: options);
   }
 

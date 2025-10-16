@@ -11,10 +11,7 @@ class PromptFeedback {
   final List<SafetyRating>? safetyRatings;
 
   /// Creates a [PromptFeedback].
-  const PromptFeedback({
-    this.blockReason,
-    this.safetyRatings,
-  });
+  const PromptFeedback({this.blockReason, this.safetyRatings});
 
   /// Creates a [PromptFeedback] from JSON.
   factory PromptFeedback.fromJson(Map<String, dynamic> json) => PromptFeedback(

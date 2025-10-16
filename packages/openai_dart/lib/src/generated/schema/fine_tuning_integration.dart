@@ -38,10 +38,7 @@ abstract class FineTuningIntegration with _$FineTuningIntegration {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'type': type,
-      'wandb': wandb,
-    };
+    return {'type': type, 'wandb': wandb};
   }
 }
 
@@ -102,11 +99,6 @@ abstract class FineTuningIntegrationWandb with _$FineTuningIntegrationWandb {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'project': project,
-      'name': name,
-      'entity': entity,
-      'tags': tags,
-    };
+    return {'project': project, 'name': name, 'entity': entity, 'tags': tags};
   }
 }

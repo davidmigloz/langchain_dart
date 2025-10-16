@@ -164,9 +164,7 @@ class CachedContent {
     displayName: json['displayName'] as String?,
     model: json['model'] as String?,
     systemInstruction: json['systemInstruction'] != null
-        ? Content.fromJson(
-            json['systemInstruction'] as Map<String, dynamic>,
-          )
+        ? Content.fromJson(json['systemInstruction'] as Map<String, dynamic>)
         : null,
     contents: (json['contents'] as List<dynamic>?)
         ?.map((e) => Content.fromJson(e as Map<String, dynamic>))

@@ -27,14 +27,9 @@ void main() {
           'description': 'A test object',
           'nullable': true,
           'enum': ['value1', 'value2'],
-          'items': {
-            'type': 'STRING',
-          },
+          'items': {'type': 'STRING'},
           'properties': {
-            'field1': {
-              'type': 'INTEGER',
-              'description': 'An integer field',
-            },
+            'field1': {'type': 'INTEGER', 'description': 'An integer field'},
           },
           'required': ['field1'],
         };
@@ -61,9 +56,7 @@ void main() {
             'nested': {
               'type': 'OBJECT',
               'properties': {
-                'deep': {
-                  'type': 'STRING',
-                },
+                'deep': {'type': 'STRING'},
               },
             },
           },
@@ -84,10 +77,7 @@ void main() {
       test('deserializes array schema with items', () {
         final json = {
           'type': 'ARRAY',
-          'items': {
-            'type': 'NUMBER',
-            'description': 'Array item',
-          },
+          'items': {'type': 'NUMBER', 'description': 'Array item'},
         };
 
         final schema = Schema.fromJson(json);
@@ -145,9 +135,7 @@ void main() {
           properties: {
             'nested': Schema(
               type: SchemaType.object,
-              properties: {
-                'deep': Schema(type: SchemaType.string),
-              },
+              properties: {'deep': Schema(type: SchemaType.string)},
             ),
           },
         );
@@ -165,10 +153,7 @@ void main() {
       test('serializes array schema with items', () {
         const schema = Schema(
           type: SchemaType.array,
-          items: Schema(
-            type: SchemaType.number,
-            description: 'Array item',
-          ),
+          items: Schema(type: SchemaType.number, description: 'Array item'),
         );
 
         final json = schema.toJson();
@@ -187,9 +172,7 @@ void main() {
           description: 'Test schema',
           nullable: true,
           enumValues: ['a', 'b'],
-          properties: {
-            'field': Schema(type: SchemaType.string),
-          },
+          properties: {'field': Schema(type: SchemaType.string)},
           required: ['field'],
         );
 
@@ -242,10 +225,7 @@ void main() {
         expect(schemaTypeToString(SchemaType.boolean), 'BOOLEAN');
         expect(schemaTypeToString(SchemaType.array), 'ARRAY');
         expect(schemaTypeToString(SchemaType.object), 'OBJECT');
-        expect(
-          schemaTypeToString(SchemaType.unspecified),
-          'TYPE_UNSPECIFIED',
-        );
+        expect(schemaTypeToString(SchemaType.unspecified), 'TYPE_UNSPECIFIED');
       });
     });
   });

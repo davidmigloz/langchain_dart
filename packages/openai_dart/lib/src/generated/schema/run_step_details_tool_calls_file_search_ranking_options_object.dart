@@ -48,9 +48,6 @@ abstract class RunStepDetailsToolCallsFileSearchRankingOptionsObject
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'ranker': ranker,
-      'score_threshold': scoreThreshold,
-    };
+    return {'ranker': ranker, 'score_threshold': scoreThreshold};
   }
 }

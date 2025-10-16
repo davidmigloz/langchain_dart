@@ -600,14 +600,12 @@ sealed class ChatCompletionModel with _$ChatCompletionModel {
   const ChatCompletionModel._();
 
   /// Available completion models. Mind that the list may not be exhaustive nor up-to-date.
-  const factory ChatCompletionModel.model(
-    ChatCompletionModels value,
-  ) = ChatCompletionModelEnumeration;
+  const factory ChatCompletionModel.model(ChatCompletionModels value) =
+      ChatCompletionModelEnumeration;
 
   /// The ID of the model to use for this request.
-  const factory ChatCompletionModel.modelId(
-    String value,
-  ) = ChatCompletionModelString;
+  const factory ChatCompletionModel.modelId(String value) =
+      ChatCompletionModelString;
 
   /// Object construction from a JSON representation
   factory ChatCompletionModel.fromJson(Map<String, dynamic> json) =>
@@ -631,9 +629,7 @@ class _ChatCompletionModelConverter
     if (data is String) {
       return ChatCompletionModelString(data);
     }
-    throw Exception(
-      'Unexpected value for ChatCompletionModel: $data',
-    );
+    throw Exception('Unexpected value for ChatCompletionModel: $data');
   }
 
   @override
@@ -680,14 +676,12 @@ sealed class ChatCompletionStop with _$ChatCompletionStop {
   const ChatCompletionStop._();
 
   /// A list of string stop sequences.
-  const factory ChatCompletionStop.listString(
-    List<String> value,
-  ) = ChatCompletionStopListString;
+  const factory ChatCompletionStop.listString(List<String> value) =
+      ChatCompletionStopListString;
 
   /// A string stop sequence.
-  const factory ChatCompletionStop.string(
-    String? value,
-  ) = ChatCompletionStopString;
+  const factory ChatCompletionStop.string(String? value) =
+      ChatCompletionStopString;
 
   /// Object construction from a JSON representation
   factory ChatCompletionStop.fromJson(Map<String, dynamic> json) =>
@@ -710,9 +704,7 @@ class _ChatCompletionStopConverter
     if (data is String) {
       return ChatCompletionStopString(data);
     }
-    throw Exception(
-      'Unexpected value for ChatCompletionStop: $data',
-    );
+    throw Exception('Unexpected value for ChatCompletionStop: $data');
   }
 
   @override
@@ -890,9 +882,7 @@ class _ChatCompletionFunctionCallConverter
         );
       } catch (e) {}
     }
-    throw Exception(
-      'Unexpected value for ChatCompletionFunctionCall: $data',
-    );
+    throw Exception('Unexpected value for ChatCompletionFunctionCall: $data');
   }
 
   @override

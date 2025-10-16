@@ -9,9 +9,8 @@ import 'types.dart';
 /// {@endtemplate}
 class FakeLLM extends SimpleLLM<FakeLLMOptions> {
   /// {@macro fake_list_llm}
-  FakeLLM({
-    required this.responses,
-  }) : super(defaultOptions: const FakeLLMOptions());
+  FakeLLM({required this.responses})
+    : super(defaultOptions: const FakeLLMOptions());
 
   /// Responses to return in order when called.
   final List<String> responses;
@@ -65,16 +64,10 @@ class FakeLLM extends SimpleLLM<FakeLLMOptions> {
 /// {@endtemplate}
 class FakeLLMOptions extends LLMOptions {
   /// {@macro fake_llm_options}
-  const FakeLLMOptions({
-    super.model,
-    super.concurrencyLimit,
-  });
+  const FakeLLMOptions({super.model, super.concurrencyLimit});
 
   @override
-  FakeLLMOptions copyWith({
-    final String? model,
-    final int? concurrencyLimit,
-  }) {
+  FakeLLMOptions copyWith({final String? model, final int? concurrencyLimit}) {
     return FakeLLMOptions(
       model: model ?? this.model,
       concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
@@ -146,16 +139,11 @@ class FakeEchoLLM extends BaseLLM<FakeLLMOptions> {
 /// {@endtemplate}
 class FakeHandlerLLM extends SimpleLLM<FakeLLMOptions> {
   /// {@macro fake_handler_llm}
-  FakeHandlerLLM({
-    required this.handler,
-  }) : super(defaultOptions: const FakeLLMOptions());
+  FakeHandlerLLM({required this.handler})
+    : super(defaultOptions: const FakeLLMOptions());
 
   /// Function called to generate the response.
-  final String Function(
-    String prompt,
-    LLMOptions? options,
-    int callCount,
-  )
+  final String Function(String prompt, LLMOptions? options, int callCount)
   handler;
 
   var _callCount = 0;

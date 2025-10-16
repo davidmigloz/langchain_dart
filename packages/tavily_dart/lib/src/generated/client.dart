@@ -365,9 +365,7 @@ class TavilyClient {
   /// `request`: The search request object.
   ///
   /// `POST` `https://api.tavily.com/search`
-  Future<SearchResponse> search({
-    required SearchRequest request,
-  }) async {
+  Future<SearchResponse> search({required SearchRequest request}) async {
     final r = await makeRequest(
       baseUrl: 'https://api.tavily.com',
       path: '/search',

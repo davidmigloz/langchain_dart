@@ -77,10 +77,7 @@ Future<void> _toolUse(final AnthropicClient client) async {
       ),
     ],
     tools: [tool],
-    toolChoice: ToolChoice(
-      type: ToolChoiceType.tool,
-      name: tool.name,
-    ),
+    toolChoice: ToolChoice(type: ToolChoiceType.tool, name: tool.name),
     maxTokens: 1024,
   );
 
@@ -106,10 +103,7 @@ Future<void> _toolUse(final AnthropicClient client) async {
           'What’s the weather like in Boston right now in Fahrenheit?',
         ),
       ),
-      Message(
-        role: MessageRole.assistant,
-        content: aiMessage1.content,
-      ),
+      Message(role: MessageRole.assistant, content: aiMessage1.content),
       Message(
         role: MessageRole.user,
         content: MessageContent.blocks([
@@ -143,10 +137,7 @@ Future<void> _toolUseStreaming(final AnthropicClient client) async {
       ),
     ],
     tools: [tool],
-    toolChoice: ToolChoice(
-      type: ToolChoiceType.tool,
-      name: tool.name,
-    ),
+    toolChoice: ToolChoice(type: ToolChoiceType.tool, name: tool.name),
     maxTokens: 1024,
   );
 

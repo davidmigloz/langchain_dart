@@ -11,10 +11,7 @@ class PredictRequest {
   final dynamic parameters;
 
   /// Creates a [PredictRequest].
-  const PredictRequest({
-    required this.instances,
-    this.parameters,
-  });
+  const PredictRequest({required this.instances, this.parameters});
 
   /// Creates a [PredictRequest] from JSON.
   factory PredictRequest.fromJson(Map<String, dynamic> json) => PredictRequest(

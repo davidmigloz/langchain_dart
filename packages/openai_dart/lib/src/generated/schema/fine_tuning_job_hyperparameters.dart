@@ -43,9 +43,7 @@ abstract class FineTuningJobHyperparameters
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'n_epochs': nEpochs,
-    };
+    return {'n_epochs': nEpochs};
   }
 }
 
@@ -72,14 +70,11 @@ sealed class FineTuningNEpochs with _$FineTuningNEpochs {
   const FineTuningNEpochs._();
 
   /// The mode for the number of epochs.
-  const factory FineTuningNEpochs.mode(
-    FineTuningNEpochsOptions value,
-  ) = FineTuningNEpochsEnumeration;
+  const factory FineTuningNEpochs.mode(FineTuningNEpochsOptions value) =
+      FineTuningNEpochsEnumeration;
 
   /// The number of epochs to train the model for.
-  const factory FineTuningNEpochs.number(
-    int value,
-  ) = FineTuningNEpochsInt;
+  const factory FineTuningNEpochs.number(int value) = FineTuningNEpochsInt;
 
   /// Object construction from a JSON representation
   factory FineTuningNEpochs.fromJson(Map<String, dynamic> json) =>
@@ -104,9 +99,7 @@ class _FineTuningNEpochsConverter
     if (data is int) {
       return FineTuningNEpochsInt(data);
     }
-    return FineTuningNEpochsEnumeration(
-      FineTuningNEpochsOptions.auto,
-    );
+    return FineTuningNEpochsEnumeration(FineTuningNEpochsOptions.auto);
   }
 
   @override

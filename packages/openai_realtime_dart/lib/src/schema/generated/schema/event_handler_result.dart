@@ -39,10 +39,6 @@ abstract class EventHandlerResult with _$EventHandlerResult {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'item': item,
-      'delta': delta,
-      'response': response,
-    };
+    return {'item': item, 'delta': delta, 'response': response};
   }
 }

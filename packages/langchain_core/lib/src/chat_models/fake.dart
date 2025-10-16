@@ -112,9 +112,7 @@ class FakeChatModelOptions extends ChatModelOptions {
   }
 
   @override
-  FakeChatModelOptions merge(
-    covariant final FakeChatModelOptions? other,
-  ) {
+  FakeChatModelOptions merge(covariant final FakeChatModelOptions? other) {
     return copyWith(
       model: other?.model,
       metadata: other?.metadata,
@@ -186,26 +184,24 @@ class FakeEchoChatModel extends BaseChatModel<FakeEchoChatModelOptions> {
         options?.throwRandomError ?? defaultOptions.throwRandomError;
 
     var index = 0;
-    return Stream.fromIterable(prompt).map(
-      (final char) {
-        if (throwError && index == prompt.length ~/ 2) {
-          throw Exception('Random error');
-        }
+    return Stream.fromIterable(prompt).map((final char) {
+      if (throwError && index == prompt.length ~/ 2) {
+        throw Exception('Random error');
+      }
 
-        return ChatResult(
-          id: 'fake-echo-chat-model',
-          output: AIChatMessage(content: char),
-          finishReason: FinishReason.stop,
-          metadata: {
-            'model': options?.model ?? defaultOptions.model,
-            ...?options?.metadata ?? defaultOptions.metadata,
-            'index': index++,
-          },
-          usage: const LanguageModelUsage(),
-          streaming: true,
-        );
-      },
-    );
+      return ChatResult(
+        id: 'fake-echo-chat-model',
+        output: AIChatMessage(content: char),
+        finishReason: FinishReason.stop,
+        metadata: {
+          'model': options?.model ?? defaultOptions.model,
+          ...?options?.metadata ?? defaultOptions.metadata,
+          'index': index++,
+        },
+        usage: const LanguageModelUsage(),
+        streaming: true,
+      );
+    });
   }
 
   @override

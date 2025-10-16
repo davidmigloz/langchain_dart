@@ -12,9 +12,7 @@ void main() {
     late OpenAIClient client;
 
     setUp(() {
-      client = OpenAIClient(
-        apiKey: Platform.environment['OPENAI_API_KEY'],
-      );
+      client = OpenAIClient(apiKey: Platform.environment['OPENAI_API_KEY']);
     });
 
     tearDown(() {

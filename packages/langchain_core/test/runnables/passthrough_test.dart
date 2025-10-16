@@ -17,13 +17,7 @@ void main() {
       });
 
       final res = await chain.invoke('world');
-      expect(
-        res,
-        {
-          'in': 'world',
-          'out': 'Hello world!',
-        },
-      );
+      expect(res, {'in': 'world', 'out': 'Hello world!'});
     });
 
     test('Streaming RunnablePassthrough', () async {

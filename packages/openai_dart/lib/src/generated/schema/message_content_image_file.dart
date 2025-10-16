@@ -36,9 +36,6 @@ abstract class MessageContentImageFile with _$MessageContentImageFile {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {
-      'file_id': fileId,
-      'detail': detail,
-    };
+    return {'file_id': fileId, 'detail': detail};
   }
 }

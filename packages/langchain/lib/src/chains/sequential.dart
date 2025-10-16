@@ -67,9 +67,7 @@ class SequentialChain extends BaseChain {
       for (final chain in chains)
         ...chain.inputKeys.difference(chain.memory?.memoryKeys ?? const {}),
     };
-    final outputKeys = {
-      for (final chain in chains) ...chain.outputKeys,
-    };
+    final outputKeys = {for (final chain in chains) ...chain.outputKeys};
     return inputKeys
         .difference(outputKeys)
         .difference(memory?.memoryKeys ?? const {});

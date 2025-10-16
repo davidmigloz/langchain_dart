@@ -62,10 +62,7 @@ class FilesResource extends ResourceBase {
   /// (default is 50). The [pageToken] is used for pagination.
   ///
   /// Returns a [ListFilesResponse] with the list of files and a next page token.
-  Future<ListFilesResponse> list({
-    int? pageSize,
-    String? pageToken,
-  }) async {
+  Future<ListFilesResponse> list({int? pageSize, String? pageToken}) async {
     _validateGoogleAIOnly();
 
     final queryParams = <String, String>{

@@ -9,14 +9,8 @@ void main() {
     test('fromJson creates response with operations and nextPageToken', () {
       final json = {
         'operations': [
-          {
-            'name': 'operations/op-1',
-            'done': true,
-          },
-          {
-            'name': 'operations/op-2',
-            'done': false,
-          },
+          {'name': 'operations/op-1', 'done': true},
+          {'name': 'operations/op-2', 'done': false},
         ],
         'nextPageToken': 'next-page-token-123',
       };
@@ -33,10 +27,7 @@ void main() {
     test('fromJson creates response with unreachable resources', () {
       final json = {
         'operations': [
-          {
-            'name': 'operations/op-1',
-            'done': true,
-          },
+          {'name': 'operations/op-1', 'done': true},
         ],
         'nextPageToken': 'token-123',
         'unreachable': ['resource-1', 'resource-2'],
@@ -52,9 +43,7 @@ void main() {
     });
 
     test('fromJson creates response with empty operations list', () {
-      final json = {
-        'operations': <Map<String, dynamic>>[],
-      };
+      final json = {'operations': <Map<String, dynamic>>[]};
 
       final response = ListOperationsResponse.fromJson(json);
 
@@ -74,12 +63,7 @@ void main() {
 
     test('toJson serializes response with all fields', () {
       const response = ListOperationsResponse(
-        operations: [
-          Operation(
-            name: 'operations/op-1',
-            done: true,
-          ),
-        ],
+        operations: [Operation(name: 'operations/op-1', done: true)],
         nextPageToken: 'token-123',
         unreachable: ['resource-1'],
       );
@@ -94,12 +78,7 @@ void main() {
 
     test('toJson omits null fields', () {
       const response = ListOperationsResponse(
-        operations: [
-          Operation(
-            name: 'operations/op-1',
-            done: true,
-          ),
-        ],
+        operations: [Operation(name: 'operations/op-1', done: true)],
       );
 
       final json = response.toJson();
@@ -137,12 +116,7 @@ void main() {
 
     test('copyWith creates copy with replaced values', () {
       const original = ListOperationsResponse(
-        operations: [
-          Operation(
-            name: 'operations/op-1',
-            done: true,
-          ),
-        ],
+        operations: [Operation(name: 'operations/op-1', done: true)],
         nextPageToken: 'token-1',
         unreachable: ['resource-1'],
       );

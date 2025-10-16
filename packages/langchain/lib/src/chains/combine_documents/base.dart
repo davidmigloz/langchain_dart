@@ -48,9 +48,7 @@ abstract class BaseCombineDocumentsChain extends BaseChain {
   Future<ChainValues> callInternal(final ChainValues inputs) {
     final docs = inputs[inputKey] as List<Document>;
     final otherInputKeys = inputs.keys.toSet().difference({inputKey});
-    final otherInputs = {
-      for (final key in otherInputKeys) key: inputs[key],
-    };
+    final otherInputs = {for (final key in otherInputKeys) key: inputs[key]};
     return combineDocs(docs, inputs: otherInputs);
   }
 
@@ -85,10 +83,7 @@ abstract class BaseCombineDocumentsChain extends BaseChain {
   /// Formats a document into a string based on a prompt template.
   @protected
   String formatDocument(final Document doc, final BasePromptTemplate prompt) {
-    final baseInfo = {
-      pageContentPromptVar: doc.pageContent,
-      ...doc.metadata,
-    };
+    final baseInfo = {pageContentPromptVar: doc.pageContent, ...doc.metadata};
 
     final missingMetadata = prompt.inputVariables.difference(
       baseInfo.keys.toSet(),

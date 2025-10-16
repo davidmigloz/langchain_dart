@@ -19,9 +19,7 @@ void main() {
       );
       final expected = GoogleCloudAiplatformV1PredictRequest(
         instances: [
-          {
-            'prompt': 'PROMPT',
-          },
+          {'prompt': 'PROMPT'},
         ],
         parameters: {
           'temperature': 0.1,
