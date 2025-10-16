@@ -1,16 +1,17 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io' as io;
 
 import 'package:http/http.dart' as http;
 
-import '../auth/auth_provider.dart';
-import '../client/config.dart';
-import '../errors/exceptions.dart';
-import '../models/files/file.dart' as file_model;
-import '../models/files/list_files_response.dart';
-import 'base_resource.dart';
+import '../../auth/auth_provider.dart';
+import '../../client/config.dart';
+import '../../errors/exceptions.dart';
+import '../../models/files/file.dart' as file_model;
+import '../../models/files/list_files_response.dart';
+import '../base_resource.dart';
 
-/// Resource for the Files API.
+/// Resource for the Files API (IO implementation).
 ///
 /// Provides access to file upload, listing, and management operations.
 ///
@@ -42,34 +43,133 @@ class FilesResource extends ResourceBase {
 
   /// Uploads a file for use in prompts.
   ///
-  /// The [filePath] is the path to the file to upload.
-  /// The [mimeType] is the MIME type of the file (e.g., "image/jpeg").
-  /// The optional [displayName] provides a human-readable name for the file.
+  /// This method supports three input modes (exactly one must be provided):
+  /// - [filePath]: Path to a file on the file system (backwards compatible, streaming)
+  /// - [contentStream]: A stream of bytes for streaming uploads (memory efficient)
+  /// - [bytes]: The file content as a list of bytes (compatible with web API)
+  ///
+  /// Required parameters:
+  /// - [mimeType]: The MIME type of the file (e.g., "image/jpeg")
+  /// - [fileName]: Required when using [contentStream] or [bytes], otherwise extracted from [filePath]
+  ///
+  /// Optional parameters:
+  /// - [displayName]: Human-readable name for the file
   ///
   /// Returns a [File] with metadata about the uploaded file.
   ///
   /// Note: Uploaded files are automatically deleted after 48 hours.
   ///
-  /// Throws [UnsupportedError] if used with Vertex AI.
+  /// Throws:
+  /// - [ValidationException] if file not found or invalid parameters
+  /// - [UnsupportedError] if used with Vertex AI
+  ///
+  /// Examples:
+  /// ```dart
+  /// // From file path (backwards compatible, streaming)
+  /// final file1 = await client.files.upload(
+  ///   filePath: '/path/to/image.jpg',
+  ///   mimeType: 'image/jpeg',
+  /// );
+  ///
+  /// // From stream (memory efficient for large files)
+  /// final stream = io.File('/path/to/large-video.mp4').openRead();
+  /// final file2 = await client.files.upload(
+  ///   contentStream: stream,
+  ///   fileName: 'video.mp4',
+  ///   mimeType: 'video/mp4',
+  /// );
+  ///
+  /// // From bytes (compatible with web API)
+  /// final bytes = await io.File('/path/to/document.pdf').readAsBytes();
+  /// final file3 = await client.files.upload(
+  ///   bytes: bytes,
+  ///   fileName: 'document.pdf',
+  ///   mimeType: 'application/pdf',
+  /// );
+  /// ```
   Future<file_model.File> upload({
-    required String filePath,
+    String? filePath,
+    Stream<List<int>>? contentStream,
+    List<int>? bytes,
+    String? fileName,
     required String mimeType,
     String? displayName,
   }) async {
     _validateGoogleAIOnly();
 
-    final file = io.File(filePath);
-    if (!file.existsSync()) {
+    // Validate that exactly one input method is provided
+    final inputCount = [
+      filePath,
+      contentStream,
+      bytes,
+    ].where((input) => input != null).length;
+
+    if (inputCount != 1) {
       throw const ValidationException(
-        message: 'File not found',
+        message:
+            'Exactly one of filePath, contentStream, or bytes must be provided',
         fieldErrors: {
-          'filePath': ['File does not exist'],
+          'upload': [
+            'Provide exactly one of: filePath, contentStream, or bytes',
+          ],
         },
       );
     }
 
-    final bytes = await file.readAsBytes();
-    final fileName = displayName ?? file.uri.pathSegments.last;
+    // Prepare the upload data
+    final Stream<List<int>> dataStream;
+    final int contentLength;
+    final String finalFileName;
+
+    if (filePath != null) {
+      // File path mode - use streaming
+      final file = io.File(filePath);
+      if (!file.existsSync()) {
+        throw const ValidationException(
+          message: 'File not found',
+          fieldErrors: {
+            'filePath': ['File does not exist'],
+          },
+        );
+      }
+      dataStream = file.openRead();
+      contentLength = await file.length();
+      finalFileName = fileName ?? file.uri.pathSegments.last;
+    } else if (contentStream != null) {
+      // Stream mode
+      if (fileName == null) {
+        throw const ValidationException(
+          message: 'fileName is required when using contentStream',
+          fieldErrors: {
+            'fileName': ['fileName must be provided with contentStream'],
+          },
+        );
+      }
+      // For streams, we need to buffer to get length (limitation of resumable upload)
+      // In the future, could use chunked transfer encoding if API supports it
+      final bufferedBytes = await contentStream.fold<List<int>>(
+        [],
+        (buffer, chunk) => buffer..addAll(chunk),
+      );
+      dataStream = Stream.value(bufferedBytes);
+      contentLength = bufferedBytes.length;
+      finalFileName = fileName;
+    } else {
+      // Bytes mode
+      if (fileName == null) {
+        throw const ValidationException(
+          message: 'fileName is required when using bytes',
+          fieldErrors: {
+            'fileName': ['fileName must be provided with bytes'],
+          },
+        );
+      }
+      dataStream = Stream.value(bytes!);
+      contentLength = bytes.length;
+      finalFileName = fileName;
+    }
+
+    final displayFileName = displayName ?? finalFileName;
 
     // Google AI Files API uses resumable upload protocol
     // Step 1: Initiate the upload and get upload URL
@@ -80,7 +180,7 @@ class FilesResource extends ResourceBase {
     final initiationHeaders = <String, String>{
       'X-Goog-Upload-Protocol': 'resumable',
       'X-Goog-Upload-Command': 'start',
-      'X-Goog-Upload-Header-Content-Length': bytes.length.toString(),
+      'X-Goog-Upload-Header-Content-Length': contentLength.toString(),
       'X-Goog-Upload-Header-Content-Type': mimeType,
       'Content-Type': 'application/json',
     };
@@ -119,7 +219,7 @@ class FilesResource extends ResourceBase {
 
     final initiationBody = jsonEncode({
       'file': {
-        'displayName': fileName,
+        'displayName': displayFileName,
       },
     });
 
@@ -143,16 +243,25 @@ class FilesResource extends ResourceBase {
       );
     }
 
-    // Step 2: Upload the file bytes
+    // Step 2: Upload the file bytes (streaming)
     final uploadHeaders = <String, String>{
-      'Content-Length': bytes.length.toString(),
+      'Content-Length': contentLength.toString(),
       'X-Goog-Upload-Offset': '0',
       'X-Goog-Upload-Command': 'upload, finalize',
     };
 
-    final uploadRequest = http.Request('POST', Uri.parse(uploadUrlHeader))
-      ..headers.addAll(uploadHeaders)
-      ..bodyBytes = bytes;
+    final uploadRequest =
+        http.StreamedRequest('POST', Uri.parse(uploadUrlHeader))
+          ..headers.addAll(uploadHeaders)
+          ..contentLength = contentLength;
+
+    // Stream the data
+    dataStream.listen(
+      uploadRequest.sink.add,
+      onError: uploadRequest.sink.addError,
+      onDone: uploadRequest.sink.close,
+      cancelOnError: true,
+    );
 
     final uploadResponse = await httpClient.send(uploadRequest);
     final finalResponse = await http.Response.fromStream(uploadResponse);

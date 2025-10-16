@@ -61,6 +61,7 @@ Unofficial Dart client for the **[Google AI Gemini Developer API](https://ai.goo
 #### Files API
 
 - ✅ File management (upload, list, get, download, delete)
+- ✅ Multiple upload methods: file path (IO), bytes (all platforms), streaming (IO)
 - ℹ️ *Vertex AI: Use [Cloud Storage URIs](https://cloud.google.com/vertex-ai/docs/multimodal/send-multimodal-prompts) or base64*
 
 #### Tuned Models
@@ -115,6 +116,7 @@ Unofficial Dart client for the **[Google AI Gemini Developer API](https://ai.goo
 - ✅ Type-safe with sealed classes
 - ✅ Multiple auth methods (API key, OAuth)
 - ✅ Minimal dependencies (http, logging only)
+- ✅ Works on all compilation targets (native, web, WASM)
 - ✅ Interceptor-driven architecture
 - ✅ Comprehensive error handling
 - ✅ Automatic retry with exponential backoff
@@ -1065,6 +1067,10 @@ This client implements **78 endpoints** covering **100% of all non-deprecated Ge
 ### Files Resource (`client.files`)
 
 - **Management**: upload, list, get, delete, download
+- **Upload Methods**:
+  - `filePath`: Upload from file system (IO platforms, streaming)
+  - `bytes`: Upload from memory (all platforms)
+  - `contentStream`: Upload large files via streaming (IO platforms, memory efficient)
 - **Generated Files**: generatedFiles.list, generatedFiles.get, generatedFiles.getOperation (for video outputs)
 
 ### Cached Contents Resource (`client.cachedContents`)

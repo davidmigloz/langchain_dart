@@ -9,7 +9,7 @@ import '../models/models/operation.dart';
 import '../resources/batches_resource.dart';
 import '../resources/cached_contents_resource.dart';
 import '../resources/corpora_resource.dart';
-import '../resources/files_resource.dart';
+import '../resources/files/files_resource.dart';
 import '../resources/generated_files_resource.dart';
 import '../resources/models_resource.dart';
 import '../resources/rag_stores_resource.dart';
