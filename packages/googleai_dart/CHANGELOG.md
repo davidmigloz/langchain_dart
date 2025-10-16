@@ -1,3 +1,8 @@
+## 1.1.0
+
+ - **FEAT**: Make googleai_dart fully WASM compatible ([#808](https://github.com/davidmigloz/langchain_dart/issues/808)). ([07e597f3](https://github.com/davidmigloz/langchain_dart/commit/07e597f3984b2c0396ebfb5ae7e981bb52872368))
+ - **REFACTOR**: Fix pub format warnings ([#809](https://github.com/davidmigloz/langchain_dart/issues/809)). ([640cdefb](https://github.com/davidmigloz/langchain_dart/commit/640cdefbede9c0a0182fb6bb4005a20aa6f35635))
+
 ## 1.0.0
 
 > Note: This release has breaking changes.

@@ -1,6 +1,6 @@
 name: googleai_dart
 description: Unofficial Dart client for the Google AI Gemini Developer API and Vertex AI Gemini API with unified interface.
-version: 1.0.0
+version: 1.1.0
 repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/googleai_dart
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues?q=label:p:googleai_dart
 homepage: https://github.com/davidmigloz/langchain_dart

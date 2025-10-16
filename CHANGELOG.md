@@ -2,6 +2,123 @@
 
 📣 Check out the [releases page](https://github.com/davidmigloz/langchain_dart/releases) or the [#announcements](https://discord.com/channels/1123158322812555295/1123250594644242534) channel on the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details.
 
+## 2025-10-16
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`anthropic_sdk_dart` - `v0.3.0+1`](#anthropic_sdk_dart---v0301)
+ - [`chromadb` - `v0.3.0+1`](#chromadb---v0301)
+ - [`googleai_dart` - `v1.1.0`](#googleai_dart---v110)
+ - [`langchain` - `v0.8.0+1`](#langchain---v0801)
+ - [`langchain_anthropic` - `v0.3.0+1`](#langchain_anthropic---v0301)
+ - [`langchain_chroma` - `v0.3.0+1`](#langchain_chroma---v0301)
+ - [`langchain_community` - `v0.4.0+1`](#langchain_community---v0401)
+ - [`langchain_core` - `v0.4.0+1`](#langchain_core---v0401)
+ - [`langchain_firebase` - `v0.3.0+1`](#langchain_firebase---v0301)
+ - [`langchain_google` - `v0.7.0+1`](#langchain_google---v0701)
+ - [`langchain_mistralai` - `v0.3.0+1`](#langchain_mistralai---v0301)
+ - [`langchain_ollama` - `v0.4.0+1`](#langchain_ollama---v0401)
+ - [`langchain_openai` - `v0.8.0+1`](#langchain_openai---v0801)
+ - [`langchain_supabase` - `v0.2.0+1`](#langchain_supabase---v0201)
+ - [`mistralai_dart` - `v0.1.0+1`](#mistralai_dart---v0101)
+ - [`ollama_dart` - `v0.3.0+1`](#ollama_dart---v0301)
+ - [`openai_dart` - `v0.6.0+1`](#openai_dart---v0601)
+ - [`openai_realtime_dart` - `v0.1.0+1`](#openai_realtime_dart---v0101)
+ - [`tavily_dart` - `v0.2.0+1`](#tavily_dart---v0201)
+ - [`vertex_ai` - `v0.2.0+1`](#vertex_ai---v0201)
+
+---
+
+#### `googleai_dart` - `v1.1.0`
+
+ - **REFACTOR**: Fix pub format warnings ([#809](https://github.com/davidmigloz/langchain_dart/issues/809)). ([640cdefb](https://github.com/davidmigloz/langchain_dart/commit/640cdefbede9c0a0182fb6bb4005a20aa6f35635))
+ - **FEAT**: Make googleai_dart fully WASM compatible ([#808](https://github.com/davidmigloz/langchain_dart/issues/808)). ([07e597f3](https://github.com/davidmigloz/langchain_dart/commit/07e597f3984b2c0396ebfb5ae7e981bb52872368))
+
+#### `anthropic_sdk_dart` - `v0.3.0+1`
+
+ - **REFACTOR**: Fix pub format warnings ([#809](https://github.com/davidmigloz/langchain_dart/issues/809)). ([640cdefb](https://github.com/davidmigloz/langchain_dart/commit/640cdefbede9c0a0182fb6bb4005a20aa6f35635))
+
+#### `chromadb` - `v0.3.0+1`
+
+ - **REFACTOR**: Fix pub format warnings ([#809](https://github.com/davidmigloz/langchain_dart/issues/809)). ([640cdefb](https://github.com/davidmigloz/langchain_dart/commit/640cdefbede9c0a0182fb6bb4005a20aa6f35635))
+
+#### `langchain` - `v0.8.0+1`
+
+ - **REFACTOR**: Fix pub format warnings ([#809](https://github.com/davidmigloz/langchain_dart/issues/809)). ([640cdefb](https://github.com/davidmigloz/langchain_dart/commit/640cdefbede9c0a0182fb6bb4005a20aa6f35635))
+
+#### `langchain_anthropic` - `v0.3.0+1`
+
+ - **REFACTOR**: Fix pub format warnings ([#809](https://github.com/davidmigloz/langchain_dart/issues/809)). ([640cdefb](https://github.com/davidmigloz/langchain_dart/commit/640cdefbede9c0a0182fb6bb4005a20aa6f35635))
+
+#### `langchain_chroma` - `v0.3.0+1`
+
+ - **REFACTOR**: Fix pub format warnings ([#809](https://github.com/davidmigloz/langchain_dart/issues/809)). ([640cdefb](https://github.com/davidmigloz/langchain_dart/commit/640cdefbede9c0a0182fb6bb4005a20aa6f35635))
+
+#### `langchain_community` - `v0.4.0+1`
+
+ - **REFACTOR**: Fix pub format warnings ([#809](https://github.com/davidmigloz/langchain_dart/issues/809)). ([640cdefb](https://github.com/davidmigloz/langchain_dart/commit/640cdefbede9c0a0182fb6bb4005a20aa6f35635))
+
+#### `langchain_core` - `v0.4.0+1`
+
+ - **REFACTOR**: Fix pub format warnings ([#809](https://github.com/davidmigloz/langchain_dart/issues/809)). ([640cdefb](https://github.com/davidmigloz/langchain_dart/commit/640cdefbede9c0a0182fb6bb4005a20aa6f35635))
+
+#### `langchain_firebase` - `v0.3.0+1`
+
+ - **REFACTOR**: Fix pub format warnings ([#809](https://github.com/davidmigloz/langchain_dart/issues/809)). ([640cdefb](https://github.com/davidmigloz/langchain_dart/commit/640cdefbede9c0a0182fb6bb4005a20aa6f35635))
+
+#### `langchain_google` - `v0.7.0+1`
+
+ - **REFACTOR**: Fix pub format warnings ([#809](https://github.com/davidmigloz/langchain_dart/issues/809)). ([640cdefb](https://github.com/davidmigloz/langchain_dart/commit/640cdefbede9c0a0182fb6bb4005a20aa6f35635))
+
+#### `langchain_mistralai` - `v0.3.0+1`
+
+ - **REFACTOR**: Fix pub format warnings ([#809](https://github.com/davidmigloz/langchain_dart/issues/809)). ([640cdefb](https://github.com/davidmigloz/langchain_dart/commit/640cdefbede9c0a0182fb6bb4005a20aa6f35635))
+
+#### `langchain_ollama` - `v0.4.0+1`
+
+ - **REFACTOR**: Fix pub format warnings ([#809](https://github.com/davidmigloz/langchain_dart/issues/809)). ([640cdefb](https://github.com/davidmigloz/langchain_dart/commit/640cdefbede9c0a0182fb6bb4005a20aa6f35635))
+
+#### `langchain_openai` - `v0.8.0+1`
+
+ - **REFACTOR**: Fix pub format warnings ([#809](https://github.com/davidmigloz/langchain_dart/issues/809)). ([640cdefb](https://github.com/davidmigloz/langchain_dart/commit/640cdefbede9c0a0182fb6bb4005a20aa6f35635))
+
+#### `langchain_supabase` - `v0.2.0+1`
+
+ - **REFACTOR**: Fix pub format warnings ([#809](https://github.com/davidmigloz/langchain_dart/issues/809)). ([640cdefb](https://github.com/davidmigloz/langchain_dart/commit/640cdefbede9c0a0182fb6bb4005a20aa6f35635))
+
+#### `mistralai_dart` - `v0.1.0+1`
+
+ - **REFACTOR**: Fix pub format warnings ([#809](https://github.com/davidmigloz/langchain_dart/issues/809)). ([640cdefb](https://github.com/davidmigloz/langchain_dart/commit/640cdefbede9c0a0182fb6bb4005a20aa6f35635))
+
+#### `ollama_dart` - `v0.3.0+1`
+
+ - **REFACTOR**: Fix pub format warnings ([#809](https://github.com/davidmigloz/langchain_dart/issues/809)). ([640cdefb](https://github.com/davidmigloz/langchain_dart/commit/640cdefbede9c0a0182fb6bb4005a20aa6f35635))
+
+#### `openai_dart` - `v0.6.0+1`
+
+ - **REFACTOR**: Fix pub format warnings ([#809](https://github.com/davidmigloz/langchain_dart/issues/809)). ([640cdefb](https://github.com/davidmigloz/langchain_dart/commit/640cdefbede9c0a0182fb6bb4005a20aa6f35635))
+
+#### `openai_realtime_dart` - `v0.1.0+1`
+
+ - **REFACTOR**: Fix pub format warnings ([#809](https://github.com/davidmigloz/langchain_dart/issues/809)). ([640cdefb](https://github.com/davidmigloz/langchain_dart/commit/640cdefbede9c0a0182fb6bb4005a20aa6f35635))
+
+#### `tavily_dart` - `v0.2.0+1`
+
+ - **REFACTOR**: Fix pub format warnings ([#809](https://github.com/davidmigloz/langchain_dart/issues/809)). ([640cdefb](https://github.com/davidmigloz/langchain_dart/commit/640cdefbede9c0a0182fb6bb4005a20aa6f35635))
+
+#### `vertex_ai` - `v0.2.0+1`
+
+ - **REFACTOR**: Fix pub format warnings ([#809](https://github.com/davidmigloz/langchain_dart/issues/809)). ([640cdefb](https://github.com/davidmigloz/langchain_dart/commit/640cdefbede9c0a0182fb6bb4005a20aa6f35635))
+
+
 ## 2025-10-15
 
 ### Changes

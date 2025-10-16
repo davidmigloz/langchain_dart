@@ -1,3 +1,7 @@
+## 0.4.0+1
+
+ - **REFACTOR**: Fix pub format warnings ([#809](https://github.com/davidmigloz/langchain_dart/issues/809)). ([640cdefb](https://github.com/davidmigloz/langchain_dart/commit/640cdefbede9c0a0182fb6bb4005a20aa6f35635))
+
 ## 0.4.0
 
 > Note: This release has breaking changes.
