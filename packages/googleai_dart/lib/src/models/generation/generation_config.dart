@@ -1,4 +1,5 @@
 import '../copy_with_sentinel.dart';
+import 'thinking_config.dart';
 
 /// Configuration options for model generation.
 class GenerationConfig {
@@ -32,6 +33,9 @@ class GenerationConfig {
   /// Response schema (for structured output).
   final Map<String, dynamic>? responseSchema;
 
+  /// Thinking configuration.
+  final ThinkingConfig? thinkingConfig;
+
   /// Creates a [GenerationConfig].
   const GenerationConfig({
     this.candidateCount,
@@ -44,6 +48,7 @@ class GenerationConfig {
     this.frequencyPenalty,
     this.responseMimeType,
     this.responseSchema,
+    this.thinkingConfig,
   });
 
   /// Creates a [GenerationConfig] from JSON.
@@ -59,6 +64,12 @@ class GenerationConfig {
         frequencyPenalty: (json['frequencyPenalty'] as num?)?.toDouble(),
         responseMimeType: json['responseMimeType'] as String?,
         responseSchema: json['responseSchema'] as Map<String, dynamic>?,
+        thinkingConfig:
+            json['thinkingConfig'] != null
+                ? ThinkingConfig.fromJson(
+                  json['thinkingConfig'] as Map<String, dynamic>,
+                )
+                : null,
       );
 
   /// Converts to JSON.
@@ -73,6 +84,7 @@ class GenerationConfig {
     if (frequencyPenalty != null) 'frequencyPenalty': frequencyPenalty,
     if (responseMimeType != null) 'responseMimeType': responseMimeType,
     if (responseSchema != null) 'responseSchema': responseSchema,
+    if (thinkingConfig != null) 'thinkingConfig': thinkingConfig!.toJson(),
   };
 
   /// Creates a copy with replaced values.
@@ -87,34 +99,47 @@ class GenerationConfig {
     Object? frequencyPenalty = unsetCopyWithValue,
     Object? responseMimeType = unsetCopyWithValue,
     Object? responseSchema = unsetCopyWithValue,
+    Object? thinkingConfig = unsetCopyWithValue,
   }) {
     return GenerationConfig(
-      candidateCount: candidateCount == unsetCopyWithValue
-          ? this.candidateCount
-          : candidateCount as int?,
-      stopSequences: stopSequences == unsetCopyWithValue
-          ? this.stopSequences
-          : stopSequences as List<String>?,
-      maxOutputTokens: maxOutputTokens == unsetCopyWithValue
-          ? this.maxOutputTokens
-          : maxOutputTokens as int?,
-      temperature: temperature == unsetCopyWithValue
-          ? this.temperature
-          : temperature as double?,
+      candidateCount:
+          candidateCount == unsetCopyWithValue
+              ? this.candidateCount
+              : candidateCount as int?,
+      stopSequences:
+          stopSequences == unsetCopyWithValue
+              ? this.stopSequences
+              : stopSequences as List<String>?,
+      maxOutputTokens:
+          maxOutputTokens == unsetCopyWithValue
+              ? this.maxOutputTokens
+              : maxOutputTokens as int?,
+      temperature:
+          temperature == unsetCopyWithValue
+              ? this.temperature
+              : temperature as double?,
       topP: topP == unsetCopyWithValue ? this.topP : topP as double?,
       topK: topK == unsetCopyWithValue ? this.topK : topK as int?,
-      presencePenalty: presencePenalty == unsetCopyWithValue
-          ? this.presencePenalty
-          : presencePenalty as double?,
-      frequencyPenalty: frequencyPenalty == unsetCopyWithValue
-          ? this.frequencyPenalty
-          : frequencyPenalty as double?,
-      responseMimeType: responseMimeType == unsetCopyWithValue
-          ? this.responseMimeType
-          : responseMimeType as String?,
-      responseSchema: responseSchema == unsetCopyWithValue
-          ? this.responseSchema
-          : responseSchema as Map<String, dynamic>?,
+      presencePenalty:
+          presencePenalty == unsetCopyWithValue
+              ? this.presencePenalty
+              : presencePenalty as double?,
+      frequencyPenalty:
+          frequencyPenalty == unsetCopyWithValue
+              ? this.frequencyPenalty
+              : frequencyPenalty as double?,
+      responseMimeType:
+          responseMimeType == unsetCopyWithValue
+              ? this.responseMimeType
+              : responseMimeType as String?,
+      responseSchema:
+          responseSchema == unsetCopyWithValue
+              ? this.responseSchema
+              : responseSchema as Map<String, dynamic>?,
+      thinkingConfig:
+          thinkingConfig == unsetCopyWithValue
+              ? this.thinkingConfig
+              : thinkingConfig as ThinkingConfig?,
     );
   }
 }
