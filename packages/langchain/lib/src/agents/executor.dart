@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:langchain_core/agents.dart';
 import 'package:langchain_core/chains.dart';
 import 'package:langchain_core/output_parsers.dart';
@@ -199,7 +201,7 @@ class AgentExecutor extends BaseChain {
       String observation;
       if (tool != null) {
         final toolInput = tool.getInputFromJson(agentAction.toolInput);
-        observation = (await tool.invoke(toolInput)).toString();
+        observation = jsonEncode(await tool.invoke(toolInput));
       } else {
         observation =
             '${agentAction.tool} is not a valid tool, try another one.';
