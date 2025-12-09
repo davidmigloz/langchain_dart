@@ -201,7 +201,8 @@ class AgentExecutor extends BaseChain {
       String observation;
       if (tool != null) {
         final toolInput = tool.getInputFromJson(agentAction.toolInput);
-        observation = jsonEncode(await tool.invoke(toolInput));
+        final toolOutput = await tool.invoke(toolInput);
+        observation = toolOutput is String ? toolOutput : jsonEncode(toolOutput);
       } else {
         observation =
             '${agentAction.tool} is not a valid tool, try another one.';
