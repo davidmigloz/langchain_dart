@@ -3,7 +3,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:langchain/langchain.dart';
-import 'package:langchain_core/tools.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -294,9 +293,11 @@ void main() {
       final intermediateSteps =
           result[AgentExecutor.intermediateStepsOutputKey] as List<AgentStep>;
       expect(intermediateSteps.first.observation, jsonEncode(nestedOutput));
-      final decoded = jsonDecode(intermediateSteps.first.observation);
+      final decoded =
+          jsonDecode(intermediateSteps.first.observation) as Map<String, dynamic>;
       expect(decoded['results'], hasLength(2));
-      expect(decoded['metadata']['total'], 2);
+      final metadata = decoded['metadata'] as Map<String, dynamic>;
+      expect(metadata['total'], 2);
     });
 
     test('should JSON-encode bool tool output', () async {
