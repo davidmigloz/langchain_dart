@@ -97,7 +97,7 @@ abstract class CreateImageRequest with _$CreateImageRequest {
     /// information.
     ///
     /// This parameter is only supported for the GPT image models.
-    @JsonKey(includeIfNull: false) @Default(false) bool? stream,
+    @JsonKey(includeIfNull: false) bool? stream,
 
     /// The number of partial images to generate. If set to `0`, no partial images will be returned.
     /// If set to greater than `0`, that number of partial images will be returned when streaming is
