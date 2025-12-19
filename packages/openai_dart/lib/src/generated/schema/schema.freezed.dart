@@ -29157,7 +29157,8 @@ mixin _$ImagesResponse {
 @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ImagesResponseBackground? get background;/// The output format of the generated images.
 @JsonKey(name: 'output_format', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ImagesResponseOutputFormat? get outputFormat;/// The size of the generated images.
 @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ImagesResponseSize? get size;/// The quality of the generated images.
-@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ImagesResponseQuality? get quality;
+@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ImagesResponseQuality? get quality;/// Token usage details for image generation.
+@JsonKey(includeIfNull: false) ImageGenUsage? get usage;
 /// Create a copy of ImagesResponse
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -29170,16 +29171,16 @@ $ImagesResponseCopyWith<ImagesResponse> get copyWith => _$ImagesResponseCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ImagesResponse&&(identical(other.created, created) || other.created == created)&&const DeepCollectionEquality().equals(other.data, data)&&(identical(other.background, background) || other.background == background)&&(identical(other.outputFormat, outputFormat) || other.outputFormat == outputFormat)&&(identical(other.size, size) || other.size == size)&&(identical(other.quality, quality) || other.quality == quality));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ImagesResponse&&(identical(other.created, created) || other.created == created)&&const DeepCollectionEquality().equals(other.data, data)&&(identical(other.background, background) || other.background == background)&&(identical(other.outputFormat, outputFormat) || other.outputFormat == outputFormat)&&(identical(other.size, size) || other.size == size)&&(identical(other.quality, quality) || other.quality == quality)&&(identical(other.usage, usage) || other.usage == usage));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,created,const DeepCollectionEquality().hash(data),background,outputFormat,size,quality);
+int get hashCode => Object.hash(runtimeType,created,const DeepCollectionEquality().hash(data),background,outputFormat,size,quality,usage);
 
 @override
 String toString() {
-  return 'ImagesResponse(created: $created, data: $data, background: $background, outputFormat: $outputFormat, size: $size, quality: $quality)';
+  return 'ImagesResponse(created: $created, data: $data, background: $background, outputFormat: $outputFormat, size: $size, quality: $quality, usage: $usage)';
 }
 
 
@@ -29190,11 +29191,11 @@ abstract mixin class $ImagesResponseCopyWith<$Res>  {
   factory $ImagesResponseCopyWith(ImagesResponse value, $Res Function(ImagesResponse) _then) = _$ImagesResponseCopyWithImpl;
 @useResult
 $Res call({
- int created, List<Image> data,@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ImagesResponseBackground? background,@JsonKey(name: 'output_format', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ImagesResponseOutputFormat? outputFormat,@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ImagesResponseSize? size,@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ImagesResponseQuality? quality
+ int created, List<Image> data,@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ImagesResponseBackground? background,@JsonKey(name: 'output_format', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ImagesResponseOutputFormat? outputFormat,@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ImagesResponseSize? size,@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ImagesResponseQuality? quality,@JsonKey(includeIfNull: false) ImageGenUsage? usage
 });
 
 
-
+$ImageGenUsageCopyWith<$Res>? get usage;
 
 }
 /// @nodoc
@@ -29207,7 +29208,7 @@ class _$ImagesResponseCopyWithImpl<$Res>
 
 /// Create a copy of ImagesResponse
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? created = null,Object? data = null,Object? background = freezed,Object? outputFormat = freezed,Object? size = freezed,Object? quality = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? created = null,Object? data = null,Object? background = freezed,Object? outputFormat = freezed,Object? size = freezed,Object? quality = freezed,Object? usage = freezed,}) {
   return _then(_self.copyWith(
 created: null == created ? _self.created : created // ignore: cast_nullable_to_non_nullable
 as int,data: null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
@@ -29215,10 +29216,23 @@ as List<Image>,background: freezed == background ? _self.background : background
 as ImagesResponseBackground?,outputFormat: freezed == outputFormat ? _self.outputFormat : outputFormat // ignore: cast_nullable_to_non_nullable
 as ImagesResponseOutputFormat?,size: freezed == size ? _self.size : size // ignore: cast_nullable_to_non_nullable
 as ImagesResponseSize?,quality: freezed == quality ? _self.quality : quality // ignore: cast_nullable_to_non_nullable
-as ImagesResponseQuality?,
+as ImagesResponseQuality?,usage: freezed == usage ? _self.usage : usage // ignore: cast_nullable_to_non_nullable
+as ImageGenUsage?,
   ));
 }
+/// Create a copy of ImagesResponse
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ImageGenUsageCopyWith<$Res>? get usage {
+    if (_self.usage == null) {
+    return null;
+  }
 
+  return $ImageGenUsageCopyWith<$Res>(_self.usage!, (value) {
+    return _then(_self.copyWith(usage: value));
+  });
+}
 }
 
 
@@ -29300,10 +29314,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int created,  List<Image> data, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ImagesResponseBackground? background, @JsonKey(name: 'output_format', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ImagesResponseOutputFormat? outputFormat, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ImagesResponseSize? size, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ImagesResponseQuality? quality)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int created,  List<Image> data, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ImagesResponseBackground? background, @JsonKey(name: 'output_format', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ImagesResponseOutputFormat? outputFormat, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ImagesResponseSize? size, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ImagesResponseQuality? quality, @JsonKey(includeIfNull: false)  ImageGenUsage? usage)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ImagesResponse() when $default != null:
-return $default(_that.created,_that.data,_that.background,_that.outputFormat,_that.size,_that.quality);case _:
+return $default(_that.created,_that.data,_that.background,_that.outputFormat,_that.size,_that.quality,_that.usage);case _:
   return orElse();
 
 }
@@ -29321,10 +29335,10 @@ return $default(_that.created,_that.data,_that.background,_that.outputFormat,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int created,  List<Image> data, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ImagesResponseBackground? background, @JsonKey(name: 'output_format', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ImagesResponseOutputFormat? outputFormat, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ImagesResponseSize? size, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ImagesResponseQuality? quality)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int created,  List<Image> data, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ImagesResponseBackground? background, @JsonKey(name: 'output_format', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ImagesResponseOutputFormat? outputFormat, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ImagesResponseSize? size, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ImagesResponseQuality? quality, @JsonKey(includeIfNull: false)  ImageGenUsage? usage)  $default,) {final _that = this;
 switch (_that) {
 case _ImagesResponse():
-return $default(_that.created,_that.data,_that.background,_that.outputFormat,_that.size,_that.quality);case _:
+return $default(_that.created,_that.data,_that.background,_that.outputFormat,_that.size,_that.quality,_that.usage);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -29341,10 +29355,10 @@ return $default(_that.created,_that.data,_that.background,_that.outputFormat,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int created,  List<Image> data, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ImagesResponseBackground? background, @JsonKey(name: 'output_format', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ImagesResponseOutputFormat? outputFormat, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ImagesResponseSize? size, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ImagesResponseQuality? quality)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int created,  List<Image> data, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ImagesResponseBackground? background, @JsonKey(name: 'output_format', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ImagesResponseOutputFormat? outputFormat, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ImagesResponseSize? size, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ImagesResponseQuality? quality, @JsonKey(includeIfNull: false)  ImageGenUsage? usage)?  $default,) {final _that = this;
 switch (_that) {
 case _ImagesResponse() when $default != null:
-return $default(_that.created,_that.data,_that.background,_that.outputFormat,_that.size,_that.quality);case _:
+return $default(_that.created,_that.data,_that.background,_that.outputFormat,_that.size,_that.quality,_that.usage);case _:
   return null;
 
 }
@@ -29356,7 +29370,7 @@ return $default(_that.created,_that.data,_that.background,_that.outputFormat,_th
 @JsonSerializable()
 
 class _ImagesResponse extends ImagesResponse {
-  const _ImagesResponse({required this.created, required final  List<Image> data, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.background, @JsonKey(name: 'output_format', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.outputFormat, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.size, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.quality}): _data = data,super._();
+  const _ImagesResponse({required this.created, required final  List<Image> data, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.background, @JsonKey(name: 'output_format', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.outputFormat, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.size, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.quality, @JsonKey(includeIfNull: false) this.usage}): _data = data,super._();
   factory _ImagesResponse.fromJson(Map<String, dynamic> json) => _$ImagesResponseFromJson(json);
 
 /// The Unix timestamp (in seconds) when the image was created.
@@ -29378,6 +29392,8 @@ class _ImagesResponse extends ImagesResponse {
 @override@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) final  ImagesResponseSize? size;
 /// The quality of the generated images.
 @override@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) final  ImagesResponseQuality? quality;
+/// Token usage details for image generation.
+@override@JsonKey(includeIfNull: false) final  ImageGenUsage? usage;
 
 /// Create a copy of ImagesResponse
 /// with the given fields replaced by the non-null parameter values.
@@ -29392,16 +29408,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ImagesResponse&&(identical(other.created, created) || other.created == created)&&const DeepCollectionEquality().equals(other._data, _data)&&(identical(other.background, background) || other.background == background)&&(identical(other.outputFormat, outputFormat) || other.outputFormat == outputFormat)&&(identical(other.size, size) || other.size == size)&&(identical(other.quality, quality) || other.quality == quality));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ImagesResponse&&(identical(other.created, created) || other.created == created)&&const DeepCollectionEquality().equals(other._data, _data)&&(identical(other.background, background) || other.background == background)&&(identical(other.outputFormat, outputFormat) || other.outputFormat == outputFormat)&&(identical(other.size, size) || other.size == size)&&(identical(other.quality, quality) || other.quality == quality)&&(identical(other.usage, usage) || other.usage == usage));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,created,const DeepCollectionEquality().hash(_data),background,outputFormat,size,quality);
+int get hashCode => Object.hash(runtimeType,created,const DeepCollectionEquality().hash(_data),background,outputFormat,size,quality,usage);
 
 @override
 String toString() {
-  return 'ImagesResponse(created: $created, data: $data, background: $background, outputFormat: $outputFormat, size: $size, quality: $quality)';
+  return 'ImagesResponse(created: $created, data: $data, background: $background, outputFormat: $outputFormat, size: $size, quality: $quality, usage: $usage)';
 }
 
 
@@ -29412,11 +29428,11 @@ abstract mixin class _$ImagesResponseCopyWith<$Res> implements $ImagesResponseCo
   factory _$ImagesResponseCopyWith(_ImagesResponse value, $Res Function(_ImagesResponse) _then) = __$ImagesResponseCopyWithImpl;
 @override @useResult
 $Res call({
- int created, List<Image> data,@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ImagesResponseBackground? background,@JsonKey(name: 'output_format', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ImagesResponseOutputFormat? outputFormat,@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ImagesResponseSize? size,@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ImagesResponseQuality? quality
+ int created, List<Image> data,@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ImagesResponseBackground? background,@JsonKey(name: 'output_format', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ImagesResponseOutputFormat? outputFormat,@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ImagesResponseSize? size,@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ImagesResponseQuality? quality,@JsonKey(includeIfNull: false) ImageGenUsage? usage
 });
 
 
-
+@override $ImageGenUsageCopyWith<$Res>? get usage;
 
 }
 /// @nodoc
@@ -29429,7 +29445,7 @@ class __$ImagesResponseCopyWithImpl<$Res>
 
 /// Create a copy of ImagesResponse
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? created = null,Object? data = null,Object? background = freezed,Object? outputFormat = freezed,Object? size = freezed,Object? quality = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? created = null,Object? data = null,Object? background = freezed,Object? outputFormat = freezed,Object? size = freezed,Object? quality = freezed,Object? usage = freezed,}) {
   return _then(_ImagesResponse(
 created: null == created ? _self.created : created // ignore: cast_nullable_to_non_nullable
 as int,data: null == data ? _self._data : data // ignore: cast_nullable_to_non_nullable
@@ -29437,7 +29453,588 @@ as List<Image>,background: freezed == background ? _self.background : background
 as ImagesResponseBackground?,outputFormat: freezed == outputFormat ? _self.outputFormat : outputFormat // ignore: cast_nullable_to_non_nullable
 as ImagesResponseOutputFormat?,size: freezed == size ? _self.size : size // ignore: cast_nullable_to_non_nullable
 as ImagesResponseSize?,quality: freezed == quality ? _self.quality : quality // ignore: cast_nullable_to_non_nullable
-as ImagesResponseQuality?,
+as ImagesResponseQuality?,usage: freezed == usage ? _self.usage : usage // ignore: cast_nullable_to_non_nullable
+as ImageGenUsage?,
+  ));
+}
+
+/// Create a copy of ImagesResponse
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ImageGenUsageCopyWith<$Res>? get usage {
+    if (_self.usage == null) {
+    return null;
+  }
+
+  return $ImageGenUsageCopyWith<$Res>(_self.usage!, (value) {
+    return _then(_self.copyWith(usage: value));
+  });
+}
+}
+
+
+/// @nodoc
+mixin _$ImageGenUsage {
+
+/// Total number of tokens used.
+@JsonKey(name: 'total_tokens') int get totalTokens;/// Number of input tokens.
+@JsonKey(name: 'input_tokens') int get inputTokens;/// Number of output tokens.
+@JsonKey(name: 'output_tokens') int get outputTokens;/// Details about the input tokens.
+@JsonKey(name: 'input_tokens_details') ImageGenUsageInputTokensDetails get inputTokensDetails;
+/// Create a copy of ImageGenUsage
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ImageGenUsageCopyWith<ImageGenUsage> get copyWith => _$ImageGenUsageCopyWithImpl<ImageGenUsage>(this as ImageGenUsage, _$identity);
+
+  /// Serializes this ImageGenUsage to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ImageGenUsage&&(identical(other.totalTokens, totalTokens) || other.totalTokens == totalTokens)&&(identical(other.inputTokens, inputTokens) || other.inputTokens == inputTokens)&&(identical(other.outputTokens, outputTokens) || other.outputTokens == outputTokens)&&(identical(other.inputTokensDetails, inputTokensDetails) || other.inputTokensDetails == inputTokensDetails));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,totalTokens,inputTokens,outputTokens,inputTokensDetails);
+
+@override
+String toString() {
+  return 'ImageGenUsage(totalTokens: $totalTokens, inputTokens: $inputTokens, outputTokens: $outputTokens, inputTokensDetails: $inputTokensDetails)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ImageGenUsageCopyWith<$Res>  {
+  factory $ImageGenUsageCopyWith(ImageGenUsage value, $Res Function(ImageGenUsage) _then) = _$ImageGenUsageCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(name: 'total_tokens') int totalTokens,@JsonKey(name: 'input_tokens') int inputTokens,@JsonKey(name: 'output_tokens') int outputTokens,@JsonKey(name: 'input_tokens_details') ImageGenUsageInputTokensDetails inputTokensDetails
+});
+
+
+$ImageGenUsageInputTokensDetailsCopyWith<$Res> get inputTokensDetails;
+
+}
+/// @nodoc
+class _$ImageGenUsageCopyWithImpl<$Res>
+    implements $ImageGenUsageCopyWith<$Res> {
+  _$ImageGenUsageCopyWithImpl(this._self, this._then);
+
+  final ImageGenUsage _self;
+  final $Res Function(ImageGenUsage) _then;
+
+/// Create a copy of ImageGenUsage
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? totalTokens = null,Object? inputTokens = null,Object? outputTokens = null,Object? inputTokensDetails = null,}) {
+  return _then(_self.copyWith(
+totalTokens: null == totalTokens ? _self.totalTokens : totalTokens // ignore: cast_nullable_to_non_nullable
+as int,inputTokens: null == inputTokens ? _self.inputTokens : inputTokens // ignore: cast_nullable_to_non_nullable
+as int,outputTokens: null == outputTokens ? _self.outputTokens : outputTokens // ignore: cast_nullable_to_non_nullable
+as int,inputTokensDetails: null == inputTokensDetails ? _self.inputTokensDetails : inputTokensDetails // ignore: cast_nullable_to_non_nullable
+as ImageGenUsageInputTokensDetails,
+  ));
+}
+/// Create a copy of ImageGenUsage
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ImageGenUsageInputTokensDetailsCopyWith<$Res> get inputTokensDetails {
+  
+  return $ImageGenUsageInputTokensDetailsCopyWith<$Res>(_self.inputTokensDetails, (value) {
+    return _then(_self.copyWith(inputTokensDetails: value));
+  });
+}
+}
+
+
+/// Adds pattern-matching-related methods to [ImageGenUsage].
+extension ImageGenUsagePatterns on ImageGenUsage {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ImageGenUsage value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _ImageGenUsage() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ImageGenUsage value)  $default,){
+final _that = this;
+switch (_that) {
+case _ImageGenUsage():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ImageGenUsage value)?  $default,){
+final _that = this;
+switch (_that) {
+case _ImageGenUsage() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'total_tokens')  int totalTokens, @JsonKey(name: 'input_tokens')  int inputTokens, @JsonKey(name: 'output_tokens')  int outputTokens, @JsonKey(name: 'input_tokens_details')  ImageGenUsageInputTokensDetails inputTokensDetails)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _ImageGenUsage() when $default != null:
+return $default(_that.totalTokens,_that.inputTokens,_that.outputTokens,_that.inputTokensDetails);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'total_tokens')  int totalTokens, @JsonKey(name: 'input_tokens')  int inputTokens, @JsonKey(name: 'output_tokens')  int outputTokens, @JsonKey(name: 'input_tokens_details')  ImageGenUsageInputTokensDetails inputTokensDetails)  $default,) {final _that = this;
+switch (_that) {
+case _ImageGenUsage():
+return $default(_that.totalTokens,_that.inputTokens,_that.outputTokens,_that.inputTokensDetails);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'total_tokens')  int totalTokens, @JsonKey(name: 'input_tokens')  int inputTokens, @JsonKey(name: 'output_tokens')  int outputTokens, @JsonKey(name: 'input_tokens_details')  ImageGenUsageInputTokensDetails inputTokensDetails)?  $default,) {final _that = this;
+switch (_that) {
+case _ImageGenUsage() when $default != null:
+return $default(_that.totalTokens,_that.inputTokens,_that.outputTokens,_that.inputTokensDetails);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _ImageGenUsage extends ImageGenUsage {
+  const _ImageGenUsage({@JsonKey(name: 'total_tokens') required this.totalTokens, @JsonKey(name: 'input_tokens') required this.inputTokens, @JsonKey(name: 'output_tokens') required this.outputTokens, @JsonKey(name: 'input_tokens_details') required this.inputTokensDetails}): super._();
+  factory _ImageGenUsage.fromJson(Map<String, dynamic> json) => _$ImageGenUsageFromJson(json);
+
+/// Total number of tokens used.
+@override@JsonKey(name: 'total_tokens') final  int totalTokens;
+/// Number of input tokens.
+@override@JsonKey(name: 'input_tokens') final  int inputTokens;
+/// Number of output tokens.
+@override@JsonKey(name: 'output_tokens') final  int outputTokens;
+/// Details about the input tokens.
+@override@JsonKey(name: 'input_tokens_details') final  ImageGenUsageInputTokensDetails inputTokensDetails;
+
+/// Create a copy of ImageGenUsage
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ImageGenUsageCopyWith<_ImageGenUsage> get copyWith => __$ImageGenUsageCopyWithImpl<_ImageGenUsage>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$ImageGenUsageToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ImageGenUsage&&(identical(other.totalTokens, totalTokens) || other.totalTokens == totalTokens)&&(identical(other.inputTokens, inputTokens) || other.inputTokens == inputTokens)&&(identical(other.outputTokens, outputTokens) || other.outputTokens == outputTokens)&&(identical(other.inputTokensDetails, inputTokensDetails) || other.inputTokensDetails == inputTokensDetails));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,totalTokens,inputTokens,outputTokens,inputTokensDetails);
+
+@override
+String toString() {
+  return 'ImageGenUsage(totalTokens: $totalTokens, inputTokens: $inputTokens, outputTokens: $outputTokens, inputTokensDetails: $inputTokensDetails)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$ImageGenUsageCopyWith<$Res> implements $ImageGenUsageCopyWith<$Res> {
+  factory _$ImageGenUsageCopyWith(_ImageGenUsage value, $Res Function(_ImageGenUsage) _then) = __$ImageGenUsageCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(name: 'total_tokens') int totalTokens,@JsonKey(name: 'input_tokens') int inputTokens,@JsonKey(name: 'output_tokens') int outputTokens,@JsonKey(name: 'input_tokens_details') ImageGenUsageInputTokensDetails inputTokensDetails
+});
+
+
+@override $ImageGenUsageInputTokensDetailsCopyWith<$Res> get inputTokensDetails;
+
+}
+/// @nodoc
+class __$ImageGenUsageCopyWithImpl<$Res>
+    implements _$ImageGenUsageCopyWith<$Res> {
+  __$ImageGenUsageCopyWithImpl(this._self, this._then);
+
+  final _ImageGenUsage _self;
+  final $Res Function(_ImageGenUsage) _then;
+
+/// Create a copy of ImageGenUsage
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? totalTokens = null,Object? inputTokens = null,Object? outputTokens = null,Object? inputTokensDetails = null,}) {
+  return _then(_ImageGenUsage(
+totalTokens: null == totalTokens ? _self.totalTokens : totalTokens // ignore: cast_nullable_to_non_nullable
+as int,inputTokens: null == inputTokens ? _self.inputTokens : inputTokens // ignore: cast_nullable_to_non_nullable
+as int,outputTokens: null == outputTokens ? _self.outputTokens : outputTokens // ignore: cast_nullable_to_non_nullable
+as int,inputTokensDetails: null == inputTokensDetails ? _self.inputTokensDetails : inputTokensDetails // ignore: cast_nullable_to_non_nullable
+as ImageGenUsageInputTokensDetails,
+  ));
+}
+
+/// Create a copy of ImageGenUsage
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ImageGenUsageInputTokensDetailsCopyWith<$Res> get inputTokensDetails {
+  
+  return $ImageGenUsageInputTokensDetailsCopyWith<$Res>(_self.inputTokensDetails, (value) {
+    return _then(_self.copyWith(inputTokensDetails: value));
+  });
+}
+}
+
+
+/// @nodoc
+mixin _$ImageGenUsageInputTokensDetails {
+
+/// Text tokens in the input.
+@JsonKey(name: 'text_tokens', includeIfNull: false) int? get textTokens;/// Image tokens in the input.
+@JsonKey(name: 'image_tokens', includeIfNull: false) int? get imageTokens;
+/// Create a copy of ImageGenUsageInputTokensDetails
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ImageGenUsageInputTokensDetailsCopyWith<ImageGenUsageInputTokensDetails> get copyWith => _$ImageGenUsageInputTokensDetailsCopyWithImpl<ImageGenUsageInputTokensDetails>(this as ImageGenUsageInputTokensDetails, _$identity);
+
+  /// Serializes this ImageGenUsageInputTokensDetails to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ImageGenUsageInputTokensDetails&&(identical(other.textTokens, textTokens) || other.textTokens == textTokens)&&(identical(other.imageTokens, imageTokens) || other.imageTokens == imageTokens));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,textTokens,imageTokens);
+
+@override
+String toString() {
+  return 'ImageGenUsageInputTokensDetails(textTokens: $textTokens, imageTokens: $imageTokens)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ImageGenUsageInputTokensDetailsCopyWith<$Res>  {
+  factory $ImageGenUsageInputTokensDetailsCopyWith(ImageGenUsageInputTokensDetails value, $Res Function(ImageGenUsageInputTokensDetails) _then) = _$ImageGenUsageInputTokensDetailsCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(name: 'text_tokens', includeIfNull: false) int? textTokens,@JsonKey(name: 'image_tokens', includeIfNull: false) int? imageTokens
+});
+
+
+
+
+}
+/// @nodoc
+class _$ImageGenUsageInputTokensDetailsCopyWithImpl<$Res>
+    implements $ImageGenUsageInputTokensDetailsCopyWith<$Res> {
+  _$ImageGenUsageInputTokensDetailsCopyWithImpl(this._self, this._then);
+
+  final ImageGenUsageInputTokensDetails _self;
+  final $Res Function(ImageGenUsageInputTokensDetails) _then;
+
+/// Create a copy of ImageGenUsageInputTokensDetails
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? textTokens = freezed,Object? imageTokens = freezed,}) {
+  return _then(_self.copyWith(
+textTokens: freezed == textTokens ? _self.textTokens : textTokens // ignore: cast_nullable_to_non_nullable
+as int?,imageTokens: freezed == imageTokens ? _self.imageTokens : imageTokens // ignore: cast_nullable_to_non_nullable
+as int?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [ImageGenUsageInputTokensDetails].
+extension ImageGenUsageInputTokensDetailsPatterns on ImageGenUsageInputTokensDetails {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ImageGenUsageInputTokensDetails value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _ImageGenUsageInputTokensDetails() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ImageGenUsageInputTokensDetails value)  $default,){
+final _that = this;
+switch (_that) {
+case _ImageGenUsageInputTokensDetails():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ImageGenUsageInputTokensDetails value)?  $default,){
+final _that = this;
+switch (_that) {
+case _ImageGenUsageInputTokensDetails() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'text_tokens', includeIfNull: false)  int? textTokens, @JsonKey(name: 'image_tokens', includeIfNull: false)  int? imageTokens)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _ImageGenUsageInputTokensDetails() when $default != null:
+return $default(_that.textTokens,_that.imageTokens);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'text_tokens', includeIfNull: false)  int? textTokens, @JsonKey(name: 'image_tokens', includeIfNull: false)  int? imageTokens)  $default,) {final _that = this;
+switch (_that) {
+case _ImageGenUsageInputTokensDetails():
+return $default(_that.textTokens,_that.imageTokens);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'text_tokens', includeIfNull: false)  int? textTokens, @JsonKey(name: 'image_tokens', includeIfNull: false)  int? imageTokens)?  $default,) {final _that = this;
+switch (_that) {
+case _ImageGenUsageInputTokensDetails() when $default != null:
+return $default(_that.textTokens,_that.imageTokens);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _ImageGenUsageInputTokensDetails extends ImageGenUsageInputTokensDetails {
+  const _ImageGenUsageInputTokensDetails({@JsonKey(name: 'text_tokens', includeIfNull: false) this.textTokens, @JsonKey(name: 'image_tokens', includeIfNull: false) this.imageTokens}): super._();
+  factory _ImageGenUsageInputTokensDetails.fromJson(Map<String, dynamic> json) => _$ImageGenUsageInputTokensDetailsFromJson(json);
+
+/// Text tokens in the input.
+@override@JsonKey(name: 'text_tokens', includeIfNull: false) final  int? textTokens;
+/// Image tokens in the input.
+@override@JsonKey(name: 'image_tokens', includeIfNull: false) final  int? imageTokens;
+
+/// Create a copy of ImageGenUsageInputTokensDetails
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ImageGenUsageInputTokensDetailsCopyWith<_ImageGenUsageInputTokensDetails> get copyWith => __$ImageGenUsageInputTokensDetailsCopyWithImpl<_ImageGenUsageInputTokensDetails>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$ImageGenUsageInputTokensDetailsToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ImageGenUsageInputTokensDetails&&(identical(other.textTokens, textTokens) || other.textTokens == textTokens)&&(identical(other.imageTokens, imageTokens) || other.imageTokens == imageTokens));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,textTokens,imageTokens);
+
+@override
+String toString() {
+  return 'ImageGenUsageInputTokensDetails(textTokens: $textTokens, imageTokens: $imageTokens)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$ImageGenUsageInputTokensDetailsCopyWith<$Res> implements $ImageGenUsageInputTokensDetailsCopyWith<$Res> {
+  factory _$ImageGenUsageInputTokensDetailsCopyWith(_ImageGenUsageInputTokensDetails value, $Res Function(_ImageGenUsageInputTokensDetails) _then) = __$ImageGenUsageInputTokensDetailsCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(name: 'text_tokens', includeIfNull: false) int? textTokens,@JsonKey(name: 'image_tokens', includeIfNull: false) int? imageTokens
+});
+
+
+
+
+}
+/// @nodoc
+class __$ImageGenUsageInputTokensDetailsCopyWithImpl<$Res>
+    implements _$ImageGenUsageInputTokensDetailsCopyWith<$Res> {
+  __$ImageGenUsageInputTokensDetailsCopyWithImpl(this._self, this._then);
+
+  final _ImageGenUsageInputTokensDetails _self;
+  final $Res Function(_ImageGenUsageInputTokensDetails) _then;
+
+/// Create a copy of ImageGenUsageInputTokensDetails
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? textTokens = freezed,Object? imageTokens = freezed,}) {
+  return _then(_ImageGenUsageInputTokensDetails(
+textTokens: freezed == textTokens ? _self.textTokens : textTokens // ignore: cast_nullable_to_non_nullable
+as int?,imageTokens: freezed == imageTokens ? _self.imageTokens : imageTokens // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 
