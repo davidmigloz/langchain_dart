@@ -2806,13 +2806,61 @@ _ImagesResponse _$ImagesResponseFromJson(Map<String, dynamic> json) =>
       data: (json['data'] as List<dynamic>)
           .map((e) => Image.fromJson(e as Map<String, dynamic>))
           .toList(),
+      background: $enumDecodeNullable(
+        _$ImagesResponseBackgroundEnumMap,
+        json['background'],
+        unknownValue: JsonKey.nullForUndefinedEnumValue,
+      ),
+      outputFormat: $enumDecodeNullable(
+        _$ImagesResponseOutputFormatEnumMap,
+        json['output_format'],
+        unknownValue: JsonKey.nullForUndefinedEnumValue,
+      ),
+      size: $enumDecodeNullable(
+        _$ImagesResponseSizeEnumMap,
+        json['size'],
+        unknownValue: JsonKey.nullForUndefinedEnumValue,
+      ),
+      quality: $enumDecodeNullable(
+        _$ImagesResponseQualityEnumMap,
+        json['quality'],
+        unknownValue: JsonKey.nullForUndefinedEnumValue,
+      ),
     );
 
-Map<String, dynamic> _$ImagesResponseToJson(_ImagesResponse instance) =>
-    <String, dynamic>{
-      'created': instance.created,
-      'data': instance.data.map((e) => e.toJson()).toList(),
-    };
+Map<String, dynamic> _$ImagesResponseToJson(
+  _ImagesResponse instance,
+) => <String, dynamic>{
+  'created': instance.created,
+  'data': instance.data.map((e) => e.toJson()).toList(),
+  'background': ?_$ImagesResponseBackgroundEnumMap[instance.background],
+  'output_format': ?_$ImagesResponseOutputFormatEnumMap[instance.outputFormat],
+  'size': ?_$ImagesResponseSizeEnumMap[instance.size],
+  'quality': ?_$ImagesResponseQualityEnumMap[instance.quality],
+};
+
+const _$ImagesResponseBackgroundEnumMap = {
+  ImagesResponseBackground.transparent: 'transparent',
+  ImagesResponseBackground.opaque: 'opaque',
+};
+
+const _$ImagesResponseOutputFormatEnumMap = {
+  ImagesResponseOutputFormat.png: 'png',
+  ImagesResponseOutputFormat.webp: 'webp',
+  ImagesResponseOutputFormat.jpeg: 'jpeg',
+};
+
+const _$ImagesResponseSizeEnumMap = {
+  ImagesResponseSize.v1024x1024: '1024x1024',
+  ImagesResponseSize.v1024x1536: '1024x1536',
+  ImagesResponseSize.v1536x1024: '1536x1024',
+};
+
+const _$ImagesResponseQualityEnumMap = {
+  ImagesResponseQuality.low: 'low',
+  ImagesResponseQuality.medium: 'medium',
+  ImagesResponseQuality.high: 'high',
+};
 
 _Image _$ImageFromJson(Map<String, dynamic> json) => _Image(
   b64Json: json['b64_json'] as String?,
