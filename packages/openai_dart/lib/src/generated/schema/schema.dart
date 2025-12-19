@@ -82,6 +82,7 @@ part 'fine_tune_reinforcement_hyperparameters.dart';
 part 'create_image_request.dart';
 part 'images_response.dart';
 part 'image.dart';
+part 'image_gen_stream_event.dart';
 part 'model.dart';
 part 'list_models_response.dart';
 part 'delete_model_response.dart';

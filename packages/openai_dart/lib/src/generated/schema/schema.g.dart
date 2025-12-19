@@ -2826,6 +2826,25 @@ Map<String, dynamic> _$ImageToJson(_Image instance) => <String, dynamic>{
   'revised_prompt': ?instance.revisedPrompt,
 };
 
+_ImageGenStreamEvent _$ImageGenStreamEventFromJson(Map<String, dynamic> json) =>
+    _ImageGenStreamEvent(
+      type: json['type'] as String?,
+      index: (json['index'] as num?)?.toInt(),
+      partialImage: json['partial_image'] as String?,
+      image: json['image'] == null
+          ? null
+          : Image.fromJson(json['image'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$ImageGenStreamEventToJson(
+  _ImageGenStreamEvent instance,
+) => <String, dynamic>{
+  'type': ?instance.type,
+  'index': ?instance.index,
+  'partial_image': ?instance.partialImage,
+  'image': ?instance.image?.toJson(),
+};
+
 _Model _$ModelFromJson(Map<String, dynamic> json) => _Model(
   id: json['id'] as String,
   created: (json['created'] as num?)?.toInt(),
