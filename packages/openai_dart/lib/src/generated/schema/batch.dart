@@ -24,6 +24,10 @@ abstract class Batch with _$Batch {
     /// The endpoint to be used for all requests in the batch. Currently `/v1/chat/completions`, `/v1/embeddings`, and `/v1/completions` are supported. Note that `/v1/embeddings` batches are also restricted to a maximum of 50,000 embedding inputs across all requests in the batch.
     required BatchEndpoint endpoint,
 
+    /// Model ID used to process the batch. Refer to the [model guide](https://platform.openai.com/docs/models)
+    /// to browse and compare available models.
+    @JsonKey(includeIfNull: false) String? model,
+
     /// No Description
     @JsonKey(includeIfNull: false) BatchErrors? errors,
 
@@ -78,6 +82,9 @@ abstract class Batch with _$Batch {
     /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
     /// can be a maximum of 512 characters long.
     @JsonKey(includeIfNull: false) dynamic metadata,
+
+    /// Token usage details for the batch. Only populated on batches that have completed processing.
+    @JsonKey(includeIfNull: false) BatchUsage? usage,
   }) = _Batch;
 
   /// Object construction from a JSON representation
@@ -88,6 +95,7 @@ abstract class Batch with _$Batch {
     'id',
     'object',
     'endpoint',
+    'model',
     'errors',
     'input_file_id',
     'completion_window',
@@ -105,6 +113,7 @@ abstract class Batch with _$Batch {
     'cancelled_at',
     'request_counts',
     'metadata',
+    'usage',
   ];
 
   /// Perform validations on the schema property values
@@ -118,6 +127,7 @@ abstract class Batch with _$Batch {
       'id': id,
       'object': object,
       'endpoint': endpoint,
+      'model': model,
       'errors': errors,
       'input_file_id': inputFileId,
       'completion_window': completionWindow,
@@ -135,6 +145,7 @@ abstract class Batch with _$Batch {
       'cancelled_at': cancelledAt,
       'request_counts': requestCounts,
       'metadata': metadata,
+      'usage': usage,
     };
   }
 }
@@ -249,6 +260,65 @@ abstract class BatchRequestCounts with _$BatchRequestCounts {
 }
 
 // ==========================================
+// CLASS: BatchUsage
+// ==========================================
+
+/// Token usage details for the batch. Only populated on batches that have completed processing.
+@freezed
+abstract class BatchUsage with _$BatchUsage {
+  const BatchUsage._();
+
+  /// Factory constructor for BatchUsage
+  const factory BatchUsage({
+    /// The number of input tokens.
+    @JsonKey(name: 'input_tokens', includeIfNull: false) int? inputTokens,
+
+    /// A detailed breakdown of the input tokens.
+    @JsonKey(name: 'input_tokens_details', includeIfNull: false)
+    BatchUsageInputTokensDetails? inputTokensDetails,
+
+    /// The number of output tokens.
+    @JsonKey(name: 'output_tokens', includeIfNull: false) int? outputTokens,
+
+    /// A detailed breakdown of the output tokens.
+    @JsonKey(name: 'output_tokens_details', includeIfNull: false)
+    BatchUsageOutputTokensDetails? outputTokensDetails,
+
+    /// The total number of tokens used.
+    @JsonKey(name: 'total_tokens', includeIfNull: false) int? totalTokens,
+  }) = _BatchUsage;
+
+  /// Object construction from a JSON representation
+  factory BatchUsage.fromJson(Map<String, dynamic> json) =>
+      _$BatchUsageFromJson(json);
+
+  /// List of all property names of schema
+  static const List<String> propertyNames = [
+    'input_tokens',
+    'input_tokens_details',
+    'output_tokens',
+    'output_tokens_details',
+    'total_tokens',
+  ];
+
+  /// Perform validations on the schema property values
+  String? validateSchema() {
+    return null;
+  }
+
+  /// Map representation of object (not serialized)
+  Map<String, dynamic> toMap() {
+    return {
+      'input_tokens': inputTokens,
+      'input_tokens_details': inputTokensDetails,
+      'output_tokens': outputTokens,
+      'output_tokens_details': outputTokensDetails,
+      'total_tokens': totalTokens,
+    };
+  }
+}
+
+// ==========================================
 // CLASS: BatchErrorsDataInner
 // ==========================================
 
@@ -292,5 +362,74 @@ abstract class BatchErrorsDataInner with _$BatchErrorsDataInner {
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
     return {'code': code, 'message': message, 'param': param, 'line': line};
+  }
+}
+
+// ==========================================
+// CLASS: BatchUsageInputTokensDetails
+// ==========================================
+
+/// A detailed breakdown of the input tokens.
+@freezed
+abstract class BatchUsageInputTokensDetails
+    with _$BatchUsageInputTokensDetails {
+  const BatchUsageInputTokensDetails._();
+
+  /// Factory constructor for BatchUsageInputTokensDetails
+  const factory BatchUsageInputTokensDetails({
+    /// The number of cached tokens used.
+    @JsonKey(name: 'cached_tokens', includeIfNull: false) int? cachedTokens,
+  }) = _BatchUsageInputTokensDetails;
+
+  /// Object construction from a JSON representation
+  factory BatchUsageInputTokensDetails.fromJson(Map<String, dynamic> json) =>
+      _$BatchUsageInputTokensDetailsFromJson(json);
+
+  /// List of all property names of schema
+  static const List<String> propertyNames = ['cached_tokens'];
+
+  /// Perform validations on the schema property values
+  String? validateSchema() {
+    return null;
+  }
+
+  /// Map representation of object (not serialized)
+  Map<String, dynamic> toMap() {
+    return {'cached_tokens': cachedTokens};
+  }
+}
+
+// ==========================================
+// CLASS: BatchUsageOutputTokensDetails
+// ==========================================
+
+/// A detailed breakdown of the output tokens.
+@freezed
+abstract class BatchUsageOutputTokensDetails
+    with _$BatchUsageOutputTokensDetails {
+  const BatchUsageOutputTokensDetails._();
+
+  /// Factory constructor for BatchUsageOutputTokensDetails
+  const factory BatchUsageOutputTokensDetails({
+    /// The number of reasoning tokens used.
+    @JsonKey(name: 'reasoning_tokens', includeIfNull: false)
+    int? reasoningTokens,
+  }) = _BatchUsageOutputTokensDetails;
+
+  /// Object construction from a JSON representation
+  factory BatchUsageOutputTokensDetails.fromJson(Map<String, dynamic> json) =>
+      _$BatchUsageOutputTokensDetailsFromJson(json);
+
+  /// List of all property names of schema
+  static const List<String> propertyNames = ['reasoning_tokens'];
+
+  /// Perform validations on the schema property values
+  String? validateSchema() {
+    return null;
+  }
+
+  /// Map representation of object (not serialized)
+  Map<String, dynamic> toMap() {
+    return {'reasoning_tokens': reasoningTokens};
   }
 }

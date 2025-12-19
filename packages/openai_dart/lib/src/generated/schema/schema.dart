@@ -160,6 +160,8 @@ part 'create_batch_request.dart';
 part 'batch_endpoint.dart';
 part 'batch_completion_window.dart';
 part 'batch.dart';
+part 'batch_request_input.dart';
+part 'batch_request_output.dart';
 part 'list_batches_response.dart';
 part 'chat_completion_metadata.dart';
 part 'web_search_options.dart';

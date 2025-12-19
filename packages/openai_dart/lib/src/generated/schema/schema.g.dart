@@ -4926,6 +4926,7 @@ _Batch _$BatchFromJson(Map<String, dynamic> json) => _Batch(
   id: json['id'] as String,
   object: $enumDecode(_$BatchObjectEnumMap, json['object']),
   endpoint: $enumDecode(_$BatchEndpointEnumMap, json['endpoint']),
+  model: json['model'] as String?,
   errors: json['errors'] == null
       ? null
       : BatchErrors.fromJson(json['errors'] as Map<String, dynamic>),
@@ -4952,12 +4953,16 @@ _Batch _$BatchFromJson(Map<String, dynamic> json) => _Batch(
           json['request_counts'] as Map<String, dynamic>,
         ),
   metadata: json['metadata'],
+  usage: json['usage'] == null
+      ? null
+      : BatchUsage.fromJson(json['usage'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$BatchToJson(_Batch instance) => <String, dynamic>{
   'id': instance.id,
   'object': _$BatchObjectEnumMap[instance.object]!,
   'endpoint': _$BatchEndpointEnumMap[instance.endpoint]!,
+  'model': ?instance.model,
   'errors': ?instance.errors?.toJson(),
   'input_file_id': instance.inputFileId,
   'completion_window':
@@ -4976,6 +4981,7 @@ Map<String, dynamic> _$BatchToJson(_Batch instance) => <String, dynamic>{
   'cancelled_at': ?instance.cancelledAt,
   'request_counts': ?instance.requestCounts?.toJson(),
   'metadata': ?instance.metadata,
+  'usage': ?instance.usage?.toJson(),
 };
 
 const _$BatchObjectEnumMap = {BatchObject.batch: 'batch'};
@@ -5018,6 +5024,31 @@ Map<String, dynamic> _$BatchRequestCountsToJson(_BatchRequestCounts instance) =>
       'failed': instance.failed,
     };
 
+_BatchUsage _$BatchUsageFromJson(Map<String, dynamic> json) => _BatchUsage(
+  inputTokens: (json['input_tokens'] as num?)?.toInt(),
+  inputTokensDetails: json['input_tokens_details'] == null
+      ? null
+      : BatchUsageInputTokensDetails.fromJson(
+          json['input_tokens_details'] as Map<String, dynamic>,
+        ),
+  outputTokens: (json['output_tokens'] as num?)?.toInt(),
+  outputTokensDetails: json['output_tokens_details'] == null
+      ? null
+      : BatchUsageOutputTokensDetails.fromJson(
+          json['output_tokens_details'] as Map<String, dynamic>,
+        ),
+  totalTokens: (json['total_tokens'] as num?)?.toInt(),
+);
+
+Map<String, dynamic> _$BatchUsageToJson(_BatchUsage instance) =>
+    <String, dynamic>{
+      'input_tokens': ?instance.inputTokens,
+      'input_tokens_details': ?instance.inputTokensDetails?.toJson(),
+      'output_tokens': ?instance.outputTokens,
+      'output_tokens_details': ?instance.outputTokensDetails?.toJson(),
+      'total_tokens': ?instance.totalTokens,
+    };
+
 _BatchErrorsDataInner _$BatchErrorsDataInnerFromJson(
   Map<String, dynamic> json,
 ) => _BatchErrorsDataInner(
@@ -5035,6 +5066,97 @@ Map<String, dynamic> _$BatchErrorsDataInnerToJson(
   'param': ?instance.param,
   'line': ?instance.line,
 };
+
+_BatchUsageInputTokensDetails _$BatchUsageInputTokensDetailsFromJson(
+  Map<String, dynamic> json,
+) => _BatchUsageInputTokensDetails(
+  cachedTokens: (json['cached_tokens'] as num?)?.toInt(),
+);
+
+Map<String, dynamic> _$BatchUsageInputTokensDetailsToJson(
+  _BatchUsageInputTokensDetails instance,
+) => <String, dynamic>{'cached_tokens': ?instance.cachedTokens};
+
+_BatchUsageOutputTokensDetails _$BatchUsageOutputTokensDetailsFromJson(
+  Map<String, dynamic> json,
+) => _BatchUsageOutputTokensDetails(
+  reasoningTokens: (json['reasoning_tokens'] as num?)?.toInt(),
+);
+
+Map<String, dynamic> _$BatchUsageOutputTokensDetailsToJson(
+  _BatchUsageOutputTokensDetails instance,
+) => <String, dynamic>{'reasoning_tokens': ?instance.reasoningTokens};
+
+_BatchRequestInput _$BatchRequestInputFromJson(Map<String, dynamic> json) =>
+    _BatchRequestInput(
+      customId: json['custom_id'] as String?,
+      method: $enumDecodeNullable(
+        _$BatchRequestInputMethodEnumMap,
+        json['method'],
+        unknownValue: JsonKey.nullForUndefinedEnumValue,
+      ),
+      url: json['url'] as String?,
+    );
+
+Map<String, dynamic> _$BatchRequestInputToJson(_BatchRequestInput instance) =>
+    <String, dynamic>{
+      'custom_id': ?instance.customId,
+      'method': ?_$BatchRequestInputMethodEnumMap[instance.method],
+      'url': ?instance.url,
+    };
+
+const _$BatchRequestInputMethodEnumMap = {BatchRequestInputMethod.post: 'POST'};
+
+_BatchRequestOutput _$BatchRequestOutputFromJson(Map<String, dynamic> json) =>
+    _BatchRequestOutput(
+      id: json['id'] as String?,
+      customId: json['custom_id'] as String?,
+      response: json['response'] == null
+          ? null
+          : BatchRequestOutputResponse.fromJson(
+              json['response'] as Map<String, dynamic>,
+            ),
+      error: json['error'] == null
+          ? null
+          : BatchRequestOutputError.fromJson(
+              json['error'] as Map<String, dynamic>,
+            ),
+    );
+
+Map<String, dynamic> _$BatchRequestOutputToJson(_BatchRequestOutput instance) =>
+    <String, dynamic>{
+      'id': ?instance.id,
+      'custom_id': ?instance.customId,
+      'response': ?instance.response?.toJson(),
+      'error': ?instance.error?.toJson(),
+    };
+
+_BatchRequestOutputResponse _$BatchRequestOutputResponseFromJson(
+  Map<String, dynamic> json,
+) => _BatchRequestOutputResponse(
+  statusCode: (json['status_code'] as num?)?.toInt(),
+  requestId: json['request_id'] as String?,
+  body: json['body'],
+);
+
+Map<String, dynamic> _$BatchRequestOutputResponseToJson(
+  _BatchRequestOutputResponse instance,
+) => <String, dynamic>{
+  'status_code': ?instance.statusCode,
+  'request_id': ?instance.requestId,
+  'body': ?instance.body,
+};
+
+_BatchRequestOutputError _$BatchRequestOutputErrorFromJson(
+  Map<String, dynamic> json,
+) => _BatchRequestOutputError(
+  code: json['code'] as String?,
+  message: json['message'] as String?,
+);
+
+Map<String, dynamic> _$BatchRequestOutputErrorToJson(
+  _BatchRequestOutputError instance,
+) => <String, dynamic>{'code': ?instance.code, 'message': ?instance.message};
 
 _ListBatchesResponse _$ListBatchesResponseFromJson(Map<String, dynamic> json) =>
     _ListBatchesResponse(

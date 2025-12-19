@@ -55694,7 +55694,9 @@ mixin _$Batch {
 /// No Description
  String get id;/// The object type, which is always `batch`.
  BatchObject get object;/// The endpoint to be used for all requests in the batch. Currently `/v1/chat/completions`, `/v1/embeddings`, and `/v1/completions` are supported. Note that `/v1/embeddings` batches are also restricted to a maximum of 50,000 embedding inputs across all requests in the batch.
- BatchEndpoint get endpoint;/// No Description
+ BatchEndpoint get endpoint;/// Model ID used to process the batch. Refer to the [model guide](https://platform.openai.com/docs/models)
+/// to browse and compare available models.
+@JsonKey(includeIfNull: false) String? get model;/// No Description
 @JsonKey(includeIfNull: false) BatchErrors? get errors;/// The ID of the input file for the batch.
 @JsonKey(name: 'input_file_id') String get inputFileId;/// The time frame within which the batch should be processed. Currently only `24h` is supported.
 @JsonKey(name: 'completion_window') BatchCompletionWindow get completionWindow;/// The current status of the batch.
@@ -55713,7 +55715,8 @@ mixin _$Batch {
 @JsonKey(name: 'request_counts', includeIfNull: false) BatchRequestCounts? get requestCounts;/// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
 /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
 /// can be a maximum of 512 characters long.
-@JsonKey(includeIfNull: false) dynamic get metadata;
+@JsonKey(includeIfNull: false) dynamic get metadata;/// Token usage details for the batch. Only populated on batches that have completed processing.
+@JsonKey(includeIfNull: false) BatchUsage? get usage;
 /// Create a copy of Batch
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -55726,16 +55729,16 @@ $BatchCopyWith<Batch> get copyWith => _$BatchCopyWithImpl<Batch>(this as Batch, 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Batch&&(identical(other.id, id) || other.id == id)&&(identical(other.object, object) || other.object == object)&&(identical(other.endpoint, endpoint) || other.endpoint == endpoint)&&(identical(other.errors, errors) || other.errors == errors)&&(identical(other.inputFileId, inputFileId) || other.inputFileId == inputFileId)&&(identical(other.completionWindow, completionWindow) || other.completionWindow == completionWindow)&&(identical(other.status, status) || other.status == status)&&(identical(other.outputFileId, outputFileId) || other.outputFileId == outputFileId)&&(identical(other.errorFileId, errorFileId) || other.errorFileId == errorFileId)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.inProgressAt, inProgressAt) || other.inProgressAt == inProgressAt)&&(identical(other.expiresAt, expiresAt) || other.expiresAt == expiresAt)&&(identical(other.finalizingAt, finalizingAt) || other.finalizingAt == finalizingAt)&&(identical(other.completedAt, completedAt) || other.completedAt == completedAt)&&(identical(other.failedAt, failedAt) || other.failedAt == failedAt)&&(identical(other.expiredAt, expiredAt) || other.expiredAt == expiredAt)&&(identical(other.cancellingAt, cancellingAt) || other.cancellingAt == cancellingAt)&&(identical(other.cancelledAt, cancelledAt) || other.cancelledAt == cancelledAt)&&(identical(other.requestCounts, requestCounts) || other.requestCounts == requestCounts)&&const DeepCollectionEquality().equals(other.metadata, metadata));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Batch&&(identical(other.id, id) || other.id == id)&&(identical(other.object, object) || other.object == object)&&(identical(other.endpoint, endpoint) || other.endpoint == endpoint)&&(identical(other.model, model) || other.model == model)&&(identical(other.errors, errors) || other.errors == errors)&&(identical(other.inputFileId, inputFileId) || other.inputFileId == inputFileId)&&(identical(other.completionWindow, completionWindow) || other.completionWindow == completionWindow)&&(identical(other.status, status) || other.status == status)&&(identical(other.outputFileId, outputFileId) || other.outputFileId == outputFileId)&&(identical(other.errorFileId, errorFileId) || other.errorFileId == errorFileId)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.inProgressAt, inProgressAt) || other.inProgressAt == inProgressAt)&&(identical(other.expiresAt, expiresAt) || other.expiresAt == expiresAt)&&(identical(other.finalizingAt, finalizingAt) || other.finalizingAt == finalizingAt)&&(identical(other.completedAt, completedAt) || other.completedAt == completedAt)&&(identical(other.failedAt, failedAt) || other.failedAt == failedAt)&&(identical(other.expiredAt, expiredAt) || other.expiredAt == expiredAt)&&(identical(other.cancellingAt, cancellingAt) || other.cancellingAt == cancellingAt)&&(identical(other.cancelledAt, cancelledAt) || other.cancelledAt == cancelledAt)&&(identical(other.requestCounts, requestCounts) || other.requestCounts == requestCounts)&&const DeepCollectionEquality().equals(other.metadata, metadata)&&(identical(other.usage, usage) || other.usage == usage));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,id,object,endpoint,errors,inputFileId,completionWindow,status,outputFileId,errorFileId,createdAt,inProgressAt,expiresAt,finalizingAt,completedAt,failedAt,expiredAt,cancellingAt,cancelledAt,requestCounts,const DeepCollectionEquality().hash(metadata)]);
+int get hashCode => Object.hashAll([runtimeType,id,object,endpoint,model,errors,inputFileId,completionWindow,status,outputFileId,errorFileId,createdAt,inProgressAt,expiresAt,finalizingAt,completedAt,failedAt,expiredAt,cancellingAt,cancelledAt,requestCounts,const DeepCollectionEquality().hash(metadata),usage]);
 
 @override
 String toString() {
-  return 'Batch(id: $id, object: $object, endpoint: $endpoint, errors: $errors, inputFileId: $inputFileId, completionWindow: $completionWindow, status: $status, outputFileId: $outputFileId, errorFileId: $errorFileId, createdAt: $createdAt, inProgressAt: $inProgressAt, expiresAt: $expiresAt, finalizingAt: $finalizingAt, completedAt: $completedAt, failedAt: $failedAt, expiredAt: $expiredAt, cancellingAt: $cancellingAt, cancelledAt: $cancelledAt, requestCounts: $requestCounts, metadata: $metadata)';
+  return 'Batch(id: $id, object: $object, endpoint: $endpoint, model: $model, errors: $errors, inputFileId: $inputFileId, completionWindow: $completionWindow, status: $status, outputFileId: $outputFileId, errorFileId: $errorFileId, createdAt: $createdAt, inProgressAt: $inProgressAt, expiresAt: $expiresAt, finalizingAt: $finalizingAt, completedAt: $completedAt, failedAt: $failedAt, expiredAt: $expiredAt, cancellingAt: $cancellingAt, cancelledAt: $cancelledAt, requestCounts: $requestCounts, metadata: $metadata, usage: $usage)';
 }
 
 
@@ -55746,11 +55749,11 @@ abstract mixin class $BatchCopyWith<$Res>  {
   factory $BatchCopyWith(Batch value, $Res Function(Batch) _then) = _$BatchCopyWithImpl;
 @useResult
 $Res call({
- String id, BatchObject object, BatchEndpoint endpoint,@JsonKey(includeIfNull: false) BatchErrors? errors,@JsonKey(name: 'input_file_id') String inputFileId,@JsonKey(name: 'completion_window') BatchCompletionWindow completionWindow, BatchStatus status,@JsonKey(name: 'output_file_id', includeIfNull: false) String? outputFileId,@JsonKey(name: 'error_file_id', includeIfNull: false) String? errorFileId,@JsonKey(name: 'created_at') int createdAt,@JsonKey(name: 'in_progress_at', includeIfNull: false) int? inProgressAt,@JsonKey(name: 'expires_at', includeIfNull: false) int? expiresAt,@JsonKey(name: 'finalizing_at', includeIfNull: false) int? finalizingAt,@JsonKey(name: 'completed_at', includeIfNull: false) int? completedAt,@JsonKey(name: 'failed_at', includeIfNull: false) int? failedAt,@JsonKey(name: 'expired_at', includeIfNull: false) int? expiredAt,@JsonKey(name: 'cancelling_at', includeIfNull: false) int? cancellingAt,@JsonKey(name: 'cancelled_at', includeIfNull: false) int? cancelledAt,@JsonKey(name: 'request_counts', includeIfNull: false) BatchRequestCounts? requestCounts,@JsonKey(includeIfNull: false) dynamic metadata
+ String id, BatchObject object, BatchEndpoint endpoint,@JsonKey(includeIfNull: false) String? model,@JsonKey(includeIfNull: false) BatchErrors? errors,@JsonKey(name: 'input_file_id') String inputFileId,@JsonKey(name: 'completion_window') BatchCompletionWindow completionWindow, BatchStatus status,@JsonKey(name: 'output_file_id', includeIfNull: false) String? outputFileId,@JsonKey(name: 'error_file_id', includeIfNull: false) String? errorFileId,@JsonKey(name: 'created_at') int createdAt,@JsonKey(name: 'in_progress_at', includeIfNull: false) int? inProgressAt,@JsonKey(name: 'expires_at', includeIfNull: false) int? expiresAt,@JsonKey(name: 'finalizing_at', includeIfNull: false) int? finalizingAt,@JsonKey(name: 'completed_at', includeIfNull: false) int? completedAt,@JsonKey(name: 'failed_at', includeIfNull: false) int? failedAt,@JsonKey(name: 'expired_at', includeIfNull: false) int? expiredAt,@JsonKey(name: 'cancelling_at', includeIfNull: false) int? cancellingAt,@JsonKey(name: 'cancelled_at', includeIfNull: false) int? cancelledAt,@JsonKey(name: 'request_counts', includeIfNull: false) BatchRequestCounts? requestCounts,@JsonKey(includeIfNull: false) dynamic metadata,@JsonKey(includeIfNull: false) BatchUsage? usage
 });
 
 
-$BatchErrorsCopyWith<$Res>? get errors;$BatchRequestCountsCopyWith<$Res>? get requestCounts;
+$BatchErrorsCopyWith<$Res>? get errors;$BatchRequestCountsCopyWith<$Res>? get requestCounts;$BatchUsageCopyWith<$Res>? get usage;
 
 }
 /// @nodoc
@@ -55763,12 +55766,13 @@ class _$BatchCopyWithImpl<$Res>
 
 /// Create a copy of Batch
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? object = null,Object? endpoint = null,Object? errors = freezed,Object? inputFileId = null,Object? completionWindow = null,Object? status = null,Object? outputFileId = freezed,Object? errorFileId = freezed,Object? createdAt = null,Object? inProgressAt = freezed,Object? expiresAt = freezed,Object? finalizingAt = freezed,Object? completedAt = freezed,Object? failedAt = freezed,Object? expiredAt = freezed,Object? cancellingAt = freezed,Object? cancelledAt = freezed,Object? requestCounts = freezed,Object? metadata = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? object = null,Object? endpoint = null,Object? model = freezed,Object? errors = freezed,Object? inputFileId = null,Object? completionWindow = null,Object? status = null,Object? outputFileId = freezed,Object? errorFileId = freezed,Object? createdAt = null,Object? inProgressAt = freezed,Object? expiresAt = freezed,Object? finalizingAt = freezed,Object? completedAt = freezed,Object? failedAt = freezed,Object? expiredAt = freezed,Object? cancellingAt = freezed,Object? cancelledAt = freezed,Object? requestCounts = freezed,Object? metadata = freezed,Object? usage = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,object: null == object ? _self.object : object // ignore: cast_nullable_to_non_nullable
 as BatchObject,endpoint: null == endpoint ? _self.endpoint : endpoint // ignore: cast_nullable_to_non_nullable
-as BatchEndpoint,errors: freezed == errors ? _self.errors : errors // ignore: cast_nullable_to_non_nullable
+as BatchEndpoint,model: freezed == model ? _self.model : model // ignore: cast_nullable_to_non_nullable
+as String?,errors: freezed == errors ? _self.errors : errors // ignore: cast_nullable_to_non_nullable
 as BatchErrors?,inputFileId: null == inputFileId ? _self.inputFileId : inputFileId // ignore: cast_nullable_to_non_nullable
 as String,completionWindow: null == completionWindow ? _self.completionWindow : completionWindow // ignore: cast_nullable_to_non_nullable
 as BatchCompletionWindow,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
@@ -55785,7 +55789,8 @@ as int?,cancellingAt: freezed == cancellingAt ? _self.cancellingAt : cancellingA
 as int?,cancelledAt: freezed == cancelledAt ? _self.cancelledAt : cancelledAt // ignore: cast_nullable_to_non_nullable
 as int?,requestCounts: freezed == requestCounts ? _self.requestCounts : requestCounts // ignore: cast_nullable_to_non_nullable
 as BatchRequestCounts?,metadata: freezed == metadata ? _self.metadata : metadata // ignore: cast_nullable_to_non_nullable
-as dynamic,
+as dynamic,usage: freezed == usage ? _self.usage : usage // ignore: cast_nullable_to_non_nullable
+as BatchUsage?,
   ));
 }
 /// Create a copy of Batch
@@ -55811,6 +55816,18 @@ $BatchRequestCountsCopyWith<$Res>? get requestCounts {
 
   return $BatchRequestCountsCopyWith<$Res>(_self.requestCounts!, (value) {
     return _then(_self.copyWith(requestCounts: value));
+  });
+}/// Create a copy of Batch
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$BatchUsageCopyWith<$Res>? get usage {
+    if (_self.usage == null) {
+    return null;
+  }
+
+  return $BatchUsageCopyWith<$Res>(_self.usage!, (value) {
+    return _then(_self.copyWith(usage: value));
   });
 }
 }
@@ -55894,10 +55911,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  BatchObject object,  BatchEndpoint endpoint, @JsonKey(includeIfNull: false)  BatchErrors? errors, @JsonKey(name: 'input_file_id')  String inputFileId, @JsonKey(name: 'completion_window')  BatchCompletionWindow completionWindow,  BatchStatus status, @JsonKey(name: 'output_file_id', includeIfNull: false)  String? outputFileId, @JsonKey(name: 'error_file_id', includeIfNull: false)  String? errorFileId, @JsonKey(name: 'created_at')  int createdAt, @JsonKey(name: 'in_progress_at', includeIfNull: false)  int? inProgressAt, @JsonKey(name: 'expires_at', includeIfNull: false)  int? expiresAt, @JsonKey(name: 'finalizing_at', includeIfNull: false)  int? finalizingAt, @JsonKey(name: 'completed_at', includeIfNull: false)  int? completedAt, @JsonKey(name: 'failed_at', includeIfNull: false)  int? failedAt, @JsonKey(name: 'expired_at', includeIfNull: false)  int? expiredAt, @JsonKey(name: 'cancelling_at', includeIfNull: false)  int? cancellingAt, @JsonKey(name: 'cancelled_at', includeIfNull: false)  int? cancelledAt, @JsonKey(name: 'request_counts', includeIfNull: false)  BatchRequestCounts? requestCounts, @JsonKey(includeIfNull: false)  dynamic metadata)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  BatchObject object,  BatchEndpoint endpoint, @JsonKey(includeIfNull: false)  String? model, @JsonKey(includeIfNull: false)  BatchErrors? errors, @JsonKey(name: 'input_file_id')  String inputFileId, @JsonKey(name: 'completion_window')  BatchCompletionWindow completionWindow,  BatchStatus status, @JsonKey(name: 'output_file_id', includeIfNull: false)  String? outputFileId, @JsonKey(name: 'error_file_id', includeIfNull: false)  String? errorFileId, @JsonKey(name: 'created_at')  int createdAt, @JsonKey(name: 'in_progress_at', includeIfNull: false)  int? inProgressAt, @JsonKey(name: 'expires_at', includeIfNull: false)  int? expiresAt, @JsonKey(name: 'finalizing_at', includeIfNull: false)  int? finalizingAt, @JsonKey(name: 'completed_at', includeIfNull: false)  int? completedAt, @JsonKey(name: 'failed_at', includeIfNull: false)  int? failedAt, @JsonKey(name: 'expired_at', includeIfNull: false)  int? expiredAt, @JsonKey(name: 'cancelling_at', includeIfNull: false)  int? cancellingAt, @JsonKey(name: 'cancelled_at', includeIfNull: false)  int? cancelledAt, @JsonKey(name: 'request_counts', includeIfNull: false)  BatchRequestCounts? requestCounts, @JsonKey(includeIfNull: false)  dynamic metadata, @JsonKey(includeIfNull: false)  BatchUsage? usage)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Batch() when $default != null:
-return $default(_that.id,_that.object,_that.endpoint,_that.errors,_that.inputFileId,_that.completionWindow,_that.status,_that.outputFileId,_that.errorFileId,_that.createdAt,_that.inProgressAt,_that.expiresAt,_that.finalizingAt,_that.completedAt,_that.failedAt,_that.expiredAt,_that.cancellingAt,_that.cancelledAt,_that.requestCounts,_that.metadata);case _:
+return $default(_that.id,_that.object,_that.endpoint,_that.model,_that.errors,_that.inputFileId,_that.completionWindow,_that.status,_that.outputFileId,_that.errorFileId,_that.createdAt,_that.inProgressAt,_that.expiresAt,_that.finalizingAt,_that.completedAt,_that.failedAt,_that.expiredAt,_that.cancellingAt,_that.cancelledAt,_that.requestCounts,_that.metadata,_that.usage);case _:
   return orElse();
 
 }
@@ -55915,10 +55932,10 @@ return $default(_that.id,_that.object,_that.endpoint,_that.errors,_that.inputFil
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  BatchObject object,  BatchEndpoint endpoint, @JsonKey(includeIfNull: false)  BatchErrors? errors, @JsonKey(name: 'input_file_id')  String inputFileId, @JsonKey(name: 'completion_window')  BatchCompletionWindow completionWindow,  BatchStatus status, @JsonKey(name: 'output_file_id', includeIfNull: false)  String? outputFileId, @JsonKey(name: 'error_file_id', includeIfNull: false)  String? errorFileId, @JsonKey(name: 'created_at')  int createdAt, @JsonKey(name: 'in_progress_at', includeIfNull: false)  int? inProgressAt, @JsonKey(name: 'expires_at', includeIfNull: false)  int? expiresAt, @JsonKey(name: 'finalizing_at', includeIfNull: false)  int? finalizingAt, @JsonKey(name: 'completed_at', includeIfNull: false)  int? completedAt, @JsonKey(name: 'failed_at', includeIfNull: false)  int? failedAt, @JsonKey(name: 'expired_at', includeIfNull: false)  int? expiredAt, @JsonKey(name: 'cancelling_at', includeIfNull: false)  int? cancellingAt, @JsonKey(name: 'cancelled_at', includeIfNull: false)  int? cancelledAt, @JsonKey(name: 'request_counts', includeIfNull: false)  BatchRequestCounts? requestCounts, @JsonKey(includeIfNull: false)  dynamic metadata)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  BatchObject object,  BatchEndpoint endpoint, @JsonKey(includeIfNull: false)  String? model, @JsonKey(includeIfNull: false)  BatchErrors? errors, @JsonKey(name: 'input_file_id')  String inputFileId, @JsonKey(name: 'completion_window')  BatchCompletionWindow completionWindow,  BatchStatus status, @JsonKey(name: 'output_file_id', includeIfNull: false)  String? outputFileId, @JsonKey(name: 'error_file_id', includeIfNull: false)  String? errorFileId, @JsonKey(name: 'created_at')  int createdAt, @JsonKey(name: 'in_progress_at', includeIfNull: false)  int? inProgressAt, @JsonKey(name: 'expires_at', includeIfNull: false)  int? expiresAt, @JsonKey(name: 'finalizing_at', includeIfNull: false)  int? finalizingAt, @JsonKey(name: 'completed_at', includeIfNull: false)  int? completedAt, @JsonKey(name: 'failed_at', includeIfNull: false)  int? failedAt, @JsonKey(name: 'expired_at', includeIfNull: false)  int? expiredAt, @JsonKey(name: 'cancelling_at', includeIfNull: false)  int? cancellingAt, @JsonKey(name: 'cancelled_at', includeIfNull: false)  int? cancelledAt, @JsonKey(name: 'request_counts', includeIfNull: false)  BatchRequestCounts? requestCounts, @JsonKey(includeIfNull: false)  dynamic metadata, @JsonKey(includeIfNull: false)  BatchUsage? usage)  $default,) {final _that = this;
 switch (_that) {
 case _Batch():
-return $default(_that.id,_that.object,_that.endpoint,_that.errors,_that.inputFileId,_that.completionWindow,_that.status,_that.outputFileId,_that.errorFileId,_that.createdAt,_that.inProgressAt,_that.expiresAt,_that.finalizingAt,_that.completedAt,_that.failedAt,_that.expiredAt,_that.cancellingAt,_that.cancelledAt,_that.requestCounts,_that.metadata);case _:
+return $default(_that.id,_that.object,_that.endpoint,_that.model,_that.errors,_that.inputFileId,_that.completionWindow,_that.status,_that.outputFileId,_that.errorFileId,_that.createdAt,_that.inProgressAt,_that.expiresAt,_that.finalizingAt,_that.completedAt,_that.failedAt,_that.expiredAt,_that.cancellingAt,_that.cancelledAt,_that.requestCounts,_that.metadata,_that.usage);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -55935,10 +55952,10 @@ return $default(_that.id,_that.object,_that.endpoint,_that.errors,_that.inputFil
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  BatchObject object,  BatchEndpoint endpoint, @JsonKey(includeIfNull: false)  BatchErrors? errors, @JsonKey(name: 'input_file_id')  String inputFileId, @JsonKey(name: 'completion_window')  BatchCompletionWindow completionWindow,  BatchStatus status, @JsonKey(name: 'output_file_id', includeIfNull: false)  String? outputFileId, @JsonKey(name: 'error_file_id', includeIfNull: false)  String? errorFileId, @JsonKey(name: 'created_at')  int createdAt, @JsonKey(name: 'in_progress_at', includeIfNull: false)  int? inProgressAt, @JsonKey(name: 'expires_at', includeIfNull: false)  int? expiresAt, @JsonKey(name: 'finalizing_at', includeIfNull: false)  int? finalizingAt, @JsonKey(name: 'completed_at', includeIfNull: false)  int? completedAt, @JsonKey(name: 'failed_at', includeIfNull: false)  int? failedAt, @JsonKey(name: 'expired_at', includeIfNull: false)  int? expiredAt, @JsonKey(name: 'cancelling_at', includeIfNull: false)  int? cancellingAt, @JsonKey(name: 'cancelled_at', includeIfNull: false)  int? cancelledAt, @JsonKey(name: 'request_counts', includeIfNull: false)  BatchRequestCounts? requestCounts, @JsonKey(includeIfNull: false)  dynamic metadata)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  BatchObject object,  BatchEndpoint endpoint, @JsonKey(includeIfNull: false)  String? model, @JsonKey(includeIfNull: false)  BatchErrors? errors, @JsonKey(name: 'input_file_id')  String inputFileId, @JsonKey(name: 'completion_window')  BatchCompletionWindow completionWindow,  BatchStatus status, @JsonKey(name: 'output_file_id', includeIfNull: false)  String? outputFileId, @JsonKey(name: 'error_file_id', includeIfNull: false)  String? errorFileId, @JsonKey(name: 'created_at')  int createdAt, @JsonKey(name: 'in_progress_at', includeIfNull: false)  int? inProgressAt, @JsonKey(name: 'expires_at', includeIfNull: false)  int? expiresAt, @JsonKey(name: 'finalizing_at', includeIfNull: false)  int? finalizingAt, @JsonKey(name: 'completed_at', includeIfNull: false)  int? completedAt, @JsonKey(name: 'failed_at', includeIfNull: false)  int? failedAt, @JsonKey(name: 'expired_at', includeIfNull: false)  int? expiredAt, @JsonKey(name: 'cancelling_at', includeIfNull: false)  int? cancellingAt, @JsonKey(name: 'cancelled_at', includeIfNull: false)  int? cancelledAt, @JsonKey(name: 'request_counts', includeIfNull: false)  BatchRequestCounts? requestCounts, @JsonKey(includeIfNull: false)  dynamic metadata, @JsonKey(includeIfNull: false)  BatchUsage? usage)?  $default,) {final _that = this;
 switch (_that) {
 case _Batch() when $default != null:
-return $default(_that.id,_that.object,_that.endpoint,_that.errors,_that.inputFileId,_that.completionWindow,_that.status,_that.outputFileId,_that.errorFileId,_that.createdAt,_that.inProgressAt,_that.expiresAt,_that.finalizingAt,_that.completedAt,_that.failedAt,_that.expiredAt,_that.cancellingAt,_that.cancelledAt,_that.requestCounts,_that.metadata);case _:
+return $default(_that.id,_that.object,_that.endpoint,_that.model,_that.errors,_that.inputFileId,_that.completionWindow,_that.status,_that.outputFileId,_that.errorFileId,_that.createdAt,_that.inProgressAt,_that.expiresAt,_that.finalizingAt,_that.completedAt,_that.failedAt,_that.expiredAt,_that.cancellingAt,_that.cancelledAt,_that.requestCounts,_that.metadata,_that.usage);case _:
   return null;
 
 }
@@ -55950,7 +55967,7 @@ return $default(_that.id,_that.object,_that.endpoint,_that.errors,_that.inputFil
 @JsonSerializable()
 
 class _Batch extends Batch {
-  const _Batch({required this.id, required this.object, required this.endpoint, @JsonKey(includeIfNull: false) this.errors, @JsonKey(name: 'input_file_id') required this.inputFileId, @JsonKey(name: 'completion_window') required this.completionWindow, required this.status, @JsonKey(name: 'output_file_id', includeIfNull: false) this.outputFileId, @JsonKey(name: 'error_file_id', includeIfNull: false) this.errorFileId, @JsonKey(name: 'created_at') required this.createdAt, @JsonKey(name: 'in_progress_at', includeIfNull: false) this.inProgressAt, @JsonKey(name: 'expires_at', includeIfNull: false) this.expiresAt, @JsonKey(name: 'finalizing_at', includeIfNull: false) this.finalizingAt, @JsonKey(name: 'completed_at', includeIfNull: false) this.completedAt, @JsonKey(name: 'failed_at', includeIfNull: false) this.failedAt, @JsonKey(name: 'expired_at', includeIfNull: false) this.expiredAt, @JsonKey(name: 'cancelling_at', includeIfNull: false) this.cancellingAt, @JsonKey(name: 'cancelled_at', includeIfNull: false) this.cancelledAt, @JsonKey(name: 'request_counts', includeIfNull: false) this.requestCounts, @JsonKey(includeIfNull: false) this.metadata}): super._();
+  const _Batch({required this.id, required this.object, required this.endpoint, @JsonKey(includeIfNull: false) this.model, @JsonKey(includeIfNull: false) this.errors, @JsonKey(name: 'input_file_id') required this.inputFileId, @JsonKey(name: 'completion_window') required this.completionWindow, required this.status, @JsonKey(name: 'output_file_id', includeIfNull: false) this.outputFileId, @JsonKey(name: 'error_file_id', includeIfNull: false) this.errorFileId, @JsonKey(name: 'created_at') required this.createdAt, @JsonKey(name: 'in_progress_at', includeIfNull: false) this.inProgressAt, @JsonKey(name: 'expires_at', includeIfNull: false) this.expiresAt, @JsonKey(name: 'finalizing_at', includeIfNull: false) this.finalizingAt, @JsonKey(name: 'completed_at', includeIfNull: false) this.completedAt, @JsonKey(name: 'failed_at', includeIfNull: false) this.failedAt, @JsonKey(name: 'expired_at', includeIfNull: false) this.expiredAt, @JsonKey(name: 'cancelling_at', includeIfNull: false) this.cancellingAt, @JsonKey(name: 'cancelled_at', includeIfNull: false) this.cancelledAt, @JsonKey(name: 'request_counts', includeIfNull: false) this.requestCounts, @JsonKey(includeIfNull: false) this.metadata, @JsonKey(includeIfNull: false) this.usage}): super._();
   factory _Batch.fromJson(Map<String, dynamic> json) => _$BatchFromJson(json);
 
 /// No Description
@@ -55959,6 +55976,9 @@ class _Batch extends Batch {
 @override final  BatchObject object;
 /// The endpoint to be used for all requests in the batch. Currently `/v1/chat/completions`, `/v1/embeddings`, and `/v1/completions` are supported. Note that `/v1/embeddings` batches are also restricted to a maximum of 50,000 embedding inputs across all requests in the batch.
 @override final  BatchEndpoint endpoint;
+/// Model ID used to process the batch. Refer to the [model guide](https://platform.openai.com/docs/models)
+/// to browse and compare available models.
+@override@JsonKey(includeIfNull: false) final  String? model;
 /// No Description
 @override@JsonKey(includeIfNull: false) final  BatchErrors? errors;
 /// The ID of the input file for the batch.
@@ -55995,6 +56015,8 @@ class _Batch extends Batch {
 /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
 /// can be a maximum of 512 characters long.
 @override@JsonKey(includeIfNull: false) final  dynamic metadata;
+/// Token usage details for the batch. Only populated on batches that have completed processing.
+@override@JsonKey(includeIfNull: false) final  BatchUsage? usage;
 
 /// Create a copy of Batch
 /// with the given fields replaced by the non-null parameter values.
@@ -56009,16 +56031,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Batch&&(identical(other.id, id) || other.id == id)&&(identical(other.object, object) || other.object == object)&&(identical(other.endpoint, endpoint) || other.endpoint == endpoint)&&(identical(other.errors, errors) || other.errors == errors)&&(identical(other.inputFileId, inputFileId) || other.inputFileId == inputFileId)&&(identical(other.completionWindow, completionWindow) || other.completionWindow == completionWindow)&&(identical(other.status, status) || other.status == status)&&(identical(other.outputFileId, outputFileId) || other.outputFileId == outputFileId)&&(identical(other.errorFileId, errorFileId) || other.errorFileId == errorFileId)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.inProgressAt, inProgressAt) || other.inProgressAt == inProgressAt)&&(identical(other.expiresAt, expiresAt) || other.expiresAt == expiresAt)&&(identical(other.finalizingAt, finalizingAt) || other.finalizingAt == finalizingAt)&&(identical(other.completedAt, completedAt) || other.completedAt == completedAt)&&(identical(other.failedAt, failedAt) || other.failedAt == failedAt)&&(identical(other.expiredAt, expiredAt) || other.expiredAt == expiredAt)&&(identical(other.cancellingAt, cancellingAt) || other.cancellingAt == cancellingAt)&&(identical(other.cancelledAt, cancelledAt) || other.cancelledAt == cancelledAt)&&(identical(other.requestCounts, requestCounts) || other.requestCounts == requestCounts)&&const DeepCollectionEquality().equals(other.metadata, metadata));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Batch&&(identical(other.id, id) || other.id == id)&&(identical(other.object, object) || other.object == object)&&(identical(other.endpoint, endpoint) || other.endpoint == endpoint)&&(identical(other.model, model) || other.model == model)&&(identical(other.errors, errors) || other.errors == errors)&&(identical(other.inputFileId, inputFileId) || other.inputFileId == inputFileId)&&(identical(other.completionWindow, completionWindow) || other.completionWindow == completionWindow)&&(identical(other.status, status) || other.status == status)&&(identical(other.outputFileId, outputFileId) || other.outputFileId == outputFileId)&&(identical(other.errorFileId, errorFileId) || other.errorFileId == errorFileId)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.inProgressAt, inProgressAt) || other.inProgressAt == inProgressAt)&&(identical(other.expiresAt, expiresAt) || other.expiresAt == expiresAt)&&(identical(other.finalizingAt, finalizingAt) || other.finalizingAt == finalizingAt)&&(identical(other.completedAt, completedAt) || other.completedAt == completedAt)&&(identical(other.failedAt, failedAt) || other.failedAt == failedAt)&&(identical(other.expiredAt, expiredAt) || other.expiredAt == expiredAt)&&(identical(other.cancellingAt, cancellingAt) || other.cancellingAt == cancellingAt)&&(identical(other.cancelledAt, cancelledAt) || other.cancelledAt == cancelledAt)&&(identical(other.requestCounts, requestCounts) || other.requestCounts == requestCounts)&&const DeepCollectionEquality().equals(other.metadata, metadata)&&(identical(other.usage, usage) || other.usage == usage));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,id,object,endpoint,errors,inputFileId,completionWindow,status,outputFileId,errorFileId,createdAt,inProgressAt,expiresAt,finalizingAt,completedAt,failedAt,expiredAt,cancellingAt,cancelledAt,requestCounts,const DeepCollectionEquality().hash(metadata)]);
+int get hashCode => Object.hashAll([runtimeType,id,object,endpoint,model,errors,inputFileId,completionWindow,status,outputFileId,errorFileId,createdAt,inProgressAt,expiresAt,finalizingAt,completedAt,failedAt,expiredAt,cancellingAt,cancelledAt,requestCounts,const DeepCollectionEquality().hash(metadata),usage]);
 
 @override
 String toString() {
-  return 'Batch(id: $id, object: $object, endpoint: $endpoint, errors: $errors, inputFileId: $inputFileId, completionWindow: $completionWindow, status: $status, outputFileId: $outputFileId, errorFileId: $errorFileId, createdAt: $createdAt, inProgressAt: $inProgressAt, expiresAt: $expiresAt, finalizingAt: $finalizingAt, completedAt: $completedAt, failedAt: $failedAt, expiredAt: $expiredAt, cancellingAt: $cancellingAt, cancelledAt: $cancelledAt, requestCounts: $requestCounts, metadata: $metadata)';
+  return 'Batch(id: $id, object: $object, endpoint: $endpoint, model: $model, errors: $errors, inputFileId: $inputFileId, completionWindow: $completionWindow, status: $status, outputFileId: $outputFileId, errorFileId: $errorFileId, createdAt: $createdAt, inProgressAt: $inProgressAt, expiresAt: $expiresAt, finalizingAt: $finalizingAt, completedAt: $completedAt, failedAt: $failedAt, expiredAt: $expiredAt, cancellingAt: $cancellingAt, cancelledAt: $cancelledAt, requestCounts: $requestCounts, metadata: $metadata, usage: $usage)';
 }
 
 
@@ -56029,11 +56051,11 @@ abstract mixin class _$BatchCopyWith<$Res> implements $BatchCopyWith<$Res> {
   factory _$BatchCopyWith(_Batch value, $Res Function(_Batch) _then) = __$BatchCopyWithImpl;
 @override @useResult
 $Res call({
- String id, BatchObject object, BatchEndpoint endpoint,@JsonKey(includeIfNull: false) BatchErrors? errors,@JsonKey(name: 'input_file_id') String inputFileId,@JsonKey(name: 'completion_window') BatchCompletionWindow completionWindow, BatchStatus status,@JsonKey(name: 'output_file_id', includeIfNull: false) String? outputFileId,@JsonKey(name: 'error_file_id', includeIfNull: false) String? errorFileId,@JsonKey(name: 'created_at') int createdAt,@JsonKey(name: 'in_progress_at', includeIfNull: false) int? inProgressAt,@JsonKey(name: 'expires_at', includeIfNull: false) int? expiresAt,@JsonKey(name: 'finalizing_at', includeIfNull: false) int? finalizingAt,@JsonKey(name: 'completed_at', includeIfNull: false) int? completedAt,@JsonKey(name: 'failed_at', includeIfNull: false) int? failedAt,@JsonKey(name: 'expired_at', includeIfNull: false) int? expiredAt,@JsonKey(name: 'cancelling_at', includeIfNull: false) int? cancellingAt,@JsonKey(name: 'cancelled_at', includeIfNull: false) int? cancelledAt,@JsonKey(name: 'request_counts', includeIfNull: false) BatchRequestCounts? requestCounts,@JsonKey(includeIfNull: false) dynamic metadata
+ String id, BatchObject object, BatchEndpoint endpoint,@JsonKey(includeIfNull: false) String? model,@JsonKey(includeIfNull: false) BatchErrors? errors,@JsonKey(name: 'input_file_id') String inputFileId,@JsonKey(name: 'completion_window') BatchCompletionWindow completionWindow, BatchStatus status,@JsonKey(name: 'output_file_id', includeIfNull: false) String? outputFileId,@JsonKey(name: 'error_file_id', includeIfNull: false) String? errorFileId,@JsonKey(name: 'created_at') int createdAt,@JsonKey(name: 'in_progress_at', includeIfNull: false) int? inProgressAt,@JsonKey(name: 'expires_at', includeIfNull: false) int? expiresAt,@JsonKey(name: 'finalizing_at', includeIfNull: false) int? finalizingAt,@JsonKey(name: 'completed_at', includeIfNull: false) int? completedAt,@JsonKey(name: 'failed_at', includeIfNull: false) int? failedAt,@JsonKey(name: 'expired_at', includeIfNull: false) int? expiredAt,@JsonKey(name: 'cancelling_at', includeIfNull: false) int? cancellingAt,@JsonKey(name: 'cancelled_at', includeIfNull: false) int? cancelledAt,@JsonKey(name: 'request_counts', includeIfNull: false) BatchRequestCounts? requestCounts,@JsonKey(includeIfNull: false) dynamic metadata,@JsonKey(includeIfNull: false) BatchUsage? usage
 });
 
 
-@override $BatchErrorsCopyWith<$Res>? get errors;@override $BatchRequestCountsCopyWith<$Res>? get requestCounts;
+@override $BatchErrorsCopyWith<$Res>? get errors;@override $BatchRequestCountsCopyWith<$Res>? get requestCounts;@override $BatchUsageCopyWith<$Res>? get usage;
 
 }
 /// @nodoc
@@ -56046,12 +56068,13 @@ class __$BatchCopyWithImpl<$Res>
 
 /// Create a copy of Batch
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? object = null,Object? endpoint = null,Object? errors = freezed,Object? inputFileId = null,Object? completionWindow = null,Object? status = null,Object? outputFileId = freezed,Object? errorFileId = freezed,Object? createdAt = null,Object? inProgressAt = freezed,Object? expiresAt = freezed,Object? finalizingAt = freezed,Object? completedAt = freezed,Object? failedAt = freezed,Object? expiredAt = freezed,Object? cancellingAt = freezed,Object? cancelledAt = freezed,Object? requestCounts = freezed,Object? metadata = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? object = null,Object? endpoint = null,Object? model = freezed,Object? errors = freezed,Object? inputFileId = null,Object? completionWindow = null,Object? status = null,Object? outputFileId = freezed,Object? errorFileId = freezed,Object? createdAt = null,Object? inProgressAt = freezed,Object? expiresAt = freezed,Object? finalizingAt = freezed,Object? completedAt = freezed,Object? failedAt = freezed,Object? expiredAt = freezed,Object? cancellingAt = freezed,Object? cancelledAt = freezed,Object? requestCounts = freezed,Object? metadata = freezed,Object? usage = freezed,}) {
   return _then(_Batch(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,object: null == object ? _self.object : object // ignore: cast_nullable_to_non_nullable
 as BatchObject,endpoint: null == endpoint ? _self.endpoint : endpoint // ignore: cast_nullable_to_non_nullable
-as BatchEndpoint,errors: freezed == errors ? _self.errors : errors // ignore: cast_nullable_to_non_nullable
+as BatchEndpoint,model: freezed == model ? _self.model : model // ignore: cast_nullable_to_non_nullable
+as String?,errors: freezed == errors ? _self.errors : errors // ignore: cast_nullable_to_non_nullable
 as BatchErrors?,inputFileId: null == inputFileId ? _self.inputFileId : inputFileId // ignore: cast_nullable_to_non_nullable
 as String,completionWindow: null == completionWindow ? _self.completionWindow : completionWindow // ignore: cast_nullable_to_non_nullable
 as BatchCompletionWindow,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
@@ -56068,7 +56091,8 @@ as int?,cancellingAt: freezed == cancellingAt ? _self.cancellingAt : cancellingA
 as int?,cancelledAt: freezed == cancelledAt ? _self.cancelledAt : cancelledAt // ignore: cast_nullable_to_non_nullable
 as int?,requestCounts: freezed == requestCounts ? _self.requestCounts : requestCounts // ignore: cast_nullable_to_non_nullable
 as BatchRequestCounts?,metadata: freezed == metadata ? _self.metadata : metadata // ignore: cast_nullable_to_non_nullable
-as dynamic,
+as dynamic,usage: freezed == usage ? _self.usage : usage // ignore: cast_nullable_to_non_nullable
+as BatchUsage?,
   ));
 }
 
@@ -56095,6 +56119,18 @@ $BatchRequestCountsCopyWith<$Res>? get requestCounts {
 
   return $BatchRequestCountsCopyWith<$Res>(_self.requestCounts!, (value) {
     return _then(_self.copyWith(requestCounts: value));
+  });
+}/// Create a copy of Batch
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$BatchUsageCopyWith<$Res>? get usage {
+    if (_self.usage == null) {
+    return null;
+  }
+
+  return $BatchUsageCopyWith<$Res>(_self.usage!, (value) {
+    return _then(_self.copyWith(usage: value));
   });
 }
 }
@@ -56655,6 +56691,339 @@ as int,
 
 
 /// @nodoc
+mixin _$BatchUsage {
+
+/// The number of input tokens.
+@JsonKey(name: 'input_tokens', includeIfNull: false) int? get inputTokens;/// A detailed breakdown of the input tokens.
+@JsonKey(name: 'input_tokens_details', includeIfNull: false) BatchUsageInputTokensDetails? get inputTokensDetails;/// The number of output tokens.
+@JsonKey(name: 'output_tokens', includeIfNull: false) int? get outputTokens;/// A detailed breakdown of the output tokens.
+@JsonKey(name: 'output_tokens_details', includeIfNull: false) BatchUsageOutputTokensDetails? get outputTokensDetails;/// The total number of tokens used.
+@JsonKey(name: 'total_tokens', includeIfNull: false) int? get totalTokens;
+/// Create a copy of BatchUsage
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$BatchUsageCopyWith<BatchUsage> get copyWith => _$BatchUsageCopyWithImpl<BatchUsage>(this as BatchUsage, _$identity);
+
+  /// Serializes this BatchUsage to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BatchUsage&&(identical(other.inputTokens, inputTokens) || other.inputTokens == inputTokens)&&(identical(other.inputTokensDetails, inputTokensDetails) || other.inputTokensDetails == inputTokensDetails)&&(identical(other.outputTokens, outputTokens) || other.outputTokens == outputTokens)&&(identical(other.outputTokensDetails, outputTokensDetails) || other.outputTokensDetails == outputTokensDetails)&&(identical(other.totalTokens, totalTokens) || other.totalTokens == totalTokens));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,inputTokens,inputTokensDetails,outputTokens,outputTokensDetails,totalTokens);
+
+@override
+String toString() {
+  return 'BatchUsage(inputTokens: $inputTokens, inputTokensDetails: $inputTokensDetails, outputTokens: $outputTokens, outputTokensDetails: $outputTokensDetails, totalTokens: $totalTokens)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $BatchUsageCopyWith<$Res>  {
+  factory $BatchUsageCopyWith(BatchUsage value, $Res Function(BatchUsage) _then) = _$BatchUsageCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(name: 'input_tokens', includeIfNull: false) int? inputTokens,@JsonKey(name: 'input_tokens_details', includeIfNull: false) BatchUsageInputTokensDetails? inputTokensDetails,@JsonKey(name: 'output_tokens', includeIfNull: false) int? outputTokens,@JsonKey(name: 'output_tokens_details', includeIfNull: false) BatchUsageOutputTokensDetails? outputTokensDetails,@JsonKey(name: 'total_tokens', includeIfNull: false) int? totalTokens
+});
+
+
+$BatchUsageInputTokensDetailsCopyWith<$Res>? get inputTokensDetails;$BatchUsageOutputTokensDetailsCopyWith<$Res>? get outputTokensDetails;
+
+}
+/// @nodoc
+class _$BatchUsageCopyWithImpl<$Res>
+    implements $BatchUsageCopyWith<$Res> {
+  _$BatchUsageCopyWithImpl(this._self, this._then);
+
+  final BatchUsage _self;
+  final $Res Function(BatchUsage) _then;
+
+/// Create a copy of BatchUsage
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? inputTokens = freezed,Object? inputTokensDetails = freezed,Object? outputTokens = freezed,Object? outputTokensDetails = freezed,Object? totalTokens = freezed,}) {
+  return _then(_self.copyWith(
+inputTokens: freezed == inputTokens ? _self.inputTokens : inputTokens // ignore: cast_nullable_to_non_nullable
+as int?,inputTokensDetails: freezed == inputTokensDetails ? _self.inputTokensDetails : inputTokensDetails // ignore: cast_nullable_to_non_nullable
+as BatchUsageInputTokensDetails?,outputTokens: freezed == outputTokens ? _self.outputTokens : outputTokens // ignore: cast_nullable_to_non_nullable
+as int?,outputTokensDetails: freezed == outputTokensDetails ? _self.outputTokensDetails : outputTokensDetails // ignore: cast_nullable_to_non_nullable
+as BatchUsageOutputTokensDetails?,totalTokens: freezed == totalTokens ? _self.totalTokens : totalTokens // ignore: cast_nullable_to_non_nullable
+as int?,
+  ));
+}
+/// Create a copy of BatchUsage
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$BatchUsageInputTokensDetailsCopyWith<$Res>? get inputTokensDetails {
+    if (_self.inputTokensDetails == null) {
+    return null;
+  }
+
+  return $BatchUsageInputTokensDetailsCopyWith<$Res>(_self.inputTokensDetails!, (value) {
+    return _then(_self.copyWith(inputTokensDetails: value));
+  });
+}/// Create a copy of BatchUsage
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$BatchUsageOutputTokensDetailsCopyWith<$Res>? get outputTokensDetails {
+    if (_self.outputTokensDetails == null) {
+    return null;
+  }
+
+  return $BatchUsageOutputTokensDetailsCopyWith<$Res>(_self.outputTokensDetails!, (value) {
+    return _then(_self.copyWith(outputTokensDetails: value));
+  });
+}
+}
+
+
+/// Adds pattern-matching-related methods to [BatchUsage].
+extension BatchUsagePatterns on BatchUsage {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _BatchUsage value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _BatchUsage() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _BatchUsage value)  $default,){
+final _that = this;
+switch (_that) {
+case _BatchUsage():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _BatchUsage value)?  $default,){
+final _that = this;
+switch (_that) {
+case _BatchUsage() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'input_tokens', includeIfNull: false)  int? inputTokens, @JsonKey(name: 'input_tokens_details', includeIfNull: false)  BatchUsageInputTokensDetails? inputTokensDetails, @JsonKey(name: 'output_tokens', includeIfNull: false)  int? outputTokens, @JsonKey(name: 'output_tokens_details', includeIfNull: false)  BatchUsageOutputTokensDetails? outputTokensDetails, @JsonKey(name: 'total_tokens', includeIfNull: false)  int? totalTokens)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _BatchUsage() when $default != null:
+return $default(_that.inputTokens,_that.inputTokensDetails,_that.outputTokens,_that.outputTokensDetails,_that.totalTokens);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'input_tokens', includeIfNull: false)  int? inputTokens, @JsonKey(name: 'input_tokens_details', includeIfNull: false)  BatchUsageInputTokensDetails? inputTokensDetails, @JsonKey(name: 'output_tokens', includeIfNull: false)  int? outputTokens, @JsonKey(name: 'output_tokens_details', includeIfNull: false)  BatchUsageOutputTokensDetails? outputTokensDetails, @JsonKey(name: 'total_tokens', includeIfNull: false)  int? totalTokens)  $default,) {final _that = this;
+switch (_that) {
+case _BatchUsage():
+return $default(_that.inputTokens,_that.inputTokensDetails,_that.outputTokens,_that.outputTokensDetails,_that.totalTokens);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'input_tokens', includeIfNull: false)  int? inputTokens, @JsonKey(name: 'input_tokens_details', includeIfNull: false)  BatchUsageInputTokensDetails? inputTokensDetails, @JsonKey(name: 'output_tokens', includeIfNull: false)  int? outputTokens, @JsonKey(name: 'output_tokens_details', includeIfNull: false)  BatchUsageOutputTokensDetails? outputTokensDetails, @JsonKey(name: 'total_tokens', includeIfNull: false)  int? totalTokens)?  $default,) {final _that = this;
+switch (_that) {
+case _BatchUsage() when $default != null:
+return $default(_that.inputTokens,_that.inputTokensDetails,_that.outputTokens,_that.outputTokensDetails,_that.totalTokens);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _BatchUsage extends BatchUsage {
+  const _BatchUsage({@JsonKey(name: 'input_tokens', includeIfNull: false) this.inputTokens, @JsonKey(name: 'input_tokens_details', includeIfNull: false) this.inputTokensDetails, @JsonKey(name: 'output_tokens', includeIfNull: false) this.outputTokens, @JsonKey(name: 'output_tokens_details', includeIfNull: false) this.outputTokensDetails, @JsonKey(name: 'total_tokens', includeIfNull: false) this.totalTokens}): super._();
+  factory _BatchUsage.fromJson(Map<String, dynamic> json) => _$BatchUsageFromJson(json);
+
+/// The number of input tokens.
+@override@JsonKey(name: 'input_tokens', includeIfNull: false) final  int? inputTokens;
+/// A detailed breakdown of the input tokens.
+@override@JsonKey(name: 'input_tokens_details', includeIfNull: false) final  BatchUsageInputTokensDetails? inputTokensDetails;
+/// The number of output tokens.
+@override@JsonKey(name: 'output_tokens', includeIfNull: false) final  int? outputTokens;
+/// A detailed breakdown of the output tokens.
+@override@JsonKey(name: 'output_tokens_details', includeIfNull: false) final  BatchUsageOutputTokensDetails? outputTokensDetails;
+/// The total number of tokens used.
+@override@JsonKey(name: 'total_tokens', includeIfNull: false) final  int? totalTokens;
+
+/// Create a copy of BatchUsage
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$BatchUsageCopyWith<_BatchUsage> get copyWith => __$BatchUsageCopyWithImpl<_BatchUsage>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$BatchUsageToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BatchUsage&&(identical(other.inputTokens, inputTokens) || other.inputTokens == inputTokens)&&(identical(other.inputTokensDetails, inputTokensDetails) || other.inputTokensDetails == inputTokensDetails)&&(identical(other.outputTokens, outputTokens) || other.outputTokens == outputTokens)&&(identical(other.outputTokensDetails, outputTokensDetails) || other.outputTokensDetails == outputTokensDetails)&&(identical(other.totalTokens, totalTokens) || other.totalTokens == totalTokens));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,inputTokens,inputTokensDetails,outputTokens,outputTokensDetails,totalTokens);
+
+@override
+String toString() {
+  return 'BatchUsage(inputTokens: $inputTokens, inputTokensDetails: $inputTokensDetails, outputTokens: $outputTokens, outputTokensDetails: $outputTokensDetails, totalTokens: $totalTokens)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$BatchUsageCopyWith<$Res> implements $BatchUsageCopyWith<$Res> {
+  factory _$BatchUsageCopyWith(_BatchUsage value, $Res Function(_BatchUsage) _then) = __$BatchUsageCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(name: 'input_tokens', includeIfNull: false) int? inputTokens,@JsonKey(name: 'input_tokens_details', includeIfNull: false) BatchUsageInputTokensDetails? inputTokensDetails,@JsonKey(name: 'output_tokens', includeIfNull: false) int? outputTokens,@JsonKey(name: 'output_tokens_details', includeIfNull: false) BatchUsageOutputTokensDetails? outputTokensDetails,@JsonKey(name: 'total_tokens', includeIfNull: false) int? totalTokens
+});
+
+
+@override $BatchUsageInputTokensDetailsCopyWith<$Res>? get inputTokensDetails;@override $BatchUsageOutputTokensDetailsCopyWith<$Res>? get outputTokensDetails;
+
+}
+/// @nodoc
+class __$BatchUsageCopyWithImpl<$Res>
+    implements _$BatchUsageCopyWith<$Res> {
+  __$BatchUsageCopyWithImpl(this._self, this._then);
+
+  final _BatchUsage _self;
+  final $Res Function(_BatchUsage) _then;
+
+/// Create a copy of BatchUsage
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? inputTokens = freezed,Object? inputTokensDetails = freezed,Object? outputTokens = freezed,Object? outputTokensDetails = freezed,Object? totalTokens = freezed,}) {
+  return _then(_BatchUsage(
+inputTokens: freezed == inputTokens ? _self.inputTokens : inputTokens // ignore: cast_nullable_to_non_nullable
+as int?,inputTokensDetails: freezed == inputTokensDetails ? _self.inputTokensDetails : inputTokensDetails // ignore: cast_nullable_to_non_nullable
+as BatchUsageInputTokensDetails?,outputTokens: freezed == outputTokens ? _self.outputTokens : outputTokens // ignore: cast_nullable_to_non_nullable
+as int?,outputTokensDetails: freezed == outputTokensDetails ? _self.outputTokensDetails : outputTokensDetails // ignore: cast_nullable_to_non_nullable
+as BatchUsageOutputTokensDetails?,totalTokens: freezed == totalTokens ? _self.totalTokens : totalTokens // ignore: cast_nullable_to_non_nullable
+as int?,
+  ));
+}
+
+/// Create a copy of BatchUsage
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$BatchUsageInputTokensDetailsCopyWith<$Res>? get inputTokensDetails {
+    if (_self.inputTokensDetails == null) {
+    return null;
+  }
+
+  return $BatchUsageInputTokensDetailsCopyWith<$Res>(_self.inputTokensDetails!, (value) {
+    return _then(_self.copyWith(inputTokensDetails: value));
+  });
+}/// Create a copy of BatchUsage
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$BatchUsageOutputTokensDetailsCopyWith<$Res>? get outputTokensDetails {
+    if (_self.outputTokensDetails == null) {
+    return null;
+  }
+
+  return $BatchUsageOutputTokensDetailsCopyWith<$Res>(_self.outputTokensDetails!, (value) {
+    return _then(_self.copyWith(outputTokensDetails: value));
+  });
+}
+}
+
+
+/// @nodoc
 mixin _$BatchErrorsDataInner {
 
 /// An error code identifying the error type.
@@ -56927,6 +57296,1684 @@ as String?,message: freezed == message ? _self.message : message // ignore: cast
 as String?,param: freezed == param ? _self.param : param // ignore: cast_nullable_to_non_nullable
 as String?,line: freezed == line ? _self.line : line // ignore: cast_nullable_to_non_nullable
 as int?,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$BatchUsageInputTokensDetails {
+
+/// The number of cached tokens used.
+@JsonKey(name: 'cached_tokens', includeIfNull: false) int? get cachedTokens;
+/// Create a copy of BatchUsageInputTokensDetails
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$BatchUsageInputTokensDetailsCopyWith<BatchUsageInputTokensDetails> get copyWith => _$BatchUsageInputTokensDetailsCopyWithImpl<BatchUsageInputTokensDetails>(this as BatchUsageInputTokensDetails, _$identity);
+
+  /// Serializes this BatchUsageInputTokensDetails to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BatchUsageInputTokensDetails&&(identical(other.cachedTokens, cachedTokens) || other.cachedTokens == cachedTokens));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,cachedTokens);
+
+@override
+String toString() {
+  return 'BatchUsageInputTokensDetails(cachedTokens: $cachedTokens)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $BatchUsageInputTokensDetailsCopyWith<$Res>  {
+  factory $BatchUsageInputTokensDetailsCopyWith(BatchUsageInputTokensDetails value, $Res Function(BatchUsageInputTokensDetails) _then) = _$BatchUsageInputTokensDetailsCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(name: 'cached_tokens', includeIfNull: false) int? cachedTokens
+});
+
+
+
+
+}
+/// @nodoc
+class _$BatchUsageInputTokensDetailsCopyWithImpl<$Res>
+    implements $BatchUsageInputTokensDetailsCopyWith<$Res> {
+  _$BatchUsageInputTokensDetailsCopyWithImpl(this._self, this._then);
+
+  final BatchUsageInputTokensDetails _self;
+  final $Res Function(BatchUsageInputTokensDetails) _then;
+
+/// Create a copy of BatchUsageInputTokensDetails
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? cachedTokens = freezed,}) {
+  return _then(_self.copyWith(
+cachedTokens: freezed == cachedTokens ? _self.cachedTokens : cachedTokens // ignore: cast_nullable_to_non_nullable
+as int?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [BatchUsageInputTokensDetails].
+extension BatchUsageInputTokensDetailsPatterns on BatchUsageInputTokensDetails {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _BatchUsageInputTokensDetails value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _BatchUsageInputTokensDetails() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _BatchUsageInputTokensDetails value)  $default,){
+final _that = this;
+switch (_that) {
+case _BatchUsageInputTokensDetails():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _BatchUsageInputTokensDetails value)?  $default,){
+final _that = this;
+switch (_that) {
+case _BatchUsageInputTokensDetails() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'cached_tokens', includeIfNull: false)  int? cachedTokens)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _BatchUsageInputTokensDetails() when $default != null:
+return $default(_that.cachedTokens);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'cached_tokens', includeIfNull: false)  int? cachedTokens)  $default,) {final _that = this;
+switch (_that) {
+case _BatchUsageInputTokensDetails():
+return $default(_that.cachedTokens);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'cached_tokens', includeIfNull: false)  int? cachedTokens)?  $default,) {final _that = this;
+switch (_that) {
+case _BatchUsageInputTokensDetails() when $default != null:
+return $default(_that.cachedTokens);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _BatchUsageInputTokensDetails extends BatchUsageInputTokensDetails {
+  const _BatchUsageInputTokensDetails({@JsonKey(name: 'cached_tokens', includeIfNull: false) this.cachedTokens}): super._();
+  factory _BatchUsageInputTokensDetails.fromJson(Map<String, dynamic> json) => _$BatchUsageInputTokensDetailsFromJson(json);
+
+/// The number of cached tokens used.
+@override@JsonKey(name: 'cached_tokens', includeIfNull: false) final  int? cachedTokens;
+
+/// Create a copy of BatchUsageInputTokensDetails
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$BatchUsageInputTokensDetailsCopyWith<_BatchUsageInputTokensDetails> get copyWith => __$BatchUsageInputTokensDetailsCopyWithImpl<_BatchUsageInputTokensDetails>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$BatchUsageInputTokensDetailsToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BatchUsageInputTokensDetails&&(identical(other.cachedTokens, cachedTokens) || other.cachedTokens == cachedTokens));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,cachedTokens);
+
+@override
+String toString() {
+  return 'BatchUsageInputTokensDetails(cachedTokens: $cachedTokens)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$BatchUsageInputTokensDetailsCopyWith<$Res> implements $BatchUsageInputTokensDetailsCopyWith<$Res> {
+  factory _$BatchUsageInputTokensDetailsCopyWith(_BatchUsageInputTokensDetails value, $Res Function(_BatchUsageInputTokensDetails) _then) = __$BatchUsageInputTokensDetailsCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(name: 'cached_tokens', includeIfNull: false) int? cachedTokens
+});
+
+
+
+
+}
+/// @nodoc
+class __$BatchUsageInputTokensDetailsCopyWithImpl<$Res>
+    implements _$BatchUsageInputTokensDetailsCopyWith<$Res> {
+  __$BatchUsageInputTokensDetailsCopyWithImpl(this._self, this._then);
+
+  final _BatchUsageInputTokensDetails _self;
+  final $Res Function(_BatchUsageInputTokensDetails) _then;
+
+/// Create a copy of BatchUsageInputTokensDetails
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? cachedTokens = freezed,}) {
+  return _then(_BatchUsageInputTokensDetails(
+cachedTokens: freezed == cachedTokens ? _self.cachedTokens : cachedTokens // ignore: cast_nullable_to_non_nullable
+as int?,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$BatchUsageOutputTokensDetails {
+
+/// The number of reasoning tokens used.
+@JsonKey(name: 'reasoning_tokens', includeIfNull: false) int? get reasoningTokens;
+/// Create a copy of BatchUsageOutputTokensDetails
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$BatchUsageOutputTokensDetailsCopyWith<BatchUsageOutputTokensDetails> get copyWith => _$BatchUsageOutputTokensDetailsCopyWithImpl<BatchUsageOutputTokensDetails>(this as BatchUsageOutputTokensDetails, _$identity);
+
+  /// Serializes this BatchUsageOutputTokensDetails to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BatchUsageOutputTokensDetails&&(identical(other.reasoningTokens, reasoningTokens) || other.reasoningTokens == reasoningTokens));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,reasoningTokens);
+
+@override
+String toString() {
+  return 'BatchUsageOutputTokensDetails(reasoningTokens: $reasoningTokens)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $BatchUsageOutputTokensDetailsCopyWith<$Res>  {
+  factory $BatchUsageOutputTokensDetailsCopyWith(BatchUsageOutputTokensDetails value, $Res Function(BatchUsageOutputTokensDetails) _then) = _$BatchUsageOutputTokensDetailsCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(name: 'reasoning_tokens', includeIfNull: false) int? reasoningTokens
+});
+
+
+
+
+}
+/// @nodoc
+class _$BatchUsageOutputTokensDetailsCopyWithImpl<$Res>
+    implements $BatchUsageOutputTokensDetailsCopyWith<$Res> {
+  _$BatchUsageOutputTokensDetailsCopyWithImpl(this._self, this._then);
+
+  final BatchUsageOutputTokensDetails _self;
+  final $Res Function(BatchUsageOutputTokensDetails) _then;
+
+/// Create a copy of BatchUsageOutputTokensDetails
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? reasoningTokens = freezed,}) {
+  return _then(_self.copyWith(
+reasoningTokens: freezed == reasoningTokens ? _self.reasoningTokens : reasoningTokens // ignore: cast_nullable_to_non_nullable
+as int?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [BatchUsageOutputTokensDetails].
+extension BatchUsageOutputTokensDetailsPatterns on BatchUsageOutputTokensDetails {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _BatchUsageOutputTokensDetails value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _BatchUsageOutputTokensDetails() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _BatchUsageOutputTokensDetails value)  $default,){
+final _that = this;
+switch (_that) {
+case _BatchUsageOutputTokensDetails():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _BatchUsageOutputTokensDetails value)?  $default,){
+final _that = this;
+switch (_that) {
+case _BatchUsageOutputTokensDetails() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'reasoning_tokens', includeIfNull: false)  int? reasoningTokens)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _BatchUsageOutputTokensDetails() when $default != null:
+return $default(_that.reasoningTokens);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'reasoning_tokens', includeIfNull: false)  int? reasoningTokens)  $default,) {final _that = this;
+switch (_that) {
+case _BatchUsageOutputTokensDetails():
+return $default(_that.reasoningTokens);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'reasoning_tokens', includeIfNull: false)  int? reasoningTokens)?  $default,) {final _that = this;
+switch (_that) {
+case _BatchUsageOutputTokensDetails() when $default != null:
+return $default(_that.reasoningTokens);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _BatchUsageOutputTokensDetails extends BatchUsageOutputTokensDetails {
+  const _BatchUsageOutputTokensDetails({@JsonKey(name: 'reasoning_tokens', includeIfNull: false) this.reasoningTokens}): super._();
+  factory _BatchUsageOutputTokensDetails.fromJson(Map<String, dynamic> json) => _$BatchUsageOutputTokensDetailsFromJson(json);
+
+/// The number of reasoning tokens used.
+@override@JsonKey(name: 'reasoning_tokens', includeIfNull: false) final  int? reasoningTokens;
+
+/// Create a copy of BatchUsageOutputTokensDetails
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$BatchUsageOutputTokensDetailsCopyWith<_BatchUsageOutputTokensDetails> get copyWith => __$BatchUsageOutputTokensDetailsCopyWithImpl<_BatchUsageOutputTokensDetails>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$BatchUsageOutputTokensDetailsToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BatchUsageOutputTokensDetails&&(identical(other.reasoningTokens, reasoningTokens) || other.reasoningTokens == reasoningTokens));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,reasoningTokens);
+
+@override
+String toString() {
+  return 'BatchUsageOutputTokensDetails(reasoningTokens: $reasoningTokens)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$BatchUsageOutputTokensDetailsCopyWith<$Res> implements $BatchUsageOutputTokensDetailsCopyWith<$Res> {
+  factory _$BatchUsageOutputTokensDetailsCopyWith(_BatchUsageOutputTokensDetails value, $Res Function(_BatchUsageOutputTokensDetails) _then) = __$BatchUsageOutputTokensDetailsCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(name: 'reasoning_tokens', includeIfNull: false) int? reasoningTokens
+});
+
+
+
+
+}
+/// @nodoc
+class __$BatchUsageOutputTokensDetailsCopyWithImpl<$Res>
+    implements _$BatchUsageOutputTokensDetailsCopyWith<$Res> {
+  __$BatchUsageOutputTokensDetailsCopyWithImpl(this._self, this._then);
+
+  final _BatchUsageOutputTokensDetails _self;
+  final $Res Function(_BatchUsageOutputTokensDetails) _then;
+
+/// Create a copy of BatchUsageOutputTokensDetails
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? reasoningTokens = freezed,}) {
+  return _then(_BatchUsageOutputTokensDetails(
+reasoningTokens: freezed == reasoningTokens ? _self.reasoningTokens : reasoningTokens // ignore: cast_nullable_to_non_nullable
+as int?,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$BatchRequestInput {
+
+/// A developer-provided per-request id that will be used to match outputs to inputs. Must be unique for each request in a batch.
+@JsonKey(name: 'custom_id', includeIfNull: false) String? get customId;/// The HTTP method to be used for the request. Currently only `POST` is supported.
+@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) BatchRequestInputMethod? get method;/// The OpenAI API relative URL to be used for the request. Currently `/v1/chat/completions`, `/v1/embeddings`, and `/v1/completions` are supported.
+@JsonKey(includeIfNull: false) String? get url;
+/// Create a copy of BatchRequestInput
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$BatchRequestInputCopyWith<BatchRequestInput> get copyWith => _$BatchRequestInputCopyWithImpl<BatchRequestInput>(this as BatchRequestInput, _$identity);
+
+  /// Serializes this BatchRequestInput to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BatchRequestInput&&(identical(other.customId, customId) || other.customId == customId)&&(identical(other.method, method) || other.method == method)&&(identical(other.url, url) || other.url == url));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,customId,method,url);
+
+@override
+String toString() {
+  return 'BatchRequestInput(customId: $customId, method: $method, url: $url)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $BatchRequestInputCopyWith<$Res>  {
+  factory $BatchRequestInputCopyWith(BatchRequestInput value, $Res Function(BatchRequestInput) _then) = _$BatchRequestInputCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(name: 'custom_id', includeIfNull: false) String? customId,@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) BatchRequestInputMethod? method,@JsonKey(includeIfNull: false) String? url
+});
+
+
+
+
+}
+/// @nodoc
+class _$BatchRequestInputCopyWithImpl<$Res>
+    implements $BatchRequestInputCopyWith<$Res> {
+  _$BatchRequestInputCopyWithImpl(this._self, this._then);
+
+  final BatchRequestInput _self;
+  final $Res Function(BatchRequestInput) _then;
+
+/// Create a copy of BatchRequestInput
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? customId = freezed,Object? method = freezed,Object? url = freezed,}) {
+  return _then(_self.copyWith(
+customId: freezed == customId ? _self.customId : customId // ignore: cast_nullable_to_non_nullable
+as String?,method: freezed == method ? _self.method : method // ignore: cast_nullable_to_non_nullable
+as BatchRequestInputMethod?,url: freezed == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [BatchRequestInput].
+extension BatchRequestInputPatterns on BatchRequestInput {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _BatchRequestInput value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _BatchRequestInput() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _BatchRequestInput value)  $default,){
+final _that = this;
+switch (_that) {
+case _BatchRequestInput():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _BatchRequestInput value)?  $default,){
+final _that = this;
+switch (_that) {
+case _BatchRequestInput() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'custom_id', includeIfNull: false)  String? customId, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  BatchRequestInputMethod? method, @JsonKey(includeIfNull: false)  String? url)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _BatchRequestInput() when $default != null:
+return $default(_that.customId,_that.method,_that.url);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'custom_id', includeIfNull: false)  String? customId, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  BatchRequestInputMethod? method, @JsonKey(includeIfNull: false)  String? url)  $default,) {final _that = this;
+switch (_that) {
+case _BatchRequestInput():
+return $default(_that.customId,_that.method,_that.url);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'custom_id', includeIfNull: false)  String? customId, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  BatchRequestInputMethod? method, @JsonKey(includeIfNull: false)  String? url)?  $default,) {final _that = this;
+switch (_that) {
+case _BatchRequestInput() when $default != null:
+return $default(_that.customId,_that.method,_that.url);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _BatchRequestInput extends BatchRequestInput {
+  const _BatchRequestInput({@JsonKey(name: 'custom_id', includeIfNull: false) this.customId, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.method, @JsonKey(includeIfNull: false) this.url}): super._();
+  factory _BatchRequestInput.fromJson(Map<String, dynamic> json) => _$BatchRequestInputFromJson(json);
+
+/// A developer-provided per-request id that will be used to match outputs to inputs. Must be unique for each request in a batch.
+@override@JsonKey(name: 'custom_id', includeIfNull: false) final  String? customId;
+/// The HTTP method to be used for the request. Currently only `POST` is supported.
+@override@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) final  BatchRequestInputMethod? method;
+/// The OpenAI API relative URL to be used for the request. Currently `/v1/chat/completions`, `/v1/embeddings`, and `/v1/completions` are supported.
+@override@JsonKey(includeIfNull: false) final  String? url;
+
+/// Create a copy of BatchRequestInput
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$BatchRequestInputCopyWith<_BatchRequestInput> get copyWith => __$BatchRequestInputCopyWithImpl<_BatchRequestInput>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$BatchRequestInputToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BatchRequestInput&&(identical(other.customId, customId) || other.customId == customId)&&(identical(other.method, method) || other.method == method)&&(identical(other.url, url) || other.url == url));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,customId,method,url);
+
+@override
+String toString() {
+  return 'BatchRequestInput(customId: $customId, method: $method, url: $url)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$BatchRequestInputCopyWith<$Res> implements $BatchRequestInputCopyWith<$Res> {
+  factory _$BatchRequestInputCopyWith(_BatchRequestInput value, $Res Function(_BatchRequestInput) _then) = __$BatchRequestInputCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(name: 'custom_id', includeIfNull: false) String? customId,@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) BatchRequestInputMethod? method,@JsonKey(includeIfNull: false) String? url
+});
+
+
+
+
+}
+/// @nodoc
+class __$BatchRequestInputCopyWithImpl<$Res>
+    implements _$BatchRequestInputCopyWith<$Res> {
+  __$BatchRequestInputCopyWithImpl(this._self, this._then);
+
+  final _BatchRequestInput _self;
+  final $Res Function(_BatchRequestInput) _then;
+
+/// Create a copy of BatchRequestInput
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? customId = freezed,Object? method = freezed,Object? url = freezed,}) {
+  return _then(_BatchRequestInput(
+customId: freezed == customId ? _self.customId : customId // ignore: cast_nullable_to_non_nullable
+as String?,method: freezed == method ? _self.method : method // ignore: cast_nullable_to_non_nullable
+as BatchRequestInputMethod?,url: freezed == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$BatchRequestOutput {
+
+/// The ID of the request.
+@JsonKey(includeIfNull: false) String? get id;/// A developer-provided per-request id that will be used to match outputs to inputs.
+@JsonKey(name: 'custom_id', includeIfNull: false) String? get customId;/// The response object for the request.
+@JsonKey(includeIfNull: false) BatchRequestOutputResponse? get response;/// For requests that failed with a non-HTTP error, this will contain more information on the cause of the failure.
+@JsonKey(includeIfNull: false) BatchRequestOutputError? get error;
+/// Create a copy of BatchRequestOutput
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$BatchRequestOutputCopyWith<BatchRequestOutput> get copyWith => _$BatchRequestOutputCopyWithImpl<BatchRequestOutput>(this as BatchRequestOutput, _$identity);
+
+  /// Serializes this BatchRequestOutput to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BatchRequestOutput&&(identical(other.id, id) || other.id == id)&&(identical(other.customId, customId) || other.customId == customId)&&(identical(other.response, response) || other.response == response)&&(identical(other.error, error) || other.error == error));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,customId,response,error);
+
+@override
+String toString() {
+  return 'BatchRequestOutput(id: $id, customId: $customId, response: $response, error: $error)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $BatchRequestOutputCopyWith<$Res>  {
+  factory $BatchRequestOutputCopyWith(BatchRequestOutput value, $Res Function(BatchRequestOutput) _then) = _$BatchRequestOutputCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(includeIfNull: false) String? id,@JsonKey(name: 'custom_id', includeIfNull: false) String? customId,@JsonKey(includeIfNull: false) BatchRequestOutputResponse? response,@JsonKey(includeIfNull: false) BatchRequestOutputError? error
+});
+
+
+$BatchRequestOutputResponseCopyWith<$Res>? get response;$BatchRequestOutputErrorCopyWith<$Res>? get error;
+
+}
+/// @nodoc
+class _$BatchRequestOutputCopyWithImpl<$Res>
+    implements $BatchRequestOutputCopyWith<$Res> {
+  _$BatchRequestOutputCopyWithImpl(this._self, this._then);
+
+  final BatchRequestOutput _self;
+  final $Res Function(BatchRequestOutput) _then;
+
+/// Create a copy of BatchRequestOutput
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? customId = freezed,Object? response = freezed,Object? error = freezed,}) {
+  return _then(_self.copyWith(
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String?,customId: freezed == customId ? _self.customId : customId // ignore: cast_nullable_to_non_nullable
+as String?,response: freezed == response ? _self.response : response // ignore: cast_nullable_to_non_nullable
+as BatchRequestOutputResponse?,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
+as BatchRequestOutputError?,
+  ));
+}
+/// Create a copy of BatchRequestOutput
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$BatchRequestOutputResponseCopyWith<$Res>? get response {
+    if (_self.response == null) {
+    return null;
+  }
+
+  return $BatchRequestOutputResponseCopyWith<$Res>(_self.response!, (value) {
+    return _then(_self.copyWith(response: value));
+  });
+}/// Create a copy of BatchRequestOutput
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$BatchRequestOutputErrorCopyWith<$Res>? get error {
+    if (_self.error == null) {
+    return null;
+  }
+
+  return $BatchRequestOutputErrorCopyWith<$Res>(_self.error!, (value) {
+    return _then(_self.copyWith(error: value));
+  });
+}
+}
+
+
+/// Adds pattern-matching-related methods to [BatchRequestOutput].
+extension BatchRequestOutputPatterns on BatchRequestOutput {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _BatchRequestOutput value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _BatchRequestOutput() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _BatchRequestOutput value)  $default,){
+final _that = this;
+switch (_that) {
+case _BatchRequestOutput():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _BatchRequestOutput value)?  $default,){
+final _that = this;
+switch (_that) {
+case _BatchRequestOutput() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false)  String? id, @JsonKey(name: 'custom_id', includeIfNull: false)  String? customId, @JsonKey(includeIfNull: false)  BatchRequestOutputResponse? response, @JsonKey(includeIfNull: false)  BatchRequestOutputError? error)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _BatchRequestOutput() when $default != null:
+return $default(_that.id,_that.customId,_that.response,_that.error);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false)  String? id, @JsonKey(name: 'custom_id', includeIfNull: false)  String? customId, @JsonKey(includeIfNull: false)  BatchRequestOutputResponse? response, @JsonKey(includeIfNull: false)  BatchRequestOutputError? error)  $default,) {final _that = this;
+switch (_that) {
+case _BatchRequestOutput():
+return $default(_that.id,_that.customId,_that.response,_that.error);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(includeIfNull: false)  String? id, @JsonKey(name: 'custom_id', includeIfNull: false)  String? customId, @JsonKey(includeIfNull: false)  BatchRequestOutputResponse? response, @JsonKey(includeIfNull: false)  BatchRequestOutputError? error)?  $default,) {final _that = this;
+switch (_that) {
+case _BatchRequestOutput() when $default != null:
+return $default(_that.id,_that.customId,_that.response,_that.error);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _BatchRequestOutput extends BatchRequestOutput {
+  const _BatchRequestOutput({@JsonKey(includeIfNull: false) this.id, @JsonKey(name: 'custom_id', includeIfNull: false) this.customId, @JsonKey(includeIfNull: false) this.response, @JsonKey(includeIfNull: false) this.error}): super._();
+  factory _BatchRequestOutput.fromJson(Map<String, dynamic> json) => _$BatchRequestOutputFromJson(json);
+
+/// The ID of the request.
+@override@JsonKey(includeIfNull: false) final  String? id;
+/// A developer-provided per-request id that will be used to match outputs to inputs.
+@override@JsonKey(name: 'custom_id', includeIfNull: false) final  String? customId;
+/// The response object for the request.
+@override@JsonKey(includeIfNull: false) final  BatchRequestOutputResponse? response;
+/// For requests that failed with a non-HTTP error, this will contain more information on the cause of the failure.
+@override@JsonKey(includeIfNull: false) final  BatchRequestOutputError? error;
+
+/// Create a copy of BatchRequestOutput
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$BatchRequestOutputCopyWith<_BatchRequestOutput> get copyWith => __$BatchRequestOutputCopyWithImpl<_BatchRequestOutput>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$BatchRequestOutputToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BatchRequestOutput&&(identical(other.id, id) || other.id == id)&&(identical(other.customId, customId) || other.customId == customId)&&(identical(other.response, response) || other.response == response)&&(identical(other.error, error) || other.error == error));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,customId,response,error);
+
+@override
+String toString() {
+  return 'BatchRequestOutput(id: $id, customId: $customId, response: $response, error: $error)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$BatchRequestOutputCopyWith<$Res> implements $BatchRequestOutputCopyWith<$Res> {
+  factory _$BatchRequestOutputCopyWith(_BatchRequestOutput value, $Res Function(_BatchRequestOutput) _then) = __$BatchRequestOutputCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(includeIfNull: false) String? id,@JsonKey(name: 'custom_id', includeIfNull: false) String? customId,@JsonKey(includeIfNull: false) BatchRequestOutputResponse? response,@JsonKey(includeIfNull: false) BatchRequestOutputError? error
+});
+
+
+@override $BatchRequestOutputResponseCopyWith<$Res>? get response;@override $BatchRequestOutputErrorCopyWith<$Res>? get error;
+
+}
+/// @nodoc
+class __$BatchRequestOutputCopyWithImpl<$Res>
+    implements _$BatchRequestOutputCopyWith<$Res> {
+  __$BatchRequestOutputCopyWithImpl(this._self, this._then);
+
+  final _BatchRequestOutput _self;
+  final $Res Function(_BatchRequestOutput) _then;
+
+/// Create a copy of BatchRequestOutput
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? customId = freezed,Object? response = freezed,Object? error = freezed,}) {
+  return _then(_BatchRequestOutput(
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String?,customId: freezed == customId ? _self.customId : customId // ignore: cast_nullable_to_non_nullable
+as String?,response: freezed == response ? _self.response : response // ignore: cast_nullable_to_non_nullable
+as BatchRequestOutputResponse?,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
+as BatchRequestOutputError?,
+  ));
+}
+
+/// Create a copy of BatchRequestOutput
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$BatchRequestOutputResponseCopyWith<$Res>? get response {
+    if (_self.response == null) {
+    return null;
+  }
+
+  return $BatchRequestOutputResponseCopyWith<$Res>(_self.response!, (value) {
+    return _then(_self.copyWith(response: value));
+  });
+}/// Create a copy of BatchRequestOutput
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$BatchRequestOutputErrorCopyWith<$Res>? get error {
+    if (_self.error == null) {
+    return null;
+  }
+
+  return $BatchRequestOutputErrorCopyWith<$Res>(_self.error!, (value) {
+    return _then(_self.copyWith(error: value));
+  });
+}
+}
+
+
+/// @nodoc
+mixin _$BatchRequestOutputResponse {
+
+/// The HTTP status code of the response
+@JsonKey(name: 'status_code', includeIfNull: false) int? get statusCode;/// An unique identifier for the OpenAI API request. Please include this request ID when contacting support.
+@JsonKey(name: 'request_id', includeIfNull: false) String? get requestId;/// The JSON body of the response
+@JsonKey(includeIfNull: false) dynamic get body;
+/// Create a copy of BatchRequestOutputResponse
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$BatchRequestOutputResponseCopyWith<BatchRequestOutputResponse> get copyWith => _$BatchRequestOutputResponseCopyWithImpl<BatchRequestOutputResponse>(this as BatchRequestOutputResponse, _$identity);
+
+  /// Serializes this BatchRequestOutputResponse to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BatchRequestOutputResponse&&(identical(other.statusCode, statusCode) || other.statusCode == statusCode)&&(identical(other.requestId, requestId) || other.requestId == requestId)&&const DeepCollectionEquality().equals(other.body, body));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,statusCode,requestId,const DeepCollectionEquality().hash(body));
+
+@override
+String toString() {
+  return 'BatchRequestOutputResponse(statusCode: $statusCode, requestId: $requestId, body: $body)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $BatchRequestOutputResponseCopyWith<$Res>  {
+  factory $BatchRequestOutputResponseCopyWith(BatchRequestOutputResponse value, $Res Function(BatchRequestOutputResponse) _then) = _$BatchRequestOutputResponseCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(name: 'status_code', includeIfNull: false) int? statusCode,@JsonKey(name: 'request_id', includeIfNull: false) String? requestId,@JsonKey(includeIfNull: false) dynamic body
+});
+
+
+
+
+}
+/// @nodoc
+class _$BatchRequestOutputResponseCopyWithImpl<$Res>
+    implements $BatchRequestOutputResponseCopyWith<$Res> {
+  _$BatchRequestOutputResponseCopyWithImpl(this._self, this._then);
+
+  final BatchRequestOutputResponse _self;
+  final $Res Function(BatchRequestOutputResponse) _then;
+
+/// Create a copy of BatchRequestOutputResponse
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? statusCode = freezed,Object? requestId = freezed,Object? body = freezed,}) {
+  return _then(_self.copyWith(
+statusCode: freezed == statusCode ? _self.statusCode : statusCode // ignore: cast_nullable_to_non_nullable
+as int?,requestId: freezed == requestId ? _self.requestId : requestId // ignore: cast_nullable_to_non_nullable
+as String?,body: freezed == body ? _self.body : body // ignore: cast_nullable_to_non_nullable
+as dynamic,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [BatchRequestOutputResponse].
+extension BatchRequestOutputResponsePatterns on BatchRequestOutputResponse {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _BatchRequestOutputResponse value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _BatchRequestOutputResponse() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _BatchRequestOutputResponse value)  $default,){
+final _that = this;
+switch (_that) {
+case _BatchRequestOutputResponse():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _BatchRequestOutputResponse value)?  $default,){
+final _that = this;
+switch (_that) {
+case _BatchRequestOutputResponse() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'status_code', includeIfNull: false)  int? statusCode, @JsonKey(name: 'request_id', includeIfNull: false)  String? requestId, @JsonKey(includeIfNull: false)  dynamic body)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _BatchRequestOutputResponse() when $default != null:
+return $default(_that.statusCode,_that.requestId,_that.body);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'status_code', includeIfNull: false)  int? statusCode, @JsonKey(name: 'request_id', includeIfNull: false)  String? requestId, @JsonKey(includeIfNull: false)  dynamic body)  $default,) {final _that = this;
+switch (_that) {
+case _BatchRequestOutputResponse():
+return $default(_that.statusCode,_that.requestId,_that.body);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'status_code', includeIfNull: false)  int? statusCode, @JsonKey(name: 'request_id', includeIfNull: false)  String? requestId, @JsonKey(includeIfNull: false)  dynamic body)?  $default,) {final _that = this;
+switch (_that) {
+case _BatchRequestOutputResponse() when $default != null:
+return $default(_that.statusCode,_that.requestId,_that.body);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _BatchRequestOutputResponse extends BatchRequestOutputResponse {
+  const _BatchRequestOutputResponse({@JsonKey(name: 'status_code', includeIfNull: false) this.statusCode, @JsonKey(name: 'request_id', includeIfNull: false) this.requestId, @JsonKey(includeIfNull: false) this.body}): super._();
+  factory _BatchRequestOutputResponse.fromJson(Map<String, dynamic> json) => _$BatchRequestOutputResponseFromJson(json);
+
+/// The HTTP status code of the response
+@override@JsonKey(name: 'status_code', includeIfNull: false) final  int? statusCode;
+/// An unique identifier for the OpenAI API request. Please include this request ID when contacting support.
+@override@JsonKey(name: 'request_id', includeIfNull: false) final  String? requestId;
+/// The JSON body of the response
+@override@JsonKey(includeIfNull: false) final  dynamic body;
+
+/// Create a copy of BatchRequestOutputResponse
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$BatchRequestOutputResponseCopyWith<_BatchRequestOutputResponse> get copyWith => __$BatchRequestOutputResponseCopyWithImpl<_BatchRequestOutputResponse>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$BatchRequestOutputResponseToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BatchRequestOutputResponse&&(identical(other.statusCode, statusCode) || other.statusCode == statusCode)&&(identical(other.requestId, requestId) || other.requestId == requestId)&&const DeepCollectionEquality().equals(other.body, body));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,statusCode,requestId,const DeepCollectionEquality().hash(body));
+
+@override
+String toString() {
+  return 'BatchRequestOutputResponse(statusCode: $statusCode, requestId: $requestId, body: $body)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$BatchRequestOutputResponseCopyWith<$Res> implements $BatchRequestOutputResponseCopyWith<$Res> {
+  factory _$BatchRequestOutputResponseCopyWith(_BatchRequestOutputResponse value, $Res Function(_BatchRequestOutputResponse) _then) = __$BatchRequestOutputResponseCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(name: 'status_code', includeIfNull: false) int? statusCode,@JsonKey(name: 'request_id', includeIfNull: false) String? requestId,@JsonKey(includeIfNull: false) dynamic body
+});
+
+
+
+
+}
+/// @nodoc
+class __$BatchRequestOutputResponseCopyWithImpl<$Res>
+    implements _$BatchRequestOutputResponseCopyWith<$Res> {
+  __$BatchRequestOutputResponseCopyWithImpl(this._self, this._then);
+
+  final _BatchRequestOutputResponse _self;
+  final $Res Function(_BatchRequestOutputResponse) _then;
+
+/// Create a copy of BatchRequestOutputResponse
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? statusCode = freezed,Object? requestId = freezed,Object? body = freezed,}) {
+  return _then(_BatchRequestOutputResponse(
+statusCode: freezed == statusCode ? _self.statusCode : statusCode // ignore: cast_nullable_to_non_nullable
+as int?,requestId: freezed == requestId ? _self.requestId : requestId // ignore: cast_nullable_to_non_nullable
+as String?,body: freezed == body ? _self.body : body // ignore: cast_nullable_to_non_nullable
+as dynamic,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$BatchRequestOutputError {
+
+/// A machine-readable error code.
+@JsonKey(includeIfNull: false) String? get code;/// A human-readable error message.
+@JsonKey(includeIfNull: false) String? get message;
+/// Create a copy of BatchRequestOutputError
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$BatchRequestOutputErrorCopyWith<BatchRequestOutputError> get copyWith => _$BatchRequestOutputErrorCopyWithImpl<BatchRequestOutputError>(this as BatchRequestOutputError, _$identity);
+
+  /// Serializes this BatchRequestOutputError to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BatchRequestOutputError&&(identical(other.code, code) || other.code == code)&&(identical(other.message, message) || other.message == message));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,code,message);
+
+@override
+String toString() {
+  return 'BatchRequestOutputError(code: $code, message: $message)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $BatchRequestOutputErrorCopyWith<$Res>  {
+  factory $BatchRequestOutputErrorCopyWith(BatchRequestOutputError value, $Res Function(BatchRequestOutputError) _then) = _$BatchRequestOutputErrorCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(includeIfNull: false) String? code,@JsonKey(includeIfNull: false) String? message
+});
+
+
+
+
+}
+/// @nodoc
+class _$BatchRequestOutputErrorCopyWithImpl<$Res>
+    implements $BatchRequestOutputErrorCopyWith<$Res> {
+  _$BatchRequestOutputErrorCopyWithImpl(this._self, this._then);
+
+  final BatchRequestOutputError _self;
+  final $Res Function(BatchRequestOutputError) _then;
+
+/// Create a copy of BatchRequestOutputError
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? code = freezed,Object? message = freezed,}) {
+  return _then(_self.copyWith(
+code: freezed == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
+as String?,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [BatchRequestOutputError].
+extension BatchRequestOutputErrorPatterns on BatchRequestOutputError {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _BatchRequestOutputError value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _BatchRequestOutputError() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _BatchRequestOutputError value)  $default,){
+final _that = this;
+switch (_that) {
+case _BatchRequestOutputError():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _BatchRequestOutputError value)?  $default,){
+final _that = this;
+switch (_that) {
+case _BatchRequestOutputError() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false)  String? code, @JsonKey(includeIfNull: false)  String? message)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _BatchRequestOutputError() when $default != null:
+return $default(_that.code,_that.message);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false)  String? code, @JsonKey(includeIfNull: false)  String? message)  $default,) {final _that = this;
+switch (_that) {
+case _BatchRequestOutputError():
+return $default(_that.code,_that.message);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(includeIfNull: false)  String? code, @JsonKey(includeIfNull: false)  String? message)?  $default,) {final _that = this;
+switch (_that) {
+case _BatchRequestOutputError() when $default != null:
+return $default(_that.code,_that.message);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _BatchRequestOutputError extends BatchRequestOutputError {
+  const _BatchRequestOutputError({@JsonKey(includeIfNull: false) this.code, @JsonKey(includeIfNull: false) this.message}): super._();
+  factory _BatchRequestOutputError.fromJson(Map<String, dynamic> json) => _$BatchRequestOutputErrorFromJson(json);
+
+/// A machine-readable error code.
+@override@JsonKey(includeIfNull: false) final  String? code;
+/// A human-readable error message.
+@override@JsonKey(includeIfNull: false) final  String? message;
+
+/// Create a copy of BatchRequestOutputError
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$BatchRequestOutputErrorCopyWith<_BatchRequestOutputError> get copyWith => __$BatchRequestOutputErrorCopyWithImpl<_BatchRequestOutputError>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$BatchRequestOutputErrorToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BatchRequestOutputError&&(identical(other.code, code) || other.code == code)&&(identical(other.message, message) || other.message == message));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,code,message);
+
+@override
+String toString() {
+  return 'BatchRequestOutputError(code: $code, message: $message)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$BatchRequestOutputErrorCopyWith<$Res> implements $BatchRequestOutputErrorCopyWith<$Res> {
+  factory _$BatchRequestOutputErrorCopyWith(_BatchRequestOutputError value, $Res Function(_BatchRequestOutputError) _then) = __$BatchRequestOutputErrorCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(includeIfNull: false) String? code,@JsonKey(includeIfNull: false) String? message
+});
+
+
+
+
+}
+/// @nodoc
+class __$BatchRequestOutputErrorCopyWithImpl<$Res>
+    implements _$BatchRequestOutputErrorCopyWith<$Res> {
+  __$BatchRequestOutputErrorCopyWithImpl(this._self, this._then);
+
+  final _BatchRequestOutputError _self;
+  final $Res Function(_BatchRequestOutputError) _then;
+
+/// Create a copy of BatchRequestOutputError
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? code = freezed,Object? message = freezed,}) {
+  return _then(_BatchRequestOutputError(
+code: freezed == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
+as String?,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
