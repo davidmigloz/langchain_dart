@@ -55,6 +55,7 @@ part 'chat_completion_stream_message_function_call.dart';
 part 'chat_completion_stream_message_tool_call_chunk.dart';
 part 'chat_completion_list.dart';
 part 'completion_usage.dart';
+part 'prompt_tokens_details.dart';
 part 'completion_tokens_details.dart';
 part 'create_embedding_request.dart';
 part 'create_embedding_response.dart';

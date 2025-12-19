@@ -1380,6 +1380,11 @@ _CompletionUsage _$CompletionUsageFromJson(Map<String, dynamic> json) =>
           : CompletionTokensDetails.fromJson(
               json['completion_tokens_details'] as Map<String, dynamic>,
             ),
+      promptTokensDetails: json['prompt_tokens_details'] == null
+          ? null
+          : PromptTokensDetails.fromJson(
+              json['prompt_tokens_details'] as Map<String, dynamic>,
+            ),
     );
 
 Map<String, dynamic> _$CompletionUsageToJson(_CompletionUsage instance) =>
@@ -1388,7 +1393,21 @@ Map<String, dynamic> _$CompletionUsageToJson(_CompletionUsage instance) =>
       'prompt_tokens': ?instance.promptTokens,
       'total_tokens': ?instance.totalTokens,
       'completion_tokens_details': ?instance.completionTokensDetails?.toJson(),
+      'prompt_tokens_details': ?instance.promptTokensDetails?.toJson(),
     };
+
+_PromptTokensDetails _$PromptTokensDetailsFromJson(Map<String, dynamic> json) =>
+    _PromptTokensDetails(
+      cachedTokens: (json['cached_tokens'] as num?)?.toInt(),
+      audioTokens: (json['audio_tokens'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$PromptTokensDetailsToJson(
+  _PromptTokensDetails instance,
+) => <String, dynamic>{
+  'cached_tokens': ?instance.cachedTokens,
+  'audio_tokens': ?instance.audioTokens,
+};
 
 _CompletionTokensDetails _$CompletionTokensDetailsFromJson(
   Map<String, dynamic> json,

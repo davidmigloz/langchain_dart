@@ -3631,6 +3631,19 @@ components:
           description: Total number of tokens used in the request (prompt + completion).
         completion_tokens_details:
           $ref: "#/components/schemas/CompletionTokensDetails"
+        prompt_tokens_details:
+          $ref: "#/components/schemas/PromptTokensDetails"
+    PromptTokensDetails:
+      type: object
+      nullable: true
+      description: Breakdown of tokens used in the prompt.
+      properties:
+        cached_tokens:
+          type: integer
+          description: Cached tokens present in the prompt.
+        audio_tokens:
+          type: integer
+          description: Audio input tokens present in the prompt.
     CompletionTokensDetails:
       type: object
       description: Breakdown of tokens used in a completion.

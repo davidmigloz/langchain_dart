@@ -28,6 +28,10 @@ abstract class CompletionUsage with _$CompletionUsage {
     /// Breakdown of tokens used in a completion.
     @JsonKey(name: 'completion_tokens_details', includeIfNull: false)
     CompletionTokensDetails? completionTokensDetails,
+
+    /// Breakdown of tokens used in the prompt.
+    @JsonKey(name: 'prompt_tokens_details', includeIfNull: false)
+    PromptTokensDetails? promptTokensDetails,
   }) = _CompletionUsage;
 
   /// Object construction from a JSON representation
@@ -40,6 +44,7 @@ abstract class CompletionUsage with _$CompletionUsage {
     'prompt_tokens',
     'total_tokens',
     'completion_tokens_details',
+    'prompt_tokens_details',
   ];
 
   /// Perform validations on the schema property values
@@ -54,6 +59,7 @@ abstract class CompletionUsage with _$CompletionUsage {
       'prompt_tokens': promptTokens,
       'total_tokens': totalTokens,
       'completion_tokens_details': completionTokensDetails,
+      'prompt_tokens_details': promptTokensDetails,
     };
   }
 }
