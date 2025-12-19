@@ -143,8 +143,10 @@ void main() {
       expect(json['prompt_tokens'], 100);
       expect(json['total_tokens'], 150);
       expect(json['prompt_tokens_details'], isNotNull);
-      expect(json['prompt_tokens_details']['cached_tokens'], 80);
-      expect(json['prompt_tokens_details']['audio_tokens'], 20);
+      final promptDetails =
+          json['prompt_tokens_details'] as Map<String, dynamic>;
+      expect(promptDetails['cached_tokens'], 80);
+      expect(promptDetails['audio_tokens'], 20);
     });
   });
 }

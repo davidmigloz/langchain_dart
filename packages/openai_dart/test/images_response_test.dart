@@ -46,7 +46,7 @@ void main() {
     });
 
     test('deserializes with opaque background', () {
-      final json = {'created': 1700000000, 'data': [], 'background': 'opaque'};
+      final json = {'created': 1700000000, 'data': <Map<String, dynamic>>[], 'background': 'opaque'};
 
       final response = ImagesResponse.fromJson(json);
 
@@ -54,7 +54,7 @@ void main() {
     });
 
     test('deserializes with webp output format', () {
-      final json = {'created': 1700000000, 'data': [], 'output_format': 'webp'};
+      final json = {'created': 1700000000, 'data': <Map<String, dynamic>>[], 'output_format': 'webp'};
 
       final response = ImagesResponse.fromJson(json);
 
@@ -62,7 +62,7 @@ void main() {
     });
 
     test('deserializes with jpeg output format', () {
-      final json = {'created': 1700000000, 'data': [], 'output_format': 'jpeg'};
+      final json = {'created': 1700000000, 'data': <Map<String, dynamic>>[], 'output_format': 'jpeg'};
 
       final response = ImagesResponse.fromJson(json);
 
@@ -70,7 +70,7 @@ void main() {
     });
 
     test('deserializes with 1024x1536 size', () {
-      final json = {'created': 1700000000, 'data': [], 'size': '1024x1536'};
+      final json = {'created': 1700000000, 'data': <Map<String, dynamic>>[], 'size': '1024x1536'};
 
       final response = ImagesResponse.fromJson(json);
 
@@ -78,7 +78,7 @@ void main() {
     });
 
     test('deserializes with 1536x1024 size', () {
-      final json = {'created': 1700000000, 'data': [], 'size': '1536x1024'};
+      final json = {'created': 1700000000, 'data': <Map<String, dynamic>>[], 'size': '1536x1024'};
 
       final response = ImagesResponse.fromJson(json);
 
@@ -86,7 +86,7 @@ void main() {
     });
 
     test('deserializes with low quality', () {
-      final json = {'created': 1700000000, 'data': [], 'quality': 'low'};
+      final json = {'created': 1700000000, 'data': <Map<String, dynamic>>[], 'quality': 'low'};
 
       final response = ImagesResponse.fromJson(json);
 
@@ -94,7 +94,7 @@ void main() {
     });
 
     test('deserializes with medium quality', () {
-      final json = {'created': 1700000000, 'data': [], 'quality': 'medium'};
+      final json = {'created': 1700000000, 'data': <Map<String, dynamic>>[], 'quality': 'medium'};
 
       final response = ImagesResponse.fromJson(json);
 
