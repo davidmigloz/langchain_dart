@@ -103,7 +103,8 @@ void main() {
       expect(json['index'], 0);
       expect(json.containsKey('partial_image'), isFalse);
       expect(json['image'], isNotNull);
-      expect(json['image']['b64_json'], 'base64complete...');
+      final image = json['image'] as Map<String, dynamic>;
+      expect(image['b64_json'], 'base64complete...');
     });
 
     test('deserializes with multiple partial images index', () {

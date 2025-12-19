@@ -81,8 +81,10 @@ void main() {
       expect(json['total_tokens'], 1500);
       expect(json['input_tokens'], 1000);
       expect(json['output_tokens'], 500);
-      expect(json['input_tokens_details']['text_tokens'], 700);
-      expect(json['input_tokens_details']['image_tokens'], 300);
+      final inputDetails =
+          json['input_tokens_details'] as Map<String, dynamic>;
+      expect(inputDetails['text_tokens'], 700);
+      expect(inputDetails['image_tokens'], 300);
     });
   });
 
@@ -143,7 +145,7 @@ void main() {
     });
 
     test('deserializes without usage field (backward compatibility)', () {
-      final json = {'created': 1700000000, 'data': []};
+      final json = {'created': 1700000000, 'data': <Map<String, dynamic>>[]};
 
       final response = ImagesResponse.fromJson(json);
 
@@ -169,9 +171,10 @@ void main() {
       final json = response.toJson();
 
       expect(json['usage'], isNotNull);
-      expect(json['usage']['total_tokens'], 500);
-      expect(json['usage']['input_tokens'], 400);
-      expect(json['usage']['output_tokens'], 100);
+      final usage = json['usage'] as Map<String, dynamic>;
+      expect(usage['total_tokens'], 500);
+      expect(usage['input_tokens'], 400);
+      expect(usage['output_tokens'], 100);
     });
   });
 }
