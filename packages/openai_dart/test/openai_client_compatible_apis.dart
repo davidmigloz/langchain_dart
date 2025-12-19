@@ -252,5 +252,26 @@ void main() {
         expect(hasReasoningDetails, isTrue);
       }
     });
+
+    test('Test chat completion with OpenRouter sampling parameters', () async {
+      // Test that OpenRouter-specific sampling parameters are accepted
+      final response = await client.createChatCompletion(
+        request: const CreateChatCompletionRequest(
+          model: ChatCompletionModel.modelId('google/gemini-3-flash-preview'),
+          messages: [
+            ChatCompletionMessage.user(
+              content: ChatCompletionUserMessageContent.string('Say hello'),
+            ),
+          ],
+          topK: 40,
+          minP: 0.1,
+          topA: 0.0,
+          repetitionPenalty: 1.0,
+        ),
+      );
+      expect(response.choices, isNotEmpty);
+      expect(response.choices.first.message.content, isNotEmpty);
+      // Provider field may or may not be present depending on OpenRouter response
+    });
   });
 }

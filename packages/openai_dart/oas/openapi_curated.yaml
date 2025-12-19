@@ -2223,6 +2223,70 @@ components:
           example: 1
           nullable: true
           description: *completions_top_p_description
+        top_k:
+          type: integer
+          minimum: 0
+          default: null
+          nullable: true
+          description: |
+            Sample from the k most likely next tokens at each step. Lower k focuses on
+            higher probability tokens, while higher k allows more diversity.
+
+            Set to 0 to disable top-k sampling (default behavior).
+
+            **NOT part of the official OpenAI API.** Not available for OpenAI models.
+
+            **Provider:** OpenRouter
+          x-openai-compatible: false
+        min_p:
+          type: number
+          minimum: 0
+          maximum: 1
+          default: null
+          nullable: true
+          description: |
+            Minimum probability threshold for token selection, relative to the probability
+            of the most likely token. Only tokens with probability >= min_p * max_prob
+            are considered.
+
+            Example: min_p=0.1 means only tokens at least 1/10th as probable as the best
+            option are allowed.
+
+            **NOT part of the official OpenAI API.**
+
+            **Provider:** OpenRouter
+          x-openai-compatible: false
+        top_a:
+          type: number
+          minimum: 0
+          maximum: 1
+          default: null
+          nullable: true
+          description: |
+            Consider only tokens with "sufficiently high" probabilities based on the
+            probability of the most likely token. Functions as a dynamic top-p filter.
+
+            **NOT part of the official OpenAI API.**
+
+            **Provider:** OpenRouter
+          x-openai-compatible: false
+        repetition_penalty:
+          type: number
+          minimum: 0
+          maximum: 2
+          default: null
+          nullable: true
+          description: |
+            Reduces repetition of tokens from the input. A value of 1.0 means no penalty.
+            Higher values (up to 2.0) more strongly discourage repetition.
+
+            The penalty scales based on the original token's probability, so common
+            tokens are penalized more than rare ones.
+
+            **NOT part of the official OpenAI API.**
+
+            **Provider:** OpenRouter
+          x-openai-compatible: false
         tools:
           type: array
           description: |
@@ -3249,6 +3313,16 @@ components:
           # enum: [ chat.completion ] # Anyscale API sends `text_completion` instead
         usage:
           $ref: "#/components/schemas/CompletionUsage"
+        provider:
+          type: string
+          nullable: true
+          description: |
+            The name of the provider that processed the request (e.g., "openai", "anthropic").
+
+            **NOT part of the official OpenAI API.**
+
+            **Provider:** OpenRouter
+          x-openai-compatible: false
       required:
         - choices
         - created
@@ -3385,6 +3459,16 @@ components:
           # enum: [ chat.completion.chunk ] # OpenRouter API sends `chat.completion` instead
         usage:
           $ref: "#/components/schemas/CompletionUsage"
+        provider:
+          type: string
+          nullable: true
+          description: |
+            The name of the provider that processed the request (e.g., "openai", "anthropic").
+
+            **NOT part of the official OpenAI API.**
+
+            **Provider:** OpenRouter
+          x-openai-compatible: false
       required:
         # - choices # Made nullable to support Groq API which doesn't return this field all the time
         # - created # Made nullable to support FastChat API which doesn't return this field with some models

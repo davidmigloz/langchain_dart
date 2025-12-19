@@ -319,6 +319,10 @@ _CreateChatCompletionRequest _$CreateChatCompletionRequestFromJson(
         ),
   temperature: (json['temperature'] as num?)?.toDouble(),
   topP: (json['top_p'] as num?)?.toDouble(),
+  topK: (json['top_k'] as num?)?.toInt(),
+  minP: (json['min_p'] as num?)?.toDouble(),
+  topA: (json['top_a'] as num?)?.toDouble(),
+  repetitionPenalty: (json['repetition_penalty'] as num?)?.toDouble(),
   tools: (json['tools'] as List<dynamic>?)
       ?.map((e) => ChatCompletionTool.fromJson(e as Map<String, dynamic>))
       .toList(),
@@ -393,6 +397,10 @@ Map<String, dynamic> _$CreateChatCompletionRequestToJson(
   'stream_options': ?instance.streamOptions?.toJson(),
   'temperature': ?instance.temperature,
   'top_p': ?instance.topP,
+  'top_k': ?instance.topK,
+  'min_p': ?instance.minP,
+  'top_a': ?instance.topA,
+  'repetition_penalty': ?instance.repetitionPenalty,
   'tools': ?instance.tools?.map((e) => e.toJson()).toList(),
   'tool_choice': ?const _ChatCompletionToolChoiceOptionConverter().toJson(
     instance.toolChoice,
@@ -996,6 +1004,7 @@ _CreateChatCompletionResponse _$CreateChatCompletionResponseFromJson(
   usage: json['usage'] == null
       ? null
       : CompletionUsage.fromJson(json['usage'] as Map<String, dynamic>),
+  provider: json['provider'] as String?,
 );
 
 Map<String, dynamic> _$CreateChatCompletionResponseToJson(
@@ -1009,6 +1018,7 @@ Map<String, dynamic> _$CreateChatCompletionResponseToJson(
   'system_fingerprint': ?instance.systemFingerprint,
   'object': instance.object,
   'usage': ?instance.usage?.toJson(),
+  'provider': ?instance.provider,
 };
 
 const _$ServiceTierEnumMap = {
@@ -1141,6 +1151,7 @@ _$CreateChatCompletionStreamResponseFromJson(Map<String, dynamic> json) =>
       usage: json['usage'] == null
           ? null
           : CompletionUsage.fromJson(json['usage'] as Map<String, dynamic>),
+      provider: json['provider'] as String?,
     );
 
 Map<String, dynamic> _$CreateChatCompletionStreamResponseToJson(
@@ -1154,6 +1165,7 @@ Map<String, dynamic> _$CreateChatCompletionStreamResponseToJson(
   'system_fingerprint': ?instance.systemFingerprint,
   'object': ?instance.object,
   'usage': ?instance.usage?.toJson(),
+  'provider': ?instance.provider,
 };
 
 _ChatCompletionStreamResponseChoice
