@@ -1,53 +1,59 @@
-enum ThinkingLevel { thinkingLevelUnspecified, low, high }
+import '../copy_with_sentinel.dart';
+import 'thinking_level.dart';
 
+/// Configuration for thinking features.
 class ThinkingConfig {
+  /// Whether to include thoughts in the response.
   final bool? includeThoughts;
+
+  /// Number of thought tokens the model should generate.
+  /// Use for Gemini 2.5 models. Cannot be used with [thinkingLevel].
   final int? thinkingBudget;
+
+  /// Controls reasoning depth. Use for Gemini 3+ models.
+  /// Cannot be used with [thinkingBudget].
   final ThinkingLevel? thinkingLevel;
 
-  ThinkingConfig({
+  /// Creates a [ThinkingConfig].
+  const ThinkingConfig({
     this.includeThoughts,
     this.thinkingBudget,
     this.thinkingLevel,
   });
 
-  factory ThinkingConfig.fromJson(Map<String, dynamic> json) {
+  /// Creates a [ThinkingConfig] from JSON.
+  factory ThinkingConfig.fromJson(Map<String, dynamic> json) => ThinkingConfig(
+        includeThoughts: json['includeThoughts'] as bool?,
+        thinkingBudget: json['thinkingBudget'] as int?,
+        thinkingLevel: json['thinkingLevel'] != null
+            ? thinkingLevelFromString(json['thinkingLevel'] as String?)
+            : null,
+      );
+
+  /// Converts to JSON.
+  Map<String, dynamic> toJson() => {
+        if (includeThoughts != null) 'includeThoughts': includeThoughts,
+        if (thinkingBudget != null) 'thinkingBudget': thinkingBudget,
+        if (thinkingLevel != null)
+          'thinkingLevel': thinkingLevelToString(thinkingLevel!),
+      };
+
+  /// Creates a copy with replaced values.
+  ThinkingConfig copyWith({
+    Object? includeThoughts = unsetCopyWithValue,
+    Object? thinkingBudget = unsetCopyWithValue,
+    Object? thinkingLevel = unsetCopyWithValue,
+  }) {
     return ThinkingConfig(
-      includeThoughts: json['includeThoughts'] as bool?,
-      thinkingBudget: json['thinkingBudget'] as int?,
-      thinkingLevel: _thinkingLevelFromString(json['thinkingLevel']),
+      includeThoughts: includeThoughts == unsetCopyWithValue
+          ? this.includeThoughts
+          : includeThoughts as bool?,
+      thinkingBudget: thinkingBudget == unsetCopyWithValue
+          ? this.thinkingBudget
+          : thinkingBudget as int?,
+      thinkingLevel: thinkingLevel == unsetCopyWithValue
+          ? this.thinkingLevel
+          : thinkingLevel as ThinkingLevel?,
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      if (includeThoughts != null) 'includeThoughts': includeThoughts,
-      if (thinkingBudget != null) 'thinkingBudget': thinkingBudget,
-      if (thinkingLevel != null)
-        'thinkingLevel': _thinkingLevelToString(thinkingLevel!),
-    };
-  }
-
-  static ThinkingLevel? _thinkingLevelFromString(String? value) {
-    switch (value) {
-      case 'LOW':
-        return ThinkingLevel.low;
-      case 'HIGH':
-        return ThinkingLevel.high;
-      case 'THINKING_LEVEL_UNSPECIFIED':
-      default:
-        return ThinkingLevel.thinkingLevelUnspecified;
-    }
-  }
-
-  static String _thinkingLevelToString(ThinkingLevel level) {
-    switch (level) {
-      case ThinkingLevel.low:
-        return 'LOW';
-      case ThinkingLevel.high:
-        return 'HIGH';
-      case ThinkingLevel.thinkingLevelUnspecified:
-        return 'THINKING_LEVEL_UNSPECIFIED';
-    }
   }
 }
