@@ -63,6 +63,16 @@ abstract class FineTuningJob with _$FineTuningJob {
 
     /// A list of integrations to enable for this fine-tuning job.
     @JsonKey(includeIfNull: false) List<FineTuningIntegration>? integrations,
+
+    /// The seed used for the fine-tuning job.
+    required int seed,
+
+    /// The method used for fine-tuning. Defaults to supervised if not specified.
+    @JsonKey(includeIfNull: false) FineTuneMethod? method,
+
+    /// The Unix timestamp (in seconds) for when the fine-tuning job is estimated to finish. The value will be null if the fine-tuning job is not running.
+    @JsonKey(name: 'estimated_finish', includeIfNull: false)
+    int? estimatedFinish,
   }) = _FineTuningJob;
 
   /// Object construction from a JSON representation
@@ -86,6 +96,9 @@ abstract class FineTuningJob with _$FineTuningJob {
     'training_file',
     'validation_file',
     'integrations',
+    'seed',
+    'method',
+    'estimated_finish',
   ];
 
   /// Perform validations on the schema property values
@@ -111,6 +124,9 @@ abstract class FineTuningJob with _$FineTuningJob {
       'training_file': trainingFile,
       'validation_file': validationFile,
       'integrations': integrations,
+      'seed': seed,
+      'method': method,
+      'estimated_finish': estimatedFinish,
     };
   }
 }

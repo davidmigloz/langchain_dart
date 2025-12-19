@@ -17314,7 +17314,14 @@ mixin _$CreateFineTuningJobRequest {
 @JsonKey(name: 'validation_file', includeIfNull: false) String? get validationFile;/// A list of integrations to enable for your fine-tuning job.
 @JsonKey(includeIfNull: false) List<FineTuningIntegration>? get integrations;/// The seed controls the reproducibility of the job. Passing in the same seed and job parameters should produce the same results, but may differ in rare cases.
 /// If a seed is not specified, one will be generated for you.
-@JsonKey(includeIfNull: false) int? get seed;
+@JsonKey(includeIfNull: false) int? get seed;/// The method used for fine-tuning. Defaults to supervised if not specified.
+@JsonKey(includeIfNull: false) FineTuneMethod? get method;/// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing
+/// additional information about the object in a structured format, and querying for objects via API
+/// or the dashboard.
+///
+/// Keys are strings with a maximum length of 64 characters. Values are strings with a maximum length
+/// of 512 characters.
+@JsonKey(includeIfNull: false) Map<String, String>? get metadata;
 /// Create a copy of CreateFineTuningJobRequest
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -17327,16 +17334,16 @@ $CreateFineTuningJobRequestCopyWith<CreateFineTuningJobRequest> get copyWith => 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateFineTuningJobRequest&&(identical(other.model, model) || other.model == model)&&(identical(other.trainingFile, trainingFile) || other.trainingFile == trainingFile)&&(identical(other.hyperparameters, hyperparameters) || other.hyperparameters == hyperparameters)&&(identical(other.suffix, suffix) || other.suffix == suffix)&&(identical(other.validationFile, validationFile) || other.validationFile == validationFile)&&const DeepCollectionEquality().equals(other.integrations, integrations)&&(identical(other.seed, seed) || other.seed == seed));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateFineTuningJobRequest&&(identical(other.model, model) || other.model == model)&&(identical(other.trainingFile, trainingFile) || other.trainingFile == trainingFile)&&(identical(other.hyperparameters, hyperparameters) || other.hyperparameters == hyperparameters)&&(identical(other.suffix, suffix) || other.suffix == suffix)&&(identical(other.validationFile, validationFile) || other.validationFile == validationFile)&&const DeepCollectionEquality().equals(other.integrations, integrations)&&(identical(other.seed, seed) || other.seed == seed)&&(identical(other.method, method) || other.method == method)&&const DeepCollectionEquality().equals(other.metadata, metadata));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,model,trainingFile,hyperparameters,suffix,validationFile,const DeepCollectionEquality().hash(integrations),seed);
+int get hashCode => Object.hash(runtimeType,model,trainingFile,hyperparameters,suffix,validationFile,const DeepCollectionEquality().hash(integrations),seed,method,const DeepCollectionEquality().hash(metadata));
 
 @override
 String toString() {
-  return 'CreateFineTuningJobRequest(model: $model, trainingFile: $trainingFile, hyperparameters: $hyperparameters, suffix: $suffix, validationFile: $validationFile, integrations: $integrations, seed: $seed)';
+  return 'CreateFineTuningJobRequest(model: $model, trainingFile: $trainingFile, hyperparameters: $hyperparameters, suffix: $suffix, validationFile: $validationFile, integrations: $integrations, seed: $seed, method: $method, metadata: $metadata)';
 }
 
 
@@ -17347,11 +17354,11 @@ abstract mixin class $CreateFineTuningJobRequestCopyWith<$Res>  {
   factory $CreateFineTuningJobRequestCopyWith(CreateFineTuningJobRequest value, $Res Function(CreateFineTuningJobRequest) _then) = _$CreateFineTuningJobRequestCopyWithImpl;
 @useResult
 $Res call({
-@_FineTuningModelConverter() FineTuningModel model,@JsonKey(name: 'training_file') String trainingFile,@JsonKey(includeIfNull: false) FineTuningJobHyperparameters? hyperparameters,@JsonKey(includeIfNull: false) String? suffix,@JsonKey(name: 'validation_file', includeIfNull: false) String? validationFile,@JsonKey(includeIfNull: false) List<FineTuningIntegration>? integrations,@JsonKey(includeIfNull: false) int? seed
+@_FineTuningModelConverter() FineTuningModel model,@JsonKey(name: 'training_file') String trainingFile,@JsonKey(includeIfNull: false) FineTuningJobHyperparameters? hyperparameters,@JsonKey(includeIfNull: false) String? suffix,@JsonKey(name: 'validation_file', includeIfNull: false) String? validationFile,@JsonKey(includeIfNull: false) List<FineTuningIntegration>? integrations,@JsonKey(includeIfNull: false) int? seed,@JsonKey(includeIfNull: false) FineTuneMethod? method,@JsonKey(includeIfNull: false) Map<String, String>? metadata
 });
 
 
-$FineTuningModelCopyWith<$Res> get model;$FineTuningJobHyperparametersCopyWith<$Res>? get hyperparameters;
+$FineTuningModelCopyWith<$Res> get model;$FineTuningJobHyperparametersCopyWith<$Res>? get hyperparameters;$FineTuneMethodCopyWith<$Res>? get method;
 
 }
 /// @nodoc
@@ -17364,7 +17371,7 @@ class _$CreateFineTuningJobRequestCopyWithImpl<$Res>
 
 /// Create a copy of CreateFineTuningJobRequest
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? model = null,Object? trainingFile = null,Object? hyperparameters = freezed,Object? suffix = freezed,Object? validationFile = freezed,Object? integrations = freezed,Object? seed = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? model = null,Object? trainingFile = null,Object? hyperparameters = freezed,Object? suffix = freezed,Object? validationFile = freezed,Object? integrations = freezed,Object? seed = freezed,Object? method = freezed,Object? metadata = freezed,}) {
   return _then(_self.copyWith(
 model: null == model ? _self.model : model // ignore: cast_nullable_to_non_nullable
 as FineTuningModel,trainingFile: null == trainingFile ? _self.trainingFile : trainingFile // ignore: cast_nullable_to_non_nullable
@@ -17373,7 +17380,9 @@ as FineTuningJobHyperparameters?,suffix: freezed == suffix ? _self.suffix : suff
 as String?,validationFile: freezed == validationFile ? _self.validationFile : validationFile // ignore: cast_nullable_to_non_nullable
 as String?,integrations: freezed == integrations ? _self.integrations : integrations // ignore: cast_nullable_to_non_nullable
 as List<FineTuningIntegration>?,seed: freezed == seed ? _self.seed : seed // ignore: cast_nullable_to_non_nullable
-as int?,
+as int?,method: freezed == method ? _self.method : method // ignore: cast_nullable_to_non_nullable
+as FineTuneMethod?,metadata: freezed == metadata ? _self.metadata : metadata // ignore: cast_nullable_to_non_nullable
+as Map<String, String>?,
   ));
 }
 /// Create a copy of CreateFineTuningJobRequest
@@ -17396,6 +17405,18 @@ $FineTuningJobHyperparametersCopyWith<$Res>? get hyperparameters {
 
   return $FineTuningJobHyperparametersCopyWith<$Res>(_self.hyperparameters!, (value) {
     return _then(_self.copyWith(hyperparameters: value));
+  });
+}/// Create a copy of CreateFineTuningJobRequest
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneMethodCopyWith<$Res>? get method {
+    if (_self.method == null) {
+    return null;
+  }
+
+  return $FineTuneMethodCopyWith<$Res>(_self.method!, (value) {
+    return _then(_self.copyWith(method: value));
   });
 }
 }
@@ -17479,10 +17500,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@_FineTuningModelConverter()  FineTuningModel model, @JsonKey(name: 'training_file')  String trainingFile, @JsonKey(includeIfNull: false)  FineTuningJobHyperparameters? hyperparameters, @JsonKey(includeIfNull: false)  String? suffix, @JsonKey(name: 'validation_file', includeIfNull: false)  String? validationFile, @JsonKey(includeIfNull: false)  List<FineTuningIntegration>? integrations, @JsonKey(includeIfNull: false)  int? seed)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@_FineTuningModelConverter()  FineTuningModel model, @JsonKey(name: 'training_file')  String trainingFile, @JsonKey(includeIfNull: false)  FineTuningJobHyperparameters? hyperparameters, @JsonKey(includeIfNull: false)  String? suffix, @JsonKey(name: 'validation_file', includeIfNull: false)  String? validationFile, @JsonKey(includeIfNull: false)  List<FineTuningIntegration>? integrations, @JsonKey(includeIfNull: false)  int? seed, @JsonKey(includeIfNull: false)  FineTuneMethod? method, @JsonKey(includeIfNull: false)  Map<String, String>? metadata)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CreateFineTuningJobRequest() when $default != null:
-return $default(_that.model,_that.trainingFile,_that.hyperparameters,_that.suffix,_that.validationFile,_that.integrations,_that.seed);case _:
+return $default(_that.model,_that.trainingFile,_that.hyperparameters,_that.suffix,_that.validationFile,_that.integrations,_that.seed,_that.method,_that.metadata);case _:
   return orElse();
 
 }
@@ -17500,10 +17521,10 @@ return $default(_that.model,_that.trainingFile,_that.hyperparameters,_that.suffi
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@_FineTuningModelConverter()  FineTuningModel model, @JsonKey(name: 'training_file')  String trainingFile, @JsonKey(includeIfNull: false)  FineTuningJobHyperparameters? hyperparameters, @JsonKey(includeIfNull: false)  String? suffix, @JsonKey(name: 'validation_file', includeIfNull: false)  String? validationFile, @JsonKey(includeIfNull: false)  List<FineTuningIntegration>? integrations, @JsonKey(includeIfNull: false)  int? seed)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@_FineTuningModelConverter()  FineTuningModel model, @JsonKey(name: 'training_file')  String trainingFile, @JsonKey(includeIfNull: false)  FineTuningJobHyperparameters? hyperparameters, @JsonKey(includeIfNull: false)  String? suffix, @JsonKey(name: 'validation_file', includeIfNull: false)  String? validationFile, @JsonKey(includeIfNull: false)  List<FineTuningIntegration>? integrations, @JsonKey(includeIfNull: false)  int? seed, @JsonKey(includeIfNull: false)  FineTuneMethod? method, @JsonKey(includeIfNull: false)  Map<String, String>? metadata)  $default,) {final _that = this;
 switch (_that) {
 case _CreateFineTuningJobRequest():
-return $default(_that.model,_that.trainingFile,_that.hyperparameters,_that.suffix,_that.validationFile,_that.integrations,_that.seed);case _:
+return $default(_that.model,_that.trainingFile,_that.hyperparameters,_that.suffix,_that.validationFile,_that.integrations,_that.seed,_that.method,_that.metadata);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -17520,10 +17541,10 @@ return $default(_that.model,_that.trainingFile,_that.hyperparameters,_that.suffi
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@_FineTuningModelConverter()  FineTuningModel model, @JsonKey(name: 'training_file')  String trainingFile, @JsonKey(includeIfNull: false)  FineTuningJobHyperparameters? hyperparameters, @JsonKey(includeIfNull: false)  String? suffix, @JsonKey(name: 'validation_file', includeIfNull: false)  String? validationFile, @JsonKey(includeIfNull: false)  List<FineTuningIntegration>? integrations, @JsonKey(includeIfNull: false)  int? seed)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@_FineTuningModelConverter()  FineTuningModel model, @JsonKey(name: 'training_file')  String trainingFile, @JsonKey(includeIfNull: false)  FineTuningJobHyperparameters? hyperparameters, @JsonKey(includeIfNull: false)  String? suffix, @JsonKey(name: 'validation_file', includeIfNull: false)  String? validationFile, @JsonKey(includeIfNull: false)  List<FineTuningIntegration>? integrations, @JsonKey(includeIfNull: false)  int? seed, @JsonKey(includeIfNull: false)  FineTuneMethod? method, @JsonKey(includeIfNull: false)  Map<String, String>? metadata)?  $default,) {final _that = this;
 switch (_that) {
 case _CreateFineTuningJobRequest() when $default != null:
-return $default(_that.model,_that.trainingFile,_that.hyperparameters,_that.suffix,_that.validationFile,_that.integrations,_that.seed);case _:
+return $default(_that.model,_that.trainingFile,_that.hyperparameters,_that.suffix,_that.validationFile,_that.integrations,_that.seed,_that.method,_that.metadata);case _:
   return null;
 
 }
@@ -17535,7 +17556,7 @@ return $default(_that.model,_that.trainingFile,_that.hyperparameters,_that.suffi
 @JsonSerializable()
 
 class _CreateFineTuningJobRequest extends CreateFineTuningJobRequest {
-  const _CreateFineTuningJobRequest({@_FineTuningModelConverter() required this.model, @JsonKey(name: 'training_file') required this.trainingFile, @JsonKey(includeIfNull: false) this.hyperparameters, @JsonKey(includeIfNull: false) this.suffix, @JsonKey(name: 'validation_file', includeIfNull: false) this.validationFile, @JsonKey(includeIfNull: false) final  List<FineTuningIntegration>? integrations, @JsonKey(includeIfNull: false) this.seed}): _integrations = integrations,super._();
+  const _CreateFineTuningJobRequest({@_FineTuningModelConverter() required this.model, @JsonKey(name: 'training_file') required this.trainingFile, @JsonKey(includeIfNull: false) this.hyperparameters, @JsonKey(includeIfNull: false) this.suffix, @JsonKey(name: 'validation_file', includeIfNull: false) this.validationFile, @JsonKey(includeIfNull: false) final  List<FineTuningIntegration>? integrations, @JsonKey(includeIfNull: false) this.seed, @JsonKey(includeIfNull: false) this.method, @JsonKey(includeIfNull: false) final  Map<String, String>? metadata}): _integrations = integrations,_metadata = metadata,super._();
   factory _CreateFineTuningJobRequest.fromJson(Map<String, dynamic> json) => _$CreateFineTuningJobRequestFromJson(json);
 
 /// The name of the model to fine-tune. You can select one of the
@@ -17591,6 +17612,29 @@ class _CreateFineTuningJobRequest extends CreateFineTuningJobRequest {
 /// The seed controls the reproducibility of the job. Passing in the same seed and job parameters should produce the same results, but may differ in rare cases.
 /// If a seed is not specified, one will be generated for you.
 @override@JsonKey(includeIfNull: false) final  int? seed;
+/// The method used for fine-tuning. Defaults to supervised if not specified.
+@override@JsonKey(includeIfNull: false) final  FineTuneMethod? method;
+/// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing
+/// additional information about the object in a structured format, and querying for objects via API
+/// or the dashboard.
+///
+/// Keys are strings with a maximum length of 64 characters. Values are strings with a maximum length
+/// of 512 characters.
+ final  Map<String, String>? _metadata;
+/// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing
+/// additional information about the object in a structured format, and querying for objects via API
+/// or the dashboard.
+///
+/// Keys are strings with a maximum length of 64 characters. Values are strings with a maximum length
+/// of 512 characters.
+@override@JsonKey(includeIfNull: false) Map<String, String>? get metadata {
+  final value = _metadata;
+  if (value == null) return null;
+  if (_metadata is EqualUnmodifiableMapView) return _metadata;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(value);
+}
+
 
 /// Create a copy of CreateFineTuningJobRequest
 /// with the given fields replaced by the non-null parameter values.
@@ -17605,16 +17649,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateFineTuningJobRequest&&(identical(other.model, model) || other.model == model)&&(identical(other.trainingFile, trainingFile) || other.trainingFile == trainingFile)&&(identical(other.hyperparameters, hyperparameters) || other.hyperparameters == hyperparameters)&&(identical(other.suffix, suffix) || other.suffix == suffix)&&(identical(other.validationFile, validationFile) || other.validationFile == validationFile)&&const DeepCollectionEquality().equals(other._integrations, _integrations)&&(identical(other.seed, seed) || other.seed == seed));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateFineTuningJobRequest&&(identical(other.model, model) || other.model == model)&&(identical(other.trainingFile, trainingFile) || other.trainingFile == trainingFile)&&(identical(other.hyperparameters, hyperparameters) || other.hyperparameters == hyperparameters)&&(identical(other.suffix, suffix) || other.suffix == suffix)&&(identical(other.validationFile, validationFile) || other.validationFile == validationFile)&&const DeepCollectionEquality().equals(other._integrations, _integrations)&&(identical(other.seed, seed) || other.seed == seed)&&(identical(other.method, method) || other.method == method)&&const DeepCollectionEquality().equals(other._metadata, _metadata));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,model,trainingFile,hyperparameters,suffix,validationFile,const DeepCollectionEquality().hash(_integrations),seed);
+int get hashCode => Object.hash(runtimeType,model,trainingFile,hyperparameters,suffix,validationFile,const DeepCollectionEquality().hash(_integrations),seed,method,const DeepCollectionEquality().hash(_metadata));
 
 @override
 String toString() {
-  return 'CreateFineTuningJobRequest(model: $model, trainingFile: $trainingFile, hyperparameters: $hyperparameters, suffix: $suffix, validationFile: $validationFile, integrations: $integrations, seed: $seed)';
+  return 'CreateFineTuningJobRequest(model: $model, trainingFile: $trainingFile, hyperparameters: $hyperparameters, suffix: $suffix, validationFile: $validationFile, integrations: $integrations, seed: $seed, method: $method, metadata: $metadata)';
 }
 
 
@@ -17625,11 +17669,11 @@ abstract mixin class _$CreateFineTuningJobRequestCopyWith<$Res> implements $Crea
   factory _$CreateFineTuningJobRequestCopyWith(_CreateFineTuningJobRequest value, $Res Function(_CreateFineTuningJobRequest) _then) = __$CreateFineTuningJobRequestCopyWithImpl;
 @override @useResult
 $Res call({
-@_FineTuningModelConverter() FineTuningModel model,@JsonKey(name: 'training_file') String trainingFile,@JsonKey(includeIfNull: false) FineTuningJobHyperparameters? hyperparameters,@JsonKey(includeIfNull: false) String? suffix,@JsonKey(name: 'validation_file', includeIfNull: false) String? validationFile,@JsonKey(includeIfNull: false) List<FineTuningIntegration>? integrations,@JsonKey(includeIfNull: false) int? seed
+@_FineTuningModelConverter() FineTuningModel model,@JsonKey(name: 'training_file') String trainingFile,@JsonKey(includeIfNull: false) FineTuningJobHyperparameters? hyperparameters,@JsonKey(includeIfNull: false) String? suffix,@JsonKey(name: 'validation_file', includeIfNull: false) String? validationFile,@JsonKey(includeIfNull: false) List<FineTuningIntegration>? integrations,@JsonKey(includeIfNull: false) int? seed,@JsonKey(includeIfNull: false) FineTuneMethod? method,@JsonKey(includeIfNull: false) Map<String, String>? metadata
 });
 
 
-@override $FineTuningModelCopyWith<$Res> get model;@override $FineTuningJobHyperparametersCopyWith<$Res>? get hyperparameters;
+@override $FineTuningModelCopyWith<$Res> get model;@override $FineTuningJobHyperparametersCopyWith<$Res>? get hyperparameters;@override $FineTuneMethodCopyWith<$Res>? get method;
 
 }
 /// @nodoc
@@ -17642,7 +17686,7 @@ class __$CreateFineTuningJobRequestCopyWithImpl<$Res>
 
 /// Create a copy of CreateFineTuningJobRequest
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? model = null,Object? trainingFile = null,Object? hyperparameters = freezed,Object? suffix = freezed,Object? validationFile = freezed,Object? integrations = freezed,Object? seed = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? model = null,Object? trainingFile = null,Object? hyperparameters = freezed,Object? suffix = freezed,Object? validationFile = freezed,Object? integrations = freezed,Object? seed = freezed,Object? method = freezed,Object? metadata = freezed,}) {
   return _then(_CreateFineTuningJobRequest(
 model: null == model ? _self.model : model // ignore: cast_nullable_to_non_nullable
 as FineTuningModel,trainingFile: null == trainingFile ? _self.trainingFile : trainingFile // ignore: cast_nullable_to_non_nullable
@@ -17651,7 +17695,9 @@ as FineTuningJobHyperparameters?,suffix: freezed == suffix ? _self.suffix : suff
 as String?,validationFile: freezed == validationFile ? _self.validationFile : validationFile // ignore: cast_nullable_to_non_nullable
 as String?,integrations: freezed == integrations ? _self._integrations : integrations // ignore: cast_nullable_to_non_nullable
 as List<FineTuningIntegration>?,seed: freezed == seed ? _self.seed : seed // ignore: cast_nullable_to_non_nullable
-as int?,
+as int?,method: freezed == method ? _self.method : method // ignore: cast_nullable_to_non_nullable
+as FineTuneMethod?,metadata: freezed == metadata ? _self._metadata : metadata // ignore: cast_nullable_to_non_nullable
+as Map<String, String>?,
   ));
 }
 
@@ -17675,6 +17721,18 @@ $FineTuningJobHyperparametersCopyWith<$Res>? get hyperparameters {
 
   return $FineTuningJobHyperparametersCopyWith<$Res>(_self.hyperparameters!, (value) {
     return _then(_self.copyWith(hyperparameters: value));
+  });
+}/// Create a copy of CreateFineTuningJobRequest
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneMethodCopyWith<$Res>? get method {
+    if (_self.method == null) {
+    return null;
+  }
+
+  return $FineTuneMethodCopyWith<$Res>(_self.method!, (value) {
+    return _then(_self.copyWith(method: value));
   });
 }
 }
@@ -18034,7 +18092,10 @@ mixin _$FineTuningJob {
 @JsonKey(name: 'trained_tokens') int? get trainedTokens;/// The file ID used for training. You can retrieve the training data with the [Files API](https://platform.openai.com/docs/api-reference/files/retrieve-contents).
 @JsonKey(name: 'training_file') String get trainingFile;/// The file ID used for validation. You can retrieve the validation results with the [Files API](https://platform.openai.com/docs/api-reference/files/retrieve-contents).
 @JsonKey(name: 'validation_file') String? get validationFile;/// A list of integrations to enable for this fine-tuning job.
-@JsonKey(includeIfNull: false) List<FineTuningIntegration>? get integrations;
+@JsonKey(includeIfNull: false) List<FineTuningIntegration>? get integrations;/// The seed used for the fine-tuning job.
+ int get seed;/// The method used for fine-tuning. Defaults to supervised if not specified.
+@JsonKey(includeIfNull: false) FineTuneMethod? get method;/// The Unix timestamp (in seconds) for when the fine-tuning job is estimated to finish. The value will be null if the fine-tuning job is not running.
+@JsonKey(name: 'estimated_finish', includeIfNull: false) int? get estimatedFinish;
 /// Create a copy of FineTuningJob
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -18047,16 +18108,16 @@ $FineTuningJobCopyWith<FineTuningJob> get copyWith => _$FineTuningJobCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuningJob&&(identical(other.id, id) || other.id == id)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.error, error) || other.error == error)&&(identical(other.fineTunedModel, fineTunedModel) || other.fineTunedModel == fineTunedModel)&&(identical(other.finishedAt, finishedAt) || other.finishedAt == finishedAt)&&(identical(other.hyperparameters, hyperparameters) || other.hyperparameters == hyperparameters)&&(identical(other.model, model) || other.model == model)&&(identical(other.object, object) || other.object == object)&&(identical(other.organizationId, organizationId) || other.organizationId == organizationId)&&const DeepCollectionEquality().equals(other.resultFiles, resultFiles)&&(identical(other.status, status) || other.status == status)&&(identical(other.trainedTokens, trainedTokens) || other.trainedTokens == trainedTokens)&&(identical(other.trainingFile, trainingFile) || other.trainingFile == trainingFile)&&(identical(other.validationFile, validationFile) || other.validationFile == validationFile)&&const DeepCollectionEquality().equals(other.integrations, integrations));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuningJob&&(identical(other.id, id) || other.id == id)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.error, error) || other.error == error)&&(identical(other.fineTunedModel, fineTunedModel) || other.fineTunedModel == fineTunedModel)&&(identical(other.finishedAt, finishedAt) || other.finishedAt == finishedAt)&&(identical(other.hyperparameters, hyperparameters) || other.hyperparameters == hyperparameters)&&(identical(other.model, model) || other.model == model)&&(identical(other.object, object) || other.object == object)&&(identical(other.organizationId, organizationId) || other.organizationId == organizationId)&&const DeepCollectionEquality().equals(other.resultFiles, resultFiles)&&(identical(other.status, status) || other.status == status)&&(identical(other.trainedTokens, trainedTokens) || other.trainedTokens == trainedTokens)&&(identical(other.trainingFile, trainingFile) || other.trainingFile == trainingFile)&&(identical(other.validationFile, validationFile) || other.validationFile == validationFile)&&const DeepCollectionEquality().equals(other.integrations, integrations)&&(identical(other.seed, seed) || other.seed == seed)&&(identical(other.method, method) || other.method == method)&&(identical(other.estimatedFinish, estimatedFinish) || other.estimatedFinish == estimatedFinish));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,createdAt,error,fineTunedModel,finishedAt,hyperparameters,model,object,organizationId,const DeepCollectionEquality().hash(resultFiles),status,trainedTokens,trainingFile,validationFile,const DeepCollectionEquality().hash(integrations));
+int get hashCode => Object.hash(runtimeType,id,createdAt,error,fineTunedModel,finishedAt,hyperparameters,model,object,organizationId,const DeepCollectionEquality().hash(resultFiles),status,trainedTokens,trainingFile,validationFile,const DeepCollectionEquality().hash(integrations),seed,method,estimatedFinish);
 
 @override
 String toString() {
-  return 'FineTuningJob(id: $id, createdAt: $createdAt, error: $error, fineTunedModel: $fineTunedModel, finishedAt: $finishedAt, hyperparameters: $hyperparameters, model: $model, object: $object, organizationId: $organizationId, resultFiles: $resultFiles, status: $status, trainedTokens: $trainedTokens, trainingFile: $trainingFile, validationFile: $validationFile, integrations: $integrations)';
+  return 'FineTuningJob(id: $id, createdAt: $createdAt, error: $error, fineTunedModel: $fineTunedModel, finishedAt: $finishedAt, hyperparameters: $hyperparameters, model: $model, object: $object, organizationId: $organizationId, resultFiles: $resultFiles, status: $status, trainedTokens: $trainedTokens, trainingFile: $trainingFile, validationFile: $validationFile, integrations: $integrations, seed: $seed, method: $method, estimatedFinish: $estimatedFinish)';
 }
 
 
@@ -18067,11 +18128,11 @@ abstract mixin class $FineTuningJobCopyWith<$Res>  {
   factory $FineTuningJobCopyWith(FineTuningJob value, $Res Function(FineTuningJob) _then) = _$FineTuningJobCopyWithImpl;
 @useResult
 $Res call({
- String id,@JsonKey(name: 'created_at') int createdAt, FineTuningJobError? error,@JsonKey(name: 'fine_tuned_model') String? fineTunedModel,@JsonKey(name: 'finished_at') int? finishedAt, FineTuningJobHyperparameters hyperparameters, String model, FineTuningJobObject object,@JsonKey(name: 'organization_id') String organizationId,@JsonKey(name: 'result_files') List<String> resultFiles, FineTuningJobStatus status,@JsonKey(name: 'trained_tokens') int? trainedTokens,@JsonKey(name: 'training_file') String trainingFile,@JsonKey(name: 'validation_file') String? validationFile,@JsonKey(includeIfNull: false) List<FineTuningIntegration>? integrations
+ String id,@JsonKey(name: 'created_at') int createdAt, FineTuningJobError? error,@JsonKey(name: 'fine_tuned_model') String? fineTunedModel,@JsonKey(name: 'finished_at') int? finishedAt, FineTuningJobHyperparameters hyperparameters, String model, FineTuningJobObject object,@JsonKey(name: 'organization_id') String organizationId,@JsonKey(name: 'result_files') List<String> resultFiles, FineTuningJobStatus status,@JsonKey(name: 'trained_tokens') int? trainedTokens,@JsonKey(name: 'training_file') String trainingFile,@JsonKey(name: 'validation_file') String? validationFile,@JsonKey(includeIfNull: false) List<FineTuningIntegration>? integrations, int seed,@JsonKey(includeIfNull: false) FineTuneMethod? method,@JsonKey(name: 'estimated_finish', includeIfNull: false) int? estimatedFinish
 });
 
 
-$FineTuningJobErrorCopyWith<$Res>? get error;$FineTuningJobHyperparametersCopyWith<$Res> get hyperparameters;
+$FineTuningJobErrorCopyWith<$Res>? get error;$FineTuningJobHyperparametersCopyWith<$Res> get hyperparameters;$FineTuneMethodCopyWith<$Res>? get method;
 
 }
 /// @nodoc
@@ -18084,7 +18145,7 @@ class _$FineTuningJobCopyWithImpl<$Res>
 
 /// Create a copy of FineTuningJob
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? createdAt = null,Object? error = freezed,Object? fineTunedModel = freezed,Object? finishedAt = freezed,Object? hyperparameters = null,Object? model = null,Object? object = null,Object? organizationId = null,Object? resultFiles = null,Object? status = null,Object? trainedTokens = freezed,Object? trainingFile = null,Object? validationFile = freezed,Object? integrations = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? createdAt = null,Object? error = freezed,Object? fineTunedModel = freezed,Object? finishedAt = freezed,Object? hyperparameters = null,Object? model = null,Object? object = null,Object? organizationId = null,Object? resultFiles = null,Object? status = null,Object? trainedTokens = freezed,Object? trainingFile = null,Object? validationFile = freezed,Object? integrations = freezed,Object? seed = null,Object? method = freezed,Object? estimatedFinish = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
@@ -18101,7 +18162,10 @@ as FineTuningJobStatus,trainedTokens: freezed == trainedTokens ? _self.trainedTo
 as int?,trainingFile: null == trainingFile ? _self.trainingFile : trainingFile // ignore: cast_nullable_to_non_nullable
 as String,validationFile: freezed == validationFile ? _self.validationFile : validationFile // ignore: cast_nullable_to_non_nullable
 as String?,integrations: freezed == integrations ? _self.integrations : integrations // ignore: cast_nullable_to_non_nullable
-as List<FineTuningIntegration>?,
+as List<FineTuningIntegration>?,seed: null == seed ? _self.seed : seed // ignore: cast_nullable_to_non_nullable
+as int,method: freezed == method ? _self.method : method // ignore: cast_nullable_to_non_nullable
+as FineTuneMethod?,estimatedFinish: freezed == estimatedFinish ? _self.estimatedFinish : estimatedFinish // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 /// Create a copy of FineTuningJob
@@ -18124,6 +18188,18 @@ $FineTuningJobHyperparametersCopyWith<$Res> get hyperparameters {
   
   return $FineTuningJobHyperparametersCopyWith<$Res>(_self.hyperparameters, (value) {
     return _then(_self.copyWith(hyperparameters: value));
+  });
+}/// Create a copy of FineTuningJob
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneMethodCopyWith<$Res>? get method {
+    if (_self.method == null) {
+    return null;
+  }
+
+  return $FineTuneMethodCopyWith<$Res>(_self.method!, (value) {
+    return _then(_self.copyWith(method: value));
   });
 }
 }
@@ -18207,10 +18283,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'created_at')  int createdAt,  FineTuningJobError? error, @JsonKey(name: 'fine_tuned_model')  String? fineTunedModel, @JsonKey(name: 'finished_at')  int? finishedAt,  FineTuningJobHyperparameters hyperparameters,  String model,  FineTuningJobObject object, @JsonKey(name: 'organization_id')  String organizationId, @JsonKey(name: 'result_files')  List<String> resultFiles,  FineTuningJobStatus status, @JsonKey(name: 'trained_tokens')  int? trainedTokens, @JsonKey(name: 'training_file')  String trainingFile, @JsonKey(name: 'validation_file')  String? validationFile, @JsonKey(includeIfNull: false)  List<FineTuningIntegration>? integrations)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'created_at')  int createdAt,  FineTuningJobError? error, @JsonKey(name: 'fine_tuned_model')  String? fineTunedModel, @JsonKey(name: 'finished_at')  int? finishedAt,  FineTuningJobHyperparameters hyperparameters,  String model,  FineTuningJobObject object, @JsonKey(name: 'organization_id')  String organizationId, @JsonKey(name: 'result_files')  List<String> resultFiles,  FineTuningJobStatus status, @JsonKey(name: 'trained_tokens')  int? trainedTokens, @JsonKey(name: 'training_file')  String trainingFile, @JsonKey(name: 'validation_file')  String? validationFile, @JsonKey(includeIfNull: false)  List<FineTuningIntegration>? integrations,  int seed, @JsonKey(includeIfNull: false)  FineTuneMethod? method, @JsonKey(name: 'estimated_finish', includeIfNull: false)  int? estimatedFinish)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _FineTuningJob() when $default != null:
-return $default(_that.id,_that.createdAt,_that.error,_that.fineTunedModel,_that.finishedAt,_that.hyperparameters,_that.model,_that.object,_that.organizationId,_that.resultFiles,_that.status,_that.trainedTokens,_that.trainingFile,_that.validationFile,_that.integrations);case _:
+return $default(_that.id,_that.createdAt,_that.error,_that.fineTunedModel,_that.finishedAt,_that.hyperparameters,_that.model,_that.object,_that.organizationId,_that.resultFiles,_that.status,_that.trainedTokens,_that.trainingFile,_that.validationFile,_that.integrations,_that.seed,_that.method,_that.estimatedFinish);case _:
   return orElse();
 
 }
@@ -18228,10 +18304,10 @@ return $default(_that.id,_that.createdAt,_that.error,_that.fineTunedModel,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'created_at')  int createdAt,  FineTuningJobError? error, @JsonKey(name: 'fine_tuned_model')  String? fineTunedModel, @JsonKey(name: 'finished_at')  int? finishedAt,  FineTuningJobHyperparameters hyperparameters,  String model,  FineTuningJobObject object, @JsonKey(name: 'organization_id')  String organizationId, @JsonKey(name: 'result_files')  List<String> resultFiles,  FineTuningJobStatus status, @JsonKey(name: 'trained_tokens')  int? trainedTokens, @JsonKey(name: 'training_file')  String trainingFile, @JsonKey(name: 'validation_file')  String? validationFile, @JsonKey(includeIfNull: false)  List<FineTuningIntegration>? integrations)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'created_at')  int createdAt,  FineTuningJobError? error, @JsonKey(name: 'fine_tuned_model')  String? fineTunedModel, @JsonKey(name: 'finished_at')  int? finishedAt,  FineTuningJobHyperparameters hyperparameters,  String model,  FineTuningJobObject object, @JsonKey(name: 'organization_id')  String organizationId, @JsonKey(name: 'result_files')  List<String> resultFiles,  FineTuningJobStatus status, @JsonKey(name: 'trained_tokens')  int? trainedTokens, @JsonKey(name: 'training_file')  String trainingFile, @JsonKey(name: 'validation_file')  String? validationFile, @JsonKey(includeIfNull: false)  List<FineTuningIntegration>? integrations,  int seed, @JsonKey(includeIfNull: false)  FineTuneMethod? method, @JsonKey(name: 'estimated_finish', includeIfNull: false)  int? estimatedFinish)  $default,) {final _that = this;
 switch (_that) {
 case _FineTuningJob():
-return $default(_that.id,_that.createdAt,_that.error,_that.fineTunedModel,_that.finishedAt,_that.hyperparameters,_that.model,_that.object,_that.organizationId,_that.resultFiles,_that.status,_that.trainedTokens,_that.trainingFile,_that.validationFile,_that.integrations);case _:
+return $default(_that.id,_that.createdAt,_that.error,_that.fineTunedModel,_that.finishedAt,_that.hyperparameters,_that.model,_that.object,_that.organizationId,_that.resultFiles,_that.status,_that.trainedTokens,_that.trainingFile,_that.validationFile,_that.integrations,_that.seed,_that.method,_that.estimatedFinish);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -18248,10 +18324,10 @@ return $default(_that.id,_that.createdAt,_that.error,_that.fineTunedModel,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @JsonKey(name: 'created_at')  int createdAt,  FineTuningJobError? error, @JsonKey(name: 'fine_tuned_model')  String? fineTunedModel, @JsonKey(name: 'finished_at')  int? finishedAt,  FineTuningJobHyperparameters hyperparameters,  String model,  FineTuningJobObject object, @JsonKey(name: 'organization_id')  String organizationId, @JsonKey(name: 'result_files')  List<String> resultFiles,  FineTuningJobStatus status, @JsonKey(name: 'trained_tokens')  int? trainedTokens, @JsonKey(name: 'training_file')  String trainingFile, @JsonKey(name: 'validation_file')  String? validationFile, @JsonKey(includeIfNull: false)  List<FineTuningIntegration>? integrations)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @JsonKey(name: 'created_at')  int createdAt,  FineTuningJobError? error, @JsonKey(name: 'fine_tuned_model')  String? fineTunedModel, @JsonKey(name: 'finished_at')  int? finishedAt,  FineTuningJobHyperparameters hyperparameters,  String model,  FineTuningJobObject object, @JsonKey(name: 'organization_id')  String organizationId, @JsonKey(name: 'result_files')  List<String> resultFiles,  FineTuningJobStatus status, @JsonKey(name: 'trained_tokens')  int? trainedTokens, @JsonKey(name: 'training_file')  String trainingFile, @JsonKey(name: 'validation_file')  String? validationFile, @JsonKey(includeIfNull: false)  List<FineTuningIntegration>? integrations,  int seed, @JsonKey(includeIfNull: false)  FineTuneMethod? method, @JsonKey(name: 'estimated_finish', includeIfNull: false)  int? estimatedFinish)?  $default,) {final _that = this;
 switch (_that) {
 case _FineTuningJob() when $default != null:
-return $default(_that.id,_that.createdAt,_that.error,_that.fineTunedModel,_that.finishedAt,_that.hyperparameters,_that.model,_that.object,_that.organizationId,_that.resultFiles,_that.status,_that.trainedTokens,_that.trainingFile,_that.validationFile,_that.integrations);case _:
+return $default(_that.id,_that.createdAt,_that.error,_that.fineTunedModel,_that.finishedAt,_that.hyperparameters,_that.model,_that.object,_that.organizationId,_that.resultFiles,_that.status,_that.trainedTokens,_that.trainingFile,_that.validationFile,_that.integrations,_that.seed,_that.method,_that.estimatedFinish);case _:
   return null;
 
 }
@@ -18263,7 +18339,7 @@ return $default(_that.id,_that.createdAt,_that.error,_that.fineTunedModel,_that.
 @JsonSerializable()
 
 class _FineTuningJob extends FineTuningJob {
-  const _FineTuningJob({required this.id, @JsonKey(name: 'created_at') required this.createdAt, required this.error, @JsonKey(name: 'fine_tuned_model') required this.fineTunedModel, @JsonKey(name: 'finished_at') required this.finishedAt, required this.hyperparameters, required this.model, required this.object, @JsonKey(name: 'organization_id') required this.organizationId, @JsonKey(name: 'result_files') required final  List<String> resultFiles, required this.status, @JsonKey(name: 'trained_tokens') required this.trainedTokens, @JsonKey(name: 'training_file') required this.trainingFile, @JsonKey(name: 'validation_file') required this.validationFile, @JsonKey(includeIfNull: false) final  List<FineTuningIntegration>? integrations}): _resultFiles = resultFiles,_integrations = integrations,super._();
+  const _FineTuningJob({required this.id, @JsonKey(name: 'created_at') required this.createdAt, required this.error, @JsonKey(name: 'fine_tuned_model') required this.fineTunedModel, @JsonKey(name: 'finished_at') required this.finishedAt, required this.hyperparameters, required this.model, required this.object, @JsonKey(name: 'organization_id') required this.organizationId, @JsonKey(name: 'result_files') required final  List<String> resultFiles, required this.status, @JsonKey(name: 'trained_tokens') required this.trainedTokens, @JsonKey(name: 'training_file') required this.trainingFile, @JsonKey(name: 'validation_file') required this.validationFile, @JsonKey(includeIfNull: false) final  List<FineTuningIntegration>? integrations, required this.seed, @JsonKey(includeIfNull: false) this.method, @JsonKey(name: 'estimated_finish', includeIfNull: false) this.estimatedFinish}): _resultFiles = resultFiles,_integrations = integrations,super._();
   factory _FineTuningJob.fromJson(Map<String, dynamic> json) => _$FineTuningJobFromJson(json);
 
 /// The object identifier, which can be referenced in the API endpoints.
@@ -18316,6 +18392,12 @@ class _FineTuningJob extends FineTuningJob {
   return EqualUnmodifiableListView(value);
 }
 
+/// The seed used for the fine-tuning job.
+@override final  int seed;
+/// The method used for fine-tuning. Defaults to supervised if not specified.
+@override@JsonKey(includeIfNull: false) final  FineTuneMethod? method;
+/// The Unix timestamp (in seconds) for when the fine-tuning job is estimated to finish. The value will be null if the fine-tuning job is not running.
+@override@JsonKey(name: 'estimated_finish', includeIfNull: false) final  int? estimatedFinish;
 
 /// Create a copy of FineTuningJob
 /// with the given fields replaced by the non-null parameter values.
@@ -18330,16 +18412,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FineTuningJob&&(identical(other.id, id) || other.id == id)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.error, error) || other.error == error)&&(identical(other.fineTunedModel, fineTunedModel) || other.fineTunedModel == fineTunedModel)&&(identical(other.finishedAt, finishedAt) || other.finishedAt == finishedAt)&&(identical(other.hyperparameters, hyperparameters) || other.hyperparameters == hyperparameters)&&(identical(other.model, model) || other.model == model)&&(identical(other.object, object) || other.object == object)&&(identical(other.organizationId, organizationId) || other.organizationId == organizationId)&&const DeepCollectionEquality().equals(other._resultFiles, _resultFiles)&&(identical(other.status, status) || other.status == status)&&(identical(other.trainedTokens, trainedTokens) || other.trainedTokens == trainedTokens)&&(identical(other.trainingFile, trainingFile) || other.trainingFile == trainingFile)&&(identical(other.validationFile, validationFile) || other.validationFile == validationFile)&&const DeepCollectionEquality().equals(other._integrations, _integrations));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FineTuningJob&&(identical(other.id, id) || other.id == id)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.error, error) || other.error == error)&&(identical(other.fineTunedModel, fineTunedModel) || other.fineTunedModel == fineTunedModel)&&(identical(other.finishedAt, finishedAt) || other.finishedAt == finishedAt)&&(identical(other.hyperparameters, hyperparameters) || other.hyperparameters == hyperparameters)&&(identical(other.model, model) || other.model == model)&&(identical(other.object, object) || other.object == object)&&(identical(other.organizationId, organizationId) || other.organizationId == organizationId)&&const DeepCollectionEquality().equals(other._resultFiles, _resultFiles)&&(identical(other.status, status) || other.status == status)&&(identical(other.trainedTokens, trainedTokens) || other.trainedTokens == trainedTokens)&&(identical(other.trainingFile, trainingFile) || other.trainingFile == trainingFile)&&(identical(other.validationFile, validationFile) || other.validationFile == validationFile)&&const DeepCollectionEquality().equals(other._integrations, _integrations)&&(identical(other.seed, seed) || other.seed == seed)&&(identical(other.method, method) || other.method == method)&&(identical(other.estimatedFinish, estimatedFinish) || other.estimatedFinish == estimatedFinish));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,createdAt,error,fineTunedModel,finishedAt,hyperparameters,model,object,organizationId,const DeepCollectionEquality().hash(_resultFiles),status,trainedTokens,trainingFile,validationFile,const DeepCollectionEquality().hash(_integrations));
+int get hashCode => Object.hash(runtimeType,id,createdAt,error,fineTunedModel,finishedAt,hyperparameters,model,object,organizationId,const DeepCollectionEquality().hash(_resultFiles),status,trainedTokens,trainingFile,validationFile,const DeepCollectionEquality().hash(_integrations),seed,method,estimatedFinish);
 
 @override
 String toString() {
-  return 'FineTuningJob(id: $id, createdAt: $createdAt, error: $error, fineTunedModel: $fineTunedModel, finishedAt: $finishedAt, hyperparameters: $hyperparameters, model: $model, object: $object, organizationId: $organizationId, resultFiles: $resultFiles, status: $status, trainedTokens: $trainedTokens, trainingFile: $trainingFile, validationFile: $validationFile, integrations: $integrations)';
+  return 'FineTuningJob(id: $id, createdAt: $createdAt, error: $error, fineTunedModel: $fineTunedModel, finishedAt: $finishedAt, hyperparameters: $hyperparameters, model: $model, object: $object, organizationId: $organizationId, resultFiles: $resultFiles, status: $status, trainedTokens: $trainedTokens, trainingFile: $trainingFile, validationFile: $validationFile, integrations: $integrations, seed: $seed, method: $method, estimatedFinish: $estimatedFinish)';
 }
 
 
@@ -18350,11 +18432,11 @@ abstract mixin class _$FineTuningJobCopyWith<$Res> implements $FineTuningJobCopy
   factory _$FineTuningJobCopyWith(_FineTuningJob value, $Res Function(_FineTuningJob) _then) = __$FineTuningJobCopyWithImpl;
 @override @useResult
 $Res call({
- String id,@JsonKey(name: 'created_at') int createdAt, FineTuningJobError? error,@JsonKey(name: 'fine_tuned_model') String? fineTunedModel,@JsonKey(name: 'finished_at') int? finishedAt, FineTuningJobHyperparameters hyperparameters, String model, FineTuningJobObject object,@JsonKey(name: 'organization_id') String organizationId,@JsonKey(name: 'result_files') List<String> resultFiles, FineTuningJobStatus status,@JsonKey(name: 'trained_tokens') int? trainedTokens,@JsonKey(name: 'training_file') String trainingFile,@JsonKey(name: 'validation_file') String? validationFile,@JsonKey(includeIfNull: false) List<FineTuningIntegration>? integrations
+ String id,@JsonKey(name: 'created_at') int createdAt, FineTuningJobError? error,@JsonKey(name: 'fine_tuned_model') String? fineTunedModel,@JsonKey(name: 'finished_at') int? finishedAt, FineTuningJobHyperparameters hyperparameters, String model, FineTuningJobObject object,@JsonKey(name: 'organization_id') String organizationId,@JsonKey(name: 'result_files') List<String> resultFiles, FineTuningJobStatus status,@JsonKey(name: 'trained_tokens') int? trainedTokens,@JsonKey(name: 'training_file') String trainingFile,@JsonKey(name: 'validation_file') String? validationFile,@JsonKey(includeIfNull: false) List<FineTuningIntegration>? integrations, int seed,@JsonKey(includeIfNull: false) FineTuneMethod? method,@JsonKey(name: 'estimated_finish', includeIfNull: false) int? estimatedFinish
 });
 
 
-@override $FineTuningJobErrorCopyWith<$Res>? get error;@override $FineTuningJobHyperparametersCopyWith<$Res> get hyperparameters;
+@override $FineTuningJobErrorCopyWith<$Res>? get error;@override $FineTuningJobHyperparametersCopyWith<$Res> get hyperparameters;@override $FineTuneMethodCopyWith<$Res>? get method;
 
 }
 /// @nodoc
@@ -18367,7 +18449,7 @@ class __$FineTuningJobCopyWithImpl<$Res>
 
 /// Create a copy of FineTuningJob
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? createdAt = null,Object? error = freezed,Object? fineTunedModel = freezed,Object? finishedAt = freezed,Object? hyperparameters = null,Object? model = null,Object? object = null,Object? organizationId = null,Object? resultFiles = null,Object? status = null,Object? trainedTokens = freezed,Object? trainingFile = null,Object? validationFile = freezed,Object? integrations = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? createdAt = null,Object? error = freezed,Object? fineTunedModel = freezed,Object? finishedAt = freezed,Object? hyperparameters = null,Object? model = null,Object? object = null,Object? organizationId = null,Object? resultFiles = null,Object? status = null,Object? trainedTokens = freezed,Object? trainingFile = null,Object? validationFile = freezed,Object? integrations = freezed,Object? seed = null,Object? method = freezed,Object? estimatedFinish = freezed,}) {
   return _then(_FineTuningJob(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
@@ -18384,7 +18466,10 @@ as FineTuningJobStatus,trainedTokens: freezed == trainedTokens ? _self.trainedTo
 as int?,trainingFile: null == trainingFile ? _self.trainingFile : trainingFile // ignore: cast_nullable_to_non_nullable
 as String,validationFile: freezed == validationFile ? _self.validationFile : validationFile // ignore: cast_nullable_to_non_nullable
 as String?,integrations: freezed == integrations ? _self._integrations : integrations // ignore: cast_nullable_to_non_nullable
-as List<FineTuningIntegration>?,
+as List<FineTuningIntegration>?,seed: null == seed ? _self.seed : seed // ignore: cast_nullable_to_non_nullable
+as int,method: freezed == method ? _self.method : method // ignore: cast_nullable_to_non_nullable
+as FineTuneMethod?,estimatedFinish: freezed == estimatedFinish ? _self.estimatedFinish : estimatedFinish // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 
@@ -18408,6 +18493,18 @@ $FineTuningJobHyperparametersCopyWith<$Res> get hyperparameters {
   
   return $FineTuningJobHyperparametersCopyWith<$Res>(_self.hyperparameters, (value) {
     return _then(_self.copyWith(hyperparameters: value));
+  });
+}/// Create a copy of FineTuningJob
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneMethodCopyWith<$Res>? get method {
+    if (_self.method == null) {
+    return null;
+  }
+
+  return $FineTuneMethodCopyWith<$Res>(_self.method!, (value) {
+    return _then(_self.copyWith(method: value));
   });
 }
 }
@@ -21632,6 +21729,6395 @@ as double?,validMeanTokenAccuracy: freezed == validMeanTokenAccuracy ? _self.val
 as double?,fullValidLoss: freezed == fullValidLoss ? _self.fullValidLoss : fullValidLoss // ignore: cast_nullable_to_non_nullable
 as double?,fullValidMeanTokenAccuracy: freezed == fullValidMeanTokenAccuracy ? _self.fullValidMeanTokenAccuracy : fullValidMeanTokenAccuracy // ignore: cast_nullable_to_non_nullable
 as double?,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$FineTuneMethod {
+
+/// The type of method used for fine-tuning.
+@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) FineTuneMethodType? get type;/// Configuration for the supervised fine-tuning method.
+@JsonKey(includeIfNull: false) FineTuneSupervisedMethod? get supervised;/// Configuration for the DPO (Direct Preference Optimization) fine-tuning method.
+@JsonKey(includeIfNull: false) FineTuneDPOMethod? get dpo;/// Configuration for the reinforcement fine-tuning method.
+@JsonKey(includeIfNull: false) FineTuneReinforcementMethod? get reinforcement;
+/// Create a copy of FineTuneMethod
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$FineTuneMethodCopyWith<FineTuneMethod> get copyWith => _$FineTuneMethodCopyWithImpl<FineTuneMethod>(this as FineTuneMethod, _$identity);
+
+  /// Serializes this FineTuneMethod to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneMethod&&(identical(other.type, type) || other.type == type)&&(identical(other.supervised, supervised) || other.supervised == supervised)&&(identical(other.dpo, dpo) || other.dpo == dpo)&&(identical(other.reinforcement, reinforcement) || other.reinforcement == reinforcement));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,type,supervised,dpo,reinforcement);
+
+@override
+String toString() {
+  return 'FineTuneMethod(type: $type, supervised: $supervised, dpo: $dpo, reinforcement: $reinforcement)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $FineTuneMethodCopyWith<$Res>  {
+  factory $FineTuneMethodCopyWith(FineTuneMethod value, $Res Function(FineTuneMethod) _then) = _$FineTuneMethodCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) FineTuneMethodType? type,@JsonKey(includeIfNull: false) FineTuneSupervisedMethod? supervised,@JsonKey(includeIfNull: false) FineTuneDPOMethod? dpo,@JsonKey(includeIfNull: false) FineTuneReinforcementMethod? reinforcement
+});
+
+
+$FineTuneSupervisedMethodCopyWith<$Res>? get supervised;$FineTuneDPOMethodCopyWith<$Res>? get dpo;$FineTuneReinforcementMethodCopyWith<$Res>? get reinforcement;
+
+}
+/// @nodoc
+class _$FineTuneMethodCopyWithImpl<$Res>
+    implements $FineTuneMethodCopyWith<$Res> {
+  _$FineTuneMethodCopyWithImpl(this._self, this._then);
+
+  final FineTuneMethod _self;
+  final $Res Function(FineTuneMethod) _then;
+
+/// Create a copy of FineTuneMethod
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? type = freezed,Object? supervised = freezed,Object? dpo = freezed,Object? reinforcement = freezed,}) {
+  return _then(_self.copyWith(
+type: freezed == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as FineTuneMethodType?,supervised: freezed == supervised ? _self.supervised : supervised // ignore: cast_nullable_to_non_nullable
+as FineTuneSupervisedMethod?,dpo: freezed == dpo ? _self.dpo : dpo // ignore: cast_nullable_to_non_nullable
+as FineTuneDPOMethod?,reinforcement: freezed == reinforcement ? _self.reinforcement : reinforcement // ignore: cast_nullable_to_non_nullable
+as FineTuneReinforcementMethod?,
+  ));
+}
+/// Create a copy of FineTuneMethod
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneSupervisedMethodCopyWith<$Res>? get supervised {
+    if (_self.supervised == null) {
+    return null;
+  }
+
+  return $FineTuneSupervisedMethodCopyWith<$Res>(_self.supervised!, (value) {
+    return _then(_self.copyWith(supervised: value));
+  });
+}/// Create a copy of FineTuneMethod
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneDPOMethodCopyWith<$Res>? get dpo {
+    if (_self.dpo == null) {
+    return null;
+  }
+
+  return $FineTuneDPOMethodCopyWith<$Res>(_self.dpo!, (value) {
+    return _then(_self.copyWith(dpo: value));
+  });
+}/// Create a copy of FineTuneMethod
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneReinforcementMethodCopyWith<$Res>? get reinforcement {
+    if (_self.reinforcement == null) {
+    return null;
+  }
+
+  return $FineTuneReinforcementMethodCopyWith<$Res>(_self.reinforcement!, (value) {
+    return _then(_self.copyWith(reinforcement: value));
+  });
+}
+}
+
+
+/// Adds pattern-matching-related methods to [FineTuneMethod].
+extension FineTuneMethodPatterns on FineTuneMethod {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _FineTuneMethod value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _FineTuneMethod() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _FineTuneMethod value)  $default,){
+final _that = this;
+switch (_that) {
+case _FineTuneMethod():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _FineTuneMethod value)?  $default,){
+final _that = this;
+switch (_that) {
+case _FineTuneMethod() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  FineTuneMethodType? type, @JsonKey(includeIfNull: false)  FineTuneSupervisedMethod? supervised, @JsonKey(includeIfNull: false)  FineTuneDPOMethod? dpo, @JsonKey(includeIfNull: false)  FineTuneReinforcementMethod? reinforcement)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _FineTuneMethod() when $default != null:
+return $default(_that.type,_that.supervised,_that.dpo,_that.reinforcement);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  FineTuneMethodType? type, @JsonKey(includeIfNull: false)  FineTuneSupervisedMethod? supervised, @JsonKey(includeIfNull: false)  FineTuneDPOMethod? dpo, @JsonKey(includeIfNull: false)  FineTuneReinforcementMethod? reinforcement)  $default,) {final _that = this;
+switch (_that) {
+case _FineTuneMethod():
+return $default(_that.type,_that.supervised,_that.dpo,_that.reinforcement);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  FineTuneMethodType? type, @JsonKey(includeIfNull: false)  FineTuneSupervisedMethod? supervised, @JsonKey(includeIfNull: false)  FineTuneDPOMethod? dpo, @JsonKey(includeIfNull: false)  FineTuneReinforcementMethod? reinforcement)?  $default,) {final _that = this;
+switch (_that) {
+case _FineTuneMethod() when $default != null:
+return $default(_that.type,_that.supervised,_that.dpo,_that.reinforcement);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _FineTuneMethod extends FineTuneMethod {
+  const _FineTuneMethod({@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.type, @JsonKey(includeIfNull: false) this.supervised, @JsonKey(includeIfNull: false) this.dpo, @JsonKey(includeIfNull: false) this.reinforcement}): super._();
+  factory _FineTuneMethod.fromJson(Map<String, dynamic> json) => _$FineTuneMethodFromJson(json);
+
+/// The type of method used for fine-tuning.
+@override@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) final  FineTuneMethodType? type;
+/// Configuration for the supervised fine-tuning method.
+@override@JsonKey(includeIfNull: false) final  FineTuneSupervisedMethod? supervised;
+/// Configuration for the DPO (Direct Preference Optimization) fine-tuning method.
+@override@JsonKey(includeIfNull: false) final  FineTuneDPOMethod? dpo;
+/// Configuration for the reinforcement fine-tuning method.
+@override@JsonKey(includeIfNull: false) final  FineTuneReinforcementMethod? reinforcement;
+
+/// Create a copy of FineTuneMethod
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$FineTuneMethodCopyWith<_FineTuneMethod> get copyWith => __$FineTuneMethodCopyWithImpl<_FineTuneMethod>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$FineTuneMethodToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FineTuneMethod&&(identical(other.type, type) || other.type == type)&&(identical(other.supervised, supervised) || other.supervised == supervised)&&(identical(other.dpo, dpo) || other.dpo == dpo)&&(identical(other.reinforcement, reinforcement) || other.reinforcement == reinforcement));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,type,supervised,dpo,reinforcement);
+
+@override
+String toString() {
+  return 'FineTuneMethod(type: $type, supervised: $supervised, dpo: $dpo, reinforcement: $reinforcement)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$FineTuneMethodCopyWith<$Res> implements $FineTuneMethodCopyWith<$Res> {
+  factory _$FineTuneMethodCopyWith(_FineTuneMethod value, $Res Function(_FineTuneMethod) _then) = __$FineTuneMethodCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) FineTuneMethodType? type,@JsonKey(includeIfNull: false) FineTuneSupervisedMethod? supervised,@JsonKey(includeIfNull: false) FineTuneDPOMethod? dpo,@JsonKey(includeIfNull: false) FineTuneReinforcementMethod? reinforcement
+});
+
+
+@override $FineTuneSupervisedMethodCopyWith<$Res>? get supervised;@override $FineTuneDPOMethodCopyWith<$Res>? get dpo;@override $FineTuneReinforcementMethodCopyWith<$Res>? get reinforcement;
+
+}
+/// @nodoc
+class __$FineTuneMethodCopyWithImpl<$Res>
+    implements _$FineTuneMethodCopyWith<$Res> {
+  __$FineTuneMethodCopyWithImpl(this._self, this._then);
+
+  final _FineTuneMethod _self;
+  final $Res Function(_FineTuneMethod) _then;
+
+/// Create a copy of FineTuneMethod
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? type = freezed,Object? supervised = freezed,Object? dpo = freezed,Object? reinforcement = freezed,}) {
+  return _then(_FineTuneMethod(
+type: freezed == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as FineTuneMethodType?,supervised: freezed == supervised ? _self.supervised : supervised // ignore: cast_nullable_to_non_nullable
+as FineTuneSupervisedMethod?,dpo: freezed == dpo ? _self.dpo : dpo // ignore: cast_nullable_to_non_nullable
+as FineTuneDPOMethod?,reinforcement: freezed == reinforcement ? _self.reinforcement : reinforcement // ignore: cast_nullable_to_non_nullable
+as FineTuneReinforcementMethod?,
+  ));
+}
+
+/// Create a copy of FineTuneMethod
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneSupervisedMethodCopyWith<$Res>? get supervised {
+    if (_self.supervised == null) {
+    return null;
+  }
+
+  return $FineTuneSupervisedMethodCopyWith<$Res>(_self.supervised!, (value) {
+    return _then(_self.copyWith(supervised: value));
+  });
+}/// Create a copy of FineTuneMethod
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneDPOMethodCopyWith<$Res>? get dpo {
+    if (_self.dpo == null) {
+    return null;
+  }
+
+  return $FineTuneDPOMethodCopyWith<$Res>(_self.dpo!, (value) {
+    return _then(_self.copyWith(dpo: value));
+  });
+}/// Create a copy of FineTuneMethod
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneReinforcementMethodCopyWith<$Res>? get reinforcement {
+    if (_self.reinforcement == null) {
+    return null;
+  }
+
+  return $FineTuneReinforcementMethodCopyWith<$Res>(_self.reinforcement!, (value) {
+    return _then(_self.copyWith(reinforcement: value));
+  });
+}
+}
+
+
+/// @nodoc
+mixin _$FineTuneSupervisedMethod {
+
+/// The hyperparameters used for the supervised fine-tuning job.
+@JsonKey(includeIfNull: false) FineTuneSupervisedHyperparameters? get hyperparameters;
+/// Create a copy of FineTuneSupervisedMethod
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$FineTuneSupervisedMethodCopyWith<FineTuneSupervisedMethod> get copyWith => _$FineTuneSupervisedMethodCopyWithImpl<FineTuneSupervisedMethod>(this as FineTuneSupervisedMethod, _$identity);
+
+  /// Serializes this FineTuneSupervisedMethod to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneSupervisedMethod&&(identical(other.hyperparameters, hyperparameters) || other.hyperparameters == hyperparameters));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,hyperparameters);
+
+@override
+String toString() {
+  return 'FineTuneSupervisedMethod(hyperparameters: $hyperparameters)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $FineTuneSupervisedMethodCopyWith<$Res>  {
+  factory $FineTuneSupervisedMethodCopyWith(FineTuneSupervisedMethod value, $Res Function(FineTuneSupervisedMethod) _then) = _$FineTuneSupervisedMethodCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(includeIfNull: false) FineTuneSupervisedHyperparameters? hyperparameters
+});
+
+
+$FineTuneSupervisedHyperparametersCopyWith<$Res>? get hyperparameters;
+
+}
+/// @nodoc
+class _$FineTuneSupervisedMethodCopyWithImpl<$Res>
+    implements $FineTuneSupervisedMethodCopyWith<$Res> {
+  _$FineTuneSupervisedMethodCopyWithImpl(this._self, this._then);
+
+  final FineTuneSupervisedMethod _self;
+  final $Res Function(FineTuneSupervisedMethod) _then;
+
+/// Create a copy of FineTuneSupervisedMethod
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? hyperparameters = freezed,}) {
+  return _then(_self.copyWith(
+hyperparameters: freezed == hyperparameters ? _self.hyperparameters : hyperparameters // ignore: cast_nullable_to_non_nullable
+as FineTuneSupervisedHyperparameters?,
+  ));
+}
+/// Create a copy of FineTuneSupervisedMethod
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneSupervisedHyperparametersCopyWith<$Res>? get hyperparameters {
+    if (_self.hyperparameters == null) {
+    return null;
+  }
+
+  return $FineTuneSupervisedHyperparametersCopyWith<$Res>(_self.hyperparameters!, (value) {
+    return _then(_self.copyWith(hyperparameters: value));
+  });
+}
+}
+
+
+/// Adds pattern-matching-related methods to [FineTuneSupervisedMethod].
+extension FineTuneSupervisedMethodPatterns on FineTuneSupervisedMethod {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _FineTuneSupervisedMethod value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _FineTuneSupervisedMethod() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _FineTuneSupervisedMethod value)  $default,){
+final _that = this;
+switch (_that) {
+case _FineTuneSupervisedMethod():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _FineTuneSupervisedMethod value)?  $default,){
+final _that = this;
+switch (_that) {
+case _FineTuneSupervisedMethod() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false)  FineTuneSupervisedHyperparameters? hyperparameters)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _FineTuneSupervisedMethod() when $default != null:
+return $default(_that.hyperparameters);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false)  FineTuneSupervisedHyperparameters? hyperparameters)  $default,) {final _that = this;
+switch (_that) {
+case _FineTuneSupervisedMethod():
+return $default(_that.hyperparameters);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(includeIfNull: false)  FineTuneSupervisedHyperparameters? hyperparameters)?  $default,) {final _that = this;
+switch (_that) {
+case _FineTuneSupervisedMethod() when $default != null:
+return $default(_that.hyperparameters);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _FineTuneSupervisedMethod extends FineTuneSupervisedMethod {
+  const _FineTuneSupervisedMethod({@JsonKey(includeIfNull: false) this.hyperparameters}): super._();
+  factory _FineTuneSupervisedMethod.fromJson(Map<String, dynamic> json) => _$FineTuneSupervisedMethodFromJson(json);
+
+/// The hyperparameters used for the supervised fine-tuning job.
+@override@JsonKey(includeIfNull: false) final  FineTuneSupervisedHyperparameters? hyperparameters;
+
+/// Create a copy of FineTuneSupervisedMethod
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$FineTuneSupervisedMethodCopyWith<_FineTuneSupervisedMethod> get copyWith => __$FineTuneSupervisedMethodCopyWithImpl<_FineTuneSupervisedMethod>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$FineTuneSupervisedMethodToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FineTuneSupervisedMethod&&(identical(other.hyperparameters, hyperparameters) || other.hyperparameters == hyperparameters));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,hyperparameters);
+
+@override
+String toString() {
+  return 'FineTuneSupervisedMethod(hyperparameters: $hyperparameters)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$FineTuneSupervisedMethodCopyWith<$Res> implements $FineTuneSupervisedMethodCopyWith<$Res> {
+  factory _$FineTuneSupervisedMethodCopyWith(_FineTuneSupervisedMethod value, $Res Function(_FineTuneSupervisedMethod) _then) = __$FineTuneSupervisedMethodCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(includeIfNull: false) FineTuneSupervisedHyperparameters? hyperparameters
+});
+
+
+@override $FineTuneSupervisedHyperparametersCopyWith<$Res>? get hyperparameters;
+
+}
+/// @nodoc
+class __$FineTuneSupervisedMethodCopyWithImpl<$Res>
+    implements _$FineTuneSupervisedMethodCopyWith<$Res> {
+  __$FineTuneSupervisedMethodCopyWithImpl(this._self, this._then);
+
+  final _FineTuneSupervisedMethod _self;
+  final $Res Function(_FineTuneSupervisedMethod) _then;
+
+/// Create a copy of FineTuneSupervisedMethod
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? hyperparameters = freezed,}) {
+  return _then(_FineTuneSupervisedMethod(
+hyperparameters: freezed == hyperparameters ? _self.hyperparameters : hyperparameters // ignore: cast_nullable_to_non_nullable
+as FineTuneSupervisedHyperparameters?,
+  ));
+}
+
+/// Create a copy of FineTuneSupervisedMethod
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneSupervisedHyperparametersCopyWith<$Res>? get hyperparameters {
+    if (_self.hyperparameters == null) {
+    return null;
+  }
+
+  return $FineTuneSupervisedHyperparametersCopyWith<$Res>(_self.hyperparameters!, (value) {
+    return _then(_self.copyWith(hyperparameters: value));
+  });
+}
+}
+
+
+/// @nodoc
+mixin _$FineTuneSupervisedHyperparameters {
+
+/// Number of examples in each batch. A larger batch size means that model parameters
+/// are updated less frequently, but with lower variance.
+@_FineTuneSupervisedHyperparametersBatchSizeConverter()@JsonKey(name: 'batch_size', includeIfNull: false) FineTuneSupervisedHyperparametersBatchSize? get batchSize;/// Scaling factor for the learning rate. A smaller learning rate may be useful to avoid
+/// overfitting.
+@_FineTuneSupervisedHyperparametersLearningRateMultiplierConverter()@JsonKey(name: 'learning_rate_multiplier', includeIfNull: false) FineTuneSupervisedHyperparametersLearningRateMultiplier? get learningRateMultiplier;/// The number of epochs to train the model for. An epoch refers to one full cycle
+/// through the training dataset.
+@_FineTuneSupervisedHyperparametersNEpochsConverter()@JsonKey(name: 'n_epochs', includeIfNull: false) FineTuneSupervisedHyperparametersNEpochs? get nEpochs;
+/// Create a copy of FineTuneSupervisedHyperparameters
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$FineTuneSupervisedHyperparametersCopyWith<FineTuneSupervisedHyperparameters> get copyWith => _$FineTuneSupervisedHyperparametersCopyWithImpl<FineTuneSupervisedHyperparameters>(this as FineTuneSupervisedHyperparameters, _$identity);
+
+  /// Serializes this FineTuneSupervisedHyperparameters to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneSupervisedHyperparameters&&(identical(other.batchSize, batchSize) || other.batchSize == batchSize)&&(identical(other.learningRateMultiplier, learningRateMultiplier) || other.learningRateMultiplier == learningRateMultiplier)&&(identical(other.nEpochs, nEpochs) || other.nEpochs == nEpochs));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,batchSize,learningRateMultiplier,nEpochs);
+
+@override
+String toString() {
+  return 'FineTuneSupervisedHyperparameters(batchSize: $batchSize, learningRateMultiplier: $learningRateMultiplier, nEpochs: $nEpochs)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $FineTuneSupervisedHyperparametersCopyWith<$Res>  {
+  factory $FineTuneSupervisedHyperparametersCopyWith(FineTuneSupervisedHyperparameters value, $Res Function(FineTuneSupervisedHyperparameters) _then) = _$FineTuneSupervisedHyperparametersCopyWithImpl;
+@useResult
+$Res call({
+@_FineTuneSupervisedHyperparametersBatchSizeConverter()@JsonKey(name: 'batch_size', includeIfNull: false) FineTuneSupervisedHyperparametersBatchSize? batchSize,@_FineTuneSupervisedHyperparametersLearningRateMultiplierConverter()@JsonKey(name: 'learning_rate_multiplier', includeIfNull: false) FineTuneSupervisedHyperparametersLearningRateMultiplier? learningRateMultiplier,@_FineTuneSupervisedHyperparametersNEpochsConverter()@JsonKey(name: 'n_epochs', includeIfNull: false) FineTuneSupervisedHyperparametersNEpochs? nEpochs
+});
+
+
+$FineTuneSupervisedHyperparametersBatchSizeCopyWith<$Res>? get batchSize;$FineTuneSupervisedHyperparametersLearningRateMultiplierCopyWith<$Res>? get learningRateMultiplier;$FineTuneSupervisedHyperparametersNEpochsCopyWith<$Res>? get nEpochs;
+
+}
+/// @nodoc
+class _$FineTuneSupervisedHyperparametersCopyWithImpl<$Res>
+    implements $FineTuneSupervisedHyperparametersCopyWith<$Res> {
+  _$FineTuneSupervisedHyperparametersCopyWithImpl(this._self, this._then);
+
+  final FineTuneSupervisedHyperparameters _self;
+  final $Res Function(FineTuneSupervisedHyperparameters) _then;
+
+/// Create a copy of FineTuneSupervisedHyperparameters
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? batchSize = freezed,Object? learningRateMultiplier = freezed,Object? nEpochs = freezed,}) {
+  return _then(_self.copyWith(
+batchSize: freezed == batchSize ? _self.batchSize : batchSize // ignore: cast_nullable_to_non_nullable
+as FineTuneSupervisedHyperparametersBatchSize?,learningRateMultiplier: freezed == learningRateMultiplier ? _self.learningRateMultiplier : learningRateMultiplier // ignore: cast_nullable_to_non_nullable
+as FineTuneSupervisedHyperparametersLearningRateMultiplier?,nEpochs: freezed == nEpochs ? _self.nEpochs : nEpochs // ignore: cast_nullable_to_non_nullable
+as FineTuneSupervisedHyperparametersNEpochs?,
+  ));
+}
+/// Create a copy of FineTuneSupervisedHyperparameters
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneSupervisedHyperparametersBatchSizeCopyWith<$Res>? get batchSize {
+    if (_self.batchSize == null) {
+    return null;
+  }
+
+  return $FineTuneSupervisedHyperparametersBatchSizeCopyWith<$Res>(_self.batchSize!, (value) {
+    return _then(_self.copyWith(batchSize: value));
+  });
+}/// Create a copy of FineTuneSupervisedHyperparameters
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneSupervisedHyperparametersLearningRateMultiplierCopyWith<$Res>? get learningRateMultiplier {
+    if (_self.learningRateMultiplier == null) {
+    return null;
+  }
+
+  return $FineTuneSupervisedHyperparametersLearningRateMultiplierCopyWith<$Res>(_self.learningRateMultiplier!, (value) {
+    return _then(_self.copyWith(learningRateMultiplier: value));
+  });
+}/// Create a copy of FineTuneSupervisedHyperparameters
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneSupervisedHyperparametersNEpochsCopyWith<$Res>? get nEpochs {
+    if (_self.nEpochs == null) {
+    return null;
+  }
+
+  return $FineTuneSupervisedHyperparametersNEpochsCopyWith<$Res>(_self.nEpochs!, (value) {
+    return _then(_self.copyWith(nEpochs: value));
+  });
+}
+}
+
+
+/// Adds pattern-matching-related methods to [FineTuneSupervisedHyperparameters].
+extension FineTuneSupervisedHyperparametersPatterns on FineTuneSupervisedHyperparameters {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _FineTuneSupervisedHyperparameters value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _FineTuneSupervisedHyperparameters() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _FineTuneSupervisedHyperparameters value)  $default,){
+final _that = this;
+switch (_that) {
+case _FineTuneSupervisedHyperparameters():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _FineTuneSupervisedHyperparameters value)?  $default,){
+final _that = this;
+switch (_that) {
+case _FineTuneSupervisedHyperparameters() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@_FineTuneSupervisedHyperparametersBatchSizeConverter()@JsonKey(name: 'batch_size', includeIfNull: false)  FineTuneSupervisedHyperparametersBatchSize? batchSize, @_FineTuneSupervisedHyperparametersLearningRateMultiplierConverter()@JsonKey(name: 'learning_rate_multiplier', includeIfNull: false)  FineTuneSupervisedHyperparametersLearningRateMultiplier? learningRateMultiplier, @_FineTuneSupervisedHyperparametersNEpochsConverter()@JsonKey(name: 'n_epochs', includeIfNull: false)  FineTuneSupervisedHyperparametersNEpochs? nEpochs)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _FineTuneSupervisedHyperparameters() when $default != null:
+return $default(_that.batchSize,_that.learningRateMultiplier,_that.nEpochs);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@_FineTuneSupervisedHyperparametersBatchSizeConverter()@JsonKey(name: 'batch_size', includeIfNull: false)  FineTuneSupervisedHyperparametersBatchSize? batchSize, @_FineTuneSupervisedHyperparametersLearningRateMultiplierConverter()@JsonKey(name: 'learning_rate_multiplier', includeIfNull: false)  FineTuneSupervisedHyperparametersLearningRateMultiplier? learningRateMultiplier, @_FineTuneSupervisedHyperparametersNEpochsConverter()@JsonKey(name: 'n_epochs', includeIfNull: false)  FineTuneSupervisedHyperparametersNEpochs? nEpochs)  $default,) {final _that = this;
+switch (_that) {
+case _FineTuneSupervisedHyperparameters():
+return $default(_that.batchSize,_that.learningRateMultiplier,_that.nEpochs);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@_FineTuneSupervisedHyperparametersBatchSizeConverter()@JsonKey(name: 'batch_size', includeIfNull: false)  FineTuneSupervisedHyperparametersBatchSize? batchSize, @_FineTuneSupervisedHyperparametersLearningRateMultiplierConverter()@JsonKey(name: 'learning_rate_multiplier', includeIfNull: false)  FineTuneSupervisedHyperparametersLearningRateMultiplier? learningRateMultiplier, @_FineTuneSupervisedHyperparametersNEpochsConverter()@JsonKey(name: 'n_epochs', includeIfNull: false)  FineTuneSupervisedHyperparametersNEpochs? nEpochs)?  $default,) {final _that = this;
+switch (_that) {
+case _FineTuneSupervisedHyperparameters() when $default != null:
+return $default(_that.batchSize,_that.learningRateMultiplier,_that.nEpochs);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _FineTuneSupervisedHyperparameters extends FineTuneSupervisedHyperparameters {
+  const _FineTuneSupervisedHyperparameters({@_FineTuneSupervisedHyperparametersBatchSizeConverter()@JsonKey(name: 'batch_size', includeIfNull: false) this.batchSize = const FineTuneSupervisedHyperparametersBatchSizeEnumeration(FineTuneSupervisedHyperparametersBatchSizeEnum.auto), @_FineTuneSupervisedHyperparametersLearningRateMultiplierConverter()@JsonKey(name: 'learning_rate_multiplier', includeIfNull: false) this.learningRateMultiplier = const FineTuneSupervisedHyperparametersLearningRateMultiplierEnumeration(FineTuneSupervisedHyperparametersLearningRateMultiplierEnum.auto), @_FineTuneSupervisedHyperparametersNEpochsConverter()@JsonKey(name: 'n_epochs', includeIfNull: false) this.nEpochs = const FineTuneSupervisedHyperparametersNEpochsEnumeration(FineTuneSupervisedHyperparametersNEpochsEnum.auto)}): super._();
+  factory _FineTuneSupervisedHyperparameters.fromJson(Map<String, dynamic> json) => _$FineTuneSupervisedHyperparametersFromJson(json);
+
+/// Number of examples in each batch. A larger batch size means that model parameters
+/// are updated less frequently, but with lower variance.
+@override@_FineTuneSupervisedHyperparametersBatchSizeConverter()@JsonKey(name: 'batch_size', includeIfNull: false) final  FineTuneSupervisedHyperparametersBatchSize? batchSize;
+/// Scaling factor for the learning rate. A smaller learning rate may be useful to avoid
+/// overfitting.
+@override@_FineTuneSupervisedHyperparametersLearningRateMultiplierConverter()@JsonKey(name: 'learning_rate_multiplier', includeIfNull: false) final  FineTuneSupervisedHyperparametersLearningRateMultiplier? learningRateMultiplier;
+/// The number of epochs to train the model for. An epoch refers to one full cycle
+/// through the training dataset.
+@override@_FineTuneSupervisedHyperparametersNEpochsConverter()@JsonKey(name: 'n_epochs', includeIfNull: false) final  FineTuneSupervisedHyperparametersNEpochs? nEpochs;
+
+/// Create a copy of FineTuneSupervisedHyperparameters
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$FineTuneSupervisedHyperparametersCopyWith<_FineTuneSupervisedHyperparameters> get copyWith => __$FineTuneSupervisedHyperparametersCopyWithImpl<_FineTuneSupervisedHyperparameters>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$FineTuneSupervisedHyperparametersToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FineTuneSupervisedHyperparameters&&(identical(other.batchSize, batchSize) || other.batchSize == batchSize)&&(identical(other.learningRateMultiplier, learningRateMultiplier) || other.learningRateMultiplier == learningRateMultiplier)&&(identical(other.nEpochs, nEpochs) || other.nEpochs == nEpochs));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,batchSize,learningRateMultiplier,nEpochs);
+
+@override
+String toString() {
+  return 'FineTuneSupervisedHyperparameters(batchSize: $batchSize, learningRateMultiplier: $learningRateMultiplier, nEpochs: $nEpochs)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$FineTuneSupervisedHyperparametersCopyWith<$Res> implements $FineTuneSupervisedHyperparametersCopyWith<$Res> {
+  factory _$FineTuneSupervisedHyperparametersCopyWith(_FineTuneSupervisedHyperparameters value, $Res Function(_FineTuneSupervisedHyperparameters) _then) = __$FineTuneSupervisedHyperparametersCopyWithImpl;
+@override @useResult
+$Res call({
+@_FineTuneSupervisedHyperparametersBatchSizeConverter()@JsonKey(name: 'batch_size', includeIfNull: false) FineTuneSupervisedHyperparametersBatchSize? batchSize,@_FineTuneSupervisedHyperparametersLearningRateMultiplierConverter()@JsonKey(name: 'learning_rate_multiplier', includeIfNull: false) FineTuneSupervisedHyperparametersLearningRateMultiplier? learningRateMultiplier,@_FineTuneSupervisedHyperparametersNEpochsConverter()@JsonKey(name: 'n_epochs', includeIfNull: false) FineTuneSupervisedHyperparametersNEpochs? nEpochs
+});
+
+
+@override $FineTuneSupervisedHyperparametersBatchSizeCopyWith<$Res>? get batchSize;@override $FineTuneSupervisedHyperparametersLearningRateMultiplierCopyWith<$Res>? get learningRateMultiplier;@override $FineTuneSupervisedHyperparametersNEpochsCopyWith<$Res>? get nEpochs;
+
+}
+/// @nodoc
+class __$FineTuneSupervisedHyperparametersCopyWithImpl<$Res>
+    implements _$FineTuneSupervisedHyperparametersCopyWith<$Res> {
+  __$FineTuneSupervisedHyperparametersCopyWithImpl(this._self, this._then);
+
+  final _FineTuneSupervisedHyperparameters _self;
+  final $Res Function(_FineTuneSupervisedHyperparameters) _then;
+
+/// Create a copy of FineTuneSupervisedHyperparameters
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? batchSize = freezed,Object? learningRateMultiplier = freezed,Object? nEpochs = freezed,}) {
+  return _then(_FineTuneSupervisedHyperparameters(
+batchSize: freezed == batchSize ? _self.batchSize : batchSize // ignore: cast_nullable_to_non_nullable
+as FineTuneSupervisedHyperparametersBatchSize?,learningRateMultiplier: freezed == learningRateMultiplier ? _self.learningRateMultiplier : learningRateMultiplier // ignore: cast_nullable_to_non_nullable
+as FineTuneSupervisedHyperparametersLearningRateMultiplier?,nEpochs: freezed == nEpochs ? _self.nEpochs : nEpochs // ignore: cast_nullable_to_non_nullable
+as FineTuneSupervisedHyperparametersNEpochs?,
+  ));
+}
+
+/// Create a copy of FineTuneSupervisedHyperparameters
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneSupervisedHyperparametersBatchSizeCopyWith<$Res>? get batchSize {
+    if (_self.batchSize == null) {
+    return null;
+  }
+
+  return $FineTuneSupervisedHyperparametersBatchSizeCopyWith<$Res>(_self.batchSize!, (value) {
+    return _then(_self.copyWith(batchSize: value));
+  });
+}/// Create a copy of FineTuneSupervisedHyperparameters
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneSupervisedHyperparametersLearningRateMultiplierCopyWith<$Res>? get learningRateMultiplier {
+    if (_self.learningRateMultiplier == null) {
+    return null;
+  }
+
+  return $FineTuneSupervisedHyperparametersLearningRateMultiplierCopyWith<$Res>(_self.learningRateMultiplier!, (value) {
+    return _then(_self.copyWith(learningRateMultiplier: value));
+  });
+}/// Create a copy of FineTuneSupervisedHyperparameters
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneSupervisedHyperparametersNEpochsCopyWith<$Res>? get nEpochs {
+    if (_self.nEpochs == null) {
+    return null;
+  }
+
+  return $FineTuneSupervisedHyperparametersNEpochsCopyWith<$Res>(_self.nEpochs!, (value) {
+    return _then(_self.copyWith(nEpochs: value));
+  });
+}
+}
+
+FineTuneSupervisedHyperparametersBatchSize _$FineTuneSupervisedHyperparametersBatchSizeFromJson(
+  Map<String, dynamic> json
+) {
+        switch (json['runtimeType']) {
+                  case 'enumeration':
+          return FineTuneSupervisedHyperparametersBatchSizeEnumeration.fromJson(
+            json
+          );
+                case 'int':
+          return FineTuneSupervisedHyperparametersBatchSizeInt.fromJson(
+            json
+          );
+        
+          default:
+            throw CheckedFromJsonException(
+  json,
+  'runtimeType',
+  'FineTuneSupervisedHyperparametersBatchSize',
+  'Invalid union type "${json['runtimeType']}"!'
+);
+        }
+      
+}
+
+/// @nodoc
+mixin _$FineTuneSupervisedHyperparametersBatchSize {
+
+ Object get value;
+
+  /// Serializes this FineTuneSupervisedHyperparametersBatchSize to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneSupervisedHyperparametersBatchSize&&const DeepCollectionEquality().equals(other.value, value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(value));
+
+@override
+String toString() {
+  return 'FineTuneSupervisedHyperparametersBatchSize(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+class $FineTuneSupervisedHyperparametersBatchSizeCopyWith<$Res>  {
+$FineTuneSupervisedHyperparametersBatchSizeCopyWith(FineTuneSupervisedHyperparametersBatchSize _, $Res Function(FineTuneSupervisedHyperparametersBatchSize) __);
+}
+
+
+/// Adds pattern-matching-related methods to [FineTuneSupervisedHyperparametersBatchSize].
+extension FineTuneSupervisedHyperparametersBatchSizePatterns on FineTuneSupervisedHyperparametersBatchSize {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( FineTuneSupervisedHyperparametersBatchSizeEnumeration value)?  enumeration,TResult Function( FineTuneSupervisedHyperparametersBatchSizeInt value)?  int,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case FineTuneSupervisedHyperparametersBatchSizeEnumeration() when enumeration != null:
+return enumeration(_that);case FineTuneSupervisedHyperparametersBatchSizeInt() when int != null:
+return int(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( FineTuneSupervisedHyperparametersBatchSizeEnumeration value)  enumeration,required TResult Function( FineTuneSupervisedHyperparametersBatchSizeInt value)  int,}){
+final _that = this;
+switch (_that) {
+case FineTuneSupervisedHyperparametersBatchSizeEnumeration():
+return enumeration(_that);case FineTuneSupervisedHyperparametersBatchSizeInt():
+return int(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( FineTuneSupervisedHyperparametersBatchSizeEnumeration value)?  enumeration,TResult? Function( FineTuneSupervisedHyperparametersBatchSizeInt value)?  int,}){
+final _that = this;
+switch (_that) {
+case FineTuneSupervisedHyperparametersBatchSizeEnumeration() when enumeration != null:
+return enumeration(_that);case FineTuneSupervisedHyperparametersBatchSizeInt() when int != null:
+return int(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( FineTuneSupervisedHyperparametersBatchSizeEnum value)?  enumeration,TResult Function( int value)?  int,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case FineTuneSupervisedHyperparametersBatchSizeEnumeration() when enumeration != null:
+return enumeration(_that.value);case FineTuneSupervisedHyperparametersBatchSizeInt() when int != null:
+return int(_that.value);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( FineTuneSupervisedHyperparametersBatchSizeEnum value)  enumeration,required TResult Function( int value)  int,}) {final _that = this;
+switch (_that) {
+case FineTuneSupervisedHyperparametersBatchSizeEnumeration():
+return enumeration(_that.value);case FineTuneSupervisedHyperparametersBatchSizeInt():
+return int(_that.value);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( FineTuneSupervisedHyperparametersBatchSizeEnum value)?  enumeration,TResult? Function( int value)?  int,}) {final _that = this;
+switch (_that) {
+case FineTuneSupervisedHyperparametersBatchSizeEnumeration() when enumeration != null:
+return enumeration(_that.value);case FineTuneSupervisedHyperparametersBatchSizeInt() when int != null:
+return int(_that.value);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class FineTuneSupervisedHyperparametersBatchSizeEnumeration extends FineTuneSupervisedHyperparametersBatchSize {
+  const FineTuneSupervisedHyperparametersBatchSizeEnumeration(this.value, {final  String? $type}): $type = $type ?? 'enumeration',super._();
+  factory FineTuneSupervisedHyperparametersBatchSizeEnumeration.fromJson(Map<String, dynamic> json) => _$FineTuneSupervisedHyperparametersBatchSizeEnumerationFromJson(json);
+
+@override final  FineTuneSupervisedHyperparametersBatchSizeEnum value;
+
+@JsonKey(name: 'runtimeType')
+final String $type;
+
+
+/// Create a copy of FineTuneSupervisedHyperparametersBatchSize
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$FineTuneSupervisedHyperparametersBatchSizeEnumerationCopyWith<FineTuneSupervisedHyperparametersBatchSizeEnumeration> get copyWith => _$FineTuneSupervisedHyperparametersBatchSizeEnumerationCopyWithImpl<FineTuneSupervisedHyperparametersBatchSizeEnumeration>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$FineTuneSupervisedHyperparametersBatchSizeEnumerationToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneSupervisedHyperparametersBatchSizeEnumeration&&(identical(other.value, value) || other.value == value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,value);
+
+@override
+String toString() {
+  return 'FineTuneSupervisedHyperparametersBatchSize.enumeration(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $FineTuneSupervisedHyperparametersBatchSizeEnumerationCopyWith<$Res> implements $FineTuneSupervisedHyperparametersBatchSizeCopyWith<$Res> {
+  factory $FineTuneSupervisedHyperparametersBatchSizeEnumerationCopyWith(FineTuneSupervisedHyperparametersBatchSizeEnumeration value, $Res Function(FineTuneSupervisedHyperparametersBatchSizeEnumeration) _then) = _$FineTuneSupervisedHyperparametersBatchSizeEnumerationCopyWithImpl;
+@useResult
+$Res call({
+ FineTuneSupervisedHyperparametersBatchSizeEnum value
+});
+
+
+
+
+}
+/// @nodoc
+class _$FineTuneSupervisedHyperparametersBatchSizeEnumerationCopyWithImpl<$Res>
+    implements $FineTuneSupervisedHyperparametersBatchSizeEnumerationCopyWith<$Res> {
+  _$FineTuneSupervisedHyperparametersBatchSizeEnumerationCopyWithImpl(this._self, this._then);
+
+  final FineTuneSupervisedHyperparametersBatchSizeEnumeration _self;
+  final $Res Function(FineTuneSupervisedHyperparametersBatchSizeEnumeration) _then;
+
+/// Create a copy of FineTuneSupervisedHyperparametersBatchSize
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
+  return _then(FineTuneSupervisedHyperparametersBatchSizeEnumeration(
+null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as FineTuneSupervisedHyperparametersBatchSizeEnum,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class FineTuneSupervisedHyperparametersBatchSizeInt extends FineTuneSupervisedHyperparametersBatchSize {
+  const FineTuneSupervisedHyperparametersBatchSizeInt(this.value, {final  String? $type}): $type = $type ?? 'int',super._();
+  factory FineTuneSupervisedHyperparametersBatchSizeInt.fromJson(Map<String, dynamic> json) => _$FineTuneSupervisedHyperparametersBatchSizeIntFromJson(json);
+
+@override final  int value;
+
+@JsonKey(name: 'runtimeType')
+final String $type;
+
+
+/// Create a copy of FineTuneSupervisedHyperparametersBatchSize
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$FineTuneSupervisedHyperparametersBatchSizeIntCopyWith<FineTuneSupervisedHyperparametersBatchSizeInt> get copyWith => _$FineTuneSupervisedHyperparametersBatchSizeIntCopyWithImpl<FineTuneSupervisedHyperparametersBatchSizeInt>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$FineTuneSupervisedHyperparametersBatchSizeIntToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneSupervisedHyperparametersBatchSizeInt&&(identical(other.value, value) || other.value == value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,value);
+
+@override
+String toString() {
+  return 'FineTuneSupervisedHyperparametersBatchSize.int(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $FineTuneSupervisedHyperparametersBatchSizeIntCopyWith<$Res> implements $FineTuneSupervisedHyperparametersBatchSizeCopyWith<$Res> {
+  factory $FineTuneSupervisedHyperparametersBatchSizeIntCopyWith(FineTuneSupervisedHyperparametersBatchSizeInt value, $Res Function(FineTuneSupervisedHyperparametersBatchSizeInt) _then) = _$FineTuneSupervisedHyperparametersBatchSizeIntCopyWithImpl;
+@useResult
+$Res call({
+ int value
+});
+
+
+
+
+}
+/// @nodoc
+class _$FineTuneSupervisedHyperparametersBatchSizeIntCopyWithImpl<$Res>
+    implements $FineTuneSupervisedHyperparametersBatchSizeIntCopyWith<$Res> {
+  _$FineTuneSupervisedHyperparametersBatchSizeIntCopyWithImpl(this._self, this._then);
+
+  final FineTuneSupervisedHyperparametersBatchSizeInt _self;
+  final $Res Function(FineTuneSupervisedHyperparametersBatchSizeInt) _then;
+
+/// Create a copy of FineTuneSupervisedHyperparametersBatchSize
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
+  return _then(FineTuneSupervisedHyperparametersBatchSizeInt(
+null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+
+}
+
+FineTuneSupervisedHyperparametersLearningRateMultiplier _$FineTuneSupervisedHyperparametersLearningRateMultiplierFromJson(
+  Map<String, dynamic> json
+) {
+        switch (json['runtimeType']) {
+                  case 'enumeration':
+          return FineTuneSupervisedHyperparametersLearningRateMultiplierEnumeration.fromJson(
+            json
+          );
+                case 'double':
+          return FineTuneSupervisedHyperparametersLearningRateMultiplierDouble.fromJson(
+            json
+          );
+        
+          default:
+            throw CheckedFromJsonException(
+  json,
+  'runtimeType',
+  'FineTuneSupervisedHyperparametersLearningRateMultiplier',
+  'Invalid union type "${json['runtimeType']}"!'
+);
+        }
+      
+}
+
+/// @nodoc
+mixin _$FineTuneSupervisedHyperparametersLearningRateMultiplier {
+
+ Object get value;
+
+  /// Serializes this FineTuneSupervisedHyperparametersLearningRateMultiplier to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneSupervisedHyperparametersLearningRateMultiplier&&const DeepCollectionEquality().equals(other.value, value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(value));
+
+@override
+String toString() {
+  return 'FineTuneSupervisedHyperparametersLearningRateMultiplier(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+class $FineTuneSupervisedHyperparametersLearningRateMultiplierCopyWith<$Res>  {
+$FineTuneSupervisedHyperparametersLearningRateMultiplierCopyWith(FineTuneSupervisedHyperparametersLearningRateMultiplier _, $Res Function(FineTuneSupervisedHyperparametersLearningRateMultiplier) __);
+}
+
+
+/// Adds pattern-matching-related methods to [FineTuneSupervisedHyperparametersLearningRateMultiplier].
+extension FineTuneSupervisedHyperparametersLearningRateMultiplierPatterns on FineTuneSupervisedHyperparametersLearningRateMultiplier {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( FineTuneSupervisedHyperparametersLearningRateMultiplierEnumeration value)?  enumeration,TResult Function( FineTuneSupervisedHyperparametersLearningRateMultiplierDouble value)?  double,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case FineTuneSupervisedHyperparametersLearningRateMultiplierEnumeration() when enumeration != null:
+return enumeration(_that);case FineTuneSupervisedHyperparametersLearningRateMultiplierDouble() when double != null:
+return double(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( FineTuneSupervisedHyperparametersLearningRateMultiplierEnumeration value)  enumeration,required TResult Function( FineTuneSupervisedHyperparametersLearningRateMultiplierDouble value)  double,}){
+final _that = this;
+switch (_that) {
+case FineTuneSupervisedHyperparametersLearningRateMultiplierEnumeration():
+return enumeration(_that);case FineTuneSupervisedHyperparametersLearningRateMultiplierDouble():
+return double(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( FineTuneSupervisedHyperparametersLearningRateMultiplierEnumeration value)?  enumeration,TResult? Function( FineTuneSupervisedHyperparametersLearningRateMultiplierDouble value)?  double,}){
+final _that = this;
+switch (_that) {
+case FineTuneSupervisedHyperparametersLearningRateMultiplierEnumeration() when enumeration != null:
+return enumeration(_that);case FineTuneSupervisedHyperparametersLearningRateMultiplierDouble() when double != null:
+return double(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( FineTuneSupervisedHyperparametersLearningRateMultiplierEnum value)?  enumeration,TResult Function( double value)?  double,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case FineTuneSupervisedHyperparametersLearningRateMultiplierEnumeration() when enumeration != null:
+return enumeration(_that.value);case FineTuneSupervisedHyperparametersLearningRateMultiplierDouble() when double != null:
+return double(_that.value);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( FineTuneSupervisedHyperparametersLearningRateMultiplierEnum value)  enumeration,required TResult Function( double value)  double,}) {final _that = this;
+switch (_that) {
+case FineTuneSupervisedHyperparametersLearningRateMultiplierEnumeration():
+return enumeration(_that.value);case FineTuneSupervisedHyperparametersLearningRateMultiplierDouble():
+return double(_that.value);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( FineTuneSupervisedHyperparametersLearningRateMultiplierEnum value)?  enumeration,TResult? Function( double value)?  double,}) {final _that = this;
+switch (_that) {
+case FineTuneSupervisedHyperparametersLearningRateMultiplierEnumeration() when enumeration != null:
+return enumeration(_that.value);case FineTuneSupervisedHyperparametersLearningRateMultiplierDouble() when double != null:
+return double(_that.value);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class FineTuneSupervisedHyperparametersLearningRateMultiplierEnumeration extends FineTuneSupervisedHyperparametersLearningRateMultiplier {
+  const FineTuneSupervisedHyperparametersLearningRateMultiplierEnumeration(this.value, {final  String? $type}): $type = $type ?? 'enumeration',super._();
+  factory FineTuneSupervisedHyperparametersLearningRateMultiplierEnumeration.fromJson(Map<String, dynamic> json) => _$FineTuneSupervisedHyperparametersLearningRateMultiplierEnumerationFromJson(json);
+
+@override final  FineTuneSupervisedHyperparametersLearningRateMultiplierEnum value;
+
+@JsonKey(name: 'runtimeType')
+final String $type;
+
+
+/// Create a copy of FineTuneSupervisedHyperparametersLearningRateMultiplier
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$FineTuneSupervisedHyperparametersLearningRateMultiplierEnumerationCopyWith<FineTuneSupervisedHyperparametersLearningRateMultiplierEnumeration> get copyWith => _$FineTuneSupervisedHyperparametersLearningRateMultiplierEnumerationCopyWithImpl<FineTuneSupervisedHyperparametersLearningRateMultiplierEnumeration>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$FineTuneSupervisedHyperparametersLearningRateMultiplierEnumerationToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneSupervisedHyperparametersLearningRateMultiplierEnumeration&&(identical(other.value, value) || other.value == value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,value);
+
+@override
+String toString() {
+  return 'FineTuneSupervisedHyperparametersLearningRateMultiplier.enumeration(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $FineTuneSupervisedHyperparametersLearningRateMultiplierEnumerationCopyWith<$Res> implements $FineTuneSupervisedHyperparametersLearningRateMultiplierCopyWith<$Res> {
+  factory $FineTuneSupervisedHyperparametersLearningRateMultiplierEnumerationCopyWith(FineTuneSupervisedHyperparametersLearningRateMultiplierEnumeration value, $Res Function(FineTuneSupervisedHyperparametersLearningRateMultiplierEnumeration) _then) = _$FineTuneSupervisedHyperparametersLearningRateMultiplierEnumerationCopyWithImpl;
+@useResult
+$Res call({
+ FineTuneSupervisedHyperparametersLearningRateMultiplierEnum value
+});
+
+
+
+
+}
+/// @nodoc
+class _$FineTuneSupervisedHyperparametersLearningRateMultiplierEnumerationCopyWithImpl<$Res>
+    implements $FineTuneSupervisedHyperparametersLearningRateMultiplierEnumerationCopyWith<$Res> {
+  _$FineTuneSupervisedHyperparametersLearningRateMultiplierEnumerationCopyWithImpl(this._self, this._then);
+
+  final FineTuneSupervisedHyperparametersLearningRateMultiplierEnumeration _self;
+  final $Res Function(FineTuneSupervisedHyperparametersLearningRateMultiplierEnumeration) _then;
+
+/// Create a copy of FineTuneSupervisedHyperparametersLearningRateMultiplier
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
+  return _then(FineTuneSupervisedHyperparametersLearningRateMultiplierEnumeration(
+null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as FineTuneSupervisedHyperparametersLearningRateMultiplierEnum,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class FineTuneSupervisedHyperparametersLearningRateMultiplierDouble extends FineTuneSupervisedHyperparametersLearningRateMultiplier {
+  const FineTuneSupervisedHyperparametersLearningRateMultiplierDouble(this.value, {final  String? $type}): $type = $type ?? 'double',super._();
+  factory FineTuneSupervisedHyperparametersLearningRateMultiplierDouble.fromJson(Map<String, dynamic> json) => _$FineTuneSupervisedHyperparametersLearningRateMultiplierDoubleFromJson(json);
+
+@override final  double value;
+
+@JsonKey(name: 'runtimeType')
+final String $type;
+
+
+/// Create a copy of FineTuneSupervisedHyperparametersLearningRateMultiplier
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$FineTuneSupervisedHyperparametersLearningRateMultiplierDoubleCopyWith<FineTuneSupervisedHyperparametersLearningRateMultiplierDouble> get copyWith => _$FineTuneSupervisedHyperparametersLearningRateMultiplierDoubleCopyWithImpl<FineTuneSupervisedHyperparametersLearningRateMultiplierDouble>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$FineTuneSupervisedHyperparametersLearningRateMultiplierDoubleToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneSupervisedHyperparametersLearningRateMultiplierDouble&&(identical(other.value, value) || other.value == value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,value);
+
+@override
+String toString() {
+  return 'FineTuneSupervisedHyperparametersLearningRateMultiplier.double(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $FineTuneSupervisedHyperparametersLearningRateMultiplierDoubleCopyWith<$Res> implements $FineTuneSupervisedHyperparametersLearningRateMultiplierCopyWith<$Res> {
+  factory $FineTuneSupervisedHyperparametersLearningRateMultiplierDoubleCopyWith(FineTuneSupervisedHyperparametersLearningRateMultiplierDouble value, $Res Function(FineTuneSupervisedHyperparametersLearningRateMultiplierDouble) _then) = _$FineTuneSupervisedHyperparametersLearningRateMultiplierDoubleCopyWithImpl;
+@useResult
+$Res call({
+ double value
+});
+
+
+
+
+}
+/// @nodoc
+class _$FineTuneSupervisedHyperparametersLearningRateMultiplierDoubleCopyWithImpl<$Res>
+    implements $FineTuneSupervisedHyperparametersLearningRateMultiplierDoubleCopyWith<$Res> {
+  _$FineTuneSupervisedHyperparametersLearningRateMultiplierDoubleCopyWithImpl(this._self, this._then);
+
+  final FineTuneSupervisedHyperparametersLearningRateMultiplierDouble _self;
+  final $Res Function(FineTuneSupervisedHyperparametersLearningRateMultiplierDouble) _then;
+
+/// Create a copy of FineTuneSupervisedHyperparametersLearningRateMultiplier
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
+  return _then(FineTuneSupervisedHyperparametersLearningRateMultiplierDouble(
+null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as double,
+  ));
+}
+
+
+}
+
+FineTuneSupervisedHyperparametersNEpochs _$FineTuneSupervisedHyperparametersNEpochsFromJson(
+  Map<String, dynamic> json
+) {
+        switch (json['runtimeType']) {
+                  case 'enumeration':
+          return FineTuneSupervisedHyperparametersNEpochsEnumeration.fromJson(
+            json
+          );
+                case 'int':
+          return FineTuneSupervisedHyperparametersNEpochsInt.fromJson(
+            json
+          );
+        
+          default:
+            throw CheckedFromJsonException(
+  json,
+  'runtimeType',
+  'FineTuneSupervisedHyperparametersNEpochs',
+  'Invalid union type "${json['runtimeType']}"!'
+);
+        }
+      
+}
+
+/// @nodoc
+mixin _$FineTuneSupervisedHyperparametersNEpochs {
+
+ Object get value;
+
+  /// Serializes this FineTuneSupervisedHyperparametersNEpochs to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneSupervisedHyperparametersNEpochs&&const DeepCollectionEquality().equals(other.value, value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(value));
+
+@override
+String toString() {
+  return 'FineTuneSupervisedHyperparametersNEpochs(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+class $FineTuneSupervisedHyperparametersNEpochsCopyWith<$Res>  {
+$FineTuneSupervisedHyperparametersNEpochsCopyWith(FineTuneSupervisedHyperparametersNEpochs _, $Res Function(FineTuneSupervisedHyperparametersNEpochs) __);
+}
+
+
+/// Adds pattern-matching-related methods to [FineTuneSupervisedHyperparametersNEpochs].
+extension FineTuneSupervisedHyperparametersNEpochsPatterns on FineTuneSupervisedHyperparametersNEpochs {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( FineTuneSupervisedHyperparametersNEpochsEnumeration value)?  enumeration,TResult Function( FineTuneSupervisedHyperparametersNEpochsInt value)?  int,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case FineTuneSupervisedHyperparametersNEpochsEnumeration() when enumeration != null:
+return enumeration(_that);case FineTuneSupervisedHyperparametersNEpochsInt() when int != null:
+return int(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( FineTuneSupervisedHyperparametersNEpochsEnumeration value)  enumeration,required TResult Function( FineTuneSupervisedHyperparametersNEpochsInt value)  int,}){
+final _that = this;
+switch (_that) {
+case FineTuneSupervisedHyperparametersNEpochsEnumeration():
+return enumeration(_that);case FineTuneSupervisedHyperparametersNEpochsInt():
+return int(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( FineTuneSupervisedHyperparametersNEpochsEnumeration value)?  enumeration,TResult? Function( FineTuneSupervisedHyperparametersNEpochsInt value)?  int,}){
+final _that = this;
+switch (_that) {
+case FineTuneSupervisedHyperparametersNEpochsEnumeration() when enumeration != null:
+return enumeration(_that);case FineTuneSupervisedHyperparametersNEpochsInt() when int != null:
+return int(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( FineTuneSupervisedHyperparametersNEpochsEnum value)?  enumeration,TResult Function( int value)?  int,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case FineTuneSupervisedHyperparametersNEpochsEnumeration() when enumeration != null:
+return enumeration(_that.value);case FineTuneSupervisedHyperparametersNEpochsInt() when int != null:
+return int(_that.value);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( FineTuneSupervisedHyperparametersNEpochsEnum value)  enumeration,required TResult Function( int value)  int,}) {final _that = this;
+switch (_that) {
+case FineTuneSupervisedHyperparametersNEpochsEnumeration():
+return enumeration(_that.value);case FineTuneSupervisedHyperparametersNEpochsInt():
+return int(_that.value);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( FineTuneSupervisedHyperparametersNEpochsEnum value)?  enumeration,TResult? Function( int value)?  int,}) {final _that = this;
+switch (_that) {
+case FineTuneSupervisedHyperparametersNEpochsEnumeration() when enumeration != null:
+return enumeration(_that.value);case FineTuneSupervisedHyperparametersNEpochsInt() when int != null:
+return int(_that.value);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class FineTuneSupervisedHyperparametersNEpochsEnumeration extends FineTuneSupervisedHyperparametersNEpochs {
+  const FineTuneSupervisedHyperparametersNEpochsEnumeration(this.value, {final  String? $type}): $type = $type ?? 'enumeration',super._();
+  factory FineTuneSupervisedHyperparametersNEpochsEnumeration.fromJson(Map<String, dynamic> json) => _$FineTuneSupervisedHyperparametersNEpochsEnumerationFromJson(json);
+
+@override final  FineTuneSupervisedHyperparametersNEpochsEnum value;
+
+@JsonKey(name: 'runtimeType')
+final String $type;
+
+
+/// Create a copy of FineTuneSupervisedHyperparametersNEpochs
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$FineTuneSupervisedHyperparametersNEpochsEnumerationCopyWith<FineTuneSupervisedHyperparametersNEpochsEnumeration> get copyWith => _$FineTuneSupervisedHyperparametersNEpochsEnumerationCopyWithImpl<FineTuneSupervisedHyperparametersNEpochsEnumeration>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$FineTuneSupervisedHyperparametersNEpochsEnumerationToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneSupervisedHyperparametersNEpochsEnumeration&&(identical(other.value, value) || other.value == value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,value);
+
+@override
+String toString() {
+  return 'FineTuneSupervisedHyperparametersNEpochs.enumeration(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $FineTuneSupervisedHyperparametersNEpochsEnumerationCopyWith<$Res> implements $FineTuneSupervisedHyperparametersNEpochsCopyWith<$Res> {
+  factory $FineTuneSupervisedHyperparametersNEpochsEnumerationCopyWith(FineTuneSupervisedHyperparametersNEpochsEnumeration value, $Res Function(FineTuneSupervisedHyperparametersNEpochsEnumeration) _then) = _$FineTuneSupervisedHyperparametersNEpochsEnumerationCopyWithImpl;
+@useResult
+$Res call({
+ FineTuneSupervisedHyperparametersNEpochsEnum value
+});
+
+
+
+
+}
+/// @nodoc
+class _$FineTuneSupervisedHyperparametersNEpochsEnumerationCopyWithImpl<$Res>
+    implements $FineTuneSupervisedHyperparametersNEpochsEnumerationCopyWith<$Res> {
+  _$FineTuneSupervisedHyperparametersNEpochsEnumerationCopyWithImpl(this._self, this._then);
+
+  final FineTuneSupervisedHyperparametersNEpochsEnumeration _self;
+  final $Res Function(FineTuneSupervisedHyperparametersNEpochsEnumeration) _then;
+
+/// Create a copy of FineTuneSupervisedHyperparametersNEpochs
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
+  return _then(FineTuneSupervisedHyperparametersNEpochsEnumeration(
+null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as FineTuneSupervisedHyperparametersNEpochsEnum,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class FineTuneSupervisedHyperparametersNEpochsInt extends FineTuneSupervisedHyperparametersNEpochs {
+  const FineTuneSupervisedHyperparametersNEpochsInt(this.value, {final  String? $type}): $type = $type ?? 'int',super._();
+  factory FineTuneSupervisedHyperparametersNEpochsInt.fromJson(Map<String, dynamic> json) => _$FineTuneSupervisedHyperparametersNEpochsIntFromJson(json);
+
+@override final  int value;
+
+@JsonKey(name: 'runtimeType')
+final String $type;
+
+
+/// Create a copy of FineTuneSupervisedHyperparametersNEpochs
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$FineTuneSupervisedHyperparametersNEpochsIntCopyWith<FineTuneSupervisedHyperparametersNEpochsInt> get copyWith => _$FineTuneSupervisedHyperparametersNEpochsIntCopyWithImpl<FineTuneSupervisedHyperparametersNEpochsInt>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$FineTuneSupervisedHyperparametersNEpochsIntToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneSupervisedHyperparametersNEpochsInt&&(identical(other.value, value) || other.value == value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,value);
+
+@override
+String toString() {
+  return 'FineTuneSupervisedHyperparametersNEpochs.int(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $FineTuneSupervisedHyperparametersNEpochsIntCopyWith<$Res> implements $FineTuneSupervisedHyperparametersNEpochsCopyWith<$Res> {
+  factory $FineTuneSupervisedHyperparametersNEpochsIntCopyWith(FineTuneSupervisedHyperparametersNEpochsInt value, $Res Function(FineTuneSupervisedHyperparametersNEpochsInt) _then) = _$FineTuneSupervisedHyperparametersNEpochsIntCopyWithImpl;
+@useResult
+$Res call({
+ int value
+});
+
+
+
+
+}
+/// @nodoc
+class _$FineTuneSupervisedHyperparametersNEpochsIntCopyWithImpl<$Res>
+    implements $FineTuneSupervisedHyperparametersNEpochsIntCopyWith<$Res> {
+  _$FineTuneSupervisedHyperparametersNEpochsIntCopyWithImpl(this._self, this._then);
+
+  final FineTuneSupervisedHyperparametersNEpochsInt _self;
+  final $Res Function(FineTuneSupervisedHyperparametersNEpochsInt) _then;
+
+/// Create a copy of FineTuneSupervisedHyperparametersNEpochs
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
+  return _then(FineTuneSupervisedHyperparametersNEpochsInt(
+null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$FineTuneDPOMethod {
+
+/// The hyperparameters used for the DPO fine-tuning job.
+@JsonKey(includeIfNull: false) FineTuneDPOHyperparameters? get hyperparameters;
+/// Create a copy of FineTuneDPOMethod
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$FineTuneDPOMethodCopyWith<FineTuneDPOMethod> get copyWith => _$FineTuneDPOMethodCopyWithImpl<FineTuneDPOMethod>(this as FineTuneDPOMethod, _$identity);
+
+  /// Serializes this FineTuneDPOMethod to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneDPOMethod&&(identical(other.hyperparameters, hyperparameters) || other.hyperparameters == hyperparameters));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,hyperparameters);
+
+@override
+String toString() {
+  return 'FineTuneDPOMethod(hyperparameters: $hyperparameters)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $FineTuneDPOMethodCopyWith<$Res>  {
+  factory $FineTuneDPOMethodCopyWith(FineTuneDPOMethod value, $Res Function(FineTuneDPOMethod) _then) = _$FineTuneDPOMethodCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(includeIfNull: false) FineTuneDPOHyperparameters? hyperparameters
+});
+
+
+$FineTuneDPOHyperparametersCopyWith<$Res>? get hyperparameters;
+
+}
+/// @nodoc
+class _$FineTuneDPOMethodCopyWithImpl<$Res>
+    implements $FineTuneDPOMethodCopyWith<$Res> {
+  _$FineTuneDPOMethodCopyWithImpl(this._self, this._then);
+
+  final FineTuneDPOMethod _self;
+  final $Res Function(FineTuneDPOMethod) _then;
+
+/// Create a copy of FineTuneDPOMethod
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? hyperparameters = freezed,}) {
+  return _then(_self.copyWith(
+hyperparameters: freezed == hyperparameters ? _self.hyperparameters : hyperparameters // ignore: cast_nullable_to_non_nullable
+as FineTuneDPOHyperparameters?,
+  ));
+}
+/// Create a copy of FineTuneDPOMethod
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneDPOHyperparametersCopyWith<$Res>? get hyperparameters {
+    if (_self.hyperparameters == null) {
+    return null;
+  }
+
+  return $FineTuneDPOHyperparametersCopyWith<$Res>(_self.hyperparameters!, (value) {
+    return _then(_self.copyWith(hyperparameters: value));
+  });
+}
+}
+
+
+/// Adds pattern-matching-related methods to [FineTuneDPOMethod].
+extension FineTuneDPOMethodPatterns on FineTuneDPOMethod {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _FineTuneDPOMethod value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _FineTuneDPOMethod() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _FineTuneDPOMethod value)  $default,){
+final _that = this;
+switch (_that) {
+case _FineTuneDPOMethod():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _FineTuneDPOMethod value)?  $default,){
+final _that = this;
+switch (_that) {
+case _FineTuneDPOMethod() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false)  FineTuneDPOHyperparameters? hyperparameters)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _FineTuneDPOMethod() when $default != null:
+return $default(_that.hyperparameters);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false)  FineTuneDPOHyperparameters? hyperparameters)  $default,) {final _that = this;
+switch (_that) {
+case _FineTuneDPOMethod():
+return $default(_that.hyperparameters);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(includeIfNull: false)  FineTuneDPOHyperparameters? hyperparameters)?  $default,) {final _that = this;
+switch (_that) {
+case _FineTuneDPOMethod() when $default != null:
+return $default(_that.hyperparameters);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _FineTuneDPOMethod extends FineTuneDPOMethod {
+  const _FineTuneDPOMethod({@JsonKey(includeIfNull: false) this.hyperparameters}): super._();
+  factory _FineTuneDPOMethod.fromJson(Map<String, dynamic> json) => _$FineTuneDPOMethodFromJson(json);
+
+/// The hyperparameters used for the DPO fine-tuning job.
+@override@JsonKey(includeIfNull: false) final  FineTuneDPOHyperparameters? hyperparameters;
+
+/// Create a copy of FineTuneDPOMethod
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$FineTuneDPOMethodCopyWith<_FineTuneDPOMethod> get copyWith => __$FineTuneDPOMethodCopyWithImpl<_FineTuneDPOMethod>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$FineTuneDPOMethodToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FineTuneDPOMethod&&(identical(other.hyperparameters, hyperparameters) || other.hyperparameters == hyperparameters));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,hyperparameters);
+
+@override
+String toString() {
+  return 'FineTuneDPOMethod(hyperparameters: $hyperparameters)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$FineTuneDPOMethodCopyWith<$Res> implements $FineTuneDPOMethodCopyWith<$Res> {
+  factory _$FineTuneDPOMethodCopyWith(_FineTuneDPOMethod value, $Res Function(_FineTuneDPOMethod) _then) = __$FineTuneDPOMethodCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(includeIfNull: false) FineTuneDPOHyperparameters? hyperparameters
+});
+
+
+@override $FineTuneDPOHyperparametersCopyWith<$Res>? get hyperparameters;
+
+}
+/// @nodoc
+class __$FineTuneDPOMethodCopyWithImpl<$Res>
+    implements _$FineTuneDPOMethodCopyWith<$Res> {
+  __$FineTuneDPOMethodCopyWithImpl(this._self, this._then);
+
+  final _FineTuneDPOMethod _self;
+  final $Res Function(_FineTuneDPOMethod) _then;
+
+/// Create a copy of FineTuneDPOMethod
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? hyperparameters = freezed,}) {
+  return _then(_FineTuneDPOMethod(
+hyperparameters: freezed == hyperparameters ? _self.hyperparameters : hyperparameters // ignore: cast_nullable_to_non_nullable
+as FineTuneDPOHyperparameters?,
+  ));
+}
+
+/// Create a copy of FineTuneDPOMethod
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneDPOHyperparametersCopyWith<$Res>? get hyperparameters {
+    if (_self.hyperparameters == null) {
+    return null;
+  }
+
+  return $FineTuneDPOHyperparametersCopyWith<$Res>(_self.hyperparameters!, (value) {
+    return _then(_self.copyWith(hyperparameters: value));
+  });
+}
+}
+
+
+/// @nodoc
+mixin _$FineTuneDPOHyperparameters {
+
+/// Number of examples in each batch. A larger batch size means that model parameters
+/// are updated less frequently, but with lower variance.
+@_FineTuneDPOHyperparametersBatchSizeConverter()@JsonKey(name: 'batch_size', includeIfNull: false) FineTuneDPOHyperparametersBatchSize? get batchSize;/// Scaling factor for the learning rate. A smaller learning rate may be useful to avoid
+/// overfitting.
+@_FineTuneDPOHyperparametersLearningRateMultiplierConverter()@JsonKey(name: 'learning_rate_multiplier', includeIfNull: false) FineTuneDPOHyperparametersLearningRateMultiplier? get learningRateMultiplier;/// The number of epochs to train the model for. An epoch refers to one full cycle
+/// through the training dataset.
+@_FineTuneDPOHyperparametersNEpochsConverter()@JsonKey(name: 'n_epochs', includeIfNull: false) FineTuneDPOHyperparametersNEpochs? get nEpochs;/// The beta value for the DPO method. A higher beta value will increase the weight of
+/// the penalty between the policy and reference model.
+ double get beta;
+/// Create a copy of FineTuneDPOHyperparameters
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$FineTuneDPOHyperparametersCopyWith<FineTuneDPOHyperparameters> get copyWith => _$FineTuneDPOHyperparametersCopyWithImpl<FineTuneDPOHyperparameters>(this as FineTuneDPOHyperparameters, _$identity);
+
+  /// Serializes this FineTuneDPOHyperparameters to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneDPOHyperparameters&&(identical(other.batchSize, batchSize) || other.batchSize == batchSize)&&(identical(other.learningRateMultiplier, learningRateMultiplier) || other.learningRateMultiplier == learningRateMultiplier)&&(identical(other.nEpochs, nEpochs) || other.nEpochs == nEpochs)&&(identical(other.beta, beta) || other.beta == beta));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,batchSize,learningRateMultiplier,nEpochs,beta);
+
+@override
+String toString() {
+  return 'FineTuneDPOHyperparameters(batchSize: $batchSize, learningRateMultiplier: $learningRateMultiplier, nEpochs: $nEpochs, beta: $beta)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $FineTuneDPOHyperparametersCopyWith<$Res>  {
+  factory $FineTuneDPOHyperparametersCopyWith(FineTuneDPOHyperparameters value, $Res Function(FineTuneDPOHyperparameters) _then) = _$FineTuneDPOHyperparametersCopyWithImpl;
+@useResult
+$Res call({
+@_FineTuneDPOHyperparametersBatchSizeConverter()@JsonKey(name: 'batch_size', includeIfNull: false) FineTuneDPOHyperparametersBatchSize? batchSize,@_FineTuneDPOHyperparametersLearningRateMultiplierConverter()@JsonKey(name: 'learning_rate_multiplier', includeIfNull: false) FineTuneDPOHyperparametersLearningRateMultiplier? learningRateMultiplier,@_FineTuneDPOHyperparametersNEpochsConverter()@JsonKey(name: 'n_epochs', includeIfNull: false) FineTuneDPOHyperparametersNEpochs? nEpochs, double beta
+});
+
+
+$FineTuneDPOHyperparametersBatchSizeCopyWith<$Res>? get batchSize;$FineTuneDPOHyperparametersLearningRateMultiplierCopyWith<$Res>? get learningRateMultiplier;$FineTuneDPOHyperparametersNEpochsCopyWith<$Res>? get nEpochs;
+
+}
+/// @nodoc
+class _$FineTuneDPOHyperparametersCopyWithImpl<$Res>
+    implements $FineTuneDPOHyperparametersCopyWith<$Res> {
+  _$FineTuneDPOHyperparametersCopyWithImpl(this._self, this._then);
+
+  final FineTuneDPOHyperparameters _self;
+  final $Res Function(FineTuneDPOHyperparameters) _then;
+
+/// Create a copy of FineTuneDPOHyperparameters
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? batchSize = freezed,Object? learningRateMultiplier = freezed,Object? nEpochs = freezed,Object? beta = null,}) {
+  return _then(_self.copyWith(
+batchSize: freezed == batchSize ? _self.batchSize : batchSize // ignore: cast_nullable_to_non_nullable
+as FineTuneDPOHyperparametersBatchSize?,learningRateMultiplier: freezed == learningRateMultiplier ? _self.learningRateMultiplier : learningRateMultiplier // ignore: cast_nullable_to_non_nullable
+as FineTuneDPOHyperparametersLearningRateMultiplier?,nEpochs: freezed == nEpochs ? _self.nEpochs : nEpochs // ignore: cast_nullable_to_non_nullable
+as FineTuneDPOHyperparametersNEpochs?,beta: null == beta ? _self.beta : beta // ignore: cast_nullable_to_non_nullable
+as double,
+  ));
+}
+/// Create a copy of FineTuneDPOHyperparameters
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneDPOHyperparametersBatchSizeCopyWith<$Res>? get batchSize {
+    if (_self.batchSize == null) {
+    return null;
+  }
+
+  return $FineTuneDPOHyperparametersBatchSizeCopyWith<$Res>(_self.batchSize!, (value) {
+    return _then(_self.copyWith(batchSize: value));
+  });
+}/// Create a copy of FineTuneDPOHyperparameters
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneDPOHyperparametersLearningRateMultiplierCopyWith<$Res>? get learningRateMultiplier {
+    if (_self.learningRateMultiplier == null) {
+    return null;
+  }
+
+  return $FineTuneDPOHyperparametersLearningRateMultiplierCopyWith<$Res>(_self.learningRateMultiplier!, (value) {
+    return _then(_self.copyWith(learningRateMultiplier: value));
+  });
+}/// Create a copy of FineTuneDPOHyperparameters
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneDPOHyperparametersNEpochsCopyWith<$Res>? get nEpochs {
+    if (_self.nEpochs == null) {
+    return null;
+  }
+
+  return $FineTuneDPOHyperparametersNEpochsCopyWith<$Res>(_self.nEpochs!, (value) {
+    return _then(_self.copyWith(nEpochs: value));
+  });
+}
+}
+
+
+/// Adds pattern-matching-related methods to [FineTuneDPOHyperparameters].
+extension FineTuneDPOHyperparametersPatterns on FineTuneDPOHyperparameters {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _FineTuneDPOHyperparameters value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _FineTuneDPOHyperparameters() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _FineTuneDPOHyperparameters value)  $default,){
+final _that = this;
+switch (_that) {
+case _FineTuneDPOHyperparameters():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _FineTuneDPOHyperparameters value)?  $default,){
+final _that = this;
+switch (_that) {
+case _FineTuneDPOHyperparameters() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@_FineTuneDPOHyperparametersBatchSizeConverter()@JsonKey(name: 'batch_size', includeIfNull: false)  FineTuneDPOHyperparametersBatchSize? batchSize, @_FineTuneDPOHyperparametersLearningRateMultiplierConverter()@JsonKey(name: 'learning_rate_multiplier', includeIfNull: false)  FineTuneDPOHyperparametersLearningRateMultiplier? learningRateMultiplier, @_FineTuneDPOHyperparametersNEpochsConverter()@JsonKey(name: 'n_epochs', includeIfNull: false)  FineTuneDPOHyperparametersNEpochs? nEpochs,  double beta)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _FineTuneDPOHyperparameters() when $default != null:
+return $default(_that.batchSize,_that.learningRateMultiplier,_that.nEpochs,_that.beta);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@_FineTuneDPOHyperparametersBatchSizeConverter()@JsonKey(name: 'batch_size', includeIfNull: false)  FineTuneDPOHyperparametersBatchSize? batchSize, @_FineTuneDPOHyperparametersLearningRateMultiplierConverter()@JsonKey(name: 'learning_rate_multiplier', includeIfNull: false)  FineTuneDPOHyperparametersLearningRateMultiplier? learningRateMultiplier, @_FineTuneDPOHyperparametersNEpochsConverter()@JsonKey(name: 'n_epochs', includeIfNull: false)  FineTuneDPOHyperparametersNEpochs? nEpochs,  double beta)  $default,) {final _that = this;
+switch (_that) {
+case _FineTuneDPOHyperparameters():
+return $default(_that.batchSize,_that.learningRateMultiplier,_that.nEpochs,_that.beta);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@_FineTuneDPOHyperparametersBatchSizeConverter()@JsonKey(name: 'batch_size', includeIfNull: false)  FineTuneDPOHyperparametersBatchSize? batchSize, @_FineTuneDPOHyperparametersLearningRateMultiplierConverter()@JsonKey(name: 'learning_rate_multiplier', includeIfNull: false)  FineTuneDPOHyperparametersLearningRateMultiplier? learningRateMultiplier, @_FineTuneDPOHyperparametersNEpochsConverter()@JsonKey(name: 'n_epochs', includeIfNull: false)  FineTuneDPOHyperparametersNEpochs? nEpochs,  double beta)?  $default,) {final _that = this;
+switch (_that) {
+case _FineTuneDPOHyperparameters() when $default != null:
+return $default(_that.batchSize,_that.learningRateMultiplier,_that.nEpochs,_that.beta);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _FineTuneDPOHyperparameters extends FineTuneDPOHyperparameters {
+  const _FineTuneDPOHyperparameters({@_FineTuneDPOHyperparametersBatchSizeConverter()@JsonKey(name: 'batch_size', includeIfNull: false) this.batchSize = const FineTuneDPOHyperparametersBatchSizeEnumeration(FineTuneDPOHyperparametersBatchSizeEnum.auto), @_FineTuneDPOHyperparametersLearningRateMultiplierConverter()@JsonKey(name: 'learning_rate_multiplier', includeIfNull: false) this.learningRateMultiplier = const FineTuneDPOHyperparametersLearningRateMultiplierEnumeration(FineTuneDPOHyperparametersLearningRateMultiplierEnum.auto), @_FineTuneDPOHyperparametersNEpochsConverter()@JsonKey(name: 'n_epochs', includeIfNull: false) this.nEpochs = const FineTuneDPOHyperparametersNEpochsEnumeration(FineTuneDPOHyperparametersNEpochsEnum.auto), this.beta = 0.1}): super._();
+  factory _FineTuneDPOHyperparameters.fromJson(Map<String, dynamic> json) => _$FineTuneDPOHyperparametersFromJson(json);
+
+/// Number of examples in each batch. A larger batch size means that model parameters
+/// are updated less frequently, but with lower variance.
+@override@_FineTuneDPOHyperparametersBatchSizeConverter()@JsonKey(name: 'batch_size', includeIfNull: false) final  FineTuneDPOHyperparametersBatchSize? batchSize;
+/// Scaling factor for the learning rate. A smaller learning rate may be useful to avoid
+/// overfitting.
+@override@_FineTuneDPOHyperparametersLearningRateMultiplierConverter()@JsonKey(name: 'learning_rate_multiplier', includeIfNull: false) final  FineTuneDPOHyperparametersLearningRateMultiplier? learningRateMultiplier;
+/// The number of epochs to train the model for. An epoch refers to one full cycle
+/// through the training dataset.
+@override@_FineTuneDPOHyperparametersNEpochsConverter()@JsonKey(name: 'n_epochs', includeIfNull: false) final  FineTuneDPOHyperparametersNEpochs? nEpochs;
+/// The beta value for the DPO method. A higher beta value will increase the weight of
+/// the penalty between the policy and reference model.
+@override@JsonKey() final  double beta;
+
+/// Create a copy of FineTuneDPOHyperparameters
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$FineTuneDPOHyperparametersCopyWith<_FineTuneDPOHyperparameters> get copyWith => __$FineTuneDPOHyperparametersCopyWithImpl<_FineTuneDPOHyperparameters>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$FineTuneDPOHyperparametersToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FineTuneDPOHyperparameters&&(identical(other.batchSize, batchSize) || other.batchSize == batchSize)&&(identical(other.learningRateMultiplier, learningRateMultiplier) || other.learningRateMultiplier == learningRateMultiplier)&&(identical(other.nEpochs, nEpochs) || other.nEpochs == nEpochs)&&(identical(other.beta, beta) || other.beta == beta));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,batchSize,learningRateMultiplier,nEpochs,beta);
+
+@override
+String toString() {
+  return 'FineTuneDPOHyperparameters(batchSize: $batchSize, learningRateMultiplier: $learningRateMultiplier, nEpochs: $nEpochs, beta: $beta)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$FineTuneDPOHyperparametersCopyWith<$Res> implements $FineTuneDPOHyperparametersCopyWith<$Res> {
+  factory _$FineTuneDPOHyperparametersCopyWith(_FineTuneDPOHyperparameters value, $Res Function(_FineTuneDPOHyperparameters) _then) = __$FineTuneDPOHyperparametersCopyWithImpl;
+@override @useResult
+$Res call({
+@_FineTuneDPOHyperparametersBatchSizeConverter()@JsonKey(name: 'batch_size', includeIfNull: false) FineTuneDPOHyperparametersBatchSize? batchSize,@_FineTuneDPOHyperparametersLearningRateMultiplierConverter()@JsonKey(name: 'learning_rate_multiplier', includeIfNull: false) FineTuneDPOHyperparametersLearningRateMultiplier? learningRateMultiplier,@_FineTuneDPOHyperparametersNEpochsConverter()@JsonKey(name: 'n_epochs', includeIfNull: false) FineTuneDPOHyperparametersNEpochs? nEpochs, double beta
+});
+
+
+@override $FineTuneDPOHyperparametersBatchSizeCopyWith<$Res>? get batchSize;@override $FineTuneDPOHyperparametersLearningRateMultiplierCopyWith<$Res>? get learningRateMultiplier;@override $FineTuneDPOHyperparametersNEpochsCopyWith<$Res>? get nEpochs;
+
+}
+/// @nodoc
+class __$FineTuneDPOHyperparametersCopyWithImpl<$Res>
+    implements _$FineTuneDPOHyperparametersCopyWith<$Res> {
+  __$FineTuneDPOHyperparametersCopyWithImpl(this._self, this._then);
+
+  final _FineTuneDPOHyperparameters _self;
+  final $Res Function(_FineTuneDPOHyperparameters) _then;
+
+/// Create a copy of FineTuneDPOHyperparameters
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? batchSize = freezed,Object? learningRateMultiplier = freezed,Object? nEpochs = freezed,Object? beta = null,}) {
+  return _then(_FineTuneDPOHyperparameters(
+batchSize: freezed == batchSize ? _self.batchSize : batchSize // ignore: cast_nullable_to_non_nullable
+as FineTuneDPOHyperparametersBatchSize?,learningRateMultiplier: freezed == learningRateMultiplier ? _self.learningRateMultiplier : learningRateMultiplier // ignore: cast_nullable_to_non_nullable
+as FineTuneDPOHyperparametersLearningRateMultiplier?,nEpochs: freezed == nEpochs ? _self.nEpochs : nEpochs // ignore: cast_nullable_to_non_nullable
+as FineTuneDPOHyperparametersNEpochs?,beta: null == beta ? _self.beta : beta // ignore: cast_nullable_to_non_nullable
+as double,
+  ));
+}
+
+/// Create a copy of FineTuneDPOHyperparameters
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneDPOHyperparametersBatchSizeCopyWith<$Res>? get batchSize {
+    if (_self.batchSize == null) {
+    return null;
+  }
+
+  return $FineTuneDPOHyperparametersBatchSizeCopyWith<$Res>(_self.batchSize!, (value) {
+    return _then(_self.copyWith(batchSize: value));
+  });
+}/// Create a copy of FineTuneDPOHyperparameters
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneDPOHyperparametersLearningRateMultiplierCopyWith<$Res>? get learningRateMultiplier {
+    if (_self.learningRateMultiplier == null) {
+    return null;
+  }
+
+  return $FineTuneDPOHyperparametersLearningRateMultiplierCopyWith<$Res>(_self.learningRateMultiplier!, (value) {
+    return _then(_self.copyWith(learningRateMultiplier: value));
+  });
+}/// Create a copy of FineTuneDPOHyperparameters
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneDPOHyperparametersNEpochsCopyWith<$Res>? get nEpochs {
+    if (_self.nEpochs == null) {
+    return null;
+  }
+
+  return $FineTuneDPOHyperparametersNEpochsCopyWith<$Res>(_self.nEpochs!, (value) {
+    return _then(_self.copyWith(nEpochs: value));
+  });
+}
+}
+
+FineTuneDPOHyperparametersBatchSize _$FineTuneDPOHyperparametersBatchSizeFromJson(
+  Map<String, dynamic> json
+) {
+        switch (json['runtimeType']) {
+                  case 'enumeration':
+          return FineTuneDPOHyperparametersBatchSizeEnumeration.fromJson(
+            json
+          );
+                case 'int':
+          return FineTuneDPOHyperparametersBatchSizeInt.fromJson(
+            json
+          );
+        
+          default:
+            throw CheckedFromJsonException(
+  json,
+  'runtimeType',
+  'FineTuneDPOHyperparametersBatchSize',
+  'Invalid union type "${json['runtimeType']}"!'
+);
+        }
+      
+}
+
+/// @nodoc
+mixin _$FineTuneDPOHyperparametersBatchSize {
+
+ Object get value;
+
+  /// Serializes this FineTuneDPOHyperparametersBatchSize to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneDPOHyperparametersBatchSize&&const DeepCollectionEquality().equals(other.value, value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(value));
+
+@override
+String toString() {
+  return 'FineTuneDPOHyperparametersBatchSize(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+class $FineTuneDPOHyperparametersBatchSizeCopyWith<$Res>  {
+$FineTuneDPOHyperparametersBatchSizeCopyWith(FineTuneDPOHyperparametersBatchSize _, $Res Function(FineTuneDPOHyperparametersBatchSize) __);
+}
+
+
+/// Adds pattern-matching-related methods to [FineTuneDPOHyperparametersBatchSize].
+extension FineTuneDPOHyperparametersBatchSizePatterns on FineTuneDPOHyperparametersBatchSize {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( FineTuneDPOHyperparametersBatchSizeEnumeration value)?  enumeration,TResult Function( FineTuneDPOHyperparametersBatchSizeInt value)?  int,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case FineTuneDPOHyperparametersBatchSizeEnumeration() when enumeration != null:
+return enumeration(_that);case FineTuneDPOHyperparametersBatchSizeInt() when int != null:
+return int(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( FineTuneDPOHyperparametersBatchSizeEnumeration value)  enumeration,required TResult Function( FineTuneDPOHyperparametersBatchSizeInt value)  int,}){
+final _that = this;
+switch (_that) {
+case FineTuneDPOHyperparametersBatchSizeEnumeration():
+return enumeration(_that);case FineTuneDPOHyperparametersBatchSizeInt():
+return int(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( FineTuneDPOHyperparametersBatchSizeEnumeration value)?  enumeration,TResult? Function( FineTuneDPOHyperparametersBatchSizeInt value)?  int,}){
+final _that = this;
+switch (_that) {
+case FineTuneDPOHyperparametersBatchSizeEnumeration() when enumeration != null:
+return enumeration(_that);case FineTuneDPOHyperparametersBatchSizeInt() when int != null:
+return int(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( FineTuneDPOHyperparametersBatchSizeEnum value)?  enumeration,TResult Function( int value)?  int,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case FineTuneDPOHyperparametersBatchSizeEnumeration() when enumeration != null:
+return enumeration(_that.value);case FineTuneDPOHyperparametersBatchSizeInt() when int != null:
+return int(_that.value);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( FineTuneDPOHyperparametersBatchSizeEnum value)  enumeration,required TResult Function( int value)  int,}) {final _that = this;
+switch (_that) {
+case FineTuneDPOHyperparametersBatchSizeEnumeration():
+return enumeration(_that.value);case FineTuneDPOHyperparametersBatchSizeInt():
+return int(_that.value);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( FineTuneDPOHyperparametersBatchSizeEnum value)?  enumeration,TResult? Function( int value)?  int,}) {final _that = this;
+switch (_that) {
+case FineTuneDPOHyperparametersBatchSizeEnumeration() when enumeration != null:
+return enumeration(_that.value);case FineTuneDPOHyperparametersBatchSizeInt() when int != null:
+return int(_that.value);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class FineTuneDPOHyperparametersBatchSizeEnumeration extends FineTuneDPOHyperparametersBatchSize {
+  const FineTuneDPOHyperparametersBatchSizeEnumeration(this.value, {final  String? $type}): $type = $type ?? 'enumeration',super._();
+  factory FineTuneDPOHyperparametersBatchSizeEnumeration.fromJson(Map<String, dynamic> json) => _$FineTuneDPOHyperparametersBatchSizeEnumerationFromJson(json);
+
+@override final  FineTuneDPOHyperparametersBatchSizeEnum value;
+
+@JsonKey(name: 'runtimeType')
+final String $type;
+
+
+/// Create a copy of FineTuneDPOHyperparametersBatchSize
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$FineTuneDPOHyperparametersBatchSizeEnumerationCopyWith<FineTuneDPOHyperparametersBatchSizeEnumeration> get copyWith => _$FineTuneDPOHyperparametersBatchSizeEnumerationCopyWithImpl<FineTuneDPOHyperparametersBatchSizeEnumeration>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$FineTuneDPOHyperparametersBatchSizeEnumerationToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneDPOHyperparametersBatchSizeEnumeration&&(identical(other.value, value) || other.value == value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,value);
+
+@override
+String toString() {
+  return 'FineTuneDPOHyperparametersBatchSize.enumeration(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $FineTuneDPOHyperparametersBatchSizeEnumerationCopyWith<$Res> implements $FineTuneDPOHyperparametersBatchSizeCopyWith<$Res> {
+  factory $FineTuneDPOHyperparametersBatchSizeEnumerationCopyWith(FineTuneDPOHyperparametersBatchSizeEnumeration value, $Res Function(FineTuneDPOHyperparametersBatchSizeEnumeration) _then) = _$FineTuneDPOHyperparametersBatchSizeEnumerationCopyWithImpl;
+@useResult
+$Res call({
+ FineTuneDPOHyperparametersBatchSizeEnum value
+});
+
+
+
+
+}
+/// @nodoc
+class _$FineTuneDPOHyperparametersBatchSizeEnumerationCopyWithImpl<$Res>
+    implements $FineTuneDPOHyperparametersBatchSizeEnumerationCopyWith<$Res> {
+  _$FineTuneDPOHyperparametersBatchSizeEnumerationCopyWithImpl(this._self, this._then);
+
+  final FineTuneDPOHyperparametersBatchSizeEnumeration _self;
+  final $Res Function(FineTuneDPOHyperparametersBatchSizeEnumeration) _then;
+
+/// Create a copy of FineTuneDPOHyperparametersBatchSize
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
+  return _then(FineTuneDPOHyperparametersBatchSizeEnumeration(
+null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as FineTuneDPOHyperparametersBatchSizeEnum,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class FineTuneDPOHyperparametersBatchSizeInt extends FineTuneDPOHyperparametersBatchSize {
+  const FineTuneDPOHyperparametersBatchSizeInt(this.value, {final  String? $type}): $type = $type ?? 'int',super._();
+  factory FineTuneDPOHyperparametersBatchSizeInt.fromJson(Map<String, dynamic> json) => _$FineTuneDPOHyperparametersBatchSizeIntFromJson(json);
+
+@override final  int value;
+
+@JsonKey(name: 'runtimeType')
+final String $type;
+
+
+/// Create a copy of FineTuneDPOHyperparametersBatchSize
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$FineTuneDPOHyperparametersBatchSizeIntCopyWith<FineTuneDPOHyperparametersBatchSizeInt> get copyWith => _$FineTuneDPOHyperparametersBatchSizeIntCopyWithImpl<FineTuneDPOHyperparametersBatchSizeInt>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$FineTuneDPOHyperparametersBatchSizeIntToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneDPOHyperparametersBatchSizeInt&&(identical(other.value, value) || other.value == value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,value);
+
+@override
+String toString() {
+  return 'FineTuneDPOHyperparametersBatchSize.int(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $FineTuneDPOHyperparametersBatchSizeIntCopyWith<$Res> implements $FineTuneDPOHyperparametersBatchSizeCopyWith<$Res> {
+  factory $FineTuneDPOHyperparametersBatchSizeIntCopyWith(FineTuneDPOHyperparametersBatchSizeInt value, $Res Function(FineTuneDPOHyperparametersBatchSizeInt) _then) = _$FineTuneDPOHyperparametersBatchSizeIntCopyWithImpl;
+@useResult
+$Res call({
+ int value
+});
+
+
+
+
+}
+/// @nodoc
+class _$FineTuneDPOHyperparametersBatchSizeIntCopyWithImpl<$Res>
+    implements $FineTuneDPOHyperparametersBatchSizeIntCopyWith<$Res> {
+  _$FineTuneDPOHyperparametersBatchSizeIntCopyWithImpl(this._self, this._then);
+
+  final FineTuneDPOHyperparametersBatchSizeInt _self;
+  final $Res Function(FineTuneDPOHyperparametersBatchSizeInt) _then;
+
+/// Create a copy of FineTuneDPOHyperparametersBatchSize
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
+  return _then(FineTuneDPOHyperparametersBatchSizeInt(
+null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+
+}
+
+FineTuneDPOHyperparametersLearningRateMultiplier _$FineTuneDPOHyperparametersLearningRateMultiplierFromJson(
+  Map<String, dynamic> json
+) {
+        switch (json['runtimeType']) {
+                  case 'enumeration':
+          return FineTuneDPOHyperparametersLearningRateMultiplierEnumeration.fromJson(
+            json
+          );
+                case 'double':
+          return FineTuneDPOHyperparametersLearningRateMultiplierDouble.fromJson(
+            json
+          );
+        
+          default:
+            throw CheckedFromJsonException(
+  json,
+  'runtimeType',
+  'FineTuneDPOHyperparametersLearningRateMultiplier',
+  'Invalid union type "${json['runtimeType']}"!'
+);
+        }
+      
+}
+
+/// @nodoc
+mixin _$FineTuneDPOHyperparametersLearningRateMultiplier {
+
+ Object get value;
+
+  /// Serializes this FineTuneDPOHyperparametersLearningRateMultiplier to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneDPOHyperparametersLearningRateMultiplier&&const DeepCollectionEquality().equals(other.value, value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(value));
+
+@override
+String toString() {
+  return 'FineTuneDPOHyperparametersLearningRateMultiplier(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+class $FineTuneDPOHyperparametersLearningRateMultiplierCopyWith<$Res>  {
+$FineTuneDPOHyperparametersLearningRateMultiplierCopyWith(FineTuneDPOHyperparametersLearningRateMultiplier _, $Res Function(FineTuneDPOHyperparametersLearningRateMultiplier) __);
+}
+
+
+/// Adds pattern-matching-related methods to [FineTuneDPOHyperparametersLearningRateMultiplier].
+extension FineTuneDPOHyperparametersLearningRateMultiplierPatterns on FineTuneDPOHyperparametersLearningRateMultiplier {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( FineTuneDPOHyperparametersLearningRateMultiplierEnumeration value)?  enumeration,TResult Function( FineTuneDPOHyperparametersLearningRateMultiplierDouble value)?  double,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case FineTuneDPOHyperparametersLearningRateMultiplierEnumeration() when enumeration != null:
+return enumeration(_that);case FineTuneDPOHyperparametersLearningRateMultiplierDouble() when double != null:
+return double(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( FineTuneDPOHyperparametersLearningRateMultiplierEnumeration value)  enumeration,required TResult Function( FineTuneDPOHyperparametersLearningRateMultiplierDouble value)  double,}){
+final _that = this;
+switch (_that) {
+case FineTuneDPOHyperparametersLearningRateMultiplierEnumeration():
+return enumeration(_that);case FineTuneDPOHyperparametersLearningRateMultiplierDouble():
+return double(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( FineTuneDPOHyperparametersLearningRateMultiplierEnumeration value)?  enumeration,TResult? Function( FineTuneDPOHyperparametersLearningRateMultiplierDouble value)?  double,}){
+final _that = this;
+switch (_that) {
+case FineTuneDPOHyperparametersLearningRateMultiplierEnumeration() when enumeration != null:
+return enumeration(_that);case FineTuneDPOHyperparametersLearningRateMultiplierDouble() when double != null:
+return double(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( FineTuneDPOHyperparametersLearningRateMultiplierEnum value)?  enumeration,TResult Function( double value)?  double,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case FineTuneDPOHyperparametersLearningRateMultiplierEnumeration() when enumeration != null:
+return enumeration(_that.value);case FineTuneDPOHyperparametersLearningRateMultiplierDouble() when double != null:
+return double(_that.value);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( FineTuneDPOHyperparametersLearningRateMultiplierEnum value)  enumeration,required TResult Function( double value)  double,}) {final _that = this;
+switch (_that) {
+case FineTuneDPOHyperparametersLearningRateMultiplierEnumeration():
+return enumeration(_that.value);case FineTuneDPOHyperparametersLearningRateMultiplierDouble():
+return double(_that.value);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( FineTuneDPOHyperparametersLearningRateMultiplierEnum value)?  enumeration,TResult? Function( double value)?  double,}) {final _that = this;
+switch (_that) {
+case FineTuneDPOHyperparametersLearningRateMultiplierEnumeration() when enumeration != null:
+return enumeration(_that.value);case FineTuneDPOHyperparametersLearningRateMultiplierDouble() when double != null:
+return double(_that.value);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class FineTuneDPOHyperparametersLearningRateMultiplierEnumeration extends FineTuneDPOHyperparametersLearningRateMultiplier {
+  const FineTuneDPOHyperparametersLearningRateMultiplierEnumeration(this.value, {final  String? $type}): $type = $type ?? 'enumeration',super._();
+  factory FineTuneDPOHyperparametersLearningRateMultiplierEnumeration.fromJson(Map<String, dynamic> json) => _$FineTuneDPOHyperparametersLearningRateMultiplierEnumerationFromJson(json);
+
+@override final  FineTuneDPOHyperparametersLearningRateMultiplierEnum value;
+
+@JsonKey(name: 'runtimeType')
+final String $type;
+
+
+/// Create a copy of FineTuneDPOHyperparametersLearningRateMultiplier
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$FineTuneDPOHyperparametersLearningRateMultiplierEnumerationCopyWith<FineTuneDPOHyperparametersLearningRateMultiplierEnumeration> get copyWith => _$FineTuneDPOHyperparametersLearningRateMultiplierEnumerationCopyWithImpl<FineTuneDPOHyperparametersLearningRateMultiplierEnumeration>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$FineTuneDPOHyperparametersLearningRateMultiplierEnumerationToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneDPOHyperparametersLearningRateMultiplierEnumeration&&(identical(other.value, value) || other.value == value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,value);
+
+@override
+String toString() {
+  return 'FineTuneDPOHyperparametersLearningRateMultiplier.enumeration(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $FineTuneDPOHyperparametersLearningRateMultiplierEnumerationCopyWith<$Res> implements $FineTuneDPOHyperparametersLearningRateMultiplierCopyWith<$Res> {
+  factory $FineTuneDPOHyperparametersLearningRateMultiplierEnumerationCopyWith(FineTuneDPOHyperparametersLearningRateMultiplierEnumeration value, $Res Function(FineTuneDPOHyperparametersLearningRateMultiplierEnumeration) _then) = _$FineTuneDPOHyperparametersLearningRateMultiplierEnumerationCopyWithImpl;
+@useResult
+$Res call({
+ FineTuneDPOHyperparametersLearningRateMultiplierEnum value
+});
+
+
+
+
+}
+/// @nodoc
+class _$FineTuneDPOHyperparametersLearningRateMultiplierEnumerationCopyWithImpl<$Res>
+    implements $FineTuneDPOHyperparametersLearningRateMultiplierEnumerationCopyWith<$Res> {
+  _$FineTuneDPOHyperparametersLearningRateMultiplierEnumerationCopyWithImpl(this._self, this._then);
+
+  final FineTuneDPOHyperparametersLearningRateMultiplierEnumeration _self;
+  final $Res Function(FineTuneDPOHyperparametersLearningRateMultiplierEnumeration) _then;
+
+/// Create a copy of FineTuneDPOHyperparametersLearningRateMultiplier
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
+  return _then(FineTuneDPOHyperparametersLearningRateMultiplierEnumeration(
+null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as FineTuneDPOHyperparametersLearningRateMultiplierEnum,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class FineTuneDPOHyperparametersLearningRateMultiplierDouble extends FineTuneDPOHyperparametersLearningRateMultiplier {
+  const FineTuneDPOHyperparametersLearningRateMultiplierDouble(this.value, {final  String? $type}): $type = $type ?? 'double',super._();
+  factory FineTuneDPOHyperparametersLearningRateMultiplierDouble.fromJson(Map<String, dynamic> json) => _$FineTuneDPOHyperparametersLearningRateMultiplierDoubleFromJson(json);
+
+@override final  double value;
+
+@JsonKey(name: 'runtimeType')
+final String $type;
+
+
+/// Create a copy of FineTuneDPOHyperparametersLearningRateMultiplier
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$FineTuneDPOHyperparametersLearningRateMultiplierDoubleCopyWith<FineTuneDPOHyperparametersLearningRateMultiplierDouble> get copyWith => _$FineTuneDPOHyperparametersLearningRateMultiplierDoubleCopyWithImpl<FineTuneDPOHyperparametersLearningRateMultiplierDouble>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$FineTuneDPOHyperparametersLearningRateMultiplierDoubleToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneDPOHyperparametersLearningRateMultiplierDouble&&(identical(other.value, value) || other.value == value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,value);
+
+@override
+String toString() {
+  return 'FineTuneDPOHyperparametersLearningRateMultiplier.double(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $FineTuneDPOHyperparametersLearningRateMultiplierDoubleCopyWith<$Res> implements $FineTuneDPOHyperparametersLearningRateMultiplierCopyWith<$Res> {
+  factory $FineTuneDPOHyperparametersLearningRateMultiplierDoubleCopyWith(FineTuneDPOHyperparametersLearningRateMultiplierDouble value, $Res Function(FineTuneDPOHyperparametersLearningRateMultiplierDouble) _then) = _$FineTuneDPOHyperparametersLearningRateMultiplierDoubleCopyWithImpl;
+@useResult
+$Res call({
+ double value
+});
+
+
+
+
+}
+/// @nodoc
+class _$FineTuneDPOHyperparametersLearningRateMultiplierDoubleCopyWithImpl<$Res>
+    implements $FineTuneDPOHyperparametersLearningRateMultiplierDoubleCopyWith<$Res> {
+  _$FineTuneDPOHyperparametersLearningRateMultiplierDoubleCopyWithImpl(this._self, this._then);
+
+  final FineTuneDPOHyperparametersLearningRateMultiplierDouble _self;
+  final $Res Function(FineTuneDPOHyperparametersLearningRateMultiplierDouble) _then;
+
+/// Create a copy of FineTuneDPOHyperparametersLearningRateMultiplier
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
+  return _then(FineTuneDPOHyperparametersLearningRateMultiplierDouble(
+null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as double,
+  ));
+}
+
+
+}
+
+FineTuneDPOHyperparametersNEpochs _$FineTuneDPOHyperparametersNEpochsFromJson(
+  Map<String, dynamic> json
+) {
+        switch (json['runtimeType']) {
+                  case 'enumeration':
+          return FineTuneDPOHyperparametersNEpochsEnumeration.fromJson(
+            json
+          );
+                case 'int':
+          return FineTuneDPOHyperparametersNEpochsInt.fromJson(
+            json
+          );
+        
+          default:
+            throw CheckedFromJsonException(
+  json,
+  'runtimeType',
+  'FineTuneDPOHyperparametersNEpochs',
+  'Invalid union type "${json['runtimeType']}"!'
+);
+        }
+      
+}
+
+/// @nodoc
+mixin _$FineTuneDPOHyperparametersNEpochs {
+
+ Object get value;
+
+  /// Serializes this FineTuneDPOHyperparametersNEpochs to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneDPOHyperparametersNEpochs&&const DeepCollectionEquality().equals(other.value, value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(value));
+
+@override
+String toString() {
+  return 'FineTuneDPOHyperparametersNEpochs(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+class $FineTuneDPOHyperparametersNEpochsCopyWith<$Res>  {
+$FineTuneDPOHyperparametersNEpochsCopyWith(FineTuneDPOHyperparametersNEpochs _, $Res Function(FineTuneDPOHyperparametersNEpochs) __);
+}
+
+
+/// Adds pattern-matching-related methods to [FineTuneDPOHyperparametersNEpochs].
+extension FineTuneDPOHyperparametersNEpochsPatterns on FineTuneDPOHyperparametersNEpochs {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( FineTuneDPOHyperparametersNEpochsEnumeration value)?  enumeration,TResult Function( FineTuneDPOHyperparametersNEpochsInt value)?  int,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case FineTuneDPOHyperparametersNEpochsEnumeration() when enumeration != null:
+return enumeration(_that);case FineTuneDPOHyperparametersNEpochsInt() when int != null:
+return int(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( FineTuneDPOHyperparametersNEpochsEnumeration value)  enumeration,required TResult Function( FineTuneDPOHyperparametersNEpochsInt value)  int,}){
+final _that = this;
+switch (_that) {
+case FineTuneDPOHyperparametersNEpochsEnumeration():
+return enumeration(_that);case FineTuneDPOHyperparametersNEpochsInt():
+return int(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( FineTuneDPOHyperparametersNEpochsEnumeration value)?  enumeration,TResult? Function( FineTuneDPOHyperparametersNEpochsInt value)?  int,}){
+final _that = this;
+switch (_that) {
+case FineTuneDPOHyperparametersNEpochsEnumeration() when enumeration != null:
+return enumeration(_that);case FineTuneDPOHyperparametersNEpochsInt() when int != null:
+return int(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( FineTuneDPOHyperparametersNEpochsEnum value)?  enumeration,TResult Function( int value)?  int,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case FineTuneDPOHyperparametersNEpochsEnumeration() when enumeration != null:
+return enumeration(_that.value);case FineTuneDPOHyperparametersNEpochsInt() when int != null:
+return int(_that.value);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( FineTuneDPOHyperparametersNEpochsEnum value)  enumeration,required TResult Function( int value)  int,}) {final _that = this;
+switch (_that) {
+case FineTuneDPOHyperparametersNEpochsEnumeration():
+return enumeration(_that.value);case FineTuneDPOHyperparametersNEpochsInt():
+return int(_that.value);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( FineTuneDPOHyperparametersNEpochsEnum value)?  enumeration,TResult? Function( int value)?  int,}) {final _that = this;
+switch (_that) {
+case FineTuneDPOHyperparametersNEpochsEnumeration() when enumeration != null:
+return enumeration(_that.value);case FineTuneDPOHyperparametersNEpochsInt() when int != null:
+return int(_that.value);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class FineTuneDPOHyperparametersNEpochsEnumeration extends FineTuneDPOHyperparametersNEpochs {
+  const FineTuneDPOHyperparametersNEpochsEnumeration(this.value, {final  String? $type}): $type = $type ?? 'enumeration',super._();
+  factory FineTuneDPOHyperparametersNEpochsEnumeration.fromJson(Map<String, dynamic> json) => _$FineTuneDPOHyperparametersNEpochsEnumerationFromJson(json);
+
+@override final  FineTuneDPOHyperparametersNEpochsEnum value;
+
+@JsonKey(name: 'runtimeType')
+final String $type;
+
+
+/// Create a copy of FineTuneDPOHyperparametersNEpochs
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$FineTuneDPOHyperparametersNEpochsEnumerationCopyWith<FineTuneDPOHyperparametersNEpochsEnumeration> get copyWith => _$FineTuneDPOHyperparametersNEpochsEnumerationCopyWithImpl<FineTuneDPOHyperparametersNEpochsEnumeration>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$FineTuneDPOHyperparametersNEpochsEnumerationToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneDPOHyperparametersNEpochsEnumeration&&(identical(other.value, value) || other.value == value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,value);
+
+@override
+String toString() {
+  return 'FineTuneDPOHyperparametersNEpochs.enumeration(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $FineTuneDPOHyperparametersNEpochsEnumerationCopyWith<$Res> implements $FineTuneDPOHyperparametersNEpochsCopyWith<$Res> {
+  factory $FineTuneDPOHyperparametersNEpochsEnumerationCopyWith(FineTuneDPOHyperparametersNEpochsEnumeration value, $Res Function(FineTuneDPOHyperparametersNEpochsEnumeration) _then) = _$FineTuneDPOHyperparametersNEpochsEnumerationCopyWithImpl;
+@useResult
+$Res call({
+ FineTuneDPOHyperparametersNEpochsEnum value
+});
+
+
+
+
+}
+/// @nodoc
+class _$FineTuneDPOHyperparametersNEpochsEnumerationCopyWithImpl<$Res>
+    implements $FineTuneDPOHyperparametersNEpochsEnumerationCopyWith<$Res> {
+  _$FineTuneDPOHyperparametersNEpochsEnumerationCopyWithImpl(this._self, this._then);
+
+  final FineTuneDPOHyperparametersNEpochsEnumeration _self;
+  final $Res Function(FineTuneDPOHyperparametersNEpochsEnumeration) _then;
+
+/// Create a copy of FineTuneDPOHyperparametersNEpochs
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
+  return _then(FineTuneDPOHyperparametersNEpochsEnumeration(
+null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as FineTuneDPOHyperparametersNEpochsEnum,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class FineTuneDPOHyperparametersNEpochsInt extends FineTuneDPOHyperparametersNEpochs {
+  const FineTuneDPOHyperparametersNEpochsInt(this.value, {final  String? $type}): $type = $type ?? 'int',super._();
+  factory FineTuneDPOHyperparametersNEpochsInt.fromJson(Map<String, dynamic> json) => _$FineTuneDPOHyperparametersNEpochsIntFromJson(json);
+
+@override final  int value;
+
+@JsonKey(name: 'runtimeType')
+final String $type;
+
+
+/// Create a copy of FineTuneDPOHyperparametersNEpochs
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$FineTuneDPOHyperparametersNEpochsIntCopyWith<FineTuneDPOHyperparametersNEpochsInt> get copyWith => _$FineTuneDPOHyperparametersNEpochsIntCopyWithImpl<FineTuneDPOHyperparametersNEpochsInt>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$FineTuneDPOHyperparametersNEpochsIntToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneDPOHyperparametersNEpochsInt&&(identical(other.value, value) || other.value == value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,value);
+
+@override
+String toString() {
+  return 'FineTuneDPOHyperparametersNEpochs.int(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $FineTuneDPOHyperparametersNEpochsIntCopyWith<$Res> implements $FineTuneDPOHyperparametersNEpochsCopyWith<$Res> {
+  factory $FineTuneDPOHyperparametersNEpochsIntCopyWith(FineTuneDPOHyperparametersNEpochsInt value, $Res Function(FineTuneDPOHyperparametersNEpochsInt) _then) = _$FineTuneDPOHyperparametersNEpochsIntCopyWithImpl;
+@useResult
+$Res call({
+ int value
+});
+
+
+
+
+}
+/// @nodoc
+class _$FineTuneDPOHyperparametersNEpochsIntCopyWithImpl<$Res>
+    implements $FineTuneDPOHyperparametersNEpochsIntCopyWith<$Res> {
+  _$FineTuneDPOHyperparametersNEpochsIntCopyWithImpl(this._self, this._then);
+
+  final FineTuneDPOHyperparametersNEpochsInt _self;
+  final $Res Function(FineTuneDPOHyperparametersNEpochsInt) _then;
+
+/// Create a copy of FineTuneDPOHyperparametersNEpochs
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
+  return _then(FineTuneDPOHyperparametersNEpochsInt(
+null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$FineTuneReinforcementMethod {
+
+/// The grader used for the reinforcement fine-tuning method. This is a flexible object
+/// that can be one of: StringCheckGrader, TextSimilarityGrader, PythonGrader,
+/// ScoreModelGrader, or MultiGrader.
+@JsonKey(includeIfNull: false) Map<String, dynamic>? get grader;/// The hyperparameters used for the reinforcement fine-tuning job.
+@JsonKey(includeIfNull: false) FineTuneReinforcementHyperparameters? get hyperparameters;
+/// Create a copy of FineTuneReinforcementMethod
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$FineTuneReinforcementMethodCopyWith<FineTuneReinforcementMethod> get copyWith => _$FineTuneReinforcementMethodCopyWithImpl<FineTuneReinforcementMethod>(this as FineTuneReinforcementMethod, _$identity);
+
+  /// Serializes this FineTuneReinforcementMethod to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneReinforcementMethod&&const DeepCollectionEquality().equals(other.grader, grader)&&(identical(other.hyperparameters, hyperparameters) || other.hyperparameters == hyperparameters));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(grader),hyperparameters);
+
+@override
+String toString() {
+  return 'FineTuneReinforcementMethod(grader: $grader, hyperparameters: $hyperparameters)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $FineTuneReinforcementMethodCopyWith<$Res>  {
+  factory $FineTuneReinforcementMethodCopyWith(FineTuneReinforcementMethod value, $Res Function(FineTuneReinforcementMethod) _then) = _$FineTuneReinforcementMethodCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(includeIfNull: false) Map<String, dynamic>? grader,@JsonKey(includeIfNull: false) FineTuneReinforcementHyperparameters? hyperparameters
+});
+
+
+$FineTuneReinforcementHyperparametersCopyWith<$Res>? get hyperparameters;
+
+}
+/// @nodoc
+class _$FineTuneReinforcementMethodCopyWithImpl<$Res>
+    implements $FineTuneReinforcementMethodCopyWith<$Res> {
+  _$FineTuneReinforcementMethodCopyWithImpl(this._self, this._then);
+
+  final FineTuneReinforcementMethod _self;
+  final $Res Function(FineTuneReinforcementMethod) _then;
+
+/// Create a copy of FineTuneReinforcementMethod
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? grader = freezed,Object? hyperparameters = freezed,}) {
+  return _then(_self.copyWith(
+grader: freezed == grader ? _self.grader : grader // ignore: cast_nullable_to_non_nullable
+as Map<String, dynamic>?,hyperparameters: freezed == hyperparameters ? _self.hyperparameters : hyperparameters // ignore: cast_nullable_to_non_nullable
+as FineTuneReinforcementHyperparameters?,
+  ));
+}
+/// Create a copy of FineTuneReinforcementMethod
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneReinforcementHyperparametersCopyWith<$Res>? get hyperparameters {
+    if (_self.hyperparameters == null) {
+    return null;
+  }
+
+  return $FineTuneReinforcementHyperparametersCopyWith<$Res>(_self.hyperparameters!, (value) {
+    return _then(_self.copyWith(hyperparameters: value));
+  });
+}
+}
+
+
+/// Adds pattern-matching-related methods to [FineTuneReinforcementMethod].
+extension FineTuneReinforcementMethodPatterns on FineTuneReinforcementMethod {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _FineTuneReinforcementMethod value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _FineTuneReinforcementMethod() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _FineTuneReinforcementMethod value)  $default,){
+final _that = this;
+switch (_that) {
+case _FineTuneReinforcementMethod():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _FineTuneReinforcementMethod value)?  $default,){
+final _that = this;
+switch (_that) {
+case _FineTuneReinforcementMethod() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false)  Map<String, dynamic>? grader, @JsonKey(includeIfNull: false)  FineTuneReinforcementHyperparameters? hyperparameters)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _FineTuneReinforcementMethod() when $default != null:
+return $default(_that.grader,_that.hyperparameters);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false)  Map<String, dynamic>? grader, @JsonKey(includeIfNull: false)  FineTuneReinforcementHyperparameters? hyperparameters)  $default,) {final _that = this;
+switch (_that) {
+case _FineTuneReinforcementMethod():
+return $default(_that.grader,_that.hyperparameters);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(includeIfNull: false)  Map<String, dynamic>? grader, @JsonKey(includeIfNull: false)  FineTuneReinforcementHyperparameters? hyperparameters)?  $default,) {final _that = this;
+switch (_that) {
+case _FineTuneReinforcementMethod() when $default != null:
+return $default(_that.grader,_that.hyperparameters);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _FineTuneReinforcementMethod extends FineTuneReinforcementMethod {
+  const _FineTuneReinforcementMethod({@JsonKey(includeIfNull: false) final  Map<String, dynamic>? grader, @JsonKey(includeIfNull: false) this.hyperparameters}): _grader = grader,super._();
+  factory _FineTuneReinforcementMethod.fromJson(Map<String, dynamic> json) => _$FineTuneReinforcementMethodFromJson(json);
+
+/// The grader used for the reinforcement fine-tuning method. This is a flexible object
+/// that can be one of: StringCheckGrader, TextSimilarityGrader, PythonGrader,
+/// ScoreModelGrader, or MultiGrader.
+ final  Map<String, dynamic>? _grader;
+/// The grader used for the reinforcement fine-tuning method. This is a flexible object
+/// that can be one of: StringCheckGrader, TextSimilarityGrader, PythonGrader,
+/// ScoreModelGrader, or MultiGrader.
+@override@JsonKey(includeIfNull: false) Map<String, dynamic>? get grader {
+  final value = _grader;
+  if (value == null) return null;
+  if (_grader is EqualUnmodifiableMapView) return _grader;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(value);
+}
+
+/// The hyperparameters used for the reinforcement fine-tuning job.
+@override@JsonKey(includeIfNull: false) final  FineTuneReinforcementHyperparameters? hyperparameters;
+
+/// Create a copy of FineTuneReinforcementMethod
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$FineTuneReinforcementMethodCopyWith<_FineTuneReinforcementMethod> get copyWith => __$FineTuneReinforcementMethodCopyWithImpl<_FineTuneReinforcementMethod>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$FineTuneReinforcementMethodToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FineTuneReinforcementMethod&&const DeepCollectionEquality().equals(other._grader, _grader)&&(identical(other.hyperparameters, hyperparameters) || other.hyperparameters == hyperparameters));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_grader),hyperparameters);
+
+@override
+String toString() {
+  return 'FineTuneReinforcementMethod(grader: $grader, hyperparameters: $hyperparameters)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$FineTuneReinforcementMethodCopyWith<$Res> implements $FineTuneReinforcementMethodCopyWith<$Res> {
+  factory _$FineTuneReinforcementMethodCopyWith(_FineTuneReinforcementMethod value, $Res Function(_FineTuneReinforcementMethod) _then) = __$FineTuneReinforcementMethodCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(includeIfNull: false) Map<String, dynamic>? grader,@JsonKey(includeIfNull: false) FineTuneReinforcementHyperparameters? hyperparameters
+});
+
+
+@override $FineTuneReinforcementHyperparametersCopyWith<$Res>? get hyperparameters;
+
+}
+/// @nodoc
+class __$FineTuneReinforcementMethodCopyWithImpl<$Res>
+    implements _$FineTuneReinforcementMethodCopyWith<$Res> {
+  __$FineTuneReinforcementMethodCopyWithImpl(this._self, this._then);
+
+  final _FineTuneReinforcementMethod _self;
+  final $Res Function(_FineTuneReinforcementMethod) _then;
+
+/// Create a copy of FineTuneReinforcementMethod
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? grader = freezed,Object? hyperparameters = freezed,}) {
+  return _then(_FineTuneReinforcementMethod(
+grader: freezed == grader ? _self._grader : grader // ignore: cast_nullable_to_non_nullable
+as Map<String, dynamic>?,hyperparameters: freezed == hyperparameters ? _self.hyperparameters : hyperparameters // ignore: cast_nullable_to_non_nullable
+as FineTuneReinforcementHyperparameters?,
+  ));
+}
+
+/// Create a copy of FineTuneReinforcementMethod
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneReinforcementHyperparametersCopyWith<$Res>? get hyperparameters {
+    if (_self.hyperparameters == null) {
+    return null;
+  }
+
+  return $FineTuneReinforcementHyperparametersCopyWith<$Res>(_self.hyperparameters!, (value) {
+    return _then(_self.copyWith(hyperparameters: value));
+  });
+}
+}
+
+
+/// @nodoc
+mixin _$FineTuneReinforcementHyperparameters {
+
+/// Number of examples in each batch. A larger batch size means that model parameters
+/// are updated less frequently, but with lower variance.
+@_FineTuneReinforcementHyperparametersBatchSizeConverter()@JsonKey(name: 'batch_size', includeIfNull: false) FineTuneReinforcementHyperparametersBatchSize? get batchSize;/// Scaling factor for the learning rate. A smaller learning rate may be useful to avoid
+/// overfitting.
+@_FineTuneReinforcementHyperparametersLearningRateMultiplierConverter()@JsonKey(name: 'learning_rate_multiplier', includeIfNull: false) FineTuneReinforcementHyperparametersLearningRateMultiplier? get learningRateMultiplier;/// The number of epochs to train the model for. An epoch refers to one full cycle
+/// through the training dataset.
+@_FineTuneReinforcementHyperparametersNEpochsConverter()@JsonKey(name: 'n_epochs', includeIfNull: false) FineTuneReinforcementHyperparametersNEpochs? get nEpochs;/// Constrains effort on reasoning for
+/// [reasoning models](https://platform.openai.com/docs/guides/reasoning).
+/// Currently supported values are `minimal`, `low`, `medium`, and `high`. Reducing
+/// reasoning effort can result in faster responses and fewer tokens used
+/// on reasoning in a response.
+@JsonKey(name: 'reasoning_effort', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ReasoningEffort? get reasoningEffort;/// A multiplier on amount of compute used for exploring search space during training.
+@_FineTuneReinforcementHyperparametersComputeMultiplierConverter()@JsonKey(name: 'compute_multiplier', includeIfNull: false) FineTuneReinforcementHyperparametersComputeMultiplier? get computeMultiplier;/// The number of training steps between evaluation runs.
+@_FineTuneReinforcementHyperparametersEvalIntervalConverter()@JsonKey(name: 'eval_interval', includeIfNull: false) FineTuneReinforcementHyperparametersEvalInterval? get evalInterval;/// The number of samples to use for evaluation.
+@_FineTuneReinforcementHyperparametersEvalSamplesConverter()@JsonKey(name: 'eval_samples', includeIfNull: false) FineTuneReinforcementHyperparametersEvalSamples? get evalSamples;
+/// Create a copy of FineTuneReinforcementHyperparameters
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$FineTuneReinforcementHyperparametersCopyWith<FineTuneReinforcementHyperparameters> get copyWith => _$FineTuneReinforcementHyperparametersCopyWithImpl<FineTuneReinforcementHyperparameters>(this as FineTuneReinforcementHyperparameters, _$identity);
+
+  /// Serializes this FineTuneReinforcementHyperparameters to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneReinforcementHyperparameters&&(identical(other.batchSize, batchSize) || other.batchSize == batchSize)&&(identical(other.learningRateMultiplier, learningRateMultiplier) || other.learningRateMultiplier == learningRateMultiplier)&&(identical(other.nEpochs, nEpochs) || other.nEpochs == nEpochs)&&(identical(other.reasoningEffort, reasoningEffort) || other.reasoningEffort == reasoningEffort)&&(identical(other.computeMultiplier, computeMultiplier) || other.computeMultiplier == computeMultiplier)&&(identical(other.evalInterval, evalInterval) || other.evalInterval == evalInterval)&&(identical(other.evalSamples, evalSamples) || other.evalSamples == evalSamples));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,batchSize,learningRateMultiplier,nEpochs,reasoningEffort,computeMultiplier,evalInterval,evalSamples);
+
+@override
+String toString() {
+  return 'FineTuneReinforcementHyperparameters(batchSize: $batchSize, learningRateMultiplier: $learningRateMultiplier, nEpochs: $nEpochs, reasoningEffort: $reasoningEffort, computeMultiplier: $computeMultiplier, evalInterval: $evalInterval, evalSamples: $evalSamples)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $FineTuneReinforcementHyperparametersCopyWith<$Res>  {
+  factory $FineTuneReinforcementHyperparametersCopyWith(FineTuneReinforcementHyperparameters value, $Res Function(FineTuneReinforcementHyperparameters) _then) = _$FineTuneReinforcementHyperparametersCopyWithImpl;
+@useResult
+$Res call({
+@_FineTuneReinforcementHyperparametersBatchSizeConverter()@JsonKey(name: 'batch_size', includeIfNull: false) FineTuneReinforcementHyperparametersBatchSize? batchSize,@_FineTuneReinforcementHyperparametersLearningRateMultiplierConverter()@JsonKey(name: 'learning_rate_multiplier', includeIfNull: false) FineTuneReinforcementHyperparametersLearningRateMultiplier? learningRateMultiplier,@_FineTuneReinforcementHyperparametersNEpochsConverter()@JsonKey(name: 'n_epochs', includeIfNull: false) FineTuneReinforcementHyperparametersNEpochs? nEpochs,@JsonKey(name: 'reasoning_effort', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ReasoningEffort? reasoningEffort,@_FineTuneReinforcementHyperparametersComputeMultiplierConverter()@JsonKey(name: 'compute_multiplier', includeIfNull: false) FineTuneReinforcementHyperparametersComputeMultiplier? computeMultiplier,@_FineTuneReinforcementHyperparametersEvalIntervalConverter()@JsonKey(name: 'eval_interval', includeIfNull: false) FineTuneReinforcementHyperparametersEvalInterval? evalInterval,@_FineTuneReinforcementHyperparametersEvalSamplesConverter()@JsonKey(name: 'eval_samples', includeIfNull: false) FineTuneReinforcementHyperparametersEvalSamples? evalSamples
+});
+
+
+$FineTuneReinforcementHyperparametersBatchSizeCopyWith<$Res>? get batchSize;$FineTuneReinforcementHyperparametersLearningRateMultiplierCopyWith<$Res>? get learningRateMultiplier;$FineTuneReinforcementHyperparametersNEpochsCopyWith<$Res>? get nEpochs;$FineTuneReinforcementHyperparametersComputeMultiplierCopyWith<$Res>? get computeMultiplier;$FineTuneReinforcementHyperparametersEvalIntervalCopyWith<$Res>? get evalInterval;$FineTuneReinforcementHyperparametersEvalSamplesCopyWith<$Res>? get evalSamples;
+
+}
+/// @nodoc
+class _$FineTuneReinforcementHyperparametersCopyWithImpl<$Res>
+    implements $FineTuneReinforcementHyperparametersCopyWith<$Res> {
+  _$FineTuneReinforcementHyperparametersCopyWithImpl(this._self, this._then);
+
+  final FineTuneReinforcementHyperparameters _self;
+  final $Res Function(FineTuneReinforcementHyperparameters) _then;
+
+/// Create a copy of FineTuneReinforcementHyperparameters
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? batchSize = freezed,Object? learningRateMultiplier = freezed,Object? nEpochs = freezed,Object? reasoningEffort = freezed,Object? computeMultiplier = freezed,Object? evalInterval = freezed,Object? evalSamples = freezed,}) {
+  return _then(_self.copyWith(
+batchSize: freezed == batchSize ? _self.batchSize : batchSize // ignore: cast_nullable_to_non_nullable
+as FineTuneReinforcementHyperparametersBatchSize?,learningRateMultiplier: freezed == learningRateMultiplier ? _self.learningRateMultiplier : learningRateMultiplier // ignore: cast_nullable_to_non_nullable
+as FineTuneReinforcementHyperparametersLearningRateMultiplier?,nEpochs: freezed == nEpochs ? _self.nEpochs : nEpochs // ignore: cast_nullable_to_non_nullable
+as FineTuneReinforcementHyperparametersNEpochs?,reasoningEffort: freezed == reasoningEffort ? _self.reasoningEffort : reasoningEffort // ignore: cast_nullable_to_non_nullable
+as ReasoningEffort?,computeMultiplier: freezed == computeMultiplier ? _self.computeMultiplier : computeMultiplier // ignore: cast_nullable_to_non_nullable
+as FineTuneReinforcementHyperparametersComputeMultiplier?,evalInterval: freezed == evalInterval ? _self.evalInterval : evalInterval // ignore: cast_nullable_to_non_nullable
+as FineTuneReinforcementHyperparametersEvalInterval?,evalSamples: freezed == evalSamples ? _self.evalSamples : evalSamples // ignore: cast_nullable_to_non_nullable
+as FineTuneReinforcementHyperparametersEvalSamples?,
+  ));
+}
+/// Create a copy of FineTuneReinforcementHyperparameters
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneReinforcementHyperparametersBatchSizeCopyWith<$Res>? get batchSize {
+    if (_self.batchSize == null) {
+    return null;
+  }
+
+  return $FineTuneReinforcementHyperparametersBatchSizeCopyWith<$Res>(_self.batchSize!, (value) {
+    return _then(_self.copyWith(batchSize: value));
+  });
+}/// Create a copy of FineTuneReinforcementHyperparameters
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneReinforcementHyperparametersLearningRateMultiplierCopyWith<$Res>? get learningRateMultiplier {
+    if (_self.learningRateMultiplier == null) {
+    return null;
+  }
+
+  return $FineTuneReinforcementHyperparametersLearningRateMultiplierCopyWith<$Res>(_self.learningRateMultiplier!, (value) {
+    return _then(_self.copyWith(learningRateMultiplier: value));
+  });
+}/// Create a copy of FineTuneReinforcementHyperparameters
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneReinforcementHyperparametersNEpochsCopyWith<$Res>? get nEpochs {
+    if (_self.nEpochs == null) {
+    return null;
+  }
+
+  return $FineTuneReinforcementHyperparametersNEpochsCopyWith<$Res>(_self.nEpochs!, (value) {
+    return _then(_self.copyWith(nEpochs: value));
+  });
+}/// Create a copy of FineTuneReinforcementHyperparameters
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneReinforcementHyperparametersComputeMultiplierCopyWith<$Res>? get computeMultiplier {
+    if (_self.computeMultiplier == null) {
+    return null;
+  }
+
+  return $FineTuneReinforcementHyperparametersComputeMultiplierCopyWith<$Res>(_self.computeMultiplier!, (value) {
+    return _then(_self.copyWith(computeMultiplier: value));
+  });
+}/// Create a copy of FineTuneReinforcementHyperparameters
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneReinforcementHyperparametersEvalIntervalCopyWith<$Res>? get evalInterval {
+    if (_self.evalInterval == null) {
+    return null;
+  }
+
+  return $FineTuneReinforcementHyperparametersEvalIntervalCopyWith<$Res>(_self.evalInterval!, (value) {
+    return _then(_self.copyWith(evalInterval: value));
+  });
+}/// Create a copy of FineTuneReinforcementHyperparameters
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneReinforcementHyperparametersEvalSamplesCopyWith<$Res>? get evalSamples {
+    if (_self.evalSamples == null) {
+    return null;
+  }
+
+  return $FineTuneReinforcementHyperparametersEvalSamplesCopyWith<$Res>(_self.evalSamples!, (value) {
+    return _then(_self.copyWith(evalSamples: value));
+  });
+}
+}
+
+
+/// Adds pattern-matching-related methods to [FineTuneReinforcementHyperparameters].
+extension FineTuneReinforcementHyperparametersPatterns on FineTuneReinforcementHyperparameters {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _FineTuneReinforcementHyperparameters value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _FineTuneReinforcementHyperparameters() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _FineTuneReinforcementHyperparameters value)  $default,){
+final _that = this;
+switch (_that) {
+case _FineTuneReinforcementHyperparameters():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _FineTuneReinforcementHyperparameters value)?  $default,){
+final _that = this;
+switch (_that) {
+case _FineTuneReinforcementHyperparameters() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@_FineTuneReinforcementHyperparametersBatchSizeConverter()@JsonKey(name: 'batch_size', includeIfNull: false)  FineTuneReinforcementHyperparametersBatchSize? batchSize, @_FineTuneReinforcementHyperparametersLearningRateMultiplierConverter()@JsonKey(name: 'learning_rate_multiplier', includeIfNull: false)  FineTuneReinforcementHyperparametersLearningRateMultiplier? learningRateMultiplier, @_FineTuneReinforcementHyperparametersNEpochsConverter()@JsonKey(name: 'n_epochs', includeIfNull: false)  FineTuneReinforcementHyperparametersNEpochs? nEpochs, @JsonKey(name: 'reasoning_effort', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ReasoningEffort? reasoningEffort, @_FineTuneReinforcementHyperparametersComputeMultiplierConverter()@JsonKey(name: 'compute_multiplier', includeIfNull: false)  FineTuneReinforcementHyperparametersComputeMultiplier? computeMultiplier, @_FineTuneReinforcementHyperparametersEvalIntervalConverter()@JsonKey(name: 'eval_interval', includeIfNull: false)  FineTuneReinforcementHyperparametersEvalInterval? evalInterval, @_FineTuneReinforcementHyperparametersEvalSamplesConverter()@JsonKey(name: 'eval_samples', includeIfNull: false)  FineTuneReinforcementHyperparametersEvalSamples? evalSamples)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _FineTuneReinforcementHyperparameters() when $default != null:
+return $default(_that.batchSize,_that.learningRateMultiplier,_that.nEpochs,_that.reasoningEffort,_that.computeMultiplier,_that.evalInterval,_that.evalSamples);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@_FineTuneReinforcementHyperparametersBatchSizeConverter()@JsonKey(name: 'batch_size', includeIfNull: false)  FineTuneReinforcementHyperparametersBatchSize? batchSize, @_FineTuneReinforcementHyperparametersLearningRateMultiplierConverter()@JsonKey(name: 'learning_rate_multiplier', includeIfNull: false)  FineTuneReinforcementHyperparametersLearningRateMultiplier? learningRateMultiplier, @_FineTuneReinforcementHyperparametersNEpochsConverter()@JsonKey(name: 'n_epochs', includeIfNull: false)  FineTuneReinforcementHyperparametersNEpochs? nEpochs, @JsonKey(name: 'reasoning_effort', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ReasoningEffort? reasoningEffort, @_FineTuneReinforcementHyperparametersComputeMultiplierConverter()@JsonKey(name: 'compute_multiplier', includeIfNull: false)  FineTuneReinforcementHyperparametersComputeMultiplier? computeMultiplier, @_FineTuneReinforcementHyperparametersEvalIntervalConverter()@JsonKey(name: 'eval_interval', includeIfNull: false)  FineTuneReinforcementHyperparametersEvalInterval? evalInterval, @_FineTuneReinforcementHyperparametersEvalSamplesConverter()@JsonKey(name: 'eval_samples', includeIfNull: false)  FineTuneReinforcementHyperparametersEvalSamples? evalSamples)  $default,) {final _that = this;
+switch (_that) {
+case _FineTuneReinforcementHyperparameters():
+return $default(_that.batchSize,_that.learningRateMultiplier,_that.nEpochs,_that.reasoningEffort,_that.computeMultiplier,_that.evalInterval,_that.evalSamples);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@_FineTuneReinforcementHyperparametersBatchSizeConverter()@JsonKey(name: 'batch_size', includeIfNull: false)  FineTuneReinforcementHyperparametersBatchSize? batchSize, @_FineTuneReinforcementHyperparametersLearningRateMultiplierConverter()@JsonKey(name: 'learning_rate_multiplier', includeIfNull: false)  FineTuneReinforcementHyperparametersLearningRateMultiplier? learningRateMultiplier, @_FineTuneReinforcementHyperparametersNEpochsConverter()@JsonKey(name: 'n_epochs', includeIfNull: false)  FineTuneReinforcementHyperparametersNEpochs? nEpochs, @JsonKey(name: 'reasoning_effort', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ReasoningEffort? reasoningEffort, @_FineTuneReinforcementHyperparametersComputeMultiplierConverter()@JsonKey(name: 'compute_multiplier', includeIfNull: false)  FineTuneReinforcementHyperparametersComputeMultiplier? computeMultiplier, @_FineTuneReinforcementHyperparametersEvalIntervalConverter()@JsonKey(name: 'eval_interval', includeIfNull: false)  FineTuneReinforcementHyperparametersEvalInterval? evalInterval, @_FineTuneReinforcementHyperparametersEvalSamplesConverter()@JsonKey(name: 'eval_samples', includeIfNull: false)  FineTuneReinforcementHyperparametersEvalSamples? evalSamples)?  $default,) {final _that = this;
+switch (_that) {
+case _FineTuneReinforcementHyperparameters() when $default != null:
+return $default(_that.batchSize,_that.learningRateMultiplier,_that.nEpochs,_that.reasoningEffort,_that.computeMultiplier,_that.evalInterval,_that.evalSamples);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _FineTuneReinforcementHyperparameters extends FineTuneReinforcementHyperparameters {
+  const _FineTuneReinforcementHyperparameters({@_FineTuneReinforcementHyperparametersBatchSizeConverter()@JsonKey(name: 'batch_size', includeIfNull: false) this.batchSize = const FineTuneReinforcementHyperparametersBatchSizeEnumeration(FineTuneReinforcementHyperparametersBatchSizeEnum.auto), @_FineTuneReinforcementHyperparametersLearningRateMultiplierConverter()@JsonKey(name: 'learning_rate_multiplier', includeIfNull: false) this.learningRateMultiplier = const FineTuneReinforcementHyperparametersLearningRateMultiplierEnumeration(FineTuneReinforcementHyperparametersLearningRateMultiplierEnum.auto), @_FineTuneReinforcementHyperparametersNEpochsConverter()@JsonKey(name: 'n_epochs', includeIfNull: false) this.nEpochs = const FineTuneReinforcementHyperparametersNEpochsEnumeration(FineTuneReinforcementHyperparametersNEpochsEnum.auto), @JsonKey(name: 'reasoning_effort', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.reasoningEffort, @_FineTuneReinforcementHyperparametersComputeMultiplierConverter()@JsonKey(name: 'compute_multiplier', includeIfNull: false) this.computeMultiplier = const FineTuneReinforcementHyperparametersComputeMultiplierEnumeration(FineTuneReinforcementHyperparametersComputeMultiplierEnum.auto), @_FineTuneReinforcementHyperparametersEvalIntervalConverter()@JsonKey(name: 'eval_interval', includeIfNull: false) this.evalInterval = const FineTuneReinforcementHyperparametersEvalIntervalEnumeration(FineTuneReinforcementHyperparametersEvalIntervalEnum.auto), @_FineTuneReinforcementHyperparametersEvalSamplesConverter()@JsonKey(name: 'eval_samples', includeIfNull: false) this.evalSamples = const FineTuneReinforcementHyperparametersEvalSamplesEnumeration(FineTuneReinforcementHyperparametersEvalSamplesEnum.auto)}): super._();
+  factory _FineTuneReinforcementHyperparameters.fromJson(Map<String, dynamic> json) => _$FineTuneReinforcementHyperparametersFromJson(json);
+
+/// Number of examples in each batch. A larger batch size means that model parameters
+/// are updated less frequently, but with lower variance.
+@override@_FineTuneReinforcementHyperparametersBatchSizeConverter()@JsonKey(name: 'batch_size', includeIfNull: false) final  FineTuneReinforcementHyperparametersBatchSize? batchSize;
+/// Scaling factor for the learning rate. A smaller learning rate may be useful to avoid
+/// overfitting.
+@override@_FineTuneReinforcementHyperparametersLearningRateMultiplierConverter()@JsonKey(name: 'learning_rate_multiplier', includeIfNull: false) final  FineTuneReinforcementHyperparametersLearningRateMultiplier? learningRateMultiplier;
+/// The number of epochs to train the model for. An epoch refers to one full cycle
+/// through the training dataset.
+@override@_FineTuneReinforcementHyperparametersNEpochsConverter()@JsonKey(name: 'n_epochs', includeIfNull: false) final  FineTuneReinforcementHyperparametersNEpochs? nEpochs;
+/// Constrains effort on reasoning for
+/// [reasoning models](https://platform.openai.com/docs/guides/reasoning).
+/// Currently supported values are `minimal`, `low`, `medium`, and `high`. Reducing
+/// reasoning effort can result in faster responses and fewer tokens used
+/// on reasoning in a response.
+@override@JsonKey(name: 'reasoning_effort', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) final  ReasoningEffort? reasoningEffort;
+/// A multiplier on amount of compute used for exploring search space during training.
+@override@_FineTuneReinforcementHyperparametersComputeMultiplierConverter()@JsonKey(name: 'compute_multiplier', includeIfNull: false) final  FineTuneReinforcementHyperparametersComputeMultiplier? computeMultiplier;
+/// The number of training steps between evaluation runs.
+@override@_FineTuneReinforcementHyperparametersEvalIntervalConverter()@JsonKey(name: 'eval_interval', includeIfNull: false) final  FineTuneReinforcementHyperparametersEvalInterval? evalInterval;
+/// The number of samples to use for evaluation.
+@override@_FineTuneReinforcementHyperparametersEvalSamplesConverter()@JsonKey(name: 'eval_samples', includeIfNull: false) final  FineTuneReinforcementHyperparametersEvalSamples? evalSamples;
+
+/// Create a copy of FineTuneReinforcementHyperparameters
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$FineTuneReinforcementHyperparametersCopyWith<_FineTuneReinforcementHyperparameters> get copyWith => __$FineTuneReinforcementHyperparametersCopyWithImpl<_FineTuneReinforcementHyperparameters>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$FineTuneReinforcementHyperparametersToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FineTuneReinforcementHyperparameters&&(identical(other.batchSize, batchSize) || other.batchSize == batchSize)&&(identical(other.learningRateMultiplier, learningRateMultiplier) || other.learningRateMultiplier == learningRateMultiplier)&&(identical(other.nEpochs, nEpochs) || other.nEpochs == nEpochs)&&(identical(other.reasoningEffort, reasoningEffort) || other.reasoningEffort == reasoningEffort)&&(identical(other.computeMultiplier, computeMultiplier) || other.computeMultiplier == computeMultiplier)&&(identical(other.evalInterval, evalInterval) || other.evalInterval == evalInterval)&&(identical(other.evalSamples, evalSamples) || other.evalSamples == evalSamples));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,batchSize,learningRateMultiplier,nEpochs,reasoningEffort,computeMultiplier,evalInterval,evalSamples);
+
+@override
+String toString() {
+  return 'FineTuneReinforcementHyperparameters(batchSize: $batchSize, learningRateMultiplier: $learningRateMultiplier, nEpochs: $nEpochs, reasoningEffort: $reasoningEffort, computeMultiplier: $computeMultiplier, evalInterval: $evalInterval, evalSamples: $evalSamples)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$FineTuneReinforcementHyperparametersCopyWith<$Res> implements $FineTuneReinforcementHyperparametersCopyWith<$Res> {
+  factory _$FineTuneReinforcementHyperparametersCopyWith(_FineTuneReinforcementHyperparameters value, $Res Function(_FineTuneReinforcementHyperparameters) _then) = __$FineTuneReinforcementHyperparametersCopyWithImpl;
+@override @useResult
+$Res call({
+@_FineTuneReinforcementHyperparametersBatchSizeConverter()@JsonKey(name: 'batch_size', includeIfNull: false) FineTuneReinforcementHyperparametersBatchSize? batchSize,@_FineTuneReinforcementHyperparametersLearningRateMultiplierConverter()@JsonKey(name: 'learning_rate_multiplier', includeIfNull: false) FineTuneReinforcementHyperparametersLearningRateMultiplier? learningRateMultiplier,@_FineTuneReinforcementHyperparametersNEpochsConverter()@JsonKey(name: 'n_epochs', includeIfNull: false) FineTuneReinforcementHyperparametersNEpochs? nEpochs,@JsonKey(name: 'reasoning_effort', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ReasoningEffort? reasoningEffort,@_FineTuneReinforcementHyperparametersComputeMultiplierConverter()@JsonKey(name: 'compute_multiplier', includeIfNull: false) FineTuneReinforcementHyperparametersComputeMultiplier? computeMultiplier,@_FineTuneReinforcementHyperparametersEvalIntervalConverter()@JsonKey(name: 'eval_interval', includeIfNull: false) FineTuneReinforcementHyperparametersEvalInterval? evalInterval,@_FineTuneReinforcementHyperparametersEvalSamplesConverter()@JsonKey(name: 'eval_samples', includeIfNull: false) FineTuneReinforcementHyperparametersEvalSamples? evalSamples
+});
+
+
+@override $FineTuneReinforcementHyperparametersBatchSizeCopyWith<$Res>? get batchSize;@override $FineTuneReinforcementHyperparametersLearningRateMultiplierCopyWith<$Res>? get learningRateMultiplier;@override $FineTuneReinforcementHyperparametersNEpochsCopyWith<$Res>? get nEpochs;@override $FineTuneReinforcementHyperparametersComputeMultiplierCopyWith<$Res>? get computeMultiplier;@override $FineTuneReinforcementHyperparametersEvalIntervalCopyWith<$Res>? get evalInterval;@override $FineTuneReinforcementHyperparametersEvalSamplesCopyWith<$Res>? get evalSamples;
+
+}
+/// @nodoc
+class __$FineTuneReinforcementHyperparametersCopyWithImpl<$Res>
+    implements _$FineTuneReinforcementHyperparametersCopyWith<$Res> {
+  __$FineTuneReinforcementHyperparametersCopyWithImpl(this._self, this._then);
+
+  final _FineTuneReinforcementHyperparameters _self;
+  final $Res Function(_FineTuneReinforcementHyperparameters) _then;
+
+/// Create a copy of FineTuneReinforcementHyperparameters
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? batchSize = freezed,Object? learningRateMultiplier = freezed,Object? nEpochs = freezed,Object? reasoningEffort = freezed,Object? computeMultiplier = freezed,Object? evalInterval = freezed,Object? evalSamples = freezed,}) {
+  return _then(_FineTuneReinforcementHyperparameters(
+batchSize: freezed == batchSize ? _self.batchSize : batchSize // ignore: cast_nullable_to_non_nullable
+as FineTuneReinforcementHyperparametersBatchSize?,learningRateMultiplier: freezed == learningRateMultiplier ? _self.learningRateMultiplier : learningRateMultiplier // ignore: cast_nullable_to_non_nullable
+as FineTuneReinforcementHyperparametersLearningRateMultiplier?,nEpochs: freezed == nEpochs ? _self.nEpochs : nEpochs // ignore: cast_nullable_to_non_nullable
+as FineTuneReinforcementHyperparametersNEpochs?,reasoningEffort: freezed == reasoningEffort ? _self.reasoningEffort : reasoningEffort // ignore: cast_nullable_to_non_nullable
+as ReasoningEffort?,computeMultiplier: freezed == computeMultiplier ? _self.computeMultiplier : computeMultiplier // ignore: cast_nullable_to_non_nullable
+as FineTuneReinforcementHyperparametersComputeMultiplier?,evalInterval: freezed == evalInterval ? _self.evalInterval : evalInterval // ignore: cast_nullable_to_non_nullable
+as FineTuneReinforcementHyperparametersEvalInterval?,evalSamples: freezed == evalSamples ? _self.evalSamples : evalSamples // ignore: cast_nullable_to_non_nullable
+as FineTuneReinforcementHyperparametersEvalSamples?,
+  ));
+}
+
+/// Create a copy of FineTuneReinforcementHyperparameters
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneReinforcementHyperparametersBatchSizeCopyWith<$Res>? get batchSize {
+    if (_self.batchSize == null) {
+    return null;
+  }
+
+  return $FineTuneReinforcementHyperparametersBatchSizeCopyWith<$Res>(_self.batchSize!, (value) {
+    return _then(_self.copyWith(batchSize: value));
+  });
+}/// Create a copy of FineTuneReinforcementHyperparameters
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneReinforcementHyperparametersLearningRateMultiplierCopyWith<$Res>? get learningRateMultiplier {
+    if (_self.learningRateMultiplier == null) {
+    return null;
+  }
+
+  return $FineTuneReinforcementHyperparametersLearningRateMultiplierCopyWith<$Res>(_self.learningRateMultiplier!, (value) {
+    return _then(_self.copyWith(learningRateMultiplier: value));
+  });
+}/// Create a copy of FineTuneReinforcementHyperparameters
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneReinforcementHyperparametersNEpochsCopyWith<$Res>? get nEpochs {
+    if (_self.nEpochs == null) {
+    return null;
+  }
+
+  return $FineTuneReinforcementHyperparametersNEpochsCopyWith<$Res>(_self.nEpochs!, (value) {
+    return _then(_self.copyWith(nEpochs: value));
+  });
+}/// Create a copy of FineTuneReinforcementHyperparameters
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneReinforcementHyperparametersComputeMultiplierCopyWith<$Res>? get computeMultiplier {
+    if (_self.computeMultiplier == null) {
+    return null;
+  }
+
+  return $FineTuneReinforcementHyperparametersComputeMultiplierCopyWith<$Res>(_self.computeMultiplier!, (value) {
+    return _then(_self.copyWith(computeMultiplier: value));
+  });
+}/// Create a copy of FineTuneReinforcementHyperparameters
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneReinforcementHyperparametersEvalIntervalCopyWith<$Res>? get evalInterval {
+    if (_self.evalInterval == null) {
+    return null;
+  }
+
+  return $FineTuneReinforcementHyperparametersEvalIntervalCopyWith<$Res>(_self.evalInterval!, (value) {
+    return _then(_self.copyWith(evalInterval: value));
+  });
+}/// Create a copy of FineTuneReinforcementHyperparameters
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FineTuneReinforcementHyperparametersEvalSamplesCopyWith<$Res>? get evalSamples {
+    if (_self.evalSamples == null) {
+    return null;
+  }
+
+  return $FineTuneReinforcementHyperparametersEvalSamplesCopyWith<$Res>(_self.evalSamples!, (value) {
+    return _then(_self.copyWith(evalSamples: value));
+  });
+}
+}
+
+FineTuneReinforcementHyperparametersBatchSize _$FineTuneReinforcementHyperparametersBatchSizeFromJson(
+  Map<String, dynamic> json
+) {
+        switch (json['runtimeType']) {
+                  case 'enumeration':
+          return FineTuneReinforcementHyperparametersBatchSizeEnumeration.fromJson(
+            json
+          );
+                case 'int':
+          return FineTuneReinforcementHyperparametersBatchSizeInt.fromJson(
+            json
+          );
+        
+          default:
+            throw CheckedFromJsonException(
+  json,
+  'runtimeType',
+  'FineTuneReinforcementHyperparametersBatchSize',
+  'Invalid union type "${json['runtimeType']}"!'
+);
+        }
+      
+}
+
+/// @nodoc
+mixin _$FineTuneReinforcementHyperparametersBatchSize {
+
+ Object get value;
+
+  /// Serializes this FineTuneReinforcementHyperparametersBatchSize to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneReinforcementHyperparametersBatchSize&&const DeepCollectionEquality().equals(other.value, value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(value));
+
+@override
+String toString() {
+  return 'FineTuneReinforcementHyperparametersBatchSize(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+class $FineTuneReinforcementHyperparametersBatchSizeCopyWith<$Res>  {
+$FineTuneReinforcementHyperparametersBatchSizeCopyWith(FineTuneReinforcementHyperparametersBatchSize _, $Res Function(FineTuneReinforcementHyperparametersBatchSize) __);
+}
+
+
+/// Adds pattern-matching-related methods to [FineTuneReinforcementHyperparametersBatchSize].
+extension FineTuneReinforcementHyperparametersBatchSizePatterns on FineTuneReinforcementHyperparametersBatchSize {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( FineTuneReinforcementHyperparametersBatchSizeEnumeration value)?  enumeration,TResult Function( FineTuneReinforcementHyperparametersBatchSizeInt value)?  int,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case FineTuneReinforcementHyperparametersBatchSizeEnumeration() when enumeration != null:
+return enumeration(_that);case FineTuneReinforcementHyperparametersBatchSizeInt() when int != null:
+return int(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( FineTuneReinforcementHyperparametersBatchSizeEnumeration value)  enumeration,required TResult Function( FineTuneReinforcementHyperparametersBatchSizeInt value)  int,}){
+final _that = this;
+switch (_that) {
+case FineTuneReinforcementHyperparametersBatchSizeEnumeration():
+return enumeration(_that);case FineTuneReinforcementHyperparametersBatchSizeInt():
+return int(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( FineTuneReinforcementHyperparametersBatchSizeEnumeration value)?  enumeration,TResult? Function( FineTuneReinforcementHyperparametersBatchSizeInt value)?  int,}){
+final _that = this;
+switch (_that) {
+case FineTuneReinforcementHyperparametersBatchSizeEnumeration() when enumeration != null:
+return enumeration(_that);case FineTuneReinforcementHyperparametersBatchSizeInt() when int != null:
+return int(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( FineTuneReinforcementHyperparametersBatchSizeEnum value)?  enumeration,TResult Function( int value)?  int,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case FineTuneReinforcementHyperparametersBatchSizeEnumeration() when enumeration != null:
+return enumeration(_that.value);case FineTuneReinforcementHyperparametersBatchSizeInt() when int != null:
+return int(_that.value);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( FineTuneReinforcementHyperparametersBatchSizeEnum value)  enumeration,required TResult Function( int value)  int,}) {final _that = this;
+switch (_that) {
+case FineTuneReinforcementHyperparametersBatchSizeEnumeration():
+return enumeration(_that.value);case FineTuneReinforcementHyperparametersBatchSizeInt():
+return int(_that.value);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( FineTuneReinforcementHyperparametersBatchSizeEnum value)?  enumeration,TResult? Function( int value)?  int,}) {final _that = this;
+switch (_that) {
+case FineTuneReinforcementHyperparametersBatchSizeEnumeration() when enumeration != null:
+return enumeration(_that.value);case FineTuneReinforcementHyperparametersBatchSizeInt() when int != null:
+return int(_that.value);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class FineTuneReinforcementHyperparametersBatchSizeEnumeration extends FineTuneReinforcementHyperparametersBatchSize {
+  const FineTuneReinforcementHyperparametersBatchSizeEnumeration(this.value, {final  String? $type}): $type = $type ?? 'enumeration',super._();
+  factory FineTuneReinforcementHyperparametersBatchSizeEnumeration.fromJson(Map<String, dynamic> json) => _$FineTuneReinforcementHyperparametersBatchSizeEnumerationFromJson(json);
+
+@override final  FineTuneReinforcementHyperparametersBatchSizeEnum value;
+
+@JsonKey(name: 'runtimeType')
+final String $type;
+
+
+/// Create a copy of FineTuneReinforcementHyperparametersBatchSize
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$FineTuneReinforcementHyperparametersBatchSizeEnumerationCopyWith<FineTuneReinforcementHyperparametersBatchSizeEnumeration> get copyWith => _$FineTuneReinforcementHyperparametersBatchSizeEnumerationCopyWithImpl<FineTuneReinforcementHyperparametersBatchSizeEnumeration>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$FineTuneReinforcementHyperparametersBatchSizeEnumerationToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneReinforcementHyperparametersBatchSizeEnumeration&&(identical(other.value, value) || other.value == value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,value);
+
+@override
+String toString() {
+  return 'FineTuneReinforcementHyperparametersBatchSize.enumeration(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $FineTuneReinforcementHyperparametersBatchSizeEnumerationCopyWith<$Res> implements $FineTuneReinforcementHyperparametersBatchSizeCopyWith<$Res> {
+  factory $FineTuneReinforcementHyperparametersBatchSizeEnumerationCopyWith(FineTuneReinforcementHyperparametersBatchSizeEnumeration value, $Res Function(FineTuneReinforcementHyperparametersBatchSizeEnumeration) _then) = _$FineTuneReinforcementHyperparametersBatchSizeEnumerationCopyWithImpl;
+@useResult
+$Res call({
+ FineTuneReinforcementHyperparametersBatchSizeEnum value
+});
+
+
+
+
+}
+/// @nodoc
+class _$FineTuneReinforcementHyperparametersBatchSizeEnumerationCopyWithImpl<$Res>
+    implements $FineTuneReinforcementHyperparametersBatchSizeEnumerationCopyWith<$Res> {
+  _$FineTuneReinforcementHyperparametersBatchSizeEnumerationCopyWithImpl(this._self, this._then);
+
+  final FineTuneReinforcementHyperparametersBatchSizeEnumeration _self;
+  final $Res Function(FineTuneReinforcementHyperparametersBatchSizeEnumeration) _then;
+
+/// Create a copy of FineTuneReinforcementHyperparametersBatchSize
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
+  return _then(FineTuneReinforcementHyperparametersBatchSizeEnumeration(
+null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as FineTuneReinforcementHyperparametersBatchSizeEnum,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class FineTuneReinforcementHyperparametersBatchSizeInt extends FineTuneReinforcementHyperparametersBatchSize {
+  const FineTuneReinforcementHyperparametersBatchSizeInt(this.value, {final  String? $type}): $type = $type ?? 'int',super._();
+  factory FineTuneReinforcementHyperparametersBatchSizeInt.fromJson(Map<String, dynamic> json) => _$FineTuneReinforcementHyperparametersBatchSizeIntFromJson(json);
+
+@override final  int value;
+
+@JsonKey(name: 'runtimeType')
+final String $type;
+
+
+/// Create a copy of FineTuneReinforcementHyperparametersBatchSize
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$FineTuneReinforcementHyperparametersBatchSizeIntCopyWith<FineTuneReinforcementHyperparametersBatchSizeInt> get copyWith => _$FineTuneReinforcementHyperparametersBatchSizeIntCopyWithImpl<FineTuneReinforcementHyperparametersBatchSizeInt>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$FineTuneReinforcementHyperparametersBatchSizeIntToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneReinforcementHyperparametersBatchSizeInt&&(identical(other.value, value) || other.value == value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,value);
+
+@override
+String toString() {
+  return 'FineTuneReinforcementHyperparametersBatchSize.int(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $FineTuneReinforcementHyperparametersBatchSizeIntCopyWith<$Res> implements $FineTuneReinforcementHyperparametersBatchSizeCopyWith<$Res> {
+  factory $FineTuneReinforcementHyperparametersBatchSizeIntCopyWith(FineTuneReinforcementHyperparametersBatchSizeInt value, $Res Function(FineTuneReinforcementHyperparametersBatchSizeInt) _then) = _$FineTuneReinforcementHyperparametersBatchSizeIntCopyWithImpl;
+@useResult
+$Res call({
+ int value
+});
+
+
+
+
+}
+/// @nodoc
+class _$FineTuneReinforcementHyperparametersBatchSizeIntCopyWithImpl<$Res>
+    implements $FineTuneReinforcementHyperparametersBatchSizeIntCopyWith<$Res> {
+  _$FineTuneReinforcementHyperparametersBatchSizeIntCopyWithImpl(this._self, this._then);
+
+  final FineTuneReinforcementHyperparametersBatchSizeInt _self;
+  final $Res Function(FineTuneReinforcementHyperparametersBatchSizeInt) _then;
+
+/// Create a copy of FineTuneReinforcementHyperparametersBatchSize
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
+  return _then(FineTuneReinforcementHyperparametersBatchSizeInt(
+null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+
+}
+
+FineTuneReinforcementHyperparametersLearningRateMultiplier _$FineTuneReinforcementHyperparametersLearningRateMultiplierFromJson(
+  Map<String, dynamic> json
+) {
+        switch (json['runtimeType']) {
+                  case 'enumeration':
+          return FineTuneReinforcementHyperparametersLearningRateMultiplierEnumeration.fromJson(
+            json
+          );
+                case 'double':
+          return FineTuneReinforcementHyperparametersLearningRateMultiplierDouble.fromJson(
+            json
+          );
+        
+          default:
+            throw CheckedFromJsonException(
+  json,
+  'runtimeType',
+  'FineTuneReinforcementHyperparametersLearningRateMultiplier',
+  'Invalid union type "${json['runtimeType']}"!'
+);
+        }
+      
+}
+
+/// @nodoc
+mixin _$FineTuneReinforcementHyperparametersLearningRateMultiplier {
+
+ Object get value;
+
+  /// Serializes this FineTuneReinforcementHyperparametersLearningRateMultiplier to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneReinforcementHyperparametersLearningRateMultiplier&&const DeepCollectionEquality().equals(other.value, value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(value));
+
+@override
+String toString() {
+  return 'FineTuneReinforcementHyperparametersLearningRateMultiplier(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+class $FineTuneReinforcementHyperparametersLearningRateMultiplierCopyWith<$Res>  {
+$FineTuneReinforcementHyperparametersLearningRateMultiplierCopyWith(FineTuneReinforcementHyperparametersLearningRateMultiplier _, $Res Function(FineTuneReinforcementHyperparametersLearningRateMultiplier) __);
+}
+
+
+/// Adds pattern-matching-related methods to [FineTuneReinforcementHyperparametersLearningRateMultiplier].
+extension FineTuneReinforcementHyperparametersLearningRateMultiplierPatterns on FineTuneReinforcementHyperparametersLearningRateMultiplier {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( FineTuneReinforcementHyperparametersLearningRateMultiplierEnumeration value)?  enumeration,TResult Function( FineTuneReinforcementHyperparametersLearningRateMultiplierDouble value)?  double,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case FineTuneReinforcementHyperparametersLearningRateMultiplierEnumeration() when enumeration != null:
+return enumeration(_that);case FineTuneReinforcementHyperparametersLearningRateMultiplierDouble() when double != null:
+return double(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( FineTuneReinforcementHyperparametersLearningRateMultiplierEnumeration value)  enumeration,required TResult Function( FineTuneReinforcementHyperparametersLearningRateMultiplierDouble value)  double,}){
+final _that = this;
+switch (_that) {
+case FineTuneReinforcementHyperparametersLearningRateMultiplierEnumeration():
+return enumeration(_that);case FineTuneReinforcementHyperparametersLearningRateMultiplierDouble():
+return double(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( FineTuneReinforcementHyperparametersLearningRateMultiplierEnumeration value)?  enumeration,TResult? Function( FineTuneReinforcementHyperparametersLearningRateMultiplierDouble value)?  double,}){
+final _that = this;
+switch (_that) {
+case FineTuneReinforcementHyperparametersLearningRateMultiplierEnumeration() when enumeration != null:
+return enumeration(_that);case FineTuneReinforcementHyperparametersLearningRateMultiplierDouble() when double != null:
+return double(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( FineTuneReinforcementHyperparametersLearningRateMultiplierEnum value)?  enumeration,TResult Function( double value)?  double,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case FineTuneReinforcementHyperparametersLearningRateMultiplierEnumeration() when enumeration != null:
+return enumeration(_that.value);case FineTuneReinforcementHyperparametersLearningRateMultiplierDouble() when double != null:
+return double(_that.value);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( FineTuneReinforcementHyperparametersLearningRateMultiplierEnum value)  enumeration,required TResult Function( double value)  double,}) {final _that = this;
+switch (_that) {
+case FineTuneReinforcementHyperparametersLearningRateMultiplierEnumeration():
+return enumeration(_that.value);case FineTuneReinforcementHyperparametersLearningRateMultiplierDouble():
+return double(_that.value);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( FineTuneReinforcementHyperparametersLearningRateMultiplierEnum value)?  enumeration,TResult? Function( double value)?  double,}) {final _that = this;
+switch (_that) {
+case FineTuneReinforcementHyperparametersLearningRateMultiplierEnumeration() when enumeration != null:
+return enumeration(_that.value);case FineTuneReinforcementHyperparametersLearningRateMultiplierDouble() when double != null:
+return double(_that.value);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class FineTuneReinforcementHyperparametersLearningRateMultiplierEnumeration extends FineTuneReinforcementHyperparametersLearningRateMultiplier {
+  const FineTuneReinforcementHyperparametersLearningRateMultiplierEnumeration(this.value, {final  String? $type}): $type = $type ?? 'enumeration',super._();
+  factory FineTuneReinforcementHyperparametersLearningRateMultiplierEnumeration.fromJson(Map<String, dynamic> json) => _$FineTuneReinforcementHyperparametersLearningRateMultiplierEnumerationFromJson(json);
+
+@override final  FineTuneReinforcementHyperparametersLearningRateMultiplierEnum value;
+
+@JsonKey(name: 'runtimeType')
+final String $type;
+
+
+/// Create a copy of FineTuneReinforcementHyperparametersLearningRateMultiplier
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$FineTuneReinforcementHyperparametersLearningRateMultiplierEnumerationCopyWith<FineTuneReinforcementHyperparametersLearningRateMultiplierEnumeration> get copyWith => _$FineTuneReinforcementHyperparametersLearningRateMultiplierEnumerationCopyWithImpl<FineTuneReinforcementHyperparametersLearningRateMultiplierEnumeration>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$FineTuneReinforcementHyperparametersLearningRateMultiplierEnumerationToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneReinforcementHyperparametersLearningRateMultiplierEnumeration&&(identical(other.value, value) || other.value == value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,value);
+
+@override
+String toString() {
+  return 'FineTuneReinforcementHyperparametersLearningRateMultiplier.enumeration(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $FineTuneReinforcementHyperparametersLearningRateMultiplierEnumerationCopyWith<$Res> implements $FineTuneReinforcementHyperparametersLearningRateMultiplierCopyWith<$Res> {
+  factory $FineTuneReinforcementHyperparametersLearningRateMultiplierEnumerationCopyWith(FineTuneReinforcementHyperparametersLearningRateMultiplierEnumeration value, $Res Function(FineTuneReinforcementHyperparametersLearningRateMultiplierEnumeration) _then) = _$FineTuneReinforcementHyperparametersLearningRateMultiplierEnumerationCopyWithImpl;
+@useResult
+$Res call({
+ FineTuneReinforcementHyperparametersLearningRateMultiplierEnum value
+});
+
+
+
+
+}
+/// @nodoc
+class _$FineTuneReinforcementHyperparametersLearningRateMultiplierEnumerationCopyWithImpl<$Res>
+    implements $FineTuneReinforcementHyperparametersLearningRateMultiplierEnumerationCopyWith<$Res> {
+  _$FineTuneReinforcementHyperparametersLearningRateMultiplierEnumerationCopyWithImpl(this._self, this._then);
+
+  final FineTuneReinforcementHyperparametersLearningRateMultiplierEnumeration _self;
+  final $Res Function(FineTuneReinforcementHyperparametersLearningRateMultiplierEnumeration) _then;
+
+/// Create a copy of FineTuneReinforcementHyperparametersLearningRateMultiplier
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
+  return _then(FineTuneReinforcementHyperparametersLearningRateMultiplierEnumeration(
+null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as FineTuneReinforcementHyperparametersLearningRateMultiplierEnum,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class FineTuneReinforcementHyperparametersLearningRateMultiplierDouble extends FineTuneReinforcementHyperparametersLearningRateMultiplier {
+  const FineTuneReinforcementHyperparametersLearningRateMultiplierDouble(this.value, {final  String? $type}): $type = $type ?? 'double',super._();
+  factory FineTuneReinforcementHyperparametersLearningRateMultiplierDouble.fromJson(Map<String, dynamic> json) => _$FineTuneReinforcementHyperparametersLearningRateMultiplierDoubleFromJson(json);
+
+@override final  double value;
+
+@JsonKey(name: 'runtimeType')
+final String $type;
+
+
+/// Create a copy of FineTuneReinforcementHyperparametersLearningRateMultiplier
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$FineTuneReinforcementHyperparametersLearningRateMultiplierDoubleCopyWith<FineTuneReinforcementHyperparametersLearningRateMultiplierDouble> get copyWith => _$FineTuneReinforcementHyperparametersLearningRateMultiplierDoubleCopyWithImpl<FineTuneReinforcementHyperparametersLearningRateMultiplierDouble>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$FineTuneReinforcementHyperparametersLearningRateMultiplierDoubleToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneReinforcementHyperparametersLearningRateMultiplierDouble&&(identical(other.value, value) || other.value == value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,value);
+
+@override
+String toString() {
+  return 'FineTuneReinforcementHyperparametersLearningRateMultiplier.double(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $FineTuneReinforcementHyperparametersLearningRateMultiplierDoubleCopyWith<$Res> implements $FineTuneReinforcementHyperparametersLearningRateMultiplierCopyWith<$Res> {
+  factory $FineTuneReinforcementHyperparametersLearningRateMultiplierDoubleCopyWith(FineTuneReinforcementHyperparametersLearningRateMultiplierDouble value, $Res Function(FineTuneReinforcementHyperparametersLearningRateMultiplierDouble) _then) = _$FineTuneReinforcementHyperparametersLearningRateMultiplierDoubleCopyWithImpl;
+@useResult
+$Res call({
+ double value
+});
+
+
+
+
+}
+/// @nodoc
+class _$FineTuneReinforcementHyperparametersLearningRateMultiplierDoubleCopyWithImpl<$Res>
+    implements $FineTuneReinforcementHyperparametersLearningRateMultiplierDoubleCopyWith<$Res> {
+  _$FineTuneReinforcementHyperparametersLearningRateMultiplierDoubleCopyWithImpl(this._self, this._then);
+
+  final FineTuneReinforcementHyperparametersLearningRateMultiplierDouble _self;
+  final $Res Function(FineTuneReinforcementHyperparametersLearningRateMultiplierDouble) _then;
+
+/// Create a copy of FineTuneReinforcementHyperparametersLearningRateMultiplier
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
+  return _then(FineTuneReinforcementHyperparametersLearningRateMultiplierDouble(
+null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as double,
+  ));
+}
+
+
+}
+
+FineTuneReinforcementHyperparametersNEpochs _$FineTuneReinforcementHyperparametersNEpochsFromJson(
+  Map<String, dynamic> json
+) {
+        switch (json['runtimeType']) {
+                  case 'enumeration':
+          return FineTuneReinforcementHyperparametersNEpochsEnumeration.fromJson(
+            json
+          );
+                case 'int':
+          return FineTuneReinforcementHyperparametersNEpochsInt.fromJson(
+            json
+          );
+        
+          default:
+            throw CheckedFromJsonException(
+  json,
+  'runtimeType',
+  'FineTuneReinforcementHyperparametersNEpochs',
+  'Invalid union type "${json['runtimeType']}"!'
+);
+        }
+      
+}
+
+/// @nodoc
+mixin _$FineTuneReinforcementHyperparametersNEpochs {
+
+ Object get value;
+
+  /// Serializes this FineTuneReinforcementHyperparametersNEpochs to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneReinforcementHyperparametersNEpochs&&const DeepCollectionEquality().equals(other.value, value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(value));
+
+@override
+String toString() {
+  return 'FineTuneReinforcementHyperparametersNEpochs(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+class $FineTuneReinforcementHyperparametersNEpochsCopyWith<$Res>  {
+$FineTuneReinforcementHyperparametersNEpochsCopyWith(FineTuneReinforcementHyperparametersNEpochs _, $Res Function(FineTuneReinforcementHyperparametersNEpochs) __);
+}
+
+
+/// Adds pattern-matching-related methods to [FineTuneReinforcementHyperparametersNEpochs].
+extension FineTuneReinforcementHyperparametersNEpochsPatterns on FineTuneReinforcementHyperparametersNEpochs {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( FineTuneReinforcementHyperparametersNEpochsEnumeration value)?  enumeration,TResult Function( FineTuneReinforcementHyperparametersNEpochsInt value)?  int,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case FineTuneReinforcementHyperparametersNEpochsEnumeration() when enumeration != null:
+return enumeration(_that);case FineTuneReinforcementHyperparametersNEpochsInt() when int != null:
+return int(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( FineTuneReinforcementHyperparametersNEpochsEnumeration value)  enumeration,required TResult Function( FineTuneReinforcementHyperparametersNEpochsInt value)  int,}){
+final _that = this;
+switch (_that) {
+case FineTuneReinforcementHyperparametersNEpochsEnumeration():
+return enumeration(_that);case FineTuneReinforcementHyperparametersNEpochsInt():
+return int(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( FineTuneReinforcementHyperparametersNEpochsEnumeration value)?  enumeration,TResult? Function( FineTuneReinforcementHyperparametersNEpochsInt value)?  int,}){
+final _that = this;
+switch (_that) {
+case FineTuneReinforcementHyperparametersNEpochsEnumeration() when enumeration != null:
+return enumeration(_that);case FineTuneReinforcementHyperparametersNEpochsInt() when int != null:
+return int(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( FineTuneReinforcementHyperparametersNEpochsEnum value)?  enumeration,TResult Function( int value)?  int,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case FineTuneReinforcementHyperparametersNEpochsEnumeration() when enumeration != null:
+return enumeration(_that.value);case FineTuneReinforcementHyperparametersNEpochsInt() when int != null:
+return int(_that.value);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( FineTuneReinforcementHyperparametersNEpochsEnum value)  enumeration,required TResult Function( int value)  int,}) {final _that = this;
+switch (_that) {
+case FineTuneReinforcementHyperparametersNEpochsEnumeration():
+return enumeration(_that.value);case FineTuneReinforcementHyperparametersNEpochsInt():
+return int(_that.value);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( FineTuneReinforcementHyperparametersNEpochsEnum value)?  enumeration,TResult? Function( int value)?  int,}) {final _that = this;
+switch (_that) {
+case FineTuneReinforcementHyperparametersNEpochsEnumeration() when enumeration != null:
+return enumeration(_that.value);case FineTuneReinforcementHyperparametersNEpochsInt() when int != null:
+return int(_that.value);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class FineTuneReinforcementHyperparametersNEpochsEnumeration extends FineTuneReinforcementHyperparametersNEpochs {
+  const FineTuneReinforcementHyperparametersNEpochsEnumeration(this.value, {final  String? $type}): $type = $type ?? 'enumeration',super._();
+  factory FineTuneReinforcementHyperparametersNEpochsEnumeration.fromJson(Map<String, dynamic> json) => _$FineTuneReinforcementHyperparametersNEpochsEnumerationFromJson(json);
+
+@override final  FineTuneReinforcementHyperparametersNEpochsEnum value;
+
+@JsonKey(name: 'runtimeType')
+final String $type;
+
+
+/// Create a copy of FineTuneReinforcementHyperparametersNEpochs
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$FineTuneReinforcementHyperparametersNEpochsEnumerationCopyWith<FineTuneReinforcementHyperparametersNEpochsEnumeration> get copyWith => _$FineTuneReinforcementHyperparametersNEpochsEnumerationCopyWithImpl<FineTuneReinforcementHyperparametersNEpochsEnumeration>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$FineTuneReinforcementHyperparametersNEpochsEnumerationToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneReinforcementHyperparametersNEpochsEnumeration&&(identical(other.value, value) || other.value == value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,value);
+
+@override
+String toString() {
+  return 'FineTuneReinforcementHyperparametersNEpochs.enumeration(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $FineTuneReinforcementHyperparametersNEpochsEnumerationCopyWith<$Res> implements $FineTuneReinforcementHyperparametersNEpochsCopyWith<$Res> {
+  factory $FineTuneReinforcementHyperparametersNEpochsEnumerationCopyWith(FineTuneReinforcementHyperparametersNEpochsEnumeration value, $Res Function(FineTuneReinforcementHyperparametersNEpochsEnumeration) _then) = _$FineTuneReinforcementHyperparametersNEpochsEnumerationCopyWithImpl;
+@useResult
+$Res call({
+ FineTuneReinforcementHyperparametersNEpochsEnum value
+});
+
+
+
+
+}
+/// @nodoc
+class _$FineTuneReinforcementHyperparametersNEpochsEnumerationCopyWithImpl<$Res>
+    implements $FineTuneReinforcementHyperparametersNEpochsEnumerationCopyWith<$Res> {
+  _$FineTuneReinforcementHyperparametersNEpochsEnumerationCopyWithImpl(this._self, this._then);
+
+  final FineTuneReinforcementHyperparametersNEpochsEnumeration _self;
+  final $Res Function(FineTuneReinforcementHyperparametersNEpochsEnumeration) _then;
+
+/// Create a copy of FineTuneReinforcementHyperparametersNEpochs
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
+  return _then(FineTuneReinforcementHyperparametersNEpochsEnumeration(
+null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as FineTuneReinforcementHyperparametersNEpochsEnum,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class FineTuneReinforcementHyperparametersNEpochsInt extends FineTuneReinforcementHyperparametersNEpochs {
+  const FineTuneReinforcementHyperparametersNEpochsInt(this.value, {final  String? $type}): $type = $type ?? 'int',super._();
+  factory FineTuneReinforcementHyperparametersNEpochsInt.fromJson(Map<String, dynamic> json) => _$FineTuneReinforcementHyperparametersNEpochsIntFromJson(json);
+
+@override final  int value;
+
+@JsonKey(name: 'runtimeType')
+final String $type;
+
+
+/// Create a copy of FineTuneReinforcementHyperparametersNEpochs
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$FineTuneReinforcementHyperparametersNEpochsIntCopyWith<FineTuneReinforcementHyperparametersNEpochsInt> get copyWith => _$FineTuneReinforcementHyperparametersNEpochsIntCopyWithImpl<FineTuneReinforcementHyperparametersNEpochsInt>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$FineTuneReinforcementHyperparametersNEpochsIntToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneReinforcementHyperparametersNEpochsInt&&(identical(other.value, value) || other.value == value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,value);
+
+@override
+String toString() {
+  return 'FineTuneReinforcementHyperparametersNEpochs.int(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $FineTuneReinforcementHyperparametersNEpochsIntCopyWith<$Res> implements $FineTuneReinforcementHyperparametersNEpochsCopyWith<$Res> {
+  factory $FineTuneReinforcementHyperparametersNEpochsIntCopyWith(FineTuneReinforcementHyperparametersNEpochsInt value, $Res Function(FineTuneReinforcementHyperparametersNEpochsInt) _then) = _$FineTuneReinforcementHyperparametersNEpochsIntCopyWithImpl;
+@useResult
+$Res call({
+ int value
+});
+
+
+
+
+}
+/// @nodoc
+class _$FineTuneReinforcementHyperparametersNEpochsIntCopyWithImpl<$Res>
+    implements $FineTuneReinforcementHyperparametersNEpochsIntCopyWith<$Res> {
+  _$FineTuneReinforcementHyperparametersNEpochsIntCopyWithImpl(this._self, this._then);
+
+  final FineTuneReinforcementHyperparametersNEpochsInt _self;
+  final $Res Function(FineTuneReinforcementHyperparametersNEpochsInt) _then;
+
+/// Create a copy of FineTuneReinforcementHyperparametersNEpochs
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
+  return _then(FineTuneReinforcementHyperparametersNEpochsInt(
+null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+
+}
+
+FineTuneReinforcementHyperparametersComputeMultiplier _$FineTuneReinforcementHyperparametersComputeMultiplierFromJson(
+  Map<String, dynamic> json
+) {
+        switch (json['runtimeType']) {
+                  case 'enumeration':
+          return FineTuneReinforcementHyperparametersComputeMultiplierEnumeration.fromJson(
+            json
+          );
+                case 'double':
+          return FineTuneReinforcementHyperparametersComputeMultiplierDouble.fromJson(
+            json
+          );
+        
+          default:
+            throw CheckedFromJsonException(
+  json,
+  'runtimeType',
+  'FineTuneReinforcementHyperparametersComputeMultiplier',
+  'Invalid union type "${json['runtimeType']}"!'
+);
+        }
+      
+}
+
+/// @nodoc
+mixin _$FineTuneReinforcementHyperparametersComputeMultiplier {
+
+ Object get value;
+
+  /// Serializes this FineTuneReinforcementHyperparametersComputeMultiplier to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneReinforcementHyperparametersComputeMultiplier&&const DeepCollectionEquality().equals(other.value, value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(value));
+
+@override
+String toString() {
+  return 'FineTuneReinforcementHyperparametersComputeMultiplier(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+class $FineTuneReinforcementHyperparametersComputeMultiplierCopyWith<$Res>  {
+$FineTuneReinforcementHyperparametersComputeMultiplierCopyWith(FineTuneReinforcementHyperparametersComputeMultiplier _, $Res Function(FineTuneReinforcementHyperparametersComputeMultiplier) __);
+}
+
+
+/// Adds pattern-matching-related methods to [FineTuneReinforcementHyperparametersComputeMultiplier].
+extension FineTuneReinforcementHyperparametersComputeMultiplierPatterns on FineTuneReinforcementHyperparametersComputeMultiplier {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( FineTuneReinforcementHyperparametersComputeMultiplierEnumeration value)?  enumeration,TResult Function( FineTuneReinforcementHyperparametersComputeMultiplierDouble value)?  double,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case FineTuneReinforcementHyperparametersComputeMultiplierEnumeration() when enumeration != null:
+return enumeration(_that);case FineTuneReinforcementHyperparametersComputeMultiplierDouble() when double != null:
+return double(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( FineTuneReinforcementHyperparametersComputeMultiplierEnumeration value)  enumeration,required TResult Function( FineTuneReinforcementHyperparametersComputeMultiplierDouble value)  double,}){
+final _that = this;
+switch (_that) {
+case FineTuneReinforcementHyperparametersComputeMultiplierEnumeration():
+return enumeration(_that);case FineTuneReinforcementHyperparametersComputeMultiplierDouble():
+return double(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( FineTuneReinforcementHyperparametersComputeMultiplierEnumeration value)?  enumeration,TResult? Function( FineTuneReinforcementHyperparametersComputeMultiplierDouble value)?  double,}){
+final _that = this;
+switch (_that) {
+case FineTuneReinforcementHyperparametersComputeMultiplierEnumeration() when enumeration != null:
+return enumeration(_that);case FineTuneReinforcementHyperparametersComputeMultiplierDouble() when double != null:
+return double(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( FineTuneReinforcementHyperparametersComputeMultiplierEnum value)?  enumeration,TResult Function( double value)?  double,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case FineTuneReinforcementHyperparametersComputeMultiplierEnumeration() when enumeration != null:
+return enumeration(_that.value);case FineTuneReinforcementHyperparametersComputeMultiplierDouble() when double != null:
+return double(_that.value);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( FineTuneReinforcementHyperparametersComputeMultiplierEnum value)  enumeration,required TResult Function( double value)  double,}) {final _that = this;
+switch (_that) {
+case FineTuneReinforcementHyperparametersComputeMultiplierEnumeration():
+return enumeration(_that.value);case FineTuneReinforcementHyperparametersComputeMultiplierDouble():
+return double(_that.value);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( FineTuneReinforcementHyperparametersComputeMultiplierEnum value)?  enumeration,TResult? Function( double value)?  double,}) {final _that = this;
+switch (_that) {
+case FineTuneReinforcementHyperparametersComputeMultiplierEnumeration() when enumeration != null:
+return enumeration(_that.value);case FineTuneReinforcementHyperparametersComputeMultiplierDouble() when double != null:
+return double(_that.value);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class FineTuneReinforcementHyperparametersComputeMultiplierEnumeration extends FineTuneReinforcementHyperparametersComputeMultiplier {
+  const FineTuneReinforcementHyperparametersComputeMultiplierEnumeration(this.value, {final  String? $type}): $type = $type ?? 'enumeration',super._();
+  factory FineTuneReinforcementHyperparametersComputeMultiplierEnumeration.fromJson(Map<String, dynamic> json) => _$FineTuneReinforcementHyperparametersComputeMultiplierEnumerationFromJson(json);
+
+@override final  FineTuneReinforcementHyperparametersComputeMultiplierEnum value;
+
+@JsonKey(name: 'runtimeType')
+final String $type;
+
+
+/// Create a copy of FineTuneReinforcementHyperparametersComputeMultiplier
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$FineTuneReinforcementHyperparametersComputeMultiplierEnumerationCopyWith<FineTuneReinforcementHyperparametersComputeMultiplierEnumeration> get copyWith => _$FineTuneReinforcementHyperparametersComputeMultiplierEnumerationCopyWithImpl<FineTuneReinforcementHyperparametersComputeMultiplierEnumeration>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$FineTuneReinforcementHyperparametersComputeMultiplierEnumerationToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneReinforcementHyperparametersComputeMultiplierEnumeration&&(identical(other.value, value) || other.value == value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,value);
+
+@override
+String toString() {
+  return 'FineTuneReinforcementHyperparametersComputeMultiplier.enumeration(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $FineTuneReinforcementHyperparametersComputeMultiplierEnumerationCopyWith<$Res> implements $FineTuneReinforcementHyperparametersComputeMultiplierCopyWith<$Res> {
+  factory $FineTuneReinforcementHyperparametersComputeMultiplierEnumerationCopyWith(FineTuneReinforcementHyperparametersComputeMultiplierEnumeration value, $Res Function(FineTuneReinforcementHyperparametersComputeMultiplierEnumeration) _then) = _$FineTuneReinforcementHyperparametersComputeMultiplierEnumerationCopyWithImpl;
+@useResult
+$Res call({
+ FineTuneReinforcementHyperparametersComputeMultiplierEnum value
+});
+
+
+
+
+}
+/// @nodoc
+class _$FineTuneReinforcementHyperparametersComputeMultiplierEnumerationCopyWithImpl<$Res>
+    implements $FineTuneReinforcementHyperparametersComputeMultiplierEnumerationCopyWith<$Res> {
+  _$FineTuneReinforcementHyperparametersComputeMultiplierEnumerationCopyWithImpl(this._self, this._then);
+
+  final FineTuneReinforcementHyperparametersComputeMultiplierEnumeration _self;
+  final $Res Function(FineTuneReinforcementHyperparametersComputeMultiplierEnumeration) _then;
+
+/// Create a copy of FineTuneReinforcementHyperparametersComputeMultiplier
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
+  return _then(FineTuneReinforcementHyperparametersComputeMultiplierEnumeration(
+null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as FineTuneReinforcementHyperparametersComputeMultiplierEnum,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class FineTuneReinforcementHyperparametersComputeMultiplierDouble extends FineTuneReinforcementHyperparametersComputeMultiplier {
+  const FineTuneReinforcementHyperparametersComputeMultiplierDouble(this.value, {final  String? $type}): $type = $type ?? 'double',super._();
+  factory FineTuneReinforcementHyperparametersComputeMultiplierDouble.fromJson(Map<String, dynamic> json) => _$FineTuneReinforcementHyperparametersComputeMultiplierDoubleFromJson(json);
+
+@override final  double value;
+
+@JsonKey(name: 'runtimeType')
+final String $type;
+
+
+/// Create a copy of FineTuneReinforcementHyperparametersComputeMultiplier
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$FineTuneReinforcementHyperparametersComputeMultiplierDoubleCopyWith<FineTuneReinforcementHyperparametersComputeMultiplierDouble> get copyWith => _$FineTuneReinforcementHyperparametersComputeMultiplierDoubleCopyWithImpl<FineTuneReinforcementHyperparametersComputeMultiplierDouble>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$FineTuneReinforcementHyperparametersComputeMultiplierDoubleToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneReinforcementHyperparametersComputeMultiplierDouble&&(identical(other.value, value) || other.value == value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,value);
+
+@override
+String toString() {
+  return 'FineTuneReinforcementHyperparametersComputeMultiplier.double(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $FineTuneReinforcementHyperparametersComputeMultiplierDoubleCopyWith<$Res> implements $FineTuneReinforcementHyperparametersComputeMultiplierCopyWith<$Res> {
+  factory $FineTuneReinforcementHyperparametersComputeMultiplierDoubleCopyWith(FineTuneReinforcementHyperparametersComputeMultiplierDouble value, $Res Function(FineTuneReinforcementHyperparametersComputeMultiplierDouble) _then) = _$FineTuneReinforcementHyperparametersComputeMultiplierDoubleCopyWithImpl;
+@useResult
+$Res call({
+ double value
+});
+
+
+
+
+}
+/// @nodoc
+class _$FineTuneReinforcementHyperparametersComputeMultiplierDoubleCopyWithImpl<$Res>
+    implements $FineTuneReinforcementHyperparametersComputeMultiplierDoubleCopyWith<$Res> {
+  _$FineTuneReinforcementHyperparametersComputeMultiplierDoubleCopyWithImpl(this._self, this._then);
+
+  final FineTuneReinforcementHyperparametersComputeMultiplierDouble _self;
+  final $Res Function(FineTuneReinforcementHyperparametersComputeMultiplierDouble) _then;
+
+/// Create a copy of FineTuneReinforcementHyperparametersComputeMultiplier
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
+  return _then(FineTuneReinforcementHyperparametersComputeMultiplierDouble(
+null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as double,
+  ));
+}
+
+
+}
+
+FineTuneReinforcementHyperparametersEvalInterval _$FineTuneReinforcementHyperparametersEvalIntervalFromJson(
+  Map<String, dynamic> json
+) {
+        switch (json['runtimeType']) {
+                  case 'enumeration':
+          return FineTuneReinforcementHyperparametersEvalIntervalEnumeration.fromJson(
+            json
+          );
+                case 'int':
+          return FineTuneReinforcementHyperparametersEvalIntervalInt.fromJson(
+            json
+          );
+        
+          default:
+            throw CheckedFromJsonException(
+  json,
+  'runtimeType',
+  'FineTuneReinforcementHyperparametersEvalInterval',
+  'Invalid union type "${json['runtimeType']}"!'
+);
+        }
+      
+}
+
+/// @nodoc
+mixin _$FineTuneReinforcementHyperparametersEvalInterval {
+
+ Object get value;
+
+  /// Serializes this FineTuneReinforcementHyperparametersEvalInterval to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneReinforcementHyperparametersEvalInterval&&const DeepCollectionEquality().equals(other.value, value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(value));
+
+@override
+String toString() {
+  return 'FineTuneReinforcementHyperparametersEvalInterval(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+class $FineTuneReinforcementHyperparametersEvalIntervalCopyWith<$Res>  {
+$FineTuneReinforcementHyperparametersEvalIntervalCopyWith(FineTuneReinforcementHyperparametersEvalInterval _, $Res Function(FineTuneReinforcementHyperparametersEvalInterval) __);
+}
+
+
+/// Adds pattern-matching-related methods to [FineTuneReinforcementHyperparametersEvalInterval].
+extension FineTuneReinforcementHyperparametersEvalIntervalPatterns on FineTuneReinforcementHyperparametersEvalInterval {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( FineTuneReinforcementHyperparametersEvalIntervalEnumeration value)?  enumeration,TResult Function( FineTuneReinforcementHyperparametersEvalIntervalInt value)?  int,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case FineTuneReinforcementHyperparametersEvalIntervalEnumeration() when enumeration != null:
+return enumeration(_that);case FineTuneReinforcementHyperparametersEvalIntervalInt() when int != null:
+return int(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( FineTuneReinforcementHyperparametersEvalIntervalEnumeration value)  enumeration,required TResult Function( FineTuneReinforcementHyperparametersEvalIntervalInt value)  int,}){
+final _that = this;
+switch (_that) {
+case FineTuneReinforcementHyperparametersEvalIntervalEnumeration():
+return enumeration(_that);case FineTuneReinforcementHyperparametersEvalIntervalInt():
+return int(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( FineTuneReinforcementHyperparametersEvalIntervalEnumeration value)?  enumeration,TResult? Function( FineTuneReinforcementHyperparametersEvalIntervalInt value)?  int,}){
+final _that = this;
+switch (_that) {
+case FineTuneReinforcementHyperparametersEvalIntervalEnumeration() when enumeration != null:
+return enumeration(_that);case FineTuneReinforcementHyperparametersEvalIntervalInt() when int != null:
+return int(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( FineTuneReinforcementHyperparametersEvalIntervalEnum value)?  enumeration,TResult Function( int value)?  int,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case FineTuneReinforcementHyperparametersEvalIntervalEnumeration() when enumeration != null:
+return enumeration(_that.value);case FineTuneReinforcementHyperparametersEvalIntervalInt() when int != null:
+return int(_that.value);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( FineTuneReinforcementHyperparametersEvalIntervalEnum value)  enumeration,required TResult Function( int value)  int,}) {final _that = this;
+switch (_that) {
+case FineTuneReinforcementHyperparametersEvalIntervalEnumeration():
+return enumeration(_that.value);case FineTuneReinforcementHyperparametersEvalIntervalInt():
+return int(_that.value);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( FineTuneReinforcementHyperparametersEvalIntervalEnum value)?  enumeration,TResult? Function( int value)?  int,}) {final _that = this;
+switch (_that) {
+case FineTuneReinforcementHyperparametersEvalIntervalEnumeration() when enumeration != null:
+return enumeration(_that.value);case FineTuneReinforcementHyperparametersEvalIntervalInt() when int != null:
+return int(_that.value);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class FineTuneReinforcementHyperparametersEvalIntervalEnumeration extends FineTuneReinforcementHyperparametersEvalInterval {
+  const FineTuneReinforcementHyperparametersEvalIntervalEnumeration(this.value, {final  String? $type}): $type = $type ?? 'enumeration',super._();
+  factory FineTuneReinforcementHyperparametersEvalIntervalEnumeration.fromJson(Map<String, dynamic> json) => _$FineTuneReinforcementHyperparametersEvalIntervalEnumerationFromJson(json);
+
+@override final  FineTuneReinforcementHyperparametersEvalIntervalEnum value;
+
+@JsonKey(name: 'runtimeType')
+final String $type;
+
+
+/// Create a copy of FineTuneReinforcementHyperparametersEvalInterval
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$FineTuneReinforcementHyperparametersEvalIntervalEnumerationCopyWith<FineTuneReinforcementHyperparametersEvalIntervalEnumeration> get copyWith => _$FineTuneReinforcementHyperparametersEvalIntervalEnumerationCopyWithImpl<FineTuneReinforcementHyperparametersEvalIntervalEnumeration>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$FineTuneReinforcementHyperparametersEvalIntervalEnumerationToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneReinforcementHyperparametersEvalIntervalEnumeration&&(identical(other.value, value) || other.value == value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,value);
+
+@override
+String toString() {
+  return 'FineTuneReinforcementHyperparametersEvalInterval.enumeration(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $FineTuneReinforcementHyperparametersEvalIntervalEnumerationCopyWith<$Res> implements $FineTuneReinforcementHyperparametersEvalIntervalCopyWith<$Res> {
+  factory $FineTuneReinforcementHyperparametersEvalIntervalEnumerationCopyWith(FineTuneReinforcementHyperparametersEvalIntervalEnumeration value, $Res Function(FineTuneReinforcementHyperparametersEvalIntervalEnumeration) _then) = _$FineTuneReinforcementHyperparametersEvalIntervalEnumerationCopyWithImpl;
+@useResult
+$Res call({
+ FineTuneReinforcementHyperparametersEvalIntervalEnum value
+});
+
+
+
+
+}
+/// @nodoc
+class _$FineTuneReinforcementHyperparametersEvalIntervalEnumerationCopyWithImpl<$Res>
+    implements $FineTuneReinforcementHyperparametersEvalIntervalEnumerationCopyWith<$Res> {
+  _$FineTuneReinforcementHyperparametersEvalIntervalEnumerationCopyWithImpl(this._self, this._then);
+
+  final FineTuneReinforcementHyperparametersEvalIntervalEnumeration _self;
+  final $Res Function(FineTuneReinforcementHyperparametersEvalIntervalEnumeration) _then;
+
+/// Create a copy of FineTuneReinforcementHyperparametersEvalInterval
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
+  return _then(FineTuneReinforcementHyperparametersEvalIntervalEnumeration(
+null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as FineTuneReinforcementHyperparametersEvalIntervalEnum,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class FineTuneReinforcementHyperparametersEvalIntervalInt extends FineTuneReinforcementHyperparametersEvalInterval {
+  const FineTuneReinforcementHyperparametersEvalIntervalInt(this.value, {final  String? $type}): $type = $type ?? 'int',super._();
+  factory FineTuneReinforcementHyperparametersEvalIntervalInt.fromJson(Map<String, dynamic> json) => _$FineTuneReinforcementHyperparametersEvalIntervalIntFromJson(json);
+
+@override final  int value;
+
+@JsonKey(name: 'runtimeType')
+final String $type;
+
+
+/// Create a copy of FineTuneReinforcementHyperparametersEvalInterval
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$FineTuneReinforcementHyperparametersEvalIntervalIntCopyWith<FineTuneReinforcementHyperparametersEvalIntervalInt> get copyWith => _$FineTuneReinforcementHyperparametersEvalIntervalIntCopyWithImpl<FineTuneReinforcementHyperparametersEvalIntervalInt>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$FineTuneReinforcementHyperparametersEvalIntervalIntToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneReinforcementHyperparametersEvalIntervalInt&&(identical(other.value, value) || other.value == value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,value);
+
+@override
+String toString() {
+  return 'FineTuneReinforcementHyperparametersEvalInterval.int(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $FineTuneReinforcementHyperparametersEvalIntervalIntCopyWith<$Res> implements $FineTuneReinforcementHyperparametersEvalIntervalCopyWith<$Res> {
+  factory $FineTuneReinforcementHyperparametersEvalIntervalIntCopyWith(FineTuneReinforcementHyperparametersEvalIntervalInt value, $Res Function(FineTuneReinforcementHyperparametersEvalIntervalInt) _then) = _$FineTuneReinforcementHyperparametersEvalIntervalIntCopyWithImpl;
+@useResult
+$Res call({
+ int value
+});
+
+
+
+
+}
+/// @nodoc
+class _$FineTuneReinforcementHyperparametersEvalIntervalIntCopyWithImpl<$Res>
+    implements $FineTuneReinforcementHyperparametersEvalIntervalIntCopyWith<$Res> {
+  _$FineTuneReinforcementHyperparametersEvalIntervalIntCopyWithImpl(this._self, this._then);
+
+  final FineTuneReinforcementHyperparametersEvalIntervalInt _self;
+  final $Res Function(FineTuneReinforcementHyperparametersEvalIntervalInt) _then;
+
+/// Create a copy of FineTuneReinforcementHyperparametersEvalInterval
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
+  return _then(FineTuneReinforcementHyperparametersEvalIntervalInt(
+null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+
+}
+
+FineTuneReinforcementHyperparametersEvalSamples _$FineTuneReinforcementHyperparametersEvalSamplesFromJson(
+  Map<String, dynamic> json
+) {
+        switch (json['runtimeType']) {
+                  case 'enumeration':
+          return FineTuneReinforcementHyperparametersEvalSamplesEnumeration.fromJson(
+            json
+          );
+                case 'int':
+          return FineTuneReinforcementHyperparametersEvalSamplesInt.fromJson(
+            json
+          );
+        
+          default:
+            throw CheckedFromJsonException(
+  json,
+  'runtimeType',
+  'FineTuneReinforcementHyperparametersEvalSamples',
+  'Invalid union type "${json['runtimeType']}"!'
+);
+        }
+      
+}
+
+/// @nodoc
+mixin _$FineTuneReinforcementHyperparametersEvalSamples {
+
+ Object get value;
+
+  /// Serializes this FineTuneReinforcementHyperparametersEvalSamples to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneReinforcementHyperparametersEvalSamples&&const DeepCollectionEquality().equals(other.value, value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(value));
+
+@override
+String toString() {
+  return 'FineTuneReinforcementHyperparametersEvalSamples(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+class $FineTuneReinforcementHyperparametersEvalSamplesCopyWith<$Res>  {
+$FineTuneReinforcementHyperparametersEvalSamplesCopyWith(FineTuneReinforcementHyperparametersEvalSamples _, $Res Function(FineTuneReinforcementHyperparametersEvalSamples) __);
+}
+
+
+/// Adds pattern-matching-related methods to [FineTuneReinforcementHyperparametersEvalSamples].
+extension FineTuneReinforcementHyperparametersEvalSamplesPatterns on FineTuneReinforcementHyperparametersEvalSamples {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( FineTuneReinforcementHyperparametersEvalSamplesEnumeration value)?  enumeration,TResult Function( FineTuneReinforcementHyperparametersEvalSamplesInt value)?  int,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case FineTuneReinforcementHyperparametersEvalSamplesEnumeration() when enumeration != null:
+return enumeration(_that);case FineTuneReinforcementHyperparametersEvalSamplesInt() when int != null:
+return int(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( FineTuneReinforcementHyperparametersEvalSamplesEnumeration value)  enumeration,required TResult Function( FineTuneReinforcementHyperparametersEvalSamplesInt value)  int,}){
+final _that = this;
+switch (_that) {
+case FineTuneReinforcementHyperparametersEvalSamplesEnumeration():
+return enumeration(_that);case FineTuneReinforcementHyperparametersEvalSamplesInt():
+return int(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( FineTuneReinforcementHyperparametersEvalSamplesEnumeration value)?  enumeration,TResult? Function( FineTuneReinforcementHyperparametersEvalSamplesInt value)?  int,}){
+final _that = this;
+switch (_that) {
+case FineTuneReinforcementHyperparametersEvalSamplesEnumeration() when enumeration != null:
+return enumeration(_that);case FineTuneReinforcementHyperparametersEvalSamplesInt() when int != null:
+return int(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( FineTuneReinforcementHyperparametersEvalSamplesEnum value)?  enumeration,TResult Function( int value)?  int,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case FineTuneReinforcementHyperparametersEvalSamplesEnumeration() when enumeration != null:
+return enumeration(_that.value);case FineTuneReinforcementHyperparametersEvalSamplesInt() when int != null:
+return int(_that.value);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( FineTuneReinforcementHyperparametersEvalSamplesEnum value)  enumeration,required TResult Function( int value)  int,}) {final _that = this;
+switch (_that) {
+case FineTuneReinforcementHyperparametersEvalSamplesEnumeration():
+return enumeration(_that.value);case FineTuneReinforcementHyperparametersEvalSamplesInt():
+return int(_that.value);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( FineTuneReinforcementHyperparametersEvalSamplesEnum value)?  enumeration,TResult? Function( int value)?  int,}) {final _that = this;
+switch (_that) {
+case FineTuneReinforcementHyperparametersEvalSamplesEnumeration() when enumeration != null:
+return enumeration(_that.value);case FineTuneReinforcementHyperparametersEvalSamplesInt() when int != null:
+return int(_that.value);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class FineTuneReinforcementHyperparametersEvalSamplesEnumeration extends FineTuneReinforcementHyperparametersEvalSamples {
+  const FineTuneReinforcementHyperparametersEvalSamplesEnumeration(this.value, {final  String? $type}): $type = $type ?? 'enumeration',super._();
+  factory FineTuneReinforcementHyperparametersEvalSamplesEnumeration.fromJson(Map<String, dynamic> json) => _$FineTuneReinforcementHyperparametersEvalSamplesEnumerationFromJson(json);
+
+@override final  FineTuneReinforcementHyperparametersEvalSamplesEnum value;
+
+@JsonKey(name: 'runtimeType')
+final String $type;
+
+
+/// Create a copy of FineTuneReinforcementHyperparametersEvalSamples
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$FineTuneReinforcementHyperparametersEvalSamplesEnumerationCopyWith<FineTuneReinforcementHyperparametersEvalSamplesEnumeration> get copyWith => _$FineTuneReinforcementHyperparametersEvalSamplesEnumerationCopyWithImpl<FineTuneReinforcementHyperparametersEvalSamplesEnumeration>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$FineTuneReinforcementHyperparametersEvalSamplesEnumerationToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneReinforcementHyperparametersEvalSamplesEnumeration&&(identical(other.value, value) || other.value == value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,value);
+
+@override
+String toString() {
+  return 'FineTuneReinforcementHyperparametersEvalSamples.enumeration(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $FineTuneReinforcementHyperparametersEvalSamplesEnumerationCopyWith<$Res> implements $FineTuneReinforcementHyperparametersEvalSamplesCopyWith<$Res> {
+  factory $FineTuneReinforcementHyperparametersEvalSamplesEnumerationCopyWith(FineTuneReinforcementHyperparametersEvalSamplesEnumeration value, $Res Function(FineTuneReinforcementHyperparametersEvalSamplesEnumeration) _then) = _$FineTuneReinforcementHyperparametersEvalSamplesEnumerationCopyWithImpl;
+@useResult
+$Res call({
+ FineTuneReinforcementHyperparametersEvalSamplesEnum value
+});
+
+
+
+
+}
+/// @nodoc
+class _$FineTuneReinforcementHyperparametersEvalSamplesEnumerationCopyWithImpl<$Res>
+    implements $FineTuneReinforcementHyperparametersEvalSamplesEnumerationCopyWith<$Res> {
+  _$FineTuneReinforcementHyperparametersEvalSamplesEnumerationCopyWithImpl(this._self, this._then);
+
+  final FineTuneReinforcementHyperparametersEvalSamplesEnumeration _self;
+  final $Res Function(FineTuneReinforcementHyperparametersEvalSamplesEnumeration) _then;
+
+/// Create a copy of FineTuneReinforcementHyperparametersEvalSamples
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
+  return _then(FineTuneReinforcementHyperparametersEvalSamplesEnumeration(
+null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as FineTuneReinforcementHyperparametersEvalSamplesEnum,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class FineTuneReinforcementHyperparametersEvalSamplesInt extends FineTuneReinforcementHyperparametersEvalSamples {
+  const FineTuneReinforcementHyperparametersEvalSamplesInt(this.value, {final  String? $type}): $type = $type ?? 'int',super._();
+  factory FineTuneReinforcementHyperparametersEvalSamplesInt.fromJson(Map<String, dynamic> json) => _$FineTuneReinforcementHyperparametersEvalSamplesIntFromJson(json);
+
+@override final  int value;
+
+@JsonKey(name: 'runtimeType')
+final String $type;
+
+
+/// Create a copy of FineTuneReinforcementHyperparametersEvalSamples
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$FineTuneReinforcementHyperparametersEvalSamplesIntCopyWith<FineTuneReinforcementHyperparametersEvalSamplesInt> get copyWith => _$FineTuneReinforcementHyperparametersEvalSamplesIntCopyWithImpl<FineTuneReinforcementHyperparametersEvalSamplesInt>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$FineTuneReinforcementHyperparametersEvalSamplesIntToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FineTuneReinforcementHyperparametersEvalSamplesInt&&(identical(other.value, value) || other.value == value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,value);
+
+@override
+String toString() {
+  return 'FineTuneReinforcementHyperparametersEvalSamples.int(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $FineTuneReinforcementHyperparametersEvalSamplesIntCopyWith<$Res> implements $FineTuneReinforcementHyperparametersEvalSamplesCopyWith<$Res> {
+  factory $FineTuneReinforcementHyperparametersEvalSamplesIntCopyWith(FineTuneReinforcementHyperparametersEvalSamplesInt value, $Res Function(FineTuneReinforcementHyperparametersEvalSamplesInt) _then) = _$FineTuneReinforcementHyperparametersEvalSamplesIntCopyWithImpl;
+@useResult
+$Res call({
+ int value
+});
+
+
+
+
+}
+/// @nodoc
+class _$FineTuneReinforcementHyperparametersEvalSamplesIntCopyWithImpl<$Res>
+    implements $FineTuneReinforcementHyperparametersEvalSamplesIntCopyWith<$Res> {
+  _$FineTuneReinforcementHyperparametersEvalSamplesIntCopyWithImpl(this._self, this._then);
+
+  final FineTuneReinforcementHyperparametersEvalSamplesInt _self;
+  final $Res Function(FineTuneReinforcementHyperparametersEvalSamplesInt) _then;
+
+/// Create a copy of FineTuneReinforcementHyperparametersEvalSamples
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
+  return _then(FineTuneReinforcementHyperparametersEvalSamplesInt(
+null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 

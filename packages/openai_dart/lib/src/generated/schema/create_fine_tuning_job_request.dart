@@ -67,6 +67,17 @@ abstract class CreateFineTuningJobRequest with _$CreateFineTuningJobRequest {
     /// The seed controls the reproducibility of the job. Passing in the same seed and job parameters should produce the same results, but may differ in rare cases.
     /// If a seed is not specified, one will be generated for you.
     @JsonKey(includeIfNull: false) int? seed,
+
+    /// The method used for fine-tuning. Defaults to supervised if not specified.
+    @JsonKey(includeIfNull: false) FineTuneMethod? method,
+
+    /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing
+    /// additional information about the object in a structured format, and querying for objects via API
+    /// or the dashboard.
+    ///
+    /// Keys are strings with a maximum length of 64 characters. Values are strings with a maximum length
+    /// of 512 characters.
+    @JsonKey(includeIfNull: false) Map<String, String>? metadata,
   }) = _CreateFineTuningJobRequest;
 
   /// Object construction from a JSON representation
@@ -82,6 +93,8 @@ abstract class CreateFineTuningJobRequest with _$CreateFineTuningJobRequest {
     'validation_file',
     'integrations',
     'seed',
+    'method',
+    'metadata',
   ];
 
   /// Validation constants
@@ -117,6 +130,8 @@ abstract class CreateFineTuningJobRequest with _$CreateFineTuningJobRequest {
       'validation_file': validationFile,
       'integrations': integrations,
       'seed': seed,
+      'method': method,
+      'metadata': metadata,
     };
   }
 }

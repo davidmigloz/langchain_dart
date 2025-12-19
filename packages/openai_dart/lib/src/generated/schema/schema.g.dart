@@ -1608,6 +1608,12 @@ _CreateFineTuningJobRequest _$CreateFineTuningJobRequestFromJson(
       ?.map((e) => FineTuningIntegration.fromJson(e as Map<String, dynamic>))
       .toList(),
   seed: (json['seed'] as num?)?.toInt(),
+  method: json['method'] == null
+      ? null
+      : FineTuneMethod.fromJson(json['method'] as Map<String, dynamic>),
+  metadata: (json['metadata'] as Map<String, dynamic>?)?.map(
+    (k, e) => MapEntry(k, e as String),
+  ),
 );
 
 Map<String, dynamic> _$CreateFineTuningJobRequestToJson(
@@ -1620,6 +1626,8 @@ Map<String, dynamic> _$CreateFineTuningJobRequestToJson(
   'validation_file': ?instance.validationFile,
   'integrations': ?instance.integrations?.map((e) => e.toJson()).toList(),
   'seed': ?instance.seed,
+  'method': ?instance.method?.toJson(),
+  'metadata': ?instance.metadata,
 };
 
 FineTuningModelEnumeration _$FineTuningModelEnumerationFromJson(
@@ -1681,6 +1689,11 @@ _FineTuningJob _$FineTuningJobFromJson(Map<String, dynamic> json) =>
             (e) => FineTuningIntegration.fromJson(e as Map<String, dynamic>),
           )
           .toList(),
+      seed: (json['seed'] as num).toInt(),
+      method: json['method'] == null
+          ? null
+          : FineTuneMethod.fromJson(json['method'] as Map<String, dynamic>),
+      estimatedFinish: (json['estimated_finish'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$FineTuningJobToJson(_FineTuningJob instance) =>
@@ -1700,6 +1713,9 @@ Map<String, dynamic> _$FineTuningJobToJson(_FineTuningJob instance) =>
       'training_file': instance.trainingFile,
       'validation_file': instance.validationFile,
       'integrations': ?instance.integrations?.map((e) => e.toJson()).toList(),
+      'seed': instance.seed,
+      'method': ?instance.method?.toJson(),
+      'estimated_finish': ?instance.estimatedFinish,
     };
 
 const _$FineTuningJobObjectEnumMap = {
@@ -1974,6 +1990,670 @@ Map<String, dynamic> _$FineTuningJobCheckpointMetricsToJson(
   'full_valid_loss': ?instance.fullValidLoss,
   'full_valid_mean_token_accuracy': ?instance.fullValidMeanTokenAccuracy,
 };
+
+_FineTuneMethod _$FineTuneMethodFromJson(Map<String, dynamic> json) =>
+    _FineTuneMethod(
+      type: $enumDecodeNullable(
+        _$FineTuneMethodTypeEnumMap,
+        json['type'],
+        unknownValue: JsonKey.nullForUndefinedEnumValue,
+      ),
+      supervised: json['supervised'] == null
+          ? null
+          : FineTuneSupervisedMethod.fromJson(
+              json['supervised'] as Map<String, dynamic>,
+            ),
+      dpo: json['dpo'] == null
+          ? null
+          : FineTuneDPOMethod.fromJson(json['dpo'] as Map<String, dynamic>),
+      reinforcement: json['reinforcement'] == null
+          ? null
+          : FineTuneReinforcementMethod.fromJson(
+              json['reinforcement'] as Map<String, dynamic>,
+            ),
+    );
+
+Map<String, dynamic> _$FineTuneMethodToJson(_FineTuneMethod instance) =>
+    <String, dynamic>{
+      'type': ?_$FineTuneMethodTypeEnumMap[instance.type],
+      'supervised': ?instance.supervised?.toJson(),
+      'dpo': ?instance.dpo?.toJson(),
+      'reinforcement': ?instance.reinforcement?.toJson(),
+    };
+
+const _$FineTuneMethodTypeEnumMap = {
+  FineTuneMethodType.supervised: 'supervised',
+  FineTuneMethodType.dpo: 'dpo',
+  FineTuneMethodType.reinforcement: 'reinforcement',
+};
+
+_FineTuneSupervisedMethod _$FineTuneSupervisedMethodFromJson(
+  Map<String, dynamic> json,
+) => _FineTuneSupervisedMethod(
+  hyperparameters: json['hyperparameters'] == null
+      ? null
+      : FineTuneSupervisedHyperparameters.fromJson(
+          json['hyperparameters'] as Map<String, dynamic>,
+        ),
+);
+
+Map<String, dynamic> _$FineTuneSupervisedMethodToJson(
+  _FineTuneSupervisedMethod instance,
+) => <String, dynamic>{'hyperparameters': ?instance.hyperparameters?.toJson()};
+
+_FineTuneSupervisedHyperparameters _$FineTuneSupervisedHyperparametersFromJson(
+  Map<String, dynamic> json,
+) => _FineTuneSupervisedHyperparameters(
+  batchSize: json['batch_size'] == null
+      ? const FineTuneSupervisedHyperparametersBatchSizeEnumeration(
+          FineTuneSupervisedHyperparametersBatchSizeEnum.auto,
+        )
+      : const _FineTuneSupervisedHyperparametersBatchSizeConverter().fromJson(
+          json['batch_size'],
+        ),
+  learningRateMultiplier: json['learning_rate_multiplier'] == null
+      ? const FineTuneSupervisedHyperparametersLearningRateMultiplierEnumeration(
+          FineTuneSupervisedHyperparametersLearningRateMultiplierEnum.auto,
+        )
+      : const _FineTuneSupervisedHyperparametersLearningRateMultiplierConverter()
+            .fromJson(json['learning_rate_multiplier']),
+  nEpochs: json['n_epochs'] == null
+      ? const FineTuneSupervisedHyperparametersNEpochsEnumeration(
+          FineTuneSupervisedHyperparametersNEpochsEnum.auto,
+        )
+      : const _FineTuneSupervisedHyperparametersNEpochsConverter().fromJson(
+          json['n_epochs'],
+        ),
+);
+
+Map<String, dynamic> _$FineTuneSupervisedHyperparametersToJson(
+  _FineTuneSupervisedHyperparameters instance,
+) => <String, dynamic>{
+  'batch_size': ?const _FineTuneSupervisedHyperparametersBatchSizeConverter()
+      .toJson(instance.batchSize),
+  'learning_rate_multiplier':
+      ?const _FineTuneSupervisedHyperparametersLearningRateMultiplierConverter()
+          .toJson(instance.learningRateMultiplier),
+  'n_epochs': ?const _FineTuneSupervisedHyperparametersNEpochsConverter()
+      .toJson(instance.nEpochs),
+};
+
+FineTuneSupervisedHyperparametersBatchSizeEnumeration
+_$FineTuneSupervisedHyperparametersBatchSizeEnumerationFromJson(
+  Map<String, dynamic> json,
+) => FineTuneSupervisedHyperparametersBatchSizeEnumeration(
+  $enumDecode(
+    _$FineTuneSupervisedHyperparametersBatchSizeEnumEnumMap,
+    json['value'],
+  ),
+  $type: json['runtimeType'] as String?,
+);
+
+Map<String, dynamic>
+_$FineTuneSupervisedHyperparametersBatchSizeEnumerationToJson(
+  FineTuneSupervisedHyperparametersBatchSizeEnumeration instance,
+) => <String, dynamic>{
+  'value':
+      _$FineTuneSupervisedHyperparametersBatchSizeEnumEnumMap[instance.value]!,
+  'runtimeType': instance.$type,
+};
+
+const _$FineTuneSupervisedHyperparametersBatchSizeEnumEnumMap = {
+  FineTuneSupervisedHyperparametersBatchSizeEnum.auto: 'auto',
+};
+
+FineTuneSupervisedHyperparametersBatchSizeInt
+_$FineTuneSupervisedHyperparametersBatchSizeIntFromJson(
+  Map<String, dynamic> json,
+) => FineTuneSupervisedHyperparametersBatchSizeInt(
+  (json['value'] as num).toInt(),
+  $type: json['runtimeType'] as String?,
+);
+
+Map<String, dynamic> _$FineTuneSupervisedHyperparametersBatchSizeIntToJson(
+  FineTuneSupervisedHyperparametersBatchSizeInt instance,
+) => <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};
+
+FineTuneSupervisedHyperparametersLearningRateMultiplierEnumeration
+_$FineTuneSupervisedHyperparametersLearningRateMultiplierEnumerationFromJson(
+  Map<String, dynamic> json,
+) => FineTuneSupervisedHyperparametersLearningRateMultiplierEnumeration(
+  $enumDecode(
+    _$FineTuneSupervisedHyperparametersLearningRateMultiplierEnumEnumMap,
+    json['value'],
+  ),
+  $type: json['runtimeType'] as String?,
+);
+
+Map<String, dynamic>
+_$FineTuneSupervisedHyperparametersLearningRateMultiplierEnumerationToJson(
+  FineTuneSupervisedHyperparametersLearningRateMultiplierEnumeration instance,
+) => <String, dynamic>{
+  'value':
+      _$FineTuneSupervisedHyperparametersLearningRateMultiplierEnumEnumMap[instance
+          .value]!,
+  'runtimeType': instance.$type,
+};
+
+const _$FineTuneSupervisedHyperparametersLearningRateMultiplierEnumEnumMap = {
+  FineTuneSupervisedHyperparametersLearningRateMultiplierEnum.auto: 'auto',
+};
+
+FineTuneSupervisedHyperparametersLearningRateMultiplierDouble
+_$FineTuneSupervisedHyperparametersLearningRateMultiplierDoubleFromJson(
+  Map<String, dynamic> json,
+) => FineTuneSupervisedHyperparametersLearningRateMultiplierDouble(
+  (json['value'] as num).toDouble(),
+  $type: json['runtimeType'] as String?,
+);
+
+Map<String, dynamic>
+_$FineTuneSupervisedHyperparametersLearningRateMultiplierDoubleToJson(
+  FineTuneSupervisedHyperparametersLearningRateMultiplierDouble instance,
+) => <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};
+
+FineTuneSupervisedHyperparametersNEpochsEnumeration
+_$FineTuneSupervisedHyperparametersNEpochsEnumerationFromJson(
+  Map<String, dynamic> json,
+) => FineTuneSupervisedHyperparametersNEpochsEnumeration(
+  $enumDecode(
+    _$FineTuneSupervisedHyperparametersNEpochsEnumEnumMap,
+    json['value'],
+  ),
+  $type: json['runtimeType'] as String?,
+);
+
+Map<String, dynamic>
+_$FineTuneSupervisedHyperparametersNEpochsEnumerationToJson(
+  FineTuneSupervisedHyperparametersNEpochsEnumeration instance,
+) => <String, dynamic>{
+  'value':
+      _$FineTuneSupervisedHyperparametersNEpochsEnumEnumMap[instance.value]!,
+  'runtimeType': instance.$type,
+};
+
+const _$FineTuneSupervisedHyperparametersNEpochsEnumEnumMap = {
+  FineTuneSupervisedHyperparametersNEpochsEnum.auto: 'auto',
+};
+
+FineTuneSupervisedHyperparametersNEpochsInt
+_$FineTuneSupervisedHyperparametersNEpochsIntFromJson(
+  Map<String, dynamic> json,
+) => FineTuneSupervisedHyperparametersNEpochsInt(
+  (json['value'] as num).toInt(),
+  $type: json['runtimeType'] as String?,
+);
+
+Map<String, dynamic> _$FineTuneSupervisedHyperparametersNEpochsIntToJson(
+  FineTuneSupervisedHyperparametersNEpochsInt instance,
+) => <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};
+
+_FineTuneDPOMethod _$FineTuneDPOMethodFromJson(Map<String, dynamic> json) =>
+    _FineTuneDPOMethod(
+      hyperparameters: json['hyperparameters'] == null
+          ? null
+          : FineTuneDPOHyperparameters.fromJson(
+              json['hyperparameters'] as Map<String, dynamic>,
+            ),
+    );
+
+Map<String, dynamic> _$FineTuneDPOMethodToJson(_FineTuneDPOMethod instance) =>
+    <String, dynamic>{'hyperparameters': ?instance.hyperparameters?.toJson()};
+
+_FineTuneDPOHyperparameters _$FineTuneDPOHyperparametersFromJson(
+  Map<String, dynamic> json,
+) => _FineTuneDPOHyperparameters(
+  batchSize: json['batch_size'] == null
+      ? const FineTuneDPOHyperparametersBatchSizeEnumeration(
+          FineTuneDPOHyperparametersBatchSizeEnum.auto,
+        )
+      : const _FineTuneDPOHyperparametersBatchSizeConverter().fromJson(
+          json['batch_size'],
+        ),
+  learningRateMultiplier: json['learning_rate_multiplier'] == null
+      ? const FineTuneDPOHyperparametersLearningRateMultiplierEnumeration(
+          FineTuneDPOHyperparametersLearningRateMultiplierEnum.auto,
+        )
+      : const _FineTuneDPOHyperparametersLearningRateMultiplierConverter()
+            .fromJson(json['learning_rate_multiplier']),
+  nEpochs: json['n_epochs'] == null
+      ? const FineTuneDPOHyperparametersNEpochsEnumeration(
+          FineTuneDPOHyperparametersNEpochsEnum.auto,
+        )
+      : const _FineTuneDPOHyperparametersNEpochsConverter().fromJson(
+          json['n_epochs'],
+        ),
+  beta: (json['beta'] as num?)?.toDouble() ?? 0.1,
+);
+
+Map<String, dynamic> _$FineTuneDPOHyperparametersToJson(
+  _FineTuneDPOHyperparameters instance,
+) => <String, dynamic>{
+  'batch_size': ?const _FineTuneDPOHyperparametersBatchSizeConverter().toJson(
+    instance.batchSize,
+  ),
+  'learning_rate_multiplier':
+      ?const _FineTuneDPOHyperparametersLearningRateMultiplierConverter()
+          .toJson(instance.learningRateMultiplier),
+  'n_epochs': ?const _FineTuneDPOHyperparametersNEpochsConverter().toJson(
+    instance.nEpochs,
+  ),
+  'beta': instance.beta,
+};
+
+FineTuneDPOHyperparametersBatchSizeEnumeration
+_$FineTuneDPOHyperparametersBatchSizeEnumerationFromJson(
+  Map<String, dynamic> json,
+) => FineTuneDPOHyperparametersBatchSizeEnumeration(
+  $enumDecode(_$FineTuneDPOHyperparametersBatchSizeEnumEnumMap, json['value']),
+  $type: json['runtimeType'] as String?,
+);
+
+Map<String, dynamic> _$FineTuneDPOHyperparametersBatchSizeEnumerationToJson(
+  FineTuneDPOHyperparametersBatchSizeEnumeration instance,
+) => <String, dynamic>{
+  'value': _$FineTuneDPOHyperparametersBatchSizeEnumEnumMap[instance.value]!,
+  'runtimeType': instance.$type,
+};
+
+const _$FineTuneDPOHyperparametersBatchSizeEnumEnumMap = {
+  FineTuneDPOHyperparametersBatchSizeEnum.auto: 'auto',
+};
+
+FineTuneDPOHyperparametersBatchSizeInt
+_$FineTuneDPOHyperparametersBatchSizeIntFromJson(Map<String, dynamic> json) =>
+    FineTuneDPOHyperparametersBatchSizeInt(
+      (json['value'] as num).toInt(),
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$FineTuneDPOHyperparametersBatchSizeIntToJson(
+  FineTuneDPOHyperparametersBatchSizeInt instance,
+) => <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};
+
+FineTuneDPOHyperparametersLearningRateMultiplierEnumeration
+_$FineTuneDPOHyperparametersLearningRateMultiplierEnumerationFromJson(
+  Map<String, dynamic> json,
+) => FineTuneDPOHyperparametersLearningRateMultiplierEnumeration(
+  $enumDecode(
+    _$FineTuneDPOHyperparametersLearningRateMultiplierEnumEnumMap,
+    json['value'],
+  ),
+  $type: json['runtimeType'] as String?,
+);
+
+Map<String, dynamic>
+_$FineTuneDPOHyperparametersLearningRateMultiplierEnumerationToJson(
+  FineTuneDPOHyperparametersLearningRateMultiplierEnumeration instance,
+) => <String, dynamic>{
+  'value':
+      _$FineTuneDPOHyperparametersLearningRateMultiplierEnumEnumMap[instance
+          .value]!,
+  'runtimeType': instance.$type,
+};
+
+const _$FineTuneDPOHyperparametersLearningRateMultiplierEnumEnumMap = {
+  FineTuneDPOHyperparametersLearningRateMultiplierEnum.auto: 'auto',
+};
+
+FineTuneDPOHyperparametersLearningRateMultiplierDouble
+_$FineTuneDPOHyperparametersLearningRateMultiplierDoubleFromJson(
+  Map<String, dynamic> json,
+) => FineTuneDPOHyperparametersLearningRateMultiplierDouble(
+  (json['value'] as num).toDouble(),
+  $type: json['runtimeType'] as String?,
+);
+
+Map<String, dynamic>
+_$FineTuneDPOHyperparametersLearningRateMultiplierDoubleToJson(
+  FineTuneDPOHyperparametersLearningRateMultiplierDouble instance,
+) => <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};
+
+FineTuneDPOHyperparametersNEpochsEnumeration
+_$FineTuneDPOHyperparametersNEpochsEnumerationFromJson(
+  Map<String, dynamic> json,
+) => FineTuneDPOHyperparametersNEpochsEnumeration(
+  $enumDecode(_$FineTuneDPOHyperparametersNEpochsEnumEnumMap, json['value']),
+  $type: json['runtimeType'] as String?,
+);
+
+Map<String, dynamic> _$FineTuneDPOHyperparametersNEpochsEnumerationToJson(
+  FineTuneDPOHyperparametersNEpochsEnumeration instance,
+) => <String, dynamic>{
+  'value': _$FineTuneDPOHyperparametersNEpochsEnumEnumMap[instance.value]!,
+  'runtimeType': instance.$type,
+};
+
+const _$FineTuneDPOHyperparametersNEpochsEnumEnumMap = {
+  FineTuneDPOHyperparametersNEpochsEnum.auto: 'auto',
+};
+
+FineTuneDPOHyperparametersNEpochsInt
+_$FineTuneDPOHyperparametersNEpochsIntFromJson(Map<String, dynamic> json) =>
+    FineTuneDPOHyperparametersNEpochsInt(
+      (json['value'] as num).toInt(),
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$FineTuneDPOHyperparametersNEpochsIntToJson(
+  FineTuneDPOHyperparametersNEpochsInt instance,
+) => <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};
+
+_FineTuneReinforcementMethod _$FineTuneReinforcementMethodFromJson(
+  Map<String, dynamic> json,
+) => _FineTuneReinforcementMethod(
+  grader: json['grader'] as Map<String, dynamic>?,
+  hyperparameters: json['hyperparameters'] == null
+      ? null
+      : FineTuneReinforcementHyperparameters.fromJson(
+          json['hyperparameters'] as Map<String, dynamic>,
+        ),
+);
+
+Map<String, dynamic> _$FineTuneReinforcementMethodToJson(
+  _FineTuneReinforcementMethod instance,
+) => <String, dynamic>{
+  'grader': ?instance.grader,
+  'hyperparameters': ?instance.hyperparameters?.toJson(),
+};
+
+_FineTuneReinforcementHyperparameters
+_$FineTuneReinforcementHyperparametersFromJson(
+  Map<String, dynamic> json,
+) => _FineTuneReinforcementHyperparameters(
+  batchSize: json['batch_size'] == null
+      ? const FineTuneReinforcementHyperparametersBatchSizeEnumeration(
+          FineTuneReinforcementHyperparametersBatchSizeEnum.auto,
+        )
+      : const _FineTuneReinforcementHyperparametersBatchSizeConverter()
+            .fromJson(json['batch_size']),
+  learningRateMultiplier: json['learning_rate_multiplier'] == null
+      ? const FineTuneReinforcementHyperparametersLearningRateMultiplierEnumeration(
+          FineTuneReinforcementHyperparametersLearningRateMultiplierEnum.auto,
+        )
+      : const _FineTuneReinforcementHyperparametersLearningRateMultiplierConverter()
+            .fromJson(json['learning_rate_multiplier']),
+  nEpochs: json['n_epochs'] == null
+      ? const FineTuneReinforcementHyperparametersNEpochsEnumeration(
+          FineTuneReinforcementHyperparametersNEpochsEnum.auto,
+        )
+      : const _FineTuneReinforcementHyperparametersNEpochsConverter().fromJson(
+          json['n_epochs'],
+        ),
+  reasoningEffort: $enumDecodeNullable(
+    _$ReasoningEffortEnumMap,
+    json['reasoning_effort'],
+    unknownValue: JsonKey.nullForUndefinedEnumValue,
+  ),
+  computeMultiplier: json['compute_multiplier'] == null
+      ? const FineTuneReinforcementHyperparametersComputeMultiplierEnumeration(
+          FineTuneReinforcementHyperparametersComputeMultiplierEnum.auto,
+        )
+      : const _FineTuneReinforcementHyperparametersComputeMultiplierConverter()
+            .fromJson(json['compute_multiplier']),
+  evalInterval: json['eval_interval'] == null
+      ? const FineTuneReinforcementHyperparametersEvalIntervalEnumeration(
+          FineTuneReinforcementHyperparametersEvalIntervalEnum.auto,
+        )
+      : const _FineTuneReinforcementHyperparametersEvalIntervalConverter()
+            .fromJson(json['eval_interval']),
+  evalSamples: json['eval_samples'] == null
+      ? const FineTuneReinforcementHyperparametersEvalSamplesEnumeration(
+          FineTuneReinforcementHyperparametersEvalSamplesEnum.auto,
+        )
+      : const _FineTuneReinforcementHyperparametersEvalSamplesConverter()
+            .fromJson(json['eval_samples']),
+);
+
+Map<String, dynamic> _$FineTuneReinforcementHyperparametersToJson(
+  _FineTuneReinforcementHyperparameters instance,
+) => <String, dynamic>{
+  'batch_size': ?const _FineTuneReinforcementHyperparametersBatchSizeConverter()
+      .toJson(instance.batchSize),
+  'learning_rate_multiplier':
+      ?const _FineTuneReinforcementHyperparametersLearningRateMultiplierConverter()
+          .toJson(instance.learningRateMultiplier),
+  'n_epochs': ?const _FineTuneReinforcementHyperparametersNEpochsConverter()
+      .toJson(instance.nEpochs),
+  'reasoning_effort': ?_$ReasoningEffortEnumMap[instance.reasoningEffort],
+  'compute_multiplier':
+      ?const _FineTuneReinforcementHyperparametersComputeMultiplierConverter()
+          .toJson(instance.computeMultiplier),
+  'eval_interval':
+      ?const _FineTuneReinforcementHyperparametersEvalIntervalConverter()
+          .toJson(instance.evalInterval),
+  'eval_samples':
+      ?const _FineTuneReinforcementHyperparametersEvalSamplesConverter().toJson(
+        instance.evalSamples,
+      ),
+};
+
+FineTuneReinforcementHyperparametersBatchSizeEnumeration
+_$FineTuneReinforcementHyperparametersBatchSizeEnumerationFromJson(
+  Map<String, dynamic> json,
+) => FineTuneReinforcementHyperparametersBatchSizeEnumeration(
+  $enumDecode(
+    _$FineTuneReinforcementHyperparametersBatchSizeEnumEnumMap,
+    json['value'],
+  ),
+  $type: json['runtimeType'] as String?,
+);
+
+Map<String, dynamic>
+_$FineTuneReinforcementHyperparametersBatchSizeEnumerationToJson(
+  FineTuneReinforcementHyperparametersBatchSizeEnumeration instance,
+) => <String, dynamic>{
+  'value':
+      _$FineTuneReinforcementHyperparametersBatchSizeEnumEnumMap[instance
+          .value]!,
+  'runtimeType': instance.$type,
+};
+
+const _$FineTuneReinforcementHyperparametersBatchSizeEnumEnumMap = {
+  FineTuneReinforcementHyperparametersBatchSizeEnum.auto: 'auto',
+};
+
+FineTuneReinforcementHyperparametersBatchSizeInt
+_$FineTuneReinforcementHyperparametersBatchSizeIntFromJson(
+  Map<String, dynamic> json,
+) => FineTuneReinforcementHyperparametersBatchSizeInt(
+  (json['value'] as num).toInt(),
+  $type: json['runtimeType'] as String?,
+);
+
+Map<String, dynamic> _$FineTuneReinforcementHyperparametersBatchSizeIntToJson(
+  FineTuneReinforcementHyperparametersBatchSizeInt instance,
+) => <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};
+
+FineTuneReinforcementHyperparametersLearningRateMultiplierEnumeration
+_$FineTuneReinforcementHyperparametersLearningRateMultiplierEnumerationFromJson(
+  Map<String, dynamic> json,
+) => FineTuneReinforcementHyperparametersLearningRateMultiplierEnumeration(
+  $enumDecode(
+    _$FineTuneReinforcementHyperparametersLearningRateMultiplierEnumEnumMap,
+    json['value'],
+  ),
+  $type: json['runtimeType'] as String?,
+);
+
+Map<String, dynamic>
+_$FineTuneReinforcementHyperparametersLearningRateMultiplierEnumerationToJson(
+  FineTuneReinforcementHyperparametersLearningRateMultiplierEnumeration
+  instance,
+) => <String, dynamic>{
+  'value':
+      _$FineTuneReinforcementHyperparametersLearningRateMultiplierEnumEnumMap[instance
+          .value]!,
+  'runtimeType': instance.$type,
+};
+
+const _$FineTuneReinforcementHyperparametersLearningRateMultiplierEnumEnumMap =
+    {
+      FineTuneReinforcementHyperparametersLearningRateMultiplierEnum.auto:
+          'auto',
+    };
+
+FineTuneReinforcementHyperparametersLearningRateMultiplierDouble
+_$FineTuneReinforcementHyperparametersLearningRateMultiplierDoubleFromJson(
+  Map<String, dynamic> json,
+) => FineTuneReinforcementHyperparametersLearningRateMultiplierDouble(
+  (json['value'] as num).toDouble(),
+  $type: json['runtimeType'] as String?,
+);
+
+Map<String, dynamic>
+_$FineTuneReinforcementHyperparametersLearningRateMultiplierDoubleToJson(
+  FineTuneReinforcementHyperparametersLearningRateMultiplierDouble instance,
+) => <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};
+
+FineTuneReinforcementHyperparametersNEpochsEnumeration
+_$FineTuneReinforcementHyperparametersNEpochsEnumerationFromJson(
+  Map<String, dynamic> json,
+) => FineTuneReinforcementHyperparametersNEpochsEnumeration(
+  $enumDecode(
+    _$FineTuneReinforcementHyperparametersNEpochsEnumEnumMap,
+    json['value'],
+  ),
+  $type: json['runtimeType'] as String?,
+);
+
+Map<String, dynamic>
+_$FineTuneReinforcementHyperparametersNEpochsEnumerationToJson(
+  FineTuneReinforcementHyperparametersNEpochsEnumeration instance,
+) => <String, dynamic>{
+  'value':
+      _$FineTuneReinforcementHyperparametersNEpochsEnumEnumMap[instance.value]!,
+  'runtimeType': instance.$type,
+};
+
+const _$FineTuneReinforcementHyperparametersNEpochsEnumEnumMap = {
+  FineTuneReinforcementHyperparametersNEpochsEnum.auto: 'auto',
+};
+
+FineTuneReinforcementHyperparametersNEpochsInt
+_$FineTuneReinforcementHyperparametersNEpochsIntFromJson(
+  Map<String, dynamic> json,
+) => FineTuneReinforcementHyperparametersNEpochsInt(
+  (json['value'] as num).toInt(),
+  $type: json['runtimeType'] as String?,
+);
+
+Map<String, dynamic> _$FineTuneReinforcementHyperparametersNEpochsIntToJson(
+  FineTuneReinforcementHyperparametersNEpochsInt instance,
+) => <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};
+
+FineTuneReinforcementHyperparametersComputeMultiplierEnumeration
+_$FineTuneReinforcementHyperparametersComputeMultiplierEnumerationFromJson(
+  Map<String, dynamic> json,
+) => FineTuneReinforcementHyperparametersComputeMultiplierEnumeration(
+  $enumDecode(
+    _$FineTuneReinforcementHyperparametersComputeMultiplierEnumEnumMap,
+    json['value'],
+  ),
+  $type: json['runtimeType'] as String?,
+);
+
+Map<String, dynamic>
+_$FineTuneReinforcementHyperparametersComputeMultiplierEnumerationToJson(
+  FineTuneReinforcementHyperparametersComputeMultiplierEnumeration instance,
+) => <String, dynamic>{
+  'value':
+      _$FineTuneReinforcementHyperparametersComputeMultiplierEnumEnumMap[instance
+          .value]!,
+  'runtimeType': instance.$type,
+};
+
+const _$FineTuneReinforcementHyperparametersComputeMultiplierEnumEnumMap = {
+  FineTuneReinforcementHyperparametersComputeMultiplierEnum.auto: 'auto',
+};
+
+FineTuneReinforcementHyperparametersComputeMultiplierDouble
+_$FineTuneReinforcementHyperparametersComputeMultiplierDoubleFromJson(
+  Map<String, dynamic> json,
+) => FineTuneReinforcementHyperparametersComputeMultiplierDouble(
+  (json['value'] as num).toDouble(),
+  $type: json['runtimeType'] as String?,
+);
+
+Map<String, dynamic>
+_$FineTuneReinforcementHyperparametersComputeMultiplierDoubleToJson(
+  FineTuneReinforcementHyperparametersComputeMultiplierDouble instance,
+) => <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};
+
+FineTuneReinforcementHyperparametersEvalIntervalEnumeration
+_$FineTuneReinforcementHyperparametersEvalIntervalEnumerationFromJson(
+  Map<String, dynamic> json,
+) => FineTuneReinforcementHyperparametersEvalIntervalEnumeration(
+  $enumDecode(
+    _$FineTuneReinforcementHyperparametersEvalIntervalEnumEnumMap,
+    json['value'],
+  ),
+  $type: json['runtimeType'] as String?,
+);
+
+Map<String, dynamic>
+_$FineTuneReinforcementHyperparametersEvalIntervalEnumerationToJson(
+  FineTuneReinforcementHyperparametersEvalIntervalEnumeration instance,
+) => <String, dynamic>{
+  'value':
+      _$FineTuneReinforcementHyperparametersEvalIntervalEnumEnumMap[instance
+          .value]!,
+  'runtimeType': instance.$type,
+};
+
+const _$FineTuneReinforcementHyperparametersEvalIntervalEnumEnumMap = {
+  FineTuneReinforcementHyperparametersEvalIntervalEnum.auto: 'auto',
+};
+
+FineTuneReinforcementHyperparametersEvalIntervalInt
+_$FineTuneReinforcementHyperparametersEvalIntervalIntFromJson(
+  Map<String, dynamic> json,
+) => FineTuneReinforcementHyperparametersEvalIntervalInt(
+  (json['value'] as num).toInt(),
+  $type: json['runtimeType'] as String?,
+);
+
+Map<String, dynamic>
+_$FineTuneReinforcementHyperparametersEvalIntervalIntToJson(
+  FineTuneReinforcementHyperparametersEvalIntervalInt instance,
+) => <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};
+
+FineTuneReinforcementHyperparametersEvalSamplesEnumeration
+_$FineTuneReinforcementHyperparametersEvalSamplesEnumerationFromJson(
+  Map<String, dynamic> json,
+) => FineTuneReinforcementHyperparametersEvalSamplesEnumeration(
+  $enumDecode(
+    _$FineTuneReinforcementHyperparametersEvalSamplesEnumEnumMap,
+    json['value'],
+  ),
+  $type: json['runtimeType'] as String?,
+);
+
+Map<String, dynamic>
+_$FineTuneReinforcementHyperparametersEvalSamplesEnumerationToJson(
+  FineTuneReinforcementHyperparametersEvalSamplesEnumeration instance,
+) => <String, dynamic>{
+  'value':
+      _$FineTuneReinforcementHyperparametersEvalSamplesEnumEnumMap[instance
+          .value]!,
+  'runtimeType': instance.$type,
+};
+
+const _$FineTuneReinforcementHyperparametersEvalSamplesEnumEnumMap = {
+  FineTuneReinforcementHyperparametersEvalSamplesEnum.auto: 'auto',
+};
+
+FineTuneReinforcementHyperparametersEvalSamplesInt
+_$FineTuneReinforcementHyperparametersEvalSamplesIntFromJson(
+  Map<String, dynamic> json,
+) => FineTuneReinforcementHyperparametersEvalSamplesInt(
+  (json['value'] as num).toInt(),
+  $type: json['runtimeType'] as String?,
+);
+
+Map<String, dynamic> _$FineTuneReinforcementHyperparametersEvalSamplesIntToJson(
+  FineTuneReinforcementHyperparametersEvalSamplesInt instance,
+) => <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};
 
 _CreateImageRequest _$CreateImageRequestFromJson(Map<String, dynamic> json) =>
     _CreateImageRequest(
