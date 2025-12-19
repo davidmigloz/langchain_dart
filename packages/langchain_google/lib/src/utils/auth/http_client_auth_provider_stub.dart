@@ -3,18 +3,6 @@
 import 'package:googleai_dart/googleai_dart.dart' as g;
 import 'package:http/http.dart' as http;
 
-/// Stub credentials class for unsupported platforms.
-///
-/// This mimics the googleapis_auth ServiceAccountCredentials API to allow
-/// the code to compile on web/WASM platforms where dart:io is not available.
-class ServiceAccountCredentials {
-  /// Creates credentials from JSON.
-  ///
-  /// On unsupported platforms, this will throw [UnsupportedError] when
-  /// used with [HttpClientAuthProvider].
-  ServiceAccountCredentials.fromJson(Map<String, dynamic> json);
-}
-
 /// {@template http_client_auth_provider}
 /// Authentication provider that bridges googleapis_auth with googleai_dart.
 ///
@@ -27,7 +15,7 @@ class HttpClientAuthProvider implements g.AuthProvider {
   ///
   /// Throws [UnsupportedError] on web/WASM platforms.
   HttpClientAuthProvider({
-    required ServiceAccountCredentials credentials,
+    required Object credentials,
     required List<String> scopes,
     http.Client? httpClient,
   }) {
