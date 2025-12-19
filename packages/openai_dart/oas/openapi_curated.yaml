@@ -4703,6 +4703,21 @@ components:
         revised_prompt:
           type: string
           description: The prompt that was used to generate the image, if there was any revision to the prompt.
+    ImageGenStreamEvent:
+      type: object
+      description: Represents a streaming event for image generation.
+      properties:
+        type:
+          type: string
+          description: The type of event (e.g., 'image.generation.partial', 'image.generation.complete').
+        index:
+          type: integer
+          description: The index of the image being generated.
+        partial_image:
+          type: string
+          description: Base64-encoded partial image data (only for partial events).
+        image:
+          $ref: "#/components/schemas/Image"
     Model:
       title: Model
       description: Describes an OpenAI model offering that can be used with the API.
