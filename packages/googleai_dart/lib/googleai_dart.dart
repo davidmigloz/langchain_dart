@@ -95,6 +95,8 @@ export 'src/models/generation/input_feedback.dart';
 export 'src/models/generation/prompt_feedback.dart';
 // Models - Generation (additional)
 export 'src/models/generation/schema.dart';
+export 'src/models/generation/thinking_config.dart';
+export 'src/models/generation/thinking_level.dart';
 // Models - Metadata
 export 'src/models/metadata/finish_reason.dart';
 export 'src/models/metadata/modality_token_count.dart';

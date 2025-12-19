@@ -11,6 +11,8 @@ import 'package:googleai_dart/src/models/content/part.dart';
 import 'package:googleai_dart/src/models/corpus/custom_metadata.dart';
 import 'package:googleai_dart/src/models/embeddings/embed_content_request.dart';
 import 'package:googleai_dart/src/models/generation/generation_config.dart';
+import 'package:googleai_dart/src/models/generation/thinking_config.dart';
+import 'package:googleai_dart/src/models/generation/thinking_level.dart';
 import 'package:googleai_dart/src/models/safety/harm_category.dart';
 import 'package:googleai_dart/src/models/safety/safety_setting.dart';
 import 'package:googleai_dart/src/models/tools/function_declaration.dart';
@@ -113,6 +115,55 @@ void main() {
 
         expect(updated.responseSchema, newSchema);
         expect(updated.temperature, original.temperature);
+      });
+
+      test('copyWith handles thinkingConfig field', () {
+        const original = GenerationConfig(
+          temperature: 0.7,
+          thinkingConfig: ThinkingConfig(thinkingLevel: ThinkingLevel.high),
+        );
+        const newConfig = ThinkingConfig(thinkingLevel: ThinkingLevel.low);
+        final updated = original.copyWith(thinkingConfig: newConfig);
+
+        expect(updated.temperature, original.temperature);
+        expect(updated.thinkingConfig?.thinkingLevel, ThinkingLevel.low);
+      });
+    });
+
+    group('ThinkingConfig', () {
+      test('copyWith with no parameters returns instance with same values', () {
+        const original = ThinkingConfig(
+          includeThoughts: true,
+          thinkingBudget: 1000,
+          thinkingLevel: ThinkingLevel.high,
+        );
+        final copied = original.copyWith();
+
+        expect(copied.includeThoughts, original.includeThoughts);
+        expect(copied.thinkingBudget, original.thinkingBudget);
+        expect(copied.thinkingLevel, original.thinkingLevel);
+      });
+
+      test('copyWith updates specific fields', () {
+        const original = ThinkingConfig(
+          includeThoughts: true,
+          thinkingLevel: ThinkingLevel.high,
+        );
+        final updated = original.copyWith(thinkingLevel: ThinkingLevel.low);
+
+        expect(updated.includeThoughts, original.includeThoughts);
+        expect(updated.thinkingLevel, ThinkingLevel.low);
+      });
+
+      test('copyWith supports explicit null assignment', () {
+        const original = ThinkingConfig(
+          includeThoughts: true,
+          thinkingBudget: 1000,
+        );
+        final updated = original.copyWith(thinkingBudget: null);
+
+        expect(updated.includeThoughts, original.includeThoughts);
+        expect(updated.thinkingBudget, isNull);
       });
     });
 
