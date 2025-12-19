@@ -18,9 +18,9 @@ abstract class ReasoningDetail with _$ReasoningDetail {
   /// Factory constructor for ReasoningDetail
   const factory ReasoningDetail({
     /// The type of reasoning detail:
-    /// - `summary`: A natural-language summary of reasoning
-    /// - `encrypted`: Encrypted reasoning content for stateless workflows
-    /// - `text`: Raw reasoning text
+    /// - `reasoning.summary`: A natural-language summary of reasoning
+    /// - `reasoning.encrypted`: Encrypted reasoning content for stateless workflows
+    /// - `reasoning.text`: Raw reasoning text
     required ReasoningDetailType type,
 
     /// Text content (for summary and text types)
@@ -53,14 +53,14 @@ abstract class ReasoningDetail with _$ReasoningDetail {
 // ==========================================
 
 /// The type of reasoning detail:
-/// - `summary`: A natural-language summary of reasoning
-/// - `encrypted`: Encrypted reasoning content for stateless workflows
-/// - `text`: Raw reasoning text
+/// - `reasoning.summary`: A natural-language summary of reasoning
+/// - `reasoning.encrypted`: Encrypted reasoning content for stateless workflows
+/// - `reasoning.text`: Raw reasoning text
 enum ReasoningDetailType {
-  @JsonValue('summary')
-  summary,
-  @JsonValue('encrypted')
-  encrypted,
-  @JsonValue('text')
-  text,
+  @JsonValue('reasoning.summary')
+  reasoningSummary,
+  @JsonValue('reasoning.encrypted')
+  reasoningEncrypted,
+  @JsonValue('reasoning.text')
+  reasoningText,
 }

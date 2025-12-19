@@ -5445,9 +5445,9 @@ as bool?,
 mixin _$ReasoningDetail {
 
 /// The type of reasoning detail:
-/// - `summary`: A natural-language summary of reasoning
-/// - `encrypted`: Encrypted reasoning content for stateless workflows
-/// - `text`: Raw reasoning text
+/// - `reasoning.summary`: A natural-language summary of reasoning
+/// - `reasoning.encrypted`: Encrypted reasoning content for stateless workflows
+/// - `reasoning.text`: Raw reasoning text
  ReasoningDetailType get type;/// Text content (for summary and text types)
 @JsonKey(includeIfNull: false) String? get text;/// Encrypted data (for encrypted type)
 @JsonKey(includeIfNull: false) String? get data;
@@ -5650,9 +5650,9 @@ class _ReasoningDetail extends ReasoningDetail {
   factory _ReasoningDetail.fromJson(Map<String, dynamic> json) => _$ReasoningDetailFromJson(json);
 
 /// The type of reasoning detail:
-/// - `summary`: A natural-language summary of reasoning
-/// - `encrypted`: Encrypted reasoning content for stateless workflows
-/// - `text`: Raw reasoning text
+/// - `reasoning.summary`: A natural-language summary of reasoning
+/// - `reasoning.encrypted`: Encrypted reasoning content for stateless workflows
+/// - `reasoning.text`: Raw reasoning text
 @override final  ReasoningDetailType type;
 /// Text content (for summary and text types)
 @override@JsonKey(includeIfNull: false) final  String? text;

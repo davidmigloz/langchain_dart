@@ -2750,12 +2750,12 @@ components:
       properties:
         type:
           type: string
-          enum: [summary, encrypted, text]
+          enum: [reasoning.summary, reasoning.encrypted, reasoning.text]
           description: |
             The type of reasoning detail:
-            - `summary`: A natural-language summary of reasoning
-            - `encrypted`: Encrypted reasoning content for stateless workflows
-            - `text`: Raw reasoning text
+            - `reasoning.summary`: A natural-language summary of reasoning
+            - `reasoning.encrypted`: Encrypted reasoning content for stateless workflows
+            - `reasoning.text`: Raw reasoning text
         text:
           type: string
           nullable: true
