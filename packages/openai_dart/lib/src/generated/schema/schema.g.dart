@@ -2696,7 +2696,7 @@ _CreateImageRequest _$CreateImageRequestFromJson(Map<String, dynamic> json) =>
         json['style'],
         unknownValue: JsonKey.nullForUndefinedEnumValue,
       ),
-      stream: json['stream'] as bool? ?? false,
+      stream: json['stream'] as bool?,
       partialImages: (json['partial_images'] as num?)?.toInt(),
       user: json['user'] as String?,
     );
