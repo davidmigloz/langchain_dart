@@ -4,10 +4,7 @@ import 'package:test/test.dart';
 void main() {
   group('PromptTokensDetails tests', () {
     test('deserializes with all fields', () {
-      final json = {
-        'cached_tokens': 100,
-        'audio_tokens': 50,
-      };
+      final json = {'cached_tokens': 100, 'audio_tokens': 50};
 
       final details = PromptTokensDetails.fromJson(json);
 
@@ -16,9 +13,7 @@ void main() {
     });
 
     test('deserializes with only cached_tokens', () {
-      final json = {
-        'cached_tokens': 200,
-      };
+      final json = {'cached_tokens': 200};
 
       final details = PromptTokensDetails.fromJson(json);
 
@@ -27,9 +22,7 @@ void main() {
     });
 
     test('deserializes with only audio_tokens', () {
-      final json = {
-        'audio_tokens': 75,
-      };
+      final json = {'audio_tokens': 75};
 
       final details = PromptTokensDetails.fromJson(json);
 
@@ -47,10 +40,7 @@ void main() {
     });
 
     test('serializes correctly', () {
-      const details = PromptTokensDetails(
-        cachedTokens: 150,
-        audioTokens: 25,
-      );
+      const details = PromptTokensDetails(cachedTokens: 150, audioTokens: 25);
 
       final json = details.toJson();
 
@@ -59,9 +49,7 @@ void main() {
     });
 
     test('serializes with null fields excluded', () {
-      const details = PromptTokensDetails(
-        cachedTokens: 100,
-      );
+      const details = PromptTokensDetails(cachedTokens: 100);
 
       final json = details.toJson();
 
@@ -76,10 +64,7 @@ void main() {
         'completion_tokens': 50,
         'prompt_tokens': 100,
         'total_tokens': 150,
-        'prompt_tokens_details': {
-          'cached_tokens': 80,
-          'audio_tokens': 20,
-        },
+        'prompt_tokens_details': {'cached_tokens': 80, 'audio_tokens': 20},
       };
 
       final usage = CompletionUsage.fromJson(json);
@@ -130,10 +115,7 @@ void main() {
           'accepted_prediction_tokens': 5,
           'rejected_prediction_tokens': 2,
         },
-        'prompt_tokens_details': {
-          'cached_tokens': 80,
-          'audio_tokens': 20,
-        },
+        'prompt_tokens_details': {'cached_tokens': 80, 'audio_tokens': 20},
       };
 
       final usage = CompletionUsage.fromJson(json);

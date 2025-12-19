@@ -8,10 +8,7 @@ void main() {
         'total_tokens': 1000,
         'input_tokens': 750,
         'output_tokens': 250,
-        'input_tokens_details': {
-          'text_tokens': 500,
-          'image_tokens': 250,
-        },
+        'input_tokens_details': {'text_tokens': 500, 'image_tokens': 250},
       };
 
       final usage = ImageGenUsage.fromJson(json);
@@ -45,9 +42,7 @@ void main() {
         'total_tokens': 300,
         'input_tokens': 200,
         'output_tokens': 100,
-        'input_tokens_details': {
-          'text_tokens': 200,
-        },
+        'input_tokens_details': {'text_tokens': 200},
       };
 
       final usage = ImageGenUsage.fromJson(json);
@@ -61,9 +56,7 @@ void main() {
         'total_tokens': 400,
         'input_tokens': 300,
         'output_tokens': 100,
-        'input_tokens_details': {
-          'image_tokens': 300,
-        },
+        'input_tokens_details': {'image_tokens': 300},
       };
 
       final usage = ImageGenUsage.fromJson(json);
@@ -95,10 +88,7 @@ void main() {
 
   group('ImageGenUsageInputTokensDetails tests', () {
     test('deserializes with all fields', () {
-      final json = {
-        'text_tokens': 100,
-        'image_tokens': 200,
-      };
+      final json = {'text_tokens': 100, 'image_tokens': 200};
 
       final details = ImageGenUsageInputTokensDetails.fromJson(json);
 
@@ -116,9 +106,7 @@ void main() {
     });
 
     test('serializes with null fields excluded', () {
-      const details = ImageGenUsageInputTokensDetails(
-        textTokens: 50,
-      );
+      const details = ImageGenUsageInputTokensDetails(textTokens: 50);
 
       final json = details.toJson();
 
@@ -132,18 +120,13 @@ void main() {
       final json = {
         'created': 1700000000,
         'data': [
-          {
-            'b64_json': 'base64data',
-          }
+          {'b64_json': 'base64data'},
         ],
         'usage': {
           'total_tokens': 800,
           'input_tokens': 600,
           'output_tokens': 200,
-          'input_tokens_details': {
-            'text_tokens': 400,
-            'image_tokens': 200,
-          },
+          'input_tokens_details': {'text_tokens': 400, 'image_tokens': 200},
         },
       };
 
@@ -160,10 +143,7 @@ void main() {
     });
 
     test('deserializes without usage field (backward compatibility)', () {
-      final json = {
-        'created': 1700000000,
-        'data': [],
-      };
+      final json = {'created': 1700000000, 'data': []};
 
       final response = ImagesResponse.fromJson(json);
 

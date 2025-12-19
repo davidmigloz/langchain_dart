@@ -7,10 +7,7 @@ void main() {
       final json = {
         'created': 1700000000,
         'data': [
-          {
-            'b64_json': 'base64data',
-            'revised_prompt': 'A cute cat',
-          }
+          {'b64_json': 'base64data', 'revised_prompt': 'A cute cat'},
         ],
         'background': 'transparent',
         'output_format': 'png',
@@ -33,9 +30,7 @@ void main() {
       final json = {
         'created': 1700000000,
         'data': [
-          {
-            'url': 'https://example.com/image.png',
-          }
+          {'url': 'https://example.com/image.png'},
         ],
       };
 
@@ -51,11 +46,7 @@ void main() {
     });
 
     test('deserializes with opaque background', () {
-      final json = {
-        'created': 1700000000,
-        'data': [],
-        'background': 'opaque',
-      };
+      final json = {'created': 1700000000, 'data': [], 'background': 'opaque'};
 
       final response = ImagesResponse.fromJson(json);
 
@@ -63,11 +54,7 @@ void main() {
     });
 
     test('deserializes with webp output format', () {
-      final json = {
-        'created': 1700000000,
-        'data': [],
-        'output_format': 'webp',
-      };
+      final json = {'created': 1700000000, 'data': [], 'output_format': 'webp'};
 
       final response = ImagesResponse.fromJson(json);
 
@@ -75,11 +62,7 @@ void main() {
     });
 
     test('deserializes with jpeg output format', () {
-      final json = {
-        'created': 1700000000,
-        'data': [],
-        'output_format': 'jpeg',
-      };
+      final json = {'created': 1700000000, 'data': [], 'output_format': 'jpeg'};
 
       final response = ImagesResponse.fromJson(json);
 
@@ -87,11 +70,7 @@ void main() {
     });
 
     test('deserializes with 1024x1536 size', () {
-      final json = {
-        'created': 1700000000,
-        'data': [],
-        'size': '1024x1536',
-      };
+      final json = {'created': 1700000000, 'data': [], 'size': '1024x1536'};
 
       final response = ImagesResponse.fromJson(json);
 
@@ -99,11 +78,7 @@ void main() {
     });
 
     test('deserializes with 1536x1024 size', () {
-      final json = {
-        'created': 1700000000,
-        'data': [],
-        'size': '1536x1024',
-      };
+      final json = {'created': 1700000000, 'data': [], 'size': '1536x1024'};
 
       final response = ImagesResponse.fromJson(json);
 
@@ -111,11 +86,7 @@ void main() {
     });
 
     test('deserializes with low quality', () {
-      final json = {
-        'created': 1700000000,
-        'data': [],
-        'quality': 'low',
-      };
+      final json = {'created': 1700000000, 'data': [], 'quality': 'low'};
 
       final response = ImagesResponse.fromJson(json);
 
@@ -123,11 +94,7 @@ void main() {
     });
 
     test('deserializes with medium quality', () {
-      final json = {
-        'created': 1700000000,
-        'data': [],
-        'quality': 'medium',
-      };
+      final json = {'created': 1700000000, 'data': [], 'quality': 'medium'};
 
       final response = ImagesResponse.fromJson(json);
 
@@ -155,10 +122,7 @@ void main() {
     });
 
     test('serializes without null fields', () {
-      const response = ImagesResponse(
-        created: 1700000000,
-        data: [],
-      );
+      const response = ImagesResponse(created: 1700000000, data: []);
 
       final json = response.toJson();
 

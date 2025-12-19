@@ -42,9 +42,7 @@ void main() {
       final json = {
         'type': 'image.generation.complete',
         'index': 1,
-        'image': {
-          'url': 'https://example.com/image.png',
-        },
+        'image': {'url': 'https://example.com/image.png'},
       };
 
       final event = ImageGenStreamEvent.fromJson(json);
@@ -56,9 +54,7 @@ void main() {
     });
 
     test('deserializes event with only type', () {
-      final json = {
-        'type': 'image.generation.started',
-      };
+      final json = {'type': 'image.generation.started'};
 
       final event = ImageGenStreamEvent.fromJson(json);
 
@@ -98,10 +94,7 @@ void main() {
       const event = ImageGenStreamEvent(
         type: 'image.generation.complete',
         index: 0,
-        image: Image(
-          b64Json: 'base64complete...',
-          revisedPrompt: 'A prompt',
-        ),
+        image: Image(b64Json: 'base64complete...', revisedPrompt: 'A prompt'),
       );
 
       final json = event.toJson();
