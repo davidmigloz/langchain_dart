@@ -678,9 +678,9 @@ Map<String, dynamic> _$ReasoningDetailToJson(_ReasoningDetail instance) =>
     };
 
 const _$ReasoningDetailTypeEnumMap = {
-  ReasoningDetailType.summary: 'summary',
-  ReasoningDetailType.encrypted: 'encrypted',
-  ReasoningDetailType.text: 'text',
+  ReasoningDetailType.reasoningSummary: 'reasoning.summary',
+  ReasoningDetailType.reasoningEncrypted: 'reasoning.encrypted',
+  ReasoningDetailType.reasoningText: 'reasoning.text',
 };
 
 _OpenRouterProviderPreferences _$OpenRouterProviderPreferencesFromJson(

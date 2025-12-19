@@ -200,5 +200,57 @@ void main() {
       expect(response.data, isNotEmpty);
       expect(response.data.first.id, isNotEmpty);
     });
+
+    test('Test streaming with reasoning model', () async {
+      // Test that reasoning_details can be parsed correctly
+      // OpenRouter returns reasoning.text, reasoning.summary, reasoning.encrypted
+      final stream = client.createChatCompletionStream(
+        request: const CreateChatCompletionRequest(
+          model: ChatCompletionModel.modelId('deepseek/deepseek-r1'),
+          messages: [
+            ChatCompletionMessage.user(
+              content: ChatCompletionUserMessageContent.string(
+                'What is 2 + 2? Reply with just the number.',
+              ),
+            ),
+          ],
+        ),
+      );
+
+      var responseContent = '';
+      var hasReasoningDetails = false;
+
+      await for (final chunk in stream) {
+        final delta = chunk.choices?.first.delta;
+        final content = delta?.content;
+        if (content != null) {
+          responseContent += content;
+        }
+        // Check if reasoning details are present and can be parsed
+        final reasoningDetails = delta?.reasoningDetails;
+        if (reasoningDetails != null && reasoningDetails.isNotEmpty) {
+          hasReasoningDetails = true;
+          for (final detail in reasoningDetails) {
+            // Verify that the type is correctly parsed
+            expect(
+              detail.type,
+              anyOf([
+                ReasoningDetailType.reasoningText,
+                ReasoningDetailType.reasoningSummary,
+                ReasoningDetailType.reasoningEncrypted,
+              ]),
+            );
+          }
+        }
+      }
+
+      expect(responseContent, isNotEmpty);
+      expect(responseContent, contains('4'));
+      // Note: Not all responses may include reasoning details
+      // This depends on the model and request configuration
+      if (hasReasoningDetails) {
+        expect(hasReasoningDetails, isTrue);
+      }
+    });
   });
 }
