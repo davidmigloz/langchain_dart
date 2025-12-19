@@ -2016,6 +2016,8 @@ _CreateImageRequest _$CreateImageRequestFromJson(Map<String, dynamic> json) =>
         json['style'],
         unknownValue: JsonKey.nullForUndefinedEnumValue,
       ),
+      stream: json['stream'] as bool? ?? false,
+      partialImages: (json['partial_images'] as num?)?.toInt(),
       user: json['user'] as String?,
     );
 
@@ -2033,6 +2035,8 @@ Map<String, dynamic> _$CreateImageRequestToJson(
   'moderation': ?_$ImageModerationEnumMap[instance.moderation],
   'background': ?_$ImageBackgroundEnumMap[instance.background],
   'style': ?_$ImageStyleEnumMap[instance.style],
+  'stream': ?instance.stream,
+  'partial_images': ?instance.partialImages,
   'user': ?instance.user,
 };
 
@@ -2101,6 +2105,8 @@ const _$ImageModelsEnumMap = {
   ImageModels.dallE2: 'dall-e-2',
   ImageModels.dallE3: 'dall-e-3',
   ImageModels.gptImage1: 'gpt-image-1',
+  ImageModels.gptImage15: 'gpt-image-1.5',
+  ImageModels.gptImage1Mini: 'gpt-image-1-mini',
 };
 
 CreateImageRequestModelString _$CreateImageRequestModelStringFromJson(
