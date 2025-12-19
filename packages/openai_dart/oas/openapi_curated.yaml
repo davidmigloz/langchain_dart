@@ -7953,6 +7953,11 @@ components:
           description: The object type, which is always `batch`.
         endpoint:
           $ref: "#/components/schemas/BatchEndpoint"
+        model:
+          type: string
+          description: |
+            Model ID used to process the batch. Refer to the [model guide](https://platform.openai.com/docs/models)
+            to browse and compare available models.
         errors:
           id: BatchErrors
           type: object
@@ -8052,6 +8057,35 @@ components:
           description: *metadata_description
           type: object
           nullable: true
+        usage:
+          type: object
+          nullable: true
+          description: |
+            Token usage details for the batch. Only populated on batches that have completed processing.
+          properties:
+            input_tokens:
+              type: integer
+              description: The number of input tokens.
+            input_tokens_details:
+              type: object
+              description: A detailed breakdown of the input tokens.
+              properties:
+                cached_tokens:
+                  type: integer
+                  description: The number of cached tokens used.
+            output_tokens:
+              type: integer
+              description: The number of output tokens.
+            output_tokens_details:
+              type: object
+              description: A detailed breakdown of the output tokens.
+              properties:
+                reasoning_tokens:
+                  type: integer
+                  description: The number of reasoning tokens used.
+            total_tokens:
+              type: integer
+              description: The total number of tokens used.
       required:
         - id
         - object
@@ -8060,58 +8094,58 @@ components:
         - completion_window
         - status
         - created_at
-      BatchRequestInput:
-        type: object
-        description: The per-line object of the batch input file
-        properties:
-          custom_id:
-            type: string
-            description: A developer-provided per-request id that will be used to match outputs to inputs. Must be unique for each request in a batch.
-          method:
-            type: string
-            enum: [ "POST" ]
-            description: The HTTP method to be used for the request. Currently only `POST` is supported.
-          url:
-            type: string
-            description: The OpenAI API relative URL to be used for the request. Currently `/v1/chat/completions`, `/v1/embeddings`, and `/v1/completions` are supported.
-      BatchRequestOutput:
-        type: object
-        description: The per-line object of the batch output and error files
-        properties:
-          id:
-            type: string
-            description: The ID of the request.
-          custom_id:
-            type: string
-            description: A developer-provided per-request id that will be used to match outputs to inputs.
-          response:
-            id: BatchRequestOutputResponse
-            type: object
-            description: The response object for the request.
-            nullable: true
-            properties:
-              status_code:
-                type: integer
-                description: The HTTP status code of the response
-              request_id:
-                type: string
-                description: An unique identifier for the OpenAI API request. Please include this request ID when contacting support.
-              body:
-                type: object
-                x-oaiTypeLabel: map
-                description: The JSON body of the response
-          error:
-            id: BatchRequestOutputError
-            type: object
-            nullable: true
-            description: For requests that failed with a non-HTTP error, this will contain more information on the cause of the failure.
-            properties:
-              code:
-                type: string
-                description: A machine-readable error code.
-              message:
-                type: string
-                description: A human-readable error message.
+    BatchRequestInput:
+      type: object
+      description: The per-line object of the batch input file
+      properties:
+        custom_id:
+          type: string
+          description: A developer-provided per-request id that will be used to match outputs to inputs. Must be unique for each request in a batch.
+        method:
+          type: string
+          enum: [ "POST" ]
+          description: The HTTP method to be used for the request. Currently only `POST` is supported.
+        url:
+          type: string
+          description: The OpenAI API relative URL to be used for the request. Currently `/v1/chat/completions`, `/v1/embeddings`, and `/v1/completions` are supported.
+    BatchRequestOutput:
+      type: object
+      description: The per-line object of the batch output and error files
+      properties:
+        id:
+          type: string
+          description: The ID of the request.
+        custom_id:
+          type: string
+          description: A developer-provided per-request id that will be used to match outputs to inputs.
+        response:
+          id: BatchRequestOutputResponse
+          type: object
+          nullable: true
+          description: The response object for the request.
+          properties:
+            status_code:
+              type: integer
+              description: The HTTP status code of the response
+            request_id:
+              type: string
+              description: An unique identifier for the OpenAI API request. Please include this request ID when contacting support.
+            body:
+              type: object
+              x-oaiTypeLabel: map
+              description: The JSON body of the response
+        error:
+          id: BatchRequestOutputError
+          type: object
+          nullable: true
+          description: For requests that failed with a non-HTTP error, this will contain more information on the cause of the failure.
+          properties:
+            code:
+              type: string
+              description: A machine-readable error code.
+            message:
+              type: string
+              description: A human-readable error message.
     ListBatchesResponse:
       type: object
       description: Represents a list of batches returned by the List batches endpoint.
