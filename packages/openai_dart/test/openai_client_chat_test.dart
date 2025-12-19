@@ -63,7 +63,7 @@ void main() {
 
     test('Test call chat completion API with stop sequence', () async {
       const request = CreateChatCompletionRequest(
-        model: ChatCompletionModel.model(ChatCompletionModels.gpt4o),
+        model: ChatCompletionModel.model(ChatCompletionModels.gpt5Nano),
         messages: [
           ChatCompletionMessage.developer(
             content: ChatCompletionDeveloperMessageContent.text(
@@ -91,7 +91,7 @@ void main() {
 
     test('Test call chat completions API with max tokens', () async {
       const request = CreateChatCompletionRequest(
-        model: ChatCompletionModel.model(ChatCompletionModels.gpt4o),
+        model: ChatCompletionModel.model(ChatCompletionModels.gpt5Nano),
         messages: [
           ChatCompletionMessage.developer(
             content: ChatCompletionDeveloperMessageContent.text(
@@ -112,7 +112,7 @@ void main() {
 
     test('Test call chat completions API with other parameters', () async {
       const request = CreateChatCompletionRequest(
-        model: ChatCompletionModel.model(ChatCompletionModels.gpt4o),
+        model: ChatCompletionModel.model(ChatCompletionModels.gpt5Nano),
         messages: [
           ChatCompletionMessage.developer(
             content: ChatCompletionDeveloperMessageContent.text(
@@ -621,7 +621,7 @@ class User {
 
 export default User;''';
       const request = CreateChatCompletionRequest(
-        model: ChatCompletionModel.model(ChatCompletionModels.gpt4o),
+        model: ChatCompletionModel.model(ChatCompletionModels.gpt5Nano),
         messages: [
           ChatCompletionMessage.user(
             content: ChatCompletionUserMessageContent.string(

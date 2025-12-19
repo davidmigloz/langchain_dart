@@ -8,7 +8,7 @@ import 'package:test/test.dart';
 
 // https://platform.openai.com/docs/assistants/overview
 void main() {
-  const defaultModel = 'gpt-4o';
+  const defaultModel = 'gpt-4o-mini';
 
   group(
     'OpenAI Assistants API tests',
