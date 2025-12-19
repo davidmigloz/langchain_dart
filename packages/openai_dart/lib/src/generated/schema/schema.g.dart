@@ -2845,6 +2845,9 @@ _ImagesResponse _$ImagesResponseFromJson(Map<String, dynamic> json) =>
         json['quality'],
         unknownValue: JsonKey.nullForUndefinedEnumValue,
       ),
+      usage: json['usage'] == null
+          ? null
+          : ImageGenUsage.fromJson(json['usage'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ImagesResponseToJson(
@@ -2856,6 +2859,7 @@ Map<String, dynamic> _$ImagesResponseToJson(
   'output_format': ?_$ImagesResponseOutputFormatEnumMap[instance.outputFormat],
   'size': ?_$ImagesResponseSizeEnumMap[instance.size],
   'quality': ?_$ImagesResponseQualityEnumMap[instance.quality],
+  'usage': ?instance.usage?.toJson(),
 };
 
 const _$ImagesResponseBackgroundEnumMap = {
@@ -2879,6 +2883,38 @@ const _$ImagesResponseQualityEnumMap = {
   ImagesResponseQuality.low: 'low',
   ImagesResponseQuality.medium: 'medium',
   ImagesResponseQuality.high: 'high',
+};
+
+_ImageGenUsage _$ImageGenUsageFromJson(Map<String, dynamic> json) =>
+    _ImageGenUsage(
+      totalTokens: (json['total_tokens'] as num).toInt(),
+      inputTokens: (json['input_tokens'] as num).toInt(),
+      outputTokens: (json['output_tokens'] as num).toInt(),
+      inputTokensDetails: ImageGenUsageInputTokensDetails.fromJson(
+        json['input_tokens_details'] as Map<String, dynamic>,
+      ),
+    );
+
+Map<String, dynamic> _$ImageGenUsageToJson(_ImageGenUsage instance) =>
+    <String, dynamic>{
+      'total_tokens': instance.totalTokens,
+      'input_tokens': instance.inputTokens,
+      'output_tokens': instance.outputTokens,
+      'input_tokens_details': instance.inputTokensDetails.toJson(),
+    };
+
+_ImageGenUsageInputTokensDetails _$ImageGenUsageInputTokensDetailsFromJson(
+  Map<String, dynamic> json,
+) => _ImageGenUsageInputTokensDetails(
+  textTokens: (json['text_tokens'] as num?)?.toInt(),
+  imageTokens: (json['image_tokens'] as num?)?.toInt(),
+);
+
+Map<String, dynamic> _$ImageGenUsageInputTokensDetailsToJson(
+  _ImageGenUsageInputTokensDetails instance,
+) => <String, dynamic>{
+  'text_tokens': ?instance.textTokens,
+  'image_tokens': ?instance.imageTokens,
 };
 
 _Image _$ImageFromJson(Map<String, dynamic> json) => _Image(

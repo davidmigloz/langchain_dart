@@ -82,6 +82,7 @@ part 'fine_tune_reinforcement_method.dart';
 part 'fine_tune_reinforcement_hyperparameters.dart';
 part 'create_image_request.dart';
 part 'images_response.dart';
+part 'image_gen_usage.dart';
 part 'image.dart';
 part 'model.dart';
 part 'list_models_response.dart';

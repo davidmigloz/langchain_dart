@@ -49,6 +49,9 @@ abstract class ImagesResponse with _$ImagesResponse {
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue,
     )
     ImagesResponseQuality? quality,
+
+    /// Token usage details for image generation.
+    @JsonKey(includeIfNull: false) ImageGenUsage? usage,
   }) = _ImagesResponse;
 
   /// Object construction from a JSON representation
@@ -63,6 +66,7 @@ abstract class ImagesResponse with _$ImagesResponse {
     'output_format',
     'size',
     'quality',
+    'usage',
   ];
 
   /// Perform validations on the schema property values
@@ -79,6 +83,7 @@ abstract class ImagesResponse with _$ImagesResponse {
       'output_format': outputFormat,
       'size': size,
       'quality': quality,
+      'usage': usage,
     };
   }
 }
