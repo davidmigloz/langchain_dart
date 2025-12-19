@@ -182,6 +182,48 @@ abstract class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     /// We generally recommend altering this or `temperature` but not both.
     @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
 
+    /// Sample from the k most likely next tokens at each step. Lower k focuses on
+    /// higher probability tokens, while higher k allows more diversity.
+    ///
+    /// Set to 0 to disable top-k sampling (default behavior).
+    ///
+    /// **NOT part of the official OpenAI API.** Not available for OpenAI models.
+    ///
+    /// **Provider:** OpenRouter
+    @JsonKey(name: 'top_k', includeIfNull: false) int? topK,
+
+    /// Minimum probability threshold for token selection, relative to the probability
+    /// of the most likely token. Only tokens with probability >= min_p * max_prob
+    /// are considered.
+    ///
+    /// Example: min_p=0.1 means only tokens at least 1/10th as probable as the best
+    /// option are allowed.
+    ///
+    /// **NOT part of the official OpenAI API.**
+    ///
+    /// **Provider:** OpenRouter
+    @JsonKey(name: 'min_p', includeIfNull: false) double? minP,
+
+    /// Consider only tokens with "sufficiently high" probabilities based on the
+    /// probability of the most likely token. Functions as a dynamic top-p filter.
+    ///
+    /// **NOT part of the official OpenAI API.**
+    ///
+    /// **Provider:** OpenRouter
+    @JsonKey(name: 'top_a', includeIfNull: false) double? topA,
+
+    /// Reduces repetition of tokens from the input. A value of 1.0 means no penalty.
+    /// Higher values (up to 2.0) more strongly discourage repetition.
+    ///
+    /// The penalty scales based on the original token's probability, so common
+    /// tokens are penalized more than rare ones.
+    ///
+    /// **NOT part of the official OpenAI API.**
+    ///
+    /// **Provider:** OpenRouter
+    @JsonKey(name: 'repetition_penalty', includeIfNull: false)
+    double? repetitionPenalty,
+
     /// A list of tools the model may call. Currently, only functions are supported as a tool.
     /// Use this to provide a list of functions the model may generate JSON inputs for. A max of 128 functions are
     /// supported.
@@ -336,6 +378,10 @@ abstract class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     'stream_options',
     'temperature',
     'top_p',
+    'top_k',
+    'min_p',
+    'top_a',
+    'repetition_penalty',
     'tools',
     'tool_choice',
     'parallel_tool_calls',
@@ -364,6 +410,13 @@ abstract class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
   static const temperatureMaxValue = 2.0;
   static const topPMinValue = 0.0;
   static const topPMaxValue = 1.0;
+  static const topKMinValue = 0;
+  static const minPMinValue = 0.0;
+  static const minPMaxValue = 1.0;
+  static const topAMinValue = 0.0;
+  static const topAMaxValue = 1.0;
+  static const repetitionPenaltyMinValue = 0.0;
+  static const repetitionPenaltyMaxValue = 2.0;
 
   /// Perform validations on the schema property values
   String? validateSchema() {
@@ -405,6 +458,29 @@ abstract class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     if (topP != null && topP! > topPMaxValue) {
       return "The value of 'topP' cannot be > $topPMaxValue";
     }
+    if (topK != null && topK! < topKMinValue) {
+      return "The value of 'topK' cannot be < $topKMinValue";
+    }
+    if (minP != null && minP! < minPMinValue) {
+      return "The value of 'minP' cannot be < $minPMinValue";
+    }
+    if (minP != null && minP! > minPMaxValue) {
+      return "The value of 'minP' cannot be > $minPMaxValue";
+    }
+    if (topA != null && topA! < topAMinValue) {
+      return "The value of 'topA' cannot be < $topAMinValue";
+    }
+    if (topA != null && topA! > topAMaxValue) {
+      return "The value of 'topA' cannot be > $topAMaxValue";
+    }
+    if (repetitionPenalty != null &&
+        repetitionPenalty! < repetitionPenaltyMinValue) {
+      return "The value of 'repetitionPenalty' cannot be < $repetitionPenaltyMinValue";
+    }
+    if (repetitionPenalty != null &&
+        repetitionPenalty! > repetitionPenaltyMaxValue) {
+      return "The value of 'repetitionPenalty' cannot be > $repetitionPenaltyMaxValue";
+    }
     return null;
   }
 
@@ -436,6 +512,10 @@ abstract class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
       'stream_options': streamOptions,
       'temperature': temperature,
       'top_p': topP,
+      'top_k': topK,
+      'min_p': minP,
+      'top_a': topA,
+      'repetition_penalty': repetitionPenalty,
       'tools': tools,
       'tool_choice': toolChoice,
       'parallel_tool_calls': parallelToolCalls,

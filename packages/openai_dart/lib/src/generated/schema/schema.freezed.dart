@@ -2772,7 +2772,40 @@ mixin _$CreateChatCompletionRequest {
 /// are considered.
 ///
 /// We generally recommend altering this or `temperature` but not both.
-@JsonKey(name: 'top_p', includeIfNull: false) double? get topP;/// A list of tools the model may call. Currently, only functions are supported as a tool.
+@JsonKey(name: 'top_p', includeIfNull: false) double? get topP;/// Sample from the k most likely next tokens at each step. Lower k focuses on
+/// higher probability tokens, while higher k allows more diversity.
+///
+/// Set to 0 to disable top-k sampling (default behavior).
+///
+/// **NOT part of the official OpenAI API.** Not available for OpenAI models.
+///
+/// **Provider:** OpenRouter
+@JsonKey(name: 'top_k', includeIfNull: false) int? get topK;/// Minimum probability threshold for token selection, relative to the probability
+/// of the most likely token. Only tokens with probability >= min_p * max_prob
+/// are considered.
+///
+/// Example: min_p=0.1 means only tokens at least 1/10th as probable as the best
+/// option are allowed.
+///
+/// **NOT part of the official OpenAI API.**
+///
+/// **Provider:** OpenRouter
+@JsonKey(name: 'min_p', includeIfNull: false) double? get minP;/// Consider only tokens with "sufficiently high" probabilities based on the
+/// probability of the most likely token. Functions as a dynamic top-p filter.
+///
+/// **NOT part of the official OpenAI API.**
+///
+/// **Provider:** OpenRouter
+@JsonKey(name: 'top_a', includeIfNull: false) double? get topA;/// Reduces repetition of tokens from the input. A value of 1.0 means no penalty.
+/// Higher values (up to 2.0) more strongly discourage repetition.
+///
+/// The penalty scales based on the original token's probability, so common
+/// tokens are penalized more than rare ones.
+///
+/// **NOT part of the official OpenAI API.**
+///
+/// **Provider:** OpenRouter
+@JsonKey(name: 'repetition_penalty', includeIfNull: false) double? get repetitionPenalty;/// A list of tools the model may call. Currently, only functions are supported as a tool.
 /// Use this to provide a list of functions the model may generate JSON inputs for. A max of 128 functions are
 /// supported.
 @JsonKey(includeIfNull: false) List<ChatCompletionTool>? get tools;/// Controls which (if any) tool is called by the model.
@@ -2867,16 +2900,16 @@ $CreateChatCompletionRequestCopyWith<CreateChatCompletionRequest> get copyWith =
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateChatCompletionRequest&&(identical(other.model, model) || other.model == model)&&const DeepCollectionEquality().equals(other.messages, messages)&&(identical(other.store, store) || other.store == store)&&(identical(other.reasoningEffort, reasoningEffort) || other.reasoningEffort == reasoningEffort)&&const DeepCollectionEquality().equals(other.metadata, metadata)&&(identical(other.frequencyPenalty, frequencyPenalty) || other.frequencyPenalty == frequencyPenalty)&&const DeepCollectionEquality().equals(other.logitBias, logitBias)&&(identical(other.logprobs, logprobs) || other.logprobs == logprobs)&&(identical(other.topLogprobs, topLogprobs) || other.topLogprobs == topLogprobs)&&(identical(other.maxTokens, maxTokens) || other.maxTokens == maxTokens)&&(identical(other.maxCompletionTokens, maxCompletionTokens) || other.maxCompletionTokens == maxCompletionTokens)&&(identical(other.n, n) || other.n == n)&&const DeepCollectionEquality().equals(other.modalities, modalities)&&(identical(other.prediction, prediction) || other.prediction == prediction)&&(identical(other.audio, audio) || other.audio == audio)&&(identical(other.presencePenalty, presencePenalty) || other.presencePenalty == presencePenalty)&&(identical(other.webSearchOptions, webSearchOptions) || other.webSearchOptions == webSearchOptions)&&(identical(other.responseFormat, responseFormat) || other.responseFormat == responseFormat)&&(identical(other.seed, seed) || other.seed == seed)&&(identical(other.serviceTier, serviceTier) || other.serviceTier == serviceTier)&&(identical(other.stop, stop) || other.stop == stop)&&(identical(other.stream, stream) || other.stream == stream)&&(identical(other.streamOptions, streamOptions) || other.streamOptions == streamOptions)&&(identical(other.temperature, temperature) || other.temperature == temperature)&&(identical(other.topP, topP) || other.topP == topP)&&const DeepCollectionEquality().equals(other.tools, tools)&&(identical(other.toolChoice, toolChoice) || other.toolChoice == toolChoice)&&(identical(other.parallelToolCalls, parallelToolCalls) || other.parallelToolCalls == parallelToolCalls)&&(identical(other.user, user) || other.user == user)&&(identical(other.functionCall, functionCall) || other.functionCall == functionCall)&&const DeepCollectionEquality().equals(other.functions, functions)&&(identical(other.verbosity, verbosity) || other.verbosity == verbosity)&&(identical(other.reasoning, reasoning) || other.reasoning == reasoning)&&(identical(other.provider, provider) || other.provider == provider)&&const DeepCollectionEquality().equals(other.models, models)&&(identical(other.route, route) || other.route == route)&&const DeepCollectionEquality().equals(other.transforms, transforms)&&(identical(other.usage, usage) || other.usage == usage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateChatCompletionRequest&&(identical(other.model, model) || other.model == model)&&const DeepCollectionEquality().equals(other.messages, messages)&&(identical(other.store, store) || other.store == store)&&(identical(other.reasoningEffort, reasoningEffort) || other.reasoningEffort == reasoningEffort)&&const DeepCollectionEquality().equals(other.metadata, metadata)&&(identical(other.frequencyPenalty, frequencyPenalty) || other.frequencyPenalty == frequencyPenalty)&&const DeepCollectionEquality().equals(other.logitBias, logitBias)&&(identical(other.logprobs, logprobs) || other.logprobs == logprobs)&&(identical(other.topLogprobs, topLogprobs) || other.topLogprobs == topLogprobs)&&(identical(other.maxTokens, maxTokens) || other.maxTokens == maxTokens)&&(identical(other.maxCompletionTokens, maxCompletionTokens) || other.maxCompletionTokens == maxCompletionTokens)&&(identical(other.n, n) || other.n == n)&&const DeepCollectionEquality().equals(other.modalities, modalities)&&(identical(other.prediction, prediction) || other.prediction == prediction)&&(identical(other.audio, audio) || other.audio == audio)&&(identical(other.presencePenalty, presencePenalty) || other.presencePenalty == presencePenalty)&&(identical(other.webSearchOptions, webSearchOptions) || other.webSearchOptions == webSearchOptions)&&(identical(other.responseFormat, responseFormat) || other.responseFormat == responseFormat)&&(identical(other.seed, seed) || other.seed == seed)&&(identical(other.serviceTier, serviceTier) || other.serviceTier == serviceTier)&&(identical(other.stop, stop) || other.stop == stop)&&(identical(other.stream, stream) || other.stream == stream)&&(identical(other.streamOptions, streamOptions) || other.streamOptions == streamOptions)&&(identical(other.temperature, temperature) || other.temperature == temperature)&&(identical(other.topP, topP) || other.topP == topP)&&(identical(other.topK, topK) || other.topK == topK)&&(identical(other.minP, minP) || other.minP == minP)&&(identical(other.topA, topA) || other.topA == topA)&&(identical(other.repetitionPenalty, repetitionPenalty) || other.repetitionPenalty == repetitionPenalty)&&const DeepCollectionEquality().equals(other.tools, tools)&&(identical(other.toolChoice, toolChoice) || other.toolChoice == toolChoice)&&(identical(other.parallelToolCalls, parallelToolCalls) || other.parallelToolCalls == parallelToolCalls)&&(identical(other.user, user) || other.user == user)&&(identical(other.functionCall, functionCall) || other.functionCall == functionCall)&&const DeepCollectionEquality().equals(other.functions, functions)&&(identical(other.verbosity, verbosity) || other.verbosity == verbosity)&&(identical(other.reasoning, reasoning) || other.reasoning == reasoning)&&(identical(other.provider, provider) || other.provider == provider)&&const DeepCollectionEquality().equals(other.models, models)&&(identical(other.route, route) || other.route == route)&&const DeepCollectionEquality().equals(other.transforms, transforms)&&(identical(other.usage, usage) || other.usage == usage));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,model,const DeepCollectionEquality().hash(messages),store,reasoningEffort,const DeepCollectionEquality().hash(metadata),frequencyPenalty,const DeepCollectionEquality().hash(logitBias),logprobs,topLogprobs,maxTokens,maxCompletionTokens,n,const DeepCollectionEquality().hash(modalities),prediction,audio,presencePenalty,webSearchOptions,responseFormat,seed,serviceTier,stop,stream,streamOptions,temperature,topP,const DeepCollectionEquality().hash(tools),toolChoice,parallelToolCalls,user,functionCall,const DeepCollectionEquality().hash(functions),verbosity,reasoning,provider,const DeepCollectionEquality().hash(models),route,const DeepCollectionEquality().hash(transforms),usage]);
+int get hashCode => Object.hashAll([runtimeType,model,const DeepCollectionEquality().hash(messages),store,reasoningEffort,const DeepCollectionEquality().hash(metadata),frequencyPenalty,const DeepCollectionEquality().hash(logitBias),logprobs,topLogprobs,maxTokens,maxCompletionTokens,n,const DeepCollectionEquality().hash(modalities),prediction,audio,presencePenalty,webSearchOptions,responseFormat,seed,serviceTier,stop,stream,streamOptions,temperature,topP,topK,minP,topA,repetitionPenalty,const DeepCollectionEquality().hash(tools),toolChoice,parallelToolCalls,user,functionCall,const DeepCollectionEquality().hash(functions),verbosity,reasoning,provider,const DeepCollectionEquality().hash(models),route,const DeepCollectionEquality().hash(transforms),usage]);
 
 @override
 String toString() {
-  return 'CreateChatCompletionRequest(model: $model, messages: $messages, store: $store, reasoningEffort: $reasoningEffort, metadata: $metadata, frequencyPenalty: $frequencyPenalty, logitBias: $logitBias, logprobs: $logprobs, topLogprobs: $topLogprobs, maxTokens: $maxTokens, maxCompletionTokens: $maxCompletionTokens, n: $n, modalities: $modalities, prediction: $prediction, audio: $audio, presencePenalty: $presencePenalty, webSearchOptions: $webSearchOptions, responseFormat: $responseFormat, seed: $seed, serviceTier: $serviceTier, stop: $stop, stream: $stream, streamOptions: $streamOptions, temperature: $temperature, topP: $topP, tools: $tools, toolChoice: $toolChoice, parallelToolCalls: $parallelToolCalls, user: $user, functionCall: $functionCall, functions: $functions, verbosity: $verbosity, reasoning: $reasoning, provider: $provider, models: $models, route: $route, transforms: $transforms, usage: $usage)';
+  return 'CreateChatCompletionRequest(model: $model, messages: $messages, store: $store, reasoningEffort: $reasoningEffort, metadata: $metadata, frequencyPenalty: $frequencyPenalty, logitBias: $logitBias, logprobs: $logprobs, topLogprobs: $topLogprobs, maxTokens: $maxTokens, maxCompletionTokens: $maxCompletionTokens, n: $n, modalities: $modalities, prediction: $prediction, audio: $audio, presencePenalty: $presencePenalty, webSearchOptions: $webSearchOptions, responseFormat: $responseFormat, seed: $seed, serviceTier: $serviceTier, stop: $stop, stream: $stream, streamOptions: $streamOptions, temperature: $temperature, topP: $topP, topK: $topK, minP: $minP, topA: $topA, repetitionPenalty: $repetitionPenalty, tools: $tools, toolChoice: $toolChoice, parallelToolCalls: $parallelToolCalls, user: $user, functionCall: $functionCall, functions: $functions, verbosity: $verbosity, reasoning: $reasoning, provider: $provider, models: $models, route: $route, transforms: $transforms, usage: $usage)';
 }
 
 
@@ -2887,7 +2920,7 @@ abstract mixin class $CreateChatCompletionRequestCopyWith<$Res>  {
   factory $CreateChatCompletionRequestCopyWith(CreateChatCompletionRequest value, $Res Function(CreateChatCompletionRequest) _then) = _$CreateChatCompletionRequestCopyWithImpl;
 @useResult
 $Res call({
-@_ChatCompletionModelConverter() ChatCompletionModel model, List<ChatCompletionMessage> messages,@JsonKey(includeIfNull: false) bool? store,@JsonKey(name: 'reasoning_effort', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ReasoningEffort? reasoningEffort,@JsonKey(includeIfNull: false) Map<String, String>? metadata,@JsonKey(name: 'frequency_penalty', includeIfNull: false) double? frequencyPenalty,@JsonKey(name: 'logit_bias', includeIfNull: false) Map<String, int>? logitBias,@JsonKey(includeIfNull: false) bool? logprobs,@JsonKey(name: 'top_logprobs', includeIfNull: false) int? topLogprobs,@JsonKey(name: 'max_tokens', includeIfNull: false) int? maxTokens,@JsonKey(name: 'max_completion_tokens', includeIfNull: false) int? maxCompletionTokens,@JsonKey(includeIfNull: false) int? n,@JsonKey(includeIfNull: false) List<ChatCompletionModality>? modalities,@JsonKey(includeIfNull: false) PredictionContent? prediction,@JsonKey(includeIfNull: false) ChatCompletionAudioOptions? audio,@JsonKey(name: 'presence_penalty', includeIfNull: false) double? presencePenalty,@JsonKey(name: 'web_search_options', includeIfNull: false) WebSearchOptions? webSearchOptions,@JsonKey(name: 'response_format', includeIfNull: false) ResponseFormat? responseFormat,@JsonKey(includeIfNull: false) int? seed,@JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) CreateChatCompletionRequestServiceTier? serviceTier,@_ChatCompletionStopConverter()@JsonKey(includeIfNull: false) ChatCompletionStop? stop,@JsonKey(includeIfNull: false) bool? stream,@JsonKey(name: 'stream_options', includeIfNull: false) ChatCompletionStreamOptions? streamOptions,@JsonKey(includeIfNull: false) double? temperature,@JsonKey(name: 'top_p', includeIfNull: false) double? topP,@JsonKey(includeIfNull: false) List<ChatCompletionTool>? tools,@_ChatCompletionToolChoiceOptionConverter()@JsonKey(name: 'tool_choice', includeIfNull: false) ChatCompletionToolChoiceOption? toolChoice,@JsonKey(name: 'parallel_tool_calls', includeIfNull: false) bool? parallelToolCalls,@JsonKey(includeIfNull: false) String? user,@_ChatCompletionFunctionCallConverter()@JsonKey(name: 'function_call', includeIfNull: false) ChatCompletionFunctionCall? functionCall,@JsonKey(includeIfNull: false) List<FunctionObject>? functions,@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) Verbosity? verbosity,@JsonKey(includeIfNull: false) CreateChatCompletionRequestReasoning? reasoning,@JsonKey(includeIfNull: false) OpenRouterProviderPreferences? provider,@JsonKey(includeIfNull: false) List<String>? models,@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) CreateChatCompletionRequestRoute? route,@JsonKey(includeIfNull: false) List<String>? transforms,@JsonKey(includeIfNull: false) OpenRouterUsageConfig? usage
+@_ChatCompletionModelConverter() ChatCompletionModel model, List<ChatCompletionMessage> messages,@JsonKey(includeIfNull: false) bool? store,@JsonKey(name: 'reasoning_effort', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ReasoningEffort? reasoningEffort,@JsonKey(includeIfNull: false) Map<String, String>? metadata,@JsonKey(name: 'frequency_penalty', includeIfNull: false) double? frequencyPenalty,@JsonKey(name: 'logit_bias', includeIfNull: false) Map<String, int>? logitBias,@JsonKey(includeIfNull: false) bool? logprobs,@JsonKey(name: 'top_logprobs', includeIfNull: false) int? topLogprobs,@JsonKey(name: 'max_tokens', includeIfNull: false) int? maxTokens,@JsonKey(name: 'max_completion_tokens', includeIfNull: false) int? maxCompletionTokens,@JsonKey(includeIfNull: false) int? n,@JsonKey(includeIfNull: false) List<ChatCompletionModality>? modalities,@JsonKey(includeIfNull: false) PredictionContent? prediction,@JsonKey(includeIfNull: false) ChatCompletionAudioOptions? audio,@JsonKey(name: 'presence_penalty', includeIfNull: false) double? presencePenalty,@JsonKey(name: 'web_search_options', includeIfNull: false) WebSearchOptions? webSearchOptions,@JsonKey(name: 'response_format', includeIfNull: false) ResponseFormat? responseFormat,@JsonKey(includeIfNull: false) int? seed,@JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) CreateChatCompletionRequestServiceTier? serviceTier,@_ChatCompletionStopConverter()@JsonKey(includeIfNull: false) ChatCompletionStop? stop,@JsonKey(includeIfNull: false) bool? stream,@JsonKey(name: 'stream_options', includeIfNull: false) ChatCompletionStreamOptions? streamOptions,@JsonKey(includeIfNull: false) double? temperature,@JsonKey(name: 'top_p', includeIfNull: false) double? topP,@JsonKey(name: 'top_k', includeIfNull: false) int? topK,@JsonKey(name: 'min_p', includeIfNull: false) double? minP,@JsonKey(name: 'top_a', includeIfNull: false) double? topA,@JsonKey(name: 'repetition_penalty', includeIfNull: false) double? repetitionPenalty,@JsonKey(includeIfNull: false) List<ChatCompletionTool>? tools,@_ChatCompletionToolChoiceOptionConverter()@JsonKey(name: 'tool_choice', includeIfNull: false) ChatCompletionToolChoiceOption? toolChoice,@JsonKey(name: 'parallel_tool_calls', includeIfNull: false) bool? parallelToolCalls,@JsonKey(includeIfNull: false) String? user,@_ChatCompletionFunctionCallConverter()@JsonKey(name: 'function_call', includeIfNull: false) ChatCompletionFunctionCall? functionCall,@JsonKey(includeIfNull: false) List<FunctionObject>? functions,@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) Verbosity? verbosity,@JsonKey(includeIfNull: false) CreateChatCompletionRequestReasoning? reasoning,@JsonKey(includeIfNull: false) OpenRouterProviderPreferences? provider,@JsonKey(includeIfNull: false) List<String>? models,@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) CreateChatCompletionRequestRoute? route,@JsonKey(includeIfNull: false) List<String>? transforms,@JsonKey(includeIfNull: false) OpenRouterUsageConfig? usage
 });
 
 
@@ -2904,7 +2937,7 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res>
 
 /// Create a copy of CreateChatCompletionRequest
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? model = null,Object? messages = null,Object? store = freezed,Object? reasoningEffort = freezed,Object? metadata = freezed,Object? frequencyPenalty = freezed,Object? logitBias = freezed,Object? logprobs = freezed,Object? topLogprobs = freezed,Object? maxTokens = freezed,Object? maxCompletionTokens = freezed,Object? n = freezed,Object? modalities = freezed,Object? prediction = freezed,Object? audio = freezed,Object? presencePenalty = freezed,Object? webSearchOptions = freezed,Object? responseFormat = freezed,Object? seed = freezed,Object? serviceTier = freezed,Object? stop = freezed,Object? stream = freezed,Object? streamOptions = freezed,Object? temperature = freezed,Object? topP = freezed,Object? tools = freezed,Object? toolChoice = freezed,Object? parallelToolCalls = freezed,Object? user = freezed,Object? functionCall = freezed,Object? functions = freezed,Object? verbosity = freezed,Object? reasoning = freezed,Object? provider = freezed,Object? models = freezed,Object? route = freezed,Object? transforms = freezed,Object? usage = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? model = null,Object? messages = null,Object? store = freezed,Object? reasoningEffort = freezed,Object? metadata = freezed,Object? frequencyPenalty = freezed,Object? logitBias = freezed,Object? logprobs = freezed,Object? topLogprobs = freezed,Object? maxTokens = freezed,Object? maxCompletionTokens = freezed,Object? n = freezed,Object? modalities = freezed,Object? prediction = freezed,Object? audio = freezed,Object? presencePenalty = freezed,Object? webSearchOptions = freezed,Object? responseFormat = freezed,Object? seed = freezed,Object? serviceTier = freezed,Object? stop = freezed,Object? stream = freezed,Object? streamOptions = freezed,Object? temperature = freezed,Object? topP = freezed,Object? topK = freezed,Object? minP = freezed,Object? topA = freezed,Object? repetitionPenalty = freezed,Object? tools = freezed,Object? toolChoice = freezed,Object? parallelToolCalls = freezed,Object? user = freezed,Object? functionCall = freezed,Object? functions = freezed,Object? verbosity = freezed,Object? reasoning = freezed,Object? provider = freezed,Object? models = freezed,Object? route = freezed,Object? transforms = freezed,Object? usage = freezed,}) {
   return _then(_self.copyWith(
 model: null == model ? _self.model : model // ignore: cast_nullable_to_non_nullable
 as ChatCompletionModel,messages: null == messages ? _self.messages : messages // ignore: cast_nullable_to_non_nullable
@@ -2931,6 +2964,10 @@ as ChatCompletionStop?,stream: freezed == stream ? _self.stream : stream // igno
 as bool?,streamOptions: freezed == streamOptions ? _self.streamOptions : streamOptions // ignore: cast_nullable_to_non_nullable
 as ChatCompletionStreamOptions?,temperature: freezed == temperature ? _self.temperature : temperature // ignore: cast_nullable_to_non_nullable
 as double?,topP: freezed == topP ? _self.topP : topP // ignore: cast_nullable_to_non_nullable
+as double?,topK: freezed == topK ? _self.topK : topK // ignore: cast_nullable_to_non_nullable
+as int?,minP: freezed == minP ? _self.minP : minP // ignore: cast_nullable_to_non_nullable
+as double?,topA: freezed == topA ? _self.topA : topA // ignore: cast_nullable_to_non_nullable
+as double?,repetitionPenalty: freezed == repetitionPenalty ? _self.repetitionPenalty : repetitionPenalty // ignore: cast_nullable_to_non_nullable
 as double?,tools: freezed == tools ? _self.tools : tools // ignore: cast_nullable_to_non_nullable
 as List<ChatCompletionTool>?,toolChoice: freezed == toolChoice ? _self.toolChoice : toolChoice // ignore: cast_nullable_to_non_nullable
 as ChatCompletionToolChoiceOption?,parallelToolCalls: freezed == parallelToolCalls ? _self.parallelToolCalls : parallelToolCalls // ignore: cast_nullable_to_non_nullable
@@ -3170,10 +3207,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@_ChatCompletionModelConverter()  ChatCompletionModel model,  List<ChatCompletionMessage> messages, @JsonKey(includeIfNull: false)  bool? store, @JsonKey(name: 'reasoning_effort', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ReasoningEffort? reasoningEffort, @JsonKey(includeIfNull: false)  Map<String, String>? metadata, @JsonKey(name: 'frequency_penalty', includeIfNull: false)  double? frequencyPenalty, @JsonKey(name: 'logit_bias', includeIfNull: false)  Map<String, int>? logitBias, @JsonKey(includeIfNull: false)  bool? logprobs, @JsonKey(name: 'top_logprobs', includeIfNull: false)  int? topLogprobs, @JsonKey(name: 'max_tokens', includeIfNull: false)  int? maxTokens, @JsonKey(name: 'max_completion_tokens', includeIfNull: false)  int? maxCompletionTokens, @JsonKey(includeIfNull: false)  int? n, @JsonKey(includeIfNull: false)  List<ChatCompletionModality>? modalities, @JsonKey(includeIfNull: false)  PredictionContent? prediction, @JsonKey(includeIfNull: false)  ChatCompletionAudioOptions? audio, @JsonKey(name: 'presence_penalty', includeIfNull: false)  double? presencePenalty, @JsonKey(name: 'web_search_options', includeIfNull: false)  WebSearchOptions? webSearchOptions, @JsonKey(name: 'response_format', includeIfNull: false)  ResponseFormat? responseFormat, @JsonKey(includeIfNull: false)  int? seed, @JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  CreateChatCompletionRequestServiceTier? serviceTier, @_ChatCompletionStopConverter()@JsonKey(includeIfNull: false)  ChatCompletionStop? stop, @JsonKey(includeIfNull: false)  bool? stream, @JsonKey(name: 'stream_options', includeIfNull: false)  ChatCompletionStreamOptions? streamOptions, @JsonKey(includeIfNull: false)  double? temperature, @JsonKey(name: 'top_p', includeIfNull: false)  double? topP, @JsonKey(includeIfNull: false)  List<ChatCompletionTool>? tools, @_ChatCompletionToolChoiceOptionConverter()@JsonKey(name: 'tool_choice', includeIfNull: false)  ChatCompletionToolChoiceOption? toolChoice, @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)  bool? parallelToolCalls, @JsonKey(includeIfNull: false)  String? user, @_ChatCompletionFunctionCallConverter()@JsonKey(name: 'function_call', includeIfNull: false)  ChatCompletionFunctionCall? functionCall, @JsonKey(includeIfNull: false)  List<FunctionObject>? functions, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  Verbosity? verbosity, @JsonKey(includeIfNull: false)  CreateChatCompletionRequestReasoning? reasoning, @JsonKey(includeIfNull: false)  OpenRouterProviderPreferences? provider, @JsonKey(includeIfNull: false)  List<String>? models, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  CreateChatCompletionRequestRoute? route, @JsonKey(includeIfNull: false)  List<String>? transforms, @JsonKey(includeIfNull: false)  OpenRouterUsageConfig? usage)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@_ChatCompletionModelConverter()  ChatCompletionModel model,  List<ChatCompletionMessage> messages, @JsonKey(includeIfNull: false)  bool? store, @JsonKey(name: 'reasoning_effort', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ReasoningEffort? reasoningEffort, @JsonKey(includeIfNull: false)  Map<String, String>? metadata, @JsonKey(name: 'frequency_penalty', includeIfNull: false)  double? frequencyPenalty, @JsonKey(name: 'logit_bias', includeIfNull: false)  Map<String, int>? logitBias, @JsonKey(includeIfNull: false)  bool? logprobs, @JsonKey(name: 'top_logprobs', includeIfNull: false)  int? topLogprobs, @JsonKey(name: 'max_tokens', includeIfNull: false)  int? maxTokens, @JsonKey(name: 'max_completion_tokens', includeIfNull: false)  int? maxCompletionTokens, @JsonKey(includeIfNull: false)  int? n, @JsonKey(includeIfNull: false)  List<ChatCompletionModality>? modalities, @JsonKey(includeIfNull: false)  PredictionContent? prediction, @JsonKey(includeIfNull: false)  ChatCompletionAudioOptions? audio, @JsonKey(name: 'presence_penalty', includeIfNull: false)  double? presencePenalty, @JsonKey(name: 'web_search_options', includeIfNull: false)  WebSearchOptions? webSearchOptions, @JsonKey(name: 'response_format', includeIfNull: false)  ResponseFormat? responseFormat, @JsonKey(includeIfNull: false)  int? seed, @JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  CreateChatCompletionRequestServiceTier? serviceTier, @_ChatCompletionStopConverter()@JsonKey(includeIfNull: false)  ChatCompletionStop? stop, @JsonKey(includeIfNull: false)  bool? stream, @JsonKey(name: 'stream_options', includeIfNull: false)  ChatCompletionStreamOptions? streamOptions, @JsonKey(includeIfNull: false)  double? temperature, @JsonKey(name: 'top_p', includeIfNull: false)  double? topP, @JsonKey(name: 'top_k', includeIfNull: false)  int? topK, @JsonKey(name: 'min_p', includeIfNull: false)  double? minP, @JsonKey(name: 'top_a', includeIfNull: false)  double? topA, @JsonKey(name: 'repetition_penalty', includeIfNull: false)  double? repetitionPenalty, @JsonKey(includeIfNull: false)  List<ChatCompletionTool>? tools, @_ChatCompletionToolChoiceOptionConverter()@JsonKey(name: 'tool_choice', includeIfNull: false)  ChatCompletionToolChoiceOption? toolChoice, @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)  bool? parallelToolCalls, @JsonKey(includeIfNull: false)  String? user, @_ChatCompletionFunctionCallConverter()@JsonKey(name: 'function_call', includeIfNull: false)  ChatCompletionFunctionCall? functionCall, @JsonKey(includeIfNull: false)  List<FunctionObject>? functions, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  Verbosity? verbosity, @JsonKey(includeIfNull: false)  CreateChatCompletionRequestReasoning? reasoning, @JsonKey(includeIfNull: false)  OpenRouterProviderPreferences? provider, @JsonKey(includeIfNull: false)  List<String>? models, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  CreateChatCompletionRequestRoute? route, @JsonKey(includeIfNull: false)  List<String>? transforms, @JsonKey(includeIfNull: false)  OpenRouterUsageConfig? usage)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CreateChatCompletionRequest() when $default != null:
-return $default(_that.model,_that.messages,_that.store,_that.reasoningEffort,_that.metadata,_that.frequencyPenalty,_that.logitBias,_that.logprobs,_that.topLogprobs,_that.maxTokens,_that.maxCompletionTokens,_that.n,_that.modalities,_that.prediction,_that.audio,_that.presencePenalty,_that.webSearchOptions,_that.responseFormat,_that.seed,_that.serviceTier,_that.stop,_that.stream,_that.streamOptions,_that.temperature,_that.topP,_that.tools,_that.toolChoice,_that.parallelToolCalls,_that.user,_that.functionCall,_that.functions,_that.verbosity,_that.reasoning,_that.provider,_that.models,_that.route,_that.transforms,_that.usage);case _:
+return $default(_that.model,_that.messages,_that.store,_that.reasoningEffort,_that.metadata,_that.frequencyPenalty,_that.logitBias,_that.logprobs,_that.topLogprobs,_that.maxTokens,_that.maxCompletionTokens,_that.n,_that.modalities,_that.prediction,_that.audio,_that.presencePenalty,_that.webSearchOptions,_that.responseFormat,_that.seed,_that.serviceTier,_that.stop,_that.stream,_that.streamOptions,_that.temperature,_that.topP,_that.topK,_that.minP,_that.topA,_that.repetitionPenalty,_that.tools,_that.toolChoice,_that.parallelToolCalls,_that.user,_that.functionCall,_that.functions,_that.verbosity,_that.reasoning,_that.provider,_that.models,_that.route,_that.transforms,_that.usage);case _:
   return orElse();
 
 }
@@ -3191,10 +3228,10 @@ return $default(_that.model,_that.messages,_that.store,_that.reasoningEffort,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@_ChatCompletionModelConverter()  ChatCompletionModel model,  List<ChatCompletionMessage> messages, @JsonKey(includeIfNull: false)  bool? store, @JsonKey(name: 'reasoning_effort', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ReasoningEffort? reasoningEffort, @JsonKey(includeIfNull: false)  Map<String, String>? metadata, @JsonKey(name: 'frequency_penalty', includeIfNull: false)  double? frequencyPenalty, @JsonKey(name: 'logit_bias', includeIfNull: false)  Map<String, int>? logitBias, @JsonKey(includeIfNull: false)  bool? logprobs, @JsonKey(name: 'top_logprobs', includeIfNull: false)  int? topLogprobs, @JsonKey(name: 'max_tokens', includeIfNull: false)  int? maxTokens, @JsonKey(name: 'max_completion_tokens', includeIfNull: false)  int? maxCompletionTokens, @JsonKey(includeIfNull: false)  int? n, @JsonKey(includeIfNull: false)  List<ChatCompletionModality>? modalities, @JsonKey(includeIfNull: false)  PredictionContent? prediction, @JsonKey(includeIfNull: false)  ChatCompletionAudioOptions? audio, @JsonKey(name: 'presence_penalty', includeIfNull: false)  double? presencePenalty, @JsonKey(name: 'web_search_options', includeIfNull: false)  WebSearchOptions? webSearchOptions, @JsonKey(name: 'response_format', includeIfNull: false)  ResponseFormat? responseFormat, @JsonKey(includeIfNull: false)  int? seed, @JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  CreateChatCompletionRequestServiceTier? serviceTier, @_ChatCompletionStopConverter()@JsonKey(includeIfNull: false)  ChatCompletionStop? stop, @JsonKey(includeIfNull: false)  bool? stream, @JsonKey(name: 'stream_options', includeIfNull: false)  ChatCompletionStreamOptions? streamOptions, @JsonKey(includeIfNull: false)  double? temperature, @JsonKey(name: 'top_p', includeIfNull: false)  double? topP, @JsonKey(includeIfNull: false)  List<ChatCompletionTool>? tools, @_ChatCompletionToolChoiceOptionConverter()@JsonKey(name: 'tool_choice', includeIfNull: false)  ChatCompletionToolChoiceOption? toolChoice, @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)  bool? parallelToolCalls, @JsonKey(includeIfNull: false)  String? user, @_ChatCompletionFunctionCallConverter()@JsonKey(name: 'function_call', includeIfNull: false)  ChatCompletionFunctionCall? functionCall, @JsonKey(includeIfNull: false)  List<FunctionObject>? functions, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  Verbosity? verbosity, @JsonKey(includeIfNull: false)  CreateChatCompletionRequestReasoning? reasoning, @JsonKey(includeIfNull: false)  OpenRouterProviderPreferences? provider, @JsonKey(includeIfNull: false)  List<String>? models, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  CreateChatCompletionRequestRoute? route, @JsonKey(includeIfNull: false)  List<String>? transforms, @JsonKey(includeIfNull: false)  OpenRouterUsageConfig? usage)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@_ChatCompletionModelConverter()  ChatCompletionModel model,  List<ChatCompletionMessage> messages, @JsonKey(includeIfNull: false)  bool? store, @JsonKey(name: 'reasoning_effort', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ReasoningEffort? reasoningEffort, @JsonKey(includeIfNull: false)  Map<String, String>? metadata, @JsonKey(name: 'frequency_penalty', includeIfNull: false)  double? frequencyPenalty, @JsonKey(name: 'logit_bias', includeIfNull: false)  Map<String, int>? logitBias, @JsonKey(includeIfNull: false)  bool? logprobs, @JsonKey(name: 'top_logprobs', includeIfNull: false)  int? topLogprobs, @JsonKey(name: 'max_tokens', includeIfNull: false)  int? maxTokens, @JsonKey(name: 'max_completion_tokens', includeIfNull: false)  int? maxCompletionTokens, @JsonKey(includeIfNull: false)  int? n, @JsonKey(includeIfNull: false)  List<ChatCompletionModality>? modalities, @JsonKey(includeIfNull: false)  PredictionContent? prediction, @JsonKey(includeIfNull: false)  ChatCompletionAudioOptions? audio, @JsonKey(name: 'presence_penalty', includeIfNull: false)  double? presencePenalty, @JsonKey(name: 'web_search_options', includeIfNull: false)  WebSearchOptions? webSearchOptions, @JsonKey(name: 'response_format', includeIfNull: false)  ResponseFormat? responseFormat, @JsonKey(includeIfNull: false)  int? seed, @JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  CreateChatCompletionRequestServiceTier? serviceTier, @_ChatCompletionStopConverter()@JsonKey(includeIfNull: false)  ChatCompletionStop? stop, @JsonKey(includeIfNull: false)  bool? stream, @JsonKey(name: 'stream_options', includeIfNull: false)  ChatCompletionStreamOptions? streamOptions, @JsonKey(includeIfNull: false)  double? temperature, @JsonKey(name: 'top_p', includeIfNull: false)  double? topP, @JsonKey(name: 'top_k', includeIfNull: false)  int? topK, @JsonKey(name: 'min_p', includeIfNull: false)  double? minP, @JsonKey(name: 'top_a', includeIfNull: false)  double? topA, @JsonKey(name: 'repetition_penalty', includeIfNull: false)  double? repetitionPenalty, @JsonKey(includeIfNull: false)  List<ChatCompletionTool>? tools, @_ChatCompletionToolChoiceOptionConverter()@JsonKey(name: 'tool_choice', includeIfNull: false)  ChatCompletionToolChoiceOption? toolChoice, @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)  bool? parallelToolCalls, @JsonKey(includeIfNull: false)  String? user, @_ChatCompletionFunctionCallConverter()@JsonKey(name: 'function_call', includeIfNull: false)  ChatCompletionFunctionCall? functionCall, @JsonKey(includeIfNull: false)  List<FunctionObject>? functions, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  Verbosity? verbosity, @JsonKey(includeIfNull: false)  CreateChatCompletionRequestReasoning? reasoning, @JsonKey(includeIfNull: false)  OpenRouterProviderPreferences? provider, @JsonKey(includeIfNull: false)  List<String>? models, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  CreateChatCompletionRequestRoute? route, @JsonKey(includeIfNull: false)  List<String>? transforms, @JsonKey(includeIfNull: false)  OpenRouterUsageConfig? usage)  $default,) {final _that = this;
 switch (_that) {
 case _CreateChatCompletionRequest():
-return $default(_that.model,_that.messages,_that.store,_that.reasoningEffort,_that.metadata,_that.frequencyPenalty,_that.logitBias,_that.logprobs,_that.topLogprobs,_that.maxTokens,_that.maxCompletionTokens,_that.n,_that.modalities,_that.prediction,_that.audio,_that.presencePenalty,_that.webSearchOptions,_that.responseFormat,_that.seed,_that.serviceTier,_that.stop,_that.stream,_that.streamOptions,_that.temperature,_that.topP,_that.tools,_that.toolChoice,_that.parallelToolCalls,_that.user,_that.functionCall,_that.functions,_that.verbosity,_that.reasoning,_that.provider,_that.models,_that.route,_that.transforms,_that.usage);case _:
+return $default(_that.model,_that.messages,_that.store,_that.reasoningEffort,_that.metadata,_that.frequencyPenalty,_that.logitBias,_that.logprobs,_that.topLogprobs,_that.maxTokens,_that.maxCompletionTokens,_that.n,_that.modalities,_that.prediction,_that.audio,_that.presencePenalty,_that.webSearchOptions,_that.responseFormat,_that.seed,_that.serviceTier,_that.stop,_that.stream,_that.streamOptions,_that.temperature,_that.topP,_that.topK,_that.minP,_that.topA,_that.repetitionPenalty,_that.tools,_that.toolChoice,_that.parallelToolCalls,_that.user,_that.functionCall,_that.functions,_that.verbosity,_that.reasoning,_that.provider,_that.models,_that.route,_that.transforms,_that.usage);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -3211,10 +3248,10 @@ return $default(_that.model,_that.messages,_that.store,_that.reasoningEffort,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@_ChatCompletionModelConverter()  ChatCompletionModel model,  List<ChatCompletionMessage> messages, @JsonKey(includeIfNull: false)  bool? store, @JsonKey(name: 'reasoning_effort', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ReasoningEffort? reasoningEffort, @JsonKey(includeIfNull: false)  Map<String, String>? metadata, @JsonKey(name: 'frequency_penalty', includeIfNull: false)  double? frequencyPenalty, @JsonKey(name: 'logit_bias', includeIfNull: false)  Map<String, int>? logitBias, @JsonKey(includeIfNull: false)  bool? logprobs, @JsonKey(name: 'top_logprobs', includeIfNull: false)  int? topLogprobs, @JsonKey(name: 'max_tokens', includeIfNull: false)  int? maxTokens, @JsonKey(name: 'max_completion_tokens', includeIfNull: false)  int? maxCompletionTokens, @JsonKey(includeIfNull: false)  int? n, @JsonKey(includeIfNull: false)  List<ChatCompletionModality>? modalities, @JsonKey(includeIfNull: false)  PredictionContent? prediction, @JsonKey(includeIfNull: false)  ChatCompletionAudioOptions? audio, @JsonKey(name: 'presence_penalty', includeIfNull: false)  double? presencePenalty, @JsonKey(name: 'web_search_options', includeIfNull: false)  WebSearchOptions? webSearchOptions, @JsonKey(name: 'response_format', includeIfNull: false)  ResponseFormat? responseFormat, @JsonKey(includeIfNull: false)  int? seed, @JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  CreateChatCompletionRequestServiceTier? serviceTier, @_ChatCompletionStopConverter()@JsonKey(includeIfNull: false)  ChatCompletionStop? stop, @JsonKey(includeIfNull: false)  bool? stream, @JsonKey(name: 'stream_options', includeIfNull: false)  ChatCompletionStreamOptions? streamOptions, @JsonKey(includeIfNull: false)  double? temperature, @JsonKey(name: 'top_p', includeIfNull: false)  double? topP, @JsonKey(includeIfNull: false)  List<ChatCompletionTool>? tools, @_ChatCompletionToolChoiceOptionConverter()@JsonKey(name: 'tool_choice', includeIfNull: false)  ChatCompletionToolChoiceOption? toolChoice, @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)  bool? parallelToolCalls, @JsonKey(includeIfNull: false)  String? user, @_ChatCompletionFunctionCallConverter()@JsonKey(name: 'function_call', includeIfNull: false)  ChatCompletionFunctionCall? functionCall, @JsonKey(includeIfNull: false)  List<FunctionObject>? functions, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  Verbosity? verbosity, @JsonKey(includeIfNull: false)  CreateChatCompletionRequestReasoning? reasoning, @JsonKey(includeIfNull: false)  OpenRouterProviderPreferences? provider, @JsonKey(includeIfNull: false)  List<String>? models, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  CreateChatCompletionRequestRoute? route, @JsonKey(includeIfNull: false)  List<String>? transforms, @JsonKey(includeIfNull: false)  OpenRouterUsageConfig? usage)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@_ChatCompletionModelConverter()  ChatCompletionModel model,  List<ChatCompletionMessage> messages, @JsonKey(includeIfNull: false)  bool? store, @JsonKey(name: 'reasoning_effort', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ReasoningEffort? reasoningEffort, @JsonKey(includeIfNull: false)  Map<String, String>? metadata, @JsonKey(name: 'frequency_penalty', includeIfNull: false)  double? frequencyPenalty, @JsonKey(name: 'logit_bias', includeIfNull: false)  Map<String, int>? logitBias, @JsonKey(includeIfNull: false)  bool? logprobs, @JsonKey(name: 'top_logprobs', includeIfNull: false)  int? topLogprobs, @JsonKey(name: 'max_tokens', includeIfNull: false)  int? maxTokens, @JsonKey(name: 'max_completion_tokens', includeIfNull: false)  int? maxCompletionTokens, @JsonKey(includeIfNull: false)  int? n, @JsonKey(includeIfNull: false)  List<ChatCompletionModality>? modalities, @JsonKey(includeIfNull: false)  PredictionContent? prediction, @JsonKey(includeIfNull: false)  ChatCompletionAudioOptions? audio, @JsonKey(name: 'presence_penalty', includeIfNull: false)  double? presencePenalty, @JsonKey(name: 'web_search_options', includeIfNull: false)  WebSearchOptions? webSearchOptions, @JsonKey(name: 'response_format', includeIfNull: false)  ResponseFormat? responseFormat, @JsonKey(includeIfNull: false)  int? seed, @JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  CreateChatCompletionRequestServiceTier? serviceTier, @_ChatCompletionStopConverter()@JsonKey(includeIfNull: false)  ChatCompletionStop? stop, @JsonKey(includeIfNull: false)  bool? stream, @JsonKey(name: 'stream_options', includeIfNull: false)  ChatCompletionStreamOptions? streamOptions, @JsonKey(includeIfNull: false)  double? temperature, @JsonKey(name: 'top_p', includeIfNull: false)  double? topP, @JsonKey(name: 'top_k', includeIfNull: false)  int? topK, @JsonKey(name: 'min_p', includeIfNull: false)  double? minP, @JsonKey(name: 'top_a', includeIfNull: false)  double? topA, @JsonKey(name: 'repetition_penalty', includeIfNull: false)  double? repetitionPenalty, @JsonKey(includeIfNull: false)  List<ChatCompletionTool>? tools, @_ChatCompletionToolChoiceOptionConverter()@JsonKey(name: 'tool_choice', includeIfNull: false)  ChatCompletionToolChoiceOption? toolChoice, @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)  bool? parallelToolCalls, @JsonKey(includeIfNull: false)  String? user, @_ChatCompletionFunctionCallConverter()@JsonKey(name: 'function_call', includeIfNull: false)  ChatCompletionFunctionCall? functionCall, @JsonKey(includeIfNull: false)  List<FunctionObject>? functions, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  Verbosity? verbosity, @JsonKey(includeIfNull: false)  CreateChatCompletionRequestReasoning? reasoning, @JsonKey(includeIfNull: false)  OpenRouterProviderPreferences? provider, @JsonKey(includeIfNull: false)  List<String>? models, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  CreateChatCompletionRequestRoute? route, @JsonKey(includeIfNull: false)  List<String>? transforms, @JsonKey(includeIfNull: false)  OpenRouterUsageConfig? usage)?  $default,) {final _that = this;
 switch (_that) {
 case _CreateChatCompletionRequest() when $default != null:
-return $default(_that.model,_that.messages,_that.store,_that.reasoningEffort,_that.metadata,_that.frequencyPenalty,_that.logitBias,_that.logprobs,_that.topLogprobs,_that.maxTokens,_that.maxCompletionTokens,_that.n,_that.modalities,_that.prediction,_that.audio,_that.presencePenalty,_that.webSearchOptions,_that.responseFormat,_that.seed,_that.serviceTier,_that.stop,_that.stream,_that.streamOptions,_that.temperature,_that.topP,_that.tools,_that.toolChoice,_that.parallelToolCalls,_that.user,_that.functionCall,_that.functions,_that.verbosity,_that.reasoning,_that.provider,_that.models,_that.route,_that.transforms,_that.usage);case _:
+return $default(_that.model,_that.messages,_that.store,_that.reasoningEffort,_that.metadata,_that.frequencyPenalty,_that.logitBias,_that.logprobs,_that.topLogprobs,_that.maxTokens,_that.maxCompletionTokens,_that.n,_that.modalities,_that.prediction,_that.audio,_that.presencePenalty,_that.webSearchOptions,_that.responseFormat,_that.seed,_that.serviceTier,_that.stop,_that.stream,_that.streamOptions,_that.temperature,_that.topP,_that.topK,_that.minP,_that.topA,_that.repetitionPenalty,_that.tools,_that.toolChoice,_that.parallelToolCalls,_that.user,_that.functionCall,_that.functions,_that.verbosity,_that.reasoning,_that.provider,_that.models,_that.route,_that.transforms,_that.usage);case _:
   return null;
 
 }
@@ -3226,7 +3263,7 @@ return $default(_that.model,_that.messages,_that.store,_that.reasoningEffort,_th
 @JsonSerializable()
 
 class _CreateChatCompletionRequest extends CreateChatCompletionRequest {
-  const _CreateChatCompletionRequest({@_ChatCompletionModelConverter() required this.model, required final  List<ChatCompletionMessage> messages, @JsonKey(includeIfNull: false) this.store, @JsonKey(name: 'reasoning_effort', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.reasoningEffort, @JsonKey(includeIfNull: false) final  Map<String, String>? metadata, @JsonKey(name: 'frequency_penalty', includeIfNull: false) this.frequencyPenalty, @JsonKey(name: 'logit_bias', includeIfNull: false) final  Map<String, int>? logitBias, @JsonKey(includeIfNull: false) this.logprobs, @JsonKey(name: 'top_logprobs', includeIfNull: false) this.topLogprobs, @JsonKey(name: 'max_tokens', includeIfNull: false) this.maxTokens, @JsonKey(name: 'max_completion_tokens', includeIfNull: false) this.maxCompletionTokens, @JsonKey(includeIfNull: false) this.n, @JsonKey(includeIfNull: false) final  List<ChatCompletionModality>? modalities, @JsonKey(includeIfNull: false) this.prediction, @JsonKey(includeIfNull: false) this.audio, @JsonKey(name: 'presence_penalty', includeIfNull: false) this.presencePenalty, @JsonKey(name: 'web_search_options', includeIfNull: false) this.webSearchOptions, @JsonKey(name: 'response_format', includeIfNull: false) this.responseFormat, @JsonKey(includeIfNull: false) this.seed, @JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.serviceTier, @_ChatCompletionStopConverter()@JsonKey(includeIfNull: false) this.stop, @JsonKey(includeIfNull: false) this.stream = false, @JsonKey(name: 'stream_options', includeIfNull: false) this.streamOptions, @JsonKey(includeIfNull: false) this.temperature, @JsonKey(name: 'top_p', includeIfNull: false) this.topP, @JsonKey(includeIfNull: false) final  List<ChatCompletionTool>? tools, @_ChatCompletionToolChoiceOptionConverter()@JsonKey(name: 'tool_choice', includeIfNull: false) this.toolChoice, @JsonKey(name: 'parallel_tool_calls', includeIfNull: false) this.parallelToolCalls, @JsonKey(includeIfNull: false) this.user, @_ChatCompletionFunctionCallConverter()@JsonKey(name: 'function_call', includeIfNull: false) this.functionCall, @JsonKey(includeIfNull: false) final  List<FunctionObject>? functions, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.verbosity, @JsonKey(includeIfNull: false) this.reasoning, @JsonKey(includeIfNull: false) this.provider, @JsonKey(includeIfNull: false) final  List<String>? models, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.route, @JsonKey(includeIfNull: false) final  List<String>? transforms, @JsonKey(includeIfNull: false) this.usage}): _messages = messages,_metadata = metadata,_logitBias = logitBias,_modalities = modalities,_tools = tools,_functions = functions,_models = models,_transforms = transforms,super._();
+  const _CreateChatCompletionRequest({@_ChatCompletionModelConverter() required this.model, required final  List<ChatCompletionMessage> messages, @JsonKey(includeIfNull: false) this.store, @JsonKey(name: 'reasoning_effort', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.reasoningEffort, @JsonKey(includeIfNull: false) final  Map<String, String>? metadata, @JsonKey(name: 'frequency_penalty', includeIfNull: false) this.frequencyPenalty, @JsonKey(name: 'logit_bias', includeIfNull: false) final  Map<String, int>? logitBias, @JsonKey(includeIfNull: false) this.logprobs, @JsonKey(name: 'top_logprobs', includeIfNull: false) this.topLogprobs, @JsonKey(name: 'max_tokens', includeIfNull: false) this.maxTokens, @JsonKey(name: 'max_completion_tokens', includeIfNull: false) this.maxCompletionTokens, @JsonKey(includeIfNull: false) this.n, @JsonKey(includeIfNull: false) final  List<ChatCompletionModality>? modalities, @JsonKey(includeIfNull: false) this.prediction, @JsonKey(includeIfNull: false) this.audio, @JsonKey(name: 'presence_penalty', includeIfNull: false) this.presencePenalty, @JsonKey(name: 'web_search_options', includeIfNull: false) this.webSearchOptions, @JsonKey(name: 'response_format', includeIfNull: false) this.responseFormat, @JsonKey(includeIfNull: false) this.seed, @JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.serviceTier, @_ChatCompletionStopConverter()@JsonKey(includeIfNull: false) this.stop, @JsonKey(includeIfNull: false) this.stream = false, @JsonKey(name: 'stream_options', includeIfNull: false) this.streamOptions, @JsonKey(includeIfNull: false) this.temperature, @JsonKey(name: 'top_p', includeIfNull: false) this.topP, @JsonKey(name: 'top_k', includeIfNull: false) this.topK, @JsonKey(name: 'min_p', includeIfNull: false) this.minP, @JsonKey(name: 'top_a', includeIfNull: false) this.topA, @JsonKey(name: 'repetition_penalty', includeIfNull: false) this.repetitionPenalty, @JsonKey(includeIfNull: false) final  List<ChatCompletionTool>? tools, @_ChatCompletionToolChoiceOptionConverter()@JsonKey(name: 'tool_choice', includeIfNull: false) this.toolChoice, @JsonKey(name: 'parallel_tool_calls', includeIfNull: false) this.parallelToolCalls, @JsonKey(includeIfNull: false) this.user, @_ChatCompletionFunctionCallConverter()@JsonKey(name: 'function_call', includeIfNull: false) this.functionCall, @JsonKey(includeIfNull: false) final  List<FunctionObject>? functions, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.verbosity, @JsonKey(includeIfNull: false) this.reasoning, @JsonKey(includeIfNull: false) this.provider, @JsonKey(includeIfNull: false) final  List<String>? models, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.route, @JsonKey(includeIfNull: false) final  List<String>? transforms, @JsonKey(includeIfNull: false) this.usage}): _messages = messages,_metadata = metadata,_logitBias = logitBias,_modalities = modalities,_tools = tools,_functions = functions,_models = models,_transforms = transforms,super._();
   factory _CreateChatCompletionRequest.fromJson(Map<String, dynamic> json) => _$CreateChatCompletionRequestFromJson(json);
 
 /// ID of the model to use. See the [model endpoint compatibility](https://platform.openai.com/docs/models#model-endpoint-compatibility)
@@ -3396,6 +3433,43 @@ class _CreateChatCompletionRequest extends CreateChatCompletionRequest {
 ///
 /// We generally recommend altering this or `temperature` but not both.
 @override@JsonKey(name: 'top_p', includeIfNull: false) final  double? topP;
+/// Sample from the k most likely next tokens at each step. Lower k focuses on
+/// higher probability tokens, while higher k allows more diversity.
+///
+/// Set to 0 to disable top-k sampling (default behavior).
+///
+/// **NOT part of the official OpenAI API.** Not available for OpenAI models.
+///
+/// **Provider:** OpenRouter
+@override@JsonKey(name: 'top_k', includeIfNull: false) final  int? topK;
+/// Minimum probability threshold for token selection, relative to the probability
+/// of the most likely token. Only tokens with probability >= min_p * max_prob
+/// are considered.
+///
+/// Example: min_p=0.1 means only tokens at least 1/10th as probable as the best
+/// option are allowed.
+///
+/// **NOT part of the official OpenAI API.**
+///
+/// **Provider:** OpenRouter
+@override@JsonKey(name: 'min_p', includeIfNull: false) final  double? minP;
+/// Consider only tokens with "sufficiently high" probabilities based on the
+/// probability of the most likely token. Functions as a dynamic top-p filter.
+///
+/// **NOT part of the official OpenAI API.**
+///
+/// **Provider:** OpenRouter
+@override@JsonKey(name: 'top_a', includeIfNull: false) final  double? topA;
+/// Reduces repetition of tokens from the input. A value of 1.0 means no penalty.
+/// Higher values (up to 2.0) more strongly discourage repetition.
+///
+/// The penalty scales based on the original token's probability, so common
+/// tokens are penalized more than rare ones.
+///
+/// **NOT part of the official OpenAI API.**
+///
+/// **Provider:** OpenRouter
+@override@JsonKey(name: 'repetition_penalty', includeIfNull: false) final  double? repetitionPenalty;
 /// A list of tools the model may call. Currently, only functions are supported as a tool.
 /// Use this to provide a list of functions the model may generate JSON inputs for. A max of 128 functions are
 /// supported.
@@ -3567,16 +3641,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateChatCompletionRequest&&(identical(other.model, model) || other.model == model)&&const DeepCollectionEquality().equals(other._messages, _messages)&&(identical(other.store, store) || other.store == store)&&(identical(other.reasoningEffort, reasoningEffort) || other.reasoningEffort == reasoningEffort)&&const DeepCollectionEquality().equals(other._metadata, _metadata)&&(identical(other.frequencyPenalty, frequencyPenalty) || other.frequencyPenalty == frequencyPenalty)&&const DeepCollectionEquality().equals(other._logitBias, _logitBias)&&(identical(other.logprobs, logprobs) || other.logprobs == logprobs)&&(identical(other.topLogprobs, topLogprobs) || other.topLogprobs == topLogprobs)&&(identical(other.maxTokens, maxTokens) || other.maxTokens == maxTokens)&&(identical(other.maxCompletionTokens, maxCompletionTokens) || other.maxCompletionTokens == maxCompletionTokens)&&(identical(other.n, n) || other.n == n)&&const DeepCollectionEquality().equals(other._modalities, _modalities)&&(identical(other.prediction, prediction) || other.prediction == prediction)&&(identical(other.audio, audio) || other.audio == audio)&&(identical(other.presencePenalty, presencePenalty) || other.presencePenalty == presencePenalty)&&(identical(other.webSearchOptions, webSearchOptions) || other.webSearchOptions == webSearchOptions)&&(identical(other.responseFormat, responseFormat) || other.responseFormat == responseFormat)&&(identical(other.seed, seed) || other.seed == seed)&&(identical(other.serviceTier, serviceTier) || other.serviceTier == serviceTier)&&(identical(other.stop, stop) || other.stop == stop)&&(identical(other.stream, stream) || other.stream == stream)&&(identical(other.streamOptions, streamOptions) || other.streamOptions == streamOptions)&&(identical(other.temperature, temperature) || other.temperature == temperature)&&(identical(other.topP, topP) || other.topP == topP)&&const DeepCollectionEquality().equals(other._tools, _tools)&&(identical(other.toolChoice, toolChoice) || other.toolChoice == toolChoice)&&(identical(other.parallelToolCalls, parallelToolCalls) || other.parallelToolCalls == parallelToolCalls)&&(identical(other.user, user) || other.user == user)&&(identical(other.functionCall, functionCall) || other.functionCall == functionCall)&&const DeepCollectionEquality().equals(other._functions, _functions)&&(identical(other.verbosity, verbosity) || other.verbosity == verbosity)&&(identical(other.reasoning, reasoning) || other.reasoning == reasoning)&&(identical(other.provider, provider) || other.provider == provider)&&const DeepCollectionEquality().equals(other._models, _models)&&(identical(other.route, route) || other.route == route)&&const DeepCollectionEquality().equals(other._transforms, _transforms)&&(identical(other.usage, usage) || other.usage == usage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateChatCompletionRequest&&(identical(other.model, model) || other.model == model)&&const DeepCollectionEquality().equals(other._messages, _messages)&&(identical(other.store, store) || other.store == store)&&(identical(other.reasoningEffort, reasoningEffort) || other.reasoningEffort == reasoningEffort)&&const DeepCollectionEquality().equals(other._metadata, _metadata)&&(identical(other.frequencyPenalty, frequencyPenalty) || other.frequencyPenalty == frequencyPenalty)&&const DeepCollectionEquality().equals(other._logitBias, _logitBias)&&(identical(other.logprobs, logprobs) || other.logprobs == logprobs)&&(identical(other.topLogprobs, topLogprobs) || other.topLogprobs == topLogprobs)&&(identical(other.maxTokens, maxTokens) || other.maxTokens == maxTokens)&&(identical(other.maxCompletionTokens, maxCompletionTokens) || other.maxCompletionTokens == maxCompletionTokens)&&(identical(other.n, n) || other.n == n)&&const DeepCollectionEquality().equals(other._modalities, _modalities)&&(identical(other.prediction, prediction) || other.prediction == prediction)&&(identical(other.audio, audio) || other.audio == audio)&&(identical(other.presencePenalty, presencePenalty) || other.presencePenalty == presencePenalty)&&(identical(other.webSearchOptions, webSearchOptions) || other.webSearchOptions == webSearchOptions)&&(identical(other.responseFormat, responseFormat) || other.responseFormat == responseFormat)&&(identical(other.seed, seed) || other.seed == seed)&&(identical(other.serviceTier, serviceTier) || other.serviceTier == serviceTier)&&(identical(other.stop, stop) || other.stop == stop)&&(identical(other.stream, stream) || other.stream == stream)&&(identical(other.streamOptions, streamOptions) || other.streamOptions == streamOptions)&&(identical(other.temperature, temperature) || other.temperature == temperature)&&(identical(other.topP, topP) || other.topP == topP)&&(identical(other.topK, topK) || other.topK == topK)&&(identical(other.minP, minP) || other.minP == minP)&&(identical(other.topA, topA) || other.topA == topA)&&(identical(other.repetitionPenalty, repetitionPenalty) || other.repetitionPenalty == repetitionPenalty)&&const DeepCollectionEquality().equals(other._tools, _tools)&&(identical(other.toolChoice, toolChoice) || other.toolChoice == toolChoice)&&(identical(other.parallelToolCalls, parallelToolCalls) || other.parallelToolCalls == parallelToolCalls)&&(identical(other.user, user) || other.user == user)&&(identical(other.functionCall, functionCall) || other.functionCall == functionCall)&&const DeepCollectionEquality().equals(other._functions, _functions)&&(identical(other.verbosity, verbosity) || other.verbosity == verbosity)&&(identical(other.reasoning, reasoning) || other.reasoning == reasoning)&&(identical(other.provider, provider) || other.provider == provider)&&const DeepCollectionEquality().equals(other._models, _models)&&(identical(other.route, route) || other.route == route)&&const DeepCollectionEquality().equals(other._transforms, _transforms)&&(identical(other.usage, usage) || other.usage == usage));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,model,const DeepCollectionEquality().hash(_messages),store,reasoningEffort,const DeepCollectionEquality().hash(_metadata),frequencyPenalty,const DeepCollectionEquality().hash(_logitBias),logprobs,topLogprobs,maxTokens,maxCompletionTokens,n,const DeepCollectionEquality().hash(_modalities),prediction,audio,presencePenalty,webSearchOptions,responseFormat,seed,serviceTier,stop,stream,streamOptions,temperature,topP,const DeepCollectionEquality().hash(_tools),toolChoice,parallelToolCalls,user,functionCall,const DeepCollectionEquality().hash(_functions),verbosity,reasoning,provider,const DeepCollectionEquality().hash(_models),route,const DeepCollectionEquality().hash(_transforms),usage]);
+int get hashCode => Object.hashAll([runtimeType,model,const DeepCollectionEquality().hash(_messages),store,reasoningEffort,const DeepCollectionEquality().hash(_metadata),frequencyPenalty,const DeepCollectionEquality().hash(_logitBias),logprobs,topLogprobs,maxTokens,maxCompletionTokens,n,const DeepCollectionEquality().hash(_modalities),prediction,audio,presencePenalty,webSearchOptions,responseFormat,seed,serviceTier,stop,stream,streamOptions,temperature,topP,topK,minP,topA,repetitionPenalty,const DeepCollectionEquality().hash(_tools),toolChoice,parallelToolCalls,user,functionCall,const DeepCollectionEquality().hash(_functions),verbosity,reasoning,provider,const DeepCollectionEquality().hash(_models),route,const DeepCollectionEquality().hash(_transforms),usage]);
 
 @override
 String toString() {
-  return 'CreateChatCompletionRequest(model: $model, messages: $messages, store: $store, reasoningEffort: $reasoningEffort, metadata: $metadata, frequencyPenalty: $frequencyPenalty, logitBias: $logitBias, logprobs: $logprobs, topLogprobs: $topLogprobs, maxTokens: $maxTokens, maxCompletionTokens: $maxCompletionTokens, n: $n, modalities: $modalities, prediction: $prediction, audio: $audio, presencePenalty: $presencePenalty, webSearchOptions: $webSearchOptions, responseFormat: $responseFormat, seed: $seed, serviceTier: $serviceTier, stop: $stop, stream: $stream, streamOptions: $streamOptions, temperature: $temperature, topP: $topP, tools: $tools, toolChoice: $toolChoice, parallelToolCalls: $parallelToolCalls, user: $user, functionCall: $functionCall, functions: $functions, verbosity: $verbosity, reasoning: $reasoning, provider: $provider, models: $models, route: $route, transforms: $transforms, usage: $usage)';
+  return 'CreateChatCompletionRequest(model: $model, messages: $messages, store: $store, reasoningEffort: $reasoningEffort, metadata: $metadata, frequencyPenalty: $frequencyPenalty, logitBias: $logitBias, logprobs: $logprobs, topLogprobs: $topLogprobs, maxTokens: $maxTokens, maxCompletionTokens: $maxCompletionTokens, n: $n, modalities: $modalities, prediction: $prediction, audio: $audio, presencePenalty: $presencePenalty, webSearchOptions: $webSearchOptions, responseFormat: $responseFormat, seed: $seed, serviceTier: $serviceTier, stop: $stop, stream: $stream, streamOptions: $streamOptions, temperature: $temperature, topP: $topP, topK: $topK, minP: $minP, topA: $topA, repetitionPenalty: $repetitionPenalty, tools: $tools, toolChoice: $toolChoice, parallelToolCalls: $parallelToolCalls, user: $user, functionCall: $functionCall, functions: $functions, verbosity: $verbosity, reasoning: $reasoning, provider: $provider, models: $models, route: $route, transforms: $transforms, usage: $usage)';
 }
 
 
@@ -3587,7 +3661,7 @@ abstract mixin class _$CreateChatCompletionRequestCopyWith<$Res> implements $Cre
   factory _$CreateChatCompletionRequestCopyWith(_CreateChatCompletionRequest value, $Res Function(_CreateChatCompletionRequest) _then) = __$CreateChatCompletionRequestCopyWithImpl;
 @override @useResult
 $Res call({
-@_ChatCompletionModelConverter() ChatCompletionModel model, List<ChatCompletionMessage> messages,@JsonKey(includeIfNull: false) bool? store,@JsonKey(name: 'reasoning_effort', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ReasoningEffort? reasoningEffort,@JsonKey(includeIfNull: false) Map<String, String>? metadata,@JsonKey(name: 'frequency_penalty', includeIfNull: false) double? frequencyPenalty,@JsonKey(name: 'logit_bias', includeIfNull: false) Map<String, int>? logitBias,@JsonKey(includeIfNull: false) bool? logprobs,@JsonKey(name: 'top_logprobs', includeIfNull: false) int? topLogprobs,@JsonKey(name: 'max_tokens', includeIfNull: false) int? maxTokens,@JsonKey(name: 'max_completion_tokens', includeIfNull: false) int? maxCompletionTokens,@JsonKey(includeIfNull: false) int? n,@JsonKey(includeIfNull: false) List<ChatCompletionModality>? modalities,@JsonKey(includeIfNull: false) PredictionContent? prediction,@JsonKey(includeIfNull: false) ChatCompletionAudioOptions? audio,@JsonKey(name: 'presence_penalty', includeIfNull: false) double? presencePenalty,@JsonKey(name: 'web_search_options', includeIfNull: false) WebSearchOptions? webSearchOptions,@JsonKey(name: 'response_format', includeIfNull: false) ResponseFormat? responseFormat,@JsonKey(includeIfNull: false) int? seed,@JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) CreateChatCompletionRequestServiceTier? serviceTier,@_ChatCompletionStopConverter()@JsonKey(includeIfNull: false) ChatCompletionStop? stop,@JsonKey(includeIfNull: false) bool? stream,@JsonKey(name: 'stream_options', includeIfNull: false) ChatCompletionStreamOptions? streamOptions,@JsonKey(includeIfNull: false) double? temperature,@JsonKey(name: 'top_p', includeIfNull: false) double? topP,@JsonKey(includeIfNull: false) List<ChatCompletionTool>? tools,@_ChatCompletionToolChoiceOptionConverter()@JsonKey(name: 'tool_choice', includeIfNull: false) ChatCompletionToolChoiceOption? toolChoice,@JsonKey(name: 'parallel_tool_calls', includeIfNull: false) bool? parallelToolCalls,@JsonKey(includeIfNull: false) String? user,@_ChatCompletionFunctionCallConverter()@JsonKey(name: 'function_call', includeIfNull: false) ChatCompletionFunctionCall? functionCall,@JsonKey(includeIfNull: false) List<FunctionObject>? functions,@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) Verbosity? verbosity,@JsonKey(includeIfNull: false) CreateChatCompletionRequestReasoning? reasoning,@JsonKey(includeIfNull: false) OpenRouterProviderPreferences? provider,@JsonKey(includeIfNull: false) List<String>? models,@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) CreateChatCompletionRequestRoute? route,@JsonKey(includeIfNull: false) List<String>? transforms,@JsonKey(includeIfNull: false) OpenRouterUsageConfig? usage
+@_ChatCompletionModelConverter() ChatCompletionModel model, List<ChatCompletionMessage> messages,@JsonKey(includeIfNull: false) bool? store,@JsonKey(name: 'reasoning_effort', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ReasoningEffort? reasoningEffort,@JsonKey(includeIfNull: false) Map<String, String>? metadata,@JsonKey(name: 'frequency_penalty', includeIfNull: false) double? frequencyPenalty,@JsonKey(name: 'logit_bias', includeIfNull: false) Map<String, int>? logitBias,@JsonKey(includeIfNull: false) bool? logprobs,@JsonKey(name: 'top_logprobs', includeIfNull: false) int? topLogprobs,@JsonKey(name: 'max_tokens', includeIfNull: false) int? maxTokens,@JsonKey(name: 'max_completion_tokens', includeIfNull: false) int? maxCompletionTokens,@JsonKey(includeIfNull: false) int? n,@JsonKey(includeIfNull: false) List<ChatCompletionModality>? modalities,@JsonKey(includeIfNull: false) PredictionContent? prediction,@JsonKey(includeIfNull: false) ChatCompletionAudioOptions? audio,@JsonKey(name: 'presence_penalty', includeIfNull: false) double? presencePenalty,@JsonKey(name: 'web_search_options', includeIfNull: false) WebSearchOptions? webSearchOptions,@JsonKey(name: 'response_format', includeIfNull: false) ResponseFormat? responseFormat,@JsonKey(includeIfNull: false) int? seed,@JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) CreateChatCompletionRequestServiceTier? serviceTier,@_ChatCompletionStopConverter()@JsonKey(includeIfNull: false) ChatCompletionStop? stop,@JsonKey(includeIfNull: false) bool? stream,@JsonKey(name: 'stream_options', includeIfNull: false) ChatCompletionStreamOptions? streamOptions,@JsonKey(includeIfNull: false) double? temperature,@JsonKey(name: 'top_p', includeIfNull: false) double? topP,@JsonKey(name: 'top_k', includeIfNull: false) int? topK,@JsonKey(name: 'min_p', includeIfNull: false) double? minP,@JsonKey(name: 'top_a', includeIfNull: false) double? topA,@JsonKey(name: 'repetition_penalty', includeIfNull: false) double? repetitionPenalty,@JsonKey(includeIfNull: false) List<ChatCompletionTool>? tools,@_ChatCompletionToolChoiceOptionConverter()@JsonKey(name: 'tool_choice', includeIfNull: false) ChatCompletionToolChoiceOption? toolChoice,@JsonKey(name: 'parallel_tool_calls', includeIfNull: false) bool? parallelToolCalls,@JsonKey(includeIfNull: false) String? user,@_ChatCompletionFunctionCallConverter()@JsonKey(name: 'function_call', includeIfNull: false) ChatCompletionFunctionCall? functionCall,@JsonKey(includeIfNull: false) List<FunctionObject>? functions,@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) Verbosity? verbosity,@JsonKey(includeIfNull: false) CreateChatCompletionRequestReasoning? reasoning,@JsonKey(includeIfNull: false) OpenRouterProviderPreferences? provider,@JsonKey(includeIfNull: false) List<String>? models,@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) CreateChatCompletionRequestRoute? route,@JsonKey(includeIfNull: false) List<String>? transforms,@JsonKey(includeIfNull: false) OpenRouterUsageConfig? usage
 });
 
 
@@ -3604,7 +3678,7 @@ class __$CreateChatCompletionRequestCopyWithImpl<$Res>
 
 /// Create a copy of CreateChatCompletionRequest
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? model = null,Object? messages = null,Object? store = freezed,Object? reasoningEffort = freezed,Object? metadata = freezed,Object? frequencyPenalty = freezed,Object? logitBias = freezed,Object? logprobs = freezed,Object? topLogprobs = freezed,Object? maxTokens = freezed,Object? maxCompletionTokens = freezed,Object? n = freezed,Object? modalities = freezed,Object? prediction = freezed,Object? audio = freezed,Object? presencePenalty = freezed,Object? webSearchOptions = freezed,Object? responseFormat = freezed,Object? seed = freezed,Object? serviceTier = freezed,Object? stop = freezed,Object? stream = freezed,Object? streamOptions = freezed,Object? temperature = freezed,Object? topP = freezed,Object? tools = freezed,Object? toolChoice = freezed,Object? parallelToolCalls = freezed,Object? user = freezed,Object? functionCall = freezed,Object? functions = freezed,Object? verbosity = freezed,Object? reasoning = freezed,Object? provider = freezed,Object? models = freezed,Object? route = freezed,Object? transforms = freezed,Object? usage = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? model = null,Object? messages = null,Object? store = freezed,Object? reasoningEffort = freezed,Object? metadata = freezed,Object? frequencyPenalty = freezed,Object? logitBias = freezed,Object? logprobs = freezed,Object? topLogprobs = freezed,Object? maxTokens = freezed,Object? maxCompletionTokens = freezed,Object? n = freezed,Object? modalities = freezed,Object? prediction = freezed,Object? audio = freezed,Object? presencePenalty = freezed,Object? webSearchOptions = freezed,Object? responseFormat = freezed,Object? seed = freezed,Object? serviceTier = freezed,Object? stop = freezed,Object? stream = freezed,Object? streamOptions = freezed,Object? temperature = freezed,Object? topP = freezed,Object? topK = freezed,Object? minP = freezed,Object? topA = freezed,Object? repetitionPenalty = freezed,Object? tools = freezed,Object? toolChoice = freezed,Object? parallelToolCalls = freezed,Object? user = freezed,Object? functionCall = freezed,Object? functions = freezed,Object? verbosity = freezed,Object? reasoning = freezed,Object? provider = freezed,Object? models = freezed,Object? route = freezed,Object? transforms = freezed,Object? usage = freezed,}) {
   return _then(_CreateChatCompletionRequest(
 model: null == model ? _self.model : model // ignore: cast_nullable_to_non_nullable
 as ChatCompletionModel,messages: null == messages ? _self._messages : messages // ignore: cast_nullable_to_non_nullable
@@ -3631,6 +3705,10 @@ as ChatCompletionStop?,stream: freezed == stream ? _self.stream : stream // igno
 as bool?,streamOptions: freezed == streamOptions ? _self.streamOptions : streamOptions // ignore: cast_nullable_to_non_nullable
 as ChatCompletionStreamOptions?,temperature: freezed == temperature ? _self.temperature : temperature // ignore: cast_nullable_to_non_nullable
 as double?,topP: freezed == topP ? _self.topP : topP // ignore: cast_nullable_to_non_nullable
+as double?,topK: freezed == topK ? _self.topK : topK // ignore: cast_nullable_to_non_nullable
+as int?,minP: freezed == minP ? _self.minP : minP // ignore: cast_nullable_to_non_nullable
+as double?,topA: freezed == topA ? _self.topA : topA // ignore: cast_nullable_to_non_nullable
+as double?,repetitionPenalty: freezed == repetitionPenalty ? _self.repetitionPenalty : repetitionPenalty // ignore: cast_nullable_to_non_nullable
 as double?,tools: freezed == tools ? _self._tools : tools // ignore: cast_nullable_to_non_nullable
 as List<ChatCompletionTool>?,toolChoice: freezed == toolChoice ? _self.toolChoice : toolChoice // ignore: cast_nullable_to_non_nullable
 as ChatCompletionToolChoiceOption?,parallelToolCalls: freezed == parallelToolCalls ? _self.parallelToolCalls : parallelToolCalls // ignore: cast_nullable_to_non_nullable
@@ -10166,7 +10244,12 @@ mixin _$CreateChatCompletionResponse {
 /// Can be used in conjunction with the `seed` request parameter to understand when backend changes have been made that might impact determinism.
 @JsonKey(name: 'system_fingerprint', includeIfNull: false) String? get systemFingerprint;/// The object type, which is always `chat.completion`.
  String get object;/// Usage statistics for the completion request.
-@JsonKey(includeIfNull: false) CompletionUsage? get usage;
+@JsonKey(includeIfNull: false) CompletionUsage? get usage;/// The name of the provider that processed the request (e.g., "openai", "anthropic").
+///
+/// **NOT part of the official OpenAI API.**
+///
+/// **Provider:** OpenRouter
+@JsonKey(includeIfNull: false) String? get provider;
 /// Create a copy of CreateChatCompletionResponse
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -10179,16 +10262,16 @@ $CreateChatCompletionResponseCopyWith<CreateChatCompletionResponse> get copyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateChatCompletionResponse&&(identical(other.id, id) || other.id == id)&&const DeepCollectionEquality().equals(other.choices, choices)&&(identical(other.created, created) || other.created == created)&&(identical(other.model, model) || other.model == model)&&(identical(other.serviceTier, serviceTier) || other.serviceTier == serviceTier)&&(identical(other.systemFingerprint, systemFingerprint) || other.systemFingerprint == systemFingerprint)&&(identical(other.object, object) || other.object == object)&&(identical(other.usage, usage) || other.usage == usage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateChatCompletionResponse&&(identical(other.id, id) || other.id == id)&&const DeepCollectionEquality().equals(other.choices, choices)&&(identical(other.created, created) || other.created == created)&&(identical(other.model, model) || other.model == model)&&(identical(other.serviceTier, serviceTier) || other.serviceTier == serviceTier)&&(identical(other.systemFingerprint, systemFingerprint) || other.systemFingerprint == systemFingerprint)&&(identical(other.object, object) || other.object == object)&&(identical(other.usage, usage) || other.usage == usage)&&(identical(other.provider, provider) || other.provider == provider));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,const DeepCollectionEquality().hash(choices),created,model,serviceTier,systemFingerprint,object,usage);
+int get hashCode => Object.hash(runtimeType,id,const DeepCollectionEquality().hash(choices),created,model,serviceTier,systemFingerprint,object,usage,provider);
 
 @override
 String toString() {
-  return 'CreateChatCompletionResponse(id: $id, choices: $choices, created: $created, model: $model, serviceTier: $serviceTier, systemFingerprint: $systemFingerprint, object: $object, usage: $usage)';
+  return 'CreateChatCompletionResponse(id: $id, choices: $choices, created: $created, model: $model, serviceTier: $serviceTier, systemFingerprint: $systemFingerprint, object: $object, usage: $usage, provider: $provider)';
 }
 
 
@@ -10199,7 +10282,7 @@ abstract mixin class $CreateChatCompletionResponseCopyWith<$Res>  {
   factory $CreateChatCompletionResponseCopyWith(CreateChatCompletionResponse value, $Res Function(CreateChatCompletionResponse) _then) = _$CreateChatCompletionResponseCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(includeIfNull: false) String? id, List<ChatCompletionResponseChoice> choices, int created, String model,@JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ServiceTier? serviceTier,@JsonKey(name: 'system_fingerprint', includeIfNull: false) String? systemFingerprint, String object,@JsonKey(includeIfNull: false) CompletionUsage? usage
+@JsonKey(includeIfNull: false) String? id, List<ChatCompletionResponseChoice> choices, int created, String model,@JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ServiceTier? serviceTier,@JsonKey(name: 'system_fingerprint', includeIfNull: false) String? systemFingerprint, String object,@JsonKey(includeIfNull: false) CompletionUsage? usage,@JsonKey(includeIfNull: false) String? provider
 });
 
 
@@ -10216,7 +10299,7 @@ class _$CreateChatCompletionResponseCopyWithImpl<$Res>
 
 /// Create a copy of CreateChatCompletionResponse
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? choices = null,Object? created = null,Object? model = null,Object? serviceTier = freezed,Object? systemFingerprint = freezed,Object? object = null,Object? usage = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? choices = null,Object? created = null,Object? model = null,Object? serviceTier = freezed,Object? systemFingerprint = freezed,Object? object = null,Object? usage = freezed,Object? provider = freezed,}) {
   return _then(_self.copyWith(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String?,choices: null == choices ? _self.choices : choices // ignore: cast_nullable_to_non_nullable
@@ -10226,7 +10309,8 @@ as String,serviceTier: freezed == serviceTier ? _self.serviceTier : serviceTier 
 as ServiceTier?,systemFingerprint: freezed == systemFingerprint ? _self.systemFingerprint : systemFingerprint // ignore: cast_nullable_to_non_nullable
 as String?,object: null == object ? _self.object : object // ignore: cast_nullable_to_non_nullable
 as String,usage: freezed == usage ? _self.usage : usage // ignore: cast_nullable_to_non_nullable
-as CompletionUsage?,
+as CompletionUsage?,provider: freezed == provider ? _self.provider : provider // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 /// Create a copy of CreateChatCompletionResponse
@@ -10323,10 +10407,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false)  String? id,  List<ChatCompletionResponseChoice> choices,  int created,  String model, @JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ServiceTier? serviceTier, @JsonKey(name: 'system_fingerprint', includeIfNull: false)  String? systemFingerprint,  String object, @JsonKey(includeIfNull: false)  CompletionUsage? usage)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false)  String? id,  List<ChatCompletionResponseChoice> choices,  int created,  String model, @JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ServiceTier? serviceTier, @JsonKey(name: 'system_fingerprint', includeIfNull: false)  String? systemFingerprint,  String object, @JsonKey(includeIfNull: false)  CompletionUsage? usage, @JsonKey(includeIfNull: false)  String? provider)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CreateChatCompletionResponse() when $default != null:
-return $default(_that.id,_that.choices,_that.created,_that.model,_that.serviceTier,_that.systemFingerprint,_that.object,_that.usage);case _:
+return $default(_that.id,_that.choices,_that.created,_that.model,_that.serviceTier,_that.systemFingerprint,_that.object,_that.usage,_that.provider);case _:
   return orElse();
 
 }
@@ -10344,10 +10428,10 @@ return $default(_that.id,_that.choices,_that.created,_that.model,_that.serviceTi
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false)  String? id,  List<ChatCompletionResponseChoice> choices,  int created,  String model, @JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ServiceTier? serviceTier, @JsonKey(name: 'system_fingerprint', includeIfNull: false)  String? systemFingerprint,  String object, @JsonKey(includeIfNull: false)  CompletionUsage? usage)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false)  String? id,  List<ChatCompletionResponseChoice> choices,  int created,  String model, @JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ServiceTier? serviceTier, @JsonKey(name: 'system_fingerprint', includeIfNull: false)  String? systemFingerprint,  String object, @JsonKey(includeIfNull: false)  CompletionUsage? usage, @JsonKey(includeIfNull: false)  String? provider)  $default,) {final _that = this;
 switch (_that) {
 case _CreateChatCompletionResponse():
-return $default(_that.id,_that.choices,_that.created,_that.model,_that.serviceTier,_that.systemFingerprint,_that.object,_that.usage);case _:
+return $default(_that.id,_that.choices,_that.created,_that.model,_that.serviceTier,_that.systemFingerprint,_that.object,_that.usage,_that.provider);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -10364,10 +10448,10 @@ return $default(_that.id,_that.choices,_that.created,_that.model,_that.serviceTi
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(includeIfNull: false)  String? id,  List<ChatCompletionResponseChoice> choices,  int created,  String model, @JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ServiceTier? serviceTier, @JsonKey(name: 'system_fingerprint', includeIfNull: false)  String? systemFingerprint,  String object, @JsonKey(includeIfNull: false)  CompletionUsage? usage)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(includeIfNull: false)  String? id,  List<ChatCompletionResponseChoice> choices,  int created,  String model, @JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ServiceTier? serviceTier, @JsonKey(name: 'system_fingerprint', includeIfNull: false)  String? systemFingerprint,  String object, @JsonKey(includeIfNull: false)  CompletionUsage? usage, @JsonKey(includeIfNull: false)  String? provider)?  $default,) {final _that = this;
 switch (_that) {
 case _CreateChatCompletionResponse() when $default != null:
-return $default(_that.id,_that.choices,_that.created,_that.model,_that.serviceTier,_that.systemFingerprint,_that.object,_that.usage);case _:
+return $default(_that.id,_that.choices,_that.created,_that.model,_that.serviceTier,_that.systemFingerprint,_that.object,_that.usage,_that.provider);case _:
   return null;
 
 }
@@ -10379,7 +10463,7 @@ return $default(_that.id,_that.choices,_that.created,_that.model,_that.serviceTi
 @JsonSerializable()
 
 class _CreateChatCompletionResponse extends CreateChatCompletionResponse {
-  const _CreateChatCompletionResponse({@JsonKey(includeIfNull: false) this.id, required final  List<ChatCompletionResponseChoice> choices, required this.created, required this.model, @JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.serviceTier, @JsonKey(name: 'system_fingerprint', includeIfNull: false) this.systemFingerprint, required this.object, @JsonKey(includeIfNull: false) this.usage}): _choices = choices,super._();
+  const _CreateChatCompletionResponse({@JsonKey(includeIfNull: false) this.id, required final  List<ChatCompletionResponseChoice> choices, required this.created, required this.model, @JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.serviceTier, @JsonKey(name: 'system_fingerprint', includeIfNull: false) this.systemFingerprint, required this.object, @JsonKey(includeIfNull: false) this.usage, @JsonKey(includeIfNull: false) this.provider}): _choices = choices,super._();
   factory _CreateChatCompletionResponse.fromJson(Map<String, dynamic> json) => _$CreateChatCompletionResponseFromJson(json);
 
 /// A unique identifier for the chat completion.
@@ -10408,6 +10492,12 @@ class _CreateChatCompletionResponse extends CreateChatCompletionResponse {
 @override final  String object;
 /// Usage statistics for the completion request.
 @override@JsonKey(includeIfNull: false) final  CompletionUsage? usage;
+/// The name of the provider that processed the request (e.g., "openai", "anthropic").
+///
+/// **NOT part of the official OpenAI API.**
+///
+/// **Provider:** OpenRouter
+@override@JsonKey(includeIfNull: false) final  String? provider;
 
 /// Create a copy of CreateChatCompletionResponse
 /// with the given fields replaced by the non-null parameter values.
@@ -10422,16 +10512,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateChatCompletionResponse&&(identical(other.id, id) || other.id == id)&&const DeepCollectionEquality().equals(other._choices, _choices)&&(identical(other.created, created) || other.created == created)&&(identical(other.model, model) || other.model == model)&&(identical(other.serviceTier, serviceTier) || other.serviceTier == serviceTier)&&(identical(other.systemFingerprint, systemFingerprint) || other.systemFingerprint == systemFingerprint)&&(identical(other.object, object) || other.object == object)&&(identical(other.usage, usage) || other.usage == usage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateChatCompletionResponse&&(identical(other.id, id) || other.id == id)&&const DeepCollectionEquality().equals(other._choices, _choices)&&(identical(other.created, created) || other.created == created)&&(identical(other.model, model) || other.model == model)&&(identical(other.serviceTier, serviceTier) || other.serviceTier == serviceTier)&&(identical(other.systemFingerprint, systemFingerprint) || other.systemFingerprint == systemFingerprint)&&(identical(other.object, object) || other.object == object)&&(identical(other.usage, usage) || other.usage == usage)&&(identical(other.provider, provider) || other.provider == provider));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,const DeepCollectionEquality().hash(_choices),created,model,serviceTier,systemFingerprint,object,usage);
+int get hashCode => Object.hash(runtimeType,id,const DeepCollectionEquality().hash(_choices),created,model,serviceTier,systemFingerprint,object,usage,provider);
 
 @override
 String toString() {
-  return 'CreateChatCompletionResponse(id: $id, choices: $choices, created: $created, model: $model, serviceTier: $serviceTier, systemFingerprint: $systemFingerprint, object: $object, usage: $usage)';
+  return 'CreateChatCompletionResponse(id: $id, choices: $choices, created: $created, model: $model, serviceTier: $serviceTier, systemFingerprint: $systemFingerprint, object: $object, usage: $usage, provider: $provider)';
 }
 
 
@@ -10442,7 +10532,7 @@ abstract mixin class _$CreateChatCompletionResponseCopyWith<$Res> implements $Cr
   factory _$CreateChatCompletionResponseCopyWith(_CreateChatCompletionResponse value, $Res Function(_CreateChatCompletionResponse) _then) = __$CreateChatCompletionResponseCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(includeIfNull: false) String? id, List<ChatCompletionResponseChoice> choices, int created, String model,@JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ServiceTier? serviceTier,@JsonKey(name: 'system_fingerprint', includeIfNull: false) String? systemFingerprint, String object,@JsonKey(includeIfNull: false) CompletionUsage? usage
+@JsonKey(includeIfNull: false) String? id, List<ChatCompletionResponseChoice> choices, int created, String model,@JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ServiceTier? serviceTier,@JsonKey(name: 'system_fingerprint', includeIfNull: false) String? systemFingerprint, String object,@JsonKey(includeIfNull: false) CompletionUsage? usage,@JsonKey(includeIfNull: false) String? provider
 });
 
 
@@ -10459,7 +10549,7 @@ class __$CreateChatCompletionResponseCopyWithImpl<$Res>
 
 /// Create a copy of CreateChatCompletionResponse
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? choices = null,Object? created = null,Object? model = null,Object? serviceTier = freezed,Object? systemFingerprint = freezed,Object? object = null,Object? usage = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? choices = null,Object? created = null,Object? model = null,Object? serviceTier = freezed,Object? systemFingerprint = freezed,Object? object = null,Object? usage = freezed,Object? provider = freezed,}) {
   return _then(_CreateChatCompletionResponse(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String?,choices: null == choices ? _self._choices : choices // ignore: cast_nullable_to_non_nullable
@@ -10469,7 +10559,8 @@ as String,serviceTier: freezed == serviceTier ? _self.serviceTier : serviceTier 
 as ServiceTier?,systemFingerprint: freezed == systemFingerprint ? _self.systemFingerprint : systemFingerprint // ignore: cast_nullable_to_non_nullable
 as String?,object: null == object ? _self.object : object // ignore: cast_nullable_to_non_nullable
 as String,usage: freezed == usage ? _self.usage : usage // ignore: cast_nullable_to_non_nullable
-as CompletionUsage?,
+as CompletionUsage?,provider: freezed == provider ? _self.provider : provider // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -11682,7 +11773,12 @@ mixin _$CreateChatCompletionStreamResponse {
 /// Can be used in conjunction with the `seed` request parameter to understand when backend changes have been made that might impact
 @JsonKey(name: 'system_fingerprint', includeIfNull: false) String? get systemFingerprint;/// The object type, which is always `chat.completion.chunk`.
 @JsonKey(includeIfNull: false) String? get object;/// Usage statistics for the completion request.
-@JsonKey(includeIfNull: false) CompletionUsage? get usage;
+@JsonKey(includeIfNull: false) CompletionUsage? get usage;/// The name of the provider that processed the request (e.g., "openai", "anthropic").
+///
+/// **NOT part of the official OpenAI API.**
+///
+/// **Provider:** OpenRouter
+@JsonKey(includeIfNull: false) String? get provider;
 /// Create a copy of CreateChatCompletionStreamResponse
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -11695,16 +11791,16 @@ $CreateChatCompletionStreamResponseCopyWith<CreateChatCompletionStreamResponse> 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateChatCompletionStreamResponse&&(identical(other.id, id) || other.id == id)&&const DeepCollectionEquality().equals(other.choices, choices)&&(identical(other.created, created) || other.created == created)&&(identical(other.model, model) || other.model == model)&&(identical(other.serviceTier, serviceTier) || other.serviceTier == serviceTier)&&(identical(other.systemFingerprint, systemFingerprint) || other.systemFingerprint == systemFingerprint)&&(identical(other.object, object) || other.object == object)&&(identical(other.usage, usage) || other.usage == usage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateChatCompletionStreamResponse&&(identical(other.id, id) || other.id == id)&&const DeepCollectionEquality().equals(other.choices, choices)&&(identical(other.created, created) || other.created == created)&&(identical(other.model, model) || other.model == model)&&(identical(other.serviceTier, serviceTier) || other.serviceTier == serviceTier)&&(identical(other.systemFingerprint, systemFingerprint) || other.systemFingerprint == systemFingerprint)&&(identical(other.object, object) || other.object == object)&&(identical(other.usage, usage) || other.usage == usage)&&(identical(other.provider, provider) || other.provider == provider));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,const DeepCollectionEquality().hash(choices),created,model,serviceTier,systemFingerprint,object,usage);
+int get hashCode => Object.hash(runtimeType,id,const DeepCollectionEquality().hash(choices),created,model,serviceTier,systemFingerprint,object,usage,provider);
 
 @override
 String toString() {
-  return 'CreateChatCompletionStreamResponse(id: $id, choices: $choices, created: $created, model: $model, serviceTier: $serviceTier, systemFingerprint: $systemFingerprint, object: $object, usage: $usage)';
+  return 'CreateChatCompletionStreamResponse(id: $id, choices: $choices, created: $created, model: $model, serviceTier: $serviceTier, systemFingerprint: $systemFingerprint, object: $object, usage: $usage, provider: $provider)';
 }
 
 
@@ -11715,7 +11811,7 @@ abstract mixin class $CreateChatCompletionStreamResponseCopyWith<$Res>  {
   factory $CreateChatCompletionStreamResponseCopyWith(CreateChatCompletionStreamResponse value, $Res Function(CreateChatCompletionStreamResponse) _then) = _$CreateChatCompletionStreamResponseCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(includeIfNull: false) String? id,@JsonKey(includeIfNull: false) List<ChatCompletionStreamResponseChoice>? choices,@JsonKey(includeIfNull: false) int? created,@JsonKey(includeIfNull: false) String? model,@JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ServiceTier? serviceTier,@JsonKey(name: 'system_fingerprint', includeIfNull: false) String? systemFingerprint,@JsonKey(includeIfNull: false) String? object,@JsonKey(includeIfNull: false) CompletionUsage? usage
+@JsonKey(includeIfNull: false) String? id,@JsonKey(includeIfNull: false) List<ChatCompletionStreamResponseChoice>? choices,@JsonKey(includeIfNull: false) int? created,@JsonKey(includeIfNull: false) String? model,@JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ServiceTier? serviceTier,@JsonKey(name: 'system_fingerprint', includeIfNull: false) String? systemFingerprint,@JsonKey(includeIfNull: false) String? object,@JsonKey(includeIfNull: false) CompletionUsage? usage,@JsonKey(includeIfNull: false) String? provider
 });
 
 
@@ -11732,7 +11828,7 @@ class _$CreateChatCompletionStreamResponseCopyWithImpl<$Res>
 
 /// Create a copy of CreateChatCompletionStreamResponse
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? choices = freezed,Object? created = freezed,Object? model = freezed,Object? serviceTier = freezed,Object? systemFingerprint = freezed,Object? object = freezed,Object? usage = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? choices = freezed,Object? created = freezed,Object? model = freezed,Object? serviceTier = freezed,Object? systemFingerprint = freezed,Object? object = freezed,Object? usage = freezed,Object? provider = freezed,}) {
   return _then(_self.copyWith(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String?,choices: freezed == choices ? _self.choices : choices // ignore: cast_nullable_to_non_nullable
@@ -11742,7 +11838,8 @@ as String?,serviceTier: freezed == serviceTier ? _self.serviceTier : serviceTier
 as ServiceTier?,systemFingerprint: freezed == systemFingerprint ? _self.systemFingerprint : systemFingerprint // ignore: cast_nullable_to_non_nullable
 as String?,object: freezed == object ? _self.object : object // ignore: cast_nullable_to_non_nullable
 as String?,usage: freezed == usage ? _self.usage : usage // ignore: cast_nullable_to_non_nullable
-as CompletionUsage?,
+as CompletionUsage?,provider: freezed == provider ? _self.provider : provider // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 /// Create a copy of CreateChatCompletionStreamResponse
@@ -11839,10 +11936,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false)  String? id, @JsonKey(includeIfNull: false)  List<ChatCompletionStreamResponseChoice>? choices, @JsonKey(includeIfNull: false)  int? created, @JsonKey(includeIfNull: false)  String? model, @JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ServiceTier? serviceTier, @JsonKey(name: 'system_fingerprint', includeIfNull: false)  String? systemFingerprint, @JsonKey(includeIfNull: false)  String? object, @JsonKey(includeIfNull: false)  CompletionUsage? usage)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false)  String? id, @JsonKey(includeIfNull: false)  List<ChatCompletionStreamResponseChoice>? choices, @JsonKey(includeIfNull: false)  int? created, @JsonKey(includeIfNull: false)  String? model, @JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ServiceTier? serviceTier, @JsonKey(name: 'system_fingerprint', includeIfNull: false)  String? systemFingerprint, @JsonKey(includeIfNull: false)  String? object, @JsonKey(includeIfNull: false)  CompletionUsage? usage, @JsonKey(includeIfNull: false)  String? provider)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CreateChatCompletionStreamResponse() when $default != null:
-return $default(_that.id,_that.choices,_that.created,_that.model,_that.serviceTier,_that.systemFingerprint,_that.object,_that.usage);case _:
+return $default(_that.id,_that.choices,_that.created,_that.model,_that.serviceTier,_that.systemFingerprint,_that.object,_that.usage,_that.provider);case _:
   return orElse();
 
 }
@@ -11860,10 +11957,10 @@ return $default(_that.id,_that.choices,_that.created,_that.model,_that.serviceTi
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false)  String? id, @JsonKey(includeIfNull: false)  List<ChatCompletionStreamResponseChoice>? choices, @JsonKey(includeIfNull: false)  int? created, @JsonKey(includeIfNull: false)  String? model, @JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ServiceTier? serviceTier, @JsonKey(name: 'system_fingerprint', includeIfNull: false)  String? systemFingerprint, @JsonKey(includeIfNull: false)  String? object, @JsonKey(includeIfNull: false)  CompletionUsage? usage)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false)  String? id, @JsonKey(includeIfNull: false)  List<ChatCompletionStreamResponseChoice>? choices, @JsonKey(includeIfNull: false)  int? created, @JsonKey(includeIfNull: false)  String? model, @JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ServiceTier? serviceTier, @JsonKey(name: 'system_fingerprint', includeIfNull: false)  String? systemFingerprint, @JsonKey(includeIfNull: false)  String? object, @JsonKey(includeIfNull: false)  CompletionUsage? usage, @JsonKey(includeIfNull: false)  String? provider)  $default,) {final _that = this;
 switch (_that) {
 case _CreateChatCompletionStreamResponse():
-return $default(_that.id,_that.choices,_that.created,_that.model,_that.serviceTier,_that.systemFingerprint,_that.object,_that.usage);case _:
+return $default(_that.id,_that.choices,_that.created,_that.model,_that.serviceTier,_that.systemFingerprint,_that.object,_that.usage,_that.provider);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -11880,10 +11977,10 @@ return $default(_that.id,_that.choices,_that.created,_that.model,_that.serviceTi
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(includeIfNull: false)  String? id, @JsonKey(includeIfNull: false)  List<ChatCompletionStreamResponseChoice>? choices, @JsonKey(includeIfNull: false)  int? created, @JsonKey(includeIfNull: false)  String? model, @JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ServiceTier? serviceTier, @JsonKey(name: 'system_fingerprint', includeIfNull: false)  String? systemFingerprint, @JsonKey(includeIfNull: false)  String? object, @JsonKey(includeIfNull: false)  CompletionUsage? usage)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(includeIfNull: false)  String? id, @JsonKey(includeIfNull: false)  List<ChatCompletionStreamResponseChoice>? choices, @JsonKey(includeIfNull: false)  int? created, @JsonKey(includeIfNull: false)  String? model, @JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ServiceTier? serviceTier, @JsonKey(name: 'system_fingerprint', includeIfNull: false)  String? systemFingerprint, @JsonKey(includeIfNull: false)  String? object, @JsonKey(includeIfNull: false)  CompletionUsage? usage, @JsonKey(includeIfNull: false)  String? provider)?  $default,) {final _that = this;
 switch (_that) {
 case _CreateChatCompletionStreamResponse() when $default != null:
-return $default(_that.id,_that.choices,_that.created,_that.model,_that.serviceTier,_that.systemFingerprint,_that.object,_that.usage);case _:
+return $default(_that.id,_that.choices,_that.created,_that.model,_that.serviceTier,_that.systemFingerprint,_that.object,_that.usage,_that.provider);case _:
   return null;
 
 }
@@ -11895,7 +11992,7 @@ return $default(_that.id,_that.choices,_that.created,_that.model,_that.serviceTi
 @JsonSerializable()
 
 class _CreateChatCompletionStreamResponse extends CreateChatCompletionStreamResponse {
-  const _CreateChatCompletionStreamResponse({@JsonKey(includeIfNull: false) this.id, @JsonKey(includeIfNull: false) final  List<ChatCompletionStreamResponseChoice>? choices, @JsonKey(includeIfNull: false) this.created, @JsonKey(includeIfNull: false) this.model, @JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.serviceTier, @JsonKey(name: 'system_fingerprint', includeIfNull: false) this.systemFingerprint, @JsonKey(includeIfNull: false) this.object, @JsonKey(includeIfNull: false) this.usage}): _choices = choices,super._();
+  const _CreateChatCompletionStreamResponse({@JsonKey(includeIfNull: false) this.id, @JsonKey(includeIfNull: false) final  List<ChatCompletionStreamResponseChoice>? choices, @JsonKey(includeIfNull: false) this.created, @JsonKey(includeIfNull: false) this.model, @JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.serviceTier, @JsonKey(name: 'system_fingerprint', includeIfNull: false) this.systemFingerprint, @JsonKey(includeIfNull: false) this.object, @JsonKey(includeIfNull: false) this.usage, @JsonKey(includeIfNull: false) this.provider}): _choices = choices,super._();
   factory _CreateChatCompletionStreamResponse.fromJson(Map<String, dynamic> json) => _$CreateChatCompletionStreamResponseFromJson(json);
 
 /// A unique identifier for the chat completion. Each chunk has the same ID.
@@ -11928,6 +12025,12 @@ class _CreateChatCompletionStreamResponse extends CreateChatCompletionStreamResp
 @override@JsonKey(includeIfNull: false) final  String? object;
 /// Usage statistics for the completion request.
 @override@JsonKey(includeIfNull: false) final  CompletionUsage? usage;
+/// The name of the provider that processed the request (e.g., "openai", "anthropic").
+///
+/// **NOT part of the official OpenAI API.**
+///
+/// **Provider:** OpenRouter
+@override@JsonKey(includeIfNull: false) final  String? provider;
 
 /// Create a copy of CreateChatCompletionStreamResponse
 /// with the given fields replaced by the non-null parameter values.
@@ -11942,16 +12045,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateChatCompletionStreamResponse&&(identical(other.id, id) || other.id == id)&&const DeepCollectionEquality().equals(other._choices, _choices)&&(identical(other.created, created) || other.created == created)&&(identical(other.model, model) || other.model == model)&&(identical(other.serviceTier, serviceTier) || other.serviceTier == serviceTier)&&(identical(other.systemFingerprint, systemFingerprint) || other.systemFingerprint == systemFingerprint)&&(identical(other.object, object) || other.object == object)&&(identical(other.usage, usage) || other.usage == usage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateChatCompletionStreamResponse&&(identical(other.id, id) || other.id == id)&&const DeepCollectionEquality().equals(other._choices, _choices)&&(identical(other.created, created) || other.created == created)&&(identical(other.model, model) || other.model == model)&&(identical(other.serviceTier, serviceTier) || other.serviceTier == serviceTier)&&(identical(other.systemFingerprint, systemFingerprint) || other.systemFingerprint == systemFingerprint)&&(identical(other.object, object) || other.object == object)&&(identical(other.usage, usage) || other.usage == usage)&&(identical(other.provider, provider) || other.provider == provider));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,const DeepCollectionEquality().hash(_choices),created,model,serviceTier,systemFingerprint,object,usage);
+int get hashCode => Object.hash(runtimeType,id,const DeepCollectionEquality().hash(_choices),created,model,serviceTier,systemFingerprint,object,usage,provider);
 
 @override
 String toString() {
-  return 'CreateChatCompletionStreamResponse(id: $id, choices: $choices, created: $created, model: $model, serviceTier: $serviceTier, systemFingerprint: $systemFingerprint, object: $object, usage: $usage)';
+  return 'CreateChatCompletionStreamResponse(id: $id, choices: $choices, created: $created, model: $model, serviceTier: $serviceTier, systemFingerprint: $systemFingerprint, object: $object, usage: $usage, provider: $provider)';
 }
 
 
@@ -11962,7 +12065,7 @@ abstract mixin class _$CreateChatCompletionStreamResponseCopyWith<$Res> implemen
   factory _$CreateChatCompletionStreamResponseCopyWith(_CreateChatCompletionStreamResponse value, $Res Function(_CreateChatCompletionStreamResponse) _then) = __$CreateChatCompletionStreamResponseCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(includeIfNull: false) String? id,@JsonKey(includeIfNull: false) List<ChatCompletionStreamResponseChoice>? choices,@JsonKey(includeIfNull: false) int? created,@JsonKey(includeIfNull: false) String? model,@JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ServiceTier? serviceTier,@JsonKey(name: 'system_fingerprint', includeIfNull: false) String? systemFingerprint,@JsonKey(includeIfNull: false) String? object,@JsonKey(includeIfNull: false) CompletionUsage? usage
+@JsonKey(includeIfNull: false) String? id,@JsonKey(includeIfNull: false) List<ChatCompletionStreamResponseChoice>? choices,@JsonKey(includeIfNull: false) int? created,@JsonKey(includeIfNull: false) String? model,@JsonKey(name: 'service_tier', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ServiceTier? serviceTier,@JsonKey(name: 'system_fingerprint', includeIfNull: false) String? systemFingerprint,@JsonKey(includeIfNull: false) String? object,@JsonKey(includeIfNull: false) CompletionUsage? usage,@JsonKey(includeIfNull: false) String? provider
 });
 
 
@@ -11979,7 +12082,7 @@ class __$CreateChatCompletionStreamResponseCopyWithImpl<$Res>
 
 /// Create a copy of CreateChatCompletionStreamResponse
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? choices = freezed,Object? created = freezed,Object? model = freezed,Object? serviceTier = freezed,Object? systemFingerprint = freezed,Object? object = freezed,Object? usage = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? choices = freezed,Object? created = freezed,Object? model = freezed,Object? serviceTier = freezed,Object? systemFingerprint = freezed,Object? object = freezed,Object? usage = freezed,Object? provider = freezed,}) {
   return _then(_CreateChatCompletionStreamResponse(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String?,choices: freezed == choices ? _self._choices : choices // ignore: cast_nullable_to_non_nullable
@@ -11989,7 +12092,8 @@ as String?,serviceTier: freezed == serviceTier ? _self.serviceTier : serviceTier
 as ServiceTier?,systemFingerprint: freezed == systemFingerprint ? _self.systemFingerprint : systemFingerprint // ignore: cast_nullable_to_non_nullable
 as String?,object: freezed == object ? _self.object : object // ignore: cast_nullable_to_non_nullable
 as String?,usage: freezed == usage ? _self.usage : usage // ignore: cast_nullable_to_non_nullable
-as CompletionUsage?,
+as CompletionUsage?,provider: freezed == provider ? _self.provider : provider // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

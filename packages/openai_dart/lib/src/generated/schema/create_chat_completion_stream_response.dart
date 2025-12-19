@@ -50,6 +50,13 @@ abstract class CreateChatCompletionStreamResponse
 
     /// Usage statistics for the completion request.
     @JsonKey(includeIfNull: false) CompletionUsage? usage,
+
+    /// The name of the provider that processed the request (e.g., "openai", "anthropic").
+    ///
+    /// **NOT part of the official OpenAI API.**
+    ///
+    /// **Provider:** OpenRouter
+    @JsonKey(includeIfNull: false) String? provider,
   }) = _CreateChatCompletionStreamResponse;
 
   /// Object construction from a JSON representation
@@ -67,6 +74,7 @@ abstract class CreateChatCompletionStreamResponse
     'system_fingerprint',
     'object',
     'usage',
+    'provider',
   ];
 
   /// Perform validations on the schema property values
@@ -85,6 +93,7 @@ abstract class CreateChatCompletionStreamResponse
       'system_fingerprint': systemFingerprint,
       'object': object,
       'usage': usage,
+      'provider': provider,
     };
   }
 }
