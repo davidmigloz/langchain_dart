@@ -84,8 +84,20 @@ export 'src/models/generation/thinking_config.dart';
 export 'src/models/generation/thinking_level.dart';
 // Models - Metadata
 export 'src/models/metadata/finish_reason.dart';
+export 'src/models/metadata/grounding_chunk.dart';
+export 'src/models/metadata/grounding_metadata.dart';
+export 'src/models/metadata/grounding_support.dart';
+export 'src/models/metadata/lat_lng.dart';
+export 'src/models/metadata/maps.dart';
 export 'src/models/metadata/modality_token_count.dart';
+export 'src/models/metadata/place_answer_sources.dart';
+export 'src/models/metadata/retrieval_metadata.dart';
+export 'src/models/metadata/retrieved_context.dart';
+export 'src/models/metadata/review_snippet.dart';
+export 'src/models/metadata/search_entry_point.dart';
+export 'src/models/metadata/segment.dart';
 export 'src/models/metadata/usage_metadata.dart';
+export 'src/models/metadata/web.dart';
 // Models - Models API
 export 'src/models/models/dataset.dart';
 export 'src/models/models/hyperparameters.dart';
