@@ -9,7 +9,7 @@ import 'package:googleai_dart/googleai_dart.dart';
 /// generateAnswer provides answers grounded in specific sources,
 /// making it ideal for Retrieval Augmented Generation (RAG) use cases.
 ///
-/// This example shows both inline passages and semantic retriever approaches.
+/// This example shows how to use inline passages for grounded answers.
 Future<void> main() async {
   // Get API key from environment
   final apiKey = Platform.environment['GOOGLEAI_API_KEY'];
@@ -29,13 +29,10 @@ Future<void> main() async {
     );
     await generateAnswerWithInlinePassages(client);
 
-    print('\n=== Example 2: Semantic Retriever (Best for large corpora) ===\n');
-    await generateAnswerWithSemanticRetriever(client);
-
-    print('\n=== Example 3: Different Answer Styles ===\n');
+    print('\n=== Example 2: Different Answer Styles ===\n');
     await demonstrateAnswerStyles(client);
 
-    print('\n=== Example 4: Low Answerability Handling ===\n');
+    print('\n=== Example 3: Low Answerability Handling ===\n');
     await handleLowAnswerability(client);
   } finally {
     client.close();
@@ -91,44 +88,6 @@ Future<void> generateAnswerWithInlinePassages(GoogleAIClient client) async {
     print(
       'Warning: Input was blocked due to: ${response.inputFeedback!.blockReason}',
     );
-  }
-}
-
-/// Example using Semantic Retriever - suitable for large, indexed corpora.
-Future<void> generateAnswerWithSemanticRetriever(GoogleAIClient client) async {
-  // First, create a corpus and populate it (simplified for example)
-  print('Note: This example requires a pre-existing corpus.');
-  print('See corpus_example.dart for how to create and populate corpora.\n');
-
-  // Assuming you have a corpus named 'my-corpus'
-  try {
-    final response = await client.models.generateAnswer(
-      model: 'aqa',
-      request: const GenerateAnswerRequest(
-        contents: [
-          Content(
-            parts: [TextPart('What are the key features of Dart?')],
-            role: 'user',
-          ),
-        ],
-        answerStyle: AnswerStyle.verbose,
-        semanticRetriever: SemanticRetrieverConfig(
-          source: 'corpora/my-corpus', // Replace with your corpus name
-          query: Content(
-            parts: [TextPart('Dart programming language features')],
-          ),
-          maxChunksCount: 5,
-          minimumRelevanceScore: 0.5,
-        ),
-        temperature: 0.2,
-      ),
-    );
-
-    print('Question: What are the key features of Dart?');
-    print('Answer: ${_extractAnswerText(response)}');
-    print('Answerability: ${response.answerableProbability ?? "N/A"}');
-  } catch (e) {
-    print('Skipping semantic retriever example (corpus not found): $e');
   }
 }
 

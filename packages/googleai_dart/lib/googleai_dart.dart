@@ -36,16 +36,11 @@ export 'src/models/content/content.dart';
 export 'src/models/content/file_data.dart';
 export 'src/models/content/logprobs_result.dart';
 export 'src/models/content/part.dart';
-export 'src/models/corpus/condition.dart'; // Includes ConditionOperator enum
-// Models - Corpus & RAG API
+// Models - Corpus API
 export 'src/models/corpus/corpus.dart';
-export 'src/models/corpus/custom_metadata.dart';
 export 'src/models/corpus/document.dart';
 export 'src/models/corpus/list_corpora_response.dart';
 export 'src/models/corpus/list_documents_response.dart';
-export 'src/models/corpus/metadata_filter.dart';
-export 'src/models/corpus/semantic_retriever_config.dart';
-export 'src/models/corpus/string_list.dart';
 // Models - Embeddings
 export 'src/models/embeddings/batch_embed_contents_request.dart';
 export 'src/models/embeddings/batch_embed_contents_response.dart';
