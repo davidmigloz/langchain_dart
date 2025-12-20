@@ -1,6 +1,7 @@
 import 'package:anthropic_sdk_dart/anthropic_sdk_dart.dart' as a;
 import 'package:http/http.dart' as http;
 import 'package:langchain_core/chat_models.dart';
+import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/prompts.dart';
 import 'package:langchain_tiktoken/langchain_tiktoken.dart';
 
@@ -260,6 +261,33 @@ class ChatAnthropic extends BaseChatModel<ChatAnthropicOptions> {
   }) async {
     final encoding = getEncoding(this.encoding);
     return encoding.encode(promptValue.toString());
+  }
+
+  /// Lists the models available to the Anthropic API.
+  ///
+  /// This returns all models available for use with the Anthropic Messages API.
+  ///
+  /// Example:
+  /// ```dart
+  /// final chatModel = ChatAnthropic(apiKey: '...');
+  /// final models = await chatModel.listModels();
+  /// for (final model in models) {
+  ///   print('${model.id} - ${model.displayName}');
+  /// }
+  /// ```
+  @override
+  Future<List<ModelInfo>> listModels() async {
+    final response = await _client.listModels();
+    return response.data.map((final m) {
+      final createdAt = DateTime.tryParse(m.createdAt);
+      return ModelInfo(
+        id: m.id,
+        displayName: m.displayName,
+        created: createdAt != null
+            ? createdAt.millisecondsSinceEpoch ~/ 1000
+            : null,
+      );
+    }).toList();
   }
 
   @override
