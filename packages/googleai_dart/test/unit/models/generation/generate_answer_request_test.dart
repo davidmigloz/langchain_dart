@@ -24,7 +24,6 @@ void main() {
         expect(request.contents, hasLength(1));
         expect(request.answerStyle, AnswerStyle.abstractive);
         expect(request.inlinePassages, isNull);
-        expect(request.semanticRetriever, isNull);
         expect(request.safetySettings, isNull);
         expect(request.temperature, isNull);
       });
@@ -59,37 +58,6 @@ void main() {
         expect(request.inlinePassages, isNotNull);
         expect(request.inlinePassages!.passages, hasLength(1));
         expect(request.inlinePassages!.passages![0].id, 'passage-1');
-      });
-
-      test('creates GenerateAnswerRequest with semantic retriever', () {
-        final json = {
-          'contents': [
-            {
-              'parts': [
-                {'text': 'Tell me about AI'},
-              ],
-            },
-          ],
-          'answerStyle': 'VERBOSE',
-          'semanticRetriever': {
-            'source': 'corpora/my-corpus',
-            'query': {
-              'parts': [
-                {'text': 'artificial intelligence'},
-              ],
-            },
-            'maxChunksCount': 5,
-            'minimumRelevanceScore': 0.7,
-          },
-        };
-
-        final request = GenerateAnswerRequest.fromJson(json);
-
-        expect(request.answerStyle, AnswerStyle.verbose);
-        expect(request.semanticRetriever, isNotNull);
-        expect(request.semanticRetriever!.source, 'corpora/my-corpus');
-        expect(request.semanticRetriever!.maxChunksCount, 5);
-        expect(request.semanticRetriever!.minimumRelevanceScore, 0.7);
       });
 
       test('creates GenerateAnswerRequest with safety settings', () {
@@ -140,7 +108,6 @@ void main() {
         expect(json['contents'], hasLength(1));
         expect(json['answerStyle'], 'ABSTRACTIVE');
         expect(json.containsKey('inlinePassages'), false);
-        expect(json.containsKey('semanticRetriever'), false);
         expect(json.containsKey('safetySettings'), false);
         expect(json.containsKey('temperature'), false);
       });
@@ -200,7 +167,6 @@ void main() {
         final json = request.toJson();
 
         expect(json.containsKey('inlinePassages'), false);
-        expect(json.containsKey('semanticRetriever'), false);
         expect(json.containsKey('safetySettings'), false);
         expect(json.containsKey('temperature'), false);
       });

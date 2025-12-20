@@ -1,5 +1,4 @@
 import '../content/content.dart';
-import '../corpus/semantic_retriever_config.dart';
 import '../safety/safety_setting.dart';
 import 'answer_style.dart';
 import 'grounding_passages.dart';
@@ -20,9 +19,6 @@ class GenerateAnswerRequest {
 
   /// Passages provided inline with the request.
   final GroundingPassages? inlinePassages;
-
-  /// Content retrieved from resources created via the Semantic Retriever API.
-  final SemanticRetrieverConfig? semanticRetriever;
 
   /// Optional. A list of unique `SafetySetting` instances for blocking
   /// unsafe content.
@@ -51,7 +47,6 @@ class GenerateAnswerRequest {
     required this.contents,
     required this.answerStyle,
     this.inlinePassages,
-    this.semanticRetriever,
     this.safetySettings,
     this.temperature,
   });
@@ -68,11 +63,6 @@ class GenerateAnswerRequest {
                 json['inlinePassages'] as Map<String, dynamic>,
               )
             : null,
-        semanticRetriever: json['semanticRetriever'] != null
-            ? SemanticRetrieverConfig.fromJson(
-                json['semanticRetriever'] as Map<String, dynamic>,
-              )
-            : null,
         safetySettings: json['safetySettings'] != null
             ? (json['safetySettings'] as List)
                   .map((e) => SafetySetting.fromJson(e as Map<String, dynamic>))
@@ -86,8 +76,6 @@ class GenerateAnswerRequest {
     'contents': contents.map((e) => e.toJson()).toList(),
     'answerStyle': answerStyleToString(answerStyle),
     if (inlinePassages != null) 'inlinePassages': inlinePassages!.toJson(),
-    if (semanticRetriever != null)
-      'semanticRetriever': semanticRetriever!.toJson(),
     if (safetySettings != null)
       'safetySettings': safetySettings!.map((e) => e.toJson()).toList(),
     if (temperature != null) 'temperature': temperature,

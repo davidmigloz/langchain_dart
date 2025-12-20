@@ -8,7 +8,6 @@ import 'package:googleai_dart/src/models/content/blob.dart';
 import 'package:googleai_dart/src/models/content/content.dart';
 import 'package:googleai_dart/src/models/content/file_data.dart';
 import 'package:googleai_dart/src/models/content/part.dart';
-import 'package:googleai_dart/src/models/corpus/custom_metadata.dart';
 import 'package:googleai_dart/src/models/embeddings/embed_content_request.dart';
 import 'package:googleai_dart/src/models/generation/generation_config.dart';
 import 'package:googleai_dart/src/models/generation/thinking_config.dart';
@@ -190,40 +189,6 @@ void main() {
 
         expect(updated.category, original.category);
         expect(updated.threshold, HarmBlockThreshold.blockOnlyHigh);
-      });
-    });
-
-    group('CustomMetadata', () {
-      test('copyWith with no parameters returns instance with same values', () {
-        const original = CustomMetadata(key: 'myKey', stringValue: 'myValue');
-        final copied = original.copyWith();
-
-        expect(copied.key, original.key);
-        expect(copied.stringValue, original.stringValue);
-      });
-
-      test('copyWith updates required and optional fields', () {
-        const original = CustomMetadata(key: 'oldKey', stringValue: 'oldValue');
-        final updated = original.copyWith(
-          key: 'newKey',
-          stringValue: 'newValue',
-        );
-
-        expect(updated.key, 'newKey');
-        expect(updated.stringValue, 'newValue');
-      });
-
-      test('copyWith supports explicit null for optional fields', () {
-        const original = CustomMetadata(
-          key: 'myKey',
-          stringValue: 'myValue',
-          numericValue: 42.0,
-        );
-        final updated = original.copyWith(numericValue: null);
-
-        expect(updated.key, original.key);
-        expect(updated.stringValue, original.stringValue);
-        expect(updated.numericValue, isNull);
       });
     });
 
