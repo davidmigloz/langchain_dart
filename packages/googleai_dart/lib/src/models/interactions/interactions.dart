@@ -1,6 +1,8 @@
 export 'agent_config.dart';
 export 'allowed_tools.dart';
 export 'content/content.dart';
+export 'deltas/deltas.dart';
+export 'events/events.dart';
 export 'generation_config.dart';
 export 'interaction.dart';
 export 'interaction_status.dart';
