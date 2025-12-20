@@ -1,4 +1,5 @@
 import '../copy_with_sentinel.dart';
+import 'image_config.dart';
 import 'thinking_config.dart';
 
 /// Configuration options for model generation.
@@ -36,6 +37,36 @@ class GenerationConfig {
   /// Thinking configuration.
   final ThinkingConfig? thinkingConfig;
 
+  /// Image generation configuration.
+  final ImageConfig? imageConfig;
+
+  /// Seed used in decoding.
+  ///
+  /// If not set, the request uses a randomly generated seed.
+  final int? seed;
+
+  /// If true, export the logprobs results in response.
+  final bool? responseLogprobs;
+
+  /// Number of top logprobs to return at each decoding step.
+  ///
+  /// Only valid if [responseLogprobs] is true.
+  /// The number must be in the range of [0, 20].
+  final int? logprobs;
+
+  /// The requested modalities of the response.
+  ///
+  /// Represents the set of modalities that the model can return.
+  /// Supported values: TEXT, IMAGE, AUDIO.
+  /// An empty list is equivalent to requesting only text.
+  final List<String>? responseModalities;
+
+  /// Media resolution for input media.
+  ///
+  /// Supported values: MEDIA_RESOLUTION_UNSPECIFIED, MEDIA_RESOLUTION_LOW,
+  /// MEDIA_RESOLUTION_MEDIUM, MEDIA_RESOLUTION_HIGH.
+  final String? mediaResolution;
+
   /// Creates a [GenerationConfig].
   const GenerationConfig({
     this.candidateCount,
@@ -49,6 +80,12 @@ class GenerationConfig {
     this.responseMimeType,
     this.responseSchema,
     this.thinkingConfig,
+    this.imageConfig,
+    this.seed,
+    this.responseLogprobs,
+    this.logprobs,
+    this.responseModalities,
+    this.mediaResolution,
   });
 
   /// Creates a [GenerationConfig] from JSON.
@@ -64,12 +101,20 @@ class GenerationConfig {
         frequencyPenalty: (json['frequencyPenalty'] as num?)?.toDouble(),
         responseMimeType: json['responseMimeType'] as String?,
         responseSchema: json['responseSchema'] as Map<String, dynamic>?,
-        thinkingConfig:
-            json['thinkingConfig'] != null
-                ? ThinkingConfig.fromJson(
-                  json['thinkingConfig'] as Map<String, dynamic>,
-                )
-                : null,
+        thinkingConfig: json['thinkingConfig'] != null
+            ? ThinkingConfig.fromJson(
+                json['thinkingConfig'] as Map<String, dynamic>,
+              )
+            : null,
+        imageConfig: json['imageConfig'] != null
+            ? ImageConfig.fromJson(json['imageConfig'] as Map<String, dynamic>)
+            : null,
+        seed: json['seed'] as int?,
+        responseLogprobs: json['responseLogprobs'] as bool?,
+        logprobs: json['logprobs'] as int?,
+        responseModalities: (json['responseModalities'] as List?)
+            ?.cast<String>(),
+        mediaResolution: json['mediaResolution'] as String?,
       );
 
   /// Converts to JSON.
@@ -85,6 +130,12 @@ class GenerationConfig {
     if (responseMimeType != null) 'responseMimeType': responseMimeType,
     if (responseSchema != null) 'responseSchema': responseSchema,
     if (thinkingConfig != null) 'thinkingConfig': thinkingConfig!.toJson(),
+    if (imageConfig != null) 'imageConfig': imageConfig!.toJson(),
+    if (seed != null) 'seed': seed,
+    if (responseLogprobs != null) 'responseLogprobs': responseLogprobs,
+    if (logprobs != null) 'logprobs': logprobs,
+    if (responseModalities != null) 'responseModalities': responseModalities,
+    if (mediaResolution != null) 'mediaResolution': mediaResolution,
   };
 
   /// Creates a copy with replaced values.
@@ -100,46 +151,59 @@ class GenerationConfig {
     Object? responseMimeType = unsetCopyWithValue,
     Object? responseSchema = unsetCopyWithValue,
     Object? thinkingConfig = unsetCopyWithValue,
+    Object? imageConfig = unsetCopyWithValue,
+    Object? seed = unsetCopyWithValue,
+    Object? responseLogprobs = unsetCopyWithValue,
+    Object? logprobs = unsetCopyWithValue,
+    Object? responseModalities = unsetCopyWithValue,
+    Object? mediaResolution = unsetCopyWithValue,
   }) {
     return GenerationConfig(
-      candidateCount:
-          candidateCount == unsetCopyWithValue
-              ? this.candidateCount
-              : candidateCount as int?,
-      stopSequences:
-          stopSequences == unsetCopyWithValue
-              ? this.stopSequences
-              : stopSequences as List<String>?,
-      maxOutputTokens:
-          maxOutputTokens == unsetCopyWithValue
-              ? this.maxOutputTokens
-              : maxOutputTokens as int?,
-      temperature:
-          temperature == unsetCopyWithValue
-              ? this.temperature
-              : temperature as double?,
+      candidateCount: candidateCount == unsetCopyWithValue
+          ? this.candidateCount
+          : candidateCount as int?,
+      stopSequences: stopSequences == unsetCopyWithValue
+          ? this.stopSequences
+          : stopSequences as List<String>?,
+      maxOutputTokens: maxOutputTokens == unsetCopyWithValue
+          ? this.maxOutputTokens
+          : maxOutputTokens as int?,
+      temperature: temperature == unsetCopyWithValue
+          ? this.temperature
+          : temperature as double?,
       topP: topP == unsetCopyWithValue ? this.topP : topP as double?,
       topK: topK == unsetCopyWithValue ? this.topK : topK as int?,
-      presencePenalty:
-          presencePenalty == unsetCopyWithValue
-              ? this.presencePenalty
-              : presencePenalty as double?,
-      frequencyPenalty:
-          frequencyPenalty == unsetCopyWithValue
-              ? this.frequencyPenalty
-              : frequencyPenalty as double?,
-      responseMimeType:
-          responseMimeType == unsetCopyWithValue
-              ? this.responseMimeType
-              : responseMimeType as String?,
-      responseSchema:
-          responseSchema == unsetCopyWithValue
-              ? this.responseSchema
-              : responseSchema as Map<String, dynamic>?,
-      thinkingConfig:
-          thinkingConfig == unsetCopyWithValue
-              ? this.thinkingConfig
-              : thinkingConfig as ThinkingConfig?,
+      presencePenalty: presencePenalty == unsetCopyWithValue
+          ? this.presencePenalty
+          : presencePenalty as double?,
+      frequencyPenalty: frequencyPenalty == unsetCopyWithValue
+          ? this.frequencyPenalty
+          : frequencyPenalty as double?,
+      responseMimeType: responseMimeType == unsetCopyWithValue
+          ? this.responseMimeType
+          : responseMimeType as String?,
+      responseSchema: responseSchema == unsetCopyWithValue
+          ? this.responseSchema
+          : responseSchema as Map<String, dynamic>?,
+      thinkingConfig: thinkingConfig == unsetCopyWithValue
+          ? this.thinkingConfig
+          : thinkingConfig as ThinkingConfig?,
+      imageConfig: imageConfig == unsetCopyWithValue
+          ? this.imageConfig
+          : imageConfig as ImageConfig?,
+      seed: seed == unsetCopyWithValue ? this.seed : seed as int?,
+      responseLogprobs: responseLogprobs == unsetCopyWithValue
+          ? this.responseLogprobs
+          : responseLogprobs as bool?,
+      logprobs: logprobs == unsetCopyWithValue
+          ? this.logprobs
+          : logprobs as int?,
+      responseModalities: responseModalities == unsetCopyWithValue
+          ? this.responseModalities
+          : responseModalities as List<String>?,
+      mediaResolution: mediaResolution == unsetCopyWithValue
+          ? this.mediaResolution
+          : mediaResolution as String?,
     );
   }
 }
