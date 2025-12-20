@@ -111,17 +111,17 @@ void main() {
     });
 
     test('serializes correctly', () {
-      final request = CountMessageTokensRequest(
+      const request = CountMessageTokensRequest(
         model: CountMessageTokensRequestModel.enumeration(
           Models.claudeHaiku4520251001,
         ),
-        messages: const [
+        messages: [
           Message(
             role: MessageRole.user,
             content: MessageContent.text('Hello'),
           ),
         ],
-        system: const CountMessageTokensRequestSystem.string('Be helpful'),
+        system: CountMessageTokensRequestSystem.string('Be helpful'),
       );
       final json = request.toJson();
       expect(json['model'], 'claude-haiku-4-5-20251001');
@@ -130,11 +130,11 @@ void main() {
     });
 
     test('serializes with null optional fields excluded', () {
-      final request = CountMessageTokensRequest(
+      const request = CountMessageTokensRequest(
         model: CountMessageTokensRequestModel.enumeration(
           Models.claudeHaiku4520251001,
         ),
-        messages: const [
+        messages: [
           Message(
             role: MessageRole.user,
             content: MessageContent.text('Hello'),

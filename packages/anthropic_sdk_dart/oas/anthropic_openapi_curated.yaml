@@ -858,8 +858,8 @@ components:
         mapping:
           custom: "#/components/schemas/ToolCustom"
           computer_20241022: "#/components/schemas/ToolComputerUse"
-          text_editor_20241022: "#/components/schemas/ToolTextEditor"
-          bash_20241022: "#/components/schemas/ToolBash"
+          text_editor_20250728: "#/components/schemas/ToolTextEditor"
+          bash_20250124: "#/components/schemas/ToolBash"
           web_search_20250305: "#/components/schemas/ToolWebSearch"
           code_execution_20250522: "#/components/schemas/ToolCodeExecution"
           mcp: "#/components/schemas/ToolMcp"
@@ -928,7 +928,7 @@ components:
         type:
           type: string
           description: The type of tool.
-          default: text_editor_20241022
+          default: text_editor_20250728
         name:
           type: string
           description: The name of the tool.
@@ -942,7 +942,7 @@ components:
         type:
           type: string
           description: The type of tool.
-          default: bash_20241022
+          default: bash_20250124
         name:
           type: string
           description: The name of the tool.

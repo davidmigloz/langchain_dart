@@ -762,7 +762,7 @@ Map<String, dynamic> _$ToolComputerUseToJson(ToolComputerUse instance) =>
 
 ToolTextEditor _$ToolTextEditorFromJson(Map<String, dynamic> json) =>
     ToolTextEditor(
-      type: json['type'] as String? ?? 'text_editor_20241022',
+      type: json['type'] as String? ?? 'text_editor_20250728',
       name: json['name'] as String? ?? 'str_replace_editor',
       cacheControl: json['cache_control'] == null
           ? null
@@ -779,7 +779,7 @@ Map<String, dynamic> _$ToolTextEditorToJson(ToolTextEditor instance) =>
     };
 
 ToolBash _$ToolBashFromJson(Map<String, dynamic> json) => ToolBash(
-  type: json['type'] as String? ?? 'bash_20241022',
+  type: json['type'] as String? ?? 'bash_20250124',
   name: json['name'] as String? ?? 'bash',
   cacheControl: json['cache_control'] == null
       ? null
