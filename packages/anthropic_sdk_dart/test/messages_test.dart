@@ -26,7 +26,11 @@ void main() {
       'Test call messages API',
       timeout: const Timeout(Duration(minutes: 5)),
       () async {
-        const models = Models.values;
+        // Filter to only working models (latest + legacy Haiku 3)
+        const models = [
+          Models.claudeHaiku4520251001,
+          Models.claude3Haiku20240307,
+        ];
         for (final model in models) {
           print('Testing model: ${model.name}');
           final res = await client.createMessage(
@@ -73,7 +77,7 @@ void main() {
       () async {
         final stream = client.createMessageStream(
           request: const CreateMessageRequest(
-            model: Model.model(Models.claude3Haiku20240307),
+            model: Model.model(Models.claudeHaiku4520251001),
             temperature: 0,
             maxTokens: 1024,
             system: CreateMessageRequestSystem.text(
@@ -99,7 +103,7 @@ void main() {
               expect(v.message.role, MessageRole.assistant);
               expect(
                 v.message.model?.replaceAll(RegExp(r'[-.]'), ''),
-                Models.claude3Haiku20240307.name.toLowerCase(),
+                Models.claudeHaiku4520251001.name.toLowerCase(),
               );
               expect(v.message.stopReason, isNull);
               expect(v.message.stopSequence, isNull);
@@ -149,7 +153,7 @@ void main() {
 
     test('Test response max tokens', () async {
       const request = CreateMessageRequest(
-        model: Model.model(Models.claude3Haiku20240307),
+        model: Model.model(Models.claudeHaiku4520251001),
         maxTokens: 1,
         messages: [
           Message(
@@ -185,7 +189,7 @@ void main() {
 
     test('Test tool use', () async {
       final request1 = CreateMessageRequest(
-        model: const Model.model(Models.claude35Sonnet20241022),
+        model: const Model.model(Models.claudeHaiku4520251001),
         messages: [
           const Message(
             role: MessageRole.user,
@@ -217,12 +221,12 @@ void main() {
       });
 
       final request2 = CreateMessageRequest(
-        model: const Model.model(Models.claude35Sonnet20241022),
+        model: const Model.model(Models.claudeHaiku4520251001),
         messages: [
           const Message(
             role: MessageRole.user,
             content: MessageContent.text(
-              'What’s the weather like in Boston right now?',
+              "What's the weather like in Boston right now?",
             ),
           ),
           Message(role: MessageRole.assistant, content: aiMessage1.content),
@@ -250,12 +254,12 @@ void main() {
       timeout: const Timeout(Duration(minutes: 5)),
       () async {
         final request1 = CreateMessageRequest(
-          model: const Model.model(Models.claude35Sonnet20241022),
+          model: const Model.model(Models.claudeHaiku4520251001),
           messages: [
             const Message(
               role: MessageRole.user,
               content: MessageContent.text(
-                'What’s the weather like in Boston right now in Celsius?',
+                "What's the weather like in Boston right now in Celsius?",
               ),
             ),
           ],
@@ -273,7 +277,7 @@ void main() {
               expect(v.message.role, MessageRole.assistant);
               expect(
                 v.message.model?.replaceAll(RegExp(r'[-.]'), ''),
-                Models.claude35Sonnet20241022.name.toLowerCase(),
+                Models.claudeHaiku4520251001.name.toLowerCase(),
               );
               expect(v.message.stopReason, isNull);
               expect(v.message.stopSequence, isNull);
@@ -330,7 +334,7 @@ void main() {
             BatchMessageRequest(
               customId: 'request1',
               params: CreateMessageRequest(
-                model: Model.model(Models.claude3Haiku20240307),
+                model: Model.model(Models.claudeHaiku4520251001),
                 temperature: 0,
                 maxTokens: 1024,
                 system: CreateMessageRequestSystem.text(
@@ -349,7 +353,7 @@ void main() {
             BatchMessageRequest(
               customId: 'request2',
               params: CreateMessageRequest(
-                model: Model.model(Models.claude3Haiku20240307),
+                model: Model.model(Models.claudeHaiku4520251001),
                 temperature: 0,
                 maxTokens: 1024,
                 system: CreateMessageRequestSystem.text(
@@ -390,7 +394,7 @@ void main() {
 
     test('Test computer tool use', () async {
       const request = CreateMessageRequest(
-        model: Model.model(Models.claude35Sonnet20241022),
+        model: Model.model(Models.claudeSonnet4520250929),
         messages: [
           Message(
             role: MessageRole.user,
@@ -427,7 +431,7 @@ void main() {
     test('Test Prompt caching', () async {
       final work = await File('./test/assets/shakespeare.txt').readAsString();
       final request = CreateMessageRequest(
-        model: const Model.model(Models.claude35Sonnet20241022),
+        model: const Model.model(Models.claudeHaiku4520251001),
         system: CreateMessageRequestSystem.blocks([
           const Block.text(
             text:
