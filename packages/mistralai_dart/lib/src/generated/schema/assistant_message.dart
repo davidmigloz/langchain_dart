@@ -5,18 +5,22 @@
 part of mistral_a_i_schema;
 
 // ==========================================
-// CLASS: ChatCompletionMessage
+// CLASS: AssistantMessage
 // ==========================================
 
-/// A message in a chat conversation.
+/// A message from the assistant in a chat conversation.
 @freezed
-abstract class ChatCompletionMessage with _$ChatCompletionMessage {
-  const ChatCompletionMessage._();
+abstract class AssistantMessage with _$AssistantMessage {
+  const AssistantMessage._();
 
-  /// Factory constructor for ChatCompletionMessage
-  const factory ChatCompletionMessage({
-    /// The role of the message.
-    required ChatCompletionMessageRole role,
+  /// Factory constructor for AssistantMessage
+  const factory AssistantMessage({
+    /// The role of the message, which is always `assistant`.
+    @JsonKey(
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue,
+    )
+    AssistantMessageRole? role,
 
     /// The message content.
     @JsonKey(includeIfNull: false) String? content,
@@ -25,27 +29,19 @@ abstract class ChatCompletionMessage with _$ChatCompletionMessage {
     @JsonKey(name: 'tool_calls', includeIfNull: false)
     List<ToolCall>? toolCalls,
 
-    /// Tool call that this message is responding to (for tool messages).
-    @JsonKey(name: 'tool_call_id', includeIfNull: false) String? toolCallId,
-
-    /// The name of the tool that was called (for tool messages).
-    @JsonKey(includeIfNull: false) String? name,
-
     /// Set this to true when adding an assistant message as a prefix for the next completion.
     @JsonKey(includeIfNull: false) bool? prefix,
-  }) = _ChatCompletionMessage;
+  }) = _AssistantMessage;
 
   /// Object construction from a JSON representation
-  factory ChatCompletionMessage.fromJson(Map<String, dynamic> json) =>
-      _$ChatCompletionMessageFromJson(json);
+  factory AssistantMessage.fromJson(Map<String, dynamic> json) =>
+      _$AssistantMessageFromJson(json);
 
   /// List of all property names of schema
   static const List<String> propertyNames = [
     'role',
     'content',
     'tool_calls',
-    'tool_call_id',
-    'name',
     'prefix',
   ];
 
@@ -60,9 +56,17 @@ abstract class ChatCompletionMessage with _$ChatCompletionMessage {
       'role': role,
       'content': content,
       'tool_calls': toolCalls,
-      'tool_call_id': toolCallId,
-      'name': name,
       'prefix': prefix,
     };
   }
+}
+
+// ==========================================
+// ENUM: AssistantMessageRole
+// ==========================================
+
+/// The role of the message, which is always `assistant`.
+enum AssistantMessageRole {
+  @JsonValue('assistant')
+  assistant,
 }

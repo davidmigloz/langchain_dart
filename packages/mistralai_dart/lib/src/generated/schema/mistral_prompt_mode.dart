@@ -5,17 +5,12 @@
 part of mistral_a_i_schema;
 
 // ==========================================
-// ENUM: ChatCompletionMessageRole
+// ENUM: MistralPromptMode
 // ==========================================
 
-/// The role of the message.
-enum ChatCompletionMessageRole {
-  @JsonValue('system')
-  system,
-  @JsonValue('user')
-  user,
-  @JsonValue('assistant')
-  assistant,
-  @JsonValue('tool')
-  tool,
+/// The prompt mode to use for the request.
+/// Use 'reasoning' to enable reasoning mode for supported models.
+enum MistralPromptMode {
+  @JsonValue('reasoning')
+  reasoning,
 }

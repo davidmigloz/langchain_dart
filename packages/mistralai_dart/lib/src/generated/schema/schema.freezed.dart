@@ -17,7 +17,7 @@ mixin _$ChatCompletionRequest {
 
 /// ID of the model to use. You can use the [List Available Models](https://docs.mistral.ai/api#operation/listModels) API to see all of your available models, or see our [Model overview](https://docs.mistral.ai/models) for model descriptions.
 @_ChatCompletionModelConverter() ChatCompletionModel get model;/// The prompt(s) to generate completions for, encoded as a list of dict with role and content. The first prompt role should be `user` or `system`.
- List<ChatCompletionMessage> get messages;/// What sampling temperature to use, between 0.0 and 1.0. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+ List<ChatCompletionMessage> get messages;/// What sampling temperature to use, between 0.0 and 1.5. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
 ///
 /// We generally recommend altering this or `top_p` but not both.
 @JsonKey(includeIfNull: false) double? get temperature;/// Nucleus sampling, where the model considers the results of the tokens with `top_p` probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
@@ -27,9 +27,36 @@ mixin _$ChatCompletionRequest {
 ///
 /// The token count of your prompt plus `max_tokens` cannot exceed the model's context length.
 @JsonKey(name: 'max_tokens', includeIfNull: false) int? get maxTokens;/// Whether to stream back partial progress. If set, tokens will be sent as data-only server-sent events as they become available, with the stream terminated by a data: [DONE] message. Otherwise, the server will hold the request open until the timeout or until completion, with the response containing the full result as JSON.
-@JsonKey(includeIfNull: false) bool? get stream;/// Whether to inject a safety prompt before all conversations.
-@JsonKey(name: 'safe_prompt', includeIfNull: false) bool? get safePrompt;/// The seed to use for random sampling. If set, different calls will generate deterministic results.
-@JsonKey(name: 'random_seed', includeIfNull: false) int? get randomSeed;
+@JsonKey(includeIfNull: false) bool? get stream;/// Stop generation if this token is detected, or if the end of the sequence is detected.
+@_ChatCompletionStopConverter()@JsonKey(includeIfNull: false) ChatCompletionStop? get stop;/// The seed to use for random sampling. If set, different calls will generate deterministic results.
+@JsonKey(name: 'random_seed', includeIfNull: false) int? get randomSeed;/// An object specifying the format that the model must output.
+/// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message
+/// the model generates is valid JSON.
+/// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs
+/// which guarantees the model will match your supplied JSON schema.
+@JsonKey(name: 'response_format', includeIfNull: false) ResponseFormat? get responseFormat;/// A list of tools the model may call. Currently, only functions are supported as a tool.
+/// Use this to provide a list of functions the model may generate JSON inputs for.
+@JsonKey(includeIfNull: false) List<Tool>? get tools;/// Controls which (if any) tool is called by the model.
+/// `none` means the model will not call any tool and instead generates a message.
+/// `auto` means the model can pick between generating a message or calling one or more tools.
+/// `any` means the model must call one or more tools.
+/// `required` is an alias for `any`.
+/// Specifying a particular tool via `{"type": "function", "function": {"name": "my_function"}}`
+/// forces the model to call that tool.
+@_ChatCompletionToolChoiceConverter()@JsonKey(name: 'tool_choice', includeIfNull: false) ChatCompletionToolChoice? get toolChoice;/// Positive values penalize new tokens based on whether they appear in the text so far,
+/// increasing the model's likelihood to talk about new topics.
+@JsonKey(name: 'presence_penalty', includeIfNull: false) double? get presencePenalty;/// Positive values penalize new tokens based on their existing frequency in the text so far,
+/// decreasing the model's likelihood to repeat the same line verbatim.
+@JsonKey(name: 'frequency_penalty', includeIfNull: false) double? get frequencyPenalty;/// Number of completions to return for each request.
+@JsonKey(includeIfNull: false) int? get n;/// Whether to enable parallel function calling during tool use.
+@JsonKey(name: 'parallel_tool_calls', includeIfNull: false) bool? get parallelToolCalls;/// Whether to inject a safety prompt before all conversations.
+@JsonKey(name: 'safe_prompt', includeIfNull: false) bool? get safePrompt;/// Custom metadata to associate with the request.
+@JsonKey(includeIfNull: false) Map<String, dynamic>? get metadata;/// A prediction object used to provide expected output for the model.
+/// This can help reduce latency by allowing the model to skip generating tokens
+/// that match the prediction.
+@JsonKey(includeIfNull: false) Prediction? get prediction;/// The prompt mode to use for the request.
+/// Use 'reasoning' to enable reasoning mode for supported models.
+@JsonKey(name: 'prompt_mode', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) MistralPromptMode? get promptMode;
 /// Create a copy of ChatCompletionRequest
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -42,16 +69,16 @@ $ChatCompletionRequestCopyWith<ChatCompletionRequest> get copyWith => _$ChatComp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChatCompletionRequest&&(identical(other.model, model) || other.model == model)&&const DeepCollectionEquality().equals(other.messages, messages)&&(identical(other.temperature, temperature) || other.temperature == temperature)&&(identical(other.topP, topP) || other.topP == topP)&&(identical(other.maxTokens, maxTokens) || other.maxTokens == maxTokens)&&(identical(other.stream, stream) || other.stream == stream)&&(identical(other.safePrompt, safePrompt) || other.safePrompt == safePrompt)&&(identical(other.randomSeed, randomSeed) || other.randomSeed == randomSeed));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChatCompletionRequest&&(identical(other.model, model) || other.model == model)&&const DeepCollectionEquality().equals(other.messages, messages)&&(identical(other.temperature, temperature) || other.temperature == temperature)&&(identical(other.topP, topP) || other.topP == topP)&&(identical(other.maxTokens, maxTokens) || other.maxTokens == maxTokens)&&(identical(other.stream, stream) || other.stream == stream)&&(identical(other.stop, stop) || other.stop == stop)&&(identical(other.randomSeed, randomSeed) || other.randomSeed == randomSeed)&&(identical(other.responseFormat, responseFormat) || other.responseFormat == responseFormat)&&const DeepCollectionEquality().equals(other.tools, tools)&&(identical(other.toolChoice, toolChoice) || other.toolChoice == toolChoice)&&(identical(other.presencePenalty, presencePenalty) || other.presencePenalty == presencePenalty)&&(identical(other.frequencyPenalty, frequencyPenalty) || other.frequencyPenalty == frequencyPenalty)&&(identical(other.n, n) || other.n == n)&&(identical(other.parallelToolCalls, parallelToolCalls) || other.parallelToolCalls == parallelToolCalls)&&(identical(other.safePrompt, safePrompt) || other.safePrompt == safePrompt)&&const DeepCollectionEquality().equals(other.metadata, metadata)&&(identical(other.prediction, prediction) || other.prediction == prediction)&&(identical(other.promptMode, promptMode) || other.promptMode == promptMode));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,model,const DeepCollectionEquality().hash(messages),temperature,topP,maxTokens,stream,safePrompt,randomSeed);
+int get hashCode => Object.hashAll([runtimeType,model,const DeepCollectionEquality().hash(messages),temperature,topP,maxTokens,stream,stop,randomSeed,responseFormat,const DeepCollectionEquality().hash(tools),toolChoice,presencePenalty,frequencyPenalty,n,parallelToolCalls,safePrompt,const DeepCollectionEquality().hash(metadata),prediction,promptMode]);
 
 @override
 String toString() {
-  return 'ChatCompletionRequest(model: $model, messages: $messages, temperature: $temperature, topP: $topP, maxTokens: $maxTokens, stream: $stream, safePrompt: $safePrompt, randomSeed: $randomSeed)';
+  return 'ChatCompletionRequest(model: $model, messages: $messages, temperature: $temperature, topP: $topP, maxTokens: $maxTokens, stream: $stream, stop: $stop, randomSeed: $randomSeed, responseFormat: $responseFormat, tools: $tools, toolChoice: $toolChoice, presencePenalty: $presencePenalty, frequencyPenalty: $frequencyPenalty, n: $n, parallelToolCalls: $parallelToolCalls, safePrompt: $safePrompt, metadata: $metadata, prediction: $prediction, promptMode: $promptMode)';
 }
 
 
@@ -62,11 +89,11 @@ abstract mixin class $ChatCompletionRequestCopyWith<$Res>  {
   factory $ChatCompletionRequestCopyWith(ChatCompletionRequest value, $Res Function(ChatCompletionRequest) _then) = _$ChatCompletionRequestCopyWithImpl;
 @useResult
 $Res call({
-@_ChatCompletionModelConverter() ChatCompletionModel model, List<ChatCompletionMessage> messages,@JsonKey(includeIfNull: false) double? temperature,@JsonKey(name: 'top_p', includeIfNull: false) double? topP,@JsonKey(name: 'max_tokens', includeIfNull: false) int? maxTokens,@JsonKey(includeIfNull: false) bool? stream,@JsonKey(name: 'safe_prompt', includeIfNull: false) bool? safePrompt,@JsonKey(name: 'random_seed', includeIfNull: false) int? randomSeed
+@_ChatCompletionModelConverter() ChatCompletionModel model, List<ChatCompletionMessage> messages,@JsonKey(includeIfNull: false) double? temperature,@JsonKey(name: 'top_p', includeIfNull: false) double? topP,@JsonKey(name: 'max_tokens', includeIfNull: false) int? maxTokens,@JsonKey(includeIfNull: false) bool? stream,@_ChatCompletionStopConverter()@JsonKey(includeIfNull: false) ChatCompletionStop? stop,@JsonKey(name: 'random_seed', includeIfNull: false) int? randomSeed,@JsonKey(name: 'response_format', includeIfNull: false) ResponseFormat? responseFormat,@JsonKey(includeIfNull: false) List<Tool>? tools,@_ChatCompletionToolChoiceConverter()@JsonKey(name: 'tool_choice', includeIfNull: false) ChatCompletionToolChoice? toolChoice,@JsonKey(name: 'presence_penalty', includeIfNull: false) double? presencePenalty,@JsonKey(name: 'frequency_penalty', includeIfNull: false) double? frequencyPenalty,@JsonKey(includeIfNull: false) int? n,@JsonKey(name: 'parallel_tool_calls', includeIfNull: false) bool? parallelToolCalls,@JsonKey(name: 'safe_prompt', includeIfNull: false) bool? safePrompt,@JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,@JsonKey(includeIfNull: false) Prediction? prediction,@JsonKey(name: 'prompt_mode', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) MistralPromptMode? promptMode
 });
 
 
-$ChatCompletionModelCopyWith<$Res> get model;
+$ChatCompletionModelCopyWith<$Res> get model;$ChatCompletionStopCopyWith<$Res>? get stop;$ResponseFormatCopyWith<$Res>? get responseFormat;$ChatCompletionToolChoiceCopyWith<$Res>? get toolChoice;$PredictionCopyWith<$Res>? get prediction;
 
 }
 /// @nodoc
@@ -79,7 +106,7 @@ class _$ChatCompletionRequestCopyWithImpl<$Res>
 
 /// Create a copy of ChatCompletionRequest
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? model = null,Object? messages = null,Object? temperature = freezed,Object? topP = freezed,Object? maxTokens = freezed,Object? stream = freezed,Object? safePrompt = freezed,Object? randomSeed = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? model = null,Object? messages = null,Object? temperature = freezed,Object? topP = freezed,Object? maxTokens = freezed,Object? stream = freezed,Object? stop = freezed,Object? randomSeed = freezed,Object? responseFormat = freezed,Object? tools = freezed,Object? toolChoice = freezed,Object? presencePenalty = freezed,Object? frequencyPenalty = freezed,Object? n = freezed,Object? parallelToolCalls = freezed,Object? safePrompt = freezed,Object? metadata = freezed,Object? prediction = freezed,Object? promptMode = freezed,}) {
   return _then(_self.copyWith(
 model: null == model ? _self.model : model // ignore: cast_nullable_to_non_nullable
 as ChatCompletionModel,messages: null == messages ? _self.messages : messages // ignore: cast_nullable_to_non_nullable
@@ -87,9 +114,20 @@ as List<ChatCompletionMessage>,temperature: freezed == temperature ? _self.tempe
 as double?,topP: freezed == topP ? _self.topP : topP // ignore: cast_nullable_to_non_nullable
 as double?,maxTokens: freezed == maxTokens ? _self.maxTokens : maxTokens // ignore: cast_nullable_to_non_nullable
 as int?,stream: freezed == stream ? _self.stream : stream // ignore: cast_nullable_to_non_nullable
+as bool?,stop: freezed == stop ? _self.stop : stop // ignore: cast_nullable_to_non_nullable
+as ChatCompletionStop?,randomSeed: freezed == randomSeed ? _self.randomSeed : randomSeed // ignore: cast_nullable_to_non_nullable
+as int?,responseFormat: freezed == responseFormat ? _self.responseFormat : responseFormat // ignore: cast_nullable_to_non_nullable
+as ResponseFormat?,tools: freezed == tools ? _self.tools : tools // ignore: cast_nullable_to_non_nullable
+as List<Tool>?,toolChoice: freezed == toolChoice ? _self.toolChoice : toolChoice // ignore: cast_nullable_to_non_nullable
+as ChatCompletionToolChoice?,presencePenalty: freezed == presencePenalty ? _self.presencePenalty : presencePenalty // ignore: cast_nullable_to_non_nullable
+as double?,frequencyPenalty: freezed == frequencyPenalty ? _self.frequencyPenalty : frequencyPenalty // ignore: cast_nullable_to_non_nullable
+as double?,n: freezed == n ? _self.n : n // ignore: cast_nullable_to_non_nullable
+as int?,parallelToolCalls: freezed == parallelToolCalls ? _self.parallelToolCalls : parallelToolCalls // ignore: cast_nullable_to_non_nullable
 as bool?,safePrompt: freezed == safePrompt ? _self.safePrompt : safePrompt // ignore: cast_nullable_to_non_nullable
-as bool?,randomSeed: freezed == randomSeed ? _self.randomSeed : randomSeed // ignore: cast_nullable_to_non_nullable
-as int?,
+as bool?,metadata: freezed == metadata ? _self.metadata : metadata // ignore: cast_nullable_to_non_nullable
+as Map<String, dynamic>?,prediction: freezed == prediction ? _self.prediction : prediction // ignore: cast_nullable_to_non_nullable
+as Prediction?,promptMode: freezed == promptMode ? _self.promptMode : promptMode // ignore: cast_nullable_to_non_nullable
+as MistralPromptMode?,
   ));
 }
 /// Create a copy of ChatCompletionRequest
@@ -100,6 +138,54 @@ $ChatCompletionModelCopyWith<$Res> get model {
   
   return $ChatCompletionModelCopyWith<$Res>(_self.model, (value) {
     return _then(_self.copyWith(model: value));
+  });
+}/// Create a copy of ChatCompletionRequest
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ChatCompletionStopCopyWith<$Res>? get stop {
+    if (_self.stop == null) {
+    return null;
+  }
+
+  return $ChatCompletionStopCopyWith<$Res>(_self.stop!, (value) {
+    return _then(_self.copyWith(stop: value));
+  });
+}/// Create a copy of ChatCompletionRequest
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ResponseFormatCopyWith<$Res>? get responseFormat {
+    if (_self.responseFormat == null) {
+    return null;
+  }
+
+  return $ResponseFormatCopyWith<$Res>(_self.responseFormat!, (value) {
+    return _then(_self.copyWith(responseFormat: value));
+  });
+}/// Create a copy of ChatCompletionRequest
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ChatCompletionToolChoiceCopyWith<$Res>? get toolChoice {
+    if (_self.toolChoice == null) {
+    return null;
+  }
+
+  return $ChatCompletionToolChoiceCopyWith<$Res>(_self.toolChoice!, (value) {
+    return _then(_self.copyWith(toolChoice: value));
+  });
+}/// Create a copy of ChatCompletionRequest
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$PredictionCopyWith<$Res>? get prediction {
+    if (_self.prediction == null) {
+    return null;
+  }
+
+  return $PredictionCopyWith<$Res>(_self.prediction!, (value) {
+    return _then(_self.copyWith(prediction: value));
   });
 }
 }
@@ -183,10 +269,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@_ChatCompletionModelConverter()  ChatCompletionModel model,  List<ChatCompletionMessage> messages, @JsonKey(includeIfNull: false)  double? temperature, @JsonKey(name: 'top_p', includeIfNull: false)  double? topP, @JsonKey(name: 'max_tokens', includeIfNull: false)  int? maxTokens, @JsonKey(includeIfNull: false)  bool? stream, @JsonKey(name: 'safe_prompt', includeIfNull: false)  bool? safePrompt, @JsonKey(name: 'random_seed', includeIfNull: false)  int? randomSeed)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@_ChatCompletionModelConverter()  ChatCompletionModel model,  List<ChatCompletionMessage> messages, @JsonKey(includeIfNull: false)  double? temperature, @JsonKey(name: 'top_p', includeIfNull: false)  double? topP, @JsonKey(name: 'max_tokens', includeIfNull: false)  int? maxTokens, @JsonKey(includeIfNull: false)  bool? stream, @_ChatCompletionStopConverter()@JsonKey(includeIfNull: false)  ChatCompletionStop? stop, @JsonKey(name: 'random_seed', includeIfNull: false)  int? randomSeed, @JsonKey(name: 'response_format', includeIfNull: false)  ResponseFormat? responseFormat, @JsonKey(includeIfNull: false)  List<Tool>? tools, @_ChatCompletionToolChoiceConverter()@JsonKey(name: 'tool_choice', includeIfNull: false)  ChatCompletionToolChoice? toolChoice, @JsonKey(name: 'presence_penalty', includeIfNull: false)  double? presencePenalty, @JsonKey(name: 'frequency_penalty', includeIfNull: false)  double? frequencyPenalty, @JsonKey(includeIfNull: false)  int? n, @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)  bool? parallelToolCalls, @JsonKey(name: 'safe_prompt', includeIfNull: false)  bool? safePrompt, @JsonKey(includeIfNull: false)  Map<String, dynamic>? metadata, @JsonKey(includeIfNull: false)  Prediction? prediction, @JsonKey(name: 'prompt_mode', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  MistralPromptMode? promptMode)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ChatCompletionRequest() when $default != null:
-return $default(_that.model,_that.messages,_that.temperature,_that.topP,_that.maxTokens,_that.stream,_that.safePrompt,_that.randomSeed);case _:
+return $default(_that.model,_that.messages,_that.temperature,_that.topP,_that.maxTokens,_that.stream,_that.stop,_that.randomSeed,_that.responseFormat,_that.tools,_that.toolChoice,_that.presencePenalty,_that.frequencyPenalty,_that.n,_that.parallelToolCalls,_that.safePrompt,_that.metadata,_that.prediction,_that.promptMode);case _:
   return orElse();
 
 }
@@ -204,10 +290,10 @@ return $default(_that.model,_that.messages,_that.temperature,_that.topP,_that.ma
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@_ChatCompletionModelConverter()  ChatCompletionModel model,  List<ChatCompletionMessage> messages, @JsonKey(includeIfNull: false)  double? temperature, @JsonKey(name: 'top_p', includeIfNull: false)  double? topP, @JsonKey(name: 'max_tokens', includeIfNull: false)  int? maxTokens, @JsonKey(includeIfNull: false)  bool? stream, @JsonKey(name: 'safe_prompt', includeIfNull: false)  bool? safePrompt, @JsonKey(name: 'random_seed', includeIfNull: false)  int? randomSeed)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@_ChatCompletionModelConverter()  ChatCompletionModel model,  List<ChatCompletionMessage> messages, @JsonKey(includeIfNull: false)  double? temperature, @JsonKey(name: 'top_p', includeIfNull: false)  double? topP, @JsonKey(name: 'max_tokens', includeIfNull: false)  int? maxTokens, @JsonKey(includeIfNull: false)  bool? stream, @_ChatCompletionStopConverter()@JsonKey(includeIfNull: false)  ChatCompletionStop? stop, @JsonKey(name: 'random_seed', includeIfNull: false)  int? randomSeed, @JsonKey(name: 'response_format', includeIfNull: false)  ResponseFormat? responseFormat, @JsonKey(includeIfNull: false)  List<Tool>? tools, @_ChatCompletionToolChoiceConverter()@JsonKey(name: 'tool_choice', includeIfNull: false)  ChatCompletionToolChoice? toolChoice, @JsonKey(name: 'presence_penalty', includeIfNull: false)  double? presencePenalty, @JsonKey(name: 'frequency_penalty', includeIfNull: false)  double? frequencyPenalty, @JsonKey(includeIfNull: false)  int? n, @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)  bool? parallelToolCalls, @JsonKey(name: 'safe_prompt', includeIfNull: false)  bool? safePrompt, @JsonKey(includeIfNull: false)  Map<String, dynamic>? metadata, @JsonKey(includeIfNull: false)  Prediction? prediction, @JsonKey(name: 'prompt_mode', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  MistralPromptMode? promptMode)  $default,) {final _that = this;
 switch (_that) {
 case _ChatCompletionRequest():
-return $default(_that.model,_that.messages,_that.temperature,_that.topP,_that.maxTokens,_that.stream,_that.safePrompt,_that.randomSeed);case _:
+return $default(_that.model,_that.messages,_that.temperature,_that.topP,_that.maxTokens,_that.stream,_that.stop,_that.randomSeed,_that.responseFormat,_that.tools,_that.toolChoice,_that.presencePenalty,_that.frequencyPenalty,_that.n,_that.parallelToolCalls,_that.safePrompt,_that.metadata,_that.prediction,_that.promptMode);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -224,10 +310,10 @@ return $default(_that.model,_that.messages,_that.temperature,_that.topP,_that.ma
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@_ChatCompletionModelConverter()  ChatCompletionModel model,  List<ChatCompletionMessage> messages, @JsonKey(includeIfNull: false)  double? temperature, @JsonKey(name: 'top_p', includeIfNull: false)  double? topP, @JsonKey(name: 'max_tokens', includeIfNull: false)  int? maxTokens, @JsonKey(includeIfNull: false)  bool? stream, @JsonKey(name: 'safe_prompt', includeIfNull: false)  bool? safePrompt, @JsonKey(name: 'random_seed', includeIfNull: false)  int? randomSeed)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@_ChatCompletionModelConverter()  ChatCompletionModel model,  List<ChatCompletionMessage> messages, @JsonKey(includeIfNull: false)  double? temperature, @JsonKey(name: 'top_p', includeIfNull: false)  double? topP, @JsonKey(name: 'max_tokens', includeIfNull: false)  int? maxTokens, @JsonKey(includeIfNull: false)  bool? stream, @_ChatCompletionStopConverter()@JsonKey(includeIfNull: false)  ChatCompletionStop? stop, @JsonKey(name: 'random_seed', includeIfNull: false)  int? randomSeed, @JsonKey(name: 'response_format', includeIfNull: false)  ResponseFormat? responseFormat, @JsonKey(includeIfNull: false)  List<Tool>? tools, @_ChatCompletionToolChoiceConverter()@JsonKey(name: 'tool_choice', includeIfNull: false)  ChatCompletionToolChoice? toolChoice, @JsonKey(name: 'presence_penalty', includeIfNull: false)  double? presencePenalty, @JsonKey(name: 'frequency_penalty', includeIfNull: false)  double? frequencyPenalty, @JsonKey(includeIfNull: false)  int? n, @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)  bool? parallelToolCalls, @JsonKey(name: 'safe_prompt', includeIfNull: false)  bool? safePrompt, @JsonKey(includeIfNull: false)  Map<String, dynamic>? metadata, @JsonKey(includeIfNull: false)  Prediction? prediction, @JsonKey(name: 'prompt_mode', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  MistralPromptMode? promptMode)?  $default,) {final _that = this;
 switch (_that) {
 case _ChatCompletionRequest() when $default != null:
-return $default(_that.model,_that.messages,_that.temperature,_that.topP,_that.maxTokens,_that.stream,_that.safePrompt,_that.randomSeed);case _:
+return $default(_that.model,_that.messages,_that.temperature,_that.topP,_that.maxTokens,_that.stream,_that.stop,_that.randomSeed,_that.responseFormat,_that.tools,_that.toolChoice,_that.presencePenalty,_that.frequencyPenalty,_that.n,_that.parallelToolCalls,_that.safePrompt,_that.metadata,_that.prediction,_that.promptMode);case _:
   return null;
 
 }
@@ -239,7 +325,7 @@ return $default(_that.model,_that.messages,_that.temperature,_that.topP,_that.ma
 @JsonSerializable()
 
 class _ChatCompletionRequest extends ChatCompletionRequest {
-  const _ChatCompletionRequest({@_ChatCompletionModelConverter() required this.model, required final  List<ChatCompletionMessage> messages, @JsonKey(includeIfNull: false) this.temperature = 0.7, @JsonKey(name: 'top_p', includeIfNull: false) this.topP = 1.0, @JsonKey(name: 'max_tokens', includeIfNull: false) this.maxTokens, @JsonKey(includeIfNull: false) this.stream = false, @JsonKey(name: 'safe_prompt', includeIfNull: false) this.safePrompt = false, @JsonKey(name: 'random_seed', includeIfNull: false) this.randomSeed}): _messages = messages,super._();
+  const _ChatCompletionRequest({@_ChatCompletionModelConverter() required this.model, required final  List<ChatCompletionMessage> messages, @JsonKey(includeIfNull: false) this.temperature, @JsonKey(name: 'top_p', includeIfNull: false) this.topP, @JsonKey(name: 'max_tokens', includeIfNull: false) this.maxTokens, @JsonKey(includeIfNull: false) this.stream, @_ChatCompletionStopConverter()@JsonKey(includeIfNull: false) this.stop, @JsonKey(name: 'random_seed', includeIfNull: false) this.randomSeed, @JsonKey(name: 'response_format', includeIfNull: false) this.responseFormat, @JsonKey(includeIfNull: false) final  List<Tool>? tools, @_ChatCompletionToolChoiceConverter()@JsonKey(name: 'tool_choice', includeIfNull: false) this.toolChoice, @JsonKey(name: 'presence_penalty', includeIfNull: false) this.presencePenalty, @JsonKey(name: 'frequency_penalty', includeIfNull: false) this.frequencyPenalty, @JsonKey(includeIfNull: false) this.n, @JsonKey(name: 'parallel_tool_calls', includeIfNull: false) this.parallelToolCalls = true, @JsonKey(name: 'safe_prompt', includeIfNull: false) this.safePrompt, @JsonKey(includeIfNull: false) final  Map<String, dynamic>? metadata, @JsonKey(includeIfNull: false) this.prediction, @JsonKey(name: 'prompt_mode', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.promptMode}): _messages = messages,_tools = tools,_metadata = metadata,super._();
   factory _ChatCompletionRequest.fromJson(Map<String, dynamic> json) => _$ChatCompletionRequestFromJson(json);
 
 /// ID of the model to use. You can use the [List Available Models](https://docs.mistral.ai/api#operation/listModels) API to see all of your available models, or see our [Model overview](https://docs.mistral.ai/models) for model descriptions.
@@ -253,7 +339,7 @@ class _ChatCompletionRequest extends ChatCompletionRequest {
   return EqualUnmodifiableListView(_messages);
 }
 
-/// What sampling temperature to use, between 0.0 and 1.0. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+/// What sampling temperature to use, between 0.0 and 1.5. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
 ///
 /// We generally recommend altering this or `top_p` but not both.
 @override@JsonKey(includeIfNull: false) final  double? temperature;
@@ -267,10 +353,67 @@ class _ChatCompletionRequest extends ChatCompletionRequest {
 @override@JsonKey(name: 'max_tokens', includeIfNull: false) final  int? maxTokens;
 /// Whether to stream back partial progress. If set, tokens will be sent as data-only server-sent events as they become available, with the stream terminated by a data: [DONE] message. Otherwise, the server will hold the request open until the timeout or until completion, with the response containing the full result as JSON.
 @override@JsonKey(includeIfNull: false) final  bool? stream;
-/// Whether to inject a safety prompt before all conversations.
-@override@JsonKey(name: 'safe_prompt', includeIfNull: false) final  bool? safePrompt;
+/// Stop generation if this token is detected, or if the end of the sequence is detected.
+@override@_ChatCompletionStopConverter()@JsonKey(includeIfNull: false) final  ChatCompletionStop? stop;
 /// The seed to use for random sampling. If set, different calls will generate deterministic results.
 @override@JsonKey(name: 'random_seed', includeIfNull: false) final  int? randomSeed;
+/// An object specifying the format that the model must output.
+/// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message
+/// the model generates is valid JSON.
+/// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs
+/// which guarantees the model will match your supplied JSON schema.
+@override@JsonKey(name: 'response_format', includeIfNull: false) final  ResponseFormat? responseFormat;
+/// A list of tools the model may call. Currently, only functions are supported as a tool.
+/// Use this to provide a list of functions the model may generate JSON inputs for.
+ final  List<Tool>? _tools;
+/// A list of tools the model may call. Currently, only functions are supported as a tool.
+/// Use this to provide a list of functions the model may generate JSON inputs for.
+@override@JsonKey(includeIfNull: false) List<Tool>? get tools {
+  final value = _tools;
+  if (value == null) return null;
+  if (_tools is EqualUnmodifiableListView) return _tools;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
+/// Controls which (if any) tool is called by the model.
+/// `none` means the model will not call any tool and instead generates a message.
+/// `auto` means the model can pick between generating a message or calling one or more tools.
+/// `any` means the model must call one or more tools.
+/// `required` is an alias for `any`.
+/// Specifying a particular tool via `{"type": "function", "function": {"name": "my_function"}}`
+/// forces the model to call that tool.
+@override@_ChatCompletionToolChoiceConverter()@JsonKey(name: 'tool_choice', includeIfNull: false) final  ChatCompletionToolChoice? toolChoice;
+/// Positive values penalize new tokens based on whether they appear in the text so far,
+/// increasing the model's likelihood to talk about new topics.
+@override@JsonKey(name: 'presence_penalty', includeIfNull: false) final  double? presencePenalty;
+/// Positive values penalize new tokens based on their existing frequency in the text so far,
+/// decreasing the model's likelihood to repeat the same line verbatim.
+@override@JsonKey(name: 'frequency_penalty', includeIfNull: false) final  double? frequencyPenalty;
+/// Number of completions to return for each request.
+@override@JsonKey(includeIfNull: false) final  int? n;
+/// Whether to enable parallel function calling during tool use.
+@override@JsonKey(name: 'parallel_tool_calls', includeIfNull: false) final  bool? parallelToolCalls;
+/// Whether to inject a safety prompt before all conversations.
+@override@JsonKey(name: 'safe_prompt', includeIfNull: false) final  bool? safePrompt;
+/// Custom metadata to associate with the request.
+ final  Map<String, dynamic>? _metadata;
+/// Custom metadata to associate with the request.
+@override@JsonKey(includeIfNull: false) Map<String, dynamic>? get metadata {
+  final value = _metadata;
+  if (value == null) return null;
+  if (_metadata is EqualUnmodifiableMapView) return _metadata;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(value);
+}
+
+/// A prediction object used to provide expected output for the model.
+/// This can help reduce latency by allowing the model to skip generating tokens
+/// that match the prediction.
+@override@JsonKey(includeIfNull: false) final  Prediction? prediction;
+/// The prompt mode to use for the request.
+/// Use 'reasoning' to enable reasoning mode for supported models.
+@override@JsonKey(name: 'prompt_mode', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) final  MistralPromptMode? promptMode;
 
 /// Create a copy of ChatCompletionRequest
 /// with the given fields replaced by the non-null parameter values.
@@ -285,16 +428,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ChatCompletionRequest&&(identical(other.model, model) || other.model == model)&&const DeepCollectionEquality().equals(other._messages, _messages)&&(identical(other.temperature, temperature) || other.temperature == temperature)&&(identical(other.topP, topP) || other.topP == topP)&&(identical(other.maxTokens, maxTokens) || other.maxTokens == maxTokens)&&(identical(other.stream, stream) || other.stream == stream)&&(identical(other.safePrompt, safePrompt) || other.safePrompt == safePrompt)&&(identical(other.randomSeed, randomSeed) || other.randomSeed == randomSeed));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ChatCompletionRequest&&(identical(other.model, model) || other.model == model)&&const DeepCollectionEquality().equals(other._messages, _messages)&&(identical(other.temperature, temperature) || other.temperature == temperature)&&(identical(other.topP, topP) || other.topP == topP)&&(identical(other.maxTokens, maxTokens) || other.maxTokens == maxTokens)&&(identical(other.stream, stream) || other.stream == stream)&&(identical(other.stop, stop) || other.stop == stop)&&(identical(other.randomSeed, randomSeed) || other.randomSeed == randomSeed)&&(identical(other.responseFormat, responseFormat) || other.responseFormat == responseFormat)&&const DeepCollectionEquality().equals(other._tools, _tools)&&(identical(other.toolChoice, toolChoice) || other.toolChoice == toolChoice)&&(identical(other.presencePenalty, presencePenalty) || other.presencePenalty == presencePenalty)&&(identical(other.frequencyPenalty, frequencyPenalty) || other.frequencyPenalty == frequencyPenalty)&&(identical(other.n, n) || other.n == n)&&(identical(other.parallelToolCalls, parallelToolCalls) || other.parallelToolCalls == parallelToolCalls)&&(identical(other.safePrompt, safePrompt) || other.safePrompt == safePrompt)&&const DeepCollectionEquality().equals(other._metadata, _metadata)&&(identical(other.prediction, prediction) || other.prediction == prediction)&&(identical(other.promptMode, promptMode) || other.promptMode == promptMode));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,model,const DeepCollectionEquality().hash(_messages),temperature,topP,maxTokens,stream,safePrompt,randomSeed);
+int get hashCode => Object.hashAll([runtimeType,model,const DeepCollectionEquality().hash(_messages),temperature,topP,maxTokens,stream,stop,randomSeed,responseFormat,const DeepCollectionEquality().hash(_tools),toolChoice,presencePenalty,frequencyPenalty,n,parallelToolCalls,safePrompt,const DeepCollectionEquality().hash(_metadata),prediction,promptMode]);
 
 @override
 String toString() {
-  return 'ChatCompletionRequest(model: $model, messages: $messages, temperature: $temperature, topP: $topP, maxTokens: $maxTokens, stream: $stream, safePrompt: $safePrompt, randomSeed: $randomSeed)';
+  return 'ChatCompletionRequest(model: $model, messages: $messages, temperature: $temperature, topP: $topP, maxTokens: $maxTokens, stream: $stream, stop: $stop, randomSeed: $randomSeed, responseFormat: $responseFormat, tools: $tools, toolChoice: $toolChoice, presencePenalty: $presencePenalty, frequencyPenalty: $frequencyPenalty, n: $n, parallelToolCalls: $parallelToolCalls, safePrompt: $safePrompt, metadata: $metadata, prediction: $prediction, promptMode: $promptMode)';
 }
 
 
@@ -305,11 +448,11 @@ abstract mixin class _$ChatCompletionRequestCopyWith<$Res> implements $ChatCompl
   factory _$ChatCompletionRequestCopyWith(_ChatCompletionRequest value, $Res Function(_ChatCompletionRequest) _then) = __$ChatCompletionRequestCopyWithImpl;
 @override @useResult
 $Res call({
-@_ChatCompletionModelConverter() ChatCompletionModel model, List<ChatCompletionMessage> messages,@JsonKey(includeIfNull: false) double? temperature,@JsonKey(name: 'top_p', includeIfNull: false) double? topP,@JsonKey(name: 'max_tokens', includeIfNull: false) int? maxTokens,@JsonKey(includeIfNull: false) bool? stream,@JsonKey(name: 'safe_prompt', includeIfNull: false) bool? safePrompt,@JsonKey(name: 'random_seed', includeIfNull: false) int? randomSeed
+@_ChatCompletionModelConverter() ChatCompletionModel model, List<ChatCompletionMessage> messages,@JsonKey(includeIfNull: false) double? temperature,@JsonKey(name: 'top_p', includeIfNull: false) double? topP,@JsonKey(name: 'max_tokens', includeIfNull: false) int? maxTokens,@JsonKey(includeIfNull: false) bool? stream,@_ChatCompletionStopConverter()@JsonKey(includeIfNull: false) ChatCompletionStop? stop,@JsonKey(name: 'random_seed', includeIfNull: false) int? randomSeed,@JsonKey(name: 'response_format', includeIfNull: false) ResponseFormat? responseFormat,@JsonKey(includeIfNull: false) List<Tool>? tools,@_ChatCompletionToolChoiceConverter()@JsonKey(name: 'tool_choice', includeIfNull: false) ChatCompletionToolChoice? toolChoice,@JsonKey(name: 'presence_penalty', includeIfNull: false) double? presencePenalty,@JsonKey(name: 'frequency_penalty', includeIfNull: false) double? frequencyPenalty,@JsonKey(includeIfNull: false) int? n,@JsonKey(name: 'parallel_tool_calls', includeIfNull: false) bool? parallelToolCalls,@JsonKey(name: 'safe_prompt', includeIfNull: false) bool? safePrompt,@JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,@JsonKey(includeIfNull: false) Prediction? prediction,@JsonKey(name: 'prompt_mode', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) MistralPromptMode? promptMode
 });
 
 
-@override $ChatCompletionModelCopyWith<$Res> get model;
+@override $ChatCompletionModelCopyWith<$Res> get model;@override $ChatCompletionStopCopyWith<$Res>? get stop;@override $ResponseFormatCopyWith<$Res>? get responseFormat;@override $ChatCompletionToolChoiceCopyWith<$Res>? get toolChoice;@override $PredictionCopyWith<$Res>? get prediction;
 
 }
 /// @nodoc
@@ -322,7 +465,7 @@ class __$ChatCompletionRequestCopyWithImpl<$Res>
 
 /// Create a copy of ChatCompletionRequest
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? model = null,Object? messages = null,Object? temperature = freezed,Object? topP = freezed,Object? maxTokens = freezed,Object? stream = freezed,Object? safePrompt = freezed,Object? randomSeed = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? model = null,Object? messages = null,Object? temperature = freezed,Object? topP = freezed,Object? maxTokens = freezed,Object? stream = freezed,Object? stop = freezed,Object? randomSeed = freezed,Object? responseFormat = freezed,Object? tools = freezed,Object? toolChoice = freezed,Object? presencePenalty = freezed,Object? frequencyPenalty = freezed,Object? n = freezed,Object? parallelToolCalls = freezed,Object? safePrompt = freezed,Object? metadata = freezed,Object? prediction = freezed,Object? promptMode = freezed,}) {
   return _then(_ChatCompletionRequest(
 model: null == model ? _self.model : model // ignore: cast_nullable_to_non_nullable
 as ChatCompletionModel,messages: null == messages ? _self._messages : messages // ignore: cast_nullable_to_non_nullable
@@ -330,9 +473,20 @@ as List<ChatCompletionMessage>,temperature: freezed == temperature ? _self.tempe
 as double?,topP: freezed == topP ? _self.topP : topP // ignore: cast_nullable_to_non_nullable
 as double?,maxTokens: freezed == maxTokens ? _self.maxTokens : maxTokens // ignore: cast_nullable_to_non_nullable
 as int?,stream: freezed == stream ? _self.stream : stream // ignore: cast_nullable_to_non_nullable
+as bool?,stop: freezed == stop ? _self.stop : stop // ignore: cast_nullable_to_non_nullable
+as ChatCompletionStop?,randomSeed: freezed == randomSeed ? _self.randomSeed : randomSeed // ignore: cast_nullable_to_non_nullable
+as int?,responseFormat: freezed == responseFormat ? _self.responseFormat : responseFormat // ignore: cast_nullable_to_non_nullable
+as ResponseFormat?,tools: freezed == tools ? _self._tools : tools // ignore: cast_nullable_to_non_nullable
+as List<Tool>?,toolChoice: freezed == toolChoice ? _self.toolChoice : toolChoice // ignore: cast_nullable_to_non_nullable
+as ChatCompletionToolChoice?,presencePenalty: freezed == presencePenalty ? _self.presencePenalty : presencePenalty // ignore: cast_nullable_to_non_nullable
+as double?,frequencyPenalty: freezed == frequencyPenalty ? _self.frequencyPenalty : frequencyPenalty // ignore: cast_nullable_to_non_nullable
+as double?,n: freezed == n ? _self.n : n // ignore: cast_nullable_to_non_nullable
+as int?,parallelToolCalls: freezed == parallelToolCalls ? _self.parallelToolCalls : parallelToolCalls // ignore: cast_nullable_to_non_nullable
 as bool?,safePrompt: freezed == safePrompt ? _self.safePrompt : safePrompt // ignore: cast_nullable_to_non_nullable
-as bool?,randomSeed: freezed == randomSeed ? _self.randomSeed : randomSeed // ignore: cast_nullable_to_non_nullable
-as int?,
+as bool?,metadata: freezed == metadata ? _self._metadata : metadata // ignore: cast_nullable_to_non_nullable
+as Map<String, dynamic>?,prediction: freezed == prediction ? _self.prediction : prediction // ignore: cast_nullable_to_non_nullable
+as Prediction?,promptMode: freezed == promptMode ? _self.promptMode : promptMode // ignore: cast_nullable_to_non_nullable
+as MistralPromptMode?,
   ));
 }
 
@@ -344,6 +498,54 @@ $ChatCompletionModelCopyWith<$Res> get model {
   
   return $ChatCompletionModelCopyWith<$Res>(_self.model, (value) {
     return _then(_self.copyWith(model: value));
+  });
+}/// Create a copy of ChatCompletionRequest
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ChatCompletionStopCopyWith<$Res>? get stop {
+    if (_self.stop == null) {
+    return null;
+  }
+
+  return $ChatCompletionStopCopyWith<$Res>(_self.stop!, (value) {
+    return _then(_self.copyWith(stop: value));
+  });
+}/// Create a copy of ChatCompletionRequest
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ResponseFormatCopyWith<$Res>? get responseFormat {
+    if (_self.responseFormat == null) {
+    return null;
+  }
+
+  return $ResponseFormatCopyWith<$Res>(_self.responseFormat!, (value) {
+    return _then(_self.copyWith(responseFormat: value));
+  });
+}/// Create a copy of ChatCompletionRequest
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ChatCompletionToolChoiceCopyWith<$Res>? get toolChoice {
+    if (_self.toolChoice == null) {
+    return null;
+  }
+
+  return $ChatCompletionToolChoiceCopyWith<$Res>(_self.toolChoice!, (value) {
+    return _then(_self.copyWith(toolChoice: value));
+  });
+}/// Create a copy of ChatCompletionRequest
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$PredictionCopyWith<$Res>? get prediction {
+    if (_self.prediction == null) {
+    return null;
+  }
+
+  return $PredictionCopyWith<$Res>(_self.prediction!, (value) {
+    return _then(_self.copyWith(prediction: value));
   });
 }
 }
@@ -680,6 +882,685 @@ as String,
 
 }
 
+ChatCompletionStop _$ChatCompletionStopFromJson(
+  Map<String, dynamic> json
+) {
+        switch (json['runtimeType']) {
+                  case 'listString':
+          return ChatCompletionStopListString.fromJson(
+            json
+          );
+                case 'string':
+          return ChatCompletionStopString.fromJson(
+            json
+          );
+        
+          default:
+            throw CheckedFromJsonException(
+  json,
+  'runtimeType',
+  'ChatCompletionStop',
+  'Invalid union type "${json['runtimeType']}"!'
+);
+        }
+      
+}
+
+/// @nodoc
+mixin _$ChatCompletionStop {
+
+ Object get value;
+
+  /// Serializes this ChatCompletionStop to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChatCompletionStop&&const DeepCollectionEquality().equals(other.value, value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(value));
+
+@override
+String toString() {
+  return 'ChatCompletionStop(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+class $ChatCompletionStopCopyWith<$Res>  {
+$ChatCompletionStopCopyWith(ChatCompletionStop _, $Res Function(ChatCompletionStop) __);
+}
+
+
+/// Adds pattern-matching-related methods to [ChatCompletionStop].
+extension ChatCompletionStopPatterns on ChatCompletionStop {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( ChatCompletionStopListString value)?  listString,TResult Function( ChatCompletionStopString value)?  string,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case ChatCompletionStopListString() when listString != null:
+return listString(_that);case ChatCompletionStopString() when string != null:
+return string(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( ChatCompletionStopListString value)  listString,required TResult Function( ChatCompletionStopString value)  string,}){
+final _that = this;
+switch (_that) {
+case ChatCompletionStopListString():
+return listString(_that);case ChatCompletionStopString():
+return string(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( ChatCompletionStopListString value)?  listString,TResult? Function( ChatCompletionStopString value)?  string,}){
+final _that = this;
+switch (_that) {
+case ChatCompletionStopListString() when listString != null:
+return listString(_that);case ChatCompletionStopString() when string != null:
+return string(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( List<String> value)?  listString,TResult Function( String value)?  string,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case ChatCompletionStopListString() when listString != null:
+return listString(_that.value);case ChatCompletionStopString() when string != null:
+return string(_that.value);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( List<String> value)  listString,required TResult Function( String value)  string,}) {final _that = this;
+switch (_that) {
+case ChatCompletionStopListString():
+return listString(_that.value);case ChatCompletionStopString():
+return string(_that.value);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( List<String> value)?  listString,TResult? Function( String value)?  string,}) {final _that = this;
+switch (_that) {
+case ChatCompletionStopListString() when listString != null:
+return listString(_that.value);case ChatCompletionStopString() when string != null:
+return string(_that.value);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class ChatCompletionStopListString extends ChatCompletionStop {
+  const ChatCompletionStopListString(final  List<String> value, {final  String? $type}): _value = value,$type = $type ?? 'listString',super._();
+  factory ChatCompletionStopListString.fromJson(Map<String, dynamic> json) => _$ChatCompletionStopListStringFromJson(json);
+
+ final  List<String> _value;
+@override List<String> get value {
+  if (_value is EqualUnmodifiableListView) return _value;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_value);
+}
+
+
+@JsonKey(name: 'runtimeType')
+final String $type;
+
+
+/// Create a copy of ChatCompletionStop
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ChatCompletionStopListStringCopyWith<ChatCompletionStopListString> get copyWith => _$ChatCompletionStopListStringCopyWithImpl<ChatCompletionStopListString>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$ChatCompletionStopListStringToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChatCompletionStopListString&&const DeepCollectionEquality().equals(other._value, _value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_value));
+
+@override
+String toString() {
+  return 'ChatCompletionStop.listString(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ChatCompletionStopListStringCopyWith<$Res> implements $ChatCompletionStopCopyWith<$Res> {
+  factory $ChatCompletionStopListStringCopyWith(ChatCompletionStopListString value, $Res Function(ChatCompletionStopListString) _then) = _$ChatCompletionStopListStringCopyWithImpl;
+@useResult
+$Res call({
+ List<String> value
+});
+
+
+
+
+}
+/// @nodoc
+class _$ChatCompletionStopListStringCopyWithImpl<$Res>
+    implements $ChatCompletionStopListStringCopyWith<$Res> {
+  _$ChatCompletionStopListStringCopyWithImpl(this._self, this._then);
+
+  final ChatCompletionStopListString _self;
+  final $Res Function(ChatCompletionStopListString) _then;
+
+/// Create a copy of ChatCompletionStop
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
+  return _then(ChatCompletionStopListString(
+null == value ? _self._value : value // ignore: cast_nullable_to_non_nullable
+as List<String>,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class ChatCompletionStopString extends ChatCompletionStop {
+  const ChatCompletionStopString(this.value, {final  String? $type}): $type = $type ?? 'string',super._();
+  factory ChatCompletionStopString.fromJson(Map<String, dynamic> json) => _$ChatCompletionStopStringFromJson(json);
+
+@override final  String value;
+
+@JsonKey(name: 'runtimeType')
+final String $type;
+
+
+/// Create a copy of ChatCompletionStop
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ChatCompletionStopStringCopyWith<ChatCompletionStopString> get copyWith => _$ChatCompletionStopStringCopyWithImpl<ChatCompletionStopString>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$ChatCompletionStopStringToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChatCompletionStopString&&(identical(other.value, value) || other.value == value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,value);
+
+@override
+String toString() {
+  return 'ChatCompletionStop.string(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ChatCompletionStopStringCopyWith<$Res> implements $ChatCompletionStopCopyWith<$Res> {
+  factory $ChatCompletionStopStringCopyWith(ChatCompletionStopString value, $Res Function(ChatCompletionStopString) _then) = _$ChatCompletionStopStringCopyWithImpl;
+@useResult
+$Res call({
+ String value
+});
+
+
+
+
+}
+/// @nodoc
+class _$ChatCompletionStopStringCopyWithImpl<$Res>
+    implements $ChatCompletionStopStringCopyWith<$Res> {
+  _$ChatCompletionStopStringCopyWithImpl(this._self, this._then);
+
+  final ChatCompletionStopString _self;
+  final $Res Function(ChatCompletionStopString) _then;
+
+/// Create a copy of ChatCompletionStop
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
+  return _then(ChatCompletionStopString(
+null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+ChatCompletionToolChoice _$ChatCompletionToolChoiceFromJson(
+  Map<String, dynamic> json
+) {
+        switch (json['runtimeType']) {
+                  case 'enumeration':
+          return ChatCompletionToolChoiceEnumeration.fromJson(
+            json
+          );
+                case 'toolChoiceTool':
+          return ChatCompletionToolChoiceToolChoiceTool.fromJson(
+            json
+          );
+        
+          default:
+            throw CheckedFromJsonException(
+  json,
+  'runtimeType',
+  'ChatCompletionToolChoice',
+  'Invalid union type "${json['runtimeType']}"!'
+);
+        }
+      
+}
+
+/// @nodoc
+mixin _$ChatCompletionToolChoice {
+
+ Object get value;
+
+  /// Serializes this ChatCompletionToolChoice to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChatCompletionToolChoice&&const DeepCollectionEquality().equals(other.value, value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(value));
+
+@override
+String toString() {
+  return 'ChatCompletionToolChoice(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+class $ChatCompletionToolChoiceCopyWith<$Res>  {
+$ChatCompletionToolChoiceCopyWith(ChatCompletionToolChoice _, $Res Function(ChatCompletionToolChoice) __);
+}
+
+
+/// Adds pattern-matching-related methods to [ChatCompletionToolChoice].
+extension ChatCompletionToolChoicePatterns on ChatCompletionToolChoice {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( ChatCompletionToolChoiceEnumeration value)?  enumeration,TResult Function( ChatCompletionToolChoiceToolChoiceTool value)?  toolChoiceTool,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case ChatCompletionToolChoiceEnumeration() when enumeration != null:
+return enumeration(_that);case ChatCompletionToolChoiceToolChoiceTool() when toolChoiceTool != null:
+return toolChoiceTool(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( ChatCompletionToolChoiceEnumeration value)  enumeration,required TResult Function( ChatCompletionToolChoiceToolChoiceTool value)  toolChoiceTool,}){
+final _that = this;
+switch (_that) {
+case ChatCompletionToolChoiceEnumeration():
+return enumeration(_that);case ChatCompletionToolChoiceToolChoiceTool():
+return toolChoiceTool(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( ChatCompletionToolChoiceEnumeration value)?  enumeration,TResult? Function( ChatCompletionToolChoiceToolChoiceTool value)?  toolChoiceTool,}){
+final _that = this;
+switch (_that) {
+case ChatCompletionToolChoiceEnumeration() when enumeration != null:
+return enumeration(_that);case ChatCompletionToolChoiceToolChoiceTool() when toolChoiceTool != null:
+return toolChoiceTool(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( ChatCompletionToolChoiceOption value)?  enumeration,TResult Function( ToolChoiceTool value)?  toolChoiceTool,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case ChatCompletionToolChoiceEnumeration() when enumeration != null:
+return enumeration(_that.value);case ChatCompletionToolChoiceToolChoiceTool() when toolChoiceTool != null:
+return toolChoiceTool(_that.value);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( ChatCompletionToolChoiceOption value)  enumeration,required TResult Function( ToolChoiceTool value)  toolChoiceTool,}) {final _that = this;
+switch (_that) {
+case ChatCompletionToolChoiceEnumeration():
+return enumeration(_that.value);case ChatCompletionToolChoiceToolChoiceTool():
+return toolChoiceTool(_that.value);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( ChatCompletionToolChoiceOption value)?  enumeration,TResult? Function( ToolChoiceTool value)?  toolChoiceTool,}) {final _that = this;
+switch (_that) {
+case ChatCompletionToolChoiceEnumeration() when enumeration != null:
+return enumeration(_that.value);case ChatCompletionToolChoiceToolChoiceTool() when toolChoiceTool != null:
+return toolChoiceTool(_that.value);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class ChatCompletionToolChoiceEnumeration extends ChatCompletionToolChoice {
+  const ChatCompletionToolChoiceEnumeration(this.value, {final  String? $type}): $type = $type ?? 'enumeration',super._();
+  factory ChatCompletionToolChoiceEnumeration.fromJson(Map<String, dynamic> json) => _$ChatCompletionToolChoiceEnumerationFromJson(json);
+
+@override final  ChatCompletionToolChoiceOption value;
+
+@JsonKey(name: 'runtimeType')
+final String $type;
+
+
+/// Create a copy of ChatCompletionToolChoice
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ChatCompletionToolChoiceEnumerationCopyWith<ChatCompletionToolChoiceEnumeration> get copyWith => _$ChatCompletionToolChoiceEnumerationCopyWithImpl<ChatCompletionToolChoiceEnumeration>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$ChatCompletionToolChoiceEnumerationToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChatCompletionToolChoiceEnumeration&&(identical(other.value, value) || other.value == value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,value);
+
+@override
+String toString() {
+  return 'ChatCompletionToolChoice.enumeration(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ChatCompletionToolChoiceEnumerationCopyWith<$Res> implements $ChatCompletionToolChoiceCopyWith<$Res> {
+  factory $ChatCompletionToolChoiceEnumerationCopyWith(ChatCompletionToolChoiceEnumeration value, $Res Function(ChatCompletionToolChoiceEnumeration) _then) = _$ChatCompletionToolChoiceEnumerationCopyWithImpl;
+@useResult
+$Res call({
+ ChatCompletionToolChoiceOption value
+});
+
+
+
+
+}
+/// @nodoc
+class _$ChatCompletionToolChoiceEnumerationCopyWithImpl<$Res>
+    implements $ChatCompletionToolChoiceEnumerationCopyWith<$Res> {
+  _$ChatCompletionToolChoiceEnumerationCopyWithImpl(this._self, this._then);
+
+  final ChatCompletionToolChoiceEnumeration _self;
+  final $Res Function(ChatCompletionToolChoiceEnumeration) _then;
+
+/// Create a copy of ChatCompletionToolChoice
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
+  return _then(ChatCompletionToolChoiceEnumeration(
+null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as ChatCompletionToolChoiceOption,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class ChatCompletionToolChoiceToolChoiceTool extends ChatCompletionToolChoice {
+  const ChatCompletionToolChoiceToolChoiceTool(this.value, {final  String? $type}): $type = $type ?? 'toolChoiceTool',super._();
+  factory ChatCompletionToolChoiceToolChoiceTool.fromJson(Map<String, dynamic> json) => _$ChatCompletionToolChoiceToolChoiceToolFromJson(json);
+
+@override final  ToolChoiceTool value;
+
+@JsonKey(name: 'runtimeType')
+final String $type;
+
+
+/// Create a copy of ChatCompletionToolChoice
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ChatCompletionToolChoiceToolChoiceToolCopyWith<ChatCompletionToolChoiceToolChoiceTool> get copyWith => _$ChatCompletionToolChoiceToolChoiceToolCopyWithImpl<ChatCompletionToolChoiceToolChoiceTool>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$ChatCompletionToolChoiceToolChoiceToolToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChatCompletionToolChoiceToolChoiceTool&&(identical(other.value, value) || other.value == value));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,value);
+
+@override
+String toString() {
+  return 'ChatCompletionToolChoice.toolChoiceTool(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ChatCompletionToolChoiceToolChoiceToolCopyWith<$Res> implements $ChatCompletionToolChoiceCopyWith<$Res> {
+  factory $ChatCompletionToolChoiceToolChoiceToolCopyWith(ChatCompletionToolChoiceToolChoiceTool value, $Res Function(ChatCompletionToolChoiceToolChoiceTool) _then) = _$ChatCompletionToolChoiceToolChoiceToolCopyWithImpl;
+@useResult
+$Res call({
+ ToolChoiceTool value
+});
+
+
+$ToolChoiceToolCopyWith<$Res> get value;
+
+}
+/// @nodoc
+class _$ChatCompletionToolChoiceToolChoiceToolCopyWithImpl<$Res>
+    implements $ChatCompletionToolChoiceToolChoiceToolCopyWith<$Res> {
+  _$ChatCompletionToolChoiceToolChoiceToolCopyWithImpl(this._self, this._then);
+
+  final ChatCompletionToolChoiceToolChoiceTool _self;
+  final $Res Function(ChatCompletionToolChoiceToolChoiceTool) _then;
+
+/// Create a copy of ChatCompletionToolChoice
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
+  return _then(ChatCompletionToolChoiceToolChoiceTool(
+null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as ToolChoiceTool,
+  ));
+}
+
+/// Create a copy of ChatCompletionToolChoice
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ToolChoiceToolCopyWith<$Res> get value {
+  
+  return $ToolChoiceToolCopyWith<$Res>(_self.value, (value) {
+    return _then(_self.copyWith(value: value));
+  });
+}
+}
+
 
 /// @nodoc
 mixin _$ChatCompletionResponse {
@@ -1000,8 +1881,8 @@ $ChatCompletionUsageCopyWith<$Res> get usage {
 mixin _$ChatCompletionResponseChoicesInner {
 
 /// The index of this choice.
- int get index;/// A message in a chat conversation.
-@JsonKey(includeIfNull: false) ChatCompletionMessage? get message;/// The reason the model stopped generating tokens.
+ int get index;/// A message from the assistant in a chat conversation.
+ AssistantMessage get message;/// The reason the model stopped generating tokens.
 @JsonKey(name: 'finish_reason') ChatCompletionFinishReason get finishReason;
 /// Create a copy of ChatCompletionResponseChoicesInner
 /// with the given fields replaced by the non-null parameter values.
@@ -1035,11 +1916,11 @@ abstract mixin class $ChatCompletionResponseChoicesInnerCopyWith<$Res>  {
   factory $ChatCompletionResponseChoicesInnerCopyWith(ChatCompletionResponseChoicesInner value, $Res Function(ChatCompletionResponseChoicesInner) _then) = _$ChatCompletionResponseChoicesInnerCopyWithImpl;
 @useResult
 $Res call({
- int index,@JsonKey(includeIfNull: false) ChatCompletionMessage? message,@JsonKey(name: 'finish_reason') ChatCompletionFinishReason finishReason
+ int index, AssistantMessage message,@JsonKey(name: 'finish_reason') ChatCompletionFinishReason finishReason
 });
 
 
-$ChatCompletionMessageCopyWith<$Res>? get message;
+$AssistantMessageCopyWith<$Res> get message;
 
 }
 /// @nodoc
@@ -1052,11 +1933,11 @@ class _$ChatCompletionResponseChoicesInnerCopyWithImpl<$Res>
 
 /// Create a copy of ChatCompletionResponseChoicesInner
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? index = null,Object? message = freezed,Object? finishReason = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? index = null,Object? message = null,Object? finishReason = null,}) {
   return _then(_self.copyWith(
 index: null == index ? _self.index : index // ignore: cast_nullable_to_non_nullable
-as int,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
-as ChatCompletionMessage?,finishReason: null == finishReason ? _self.finishReason : finishReason // ignore: cast_nullable_to_non_nullable
+as int,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as AssistantMessage,finishReason: null == finishReason ? _self.finishReason : finishReason // ignore: cast_nullable_to_non_nullable
 as ChatCompletionFinishReason,
   ));
 }
@@ -1064,12 +1945,9 @@ as ChatCompletionFinishReason,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$ChatCompletionMessageCopyWith<$Res>? get message {
-    if (_self.message == null) {
-    return null;
-  }
-
-  return $ChatCompletionMessageCopyWith<$Res>(_self.message!, (value) {
+$AssistantMessageCopyWith<$Res> get message {
+  
+  return $AssistantMessageCopyWith<$Res>(_self.message, (value) {
     return _then(_self.copyWith(message: value));
   });
 }
@@ -1154,7 +2032,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int index, @JsonKey(includeIfNull: false)  ChatCompletionMessage? message, @JsonKey(name: 'finish_reason')  ChatCompletionFinishReason finishReason)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int index,  AssistantMessage message, @JsonKey(name: 'finish_reason')  ChatCompletionFinishReason finishReason)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ChatCompletionResponseChoicesInner() when $default != null:
 return $default(_that.index,_that.message,_that.finishReason);case _:
@@ -1175,7 +2053,7 @@ return $default(_that.index,_that.message,_that.finishReason);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int index, @JsonKey(includeIfNull: false)  ChatCompletionMessage? message, @JsonKey(name: 'finish_reason')  ChatCompletionFinishReason finishReason)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int index,  AssistantMessage message, @JsonKey(name: 'finish_reason')  ChatCompletionFinishReason finishReason)  $default,) {final _that = this;
 switch (_that) {
 case _ChatCompletionResponseChoicesInner():
 return $default(_that.index,_that.message,_that.finishReason);case _:
@@ -1195,7 +2073,7 @@ return $default(_that.index,_that.message,_that.finishReason);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int index, @JsonKey(includeIfNull: false)  ChatCompletionMessage? message, @JsonKey(name: 'finish_reason')  ChatCompletionFinishReason finishReason)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int index,  AssistantMessage message, @JsonKey(name: 'finish_reason')  ChatCompletionFinishReason finishReason)?  $default,) {final _that = this;
 switch (_that) {
 case _ChatCompletionResponseChoicesInner() when $default != null:
 return $default(_that.index,_that.message,_that.finishReason);case _:
@@ -1210,13 +2088,13 @@ return $default(_that.index,_that.message,_that.finishReason);case _:
 @JsonSerializable()
 
 class _ChatCompletionResponseChoicesInner extends ChatCompletionResponseChoicesInner {
-  const _ChatCompletionResponseChoicesInner({required this.index, @JsonKey(includeIfNull: false) this.message, @JsonKey(name: 'finish_reason') required this.finishReason}): super._();
+  const _ChatCompletionResponseChoicesInner({required this.index, required this.message, @JsonKey(name: 'finish_reason') required this.finishReason}): super._();
   factory _ChatCompletionResponseChoicesInner.fromJson(Map<String, dynamic> json) => _$ChatCompletionResponseChoicesInnerFromJson(json);
 
 /// The index of this choice.
 @override final  int index;
-/// A message in a chat conversation.
-@override@JsonKey(includeIfNull: false) final  ChatCompletionMessage? message;
+/// A message from the assistant in a chat conversation.
+@override final  AssistantMessage message;
 /// The reason the model stopped generating tokens.
 @override@JsonKey(name: 'finish_reason') final  ChatCompletionFinishReason finishReason;
 
@@ -1253,11 +2131,11 @@ abstract mixin class _$ChatCompletionResponseChoicesInnerCopyWith<$Res> implemen
   factory _$ChatCompletionResponseChoicesInnerCopyWith(_ChatCompletionResponseChoicesInner value, $Res Function(_ChatCompletionResponseChoicesInner) _then) = __$ChatCompletionResponseChoicesInnerCopyWithImpl;
 @override @useResult
 $Res call({
- int index,@JsonKey(includeIfNull: false) ChatCompletionMessage? message,@JsonKey(name: 'finish_reason') ChatCompletionFinishReason finishReason
+ int index, AssistantMessage message,@JsonKey(name: 'finish_reason') ChatCompletionFinishReason finishReason
 });
 
 
-@override $ChatCompletionMessageCopyWith<$Res>? get message;
+@override $AssistantMessageCopyWith<$Res> get message;
 
 }
 /// @nodoc
@@ -1270,11 +2148,11 @@ class __$ChatCompletionResponseChoicesInnerCopyWithImpl<$Res>
 
 /// Create a copy of ChatCompletionResponseChoicesInner
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? index = null,Object? message = freezed,Object? finishReason = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? index = null,Object? message = null,Object? finishReason = null,}) {
   return _then(_ChatCompletionResponseChoicesInner(
 index: null == index ? _self.index : index // ignore: cast_nullable_to_non_nullable
-as int,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
-as ChatCompletionMessage?,finishReason: null == finishReason ? _self.finishReason : finishReason // ignore: cast_nullable_to_non_nullable
+as int,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as AssistantMessage,finishReason: null == finishReason ? _self.finishReason : finishReason // ignore: cast_nullable_to_non_nullable
 as ChatCompletionFinishReason,
   ));
 }
@@ -1283,12 +2161,9 @@ as ChatCompletionFinishReason,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$ChatCompletionMessageCopyWith<$Res>? get message {
-    if (_self.message == null) {
-    return null;
-  }
-
-  return $ChatCompletionMessageCopyWith<$Res>(_self.message!, (value) {
+$AssistantMessageCopyWith<$Res> get message {
+  
+  return $AssistantMessageCopyWith<$Res>(_self.message, (value) {
     return _then(_self.copyWith(message: value));
   });
 }
@@ -1300,7 +2175,11 @@ mixin _$ChatCompletionMessage {
 
 /// The role of the message.
  ChatCompletionMessageRole get role;/// The message content.
- String get content;
+@JsonKey(includeIfNull: false) String? get content;/// The tool calls generated by the model, such as function calls.
+@JsonKey(name: 'tool_calls', includeIfNull: false) List<ToolCall>? get toolCalls;/// Tool call that this message is responding to (for tool messages).
+@JsonKey(name: 'tool_call_id', includeIfNull: false) String? get toolCallId;/// The name of the tool that was called (for tool messages).
+@JsonKey(includeIfNull: false) String? get name;/// Set this to true when adding an assistant message as a prefix for the next completion.
+@JsonKey(includeIfNull: false) bool? get prefix;
 /// Create a copy of ChatCompletionMessage
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1313,16 +2192,16 @@ $ChatCompletionMessageCopyWith<ChatCompletionMessage> get copyWith => _$ChatComp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChatCompletionMessage&&(identical(other.role, role) || other.role == role)&&(identical(other.content, content) || other.content == content));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChatCompletionMessage&&(identical(other.role, role) || other.role == role)&&(identical(other.content, content) || other.content == content)&&const DeepCollectionEquality().equals(other.toolCalls, toolCalls)&&(identical(other.toolCallId, toolCallId) || other.toolCallId == toolCallId)&&(identical(other.name, name) || other.name == name)&&(identical(other.prefix, prefix) || other.prefix == prefix));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,role,content);
+int get hashCode => Object.hash(runtimeType,role,content,const DeepCollectionEquality().hash(toolCalls),toolCallId,name,prefix);
 
 @override
 String toString() {
-  return 'ChatCompletionMessage(role: $role, content: $content)';
+  return 'ChatCompletionMessage(role: $role, content: $content, toolCalls: $toolCalls, toolCallId: $toolCallId, name: $name, prefix: $prefix)';
 }
 
 
@@ -1333,7 +2212,7 @@ abstract mixin class $ChatCompletionMessageCopyWith<$Res>  {
   factory $ChatCompletionMessageCopyWith(ChatCompletionMessage value, $Res Function(ChatCompletionMessage) _then) = _$ChatCompletionMessageCopyWithImpl;
 @useResult
 $Res call({
- ChatCompletionMessageRole role, String content
+ ChatCompletionMessageRole role,@JsonKey(includeIfNull: false) String? content,@JsonKey(name: 'tool_calls', includeIfNull: false) List<ToolCall>? toolCalls,@JsonKey(name: 'tool_call_id', includeIfNull: false) String? toolCallId,@JsonKey(includeIfNull: false) String? name,@JsonKey(includeIfNull: false) bool? prefix
 });
 
 
@@ -1350,11 +2229,15 @@ class _$ChatCompletionMessageCopyWithImpl<$Res>
 
 /// Create a copy of ChatCompletionMessage
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? role = null,Object? content = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? role = null,Object? content = freezed,Object? toolCalls = freezed,Object? toolCallId = freezed,Object? name = freezed,Object? prefix = freezed,}) {
   return _then(_self.copyWith(
 role: null == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
-as ChatCompletionMessageRole,content: null == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
-as String,
+as ChatCompletionMessageRole,content: freezed == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
+as String?,toolCalls: freezed == toolCalls ? _self.toolCalls : toolCalls // ignore: cast_nullable_to_non_nullable
+as List<ToolCall>?,toolCallId: freezed == toolCallId ? _self.toolCallId : toolCallId // ignore: cast_nullable_to_non_nullable
+as String?,name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String?,prefix: freezed == prefix ? _self.prefix : prefix // ignore: cast_nullable_to_non_nullable
+as bool?,
   ));
 }
 
@@ -1439,10 +2322,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ChatCompletionMessageRole role,  String content)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ChatCompletionMessageRole role, @JsonKey(includeIfNull: false)  String? content, @JsonKey(name: 'tool_calls', includeIfNull: false)  List<ToolCall>? toolCalls, @JsonKey(name: 'tool_call_id', includeIfNull: false)  String? toolCallId, @JsonKey(includeIfNull: false)  String? name, @JsonKey(includeIfNull: false)  bool? prefix)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ChatCompletionMessage() when $default != null:
-return $default(_that.role,_that.content);case _:
+return $default(_that.role,_that.content,_that.toolCalls,_that.toolCallId,_that.name,_that.prefix);case _:
   return orElse();
 
 }
@@ -1460,10 +2343,10 @@ return $default(_that.role,_that.content);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ChatCompletionMessageRole role,  String content)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ChatCompletionMessageRole role, @JsonKey(includeIfNull: false)  String? content, @JsonKey(name: 'tool_calls', includeIfNull: false)  List<ToolCall>? toolCalls, @JsonKey(name: 'tool_call_id', includeIfNull: false)  String? toolCallId, @JsonKey(includeIfNull: false)  String? name, @JsonKey(includeIfNull: false)  bool? prefix)  $default,) {final _that = this;
 switch (_that) {
 case _ChatCompletionMessage():
-return $default(_that.role,_that.content);case _:
+return $default(_that.role,_that.content,_that.toolCalls,_that.toolCallId,_that.name,_that.prefix);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1480,10 +2363,10 @@ return $default(_that.role,_that.content);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ChatCompletionMessageRole role,  String content)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ChatCompletionMessageRole role, @JsonKey(includeIfNull: false)  String? content, @JsonKey(name: 'tool_calls', includeIfNull: false)  List<ToolCall>? toolCalls, @JsonKey(name: 'tool_call_id', includeIfNull: false)  String? toolCallId, @JsonKey(includeIfNull: false)  String? name, @JsonKey(includeIfNull: false)  bool? prefix)?  $default,) {final _that = this;
 switch (_that) {
 case _ChatCompletionMessage() when $default != null:
-return $default(_that.role,_that.content);case _:
+return $default(_that.role,_that.content,_that.toolCalls,_that.toolCallId,_that.name,_that.prefix);case _:
   return null;
 
 }
@@ -1495,13 +2378,30 @@ return $default(_that.role,_that.content);case _:
 @JsonSerializable()
 
 class _ChatCompletionMessage extends ChatCompletionMessage {
-  const _ChatCompletionMessage({required this.role, required this.content}): super._();
+  const _ChatCompletionMessage({required this.role, @JsonKey(includeIfNull: false) this.content, @JsonKey(name: 'tool_calls', includeIfNull: false) final  List<ToolCall>? toolCalls, @JsonKey(name: 'tool_call_id', includeIfNull: false) this.toolCallId, @JsonKey(includeIfNull: false) this.name, @JsonKey(includeIfNull: false) this.prefix}): _toolCalls = toolCalls,super._();
   factory _ChatCompletionMessage.fromJson(Map<String, dynamic> json) => _$ChatCompletionMessageFromJson(json);
 
 /// The role of the message.
 @override final  ChatCompletionMessageRole role;
 /// The message content.
-@override final  String content;
+@override@JsonKey(includeIfNull: false) final  String? content;
+/// The tool calls generated by the model, such as function calls.
+ final  List<ToolCall>? _toolCalls;
+/// The tool calls generated by the model, such as function calls.
+@override@JsonKey(name: 'tool_calls', includeIfNull: false) List<ToolCall>? get toolCalls {
+  final value = _toolCalls;
+  if (value == null) return null;
+  if (_toolCalls is EqualUnmodifiableListView) return _toolCalls;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
+/// Tool call that this message is responding to (for tool messages).
+@override@JsonKey(name: 'tool_call_id', includeIfNull: false) final  String? toolCallId;
+/// The name of the tool that was called (for tool messages).
+@override@JsonKey(includeIfNull: false) final  String? name;
+/// Set this to true when adding an assistant message as a prefix for the next completion.
+@override@JsonKey(includeIfNull: false) final  bool? prefix;
 
 /// Create a copy of ChatCompletionMessage
 /// with the given fields replaced by the non-null parameter values.
@@ -1516,16 +2416,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ChatCompletionMessage&&(identical(other.role, role) || other.role == role)&&(identical(other.content, content) || other.content == content));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ChatCompletionMessage&&(identical(other.role, role) || other.role == role)&&(identical(other.content, content) || other.content == content)&&const DeepCollectionEquality().equals(other._toolCalls, _toolCalls)&&(identical(other.toolCallId, toolCallId) || other.toolCallId == toolCallId)&&(identical(other.name, name) || other.name == name)&&(identical(other.prefix, prefix) || other.prefix == prefix));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,role,content);
+int get hashCode => Object.hash(runtimeType,role,content,const DeepCollectionEquality().hash(_toolCalls),toolCallId,name,prefix);
 
 @override
 String toString() {
-  return 'ChatCompletionMessage(role: $role, content: $content)';
+  return 'ChatCompletionMessage(role: $role, content: $content, toolCalls: $toolCalls, toolCallId: $toolCallId, name: $name, prefix: $prefix)';
 }
 
 
@@ -1536,7 +2436,7 @@ abstract mixin class _$ChatCompletionMessageCopyWith<$Res> implements $ChatCompl
   factory _$ChatCompletionMessageCopyWith(_ChatCompletionMessage value, $Res Function(_ChatCompletionMessage) _then) = __$ChatCompletionMessageCopyWithImpl;
 @override @useResult
 $Res call({
- ChatCompletionMessageRole role, String content
+ ChatCompletionMessageRole role,@JsonKey(includeIfNull: false) String? content,@JsonKey(name: 'tool_calls', includeIfNull: false) List<ToolCall>? toolCalls,@JsonKey(name: 'tool_call_id', includeIfNull: false) String? toolCallId,@JsonKey(includeIfNull: false) String? name,@JsonKey(includeIfNull: false) bool? prefix
 });
 
 
@@ -1553,11 +2453,304 @@ class __$ChatCompletionMessageCopyWithImpl<$Res>
 
 /// Create a copy of ChatCompletionMessage
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? role = null,Object? content = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? role = null,Object? content = freezed,Object? toolCalls = freezed,Object? toolCallId = freezed,Object? name = freezed,Object? prefix = freezed,}) {
   return _then(_ChatCompletionMessage(
 role: null == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
-as ChatCompletionMessageRole,content: null == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
-as String,
+as ChatCompletionMessageRole,content: freezed == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
+as String?,toolCalls: freezed == toolCalls ? _self._toolCalls : toolCalls // ignore: cast_nullable_to_non_nullable
+as List<ToolCall>?,toolCallId: freezed == toolCallId ? _self.toolCallId : toolCallId // ignore: cast_nullable_to_non_nullable
+as String?,name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String?,prefix: freezed == prefix ? _self.prefix : prefix // ignore: cast_nullable_to_non_nullable
+as bool?,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$AssistantMessage {
+
+/// The role of the message, which is always `assistant`.
+@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) AssistantMessageRole? get role;/// The message content.
+@JsonKey(includeIfNull: false) String? get content;/// The tool calls generated by the model, such as function calls.
+@JsonKey(name: 'tool_calls', includeIfNull: false) List<ToolCall>? get toolCalls;/// Set this to true when adding an assistant message as a prefix for the next completion.
+@JsonKey(includeIfNull: false) bool? get prefix;
+/// Create a copy of AssistantMessage
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$AssistantMessageCopyWith<AssistantMessage> get copyWith => _$AssistantMessageCopyWithImpl<AssistantMessage>(this as AssistantMessage, _$identity);
+
+  /// Serializes this AssistantMessage to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AssistantMessage&&(identical(other.role, role) || other.role == role)&&(identical(other.content, content) || other.content == content)&&const DeepCollectionEquality().equals(other.toolCalls, toolCalls)&&(identical(other.prefix, prefix) || other.prefix == prefix));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,role,content,const DeepCollectionEquality().hash(toolCalls),prefix);
+
+@override
+String toString() {
+  return 'AssistantMessage(role: $role, content: $content, toolCalls: $toolCalls, prefix: $prefix)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $AssistantMessageCopyWith<$Res>  {
+  factory $AssistantMessageCopyWith(AssistantMessage value, $Res Function(AssistantMessage) _then) = _$AssistantMessageCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) AssistantMessageRole? role,@JsonKey(includeIfNull: false) String? content,@JsonKey(name: 'tool_calls', includeIfNull: false) List<ToolCall>? toolCalls,@JsonKey(includeIfNull: false) bool? prefix
+});
+
+
+
+
+}
+/// @nodoc
+class _$AssistantMessageCopyWithImpl<$Res>
+    implements $AssistantMessageCopyWith<$Res> {
+  _$AssistantMessageCopyWithImpl(this._self, this._then);
+
+  final AssistantMessage _self;
+  final $Res Function(AssistantMessage) _then;
+
+/// Create a copy of AssistantMessage
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? role = freezed,Object? content = freezed,Object? toolCalls = freezed,Object? prefix = freezed,}) {
+  return _then(_self.copyWith(
+role: freezed == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
+as AssistantMessageRole?,content: freezed == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
+as String?,toolCalls: freezed == toolCalls ? _self.toolCalls : toolCalls // ignore: cast_nullable_to_non_nullable
+as List<ToolCall>?,prefix: freezed == prefix ? _self.prefix : prefix // ignore: cast_nullable_to_non_nullable
+as bool?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [AssistantMessage].
+extension AssistantMessagePatterns on AssistantMessage {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _AssistantMessage value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _AssistantMessage() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _AssistantMessage value)  $default,){
+final _that = this;
+switch (_that) {
+case _AssistantMessage():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _AssistantMessage value)?  $default,){
+final _that = this;
+switch (_that) {
+case _AssistantMessage() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  AssistantMessageRole? role, @JsonKey(includeIfNull: false)  String? content, @JsonKey(name: 'tool_calls', includeIfNull: false)  List<ToolCall>? toolCalls, @JsonKey(includeIfNull: false)  bool? prefix)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _AssistantMessage() when $default != null:
+return $default(_that.role,_that.content,_that.toolCalls,_that.prefix);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  AssistantMessageRole? role, @JsonKey(includeIfNull: false)  String? content, @JsonKey(name: 'tool_calls', includeIfNull: false)  List<ToolCall>? toolCalls, @JsonKey(includeIfNull: false)  bool? prefix)  $default,) {final _that = this;
+switch (_that) {
+case _AssistantMessage():
+return $default(_that.role,_that.content,_that.toolCalls,_that.prefix);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  AssistantMessageRole? role, @JsonKey(includeIfNull: false)  String? content, @JsonKey(name: 'tool_calls', includeIfNull: false)  List<ToolCall>? toolCalls, @JsonKey(includeIfNull: false)  bool? prefix)?  $default,) {final _that = this;
+switch (_that) {
+case _AssistantMessage() when $default != null:
+return $default(_that.role,_that.content,_that.toolCalls,_that.prefix);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _AssistantMessage extends AssistantMessage {
+  const _AssistantMessage({@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.role, @JsonKey(includeIfNull: false) this.content, @JsonKey(name: 'tool_calls', includeIfNull: false) final  List<ToolCall>? toolCalls, @JsonKey(includeIfNull: false) this.prefix}): _toolCalls = toolCalls,super._();
+  factory _AssistantMessage.fromJson(Map<String, dynamic> json) => _$AssistantMessageFromJson(json);
+
+/// The role of the message, which is always `assistant`.
+@override@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) final  AssistantMessageRole? role;
+/// The message content.
+@override@JsonKey(includeIfNull: false) final  String? content;
+/// The tool calls generated by the model, such as function calls.
+ final  List<ToolCall>? _toolCalls;
+/// The tool calls generated by the model, such as function calls.
+@override@JsonKey(name: 'tool_calls', includeIfNull: false) List<ToolCall>? get toolCalls {
+  final value = _toolCalls;
+  if (value == null) return null;
+  if (_toolCalls is EqualUnmodifiableListView) return _toolCalls;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
+/// Set this to true when adding an assistant message as a prefix for the next completion.
+@override@JsonKey(includeIfNull: false) final  bool? prefix;
+
+/// Create a copy of AssistantMessage
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$AssistantMessageCopyWith<_AssistantMessage> get copyWith => __$AssistantMessageCopyWithImpl<_AssistantMessage>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$AssistantMessageToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AssistantMessage&&(identical(other.role, role) || other.role == role)&&(identical(other.content, content) || other.content == content)&&const DeepCollectionEquality().equals(other._toolCalls, _toolCalls)&&(identical(other.prefix, prefix) || other.prefix == prefix));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,role,content,const DeepCollectionEquality().hash(_toolCalls),prefix);
+
+@override
+String toString() {
+  return 'AssistantMessage(role: $role, content: $content, toolCalls: $toolCalls, prefix: $prefix)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$AssistantMessageCopyWith<$Res> implements $AssistantMessageCopyWith<$Res> {
+  factory _$AssistantMessageCopyWith(_AssistantMessage value, $Res Function(_AssistantMessage) _then) = __$AssistantMessageCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) AssistantMessageRole? role,@JsonKey(includeIfNull: false) String? content,@JsonKey(name: 'tool_calls', includeIfNull: false) List<ToolCall>? toolCalls,@JsonKey(includeIfNull: false) bool? prefix
+});
+
+
+
+
+}
+/// @nodoc
+class __$AssistantMessageCopyWithImpl<$Res>
+    implements _$AssistantMessageCopyWith<$Res> {
+  __$AssistantMessageCopyWithImpl(this._self, this._then);
+
+  final _AssistantMessage _self;
+  final $Res Function(_AssistantMessage) _then;
+
+/// Create a copy of AssistantMessage
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? role = freezed,Object? content = freezed,Object? toolCalls = freezed,Object? prefix = freezed,}) {
+  return _then(_AssistantMessage(
+role: freezed == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
+as AssistantMessageRole?,content: freezed == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
+as String?,toolCalls: freezed == toolCalls ? _self._toolCalls : toolCalls // ignore: cast_nullable_to_non_nullable
+as List<ToolCall>?,prefix: freezed == prefix ? _self.prefix : prefix // ignore: cast_nullable_to_non_nullable
+as bool?,
   ));
 }
 
@@ -2459,7 +3652,8 @@ mixin _$ChatCompletionStreamDelta {
 
 /// The role of the message.
 @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ChatCompletionMessageRole? get role;/// The message content.
-@JsonKey(includeIfNull: false) String? get content;
+@JsonKey(includeIfNull: false) String? get content;/// The tool calls generated by the model, such as function calls.
+@JsonKey(name: 'tool_calls', includeIfNull: false) List<ToolCall>? get toolCalls;
 /// Create a copy of ChatCompletionStreamDelta
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -2472,16 +3666,16 @@ $ChatCompletionStreamDeltaCopyWith<ChatCompletionStreamDelta> get copyWith => _$
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChatCompletionStreamDelta&&(identical(other.role, role) || other.role == role)&&(identical(other.content, content) || other.content == content));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChatCompletionStreamDelta&&(identical(other.role, role) || other.role == role)&&(identical(other.content, content) || other.content == content)&&const DeepCollectionEquality().equals(other.toolCalls, toolCalls));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,role,content);
+int get hashCode => Object.hash(runtimeType,role,content,const DeepCollectionEquality().hash(toolCalls));
 
 @override
 String toString() {
-  return 'ChatCompletionStreamDelta(role: $role, content: $content)';
+  return 'ChatCompletionStreamDelta(role: $role, content: $content, toolCalls: $toolCalls)';
 }
 
 
@@ -2492,7 +3686,7 @@ abstract mixin class $ChatCompletionStreamDeltaCopyWith<$Res>  {
   factory $ChatCompletionStreamDeltaCopyWith(ChatCompletionStreamDelta value, $Res Function(ChatCompletionStreamDelta) _then) = _$ChatCompletionStreamDeltaCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ChatCompletionMessageRole? role,@JsonKey(includeIfNull: false) String? content
+@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ChatCompletionMessageRole? role,@JsonKey(includeIfNull: false) String? content,@JsonKey(name: 'tool_calls', includeIfNull: false) List<ToolCall>? toolCalls
 });
 
 
@@ -2509,11 +3703,12 @@ class _$ChatCompletionStreamDeltaCopyWithImpl<$Res>
 
 /// Create a copy of ChatCompletionStreamDelta
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? role = freezed,Object? content = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? role = freezed,Object? content = freezed,Object? toolCalls = freezed,}) {
   return _then(_self.copyWith(
 role: freezed == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
 as ChatCompletionMessageRole?,content: freezed == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,toolCalls: freezed == toolCalls ? _self.toolCalls : toolCalls // ignore: cast_nullable_to_non_nullable
+as List<ToolCall>?,
   ));
 }
 
@@ -2598,10 +3793,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ChatCompletionMessageRole? role, @JsonKey(includeIfNull: false)  String? content)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ChatCompletionMessageRole? role, @JsonKey(includeIfNull: false)  String? content, @JsonKey(name: 'tool_calls', includeIfNull: false)  List<ToolCall>? toolCalls)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ChatCompletionStreamDelta() when $default != null:
-return $default(_that.role,_that.content);case _:
+return $default(_that.role,_that.content,_that.toolCalls);case _:
   return orElse();
 
 }
@@ -2619,10 +3814,10 @@ return $default(_that.role,_that.content);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ChatCompletionMessageRole? role, @JsonKey(includeIfNull: false)  String? content)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ChatCompletionMessageRole? role, @JsonKey(includeIfNull: false)  String? content, @JsonKey(name: 'tool_calls', includeIfNull: false)  List<ToolCall>? toolCalls)  $default,) {final _that = this;
 switch (_that) {
 case _ChatCompletionStreamDelta():
-return $default(_that.role,_that.content);case _:
+return $default(_that.role,_that.content,_that.toolCalls);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -2639,10 +3834,10 @@ return $default(_that.role,_that.content);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ChatCompletionMessageRole? role, @JsonKey(includeIfNull: false)  String? content)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ChatCompletionMessageRole? role, @JsonKey(includeIfNull: false)  String? content, @JsonKey(name: 'tool_calls', includeIfNull: false)  List<ToolCall>? toolCalls)?  $default,) {final _that = this;
 switch (_that) {
 case _ChatCompletionStreamDelta() when $default != null:
-return $default(_that.role,_that.content);case _:
+return $default(_that.role,_that.content,_that.toolCalls);case _:
   return null;
 
 }
@@ -2654,13 +3849,24 @@ return $default(_that.role,_that.content);case _:
 @JsonSerializable()
 
 class _ChatCompletionStreamDelta extends ChatCompletionStreamDelta {
-  const _ChatCompletionStreamDelta({@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.role, @JsonKey(includeIfNull: false) this.content}): super._();
+  const _ChatCompletionStreamDelta({@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.role, @JsonKey(includeIfNull: false) this.content, @JsonKey(name: 'tool_calls', includeIfNull: false) final  List<ToolCall>? toolCalls}): _toolCalls = toolCalls,super._();
   factory _ChatCompletionStreamDelta.fromJson(Map<String, dynamic> json) => _$ChatCompletionStreamDeltaFromJson(json);
 
 /// The role of the message.
 @override@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) final  ChatCompletionMessageRole? role;
 /// The message content.
 @override@JsonKey(includeIfNull: false) final  String? content;
+/// The tool calls generated by the model, such as function calls.
+ final  List<ToolCall>? _toolCalls;
+/// The tool calls generated by the model, such as function calls.
+@override@JsonKey(name: 'tool_calls', includeIfNull: false) List<ToolCall>? get toolCalls {
+  final value = _toolCalls;
+  if (value == null) return null;
+  if (_toolCalls is EqualUnmodifiableListView) return _toolCalls;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
 
 /// Create a copy of ChatCompletionStreamDelta
 /// with the given fields replaced by the non-null parameter values.
@@ -2675,16 +3881,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ChatCompletionStreamDelta&&(identical(other.role, role) || other.role == role)&&(identical(other.content, content) || other.content == content));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ChatCompletionStreamDelta&&(identical(other.role, role) || other.role == role)&&(identical(other.content, content) || other.content == content)&&const DeepCollectionEquality().equals(other._toolCalls, _toolCalls));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,role,content);
+int get hashCode => Object.hash(runtimeType,role,content,const DeepCollectionEquality().hash(_toolCalls));
 
 @override
 String toString() {
-  return 'ChatCompletionStreamDelta(role: $role, content: $content)';
+  return 'ChatCompletionStreamDelta(role: $role, content: $content, toolCalls: $toolCalls)';
 }
 
 
@@ -2695,7 +3901,7 @@ abstract mixin class _$ChatCompletionStreamDeltaCopyWith<$Res> implements $ChatC
   factory _$ChatCompletionStreamDeltaCopyWith(_ChatCompletionStreamDelta value, $Res Function(_ChatCompletionStreamDelta) _then) = __$ChatCompletionStreamDeltaCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ChatCompletionMessageRole? role,@JsonKey(includeIfNull: false) String? content
+@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ChatCompletionMessageRole? role,@JsonKey(includeIfNull: false) String? content,@JsonKey(name: 'tool_calls', includeIfNull: false) List<ToolCall>? toolCalls
 });
 
 
@@ -2712,11 +3918,2559 @@ class __$ChatCompletionStreamDeltaCopyWithImpl<$Res>
 
 /// Create a copy of ChatCompletionStreamDelta
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? role = freezed,Object? content = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? role = freezed,Object? content = freezed,Object? toolCalls = freezed,}) {
   return _then(_ChatCompletionStreamDelta(
 role: freezed == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
 as ChatCompletionMessageRole?,content: freezed == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,toolCalls: freezed == toolCalls ? _self._toolCalls : toolCalls // ignore: cast_nullable_to_non_nullable
+as List<ToolCall>?,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$Tool {
+
+/// The type of the tool.
+ ToolType get type;/// A function that the model may call.
+ FunctionDefinition get function;
+/// Create a copy of Tool
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ToolCopyWith<Tool> get copyWith => _$ToolCopyWithImpl<Tool>(this as Tool, _$identity);
+
+  /// Serializes this Tool to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Tool&&(identical(other.type, type) || other.type == type)&&(identical(other.function, function) || other.function == function));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,type,function);
+
+@override
+String toString() {
+  return 'Tool(type: $type, function: $function)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ToolCopyWith<$Res>  {
+  factory $ToolCopyWith(Tool value, $Res Function(Tool) _then) = _$ToolCopyWithImpl;
+@useResult
+$Res call({
+ ToolType type, FunctionDefinition function
+});
+
+
+$FunctionDefinitionCopyWith<$Res> get function;
+
+}
+/// @nodoc
+class _$ToolCopyWithImpl<$Res>
+    implements $ToolCopyWith<$Res> {
+  _$ToolCopyWithImpl(this._self, this._then);
+
+  final Tool _self;
+  final $Res Function(Tool) _then;
+
+/// Create a copy of Tool
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? type = null,Object? function = null,}) {
+  return _then(_self.copyWith(
+type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as ToolType,function: null == function ? _self.function : function // ignore: cast_nullable_to_non_nullable
+as FunctionDefinition,
+  ));
+}
+/// Create a copy of Tool
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FunctionDefinitionCopyWith<$Res> get function {
+  
+  return $FunctionDefinitionCopyWith<$Res>(_self.function, (value) {
+    return _then(_self.copyWith(function: value));
+  });
+}
+}
+
+
+/// Adds pattern-matching-related methods to [Tool].
+extension ToolPatterns on Tool {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _Tool value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _Tool() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _Tool value)  $default,){
+final _that = this;
+switch (_that) {
+case _Tool():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _Tool value)?  $default,){
+final _that = this;
+switch (_that) {
+case _Tool() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ToolType type,  FunctionDefinition function)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _Tool() when $default != null:
+return $default(_that.type,_that.function);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ToolType type,  FunctionDefinition function)  $default,) {final _that = this;
+switch (_that) {
+case _Tool():
+return $default(_that.type,_that.function);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ToolType type,  FunctionDefinition function)?  $default,) {final _that = this;
+switch (_that) {
+case _Tool() when $default != null:
+return $default(_that.type,_that.function);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _Tool extends Tool {
+  const _Tool({required this.type, required this.function}): super._();
+  factory _Tool.fromJson(Map<String, dynamic> json) => _$ToolFromJson(json);
+
+/// The type of the tool.
+@override final  ToolType type;
+/// A function that the model may call.
+@override final  FunctionDefinition function;
+
+/// Create a copy of Tool
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ToolCopyWith<_Tool> get copyWith => __$ToolCopyWithImpl<_Tool>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$ToolToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Tool&&(identical(other.type, type) || other.type == type)&&(identical(other.function, function) || other.function == function));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,type,function);
+
+@override
+String toString() {
+  return 'Tool(type: $type, function: $function)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$ToolCopyWith<$Res> implements $ToolCopyWith<$Res> {
+  factory _$ToolCopyWith(_Tool value, $Res Function(_Tool) _then) = __$ToolCopyWithImpl;
+@override @useResult
+$Res call({
+ ToolType type, FunctionDefinition function
+});
+
+
+@override $FunctionDefinitionCopyWith<$Res> get function;
+
+}
+/// @nodoc
+class __$ToolCopyWithImpl<$Res>
+    implements _$ToolCopyWith<$Res> {
+  __$ToolCopyWithImpl(this._self, this._then);
+
+  final _Tool _self;
+  final $Res Function(_Tool) _then;
+
+/// Create a copy of Tool
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? type = null,Object? function = null,}) {
+  return _then(_Tool(
+type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as ToolType,function: null == function ? _self.function : function // ignore: cast_nullable_to_non_nullable
+as FunctionDefinition,
+  ));
+}
+
+/// Create a copy of Tool
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FunctionDefinitionCopyWith<$Res> get function {
+  
+  return $FunctionDefinitionCopyWith<$Res>(_self.function, (value) {
+    return _then(_self.copyWith(function: value));
+  });
+}
+}
+
+
+/// @nodoc
+mixin _$FunctionDefinition {
+
+/// The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes,
+/// with a maximum length of 64.
+ String get name;/// A description of what the function does, used by the model to choose when and how to call the function.
+@JsonKey(includeIfNull: false) String? get description;/// The parameters the functions accepts, described as a JSON Schema object.
+/// Omitting parameters defines a function with an empty parameter list.
+ Map<String, dynamic> get parameters;
+/// Create a copy of FunctionDefinition
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$FunctionDefinitionCopyWith<FunctionDefinition> get copyWith => _$FunctionDefinitionCopyWithImpl<FunctionDefinition>(this as FunctionDefinition, _$identity);
+
+  /// Serializes this FunctionDefinition to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FunctionDefinition&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other.parameters, parameters));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,name,description,const DeepCollectionEquality().hash(parameters));
+
+@override
+String toString() {
+  return 'FunctionDefinition(name: $name, description: $description, parameters: $parameters)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $FunctionDefinitionCopyWith<$Res>  {
+  factory $FunctionDefinitionCopyWith(FunctionDefinition value, $Res Function(FunctionDefinition) _then) = _$FunctionDefinitionCopyWithImpl;
+@useResult
+$Res call({
+ String name,@JsonKey(includeIfNull: false) String? description, Map<String, dynamic> parameters
+});
+
+
+
+
+}
+/// @nodoc
+class _$FunctionDefinitionCopyWithImpl<$Res>
+    implements $FunctionDefinitionCopyWith<$Res> {
+  _$FunctionDefinitionCopyWithImpl(this._self, this._then);
+
+  final FunctionDefinition _self;
+  final $Res Function(FunctionDefinition) _then;
+
+/// Create a copy of FunctionDefinition
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? description = freezed,Object? parameters = null,}) {
+  return _then(_self.copyWith(
+name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
+as String?,parameters: null == parameters ? _self.parameters : parameters // ignore: cast_nullable_to_non_nullable
+as Map<String, dynamic>,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [FunctionDefinition].
+extension FunctionDefinitionPatterns on FunctionDefinition {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _FunctionDefinition value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _FunctionDefinition() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _FunctionDefinition value)  $default,){
+final _that = this;
+switch (_that) {
+case _FunctionDefinition():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _FunctionDefinition value)?  $default,){
+final _that = this;
+switch (_that) {
+case _FunctionDefinition() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String name, @JsonKey(includeIfNull: false)  String? description,  Map<String, dynamic> parameters)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _FunctionDefinition() when $default != null:
+return $default(_that.name,_that.description,_that.parameters);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name, @JsonKey(includeIfNull: false)  String? description,  Map<String, dynamic> parameters)  $default,) {final _that = this;
+switch (_that) {
+case _FunctionDefinition():
+return $default(_that.name,_that.description,_that.parameters);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String name, @JsonKey(includeIfNull: false)  String? description,  Map<String, dynamic> parameters)?  $default,) {final _that = this;
+switch (_that) {
+case _FunctionDefinition() when $default != null:
+return $default(_that.name,_that.description,_that.parameters);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _FunctionDefinition extends FunctionDefinition {
+  const _FunctionDefinition({required this.name, @JsonKey(includeIfNull: false) this.description, required final  Map<String, dynamic> parameters}): _parameters = parameters,super._();
+  factory _FunctionDefinition.fromJson(Map<String, dynamic> json) => _$FunctionDefinitionFromJson(json);
+
+/// The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes,
+/// with a maximum length of 64.
+@override final  String name;
+/// A description of what the function does, used by the model to choose when and how to call the function.
+@override@JsonKey(includeIfNull: false) final  String? description;
+/// The parameters the functions accepts, described as a JSON Schema object.
+/// Omitting parameters defines a function with an empty parameter list.
+ final  Map<String, dynamic> _parameters;
+/// The parameters the functions accepts, described as a JSON Schema object.
+/// Omitting parameters defines a function with an empty parameter list.
+@override Map<String, dynamic> get parameters {
+  if (_parameters is EqualUnmodifiableMapView) return _parameters;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(_parameters);
+}
+
+
+/// Create a copy of FunctionDefinition
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$FunctionDefinitionCopyWith<_FunctionDefinition> get copyWith => __$FunctionDefinitionCopyWithImpl<_FunctionDefinition>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$FunctionDefinitionToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FunctionDefinition&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other._parameters, _parameters));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,name,description,const DeepCollectionEquality().hash(_parameters));
+
+@override
+String toString() {
+  return 'FunctionDefinition(name: $name, description: $description, parameters: $parameters)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$FunctionDefinitionCopyWith<$Res> implements $FunctionDefinitionCopyWith<$Res> {
+  factory _$FunctionDefinitionCopyWith(_FunctionDefinition value, $Res Function(_FunctionDefinition) _then) = __$FunctionDefinitionCopyWithImpl;
+@override @useResult
+$Res call({
+ String name,@JsonKey(includeIfNull: false) String? description, Map<String, dynamic> parameters
+});
+
+
+
+
+}
+/// @nodoc
+class __$FunctionDefinitionCopyWithImpl<$Res>
+    implements _$FunctionDefinitionCopyWith<$Res> {
+  __$FunctionDefinitionCopyWithImpl(this._self, this._then);
+
+  final _FunctionDefinition _self;
+  final $Res Function(_FunctionDefinition) _then;
+
+/// Create a copy of FunctionDefinition
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? description = freezed,Object? parameters = null,}) {
+  return _then(_FunctionDefinition(
+name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
+as String?,parameters: null == parameters ? _self._parameters : parameters // ignore: cast_nullable_to_non_nullable
+as Map<String, dynamic>,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$ToolCall {
+
+/// The unique identifier of the tool call.
+ String get id;/// The type of the tool.
+ ToolType get type;/// A function call made by the model.
+ FunctionCall get function;/// The index of the tool call in the list of tool calls.
+@JsonKey(includeIfNull: false) int? get index;
+/// Create a copy of ToolCall
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ToolCallCopyWith<ToolCall> get copyWith => _$ToolCallCopyWithImpl<ToolCall>(this as ToolCall, _$identity);
+
+  /// Serializes this ToolCall to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ToolCall&&(identical(other.id, id) || other.id == id)&&(identical(other.type, type) || other.type == type)&&(identical(other.function, function) || other.function == function)&&(identical(other.index, index) || other.index == index));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,type,function,index);
+
+@override
+String toString() {
+  return 'ToolCall(id: $id, type: $type, function: $function, index: $index)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ToolCallCopyWith<$Res>  {
+  factory $ToolCallCopyWith(ToolCall value, $Res Function(ToolCall) _then) = _$ToolCallCopyWithImpl;
+@useResult
+$Res call({
+ String id, ToolType type, FunctionCall function,@JsonKey(includeIfNull: false) int? index
+});
+
+
+$FunctionCallCopyWith<$Res> get function;
+
+}
+/// @nodoc
+class _$ToolCallCopyWithImpl<$Res>
+    implements $ToolCallCopyWith<$Res> {
+  _$ToolCallCopyWithImpl(this._self, this._then);
+
+  final ToolCall _self;
+  final $Res Function(ToolCall) _then;
+
+/// Create a copy of ToolCall
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? type = null,Object? function = null,Object? index = freezed,}) {
+  return _then(_self.copyWith(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as ToolType,function: null == function ? _self.function : function // ignore: cast_nullable_to_non_nullable
+as FunctionCall,index: freezed == index ? _self.index : index // ignore: cast_nullable_to_non_nullable
+as int?,
+  ));
+}
+/// Create a copy of ToolCall
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FunctionCallCopyWith<$Res> get function {
+  
+  return $FunctionCallCopyWith<$Res>(_self.function, (value) {
+    return _then(_self.copyWith(function: value));
+  });
+}
+}
+
+
+/// Adds pattern-matching-related methods to [ToolCall].
+extension ToolCallPatterns on ToolCall {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ToolCall value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _ToolCall() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ToolCall value)  $default,){
+final _that = this;
+switch (_that) {
+case _ToolCall():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ToolCall value)?  $default,){
+final _that = this;
+switch (_that) {
+case _ToolCall() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  ToolType type,  FunctionCall function, @JsonKey(includeIfNull: false)  int? index)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _ToolCall() when $default != null:
+return $default(_that.id,_that.type,_that.function,_that.index);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  ToolType type,  FunctionCall function, @JsonKey(includeIfNull: false)  int? index)  $default,) {final _that = this;
+switch (_that) {
+case _ToolCall():
+return $default(_that.id,_that.type,_that.function,_that.index);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  ToolType type,  FunctionCall function, @JsonKey(includeIfNull: false)  int? index)?  $default,) {final _that = this;
+switch (_that) {
+case _ToolCall() when $default != null:
+return $default(_that.id,_that.type,_that.function,_that.index);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _ToolCall extends ToolCall {
+  const _ToolCall({required this.id, required this.type, required this.function, @JsonKey(includeIfNull: false) this.index}): super._();
+  factory _ToolCall.fromJson(Map<String, dynamic> json) => _$ToolCallFromJson(json);
+
+/// The unique identifier of the tool call.
+@override final  String id;
+/// The type of the tool.
+@override final  ToolType type;
+/// A function call made by the model.
+@override final  FunctionCall function;
+/// The index of the tool call in the list of tool calls.
+@override@JsonKey(includeIfNull: false) final  int? index;
+
+/// Create a copy of ToolCall
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ToolCallCopyWith<_ToolCall> get copyWith => __$ToolCallCopyWithImpl<_ToolCall>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$ToolCallToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ToolCall&&(identical(other.id, id) || other.id == id)&&(identical(other.type, type) || other.type == type)&&(identical(other.function, function) || other.function == function)&&(identical(other.index, index) || other.index == index));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,type,function,index);
+
+@override
+String toString() {
+  return 'ToolCall(id: $id, type: $type, function: $function, index: $index)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$ToolCallCopyWith<$Res> implements $ToolCallCopyWith<$Res> {
+  factory _$ToolCallCopyWith(_ToolCall value, $Res Function(_ToolCall) _then) = __$ToolCallCopyWithImpl;
+@override @useResult
+$Res call({
+ String id, ToolType type, FunctionCall function,@JsonKey(includeIfNull: false) int? index
+});
+
+
+@override $FunctionCallCopyWith<$Res> get function;
+
+}
+/// @nodoc
+class __$ToolCallCopyWithImpl<$Res>
+    implements _$ToolCallCopyWith<$Res> {
+  __$ToolCallCopyWithImpl(this._self, this._then);
+
+  final _ToolCall _self;
+  final $Res Function(_ToolCall) _then;
+
+/// Create a copy of ToolCall
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? type = null,Object? function = null,Object? index = freezed,}) {
+  return _then(_ToolCall(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as ToolType,function: null == function ? _self.function : function // ignore: cast_nullable_to_non_nullable
+as FunctionCall,index: freezed == index ? _self.index : index // ignore: cast_nullable_to_non_nullable
+as int?,
+  ));
+}
+
+/// Create a copy of ToolCall
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FunctionCallCopyWith<$Res> get function {
+  
+  return $FunctionCallCopyWith<$Res>(_self.function, (value) {
+    return _then(_self.copyWith(function: value));
+  });
+}
+}
+
+
+/// @nodoc
+mixin _$FunctionCall {
+
+/// The name of the function to call.
+ String get name;/// The arguments to call the function with, as generated by the model in JSON format.
+ String get arguments;
+/// Create a copy of FunctionCall
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$FunctionCallCopyWith<FunctionCall> get copyWith => _$FunctionCallCopyWithImpl<FunctionCall>(this as FunctionCall, _$identity);
+
+  /// Serializes this FunctionCall to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FunctionCall&&(identical(other.name, name) || other.name == name)&&(identical(other.arguments, arguments) || other.arguments == arguments));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,name,arguments);
+
+@override
+String toString() {
+  return 'FunctionCall(name: $name, arguments: $arguments)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $FunctionCallCopyWith<$Res>  {
+  factory $FunctionCallCopyWith(FunctionCall value, $Res Function(FunctionCall) _then) = _$FunctionCallCopyWithImpl;
+@useResult
+$Res call({
+ String name, String arguments
+});
+
+
+
+
+}
+/// @nodoc
+class _$FunctionCallCopyWithImpl<$Res>
+    implements $FunctionCallCopyWith<$Res> {
+  _$FunctionCallCopyWithImpl(this._self, this._then);
+
+  final FunctionCall _self;
+  final $Res Function(FunctionCall) _then;
+
+/// Create a copy of FunctionCall
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? arguments = null,}) {
+  return _then(_self.copyWith(
+name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,arguments: null == arguments ? _self.arguments : arguments // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [FunctionCall].
+extension FunctionCallPatterns on FunctionCall {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _FunctionCall value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _FunctionCall() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _FunctionCall value)  $default,){
+final _that = this;
+switch (_that) {
+case _FunctionCall():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _FunctionCall value)?  $default,){
+final _that = this;
+switch (_that) {
+case _FunctionCall() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String name,  String arguments)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _FunctionCall() when $default != null:
+return $default(_that.name,_that.arguments);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name,  String arguments)  $default,) {final _that = this;
+switch (_that) {
+case _FunctionCall():
+return $default(_that.name,_that.arguments);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String name,  String arguments)?  $default,) {final _that = this;
+switch (_that) {
+case _FunctionCall() when $default != null:
+return $default(_that.name,_that.arguments);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _FunctionCall extends FunctionCall {
+  const _FunctionCall({required this.name, required this.arguments}): super._();
+  factory _FunctionCall.fromJson(Map<String, dynamic> json) => _$FunctionCallFromJson(json);
+
+/// The name of the function to call.
+@override final  String name;
+/// The arguments to call the function with, as generated by the model in JSON format.
+@override final  String arguments;
+
+/// Create a copy of FunctionCall
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$FunctionCallCopyWith<_FunctionCall> get copyWith => __$FunctionCallCopyWithImpl<_FunctionCall>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$FunctionCallToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FunctionCall&&(identical(other.name, name) || other.name == name)&&(identical(other.arguments, arguments) || other.arguments == arguments));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,name,arguments);
+
+@override
+String toString() {
+  return 'FunctionCall(name: $name, arguments: $arguments)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$FunctionCallCopyWith<$Res> implements $FunctionCallCopyWith<$Res> {
+  factory _$FunctionCallCopyWith(_FunctionCall value, $Res Function(_FunctionCall) _then) = __$FunctionCallCopyWithImpl;
+@override @useResult
+$Res call({
+ String name, String arguments
+});
+
+
+
+
+}
+/// @nodoc
+class __$FunctionCallCopyWithImpl<$Res>
+    implements _$FunctionCallCopyWith<$Res> {
+  __$FunctionCallCopyWithImpl(this._self, this._then);
+
+  final _FunctionCall _self;
+  final $Res Function(_FunctionCall) _then;
+
+/// Create a copy of FunctionCall
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? arguments = null,}) {
+  return _then(_FunctionCall(
+name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,arguments: null == arguments ? _self.arguments : arguments // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$ToolChoiceTool {
+
+/// The type of the tool.
+ ToolType get type;/// The function to force the model to call.
+ ToolChoiceToolFunction get function;
+/// Create a copy of ToolChoiceTool
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ToolChoiceToolCopyWith<ToolChoiceTool> get copyWith => _$ToolChoiceToolCopyWithImpl<ToolChoiceTool>(this as ToolChoiceTool, _$identity);
+
+  /// Serializes this ToolChoiceTool to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ToolChoiceTool&&(identical(other.type, type) || other.type == type)&&(identical(other.function, function) || other.function == function));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,type,function);
+
+@override
+String toString() {
+  return 'ToolChoiceTool(type: $type, function: $function)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ToolChoiceToolCopyWith<$Res>  {
+  factory $ToolChoiceToolCopyWith(ToolChoiceTool value, $Res Function(ToolChoiceTool) _then) = _$ToolChoiceToolCopyWithImpl;
+@useResult
+$Res call({
+ ToolType type, ToolChoiceToolFunction function
+});
+
+
+$ToolChoiceToolFunctionCopyWith<$Res> get function;
+
+}
+/// @nodoc
+class _$ToolChoiceToolCopyWithImpl<$Res>
+    implements $ToolChoiceToolCopyWith<$Res> {
+  _$ToolChoiceToolCopyWithImpl(this._self, this._then);
+
+  final ToolChoiceTool _self;
+  final $Res Function(ToolChoiceTool) _then;
+
+/// Create a copy of ToolChoiceTool
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? type = null,Object? function = null,}) {
+  return _then(_self.copyWith(
+type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as ToolType,function: null == function ? _self.function : function // ignore: cast_nullable_to_non_nullable
+as ToolChoiceToolFunction,
+  ));
+}
+/// Create a copy of ToolChoiceTool
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ToolChoiceToolFunctionCopyWith<$Res> get function {
+  
+  return $ToolChoiceToolFunctionCopyWith<$Res>(_self.function, (value) {
+    return _then(_self.copyWith(function: value));
+  });
+}
+}
+
+
+/// Adds pattern-matching-related methods to [ToolChoiceTool].
+extension ToolChoiceToolPatterns on ToolChoiceTool {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ToolChoiceTool value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _ToolChoiceTool() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ToolChoiceTool value)  $default,){
+final _that = this;
+switch (_that) {
+case _ToolChoiceTool():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ToolChoiceTool value)?  $default,){
+final _that = this;
+switch (_that) {
+case _ToolChoiceTool() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ToolType type,  ToolChoiceToolFunction function)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _ToolChoiceTool() when $default != null:
+return $default(_that.type,_that.function);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ToolType type,  ToolChoiceToolFunction function)  $default,) {final _that = this;
+switch (_that) {
+case _ToolChoiceTool():
+return $default(_that.type,_that.function);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ToolType type,  ToolChoiceToolFunction function)?  $default,) {final _that = this;
+switch (_that) {
+case _ToolChoiceTool() when $default != null:
+return $default(_that.type,_that.function);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _ToolChoiceTool extends ToolChoiceTool {
+  const _ToolChoiceTool({required this.type, required this.function}): super._();
+  factory _ToolChoiceTool.fromJson(Map<String, dynamic> json) => _$ToolChoiceToolFromJson(json);
+
+/// The type of the tool.
+@override final  ToolType type;
+/// The function to force the model to call.
+@override final  ToolChoiceToolFunction function;
+
+/// Create a copy of ToolChoiceTool
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ToolChoiceToolCopyWith<_ToolChoiceTool> get copyWith => __$ToolChoiceToolCopyWithImpl<_ToolChoiceTool>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$ToolChoiceToolToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ToolChoiceTool&&(identical(other.type, type) || other.type == type)&&(identical(other.function, function) || other.function == function));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,type,function);
+
+@override
+String toString() {
+  return 'ToolChoiceTool(type: $type, function: $function)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$ToolChoiceToolCopyWith<$Res> implements $ToolChoiceToolCopyWith<$Res> {
+  factory _$ToolChoiceToolCopyWith(_ToolChoiceTool value, $Res Function(_ToolChoiceTool) _then) = __$ToolChoiceToolCopyWithImpl;
+@override @useResult
+$Res call({
+ ToolType type, ToolChoiceToolFunction function
+});
+
+
+@override $ToolChoiceToolFunctionCopyWith<$Res> get function;
+
+}
+/// @nodoc
+class __$ToolChoiceToolCopyWithImpl<$Res>
+    implements _$ToolChoiceToolCopyWith<$Res> {
+  __$ToolChoiceToolCopyWithImpl(this._self, this._then);
+
+  final _ToolChoiceTool _self;
+  final $Res Function(_ToolChoiceTool) _then;
+
+/// Create a copy of ToolChoiceTool
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? type = null,Object? function = null,}) {
+  return _then(_ToolChoiceTool(
+type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as ToolType,function: null == function ? _self.function : function // ignore: cast_nullable_to_non_nullable
+as ToolChoiceToolFunction,
+  ));
+}
+
+/// Create a copy of ToolChoiceTool
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ToolChoiceToolFunctionCopyWith<$Res> get function {
+  
+  return $ToolChoiceToolFunctionCopyWith<$Res>(_self.function, (value) {
+    return _then(_self.copyWith(function: value));
+  });
+}
+}
+
+
+/// @nodoc
+mixin _$ToolChoiceToolFunction {
+
+/// The name of the function to call.
+ String get name;
+/// Create a copy of ToolChoiceToolFunction
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ToolChoiceToolFunctionCopyWith<ToolChoiceToolFunction> get copyWith => _$ToolChoiceToolFunctionCopyWithImpl<ToolChoiceToolFunction>(this as ToolChoiceToolFunction, _$identity);
+
+  /// Serializes this ToolChoiceToolFunction to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ToolChoiceToolFunction&&(identical(other.name, name) || other.name == name));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,name);
+
+@override
+String toString() {
+  return 'ToolChoiceToolFunction(name: $name)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ToolChoiceToolFunctionCopyWith<$Res>  {
+  factory $ToolChoiceToolFunctionCopyWith(ToolChoiceToolFunction value, $Res Function(ToolChoiceToolFunction) _then) = _$ToolChoiceToolFunctionCopyWithImpl;
+@useResult
+$Res call({
+ String name
+});
+
+
+
+
+}
+/// @nodoc
+class _$ToolChoiceToolFunctionCopyWithImpl<$Res>
+    implements $ToolChoiceToolFunctionCopyWith<$Res> {
+  _$ToolChoiceToolFunctionCopyWithImpl(this._self, this._then);
+
+  final ToolChoiceToolFunction _self;
+  final $Res Function(ToolChoiceToolFunction) _then;
+
+/// Create a copy of ToolChoiceToolFunction
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? name = null,}) {
+  return _then(_self.copyWith(
+name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [ToolChoiceToolFunction].
+extension ToolChoiceToolFunctionPatterns on ToolChoiceToolFunction {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ToolChoiceToolFunction value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _ToolChoiceToolFunction() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ToolChoiceToolFunction value)  $default,){
+final _that = this;
+switch (_that) {
+case _ToolChoiceToolFunction():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ToolChoiceToolFunction value)?  $default,){
+final _that = this;
+switch (_that) {
+case _ToolChoiceToolFunction() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String name)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _ToolChoiceToolFunction() when $default != null:
+return $default(_that.name);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name)  $default,) {final _that = this;
+switch (_that) {
+case _ToolChoiceToolFunction():
+return $default(_that.name);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String name)?  $default,) {final _that = this;
+switch (_that) {
+case _ToolChoiceToolFunction() when $default != null:
+return $default(_that.name);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _ToolChoiceToolFunction extends ToolChoiceToolFunction {
+  const _ToolChoiceToolFunction({required this.name}): super._();
+  factory _ToolChoiceToolFunction.fromJson(Map<String, dynamic> json) => _$ToolChoiceToolFunctionFromJson(json);
+
+/// The name of the function to call.
+@override final  String name;
+
+/// Create a copy of ToolChoiceToolFunction
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ToolChoiceToolFunctionCopyWith<_ToolChoiceToolFunction> get copyWith => __$ToolChoiceToolFunctionCopyWithImpl<_ToolChoiceToolFunction>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$ToolChoiceToolFunctionToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ToolChoiceToolFunction&&(identical(other.name, name) || other.name == name));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,name);
+
+@override
+String toString() {
+  return 'ToolChoiceToolFunction(name: $name)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$ToolChoiceToolFunctionCopyWith<$Res> implements $ToolChoiceToolFunctionCopyWith<$Res> {
+  factory _$ToolChoiceToolFunctionCopyWith(_ToolChoiceToolFunction value, $Res Function(_ToolChoiceToolFunction) _then) = __$ToolChoiceToolFunctionCopyWithImpl;
+@override @useResult
+$Res call({
+ String name
+});
+
+
+
+
+}
+/// @nodoc
+class __$ToolChoiceToolFunctionCopyWithImpl<$Res>
+    implements _$ToolChoiceToolFunctionCopyWith<$Res> {
+  __$ToolChoiceToolFunctionCopyWithImpl(this._self, this._then);
+
+  final _ToolChoiceToolFunction _self;
+  final $Res Function(_ToolChoiceToolFunction) _then;
+
+/// Create a copy of ToolChoiceToolFunction
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? name = null,}) {
+  return _then(_ToolChoiceToolFunction(
+name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$ResponseFormat {
+
+/// The type of response format.
+@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ResponseFormatType? get type;/// The JSON schema for structured output.
+@JsonKey(name: 'json_schema', includeIfNull: false) JsonSchema? get jsonSchema;
+/// Create a copy of ResponseFormat
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ResponseFormatCopyWith<ResponseFormat> get copyWith => _$ResponseFormatCopyWithImpl<ResponseFormat>(this as ResponseFormat, _$identity);
+
+  /// Serializes this ResponseFormat to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ResponseFormat&&(identical(other.type, type) || other.type == type)&&(identical(other.jsonSchema, jsonSchema) || other.jsonSchema == jsonSchema));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,type,jsonSchema);
+
+@override
+String toString() {
+  return 'ResponseFormat(type: $type, jsonSchema: $jsonSchema)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ResponseFormatCopyWith<$Res>  {
+  factory $ResponseFormatCopyWith(ResponseFormat value, $Res Function(ResponseFormat) _then) = _$ResponseFormatCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ResponseFormatType? type,@JsonKey(name: 'json_schema', includeIfNull: false) JsonSchema? jsonSchema
+});
+
+
+$JsonSchemaCopyWith<$Res>? get jsonSchema;
+
+}
+/// @nodoc
+class _$ResponseFormatCopyWithImpl<$Res>
+    implements $ResponseFormatCopyWith<$Res> {
+  _$ResponseFormatCopyWithImpl(this._self, this._then);
+
+  final ResponseFormat _self;
+  final $Res Function(ResponseFormat) _then;
+
+/// Create a copy of ResponseFormat
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? type = freezed,Object? jsonSchema = freezed,}) {
+  return _then(_self.copyWith(
+type: freezed == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as ResponseFormatType?,jsonSchema: freezed == jsonSchema ? _self.jsonSchema : jsonSchema // ignore: cast_nullable_to_non_nullable
+as JsonSchema?,
+  ));
+}
+/// Create a copy of ResponseFormat
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$JsonSchemaCopyWith<$Res>? get jsonSchema {
+    if (_self.jsonSchema == null) {
+    return null;
+  }
+
+  return $JsonSchemaCopyWith<$Res>(_self.jsonSchema!, (value) {
+    return _then(_self.copyWith(jsonSchema: value));
+  });
+}
+}
+
+
+/// Adds pattern-matching-related methods to [ResponseFormat].
+extension ResponseFormatPatterns on ResponseFormat {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ResponseFormat value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _ResponseFormat() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ResponseFormat value)  $default,){
+final _that = this;
+switch (_that) {
+case _ResponseFormat():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ResponseFormat value)?  $default,){
+final _that = this;
+switch (_that) {
+case _ResponseFormat() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ResponseFormatType? type, @JsonKey(name: 'json_schema', includeIfNull: false)  JsonSchema? jsonSchema)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _ResponseFormat() when $default != null:
+return $default(_that.type,_that.jsonSchema);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ResponseFormatType? type, @JsonKey(name: 'json_schema', includeIfNull: false)  JsonSchema? jsonSchema)  $default,) {final _that = this;
+switch (_that) {
+case _ResponseFormat():
+return $default(_that.type,_that.jsonSchema);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ResponseFormatType? type, @JsonKey(name: 'json_schema', includeIfNull: false)  JsonSchema? jsonSchema)?  $default,) {final _that = this;
+switch (_that) {
+case _ResponseFormat() when $default != null:
+return $default(_that.type,_that.jsonSchema);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _ResponseFormat extends ResponseFormat {
+  const _ResponseFormat({@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.type, @JsonKey(name: 'json_schema', includeIfNull: false) this.jsonSchema}): super._();
+  factory _ResponseFormat.fromJson(Map<String, dynamic> json) => _$ResponseFormatFromJson(json);
+
+/// The type of response format.
+@override@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) final  ResponseFormatType? type;
+/// The JSON schema for structured output.
+@override@JsonKey(name: 'json_schema', includeIfNull: false) final  JsonSchema? jsonSchema;
+
+/// Create a copy of ResponseFormat
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ResponseFormatCopyWith<_ResponseFormat> get copyWith => __$ResponseFormatCopyWithImpl<_ResponseFormat>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$ResponseFormatToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ResponseFormat&&(identical(other.type, type) || other.type == type)&&(identical(other.jsonSchema, jsonSchema) || other.jsonSchema == jsonSchema));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,type,jsonSchema);
+
+@override
+String toString() {
+  return 'ResponseFormat(type: $type, jsonSchema: $jsonSchema)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$ResponseFormatCopyWith<$Res> implements $ResponseFormatCopyWith<$Res> {
+  factory _$ResponseFormatCopyWith(_ResponseFormat value, $Res Function(_ResponseFormat) _then) = __$ResponseFormatCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ResponseFormatType? type,@JsonKey(name: 'json_schema', includeIfNull: false) JsonSchema? jsonSchema
+});
+
+
+@override $JsonSchemaCopyWith<$Res>? get jsonSchema;
+
+}
+/// @nodoc
+class __$ResponseFormatCopyWithImpl<$Res>
+    implements _$ResponseFormatCopyWith<$Res> {
+  __$ResponseFormatCopyWithImpl(this._self, this._then);
+
+  final _ResponseFormat _self;
+  final $Res Function(_ResponseFormat) _then;
+
+/// Create a copy of ResponseFormat
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? type = freezed,Object? jsonSchema = freezed,}) {
+  return _then(_ResponseFormat(
+type: freezed == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as ResponseFormatType?,jsonSchema: freezed == jsonSchema ? _self.jsonSchema : jsonSchema // ignore: cast_nullable_to_non_nullable
+as JsonSchema?,
+  ));
+}
+
+/// Create a copy of ResponseFormat
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$JsonSchemaCopyWith<$Res>? get jsonSchema {
+    if (_self.jsonSchema == null) {
+    return null;
+  }
+
+  return $JsonSchemaCopyWith<$Res>(_self.jsonSchema!, (value) {
+    return _then(_self.copyWith(jsonSchema: value));
+  });
+}
+}
+
+
+/// @nodoc
+mixin _$JsonSchema {
+
+/// The name of the response format.
+ String get name;/// A description of the response format.
+@JsonKey(includeIfNull: false) String? get description;/// The JSON schema object.
+ Map<String, dynamic> get schema;/// Whether to enable strict schema adherence.
+@JsonKey(includeIfNull: false) bool? get strict;
+/// Create a copy of JsonSchema
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$JsonSchemaCopyWith<JsonSchema> get copyWith => _$JsonSchemaCopyWithImpl<JsonSchema>(this as JsonSchema, _$identity);
+
+  /// Serializes this JsonSchema to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is JsonSchema&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other.schema, schema)&&(identical(other.strict, strict) || other.strict == strict));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,name,description,const DeepCollectionEquality().hash(schema),strict);
+
+@override
+String toString() {
+  return 'JsonSchema(name: $name, description: $description, schema: $schema, strict: $strict)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $JsonSchemaCopyWith<$Res>  {
+  factory $JsonSchemaCopyWith(JsonSchema value, $Res Function(JsonSchema) _then) = _$JsonSchemaCopyWithImpl;
+@useResult
+$Res call({
+ String name,@JsonKey(includeIfNull: false) String? description, Map<String, dynamic> schema,@JsonKey(includeIfNull: false) bool? strict
+});
+
+
+
+
+}
+/// @nodoc
+class _$JsonSchemaCopyWithImpl<$Res>
+    implements $JsonSchemaCopyWith<$Res> {
+  _$JsonSchemaCopyWithImpl(this._self, this._then);
+
+  final JsonSchema _self;
+  final $Res Function(JsonSchema) _then;
+
+/// Create a copy of JsonSchema
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? description = freezed,Object? schema = null,Object? strict = freezed,}) {
+  return _then(_self.copyWith(
+name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
+as String?,schema: null == schema ? _self.schema : schema // ignore: cast_nullable_to_non_nullable
+as Map<String, dynamic>,strict: freezed == strict ? _self.strict : strict // ignore: cast_nullable_to_non_nullable
+as bool?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [JsonSchema].
+extension JsonSchemaPatterns on JsonSchema {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _JsonSchema value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _JsonSchema() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _JsonSchema value)  $default,){
+final _that = this;
+switch (_that) {
+case _JsonSchema():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _JsonSchema value)?  $default,){
+final _that = this;
+switch (_that) {
+case _JsonSchema() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String name, @JsonKey(includeIfNull: false)  String? description,  Map<String, dynamic> schema, @JsonKey(includeIfNull: false)  bool? strict)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _JsonSchema() when $default != null:
+return $default(_that.name,_that.description,_that.schema,_that.strict);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name, @JsonKey(includeIfNull: false)  String? description,  Map<String, dynamic> schema, @JsonKey(includeIfNull: false)  bool? strict)  $default,) {final _that = this;
+switch (_that) {
+case _JsonSchema():
+return $default(_that.name,_that.description,_that.schema,_that.strict);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String name, @JsonKey(includeIfNull: false)  String? description,  Map<String, dynamic> schema, @JsonKey(includeIfNull: false)  bool? strict)?  $default,) {final _that = this;
+switch (_that) {
+case _JsonSchema() when $default != null:
+return $default(_that.name,_that.description,_that.schema,_that.strict);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _JsonSchema extends JsonSchema {
+  const _JsonSchema({required this.name, @JsonKey(includeIfNull: false) this.description, required final  Map<String, dynamic> schema, @JsonKey(includeIfNull: false) this.strict}): _schema = schema,super._();
+  factory _JsonSchema.fromJson(Map<String, dynamic> json) => _$JsonSchemaFromJson(json);
+
+/// The name of the response format.
+@override final  String name;
+/// A description of the response format.
+@override@JsonKey(includeIfNull: false) final  String? description;
+/// The JSON schema object.
+ final  Map<String, dynamic> _schema;
+/// The JSON schema object.
+@override Map<String, dynamic> get schema {
+  if (_schema is EqualUnmodifiableMapView) return _schema;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(_schema);
+}
+
+/// Whether to enable strict schema adherence.
+@override@JsonKey(includeIfNull: false) final  bool? strict;
+
+/// Create a copy of JsonSchema
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$JsonSchemaCopyWith<_JsonSchema> get copyWith => __$JsonSchemaCopyWithImpl<_JsonSchema>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$JsonSchemaToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _JsonSchema&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other._schema, _schema)&&(identical(other.strict, strict) || other.strict == strict));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,name,description,const DeepCollectionEquality().hash(_schema),strict);
+
+@override
+String toString() {
+  return 'JsonSchema(name: $name, description: $description, schema: $schema, strict: $strict)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$JsonSchemaCopyWith<$Res> implements $JsonSchemaCopyWith<$Res> {
+  factory _$JsonSchemaCopyWith(_JsonSchema value, $Res Function(_JsonSchema) _then) = __$JsonSchemaCopyWithImpl;
+@override @useResult
+$Res call({
+ String name,@JsonKey(includeIfNull: false) String? description, Map<String, dynamic> schema,@JsonKey(includeIfNull: false) bool? strict
+});
+
+
+
+
+}
+/// @nodoc
+class __$JsonSchemaCopyWithImpl<$Res>
+    implements _$JsonSchemaCopyWith<$Res> {
+  __$JsonSchemaCopyWithImpl(this._self, this._then);
+
+  final _JsonSchema _self;
+  final $Res Function(_JsonSchema) _then;
+
+/// Create a copy of JsonSchema
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? description = freezed,Object? schema = null,Object? strict = freezed,}) {
+  return _then(_JsonSchema(
+name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
+as String?,schema: null == schema ? _self._schema : schema // ignore: cast_nullable_to_non_nullable
+as Map<String, dynamic>,strict: freezed == strict ? _self.strict : strict // ignore: cast_nullable_to_non_nullable
+as bool?,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$Prediction {
+
+/// The type of prediction, currently only 'content' is supported.
+ PredictionType get type;/// The predicted content that the model should generate.
+ String get content;
+/// Create a copy of Prediction
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$PredictionCopyWith<Prediction> get copyWith => _$PredictionCopyWithImpl<Prediction>(this as Prediction, _$identity);
+
+  /// Serializes this Prediction to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Prediction&&(identical(other.type, type) || other.type == type)&&(identical(other.content, content) || other.content == content));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,type,content);
+
+@override
+String toString() {
+  return 'Prediction(type: $type, content: $content)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $PredictionCopyWith<$Res>  {
+  factory $PredictionCopyWith(Prediction value, $Res Function(Prediction) _then) = _$PredictionCopyWithImpl;
+@useResult
+$Res call({
+ PredictionType type, String content
+});
+
+
+
+
+}
+/// @nodoc
+class _$PredictionCopyWithImpl<$Res>
+    implements $PredictionCopyWith<$Res> {
+  _$PredictionCopyWithImpl(this._self, this._then);
+
+  final Prediction _self;
+  final $Res Function(Prediction) _then;
+
+/// Create a copy of Prediction
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? type = null,Object? content = null,}) {
+  return _then(_self.copyWith(
+type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as PredictionType,content: null == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [Prediction].
+extension PredictionPatterns on Prediction {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _Prediction value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _Prediction() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _Prediction value)  $default,){
+final _that = this;
+switch (_that) {
+case _Prediction():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _Prediction value)?  $default,){
+final _that = this;
+switch (_that) {
+case _Prediction() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( PredictionType type,  String content)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _Prediction() when $default != null:
+return $default(_that.type,_that.content);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( PredictionType type,  String content)  $default,) {final _that = this;
+switch (_that) {
+case _Prediction():
+return $default(_that.type,_that.content);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( PredictionType type,  String content)?  $default,) {final _that = this;
+switch (_that) {
+case _Prediction() when $default != null:
+return $default(_that.type,_that.content);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _Prediction extends Prediction {
+  const _Prediction({required this.type, required this.content}): super._();
+  factory _Prediction.fromJson(Map<String, dynamic> json) => _$PredictionFromJson(json);
+
+/// The type of prediction, currently only 'content' is supported.
+@override final  PredictionType type;
+/// The predicted content that the model should generate.
+@override final  String content;
+
+/// Create a copy of Prediction
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$PredictionCopyWith<_Prediction> get copyWith => __$PredictionCopyWithImpl<_Prediction>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$PredictionToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Prediction&&(identical(other.type, type) || other.type == type)&&(identical(other.content, content) || other.content == content));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,type,content);
+
+@override
+String toString() {
+  return 'Prediction(type: $type, content: $content)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$PredictionCopyWith<$Res> implements $PredictionCopyWith<$Res> {
+  factory _$PredictionCopyWith(_Prediction value, $Res Function(_Prediction) _then) = __$PredictionCopyWithImpl;
+@override @useResult
+$Res call({
+ PredictionType type, String content
+});
+
+
+
+
+}
+/// @nodoc
+class __$PredictionCopyWithImpl<$Res>
+    implements _$PredictionCopyWith<$Res> {
+  __$PredictionCopyWithImpl(this._self, this._then);
+
+  final _Prediction _self;
+  final $Res Function(_Prediction) _then;
+
+/// Create a copy of Prediction
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? type = null,Object? content = null,}) {
+  return _then(_Prediction(
+type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as PredictionType,content: null == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 

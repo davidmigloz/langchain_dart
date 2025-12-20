@@ -16,4 +16,8 @@ enum ChatCompletionFinishReason {
   length,
   @JsonValue('model_length')
   modelLength,
+  @JsonValue('error')
+  error,
+  @JsonValue('tool_calls')
+  toolCalls,
 }

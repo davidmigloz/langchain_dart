@@ -46,9 +46,9 @@ void main() {
         expect(res.choices, hasLength(1));
         final choice = res.choices.first;
         expect(choice.index, 0);
-        expect(choice.message?.role, ChatCompletionMessageRole.assistant);
+        expect(choice.message.role, AssistantMessageRole.assistant);
         expect(
-          choice.message?.content.replaceAll(RegExp(r'[\s\n]'), ''),
+          choice.message.content?.replaceAll(RegExp(r'[\s\n]'), ''),
           contains('123456789'),
         );
         expect(choice.finishReason, ChatCompletionFinishReason.stop);
@@ -61,7 +61,9 @@ void main() {
     test('Test call chat completions streaming API', () async {
       final stream = client.createChatCompletionStream(
         request: const ChatCompletionRequest(
-          model: ChatCompletionModel.model(ChatCompletionModels.mistralMedium),
+          model: ChatCompletionModel.model(
+            ChatCompletionModels.mistralSmallLatest,
+          ),
           temperature: 0,
           messages: [
             ChatCompletionMessage(
@@ -81,7 +83,7 @@ void main() {
       ChatCompletionStreamResponse? lastResponse;
       await for (final res in stream) {
         expect(res.id, isNotEmpty);
-        expect(res.model, 'mistral-medium');
+        expect(res.model, 'mistral-small-latest');
         expect(res.choices, hasLength(1));
         final choice = res.choices.first;
         expect(choice.index, 0);
@@ -98,7 +100,9 @@ void main() {
 
     test('Test response max tokens', () async {
       const request = ChatCompletionRequest(
-        model: ChatCompletionModel.model(ChatCompletionModels.mistralTiny),
+        model: ChatCompletionModel.model(
+          ChatCompletionModels.mistralSmallLatest,
+        ),
         maxTokens: 1,
         messages: [
           ChatCompletionMessage(
@@ -115,7 +119,9 @@ void main() {
 
     test('Test response seed', () async {
       const request = ChatCompletionRequest(
-        model: ChatCompletionModel.model(ChatCompletionModels.mistralTiny),
+        model: ChatCompletionModel.model(
+          ChatCompletionModels.mistralSmallLatest,
+        ),
         temperature: 0,
         randomSeed: 9999,
         messages: [
@@ -133,12 +139,14 @@ void main() {
       expect(res2.choices, hasLength(1));
       final choice2 = res2.choices.first;
 
-      expect(choice1.message?.content, choice2.message?.content);
+      expect(choice1.message.content, choice2.message.content);
     });
 
     test('Test response safe_prompt on', () async {
       const request = ChatCompletionRequest(
-        model: ChatCompletionModel.model(ChatCompletionModels.mistralTiny),
+        model: ChatCompletionModel.model(
+          ChatCompletionModels.mistralSmallLatest,
+        ),
         safePrompt: true,
         messages: [
           ChatCompletionMessage(
@@ -152,7 +160,7 @@ void main() {
       final res = await client.createChatCompletion(request: request);
       expect(res.choices, hasLength(1));
       final choice = res.choices.first;
-      expect(choice.message?.content, isNot(contains('kill')));
+      expect(choice.message.content, isNot(contains('kill')));
     });
   });
 }

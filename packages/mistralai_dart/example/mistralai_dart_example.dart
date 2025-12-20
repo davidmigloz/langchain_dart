@@ -24,7 +24,7 @@ Future<void> main() async {
 Future<void> _createChatCompletion(final MistralAIClient client) async {
   final res = await client.createChatCompletion(
     request: const ChatCompletionRequest(
-      model: ChatCompletionModel.model(ChatCompletionModels.mistralMedium),
+      model: ChatCompletionModel.model(ChatCompletionModels.mistralSmallLatest),
       temperature: 0,
       messages: [
         ChatCompletionMessage(
@@ -34,14 +34,14 @@ Future<void> _createChatCompletion(final MistralAIClient client) async {
       ],
     ),
   );
-  print(res.choices.first.message?.content);
+  print(res.choices.first.message.content);
   // The sky appears blue due to a phenomenon called Rayleigh scattering...
 }
 
 Future<void> _createChatCompletionStream(final MistralAIClient client) async {
   final stream = client.createChatCompletionStream(
     request: const ChatCompletionRequest(
-      model: ChatCompletionModel.model(ChatCompletionModels.mistralMedium),
+      model: ChatCompletionModel.model(ChatCompletionModels.mistralSmallLatest),
       temperature: 0,
       messages: [
         ChatCompletionMessage(
