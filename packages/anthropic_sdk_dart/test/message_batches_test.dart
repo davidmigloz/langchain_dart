@@ -106,8 +106,8 @@ void main() {
     });
 
     test('serializes correctly', () {
-      final response = ListMessageBatchesResponse(
-        data: const [
+      const response = ListMessageBatchesResponse(
+        data: [
           MessageBatch(
             id: 'batch_abc',
             createdAt: '2024-01-15T10:00:00Z',
@@ -129,25 +129,23 @@ void main() {
       );
       final json = response.toJson();
       expect(json['data'], hasLength(1));
-      expect((json['data'] as List).first['id'], 'batch_abc');
+      final dataList = json['data'] as List<dynamic>;
+      expect((dataList.first as Map<String, dynamic>)['id'], 'batch_abc');
       expect(json['has_more'], false);
       expect(json['first_id'], 'batch_abc');
       expect(json['last_id'], 'batch_abc');
     });
 
     test('serializes with null optional fields excluded', () {
-      final response = ListMessageBatchesResponse(
-        data: const [],
-        hasMore: false,
-      );
+      const response = ListMessageBatchesResponse(data: [], hasMore: false);
       final json = response.toJson();
       expect(json.containsKey('first_id'), isFalse);
       expect(json.containsKey('last_id'), isFalse);
     });
 
     test('round-trip serialization works', () {
-      final original = ListMessageBatchesResponse(
-        data: const [
+      const original = ListMessageBatchesResponse(
+        data: [
           MessageBatch(
             id: 'batch_xyz',
             createdAt: '2024-01-15T10:00:00Z',
