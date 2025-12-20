@@ -535,6 +535,57 @@ def generate_plan(analysis: dict) -> str:
         "- [ ] Update CHANGELOG.md",
     ])
 
+    # Add Review Checklist section
+    lines.extend([
+        "",
+        "---",
+        "",
+        "## Review Checklist",
+        "",
+        "After implementation, verify each change. See `references/REVIEW_CHECKLIST.md` for full guide.",
+        "",
+    ])
+
+    # Generate specific checklist items from analysis
+    if analysis['schemas']['removed']:
+        lines.append("### Removed Schemas")
+        for sc in analysis['schemas']['removed']:
+            lines.append(f"- [ ] `{sc['name']}` - code deleted, exports updated, tests removed")
+        lines.append("")
+
+    if analysis['schemas']['added']:
+        lines.append("### New Schemas")
+        for sc in analysis['schemas']['added']:
+            file_path = schema_to_file_path(sc['name'])
+            props = ', '.join(list(sc['properties'].keys())[:5])
+            if len(sc['properties']) > 5:
+                props += f" (+{len(sc['properties'])-5} more)"
+            lines.append(f"- [ ] `{sc['name']}` → `{file_path}`")
+            if props:
+                lines.append(f"  - Properties: {props}")
+        lines.append("")
+
+    if analysis['schemas']['modified']:
+        lines.append("### Modified Schemas")
+        for mod in analysis['schemas']['modified']:
+            sc = mod['schema']
+            changes = [c.get('property', c.get('value', '')) for c in mod['changes']]
+            lines.append(f"- [ ] `{sc['name']}` - verify: {', '.join(changes)}")
+        lines.append("")
+
+    # Cross-reference reminders
+    lines.extend([
+        "### Cross-Reference Checks",
+        "- [ ] All new models exported in `lib/googleai_dart.dart`",
+        "- [ ] Sealed classes (Part, etc.) handle new variants",
+        "- [ ] Parent models reference new child types",
+        "",
+        "### Quality Gates",
+        "- [ ] `dart analyze --fatal-infos` - no issues",
+        "- [ ] `dart format --set-exit-if-changed .` - no changes",
+        "- [ ] `dart test test/unit/` - all pass",
+    ])
+
     return "\n".join(lines)
 
 
