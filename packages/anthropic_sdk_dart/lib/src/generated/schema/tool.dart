@@ -75,10 +75,10 @@ sealed class Tool with _$Tool {
 
   /// A tool for viewing, creating and editing files.
 
-  @FreezedUnionValue('text_editor_20241022')
+  @FreezedUnionValue('text_editor_20250728')
   const factory Tool.textEditor({
     /// The type of tool.
-    @Default('text_editor_20241022') String type,
+    @Default('text_editor_20250728') String type,
 
     /// The name of the tool.
     @Default('str_replace_editor') String name,
@@ -94,10 +94,10 @@ sealed class Tool with _$Tool {
 
   /// A tool for running commands in a bash shell.
 
-  @FreezedUnionValue('bash_20241022')
+  @FreezedUnionValue('bash_20250124')
   const factory Tool.bash({
     /// The type of tool.
-    @Default('bash_20241022') String type,
+    @Default('bash_20250124') String type,
 
     /// The name of the tool.
     @Default('bash') String name,
@@ -202,10 +202,10 @@ sealed class Tool with _$Tool {
 enum ToolEnumType {
   @JsonValue('computer_20241022')
   computer20241022,
-  @JsonValue('text_editor_20241022')
-  textEditor20241022,
-  @JsonValue('bash_20241022')
-  bash20241022,
+  @JsonValue('text_editor_20250728')
+  textEditor20250728,
+  @JsonValue('bash_20250124')
+  bash20250124,
   @JsonValue('web_search_20250305')
   webSearch20250305,
   @JsonValue('code_execution_20250522')
