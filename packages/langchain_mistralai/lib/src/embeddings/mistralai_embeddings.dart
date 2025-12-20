@@ -1,6 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'package:langchain_core/documents.dart';
 import 'package:langchain_core/embeddings.dart';
+import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/utils.dart';
 import 'package:mistralai_dart/mistralai_dart.dart';
 
@@ -65,7 +66,7 @@ import 'package:mistralai_dart/mistralai_dart.dart';
 /// To use a SOCKS5 proxy, you can use the
 /// [`socks5_proxy`](https://pub.dev/packages/socks5_proxy) package and a
 /// custom `http.Client`.
-class MistralAIEmbeddings implements Embeddings {
+class MistralAIEmbeddings extends Embeddings {
   /// Create a new [MistralAIEmbeddings] instance.
   ///
   /// Main configuration options:
@@ -140,6 +141,39 @@ class MistralAIEmbeddings implements Embeddings {
       ),
     );
     return data.data.firstOrNull?.embedding ?? [];
+  }
+
+  /// {@template mistralai_embeddings_list_models}
+  /// Returns a list of available embedding models from Mistral AI.
+  ///
+  /// This method filters models to return only those suitable for embeddings
+  /// (models with IDs containing `embed`).
+  ///
+  /// Example:
+  /// ```dart
+  /// final embeddings = MistralAIEmbeddings(apiKey: '...');
+  /// final models = await embeddings.listModels();
+  /// for (final model in models) {
+  ///   print('${model.id} - owned by ${model.ownedBy ?? "unknown"}');
+  /// }
+  /// ```
+  /// {@endtemplate}
+  @override
+  Future<List<ModelInfo>> listModels() async {
+    final response = await _client.listModels();
+    return response.data
+        .where(_isEmbeddingModel)
+        .map(
+          (final m) =>
+              ModelInfo(id: m.id, ownedBy: m.ownedBy, created: m.created),
+        )
+        .toList();
+  }
+
+  /// Returns true if the model is an embedding model.
+  static bool _isEmbeddingModel(final Model model) {
+    final id = model.id.toLowerCase();
+    return id.contains('embed');
   }
 
   /// Closes the client and cleans up any resources associated with it.

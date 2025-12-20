@@ -27,7 +27,7 @@ import '../stores/encoder_backed.dart';
 /// The [CacheBackedEmbeddings.embedQuery] method does not support caching at
 /// the moment.
 /// {@endtemplate}
-class CacheBackedEmbeddings implements Embeddings {
+class CacheBackedEmbeddings extends Embeddings {
   /// {@macro cache_backed_embeddings}
   const CacheBackedEmbeddings({
     required this.underlyingEmbeddings,

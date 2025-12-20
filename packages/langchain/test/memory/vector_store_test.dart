@@ -57,7 +57,7 @@ void main() {
   });
 }
 
-class _FakeEmbeddings implements Embeddings {
+class _FakeEmbeddings extends Embeddings {
   @override
   Future<List<List<double>>> embedDocuments(
     final List<Document> documents,

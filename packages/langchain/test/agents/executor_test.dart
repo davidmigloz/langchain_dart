@@ -189,10 +189,10 @@ void main() {
       final intermediateSteps =
           result[AgentExecutor.intermediateStepsOutputKey] as List<AgentStep>;
       expect(intermediateSteps.first.observation, jsonEncode(mapOutput));
-      expect(
-        jsonDecode(intermediateSteps.first.observation),
-        {'status': 'ok', 'count': 42},
-      );
+      expect(jsonDecode(intermediateSteps.first.observation), {
+        'status': 'ok',
+        'count': 42,
+      });
     });
 
     test('should JSON-encode List tool output', () async {
@@ -223,10 +223,11 @@ void main() {
       final intermediateSteps =
           result[AgentExecutor.intermediateStepsOutputKey] as List<AgentStep>;
       expect(intermediateSteps.first.observation, jsonEncode(listOutput));
-      expect(
-        jsonDecode(intermediateSteps.first.observation),
-        ['item1', 'item2', 'item3'],
-      );
+      expect(jsonDecode(intermediateSteps.first.observation), [
+        'item1',
+        'item2',
+        'item3',
+      ]);
     });
 
     test('should JSON-encode int tool output', () async {
@@ -266,8 +267,7 @@ void main() {
         ],
         'metadata': {'total': 2, 'page': 1},
       };
-      final tool =
-          _GenericMockTool<Map<String, dynamic>>(output: nestedOutput);
+      final tool = _GenericMockTool<Map<String, dynamic>>(output: nestedOutput);
       final agent = _SequentialActionMockAgent(
         tools: [tool],
         actionSequence: [
@@ -294,7 +294,8 @@ void main() {
           result[AgentExecutor.intermediateStepsOutputKey] as List<AgentStep>;
       expect(intermediateSteps.first.observation, jsonEncode(nestedOutput));
       final decoded =
-          jsonDecode(intermediateSteps.first.observation) as Map<String, dynamic>;
+          jsonDecode(intermediateSteps.first.observation)
+              as Map<String, dynamic>;
       expect(decoded['results'], hasLength(2));
       final metadata = decoded['metadata'] as Map<String, dynamic>;
       expect(metadata['total'], 2);
@@ -428,19 +429,17 @@ final class _SequentialActionMockAgent extends BaseActionAgent {
 /// Used to test tool output serialization in AgentExecutor.
 final class _GenericMockTool<T extends Object>
     extends Tool<String, ToolOptions, T> {
-  _GenericMockTool({
-    required T output,
-    super.name = 'generic_tool',
-  })  : _output = output,
-        super(
-          description: 'A generic mock tool for testing',
-          inputJsonSchema: const {
-            'type': 'object',
-            'properties': {
-              'input': {'type': 'string'},
-            },
+  _GenericMockTool({required T output, super.name = 'generic_tool'})
+    : _output = output,
+      super(
+        description: 'A generic mock tool for testing',
+        inputJsonSchema: const {
+          'type': 'object',
+          'properties': {
+            'input': {'type': 'string'},
           },
-        );
+        },
+      );
 
   final T _output;
 

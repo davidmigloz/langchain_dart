@@ -1,8 +1,9 @@
 import 'package:http/http.dart' as http;
 import 'package:langchain_core/chat_models.dart';
+import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/prompts.dart';
 import 'package:langchain_tiktoken/langchain_tiktoken.dart';
-import 'package:ollama_dart/ollama_dart.dart';
+import 'package:ollama_dart/ollama_dart.dart' hide ModelInfo;
 import 'package:uuid/uuid.dart';
 
 import 'mappers.dart';
@@ -235,5 +236,29 @@ class ChatOllama extends BaseChatModel<ChatOllamaOptions> {
   @override
   void close() {
     _client.endSession();
+  }
+
+  /// {@template chat_ollama_list_models}
+  /// Returns a list of available models from the local Ollama instance.
+  ///
+  /// This method fetches all locally available models from the Ollama API.
+  /// All Ollama models support chat, so no filtering is applied.
+  ///
+  /// Example:
+  /// ```dart
+  /// final chatModel = ChatOllama();
+  /// final models = await chatModel.listModels();
+  /// for (final model in models) {
+  ///   print('${model.id}');
+  /// }
+  /// ```
+  /// {@endtemplate}
+  @override
+  Future<List<ModelInfo>> listModels() async {
+    final response = await _client.listModels();
+    return (response.models ?? [])
+        .where((final m) => m.model != null)
+        .map((final m) => ModelInfo(id: m.model!, ownedBy: m.details?.family))
+        .toList();
   }
 }

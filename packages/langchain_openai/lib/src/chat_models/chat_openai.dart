@@ -1,5 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'package:langchain_core/chat_models.dart';
+import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/prompts.dart';
 import 'package:langchain_tiktoken/langchain_tiktoken.dart';
 import 'package:openai_dart/openai_dart.dart';
@@ -365,5 +366,46 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   @override
   void close() {
     _client.endSession();
+  }
+
+  /// {@template chat_openai_list_models}
+  /// Returns a list of available chat models from OpenAI.
+  ///
+  /// This method fetches all models from the OpenAI API and filters them
+  /// to only return chat-capable models.
+  ///
+  /// Example:
+  /// ```dart
+  /// final chatModel = ChatOpenAI(apiKey: '...');
+  /// final models = await chatModel.listModels();
+  /// for (final model in models) {
+  ///   print('${model.id} - owned by ${model.ownedBy ?? "unknown"}');
+  /// }
+  /// ```
+  /// {@endtemplate}
+  @override
+  Future<List<ModelInfo>> listModels() async {
+    final response = await _client.listModels();
+    return response.data
+        .where(_isChatModel)
+        .map(
+          (final m) =>
+              ModelInfo(id: m.id, ownedBy: m.ownedBy, created: m.created),
+        )
+        .toList();
+  }
+
+  /// Returns true if the model is a chat-capable model.
+  static bool _isChatModel(final Model model) {
+    final id = model.id.toLowerCase();
+
+    // Exclude instruct models (completion API, not chat)
+    if (id.contains('instruct')) return false;
+
+    // Match chat model prefixes
+    // o[1-9] covers o1, o3, and future o4, o5, etc.
+    return id.startsWith('gpt-') ||
+        RegExp(r'^o[1-9]').hasMatch(id) ||
+        id.startsWith('chatgpt-');
   }
 }

@@ -193,7 +193,7 @@ void main() {
   });
 }
 
-class _FakeEmbeddings implements Embeddings {
+class _FakeEmbeddings extends Embeddings {
   const _FakeEmbeddings();
 
   @override

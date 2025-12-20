@@ -1,7 +1,8 @@
 import 'package:http/http.dart' as http;
 import 'package:langchain_core/documents.dart';
 import 'package:langchain_core/embeddings.dart';
-import 'package:ollama_dart/ollama_dart.dart';
+import 'package:langchain_core/language_models.dart';
+import 'package:ollama_dart/ollama_dart.dart' hide ModelInfo;
 
 /// Wrapper around [Ollama](https://ollama.ai) Embeddings API.
 ///
@@ -61,7 +62,7 @@ import 'package:ollama_dart/ollama_dart.dart';
 /// To use a SOCKS5 proxy, you can use the
 /// [`socks5_proxy`](https://pub.dev/packages/socks5_proxy) package and a
 /// custom `http.Client`.
-class OllamaEmbeddings implements Embeddings {
+class OllamaEmbeddings extends Embeddings {
   /// Create a new [OllamaEmbeddings] instance.
   ///
   /// Main configuration options:
@@ -127,6 +128,30 @@ class OllamaEmbeddings implements Embeddings {
       request: GenerateEmbeddingRequest(model: model, prompt: query),
     );
     return data.embedding ?? [];
+  }
+
+  /// {@template ollama_embeddings_list_models}
+  /// Returns a list of available models from the local Ollama server.
+  ///
+  /// Note: Ollama does not distinguish between embedding and other models,
+  /// so all locally available models are returned.
+  ///
+  /// Example:
+  /// ```dart
+  /// final embeddings = OllamaEmbeddings();
+  /// final models = await embeddings.listModels();
+  /// for (final model in models) {
+  ///   print('${model.id}');
+  /// }
+  /// ```
+  /// {@endtemplate}
+  @override
+  Future<List<ModelInfo>> listModels() async {
+    final response = await _client.listModels();
+    return (response.models ?? [])
+        .where((final m) => m.model != null)
+        .map((final m) => ModelInfo(id: m.model!, ownedBy: m.details?.family))
+        .toList();
   }
 
   /// Closes the client and cleans up any resources associated with it.

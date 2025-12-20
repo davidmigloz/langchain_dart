@@ -77,7 +77,7 @@ Helpful Answer:''';
   });
 }
 
-class _FakeEmbeddings implements Embeddings {
+class _FakeEmbeddings extends Embeddings {
   _FakeEmbeddings();
 
   @override

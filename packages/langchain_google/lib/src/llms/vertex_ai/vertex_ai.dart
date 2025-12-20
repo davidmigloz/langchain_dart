@@ -1,4 +1,5 @@
 import 'package:googleai_dart/googleai_dart.dart' as g;
+import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/llms.dart';
 import 'package:langchain_core/prompts.dart';
 import 'package:uuid/uuid.dart';
@@ -252,6 +253,68 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
     if (model != _currentModel) {
       _currentModel = model;
     }
+  }
+
+  /// {@template vertex_ai_llm_list_models}
+  /// Returns a list of available models from Vertex AI.
+  ///
+  /// This method filters models to return only those that support text
+  /// generation (generateContent method).
+  ///
+  /// Example:
+  /// ```dart
+  /// final llm = VertexAI(
+  ///   authProvider: authProvider,
+  ///   project: 'your-project-id',
+  /// );
+  /// final models = await llm.listModels();
+  /// for (final model in models) {
+  ///   print('${model.id} - ${model.displayName}');
+  ///   print('  Input limit: ${model.inputTokenLimit}');
+  ///   print('  Output limit: ${model.outputTokenLimit}');
+  /// }
+  /// ```
+  /// {@endtemplate}
+  @override
+  Future<List<ModelInfo>> listModels() async {
+    final models = <g.Model>[];
+    String? pageToken;
+
+    // Paginate through all models
+    do {
+      final response = await _googleAiClient.models.list(pageToken: pageToken);
+      models.addAll(response.models);
+      pageToken = response.nextPageToken;
+    } while (pageToken != null);
+
+    // Filter to only models supporting generateContent
+    return models
+        .where(_isGenerativeModel)
+        .map(
+          (final m) => ModelInfo(
+            id: _extractModelId(m.name),
+            displayName: m.displayName,
+            description: m.description,
+            inputTokenLimit: m.inputTokenLimit,
+            outputTokenLimit: m.outputTokenLimit,
+          ),
+        )
+        .toList();
+  }
+
+  /// Returns true if the model supports text generation (generateContent).
+  static bool _isGenerativeModel(final g.Model model) {
+    return model.supportedGenerationMethods?.contains('generateContent') ??
+        false;
+  }
+
+  /// Extracts the model ID from the full model name.
+  static String _extractModelId(final String name) {
+    const prefix = 'models/';
+    if (name.startsWith(prefix)) {
+      return name.substring(prefix.length);
+    }
+    return name;
   }
 
   /// Closes the client and cleans up any resources associated with it.
