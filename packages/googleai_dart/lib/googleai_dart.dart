@@ -35,6 +35,7 @@ export 'src/models/content/citation_metadata.dart';
 export 'src/models/content/content.dart';
 export 'src/models/content/file_data.dart';
 export 'src/models/content/logprobs_result.dart';
+export 'src/models/content/media_resolution.dart';
 export 'src/models/content/part.dart';
 // Models - Corpus API
 export 'src/models/corpus/corpus.dart';
