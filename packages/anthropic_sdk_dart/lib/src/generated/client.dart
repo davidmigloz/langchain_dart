@@ -420,6 +420,45 @@ class AnthropicClient {
   }
 
   // ------------------------------------------
+  // METHOD: listMessageBatches
+  // ------------------------------------------
+
+  /// List Message Batches
+  ///
+  /// List all Message Batches within a Workspace. Most recently created batches are
+  /// returned first.
+  ///
+  /// `beforeId`: ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately before this object.
+  ///
+  /// `afterId`: ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately after this object.
+  ///
+  /// `limit`: Number of items to return per page. Defaults to 20. Ranges from 1 to 100.
+  ///
+  /// `GET` `https://api.anthropic.com/v1/messages/batches`
+  Future<ListMessageBatchesResponse> listMessageBatches({
+    String? beforeId,
+    String? afterId,
+    int limit = 20,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.anthropic.com/v1',
+      path: '/messages/batches',
+      method: HttpMethod.get,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+
+      headerParams: {if (apiKey.isNotEmpty) 'x-api-key': apiKey},
+      queryParams: {
+        if (beforeId != null) 'before_id': beforeId,
+        if (afterId != null) 'after_id': afterId,
+        'limit': limit,
+      },
+    );
+    return ListMessageBatchesResponse.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
   // METHOD: createMessageBatch
   // ------------------------------------------
 
