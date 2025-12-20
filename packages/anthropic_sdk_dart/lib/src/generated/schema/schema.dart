@@ -12,6 +12,8 @@ part 'schema.g.dart';
 part 'schema.freezed.dart';
 
 part 'create_message_request.dart';
+part 'count_message_tokens_request.dart';
+part 'count_message_tokens_response.dart';
 part 'create_message_request_metadata.dart';
 part 'tool_choice.dart';
 part 'tool_choice_type.dart';
