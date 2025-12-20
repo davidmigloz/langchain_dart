@@ -148,6 +148,30 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/MessageBatch"
+    delete:
+      operationId: deleteMessageBatch
+      tags:
+        - Messages
+      summary: Delete a Message Batch
+      description: |
+        Delete a Message Batch.
+
+        Message Batches can be deleted at any time. Once a batch is deleted, it is no
+        longer available and all associated results will be removed.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the message batch to delete.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteMessageBatchResponse"
   /messages/batches/{id}/cancel:
     post:
       operationId: cancelMessageBatch
@@ -1083,6 +1107,21 @@ components:
         - expires_at
         - processing_status
         - request_counts
+        - type
+    DeleteMessageBatchResponse:
+      type: object
+      description: Response returned when a message batch is deleted.
+      properties:
+        id:
+          type: string
+          description: ID of the deleted Message Batch.
+        type:
+          type: string
+          enum:
+            - message_batch_deleted
+          description: Deleted object type. Always `"message_batch_deleted"`.
+      required:
+        - id
         - type
     ListMessageBatchesResponse:
       type: object
