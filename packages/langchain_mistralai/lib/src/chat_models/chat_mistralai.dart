@@ -3,7 +3,7 @@ import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/prompts.dart';
 import 'package:langchain_tiktoken/langchain_tiktoken.dart';
-import 'package:mistralai_dart/mistralai_dart.dart';
+import 'package:mistralai_dart/mistralai_dart.dart' as mistral;
 
 import 'mappers.dart';
 import 'types.dart';
@@ -158,7 +158,7 @@ class ChatMistralAI extends BaseChatModel<ChatMistralAIOptions> {
     final http.Client? client,
     super.defaultOptions = const ChatMistralAIOptions(model: defaultModel),
     this.encoding = 'cl100k_base',
-  }) : _client = MistralAIClient(
+  }) : _client = mistral.MistralAIClient(
          apiKey: apiKey,
          baseUrl: baseUrl,
          headers: headers,
@@ -167,7 +167,7 @@ class ChatMistralAI extends BaseChatModel<ChatMistralAIOptions> {
        );
 
   /// A client for interacting with Mistral AI API.
-  final MistralAIClient _client;
+  final mistral.MistralAIClient _client;
 
   /// The encoding to use by tiktoken when [tokenize] is called.
   ///
@@ -211,13 +211,16 @@ class ChatMistralAI extends BaseChatModel<ChatMistralAIOptions> {
   }
 
   /// Creates a [GenerateCompletionRequest] from the given input.
-  ChatCompletionRequest _generateCompletionRequest(
+  mistral.ChatCompletionRequest _generateCompletionRequest(
     final List<ChatMessage> messages, {
     final bool stream = false,
     final ChatMistralAIOptions? options,
   }) {
-    return ChatCompletionRequest(
-      model: ChatCompletionModel.modelId(
+    final tools = options?.tools ?? defaultOptions.tools;
+    final toolChoice = options?.toolChoice ?? defaultOptions.toolChoice;
+
+    return mistral.ChatCompletionRequest(
+      model: mistral.ChatCompletionModel.modelId(
         options?.model ?? defaultOptions.model ?? defaultModel,
       ),
       messages: messages.toChatCompletionMessages(),
@@ -226,6 +229,8 @@ class ChatMistralAI extends BaseChatModel<ChatMistralAIOptions> {
       maxTokens: options?.maxTokens ?? defaultOptions.maxTokens,
       safePrompt: options?.safePrompt ?? defaultOptions.safePrompt,
       randomSeed: options?.randomSeed ?? defaultOptions.randomSeed,
+      tools: tools?.toMistralTools(),
+      toolChoice: toolChoice?.toMistralToolChoice(),
       stream: stream,
     );
   }
