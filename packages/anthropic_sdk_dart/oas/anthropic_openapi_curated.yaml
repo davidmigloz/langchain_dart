@@ -148,6 +148,36 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/MessageBatch"
+  /messages/batches/{id}/cancel:
+    post:
+      operationId: cancelMessageBatch
+      tags:
+        - Messages
+      summary: Cancel a Message Batch
+      description: |
+        Batches may be canceled any time before processing ends. Once cancellation
+        is initiated, the batch enters a `canceling` state, at which time the system
+        may complete any in-progress, non-interruptible requests before finalizing
+        cancellation.
+
+        The number of canceled requests is specified in `request_counts`. To
+        determine which requests were canceled, check the individual results within
+        the batch. Note that cancellation may not result in any canceled requests
+        if they were non-interruptible.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the message batch to cancel.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageBatch"
 
 components:
   securitySchemes:
