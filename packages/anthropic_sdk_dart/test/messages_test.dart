@@ -516,5 +516,98 @@ void main() {
       final signatureDelta = deltaEvent.delta as SignatureBlockDelta;
       expect(signatureDelta.signature, 'EqQBCgIYAhIM0vZ3tu...');
     });
+
+    // Test for citations_delta events - similar to signature_delta
+    test('Test citations_delta deserialization', () {
+      // This tests that citations_delta events from the streaming API
+      // can be properly deserialized without throwing an error
+      const citationsDeltaJson = '''
+      {
+        "type": "citations_delta",
+        "citation": {
+          "type": "char_location",
+          "cited_text": "Example cited text",
+          "document_index": 0,
+          "document_title": "Test Document",
+          "start_char_index": 0,
+          "end_char_index": 18
+        }
+      }
+      ''';
+      final json = jsonDecode(citationsDeltaJson) as Map<String, dynamic>;
+      final blockDelta = BlockDelta.fromJson(json);
+
+      expect(blockDelta, isA<CitationsBlockDelta>());
+      final citationsDelta = blockDelta as CitationsBlockDelta;
+      expect(citationsDelta.type, CitationsBlockDeltaType.citationsDelta);
+      expect(citationsDelta.citation, isA<CitationCharLocation>());
+
+      final charLocation = citationsDelta.citation as CitationCharLocation;
+      expect(charLocation.citedText, 'Example cited text');
+      expect(charLocation.documentIndex, 0);
+      expect(charLocation.startCharIndex, 0);
+      expect(charLocation.endCharIndex, 18);
+    });
+
+    test(
+      'Test ContentBlockDeltaEvent with citations_delta (page location)',
+      () {
+        // Test with page-based citation location
+        const eventJson = '''
+      {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "citations_delta",
+          "citation": {
+            "type": "page_location",
+            "cited_text": "Page cited text",
+            "document_index": 0,
+            "document_title": "PDF Document",
+            "start_page_number": 1,
+            "end_page_number": 2
+          }
+        }
+      }
+      ''';
+        final json = jsonDecode(eventJson) as Map<String, dynamic>;
+        final event = MessageStreamEvent.fromJson(json);
+
+        expect(event, isA<ContentBlockDeltaEvent>());
+        final deltaEvent = event as ContentBlockDeltaEvent;
+        expect(deltaEvent.index, 1);
+        expect(deltaEvent.delta, isA<CitationsBlockDelta>());
+
+        final citationsDelta = deltaEvent.delta as CitationsBlockDelta;
+        expect(citationsDelta.citation, isA<CitationPageLocation>());
+
+        final pageLocation = citationsDelta.citation as CitationPageLocation;
+        expect(pageLocation.citedText, 'Page cited text');
+        expect(pageLocation.startPageNumber, 1);
+        expect(pageLocation.endPageNumber, 2);
+      },
+    );
+
+    test('Test CitationContentBlockLocation deserialization', () {
+      // Test content block-based citation location
+      const citationJson = '''
+      {
+        "type": "content_block_location",
+        "cited_text": "Block cited text",
+        "document_index": 0,
+        "document_title": "Content Block Doc",
+        "start_block_index": 0,
+        "end_block_index": 3
+      }
+      ''';
+      final json = jsonDecode(citationJson) as Map<String, dynamic>;
+      final citation = CitationLocation.fromJson(json);
+
+      expect(citation, isA<CitationContentBlockLocation>());
+      final blockLocation = citation as CitationContentBlockLocation;
+      expect(blockLocation.citedText, 'Block cited text');
+      expect(blockLocation.startBlockIndex, 0);
+      expect(blockLocation.endBlockIndex, 3);
+    });
   });
 }

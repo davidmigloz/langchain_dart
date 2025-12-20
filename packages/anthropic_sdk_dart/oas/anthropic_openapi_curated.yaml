@@ -2200,6 +2200,7 @@ components:
         - $ref: "#/components/schemas/InputJsonBlockDelta"
         - $ref: "#/components/schemas/ThinkingBlockDelta"
         - $ref: "#/components/schemas/SignatureBlockDelta"
+        - $ref: "#/components/schemas/CitationsBlockDelta"
       discriminator:
         propertyName: type
         mapping:
@@ -2207,6 +2208,7 @@ components:
           input_json_delta: "#/components/schemas/InputJsonBlockDelta"
           thinking_delta: "#/components/schemas/ThinkingBlockDelta"
           signature_delta: "#/components/schemas/SignatureBlockDelta"
+          citations_delta: "#/components/schemas/CitationsBlockDelta"
     TextBlockDelta:
       type: object
       description: A delta in a streaming text block.
@@ -2271,6 +2273,128 @@ components:
       required:
         - signature
         - type
+    CitationsBlockDelta:
+      type: object
+      description: |
+        A delta in a streaming citations block. This contains citation information
+        for document references in the response.
+      properties:
+        citation:
+          $ref: "#/components/schemas/CitationLocation"
+        type:
+          type: string
+          description: The type of content block delta.
+          enum:
+            - citations_delta
+          default: citations_delta
+      required:
+        - citation
+        - type
+    CitationLocation:
+      description: A citation location reference.
+      oneOf:
+        - $ref: "#/components/schemas/CitationCharLocation"
+        - $ref: "#/components/schemas/CitationPageLocation"
+        - $ref: "#/components/schemas/CitationContentBlockLocation"
+      discriminator:
+        propertyName: type
+        mapping:
+          char_location: "#/components/schemas/CitationCharLocation"
+          page_location: "#/components/schemas/CitationPageLocation"
+          content_block_location: "#/components/schemas/CitationContentBlockLocation"
+    CitationCharLocation:
+      type: object
+      description: A character-based citation location within a document.
+      properties:
+        type:
+          type: string
+          description: The type of citation location.
+          enum:
+            - char_location
+          default: char_location
+        cited_text:
+          type: string
+          description: The cited text from the document.
+        document_index:
+          type: integer
+          description: The index of the document in the request.
+        document_title:
+          type: string
+          description: The title of the cited document.
+        start_char_index:
+          type: integer
+          description: The starting character index of the citation.
+        end_char_index:
+          type: integer
+          description: The ending character index of the citation.
+      required:
+        - type
+        - cited_text
+        - document_index
+        - start_char_index
+        - end_char_index
+    CitationPageLocation:
+      type: object
+      description: A page-based citation location within a document.
+      properties:
+        type:
+          type: string
+          description: The type of citation location.
+          enum:
+            - page_location
+          default: page_location
+        cited_text:
+          type: string
+          description: The cited text from the document.
+        document_index:
+          type: integer
+          description: The index of the document in the request.
+        document_title:
+          type: string
+          description: The title of the cited document.
+        start_page_number:
+          type: integer
+          description: The starting page number of the citation.
+        end_page_number:
+          type: integer
+          description: The ending page number of the citation.
+      required:
+        - type
+        - cited_text
+        - document_index
+        - start_page_number
+        - end_page_number
+    CitationContentBlockLocation:
+      type: object
+      description: A content block-based citation location.
+      properties:
+        type:
+          type: string
+          description: The type of citation location.
+          enum:
+            - content_block_location
+          default: content_block_location
+        cited_text:
+          type: string
+          description: The cited text from the content block.
+        document_index:
+          type: integer
+          description: The index of the document in the request.
+        document_title:
+          type: string
+          description: The title of the cited document.
+        start_block_index:
+          type: integer
+          description: The starting block index of the citation.
+        end_block_index:
+          type: integer
+          description: The ending block index of the citation.
+      required:
+        - type
+        - cited_text
+        - document_index
+        - start_block_index
+        - end_block_index
     ContentBlockStopEvent:
       type: object
       description: A stop event in a streaming content block.
