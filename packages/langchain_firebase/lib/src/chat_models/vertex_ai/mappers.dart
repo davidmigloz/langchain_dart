@@ -190,7 +190,6 @@ extension GenerateContentResponseMapper on f.GenerateContentResponse {
         f.FinishReason.safety => FinishReason.contentFilter,
         f.FinishReason.recitation => FinishReason.recitation,
         f.FinishReason.other => FinishReason.unspecified,
-        f.FinishReason.malformedFunctionCall => FinishReason.unspecified,
         null => FinishReason.unspecified,
       };
 }
