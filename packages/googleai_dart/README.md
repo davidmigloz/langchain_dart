@@ -105,6 +105,16 @@ Unofficial Dart client for the **[Google AI Gemini Developer API](https://ai.goo
 - ✅ Batch management (list, get, update, delete, cancel)
 - ✅ LRO polling for async batch jobs
 
+#### Interactions API (Experimental)
+
+- ✅ Server-side conversation state management
+- ✅ Multi-turn conversations with `previousInteractionId`
+- ✅ Streaming responses with SSE events
+- ✅ Function calling with automatic result handling
+- ✅ Agent support (e.g., Deep Research)
+- ✅ 17 content types (text, image, audio, function calls, etc.)
+- ✅ Background interactions with cancel support
+
 ### Quick Comparison
 
 | Aspect | Google AI | Vertex AI |
@@ -1047,6 +1057,7 @@ See the [`example/`](example/) directory for comprehensive examples:
 17. **[api_versions_example.dart](example/api_versions_example.dart)** - Using v1 (stable) vs v1beta (beta)
 18. **[vertex_ai_example.dart](example/vertex_ai_example.dart)** - Using Vertex AI with OAuth authentication
 19. **[complete_api_example.dart](example/complete_api_example.dart)** - Demonstrating 100% API coverage
+20. **[interactions_example.dart](example/interactions_example.dart)** - Interactions API for server-side state management (experimental)
 
 ## API Coverage
 
@@ -1096,6 +1107,14 @@ This client implements **78 endpoints** covering **100% of all non-deprecated Ge
 - **Document Operations**: importFile, uploadToFileSearchStore
 - **Document Management**: documents.list, documents.get, documents.delete
 - **Operations**: getOperation, getUploadOperation
+
+### Interactions Resource (`client.interactions`) - Experimental
+
+- **Creation**: create, createWithAgent, createStream
+- **Management**: get, cancel, delete
+- **Streaming**: createStream, resumeStream (SSE with event types)
+- **Content Types**: 17 types including text, image, audio, function calls, code execution, etc.
+- **Events**: InteractionStart, ContentDelta, ContentStop, InteractionComplete, Error
 
 ### Universal Operations
 
