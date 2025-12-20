@@ -5,16 +5,16 @@ void main() {
   group('ModelInfo tests', () {
     test('deserializes with all fields', () {
       final json = {
-        'id': 'claude-3-5-sonnet-20241022',
+        'id': 'claude-haiku-4-5-20251001',
         'type': 'model',
-        'display_name': 'Claude 3.5 Sonnet (New)',
-        'created_at': '2024-10-22T00:00:00Z',
+        'display_name': 'Claude 4.5 Haiku',
+        'created_at': '2025-10-01T00:00:00Z',
       };
       final model = ModelInfo.fromJson(json);
-      expect(model.id, 'claude-3-5-sonnet-20241022');
+      expect(model.id, 'claude-haiku-4-5-20251001');
       expect(model.type, ModelInfoType.model);
-      expect(model.displayName, 'Claude 3.5 Sonnet (New)');
-      expect(model.createdAt, '2024-10-22T00:00:00Z');
+      expect(model.displayName, 'Claude 4.5 Haiku');
+      expect(model.createdAt, '2025-10-01T00:00:00Z');
     });
 
     test('serializes correctly', () {
@@ -57,23 +57,23 @@ void main() {
       final json = {
         'data': [
           {
-            'id': 'claude-3-5-sonnet-20241022',
+            'id': 'claude-haiku-4-5-20251001',
             'type': 'model',
-            'display_name': 'Claude 3.5 Sonnet (New)',
-            'created_at': '2024-10-22T00:00:00Z',
+            'display_name': 'Claude 4.5 Haiku',
+            'created_at': '2025-10-01T00:00:00Z',
           },
         ],
         'has_more': true,
-        'first_id': 'claude-3-5-sonnet-20241022',
-        'last_id': 'claude-3-5-sonnet-20241022',
+        'first_id': 'claude-haiku-4-5-20251001',
+        'last_id': 'claude-haiku-4-5-20251001',
       };
       final response = ListModelsResponse.fromJson(json);
       expect(response.data, hasLength(1));
-      expect(response.data.first.id, 'claude-3-5-sonnet-20241022');
-      expect(response.data.first.displayName, 'Claude 3.5 Sonnet (New)');
+      expect(response.data.first.id, 'claude-haiku-4-5-20251001');
+      expect(response.data.first.displayName, 'Claude 4.5 Haiku');
       expect(response.hasMore, isTrue);
-      expect(response.firstId, 'claude-3-5-sonnet-20241022');
-      expect(response.lastId, 'claude-3-5-sonnet-20241022');
+      expect(response.firstId, 'claude-haiku-4-5-20251001');
+      expect(response.lastId, 'claude-haiku-4-5-20251001');
     });
 
     test('deserializes with required fields only', () {
@@ -89,16 +89,16 @@ void main() {
       final json = {
         'data': [
           {
-            'id': 'claude-3-5-sonnet-20241022',
+            'id': 'claude-haiku-4-5-20251001',
             'type': 'model',
-            'display_name': 'Claude 3.5 Sonnet (New)',
-            'created_at': '2024-10-22T00:00:00Z',
+            'display_name': 'Claude 4.5 Haiku',
+            'created_at': '2025-10-01T00:00:00Z',
           },
           {
-            'id': 'claude-3-opus-20240229',
+            'id': 'claude-sonnet-4-5-20250929',
             'type': 'model',
-            'display_name': 'Claude 3 Opus',
-            'created_at': '2024-02-29T00:00:00Z',
+            'display_name': 'Claude 4.5 Sonnet',
+            'created_at': '2025-09-29T00:00:00Z',
           },
           {
             'id': 'claude-3-haiku-20240307',
@@ -108,15 +108,15 @@ void main() {
           },
         ],
         'has_more': true,
-        'first_id': 'claude-3-5-sonnet-20241022',
+        'first_id': 'claude-haiku-4-5-20251001',
         'last_id': 'claude-3-haiku-20240307',
       };
       final response = ListModelsResponse.fromJson(json);
       expect(response.data, hasLength(3));
-      expect(response.data[0].id, 'claude-3-5-sonnet-20241022');
-      expect(response.data[1].id, 'claude-3-opus-20240229');
+      expect(response.data[0].id, 'claude-haiku-4-5-20251001');
+      expect(response.data[1].id, 'claude-sonnet-4-5-20250929');
       expect(response.data[2].id, 'claude-3-haiku-20240307');
-      expect(response.firstId, 'claude-3-5-sonnet-20241022');
+      expect(response.firstId, 'claude-haiku-4-5-20251001');
       expect(response.lastId, 'claude-3-haiku-20240307');
     });
 
@@ -124,26 +124,26 @@ void main() {
       const response = ListModelsResponse(
         data: [
           ModelInfo(
-            id: 'claude-3-5-sonnet-20241022',
+            id: 'claude-haiku-4-5-20251001',
             type: ModelInfoType.model,
-            displayName: 'Claude 3.5 Sonnet (New)',
-            createdAt: '2024-10-22T00:00:00Z',
+            displayName: 'Claude 4.5 Haiku',
+            createdAt: '2025-10-01T00:00:00Z',
           ),
         ],
         hasMore: false,
-        firstId: 'claude-3-5-sonnet-20241022',
-        lastId: 'claude-3-5-sonnet-20241022',
+        firstId: 'claude-haiku-4-5-20251001',
+        lastId: 'claude-haiku-4-5-20251001',
       );
       final json = response.toJson();
       expect(json['data'], hasLength(1));
       final dataList = json['data'] as List<dynamic>;
       expect(
         (dataList.first as Map<String, dynamic>)['id'],
-        'claude-3-5-sonnet-20241022',
+        'claude-haiku-4-5-20251001',
       );
       expect(json['has_more'], false);
-      expect(json['first_id'], 'claude-3-5-sonnet-20241022');
-      expect(json['last_id'], 'claude-3-5-sonnet-20241022');
+      expect(json['first_id'], 'claude-haiku-4-5-20251001');
+      expect(json['last_id'], 'claude-haiku-4-5-20251001');
     });
 
     test('serializes with null optional fields excluded', () {

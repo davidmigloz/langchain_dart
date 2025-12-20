@@ -325,6 +325,9 @@ components:
               description: |
                 Available models. Mind that the list may not be exhaustive nor up-to-date.
               enum:
+                - claude-opus-4-5-20251101
+                - claude-sonnet-4-5-20250929
+                - claude-haiku-4-5-20251001
                 - claude-opus-4-20250514
                 - claude-sonnet-4-20250514
                 - claude-3-7-sonnet-latest
@@ -617,6 +620,9 @@ components:
               description: |
                 Available models. Mind that the list may not be exhaustive nor up-to-date.
               enum:
+                - claude-opus-4-5-20251101
+                - claude-sonnet-4-5-20250929
+                - claude-haiku-4-5-20251001
                 - claude-opus-4-20250514
                 - claude-sonnet-4-20250514
                 - claude-3-7-sonnet-latest
@@ -852,8 +858,8 @@ components:
         mapping:
           custom: "#/components/schemas/ToolCustom"
           computer_20241022: "#/components/schemas/ToolComputerUse"
-          text_editor_20241022: "#/components/schemas/ToolTextEditor"
-          bash_20241022: "#/components/schemas/ToolBash"
+          text_editor_20250728: "#/components/schemas/ToolTextEditor"
+          bash_20250124: "#/components/schemas/ToolBash"
           web_search_20250305: "#/components/schemas/ToolWebSearch"
           code_execution_20250522: "#/components/schemas/ToolCodeExecution"
           mcp: "#/components/schemas/ToolMcp"
@@ -922,7 +928,7 @@ components:
         type:
           type: string
           description: The type of tool.
-          default: text_editor_20241022
+          default: text_editor_20250728
         name:
           type: string
           description: The name of the tool.
@@ -936,7 +942,7 @@ components:
         type:
           type: string
           description: The type of tool.
-          default: bash_20241022
+          default: bash_20250124
         name:
           type: string
           description: The name of the tool.
