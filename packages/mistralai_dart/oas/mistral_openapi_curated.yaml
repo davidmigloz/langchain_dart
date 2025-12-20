@@ -346,6 +346,7 @@ components:
                 Available embedding models. Mind that the list may not be exhaustive nor up-to-date.
               enum:
                 - mistral-embed
+                - codestral-embed-2505
         input:
           type: array
           items:
@@ -355,13 +356,31 @@ components:
             - world
           description: |
             The list of strings to embed.
+        output_dimension:
+          type: integer
+          nullable: true
+          description: |
+            The number of dimensions the resulting output embeddings should have.
+            Only supported by certain models (e.g., codestral-embed-2505).
+        output_dtype:
+          type: string
+          title: EmbeddingOutputDtype
+          enum:
+            - float
+            - int8
+            - uint8
+            - binary
+            - ubinary
+          nullable: true
+          description: |
+            The data type of the output embeddings.
         encoding_format:
           type: string
           title: EmbeddingEncodingFormat
           enum:
             - float
-          default: float
-          example: float
+            - base64
+          nullable: true
           description: |
             The format of the output data.
       required:
@@ -387,6 +406,10 @@ components:
         model:
           type: string
           description: The model used for this embedding.
+        created:
+          type: integer
+          nullable: true
+          description: Unix timestamp when the response was created.
         usage:
           type: object
           title: EmbeddingUsage
@@ -396,12 +419,21 @@ components:
               type: integer
               description: The number of tokens in the prompt.
               example: 9
+            completion_tokens:
+              type: integer
+              description: The number of completion tokens (typically 0 for embeddings).
+              example: 0
             total_tokens:
               type: integer
-              description: The total number of tokens generated.
+              description: The total number of tokens.
               example: 9
+            prompt_audio_seconds:
+              type: integer
+              nullable: true
+              description: Duration of audio input in seconds (if applicable).
           required:
             - prompt_tokens
+            - completion_tokens
             - total_tokens
       required:
         - id

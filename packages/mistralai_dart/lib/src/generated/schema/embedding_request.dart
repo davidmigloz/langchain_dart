@@ -21,10 +21,26 @@ abstract class EmbeddingRequest with _$EmbeddingRequest {
     /// The list of strings to embed.
     required List<String> input,
 
+    /// The number of dimensions the resulting output embeddings should have.
+    /// Only supported by certain models (e.g., codestral-embed-2505).
+    @JsonKey(name: 'output_dimension', includeIfNull: false)
+    int? outputDimension,
+
+    /// The data type of the output embeddings.
+    @JsonKey(
+      name: 'output_dtype',
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue,
+    )
+    EmbeddingOutputDtype? outputDtype,
+
     /// The format of the output data.
-    @JsonKey(name: 'encoding_format')
-    @Default(EmbeddingEncodingFormat.float)
-    EmbeddingEncodingFormat encodingFormat,
+    @JsonKey(
+      name: 'encoding_format',
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue,
+    )
+    EmbeddingEncodingFormat? encodingFormat,
   }) = _EmbeddingRequest;
 
   /// Object construction from a JSON representation
@@ -35,6 +51,8 @@ abstract class EmbeddingRequest with _$EmbeddingRequest {
   static const List<String> propertyNames = [
     'model',
     'input',
+    'output_dimension',
+    'output_dtype',
     'encoding_format',
   ];
 
@@ -45,7 +63,13 @@ abstract class EmbeddingRequest with _$EmbeddingRequest {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {'model': model, 'input': input, 'encoding_format': encodingFormat};
+    return {
+      'model': model,
+      'input': input,
+      'output_dimension': outputDimension,
+      'output_dtype': outputDtype,
+      'encoding_format': encodingFormat,
+    };
   }
 }
 
@@ -57,6 +81,8 @@ abstract class EmbeddingRequest with _$EmbeddingRequest {
 enum EmbeddingModels {
   @JsonValue('mistral-embed')
   mistralEmbed,
+  @JsonValue('codestral-embed-2505')
+  codestralEmbed2505,
 }
 
 // ==========================================
@@ -110,6 +136,24 @@ class _EmbeddingModelConverter
 }
 
 // ==========================================
+// ENUM: EmbeddingOutputDtype
+// ==========================================
+
+/// The data type of the output embeddings.
+enum EmbeddingOutputDtype {
+  @JsonValue('float')
+  float,
+  @JsonValue('int8')
+  int8,
+  @JsonValue('uint8')
+  uint8,
+  @JsonValue('binary')
+  binary,
+  @JsonValue('ubinary')
+  ubinary,
+}
+
+// ==========================================
 // ENUM: EmbeddingEncodingFormat
 // ==========================================
 
@@ -117,4 +161,6 @@ class _EmbeddingModelConverter
 enum EmbeddingEncodingFormat {
   @JsonValue('float')
   float,
+  @JsonValue('base64')
+  base64,
 }

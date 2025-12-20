@@ -233,12 +233,17 @@ _EmbeddingRequest _$EmbeddingRequestFromJson(Map<String, dynamic> json) =>
     _EmbeddingRequest(
       model: const _EmbeddingModelConverter().fromJson(json['model']),
       input: (json['input'] as List<dynamic>).map((e) => e as String).toList(),
-      encodingFormat:
-          $enumDecodeNullable(
-            _$EmbeddingEncodingFormatEnumMap,
-            json['encoding_format'],
-          ) ??
-          EmbeddingEncodingFormat.float,
+      outputDimension: (json['output_dimension'] as num?)?.toInt(),
+      outputDtype: $enumDecodeNullable(
+        _$EmbeddingOutputDtypeEnumMap,
+        json['output_dtype'],
+        unknownValue: JsonKey.nullForUndefinedEnumValue,
+      ),
+      encodingFormat: $enumDecodeNullable(
+        _$EmbeddingEncodingFormatEnumMap,
+        json['encoding_format'],
+        unknownValue: JsonKey.nullForUndefinedEnumValue,
+      ),
     );
 
 Map<String, dynamic> _$EmbeddingRequestToJson(
@@ -246,11 +251,22 @@ Map<String, dynamic> _$EmbeddingRequestToJson(
 ) => <String, dynamic>{
   'model': const _EmbeddingModelConverter().toJson(instance.model),
   'input': instance.input,
-  'encoding_format': _$EmbeddingEncodingFormatEnumMap[instance.encodingFormat]!,
+  'output_dimension': ?instance.outputDimension,
+  'output_dtype': ?_$EmbeddingOutputDtypeEnumMap[instance.outputDtype],
+  'encoding_format': ?_$EmbeddingEncodingFormatEnumMap[instance.encodingFormat],
+};
+
+const _$EmbeddingOutputDtypeEnumMap = {
+  EmbeddingOutputDtype.float: 'float',
+  EmbeddingOutputDtype.int8: 'int8',
+  EmbeddingOutputDtype.uint8: 'uint8',
+  EmbeddingOutputDtype.binary: 'binary',
+  EmbeddingOutputDtype.ubinary: 'ubinary',
 };
 
 const _$EmbeddingEncodingFormatEnumMap = {
   EmbeddingEncodingFormat.float: 'float',
+  EmbeddingEncodingFormat.base64: 'base64',
 };
 
 EmbeddingModelEnumeration _$EmbeddingModelEnumerationFromJson(
@@ -269,6 +285,7 @@ Map<String, dynamic> _$EmbeddingModelEnumerationToJson(
 
 const _$EmbeddingModelsEnumMap = {
   EmbeddingModels.mistralEmbed: 'mistral-embed',
+  EmbeddingModels.codestralEmbed2505: 'codestral-embed-2505',
 };
 
 EmbeddingModelString _$EmbeddingModelStringFromJson(
@@ -290,6 +307,7 @@ _EmbeddingResponse _$EmbeddingResponseFromJson(Map<String, dynamic> json) =>
           .map((e) => Embedding.fromJson(e as Map<String, dynamic>))
           .toList(),
       model: json['model'] as String,
+      created: (json['created'] as num?)?.toInt(),
       usage: EmbeddingUsage.fromJson(json['usage'] as Map<String, dynamic>),
     );
 
@@ -299,19 +317,24 @@ Map<String, dynamic> _$EmbeddingResponseToJson(_EmbeddingResponse instance) =>
       'object': instance.object,
       'data': instance.data.map((e) => e.toJson()).toList(),
       'model': instance.model,
+      'created': ?instance.created,
       'usage': instance.usage.toJson(),
     };
 
 _EmbeddingUsage _$EmbeddingUsageFromJson(Map<String, dynamic> json) =>
     _EmbeddingUsage(
       promptTokens: (json['prompt_tokens'] as num).toInt(),
+      completionTokens: (json['completion_tokens'] as num).toInt(),
       totalTokens: (json['total_tokens'] as num).toInt(),
+      promptAudioSeconds: (json['prompt_audio_seconds'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$EmbeddingUsageToJson(_EmbeddingUsage instance) =>
     <String, dynamic>{
       'prompt_tokens': instance.promptTokens,
+      'completion_tokens': instance.completionTokens,
       'total_tokens': instance.totalTokens,
+      'prompt_audio_seconds': ?instance.promptAudioSeconds,
     };
 
 _Embedding _$EmbeddingFromJson(Map<String, dynamic> json) => _Embedding(

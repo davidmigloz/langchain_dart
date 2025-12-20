@@ -27,6 +27,9 @@ abstract class EmbeddingResponse with _$EmbeddingResponse {
     /// The model used for this embedding.
     required String model,
 
+    /// Unix timestamp when the response was created.
+    @JsonKey(includeIfNull: false) int? created,
+
     /// The usage statistics for this embedding.
     required EmbeddingUsage usage,
   }) = _EmbeddingResponse;
@@ -41,6 +44,7 @@ abstract class EmbeddingResponse with _$EmbeddingResponse {
     'object',
     'data',
     'model',
+    'created',
     'usage',
   ];
 
@@ -56,6 +60,7 @@ abstract class EmbeddingResponse with _$EmbeddingResponse {
       'object': object,
       'data': data,
       'model': model,
+      'created': created,
       'usage': usage,
     };
   }
@@ -75,8 +80,15 @@ abstract class EmbeddingUsage with _$EmbeddingUsage {
     /// The number of tokens in the prompt.
     @JsonKey(name: 'prompt_tokens') required int promptTokens,
 
-    /// The total number of tokens generated.
+    /// The number of completion tokens (typically 0 for embeddings).
+    @JsonKey(name: 'completion_tokens') required int completionTokens,
+
+    /// The total number of tokens.
     @JsonKey(name: 'total_tokens') required int totalTokens,
+
+    /// Duration of audio input in seconds (if applicable).
+    @JsonKey(name: 'prompt_audio_seconds', includeIfNull: false)
+    int? promptAudioSeconds,
   }) = _EmbeddingUsage;
 
   /// Object construction from a JSON representation
@@ -84,7 +96,12 @@ abstract class EmbeddingUsage with _$EmbeddingUsage {
       _$EmbeddingUsageFromJson(json);
 
   /// List of all property names of schema
-  static const List<String> propertyNames = ['prompt_tokens', 'total_tokens'];
+  static const List<String> propertyNames = [
+    'prompt_tokens',
+    'completion_tokens',
+    'total_tokens',
+    'prompt_audio_seconds',
+  ];
 
   /// Perform validations on the schema property values
   String? validateSchema() {
@@ -93,6 +110,11 @@ abstract class EmbeddingUsage with _$EmbeddingUsage {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {'prompt_tokens': promptTokens, 'total_tokens': totalTokens};
+    return {
+      'prompt_tokens': promptTokens,
+      'completion_tokens': completionTokens,
+      'total_tokens': totalTokens,
+      'prompt_audio_seconds': promptAudioSeconds,
+    };
   }
 }
