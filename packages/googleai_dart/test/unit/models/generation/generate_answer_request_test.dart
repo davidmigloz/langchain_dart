@@ -217,7 +217,7 @@ void main() {
       expect(restored.answerStyle, original.answerStyle);
       expect(restored.inlinePassages, isNotNull);
       expect(restored.safetySettings, hasLength(1));
-      expect(restored.temperature, 0.3);
+      expect(restored.temperature, closeTo(0.3, 0.001));
     });
   });
 }

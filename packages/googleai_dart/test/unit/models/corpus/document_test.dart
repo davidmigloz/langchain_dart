@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_dynamic_calls
+
 import 'package:googleai_dart/src/models/corpus/document.dart';
 import 'package:test/test.dart';
 
