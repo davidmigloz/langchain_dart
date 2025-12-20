@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:http/http.dart' as http;
+import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/llms.dart';
 import 'package:langchain_core/prompts.dart';
 import 'package:langchain_core/utils.dart';
@@ -360,6 +361,42 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
             options?.model ?? defaultOptions.model ?? defaultModel,
           );
     return encoding.encode(promptValue.toString());
+  }
+
+  /// {@template openai_llm_list_models}
+  /// Returns a list of available completion models from the OpenAI API.
+  ///
+  /// This method filters models to return only those suitable for the
+  /// completions API (legacy models like gpt-3.5-turbo-instruct, davinci, etc.).
+  ///
+  /// Example:
+  /// ```dart
+  /// final llm = OpenAI(apiKey: '...');
+  /// final models = await llm.listModels();
+  /// for (final model in models) {
+  ///   print('${model.id} - owned by ${model.ownedBy ?? "unknown"}');
+  /// }
+  /// ```
+  /// {@endtemplate}
+  @override
+  Future<List<ModelInfo>> listModels() async {
+    final response = await _client.listModels();
+    return response.data
+        .where(_isCompletionModel)
+        .map(
+          (final m) =>
+              ModelInfo(id: m.id, ownedBy: m.ownedBy, created: m.created),
+        )
+        .toList();
+  }
+
+  /// Returns true if the model is a completion-capable model.
+  static bool _isCompletionModel(final Model model) {
+    final id = model.id.toLowerCase();
+    return id.startsWith('gpt-3.5-turbo-instruct') ||
+        id.startsWith('davinci') ||
+        id.startsWith('babbage') ||
+        id.startsWith('curie');
   }
 
   @override

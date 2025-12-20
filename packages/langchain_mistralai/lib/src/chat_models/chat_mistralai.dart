@@ -1,5 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'package:langchain_core/chat_models.dart';
+import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/prompts.dart';
 import 'package:langchain_tiktoken/langchain_tiktoken.dart';
 import 'package:mistralai_dart/mistralai_dart.dart';
@@ -252,5 +253,31 @@ class ChatMistralAI extends BaseChatModel<ChatMistralAIOptions> {
   @override
   void close() {
     _client.endSession();
+  }
+
+  /// {@template chat_mistralai_list_models}
+  /// Returns a list of available chat models from Mistral AI.
+  ///
+  /// This method fetches all models from the Mistral AI API.
+  /// Mistral AI models are primarily chat models.
+  ///
+  /// Example:
+  /// ```dart
+  /// final chatModel = ChatMistralAI(apiKey: '...');
+  /// final models = await chatModel.listModels();
+  /// for (final model in models) {
+  ///   print('${model.id} - owned by ${model.ownedBy ?? "unknown"}');
+  /// }
+  /// ```
+  /// {@endtemplate}
+  @override
+  Future<List<ModelInfo>> listModels() async {
+    final response = await _client.listModels();
+    return response.data
+        .map(
+          (final m) =>
+              ModelInfo(id: m.id, ownedBy: m.ownedBy, created: m.created),
+        )
+        .toList();
   }
 }

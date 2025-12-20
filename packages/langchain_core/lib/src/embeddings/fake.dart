@@ -13,7 +13,7 @@ import 'base.dart';
 /// have the same embedding vector). You can change this behavior by setting
 /// [deterministic] to false.
 /// {@endtemplate}
-class FakeEmbeddings implements Embeddings {
+class FakeEmbeddings extends Embeddings {
   /// {@macro fake_embeddings}
   FakeEmbeddings({this.size = 10, this.deterministic = true});
 

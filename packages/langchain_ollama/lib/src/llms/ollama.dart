@@ -1,8 +1,9 @@
 import 'package:http/http.dart' as http;
+import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/llms.dart';
 import 'package:langchain_core/prompts.dart';
 import 'package:langchain_tiktoken/langchain_tiktoken.dart';
-import 'package:ollama_dart/ollama_dart.dart';
+import 'package:ollama_dart/ollama_dart.dart' hide ModelInfo;
 import 'package:uuid/uuid.dart';
 
 import 'mappers.dart';
@@ -280,6 +281,27 @@ class Ollama extends BaseLLM<OllamaOptions> {
   }) async {
     final encoding = getEncoding(this.encoding);
     return encoding.encode(promptValue.toString());
+  }
+
+  /// {@template ollama_llm_list_models}
+  /// Returns a list of available models from the local Ollama server.
+  ///
+  /// Example:
+  /// ```dart
+  /// final llm = Ollama();
+  /// final models = await llm.listModels();
+  /// for (final model in models) {
+  ///   print('${model.id}');
+  /// }
+  /// ```
+  /// {@endtemplate}
+  @override
+  Future<List<ModelInfo>> listModels() async {
+    final response = await _client.listModels();
+    return (response.models ?? [])
+        .where((final m) => m.model != null)
+        .map((final m) => ModelInfo(id: m.model!, ownedBy: m.details?.family))
+        .toList();
   }
 
   @override

@@ -211,3 +211,104 @@ enum FinishReason {
   /// The finish reason is unspecified.
   unspecified,
 }
+
+/// {@template model_info}
+/// Information about an available model from a provider.
+///
+/// This class provides a standardized way to represent model metadata
+/// across different providers. Not all providers supply all fields.
+///
+/// Example:
+/// ```dart
+/// final chatModel = ChatOpenAI(apiKey: '...');
+/// final models = await chatModel.listModels();
+/// for (final model in models) {
+///   print('${model.id} - ${model.displayName ?? ""}');
+/// }
+/// ```
+/// {@endtemplate}
+@immutable
+class ModelInfo {
+  /// {@macro model_info}
+  const ModelInfo({
+    required this.id,
+    this.displayName,
+    this.description,
+    this.ownedBy,
+    this.created,
+    this.inputTokenLimit,
+    this.outputTokenLimit,
+  });
+
+  /// The model identifier (e.g., "gpt-4", "llama3.2", "claude-3-sonnet").
+  ///
+  /// This is the value you would pass to the model's `options` when invoking.
+  final String id;
+
+  /// Human-readable display name for the model.
+  ///
+  /// Not all providers supply this field.
+  final String? displayName;
+
+  /// Description of the model's capabilities or purpose.
+  ///
+  /// Not all providers supply this field.
+  final String? description;
+
+  /// The organization or owner of the model.
+  ///
+  /// For example: "openai", "system", "user".
+  final String? ownedBy;
+
+  /// Unix timestamp (in seconds) when the model was created.
+  ///
+  /// Not all providers supply this field.
+  final int? created;
+
+  /// Maximum number of input tokens the model can process.
+  ///
+  /// Not all providers supply this field.
+  final int? inputTokenLimit;
+
+  /// Maximum number of output tokens the model can generate.
+  ///
+  /// Not all providers supply this field.
+  final int? outputTokenLimit;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ModelInfo &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          displayName == other.displayName &&
+          description == other.description &&
+          ownedBy == other.ownedBy &&
+          created == other.created &&
+          inputTokenLimit == other.inputTokenLimit &&
+          outputTokenLimit == other.outputTokenLimit;
+
+  @override
+  int get hashCode =>
+      id.hashCode ^
+      displayName.hashCode ^
+      description.hashCode ^
+      ownedBy.hashCode ^
+      created.hashCode ^
+      inputTokenLimit.hashCode ^
+      outputTokenLimit.hashCode;
+
+  @override
+  String toString() {
+    return '''
+ModelInfo{
+  id: $id,
+  displayName: $displayName,
+  description: $description,
+  ownedBy: $ownedBy,
+  created: $created,
+  inputTokenLimit: $inputTokenLimit,
+  outputTokenLimit: $outputTokenLimit,
+}''';
+  }
+}

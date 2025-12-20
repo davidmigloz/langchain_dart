@@ -1,6 +1,7 @@
 import 'package:googleai_dart/googleai_dart.dart' as g;
 import 'package:langchain_core/documents.dart';
 import 'package:langchain_core/embeddings.dart';
+import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/utils.dart';
 
 import '../../utils/auth/http_client_auth_provider.dart';
@@ -125,7 +126,7 @@ import '../../utils/auth/http_client_auth_provider.dart';
 /// ]);
 /// ```
 /// {@endtemplate}
-class VertexAIEmbeddings implements Embeddings {
+class VertexAIEmbeddings extends Embeddings {
   /// {@macro vertex_ai_embeddings}
   VertexAIEmbeddings({
     required final HttpClientAuthProvider authProvider,
@@ -242,6 +243,66 @@ class VertexAIEmbeddings implements Embeddings {
       ),
     );
     return response.embedding.values;
+  }
+
+  /// {@template vertex_ai_embeddings_list_models}
+  /// Returns a list of available embedding models from Vertex AI.
+  ///
+  /// This method filters models to return only those that support embeddings
+  /// (embedContent method).
+  ///
+  /// Example:
+  /// ```dart
+  /// final embeddings = VertexAIEmbeddings(
+  ///   authProvider: authProvider,
+  ///   project: 'your-project-id',
+  /// );
+  /// final models = await embeddings.listModels();
+  /// for (final model in models) {
+  ///   print('${model.id} - ${model.displayName}');
+  ///   print('  Input limit: ${model.inputTokenLimit}');
+  /// }
+  /// ```
+  /// {@endtemplate}
+  @override
+  Future<List<ModelInfo>> listModels() async {
+    final models = <g.Model>[];
+    String? pageToken;
+
+    // Paginate through all models
+    do {
+      final response = await _client.models.list(pageToken: pageToken);
+      models.addAll(response.models);
+      pageToken = response.nextPageToken;
+    } while (pageToken != null);
+
+    // Filter to only embedding-capable models (those supporting embedContent)
+    return models
+        .where(_isEmbeddingModel)
+        .map(
+          (final m) => ModelInfo(
+            id: _extractModelId(m.name),
+            displayName: m.displayName,
+            description: m.description,
+            inputTokenLimit: m.inputTokenLimit,
+            outputTokenLimit: m.outputTokenLimit,
+          ),
+        )
+        .toList();
+  }
+
+  /// Returns true if the model supports embeddings (embedContent).
+  static bool _isEmbeddingModel(final g.Model model) {
+    return model.supportedGenerationMethods?.contains('embedContent') ?? false;
+  }
+
+  /// Extracts the model ID from the full model name.
+  static String _extractModelId(final String name) {
+    const prefix = 'models/';
+    if (name.startsWith(prefix)) {
+      return name.substring(prefix.length);
+    }
+    return name;
   }
 
   /// Closes the client and cleans up any resources associated with it.

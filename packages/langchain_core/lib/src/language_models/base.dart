@@ -55,4 +55,27 @@ abstract class BaseLanguageModel<
 
   @override
   String toString() => modelType;
+
+  /// Returns a list of available models from this provider.
+  ///
+  /// This method allows you to programmatically discover which models
+  /// are available from the provider. The returned list contains
+  /// [ModelInfo] objects with metadata about each model.
+  ///
+  /// By default, this returns an empty list. Providers that support
+  /// model listing will override this method to return the actual
+  /// available models.
+  ///
+  /// Example:
+  /// ```dart
+  /// final chatModel = ChatOpenAI(apiKey: '...');
+  /// final models = await chatModel.listModels();
+  /// for (final model in models) {
+  ///   print('${model.id} - ${model.displayName ?? ""}');
+  /// }
+  /// ```
+  ///
+  /// Note: Not all providers support model listing. For providers that
+  /// don't support this feature, this method returns an empty list.
+  Future<List<ModelInfo>> listModels() async => [];
 }
