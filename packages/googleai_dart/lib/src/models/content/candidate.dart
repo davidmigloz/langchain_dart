@@ -1,5 +1,6 @@
 import '../copy_with_sentinel.dart';
 import '../metadata/finish_reason.dart';
+import '../metadata/grounding_metadata.dart';
 import '../safety/safety_rating.dart';
 import 'citation_metadata.dart';
 import 'content.dart';
@@ -12,6 +13,9 @@ class Candidate {
 
   /// Why generation stopped.
   final FinishReason? finishReason;
+
+  /// Human-readable message describing the finish reason.
+  final String? finishMessage;
 
   /// Safety assessment.
   final List<SafetyRating>? safetyRatings;
@@ -31,16 +35,21 @@ class Candidate {
   /// Token-level logprobs.
   final LogprobsResult? logprobsResult;
 
+  /// Grounding metadata for this candidate.
+  final GroundingMetadata? groundingMetadata;
+
   /// Creates a [Candidate].
   const Candidate({
     this.content,
     this.finishReason,
+    this.finishMessage,
     this.safetyRatings,
     this.citationMetadata,
     this.tokenCount,
     this.index,
     this.avgLogprobs,
     this.logprobsResult,
+    this.groundingMetadata,
   });
 
   /// Creates a [Candidate] from JSON.
@@ -51,6 +60,7 @@ class Candidate {
     finishReason: json['finishReason'] != null
         ? finishReasonFromString(json['finishReason'] as String?)
         : null,
+    finishMessage: json['finishMessage'] as String?,
     safetyRatings: json['safetyRatings'] != null
         ? (json['safetyRatings'] as List)
               .map((e) => SafetyRating.fromJson(e as Map<String, dynamic>))
@@ -69,6 +79,11 @@ class Candidate {
             json['logprobsResult'] as Map<String, dynamic>,
           )
         : null,
+    groundingMetadata: json['groundingMetadata'] != null
+        ? GroundingMetadata.fromJson(
+            json['groundingMetadata'] as Map<String, dynamic>,
+          )
+        : null,
   );
 
   /// Converts to JSON.
@@ -76,6 +91,7 @@ class Candidate {
     if (content != null) 'content': content!.toJson(),
     if (finishReason != null)
       'finishReason': finishReasonToString(finishReason!),
+    if (finishMessage != null) 'finishMessage': finishMessage,
     if (safetyRatings != null)
       'safetyRatings': safetyRatings!.map((e) => e.toJson()).toList(),
     if (citationMetadata != null)
@@ -84,18 +100,22 @@ class Candidate {
     if (index != null) 'index': index,
     if (avgLogprobs != null) 'avgLogprobs': avgLogprobs,
     if (logprobsResult != null) 'logprobsResult': logprobsResult!.toJson(),
+    if (groundingMetadata != null)
+      'groundingMetadata': groundingMetadata!.toJson(),
   };
 
   /// Creates a copy with replaced values.
   Candidate copyWith({
     Object? content = unsetCopyWithValue,
     Object? finishReason = unsetCopyWithValue,
+    Object? finishMessage = unsetCopyWithValue,
     Object? safetyRatings = unsetCopyWithValue,
     Object? citationMetadata = unsetCopyWithValue,
     Object? tokenCount = unsetCopyWithValue,
     Object? index = unsetCopyWithValue,
     Object? avgLogprobs = unsetCopyWithValue,
     Object? logprobsResult = unsetCopyWithValue,
+    Object? groundingMetadata = unsetCopyWithValue,
   }) {
     return Candidate(
       content: content == unsetCopyWithValue
@@ -104,6 +124,9 @@ class Candidate {
       finishReason: finishReason == unsetCopyWithValue
           ? this.finishReason
           : finishReason as FinishReason?,
+      finishMessage: finishMessage == unsetCopyWithValue
+          ? this.finishMessage
+          : finishMessage as String?,
       safetyRatings: safetyRatings == unsetCopyWithValue
           ? this.safetyRatings
           : safetyRatings as List<SafetyRating>?,
@@ -120,6 +143,9 @@ class Candidate {
       logprobsResult: logprobsResult == unsetCopyWithValue
           ? this.logprobsResult
           : logprobsResult as LogprobsResult?,
+      groundingMetadata: groundingMetadata == unsetCopyWithValue
+          ? this.groundingMetadata
+          : groundingMetadata as GroundingMetadata?,
     );
   }
 }
