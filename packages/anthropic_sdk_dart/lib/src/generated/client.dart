@@ -513,6 +513,36 @@ class AnthropicClient {
   }
 
   // ------------------------------------------
+  // METHOD: deleteMessageBatch
+  // ------------------------------------------
+
+  /// Delete a Message Batch
+  ///
+  /// Delete a Message Batch.
+  ///
+  /// Message Batches can be deleted at any time. Once a batch is deleted, it is no
+  /// longer available and all associated results will be removed.
+  ///
+  /// `id`: The ID of the message batch to delete.
+  ///
+  /// `DELETE` `https://api.anthropic.com/v1/messages/batches/{id}`
+  Future<DeleteMessageBatchResponse> deleteMessageBatch({
+    required String id,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.anthropic.com/v1',
+      path: '/messages/batches/$id',
+      method: HttpMethod.delete,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+
+      headerParams: {if (apiKey.isNotEmpty) 'x-api-key': apiKey},
+    );
+    return DeleteMessageBatchResponse.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
   // METHOD: cancelMessageBatch
   // ------------------------------------------
 
