@@ -10714,11 +10714,11 @@ Tool _$ToolFromJson(
           return ToolComputerUse.fromJson(
             json
           );
-                case 'text_editor_20241022':
+                case 'text_editor_20250728':
           return ToolTextEditor.fromJson(
             json
           );
-                case 'bash_20241022':
+                case 'bash_20250124':
           return ToolBash.fromJson(
             json
           );
@@ -11170,7 +11170,7 @@ $CacheControlEphemeralCopyWith<$Res>? get cacheControl {
 @JsonSerializable()
 
 class ToolTextEditor extends Tool {
-  const ToolTextEditor({this.type = 'text_editor_20241022', this.name = 'str_replace_editor', @JsonKey(name: 'cache_control', includeIfNull: false) this.cacheControl}): super._();
+  const ToolTextEditor({this.type = 'text_editor_20250728', this.name = 'str_replace_editor', @JsonKey(name: 'cache_control', includeIfNull: false) this.cacheControl}): super._();
   factory ToolTextEditor.fromJson(Map<String, dynamic> json) => _$ToolTextEditorFromJson(json);
 
 /// The type of tool.
@@ -11258,7 +11258,7 @@ $CacheControlEphemeralCopyWith<$Res>? get cacheControl {
 @JsonSerializable()
 
 class ToolBash extends Tool {
-  const ToolBash({this.type = 'bash_20241022', this.name = 'bash', @JsonKey(name: 'cache_control', includeIfNull: false) this.cacheControl}): super._();
+  const ToolBash({this.type = 'bash_20250124', this.name = 'bash', @JsonKey(name: 'cache_control', includeIfNull: false) this.cacheControl}): super._();
   factory ToolBash.fromJson(Map<String, dynamic> json) => _$ToolBashFromJson(json);
 
 /// The type of tool.
