@@ -17,6 +17,8 @@ class ChatMistralAIOptions extends ChatModelOptions {
     this.maxTokens,
     this.safePrompt,
     this.randomSeed,
+    super.tools,
+    super.toolChoice,
     super.concurrencyLimit,
   });
 
@@ -66,6 +68,8 @@ class ChatMistralAIOptions extends ChatModelOptions {
       maxTokens: maxTokens ?? this.maxTokens,
       safePrompt: safePrompt ?? this.safePrompt,
       randomSeed: randomSeed ?? this.randomSeed,
+      tools: tools ?? this.tools,
+      toolChoice: toolChoice ?? this.toolChoice,
       concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
     );
   }
@@ -79,6 +83,8 @@ class ChatMistralAIOptions extends ChatModelOptions {
       maxTokens: other?.maxTokens,
       safePrompt: other?.safePrompt,
       randomSeed: other?.randomSeed,
+      tools: other?.tools,
+      toolChoice: other?.toolChoice,
       concurrencyLimit: other?.concurrencyLimit,
     );
   }
@@ -91,6 +97,8 @@ class ChatMistralAIOptions extends ChatModelOptions {
         maxTokens == other.maxTokens &&
         safePrompt == other.safePrompt &&
         randomSeed == other.randomSeed &&
+        tools == other.tools &&
+        toolChoice == other.toolChoice &&
         concurrencyLimit == other.concurrencyLimit;
   }
 
@@ -102,6 +110,8 @@ class ChatMistralAIOptions extends ChatModelOptions {
         maxTokens.hashCode ^
         safePrompt.hashCode ^
         randomSeed.hashCode ^
+        tools.hashCode ^
+        toolChoice.hashCode ^
         concurrencyLimit.hashCode;
   }
 }
