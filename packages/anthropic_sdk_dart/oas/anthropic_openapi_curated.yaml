@@ -172,6 +172,32 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/DeleteMessageBatchResponse"
+  /messages/batches/{id}/results:
+    get:
+      operationId: getMessageBatchResults
+      tags:
+        - Messages
+      summary: Get Message Batch Results
+      description: |
+        Streams the results of a Message Batch as a `.jsonl` file.
+
+        Each line in the file is a JSON object containing the result of a single
+        request in the Message Batch. Results are not guaranteed to be in the same
+        order as requests. Use the `custom_id` field to match results to requests.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the message batch to retrieve results for.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/x-jsonl:
+              schema:
+                $ref: "#/components/schemas/MessageBatchIndividualResponse"
   /messages/batches/{id}/cancel:
     post:
       operationId: cancelMessageBatch
@@ -1122,6 +1148,83 @@ components:
           description: Deleted object type. Always `"message_batch_deleted"`.
       required:
         - id
+        - type
+    MessageBatchIndividualResponse:
+      type: object
+      description: An individual result from a Message Batch.
+      properties:
+        custom_id:
+          type: string
+          description: |
+            Developer-provided ID created for each request in a Message Batch.
+            Useful for matching results to requests.
+        result:
+          $ref: "#/components/schemas/MessageBatchResult"
+      required:
+        - custom_id
+        - result
+    MessageBatchResult:
+      type: object
+      description: |
+        The result of processing a request in a Message Batch.
+        Can be succeeded, errored, canceled, or expired.
+      oneOf:
+        - $ref: "#/components/schemas/MessageBatchSucceededResult"
+        - $ref: "#/components/schemas/MessageBatchErroredResult"
+        - $ref: "#/components/schemas/MessageBatchCanceledResult"
+        - $ref: "#/components/schemas/MessageBatchExpiredResult"
+      discriminator:
+        propertyName: type
+        mapping:
+          succeeded: "#/components/schemas/MessageBatchSucceededResult"
+          errored: "#/components/schemas/MessageBatchErroredResult"
+          canceled: "#/components/schemas/MessageBatchCanceledResult"
+          expired: "#/components/schemas/MessageBatchExpiredResult"
+    MessageBatchSucceededResult:
+      type: object
+      description: Result of a successfully completed request.
+      properties:
+        type:
+          type: string
+          description: The result type.
+          default: succeeded
+        message:
+          $ref: "#/components/schemas/Message"
+      required:
+        - type
+        - message
+    MessageBatchErroredResult:
+      type: object
+      description: Result of a request that encountered an error.
+      properties:
+        type:
+          type: string
+          description: The result type.
+          default: errored
+        error:
+          $ref: "#/components/schemas/Error"
+      required:
+        - type
+        - error
+    MessageBatchCanceledResult:
+      type: object
+      description: Result of a request that was canceled.
+      properties:
+        type:
+          type: string
+          description: The result type.
+          default: canceled
+      required:
+        - type
+    MessageBatchExpiredResult:
+      type: object
+      description: Result of a request that expired.
+      properties:
+        type:
+          type: string
+          description: The result type.
+          default: expired
+      required:
         - type
     ListMessageBatchesResponse:
       type: object

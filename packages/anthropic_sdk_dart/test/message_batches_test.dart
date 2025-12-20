@@ -240,4 +240,112 @@ void main() {
       );
     });
   });
+
+  group('MessageBatchIndividualResponse tests', () {
+    test('deserializes succeeded result', () {
+      final json = {
+        'custom_id': 'request_001',
+        'result': {
+          'type': 'succeeded',
+          'message': {
+            'id': 'msg_123',
+            'type': 'message',
+            'role': 'assistant',
+            'model': 'claude-3-5-sonnet-20241022',
+            'content': [
+              {'type': 'text', 'text': 'Hello!'},
+            ],
+            'stop_reason': 'end_turn',
+            'usage': {'input_tokens': 10, 'output_tokens': 5},
+          },
+        },
+      };
+      final response = MessageBatchIndividualResponse.fromJson(json);
+      expect(response.customId, 'request_001');
+      expect(response.result, isA<MessageBatchSucceededResult>());
+      final succeeded = response.result as MessageBatchSucceededResult;
+      expect(succeeded.message.id, 'msg_123');
+      expect(succeeded.message.role, MessageRole.assistant);
+    });
+
+    test('deserializes errored result', () {
+      final json = {
+        'custom_id': 'request_002',
+        'result': {
+          'type': 'errored',
+          'error': {
+            'type': 'invalid_request_error',
+            'message': 'Invalid input',
+          },
+        },
+      };
+      final response = MessageBatchIndividualResponse.fromJson(json);
+      expect(response.customId, 'request_002');
+      expect(response.result, isA<MessageBatchErroredResult>());
+      final errored = response.result as MessageBatchErroredResult;
+      expect(errored.error.message, 'Invalid input');
+    });
+
+    test('deserializes canceled result', () {
+      final json = {
+        'custom_id': 'request_003',
+        'result': {'type': 'canceled'},
+      };
+      final response = MessageBatchIndividualResponse.fromJson(json);
+      expect(response.customId, 'request_003');
+      expect(response.result, isA<MessageBatchCanceledResult>());
+    });
+
+    test('deserializes expired result', () {
+      final json = {
+        'custom_id': 'request_004',
+        'result': {'type': 'expired'},
+      };
+      final response = MessageBatchIndividualResponse.fromJson(json);
+      expect(response.customId, 'request_004');
+      expect(response.result, isA<MessageBatchExpiredResult>());
+    });
+  });
+
+  group('MessageBatchResult union tests', () {
+    test('succeeded result has correct type', () {
+      final json = {
+        'type': 'succeeded',
+        'message': {
+          'id': 'msg_123',
+          'type': 'message',
+          'role': 'assistant',
+          'model': 'claude-3-5-sonnet-20241022',
+          'content': [
+            {'type': 'text', 'text': 'Hello!'},
+          ],
+          'stop_reason': 'end_turn',
+          'usage': {'input_tokens': 10, 'output_tokens': 5},
+        },
+      };
+      final result = MessageBatchResult.fromJson(json);
+      expect(result, isA<MessageBatchSucceededResult>());
+    });
+
+    test('errored result has correct type', () {
+      final json = {
+        'type': 'errored',
+        'error': {'type': 'invalid_request_error', 'message': 'Invalid input'},
+      };
+      final result = MessageBatchResult.fromJson(json);
+      expect(result, isA<MessageBatchErroredResult>());
+    });
+
+    test('canceled result has correct type', () {
+      final json = {'type': 'canceled'};
+      final result = MessageBatchResult.fromJson(json);
+      expect(result, isA<MessageBatchCanceledResult>());
+    });
+
+    test('expired result has correct type', () {
+      final json = {'type': 'expired'};
+      final result = MessageBatchResult.fromJson(json);
+      expect(result, isA<MessageBatchExpiredResult>());
+    });
+  });
 }
