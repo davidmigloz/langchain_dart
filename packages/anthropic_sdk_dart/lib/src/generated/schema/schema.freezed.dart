@@ -6407,6 +6407,300 @@ as DeleteMessageBatchResponseType,
 
 
 /// @nodoc
+mixin _$MessageBatchIndividualResponse {
+
+/// Developer-provided ID created for each request in a Message Batch.
+/// Useful for matching results to requests.
+@JsonKey(name: 'custom_id') String get customId;/// The result of processing a request in a Message Batch.
+/// Can be succeeded, errored, canceled, or expired.
+/// Any of: [MessageBatchSucceededResult], [MessageBatchErroredResult], [MessageBatchCanceledResult], [MessageBatchExpiredResult]
+ MessageBatchResult get result;
+/// Create a copy of MessageBatchIndividualResponse
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$MessageBatchIndividualResponseCopyWith<MessageBatchIndividualResponse> get copyWith => _$MessageBatchIndividualResponseCopyWithImpl<MessageBatchIndividualResponse>(this as MessageBatchIndividualResponse, _$identity);
+
+  /// Serializes this MessageBatchIndividualResponse to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MessageBatchIndividualResponse&&(identical(other.customId, customId) || other.customId == customId)&&(identical(other.result, result) || other.result == result));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,customId,result);
+
+@override
+String toString() {
+  return 'MessageBatchIndividualResponse(customId: $customId, result: $result)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $MessageBatchIndividualResponseCopyWith<$Res>  {
+  factory $MessageBatchIndividualResponseCopyWith(MessageBatchIndividualResponse value, $Res Function(MessageBatchIndividualResponse) _then) = _$MessageBatchIndividualResponseCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(name: 'custom_id') String customId, MessageBatchResult result
+});
+
+
+$MessageBatchResultCopyWith<$Res> get result;
+
+}
+/// @nodoc
+class _$MessageBatchIndividualResponseCopyWithImpl<$Res>
+    implements $MessageBatchIndividualResponseCopyWith<$Res> {
+  _$MessageBatchIndividualResponseCopyWithImpl(this._self, this._then);
+
+  final MessageBatchIndividualResponse _self;
+  final $Res Function(MessageBatchIndividualResponse) _then;
+
+/// Create a copy of MessageBatchIndividualResponse
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? customId = null,Object? result = null,}) {
+  return _then(_self.copyWith(
+customId: null == customId ? _self.customId : customId // ignore: cast_nullable_to_non_nullable
+as String,result: null == result ? _self.result : result // ignore: cast_nullable_to_non_nullable
+as MessageBatchResult,
+  ));
+}
+/// Create a copy of MessageBatchIndividualResponse
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$MessageBatchResultCopyWith<$Res> get result {
+  
+  return $MessageBatchResultCopyWith<$Res>(_self.result, (value) {
+    return _then(_self.copyWith(result: value));
+  });
+}
+}
+
+
+/// Adds pattern-matching-related methods to [MessageBatchIndividualResponse].
+extension MessageBatchIndividualResponsePatterns on MessageBatchIndividualResponse {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _MessageBatchIndividualResponse value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _MessageBatchIndividualResponse() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _MessageBatchIndividualResponse value)  $default,){
+final _that = this;
+switch (_that) {
+case _MessageBatchIndividualResponse():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _MessageBatchIndividualResponse value)?  $default,){
+final _that = this;
+switch (_that) {
+case _MessageBatchIndividualResponse() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'custom_id')  String customId,  MessageBatchResult result)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _MessageBatchIndividualResponse() when $default != null:
+return $default(_that.customId,_that.result);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'custom_id')  String customId,  MessageBatchResult result)  $default,) {final _that = this;
+switch (_that) {
+case _MessageBatchIndividualResponse():
+return $default(_that.customId,_that.result);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'custom_id')  String customId,  MessageBatchResult result)?  $default,) {final _that = this;
+switch (_that) {
+case _MessageBatchIndividualResponse() when $default != null:
+return $default(_that.customId,_that.result);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _MessageBatchIndividualResponse extends MessageBatchIndividualResponse {
+  const _MessageBatchIndividualResponse({@JsonKey(name: 'custom_id') required this.customId, required this.result}): super._();
+  factory _MessageBatchIndividualResponse.fromJson(Map<String, dynamic> json) => _$MessageBatchIndividualResponseFromJson(json);
+
+/// Developer-provided ID created for each request in a Message Batch.
+/// Useful for matching results to requests.
+@override@JsonKey(name: 'custom_id') final  String customId;
+/// The result of processing a request in a Message Batch.
+/// Can be succeeded, errored, canceled, or expired.
+/// Any of: [MessageBatchSucceededResult], [MessageBatchErroredResult], [MessageBatchCanceledResult], [MessageBatchExpiredResult]
+@override final  MessageBatchResult result;
+
+/// Create a copy of MessageBatchIndividualResponse
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$MessageBatchIndividualResponseCopyWith<_MessageBatchIndividualResponse> get copyWith => __$MessageBatchIndividualResponseCopyWithImpl<_MessageBatchIndividualResponse>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$MessageBatchIndividualResponseToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MessageBatchIndividualResponse&&(identical(other.customId, customId) || other.customId == customId)&&(identical(other.result, result) || other.result == result));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,customId,result);
+
+@override
+String toString() {
+  return 'MessageBatchIndividualResponse(customId: $customId, result: $result)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$MessageBatchIndividualResponseCopyWith<$Res> implements $MessageBatchIndividualResponseCopyWith<$Res> {
+  factory _$MessageBatchIndividualResponseCopyWith(_MessageBatchIndividualResponse value, $Res Function(_MessageBatchIndividualResponse) _then) = __$MessageBatchIndividualResponseCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(name: 'custom_id') String customId, MessageBatchResult result
+});
+
+
+@override $MessageBatchResultCopyWith<$Res> get result;
+
+}
+/// @nodoc
+class __$MessageBatchIndividualResponseCopyWithImpl<$Res>
+    implements _$MessageBatchIndividualResponseCopyWith<$Res> {
+  __$MessageBatchIndividualResponseCopyWithImpl(this._self, this._then);
+
+  final _MessageBatchIndividualResponse _self;
+  final $Res Function(_MessageBatchIndividualResponse) _then;
+
+/// Create a copy of MessageBatchIndividualResponse
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? customId = null,Object? result = null,}) {
+  return _then(_MessageBatchIndividualResponse(
+customId: null == customId ? _self.customId : customId // ignore: cast_nullable_to_non_nullable
+as String,result: null == result ? _self.result : result // ignore: cast_nullable_to_non_nullable
+as MessageBatchResult,
+  ));
+}
+
+/// Create a copy of MessageBatchIndividualResponse
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$MessageBatchResultCopyWith<$Res> get result {
+  
+  return $MessageBatchResultCopyWith<$Res>(_self.result, (value) {
+    return _then(_self.copyWith(result: value));
+  });
+}
+}
+
+
+/// @nodoc
 mixin _$ListMessageBatchesResponse {
 
 /// List of MessageBatch objects.
@@ -9827,6 +10121,548 @@ class _$ToolResultBlockContentTextCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
   return _then(ToolResultBlockContentText(
 null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+MessageBatchResult _$MessageBatchResultFromJson(
+  Map<String, dynamic> json
+) {
+        switch (json['type']) {
+                  case 'succeeded':
+          return MessageBatchSucceededResult.fromJson(
+            json
+          );
+                case 'errored':
+          return MessageBatchErroredResult.fromJson(
+            json
+          );
+                case 'canceled':
+          return MessageBatchCanceledResult.fromJson(
+            json
+          );
+                case 'expired':
+          return MessageBatchExpiredResult.fromJson(
+            json
+          );
+        
+          default:
+            throw CheckedFromJsonException(
+  json,
+  'type',
+  'MessageBatchResult',
+  'Invalid union type "${json['type']}"!'
+);
+        }
+      
+}
+
+/// @nodoc
+mixin _$MessageBatchResult {
+
+/// The result type.
+ String get type;
+/// Create a copy of MessageBatchResult
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$MessageBatchResultCopyWith<MessageBatchResult> get copyWith => _$MessageBatchResultCopyWithImpl<MessageBatchResult>(this as MessageBatchResult, _$identity);
+
+  /// Serializes this MessageBatchResult to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MessageBatchResult&&(identical(other.type, type) || other.type == type));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,type);
+
+@override
+String toString() {
+  return 'MessageBatchResult(type: $type)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $MessageBatchResultCopyWith<$Res>  {
+  factory $MessageBatchResultCopyWith(MessageBatchResult value, $Res Function(MessageBatchResult) _then) = _$MessageBatchResultCopyWithImpl;
+@useResult
+$Res call({
+ String type
+});
+
+
+
+
+}
+/// @nodoc
+class _$MessageBatchResultCopyWithImpl<$Res>
+    implements $MessageBatchResultCopyWith<$Res> {
+  _$MessageBatchResultCopyWithImpl(this._self, this._then);
+
+  final MessageBatchResult _self;
+  final $Res Function(MessageBatchResult) _then;
+
+/// Create a copy of MessageBatchResult
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? type = null,}) {
+  return _then(_self.copyWith(
+type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [MessageBatchResult].
+extension MessageBatchResultPatterns on MessageBatchResult {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( MessageBatchSucceededResult value)?  messageBatchSucceededResult,TResult Function( MessageBatchErroredResult value)?  messageBatchErroredResult,TResult Function( MessageBatchCanceledResult value)?  messageBatchCanceledResult,TResult Function( MessageBatchExpiredResult value)?  messageBatchExpiredResult,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case MessageBatchSucceededResult() when messageBatchSucceededResult != null:
+return messageBatchSucceededResult(_that);case MessageBatchErroredResult() when messageBatchErroredResult != null:
+return messageBatchErroredResult(_that);case MessageBatchCanceledResult() when messageBatchCanceledResult != null:
+return messageBatchCanceledResult(_that);case MessageBatchExpiredResult() when messageBatchExpiredResult != null:
+return messageBatchExpiredResult(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( MessageBatchSucceededResult value)  messageBatchSucceededResult,required TResult Function( MessageBatchErroredResult value)  messageBatchErroredResult,required TResult Function( MessageBatchCanceledResult value)  messageBatchCanceledResult,required TResult Function( MessageBatchExpiredResult value)  messageBatchExpiredResult,}){
+final _that = this;
+switch (_that) {
+case MessageBatchSucceededResult():
+return messageBatchSucceededResult(_that);case MessageBatchErroredResult():
+return messageBatchErroredResult(_that);case MessageBatchCanceledResult():
+return messageBatchCanceledResult(_that);case MessageBatchExpiredResult():
+return messageBatchExpiredResult(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( MessageBatchSucceededResult value)?  messageBatchSucceededResult,TResult? Function( MessageBatchErroredResult value)?  messageBatchErroredResult,TResult? Function( MessageBatchCanceledResult value)?  messageBatchCanceledResult,TResult? Function( MessageBatchExpiredResult value)?  messageBatchExpiredResult,}){
+final _that = this;
+switch (_that) {
+case MessageBatchSucceededResult() when messageBatchSucceededResult != null:
+return messageBatchSucceededResult(_that);case MessageBatchErroredResult() when messageBatchErroredResult != null:
+return messageBatchErroredResult(_that);case MessageBatchCanceledResult() when messageBatchCanceledResult != null:
+return messageBatchCanceledResult(_that);case MessageBatchExpiredResult() when messageBatchExpiredResult != null:
+return messageBatchExpiredResult(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String type,  Message message)?  messageBatchSucceededResult,TResult Function( String type,  Error error)?  messageBatchErroredResult,TResult Function( String type)?  messageBatchCanceledResult,TResult Function( String type)?  messageBatchExpiredResult,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case MessageBatchSucceededResult() when messageBatchSucceededResult != null:
+return messageBatchSucceededResult(_that.type,_that.message);case MessageBatchErroredResult() when messageBatchErroredResult != null:
+return messageBatchErroredResult(_that.type,_that.error);case MessageBatchCanceledResult() when messageBatchCanceledResult != null:
+return messageBatchCanceledResult(_that.type);case MessageBatchExpiredResult() when messageBatchExpiredResult != null:
+return messageBatchExpiredResult(_that.type);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String type,  Message message)  messageBatchSucceededResult,required TResult Function( String type,  Error error)  messageBatchErroredResult,required TResult Function( String type)  messageBatchCanceledResult,required TResult Function( String type)  messageBatchExpiredResult,}) {final _that = this;
+switch (_that) {
+case MessageBatchSucceededResult():
+return messageBatchSucceededResult(_that.type,_that.message);case MessageBatchErroredResult():
+return messageBatchErroredResult(_that.type,_that.error);case MessageBatchCanceledResult():
+return messageBatchCanceledResult(_that.type);case MessageBatchExpiredResult():
+return messageBatchExpiredResult(_that.type);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String type,  Message message)?  messageBatchSucceededResult,TResult? Function( String type,  Error error)?  messageBatchErroredResult,TResult? Function( String type)?  messageBatchCanceledResult,TResult? Function( String type)?  messageBatchExpiredResult,}) {final _that = this;
+switch (_that) {
+case MessageBatchSucceededResult() when messageBatchSucceededResult != null:
+return messageBatchSucceededResult(_that.type,_that.message);case MessageBatchErroredResult() when messageBatchErroredResult != null:
+return messageBatchErroredResult(_that.type,_that.error);case MessageBatchCanceledResult() when messageBatchCanceledResult != null:
+return messageBatchCanceledResult(_that.type);case MessageBatchExpiredResult() when messageBatchExpiredResult != null:
+return messageBatchExpiredResult(_that.type);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class MessageBatchSucceededResult extends MessageBatchResult {
+  const MessageBatchSucceededResult({required this.type, required this.message}): super._();
+  factory MessageBatchSucceededResult.fromJson(Map<String, dynamic> json) => _$MessageBatchSucceededResultFromJson(json);
+
+/// The result type.
+@override final  String type;
+/// A message in a chat conversation.
+ final  Message message;
+
+/// Create a copy of MessageBatchResult
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$MessageBatchSucceededResultCopyWith<MessageBatchSucceededResult> get copyWith => _$MessageBatchSucceededResultCopyWithImpl<MessageBatchSucceededResult>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$MessageBatchSucceededResultToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MessageBatchSucceededResult&&(identical(other.type, type) || other.type == type)&&(identical(other.message, message) || other.message == message));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,type,message);
+
+@override
+String toString() {
+  return 'MessageBatchResult.messageBatchSucceededResult(type: $type, message: $message)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $MessageBatchSucceededResultCopyWith<$Res> implements $MessageBatchResultCopyWith<$Res> {
+  factory $MessageBatchSucceededResultCopyWith(MessageBatchSucceededResult value, $Res Function(MessageBatchSucceededResult) _then) = _$MessageBatchSucceededResultCopyWithImpl;
+@override @useResult
+$Res call({
+ String type, Message message
+});
+
+
+$MessageCopyWith<$Res> get message;
+
+}
+/// @nodoc
+class _$MessageBatchSucceededResultCopyWithImpl<$Res>
+    implements $MessageBatchSucceededResultCopyWith<$Res> {
+  _$MessageBatchSucceededResultCopyWithImpl(this._self, this._then);
+
+  final MessageBatchSucceededResult _self;
+  final $Res Function(MessageBatchSucceededResult) _then;
+
+/// Create a copy of MessageBatchResult
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? type = null,Object? message = null,}) {
+  return _then(MessageBatchSucceededResult(
+type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as String,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as Message,
+  ));
+}
+
+/// Create a copy of MessageBatchResult
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$MessageCopyWith<$Res> get message {
+  
+  return $MessageCopyWith<$Res>(_self.message, (value) {
+    return _then(_self.copyWith(message: value));
+  });
+}
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class MessageBatchErroredResult extends MessageBatchResult {
+  const MessageBatchErroredResult({required this.type, required this.error}): super._();
+  factory MessageBatchErroredResult.fromJson(Map<String, dynamic> json) => _$MessageBatchErroredResultFromJson(json);
+
+/// The result type.
+@override final  String type;
+/// An error object.
+ final  Error error;
+
+/// Create a copy of MessageBatchResult
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$MessageBatchErroredResultCopyWith<MessageBatchErroredResult> get copyWith => _$MessageBatchErroredResultCopyWithImpl<MessageBatchErroredResult>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$MessageBatchErroredResultToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MessageBatchErroredResult&&(identical(other.type, type) || other.type == type)&&(identical(other.error, error) || other.error == error));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,type,error);
+
+@override
+String toString() {
+  return 'MessageBatchResult.messageBatchErroredResult(type: $type, error: $error)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $MessageBatchErroredResultCopyWith<$Res> implements $MessageBatchResultCopyWith<$Res> {
+  factory $MessageBatchErroredResultCopyWith(MessageBatchErroredResult value, $Res Function(MessageBatchErroredResult) _then) = _$MessageBatchErroredResultCopyWithImpl;
+@override @useResult
+$Res call({
+ String type, Error error
+});
+
+
+$ErrorCopyWith<$Res> get error;
+
+}
+/// @nodoc
+class _$MessageBatchErroredResultCopyWithImpl<$Res>
+    implements $MessageBatchErroredResultCopyWith<$Res> {
+  _$MessageBatchErroredResultCopyWithImpl(this._self, this._then);
+
+  final MessageBatchErroredResult _self;
+  final $Res Function(MessageBatchErroredResult) _then;
+
+/// Create a copy of MessageBatchResult
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? type = null,Object? error = null,}) {
+  return _then(MessageBatchErroredResult(
+type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as String,error: null == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
+as Error,
+  ));
+}
+
+/// Create a copy of MessageBatchResult
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ErrorCopyWith<$Res> get error {
+  
+  return $ErrorCopyWith<$Res>(_self.error, (value) {
+    return _then(_self.copyWith(error: value));
+  });
+}
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class MessageBatchCanceledResult extends MessageBatchResult {
+  const MessageBatchCanceledResult({required this.type}): super._();
+  factory MessageBatchCanceledResult.fromJson(Map<String, dynamic> json) => _$MessageBatchCanceledResultFromJson(json);
+
+/// The result type.
+@override final  String type;
+
+/// Create a copy of MessageBatchResult
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$MessageBatchCanceledResultCopyWith<MessageBatchCanceledResult> get copyWith => _$MessageBatchCanceledResultCopyWithImpl<MessageBatchCanceledResult>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$MessageBatchCanceledResultToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MessageBatchCanceledResult&&(identical(other.type, type) || other.type == type));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,type);
+
+@override
+String toString() {
+  return 'MessageBatchResult.messageBatchCanceledResult(type: $type)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $MessageBatchCanceledResultCopyWith<$Res> implements $MessageBatchResultCopyWith<$Res> {
+  factory $MessageBatchCanceledResultCopyWith(MessageBatchCanceledResult value, $Res Function(MessageBatchCanceledResult) _then) = _$MessageBatchCanceledResultCopyWithImpl;
+@override @useResult
+$Res call({
+ String type
+});
+
+
+
+
+}
+/// @nodoc
+class _$MessageBatchCanceledResultCopyWithImpl<$Res>
+    implements $MessageBatchCanceledResultCopyWith<$Res> {
+  _$MessageBatchCanceledResultCopyWithImpl(this._self, this._then);
+
+  final MessageBatchCanceledResult _self;
+  final $Res Function(MessageBatchCanceledResult) _then;
+
+/// Create a copy of MessageBatchResult
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? type = null,}) {
+  return _then(MessageBatchCanceledResult(
+type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class MessageBatchExpiredResult extends MessageBatchResult {
+  const MessageBatchExpiredResult({required this.type}): super._();
+  factory MessageBatchExpiredResult.fromJson(Map<String, dynamic> json) => _$MessageBatchExpiredResultFromJson(json);
+
+/// The result type.
+@override final  String type;
+
+/// Create a copy of MessageBatchResult
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$MessageBatchExpiredResultCopyWith<MessageBatchExpiredResult> get copyWith => _$MessageBatchExpiredResultCopyWithImpl<MessageBatchExpiredResult>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$MessageBatchExpiredResultToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MessageBatchExpiredResult&&(identical(other.type, type) || other.type == type));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,type);
+
+@override
+String toString() {
+  return 'MessageBatchResult.messageBatchExpiredResult(type: $type)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $MessageBatchExpiredResultCopyWith<$Res> implements $MessageBatchResultCopyWith<$Res> {
+  factory $MessageBatchExpiredResultCopyWith(MessageBatchExpiredResult value, $Res Function(MessageBatchExpiredResult) _then) = _$MessageBatchExpiredResultCopyWithImpl;
+@override @useResult
+$Res call({
+ String type
+});
+
+
+
+
+}
+/// @nodoc
+class _$MessageBatchExpiredResultCopyWithImpl<$Res>
+    implements $MessageBatchExpiredResultCopyWith<$Res> {
+  _$MessageBatchExpiredResultCopyWithImpl(this._self, this._then);
+
+  final MessageBatchExpiredResult _self;
+  final $Res Function(MessageBatchExpiredResult) _then;
+
+/// Create a copy of MessageBatchResult
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? type = null,}) {
+  return _then(MessageBatchExpiredResult(
+type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }

@@ -543,6 +543,37 @@ class AnthropicClient {
   }
 
   // ------------------------------------------
+  // METHOD: getMessageBatchResults
+  // ------------------------------------------
+
+  /// Get Message Batch Results
+  ///
+  /// Streams the results of a Message Batch as a `.jsonl` file.
+  ///
+  /// Each line in the file is a JSON object containing the result of a single
+  /// request in the Message Batch. Results are not guaranteed to be in the same
+  /// order as requests. Use the `custom_id` field to match results to requests.
+  ///
+  /// `id`: The ID of the message batch to retrieve results for.
+  ///
+  /// `GET` `https://api.anthropic.com/v1/messages/batches/{id}/results`
+  Future<MessageBatchIndividualResponse> getMessageBatchResults({
+    required String id,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.anthropic.com/v1',
+      path: '/messages/batches/$id/results',
+      method: HttpMethod.get,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/x-jsonl',
+
+      headerParams: {if (apiKey.isNotEmpty) 'x-api-key': apiKey},
+    );
+    return MessageBatchIndividualResponse.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
   // METHOD: cancelMessageBatch
   // ------------------------------------------
 

@@ -27,6 +27,7 @@ part 'create_message_batch_request.dart';
 part 'batch_message_request.dart';
 part 'message_batch.dart';
 part 'delete_message_batch_response.dart';
+part 'message_batch_individual_response.dart';
 part 'list_message_batches_response.dart';
 part 'message_batch_request_counts.dart';
 part 'message_stream_event_type.dart';
@@ -36,6 +37,7 @@ part 'error.dart';
 part 'thinking_config.dart';
 part 'tool.dart';
 part 'block.dart';
+part 'message_batch_result.dart';
 part 'message_stream_event.dart';
 part 'block_delta.dart';
 

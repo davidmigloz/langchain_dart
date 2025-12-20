@@ -455,6 +455,20 @@ const _$DeleteMessageBatchResponseTypeEnumMap = {
   DeleteMessageBatchResponseType.messageBatchDeleted: 'message_batch_deleted',
 };
 
+_MessageBatchIndividualResponse _$MessageBatchIndividualResponseFromJson(
+  Map<String, dynamic> json,
+) => _MessageBatchIndividualResponse(
+  customId: json['custom_id'] as String,
+  result: MessageBatchResult.fromJson(json['result'] as Map<String, dynamic>),
+);
+
+Map<String, dynamic> _$MessageBatchIndividualResponseToJson(
+  _MessageBatchIndividualResponse instance,
+) => <String, dynamic>{
+  'custom_id': instance.customId,
+  'result': instance.result.toJson(),
+};
+
 _ListMessageBatchesResponse _$ListMessageBatchesResponseFromJson(
   Map<String, dynamic> json,
 ) => _ListMessageBatchesResponse(
@@ -759,6 +773,47 @@ ToolResultBlockContentText _$ToolResultBlockContentTextFromJson(
 Map<String, dynamic> _$ToolResultBlockContentTextToJson(
   ToolResultBlockContentText instance,
 ) => <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};
+
+MessageBatchSucceededResult _$MessageBatchSucceededResultFromJson(
+  Map<String, dynamic> json,
+) => MessageBatchSucceededResult(
+  type: json['type'] as String,
+  message: Message.fromJson(json['message'] as Map<String, dynamic>),
+);
+
+Map<String, dynamic> _$MessageBatchSucceededResultToJson(
+  MessageBatchSucceededResult instance,
+) => <String, dynamic>{
+  'type': instance.type,
+  'message': instance.message.toJson(),
+};
+
+MessageBatchErroredResult _$MessageBatchErroredResultFromJson(
+  Map<String, dynamic> json,
+) => MessageBatchErroredResult(
+  type: json['type'] as String,
+  error: Error.fromJson(json['error'] as Map<String, dynamic>),
+);
+
+Map<String, dynamic> _$MessageBatchErroredResultToJson(
+  MessageBatchErroredResult instance,
+) => <String, dynamic>{'type': instance.type, 'error': instance.error.toJson()};
+
+MessageBatchCanceledResult _$MessageBatchCanceledResultFromJson(
+  Map<String, dynamic> json,
+) => MessageBatchCanceledResult(type: json['type'] as String);
+
+Map<String, dynamic> _$MessageBatchCanceledResultToJson(
+  MessageBatchCanceledResult instance,
+) => <String, dynamic>{'type': instance.type};
+
+MessageBatchExpiredResult _$MessageBatchExpiredResultFromJson(
+  Map<String, dynamic> json,
+) => MessageBatchExpiredResult(type: json['type'] as String);
+
+Map<String, dynamic> _$MessageBatchExpiredResultToJson(
+  MessageBatchExpiredResult instance,
+) => <String, dynamic>{'type': instance.type};
 
 MessageStartEvent _$MessageStartEventFromJson(Map<String, dynamic> json) =>
     MessageStartEvent(
