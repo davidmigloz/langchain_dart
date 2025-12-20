@@ -72,6 +72,9 @@ Map<String, dynamic> _$ModelCatalogToJson(ModelCatalog instance) =>
     };
 
 const _$ModelsEnumMap = {
+  Models.claudeOpus4520251101: 'claude-opus-4-5-20251101',
+  Models.claudeSonnet4520250929: 'claude-sonnet-4-5-20250929',
+  Models.claudeHaiku4520251001: 'claude-haiku-4-5-20251001',
   Models.claudeOpus420250514: 'claude-opus-4-20250514',
   Models.claudeSonnet420250514: 'claude-sonnet-4-20250514',
   Models.claude37SonnetLatest: 'claude-3-7-sonnet-latest',

@@ -318,6 +318,12 @@ abstract class CreateMessageRequest with _$CreateMessageRequest {
 
 /// Available models. Mind that the list may not be exhaustive nor up-to-date.
 enum Models {
+  @JsonValue('claude-opus-4-5-20251101')
+  claudeOpus4520251101,
+  @JsonValue('claude-sonnet-4-5-20250929')
+  claudeSonnet4520250929,
+  @JsonValue('claude-haiku-4-5-20251001')
+  claudeHaiku4520251001,
   @JsonValue('claude-opus-4-20250514')
   claudeOpus420250514,
   @JsonValue('claude-sonnet-4-20250514')
