@@ -6988,6 +6988,573 @@ as String?,
 
 
 /// @nodoc
+mixin _$ModelInfo {
+
+/// Unique model identifier.
+ String get id;/// Object type. Always `"model"` for models.
+ ModelInfoType get type;/// A human-readable name for the model.
+@JsonKey(name: 'display_name') String get displayName;/// RFC 3339 datetime string representing the time at which the model was released. May be set to an epoch value if the release date is unknown.
+@JsonKey(name: 'created_at') String get createdAt;
+/// Create a copy of ModelInfo
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ModelInfoCopyWith<ModelInfo> get copyWith => _$ModelInfoCopyWithImpl<ModelInfo>(this as ModelInfo, _$identity);
+
+  /// Serializes this ModelInfo to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ModelInfo&&(identical(other.id, id) || other.id == id)&&(identical(other.type, type) || other.type == type)&&(identical(other.displayName, displayName) || other.displayName == displayName)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,type,displayName,createdAt);
+
+@override
+String toString() {
+  return 'ModelInfo(id: $id, type: $type, displayName: $displayName, createdAt: $createdAt)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ModelInfoCopyWith<$Res>  {
+  factory $ModelInfoCopyWith(ModelInfo value, $Res Function(ModelInfo) _then) = _$ModelInfoCopyWithImpl;
+@useResult
+$Res call({
+ String id, ModelInfoType type,@JsonKey(name: 'display_name') String displayName,@JsonKey(name: 'created_at') String createdAt
+});
+
+
+
+
+}
+/// @nodoc
+class _$ModelInfoCopyWithImpl<$Res>
+    implements $ModelInfoCopyWith<$Res> {
+  _$ModelInfoCopyWithImpl(this._self, this._then);
+
+  final ModelInfo _self;
+  final $Res Function(ModelInfo) _then;
+
+/// Create a copy of ModelInfo
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? type = null,Object? displayName = null,Object? createdAt = null,}) {
+  return _then(_self.copyWith(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as ModelInfoType,displayName: null == displayName ? _self.displayName : displayName // ignore: cast_nullable_to_non_nullable
+as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [ModelInfo].
+extension ModelInfoPatterns on ModelInfo {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ModelInfo value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _ModelInfo() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ModelInfo value)  $default,){
+final _that = this;
+switch (_that) {
+case _ModelInfo():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ModelInfo value)?  $default,){
+final _that = this;
+switch (_that) {
+case _ModelInfo() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  ModelInfoType type, @JsonKey(name: 'display_name')  String displayName, @JsonKey(name: 'created_at')  String createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _ModelInfo() when $default != null:
+return $default(_that.id,_that.type,_that.displayName,_that.createdAt);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  ModelInfoType type, @JsonKey(name: 'display_name')  String displayName, @JsonKey(name: 'created_at')  String createdAt)  $default,) {final _that = this;
+switch (_that) {
+case _ModelInfo():
+return $default(_that.id,_that.type,_that.displayName,_that.createdAt);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  ModelInfoType type, @JsonKey(name: 'display_name')  String displayName, @JsonKey(name: 'created_at')  String createdAt)?  $default,) {final _that = this;
+switch (_that) {
+case _ModelInfo() when $default != null:
+return $default(_that.id,_that.type,_that.displayName,_that.createdAt);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _ModelInfo extends ModelInfo {
+  const _ModelInfo({required this.id, required this.type, @JsonKey(name: 'display_name') required this.displayName, @JsonKey(name: 'created_at') required this.createdAt}): super._();
+  factory _ModelInfo.fromJson(Map<String, dynamic> json) => _$ModelInfoFromJson(json);
+
+/// Unique model identifier.
+@override final  String id;
+/// Object type. Always `"model"` for models.
+@override final  ModelInfoType type;
+/// A human-readable name for the model.
+@override@JsonKey(name: 'display_name') final  String displayName;
+/// RFC 3339 datetime string representing the time at which the model was released. May be set to an epoch value if the release date is unknown.
+@override@JsonKey(name: 'created_at') final  String createdAt;
+
+/// Create a copy of ModelInfo
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ModelInfoCopyWith<_ModelInfo> get copyWith => __$ModelInfoCopyWithImpl<_ModelInfo>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$ModelInfoToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ModelInfo&&(identical(other.id, id) || other.id == id)&&(identical(other.type, type) || other.type == type)&&(identical(other.displayName, displayName) || other.displayName == displayName)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,type,displayName,createdAt);
+
+@override
+String toString() {
+  return 'ModelInfo(id: $id, type: $type, displayName: $displayName, createdAt: $createdAt)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$ModelInfoCopyWith<$Res> implements $ModelInfoCopyWith<$Res> {
+  factory _$ModelInfoCopyWith(_ModelInfo value, $Res Function(_ModelInfo) _then) = __$ModelInfoCopyWithImpl;
+@override @useResult
+$Res call({
+ String id, ModelInfoType type,@JsonKey(name: 'display_name') String displayName,@JsonKey(name: 'created_at') String createdAt
+});
+
+
+
+
+}
+/// @nodoc
+class __$ModelInfoCopyWithImpl<$Res>
+    implements _$ModelInfoCopyWith<$Res> {
+  __$ModelInfoCopyWithImpl(this._self, this._then);
+
+  final _ModelInfo _self;
+  final $Res Function(_ModelInfo) _then;
+
+/// Create a copy of ModelInfo
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? type = null,Object? displayName = null,Object? createdAt = null,}) {
+  return _then(_ModelInfo(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as ModelInfoType,displayName: null == displayName ? _self.displayName : displayName // ignore: cast_nullable_to_non_nullable
+as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$ListModelsResponse {
+
+/// List of ModelInfo objects.
+ List<ModelInfo> get data;/// Indicates if there are more results in the requested page direction.
+@JsonKey(name: 'has_more') bool get hasMore;/// First ID in the `data` list. Can be used as the `before_id` for the previous page.
+@JsonKey(name: 'first_id', includeIfNull: false) String? get firstId;/// Last ID in the `data` list. Can be used as the `after_id` for the next page.
+@JsonKey(name: 'last_id', includeIfNull: false) String? get lastId;
+/// Create a copy of ListModelsResponse
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ListModelsResponseCopyWith<ListModelsResponse> get copyWith => _$ListModelsResponseCopyWithImpl<ListModelsResponse>(this as ListModelsResponse, _$identity);
+
+  /// Serializes this ListModelsResponse to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ListModelsResponse&&const DeepCollectionEquality().equals(other.data, data)&&(identical(other.hasMore, hasMore) || other.hasMore == hasMore)&&(identical(other.firstId, firstId) || other.firstId == firstId)&&(identical(other.lastId, lastId) || other.lastId == lastId));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(data),hasMore,firstId,lastId);
+
+@override
+String toString() {
+  return 'ListModelsResponse(data: $data, hasMore: $hasMore, firstId: $firstId, lastId: $lastId)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ListModelsResponseCopyWith<$Res>  {
+  factory $ListModelsResponseCopyWith(ListModelsResponse value, $Res Function(ListModelsResponse) _then) = _$ListModelsResponseCopyWithImpl;
+@useResult
+$Res call({
+ List<ModelInfo> data,@JsonKey(name: 'has_more') bool hasMore,@JsonKey(name: 'first_id', includeIfNull: false) String? firstId,@JsonKey(name: 'last_id', includeIfNull: false) String? lastId
+});
+
+
+
+
+}
+/// @nodoc
+class _$ListModelsResponseCopyWithImpl<$Res>
+    implements $ListModelsResponseCopyWith<$Res> {
+  _$ListModelsResponseCopyWithImpl(this._self, this._then);
+
+  final ListModelsResponse _self;
+  final $Res Function(ListModelsResponse) _then;
+
+/// Create a copy of ListModelsResponse
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? data = null,Object? hasMore = null,Object? firstId = freezed,Object? lastId = freezed,}) {
+  return _then(_self.copyWith(
+data: null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
+as List<ModelInfo>,hasMore: null == hasMore ? _self.hasMore : hasMore // ignore: cast_nullable_to_non_nullable
+as bool,firstId: freezed == firstId ? _self.firstId : firstId // ignore: cast_nullable_to_non_nullable
+as String?,lastId: freezed == lastId ? _self.lastId : lastId // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [ListModelsResponse].
+extension ListModelsResponsePatterns on ListModelsResponse {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ListModelsResponse value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _ListModelsResponse() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ListModelsResponse value)  $default,){
+final _that = this;
+switch (_that) {
+case _ListModelsResponse():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ListModelsResponse value)?  $default,){
+final _that = this;
+switch (_that) {
+case _ListModelsResponse() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<ModelInfo> data, @JsonKey(name: 'has_more')  bool hasMore, @JsonKey(name: 'first_id', includeIfNull: false)  String? firstId, @JsonKey(name: 'last_id', includeIfNull: false)  String? lastId)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _ListModelsResponse() when $default != null:
+return $default(_that.data,_that.hasMore,_that.firstId,_that.lastId);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<ModelInfo> data, @JsonKey(name: 'has_more')  bool hasMore, @JsonKey(name: 'first_id', includeIfNull: false)  String? firstId, @JsonKey(name: 'last_id', includeIfNull: false)  String? lastId)  $default,) {final _that = this;
+switch (_that) {
+case _ListModelsResponse():
+return $default(_that.data,_that.hasMore,_that.firstId,_that.lastId);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<ModelInfo> data, @JsonKey(name: 'has_more')  bool hasMore, @JsonKey(name: 'first_id', includeIfNull: false)  String? firstId, @JsonKey(name: 'last_id', includeIfNull: false)  String? lastId)?  $default,) {final _that = this;
+switch (_that) {
+case _ListModelsResponse() when $default != null:
+return $default(_that.data,_that.hasMore,_that.firstId,_that.lastId);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _ListModelsResponse extends ListModelsResponse {
+  const _ListModelsResponse({required final  List<ModelInfo> data, @JsonKey(name: 'has_more') required this.hasMore, @JsonKey(name: 'first_id', includeIfNull: false) this.firstId, @JsonKey(name: 'last_id', includeIfNull: false) this.lastId}): _data = data,super._();
+  factory _ListModelsResponse.fromJson(Map<String, dynamic> json) => _$ListModelsResponseFromJson(json);
+
+/// List of ModelInfo objects.
+ final  List<ModelInfo> _data;
+/// List of ModelInfo objects.
+@override List<ModelInfo> get data {
+  if (_data is EqualUnmodifiableListView) return _data;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_data);
+}
+
+/// Indicates if there are more results in the requested page direction.
+@override@JsonKey(name: 'has_more') final  bool hasMore;
+/// First ID in the `data` list. Can be used as the `before_id` for the previous page.
+@override@JsonKey(name: 'first_id', includeIfNull: false) final  String? firstId;
+/// Last ID in the `data` list. Can be used as the `after_id` for the next page.
+@override@JsonKey(name: 'last_id', includeIfNull: false) final  String? lastId;
+
+/// Create a copy of ListModelsResponse
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ListModelsResponseCopyWith<_ListModelsResponse> get copyWith => __$ListModelsResponseCopyWithImpl<_ListModelsResponse>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$ListModelsResponseToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ListModelsResponse&&const DeepCollectionEquality().equals(other._data, _data)&&(identical(other.hasMore, hasMore) || other.hasMore == hasMore)&&(identical(other.firstId, firstId) || other.firstId == firstId)&&(identical(other.lastId, lastId) || other.lastId == lastId));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_data),hasMore,firstId,lastId);
+
+@override
+String toString() {
+  return 'ListModelsResponse(data: $data, hasMore: $hasMore, firstId: $firstId, lastId: $lastId)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$ListModelsResponseCopyWith<$Res> implements $ListModelsResponseCopyWith<$Res> {
+  factory _$ListModelsResponseCopyWith(_ListModelsResponse value, $Res Function(_ListModelsResponse) _then) = __$ListModelsResponseCopyWithImpl;
+@override @useResult
+$Res call({
+ List<ModelInfo> data,@JsonKey(name: 'has_more') bool hasMore,@JsonKey(name: 'first_id', includeIfNull: false) String? firstId,@JsonKey(name: 'last_id', includeIfNull: false) String? lastId
+});
+
+
+
+
+}
+/// @nodoc
+class __$ListModelsResponseCopyWithImpl<$Res>
+    implements _$ListModelsResponseCopyWith<$Res> {
+  __$ListModelsResponseCopyWithImpl(this._self, this._then);
+
+  final _ListModelsResponse _self;
+  final $Res Function(_ListModelsResponse) _then;
+
+/// Create a copy of ListModelsResponse
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? data = null,Object? hasMore = null,Object? firstId = freezed,Object? lastId = freezed,}) {
+  return _then(_ListModelsResponse(
+data: null == data ? _self._data : data // ignore: cast_nullable_to_non_nullable
+as List<ModelInfo>,hasMore: null == hasMore ? _self.hasMore : hasMore // ignore: cast_nullable_to_non_nullable
+as bool,firstId: freezed == firstId ? _self.firstId : firstId // ignore: cast_nullable_to_non_nullable
+as String?,lastId: freezed == lastId ? _self.lastId : lastId // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
 mixin _$MessageBatchRequestCounts {
 
 /// Number of requests in the Message Batch that are processing.
