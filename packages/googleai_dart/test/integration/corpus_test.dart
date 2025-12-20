@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:googleai_dart/googleai_dart.dart';
 import 'package:test/test.dart';
 
-/// Integration tests for Corpus & RAG operations.
+/// Integration tests for Corpus operations.
 ///
 /// These tests require a real API key set in the GEMINI_API_KEY
 /// environment variable. If the key is not present, all tests are skipped.
@@ -120,39 +120,6 @@ void main() {
       () {},
       skip:
           'Document operations require Vertex AI. '
-          'Google AI only supports corpus CRUD operations. '
-          'See: https://cloud.google.com/vertex-ai/docs/vector-search',
-    );
-  });
-
-  group('Chunk Operations - Integration', () {
-    test(
-      'Chunk operations are not available',
-      () {},
-      skip:
-          'Chunk operations require Vertex AI. '
-          'Google AI only supports corpus CRUD operations. '
-          'See: https://cloud.google.com/vertex-ai/docs/vector-search',
-    );
-  });
-
-  group('Query Operations - Integration', () {
-    test(
-      'Query operations are not available',
-      () {},
-      skip:
-          'Query operations require Vertex AI. '
-          'Google AI only supports corpus CRUD operations. '
-          'See: https://cloud.google.com/vertex-ai/docs/vector-search',
-    );
-  });
-
-  group('Document Query Operations - Integration', () {
-    test(
-      'Document query operations are not available',
-      () {},
-      skip:
-          'Document query operations require Vertex AI. '
           'Google AI only supports corpus CRUD operations. '
           'See: https://cloud.google.com/vertex-ai/docs/vector-search',
     );

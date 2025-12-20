@@ -23,20 +23,20 @@ class ThinkingConfig {
 
   /// Creates a [ThinkingConfig] from JSON.
   factory ThinkingConfig.fromJson(Map<String, dynamic> json) => ThinkingConfig(
-        includeThoughts: json['includeThoughts'] as bool?,
-        thinkingBudget: json['thinkingBudget'] as int?,
-        thinkingLevel: json['thinkingLevel'] != null
-            ? thinkingLevelFromString(json['thinkingLevel'] as String?)
-            : null,
-      );
+    includeThoughts: json['includeThoughts'] as bool?,
+    thinkingBudget: json['thinkingBudget'] as int?,
+    thinkingLevel: json['thinkingLevel'] != null
+        ? thinkingLevelFromString(json['thinkingLevel'] as String?)
+        : null,
+  );
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
-        if (includeThoughts != null) 'includeThoughts': includeThoughts,
-        if (thinkingBudget != null) 'thinkingBudget': thinkingBudget,
-        if (thinkingLevel != null)
-          'thinkingLevel': thinkingLevelToString(thinkingLevel!),
-      };
+    if (includeThoughts != null) 'includeThoughts': includeThoughts,
+    if (thinkingBudget != null) 'thinkingBudget': thinkingBudget,
+    if (thinkingLevel != null)
+      'thinkingLevel': thinkingLevelToString(thinkingLevel!),
+  };
 
   /// Creates a copy with replaced values.
   ThinkingConfig copyWith({

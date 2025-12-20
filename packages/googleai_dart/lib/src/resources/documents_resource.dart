@@ -117,9 +117,6 @@ class DocumentsResource extends ResourceBase {
 
   /// Deletes a document.
   ///
-  /// If [force] is true, any objects related to this document will
-  /// also be deleted.
-  ///
   /// DELETE /v1beta/{name}
   Future<void> delete({required String name, bool? force}) async {
     final queryParams = force != null
