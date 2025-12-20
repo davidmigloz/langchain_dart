@@ -32,26 +32,13 @@ abstract class Usage with _$Usage {
     /// The number of output tokens which were used.
     @JsonKey(name: 'output_tokens') required int outputTokens,
 
-    /// The number of input tokens used to create the cache entry.
+    /// The number of input tokens read from the cache.
     @JsonKey(name: 'cache_creation_input_tokens', includeIfNull: false)
     int? cacheCreationInputTokens,
 
-    /// The number of input tokens read from the cache.
+    /// The number of input tokens used to create the cache entry.
     @JsonKey(name: 'cache_read_input_tokens', includeIfNull: false)
     int? cacheReadInputTokens,
-
-    /// Usage information for server-side tool execution.
-    @JsonKey(name: 'server_tool_use', includeIfNull: false)
-    ServerToolUsage? serverToolUse,
-
-    /// The service tier used to process the request. Can be used for billing and
-    /// rate limiting purposes.
-    @JsonKey(
-      name: 'service_tier',
-      includeIfNull: false,
-      unknownEnumValue: JsonKey.nullForUndefinedEnumValue,
-    )
-    ServiceTier? serviceTier,
   }) = _Usage;
 
   /// Object construction from a JSON representation
@@ -63,8 +50,6 @@ abstract class Usage with _$Usage {
     'output_tokens',
     'cache_creation_input_tokens',
     'cache_read_input_tokens',
-    'server_tool_use',
-    'service_tier',
   ];
 
   /// Perform validations on the schema property values
@@ -79,8 +64,6 @@ abstract class Usage with _$Usage {
       'output_tokens': outputTokens,
       'cache_creation_input_tokens': cacheCreationInputTokens,
       'cache_read_input_tokens': cacheReadInputTokens,
-      'server_tool_use': serverToolUse,
-      'service_tier': serviceTier,
     };
   }
 }

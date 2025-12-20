@@ -9,65 +9,46 @@ part of anthropic_schema;
 // ==========================================
 
 /// The source of an image block.
-@Freezed(unionKey: 'type', unionValueCase: FreezedUnionCase.snake)
-sealed class ImageBlockSource with _$ImageBlockSource {
+@freezed
+abstract class ImageBlockSource with _$ImageBlockSource {
   const ImageBlockSource._();
 
-  // ------------------------------------------
-  // UNION: Base64ImageSource
-  // ------------------------------------------
-
-  /// An image source using base64-encoded data.
-
-  @FreezedUnionValue('base64')
-  const factory ImageBlockSource.base64ImageSource({
-    /// The type of image source.
-    required String type,
-
-    /// The media type of the image.
-    @JsonKey(name: 'media_type') required Base64ImageSourceMediaType mediaType,
-
+  /// Factory constructor for ImageBlockSource
+  const factory ImageBlockSource({
     /// The base64-encoded image data.
     required String data,
-  }) = Base64ImageSource;
 
-  // ------------------------------------------
-  // UNION: UrlImageSource
-  // ------------------------------------------
+    /// The media type of the image.
+    @JsonKey(name: 'media_type') required ImageBlockSourceMediaType mediaType,
 
-  /// An image source using a URL.
-
-  @FreezedUnionValue('url')
-  const factory ImageBlockSource.urlImageSource({
     /// The type of image source.
-    required String type,
-
-    /// The URL of the image.
-    required String url,
-  }) = UrlImageSource;
+    required ImageBlockSourceType type,
+  }) = _ImageBlockSource;
 
   /// Object construction from a JSON representation
   factory ImageBlockSource.fromJson(Map<String, dynamic> json) =>
       _$ImageBlockSourceFromJson(json);
+
+  /// List of all property names of schema
+  static const List<String> propertyNames = ['data', 'media_type', 'type'];
+
+  /// Perform validations on the schema property values
+  String? validateSchema() {
+    return null;
+  }
+
+  /// Map representation of object (not serialized)
+  Map<String, dynamic> toMap() {
+    return {'data': data, 'media_type': mediaType, 'type': type};
+  }
 }
 
 // ==========================================
-// ENUM: ImageBlockSourceEnumType
-// ==========================================
-
-enum ImageBlockSourceEnumType {
-  @JsonValue('base64')
-  base64,
-  @JsonValue('url')
-  url,
-}
-
-// ==========================================
-// ENUM: Base64ImageSourceMediaType
+// ENUM: ImageBlockSourceMediaType
 // ==========================================
 
 /// The media type of the image.
-enum Base64ImageSourceMediaType {
+enum ImageBlockSourceMediaType {
   @JsonValue('image/jpeg')
   imageJpeg,
   @JsonValue('image/png')
@@ -76,4 +57,14 @@ enum Base64ImageSourceMediaType {
   imageGif,
   @JsonValue('image/webp')
   imageWebp,
+}
+
+// ==========================================
+// ENUM: ImageBlockSourceType
+// ==========================================
+
+/// The type of image source.
+enum ImageBlockSourceType {
+  @JsonValue('base64')
+  base64,
 }

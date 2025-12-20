@@ -41,7 +41,6 @@ sealed class Block with _$Block {
   @FreezedUnionValue('image')
   const factory Block.image({
     /// The source of an image block.
-    /// Any of: [Base64ImageSource], [UrlImageSource]
     required ImageBlockSource source,
 
     /// The type of content block.
@@ -51,36 +50,6 @@ sealed class Block with _$Block {
     @JsonKey(name: 'cache_control', includeIfNull: false)
     CacheControlEphemeral? cacheControl,
   }) = ImageBlock;
-
-  // ------------------------------------------
-  // UNION: DocumentBlock
-  // ------------------------------------------
-
-  /// A block of document content. Documents can be provided as base64-encoded data,
-  /// plain text, URLs, or references to content blocks.
-
-  @FreezedUnionValue('document')
-  const factory Block.document({
-    /// The type of content block.
-    required String type,
-
-    /// The source of a document block.
-    /// Any of: [Base64PdfSource], [PlainTextSource], [ContentBlockSource], [UrlPdfSource]
-    required DocumentBlockSource source,
-
-    /// The title of the document.
-    @JsonKey(includeIfNull: false) String? title,
-
-    /// Additional context about the document.
-    @JsonKey(includeIfNull: false) String? context,
-
-    /// Configuration for document citations.
-    @JsonKey(includeIfNull: false) CitationsConfig? citations,
-
-    /// The cache control settings.
-    @JsonKey(name: 'cache_control', includeIfNull: false)
-    CacheControlEphemeral? cacheControl,
-  }) = DocumentBlock;
 
   // ------------------------------------------
   // UNION: ToolUseBlock
@@ -160,181 +129,6 @@ sealed class Block with _$Block {
     CacheControlEphemeral? cacheControl,
   }) = ThinkingBlock;
 
-  // ------------------------------------------
-  // UNION: RedactedThinkingBlock
-  // ------------------------------------------
-
-  /// A block representing thinking content that has been redacted for security
-  /// or safety reasons. This block type appears when Claude's internal thinking
-  /// process contained content that was redacted.
-
-  @FreezedUnionValue('redacted_thinking')
-  const factory Block.redactedThinking({
-    /// The type of content block.
-    required RedactedThinkingBlockType type,
-
-    /// Encrypted or opaque data representing the redacted thinking content.
-    /// This data cannot be decrypted by the client.
-    required String data,
-  }) = RedactedThinkingBlock;
-
-  // ------------------------------------------
-  // UNION: ServerToolUseBlock
-  // ------------------------------------------
-
-  /// A block representing server-side tool use. This is used for tools that are
-  /// executed by the API server rather than the client, such as web search.
-
-  @FreezedUnionValue('server_tool_use')
-  const factory Block.serverToolUse({
-    /// The type of content block.
-    required String type,
-
-    /// Unique identifier for this tool use instance.
-    required String id,
-
-    /// The name of the server tool being used.
-    required String name,
-
-    /// The input parameters for the tool.
-    required Map<String, dynamic> input,
-  }) = ServerToolUseBlock;
-
-  // ------------------------------------------
-  // UNION: WebSearchToolResultBlock
-  // ------------------------------------------
-
-  /// A block containing web search results from the web search tool.
-
-  @FreezedUnionValue('web_search_tool_result')
-  const factory Block.webSearchToolResult({
-    /// The type of content block.
-    required String type,
-
-    /// The ID of the tool use that generated these results.
-    @JsonKey(name: 'tool_use_id') required String toolUseId,
-
-    /// The search results or an error.
-    @_WebSearchToolResultBlockContentConverter()
-    required WebSearchToolResultBlockContent content,
-  }) = WebSearchToolResultBlock;
-
-  // ------------------------------------------
-  // UNION: MCPToolUseBlock
-  // ------------------------------------------
-
-  /// A block representing MCP (Model Context Protocol) tool use.
-
-  @FreezedUnionValue('mcp_tool_use')
-  const factory Block.mCPToolUse({
-    /// The type of content block.
-    required String type,
-
-    /// Unique identifier for this MCP tool use.
-    required String id,
-
-    /// The name of the MCP server.
-    @JsonKey(name: 'server_name') required String serverName,
-
-    /// The name of the MCP tool being used.
-    required String name,
-
-    /// The input parameters for the MCP tool.
-    required Map<String, dynamic> input,
-  }) = MCPToolUseBlock;
-
-  // ------------------------------------------
-  // UNION: MCPToolResultBlock
-  // ------------------------------------------
-
-  /// A block containing the result of an MCP tool execution.
-
-  @FreezedUnionValue('mcp_tool_result')
-  const factory Block.mCPToolResult({
-    /// The type of content block.
-    required String type,
-
-    /// The ID of the MCP tool use that generated this result.
-    @JsonKey(name: 'tool_use_id') required String toolUseId,
-
-    /// Whether the tool execution resulted in an error.
-    @JsonKey(name: 'is_error', includeIfNull: false) bool? isError,
-
-    /// The content of the tool result.
-    @JsonKey(includeIfNull: false) List<MCPToolResultContent>? content,
-  }) = MCPToolResultBlock;
-
-  // ------------------------------------------
-  // UNION: SearchResultBlock
-  // ------------------------------------------
-
-  /// A search result block containing source, title, and content from search operations.
-
-  @FreezedUnionValue('search_result')
-  const factory Block.searchResult({
-    /// The type of content block.
-    required String type,
-
-    /// The source URL or identifier.
-    required String source,
-
-    /// The title of the search result.
-    required String title,
-
-    /// The content of the search result.
-    required List<TextBlock> content,
-
-    /// Configuration for document citations.
-    @JsonKey(includeIfNull: false) CitationsConfig? citations,
-
-    /// The cache control settings.
-    @JsonKey(name: 'cache_control', includeIfNull: false)
-    CacheControlEphemeral? cacheControl,
-  }) = SearchResultBlock;
-
-  // ------------------------------------------
-  // UNION: CodeExecutionToolResultBlock
-  // ------------------------------------------
-
-  /// A block containing the result of code execution.
-
-  @FreezedUnionValue('code_execution_tool_result')
-  const factory Block.codeExecutionToolResult({
-    /// The type of content block.
-    required String type,
-
-    /// The ID of the tool use that generated this result.
-    @JsonKey(name: 'tool_use_id') required String toolUseId,
-
-    /// The code execution result or an error.
-    /// Any of: [CodeExecutionResultBlock], [CodeExecutionToolResultError]
-    required UnionSchema content,
-  }) = CodeExecutionToolResultBlock;
-
-  // ------------------------------------------
-  // UNION: ContainerUploadBlock
-  // ------------------------------------------
-
-  /// A block representing a file uploaded to a container.
-
-  @FreezedUnionValue('container_upload')
-  const factory Block.containerUpload({
-    /// The type of content block.
-    required String type,
-
-    /// The unique identifier for the uploaded file.
-    @JsonKey(name: 'file_id') required String fileId,
-
-    /// The name of the uploaded file.
-    required String filename,
-
-    /// The size of the file in bytes.
-    @JsonKey(name: 'file_size') required int fileSize,
-
-    /// The content of the file.
-    @JsonKey(includeIfNull: false) String? content,
-  }) = ContainerUploadBlock;
-
   /// Object construction from a JSON representation
   factory Block.fromJson(Map<String, dynamic> json) => _$BlockFromJson(json);
 }
@@ -348,30 +142,12 @@ enum BlockEnumType {
   text,
   @JsonValue('image')
   image,
-  @JsonValue('document')
-  document,
   @JsonValue('tool_use')
   toolUse,
   @JsonValue('tool_result')
   toolResult,
   @JsonValue('thinking')
   thinking,
-  @JsonValue('redacted_thinking')
-  redactedThinking,
-  @JsonValue('server_tool_use')
-  serverToolUse,
-  @JsonValue('web_search_tool_result')
-  webSearchToolResult,
-  @JsonValue('mcp_tool_use')
-  mcpToolUse,
-  @JsonValue('mcp_tool_result')
-  mcpToolResult,
-  @JsonValue('search_result')
-  searchResult,
-  @JsonValue('code_execution_tool_result')
-  codeExecutionToolResult,
-  @JsonValue('container_upload')
-  containerUpload,
 }
 
 // ==========================================
@@ -435,78 +211,4 @@ class _ToolResultBlockContentConverter
 enum ThinkingBlockType {
   @JsonValue('thinking')
   thinking,
-}
-
-// ==========================================
-// ENUM: RedactedThinkingBlockType
-// ==========================================
-
-/// The type of content block.
-enum RedactedThinkingBlockType {
-  @JsonValue('redacted_thinking')
-  redactedThinking,
-}
-
-// ==========================================
-// CLASS: WebSearchToolResultBlockContent
-// ==========================================
-
-/// The search results or an error.
-@freezed
-sealed class WebSearchToolResultBlockContent
-    with _$WebSearchToolResultBlockContent {
-  const WebSearchToolResultBlockContent._();
-
-  /// No Description
-  const factory WebSearchToolResultBlockContent.webSearchToolResultError(
-    WebSearchToolResultError value,
-  ) = WebSearchToolResultBlockContentWebSearchToolResultError;
-
-  /// No Description
-  const factory WebSearchToolResultBlockContent.listWebSearchResultBlock(
-    List<WebSearchResultBlock> value,
-  ) = WebSearchToolResultBlockContentListWebSearchResultBlock;
-
-  /// Object construction from a JSON representation
-  factory WebSearchToolResultBlockContent.fromJson(Map<String, dynamic> json) =>
-      _$WebSearchToolResultBlockContentFromJson(json);
-}
-
-/// Custom JSON converter for [WebSearchToolResultBlockContent]
-class _WebSearchToolResultBlockContentConverter
-    implements JsonConverter<WebSearchToolResultBlockContent, Object?> {
-  const _WebSearchToolResultBlockContentConverter();
-
-  @override
-  WebSearchToolResultBlockContent fromJson(Object? data) {
-    if (data is Map<String, dynamic>) {
-      try {
-        return WebSearchToolResultBlockContentWebSearchToolResultError(
-          WebSearchToolResultError.fromJson(data),
-        );
-      } catch (e) {}
-    }
-    if (data is List && data.every((item) => item is Map)) {
-      return WebSearchToolResultBlockContentListWebSearchResultBlock(
-        data
-            .map(
-              (i) => WebSearchResultBlock.fromJson(i as Map<String, dynamic>),
-            )
-            .toList(growable: false),
-      );
-    }
-    throw Exception(
-      'Unexpected value for WebSearchToolResultBlockContent: $data',
-    );
-  }
-
-  @override
-  Object? toJson(WebSearchToolResultBlockContent data) {
-    return switch (data) {
-      WebSearchToolResultBlockContentWebSearchToolResultError(value: final v) =>
-        v.toJson(),
-      WebSearchToolResultBlockContentListWebSearchResultBlock(value: final v) =>
-        v,
-    };
-  }
 }

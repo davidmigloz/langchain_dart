@@ -5,7 +5,7 @@ void main() {
   group('CountMessageTokensRequest tests', () {
     test('deserializes with all fields', () {
       final json = {
-        'model': 'claude-haiku-4-5-20251001',
+        'model': 'claude-3-5-sonnet-20241022',
         'messages': [
           {'role': 'user', 'content': 'Hello, Claude'},
         ],
@@ -32,7 +32,7 @@ void main() {
         isA<CountMessageTokensRequestModelEnumeration>().having(
           (m) => m.value,
           'value',
-          Models.claudeHaiku4520251001,
+          Models.claude35Sonnet20241022,
         ),
       );
       expect(request.messages, hasLength(1));
@@ -45,7 +45,7 @@ void main() {
 
     test('deserializes with required fields only', () {
       final json = {
-        'model': 'claude-haiku-4-5-20251001',
+        'model': 'claude-3-5-sonnet-20241022',
         'messages': [
           {'role': 'user', 'content': 'Hello, Claude'},
         ],
@@ -79,7 +79,7 @@ void main() {
 
     test('deserializes system as string', () {
       final json = {
-        'model': 'claude-haiku-4-5-20251001',
+        'model': 'claude-3-5-sonnet-20241022',
         'messages': [
           {'role': 'user', 'content': 'Hello'},
         ],
@@ -98,7 +98,7 @@ void main() {
 
     test('deserializes system as array of blocks', () {
       final json = {
-        'model': 'claude-haiku-4-5-20251001',
+        'model': 'claude-3-5-sonnet-20241022',
         'messages': [
           {'role': 'user', 'content': 'Hello'},
         ],
@@ -111,30 +111,30 @@ void main() {
     });
 
     test('serializes correctly', () {
-      const request = CountMessageTokensRequest(
+      final request = CountMessageTokensRequest(
         model: CountMessageTokensRequestModel.enumeration(
-          Models.claudeHaiku4520251001,
+          Models.claude35Sonnet20241022,
         ),
-        messages: [
+        messages: const [
           Message(
             role: MessageRole.user,
             content: MessageContent.text('Hello'),
           ),
         ],
-        system: CountMessageTokensRequestSystem.string('Be helpful'),
+        system: const CountMessageTokensRequestSystem.string('Be helpful'),
       );
       final json = request.toJson();
-      expect(json['model'], 'claude-haiku-4-5-20251001');
+      expect(json['model'], 'claude-3-5-sonnet-20241022');
       expect(json['messages'], hasLength(1));
       expect(json['system'], 'Be helpful');
     });
 
     test('serializes with null optional fields excluded', () {
-      const request = CountMessageTokensRequest(
+      final request = CountMessageTokensRequest(
         model: CountMessageTokensRequestModel.enumeration(
-          Models.claudeHaiku4520251001,
+          Models.claude35Sonnet20241022,
         ),
-        messages: [
+        messages: const [
           Message(
             role: MessageRole.user,
             content: MessageContent.text('Hello'),

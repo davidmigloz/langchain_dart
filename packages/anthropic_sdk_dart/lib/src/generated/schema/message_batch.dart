@@ -35,16 +35,6 @@ abstract class MessageBatch with _$MessageBatch {
     /// URL to a `.jsonl` file containing the results of the Message Batch requests. Specified only once processing ends.
     @JsonKey(name: 'results_url', includeIfNull: false) String? resultsUrl,
 
-    /// RFC 3339 datetime string representing the time at which processing for the Message Batch ended. Specified only once processing ends.
-    @JsonKey(name: 'ended_at', includeIfNull: false) String? endedAt,
-
-    /// RFC 3339 datetime string representing the time at which the Message Batch was archived and its results became unavailable.
-    @JsonKey(name: 'archived_at', includeIfNull: false) String? archivedAt,
-
-    /// RFC 3339 datetime string representing the time at which cancellation of the Message Batch was initiated. Specified only if cancellation was initiated.
-    @JsonKey(name: 'cancel_initiated_at', includeIfNull: false)
-    String? cancelInitiatedAt,
-
     /// Object type. For Message Batches, this is always `"message_batch"`.
     required MessageBatchType type,
   }) = _MessageBatch;
@@ -61,9 +51,6 @@ abstract class MessageBatch with _$MessageBatch {
     'processing_status',
     'request_counts',
     'results_url',
-    'ended_at',
-    'archived_at',
-    'cancel_initiated_at',
     'type',
   ];
 
@@ -81,9 +68,6 @@ abstract class MessageBatch with _$MessageBatch {
       'processing_status': processingStatus,
       'request_counts': requestCounts,
       'results_url': resultsUrl,
-      'ended_at': endedAt,
-      'archived_at': archivedAt,
-      'cancel_initiated_at': cancelInitiatedAt,
       'type': type,
     };
   }

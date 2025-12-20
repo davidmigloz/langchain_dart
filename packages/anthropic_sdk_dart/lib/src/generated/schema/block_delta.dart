@@ -59,39 +59,6 @@ sealed class BlockDelta with _$BlockDelta {
     required ThinkingBlockDeltaType type,
   }) = ThinkingBlockDelta;
 
-  // ------------------------------------------
-  // UNION: SignatureBlockDelta
-  // ------------------------------------------
-
-  /// A delta in a streaming signature block. This contains the cryptographic signature
-  /// for a thinking block, used to verify the integrity of thinking content.
-
-  @FreezedUnionValue('signature_delta')
-  const factory BlockDelta.signature({
-    /// The signature delta.
-    required String signature,
-
-    /// The type of content block delta.
-    required SignatureBlockDeltaType type,
-  }) = SignatureBlockDelta;
-
-  // ------------------------------------------
-  // UNION: CitationsBlockDelta
-  // ------------------------------------------
-
-  /// A delta in a streaming citations block. This contains citation information
-  /// for document references in the response.
-
-  @FreezedUnionValue('citations_delta')
-  const factory BlockDelta.citations({
-    /// A citation location reference.
-    /// Any of: [CitationCharLocation], [CitationPageLocation], [CitationContentBlockLocation]
-    required CitationLocation citation,
-
-    /// The type of content block delta.
-    required CitationsBlockDeltaType type,
-  }) = CitationsBlockDelta;
-
   /// Object construction from a JSON representation
   factory BlockDelta.fromJson(Map<String, dynamic> json) =>
       _$BlockDeltaFromJson(json);
@@ -108,10 +75,6 @@ enum BlockDeltaEnumType {
   inputJsonDelta,
   @JsonValue('thinking_delta')
   thinkingDelta,
-  @JsonValue('signature_delta')
-  signatureDelta,
-  @JsonValue('citations_delta')
-  citationsDelta,
 }
 
 // ==========================================
@@ -122,24 +85,4 @@ enum BlockDeltaEnumType {
 enum ThinkingBlockDeltaType {
   @JsonValue('thinking_delta')
   thinkingDelta,
-}
-
-// ==========================================
-// ENUM: SignatureBlockDeltaType
-// ==========================================
-
-/// The type of content block delta.
-enum SignatureBlockDeltaType {
-  @JsonValue('signature_delta')
-  signatureDelta,
-}
-
-// ==========================================
-// ENUM: CitationsBlockDeltaType
-// ==========================================
-
-/// The type of content block delta.
-enum CitationsBlockDeltaType {
-  @JsonValue('citations_delta')
-  citationsDelta,
 }

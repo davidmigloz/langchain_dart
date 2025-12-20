@@ -75,10 +75,10 @@ sealed class Tool with _$Tool {
 
   /// A tool for viewing, creating and editing files.
 
-  @FreezedUnionValue('text_editor_20250728')
+  @FreezedUnionValue('text_editor_20241022')
   const factory Tool.textEditor({
     /// The type of tool.
-    @Default('text_editor_20250728') String type,
+    @Default('text_editor_20241022') String type,
 
     /// The name of the tool.
     @Default('str_replace_editor') String name,
@@ -94,10 +94,10 @@ sealed class Tool with _$Tool {
 
   /// A tool for running commands in a bash shell.
 
-  @FreezedUnionValue('bash_20250124')
+  @FreezedUnionValue('bash_20241022')
   const factory Tool.bash({
     /// The type of tool.
-    @Default('bash_20250124') String type,
+    @Default('bash_20241022') String type,
 
     /// The name of the tool.
     @Default('bash') String name,
@@ -106,90 +106,6 @@ sealed class Tool with _$Tool {
     @JsonKey(name: 'cache_control', includeIfNull: false)
     CacheControlEphemeral? cacheControl,
   }) = ToolBash;
-
-  // ------------------------------------------
-  // UNION: ToolWebSearch
-  // ------------------------------------------
-
-  /// A tool for searching the web.
-
-  @FreezedUnionValue('web_search_20250305')
-  const factory Tool.webSearch({
-    /// The type of tool.
-    required String type,
-
-    /// The name of the tool.
-    required String name,
-
-    /// The cache control settings.
-    @JsonKey(name: 'cache_control', includeIfNull: false)
-    CacheControlEphemeral? cacheControl,
-
-    /// Maximum number of times the tool can be used in the API request.
-    @JsonKey(name: 'max_uses', includeIfNull: false) int? maxUses,
-
-    /// If provided, only these domains will be included in results.
-    /// Cannot be used alongside `blocked_domains`.
-    @JsonKey(name: 'allowed_domains', includeIfNull: false)
-    List<String>? allowedDomains,
-
-    /// If provided, these domains will never appear in results.
-    /// Cannot be used alongside `allowed_domains`.
-    @JsonKey(name: 'blocked_domains', includeIfNull: false)
-    List<String>? blockedDomains,
-
-    /// User location information for web search.
-    @JsonKey(name: 'user_location', includeIfNull: false)
-    WebSearchUserLocation? userLocation,
-  }) = ToolWebSearch;
-
-  // ------------------------------------------
-  // UNION: ToolCodeExecution
-  // ------------------------------------------
-
-  /// A tool for executing code in a sandboxed environment.
-
-  @FreezedUnionValue('code_execution_20250522')
-  const factory Tool.codeExecution({
-    /// The type of tool.
-    required String type,
-
-    /// The name of the tool.
-    required String name,
-
-    /// The cache control settings.
-    @JsonKey(name: 'cache_control', includeIfNull: false)
-    CacheControlEphemeral? cacheControl,
-  }) = ToolCodeExecution;
-
-  // ------------------------------------------
-  // UNION: ToolMcp
-  // ------------------------------------------
-
-  /// A tool representing an MCP (Model Context Protocol) server configuration.
-
-  @FreezedUnionValue('mcp')
-  const factory Tool.mcp({
-    /// The type of tool.
-    required String type,
-
-    /// The name of the MCP tool.
-    required String name,
-
-    /// A label identifying the MCP server.
-    @JsonKey(name: 'server_label') required String serverLabel,
-
-    /// The URL of the MCP server.
-    @JsonKey(name: 'server_url') required String serverUrl,
-
-    /// List of allowed tool names from the MCP server.
-    @JsonKey(name: 'allowed_tools', includeIfNull: false)
-    List<String>? allowedTools,
-
-    /// The cache control settings.
-    @JsonKey(name: 'cache_control', includeIfNull: false)
-    CacheControlEphemeral? cacheControl,
-  }) = ToolMcp;
 
   /// Object construction from a JSON representation
   factory Tool.fromJson(Map<String, dynamic> json) => _$ToolFromJson(json);
@@ -202,14 +118,8 @@ sealed class Tool with _$Tool {
 enum ToolEnumType {
   @JsonValue('computer_20241022')
   computer20241022,
-  @JsonValue('text_editor_20250728')
-  textEditor20250728,
-  @JsonValue('bash_20250124')
-  bash20250124,
-  @JsonValue('web_search_20250305')
-  webSearch20250305,
-  @JsonValue('code_execution_20250522')
-  codeExecution20250522,
-  @JsonValue('mcp')
-  mcp,
+  @JsonValue('text_editor_20241022')
+  textEditor20241022,
+  @JsonValue('bash_20241022')
+  bash20241022,
 }

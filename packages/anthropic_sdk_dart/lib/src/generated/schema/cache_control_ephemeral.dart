@@ -18,10 +18,6 @@ abstract class CacheControlEphemeral with _$CacheControlEphemeral {
     ///
     @Default(CacheControlEphemeralType.ephemeral)
     CacheControlEphemeralType type,
-
-    /// The time-to-live for the cache entry in seconds. If not provided, the
-    /// default TTL will be used (typically 5 minutes).
-    @JsonKey(includeIfNull: false) int? ttl,
   }) = _CacheControlEphemeral;
 
   /// Object construction from a JSON representation
@@ -29,7 +25,7 @@ abstract class CacheControlEphemeral with _$CacheControlEphemeral {
       _$CacheControlEphemeralFromJson(json);
 
   /// List of all property names of schema
-  static const List<String> propertyNames = ['type', 'ttl'];
+  static const List<String> propertyNames = ['type'];
 
   /// Perform validations on the schema property values
   String? validateSchema() {
@@ -38,7 +34,7 @@ abstract class CacheControlEphemeral with _$CacheControlEphemeral {
 
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
-    return {'type': type, 'ttl': ttl};
+    return {'type': type};
   }
 }
 

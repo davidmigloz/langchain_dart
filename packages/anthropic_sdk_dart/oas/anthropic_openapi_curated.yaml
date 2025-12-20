@@ -11,8 +11,6 @@ servers:
 tags:
   - name: Messages
     description: Send a structured list of input messages with text and/or image content, and the model will generate the next message in the conversation.
-  - name: Models
-    description: List and retrieve information about available models.
 
 paths:
   /messages:
@@ -65,48 +63,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/CountMessageTokensResponse"
   /messages/batches:
-    get:
-      operationId: listMessageBatches
-      tags:
-        - Messages
-      summary: List Message Batches
-      description: |
-        List all Message Batches within a Workspace. Most recently created batches are
-        returned first.
-      parameters:
-        - name: before_id
-          in: query
-          required: false
-          description: |
-            ID of the object to use as a cursor for pagination. When provided, returns the
-            page of results immediately before this object.
-          schema:
-            type: string
-        - name: after_id
-          in: query
-          required: false
-          description: |
-            ID of the object to use as a cursor for pagination. When provided, returns the
-            page of results immediately after this object.
-          schema:
-            type: string
-        - name: limit
-          in: query
-          required: false
-          description: |
-            Number of items to return per page. Defaults to 20. Ranges from 1 to 100.
-          schema:
-            type: integer
-            minimum: 1
-            maximum: 100
-            default: 20
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ListMessageBatchesResponse"
     post:
       operationId: createMessageBatch
       tags:
@@ -150,152 +106,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/MessageBatch"
-    delete:
-      operationId: deleteMessageBatch
-      tags:
-        - Messages
-      summary: Delete a Message Batch
-      description: |
-        Delete a Message Batch.
-
-        Message Batches can be deleted at any time. Once a batch is deleted, it is no
-        longer available and all associated results will be removed.
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: The ID of the message batch to delete.
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/DeleteMessageBatchResponse"
-  /messages/batches/{id}/results:
-    get:
-      operationId: getMessageBatchResults
-      tags:
-        - Messages
-      summary: Get Message Batch Results
-      description: |
-        Streams the results of a Message Batch as a `.jsonl` file.
-
-        Each line in the file is a JSON object containing the result of a single
-        request in the Message Batch. Results are not guaranteed to be in the same
-        order as requests. Use the `custom_id` field to match results to requests.
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: The ID of the message batch to retrieve results for.
-      responses:
-        "200":
-          description: OK
-          content:
-            application/x-jsonl:
-              schema:
-                $ref: "#/components/schemas/MessageBatchIndividualResponse"
-  /messages/batches/{id}/cancel:
-    post:
-      operationId: cancelMessageBatch
-      tags:
-        - Messages
-      summary: Cancel a Message Batch
-      description: |
-        Batches may be canceled any time before processing ends. Once cancellation
-        is initiated, the batch enters a `canceling` state, at which time the system
-        may complete any in-progress, non-interruptible requests before finalizing
-        cancellation.
-
-        The number of canceled requests is specified in `request_counts`. To
-        determine which requests were canceled, check the individual results within
-        the batch. Note that cancellation may not result in any canceled requests
-        if they were non-interruptible.
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: The ID of the message batch to cancel.
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/MessageBatch"
-  /models:
-    get:
-      operationId: listModels
-      tags:
-        - Models
-      summary: List Models
-      description: |
-        List available models. The Models API response can be used to determine
-        which models are available for use in the API.
-      parameters:
-        - name: before_id
-          in: query
-          required: false
-          description: |
-            ID of the object to use as a cursor for pagination. When provided, returns the
-            page of results immediately before this object.
-          schema:
-            type: string
-        - name: after_id
-          in: query
-          required: false
-          description: |
-            ID of the object to use as a cursor for pagination. When provided, returns the
-            page of results immediately after this object.
-          schema:
-            type: string
-        - name: limit
-          in: query
-          required: false
-          description: |
-            Number of items to return per page. Defaults to 20. Ranges from 1 to 1000.
-          schema:
-            type: integer
-            minimum: 1
-            maximum: 1000
-            default: 20
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ListModelsResponse"
-  /models/{model_id}:
-    get:
-      operationId: retrieveModel
-      tags:
-        - Models
-      summary: Retrieve a Model
-      description: |
-        Get a specific model. The Models API response can be used to determine
-        information about a specific model or resolve a model alias to a model ID.
-      parameters:
-        - name: model_id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: The model ID or alias.
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ModelInfo"
 
 components:
   securitySchemes:
@@ -325,18 +135,9 @@ components:
               description: |
                 Available models. Mind that the list may not be exhaustive nor up-to-date.
               enum:
-                - claude-opus-4-5-20251101
-                - claude-sonnet-4-5-20250929
-                - claude-haiku-4-5-20251001
-                - claude-opus-4-20250514
-                - claude-sonnet-4-20250514
-                - claude-3-7-sonnet-latest
-                - claude-3-7-sonnet-20250219
                 - claude-3-5-sonnet-latest
                 - claude-3-5-sonnet-20241022
                 - claude-3-5-sonnet-20240620
-                - claude-3-5-haiku-latest
-                - claude-3-5-haiku-20241022
                 - claude-3-opus-latest
                 - claude-3-opus-20240229
                 - claude-3-sonnet-20240229
@@ -620,18 +421,9 @@ components:
               description: |
                 Available models. Mind that the list may not be exhaustive nor up-to-date.
               enum:
-                - claude-opus-4-5-20251101
-                - claude-sonnet-4-5-20250929
-                - claude-haiku-4-5-20251001
-                - claude-opus-4-20250514
-                - claude-sonnet-4-20250514
-                - claude-3-7-sonnet-latest
-                - claude-3-7-sonnet-20250219
                 - claude-3-5-sonnet-latest
                 - claude-3-5-sonnet-20241022
                 - claude-3-5-sonnet-20240620
-                - claude-3-5-haiku-latest
-                - claude-3-5-haiku-20241022
                 - claude-3-opus-latest
                 - claude-3-opus-20240229
                 - claude-3-sonnet-20240229
@@ -850,19 +642,8 @@ components:
         - $ref: "#/components/schemas/ToolComputerUse"
         - $ref: "#/components/schemas/ToolTextEditor"
         - $ref: "#/components/schemas/ToolBash"
-        - $ref: "#/components/schemas/ToolWebSearch"
-        - $ref: "#/components/schemas/ToolCodeExecution"
-        - $ref: "#/components/schemas/ToolMcp"
       discriminator:
         propertyName: type
-        mapping:
-          custom: "#/components/schemas/ToolCustom"
-          computer_20241022: "#/components/schemas/ToolComputerUse"
-          text_editor_20250728: "#/components/schemas/ToolTextEditor"
-          bash_20250124: "#/components/schemas/ToolBash"
-          web_search_20250305: "#/components/schemas/ToolWebSearch"
-          code_execution_20250522: "#/components/schemas/ToolCodeExecution"
-          mcp: "#/components/schemas/ToolMcp"
     ToolCustom:
       type: object
       description: A custom tool the model may use.
@@ -928,7 +709,7 @@ components:
         type:
           type: string
           description: The type of tool.
-          default: text_editor_20250728
+          default: text_editor_20241022
         name:
           type: string
           description: The name of the tool.
@@ -942,158 +723,29 @@ components:
         type:
           type: string
           description: The type of tool.
-          default: bash_20250124
+          default: bash_20241022
         name:
           type: string
           description: The name of the tool.
           default: bash
         cache_control:
           $ref: "#/components/schemas/CacheControlEphemeral"
-    ToolWebSearch:
-      type: object
-      description: A tool for searching the web.
-      properties:
-        type:
-          type: string
-          description: The type of tool.
-          default: web_search_20250305
-        name:
-          type: string
-          description: The name of the tool.
-          default: web_search
-        cache_control:
-          $ref: "#/components/schemas/CacheControlEphemeral"
-        max_uses:
-          type: integer
-          nullable: true
-          description: Maximum number of times the tool can be used in the API request.
-        allowed_domains:
-          type: array
-          nullable: true
-          description: |
-            If provided, only these domains will be included in results.
-            Cannot be used alongside `blocked_domains`.
-          items:
-            type: string
-        blocked_domains:
-          type: array
-          nullable: true
-          description: |
-            If provided, these domains will never appear in results.
-            Cannot be used alongside `allowed_domains`.
-          items:
-            type: string
-        user_location:
-          $ref: "#/components/schemas/WebSearchUserLocation"
-      required:
-        - type
-        - name
-    WebSearchUserLocation:
-      type: object
-      nullable: true
-      description: User location information for web search.
-      properties:
-        type:
-          type: string
-          description: The type of location.
-          default: approximate
-        city:
-          type: string
-          nullable: true
-          description: The city name.
-        region:
-          type: string
-          nullable: true
-          description: The region or state name.
-        country:
-          type: string
-          nullable: true
-          description: The country code (ISO 3166-1 alpha-2).
-        timezone:
-          type: string
-          nullable: true
-          description: The timezone (IANA timezone ID).
-    ToolCodeExecution:
-      type: object
-      description: A tool for executing code in a sandboxed environment.
-      properties:
-        type:
-          type: string
-          description: The type of tool.
-          default: code_execution_20250522
-        name:
-          type: string
-          description: The name of the tool.
-          default: code_execution
-        cache_control:
-          $ref: "#/components/schemas/CacheControlEphemeral"
-      required:
-        - type
-        - name
-    ToolMcp:
-      type: object
-      description: A tool representing an MCP (Model Context Protocol) server configuration.
-      properties:
-        type:
-          type: string
-          description: The type of tool.
-          default: mcp
-        name:
-          type: string
-          description: The name of the MCP tool.
-        server_label:
-          type: string
-          description: A label identifying the MCP server.
-        server_url:
-          type: string
-          description: The URL of the MCP server.
-        allowed_tools:
-          type: array
-          nullable: true
-          description: List of allowed tool names from the MCP server.
-          items:
-            type: string
-        cache_control:
-          $ref: "#/components/schemas/CacheControlEphemeral"
-      required:
-        - type
-        - name
-        - server_label
-        - server_url
     Block:
       description: A block of content in a message.
       oneOf:
         - $ref: "#/components/schemas/TextBlock"
         - $ref: "#/components/schemas/ImageBlock"
-        - $ref: "#/components/schemas/DocumentBlock"
         - $ref: "#/components/schemas/ToolUseBlock"
         - $ref: "#/components/schemas/ToolResultBlock"
         - $ref: "#/components/schemas/ThinkingBlock"
-        - $ref: "#/components/schemas/RedactedThinkingBlock"
-        - $ref: "#/components/schemas/ServerToolUseBlock"
-        - $ref: "#/components/schemas/WebSearchToolResultBlock"
-        - $ref: "#/components/schemas/MCPToolUseBlock"
-        - $ref: "#/components/schemas/MCPToolResultBlock"
-        - $ref: "#/components/schemas/SearchResultBlock"
-        - $ref: "#/components/schemas/CodeExecutionToolResultBlock"
-        - $ref: "#/components/schemas/ContainerUploadBlock"
       discriminator:
         propertyName: type
         mapping:
           text: "#/components/schemas/TextBlock"
           image: "#/components/schemas/ImageBlock"
-          document: "#/components/schemas/DocumentBlock"
           tool_use: "#/components/schemas/ToolUseBlock"
           tool_result: "#/components/schemas/ToolResultBlock"
           thinking: "#/components/schemas/ThinkingBlock"
-          redacted_thinking: "#/components/schemas/RedactedThinkingBlock"
-          server_tool_use: "#/components/schemas/ServerToolUseBlock"
-          web_search_tool_result: "#/components/schemas/WebSearchToolResultBlock"
-          mcp_tool_use: "#/components/schemas/MCPToolUseBlock"
-          mcp_tool_result: "#/components/schemas/MCPToolResultBlock"
-          search_result: "#/components/schemas/SearchResultBlock"
-          code_execution_tool_result: "#/components/schemas/CodeExecutionToolResultBlock"
-          container_upload: "#/components/schemas/ContainerUploadBlock"
     TextBlock:
       type: object
       description: A block of text content.
@@ -1124,23 +776,12 @@ components:
       required:
         - source
     ImageBlockSource:
-      description: The source of an image block.
-      oneOf:
-        - $ref: "#/components/schemas/Base64ImageSource"
-        - $ref: "#/components/schemas/UrlImageSource"
-      discriminator:
-        propertyName: type
-        mapping:
-          base64: "#/components/schemas/Base64ImageSource"
-          url: "#/components/schemas/UrlImageSource"
-    Base64ImageSource:
       type: object
-      description: An image source using base64-encoded data.
+      description: The source of an image block.
       properties:
-        type:
+        data:
           type: string
-          description: The type of image source.
-          default: base64
+          description: The base64-encoded image data.
         media_type:
           type: string
           description: The media type of the image.
@@ -1149,144 +790,15 @@ components:
             - image/png
             - image/gif
             - image/webp
-        data:
-          type: string
-          description: The base64-encoded image data.
-      required:
-        - type
-        - media_type
-        - data
-    UrlImageSource:
-      type: object
-      description: An image source using a URL.
-      properties:
         type:
           type: string
           description: The type of image source.
-          default: url
-        url:
-          type: string
-          description: The URL of the image.
-      required:
-        - type
-        - url
-    DocumentBlock:
-      type: object
-      description: |
-        A block of document content. Documents can be provided as base64-encoded data,
-        plain text, URLs, or references to content blocks.
-      properties:
-        type:
-          type: string
-          description: The type of content block.
-          default: document
-        source:
-          $ref: "#/components/schemas/DocumentBlockSource"
-        title:
-          type: string
-          nullable: true
-          description: The title of the document.
-        context:
-          type: string
-          nullable: true
-          description: Additional context about the document.
-        citations:
-          $ref: "#/components/schemas/CitationsConfig"
-        cache_control:
-          $ref: "#/components/schemas/CacheControlEphemeral"
-      required:
-        - type
-        - source
-    DocumentBlockSource:
-      description: The source of a document block.
-      oneOf:
-        - $ref: "#/components/schemas/Base64PdfSource"
-        - $ref: "#/components/schemas/PlainTextSource"
-        - $ref: "#/components/schemas/ContentBlockSource"
-        - $ref: "#/components/schemas/UrlPdfSource"
-      discriminator:
-        propertyName: type
-        mapping:
-          base64: "#/components/schemas/Base64PdfSource"
-          text: "#/components/schemas/PlainTextSource"
-          content: "#/components/schemas/ContentBlockSource"
-          url: "#/components/schemas/UrlPdfSource"
-    Base64PdfSource:
-      type: object
-      description: A document source using base64-encoded PDF data.
-      properties:
-        type:
-          type: string
-          description: The type of document source.
-          default: base64
-        media_type:
-          type: string
-          description: The media type of the document.
           enum:
-            - application/pdf
-        data:
-          type: string
-          description: The base64-encoded PDF data.
+            - base64
       required:
-        - type
-        - media_type
         - data
-    PlainTextSource:
-      type: object
-      description: A document source using plain text.
-      properties:
-        type:
-          type: string
-          description: The type of document source.
-          default: text
-        media_type:
-          type: string
-          description: The media type of the content.
-          enum:
-            - text/plain
-        data:
-          type: string
-          description: The text content.
-      required:
-        - type
         - media_type
-        - data
-    ContentBlockSource:
-      type: object
-      description: A document source referencing a content block.
-      properties:
-        type:
-          type: string
-          description: The type of document source.
-          default: content
-        content:
-          type: string
-          description: The content block reference.
-      required:
         - type
-        - content
-    UrlPdfSource:
-      type: object
-      description: A document source using a URL to a PDF.
-      properties:
-        type:
-          type: string
-          description: The type of document source.
-          default: url
-        url:
-          type: string
-          description: The URL of the PDF document.
-      required:
-        - type
-        - url
-    CitationsConfig:
-      type: object
-      nullable: true
-      description: Configuration for document citations.
-      properties:
-        enabled:
-          type: boolean
-          description: Whether citations are enabled.
     ToolUseBlock:
       type: object
       description: The tool the model wants to use.
@@ -1373,325 +885,6 @@ components:
       required:
         - type
         - thinking
-    RedactedThinkingBlock:
-      type: object
-      description: |
-        A block representing thinking content that has been redacted for security
-        or safety reasons. This block type appears when Claude's internal thinking
-        process contained content that was redacted.
-      properties:
-        type:
-          type: string
-          description: The type of content block.
-          enum:
-            - redacted_thinking
-          default: redacted_thinking
-        data:
-          type: string
-          description: |
-            Encrypted or opaque data representing the redacted thinking content.
-            This data cannot be decrypted by the client.
-      required:
-        - type
-        - data
-    ServerToolUseBlock:
-      type: object
-      description: |
-        A block representing server-side tool use. This is used for tools that are
-        executed by the API server rather than the client, such as web search.
-      properties:
-        type:
-          type: string
-          description: The type of content block.
-          default: server_tool_use
-        id:
-          type: string
-          description: Unique identifier for this tool use instance.
-        name:
-          type: string
-          description: The name of the server tool being used.
-        input:
-          type: object
-          additionalProperties: true
-          description: The input parameters for the tool.
-      required:
-        - type
-        - id
-        - name
-        - input
-    WebSearchToolResultBlock:
-      type: object
-      description: |
-        A block containing web search results from the web search tool.
-      properties:
-        type:
-          type: string
-          description: The type of content block.
-          default: web_search_tool_result
-        tool_use_id:
-          type: string
-          description: The ID of the tool use that generated these results.
-        content:
-          description: The search results or an error.
-          oneOf:
-            - $ref: "#/components/schemas/WebSearchToolResultError"
-            - type: array
-              items:
-                $ref: "#/components/schemas/WebSearchResultBlock"
-      required:
-        - type
-        - tool_use_id
-        - content
-    WebSearchToolResultError:
-      type: object
-      description: An error from the web search tool.
-      properties:
-        type:
-          type: string
-          description: The type of error block.
-          default: web_search_tool_result_error
-        error_code:
-          $ref: "#/components/schemas/WebSearchToolResultErrorCode"
-      required:
-        - type
-        - error_code
-    WebSearchToolResultErrorCode:
-      type: string
-      description: The error code for a web search tool result error.
-      enum:
-        - invalid_request
-        - unavailable
-        - max_uses_exceeded
-        - too_many_requests
-        - query_too_long
-        - filtered
-        - internal_error
-    WebSearchResultBlock:
-      type: object
-      description: A single web search result.
-      properties:
-        type:
-          type: string
-          description: The type of block.
-          default: web_search_result
-        title:
-          type: string
-          description: The title of the search result.
-        url:
-          type: string
-          description: The URL of the search result.
-        encrypted_content:
-          type: string
-          description: Encrypted content from the search result.
-        page_age:
-          type: string
-          nullable: true
-          description: The age of the page.
-      required:
-        - type
-        - title
-        - url
-        - encrypted_content
-    MCPToolUseBlock:
-      type: object
-      description: |
-        A block representing MCP (Model Context Protocol) tool use.
-      properties:
-        type:
-          type: string
-          description: The type of content block.
-          default: mcp_tool_use
-        id:
-          type: string
-          description: Unique identifier for this MCP tool use.
-        server_name:
-          type: string
-          description: The name of the MCP server.
-        name:
-          type: string
-          description: The name of the MCP tool being used.
-        input:
-          type: object
-          additionalProperties: true
-          description: The input parameters for the MCP tool.
-      required:
-        - type
-        - id
-        - server_name
-        - name
-        - input
-    MCPToolResultBlock:
-      type: object
-      description: |
-        A block containing the result of an MCP tool execution.
-      properties:
-        type:
-          type: string
-          description: The type of content block.
-          default: mcp_tool_result
-        tool_use_id:
-          type: string
-          description: The ID of the MCP tool use that generated this result.
-        is_error:
-          type: boolean
-          description: Whether the tool execution resulted in an error.
-        content:
-          type: array
-          description: The content of the tool result.
-          items:
-            $ref: "#/components/schemas/MCPToolResultContent"
-      required:
-        - type
-        - tool_use_id
-    MCPToolResultContent:
-      type: object
-      description: Content within an MCP tool result.
-      properties:
-        type:
-          type: string
-          description: The type of content.
-        text:
-          type: string
-          description: The text content.
-      required:
-        - type
-    SearchResultBlock:
-      type: object
-      description: |
-        A search result block containing source, title, and content from search operations.
-      properties:
-        type:
-          type: string
-          description: The type of content block.
-          default: search_result
-        source:
-          type: string
-          description: The source URL or identifier.
-        title:
-          type: string
-          description: The title of the search result.
-        content:
-          type: array
-          description: The content of the search result.
-          items:
-            $ref: "#/components/schemas/TextBlock"
-        citations:
-          $ref: "#/components/schemas/CitationsConfig"
-        cache_control:
-          $ref: "#/components/schemas/CacheControlEphemeral"
-      required:
-        - type
-        - source
-        - title
-        - content
-    CodeExecutionToolResultBlock:
-      type: object
-      description: |
-        A block containing the result of code execution.
-      properties:
-        type:
-          type: string
-          description: The type of content block.
-          default: code_execution_tool_result
-        tool_use_id:
-          type: string
-          description: The ID of the tool use that generated this result.
-        content:
-          description: The code execution result or an error.
-          oneOf:
-            - $ref: "#/components/schemas/CodeExecutionResultBlock"
-            - $ref: "#/components/schemas/CodeExecutionToolResultError"
-      required:
-        - type
-        - tool_use_id
-        - content
-    CodeExecutionResultBlock:
-      type: object
-      description: The result of successful code execution.
-      properties:
-        type:
-          type: string
-          description: The type of block.
-          default: code_execution_result
-        return_code:
-          type: integer
-          description: The return code of the execution.
-        stdout:
-          type: string
-          description: The standard output from execution.
-        stderr:
-          type: string
-          description: The standard error from execution.
-        content:
-          type: array
-          description: Additional content from the execution.
-          items:
-            $ref: "#/components/schemas/CodeExecutionOutputBlock"
-      required:
-        - type
-        - return_code
-        - stdout
-        - stderr
-    CodeExecutionOutputBlock:
-      type: object
-      description: Output content from code execution.
-      properties:
-        type:
-          type: string
-          description: The type of output.
-        file_id:
-          type: string
-          description: The file ID for the output.
-      required:
-        - type
-        - file_id
-    CodeExecutionToolResultError:
-      type: object
-      description: An error from code execution.
-      properties:
-        type:
-          type: string
-          description: The type of error block.
-          default: code_execution_tool_result_error
-        error_code:
-          $ref: "#/components/schemas/CodeExecutionToolResultErrorCode"
-      required:
-        - type
-        - error_code
-    CodeExecutionToolResultErrorCode:
-      type: string
-      description: The error code for a code execution tool result error.
-      enum:
-        - invalid_request
-        - unavailable
-        - max_duration_exceeded
-        - internal_error
-    ContainerUploadBlock:
-      type: object
-      description: |
-        A block representing a file uploaded to a container.
-      properties:
-        type:
-          type: string
-          description: The type of content block.
-          default: container_upload
-        file_id:
-          type: string
-          description: The unique identifier for the uploaded file.
-        filename:
-          type: string
-          description: The name of the uploaded file.
-        file_size:
-          type: integer
-          description: The size of the file in bytes.
-        content:
-          type: string
-          description: The content of the file.
-      required:
-        - type
-        - file_id
-        - filename
-        - file_size
     CacheControlEphemeral:
       type: object
       description: The cache control settings.
@@ -1701,26 +894,18 @@ components:
             - ephemeral
           type: string
           default: ephemeral
-        ttl:
-          type: integer
-          nullable: true
-          description: |
-            The time-to-live for the cache entry in seconds. If not provided, the
-            default TTL will be used (typically 5 minutes).
     StopReason:
       type: string
       description: |
         The reason that we stopped.
-
+        
         This may be one the following values:
-
+        
         - `"end_turn"`: the model reached a natural stopping point
         - `"max_tokens"`: we exceeded the requested `max_tokens` or the model's maximum
         - `"stop_sequence"`: one of your provided custom `stop_sequences` was generated
         - `"tool_use"`: the model invoked one or more tools
-        - `"pause_turn"`: the model paused its turn for a multi-turn interaction
-        - `"refusal"`: the model refused to generate a response
-
+        
         In non-streaming mode this value is always non-null. In streaming mode, it is
         null in the `message_start` event and non-null otherwise.
       nullable: true
@@ -1729,8 +914,6 @@ components:
         - max_tokens
         - stop_sequence
         - tool_use
-        - pause_turn
-        - refusal
     Usage:
       type: object
       description: |
@@ -1755,37 +938,13 @@ components:
           description: The number of output tokens which were used.
         cache_creation_input_tokens:
           type: integer
-          nullable: true
-          description: The number of input tokens used to create the cache entry.
+          description: The number of input tokens read from the cache.
         cache_read_input_tokens:
           type: integer
-          nullable: true
-          description: The number of input tokens read from the cache.
-        server_tool_use:
-          $ref: "#/components/schemas/ServerToolUsage"
-        service_tier:
-          $ref: "#/components/schemas/ServiceTier"
+          description: The number of input tokens used to create the cache entry.
       required:
         - input_tokens
         - output_tokens
-    ServerToolUsage:
-      type: object
-      nullable: true
-      description: Usage information for server-side tool execution.
-      properties:
-        web_search_requests:
-          type: integer
-          nullable: true
-          description: The number of web search requests made during tool execution.
-    ServiceTier:
-      type: string
-      nullable: true
-      description: |
-        The service tier used to process the request. Can be used for billing and
-        rate limiting purposes.
-      enum:
-        - standard
-        - priority
     CreateMessageBatchRequest:
       type: object
       description: The request parameters for creating a message batch.
@@ -1841,21 +1000,6 @@ components:
           type: string
           nullable: true
           description: URL to a `.jsonl` file containing the results of the Message Batch requests. Specified only once processing ends.
-        ended_at:
-          type: string
-          format: date-time
-          nullable: true
-          description: RFC 3339 datetime string representing the time at which processing for the Message Batch ended. Specified only once processing ends.
-        archived_at:
-          type: string
-          format: date-time
-          nullable: true
-          description: RFC 3339 datetime string representing the time at which the Message Batch was archived and its results became unavailable.
-        cancel_initiated_at:
-          type: string
-          format: date-time
-          nullable: true
-          description: RFC 3339 datetime string representing the time at which cancellation of the Message Batch was initiated. Specified only if cancellation was initiated.
         type:
           type: string
           enum:
@@ -1868,174 +1012,6 @@ components:
         - processing_status
         - request_counts
         - type
-    DeleteMessageBatchResponse:
-      type: object
-      description: Response returned when a message batch is deleted.
-      properties:
-        id:
-          type: string
-          description: ID of the deleted Message Batch.
-        type:
-          type: string
-          enum:
-            - message_batch_deleted
-          description: Deleted object type. Always `"message_batch_deleted"`.
-      required:
-        - id
-        - type
-    MessageBatchIndividualResponse:
-      type: object
-      description: An individual result from a Message Batch.
-      properties:
-        custom_id:
-          type: string
-          description: |
-            Developer-provided ID created for each request in a Message Batch.
-            Useful for matching results to requests.
-        result:
-          $ref: "#/components/schemas/MessageBatchResult"
-      required:
-        - custom_id
-        - result
-    MessageBatchResult:
-      type: object
-      description: |
-        The result of processing a request in a Message Batch.
-        Can be succeeded, errored, canceled, or expired.
-      oneOf:
-        - $ref: "#/components/schemas/MessageBatchSucceededResult"
-        - $ref: "#/components/schemas/MessageBatchErroredResult"
-        - $ref: "#/components/schemas/MessageBatchCanceledResult"
-        - $ref: "#/components/schemas/MessageBatchExpiredResult"
-      discriminator:
-        propertyName: type
-        mapping:
-          succeeded: "#/components/schemas/MessageBatchSucceededResult"
-          errored: "#/components/schemas/MessageBatchErroredResult"
-          canceled: "#/components/schemas/MessageBatchCanceledResult"
-          expired: "#/components/schemas/MessageBatchExpiredResult"
-    MessageBatchSucceededResult:
-      type: object
-      description: Result of a successfully completed request.
-      properties:
-        type:
-          type: string
-          description: The result type.
-          default: succeeded
-        message:
-          $ref: "#/components/schemas/Message"
-      required:
-        - type
-        - message
-    MessageBatchErroredResult:
-      type: object
-      description: Result of a request that encountered an error.
-      properties:
-        type:
-          type: string
-          description: The result type.
-          default: errored
-        error:
-          $ref: "#/components/schemas/Error"
-      required:
-        - type
-        - error
-    MessageBatchCanceledResult:
-      type: object
-      description: Result of a request that was canceled.
-      properties:
-        type:
-          type: string
-          description: The result type.
-          default: canceled
-      required:
-        - type
-    MessageBatchExpiredResult:
-      type: object
-      description: Result of a request that expired.
-      properties:
-        type:
-          type: string
-          description: The result type.
-          default: expired
-      required:
-        - type
-    ListMessageBatchesResponse:
-      type: object
-      description: Response containing a list of message batches.
-      properties:
-        data:
-          type: array
-          description: List of MessageBatch objects.
-          items:
-            $ref: "#/components/schemas/MessageBatch"
-        has_more:
-          type: boolean
-          description: |
-            Indicates if there are more results in the requested page direction.
-        first_id:
-          type: string
-          nullable: true
-          description: |
-            First ID in the `data` list. Can be used as the `before_id` for the previous page.
-        last_id:
-          type: string
-          nullable: true
-          description: |
-            Last ID in the `data` list. Can be used as the `after_id` for the next page.
-      required:
-        - data
-        - has_more
-    ModelInfo:
-      type: object
-      description: Describes a model with basic information.
-      properties:
-        id:
-          type: string
-          description: Unique model identifier.
-        type:
-          type: string
-          enum:
-            - model
-          description: Object type. Always `"model"` for models.
-        display_name:
-          type: string
-          description: A human-readable name for the model.
-        created_at:
-          type: string
-          format: date-time
-          description: RFC 3339 datetime string representing the time at which the model was released. May be set to an epoch value if the release date is unknown.
-      required:
-        - id
-        - type
-        - display_name
-        - created_at
-    ListModelsResponse:
-      type: object
-      description: Response containing a list of models.
-      properties:
-        data:
-          type: array
-          description: List of ModelInfo objects.
-          items:
-            $ref: "#/components/schemas/ModelInfo"
-        has_more:
-          type: boolean
-          description: |
-            Indicates if there are more results in the requested page direction.
-        first_id:
-          type: string
-          nullable: true
-          description: |
-            First ID in the `data` list. Can be used as the `before_id` for the previous page.
-        last_id:
-          type: string
-          nullable: true
-          description: |
-            Last ID in the `data` list. Can be used as the `after_id` for the next page.
-      required:
-        - data
-        - has_more
     MessageBatchRequestCounts:
       type: object
       description: Tallies requests within the Message Batch, categorized by their status.
@@ -2199,16 +1175,12 @@ components:
         - $ref: "#/components/schemas/TextBlockDelta"
         - $ref: "#/components/schemas/InputJsonBlockDelta"
         - $ref: "#/components/schemas/ThinkingBlockDelta"
-        - $ref: "#/components/schemas/SignatureBlockDelta"
-        - $ref: "#/components/schemas/CitationsBlockDelta"
       discriminator:
         propertyName: type
         mapping:
           text_delta: "#/components/schemas/TextBlockDelta"
           input_json_delta: "#/components/schemas/InputJsonBlockDelta"
           thinking_delta: "#/components/schemas/ThinkingBlockDelta"
-          signature_delta: "#/components/schemas/SignatureBlockDelta"
-          citations_delta: "#/components/schemas/CitationsBlockDelta"
     TextBlockDelta:
       type: object
       description: A delta in a streaming text block.
@@ -2255,146 +1227,6 @@ components:
       required:
         - thinking
         - type
-    SignatureBlockDelta:
-      type: object
-      description: |
-        A delta in a streaming signature block. This contains the cryptographic signature
-        for a thinking block, used to verify the integrity of thinking content.
-      properties:
-        signature:
-          type: string
-          description: The signature delta.
-        type:
-          type: string
-          description: The type of content block delta.
-          enum:
-            - signature_delta
-          default: signature_delta
-      required:
-        - signature
-        - type
-    CitationsBlockDelta:
-      type: object
-      description: |
-        A delta in a streaming citations block. This contains citation information
-        for document references in the response.
-      properties:
-        citation:
-          $ref: "#/components/schemas/CitationLocation"
-        type:
-          type: string
-          description: The type of content block delta.
-          enum:
-            - citations_delta
-          default: citations_delta
-      required:
-        - citation
-        - type
-    CitationLocation:
-      description: A citation location reference.
-      oneOf:
-        - $ref: "#/components/schemas/CitationCharLocation"
-        - $ref: "#/components/schemas/CitationPageLocation"
-        - $ref: "#/components/schemas/CitationContentBlockLocation"
-      discriminator:
-        propertyName: type
-        mapping:
-          char_location: "#/components/schemas/CitationCharLocation"
-          page_location: "#/components/schemas/CitationPageLocation"
-          content_block_location: "#/components/schemas/CitationContentBlockLocation"
-    CitationCharLocation:
-      type: object
-      description: A character-based citation location within a document.
-      properties:
-        type:
-          type: string
-          description: The type of citation location.
-          enum:
-            - char_location
-          default: char_location
-        cited_text:
-          type: string
-          description: The cited text from the document.
-        document_index:
-          type: integer
-          description: The index of the document in the request.
-        document_title:
-          type: string
-          description: The title of the cited document.
-        start_char_index:
-          type: integer
-          description: The starting character index of the citation.
-        end_char_index:
-          type: integer
-          description: The ending character index of the citation.
-      required:
-        - type
-        - cited_text
-        - document_index
-        - start_char_index
-        - end_char_index
-    CitationPageLocation:
-      type: object
-      description: A page-based citation location within a document.
-      properties:
-        type:
-          type: string
-          description: The type of citation location.
-          enum:
-            - page_location
-          default: page_location
-        cited_text:
-          type: string
-          description: The cited text from the document.
-        document_index:
-          type: integer
-          description: The index of the document in the request.
-        document_title:
-          type: string
-          description: The title of the cited document.
-        start_page_number:
-          type: integer
-          description: The starting page number of the citation.
-        end_page_number:
-          type: integer
-          description: The ending page number of the citation.
-      required:
-        - type
-        - cited_text
-        - document_index
-        - start_page_number
-        - end_page_number
-    CitationContentBlockLocation:
-      type: object
-      description: A content block-based citation location.
-      properties:
-        type:
-          type: string
-          description: The type of citation location.
-          enum:
-            - content_block_location
-          default: content_block_location
-        cited_text:
-          type: string
-          description: The cited text from the content block.
-        document_index:
-          type: integer
-          description: The index of the document in the request.
-        document_title:
-          type: string
-          description: The title of the cited document.
-        start_block_index:
-          type: integer
-          description: The starting block index of the citation.
-        end_block_index:
-          type: integer
-          description: The ending block index of the citation.
-      required:
-        - type
-        - cited_text
-        - document_index
-        - start_block_index
-        - end_block_index
     ContentBlockStopEvent:
       type: object
       description: A stop event in a streaming content block.
