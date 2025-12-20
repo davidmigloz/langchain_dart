@@ -54,6 +54,7 @@ part 'union_schema.dart';
 part 'message_batch_result.dart';
 part 'message_stream_event.dart';
 part 'block_delta.dart';
+part 'citation_location.dart';
 
 class Uint8ListConverter implements JsonConverter<Uint8List, List<int>> {
   const Uint8ListConverter();

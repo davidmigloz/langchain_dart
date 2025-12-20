@@ -1548,3 +1548,101 @@ Map<String, dynamic> _$SignatureBlockDeltaToJson(
 const _$SignatureBlockDeltaTypeEnumMap = {
   SignatureBlockDeltaType.signatureDelta: 'signature_delta',
 };
+
+CitationsBlockDelta _$CitationsBlockDeltaFromJson(Map<String, dynamic> json) =>
+    CitationsBlockDelta(
+      citation: CitationLocation.fromJson(
+        json['citation'] as Map<String, dynamic>,
+      ),
+      type: $enumDecode(_$CitationsBlockDeltaTypeEnumMap, json['type']),
+    );
+
+Map<String, dynamic> _$CitationsBlockDeltaToJson(
+  CitationsBlockDelta instance,
+) => <String, dynamic>{
+  'citation': instance.citation.toJson(),
+  'type': _$CitationsBlockDeltaTypeEnumMap[instance.type]!,
+};
+
+const _$CitationsBlockDeltaTypeEnumMap = {
+  CitationsBlockDeltaType.citationsDelta: 'citations_delta',
+};
+
+CitationCharLocation _$CitationCharLocationFromJson(
+  Map<String, dynamic> json,
+) => CitationCharLocation(
+  type: $enumDecode(_$CitationCharLocationTypeEnumMap, json['type']),
+  citedText: json['cited_text'] as String,
+  documentIndex: (json['document_index'] as num).toInt(),
+  documentTitle: json['document_title'] as String?,
+  startCharIndex: (json['start_char_index'] as num).toInt(),
+  endCharIndex: (json['end_char_index'] as num).toInt(),
+);
+
+Map<String, dynamic> _$CitationCharLocationToJson(
+  CitationCharLocation instance,
+) => <String, dynamic>{
+  'type': _$CitationCharLocationTypeEnumMap[instance.type]!,
+  'cited_text': instance.citedText,
+  'document_index': instance.documentIndex,
+  'document_title': ?instance.documentTitle,
+  'start_char_index': instance.startCharIndex,
+  'end_char_index': instance.endCharIndex,
+};
+
+const _$CitationCharLocationTypeEnumMap = {
+  CitationCharLocationType.charLocation: 'char_location',
+};
+
+CitationPageLocation _$CitationPageLocationFromJson(
+  Map<String, dynamic> json,
+) => CitationPageLocation(
+  type: $enumDecode(_$CitationPageLocationTypeEnumMap, json['type']),
+  citedText: json['cited_text'] as String,
+  documentIndex: (json['document_index'] as num).toInt(),
+  documentTitle: json['document_title'] as String?,
+  startPageNumber: (json['start_page_number'] as num).toInt(),
+  endPageNumber: (json['end_page_number'] as num).toInt(),
+);
+
+Map<String, dynamic> _$CitationPageLocationToJson(
+  CitationPageLocation instance,
+) => <String, dynamic>{
+  'type': _$CitationPageLocationTypeEnumMap[instance.type]!,
+  'cited_text': instance.citedText,
+  'document_index': instance.documentIndex,
+  'document_title': ?instance.documentTitle,
+  'start_page_number': instance.startPageNumber,
+  'end_page_number': instance.endPageNumber,
+};
+
+const _$CitationPageLocationTypeEnumMap = {
+  CitationPageLocationType.pageLocation: 'page_location',
+};
+
+CitationContentBlockLocation _$CitationContentBlockLocationFromJson(
+  Map<String, dynamic> json,
+) => CitationContentBlockLocation(
+  type: $enumDecode(_$CitationContentBlockLocationTypeEnumMap, json['type']),
+  citedText: json['cited_text'] as String,
+  documentIndex: (json['document_index'] as num).toInt(),
+  documentTitle: json['document_title'] as String?,
+  startBlockIndex: (json['start_block_index'] as num).toInt(),
+  endBlockIndex: (json['end_block_index'] as num).toInt(),
+);
+
+Map<String, dynamic> _$CitationContentBlockLocationToJson(
+  CitationContentBlockLocation instance,
+) => <String, dynamic>{
+  'type': _$CitationContentBlockLocationTypeEnumMap[instance.type]!,
+  'cited_text': instance.citedText,
+  'document_index': instance.documentIndex,
+  'document_title': ?instance.documentTitle,
+  'start_block_index': instance.startBlockIndex,
+  'end_block_index': instance.endBlockIndex,
+};
+
+const _$CitationContentBlockLocationTypeEnumMap = {
+  CitationContentBlockLocationType.contentBlockLocation:
+      'content_block_location',
+};
