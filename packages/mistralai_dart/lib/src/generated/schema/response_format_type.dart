@@ -5,17 +5,15 @@
 part of mistral_a_i_schema;
 
 // ==========================================
-// ENUM: ChatCompletionMessageRole
+// ENUM: ResponseFormatType
 // ==========================================
 
-/// The role of the message.
-enum ChatCompletionMessageRole {
-  @JsonValue('system')
-  system,
-  @JsonValue('user')
-  user,
-  @JsonValue('assistant')
-  assistant,
-  @JsonValue('tool')
-  tool,
+/// The type of response format.
+enum ResponseFormatType {
+  @JsonValue('text')
+  text,
+  @JsonValue('json_object')
+  jsonObject,
+  @JsonValue('json_schema')
+  jsonSchema,
 }

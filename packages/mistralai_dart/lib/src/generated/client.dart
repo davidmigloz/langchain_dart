@@ -58,7 +58,7 @@ class MistralAIClientException implements Exception {
 // CLASS: MistralAIClient
 // ==========================================
 
-/// Client for Mistral AI API (v.0.0.1)
+/// Client for Mistral AI API (v.0.0.2)
 ///
 /// API Spec for Mistral API. Please see https://docs.mistral.ai/api for more details.
 class MistralAIClient {

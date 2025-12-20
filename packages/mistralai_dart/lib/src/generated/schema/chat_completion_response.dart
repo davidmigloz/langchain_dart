@@ -81,8 +81,8 @@ abstract class ChatCompletionResponseChoicesInner
     /// The index of this choice.
     required int index,
 
-    /// A message in a chat conversation.
-    @JsonKey(includeIfNull: false) ChatCompletionMessage? message,
+    /// A message from the assistant in a chat conversation.
+    required AssistantMessage message,
 
     /// The reason the model stopped generating tokens.
     @JsonKey(name: 'finish_reason')

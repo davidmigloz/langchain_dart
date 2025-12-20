@@ -5,17 +5,11 @@
 part of mistral_a_i_schema;
 
 // ==========================================
-// ENUM: ChatCompletionMessageRole
+// ENUM: ToolType
 // ==========================================
 
-/// The role of the message.
-enum ChatCompletionMessageRole {
-  @JsonValue('system')
-  system,
-  @JsonValue('user')
-  user,
-  @JsonValue('assistant')
-  assistant,
-  @JsonValue('tool')
-  tool,
+/// The type of the tool.
+enum ToolType {
+  @JsonValue('function')
+  function,
 }
