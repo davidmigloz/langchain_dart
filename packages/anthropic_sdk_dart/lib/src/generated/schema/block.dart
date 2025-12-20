@@ -41,6 +41,7 @@ sealed class Block with _$Block {
   @FreezedUnionValue('image')
   const factory Block.image({
     /// The source of an image block.
+    /// Any of: [Base64ImageSource], [UrlImageSource]
     required ImageBlockSource source,
 
     /// The type of content block.
@@ -129,6 +130,24 @@ sealed class Block with _$Block {
     CacheControlEphemeral? cacheControl,
   }) = ThinkingBlock;
 
+  // ------------------------------------------
+  // UNION: RedactedThinkingBlock
+  // ------------------------------------------
+
+  /// A block representing thinking content that has been redacted for security
+  /// or safety reasons. This block type appears when Claude's internal thinking
+  /// process contained content that was redacted.
+
+  @FreezedUnionValue('redacted_thinking')
+  const factory Block.redactedThinking({
+    /// The type of content block.
+    required RedactedThinkingBlockType type,
+
+    /// Encrypted or opaque data representing the redacted thinking content.
+    /// This data cannot be decrypted by the client.
+    required String data,
+  }) = RedactedThinkingBlock;
+
   /// Object construction from a JSON representation
   factory Block.fromJson(Map<String, dynamic> json) => _$BlockFromJson(json);
 }
@@ -148,6 +167,8 @@ enum BlockEnumType {
   toolResult,
   @JsonValue('thinking')
   thinking,
+  @JsonValue('redacted_thinking')
+  redactedThinking,
 }
 
 // ==========================================
@@ -211,4 +232,14 @@ class _ToolResultBlockContentConverter
 enum ThinkingBlockType {
   @JsonValue('thinking')
   thinking,
+}
+
+// ==========================================
+// ENUM: RedactedThinkingBlockType
+// ==========================================
+
+/// The type of content block.
+enum RedactedThinkingBlockType {
+  @JsonValue('redacted_thinking')
+  redactedThinking,
 }

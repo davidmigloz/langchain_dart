@@ -325,9 +325,15 @@ components:
               description: |
                 Available models. Mind that the list may not be exhaustive nor up-to-date.
               enum:
+                - claude-opus-4-20250514
+                - claude-sonnet-4-20250514
+                - claude-3-7-sonnet-latest
+                - claude-3-7-sonnet-20250219
                 - claude-3-5-sonnet-latest
                 - claude-3-5-sonnet-20241022
                 - claude-3-5-sonnet-20240620
+                - claude-3-5-haiku-latest
+                - claude-3-5-haiku-20241022
                 - claude-3-opus-latest
                 - claude-3-opus-20240229
                 - claude-3-sonnet-20240229
@@ -611,9 +617,15 @@ components:
               description: |
                 Available models. Mind that the list may not be exhaustive nor up-to-date.
               enum:
+                - claude-opus-4-20250514
+                - claude-sonnet-4-20250514
+                - claude-3-7-sonnet-latest
+                - claude-3-7-sonnet-20250219
                 - claude-3-5-sonnet-latest
                 - claude-3-5-sonnet-20241022
                 - claude-3-5-sonnet-20240620
+                - claude-3-5-haiku-latest
+                - claude-3-5-haiku-20241022
                 - claude-3-opus-latest
                 - claude-3-opus-20240229
                 - claude-3-sonnet-20240229
@@ -928,6 +940,7 @@ components:
         - $ref: "#/components/schemas/ToolUseBlock"
         - $ref: "#/components/schemas/ToolResultBlock"
         - $ref: "#/components/schemas/ThinkingBlock"
+        - $ref: "#/components/schemas/RedactedThinkingBlock"
       discriminator:
         propertyName: type
         mapping:
@@ -936,6 +949,7 @@ components:
           tool_use: "#/components/schemas/ToolUseBlock"
           tool_result: "#/components/schemas/ToolResultBlock"
           thinking: "#/components/schemas/ThinkingBlock"
+          redacted_thinking: "#/components/schemas/RedactedThinkingBlock"
     TextBlock:
       type: object
       description: A block of text content.
@@ -966,12 +980,23 @@ components:
       required:
         - source
     ImageBlockSource:
-      type: object
       description: The source of an image block.
+      oneOf:
+        - $ref: "#/components/schemas/Base64ImageSource"
+        - $ref: "#/components/schemas/UrlImageSource"
+      discriminator:
+        propertyName: type
+        mapping:
+          base64: "#/components/schemas/Base64ImageSource"
+          url: "#/components/schemas/UrlImageSource"
+    Base64ImageSource:
+      type: object
+      description: An image source using base64-encoded data.
       properties:
-        data:
+        type:
           type: string
-          description: The base64-encoded image data.
+          description: The type of image source.
+          default: base64
         media_type:
           type: string
           description: The media type of the image.
@@ -980,15 +1005,27 @@ components:
             - image/png
             - image/gif
             - image/webp
+        data:
+          type: string
+          description: The base64-encoded image data.
+      required:
+        - type
+        - media_type
+        - data
+    UrlImageSource:
+      type: object
+      description: An image source using a URL.
+      properties:
         type:
           type: string
           description: The type of image source.
-          enum:
-            - base64
+          default: url
+        url:
+          type: string
+          description: The URL of the image.
       required:
-        - data
-        - media_type
         - type
+        - url
     ToolUseBlock:
       type: object
       description: The tool the model wants to use.
@@ -1075,6 +1112,27 @@ components:
       required:
         - type
         - thinking
+    RedactedThinkingBlock:
+      type: object
+      description: |
+        A block representing thinking content that has been redacted for security
+        or safety reasons. This block type appears when Claude's internal thinking
+        process contained content that was redacted.
+      properties:
+        type:
+          type: string
+          description: The type of content block.
+          enum:
+            - redacted_thinking
+          default: redacted_thinking
+        data:
+          type: string
+          description: |
+            Encrypted or opaque data representing the redacted thinking content.
+            This data cannot be decrypted by the client.
+      required:
+        - type
+        - data
     CacheControlEphemeral:
       type: object
       description: The cache control settings.
@@ -1084,18 +1142,26 @@ components:
             - ephemeral
           type: string
           default: ephemeral
+        ttl:
+          type: integer
+          nullable: true
+          description: |
+            The time-to-live for the cache entry in seconds. If not provided, the
+            default TTL will be used (typically 5 minutes).
     StopReason:
       type: string
       description: |
         The reason that we stopped.
-        
+
         This may be one the following values:
-        
+
         - `"end_turn"`: the model reached a natural stopping point
         - `"max_tokens"`: we exceeded the requested `max_tokens` or the model's maximum
         - `"stop_sequence"`: one of your provided custom `stop_sequences` was generated
         - `"tool_use"`: the model invoked one or more tools
-        
+        - `"pause_turn"`: the model paused its turn for a multi-turn interaction
+        - `"refusal"`: the model refused to generate a response
+
         In non-streaming mode this value is always non-null. In streaming mode, it is
         null in the `message_start` event and non-null otherwise.
       nullable: true
@@ -1104,6 +1170,8 @@ components:
         - max_tokens
         - stop_sequence
         - tool_use
+        - pause_turn
+        - refusal
     Usage:
       type: object
       description: |
@@ -1128,13 +1196,37 @@ components:
           description: The number of output tokens which were used.
         cache_creation_input_tokens:
           type: integer
-          description: The number of input tokens read from the cache.
+          nullable: true
+          description: The number of input tokens used to create the cache entry.
         cache_read_input_tokens:
           type: integer
-          description: The number of input tokens used to create the cache entry.
+          nullable: true
+          description: The number of input tokens read from the cache.
+        server_tool_use:
+          $ref: "#/components/schemas/ServerToolUsage"
+        service_tier:
+          $ref: "#/components/schemas/ServiceTier"
       required:
         - input_tokens
         - output_tokens
+    ServerToolUsage:
+      type: object
+      nullable: true
+      description: Usage information for server-side tool execution.
+      properties:
+        web_search_requests:
+          type: integer
+          nullable: true
+          description: The number of web search requests made during tool execution.
+    ServiceTier:
+      type: string
+      nullable: true
+      description: |
+        The service tier used to process the request. Can be used for billing and
+        rate limiting purposes.
+      enum:
+        - standard
+        - priority
     CreateMessageBatchRequest:
       type: object
       description: The request parameters for creating a message batch.
@@ -1190,6 +1282,21 @@ components:
           type: string
           nullable: true
           description: URL to a `.jsonl` file containing the results of the Message Batch requests. Specified only once processing ends.
+        ended_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: RFC 3339 datetime string representing the time at which processing for the Message Batch ended. Specified only once processing ends.
+        archived_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: RFC 3339 datetime string representing the time at which the Message Batch was archived and its results became unavailable.
+        cancel_initiated_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: RFC 3339 datetime string representing the time at which cancellation of the Message Batch was initiated. Specified only if cancellation was initiated.
         type:
           type: string
           enum:
