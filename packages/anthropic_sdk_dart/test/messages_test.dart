@@ -473,5 +473,48 @@ void main() {
         expect(res2.usage?.cacheReadInputTokens, greaterThan(0));
       },
     );
+
+    // Test for issue #811: signature_delta events should be handled
+    test('Test signature_delta deserialization (issue #811)', () {
+      // This tests that signature_delta events from the streaming API
+      // can be properly deserialized without throwing an error
+      const signatureDeltaJson = '''
+      {
+        "type": "signature_delta",
+        "signature": "EqQBCgIYAhIM0v..."
+      }
+      ''';
+      final json = jsonDecode(signatureDeltaJson) as Map<String, dynamic>;
+      final blockDelta = BlockDelta.fromJson(json);
+
+      expect(blockDelta, isA<SignatureBlockDelta>());
+      final signatureDelta = blockDelta as SignatureBlockDelta;
+      expect(signatureDelta.type, SignatureBlockDeltaType.signatureDelta);
+      expect(signatureDelta.signature, 'EqQBCgIYAhIM0v...');
+    });
+
+    test('Test ContentBlockDeltaEvent with signature_delta', () {
+      // Test the full event structure as received from the streaming API
+      const eventJson = '''
+      {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "signature_delta",
+          "signature": "EqQBCgIYAhIM0vZ3tu..."
+        }
+      }
+      ''';
+      final json = jsonDecode(eventJson) as Map<String, dynamic>;
+      final event = MessageStreamEvent.fromJson(json);
+
+      expect(event, isA<ContentBlockDeltaEvent>());
+      final deltaEvent = event as ContentBlockDeltaEvent;
+      expect(deltaEvent.index, 0);
+      expect(deltaEvent.delta, isA<SignatureBlockDelta>());
+
+      final signatureDelta = deltaEvent.delta as SignatureBlockDelta;
+      expect(signatureDelta.signature, 'EqQBCgIYAhIM0vZ3tu...');
+    });
   });
 }

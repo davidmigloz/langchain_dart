@@ -1531,3 +1531,20 @@ Map<String, dynamic> _$ThinkingBlockDeltaToJson(ThinkingBlockDelta instance) =>
 const _$ThinkingBlockDeltaTypeEnumMap = {
   ThinkingBlockDeltaType.thinkingDelta: 'thinking_delta',
 };
+
+SignatureBlockDelta _$SignatureBlockDeltaFromJson(Map<String, dynamic> json) =>
+    SignatureBlockDelta(
+      signature: json['signature'] as String,
+      type: $enumDecode(_$SignatureBlockDeltaTypeEnumMap, json['type']),
+    );
+
+Map<String, dynamic> _$SignatureBlockDeltaToJson(
+  SignatureBlockDelta instance,
+) => <String, dynamic>{
+  'signature': instance.signature,
+  'type': _$SignatureBlockDeltaTypeEnumMap[instance.type]!,
+};
+
+const _$SignatureBlockDeltaTypeEnumMap = {
+  SignatureBlockDeltaType.signatureDelta: 'signature_delta',
+};
