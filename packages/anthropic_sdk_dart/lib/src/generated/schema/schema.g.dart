@@ -437,6 +437,24 @@ const _$MessageBatchTypeEnumMap = {
   MessageBatchType.messageBatch: 'message_batch',
 };
 
+_DeleteMessageBatchResponse _$DeleteMessageBatchResponseFromJson(
+  Map<String, dynamic> json,
+) => _DeleteMessageBatchResponse(
+  id: json['id'] as String,
+  type: $enumDecode(_$DeleteMessageBatchResponseTypeEnumMap, json['type']),
+);
+
+Map<String, dynamic> _$DeleteMessageBatchResponseToJson(
+  _DeleteMessageBatchResponse instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'type': _$DeleteMessageBatchResponseTypeEnumMap[instance.type]!,
+};
+
+const _$DeleteMessageBatchResponseTypeEnumMap = {
+  DeleteMessageBatchResponseType.messageBatchDeleted: 'message_batch_deleted',
+};
+
 _ListMessageBatchesResponse _$ListMessageBatchesResponseFromJson(
   Map<String, dynamic> json,
 ) => _ListMessageBatchesResponse(
