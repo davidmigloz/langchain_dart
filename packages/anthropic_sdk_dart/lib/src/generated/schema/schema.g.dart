@@ -489,6 +489,41 @@ Map<String, dynamic> _$ListMessageBatchesResponseToJson(
   'last_id': ?instance.lastId,
 };
 
+_ModelInfo _$ModelInfoFromJson(Map<String, dynamic> json) => _ModelInfo(
+  id: json['id'] as String,
+  type: $enumDecode(_$ModelInfoTypeEnumMap, json['type']),
+  displayName: json['display_name'] as String,
+  createdAt: json['created_at'] as String,
+);
+
+Map<String, dynamic> _$ModelInfoToJson(_ModelInfo instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'type': _$ModelInfoTypeEnumMap[instance.type]!,
+      'display_name': instance.displayName,
+      'created_at': instance.createdAt,
+    };
+
+const _$ModelInfoTypeEnumMap = {ModelInfoType.model: 'model'};
+
+_ListModelsResponse _$ListModelsResponseFromJson(Map<String, dynamic> json) =>
+    _ListModelsResponse(
+      data: (json['data'] as List<dynamic>)
+          .map((e) => ModelInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      hasMore: json['has_more'] as bool,
+      firstId: json['first_id'] as String?,
+      lastId: json['last_id'] as String?,
+    );
+
+Map<String, dynamic> _$ListModelsResponseToJson(_ListModelsResponse instance) =>
+    <String, dynamic>{
+      'data': instance.data.map((e) => e.toJson()).toList(),
+      'has_more': instance.hasMore,
+      'first_id': ?instance.firstId,
+      'last_id': ?instance.lastId,
+    };
+
 _MessageBatchRequestCounts _$MessageBatchRequestCountsFromJson(
   Map<String, dynamic> json,
 ) => _MessageBatchRequestCounts(

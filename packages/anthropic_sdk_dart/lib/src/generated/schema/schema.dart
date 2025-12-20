@@ -29,6 +29,8 @@ part 'message_batch.dart';
 part 'delete_message_batch_response.dart';
 part 'message_batch_individual_response.dart';
 part 'list_message_batches_response.dart';
+part 'model_info.dart';
+part 'list_models_response.dart';
 part 'message_batch_request_counts.dart';
 part 'message_stream_event_type.dart';
 part 'message_delta.dart';
