@@ -9,7 +9,7 @@ Systematic verification after implementing OpenAPI changes.
 3. [Cross-Reference Verification](#cross-reference-verification) - Sealed classes, nested types
 4. [Common Gaps](#common-gaps) - Frequently missed items
 5. [Barrel File Completeness (PASS 2)](#barrel-file-completeness-pass-2) - Export verification
-6. [README Documentation (PASS 3)](#readme-documentation-pass-3) - Documentation accuracy
+6. [Documentation Completeness (PASS 3)](#documentation-completeness-pass-3) - Documentation completeness
 7. [Quality Gates](#quality-gates) - Required checks before finalization
 8. [Review Output Template](#review-output-template) - Standard format for findings
 9. [Fix Loop Process](#fix-loop-process) - Gap resolution workflow
@@ -137,52 +137,97 @@ done
 
 ---
 
-## README Documentation (PASS 3)
+## Documentation Completeness (PASS 3)
 
-**Check that README.md accurately reflects the current API state.**
+**CRITICAL: This pass verifies documentation is COMPLETE, not just accurate.**
 
-### Run the README Validator
+This was the most commonly forgotten step - new features were implemented but never documented.
+
+### 3a. README Coverage
+
+For EACH new resource implemented:
+- [ ] Listed in Features section with capabilities
+- [ ] Listed in API Coverage section with methods
+- [ ] Referenced example file exists in Examples section
+
+For EACH new feature/tool:
+- [ ] Documented in appropriate Features subsection
+- [ ] Usage example provided or referenced
+
+### 3b. Example Files
+
+For EACH new resource:
+- [ ] `example/{resource}_example.dart` exists
+- [ ] Example compiles: `dart analyze example/`
+- [ ] Example demonstrates key use cases
+
+### 3c. Run Verification Scripts
 
 ```bash
+# README validation
 python3 .claude/skills/openapi-updater/scripts/verify_readme.py
+
+# Example completeness
+python3 .claude/skills/openapi-updater/scripts/verify_examples.py
 ```
 
-The script validates:
-1. **Resources**: Documented resources match `lib/src/resources/`
-2. **Tool types**: All Tool properties are documented (function calling, code execution, etc.)
-3. **Stale references**: No references to removed APIs (ragStores, chunks, etc.)
-4. **Examples**: Referenced example files actually exist
+**verify_readme.py** validates:
+1. **Resources**: All implemented resources are documented
+2. **Tool types**: All Tool properties are documented
+3. **Stale references**: No references to removed APIs
+4. **Examples**: Referenced example files exist
+
+**verify_examples.py** validates:
+1. Each resource has a corresponding `{resource}_example.dart`
+2. No orphaned example files without resources
+
+### 3d. CHANGELOG
+
+- [ ] CHANGELOG.md updated with version entry
+- [ ] All new features listed
+- [ ] Breaking changes highlighted with migration notes
 
 ### If Issues Are Found
 
+**For missing resource documentation:**
+1. Add Features section entry with capabilities list
+2. Add API Coverage section with method categories
+3. Reference new example file
+
+**For missing example files:**
+1. Create `example/{resource}_example.dart`
+2. Use template from `assets/example_template.dart`
+3. Follow patterns in `references/implementation-patterns.md` Section 9
+
 **For stale references:**
-- Remove references to deleted APIs from API Coverage section
+- Remove references to deleted APIs
 - Update feature comparison tables
 - Remove non-existent example file references
 
-**For missing documentation:**
-- Add new resource sections to API Coverage
-- Document new tool types in Features section
-- Update example list if new examples added
-
 ### Quick Manual Verification
 ```bash
-# Check if new feature types are documented (backup check)
-grep -c "fileSearch\|googleMaps\|mcpServers\|FileSearchStore" README.md
+# Count resources vs documentation
+echo "Resources: $(ls lib/src/resources/*_resource.dart | wc -l)"
+echo "Examples: $(ls example/*_example.dart 2>/dev/null | wc -l)"
 
-# Compare resource count in README vs actual API
-ls lib/src/resources/ | wc -l
+# Check if new resources are in README
+for r in lib/src/resources/*_resource.dart; do
+  name=$(basename "$r" _resource.dart)
+  if ! grep -qi "$name" README.md; then
+    echo "MISSING FROM README: $name"
+  fi
+done
 ```
 
-### Common README Gaps
+### Common Documentation Gaps
 
 | Gap | Section | How to Fix |
 |-----|---------|------------|
-| Stale API Coverage | "API Coverage" section | Update endpoint counts, remove deleted resources |
-| Missing new tools | "Features" | Add to Tool support list |
-| Missing resources | "API Coverage" | Add new resource subsections |
-| Outdated feature tables | "Quick Comparison" | Update capability matrix |
-| Non-existent examples | "Examples" | Remove or create missing examples |
+| New resource not documented | Features + API Coverage | Add both sections |
+| No example for resource | example/ | Create `{resource}_example.dart` |
+| Stale API references | API Coverage | Remove deleted resources |
+| Missing new tools | Features | Add to Tool support list |
+| CHANGELOG not updated | CHANGELOG.md | Add version entry |
 
 ---
 
@@ -200,8 +245,12 @@ dart format --set-exit-if-changed .
 # Unit tests
 dart test test/unit/
 
-# Barrel file verification (CRITICAL - often missed!)
+# Barrel file verification (CRITICAL)
 python3 .claude/skills/openapi-updater/scripts/verify_exports.py
+
+# Documentation verification (CRITICAL - often missed!)
+python3 .claude/skills/openapi-updater/scripts/verify_readme.py
+python3 .claude/skills/openapi-updater/scripts/verify_examples.py
 ```
 
 ---

@@ -81,25 +81,52 @@ Use templates from `assets/`:
 
 Implement each change as a separate PR following the plan's priority order.
 
-### 3.5 Review & Validate (MANDATORY)
+### 3.5 Update Documentation (MANDATORY)
+
+Before running the review checklist, update all documentation:
+
+1. **README.md** - Add/update:
+   - New resources to Features section
+   - New resources to API Coverage section
+   - New example references in Examples section
+
+2. **example/** - Create/update:
+   - `{feature}_example.dart` for each new resource
+   - Demonstrate key use cases (basic, advanced, streaming, etc.)
+
+3. **CHANGELOG.md** - Add entry for:
+   - New features
+   - Breaking changes
+   - Bug fixes
+
+This is NOT optional. The review will fail if documentation is incomplete.
+
+Use templates from `assets/`:
+- `example_template.dart` - Example file structure
+
+Use patterns from `references/implementation-patterns.md`:
+- Section 9: Documentation Patterns
+
+### 4. Review & Validate (MANDATORY)
 
 Perform the three-pass review documented in `references/REVIEW_CHECKLIST.md`:
 
 1. **Pass 1**: Implementation review against generated plan
 2. **Pass 2**: Barrel file verification (`verify_exports.py`)
-3. **Pass 3**: README accuracy (`verify_readme.py`)
+3. **Pass 3**: Documentation completeness (`verify_readme.py`, `verify_examples.py`)
 
 All passes must complete with zero issues before finalizing.
 
 ```bash
 python3 .claude/skills/openapi-updater/scripts/verify_exports.py
 python3 .claude/skills/openapi-updater/scripts/verify_readme.py
+python3 .claude/skills/openapi-updater/scripts/verify_examples.py
 dart analyze --fatal-infos && dart format --set-exit-if-changed . && dart test test/unit/
 ```
 
 If gaps are found, fix them using patterns in `references/implementation-patterns.md` and re-run verification.
 
-### 4. Finalize
+### 5. Finalize
 
 Copy fetched specs to their persisted locations:
 

@@ -133,10 +133,7 @@ Future<void> functionCallingInteraction(GoogleAIClient client) async {
       parameters: {
         'type': 'object',
         'properties': {
-          'location': {
-            'type': 'string',
-            'description': 'The city name',
-          },
+          'location': {'type': 'string', 'description': 'The city name'},
         },
         'required': ['location'],
       },

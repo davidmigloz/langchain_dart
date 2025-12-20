@@ -10,6 +10,7 @@
 - [Test Patterns](#test-patterns)
 - [Export Organization](#export-organization)
 - [PR Templates](#pr-templates)
+- [Documentation Patterns](#9-documentation-patterns)
 
 ---
 
@@ -493,6 +494,152 @@ export 'src/resources/resources.dart';
 - [ ] Remove related tests
 - [ ] Verify no compile errors
 - [ ] Dart analyzer passes
+```
+
+---
+
+## 9. Documentation Patterns
+
+Documentation is MANDATORY for all new features. Update these files:
+
+### README.md Updates
+
+#### Features Section
+
+Add new resources to the appropriate Features subsection:
+
+```markdown
+#### ResourceName (Experimental)
+
+- ✅ Feature 1 description
+- ✅ Feature 2 description
+- ✅ Feature 3 description
+- ✅ Streaming support with SSE events
+```
+
+#### API Coverage Section
+
+Add new resources to API Coverage:
+
+```markdown
+### ResourceName Resource (`client.resourceName`)
+
+- **Creation**: create, createWithAgent, createStream
+- **Management**: get, cancel, delete
+- **Streaming**: createStream, resumeStream (SSE with event types)
+```
+
+#### Examples Section
+
+Reference new example files:
+
+```markdown
+| 20 | interactions_example.dart | Interactions API with streaming |
+```
+
+### Example Files
+
+Create `example/{resource}_example.dart`:
+
+```dart
+// ignore_for_file: avoid_print
+/// Brief description of what this example demonstrates.
+///
+/// The ResourceName provides:
+/// - Feature 1
+/// - Feature 2
+/// - Feature 3
+library;
+
+import 'package:googleai_dart/googleai_dart.dart';
+
+void main() async {
+  final client = GoogleAIClient(
+    config: const GoogleAIConfig(authProvider: ApiKeyProvider('YOUR_API_KEY')),
+  );
+
+  try {
+    // Example 1: Basic usage
+    await basicExample(client);
+
+    // Example 2: Streaming (if applicable)
+    await streamingExample(client);
+
+    // Example 3: Advanced feature
+    await advancedExample(client);
+  } finally {
+    client.close();
+  }
+}
+
+/// Basic usage of the ResourceName.
+Future<void> basicExample(GoogleAIClient client) async {
+  print('=== Basic Example ===\n');
+
+  // Implementation
+  final result = await client.resourceName.someMethod(
+    param: 'value',
+  );
+
+  print('Result: $result');
+  print('');
+}
+
+/// Streaming example (if applicable).
+Future<void> streamingExample(GoogleAIClient client) async {
+  print('=== Streaming Example ===\n');
+
+  await for (final event in client.resourceName.createStream(
+    param: 'value',
+  )) {
+    // Handle each event type
+    switch (event) {
+      case StartEvent():
+        print('Started');
+      case DeltaEvent():
+        print('Delta: ${event.data}');
+      case CompleteEvent():
+        print('Completed');
+      default:
+        break;
+    }
+  }
+
+  print('');
+}
+
+/// Advanced feature example.
+Future<void> advancedExample(GoogleAIClient client) async {
+  print('=== Advanced Example ===\n');
+
+  // Implementation with advanced features
+  print('');
+}
+```
+
+### CHANGELOG.md Entry
+
+Add entry for new features:
+
+```markdown
+## x.y.z
+
+- **FEAT**: Add ResourceName resource with streaming support (#PR).
+  - Feature 1: description
+  - Feature 2: description
+  - 17 content types for various data formats
+```
+
+### Verification
+
+Run these scripts to validate documentation completeness:
+
+```bash
+# Verify README mentions all resources
+python3 .claude/skills/openapi-updater/scripts/verify_readme.py
+
+# Verify all resources have examples
+python3 .claude/skills/openapi-updater/scripts/verify_examples.py
 ```
 
 ---
