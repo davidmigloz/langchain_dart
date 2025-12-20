@@ -61,7 +61,7 @@ class Interaction {
   /// Creates an [Interaction] from JSON.
   factory Interaction.fromJson(Map<String, dynamic> json) => Interaction(
     id: json['id'] as String,
-    status: interactionStatusFromString(json['status'] as String?),
+    status: InteractionStatus.fromString(json['status'] as String?),
     model: json['model'] as String?,
     agent: json['agent'] as String?,
     created: json['created'] != null
@@ -82,7 +82,7 @@ class Interaction {
   /// Converts to JSON.
   Map<String, dynamic> toJson() => {
     'id': id,
-    'status': interactionStatusToString(status),
+    'status': status.toJson(),
     if (model != null) 'model': model,
     if (agent != null) 'agent': agent,
     if (created != null) 'created': created!.toIso8601String(),
