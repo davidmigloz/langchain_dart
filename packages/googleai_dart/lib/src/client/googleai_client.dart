@@ -9,6 +9,7 @@ import '../models/models/operation.dart';
 import '../resources/batches_resource.dart';
 import '../resources/cached_contents_resource.dart';
 import '../resources/corpora_resource.dart';
+import '../resources/file_search_stores/file_search_stores_resource.dart';
 import '../resources/files/files_resource.dart';
 import '../resources/generated_files_resource.dart';
 import '../resources/models_resource.dart';
@@ -33,6 +34,7 @@ import 'retry_wrapper.dart';
 /// - [cachedContents] - Context caching for cost/latency optimization
 /// - [batches] - Batch operation management
 /// - [corpora] - Corpus management for semantic retrieval
+/// - [fileSearchStores] - File search store management for file-based retrieval
 ///
 /// ## Example Usage
 ///
@@ -100,6 +102,9 @@ class GoogleAIClient {
   /// Resource for corpora API (semantic retrieval).
   late final CorporaResource corpora;
 
+  /// Resource for file search stores API (file-based retrieval).
+  late final FileSearchStoresResource fileSearchStores;
+
   /// Creates a [GoogleAIClient].
   ///
   /// Optionally accepts custom [config] for authentication and endpoint settings,
@@ -165,6 +170,13 @@ class GoogleAIClient {
     );
 
     corpora = CorporaResource(
+      config: this.config,
+      httpClient: _httpClient,
+      interceptorChain: _interceptorChain,
+      requestBuilder: _requestBuilder,
+    );
+
+    fileSearchStores = FileSearchStoresResource(
       config: this.config,
       httpClient: _httpClient,
       interceptorChain: _interceptorChain,
