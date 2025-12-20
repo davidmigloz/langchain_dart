@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:openapi_spec/openapi_spec.dart';
 
 /// Generates Mistral AI API client Dart code from the OpenAPI spec.
-/// https://docs.mistral.ai/api
+/// https://docs.mistral.ai/openapi.yaml
 void main() async {
   final spec = OpenApi.fromFile(source: 'oas/mistral_openapi_curated.yaml');
 

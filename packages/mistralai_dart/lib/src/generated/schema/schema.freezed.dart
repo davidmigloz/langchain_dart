@@ -2729,8 +2729,11 @@ mixin _$EmbeddingRequest {
 
 /// ID of the model to use. You can use the [List Available Models](https://docs.mistral.ai/api#operation/listModels) API to see all of your available models, or see our [Model overview](https://docs.mistral.ai/models) for model descriptions.
 @_EmbeddingModelConverter() EmbeddingModel get model;/// The list of strings to embed.
- List<String> get input;/// The format of the output data.
-@JsonKey(name: 'encoding_format') EmbeddingEncodingFormat get encodingFormat;
+ List<String> get input;/// The number of dimensions the resulting output embeddings should have.
+/// Only supported by certain models (e.g., codestral-embed-2505).
+@JsonKey(name: 'output_dimension', includeIfNull: false) int? get outputDimension;/// The data type of the output embeddings.
+@JsonKey(name: 'output_dtype', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) EmbeddingOutputDtype? get outputDtype;/// The format of the output data.
+@JsonKey(name: 'encoding_format', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) EmbeddingEncodingFormat? get encodingFormat;
 /// Create a copy of EmbeddingRequest
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -2743,16 +2746,16 @@ $EmbeddingRequestCopyWith<EmbeddingRequest> get copyWith => _$EmbeddingRequestCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is EmbeddingRequest&&(identical(other.model, model) || other.model == model)&&const DeepCollectionEquality().equals(other.input, input)&&(identical(other.encodingFormat, encodingFormat) || other.encodingFormat == encodingFormat));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is EmbeddingRequest&&(identical(other.model, model) || other.model == model)&&const DeepCollectionEquality().equals(other.input, input)&&(identical(other.outputDimension, outputDimension) || other.outputDimension == outputDimension)&&(identical(other.outputDtype, outputDtype) || other.outputDtype == outputDtype)&&(identical(other.encodingFormat, encodingFormat) || other.encodingFormat == encodingFormat));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,model,const DeepCollectionEquality().hash(input),encodingFormat);
+int get hashCode => Object.hash(runtimeType,model,const DeepCollectionEquality().hash(input),outputDimension,outputDtype,encodingFormat);
 
 @override
 String toString() {
-  return 'EmbeddingRequest(model: $model, input: $input, encodingFormat: $encodingFormat)';
+  return 'EmbeddingRequest(model: $model, input: $input, outputDimension: $outputDimension, outputDtype: $outputDtype, encodingFormat: $encodingFormat)';
 }
 
 
@@ -2763,7 +2766,7 @@ abstract mixin class $EmbeddingRequestCopyWith<$Res>  {
   factory $EmbeddingRequestCopyWith(EmbeddingRequest value, $Res Function(EmbeddingRequest) _then) = _$EmbeddingRequestCopyWithImpl;
 @useResult
 $Res call({
-@_EmbeddingModelConverter() EmbeddingModel model, List<String> input,@JsonKey(name: 'encoding_format') EmbeddingEncodingFormat encodingFormat
+@_EmbeddingModelConverter() EmbeddingModel model, List<String> input,@JsonKey(name: 'output_dimension', includeIfNull: false) int? outputDimension,@JsonKey(name: 'output_dtype', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) EmbeddingOutputDtype? outputDtype,@JsonKey(name: 'encoding_format', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) EmbeddingEncodingFormat? encodingFormat
 });
 
 
@@ -2780,12 +2783,14 @@ class _$EmbeddingRequestCopyWithImpl<$Res>
 
 /// Create a copy of EmbeddingRequest
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? model = null,Object? input = null,Object? encodingFormat = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? model = null,Object? input = null,Object? outputDimension = freezed,Object? outputDtype = freezed,Object? encodingFormat = freezed,}) {
   return _then(_self.copyWith(
 model: null == model ? _self.model : model // ignore: cast_nullable_to_non_nullable
 as EmbeddingModel,input: null == input ? _self.input : input // ignore: cast_nullable_to_non_nullable
-as List<String>,encodingFormat: null == encodingFormat ? _self.encodingFormat : encodingFormat // ignore: cast_nullable_to_non_nullable
-as EmbeddingEncodingFormat,
+as List<String>,outputDimension: freezed == outputDimension ? _self.outputDimension : outputDimension // ignore: cast_nullable_to_non_nullable
+as int?,outputDtype: freezed == outputDtype ? _self.outputDtype : outputDtype // ignore: cast_nullable_to_non_nullable
+as EmbeddingOutputDtype?,encodingFormat: freezed == encodingFormat ? _self.encodingFormat : encodingFormat // ignore: cast_nullable_to_non_nullable
+as EmbeddingEncodingFormat?,
   ));
 }
 /// Create a copy of EmbeddingRequest
@@ -2879,10 +2884,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@_EmbeddingModelConverter()  EmbeddingModel model,  List<String> input, @JsonKey(name: 'encoding_format')  EmbeddingEncodingFormat encodingFormat)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@_EmbeddingModelConverter()  EmbeddingModel model,  List<String> input, @JsonKey(name: 'output_dimension', includeIfNull: false)  int? outputDimension, @JsonKey(name: 'output_dtype', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  EmbeddingOutputDtype? outputDtype, @JsonKey(name: 'encoding_format', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  EmbeddingEncodingFormat? encodingFormat)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _EmbeddingRequest() when $default != null:
-return $default(_that.model,_that.input,_that.encodingFormat);case _:
+return $default(_that.model,_that.input,_that.outputDimension,_that.outputDtype,_that.encodingFormat);case _:
   return orElse();
 
 }
@@ -2900,10 +2905,10 @@ return $default(_that.model,_that.input,_that.encodingFormat);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@_EmbeddingModelConverter()  EmbeddingModel model,  List<String> input, @JsonKey(name: 'encoding_format')  EmbeddingEncodingFormat encodingFormat)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@_EmbeddingModelConverter()  EmbeddingModel model,  List<String> input, @JsonKey(name: 'output_dimension', includeIfNull: false)  int? outputDimension, @JsonKey(name: 'output_dtype', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  EmbeddingOutputDtype? outputDtype, @JsonKey(name: 'encoding_format', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  EmbeddingEncodingFormat? encodingFormat)  $default,) {final _that = this;
 switch (_that) {
 case _EmbeddingRequest():
-return $default(_that.model,_that.input,_that.encodingFormat);case _:
+return $default(_that.model,_that.input,_that.outputDimension,_that.outputDtype,_that.encodingFormat);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -2920,10 +2925,10 @@ return $default(_that.model,_that.input,_that.encodingFormat);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@_EmbeddingModelConverter()  EmbeddingModel model,  List<String> input, @JsonKey(name: 'encoding_format')  EmbeddingEncodingFormat encodingFormat)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@_EmbeddingModelConverter()  EmbeddingModel model,  List<String> input, @JsonKey(name: 'output_dimension', includeIfNull: false)  int? outputDimension, @JsonKey(name: 'output_dtype', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  EmbeddingOutputDtype? outputDtype, @JsonKey(name: 'encoding_format', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  EmbeddingEncodingFormat? encodingFormat)?  $default,) {final _that = this;
 switch (_that) {
 case _EmbeddingRequest() when $default != null:
-return $default(_that.model,_that.input,_that.encodingFormat);case _:
+return $default(_that.model,_that.input,_that.outputDimension,_that.outputDtype,_that.encodingFormat);case _:
   return null;
 
 }
@@ -2935,7 +2940,7 @@ return $default(_that.model,_that.input,_that.encodingFormat);case _:
 @JsonSerializable()
 
 class _EmbeddingRequest extends EmbeddingRequest {
-  const _EmbeddingRequest({@_EmbeddingModelConverter() required this.model, required final  List<String> input, @JsonKey(name: 'encoding_format') this.encodingFormat = EmbeddingEncodingFormat.float}): _input = input,super._();
+  const _EmbeddingRequest({@_EmbeddingModelConverter() required this.model, required final  List<String> input, @JsonKey(name: 'output_dimension', includeIfNull: false) this.outputDimension, @JsonKey(name: 'output_dtype', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.outputDtype, @JsonKey(name: 'encoding_format', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.encodingFormat}): _input = input,super._();
   factory _EmbeddingRequest.fromJson(Map<String, dynamic> json) => _$EmbeddingRequestFromJson(json);
 
 /// ID of the model to use. You can use the [List Available Models](https://docs.mistral.ai/api#operation/listModels) API to see all of your available models, or see our [Model overview](https://docs.mistral.ai/models) for model descriptions.
@@ -2949,8 +2954,13 @@ class _EmbeddingRequest extends EmbeddingRequest {
   return EqualUnmodifiableListView(_input);
 }
 
+/// The number of dimensions the resulting output embeddings should have.
+/// Only supported by certain models (e.g., codestral-embed-2505).
+@override@JsonKey(name: 'output_dimension', includeIfNull: false) final  int? outputDimension;
+/// The data type of the output embeddings.
+@override@JsonKey(name: 'output_dtype', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) final  EmbeddingOutputDtype? outputDtype;
 /// The format of the output data.
-@override@JsonKey(name: 'encoding_format') final  EmbeddingEncodingFormat encodingFormat;
+@override@JsonKey(name: 'encoding_format', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) final  EmbeddingEncodingFormat? encodingFormat;
 
 /// Create a copy of EmbeddingRequest
 /// with the given fields replaced by the non-null parameter values.
@@ -2965,16 +2975,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EmbeddingRequest&&(identical(other.model, model) || other.model == model)&&const DeepCollectionEquality().equals(other._input, _input)&&(identical(other.encodingFormat, encodingFormat) || other.encodingFormat == encodingFormat));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EmbeddingRequest&&(identical(other.model, model) || other.model == model)&&const DeepCollectionEquality().equals(other._input, _input)&&(identical(other.outputDimension, outputDimension) || other.outputDimension == outputDimension)&&(identical(other.outputDtype, outputDtype) || other.outputDtype == outputDtype)&&(identical(other.encodingFormat, encodingFormat) || other.encodingFormat == encodingFormat));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,model,const DeepCollectionEquality().hash(_input),encodingFormat);
+int get hashCode => Object.hash(runtimeType,model,const DeepCollectionEquality().hash(_input),outputDimension,outputDtype,encodingFormat);
 
 @override
 String toString() {
-  return 'EmbeddingRequest(model: $model, input: $input, encodingFormat: $encodingFormat)';
+  return 'EmbeddingRequest(model: $model, input: $input, outputDimension: $outputDimension, outputDtype: $outputDtype, encodingFormat: $encodingFormat)';
 }
 
 
@@ -2985,7 +2995,7 @@ abstract mixin class _$EmbeddingRequestCopyWith<$Res> implements $EmbeddingReque
   factory _$EmbeddingRequestCopyWith(_EmbeddingRequest value, $Res Function(_EmbeddingRequest) _then) = __$EmbeddingRequestCopyWithImpl;
 @override @useResult
 $Res call({
-@_EmbeddingModelConverter() EmbeddingModel model, List<String> input,@JsonKey(name: 'encoding_format') EmbeddingEncodingFormat encodingFormat
+@_EmbeddingModelConverter() EmbeddingModel model, List<String> input,@JsonKey(name: 'output_dimension', includeIfNull: false) int? outputDimension,@JsonKey(name: 'output_dtype', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) EmbeddingOutputDtype? outputDtype,@JsonKey(name: 'encoding_format', includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) EmbeddingEncodingFormat? encodingFormat
 });
 
 
@@ -3002,12 +3012,14 @@ class __$EmbeddingRequestCopyWithImpl<$Res>
 
 /// Create a copy of EmbeddingRequest
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? model = null,Object? input = null,Object? encodingFormat = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? model = null,Object? input = null,Object? outputDimension = freezed,Object? outputDtype = freezed,Object? encodingFormat = freezed,}) {
   return _then(_EmbeddingRequest(
 model: null == model ? _self.model : model // ignore: cast_nullable_to_non_nullable
 as EmbeddingModel,input: null == input ? _self._input : input // ignore: cast_nullable_to_non_nullable
-as List<String>,encodingFormat: null == encodingFormat ? _self.encodingFormat : encodingFormat // ignore: cast_nullable_to_non_nullable
-as EmbeddingEncodingFormat,
+as List<String>,outputDimension: freezed == outputDimension ? _self.outputDimension : outputDimension // ignore: cast_nullable_to_non_nullable
+as int?,outputDtype: freezed == outputDtype ? _self.outputDtype : outputDtype // ignore: cast_nullable_to_non_nullable
+as EmbeddingOutputDtype?,encodingFormat: freezed == encodingFormat ? _self.encodingFormat : encodingFormat // ignore: cast_nullable_to_non_nullable
+as EmbeddingEncodingFormat?,
   ));
 }
 
@@ -3363,7 +3375,8 @@ mixin _$EmbeddingResponse {
  String get id;/// The object type, which is always `list`.
  String get object;/// The list of embeddings.
  List<Embedding> get data;/// The model used for this embedding.
- String get model;/// The usage statistics for this embedding.
+ String get model;/// Unix timestamp when the response was created.
+@JsonKey(includeIfNull: false) int? get created;/// The usage statistics for this embedding.
  EmbeddingUsage get usage;
 /// Create a copy of EmbeddingResponse
 /// with the given fields replaced by the non-null parameter values.
@@ -3377,16 +3390,16 @@ $EmbeddingResponseCopyWith<EmbeddingResponse> get copyWith => _$EmbeddingRespons
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is EmbeddingResponse&&(identical(other.id, id) || other.id == id)&&(identical(other.object, object) || other.object == object)&&const DeepCollectionEquality().equals(other.data, data)&&(identical(other.model, model) || other.model == model)&&(identical(other.usage, usage) || other.usage == usage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is EmbeddingResponse&&(identical(other.id, id) || other.id == id)&&(identical(other.object, object) || other.object == object)&&const DeepCollectionEquality().equals(other.data, data)&&(identical(other.model, model) || other.model == model)&&(identical(other.created, created) || other.created == created)&&(identical(other.usage, usage) || other.usage == usage));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,object,const DeepCollectionEquality().hash(data),model,usage);
+int get hashCode => Object.hash(runtimeType,id,object,const DeepCollectionEquality().hash(data),model,created,usage);
 
 @override
 String toString() {
-  return 'EmbeddingResponse(id: $id, object: $object, data: $data, model: $model, usage: $usage)';
+  return 'EmbeddingResponse(id: $id, object: $object, data: $data, model: $model, created: $created, usage: $usage)';
 }
 
 
@@ -3397,7 +3410,7 @@ abstract mixin class $EmbeddingResponseCopyWith<$Res>  {
   factory $EmbeddingResponseCopyWith(EmbeddingResponse value, $Res Function(EmbeddingResponse) _then) = _$EmbeddingResponseCopyWithImpl;
 @useResult
 $Res call({
- String id, String object, List<Embedding> data, String model, EmbeddingUsage usage
+ String id, String object, List<Embedding> data, String model,@JsonKey(includeIfNull: false) int? created, EmbeddingUsage usage
 });
 
 
@@ -3414,13 +3427,14 @@ class _$EmbeddingResponseCopyWithImpl<$Res>
 
 /// Create a copy of EmbeddingResponse
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? object = null,Object? data = null,Object? model = null,Object? usage = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? object = null,Object? data = null,Object? model = null,Object? created = freezed,Object? usage = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,object: null == object ? _self.object : object // ignore: cast_nullable_to_non_nullable
 as String,data: null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
 as List<Embedding>,model: null == model ? _self.model : model // ignore: cast_nullable_to_non_nullable
-as String,usage: null == usage ? _self.usage : usage // ignore: cast_nullable_to_non_nullable
+as String,created: freezed == created ? _self.created : created // ignore: cast_nullable_to_non_nullable
+as int?,usage: null == usage ? _self.usage : usage // ignore: cast_nullable_to_non_nullable
 as EmbeddingUsage,
   ));
 }
@@ -3515,10 +3529,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String object,  List<Embedding> data,  String model,  EmbeddingUsage usage)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String object,  List<Embedding> data,  String model, @JsonKey(includeIfNull: false)  int? created,  EmbeddingUsage usage)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _EmbeddingResponse() when $default != null:
-return $default(_that.id,_that.object,_that.data,_that.model,_that.usage);case _:
+return $default(_that.id,_that.object,_that.data,_that.model,_that.created,_that.usage);case _:
   return orElse();
 
 }
@@ -3536,10 +3550,10 @@ return $default(_that.id,_that.object,_that.data,_that.model,_that.usage);case _
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String object,  List<Embedding> data,  String model,  EmbeddingUsage usage)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String object,  List<Embedding> data,  String model, @JsonKey(includeIfNull: false)  int? created,  EmbeddingUsage usage)  $default,) {final _that = this;
 switch (_that) {
 case _EmbeddingResponse():
-return $default(_that.id,_that.object,_that.data,_that.model,_that.usage);case _:
+return $default(_that.id,_that.object,_that.data,_that.model,_that.created,_that.usage);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -3556,10 +3570,10 @@ return $default(_that.id,_that.object,_that.data,_that.model,_that.usage);case _
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String object,  List<Embedding> data,  String model,  EmbeddingUsage usage)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String object,  List<Embedding> data,  String model, @JsonKey(includeIfNull: false)  int? created,  EmbeddingUsage usage)?  $default,) {final _that = this;
 switch (_that) {
 case _EmbeddingResponse() when $default != null:
-return $default(_that.id,_that.object,_that.data,_that.model,_that.usage);case _:
+return $default(_that.id,_that.object,_that.data,_that.model,_that.created,_that.usage);case _:
   return null;
 
 }
@@ -3571,7 +3585,7 @@ return $default(_that.id,_that.object,_that.data,_that.model,_that.usage);case _
 @JsonSerializable()
 
 class _EmbeddingResponse extends EmbeddingResponse {
-  const _EmbeddingResponse({required this.id, required this.object, required final  List<Embedding> data, required this.model, required this.usage}): _data = data,super._();
+  const _EmbeddingResponse({required this.id, required this.object, required final  List<Embedding> data, required this.model, @JsonKey(includeIfNull: false) this.created, required this.usage}): _data = data,super._();
   factory _EmbeddingResponse.fromJson(Map<String, dynamic> json) => _$EmbeddingResponseFromJson(json);
 
 /// The unique identifier for this embedding response.
@@ -3589,6 +3603,8 @@ class _EmbeddingResponse extends EmbeddingResponse {
 
 /// The model used for this embedding.
 @override final  String model;
+/// Unix timestamp when the response was created.
+@override@JsonKey(includeIfNull: false) final  int? created;
 /// The usage statistics for this embedding.
 @override final  EmbeddingUsage usage;
 
@@ -3605,16 +3621,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EmbeddingResponse&&(identical(other.id, id) || other.id == id)&&(identical(other.object, object) || other.object == object)&&const DeepCollectionEquality().equals(other._data, _data)&&(identical(other.model, model) || other.model == model)&&(identical(other.usage, usage) || other.usage == usage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EmbeddingResponse&&(identical(other.id, id) || other.id == id)&&(identical(other.object, object) || other.object == object)&&const DeepCollectionEquality().equals(other._data, _data)&&(identical(other.model, model) || other.model == model)&&(identical(other.created, created) || other.created == created)&&(identical(other.usage, usage) || other.usage == usage));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,object,const DeepCollectionEquality().hash(_data),model,usage);
+int get hashCode => Object.hash(runtimeType,id,object,const DeepCollectionEquality().hash(_data),model,created,usage);
 
 @override
 String toString() {
-  return 'EmbeddingResponse(id: $id, object: $object, data: $data, model: $model, usage: $usage)';
+  return 'EmbeddingResponse(id: $id, object: $object, data: $data, model: $model, created: $created, usage: $usage)';
 }
 
 
@@ -3625,7 +3641,7 @@ abstract mixin class _$EmbeddingResponseCopyWith<$Res> implements $EmbeddingResp
   factory _$EmbeddingResponseCopyWith(_EmbeddingResponse value, $Res Function(_EmbeddingResponse) _then) = __$EmbeddingResponseCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String object, List<Embedding> data, String model, EmbeddingUsage usage
+ String id, String object, List<Embedding> data, String model,@JsonKey(includeIfNull: false) int? created, EmbeddingUsage usage
 });
 
 
@@ -3642,13 +3658,14 @@ class __$EmbeddingResponseCopyWithImpl<$Res>
 
 /// Create a copy of EmbeddingResponse
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? object = null,Object? data = null,Object? model = null,Object? usage = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? object = null,Object? data = null,Object? model = null,Object? created = freezed,Object? usage = null,}) {
   return _then(_EmbeddingResponse(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,object: null == object ? _self.object : object // ignore: cast_nullable_to_non_nullable
 as String,data: null == data ? _self._data : data // ignore: cast_nullable_to_non_nullable
 as List<Embedding>,model: null == model ? _self.model : model // ignore: cast_nullable_to_non_nullable
-as String,usage: null == usage ? _self.usage : usage // ignore: cast_nullable_to_non_nullable
+as String,created: freezed == created ? _self.created : created // ignore: cast_nullable_to_non_nullable
+as int?,usage: null == usage ? _self.usage : usage // ignore: cast_nullable_to_non_nullable
 as EmbeddingUsage,
   ));
 }
@@ -3670,8 +3687,10 @@ $EmbeddingUsageCopyWith<$Res> get usage {
 mixin _$EmbeddingUsage {
 
 /// The number of tokens in the prompt.
-@JsonKey(name: 'prompt_tokens') int get promptTokens;/// The total number of tokens generated.
-@JsonKey(name: 'total_tokens') int get totalTokens;
+@JsonKey(name: 'prompt_tokens') int get promptTokens;/// The number of completion tokens (typically 0 for embeddings).
+@JsonKey(name: 'completion_tokens') int get completionTokens;/// The total number of tokens.
+@JsonKey(name: 'total_tokens') int get totalTokens;/// Duration of audio input in seconds (if applicable).
+@JsonKey(name: 'prompt_audio_seconds', includeIfNull: false) int? get promptAudioSeconds;
 /// Create a copy of EmbeddingUsage
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -3684,16 +3703,16 @@ $EmbeddingUsageCopyWith<EmbeddingUsage> get copyWith => _$EmbeddingUsageCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is EmbeddingUsage&&(identical(other.promptTokens, promptTokens) || other.promptTokens == promptTokens)&&(identical(other.totalTokens, totalTokens) || other.totalTokens == totalTokens));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is EmbeddingUsage&&(identical(other.promptTokens, promptTokens) || other.promptTokens == promptTokens)&&(identical(other.completionTokens, completionTokens) || other.completionTokens == completionTokens)&&(identical(other.totalTokens, totalTokens) || other.totalTokens == totalTokens)&&(identical(other.promptAudioSeconds, promptAudioSeconds) || other.promptAudioSeconds == promptAudioSeconds));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,promptTokens,totalTokens);
+int get hashCode => Object.hash(runtimeType,promptTokens,completionTokens,totalTokens,promptAudioSeconds);
 
 @override
 String toString() {
-  return 'EmbeddingUsage(promptTokens: $promptTokens, totalTokens: $totalTokens)';
+  return 'EmbeddingUsage(promptTokens: $promptTokens, completionTokens: $completionTokens, totalTokens: $totalTokens, promptAudioSeconds: $promptAudioSeconds)';
 }
 
 
@@ -3704,7 +3723,7 @@ abstract mixin class $EmbeddingUsageCopyWith<$Res>  {
   factory $EmbeddingUsageCopyWith(EmbeddingUsage value, $Res Function(EmbeddingUsage) _then) = _$EmbeddingUsageCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'prompt_tokens') int promptTokens,@JsonKey(name: 'total_tokens') int totalTokens
+@JsonKey(name: 'prompt_tokens') int promptTokens,@JsonKey(name: 'completion_tokens') int completionTokens,@JsonKey(name: 'total_tokens') int totalTokens,@JsonKey(name: 'prompt_audio_seconds', includeIfNull: false) int? promptAudioSeconds
 });
 
 
@@ -3721,11 +3740,13 @@ class _$EmbeddingUsageCopyWithImpl<$Res>
 
 /// Create a copy of EmbeddingUsage
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? promptTokens = null,Object? totalTokens = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? promptTokens = null,Object? completionTokens = null,Object? totalTokens = null,Object? promptAudioSeconds = freezed,}) {
   return _then(_self.copyWith(
 promptTokens: null == promptTokens ? _self.promptTokens : promptTokens // ignore: cast_nullable_to_non_nullable
+as int,completionTokens: null == completionTokens ? _self.completionTokens : completionTokens // ignore: cast_nullable_to_non_nullable
 as int,totalTokens: null == totalTokens ? _self.totalTokens : totalTokens // ignore: cast_nullable_to_non_nullable
-as int,
+as int,promptAudioSeconds: freezed == promptAudioSeconds ? _self.promptAudioSeconds : promptAudioSeconds // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 
@@ -3810,10 +3831,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'prompt_tokens')  int promptTokens, @JsonKey(name: 'total_tokens')  int totalTokens)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'prompt_tokens')  int promptTokens, @JsonKey(name: 'completion_tokens')  int completionTokens, @JsonKey(name: 'total_tokens')  int totalTokens, @JsonKey(name: 'prompt_audio_seconds', includeIfNull: false)  int? promptAudioSeconds)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _EmbeddingUsage() when $default != null:
-return $default(_that.promptTokens,_that.totalTokens);case _:
+return $default(_that.promptTokens,_that.completionTokens,_that.totalTokens,_that.promptAudioSeconds);case _:
   return orElse();
 
 }
@@ -3831,10 +3852,10 @@ return $default(_that.promptTokens,_that.totalTokens);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'prompt_tokens')  int promptTokens, @JsonKey(name: 'total_tokens')  int totalTokens)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'prompt_tokens')  int promptTokens, @JsonKey(name: 'completion_tokens')  int completionTokens, @JsonKey(name: 'total_tokens')  int totalTokens, @JsonKey(name: 'prompt_audio_seconds', includeIfNull: false)  int? promptAudioSeconds)  $default,) {final _that = this;
 switch (_that) {
 case _EmbeddingUsage():
-return $default(_that.promptTokens,_that.totalTokens);case _:
+return $default(_that.promptTokens,_that.completionTokens,_that.totalTokens,_that.promptAudioSeconds);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -3851,10 +3872,10 @@ return $default(_that.promptTokens,_that.totalTokens);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'prompt_tokens')  int promptTokens, @JsonKey(name: 'total_tokens')  int totalTokens)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'prompt_tokens')  int promptTokens, @JsonKey(name: 'completion_tokens')  int completionTokens, @JsonKey(name: 'total_tokens')  int totalTokens, @JsonKey(name: 'prompt_audio_seconds', includeIfNull: false)  int? promptAudioSeconds)?  $default,) {final _that = this;
 switch (_that) {
 case _EmbeddingUsage() when $default != null:
-return $default(_that.promptTokens,_that.totalTokens);case _:
+return $default(_that.promptTokens,_that.completionTokens,_that.totalTokens,_that.promptAudioSeconds);case _:
   return null;
 
 }
@@ -3866,13 +3887,17 @@ return $default(_that.promptTokens,_that.totalTokens);case _:
 @JsonSerializable()
 
 class _EmbeddingUsage extends EmbeddingUsage {
-  const _EmbeddingUsage({@JsonKey(name: 'prompt_tokens') required this.promptTokens, @JsonKey(name: 'total_tokens') required this.totalTokens}): super._();
+  const _EmbeddingUsage({@JsonKey(name: 'prompt_tokens') required this.promptTokens, @JsonKey(name: 'completion_tokens') required this.completionTokens, @JsonKey(name: 'total_tokens') required this.totalTokens, @JsonKey(name: 'prompt_audio_seconds', includeIfNull: false) this.promptAudioSeconds}): super._();
   factory _EmbeddingUsage.fromJson(Map<String, dynamic> json) => _$EmbeddingUsageFromJson(json);
 
 /// The number of tokens in the prompt.
 @override@JsonKey(name: 'prompt_tokens') final  int promptTokens;
-/// The total number of tokens generated.
+/// The number of completion tokens (typically 0 for embeddings).
+@override@JsonKey(name: 'completion_tokens') final  int completionTokens;
+/// The total number of tokens.
 @override@JsonKey(name: 'total_tokens') final  int totalTokens;
+/// Duration of audio input in seconds (if applicable).
+@override@JsonKey(name: 'prompt_audio_seconds', includeIfNull: false) final  int? promptAudioSeconds;
 
 /// Create a copy of EmbeddingUsage
 /// with the given fields replaced by the non-null parameter values.
@@ -3887,16 +3912,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EmbeddingUsage&&(identical(other.promptTokens, promptTokens) || other.promptTokens == promptTokens)&&(identical(other.totalTokens, totalTokens) || other.totalTokens == totalTokens));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EmbeddingUsage&&(identical(other.promptTokens, promptTokens) || other.promptTokens == promptTokens)&&(identical(other.completionTokens, completionTokens) || other.completionTokens == completionTokens)&&(identical(other.totalTokens, totalTokens) || other.totalTokens == totalTokens)&&(identical(other.promptAudioSeconds, promptAudioSeconds) || other.promptAudioSeconds == promptAudioSeconds));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,promptTokens,totalTokens);
+int get hashCode => Object.hash(runtimeType,promptTokens,completionTokens,totalTokens,promptAudioSeconds);
 
 @override
 String toString() {
-  return 'EmbeddingUsage(promptTokens: $promptTokens, totalTokens: $totalTokens)';
+  return 'EmbeddingUsage(promptTokens: $promptTokens, completionTokens: $completionTokens, totalTokens: $totalTokens, promptAudioSeconds: $promptAudioSeconds)';
 }
 
 
@@ -3907,7 +3932,7 @@ abstract mixin class _$EmbeddingUsageCopyWith<$Res> implements $EmbeddingUsageCo
   factory _$EmbeddingUsageCopyWith(_EmbeddingUsage value, $Res Function(_EmbeddingUsage) _then) = __$EmbeddingUsageCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'prompt_tokens') int promptTokens,@JsonKey(name: 'total_tokens') int totalTokens
+@JsonKey(name: 'prompt_tokens') int promptTokens,@JsonKey(name: 'completion_tokens') int completionTokens,@JsonKey(name: 'total_tokens') int totalTokens,@JsonKey(name: 'prompt_audio_seconds', includeIfNull: false) int? promptAudioSeconds
 });
 
 
@@ -3924,11 +3949,13 @@ class __$EmbeddingUsageCopyWithImpl<$Res>
 
 /// Create a copy of EmbeddingUsage
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? promptTokens = null,Object? totalTokens = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? promptTokens = null,Object? completionTokens = null,Object? totalTokens = null,Object? promptAudioSeconds = freezed,}) {
   return _then(_EmbeddingUsage(
 promptTokens: null == promptTokens ? _self.promptTokens : promptTokens // ignore: cast_nullable_to_non_nullable
+as int,completionTokens: null == completionTokens ? _self.completionTokens : completionTokens // ignore: cast_nullable_to_non_nullable
 as int,totalTokens: null == totalTokens ? _self.totalTokens : totalTokens // ignore: cast_nullable_to_non_nullable
-as int,
+as int,promptAudioSeconds: freezed == promptAudioSeconds ? _self.promptAudioSeconds : promptAudioSeconds // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 

@@ -91,6 +91,7 @@ class MistralAIEmbeddings extends Embeddings {
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
     this.model = 'mistral-embed',
+    this.dimensions,
     this.batchSize = 512,
   }) : _client = MistralAIClient(
          apiKey: apiKey,
@@ -105,6 +106,10 @@ class MistralAIEmbeddings extends Embeddings {
 
   /// The embeddings model to use.
   final String model;
+
+  /// The number of dimensions for output embeddings.
+  /// Only supported by certain models (e.g., codestral-embed-2505).
+  final int? dimensions;
 
   /// The maximum number of documents to embed in a single request.
   int batchSize;
@@ -123,6 +128,7 @@ class MistralAIEmbeddings extends Embeddings {
             input: batch
                 .map((final doc) => doc.pageContent)
                 .toList(growable: false),
+            outputDimension: dimensions,
           ),
         );
         return data.data.map((final d) => d.embedding);
@@ -138,6 +144,7 @@ class MistralAIEmbeddings extends Embeddings {
       request: EmbeddingRequest(
         model: EmbeddingModel.modelId(model),
         input: [query],
+        outputDimension: dimensions,
       ),
     );
     return data.data.firstOrNull?.embedding ?? [];
