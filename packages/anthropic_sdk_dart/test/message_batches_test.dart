@@ -251,7 +251,7 @@ void main() {
             'id': 'msg_123',
             'type': 'message',
             'role': 'assistant',
-            'model': 'claude-3-5-sonnet-20241022',
+            'model': 'claude-haiku-4-5-20251001',
             'content': [
               {'type': 'text', 'text': 'Hello!'},
             ],
@@ -315,7 +315,7 @@ void main() {
           'id': 'msg_123',
           'type': 'message',
           'role': 'assistant',
-          'model': 'claude-3-5-sonnet-20241022',
+          'model': 'claude-haiku-4-5-20251001',
           'content': [
             {'type': 'text', 'text': 'Hello!'},
           ],
