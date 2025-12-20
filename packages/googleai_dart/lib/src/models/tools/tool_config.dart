@@ -8,7 +8,7 @@ class ToolConfig {
   /// Function calling config.
   final FunctionCallingConfig? functionCallingConfig;
 
-  /// Retrieval config.
+  /// Retrieval config for tools like Google Search or FileSearch.
   final RetrievalConfig? retrievalConfig;
 
   /// Creates a [ToolConfig].

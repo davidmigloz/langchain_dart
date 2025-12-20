@@ -9,7 +9,7 @@ import 'package:googleai_dart/googleai_dart.dart';
 /// generateAnswer provides answers grounded in specific sources,
 /// making it ideal for Retrieval Augmented Generation (RAG) use cases.
 ///
-/// This example shows how to use inline passages for grounded answers.
+/// This example shows inline passages approach for grounded answers.
 Future<void> main() async {
   // Get API key from environment
   final apiKey = Platform.environment['GOOGLEAI_API_KEY'];

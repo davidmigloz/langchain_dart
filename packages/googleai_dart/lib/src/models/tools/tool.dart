@@ -15,7 +15,8 @@ class Tool {
   /// Google search capability.
   final Map<String, dynamic>? googleSearch;
 
-  /// File search tool that retrieves knowledge from file search stores.
+  /// File search tool that retrieves knowledge from Semantic Retrieval
+  /// corpora.
   final FileSearch? fileSearch;
 
   /// List of MCP servers that can be called by the model.

@@ -81,7 +81,6 @@ export 'src/models/generation/grounding_passages.dart';
 export 'src/models/generation/image_config.dart';
 export 'src/models/generation/input_feedback.dart';
 export 'src/models/generation/prompt_feedback.dart';
-// Models - Generation (additional)
 export 'src/models/generation/schema.dart';
 export 'src/models/generation/thinking_config.dart';
 export 'src/models/generation/thinking_level.dart';
@@ -137,7 +136,6 @@ export 'src/models/tools/code_execution_result.dart';
 export 'src/models/tools/executable_code.dart';
 export 'src/models/tools/file_search.dart';
 export 'src/models/tools/function_call.dart';
-// Models - Tools (additional)
 export 'src/models/tools/function_calling_config.dart';
 export 'src/models/tools/function_declaration.dart';
 export 'src/models/tools/function_response.dart';

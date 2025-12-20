@@ -122,8 +122,9 @@ void main() {
           {'thinkingLevel': 'HIGH'},
         );
         expect(
-          const ThinkingConfig(thinkingLevel: ThinkingLevel.unspecified)
-              .toJson(),
+          const ThinkingConfig(
+            thinkingLevel: ThinkingLevel.unspecified,
+          ).toJson(),
           {'thinkingLevel': 'THINKING_LEVEL_UNSPECIFIED'},
         );
       });
