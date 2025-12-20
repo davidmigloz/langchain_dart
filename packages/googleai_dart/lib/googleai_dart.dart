@@ -92,6 +92,7 @@ export 'src/models/metadata/lat_lng.dart';
 export 'src/models/metadata/maps.dart';
 export 'src/models/metadata/modality_token_count.dart';
 export 'src/models/metadata/place_answer_sources.dart';
+export 'src/models/metadata/retrieval_config.dart';
 export 'src/models/metadata/retrieval_metadata.dart';
 export 'src/models/metadata/retrieved_context.dart';
 export 'src/models/metadata/review_snippet.dart';
