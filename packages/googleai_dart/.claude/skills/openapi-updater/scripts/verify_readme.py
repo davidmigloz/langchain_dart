@@ -1,13 +1,17 @@
 #!/usr/bin/env python3
 """
-Verify README.md accuracy against actual API implementation.
+Verify README.md completeness and accuracy against actual API implementation.
 
-This script validates that the README documentation matches the actual
-implementation by checking:
-1. Resources documented match lib/src/resources/
-2. Tool types documented match Tool class properties
-3. No stale references to removed APIs
-4. Example files exist
+This script validates that the README documentation is COMPLETE (all features
+documented) and ACCURATE (no stale references):
+
+1. Resources: All implemented resources are documented (auto-detected from *_resource.dart)
+2. Tool types: All Tool class properties are documented
+3. Stale references: No references to removed APIs remain
+4. Example files: Referenced example files exist
+
+The script auto-detects resources from lib/src/resources/*_resource.dart files,
+so new resources are automatically checked without needing to update hardcoded lists.
 
 Usage:
     python3 .claude/skills/openapi-updater/scripts/verify_readme.py
@@ -54,25 +58,30 @@ TOOL_PROPERTIES = {
                    ['googlemaps', 'google maps']),
 }
 
-# Resource name mappings (directory/file name -> expected client accessor)
-RESOURCE_MAPPINGS = {
-    'models_resource': 'models',
-    'tuned_models_resource': 'tunedModels',
-    'files': 'files',
-    'file_search_stores': 'fileSearchStores',
-    'cached_contents_resource': 'cachedContents',
-    'batches_resource': 'batches',
-    'corpora_resource': 'corpora',
-    'documents_resource': None,  # Nested under corpora, not standalone
-    'permissions_resource': None,  # Nested under other resources
-    'operations_resource': None,  # Universal, mentioned separately
-    'generated_files_resource': None,  # Nested under files
-    'base_resource': None,  # Base class, not a resource
+# Resources that should NOT be documented as standalone client accessors
+# (nested resources, base classes, internal utilities)
+EXCLUDED_RESOURCES = {
+    'documents_resource',    # Nested under corpora
+    'permissions_resource',  # Nested under other resources
+    'operations_resource',   # Universal, mentioned separately
+    'generated_files_resource',  # Nested under files
+    'base_resource',         # Base class, not a resource
+    'resource_base',         # Base class, not a resource
 }
 
 
+def snake_to_camel(name: str) -> str:
+    """Convert snake_case to camelCase."""
+    components = name.split('_')
+    return components[0] + ''.join(x.title() for x in components[1:])
+
+
 def find_implemented_resources() -> set[str]:
-    """Find all resource directories/files and return expected client names."""
+    """Find all resource files and return expected client names.
+
+    Automatically detects resources from *_resource.dart files and converts
+    to camelCase client accessor names (e.g., interactions_resource.dart -> interactions).
+    """
     resources_dir = Path('lib/src/resources')
     resources = set()
 
@@ -80,23 +89,40 @@ def find_implemented_resources() -> set[str]:
         if item.name.startswith('.'):
             continue
 
+        # Skip directories - we only care about resource files
         if item.is_dir():
-            # Directory-based resources (e.g., file_search_stores, files)
-            name = item.name
+            # Check for resource file inside directory
+            resource_file = item / f'{item.name}_resource.dart'
+            if resource_file.exists():
+                name = item.name + '_resource'
+            else:
+                # Check for other patterns
+                dart_files = list(item.glob('*_resource.dart'))
+                if dart_files:
+                    name = dart_files[0].stem
+                else:
+                    continue
         elif item.is_file() and item.suffix == '.dart':
-            # File-based resources (e.g., models_resource.dart)
             name = item.stem
         else:
             continue
 
-        # Skip backup files
+        # Skip backup files and non-resource files
         if name.endswith('.bak'):
             continue
+        if not name.endswith('_resource'):
+            continue
 
-        # Map to expected client accessor
-        client_name = RESOURCE_MAPPINGS.get(name)
-        if client_name:  # Only include top-level resources
-            resources.add(client_name)
+        # Skip excluded resources (internal, nested, base classes)
+        if name in EXCLUDED_RESOURCES:
+            continue
+
+        # Convert to client accessor name
+        # Remove _resource suffix and convert to camelCase
+        base_name = name.replace('_resource', '')
+        client_name = snake_to_camel(base_name)
+
+        resources.add(client_name)
 
     return resources
 
@@ -194,7 +220,7 @@ def main():
         print("Error: lib/src/resources/ not found. Run from package root directory.")
         sys.exit(2)
 
-    print("Checking README accuracy...")
+    print("Checking README completeness and accuracy...")
     print()
 
     readme = readme_path.read_text()
