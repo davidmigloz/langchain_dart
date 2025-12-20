@@ -70,29 +70,6 @@ void main() {
       expect(retrieved.displayName, corpus.displayName);
     });
 
-    test('updates a corpus', () async {
-      if (apiKey == null) {
-        markTestSkipped('API key not available');
-        return;
-      }
-
-      // Create corpus
-      final corpus = await client!.corpora.create(
-        corpus: const Corpus(displayName: 'Original Name'),
-      );
-      createdCorpusName = corpus.name;
-
-      // Update corpus
-      final updated = await client!.corpora.update(
-        name: corpus.name!,
-        corpus: const Corpus(displayName: 'Updated Name'),
-        updateMask: 'displayName',
-      );
-
-      expect(updated.name, corpus.name);
-      expect(updated.displayName, 'Updated Name');
-    });
-
     test('lists corpora', () async {
       if (apiKey == null) {
         markTestSkipped('API key not available');

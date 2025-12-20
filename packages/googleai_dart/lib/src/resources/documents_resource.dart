@@ -4,10 +4,7 @@ import 'package:http/http.dart' as http;
 
 import '../models/corpus/document.dart';
 import '../models/corpus/list_documents_response.dart';
-import '../models/corpus/query_document_request.dart';
-import '../models/corpus/query_document_response.dart';
 import 'base_resource.dart';
-import 'chunks_resource.dart';
 
 /// Resource for the Documents API.
 ///
@@ -120,9 +117,8 @@ class DocumentsResource extends ResourceBase {
 
   /// Deletes a document.
   ///
-  /// If [force] is true, any chunks and objects related to this document will
-  /// also be deleted. If false (the default), a FAILED_PRECONDITION error will
-  /// be returned if the document contains any chunks.
+  /// If [force] is true, any objects related to this document will
+  /// also be deleted.
   ///
   /// DELETE /v1beta/{name}
   Future<void> delete({required String name, bool? force}) async {
@@ -140,39 +136,5 @@ class DocumentsResource extends ResourceBase {
     final httpRequest = http.Request('DELETE', url)..headers.addAll(headers);
 
     await interceptorChain.execute(httpRequest);
-  }
-
-  /// Queries a document to retrieve relevant chunks.
-  ///
-  /// POST /v1beta/{name}:query
-  Future<QueryDocumentResponse> query({
-    required String name,
-    required QueryDocumentRequest request,
-  }) async {
-    final url = requestBuilder.buildUrl('/{version}/$name:query');
-
-    final headers = requestBuilder.buildHeaders(
-      additionalHeaders: {'Content-Type': 'application/json'},
-    );
-
-    final httpRequest = http.Request('POST', url)
-      ..headers.addAll(headers)
-      ..body = jsonEncode(request.toJson());
-
-    final response = await interceptorChain.execute(httpRequest);
-
-    final responseBody = jsonDecode(response.body) as Map<String, dynamic>;
-    return QueryDocumentResponse.fromJson(responseBody);
-  }
-
-  /// Access chunks for this document.
-  ChunksResource chunks({required String document}) {
-    return ChunksResource(
-      document: document,
-      config: config,
-      httpClient: httpClient,
-      interceptorChain: interceptorChain,
-      requestBuilder: requestBuilder,
-    );
   }
 }
