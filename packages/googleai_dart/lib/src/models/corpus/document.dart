@@ -1,10 +1,12 @@
 import '../copy_with_sentinel.dart';
+import 'document_state.dart';
 
-/// A collection of content within a corpus.
+/// A collection of related content in a corpus.
 ///
-/// Documents are containers within a corpus.
+/// Documents are hierarchical containers within a corpus or file search store.
 ///
 /// Example name: `corpora/{corpus_id}/documents/my-awesome-doc-123a456b789c`
+/// or: `fileSearchStores/{store_id}/documents/my-awesome-doc-123a456b789c`
 class Document {
   /// Creates a new [Document] instance.
   const Document({
@@ -12,6 +14,9 @@ class Document {
     this.displayName,
     this.createTime,
     this.updateTime,
+    this.state,
+    this.sizeBytes,
+    this.mimeType,
   });
 
   /// The Document resource name.
@@ -40,6 +45,21 @@ class Document {
   /// Output only.
   final DateTime? updateTime;
 
+  /// Current state of the Document.
+  ///
+  /// Output only.
+  final DocumentState? state;
+
+  /// The size of raw bytes ingested into the Document.
+  ///
+  /// Output only.
+  final String? sizeBytes;
+
+  /// The MIME type of the Document.
+  ///
+  /// Output only.
+  final String? mimeType;
+
   /// Creates a [Document] from JSON.
   factory Document.fromJson(Map<String, dynamic> json) {
     return Document(
@@ -51,6 +71,11 @@ class Document {
       updateTime: json['updateTime'] != null
           ? DateTime.parse(json['updateTime'] as String)
           : null,
+      state: json['state'] != null
+          ? DocumentState.fromString(json['state'] as String)
+          : null,
+      sizeBytes: json['sizeBytes'] as String?,
+      mimeType: json['mimeType'] as String?,
     );
   }
 
@@ -61,6 +86,9 @@ class Document {
       if (displayName != null) 'displayName': displayName,
       if (createTime != null) 'createTime': createTime!.toIso8601String(),
       if (updateTime != null) 'updateTime': updateTime!.toIso8601String(),
+      if (state != null) 'state': state!.value,
+      if (sizeBytes != null) 'sizeBytes': sizeBytes,
+      if (mimeType != null) 'mimeType': mimeType,
     };
   }
 
@@ -70,6 +98,9 @@ class Document {
     Object? displayName = unsetCopyWithValue,
     Object? createTime = unsetCopyWithValue,
     Object? updateTime = unsetCopyWithValue,
+    Object? state = unsetCopyWithValue,
+    Object? sizeBytes = unsetCopyWithValue,
+    Object? mimeType = unsetCopyWithValue,
   }) {
     return Document(
       name: name == unsetCopyWithValue ? this.name : name as String?,
@@ -82,6 +113,13 @@ class Document {
       updateTime: updateTime == unsetCopyWithValue
           ? this.updateTime
           : updateTime as DateTime?,
+      state: state == unsetCopyWithValue ? this.state : state as DocumentState?,
+      sizeBytes: sizeBytes == unsetCopyWithValue
+          ? this.sizeBytes
+          : sizeBytes as String?,
+      mimeType: mimeType == unsetCopyWithValue
+          ? this.mimeType
+          : mimeType as String?,
     );
   }
 
@@ -91,5 +129,8 @@ class Document {
       'name: $name, '
       'displayName: $displayName, '
       'createTime: $createTime, '
-      'updateTime: $updateTime)';
+      'updateTime: $updateTime, '
+      'state: $state, '
+      'sizeBytes: $sizeBytes, '
+      'mimeType: $mimeType)';
 }

@@ -40,6 +40,7 @@ export 'src/models/content/part.dart';
 // Models - Corpus API
 export 'src/models/corpus/corpus.dart';
 export 'src/models/corpus/document.dart';
+export 'src/models/corpus/document_state.dart';
 export 'src/models/corpus/list_corpora_response.dart';
 export 'src/models/corpus/list_documents_response.dart';
 // Models - Embeddings
@@ -77,6 +78,7 @@ export 'src/models/generation/generate_content_response.dart';
 export 'src/models/generation/generation_config.dart';
 export 'src/models/generation/grounding_passage.dart';
 export 'src/models/generation/grounding_passages.dart';
+export 'src/models/generation/image_config.dart';
 export 'src/models/generation/input_feedback.dart';
 export 'src/models/generation/prompt_feedback.dart';
 // Models - Generation (additional)
