@@ -41,7 +41,13 @@ Unofficial Dart client for the **[Google AI Gemini Developer API](https://ai.goo
 - ✅ Streaming support (`streamGenerateContent`) with SSE
 - ✅ Request abortion (cancelable requests via `abortTrigger`)
 - ✅ Token counting (`countTokens`)
-- ✅ Function calling support (tools & function declarations)
+- ✅ Tool support:
+  - Function calling (custom function declarations)
+  - Code execution (Python sandbox)
+  - Google Search grounding
+  - File search (Semantic Retrieval with FileSearchStores)
+  - Google Maps (geospatial context)
+  - MCP servers (Model Context Protocol)
 - ✅ Safety settings support
 
 #### Embeddings
@@ -70,13 +76,12 @@ Unofficial Dart client for the **[Google AI Gemini Developer API](https://ai.goo
 - ✅ Generation with tuned models
 - ℹ️ *Vertex AI: Use [Vertex AI Tuning API](https://cloud.google.com/vertex-ai/docs/tuning)*
 
-#### Corpora
+#### Corpora & File Search
 
 - ✅ Corpus management (create, list, get, update, delete)
-- ⚠️ *Document/Chunk/RAG features are only available in Vertex AI*
-- ℹ️ *Vertex AI: Use [RAG Stores](https://cloud.google.com/vertex-ai/docs/grounding) & [Vector Search](https://cloud.google.com/vertex-ai/docs/vector-search) for full RAG capabilities*
-
-> **Note**: Google AI only supports basic corpus CRUD operations. The Semantic Retriever API (documents, chunks, semantic search) has been succeeded by Vertex AI Vector Search and RAG Stores.
+- ✅ Document management within corpora
+- ✅ FileSearchStores for semantic retrieval (create, list, get, delete, import/upload files)
+- ℹ️ *Vertex AI: Use [RAG Engine](https://cloud.google.com/vertex-ai/docs/generative-ai/rag-overview) for enterprise RAG capabilities*
 
 #### Permissions
 
@@ -108,7 +113,7 @@ Unofficial Dart client for the **[Google AI Gemini Developer API](https://ai.goo
 | **Core Features** | ✅ Full support | ✅ Full support |
 | **Files API** | ✅ Supported | ❌ Use Cloud Storage URIs |
 | **Tuned Models** | ✅ Supported | ❌ Different tuning API |
-| **Corpora/RAG** | ⚠️ Corpus CRUD only | ✅ Full RAG support |
+| **File Search** | ✅ FileSearchStores | ✅ RAG Engine |
 | **Enterprise** | ❌ None | ✅ VPC, CMEK, HIPAA |
 
 ## Why choose this client?
@@ -1032,18 +1037,16 @@ See the [`example/`](example/) directory for comprehensive examples:
 7. **[models_example.dart](example/models_example.dart)** - Model listing and inspection
 8. **[files_example.dart](example/files_example.dart)** - File upload and management
 9. **[pagination_example.dart](example/pagination_example.dart)** - Paginated API calls
-10. **[corpus_example.dart](example/corpus_example.dart)** - Corpus/document/chunk management
-11. **[rag_example.dart](example/rag_example.dart)** - Complete RAG workflow
-12. **[batch_example.dart](example/batch_example.dart)** - Batch operations
-13. **[caching_example.dart](example/caching_example.dart)** - Context caching for cost/latency optimization
-14. **[permissions_example.dart](example/permissions_example.dart)** - Permission management
-15. **[oauth_refresh_example.dart](example/oauth_refresh_example.dart)** - OAuth token refresh with AuthProvider
-16. **[prediction_example.dart](example/prediction_example.dart)** - Video generation with Veo model
-17. **[generate_answer_example.dart](example/generate_answer_example.dart)** - Grounded question answering with inline passages or semantic retriever
-18. **[tuned_model_generation_example.dart](example/tuned_model_generation_example.dart)** - Generate content with custom tuned models
-19. **[api_versions_example.dart](example/api_versions_example.dart)** - Using v1 (stable) vs v1beta (beta)
-20. **[vertex_ai_example.dart](example/vertex_ai_example.dart)** - Using Vertex AI with OAuth authentication
-21. **[complete_api_example.dart](example/complete_api_example.dart)** - Demonstrating 100% API coverage
+10. **[batch_example.dart](example/batch_example.dart)** - Batch operations
+11. **[caching_example.dart](example/caching_example.dart)** - Context caching for cost/latency optimization
+12. **[permissions_example.dart](example/permissions_example.dart)** - Permission management
+13. **[oauth_refresh_example.dart](example/oauth_refresh_example.dart)** - OAuth token refresh with AuthProvider
+14. **[prediction_example.dart](example/prediction_example.dart)** - Video generation with Veo model
+15. **[generate_answer_example.dart](example/generate_answer_example.dart)** - Grounded question answering with inline passages or semantic retriever
+16. **[tuned_model_generation_example.dart](example/tuned_model_generation_example.dart)** - Generate content with custom tuned models
+17. **[api_versions_example.dart](example/api_versions_example.dart)** - Using v1 (stable) vs v1beta (beta)
+18. **[vertex_ai_example.dart](example/vertex_ai_example.dart)** - Using Vertex AI with OAuth authentication
+19. **[complete_api_example.dart](example/complete_api_example.dart)** - Demonstrating 100% API coverage
 
 ## API Coverage
 
@@ -1083,15 +1086,15 @@ This client implements **78 endpoints** covering **100% of all non-deprecated Ge
 
 ### Corpora Resource (`client.corpora`)
 
-- **Corpus Management**: create, list, get, update, delete, query
-- **Document Management**: documents(corpus).create, documents(corpus).list, documents(corpus).get, documents(corpus).update, documents(corpus).delete, documents(corpus).query
-- **Chunk Management**: documents(corpus).chunks(document).create, documents(corpus).chunks(document).list, documents(corpus).chunks(document).get, documents(corpus).chunks(document).update, documents(corpus).chunks(document).delete
-- **Batch Operations**: documents(corpus).chunks(document).batchCreate, documents(corpus).chunks(document).batchUpdate, documents(corpus).chunks(document).batchDelete
+- **Corpus Management**: create, list, get, update, delete
+- **Document Management**: documents(corpus).create, documents(corpus).list, documents(corpus).get, documents(corpus).update, documents(corpus).delete
 - **Permissions**: permissions(parent).create, permissions(parent).list, permissions(parent).get, permissions(parent).update, permissions(parent).delete
 
-### RAG Stores Resource (`client.ragStores`)
+### FileSearchStores Resource (`client.fileSearchStores`)
 
-- **Management**: documents.list, documents.create, documents.get, documents.delete, documents.query
+- **Store Management**: create, list, get, delete
+- **Document Operations**: importFile, uploadToFileSearchStore
+- **Document Management**: documents.list, documents.get, documents.delete
 - **Operations**: getOperation, getUploadOperation
 
 ### Universal Operations

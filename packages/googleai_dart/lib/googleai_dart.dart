@@ -9,17 +9,22 @@ export 'src/client/config.dart'
 export 'src/client/googleai_client.dart';
 // Errors
 export 'src/errors/exceptions.dart';
+// Models - Batch API
 export 'src/models/batch/batch_state.dart';
 export 'src/models/batch/batch_stats.dart';
 export 'src/models/batch/embed_content_batch.dart';
+export 'src/models/batch/embed_content_batch_output.dart';
 export 'src/models/batch/embed_content_batch_stats.dart';
-// Models - Batch API
 export 'src/models/batch/generate_content_batch.dart';
+export 'src/models/batch/generate_content_batch_output.dart';
 export 'src/models/batch/inlined_embed_content_request.dart';
 export 'src/models/batch/inlined_embed_content_requests.dart';
+export 'src/models/batch/inlined_embed_content_response.dart';
+export 'src/models/batch/inlined_embed_content_responses.dart';
 export 'src/models/batch/inlined_request.dart';
 export 'src/models/batch/inlined_requests.dart';
 export 'src/models/batch/inlined_response.dart';
+export 'src/models/batch/inlined_responses.dart';
 export 'src/models/batch/input_config.dart';
 export 'src/models/batch/input_embed_content_config.dart';
 export 'src/models/batch/list_batches_response.dart';
@@ -55,6 +60,7 @@ export 'src/models/files/chunking_config.dart';
 export 'src/models/files/file.dart';
 export 'src/models/files/file_search_custom_metadata.dart';
 export 'src/models/files/file_search_store.dart';
+export 'src/models/files/file_source.dart';
 export 'src/models/files/file_state.dart';
 export 'src/models/files/generated_file.dart';
 export 'src/models/files/import_file_request.dart';
