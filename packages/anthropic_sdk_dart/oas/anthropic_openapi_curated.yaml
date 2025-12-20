@@ -63,6 +63,48 @@ paths:
               schema:
                 $ref: "#/components/schemas/CountMessageTokensResponse"
   /messages/batches:
+    get:
+      operationId: listMessageBatches
+      tags:
+        - Messages
+      summary: List Message Batches
+      description: |
+        List all Message Batches within a Workspace. Most recently created batches are
+        returned first.
+      parameters:
+        - name: before_id
+          in: query
+          required: false
+          description: |
+            ID of the object to use as a cursor for pagination. When provided, returns the
+            page of results immediately before this object.
+          schema:
+            type: string
+        - name: after_id
+          in: query
+          required: false
+          description: |
+            ID of the object to use as a cursor for pagination. When provided, returns the
+            page of results immediately after this object.
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          description: |
+            Number of items to return per page. Defaults to 20. Ranges from 1 to 100.
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListMessageBatchesResponse"
     post:
       operationId: createMessageBatch
       tags:
@@ -1012,6 +1054,32 @@ components:
         - processing_status
         - request_counts
         - type
+    ListMessageBatchesResponse:
+      type: object
+      description: Response containing a list of message batches.
+      properties:
+        data:
+          type: array
+          description: List of MessageBatch objects.
+          items:
+            $ref: "#/components/schemas/MessageBatch"
+        has_more:
+          type: boolean
+          description: |
+            Indicates if there are more results in the requested page direction.
+        first_id:
+          type: string
+          nullable: true
+          description: |
+            First ID in the `data` list. Can be used as the `before_id` for the previous page.
+        last_id:
+          type: string
+          nullable: true
+          description: |
+            Last ID in the `data` list. Can be used as the `after_id` for the next page.
+      required:
+        - data
+        - has_more
     MessageBatchRequestCounts:
       type: object
       description: Tallies requests within the Message Batch, categorized by their status.

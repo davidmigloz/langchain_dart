@@ -6137,6 +6137,293 @@ $MessageBatchRequestCountsCopyWith<$Res> get requestCounts {
 
 
 /// @nodoc
+mixin _$ListMessageBatchesResponse {
+
+/// List of MessageBatch objects.
+ List<MessageBatch> get data;/// Indicates if there are more results in the requested page direction.
+@JsonKey(name: 'has_more') bool get hasMore;/// First ID in the `data` list. Can be used as the `before_id` for the previous page.
+@JsonKey(name: 'first_id', includeIfNull: false) String? get firstId;/// Last ID in the `data` list. Can be used as the `after_id` for the next page.
+@JsonKey(name: 'last_id', includeIfNull: false) String? get lastId;
+/// Create a copy of ListMessageBatchesResponse
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ListMessageBatchesResponseCopyWith<ListMessageBatchesResponse> get copyWith => _$ListMessageBatchesResponseCopyWithImpl<ListMessageBatchesResponse>(this as ListMessageBatchesResponse, _$identity);
+
+  /// Serializes this ListMessageBatchesResponse to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ListMessageBatchesResponse&&const DeepCollectionEquality().equals(other.data, data)&&(identical(other.hasMore, hasMore) || other.hasMore == hasMore)&&(identical(other.firstId, firstId) || other.firstId == firstId)&&(identical(other.lastId, lastId) || other.lastId == lastId));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(data),hasMore,firstId,lastId);
+
+@override
+String toString() {
+  return 'ListMessageBatchesResponse(data: $data, hasMore: $hasMore, firstId: $firstId, lastId: $lastId)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ListMessageBatchesResponseCopyWith<$Res>  {
+  factory $ListMessageBatchesResponseCopyWith(ListMessageBatchesResponse value, $Res Function(ListMessageBatchesResponse) _then) = _$ListMessageBatchesResponseCopyWithImpl;
+@useResult
+$Res call({
+ List<MessageBatch> data,@JsonKey(name: 'has_more') bool hasMore,@JsonKey(name: 'first_id', includeIfNull: false) String? firstId,@JsonKey(name: 'last_id', includeIfNull: false) String? lastId
+});
+
+
+
+
+}
+/// @nodoc
+class _$ListMessageBatchesResponseCopyWithImpl<$Res>
+    implements $ListMessageBatchesResponseCopyWith<$Res> {
+  _$ListMessageBatchesResponseCopyWithImpl(this._self, this._then);
+
+  final ListMessageBatchesResponse _self;
+  final $Res Function(ListMessageBatchesResponse) _then;
+
+/// Create a copy of ListMessageBatchesResponse
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? data = null,Object? hasMore = null,Object? firstId = freezed,Object? lastId = freezed,}) {
+  return _then(_self.copyWith(
+data: null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
+as List<MessageBatch>,hasMore: null == hasMore ? _self.hasMore : hasMore // ignore: cast_nullable_to_non_nullable
+as bool,firstId: freezed == firstId ? _self.firstId : firstId // ignore: cast_nullable_to_non_nullable
+as String?,lastId: freezed == lastId ? _self.lastId : lastId // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [ListMessageBatchesResponse].
+extension ListMessageBatchesResponsePatterns on ListMessageBatchesResponse {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ListMessageBatchesResponse value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _ListMessageBatchesResponse() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ListMessageBatchesResponse value)  $default,){
+final _that = this;
+switch (_that) {
+case _ListMessageBatchesResponse():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ListMessageBatchesResponse value)?  $default,){
+final _that = this;
+switch (_that) {
+case _ListMessageBatchesResponse() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<MessageBatch> data, @JsonKey(name: 'has_more')  bool hasMore, @JsonKey(name: 'first_id', includeIfNull: false)  String? firstId, @JsonKey(name: 'last_id', includeIfNull: false)  String? lastId)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _ListMessageBatchesResponse() when $default != null:
+return $default(_that.data,_that.hasMore,_that.firstId,_that.lastId);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<MessageBatch> data, @JsonKey(name: 'has_more')  bool hasMore, @JsonKey(name: 'first_id', includeIfNull: false)  String? firstId, @JsonKey(name: 'last_id', includeIfNull: false)  String? lastId)  $default,) {final _that = this;
+switch (_that) {
+case _ListMessageBatchesResponse():
+return $default(_that.data,_that.hasMore,_that.firstId,_that.lastId);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<MessageBatch> data, @JsonKey(name: 'has_more')  bool hasMore, @JsonKey(name: 'first_id', includeIfNull: false)  String? firstId, @JsonKey(name: 'last_id', includeIfNull: false)  String? lastId)?  $default,) {final _that = this;
+switch (_that) {
+case _ListMessageBatchesResponse() when $default != null:
+return $default(_that.data,_that.hasMore,_that.firstId,_that.lastId);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _ListMessageBatchesResponse extends ListMessageBatchesResponse {
+  const _ListMessageBatchesResponse({required final  List<MessageBatch> data, @JsonKey(name: 'has_more') required this.hasMore, @JsonKey(name: 'first_id', includeIfNull: false) this.firstId, @JsonKey(name: 'last_id', includeIfNull: false) this.lastId}): _data = data,super._();
+  factory _ListMessageBatchesResponse.fromJson(Map<String, dynamic> json) => _$ListMessageBatchesResponseFromJson(json);
+
+/// List of MessageBatch objects.
+ final  List<MessageBatch> _data;
+/// List of MessageBatch objects.
+@override List<MessageBatch> get data {
+  if (_data is EqualUnmodifiableListView) return _data;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_data);
+}
+
+/// Indicates if there are more results in the requested page direction.
+@override@JsonKey(name: 'has_more') final  bool hasMore;
+/// First ID in the `data` list. Can be used as the `before_id` for the previous page.
+@override@JsonKey(name: 'first_id', includeIfNull: false) final  String? firstId;
+/// Last ID in the `data` list. Can be used as the `after_id` for the next page.
+@override@JsonKey(name: 'last_id', includeIfNull: false) final  String? lastId;
+
+/// Create a copy of ListMessageBatchesResponse
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ListMessageBatchesResponseCopyWith<_ListMessageBatchesResponse> get copyWith => __$ListMessageBatchesResponseCopyWithImpl<_ListMessageBatchesResponse>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$ListMessageBatchesResponseToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ListMessageBatchesResponse&&const DeepCollectionEquality().equals(other._data, _data)&&(identical(other.hasMore, hasMore) || other.hasMore == hasMore)&&(identical(other.firstId, firstId) || other.firstId == firstId)&&(identical(other.lastId, lastId) || other.lastId == lastId));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_data),hasMore,firstId,lastId);
+
+@override
+String toString() {
+  return 'ListMessageBatchesResponse(data: $data, hasMore: $hasMore, firstId: $firstId, lastId: $lastId)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$ListMessageBatchesResponseCopyWith<$Res> implements $ListMessageBatchesResponseCopyWith<$Res> {
+  factory _$ListMessageBatchesResponseCopyWith(_ListMessageBatchesResponse value, $Res Function(_ListMessageBatchesResponse) _then) = __$ListMessageBatchesResponseCopyWithImpl;
+@override @useResult
+$Res call({
+ List<MessageBatch> data,@JsonKey(name: 'has_more') bool hasMore,@JsonKey(name: 'first_id', includeIfNull: false) String? firstId,@JsonKey(name: 'last_id', includeIfNull: false) String? lastId
+});
+
+
+
+
+}
+/// @nodoc
+class __$ListMessageBatchesResponseCopyWithImpl<$Res>
+    implements _$ListMessageBatchesResponseCopyWith<$Res> {
+  __$ListMessageBatchesResponseCopyWithImpl(this._self, this._then);
+
+  final _ListMessageBatchesResponse _self;
+  final $Res Function(_ListMessageBatchesResponse) _then;
+
+/// Create a copy of ListMessageBatchesResponse
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? data = null,Object? hasMore = null,Object? firstId = freezed,Object? lastId = freezed,}) {
+  return _then(_ListMessageBatchesResponse(
+data: null == data ? _self._data : data // ignore: cast_nullable_to_non_nullable
+as List<MessageBatch>,hasMore: null == hasMore ? _self.hasMore : hasMore // ignore: cast_nullable_to_non_nullable
+as bool,firstId: freezed == firstId ? _self.firstId : firstId // ignore: cast_nullable_to_non_nullable
+as String?,lastId: freezed == lastId ? _self.lastId : lastId // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
 mixin _$MessageBatchRequestCounts {
 
 /// Number of requests in the Message Batch that are processing.
