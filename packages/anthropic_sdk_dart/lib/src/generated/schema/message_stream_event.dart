@@ -92,7 +92,7 @@ sealed class MessageStreamEvent with _$MessageStreamEvent {
 
   const factory MessageStreamEvent.contentBlockDelta({
     /// A delta in a streaming message.
-    /// Any of: [TextBlockDelta], [InputJsonBlockDelta], [ThinkingBlockDelta]
+    /// Any of: [TextBlockDelta], [InputJsonBlockDelta], [ThinkingBlockDelta], [SignatureBlockDelta]
     required BlockDelta delta,
 
     /// The index of the content block.

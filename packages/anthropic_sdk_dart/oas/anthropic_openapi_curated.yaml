@@ -2199,12 +2199,14 @@ components:
         - $ref: "#/components/schemas/TextBlockDelta"
         - $ref: "#/components/schemas/InputJsonBlockDelta"
         - $ref: "#/components/schemas/ThinkingBlockDelta"
+        - $ref: "#/components/schemas/SignatureBlockDelta"
       discriminator:
         propertyName: type
         mapping:
           text_delta: "#/components/schemas/TextBlockDelta"
           input_json_delta: "#/components/schemas/InputJsonBlockDelta"
           thinking_delta: "#/components/schemas/ThinkingBlockDelta"
+          signature_delta: "#/components/schemas/SignatureBlockDelta"
     TextBlockDelta:
       type: object
       description: A delta in a streaming text block.
@@ -2250,6 +2252,24 @@ components:
           default: thinking_delta
       required:
         - thinking
+        - type
+    SignatureBlockDelta:
+      type: object
+      description: |
+        A delta in a streaming signature block. This contains the cryptographic signature
+        for a thinking block, used to verify the integrity of thinking content.
+      properties:
+        signature:
+          type: string
+          description: The signature delta.
+        type:
+          type: string
+          description: The type of content block delta.
+          enum:
+            - signature_delta
+          default: signature_delta
+      required:
+        - signature
         - type
     ContentBlockStopEvent:
       type: object
