@@ -2,6 +2,139 @@
 
 📣 Check out the [releases page](https://github.com/davidmigloz/langchain_dart/releases) or the [#announcements](https://discord.com/channels/1123158322812555295/1123250594644242534) channel on the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details.
 
+## 2025-12-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - [`googleai_dart` - `v2.0.0`](#googleai_dart---v200)
+
+Packages with other changes:
+
+ - [`anthropic_sdk_dart` - `v0.3.1`](#anthropic_sdk_dart---v031)
+ - [`langchain` - `v0.8.1`](#langchain---v081)
+ - [`langchain_anthropic` - `v0.3.1`](#langchain_anthropic---v031)
+ - [`langchain_core` - `v0.4.1`](#langchain_core---v041)
+ - [`langchain_firebase` - `v0.3.1`](#langchain_firebase---v031)
+ - [`langchain_google` - `v0.7.1`](#langchain_google---v071)
+ - [`langchain_mistralai` - `v0.3.1`](#langchain_mistralai---v031)
+ - [`langchain_ollama` - `v0.4.1`](#langchain_ollama---v041)
+ - [`langchain_openai` - `v0.8.1`](#langchain_openai---v081)
+ - [`mistralai_dart` - `v0.1.1`](#mistralai_dart---v011)
+ - [`openai_dart` - `v0.6.1`](#openai_dart---v061)
+ - [`langchain_chroma` - `v0.3.0+2`](#langchain_chroma---v0302)
+ - [`langchain_community` - `v0.4.0+2`](#langchain_community---v0402)
+ - [`langchain_supabase` - `v0.2.0+2`](#langchain_supabase---v0202)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `langchain_chroma` - `v0.3.0+2`
+ - `langchain_community` - `v0.4.0+2`
+ - `langchain_supabase` - `v0.2.0+2`
+
+---
+
+#### `googleai_dart` - `v2.0.0`
+
+ - **BREAKING** **FEAT**(googleai_dart): Remove deprecated schema fields ([#848](https://github.com/davidmigloz/langchain_dart/issues/848)). ([e6d07ec4](https://github.com/davidmigloz/langchain_dart/commit/e6d07ec4a94d1b09e9dbd71f30904d510fb749c6))
+ - **BREAKING** **FEAT**(googleai_dart): Remove deprecated Chunks and query APIs ([#847](https://github.com/davidmigloz/langchain_dart/issues/847)). ([9cae76d5](https://github.com/davidmigloz/langchain_dart/commit/9cae76d534d45bcd36622216a0926bfbc8800d86))
+ - **BREAKING** **FEAT**(googleai_dart): Remove deprecated RagStores resource ([#846](https://github.com/davidmigloz/langchain_dart/issues/846)). ([1ab553f1](https://github.com/davidmigloz/langchain_dart/commit/1ab553f1da173dbed72a1d9089e56ce11b78eac6))
+ - **FEAT**(googleai_dart): Add InteractionsResource and client integration ([#905](https://github.com/davidmigloz/langchain_dart/issues/905)). ([af6b13ea](https://github.com/davidmigloz/langchain_dart/commit/af6b13ea3c91ca4f05196940505d3eddb5c55831))
+ - **FEAT**(googleai_dart): Add Interactions API tool types ([#904](https://github.com/davidmigloz/langchain_dart/issues/904)). ([2258cfa1](https://github.com/davidmigloz/langchain_dart/commit/2258cfa187cb011eddfa204d7f2a68a2ab329a37))
+ - **FEAT**(googleai_dart): Add Interactions API events and deltas ([#903](https://github.com/davidmigloz/langchain_dart/issues/903)). ([826d3f64](https://github.com/davidmigloz/langchain_dart/commit/826d3f64845eb7178b9567f5193951796f476ea1))
+ - **FEAT**(googleai_dart): Add Interactions API content types ([#902](https://github.com/davidmigloz/langchain_dart/issues/902)). ([b8c61743](https://github.com/davidmigloz/langchain_dart/commit/b8c61743e2e6ffa9cd6cd44df289135f6250b30d))
+ - **FEAT**(googleai_dart): Add Interactions API core models ([#901](https://github.com/davidmigloz/langchain_dart/issues/901)). ([65f5db17](https://github.com/davidmigloz/langchain_dart/commit/65f5db17d91282bfc7edaca7e9fcb97b505631c6))
+ - **FEAT**(googleai_dart): Update existing models with new properties ([#856](https://github.com/davidmigloz/langchain_dart/issues/856)). ([dd3893e0](https://github.com/davidmigloz/langchain_dart/commit/dd3893e07e78f2ce852ba26fd7e67744402ec11a))
+ - **FEAT**(googleai_dart): Add RetrievalConfig to ToolConfig ([#855](https://github.com/davidmigloz/langchain_dart/issues/855)). ([5e11aa70](https://github.com/davidmigloz/langchain_dart/commit/5e11aa7000d74dfc09201620e38670c505cc525b))
+ - **FEAT**(googleai_dart): Add MediaResolution to Part ([#854](https://github.com/davidmigloz/langchain_dart/issues/854)). ([df76f8c5](https://github.com/davidmigloz/langchain_dart/commit/df76f8c5b967efd5ac11aa83760459b71e55a000))
+ - **FEAT**(googleai_dart): Add GoogleMaps tool ([#853](https://github.com/davidmigloz/langchain_dart/issues/853)). ([54814614](https://github.com/davidmigloz/langchain_dart/commit/548146143cfe48c4f24c9644d27b88550b816904))
+ - **FEAT**(googleai_dart): Add McpServers tool ([#852](https://github.com/davidmigloz/langchain_dart/issues/852)). ([97970687](https://github.com/davidmigloz/langchain_dart/commit/97970687d43ff8dea4c6a87633d0e82287eedc30))
+ - **FEAT**(googleai_dart): Add FileSearch tool ([#851](https://github.com/davidmigloz/langchain_dart/issues/851)). ([a00895b1](https://github.com/davidmigloz/langchain_dart/commit/a00895b1e264164894b56f6cf7dccea5f3c6c5b6))
+ - **FEAT**(googleai_dart): Add grounding models ([#850](https://github.com/davidmigloz/langchain_dart/issues/850)). ([bb1a6228](https://github.com/davidmigloz/langchain_dart/commit/bb1a62286d5e04b612e148a4e55bceacf289e57c))
+ - **FEAT**(googleai_dart): Add FileSearchStores resource ([#849](https://github.com/davidmigloz/langchain_dart/issues/849)). ([acb63d72](https://github.com/davidmigloz/langchain_dart/commit/acb63d72f03af13c1e1d4ff62f3f5e43a3ec34fd))
+ - **FEAT**(googleai_dart): Add ThinkingConfig support to GenerationConfig ([#817](https://github.com/davidmigloz/langchain_dart/issues/817)). ([36de62a9](https://github.com/davidmigloz/langchain_dart/commit/36de62a9c65b24d9db35589772e053bb9c090035))
+ - **FIX**(googleai_dart): Complete alignment with target implementation ([#884](https://github.com/davidmigloz/langchain_dart/issues/884)). ([60476e8d](https://github.com/davidmigloz/langchain_dart/commit/60476e8db17ca9badba217269169f3f8eb11a318))
+ - **DOCS**(googleai_dart): Add Interactions API docs and example ([#897](https://github.com/davidmigloz/langchain_dart/issues/897)). ([f4a04677](https://github.com/davidmigloz/langchain_dart/commit/f4a04677e1e0743f85ca7f06756ba148c49cad01))
+
+#### `anthropic_sdk_dart` - `v0.3.1`
+
+ - **FIX**(anthropic_sdk_dart): Add signature_delta support to BlockDelta (fixes [#811](https://github.com/davidmigloz/langchain_dart/issues/811)) ([#878](https://github.com/davidmigloz/langchain_dart/issues/878)). ([1d281837](https://github.com/davidmigloz/langchain_dart/commit/1d281837f64ec8d5ce6cdf3d00bcdbdba6451ebe))
+ - **FIX**(anthropic_sdk_dart): Update tool types and fix analyzer warnings ([#876](https://github.com/davidmigloz/langchain_dart/issues/876)). ([17613b1e](https://github.com/davidmigloz/langchain_dart/commit/17613b1e6dd6dcf420e914fe0e56ca972ec303ce))
+ - **FEAT**(anthropic_sdk_dart): Add citations_delta support to BlockDelta ([#880](https://github.com/davidmigloz/langchain_dart/issues/880)). ([4da916bf](https://github.com/davidmigloz/langchain_dart/commit/4da916bf81094799d1b28fb7cfce5b5ade72cea0))
+ - **FEAT**(anthropic_sdk_dart): Add beta features support ([#874](https://github.com/davidmigloz/langchain_dart/issues/874)). ([28e4a23a](https://github.com/davidmigloz/langchain_dart/commit/28e4a23ae996d9828f2b6e7b404e6d942613bb34))
+ - **FEAT**(anthropic_sdk_dart): Add schema enhancements ([#873](https://github.com/davidmigloz/langchain_dart/issues/873)). ([424d3225](https://github.com/davidmigloz/langchain_dart/commit/424d32253c15d57752f9a75423d69dddec05642e))
+ - **FEAT**(anthropic_sdk_dart): Add Models API ([#872](https://github.com/davidmigloz/langchain_dart/issues/872)). ([7962a867](https://github.com/davidmigloz/langchain_dart/commit/7962a867b5cca399364a65960fcb4b16c79e3dbb))
+ - **FEAT**(anthropic_sdk_dart): Add get message batch results endpoint ([#871](https://github.com/davidmigloz/langchain_dart/issues/871)). ([46fb2a5d](https://github.com/davidmigloz/langchain_dart/commit/46fb2a5d1bd6efd53bd6dc73d21d82ecd5ff7a1f))
+ - **FEAT**(anthropic_sdk_dart): Add delete message batch endpoint ([#870](https://github.com/davidmigloz/langchain_dart/issues/870)). ([6611e175](https://github.com/davidmigloz/langchain_dart/commit/6611e1758781e568442a9dec41a5e0b1eaeb13f4))
+ - **FEAT**(anthropic_sdk_dart): Add cancel message batch endpoint ([#869](https://github.com/davidmigloz/langchain_dart/issues/869)). ([b7aa8602](https://github.com/davidmigloz/langchain_dart/commit/b7aa8602f5474c6a32ef39ce3a52c3568081dc13))
+ - **FEAT**(anthropic_sdk_dart): Add list message batches endpoint ([#868](https://github.com/davidmigloz/langchain_dart/issues/868)). ([745e369d](https://github.com/davidmigloz/langchain_dart/commit/745e369d07a71d66de508ab5b7933f18693eee9c))
+ - **FEAT**(anthropic_sdk_dart): Add token counting API ([#858](https://github.com/davidmigloz/langchain_dart/issues/858)). ([b0d61c92](https://github.com/davidmigloz/langchain_dart/commit/b0d61c9204fe959bd16eca842ab98292e723822a))
+
+#### `langchain` - `v0.8.1`
+
+ - **FEAT**: Add listModels() API for LLMs and Embeddings ([#371](https://github.com/davidmigloz/langchain_dart/issues/371)) ([#844](https://github.com/davidmigloz/langchain_dart/issues/844)). ([4b737389](https://github.com/davidmigloz/langchain_dart/commit/4b7373894d5b8701b6d00d153c1741931a49b3a1))
+ - **FIX**(langchain): Properly serialize non-String tool outputs in AgentExecutor ([#821](https://github.com/davidmigloz/langchain_dart/issues/821)). ([3891164c](https://github.com/davidmigloz/langchain_dart/commit/3891164c11d0e7dd809b179d15444dd2da71aca0))
+
+#### `langchain_anthropic` - `v0.3.1`
+
+ - **FIX**(langchain_anthropic): Handle CitationsBlockDelta in streaming responses ([#881](https://github.com/davidmigloz/langchain_dart/issues/881)). ([445ddda1](https://github.com/davidmigloz/langchain_dart/commit/445ddda1fa7a61f6a34e4faae3e024c7e625b86b))
+ - **FIX**(langchain_anthropic): Handle SignatureBlockDelta in streaming responses ([#879](https://github.com/davidmigloz/langchain_dart/issues/879)). ([a9fe5285](https://github.com/davidmigloz/langchain_dart/commit/a9fe5285ef00df5f80e934a480b1b79caeb0e1f0))
+ - **FIX**(langchain_anthropic): Update mappers for anthropic_sdk_dart schema changes ([#877](https://github.com/davidmigloz/langchain_dart/issues/877)). ([c77d454d](https://github.com/davidmigloz/langchain_dart/commit/c77d454d8effd26aaff59a39c438e4731f7ad773))
+ - **FEAT**(langchain_anthropic): Add listModels() support ([#882](https://github.com/davidmigloz/langchain_dart/issues/882)). ([c1ba2592](https://github.com/davidmigloz/langchain_dart/commit/c1ba25920277f625fb6b3629f3d0c312ebd75240))
+
+#### `langchain_core` - `v0.4.1`
+
+ - **FEAT**: Add listModels() API for LLMs and Embeddings ([#371](https://github.com/davidmigloz/langchain_dart/issues/371)) ([#844](https://github.com/davidmigloz/langchain_dart/issues/844)). ([4b737389](https://github.com/davidmigloz/langchain_dart/commit/4b7373894d5b8701b6d00d153c1741931a49b3a1))
+
+#### `langchain_firebase` - `v0.3.1`
+
+ - **FIX**(langchain_firebase): Handle malformedFunctionCall finish reason ([#842](https://github.com/davidmigloz/langchain_dart/issues/842)). ([d6eef0dd](https://github.com/davidmigloz/langchain_dart/commit/d6eef0ddb0c8a5436d830e0487218373ff6dbbce))
+ - **FEAT**(langchain_firebase): Migrate to firebase_ai and add Google AI backend support ([#909](https://github.com/davidmigloz/langchain_dart/issues/909)). ([3be47d26](https://github.com/davidmigloz/langchain_dart/commit/3be47d261d1fd5c45c58bf84420d6fa37dc0c9c7))
+
+#### `langchain_google` - `v0.7.1`
+
+ - **FIX**(langchain_google): Remove ServiceAccountCredentials stub export ([#838](https://github.com/davidmigloz/langchain_dart/issues/838)). ([d0a058b3](https://github.com/davidmigloz/langchain_dart/commit/d0a058b3f5488470362564fa84c350bdb7b41b14))
+ - **FIX**(langchain_google): Add web platform compatibility for HttpClientAuthProvider ([#832](https://github.com/davidmigloz/langchain_dart/issues/832)). ([3a9e995b](https://github.com/davidmigloz/langchain_dart/commit/3a9e995b6dc75fe403175f6183c04387b6aa4e03))
+ - **FEAT**: Add listModels() API for LLMs and Embeddings ([#371](https://github.com/davidmigloz/langchain_dart/issues/371)) ([#844](https://github.com/davidmigloz/langchain_dart/issues/844)). ([4b737389](https://github.com/davidmigloz/langchain_dart/commit/4b7373894d5b8701b6d00d153c1741931a49b3a1))
+
+#### `langchain_mistralai` - `v0.3.1`
+
+ - **FEAT**(langchain_mistralai): Add tool/function calling support ([#888](https://github.com/davidmigloz/langchain_dart/issues/888)). ([f4a1480c](https://github.com/davidmigloz/langchain_dart/commit/f4a1480c787f53668569896933d0d9321600c20e))
+ - **FEAT**: Add listModels() API for LLMs and Embeddings ([#371](https://github.com/davidmigloz/langchain_dart/issues/371)) ([#844](https://github.com/davidmigloz/langchain_dart/issues/844)). ([4b737389](https://github.com/davidmigloz/langchain_dart/commit/4b7373894d5b8701b6d00d153c1741931a49b3a1))
+ - **FEAT**(mistralai_dart): Align embeddings API with latest Mistral spec ([#886](https://github.com/davidmigloz/langchain_dart/issues/886)). ([769edc49](https://github.com/davidmigloz/langchain_dart/commit/769edc4937ac611b9c8d4b65421e403012f565a1))
+
+#### `langchain_ollama` - `v0.4.1`
+
+ - **FEAT**: Add listModels() API for LLMs and Embeddings ([#371](https://github.com/davidmigloz/langchain_dart/issues/371)) ([#844](https://github.com/davidmigloz/langchain_dart/issues/844)). ([4b737389](https://github.com/davidmigloz/langchain_dart/commit/4b7373894d5b8701b6d00d153c1741931a49b3a1))
+
+#### `langchain_openai` - `v0.8.1`
+
+ - **FEAT**: Add listModels() API for LLMs and Embeddings ([#371](https://github.com/davidmigloz/langchain_dart/issues/371)) ([#844](https://github.com/davidmigloz/langchain_dart/issues/844)). ([4b737389](https://github.com/davidmigloz/langchain_dart/commit/4b7373894d5b8701b6d00d153c1741931a49b3a1))
+
+#### `mistralai_dart` - `v0.1.1`
+
+ - **FEAT**(mistralai_dart): Align Chat API with latest Mistral spec ([#887](https://github.com/davidmigloz/langchain_dart/issues/887)). ([b5a12301](https://github.com/davidmigloz/langchain_dart/commit/b5a1230184e79df5cef1256527eebd352d1a3f6a))
+ - **FEAT**(mistralai_dart): Align embeddings API with latest Mistral spec ([#886](https://github.com/davidmigloz/langchain_dart/issues/886)). ([769edc49](https://github.com/davidmigloz/langchain_dart/commit/769edc4937ac611b9c8d4b65421e403012f565a1))
+
+#### `openai_dart` - `v0.6.1`
+
+ - **FEAT**(openai_dart): Add image streaming and new GPT image models ([#827](https://github.com/davidmigloz/langchain_dart/issues/827)). ([1218d8c3](https://github.com/davidmigloz/langchain_dart/commit/1218d8c3d67531066ba9b1e9320699461a7e172d))
+ - **FEAT**(openai_dart): Add ImageGenStreamEvent schema for streaming ([#834](https://github.com/davidmigloz/langchain_dart/issues/834)). ([eb640052](https://github.com/davidmigloz/langchain_dart/commit/eb64005217cc632e6da7d222d257273dbf95cb41))
+ - **FEAT**(openai_dart): Add ImageGenUsage schema for image generation ([#833](https://github.com/davidmigloz/langchain_dart/issues/833)). ([aecf79a9](https://github.com/davidmigloz/langchain_dart/commit/aecf79a93de2f74d051cb4fde7a0363a06375e96))
+ - **FEAT**(openai_dart): Add metadata fields to ImagesResponse ([#831](https://github.com/davidmigloz/langchain_dart/issues/831)). ([bd94b4c6](https://github.com/davidmigloz/langchain_dart/commit/bd94b4c617555b3bbd7a3e97f4643a88ba128daa))
+ - **FEAT**(openai_dart): Add prompt_tokens_details to CompletionUsage ([#830](https://github.com/davidmigloz/langchain_dart/issues/830)). ([ede649d1](https://github.com/davidmigloz/langchain_dart/commit/ede649d1d70816ef172f32837f311ff0955a26d3))
+ - **FEAT**(openai_dart): Add fine-tuning method parameter and schemas ([#828](https://github.com/davidmigloz/langchain_dart/issues/828)). ([99d77425](https://github.com/davidmigloz/langchain_dart/commit/99d774252bf55e054602ee9b306cc32cb86e57eb))
+ - **FEAT**(openai_dart): Add Batch model and usage fields ([#826](https://github.com/davidmigloz/langchain_dart/issues/826)). ([b2933f50](https://github.com/davidmigloz/langchain_dart/commit/b2933f50045180500874241d1b7177488d0282bc))
+ - **FEAT**(openai_dart): Add OpenRouter-specific sampling parameters ([#825](https://github.com/davidmigloz/langchain_dart/issues/825)). ([3dd9075c](https://github.com/davidmigloz/langchain_dart/commit/3dd9075c7501dbf84713ca72d7506fd53c5bf1a4))
+ - **FIX**(openai_dart): Remove default value from image stream parameter ([#829](https://github.com/davidmigloz/langchain_dart/issues/829)). ([d94c7063](https://github.com/davidmigloz/langchain_dart/commit/d94c70631e818057299eaa75fa7f807a7ec121fe))
+ - **FIX**(openai_dart): Fix OpenRouter reasoning type enum parsing ([#810](https://github.com/davidmigloz/langchain_dart/issues/810)) ([#824](https://github.com/davidmigloz/langchain_dart/issues/824)). ([44ab2841](https://github.com/davidmigloz/langchain_dart/commit/44ab28414280c94e2599863770756ca8622650de))
+
+
 ## 2025-10-16
 
 ### Changes

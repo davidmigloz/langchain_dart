@@ -1,3 +1,8 @@
+## 0.3.1
+
+ - **FIX**(langchain_firebase): Handle malformedFunctionCall finish reason ([#842](https://github.com/davidmigloz/langchain_dart/issues/842)). ([d6eef0dd](https://github.com/davidmigloz/langchain_dart/commit/d6eef0ddb0c8a5436d830e0487218373ff6dbbce))
+ - **FEAT**(langchain_firebase): Migrate to firebase_ai and add Google AI backend support ([#909](https://github.com/davidmigloz/langchain_dart/issues/909)). ([3be47d26](https://github.com/davidmigloz/langchain_dart/commit/3be47d261d1fd5c45c58bf84420d6fa37dc0c9c7))
+
 ## 0.3.0+1
 
  - **REFACTOR**: Fix pub format warnings ([#809](https://github.com/davidmigloz/langchain_dart/issues/809)). ([640cdefb](https://github.com/davidmigloz/langchain_dart/commit/640cdefbede9c0a0182fb6bb4005a20aa6f35635))

@@ -1,3 +1,17 @@
+## 0.3.1
+
+ - **FIX**(anthropic_sdk_dart): Add signature_delta support to BlockDelta (fixes [#811](https://github.com/davidmigloz/langchain_dart/issues/811)) ([#878](https://github.com/davidmigloz/langchain_dart/issues/878)). ([1d281837](https://github.com/davidmigloz/langchain_dart/commit/1d281837f64ec8d5ce6cdf3d00bcdbdba6451ebe))
+ - **FIX**(anthropic_sdk_dart): Update tool types and fix analyzer warnings ([#876](https://github.com/davidmigloz/langchain_dart/issues/876)). ([17613b1e](https://github.com/davidmigloz/langchain_dart/commit/17613b1e6dd6dcf420e914fe0e56ca972ec303ce))
+ - **FEAT**(anthropic_sdk_dart): Add citations_delta support to BlockDelta ([#880](https://github.com/davidmigloz/langchain_dart/issues/880)). ([4da916bf](https://github.com/davidmigloz/langchain_dart/commit/4da916bf81094799d1b28fb7cfce5b5ade72cea0))
+ - **FEAT**(anthropic_sdk_dart): Add beta features support ([#874](https://github.com/davidmigloz/langchain_dart/issues/874)). ([28e4a23a](https://github.com/davidmigloz/langchain_dart/commit/28e4a23ae996d9828f2b6e7b404e6d942613bb34))
+ - **FEAT**(anthropic_sdk_dart): Add schema enhancements ([#873](https://github.com/davidmigloz/langchain_dart/issues/873)). ([424d3225](https://github.com/davidmigloz/langchain_dart/commit/424d32253c15d57752f9a75423d69dddec05642e))
+ - **FEAT**(anthropic_sdk_dart): Add Models API ([#872](https://github.com/davidmigloz/langchain_dart/issues/872)). ([7962a867](https://github.com/davidmigloz/langchain_dart/commit/7962a867b5cca399364a65960fcb4b16c79e3dbb))
+ - **FEAT**(anthropic_sdk_dart): Add get message batch results endpoint ([#871](https://github.com/davidmigloz/langchain_dart/issues/871)). ([46fb2a5d](https://github.com/davidmigloz/langchain_dart/commit/46fb2a5d1bd6efd53bd6dc73d21d82ecd5ff7a1f))
+ - **FEAT**(anthropic_sdk_dart): Add delete message batch endpoint ([#870](https://github.com/davidmigloz/langchain_dart/issues/870)). ([6611e175](https://github.com/davidmigloz/langchain_dart/commit/6611e1758781e568442a9dec41a5e0b1eaeb13f4))
+ - **FEAT**(anthropic_sdk_dart): Add cancel message batch endpoint ([#869](https://github.com/davidmigloz/langchain_dart/issues/869)). ([b7aa8602](https://github.com/davidmigloz/langchain_dart/commit/b7aa8602f5474c6a32ef39ce3a52c3568081dc13))
+ - **FEAT**(anthropic_sdk_dart): Add list message batches endpoint ([#868](https://github.com/davidmigloz/langchain_dart/issues/868)). ([745e369d](https://github.com/davidmigloz/langchain_dart/commit/745e369d07a71d66de508ab5b7933f18693eee9c))
+ - **FEAT**(anthropic_sdk_dart): Add token counting API ([#858](https://github.com/davidmigloz/langchain_dart/issues/858)). ([b0d61c92](https://github.com/davidmigloz/langchain_dart/commit/b0d61c9204fe959bd16eca842ab98292e723822a))
+
 ## 0.3.0+1
 
  - **REFACTOR**: Fix pub format warnings ([#809](https://github.com/davidmigloz/langchain_dart/issues/809)). ([640cdefb](https://github.com/davidmigloz/langchain_dart/commit/640cdefbede9c0a0182fb6bb4005a20aa6f35635))

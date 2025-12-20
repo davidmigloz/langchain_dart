@@ -1,3 +1,9 @@
+## 0.7.1
+
+ - **FIX**(langchain_google): Remove ServiceAccountCredentials stub export ([#838](https://github.com/davidmigloz/langchain_dart/issues/838)). ([d0a058b3](https://github.com/davidmigloz/langchain_dart/commit/d0a058b3f5488470362564fa84c350bdb7b41b14))
+ - **FIX**(langchain_google): Add web platform compatibility for HttpClientAuthProvider ([#832](https://github.com/davidmigloz/langchain_dart/issues/832)). ([3a9e995b](https://github.com/davidmigloz/langchain_dart/commit/3a9e995b6dc75fe403175f6183c04387b6aa4e03))
+ - **FEAT**: Add listModels() API for LLMs and Embeddings ([#371](https://github.com/davidmigloz/langchain_dart/issues/371)) ([#844](https://github.com/davidmigloz/langchain_dart/issues/844)). ([4b737389](https://github.com/davidmigloz/langchain_dart/commit/4b7373894d5b8701b6d00d153c1741931a49b3a1))
+
 ## 0.7.0+1
 
  - **REFACTOR**: Fix pub format warnings ([#809](https://github.com/davidmigloz/langchain_dart/issues/809)). ([640cdefb](https://github.com/davidmigloz/langchain_dart/commit/640cdefbede9c0a0182fb6bb4005a20aa6f35635))

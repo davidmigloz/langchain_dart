@@ -1,3 +1,8 @@
+## 0.1.1
+
+ - **FEAT**(mistralai_dart): Align Chat API with latest Mistral spec ([#887](https://github.com/davidmigloz/langchain_dart/issues/887)). ([b5a12301](https://github.com/davidmigloz/langchain_dart/commit/b5a1230184e79df5cef1256527eebd352d1a3f6a))
+ - **FEAT**(mistralai_dart): Align embeddings API with latest Mistral spec ([#886](https://github.com/davidmigloz/langchain_dart/issues/886)). ([769edc49](https://github.com/davidmigloz/langchain_dart/commit/769edc4937ac611b9c8d4b65421e403012f565a1))
+
 ## 0.1.0+1
 
  - **REFACTOR**: Fix pub format warnings ([#809](https://github.com/davidmigloz/langchain_dart/issues/809)). ([640cdefb](https://github.com/davidmigloz/langchain_dart/commit/640cdefbede9c0a0182fb6bb4005a20aa6f35635))

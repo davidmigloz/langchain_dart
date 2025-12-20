@@ -1,3 +1,8 @@
+## 0.8.1
+
+ - **FEAT**: Add listModels() API for LLMs and Embeddings ([#371](https://github.com/davidmigloz/langchain_dart/issues/371)) ([#844](https://github.com/davidmigloz/langchain_dart/issues/844)). ([4b737389](https://github.com/davidmigloz/langchain_dart/commit/4b7373894d5b8701b6d00d153c1741931a49b3a1))
+ - **FIX**(langchain): Properly serialize non-String tool outputs in AgentExecutor ([#821](https://github.com/davidmigloz/langchain_dart/issues/821)). ([3891164c](https://github.com/davidmigloz/langchain_dart/commit/3891164c11d0e7dd809b179d15444dd2da71aca0))
+
 ## 0.8.0+1
 
  - **REFACTOR**: Fix pub format warnings ([#809](https://github.com/davidmigloz/langchain_dart/issues/809)). ([640cdefb](https://github.com/davidmigloz/langchain_dart/commit/640cdefbede9c0a0182fb6bb4005a20aa6f35635))

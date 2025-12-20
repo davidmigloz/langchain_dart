@@ -1,3 +1,16 @@
+## 0.6.1
+
+ - **FEAT**(openai_dart): Add image streaming and new GPT image models ([#827](https://github.com/davidmigloz/langchain_dart/issues/827)). ([1218d8c3](https://github.com/davidmigloz/langchain_dart/commit/1218d8c3d67531066ba9b1e9320699461a7e172d))
+ - **FEAT**(openai_dart): Add ImageGenStreamEvent schema for streaming ([#834](https://github.com/davidmigloz/langchain_dart/issues/834)). ([eb640052](https://github.com/davidmigloz/langchain_dart/commit/eb64005217cc632e6da7d222d257273dbf95cb41))
+ - **FEAT**(openai_dart): Add ImageGenUsage schema for image generation ([#833](https://github.com/davidmigloz/langchain_dart/issues/833)). ([aecf79a9](https://github.com/davidmigloz/langchain_dart/commit/aecf79a93de2f74d051cb4fde7a0363a06375e96))
+ - **FEAT**(openai_dart): Add metadata fields to ImagesResponse ([#831](https://github.com/davidmigloz/langchain_dart/issues/831)). ([bd94b4c6](https://github.com/davidmigloz/langchain_dart/commit/bd94b4c617555b3bbd7a3e97f4643a88ba128daa))
+ - **FEAT**(openai_dart): Add prompt_tokens_details to CompletionUsage ([#830](https://github.com/davidmigloz/langchain_dart/issues/830)). ([ede649d1](https://github.com/davidmigloz/langchain_dart/commit/ede649d1d70816ef172f32837f311ff0955a26d3))
+ - **FEAT**(openai_dart): Add fine-tuning method parameter and schemas ([#828](https://github.com/davidmigloz/langchain_dart/issues/828)). ([99d77425](https://github.com/davidmigloz/langchain_dart/commit/99d774252bf55e054602ee9b306cc32cb86e57eb))
+ - **FEAT**(openai_dart): Add Batch model and usage fields ([#826](https://github.com/davidmigloz/langchain_dart/issues/826)). ([b2933f50](https://github.com/davidmigloz/langchain_dart/commit/b2933f50045180500874241d1b7177488d0282bc))
+ - **FEAT**(openai_dart): Add OpenRouter-specific sampling parameters ([#825](https://github.com/davidmigloz/langchain_dart/issues/825)). ([3dd9075c](https://github.com/davidmigloz/langchain_dart/commit/3dd9075c7501dbf84713ca72d7506fd53c5bf1a4))
+ - **FIX**(openai_dart): Remove default value from image stream parameter ([#829](https://github.com/davidmigloz/langchain_dart/issues/829)). ([d94c7063](https://github.com/davidmigloz/langchain_dart/commit/d94c70631e818057299eaa75fa7f807a7ec121fe))
+ - **FIX**(openai_dart): Fix OpenRouter reasoning type enum parsing ([#810](https://github.com/davidmigloz/langchain_dart/issues/810)) ([#824](https://github.com/davidmigloz/langchain_dart/issues/824)). ([44ab2841](https://github.com/davidmigloz/langchain_dart/commit/44ab28414280c94e2599863770756ca8622650de))
+
 ## 0.6.0+1
 
  - **REFACTOR**: Fix pub format warnings ([#809](https://github.com/davidmigloz/langchain_dart/issues/809)). ([640cdefb](https://github.com/davidmigloz/langchain_dart/commit/640cdefbede9c0a0182fb6bb4005a20aa6f35635))

@@ -1,3 +1,10 @@
+## 0.3.1
+
+ - **FIX**(langchain_anthropic): Handle CitationsBlockDelta in streaming responses ([#881](https://github.com/davidmigloz/langchain_dart/issues/881)). ([445ddda1](https://github.com/davidmigloz/langchain_dart/commit/445ddda1fa7a61f6a34e4faae3e024c7e625b86b))
+ - **FIX**(langchain_anthropic): Handle SignatureBlockDelta in streaming responses ([#879](https://github.com/davidmigloz/langchain_dart/issues/879)). ([a9fe5285](https://github.com/davidmigloz/langchain_dart/commit/a9fe5285ef00df5f80e934a480b1b79caeb0e1f0))
+ - **FIX**(langchain_anthropic): Update mappers for anthropic_sdk_dart schema changes ([#877](https://github.com/davidmigloz/langchain_dart/issues/877)). ([c77d454d](https://github.com/davidmigloz/langchain_dart/commit/c77d454d8effd26aaff59a39c438e4731f7ad773))
+ - **FEAT**(langchain_anthropic): Add listModels() support ([#882](https://github.com/davidmigloz/langchain_dart/issues/882)). ([c1ba2592](https://github.com/davidmigloz/langchain_dart/commit/c1ba25920277f625fb6b3629f3d0c312ebd75240))
+
 ## 0.3.0+1
 
  - **REFACTOR**: Fix pub format warnings ([#809](https://github.com/davidmigloz/langchain_dart/issues/809)). ([640cdefb](https://github.com/davidmigloz/langchain_dart/commit/640cdefbede9c0a0182fb6bb4005a20aa6f35635))

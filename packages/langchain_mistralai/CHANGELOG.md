@@ -1,3 +1,9 @@
+## 0.3.1
+
+ - **FEAT**(langchain_mistralai): Add tool/function calling support ([#888](https://github.com/davidmigloz/langchain_dart/issues/888)). ([f4a1480c](https://github.com/davidmigloz/langchain_dart/commit/f4a1480c787f53668569896933d0d9321600c20e))
+ - **FEAT**: Add listModels() API for LLMs and Embeddings ([#371](https://github.com/davidmigloz/langchain_dart/issues/371)) ([#844](https://github.com/davidmigloz/langchain_dart/issues/844)). ([4b737389](https://github.com/davidmigloz/langchain_dart/commit/4b7373894d5b8701b6d00d153c1741931a49b3a1))
+ - **FEAT**(mistralai_dart): Align embeddings API with latest Mistral spec ([#886](https://github.com/davidmigloz/langchain_dart/issues/886)). ([769edc49](https://github.com/davidmigloz/langchain_dart/commit/769edc4937ac611b9c8d4b65421e403012f565a1))
+
 ## 0.3.0+1
 
  - **REFACTOR**: Fix pub format warnings ([#809](https://github.com/davidmigloz/langchain_dart/issues/809)). ([640cdefb](https://github.com/davidmigloz/langchain_dart/commit/640cdefbede9c0a0182fb6bb4005a20aa6f35635))

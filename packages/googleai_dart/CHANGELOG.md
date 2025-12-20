@@ -1,3 +1,27 @@
+## 2.0.0
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **FEAT**(googleai_dart): Remove deprecated schema fields ([#848](https://github.com/davidmigloz/langchain_dart/issues/848)). ([e6d07ec4](https://github.com/davidmigloz/langchain_dart/commit/e6d07ec4a94d1b09e9dbd71f30904d510fb749c6))
+ - **BREAKING** **FEAT**(googleai_dart): Remove deprecated Chunks and query APIs ([#847](https://github.com/davidmigloz/langchain_dart/issues/847)). ([9cae76d5](https://github.com/davidmigloz/langchain_dart/commit/9cae76d534d45bcd36622216a0926bfbc8800d86))
+ - **BREAKING** **FEAT**(googleai_dart): Remove deprecated RagStores resource ([#846](https://github.com/davidmigloz/langchain_dart/issues/846)). ([1ab553f1](https://github.com/davidmigloz/langchain_dart/commit/1ab553f1da173dbed72a1d9089e56ce11b78eac6))
+ - **FEAT**(googleai_dart): Add InteractionsResource and client integration ([#905](https://github.com/davidmigloz/langchain_dart/issues/905)). ([af6b13ea](https://github.com/davidmigloz/langchain_dart/commit/af6b13ea3c91ca4f05196940505d3eddb5c55831))
+ - **FEAT**(googleai_dart): Add Interactions API tool types ([#904](https://github.com/davidmigloz/langchain_dart/issues/904)). ([2258cfa1](https://github.com/davidmigloz/langchain_dart/commit/2258cfa187cb011eddfa204d7f2a68a2ab329a37))
+ - **FEAT**(googleai_dart): Add Interactions API events and deltas ([#903](https://github.com/davidmigloz/langchain_dart/issues/903)). ([826d3f64](https://github.com/davidmigloz/langchain_dart/commit/826d3f64845eb7178b9567f5193951796f476ea1))
+ - **FEAT**(googleai_dart): Add Interactions API content types ([#902](https://github.com/davidmigloz/langchain_dart/issues/902)). ([b8c61743](https://github.com/davidmigloz/langchain_dart/commit/b8c61743e2e6ffa9cd6cd44df289135f6250b30d))
+ - **FEAT**(googleai_dart): Add Interactions API core models ([#901](https://github.com/davidmigloz/langchain_dart/issues/901)). ([65f5db17](https://github.com/davidmigloz/langchain_dart/commit/65f5db17d91282bfc7edaca7e9fcb97b505631c6))
+ - **FEAT**(googleai_dart): Update existing models with new properties ([#856](https://github.com/davidmigloz/langchain_dart/issues/856)). ([dd3893e0](https://github.com/davidmigloz/langchain_dart/commit/dd3893e07e78f2ce852ba26fd7e67744402ec11a))
+ - **FEAT**(googleai_dart): Add RetrievalConfig to ToolConfig ([#855](https://github.com/davidmigloz/langchain_dart/issues/855)). ([5e11aa70](https://github.com/davidmigloz/langchain_dart/commit/5e11aa7000d74dfc09201620e38670c505cc525b))
+ - **FEAT**(googleai_dart): Add MediaResolution to Part ([#854](https://github.com/davidmigloz/langchain_dart/issues/854)). ([df76f8c5](https://github.com/davidmigloz/langchain_dart/commit/df76f8c5b967efd5ac11aa83760459b71e55a000))
+ - **FEAT**(googleai_dart): Add GoogleMaps tool ([#853](https://github.com/davidmigloz/langchain_dart/issues/853)). ([54814614](https://github.com/davidmigloz/langchain_dart/commit/548146143cfe48c4f24c9644d27b88550b816904))
+ - **FEAT**(googleai_dart): Add McpServers tool ([#852](https://github.com/davidmigloz/langchain_dart/issues/852)). ([97970687](https://github.com/davidmigloz/langchain_dart/commit/97970687d43ff8dea4c6a87633d0e82287eedc30))
+ - **FEAT**(googleai_dart): Add FileSearch tool ([#851](https://github.com/davidmigloz/langchain_dart/issues/851)). ([a00895b1](https://github.com/davidmigloz/langchain_dart/commit/a00895b1e264164894b56f6cf7dccea5f3c6c5b6))
+ - **FEAT**(googleai_dart): Add grounding models ([#850](https://github.com/davidmigloz/langchain_dart/issues/850)). ([bb1a6228](https://github.com/davidmigloz/langchain_dart/commit/bb1a62286d5e04b612e148a4e55bceacf289e57c))
+ - **FEAT**(googleai_dart): Add FileSearchStores resource ([#849](https://github.com/davidmigloz/langchain_dart/issues/849)). ([acb63d72](https://github.com/davidmigloz/langchain_dart/commit/acb63d72f03af13c1e1d4ff62f3f5e43a3ec34fd))
+ - **FEAT**(googleai_dart): Add ThinkingConfig support to GenerationConfig ([#817](https://github.com/davidmigloz/langchain_dart/issues/817)). ([36de62a9](https://github.com/davidmigloz/langchain_dart/commit/36de62a9c65b24d9db35589772e053bb9c090035))
+ - **FIX**(googleai_dart): Complete alignment with target implementation ([#884](https://github.com/davidmigloz/langchain_dart/issues/884)). ([60476e8d](https://github.com/davidmigloz/langchain_dart/commit/60476e8db17ca9badba217269169f3f8eb11a318))
+ - **DOCS**(googleai_dart): Add Interactions API docs and example ([#897](https://github.com/davidmigloz/langchain_dart/issues/897)). ([f4a04677](https://github.com/davidmigloz/langchain_dart/commit/f4a04677e1e0743f85ca7f06756ba148c49cad01))
+
 ## 1.1.0
 
  - **FEAT**: Make googleai_dart fully WASM compatible ([#808](https://github.com/davidmigloz/langchain_dart/issues/808)). ([07e597f3](https://github.com/davidmigloz/langchain_dart/commit/07e597f3984b2c0396ebfb5ae7e981bb52872368))
