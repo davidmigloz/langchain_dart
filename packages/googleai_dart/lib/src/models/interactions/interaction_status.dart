@@ -13,28 +13,40 @@ enum InteractionStatus {
   failed,
 
   /// The interaction was cancelled.
-  cancelled,
+  cancelled;
+
+  /// Creates an [InteractionStatus] from a JSON string.
+  static InteractionStatus fromString(String? value) {
+    return switch (value) {
+      'in_progress' => InteractionStatus.inProgress,
+      'requires_action' => InteractionStatus.requiresAction,
+      'completed' => InteractionStatus.completed,
+      'failed' => InteractionStatus.failed,
+      'cancelled' => InteractionStatus.cancelled,
+      _ => InteractionStatus.inProgress,
+    };
+  }
+
+  /// Converts to a JSON string.
+  String toJson() {
+    return switch (this) {
+      InteractionStatus.inProgress => 'in_progress',
+      InteractionStatus.requiresAction => 'requires_action',
+      InteractionStatus.completed => 'completed',
+      InteractionStatus.failed => 'failed',
+      InteractionStatus.cancelled => 'cancelled',
+    };
+  }
 }
 
 /// Converts a string to [InteractionStatus].
+@Deprecated('Use InteractionStatus.fromString instead')
 InteractionStatus interactionStatusFromString(String? value) {
-  return switch (value) {
-    'in_progress' => InteractionStatus.inProgress,
-    'requires_action' => InteractionStatus.requiresAction,
-    'completed' => InteractionStatus.completed,
-    'failed' => InteractionStatus.failed,
-    'cancelled' => InteractionStatus.cancelled,
-    _ => InteractionStatus.inProgress,
-  };
+  return InteractionStatus.fromString(value);
 }
 
 /// Converts [InteractionStatus] to a string.
+@Deprecated('Use InteractionStatus.toJson instead')
 String interactionStatusToString(InteractionStatus status) {
-  return switch (status) {
-    InteractionStatus.inProgress => 'in_progress',
-    InteractionStatus.requiresAction => 'requires_action',
-    InteractionStatus.completed => 'completed',
-    InteractionStatus.failed => 'failed',
-    InteractionStatus.cancelled => 'cancelled',
-  };
+  return status.toJson();
 }
