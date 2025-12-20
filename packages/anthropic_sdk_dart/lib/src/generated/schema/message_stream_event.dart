@@ -74,7 +74,7 @@ sealed class MessageStreamEvent with _$MessageStreamEvent {
 
   const factory MessageStreamEvent.contentBlockStart({
     /// A block of content in a message.
-    /// Any of: [TextBlock], [ImageBlock], [ToolUseBlock], [ToolResultBlock], [ThinkingBlock]
+    /// Any of: [TextBlock], [ImageBlock], [ToolUseBlock], [ToolResultBlock], [ThinkingBlock], [RedactedThinkingBlock]
     @JsonKey(name: 'content_block') required Block contentBlock,
 
     /// The index of the content block.

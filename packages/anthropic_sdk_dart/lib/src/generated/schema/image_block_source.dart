@@ -9,46 +9,65 @@ part of anthropic_schema;
 // ==========================================
 
 /// The source of an image block.
-@freezed
-abstract class ImageBlockSource with _$ImageBlockSource {
+@Freezed(unionKey: 'type', unionValueCase: FreezedUnionCase.snake)
+sealed class ImageBlockSource with _$ImageBlockSource {
   const ImageBlockSource._();
 
-  /// Factory constructor for ImageBlockSource
-  const factory ImageBlockSource({
-    /// The base64-encoded image data.
-    required String data,
+  // ------------------------------------------
+  // UNION: Base64ImageSource
+  // ------------------------------------------
+
+  /// An image source using base64-encoded data.
+
+  @FreezedUnionValue('base64')
+  const factory ImageBlockSource.base64ImageSource({
+    /// The type of image source.
+    required String type,
 
     /// The media type of the image.
-    @JsonKey(name: 'media_type') required ImageBlockSourceMediaType mediaType,
+    @JsonKey(name: 'media_type') required Base64ImageSourceMediaType mediaType,
 
+    /// The base64-encoded image data.
+    required String data,
+  }) = Base64ImageSource;
+
+  // ------------------------------------------
+  // UNION: UrlImageSource
+  // ------------------------------------------
+
+  /// An image source using a URL.
+
+  @FreezedUnionValue('url')
+  const factory ImageBlockSource.urlImageSource({
     /// The type of image source.
-    required ImageBlockSourceType type,
-  }) = _ImageBlockSource;
+    required String type,
+
+    /// The URL of the image.
+    required String url,
+  }) = UrlImageSource;
 
   /// Object construction from a JSON representation
   factory ImageBlockSource.fromJson(Map<String, dynamic> json) =>
       _$ImageBlockSourceFromJson(json);
-
-  /// List of all property names of schema
-  static const List<String> propertyNames = ['data', 'media_type', 'type'];
-
-  /// Perform validations on the schema property values
-  String? validateSchema() {
-    return null;
-  }
-
-  /// Map representation of object (not serialized)
-  Map<String, dynamic> toMap() {
-    return {'data': data, 'media_type': mediaType, 'type': type};
-  }
 }
 
 // ==========================================
-// ENUM: ImageBlockSourceMediaType
+// ENUM: ImageBlockSourceEnumType
+// ==========================================
+
+enum ImageBlockSourceEnumType {
+  @JsonValue('base64')
+  base64,
+  @JsonValue('url')
+  url,
+}
+
+// ==========================================
+// ENUM: Base64ImageSourceMediaType
 // ==========================================
 
 /// The media type of the image.
-enum ImageBlockSourceMediaType {
+enum Base64ImageSourceMediaType {
   @JsonValue('image/jpeg')
   imageJpeg,
   @JsonValue('image/png')
@@ -57,14 +76,4 @@ enum ImageBlockSourceMediaType {
   imageGif,
   @JsonValue('image/webp')
   imageWebp,
-}
-
-// ==========================================
-// ENUM: ImageBlockSourceType
-// ==========================================
-
-/// The type of image source.
-enum ImageBlockSourceType {
-  @JsonValue('base64')
-  base64,
 }
