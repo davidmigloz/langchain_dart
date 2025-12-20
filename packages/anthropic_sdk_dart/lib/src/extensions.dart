@@ -72,6 +72,7 @@ extension BlockDeltaX on BlockDelta {
       inputJsonDelta: (inputJson) => '',
       thinking: (thinking) => thinking.thinking,
       signature: (signature) => '',
+      citations: (citations) => '',
     );
   }
 
@@ -82,6 +83,7 @@ extension BlockDeltaX on BlockDelta {
       inputJsonDelta: (inputJson) => inputJson.partialJson ?? '',
       thinking: (thinking) => '',
       signature: (signature) => '',
+      citations: (citations) => '',
     );
   }
 }

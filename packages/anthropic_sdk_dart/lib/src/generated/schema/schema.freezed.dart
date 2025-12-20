@@ -16429,7 +16429,7 @@ class ContentBlockDeltaEvent extends MessageStreamEvent {
   factory ContentBlockDeltaEvent.fromJson(Map<String, dynamic> json) => _$ContentBlockDeltaEventFromJson(json);
 
 /// A delta in a streaming message.
-/// Any of: [TextBlockDelta], [InputJsonBlockDelta], [ThinkingBlockDelta], [SignatureBlockDelta]
+/// Any of: [TextBlockDelta], [InputJsonBlockDelta], [ThinkingBlockDelta], [SignatureBlockDelta], [CitationsBlockDelta]
  final  BlockDelta delta;
 /// The index of the content block.
  final  int index;
@@ -16752,6 +16752,10 @@ BlockDelta _$BlockDeltaFromJson(
           return SignatureBlockDelta.fromJson(
             json
           );
+                case 'citations_delta':
+          return CitationsBlockDelta.fromJson(
+            json
+          );
         
           default:
             throw CheckedFromJsonException(
@@ -16811,14 +16815,15 @@ extension BlockDeltaPatterns on BlockDelta {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( TextBlockDelta value)?  textDelta,TResult Function( InputJsonBlockDelta value)?  inputJsonDelta,TResult Function( ThinkingBlockDelta value)?  thinking,TResult Function( SignatureBlockDelta value)?  signature,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( TextBlockDelta value)?  textDelta,TResult Function( InputJsonBlockDelta value)?  inputJsonDelta,TResult Function( ThinkingBlockDelta value)?  thinking,TResult Function( SignatureBlockDelta value)?  signature,TResult Function( CitationsBlockDelta value)?  citations,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case TextBlockDelta() when textDelta != null:
 return textDelta(_that);case InputJsonBlockDelta() when inputJsonDelta != null:
 return inputJsonDelta(_that);case ThinkingBlockDelta() when thinking != null:
 return thinking(_that);case SignatureBlockDelta() when signature != null:
-return signature(_that);case _:
+return signature(_that);case CitationsBlockDelta() when citations != null:
+return citations(_that);case _:
   return orElse();
 
 }
@@ -16836,14 +16841,15 @@ return signature(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( TextBlockDelta value)  textDelta,required TResult Function( InputJsonBlockDelta value)  inputJsonDelta,required TResult Function( ThinkingBlockDelta value)  thinking,required TResult Function( SignatureBlockDelta value)  signature,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( TextBlockDelta value)  textDelta,required TResult Function( InputJsonBlockDelta value)  inputJsonDelta,required TResult Function( ThinkingBlockDelta value)  thinking,required TResult Function( SignatureBlockDelta value)  signature,required TResult Function( CitationsBlockDelta value)  citations,}){
 final _that = this;
 switch (_that) {
 case TextBlockDelta():
 return textDelta(_that);case InputJsonBlockDelta():
 return inputJsonDelta(_that);case ThinkingBlockDelta():
 return thinking(_that);case SignatureBlockDelta():
-return signature(_that);}
+return signature(_that);case CitationsBlockDelta():
+return citations(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -16857,14 +16863,15 @@ return signature(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( TextBlockDelta value)?  textDelta,TResult? Function( InputJsonBlockDelta value)?  inputJsonDelta,TResult? Function( ThinkingBlockDelta value)?  thinking,TResult? Function( SignatureBlockDelta value)?  signature,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( TextBlockDelta value)?  textDelta,TResult? Function( InputJsonBlockDelta value)?  inputJsonDelta,TResult? Function( ThinkingBlockDelta value)?  thinking,TResult? Function( SignatureBlockDelta value)?  signature,TResult? Function( CitationsBlockDelta value)?  citations,}){
 final _that = this;
 switch (_that) {
 case TextBlockDelta() when textDelta != null:
 return textDelta(_that);case InputJsonBlockDelta() when inputJsonDelta != null:
 return inputJsonDelta(_that);case ThinkingBlockDelta() when thinking != null:
 return thinking(_that);case SignatureBlockDelta() when signature != null:
-return signature(_that);case _:
+return signature(_that);case CitationsBlockDelta() when citations != null:
+return citations(_that);case _:
   return null;
 
 }
@@ -16881,13 +16888,14 @@ return signature(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String text,  String type)?  textDelta,TResult Function(@JsonKey(name: 'partial_json', includeIfNull: false)  String? partialJson,  String type)?  inputJsonDelta,TResult Function( String thinking,  ThinkingBlockDeltaType type)?  thinking,TResult Function( String signature,  SignatureBlockDeltaType type)?  signature,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String text,  String type)?  textDelta,TResult Function(@JsonKey(name: 'partial_json', includeIfNull: false)  String? partialJson,  String type)?  inputJsonDelta,TResult Function( String thinking,  ThinkingBlockDeltaType type)?  thinking,TResult Function( String signature,  SignatureBlockDeltaType type)?  signature,TResult Function( CitationLocation citation,  CitationsBlockDeltaType type)?  citations,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case TextBlockDelta() when textDelta != null:
 return textDelta(_that.text,_that.type);case InputJsonBlockDelta() when inputJsonDelta != null:
 return inputJsonDelta(_that.partialJson,_that.type);case ThinkingBlockDelta() when thinking != null:
 return thinking(_that.thinking,_that.type);case SignatureBlockDelta() when signature != null:
-return signature(_that.signature,_that.type);case _:
+return signature(_that.signature,_that.type);case CitationsBlockDelta() when citations != null:
+return citations(_that.citation,_that.type);case _:
   return orElse();
 
 }
@@ -16905,13 +16913,14 @@ return signature(_that.signature,_that.type);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String text,  String type)  textDelta,required TResult Function(@JsonKey(name: 'partial_json', includeIfNull: false)  String? partialJson,  String type)  inputJsonDelta,required TResult Function( String thinking,  ThinkingBlockDeltaType type)  thinking,required TResult Function( String signature,  SignatureBlockDeltaType type)  signature,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String text,  String type)  textDelta,required TResult Function(@JsonKey(name: 'partial_json', includeIfNull: false)  String? partialJson,  String type)  inputJsonDelta,required TResult Function( String thinking,  ThinkingBlockDeltaType type)  thinking,required TResult Function( String signature,  SignatureBlockDeltaType type)  signature,required TResult Function( CitationLocation citation,  CitationsBlockDeltaType type)  citations,}) {final _that = this;
 switch (_that) {
 case TextBlockDelta():
 return textDelta(_that.text,_that.type);case InputJsonBlockDelta():
 return inputJsonDelta(_that.partialJson,_that.type);case ThinkingBlockDelta():
 return thinking(_that.thinking,_that.type);case SignatureBlockDelta():
-return signature(_that.signature,_that.type);}
+return signature(_that.signature,_that.type);case CitationsBlockDelta():
+return citations(_that.citation,_that.type);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -16925,13 +16934,14 @@ return signature(_that.signature,_that.type);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String text,  String type)?  textDelta,TResult? Function(@JsonKey(name: 'partial_json', includeIfNull: false)  String? partialJson,  String type)?  inputJsonDelta,TResult? Function( String thinking,  ThinkingBlockDeltaType type)?  thinking,TResult? Function( String signature,  SignatureBlockDeltaType type)?  signature,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String text,  String type)?  textDelta,TResult? Function(@JsonKey(name: 'partial_json', includeIfNull: false)  String? partialJson,  String type)?  inputJsonDelta,TResult? Function( String thinking,  ThinkingBlockDeltaType type)?  thinking,TResult? Function( String signature,  SignatureBlockDeltaType type)?  signature,TResult? Function( CitationLocation citation,  CitationsBlockDeltaType type)?  citations,}) {final _that = this;
 switch (_that) {
 case TextBlockDelta() when textDelta != null:
 return textDelta(_that.text,_that.type);case InputJsonBlockDelta() when inputJsonDelta != null:
 return inputJsonDelta(_that.partialJson,_that.type);case ThinkingBlockDelta() when thinking != null:
 return thinking(_that.thinking,_that.type);case SignatureBlockDelta() when signature != null:
-return signature(_that.signature,_that.type);case _:
+return signature(_that.signature,_that.type);case CitationsBlockDelta() when citations != null:
+return citations(_that.citation,_that.type);case _:
   return null;
 
 }
@@ -17225,6 +17235,577 @@ class _$SignatureBlockDeltaCopyWithImpl<$Res>
 signature: null == signature ? _self.signature : signature // ignore: cast_nullable_to_non_nullable
 as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as SignatureBlockDeltaType,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class CitationsBlockDelta extends BlockDelta {
+  const CitationsBlockDelta({required this.citation, required this.type}): super._();
+  factory CitationsBlockDelta.fromJson(Map<String, dynamic> json) => _$CitationsBlockDeltaFromJson(json);
+
+/// A citation location reference.
+/// Any of: [CitationCharLocation], [CitationPageLocation], [CitationContentBlockLocation]
+ final  CitationLocation citation;
+/// The type of content block delta.
+@override final  CitationsBlockDeltaType type;
+
+/// Create a copy of BlockDelta
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CitationsBlockDeltaCopyWith<CitationsBlockDelta> get copyWith => _$CitationsBlockDeltaCopyWithImpl<CitationsBlockDelta>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$CitationsBlockDeltaToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CitationsBlockDelta&&(identical(other.citation, citation) || other.citation == citation)&&(identical(other.type, type) || other.type == type));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,citation,type);
+
+@override
+String toString() {
+  return 'BlockDelta.citations(citation: $citation, type: $type)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $CitationsBlockDeltaCopyWith<$Res> implements $BlockDeltaCopyWith<$Res> {
+  factory $CitationsBlockDeltaCopyWith(CitationsBlockDelta value, $Res Function(CitationsBlockDelta) _then) = _$CitationsBlockDeltaCopyWithImpl;
+@useResult
+$Res call({
+ CitationLocation citation, CitationsBlockDeltaType type
+});
+
+
+$CitationLocationCopyWith<$Res> get citation;
+
+}
+/// @nodoc
+class _$CitationsBlockDeltaCopyWithImpl<$Res>
+    implements $CitationsBlockDeltaCopyWith<$Res> {
+  _$CitationsBlockDeltaCopyWithImpl(this._self, this._then);
+
+  final CitationsBlockDelta _self;
+  final $Res Function(CitationsBlockDelta) _then;
+
+/// Create a copy of BlockDelta
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? citation = null,Object? type = null,}) {
+  return _then(CitationsBlockDelta(
+citation: null == citation ? _self.citation : citation // ignore: cast_nullable_to_non_nullable
+as CitationLocation,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as CitationsBlockDeltaType,
+  ));
+}
+
+/// Create a copy of BlockDelta
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$CitationLocationCopyWith<$Res> get citation {
+  
+  return $CitationLocationCopyWith<$Res>(_self.citation, (value) {
+    return _then(_self.copyWith(citation: value));
+  });
+}
+}
+
+CitationLocation _$CitationLocationFromJson(
+  Map<String, dynamic> json
+) {
+        switch (json['type']) {
+                  case 'char_location':
+          return CitationCharLocation.fromJson(
+            json
+          );
+                case 'page_location':
+          return CitationPageLocation.fromJson(
+            json
+          );
+                case 'content_block_location':
+          return CitationContentBlockLocation.fromJson(
+            json
+          );
+        
+          default:
+            throw CheckedFromJsonException(
+  json,
+  'type',
+  'CitationLocation',
+  'Invalid union type "${json['type']}"!'
+);
+        }
+      
+}
+
+/// @nodoc
+mixin _$CitationLocation {
+
+/// The type of citation location.
+ Enum get type;/// The cited text from the document.
+@JsonKey(name: 'cited_text') String get citedText;/// The index of the document in the request.
+@JsonKey(name: 'document_index') int get documentIndex;/// The title of the cited document.
+@JsonKey(name: 'document_title', includeIfNull: false) String? get documentTitle;
+/// Create a copy of CitationLocation
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CitationLocationCopyWith<CitationLocation> get copyWith => _$CitationLocationCopyWithImpl<CitationLocation>(this as CitationLocation, _$identity);
+
+  /// Serializes this CitationLocation to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CitationLocation&&(identical(other.type, type) || other.type == type)&&(identical(other.citedText, citedText) || other.citedText == citedText)&&(identical(other.documentIndex, documentIndex) || other.documentIndex == documentIndex)&&(identical(other.documentTitle, documentTitle) || other.documentTitle == documentTitle));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,type,citedText,documentIndex,documentTitle);
+
+@override
+String toString() {
+  return 'CitationLocation(type: $type, citedText: $citedText, documentIndex: $documentIndex, documentTitle: $documentTitle)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $CitationLocationCopyWith<$Res>  {
+  factory $CitationLocationCopyWith(CitationLocation value, $Res Function(CitationLocation) _then) = _$CitationLocationCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(name: 'cited_text') String citedText,@JsonKey(name: 'document_index') int documentIndex,@JsonKey(name: 'document_title', includeIfNull: false) String? documentTitle
+});
+
+
+
+
+}
+/// @nodoc
+class _$CitationLocationCopyWithImpl<$Res>
+    implements $CitationLocationCopyWith<$Res> {
+  _$CitationLocationCopyWithImpl(this._self, this._then);
+
+  final CitationLocation _self;
+  final $Res Function(CitationLocation) _then;
+
+/// Create a copy of CitationLocation
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? citedText = null,Object? documentIndex = null,Object? documentTitle = freezed,}) {
+  return _then(_self.copyWith(
+citedText: null == citedText ? _self.citedText : citedText // ignore: cast_nullable_to_non_nullable
+as String,documentIndex: null == documentIndex ? _self.documentIndex : documentIndex // ignore: cast_nullable_to_non_nullable
+as int,documentTitle: freezed == documentTitle ? _self.documentTitle : documentTitle // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [CitationLocation].
+extension CitationLocationPatterns on CitationLocation {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( CitationCharLocation value)?  citationCharLocation,TResult Function( CitationPageLocation value)?  citationPageLocation,TResult Function( CitationContentBlockLocation value)?  citationContentBlockLocation,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case CitationCharLocation() when citationCharLocation != null:
+return citationCharLocation(_that);case CitationPageLocation() when citationPageLocation != null:
+return citationPageLocation(_that);case CitationContentBlockLocation() when citationContentBlockLocation != null:
+return citationContentBlockLocation(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( CitationCharLocation value)  citationCharLocation,required TResult Function( CitationPageLocation value)  citationPageLocation,required TResult Function( CitationContentBlockLocation value)  citationContentBlockLocation,}){
+final _that = this;
+switch (_that) {
+case CitationCharLocation():
+return citationCharLocation(_that);case CitationPageLocation():
+return citationPageLocation(_that);case CitationContentBlockLocation():
+return citationContentBlockLocation(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( CitationCharLocation value)?  citationCharLocation,TResult? Function( CitationPageLocation value)?  citationPageLocation,TResult? Function( CitationContentBlockLocation value)?  citationContentBlockLocation,}){
+final _that = this;
+switch (_that) {
+case CitationCharLocation() when citationCharLocation != null:
+return citationCharLocation(_that);case CitationPageLocation() when citationPageLocation != null:
+return citationPageLocation(_that);case CitationContentBlockLocation() when citationContentBlockLocation != null:
+return citationContentBlockLocation(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( CitationCharLocationType type, @JsonKey(name: 'cited_text')  String citedText, @JsonKey(name: 'document_index')  int documentIndex, @JsonKey(name: 'document_title', includeIfNull: false)  String? documentTitle, @JsonKey(name: 'start_char_index')  int startCharIndex, @JsonKey(name: 'end_char_index')  int endCharIndex)?  citationCharLocation,TResult Function( CitationPageLocationType type, @JsonKey(name: 'cited_text')  String citedText, @JsonKey(name: 'document_index')  int documentIndex, @JsonKey(name: 'document_title', includeIfNull: false)  String? documentTitle, @JsonKey(name: 'start_page_number')  int startPageNumber, @JsonKey(name: 'end_page_number')  int endPageNumber)?  citationPageLocation,TResult Function( CitationContentBlockLocationType type, @JsonKey(name: 'cited_text')  String citedText, @JsonKey(name: 'document_index')  int documentIndex, @JsonKey(name: 'document_title', includeIfNull: false)  String? documentTitle, @JsonKey(name: 'start_block_index')  int startBlockIndex, @JsonKey(name: 'end_block_index')  int endBlockIndex)?  citationContentBlockLocation,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case CitationCharLocation() when citationCharLocation != null:
+return citationCharLocation(_that.type,_that.citedText,_that.documentIndex,_that.documentTitle,_that.startCharIndex,_that.endCharIndex);case CitationPageLocation() when citationPageLocation != null:
+return citationPageLocation(_that.type,_that.citedText,_that.documentIndex,_that.documentTitle,_that.startPageNumber,_that.endPageNumber);case CitationContentBlockLocation() when citationContentBlockLocation != null:
+return citationContentBlockLocation(_that.type,_that.citedText,_that.documentIndex,_that.documentTitle,_that.startBlockIndex,_that.endBlockIndex);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( CitationCharLocationType type, @JsonKey(name: 'cited_text')  String citedText, @JsonKey(name: 'document_index')  int documentIndex, @JsonKey(name: 'document_title', includeIfNull: false)  String? documentTitle, @JsonKey(name: 'start_char_index')  int startCharIndex, @JsonKey(name: 'end_char_index')  int endCharIndex)  citationCharLocation,required TResult Function( CitationPageLocationType type, @JsonKey(name: 'cited_text')  String citedText, @JsonKey(name: 'document_index')  int documentIndex, @JsonKey(name: 'document_title', includeIfNull: false)  String? documentTitle, @JsonKey(name: 'start_page_number')  int startPageNumber, @JsonKey(name: 'end_page_number')  int endPageNumber)  citationPageLocation,required TResult Function( CitationContentBlockLocationType type, @JsonKey(name: 'cited_text')  String citedText, @JsonKey(name: 'document_index')  int documentIndex, @JsonKey(name: 'document_title', includeIfNull: false)  String? documentTitle, @JsonKey(name: 'start_block_index')  int startBlockIndex, @JsonKey(name: 'end_block_index')  int endBlockIndex)  citationContentBlockLocation,}) {final _that = this;
+switch (_that) {
+case CitationCharLocation():
+return citationCharLocation(_that.type,_that.citedText,_that.documentIndex,_that.documentTitle,_that.startCharIndex,_that.endCharIndex);case CitationPageLocation():
+return citationPageLocation(_that.type,_that.citedText,_that.documentIndex,_that.documentTitle,_that.startPageNumber,_that.endPageNumber);case CitationContentBlockLocation():
+return citationContentBlockLocation(_that.type,_that.citedText,_that.documentIndex,_that.documentTitle,_that.startBlockIndex,_that.endBlockIndex);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( CitationCharLocationType type, @JsonKey(name: 'cited_text')  String citedText, @JsonKey(name: 'document_index')  int documentIndex, @JsonKey(name: 'document_title', includeIfNull: false)  String? documentTitle, @JsonKey(name: 'start_char_index')  int startCharIndex, @JsonKey(name: 'end_char_index')  int endCharIndex)?  citationCharLocation,TResult? Function( CitationPageLocationType type, @JsonKey(name: 'cited_text')  String citedText, @JsonKey(name: 'document_index')  int documentIndex, @JsonKey(name: 'document_title', includeIfNull: false)  String? documentTitle, @JsonKey(name: 'start_page_number')  int startPageNumber, @JsonKey(name: 'end_page_number')  int endPageNumber)?  citationPageLocation,TResult? Function( CitationContentBlockLocationType type, @JsonKey(name: 'cited_text')  String citedText, @JsonKey(name: 'document_index')  int documentIndex, @JsonKey(name: 'document_title', includeIfNull: false)  String? documentTitle, @JsonKey(name: 'start_block_index')  int startBlockIndex, @JsonKey(name: 'end_block_index')  int endBlockIndex)?  citationContentBlockLocation,}) {final _that = this;
+switch (_that) {
+case CitationCharLocation() when citationCharLocation != null:
+return citationCharLocation(_that.type,_that.citedText,_that.documentIndex,_that.documentTitle,_that.startCharIndex,_that.endCharIndex);case CitationPageLocation() when citationPageLocation != null:
+return citationPageLocation(_that.type,_that.citedText,_that.documentIndex,_that.documentTitle,_that.startPageNumber,_that.endPageNumber);case CitationContentBlockLocation() when citationContentBlockLocation != null:
+return citationContentBlockLocation(_that.type,_that.citedText,_that.documentIndex,_that.documentTitle,_that.startBlockIndex,_that.endBlockIndex);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class CitationCharLocation extends CitationLocation {
+  const CitationCharLocation({required this.type, @JsonKey(name: 'cited_text') required this.citedText, @JsonKey(name: 'document_index') required this.documentIndex, @JsonKey(name: 'document_title', includeIfNull: false) this.documentTitle, @JsonKey(name: 'start_char_index') required this.startCharIndex, @JsonKey(name: 'end_char_index') required this.endCharIndex}): super._();
+  factory CitationCharLocation.fromJson(Map<String, dynamic> json) => _$CitationCharLocationFromJson(json);
+
+/// The type of citation location.
+@override final  CitationCharLocationType type;
+/// The cited text from the document.
+@override@JsonKey(name: 'cited_text') final  String citedText;
+/// The index of the document in the request.
+@override@JsonKey(name: 'document_index') final  int documentIndex;
+/// The title of the cited document.
+@override@JsonKey(name: 'document_title', includeIfNull: false) final  String? documentTitle;
+/// The starting character index of the citation.
+@JsonKey(name: 'start_char_index') final  int startCharIndex;
+/// The ending character index of the citation.
+@JsonKey(name: 'end_char_index') final  int endCharIndex;
+
+/// Create a copy of CitationLocation
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CitationCharLocationCopyWith<CitationCharLocation> get copyWith => _$CitationCharLocationCopyWithImpl<CitationCharLocation>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$CitationCharLocationToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CitationCharLocation&&(identical(other.type, type) || other.type == type)&&(identical(other.citedText, citedText) || other.citedText == citedText)&&(identical(other.documentIndex, documentIndex) || other.documentIndex == documentIndex)&&(identical(other.documentTitle, documentTitle) || other.documentTitle == documentTitle)&&(identical(other.startCharIndex, startCharIndex) || other.startCharIndex == startCharIndex)&&(identical(other.endCharIndex, endCharIndex) || other.endCharIndex == endCharIndex));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,type,citedText,documentIndex,documentTitle,startCharIndex,endCharIndex);
+
+@override
+String toString() {
+  return 'CitationLocation.citationCharLocation(type: $type, citedText: $citedText, documentIndex: $documentIndex, documentTitle: $documentTitle, startCharIndex: $startCharIndex, endCharIndex: $endCharIndex)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $CitationCharLocationCopyWith<$Res> implements $CitationLocationCopyWith<$Res> {
+  factory $CitationCharLocationCopyWith(CitationCharLocation value, $Res Function(CitationCharLocation) _then) = _$CitationCharLocationCopyWithImpl;
+@override @useResult
+$Res call({
+ CitationCharLocationType type,@JsonKey(name: 'cited_text') String citedText,@JsonKey(name: 'document_index') int documentIndex,@JsonKey(name: 'document_title', includeIfNull: false) String? documentTitle,@JsonKey(name: 'start_char_index') int startCharIndex,@JsonKey(name: 'end_char_index') int endCharIndex
+});
+
+
+
+
+}
+/// @nodoc
+class _$CitationCharLocationCopyWithImpl<$Res>
+    implements $CitationCharLocationCopyWith<$Res> {
+  _$CitationCharLocationCopyWithImpl(this._self, this._then);
+
+  final CitationCharLocation _self;
+  final $Res Function(CitationCharLocation) _then;
+
+/// Create a copy of CitationLocation
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? type = null,Object? citedText = null,Object? documentIndex = null,Object? documentTitle = freezed,Object? startCharIndex = null,Object? endCharIndex = null,}) {
+  return _then(CitationCharLocation(
+type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as CitationCharLocationType,citedText: null == citedText ? _self.citedText : citedText // ignore: cast_nullable_to_non_nullable
+as String,documentIndex: null == documentIndex ? _self.documentIndex : documentIndex // ignore: cast_nullable_to_non_nullable
+as int,documentTitle: freezed == documentTitle ? _self.documentTitle : documentTitle // ignore: cast_nullable_to_non_nullable
+as String?,startCharIndex: null == startCharIndex ? _self.startCharIndex : startCharIndex // ignore: cast_nullable_to_non_nullable
+as int,endCharIndex: null == endCharIndex ? _self.endCharIndex : endCharIndex // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class CitationPageLocation extends CitationLocation {
+  const CitationPageLocation({required this.type, @JsonKey(name: 'cited_text') required this.citedText, @JsonKey(name: 'document_index') required this.documentIndex, @JsonKey(name: 'document_title', includeIfNull: false) this.documentTitle, @JsonKey(name: 'start_page_number') required this.startPageNumber, @JsonKey(name: 'end_page_number') required this.endPageNumber}): super._();
+  factory CitationPageLocation.fromJson(Map<String, dynamic> json) => _$CitationPageLocationFromJson(json);
+
+/// The type of citation location.
+@override final  CitationPageLocationType type;
+/// The cited text from the document.
+@override@JsonKey(name: 'cited_text') final  String citedText;
+/// The index of the document in the request.
+@override@JsonKey(name: 'document_index') final  int documentIndex;
+/// The title of the cited document.
+@override@JsonKey(name: 'document_title', includeIfNull: false) final  String? documentTitle;
+/// The starting page number of the citation.
+@JsonKey(name: 'start_page_number') final  int startPageNumber;
+/// The ending page number of the citation.
+@JsonKey(name: 'end_page_number') final  int endPageNumber;
+
+/// Create a copy of CitationLocation
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CitationPageLocationCopyWith<CitationPageLocation> get copyWith => _$CitationPageLocationCopyWithImpl<CitationPageLocation>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$CitationPageLocationToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CitationPageLocation&&(identical(other.type, type) || other.type == type)&&(identical(other.citedText, citedText) || other.citedText == citedText)&&(identical(other.documentIndex, documentIndex) || other.documentIndex == documentIndex)&&(identical(other.documentTitle, documentTitle) || other.documentTitle == documentTitle)&&(identical(other.startPageNumber, startPageNumber) || other.startPageNumber == startPageNumber)&&(identical(other.endPageNumber, endPageNumber) || other.endPageNumber == endPageNumber));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,type,citedText,documentIndex,documentTitle,startPageNumber,endPageNumber);
+
+@override
+String toString() {
+  return 'CitationLocation.citationPageLocation(type: $type, citedText: $citedText, documentIndex: $documentIndex, documentTitle: $documentTitle, startPageNumber: $startPageNumber, endPageNumber: $endPageNumber)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $CitationPageLocationCopyWith<$Res> implements $CitationLocationCopyWith<$Res> {
+  factory $CitationPageLocationCopyWith(CitationPageLocation value, $Res Function(CitationPageLocation) _then) = _$CitationPageLocationCopyWithImpl;
+@override @useResult
+$Res call({
+ CitationPageLocationType type,@JsonKey(name: 'cited_text') String citedText,@JsonKey(name: 'document_index') int documentIndex,@JsonKey(name: 'document_title', includeIfNull: false) String? documentTitle,@JsonKey(name: 'start_page_number') int startPageNumber,@JsonKey(name: 'end_page_number') int endPageNumber
+});
+
+
+
+
+}
+/// @nodoc
+class _$CitationPageLocationCopyWithImpl<$Res>
+    implements $CitationPageLocationCopyWith<$Res> {
+  _$CitationPageLocationCopyWithImpl(this._self, this._then);
+
+  final CitationPageLocation _self;
+  final $Res Function(CitationPageLocation) _then;
+
+/// Create a copy of CitationLocation
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? type = null,Object? citedText = null,Object? documentIndex = null,Object? documentTitle = freezed,Object? startPageNumber = null,Object? endPageNumber = null,}) {
+  return _then(CitationPageLocation(
+type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as CitationPageLocationType,citedText: null == citedText ? _self.citedText : citedText // ignore: cast_nullable_to_non_nullable
+as String,documentIndex: null == documentIndex ? _self.documentIndex : documentIndex // ignore: cast_nullable_to_non_nullable
+as int,documentTitle: freezed == documentTitle ? _self.documentTitle : documentTitle // ignore: cast_nullable_to_non_nullable
+as String?,startPageNumber: null == startPageNumber ? _self.startPageNumber : startPageNumber // ignore: cast_nullable_to_non_nullable
+as int,endPageNumber: null == endPageNumber ? _self.endPageNumber : endPageNumber // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class CitationContentBlockLocation extends CitationLocation {
+  const CitationContentBlockLocation({required this.type, @JsonKey(name: 'cited_text') required this.citedText, @JsonKey(name: 'document_index') required this.documentIndex, @JsonKey(name: 'document_title', includeIfNull: false) this.documentTitle, @JsonKey(name: 'start_block_index') required this.startBlockIndex, @JsonKey(name: 'end_block_index') required this.endBlockIndex}): super._();
+  factory CitationContentBlockLocation.fromJson(Map<String, dynamic> json) => _$CitationContentBlockLocationFromJson(json);
+
+/// The type of citation location.
+@override final  CitationContentBlockLocationType type;
+/// The cited text from the content block.
+@override@JsonKey(name: 'cited_text') final  String citedText;
+/// The index of the document in the request.
+@override@JsonKey(name: 'document_index') final  int documentIndex;
+/// The title of the cited document.
+@override@JsonKey(name: 'document_title', includeIfNull: false) final  String? documentTitle;
+/// The starting block index of the citation.
+@JsonKey(name: 'start_block_index') final  int startBlockIndex;
+/// The ending block index of the citation.
+@JsonKey(name: 'end_block_index') final  int endBlockIndex;
+
+/// Create a copy of CitationLocation
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CitationContentBlockLocationCopyWith<CitationContentBlockLocation> get copyWith => _$CitationContentBlockLocationCopyWithImpl<CitationContentBlockLocation>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$CitationContentBlockLocationToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CitationContentBlockLocation&&(identical(other.type, type) || other.type == type)&&(identical(other.citedText, citedText) || other.citedText == citedText)&&(identical(other.documentIndex, documentIndex) || other.documentIndex == documentIndex)&&(identical(other.documentTitle, documentTitle) || other.documentTitle == documentTitle)&&(identical(other.startBlockIndex, startBlockIndex) || other.startBlockIndex == startBlockIndex)&&(identical(other.endBlockIndex, endBlockIndex) || other.endBlockIndex == endBlockIndex));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,type,citedText,documentIndex,documentTitle,startBlockIndex,endBlockIndex);
+
+@override
+String toString() {
+  return 'CitationLocation.citationContentBlockLocation(type: $type, citedText: $citedText, documentIndex: $documentIndex, documentTitle: $documentTitle, startBlockIndex: $startBlockIndex, endBlockIndex: $endBlockIndex)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $CitationContentBlockLocationCopyWith<$Res> implements $CitationLocationCopyWith<$Res> {
+  factory $CitationContentBlockLocationCopyWith(CitationContentBlockLocation value, $Res Function(CitationContentBlockLocation) _then) = _$CitationContentBlockLocationCopyWithImpl;
+@override @useResult
+$Res call({
+ CitationContentBlockLocationType type,@JsonKey(name: 'cited_text') String citedText,@JsonKey(name: 'document_index') int documentIndex,@JsonKey(name: 'document_title', includeIfNull: false) String? documentTitle,@JsonKey(name: 'start_block_index') int startBlockIndex,@JsonKey(name: 'end_block_index') int endBlockIndex
+});
+
+
+
+
+}
+/// @nodoc
+class _$CitationContentBlockLocationCopyWithImpl<$Res>
+    implements $CitationContentBlockLocationCopyWith<$Res> {
+  _$CitationContentBlockLocationCopyWithImpl(this._self, this._then);
+
+  final CitationContentBlockLocation _self;
+  final $Res Function(CitationContentBlockLocation) _then;
+
+/// Create a copy of CitationLocation
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? type = null,Object? citedText = null,Object? documentIndex = null,Object? documentTitle = freezed,Object? startBlockIndex = null,Object? endBlockIndex = null,}) {
+  return _then(CitationContentBlockLocation(
+type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as CitationContentBlockLocationType,citedText: null == citedText ? _self.citedText : citedText // ignore: cast_nullable_to_non_nullable
+as String,documentIndex: null == documentIndex ? _self.documentIndex : documentIndex // ignore: cast_nullable_to_non_nullable
+as int,documentTitle: freezed == documentTitle ? _self.documentTitle : documentTitle // ignore: cast_nullable_to_non_nullable
+as String?,startBlockIndex: null == startBlockIndex ? _self.startBlockIndex : startBlockIndex // ignore: cast_nullable_to_non_nullable
+as int,endBlockIndex: null == endBlockIndex ? _self.endBlockIndex : endBlockIndex // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 
