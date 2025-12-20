@@ -390,6 +390,36 @@ class AnthropicClient {
   }
 
   // ------------------------------------------
+  // METHOD: countMessageTokens
+  // ------------------------------------------
+
+  /// Count Message Tokens
+  ///
+  /// Count the number of tokens in a Message.
+  ///
+  /// The Token Count API can be used to count the number of tokens in a Message,
+  /// including tools, images, and documents, without creating it.
+  ///
+  /// `request`: The request parameters for counting tokens in a message.
+  ///
+  /// `POST` `https://api.anthropic.com/v1/messages/count_tokens`
+  Future<CountMessageTokensResponse> countMessageTokens({
+    required CountMessageTokensRequest request,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.anthropic.com/v1',
+      path: '/messages/count_tokens',
+      method: HttpMethod.post,
+      isMultipart: false,
+      requestType: 'application/json',
+      responseType: 'application/json',
+      body: request,
+      headerParams: {if (apiKey.isNotEmpty) 'x-api-key': apiKey},
+    );
+    return CountMessageTokensResponse.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
   // METHOD: createMessageBatch
   // ------------------------------------------
 
@@ -437,6 +467,7 @@ class AnthropicClient {
       isMultipart: false,
       requestType: '',
       responseType: 'application/json',
+
       headerParams: {if (apiKey.isNotEmpty) 'x-api-key': apiKey},
     );
     return MessageBatch.fromJson(_jsonDecode(r));

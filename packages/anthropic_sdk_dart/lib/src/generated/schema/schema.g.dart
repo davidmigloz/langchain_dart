@@ -118,6 +118,107 @@ Map<String, dynamic> _$SystemMessageContentTextToJson(
   SystemMessageContentText instance,
 ) => <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};
 
+_CountMessageTokensRequest _$CountMessageTokensRequestFromJson(
+  Map<String, dynamic> json,
+) => _CountMessageTokensRequest(
+  model: const _CountMessageTokensRequestModelConverter().fromJson(
+    json['model'],
+  ),
+  messages: (json['messages'] as List<dynamic>)
+      .map((e) => Message.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  system: const _CountMessageTokensRequestSystemConverter().fromJson(
+    json['system'],
+  ),
+  toolChoice: json['tool_choice'] == null
+      ? null
+      : ToolChoice.fromJson(json['tool_choice'] as Map<String, dynamic>),
+  tools: (json['tools'] as List<dynamic>?)
+      ?.map((e) => Tool.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  thinking: json['thinking'] == null
+      ? null
+      : ThinkingConfig.fromJson(json['thinking'] as Map<String, dynamic>),
+);
+
+Map<String, dynamic> _$CountMessageTokensRequestToJson(
+  _CountMessageTokensRequest instance,
+) => <String, dynamic>{
+  'model': const _CountMessageTokensRequestModelConverter().toJson(
+    instance.model,
+  ),
+  'messages': instance.messages.map((e) => e.toJson()).toList(),
+  'system': ?const _CountMessageTokensRequestSystemConverter().toJson(
+    instance.system,
+  ),
+  'tool_choice': ?instance.toolChoice?.toJson(),
+  'tools': ?instance.tools?.map((e) => e.toJson()).toList(),
+  'thinking': ?instance.thinking?.toJson(),
+};
+
+CountMessageTokensRequestModelEnumeration
+_$CountMessageTokensRequestModelEnumerationFromJson(
+  Map<String, dynamic> json,
+) => CountMessageTokensRequestModelEnumeration(
+  $enumDecode(_$ModelsEnumMap, json['value']),
+  $type: json['runtimeType'] as String?,
+);
+
+Map<String, dynamic> _$CountMessageTokensRequestModelEnumerationToJson(
+  CountMessageTokensRequestModelEnumeration instance,
+) => <String, dynamic>{
+  'value': _$ModelsEnumMap[instance.value]!,
+  'runtimeType': instance.$type,
+};
+
+CountMessageTokensRequestModelString
+_$CountMessageTokensRequestModelStringFromJson(Map<String, dynamic> json) =>
+    CountMessageTokensRequestModelString(
+      json['value'] as String,
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$CountMessageTokensRequestModelStringToJson(
+  CountMessageTokensRequestModelString instance,
+) => <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};
+
+CountMessageTokensRequestSystemListBlock
+_$CountMessageTokensRequestSystemListBlockFromJson(Map<String, dynamic> json) =>
+    CountMessageTokensRequestSystemListBlock(
+      (json['value'] as List<dynamic>)
+          .map((e) => Block.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$CountMessageTokensRequestSystemListBlockToJson(
+  CountMessageTokensRequestSystemListBlock instance,
+) => <String, dynamic>{
+  'value': instance.value.map((e) => e.toJson()).toList(),
+  'runtimeType': instance.$type,
+};
+
+CountMessageTokensRequestSystemString
+_$CountMessageTokensRequestSystemStringFromJson(Map<String, dynamic> json) =>
+    CountMessageTokensRequestSystemString(
+      json['value'] as String,
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$CountMessageTokensRequestSystemStringToJson(
+  CountMessageTokensRequestSystemString instance,
+) => <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};
+
+_CountMessageTokensResponse _$CountMessageTokensResponseFromJson(
+  Map<String, dynamic> json,
+) => _CountMessageTokensResponse(
+  inputTokens: (json['input_tokens'] as num).toInt(),
+);
+
+Map<String, dynamic> _$CountMessageTokensResponseToJson(
+  _CountMessageTokensResponse instance,
+) => <String, dynamic>{'input_tokens': instance.inputTokens};
+
 _CreateMessageRequestMetadata _$CreateMessageRequestMetadataFromJson(
   Map<String, dynamic> json,
 ) => _CreateMessageRequestMetadata(userId: json['user_id'] as String?);
