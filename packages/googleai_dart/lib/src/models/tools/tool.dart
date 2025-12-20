@@ -1,6 +1,7 @@
 import '../copy_with_sentinel.dart';
 import 'file_search.dart';
 import 'function_declaration.dart';
+import 'mcp_server.dart';
 
 /// Tool that the model may use to generate a response.
 class Tool {
@@ -16,12 +17,16 @@ class Tool {
   /// File search tool that retrieves knowledge from file search stores.
   final FileSearch? fileSearch;
 
+  /// List of MCP servers that can be called by the model.
+  final List<McpServer>? mcpServers;
+
   /// Creates a [Tool].
   const Tool({
     this.functionDeclarations,
     this.codeExecution,
     this.googleSearch,
     this.fileSearch,
+    this.mcpServers,
   });
 
   /// Creates a [Tool] from JSON.
@@ -38,6 +43,11 @@ class Tool {
     fileSearch: json['fileSearch'] != null
         ? FileSearch.fromJson(json['fileSearch'] as Map<String, dynamic>)
         : null,
+    mcpServers: json['mcpServers'] != null
+        ? (json['mcpServers'] as List)
+              .map((e) => McpServer.fromJson(e as Map<String, dynamic>))
+              .toList()
+        : null,
   );
 
   /// Converts to JSON.
@@ -49,6 +59,8 @@ class Tool {
     if (codeExecution != null) 'codeExecution': codeExecution,
     if (googleSearch != null) 'googleSearch': googleSearch,
     if (fileSearch != null) 'fileSearch': fileSearch!.toJson(),
+    if (mcpServers != null)
+      'mcpServers': mcpServers!.map((e) => e.toJson()).toList(),
   };
 
   /// Creates a copy with replaced values.
@@ -57,6 +69,7 @@ class Tool {
     Object? codeExecution = unsetCopyWithValue,
     Object? googleSearch = unsetCopyWithValue,
     Object? fileSearch = unsetCopyWithValue,
+    Object? mcpServers = unsetCopyWithValue,
   }) {
     return Tool(
       functionDeclarations: functionDeclarations == unsetCopyWithValue
@@ -71,6 +84,9 @@ class Tool {
       fileSearch: fileSearch == unsetCopyWithValue
           ? this.fileSearch
           : fileSearch as FileSearch?,
+      mcpServers: mcpServers == unsetCopyWithValue
+          ? this.mcpServers
+          : mcpServers as List<McpServer>?,
     );
   }
 }
