@@ -16429,7 +16429,7 @@ class ContentBlockDeltaEvent extends MessageStreamEvent {
   factory ContentBlockDeltaEvent.fromJson(Map<String, dynamic> json) => _$ContentBlockDeltaEventFromJson(json);
 
 /// A delta in a streaming message.
-/// Any of: [TextBlockDelta], [InputJsonBlockDelta], [ThinkingBlockDelta]
+/// Any of: [TextBlockDelta], [InputJsonBlockDelta], [ThinkingBlockDelta], [SignatureBlockDelta]
  final  BlockDelta delta;
 /// The index of the content block.
  final  int index;
@@ -16748,6 +16748,10 @@ BlockDelta _$BlockDeltaFromJson(
           return ThinkingBlockDelta.fromJson(
             json
           );
+                case 'signature_delta':
+          return SignatureBlockDelta.fromJson(
+            json
+          );
         
           default:
             throw CheckedFromJsonException(
@@ -16807,13 +16811,14 @@ extension BlockDeltaPatterns on BlockDelta {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( TextBlockDelta value)?  textDelta,TResult Function( InputJsonBlockDelta value)?  inputJsonDelta,TResult Function( ThinkingBlockDelta value)?  thinking,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( TextBlockDelta value)?  textDelta,TResult Function( InputJsonBlockDelta value)?  inputJsonDelta,TResult Function( ThinkingBlockDelta value)?  thinking,TResult Function( SignatureBlockDelta value)?  signature,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case TextBlockDelta() when textDelta != null:
 return textDelta(_that);case InputJsonBlockDelta() when inputJsonDelta != null:
 return inputJsonDelta(_that);case ThinkingBlockDelta() when thinking != null:
-return thinking(_that);case _:
+return thinking(_that);case SignatureBlockDelta() when signature != null:
+return signature(_that);case _:
   return orElse();
 
 }
@@ -16831,13 +16836,14 @@ return thinking(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( TextBlockDelta value)  textDelta,required TResult Function( InputJsonBlockDelta value)  inputJsonDelta,required TResult Function( ThinkingBlockDelta value)  thinking,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( TextBlockDelta value)  textDelta,required TResult Function( InputJsonBlockDelta value)  inputJsonDelta,required TResult Function( ThinkingBlockDelta value)  thinking,required TResult Function( SignatureBlockDelta value)  signature,}){
 final _that = this;
 switch (_that) {
 case TextBlockDelta():
 return textDelta(_that);case InputJsonBlockDelta():
 return inputJsonDelta(_that);case ThinkingBlockDelta():
-return thinking(_that);}
+return thinking(_that);case SignatureBlockDelta():
+return signature(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -16851,13 +16857,14 @@ return thinking(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( TextBlockDelta value)?  textDelta,TResult? Function( InputJsonBlockDelta value)?  inputJsonDelta,TResult? Function( ThinkingBlockDelta value)?  thinking,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( TextBlockDelta value)?  textDelta,TResult? Function( InputJsonBlockDelta value)?  inputJsonDelta,TResult? Function( ThinkingBlockDelta value)?  thinking,TResult? Function( SignatureBlockDelta value)?  signature,}){
 final _that = this;
 switch (_that) {
 case TextBlockDelta() when textDelta != null:
 return textDelta(_that);case InputJsonBlockDelta() when inputJsonDelta != null:
 return inputJsonDelta(_that);case ThinkingBlockDelta() when thinking != null:
-return thinking(_that);case _:
+return thinking(_that);case SignatureBlockDelta() when signature != null:
+return signature(_that);case _:
   return null;
 
 }
@@ -16874,12 +16881,13 @@ return thinking(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String text,  String type)?  textDelta,TResult Function(@JsonKey(name: 'partial_json', includeIfNull: false)  String? partialJson,  String type)?  inputJsonDelta,TResult Function( String thinking,  ThinkingBlockDeltaType type)?  thinking,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String text,  String type)?  textDelta,TResult Function(@JsonKey(name: 'partial_json', includeIfNull: false)  String? partialJson,  String type)?  inputJsonDelta,TResult Function( String thinking,  ThinkingBlockDeltaType type)?  thinking,TResult Function( String signature,  SignatureBlockDeltaType type)?  signature,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case TextBlockDelta() when textDelta != null:
 return textDelta(_that.text,_that.type);case InputJsonBlockDelta() when inputJsonDelta != null:
 return inputJsonDelta(_that.partialJson,_that.type);case ThinkingBlockDelta() when thinking != null:
-return thinking(_that.thinking,_that.type);case _:
+return thinking(_that.thinking,_that.type);case SignatureBlockDelta() when signature != null:
+return signature(_that.signature,_that.type);case _:
   return orElse();
 
 }
@@ -16897,12 +16905,13 @@ return thinking(_that.thinking,_that.type);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String text,  String type)  textDelta,required TResult Function(@JsonKey(name: 'partial_json', includeIfNull: false)  String? partialJson,  String type)  inputJsonDelta,required TResult Function( String thinking,  ThinkingBlockDeltaType type)  thinking,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String text,  String type)  textDelta,required TResult Function(@JsonKey(name: 'partial_json', includeIfNull: false)  String? partialJson,  String type)  inputJsonDelta,required TResult Function( String thinking,  ThinkingBlockDeltaType type)  thinking,required TResult Function( String signature,  SignatureBlockDeltaType type)  signature,}) {final _that = this;
 switch (_that) {
 case TextBlockDelta():
 return textDelta(_that.text,_that.type);case InputJsonBlockDelta():
 return inputJsonDelta(_that.partialJson,_that.type);case ThinkingBlockDelta():
-return thinking(_that.thinking,_that.type);}
+return thinking(_that.thinking,_that.type);case SignatureBlockDelta():
+return signature(_that.signature,_that.type);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -16916,12 +16925,13 @@ return thinking(_that.thinking,_that.type);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String text,  String type)?  textDelta,TResult? Function(@JsonKey(name: 'partial_json', includeIfNull: false)  String? partialJson,  String type)?  inputJsonDelta,TResult? Function( String thinking,  ThinkingBlockDeltaType type)?  thinking,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String text,  String type)?  textDelta,TResult? Function(@JsonKey(name: 'partial_json', includeIfNull: false)  String? partialJson,  String type)?  inputJsonDelta,TResult? Function( String thinking,  ThinkingBlockDeltaType type)?  thinking,TResult? Function( String signature,  SignatureBlockDeltaType type)?  signature,}) {final _that = this;
 switch (_that) {
 case TextBlockDelta() when textDelta != null:
 return textDelta(_that.text,_that.type);case InputJsonBlockDelta() when inputJsonDelta != null:
 return inputJsonDelta(_that.partialJson,_that.type);case ThinkingBlockDelta() when thinking != null:
-return thinking(_that.thinking,_that.type);case _:
+return thinking(_that.thinking,_that.type);case SignatureBlockDelta() when signature != null:
+return signature(_that.signature,_that.type);case _:
   return null;
 
 }
@@ -17142,6 +17152,79 @@ class _$ThinkingBlockDeltaCopyWithImpl<$Res>
 thinking: null == thinking ? _self.thinking : thinking // ignore: cast_nullable_to_non_nullable
 as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as ThinkingBlockDeltaType,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class SignatureBlockDelta extends BlockDelta {
+  const SignatureBlockDelta({required this.signature, required this.type}): super._();
+  factory SignatureBlockDelta.fromJson(Map<String, dynamic> json) => _$SignatureBlockDeltaFromJson(json);
+
+/// The signature delta.
+ final  String signature;
+/// The type of content block delta.
+@override final  SignatureBlockDeltaType type;
+
+/// Create a copy of BlockDelta
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$SignatureBlockDeltaCopyWith<SignatureBlockDelta> get copyWith => _$SignatureBlockDeltaCopyWithImpl<SignatureBlockDelta>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$SignatureBlockDeltaToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SignatureBlockDelta&&(identical(other.signature, signature) || other.signature == signature)&&(identical(other.type, type) || other.type == type));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,signature,type);
+
+@override
+String toString() {
+  return 'BlockDelta.signature(signature: $signature, type: $type)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $SignatureBlockDeltaCopyWith<$Res> implements $BlockDeltaCopyWith<$Res> {
+  factory $SignatureBlockDeltaCopyWith(SignatureBlockDelta value, $Res Function(SignatureBlockDelta) _then) = _$SignatureBlockDeltaCopyWithImpl;
+@useResult
+$Res call({
+ String signature, SignatureBlockDeltaType type
+});
+
+
+
+
+}
+/// @nodoc
+class _$SignatureBlockDeltaCopyWithImpl<$Res>
+    implements $SignatureBlockDeltaCopyWith<$Res> {
+  _$SignatureBlockDeltaCopyWithImpl(this._self, this._then);
+
+  final SignatureBlockDelta _self;
+  final $Res Function(SignatureBlockDelta) _then;
+
+/// Create a copy of BlockDelta
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? signature = null,Object? type = null,}) {
+  return _then(SignatureBlockDelta(
+signature: null == signature ? _self.signature : signature // ignore: cast_nullable_to_non_nullable
+as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as SignatureBlockDeltaType,
   ));
 }
 
