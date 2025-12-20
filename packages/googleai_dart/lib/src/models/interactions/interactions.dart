@@ -1,5 +1,6 @@
 export 'agent_config.dart';
 export 'allowed_tools.dart';
+export 'content/content.dart';
 export 'generation_config.dart';
 export 'interaction.dart';
 export 'interaction_status.dart';
