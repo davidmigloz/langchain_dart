@@ -1,6 +1,7 @@
 import '../copy_with_sentinel.dart';
 import 'file_search.dart';
 import 'function_declaration.dart';
+import 'google_maps.dart';
 import 'mcp_server.dart';
 
 /// Tool that the model may use to generate a response.
@@ -20,6 +21,9 @@ class Tool {
   /// List of MCP servers that can be called by the model.
   final List<McpServer>? mcpServers;
 
+  /// Google Maps tool that provides geospatial context.
+  final GoogleMaps? googleMaps;
+
   /// Creates a [Tool].
   const Tool({
     this.functionDeclarations,
@@ -27,6 +31,7 @@ class Tool {
     this.googleSearch,
     this.fileSearch,
     this.mcpServers,
+    this.googleMaps,
   });
 
   /// Creates a [Tool] from JSON.
@@ -48,6 +53,9 @@ class Tool {
               .map((e) => McpServer.fromJson(e as Map<String, dynamic>))
               .toList()
         : null,
+    googleMaps: json['googleMaps'] != null
+        ? GoogleMaps.fromJson(json['googleMaps'] as Map<String, dynamic>)
+        : null,
   );
 
   /// Converts to JSON.
@@ -61,6 +69,7 @@ class Tool {
     if (fileSearch != null) 'fileSearch': fileSearch!.toJson(),
     if (mcpServers != null)
       'mcpServers': mcpServers!.map((e) => e.toJson()).toList(),
+    if (googleMaps != null) 'googleMaps': googleMaps!.toJson(),
   };
 
   /// Creates a copy with replaced values.
@@ -70,6 +79,7 @@ class Tool {
     Object? googleSearch = unsetCopyWithValue,
     Object? fileSearch = unsetCopyWithValue,
     Object? mcpServers = unsetCopyWithValue,
+    Object? googleMaps = unsetCopyWithValue,
   }) {
     return Tool(
       functionDeclarations: functionDeclarations == unsetCopyWithValue
@@ -87,6 +97,9 @@ class Tool {
       mcpServers: mcpServers == unsetCopyWithValue
           ? this.mcpServers
           : mcpServers as List<McpServer>?,
+      googleMaps: googleMaps == unsetCopyWithValue
+          ? this.googleMaps
+          : googleMaps as GoogleMaps?,
     );
   }
 }
