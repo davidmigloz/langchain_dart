@@ -511,4 +511,37 @@ class AnthropicClient {
     );
     return MessageBatch.fromJson(_jsonDecode(r));
   }
+
+  // ------------------------------------------
+  // METHOD: cancelMessageBatch
+  // ------------------------------------------
+
+  /// Cancel a Message Batch
+  ///
+  /// Batches may be canceled any time before processing ends. Once cancellation
+  /// is initiated, the batch enters a `canceling` state, at which time the system
+  /// may complete any in-progress, non-interruptible requests before finalizing
+  /// cancellation.
+  ///
+  /// The number of canceled requests is specified in `request_counts`. To
+  /// determine which requests were canceled, check the individual results within
+  /// the batch. Note that cancellation may not result in any canceled requests
+  /// if they were non-interruptible.
+  ///
+  /// `id`: The ID of the message batch to cancel.
+  ///
+  /// `POST` `https://api.anthropic.com/v1/messages/batches/{id}/cancel`
+  Future<MessageBatch> cancelMessageBatch({required String id}) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.anthropic.com/v1',
+      path: '/messages/batches/$id/cancel',
+      method: HttpMethod.post,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+
+      headerParams: {if (apiKey.isNotEmpty) 'x-api-key': apiKey},
+    );
+    return MessageBatch.fromJson(_jsonDecode(r));
+  }
 }
