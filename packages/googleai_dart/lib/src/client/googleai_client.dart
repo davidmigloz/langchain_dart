@@ -12,7 +12,6 @@ import '../resources/corpora_resource.dart';
 import '../resources/files/files_resource.dart';
 import '../resources/generated_files_resource.dart';
 import '../resources/models_resource.dart';
-import '../resources/rag_stores_resource.dart';
 import '../resources/tuned_models_resource.dart';
 import 'config.dart';
 import 'interceptor_chain.dart';
@@ -34,7 +33,6 @@ import 'retry_wrapper.dart';
 /// - [cachedContents] - Context caching for cost/latency optimization
 /// - [batches] - Batch operation management
 /// - [corpora] - Corpus management for semantic retrieval
-/// - [ragStores] - RAG store document management
 ///
 /// ## Example Usage
 ///
@@ -102,9 +100,6 @@ class GoogleAIClient {
   /// Resource for corpora API (semantic retrieval).
   late final CorporaResource corpora;
 
-  /// Resource for RAG stores API (document management).
-  late final RagStoresResource ragStores;
-
   /// Creates a [GoogleAIClient].
   ///
   /// Optionally accepts custom [config] for authentication and endpoint settings,
@@ -170,13 +165,6 @@ class GoogleAIClient {
     );
 
     corpora = CorporaResource(
-      config: this.config,
-      httpClient: _httpClient,
-      interceptorChain: _interceptorChain,
-      requestBuilder: _requestBuilder,
-    );
-
-    ragStores = RagStoresResource(
       config: this.config,
       httpClient: _httpClient,
       interceptorChain: _interceptorChain,
