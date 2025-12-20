@@ -945,53 +945,109 @@ final result = switch (imageSource) {
 
 When creating multiple dependent PRs (stacked PRs), each PR's base branch should point to the previous PR's branch so GitHub shows only the incremental diff.
 
+### Critical: Update Base BEFORE Merging
+
+> **WARNING:** If you merge with `--delete-branch` before updating the next PR's base, GitHub will **auto-close** the next PR because its base branch no longer exists. The PR cannot be reopened and must be recreated.
+
+**Wrong order (causes auto-closure):**
+```bash
+gh pr merge 889 --squash --delete-branch  # Deletes base branch
+gh pr edit 890 --base main                 # FAILS: PR 890 is already closed!
+```
+
+**Correct order:**
+```bash
+gh pr edit 890 --base main                 # Update base FIRST
+gh pr merge 889 --squash --delete-branch   # Now safe to delete branch
+```
+
 ### Merging Process
 
-1. **Merge from bottom to top** - Always merge the PR closest to `main` first
+For each PR in the stack (starting from the one closest to `main`):
 
-2. **After each merge, update the next PR:**
+1. **Update the NEXT PR's base to main BEFORE merging current PR:**
    ```bash
-   # Change the next PR's base to main
-   gh pr edit <PR_NUMBER> --base main
-
-   # Interactive rebase to drop already-merged commits
-   git checkout <next-branch>
-   git fetch origin
-   git rebase -i origin/main
+   gh pr edit <NEXT_PR_NUMBER> --base main
    ```
 
-   In the interactive editor, change `pick` to `drop` for commits that belonged to the already-merged PR(s). This cleanly removes them without replay conflicts.
+2. **Merge the current PR:**
+   ```bash
+   gh pr merge <CURRENT_PR_NUMBER> --squash --delete-branch
+   ```
 
+3. **Rebase the next PR on main:**
+   ```bash
+   git checkout <next-branch>
+   git fetch origin main
+   git rebase origin/main
+   ```
+
+   Git will automatically skip already-merged commits (you'll see "skipped previously applied commit" messages).
+
+4. **Force push the rebased branch:**
    ```bash
    git push --force-with-lease
    ```
 
-3. **Verify before merging** - Check that the PR shows only its own commits
+5. **Verify the PR shows only its own commits**, then repeat from step 1 for the next PR.
 
-### Why Interactive Rebase is Better
-
-- **Avoids conflicts**: Regular `git rebase origin/main` replays all commits, which can conflict with the merge commit's version of those changes
-- **Cleaner history**: You explicitly drop the commits that are now in main, rather than relying on git to figure it out
-- **More control**: You see exactly which commits remain
-
-### Quick Reference
+### Complete Example
 
 ```bash
-# After merging PR N, for PR N+1:
-gh pr edit <N+1> --base main
-git checkout <branch-N+1>
-git fetch origin
-git rebase -i origin/main   # drop commits from PR N
+# Stack: PR 889 -> PR 890 -> PR 891 (889 is closest to main)
+
+# === Merge PR 889 ===
+gh pr edit 890 --base main                 # Step 1: Update 890's base FIRST
+gh pr merge 889 --squash --delete-branch   # Step 2: Now merge 889
+git checkout feat/pr-890-branch            # Step 3: Checkout 890's branch
+git fetch origin main
+git rebase origin/main                     # Git skips merged commits
+git push --force-with-lease                # Step 4: Update remote
+
+# === Merge PR 890 ===
+gh pr edit 891 --base main                 # Step 1: Update 891's base FIRST
+gh pr merge 890 --squash --delete-branch   # Step 2: Now merge 890
+git checkout feat/pr-891-branch            # Step 3: Checkout 891's branch
+git fetch origin main
+git rebase origin/main
 git push --force-with-lease
+
+# === Merge PR 891 (last one) ===
+gh pr merge 891 --squash --delete-branch   # No next PR, just merge
 ```
 
-### Common Issues
+### Why This Order Matters
 
-| Issue | Solution |
-|-------|----------|
-| `gh pr edit --base` silently fails | Check GitHub UI to verify base actually changed; may have conflicts |
-| PR shows too many commits after rebase | Force push needed after rebasing |
-| Merge conflicts during rebase | Resolve locally, continue rebase, then force push |
+| Scenario | What Happens |
+|----------|--------------|
+| Update base first, then merge | ✅ Next PR stays open, points to main |
+| Merge first, then update base | ❌ Base branch deleted → PR auto-closed → Cannot reopen |
+
+### Troubleshooting
+
+| Issue | Cause | Solution |
+|-------|-------|----------|
+| PR auto-closed after merge | Base branch was deleted before updating | Create new PR: `gh pr create --base main --head <branch>` |
+| `gh pr edit --base` fails | PR already closed, or GraphQL error | Use API: `gh api repos/OWNER/REPO/pulls/NUM -X PATCH -f base=main` |
+| PR shows too many commits | Branch not rebased after base change | Rebase and force push |
+| Rebase conflicts | Commits conflict with squash merge | Use `git rebase -i origin/main` and drop merged commits |
+
+### Using Interactive Rebase (Optional)
+
+If regular rebase has conflicts, use interactive mode to explicitly drop merged commits:
+
+```bash
+git rebase -i origin/main
+```
+
+In the editor, change `pick` to `drop` for commits that were in the already-merged PR:
+
+```
+drop abc1234 feat: change from PR 889 (already merged)
+pick def5678 feat: change from PR 890 (keep this)
+```
+
+Save and exit, then force push.
 
 ---
 
