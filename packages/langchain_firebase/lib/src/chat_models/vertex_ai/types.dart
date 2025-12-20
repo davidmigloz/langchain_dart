@@ -23,6 +23,7 @@ class ChatFirebaseVertexAIOptions extends ChatModelOptions {
     this.responseMimeType,
     this.responseSchema,
     this.safetySettings,
+    this.backend,
     super.tools,
     super.toolChoice,
     super.concurrencyLimit,
@@ -117,6 +118,14 @@ class ChatFirebaseVertexAIOptions extends ChatModelOptions {
   /// the default safety setting for that category.
   final List<ChatFirebaseVertexAISafetySetting>? safetySettings;
 
+  /// The Firebase AI backend to use.
+  ///
+  /// - [FirebaseAIBackend.vertexAI] (default): Vertex AI Gemini API.
+  ///   Requires Blaze plan (pay-as-you-go). Best for production.
+  /// - [FirebaseAIBackend.googleAI]: Gemini Developer API.
+  ///   Available on Spark plan (free tier). Good for development/testing.
+  final FirebaseAIBackend? backend;
+
   @override
   ChatFirebaseVertexAIOptions copyWith({
     final String? model,
@@ -128,6 +137,7 @@ class ChatFirebaseVertexAIOptions extends ChatModelOptions {
     final List<String>? stopSequences,
     final String? responseMimeType,
     final List<ChatFirebaseVertexAISafetySetting>? safetySettings,
+    final FirebaseAIBackend? backend,
     final List<ToolSpec>? tools,
     final ChatToolChoice? toolChoice,
     final int? concurrencyLimit,
@@ -142,6 +152,7 @@ class ChatFirebaseVertexAIOptions extends ChatModelOptions {
       stopSequences: stopSequences ?? this.stopSequences,
       responseMimeType: responseMimeType ?? this.responseMimeType,
       safetySettings: safetySettings ?? this.safetySettings,
+      backend: backend ?? this.backend,
       tools: tools ?? this.tools,
       toolChoice: toolChoice ?? this.toolChoice,
       concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
@@ -162,6 +173,7 @@ class ChatFirebaseVertexAIOptions extends ChatModelOptions {
       stopSequences: other?.stopSequences,
       responseMimeType: other?.responseMimeType,
       safetySettings: other?.safetySettings,
+      backend: other?.backend,
       tools: other?.tools,
       toolChoice: other?.toolChoice,
       concurrencyLimit: other?.concurrencyLimit,
@@ -185,6 +197,7 @@ class ChatFirebaseVertexAIOptions extends ChatModelOptions {
           safetySettings,
           other.safetySettings,
         ) &&
+        backend == other.backend &&
         const ListEquality<ToolSpec>().equals(tools, other.tools) &&
         toolChoice == other.toolChoice &&
         concurrencyLimit == other.concurrencyLimit;
@@ -203,6 +216,7 @@ class ChatFirebaseVertexAIOptions extends ChatModelOptions {
         const ListEquality<ChatFirebaseVertexAISafetySetting>().hash(
           safetySettings,
         ) ^
+        backend.hashCode ^
         const ListEquality<ToolSpec>().hash(tools) ^
         toolChoice.hashCode ^
         concurrencyLimit.hashCode;
@@ -289,4 +303,15 @@ enum ChatFirebaseVertexAISafetySettingThreshold {
 
   /// Always show regardless of probability of unsafe content.
   blockNone,
+}
+
+/// The Firebase AI backend to use.
+enum FirebaseAIBackend {
+  /// Vertex AI Gemini API - requires Blaze plan (pay-as-you-go).
+  /// Recommended for production use.
+  vertexAI,
+
+  /// Gemini Developer API - available on Spark plan (free tier).
+  /// Has rate limits but no billing required.
+  googleAI,
 }

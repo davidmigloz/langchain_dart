@@ -1,9 +1,7 @@
 // ignore_for_file: public_member_api_docs
 import 'dart:convert';
 
-// ignore: implementation_imports
-import 'package:firebase_ai/src/content.dart';
-import 'package:firebase_vertexai/firebase_vertexai.dart' as f;
+import 'package:firebase_ai/firebase_ai.dart' as f;
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/tools.dart';
@@ -132,9 +130,9 @@ extension GenerateContentResponseMapper on f.GenerateContentResponse {
                 final f.InlineDataPart p => base64Encode(p.bytes),
                 final f.FileData p => p.fileUri,
                 f.FunctionResponse() || f.FunctionCall() => '',
-                ExecutableCodePart() => '',
-                CodeExecutionResultPart() => '',
-                UnknownPart() => '',
+                f.ExecutableCodePart() => '',
+                f.CodeExecutionResultPart() => '',
+                f.UnknownPart() => '',
               },
             )
             .nonNulls

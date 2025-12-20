@@ -1,10 +1,8 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:collection/collection.dart';
+import 'package:firebase_ai/firebase_ai.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_vertexai/firebase_vertexai.dart';
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/prompts.dart';
 import 'package:uuid/uuid.dart';
@@ -12,8 +10,12 @@ import 'package:uuid/uuid.dart';
 import 'mappers.dart';
 import 'types.dart';
 
-/// Wrapper around [Vertex AI for Firebase](https://firebase.google.com/docs/vertex-ai)
-/// API (aka Gemini API).
+/// Wrapper around [Firebase AI Logic](https://firebase.google.com/docs/ai-logic)
+/// (Gemini API via Firebase).
+///
+/// Supports two backends:
+/// - **Vertex AI** (default): Requires Blaze plan. Best for production.
+/// - **Google AI**: Available on free Spark plan. Good for development/testing.
 ///
 /// Example:
 /// ```dart
@@ -25,15 +27,23 @@ import 'types.dart';
 /// final res = await chatModel.invoke(prompt);
 /// ```
 ///
-/// - [Vertex AI for Firebase](https://firebase.google.com/docs/vertex-ai)
+/// Example with Google AI backend:
+/// ```dart
+/// final chatModel = ChatFirebaseVertexAI(
+///   defaultBackend: FirebaseAIBackend.googleAI,
+/// );
+/// ```
+///
+/// - [Firebase AI Logic](https://firebase.google.com/docs/ai-logic)
 ///
 /// ### Setup
 ///
 /// To use `ChatFirebaseVertexAI` you need to have:
-/// - A Firebase project with Blaze pay-as-you-go pricing plan
-/// - `aiplatform.googleapis.com` and `firebaseml.googleapis.com` APIs enabled
+/// - A Firebase project (Blaze plan for Vertex AI, Spark plan for Google AI)
 /// - Firebase SDK initialized in your app
-/// - Recommended: Firebase App Check enabled
+/// - For Vertex AI: `aiplatform.googleapis.com` and `firebaseml.googleapis.com` APIs enabled
+/// - For Google AI: Gemini API key configured in Firebase console
+/// - Recommended: Firebase App Check enabled (Vertex AI only)
 ///
 /// ### Available models
 ///
@@ -148,36 +158,48 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
   ///
   /// Main configuration options:
   /// - [ChatFirebaseVertexAI.defaultOptions]
+  /// - [ChatFirebaseVertexAI.defaultBackend]
   ///
   /// Firebase configuration options:
   /// - [ChatFirebaseVertexAI.app]
-  /// - [ChatFirebaseVertexAI.appCheck]
-  /// - [ChatFirebaseVertexAI.location]
+  /// - [ChatFirebaseVertexAI.appCheck] (Vertex AI only)
+  /// - [ChatFirebaseVertexAI.auth] (Vertex AI only)
+  /// - [ChatFirebaseVertexAI.location] (Vertex AI only)
   ChatFirebaseVertexAI({
     super.defaultOptions = const ChatFirebaseVertexAIOptions(
       model: defaultModel,
     ),
+    this.defaultBackend = FirebaseAIBackend.vertexAI,
     this.app,
     this.appCheck,
     this.auth,
     this.location,
-  }) : _currentModel = defaultOptions.model ?? '' {
+  })  : _currentModel = defaultOptions.model ?? '',
+        _currentBackend = defaultBackend {
     _firebaseClient = _createFirebaseClient(_currentModel);
   }
+
+  /// The default Firebase AI backend to use.
+  ///
+  /// Defaults to [FirebaseAIBackend.vertexAI] for backward compatibility.
+  final FirebaseAIBackend defaultBackend;
 
   /// The [FirebaseApp] to use. If not provided, the default app will be used.
   final FirebaseApp? app;
 
   /// The optional [FirebaseAppCheck] to use to protect the project from abuse.
+  /// Only applies to Vertex AI backend.
   final FirebaseAppCheck? appCheck;
 
   /// The optional [FirebaseAuth] to use for authentication.
+  /// Only applies to Vertex AI backend.
   final FirebaseAuth? auth;
 
-  /// The service location for the [FirebaseVertexAI] instance.
+  /// The service location for the Vertex AI instance.
+  /// Only applies to Vertex AI backend.
   final String? location;
 
-  /// A client for interacting with Vertex AI for Firebase API.
+  /// A client for interacting with Firebase AI API.
   late GenerativeModel _firebaseClient;
 
   /// A UUID generator.
@@ -185,6 +207,9 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
 
   /// The current model set in [_firebaseClient];
   String _currentModel;
+
+  /// The current backend set in [_firebaseClient];
+  FirebaseAIBackend _currentBackend;
 
   /// The current system instruction set in [_firebaseClient];
   String? _currentSystemInstruction;
@@ -298,12 +323,21 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
   GenerativeModel _createFirebaseClient(
     final String model, {
     final String? systemInstruction,
+    final FirebaseAIBackend? backend,
   }) {
-    return FirebaseVertexAI.instanceFor(
-      app: app,
-      appCheck: appCheck,
-      location: location,
-    ).generativeModel(
+    final effectiveBackend = backend ?? defaultBackend;
+
+    final firebaseAI = switch (effectiveBackend) {
+      FirebaseAIBackend.vertexAI => FirebaseAI.vertexAI(
+          app: app,
+          appCheck: appCheck,
+          auth: auth,
+          location: location,
+        ),
+      FirebaseAIBackend.googleAI => FirebaseAI.googleAI(app: app),
+    };
+
+    return firebaseAI.generativeModel(
       model: model,
       systemInstruction: systemInstruction != null
           ? Content.system(systemInstruction)
@@ -315,10 +349,12 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
   void _recreateFirebaseClient(
     final String model,
     final String? systemInstruction,
+    final FirebaseAIBackend backend,
   ) {
     _firebaseClient = _createFirebaseClient(
       model,
       systemInstruction: systemInstruction,
+      backend: backend,
     );
   }
 
@@ -328,6 +364,7 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
     final ChatFirebaseVertexAIOptions? options,
   ) {
     final model = options?.model ?? defaultOptions.model ?? defaultModel;
+    final backend = options?.backend ?? defaultBackend;
 
     final systemInstruction = messages.firstOrNull is SystemChatMessage
         ? messages.firstOrNull?.contentAsString
@@ -338,13 +375,17 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
       _currentModel = model;
       recreate = true;
     }
+    if (backend != _currentBackend) {
+      _currentBackend = backend;
+      recreate = true;
+    }
     if (systemInstruction != _currentSystemInstruction) {
       _currentSystemInstruction = systemInstruction;
       recreate = true;
     }
 
     if (recreate) {
-      _recreateFirebaseClient(model, systemInstruction);
+      _recreateFirebaseClient(model, systemInstruction, backend);
     }
   }
 }
