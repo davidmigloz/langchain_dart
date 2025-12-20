@@ -605,4 +605,69 @@ class AnthropicClient {
     );
     return MessageBatch.fromJson(_jsonDecode(r));
   }
+
+  // ------------------------------------------
+  // METHOD: listModels
+  // ------------------------------------------
+
+  /// List Models
+  ///
+  /// List available models. The Models API response can be used to determine
+  /// which models are available for use in the API.
+  ///
+  /// `beforeId`: ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately before this object.
+  ///
+  /// `afterId`: ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately after this object.
+  ///
+  /// `limit`: Number of items to return per page. Defaults to 20. Ranges from 1 to 1000.
+  ///
+  /// `GET` `https://api.anthropic.com/v1/models`
+  Future<ListModelsResponse> listModels({
+    String? beforeId,
+    String? afterId,
+    int limit = 20,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.anthropic.com/v1',
+      path: '/models',
+      method: HttpMethod.get,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+
+      headerParams: {if (apiKey.isNotEmpty) 'x-api-key': apiKey},
+      queryParams: {
+        if (beforeId != null) 'before_id': beforeId,
+        if (afterId != null) 'after_id': afterId,
+        'limit': limit,
+      },
+    );
+    return ListModelsResponse.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: retrieveModel
+  // ------------------------------------------
+
+  /// Retrieve a Model
+  ///
+  /// Get a specific model. The Models API response can be used to determine
+  /// information about a specific model or resolve a model alias to a model ID.
+  ///
+  /// `modelId`: The model ID or alias.
+  ///
+  /// `GET` `https://api.anthropic.com/v1/models/{model_id}`
+  Future<ModelInfo> retrieveModel({required String modelId}) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.anthropic.com/v1',
+      path: '/models/$modelId',
+      method: HttpMethod.get,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+
+      headerParams: {if (apiKey.isNotEmpty) 'x-api-key': apiKey},
+    );
+    return ModelInfo.fromJson(_jsonDecode(r));
+  }
 }

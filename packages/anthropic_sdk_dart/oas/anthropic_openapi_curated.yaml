@@ -11,6 +11,8 @@ servers:
 tags:
   - name: Messages
     description: Send a structured list of input messages with text and/or image content, and the model will generate the next message in the conversation.
+  - name: Models
+    description: List and retrieve information about available models.
 
 paths:
   /messages:
@@ -228,6 +230,72 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/MessageBatch"
+  /models:
+    get:
+      operationId: listModels
+      tags:
+        - Models
+      summary: List Models
+      description: |
+        List available models. The Models API response can be used to determine
+        which models are available for use in the API.
+      parameters:
+        - name: before_id
+          in: query
+          required: false
+          description: |
+            ID of the object to use as a cursor for pagination. When provided, returns the
+            page of results immediately before this object.
+          schema:
+            type: string
+        - name: after_id
+          in: query
+          required: false
+          description: |
+            ID of the object to use as a cursor for pagination. When provided, returns the
+            page of results immediately after this object.
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          description: |
+            Number of items to return per page. Defaults to 20. Ranges from 1 to 1000.
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 1000
+            default: 20
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListModelsResponse"
+  /models/{model_id}:
+    get:
+      operationId: retrieveModel
+      tags:
+        - Models
+      summary: Retrieve a Model
+      description: |
+        Get a specific model. The Models API response can be used to determine
+        information about a specific model or resolve a model alias to a model ID.
+      parameters:
+        - name: model_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The model ID or alias.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ModelInfo"
 
 components:
   securitySchemes:
@@ -1235,6 +1303,56 @@ components:
           description: List of MessageBatch objects.
           items:
             $ref: "#/components/schemas/MessageBatch"
+        has_more:
+          type: boolean
+          description: |
+            Indicates if there are more results in the requested page direction.
+        first_id:
+          type: string
+          nullable: true
+          description: |
+            First ID in the `data` list. Can be used as the `before_id` for the previous page.
+        last_id:
+          type: string
+          nullable: true
+          description: |
+            Last ID in the `data` list. Can be used as the `after_id` for the next page.
+      required:
+        - data
+        - has_more
+    ModelInfo:
+      type: object
+      description: Describes a model with basic information.
+      properties:
+        id:
+          type: string
+          description: Unique model identifier.
+        type:
+          type: string
+          enum:
+            - model
+          description: Object type. Always `"model"` for models.
+        display_name:
+          type: string
+          description: A human-readable name for the model.
+        created_at:
+          type: string
+          format: date-time
+          description: RFC 3339 datetime string representing the time at which the model was released. May be set to an epoch value if the release date is unknown.
+      required:
+        - id
+        - type
+        - display_name
+        - created_at
+    ListModelsResponse:
+      type: object
+      description: Response containing a list of models.
+      properties:
+        data:
+          type: array
+          description: List of ModelInfo objects.
+          items:
+            $ref: "#/components/schemas/ModelInfo"
         has_more:
           type: boolean
           description: |
