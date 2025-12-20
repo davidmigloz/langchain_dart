@@ -21,16 +21,58 @@ import sys
 from pathlib import Path
 
 
+def is_part_file(file: Path) -> bool:
+    """Check if a file uses 'part of' directive (included in another file)."""
+    try:
+        content = file.read_text()
+        # Check for 'part of' at the start of a line (ignoring comments)
+        for line in content.split('\n'):
+            line = line.strip()
+            # Skip empty lines and comments
+            if not line or line.startswith('//'):
+                continue
+            # If we hit 'part of', it's a part file
+            if line.startswith('part of'):
+                return True
+            # If we hit import/export/library, it's not a part file
+            if line.startswith(('import ', 'export ', 'library ')):
+                return False
+        return False
+    except Exception:
+        return False
+
+
 def find_model_files(models_dir: Path) -> list[Path]:
-    """Find all .dart files in models subdirectories."""
+    """Find all .dart files in models subdirectories (recursive)."""
     files = []
-    for subdir in models_dir.iterdir():
-        if subdir.is_dir() and not subdir.name.startswith('.'):
-            for dart_file in subdir.glob('*.dart'):
-                # Skip internal utility files
-                if dart_file.name == 'copy_with_sentinel.dart':
-                    continue
-                files.append(dart_file)
+
+    # Internal files that should be skipped (utility files, internal barrel files)
+    skip_files = {
+        'copy_with_sentinel.dart',  # Internal utility
+    }
+
+    # Internal barrel files that re-export other files (not meant for direct export)
+    # These are used to organize exports within a module
+    internal_barrel_files = {
+        'interactions.dart',  # Re-exports all interactions models
+    }
+
+    for dart_file in models_dir.glob('**/*.dart'):
+        # Skip hidden directories
+        if any(part.startswith('.') for part in dart_file.parts):
+            continue
+        # Skip internal utility files
+        if dart_file.name in skip_files:
+            continue
+        # Skip internal barrel files in subdirectories
+        # (these re-export files that are already exported via their own barrel)
+        if dart_file.name in internal_barrel_files:
+            continue
+        # Skip 'part of' files (they are included in their parent file)
+        if is_part_file(dart_file):
+            continue
+        files.append(dart_file)
+
     return sorted(files)
 
 
@@ -153,8 +195,8 @@ def main():
     # Report unexported files
     print("UNEXPORTED FILES:")
     for f in unexported:
-        relative_path = f.relative_to(Path.cwd())
-        print(f"  - {relative_path}")
+        # Path is already relative from glob
+        print(f"  - {f}")
     print()
 
     # Check transitive dependencies
