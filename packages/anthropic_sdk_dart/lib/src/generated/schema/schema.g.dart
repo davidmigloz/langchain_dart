@@ -319,6 +319,101 @@ MessageContentText _$MessageContentTextFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$MessageContentTextToJson(MessageContentText instance) =>
     <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};
 
+_WebSearchUserLocation _$WebSearchUserLocationFromJson(
+  Map<String, dynamic> json,
+) => _WebSearchUserLocation(
+  type: json['type'] as String? ?? 'approximate',
+  city: json['city'] as String?,
+  region: json['region'] as String?,
+  country: json['country'] as String?,
+  timezone: json['timezone'] as String?,
+);
+
+Map<String, dynamic> _$WebSearchUserLocationToJson(
+  _WebSearchUserLocation instance,
+) => <String, dynamic>{
+  'type': instance.type,
+  'city': ?instance.city,
+  'region': ?instance.region,
+  'country': ?instance.country,
+  'timezone': ?instance.timezone,
+};
+
+_CitationsConfig _$CitationsConfigFromJson(Map<String, dynamic> json) =>
+    _CitationsConfig(enabled: json['enabled'] as bool?);
+
+Map<String, dynamic> _$CitationsConfigToJson(_CitationsConfig instance) =>
+    <String, dynamic>{'enabled': ?instance.enabled};
+
+_WebSearchToolResultError _$WebSearchToolResultErrorFromJson(
+  Map<String, dynamic> json,
+) => _WebSearchToolResultError(
+  type: json['type'] as String,
+  errorCode: $enumDecode(
+    _$WebSearchToolResultErrorCodeEnumMap,
+    json['error_code'],
+  ),
+);
+
+Map<String, dynamic> _$WebSearchToolResultErrorToJson(
+  _WebSearchToolResultError instance,
+) => <String, dynamic>{
+  'type': instance.type,
+  'error_code': _$WebSearchToolResultErrorCodeEnumMap[instance.errorCode]!,
+};
+
+const _$WebSearchToolResultErrorCodeEnumMap = {
+  WebSearchToolResultErrorCode.invalidRequest: 'invalid_request',
+  WebSearchToolResultErrorCode.unavailable: 'unavailable',
+  WebSearchToolResultErrorCode.maxUsesExceeded: 'max_uses_exceeded',
+  WebSearchToolResultErrorCode.tooManyRequests: 'too_many_requests',
+  WebSearchToolResultErrorCode.queryTooLong: 'query_too_long',
+  WebSearchToolResultErrorCode.filtered: 'filtered',
+  WebSearchToolResultErrorCode.internalError: 'internal_error',
+};
+
+_WebSearchResultBlock _$WebSearchResultBlockFromJson(
+  Map<String, dynamic> json,
+) => _WebSearchResultBlock(
+  type: json['type'] as String,
+  title: json['title'] as String,
+  url: json['url'] as String,
+  encryptedContent: json['encrypted_content'] as String,
+  pageAge: json['page_age'] as String?,
+);
+
+Map<String, dynamic> _$WebSearchResultBlockToJson(
+  _WebSearchResultBlock instance,
+) => <String, dynamic>{
+  'type': instance.type,
+  'title': instance.title,
+  'url': instance.url,
+  'encrypted_content': instance.encryptedContent,
+  'page_age': ?instance.pageAge,
+};
+
+_MCPToolResultContent _$MCPToolResultContentFromJson(
+  Map<String, dynamic> json,
+) => _MCPToolResultContent(
+  type: json['type'] as String,
+  text: json['text'] as String?,
+);
+
+Map<String, dynamic> _$MCPToolResultContentToJson(
+  _MCPToolResultContent instance,
+) => <String, dynamic>{'type': instance.type, 'text': ?instance.text};
+
+_CodeExecutionOutputBlock _$CodeExecutionOutputBlockFromJson(
+  Map<String, dynamic> json,
+) => _CodeExecutionOutputBlock(
+  type: json['type'] as String,
+  fileId: json['file_id'] as String,
+);
+
+Map<String, dynamic> _$CodeExecutionOutputBlockToJson(
+  _CodeExecutionOutputBlock instance,
+) => <String, dynamic>{'type': instance.type, 'file_id': instance.fileId};
+
 _CacheControlEphemeral _$CacheControlEphemeralFromJson(
   Map<String, dynamic> json,
 ) => _CacheControlEphemeral(
@@ -696,6 +791,82 @@ Map<String, dynamic> _$ToolBashToJson(ToolBash instance) => <String, dynamic>{
   'cache_control': ?instance.cacheControl?.toJson(),
 };
 
+ToolWebSearch _$ToolWebSearchFromJson(Map<String, dynamic> json) =>
+    ToolWebSearch(
+      type: json['type'] as String,
+      name: json['name'] as String,
+      cacheControl: json['cache_control'] == null
+          ? null
+          : CacheControlEphemeral.fromJson(
+              json['cache_control'] as Map<String, dynamic>,
+            ),
+      maxUses: (json['max_uses'] as num?)?.toInt(),
+      allowedDomains: (json['allowed_domains'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+      blockedDomains: (json['blocked_domains'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+      userLocation: json['user_location'] == null
+          ? null
+          : WebSearchUserLocation.fromJson(
+              json['user_location'] as Map<String, dynamic>,
+            ),
+    );
+
+Map<String, dynamic> _$ToolWebSearchToJson(ToolWebSearch instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      'name': instance.name,
+      'cache_control': ?instance.cacheControl?.toJson(),
+      'max_uses': ?instance.maxUses,
+      'allowed_domains': ?instance.allowedDomains,
+      'blocked_domains': ?instance.blockedDomains,
+      'user_location': ?instance.userLocation?.toJson(),
+    };
+
+ToolCodeExecution _$ToolCodeExecutionFromJson(Map<String, dynamic> json) =>
+    ToolCodeExecution(
+      type: json['type'] as String,
+      name: json['name'] as String,
+      cacheControl: json['cache_control'] == null
+          ? null
+          : CacheControlEphemeral.fromJson(
+              json['cache_control'] as Map<String, dynamic>,
+            ),
+    );
+
+Map<String, dynamic> _$ToolCodeExecutionToJson(ToolCodeExecution instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      'name': instance.name,
+      'cache_control': ?instance.cacheControl?.toJson(),
+    };
+
+ToolMcp _$ToolMcpFromJson(Map<String, dynamic> json) => ToolMcp(
+  type: json['type'] as String,
+  name: json['name'] as String,
+  serverLabel: json['server_label'] as String,
+  serverUrl: json['server_url'] as String,
+  allowedTools: (json['allowed_tools'] as List<dynamic>?)
+      ?.map((e) => e as String)
+      .toList(),
+  cacheControl: json['cache_control'] == null
+      ? null
+      : CacheControlEphemeral.fromJson(
+          json['cache_control'] as Map<String, dynamic>,
+        ),
+);
+
+Map<String, dynamic> _$ToolMcpToJson(ToolMcp instance) => <String, dynamic>{
+  'type': instance.type,
+  'name': instance.name,
+  'server_label': instance.serverLabel,
+  'server_url': instance.serverUrl,
+  'allowed_tools': ?instance.allowedTools,
+  'cache_control': ?instance.cacheControl?.toJson(),
+};
+
 TextBlock _$TextBlockFromJson(Map<String, dynamic> json) => TextBlock(
   text: json['text'] as String,
   type: json['type'] as String? ?? 'text',
@@ -726,6 +897,34 @@ Map<String, dynamic> _$ImageBlockToJson(ImageBlock instance) =>
     <String, dynamic>{
       'source': instance.source.toJson(),
       'type': instance.type,
+      'cache_control': ?instance.cacheControl?.toJson(),
+    };
+
+DocumentBlock _$DocumentBlockFromJson(Map<String, dynamic> json) =>
+    DocumentBlock(
+      type: json['type'] as String,
+      source: DocumentBlockSource.fromJson(
+        json['source'] as Map<String, dynamic>,
+      ),
+      title: json['title'] as String?,
+      context: json['context'] as String?,
+      citations: json['citations'] == null
+          ? null
+          : CitationsConfig.fromJson(json['citations'] as Map<String, dynamic>),
+      cacheControl: json['cache_control'] == null
+          ? null
+          : CacheControlEphemeral.fromJson(
+              json['cache_control'] as Map<String, dynamic>,
+            ),
+    );
+
+Map<String, dynamic> _$DocumentBlockToJson(DocumentBlock instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      'source': instance.source.toJson(),
+      'title': ?instance.title,
+      'context': ?instance.context,
+      'citations': ?instance.citations?.toJson(),
       'cache_control': ?instance.cacheControl?.toJson(),
     };
 
@@ -815,6 +1014,142 @@ const _$RedactedThinkingBlockTypeEnumMap = {
   RedactedThinkingBlockType.redactedThinking: 'redacted_thinking',
 };
 
+ServerToolUseBlock _$ServerToolUseBlockFromJson(Map<String, dynamic> json) =>
+    ServerToolUseBlock(
+      type: json['type'] as String,
+      id: json['id'] as String,
+      name: json['name'] as String,
+      input: json['input'] as Map<String, dynamic>,
+    );
+
+Map<String, dynamic> _$ServerToolUseBlockToJson(ServerToolUseBlock instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      'id': instance.id,
+      'name': instance.name,
+      'input': instance.input,
+    };
+
+WebSearchToolResultBlock _$WebSearchToolResultBlockFromJson(
+  Map<String, dynamic> json,
+) => WebSearchToolResultBlock(
+  type: json['type'] as String,
+  toolUseId: json['tool_use_id'] as String,
+  content: const _WebSearchToolResultBlockContentConverter().fromJson(
+    json['content'],
+  ),
+);
+
+Map<String, dynamic> _$WebSearchToolResultBlockToJson(
+  WebSearchToolResultBlock instance,
+) => <String, dynamic>{
+  'type': instance.type,
+  'tool_use_id': instance.toolUseId,
+  'content': const _WebSearchToolResultBlockContentConverter().toJson(
+    instance.content,
+  ),
+};
+
+MCPToolUseBlock _$MCPToolUseBlockFromJson(Map<String, dynamic> json) =>
+    MCPToolUseBlock(
+      type: json['type'] as String,
+      id: json['id'] as String,
+      serverName: json['server_name'] as String,
+      name: json['name'] as String,
+      input: json['input'] as Map<String, dynamic>,
+    );
+
+Map<String, dynamic> _$MCPToolUseBlockToJson(MCPToolUseBlock instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      'id': instance.id,
+      'server_name': instance.serverName,
+      'name': instance.name,
+      'input': instance.input,
+    };
+
+MCPToolResultBlock _$MCPToolResultBlockFromJson(Map<String, dynamic> json) =>
+    MCPToolResultBlock(
+      type: json['type'] as String,
+      toolUseId: json['tool_use_id'] as String,
+      isError: json['is_error'] as bool?,
+      content: (json['content'] as List<dynamic>?)
+          ?.map((e) => MCPToolResultContent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$MCPToolResultBlockToJson(MCPToolResultBlock instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      'tool_use_id': instance.toolUseId,
+      'is_error': ?instance.isError,
+      'content': ?instance.content?.map((e) => e.toJson()).toList(),
+    };
+
+SearchResultBlock _$SearchResultBlockFromJson(Map<String, dynamic> json) =>
+    SearchResultBlock(
+      type: json['type'] as String,
+      source: json['source'] as String,
+      title: json['title'] as String,
+      content: (json['content'] as List<dynamic>)
+          .map((e) => TextBlock.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      citations: json['citations'] == null
+          ? null
+          : CitationsConfig.fromJson(json['citations'] as Map<String, dynamic>),
+      cacheControl: json['cache_control'] == null
+          ? null
+          : CacheControlEphemeral.fromJson(
+              json['cache_control'] as Map<String, dynamic>,
+            ),
+    );
+
+Map<String, dynamic> _$SearchResultBlockToJson(SearchResultBlock instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      'source': instance.source,
+      'title': instance.title,
+      'content': instance.content.map((e) => e.toJson()).toList(),
+      'citations': ?instance.citations?.toJson(),
+      'cache_control': ?instance.cacheControl?.toJson(),
+    };
+
+CodeExecutionToolResultBlock _$CodeExecutionToolResultBlockFromJson(
+  Map<String, dynamic> json,
+) => CodeExecutionToolResultBlock(
+  type: json['type'] as String,
+  toolUseId: json['tool_use_id'] as String,
+  content: UnionSchema.fromJson(json['content'] as Map<String, dynamic>),
+);
+
+Map<String, dynamic> _$CodeExecutionToolResultBlockToJson(
+  CodeExecutionToolResultBlock instance,
+) => <String, dynamic>{
+  'type': instance.type,
+  'tool_use_id': instance.toolUseId,
+  'content': instance.content.toJson(),
+};
+
+ContainerUploadBlock _$ContainerUploadBlockFromJson(
+  Map<String, dynamic> json,
+) => ContainerUploadBlock(
+  type: json['type'] as String,
+  fileId: json['file_id'] as String,
+  filename: json['filename'] as String,
+  fileSize: (json['file_size'] as num).toInt(),
+  content: json['content'] as String?,
+);
+
+Map<String, dynamic> _$ContainerUploadBlockToJson(
+  ContainerUploadBlock instance,
+) => <String, dynamic>{
+  'type': instance.type,
+  'file_id': instance.fileId,
+  'filename': instance.filename,
+  'file_size': instance.fileSize,
+  'content': ?instance.content,
+};
+
 ToolResultBlockContentBlocks _$ToolResultBlockContentBlocksFromJson(
   Map<String, dynamic> json,
 ) => ToolResultBlockContentBlocks(
@@ -841,6 +1176,40 @@ ToolResultBlockContentText _$ToolResultBlockContentTextFromJson(
 Map<String, dynamic> _$ToolResultBlockContentTextToJson(
   ToolResultBlockContentText instance,
 ) => <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};
+
+WebSearchToolResultBlockContentWebSearchToolResultError
+_$WebSearchToolResultBlockContentWebSearchToolResultErrorFromJson(
+  Map<String, dynamic> json,
+) => WebSearchToolResultBlockContentWebSearchToolResultError(
+  WebSearchToolResultError.fromJson(json['value'] as Map<String, dynamic>),
+  $type: json['runtimeType'] as String?,
+);
+
+Map<String, dynamic>
+_$WebSearchToolResultBlockContentWebSearchToolResultErrorToJson(
+  WebSearchToolResultBlockContentWebSearchToolResultError instance,
+) => <String, dynamic>{
+  'value': instance.value.toJson(),
+  'runtimeType': instance.$type,
+};
+
+WebSearchToolResultBlockContentListWebSearchResultBlock
+_$WebSearchToolResultBlockContentListWebSearchResultBlockFromJson(
+  Map<String, dynamic> json,
+) => WebSearchToolResultBlockContentListWebSearchResultBlock(
+  (json['value'] as List<dynamic>)
+      .map((e) => WebSearchResultBlock.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  $type: json['runtimeType'] as String?,
+);
+
+Map<String, dynamic>
+_$WebSearchToolResultBlockContentListWebSearchResultBlockToJson(
+  WebSearchToolResultBlockContentListWebSearchResultBlock instance,
+) => <String, dynamic>{
+  'value': instance.value.map((e) => e.toJson()).toList(),
+  'runtimeType': instance.$type,
+};
 
 Base64ImageSource _$Base64ImageSourceFromJson(Map<String, dynamic> json) =>
     Base64ImageSource(
@@ -871,6 +1240,109 @@ UrlImageSource _$UrlImageSourceFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$UrlImageSourceToJson(UrlImageSource instance) =>
     <String, dynamic>{'type': instance.type, 'url': instance.url};
+
+Base64PdfSource _$Base64PdfSourceFromJson(Map<String, dynamic> json) =>
+    Base64PdfSource(
+      type: json['type'] as String,
+      mediaType: $enumDecode(
+        _$Base64PdfSourceMediaTypeEnumMap,
+        json['media_type'],
+      ),
+      data: json['data'] as String,
+    );
+
+Map<String, dynamic> _$Base64PdfSourceToJson(Base64PdfSource instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      'media_type': _$Base64PdfSourceMediaTypeEnumMap[instance.mediaType]!,
+      'data': instance.data,
+    };
+
+const _$Base64PdfSourceMediaTypeEnumMap = {
+  Base64PdfSourceMediaType.applicationPdf: 'application/pdf',
+};
+
+PlainTextSource _$PlainTextSourceFromJson(Map<String, dynamic> json) =>
+    PlainTextSource(
+      type: json['type'] as String,
+      mediaType: $enumDecode(
+        _$PlainTextSourceMediaTypeEnumMap,
+        json['media_type'],
+      ),
+      data: json['data'] as String,
+    );
+
+Map<String, dynamic> _$PlainTextSourceToJson(PlainTextSource instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      'media_type': _$PlainTextSourceMediaTypeEnumMap[instance.mediaType]!,
+      'data': instance.data,
+    };
+
+const _$PlainTextSourceMediaTypeEnumMap = {
+  PlainTextSourceMediaType.textPlain: 'text/plain',
+};
+
+ContentBlockSource _$ContentBlockSourceFromJson(Map<String, dynamic> json) =>
+    ContentBlockSource(
+      type: json['type'] as String,
+      content: json['content'] as String,
+    );
+
+Map<String, dynamic> _$ContentBlockSourceToJson(ContentBlockSource instance) =>
+    <String, dynamic>{'type': instance.type, 'content': instance.content};
+
+UrlPdfSource _$UrlPdfSourceFromJson(Map<String, dynamic> json) =>
+    UrlPdfSource(type: json['type'] as String, url: json['url'] as String);
+
+Map<String, dynamic> _$UrlPdfSourceToJson(UrlPdfSource instance) =>
+    <String, dynamic>{'type': instance.type, 'url': instance.url};
+
+CodeExecutionResultBlock _$CodeExecutionResultBlockFromJson(
+  Map<String, dynamic> json,
+) => CodeExecutionResultBlock(
+  type: json['type'] as String,
+  returnCode: (json['return_code'] as num).toInt(),
+  stdout: json['stdout'] as String,
+  stderr: json['stderr'] as String,
+  content: (json['content'] as List<dynamic>?)
+      ?.map((e) => CodeExecutionOutputBlock.fromJson(e as Map<String, dynamic>))
+      .toList(),
+);
+
+Map<String, dynamic> _$CodeExecutionResultBlockToJson(
+  CodeExecutionResultBlock instance,
+) => <String, dynamic>{
+  'type': instance.type,
+  'return_code': instance.returnCode,
+  'stdout': instance.stdout,
+  'stderr': instance.stderr,
+  'content': ?instance.content?.map((e) => e.toJson()).toList(),
+};
+
+CodeExecutionToolResultError _$CodeExecutionToolResultErrorFromJson(
+  Map<String, dynamic> json,
+) => CodeExecutionToolResultError(
+  type: json['type'] as String,
+  errorCode: $enumDecode(
+    _$CodeExecutionToolResultErrorCodeEnumMap,
+    json['error_code'],
+  ),
+);
+
+Map<String, dynamic> _$CodeExecutionToolResultErrorToJson(
+  CodeExecutionToolResultError instance,
+) => <String, dynamic>{
+  'type': instance.type,
+  'error_code': _$CodeExecutionToolResultErrorCodeEnumMap[instance.errorCode]!,
+};
+
+const _$CodeExecutionToolResultErrorCodeEnumMap = {
+  CodeExecutionToolResultErrorCode.invalidRequest: 'invalid_request',
+  CodeExecutionToolResultErrorCode.unavailable: 'unavailable',
+  CodeExecutionToolResultErrorCode.maxDurationExceeded: 'max_duration_exceeded',
+  CodeExecutionToolResultErrorCode.internalError: 'internal_error',
+};
 
 MessageBatchSucceededResult _$MessageBatchSucceededResultFromJson(
   Map<String, dynamic> json,
