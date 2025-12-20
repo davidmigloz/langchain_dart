@@ -137,6 +137,7 @@ export 'src/models/tools/function_call.dart';
 export 'src/models/tools/function_calling_config.dart';
 export 'src/models/tools/function_declaration.dart';
 export 'src/models/tools/function_response.dart';
+export 'src/models/tools/google_maps.dart';
 export 'src/models/tools/mcp_server.dart';
 export 'src/models/tools/streamable_http_transport.dart';
 export 'src/models/tools/tool.dart';
