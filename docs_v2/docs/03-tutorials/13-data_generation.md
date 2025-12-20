@@ -1,3 +1,0 @@
-# Generate synthetic data
-TODO:
-

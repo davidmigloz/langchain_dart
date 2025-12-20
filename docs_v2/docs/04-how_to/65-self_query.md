@@ -1,3 +1,0 @@
-# Generate metadata filters
-TODO:
-

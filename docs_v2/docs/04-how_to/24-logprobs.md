@@ -1,3 +1,0 @@
-# Get log probabilities
-TODO:
-
