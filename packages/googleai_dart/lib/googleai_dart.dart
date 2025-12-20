@@ -36,34 +36,16 @@ export 'src/models/content/content.dart';
 export 'src/models/content/file_data.dart';
 export 'src/models/content/logprobs_result.dart';
 export 'src/models/content/part.dart';
-export 'src/models/corpus/batch_create_chunks_request.dart';
-export 'src/models/corpus/batch_create_chunks_response.dart';
-export 'src/models/corpus/batch_delete_chunks_request.dart';
-export 'src/models/corpus/batch_update_chunks_request.dart';
-export 'src/models/corpus/batch_update_chunks_response.dart';
-export 'src/models/corpus/chunk.dart';
-export 'src/models/corpus/chunk_data.dart';
-export 'src/models/corpus/chunk_state.dart';
 export 'src/models/corpus/condition.dart'; // Includes ConditionOperator enum
 // Models - Corpus & RAG API
 export 'src/models/corpus/corpus.dart';
-export 'src/models/corpus/create_chunk_request.dart';
 export 'src/models/corpus/custom_metadata.dart';
-export 'src/models/corpus/delete_chunk_request.dart';
 export 'src/models/corpus/document.dart';
-export 'src/models/corpus/list_chunks_response.dart';
 export 'src/models/corpus/list_corpora_response.dart';
 export 'src/models/corpus/list_documents_response.dart';
 export 'src/models/corpus/metadata_filter.dart';
-export 'src/models/corpus/query_corpus_request.dart';
-export 'src/models/corpus/query_corpus_response.dart';
-export 'src/models/corpus/query_document_request.dart';
-export 'src/models/corpus/query_document_response.dart';
-export 'src/models/corpus/relevant_chunk.dart';
-export 'src/models/corpus/semantic_retriever_chunk.dart';
 export 'src/models/corpus/semantic_retriever_config.dart';
 export 'src/models/corpus/string_list.dart';
-export 'src/models/corpus/update_chunk_request.dart';
 // Models - Embeddings
 export 'src/models/embeddings/batch_embed_contents_request.dart';
 export 'src/models/embeddings/batch_embed_contents_response.dart';
