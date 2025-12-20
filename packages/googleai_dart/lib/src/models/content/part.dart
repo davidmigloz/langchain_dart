@@ -8,6 +8,7 @@ import '../tools/function_call.dart';
 import '../tools/function_response.dart';
 import 'blob.dart';
 import 'file_data.dart';
+import 'media_resolution.dart';
 
 /// A single unit of content (text, media, function call, etc.).
 ///
@@ -24,11 +25,21 @@ sealed class Part {
     if (json.containsKey('inlineData')) {
       return InlineDataPart(
         Blob.fromJson(json['inlineData'] as Map<String, dynamic>),
+        mediaResolution: json['mediaResolution'] != null
+            ? MediaResolution.fromJson(
+                json['mediaResolution'] as Map<String, dynamic>,
+              )
+            : null,
       );
     }
     if (json.containsKey('fileData')) {
       return FileDataPart(
         FileData.fromJson(json['fileData'] as Map<String, dynamic>),
+        mediaResolution: json['mediaResolution'] != null
+            ? MediaResolution.fromJson(
+                json['mediaResolution'] as Map<String, dynamic>,
+              )
+            : null,
       );
     }
     if (json.containsKey('functionCall')) {
@@ -100,16 +111,28 @@ class InlineDataPart extends Part {
   /// Inline binary data.
   final Blob inlineData;
 
+  /// Optional media resolution for the input media.
+  final MediaResolution? mediaResolution;
+
   /// Creates an [InlineDataPart].
-  const InlineDataPart(this.inlineData);
+  const InlineDataPart(this.inlineData, {this.mediaResolution});
 
   @override
-  Map<String, dynamic> toJson() => {'inlineData': inlineData.toJson()};
+  Map<String, dynamic> toJson() => {
+    'inlineData': inlineData.toJson(),
+    if (mediaResolution != null) 'mediaResolution': mediaResolution!.toJson(),
+  };
 
   /// Creates a copy with replaced values.
-  InlineDataPart copyWith({Object? inlineData = unsetCopyWithValue}) {
+  InlineDataPart copyWith({
+    Object? inlineData = unsetCopyWithValue,
+    Object? mediaResolution = unsetCopyWithValue,
+  }) {
     return InlineDataPart(
       inlineData == unsetCopyWithValue ? this.inlineData : inlineData! as Blob,
+      mediaResolution: mediaResolution == unsetCopyWithValue
+          ? this.mediaResolution
+          : mediaResolution as MediaResolution?,
     );
   }
 }
@@ -119,16 +142,28 @@ class FileDataPart extends Part {
   /// File reference.
   final FileData fileData;
 
+  /// Optional media resolution for the input media.
+  final MediaResolution? mediaResolution;
+
   /// Creates a [FileDataPart].
-  const FileDataPart(this.fileData);
+  const FileDataPart(this.fileData, {this.mediaResolution});
 
   @override
-  Map<String, dynamic> toJson() => {'fileData': fileData.toJson()};
+  Map<String, dynamic> toJson() => {
+    'fileData': fileData.toJson(),
+    if (mediaResolution != null) 'mediaResolution': mediaResolution!.toJson(),
+  };
 
   /// Creates a copy with replaced values.
-  FileDataPart copyWith({Object? fileData = unsetCopyWithValue}) {
+  FileDataPart copyWith({
+    Object? fileData = unsetCopyWithValue,
+    Object? mediaResolution = unsetCopyWithValue,
+  }) {
     return FileDataPart(
       fileData == unsetCopyWithValue ? this.fileData : fileData! as FileData,
+      mediaResolution: mediaResolution == unsetCopyWithValue
+          ? this.mediaResolution
+          : mediaResolution as MediaResolution?,
     );
   }
 }

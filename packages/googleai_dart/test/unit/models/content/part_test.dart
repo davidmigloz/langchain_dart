@@ -83,6 +83,86 @@ void main() {
           equals(original.inlineData.mimeType),
         );
       });
+
+      group('with mediaResolution', () {
+        test('creates with mediaResolution from JSON', () {
+          final json = {
+            'inlineData': {
+              'mimeType': 'image/png',
+              'data': base64.encode([1, 2, 3]),
+            },
+            'mediaResolution': {'level': 'MEDIA_RESOLUTION_HIGH'},
+          };
+          final part = Part.fromJson(json);
+          expect(part, isA<InlineDataPart>());
+          final inlinePart = part as InlineDataPart;
+          expect(inlinePart.mediaResolution, isNotNull);
+          expect(
+            inlinePart.mediaResolution!.level,
+            equals(MediaResolutionLevel.high),
+          );
+        });
+
+        test('serializes mediaResolution to JSON', () {
+          const part = InlineDataPart(
+            Blob(mimeType: 'image/png', data: 'data'),
+            mediaResolution: MediaResolution(
+              level: MediaResolutionLevel.medium,
+            ),
+          );
+          final json = part.toJson();
+          expect(json.containsKey('mediaResolution'), isTrue);
+          expect(
+            json['mediaResolution']['level'],
+            equals('MEDIA_RESOLUTION_MEDIUM'),
+          );
+        });
+
+        test('omits mediaResolution when null', () {
+          const part = InlineDataPart(
+            Blob(mimeType: 'image/png', data: 'data'),
+          );
+          final json = part.toJson();
+          expect(json.containsKey('mediaResolution'), isFalse);
+        });
+
+        test('roundtrip with mediaResolution', () {
+          const original = InlineDataPart(
+            Blob(mimeType: 'video/mp4', data: 'videodata'),
+            mediaResolution: MediaResolution(
+              level: MediaResolutionLevel.ultraHigh,
+            ),
+          );
+          final json = original.toJson();
+          final deserialized = Part.fromJson(json) as InlineDataPart;
+          expect(
+            deserialized.mediaResolution!.level,
+            equals(original.mediaResolution!.level),
+          );
+        });
+
+        test('copyWith can update mediaResolution', () {
+          const original = InlineDataPart(
+            Blob(mimeType: 'image/png', data: 'data'),
+          );
+          final copy = original.copyWith(
+            mediaResolution: const MediaResolution(
+              level: MediaResolutionLevel.low,
+            ),
+          );
+          expect(copy.mediaResolution, isNotNull);
+          expect(copy.mediaResolution!.level, equals(MediaResolutionLevel.low));
+        });
+
+        test('copyWith can set mediaResolution to null', () {
+          const original = InlineDataPart(
+            Blob(mimeType: 'image/png', data: 'data'),
+            mediaResolution: MediaResolution(level: MediaResolutionLevel.high),
+          );
+          final copy = original.copyWith(mediaResolution: null);
+          expect(copy.mediaResolution, isNull);
+        });
+      });
     });
 
     group('FileDataPart', () {
@@ -127,6 +207,85 @@ void main() {
           (deserialized as FileDataPart).fileData.fileUri,
           equals(original.fileData.fileUri),
         );
+      });
+
+      group('with mediaResolution', () {
+        test('creates with mediaResolution from JSON', () {
+          final json = {
+            'fileData': {
+              'fileUri': 'gs://bucket/video.mp4',
+              'mimeType': 'video/mp4',
+            },
+            'mediaResolution': {'level': 'MEDIA_RESOLUTION_LOW'},
+          };
+          final part = Part.fromJson(json);
+          expect(part, isA<FileDataPart>());
+          final filePart = part as FileDataPart;
+          expect(filePart.mediaResolution, isNotNull);
+          expect(
+            filePart.mediaResolution!.level,
+            equals(MediaResolutionLevel.low),
+          );
+        });
+
+        test('serializes mediaResolution to JSON', () {
+          const part = FileDataPart(
+            FileData(fileUri: 'gs://bucket/file'),
+            mediaResolution: MediaResolution(
+              level: MediaResolutionLevel.ultraHigh,
+            ),
+          );
+          final json = part.toJson();
+          expect(json.containsKey('mediaResolution'), isTrue);
+          expect(
+            json['mediaResolution']['level'],
+            equals('MEDIA_RESOLUTION_ULTRA_HIGH'),
+          );
+        });
+
+        test('omits mediaResolution when null', () {
+          const part = FileDataPart(FileData(fileUri: 'gs://bucket/file'));
+          final json = part.toJson();
+          expect(json.containsKey('mediaResolution'), isFalse);
+        });
+
+        test('roundtrip with mediaResolution', () {
+          const original = FileDataPart(
+            FileData(fileUri: 'gs://bucket/video.mp4', mimeType: 'video/mp4'),
+            mediaResolution: MediaResolution(
+              level: MediaResolutionLevel.medium,
+            ),
+          );
+          final json = original.toJson();
+          final deserialized = Part.fromJson(json) as FileDataPart;
+          expect(
+            deserialized.mediaResolution!.level,
+            equals(original.mediaResolution!.level),
+          );
+        });
+
+        test('copyWith can update mediaResolution', () {
+          const original = FileDataPart(FileData(fileUri: 'gs://test'));
+          final copy = original.copyWith(
+            mediaResolution: const MediaResolution(
+              level: MediaResolutionLevel.high,
+            ),
+          );
+          expect(copy.mediaResolution, isNotNull);
+          expect(
+            copy.mediaResolution!.level,
+            equals(MediaResolutionLevel.high),
+          );
+        });
+
+        test('copyWith can set mediaResolution to null', () {
+          const original = FileDataPart(
+            FileData(fileUri: 'gs://test'),
+            mediaResolution: MediaResolution(level: MediaResolutionLevel.low),
+          );
+          final copy = original.copyWith(mediaResolution: null);
+          expect(copy.mediaResolution, isNull);
+        });
       });
     });
 
