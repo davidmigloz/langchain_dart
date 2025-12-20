@@ -131,6 +131,7 @@ export 'src/models/safety/safety_setting.dart';
 // Models - Tools
 export 'src/models/tools/code_execution_result.dart';
 export 'src/models/tools/executable_code.dart';
+export 'src/models/tools/file_search.dart';
 export 'src/models/tools/function_call.dart';
 // Models - Tools (additional)
 export 'src/models/tools/function_calling_config.dart';
