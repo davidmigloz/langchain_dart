@@ -370,6 +370,7 @@ class MessageStreamEventTransformer
   ),
   final a.ThinkingBlockDelta t => (t.thinking, const <AIChatMessageToolCall>[]),
   final a.SignatureBlockDelta _ => ('', const <AIChatMessageToolCall>[]),
+  final a.CitationsBlockDelta _ => ('', const <AIChatMessageToolCall>[]),
 };
 
 extension ToolSpecListMapper on List<ToolSpec> {
