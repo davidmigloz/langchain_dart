@@ -77,7 +77,6 @@ melos:
         firebase_app_check: ^0.4.1+1
         firebase_auth: ^6.1.1
         firebase_core: ^4.2.0
-        firebase_vertexai: ^2.2.0 # TODO Migrate to new FirebaseAI module
         flat_buffers: ^25.9.23
         flutter_bloc: ^9.1.1
         flutter_markdown: ^0.7.7 # Package will be discontinued. Migrate to flutter_markdown_plus

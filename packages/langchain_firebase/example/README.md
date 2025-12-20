@@ -1,8 +1,8 @@
-# firebase_vertexai_example
+# firebase_ai_example
 
 Example project to show how to use the Firebase integration module for LangChain.dart.
 
-This example project is a port of the original [firebase_vertexai_example](https://github.com/firebase/flutterfire/tree/master/packages/firebase_vertexai/firebase_vertexai/example) using LangChain.dart.
+This example project demonstrates how to use Firebase AI (Vertex AI / Google AI backends) with LangChain.dart.
 
 ## Getting Started
 

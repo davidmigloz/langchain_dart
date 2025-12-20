@@ -1,13 +1,20 @@
-# Vertex AI for Firebase
+# Firebase AI (Vertex AI / Google AI)
 
-The [Vertex AI Gemini API](https://firebase.google.com/docs/vertex-ai) gives you access to the latest generative AI models from Google: the Gemini models. If you need to call the Vertex AI Gemini API directly from your mobile or web app you can use the `ChatFirebaseVertexAI` class instead of the [`ChatVertexAI`](./gcp_vertex_ai.md) class which is designed to be used on the server-side. 
+The [Firebase AI Logic](https://firebase.google.com/docs/ai-logic) gives you access to the latest generative AI models from Google: the Gemini models. If you need to call the Gemini API directly from your mobile or web app you can use the `ChatFirebaseVertexAI` class instead of the [`ChatVertexAI`](./gcp_vertex_ai.md) class which is designed to be used on the server-side.
 
 `ChatFirebaseVertexAI` is built specifically for use with mobile and web apps, offering security options against unauthorized clients as well as integrations with other Firebase services.
+
+## Supported Backends
+
+`ChatFirebaseVertexAI` supports two backends:
+
+- **Vertex AI** (default): Requires Blaze plan (pay-as-you-go). Best for production use.
+- **Google AI**: Available on free Spark plan. Good for development and testing.
 
 ## Key capabilities
 
 - **Multimodal input**: The Gemini models are multimodal, so prompts sent to the Gemini API can include text, images (even PDFs), video, and audio.
-- **Growing suite of capabilities**: You can call the Gemini API directly from your mobile or web app, build an AI chat experience, use function calling, and more. 
+- **Growing suite of capabilities**: You can call the Gemini API directly from your mobile or web app, build an AI chat experience, use function calling, and more.
 - **Security for production apps**: Use Firebase App Check to protect the Vertex AI Gemini API from abuse by unauthorized clients.
 - **Robust infrastructure**: Take advantage of scalable infrastructure that's built for use with mobile and web apps, like managing structured data with Firebase database offerings (like Cloud Firestore) and dynamically setting run-time configurations with Firebase Remote Config.
 
@@ -15,25 +22,30 @@ The [Vertex AI Gemini API](https://firebase.google.com/docs/vertex-ai) gives you
 
 ### 1. Set up a Firebase project
 
-Check the [Firebase documentation](https://firebase.google.com/docs/vertex-ai/get-started?platform=flutter) for the latest information on how to set up the Vertex AI for Firebase in your Firebase project.
+Check the [Firebase documentation](https://firebase.google.com/docs/ai-logic/get-started?platform=flutter) for the latest information on how to set up Firebase AI in your Firebase project.
 
-In summary, you need to:
+**For Vertex AI backend:**
 1. Upgrade your billing plan to the Blaze pay-as-you-go pricing plan.
 2. Enable the required APIs (`aiplatform.googleapis.com` and `firebaseml.googleapis.com`).
 3. Integrate the Firebase SDK into your app (if you haven't already).
-4. Recommended: Enable Firebase App Check to protect the Vertex AI Gemini API from abuse by unauthorized clients.
+4. Recommended: Enable Firebase App Check to protect the API from abuse.
 
-### 2. Add the LangChain.dart Google package
+**For Google AI backend:**
+1. You can use the free Spark plan.
+2. Configure your Gemini API key in the Firebase console.
+3. Integrate the Firebase SDK into your app (if you haven't already).
 
-Add the `langchain_google` package to your `pubspec.yaml` file.
+### 2. Add the LangChain.dart Firebase package
+
+Add the `langchain_firebase` package to your `pubspec.yaml` file.
 
 ```yaml
 dependencies:
   langchain: {version}
-  langchain_google: {version}
+  langchain_firebase: {version}
 ```
 
-Internally, `langchain_google` uses the [`firebase_vertexai`](https://pub.dev/packages/firebase_vertexai) SDK to interact with the Vertex AI for Firebase API.
+Internally, `langchain_firebase` uses the [`firebase_ai`](https://pub.dev/packages/firebase_ai) SDK to interact with the Firebase AI Logic API.
 
 ### 3. Initialize your Firebase app
 
@@ -41,7 +53,9 @@ Internally, `langchain_google` uses the [`firebase_vertexai`](https://pub.dev/pa
 await Firebase.initializeApp();
 ```
 
-### 4. Call the Vertex AI Gemini API
+### 4. Call the Gemini API
+
+**Using Vertex AI backend (default):**
 
 ```dart
 final chatModel = ChatFirebaseVertexAI();
@@ -61,7 +75,15 @@ print(res);
 // -> 'J'adore programmer.'
 ```
 
-> Check out the [sample project](https://github.com/davidmigloz/langchain_dart/tree/main/packages/langchain_firebase/example) to see a complete project using Vertex AI for Firebase.
+**Using Google AI backend:**
+
+```dart
+final chatModel = ChatFirebaseVertexAI(
+  defaultBackend: FirebaseAIBackend.googleAI,
+);
+```
+
+> Check out the [sample project](https://github.com/davidmigloz/langchain_dart/tree/main/packages/langchain_firebase/example) to see a complete project using Firebase AI.
 
 ## Available models
 
@@ -174,7 +196,9 @@ final res = await model.invoke(
 
 You can use Firebase App Check to protect the Vertex AI Gemini API from abuse by unauthorized clients. Check the [Firebase documentation](https://firebase.google.com/docs/vertex-ai/app-check) for more information.
 
-## Locations
+> Note: Firebase App Check only applies to the Vertex AI backend.
+
+## Locations (Vertex AI only)
 
 When initializing the Vertex AI service, you can optionally specify a location in which to run the service and access a model. If you don't specify a location, the default is us-central1. See the list of [available locations](https://firebase.google.com/docs/vertex-ai/locations?platform=flutter#available-locations).
 
@@ -184,7 +208,9 @@ final chatModel = ChatFirebaseVertexAI(
 );
 ```
 
+> Note: The location parameter only applies to the Vertex AI backend.
+
 ## Alternatives
 
 - [`ChatVertexAI`](./gcp_vertex_ai.md): Use this class to call the Vertex AI Gemini API from the server-side.
-- [`ChatGoogleGenerativeAI`](./googleai.md): Use this class to call the "Google AI" version of the Gemini API that provides free-of-charge access (within limits and where available). This API is not intended for production use but for experimentation and prototyping. After you're familiar with how a Gemini API works, migrate to the Vertex AI for Firebase, which have many additional features important for mobile and web apps, like protecting the API from abuse using Firebase App Check.
+- [`ChatGoogleGenerativeAI`](./googleai.md): Use this class to call the Google AI Gemini API from a pure Dart environment (server-side or CLI apps).
