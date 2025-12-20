@@ -437,6 +437,26 @@ const _$MessageBatchTypeEnumMap = {
   MessageBatchType.messageBatch: 'message_batch',
 };
 
+_ListMessageBatchesResponse _$ListMessageBatchesResponseFromJson(
+  Map<String, dynamic> json,
+) => _ListMessageBatchesResponse(
+  data: (json['data'] as List<dynamic>)
+      .map((e) => MessageBatch.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  hasMore: json['has_more'] as bool,
+  firstId: json['first_id'] as String?,
+  lastId: json['last_id'] as String?,
+);
+
+Map<String, dynamic> _$ListMessageBatchesResponseToJson(
+  _ListMessageBatchesResponse instance,
+) => <String, dynamic>{
+  'data': instance.data.map((e) => e.toJson()).toList(),
+  'has_more': instance.hasMore,
+  'first_id': ?instance.firstId,
+  'last_id': ?instance.lastId,
+};
+
 _MessageBatchRequestCounts _$MessageBatchRequestCountsFromJson(
   Map<String, dynamic> json,
 ) => _MessageBatchRequestCounts(
