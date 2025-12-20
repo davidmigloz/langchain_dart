@@ -844,8 +844,19 @@ components:
         - $ref: "#/components/schemas/ToolComputerUse"
         - $ref: "#/components/schemas/ToolTextEditor"
         - $ref: "#/components/schemas/ToolBash"
+        - $ref: "#/components/schemas/ToolWebSearch"
+        - $ref: "#/components/schemas/ToolCodeExecution"
+        - $ref: "#/components/schemas/ToolMcp"
       discriminator:
         propertyName: type
+        mapping:
+          custom: "#/components/schemas/ToolCustom"
+          computer_20241022: "#/components/schemas/ToolComputerUse"
+          text_editor_20241022: "#/components/schemas/ToolTextEditor"
+          bash_20241022: "#/components/schemas/ToolBash"
+          web_search_20250305: "#/components/schemas/ToolWebSearch"
+          code_execution_20250522: "#/components/schemas/ToolCodeExecution"
+          mcp: "#/components/schemas/ToolMcp"
     ToolCustom:
       type: object
       description: A custom tool the model may use.
@@ -932,24 +943,151 @@ components:
           default: bash
         cache_control:
           $ref: "#/components/schemas/CacheControlEphemeral"
+    ToolWebSearch:
+      type: object
+      description: A tool for searching the web.
+      properties:
+        type:
+          type: string
+          description: The type of tool.
+          default: web_search_20250305
+        name:
+          type: string
+          description: The name of the tool.
+          default: web_search
+        cache_control:
+          $ref: "#/components/schemas/CacheControlEphemeral"
+        max_uses:
+          type: integer
+          nullable: true
+          description: Maximum number of times the tool can be used in the API request.
+        allowed_domains:
+          type: array
+          nullable: true
+          description: |
+            If provided, only these domains will be included in results.
+            Cannot be used alongside `blocked_domains`.
+          items:
+            type: string
+        blocked_domains:
+          type: array
+          nullable: true
+          description: |
+            If provided, these domains will never appear in results.
+            Cannot be used alongside `allowed_domains`.
+          items:
+            type: string
+        user_location:
+          $ref: "#/components/schemas/WebSearchUserLocation"
+      required:
+        - type
+        - name
+    WebSearchUserLocation:
+      type: object
+      nullable: true
+      description: User location information for web search.
+      properties:
+        type:
+          type: string
+          description: The type of location.
+          default: approximate
+        city:
+          type: string
+          nullable: true
+          description: The city name.
+        region:
+          type: string
+          nullable: true
+          description: The region or state name.
+        country:
+          type: string
+          nullable: true
+          description: The country code (ISO 3166-1 alpha-2).
+        timezone:
+          type: string
+          nullable: true
+          description: The timezone (IANA timezone ID).
+    ToolCodeExecution:
+      type: object
+      description: A tool for executing code in a sandboxed environment.
+      properties:
+        type:
+          type: string
+          description: The type of tool.
+          default: code_execution_20250522
+        name:
+          type: string
+          description: The name of the tool.
+          default: code_execution
+        cache_control:
+          $ref: "#/components/schemas/CacheControlEphemeral"
+      required:
+        - type
+        - name
+    ToolMcp:
+      type: object
+      description: A tool representing an MCP (Model Context Protocol) server configuration.
+      properties:
+        type:
+          type: string
+          description: The type of tool.
+          default: mcp
+        name:
+          type: string
+          description: The name of the MCP tool.
+        server_label:
+          type: string
+          description: A label identifying the MCP server.
+        server_url:
+          type: string
+          description: The URL of the MCP server.
+        allowed_tools:
+          type: array
+          nullable: true
+          description: List of allowed tool names from the MCP server.
+          items:
+            type: string
+        cache_control:
+          $ref: "#/components/schemas/CacheControlEphemeral"
+      required:
+        - type
+        - name
+        - server_label
+        - server_url
     Block:
       description: A block of content in a message.
       oneOf:
         - $ref: "#/components/schemas/TextBlock"
         - $ref: "#/components/schemas/ImageBlock"
+        - $ref: "#/components/schemas/DocumentBlock"
         - $ref: "#/components/schemas/ToolUseBlock"
         - $ref: "#/components/schemas/ToolResultBlock"
         - $ref: "#/components/schemas/ThinkingBlock"
         - $ref: "#/components/schemas/RedactedThinkingBlock"
+        - $ref: "#/components/schemas/ServerToolUseBlock"
+        - $ref: "#/components/schemas/WebSearchToolResultBlock"
+        - $ref: "#/components/schemas/MCPToolUseBlock"
+        - $ref: "#/components/schemas/MCPToolResultBlock"
+        - $ref: "#/components/schemas/SearchResultBlock"
+        - $ref: "#/components/schemas/CodeExecutionToolResultBlock"
+        - $ref: "#/components/schemas/ContainerUploadBlock"
       discriminator:
         propertyName: type
         mapping:
           text: "#/components/schemas/TextBlock"
           image: "#/components/schemas/ImageBlock"
+          document: "#/components/schemas/DocumentBlock"
           tool_use: "#/components/schemas/ToolUseBlock"
           tool_result: "#/components/schemas/ToolResultBlock"
           thinking: "#/components/schemas/ThinkingBlock"
           redacted_thinking: "#/components/schemas/RedactedThinkingBlock"
+          server_tool_use: "#/components/schemas/ServerToolUseBlock"
+          web_search_tool_result: "#/components/schemas/WebSearchToolResultBlock"
+          mcp_tool_use: "#/components/schemas/MCPToolUseBlock"
+          mcp_tool_result: "#/components/schemas/MCPToolResultBlock"
+          search_result: "#/components/schemas/SearchResultBlock"
+          code_execution_tool_result: "#/components/schemas/CodeExecutionToolResultBlock"
+          container_upload: "#/components/schemas/ContainerUploadBlock"
     TextBlock:
       type: object
       description: A block of text content.
@@ -1026,6 +1164,123 @@ components:
       required:
         - type
         - url
+    DocumentBlock:
+      type: object
+      description: |
+        A block of document content. Documents can be provided as base64-encoded data,
+        plain text, URLs, or references to content blocks.
+      properties:
+        type:
+          type: string
+          description: The type of content block.
+          default: document
+        source:
+          $ref: "#/components/schemas/DocumentBlockSource"
+        title:
+          type: string
+          nullable: true
+          description: The title of the document.
+        context:
+          type: string
+          nullable: true
+          description: Additional context about the document.
+        citations:
+          $ref: "#/components/schemas/CitationsConfig"
+        cache_control:
+          $ref: "#/components/schemas/CacheControlEphemeral"
+      required:
+        - type
+        - source
+    DocumentBlockSource:
+      description: The source of a document block.
+      oneOf:
+        - $ref: "#/components/schemas/Base64PdfSource"
+        - $ref: "#/components/schemas/PlainTextSource"
+        - $ref: "#/components/schemas/ContentBlockSource"
+        - $ref: "#/components/schemas/UrlPdfSource"
+      discriminator:
+        propertyName: type
+        mapping:
+          base64: "#/components/schemas/Base64PdfSource"
+          text: "#/components/schemas/PlainTextSource"
+          content: "#/components/schemas/ContentBlockSource"
+          url: "#/components/schemas/UrlPdfSource"
+    Base64PdfSource:
+      type: object
+      description: A document source using base64-encoded PDF data.
+      properties:
+        type:
+          type: string
+          description: The type of document source.
+          default: base64
+        media_type:
+          type: string
+          description: The media type of the document.
+          enum:
+            - application/pdf
+        data:
+          type: string
+          description: The base64-encoded PDF data.
+      required:
+        - type
+        - media_type
+        - data
+    PlainTextSource:
+      type: object
+      description: A document source using plain text.
+      properties:
+        type:
+          type: string
+          description: The type of document source.
+          default: text
+        media_type:
+          type: string
+          description: The media type of the content.
+          enum:
+            - text/plain
+        data:
+          type: string
+          description: The text content.
+      required:
+        - type
+        - media_type
+        - data
+    ContentBlockSource:
+      type: object
+      description: A document source referencing a content block.
+      properties:
+        type:
+          type: string
+          description: The type of document source.
+          default: content
+        content:
+          type: string
+          description: The content block reference.
+      required:
+        - type
+        - content
+    UrlPdfSource:
+      type: object
+      description: A document source using a URL to a PDF.
+      properties:
+        type:
+          type: string
+          description: The type of document source.
+          default: url
+        url:
+          type: string
+          description: The URL of the PDF document.
+      required:
+        - type
+        - url
+    CitationsConfig:
+      type: object
+      nullable: true
+      description: Configuration for document citations.
+      properties:
+        enabled:
+          type: boolean
+          description: Whether citations are enabled.
     ToolUseBlock:
       type: object
       description: The tool the model wants to use.
@@ -1133,6 +1388,304 @@ components:
       required:
         - type
         - data
+    ServerToolUseBlock:
+      type: object
+      description: |
+        A block representing server-side tool use. This is used for tools that are
+        executed by the API server rather than the client, such as web search.
+      properties:
+        type:
+          type: string
+          description: The type of content block.
+          default: server_tool_use
+        id:
+          type: string
+          description: Unique identifier for this tool use instance.
+        name:
+          type: string
+          description: The name of the server tool being used.
+        input:
+          type: object
+          additionalProperties: true
+          description: The input parameters for the tool.
+      required:
+        - type
+        - id
+        - name
+        - input
+    WebSearchToolResultBlock:
+      type: object
+      description: |
+        A block containing web search results from the web search tool.
+      properties:
+        type:
+          type: string
+          description: The type of content block.
+          default: web_search_tool_result
+        tool_use_id:
+          type: string
+          description: The ID of the tool use that generated these results.
+        content:
+          description: The search results or an error.
+          oneOf:
+            - $ref: "#/components/schemas/WebSearchToolResultError"
+            - type: array
+              items:
+                $ref: "#/components/schemas/WebSearchResultBlock"
+      required:
+        - type
+        - tool_use_id
+        - content
+    WebSearchToolResultError:
+      type: object
+      description: An error from the web search tool.
+      properties:
+        type:
+          type: string
+          description: The type of error block.
+          default: web_search_tool_result_error
+        error_code:
+          $ref: "#/components/schemas/WebSearchToolResultErrorCode"
+      required:
+        - type
+        - error_code
+    WebSearchToolResultErrorCode:
+      type: string
+      description: The error code for a web search tool result error.
+      enum:
+        - invalid_request
+        - unavailable
+        - max_uses_exceeded
+        - too_many_requests
+        - query_too_long
+        - filtered
+        - internal_error
+    WebSearchResultBlock:
+      type: object
+      description: A single web search result.
+      properties:
+        type:
+          type: string
+          description: The type of block.
+          default: web_search_result
+        title:
+          type: string
+          description: The title of the search result.
+        url:
+          type: string
+          description: The URL of the search result.
+        encrypted_content:
+          type: string
+          description: Encrypted content from the search result.
+        page_age:
+          type: string
+          nullable: true
+          description: The age of the page.
+      required:
+        - type
+        - title
+        - url
+        - encrypted_content
+    MCPToolUseBlock:
+      type: object
+      description: |
+        A block representing MCP (Model Context Protocol) tool use.
+      properties:
+        type:
+          type: string
+          description: The type of content block.
+          default: mcp_tool_use
+        id:
+          type: string
+          description: Unique identifier for this MCP tool use.
+        server_name:
+          type: string
+          description: The name of the MCP server.
+        name:
+          type: string
+          description: The name of the MCP tool being used.
+        input:
+          type: object
+          additionalProperties: true
+          description: The input parameters for the MCP tool.
+      required:
+        - type
+        - id
+        - server_name
+        - name
+        - input
+    MCPToolResultBlock:
+      type: object
+      description: |
+        A block containing the result of an MCP tool execution.
+      properties:
+        type:
+          type: string
+          description: The type of content block.
+          default: mcp_tool_result
+        tool_use_id:
+          type: string
+          description: The ID of the MCP tool use that generated this result.
+        is_error:
+          type: boolean
+          description: Whether the tool execution resulted in an error.
+        content:
+          type: array
+          description: The content of the tool result.
+          items:
+            $ref: "#/components/schemas/MCPToolResultContent"
+      required:
+        - type
+        - tool_use_id
+    MCPToolResultContent:
+      type: object
+      description: Content within an MCP tool result.
+      properties:
+        type:
+          type: string
+          description: The type of content.
+        text:
+          type: string
+          description: The text content.
+      required:
+        - type
+    SearchResultBlock:
+      type: object
+      description: |
+        A search result block containing source, title, and content from search operations.
+      properties:
+        type:
+          type: string
+          description: The type of content block.
+          default: search_result
+        source:
+          type: string
+          description: The source URL or identifier.
+        title:
+          type: string
+          description: The title of the search result.
+        content:
+          type: array
+          description: The content of the search result.
+          items:
+            $ref: "#/components/schemas/TextBlock"
+        citations:
+          $ref: "#/components/schemas/CitationsConfig"
+        cache_control:
+          $ref: "#/components/schemas/CacheControlEphemeral"
+      required:
+        - type
+        - source
+        - title
+        - content
+    CodeExecutionToolResultBlock:
+      type: object
+      description: |
+        A block containing the result of code execution.
+      properties:
+        type:
+          type: string
+          description: The type of content block.
+          default: code_execution_tool_result
+        tool_use_id:
+          type: string
+          description: The ID of the tool use that generated this result.
+        content:
+          description: The code execution result or an error.
+          oneOf:
+            - $ref: "#/components/schemas/CodeExecutionResultBlock"
+            - $ref: "#/components/schemas/CodeExecutionToolResultError"
+      required:
+        - type
+        - tool_use_id
+        - content
+    CodeExecutionResultBlock:
+      type: object
+      description: The result of successful code execution.
+      properties:
+        type:
+          type: string
+          description: The type of block.
+          default: code_execution_result
+        return_code:
+          type: integer
+          description: The return code of the execution.
+        stdout:
+          type: string
+          description: The standard output from execution.
+        stderr:
+          type: string
+          description: The standard error from execution.
+        content:
+          type: array
+          description: Additional content from the execution.
+          items:
+            $ref: "#/components/schemas/CodeExecutionOutputBlock"
+      required:
+        - type
+        - return_code
+        - stdout
+        - stderr
+    CodeExecutionOutputBlock:
+      type: object
+      description: Output content from code execution.
+      properties:
+        type:
+          type: string
+          description: The type of output.
+        file_id:
+          type: string
+          description: The file ID for the output.
+      required:
+        - type
+        - file_id
+    CodeExecutionToolResultError:
+      type: object
+      description: An error from code execution.
+      properties:
+        type:
+          type: string
+          description: The type of error block.
+          default: code_execution_tool_result_error
+        error_code:
+          $ref: "#/components/schemas/CodeExecutionToolResultErrorCode"
+      required:
+        - type
+        - error_code
+    CodeExecutionToolResultErrorCode:
+      type: string
+      description: The error code for a code execution tool result error.
+      enum:
+        - invalid_request
+        - unavailable
+        - max_duration_exceeded
+        - internal_error
+    ContainerUploadBlock:
+      type: object
+      description: |
+        A block representing a file uploaded to a container.
+      properties:
+        type:
+          type: string
+          description: The type of content block.
+          default: container_upload
+        file_id:
+          type: string
+          description: The unique identifier for the uploaded file.
+        filename:
+          type: string
+          description: The name of the uploaded file.
+        file_size:
+          type: integer
+          description: The size of the file in bytes.
+        content:
+          type: string
+          description: The content of the file.
+      required:
+        - type
+        - file_id
+        - filename
+        - file_size
     CacheControlEphemeral:
       type: object
       description: The cache control settings.
