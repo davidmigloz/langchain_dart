@@ -6137,6 +6137,276 @@ $MessageBatchRequestCountsCopyWith<$Res> get requestCounts {
 
 
 /// @nodoc
+mixin _$DeleteMessageBatchResponse {
+
+/// ID of the deleted Message Batch.
+ String get id;/// Deleted object type. Always `"message_batch_deleted"`.
+ DeleteMessageBatchResponseType get type;
+/// Create a copy of DeleteMessageBatchResponse
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$DeleteMessageBatchResponseCopyWith<DeleteMessageBatchResponse> get copyWith => _$DeleteMessageBatchResponseCopyWithImpl<DeleteMessageBatchResponse>(this as DeleteMessageBatchResponse, _$identity);
+
+  /// Serializes this DeleteMessageBatchResponse to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DeleteMessageBatchResponse&&(identical(other.id, id) || other.id == id)&&(identical(other.type, type) || other.type == type));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,type);
+
+@override
+String toString() {
+  return 'DeleteMessageBatchResponse(id: $id, type: $type)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $DeleteMessageBatchResponseCopyWith<$Res>  {
+  factory $DeleteMessageBatchResponseCopyWith(DeleteMessageBatchResponse value, $Res Function(DeleteMessageBatchResponse) _then) = _$DeleteMessageBatchResponseCopyWithImpl;
+@useResult
+$Res call({
+ String id, DeleteMessageBatchResponseType type
+});
+
+
+
+
+}
+/// @nodoc
+class _$DeleteMessageBatchResponseCopyWithImpl<$Res>
+    implements $DeleteMessageBatchResponseCopyWith<$Res> {
+  _$DeleteMessageBatchResponseCopyWithImpl(this._self, this._then);
+
+  final DeleteMessageBatchResponse _self;
+  final $Res Function(DeleteMessageBatchResponse) _then;
+
+/// Create a copy of DeleteMessageBatchResponse
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? type = null,}) {
+  return _then(_self.copyWith(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as DeleteMessageBatchResponseType,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [DeleteMessageBatchResponse].
+extension DeleteMessageBatchResponsePatterns on DeleteMessageBatchResponse {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _DeleteMessageBatchResponse value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _DeleteMessageBatchResponse() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _DeleteMessageBatchResponse value)  $default,){
+final _that = this;
+switch (_that) {
+case _DeleteMessageBatchResponse():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _DeleteMessageBatchResponse value)?  $default,){
+final _that = this;
+switch (_that) {
+case _DeleteMessageBatchResponse() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  DeleteMessageBatchResponseType type)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _DeleteMessageBatchResponse() when $default != null:
+return $default(_that.id,_that.type);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  DeleteMessageBatchResponseType type)  $default,) {final _that = this;
+switch (_that) {
+case _DeleteMessageBatchResponse():
+return $default(_that.id,_that.type);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  DeleteMessageBatchResponseType type)?  $default,) {final _that = this;
+switch (_that) {
+case _DeleteMessageBatchResponse() when $default != null:
+return $default(_that.id,_that.type);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _DeleteMessageBatchResponse extends DeleteMessageBatchResponse {
+  const _DeleteMessageBatchResponse({required this.id, required this.type}): super._();
+  factory _DeleteMessageBatchResponse.fromJson(Map<String, dynamic> json) => _$DeleteMessageBatchResponseFromJson(json);
+
+/// ID of the deleted Message Batch.
+@override final  String id;
+/// Deleted object type. Always `"message_batch_deleted"`.
+@override final  DeleteMessageBatchResponseType type;
+
+/// Create a copy of DeleteMessageBatchResponse
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$DeleteMessageBatchResponseCopyWith<_DeleteMessageBatchResponse> get copyWith => __$DeleteMessageBatchResponseCopyWithImpl<_DeleteMessageBatchResponse>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$DeleteMessageBatchResponseToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DeleteMessageBatchResponse&&(identical(other.id, id) || other.id == id)&&(identical(other.type, type) || other.type == type));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,type);
+
+@override
+String toString() {
+  return 'DeleteMessageBatchResponse(id: $id, type: $type)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$DeleteMessageBatchResponseCopyWith<$Res> implements $DeleteMessageBatchResponseCopyWith<$Res> {
+  factory _$DeleteMessageBatchResponseCopyWith(_DeleteMessageBatchResponse value, $Res Function(_DeleteMessageBatchResponse) _then) = __$DeleteMessageBatchResponseCopyWithImpl;
+@override @useResult
+$Res call({
+ String id, DeleteMessageBatchResponseType type
+});
+
+
+
+
+}
+/// @nodoc
+class __$DeleteMessageBatchResponseCopyWithImpl<$Res>
+    implements _$DeleteMessageBatchResponseCopyWith<$Res> {
+  __$DeleteMessageBatchResponseCopyWithImpl(this._self, this._then);
+
+  final _DeleteMessageBatchResponse _self;
+  final $Res Function(_DeleteMessageBatchResponse) _then;
+
+/// Create a copy of DeleteMessageBatchResponse
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? type = null,}) {
+  return _then(_DeleteMessageBatchResponse(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as DeleteMessageBatchResponseType,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
 mixin _$ListMessageBatchesResponse {
 
 /// List of MessageBatch objects.

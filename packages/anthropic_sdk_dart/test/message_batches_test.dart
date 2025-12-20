@@ -202,4 +202,42 @@ void main() {
       );
     });
   });
+
+  group('DeleteMessageBatchResponse tests', () {
+    test('deserializes correctly', () {
+      final json = {'id': 'batch_abc123', 'type': 'message_batch_deleted'};
+      final response = DeleteMessageBatchResponse.fromJson(json);
+      expect(response.id, 'batch_abc123');
+      expect(response.type, DeleteMessageBatchResponseType.messageBatchDeleted);
+    });
+
+    test('serializes correctly', () {
+      const response = DeleteMessageBatchResponse(
+        id: 'batch_xyz789',
+        type: DeleteMessageBatchResponseType.messageBatchDeleted,
+      );
+      final json = response.toJson();
+      expect(json['id'], 'batch_xyz789');
+      expect(json['type'], 'message_batch_deleted');
+    });
+
+    test('round-trip serialization works', () {
+      const original = DeleteMessageBatchResponse(
+        id: 'batch_roundtrip',
+        type: DeleteMessageBatchResponseType.messageBatchDeleted,
+      );
+      final json = original.toJson();
+      final restored = DeleteMessageBatchResponse.fromJson(json);
+      expect(restored.id, original.id);
+      expect(restored.type, original.type);
+    });
+
+    test('DeleteMessageBatchResponseType enum has correct value', () {
+      expect(DeleteMessageBatchResponseType.values, hasLength(1));
+      expect(
+        DeleteMessageBatchResponseType.values,
+        contains(DeleteMessageBatchResponseType.messageBatchDeleted),
+      );
+    });
+  });
 }
