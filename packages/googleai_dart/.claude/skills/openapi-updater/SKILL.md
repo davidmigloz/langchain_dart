@@ -9,33 +9,62 @@ Automates `googleai_dart` updates when the Google AI OpenAPI specification chang
 
 ## Prerequisites
 
-- `GEMINI_API_KEY` or `GOOGLE_AI_API_KEY` environment variable set
+- `GEMINI_API_KEY` or `GOOGLE_AI_API_KEY` environment variable set (for main spec)
 - Working directory: `packages/googleai_dart`
 - Python 3
 
+## Spec Registry
+
+The skill supports multiple OpenAPI specs via `specs.json`:
+
+| Spec | Description | Auth Required |
+|------|-------------|---------------|
+| `main` | Core Gemini API (generation, embeddings, files, models, etc.) | Yes |
+| `interactions` | Experimental Interactions API (server-side state, agents) | No |
+
 ## Workflow
 
-### 1. Fetch Latest Spec
+### 1. Fetch Latest Specs
 
 ```bash
+# Fetch all specs + auto-discover new ones
 python3 .claude/skills/openapi-updater/scripts/fetch_spec.py
+
+# Fetch specific spec only
+python3 .claude/skills/openapi-updater/scripts/fetch_spec.py --spec main
+python3 .claude/skills/openapi-updater/scripts/fetch_spec.py --spec interactions
+
+# Skip discovery probing
+python3 .claude/skills/openapi-updater/scripts/fetch_spec.py --no-discover
 ```
 
-Output: `/tmp/openapi-updater/latest.json`
+Output:
+- `/tmp/openapi-updater/latest-main.json`
+- `/tmp/openapi-updater/latest-interactions.json`
 
 ### 2. Analyze Changes
 
+For main spec:
 ```bash
 python3 .claude/skills/openapi-updater/scripts/analyze_changes.py \
-  openapi.json /tmp/openapi-updater/latest.json \
+  openapi.json /tmp/openapi-updater/latest-main.json \
   --format all \
-  --changelog-out /tmp/openapi-updater/changelog.md \
-  --plan-out /tmp/openapi-updater/plan.md
+  --changelog-out /tmp/openapi-updater/changelog-main.md \
+  --plan-out /tmp/openapi-updater/plan-main.md
+```
+
+For interactions spec:
+```bash
+python3 .claude/skills/openapi-updater/scripts/analyze_changes.py \
+  openapi-interactions.json /tmp/openapi-updater/latest-interactions.json \
+  --format all \
+  --changelog-out /tmp/openapi-updater/changelog-interactions.md \
+  --plan-out /tmp/openapi-updater/plan-interactions.md
 ```
 
 Generates:
-- `changelog.md` - Human-readable change summary
-- `plan.md` - Prioritized implementation plan (P0-P4)
+- `changelog-{spec}.md` - Human-readable change summary
+- `plan-{spec}.md` - Prioritized implementation plan (P0-P4)
 
 ### 3. Implement Changes
 
@@ -72,9 +101,44 @@ If gaps are found, fix them using patterns in `references/implementation-pattern
 
 ### 4. Finalize
 
+Copy fetched specs to their persisted locations:
+
 ```bash
-cp /tmp/openapi-updater/latest.json openapi.json
+# For main spec
+cp /tmp/openapi-updater/latest-main.json openapi.json
+
+# For interactions spec
+cp /tmp/openapi-updater/latest-interactions.json openapi-interactions.json
+
+# Run quality checks
 dart test && dart analyze && dart format --set-exit-if-changed .
+```
+
+## Auto-Discovery
+
+The skill automatically probes for new API specs on each fetch. Known discovery patterns:
+
+- `https://ai.google.dev/static/api/{name}.openapi.json`
+
+If new specs are found, you'll see a warning with instructions to add them to `specs.json`.
+
+## Adding New Specs
+
+Edit `specs.json` to add a new spec:
+
+```json
+{
+  "specs": {
+    "new-api": {
+      "name": "New API",
+      "url": "https://example.com/new-api.openapi.json",
+      "local_file": "openapi-new-api.json",
+      "requires_auth": false,
+      "experimental": true,
+      "description": "Description of the new API"
+    }
+  }
+}
 ```
 
 ## Troubleshooting
@@ -82,4 +146,5 @@ dart test && dart analyze && dart format --set-exit-if-changed .
 - **API key error**: Export `GEMINI_API_KEY` or `GOOGLE_AI_API_KEY`
 - **Network errors**: Check connectivity; retry after a few seconds
 - **No changes detected**: Summary shows all zeros; no action needed
+- **New specs discovered**: Add them to `specs.json` and re-run
 
