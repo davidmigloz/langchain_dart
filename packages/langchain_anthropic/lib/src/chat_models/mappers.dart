@@ -122,13 +122,13 @@ extension ChatMessageListMapper on List<ChatMessage> {
 
   a.Block _mapHumanChatMessageContentImage(ChatMessageContentImage i) {
     return a.Block.image(
-      source: a.ImageBlockSource(
-        type: a.ImageBlockSourceType.base64,
+      source: a.ImageBlockSource.base64ImageSource(
+        type: 'base64',
         mediaType: switch (i.mimeType) {
-          'image/jpeg' => a.ImageBlockSourceMediaType.imageJpeg,
-          'image/png' => a.ImageBlockSourceMediaType.imagePng,
-          'image/gif' => a.ImageBlockSourceMediaType.imageGif,
-          'image/webp' => a.ImageBlockSourceMediaType.imageWebp,
+          'image/jpeg' => a.Base64ImageSourceMediaType.imageJpeg,
+          'image/png' => a.Base64ImageSourceMediaType.imagePng,
+          'image/gif' => a.Base64ImageSourceMediaType.imageGif,
+          'image/webp' => a.Base64ImageSourceMediaType.imageWebp,
           _ => throw AssertionError(
             'Unsupported image MIME type: ${i.mimeType}',
           ),
@@ -323,7 +323,14 @@ class MessageStreamEventTransformer
   final a.Block contentBlock,
 ) => switch (contentBlock) {
   final a.TextBlock t => (t.text, null),
-  final a.ImageBlock i => (i.source.data, null),
+  final a.ImageBlock i => (
+    switch (i.source) {
+      final a.Base64ImageSource s => s.data,
+      final a.UrlImageSource s => s.url,
+    },
+    null,
+  ),
+  final a.DocumentBlock _ => ('', null),
   final a.ToolUseBlock tu => (
     '',
     AIChatMessageToolCall(
@@ -335,6 +342,14 @@ class MessageStreamEventTransformer
   ),
   final a.ToolResultBlock tr => (tr.content.text, null),
   final a.ThinkingBlock t => (t.thinking, null),
+  final a.RedactedThinkingBlock _ => ('', null),
+  final a.ServerToolUseBlock _ => ('', null),
+  final a.WebSearchToolResultBlock _ => ('', null),
+  final a.MCPToolUseBlock _ => ('', null),
+  final a.MCPToolResultBlock _ => ('', null),
+  final a.SearchResultBlock _ => ('', null),
+  final a.CodeExecutionToolResultBlock _ => ('', null),
+  final a.ContainerUploadBlock _ => ('', null),
 };
 
 (String content, List<AIChatMessageToolCall> toolCalls) _mapContentBlockDelta(
@@ -400,6 +415,8 @@ FinishReason _mapFinishReason(final a.StopReason? reason) => switch (reason) {
   a.StopReason.maxTokens => FinishReason.length,
   a.StopReason.stopSequence => FinishReason.stop,
   a.StopReason.toolUse => FinishReason.toolCalls,
+  a.StopReason.pauseTurn => FinishReason.unspecified,
+  a.StopReason.refusal => FinishReason.contentFilter,
   null => FinishReason.unspecified,
 };
 
