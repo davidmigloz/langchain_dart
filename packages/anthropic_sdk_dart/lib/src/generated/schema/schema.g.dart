@@ -72,9 +72,15 @@ Map<String, dynamic> _$ModelCatalogToJson(ModelCatalog instance) =>
     };
 
 const _$ModelsEnumMap = {
+  Models.claudeOpus420250514: 'claude-opus-4-20250514',
+  Models.claudeSonnet420250514: 'claude-sonnet-4-20250514',
+  Models.claude37SonnetLatest: 'claude-3-7-sonnet-latest',
+  Models.claude37Sonnet20250219: 'claude-3-7-sonnet-20250219',
   Models.claude35SonnetLatest: 'claude-3-5-sonnet-latest',
   Models.claude35Sonnet20241022: 'claude-3-5-sonnet-20241022',
   Models.claude35Sonnet20240620: 'claude-3-5-sonnet-20240620',
+  Models.claude35HaikuLatest: 'claude-3-5-haiku-latest',
+  Models.claude35Haiku20241022: 'claude-3-5-haiku-20241022',
   Models.claude3OpusLatest: 'claude-3-opus-latest',
   Models.claude3Opus20240229: 'claude-3-opus-20240229',
   Models.claude3Sonnet20240229: 'claude-3-sonnet-20240229',
@@ -284,6 +290,8 @@ const _$StopReasonEnumMap = {
   StopReason.maxTokens: 'max_tokens',
   StopReason.stopSequence: 'stop_sequence',
   StopReason.toolUse: 'tool_use',
+  StopReason.pauseTurn: 'pause_turn',
+  StopReason.refusal: 'refusal',
 };
 
 MessageContentBlocks _$MessageContentBlocksFromJson(
@@ -311,44 +319,20 @@ MessageContentText _$MessageContentTextFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$MessageContentTextToJson(MessageContentText instance) =>
     <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};
 
-_ImageBlockSource _$ImageBlockSourceFromJson(Map<String, dynamic> json) =>
-    _ImageBlockSource(
-      data: json['data'] as String,
-      mediaType: $enumDecode(
-        _$ImageBlockSourceMediaTypeEnumMap,
-        json['media_type'],
-      ),
-      type: $enumDecode(_$ImageBlockSourceTypeEnumMap, json['type']),
-    );
-
-Map<String, dynamic> _$ImageBlockSourceToJson(_ImageBlockSource instance) =>
-    <String, dynamic>{
-      'data': instance.data,
-      'media_type': _$ImageBlockSourceMediaTypeEnumMap[instance.mediaType]!,
-      'type': _$ImageBlockSourceTypeEnumMap[instance.type]!,
-    };
-
-const _$ImageBlockSourceMediaTypeEnumMap = {
-  ImageBlockSourceMediaType.imageJpeg: 'image/jpeg',
-  ImageBlockSourceMediaType.imagePng: 'image/png',
-  ImageBlockSourceMediaType.imageGif: 'image/gif',
-  ImageBlockSourceMediaType.imageWebp: 'image/webp',
-};
-
-const _$ImageBlockSourceTypeEnumMap = {ImageBlockSourceType.base64: 'base64'};
-
 _CacheControlEphemeral _$CacheControlEphemeralFromJson(
   Map<String, dynamic> json,
 ) => _CacheControlEphemeral(
   type:
       $enumDecodeNullable(_$CacheControlEphemeralTypeEnumMap, json['type']) ??
       CacheControlEphemeralType.ephemeral,
+  ttl: (json['ttl'] as num?)?.toInt(),
 );
 
 Map<String, dynamic> _$CacheControlEphemeralToJson(
   _CacheControlEphemeral instance,
 ) => <String, dynamic>{
   'type': _$CacheControlEphemeralTypeEnumMap[instance.type]!,
+  'ttl': ?instance.ttl,
 };
 
 const _$CacheControlEphemeralTypeEnumMap = {
@@ -361,6 +345,16 @@ _Usage _$UsageFromJson(Map<String, dynamic> json) => _Usage(
   cacheCreationInputTokens: (json['cache_creation_input_tokens'] as num?)
       ?.toInt(),
   cacheReadInputTokens: (json['cache_read_input_tokens'] as num?)?.toInt(),
+  serverToolUse: json['server_tool_use'] == null
+      ? null
+      : ServerToolUsage.fromJson(
+          json['server_tool_use'] as Map<String, dynamic>,
+        ),
+  serviceTier: $enumDecodeNullable(
+    _$ServiceTierEnumMap,
+    json['service_tier'],
+    unknownValue: JsonKey.nullForUndefinedEnumValue,
+  ),
 );
 
 Map<String, dynamic> _$UsageToJson(_Usage instance) => <String, dynamic>{
@@ -368,7 +362,22 @@ Map<String, dynamic> _$UsageToJson(_Usage instance) => <String, dynamic>{
   'output_tokens': instance.outputTokens,
   'cache_creation_input_tokens': ?instance.cacheCreationInputTokens,
   'cache_read_input_tokens': ?instance.cacheReadInputTokens,
+  'server_tool_use': ?instance.serverToolUse?.toJson(),
+  'service_tier': ?_$ServiceTierEnumMap[instance.serviceTier],
 };
+
+const _$ServiceTierEnumMap = {
+  ServiceTier.standard: 'standard',
+  ServiceTier.priority: 'priority',
+};
+
+_ServerToolUsage _$ServerToolUsageFromJson(Map<String, dynamic> json) =>
+    _ServerToolUsage(
+      webSearchRequests: (json['web_search_requests'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$ServerToolUsageToJson(_ServerToolUsage instance) =>
+    <String, dynamic>{'web_search_requests': ?instance.webSearchRequests};
 
 _CreateMessageBatchRequest _$CreateMessageBatchRequestFromJson(
   Map<String, dynamic> json,
@@ -412,6 +421,9 @@ _MessageBatch _$MessageBatchFromJson(Map<String, dynamic> json) =>
         json['request_counts'] as Map<String, dynamic>,
       ),
       resultsUrl: json['results_url'] as String?,
+      endedAt: json['ended_at'] as String?,
+      archivedAt: json['archived_at'] as String?,
+      cancelInitiatedAt: json['cancel_initiated_at'] as String?,
       type: $enumDecode(_$MessageBatchTypeEnumMap, json['type']),
     );
 
@@ -424,6 +436,9 @@ Map<String, dynamic> _$MessageBatchToJson(_MessageBatch instance) =>
           _$MessageBatchProcessingStatusEnumMap[instance.processingStatus]!,
       'request_counts': instance.requestCounts.toJson(),
       'results_url': ?instance.resultsUrl,
+      'ended_at': ?instance.endedAt,
+      'archived_at': ?instance.archivedAt,
+      'cancel_initiated_at': ?instance.cancelInitiatedAt,
       'type': _$MessageBatchTypeEnumMap[instance.type]!,
     };
 
@@ -782,6 +797,24 @@ Map<String, dynamic> _$ThinkingBlockToJson(ThinkingBlock instance) =>
 
 const _$ThinkingBlockTypeEnumMap = {ThinkingBlockType.thinking: 'thinking'};
 
+RedactedThinkingBlock _$RedactedThinkingBlockFromJson(
+  Map<String, dynamic> json,
+) => RedactedThinkingBlock(
+  type: $enumDecode(_$RedactedThinkingBlockTypeEnumMap, json['type']),
+  data: json['data'] as String,
+);
+
+Map<String, dynamic> _$RedactedThinkingBlockToJson(
+  RedactedThinkingBlock instance,
+) => <String, dynamic>{
+  'type': _$RedactedThinkingBlockTypeEnumMap[instance.type]!,
+  'data': instance.data,
+};
+
+const _$RedactedThinkingBlockTypeEnumMap = {
+  RedactedThinkingBlockType.redactedThinking: 'redacted_thinking',
+};
+
 ToolResultBlockContentBlocks _$ToolResultBlockContentBlocksFromJson(
   Map<String, dynamic> json,
 ) => ToolResultBlockContentBlocks(
@@ -808,6 +841,36 @@ ToolResultBlockContentText _$ToolResultBlockContentTextFromJson(
 Map<String, dynamic> _$ToolResultBlockContentTextToJson(
   ToolResultBlockContentText instance,
 ) => <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};
+
+Base64ImageSource _$Base64ImageSourceFromJson(Map<String, dynamic> json) =>
+    Base64ImageSource(
+      type: json['type'] as String,
+      mediaType: $enumDecode(
+        _$Base64ImageSourceMediaTypeEnumMap,
+        json['media_type'],
+      ),
+      data: json['data'] as String,
+    );
+
+Map<String, dynamic> _$Base64ImageSourceToJson(Base64ImageSource instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      'media_type': _$Base64ImageSourceMediaTypeEnumMap[instance.mediaType]!,
+      'data': instance.data,
+    };
+
+const _$Base64ImageSourceMediaTypeEnumMap = {
+  Base64ImageSourceMediaType.imageJpeg: 'image/jpeg',
+  Base64ImageSourceMediaType.imagePng: 'image/png',
+  Base64ImageSourceMediaType.imageGif: 'image/gif',
+  Base64ImageSourceMediaType.imageWebp: 'image/webp',
+};
+
+UrlImageSource _$UrlImageSourceFromJson(Map<String, dynamic> json) =>
+    UrlImageSource(type: json['type'] as String, url: json['url'] as String);
+
+Map<String, dynamic> _$UrlImageSourceToJson(UrlImageSource instance) =>
+    <String, dynamic>{'type': instance.type, 'url': instance.url};
 
 MessageBatchSucceededResult _$MessageBatchSucceededResultFromJson(
   Map<String, dynamic> json,
