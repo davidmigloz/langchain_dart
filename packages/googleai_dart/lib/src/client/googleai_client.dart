@@ -12,6 +12,7 @@ import '../resources/corpora_resource.dart';
 import '../resources/file_search_stores/file_search_stores_resource.dart';
 import '../resources/files/files_resource.dart';
 import '../resources/generated_files_resource.dart';
+import '../resources/interactions_resource.dart';
 import '../resources/models_resource.dart';
 import '../resources/tuned_models_resource.dart';
 import 'config.dart';
@@ -35,6 +36,7 @@ import 'retry_wrapper.dart';
 /// - [batches] - Batch operation management
 /// - [corpora] - Corpus management for semantic retrieval
 /// - [fileSearchStores] - File search store management for file-based retrieval
+/// - [interactions] - Server-side state management for conversations (experimental)
 ///
 /// ## Example Usage
 ///
@@ -104,6 +106,15 @@ class GoogleAIClient {
 
   /// Resource for file search stores API (file-based retrieval).
   late final FileSearchStoresResource fileSearchStores;
+
+  /// Resource for interactions API (experimental).
+  ///
+  /// The Interactions API provides server-side state management for conversations
+  /// with Gemini models. It enables multi-turn conversations with managed state,
+  /// function calling with automatic result handling, and streaming responses.
+  ///
+  /// This is an experimental API and is subject to change.
+  late final InteractionsResource interactions;
 
   /// Creates a [GoogleAIClient].
   ///
@@ -177,6 +188,13 @@ class GoogleAIClient {
     );
 
     fileSearchStores = FileSearchStoresResource(
+      config: this.config,
+      httpClient: _httpClient,
+      interceptorChain: _interceptorChain,
+      requestBuilder: _requestBuilder,
+    );
+
+    interactions = InteractionsResource(
       config: this.config,
       httpClient: _httpClient,
       interceptorChain: _interceptorChain,

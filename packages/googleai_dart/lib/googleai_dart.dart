@@ -90,6 +90,25 @@ export 'src/models/generation/prompt_feedback.dart';
 export 'src/models/generation/schema.dart';
 export 'src/models/generation/thinking_config.dart';
 export 'src/models/generation/thinking_level.dart';
+// Models - Interactions API (Experimental)
+export 'src/models/interactions/agent_config.dart';
+export 'src/models/interactions/allowed_tools.dart';
+export 'src/models/interactions/content/content.dart';
+export 'src/models/interactions/deltas/deltas.dart';
+export 'src/models/interactions/events/events.dart';
+export 'src/models/interactions/generation_config.dart';
+export 'src/models/interactions/interaction.dart';
+export 'src/models/interactions/interaction_status.dart';
+export 'src/models/interactions/modality_tokens.dart';
+export 'src/models/interactions/response_modality.dart';
+export 'src/models/interactions/speech_config.dart';
+export 'src/models/interactions/thinking_level.dart';
+export 'src/models/interactions/thinking_summaries.dart';
+export 'src/models/interactions/tool_choice.dart';
+export 'src/models/interactions/tool_choice_type.dart';
+export 'src/models/interactions/tools/tools.dart';
+export 'src/models/interactions/turn.dart';
+export 'src/models/interactions/usage.dart';
 // Models - Metadata
 export 'src/models/metadata/finish_reason.dart';
 export 'src/models/metadata/grounding_chunk.dart';
