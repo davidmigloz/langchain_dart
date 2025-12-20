@@ -16,6 +16,8 @@ part of anthropic_schema;
 /// - `"max_tokens"`: we exceeded the requested `max_tokens` or the model's maximum
 /// - `"stop_sequence"`: one of your provided custom `stop_sequences` was generated
 /// - `"tool_use"`: the model invoked one or more tools
+/// - `"pause_turn"`: the model paused its turn for a multi-turn interaction
+/// - `"refusal"`: the model refused to generate a response
 ///
 /// In non-streaming mode this value is always non-null. In streaming mode, it is
 /// null in the `message_start` event and non-null otherwise.
@@ -28,4 +30,8 @@ enum StopReason {
   stopSequence,
   @JsonValue('tool_use')
   toolUse,
+  @JsonValue('pause_turn')
+  pauseTurn,
+  @JsonValue('refusal')
+  refusal,
 }
