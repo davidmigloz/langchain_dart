@@ -49,13 +49,21 @@ export 'src/models/embeddings/embed_content_request.dart';
 export 'src/models/embeddings/embed_content_response.dart';
 export 'src/models/embeddings/task_type.dart';
 // Models - Files API
+export 'src/models/files/chunking_config.dart';
 export 'src/models/files/file.dart';
+export 'src/models/files/file_search_custom_metadata.dart';
+export 'src/models/files/file_search_store.dart';
 export 'src/models/files/file_state.dart';
 export 'src/models/files/generated_file.dart';
+export 'src/models/files/import_file_request.dart';
+export 'src/models/files/import_file_response.dart';
+export 'src/models/files/list_file_search_stores_response.dart';
 export 'src/models/files/list_files_response.dart';
 export 'src/models/files/list_generated_files_response.dart';
-// Models - Files
+export 'src/models/files/upload_to_file_search_store_request.dart';
+export 'src/models/files/upload_to_file_search_store_response.dart';
 export 'src/models/files/video_metadata.dart';
+export 'src/models/files/white_space_config.dart';
 // Models - Generation
 export 'src/models/generation/answer_style.dart';
 export 'src/models/generation/block_reason.dart';
