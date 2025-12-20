@@ -1,3 +1,0 @@
-# LCEL cheatsheet
-TODO:
-

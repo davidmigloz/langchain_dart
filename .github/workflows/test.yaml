@@ -6,7 +6,6 @@ on:
   pull_request_target:
     paths-ignore:
       - 'docs/**'
-      - 'docs_v2/**'
   workflow_dispatch:
 
 # Cancel currently running workflow when a new one is triggered
