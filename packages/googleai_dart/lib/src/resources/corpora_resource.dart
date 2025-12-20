@@ -5,8 +5,6 @@ import 'package:http/http.dart' as http;
 import '../client/config.dart';
 import '../models/corpus/corpus.dart';
 import '../models/corpus/list_corpora_response.dart';
-import '../models/corpus/query_corpus_request.dart';
-import '../models/corpus/query_corpus_response.dart';
 import 'base_resource.dart';
 import 'documents_resource.dart';
 import 'permissions_resource.dart';
@@ -107,42 +105,6 @@ class CorporaResource extends ResourceBase {
     return Corpus.fromJson(responseBody);
   }
 
-  /// Updates a corpus with a field mask.
-  ///
-  /// The [updateMask] parameter is required and specifies which fields to update.
-  /// Currently supports: `displayName`.
-  ///
-  /// Example: `updateMask: 'displayName'`
-  ///
-  /// PATCH /v1beta/{name}
-  Future<Corpus> update({
-    required String name,
-    required Corpus corpus,
-    required String updateMask,
-  }) async {
-    _validateGoogleAIOnly();
-
-    final queryParams = <String, String>{'updateMask': updateMask};
-
-    final url = requestBuilder.buildUrl(
-      '/{version}/$name',
-      queryParams: queryParams,
-    );
-
-    final headers = requestBuilder.buildHeaders(
-      additionalHeaders: {'Content-Type': 'application/json'},
-    );
-
-    final httpRequest = http.Request('PATCH', url)
-      ..headers.addAll(headers)
-      ..body = jsonEncode(corpus.toJson());
-
-    final response = await interceptorChain.execute(httpRequest);
-
-    final responseBody = jsonDecode(response.body) as Map<String, dynamic>;
-    return Corpus.fromJson(responseBody);
-  }
-
   /// Deletes a corpus.
   ///
   /// If [force] is true, any Documents and objects related to this corpus will
@@ -167,31 +129,6 @@ class CorporaResource extends ResourceBase {
     final httpRequest = http.Request('DELETE', url)..headers.addAll(headers);
 
     await interceptorChain.execute(httpRequest);
-  }
-
-  /// Queries a corpus to retrieve relevant chunks.
-  ///
-  /// POST /v1beta/{name}:query
-  Future<QueryCorpusResponse> query({
-    required String name,
-    required QueryCorpusRequest request,
-  }) async {
-    _validateGoogleAIOnly();
-
-    final url = requestBuilder.buildUrl('/{version}/$name:query');
-
-    final headers = requestBuilder.buildHeaders(
-      additionalHeaders: {'Content-Type': 'application/json'},
-    );
-
-    final httpRequest = http.Request('POST', url)
-      ..headers.addAll(headers)
-      ..body = jsonEncode(request.toJson());
-
-    final response = await interceptorChain.execute(httpRequest);
-
-    final responseBody = jsonDecode(response.body) as Map<String, dynamic>;
-    return QueryCorpusResponse.fromJson(responseBody);
   }
 
   /// Access documents for this corpus.
