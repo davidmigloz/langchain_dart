@@ -19,7 +19,7 @@ Unofficial Dart client for [Mistral AI](https://docs.mistral.ai/api) API.
 
 **Supported endpoints:**
 
-- Chat Completions (with streaming support)
+- Chat Completions (with tool calling and streaming support)
 - Embeddings
 - Models
 
@@ -27,6 +27,7 @@ Unofficial Dart client for [Mistral AI](https://docs.mistral.ai/api) API.
 
 - [Usage](#usage)
   * [Chat Completions](#chat-completions)
+  * [Tool Calling](#tool-calling)
   * [Embeddings](#embeddings)
   * [Models](#models)
     + [List models](#list-models)
@@ -98,6 +99,124 @@ await for (final res in stream) {
 }
 print(text);
 // The sky appears blue due to a phenomenon called Rayleigh scattering...
+```
+
+### Tool Calling
+
+Tool calling allows Mistral models to connect to external tools and call functions. Refer to the [official documentation](https://docs.mistral.ai/capabilities/function_calling/) for more information.
+
+**Define a tool:**
+
+```dart
+const tool = Tool(
+  type: ToolType.function,
+  function: FunctionDefinition(
+    name: 'get_current_weather',
+    description: 'Get the current weather in a given location',
+    parameters: {
+      'type': 'object',
+      'properties': {
+        'location': {
+          'type': 'string',
+          'description': 'The city, e.g. San Francisco',
+        },
+        'unit': {
+          'type': 'string',
+          'description': 'The unit of temperature',
+          'enum': ['celsius', 'fahrenheit'],
+        },
+      },
+      'required': ['location'],
+    },
+  ),
+);
+```
+
+**Call the model with the tool:**
+
+```dart
+final res1 = await client.createChatCompletion(
+  request: ChatCompletionRequest(
+    model: ChatCompletionModel.model(ChatCompletionModels.mistralSmallLatest),
+    messages: [
+      ChatCompletionMessage(
+        role: ChatCompletionMessageRole.user,
+        content: 'What's the weather like in Paris?',
+      ),
+    ],
+    tools: [tool],
+    toolChoice: ChatCompletionToolChoice.enumeration(
+      ChatCompletionToolChoiceOption.auto,
+    ),
+  ),
+);
+
+final assistantMessage = res1.choices.first.message;
+final toolCall = assistantMessage.toolCalls!.first;
+print(toolCall.function?.name); // get_current_weather
+print(toolCall.function?.arguments); // {"location": "Paris", "unit": "celsius"}
+```
+
+**Send the tool result back:**
+
+```dart
+// Call your actual function with the arguments
+final functionResult = {'temperature': 22, 'unit': 'celsius', 'description': 'Sunny'};
+
+final res2 = await client.createChatCompletion(
+  request: ChatCompletionRequest(
+    model: ChatCompletionModel.model(ChatCompletionModels.mistralSmallLatest),
+    messages: [
+      ChatCompletionMessage(
+        role: ChatCompletionMessageRole.user,
+        content: 'What's the weather like in Paris?',
+      ),
+      ChatCompletionMessage(
+        role: ChatCompletionMessageRole.assistant,
+        content: assistantMessage.content,
+        toolCalls: assistantMessage.toolCalls,
+      ),
+      ChatCompletionMessage(
+        role: ChatCompletionMessageRole.tool,
+        content: json.encode(functionResult),
+        toolCallId: toolCall.id,
+      ),
+    ],
+    tools: [tool],
+  ),
+);
+
+print(res2.choices.first.message.content);
+// The weather in Paris is sunny with a temperature of 22°C.
+```
+
+**Stream tool calls:**
+
+Tool calling also works with streaming. The tool call data is received incrementally:
+
+```dart
+final stream = client.createChatCompletionStream(
+  request: ChatCompletionRequest(
+    model: ChatCompletionModel.model(ChatCompletionModels.mistralSmallLatest),
+    messages: [
+      ChatCompletionMessage(
+        role: ChatCompletionMessageRole.user,
+        content: 'What's the weather like in Paris?',
+      ),
+    ],
+    tools: [tool],
+  ),
+);
+
+await for (final res in stream) {
+  final delta = res.choices.first.delta;
+  // Tool calls come in chunks that need to be assembled
+  if (delta.toolCalls != null) {
+    for (final toolCall in delta.toolCalls!) {
+      print('Tool call chunk: ${toolCall.function?.arguments}');
+    }
+  }
+}
 ```
 
 ### Embeddings

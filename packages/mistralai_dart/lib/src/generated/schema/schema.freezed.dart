@@ -4510,9 +4510,9 @@ as Map<String, dynamic>,
 mixin _$ToolCall {
 
 /// The unique identifier of the tool call.
- String get id;/// The type of the tool.
- ToolType get type;/// A function call made by the model.
- FunctionCall get function;/// The index of the tool call in the list of tool calls.
+@JsonKey(includeIfNull: false) String? get id;/// The type of the tool (currently only 'function').
+@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ToolCallType? get type;/// The function call details.
+@JsonKey(includeIfNull: false) FunctionCall? get function;/// The index of the tool call in the list of tool calls.
 @JsonKey(includeIfNull: false) int? get index;
 /// Create a copy of ToolCall
 /// with the given fields replaced by the non-null parameter values.
@@ -4546,11 +4546,11 @@ abstract mixin class $ToolCallCopyWith<$Res>  {
   factory $ToolCallCopyWith(ToolCall value, $Res Function(ToolCall) _then) = _$ToolCallCopyWithImpl;
 @useResult
 $Res call({
- String id, ToolType type, FunctionCall function,@JsonKey(includeIfNull: false) int? index
+@JsonKey(includeIfNull: false) String? id,@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ToolCallType? type,@JsonKey(includeIfNull: false) FunctionCall? function,@JsonKey(includeIfNull: false) int? index
 });
 
 
-$FunctionCallCopyWith<$Res> get function;
+$FunctionCallCopyWith<$Res>? get function;
 
 }
 /// @nodoc
@@ -4563,12 +4563,12 @@ class _$ToolCallCopyWithImpl<$Res>
 
 /// Create a copy of ToolCall
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? type = null,Object? function = null,Object? index = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? type = freezed,Object? function = freezed,Object? index = freezed,}) {
   return _then(_self.copyWith(
-id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
-as ToolType,function: null == function ? _self.function : function // ignore: cast_nullable_to_non_nullable
-as FunctionCall,index: freezed == index ? _self.index : index // ignore: cast_nullable_to_non_nullable
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String?,type: freezed == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as ToolCallType?,function: freezed == function ? _self.function : function // ignore: cast_nullable_to_non_nullable
+as FunctionCall?,index: freezed == index ? _self.index : index // ignore: cast_nullable_to_non_nullable
 as int?,
   ));
 }
@@ -4576,9 +4576,12 @@ as int?,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$FunctionCallCopyWith<$Res> get function {
-  
-  return $FunctionCallCopyWith<$Res>(_self.function, (value) {
+$FunctionCallCopyWith<$Res>? get function {
+    if (_self.function == null) {
+    return null;
+  }
+
+  return $FunctionCallCopyWith<$Res>(_self.function!, (value) {
     return _then(_self.copyWith(function: value));
   });
 }
@@ -4663,7 +4666,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  ToolType type,  FunctionCall function, @JsonKey(includeIfNull: false)  int? index)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false)  String? id, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ToolCallType? type, @JsonKey(includeIfNull: false)  FunctionCall? function, @JsonKey(includeIfNull: false)  int? index)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ToolCall() when $default != null:
 return $default(_that.id,_that.type,_that.function,_that.index);case _:
@@ -4684,7 +4687,7 @@ return $default(_that.id,_that.type,_that.function,_that.index);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  ToolType type,  FunctionCall function, @JsonKey(includeIfNull: false)  int? index)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false)  String? id, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ToolCallType? type, @JsonKey(includeIfNull: false)  FunctionCall? function, @JsonKey(includeIfNull: false)  int? index)  $default,) {final _that = this;
 switch (_that) {
 case _ToolCall():
 return $default(_that.id,_that.type,_that.function,_that.index);case _:
@@ -4704,7 +4707,7 @@ return $default(_that.id,_that.type,_that.function,_that.index);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  ToolType type,  FunctionCall function, @JsonKey(includeIfNull: false)  int? index)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(includeIfNull: false)  String? id, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  ToolCallType? type, @JsonKey(includeIfNull: false)  FunctionCall? function, @JsonKey(includeIfNull: false)  int? index)?  $default,) {final _that = this;
 switch (_that) {
 case _ToolCall() when $default != null:
 return $default(_that.id,_that.type,_that.function,_that.index);case _:
@@ -4719,15 +4722,15 @@ return $default(_that.id,_that.type,_that.function,_that.index);case _:
 @JsonSerializable()
 
 class _ToolCall extends ToolCall {
-  const _ToolCall({required this.id, required this.type, required this.function, @JsonKey(includeIfNull: false) this.index}): super._();
+  const _ToolCall({@JsonKey(includeIfNull: false) this.id, @JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.type, @JsonKey(includeIfNull: false) this.function, @JsonKey(includeIfNull: false) this.index}): super._();
   factory _ToolCall.fromJson(Map<String, dynamic> json) => _$ToolCallFromJson(json);
 
 /// The unique identifier of the tool call.
-@override final  String id;
-/// The type of the tool.
-@override final  ToolType type;
-/// A function call made by the model.
-@override final  FunctionCall function;
+@override@JsonKey(includeIfNull: false) final  String? id;
+/// The type of the tool (currently only 'function').
+@override@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) final  ToolCallType? type;
+/// The function call details.
+@override@JsonKey(includeIfNull: false) final  FunctionCall? function;
 /// The index of the tool call in the list of tool calls.
 @override@JsonKey(includeIfNull: false) final  int? index;
 
@@ -4764,11 +4767,11 @@ abstract mixin class _$ToolCallCopyWith<$Res> implements $ToolCallCopyWith<$Res>
   factory _$ToolCallCopyWith(_ToolCall value, $Res Function(_ToolCall) _then) = __$ToolCallCopyWithImpl;
 @override @useResult
 $Res call({
- String id, ToolType type, FunctionCall function,@JsonKey(includeIfNull: false) int? index
+@JsonKey(includeIfNull: false) String? id,@JsonKey(includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ToolCallType? type,@JsonKey(includeIfNull: false) FunctionCall? function,@JsonKey(includeIfNull: false) int? index
 });
 
 
-@override $FunctionCallCopyWith<$Res> get function;
+@override $FunctionCallCopyWith<$Res>? get function;
 
 }
 /// @nodoc
@@ -4781,12 +4784,12 @@ class __$ToolCallCopyWithImpl<$Res>
 
 /// Create a copy of ToolCall
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? type = null,Object? function = null,Object? index = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? type = freezed,Object? function = freezed,Object? index = freezed,}) {
   return _then(_ToolCall(
-id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
-as ToolType,function: null == function ? _self.function : function // ignore: cast_nullable_to_non_nullable
-as FunctionCall,index: freezed == index ? _self.index : index // ignore: cast_nullable_to_non_nullable
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String?,type: freezed == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as ToolCallType?,function: freezed == function ? _self.function : function // ignore: cast_nullable_to_non_nullable
+as FunctionCall?,index: freezed == index ? _self.index : index // ignore: cast_nullable_to_non_nullable
 as int?,
   ));
 }
@@ -4795,9 +4798,12 @@ as int?,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$FunctionCallCopyWith<$Res> get function {
-  
-  return $FunctionCallCopyWith<$Res>(_self.function, (value) {
+$FunctionCallCopyWith<$Res>? get function {
+    if (_self.function == null) {
+    return null;
+  }
+
+  return $FunctionCallCopyWith<$Res>(_self.function!, (value) {
     return _then(_self.copyWith(function: value));
   });
 }
@@ -4808,8 +4814,8 @@ $FunctionCallCopyWith<$Res> get function {
 mixin _$FunctionCall {
 
 /// The name of the function to call.
- String get name;/// The arguments to call the function with, as generated by the model in JSON format.
- String get arguments;
+@JsonKey(includeIfNull: false) String? get name;/// The arguments to call the function with, as generated by the model in JSON format.
+@JsonKey(includeIfNull: false) String? get arguments;
 /// Create a copy of FunctionCall
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -4842,7 +4848,7 @@ abstract mixin class $FunctionCallCopyWith<$Res>  {
   factory $FunctionCallCopyWith(FunctionCall value, $Res Function(FunctionCall) _then) = _$FunctionCallCopyWithImpl;
 @useResult
 $Res call({
- String name, String arguments
+@JsonKey(includeIfNull: false) String? name,@JsonKey(includeIfNull: false) String? arguments
 });
 
 
@@ -4859,11 +4865,11 @@ class _$FunctionCallCopyWithImpl<$Res>
 
 /// Create a copy of FunctionCall
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? arguments = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? name = freezed,Object? arguments = freezed,}) {
   return _then(_self.copyWith(
-name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,arguments: null == arguments ? _self.arguments : arguments // ignore: cast_nullable_to_non_nullable
-as String,
+name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String?,arguments: freezed == arguments ? _self.arguments : arguments // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -4948,7 +4954,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String name,  String arguments)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false)  String? name, @JsonKey(includeIfNull: false)  String? arguments)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _FunctionCall() when $default != null:
 return $default(_that.name,_that.arguments);case _:
@@ -4969,7 +4975,7 @@ return $default(_that.name,_that.arguments);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name,  String arguments)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(includeIfNull: false)  String? name, @JsonKey(includeIfNull: false)  String? arguments)  $default,) {final _that = this;
 switch (_that) {
 case _FunctionCall():
 return $default(_that.name,_that.arguments);case _:
@@ -4989,7 +4995,7 @@ return $default(_that.name,_that.arguments);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String name,  String arguments)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(includeIfNull: false)  String? name, @JsonKey(includeIfNull: false)  String? arguments)?  $default,) {final _that = this;
 switch (_that) {
 case _FunctionCall() when $default != null:
 return $default(_that.name,_that.arguments);case _:
@@ -5004,13 +5010,13 @@ return $default(_that.name,_that.arguments);case _:
 @JsonSerializable()
 
 class _FunctionCall extends FunctionCall {
-  const _FunctionCall({required this.name, required this.arguments}): super._();
+  const _FunctionCall({@JsonKey(includeIfNull: false) this.name, @JsonKey(includeIfNull: false) this.arguments}): super._();
   factory _FunctionCall.fromJson(Map<String, dynamic> json) => _$FunctionCallFromJson(json);
 
 /// The name of the function to call.
-@override final  String name;
+@override@JsonKey(includeIfNull: false) final  String? name;
 /// The arguments to call the function with, as generated by the model in JSON format.
-@override final  String arguments;
+@override@JsonKey(includeIfNull: false) final  String? arguments;
 
 /// Create a copy of FunctionCall
 /// with the given fields replaced by the non-null parameter values.
@@ -5045,7 +5051,7 @@ abstract mixin class _$FunctionCallCopyWith<$Res> implements $FunctionCallCopyWi
   factory _$FunctionCallCopyWith(_FunctionCall value, $Res Function(_FunctionCall) _then) = __$FunctionCallCopyWithImpl;
 @override @useResult
 $Res call({
- String name, String arguments
+@JsonKey(includeIfNull: false) String? name,@JsonKey(includeIfNull: false) String? arguments
 });
 
 
@@ -5062,11 +5068,11 @@ class __$FunctionCallCopyWithImpl<$Res>
 
 /// Create a copy of FunctionCall
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? arguments = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? name = freezed,Object? arguments = freezed,}) {
   return _then(_FunctionCall(
-name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,arguments: null == arguments ? _self.arguments : arguments // ignore: cast_nullable_to_non_nullable
-as String,
+name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String?,arguments: freezed == arguments ? _self.arguments : arguments // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
